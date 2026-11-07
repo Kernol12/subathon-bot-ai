@@ -225,8 +225,8 @@ stable Qt suites passed, covering the same 361 methods and 869 data/lifecycle
 results, with no failures, skips, blacklists or warnings. Infrastructure 3/3 and
 tooling 34/34 passed. [PR #97](https://github.com/Kernol12/subathon-bot-ai/pull/97)
 records the exact baseline and actual commands. Independent raw runtime review
-confirmed source/discovery/log equivalence; final integration review and current
-hosted checks remain pending.
+confirmed source/discovery/log equivalence. Final integrated head passed
+independent review and all 19 hosted checks before normal merge.
 Later cleanup tasks retain their own reviews and
 revised-baseline gates. Full specification acceptance, live/provider/platform evidence
 and release readiness remain open.

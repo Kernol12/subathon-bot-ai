@@ -1,123 +1,71 @@
 # Coordinator checkpoint
 
-Updated: 7 November 2026. Inspect actual branches, worktrees, claims, processes,
-PRs and checks before acting. Preserve reviewed work and explicitly reassign stale work.
+Updated: 7 November 2026. Verify actual branches, worktrees, claims, processes and
+PR/check/review state before acting. Preserve valid work; explicitly reassign stale tasks.
 
-## Completed
+## Completed priority work
 
-- TESTCLEAN-001 main merge `2d5488f`: normal PR #95 merge after independent
-  complete-head review and all 19 checks. Actual selected CPython 3.10.12/3.12.3
-  each passed eight schema methods plus infrastructure 3/3; local 3.14 passed too.
-  Explicit generic/native surface retirement was reviewed before source removal.
-  Actual schemas/examples/product code and 20 dependency pins/licenses unchanged.
-- TESTCLEAN-002 PR #94 (`b8bd0d3`), EVIDENCE-002 #93 (`116a6cd`) and EVIDENCE-001
-  #92 (`dc0a544`) merged normally after independent reviews and all 21 then-current
-  checks. The published annotated archive targets `01cf400`; all 969 removed
-  receipts were retrieved and verified. Notes remain bounded to 500 characters.
+- Current main `e48f231384644eb39300957003dcc1a702734df7`: normal TESTCLEAN-004
+  PR #97 merge at 18:31:05 UTC after all 19 current-head checks, independent exact
+  integration approval `0d41cc5`, actual branch-rule inspection and no unresolved
+  review threads. No bypass. Main refreshed before selecting the next task.
+- TESTCLEAN-004 proposal `7c94a664`/inventory `5b32bfd5`, source/runtime `017083ce`
+  approved independently by `/root/qt_support_review` (different fresh author
+  `/root/qt_support_author`). Common 65-line Qt support preserves throwing callback
+  failures/source locations, real completion/typed errors and 5/10/20s timeouts.
+  Same 13 warning policies install first in per-test init plus existing setup.
+  Twelve guarded stable classes ran; account stays passive. No warning suppression.
+- Exact baseline: 12 raw writer re-admission tails, one raw migration reopen and three
+  repeated counts consolidated. Reviewer required relocating fresh-work refusal
+  into BOTH writer rollback paths before the five rollback-tail removals. All methods
+  and unique adapter priority/budget/physical-outcome assertions remain. All 17 old
+  touched source blobs equal the published archive; source imports byte-identically.
+- Actual fresh Qt 6.12 SQL build 109 steps, passive 18 nodes (15 Qt +3 infra), stable
+  Qt14/14 with all361 methods/869PASS IDs identical to prior approved run, no failures/
+  skips/blacklists/QWARN/QFATAL. Infra3 includes tooling34 and project461/122; allpass.
+  Account44functions passive only. Raw stable SHA256
+  `077b7a4af44b511b0aed0f6dfac104211744b17bb690b41ba79c543e70843d07`.
+  Commands/review in PR97 and `/tmp/testclean004-author-handoff.md`; do not replay
+  passing native bodies for receipts. Actual local SDK does not establish platforms.
+- TESTCLEAN-003 PR #96 merge `7179680`: selector test-first red/green, 31presets/cache
+  migration, stable428 nodes/410GTest/361Qt methods/translation43; independent full
+  source/runtime/integration review and all19 current checks before normal merge.
+- TESTCLEAN-001 #95 (`2d5488f`), TESTCLEAN-002 #94 (`b8bd0d3`), EVIDENCE-002 #93
+  (`116a6cd`), EVIDENCE-001 #92 (`dc0a544`) all merged normally after independent
+  review and current checks. Published annotated archive targets `01cf400`; all969
+  removed receipts verified after publication. Notes <=500; sole evidence README.
 
-## Completed registration cleanup: TESTCLEAN-003 / PR #96
+## Active assignment: TESTCLEAN-005
 
-- Root `task/TESTCLEAN-003-test-registration` began at current main `2d5488f`.
-  Author `/root/test_registration_author` finished clean `8034ead5` in isolated
-  `/tmp/subathon-testclean003-author`. Different reviewer
-  `/root/test_registration_review` completed static and actual runtime review.
-  Resume the reviewer explicitly for final integration; neither agent is assumed live.
-  Coordinator owns state, HTML, checkpoint, evidence and PR integration.
-- Approved proposal SHA256 `132096a657b07d66f5d3040d6fcfff299ee79915437a65872e37b9c6368251c4`:
-  one acceptance Boolean plus explicit suite list; bare ON selects credit; all is
-  explicit; every named preset retains its earlier SDK/suite closure. Enabled retired
-  cache flags fail with actionable --fresh migration guidance. No assertion, fixture,
-  production body, dependency pin, verifier or workflow job was removed.
-- Selector tests `af6497b2` were independently reviewed before first execution:
-  five methods/eight scenarios reached the named FeatureNotImplemented stub only.
-  Resolver `ead3e8e` then passed the same frozen five. Source packet `8034ead5`
-  received independent execution approval after retaining ordinary CI property guards.
-- Imported source as `56df44c`, `d760e46`, `981c39f`, `a9eaae6`; all author paths
-  byte-match the approved source. Eight retired registration/inventory files are
-  byte-identical in the published archive. Metadata-only revisions follow.
-- Actual fresh configuration verified all 31 named preset closures and ten legacy/
-  explicit/default/invalid cache cases. Explicit-all native build passed 160 steps.
-  Passive discovery has 482 entries: 463 GTest, 15 Qt, translation and three infra.
-  Red labels select 53 rate cases plus the account suite's 44 feature methods.
-- Actual stable run passed 428/428 CTest entries in 34.61s: 410 isolated GTest,
-  14 whole Qt suites (all 361 stable methods, 869 data/lifecycle results), translation
-  (all 43 methods) and scaffold 3. No failures/skips/blacklists/QWARN/QFATAL observed;
-  longest Qt suite 12.414s with 120s timeout. Red feature bodies were not replayed.
-  Different reviewer independently matched raw methods/nodes/labels and approved.
-- Root tooling 34, scaffold 3, project 461 tasks/122 decisions and rendered HTML
-  pass. Separate author schema eight methods and Qt-probe scaffold three pass.
-  Do not replay passing bodies for receipts. Detailed actual commands/results are
-  in PR #96 and `/tmp/testclean003-author-handoff.md`; raw stable log SHA256
-  `eb3dc1817ade1ef406795ef431cf47c4beb5a733388b1f8094521be471d2a079`.
-- PR #96 normal merge `7179680e6748531337d2b143f9b0ea9111ba6f8a`,
-  7 November 2026 18:08:14 UTC. Complete head `de68ae4` independently approved;
-  all 19 latest-head checks passed. Current branch rules inspected, no unresolved
-  review threads; no bypass. Main refreshed before claiming the next task.
-- The existing Qt initTestCase failOnWarning placement does not enforce subsequent
-  slots under Qt 6.12. This was independently verified and assigned explicitly in
-  TESTCLEAN-004's brief; no source fix or active-warning-guard claim here.
+- Dedicated root branch `task/TESTCLEAN-005-behavior-assertions` from actual current
+  main `e48f231`; claim `/root/behavior_assertions_author`. Use fresh implementation
+  and different review sessions, isolated author worktree. Coordinator exclusively
+  owns state/HTML/evidence/checkpoint/PR and shared integration.
+- Read brief, ADR-0012, v0.45 §§17–18 and current shipped migration/codec/repository
+  contracts. Scope is repeated private implementation pins: SQL shape/object counts,
+  repeated DDL/hashes, struct-derived bounds, private error wording or orchestration
+  lists only where not contractual. Keep one deliberate shipped-migration freeze
+  test and every public/persisted encoding guarantee. Preserve actual under/over-limit,
+  rollback/idempotency/exactness/ownership and observable repository behavior.
+- First read-only inventory precise candidate assertions and their contract status;
+  derive independent retention/replacement examples. Produce bounded exact proposal
+  with removed-pin rationale and retained coverage BEFORE edits. Separate reviewer
+  approves baseline revision; no broad deletion or expected-value derivation from
+  implementation. Do not alter production/fixtures/generators or overlap TC006/007.
+- No implementation or new execution yet. Next: exact proposal gate, bounded source,
+  independent execution review and relevant Qt checks; all final current CI, reviews,
+  branch rules/discussions/normal merge gates remain. TESTCLEAN-007 also ready but
+  unclaimed. Full product loop continues; no routine owner confirmation needed.
 
-## Active assignment: TESTCLEAN-004
+## Preserved work and environment
 
-- Dedicated root branch `task/TESTCLEAN-004-qt-support` starts at `7179680`.
-  Claim `/root/qt_support_author`; fresh author owns `tests/qt` only in an isolated
-  worktree. Coordinator owns state/HTML/evidence/checkpoint/PR and shared integration.
-- Scope/acceptance: task brief, ADR-0012, specification v0.45 §17 and current
-  writer/repository contracts. Share small assertion/completion-wait helpers with
-  condition-based waits; consolidate only truly shared writer-session mechanics.
-  Every repository retains unique behavior, unknown-outcome/physical-row checks,
-  rollback/idempotency/exactness/ownership. Correct reviewed warning initialization
-  so the existing policy covers each actual test function and expected warnings.
-- Author must first inventory exact duplicated assertions, current helper/async failure
-  semantics and selected Qt lifecycle. Produce bounded proposal/retained-coverage map
-  before baseline edits. Different fresh reviewer approves exact deletions and warning
-  handling; no production changes, blanket warning ignores, new harness framework or
-  artificial tests of deleted machinery. New behavior still obeys test-first gates.
-- Exact proposal SHA256 `7c94a6643a441efdbbdb729e3d13444c3db05b85263b86219ba7dfd258af94de`
-  and inventory `5b32bfd54c42c275883ddb4559791b7bb58991bc4bec63f9f4db9a4e6d0aa71b`
-  independently approved by `/root/qt_support_review` before any source edits.
-  Reviewer checked all 13 removal fragments: seven raw COMMIT re-admission tails,
-  five raw ROLLBACK tails and one raw migration reopen. Physical repository proof,
-  methods, adapter second-begin/input priority/budgets remain. Reviewer caught a
-  missing raw new-work refusal in the writer rollback owner; the revised proposal
-  requires relocating one existing assertion into BOTH explicit/automatic rollback
-  paths before removing repeated rollback tails. Commit owner already covers it.
-- Root released bounded `tests/qt` edits only: common throwing/source-location
-  require (callback failure must unwind), real queue/condition-wait preserving
-  typed local wrappers/timeouts, identical 13 regex policies in per-test init, and
-  exact reviewed tails. No production, fixture, private-pin or warning suppression
-  changes. Mechanical support/relocation needs no manufactured stub-red test.
-- Exact author source `017083ce751dc59df69d8a894f5208d3bf282468` independently
-  approved BEFORE runtime and imported unchanged. All 18 paths/65-line header,
-  11 real queue/wait wrappers, 13 per-test policies, exact assertions, all methods
-  and 17 old archive-equal blobs verified. Root authorized fresh SQL selected-Qt
-  build/discovery, stable 14 Qt suites/all 361 methods and infrastructure three.
-  Author actual fresh configure/build109 steps pass. Stable14 Qt suites pass
-  in24.04s: all361 methods/869data+lifecycle IDs match the prior approved run;
-  zero failures/skips/blacklists/QWARN/QFATAL. Discovery18nodes=15Qt+3infra,
-  account44 passive functions only. Infrastructure3 includes34tooling methods
-  and461tasks/122decisions/current render, allpass. No unrelated/red replay.
-  Proposal/inventory at `/tmp/testclean004-{proposal,writer-inventory}.md`.
-  PR #97 is draft on root branch, observed source+metadata head22a9d7f.
-  Raw receipts `/tmp/testclean004-author-handoff.md` and runtime-results.json;
-  stable log SHA256077b7a4af44b511b0aed0f6dfac104211744b17bb690b41ba79c543e70843d07.
-  Different reviewer independently audited allraw receipt hashes,14discovery/start
-  nodes,361methods/869PASS-ID multiset and passive44account methods, then approved
-  exact017083ce runtime evidence. Twelve guarded stableclasses ran; thirteenth
-  policy/account remains passive. Passing native bodies must not replay for receipts.
-  Root docs/state/HTML finalized; next complete-head integration review, actual
-  current hosted CI/rules/discussions and normal protected merge remain.
-  TESTCLEAN-007 remains ready and unclaimed; later tasks keep their own gates.
+All registered worktrees/old branches remain; no reset/prune/delete. Prior author and
+reviewer sessions finished and are not assumed active. Approved unpublished
+ACCESSCONTRACT-001 `53524fc` and its valid review remain; publish when priority permits.
+STORAGE-020 unstarted; reviewed44-case intended-red baseline unchanged.
 
-## Preserved context
-
-291 registered worktrees were inspected, including 250 prunable entries; no reset,
-prune or deletion was performed. No prior build/test process remained active.
-Approved unpublished ACCESSCONTRACT-001 `53524fc` and its author/review work remain.
-STORAGE-020 is unstarted with the reviewed 44-case intended-red baseline intact.
-
-Local Qt 6.12.0/Boost 1.92/GTest 1.18/GCC 16.2 differ from selected hosted versions;
-SDK `/tmp/subathon-session-sdk/prefix` and the existing 20-pin schema Python SDK
-remain disposable local inputs. Verify before reuse; never commit personal paths.
-Full v0.45, seven integrations, three FX providers, UI and platform scope remain.
-No live credentials/provider/chat/payment/deployment effects are authorized.
+Local Qt6.12.0/Boost1.92/GCC16.2.1/Python3.14.9, sodium SDK
+`/tmp/subathon-session-sdk/prefix`, schema20-pin SDK and prior disposable build/log
+paths remain. Verify before reuse; never commit personal paths. Full v0.45, all seven
+integrations/three FX providers/UI/platform scope stay required. No live credentials,
+provider/chat/payment/deployment effects are authorized. Detailed proof stays in PRs.

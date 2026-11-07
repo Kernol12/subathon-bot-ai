@@ -286,7 +286,7 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-004.md",
       "summary": "Share assertion/wait helpers and consolidate duplicated writer mechanics without removing unique repository behavior.",
       "notes": [
-        "Shared throwing assertions and actual completion waits; typed errors/timeouts retained. Independent proposal/source/runtime review approved exact writer consolidation with rollback new-work refusal relocated. All methods/unique adapter/physical/budget checks remain. Qt14/361 methods/869 results and infra3/tooling34 pass without warnings/skips. Same13 policies now run per test; account44 stays passive red. Final integration/current CI/normal PR97 merge remain."
+        "Shared throwing assertions/completion waits retain typed errors/timeouts. Independent proposal/source/runtime/integration review approved exact writer consolidation with rollback work refusal relocated. All methods/unique adapter/physical/budget checks remain. Qt14/361methods/869results and infra3/tooling34 pass without warnings/skips. Same13 policies run per test; account44 stays passive red. All19 checks passed before normal PR97 merge. Next: TESTCLEAN-005."
       ],
       "verification": {
         "cleanup_proposal_review": "passed",
@@ -297,7 +297,7 @@
         "tooling": "passed",
         "scaffold": "passed",
         "runtime_review": "passed",
-        "github_ci": "not_run",
+        "github_ci": "passed",
         "product_acceptance": "not_run"
       },
       "evidence": [
@@ -307,7 +307,7 @@
         "author": "/root/qt_support_author; read-only inventory helper /root/qt_support_author/writer_inventory",
         "reviewer": "/root/qt_support_review",
         "outcome": "approved",
-        "revision": "Proposal7c94a664/inventory5b32bfd5 and source/runtime017083ce independently approved. Raw14Qt/361methods/869results match prior baseline; account44 passive. Complete-head integration/current CI/merge pending.",
+        "revision": "Proposal7c94a664/inventory5b32bfd5, source/runtime017083ce and complete0d41cc5 independently approved; all19latesthead checks passed before normal PR97 mergee48f231.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/97"
       }
     },
@@ -316,8 +316,8 @@
       "title": "Remove repeated implementation-detail assertions",
       "module": "Test infrastructure",
       "kind": "cleanup",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "/root/behavior_assertions_author",
       "depends_on": [
         "TESTCLEAN-004"
       ],
@@ -328,7 +328,7 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-005.md",
       "summary": "Keep public/persisted contracts while replacing repeated private DDL, layout, message, and order pins with behavior assertions.",
       "notes": [
-        "Parent epic: EPIC-028. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Claimed from maine48f231 for contract-reviewed removal of private implementation pins. Preserve shipped migration immutability and public/persisted codecs; unique boundaries/rollback behavior remain. Fresh author owns bounded affected Qt tests, coordinator state/HTML/evidence/checkpoint/PR. Exact pin-to-contract/retained behavior map requires independent approval before baseline changes."
       ],
       "verification": {},
       "evidence": [],
@@ -16594,6 +16594,11 @@
       "date": "2026-11-07",
       "task": "TESTCLEAN-004",
       "note": "Claimed dependency-ready Qt support cleanup after normal PR96 merge; fresh author and independent review required."
+    },
+    {
+      "date": "2026-11-07",
+      "task": "TESTCLEAN-005",
+      "note": "Claimed after normal PR97 merge with fresh implementation and independent exact assertion review."
     }
   ]
 }
