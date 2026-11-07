@@ -19,9 +19,11 @@ claims remain in `docs/evidence/README.md`.
 - Every task in `progress/state.json` has a combined notes length of at most 500
   characters; retain relevant open gates and do not claim unrun checks or unsupported
   behavior.
-- `tools/progress.py validate` rejects any task whose concatenated notes exceed 500
-  characters. Add focused tests for the boundary and over-limit rejection without
-  weakening unrelated validation.
+- `tools/progress.py validate` rejects any task, whatever its status, whose concatenated
+  notes exceed 500 characters. Because `progress.py set` appends its note and validates
+  before writing, it refuses an over-limit note without changing state; its error tells
+  the agent to shorten the task's notes in JSON. Add focused tests for the boundary and
+  over-limit rejection without weakening unrelated validation.
 - `docs/TEST_STRATEGY.md` describes current suite purpose, coverage, and gaps without
   preserving per-task completion history; update its links and statements to match the
   current state.

@@ -12,8 +12,8 @@ this file is a resumption aid, not evidence that any agent or process is still a
 - Current priority: [EPIC-028](../docs/tasks/EPIC-028.md) under
   [ADR-0012](../docs/decisions/0012-test-suite-simplification.md). EVIDENCE-001 is ready;
   claim it after this planning change merges. EVIDENCE-002 depends on it. TESTCLEAN-001
-  and TESTCLEAN-002 remain independently ready after the evidence archive is prioritized;
-  TESTCLEAN-001 keeps the ADR-0008/0009 review gates.
+  and TESTCLEAN-002 are also ready and independent, but come after EVIDENCE-001 in
+  execution order; TESTCLEAN-001 keeps the ADR-0008/0009 review gates.
 - Every cleanup task needs a separate approved review, a PR URL in `evidence` and one
   note of at most 500 characters. The archive tag does not exist until EVIDENCE-001 creates
   and verifies it; this planning change does not remove any receipt or shorten old notes.

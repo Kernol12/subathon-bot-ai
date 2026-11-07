@@ -108,7 +108,7 @@ or struct-layout byte limits unless they are an explicit persisted/public contra
 Keep assertions that protect specified behavior, exact accounting, rollback, idempotency,
 security boundaries and recovery. Remove or rewrite baseline assertions only through the
 approved test-cleanup decision, a scoped task brief and a separate independent review;
-archive original receipts before removal as specified by EVIDENCE-001.
+record the precise baseline change in the PR.
 
 ## Required evidence
 
