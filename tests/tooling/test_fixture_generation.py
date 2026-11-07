@@ -114,27 +114,27 @@ class FixtureGenerationTests(unittest.TestCase):
                 data = (ROOT / "tests/fixtures" / name).read_bytes()
                 self.assert_original_output(name, data)
                 (fixtures / name).write_bytes(data)
-            original = snapshot(project)
+            original = snapshot(parent)
             result = self.invoke(project, cwd, "--check")
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            self.assertEqual(snapshot(project), original)
+            self.assertEqual(snapshot(parent), original)
 
             reference = fixtures / "sqlite_reference_capture_vectors.json"
             reference.write_bytes(reference.read_bytes() + b"\n")
-            drifted = snapshot(project)
+            drifted = snapshot(parent)
             result = self.invoke(project, cwd, "--check", "--fixture", "reference_capture")
             self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
             self.assertIn(reference.name, result.stdout + result.stderr)
-            self.assertEqual(snapshot(project), drifted)
+            self.assertEqual(snapshot(parent), drifted)
 
-            reference.write_bytes(original[str(reference.relative_to(project))])
+            reference.write_bytes(original[str(reference.relative_to(parent))])
             seed = fixtures / "retained_context_vectors.json"
             seed.write_bytes(seed.read_bytes() + b" \n")  # Valid JSON; only the raw pin changes.
-            drifted = snapshot(project)
+            drifted = snapshot(parent)
             result = self.invoke(project, cwd, "--check")
             self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
             self.assertIn(seed.name, result.stdout + result.stderr)
-            self.assertEqual(snapshot(project), drifted)
+            self.assertEqual(snapshot(parent), drifted)
 
 
 if __name__ == "__main__":
