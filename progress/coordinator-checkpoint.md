@@ -89,9 +89,12 @@ and reviews before acting. Preserve valid work; explicitly reassign stale tasks.
   `/tmp/fixture001-reference-differences.json`; oldrefcanonical4a341655 vsactual704a211a.
   RootauthorizedONEliteral b00→b01 andcommentfix inreference_capture._documents only,
   grounded in oldoracle/publicgrammar. Tests407fec3f/contract/seeds/fixtures stayfrozen.
-  Authorresumedfixonly; differentreviewer independentlyconfirmsfailure/grammar and
-  MUSTapproveactualrevisedsourceBEFOREcandidate/test/generatorrerun. Acceptancecurrently
-  failed; no newbaseline or broadinfra/native replay. CurrentCI/finalintegration and
+  Narrowfix39c55295d844fa8316b469fa39ccb605b932c5ff independently APPROVED:
+  oldSRCgrammar locatesGrace1 atAbyte100/B101, badcodeemittedImmediate0. Actualdiff
+  onlyliteral/comment; allothercode/contract/tests/seeds/fixturesidentical. Rootresumed
+  author forSAMEfocusedrerun at39; ifpass boundedtempoutputs/current--check/exactraw+
+  typedhash/nativeidentity andONEscaffold3/tooling36 route, no localQt/knownredreplay.
+  Failed65log remains preserved; no rerun outcome observed yet, acceptancecurrentlyfailed. CurrentCI/finalintegration and
   normalmerge remain; existingvalidcatalog/commonreviews preservedunchanged.
 
 ## Concurrent read-only inventory
