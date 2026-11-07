@@ -75,10 +75,14 @@ and reviews before acting. Preserve valid work; explicitly reassign stale tasks.
 
 ## Concurrent read-only inventory
 
-`/root/identity_cleanup_inventory` inspects later TESTCLEAN-007 security/count assertions
-without edits, execution or a task claim; output `/tmp/testclean007-readonly-inventory.md`.
-007 remains planned/Unassigned and will need its own fresh author/reviewer/branch later.
-Reserve the fourth agent slot for FIXTURE-001 independent review.
+`/root/identity_cleanup_inventory` finished `/tmp/testclean007-readonly-inventory.md`,
+SHA256 `c0c2505a121ebfe4ca2eb9350acfac11281df64262750fa22e814c12f24acbd7`.
+No edits/execution/claim/deletion approval. Preservezero-work/order/allocation-lifetime/
+activeerasure security; positivecount relaxation must avoid vacuousflags/last-call-only
+profile checks. 007 stays plannedUnassigned, requiring freshauthor/review/branch later.
+`/root/regression_merge_inventory` now read-only maps later008regression owners/labels/
+linkage/assertions; no edits/tests/claim, output `/tmp/testclean008-readonly-inventory.md`.
+008 still depends004/007; no implementation approval. ReserveF001independentreviewslot.
 
 ## Retained cleanup evidence and work
 
