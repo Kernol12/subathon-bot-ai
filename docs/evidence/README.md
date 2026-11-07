@@ -177,7 +177,8 @@ support, authorization or runtime transport security. See
 EPIC-028 cleanup is underway under [ADR-0012](../decisions/0012-test-suite-simplification.md).
 EVIDENCE-001 archives the 969 receipts and rewrites references, adds focused tooling
 checks for HTTPS evidence/local test artifacts and keeps this summary as the sole
-current evidence file. Archive/link/checker review and PR checks gate completion;
+current evidence file. Archive/link/checker review approved the material at `5ee1393`;
+[PR #92](https://github.com/Kernol12/subathon-bot-ai/pull/92) records checks and merge gates;
 this cleanup establishes no new product behavior. Later cleanup tasks retain their
 own independent reviews and revised-baseline gates. Full specification acceptance,
 live/provider/platform evidence and release readiness remain open.

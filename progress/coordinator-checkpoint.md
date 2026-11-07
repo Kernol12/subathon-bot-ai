@@ -1,28 +1,33 @@
 # Coordinator checkpoint
 
-Updated: 7 November 2026. Verify live state before acting.
+Updated: 7 November 2026. Verify live branches/claims/PRs before acting.
 
-## Observed state and assignment
+## Current handoff
 
-- Current main/origin main: `01cf400` (PR #91 merged). No open PRs or active state
-  claims before resumption. Main rules require a PR/resolved discussions; no
-  required-check rule or required approval count was returned.
-- EVIDENCE-001 claimed on `task/EVIDENCE-001-readable-archive`; fresh
-  `evidence_archive_author` owns brief paths except state/HTML/checkpoint and tag,
-  owned by coordinator. Scope: ADR-0012, v0.45 §§17–18, archive 969 receipts,
-  readable area summary, archive link rewrites and strict artifact checks.
-  Independent actual-revision review, tooling, latest-head CI and normal PR merge
-  remain. No runtime/product assertion change.
-- Old sessions inactive; no stale active claims to reassign. 287 registered
-  worktrees/250 prunable; existing trees inspected clean. No prune/reset performed.
-  No other agent/build process observed.
+- Base main `01cf400` (merged PR #91); EVIDENCE-001 branch
+  `task/EVIDENCE-001-readable-archive`, PR #92. Material commit `5ee1393`.
+- Fresh author `/root/evidence_archive_author` finished and retired. Different
+  `/root/evidence_archive_review` approved tests before first red, then the whole
+  material packet at `5ee1393`; completion metadata confirmation pending.
+- Published annotated tag `evidence-archive-2026-11`, object `e7b13d26`, peels to
+  `01cf400`. All 970 original blobs verified, all 969 removed receipts retained.
+  Summary 184 lines; all prior task gates/reviews/assertions and baseline manifest
+  preserved. Existing tooling fixture paths changed only; four new checker tests.
+- Intended tooling red: 3 expected failures/4 tests; after implementation 26/26
+  tooling, check_project461/122, state/render and scaffold3/3 pass. No product or
+  live/platform check claim. PR latest-head hosted CI/current rules/resolved threads
+  and normal merge still required. State completion records local reviewed result,
+  with hosted CI and merge explicitly open. Recheck actual PR state before next task.
+- After merge verify remote archive/deleted-path availability, refresh main, then
+  claim EVIDENCE-002 (or TESTCLEAN-001/002) in a fresh implementation session.
 
-## Preserved work and next actions
+## Preserved work and constraints
 
-- ACCESSCONTRACT-001: approved unpublished local branch `53524fc`; author/review
-  branches preserved. Publish after priority EPIC-028 work permits.
-- STORAGE-020 unstarted; reviewed 44-test red baseline unchanged.
-- Next: verify/push annotated `evidence-archive-2026-11` at `01cf400`, complete and
-  review EVIDENCE-001, then EVIDENCE-002 or TESTCLEAN-001/002.
+- ACCESSCONTRACT-001 approved unpublished local branch `53524fc` and author/review
+  branches intact; integrate/publish after priority work permits. STORAGE-020 remains
+  unstarted with reviewed 44-test red baseline unchanged.
+- No stale active claims at startup. 287 registered worktrees/250 prunable, existing
+  trees clean; no prune/reset. No older session assumed alive.
 - Full v0.45/seven integrations/three FX providers retained. No live credential,
-  provider/chat/payment/deployment actions authorized.
+  provider/chat/payment/deployment action authorized. Historical coordination:
+  [archived handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coordinator-handoff.md).

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-07T14:57:48+00:00",
+  "updated_at": "2026-11-07T15:03:53.046042+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -82,7 +82,7 @@
       "title": "Archive detailed receipts and publish a readable summary",
       "module": "Quality and tooling",
       "kind": "cleanup",
-      "status": "in_progress",
+      "status": "done",
       "owner": "evidence_archive_author",
       "depends_on": [],
       "spec_refs": [
@@ -92,12 +92,26 @@
       "brief": "docs/tasks/EPIC-028/EVIDENCE-001.md",
       "summary": "Archive detailed historical receipts under a verified tag and replace them in the working tree with a concise, evidence-based area summary.",
       "notes": [
-        "Parent epic: EPIC-028. Planned only; preserve all receipts at the annotated tag before removal and verify the summary claims independently.",
-        "Claim at main 01cf400: ADR-0012/spec v0.45 §§17–18, EVIDENCE-001 brief. Fresh author owns archive/link/summary/checker/fixture paths; coordinator owns tag/state/HTML/checkpoint/PR. Verify tag, independent review, tooling and CI before merge. No product assertion changes."
+        "Archived 969 receipts at the verified published tag; readable area summary and links preserve all prior claims. Independent test/source/summary review approved; 26 tooling tests and scaffold 3/3 pass. Hosted CI and protected PR merge remain; next: EVIDENCE-002 or TESTCLEAN-001/002."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "archive": "passed",
+        "tooling": "passed",
+        "scaffold": "passed",
+        "independent_review": "passed",
+        "github_ci": "not_run",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/92"
+      ],
+      "review": {
+        "author": "/root/evidence_archive_author",
+        "reviewer": "/root/evidence_archive_review",
+        "outcome": "approved",
+        "revision": "5ee1393; source/summary/archive/links/state material review; checker SHA256 a3e18628887a53b97cd9665d5128bf5da81df822301b9840898b015e7dbca97f",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/92"
+      }
     },
     {
       "id": "EVIDENCE-002",
@@ -17061,6 +17075,11 @@
       "date": "2026-11-07T14:57:48+00:00",
       "task": "EVIDENCE-001",
       "note": "Claim at main 01cf400: ADR-0012/spec v0.45 §§17–18, EVIDENCE-001 brief. Fresh author owns archive/link/summary/checker/fixture paths; coordinator owns tag/state/HTML/checkpoint/PR. Verify tag, independent review, tooling and CI before merge. No product assertion changes."
+    },
+    {
+      "date": "2026-11-07T15:03:53.046042+00:00",
+      "task": "EVIDENCE-001",
+      "note": "Independent review approved 5ee1393: verified published archive tag/all969 removed receipts, readable summary and links, unchanged old states/assertions. Tooling26/scaffold3 pass; PR92 hosted CI and protected merge remain."
     }
   ]
 }
