@@ -1,112 +1,92 @@
-# SESSIONTEST-008 — bounded current-session supplier baseline
+# SESSIONTEST-008 — reviewed supplier baseline and observed red
 
-Coordinator /root,7November2026. Taskbranch
-`task/SESSIONTEST-008-supplier-baseline`, `/tmp/subathon-sessiontest008`,
-from mainb8f3b141801087ab425ce74afee352bbe8a3678a after normalPR81merge.
-[Brief](../tasks/EPIC-007/SESSION-008.md), accepted supplierdocumentblob
-c5f5a6e71664042e18475068d3caf577b0c8d009. [Plan handoff](contractplan-006-handoff.md)
-retains actual independent graph review. No current-session runtime exists yet.
+Coordinator `/root`, 7 November 2026. Branch
+`task/SESSIONTEST-008-supplier-baseline`, `/tmp/subathon-sessiontest008`.
+[PR82](https://github.com/Kernol12/subathon-bot-ai/pull/82).
+[Brief](../tasks/EPIC-007/SESSION-008.md), accepted supplier contract blob
+`c5f5a6e71664042e18475068d3caf577b0c8d009`.
 
-Fresh session_supplier_baseline_author owns only minimal exact server header/
-immediate unimplemented bodies, specification-derived tests/fakes/literalvectors,
-new nativeSDKreadiness source and focused compile/discovery harness under explicit
-root delegation. Root owns state/HTML/checkpoint/CI/pins/publication, exactselected
-SDK preparation/admission and all integration. Native and feature test/function
-bodies must NOT run before different actual packet review. Configure/build/passive
-registration only is allowed, no constructor-success setup factory or SUToracles.
+## Result
 
-Next: coherent minimalinterface/stub/test/SDK/harness authoring, actual independent
-review, working selected SDK green, then one actual ordinary intendedcompiledred
-at an exact reviewed revision, immutable receipt and independent attribution.
-MissingSDK/buildfailure/skip is notred. No behavior implementation before thatgate.
-IssuanceRNG/realSQLsource/clock/login/transport/currentpermissions and full lifecycle/
-platform/release scope remain downstream. SDK1.0.22 exact old selected source/build
-is being prepared separately; no new dependency choice/pin/version authorized.
+Fresh author `session_supplier_baseline_author` wrote `55896ce6`, imported as
+`2451e50`: the exact minimal API, two immediate `std::logic_error` markers,
+39 independent tests, literal vectors, separate SDK foundation and closed passive
+43-case harness. [Author evidence](sessiontest-008-author.md).
+No token/session behavior is implemented. Existing assertions, dependency pins,
+contracts and previous receipts remain unchanged.
 
+Different reviewer `session_supplier_baseline_review` approved exact full packet
+`f9ca39a` in `2014c0c` before any new body ran, including private error-only native
+observers, source-derived oracles, limits, API/stubs/harness and CI.
+[Review and attribution](sessiontest-008-review.md). Its native review bounds the
+selected libsodium-owned hash work/stack separately from application124 bytes and
+external libc/loader/first-init/global process/platform guarantees.
 
-Main integration: normallymergedPR80/ebb4368 at09:54:10Z (all21latestf088SUCCESS,
-actualdifferent437ab56review,currentrules/0threads/no bypass) is integrated while
-preservingonlyowned008claim. All443IDs/1735edges/othermainrows unchanged; only
-sharedJSON/HTML/checkpoint conflict resolution, no authoredsource/test overwrite.
-Author/reviewer/SDKworker and nextsteps are current in the coordinator checkpoint.
+## First executions and independent attribution
 
+Root executed these once, at clean review revision
+`2014c0c56db1d46a1206cc7716dbb1a1c2382136`:
 
-## Existing SDK preparation/admission (no readiness body run)
+1. `ctest --preset session-resolution-debug -R '^scaffold.session_resolution_environment$' --no-tests=error --verbose --output-junit /tmp/subathon-sessiontest008-first-sdk/ctest.xml`
+   returned0: exactly one SDK PASS, runtime1.0.22/ABI26/4, three independent framed
+   BLAKE2b vectors, fixed32 comparison and clearing. No feature body ran.
+2. Only after that actual green, `ctest --preset session-resolution-debug -L '^session-resolution$' --no-tests=error --verbose --output-junit /tmp/subathon-sessiontest008-first-red/ctest.xml`
+   returned8:39 cases/39 failures/0 errors/0 skips against unchanged immediate stubs.
 
-Fresh session_sdk_prepare built exact alreadyadmitted1.0.22 source in
-`/tmp/subathon-session-sdk/prefix`; root independentlyrechecked exact archive
-2008529bytes/SHAadbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349
-and newstaticarchive836704bytes/SHAf8e295ad9a6d8c6d3c657e4d2f33d590da161f6ed5a81dfae09d1067fab3d017.
-[Immutable complete preparation receipt/logs](sessiontest-008-sdk-preparation.tar.gz)
-retain actualcommands/environment/hashmanifest/678vendorfilepreservation and
-before/afterrepositoryinputhashes. Source admission reuses the unchanged selected
-archive's prior authenticated/different source/dependencyreviews, no newpin/version.
-Actual configure/build/install exit0 atGCC16.2.1/glibc2.44, -O2/static, make-j2,
-corelimit0. Configure invoked3SDKcompilerprobes(0/0/134), includingSIGABRT/core-report;
-externalcrashhandlerretention notinspected.8Libtoolconveniencewarnings,0compilererrors.
-These are dependencybuild observations, NOT productred or a runtime/SDKfoundation.
-Headers declare1.0.22/ABI26/4; newruntimeidentity remains unobserved. Root admits
-compile/link/passiveregistration only until different actualbaseline/native-
-readiness/source-work-stack/harness review. Do notcallanewbody basedonlyonbuildgreen.
+[Immutable first-run originals](sessiontest-008-first-runs.tar.gz) contain native
+JUnit, LastTest, failed inventory, raw stdout/stderr, direct exits, revisions,
+executable/SDK hashes and chronology, captured before another CTest could overwrite
+them. Same different reviewer `6bef738` / import `6cbcec5` verified all ten file
+hashes and all39 cases' sole intended marker: LastTest39, stdout78 echoes, no setup,
+crash, timeout, skip or unrelated assertion failure. No body was replayed.
+Assertions and later loop rows after each immediate throw were not executed and
+are not passing coverage.
 
-Root's first evidencearchive packager incorrectly disallowed safe nested paths;
-its assertion stopped before receipts were added, but the surrounding shell lacked
-failfast and an emptyarchive was committed6da7450. This correction validates every
-relativepath/sourcehash BEFORE output, then verifies all archivedhashes/inventory.
-Original SDKreceipts/build/source are untouched; no productred/readiness claim.
-Future compound commands use failfast and inspect exitcodes before publication.
+Core limit0 is recorded. Root's tool command supplied a minimal PATH/locale;
+those variable values are absent from the original receipt JSON and were not
+independently certified or filled afterward. This evidence limit does not invent
+unknown fields or justify replaying the first run.
 
+## Dependency and hosted CI evidence
 
-## Authored packet and review scope
+[Immutable SDK preparation](sessiontest-008-sdk-preparation.tar.gz) retains the
+exact admitted source archive2008529 bytes/SHA
+`adbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349`,
+configure/build/install receipts,678 preserved vendor files and raw logs. New local
+static archive836704 bytes/SHA
+`f8e295ad9a6d8c6d3c657e4d2f33d590da161f6ed5a81dfae09d1067fab3d017`.
+The source/build used the existing admitted dependency; no new pin or global install.
+Configure's three compiler probes returned0/0/134 with core limit0, including a
+SIGABRT/core report; external crash-handler retention was not inspected. Eight
+Libtool convenience warnings, zero build compiler errors. These were SDK build
+observations, not product red. The first archive-packaging attempt6da7450 was empty
+after an overly strict nested-path check; correctedc22a47c validates every source
+and archived hash. Original SDK receipts remain untouched.
 
-Author55896ce6/import2451e50 supplies the exact API, two immediate missing-behavior
-bodies,39 independent feature methods, literal vectors, separate SDK readiness
-program and closed43-case passive discovery. [Author evidence](sessiontest-008-author.md)
-records actual configure/build/strict syntax/list checks; no new body ran.
-Root extends the existing selected-SDK workflow with build/passive closed inventory
-and ONLY the independent SDK readiness case, retaining intentional feature red.
-The entire actual packet, including this CI delta, awaits different review before
-any new local or hosted body executes. No workflow publication yet.
+[Hosted run42363172584](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42363172584)
+at exact840ed5f64a70e30b4b9a82dffee2e4f35b9bd1d8 passed the approved workflow.
+[Actual receipt](sessiontest-008-hosted-ci.json) records its new build, exact closed
+39-feature discovery and separate SDK1PASS output. The workflow runs ONLY stable
+SDK readiness plus the existing passing password suite; intentional feature red
+stays separate, with no inversion or skipping. The collector excluded Actions'
+colored source-command echo when matching emitted output; no CI rerun was needed.
 
-SDK worker's read-only source/object audit found fixed unkeyed output32/input60
-BLAKE2b storage, one compression/12 rounds, no heap call in the normal libsodium
-hash path, four compiled compression leaves without calls and actual fixed object
-frame reservations. Source base `/tmp/subathon-session-sdk/source/libsodium-1.0.22/src/libsodium`:
-`crypto_generichash/crypto_generichash.c:54`,
-`crypto_generichash/blake2b/ref/blake2b-ref.c:263/292/335/411`,
-`crypto_generichash/blake2b/ref/blake2.h:42/56`, `sodium/utils.c:123/184`,
-`sodium/core.c:28`. The packed state is361 bytes with64-byte alignment; public
-state storage is384. Native digest scratch is64, parameter block64; app124 is separate.
-Actual `objdump -dr` / `readelf --debug-dump=frames` show fixed reservations for
-all four compression leaves, but these do NOT close a whole native call-chain or
-global stack/resource guarantee. Libc memcpy/memset/explicit_bzero, final weak-symbol
-resolution and first initialization's mutex/entropy/CPU work remain outside that
-bounded audit. Not all native compression/register scratch is explicitly wiped;
-the accepted app raw/frame guarantee is distinct. Actual independent reviewer must
-assess required native review/admission precisely, flag any blocking proof gap and
-split substantial new architecture before expansion. No body was run for this audit.
+Local author/reviewer builds and passive discovery passed. Root tooling19,
+project443/122/current HTML/whitespace and all9 workflow shell blocks/Python
+heredoc syntax passed without new body execution. Current main ebb4368 is integrated;
+all443 IDs/1735 edges/other completed states and reviews are preserved.
 
+## Remaining gates and next assignment
 
-## Actual first execution receipts
+Baseline is done by actual test review, SDK green, intended red and independent
+attribution. Publication is separate: require every final completion-head CI check,
+current rules/approvals/resolved discussions and normal PR82 merge. Only then start
+SESSION-008 from integrated main with a fresh implementer, this accepted contract,
+all39 unchanged assertions/fixtures, original receipts and exact review record.
+Implementation needs passing acceptance, separate source review and stable CI.
 
-Independent review2014c0c/import2a98e29 approved exact f9ca39a API/stubs/39tests/
-fixtures/SDK/harness/CI before execution. It bounds the selected libsodium-owned
-fixed-profile hash stack/work separately from external runtime/global guarantees.
-[Review](sessiontest-008-review.md). In the clean reviewworktree at exact
-2014c0c56db1d46a1206cc7716dbb1a1c2382136, root then ran SDK readiness ONCE:
-`ctest --preset session-resolution-debug -R '^scaffold.session_resolution_environment$'
---no-tests=error --verbose --output-junit /tmp/subathon-sessiontest008-first-sdk/ctest.xml`.
-Directexit0; exactly1PASS, actual runtime1.0.22/ABI26/4/framedvectors/fixed32compare/
-clearing established. No feature body ran in that stage.
-
-ONLY after actual same-SDK green, FIRST ordinary feature invocation:
-`ctest --preset session-resolution-debug -L '^session-resolution$' --no-tests=error
---verbose --output-junit /tmp/subathon-sessiontest008-first-red/ctest.xml`.
-Directexit8;39cases/39failures/0errors/0skips, stdout78markeroccurrences. Original
-nativeJUnit/LastTest/failedinventory/stdout/stderr/directexit/environment/revision/
-executablehashes were captured as bytes before any furtherCTest. Corelimit0;
-minimal PATH/locale environment. [Immutable originals](sessiontest-008-first-runs.tar.gz)
-include a complete hashmanifest; no collectorUnicodeerror or inferredreturncode.
-Actual different marker/source/setup attribution remains required before baseline
-completion. Assertions after each immediate marker throw were not executed and are
-not described as passing. No behavior implementation or authentication capability.
+Issuance/RNG, real SQL/current session source, trustworthy clock, accepted login,
+permissions, full lifecycle/transport and all provider/platform/security/release
+scope remain their owning tasks. Concurrent SESSIONCONTRACT-003 is document-only;
+its branch handoff records the separate fresh author assignment. Root owns shared
+state/HTML/checkpoint/CI/pins/publication, with explicit bounded harness delegation.

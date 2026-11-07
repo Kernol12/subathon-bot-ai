@@ -30,14 +30,15 @@ includes main `ebb4368`, preserving every other task row and all 443 IDs / 1735 
 | --- | --- | --- |
 | Integrator | `/root`; `/tmp/subathon-sessiontest008`; `task/SESSIONTEST-008-supplier-baseline` | State, HTML, checkpoint, SDK admission, CI, integration and publication. No PR yet. |
 | Fresh baseline author | `/root/session_supplier_baseline_author`; `/tmp/subathon-sessiontest008-author`; `task/SESSIONTEST-008-author` | Exact minimal server API, immediate unimplemented bodies, independent tests/fakes/vectors, SDK readiness source and explicitly delegated CMake/preset/harness additions. Author packet `55896ce6` is committed and imported as `2451e50`; no new body ran. |
-| Independent reviewer | `/root/session_supplier_baseline_review` | Actual packet `f9ca39a` approved in `2014c0c`; current review worktree `/tmp/subathon-sessiontest008-review`, branch `review/SESSIONTEST-008-supplier-baseline`, now `0989cb7` after original receipts. Same reviewer is attributing the first runs; preserve this active assignment. |
+| Independent reviewer | `/root/session_supplier_baseline_review` | Actual packet `f9ca39a` approved in `2014c0c`; current review worktree `/tmp/subathon-sessiontest008-review`, branch `review/SESSIONTEST-008-supplier-baseline`, now `0989cb7` after original receipts. Same reviewer approved first-run attribution `6bef738`; review turn completed. |
 | SDK preparation | `/root/session_sdk_prepare`; `/tmp/subathon-session-sdk` | Completed. See immutable preparation receipts linked from the task handoff. Preparation itself ran no readiness or feature body; actual reviewed first-run results are below. |
 
 The accepted supplier document is blob `c5f5a6e71664042e18475068d3caf577b0c8d009`.
 The authored packet has 39 feature methods and a separate SDK program; the root CI addition remains unpublished pending review. The reviewed SDK readiness program passed once, followed by the first ordinary
 39-case stub-red run at clean `2014c0c`. Direct CTest exits 0 then 8, no skips or
-errors. Immutable original receipts are linked from the task handoff. Independent
-attribution and selected CI remain pending; production implementation stays planned.
+errors. Immutable original receipts are linked from the task handoff. Independent attribution `6bef738` and selected hosted run `42363172584` now pass.
+Baseline task is done; [draft PR82](https://github.com/Kernol12/subathon-bot-ai/pull/82)
+needs final completion-head CI/current rules/normal merge before implementation.
 
 ## SDK and next gates
 
@@ -98,3 +99,8 @@ Fresh `/root/session_lifecycle_contract_author` owns only new
 Its branch-local `docs/evidence/sessioncontract-003-handoff.md` records scope.
 Document authoring is active; no implementation or API/header/schema/test changes.
 Root owns shared integration; supplier baseline reviewer assignment remains valid.
+
+
+Current next action: finish PR82 latest-head gates and normal merge, refresh main,
+then claim SESSION-008 with a fresh implementer and the exact reviewed39 baseline.
+Keep the independent lifecycle document author active. No owner action is needed.

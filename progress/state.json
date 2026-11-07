@@ -14360,7 +14360,7 @@
       "title": "Review and demonstrate red: bounded account-session supplier",
       "module": "Identity",
       "kind": "test_baseline",
-      "status": "in_review",
+      "status": "done",
       "owner": "Codex /root integration; fresh session_supplier_baseline_author",
       "depends_on": [
         "CONTRACTPLAN-006",
@@ -14380,7 +14380,8 @@
         "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record.",
         "Claim task/SESSIONTEST-008-supplier-baseline from actualmainb8f3b14 after normalPR81merge/all21latestSUCCESS/independentreviewea27001e. Scopeaccepted supplierc5f5a6e prepare/resolve only: coherent minimalheader/immediate markerstubs, independentliteral tests/fakes and nativeSDKreadiness/harness before separateactualreview→SDKgreen→intendedcompiledred. No productionbehavior/issuance/store/realclock/login/transport. Fresh authorowns exactserver/test/harness paths byexplicitdelegation; rootownsstate/HTML/CI/pins/integration and independently prepares oldselectedSDK1.0.22. Reviewer mustreceiveactualrevision and approve before new bodiesexecute; no priorred replay or assertionweakening.",
         "Authored55896ce6/import2451e50 coherentexactAPI/twoimmediatemarkerstubs/39features/literalvectors/separateSDKfoundation/closed43discovery+harness. Authorcompile/strictsyntax/passivelist/projectPASS; NOnewbodyexecution. Rootadded sameSDKworkflow futurefoundation+closeddiscovery step ONLY, actualdifferentwholepacket/nativeobligation/CIreview BEFORE publication/execution. Complete nativecallchain/globalresourcebound notestablished by boundedread-onlySDKhashaudit; factualfixed60B/onecompression/compiledframes and externalruntime/initialization gaps explicit. No implementation/runtime/red claim.",
-        "Actual independent2014c0c review approves exactf9ca39a API/stubs/39tests/fixtures/harness/nativefixedprofile/CI. FIRSTnewSDKbody run clean2014c0c: directCTest0/exact1PASS/runtime1.0.22 ABI26/4/vectors/compare/clear; ONLYthen FIRSTordinary39case run direct8/39failures/0errors-skips,78stdoutmarkers, rawbinary/nativeJUnit/LastTest/failedinventory immutablebeforefurtherCTest. No Unicodecollectorloss/replay/falsepassingassertions. Same differentreviewer attributesactualred next. SelectedhostCI/publication/normalmerge still required; SESSION008implementation remainsplanned."
+        "Actual independent2014c0c review approves exactf9ca39a API/stubs/39tests/fixtures/harness/nativefixedprofile/CI. FIRSTnewSDKbody run clean2014c0c: directCTest0/exact1PASS/runtime1.0.22 ABI26/4/vectors/compare/clear; ONLYthen FIRSTordinary39case run direct8/39failures/0errors-skips,78stdoutmarkers, rawbinary/nativeJUnit/LastTest/failedinventory immutablebeforefurtherCTest. No Unicodecollectorloss/replay/falsepassingassertions. Same differentreviewer attributesactualred next. SelectedhostCI/publication/normalmerge still required; SESSION008implementation remainsplanned.",
+        "Baseline complete: actual source/test/native/CI approval2014c0c, sameSDK1green then FIRSTordinary39missingmarkerfailures/direct8/0errors-skips; different6bef738 verifiesall10rawhashes/SDK-binary-sourceidentity/chronology/exactnames/39solemarkers/nootherfailure. ReceiptPATH/locale fields absent and notfilled; rootobservedenv distinguished. Hosted42363172584 at840ed5f SUCCESS newclosed39discovery andONLYSDKfoundation1PASS after unchangedpasswordacceptance, no knownredpromotion. No assertionsweakened/replay/featureimplementation. PR82finalcompletionheadCI/currentrules/threads/normalmerge remain beforefreshSESSION008implementation."
       ],
       "verification": {
         "authored": "passed",
@@ -14389,20 +14390,21 @@
         "native_fixed_profile_review": "passed",
         "sdk_readiness": "passed",
         "baseline": "observed_red",
-        "red_attribution": "not_run",
-        "selected_ci": "not_run"
+        "red_attribution": "passed",
+        "selected_ci": "passed"
       },
       "evidence": [
         "docs/evidence/sessiontest-008-handoff.md",
         "docs/evidence/sessiontest-008-author.md",
         "docs/evidence/sessiontest-008-review.md",
-        "docs/evidence/sessiontest-008-first-runs.tar.gz"
+        "docs/evidence/sessiontest-008-first-runs.tar.gz",
+        "docs/evidence/sessiontest-008-hosted-ci.json"
       ],
       "review": {
         "author": "/root/session_supplier_baseline_author; /root (CI/integration)",
         "reviewer": "/root/session_supplier_baseline_review",
         "outcome": "approved",
-        "revision": "Actual fullpacketf9ca39a approved2014c0c/import2a98e29 BEFORE any new body. Exact reviewed SDKgreen1 precedes ordinary39stubred at clean2014c0c; independent first-red attribution pending.",
+        "revision": "Fullpacketf9ca39a approved2014c0c/import2a98e29 before execution; exact firstSDKgreen1/direct0 then ordinary39stubred/direct8 at clean2014c0c independently attributed6bef738/import6cbcec5. Actual selectedhost42363172584 at840ed5f builds/closed39discovery+SDK1PASS; finaldocsheadCI/normalmerge separate.",
         "evidence": "docs/evidence/sessiontest-008-review.md"
       }
     },
@@ -16250,6 +16252,11 @@
       "date": "2026-11-07T10:15:08.762779+00:00",
       "task": "SESSIONTEST-008",
       "note": "Actual independent2014c0c review approves exactf9ca39a API/stubs/39tests/fixtures/harness/nativefixedprofile/CI. FIRSTnewSDKbody run clean2014c0c: directCTest0/exact1PASS/runtime1.0.22 ABI26/4/vectors/compare/clear; ONLYthen FIRSTordinary39case run direct8/39failures/0errors-skips,78stdoutmarkers, rawbinary/nativeJUnit/LastTest/failedinventory immutablebeforefurtherCTest. No Unicodecollectorloss/replay/falsepassingassertions. Same differentreviewer attributesactualred next. SelectedhostCI/publication/normalmerge still required; SESSION008implementation remainsplanned."
+    },
+    {
+      "date": "2026-11-07T10:20:01.654764+00:00",
+      "task": "SESSIONTEST-008",
+      "note": "Baseline complete: actual source/test/native/CI approval2014c0c, sameSDK1green then FIRSTordinary39missingmarkerfailures/direct8/0errors-skips; different6bef738 verifiesall10rawhashes/SDK-binary-sourceidentity/chronology/exactnames/39solemarkers/nootherfailure. ReceiptPATH/locale fields absent and notfilled; rootobservedenv distinguished. Hosted42363172584 at840ed5f SUCCESS newclosed39discovery andONLYSDKfoundation1PASS after unchangedpasswordacceptance, no knownredpromotion. No assertionsweakened/replay/featureimplementation. PR82finalcompletionheadCI/currentrules/threads/normalmerge remain beforefreshSESSION008implementation."
     }
   ]
 }
