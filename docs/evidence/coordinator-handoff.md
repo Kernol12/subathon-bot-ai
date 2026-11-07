@@ -32,7 +32,7 @@ No real current producer, lifecycle, login or transport is supplied by the compo
 STORAGECONTRACT-002 author5c3acde0/importb01cc18 completed; different actual reviewer
 393015e5 APPROVED exact document blob8dc7ba9f. Root owns import/latest-main/doc status/
 publication in `/tmp/subathon-storagecontract002`, branch
-`task/STORAGECONTRACT-002-account-sessions`. [Author](storagecontract-002-author.md)
+`task/STORAGECONTRACT-002-account-sessions`. [Author](https://github.com/Kernol12/subathon-bot-ai/blob/b01cc18e3e06bc6767576b91f8d5ebf839f5e383/docs/evidence/storagecontract-002-author.md)
 and review exist on support branches; next import393015e5, integrate e440c7f preserving
 its task claim, finish handoff/currentCI/normalmerge. No SQL/header/tests/source added.
 
