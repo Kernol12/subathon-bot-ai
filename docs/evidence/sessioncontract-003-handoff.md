@@ -40,3 +40,22 @@ normalmerge10:26:28 UTC). Everymainrow/dependency/status/review/evidence except 
 owned003claim is preserved; only shared JSON/HTML/checkpoint conflicted. Frozen
 supplier baseline source/assertions/receipts and intentional-red CI separation
 remain unchanged. Root owns this integration; no author work was overwritten.
+
+
+## Acceptance and publication gates
+
+Different actual [document review](sessioncontract-003-review.md)
+8b0212d5/import5d1e26c approved exacte0973fb/document2f30ac72/author01000940,
+all unchanged import blobs, LC01–32, full-domain expiry/DTO/keyset/authority/outcome/
+publication/finite-scope obligations. No findings required author correction.
+Author and reviewer project443/122, current render, tooling19, whitespace and
+independent literal arithmetic/ordering checks passed; no native/feature/provider
+body ran. Root changed only current acceptance wording afterward.
+
+Document task is done; publication/merge remains separate. Existing CI covers the
+changed documentation/progress; no executable suite/workflow/pin is introduced.
+Require all latest completion-head checks, current rules/approvals/resolved threads
+and normal focused PR merge before dependent contract work. Concrete account/session
+storage, local-login/clock/ingress producers, full lifecycle/transport baselines/red/
+source/release checks remain their owning tasks. The concurrent SESSION008 source
+implementation retains its independent assignment and frozen39 baseline.

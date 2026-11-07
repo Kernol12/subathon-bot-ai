@@ -5,7 +5,9 @@ DB-01, SERVER-01 and TEST-04/05. Identity
 `subathon.account-session-lifecycle.v1`. Base main `ebb4368`, claim `db6fbee`.
 This is a proposed internal C++/port contract with literal examples. It supplies
 no header, schema, tests, stub, implementation or authentication capability.
-Different actual review must precede acceptance and dependent source/test stages.
+Actual independent document review and publication are recorded in the
+[task handoff](../evidence/sessioncontract-003-handoff.md); dependent source/test
+stages retain their own gates.
 
 Import [supplier v1](session-resolution-v1.md), blob
 `c5f5a6e71664042e18475068d3caf577b0c8d009`, especially §3/4, and

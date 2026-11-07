@@ -33,8 +33,9 @@ other row and all443 IDs/1735 edges. [Current handoff](sessioncontract-003-hando
 Fresh author `/root/session_lifecycle_contract_author` completed72a80198/import e0973fb,
 only `session-lifecycle-v1.md` and author note. Fresh independent reviewer
 `/root/session_lifecycle_contract_review`, `/tmp/subathon-sessioncontract003-review`,
-`review/SESSIONCONTRACT-003-lifecycle`, reviews that exact packet and is writing its
-record. Author turn ended; actual approval/publication/final CI/normal merge remain.
+`review/SESSIONCONTRACT-003-lifecycle`, reviews that exact packet and approved actual e0973fb at `8b0212d5` / import `5d1e26c`. Author and reviewer
+turns ended. Document acceptance is done; focused PR publication/final CI/current
+rules/normal merge remain.
 No C++ header/schema/test/implementation is authorized by this document assignment.
 
 SESSION-008 implementation: separately claimed at e606fe3 from integrated37f098d,
