@@ -371,7 +371,7 @@
       "brief": "docs/tasks/EPIC-028/FIXTURE-001.md",
       "summary": "Build small independent catalog/framing recipes and focused CLI reproduction for reference/account, preserving exact frozen oracles and proposed account status.",
       "notes": [
-        "Independent reference/account recipes reproduce original bytes from four pinned seeds; account8 stays proposed. Contract/test-first red/source/fix/runtime reviews approved, same2tests and tooling36/scaffold3 pass. Failedmode-byte attempt preserved; fixtures/native sources unchanged, priorQt proof reused. Final integrated review/currentCI/normal PR100 merge remain. Owner requested stop after this task; no nextclaim."
+        "Reference/account outputs reproduce original bytes from four pinned seeds; account8 remains proposed. Independent test-first/oracle/source/fix/runtime/integration reviews approved; focused2/tooling36/infra3 and19CI checks passed for validated code. Fixtures/native sources unchanged; failure history retained. PR100 completion record must pass current-head gates and normal merge. Owner requested stop after this task; no nextclaim."
       ],
       "verification": {
         "scope_contract_review": "passed",
@@ -387,7 +387,7 @@
         "scaffold": "passed",
         "native_identity": "passed",
         "runtime_review": "passed",
-        "github_ci": "not_run",
+        "github_ci": "passed",
         "product_acceptance": "not_run"
       },
       "evidence": [
@@ -397,7 +397,7 @@
         "author": "/root/fixture_catalog_author",
         "reviewer": "/root/fixture_catalog_review",
         "outcome": "approved",
-        "revision": "Scopedcf862ce/contract-tests bf06a67 (407fec3f)/intendedredc406/source65/failure171f/narrowfix+green-runtime39c5529 independently reviewed. Two exact outputs/tooling36/infra3 pass; fullpacket/currentCI/merge pending.",
+        "revision": "Scope/test-red/source/fix/runtime39c5529 and fullpacketd6ef10c independently approved; all19CIcontexts passed atd6. Finalcompletion metadata changes no code/oracles; latest-head checks/normalPR100merge remain mandatory.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/100"
       }
     },
