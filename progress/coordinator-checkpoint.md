@@ -75,8 +75,14 @@ and reviews before acting. Preserve valid work; explicitly reassign stale tasks.
   common3478B111lines match immutableprep52aee602/d587b744; different reviewer
   staticallyverified32DDL/40NULLfacts,4seedpins,F/UTF8/NULL/order/readboundaries with
   no candidate execution. Reference15919B256lines/account4711B128/CLI1997B50 now
-  awaiting actual WHOLE SOURCE/ORACLE gate. Authorhandedoff/retiredturn; explicitly
-  resume forfirstgreenonlyafterapproved. No new CLIacceptance/product outcome claimed. Relevant fulltooling/currentCI/finalintegration/rules/discussions/normalmerge
+  exact WHOLE SOURCE/ORACLE execution gate APPROVED65b4ded by differentreviewer.
+  Staticfamilychecks/CLIconnectedreadflow/selectedwrites/checkno-write andallpublic
+  oracles verified; reviewerexecutedno candidatecode. Root explicitlyresumedauthor
+  for FIRSTfocusedgreen ofSAME2tests. Ifpass, disposabletwooutputgeneration/current
+  --check/raw+typedhash/sourceidentity andONE scaffold3/fulltooling route authorized.
+  Ifgreenfails STOPwithoutweakenedassertions/refreshedgoldens; sourcefixesneedreview.
+  No localQt/knownred/othernative receipt replay; currenthostedSQLCI stillrequired.
+  No green orCLIacceptance outcome claimed yet. Relevant fulltooling/currentCI/finalintegration/rules/discussions/normalmerge
   remain. Preserve approved priorlocalQt ifbothoutputs/nativebytesidentical; no replay.
 
 ## Concurrent read-only inventory
