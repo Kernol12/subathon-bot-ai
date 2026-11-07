@@ -69,7 +69,7 @@ def _documents(configuration, arrival, event, execution, plan, opaque, receipt, 
     identity = origin + sized(b"N") + sized(opaque)
     rule = (sized(b"R") + sized(b"r") + sized(b"a") + sized(b"b") + sized(b"T") +
             i64(600000) + b"\x01" + sized(b"I") + sized(b"U") + sized(b"K"))
-    timer = b"\x00" + i64(120000) + b"\x00\x00"  # end-mode0, reuse0, no hard end
+    timer = b"\x01" + i64(120000) + b"\x00\x00"  # end-mode1, reuse0, no hard end
     config = (b"SRC1" + sized(configuration) + sized(b"W") + origin + sized(b"N") +
               rule + b"\x00" + timer + b"\x01" * 5)  # absent cap, five complete facts
     arrival_document = (b"SRA1" + sized(arrival) + sized(event) + i64(0) + sized(config) +
