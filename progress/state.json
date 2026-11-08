@@ -417,9 +417,14 @@
       "brief": "docs/tasks/EPIC-028/FIXTURE-002.md",
       "summary": "Reproduce bundle/hold/claim oracles from independent recipes and preserve the exact six-selector corruption-priority crosswalk.",
       "notes": [
-        "Fresh author assigned from main dd03e1d after verified PR100 merge. Scope: independent bundle/holds/claims recipes, exact selector name/role delta and focused CLI goldens; coordinator owns shared metadata. R1 extension/inventory and authored tests need independent review before execution; implementation and native use remain gated."
+        "Independent storage inventory/R1 contract and frozen CLI tests approved. Focused3methods/5failures attributed solely to three reachable recipe stubs; implementation now assigned fresh author plus isolated holds-only helper. Coordinator owns shared metadata; source/oracle execution review precedes generation/adoption/native checks."
       ],
-      "verification": {},
+      "verification": {
+        "scope_contract_review": "passed",
+        "test_oracle_review": "passed",
+        "baseline": "observed_red",
+        "baseline_review": "passed"
+      },
       "evidence": [],
       "review": null
     },

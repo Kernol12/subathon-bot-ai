@@ -22,6 +22,7 @@ Verify actual state on resumption. Preserve existing work and reviews.
 ## Active FIXTURE-002
 
 - Integrator root branch task/FIXTURE-002-storage-recipes from current main dd03e1d.
+  Draft PR https://github.com/Kernol12/subathon-bot-ai/pull/101 is open.
   Task claimed in progress/state.json before author edits; shared metadata/HTML/docs/PR
   belong to coordinator. Contract R1 extension and acceptance are in
   docs/tasks/EPIC-028/FIXTURE-002.md and TESTCLEAN-006.md.
@@ -32,15 +33,27 @@ Verify actual state on resumption. Preserve existing work and reviews.
   fixture-generation contract with inventory/examples. No other native or product edit.
 - Different reviewer /root/fixture_storage_review: /tmp/subathon-fixture002-review,
   review/FIXTURE-002. Baseline inventory read only; no candidate tests executed yet.
-- NEXT: author inventory/provenance/one-to-one coverage proposal and R1 family extension
-  -> independent review before recipe/source edits -> authored tests/reachable inert stubs
-  -> separate test review -> observed intended red -> implementation -> separate source/
-  oracle execution approval -> generation/selector adoption/relevant checks/runtime review.
+- Inventory/contract proposal6e870e2 independently APPROVED; imported4806757. Exact
+  frozen hashes/counts/coverage/source-size plan confirmed without executing recipes.
+  Authored tests/stubs/CLI registration b56fbba independently APPROVED, importeda2d96ac.
+  Observed focused3methods/5failures exit1 solely named bundle/holds/claims stubs;
+  separate rawlog+testSHA review APPROVED intended red. /tmp/fixture002-intended-red.log
+  SHA4ef41a49d3e6cd0dd3cc7e66ebcf5753d233d05c5564d590d96f34cca368b64c;
+  testsSHAd1f6184824857c2908944d10bf214844539ccbd51d4839280f9514b78aeb191c.
+  NEXT: implementation -> separate source/oracle execution approval -> generation/
+  selector adoption/relevant checks/runtime review. No candidate implementation executed.
+  Author owns focused CLI firstgreen/adoption; root owns one integrated selected Qt and
+  infrastructure/tooling run, avoiding duplicate native/full-tooling receipts.
 - Preserve bundle/holds original canonical hashes; claims projection removes ONLY name/
   check_lower_priority_corruption, exact six names/roles as brief. Keep setup[9], public
   PA revision and bind30–33, lower-priority-corruptB branch and all unique assertions.
   Only4pinnedseeds/source functions as inputs; six outputs never recipe inputs. No SQL/
   domain simulator, production imports/SQLite observations or golden/pin refresh.
+- Bounded helper /root/fixture_holds_author explicitly assigned ONLY holds.py after
+  approved red, /tmp/subathon-fixture002-holds task/FIXTURE-002-holds-author atb56fbba.
+  Main author retains bundle/claims/native patch/integration; separate reviewer unchanged.
+  Shared immutable bundle source framing API coordinated directly; no concurrent samepath
+  editing. All source execution remains gated.
 - Local pkg-config reports real Qt Core/Test/Sql6.12.0. No candidate/native execution yet.
   Require actual native PASS-ID crosswalk and retain account44 passive red. No unrelated
   native receipt replay. All current-head CI/reviews/discussions/normal merge still gated.
