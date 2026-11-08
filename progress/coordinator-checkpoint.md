@@ -57,7 +57,25 @@ rules/resolved discussions/normal merge. Do not invent feature-red for static wi
 or comment cleanup; new helper behavior would need appropriate test-first review.
 Keep existing meaningful assertions; no skip/weakening to fix failures. Use genuinely
 fresh preset cache to avoid retired flags. Root/author must coordinate relevant tooling
-once; no unrelated native replays. No gate or changed-code execution approved yet.
+once; no unrelated native replays. Revised exact proposal /tmp/testclean008-proposal.md independently APPROVED before
+edits. SHA5b8d87295a11a5707690acca2b64a7cef4c7abb59755fa2d03f32e85398ae2fd;
+planned patch5f55806c3e3a43e6224f1caaed4f6cb3832bda20aca451ab239019b7ba20bbdb;
+source plan182e4007e3c78c76a4d6b06e8000328920638457176d42868a8a282cb2da588c.
+Original proposal was NOT approved: C24/C34 were revised first for accurate intent.
+Author explicitly resumed to apply ONLY three owner merges/labels and37 exact one-line
+comments across14 CPPs (15 paths total). Every body/helper/88 name/52 regression assertion
+site/source path remains. Explicit allocator binding/isolated scope and Qt boundary
+reviewed. NEXT: exact committed source/config/comment execution approval BEFORE any
+configure/build/discovery/test; no such execution approved yet.
+
+Old actual passing baseline preserved without replay in /tmp/testclean008-old-native-
+baseline.json SHAa4f8558d63bcc8a54488f60a6fee113aff9c3a1d2a56467e89fb1d42ade6fa9b.
+Parent PR104 actual23/33/32 Passed IDs match source. Permissions log has real RUN/OK/
+filters; credit/numeric are NONVERBOSE, so do not claim old raw native/argv evidence for
+those two. Their old process/filter mapping is source/helper-derived; new run must
+capture actual filters. STOP on metadata audit failure; allow only standard skip
+recognizer and zero actual skips. Compare names/multiplicities/prefix map, not global
+source lexical order. Draft PR https://github.com/Kernol12/subathon-bot-ai/pull/105.
 
 ## Completed TESTCLEAN-007 and retained caveats
 
