@@ -7,6 +7,7 @@
 #include <drogon/drogon.h>
 #include <openssl/evp.h>
 #include <trantor/net/EventLoop.h>
+#include <trantor/utils/Logger.h>
 
 #include <array>
 #include <atomic>
@@ -38,6 +39,50 @@ constexpr std::size_t maxEvent = 65536, maxEvents = 128, maxEventBytes = 2 * 102
 constexpr std::size_t maxCommand = 4096, maxCommands = 512, maxPeers = 64, maxLeases = 64;
 constexpr std::size_t maxPayload = 1048576;
 using namespace std::chrono_literals;
+
+std::atomic<std::uint64_t> sdkDiagnosticBytes{0};
+
+// The SDK owns only this captureless callback, never an Events/Harness reference.
+// Nonblocking diagnostic transport failure is fixture failure, not native behavior red.
+void sdkDiagnosticOutput(const char *message, std::uint64_t length) noexcept {
+    if (length > maxEvent || (length != 0 && message == nullptr))
+        std::_Exit(91);
+    auto used = sdkDiagnosticBytes.load(std::memory_order_relaxed);
+    bool reserved = false;
+    for (unsigned attempt = 0; attempt < 8; ++attempt) {
+        if (used > maxEventBytes || length > maxEventBytes - used)
+            std::_Exit(91);
+        // The checked sum is at most 2 MiB, so neither addition nor the counter can wrap.
+        if (sdkDiagnosticBytes.compare_exchange_strong(used, used + length,
+                                                       std::memory_order_relaxed)) {
+            reserved = true;
+            break;
+        }
+    }
+    if (!reserved)
+        std::_Exit(91);
+    std::uint64_t offset = 0;
+    for (unsigned attempt = 0; offset < length && attempt < 64; ++attempt) {
+        const auto written = ::write(STDERR_FILENO, message + static_cast<std::size_t>(offset),
+                                     static_cast<std::size_t>(length - offset));
+        if (written > 0)
+            offset += static_cast<std::uint64_t>(written);
+        else if (written < 0 && errno == EINTR)
+            continue;
+        else
+            std::_Exit(91); // Includes EAGAIN: no blocking wait, truncation or stdout fallback.
+    }
+    if (offset != length)
+        std::_Exit(91);
+}
+
+void installSdkDiagnosticRoute() {
+    const auto flags = ::fcntl(STDERR_FILENO, F_GETFL);
+    if (flags < 0 || ::fcntl(STDERR_FILENO, F_SETFL, flags | O_NONBLOCK) < 0)
+        std::_Exit(91);
+    trantor::Logger::setOutputFunction(sdkDiagnosticOutput,
+                                       [] {}); // Direct write has no user buffer.
+}
 
 Json::Value event(const char *name) {
     Json::Value v(Json::objectValue);
@@ -1041,6 +1086,7 @@ int main(int argc, char **argv) {
     try {
         if (argc != 2 || std::strlen(argv[1]) > maxCommand)
             return 64;
+        installSdkDiagnosticRoute();
         Events events;
         if (std::string_view(argv[1]) == "--identity") {
             auto v = identity();
