@@ -4,9 +4,11 @@
 Only catalog framing is calculated. These finite records preserve the original
 reviewed synthetic DATA; no SQL or application policy is evaluated here.
 """
+import json
+
 from .catalogs import build as catalogs
 from .bundle import insert, physical_manifest, statement
-from .common import blob, integer, migration_payload, null, text, u64
+from .common import blob, integer, migration_payload, null, render as render_standard, text, u64
 
 
 OPAQUE = b"\xef\xbb\xbfa\x00\xff"
@@ -972,3 +974,26 @@ def build(seed_root):
         "history_pages": _history_pages(),
         "synthetic_data_meanings": _synthetic_data_meanings(),
     }
+
+
+
+def render(value):
+    """Retain the two original compact setup-row arrays; every other byte uses R1 layout."""
+    # Shared rendering first enforces R1's no-float/type/UTF-8 rules. This only
+    # preserves the legacy presentation of these two explicit named row arrays.
+    rendered = render_standard(value).decode("utf-8")
+    for name in ("pending", "timer"):
+        rows = value["arrangements"][name]["setup"]
+        expanded = json.dumps(rows, ensure_ascii=False, allow_nan=False, indent=2)
+        expanded = expanded.replace("\n", "\n      ")
+        compact = "[\n" + ",\n".join(
+            "        " + json.dumps(row, ensure_ascii=False, allow_nan=False,
+                                    separators=(",", ":")) for row in rows
+        ) + "\n      ]"
+        section = rendered.index(f'    "{name}": {{\n')
+        start = rendered.index('      "setup": ', section) + len('      "setup": ')
+        end = start + len(expanded)
+        if rendered[start:end] != expanded:
+            raise ValueError(f"Unexpected {name} setup presentation")
+        rendered = rendered[:start] + compact + rendered[end:]
+    return rendered.encode("utf-8")

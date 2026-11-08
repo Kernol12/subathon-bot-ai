@@ -72,7 +72,13 @@ filenames. Unselected and unrelated files remain byte-identical. There is no def
 in-place write, retry, multi-file crash-atomicity or process/resource-isolation promise.
 
 Serialization is UTF-8 with `ensure_ascii=False`, `indent=2`, explicit insertion
-order and one final newline. No NaN/Infinity/floats are permitted. Preserve all
+order and one final newline. The sole legacy-layout exception is holds: the two
+named arrangements.pending.setup and arrangements.timer.setup arrays retain each
+statement object as one compact JSON line at their existing indentation, with
+separators=(',', ':'). Shared rendering still validates all values first. Every
+other field/family retains the common layout. The CLI explicitly declares each
+family's serializer beside its recipe; the four other families retain common
+rendering. No NaN/Infinity/floats are permitted. Preserve all
 strings, embedded hex bytes, arrays, types and NULLs exactly; do not normalize text.
 Reference/account already have this formatting and must reproduce their original
 raw bytes as well as their canonical typed contents.
