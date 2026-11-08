@@ -5143,7 +5143,13 @@
         "planning_review": "passed",
         "static_foundation_review": "passed",
         "interface_stub_authored": "passed",
-        "interface_stub_review": "not_run"
+        "interface_stub_review": "passed",
+        "selector_test_review": "passed",
+        "selector_baseline": "observed_red",
+        "selector_source_review": "passed",
+        "selector_acceptance": "passed",
+        "selector_runtime_review": "passed",
+        "build_wiring_review": "not_run"
       },
       "evidence": [],
       "review": null,
@@ -5160,7 +5166,7 @@
       "brief": "docs/tasks/EPIC-008/API-012.md",
       "summary": "Independently review literal native control/fragment/Close and bounded lifecycle cases, then observe intended behavior red on working selected dependencies.",
       "notes": [
-        "Boundary r4 and seven literal examples independently approved after bounded corrections. Root integrated declarations and linkable Unimplemented stock stub; no Profile or native capability is fabricated. Static stock SDK review passed with actual Drogon C++20/Trantor C++14 and notice/loader limits. Two-file native test authoring follows. Exact tests/stub/build review, compile/link/maps, discovery and first intended native behavior red remain; no correction or body execution yet."
+        "Boundary r4/seven examples and exact stock Unimplemented header/stub independently approved. Selector has reviewed intended red, one-name implementation and actual7/7 green with separate runtime audit. Static SDK review records Drogon C++20/Trantor C++14 and notice/loader limits. Fresh author writes two native test files; root SDK/build wiring authored. Exact tests/build/admission, compile/link/maps/discovery and first intended native red remain. No profile correction or native body run."
       ]
     },
     {
@@ -17181,6 +17187,11 @@
       "date": "2026-11-08",
       "task": "APITEST-012",
       "note": "Exactboundaryr4 4f9f587e approvedbaf3a61d after r2fourfindings/r3B02oracle correction. Root integratescontract/header/linkablestockUnimplemented stub only. StaticSDKv3be45 approvedfecac359 withtarget20/14 distinction, notices/ABI/loader limitations; exacttests/build/probe/link/maps/body gates remain."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "APITEST-012",
+      "note": "Integratedboundaryb329 approvede043; authoredselectorece3186 approvedbdc237; actualunknown-selectorred1fail capturedbefore exactone-name210081/source7b6b. Actualfirstfullclassgreen7/7/0skip auditedf53a70d7; priorreview8count explicitlycorrected, no rerun. Sourcefiles/header/fixture/native bodies remain unexecuted; SDK/build lane draft only."
     }
   ]
 }

@@ -58,9 +58,18 @@ Root integrated docs/contracts/native-websocket-boundary-v1.md, exactformatted
 server/include/subathon/server/native_websocket_profile.hpp and linkable
 server/src/native_websocket_profile.cpp Unimplemented stockstub ONLY. No Profile/
 lease/nativecounters manufactured. These exact authored files/STUB still need different
-review before any body. No CMake wiring/build/test/header execution yet. Author
-completedproposalgate; explicitly resume for ONLYtwo owned testfiles afterrootcommit.
-Reviewer completedr4gate; explicitly resume for exactauthoredtests/stub/build review.
+review before any body. No CMake wiring/build/test/header execution yet. Integrated b32913ee5994d523577205a6a8cbf273cdfd6d8e independently approved:
+/tmp/apitest012-integrated-boundary-review.md SHA
+e043b656b94578cfb508f2d8c14e76fea57efff1ac1730421762a6fe02d5d289.
+Author worktree was cleanFFto b329, explicitly resumed ACTIVE writing ONLYtwo owned
+nativefixture files (uncommitted/unexecuted until handoff). Do not move that branch
+while authoractive. CLI--probePATH/-v/--list; probe--identity pending exactreview.
+Largepayload digest+length/smallhex, finite asyncstdout/commands proposed; directdeps
+Drogon::Drogon/Threads::Threads/OpenSSL::Crypto/CMAKE_DL_LIBS, noQt/GTest/sodium.
+Root SDK import/preset/serverstub wiring AUTHORED only, nativefixture registration
+pending finalsource/casebound/timeout. Separate exacttest/buildreview beforeconfigure.
+Primary reviewer completed selector/runtimegates; explicitly resume for exactauthored
+nativefixture/build/foundation review when ready.
 
 Staticstockfoundation APPROVED, not execution or completeABI, by separate
 /root/api_lifecycle_contract_review (completed): /tmp/apitest012-stock-foundation-review.md
@@ -79,11 +88,25 @@ versusactualdlopenclosure remain exactprobe compile/link/controlledloadedmaps/ru
 guards BEFORE featurebody. Qt notlinked bySDK; fulllicense redistribution remains.
 No DSO/app/probe/configure/build/native/SQL/provider call occurred in static review.
 
-NEXT: committedacceptedcontract/headerstub -> freshauthor two realnativefixture files;
-root owns selector test-first/build/admission wiring. Separate exacttests/stub/build/
-foundation review -> validselectorred/implementation ifneeded -> configure/build/
-passive discovery/actualcompiledprobe identity -> actual FIRST intended nativeprotocol
-red and independently classified unsupportedresource seam. No sourcecorrection yet.
+Selector subgate complete: testece3186 f1ca2bc8 approved
+/tmp/apitest012-selector-test-review.md SHAbdc237401127321ed3bec6075e26a4a5647e767d9cd5816f2b14925b93a5cd97.
+Actual firstfocusedred /tmp/apitest012-selector-first-red.{json,stdout,stderr}:rc1,
+realcmake-P unknownnative selector AssertionError/1fail, noSDK/setupfailure. Before
+implementation rootmoduleSHA0284133d. Exactone-name210081e1d7011973ef2b09e16796d261470ac575
+moduleSHAda7557273bf846c17cfb37de7896e69f39b82945bf2b16641eb28684f1754afe
+source/red approval /tmp/apitest012-selector-source-review.md SHA
+7b6b65c8b6774fc1bb349a122ae41c50448f7100959637e6a1b12afadc243fa9.
+Actual firstfullclassgreen /tmp/apitest012-selector-first-green.{json,stdout,stderr}
+rc0/0.104950979s,SEVENmethods/0skips (sixold+oneadded), independentruntimeapproval
+/tmp/apitest012-selector-runtime-review.md SHA
+f53a70d76bf83c6ff3ef8f67582d0912a087e00ee52f6b6cd6eb636d0f51565a.
+Earlierreviewer8count waswrong; explicitcorrection preservesoldreceipts/no replay.
+Tooling39 futureexpected, NOT observed. No native/SDK/configure/testfixture execution.
+
+NEXT: authorhandoff exacttwofixturefiles -> root controlledSDK loader/registration
+wiring + separate exacttest/stub/build/foundation review -> configure/build/passive
+registration/actualprobe identity -> actual FIRST intended nativeprotocol red and
+independently classified unsupportedresource seam. No sourcecorrection yet.
 Freeze assertions; only then separate fresh API012 implementation/source/resource/
 ABI/nativeCI/currentmerge gates. No owner decision/access blocker observed.
 
