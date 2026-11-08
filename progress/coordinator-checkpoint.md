@@ -55,6 +55,23 @@ presets, with ordinary GTest per-case discovery and no custom success/skip inver
 Guards only require nonempty sets: audit actual logs/discovery for all76 names/no skips.
 No new workflow is needed. Keep actual local versus hosted proof distinct.
 
+Selected SDK preparation is now complete (no project/vendor tests). Disposable prefix:
+/tmp/subathon-sdk-sodium-1.0.22-p6m9mza6/prefix. Existing archive SHA/2008529-byte size
+matched before extraction; configure/build/install all exit0 with existing static flags.
+Receipt /tmp/testclean007-sodium-sdk.json SHA256:
+ef8c648cc3e7fb61c0cd46baaa460714d0e381879d2db6ff36776484db2942e7.
+Static archive SHA d4e0808e2e2577f840922ea1e5b377ac3169d056979bc7242f0e9e9a44c651ba.
+This is SDK setup, NOT runtime identity/feature proof. Later use one fresh existing
+password preset with explicit combined password-hashing;session-resolution selection,
+expected76 separate GTest nodes plus3infra; avoid duplicate builds/runs.
+
+Exact proposal /tmp/testclean007-proposal.md is frozen, SHA256:
+2fb03ca79ca9586f222f77b068cb65d131cb7793b046ec8fecf8e3c6f8835731.
+Author clean at22d4c2e; reviewer is evaluating the exact proposal before any edit.
+All P1–P9/S1–S3/W1–W3 and retained security checks are enumerated there. Author prep
+session is idle; resume explicitly only after scope approval. No deletion or changed-test
+execution is approved yet. Draft PR https://github.com/Kernol12/subathon-bot-ai/pull/104.
+
 ## Completed final fixture adoption
 
 PR https://github.com/Kernol12/subathon-bot-ai/pull/103 normally merged22d4c2e at
