@@ -73,7 +73,32 @@ P1–P9/S1–S3/W1–W3 are authorized; all retained security/zero-work/ordering
 and all76 methods remain. The author was explicitly resumed to produce that bounded
 patch. NEXT: exact assertion/source/config review BEFORE configure/build/discovery/
 changed-test execution. SDK metadata/setup is verified, not runtime behavior.
-No changed-test execution or unlisted assertion removal is approved. Draft PR https://github.com/Kernol12/subathon-bot-ai/pull/104.
+Exact patch40bdb600 independently APPROVED for assertion/source/config execution;
+reviewer reconstructed the entire candidate byte-for-byte from only the approved
+proposal transform. All76 names and every unlisted assertion/session observer remain.
+Root import88767a6. Author then configured/built a genuinely fresh combined selection.
+
+SOLE native+infra run completed exit0 in4.233s. Raw /tmp/testclean007-ctest.log SHA:
+06d3d34d5dbe42706004853bb36504b0b326fdb531226236d772ff5cbca11858;
+JUnit /tmp/testclean007-ctest.xml. Runtime review is still PENDING, not approved from
+exit0 alone. Save /tmp/testclean007-discovery.json, discovery-review.json, runtime-receipt.json,
+metadata-audit-events.json and run-step/collect-runtime scripts. Two scratch audits
+failed: rejecting CMake's unchanged standard skip-recognition property, and equating
+source lexical order with GTest grouped discovery order. The author mistakenly
+launched the already-approved single run after the first audit stop. Preserve that
+procedural error and both failures; no native rerun or candidate/assertion edit occurred.
+Reviewer will validate ONLY exact standard skip recognition, zero actual skips, all76
+names/multiplicities/filters/labels/timeouts and real old/new per-suite identities.
+Do not weaken a baseline assertion or silently ignore/customize native result semantics.
+
+Old passing baseline preserved WITHOUT replay: parent PR103 identity run42477127033/
+job128720848725, exact10cdd06 (identity inputs equal main22d4c2e), actual37+39 names once
+and no skips/failures, including isolated initialization faults. Raw old job log
+/tmp/testclean007-old-identity-job.log SHA:
+863a27ee7a6c52d1cb84f9764e17c1f93be0c88c9bfd69db30e4d2b553a00858.
+Old identity-baseline.json SHA1fc1e9eba29eb30161435e8df8503c5b02957c41600cefc95ca788f316bb7fe2.
+Global old workflow order differs from combined selection; compare each suite and
+case multiplicities, not incidental global source order. Draft PR https://github.com/Kernol12/subathon-bot-ai/pull/104.
 
 ## Completed final fixture adoption
 
