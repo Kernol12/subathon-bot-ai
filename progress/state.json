@@ -67,8 +67,8 @@
         "FIXTURE-003"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718"
+        "§17",
+        "§18"
       ],
       "brief": "docs/tasks/EPIC-028.md",
       "summary": "10 bounded evidence/test-cleanup tasks plus three explicit fixture-generation prerequisites, with independent review and complete v0.45 release scope preserved.",
@@ -101,8 +101,8 @@
       "owner": "evidence_archive_author",
       "depends_on": [],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718"
+        "§17",
+        "§18"
       ],
       "brief": "docs/tasks/EPIC-028/EVIDENCE-001.md",
       "summary": "Archive detailed historical receipts under a verified tag and replace them in the working tree with a concise, evidence-based area summary.",
@@ -139,8 +139,8 @@
         "EVIDENCE-001"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718"
+        "§17",
+        "§18"
       ],
       "brief": "docs/tasks/EPIC-028/EVIDENCE-002.md",
       "summary": "Limit combined task notes to 500 characters and maintain a current test-strategy summary without per-task history.",
@@ -174,8 +174,8 @@
       "owner": "/root/schema_cleanup_author",
       "depends_on": [],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718"
+        "§17",
+        "§18"
       ],
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-001.md",
       "summary": "Replace validator harness-on-harness tests with real schema and valid/invalid example checks, subject to independent review of any superseded process contract.",
@@ -213,7 +213,7 @@
       "owner": "/root/environment_cleanup_author",
       "depends_on": [],
       "spec_refs": [
-        "\u00a717"
+        "§17"
       ],
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-002.md",
       "summary": "Remove environment executables that assert library or fixture facts instead of product behavior, preserving focused real tests.",
@@ -251,7 +251,7 @@
         "TESTCLEAN-002"
       ],
       "spec_refs": [
-        "\u00a717"
+        "§17"
       ],
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-003.md",
       "summary": "Reduce hand-maintained CMake/CTest registration while preserving test discovery, red baselines, and accurate CI labels.",
@@ -296,7 +296,7 @@
         "TESTCLEAN-003"
       ],
       "spec_refs": [
-        "\u00a717"
+        "§17"
       ],
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-004.md",
       "summary": "Share assertion/wait helpers and consolidate duplicated writer mechanics without removing unique repository behavior.",
@@ -337,13 +337,13 @@
         "TESTCLEAN-004"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718"
+        "§17",
+        "§18"
       ],
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-005.md",
       "summary": "Keep public/persisted contracts while replacing repeated private DDL, layout, message, and order pins with behavior assertions.",
       "notes": [
-        "Six manifest methods keep canonical framing/hash at independent owners1\u20137; every factory keeps full frozen prefixes. Public format/error/order/budget contracts, methods/rows/fixtures remain. Independent proposal/source/runtime/integration review approved; real Qt14/361methods/869results and infra3/tooling34 pass without warnings/skips, account44 passive. All19 checks passed before normal PR98 merge. Next: TESTCLEAN-006."
+        "Six manifest methods keep canonical framing/hash at independent owners1–7; every factory keeps full frozen prefixes. Public format/error/order/budget contracts, methods/rows/fixtures remain. Independent proposal/source/runtime/integration review approved; real Qt14/361methods/869results and infra3/tooling34 pass without warnings/skips, account44 passive. All19 checks passed before normal PR98 merge. Next: TESTCLEAN-006."
       ],
       "verification": {
         "cleanup_proposal_review": "passed",
@@ -379,7 +379,7 @@
         "TESTCLEAN-005"
       ],
       "spec_refs": [
-        "\u00a717"
+        "§17"
       ],
       "brief": "docs/tasks/EPIC-028/FIXTURE-001.md",
       "summary": "Build small independent catalog/framing recipes and focused CLI reproduction for reference/account, preserving exact frozen oracles and proposed account status.",
@@ -425,7 +425,7 @@
         "FIXTURE-001"
       ],
       "spec_refs": [
-        "\u00a717"
+        "§17"
       ],
       "brief": "docs/tasks/EPIC-028/FIXTURE-002.md",
       "summary": "Reproduce bundle/hold/claim oracles from independent recipes and preserve the exact six-selector corruption-priority crosswalk.",
@@ -472,7 +472,7 @@
         "FIXTURE-002"
       ],
       "spec_refs": [
-        "\u00a717"
+        "§17"
       ],
       "brief": "docs/tasks/EPIC-028/FIXTURE-003.md",
       "summary": "Reproduce all named service cases, formats, arrangements and snapshots without computing expected semantics through the product.",
@@ -523,7 +523,7 @@
         "FIXTURE-003"
       ],
       "spec_refs": [
-        "\u00a717"
+        "§17"
       ],
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-006.md",
       "summary": "Complete all-six generator adoption with retained coverage/provenance documentation and a check step in the existing SQL CI job.",
@@ -569,8 +569,8 @@
         "TESTCLEAN-003"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a717"
+        "§10",
+        "§17"
       ],
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-007.md",
       "summary": "Remove call-count/order pins while retaining failure, zeroization, and sensitive-allocation checks.",
@@ -615,7 +615,7 @@
         "TESTCLEAN-007"
       ],
       "spec_refs": [
-        "\u00a717"
+        "§17"
       ],
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-008.md",
       "summary": "Merge meaningful regression cases into owning suites and clean stale labels/comments without deleting behavior coverage.",
@@ -655,7 +655,7 @@
       "owner": "Baseline preparation",
       "depends_on": [],
       "spec_refs": [
-        "\u00a717"
+        "§17"
       ],
       "brief": "docs/tasks/BOOT-001.md",
       "summary": "Native scaffold, draft tests, instructions and offline progress tooling. No production features.",
@@ -685,8 +685,8 @@
         "BOOT-001"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a717"
+        "§2",
+        "§17"
       ],
       "brief": "docs/tasks/BOOT-002.md",
       "summary": "Configure/build/test the scaffold preset on Arch/KDE; record tool versions and resolve normal setup issues.",
@@ -717,7 +717,7 @@
         "BOOT-001"
       ],
       "spec_refs": [
-        "\u00a717"
+        "§17"
       ],
       "brief": "docs/tasks/BOOT-004.md",
       "summary": "One branch per executable task; agents may merge PRs after required CI and applicable quality/review gates.",
@@ -745,7 +745,7 @@
         "BOOT-004"
       ],
       "spec_refs": [
-        "\u00a717",
+        "§17",
         "DEV-02",
         "TEST-04"
       ],
@@ -775,7 +775,7 @@
         "BOOT-005"
       ],
       "spec_refs": [
-        "\u00a717",
+        "§17",
         "DEV-02",
         "DEV-04"
       ],
@@ -805,9 +805,9 @@
         "BOOT-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a74",
-        "\u00a718"
+        "§3",
+        "§4",
+        "§18"
       ],
       "brief": "docs/tasks/CONTRACT-001.md",
       "summary": "Review valid examples and define invalid-input/overflow behavior before implementation.",
@@ -833,8 +833,8 @@
         "CONTRACT-001"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718",
+        "§17",
+        "§18",
         "TEST-04"
       ],
       "brief": "docs/tasks/TEST-001.md",
@@ -937,9 +937,9 @@
         "TEST-002"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a74",
-        "\u00a718"
+        "§3",
+        "§4",
+        "§18"
       ],
       "brief": "docs/tasks/IMPL-001.md",
       "summary": "Implement only the reviewed contract, preserve tests and record passing acceptance plus independent review.",
@@ -981,7 +981,7 @@
         "BOOT-002"
       ],
       "spec_refs": [
-        "\u00a72"
+        "§2"
       ],
       "brief": "docs/tasks/BOOT-003.md",
       "summary": "Run Qt Test event-loop probe; record actual Qt/compiler/platform versions. This is not QML/OBS verification.",
@@ -1018,9 +1018,9 @@
         "CONTRACT-001"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a73",
-        "\u00a74"
+        "§2",
+        "§3",
+        "§4"
       ],
       "brief": "docs/tasks/CONTRACT-002.md",
       "summary": "Separate receipts, contributions, application plans, actual effects and delivery jobs; define controlled clock and writer ownership.",
@@ -1064,7 +1064,7 @@
         "API-01",
         "API-02",
         "API-03",
-        "\u00a711"
+        "§11"
       ],
       "brief": "docs/tasks/CONTRACT-003.md",
       "summary": "OpenAPI 3.1/WS/schema/capability contracts with exact numeric strings and explicit shared-file ownership.",
@@ -1089,8 +1089,8 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a73",
+        "§2",
+        "§3",
         "DB-01",
         "SERVER-01"
       ],
@@ -1135,8 +1135,8 @@
         "API-02",
         "API-03",
         "NUM-04",
-        "\u00a710",
-        "\u00a711"
+        "§10",
+        "§11"
       ],
       "brief": "docs/tasks/CONTRACTPLAN-001.md",
       "summary": "Documentation-only decomposition of common, HTTP, WS and scene contracts with reviewed consumer dependencies; no wire behavior finalized.",
@@ -1174,7 +1174,7 @@
         "CONTRACTPLAN-001"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "API-01",
         "API-03",
         "UI-01",
@@ -1230,8 +1230,8 @@
         "API-02",
         "API-03",
         "NUM-04",
-        "\u00a72",
-        "\u00a710"
+        "§2",
+        "§10"
       ],
       "brief": "docs/tasks/CONTRACT-005.md",
       "summary": "Versioned contract and independent examples before clients/generated code; parent CONTRACT-003 retains full integration scope.",
@@ -1274,9 +1274,9 @@
         "API-01",
         "API-02",
         "API-03",
-        "\u00a72",
-        "\u00a710",
-        "\u00a711"
+        "§2",
+        "§10",
+        "§11"
       ],
       "brief": "docs/tasks/CONTRACT-006.md",
       "summary": "Versioned contract and independent examples before clients/generated code; parent CONTRACT-003 retains full integration scope.",
@@ -1304,9 +1304,9 @@
         "API-01",
         "API-02",
         "API-03",
-        "\u00a72",
-        "\u00a710",
-        "\u00a711"
+        "§2",
+        "§10",
+        "§11"
       ],
       "brief": "docs/tasks/CONTRACT-007.md",
       "summary": "Versioned contract and independent examples before clients/generated code; parent CONTRACT-003 retains full integration scope.",
@@ -1339,7 +1339,7 @@
         "UI-01",
         "UI-02",
         "UI-04",
-        "\u00a711"
+        "§11"
       ],
       "brief": "docs/tasks/CONTRACT-008.md",
       "summary": "Versioned contract and independent examples before clients/generated code; parent CONTRACT-003 retains full integration scope.",
@@ -1362,7 +1362,7 @@
         "CONTRACTPLAN-002"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "API-01",
         "API-03",
         "UI-01",
@@ -1416,10 +1416,10 @@
         "CONTRACTPLAN-002"
       ],
       "spec_refs": [
-        "\u00a711",
-        "\u00a74",
-        "\u00a76",
-        "\u00a78",
+        "§11",
+        "§4",
+        "§6",
+        "§8",
         "API-03",
         "NUM-04",
         "UI-04",
@@ -1447,7 +1447,7 @@
         "CONTRACTPLAN-002"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "MEDIA-01",
         "MEDIA-03",
         "MEDIA-04",
@@ -1495,7 +1495,7 @@
         "CONTRACTPLAN-002"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "API-01",
         "API-03",
         "UI-02",
@@ -1594,7 +1594,7 @@
         "BOOT-001"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/SPIKE-003.md",
       "summary": "Check Streamlabs/TipeeeStream protocol versions and C++ adapter compatibility; do not substitute bare WebSockets.",
@@ -1614,8 +1614,8 @@
         "BOOT-003"
       ],
       "spec_refs": [
-        "\u00a711",
-        "\u00a719"
+        "§11",
+        "§19"
       ],
       "brief": "docs/tasks/SPIKE-004.md",
       "summary": "Record actual Wayland/KDE/Windows/OBS/codec behavior and unresolved transparency/output issues.",
@@ -1652,8 +1652,8 @@
         "IMPL-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a74",
+        "§3",
+        "§4",
         "TEST-04"
       ],
       "brief": "docs/tasks/EPIC-001.md",
@@ -1677,7 +1677,7 @@
         "CONTRACT-002"
       ],
       "spec_refs": [
-        "\u00a73",
+        "§3",
         "NUM-01",
         "NUM-02",
         "NUM-04"
@@ -1720,7 +1720,7 @@
         "CORETEST-001"
       ],
       "spec_refs": [
-        "\u00a73",
+        "§3",
         "NUM-01",
         "NUM-02",
         "NUM-04"
@@ -1768,7 +1768,7 @@
         "IMPL-001"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-01",
         "TIMER-02"
       ],
@@ -1813,7 +1813,7 @@
         "CORETEST-002"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-01",
         "TIMER-02"
       ],
@@ -1856,7 +1856,7 @@
         "CORE-002"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-03",
         "TIMER-05"
       ],
@@ -1899,7 +1899,7 @@
         "CORETEST-003"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-03",
         "TIMER-05"
       ],
@@ -1942,7 +1942,7 @@
         "CORE-003"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-07"
       ],
       "brief": "docs/tasks/EPIC-001/CORE-004.md",
@@ -1966,7 +1966,7 @@
         "CORETEST-004"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-07"
       ],
       "brief": "docs/tasks/EPIC-001/CORE-004.md",
@@ -1990,7 +1990,7 @@
         "CORE-002"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "NUM-03"
       ],
       "brief": "docs/tasks/EPIC-001/CORE-005.md",
@@ -2034,7 +2034,7 @@
         "CORETEST-005"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "NUM-03"
       ],
       "brief": "docs/tasks/EPIC-001/CORE-005.md",
@@ -2077,7 +2077,7 @@
         "CORE-004"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-04",
         "TIMER-08",
         "TIMER-09"
@@ -2104,7 +2104,7 @@
         "CORETEST-006"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-04",
         "TIMER-08",
         "TIMER-09"
@@ -2130,7 +2130,7 @@
         "CORE-006"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-06",
         "TIMER-10"
       ],
@@ -2156,7 +2156,7 @@
         "CORETEST-007"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-06",
         "TIMER-10"
       ],
@@ -2180,7 +2180,7 @@
         "CORE-005"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-01"
       ],
       "brief": "docs/tasks/EPIC-001/CORE-008.md",
@@ -2249,7 +2249,7 @@
         "CORETEST-008"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-01"
       ],
       "brief": "docs/tasks/EPIC-001/CORE-008.md",
@@ -2304,8 +2304,8 @@
         "ACCTCONTRACT-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75",
+        "§3",
+        "§5",
         "NUM-03"
       ],
       "brief": "docs/tasks/EPIC-002.md",
@@ -2330,8 +2330,8 @@
         "CORE-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a714"
+        "§3",
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-001.",
@@ -2372,8 +2372,8 @@
         "ACCTTEST-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a714"
+        "§3",
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-001.md",
       "summary": "Scope provider IDs by origin/connection/type as required and keep source timestamps distinct from server arrival/context.",
@@ -2416,8 +2416,8 @@
         "ACCT-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75"
+        "§3",
+        "§5"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-002.",
@@ -2458,8 +2458,8 @@
         "ACCTTEST-002"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75"
+        "§3",
+        "§5"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-002.md",
       "summary": "Hold multiple unresolved conditions simultaneously; accepting paused input cannot bypass missing evidence or valuation.",
@@ -2501,9 +2501,9 @@
         "CORE-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a76",
-        "\u00a77"
+        "§3",
+        "§6",
+        "§7"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-003.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-003.",
@@ -2544,9 +2544,9 @@
         "ACCTTEST-003"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a76",
-        "\u00a77"
+        "§3",
+        "§6",
+        "§7"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-003.md",
       "summary": "Capture arrival configuration, modifier context and requested effect details with original event/contribution/rate references.",
@@ -2589,9 +2589,9 @@
         "CORE-005"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a74",
-        "\u00a75",
+        "§3",
+        "§4",
+        "§5",
         "NUM-02",
         "NUM-04",
         "DB-01"
@@ -2640,8 +2640,8 @@
         "STORAGE-017"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75"
+        "§3",
+        "§5"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-004.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-004.",
@@ -2735,8 +2735,8 @@
         "ACCTTEST-004"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75"
+        "§3",
+        "§5"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-004.md",
       "summary": "Commit application status, actual effects, state and delivery-job records atomically; failed transactions leave no partial award.",
@@ -2785,7 +2785,7 @@
         "ACCT-004"
       ],
       "spec_refs": [
-        "\u00a75"
+        "§5"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-005.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCT-005.",
@@ -2808,7 +2808,7 @@
         "ACCTTEST-005"
       ],
       "spec_refs": [
-        "\u00a75"
+        "§5"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-005.md",
       "summary": "Preview accept/reject individually and in batches with actor/options/audit and arrival-context preservation.",
@@ -2831,8 +2831,8 @@
         "CORE-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a78",
+        "§3",
+        "§8",
         "NUM-03"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-006.md",
@@ -2857,8 +2857,8 @@
         "ACCTTEST-006"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a78",
+        "§3",
+        "§8",
         "NUM-03"
       ],
       "brief": "docs/tasks/EPIC-002/ACCT-006.md",
@@ -2883,8 +2883,8 @@
         "MILESTONE-001"
       ],
       "spec_refs": [
-        "\u00a74",
-        "\u00a78",
+        "§4",
+        "§8",
         "NUM-03",
         "MILE-03"
       ],
@@ -2911,8 +2911,8 @@
         "ACCTTEST-007"
       ],
       "spec_refs": [
-        "\u00a74",
-        "\u00a78",
+        "§4",
+        "§8",
         "NUM-03",
         "MILE-03"
       ],
@@ -2948,7 +2948,7 @@
         "RULES-006"
       ],
       "spec_refs": [
-        "\u00a76"
+        "§6"
       ],
       "brief": "docs/tasks/EPIC-003.md",
       "summary": "5 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -2972,7 +2972,7 @@
         "CORE-001"
       ],
       "spec_refs": [
-        "\u00a76"
+        "§6"
       ],
       "brief": "docs/tasks/EPIC-003/RULES-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RULES-001.",
@@ -2996,7 +2996,7 @@
         "RULESTEST-001"
       ],
       "spec_refs": [
-        "\u00a76"
+        "§6"
       ],
       "brief": "docs/tasks/EPIC-003/RULES-001.md",
       "summary": "Validate definitions and immutable configuration versions with enabled state, priority, ordered actions and execution limits.",
@@ -3018,7 +3018,7 @@
         "RULES-001"
       ],
       "spec_refs": [
-        "\u00a76",
+        "§6",
         "RULE-01",
         "RULE-02"
       ],
@@ -3043,7 +3043,7 @@
         "RULESTEST-002"
       ],
       "spec_refs": [
-        "\u00a76",
+        "§6",
         "RULE-01",
         "RULE-02"
       ],
@@ -3068,8 +3068,8 @@
         "ACCESS-003"
       ],
       "spec_refs": [
-        "\u00a76",
-        "\u00a710"
+        "§6",
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-003/RULES-003.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RULES-003.",
@@ -3093,8 +3093,8 @@
         "RULESTEST-003"
       ],
       "spec_refs": [
-        "\u00a76",
-        "\u00a710"
+        "§6",
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-003/RULES-003.md",
       "summary": "Plan actions in order with an inspectable explanation; authorization to edit automation cannot grant undelegated operations.",
@@ -3116,7 +3116,7 @@
         "RULES-003"
       ],
       "spec_refs": [
-        "\u00a76",
+        "§6",
         "RULE-03"
       ],
       "brief": "docs/tasks/EPIC-003/RULES-004.md",
@@ -3140,7 +3140,7 @@
         "RULESTEST-004"
       ],
       "spec_refs": [
-        "\u00a76",
+        "§6",
         "RULE-03"
       ],
       "brief": "docs/tasks/EPIC-003/RULES-004.md",
@@ -3166,7 +3166,7 @@
         "MILESTONE-001"
       ],
       "spec_refs": [
-        "\u00a76",
+        "§6",
         "DEV-04",
         "SETUP-01"
       ],
@@ -3194,7 +3194,7 @@
         "RULESTEST-005"
       ],
       "spec_refs": [
-        "\u00a76",
+        "§6",
         "DEV-04",
         "SETUP-01"
       ],
@@ -3230,7 +3230,7 @@
         "MODIFIER-006"
       ],
       "spec_refs": [
-        "\u00a77"
+        "§7"
       ],
       "brief": "docs/tasks/EPIC-004.md",
       "summary": "6 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -3254,7 +3254,7 @@
         "CORE-001"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-03"
       ],
       "brief": "docs/tasks/EPIC-004/MODIFIER-001.md",
@@ -3279,7 +3279,7 @@
         "MODIFIERTEST-001"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-03"
       ],
       "brief": "docs/tasks/EPIC-004/MODIFIER-001.md",
@@ -3303,7 +3303,7 @@
         "CORE-006"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-02",
         "TIMER-09"
       ],
@@ -3329,7 +3329,7 @@
         "MODIFIERTEST-002"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-02",
         "TIMER-09"
       ],
@@ -3354,7 +3354,7 @@
         "CORE-001"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-01",
         "NUM-02"
       ],
@@ -3380,7 +3380,7 @@
         "MODIFIERTEST-003"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-01",
         "NUM-02"
       ],
@@ -3406,7 +3406,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-04"
       ],
       "brief": "docs/tasks/EPIC-004/MODIFIER-004.md",
@@ -3432,7 +3432,7 @@
         "MODIFIERTEST-004"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-04"
       ],
       "brief": "docs/tasks/EPIC-004/MODIFIER-004.md",
@@ -3456,8 +3456,8 @@
         "ACCT-003"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a77"
+        "§3",
+        "§7"
       ],
       "brief": "docs/tasks/EPIC-004/MODIFIER-005.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before MODIFIER-005.",
@@ -3481,8 +3481,8 @@
         "MODIFIERTEST-005"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a77"
+        "§3",
+        "§7"
       ],
       "brief": "docs/tasks/EPIC-004/MODIFIER-005.md",
       "summary": "Pending input retains its arrival-time bonus after expiry or edits; a 60-second award with x2 requests 120 seconds before the timer cap.",
@@ -3506,8 +3506,8 @@
         "STORAGE-003"
       ],
       "spec_refs": [
-        "\u00a74",
-        "\u00a77",
+        "§4",
+        "§7",
         "TIMER-09"
       ],
       "brief": "docs/tasks/EPIC-004/MODIFIER-006.md",
@@ -3533,8 +3533,8 @@
         "MODIFIERTEST-006"
       ],
       "spec_refs": [
-        "\u00a74",
-        "\u00a77",
+        "§4",
+        "§7",
         "TIMER-09"
       ],
       "brief": "docs/tasks/EPIC-004/MODIFIER-006.md",
@@ -3573,7 +3573,7 @@
         "MILESTONE-008"
       ],
       "spec_refs": [
-        "\u00a78"
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-005.md",
       "summary": "8 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -3597,7 +3597,7 @@
         "CORE-001"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-01"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-001.md",
@@ -3666,7 +3666,7 @@
         "MILESTONETEST-001"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-01"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-001.md",
@@ -3710,7 +3710,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-02"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-002.md",
@@ -3735,7 +3735,7 @@
         "MILESTONETEST-002"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-02"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-002.md",
@@ -3759,8 +3759,8 @@
         "STORAGE-002"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a78"
+        "§3",
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-003.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before MILESTONE-003.",
@@ -3784,8 +3784,8 @@
         "MILESTONETEST-003"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a78"
+        "§3",
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-003.md",
       "summary": "Persist queued/sending/delivered/failed/outcome-unknown states and captured sender/action definitions.",
@@ -3808,7 +3808,7 @@
         "MILESTONE-003"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-01",
         "MILE-08"
       ],
@@ -3834,7 +3834,7 @@
         "MILESTONETEST-004"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-01",
         "MILE-08"
       ],
@@ -3858,8 +3858,8 @@
         "MILESTONE-004"
       ],
       "spec_refs": [
-        "\u00a75",
-        "\u00a78",
+        "§5",
+        "§8",
         "MILE-03"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-005.md",
@@ -3883,8 +3883,8 @@
         "MILESTONETEST-005"
       ],
       "spec_refs": [
-        "\u00a75",
-        "\u00a78",
+        "§5",
+        "§8",
         "MILE-03"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-005.md",
@@ -3908,7 +3908,7 @@
         "MILESTONE-002"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-04",
         "MILE-05"
       ],
@@ -3934,7 +3934,7 @@
         "MILESTONETEST-006"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-04",
         "MILE-05"
       ],
@@ -3959,7 +3959,7 @@
         "MILESTONE-005"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-06"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-007.md",
@@ -3984,7 +3984,7 @@
         "MILESTONETEST-007"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-06"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-007.md",
@@ -4008,7 +4008,7 @@
         "MILESTONE-006"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-07"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-008.md",
@@ -4033,7 +4033,7 @@
         "MILESTONETEST-008"
       ],
       "spec_refs": [
-        "\u00a78",
+        "§8",
         "MILE-07"
       ],
       "brief": "docs/tasks/EPIC-005/MILESTONE-008.md",
@@ -4073,7 +4073,7 @@
         "ACCESS-008"
       ],
       "spec_refs": [
-        "\u00a710"
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-006.md",
       "summary": "Original release work packages plus explicit ADR-0010 session prerequisite contracts and test-first executable slices; all original scope remains.",
@@ -4098,7 +4098,7 @@
         "STORAGE-020"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-04",
         "AUTH-08"
       ],
@@ -4126,7 +4126,7 @@
         "STORAGE-020"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-04",
         "AUTH-08"
       ],
@@ -4150,7 +4150,7 @@
         "CONTRACTPLAN-001"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-03",
         "AUTH-06"
       ],
@@ -4223,7 +4223,7 @@
         "ACCESSTEST-002"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-03",
         "AUTH-06"
       ],
@@ -4266,7 +4266,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-07"
       ],
       "brief": "docs/tasks/EPIC-006/ACCESS-003.md",
@@ -4290,7 +4290,7 @@
         "ACCESSTEST-003"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-07"
       ],
       "brief": "docs/tasks/EPIC-006/ACCESS-003.md",
@@ -4316,7 +4316,7 @@
         "ACCESS-008"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-01",
         "AUTH-15"
       ],
@@ -4345,7 +4345,7 @@
         "ACCESS-008"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-01",
         "AUTH-15"
       ],
@@ -4374,7 +4374,7 @@
         "SESSION-009"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-02",
         "AUTH-10"
       ],
@@ -4404,7 +4404,7 @@
         "SESSION-009"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-02",
         "AUTH-10"
       ],
@@ -4430,7 +4430,7 @@
         "ACCESS-005"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-03",
         "AUTH-09"
       ],
@@ -4456,7 +4456,7 @@
         "ACCESSTEST-006"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-03",
         "AUTH-09"
       ],
@@ -4480,7 +4480,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a710"
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-006/ACCESS-007.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCESS-007.",
@@ -4503,7 +4503,7 @@
         "ACCESSTEST-007"
       ],
       "spec_refs": [
-        "\u00a710"
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-006/ACCESS-007.md",
       "summary": "Support aliases/arguments/actions/responses with per-user and global cooldowns and all/any combinations of Twitch categories.",
@@ -4553,8 +4553,8 @@
         "SESSION-011"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a716"
+        "§10",
+        "§16"
       ],
       "brief": "docs/tasks/EPIC-007.md",
       "summary": "Original release work packages plus explicit ADR-0010/0011 session and ingress prerequisites; full scope remains.",
@@ -4576,7 +4576,7 @@
         "CONTRACTPLAN-001"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-11"
       ],
       "brief": "docs/tasks/EPIC-007/SESSION-001.md",
@@ -4656,7 +4656,7 @@
         "SESSIONTEST-001"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-11"
       ],
       "brief": "docs/tasks/EPIC-007/SESSION-001.md",
@@ -4706,7 +4706,7 @@
         "ACCESS-008"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-05",
         "AUTH-12"
       ],
@@ -4737,7 +4737,7 @@
         "ACCESS-008"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-05",
         "AUTH-12"
       ],
@@ -4766,7 +4766,7 @@
         "DEPLOYMENT-007"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-12"
       ],
       "brief": "docs/tasks/EPIC-007/SESSION-003.md",
@@ -4792,7 +4792,7 @@
         "DEPLOYMENT-007"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-12"
       ],
       "brief": "docs/tasks/EPIC-007/SESSION-003.md",
@@ -4816,7 +4816,7 @@
         "BOOT-003"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-13",
         "PACKAGE-03"
       ],
@@ -4842,7 +4842,7 @@
         "SESSIONTEST-004"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-13",
         "PACKAGE-03"
       ],
@@ -4867,7 +4867,7 @@
         "BOOT-003"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-14"
       ],
       "brief": "docs/tasks/EPIC-007/SESSION-005.md",
@@ -4892,7 +4892,7 @@
         "SESSIONTEST-005"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-14"
       ],
       "brief": "docs/tasks/EPIC-007/SESSION-005.md",
@@ -4916,7 +4916,7 @@
         "STORAGE-002"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "CRYPTO-01",
         "AUTH-15"
       ],
@@ -4943,7 +4943,7 @@
         "SESSIONTEST-006"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "CRYPTO-01",
         "AUTH-15"
       ],
@@ -4968,7 +4968,7 @@
         "SESSION-006"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "CRYPTO-03"
       ],
       "brief": "docs/tasks/EPIC-007/SESSION-007.md",
@@ -4992,7 +4992,7 @@
         "SESSIONTEST-007"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "CRYPTO-03"
       ],
       "brief": "docs/tasks/EPIC-007/SESSION-007.md",
@@ -5043,8 +5043,8 @@
         "API-012"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a73"
+        "§2",
+        "§3"
       ],
       "brief": "docs/tasks/EPIC-008.md",
       "summary": "12 bounded production packages and three contract gates, with separate reviewed/red baselines and full lifecycle/transport/integration scope retained.",
@@ -5059,11 +5059,11 @@
     {
       "module": "Server/API",
       "spec_refs": [
-        "\u00a72",
-        "\u00a710",
-        "\u00a716",
-        "\u00a717",
-        "\u00a718",
+        "§2",
+        "§10",
+        "§16",
+        "§17",
+        "§18",
         "SERVER-01",
         "API-01",
         "API-02",
@@ -5118,11 +5118,11 @@
     {
       "module": "Server/API",
       "spec_refs": [
-        "\u00a72",
-        "\u00a710",
-        "\u00a716",
-        "\u00a717",
-        "\u00a718",
+        "§2",
+        "§10",
+        "§16",
+        "§17",
+        "§18",
         "SERVER-01",
         "API-01",
         "API-02",
@@ -5135,11 +5135,11 @@
       "verification": {
         "claim": "passed",
         "boundary_review": "passed",
-        "test_review": "not_run",
-        "foundation_admission": "not_run",
-        "native_build": "not_run",
-        "passive_discovery": "not_run",
-        "baseline": "not_run",
+        "test_review": "passed",
+        "foundation_admission": "passed",
+        "native_build": "passed",
+        "passive_discovery": "passed",
+        "baseline": "observed_red",
         "planning_review": "passed",
         "static_foundation_review": "passed",
         "interface_stub_authored": "passed",
@@ -5149,11 +5149,12 @@
         "selector_source_review": "passed",
         "selector_acceptance": "passed",
         "selector_runtime_review": "passed",
-        "build_wiring_review": "not_run",
+        "build_wiring_review": "passed",
         "tests_authored": "passed",
         "static_build_wiring_review": "passed",
-        "fixture_resource_review": "not_run",
-        "ws22_plan_review": "passed"
+        "fixture_resource_review": "passed",
+        "ws22_plan_review": "passed",
+        "runtime_review": "not_run"
       },
       "evidence": [],
       "review": null,
@@ -5170,17 +5171,17 @@
       "brief": "docs/tasks/EPIC-008/API-012.md",
       "summary": "Independently review literal native control/fragment/Close and bounded lifecycle cases, then observe intended behavior red on working selected dependencies.",
       "notes": [
-        "Corrected native handoff authors38 methods/72 literal table rows/max102 child scenarios; no native body run. Original review findings/valid oracles preserved; exact corrected source and3120s watchdog await independent re-review. Boundary/stub/SDK wiring, closing clarification, selector7/7 and WS22 observation plan approved. Compile/link/maps/discovery, intended native red and current CI/normal merge remain. Stop after this baseline; no API-012 implementation."
+        "Reviewed38 methods/72 literal rows compile and discover on exact stock SDK. Socket-enabled run reaches WS02 contaminated-Pong red; profile/resource cases remain typed Unimplemented. First compile and sandbox failures preserved as setup, not red. SDK stdout diagnostic correction and independent runtime review, CI, PR and normal merge remain. Stop after this baseline; API-012 stays planned."
       ]
     },
     {
       "module": "Server/API",
       "spec_refs": [
-        "\u00a72",
-        "\u00a710",
-        "\u00a716",
-        "\u00a717",
-        "\u00a718",
+        "§2",
+        "§10",
+        "§16",
+        "§17",
+        "§18",
         "SERVER-01",
         "API-01",
         "API-02",
@@ -5225,7 +5226,7 @@
         "SESSIONCONTRACT-004"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "SERVER-01"
       ],
       "brief": "docs/tasks/EPIC-008/API-001.md",
@@ -5255,7 +5256,7 @@
         "SESSIONCONTRACT-004"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "SERVER-01"
       ],
       "brief": "docs/tasks/EPIC-008/API-001.md",
@@ -5281,7 +5282,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "API-01",
         "API-03"
       ],
@@ -5310,7 +5311,7 @@
         "APITEST-002"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "API-01",
         "API-03"
       ],
@@ -5336,7 +5337,7 @@
         "CONTRACT-007"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "API-01"
       ],
       "brief": "docs/tasks/EPIC-008/API-003.md",
@@ -5361,7 +5362,7 @@
         "CONTRACT-007"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "API-01"
       ],
       "brief": "docs/tasks/EPIC-008/API-003.md",
@@ -5384,7 +5385,7 @@
         "API-002"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "API-02",
         "WEB-01"
       ],
@@ -5409,7 +5410,7 @@
         "APITEST-004"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "API-02",
         "WEB-01"
       ],
@@ -5434,7 +5435,7 @@
         "CONTRACT-005"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "AUTH-15",
         "INTEGRATION-01"
       ],
@@ -5461,7 +5462,7 @@
         "APITEST-005"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "AUTH-15",
         "INTEGRATION-01"
       ],
@@ -5487,7 +5488,7 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -5513,7 +5514,7 @@
         "APITEST-006"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -5538,7 +5539,7 @@
         "RULES-005"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "SETUP-01"
       ],
       "brief": "docs/tasks/EPIC-008/API-007.md",
@@ -5563,7 +5564,7 @@
         "APITEST-007"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "SETUP-01"
       ],
       "brief": "docs/tasks/EPIC-008/API-007.md",
@@ -5595,13 +5596,13 @@
         "STORAGE-002"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718",
-        "\u00a72",
-        "\u00a73",
-        "\u00a74",
-        "\u00a76",
-        "\u00a710",
+        "§17",
+        "§18",
+        "§2",
+        "§3",
+        "§4",
+        "§6",
+        "§10",
         "API-01",
         "API-02",
         "API-03",
@@ -5637,13 +5638,13 @@
         "APITEST-008"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718",
-        "\u00a72",
-        "\u00a73",
-        "\u00a74",
-        "\u00a76",
-        "\u00a710",
+        "§17",
+        "§18",
+        "§2",
+        "§3",
+        "§4",
+        "§6",
+        "§10",
         "API-01",
         "API-02",
         "API-03",
@@ -5680,12 +5681,12 @@
         "STORAGE-003"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a73",
-        "\u00a74",
-        "\u00a75",
-        "\u00a77",
-        "\u00a78"
+        "§2",
+        "§3",
+        "§4",
+        "§5",
+        "§7",
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-008/API-009.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-009.",
@@ -5720,12 +5721,12 @@
         "STORAGE-003"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a73",
-        "\u00a74",
-        "\u00a75",
-        "\u00a77",
-        "\u00a78"
+        "§2",
+        "§3",
+        "§4",
+        "§5",
+        "§7",
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-008/API-009.md",
       "summary": "Wire captured-context plans, independent eligibility holds, current cap/debt, actual effects and sequential jobs through one transaction path.",
@@ -5790,7 +5791,7 @@
         "STORAGE-020"
       ],
       "spec_refs": [
-        "\u00a716"
+        "§16"
       ],
       "brief": "docs/tasks/EPIC-009.md",
       "summary": "Original release work packages plus explicit ADR-0010 session prerequisite contracts and test-first executable slices; all original scope remains.",
@@ -5814,7 +5815,7 @@
         "BOOT-003"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "DB-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-001.md",
@@ -5860,7 +5861,7 @@
         "STORAGETEST-001"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "DB-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-001.md",
@@ -5909,8 +5910,8 @@
         "CONTRACT-002"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a73",
+        "§2",
+        "§3",
         "DB-01",
         "SERVER-01"
       ],
@@ -5959,8 +5960,8 @@
         "STORAGETEST-010"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a73",
+        "§2",
+        "§3",
         "DB-01",
         "SERVER-01"
       ],
@@ -6003,7 +6004,7 @@
         "STORAGE-010"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DB-01",
         "OPS-02"
       ],
@@ -6056,7 +6057,7 @@
         "STORAGETEST-011"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DB-01",
         "OPS-02"
       ],
@@ -6105,9 +6106,9 @@
         "CONTRACT-002"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a76",
-        "\u00a77",
+        "§3",
+        "§6",
+        "§7",
         "DB-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-012.md",
@@ -6161,9 +6162,9 @@
         "STORAGETEST-012"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a76",
-        "\u00a77",
+        "§3",
+        "§6",
+        "§7",
         "DB-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-012.md",
@@ -6206,7 +6207,7 @@
         "ACCT-001"
       ],
       "spec_refs": [
-        "\u00a73",
+        "§3",
         "DB-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-013.md",
@@ -6261,7 +6262,7 @@
         "STORAGETEST-013"
       ],
       "spec_refs": [
-        "\u00a73",
+        "§3",
         "DB-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-013.md",
@@ -6309,7 +6310,7 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a73",
+        "§3",
         "DB-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-014.md",
@@ -6364,7 +6365,7 @@
         "STORAGETEST-014"
       ],
       "spec_refs": [
-        "\u00a73",
+        "§3",
         "DB-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-014.md",
@@ -6411,9 +6412,9 @@
         "ACCT-003"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a76",
-        "\u00a77",
+        "§3",
+        "§6",
+        "§7",
         "NUM-01",
         "DB-01"
       ],
@@ -6458,7 +6459,7 @@
         "author": "/root/contribution_implementer (logical/API/feature tests); /root/plan_fixture_author (independent literal fixtures/old-writer green); /root (physical schema/shared build/CI)",
         "reviewer": "/root/contribution_reviewer",
         "outcome": "approved",
-        "baseline": "Actual full8b537cdb/rootbcd08e6 approved frozen feature0f8/JSON64eb/helpera8d/header4634/stube989/logical3af/physical99bf/Qt1ef/workflow4d8 BEFORE official41494786280 at clean aa6907b (newgreen4\u21926PASS0skip39ms/exact29/build82/old135/pins/all11SUCCESS), THEN root FIRST29 explicit-stub red at SAME aa6907b,2026-11-02T17:52:55.646037Z, exit8/all29 init+cleanupPASS/0skip/crash/setup failure/0.57s. No production approval; final metadata/CI/red attribution and latest-head merge gates remain.",
+        "baseline": "Actual full8b537cdb/rootbcd08e6 approved frozen feature0f8/JSON64eb/helpera8d/header4634/stube989/logical3af/physical99bf/Qt1ef/workflow4d8 BEFORE official41494786280 at clean aa6907b (newgreen4→6PASS0skip39ms/exact29/build82/old135/pins/all11SUCCESS), THEN root FIRST29 explicit-stub red at SAME aa6907b,2026-11-02T17:52:55.646037Z, exit8/all29 init+cleanupPASS/0skip/crash/setup failure/0.57s. No production approval; final metadata/CI/red attribution and latest-head merge gates remain.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-015-review.md"
       }
     },
@@ -6476,9 +6477,9 @@
         "STORAGETEST-015"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a76",
-        "\u00a77",
+        "§3",
+        "§6",
+        "§7",
         "NUM-01",
         "DB-01"
       ],
@@ -6529,8 +6530,8 @@
         "CORE-005"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a716",
+        "§3",
+        "§16",
         "DB-01",
         "NUM-01",
         "NUM-03"
@@ -6574,8 +6575,8 @@
         "STORAGECONTRACT-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a716",
+        "§3",
+        "§16",
         "DB-01",
         "OPS-02"
       ],
@@ -6651,8 +6652,8 @@
         "STORAGECONTRACT-001"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a716",
+        "§3",
+        "§16",
         "DB-01",
         "OPS-02"
       ],
@@ -6705,9 +6706,9 @@
       "summary": "Concrete hold contract/API/additive schema, independent real-SQL oracles/tests, separate review and actual intended red before hold implementation.",
       "module": "Operations",
       "spec_refs": [
-        "\u00a73",
-        "\u00a74",
-        "\u00a75",
+        "§3",
+        "§4",
+        "§5",
         "NUM-02",
         "NUM-04",
         "DB-01"
@@ -6800,9 +6801,9 @@
       "summary": "Persist stable subject active holds, immutable cause/provenance/history and authorized resolution atomically on the caller writer session; preserve independent conditions.",
       "module": "Operations",
       "spec_refs": [
-        "\u00a73",
-        "\u00a74",
-        "\u00a75",
+        "§3",
+        "§4",
+        "§5",
         "NUM-02",
         "NUM-04",
         "DB-01"
@@ -6874,8 +6875,8 @@
       "status": "done",
       "owner": "coordinator /root; feature-test author /root/bundle_implementer; independent full reviewer /root/bundle_reviewer",
       "spec_refs": [
-        "\u00a73",
-        "\u00a75",
+        "§3",
+        "§5",
         "DB-01",
         "NUM-04"
       ],
@@ -6940,8 +6941,8 @@
       "status": "done",
       "owner": "coordinator /root; source author /root/bundle_implementer; independent reviewer /root/bundle_reviewer; validation /root/bundle_validation",
       "spec_refs": [
-        "\u00a73",
-        "\u00a75",
+        "§3",
+        "§5",
         "DB-01",
         "NUM-04"
       ],
@@ -6996,7 +6997,7 @@
         "CORE-006"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-08",
         "TIMER-09"
       ],
@@ -7022,7 +7023,7 @@
         "STORAGETEST-003"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TIMER-08",
         "TIMER-09"
       ],
@@ -7047,7 +7048,7 @@
         "SESSION-006"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-004.md",
@@ -7072,7 +7073,7 @@
         "STORAGETEST-004"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-004.md",
@@ -7095,7 +7096,7 @@
         "STORAGE-004"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "CRYPTO-02"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-005.md",
@@ -7119,7 +7120,7 @@
         "STORAGETEST-005"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "CRYPTO-02"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-005.md",
@@ -7142,7 +7143,7 @@
         "STORAGE-005"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-006.md",
@@ -7166,7 +7167,7 @@
         "STORAGETEST-006"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-01"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-006.md",
@@ -7194,7 +7195,7 @@
         "SESSION-009"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-04"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-007.md",
@@ -7224,7 +7225,7 @@
         "SESSION-009"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-04"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-007.md",
@@ -7250,7 +7251,7 @@
         "API-004"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-02",
         "API-02"
       ],
@@ -7277,7 +7278,7 @@
         "STORAGETEST-008"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-02",
         "API-02"
       ],
@@ -7302,7 +7303,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "CRYPTO-03"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-009.md",
@@ -7327,7 +7328,7 @@
         "STORAGETEST-009"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "CRYPTO-03"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-009.md",
@@ -7362,8 +7363,8 @@
         "TWITCH-090"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a714"
+        "§10",
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-010.md",
       "summary": "6 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -7388,8 +7389,8 @@
         "SESSION-006"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a714",
+        "§10",
+        "§14",
         "AUTH-15",
         "INTEGRATION-01"
       ],
@@ -7416,8 +7417,8 @@
         "TWITCHTEST-001"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a714",
+        "§10",
+        "§14",
         "AUTH-15",
         "INTEGRATION-01"
       ],
@@ -7442,8 +7443,8 @@
         "API-006"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a73"
+        "§14",
+        "§3"
       ],
       "brief": "docs/tasks/EPIC-010/TWITCH-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before TWITCH-002.",
@@ -7467,8 +7468,8 @@
         "TWITCHTEST-002"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a73"
+        "§14",
+        "§3"
       ],
       "brief": "docs/tasks/EPIC-010/TWITCH-002.md",
       "summary": "Map documented subscription/gift/bundle/Bits fields with IDs, actor/source time/evidence and unknown classifications preserved.",
@@ -7492,8 +7493,8 @@
         "CORE-003"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a714",
+        "§10",
+        "§14",
         "TIMER-03",
         "TIMER-05"
       ],
@@ -7520,8 +7521,8 @@
         "TWITCHTEST-003"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a714",
+        "§10",
+        "§14",
         "TIMER-03",
         "TIMER-05"
       ],
@@ -7547,7 +7548,7 @@
         "ACCESS-003"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "CHAT-01",
         "CHAT-02"
       ],
@@ -7574,7 +7575,7 @@
         "TWITCHTEST-004"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "CHAT-01",
         "CHAT-02"
       ],
@@ -7601,7 +7602,7 @@
         "API-006"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -7629,7 +7630,7 @@
         "TWITCHTEST-005"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -7654,8 +7655,8 @@
         "API-009"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719",
+        "§14",
+        "§19",
         "AUTH-15",
         "CHAT-02"
       ],
@@ -7686,7 +7687,7 @@
         "BETTERPLACE-090"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-011.md",
       "summary": "4 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -7710,7 +7711,7 @@
         "API-006"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-02"
       ],
       "brief": "docs/tasks/EPIC-011/BETTERPLACE-001.md",
@@ -7735,7 +7736,7 @@
         "BETTERPLACETEST-001"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-02"
       ],
       "brief": "docs/tasks/EPIC-011/BETTERPLACE-001.md",
@@ -7759,8 +7760,8 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a713",
+        "§14",
+        "§13",
         "VIEW-03"
       ],
       "brief": "docs/tasks/EPIC-011/BETTERPLACE-002.md",
@@ -7785,8 +7786,8 @@
         "BETTERPLACETEST-002"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a713",
+        "§14",
+        "§13",
         "VIEW-03"
       ],
       "brief": "docs/tasks/EPIC-011/BETTERPLACE-002.md",
@@ -7809,7 +7810,7 @@
         "BETTERPLACE-002"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01"
       ],
       "brief": "docs/tasks/EPIC-011/BETTERPLACE-003.md",
@@ -7833,7 +7834,7 @@
         "BETTERPLACETEST-003"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01"
       ],
       "brief": "docs/tasks/EPIC-011/BETTERPLACE-003.md",
@@ -7857,8 +7858,8 @@
         "API-009"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719"
+        "§14",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-011/BETTERPLACE-090.md",
       "summary": "Compare actual public totals/record visibility/identifiers with declared capabilities and polling/recovery behavior.",
@@ -7887,7 +7888,7 @@
         "PATREON-090"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-012.md",
       "summary": "4 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -7911,7 +7912,7 @@
         "SESSION-006"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "AUTH-15"
       ],
       "brief": "docs/tasks/EPIC-012/PATREON-001.md",
@@ -7936,7 +7937,7 @@
         "PATREONTEST-001"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "AUTH-15"
       ],
       "brief": "docs/tasks/EPIC-012/PATREON-001.md",
@@ -7962,7 +7963,7 @@
         "ACCT-006"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "NUM-03"
       ],
       "brief": "docs/tasks/EPIC-012/PATREON-002.md",
@@ -7989,7 +7990,7 @@
         "PATREONTEST-002"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "NUM-03"
       ],
       "brief": "docs/tasks/EPIC-012/PATREON-002.md",
@@ -8012,7 +8013,7 @@
         "PATREON-002"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -8037,7 +8038,7 @@
         "PATREONTEST-003"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -8062,8 +8063,8 @@
         "API-009"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719"
+        "§14",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-012/PATREON-090.md",
       "summary": "Establish actual payment-state transitions/identifiers and webhook-history correlation with redacted source documentation/captures.",
@@ -8093,7 +8094,7 @@
         "STREAMLABS-090"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-013.md",
       "summary": "4 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -8118,7 +8119,7 @@
         "SESSION-006"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-013/STREAMLABS-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before STREAMLABS-001.",
@@ -8143,7 +8144,7 @@
         "STREAMLABSTEST-001"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-013/STREAMLABS-001.md",
       "summary": "Implement documented connection/auth/reconnect handling and normalized donation receipt identity with source timestamps.",
@@ -8167,7 +8168,7 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-013/STREAMLABS-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before STREAMLABS-002.",
@@ -8192,7 +8193,7 @@
         "STREAMLABSTEST-002"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-013/STREAMLABS-002.md",
       "summary": "Distinguish verified payments from streamer-added records using evidenced source fields.",
@@ -8214,7 +8215,7 @@
         "STREAMLABS-002"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -8239,7 +8240,7 @@
         "STREAMLABSTEST-003"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -8264,8 +8265,8 @@
         "API-009"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719"
+        "§14",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-013/STREAMLABS-090.md",
       "summary": "Record actual protocol version, identifiers, verification labels, pagination and recovery behavior.",
@@ -8295,7 +8296,7 @@
         "STREAMELEMENTS-090"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-014.md",
       "summary": "5 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -8319,7 +8320,7 @@
         "SESSION-006"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-014/STREAMELEMENTS-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before STREAMELEMENTS-001.",
@@ -8343,7 +8344,7 @@
         "STREAMELEMENTSTEST-001"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-014/STREAMELEMENTS-001.md",
       "summary": "Normalize documented completed tips with transaction IDs, amount/currency and source time where supplied.",
@@ -8367,8 +8368,8 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a73"
+        "§14",
+        "§3"
       ],
       "brief": "docs/tasks/EPIC-014/STREAMELEMENTS-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before STREAMELEMENTS-002.",
@@ -8393,8 +8394,8 @@
         "STREAMELEMENTSTEST-002"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a73"
+        "§14",
+        "§3"
       ],
       "brief": "docs/tasks/EPIC-014/STREAMELEMENTS-002.md",
       "summary": "Use stable scoped transaction identity for duplicate checks and capture payment evidence without conflating moderation approval.",
@@ -8416,7 +8417,7 @@
         "STREAMELEMENTS-002"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -8440,7 +8441,7 @@
         "STREAMELEMENTS-003"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -8465,7 +8466,7 @@
         "STREAMELEMENTSTEST-004"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -8490,8 +8491,8 @@
         "API-009"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719"
+        "§14",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-014/STREAMELEMENTS-090.md",
       "summary": "Capture actual completed-tip/moderation/transaction behavior and reconnect limitations with redacted evidence.",
@@ -8519,7 +8520,7 @@
         "KOFI-090"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-015.md",
       "summary": "4 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -8544,7 +8545,7 @@
         "ACCT-001"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-015/KOFI-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before KOFI-001.",
@@ -8569,7 +8570,7 @@
         "KOFITEST-001"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-015/KOFI-001.md",
       "summary": "Validate the documented provider verification mechanism before accepting a normalized receipt.",
@@ -8593,7 +8594,7 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-015/KOFI-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before KOFI-002.",
@@ -8618,7 +8619,7 @@
         "KOFITEST-002"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-015/KOFI-002.md",
       "summary": "Normalize documented tips/membership/other payments with known classifications and source privacy retained.",
@@ -8640,8 +8641,8 @@
         "KOFI-002"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719"
+        "§14",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-015/KOFI-003.md",
       "summary": "Record actual message IDs/retry behavior, payment fields and verification mechanism.",
@@ -8664,8 +8665,8 @@
         "API-009"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719"
+        "§14",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-015/KOFI-090.md",
       "summary": "Verify retry produces one receipt/contribution and invalid verification produces none.",
@@ -8696,7 +8697,7 @@
         "TIPEEESTREAM-090"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-016.md",
       "summary": "5 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -8720,8 +8721,8 @@
         "API-005"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719"
+        "§14",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-016/TIPEEESTREAM-001.md",
       "summary": "Record current handshake/protocol versions and reproducible socket/history payload/identity evidence.",
@@ -8744,7 +8745,7 @@
         "SESSION-006"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "AUTH-15"
       ],
       "brief": "docs/tasks/EPIC-016/TIPEEESTREAM-002.md",
@@ -8769,7 +8770,7 @@
         "TIPEEESTREAMTEST-002"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "AUTH-15"
       ],
       "brief": "docs/tasks/EPIC-016/TIPEEESTREAM-002.md",
@@ -8794,7 +8795,7 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-016/TIPEEESTREAM-003.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before TIPEEESTREAM-003.",
@@ -8819,7 +8820,7 @@
         "TIPEEESTREAMTEST-003"
       ],
       "spec_refs": [
-        "\u00a714"
+        "§14"
       ],
       "brief": "docs/tasks/EPIC-016/TIPEEESTREAM-003.md",
       "summary": "Persist supported cursors and correlate live/history duplicates using established identifiers.",
@@ -8841,7 +8842,7 @@
         "TIPEEESTREAM-003"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -8866,7 +8867,7 @@
         "TIPEEESTREAMTEST-004"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTAKE-01",
         "INTAKE-02"
       ],
@@ -8891,8 +8892,8 @@
         "API-009"
       ],
       "spec_refs": [
-        "\u00a714",
-        "\u00a719"
+        "§14",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-016/TIPEEESTREAM-090.md",
       "summary": "Record concrete protocol/client versions, event/history identifiers, payment labels and observed gaps.",
@@ -8933,8 +8934,8 @@
         "RATES-090"
       ],
       "spec_refs": [
-        "\u00a79",
-        "\u00a715"
+        "§9",
+        "§15"
       ],
       "brief": "docs/tasks/EPIC-017.md",
       "summary": "9 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -8958,8 +8959,8 @@
         "CORE-001"
       ],
       "spec_refs": [
-        "\u00a79",
-        "\u00a715",
+        "§9",
+        "§15",
         "NUM-04"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-001.md",
@@ -9028,8 +9029,8 @@
         "RATESTEST-001"
       ],
       "spec_refs": [
-        "\u00a79",
-        "\u00a715",
+        "§9",
+        "§15",
         "NUM-04"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-001.md",
@@ -9053,8 +9054,8 @@
         "API-005"
       ],
       "spec_refs": [
-        "\u00a715",
-        "\u00a79"
+        "§15",
+        "§9"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RATES-002.",
@@ -9078,8 +9079,8 @@
         "RATESTEST-002"
       ],
       "spec_refs": [
-        "\u00a715",
-        "\u00a79"
+        "§15",
+        "§9"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-002.md",
       "summary": "Validate current public API/base/symbol/date capabilities from official evidence and normalize exact snapshots.",
@@ -9103,8 +9104,8 @@
         "API-005"
       ],
       "spec_refs": [
-        "\u00a715",
-        "\u00a79"
+        "§15",
+        "§9"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-003.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RATES-003.",
@@ -9129,8 +9130,8 @@
         "RATESTEST-003"
       ],
       "spec_refs": [
-        "\u00a715",
-        "\u00a79"
+        "§15",
+        "§9"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-003.md",
       "summary": "Validate supported endpoints/update cadence/plan capabilities and keep credentials server-side.",
@@ -9154,8 +9155,8 @@
         "API-005"
       ],
       "spec_refs": [
-        "\u00a715",
-        "\u00a79"
+        "§15",
+        "§9"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-004.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before RATES-004.",
@@ -9180,8 +9181,8 @@
         "RATESTEST-004"
       ],
       "spec_refs": [
-        "\u00a715",
-        "\u00a79"
+        "§15",
+        "§9"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-004.md",
       "summary": "Normalize rates and provider plan/update/usage metadata with exact source/fetch timestamps.",
@@ -9206,7 +9207,7 @@
         "STORAGE-002"
       ],
       "spec_refs": [
-        "\u00a79",
+        "§9",
         "FX-01",
         "FX-04",
         "FX-05"
@@ -9235,7 +9236,7 @@
         "RATESTEST-005"
       ],
       "spec_refs": [
-        "\u00a79",
+        "§9",
         "FX-01",
         "FX-04",
         "FX-05"
@@ -9260,7 +9261,7 @@
         "RATES-005"
       ],
       "spec_refs": [
-        "\u00a79",
+        "§9",
         "FX-02"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-006.md",
@@ -9284,7 +9285,7 @@
         "RATESTEST-006"
       ],
       "spec_refs": [
-        "\u00a79",
+        "§9",
         "FX-02"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-006.md",
@@ -9309,7 +9310,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a79",
+        "§9",
         "FX-06"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-007.md",
@@ -9335,7 +9336,7 @@
         "RATESTEST-007"
       ],
       "spec_refs": [
-        "\u00a79",
+        "§9",
         "FX-06"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-007.md",
@@ -9360,7 +9361,7 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a79",
+        "§9",
         "FX-03"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-008.md",
@@ -9386,7 +9387,7 @@
         "RATESTEST-008"
       ],
       "spec_refs": [
-        "\u00a79",
+        "§9",
         "FX-03"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-008.md",
@@ -9409,8 +9410,8 @@
         "RATES-008"
       ],
       "spec_refs": [
-        "\u00a715",
-        "\u00a719"
+        "§15",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-017/RATES-090.md",
       "summary": "Record date/plan/endpoints/frequency/quota accounting for each provider; identify unavailable metadata without invented values.",
@@ -9453,8 +9454,8 @@
         "DESKTOP-010"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a710"
+        "§2",
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-018.md",
       "summary": "10 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -9479,7 +9480,7 @@
         "SESSION-003"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "UI-01",
         "API-02"
       ],
@@ -9506,7 +9507,7 @@
         "DESKTOPTEST-001"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "UI-01",
         "API-02"
       ],
@@ -9532,8 +9533,8 @@
         "CORE-007"
       ],
       "spec_refs": [
-        "\u00a74",
-        "\u00a710"
+        "§4",
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-002.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before DESKTOP-002.",
@@ -9558,8 +9559,8 @@
         "DESKTOPTEST-002"
       ],
       "spec_refs": [
-        "\u00a74",
-        "\u00a710"
+        "§4",
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-002.md",
       "summary": "Animate snapshots locally while server owns transitions; expose independent reasons, debt, hard end and recovery review.",
@@ -9583,9 +9584,9 @@
         "ACCT-007"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75",
-        "\u00a78"
+        "§3",
+        "§5",
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-003.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before DESKTOP-003.",
@@ -9610,9 +9611,9 @@
         "DESKTOPTEST-003"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75",
-        "\u00a78"
+        "§3",
+        "§5",
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-003.md",
       "summary": "Show independent evidence/valuation/review states and requested/actual effects with provenance.",
@@ -9635,7 +9636,7 @@
         "RULES-005"
       ],
       "spec_refs": [
-        "\u00a76"
+        "§6"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-004.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before DESKTOP-004.",
@@ -9659,7 +9660,7 @@
         "DESKTOPTEST-004"
       ],
       "spec_refs": [
-        "\u00a76"
+        "§6"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-004.md",
       "summary": "Edit versioned nested conditions and ordered actions with previewed group/exclusion winners and capability warnings.",
@@ -9682,7 +9683,7 @@
         "MODIFIER-006"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-04"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-005.md",
@@ -9707,7 +9708,7 @@
         "DESKTOPTEST-005"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-04"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-005.md",
@@ -9731,7 +9732,7 @@
         "MILESTONE-008"
       ],
       "spec_refs": [
-        "\u00a78"
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-006.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before DESKTOP-006.",
@@ -9755,7 +9756,7 @@
         "DESKTOPTEST-006"
       ],
       "spec_refs": [
-        "\u00a78"
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-006.md",
       "summary": "Preview edits/manual completion/reset with separate correction permissions and explicit Run/Defer/Skip/replay choices.",
@@ -9779,7 +9780,7 @@
         "SESSION-003"
       ],
       "spec_refs": [
-        "\u00a710"
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-007.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before DESKTOP-007.",
@@ -9804,7 +9805,7 @@
         "DESKTOPTEST-007"
       ],
       "spec_refs": [
-        "\u00a710"
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-007.md",
       "summary": "Support invitation/login-method/session/recovery/ownership workflows under server-side permissions and fresh authentication.",
@@ -9827,7 +9828,7 @@
         "API-005"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTEGRATION-01",
         "AUTH-15"
       ],
@@ -9853,7 +9854,7 @@
         "DESKTOPTEST-008"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTEGRATION-01",
         "AUTH-15"
       ],
@@ -9878,8 +9879,8 @@
         "RATES-008"
       ],
       "spec_refs": [
-        "\u00a79",
-        "\u00a715"
+        "§9",
+        "§15"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-009.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before DESKTOP-009.",
@@ -9903,8 +9904,8 @@
         "DESKTOPTEST-009"
       ],
       "spec_refs": [
-        "\u00a79",
-        "\u00a715"
+        "§9",
+        "§15"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-009.md",
       "summary": "Show source/fetch/publication ages, next sync, local versus authoritative usage, fallback and provider limits.",
@@ -9933,7 +9934,7 @@
         "SCENE-007"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "SETUP-01"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-010.md",
@@ -9964,7 +9965,7 @@
         "DESKTOPTEST-010"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "SETUP-01"
       ],
       "brief": "docs/tasks/EPIC-018/DESKTOP-010.md",
@@ -10002,7 +10003,7 @@
         "SCENE-007"
       ],
       "spec_refs": [
-        "\u00a711"
+        "§11"
       ],
       "brief": "docs/tasks/EPIC-019.md",
       "summary": "7 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -10026,7 +10027,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "API-03",
         "UI-03"
       ],
@@ -10053,7 +10054,7 @@
         "SCENETEST-001"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "API-03",
         "UI-03"
       ],
@@ -10079,7 +10080,7 @@
         "DESKTOP-001"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-03"
       ],
       "brief": "docs/tasks/EPIC-019/SCENE-002.md",
@@ -10104,7 +10105,7 @@
         "SCENETEST-002"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-03"
       ],
       "brief": "docs/tasks/EPIC-019/SCENE-002.md",
@@ -10127,7 +10128,7 @@
         "SCENE-002"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-04"
       ],
       "brief": "docs/tasks/EPIC-019/SCENE-003.md",
@@ -10151,7 +10152,7 @@
         "SCENETEST-003"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-04"
       ],
       "brief": "docs/tasks/EPIC-019/SCENE-003.md",
@@ -10174,7 +10175,7 @@
         "SCENE-003"
       ],
       "spec_refs": [
-        "\u00a711"
+        "§11"
       ],
       "brief": "docs/tasks/EPIC-019/SCENE-004.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before SCENE-004.",
@@ -10197,7 +10198,7 @@
         "SCENETEST-004"
       ],
       "spec_refs": [
-        "\u00a711"
+        "§11"
       ],
       "brief": "docs/tasks/EPIC-019/SCENE-004.md",
       "summary": "Undo/redo geometry, grouping, styles and bindings as coherent editor operations with consistent modified-state tracking.",
@@ -10219,7 +10220,7 @@
         "SCENE-001"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "MEDIA-03",
         "MEDIA-04",
         "MEDIA-05"
@@ -10245,7 +10246,7 @@
         "SCENETEST-005"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "MEDIA-03",
         "MEDIA-04",
         "MEDIA-05"
@@ -10271,7 +10272,7 @@
         "SCENE-005"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "MEDIA-03",
         "MEDIA-06"
       ],
@@ -10297,7 +10298,7 @@
         "SCENETEST-006"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "MEDIA-03",
         "MEDIA-06"
       ],
@@ -10322,7 +10323,7 @@
         "RENDER-001"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-04"
       ],
       "brief": "docs/tasks/EPIC-019/SCENE-007.md",
@@ -10347,7 +10348,7 @@
         "SCENETEST-007"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-04"
       ],
       "brief": "docs/tasks/EPIC-019/SCENE-007.md",
@@ -10383,7 +10384,7 @@
         "RENDER-092"
       ],
       "spec_refs": [
-        "\u00a711"
+        "§11"
       ],
       "brief": "docs/tasks/EPIC-020.md",
       "summary": "8 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -10406,7 +10407,7 @@
         "CONTRACT-008"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-02",
         "UI-04",
         "MEDIA-02"
@@ -10435,7 +10436,7 @@
         "CONTRACT-007"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-01",
         "UI-02",
         "UI-04"
@@ -10465,7 +10466,7 @@
         "CONTRACT-007"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-01",
         "UI-02",
         "UI-04"
@@ -10493,7 +10494,7 @@
         "CONTRACT-007"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-02",
         "UI-04"
       ],
@@ -10521,7 +10522,7 @@
         "CONTRACT-007"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "UI-02",
         "UI-04"
       ],
@@ -10548,7 +10549,7 @@
         "SCENE-005"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "MEDIA-01",
         "MEDIA-02",
         "MEDIA-03"
@@ -10576,7 +10577,7 @@
         "RENDERTEST-004"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "MEDIA-01",
         "MEDIA-02",
         "MEDIA-03"
@@ -10605,7 +10606,7 @@
         "SCENE-007"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "VIEW-04"
       ],
       "brief": "docs/tasks/EPIC-020/RENDER-005.md",
@@ -10633,7 +10634,7 @@
         "RENDERTEST-005"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "VIEW-04"
       ],
       "brief": "docs/tasks/EPIC-020/RENDER-005.md",
@@ -10657,7 +10658,7 @@
         "SPIKE-004"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "PLATFORM-04",
         "MEDIA-01"
       ],
@@ -10682,7 +10683,7 @@
         "SPIKE-004"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "PLATFORM-01",
         "WEB-02"
       ],
@@ -10707,7 +10708,7 @@
         "SPIKE-004"
       ],
       "spec_refs": [
-        "\u00a711",
+        "§11",
         "WEB-02"
       ],
       "brief": "docs/tasks/EPIC-020/RENDER-092.md",
@@ -10752,8 +10753,8 @@
         "WEBAPP-011"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a710"
+        "§2",
+        "§10"
       ],
       "brief": "docs/tasks/EPIC-021.md",
       "summary": "11 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -10777,7 +10778,7 @@
         "API-004"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "WEB-01"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-001.md",
@@ -10803,7 +10804,7 @@
         "WEBAPPTEST-001"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "WEB-01"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-001.md",
@@ -10830,7 +10831,7 @@
         "ACCESS-004"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-12",
         "TEST-03"
       ],
@@ -10858,7 +10859,7 @@
         "WEBAPPTEST-002"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-12",
         "TEST-03"
       ],
@@ -10883,7 +10884,7 @@
         "CORE-007"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TEST-03"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-003.md",
@@ -10908,7 +10909,7 @@
         "WEBAPPTEST-003"
       ],
       "spec_refs": [
-        "\u00a74",
+        "§4",
         "TEST-03"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-003.md",
@@ -10933,8 +10934,8 @@
         "ACCT-007"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75",
+        "§3",
+        "§5",
         "TEST-03"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-004.md",
@@ -10960,8 +10961,8 @@
         "WEBAPPTEST-004"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75",
+        "§3",
+        "§5",
         "TEST-03"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-004.md",
@@ -10985,7 +10986,7 @@
         "RULES-005"
       ],
       "spec_refs": [
-        "\u00a76",
+        "§6",
         "WEB-01"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-005.md",
@@ -11010,7 +11011,7 @@
         "WEBAPPTEST-005"
       ],
       "spec_refs": [
-        "\u00a76",
+        "§6",
         "WEB-01"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-005.md",
@@ -11034,7 +11035,7 @@
         "MODIFIER-006"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-04"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-006.md",
@@ -11059,7 +11060,7 @@
         "WEBAPPTEST-006"
       ],
       "spec_refs": [
-        "\u00a77",
+        "§7",
         "MOD-04"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-006.md",
@@ -11083,7 +11084,7 @@
         "ACCESS-006"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "TEST-03"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-007.md",
@@ -11108,7 +11109,7 @@
         "WEBAPPTEST-007"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "TEST-03"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-007.md",
@@ -11132,7 +11133,7 @@
         "API-005"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTEGRATION-01",
         "AUTH-15"
       ],
@@ -11158,7 +11159,7 @@
         "WEBAPPTEST-008"
       ],
       "spec_refs": [
-        "\u00a714",
+        "§14",
         "INTEGRATION-01",
         "AUTH-15"
       ],
@@ -11183,7 +11184,7 @@
         "MILESTONE-008"
       ],
       "spec_refs": [
-        "\u00a78"
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-009.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before WEBAPP-009.",
@@ -11207,7 +11208,7 @@
         "WEBAPPTEST-009"
       ],
       "spec_refs": [
-        "\u00a78"
+        "§8"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-009.md",
       "summary": "Preview target/manual completion/reset with separate permissions and Run/Defer/Skip/replay decisions.",
@@ -11230,8 +11231,8 @@
         "RATES-008"
       ],
       "spec_refs": [
-        "\u00a79",
-        "\u00a715"
+        "§9",
+        "§15"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-010.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before WEBAPP-010.",
@@ -11255,8 +11256,8 @@
         "WEBAPPTEST-010"
       ],
       "spec_refs": [
-        "\u00a79",
-        "\u00a715"
+        "§9",
+        "§15"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-010.md",
       "summary": "Show fetch/publication ages, source/fallback/next sync and authoritative versus local usage estimates.",
@@ -11285,7 +11286,7 @@
         "SCENE-007"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "SETUP-01"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-011.md",
@@ -11316,7 +11317,7 @@
         "WEBAPPTEST-011"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "SETUP-01"
       ],
       "brief": "docs/tasks/EPIC-021/WEBAPP-011.md",
@@ -11353,7 +11354,7 @@
         "VIEWER-007"
       ],
       "spec_refs": [
-        "\u00a713"
+        "§13"
       ],
       "brief": "docs/tasks/EPIC-022.md",
       "summary": "7 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -11379,7 +11380,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "VIEW-02",
         "VIEW-04"
       ],
@@ -11408,7 +11409,7 @@
         "VIEWERTEST-001"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "VIEW-02",
         "VIEW-04"
       ],
@@ -11434,7 +11435,7 @@
         "ACCT-002"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "VIEW-03"
       ],
       "brief": "docs/tasks/EPIC-022/VIEWER-002.md",
@@ -11459,7 +11460,7 @@
         "VIEWERTEST-002"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "VIEW-03"
       ],
       "brief": "docs/tasks/EPIC-022/VIEWER-002.md",
@@ -11484,7 +11485,7 @@
         "RATES-008"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "STATS-01",
         "STATS-02"
       ],
@@ -11511,7 +11512,7 @@
         "VIEWERTEST-003"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "STATS-01",
         "STATS-02"
       ],
@@ -11535,7 +11536,7 @@
         "VIEWER-003"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "STATS-03",
         "DATA-01"
       ],
@@ -11560,7 +11561,7 @@
         "VIEWERTEST-004"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "STATS-03",
         "DATA-01"
       ],
@@ -11586,7 +11587,7 @@
         "MILESTONE-001"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "VIEW-01",
         "WEB-01"
       ],
@@ -11613,7 +11614,7 @@
         "VIEWERTEST-005"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "VIEW-01",
         "WEB-01"
       ],
@@ -11638,7 +11639,7 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "DATA-01"
       ],
       "brief": "docs/tasks/EPIC-022/VIEWER-006.md",
@@ -11663,7 +11664,7 @@
         "VIEWERTEST-006"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "DATA-01"
       ],
       "brief": "docs/tasks/EPIC-022/VIEWER-006.md",
@@ -11687,7 +11688,7 @@
         "STORAGE-002"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "DATA-01"
       ],
       "brief": "docs/tasks/EPIC-022/VIEWER-007.md",
@@ -11712,7 +11713,7 @@
         "VIEWERTEST-007"
       ],
       "spec_refs": [
-        "\u00a713",
+        "§13",
         "DATA-01"
       ],
       "brief": "docs/tasks/EPIC-022/VIEWER-007.md",
@@ -11744,7 +11745,7 @@
         "LOCALE-090"
       ],
       "spec_refs": [
-        "\u00a712"
+        "§12"
       ],
       "brief": "docs/tasks/EPIC-023.md",
       "summary": "5 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -11767,7 +11768,7 @@
         "BOOT-001"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-04"
       ],
       "brief": "docs/tasks/EPIC-023/LOCALE-001.md",
@@ -11830,7 +11831,7 @@
         "LOCALETEST-001"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-04"
       ],
       "brief": "docs/tasks/EPIC-023/LOCALE-001.md",
@@ -11874,7 +11875,7 @@
         "DESKTOP-001"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-01",
         "I18N-03"
       ],
@@ -11900,7 +11901,7 @@
         "LOCALETEST-002"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-01",
         "I18N-03"
       ],
@@ -11926,7 +11927,7 @@
         "VIEWER-005"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-01",
         "I18N-03"
       ],
@@ -11953,7 +11954,7 @@
         "LOCALETEST-003"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-01",
         "I18N-03"
       ],
@@ -11978,7 +11979,7 @@
         "WEBAPP-001"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-02"
       ],
       "brief": "docs/tasks/EPIC-023/LOCALE-004.md",
@@ -12003,7 +12004,7 @@
         "LOCALETEST-004"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-02"
       ],
       "brief": "docs/tasks/EPIC-023/LOCALE-004.md",
@@ -12031,7 +12032,7 @@
         "WEBAPP-011"
       ],
       "spec_refs": [
-        "\u00a712",
+        "§12",
         "I18N-01",
         "I18N-02"
       ],
@@ -12074,7 +12075,7 @@
         "DEPLOYMENT-008"
       ],
       "spec_refs": [
-        "\u00a716"
+        "§16"
       ],
       "brief": "docs/tasks/EPIC-024.md",
       "summary": "Original release work packages plus explicit ADR-0010/0011 session and ingress prerequisites; full scope remains.",
@@ -12098,7 +12099,7 @@
         "SESSION-006"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-03",
         "DEP-04",
         "DEP-01"
@@ -12126,7 +12127,7 @@
         "DEPLOYMENTTEST-001"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-03",
         "DEP-04",
         "DEP-01"
@@ -12151,7 +12152,7 @@
         "API-003"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-02",
         "DEP-05"
       ],
@@ -12176,7 +12177,7 @@
         "DEPLOYMENTTEST-002"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-02",
         "DEP-05"
       ],
@@ -12203,7 +12204,7 @@
         "DEPLOYMENT-007"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-06"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-003.md",
@@ -12231,7 +12232,7 @@
         "DEPLOYMENT-007"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-06"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-003.md",
@@ -12258,7 +12259,7 @@
         "DEPLOYMENT-007"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-07"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-004.md",
@@ -12286,7 +12287,7 @@
         "DEPLOYMENT-007"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-07"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-004.md",
@@ -12310,7 +12311,7 @@
         "DEPLOYMENT-004"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-07"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-005.md",
@@ -12334,7 +12335,7 @@
         "DEPLOYMENTTEST-005"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEP-07"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-005.md",
@@ -12360,7 +12361,7 @@
         "DEPLOYMENT-008"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-01",
         "DEP-04"
       ],
@@ -12389,7 +12390,7 @@
         "DEPLOYMENT-008"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-01",
         "DEP-04"
       ],
@@ -12414,8 +12415,8 @@
         "DEPLOYMENT-003"
       ],
       "spec_refs": [
-        "\u00a716",
-        "\u00a719"
+        "§16",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-090.md",
       "summary": "Exercise proxy/webhooks/WebSockets, stop/restart, backup/restore, failed upgrades and persistent certificate/data state.",
@@ -12438,8 +12439,8 @@
         "DEPLOYMENT-005"
       ],
       "spec_refs": [
-        "\u00a716",
-        "\u00a719"
+        "§16",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-091.md",
       "summary": "Exercise boot/startup persistence, volume permissions, HTTPS/WebSockets, upgrade and backup/restore for each variant.",
@@ -12461,7 +12462,7 @@
         "DEPLOYMENT-006"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PLATFORM-05"
       ],
       "brief": "docs/tasks/EPIC-024/DEPLOYMENT-092.md",
@@ -12494,7 +12495,7 @@
         "PACKAGE-006"
       ],
       "spec_refs": [
-        "\u00a716"
+        "§16"
       ],
       "brief": "docs/tasks/EPIC-025.md",
       "summary": "6 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -12517,7 +12518,7 @@
         "BOOT-003"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "BUILD-01",
         "BUILD-02",
         "BUILD-03",
@@ -12545,7 +12546,7 @@
         "PACKAGETEST-001"
       ],
       "spec_refs": [
-        "\u00a72",
+        "§2",
         "BUILD-01",
         "BUILD-02",
         "BUILD-03",
@@ -12576,7 +12577,7 @@
         "SESSION-004"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-03"
       ],
       "brief": "docs/tasks/EPIC-025/PACKAGE-002.md",
@@ -12604,7 +12605,7 @@
         "PACKAGETEST-002"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-03"
       ],
       "brief": "docs/tasks/EPIC-025/PACKAGE-002.md",
@@ -12631,7 +12632,7 @@
         "SESSION-005"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-02"
       ],
       "brief": "docs/tasks/EPIC-025/PACKAGE-003.md",
@@ -12659,7 +12660,7 @@
         "PACKAGETEST-003"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-02"
       ],
       "brief": "docs/tasks/EPIC-025/PACKAGE-003.md",
@@ -12686,7 +12687,7 @@
         "SESSION-005"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-02",
         "PLATFORM-02"
       ],
@@ -12715,7 +12716,7 @@
         "PACKAGETEST-004"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-02",
         "PLATFORM-02"
       ],
@@ -12740,7 +12741,7 @@
         "RENDER-091"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PACKAGE-03",
         "AUTH-13"
       ],
@@ -12766,7 +12767,7 @@
         "RENDER-090"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PLATFORM-04",
         "PLATFORM-05",
         "AUTH-14",
@@ -12800,7 +12801,7 @@
         "VALIDATE-006"
       ],
       "spec_refs": [
-        "\u00a719"
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-026.md",
       "summary": "6 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -12823,7 +12824,7 @@
         "CONTRACTPLAN-001"
       ],
       "spec_refs": [
-        "\u00a719",
+        "§19",
         "DEV-04",
         "TEST-05",
         "TEST-01",
@@ -12861,7 +12862,7 @@
         "MILESTONE-008"
       ],
       "spec_refs": [
-        "\u00a719",
+        "§19",
         "TEST-05"
       ],
       "brief": "docs/tasks/EPIC-026/VALIDATE-002.md",
@@ -12890,8 +12891,8 @@
         "WEBAPP-011"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a719",
+        "§2",
+        "§19",
         "WEB-02",
         "API-02"
       ],
@@ -12918,7 +12919,7 @@
         "DEPLOYMENT-090"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "PERF-01"
       ],
       "brief": "docs/tasks/EPIC-026/VALIDATE-004.md",
@@ -12943,8 +12944,8 @@
         "RENDER-092"
       ],
       "spec_refs": [
-        "\u00a711",
-        "\u00a719",
+        "§11",
+        "§19",
         "MEDIA-02"
       ],
       "brief": "docs/tasks/EPIC-026/VALIDATE-005.md",
@@ -12976,7 +12977,7 @@
         "DEPLOYMENT-092"
       ],
       "spec_refs": [
-        "\u00a719",
+        "§19",
         "PLATFORM-01",
         "PLATFORM-04",
         "PLATFORM-05"
@@ -13007,9 +13008,9 @@
         "RELEASE-004"
       ],
       "spec_refs": [
-        "\u00a71",
-        "\u00a716",
-        "\u00a719"
+        "§1",
+        "§16",
+        "§19"
       ],
       "brief": "docs/tasks/EPIC-027.md",
       "summary": "4 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
@@ -13032,8 +13033,8 @@
         "BOOT-001"
       ],
       "spec_refs": [
-        "\u00a71",
-        "\u00a716",
+        "§1",
+        "§16",
         "LICENSE-01",
         "MEDIA-06"
       ],
@@ -13058,8 +13059,8 @@
         "RELEASETEST-001"
       ],
       "spec_refs": [
-        "\u00a71",
-        "\u00a716",
+        "§1",
+        "§16",
         "LICENSE-01",
         "MEDIA-06"
       ],
@@ -13085,7 +13086,7 @@
         "API-005"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-03"
       ],
       "brief": "docs/tasks/EPIC-027/RELEASE-002.md",
@@ -13112,7 +13113,7 @@
         "RELEASETEST-002"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "OPS-03"
       ],
       "brief": "docs/tasks/EPIC-027/RELEASE-002.md",
@@ -13142,7 +13143,7 @@
         "STORAGE-009"
       ],
       "spec_refs": [
-        "\u00a716",
+        "§16",
         "DEV-02"
       ],
       "brief": "docs/tasks/EPIC-027/RELEASE-003.md",
@@ -13194,9 +13195,9 @@
         "EPIC-026"
       ],
       "spec_refs": [
-        "\u00a71",
-        "\u00a716",
-        "\u00a719",
+        "§1",
+        "§16",
+        "§19",
         "LICENSE-01",
         "REPO-01"
       ],
@@ -13220,7 +13221,7 @@
         "BOOT-004"
       ],
       "spec_refs": [
-        "\u00a717",
+        "§17",
         "DEV-02",
         "TEST-04",
         "TEST-05"
@@ -13289,8 +13290,8 @@
         "ACCT-004"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a79",
+        "§3",
+        "§9",
         "NUM-04",
         "FX-06"
       ],
@@ -13318,8 +13319,8 @@
         "RATESTEST-009"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a79",
+        "§3",
+        "§9",
         "NUM-04",
         "FX-06"
       ],
@@ -13345,13 +13346,13 @@
         "ACCT-004"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718",
-        "\u00a72",
-        "\u00a73",
-        "\u00a74",
-        "\u00a76",
-        "\u00a710",
+        "§17",
+        "§18",
+        "§2",
+        "§3",
+        "§4",
+        "§6",
+        "§10",
         "API-01",
         "API-02",
         "API-03",
@@ -13400,13 +13401,13 @@
         "SCHEMATOOL-001"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718",
-        "\u00a72",
-        "\u00a73",
-        "\u00a74",
-        "\u00a76",
-        "\u00a710",
+        "§17",
+        "§18",
+        "§2",
+        "§3",
+        "§4",
+        "§6",
+        "§10",
         "API-01",
         "API-02",
         "API-03",
@@ -13457,13 +13458,13 @@
         "CORE-005"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718",
-        "\u00a72",
-        "\u00a73",
-        "\u00a74",
-        "\u00a76",
-        "\u00a710",
+        "§17",
+        "§18",
+        "§2",
+        "§3",
+        "§4",
+        "§6",
+        "§10",
         "API-01",
         "API-02",
         "API-03",
@@ -13506,9 +13507,9 @@
         "ACCESS-003"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a76",
-        "\u00a710",
+        "§17",
+        "§6",
+        "§10",
         "NUM-04"
       ],
       "brief": "docs/tasks/EPIC-003/RULES-006.md",
@@ -13534,9 +13535,9 @@
         "RULESTEST-006"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a76",
-        "\u00a710",
+        "§17",
+        "§6",
+        "§10",
         "NUM-04"
       ],
       "brief": "docs/tasks/EPIC-003/RULES-006.md",
@@ -13564,13 +13565,13 @@
         "SESSIONCONTRACT-006"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718",
-        "\u00a72",
-        "\u00a73",
-        "\u00a74",
-        "\u00a76",
-        "\u00a710",
+        "§17",
+        "§18",
+        "§2",
+        "§3",
+        "§4",
+        "§6",
+        "§10",
         "API-01",
         "API-02",
         "API-03",
@@ -13603,13 +13604,13 @@
         "SESSIONCONTRACT-006"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718",
-        "\u00a72",
-        "\u00a73",
-        "\u00a74",
-        "\u00a76",
-        "\u00a710",
+        "§17",
+        "§18",
+        "§2",
+        "§3",
+        "§4",
+        "§6",
+        "§10",
         "API-01",
         "API-02",
         "API-03",
@@ -13649,13 +13650,13 @@
         "STORAGE-018"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718",
-        "\u00a72",
-        "\u00a73",
-        "\u00a74",
-        "\u00a76",
-        "\u00a710",
+        "§17",
+        "§18",
+        "§2",
+        "§3",
+        "§4",
+        "§6",
+        "§10",
         "API-01",
         "API-02",
         "API-03",
@@ -13665,7 +13666,7 @@
       "summary": "Review real-SQL synthetic intake/immutable rule capture/current policy-clock-action binding/atomic timer state tests before adapter implementation.",
       "notes": [
         "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record.",
-        "CONTRACT014 actual R1 review adds mandatory accepted STORAGE018 durable initial capture index, preserving all old dependencies and implementation\u2192baseline gates. No raw scan/process map/hash uniqueness shortcut."
+        "CONTRACT014 actual R1 review adds mandatory accepted STORAGE018 durable initial capture index, preserving all old dependencies and implementation→baseline gates. No raw scan/process map/hash uniqueness shortcut."
       ],
       "verification": {},
       "evidence": [],
@@ -13696,13 +13697,13 @@
         "STORAGE-018"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718",
-        "\u00a72",
-        "\u00a73",
-        "\u00a74",
-        "\u00a76",
-        "\u00a710",
+        "§17",
+        "§18",
+        "§2",
+        "§3",
+        "§4",
+        "§6",
+        "§10",
         "API-01",
         "API-02",
         "API-03",
@@ -13712,7 +13713,7 @@
       "summary": "Supply actual normalized synthetic intake and reference-only policy/clock/action/reference producers; commit state with every application through the existing writer/service.",
       "notes": [
         "ADR-0006 reference-path decomposition only. Actual independent contracts/tests/red/implementation reviews remain required. No runtime capability is enabled by this record.",
-        "CONTRACT014 actual R1 review adds mandatory accepted STORAGE018 durable initial capture index, preserving all old dependencies and implementation\u2192baseline gates. No raw scan/process map/hash uniqueness shortcut."
+        "CONTRACT014 actual R1 review adds mandatory accepted STORAGE018 durable initial capture index, preserving all old dependencies and implementation→baseline gates. No raw scan/process map/hash uniqueness shortcut."
       ],
       "verification": {},
       "evidence": [],
@@ -13733,16 +13734,16 @@
         "STORAGE-015"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75",
-        "\u00a717",
-        "\u00a718",
+        "§3",
+        "§5",
+        "§17",
+        "§18",
         "DB-01",
         "API-02",
         "NUM-04"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-018.md",
-      "summary": "Preserve one immutable initial source\u2192arrival/plan/execution binding on the actual caller session, with exact indexed lookup/retention and no duplicate recapture.",
+      "summary": "Preserve one immutable initial source→arrival/plan/execution binding on the actual caller session, with exact indexed lookup/retention and no duplicate recapture.",
       "notes": [
         "Reference codecs/initial-capture SQL tests independently reviewed and observed intended marker-red after their selected foundations; first invalid setup-error attempt retained. This is a baseline, not storage behavior. Next: preserve independent fixtures/oracles and actual source/resource reviews when composing authenticated current-state producers."
       ],
@@ -13820,16 +13821,16 @@
         "STORAGE-019"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75",
-        "\u00a717",
-        "\u00a718",
+        "§3",
+        "§5",
+        "§17",
+        "§18",
         "DB-01",
         "API-02",
         "NUM-04"
       ],
       "brief": "docs/tasks/EPIC-009/STORAGE-018.md",
-      "summary": "Preserve one immutable initial source\u2192arrival/plan/execution binding on the actual caller session, with exact indexed lookup/retention and no duplicate recapture.",
+      "summary": "Preserve one immutable initial source→arrival/plan/execution binding on the actual caller session, with exact indexed lookup/retention and no duplicate recapture.",
       "notes": [
         "Initial source/capture SQLite store passes 38 methods/67 real-SQL scenarios with separate source/resource/config review and selected CI. Original tests preserved; seven reviewed regression methods reached red before fixes. Next: authenticated/current-state producers, permission/recovery/provider/UI/platform and full application gates."
       ],
@@ -13868,10 +13869,10 @@
         "STORAGETEST-018"
       ],
       "spec_refs": [
-        "\u00a73",
-        "\u00a75",
-        "\u00a717",
-        "\u00a718",
+        "§3",
+        "§5",
+        "§17",
+        "§18",
         "DB-01",
         "API-02",
         "NUM-04"
@@ -13926,9 +13927,9 @@
         "STORAGE-002"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a717",
-        "\u00a718",
+        "§10",
+        "§17",
+        "§18",
         "AUTH-05",
         "AUTH-12",
         "API-01",
@@ -13976,9 +13977,9 @@
         "STORAGE-002"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a717",
-        "\u00a718",
+        "§10",
+        "§17",
+        "§18",
         "AUTH-05",
         "AUTH-12",
         "API-01",
@@ -14022,9 +14023,9 @@
         "SESSIONCONTRACT-001"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a717",
-        "\u00a718",
+        "§10",
+        "§17",
+        "§18",
         "AUTH-05",
         "AUTH-12",
         "API-01",
@@ -14067,8 +14068,8 @@
         "CONTRACT-005"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718",
+        "§17",
+        "§18",
         "API-01",
         "API-02",
         "API-03",
@@ -14112,8 +14113,8 @@
         "CONTRACT-005"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718",
+        "§17",
+        "§18",
         "API-01",
         "API-02",
         "API-03",
@@ -14232,8 +14233,8 @@
         "SCHEMATEST-001"
       ],
       "spec_refs": [
-        "\u00a717",
-        "\u00a718",
+        "§17",
+        "§18",
         "API-01",
         "API-02",
         "API-03",
@@ -14462,7 +14463,7 @@
         "BOOT-007"
       ],
       "spec_refs": [
-        "\u00a717",
+        "§17",
         "DEV-02",
         "TEST-04",
         "TEST-05"
@@ -14505,9 +14506,9 @@
         "STORAGE-002"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a716",
-        "\u00a717",
+        "§10",
+        "§16",
+        "§17",
         "AUTH-05",
         "AUTH-12",
         "TEST-04",
@@ -14552,7 +14553,7 @@
         "SESSION-001"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-05",
         "AUTH-12",
         "TEST-04",
@@ -14602,7 +14603,7 @@
         "SESSIONTEST-008"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-05",
         "AUTH-12",
         "TEST-04",
@@ -14650,8 +14651,8 @@
         "ACCESS-002"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a716",
+        "§10",
+        "§16",
         "AUTH-01",
         "AUTH-05",
         "AUTH-09",
@@ -14685,7 +14686,7 @@
         "author": "/root/session_lifecycle_contract_author",
         "reviewer": "/root/session_lifecycle_contract_review",
         "outcome": "approved",
-        "revision": "Actual authored72a80198/importe0973fb lifecycleblob2f30ac72/author01000940 approved independently8b0212d5/import5d1e26c; unchanged accepted imports andLC01\u201332 audited.",
+        "revision": "Actual authored72a80198/importe0973fb lifecycleblob2f30ac72/author01000940 approved independently8b0212d5/import5d1e26c; unchanged accepted imports andLC01–32 audited.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-003-review.md"
       }
     },
@@ -14704,8 +14705,8 @@
         "SESSION-001"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a716",
+        "§10",
+        "§16",
         "AUTH-01",
         "AUTH-05",
         "AUTH-11",
@@ -14717,7 +14718,7 @@
       "brief": "docs/tasks/STORAGECONTRACT-002.md",
       "summary": "Define separately reviewed physical account/credential/session/epoch facts, bounded current readers and conditional writer primitives; no schema or runtime implementation.",
       "notes": [
-        "Account/credential/session physical/internal API document and 24 examples independently reviewed; prefix1\u20137 retained. Proposed additive v8, indexed current readers/CAS/snapshot/accepted-attempt semantics are not runtime storage. Next: physical baseline and STORAGE-020 source/selected-driver/CI, then actual source/login/clock/lifecycle integration."
+        "Account/credential/session physical/internal API document and 24 examples independently reviewed; prefix1–7 retained. Proposed additive v8, indexed current readers/CAS/snapshot/accepted-attempt semantics are not runtime storage. Next: physical baseline and STORAGE-020 source/selected-driver/CI, then actual source/login/clock/lifecycle integration."
       ],
       "verification": {
         "authored": "passed",
@@ -14753,8 +14754,8 @@
         "STORAGE-011"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a716",
+        "§10",
+        "§16",
         "AUTH-01",
         "AUTH-05",
         "AUTH-11",
@@ -14809,8 +14810,8 @@
         "STORAGETEST-020"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a716",
+        "§10",
+        "§16",
         "AUTH-01",
         "AUTH-05",
         "AUTH-11",
@@ -14882,8 +14883,8 @@
         "CONTRACT-002"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a716",
+        "§10",
+        "§16",
         "AUTH-05",
         "AUTH-09",
         "AUTH-12",
@@ -14914,7 +14915,7 @@
         "author": "/root/current_session_clock_contract_author",
         "reviewer": "/root/current_session_clock_contract_review",
         "outcome": "approved",
-        "revision": "Actual authored da9d741/import78e78f3 clockblob946bd12b94d3a83dcd4c86c787bb257d9472e022+author0bc14b54 approved independentlydb874a0e/importd39d25b; SC01\u201330/source/trust/nativeABI/resources audited.",
+        "revision": "Actual authored da9d741/import78e78f3 clockblob946bd12b94d3a83dcd4c86c787bb257d9472e022+author0bc14b54 approved independentlydb874a0e/importd39d25b; SC01–30/source/trust/nativeABI/resources audited.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-004-review.md"
       }
     },
@@ -14932,8 +14933,8 @@
         "API-001"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a716",
+        "§10",
+        "§16",
         "AUTH-05",
         "AUTH-09",
         "AUTH-12",
@@ -14945,7 +14946,7 @@
       "brief": "docs/tasks/EPIC-007/SESSION-009.md",
       "summary": "Review deterministic trust/fence cases and actual producer observation tests, then observe intended clock-producer red distinct from supplier fake-clock tests.",
       "notes": [
-        "Actual clock binding requires the real API-001 host/queue lifecycle, as accepted clock contract \u00a72 assigns. A supplied readiness fixture plus native calls cannot satisfy actual host binding. Preserve all clock trust/fence/SC examples, literal signed conversions, native representation caveat and separate reviews/red/implementation/platform gates. No supported clock or readiness is supplied by this dependency correction."
+        "Actual clock binding requires the real API-001 host/queue lifecycle, as accepted clock contract §2 assigns. A supplied readiness fixture plus native calls cannot satisfy actual host binding. Preserve all clock trust/fence/SC examples, literal signed conversions, native representation caveat and separate reviews/red/implementation/platform gates. No supported clock or readiness is supplied by this dependency correction."
       ],
       "verification": {},
       "evidence": [],
@@ -14966,8 +14967,8 @@
         "API-001"
       ],
       "spec_refs": [
-        "\u00a710",
-        "\u00a716",
+        "§10",
+        "§16",
         "AUTH-05",
         "AUTH-09",
         "AUTH-12",
@@ -14979,7 +14980,7 @@
       "brief": "docs/tasks/EPIC-007/SESSION-009.md",
       "summary": "Implement the reviewed trustworthy runtime session clock and refusal fences; timer/recovery/restore workflows and supported-platform evidence remain separate.",
       "notes": [
-        "Actual clock binding requires the real API-001 host/queue lifecycle, as accepted clock contract \u00a72 assigns. A supplied readiness fixture plus native calls cannot satisfy actual host binding. Preserve all clock trust/fence/SC examples, literal signed conversions, native representation caveat and separate reviews/red/implementation/platform gates. No supported clock or readiness is supplied by this dependency correction."
+        "Actual clock binding requires the real API-001 host/queue lifecycle, as accepted clock contract §2 assigns. A supplied readiness fixture plus native calls cannot satisfy actual host binding. Preserve all clock trust/fence/SC examples, literal signed conversions, native representation caveat and separate reviews/red/implementation/platform gates. No supported clock or readiness is supplied by this dependency correction."
       ],
       "verification": {},
       "evidence": [],
@@ -15000,7 +15001,7 @@
         "SESSION-001"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-01",
         "AUTH-05",
         "AUTH-08",
@@ -15037,7 +15038,7 @@
         "SESSION-009"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-01",
         "AUTH-05",
         "AUTH-08",
@@ -15073,7 +15074,7 @@
         "ACCESSTEST-008"
       ],
       "spec_refs": [
-        "\u00a710",
+        "§10",
         "AUTH-01",
         "AUTH-05",
         "AUTH-08",
@@ -15107,9 +15108,9 @@
         "SESSIONCONTRACT-006"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a710",
-        "\u00a717",
+        "§2",
+        "§10",
+        "§17",
         "SERVER-01",
         "AUTH-12",
         "AUTH-15",
@@ -15158,9 +15159,9 @@
         "SESSION-011"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a710",
-        "\u00a717",
+        "§2",
+        "§10",
+        "§17",
         "SERVER-01",
         "AUTH-12",
         "AUTH-15",
@@ -15193,9 +15194,9 @@
         "SESSION-011"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a710",
-        "\u00a717",
+        "§2",
+        "§10",
+        "§17",
         "SERVER-01",
         "AUTH-12",
         "AUTH-15",
@@ -15227,9 +15228,9 @@
         "CONTRACTPLAN-006"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a710",
-        "\u00a717",
+        "§2",
+        "§10",
+        "§17",
         "AUTH-12",
         "SERVER-01",
         "DEP-05",
@@ -15278,9 +15279,9 @@
         "BOOT-003"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a710",
-        "\u00a717",
+        "§2",
+        "§10",
+        "§17",
         "AUTH-12",
         "SERVER-01",
         "DEP-05",
@@ -15311,9 +15312,9 @@
         "SESSIONTEST-011"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a710",
-        "\u00a717",
+        "§2",
+        "§10",
+        "§17",
         "AUTH-12",
         "SERVER-01",
         "DEP-05",
@@ -15343,9 +15344,9 @@
         "API-001"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a710",
-        "\u00a717",
+        "§2",
+        "§10",
+        "§17",
         "AUTH-12",
         "SERVER-01",
         "DEP-05",
@@ -15376,9 +15377,9 @@
         "DEPLOYMENTTEST-007"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a710",
-        "\u00a717",
+        "§2",
+        "§10",
+        "§17",
         "AUTH-12",
         "SERVER-01",
         "DEP-05",
@@ -15408,9 +15409,9 @@
         "API-001"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a710",
-        "\u00a717",
+        "§2",
+        "§10",
+        "§17",
         "AUTH-12",
         "SERVER-01",
         "DEP-05",
@@ -15441,9 +15442,9 @@
         "DEPLOYMENTTEST-008"
       ],
       "spec_refs": [
-        "\u00a72",
-        "\u00a710",
-        "\u00a717",
+        "§2",
+        "§10",
+        "§17",
         "AUTH-12",
         "SERVER-01",
         "DEP-05",
@@ -15735,12 +15736,12 @@
     {
       "date": "2026-10-30T22:26:30+00:00",
       "task": "BOOT-003",
-      "note": "Claimed from main 2bc4e64 on task/BOOT-003-qt-environment. Specification v0.45 \u00a72; Qt probe contract unchanged. Acceptance: fresh Qt >=6.12 configure/build/CTest, versions and limitations recorded; separate evidence review. Coordinator owns progress/state.json, PROGRESS.html and coordinator handoff; isolated task/BOOT-003-probe-evidence worktree owns https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/boot-003-qt-probe.md only. No product or platform verification upgrade."
+      "note": "Claimed from main 2bc4e64 on task/BOOT-003-qt-environment. Specification v0.45 §2; Qt probe contract unchanged. Acceptance: fresh Qt >=6.12 configure/build/CTest, versions and limitations recorded; separate evidence review. Coordinator owns progress/state.json, PROGRESS.html and coordinator handoff; isolated task/BOOT-003-probe-evidence worktree owns https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/boot-003-qt-probe.md only. No product or platform verification upgrade."
     },
     {
       "date": "2026-10-30T22:26:39+00:00",
       "task": "CONTRACT-002",
-      "note": "Claimed from main 2bc4e64 on task/CONTRACT-002-domain-boundaries. Specification v0.45 \u00a7\u00a72\u20134 plus linked accounting/recovery decisions; time-credit revision1 preserved. Documentation-only foundation contract: separate receipt, contribution, plan, actual effect, delivery job, clock and writer ownership with versioned examples/errors. Author owns docs/contracts/event-state-boundaries-v1.md, docs/tasks/CONTRACT-002.md and https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-002-authoring.md. Coordinator owns progress, HTML and shared architecture/handoff. No schema, code or production capability claim; separate review required."
+      "note": "Claimed from main 2bc4e64 on task/CONTRACT-002-domain-boundaries. Specification v0.45 §§2–4 plus linked accounting/recovery decisions; time-credit revision1 preserved. Documentation-only foundation contract: separate receipt, contribution, plan, actual effect, delivery job, clock and writer ownership with versioned examples/errors. Author owns docs/contracts/event-state-boundaries-v1.md, docs/tasks/CONTRACT-002.md and https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-002-authoring.md. Coordinator owns progress, HTML and shared architecture/handoff. No schema, code or production capability claim; separate review required."
     },
     {
       "date": "2026-10-30T22:28:45+00:00",
@@ -15790,7 +15791,7 @@
     {
       "date": "2026-10-31T08:18:02+00:00",
       "task": "CORETEST-002",
-      "note": "Claimed from refreshed main after CORE001 PR13 merged, task/CORETEST-002-timer-baseline. Specv0.45 \u00a74 TIMER01/02 and reviewed event-state boundariesrev1; no timercontractfinal yet. Scope: bounded deterministic lifecycle/phase reducer contract+examples+publicstub/testharness, default120sgrace/immediate/confirmation, rescue/repeatedfresh/sharedgrace and exacthardend precedence; pause observations accepted but signal/recovery/schedule algorithms remain scopedtasks. Need independent testreview then actualstubred before CORE002implementation. Author isolatedtask/CORETEST-002-timer-author owns timercontract/interface/stubs/tests/taskbrief/authoring evidence; coordinator rootowns sharedCMake/presets,state/HTML/map/checkpoint/PR. Reviewer isolatedtask/CORETEST-002-timer-review owns separate actualrevision review. No productionbehavior or provider/platform claim."
+      "note": "Claimed from refreshed main after CORE001 PR13 merged, task/CORETEST-002-timer-baseline. Specv0.45 §4 TIMER01/02 and reviewed event-state boundariesrev1; no timercontractfinal yet. Scope: bounded deterministic lifecycle/phase reducer contract+examples+publicstub/testharness, default120sgrace/immediate/confirmation, rescue/repeatedfresh/sharedgrace and exacthardend precedence; pause observations accepted but signal/recovery/schedule algorithms remain scopedtasks. Need independent testreview then actualstubred before CORE002implementation. Author isolatedtask/CORETEST-002-timer-author owns timercontract/interface/stubs/tests/taskbrief/authoring evidence; coordinator rootowns sharedCMake/presets,state/HTML/map/checkpoint/PR. Reviewer isolatedtask/CORETEST-002-timer-review owns separate actualrevision review. No productionbehavior or provider/platform claim."
     },
     {
       "date": "2026-10-31T08:24:40+00:00",
@@ -15800,7 +15801,7 @@
     {
       "date": "2026-10-31T13:32:45+00:00",
       "task": "ACCTTEST-001",
-      "note": "Claimed from refreshed main806f69f on task/ACCTTEST-001-receipt-baseline after checking only timerdraftPR14 is open. Specv0.45 \u00a7\u00a73/14, reviewed internal boundariesrev1; CORE001 prerequisite mergedPR13. Independent of unanswered timerpolicy. Scope: generic typed receipt identity, retry/conflict decisions and atomic repository port/service contract; no real provider capability, SQL durability, application effects or contribution credit. Synthetic namespaces, lossless/unknown provenance; fake only stores primitives/rollback, not production dedup decisions. Author isolated task/ACCTTEST-001-receipt-author owns new core/server interface+stubs, tests/fake, receipt contract/brief/author evidence. Coordinator owns all CMake/presets/dependency/state/HTML/map/checkpoint/PR; independent reviewer separate task/ACCTTEST-001-receipt-review. Test review then genuine stubred before implementation. Timer claim preserved for concurrent ownership only; no unmerged timer source integrated here."
+      "note": "Claimed from refreshed main806f69f on task/ACCTTEST-001-receipt-baseline after checking only timerdraftPR14 is open. Specv0.45 §§3/14, reviewed internal boundariesrev1; CORE001 prerequisite mergedPR13. Independent of unanswered timerpolicy. Scope: generic typed receipt identity, retry/conflict decisions and atomic repository port/service contract; no real provider capability, SQL durability, application effects or contribution credit. Synthetic namespaces, lossless/unknown provenance; fake only stores primitives/rollback, not production dedup decisions. Author isolated task/ACCTTEST-001-receipt-author owns new core/server interface+stubs, tests/fake, receipt contract/brief/author evidence. Coordinator owns all CMake/presets/dependency/state/HTML/map/checkpoint/PR; independent reviewer separate task/ACCTTEST-001-receipt-review. Test review then genuine stubred before implementation. Timer claim preserved for concurrent ownership only; no unmerged timer source integrated here."
     },
     {
       "date": "2026-10-31T13:45:07+00:00",
@@ -15835,7 +15836,7 @@
     {
       "date": "2026-10-31T14:11:13+00:00",
       "task": "ACCTTEST-002",
-      "note": "Claimed from refreshed main after ACCT001 PR16 merge on task/ACCTTEST-002-eligibility-baseline. Specv0.45 \u00a7\u00a73/5/14, event-state and receipt contractsrev1. Scope bounded independent evidence/valuation/review/application/reversal dimensions, explicit evidence-admission policy without relabelingunknown, and verified source-scoped confirmation linkage retaining one contribution/no automaticaward. Contract/examples/interfaces/stubs/fakes/tests only; separate review+successfulbuild+genuine stubred before ACCT002implementation. Author isolated task/ACCTTEST-002-eligibility-author owns new contribution core/server interfaces/stubs/tests/primitivefake/contract/brief/author evidence. Coordinator owns all CMake/presets/sharedstate/HTML/map/checkpoint/PR; reviewer isolated task/ACCTTEST-002-eligibility-review owns exactrevision reviews. ActualSQL/Qt/provider proof and application/refundtransactions remain ACCT004/006 andstorage/API gates. Timerquestionindependentblocked, no routineapprovalneeded."
+      "note": "Claimed from refreshed main after ACCT001 PR16 merge on task/ACCTTEST-002-eligibility-baseline. Specv0.45 §§3/5/14, event-state and receipt contractsrev1. Scope bounded independent evidence/valuation/review/application/reversal dimensions, explicit evidence-admission policy without relabelingunknown, and verified source-scoped confirmation linkage retaining one contribution/no automaticaward. Contract/examples/interfaces/stubs/fakes/tests only; separate review+successfulbuild+genuine stubred before ACCT002implementation. Author isolated task/ACCTTEST-002-eligibility-author owns new contribution core/server interfaces/stubs/tests/primitivefake/contract/brief/author evidence. Coordinator owns all CMake/presets/sharedstate/HTML/map/checkpoint/PR; reviewer isolated task/ACCTTEST-002-eligibility-review owns exactrevision reviews. ActualSQL/Qt/provider proof and application/refundtransactions remain ACCT004/006 andstorage/API gates. Timerquestionindependentblocked, no routineapprovalneeded."
     },
     {
       "date": "2026-10-31T18:51:00+00:00",
@@ -15845,7 +15846,7 @@
     {
       "date": "2026-10-31T19:22:55+00:00",
       "task": "CORETEST-002",
-      "note": "Owner explicitly selected automatic main countdown resumption for positive accepted time while awaiting finish confirmation on2026-10-31. Recorded spec\u00a74/\u00a718 and timer-confirmation-credit-decision evidence. Zero actual credit retains wait; independent pauses/grace budget and hardend/Finished guards unchanged. Product-policy blocker resolved; draft contract/cases and independent review/red remain before CORE002 implementation."
+      "note": "Owner explicitly selected automatic main countdown resumption for positive accepted time while awaiting finish confirmation on2026-10-31. Recorded spec§4/§18 and timer-confirmation-credit-decision evidence. Zero actual credit retains wait; independent pauses/grace budget and hardend/Finished guards unchanged. Product-policy blocker resolved; draft contract/cases and independent review/red remain before CORE002 implementation."
     },
     {
       "date": "2026-10-31T19:29:00+00:00",
@@ -15880,7 +15881,7 @@
     {
       "date": "2026-10-31T19:47:47.890097+00:00",
       "task": "CORETEST-003",
-      "note": "Claimed task/CORETEST-003-pause-baseline from current integratedmain0700d5d after CORE002 PR18 merged19:46:03UTC, final17a4602 all6CIpass, independentreviewe64439b/finaldaea486. Specv0.45\u00a74 TIMER03/05; scope pure independentpause-reason set, default30s independentoffline/clientdelays, countdowncontinueswhilepending, recoveryclearsownreason, unknownnotice/defaultretain/optionaltimeout; no transport/Qt/schedule/recoveryalgorithm. Author isolated task/CORETEST-003-pause-author owns newpausepolicycontract/header/stub/tests/brief/authoring evidence; coordinator owns allCMake/preset/sharedstate/HTML/map/checkpoint/PR. Need exactcontractexamples, separate reviewthenactualstubred before CORE003implementation; flagmaterialpolicymissing ratherthanassume. No behaviorwritten or providercapabilityclaim."
+      "note": "Claimed task/CORETEST-003-pause-baseline from current integratedmain0700d5d after CORE002 PR18 merged19:46:03UTC, final17a4602 all6CIpass, independentreviewe64439b/finaldaea486. Specv0.45§4 TIMER03/05; scope pure independentpause-reason set, default30s independentoffline/clientdelays, countdowncontinueswhilepending, recoveryclearsownreason, unknownnotice/defaultretain/optionaltimeout; no transport/Qt/schedule/recoveryalgorithm. Author isolated task/CORETEST-003-pause-author owns newpausepolicycontract/header/stub/tests/brief/authoring evidence; coordinator owns allCMake/preset/sharedstate/HTML/map/checkpoint/PR. Need exactcontractexamples, separate reviewthenactualstubred before CORE003implementation; flagmaterialpolicymissing ratherthanassume. No behaviorwritten or providercapabilityclaim."
     },
     {
       "date": "2026-10-31T19:51:32.846997+00:00",
@@ -15955,7 +15956,7 @@
     {
       "date": "2026-10-31T21:16:39.686579+00:00",
       "task": "ACCTTEST-003",
-      "note": "Claimed task/ACCTTEST-003-application-plan-baseline from currentmainafcf528 after CORE003 PR21 merged21:13:58UTC, final94916f5 all8CIpass, code8197844/final8a50580. PrerequisitesACCT002/CORE001 integrated; spec\u00a7\u00a73/6/7. Scope bounded versionedcapturedplan/calculationprovenance withreplaceablerule/modifierports, arrival/historicalratereferences, immutableoriginals and auditedauthorizedrevision proposals, stale/missingvaluation explicit; capsremainlivecommittime ACCT004/API008integration. Authorisolated task/ACCTTEST-003-plan-author owns new core/serverinterfaces/stubs/tests/primitivefake/contract/brief/evidence; coordinator owns allsharedbuild/preset/schema/state/HTML/map/checkpoint/PR. Need reviewedexamples/tests thenactualintendedredbeforeACCT003. No evaluation/application/provider/SQLfeatureclaim. Cleanupuserrequestcomplete32remotecompletedbranchesremoved, mainonlybeforethisnewactiveclaim; localrefs/worktrees andarchivedtips intact."
+      "note": "Claimed task/ACCTTEST-003-application-plan-baseline from currentmainafcf528 after CORE003 PR21 merged21:13:58UTC, final94916f5 all8CIpass, code8197844/final8a50580. PrerequisitesACCT002/CORE001 integrated; spec§§3/6/7. Scope bounded versionedcapturedplan/calculationprovenance withreplaceablerule/modifierports, arrival/historicalratereferences, immutableoriginals and auditedauthorizedrevision proposals, stale/missingvaluation explicit; capsremainlivecommittime ACCT004/API008integration. Authorisolated task/ACCTTEST-003-plan-author owns new core/serverinterfaces/stubs/tests/primitivefake/contract/brief/evidence; coordinator owns allsharedbuild/preset/schema/state/HTML/map/checkpoint/PR. Need reviewedexamples/tests thenactualintendedredbeforeACCT003. No evaluation/application/provider/SQLfeatureclaim. Cleanupuserrequestcomplete32remotecompletedbranchesremoved, mainonlybeforethisnewactiveclaim; localrefs/worktrees andarchivedtips intact."
     },
     {
       "date": "2026-10-31T21:28:13.505044+00:00",
@@ -16040,7 +16041,7 @@
     {
       "date": "2026-11-01T08:57:36+00:00",
       "task": "CORETEST-005",
-      "note": "Claim from refreshed main1183314 after PR25 actuallymerged finala486ad9 all10checks/no threads/currentnormalrules. DependencyCORE001/CORE002 integrated; specv0.45 \u00a74/NUM03. Scope pure alreadycalculated reversal deficit/debt arithmetic and debt-first eligible additions with explicit policy/fullrequested-vsactual/provenance, nonnegativegrace boundary, exactsigned64 failures. ACCT006 proportionalentitlement, permission/audit/application/persistence/lifecyclecomposition remain explicit callers/downstream, no scope silentlyremoved. Author owns newtime-debt contract/header/explicitstub/tests/evidence ONLY; root sharedCMake/presets/CI/map/state/HTML/checkpoint. Contract/examples -> tests -> separateactualreview -> intendedred required before CORE005 implementation. Readonlyprepcomplete, interpretationRequireReviewonlyoverflow not yetreviewed."
+      "note": "Claim from refreshed main1183314 after PR25 actuallymerged finala486ad9 all10checks/no threads/currentnormalrules. DependencyCORE001/CORE002 integrated; specv0.45 §4/NUM03. Scope pure alreadycalculated reversal deficit/debt arithmetic and debt-first eligible additions with explicit policy/fullrequested-vsactual/provenance, nonnegativegrace boundary, exactsigned64 failures. ACCT006 proportionalentitlement, permission/audit/application/persistence/lifecyclecomposition remain explicit callers/downstream, no scope silentlyremoved. Author owns newtime-debt contract/header/explicitstub/tests/evidence ONLY; root sharedCMake/presets/CI/map/state/HTML/checkpoint. Contract/examples -> tests -> separateactualreview -> intendedred required before CORE005 implementation. Readonlyprepcomplete, interpretationRequireReviewonlyoverflow not yetreviewed."
     },
     {
       "date": "2026-11-01T08:58:50+00:00",
@@ -16090,7 +16091,7 @@
     {
       "date": "2026-11-01T10:03:32+00:00",
       "task": "CONTRACT-004",
-      "note": "Rootrecorded proposedADR0002 and pairedplannedSTORAGE010\u2013015 pluslaterSTORAGECONTRACT001; original002kindandrealbaseline retained, dependenciesacyclic anddownstreamACCT004unchanged. Entire originalmigration/receipt/contribution/config/plan/bundle scope preserved; no newtests/code/verification claimed. Authornewcontract and independentreview ofactualdocument+graph stillpending."
+      "note": "Rootrecorded proposedADR0002 and pairedplannedSTORAGE010–015 pluslaterSTORAGECONTRACT001; original002kindandrealbaseline retained, dependenciesacyclic anddownstreamACCT004unchanged. Entire originalmigration/receipt/contribution/config/plan/bundle scope preserved; no newtests/code/verification claimed. Authornewcontract and independentreview ofactualdocument+graph stillpending."
     },
     {
       "date": "2026-11-01T10:13:20+00:00",
@@ -16105,12 +16106,12 @@
     {
       "date": "2026-11-01T10:27:02+00:00",
       "task": "STORAGETEST-010",
-      "note": "Claim from refreshed main e374788 after PR28 merged at final c12fa12, all 11 checks successful, no review threads and normal rules. Scope: additive revision-1 work/context/session C++ test boundary and explicit stubs, real disposable SQLite acceptance derived from writer-transactions-v1 WT01\u2013WT20; preserve old 25 writer assertions and production behavior. Author owns header additions/new stub/new Qt test plus author evidence; root owns shared build/presets/workflow/state/HTML/map/checkpoint. Done requires independent test/interface/harness review, successful compile, intended missing-behavior red after approval, old writer pass and actual CI. No STORAGE-010 implementation or domain schema/live-provider changes."
+      "note": "Claim from refreshed main e374788 after PR28 merged at final c12fa12, all 11 checks successful, no review threads and normal rules. Scope: additive revision-1 work/context/session C++ test boundary and explicit stubs, real disposable SQLite acceptance derived from writer-transactions-v1 WT01–WT20; preserve old 25 writer assertions and production behavior. Author owns header additions/new stub/new Qt test plus author evidence; root owns shared build/presets/workflow/state/HTML/map/checkpoint. Done requires independent test/interface/harness review, successful compile, intended missing-behavior red after approval, old writer pass and actual CI. No STORAGE-010 implementation or domain schema/live-provider changes."
     },
     {
       "date": "2026-11-01T10:34:36+00:00",
       "task": "STORAGETEST-010",
-      "note": "Shared build/CI harness d680dd4 prepared; separate reviewer inspected it without blockers, with actual test/interface approval still pending authored artifacts. Proposed 24 Qt slots cover WT01\u2013WT20; no new body execution or observed red claimed. Root scaffold configure/build and 3/3 infrastructure checks passed, tooling19/DOM/actionlint passed. Main e374788 post-merge all10 checks successful. Author remains active in isolated worktree; prior evidence preserved."
+      "note": "Shared build/CI harness d680dd4 prepared; separate reviewer inspected it without blockers, with actual test/interface approval still pending authored artifacts. Proposed 24 Qt slots cover WT01–WT20; no new body execution or observed red claimed. Root scaffold configure/build and 3/3 infrastructure checks passed, tooling19/DOM/actionlint passed. Main e374788 post-merge all10 checks successful. Author remains active in isolated worktree; prior evidence preserved."
     },
     {
       "date": "2026-11-01T10:44:54+00:00",
@@ -16265,7 +16266,7 @@
     {
       "date": "2026-11-01T16:33:35+00:00",
       "task": "STORAGETEST-013",
-      "note": "Actual013read-onlyreview foundexistingagreednonzero domainReceiptId rule in application-plans-v1 Capture, core/application_plan.cpp:19 and reviewedapplication_plan_tests.cpp:262. Rootwithdrawsneverimplementedfirst0proposal; preserveoldcontract/assertions. Puretypeduint64codec remainsFULL0..MAX, persisted/allocatedReceiptId1..MAX, nullablelast_allocatedNonebeforefirst\u2192first1/MAXonce/exhaustion. Documentcross-contractreconciliation; no ownerdecision/plan-policyamendmentneeded. Bothnewcontractauthor/reviewerworktreescreatedcleanatb263f60/assignmentsactuallysent; authoractivecontract-only, reviewerprepcompletecleanawaitingactualdoc."
+      "note": "Actual013read-onlyreview foundexistingagreednonzero domainReceiptId rule in application-plans-v1 Capture, core/application_plan.cpp:19 and reviewedapplication_plan_tests.cpp:262. Rootwithdrawsneverimplementedfirst0proposal; preserveoldcontract/assertions. Puretypeduint64codec remainsFULL0..MAX, persisted/allocatedReceiptId1..MAX, nullablelast_allocatedNonebeforefirst→first1/MAXonce/exhaustion. Documentcross-contractreconciliation; no ownerdecision/plan-policyamendmentneeded. Bothnewcontractauthor/reviewerworktreescreatedcleanatb263f60/assignmentsactuallysent; authoractivecontract-only, reviewerprepcompletecleanawaitingactualdoc."
     },
     {
       "date": "2026-11-01T18:04:06.833282+00:00",
@@ -16550,7 +16551,7 @@
     {
       "date": "2026-11-05",
       "task": "CONTRACTPLAN-003",
-      "note": "Actual planning/logical-profile candidate2c00a1d independently approved544c6b9 by separate reference_review. Exact8 intended removals/90additions, all old implementation\u2192baseline edges/global verification preserved;19tooling/project/render/whitespace and scaffold3/3PASS. CONTRACT013/014 concrete schemas/interfaces remain planned; no test/red/runtime capability or API008 readiness claimed. PR63 publication/latest-head CI/rules/discussions/normalmerge remain gates; no new workflow for document-only change."
+      "note": "Actual planning/logical-profile candidate2c00a1d independently approved544c6b9 by separate reference_review. Exact8 intended removals/90additions, all old implementation→baseline edges/global verification preserved;19tooling/project/render/whitespace and scaffold3/3PASS. CONTRACT013/014 concrete schemas/interfaces remain planned; no test/red/runtime capability or API008 readiness claimed. PR63 publication/latest-head CI/rules/discussions/normalmerge remain gates; no new workflow for document-only change."
     },
     {
       "date": "2026-11-05T16:19:28+00:00",
@@ -16645,7 +16646,7 @@
     {
       "date": "2026-11-05T20:26:00+00:00",
       "task": "CONTRACTPLAN-004",
-      "note": "CompleteDOCUMENT-only graphrepair afteractualdifferent477d43f/import584a3fc reviewoffinalddadc20 andboundedEPIC007summary7\u21928fix. Exactold420IDs/1608edges/statuses/owners/reviews/evidence preserved; new422/1619/2records11edges, sessiondocument001PLANNED andnoauthchoice/capabilityfinalized. Actualgraph/project/render/19tooling/whitespacePASS. API010/runtimeSESSION003gates unchanged. Finalmetadata/latestpublicationCI/currentrules/normalmerge remain; concurrentSQL018claim c06/PR70 preservedonseparatebranch."
+      "note": "CompleteDOCUMENT-only graphrepair afteractualdifferent477d43f/import584a3fc reviewoffinalddadc20 andboundedEPIC007summary7→8fix. Exactold420IDs/1608edges/statuses/owners/reviews/evidence preserved; new422/1619/2records11edges, sessiondocument001PLANNED andnoauthchoice/capabilityfinalized. Actualgraph/project/render/19tooling/whitespacePASS. API010/runtimeSESSION003gates unchanged. Finalmetadata/latestpublicationCI/currentrules/normalmerge remain; concurrentSQL018claim c06/PR70 preservedonseparatebranch."
     },
     {
       "date": "2026-11-05T20:56:38+00:00",
@@ -16710,7 +16711,7 @@
     {
       "date": "2026-11-06T05:43:45+00:00",
       "task": "SESSIONCONTRACT-002",
-      "note": "Integrate normalPR73 merge4e85241/finalcbeabc4/all17latestSUCCESS/currentrules0requiredapprovals0threads/CLEAN/no bypass, head-mergetrees equal. Preserve supplier001done/MILESTONE001done/allmain423IDs1624edges/reviews/source/tests/CI and ownactual transport002claimdf1/author3f\u21926cd imported751\u21926f. Only sharedJSON/HTML/checkpoint conflicts; all non002 taskrows exactly latestmain. Different actual correctedtransport review pending; no runtimeclaim."
+      "note": "Integrate normalPR73 merge4e85241/finalcbeabc4/all17latestSUCCESS/currentrules0requiredapprovals0threads/CLEAN/no bypass, head-mergetrees equal. Preserve supplier001done/MILESTONE001done/allmain423IDs1624edges/reviews/source/tests/CI and ownactual transport002claimdf1/author3f→6cd imported751→6f. Only sharedJSON/HTML/checkpoint conflicts; all non002 taskrows exactly latestmain. Different actual correctedtransport review pending; no runtimeclaim."
     },
     {
       "date": "2026-11-06T05:44:58+00:00",
@@ -16785,7 +16786,7 @@
     {
       "date": "2026-11-07T09:30:00.269440+00:00",
       "task": "CONTRACTPLAN-006",
-      "note": "Claim on dedicated task/CONTRACTPLAN-006-session-slices from actualmain e0585ca. Read-only session_readiness found accepted supplier only prepare/resolve, missing concrete lifecycle/account-session store/current accepted-login+clock producers, and separate real ingress obligations. Fresh author owns ADR0010/new focused briefs/author note only. Root owns actual graph/state/HTML/handoff; actual different review and preservation/cycle checks before planningdone. No API/library/schema/test/stub/native/production/runtime capability selected. Preserve every originalID/edge/gate; do not add SESSION002\u2192ACCESS004 cycle. Concurrent reference013 and preserved asset011 claims remain on ownbranches until normal merges."
+      "note": "Claim on dedicated task/CONTRACTPLAN-006-session-slices from actualmain e0585ca. Read-only session_readiness found accepted supplier only prepare/resolve, missing concrete lifecycle/account-session store/current accepted-login+clock producers, and separate real ingress obligations. Fresh author owns ADR0010/new focused briefs/author note only. Root owns actual graph/state/HTML/handoff; actual different review and preservation/cycle checks before planningdone. No API/library/schema/test/stub/native/production/runtime capability selected. Preserve every originalID/edge/gate; do not add SESSION002→ACCESS004 cycle. Concurrent reference013 and preserved asset011 claims remain on ownbranches until normal merges."
     },
     {
       "date": "2026-11-07T09:40:22.314585+00:00",
@@ -16820,7 +16821,7 @@
     {
       "date": "2026-11-07T09:50:17.721718+00:00",
       "task": "SESSIONTEST-008",
-      "note": "Claim task/SESSIONTEST-008-supplier-baseline from actualmainb8f3b14 after normalPR81merge/all21latestSUCCESS/independentreviewea27001e. Scopeaccepted supplierc5f5a6e prepare/resolve only: coherent minimalheader/immediate markerstubs, independentliteral tests/fakes and nativeSDKreadiness/harness before separateactualreview\u2192SDKgreen\u2192intendedcompiledred. No productionbehavior/issuance/store/realclock/login/transport. Fresh authorowns exactserver/test/harness paths byexplicitdelegation; rootownsstate/HTML/CI/pins/integration and independently prepares oldselectedSDK1.0.22. Reviewer mustreceiveactualrevision and approve before new bodiesexecute; no priorred replay or assertionweakening."
+      "note": "Claim task/SESSIONTEST-008-supplier-baseline from actualmainb8f3b14 after normalPR81merge/all21latestSUCCESS/independentreviewea27001e. Scopeaccepted supplierc5f5a6e prepare/resolve only: coherent minimalheader/immediate markerstubs, independentliteral tests/fakes and nativeSDKreadiness/harness before separateactualreview→SDKgreen→intendedcompiledred. No productionbehavior/issuance/store/realclock/login/transport. Fresh authorowns exactserver/test/harness paths byexplicitdelegation; rootownsstate/HTML/CI/pins/integration and independently prepares oldselectedSDK1.0.22. Reviewer mustreceiveactualrevision and approve before new bodiesexecute; no priorred replay or assertionweakening."
     },
     {
       "date": "2026-11-07T10:06:00.142104+00:00",
@@ -16845,12 +16846,12 @@
     {
       "date": "2026-11-07T10:32:37.010850+00:00",
       "task": "SESSIONCONTRACT-003",
-      "note": "Complete DOCUMENT-only lifecycle contract after actual different8b0212d5 review ofe0973fb/blob2f30ac72: sixcommand/port proposal, source-bound acceptedattempt/replay/current credential lineage, actualcallerwriter outcome/privatepublication scope, fixedfiniteprofiles/keysetinspection/fullU64signedexpiry andLC01\u201332 audited. Existing supplier/transport/password/writer/permissions unchanged. No header/schema/tests/stub/implementation/provider capability. Rootmain37f098d integrated preserving443/1735 and allotherstates/reviews. FocusedPR/latestheadCI/currentrules/discussions/normalmerge remain before downstreamwork."
+      "note": "Complete DOCUMENT-only lifecycle contract after actual different8b0212d5 review ofe0973fb/blob2f30ac72: sixcommand/port proposal, source-bound acceptedattempt/replay/current credential lineage, actualcallerwriter outcome/privatepublication scope, fixedfiniteprofiles/keysetinspection/fullU64signedexpiry andLC01–32 audited. Existing supplier/transport/password/writer/permissions unchanged. No header/schema/tests/stub/implementation/provider capability. Rootmain37f098d integrated preserving443/1735 and allotherstates/reviews. FocusedPR/latestheadCI/currentrules/discussions/normalmerge remain before downstreamwork."
     },
     {
       "date": "2026-11-07T10:27:23.126151+00:00",
       "task": "SESSION-008",
-      "note": "Claim dependency-ready implementation from normalPR82/main37f098d afterall21final50aaeSUCCESS/currentrules/0threads/independent2014testreview+6befattribution/actualSDK1green\u219239stubred. Scopeaccepted supplierc5f5a6e prepare/resolve ONLY. Fresh author owns ONLY server/src/session_resolution.cpp and own implementationnote; preserveexactpublicAPI/39assertions/fixtures/SDK/harness/receipts. Root owns allsharedCI/labels/state/HTML/checkpoint/pins/integration. Pass39/full43 +actualdifferent source/resource review and promotedstableCI beforedone. No issuance/realSQLsource/clock/login/permissions/lifecycle/transport/provider/platform capability."
+      "note": "Claim dependency-ready implementation from normalPR82/main37f098d afterall21final50aaeSUCCESS/currentrules/0threads/independent2014testreview+6befattribution/actualSDK1green→39stubred. Scopeaccepted supplierc5f5a6e prepare/resolve ONLY. Fresh author owns ONLY server/src/session_resolution.cpp and own implementationnote; preserveexactpublicAPI/39assertions/fixtures/SDK/harness/receipts. Root owns allsharedCI/labels/state/HTML/checkpoint/pins/integration. Pass39/full43 +actualdifferent source/resource review and promotedstableCI beforedone. No issuance/realSQLsource/clock/login/permissions/lifecycle/transport/provider/platform capability."
     },
     {
       "date": "2026-11-07T10:37:09.902112+00:00",
@@ -16875,7 +16876,7 @@
     {
       "date": "2026-11-07T11:39:03.406406+00:00",
       "task": "STORAGECONTRACT-002",
-      "note": "Complete DOCUMENT-only physical/internal API contract after actual different393015e5/importb996848 approval ofb01cc18/blob8dc7ba9f: four empty additive tables/tenobjects, full signed/BLOB codecs, immutablecapture/currentepochs, boundedcurrentreaders/CAS/snapshot/acceptedattempt handoffs and24literalexamples. Currentmaine440c7f integrated retaining443IDs/1735edges and allotherstates/reviews. Prefix1\u20137 unchanged; proposedv8 allocation/actualSQL/API/testfirstred/source/selecteddriver/CI remainSTORAGETEST020/STORAGE020. No runtime/source/provider/platform claim. FocusedPR/latest21CI/currentrules/threads/normalmerge remain."
+      "note": "Complete DOCUMENT-only physical/internal API contract after actual different393015e5/importb996848 approval ofb01cc18/blob8dc7ba9f: four empty additive tables/tenobjects, full signed/BLOB codecs, immutablecapture/currentepochs, boundedcurrentreaders/CAS/snapshot/acceptedattempt handoffs and24literalexamples. Currentmaine440c7f integrated retaining443IDs/1735edges and allotherstates/reviews. Prefix1–7 unchanged; proposedv8 allocation/actualSQL/API/testfirstred/source/selecteddriver/CI remainSTORAGETEST020/STORAGE020. No runtime/source/provider/platform claim. FocusedPR/latest21CI/currentrules/threads/normalmerge remain."
     },
     {
       "date": "2026-11-07T12:01:44.516227+00:00",
@@ -16885,7 +16886,7 @@
     {
       "date": "2026-11-07T12:22:00.804676+00:00",
       "task": "SESSIONCONTRACT-006",
-      "note": "Complete actualDOCUMENTR2+additiveprerequisites afterfreshdifferent83bb1ca3 graph/source/fullpacketaudit and0990c608/importbecf310 approval ofactualcorrected2f8087fb/import4cdebbc: Via16/candidate262/XPad3835\u20133836 andfixed417/505negativeoracles corrected; originalrequestchanges/authorreceipts preserved. Actualtransport0d0cbde9/referencefe69e3c3, OASunchangedee317612/only3descriptions, allC++/payload/operation/security/23examples invariant. All26officialimmutablefiles independentlyverified; 450IDs/1780edges acyclic/full443oldIDs1735edges/states/reviews preserved exceptauthorized005blocked. Source/configcandidate NOTactualartifact/proxy/runtimeadmission. Bothdefault/alternativeproxy/fullsecurity/release scope retained. Actualhostedschema42370670915codeokbothhosts atd134sameOAS. Currentmainintegration/finalcompletionheadCI/currentrules/threads/normalPR87merge before005resumes."
+      "note": "Complete actualDOCUMENTR2+additiveprerequisites afterfreshdifferent83bb1ca3 graph/source/fullpacketaudit and0990c608/importbecf310 approval ofactualcorrected2f8087fb/import4cdebbc: Via16/candidate262/XPad3835–3836 andfixed417/505negativeoracles corrected; originalrequestchanges/authorreceipts preserved. Actualtransport0d0cbde9/referencefe69e3c3, OASunchangedee317612/only3descriptions, allC++/payload/operation/security/23examples invariant. All26officialimmutablefiles independentlyverified; 450IDs/1780edges acyclic/full443oldIDs1735edges/states/reviews preserved exceptauthorized005blocked. Source/configcandidate NOTactualartifact/proxy/runtimeadmission. Bothdefault/alternativeproxy/fullsecurity/release scope retained. Actualhostedschema42370670915codeokbothhosts atd134sameOAS. Currentmainintegration/finalcompletionheadCI/currentrules/threads/normalPR87merge before005resumes."
     },
     {
       "date": "2026-11-07T11:43:39.522925+00:00",
@@ -16895,12 +16896,12 @@
     {
       "date": "2026-11-07T12:08:50.360257+00:00",
       "task": "SESSIONCONTRACT-004",
-      "note": "Actual freshda9d741/import78e78f3 documentpacket clockblob946bd12b andauthor0bc14b54, SC01\u201330 source/literalexamples. No newdurableclocklatch/service/schema/header/nativecall/behavior. Ordinarytrustedhost livekernelUTC/TIME_OK monitor+boundedframe/continuity/currentrecoveryreadiness scope explicit; no absoluteUTC/crossprocessprivilegedVM rollback claim. Freshdifferentcurrent_session_clock_contract_review examinesactual78e78f3/source/trust/resource/compatibility beforeacceptance. Rootstate/CI/normalPR/latestheadrules gates remain."
+      "note": "Actual freshda9d741/import78e78f3 documentpacket clockblob946bd12b andauthor0bc14b54, SC01–30 source/literalexamples. No newdurableclocklatch/service/schema/header/nativecall/behavior. Ordinarytrustedhost livekernelUTC/TIME_OK monitor+boundedframe/continuity/currentrecoveryreadiness scope explicit; no absoluteUTC/crossprocessprivilegedVM rollback claim. Freshdifferentcurrent_session_clock_contract_review examinesactual78e78f3/source/trust/resource/compatibility beforeacceptance. Rootstate/CI/normalPR/latestheadrules gates remain."
     },
     {
       "date": "2026-11-07T12:18:40.886487+00:00",
       "task": "SESSIONCONTRACT-004",
-      "note": "Complete DOCUMENT-only actualclockcontract after DIFFERENTdb874a0e/importd39d25b approval of78e78f3/946bd12b+0bc14b54: SC01\u201330/source/trust/finiteABI/nativeguard/publication/floor/restart/currentreadiness audited. No newdurablefact/service/schema/nativeclockexecution orabsoluteUTC/crossprocessVM guarantee. ktime_set saturationpreflight explicitdownstream009guard. Existingimports/runtimeowners/fullscope unchanged; latestcompletionheadCI/currentrules/threads/normalPR88merge remain beforedependents."
+      "note": "Complete DOCUMENT-only actualclockcontract after DIFFERENTdb874a0e/importd39d25b approval of78e78f3/946bd12b+0bc14b54: SC01–30/source/trust/finiteABI/nativeguard/publication/floor/restart/currentreadiness audited. No newdurablefact/service/schema/nativeclockexecution orabsoluteUTC/crossprocessVM guarantee. ktime_set saturationpreflight explicitdownstream009guard. Existingimports/runtimeowners/fullscope unchanged; latestcompletionheadCI/currentrules/threads/normalPR88merge remain beforedependents."
     },
     {
       "date": "2026-11-07T11:43:39.514074+00:00",
@@ -16910,7 +16911,7 @@
     {
       "date": "2026-11-07T11:50:53.888220+00:00",
       "task": "STORAGETEST-020",
-      "note": "Root integrator reserves NEXT additive catalog version8/idaccount-sessions-v1 for this020baseline/implementation ONLY after inspecting actualcurrentmain7897e3e immutablecompiledprefix7/reference-initial-captures-v1 and activeassignments/noothermigrationwriter. Reservation is metadata, not productionmanifest/SQL support. Author independentfixture proposesfiveexactDDL/full102objects/77258payloadSHAec41d4b3bf7d04a3e846b401060cc3ed9430020db3dfce0e2650ed76f6a46d5b; actualdifferentfixture/selecteddriverreview+foundation must confirm BEFOREfreeze/red. Allprefix1\u20137 unchanged; newerhead compatibility and explicitupdate/rollback gates retained."
+      "note": "Root integrator reserves NEXT additive catalog version8/idaccount-sessions-v1 for this020baseline/implementation ONLY after inspecting actualcurrentmain7897e3e immutablecompiledprefix7/reference-initial-captures-v1 and activeassignments/noothermigrationwriter. Reservation is metadata, not productionmanifest/SQL support. Author independentfixture proposesfiveexactDDL/full102objects/77258payloadSHAec41d4b3bf7d04a3e846b401060cc3ed9430020db3dfce0e2650ed76f6a46d5b; actualdifferentfixture/selecteddriverreview+foundation must confirm BEFOREfreeze/red. Allprefix1–7 unchanged; newerhead compatibility and explicitupdate/rollback gates retained."
     },
     {
       "date": "2026-11-07T12:20:05.638119+00:00",
@@ -16920,7 +16921,7 @@
     {
       "date": "2026-11-07T12:32:38.647515+00:00",
       "task": "STORAGETEST-020",
-      "note": "Integrate actualmain e712d85 normalPR88clock/cddfe82 andPR87ingressR2/e712d85, bothall21finalSUCCESS/independentreviews/currentrules/normalmerge. Preserveall450IDs/1780edges/allmainrowstates/reviews exceptown020baselineclaim; ownsource/tests/fixtures/stubs/review39c95d58 unchanged. OnlysharedJSON/HTML/checkpoint conflicts. SameauthorcorrectingR1\u2013R4/+4focusedcases\u219244; stagedCIbed9f66closed44 pendingactualdelta. NOnewbodyexecuted; firstactualwholepacketdeltaapproval thenfoundationgreen/red remains."
+      "note": "Integrate actualmain e712d85 normalPR88clock/cddfe82 andPR87ingressR2/e712d85, bothall21finalSUCCESS/independentreviews/currentrules/normalmerge. Preserveall450IDs/1780edges/allmainrowstates/reviews exceptown020baselineclaim; ownsource/tests/fixtures/stubs/review39c95d58 unchanged. OnlysharedJSON/HTML/checkpoint conflicts. SameauthorcorrectingR1–R4/+4focusedcases→44; stagedCIbed9f66closed44 pendingactualdelta. NOnewbodyexecuted; firstactualwholepacketdeltaapproval thenfoundationgreen/red remains."
     },
     {
       "date": "2026-11-07T12:54:23.784785+00:00",
@@ -16945,7 +16946,7 @@
     {
       "date": "2026-11-07T12:57:44.524740+00:00",
       "task": "SESSIONCONTRACT-005",
-      "note": "CompleteDOCUMENT-only actual005proposal bbacc5e/import08b6f01 afterFRESHdifferent82cd57c6 fullsolutionreview: sixacceptedR2/supplier/common/clock/storeimports, source8+26+5primaryfiles, privatecapturelease/pre-map-prelog/nativewindow/scope/policyreload/currentqueue/copywipe/budgets/I01\u201324 audited. Original4bpartial/sourceauthentication andallhistory preserved; no rawenvelope/mTLS/TLSslab/durableepoch/newsubsystemrequired. Native011guidance capturesmethod in kExpectMethod BEFOREenum/retrieval andmaterializesstableAccountHeaderViewspan in fixedscope; actualpatch/ABI/nativeTLS/globalresource/platformsupport NOTapproved. Native011/proxy007008/Source010/API001/SESSION003 actualtestfirst/releaseownersretained. RootfinalPR85/latestheadCI/currentrules/threads/normalmerge remain beforedownstreamwork."
+      "note": "CompleteDOCUMENT-only actual005proposal bbacc5e/import08b6f01 afterFRESHdifferent82cd57c6 fullsolutionreview: sixacceptedR2/supplier/common/clock/storeimports, source8+26+5primaryfiles, privatecapturelease/pre-map-prelog/nativewindow/scope/policyreload/currentqueue/copywipe/budgets/I01–24 audited. Original4bpartial/sourceauthentication andallhistory preserved; no rawenvelope/mTLS/TLSslab/durableepoch/newsubsystemrequired. Native011guidance capturesmethod in kExpectMethod BEFOREenum/retrieval andmaterializesstableAccountHeaderViewspan in fixedscope; actualpatch/ABI/nativeTLS/globalresource/platformsupport NOTapproved. Native011/proxy007008/Source010/API001/SESSION003 actualtestfirst/releaseownersretained. RootfinalPR85/latestheadCI/currentrules/threads/normalmerge remain beforedownstreamwork."
     },
     {
       "date": "2026-11-07T13:11:54.865282+00:00",
@@ -16970,7 +16971,7 @@
     {
       "date": "2026-11-07T14:57:48+00:00",
       "task": "EVIDENCE-001",
-      "note": "Claim at main 01cf400: ADR-0012/spec v0.45 \u00a7\u00a717\u201318, EVIDENCE-001 brief. Fresh author owns archive/link/summary/checker/fixture paths; coordinator owns tag/state/HTML/checkpoint/PR. Verify tag, independent review, tooling and CI before merge. No product assertion changes."
+      "note": "Claim at main 01cf400: ADR-0012/spec v0.45 §§17–18, EVIDENCE-001 brief. Fresh author owns archive/link/summary/checker/fixture paths; coordinator owns tag/state/HTML/checkpoint/PR. Verify tag, independent review, tooling and CI before merge. No product assertion changes."
     },
     {
       "date": "2026-11-07T15:03:53.046042+00:00",
@@ -17155,7 +17156,7 @@
     {
       "date": "2026-11-08",
       "task": "APICONTRACT-001",
-      "note": "Fresh contract author/reviewer assigned current-main1dcf2b6 worktrees before editing. Explicit contract\u2192APITEST012/API012 native profile\u2192API1 host sequence from clean pinned-source Close/control-fragment defects; clock009 now explicitly depends on actualAPI1host. No new body/code/dependency execution."
+      "note": "Fresh contract author/reviewer assigned current-main1dcf2b6 worktrees before editing. Explicit contract→APITEST012/API012 native profile→API1 host sequence from clean pinned-source Close/control-fragment defects; clock009 now explicitly depends on actualAPI1host. No new body/code/dependency execution."
     },
     {
       "date": "2026-11-08",

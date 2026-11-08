@@ -7,7 +7,63 @@ review/intended-red/currentCI/normalmerge gates, final checkpoint and source/SDK
 Inspect actual branches/worktrees/claims/
 processes/PRs/checks before acting; preserve all valid work and independent reviews.
 
-## Current claim APITEST-012: native fixture authoring, execution gated
+## Current APITEST-012 handoff: real wire red, logging correction pending
+
+Root task/APITEST-012-native-websocket-baseline HEAD2a15d590; main/originmainb27ff138.
+User instruction is finish ONLY this baseline through current CI/review/normal protected
+merge, then STOP. API-012 remains planned/unclaimed; no SDK/profile implementation.
+Author /root/native_ws_baseline_author explicitly resumed for minimal fixture logging
+correction; /root/native_ws_baseline_review and /root/api_lifecycle_contract_review
+explicitly resumed for independent real-runtime audits. Do not assume old agents active.
+Root owns shared build/CI/admission/docs/state. Preserve all worktrees/SDKs/receipts.
+
+Final pre-run test review c1f1f862 and resource review8dc6bba2 approved CPP7bff/PYc617.
+First fresh configure succeeded; first build failed missing explicit Drogon WebSocket
+includes (SETUP, never red). Author542980c/root2a15 added ONLY those two includes,
+independently approved /tmp/apitest012-build-fix-review.md SHA
+4f1b414fe3232cd01af20171c4b6318d707b618708040fd9693adc8cb3cf476d.
+Second build passed; final CPPblobc6e24c8907c9833ec9cc8141490e8d25d10a51aa,
+PYblobc6171014545763189dccca786b9526b9a2b03cc3. Native executable SHA
+7e607d64fa260387402674aa89df352ac9309bf7b27bfaeb6db31c57d2897ecd.
+Compiled metadata13acd149 independently admitted8eadbc68. Passive38IDs,
+4-node CTest discovery and identity all passed. Actual complete18-object inventory
+(main, kernelvDSO,16fileDSOs) matched expected exact binaries/SDK/system closure;
+actual inventory38a4f828 reviewed /tmp/apitest012-prebody-admission-review.md SHA
+2f8434b7241bab970d31c021e55ea28e2f9b315174ea62e4ab0fdc87d0a93758.
+No broad ABI, distribution or future-dlopen guarantee follows.
+
+/tmp/apitest012-first-full-runtime.* rc8/8.325096s: three infra nodes passed including
+39 tooling methods; native AF_INET EPERM before ready. Independent c609bf9f audit
+classifies SETUP, not native red. Preserve raw first attempt.
+Same full unfiltered four-node CTest rerun authorized with socket-enabled sandbox;
+/tmp/apitest012-loopback-full-runtime.* rc8/58.445915s, all666source hashes unchanged,
+binary unchanged; native38methods/56.742s reports43failures/59errors, infra passed.
+Raw stdout SHA2c379f7b50c14173ff526f20700f6550e61913d627e1427a05ec13377132940d.
+Initial independent audit: real WS01/10/12 pass and WS02 actual Pong E270 vs expected70
+is reached protocol red. 34 typedUnimplemented failures are missing first-party
+behavior, not native capacity proof. EOF/timeouts require individual attribution.
+Eight non-JSON capture cleanup failures are SDK LOG_ERROR on stdout despite Fatal;
+minimal bounded stderr routing is pending plan/source review. Preserve strict JSON,
+all reviewed oracles and original logs; build/identity gates apply to changed binary.
+No feature/profile/source correction is authorized in APITEST-012.
+
+Untracked root CI draft .github/workflows/native-websocket-profile.yml and
+ tools/native_websocket_ubuntu.json existed during run snapshots. Exact eight Ubuntu
+24.04 amd64 dev/runtime debs downloaded READONLY, control/copyright inspected, hashes
+matched official indexes. /tmp/apitest012-ci-artifacts-metadata.json SHA
+ea533aa1fd462469d8da619adb3017a53c69befb420b9f2e401bf48d94c63adc;
+/tmp/apitest012-ci-ubuntu-index-review-input.json SHA
+4f5906a6b1e72ccc0ee15487c318968af61f9efdb46c4ad5cdffc6d07cbe7ea1.
+HTTPS InRelease hash references checked, local GPG signature NOT verified. Workflow
+uses authenticated APT and verifies actual archive hashes before installation,
+retains notices including compiled ORM utility/libpqxx COPYING, fresh stock prefix,
+effective Drogon C++20/Trantor C++14 and install hashes. It compiles/inventories,
+executes only existing scaffold checks; no native feature/vendor body or identity.
+Exact artifact/license/workflow review remains BEFORE push/CI activation. No PR yet.
+Finish fixture correction/review/real red, CI review, readable task summary/state/HTML,
+focused PR/current checks/final independent packet/normal merge. Then stop.
+
+## Historical APITEST-012 authoring stages (superseded by current handoff)
 
 Actual main/originmain b27ff1382622b16e8a2fb71c00dab4758b86dfd4 (normalPR107merge
 2026-11-08T16:59:32Z). Root task/APITEST-012-native-websocket-baseline, clean frommain
@@ -337,4 +393,4 @@ Keepallhistoricalbranches/worktrees/missingtmpregistrations, cleanCONTRACT011 an
 unpublishedACCESSCONTRACT00153524fc/docblobe08c61d/review. Never reset/prune/delete.
 Fullv0.45/sevenintegrations/threeFX/English-German/themes/bothrenderers/full desktop
 editor/Linux-Windows-OBS/operations/release remains. No livechat/payment/provider/
-deployment actions orcredentials. Continue standingloop after each normalmerge.
+deployment actions orcredentials. STOP after APITEST-012 normal merge per latest user instruction; do not resume loop.
