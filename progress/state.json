@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T12:38:48.039741+00:00",
+  "updated_at": "2026-11-08T13:29:35.243695+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -595,7 +595,7 @@
       "title": "Merge regression executables and simplify test labels",
       "module": "Test infrastructure",
       "kind": "cleanup",
-      "status": "in_progress",
+      "status": "done",
       "owner": "/root/regression_merge_author",
       "depends_on": [
         "TESTCLEAN-004",
@@ -607,11 +607,30 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-008.md",
       "summary": "Merge meaningful regression cases into owning suites and clean stale labels/comments without deleting behavior coverage.",
       "notes": [
-        "Claimed from current main7bb1e21 after normal PR104 merge. Fresh author/reviewer read-only inventories found seven meaningful regressions, owner totals23/33/32. Exact source/case/label/CI/comment proposal must be independently approved before edits. Preserve all52 regression assertion sites, independent vectors, allocator hook and per-case isolation; root owns factual shared documentation/tool status updates. No deletion/relabel approval yet."
+        "Seven regressions now run in owners (23/33/32 cases); all 52 assertion sites/helpers/source paths remain. Labels/two prefixes and 37 intent comments were independently reviewed. Proposal/source/runtime gates passed; one 91-node run/tooling 37 passed with zero skips and per-case allocator isolation. Generator-wording addendum retained; no rerun. Final packet/current CI/normal PR105 merge remain open. Next: STORAGE-020 after EPIC-028 closure."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "cleanup_proposal_review": "passed",
+        "source_config_allocator_review": "passed",
+        "shared_status_review": "passed",
+        "discovery_audit": "passed",
+        "native_acceptance": "passed",
+        "tooling": "passed",
+        "scaffold": "passed",
+        "runtime_review": "passed",
+        "github_ci": "not_run",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/105"
+      ],
+      "review": {
+        "author": "/root/regression_merge_author; coordinator shared factual/status edits",
+        "reviewer": "/root/regression_merge_review",
+        "outcome": "approved",
+        "revision": "Revised proposal SHA5b8d8729/sourcef65fa1e/shareda241c8e/runtime independently approved. All88 names/52 assertions and explicit label/prefix/allocator boundaries verified, no rerun; final packet/current hosted CI/normal merge pending.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/105"
+      }
     },
     {
       "id": "BOOT-001",
