@@ -67,10 +67,13 @@ expected76 separate GTest nodes plus3infra; avoid duplicate builds/runs.
 
 Exact proposal /tmp/testclean007-proposal.md is frozen, SHA256:
 2fb03ca79ca9586f222f77b068cb65d131cb7793b046ec8fecf8e3c6f8835731.
-Author clean at22d4c2e; reviewer is evaluating the exact proposal before any edit.
-All P1–P9/S1–S3/W1–W3 and retained security checks are enumerated there. Author prep
-session is idle; resume explicitly only after scope approval. No deletion or changed-test
-execution is approved yet. Draft PR https://github.com/Kernol12/subathon-bot-ai/pull/104.
+Reviewer independently APPROVED this exact ADR0012 proposal before any edit, after
+matching all four baseline hashes and observing author clean. Only enumerated
+P1–P9/S1–S3/W1–W3 are authorized; all retained security/zero-work/ordering observations
+and all76 methods remain. The author was explicitly resumed to produce that bounded
+patch. NEXT: exact assertion/source/config review BEFORE configure/build/discovery/
+changed-test execution. SDK metadata/setup is verified, not runtime behavior.
+No changed-test execution or unlisted assertion removal is approved. Draft PR https://github.com/Kernol12/subathon-bot-ai/pull/104.
 
 ## Completed final fixture adoption
 
