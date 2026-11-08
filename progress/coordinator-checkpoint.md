@@ -118,7 +118,21 @@ clarity and independent oracle preservation matter, not forced syntax compressio
 No literal/assertion deletion, decoder, policy model or generic patch framework is
 permitted. The reviewer independently confirmed unique SAA/SAH frames total ~20.6KB.
 
-No complete-source execution approval, candidate run or green proof exists yet.
+Whole source 27217787 independently APPROVED for execution and refined design:
+229984 bytes / 4779 lines accepted as named data, not a dump wrapper or model.
+All 34 budget maps, 13 groups and 30 SAA/SAH literal frames were statically checked;
+prior five recipes, tests, seeds, native files and fixtures remain unchanged.
+Root imported partial c367e9d / complete 27217787 as 63ea8e3 / 4a9d3c7.
+
+FIRST GREEN ATTEMPT FAILED at unchanged 27217787: three methods / one failure in
+0.646s, exit 1, only service check comparison. Full-canonical default/selected
+reproduction tests PASS. Raw /tmp/fixture003-first-green.log SHA256:
+ca4b09c70633ec2f1ea04e80441c1dda40c304f144ae542609baebc8b0bcefc6.
+Frozen test hash unchanged. Separate reviewer verified failure attribution. The
+component DTO helper reused for balance objects appears to spell keys in a different
+order; author is diagnosing one temporary output against the immutable baseline.
+NEXT: exact narrow correction and independent review BEFORE rerun. Do not alter tests,
+goldens or seeds. No fixture adoption or native/tooling execution yet.
 
 ## Continuity and full scope
 

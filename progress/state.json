@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T10:46:19.793474+00:00",
+  "updated_at": "2026-11-08T11:08:33.234670+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -464,13 +464,17 @@
       "brief": "docs/tasks/EPIC-028/FIXTURE-003.md",
       "summary": "Reproduce all named service cases, formats, arrangements and snapshots without computing expected semantics through the product.",
       "notes": [
-        "The complete service inventory/R1 extension and six-family tests were independently approved. Three focused tests reached intended red solely through the named service stub; the reviewer verified attribution and frozen hashes. Implementation is authorized in one module; source/oracle execution review must precede generation or test reruns. Existing five goldens, seeds and native assertions stay unchanged."
+        "The complete named service source and size refinement were independently approved before execution. Frozen default/selected generation matches the full typed baseline. The first three-test run had one check-comparison failure from presentation only; its raw receipt is preserved. No output adoption or golden change. A narrow constructor correction requires separate review before rerun; native/tooling/CI remain open."
       ],
       "verification": {
         "scope_contract_review": "passed",
         "test_oracle_review": "passed",
         "baseline": "observed_red",
-        "baseline_review": "passed"
+        "baseline_review": "passed",
+        "source_oracle_review": "passed",
+        "initial_implementation_run": "failed",
+        "canonical_generation": "passed",
+        "acceptance": "failed"
       },
       "evidence": [],
       "review": null
