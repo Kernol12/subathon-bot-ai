@@ -50,10 +50,15 @@ jobs:
               print(fields, item["sha256"])
           if seen != set(expected):
               raise SystemExit("The complete pinned SDK package set was not downloaded")
-          # Download used authenticated APT indexes; install only those verified local archives.
-          subprocess.run(["sudo", "apt-get", "install", "--yes", "--no-install-recommends", "--no-download",
-                          *archives], check=True)
+          # Direct installation cannot resolve/download any unreviewed extra archive.
+          # A missing host dependency is a setup failure; never force or repair it here.
+          subprocess.run(["sudo", "dpkg", "--install", *archives], check=True)
           for item in expected.values():
+              installed = subprocess.check_output(
+                  ["dpkg-query", "--show", "--showformat=${Status}\n${Version}\n${Architecture}",
+                   item["name"]], text=True).splitlines()
+              if installed != ["install ok installed", item["version"], item["architecture"]]:
+                  raise SystemExit("Installed SDK package state/version/architecture mismatch")
               notice = Path(item["copyright_path"])
               if hashlib.sha256(notice.read_bytes()).hexdigest() != item["copyright_sha256"]:
                   raise SystemExit("Installed package copyright differs from admitted bytes")

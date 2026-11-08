@@ -5154,16 +5154,25 @@
         "static_build_wiring_review": "passed",
         "fixture_resource_review": "passed",
         "ws22_plan_review": "passed",
-        "runtime_review": "not_run",
-        "fixture_runtime_cleanup": "not_run",
-        "ci_artifact_review": "passed"
+        "runtime_review": "passed",
+        "fixture_runtime_cleanup": "passed",
+        "ci_artifact_review": "passed",
+        "ci_install_fix_review": "passed"
       },
-      "evidence": [],
-      "review": null,
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/108"
+      ],
+      "review": {
+        "author": "/root/native_ws_baseline_author; coordinator shared boundary/build/CI/status",
+        "reviewer": "/root/native_ws_baseline_review; independent resource /root/api_lifecycle_contract_review",
+        "outcome": "approved",
+        "revision": "CPP0ecf72e4/PYc6171014; boundary, tests/resources/build, logging delta and actual runtime separately approved. Final92a1 reproduces WS02 wire red with zero capture/cleanup faults. Final packet/current CI/normal protected merge evidence is in PR108.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/108"
+      },
       "id": "APITEST-012",
       "title": "Review and demonstrate red: native persistent WebSocket profile",
       "kind": "test_baseline",
-      "status": "in_progress",
+      "status": "done",
       "owner": "/root/native_ws_baseline_author; coordinator shared interface/build/admission/status",
       "depends_on": [
         "APICONTRACT-001",
@@ -5173,7 +5182,7 @@
       "brief": "docs/tasks/EPIC-008/API-012.md",
       "summary": "Independently review literal native control/fragment/Close and bounded lifecycle cases, then observe intended behavior red on working selected dependencies.",
       "notes": [
-        "Reviewed38 methods/72 rows compile/discover on exact stock SDK. Real WS02 Pong E270 vs70 is intended wire red; 34 Unimplemented failures are not native capacity proof. First build/sandbox/setup receipts preserved. Eight SDK stdout diagnostic capture failures require reviewed bounded stderr correction, then fresh runtime audit, CI/PR/normal merge. Stop after this baseline; API-012 stays planned."
+        "38 reviewed methods run on real stock Drogon loopback: WS02 wrong-Pong red; WS01/10/12 pass. Final 35 failures/59 errors are 34 missing-profile cases, one wire assertion, 45 EOFs and 14 receive timeouts; zero cleanup/JSON faults. Three infrastructure nodes/39 tooling methods pass. Resource/deadline behavior, corrected SDK and host remain open for API-012. CI and merge evidence: PR108. Stop after this baseline."
       ]
     },
     {
@@ -17219,6 +17228,11 @@
       "date": "2026-11-08",
       "task": "APITEST-012",
       "note": "Correctedauthor3dccc340/import431b7bc only2files CPP7bffaf91/PYaae1c819; static38/72/max102 +twoattemptcleanup watchdog3120. WS22planbf445 approvedauthoringonly/no newSDKseam. Bothfullinitialreviewsets addressed perauthor; exactindependent re-review pending beforecompile/body. Ownerstopaftercurrenttask held."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "APITEST-012",
+      "note": "Reviewed baseline complete: final real WS02 native red, zero capture/cleanup faults, stock source/SDK unchanged. PR108 preserves first setup/runtime/CI failures and current review/check/merge gates. Owner requests stop after normal merge; API-012 stays planned."
     }
   ]
 }
