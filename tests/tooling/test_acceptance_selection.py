@@ -85,6 +85,18 @@ class AcceptanceSelectionTests(unittest.TestCase):
             ["exact-numeric", "milestone-progression", "time-debt",
              "timer-editorial", "timer-lifecycle"])
 
+    def test_account_session_selection_includes_compiled_migration_prefix(self):
+        # The account manifest appends to the actual compiled initial-capture
+        # factory, so an account-only request needs that complete SQLite prefix.
+        self.assert_selection({
+            "SUBATHON_BUILD_ACCEPTANCE_TESTS:BOOL": "ON",
+            "SUBATHON_ACCEPTANCE_SUITES:STRING": "sqlite-account-sessions"},
+            ["application-service", "sqlite-account-sessions", "sqlite-bundle",
+             "sqlite-contribution", "sqlite-hold", "sqlite-migrations",
+             "sqlite-original-claim", "sqlite-plan", "sqlite-receipt",
+             "sqlite-reference-capture", "sqlite-retained", "sqlite-work",
+             "sqlite-writer"])
+
 
 if __name__ == "__main__":
     unittest.main()
