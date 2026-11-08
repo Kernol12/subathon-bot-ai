@@ -89,7 +89,25 @@ owns all implementation; no partial-file helper assigned. NEXT: exact whole-sour
 independent oracle/execution approval BEFORE candidate imports, generation, test
 reruns or native use. Then frozen tests, independently verified typed output/adoption,
 focused service SQL/tooling once, runtime/packet review and current CI/normal merge.
-No implementation/source execution approval or green proof exists yet.
+Partial source c367e9d was independently reviewed read-only: 166 lines of direct
+SAC/SAS/SAR/synthetic-SAJ framing and DTO constructors, with the build stub still
+inert. No framing/design blocker; optionals preserve absent/empty/CID0. This is NOT
+whole-source execution approval. The author is completing the named case/arrangement
+sections in the single owned module.
+
+Source refinement accepted for review: retain unique SAA/SAH1/2 envelopes as named
+literal bytes where separate typed policy fields are absent. No decoder or inference
+of missing facts. Exact full coverage and literals still need source review.
+
+Root read-only runtime baseline: local-evidence/fixture003/native-baseline.json
+contains the prior verified 235 service PASS IDs (233 body scenarios plus two lifecycle
+results), the actual CTest executable/binary SHA and all 130 native/build/support file
+hashes, including 117 native sources/headers. If unchanged, reuse that validated Qt
+6.12 binary for one service-owner run plus three scaffold checks. Compare real old/new
+service IDs; do not replay the other 13 Qt suites solely for receipts. Hosted current
+SQL CI still rebuilds and runs its normal lane/account passive check.
+
+No complete-source execution approval, candidate run or green proof exists yet.
 
 ## Continuity and full scope
 
