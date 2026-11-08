@@ -93,7 +93,8 @@ ctest --preset acceptance-debug -L acceptance
 ```
 
 `scaffold-debug` checks infrastructure only. `acceptance-debug` selects the 23 passing
-time-credit component cases; its historical `draft` metadata is not full product proof.
+time-credit component cases under owning acceptance labels. Full product verification
+remains a separate release gate.
 Native/translation presets use `SUBATHON_BUILD_ACCEPTANCE_TESTS` and the
 `SUBATHON_ACCEPTANCE_SUITES` list; see `docs/TEST_STRATEGY.md` for selection and
 retired-cache migration. Rate/account feature baselines remain enabled intentional red. Do not use
