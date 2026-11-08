@@ -89,6 +89,14 @@ with an empty reason. Neither is a code 0/default 1000, and abrupt TCP EOF is
 received observation. Diagnostics may use semantic abnormal/no-status labels,
 but 1005/1006/1015 are never placed on the wire or substituted as received codes.
 
+The FIRST valid peer Close observation is immutable for this connection lifetime.
+While queued output drains, later Close frames cannot replace its no-status,
+status or reason, cause another Close reply, admit data, or refresh the deadline.
+They need no retained history; malformed later input can only cause bounded
+teardown, never rewrite that first valid observation. `close_received` is latched.
+Latch the first receive/reply decision on the IO loop before any asynchronous
+output drain; duplicates cannot race an unflushed reply into a second send.
+
 A body of one byte is invalid. A body of two or more bytes has one network-order
 16-bit status and a complete valid UTF-8 reason of at most 123 bytes. Reason
 validation is independent of any unfinished Text state. Freeze this profile's
@@ -113,9 +121,10 @@ stop parsing new data, and close TCP once the Close reply has actually drained
 from the local output queue. This local drain is not confirmed peer receipt.
 Never rely on a callback sending after an earlier transport shutdown.
 
-If Close was already sent, record the valid peer body without sending another
-Close. Simultaneous endpoints can legitimately retain different peer statuses;
-do not rewrite either to match. When both sides have sent/received Close, the
+If Close was already sent but no valid peer Close recorded, record that FIRST
+valid peer body without sending another Close. Simultaneous endpoints can
+legitimately retain different peer statuses; do not rewrite either to match.
+When both sides have sent/received Close, the
 server initiates TCP teardown after its already queued Close has drained. Any
 transport error/output failure or expiry of the original 1000ms Close deadline
 force-closes on the IO loop and records incomplete handshake honestly. Further
@@ -147,7 +156,13 @@ resource policy, not narrower common wire/accounting/reference types.
 An established idle connection with no partial frame/message may remain open;
 idle is not a leaked command lease and cannot block host stop. Absolute partial
 frame/message deadlines start on their first byte/fragment and never reset on
-trickle traffic or control insertion. Check expiry before accepting more bytes.
+trickle traffic or control insertion. ALL native deadlines use the host contract
+§4's one checked `CLOCK_MONOTONIC` elapsed domain, independent of session UTC and
+wall-clock steps; suspension is excluded under that explicit Linux profile.
+At `now >= deadline`, expiry wins before accepting more bytes or output. Check
+on every initial IO callback AND every quota-yield continuation; an event-loop
+timer is only a wake hint. Unavailable/regressing elapsed observations or deadline
+arithmetic overflow cause bounded teardown, never an unlimited/reset timeout.
 At a turn quota, schedule at most one bounded continuation per connection; retain
 only within the same capacities. Callback backpressure refuses/closes 1009 rather
 than grow pending message/command lists. Persistent valid multi-message service
@@ -212,6 +227,8 @@ implied: application callbacks and mandatory control output are separate oracles
 | WS18 | TCP EOF without any Close, versus WS04 followed by EOF | First `no_close_frame`/incomplete handshake; second retains actual empty Close observation. Neither invents normal 1000. |
 | WS19 | Peer never answers local Close; Ping arrives at 999ms | Original 1000ms force-close still applies; no extended handshake or confirmed peer receipt. |
 | WS20 | `88 82 01 02 03 04 02 f0` | Valid peer 1010/empty reason remains recorded; reply `88 00` under the explicit server-direction exception, not received-status replacement. |
+| WS21 | `88 80 01 02 03 04 / 88 82 05 06 07 08 06 ee` while first reply is still draining | First empty Close stays `close_without_status`; send only its `88 00` reply. Later decoded 1000 never overwrites it, adds a reply, admits data or refreshes the first deadline. |
+| WS22 | Quota-yield continuation resumes exactly at its original elapsed frame deadline; wall UTC moved backward | Expired before further frame parsing/delivery; same monotonic deadline and bounded teardown. No extra turn or wall-time extension. |
 
 APITEST-012 must independently author/review tests for these oracles, valid and
 invalid boundary families, actual native buffers and real peer/server/simultaneous

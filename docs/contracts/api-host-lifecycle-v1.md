@@ -90,9 +90,12 @@ Publication membership covers only the synchronous final gate and emitter call,
 with no yielding or later command interleaving. Sources used there must be valid
 current host-owned bindings at completion, not a dead repository unit or a copied
 previous permit. If the host cannot establish them, suppress publication. The
-clock is sampled anew immediately before the emitter, under clock/lifecycle v1;
-execution time is not reused. Secret emission remains at most once and follows
-the existing exact metadata/expiry/wipe contract. Local handoff is not confirmed
+owning operation decides whether trusted publication time is required. For bearer
+and session-credential emission, clock/lifecycle v1 REQUIRE a fresh clock sample
+immediately before the synchronous emitter; execution time is never reused.
+Ordinary nonsecret transport/error replies acquire no session-UTC requirement
+from this host contract. Secret emission remains at most once and follows the
+existing exact metadata/expiry/wipe contract. Local handoff is not confirmed
 network receipt. A post-commit refusal/exception leaves committed truth intact.
 
 Installation generation is an internal live-host identity, distinct from stored
@@ -167,6 +170,39 @@ their domain type. Invalid/overflowing/incoherent configuration fails startup.
 Client input cannot raise limits. Tests use reduced literal limits to exercise
 boundaries without large allocations.
 
+All queue, response, upgrade, frame/message, Close and drain deadlines share ONE
+API-001-owned elapsed-time domain across the authoritative thread and IO loops.
+The selected Linux profile reads
+[`CLOCK_MONOTONIC`](https://man7.org/linux/man-pages/man2/clock_gettime.2.html)
+through a read-only host-owned adapter; it excludes suspended time. This is
+elapsed resource scheduling, not SESSION-009's trusted UTC or a session-age source.
+Wall-clock corrections cannot
+move these deadlines. No request timestamp, client deadline or previous process's
+anchor supplies this domain. Exact native implementation/source observations are
+downstream gates; no native call is made by this document.
+
+Represent elapsed instants/deadlines as checked unsigned64 nanoseconds in that
+same domain. Native observations require nonnegative seconds and normalized
+nanoseconds `0 <= nsec < 1000000000`; convert `sec*1000000000+nsec` exactly and
+range-check the final value, without floating point or overflowing intermediates.
+Convert a configured millisecond duration and add it to the actual start instant
+without overflow; never wrap, saturate or turn failure into an
+unlimited timeout. A malformed/unavailable/regressing observation or unrepresentable
+deadline refuses new admission, cancels not-yet-entered domain work, revokes the
+affected response lease, or tears down the affected network peer as appropriate.
+Regressions are checked against that owner's prior accepted observation, without
+misordering simultaneous reads from different threads. A network owner that
+cannot obtain time force-closes its affected peer on that turn rather than waiting
+on an unmeasurable timeout. There is no session-UTC or wall-time fallback.
+Elapsed-time failure cannot fabricate a SQL outcome or preempt executing work.
+Invalid duration configuration fails startup. Timer callbacks only wake their owner:
+sample/recheck `now >= deadline` at execution entry, local handoff and every IO
+continuation, before accepting more input/output. Equality is expired. A delayed
+callback never extends the original deadline, and expiry wins over entry/handoff
+when that owner checks both in the same turn. Absolute instants are not persisted
+or compared across host processes/domains. An external supervisor's wall-time
+termination policy remains separate from this suspend-excluding profile.
+
 Before taking ownership, reserve association and cumulative payload/response
 capacity, including every actual retained copy and its declared overhead. Check
 whole lengths before copy/parse/materialization. Network receive/parser/output
@@ -180,8 +216,23 @@ the connection without inventing an application result.
 Full/expired/stopping admission refuses before execution. On disconnect or queue
 deadline, an association not yet executing is cancelled and must never invoke its
 command. Race resolution occurs on the owner queue: exactly one of cancellation
-or execution entry wins. Once actual non-yielding work starts, disconnect/timeouts
-only revoke the response lease; they cannot preempt SQL or imply rollback.
+or execution entry wins after the current deadline/fence check. This cancellation
+is of the bridge command/domain invocation, not deletion from the writer FIFO.
+If a `SqliteWriter::enqueue_work` wrapper has ALREADY been accepted, retain it,
+its dependencies/reservations and its once-only completion through normal FIFO
+drain. On dispatch the wrapper checks cancellation/deadline/stop BEFORE creating
+an execution binding, calling the domain body or attempting BEGIN. A cancelled
+wrapper returns without BEGIN; the unchanged writer then reports its actual
+`not_started/missing_transaction`, with no logical value. The host records its
+separate cancellation reason without relabeling that result as rollback, commit
+or success. A writer that fail-closed before wrapper invocation instead supplies
+its actual ordered `not_started/writer_unavailable`. Neither path retries the item.
+Ordinary already-admitted writer batches keep their existing execution/drain
+semantics; host cancellation cannot erase or rewrite them. No execution facade
+exists during any queued interval.
+
+Once actual non-yielding domain work starts, disconnect/timeouts only revoke the
+response lease; they cannot preempt SQL or imply rollback.
 Retain the true committed/rolled-back/uncertain outcome internally, suppress an
 unavailable response, and use only the operation's reviewed retry policy. A
 cancelled response is not a new operation, authenticated retry or delivery proof.
@@ -198,9 +249,12 @@ snapshot/sync; a transport connection grants no current account authority.
 
 The first consumed stop request closes application admission and increments the
 admission fence before draining. Already admitted queued commands are cancelled;
-the one actual executing callback, if any, finishes under the existing writer
-contract. Its completion may record truth but cannot start new work or publish a
-new bearer after the stop fence. Already handed-off nonsecret responses may drain
+already-accepted writer wrappers still dispatch/complete in FIFO under §4, with
+cancelled domain bodies never entered. Requesting writer shutdown drains ALL
+accepted items and completions under its unchanged contract. The one actual
+executing callback, if any, finishes under that contract. Its completion may
+record truth but cannot start new work or publish a new bearer after the stop
+fence. Already handed-off nonsecret responses may drain
 within the remaining network deadline. New/partial HTTP requests are refused or
 closed without a state command; idle/partial/uncooperative sockets cannot extend
 the deadline. Persistent WS receives the native profile's bounded server Close.
@@ -244,6 +298,10 @@ Synthetic literal examples below are contract oracles, not executed tests.
 | HL11 | Bound port unavailable in fresh child | Process-terminal bind failure; no same-process retry/destructor-success claim. A NEW child may retry after releasing the port. |
 | HL12 | Stop with idle socket, partial frame, queued request and already executing write | Cancel queue, let actual write finish, close/force-close peers by fixed network deadline, then require actual owner barriers. Unreturned write prevents a graceful-stopped claim. |
 | HL13 | Normal work commits; emitter locally hands off; peer disappears before receipt | Committed and local handoff only; no confirmed client delivery, no automatic operation replay. |
+| HL14 | Writer accepts W1,W2,W3 in order; W1 commits/completes, then owner consumes stop before W2 dispatch | W2/W3 wrappers still dispatch and complete once in FIFO, without BEGIN, domain call or execution facade. Actual results are `not_started/missing_transaction`, values absent; host separately records stop cancellation. Shutdown acknowledgment follows all three completions; no accepted item is erased and no retry is started. If writer instead fail-closes, its actual ordered unavailable results remain unchanged. |
+| HL15 | Monotonic start 1000ms and queue budget 5000ms; wall UTC jumps forward or backward; elapsed entry 5999 versus 6000ms | Original elapsed deadline stays 6000ms. First may enter if current gates pass; equality refuses. A delayed wake at 6001 does not grant another 5000ms. |
+| HL16 | Valid configured duration would add beyond unsigned64 nanoseconds, or elapsed observation becomes unavailable | Refuse affected admission/entry/handoff and tear down affected peers as applicable; no wrapped/unlimited deadline or invented SQL result. Already executing work keeps its actual outcome. |
+| HL17 | Ordinary nonsecret diagnostic/error reply, session-clock producer unavailable | No implicit session-UTC dependency; current transport/lifecycle and elapsed lease gates still apply. Session credential emission under the same outage remains suppressed by its mandatory fresh trusted publication sample. |
 
 Different document/example review precedes APITEST-012/API-012's real native
 profile baseline/correction, then APITEST-001's independent Qt/fake AND real
