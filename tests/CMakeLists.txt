@@ -20,6 +20,10 @@ if(SUBATHON_BUILD_SCHEMA_VALIDATION_TESTS)
     add_subdirectory(schema_validation)
 endif()
 
+if(SUBATHON_BUILD_NATIVE_WEBSOCKET_PROFILE_TESTS)
+    add_subdirectory(native_websocket_profile)
+endif()
+
 if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS)
 
     add_executable(server_session_resolution_acceptance acceptance/session_resolution_tests.cpp)

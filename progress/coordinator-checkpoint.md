@@ -64,15 +64,27 @@ lease/nativecounters manufactured. These exact authored files/STUB still need di
 review before any body. No CMake wiring/build/test/header execution yet. Integrated b32913ee5994d523577205a6a8cbf273cdfd6d8e independently approved:
 /tmp/apitest012-integrated-boundary-review.md SHA
 e043b656b94578cfb508f2d8c14e76fea57efff1ac1730421762a6fe02d5d289.
-Author worktree was cleanFFto b329, explicitly resumed ACTIVE writing ONLYtwo owned
-nativefixture files (uncommitted/unexecuted until handoff). Do not move that branch
-while authoractive. CLI--probePATH/-v/--list; probe--identity pending exactreview.
-Largepayload digest+length/smallhex, finite asyncstdout/commands proposed; directdeps
-Drogon::Drogon/Threads::Threads/OpenSSL::Crypto/CMAKE_DL_LIBS, noQt/GTest/sodium.
-Root SDK import/preset/serverstub wiring AUTHORED in0c33c58; nativefixture registration
-pending finalsource/casebound/timeout. Separate exacttest/buildreview beforeconfigure.
-Primary reviewer completed selector/runtimegates; explicitly resume for exactauthored
-nativefixture/build/foundation review when ready.
+Author originalcaa8a1d0b38a121f5114e3ab0f0dc2b7cd8c3095 completed/IDLE, clean
+/tmp/subathon-apitest012-author task/APITEST-012-author. Rootimportbf2e465:
+CPPblob1ca80afd816cf7b0f58a1a96ff7576ee0ac1be49;
+PYblobb3f641c8d77d950cb4fbc07b3a6b6e29dfedf6f7, only2ownedfiles. 911CPP/976PYlines,
+36methods/72table rows/max100childscenarios STATIC, NOT executed. Authorclangformat/
+whitespace pass only; no compile/import/discovery/identity/socket/body/native calls.
+CLI--probePATH/-v/--list; probe--identity boundedloadedobjects/C++20/backend and no
+listener/Profile. Largepayload digest+length/hex<=32B; finiteasyncstdout/onepending
+stdincommand. DirectdepsDrogon/Threads/OpenSSL::Crypto/DL; noQt/GTest/sodium.
+Root added one tests/native_websocket_profile/CMakeLists.txt node with controlled
+LD_LIBRARY_PATH=explicitSDK/lib +BUILD_RPATH, labelsintentional-red, TIMEOUT1860
+(100*(10scenario+8cleanup)+60margin AUTHORSTATICDERIVATION, independentreviewpending).
+RootSDKimport/preset/serverstub wiring staticapproved; fullfixture/registration/protocol/
+resource/lifecycle/ABI/actualprobe identity gates remain. Sourceauthorcaveats: WS22
+currentlytests native recheck equality, notobservedheldquota continuation; EVERY
+actualcontinuationguard sourceproof mandatory, fullliteralWS22coverage must be
+independentlyassessed beforeacceptance (no silent substitution). Cloneunknownbound/
+SSO/hiddencopies still sourceproof. Fakeclock no actualhost/session binding.
+Explicitly resume independent primarytestreviewer and separate nativeSDK/resource/
+fixtureownershipreviewer for exactnewcommit. Authorretiredhandoff; resumeonlybounded
+spec-basedcorrections withinSAME executabletask, not assumedactive.
 
 Staticstockfoundation APPROVED, not execution or completeABI, by separate
 /root/api_lifecycle_contract_review (completed): /tmp/apitest012-stock-foundation-review.md
@@ -111,16 +123,21 @@ Shared SDK/build wiring exact0c33c58 received one CHANGES REQUIRED B1:
 b754af1b3fa7fd52c3ba4835a67b144be8c11c47c70446378d7e1ae3b86b0ee1.
 Release-only targetpaths cannot certify preexistingDebug/mapped/interface state.
 Root added bounded reject-if-either-framework-target-exists before firstimport;
-GLOBALinclude_guard preserves own repeats. Exactdelta independent review pending.
+GLOBALinclude_guard preserves own repeats. Exactfix5e19fd2697dbaedd50b10a2ce3fc02b268f2777f APPROVED:
+/tmp/apitest012-sdk-build-wiring-fix-review.md SHA
+b23c02e3e6c90db841de502b2a703b1c6e2b17eb3f99c07e6813c298cc79cf4d.
+Inverse4lines exactly0c33module; otherwiringbytes unchanged.
 All other staticwiring positives preserved. Known selectedFindFilesystem runs an
 existing C++17 std::filesystem configureprobe; classify it as foundation execution,
 not nativeprofilebody/no-program-execution. No configure/compiler/SDK/app ran yet.
-Sourcehelper completedoriginalreview; explicitly resume exactguarddelta review.
+Sourcehelper completedfixreview; explicitly resume exactfixture/registration/resource review.
 
-NEXT: authorhandoff exacttwofixturefiles -> root controlledSDK loader/registration
-wiring + separate exacttest/stub/build/foundation review -> configure/build/passive
-registration/actualprobe identity -> actual FIRST intended nativeprotocol red and
-independently classified unsupportedresource seam. No sourcecorrection yet.
+NEXT: exact authoredtest/protocol/resource/lifecycle/registration/foundation review,
+resolve genuinefindings bysameauthor+differentreview, preserve expectedoracles ->
+configure/build/passive registration/actualcompiledprobe identity (existingselected
+C++17filesystemconfigureprogram isfoundation, notSDKprofilebody) -> actual FIRST
+intended nativeprotocolred and independently classified unsupportedresource seam.
+No sourcecorrection or newnativebody authorization untilthosegates explicitlypass.
 Freeze assertions; only then separate fresh API012 implementation/source/resource/
 ABI/nativeCI/currentmerge gates. No owner decision/access blocker observed.
 

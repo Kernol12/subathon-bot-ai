@@ -5149,7 +5149,9 @@
         "selector_source_review": "passed",
         "selector_acceptance": "passed",
         "selector_runtime_review": "passed",
-        "build_wiring_review": "not_run"
+        "build_wiring_review": "not_run",
+        "tests_authored": "passed",
+        "static_build_wiring_review": "passed"
       },
       "evidence": [],
       "review": null,
@@ -5166,7 +5168,7 @@
       "brief": "docs/tasks/EPIC-008/API-012.md",
       "summary": "Independently review literal native control/fragment/Close and bounded lifecycle cases, then observe intended behavior red on working selected dependencies.",
       "notes": [
-        "Boundary r4/seven examples and exact stock Unimplemented header/stub independently approved. Selector has reviewed intended red, one-name implementation and actual7/7 green with separate runtime audit. Static SDK review records Drogon C++20/Trantor C++14 and notice/loader limits. Fresh author writes two native test files; root SDK/build wiring authored. Exact tests/build/admission, compile/link/maps/discovery and first intended native red remain. No profile correction or native body run."
+        "Authored 36 native methods/72 table rows; no body run. Boundary/stub and SDK import wiring independently reviewed; selector has observed red and actual7/7 green. Static SDK audit records Drogon C++20/Trantor C++14, notices and loader limits. Exact two-file native handoff and one intentional-red CTest node await protocol/resource/lifecycle/build review. Compile/link/maps, passive discovery and first intended native red remain; no source correction or runtime capability supplied."
       ]
     },
     {
@@ -17192,6 +17194,11 @@
       "date": "2026-11-08",
       "task": "APITEST-012",
       "note": "Integratedboundaryb329 approvede043; authoredselectorece3186 approvedbdc237; actualunknown-selectorred1fail capturedbefore exactone-name210081/source7b6b. Actualfirstfullclassgreen7/7/0skip auditedf53a70d7; priorreview8count explicitlycorrected, no rerun. Sourcefiles/header/fixture/native bodies remain unexecuted; SDK/build lane draft only."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "APITEST-012",
+      "note": "Freshauthorcaa8a1d0/importbf2e465 exactCPP1ca80afd/PYb3f641c8 handoffonly2files,36methods/72tables/max100scenariosstatic. No compile/import/discovery/identity/socket/body. RootoneCTest1860s controlledloader registration authored; exacttest/resource/build review next. SDKimportB1reviewb754 fixed5e19 andapprovedb23c; nopreexistingframeworktargetreuse."
     }
   ]
 }
