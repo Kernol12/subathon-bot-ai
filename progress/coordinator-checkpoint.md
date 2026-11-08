@@ -40,8 +40,19 @@ Verify actual state on resumption. Preserve existing work and reviews.
   separate rawlog+testSHA review APPROVED intended red. /tmp/fixture002-intended-red.log
   SHA4ef41a49d3e6cd0dd3cc7e66ebcf5753d233d05c5564d590d96f34cca368b64c;
   testsSHAd1f6184824857c2908944d10bf214844539ccbd51d4839280f9514b78aeb191c.
-  NEXT: implementation -> separate source/oracle execution approval -> generation/
-  selector adoption/relevant checks/runtime review. No candidate implementation executed.
+  Whole source54c0462 independently APPROVED for execution; imported823d073/54c0462
+  asca9669e/073ad40. Bundle1406/96431B,holds974/62895B,claims277/20544B; explicit
+  literal data explains reviewed bundle size refinement. Native diff preserves all asserts.
+  FIRSTGREEN FAILED3methods/3failures0.402s: holdsraw9ede6ffd differs frozenc7f14e0a;
+  bundle/claims selected subtests passed. No fixture adoption/native run yet.
+  /tmp/fixture002-first-green.log SHA4e7492d7c45e22d4ac4bb45aea0ddf86c43ed77ab63158e6c53a9f414cfcba22.
+  Tests remain frozenSHAd1f61848; no golden/pin refresh. Temporary holds diagnosis confirmed exact typed/key-order equality, canonical996f8463.
+  Only two setup arrays have compact inline legacy layout, old839563B vs1071273B.
+  Coordinator authorized tiny holds-specific presentation function+explicit serializer
+  metadata; no common/F001renderer/test/golden/seed changes. Narrowfix95ca399 reviewed;
+  static newline-anchor correction9752a05 awaits exact final review before rerun.
+  NEXT: reviewed sourcefix -> SAMEfocusedtests -> output verification/adoption -> root
+  integrated native/tooling -> independent runtime/packet review -> currentCI/normalmerge.
   Author owns focused CLI firstgreen/adoption; root owns one integrated selected Qt and
   infrastructure/tooling run, avoiding duplicate native/full-tooling receipts.
 - Preserve bundle/holds original canonical hashes; claims projection removes ONLY name/
@@ -54,7 +65,7 @@ Verify actual state on resumption. Preserve existing work and reviews.
   Main author retains bundle/claims/native patch/integration; separate reviewer unchanged.
   Shared immutable bundle source framing API coordinated directly; no concurrent samepath
   editing. All source execution remains gated.
-- Local pkg-config reports real Qt Core/Test/Sql6.12.0. No candidate/native execution yet.
+- Local pkg-config reports real Qt Core/Test/Sql6.12.0. No native run yet; candidate first attempt failed as recorded above.
   Require actual native PASS-ID crosswalk and retain account44 passive red. No unrelated
   native receipt replay. All current-head CI/reviews/discussions/normal merge still gated.
 
