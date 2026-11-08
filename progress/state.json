@@ -17199,6 +17199,11 @@
       "date": "2026-11-08",
       "task": "APITEST-012",
       "note": "Freshauthorcaa8a1d0/importbf2e465 exactCPP1ca80afd/PYb3f641c8 handoffonly2files,36methods/72tables/max100scenariosstatic. No compile/import/discovery/identity/socket/body. RootoneCTest1860s controlledloader registration authored; exacttest/resource/build review next. SDKimportB1reviewb754 fixed5e19 andapprovedb23c; nopreexistingframeworktargetreuse."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "APITEST-012",
+      "note": "Owner steering: cleanly finish current APITEST-012 baseline through all review/red/CI/merge gates, then stop standing loop. Do not begin API-012 implementation or another task. Current authoredtests remain unexecuted pending independent review/corrections."
     }
   ]
 }

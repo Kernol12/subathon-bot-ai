@@ -1,7 +1,10 @@
 # Coordinator checkpoint
 
 Updated: 8 November 2026. Standing loop resumed under AGENTS.md and
-COORDINATOR_PROMPT.md. No stop requested. Inspect actual branches/worktrees/claims/
+COORDINATOR_PROMPT.md. USER NOW REQUESTS: cleanly finish current APITEST-012,
+then STOP the standing loop; do not claim/start API-012 or any next task. Preserve
+review/intended-red/currentCI/normalmerge gates, final checkpoint and source/SDK proof.
+Inspect actual branches/worktrees/claims/
 processes/PRs/checks before acting; preserve all valid work and independent reviews.
 
 ## Current claim APITEST-012: native fixture authoring, execution gated
