@@ -229,11 +229,18 @@ run passed 14 stable suites, 361 methods and 869 results. PR #102 reuses the val
 binary after independently verifying every native/build/support input: the focused
 service run passed 43 methods/233 body scenarios plus two lifecycle results, with the
 same ordered 235 raw PASS IDs. Infrastructure 3/3 and tooling 37/37 pass. Other Qt
-suites were not replayed solely for receipts. Current packet/CI/merge gates are recorded
-in PR #102. Account coordinate8 remains proposed and its 44 feature bodies passive;
+suites were not replayed solely for receipts. Independent final packet review and all 19 current checks passed before normal
+PR #102 merge `b538fa5`. Account coordinate8 remains proposed and its 44 feature bodies passive;
 hosted SQL CI builds the baseline and checks nonempty metaobject discovery, without
-running or independently counting 44 feature bodies. Final all-six CI/docs adoption
-remains the separate [TESTCLEAN-006 task](../tasks/EPIC-028/TESTCLEAN-006.md).
+running or independently counting 44 feature bodies. Final [adoption PR #103](https://github.com/Kernol12/subathon-bot-ai/pull/103) adds an
+all-six `--check` immediately after SQL-job checkout and the
+[fixture provenance/usage map](../../tests/fixtures/README.md), with every other workflow
+byte, recipe, fixture, assertion, pin and build input unchanged. Independent proposal,
+source/CI and actual output/runtime reviews passed. All six raw presentations and full
+parent canonical/projection oracles match; CLI generation/check snapshots are unchanged.
+The existing tooling 37/37 and project checks pass; tooling separately creates ordinary
+Python caches. Prior native proof is reused by identity. Final packet, current hosted
+new-step/SQL/passive-account and normal merge gates are recorded in the PR.
 Earlier cleanup PRs merged normally after
 independent review and all current checks. Later cleanup retains separate baseline
 reviews; full specification acceptance, live/provider/platform evidence and release

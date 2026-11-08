@@ -1,89 +1,100 @@
 # Coordinator checkpoint
 
 Updated: 8 November 2026. The user resumed the standing loop under AGENTS.md and
-COORDINATOR_PROMPT.md. The old stop-after-FIXTURE-001 instruction is superseded.
+COORDINATOR_PROMPT.md; the old stop-after-FIXTURE-001 instruction is superseded.
 Inspect actual branches, worktrees, claims, workers and PR state before acting.
 
-## FIXTURE-003 local completion; merge gates remain
+## Final TESTCLEAN-006 local completion; merge gates remain
 
-Root branch: task/FIXTURE-003-service-recipes, parent main/origin main 7cbfb10.
-Focused PR: https://github.com/Kernol12/subathon-bot-ai/pull/102.
-State done means local implementation proof; final exact packet approval, current
-hosted CI, active rules/discussions and normal merge are still mandatory.
+Root branch task/TESTCLEAN-006-final-adoption, parent main/origin main b538fa5.
+Focused PR https://github.com/Kernol12/subathon-bot-ai/pull/103. State done means
+local implementation proof; exact packet approval, current hosted new check/normal
+SQL/passive-account CI, active rules/discussions and normal merge remain mandatory.
 
-Fresh author /root/fixture_service_author finished clean ca3f962 and RETIRED.
-Preserve /tmp/subathon-fixture003-author (task/FIXTURE-003-author). Independent
-reviewer /root/fixture_service_review remains assigned in
-/tmp/subathon-fixture003-review (review/FIXTURE-003) for final packet/CI gates.
-Coordinator owns state/HTML/current docs/evidence/CI/CMake/PR. No other task claim.
+Fresh author /root/fixture_adoption_author finished clean39b62bb and RETIRED;
+preserve /tmp/subathon-testclean006-final-author (task/TESTCLEAN-006-adoption-author).
+Different reviewer /root/fixture_adoption_review remains assigned in
+/tmp/subathon-testclean006-final-review (review/TESTCLEAN-006-adoption).
+Coordinator owns shared state/HTML/current strategy/evidence/PR and other CI/CMake.
+No other task claim exists.
 
-- Contract/inventory daa0f449 and tests/stub/registration 73396a493 independently
-  approved before execution. Intended red: three methods/three named service-stub
-  failures, 0.471s, no import/dependency/parse/skip failure. Raw SHA256:
-  bee5b7b7d970ecf9dc1fb13bcfe3d889bdaba9e6d775769a022932b4d24fd722.
-- Frozen test SHA256 from red through green:
-  dd1464c9cc3e4b00be18a6e3e43d0b50f28717369f47dc0eadc2ae3c549494f0.
-- Partial framing c367e9d and complete source 27217787 independently approved before
-  run. Refined ~230KB/4779-line design accepted as named data: 34 cases, all 13 groups,
-  literal budgets/outcomes and 30 exact audit/hold byte anchors. Public SAC/SAS/SAR/SAJ
-  packers only; missing audit/hold source fields stay literal, with no decoder/inference.
-  Only four pinned seeds/source helpers, no legacy output inputs, production/SQLite/git
-  calls, evaluator or generic patch framework. No source-size-driven oracle deletion.
-- FIRST GREEN ATTEMPT FAILED: three methods/one check-comparison failure, 0.646s.
-  Default/selected full-canonical reproduction PASSED. Raw SHA256:
-  ca4b09c70633ec2f1ea04e80441c1dda40c304f144ae542609baebc8b0bcefc6.
-  One diagnostic found zero typed differences and exactly 245 balance key-order
-  differences. Separate _balance constructor correction 45102c23 approved BEFORE
-  rerun; normalized AST proved no other value/packer/component/test/seed change.
-- SAME three tests PASS 0.951s; raw green SHA256:
-  6d52e62df379100b09ec88321dd8e960f0d5658634c603edcf7e4764a1610c7c.
-  Direct service generation/all-six check exit 0; full 655-file snapshots unchanged.
-  Only service JSON adopted, common layout 930063 bytes/raw
-  f9899dbc58033c1af8b8ce975c34e805ddd7988774d86a927de8d784edc27473;
-  entire parsed object equals old 707682-byte baseline, full canonical
-  d95d24f1c3f2cc5c9dfa43e1bd7c8f914bef365f8c955c5a7903a9894e5fd06c.
-  Other five fixtures byte-identical. Runtime/adoption ca3f962 independently APPROVED.
-- Root imports through 5b45141 byte-identical to ca3f962. All 130 native/build/support
-  hashes, including 117 native files, equal main 7cbfb10; validated Qt 6.12 service
-  binary SHA256 a3f935f65c4682d33fab19fca470a2d13a39e271287eccb85ac449140b23d556.
-  Reused that binary, no rebuild or unrelated 13-suite replay. Focused CTest:
-  ctest --preset sqlite-reference-capture-debug -R
-  '^(application-service[.]suite|scaffold[.].*)$' -V --no-tests=error
-  4/4 PASS in 5.119s: 43 service methods/233 body scenarios plus 2 lifecycle results,
-  exactly the same ordered 235 raw IDs as the prior actual F002 log. Infra 3 and
-  tooling 37 PASS (1.300s); project 464 tasks/122 decisions/current HTML.
-  local-evidence/fixture003/service-and-tooling.log SHA256:
-  3566813f247e5d6e52475e2b532da66c6e0042319561a2a0437240258f42f0e4.
-  Reviewer independently verified logs, counts, source/binary identity and old/new IDs.
-- Durable author handoff /tmp/fixture003-author-handoff.md SHA256:
-  6a879be4edbbc70ff19977fb5deb5e018ce540cf087c06cb643c09363b831dfe.
-  /tmp/fixture003-author-receipt-hashes.json pins ten red/failure/diagnosis/green/direct
-  receipts. Details and failed output retained in PR102; reviewer notes in
-  /tmp/fixture003-review-notes.md. Scratch transcriber remains uncommitted support only.
+- Scope proposal /tmp/testclean006-final-proposal.md independently approved BEFORE
+  patching. SHA256 3829ad8b5d4b5a68b611570d32d89873e5fb87e08001925dce22db96e9bb5ad7.
+  Full proposal/coverage preserved in PR103. Existing R1 behavior needs no new test
+  matrix or invented red baseline. No baseline assertions removed.
+- Exact source/CI execution review approved39b62bb before validation. ONLY two files:
+  two ordinary workflow lines immediately after checkout run all-six --check, and the
+  fixture provenance/usage/coverage/selector README. Removing those two lines recovers
+  the previous workflow bytes exactly. Jobs, pins, dependencies, permissions, native
+  acceptance and passive account lane remain unchanged. Root import68d30b9.
+- Actual all-six generation to /tmp/subathon-testclean006-outputs-ixh0betj and all-six
+  --check exit0. Every generated file equals reviewed committed bytes; all full parent
+  canonical hashes match, claims projecting away ONLY two fields after checking exact
+  six names/true-bool roles. Both complete654-file CLI snapshots unchanged. All653
+  tracked files and130 native/build/support hashes unchanged during verification.
+- Existing full tooling37 PASS1.217s; repository/link checker PASS464 tasks/122 decisions/
+  current HTML. No native runner or generator replay by reviewer. Six ordinary Python
+  cache files appeared during later tooling: DO NOT claim all tooling is read-only.
+  CLI snapshots cover only generation/check. Prior native proof reused by identity.
+- Independent runtime/provenance/identity APPROVED39b62bb after inspecting actual files,
+  receipt/log hashes and snapshots. Receipt /tmp/testclean006-final.json SHA256:
+  2866904afeb1c5ed664c11cdeb86466518cabffd04c1f83c562dd466b6bf2049.
+  Raw tooling SHA bbb4038e284c9f3e8f0b07e6b66c08f00a295d97eddf00fb9915d76d7f0be3bd.
+  Raw project SHA090ac1b6997ec94d0ed5fd675c13a04059dab28e4b00d478ded9e2daf4ac1467.
+  /tmp/testclean006-final-receipt-hashes.json pins proposal/script/receipt/four logs.
+  Author handoff /tmp/testclean006-final-author-handoff.md SHA256:
+  5f88ce62e38cb80f9fa6b788c73882d3db4d07bc49d152c2fbc65139c9dbedc9.
 
-NEXT: commit complete root packet -> separate exact packet review -> push/update PR
--> all current-head hosted checks (including normal SQL rebuild/account passive lane)
--> active rules/resolved discussions -> normal merge. No bypass. Refresh main, then
-fresh implementation/review sessions for final TESTCLEAN-006 adoption; preserve all
-six reviewed recipes and all native assertions. Existing tests suffice for wiring
-existing --check unless new behavior is proposed; do not invent smoke tests.
+NEXT: commit complete metadata packet -> separate exact packet review -> push/update
+PR -> actual current-head hosted new fixture step SUCCESS plus normal19 checks/SQL/
+account passive lane -> active rules/resolved threads -> normal match-head merge.
+Then refresh main and claim dependency-ready TESTCLEAN-007 with fresh implementation
+session and separate review; do not stop at green scaffold or completed task labels.
 
-## Completed prerequisite and continuity
+## Read-only preparation for TESTCLEAN-007 (NOT a claim or approval)
 
-PR101 normally merged 7cbfb1015eaf9c0cff8039daba4c75475a981cb2 at 2026-11-08T10:36:55Z,
-exact 8f6801e independently approved and all19 checks SUCCESS; zero threads/rules
-verified. Author/helper/reviewer sessions retired. Source/fixture/native crosswalk
-proof remains in PR101. Its prior local Qt 14/361/869 proof is preserved; the old
-pre-F002 raw 869 log is unavailable, so do not claim two-log comparison for that task.
-F003's service-only old/new comparison DOES use the actual retained F002 raw log.
+Fresh /root/sodium_cleanup_author and different /root/sodium_cleanup_review completed
+read-only inventories and are idle; explicitly follow up with a current-main worktree
+and claim before any edit. No stale worker assumed active. No test/SDK/native run yet.
+Scope candidate: seven password exact-positive native counts, helper count formula,
+three session hash totals, a positive nonvacuity guard in exact_protected_input, and
+removal of ONLY the pass-through password memzero wrapper/exclusive linker flag.
+All37 password+39 session methods, public errors/vectors/profile/budget checks, zero-work
+checks, locking/allocation/zeroization/fault observations and contractual source/clock/
+verification-firstgate(nohash)-hash-secondgate sequencing must remain. Session memzero
+is real erasure evidence and MUST stay. Independent exact proposal/assertion review
+under ADR0012 is required BEFORE cleanup; this inventory authorizes no deletion.
 
-No previous live claim/build/worker existed on startup; fresh assignments were explicit.
-Preserve old branches/worktrees, missing historical /tmp registrations, clean CONTRACT011
-worktree and unpublished reviewed ACCESSCONTRACT001 53524fc. Do not reset/prune/delete.
+Both suites are already in password-hashing-build CI: password run then explicit
+session-resolution configure/build/run. Built-in GTest per-case processes/discovery
+and failure/result guards remain. Guards only require nonempty sets; audit actual new
+logs for all76 methods/no skips. Metadata only: installed headers libsodium1.0.22
+ABI26/4, GTest1.18.0; static libsodium SDK missing at two standard paths checked.
+Prepare/reuse the authenticated selected SDK after claim if local runs need it; existing
+CI setup is pinned. No unrelated workflow or dependency addition is needed.
 
-Final TESTCLEAN-006, TESTCLEAN-007 and TESTCLEAN-008 remain planned. The full v0.45,
-seven integrations, three FX providers, English/German/themes, desktop editor, both
-renderers, Linux/Windows/OBS and operations/release scope remains. Account coordinate8
-is proposed/unimplemented; account44 and rates53 retain reviewed intentional red.
-No live provider/chat/payment/deployment effects are authorized. Continue the standing
-loop after normal merge; no routine owner approval is needed.
+## Completed prerequisite proof and continuity
+
+PR102 normal merge b538fa5 at2026-11-08T11:23:59Z after exact7ca932b separate packet
+approval/all19 SUCCESS/rules/zero threads. All six recipes reviewed; service930063B
+presentation only, full canonicald95d24f1, other five fixtures unchanged. F003 source/
+firstfailure/key-orderfix/green receipts in PR102. Actual owner run43 methods/233 body
+scenarios+2 lifecycle=235 exact prior ordered IDs; infra3/tooling37 pass. All130 native/
+build inputs and validated Qt6.12 binary unchanged. No rebuild/unrelated13-suite replay.
+Raw log local-evidence/fixture003/service-and-tooling.log SHA256:
+3566813f247e5d6e52475e2b532da66c6e0042319561a2a0437240258f42f0e4.
+Current SQL run42475048035/job128714392994 passed authenticated SDK rebuild/all stable
+steps/passive account metadata. Account44 is preserved source, not a printed/counted
+hosted body result; no account feature body ran. Author/reviewer sessions retired.
+PR101 normal merge7cbfb10 preserves prior actual Qt14/361/869 and six-selector crosswalk.
+Old pre-F002 raw869 log unavailable; do not claim two-log comparison for that task.
+F003 DID compare actual retained owner logs. PR100 normal merge dd03e1d preserves exact
+reference/account raw bytes. Preserve all prior branches/worktrees/reviews.
+
+Startup had no previous live worker/build/active claim. Keep missing historical /tmp
+registrations, clean CONTRACT011 worktree and unpublished ACCESSCONTRACT00153524fc;
+never reset/prune/delete valid work. TESTCLEAN-008 follows007. Full v0.45/seven
+integrations/three FX providers/English-German/themes/editor/both renderers/Linux-
+Windows-OBS/operations/release scope remains. Account8 proposed/unimplemented;
+account44/rates53 retain reviewed intentional red. No live provider/chat/payment/
+deployment effects authorized. Continue the standing loop without routine approval.
