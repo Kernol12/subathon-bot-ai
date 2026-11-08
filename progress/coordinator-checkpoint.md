@@ -7,7 +7,8 @@ COORDINATOR_PROMPT.md. Preserve actual branches/worktrees/reviews. No stop reque
 
 Root task/STORAGE-020-account-sessions from actual main/origin main344c1e2.
 No PR yet. Fresh author /root/account_store_author has only done read-only prep;
-explicit implementation assignment follows committed claim. Worktree
+explicit implementation assignment followed committed claim0bcaec1. Author now implements
+only its owned source paths; no configure/build/discovery/feature body yet. Worktree
 /tmp/subathon-storage020-author, branch task/STORAGE-020-author, main344c1e2.
 Fresh independent /root/account_store_review uses /tmp/subathon-storage020-review,
 review/STORAGE-020-account-store, same main. Never assume idle sessions are active;
@@ -52,8 +53,18 @@ account to existing chain/remove special short branch and link existing referenc
 factory target. Separate exact wiring review/six-test green; real account-only build.
 No generic graph/harness restoration. Existing44 feature red is reused, not replayed.
 
-NEXT: commit claim -> explicit author assignment -> additive selector test review/red/
-wiring review/green -> exact source/resource/schema/config review -> fresh actual44
+Completed: claim0bcaec1; additive test7412578 independently approved BEFORE first
+focused intended red, directexit1 ONLY exact4-to-13 mismatch after successfulCMake.
+Raw /tmp/storage020-selector-first-red.{json,stdout,stderr}, stderrSHA
+52e59ed42de1f901099c4fde1751e7ca4333a1bf9b0406ba3d427895369ffe50.
+Independent original attribution passed without replay. Wiringe565409 separately
+approved before first six-selector-tests green, directexit0/all6PASS0.055s; raw
+/tmp/storage020-selector-first-green.{json,stdout,stderr}, stderrSHA
+af02d28bda70bef3690ed679c08980577cc6977b55831bd6a9762208101d0e6f.
+All five old methods/helper preserved. No native or old44red replay.
+
+NEXT: author source handoff -> exact source/resource/schema/config review -> integrate
+source into root and fresh actual44
 unfiltered Qt bodies with zero skips + applicable writer/work/migration/prefix ->
 ordinary CI promotion/remove account intentional-red only after real green -> metadata/
 final packet/latestheadCI/rules/resolved threads -> normal match-head merge.

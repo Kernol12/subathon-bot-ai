@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T13:48:28.026545+00:00",
+  "updated_at": "2026-11-08T13:53:34.724945+00:00",
   "summary": "EPIC-028 evidence/test cleanup and all six fixture recipes are complete under separate reviews. Current priority STORAGE-020 implements the reviewed physical account/session store. Existing bounded core/accounting and controlled SQLite components have synthetic/component proof; actual authority/login/clock/action adapters, financial workflows, all integrations/FX, UI and operational/platform/release scope remain incomplete.",
   "verification": [
     {
@@ -14661,19 +14661,21 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-020.md",
       "summary": "Implement the reviewed store/migration/current snapshot readers on the existing writer; no login acceptance, service authorization or credential publication.",
       "notes": [
-        "Claimed from main344c1e2 before edits. Physical v1/8dc7ba9; all44 reviewed red tests and TESTCLEAN004/008 approvals retained. Author owns account CPP/private header; root owns additive8 compiled-prefix reuse, selector test-first/wiring/CI/status. Reviewer account_store_review approved bounded plans; exact selector test/red, source/resource/schema review, realQtSQL44+regressions, current CI/merge remain. Scope/ownership in checkpoint. No login/authority/platform claim."
+        "Claimed from main344c1e2 before edits. Physical v1/8dc7ba9; all44 reviewed red tests and separate TESTCLEAN004/008 approvals retained. Author owns account CPP/private header; root owns additive8 compiled-prefix reuse, selector/wiring/CI/status. Selector exact test reviewed, intended4→13 red attributed, wiring reviewed and six tests pass. Source/resource/schema review, realQtSQL44+regressions/currentCI/merge remain. Scope in checkpoint; no login/authority/platform claim."
       ],
       "verification": {
         "inherited_test_review": "passed",
         "inherited_baseline": "observed_red",
         "implementation_plan_review": "passed",
         "selector_contract_review": "passed",
-        "selector_test_review": "not_run",
-        "selector_baseline": "not_run",
+        "selector_test_review": "passed",
+        "selector_baseline": "observed_red",
         "source_review": "not_run",
         "real_sql_acceptance": "not_run",
         "github_ci": "not_run",
-        "product_acceptance": "not_run"
+        "product_acceptance": "not_run",
+        "selector_source_review": "passed",
+        "selector_tests": "passed"
       },
       "evidence": [],
       "review": null
