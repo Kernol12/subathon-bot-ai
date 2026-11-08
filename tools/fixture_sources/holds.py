@@ -990,7 +990,7 @@ def render(value):
             "        " + json.dumps(row, ensure_ascii=False, allow_nan=False,
                                     separators=(",", ":")) for row in rows
         ) + "\n      ]"
-        section = rendered.index(f'    "{name}": {{\n')
+        section = rendered.index(f'\n    "{name}": {{\n')
         start = rendered.index('      "setup": ', section) + len('      "setup": ')
         end = start + len(expanded)
         if rendered[start:end] != expanded:
