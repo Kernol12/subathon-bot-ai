@@ -2908,42 +2908,54 @@
       "receipt_decimal": "18446744073709551615",
       "cid_decimal": "0",
       "expected_kind": "subject",
-      "expected_record": "A"
+      "expected_record": "A",
+      "name": "contribution-max-receipt-prefers-subject-A",
+      "check_lower_priority_corruption": true
     },
     {
       "subject_kind": 1,
       "receipt_decimal": "18446744073709551615",
       "cid_decimal": null,
       "expected_kind": "source",
-      "expected_record": "B"
+      "expected_record": "B",
+      "name": "receipt-max-resolves-source-B",
+      "check_lower_priority_corruption": false
     },
     {
       "subject_kind": 0,
       "receipt_decimal": "8",
       "cid_decimal": "0",
       "expected_kind": "subject",
-      "expected_record": "A"
+      "expected_record": "A",
+      "name": "contribution-receipt8-prefers-subject-A",
+      "check_lower_priority_corruption": false
     },
     {
       "subject_kind": 0,
       "receipt_decimal": "9",
       "cid_decimal": "42",
       "expected_kind": null,
-      "expected_record": null
+      "expected_record": null,
+      "name": "missing-contribution42-receipt9",
+      "check_lower_priority_corruption": false
     },
     {
       "subject_kind": 1,
       "receipt_decimal": "8",
       "cid_decimal": null,
       "expected_kind": "subject",
-      "expected_record": "C"
+      "expected_record": "C",
+      "name": "receipt8-selects-original-subject-C",
+      "check_lower_priority_corruption": false
     },
     {
       "subject_kind": 0,
       "receipt_decimal": "8",
       "cid_decimal": "42",
       "expected_kind": "source",
-      "expected_record": "C"
+      "expected_record": "C",
+      "name": "contribution42-receipt8-resolves-source-C",
+      "check_lower_priority_corruption": false
     }
   ],
   "logical_byte_oracles": {
