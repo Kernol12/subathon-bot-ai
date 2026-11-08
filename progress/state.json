@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T11:15:24.410539+00:00",
+  "updated_at": "2026-11-08T11:25:30.933816+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -464,7 +464,7 @@
       "brief": "docs/tasks/EPIC-028/FIXTURE-003.md",
       "summary": "Reproduce all named service cases, formats, arrangements and snapshots without computing expected semantics through the product.",
       "notes": [
-        "All six recipes reproduce frozen typed data from four pinned seeds. Service JSON changes presentation only; five other fixtures and native sources stay identical. Independent test-first/source/fix/runtime reviews approved; focused 3/tooling 37/infra 3 and 43 service methods/233 scenarios pass, with 235 unchanged raw PASS IDs. First failure and key-order fix retained. Final packet review/current CI/normal PR102 merge remain open. Next: final TESTCLEAN-006 adoption."
+        "The service recipe preserves the full typed baseline; other five fixtures and native sources stay identical. Independent test-first/source/fix/runtime/packet reviews passed. Focused 3, tooling 37, infra 3 and 43 service methods/233 scenarios pass, with 235 unchanged raw IDs. First failure/key-order correction retained. All 19 final checks passed before normal PR102 merge b538fa5. Account bodies unrun. Next: final TESTCLEAN-006 adoption."
       ],
       "verification": {
         "scope_contract_review": "passed",
@@ -480,7 +480,7 @@
         "usage_identity": "passed",
         "native_acceptance": "passed",
         "tooling": "passed",
-        "github_ci": "not_run",
+        "github_ci": "passed",
         "product_acceptance": "not_run",
         "native_identity_review": "passed",
         "scaffold": "passed"
@@ -492,7 +492,7 @@
         "author": "/root/fixture_service_author",
         "reviewer": "/root/fixture_service_review",
         "outcome": "approved",
-        "revision": "Contract/tests/red/source 27217787/fix 45102c23/adoption ca3f962 and root 5b45141 source/binary/runtime identity independently approved. SAME 235 ordered service IDs, 43 methods/233 scenarios. Final packet/current CI/normal merge pending.",
+        "revision": "All contract/test/red/source/fix/adoption/root identity gates and exact packet 7ca932b independently approved. All19 current checks SUCCESS; hosted SQL/passive account audit passed. Normal PR102 merge b538fa5 at 2026-11-08T11:23:59Z.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/102"
       }
     },
@@ -501,8 +501,8 @@
       "title": "Replace giant unreproducible fixtures",
       "module": "Test infrastructure",
       "kind": "cleanup",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "/root/fixture_adoption_author",
       "depends_on": [
         "TESTCLEAN-005",
         "FIXTURE-001",
@@ -513,9 +513,9 @@
         "§17"
       ],
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-006.md",
-      "summary": "Make oversized test fixtures reproducible or replace them with small named hand-derived scenarios.",
+      "summary": "Complete all-six generator adoption with retained coverage/provenance documentation and a check step in the existing SQL CI job.",
       "notes": [
-        "Read-only decomposition planc52d8293/packet2bf4381 independently approved; all19checks passed before normal PR99 merge855a1f0. Parent claim explicitly released planned/Unassigned pending FIXTURE001catalog/reference/account,002storage/selectors,003service, then final006adoption/CI/docs. All six oracles/public contracts/account44red remain. No generator or fixture implementation follows from planning; fresh executable sessions/test-first gates required."
+        "Final adoption claimed from main b538fa5 after reviewed prerequisites and normal PR102 merge. Fresh author/reviewer read-only preparation agrees on two files: existing SQL-job all-six --check step and fixture usage/provenance/coverage README. Recipes, fixtures, native assertions, pins and job count stay unchanged. Scope/source review precedes actual checks; no new product behavior or invented red baseline."
       ],
       "verification": {
         "decomposition_plan_review": "passed",
@@ -16805,6 +16805,16 @@
       "date": "2026-11-08",
       "task": "FIXTURE-003",
       "note": "Fresh author /root/fixture_service_author and independent /root/fixture_service_review assigned isolated current-main worktrees; claim precedes edits. Readonly service inventory complete; no implementation gate approved."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "FIXTURE-003",
+      "note": "Normal PR102 merge b538fa5 after exact 7ca932b independent packet review/all19 checks/rules/zero threads. Full typed service baseline preserved; author/reviewer sessions finished."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "TESTCLEAN-006",
+      "note": "Final adoption assigned fresh author /root/fixture_adoption_author and independent /root/fixture_adoption_review in current-main worktrees. Coordinator owns shared metadata and all other CI/CMake; only one existing check step and fixture README proposed."
     }
   ]
 }

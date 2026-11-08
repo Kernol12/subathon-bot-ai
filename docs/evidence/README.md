@@ -229,8 +229,8 @@ run passed 14 stable suites, 361 methods and 869 results. PR #102 reuses the val
 binary after independently verifying every native/build/support input: the focused
 service run passed 43 methods/233 body scenarios plus two lifecycle results, with the
 same ordered 235 raw PASS IDs. Infrastructure 3/3 and tooling 37/37 pass. Other Qt
-suites were not replayed solely for receipts. Current packet/CI/merge gates are recorded
-in PR #102. Account coordinate8 remains proposed and its 44 feature bodies passive;
+suites were not replayed solely for receipts. Independent final packet review and all 19 current checks passed before normal
+PR #102 merge `b538fa5`. Account coordinate8 remains proposed and its 44 feature bodies passive;
 hosted SQL CI builds the baseline and checks nonempty metaobject discovery, without
 running or independently counting 44 feature bodies. Final all-six CI/docs adoption
 remains the separate [TESTCLEAN-006 task](../tasks/EPIC-028/TESTCLEAN-006.md).

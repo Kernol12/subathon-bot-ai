@@ -1,89 +1,90 @@
 # Coordinator checkpoint
 
 Updated: 8 November 2026. The user resumed the standing loop under AGENTS.md and
-COORDINATOR_PROMPT.md. The old stop-after-FIXTURE-001 instruction is superseded.
+COORDINATOR_PROMPT.md; the old stop-after-FIXTURE-001 instruction is superseded.
 Inspect actual branches, worktrees, claims, workers and PR state before acting.
 
-## FIXTURE-003 local completion; merge gates remain
+## Active final TESTCLEAN-006 adoption
 
-Root branch: task/FIXTURE-003-service-recipes, parent main/origin main 7cbfb10.
-Focused PR: https://github.com/Kernol12/subathon-bot-ai/pull/102.
-State done means local implementation proof; final exact packet approval, current
-hosted CI, active rules/discussions and normal merge are still mandatory.
+Parent main/origin main b538fa592e9154f6d002c90a84980663488043d6. Root dedicated branch:
+task/TESTCLEAN-006-final-adoption. Claim recorded before any author edits.
+Fresh author /root/fixture_adoption_author is explicitly assigned
+/tmp/subathon-testclean006-final-author (task/TESTCLEAN-006-adoption-author).
+Different reviewer /root/fixture_adoption_review is explicitly assigned
+/tmp/subathon-testclean006-final-review (review/TESTCLEAN-006-adoption).
+Both read-only prep sessions finished; resume them explicitly with followup messages,
+not an assumption that they are active. No other task claim exists.
 
-Fresh author /root/fixture_service_author finished clean ca3f962 and RETIRED.
-Preserve /tmp/subathon-fixture003-author (task/FIXTURE-003-author). Independent
-reviewer /root/fixture_service_review remains assigned in
-/tmp/subathon-fixture003-review (review/FIXTURE-003) for final packet/CI gates.
-Coordinator owns state/HTML/current docs/evidence/CI/CMake/PR. No other task claim.
+Scope/ownership: author owns ONLY an all-six --check step immediately after checkout
+in .github/workflows/sqlite-writer.yml and tests/fixtures/README.md usage/provenance/
+coverage. Coordinator owns state/HTML/current strategy/evidence/PR, all other shared
+CI/CMake/schema/dependency paths. R1 fixture-generation contract and the original
+TESTCLEAN-006 brief/three completed prerequisite briefs remain authoritative.
 
-- Contract/inventory daa0f449 and tests/stub/registration 73396a493 independently
-  approved before execution. Intended red: three methods/three named service-stub
-  failures, 0.471s, no import/dependency/parse/skip failure. Raw SHA256:
-  bee5b7b7d970ecf9dc1fb13bcfe3d889bdaba9e6d775769a022932b4d24fd722.
-- Frozen test SHA256 from red through green:
-  dd1464c9cc3e4b00be18a6e3e43d0b50f28717369f47dc0eadc2ae3c549494f0.
-- Partial framing c367e9d and complete source 27217787 independently approved before
-  run. Refined ~230KB/4779-line design accepted as named data: 34 cases, all 13 groups,
-  literal budgets/outcomes and 30 exact audit/hold byte anchors. Public SAC/SAS/SAR/SAJ
-  packers only; missing audit/hold source fields stay literal, with no decoder/inference.
-  Only four pinned seeds/source helpers, no legacy output inputs, production/SQLite/git
-  calls, evaluator or generic patch framework. No source-size-driven oracle deletion.
-- FIRST GREEN ATTEMPT FAILED: three methods/one check-comparison failure, 0.646s.
-  Default/selected full-canonical reproduction PASSED. Raw SHA256:
-  ca4b09c70633ec2f1ea04e80441c1dda40c304f144ae542609baebc8b0bcefc6.
-  One diagnostic found zero typed differences and exactly 245 balance key-order
-  differences. Separate _balance constructor correction 45102c23 approved BEFORE
-  rerun; normalized AST proved no other value/packer/component/test/seed change.
-- SAME three tests PASS 0.951s; raw green SHA256:
-  6d52e62df379100b09ec88321dd8e960f0d5658634c603edcf7e4764a1610c7c.
-  Direct service generation/all-six check exit 0; full 655-file snapshots unchanged.
-  Only service JSON adopted, common layout 930063 bytes/raw
-  f9899dbc58033c1af8b8ce975c34e805ddd7988774d86a927de8d784edc27473;
-  entire parsed object equals old 707682-byte baseline, full canonical
-  d95d24f1c3f2cc5c9dfa43e1bd7c8f914bef365f8c955c5a7903a9894e5fd06c.
-  Other five fixtures byte-identical. Runtime/adoption ca3f962 independently APPROVED.
-- Root imports through 5b45141 byte-identical to ca3f962. All 130 native/build/support
-  hashes, including 117 native files, equal main 7cbfb10; validated Qt 6.12 service
-  binary SHA256 a3f935f65c4682d33fab19fca470a2d13a39e271287eccb85ac449140b23d556.
-  Reused that binary, no rebuild or unrelated 13-suite replay. Focused CTest:
-  ctest --preset sqlite-reference-capture-debug -R
-  '^(application-service[.]suite|scaffold[.].*)$' -V --no-tests=error
-  4/4 PASS in 5.119s: 43 service methods/233 body scenarios plus 2 lifecycle results,
-  exactly the same ordered 235 raw IDs as the prior actual F002 log. Infra 3 and
-  tooling 37 PASS (1.300s); project 464 tasks/122 decisions/current HTML.
-  local-evidence/fixture003/service-and-tooling.log SHA256:
-  3566813f247e5d6e52475e2b532da66c6e0042319561a2a0437240258f42f0e4.
-  Reviewer independently verified logs, counts, source/binary identity and old/new IDs.
-- Durable author handoff /tmp/fixture003-author-handoff.md SHA256:
-  6a879be4edbbc70ff19977fb5deb5e018ce540cf087c06cb643c09363b831dfe.
-  /tmp/fixture003-author-receipt-hashes.json pins ten red/failure/diagnosis/green/direct
-  receipts. Details and failed output retained in PR102; reviewer notes in
-  /tmp/fixture003-review-notes.md. Scratch transcriber remains uncommitted support only.
+Acceptance: preserve all six independently frozen canonical objects (claims projects
+away ONLY the two specified metadata fields on six exact selector rows), four original
+raw families, current claims/service presentation, public formats/byte/SQL/query/budget
+oracles, every native assertion and exact corruption-priority branch/setup[9]/bind30–33.
+No recipe, fixture, test, native, dependency, CMake or job-count changes proposed.
+The single existing SQL job gains python3 tools/generate_fixtures.py --check before
+any downloads/build/native use. Existing three reviewed CLI methods/full37 tooling
+already cover this behavior; do not invent smoke tests or a red baseline for wiring.
+All full release requirements and account passive red remain.
 
-NEXT: commit complete root packet -> separate exact packet review -> push/update PR
--> all current-head hosted checks (including normal SQL rebuild/account passive lane)
--> active rules/resolved discussions -> normal merge. No bypass. Refresh main, then
-fresh implementation/review sessions for final TESTCLEAN-006 adoption; preserve all
-six reviewed recipes and all native assertions. Existing tests suffice for wiring
-existing --check unless new behavior is proposed; do not invent smoke tests.
+NEXT: author freezes a small exact proposal (external scratch/PR detail is sufficient)
+-> separate scope/provenance/retained-coverage review -> two-file patch -> separate
+source/CI execution review -> one all-six disposable generation + raw/canonical/
+selector verification and no-write check -> relevant existing tooling/repository checks
+-> independent runtime/final packet review -> current hosted CI including the actual
+new check step and normal SQL/account-passive lane -> rules/resolved threads/normal
+merge. Reuse prior native proof by full source/input identity; no unrelated body replay.
+No implementation edit, gate approval or new execution exists at this claim checkpoint.
 
-## Completed prerequisite and continuity
+## Completed prerequisites and preserved evidence
 
-PR101 normally merged 7cbfb1015eaf9c0cff8039daba4c75475a981cb2 at 2026-11-08T10:36:55Z,
-exact 8f6801e independently approved and all19 checks SUCCESS; zero threads/rules
-verified. Author/helper/reviewer sessions retired. Source/fixture/native crosswalk
-proof remains in PR101. Its prior local Qt 14/361/869 proof is preserved; the old
-pre-F002 raw 869 log is unavailable, so do not claim two-log comparison for that task.
-F003's service-only old/new comparison DOES use the actual retained F002 raw log.
+FIXTURE-003 PR https://github.com/Kernol12/subathon-bot-ai/pull/102 normally merged
+b538fa5 at 2026-11-08T11:23:59Z. Exact packet 7ca932b independently approved and all
+19 current checks SUCCESS, GitHub CLEAN/MERGEABLE, active rules and zero threads
+rechecked. No bypass. Author /root/fixture_service_author clean ca3f962 and reviewer
+/root/fixture_service_review finished/retired; preserve both worktrees and branches.
 
-No previous live claim/build/worker existed on startup; fresh assignments were explicit.
-Preserve old branches/worktrees, missing historical /tmp registrations, clean CONTRACT011
-worktree and unpublished reviewed ACCESSCONTRACT001 53524fc. Do not reset/prune/delete.
+All six recipes are reviewed. Service output930063B is presentation-only versus old
+707682B: full canonical d95d24f1c3f2cc5c9dfa43e1bd7c8f914bef365f8c955c5a7903a9894e5fd06c,
+raw f9899dbc58033c1af8b8ce975c34e805ddd7988774d86a927de8d784edc27473; other five fixtures
+unchanged. Three frozen tests passed0.951s after preserved first key-order failure and
+separately reviewed 45102c23 correction. Full receipts/failure logs/details in PR102.
+Author handoff /tmp/fixture003-author-handoff.md SHA256:
+6a879be4edbbc70ff19977fb5deb5e018ce540cf087c06cb643c09363b831dfe.
 
-Final TESTCLEAN-006, TESTCLEAN-007 and TESTCLEAN-008 remain planned. The full v0.45,
-seven integrations, three FX providers, English/German/themes, desktop editor, both
-renderers, Linux/Windows/OBS and operations/release scope remains. Account coordinate8
-is proposed/unimplemented; account44 and rates53 retain reviewed intentional red.
-No live provider/chat/payment/deployment effects are authorized. Continue the standing
-loop after normal merge; no routine owner approval is needed.
+Actual root owner-focused CTest4/4 PASS5.119s:43 service methods/233 body scenarios plus
+2 lifecycle =235 ordered raw PASS IDs, exactly equal to retained prior F002 service
+IDs. All130 native/build/support inputs (117 native files) and validated Qt6.12 binary
+SHA a3f935f65c4682d33fab19fca470a2d13a39e271287eccb85ac449140b23d556 unchanged.
+Infra3/tooling37 PASS1.300s; no rebuild/unrelated13-suite replay. Root raw log
+local-evidence/fixture003/service-and-tooling.log SHA256:
+3566813f247e5d6e52475e2b532da66c6e0042319561a2a0437240258f42f0e4.
+Hosted SQL run42475048035/job128714392994 exact7ca passed normal selected SDK rebuild,
+13 stable SQL stages/14Qt nodes and enabled red/nonempty metaobject checks. Raw log SHA
+03ae0fc2be50ef90d0a02df51bd11c62ba509978ea641c63fcbc302ce30dda93. Account44 remains the
+reviewed source baseline; CI does not print/count44 or execute those feature bodies.
+
+FIXTURE-002 PR101 normal merge7cbfb10, exact8f6801e/all19SUCCESS and separate reviews.
+Prior actual Qt14/361methods/869results, source-only six-selector crosswalk and original
+bundle/holds raw preservation remain valid. Older pre-F002 raw869 log is unavailable;
+do not claim two-log comparison for that task. F003 DID compare actual retained owner
+logs. FIXTURE-001 PR100 normal merge dd03e1d preserves exact reference/account raw bytes.
+All prior author/helper/reviewer sessions are finished; never silently reuse a claim.
+
+## Continuity and full scope
+
+Startup had no prior live worker/build or active claim. Preserve old branches/worktrees,
+missing historical /tmp registrations, clean CONTRACT011 worktree and unpublished
+reviewed ACCESSCONTRACT001 53524fc; do not reset/prune/delete. TESTCLEAN-007 remains
+ready/planned; TESTCLEAN-008 depends on it. Fresh executable sessions and independent
+reviews are required when selected.
+
+Full v0.45, all seven integrations/three FX providers, English/German/themes, desktop
+editor, both renderers, Linux/Windows/OBS and operational release scope remains.
+Proposed account coordinate8 is unimplemented; account44 and rates53 preserve reviewed
+intentional red. No live provider/chat/payment/deployment effects are authorized.
+Continue the standing loop after normal merge without routine owner approval.
