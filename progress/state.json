@@ -5083,7 +5083,7 @@
         "github_ci": "passed",
         "final_packet_review": "passed",
         "hosted_ci_review": "passed",
-        "final_head_ci": "not_run"
+        "final_head_ci": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/107",
@@ -5094,7 +5094,7 @@
         "author": "/root/api_lifecycle_contract_author; coordinator shared planning/status",
         "reviewer": "/root/api_lifecycle_contract_review",
         "outcome": "approved",
-        "revision": "Author35712423/import398410d exact documents/examples approved14dd487e; planning2598c31e; exacta7ab packetb9e18bc5/actual19CIe38ec038 approved. Final metadata/current-head CI/normal merge remain; no runtime profile/readiness approval.",
+        "revision": "Author35712423/import398410d documents14dd487e; final65c packet89564b9b/current19CIb95ff8e2 approved. Normal PR107 mergeb27ff138 at2026-11-08T16:59:32Z after ready/exacthead/rules/zero threads. No native profile/readiness implementation approval.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/107"
       },
       "id": "APICONTRACT-001",
@@ -5112,7 +5112,7 @@
       "brief": "docs/tasks/EPIC-008/APICONTRACT-001.md",
       "summary": "Specify actual host scope/readiness/lifetime and an admitted native WebSocket control profile before baseline/source work.",
       "notes": [
-        "Host lifecycle/native WS documents and17/22 literal examples independently approved; four findings corrected. Project/render/whitespace and all19 a7ab CI pass, with exact tested tree and separate packet/CI review. Document proof only; no new native/profile capability or actual readiness producer. Final metadata/current-head CI/normal merge remain. Next: APITEST-012 reviewed native baseline/intended red, then corrected profile and actual host; readiness producer design precedes API-001 code."
+        "Host lifecycle/native WS documents and17/22 literal examples independently approved; four findings corrected. Project/render/whitespace and all19 final65c CI pass, with exact tested tree and separate final packet/CI reviews. Normal PR107 mergeb27ff138. Document proof only; no new native/profile capability or actual readiness producer. Next: APITEST-012 reviewed baseline/intended red, corrected profile and actual host; readiness producer design precedes API-001 code."
       ]
     },
     {
@@ -5132,14 +5132,22 @@
         "TEST-04",
         "TEST-05"
       ],
-      "verification": {},
+      "verification": {
+        "claim": "passed",
+        "boundary_review": "not_run",
+        "test_review": "not_run",
+        "foundation_admission": "not_run",
+        "native_build": "not_run",
+        "passive_discovery": "not_run",
+        "baseline": "not_run"
+      },
       "evidence": [],
       "review": null,
       "id": "APITEST-012",
       "title": "Review and demonstrate red: native persistent WebSocket profile",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "/root/native_ws_baseline_author; coordinator shared interface/build/admission/status",
       "depends_on": [
         "APICONTRACT-001",
         "SPIKE-001",
@@ -5148,7 +5156,7 @@
       "brief": "docs/tasks/EPIC-008/API-012.md",
       "summary": "Independently review literal native control/fragment/Close and bounded lifecycle cases, then observe intended behavior red on working selected dependencies.",
       "notes": [
-        "Planning split from concrete pinned-source findings. Preserve persistent/fragmented WS, valid/invalid Close and bounded teardown; no tests authored or profile supported. Selected H1 account ingress stays separate and refuses Upgrade. Exact source/patch/ABI/build/license admission precedes execution."
+        "Claimed from mainb27ff138 before edits. Scope: reviewed minimal native configuration/elapsed/lease/actual-owner observation boundary, literal loopback protocol/resource tests, exact stock zero-patch admission and intended behavior red. Fresh author owns two tests; root shared contract/header/stub/CMake/CI/SDK/status. No correction or capability granted. Interface/test/foundation review precedes any body; setup/stub failures are distinct from native red."
       ]
     },
     {
@@ -17144,6 +17152,16 @@
       "date": "2026-11-08",
       "task": "APICONTRACT-001",
       "note": "Exacta7ab packetb9e18bc5 and all19 actualCIe38ec038 independently approved; mergecheckoutcccbc089 tree57cd80e6 equalsa7. Contract-only completion recorded, with finalmetadata/currentCI/normalmerge gates explicitly pending. Existing hosted component bodies ran; no local/newprofile native bodies."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "APICONTRACT-001",
+      "note": "Normal PR107 mergeb27ff138 at16:59:32UTC after final65c independent89564b9b/current19b95ff8e2/ready/rules/zero threads. Contractauthor/reviewer retired; all exact originalreports preserved."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "APITEST-012",
+      "note": "Dedicated current-mainb27 branch/isolated author-review worktrees created; claim before repo/test edits. Readonlyprospective sessions explicitly reassigned freshbaseline roles. Exact boundary refinement/review first; no source correction/build/discovery/body/native execution yet."
     }
   ]
 }

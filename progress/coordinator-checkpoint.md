@@ -4,83 +4,106 @@ Updated: 8 November 2026. Standing loop resumed under AGENTS.md and
 COORDINATOR_PROMPT.md. No stop requested. Inspect actual branches/worktrees/claims/
 processes/PRs/checks before acting; preserve all valid work and independent reviews.
 
-## APICONTRACT-001: document gate complete; final metadata/CI/merge pending
+## Current claim APITEST-012: boundary refinement before authored tests
 
-Actual main/originmain1dcf2b61f65a4d87a29a0ac52e68d7c8b0d20c90 after normalPR106merge.
-Root task/APICONTRACT-001-lifecycle-profile. Claim/DAG/brief806dba7 was committed BEFORE author edits. New tasks: APICONTRACT001 -> APITEST012/API012 native persistent
-WS profile -> existing APITEST001/API001 host. Both SESSIONTEST009/SESSION009 now
-explicitly depend on actualAPI001host, as accepted clockcontract§2 assigns. All old
-API1 persistent/realclose/startup/shutdown/backpressure/cancellation criteria remain.
-No reduced release scope or supported capability follows from decomposition.
+Actual main/originmain b27ff1382622b16e8a2fb71c00dab4758b86dfd4 (normalPR107merge
+2026-11-08T16:59:32Z). Root task/APITEST-012-native-websocket-baseline, clean frommain
+before claim. Isolated fresh author /root/native_ws_baseline_author assigned
+/tmp/subathon-apitest012-author task/APITEST-012-author; independent reviewer
+/root/native_ws_baseline_review /tmp/subathon-apitest012-review
+review/APITEST-012-native-websocket, bothmainb27. Previous readonlyprep sessions are
+explicitly reassigned, not assumed active. Author owns ONLY two new
+ tests/native_websocket_profile/{native_ws_probe.cpp,test_native_ws_profile.py}.
+Root owns all shared contract/interface/header/stub/CMake/CI/deps/SDK/ABI/licenses/
+state/HTML. Claim commits BEFORE those edits; do not begin tests/header/stub bodies
+until exact minimal boundary independently reviewed. No production correction,
+configure/build/discovery/body/native/SQL/provider execution authorized yet.
 
-Contract author /root/api_lifecycle_contract_author completed and retired after
-357124230d3270ef7eb14c28f7f1c56cadd11f68; worktree clean, retained at
-/tmp/subathon-apicontract001-author task/APICONTRACT-001-author. Independent reviewer
-/root/api_lifecycle_contract_review completed document gate, retained clean atmain1dc
-/tmp/subathon-apicontract001-review review/APICONTRACT-001-lifecycle. Explicitly resume
-that separate reviewer for final shared packet/currentCI; do not infer active sessions.
-Root owns shared briefs/DAG/state/HTML/CI/CMake/dependencies/SDK/ABI/licenses; author
-changed ONLY docs/contracts/api-host-lifecycle-v1.md and native-websocket-profile-v1.md.
-No source/tests/SDK/build/native/SQL/provider execution authorized by this contract task.
+Inputs: accepted nativeblob6e376306682cda4c51d0eff63c4543428c8baf8a and hostblob
+f1808d018f3b7a6f2488094797d5d1fd99a7a485, API-012 brief/currentDAG/specv0.45. Scope:
+finite real rawloopback protocol/resource baseline, independent literal expected
+frames/callbacks, exact selectedstock zero-patch identity, reviewed minimal immutable
+config/ownedreadonlyelapsed/moveonlylease/actualownerdiagnostics seam before coding.
+Unsupported is not known0. Stockwire/callbackred must actually reach selectednative;
+futurestubred never claims nativecapacity. Source/resource review separately covers
+pre-read/pre-growth/allocator-rounding/copies. No controller protocol repair, SDK
+mutation, source upgrade, H1Upgrade/auth/sync/readiness/parallelclockhost capability.
+Use one fresh process per native lifetime, strict finite buffers/commands/logs/
+connections, realboundport and ownerbarriers; cleanupkill/reap preserves failedproof.
 
-Draft PR https://github.com/Kernol12/subathon-bot-ai/pull/107. First author5a96f8b/import73e9ec5
-received four changes-required findings; initial review SHA
-cefef611ebe98a602d417293121832eb5ee1571bf0f16212aea1350f739e4f85 preserved.
-Corrected exact35712423/import398410df4eb3527903f8874e74e5bb609af0da24 approved:
-/tmp/apicontract001-document-review-357124.md SHA
-14dd487ed7477a016e75e7f5a9b7dd47184a39e8588d36bed61e6eb919b3a3ad.
-Host blobf1808d018f3b7a6f2488094797d5d1fd99a7a485; native6e376306682cda4c51d0eff63c4543428c8baf8a.
-17host/22native literal examples reviewed, not executed. Corrections: trustedUTC only
-where imported operation requires it (credentials retain final resample); first valid
-Close immutable including absence; preserve accepted writer wrappers/FIFO/completions
-while cancelling domain entry, actual not_started/missing_transaction or unavailable;
-explicit checked CLOCK_MONOTONIC deadlines/overflow/equality/IO continuation failure.
+Root readonly SDK inventory /tmp/apitest012-stock-sdk-readonly-inventory.json SHA
+fcc5facc5e38a6ced4f98a86e3365f53df9c88115e5dffff4b6a81a594c30c40.
+138installedfiles/16ELFcandidateobjects/9locallicensefiles, exactcleanstock/source/
+currentGCC16.2.1/options/binary/license identities. This is NOT admission, loadedmaps,
+complete ABI or packaging license compliance. No app/native execution occurred.
+Independent exact admission and authored test/build/interface review remain before
+any body. Fullresource tests need accepted seam; a logicalpayload limit is not
+actual native rawcapacity. LaterAPI012 correctedsource/build/install uses distinct
+admittedprefix; preserve stock. Reports below are inputs, not accepted API.
 
-Claim/planning806dba7 independently approved2598c31e3fff02780c241dcdf8797eda61393f1af12c43432142b85426f8fffd.
-Actual398/a7 project467tasks/122decisions, currentHTML and diffchecks passed. Exacta7
-packet independently approved /tmp/apicontract001-packet-a7abf64-review.md SHA
-b9e18bc5b2e75603dad25d763923619f4d4991e1e7e674d5afdcdd46b072d1a6.
-Actuala7 all19CI/18firstattempts independently approved
-/tmp/apicontract001-current-ci-a7abf64-review.md SHA
+NEXT: committedclaim -> exact minimal boundary proposal+different review -> authored
+tests/headerstub/buildselection/admission review -> compile/passive discovery ->
+actual first intended native protocol red and independently classified other failures.
+Freeze assertions; only then separate fresh API012 implementation/source/resource/
+ABI/nativeCI/currentmerge gates. No owner decision/access blocker observed.
+
+## APICONTRACT-001 normally merged; valid reviews preserved
+
+Final65c packet89564b9ba7ea3a54ae1c2c5869b5bfaa83b851353f5041bf7fab9d90d9304314
+and finalCIb95ff8e24d4eb0c51c1d204ce864884112615211224869ab35885a90f07a67eb
+approved. All19/18firstattempts; checkout15cb8ee9 parents1dc+65c/treeef8eab55 EXACT65c.
+Account44+2/zero bad/11060ms,14oldSQLrunners/all6/guard,schema2lanes8/tool38/467+122.
+TransparentCOMMENT c7a9f47f posted; ready/exacthead/all19/rules/zero threads/main
+rechecked, normalheadmatchmerge b27ff138. No bypass/force/deletion. No localnative
+replay/newprofilebody; existinghostedcomponentbodies actually ran. Original reports
+and fullbody preserved PR107. Retiredcontractsessions/worktrees remain intact.
+
+## APICONTRACT-001 preserved document evidence
+
+Contract-only claim806dba7 preceded author edits from main1dc. Author
+/root/api_lifecycle_contract_author completed357124230d3270ef7eb14c28f7f1c56cadd11f68
+in /tmp/subathon-apicontract001-author task/APICONTRACT-001-author; reviewer
+/root/api_lifecycle_contract_review completed separate gates from cleanmain1dc
+/tmp/subathon-apicontract001-review review/APICONTRACT-001-lifecycle. Both retired.
+Root imported398410d; only two docs authored. 17HL/22WS literal oracles reviewed,
+not executed. All shared planning/metadata remained coordinator-owned.
+
+Exact planning806dba7 approved /tmp/apicontract001-planning-review.md SHA
+2598c31e3fff02780c241dcdf8797eda61393f1af12c43432142b85426f8fffd.
+Initial5a96 review CHANGES REQUIRED /tmp/apicontract001-document-review-5a96.md SHA
+cefef611ebe98a602d417293121832eb5ee1571bf0f16212aea1350f739e4f85.
+Corrected357124 document/example approval /tmp/apicontract001-document-review-357124.md
+SHA14dd487ed7477a016e75e7f5a9b7dd47184a39e8588d36bed61e6eb919b3a3ad.
+Four fixes: credential-only mandatory trustedUTC resample; immutable firstClose;
+preserve accepted writerwrapper FIFO/completions/actual noBEGIN outcomes while
+cancelling domainentry; checked CLOCK_MONOTONIC elapsed deadlines/overflow/equality/
+continuation expiry. Host/native blobs above remain exact.
+Integrated a7 packet /tmp/apicontract001-packet-a7abf64-review.md SHA
+b9e18bc5b2e75603dad25d763923619f4d4991e1e7e674d5afdcdd46b072d1a6;
+a7 actual19CI /tmp/apicontract001-current-ci-a7abf64-review.md SHA
 e38ec0387ee283cec296779b7fdb4b28b1f7084c2acbd5507ad686a50b9aadec.
-Checkoutcccbc089 parents1dc+a7/tree57cd80e6 exactlya7. Hosted account44+2/zero bad/
-4475ms,14priorSQLrunners/all6earlycheck/ordinaryguard26,identity37+39,rate53passive
-+36stable,schema2lanes8/tool38/467+122 pass. OldSQLnonverbose runnerproof only; no
-newprofile acceptance. No LOCAL/newprofile body rerun; existing HOSTED native
-component bodies actually ran. Final metadata/currentheadCI/normalmerge remain.
-PR body preserves substantive independent reviews and proof limitations.
+Final65c receipts /tmp/apicontract001-final-65c-review.md and
+/tmp/apicontract001-final-ci-65c-review.md hashes and actualmerge recorded above.
+Full substantive reviews are durable in PR107 body/finalCOMMENT; no new evidencefile.
 
-Clean stock selectedsource3aae769cc405cf5abb9d477675c6430924f02c7c and Trantor
-78e480f5e138acdc05f76c55a2716718cd846364 preserved. Future native correction MUST use
-distinct admitted source/patch/build/ABI/license prefix. Selected Close callback occurs
-AFTER shutdown; pending-output vs immediate differ; fragment/control parser sharesstate.
-No blindecho/reorder/sourceupgrade is approved. Full fragmentation/persistent scope stays.
-SESSION-011 account H1 refuses Upgrade; native profile grants no auth/sync/readiness.
-
-Actual normal-start activation/current-source publication producers remain mandatory
-independently reviewed API-001 design gates BEFORE code. Ticket revoked beforecompletion;
-listener/writer/DTO/fake source is not readiness/publication. Unknown refuses. Split
-substantial reusable issuer/durable recovery machinery before implementation. Native
-clock+fakehost cannot finish SESSION009 actual ready-host binding. Process-terminal
-framework lifetime/freshprocessretry follows pinned bind exit1; no sameprocessrestart,
-SQLpreemption or hard OS deadline guarantee is supplied by these documents.
-
-Prospective fresh APITEST012 author/reviewer completed READ-ONLY prep only, no claim/
-repoedits/configure/build/discovery/body/native/SDK calls; explicitly resume aftermerge.
+Prospective APITEST012 readonly inputs remain unaccepted interface proposals:
 /tmp/apitest012-readonly-prep.md SHA
 51b8ab896af36bf9311a9063b60f9176c4b029692fa58d679102263e71700481;
 /tmp/apitest012-independent-readonly-prep.md SHA
 38d4e2c123093671f3aeb8902a1cfec9ca3ba7f980200fb6a4b420b03fbb129e.
-StockpublicAPI supports actualprotocolred. Exactminimal config/ownedelapsed/lease/
-actualownerdiagnostic seam still needs refinement/review BEFORE fullresource tests;
-no fakecapacity or unknown0. §1 admits transparentlystock/zero-patch baselineidentity;
-correctedAPI012lateruses distinctprefix. Missing symbols/setup/stubcannot masquerade
-as reachednativecapacityred. These reports are design inputs, not accepted interfaces.
+Both nativebaseline sessions now explicitly assigned the current task after claim.
+StockpublicAPI supports protocolred, not complete resource observation/configuration.
 
-NEXT: finalsmallmetadata/currentheadCI/rules/zero threads/normalmerge; refreshmain,
-then fresh APITEST-012 author/reviewer claim before edits. Contract→nativebaseline/red→
-profileimplementation→actualhostbaseline/implementation→clockbinding. No owner decision
-or access blocker observed. All old reviews/source/runtime proof remain preserved.
+Clean selectedsource3aae769cc405cf5abb9d477675c6430924f02c7c/Trantor
+78e480f5e138acdc05f76c55a2716718cd846364 preserved. Close callback is aftershutdown;
+emptyoutput immediate versus queued closeOnEmpty differ. Sharedfragment/control
+parser cannot be fixed by blindecho/reorder alone. Trantor bindexit1 matches
+oneprocesslifetime/freshprocessretry; no sameprocessrestart/SQLpreemption guarantee.
+Actual startup/currentpublication producer design remains mandatory independent
+API001 pre-code gate; no ticket/listener/writer/DTO/fake-readiness shortcut. Split
+substantial issuer/durable recovery before implementation. Nativeclock+fakehost
+cannot finish actualSESSION009readyhost binding. SESSION011H1 refuses Upgrade;
+nativeprofile grants no auth/sync/readiness. Fullrelease scope stays.
 
 ## Preserved read-only investigations and unused clean work
 
