@@ -112,7 +112,8 @@ All native/translation acceptance presets use one Boolean,
 `SUBATHON_BUILD_ACCEPTANCE_TESTS`, and an explicit `SUBATHON_ACCEPTANCE_SUITES`
 semicolon list. Selector names match the preset without `-debug`, except
 `acceptance-debug` selects `time-credit`. Named presets retain their existing suite
-and SDK closure: SQLite presets include earlier storage stages; milestone,
+and SDK closure: SQLite presets include earlier compiled migration stages, including
+the initial-capture prefix for account/session storage; milestone,
 permissions and rate include numeric checks; editorial includes debt and lifecycle.
 Bare acceptance ON defaults to credit. An explicit empty/unknown selection fails;
 `all` explicitly includes every native/translation suite, all required SDKs and both
