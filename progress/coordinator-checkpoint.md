@@ -40,7 +40,8 @@ hostedoutput. Noaccountfeaturebody run. SQLrawlogSHA
 
 ## Active FIXTURE-003
 
-Root task/FIXTURE-003-service-recipes fromcurrentmain7cbfb10. Claimed in state before
+Root task/FIXTURE-003-service-recipes fromcurrentmain7cbfb10; draftPR
+https://github.com/Kernol12/subathon-bot-ai/pull/102. Claimed in state before
 edits. Fresh author /root/fixture_service_author explicitly assigned
 /tmp/subathon-fixture003-author task/FIXTURE-003-author. Independent reviewer
 /root/fixture_service_review explicitly assigned /tmp/subathon-fixture003-review
@@ -69,7 +70,26 @@ authoredcanonicaltests/reachable inertstub -> separate testreview -> observedint
 zero unresolvedthreads/normalmerge. Preserve existing5familygoldens/holdsformatter.
 Relevantnative may focus43method/233scenario applicationservice owner when allnativebytes
 and servicecanonicalunchanged; don't replay unrelated14Qt justforreceipts. Account44passive.
-No003edits/recipeexecution/testapproval/implementation proof yet atthisclaim checkpoint.
+Contract-only proposal daa0f449 independently APPROVED; root import a5352cc.
+Authored tests, reachable stub and explicit sixth registration 73396a493 independently
+APPROVED before execution; root import de96550. Existing five goldens, seed pins and
+hold renderer unchanged. Frozen test SHA256:
+dd1464c9cc3e4b00be18a6e3e43d0b50f28717369f47dc0eadc2ae3c549494f0.
+
+Observed intended red at unchanged 73396a493: three methods / three failures in
+0.471s, exit 1, solely named application_service FeatureNotImplemented for default,
+check and individual service selection. Other family subtests passed; no import,
+dependency, parse or skip error. Separate attribution review APPROVED. Raw log
+/tmp/fixture003-intended-red.log SHA256:
+bee5b7b7d970ecf9dc1fb13bcfe3d889bdaba9e6d775769a022932b4d24fd722.
+Receipt /tmp/fixture003-intended-red.json; Python 3.14.9. Details retained in PR102.
+
+The coordinator authorized implementation in the single service module. The author
+owns all implementation; no partial-file helper assigned. NEXT: exact whole-source
+independent oracle/execution approval BEFORE candidate imports, generation, test
+reruns or native use. Then frozen tests, independently verified typed output/adoption,
+focused service SQL/tooling once, runtime/packet review and current CI/normal merge.
+No implementation/source execution approval or green proof exists yet.
 
 ## Continuity and full scope
 

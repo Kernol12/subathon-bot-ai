@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T10:38:20.625025+00:00",
+  "updated_at": "2026-11-08T10:46:19.793474+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -417,7 +417,7 @@
       "brief": "docs/tasks/EPIC-028/FIXTURE-002.md",
       "summary": "Reproduce bundle/hold/claim oracles from independent recipes and preserve the exact six-selector corruption-priority crosswalk.",
       "notes": [
-        "Bundle/holds reproduce original bytes; claims adds six exact names/roles with old typed content intact. Independent test-first/source/fix/runtime/packet reviews approved; focused3/tooling37/infra3 and Qt14/361methods/869results pass. Hold layout failure and reviewed fix preserved; common renderer/goldens unchanged. All19 final-head checks passed before normal PR101 merge7cbfb10. Account bodies unrun. Next: FIXTURE-003."
+        "Bundle and holds reproduce original bytes; claims adds six names/roles with old typed content intact. Independent test-first/source/fix/runtime/packet reviews passed. Focused 3, tooling 37, infrastructure 3 and Qt 14 suites/361 methods/869 results pass. The layout failure and reviewed fix remain recorded. All 19 final checks passed before normal PR101 merge 7cbfb10. Account bodies remain unrun. Next: FIXTURE-003."
       ],
       "verification": {
         "scope_contract_review": "passed",
@@ -464,9 +464,14 @@
       "brief": "docs/tasks/EPIC-028/FIXTURE-003.md",
       "summary": "Reproduce all named service cases, formats, arrangements and snapshots without computing expected semantics through the product.",
       "notes": [
-        "Claimed from refreshed main7cbfb10 after normal PR101 merge. Fresh author and separate reviewer independently inventoried service baseline read-only; no approval gate or execution yet. Scope: application-service literal recipes, explicit CLI registration, focused canonical golden and only service JSON. Coordinator owns shared metadata; contract/tests/review/red precede implementation."
+        "The complete service inventory/R1 extension and six-family tests were independently approved. Three focused tests reached intended red solely through the named service stub; the reviewer verified attribution and frozen hashes. Implementation is authorized in one module; source/oracle execution review must precede generation or test reruns. Existing five goldens, seeds and native assertions stay unchanged."
       ],
-      "verification": {},
+      "verification": {
+        "scope_contract_review": "passed",
+        "test_oracle_review": "passed",
+        "baseline": "observed_red",
+        "baseline_review": "passed"
+      },
       "evidence": [],
       "review": null
     },
