@@ -107,6 +107,17 @@ hashes, including 117 native sources/headers. If unchanged, reuse that validated
 service IDs; do not replay the other 13 Qt suites solely for receipts. Hosted current
 SQL CI still rebuilds and runs its normal lane/account passive check.
 
+The first unexecuted data draft exceeded the forecast (~385KB/10.8K lines). The
+author is removing repeated DTO/SQL spelling through narrow named constructors and
+shared literal frames. Last observed working file was ~302KB/7500 lines; inspect
+actual work rather than treating these numbers as final. Authoring scratch script
+/tmp/fixture003-author-transcribe.py also exists; preserve it and the working file
+if interrupted. Neither is execution-approved. The coordinator requested the next
+coherent draft as a stable commit for design review even if still above forecast;
+clarity and independent oracle preservation matter, not forced syntax compression.
+No literal/assertion deletion, decoder, policy model or generic patch framework is
+permitted. The reviewer independently confirmed unique SAA/SAH frames total ~20.6KB.
+
 No complete-source execution approval, candidate run or green proof exists yet.
 
 ## Continuity and full scope
