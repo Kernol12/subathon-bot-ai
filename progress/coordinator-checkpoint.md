@@ -14,6 +14,10 @@ before claim. Isolated fresh author /root/native_ws_baseline_author assigned
 review/APITEST-012-native-websocket, bothmainb27. Previous readonlyprep sessions are
 explicitly reassigned, not assumed active. Author owns ONLY two new
  tests/native_websocket_profile/{native_ws_probe.cpp,test_native_ws_profile.py}.
+Claim71b64dedf9aa076d8f9484ea43809ed3184fa5bb independently approved:
+/tmp/apitest012-claim-review.md SHA
+9547d4d7c9ec8e29fe8abe0f8e7ea917c3731950cdbc52bf863e03f4b79a3e78.
+Boundary/test/foundation/build/body gates remain unapproved.
 Root owns all shared contract/interface/header/stub/CMake/CI/deps/SDK/ABI/licenses/
 state/HTML. Claim commits BEFORE those edits; do not begin tests/header/stub bodies
 until exact minimal boundary independently reviewed. No production correction,

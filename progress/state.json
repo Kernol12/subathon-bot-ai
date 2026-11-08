@@ -5139,7 +5139,8 @@
         "foundation_admission": "not_run",
         "native_build": "not_run",
         "passive_discovery": "not_run",
-        "baseline": "not_run"
+        "baseline": "not_run",
+        "planning_review": "passed"
       },
       "evidence": [],
       "review": null,
@@ -17162,6 +17163,11 @@
       "date": "2026-11-08",
       "task": "APITEST-012",
       "note": "Dedicated current-mainb27 branch/isolated author-review worktrees created; claim before repo/test edits. Readonlyprospective sessions explicitly reassigned freshbaseline roles. Exact boundary refinement/review first; no source correction/build/discovery/body/native execution yet."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "APITEST-012",
+      "note": "Exactclaim71b64ded independently approved9547d4d7; actualPR107merge and priorfinalreceipts verified, all467 DAG/3depsdone/onlyoneactive/ownedpaths correct. Boundary proposal/test/foundation/body gates remain unapproved; no execution."
     }
   ]
 }
