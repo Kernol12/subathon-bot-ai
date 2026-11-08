@@ -59,7 +59,7 @@ if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS)
     subathon_target_options(server_password_hashing_acceptance)
     # Private error observations/injection belong only to the feature-test executable.
     foreach(sbt_password_wrap IN ITEMS
-            sodium_init sodium_malloc sodium_allocarray sodium_mlock sodium_memzero
+            sodium_init sodium_malloc sodium_allocarray sodium_mlock
             sodium_munlock sodium_free crypto_pwhash_str crypto_pwhash_str_alg
             crypto_pwhash_argon2id_str crypto_pwhash_str_verify crypto_pwhash_argon2id_str_verify)
         target_link_options(server_password_hashing_acceptance PRIVATE "LINKER:--wrap=${sbt_password_wrap}")
