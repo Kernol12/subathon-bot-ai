@@ -60,7 +60,11 @@ still using synthetic data and supplied policy/authority facts.
 
 Source/resource review remains necessary for allocation bounds, owned capabilities,
 secret handling, process cleanup and SQL projection/ownership; output assertions alone
-do not measure those properties. Schema checks validate real OpenAPI/JSON-schema
+do not measure those properties. Security wrappers retain nonvacuous positive observations,
+zero-work guards and required source/clock/login-gate ordering. Private exact-positive
+native totals may be simplified only through separately approved cleanup; erasure,
+locking, lifetime and fault observations remain. Standard GoogleTest skip recognition
+is runner metadata; actual acceptance still requires zero skipped cases. Schema checks validate real OpenAPI/JSON-schema
 packages and examples, without establishing authorization or runtime transport safety.
 
 ## Repository-schema validation

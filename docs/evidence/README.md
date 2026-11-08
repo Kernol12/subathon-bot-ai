@@ -102,6 +102,18 @@ See [permissions #64](https://github.com/Kernol12/subathon-bot-ai/pull/64),
 [passwords #65](https://github.com/Kernol12/subathon-bot-ai/pull/65), and
 [session supplier #84](https://github.com/Kernol12/subathon-bot-ai/pull/84).
 
+[Identity cleanup #104](https://github.com/Kernol12/subathon-bot-ai/pull/104) replaces
+approved private exact-positive totals with nonvacuous native-work observations and
+removes only the forwarding password memzero wrapper. All 37 password and 39 session
+methods, zero-work/security/public checks, session erasure observer and required gate
+ordering remain. One real selected libsodium 1.0.22/GTest 1.18 run passed 79 nodes
+(76 identity plus three infrastructure), tooling 37, with zero skips. Independent
+review matched all actual per-suite identities to the genuine old passing CI baseline.
+Two scratch audit assumptions and a premature run launch are preserved as procedural
+errors, not feature red; runtime approval derives from captured artifacts, with no
+source/assertion change or native rerun. Current packet/CI/merge gates are in the PR.
+No additional operational login/session lifecycle or platform capability follows.
+
 Transport, lifecycle mutations, current clock production, and lossless/secret-safe
 ingress have reviewed documents and literal examples. They are contracts, without
 implemented native parser patch, proxy admission, actual login, session issuance,
@@ -239,8 +251,8 @@ byte, recipe, fixture, assertion, pin and build input unchanged. Independent pro
 source/CI and actual output/runtime reviews passed. All six raw presentations and full
 parent canonical/projection oracles match; CLI generation/check snapshots are unchanged.
 The existing tooling 37/37 and project checks pass; tooling separately creates ordinary
-Python caches. Prior native proof is reused by identity. Final packet, current hosted
-new-step/SQL/passive-account and normal merge gates are recorded in the PR.
+Python caches. Prior native proof is reused by identity. Independent final packet review and all 19 current checks, including the actual early
+all-six step/full SQL/passive-account lane, passed before normal PR #103 merge `22d4c2e`.
 Earlier cleanup PRs merged normally after
 independent review and all current checks. Later cleanup retains separate baseline
 reviews; full specification acceptance, live/provider/platform evidence and release

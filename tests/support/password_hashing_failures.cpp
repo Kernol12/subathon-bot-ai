@@ -190,7 +190,6 @@ void *__real_sodium_malloc(std::size_t);
 void *__real_sodium_allocarray(std::size_t, std::size_t);
 int __real_sodium_mlock(void *, std::size_t);
 int __real_sodium_munlock(void *, std::size_t);
-void __real_sodium_memzero(void *, std::size_t);
 void __real_sodium_free(void *);
 int __real_crypto_pwhash_str(char *, const char *, unsigned long long, unsigned long long,
                              std::size_t);
@@ -264,9 +263,6 @@ int __wrap_sodium_mlock(void *pointer, std::size_t size) {
     return result;
 }
 
-void __wrap_sodium_memzero(void *pointer, std::size_t size) {
-    __real_sodium_memzero(pointer, size);
-}
 int __wrap_sodium_munlock(void *pointer, std::size_t size) {
     const int result = __real_sodium_munlock(pointer, size);
     if (observing() && result == 0 && size != 0) {
