@@ -2,6 +2,8 @@
 // Bounded native observer. Protocol enforcement belongs to the selected SDK/profile.
 #include <subathon/server/native_websocket_profile.hpp>
 
+#include <drogon/WebSocketConnection.h>
+#include <drogon/WebSocketController.h>
 #include <drogon/drogon.h>
 #include <openssl/evp.h>
 #include <trantor/net/EventLoop.h>
