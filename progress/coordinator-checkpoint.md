@@ -4,24 +4,27 @@ Updated: 8 November 2026. Standing loop resumed under AGENTS.md and
 COORDINATOR_PROMPT.md. No stop requested. Inspect actual branches/worktrees/claims/
 processes/PRs/checks before acting; preserve all valid work and independent reviews.
 
-## Current claim APITEST-012: boundary refinement before authored tests
+## Current claim APITEST-012: native fixture authoring, execution gated
 
 Actual main/originmain b27ff1382622b16e8a2fb71c00dab4758b86dfd4 (normalPR107merge
 2026-11-08T16:59:32Z). Root task/APITEST-012-native-websocket-baseline, clean frommain
 before claim. Isolated fresh author /root/native_ws_baseline_author assigned
 /tmp/subathon-apitest012-author task/APITEST-012-author; independent reviewer
 /root/native_ws_baseline_review /tmp/subathon-apitest012-review
-review/APITEST-012-native-websocket, bothmainb27. Previous readonlyprep sessions are
+review/APITEST-012-native-websocket atmainb27; author cleanFFto b329 before its
+current two-file edits. Root sharedwiring0c33c58. Previous readonlyprep sessions are
 explicitly reassigned, not assumed active. Author owns ONLY two new
  tests/native_websocket_profile/{native_ws_probe.cpp,test_native_ws_profile.py}.
 Claim71b64dedf9aa076d8f9484ea43809ed3184fa5bb independently approved:
 /tmp/apitest012-claim-review.md SHA
 9547d4d7c9ec8e29fe8abe0f8e7ea917c3731950cdbc52bf863e03f4b79a3e78.
-Boundary/test/foundation/build/body gates remain unapproved.
+Boundary/integratedstub/selector/staticinput reviews passed; native fixture/build/
+actualprobe identity and body gates remain pending.
 Root owns all shared contract/interface/header/stub/CMake/CI/deps/SDK/ABI/licenses/
 state/HTML. Claim commits BEFORE those edits; do not begin tests/header/stub bodies
 until exact minimal boundary independently reviewed. No production correction,
-configure/build/discovery/body/native/SQL/provider execution authorized yet.
+native configure/build/discovery/fixturebody/SDK/SQL/provider execution authorized yet.
+Only the separately reviewed tooling selector body ran: actual7/7, recorded below.
 
 Inputs: accepted nativeblob6e376306682cda4c51d0eff63c4543428c8baf8a and hostblob
 f1808d018f3b7a6f2488094797d5d1fd99a7a485, API-012 brief/currentDAG/specv0.45. Scope:
@@ -66,7 +69,7 @@ nativefixture files (uncommitted/unexecuted until handoff). Do not move that bra
 while authoractive. CLI--probePATH/-v/--list; probe--identity pending exactreview.
 Largepayload digest+length/smallhex, finite asyncstdout/commands proposed; directdeps
 Drogon::Drogon/Threads::Threads/OpenSSL::Crypto/CMAKE_DL_LIBS, noQt/GTest/sodium.
-Root SDK import/preset/serverstub wiring AUTHORED only, nativefixture registration
+Root SDK import/preset/serverstub wiring AUTHORED in0c33c58; nativefixture registration
 pending finalsource/casebound/timeout. Separate exacttest/buildreview beforeconfigure.
 Primary reviewer completed selector/runtimegates; explicitly resume for exactauthored
 nativefixture/build/foundation review when ready.
@@ -102,6 +105,17 @@ rc0/0.104950979s,SEVENmethods/0skips (sixold+oneadded), independentruntimeapprov
 f53a70d76bf83c6ff3ef8f67582d0912a087e00ee52f6b6cd6eb636d0f51565a.
 Earlierreviewer8count waswrong; explicitcorrection preservesoldreceipts/no replay.
 Tooling39 futureexpected, NOT observed. No native/SDK/configure/testfixture execution.
+
+Shared SDK/build wiring exact0c33c58 received one CHANGES REQUIRED B1:
+/tmp/apitest012-sdk-build-wiring-review.md SHA
+b754af1b3fa7fd52c3ba4835a67b144be8c11c47c70446378d7e1ae3b86b0ee1.
+Release-only targetpaths cannot certify preexistingDebug/mapped/interface state.
+Root added bounded reject-if-either-framework-target-exists before firstimport;
+GLOBALinclude_guard preserves own repeats. Exactdelta independent review pending.
+All other staticwiring positives preserved. Known selectedFindFilesystem runs an
+existing C++17 std::filesystem configureprobe; classify it as foundation execution,
+not nativeprofilebody/no-program-execution. No configure/compiler/SDK/app ran yet.
+Sourcehelper completedoriginalreview; explicitly resume exactguarddelta review.
 
 NEXT: authorhandoff exacttwofixturefiles -> root controlledSDK loader/registration
 wiring + separate exacttest/stub/build/foundation review -> configure/build/passive

@@ -1,6 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Configure an explicit stock baseline SDK; never download, rebuild or load it.
 include_guard(GLOBAL)
+if(TARGET Drogon::Drogon OR TARGET Trantor::Trantor)
+    message(FATAL_ERROR
+        "Native WebSocket acceptance must import both framework targets from its explicit SDK; use a fresh configuration")
+endif()
 set(SUBATHON_DROGON_ROOT "" CACHE PATH "Independently admitted stock Drogon 1.9.14 SDK prefix")
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Linux" OR NOT CMAKE_SIZEOF_VOID_P EQUAL 8
    OR NOT CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64)$")
