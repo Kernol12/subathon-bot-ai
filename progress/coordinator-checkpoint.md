@@ -7,16 +7,15 @@ processes/PRs/checks before acting; preserve all valid work and independent revi
 ## Current claim APICONTRACT-001: contract only, before baseline/source work
 
 Actual main/originmain1dcf2b61f65a4d87a29a0ac52e68d7c8b0d20c90 after normalPR106merge.
-Root task/APICONTRACT-001-lifecycle-profile. Claim/DAG/brief edits are being committed
-before author edits. New tasks: APICONTRACT001 -> APITEST012/API012 native persistent
+Root task/APICONTRACT-001-lifecycle-profile. Claim/DAG/brief806dba7 was committed BEFORE author edits. New tasks: APICONTRACT001 -> APITEST012/API012 native persistent
 WS profile -> existing APITEST001/API001 host. Both SESSIONTEST009/SESSION009 now
 explicitly depend on actualAPI001host, as accepted clockcontract§2 assigns. All old
 API1 persistent/realclose/startup/shutdown/backpressure/cancellation criteria remain.
 No reduced release scope or supported capability follows from decomposition.
 
-Fresh /root/api_lifecycle_contract_author is ACTIVE READ-ONLY until committedclaim
-message, /tmp/subathon-apicontract001-author task/APICONTRACT-001-author, main1dc.
-Fresh independent /root/api_lifecycle_contract_review ACTIVE READ-ONLY, separate
+Fresh /root/api_lifecycle_contract_author is ACTIVE authoring ONLY the two docs after
+explicit committedclaim806dba7 release, /tmp/subathon-apicontract001-author task/APICONTRACT-001-author, main1dc.
+Fresh independent /root/api_lifecycle_contract_review ACTIVE independent review, separate
 /tmp/subathon-apicontract001-review review/APICONTRACT-001-lifecycle, same main.
 Author owns ONLY new docs/contracts/api-host-lifecycle-v1.md and
 native-websocket-profile-v1.md afterclaim. Root owns taskbriefs/DAG/state/HTML/current
@@ -59,8 +58,12 @@ refs/token or parallelclockhost. Any substantialdurablerecovery/reusableissuer b
 that host ownership mustsplitbeforeimplementation. Native component+fakehost cannot
 complete existingclock009actualbinding acceptance. No fakeproducer upgrade permitted.
 
-NEXT: commitclaim -> explicitlyrelease twoDocauthorscope + separate rootDAG/briefreview
--> exactboundedcontracts/literalexamples -> independentdocumentreview -> currentchecks/
+Exact planning/claim806dba7 independently APPROVED; receipt
+/tmp/apicontract001-planning-review.md SHA
+2598c31e3fff02780c241dcdf8797eda61393f1af12c43432142b85426f8fffd.
+Root467tasks/122decisions/project/rendercheck/diffpass. Actualcontractreviewnotyetrun.
+
+NEXT: authored exactboundedcontracts/literalexamples -> independentdocumentreview -> currentchecks/
 CI/PRmerge. Stopbeforecode if requirementconflict/unboundedclaim/newsubsystem appears;
 resolve routine choiceswithinaccepted scope, askowneronlygenuinedecision/access.
 
