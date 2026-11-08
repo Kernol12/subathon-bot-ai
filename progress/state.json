@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T10:29:51.243647+00:00",
+  "updated_at": "2026-11-08T10:38:20.625025+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -417,7 +417,7 @@
       "brief": "docs/tasks/EPIC-028/FIXTURE-002.md",
       "summary": "Reproduce bundle/hold/claim oracles from independent recipes and preserve the exact six-selector corruption-priority crosswalk.",
       "notes": [
-        "Bundle/holds reproduce original bytes; claims adds only six reviewed names/roles with old typed content intact. Independent test-first/source/fix/runtime reviews approved; focused3/tooling37/infra3 and Qt14/361methods/869results pass. Hold layout-only first failure preserved; common renderer/goldens unchanged. Final packet approval, current-head CI and normal PR101 merge remain open. Next: FIXTURE-003."
+        "Bundle/holds reproduce original bytes; claims adds six exact names/roles with old typed content intact. Independent test-first/source/fix/runtime/packet reviews approved; focused3/tooling37/infra3 and Qt14/361methods/869results pass. Hold layout failure and reviewed fix preserved; common renderer/goldens unchanged. All19 final-head checks passed before normal PR101 merge7cbfb10. Account bodies unrun. Next: FIXTURE-003."
       ],
       "verification": {
         "scope_contract_review": "passed",
@@ -432,7 +432,7 @@
         "runtime_review": "passed",
         "native_acceptance": "passed",
         "tooling": "passed",
-        "github_ci": "not_run",
+        "github_ci": "passed",
         "product_acceptance": "not_run",
         "native_crosswalk_review": "passed",
         "scaffold": "passed"
@@ -444,7 +444,7 @@
         "author": "/root/fixture_storage_author; holds-only helper /root/fixture_holds_author",
         "reviewer": "/root/fixture_storage_review",
         "outcome": "approved",
-        "revision": "Contract6e870e2/testb56fbba/red/source54c0462/fix9752a05/runtime454833d and root33f5239 native869-ID/361-method crosswalk independently approved. Exact root packet/current-head CI/normalmerge remain pending.",
+        "revision": "Contract/test/red/source/fix/runtime454833d/root33f5239/nativecrosswalk and final8f6801e independently approved. All19currentchecksSUCCESS; SQLaccountbuild/passivenonempty-metaobject audited; normalPR101merge7cbfb10 at2026-11-08T10:36:55Z.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/101"
       }
     },
@@ -453,8 +453,8 @@
       "title": "Independent application-service fixture recipes",
       "module": "Fixture tooling",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "/root/fixture_service_author",
       "depends_on": [
         "FIXTURE-002"
       ],
@@ -464,7 +464,7 @@
       "brief": "docs/tasks/EPIC-028/FIXTURE-003.md",
       "summary": "Reproduce all named service cases, formats, arrangements and snapshots without computing expected semantics through the product.",
       "notes": [
-        "Planned prerequisite only. Exact family contract/oracle/coverage proposal and authored-test review/intended-red gates precede implementation. No generator or product behavior is implemented or verified by this record."
+        "Claimed from refreshed main7cbfb10 after normal PR101 merge. Fresh author and separate reviewer independently inventoried service baseline read-only; no approval gate or execution yet. Scope: application-service literal recipes, explicit CLI registration, focused canonical golden and only service JSON. Coordinator owns shared metadata; contract/tests/review/red precede implementation."
       ],
       "verification": {},
       "evidence": [],
@@ -16769,6 +16769,16 @@
       "date": "2026-11-08",
       "task": "FIXTURE-002",
       "note": "Owner resumed standing loop; stale stop condition superseded. Live PR100 merge/checks verified, no active claim/process to reassign. Fresh author /root/fixture_storage_author and separate reviewer /root/fixture_storage_review assigned; no prior worker assumed active."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "FIXTURE-002",
+      "note": "Normal PR101 merge7cbfb10 after exact8f6801e independent packet review, all19checksSUCCESS/rules/zeroThreads. Prior author/helper finished; reviewer retired after CI audit. No baseline weakening."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "FIXTURE-003",
+      "note": "Fresh author /root/fixture_service_author and independent /root/fixture_service_review assigned isolated current-main worktrees; claim precedes edits. Readonly service inventory complete; no implementation gate approved."
     }
   ]
 }

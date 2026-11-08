@@ -225,8 +225,8 @@ reviewed presentation fix. The same three focused tests pass, including selected
 sentinels and no-write output/seed drift. Direct generation/check passes. Integrated
 Qt 6.12 acceptance passed 14 stable suites, all 361 methods and 869 results; exactly
 six selector labels change one-to-one. Infrastructure 3/3 and tooling 37/37 pass.
-Independent runtime and final revision reviews, current hosted checks and normal merge
-are recorded in the PR. Account coordinate8 remains proposed and its 44 feature
+Independent runtime/final packet reviews and all 19 latest-head checks passed before
+normal PR #101 merge `7cbfb10`. Account coordinate8 remains proposed and its 44 feature
 bodies passive; current hosted SQL CI compiles/discovers that baseline separately.
 Application-service recipes and final all-six adoption remain in the
 [explicit prerequisites](../tasks/EPIC-028/TESTCLEAN-006.md).
