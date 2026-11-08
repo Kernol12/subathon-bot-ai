@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T13:59:00.516254+00:00",
+  "updated_at": "2026-11-08T14:22:08.203366+00:00",
   "summary": "EPIC-028 evidence/test cleanup and all six fixture recipes are complete under separate reviews. Current priority STORAGE-020 implements the reviewed physical account/session store. Existing bounded core/accounting and controlled SQLite components have synthetic/component proof; actual authority/login/clock/action adapters, financial workflows, all integrations/FX, UI and operational/platform/release scope remain incomplete.",
   "verification": [
     {
@@ -14661,7 +14661,7 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-020.md",
       "summary": "Implement the reviewed store/migration/current snapshot readers on the existing writer; no login acceptance, service authorization or credential publication.",
       "notes": [
-        "Claimed from main344c1e2 before edits. Physical v1/8dc7ba9; all44 reviewed red tests and separate TESTCLEAN004/008 approvals retained. Author owns account CPP/private header; root owns additive8 compiled-prefix reuse, selector/wiring/CI/status. Selector exact test reviewed, intended4→13 red attributed, wiring reviewed and six tests pass. Source/resource/schema review, realQtSQL44+regressions/currentCI/merge remain. Scope in checkpoint; no login/authority/platform claim."
+        "Claimed from main344c1e2 before edits. Physicalv1/8dc7ba9; all44 reviewed red tests and TESTCLEAN004/008 approvals retained. Two-path source81263f2 imported1ac8f07; author static report only, no native execution. Selector contract/test/red/wiring/six-green independently approved. Exact source/resource/schema review, fresh realQtSQL44+prefix regressions, ordinary CI promotion/currentCI/merge remain. Scope in checkpoint; no login/authority/platform claim."
       ],
       "verification": {
         "inherited_test_review": "passed",
@@ -14676,7 +14676,8 @@
         "product_acceptance": "not_run",
         "selector_source_review": "passed",
         "selector_tests": "passed",
-        "selector_runtime_review": "passed"
+        "selector_runtime_review": "passed",
+        "source_authored": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/106"
@@ -16939,6 +16940,11 @@
       "date": "2026-11-08",
       "task": "EPIC-028",
       "note": "Independent account_store_review verified all13 child reviews/normal PRmerges and final105/current19; factual quality epic closure approved, fullproductscope preserved. Current priority STORAGE020."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "STORAGE-020",
+      "note": "Author81263f2/import1ac8f07 source handoff: only two assigned paths, tests/fixtures/publicAPI unchanged, static-only checks. Independent final source/resource/schema review active; no configure/build/discovery/body run or account CI promotion."
     }
   ]
 }

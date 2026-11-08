@@ -7,9 +7,11 @@ COORDINATOR_PROMPT.md. Preserve actual branches/worktrees/reviews. No stop reque
 
 Root task/STORAGE-020-account-sessions from actual main/origin main344c1e2.
 Draft PR https://github.com/Kernol12/subathon-bot-ai/pull/106
-currently carries reviewed selector prerequisite/status, NOT implemented storage. Fresh author /root/account_store_author has only done read-only prep;
-explicit implementation assignment followed committed claim0bcaec1. Author now implements
-only its owned source paths; no configure/build/discovery/feature body yet. Worktree
+currently carries reviewed selector prerequisite/status, NOT implemented storage. Fresh author /root/account_store_author began with read-only prep;
+explicit implementation assignment followed committed claim0bcaec1. Exact source
+81263f241b7d44de808e4dd5ebc36cc5af65c884 is now handed off, clean and IDLE;
+resume explicitly for any reviewed corrections. Root imports3aa2021+1ac8f07.
+No configure/build/discovery/feature body yet. Worktree
 /tmp/subathon-storage020-author, branch task/STORAGE-020-author, main344c1e2.
 Fresh independent /root/account_store_review uses /tmp/subathon-storage020-review,
 review/STORAGE-020-account-store, same main. Never assume idle sessions are active;
@@ -72,10 +74,18 @@ approval and actual44 body passes/zero skips. Three paths: ordinary workflow ste
 existing guard normal labels, CMake red-label removal, presetdisplay acceptance.
 No extra code/harness or omitted stable checks.
 
-Source is in progress in author worktree (two owned paths only), no native build/body
-yet. Preliminary independent helper review found full DTO/snapshot/variant/supplier
-budget projection occurring AFTER physical class validation in local/session/page
-reads. Author was sent the §6 ordering correction BEFORE execution; preserve all44.
+Final authored source81263f2 changes two owned paths only, public API/current44/
+fixtures/recipes unchanged. CPP SHA
+6e36dbcb1ecf1e9ecdb5e40a3a8eb22077e58330b2cd191d4d5b20d81c9125f0,
+header SHA3cac6b8fe57cb3fbdd94495b38814eaf63a63c124059f233704e0ad10620fb16.
+Source report /tmp/storage020-source-report.md SHA
+62a0791f1d70b8826dae3e30769fd3daa41744adeec6004b9e69e2d7a839df1c.
+Only clangformat/staticDDL/publicheader/whitespace audits, no native build/body.
+Preliminary independent helper review found complete output/supplier bounds AFTER
+class validation; author corrected before handoff (final independent gate OPEN).
+Static alias-only81263 follows6a96537 to avoid imported writer WriteResult collision.
+Page metadata uses exact indexed range; admitted payload nowCROSS JOIN rowid-driven.
+All findings/revisions retained, no tests weakened.
 No new raw corrupt-scalar byte cap is defined or needed: CASE does not materialize
 wrong-class scalar payload and semantic scalar B remains1/8. Exact final source gate
 is still OPEN. Temporary historical/current44-name oracle
@@ -83,8 +93,13 @@ is still OPEN. Temporary historical/current44-name oracle
 748c272e1f697a4868f9544627873a7696e74ec5144bc73b24fedf654cedead8
 was derived from approvedd717, not implementation output; no checked-in case list.
 
-NEXT: author source handoff -> exact source/resource/schema/config review -> integrate
-source into root and fresh actual44
+NEXT: independent exact81263/root1ac8 source/resource/schema/config review ->
+first fresh account-only configure/build/discovery -> one full18 CTest run
+(15unfiltered Qt runners incl44account bodies +3infra/fulltooling38). Metadata audit
+/tmp/storage020-discovery-audit.py SHA
+ce245f8bb2ca960cb35f524e39c865a71b4de3238cbb43545b84078eb7d326db
+is preauthored READ-ONLY/task-only, reviewer mustcheck before use. No nativecall in
+that parser; actualmetaobject -functions follows sourcegate. Observe actual44
 unfiltered Qt bodies with zero skips + applicable writer/work/migration/prefix ->
 ordinary CI promotion/remove account intentional-red only after real green -> metadata/
 final packet/latestheadCI/rules/resolved threads -> normal match-head merge.
