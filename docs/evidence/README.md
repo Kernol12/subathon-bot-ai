@@ -212,24 +212,28 @@ infrastructure 3/3 and tooling 34/34 passed. Independent raw runtime review conf
 literals. The final integrated head passed separate review and all 19 current checks
 before normal PR #98 merge.
 
-The independent fixture CLI supports reference/account, bundle, holds and original
-claims from four pinned small seeds and literal recipes; isolated reproduction has
-all six legacy outputs absent. Reference/account/bundle/holds reproduce original raw
-bytes; claims adds only six reviewed selector names and explicit corruption roles,
-with all old typed contents unchanged. The lower-priority corrupt-B assertion still
-runs after selecting A. [PR #100](https://github.com/Kernol12/subathon-bot-ai/pull/100)
-records the first families and their original failure/fix history;
-[PR #101](https://github.com/Kernol12/subathon-bot-ai/pull/101) records the storage
-extension, its reviewed intended red, preserved hold-layout first failure and narrow
-reviewed presentation fix. The same three focused tests pass, including selected-file
-sentinels and no-write output/seed drift. Direct generation/check passes. Integrated
-Qt 6.12 acceptance passed 14 stable suites, all 361 methods and 869 results; exactly
-six selector labels change one-to-one. Infrastructure 3/3 and tooling 37/37 pass.
-Independent runtime and final revision reviews, current hosted checks and normal merge
-are recorded in the PR. Account coordinate8 remains proposed and its 44 feature
-bodies passive; current hosted SQL CI compiles/discovers that baseline separately.
-Application-service recipes and final all-six adoption remain in the
-[explicit prerequisites](../tasks/EPIC-028/TESTCLEAN-006.md).
+The independent fixture CLI supports all six families from four pinned small seeds
+and literal recipes; isolated reproduction has every legacy output absent. Reference,
+account, bundle and holds reproduce original raw bytes. Claims adds only six selector
+names/roles with its old typed content intact; the corrupt-B-after-selected-A assertion
+still runs. Service JSON uses the common layout while its entire typed content remains
+frozen. [PR #100](https://github.com/Kernol12/subathon-bot-ai/pull/100),
+[PR #101](https://github.com/Kernol12/subathon-bot-ai/pull/101) and
+[PR #102](https://github.com/Kernol12/subathon-bot-ai/pull/102) preserve separate test-first,
+source, failure/correction and runtime reviews. The same three focused CLI tests pass,
+including selected-file sentinels and no-write output/seed drift. Direct all-six check
+passes. No expected semantic value comes from production or observed SQLite behavior.
+
+PR #101 passed all 19 current checks before normal merge `7cbfb10`. Its local Qt 6.12
+run passed 14 stable suites, 361 methods and 869 results. PR #102 reuses the validated
+binary after independently verifying every native/build/support input: the focused
+service run passed 43 methods/233 body scenarios plus two lifecycle results, with the
+same ordered 235 raw PASS IDs. Infrastructure 3/3 and tooling 37/37 pass. Other Qt
+suites were not replayed solely for receipts. Current packet/CI/merge gates are recorded
+in PR #102. Account coordinate8 remains proposed and its 44 feature bodies passive;
+hosted SQL CI builds the baseline and checks nonempty metaobject discovery, without
+running or independently counting 44 feature bodies. Final all-six CI/docs adoption
+remains the separate [TESTCLEAN-006 task](../tasks/EPIC-028/TESTCLEAN-006.md).
 Earlier cleanup PRs merged normally after
 independent review and all current checks. Later cleanup retains separate baseline
 reviews; full specification acceptance, live/provider/platform evidence and release

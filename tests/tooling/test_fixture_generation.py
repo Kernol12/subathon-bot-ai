@@ -38,7 +38,11 @@ OUTPUTS = {
     "sqlite_account_sessions_vectors.json": (
         "2e7c373a3bd526c770b85a2b875950820ac4b04db7d35e61849aa02025e7c919",
         "8e4e7030349f4fa79276b886ccedfb5859b1868a9d4f7e06192cc2dd8d278fa2"),
+    "application_service_vectors.json": (
+        "d6adb1ad1fa9effb1033fb3b7c722202ddddef00531c5819241f517101dbe109",
+        "d95d24f1c3f2cc5c9dfa43e1bd7c8f914bef365f8c955c5a7903a9894e5fd06c"),
 }
+SERVICE_OUTPUT = "application_service_vectors.json"
 
 
 # FIXTURE-002 brief's independent selector metadata, in the frozen old row order.
@@ -94,7 +98,7 @@ class FixtureGenerationTests(unittest.TestCase):
                 role = row.pop("check_lower_priority_corruption")
                 self.assertIs(type(role), bool)
                 self.assertIs(role, expected_role)
-        else:
+        elif name != SERVICE_OUTPUT:
             self.assertEqual(hashlib.sha256(data).hexdigest(), raw, name)
         canonical = json.dumps(value, sort_keys=True, separators=(",", ":"),
                                ensure_ascii=False, allow_nan=False).encode("utf-8")
@@ -137,8 +141,9 @@ class FixtureGenerationTests(unittest.TestCase):
                     self.assertEqual((selected / name).read_bytes(), data, name)
                 self.assertEqual(snapshot(project), original_inputs)
 
-    def test_storage_family_selection_preserves_other_outputs(self):
-        for family, filename in STORAGE_OUTPUTS.items():
+    def test_selected_family_preserves_other_outputs(self):
+        selected_families = {**STORAGE_OUTPUTS, "application_service": SERVICE_OUTPUT}
+        for family, filename in selected_families.items():
             with self.subTest(family=family), tempfile.TemporaryDirectory() as temporary:
                 parent = Path(temporary)
                 project = self.isolated_tree(parent)
@@ -172,6 +177,10 @@ class FixtureGenerationTests(unittest.TestCase):
             fixtures = project / "tests/fixtures"
             for name in OUTPUTS:
                 data = (ROOT / "tests/fixtures" / name).read_bytes()
+                if name == SERVICE_OUTPUT:
+                    # Independent R1 presentation of the frozen legacy value, not a recipe result.
+                    data = (json.dumps(json.loads(data), ensure_ascii=False, allow_nan=False,
+                                       indent=2) + "\n").encode("utf-8")
                 if name == STORAGE_OUTPUTS["original_claims"]:
                     value = json.loads(data)
                     if hashlib.sha256(data).hexdigest() == OUTPUTS[name][0]:
@@ -207,6 +216,15 @@ class FixtureGenerationTests(unittest.TestCase):
             self.assertEqual(snapshot(parent), drifted)
 
             holds.write_bytes(original[str(holds.relative_to(parent))])
+            service = fixtures / SERVICE_OUTPUT
+            service.write_bytes(service.read_bytes() + b"\n")
+            drifted = snapshot(parent)
+            result = self.invoke(project, cwd, "--check", "--fixture", "application_service")
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn(service.name, result.stdout + result.stderr)
+            self.assertEqual(snapshot(parent), drifted)
+
+            service.write_bytes(original[str(service.relative_to(parent))])
             seed = fixtures / "retained_context_vectors.json"
             seed.write_bytes(seed.read_bytes() + b" \n")  # Valid JSON; only the raw pin changes.
             drifted = snapshot(parent)
