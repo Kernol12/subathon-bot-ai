@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T14:56:04.181192+00:00",
+  "updated_at": "2026-11-08T15:26:02.898558+00:00",
   "summary": "EPIC-028 evidence/test cleanup and all six fixture recipes are complete under separate reviews. Current priority STORAGE-020 implements the reviewed physical account/session store. Existing bounded core/accounting and controlled SQLite components have synthetic/component proof; actual authority/login/clock/action adapters, financial workflows, all integrations/FX, UI and operational/platform/release scope remain incomplete.",
   "verification": [
     {
@@ -14637,7 +14637,7 @@
       "title": "Physical account/session store and current fact producers",
       "module": "Operations",
       "kind": "implementation",
-      "status": "in_progress",
+      "status": "done",
       "owner": "/root/account_store_author; coordinator shared wiring/status",
       "depends_on": [
         "STORAGECONTRACT-002",
@@ -14661,7 +14661,7 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-020.md",
       "summary": "Implement the reviewed store/migration/current snapshot readers on the existing writer; no login acceptance, service authorization or credential publication.",
       "notes": [
-        "Physical store/additive8 passes44 preserved realQtSQL methods. One18-node run/tooling38 passed, zero skips;653 tracked unchanged during run. Source/resource/fix/runtime reviews passed; prior869 rawQt IDs match. Qtmacro buildfailure and JUnit truncation audit correction preserved. OrdinaryCI promotion/currentdocs approved; hostedCI/finalpacket/normalPR106merge open. Factory proof combines compiled equality/frames with literalSQL setup. No login/authority/platform claim. Next: SESSIONTEST-009."
+        "Physical account/session store and migration 8 pass 44 preserved real SQLite methods. One 18-node run and 38 tooling tests pass; zero skips and all 653 tracked files unchanged during runtime. Independent source, resource, fix, runtime and 19-check CI reviews passed; prior 869 Qt results match. Build failure and JUnit limits preserved. Final packet, current final CI and PR106 merge remain. No login, authority or platform claim. Next: SESSIONTEST-009."
       ],
       "verification": {
         "inherited_test_review": "passed",
@@ -14672,7 +14672,7 @@
         "selector_baseline": "observed_red",
         "source_review": "passed",
         "real_sql_acceptance": "passed",
-        "github_ci": "not_run",
+        "github_ci": "passed",
         "product_acceptance": "not_run",
         "selector_source_review": "passed",
         "selector_tests": "passed",
@@ -14688,7 +14688,11 @@
         "tooling": "passed",
         "runtime_review": "passed",
         "ci_promotion_review": "passed",
-        "current_status_review": "passed"
+        "current_status_review": "passed",
+        "hosted_ci_review": "passed",
+        "final_packet_review": "not_run",
+        "final_head_ci": "not_run",
+        "acceptance": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/106"
@@ -14697,7 +14701,7 @@
         "author": "/root/account_store_author; coordinator shared wiring/status",
         "reviewer": "/root/account_store_review; independent resource /root/account_resource_audit",
         "outcome": "approved",
-        "revision": "Source81263 + fourlinefix05aad87 and wiree565 approved; first18 runtime e5d3836 approved48a9287 (22 artifacts), source/resource63ac4678/238f243b and fix8ef9944 preserved. eb01 ordinaryCI/f669 status approved; actual hostedCI/finalpacket/merge open.",
+        "revision": "Source81263 + fourlinefix05aad87/wiree565/source-resource63ac4678/238f243b/fix8ef9944/runtime48a9287 approved. Exact f30 packet/body166a67d2 and actual19 implementationCI8ec1936b approved; finalmetadata/currentfinalheadCI/normalmerge remain.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/106"
       }
     },
@@ -16972,6 +16976,11 @@
       "date": "2026-11-08",
       "task": "STORAGE-020",
       "note": "Actual first18 run0/32.055920s (44account+all14oldQt+3infra/tool38) independently approved;915rawQt IDs include exactprior869 order,653tracked unchanged. JUnitnodeproof/truncatednativeoutput distinguished from fullraw logs. Reviewed ordinaryCI/currentstatus promotion afteractualgreen; current hostedCI/finalmerge remain."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "STORAGE-020",
+      "note": "First implementation f30 current19CI independently approved8ec1936b: tested merge tree equalsf30; actual44+2hostedaccount/zero skips,14priorSQLrunners/all6/ordinaryguard,identity37+39 andrate53passive truth. Sourceimplementation done; finalmetadata/currentfinalheadCI/review/rules/merge remain."
     }
   ]
 }

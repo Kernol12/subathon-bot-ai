@@ -92,8 +92,11 @@ Qt result identities/order match the preserved old raw log, without replay. An i
 Qt macro compile failure was preserved and fixed by a separately reviewed four-line
 identifier rename before any test body. Original [contract #86](https://github.com/Kernol12/subathon-bot-ai/pull/86),
 [44-case red #89](https://github.com/Kernol12/subathon-bot-ai/pull/89) and later approved
-helper/comment revisions remain preserved. Ordinary account CI promotion is reviewed;
-current hosted CI, final packet review and normal merge remain open. This component
+helper/comment revisions remain preserved. Reviewed implementation head `f30a720`
+passed all 19 CI checks, including actual hosted 44 account methods/zero skips, all
+14 prior SQL runners, the six-fixture check and ordinary guard. The tested merge
+tree equals the reviewed source tree. Final metadata review/current-head CI and
+normal merge remain open. This component
 supplies physical current facts, without accepted login, permission, clock or session
 publication authority.
 

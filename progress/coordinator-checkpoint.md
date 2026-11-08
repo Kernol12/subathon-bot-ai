@@ -7,11 +7,18 @@ processes/PR/checks before acting; preserve all valid work and independent revie
 ## STORAGE-020 locally passed; promotion/packet/current CI/merge remain
 
 Root task/STORAGE-020-account-sessions, parent actual main/originmain344c1e2.
-Draft PR https://github.com/Kernol12/subathon-bot-ai/pull/106. Last published head
-876abad carries ONLY dependency prerequisite/status and all19 passed there. Actual
-source/local acceptance/promotion are newer LOCAL work; do not attribute oldCI to
-new implementation. Next: finish promotion metadata/packet review then first source
-push/current19 CI/actual44 hosted results/normal merge. Task stays in_progress.
+Draft PR https://github.com/Kernol12/subathon-bot-ai/pull/106. Exact pre-CI packet
+f30a720c0c729ed2de3a1d4e67ffe2a4fe657f99 and PRbody independently approved
+(/tmp/storage020-independent-preci-review.json SHA
+166a67d2f5e88436917eb6da6806f16030415f101ba7b680f24e9b8625a738b7).
+PRbody /tmp/storage020-pr-body.md SHA
+e5a15111e14c51e0ea960cee3cbc6d084cd6137183361c9aa4b9af0f7183f6e9.
+First IMPLEMENTATION headf30 PUSHED and all19 actual hosted checks PASSED.
+SQLrun42493519020/job128770751502; identityrun42493519345/job128770753090.
+Old876 prerequisite-only19pass is historical, never newsource proof. Task nowdone
+for actual componentimplementation/sourceCIproof; finalmetadata/currentfinalCI/
+review/rules/normalmerge remain. Next: exactfinalpacketreview thenpushnewmetadatahead
+for currentfinal19; no more localnative/tooling replay.
 
 Author /root/account_store_author is IDLE after exact source05aad87, clean
 /tmp/subathon-storage020-author (task/STORAGE-020-author); explicitly resume if a
@@ -118,11 +125,24 @@ promoted-discovery.*, promoted-audit.*.44 -functions reused BY SAME BINARY hash;
 no nativebody rerun. Both unmodified workflowPythonblocks ASTparse; no localguard
 execution/preset-substitution claimed. Actual hostedoriginalguard remains CIgate.
 
-NEXT: update/finalize concrete PRbody -> exactcurrentpromotion/metadata preCIpacket
-review -> push firstimplementationhead -> actualcurrent19CI inclnewverbose46account
-results/zero skips/alloldSQL/identity/all-six/guard -> recordactualCI/done/finalpacket
-review -> currentfinalheadCI/rules/resolvedthreads -> normalmatchheadPR106merge.
-No routineownerapproval needed. Keep task in_progress until implementationCIvalid.
+First implementation f30 CI independently APPROVED:
+/tmp/storage020-independent-ci-f30-review.json SHA
+8ec1936bcd5c27887e4a9c91099dbb249dc45347628693bcf3e89ed9c315e8da.
+All19checks/18runscompletedSUCCESS/attempt1; actual checkout3823b9e hasparents
+344c1e2+f30a720 and tree201444b3 equalsf30source tree. Hosted44+initcleanup46
+exactnames/0fail-skip-blacklist-warning/9082ms. All14oldSQLrunnerstepsPASS (nonverbose,
+no hosted869claim); actualall-sixstep3/ordinaryguardstep26SUCCESS. Identity37+39
+actualRUN/OK/filters; rates53passive +36oldnumeric/infra pass, no ratebody. QtSDK
+bannerbuildcompiler11.5 is not hostedprojectcompiler or local16.2; preserve limits.
+Actual logs /tmp/storage020-ci-f30-sqlite.log SHAd651e4b46d093b6fee1ecae3c1ef4268dad91df550c15ef215649a50655d9b40
+and -identity.log SHAf8dc7baae7d82ad1eb3281cb5583784e28c6fc0a40a20d995b6ceacad9fcdba9.
+Currentmain still344c1e2; active rules saved /tmp/storage020-current-main-rules.json.
+
+NEXT: exactfinalmetadata/PRbodypacketreview -> pushmetadatahead -> actualcurrent19
+finalCI inclverbose44/guard/alloldSQL/identity/fixture/rate truth -> ready/reviewCOMMENT/
+rules/resolvedthreads -> normalmatchheadPR106merge. Recordactualmerge atnextclaim.
+No routineownerapproval needed. Actual implementationCIvalid; taskdone records
+component proof only and still-open finalpublication gates.
 
 ## Continuity and next task
 
