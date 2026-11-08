@@ -5134,7 +5134,7 @@
       ],
       "verification": {
         "claim": "passed",
-        "boundary_review": "not_run",
+        "boundary_review": "failed",
         "test_review": "not_run",
         "foundation_admission": "not_run",
         "native_build": "not_run",
@@ -17168,6 +17168,11 @@
       "date": "2026-11-08",
       "task": "APITEST-012",
       "note": "Exactclaim71b64ded independently approved9547d4d7; actualPR107merge and priorfinalreceipts verified, all467 DAG/3depsdone/onlyoneactive/ownedpaths correct. Boundary proposal/test/foundation/body gates remain unapproved; no execution."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "APITEST-012",
+      "note": "Exactproposalr2 SHA4ee0eac8 independentchangesrequired b6146efe: terminalinspect/globalretirement, provenpreallocationcopybound, actualonceclaimnativedelivery, truthfulafterstartrefusal. Sameauthor explicitly resumed proposalr3only. No header/stub/tests/configure/build/discovery/body/native/SDK edits or execution."
     }
   ]
 }
