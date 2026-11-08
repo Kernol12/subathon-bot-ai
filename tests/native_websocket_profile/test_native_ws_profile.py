@@ -742,11 +742,14 @@ class NativeProfile(unittest.TestCase):
         s = p.progress(c, consumed=6)
         self.assertEqual(s["first_peer_close"], {"kind": "close_without_status"})
         deadline = s["close_deadline"]
+        self.assertEqual(deadline, 2000000000)
+        self.assertFalse(s["transport_closed"])
+        self.assertGreater(s["current"]["application_output"], 0)
         p.set_time(1001000000)
         c.send(bytes.fromhex("88 82 05 06 07 08 06 ee") + frame(9, b"x") + frame(1, b"late"))
         active = p.inspect(c)
         self.assertEqual(active["first_peer_close"], {"kind": "close_without_status"})
-        if active["close_deadline"] is not None:
+        if not active["transport_closed"] or active["close_deadline"] is not None:
             self.assertEqual(active["close_deadline"], deadline)
         opcode, body = c.receive_message()
         self.assertEqual((opcode, len(body), hashlib.sha256(body).hexdigest()),
@@ -1035,7 +1038,7 @@ class NativeProfile(unittest.TestCase):
         # Account for the already-admitted empty Pong; it is not late application data.
         try:
             self.assertEqual(c.receive(), (10, b""))
-        except EOFError:
+        except (EOFError, ConnectionResetError):
             pass  # Force-close may beat local control handoff; never infer peer receipt.
         c.eof()
         c.close_socket()
