@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Specification v0.45 NUM-01/02/04; docs/contracts/exact-decimal-v1.md revision 1.
+// Exact decimals retain source values and round only at final signed effect conversion.
 // Expected values below are literal fractions/integers, not production calculations.
 #include <cstdint>
 #include <gtest/gtest.h>

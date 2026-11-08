@@ -30,7 +30,7 @@ still using synthetic data and supplied policy/authority facts.
 
 | Preset | Focused CTest selection | Current behavior/proof |
 | --- | --- | --- |
-| `acceptance-debug` | `-L acceptance` / `-L regression` | 23 cap-limited credit cases: pure numeric planning; the acceptance `draft` label is historical metadata |
+| `acceptance-debug` | `-L '^acceptance$'` | 23 cap-limited credit cases in the owning suite: pure numeric planning, not full product proof |
 | `exact-numeric-debug` | `-L '^exact-numeric$'` | 33 exact decimal/half-even conversion cases |
 | `timer-lifecycle-debug` | `-L '^timer-lifecycle$'` | 39 Main/Grace transition proposals |
 | `pause-policy-debug` | `-L '^pause-policy$'` | 37 independent pause-reason/delay proposals |
@@ -135,7 +135,12 @@ slot/data row and its normal lifecycle; add Qt suites through this helper instea
 of maintaining slot lists. Test-only fixture paths are shared through its interface
 target. GoogleTest retains built-in per-case discovery and process isolation,
 including sodium initialization/fault cases; `subathon_discover_gtests` applies
-complete labels to that discovered list. Translation uses ordinary unittest
+complete labels to that discovered list. Credit, exact-numeric and permission
+regressions compile as auxiliary sources of their owning acceptance targets. Their
+semantic owner labels cover every case; the former GTest regression/draft tags are
+retired. Each case still runs in its own process, including the permissions allocator
+fault scope. The separate Qt writer-ownership runner keeps its existing boundary and
+labels. Translation uses ordinary unittest
 discovery for its whole module, retaining the real Qt verifier environment. Counts
 above describe methods/scenarios rather than CTest nodes. Source assertions and
 fixtures remain the acceptance baseline.

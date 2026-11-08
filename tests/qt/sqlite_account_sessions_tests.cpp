@@ -249,7 +249,7 @@ class SqliteAccountSessionsTests final : public QObject {
                     "Integrator-reserved additive8 five statements/full102 objects");
         });
     }
-    // AS01/12: no state/epoch/time filtering in the exact digest source.
+    // The exact digest source does not filter stored state, epochs or time.
     void exactDigestLookupAndFreshSnapshots() {
         scenario([] {
             Database db;
@@ -309,7 +309,7 @@ class SqliteAccountSessionsTests final : public QObject {
             });
         });
     }
-    // AS02/03: O(1) current fences leave all session captures unchanged.
+    // Current fences update without rewriting stored session captures.
     void epochAndAccessChangesRetainCapturedRows() {
         scenario([] {
             Database db;
@@ -350,7 +350,7 @@ class SqliteAccountSessionsTests final : public QObject {
                     "Epoch/access replacement never rewrites sessions");
         });
     }
-    // AS04: storage returns complete valid revoked/expired data; supplier owns clock.
+    // Complete revoked or expired data leaves clock decisions to the supplier.
     void revokedAndExpiredStayComplete() {
         scenario([] {
             for (const auto revoked : {false, true}) {
@@ -383,7 +383,7 @@ class SqliteAccountSessionsTests final : public QObject {
             }
         });
     }
-    // AS05/06: hidden physical fields/links validated before effective state.
+    // Physical fields and links are validated before effective session state.
     void corruptSelectedClosureNeverBecomesMissingOrRevoked() {
         scenario([] {
             for (const auto *sql :
@@ -452,7 +452,7 @@ class SqliteAccountSessionsTests final : public QObject {
             }
         });
     }
-    // AS16/21/24: complete semantic variants, including fixed snapshot and duplicates.
+    // Semantic variants retain their fixed snapshots and duplicate semantics.
     void completeSelectedAndSupplierBudgetsUseLiteralBytes() {
         scenario([] {
             Database db;
@@ -540,7 +540,7 @@ class SqliteAccountSessionsTests final : public QObject {
             });
         });
     }
-    // AS17/18: storage keeps raw fitting bytes; helper/actual source bridge remain owners.
+    // Fitting raw bytes remain available for the helper and actual source bridge.
     void localRawRecordsMissingAndOrphansAreDistinct() {
         scenario([] {
             for (const std::string raw : {"", "$",
@@ -650,7 +650,7 @@ class SqliteAccountSessionsTests final : public QObject {
             });
         });
     }
-    // AS13/14: exact bytes/revisions/fences only; no DTO accepted-login claim.
+    // Stored bytes, revisions and fences do not imply accepted-login authority.
     void localReplacementUsesFullSourceAndCurrentFences() {
         scenario([] {
             Database db;
@@ -810,7 +810,7 @@ class SqliteAccountSessionsTests final : public QObject {
             }
         });
     }
-    // AS08: matching revision alone cannot overwrite changed source bytes.
+    // A matching revision cannot overwrite changed source bytes.
     void rotationUsesFullExpectedRowAndImmutableTimes() {
         scenario([] {
             Database db;
@@ -893,7 +893,7 @@ class SqliteAccountSessionsTests final : public QObject {
             });
         });
     }
-    // AS09: independently authorized revocation can target disabled/epoch-mismatched row.
+    // Authorized revocation can target a disabled or epoch-mismatched row.
     void revocationPreservesDigestEpochsTimesAndNoReactivation() {
         scenario([] {
             Database db;
@@ -917,7 +917,7 @@ class SqliteAccountSessionsTests final : public QObject {
             });
         });
     }
-    // AS22: full signed SQL domain; unsigned duration calculation is lifecycle's owner.
+    // Stored signed times retain their full domain while lifecycle code owns durations.
     void signedExtremesSurviveReadRotationAndReopen() {
         scenario([] {
             Database db;
@@ -960,7 +960,7 @@ class SqliteAccountSessionsTests final : public QObject {
                     "Fresh reopen keeps literal signed MIN/MIN/MAX");
         });
     }
-    // AS10/23: a provisional staged value cannot suppress a reached later SQL failure.
+    // A provisional value cannot suppress a later reached SQL failure.
     void lateSqlFailureRollsBackWholeStagedInsert() {
         scenario([] {
             Database db;
@@ -993,7 +993,7 @@ class SqliteAccountSessionsTests final : public QObject {
                     "Fresh query proves no staged T and unchanged S");
         });
     }
-    // AS11: seam loses ACK only after successful real SQL COMMIT.
+    // SQL failures, lost acknowledgements and post-commit exceptions retain distinct outcomes.
     void unexpectedConstraintFailureIsActualSqlFailure() {
         scenario([] {
             Database db;
@@ -1076,7 +1076,7 @@ class SqliteAccountSessionsTests final : public QObject {
                     "Committed Q stays durable");
         });
     }
-    // AS12: each source call actually requeries; an external read snapshot gives no authority.
+    // Every source call requeries data without treating an external snapshot as authority.
     void sameSessionFreshReadAndExternalSnapshotAreDistinct() {
         scenario([] {
             Database db;
@@ -1183,7 +1183,7 @@ class SqliteAccountSessionsTests final : public QObject {
             });
         });
     }
-    // AS19/20: page source deliberately includes one validated probe; lifecycle consumes it.
+    // Paging includes one validated probe for the lifecycle to consume.
     void pagesKeepRawBlobOrderProbeAndNonexistentBoundary() {
         scenario([] {
             Database db;
@@ -1532,7 +1532,7 @@ class SqliteAccountSessionsTests final : public QObject {
                     "Terminal misuse preserves already committed outcome plus sticky error");
         });
     }
-    // AS23: public source inability retains real writer failure instead of fabricating missing.
+    // Source unavailability retains the writer failure instead of inventing a missing record.
     void sourceFailureAndExistingStickyErrorRemainHonest() {
         scenario([] {
             Database db;

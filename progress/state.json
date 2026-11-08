@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T12:22:19.566262+00:00",
+  "updated_at": "2026-11-08T13:29:35.243695+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -562,7 +562,7 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-007.md",
       "summary": "Remove call-count/order pins while retaining failure, zeroization, and sensitive-allocation checks.",
       "notes": [
-        "Private positive sodium totals now use nonvacuous work evidence; zero-work/security/gate ordering and all 76 methods remain. Only the pass-through password memzero wrap was removed. Independent proposal/source/runtime reviews passed; one 79-node run, 76 identity cases and tooling 37 passed with zero skips. Two scratch audit errors and premature launch retained; no rerun. Final packet/current CI/normal PR104 merge remain open. Next: TESTCLEAN-008."
+        "Private positive sodium totals use nonvacuous evidence; zero-work/security/gate ordering and all 76 methods remain. Only the password forwarding memzero wrap was removed. Independent proposal/source/runtime/packet reviews passed; one 79-node run/full tooling 37 passed without skips. Audit errors/premature launch retained; no rerun. All 19 checks, including hosted 37+39 cases, passed before normal PR104 merge 7bb1e21. Next: TESTCLEAN-008."
       ],
       "verification": {
         "cleanup_proposal_review": "passed",
@@ -576,7 +576,7 @@
         "tooling": "passed",
         "scaffold": "passed",
         "runtime_review": "passed",
-        "github_ci": "not_run",
+        "github_ci": "passed",
         "product_acceptance": "not_run"
       },
       "evidence": [
@@ -586,7 +586,7 @@
         "author": "/root/sodium_cleanup_author",
         "reviewer": "/root/sodium_cleanup_review",
         "outcome": "approved",
-        "revision": "Exact proposal SHA2fb03ca7/source40bdb600 independently approved before edits/execution. Old actual37+39 CI baseline and saved79-node runtime/metadata/ELF identity approved with audit/sequencing caveats. Final root packet/current CI/normal merge pending.",
+        "revision": "Exact proposal/source40bdb600/runtime and packet9b256f2 independently approved with caveats. All19 current checks SUCCESS; actual hosted37+39/no skips, SQL/all-six/passive-account audited. Normal PR104 merge7bb1e21 at2026-11-08T12:34:36Z.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/104"
       }
     },
@@ -595,8 +595,8 @@
       "title": "Merge regression executables and simplify test labels",
       "module": "Test infrastructure",
       "kind": "cleanup",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "/root/regression_merge_author",
       "depends_on": [
         "TESTCLEAN-004",
         "TESTCLEAN-007"
@@ -607,11 +607,30 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-008.md",
       "summary": "Merge meaningful regression cases into owning suites and clean stale labels/comments without deleting behavior coverage.",
       "notes": [
-        "Parent epic: EPIC-028. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Seven regressions now run in owners (23/33/32 cases); all 52 assertion sites/helpers/source paths remain. Labels/two prefixes and 37 intent comments were independently reviewed. Proposal/source/runtime gates passed; one 91-node run/tooling 37 passed with zero skips and per-case allocator isolation. Generator-wording addendum retained; no rerun. Final packet/current CI/normal PR105 merge remain open. Next: STORAGE-020 after EPIC-028 closure."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "cleanup_proposal_review": "passed",
+        "source_config_allocator_review": "passed",
+        "shared_status_review": "passed",
+        "discovery_audit": "passed",
+        "native_acceptance": "passed",
+        "tooling": "passed",
+        "scaffold": "passed",
+        "runtime_review": "passed",
+        "github_ci": "not_run",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/105"
+      ],
+      "review": {
+        "author": "/root/regression_merge_author; coordinator shared factual/status edits",
+        "reviewer": "/root/regression_merge_review",
+        "outcome": "approved",
+        "revision": "Revised proposal SHA5b8d8729/sourcef65fa1e/shareda241c8e/runtime independently approved. All88 names/52 assertions and explicit label/prefix/allocator boundaries verified, no rerun; final packet/current hosted CI/normal merge pending.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/105"
+      }
     },
     {
       "id": "BOOT-001",
@@ -16865,6 +16884,16 @@
       "date": "2026-11-08",
       "task": "TESTCLEAN-007",
       "note": "Fresh /root/sodium_cleanup_author and independent /root/sodium_cleanup_review assigned current-main isolated worktrees. Claim precedes edits; read-only inventory is context, not deletion approval. Coordinator owns authenticated SDK preparation and shared metadata/CI."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "TESTCLEAN-007",
+      "note": "Normal PR104 merge7bb1e21 after exact9b256f2 independent packet approval/all19/current actual76 identity cases/no skips/rules/zero threads. Procedural audit caveats retained; no native rerun."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "TESTCLEAN-008",
+      "note": "Fresh /root/regression_merge_author and independent /root/regression_merge_review assigned current-main worktrees before edits. Seven-case source/label/CI/comment proposal and explicit allocator isolation review required; read-only prep is no gate approval."
     }
   ]
 }

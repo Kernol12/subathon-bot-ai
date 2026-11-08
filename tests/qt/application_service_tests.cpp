@@ -411,7 +411,7 @@ class ApplicationServiceTests final : public QObject {
                     "Every lossless decoded field/optional/raw byte");
         });
     }
-    // CS17: wire framing is distinct from actual input/output ownership.
+    // Wire framing is distinct from actual input/output ownership.
     void codecBoundsUseActualOwnedDTOs_data() {
         QTest::addColumn<int>("row");
         for (int n = 0; n != 8; ++n)
@@ -669,7 +669,7 @@ class ApplicationServiceTests final : public QObject {
             unchanged(f, before);
         });
     }
-    // AS01–08/17–20, CS01–03/09/13/18. Every successful child and envelope is literal.
+    // Every successful child record and envelope is supplied literally.
     void arithmeticCommitsCompleteFrozenRecord_data() {
         const Data d;
         QStringList names;

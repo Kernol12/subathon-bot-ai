@@ -111,7 +111,8 @@ ordering remain. One real selected libsodium 1.0.22/GTest 1.18 run passed 79 nod
 review matched all actual per-suite identities to the genuine old passing CI baseline.
 Two scratch audit assumptions and a premature run launch are preserved as procedural
 errors, not feature red; runtime approval derives from captured artifacts, with no
-source/assertion change or native rerun. Current packet/CI/merge gates are in the PR.
+source/assertion change or native rerun. Independent final packet review and all 19
+checks, including actual hosted 37+39/no skips, passed before normal PR #104 merge `7bb1e21`.
 No additional operational login/session lifecycle or platform capability follows.
 
 Transport, lifecycle mutations, current clock production, and lossless/secret-safe
@@ -257,3 +258,20 @@ Earlier cleanup PRs merged normally after
 independent review and all current checks. Later cleanup retains separate baseline
 reviews; full specification acceptance, live/provider/platform evidence and release
 readiness remain open.
+
+
+[Owner-suite cleanup #105](https://github.com/Kernol12/subathon-bot-ai/pull/105)
+compiles seven existing regression cases into their owning credit/numeric/permission
+executables, preserving bodies, helpers, all 52 regression assertion sites and source
+links. Owner totals stay 23/33/32. Explicit semantic labels replace old history-only
+GTest tags; two permission CTest prefixes normalize. All raw case names stay. Thirty-
+seven comment lines now explain intent, and current status wording is neutral; the
+historical acceptance-map metadata and separate Qt ownership runner remain unchanged.
+Independent proposal, source/config/allocator and runtime reviews passed. One fresh
+91-node run (88 native plus three infrastructure) and tooling 37 passed, zero skips;
+actual per-case process/filters and permissions allocator isolation were verified.
+Old credit/numeric CI exposes per-case CTest results but no raw filter argv; old
+permissions and the new run provide verbose native evidence. A handoff addendum
+clarifies tooling's copied temporary-tree generators; no tracked fixture regeneration
+or native rerun occurred. Final packet/current hosted CI/normal merge gates remain in
+the PR. This closes local test organization only; full product verification is separate.

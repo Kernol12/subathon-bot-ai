@@ -76,7 +76,7 @@ PlanOverrideDecision authorized() {
             "decision-12"};
 }
 
-// §§3.2–5, NUM-01/04: lossless original data, not invented provider facts.
+// Original data remains lossless without inventing provider facts.
 TEST(ApplicationPlan, CapturesOriginalEnvelopeHistoricalQuoteAndIndependentHolds) {
     Rules rules;
     Modifiers modifiers;
@@ -142,7 +142,7 @@ TEST(ApplicationPlan, OwnsValuesAcrossCallerEditsModifierExpiryAndSourceReplacem
     EXPECT_EQ(plan.revisions[0].modifiers[0].instance_revision_ref, "double-instance-r4");
 }
 
-// NUM-01/04: copy exact final-request provenance, do not evaluate or reround.
+// Copies retain exact final-request provenance without evaluation or further rounding.
 TEST(ApplicationPlan, RetainsExactFractionSignedRequestsAndZeroWithActionProvenance) {
     Rules rules;
     Modifiers modifiers;
@@ -161,7 +161,7 @@ TEST(ApplicationPlan, RetainsExactFractionSignedRequestsAndZeroWithActionProvena
     EXPECT_EQ(plan.revisions[0].captured.requested_effects[1].requested_units, -2);
 }
 
-// B03/B04: this output is requested120000 even when later capacity is30000 or0.
+// The captured request stays 120000 when later capacity is 30000 or zero.
 TEST(ApplicationPlan, CapturesRequestWithoutFreezingActualTimerCapacity) {
     Rules rules;
     Modifiers modifiers;
@@ -264,7 +264,7 @@ TEST(ApplicationPlan, RejectsMissingLocalIdentityWithoutInferringProviderIdentit
                  std::invalid_argument);
 }
 
-// §§3.4/7, MOD-04: override appends instead of rewriting original arrival context.
+// An override appends while preserving the original arrival context.
 TEST(ApplicationPlan, AuthorizedOverrideAppendsParentedRevisionAndPreservesOriginal) {
     Rules rules;
     Modifiers modifiers;

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Specification v0.45 §8/MILE-01/NUM-04; approved model/API revisions in author evidence.
+// Sequential milestone proposals preserve history, exact intervals and current deficits.
 #include "../fixtures/milestone_progression_vectors.hpp"
 #include <algorithm>
 #include <array>

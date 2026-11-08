@@ -89,7 +89,7 @@ def main() -> int:
                     raise ValueError(f"Broken Markdown link in {document.relative_to(ROOT)}: {href}")
         count = len(re.findall(r"\bTEST\(TimeCreditAcceptance,", (ROOT / "tests/acceptance/time_credit_tests.cpp").read_text()))
         print(f"PASS: {len(data['tasks'])} task records, {len(ids)} decisions, local links, presets and current HTML")
-        print(f"INFO: {count} draft GoogleTest cases; this check does not compile/run them or approve the baseline")
+        print(f"INFO: {count} TimeCreditAcceptance source declarations; native execution and product acceptance require separate checks")
         return 0
     except (OSError, ValueError, TypeError, KeyError, AttributeError) as error:
         print(f"Project check failed: {error}", file=sys.stderr)
