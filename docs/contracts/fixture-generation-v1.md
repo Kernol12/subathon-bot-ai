@@ -1,7 +1,7 @@
 # Independent fixture generation — revision 1
 
-Task: FIXTURE-001, under TESTCLEAN-006 / ADR-0012 and specification v0.45 §17.
-Status: contract and authored-test baseline; candidate recipes are initially inert.
+Task: FIXTURE-001 / FIXTURE-002, under TESTCLEAN-006 / ADR-0012 and specification v0.45 §17.
+Status: reviewed contract/test baseline; storage source and execution gates remain pending.
 This developer tool reproduces independent test data. It establishes no running
 server, account/session storage, authority, provider or platform capability.
 
@@ -14,12 +14,15 @@ python3 tools/generate_fixtures.py (--check | --output-dir DIR) [--fixture NAME 
 Use Python>=3.10 standard library only. Exactly one operation mode is required:
 no mode or both modes is a usage error. Unsupported names are usage errors, not a
 request to copy an existing fixture. Usage errors exit2 before recipe/file work.
-The supported families and fixed filenames in FIXTURE-001 are:
+The supported families and fixed filenames after the FIXTURE-002 extension are:
 
 | Name | Filename |
 | --- | --- |
 | reference_capture | sqlite_reference_capture_vectors.json |
 | account_sessions | sqlite_account_sessions_vectors.json |
+| bundle | sqlite_application_bundle_vectors.json |
+| holds | sqlite_application_holds_vectors.json |
+| original_claims | sqlite_original_claims_vectors.json |
 
 No `--fixture` selects all currently supported families. Repeated selections are
 deduplicated; processing follows the table order, independent of argument order.
@@ -109,9 +112,9 @@ or unique rollback/idempotency/ownership assertion is removed.
 
 | Invocation/state | Required outcome |
 | --- | --- |
-| `--output-dir generated` from an unrelated cwd | Both exact outputs in cwd/generated, using only script-relative seeds/source recipes; six legacy outputs can be absent |
+| `--output-dir generated` from an unrelated cwd | All five reviewed outputs in cwd/generated, using only script-relative seeds/source recipes; six legacy outputs can be absent |
 | `--fixture reference_capture --output-dir selected` | Reference is created/overwritten; existing account/unrelated sentinel bytes stay unchanged |
-| `--check` with both exact committed comparison files | exit0 and no writes |
+| `--check` with all five exact committed comparison files | exit0 and no writes |
 | `--check` after only a newline is appended to reference output | exit1 drift and no repair, even though typed JSON is unchanged |
 | `--check` after whitespace is appended to a seed | exit1 raw-pin refusal/no writes; valid JSON does not bypass the immutable input pin |
 | `--fixture application_service --output-dir generated` | exit2 unsupported, no fallback or output writes |
@@ -125,7 +128,7 @@ missing imports/files/dependencies, parse or compile errors are invalid red. A
 separate source/oracle execution gate precedes real generation and adoption.
 Expected goldens cannot be refreshed from a candidate run to make tests pass.
 
-When both generated fixture files and native source stay byte-identical, preserve
+When selected generated fixture files and native source stay byte-identical, preserve
 valid prior local Qt evidence instead of replaying native bodies for receipts.
 Current hosted selected-Qt CI must still pass normally. Record actual CLI/tooling/CI
 proof separately from prior local Qt and unrun platform/provider/full-product work.
@@ -211,7 +214,11 @@ from SQL parsing, database observations or output-file recipe inputs.
 Source-size planning (review aid, never a deletion target): bundle roughly700–1100
 lines/45–70KB; holds roughly800–1200 lines/45–75KB; claims roughly250–450 lines/
 15–25KB, excluding unchanged shared catalogs. The legacy files are466409/839563/
-68225 bytes respectively. Most duplication is schema/payload framing and repeated
+68225 bytes respectively. Static source authoring refined bundle to about96KB/1406
+lines: it retains every literal result, runtime description and source binding;
+shared exact-number/byte anchors avoid opaque duplication. Claims is about21KB/277
+lines. This refinement preserves the same bounded design and every field; source
+review evaluates the actual declarations rather than treating the forecast as a cap. Most duplication is schema/payload framing and repeated
 SQL text/typed rows. Use only narrowly named data constructors and explicit column
 lists for fixed INSERT text/typed bindings; repeat exact independent SQL/projection
 literals once. No external input, generic SQL evaluator/patch DSL, whole-JSON literal
