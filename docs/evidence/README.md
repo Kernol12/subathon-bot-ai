@@ -95,8 +95,9 @@ identifier rename before any test body. Original [contract #86](https://github.c
 helper/comment revisions remain preserved. Reviewed implementation head `f30a720`
 passed all 19 CI checks, including actual hosted 44 account methods/zero skips, all
 14 prior SQL runners, the six-fixture check and ordinary guard. The tested merge
-tree equals the reviewed source tree. Final metadata review/current-head CI and
-normal merge remain open. This component
+tree equals the reviewed source tree. Final head `b187b57` then passed all 19
+current checks and separate packet/hosted review before normal PR106 merge `1dcf2b6`.
+The final hosted account run had 44 methods plus lifecycle results and zero skips. This component
 supplies physical current facts, without accepted login, permission, clock or session
 publication authority.
 

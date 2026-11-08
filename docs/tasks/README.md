@@ -9,9 +9,9 @@ it neither finalizes contracts nor claims a reviewed test or supported provider 
 
 Read [the agent workflow](../AGENT_WORKFLOW.md), select a dependency-ready child from
 `progress/state.json`, and follow its brief plus scoped `AGENTS.md`. The workflow covers
-task branches, test-first gates, independent review, evidence, PRs and completion. EPIC-028
-prioritizes readable evidence archival and focused test cleanup; its tasks preserve the
-reviewed-baseline and full-release-scope rules.
+task branches, test-first gates, independent review, evidence, PRs and completion.
+Follow the current priority in [AGENTS.md](../../AGENTS.md); the completed EPIC-028
+cleanup preserves reviewed-baseline and full-release-scope rules.
 
 New decomposition records are planned, not authored/reviewed; consult state/evidence
 for slices completed since the original decomposition. Their
@@ -67,7 +67,7 @@ No existing verification result was upgraded by this planning change.
 | [EPIC-005 — Sequential milestones and persisted action delivery](EPIC-005.md) | 8 | 16 |
 | [EPIC-006 — Invites, permissions, local/Twitch identities and chat roles](EPIC-006.md) | 7 | 14 |
 | [EPIC-007 — Session/credential encryption, keys and remembered login](EPIC-007.md) | 9 | 16 |
-| [EPIC-008 — Qt/Drogon API server, durable intake and live snapshots](EPIC-008.md) | 9 | 18 |
+| [EPIC-008 — Qt/Drogon API server, durable intake and live snapshots](EPIC-008.md) | 15 | 27 |
 | [EPIC-009 — Qt SQL migrations, backups, recovery and rollback](EPIC-009.md) | 21 | 39 |
 | [EPIC-010 — Twitch API, EventSub and both chat identities](EPIC-010.md) | 6 | 11 |
 | [EPIC-011 — betterplace public integration and aggregate visibility](EPIC-011.md) | 4 | 7 |

@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T15:26:02.898558+00:00",
-  "summary": "EPIC-028 evidence/test cleanup and all six fixture recipes are complete under separate reviews. Current priority STORAGE-020 implements the reviewed physical account/session store. Existing bounded core/accounting and controlled SQLite components have synthetic/component proof; actual authority/login/clock/action adapters, financial workflows, all integrations/FX, UI and operational/platform/release scope remain incomplete.",
+  "updated_at": "2026-11-08T16:11:46.502391+00:00",
+  "summary": "Reviewed bounded core/accounting, controlled SQLite and physical account/session components have synthetic/component evidence. Current priority is the actual host lifecycle and native persistent WebSocket profile contract; concrete source defects and missing host readiness prevent honest clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -5037,14 +5037,17 @@
         "APITEST-010",
         "API-010",
         "APITEST-011",
-        "API-011"
+        "API-011",
+        "APICONTRACT-001",
+        "APITEST-012",
+        "API-012"
       ],
       "spec_refs": [
         "§2",
         "§3"
       ],
       "brief": "docs/tasks/EPIC-008.md",
-      "summary": "9 bounded work packages with separate reviewed/red baselines for production slices and explicit verification gates.",
+      "summary": "12 bounded production packages and three contract gates, with separate reviewed/red baselines and full lifecycle/transport/integration scope retained.",
       "notes": [
         "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support.",
         "Decomposed by BOOT-005. Completion requires all listed children; child tasks depend on bounded prerequisites, never on their own parent epic. All release requirements remain in scope."
@@ -5052,6 +5055,120 @@
       "verification": {},
       "evidence": [],
       "review": null
+    },
+    {
+      "module": "Server/API",
+      "spec_refs": [
+        "§2",
+        "§10",
+        "§16",
+        "§17",
+        "§18",
+        "SERVER-01",
+        "API-01",
+        "API-02",
+        "API-03",
+        "AUTH-05",
+        "AUTH-12",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "verification": {
+        "claim": "passed",
+        "document_review": "not_run",
+        "independent_examples": "not_run",
+        "implementation": "not_run"
+      },
+      "evidence": [],
+      "review": null,
+      "id": "APICONTRACT-001",
+      "title": "Production host lifecycle and persistent WebSocket profile contract",
+      "kind": "contract",
+      "status": "in_progress",
+      "owner": "/root/api_lifecycle_contract_author; coordinator shared planning/status",
+      "depends_on": [
+        "SPIKE-001",
+        "BOOT-003",
+        "CONTRACT-005",
+        "STORAGE-020",
+        "SESSIONCONTRACT-004"
+      ],
+      "brief": "docs/tasks/EPIC-008/APICONTRACT-001.md",
+      "summary": "Specify actual host scope/readiness/lifetime and an admitted native WebSocket control profile before baseline/source work.",
+      "notes": [
+        "Claimed from main1dcf2b6 before edits. Contract/examples only: actual host invocation/publication/readiness/refusal and selected persistent WS profile. Fresh author/reviewer own only two new contract docs. Pinned Close-order and fragment/control-buffer defects require explicit profile baseline/implementation. Root owns DAG/build/pins/ABI/licenses/SDK/state. Contract review/checks/CI/PR remain; no code, tests or native capability supplied."
+      ]
+    },
+    {
+      "module": "Server/API",
+      "spec_refs": [
+        "§2",
+        "§10",
+        "§16",
+        "§17",
+        "§18",
+        "SERVER-01",
+        "API-01",
+        "API-02",
+        "API-03",
+        "AUTH-05",
+        "AUTH-12",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null,
+      "id": "APITEST-012",
+      "title": "Review and demonstrate red: native persistent WebSocket profile",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "APICONTRACT-001",
+        "SPIKE-001",
+        "BOOT-003"
+      ],
+      "brief": "docs/tasks/EPIC-008/API-012.md",
+      "summary": "Independently review literal native control/fragment/Close and bounded lifecycle cases, then observe intended behavior red on working selected dependencies.",
+      "notes": [
+        "Planning split from concrete pinned-source findings. Preserve persistent/fragmented WS, valid/invalid Close and bounded teardown; no tests authored or profile supported. Selected H1 account ingress stays separate and refuses Upgrade. Exact source/patch/ABI/build/license admission precedes execution."
+      ]
+    },
+    {
+      "module": "Server/API",
+      "spec_refs": [
+        "§2",
+        "§10",
+        "§16",
+        "§17",
+        "§18",
+        "SERVER-01",
+        "API-01",
+        "API-02",
+        "API-03",
+        "AUTH-05",
+        "AUTH-12",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null,
+      "id": "API-012",
+      "title": "Admitted native persistent WebSocket control profile",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "APICONTRACT-001",
+        "APITEST-012"
+      ],
+      "brief": "docs/tasks/EPIC-008/API-012.md",
+      "summary": "Correct the reviewed selected-framework control/fragment/Close lifecycle in a distinct admitted profile before the production bridge consumes it.",
+      "notes": [
+        "Production waits for contract, separately reviewed native baseline and observed intended behavioral red. Preserve clean stock SDK, exact pins/licenses and source-profile identity. No blind echo, source upgrade, H1 Upgrade admission, synchronization/authentication or host readiness is supplied by this task record."
+      ]
     },
     {
       "id": "APITEST-001",
@@ -5063,7 +5180,11 @@
       "depends_on": [
         "SPIKE-001",
         "BOOT-003",
-        "CONTRACT-005"
+        "CONTRACT-005",
+        "APICONTRACT-001",
+        "API-012",
+        "STORAGE-020",
+        "SESSIONCONTRACT-004"
       ],
       "spec_refs": [
         "§2",
@@ -5072,7 +5193,7 @@
       "brief": "docs/tasks/EPIC-008/API-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-001.",
       "notes": [
-        "Planned production bridge/sync work. Linux one-command spike is not production reuse approval. Test persistent/multi-message WS and real client/server close semantics; resolve selected framework received-Close limitation. Define bounded startup/shutdown/backpressure/cancellation for idle, uncooperative and partial clients. Next: reviewed concrete transport/snapshot oracles, intended red, implementation and platform checks; all original contract/acceptance gates retained."
+        "Production host lifecycle waits for the explicit lifecycle/native profile contract and reviewed corrected WS dependency. Preserve persistent multi-message WS, real peer/server Close, bounded startup/shutdown/backpressure/cancellation and actual invocation/publication/readiness source ownership. Stock spike is not reuse approval; H1 SESSION-011 refuses Upgrade. Concrete tests/red/implementation/platform gates remain."
       ],
       "verification": {},
       "evidence": [],
@@ -5089,7 +5210,11 @@
         "SPIKE-001",
         "BOOT-003",
         "CONTRACT-005",
-        "APITEST-001"
+        "APITEST-001",
+        "APICONTRACT-001",
+        "API-012",
+        "STORAGE-020",
+        "SESSIONCONTRACT-004"
       ],
       "spec_refs": [
         "§2",
@@ -5098,7 +5223,7 @@
       "brief": "docs/tasks/EPIC-008/API-001.md",
       "summary": "Marshal requests onto the authoritative Qt queue and return correlated results without blocking the writer on network callbacks.",
       "notes": [
-        "Planned production bridge/sync work. Linux one-command spike is not production reuse approval. Test persistent/multi-message WS and real client/server close semantics; resolve selected framework received-Close limitation. Define bounded startup/shutdown/backpressure/cancellation for idle, uncooperative and partial clients. Next: reviewed concrete transport/snapshot oracles, intended red, implementation and platform checks; all original contract/acceptance gates retained."
+        "Production host lifecycle waits for the explicit lifecycle/native profile contract and reviewed corrected WS dependency. Preserve persistent multi-message WS, real peer/server Close, bounded startup/shutdown/backpressure/cancellation and actual invocation/publication/readiness source ownership. Stock spike is not reuse approval; H1 SESSION-011 refuses Upgrade. Concrete tests/red/implementation/platform gates remain."
       ],
       "verification": {},
       "evidence": [],
@@ -14661,7 +14786,7 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-020.md",
       "summary": "Implement the reviewed store/migration/current snapshot readers on the existing writer; no login acceptance, service authorization or credential publication.",
       "notes": [
-        "Physical account/session store and migration 8 pass 44 preserved real SQLite methods. One 18-node run and 38 tooling tests pass; zero skips and all 653 tracked files unchanged during runtime. Independent source, resource, fix, runtime and 19-check CI reviews passed; prior 869 Qt results match. Build failure and JUnit limits preserved. Final packet, current final CI and PR106 merge remain. No login, authority or platform claim. Next: SESSIONTEST-009."
+        "Physical account/session store and migration 8 pass 44 preserved real SQLite methods. Local 18 CTest nodes/tooling38 and all 19 final CI checks pass with zero skips. Separate source/resource/fix/runtime/CI/final reviews approved; normal PR106 merge1dcf2b6 after exactb187. Prior869 Qt results and653 runtime source hashes match. Build failure/JUnit limits preserved. No login, authority or platform claim. Next: real lifecycle/profile prerequisites before clock."
       ],
       "verification": {
         "inherited_test_review": "passed",
@@ -14690,8 +14815,8 @@
         "ci_promotion_review": "passed",
         "current_status_review": "passed",
         "hosted_ci_review": "passed",
-        "final_packet_review": "not_run",
-        "final_head_ci": "not_run",
+        "final_packet_review": "passed",
+        "final_head_ci": "passed",
         "acceptance": "passed"
       },
       "evidence": [
@@ -14701,7 +14826,7 @@
         "author": "/root/account_store_author; coordinator shared wiring/status",
         "reviewer": "/root/account_store_review; independent resource /root/account_resource_audit",
         "outcome": "approved",
-        "revision": "Source81263 + fourlinefix05aad87/wiree565/source-resource63ac4678/238f243b/fix8ef9944/runtime48a9287 approved. Exact f30 packet/body166a67d2 and actual19 implementationCI8ec1936b approved; finalmetadata/currentfinalheadCI/normalmerge remain.",
+        "revision": "Source81263/fix05aad87/wiree565, source/resource/fix/runtime reviews preserved. Exact finalb187 packetc6a314fb/current19CI9c1af92c/zero threads/current rules approved before normal PR106 merge1dcf2b6 at2026-11-08T15:43:49Z.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/106"
       }
     },
@@ -14765,7 +14890,8 @@
       "depends_on": [
         "SESSIONCONTRACT-004",
         "STORAGE-020",
-        "BOOT-003"
+        "BOOT-003",
+        "API-001"
       ],
       "spec_refs": [
         "§10",
@@ -14781,7 +14907,7 @@
       "brief": "docs/tasks/EPIC-007/SESSION-009.md",
       "summary": "Review deterministic trust/fence cases and actual producer observation tests, then observe intended clock-producer red distinct from supplier fake-clock tests.",
       "notes": [
-        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+        "Actual clock binding requires the real API-001 host/queue lifecycle, as accepted clock contract §2 assigns. A supplied readiness fixture plus native calls cannot satisfy actual host binding. Preserve all clock trust/fence/SC examples, literal signed conversions, native representation caveat and separate reviews/red/implementation/platform gates. No supported clock or readiness is supplied by this dependency correction."
       ],
       "verification": {},
       "evidence": [],
@@ -14798,7 +14924,8 @@
         "SESSIONCONTRACT-004",
         "STORAGE-020",
         "BOOT-003",
-        "SESSIONTEST-009"
+        "SESSIONTEST-009",
+        "API-001"
       ],
       "spec_refs": [
         "§10",
@@ -14814,7 +14941,7 @@
       "brief": "docs/tasks/EPIC-007/SESSION-009.md",
       "summary": "Implement the reviewed trustworthy runtime session clock and refusal fences; timer/recovery/restore workflows and supported-platform evidence remain separate.",
       "notes": [
-        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+        "Actual clock binding requires the real API-001 host/queue lifecycle, as accepted clock contract §2 assigns. A supplied readiness fixture plus native calls cannot satisfy actual host binding. Preserve all clock trust/fence/SC examples, literal signed conversions, native representation caveat and separate reviews/red/implementation/platform gates. No supported clock or readiness is supplied by this dependency correction."
       ],
       "verification": {},
       "evidence": [],
@@ -16981,6 +17108,16 @@
       "date": "2026-11-08",
       "task": "STORAGE-020",
       "note": "First implementation f30 current19CI independently approved8ec1936b: tested merge tree equalsf30; actual44+2hostedaccount/zero skips,14priorSQLrunners/all6/ordinaryguard,identity37+39 andrate53passive truth. Sourceimplementation done; finalmetadata/currentfinalheadCI/review/rules/merge remain."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "STORAGE-020",
+      "note": "Normal PR106 merge1dcf2b6 at15:43:49UTC after exactb187/current19/source/runtime/final packet/rules/zero threads; all actual proof and compile/JUnit caveats preserved. Source sessions retired."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "APICONTRACT-001",
+      "note": "Fresh contract author/reviewer assigned current-main1dcf2b6 worktrees before editing. Explicit contract→APITEST012/API012 native profile→API1 host sequence from clean pinned-source Close/control-fragment defects; clock009 now explicitly depends on actualAPI1host. No new body/code/dependency execution."
     }
   ]
 }
