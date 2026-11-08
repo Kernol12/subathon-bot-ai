@@ -174,7 +174,9 @@ defines raw seed pins, byte-exact checks and independent inputs. Reproducing a p
 account fixture adds no account-storage capability. Claim selectors use six reviewed
 names and explicit corruption-priority roles; all earlier typed values remain frozen.
 Service output uses the common JSON layout while preserving its entire frozen typed
-content. Final all-family CI/docs adoption remains a separate reviewed task.
+content. The existing SQL workflow runs the all-six `--check` immediately after checkout,
+before dependency preparation or native use. [Fixture documentation](../tests/fixtures/README.md)
+records source/output coverage, provenance, modes and selector roles.
 
 Infrastructure checks remain distinct from component acceptance:
 

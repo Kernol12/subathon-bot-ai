@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T11:25:30.933816+00:00",
+  "updated_at": "2026-11-08T11:43:36.243788+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -501,7 +501,7 @@
       "title": "Replace giant unreproducible fixtures",
       "module": "Test infrastructure",
       "kind": "cleanup",
-      "status": "in_progress",
+      "status": "done",
       "owner": "/root/fixture_adoption_author",
       "depends_on": [
         "TESTCLEAN-005",
@@ -515,17 +515,35 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-006.md",
       "summary": "Complete all-six generator adoption with retained coverage/provenance documentation and a check step in the existing SQL CI job.",
       "notes": [
-        "Final adoption claimed from main b538fa5 after reviewed prerequisites and normal PR102 merge. Fresh author/reviewer read-only preparation agrees on two files: existing SQL-job all-six --check step and fixture usage/provenance/coverage README. Recipes, fixtures, native assertions, pins and job count stay unchanged. Scope/source review precedes actual checks; no new product behavior or invented red baseline."
+        "All six fixtures reproduce frozen bytes/typed oracles; recipes and assertions unchanged. Existing SQL job gains an early all-six check plus provenance/coverage docs. Independent proposal/source/runtime reviews passed; no-write CLI snapshots, tooling 37 and project checks pass. Prior native proof reused by full identity; tooling created ordinary caches. Final packet/current CI/new-step/normal PR103 merge remain open. Next: TESTCLEAN-007."
       ],
       "verification": {
         "decomposition_plan_review": "passed",
         "decomposition_packet_review": "passed",
-        "decomposition_ci": "passed"
+        "decomposition_ci": "passed",
+        "adoption_proposal_review": "passed",
+        "source_ci_review": "passed",
+        "all_six_generation": "passed",
+        "check_no_write": "passed",
+        "tooling": "passed",
+        "project_consistency": "passed",
+        "native_identity": "passed",
+        "runtime_review": "passed",
+        "github_ci": "not_run",
+        "sql_fixture_check_ci": "not_run",
+        "product_acceptance": "not_run"
       },
       "evidence": [
-        "https://github.com/Kernol12/subathon-bot-ai/pull/99"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/99",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/103"
       ],
-      "review": null
+      "review": {
+        "author": "/root/fixture_adoption_author",
+        "reviewer": "/root/fixture_adoption_review",
+        "outcome": "approved",
+        "revision": "Exact proposal SHA3829ad8b, two-file patch39b62bb and actual all-six output/provenance/no-write/tooling/runtime identity independently approved. No assertions removed or new behavior. Final packet/current hosted new step/normal merge remain pending.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/103"
+      }
     },
     {
       "id": "TESTCLEAN-007",
