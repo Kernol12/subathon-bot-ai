@@ -178,7 +178,7 @@ and [implementation #77](https://github.com/Kernol12/subathon-bot-ai/pull/77) re
 archived; hostile-package/resource/kernel guarantees are not current capabilities.
 These offline artifact checks establish no runtime HTTP/auth/provider/client/platform
 behavior. The progress schema remains an editor hint; runtime tooling owns DAG,
-review and note-length invariants. Current tooling 36/36 and infrastructure 3/3 pass.
+review and note-length invariants. Current tooling 37/37 and infrastructure 3/3 pass.
 
 [ADR-0012](../decisions/0012-test-suite-simplification.md) bounds the current cleanup.
 The published archive preserves all 969 removed receipts, verified after publication;
@@ -212,19 +212,24 @@ infrastructure 3/3 and tooling 34/34 passed. Independent raw runtime review conf
 literals. The final integrated head passed separate review and all 19 current checks
 before normal PR #98 merge.
 
-The independent fixture CLI now reproduces reference/account outputs exactly from
-four pinned small seeds and literal source recipes, with legacy outputs absent in
-reproduction tests. Original raw and typed fingerprints remain; no fixture or native
-source changed. The same two focused tests reached reviewed intended red before
-implementation and now pass, including selected-file sentinels and no-write output/
-seed drift. Direct generation/check and infrastructure 3/3 with tooling 36/36 pass.
-Independent raw runtime review confirmed the exact outputs and all local checks.
-[PR #100](https://github.com/Kernol12/subathon-bot-ai/pull/100) records the contract,
-test-first and failure/fix history. Complete-packet review and all 19 CI checks
-passed for the validated implementation; the completion record follows the same
-current-head review and normal merge gates. Account
-coordinate8 remains proposed and its 44 feature bodies passive. The other four
-families and final all-six adoption remain in [explicit prerequisites](../tasks/EPIC-028/TESTCLEAN-006.md).
+The independent fixture CLI supports reference/account, bundle, holds and original
+claims from four pinned small seeds and literal recipes; isolated reproduction has
+all six legacy outputs absent. Reference/account/bundle/holds reproduce original raw
+bytes; claims adds only six reviewed selector names and explicit corruption roles,
+with all old typed contents unchanged. The lower-priority corrupt-B assertion still
+runs after selecting A. [PR #100](https://github.com/Kernol12/subathon-bot-ai/pull/100)
+records the first families and their original failure/fix history;
+[PR #101](https://github.com/Kernol12/subathon-bot-ai/pull/101) records the storage
+extension, its reviewed intended red, preserved hold-layout first failure and narrow
+reviewed presentation fix. The same three focused tests pass, including selected-file
+sentinels and no-write output/seed drift. Direct generation/check passes. Integrated
+Qt 6.12 acceptance passed 14 stable suites, all 361 methods and 869 results; exactly
+six selector labels change one-to-one. Infrastructure 3/3 and tooling 37/37 pass.
+Independent runtime and final revision reviews, current hosted checks and normal merge
+are recorded in the PR. Account coordinate8 remains proposed and its 44 feature
+bodies passive; current hosted SQL CI compiles/discovers that baseline separately.
+Application-service recipes and final all-six adoption remain in the
+[explicit prerequisites](../tasks/EPIC-028/TESTCLEAN-006.md).
 Earlier cleanup PRs merged normally after
 independent review and all current checks. Later cleanup retains separate baseline
 reviews; full specification acceptance, live/provider/platform evidence and release

@@ -8,13 +8,16 @@ import sys
 # A read-only check must not leave recipe bytecode files behind.
 sys.dont_write_bytecode = True
 
-from fixture_sources import account_sessions, reference_capture
+from fixture_sources import account_sessions, bundle, holds, original_claims, reference_capture
 from fixture_sources.common import render
 
 
 RECIPES = {
-    "reference_capture": ("sqlite_reference_capture_vectors.json", reference_capture.build),
-    "account_sessions": ("sqlite_account_sessions_vectors.json", account_sessions.build),
+    "reference_capture": ("sqlite_reference_capture_vectors.json", reference_capture.build, render),
+    "account_sessions": ("sqlite_account_sessions_vectors.json", account_sessions.build, render),
+    "bundle": ("sqlite_application_bundle_vectors.json", bundle.build, render),
+    "holds": ("sqlite_application_holds_vectors.json", holds.build, holds.render),
+    "original_claims": ("sqlite_original_claims_vectors.json", original_claims.build, render),
 }
 
 
@@ -29,8 +32,8 @@ def main():
     seed_root = Path(__file__).resolve().parents[1] / "tests" / "fixtures"
     try:
         # Build every selected value before reading comparisons or writing outputs.
-        generated = {filename: render(recipe(seed_root))
-                     for name, (filename, recipe) in RECIPES.items() if name in selected}
+        generated = {filename: serializer(recipe(seed_root))
+                     for name, (filename, recipe, serializer) in RECIPES.items() if name in selected}
         if args.check:
             for filename, expected in generated.items():
                 path = seed_root / filename

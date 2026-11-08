@@ -1,7 +1,7 @@
 # Independent fixture generation — revision 1
 
-Task: FIXTURE-001, under TESTCLEAN-006 / ADR-0012 and specification v0.45 §17.
-Status: contract and authored-test baseline; candidate recipes are initially inert.
+Task: FIXTURE-001 / FIXTURE-002, under TESTCLEAN-006 / ADR-0012 and specification v0.45 §17.
+Status: implemented fixture tooling; current review/check gates are recorded in task state and PRs.
 This developer tool reproduces independent test data. It establishes no running
 server, account/session storage, authority, provider or platform capability.
 
@@ -14,12 +14,15 @@ python3 tools/generate_fixtures.py (--check | --output-dir DIR) [--fixture NAME 
 Use Python>=3.10 standard library only. Exactly one operation mode is required:
 no mode or both modes is a usage error. Unsupported names are usage errors, not a
 request to copy an existing fixture. Usage errors exit2 before recipe/file work.
-The supported families and fixed filenames in FIXTURE-001 are:
+The supported families and fixed filenames after the FIXTURE-002 extension are:
 
 | Name | Filename |
 | --- | --- |
 | reference_capture | sqlite_reference_capture_vectors.json |
 | account_sessions | sqlite_account_sessions_vectors.json |
+| bundle | sqlite_application_bundle_vectors.json |
+| holds | sqlite_application_holds_vectors.json |
+| original_claims | sqlite_original_claims_vectors.json |
 
 No `--fixture` selects all currently supported families. Repeated selections are
 deduplicated; processing follows the table order, independent of argument order.
@@ -69,7 +72,13 @@ filenames. Unselected and unrelated files remain byte-identical. There is no def
 in-place write, retry, multi-file crash-atomicity or process/resource-isolation promise.
 
 Serialization is UTF-8 with `ensure_ascii=False`, `indent=2`, explicit insertion
-order and one final newline. No NaN/Infinity/floats are permitted. Preserve all
+order and one final newline. The sole legacy-layout exception is holds: the two
+named arrangements.pending.setup and arrangements.timer.setup arrays retain each
+statement object as one compact JSON line at their existing indentation, with
+separators=(',', ':'). Shared rendering still validates all values first. Every
+other field/family retains the common layout. The CLI explicitly declares each
+family's serializer beside its recipe; the four other families retain common
+rendering. No NaN/Infinity/floats are permitted. Preserve all
 strings, embedded hex bytes, arrays, types and NULLs exactly; do not normalize text.
 Reference/account already have this formatting and must reproduce their original
 raw bytes as well as their canonical typed contents.
@@ -109,9 +118,9 @@ or unique rollback/idempotency/ownership assertion is removed.
 
 | Invocation/state | Required outcome |
 | --- | --- |
-| `--output-dir generated` from an unrelated cwd | Both exact outputs in cwd/generated, using only script-relative seeds/source recipes; six legacy outputs can be absent |
+| `--output-dir generated` from an unrelated cwd | All five reviewed outputs in cwd/generated, using only script-relative seeds/source recipes; six legacy outputs can be absent |
 | `--fixture reference_capture --output-dir selected` | Reference is created/overwritten; existing account/unrelated sentinel bytes stay unchanged |
-| `--check` with both exact committed comparison files | exit0 and no writes |
+| `--check` with all five exact committed comparison files | exit0 and no writes |
 | `--check` after only a newline is appended to reference output | exit1 drift and no repair, even though typed JSON is unchanged |
 | `--check` after whitespace is appended to a seed | exit1 raw-pin refusal/no writes; valid JSON does not bypass the immutable input pin |
 | `--fixture application_service --output-dir generated` | exit2 unsupported, no fallback or output writes |
@@ -125,7 +134,127 @@ missing imports/files/dependencies, parse or compile errors are invalid red. A
 separate source/oracle execution gate precedes real generation and adoption.
 Expected goldens cannot be refreshed from a candidate run to make tests pass.
 
-When both generated fixture files and native source stay byte-identical, preserve
+When selected generated fixture files and native source stay byte-identical, preserve
 valid prior local Qt evidence instead of replaying native bodies for receipts.
 Current hosted selected-Qt CI must still pass normally. Record actual CLI/tooling/CI
 proof separately from prior local Qt and unrun platform/provider/full-product work.
+
+
+## FIXTURE-002 storage-family extension proposal (revision 1)
+
+This section is the storage-family contract/inventory, before authored tests or
+implementation. It does not approve execution. Existing FIXTURE-001 behavior,
+source recipes and all four raw seed pins remain unchanged. Registration appends
+these families in this exact order after reference_capture/account_sessions:
+
+| Name | Filename | Source |
+| --- | --- | --- |
+| bundle | sqlite_application_bundle_vectors.json | fixture_sources/bundle.py |
+| holds | sqlite_application_holds_vectors.json | fixture_sources/holds.py |
+| original_claims | sqlite_original_claims_vectors.json | fixture_sources/original_claims.py |
+
+No selection now means all five reviewed families. Explicit selections still
+follow registration order and overwrite only their selected fixed files; repeated
+names deduplicate. application_service remains unsupported until FIXTURE-003.
+Check mode still compares independently rendered raw bytes, never a canonical
+comparison that would ignore drift. All selected recipes finish before writes.
+Only approved seeds/source functions are inputs even when all six outputs are absent.
+
+### Frozen input/output and oracle crosswalk
+
+Read-only inventory at main dd03e1d confirms the unchanged parent baseline files.
+The complete-object fingerprints below are independent pre-generator oracles from
+TESTCLEAN-006, not values computed by the candidate recipes:
+
+| Family | Original raw SHA256 | Canonical typed SHA256 |
+| --- | --- | --- |
+| bundle | aebff7061f91fdf7598b321963bae155c139ed1dc2d1705e3122268bed84c312 | a374acb6441ab366b67100d742da7883f98a44f782fccf736b0b06b33e7a20dc |
+| holds | c7f14e0aac721e186d5a327e2e4bd20f9617d9516f633f36ff7c205619082ef5 | 996f84632e9b1fa3b77c84fd12655aa090f81236308993bb44dcb83ddf842f95 |
+| original_claims (metadata projected away) | 1f0eb63e8fe1b026c511eac3d9efb7b11053caa8e8599b24989dd1424fb8cf92 | a824e1a98c2f2a06916e8c65d2f5674ff1bd7718e7e92c9b1395dfba9f159803 |
+
+Bundle/holds must reproduce original raw bytes as well as typed contents. Claims
+preserves every old typed value and array position; remove ONLY the two metadata
+fields from each of the six selectors to recover its old canonical fingerprint.
+The original claims raw hash identifies provenance, not the newly annotated file.
+New metadata is independently checked against this table, with exact bool type:
+
+| Old row | name | check_lower_priority_corruption |
+| --- | --- | --- |
+| selector-0 | contribution-max-receipt-prefers-subject-A | true |
+| selector-1 | receipt-max-resolves-source-B | false |
+| selector-2 | contribution-receipt8-prefers-subject-A | false |
+| selector-3 | missing-contribution42-receipt9 | false |
+| selector-4 | receipt8-selects-original-subject-C | false |
+| selector-5 | contribution42-receipt8-resolves-source-C | false |
+
+Every row below remains an independently supplied DATA oracle. Named construction
+may expand repeated literal records/typed bindings; it may not simulate application
+policy, interpret SQL, or calculate expected query/state/byte totals from a product
+model. Exact SQL and independent schema tuples come from source declarations, not
+from SQL parsing, database observations or output-file recipe inputs.
+
+| Output fields | Exact retained content and source plan |
+| --- | --- |
+| All families: format/provenance; bundle boundaries; holds synthetic_data_meanings | Original literal strings, including synthetic-only and invalid raw-history meanings. No revised provider or permission claims. |
+| bundle.manifest | Shared catalogs.build step5, retaining catalog_format/store_identity/starting versions and payload_hex; 14 ordered table SQL declarations, full66-object independent schema, exact framing/hash. |
+| bundle.table_columns | All14 independently supplied table-name/count pairs, no DDL-derived counts. |
+| bundle.uint64_vectors/signed64_vectors/exact_vectors/historical_vectors | All6/2/7/2 rows, preserving typed boundaries, hex, reduced exact/invalid values and known/absent history literals. |
+| bundle.arithmetic_vectors/reversal_vectors/control_vectors | All10/8/7 named literal requests, actual effects, cap/debt/reversal/control outcomes. Expected arithmetic remains supplied, not reimplemented. |
+| bundle.literal_setup | All56 statements in original order: retained config2/context1, receipt6/attempt6, contribution2/observation6, allocator2, plan header4/revision4/request7/rule8/modifier4, state1/balances2/head1. Exact typed bindings retained. |
+| bundle.scenarios | Six named arrays: original_prepare22, original_finish5, reversal_one16, reversal_two16, score_reversal12, boundary_raw_only15. Source contains explicit scenario rows and small INSERT framing helpers; it never derives effects or snapshots. |
+| bundle.queries | original6, reversals4, typed8, preservation/prepared/pending one each. All names/exact SQL/literal result matrices retained. |
+| bundle.constraint_refusals/runtime_only_admissions/fault | All28 refusal SQLs,10 named admission descriptions and complete trigger/drop/statement/meaning remain literals, including cross-column, rollback, canonicality and bytes. |
+| holds.prefixes/manifest | Prefix1–5 fixture/version/blob/framed payload/hash tuples through shared catalog functions; exact step6 12SQL/full89 schema and framing/hash. Prefix file references remain descriptions, never opened as recipe inputs. |
+| holds.causes | Seven named literal causes hOverflow/hPause/hFail/hReceipt/hOld/hNew/hTimer: source,command,observation,plan,kind,failure,timer,missing_policy,supersedes and every optional/type distinction remain. |
+| holds.detections/versions | Six individually named nonpause rows plus explicit finite dPause1–65 expansion. Exact mutation/expected/proposed/audit/observation and immutable historical version/parent/position/producer values remain. No state machine or lookup simulation. |
+| holds.views/resolutions/proposals | Seven views; rReplace request/produced rows; timer_correction and forbidden_old_beside_alias. All first/current/event locators, explicit application/composition links and absent/present-empty documents remain independently supplied. |
+| holds.byte_item_oracles/literal_arithmetic | All35 named byte/item pairs and six explanatory arithmetic strings stay literal, independent of any packing/DTO model. |
+| holds.arrangements | pending: original ordered402 setup statements/10 queries; timer: original ordered64 setup statements/seven queries. Small named construction shares exact source/intake/plan rows and expands only the known pause1–65 sequence, preserving SQL and typed values. No interpreter or mutation engine. |
+| holds.history_pages/synthetic_data_meanings | Both pause_first2 and old_resolution pages, exact ordering/checked cursor/next/has_more and all11 explanatory strings. |
+| original_claims.prefixes | All five original fixture/version/hash descriptions composed from shared literal catalogs, no output reads. |
+| original_claims.setup | All45 ordered statements; shared explicit typed row framing, exact retained sources/A/B/C plans/snapshots/operations/claims/results/audits/effects. setup[9] stays PA revision with34 bindings and public revision/caller positions30–33; setup38/39 stays unchanged for native consumers. |
+| original_claims.queries | All nine named exact SQL/result matrices, including actual type/MAX/priority/integrity meanings; no SQL execution creates expected rows. |
+| original_claims.selectors | Six original rows/typed predicates/kind/record order unchanged; ONLY the two reviewed metadata fields added. |
+| original_claims.logical_byte_oracles/old_nonempty_foundation | Both A/B full logical-byte terms and all eight nonempty foundation fields remain original literals, including scopes/IDs/items and bounded evidence. |
+
+Source-size planning (review aid, never a deletion target): bundle roughly700–1100
+lines/45–70KB; holds roughly800–1200 lines/45–75KB; claims roughly250–450 lines/
+15–25KB, excluding unchanged shared catalogs. The legacy files are466409/839563/
+68225 bytes respectively. Static source authoring refined bundle to about96KB/1406
+lines: it retains every literal result, runtime description and source binding;
+shared exact-number/byte anchors avoid opaque duplication. Claims is about21KB/277
+lines. This refinement preserves the same bounded design and every field; source
+review evaluates the actual declarations rather than treating the forecast as a cap. Most duplication is schema/payload framing and repeated
+SQL text/typed rows. Use only narrowly named data constructors and explicit column
+lists for fixed INSERT text/typed bindings; repeat exact independent SQL/projection
+literals once. No external input, generic SQL evaluator/patch DSL, whole-JSON literal
+wrapper or policy/byte-accounting simulator is introduced. If these estimates need
+substantial expansion, report and review the design before expanding scope.
+
+### Examples and focused acceptance
+
+- From an unrelated cwd, `--fixture bundle --fixture holds --fixture original_claims
+  --output-dir generated` reproduces those three files using a relocated script,
+  source functions and ONLY four pinned seeds; all six legacy outputs can be absent.
+- No selection creates all five files. A single selected family may overwrite its
+  stale output while unselected-family/unrelated sentinel files stay byte-identical.
+- `--check --fixture holds` with the frozen comparison succeeds without writes;
+  appended whitespace is drift/exit1 even when typed JSON is unchanged. Claims check
+  requires exactly annotated generated bytes, not the old unannotated comparison.
+- Unknown application_service remains exit2 before recipes/file work; raw seed drift
+  remains exit1 before output writes. No F001 assertion/pin/expected value is weakened.
+
+Authored CLI tests use pre-generator whole-object fingerprints and an independent
+six-row metadata table, never generated expected values. New reachable named inert
+FeatureNotImplemented stubs permit intended red. Independent contract/test approval
+must precede their run, and intended red precedes implementation. Independent source/
+oracle execution approval precedes real generation, JSON adoption and native use.
+
+The native delta is ONLY data-row naming and explicit bool metadata selection in
+frozenSelectorsPreserveGlobalPriorityAndRoles. Keep the original lower-priority
+corrupt-B-after-selected-A assertion; replace index0 branching with the explicit
+bool field. Keep setup[9]/revised_scalar30–33, every method/assertion and all other
+native files unchanged. Runtime review maps the six old selector PASS IDs one-to-one
+to the six new names; the remaining863 PASS IDs and all361 methods remain unchanged. Run
+relevant Qt/tooling once for the changed baseline, compile/passively discover account44
+without its feature bodies, and distinguish actual results from planned counts.

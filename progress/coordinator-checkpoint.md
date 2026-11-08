@@ -1,78 +1,71 @@
 # Coordinator checkpoint
 
-Updated: 7 November 2026. Inspect actual branches/worktrees/claims/processes and
-PR/check/review state before acting. Preserve valid work; explicitly reassign stale tasks.
+Updated: 8 November 2026. User resumed the standing loop; prior stop-after-FIXTURE001
+is superseded. Inspect actual branch/worktree/claims/processes/PR state before acting.
 
-## Owner instruction: finish this task, then STOP
+## FIXTURE-002 local completion; merge gates still open
 
-The owner explicitly requested clean completion of FIXTURE-001 and then stop. Do not
-claim FIXTURE-002, resume the standing task loop, or begin any other work without a new
-user instruction. Future task records stay planned. No other implementation session is active.
+- Root task/FIXTURE-002-storage-recipes, parent main/origin main dd03e1d (normal PR100
+  merge at2026-11-07T20:17:42Z, finalfde53d8 all19SUCCESS and separate review verified).
+  Draft focused PR https://github.com/Kernol12/subathon-bot-ai/pull/101 remains open.
+- Fresh author /root/fixture_storage_author finished clean454833d and RETIRED.
+  /tmp/subathon-fixture002-author task/FIXTURE-002-author preserved. Bounded helper
+  /root/fixture_holds_author finished0665636 and RETIRED; /tmp/subathon-fixture002-holds
+  task/FIXTURE-002-holds-author preserved. Never assume either remains active.
+- Separate reviewer /root/fixture_storage_review in /tmp/subathon-fixture002-review
+  review/FIXTURE-002 remains assigned to final integrated packet/CI/merge gates.
+  Coordinator owns state/HTML/current docs/evidence/PR. No other task claim is active.
+- R1 inventory6e870e2 independently approved before tests; authoredtest/stub/CLI b56fbba
+  approved before intendedred3methods/5failures solely named3recipes. RawredSHA
+  4ef41a49d3e6cd0dd3cc7e66ebcf5753d233d05c5564d590d96f34cca368b64c.
+  Tests frozenSHAd1f6184824857c2908944d10bf214844539ccbd51d4839280f9514b78aeb191c.
+- Whole-source54c0462 (bundle823d073+holds0665636) independently approved before run.
+  FIRSTGREEN FAILED3methods/3failures solely holds layout, rawSHA
+  4e7492d7c45e22d4ac4bb45aea0ddf86c43ed77ab63158e6c53a9f414cfcba22.
+  Typed holds/keyorder exactly oldcanonical996f8463; original two setup arrays compact.
+  Narrow presentation95ca399+pre-run newlineanchor9752a05 separately reviewed BEFORE
+  rerun. Common/F001renderer/tests/goldens/seeds unchanged; failure preserved in PR101.
+- SAME focused3 PASS0.597s rawSHA
+  516161f4ffdee94e643c0e558f217e441ced2ee842556ae764c082014ff8ced3.
+  Direct3family generation and all5check exit0. Bundle466409B/holds839563B exact oldraw;
+  claims68837B rawd6984527 with ONLY6name/boolpairs, projection oldcanonicala824e1a9.
+  Full653file check snapshot unchanged. Independent runtime/adoption APPROVED454833d.
+- Root imported approved source/fixture commits through33f5239; all source/test/recipe
+  paths byte-identical454833d except final contract status-only wording. Only native diff
+  selector row/name/bool use; exact corruptBafterselectedA assertion, setup[9]/revision/
+  bind30–33 remain. All116othernativefiles and allotherfixturevalues unchanged.
+- Actual root cmake --preset sqlite-reference-capture-debug configure0 .653s/build0
+  55.604s, GCC16.2.1/Boost1.92/Qt6.12.0/Python3.14.9. ctest samepreset -V17/17PASS
+  25.023s includes14stableQt/361methods/869PASSIDs +infra3/tooling37PASS0.904s.
+  Rawlog local-evidence/fixture002/native-and-tooling.log SHA
+  ffa10fd89f0eb9722339772ad41528d763fc2190a190e8a39e22cd29e2e66fb5.
+  Reviewer independently audited receipts/build/discovery/IDs/no warnings/fail/skip and
+  six exact names; remaining863 preserved by exact source/input/evidence comparison.
+  Historical raw869log is unavailable: do not claim two-raw-log comparison or replay it.
+- Local account44 bodies UNRUN. Current hostedSQL job must compile/passivelydiscover
+  account44 with authenticated staticSDK; no localSDK rebuild or unrelated body replay.
+  Current CI must also run ordinary stable jobs. No new dependency/CI/CMake registration.
+- Author handoff /tmp/fixture002-author-handoff.md SHA
+  1f238adb62b6cb6043e54c845e8d55fad432a3204533d0409a75fa3313e597e4;
+  /tmp/fixture002-author-receipt-hashes.json pins10failure/diagnostic/green receipts.
+  Reviewer notes /tmp/fixture002-review-notes.md; durable stage/failure details in PR101.
+- NEXT: commit complete root metadata packet -> independent exact packet approval ->
+  push/update focusedPR -> latest-head CI/rules/resolved discussions -> normal merge.
+  State done means local implementation proof; note explicitly retains these open gates.
+  Refreshmain and then fresh author/reviewer for dependency-ready FIXTURE003 or other
+  EPIC028 task. Do not stop at green scaffold/tasklabels; full product remains incomplete.
 
-## FIXTURE-001 completion handoff
+## Startup audit and preserved scope
 
-- Completion PR https://github.com/Kernol12/subathon-bot-ai/pull/100 on
-  `task/FIXTURE-001-independent-recipes`; parent planning baseline main855a1f0/PR99.
-  Exact integrated-head d6ef10c independently approved and all19CIcontexts actually
-  PASSED before this final completion-only record. Source/oracles remain identical39.
-  Final record needs its own exact metadata approval/currentheadCI/rules/discussions/
-  normalmerge gates. Once PR100 is merged, FIXTURE001 is finished: STOP.
-- Fresh author `/root/fixture_catalog_author` clean39c55295d844fa8316b469fa39ccb605b932c5ff,
-  different reviewer `/root/fixture_catalog_review`. Both source/runtime handoffs finished;
-  explicitly resume reviewer only for this PR's final packet. Do not assume workers live.
-- R1 scope dcf862ce, actual contract/tests/stubs bf06a67, frozen tests SHA256
-  `407fec3f0e7ac677a2562f95e61c6476ab7a8c057ddcb30e3935813666af577a` independently
-  approved BEFORE observed intended red:2methods/3failures solely named recipe stubs.
-  Red rawSHA c4069c4dc08497269dcabdba2e8570a3ce08df6c4b08b18a22e8a70c97dc0fbe.
-- Whole implementation65b4ded independently source/oracle approved. Firstgreen FAILED
-  reference rawfingerprint; selected-account subtest passed. RawSHA
-  `171f7ebc29c7cff8b13874ce17e422b5024e01e331409a7d97e9e38405484779` preserved.
-  Diagnosis found12related leaves from wrong reference TimerConfig mode0 vsfrozenGrace1.
-  Independent SRCgrammar walk/public enum confirmed1; narrow39literal/commentfix reviewed
-  before rerun. No assertion/golden/seed/fixture refresh or hidden broad source change.
-- SAME2focusedtests PASS0.203s at39; rawSHA
-  `bb0dea3da3e46dac4ec5502281331ef0ea2bb6269dfb7fb15bfde61197796faf`.
-  Independent relocated source+ONLY4pinnedseeds/ALL6outputsabsent reproduces both files;
-  selected-account overwrite keeps unselected/unrelatedsentinels. Cleancheck and byte-
-  drift/validJSONwhitespace seeddrift preserve fulltemporary project+cwd contents.
-- Direct generation/current--check exit0; reference202513B raw48ddd9cd/canonical4a341655,
-  account91197B raw2e7c373a/canonical8e4e7030 exactly original committedbytes. All649tracked
-  files/recipeartifacts unchanged;117nativecpp/headerfiles equalredbaseline. One scaffold
-  configure/build/CTest3PASS0.75s includes fulltooling36PASS0.499s/project464/122.
-  No duplicatefulltooling/localQt/rate/account/otherfeature receipt replay.
-- Runtime reviewer recomputed all8receipt hashes, exact outputbytes/fingerprints, logs/
-  commands/exits/environment, snapshots and nativeidentity; APPROVEDunchanged39c5529.
-  Full `/tmp/fixture001-author-handoff.md` SHA
-  `fba28517141f1c7f8f9f4e9c4c30550cacca4a65fbe5b14f84f3c1f824b2875a`.
-- Root imported bd5/bf/65/39 as f8bd5b4/6d28e0d/701248f/4218a14, all8contract/test/source
-  paths byte-identical39. Nativeproduction/test/fixtures unchanged. Currentdocs/state/HTML
-  record done/tooling36/ownerstop and actual19CIpasses atd6ef10c. Finalcompletion
-  metadata changes no code/oracle; exactrecordreview/newheadCI/normalmerge stillgated.
-- CLI supports exactly reference_capture/account_sessions; script-relative4SHA-pinned
-  seeds/manifestfieldsonly, no legacyoutputrecipeinputs (reads onlycheckcomparison), no
-  SUT/Qt/SQLite/provider/git/password execution. Compactliteral catalog/framing/typed rows
-  retain publicoracles. Account8 remains proposed/unimplemented/account44passivered.
-  Other4families remain planned; no platform/fullproduct capability follows.
+No prior worker/buildprocess or active claim existed at startup; stale stop instruction
+explicitly superseded by newuserrequest. 295oldworktree registrations inspected; only
+root and clean oldCONTRACT011integrator existed. Missing historical /tmp registrations
+retained without pruning/reset/deletion. ACCESSCONTRACT00153524fc unpublishedreview and
+CONTRACT011worktree preserved. Main rulesets require normalPR/resolveddiscussions,
+prohibit deletion/non-fast-forward; classicprotection404 is not absence of rules.
 
-## Preserved future work and valid evidence
-
-PR99 planning normalmerge855a1f0 at19:18:43UTC afterpacket2bf4381/19checks/zero unresolved
-threads. Parent006plannedUnassigned depends FIXTURE001/002/003, finalall-sixadoption/CI/docs.
-002storage/selectors,003service remain plannedUnassigned; neither has an implementationclaim.
-
-Readonly007 inventory /tmp/testclean007-readonly-inventory.md SHA
-c0c2505a121ebfe4ca2eb9350acfac11281df64262750fa22e814c12f24acbd7 and008inventory
-/tmp/testclean008-readonly-inventory.md SHA554cbf0000f50b3663c6c02b2342fc200f88fe42f4c97f1a1422dcb29a925115
-are complete context only, no tests/edits/deletion approvals. Future fresh authors/reviews
-must preserve security observation nonvacuity, allocator/fault isolation, regression assertions
-and GTest per-case processes. No follow-up task is authorized by current owner instruction.
-
-TESTCLEAN005#98 f250357/004#97 e48f231/003#96 7179680/001#95 2d5488f/002#94 b8bd0d3/
-EVIDENCE002#93 116a6cd/001#92 dc0a544 merged normally after separate reviews/currentCI.
-PriorlocalQt14/361methods/869PASSIDs remains prior evidence, not a newF001localrun;
-53rate/44accountintentionalreds passive. Schema8/20pins, selector31presets/combined428stable
-and translation43 proof remain bounded. Published archive01cf400/all969receipts verified;
-notes500/solecurrentREADME. No branch/worktree reset/prune/delete. ACCESSCONTRACT00153524fc
-approved unpublished/review preserved, STORAGE020 unstarted/reviewed44case red intact.
-Fullv0.45/sevenintegrations/threeFX/UI/platformscope remains; no livecredentials/provider/
-chat/payment/deployment effects authorized. After current PR's normal merge, stop.
+FIXTURE003/finalTESTCLEAN006 planned pendingdependencies; TESTCLEAN007ready,008after007.
+Account8 proposed/unimplemented/account44 andrates53 intentionalred remain separate.
+All v0.45/sevenintegrations/threeFX/EnglishGerman/themes/native+browserrenderers/desktop
+editor/LinuxWindowsOBS/operations+release scope remains. No livecredentials/provider/
+chat/payment/deployment effects authorized. Continue standing loop after normal merge.

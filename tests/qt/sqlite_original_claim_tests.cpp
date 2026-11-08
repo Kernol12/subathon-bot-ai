@@ -377,16 +377,18 @@ class SqliteOriginalClaimTests final : public QObject {
     void initTestCase() { qt_test_support::fail_on_sql_warnings(); }
     void init() { qt_test_support::fail_on_sql_warnings(); }
     void frozenSelectorsPreserveGlobalPriorityAndRoles_data() {
-        QTest::addColumn<int>("index");
-        for (int i = 0; i < 6; ++i)
-            QTest::newRow(qPrintable(QString("selector-%1").arg(i))) << i;
+        QTest::addColumn<QJsonObject>("row");
+        const Data data;
+        for (const auto &value : data.minimal["selectors"].toArray()) {
+            const auto row = value.toObject();
+            QTest::newRow(qPrintable(row["name"].toString())) << row;
+        }
     }
     void frozenSelectorsPreserveGlobalPriorityAndRoles() {
-        QFETCH(int, index);
+        QFETCH(QJsonObject, row);
         scenario([&] {
             const Data data;
             Database db(data);
-            const auto row = data.minimal["selectors"].toArray()[index].toObject();
             ApplicationOriginalClaimSelector selector;
             selector.subject_kind = ApplicationSubjectKind(row["subject_kind"].toInt());
             bool valid = false;
@@ -409,7 +411,7 @@ class SqliteOriginalClaimTests final : public QObject {
                           : SqliteOriginalClaimKind::source,
                       row["expected_record"].toString().front().toLatin1());
             require(db.saved() == before, "Pure read did not change any stored bytes");
-            if (index == 0) {
+            if (row["check_lower_priority_corruption"].toBool()) {
                 (void)db.observer->rows("DELETE FROM subathon_app_audit WHERE "
                                         "operation_scope=X'62657461' AND operation_ref=X'42'");
                 const auto unselected_fault = db.saved();
