@@ -102,6 +102,18 @@ See [permissions #64](https://github.com/Kernol12/subathon-bot-ai/pull/64),
 [passwords #65](https://github.com/Kernol12/subathon-bot-ai/pull/65), and
 [session supplier #84](https://github.com/Kernol12/subathon-bot-ai/pull/84).
 
+[Identity cleanup #104](https://github.com/Kernol12/subathon-bot-ai/pull/104) replaces
+approved private exact-positive totals with nonvacuous native-work observations and
+removes only the forwarding password memzero wrapper. All 37 password and 39 session
+methods, zero-work/security/public checks, session erasure observer and required gate
+ordering remain. One real selected libsodium 1.0.22/GTest 1.18 run passed 79 nodes
+(76 identity plus three infrastructure), tooling 37, with zero skips. Independent
+review matched all actual per-suite identities to the genuine old passing CI baseline.
+Two scratch audit assumptions and a premature run launch are preserved as procedural
+errors, not feature red; runtime approval derives from captured artifacts, with no
+source/assertion change or native rerun. Current packet/CI/merge gates are in the PR.
+No additional operational login/session lifecycle or platform capability follows.
+
 Transport, lifecycle mutations, current clock production, and lossless/secret-safe
 ingress have reviewed documents and literal examples. They are contracts, without
 implemented native parser patch, proxy admission, actual login, session issuance,

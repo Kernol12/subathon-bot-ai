@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T11:54:01.523601+00:00",
+  "updated_at": "2026-11-08T12:22:19.566262+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -550,7 +550,7 @@
       "title": "Trim libsodium call-counting tests",
       "module": "Identity tests",
       "kind": "cleanup",
-      "status": "in_progress",
+      "status": "done",
       "owner": "/root/sodium_cleanup_author",
       "depends_on": [
         "TESTCLEAN-003"
@@ -562,11 +562,33 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-007.md",
       "summary": "Remove call-count/order pins while retaining failure, zeroization, and sensitive-allocation checks.",
       "notes": [
-        "Claimed from main22d4c2e after normal PR103 merge. Fresh author and separate reviewer read-only inventories identify private positive count pins plus a nonvacuity guard and pass-through password memzero wrapper. No deletion approval yet. Exact assertion/retained-security proposal must be independently approved before edits; all37 password/39 session methods and contractual observations remain."
+        "Private positive sodium totals now use nonvacuous work evidence; zero-work/security/gate ordering and all 76 methods remain. Only the pass-through password memzero wrap was removed. Independent proposal/source/runtime reviews passed; one 79-node run, 76 identity cases and tooling 37 passed with zero skips. Two scratch audit errors and premature launch retained; no rerun. Final packet/current CI/normal PR104 merge remain open. Next: TESTCLEAN-008."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "cleanup_proposal_review": "passed",
+        "source_assertion_config_review": "passed",
+        "sdk_preparation": "passed",
+        "old_baseline_review": "passed",
+        "initial_metadata_audit": "failed",
+        "metadata_review": "passed",
+        "native_acceptance": "passed",
+        "discovery": "passed",
+        "tooling": "passed",
+        "scaffold": "passed",
+        "runtime_review": "passed",
+        "github_ci": "not_run",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/104"
+      ],
+      "review": {
+        "author": "/root/sodium_cleanup_author",
+        "reviewer": "/root/sodium_cleanup_review",
+        "outcome": "approved",
+        "revision": "Exact proposal SHA2fb03ca7/source40bdb600 independently approved before edits/execution. Old actual37+39 CI baseline and saved79-node runtime/metadata/ELF identity approved with audit/sequencing caveats. Final root packet/current CI/normal merge pending.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/104"
+      }
     },
     {
       "id": "TESTCLEAN-008",
