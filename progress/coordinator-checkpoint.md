@@ -6,7 +6,8 @@ COORDINATOR_PROMPT.md. Preserve actual branches/worktrees/reviews. No stop reque
 ## Current task STORAGE-020 claimed before implementation
 
 Root task/STORAGE-020-account-sessions from actual main/origin main344c1e2.
-No PR yet. Fresh author /root/account_store_author has only done read-only prep;
+Draft PR https://github.com/Kernol12/subathon-bot-ai/pull/106
+currently carries reviewed selector prerequisite/status, NOT implemented storage. Fresh author /root/account_store_author has only done read-only prep;
 explicit implementation assignment followed committed claim0bcaec1. Author now implements
 only its owned source paths; no configure/build/discovery/feature body yet. Worktree
 /tmp/subathon-storage020-author, branch task/STORAGE-020-author, main344c1e2.
@@ -61,7 +62,15 @@ Independent original attribution passed without replay. Wiringe565409 separately
 approved before first six-selector-tests green, directexit0/all6PASS0.055s; raw
 /tmp/storage020-selector-first-green.{json,stdout,stderr}, stderrSHA
 af02d28bda70bef3690ed679c08980577cc6977b55831bd6a9762208101d0e6f.
-All five old methods/helper preserved. No native or old44red replay.
+All five old methods/helper preserved. Combined independent receipt
+/tmp/storage020-selector-independent-review.json SHA
+f0d8961d7a5b7c153f636fce832098ade189a712baf4fef725fdb49910a536be.
+No native or old44red replay. Exact /tmp/storage020-ci-promotion.patch SHA
+eb01d44bef34cbb14f8f380f14af5f65a421c6ebbfaf188249321e3179c663e3
+is independently CONDITIONALLY approved but UNAPPLIED: only after exact source
+approval and actual44 body passes/zero skips. Three paths: ordinary workflow step/
+existing guard normal labels, CMake red-label removal, presetdisplay acceptance.
+No extra code/harness or omitted stable checks.
 
 NEXT: author source handoff -> exact source/resource/schema/config review -> integrate
 source into root and fresh actual44
@@ -117,4 +126,6 @@ slices; FX still required. ACCESS003 lacks authority producer, split substantial
 prerequisite before implementing. Full v0.45/seven integrations/three FX/English-
 German/themes/both renderers/full desktop editor/Linux-Windows-OBS/operations/release
 scope remains. No live provider/chat/payment/deployment effects or credentials used.
+Read-only next-task preparation /root/clock_baseline_prep investigates actual
+SESSIONTEST009/clock interfaces and prerequisites; no claim/edit/execution authorized.
 Continue after each normal merge; ask only for genuine missing decision/access.

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T13:53:34.724945+00:00",
+  "updated_at": "2026-11-08T13:59:00.516254+00:00",
   "summary": "EPIC-028 evidence/test cleanup and all six fixture recipes are complete under separate reviews. Current priority STORAGE-020 implements the reviewed physical account/session store. Existing bounded core/accounting and controlled SQLite components have synthetic/component proof; actual authority/login/clock/action adapters, financial workflows, all integrations/FX, UI and operational/platform/release scope remain incomplete.",
   "verification": [
     {
@@ -14675,9 +14675,12 @@
         "github_ci": "not_run",
         "product_acceptance": "not_run",
         "selector_source_review": "passed",
-        "selector_tests": "passed"
+        "selector_tests": "passed",
+        "selector_runtime_review": "passed"
       },
-      "evidence": [],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/106"
+      ],
       "review": null
     },
     {
