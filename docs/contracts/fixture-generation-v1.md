@@ -375,6 +375,14 @@ source primitives/catalogs are reused unchanged. Report substantial expansion fo
 independent design review before widening scope; split a substantial codec prerequisite
 if this bounded framing plan proves insufficient. Never remove unique data to fit it.
 
+The coherent static draft refines this forecast to about230KB/4780 lines:34
+separate named cases keep all independent outcomes and budget maps explicit. Named
+request/effect/policy/state/row constructors share field spelling and public framing;
+all unique SAA1/SAH1/SAH2 envelopes occupy about20.6KB of supplied hex once, without
+decoding missing policy fields. Historical/hold/setup/query sections stay named.
+This larger transcription requires independent design review of actual clarity and
+coverage before execution; no behavior/data is removed or compressed into a model.
+
 ### Focused acceptance examples and gates
 
 - From an unrelated cwd, a relocated script/source tree containing ONLY the4 pinned
