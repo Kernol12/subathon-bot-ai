@@ -258,3 +258,140 @@ native files unchanged. Runtime review maps the six old selector PASS IDs one-to
 to the six new names; the remaining863 PASS IDs and all361 methods remain unchanged. Run
 relevant Qt/tooling once for the changed baseline, compile/passively discover account44
 without its feature bodies, and distinguish actual results from planned counts.
+
+
+## FIXTURE-003 service-family extension proposal (revision 1)
+
+This is the service inventory/contract proposal, before authored tests or recipe
+implementation. Its review is not execution approval. Existing five-family source,
+goldens, selector metadata, hold presentation and four raw seed pins stay unchanged.
+Append one explicit registration after original_claims:
+
+| Name | Filename | Source / serializer |
+| --- | --- | --- |
+| application_service | application_service_vectors.json | fixture_sources/application_service.py / unchanged common render |
+
+No selection will mean all six reviewed families, with the same registration-order,
+deduplication, selected-only overwrite, build-all-before-write and check/no-write
+semantics. No new mode, dependency, CMake target, input override or resource framework
+is introduced. Unknown names remain usage errors; this addition does not create a
+fallback for missing recipes or permit reading generated outputs as recipe inputs.
+
+### Frozen whole-content oracle and independent provenance
+
+Read-only inventory of the unchanged service corpus at main7cbfb10 independently
+confirms the pre-generator parent task's fingerprints:
+
+| Meaning | SHA256 |
+| --- | --- |
+| Original raw707682-byte file, provenance only | d6adb1ad1fa9effb1033fb3b7c722202ddddef00531c5819241f517101dbe109 |
+| Entire canonical typed JSON, mandatory preservation oracle | d95d24f1c3f2cc5c9dfa43e1bd7c8f914bef365f8c955c5a7903a9894e5fd06c |
+
+Canonicalization is exactly the parent contract above. Every field/type/string,
+array/order and embedded byte/SQL value remains frozen. Unlike bundle/holds, this
+family does not promise the legacy raw layout: its many compact nested envelopes,
+arrays and setup rows become ordinary R1 indent2 JSON with one final newline. That
+presentation-only adoption is allowed by FIXTURE-003; the old raw hash is never a
+candidate-output golden. Byte-exact --check applies to the independently reviewed
+committed presentation after adoption. Tests may independently format the immutable
+legacy value to construct check comparisons before adoption; they cannot obtain an
+expected fingerprint or semantic value from a candidate recipe.
+
+The corpus's original format/provenance and four historical contract/author/header/
+stub pin strings remain literal DATA. Source recipes may use only the same four
+approved seed manifest fields and existing independent literal source functions.
+No production function/header/binary, SQLite observation, provider fact, git output
+or any of the six legacy outputs may supply runtime recipe data. No unknown provider
+field becomes known, and all source unknowns/absent versus present-empty facts stay.
+
+### Complete inventory and source/coverage crosswalk
+
+All13 top-level groups below are preserved, not only the commonly used success
+cases. Counts describe the independently observed baseline, not implementation proof.
+
+| Field/group | Exact retained data and bounded source plan |
+| --- | --- |
+| format/provenance/pins | Original literal format/provenance plus all4 historical pin strings; no claim of running provider/auth/delivery capability. |
+| codec_anchors | C0, CID0, empty_reason and choice: all6 fields each, full typed command, envelope, wire_bytes, owned_command_bytes, items and SHA256. Public framing may encode bytes; expected counts/hashes stay independently supplied literals. |
+| source_setup | All32 ordered exact statements/typed bindings: retained config/context1each, receipts/attempts/plan headers/plan revisions5each, contributions/observations4each, two allocator updates. Fixed INSERT framing may reuse source column declarations; no SQL evaluation or inferred NULL/type facts. |
+| cases | All34 names in original order, all247 ordered setup statements,40 literal requests,18 expected records/actions and every command/envelope/head/policy/clock/arithmetic/oracle/fake reference/access field. Distinct input/expected outcomes are explicit, not calculated by a timer/debt/cap/permission/refund model. |
+| pending | Original empty array, no invented pending work. |
+| arrangements.history | All59 ordered setup statements, complete literal A/B/C original records and head g. Preserve independent scopes, signed negative receipt-C correction, CID0 versus MAX and prior committed sources. |
+| arrangements.active_holds | All25 setup statements, two current independent holds and head a. |
+| arrangements.resolved_retry | All21 setup statements, one resolved hRetry, unchanged head a, dRetry locator, historical active0/current resolved1 distinction and all3 retry reference-script items. |
+| hold_vectors | Six complete groups:9 named causes,9 detections,9 immutable versions,9 views, resolveRetry and10 byte/item oracle entries. Existing hold source shapes may be reused but service-specific literal envelopes/observations/provenance stay independent. |
+| boundary_anchor | All6 fields: complete original command/envelope plus independently supplied wire76/envelopeB116/commandB27/commandI2. No budget total is recomputed as a new expected value. |
+| fault_data | All6 named faults, one exact mutation statement and original meaning each: unknown_state_format, known_state_bad_magic, known_state_trailing_byte, known_state_typed_contradiction, unknown_historical_result_format, known_historical_result_trailing_byte. Literal faults remain deliberately unsupported, malformed or contradictory as originally named. |
+| snapshot_queries | All26 ordered table/SQL objects, exact SELECT text/order/scope. Public/raw-observer snapshot protection remains; no engine output derives expectations. |
+| fixture_interpretation | All6 explanatory strings: prior_intake, source_unknowns, history, large_preview, holds and proof. |
+
+The34 named cases remain exactly:
+
+```text
+add10, add_twice, debt_first, above_cap, grace_debt_only, grace_rescue,
+wait_debt_only, wait_rescue, max_debt, score_overflow, count_overflow,
+fractional, negative_stop, negative_review, min_fits, min_overflow,
+maximum_subject, confirmation, ready, finished, paused, hard_end_paused,
+missing_counter, money_unresolved, hard_end_unpaused, large_cap, lowered_cap,
+present_empty_refs, clock_overflow, elapsed_success, policy_unavailable,
+clock_unavailable, actions_unavailable, min_policy_overflow
+```
+
+Their original oracle maps remain literal, including command/encoded/head bytes and
+items, policy/clock/proposal/action resolution budgets and hold/response budgets.
+Keep add10/above_cap/debt_first separate supplied effects, not one evaluated cap rule.
+Keep elapsed_success's separately supplied advanced timer, unavailable-policy/clock/
+action honest absences/order/reasons and min_policy_overflow's captured main target,
+attempt9223372036854775808, failed debt balance1 and ordered two-entry correction suffix.
+Public exact/error/disclosure/ordering/ownership/rollback/idempotency/physical evidence
+and all native assertions remain unchanged. Account8 stays proposed/account44 passive.
+
+### Bounded public framing, not semantic evaluation
+
+Family-local byte encoders may directly spell the accepted application-service API
+grammarB/E: U8/Bool, big-endian U32/U64/I64, sized bytes, optional tags and ordered
+vectors. They pack already supplied typed fields only. SAC1 commands, SAS1 snapshots,
+SAR1 results, SAA1 audits, SAH1/SAH2 observations and strictly synthetic SAJ1 jobs keep
+their exact public field order and nonrecursive copies. No encoder selects a policy,
+advances a timer, allocates tokens/jobs, resolves references, applies arithmetic or
+computes an expected byte/item budget. Successful before/after snapshots, effects,
+jobs, transitions, failures and all semantic results are independent literal inputs.
+
+Independent grammar examples already frozen in the corpus/public API include C0's
+58-byte SAC1, CID0's66 bytes, present-empty-reason62 and one-choice73. The known public
+90-byte SAS1,182-byte SAR1 and178-byte SAA1 examples constrain grammar source review;
+the whole service fingerprint independently constrains every actual embedded byte.
+The SAH2 min-policy suffix remains literal
+000000020000000000000001010000000000000002000101, including both corrections and
+known failed balance. Existing source field-copy/framing helpers may avoid repetition;
+no generic JSON patch language, SQL interpreter, hidden format framework or whole-JSON
+literal wrapper is introduced. Synthetic jobs remain non-deliverable DATA.
+
+Source-size planning is a review aid, not a deletion target: roughly1600–2600 lines/
+100–180KB, including about150–250 lines of straightforward family-local public byte
+packing, explicit named case declarations and fixed SQL/DTO constructors. Existing
+source primitives/catalogs are reused unchanged. Report substantial expansion for
+independent design review before widening scope; split a substantial codec prerequisite
+if this bounded framing plan proves insufficient. Never remove unique data to fit it.
+
+### Focused acceptance examples and gates
+
+- From an unrelated cwd, a relocated script/source tree containing ONLY the4 pinned
+  seeds and none of the6 legacy outputs generates application_service with the frozen
+  whole-object canonical fingerprint. No selection generates all6 supported families.
+- Selecting application_service overwrites only its fixed file; all5 other-family and
+  unrelated sentinel files remain byte-identical. Existing5-family goldens remain.
+- A standard-layout independent comparison checks successfully with --check, without
+  source/fixture writes. Appending whitespace to its output is drift/exit1 without
+  repair. Existing output/raw-seed drift and full-tree no-write checks remain intact.
+- Contract/inventory review precedes authored focused tests plus a reachable named
+  FeatureNotImplemented service stub. Separate test/oracle review precedes observed
+  intended red; missing import/dependency/parse failures are invalid red.
+- Whole-source/oracle execution approval precedes any candidate invocation, generation
+  or native use. No golden/pin/semantic value refresh can fix an implementation failure.
+- After approved generation/adoption, run relevant tooling and the existing43-method
+  service/SQL suite once. Unchanged native sources/other fixture inputs retain valid
+  prior14-suite/361-method/869-ID evidence and FIXTURE-002's six-label crosswalk; current
+  hosted SQL CI still compiles/passively discovers account44 and runs stable suites.
+  Independent runtime/final packet reviews, current-head CI/rules/discussions/normal
+  merge remain required. Final all-six CI/docs adoption stays TESTCLEAN-006.
