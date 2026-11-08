@@ -83,8 +83,9 @@ from schema shape, and editor hints do not replace runtime progress invariants.
 | Preset / focused selection | Current state |
 | --- | --- |
 | `rate-snapshot-debug` / `-L '^rate-snapshot$'` | 53 reviewed feature cases have intended stub-red evidence; rate behavior remains unimplemented. The suite has `intentional-red` labels. |
+| `native-websocket-profile-debug` / `-L '^native-websocket-profile$'` | 38 reviewed Python methods drive actual selected Drogon loopback traffic. Stock fragmented/control behavior has reached wire red; profile ownership/resource/deadline cases remain `Unimplemented`, without native capacity proof. |
 
-The rate lane's passing CI checks compile/discover feature registrations, enforce selected
+These lanes' passing CI checks compile/discover feature registrations, enforce selected
 dependency configuration and execute existing stable component/infrastructure suites. They do not turn the red feature bodies into
 passing product coverage. Keep their intended-red runs separate from passing CI;
 never use `WILL_FAIL`, blanket continue-on-error, disabled/skipped bodies or a failed
@@ -117,7 +118,7 @@ the initial-capture prefix for account/session storage; milestone,
 permissions and rate include numeric checks; editorial includes debt and lifecycle.
 Bare acceptance ON defaults to credit. An explicit empty/unknown selection fails;
 `all` explicitly includes every native/translation suite, all required SDKs and the
-known rate red baseline. Schema validation and configure-only Qt probing remain separate
+known rate and native WebSocket red baselines. Schema validation and configure-only Qt probing remain separate
 controls. The account preset includes the complete compiled SQLite migration prefix:
 
 ```sh

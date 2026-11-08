@@ -85,6 +85,13 @@ class AcceptanceSelectionTests(unittest.TestCase):
             ["exact-numeric", "milestone-progression", "time-debt",
              "timer-editorial", "timer-lifecycle"])
 
+    def test_native_websocket_profile_selection_is_independent_and_unique(self):
+        self.assert_selection({
+            "SUBATHON_BUILD_ACCEPTANCE_TESTS:BOOL": "ON",
+            "SUBATHON_ACCEPTANCE_SUITES:STRING":
+                "native-websocket-profile;native-websocket-profile"},
+            ["native-websocket-profile"])
+
     def test_account_session_selection_includes_compiled_migration_prefix(self):
         # The account manifest appends to the actual compiled initial-capture
         # factory, so an account-only request needs that complete SQLite prefix.

@@ -1,158 +1,143 @@
 # Coordinator checkpoint
 
-Updated: 8 November 2026. Standing loop resumed under AGENTS.md and
-COORDINATOR_PROMPT.md. No stop requested. Inspect actual branches/worktrees/claims/
-processes/PRs/checks before acting; preserve all valid work and independent reviews.
+Updated 8 November 2026 for the APITEST-012 final handoff.
 
-## APICONTRACT-001: document gate complete; final metadata/CI/merge pending
+The owner explicitly requested: **cleanly finish the current task, then stop**.
+Finish only APITEST-012 and its normal protected merge. Do not resume the standing
+loop, claim API-012 or start another task. The full product remains incomplete.
 
-Actual main/originmain1dcf2b61f65a4d87a29a0ac52e68d7c8b0d20c90 after normalPR106merge.
-Root task/APICONTRACT-001-lifecycle-profile. Claim/DAG/brief806dba7 was committed BEFORE author edits. New tasks: APICONTRACT001 -> APITEST012/API012 native persistent
-WS profile -> existing APITEST001/API001 host. Both SESSIONTEST009/SESSION009 now
-explicitly depend on actualAPI001host, as accepted clockcontract§2 assigns. All old
-API1 persistent/realclose/startup/shutdown/backpressure/cancellation criteria remain.
-No reduced release scope or supported capability follows from decomposition.
+## Current task and final gate
 
-Contract author /root/api_lifecycle_contract_author completed and retired after
-357124230d3270ef7eb14c28f7f1c56cadd11f68; worktree clean, retained at
-/tmp/subathon-apicontract001-author task/APICONTRACT-001-author. Independent reviewer
-/root/api_lifecycle_contract_review completed document gate, retained clean atmain1dc
-/tmp/subathon-apicontract001-review review/APICONTRACT-001-lifecycle. Explicitly resume
-that separate reviewer for final shared packet/currentCI; do not infer active sessions.
-Root owns shared briefs/DAG/state/HTML/CI/CMake/dependencies/SDK/ABI/licenses; author
-changed ONLY docs/contracts/api-host-lifecycle-v1.md and native-websocket-profile-v1.md.
-No source/tests/SDK/build/native/SQL/provider execution authorized by this contract task.
+[Task brief](../docs/tasks/EPIC-008/API-012.md), [state](state.json),
+[PR108](https://github.com/Kernol12/subathon-bot-ai/pull/108).
+APITEST-012 is complete as independently reviewed authoring plus actual intended red.
+API-012 remains planned/unclaimed. Root branch is
+`task/APITEST-012-native-websocket-baseline`, from actual main
+b27ff1382622b16e8a2fb71c00dab4758b86dfd4. Native execution was at a8c93b0;
+subsequent changes are the reviewed CI install correction and completion metadata.
 
-Draft PR https://github.com/Kernol12/subathon-bot-ai/pull/107. First author5a96f8b/import73e9ec5
-received four changes-required findings; initial review SHA
-cefef611ebe98a602d417293121832eb5ee1571bf0f16212aea1350f739e4f85 preserved.
-Corrected exact35712423/import398410df4eb3527903f8874e74e5bb609af0da24 approved:
-/tmp/apicontract001-document-review-357124.md SHA
-14dd487ed7477a016e75e7f5a9b7dd47184a39e8588d36bed61e6eb919b3a3ad.
-Host blobf1808d018f3b7a6f2488094797d5d1fd99a7a485; native6e376306682cda4c51d0eff63c4543428c8baf8a.
-17host/22native literal examples reviewed, not executed. Corrections: trustedUTC only
-where imported operation requires it (credentials retain final resample); first valid
-Close immutable including absence; preserve accepted writer wrappers/FIFO/completions
-while cancelling domain entry, actual not_started/missing_transaction or unavailable;
-explicit checked CLOCK_MONOTONIC deadlines/overflow/equality/IO continuation failure.
+This checkpoint is committed before the final PR gate to leave clean main after
+merge. PR108 is authoritative for current-head checks, final packet review,
+discussions and actual merge SHA. The ignored local receipt
+`local-evidence/APITEST-012/final-stop.json` must record the observed stop/merge
+AFTER normal merge, never an inferred future result.
 
-Claim/planning806dba7 independently approved2598c31e3fff02780c241dcdf8797eda61393f1af12c43432142b85426f8fffd.
-Actual398/a7 project467tasks/122decisions, currentHTML and diffchecks passed. Exacta7
-packet independently approved /tmp/apicontract001-packet-a7abf64-review.md SHA
-b9e18bc5b2e75603dad25d763923619f4d4991e1e7e674d5afdcdd46b072d1a6.
-Actuala7 all19CI/18firstattempts independently approved
-/tmp/apicontract001-current-ci-a7abf64-review.md SHA
-e38ec0387ee283cec296779b7fdb4b28b1f7084c2acbd5507ad686a50b9aadec.
-Checkoutcccbc089 parents1dc+a7/tree57cd80e6 exactlya7. Hosted account44+2/zero bad/
-4475ms,14priorSQLrunners/all6earlycheck/ordinaryguard26,identity37+39,rate53passive
-+36stable,schema2lanes8/tool38/467+122 pass. OldSQLnonverbose runnerproof only; no
-newprofile acceptance. No LOCAL/newprofile body rerun; existing HOSTED native
-component bodies actually ran. Final metadata/currentheadCI/normalmerge remain.
-PR body preserves substantive independent reviews and proof limitations.
+At this handoff: push the approved CI fix and metadata, inspect all current checks,
+obtain final independent packet/current-CI reviews, inspect rules and discussions,
+normal merge with matched head, refresh clean main, save actual stop receipt and stop.
+Do not bypass protections, hide failures or rerun completed local checks for receipts.
 
-Clean stock selectedsource3aae769cc405cf5abb9d477675c6430924f02c7c and Trantor
-78e480f5e138acdc05f76c55a2716718cd846364 preserved. Future native correction MUST use
-distinct admitted source/patch/build/ABI/license prefix. Selected Close callback occurs
-AFTER shutdown; pending-output vs immediate differ; fragment/control parser sharesstate.
-No blindecho/reorder/sourceupgrade is approved. Full fragmentation/persistent scope stays.
-SESSION-011 account H1 refuses Upgrade; native profile grants no auth/sync/readiness.
+## Sessions and preservation
 
-Actual normal-start activation/current-source publication producers remain mandatory
-independently reviewed API-001 design gates BEFORE code. Ticket revoked beforecompletion;
-listener/writer/DTO/fake source is not readiness/publication. Unknown refuses. Split
-substantial reusable issuer/durable recovery machinery before implementation. Native
-clock+fakehost cannot finish SESSION009 actual ready-host binding. Process-terminal
-framework lifetime/freshprocessretry follows pinned bind exit1; no sameprocessrestart,
-SQLpreemption or hard OS deadline guarantee is supplied by these documents.
+Fresh author `/root/native_ws_baseline_author` completed/retired after38aa9eae;
+clean `/tmp/subathon-apitest012-author`, branch `task/APITEST-012-author`. It owned
+only the two files in `tests/native_websocket_profile/`. Primary independent reviewer
+`/root/native_ws_baseline_review` and separate resource/build reviewer
+`/root/api_lifecycle_contract_review` were explicitly reassigned for each stage;
+resume explicitly if idle for final reviews. Root owns shared boundary/header/stub,
+CMake/CI/dependency/license/ABI admission, evidence/state/HTML. Authors never approved
+own work. Same GitHub account is transparent, not a second human approval.
 
-Prospective fresh APITEST012 author/reviewer completed READ-ONLY prep only, no claim/
-repoedits/configure/build/discovery/body/native/SDK calls; explicitly resume aftermerge.
-/tmp/apitest012-readonly-prep.md SHA
-51b8ab896af36bf9311a9063b60f9176c4b029692fa58d679102263e71700481;
-/tmp/apitest012-independent-readonly-prep.md SHA
-38d4e2c123093671f3aeb8902a1cfec9ca3ba7f980200fb6a4b420b03fbb129e.
-StockpublicAPI supports actualprotocolred. Exactminimal config/ownedelapsed/lease/
-actualownerdiagnostic seam still needs refinement/review BEFORE fullresource tests;
-no fakecapacity or unknown0. §1 admits transparentlystock/zero-patch baselineidentity;
-correctedAPI012lateruses distinctprefix. Missing symbols/setup/stubcannot masquerade
-as reachednativecapacityred. These reports are design inputs, not accepted interfaces.
+Preserve all reviews/first receipts, source/SDKs, branches and worktrees. Inventory
+found314 registrations,293 old missing/prunable; none was reset/deleted/pruned.
+Older sessions are retired, not assumed active. No more local native execution is
+needed absent a material new change. Local receipts are retained under ignored
+`local-evidence/APITEST-012/receipts/` with hashes; full substantive review/results
+belong in PR108. Read actual state before any future user-authorized resumption.
 
-NEXT: finalsmallmetadata/currentheadCI/rules/zero threads/normalmerge; refreshmain,
-then fresh APITEST-012 author/reviewer claim before edits. Contract→nativebaseline/red→
-profileimplementation→actualhostbaseline/implementation→clockbinding. No owner decision
-or access blocker observed. All old reviews/source/runtime proof remain preserved.
+## Source and proof boundary
 
-## Preserved read-only investigations and unused clean work
+Parent native contract blob6e376306682cda4c51d0eff63c4543428c8baf8a;
+hostf1808d018f3b7a6f2488094797d5d1fd99a7a485. The separately reviewed
+[consumer boundary](../docs/contracts/native-websocket-boundary-v1.md) adds immutable
+limits, owned read-only elapsed source, callback-origin move-only leases, exact check
+order and bounded actual-owner snapshots. The stock facade returns `Unimplemented`;
+no Profile/lease/known capacity/readiness is fabricated. WS22 requires actual queued
+continuation observation and later native source proof; no fixture counter substitute.
 
-Original next-clock inventory /root/clock_baseline_prep completed/retired; no taskclaim/
-repoedit/execution. /tmp/sessiontest009-readonly-prep.md SHA
-55958bf8234776da912f1f48bc9f48f8146d3fe8712e782ccace4f0f342d7eb3;
-/tmp/sessiontest009-interface-proposal.md SHA
-d2e05776cd90ed3301eafa8cc8eb1cc0ebfda93dcab846540a1be1490887f891 (UNREVIEWED,
-notacceptedAPI). Preserve actualktime_set saturation below signedns ceiling case and
-pureconversion seam forfullsignedms; nativeprofile is narrower. Actualhostbinding
-missing prompted realAPIhost-before-clock ordering, not a fakeReadinessPort success.
+Final CPPblob0ecf72e42662f7a5bb19e9d10e4ec8c2f49f03ff;
+Pythonc6171014545763189dccca786b9526b9a2b03cc3. Final executable SHA256
+92a1e60ee7d6589e4dc565426b239071daaab8b981c9d9d2e7defe23a2c44b19.
+Clean Drogon3aae769cc405cf5abb9d477675c6430924f02c7c and Trantor
+78e480f5e138acdc05f76c55a2716718cd846364, empty ordered patches, preserved in
+`build/deps/drogon-1.9.14-source` and `build/deps/drogon-1.9.14`.
+SDK Drogon SHAa478e5a1e933f3e7b44feec5e7492e26da2d12231c566ae3d6a8684499046fcd;
+Trantor71329f317d50b73c24d043bf0755a742eaaf24f9536afd0eef5affb06a545d33.
+Effective Release Drogon C++20/pinned Trantor C++14; consumer C++20. All138 installed
+SDK hashes and16 actual file-provider hashes unchanged. Local GCC16.2.1/Arch/OpenSSL3.6.5
+is distinct from Ubuntu compilation. No full ABI/future-dlopen/distribution guarantee.
 
-/root/clock_path_review independently recommended existingAPI001hostownership first,
-no cycle; allpureclockcomponent/prodhost/platform prooflevels distinct. Freshreadonly
-APIbaseline prep roles /root/api_lifecycle_baseline_author and _review completed/IDLE;
-no claims/fileedits/build/test/native calls. Scope report
-/tmp/apitest001-readonly-scope.json SHA
-2fcfa2e623706233f3787094f6efc8bdef137fee7baf190d53f12597ce2af06d.
-Preserve unused clean rootbranch task/APITEST-001-lifecycle-baseline atmain1dc and
-/tmp/subathon-apitest001-author (task/APITEST-001-author),
-/tmp/subathon-apitest001-review (review/APITEST-001-lifecycle), bothmain1dc.
-Do notassume those sessions active orimplementationapproved; futurebaseline needs
-freshimplementationassignment/currentmain afterprerequisites, exacttestreview/red.
+## Actual checks and preserved first failures
 
-## STORAGE-020 complete and normally merged
+Selector first failed unknown native-websocket-profile; reviewed one-name addition
+then passed all seven selection methods. Fresh configure passed, including existing
+C++17 filesystem foundation. First build lacked explicit Drogon WebSocket includes:
+SETUP, never red. Reviewed include-only fix compiled/linked. Passive38 IDs, four-node
+CTest discovery, compiled ELF/link and complete actual loaded-object identity passed
+before any new feature body.
 
-PR https://github.com/Kernol12/subathon-bot-ai/pull/106 normalmerge
-1dcf2b61f65a4d87a29a0ac52e68d7c8b0d20c90 at2026-11-08T15:43:49Z.
-Finalheadb187b571934f7dde70dfcb2d2a9c5367cf163c80 independentlyapproved and all19
-currentchecks/18firstattempt runs passed; actualcheckoutf889856a parents344+b187,
-treeb7a7bfe4 equalsb187. Final account44+initcleanup46 PASS/0fail-skip-warning-blacklist/
-4562ms; all14oldSQLrunners/all-sixearlycheck/ordinaryguard/identity37+39/rate53passive
-+36stable preserved. No hostedold869nativeIDclaim (oldSQLstepsnonverbose). Exact
-metadata/bodyreviewc6a314fb and finalCI9c1af92c; COMMENT transparentlyseparateagents/
-sameGitHubaccount, notsecondhumanapproval. Ready/head/rules/zero-thread rechecked;
-normal--merge--match-head, no bypass/deletion/force. Taskrecord updatedactualmerge.
+First full default-sandbox run: AF_INET EPERM before ready, SETUP not red. First
+socket-enabled run2a15/binary7e607 returned8/58.445915s:43failures=34Unimplemented,
+one WS02 wrong Pong, eight SDK non-JSON capture faults;59errors=45EOF/14receive
+timeouts after successful upgrades. WS01/10/12 passed. Original output retained.
 
-Source author /root/account_store_author, primary /root/account_store_review, extra
-/root/account_resource_audit allretired/IDLE; preserveworktrees/branches. CPP final05aad87
-(root94886ff) SHAafac0d0266c6b46eeaaf4d99200359e1f17ce685bff19c2a6fe95dea72eecbd3,
-header3privatefields SHA3cac6b8fe57cb3fbdd94495b38814eaf63a63c124059f233704e0ad10620fb16.
-PublicAPI/current44tests/fixtures/recipes/prefix unchanged. Factorycallscompiled7 and
-adds5SQL/10objects as8. Caller ownsSQLtransaction/cleanup; boundedexactfacts/CAS/pages/
-ordinal, no login/permission/clock policy. Source63ac4678/resource238f243b beforecfg;
-Qtmacro buildfailure1 retained then4identifierfix independentlyapproved8ef9944b.
-No bodybeforefix/build2success. Source/privatealiasprior81263 preserved too.
+Trantor LOG_ERROR bypasses app Fatal filtering and defaults to stdout. Reviewed46-line
+CPP correction routes original bytes to static captureless nonblocking stderr:
+65536record/2MiB lifetime,8 checked reservation attempts,64 writes, fixtureexit91 on
+capture overload/error. Strict JSON/all assertions unchanged. Parent retains bounded
+stderr context; the final report does not export each successful child's SDK log bytes.
 
-One actualfirstfull18run at e5d3836 direct0/32.055920s (15Qt+3infra/fulltool38), account
-44+2/915rawQt IDs; exactold869 orderedtwo-logmatch, all653trackedruntimehashesmatch.
-Raw /tmp/storage020-first-runtime.{json,stdout,stderr,xml}, first-LastTest.log;
-stdoutSHA b07e7062d378f79d8aad7b7736b51ceece39c6253be672b977d7771d38023e73.
-Independentruntime48a9287 (22artifacts); readonlycollector initiallyassumedfullJUnit
-nativeoutput, correctedfor1024bytepassingtruncation WITHOUTreplay/receiptchanges.
-JUnitproves18nodestatus; fullstdout+LastTestprove44/915identities/totals. Compiledfactory
-frame/schema/digest assertions+actualliteralmanifestSQLsetup are combinedproof, NOT
-adirectproductionfactorymigrationinvocation/rawprintedhash/selectedEXPLAIN claim.
-Promotiond7cf6b71/f669approved onlyafterrealgreen; all15binaryhashesmatchaftermetadata,
-no localnative rerun. Firstimplementationf30CI8ec1936b andfinalb187CI9c1af92c distinct.
+Rebuild passed2.843703s. New ELF/140-symbol review preceded controlled identity;
+complete18-object inventory (main92a1, kernelvDSO,16 hashed file DSOs) independently
+re-admitted before the necessary full rerun. `/tmp/apitest012-final-full-runtime.*`:
+rc8/58.40867888s,38methods/56.735s. Exactly35failures=34Unimplemented+1WS02 PongE270
+instead of70;59errors=45EOF+14receive timeouts. WS01/10/12 pass. ZERO cleanup/capture/
+setup/exit91/forced-kill/unjoined-reader/quota/barrier verdicts. All666 source hashes
+and binary unchanged before/after. Three infrastructure nodes pass, including39 tooling
+methods. Static72 rows/max102 children do not mean102 executed scenarios; source-traced
+97 attempts only. Missing-profile results establish no native capacity/deadline proof.
+Raw stdout SHAb28a1545300550b4db0d6a917b9f2251997f374f2c36d84adf30721364b3c648.
 
-SelectedstaticSDK1.0.22 remains /tmp/subathon-sdk-sodium-1.0.22-p6m9mza6/prefix,
-archiveSHA d4e0808e...; actualadmittedSDKidentity reusedbyhash/link, no newSDKbody/vendor
-runs. LocalQt6.12/GCC16.2.1/Boost1.92, hostedQt6.12buildcompiler11.5distinctfromproject
-compiler. OriginalPR89 intended44marker-red/direct8/d717review/743aattribution and
-TESTCLEAN0046d375bb+008comments preserved. Detailedreceipts/reviews under /tmp/storage020*;
-publiccommand/results/review inPR106. Fullproduct/sourcehost/platformgate notclaimed.
+## Independent review receipts
 
-## Continuity
+Substantive reports/commands are durable in PR108; local `/tmp/apitest012-*` copies
+are preserved. Earlier valid approvals remain applicable to unchanged files.
 
-PR105 normalmerge344c1e2 after exact930/all19/source/runtime/finalreviews/rules/0threads;
-EPIC028all13children independentlyclosed. AllolderPR100–104proof/validreviews preserved.
-Keepallhistoricalbranches/worktrees/missingtmpregistrations, cleanCONTRACT011 and
-unpublishedACCESSCONTRACT00153524fc/docblobe08c61d/review. Never reset/prune/delete.
-Fullv0.45/sevenintegrations/threeFX/English-German/themes/bothrenderers/full desktop
-editor/Linux-Windows-OBS/operations/release remains. No livechat/payment/provider/
-deployment actions orcredentials. Continue standingloop after each normalmerge.
+- Boundarye043b656; authored testc1f1f862/resource8dc6bba2; SDKfecac359;
+  wiringb23c02e3; selector runtimef53a70d7; WS22planbf445c08.
+- First real runtime primaryfc51ff59/resource7dc2f87a preserve capture blocker.
+- Logging source006bd714/resource47440d26; new compiled66b21176;
+  actual prebody map0976e570; shared a8 packetaa50a2c3.
+- Final native runtime primary
+  b606a4b129e9acbf13e044335cc453b1c0046084fbf0cf99773c7f21457d043b;
+  resource86188af62dd3cefaf26e4bd5e6e8319e853682eb3a0a71dc1700e09acbfc0e9e.
+
+## CI and stop conditions
+
+New lane compiles/passively inventories38 enabled methods and one intentional-red
+owning CTest node, timeout3120. It runs only three existing infrastructure nodes,
+never the new probe/identity/feature/vendor bodies. Rate/native baselines stay enabled
+and red, without WILL_FAIL/skips/continue. Existing17 workflow files/19 historical
+check entries unchanged.
+
+All eight exact Ubuntu24.04 amd64 JsonCpp/OpenSSL/UUID/zlib archives/control/copyright
+bytes and SSL symlink independently match manifest and three official indexes/
+InRelease checksum edges. Local GPG NOT verified; CI uses authenticated APT. Retain
+compiled ORM utility/libpqxx COPYING too. Fresh prefix/source/effective20-vs14/install/
+ELF/link metadata CI gate approvedc6f409d7. Manifest SHA
+80fa64516fe5e3d92b82906c511c993d28891fda0d2cbb06a092b6d992bd9c5c.
+First a8 checks:19success/1failure. New lane failed APT acquisition/completeness BEFORE
+SDK compilation after all eight hash checks; preserved log SHA
+504ab45bfbccd7f5fc174c9b8d11b7f51b503ba6356ba86295a3e8ea805c7bf8.
+Reviewed minimal fix installs ONLY those paths with checked dpkg, no resolver download/
+force/repair; verifies installed status/version/architecture and copyright. Exact
+fix review108953dd0748bb2cfa2af6391628aa1a5c7facba20b63da3f73962c2438acb6f.
+Actual latest-head CI must pass before merge; inspect PR108 instead of old a8 results.
+
+After normal merge refresh clean main, retire review sessions, save actual stop receipt
+and STOP. No API-012 or next claim. Prior PR107 normal mergeb27ff138, PR106 merge1dcf2b6
+and all13 EPIC-028 children remain complete. Later native source correction, actual
+host/readiness producers and session-clock host binding stay separate. All seven
+integrations/three rate providers, Windows/Linux/OBS, both renderers/full desktop
+editor, English/German/themes and full release scope remain. No live provider/chat/
+payment effects, deployment or credentials were involved.

@@ -291,6 +291,15 @@
         "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
         "SUBATHON_ACCEPTANCE_SUITES": "sqlite-account-sessions"
       }
+    },
+    {
+      "name": "native-websocket-profile-debug",
+      "displayName": "31 \u00b7 Native WebSocket profile baseline (intentional red)",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
+        "SUBATHON_ACCEPTANCE_SUITES": "native-websocket-profile"
+      }
     }
   ],
   "buildPresets": [
@@ -417,6 +426,10 @@
     {
       "name": "sqlite-account-sessions-debug",
       "configurePreset": "sqlite-account-sessions-debug"
+    },
+    {
+      "name": "native-websocket-profile-debug",
+      "configurePreset": "native-websocket-profile-debug"
     }
   ],
   "testPresets": [
@@ -723,6 +736,16 @@
     {
       "name": "sqlite-account-sessions-debug",
       "configurePreset": "sqlite-account-sessions-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "native-websocket-profile-debug",
+      "configurePreset": "native-websocket-profile-debug",
       "output": {
         "outputOnFailure": true
       },

@@ -187,10 +187,23 @@ The [host lifecycle and native WebSocket profile #107](https://github.com/Kernol
 now have independently reviewed documents and 17/22 literal examples. They define
 actual invocation/publication/readiness ownership, monotonic resource deadlines,
 writer cancellation/drain and finite protocol/control/fragment/Close obligations.
-This is document proof only; native baseline/red, selected source correction, actual
-host/readiness producers and normal merge remain. All 19 reviewed a7ab CI checks
-pass; final metadata/current-head gates remain. Account H1 Upgrade
+These contracts are document proof; selected source correction and actual
+host/readiness producers remain. All 19 final65c CI checks and independent packet/CI
+reviews passed before normal PR107 mergeb27ff138. Account H1 Upgrade
 refusal and complete synchronization/authorization scope remain unchanged.
+
+The [native WebSocket baseline #108](https://github.com/Kernol12/subathon-bot-ai/pull/108)
+adds 38 independently reviewed methods and 72 literal table rows. Real Linux stock
+Drogon loopback reproduces a contaminated Pong during fragmented text; persistent
+messages, server Close and standalone Pong cases pass. The final run has 35 failures
+and 59 errors: 34 missing-profile results, one wrong-Pong assertion, 45 early EOFs
+and 14 receive timeouts after successful upgrades. Diagnostic capture and cleanup
+have no failure verdicts; three infrastructure nodes and 39 tooling methods pass.
+First compile, sandbox and diagnostic-capture failures remain recorded separately.
+The CI lane is limited to compilation, passive inventory and existing infrastructure.
+Profile resource capacities/deadlines, WS21/22, corrected native source and actual
+host/platform support remain open; `Unimplemented` establishes no native capacity.
+Current check/review/normal-merge evidence is in PR108. Work stops after this baseline.
 
 ## Presentation and clients
 

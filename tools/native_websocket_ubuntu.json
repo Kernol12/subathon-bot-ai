@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "scope": "Native WebSocket baseline CI on Ubuntu 24.04 amd64. Already selected Drogon transitive build/runtime inputs; not a product distribution manifest.",
+  "upstream": {
+    "drogon": "3aae769cc405cf5abb9d477675c6430924f02c7c",
+    "trantor": "78e480f5e138acdc05f76c55a2716718cd846364",
+    "ordered_patches": []
+  },
+  "source_metadata": "https://archive.ubuntu.com/ubuntu/dists/noble-updates/main/binary-amd64/Packages.xz",
+  "packages": [
+    {
+      "name": "libjsoncpp-dev",
+      "version": "1.9.5-6build1",
+      "architecture": "amd64",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/libj/libjsoncpp/libjsoncpp-dev_1.9.5-6build1_amd64.deb",
+      "bytes": 22980,
+      "sha256": "2f3c78b5685fdb29345f75a3687dcd5558be17676c7d5876c3496db0806a9f4b",
+      "copyright_path": "/usr/share/doc/libjsoncpp-dev/copyright",
+      "copyright_sha256": "9304db2aec23318d436229b9268268db96829dc4117ac6cd10d2a59ecd95a6cf",
+      "copyright_link": null,
+      "copyright_resolved_path": "/usr/share/doc/libjsoncpp-dev/copyright",
+      "depends": "libjsoncpp25 (= 1.9.5-6build1)",
+      "ubuntu_suites": [
+        "noble"
+      ]
+    },
+    {
+      "name": "libjsoncpp25",
+      "version": "1.9.5-6build1",
+      "architecture": "amd64",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/libj/libjsoncpp/libjsoncpp25_1.9.5-6build1_amd64.deb",
+      "bytes": 82754,
+      "sha256": "8efea5b75952f3ad1c40e6b5b31de687c297ea29f87f8b63efebb55e13467211",
+      "copyright_path": "/usr/share/doc/libjsoncpp25/copyright",
+      "copyright_sha256": "9304db2aec23318d436229b9268268db96829dc4117ac6cd10d2a59ecd95a6cf",
+      "copyright_link": null,
+      "copyright_resolved_path": "/usr/share/doc/libjsoncpp25/copyright",
+      "depends": "libc6 (>= 2.14), libgcc-s1 (>= 3.3.1), libstdc++6 (>= 13.1)",
+      "ubuntu_suites": [
+        "noble"
+      ]
+    },
+    {
+      "name": "libssl-dev",
+      "version": "3.0.13-0ubuntu3.16",
+      "architecture": "amd64",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl-dev_3.0.13-0ubuntu3.16_amd64.deb",
+      "bytes": 2408684,
+      "sha256": "2b4734df0475e305ac03abb0a2cc5659651ed37ef02d967a1c4033a154cf714b",
+      "copyright_path": "/usr/share/doc/libssl-dev/copyright",
+      "copyright_sha256": "6a7da622fe0637a334d2a8fc470852d2ffb77d9a2b2f930f854e32a41ad6ef35",
+      "copyright_link": "../libssl3t64/copyright",
+      "copyright_resolved_path": "/usr/share/doc/libssl3t64/copyright",
+      "depends": "libssl3t64 (= 3.0.13-0ubuntu3.16)",
+      "ubuntu_suites": [
+        "noble-updates",
+        "noble-security"
+      ]
+    },
+    {
+      "name": "libssl3t64",
+      "version": "3.0.13-0ubuntu3.16",
+      "architecture": "amd64",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl3t64_3.0.13-0ubuntu3.16_amd64.deb",
+      "bytes": 1945300,
+      "sha256": "219f43b1cd836a4da550938db5fda93160d269d39a4edcf1f1ce698a470db797",
+      "copyright_path": "/usr/share/doc/libssl3t64/copyright",
+      "copyright_sha256": "6a7da622fe0637a334d2a8fc470852d2ffb77d9a2b2f930f854e32a41ad6ef35",
+      "copyright_link": null,
+      "copyright_resolved_path": "/usr/share/doc/libssl3t64/copyright",
+      "depends": "libc6 (>= 2.38)",
+      "ubuntu_suites": [
+        "noble-updates",
+        "noble-security"
+      ]
+    },
+    {
+      "name": "uuid-dev",
+      "version": "2.39.3-9ubuntu6.6",
+      "architecture": "amd64",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/u/util-linux/uuid-dev_2.39.3-9ubuntu6.6_amd64.deb",
+      "bytes": 33546,
+      "sha256": "266115cc3bcecef70b9f75c0cf8ca4daccd40958bf7872f8ccebec50502d2a13",
+      "copyright_path": "/usr/share/doc/uuid-dev/copyright",
+      "copyright_sha256": "3492fb92cb56cf517d9a899828b4f989038421a38736e49e5525ffbd33196eab",
+      "copyright_link": null,
+      "copyright_resolved_path": "/usr/share/doc/uuid-dev/copyright",
+      "depends": "libc6-dev | libc-dev, libuuid1 (= 2.39.3-9ubuntu6.6)",
+      "ubuntu_suites": [
+        "noble-updates",
+        "noble-security"
+      ]
+    },
+    {
+      "name": "libuuid1",
+      "version": "2.39.3-9ubuntu6.6",
+      "architecture": "amd64",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/u/util-linux/libuuid1_2.39.3-9ubuntu6.6_amd64.deb",
+      "bytes": 36596,
+      "sha256": "7e2992d3a79fc05514dc5966558ee9c66a7214a47edf2a36017b9e2777528665",
+      "copyright_path": "/usr/share/doc/libuuid1/copyright",
+      "copyright_sha256": "3492fb92cb56cf517d9a899828b4f989038421a38736e49e5525ffbd33196eab",
+      "copyright_link": null,
+      "copyright_resolved_path": "/usr/share/doc/libuuid1/copyright",
+      "depends": "libc6 (>= 2.38)",
+      "ubuntu_suites": [
+        "noble-updates",
+        "noble-security"
+      ]
+    },
+    {
+      "name": "zlib1g-dev",
+      "version": "1:1.3.dfsg-3.1ubuntu2.3",
+      "architecture": "amd64",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/z/zlib/zlib1g-dev_1.3.dfsg-3.1ubuntu2.3_amd64.deb",
+      "bytes": 894134,
+      "sha256": "419902a649e1078f24596cdf31ced9c839519828790f59888056fcdcd58e8a28",
+      "copyright_path": "/usr/share/doc/zlib1g-dev/copyright",
+      "copyright_sha256": "9e5b96d63773a5d177ba264254390f792be07e41748ebd94730981c6cac31cc6",
+      "copyright_link": null,
+      "copyright_resolved_path": "/usr/share/doc/zlib1g-dev/copyright",
+      "depends": "zlib1g (= 1:1.3.dfsg-3.1ubuntu2.3), libc6-dev | libc-dev",
+      "ubuntu_suites": [
+        "noble-updates",
+        "noble-security"
+      ]
+    },
+    {
+      "name": "zlib1g",
+      "version": "1:1.3.dfsg-3.1ubuntu2.3",
+      "architecture": "amd64",
+      "url": "https://archive.ubuntu.com/ubuntu/pool/main/z/zlib/zlib1g_1.3.dfsg-3.1ubuntu2.3_amd64.deb",
+      "bytes": 63158,
+      "sha256": "376249c8de139568221dbb242318cc8cb8f02299e3a62b7432948e1754fbddf9",
+      "copyright_path": "/usr/share/doc/zlib1g/copyright",
+      "copyright_sha256": "9e5b96d63773a5d177ba264254390f792be07e41748ebd94730981c6cac31cc6",
+      "copyright_link": null,
+      "copyright_resolved_path": "/usr/share/doc/zlib1g/copyright",
+      "depends": "libc6 (>= 2.14)",
+      "ubuntu_suites": [
+        "noble-updates",
+        "noble-security"
+      ]
+    }
+  ],
+  "remaining_obligations": [
+    "Use authenticated Ubuntu APT metadata and exact archive hashes before installation.",
+    "Record runner/toolchain/libc/libgcc/libstdc++ identities before SDK compiler probes; these remain the selected host toolchain, not bundled project libraries.",
+    "Retain full installed package copyright files; libssl-dev resolves to libssl3t64 copyright.",
+    "Retain selected Drogon LICENSE, Trantor License and compiled ORM utility/libpqxx orm_lib/COPYING in the fresh SDK notice set.",
+    "Record effective Drogon C++20 and pinned Trantor C++14 flags, source cleanliness, build/install hashes and headers.",
+    "CI compiles and inventories the intentional-red baseline; no new feature or vendor test body is run.",
+    "Actual local probe/loaded-library admission and independent intended-red attribution remain separate proof.",
+    "Distribution/license-source obligations and full product/platform acceptance are not established by this developer CI lane."
+  ]
+}
