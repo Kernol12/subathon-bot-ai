@@ -6,7 +6,7 @@ No dependency binaries or sources are bundled. System tools are not redistribute
 | --- | --- | --- |
 | Qt >=6.12 | Server/desktop, Qt Test/Quick Test | Required for product; optional environment probe and Qt SQL writer acceptance |
 | GoogleTest >=1.17 | Native acceptance tests | System/local source, or opt-in v1.18.0 commit fetch |
-| Drogon | HTTP/webhooks/WebSockets | Selected architecture; not integrated |
+| Drogon | HTTP/webhooks/WebSockets | Stock native WebSocket baseline only; source/profile correction and production host remain pending |
 | Boost.Multiprecision | Exact arithmetic | Bounded numeric primitives use installed headers; local1.92.0 and pinned Ubuntu1.83.0 CI tested; Boost Software License1.0; no sources/binaries bundled |
 | libsodium | Passwords/credentials/backups | Selected; not integrated |
 | QtKeychain | Linux remembered login | Selected; not integrated |
@@ -19,6 +19,24 @@ No dependency binaries or sources are bundled. System tools are not redistribute
 GoogleTest optional source pin: 063de7e9578f82b369302001269680b4b1553359 (v1.18.0).
 Source: https://github.com/google/googletest/releases/tag/v1.18.0
 A release license/source manifest is still required; this table is an initial inventory.
+
+The native WebSocket baseline uses clean Drogon1.9.14 source
+`3aae769cc405cf5abb9d477675c6430924f02c7c` and Trantor
+`78e480f5e138acdc05f76c55a2716718cd846364`, without patches. The existing
+[builder](tools/setup_drogon.py) selects shared Release libraries, OpenSSL and a
+C++20 consumer/Drogon build; pinned upstream Trantor explicitly compiles as C++14.
+The fresh CI prefix retains Drogon's MIT `LICENSE`, Trantor's BSD three-clause
+`License`, and compiled ORM utility/libpqxx `orm_lib/COPYING`, even with database
+backends disabled. No source or binary is committed or redistributed.
+
+[Ubuntu baseline inputs](tools/native_websocket_ubuntu.json) record the exact eight
+JsonCpp/OpenSSL/UUID/zlib development/runtime archives, hashes, declared dependencies
+and full installed copyright-file hashes. The workflow verifies archives before
+installation and retains the package copyright files. The runner's libc/compiler
+runtime remains a recorded host dependency. Local Arch loaded-library evidence and
+Ubuntu compilation are different proof levels; neither establishes release packaging,
+all provider modules, complete ABI compatibility or license/source obligations for
+future distribution.
 
 Qt writer baseline CI selects official Qtbase 6.12.0 Linux x86-64 and its ICU73
 runtime archives, with SHA-256 verification in

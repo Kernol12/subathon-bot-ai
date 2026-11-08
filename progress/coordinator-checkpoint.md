@@ -7,7 +7,34 @@ review/intended-red/currentCI/normalmerge gates, final checkpoint and source/SDK
 Inspect actual branches/worktrees/claims/
 processes/PRs/checks before acting; preserve all valid work and independent reviews.
 
-## Current APITEST-012 handoff: real wire red, logging correction pending
+## Latest APITEST-012 checkpoint: logging delta integrated, CI inputs approved
+
+Author38aa9eae/root7854769 adds46CPP lines only, finalCPPblob0ecf72e4,
+PYc617 unchanged. Both independent reviewers approved exact bounded stderr plan
+2fcb52b5 before authoring; primary planreceipt053bb41c. Static captureless callback,
+8 checked CAS attempts/64 nonblocking write attempts,65536record/2MiB lifetimecap;
+fixtureexit91 on capture failure, all assertions/strictJSON/SDK source preserved.
+Exact different-agent source/resource review remains BEFORE rebuild/newbody.
+
+First real wire runtime independently reviewed /tmp/apitest012-loopback-test-runtime-review.md
+SHAfc51ff591a186dc256e4f3ff520522e1d463c6fa948c9bfcf17362ffd61f81ea and
+/tmp/apitest012-loopback-resource-runtime-review.md SHA
+7dc2f87ac6a8a82d6d34baf25dfebb0399fd271caf200b2ddf49266fdb8ef4e9.
+Exact43FAIL=34Unimplemented+1WS02wrongPong+8capture faults;59ERROR=45EOF+14receive
+timeout after successful upgrade. No forcedkill/nonzeroexit/unjoined/quota/barrier
+failure. Staticmax102 is not executed total; source-traced97attempts only. WS02 wire
+red valid; clean baseline completion blocked until reviewed log correction/newrun.
+
+Exact CI/artifact/docs gate approved /tmp/apitest012-ci-artifact-workflow-review.md
+SHAc6f409d77a8fb4bede72c140b6d273d002f3d83f25c0cd08fa8813e17272f5c3:
+workflowb80f5f7f/manifest80fa6451/notices59d70952/strategy959f8ba0. All8actualdeb
+control/hash/copyright bytes + SSL symlink and3officialindex/InRelease checksumedges
+match. LocalGPGNOTverified; CI uses authenticatedAPT. Existing17workflowfiles/19contexts
+unchanged. Newlane freshSDKcompile, effectiveflags/source/install and compiled
+ELF/linkmetadata, passive38method inventory,3infrabodiesONLY. No probe/identity/native
+feature/vendorbody CI invocation. Exact currentCI/finalpacket/normalmerge still pending.
+
+## Earlier APITEST-012 execution checkpoint (superseded by latest handoff)
 
 Root task/APITEST-012-native-websocket-baseline HEAD2a15d590; main/originmainb27ff138.
 User instruction is finish ONLY this baseline through current CI/review/normal protected
