@@ -45,36 +45,45 @@ any body. Fullresource tests need accepted seam; a logicalpayload limit is not
 actual native rawcapacity. LaterAPI012 correctedsource/build/install uses distinct
 admittedprefix; preserve stock. Reports below are inputs, not accepted API.
 
-Boundary revision2 /tmp/apitest012-boundary-proposal.md SHA
-4ee0eac89fd2e5ea2eae2740f48a824da0eeee8095e13e0f93b66ca7b06e8469
-received CHANGES REQUIRED from different reviewer:
-/tmp/apitest012-boundary-review.md SHA
-b6146efe6c9cf4ac13dffe43b679f6760d550f445bb85719d2a827b02b82571e.
-Four bounded fixes: terminalinspectexception + bounded finalglobalowner observation;
-proven conservative clonecapacity reserved BEFOREallocation/refuse unknown; real
-current validated native callback-scoped one-shot claim; native_started lifecycle
-reason + safe null/owner/checkordering. All positive minimality/emptyretiredowner/
-stocknative-vs-stub proof findings preserved. No new subsystem required. Author
-explicitly resumed proposal-only r3 in DISTINCT /tmp/apitest012-boundary-proposal-r3.md;
-reviewer completed/waits and must be explicitly resumed for exactr3 gate. No repo
-header/stub/test edits or source/profile implementation authorized yet.
+Exact boundary r4 APPROVED /tmp/apitest012-boundary-proposal-r4.md SHA
+4f9f587ee396b49ce0e99ad228680ac13d06aef1b221ca442c12ddc5f09b77ac;
+/tmp/apitest012-boundary-r4-review.md SHA
+baf3a61d120ba1085dfd5e39d044085ab5a54a8c21db2416f7b7411243e6108e.
+Initialr2 4ee0/changesrequired b6146efe and r3 1d10/one-rowreview5ef96c30 preserved
+in distinct/tmp files. Four semantics fixed: terminalinspect/globalretirement;
+proven capacityupperbound beforecopyallocation; accept_callback(ConnectionONLY)
+claims actualsourcecurrent validateddeliveryonce; truthfulnative_started/checkorder.
+Seven literalexamples reviewed; B02correct2→1→0 whileotherownerlive. No new subsystem.
+Root integrated docs/contracts/native-websocket-boundary-v1.md, exactformatted
+server/include/subathon/server/native_websocket_profile.hpp and linkable
+server/src/native_websocket_profile.cpp Unimplemented stockstub ONLY. No Profile/
+lease/nativecounters manufactured. These exact authored files/STUB still need different
+review before any body. No CMake wiring/build/test/header execution yet. Author
+completedproposalgate; explicitly resume for ONLYtwo owned testfiles afterrootcommit.
+Reviewer completedr4gate; explicitly resume for exactauthoredtests/stub/build review.
 
-Separate /root/api_lifecycle_contract_review ACTIVE readonlystaticstockfoundation
-review. All original166 metadata/fileentries+108header matches+37ELFversionedges
-verified sofar; DrogonNO_RUNPATH/transitive loader path and C++20target propagation
-are real finalprobe-link/load gates. OpenSSL adds Brotli/Zstd; evenORMoff utility
-objects retain orm_lib/COPYING libpqxx notices. Rootinventorysupplement preserves
-originalfcc5 and all SDK/source artifacts, ONLY adds actual3 notices/package metadata:
-/tmp/apitest012-stock-sdk-readonly-inventory-v2.json SHA
-c3b1ac905943be00a10a5cb6d07a51d1da9e2d8a0c1eb348a7ad099f78d936d3.
-No DSO/app/probe/native call or newSDKbuild. Narrow staticadmission verdict pending;
-full actualprobe/link/maps/runtime identity + exacttest/configreview still mandatory.
-No fullABI/reproduciblebuild/redistributioncompliance claim.
+Staticstockfoundation APPROVED, not execution or completeABI, by separate
+/root/api_lifecycle_contract_review (completed): /tmp/apitest012-stock-foundation-review.md
+SHAfecac359f1da75398cbde443b7dbd8292154beaa0730432c10d4a28a3137bba1.
+Current inventory /tmp/apitest012-stock-sdk-readonly-inventory-v3.json SHA
+be45e64086c9042bd35afc003814c49aa34374e0e4b8a8e364df665b08d895df;
+v1fcc5/v2c3b1 unchanged. 166originalentries/108headers match;16ELFs/37versionedges,
+86 C++20Drogon undefinedTrantor names have exact C++14Trantor exports. ACTUALtarget
+flags:73DrogonobjectsC++20,33TrantorC++14 (upstreamforced14), despiteglobal20 recipe.
+No layout/language/dualABI conditional found in inspectedpublicheaders. No evidence
+forcesrebuild; no completeABI/reprobuild/source-binary correspondence claimed.
+ORMutility/libpqxx sourceCOPYING +OpenSSL Brotli/Zstd actualnotices/package metadata
+added toinventory12licensefiles. No SDK/source/install mutation. DrogonNO_RUNPATH/
+TrantorabsoluteRUNPATH, nontransitiveprobeRUNPATH, C++20notexported andcandidateclosure
+versusactualdlopenclosure remain exactprobe compile/link/controlledloadedmaps/runtime
+guards BEFORE featurebody. Qt notlinked bySDK; fulllicense redistribution remains.
+No DSO/app/probe/configure/build/native/SQL/provider call occurred in static review.
 
-NEXT: exactr3 boundaryreview -> integrateacceptedcontract -> author minimalheaderstub/
-tests/selector/build/admission -> separate exacttest/foundation review -> intended
-selectorred/implementation (if needed), configure/build/passive discovery -> actual
-first intended nativeprotocolred and independently classified unsupported seam.
+NEXT: committedacceptedcontract/headerstub -> freshauthor two realnativefixture files;
+root owns selector test-first/build/admission wiring. Separate exacttests/stub/build/
+foundation review -> validselectorred/implementation ifneeded -> configure/build/
+passive discovery/actualcompiledprobe identity -> actual FIRST intended nativeprotocol
+red and independently classified unsupportedresource seam. No sourcecorrection yet.
 Freeze assertions; only then separate fresh API012 implementation/source/resource/
 ABI/nativeCI/currentmerge gates. No owner decision/access blocker observed.
 

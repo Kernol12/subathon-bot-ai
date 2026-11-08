@@ -5134,13 +5134,16 @@
       ],
       "verification": {
         "claim": "passed",
-        "boundary_review": "failed",
+        "boundary_review": "passed",
         "test_review": "not_run",
         "foundation_admission": "not_run",
         "native_build": "not_run",
         "passive_discovery": "not_run",
         "baseline": "not_run",
-        "planning_review": "passed"
+        "planning_review": "passed",
+        "static_foundation_review": "passed",
+        "interface_stub_authored": "passed",
+        "interface_stub_review": "not_run"
       },
       "evidence": [],
       "review": null,
@@ -5157,7 +5160,7 @@
       "brief": "docs/tasks/EPIC-008/API-012.md",
       "summary": "Independently review literal native control/fragment/Close and bounded lifecycle cases, then observe intended behavior red on working selected dependencies.",
       "notes": [
-        "Claimed from mainb27ff138 before edits. Scope: reviewed minimal native configuration/elapsed/lease/actual-owner observation boundary, literal loopback protocol/resource tests, exact stock zero-patch admission and intended behavior red. Fresh author owns two tests; root shared contract/header/stub/CMake/CI/SDK/status. No correction or capability granted. Interface/test/foundation review precedes any body; setup/stub failures are distinct from native red."
+        "Boundary r4 and seven literal examples independently approved after bounded corrections. Root integrated declarations and linkable Unimplemented stock stub; no Profile or native capability is fabricated. Static stock SDK review passed with actual Drogon C++20/Trantor C++14 and notice/loader limits. Two-file native test authoring follows. Exact tests/stub/build review, compile/link/maps, discovery and first intended native behavior red remain; no correction or body execution yet."
       ]
     },
     {
@@ -17173,6 +17176,11 @@
       "date": "2026-11-08",
       "task": "APITEST-012",
       "note": "Exactproposalr2 SHA4ee0eac8 independentchangesrequired b6146efe: terminalinspect/globalretirement, provenpreallocationcopybound, actualonceclaimnativedelivery, truthfulafterstartrefusal. Sameauthor explicitly resumed proposalr3only. No header/stub/tests/configure/build/discovery/body/native/SDK edits or execution."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "APITEST-012",
+      "note": "Exactboundaryr4 4f9f587e approvedbaf3a61d after r2fourfindings/r3B02oracle correction. Root integratescontract/header/linkablestockUnimplemented stub only. StaticSDKv3be45 approvedfecac359 withtarget20/14 distinction, notices/ABI/loader limitations; exacttests/build/probe/link/maps/body gates remain."
     }
   ]
 }
