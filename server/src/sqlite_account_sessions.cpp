@@ -15,7 +15,7 @@ namespace subathon::server {
 namespace {
 using ReadFailure = AccountSessionReadFailure;
 using InputError = AccountSessionInputError;
-using WriteResult = LifecycleWriteResult;
+using MutationResult = LifecycleWriteResult;
 [[noreturn]] void input(InputError e) { throw AccountSessionInputFailure(e); }
 [[noreturn]] void fail(ReadFailure e) { throw AccountSessionStorageFailure(e); }
 void data(bool b) {
@@ -746,7 +746,7 @@ template <class T, class F> AccountSessionRead<T> reading(F body) {
         return ReadFailure::unavailable;
     }
 }
-template <class F> WriteResult writing(F body) {
+template <class F> MutationResult writing(F body) {
     try {
         return body();
     } catch (const AccountSessionInputFailure &) {
@@ -1053,24 +1053,24 @@ SqliteAccountSessionUnit::read_page(std::string_view i, std::string_view key,
     });
 }
 
-WriteResult SqliteAccountSessionUnit::insert_installation(const StoredInstallationFacts &v) {
+MutationResult SqliteAccountSessionUnit::insert_installation(const StoredInstallationFacts &v) {
     Input n(limits_, true);
     n.add(v);
     shape(v);
     return writing([&] {
         Access a(session_, limits_, scope_, read_ordinal_, read_ordinal_exhausted_);
         if (a.install(v.current.installation_ref, true))
-            return WriteResult::collision;
+            return MutationResult::collision;
         a.change({"INSERT INTO "
                   "main.subathon_account_installation(singleton,installation_ref,session_epoch_ref,"
                   "revision_ref) SELECT 1,?,?,? WHERE NOT EXISTS(SELECT 1 FROM "
                   "main.subathon_account_installation)",
                   {blob(v.current.installation_ref), blob(v.current.session_epoch_ref),
                    blob(v.revision_ref)}});
-        return WriteResult::staged;
+        return MutationResult::staged;
     });
 }
-WriteResult SqliteAccountSessionUnit::replace_installation_epoch(
+MutationResult SqliteAccountSessionUnit::replace_installation_epoch(
     const StoredInstallationFacts &expected, std::string_view epoch, std::string_view revision) {
     Input n(limits_, true);
     n.add(expected);
@@ -1083,16 +1083,16 @@ WriteResult SqliteAccountSessionUnit::replace_installation_epoch(
         Access a(session_, limits_, scope_, read_ordinal_, read_ordinal_exhausted_);
         const auto old = a.install(expected.current.installation_ref);
         if (!old || !same(*old, expected))
-            return WriteResult::stale;
+            return MutationResult::stale;
         a.change(
             {"UPDATE main.subathon_account_installation SET session_epoch_ref=?,revision_ref=? "
              "WHERE singleton=1 AND installation_ref=? AND session_epoch_ref=? AND revision_ref=?",
              {blob(epoch), blob(revision), blob(expected.current.installation_ref),
               blob(expected.current.session_epoch_ref), blob(expected.revision_ref)}});
-        return WriteResult::staged;
+        return MutationResult::staged;
     });
 }
-WriteResult SqliteAccountSessionUnit::insert_account(const StoredAccountFacts &v) {
+MutationResult SqliteAccountSessionUnit::insert_account(const StoredAccountFacts &v) {
     Input n(limits_, true);
     n.add(v);
     shape(v);
@@ -1101,9 +1101,9 @@ WriteResult SqliteAccountSessionUnit::insert_account(const StoredAccountFacts &v
         const auto parent = a.install(v.current.installation_ref);
         // Validate an existing selected account/closure before collision semantics.
         if (a.account_at(v.current.installation_ref, v.current.account_ref))
-            return WriteResult::collision;
+            return MutationResult::collision;
         if (!parent)
-            return WriteResult::stale;
+            return MutationResult::stale;
         a.change(
             {"WITH n(installation_ref,account_ref,enabled,epoch,revision) AS (VALUES(?,?,?,?,?)) "
              "INSERT INTO main.subathon_accounts SELECT "
@@ -1116,11 +1116,11 @@ WriteResult SqliteAccountSessionUnit::insert_account(const StoredAccountFacts &v
               qint64(v.current.application_access_enabled), blob(v.current.session_epoch_ref),
               blob(v.revision_ref), blob(parent->current.session_epoch_ref),
               blob(parent->revision_ref)}});
-        return WriteResult::staged;
+        return MutationResult::staged;
     });
 }
-WriteResult SqliteAccountSessionUnit::replace_account(const StoredAccountFacts &expected,
-                                                      const StoredAccountFacts &replacement) {
+MutationResult SqliteAccountSessionUnit::replace_account(const StoredAccountFacts &expected,
+                                                         const StoredAccountFacts &replacement) {
     Input n(limits_, true);
     n.add(expected);
     n.add(replacement);
@@ -1135,7 +1135,7 @@ WriteResult SqliteAccountSessionUnit::replace_account(const StoredAccountFacts &
         const auto old =
             a.account_at(expected.current.installation_ref, expected.current.account_ref);
         if (!old || !same(old->account, expected))
-            return WriteResult::stale;
+            return MutationResult::stale;
         auto b = fences(old->account, old->installation);
         b.append(qint64(replacement.current.application_access_enabled));
         b.append(blob(replacement.current.session_epoch_ref));
@@ -1151,10 +1151,10 @@ WriteResult SqliteAccountSessionUnit::replace_account(const StoredAccountFacts &
                  "target.revision_ref=f.account_revision) AND " +
                  fence,
              std::move(b)});
-        return WriteResult::staged;
+        return MutationResult::staged;
     });
 }
-WriteResult SqliteAccountSessionUnit::replace_local_credential(
+MutationResult SqliteAccountSessionUnit::replace_local_credential(
     const std::optional<StoredLocalCredential> &expected, const StoredLocalCredential &replacement,
     const StoredAccountFacts &account_facts, const StoredInstallationFacts &installation_facts) {
     Input n(limits_, true);
@@ -1185,11 +1185,11 @@ WriteResult SqliteAccountSessionUnit::replace_local_credential(
             a.account_at(replacement.installation_ref, replacement.credential.account_ref);
         if (!parents || !same(parents->account, account_facts) ||
             !same(parents->installation, installation_facts))
-            return WriteResult::stale;
+            return MutationResult::stale;
         if (!expected && old)
-            return WriteResult::collision;
+            return MutationResult::collision;
         if (expected && (!old || !same(old->local, *expected)))
-            return WriteResult::stale;
+            return MutationResult::stale;
         auto b = fences(account_facts, installation_facts);
         b.append(blob(replacement.credential.revision_ref));
         b.append(blob(replacement.credential.encoded_verifier));
@@ -1216,10 +1216,10 @@ WriteResult SqliteAccountSessionUnit::replace_local_credential(
                      "l.installation_ref=f.installation_ref AND l.account_ref=f.account_ref)",
                  std::move(b)});
         }
-        return WriteResult::staged;
+        return MutationResult::staged;
     });
 }
-WriteResult
+MutationResult
 SqliteAccountSessionUnit::replace_password_upgrade(const PasswordReplacement &proposal,
                                                    std::string_view revision,
                                                    const CompleteLocalCredentialFacts &expected) {
@@ -1251,7 +1251,7 @@ SqliteAccountSessionUnit::replace_password_upgrade(const PasswordReplacement &pr
             !old->account.current.application_access_enabled ||
             proposal.expected_revision_ref != old->local.credential.revision_ref ||
             proposal.expected_encoded_verifier != old->local.credential.encoded_verifier)
-            return WriteResult::stale;
+            return MutationResult::stale;
         // Caller has checked still-accepted actual local login in this same scope.
         auto b = fences(expected.account, expected.installation);
         b.append(blob(revision));
@@ -1267,10 +1267,10 @@ SqliteAccountSessionUnit::replace_password_upgrade(const PasswordReplacement &pr
                       "l.revision_ref=e.revision AND l.encoded_verifier=e.verifier) AND " +
                       fence,
                   std::move(b)});
-        return WriteResult::staged;
+        return MutationResult::staged;
     });
 }
-WriteResult
+MutationResult
 SqliteAccountSessionUnit::insert_session(const SessionRecordFacts &v, SessionRetention retention,
                                          const AcceptedSessionAuthentication &authentication) {
     Input n(limits_, true);
@@ -1288,12 +1288,12 @@ SqliteAccountSessionUnit::insert_session(const SessionRecordFacts &v, SessionRet
         const auto parents = a.account_at(v.installation_ref, v.account_ref);
         // These probes validate complete selected collisions, not just row counts.
         if (a.identity(v.session_ref))
-            return WriteResult::collision;
+            return MutationResult::collision;
         if (a.digest(v.installation_ref, v.digest))
-            return WriteResult::collision;
+            return MutationResult::collision;
         if (!parents || !accepted(v, parents->account, parents->installation, authentication) ||
             !authenticator(a, authentication))
-            return WriteResult::stale;
+            return MutationResult::stale;
         auto b = bindings(v, retention);
         b.append(fences(parents->account, parents->installation));
         auto auth = QString{};
@@ -1309,10 +1309,10 @@ SqliteAccountSessionUnit::insert_session(const SessionRecordFacts &v, SessionRet
                       "main.subathon_account_sessions AS s WHERE "
                       "s.installation_ref=n.installation_ref AND s.digest=n.digest)",
                   std::move(b)});
-        return WriteResult::staged;
+        return MutationResult::staged;
     });
 }
-WriteResult SqliteAccountSessionUnit::replace_session(
+MutationResult SqliteAccountSessionUnit::replace_session(
     const SessionRecordFacts &expected, const SessionRecordFacts &replacement,
     SessionRetention retention, const AcceptedSessionAuthentication *authentication) {
     Input n(limits_, true);
@@ -1348,13 +1348,13 @@ WriteResult SqliteAccountSessionUnit::replace_session(
             a.selected(expected.installation_ref, expected.account_ref, expected.session_ref);
         if (!old || !same(old->record, expected) || !current(*old) ||
             (!authentication && old->retention != retention))
-            return WriteResult::stale;
+            return MutationResult::stale;
         if (authentication &&
             (!accepted(replacement, old->account, old->installation, *authentication) ||
              !authenticator(a, *authentication)))
-            return WriteResult::stale;
+            return MutationResult::stale;
         if (a.digest(replacement.installation_ref, replacement.digest))
-            return WriteResult::collision;
+            return MutationResult::collision;
         auto b = bindings(expected, old->retention);
         b.append(bindings(replacement, retention));
         b.append(fences(old->account, old->installation));
@@ -1372,11 +1372,11 @@ WriteResult SqliteAccountSessionUnit::replace_session(
                       "utc_ms,expires_utc_ms FROM n) WHERE EXISTS(SELECT 1 FROM e WHERE " +
                       record_equal + ") AND " + fence + auth,
                   std::move(b)});
-        return WriteResult::staged;
+        return MutationResult::staged;
     });
 }
-WriteResult SqliteAccountSessionUnit::revoke_session(const SessionRecordFacts &expected,
-                                                     std::string_view revision) {
+MutationResult SqliteAccountSessionUnit::revoke_session(const SessionRecordFacts &expected,
+                                                        std::string_view revision) {
     Input n(limits_, true);
     n.add(expected);
     n.ref(revision);
@@ -1389,7 +1389,7 @@ WriteResult SqliteAccountSessionUnit::revoke_session(const SessionRecordFacts &e
         const auto old =
             a.selected(expected.installation_ref, expected.account_ref, expected.session_ref);
         if (!old || !same(old->record, expected))
-            return WriteResult::stale;
+            return MutationResult::stale;
         auto b = bindings(expected, old->retention);
         b.append(blob(revision));
         a.change({"WITH e(" + record_names + ") AS (VALUES(" + record_slots +
@@ -1397,7 +1397,7 @@ WriteResult SqliteAccountSessionUnit::revoke_session(const SessionRecordFacts &e
                       "state=1,record_revision_ref=? WHERE EXISTS(SELECT 1 FROM e WHERE " +
                       record_equal + ")",
                   std::move(b)});
-        return WriteResult::staged;
+        return MutationResult::staged;
     });
 }
 } // namespace subathon::server
