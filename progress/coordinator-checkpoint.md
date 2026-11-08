@@ -45,7 +45,21 @@ any body. Fullresource tests need accepted seam; a logicalpayload limit is not
 actual native rawcapacity. LaterAPI012 correctedsource/build/install uses distinct
 admittedprefix; preserve stock. Reports below are inputs, not accepted API.
 
-NEXT: committedclaim -> exact minimal boundary proposal+different review -> authored
+Exact boundary proposal revision2 is ready ONLY under/tmp, not accepted/integrated:
+/tmp/apitest012-boundary-proposal.md SHA
+4ee0eac89fd2e5ea2eae2740f48a824da0eeee8095e13e0f93b66ca7b06e8469.
+Author completed/waits; independent /root/native_ws_baseline_review explicitly resumed
+for exactproposal review. OnepimplProfile/immutableLimits/ownedElapsedSource/moveonly
+lease/fixedSnapshot; stockfactoryUnimplemented/nofakeProfile, realpublicprotocolpath
+separate from unsupportedresourcecases. Owner slots retain postclose/empty leases and
+queued weak work. Root flagged closedinspectexception, preallocationcopyupperbounds
+and actualcallback membership as reviewquestions; no findings resolved by assumption.
+/root/api_lifecycle_contract_review ACTIVE separate read-only staticstockfoundation
+review; noDSO/app/probe/configure/build/native execution. Inventory matches sofar,
+DrogonnoRUNPATH/nontransitive probeRUNPATH and OpenSSL Brotli/Zstd closure are real
+admission concerns. Exactprobe linking/controlledactualmaps remain pre-body gates.
+
+NEXT: exact boundary review -> integrated contract/headerstub/test/buildselection/admission review -> authored
 tests/headerstub/buildselection/admission review -> compile/passive discovery ->
 actual first intended native protocol red and independently classified other failures.
 Freeze assertions; only then separate fresh API012 implementation/source/resource/
