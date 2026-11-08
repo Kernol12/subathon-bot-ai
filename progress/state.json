@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T14:40:08.021663+00:00",
+  "updated_at": "2026-11-08T14:56:04.181192+00:00",
   "summary": "EPIC-028 evidence/test cleanup and all six fixture recipes are complete under separate reviews. Current priority STORAGE-020 implements the reviewed physical account/session store. Existing bounded core/accounting and controlled SQLite components have synthetic/component proof; actual authority/login/clock/action adapters, financial workflows, all integrations/FX, UI and operational/platform/release scope remain incomplete.",
   "verification": [
     {
@@ -15,7 +15,7 @@
     {
       "label": "Progress tooling",
       "status": "passed",
-      "detail": "37 Python tooling tests, project consistency and current HTML pass. Earlier offline-controller DOM simulation remains recorded; no new browser/OBS proof. Synthetic completion fixtures preserve acceptance and independent-review gates."
+      "detail": "38 Python tooling tests, project consistency and current HTML pass. Earlier offline-controller DOM simulation remains recorded; no new browser/OBS proof. Synthetic completion fixtures preserve acceptance and independent-review gates."
     },
     {
       "label": "CMake / CLion / Qt",
@@ -14661,7 +14661,7 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-020.md",
       "summary": "Implement the reviewed store/migration/current snapshot readers on the existing writer; no login acceptance, service authorization or credential publication.",
       "notes": [
-        "Claimed from main344c1e2 before edits. Physicalv1/8dc7ba9; all44 reviewed red tests and TESTCLEAN004/008 approvals retained. Two-path source81263f2 imported1ac8f07; author static report only, no native execution. Selector contract/test/red/wiring/six-green independently approved. Exact source/resource/schema review, fresh realQtSQL44+prefix regressions, ordinary CI promotion/currentCI/merge remain. Scope in checkpoint; no login/authority/platform claim."
+        "Physical store/additive8 passes44 preserved realQtSQL methods. One18-node run/tooling38 passed, zero skips;653 tracked unchanged during run. Source/resource/fix/runtime reviews passed; prior869 rawQt IDs match. Qtmacro buildfailure and JUnit truncation audit correction preserved. OrdinaryCI promotion/currentdocs approved; hostedCI/finalpacket/normalPR106merge open. Factory proof combines compiled equality/frames with literalSQL setup. No login/authority/platform claim. Next: SESSIONTEST-009."
       ],
       "verification": {
         "inherited_test_review": "passed",
@@ -14671,7 +14671,7 @@
         "selector_test_review": "passed",
         "selector_baseline": "observed_red",
         "source_review": "passed",
-        "real_sql_acceptance": "not_run",
+        "real_sql_acceptance": "passed",
         "github_ci": "not_run",
         "product_acceptance": "not_run",
         "selector_source_review": "passed",
@@ -14683,7 +14683,12 @@
         "native_configure": "passed",
         "native_build": "passed",
         "passive_discovery": "passed",
-        "discovery_audit": "passed"
+        "discovery_audit": "passed",
+        "regression": "passed",
+        "tooling": "passed",
+        "runtime_review": "passed",
+        "ci_promotion_review": "passed",
+        "current_status_review": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/106"
@@ -14692,7 +14697,7 @@
         "author": "/root/account_store_author; coordinator shared wiring/status",
         "reviewer": "/root/account_store_review; independent resource /root/account_resource_audit",
         "outcome": "approved",
-        "revision": "Exact source81263/root1ac8 + wiree565 independently approved; four-line Qtidentifier fix05aad87/root94886 independently approved8ef9944, old source/resource gates preserved. Build/discovery/metadata pass; first18/runtime/currentCI/finalpacket/merge pending.",
+        "revision": "Source81263 + fourlinefix05aad87 and wiree565 approved; first18 runtime e5d3836 approved48a9287 (22 artifacts), source/resource63ac4678/238f243b and fix8ef9944 preserved. eb01 ordinaryCI/f669 status approved; actual hostedCI/finalpacket/merge open.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/106"
       }
     },
@@ -16962,6 +16967,11 @@
       "date": "2026-11-08",
       "task": "STORAGE-020",
       "note": "First fresh configure0 selected13; firstbuild1 failed solely at payload local slots Qtmacro collision, rawlogs retained. No discovery/body execution or newred claim. Sameauthor explicitly resumed for identifier-only correction; independent delta review before rebuild."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "STORAGE-020",
+      "note": "Actual first18 run0/32.055920s (44account+all14oldQt+3infra/tool38) independently approved;915rawQt IDs include exactprior869 order,653tracked unchanged. JUnitnodeproof/truncatednativeoutput distinguished from fullraw logs. Reviewed ordinaryCI/currentstatus promotion afteractualgreen; current hostedCI/finalmerge remain."
     }
   ]
 }

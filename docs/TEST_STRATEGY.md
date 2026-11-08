@@ -55,6 +55,7 @@ still using synthetic data and supplied policy/authority facts.
 | `sqlite-hold-debug` | `-L '^sqlite-hold$'` | 35 methods/270 scenarios for durable application-review holds |
 | `application-service-debug` | `-L '^application-service$'` | 43 methods/233 scenarios composing actual SQLite bundles/holds with supplied ports |
 | `sqlite-reference-capture-debug` | `-L '^reference-capture-values$'` / `-L '^sqlite-reference-capture$'` | 28 structural codec cases and 38 real-SQL methods/67 scenarios |
+| `sqlite-account-sessions-debug` | `-L '^sqlite-account-sessions$'` | 44 real-SQL methods for physical current facts, full conditional writes and compiled-prefix/frame equality; host login/authority remains separate |
 | `translation-catalog-debug` | `-L '^translation-catalog$'` | 43 generator methods with literal goldens; build also produces/validates real Qt QM |
 | `schema-validation-debug` | `-L '^schema-validation$'` | 8 Python methods: actual OpenAPI/17 components, 23 existing positive examples, 77 independent component cases, and 11 structural progress cases plus actual state |
 
@@ -82,9 +83,8 @@ from schema shape, and editor hints do not replace runtime progress invariants.
 | Preset / focused selection | Current state |
 | --- | --- |
 | `rate-snapshot-debug` / `-L '^rate-snapshot$'` | 53 reviewed feature cases have intended stub-red evidence; rate behavior remains unimplemented. The suite has `intentional-red` labels. |
-| `sqlite-account-sessions-debug` / `-L '^sqlite-account-sessions$'` | 44 reviewed feature cases have intended missing-implementation red evidence; production storage remains unimplemented. The suite has `intentional-red` labels. |
 
-Their passing CI checks compile/discover feature registrations, enforce selected
+The rate lane's passing CI checks compile/discover feature registrations, enforce selected
 dependency configuration and execute existing stable component/infrastructure suites. They do not turn the red feature bodies into
 passing product coverage. Keep their intended-red runs separate from passing CI;
 never use `WILL_FAIL`, blanket continue-on-error, disabled/skipped bodies or a failed
@@ -116,14 +116,14 @@ and SDK closure: SQLite presets include earlier compiled migration stages, inclu
 the initial-capture prefix for account/session storage; milestone,
 permissions and rate include numeric checks; editorial includes debt and lifecycle.
 Bare acceptance ON defaults to credit. An explicit empty/unknown selection fails;
-`all` explicitly includes every native/translation suite, all required SDKs and both
-known red baselines. Schema validation and configure-only Qt probing remain separate
-controls. To combine SQL stable checks with passive account discovery:
+`all` explicitly includes every native/translation suite, all required SDKs and the
+known rate red baseline. Schema validation and configure-only Qt probing remain separate
+controls. The account preset includes the complete compiled SQLite migration prefix:
 
 ```sh
-cmake --preset sqlite-reference-capture-debug -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions"
-cmake --build --preset sqlite-reference-capture-debug
-ctest --preset sqlite-reference-capture-debug -LE '^intentional-red$' --no-tests=error
+cmake --preset sqlite-account-sessions-debug
+cmake --build --preset sqlite-account-sessions-debug
+ctest --preset sqlite-account-sessions-debug --no-tests=error
 ```
 
 Retired per-feature cache switches are refused when enabled; migrate an existing

@@ -108,14 +108,17 @@ jobs:
       - name: Run reviewed initial-capture SQL acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-reference-capture$' --no-tests=error
 
-      - name: Verify enabled Qt suites and the separate intentional-red lane
+      - name: Run reviewed account/session storage acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-account-sessions$' --no-tests=error --verbose
+
+      - name: Verify enabled Qt suites and account acceptance
         run: |
           python3 - <<'PYTHON'
           import json
           import subprocess
           data = json.loads(subprocess.check_output(
               ["ctest", "--preset", "sqlite-reference-capture-debug", "--show-only=json-v1"], text=True))
-          red = []
+          account = []
           for test in data["tests"]:
               props = {entry["name"]: entry["value"] for entry in test["properties"]}
               labels = set(props.get("LABELS", []))
@@ -128,12 +131,12 @@ jobs:
               if any(key in props for key in ("SKIP_RETURN_CODE", "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION", "SKIP_REGULAR_EXPRESSION")):
                   raise SystemExit("A Qt suite rewrites native results")
               if "sqlite-account-sessions" in labels:
-                  if "intentional-red" not in labels or "acceptance" not in labels:
-                      raise SystemExit("Account/session baseline lost its acceptance/red labels")
-                  red.append(test)
-          if not red:
-              raise SystemExit("No enabled account/session intentional-red suite")
-          for test in red:
+                  if "intentional-red" in labels or "acceptance" not in labels:
+                      raise SystemExit("Account/session storage must run as ordinary acceptance")
+                  account.append(test)
+          if not account:
+              raise SystemExit("No enabled account/session acceptance suite")
+          for test in account:
               # -functions inspects the real Qt metaobject without invoking a test body.
               if not subprocess.check_output([test["command"][0], "-functions"], text=True).strip():
                   raise SystemExit("Account/session runner has no actual test methods")

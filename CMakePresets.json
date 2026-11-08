@@ -285,7 +285,7 @@
     },
     {
       "name": "sqlite-account-sessions-debug",
-      "displayName": "30 \u00b7 Physical account/session SQLite baseline",
+      "displayName": "30 \u00b7 Physical account/session SQLite acceptance",
       "inherits": "sqlite-migrations-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",

@@ -97,8 +97,9 @@ time-credit component cases under owning acceptance labels. Full product verific
 remains a separate release gate.
 Native/translation presets use `SUBATHON_BUILD_ACCEPTANCE_TESTS` and the
 `SUBATHON_ACCEPTANCE_SUITES` list; see `docs/TEST_STRATEGY.md` for selection and
-retired-cache migration. Rate/account feature baselines remain enabled intentional red. Do not use
-WILL_FAIL, blanket continue-on-error, or baseline skipping to hide acceptance failures.
+retired-cache migration. The rate feature baseline remains enabled intentional red;
+account/session storage uses ordinary real-SQL acceptance. Do not use WILL_FAIL,
+blanket continue-on-error, or baseline skipping to hide acceptance failures.
 `qt-probe-debug` configures Qt >=6.12 dependency discovery and scaffold checks only;
 use `sqlite-writer-debug` for actual Qt event-loop/writer behavior.
 Use `CMakeUserPresets.json` for personal paths; never commit machine-specific IDE settings.
