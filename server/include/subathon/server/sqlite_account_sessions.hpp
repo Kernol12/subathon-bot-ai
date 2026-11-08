@@ -119,6 +119,9 @@ class SqliteAccountSessionUnit final : public CurrentSessionSource {
     LifecycleWriteResult revoke_session(const SessionRecordFacts &, std::string_view);
 
   private:
+    SqliteWorkSession session_;
+    AccountSessionReadScope scope_;
+    AccountSessionStoreLimits limits_;
     std::uint64_t read_ordinal_{0};
     bool read_ordinal_exhausted_{false};
     friend class testing::SqliteAccountSessionTestAccess;
