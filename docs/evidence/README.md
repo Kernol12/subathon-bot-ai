@@ -273,5 +273,9 @@ actual per-case process/filters and permissions allocator isolation were verifie
 Old credit/numeric CI exposes per-case CTest results but no raw filter argv; old
 permissions and the new run provide verbose native evidence. A handoff addendum
 clarifies tooling's copied temporary-tree generators; no tracked fixture regeneration
-or native rerun occurred. Final packet/current hosted CI/normal merge gates remain in
-the PR. This closes local test organization only; full product verification is separate.
+or native rerun occurred. Corrected final head `930c558` received independent final
+packet and current hosted CI review: all 19 checks passed before normal merge
+`344c1e2`. Hosted credit is nonverbose; SQL logs prove complete runner results rather
+than per-row Qt output. A separate closure audit verified all 13 EPIC-028 children
+reviewed and normally merged. The quality epic is complete; STORAGE-020 now owns
+physical account/session implementation. Full product verification is separate.

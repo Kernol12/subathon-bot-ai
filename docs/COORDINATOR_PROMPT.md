@@ -18,7 +18,7 @@ Read `AGENTS.md`, `docs/ARCHITECTURE.md`, `docs/AGENT_WORKFLOW.md`,
 Read scoped `AGENTS.md` files before editing. Inspect the actual branch, worktree, active
 claims, and open PR/check state; do not assume past chat or a checkpoint is current.
 
-Follow the current priority named in `AGENTS.md` (now EPIC-028 test cleanup); otherwise
+Follow the current priority named in `AGENTS.md`; otherwise
 choose a dependency-ready executable task that advances a product slice. Split epics and
 substantial architectural prerequisites into bounded tasks with explicit dependencies,
 acceptance criteria and focused PRs before implementation. Preserve all requirements;

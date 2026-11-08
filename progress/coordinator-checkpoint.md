@@ -1,137 +1,109 @@
 # Coordinator checkpoint
 
-Updated: 8 November 2026. User resumed the standing loop under AGENTS.md and
-COORDINATOR_PROMPT.md; old stop-after-FIXTURE-001 is superseded. Inspect actual
-branches/worktrees/claims/workers/PR state before acting. Preserve valid work/reviews.
+Updated: 8 November 2026. Standing loop resumed under AGENTS.md and
+COORDINATOR_PROMPT.md. Preserve actual branches/worktrees/reviews. No stop requested.
 
-## TESTCLEAN-008 locally complete; final packet/CI/merge remain
+## Current task STORAGE-020 claimed before implementation
 
-Root task/TESTCLEAN-008-owning-suites, parent main/origin main7bb1e21.
-PR https://github.com/Kernol12/subathon-bot-ai/pull/105. State done is local proof;
-exact final packet approval/current hostedCI/rules/resolved threads/normal merge remain.
-Author /root/regression_merge_author finished cleanf65fa1e and RETIRED; preserve
-/tmp/subathon-testclean008-author (task/TESTCLEAN-008-owner-author).
-Independent /root/regression_merge_review is idle after runtime approval; explicitly
-follow up for final packet/CI review in /tmp/subathon-testclean008-review
-(review/TESTCLEAN-008-owners). No other implementation claim.
+Root task/STORAGE-020-account-sessions from actual main/origin main344c1e2.
+No PR yet. Fresh author /root/account_store_author has only done read-only prep;
+explicit implementation assignment follows committed claim. Worktree
+/tmp/subathon-storage020-author, branch task/STORAGE-020-author, main344c1e2.
+Fresh independent /root/account_store_review uses /tmp/subathon-storage020-review,
+review/STORAGE-020-account-store, same main. Never assume idle sessions are active;
+resume them explicitly. No other implementation claim.
 
-- Revised ADR0012 exact proposal approved BEFORE edits. SHA
-  5b8d87295a11a5707690acca2b64a7cef4c7abb59755fa2d03f32e85398ae2fd;
-  planned patch5f55806c3e3a43e6224f1caaed4f6cb3832bda20aca451ab239019b7ba20bbdb;
-  source plan182e4007e3c78c76a4d6b06e8000328920638457176d42868a8a282cb2da588c.
-  Original proposal not approved; C24/C34 precision fixed before any repository edit.
-- Exact source/config/allocator/comment execution gate approvedf65fa1e BEFORE build/
-  discovery/tests. ONLY15 planned files,48insert/60delete: three regression source TUs
-  become owner auxiliary sources, three redundant executable blocks gone;37 exact
-  comment lines in14CPPs. Inverse comments recover every old CPP byte. All88 names,
-  seven regression bodies/helpers/52 assertion sites/source paths remain. Root import1248e42.
-- Explicit labels: credit23 acceptance/core; numeric33 exact-numeric/acceptance/core;
-  permissions32 effective-permissions/acceptance/core. Seven historical GTest regression
-  tags and credit draft retire; raw names unchanged. ONLY two permission CTest prefixes
-  normalize effective-permissions-regression. -> effective-permissions. Qt writer-
-  ownership runner/labels untouched. Historical acceptance-map status/paths unchanged.
-- Permission allocator replacements now linked in owner; exact existing constinit
-  inactive TLS/RAII evaluator-only fault scope remains. No GTest while armed, no shared
-  armed state across exact per-case processes. All32 permissions and both regressions
-  executed;20 strong new/delete replacements/TLS/hook exist only in permissions owner,
-  absent in credit/numeric. Independent nm/readelf/source/runtime audit confirms.
-- Shared factual patch a241c8e independently approved BEFORE root CLI: AGENTS credit
-  label/proof note, current strategy ownership/selection/Qt boundary, one INFO string.
-  Count regex/control flow unchanged:19 TimeCreditAcceptance declarations, not all23
-  owner cases or historical map status. Actual changed CLI passed464/122/currentHTML;
-  render--check/diff check passed. Author paths remain byte-identicalf65fa1e.
-- One genuinely fresh combined acceptance-debug configure0 .298s/build0 5.930s/
-  discovery0 .028s. Pre-runtime metadata audit PASSED before tests:88native+3infra,
-  names/multiplicities/prefix map/semantic labels/exact filters/processes, default absent
-  credit/decimal timeout and permissions10s, only standard skip recognizer. No audit
-  failure/bypass. ONE CTest91/91PASS1.652s; full37toolingPASS1.253s. GCC16.2.1/
-  Boost1.92/GTest1.18, no SDK/Qt/identity bodies or standalone native fixture generator.
-  Existing tooling DOES invoke copied Python fixture generators in disposable trees.
-  All653 tracked files unchanged; six ordinary Python caches documented; zero skips/
-  failures/disabled/inversion. No source fix/native rerun.
-- Actual raw /tmp/testclean008-ctest.log SHA
-  743615a0d2326493a037cda17d440583501393c8f0e8bf482c136c04a4186e5c;
-  /tmp/testclean008-runtime-receipt.json SHA
-  d838b220dc3be00183fcd7ff0a0c54f29c244246480125b9dffe385641c7e385.
-  Nineteen-artifact ledger /tmp/testclean008-author-receipt-hashes.json SHA
-  751e12baf35f74695245d37efe2718d234c2d73be50697046b6d502220eb1231.
-  Original handoff SHAd2481307e11acba6182adad9b1682c3bd022d86a91d68998854b3d0d70860038
-  preserved; factual temporary-generator addendum SHA
-  693cfae069b4ad90322cab6f0ff175f85acc57edc4a97c6b88e715da8d189e09
-  independently reviewed, no source/run change. Do not repeat the old blanket claim
-  that no generator ran; only no tracked/project fixture regeneration occurred.
-- Actual old passing parent baseline WITHOUT replay in
-  /tmp/testclean008-old-native-baseline.json SHA
-  a4f8558d63bcc8a54488f60a6fee113aff9c3a1d2a56467e89fb1d42ade6fa9b.
-  Old credit23/numeric33 logs are NONVERBOSE, only actual per-case CTest Passed IDs;
-  no old raw RUN/OK/argv claim. Permissions32 verbose has real native/filter evidence.
-  All old/new CTest IDs match after explicit two-prefix map. New run actual88 RUN/OK
-  records/filters/source/discovery/JUnit audited. Independent runtime report SHA
-  bcf151f22182de99008b95aa41eb31054ce42ef1ca668c94eb8078fdcb6d3fee.
+Scope/contract: docs/tasks/EPIC-009/STORAGE-020.md; physical identity
+subathon.sqlite-account-sessions.v1, accepted logical blob8dc7ba9, current document
+3b2b87ce. Four dependencies done. Preserve all44 reviewed real-QtSQL tests/current
+blob2eb4b7b and original PR89 d7174d63 approval/first foundation-green then44marker-red
+with directexit8/zero skips/743a70b4 attribution. Archive retains originals; no replay
+for receipts. Actual later shared fixture/assertion/completion/warning changes6d375bb
+belong to TESTCLEAN-004/PR97, separately reviewed;008 changed only account comments.
 
-NEXT: complete metadata packet -> separate exact packet review -> push/update PR ->
-actual current19 CI including all23/33/32 labels/cases, all other stable suites/identity/
-SQL-all-six/passive account -> active rules/resolved threads -> normal match-head merge.
-Do not invent feature-red for static wiring/comment cleanup; do not add generic test
-machinery or rerun native just for receipts. EPIC028 closes ONLY after008 normal merge.
-Then refresh main, record epic closure and claim next product slice as below.
+Author owns server/src/sqlite_account_sessions.cpp and private state in existing
+server/include/subathon/server/sqlite_account_sessions.hpp. Public signatures/marker
+exception declaration/private MAX seam and read_ordinal stay. No test/fixture/recipe
+changes. Root reserves additive8 account-sessions-v1; author factory must call actual
+compiled reference_capture_repository_manifest7 and append exact5statements/10objects,
+full102head/77258bytes/ec41d4b3...6d5b, preserving every old statement/projection. No
+other migration writer. Root owns root/server/test CMake, CI, selector tests/contracts,
+current docs/evidence/state/HTML/checkpoint/PR. No substantial prerequisite found.
 
-## Next product slice prepared read-only: STORAGE-020 (NOT claimed)
+Read-only design /tmp/storage020-implementation-plan.md SHA
+2b93bedb4bc0e051b042d40e12b8ab2e3712b7b79aff09500afbe7b7d6be9574
+independently reviewed: borrow revocable caller ticket; no own connection/transaction/
+cleanup. Complete input B before ticket; complete metadata bounds before payload,
+hidden revisions/formats/retention/orphans/probe, exact QVariant/binary/signed64;
+independent supplier/store/copy budgets; full CAS/current fences; indexed two-shape
+pages; successful snapshot-only ordinals, MAX once. Collision checks preserve actual
+corruption/cardinality/writer errors. Pure local borrowed PHC write preflight avoids
+password-module refactor/native hashing; reads retain raw fitting malformed PHC.
+No login acceptance, host entropy/authority/clock/policy/replay/lifecycle manufactured.
 
-Read-only inventory /root/next_slice_inventory found22 ready non-epics; recommends
-STORAGE-020 over RATES001 because first synthetic reference profile excludes FX,
-while account storage unlocks ACCESSTEST001/SESSIONTEST009 then real current auth/API.
-RATES00153red remains required release work, not dropped. ACCESS003 authority producer
-is absent and needs explicit substantial prerequisite before pretending implementation.
-Preserve unpublished ACCESSCONTRACT001 branch53524fc/docblob/review; never import its
-obsolete state/HTML/evidence blindly.
+Root selector contract proposal /tmp/storage020-selector-proposal.md SHA
+3b67f3825bf9aec754e51c50d469ae5d59600c43b3f2bda3480f87b5aefdb0b7
+independently approved. Account-only actual compiled factory8 requires the existing
+12 SQLite-chain suites through reference-capture plus account (13 sorted). Add ONE
+focused test to tests/tooling/test_acceptance_selection.py preserving all five old
+methods byte-for-byte. Exact authored test review BEFORE intended old4-selection
+mismatch with successful CMake-P exit0; no missing-dependency/compile red. Then append
+account to existing chain/remove special short branch and link existing reference
+factory target. Separate exact wiring review/six-test green; real account-only build.
+No generic graph/harness restoration. Existing44 feature red is reused, not replayed.
 
-Fresh /root/account_store_author completed READ-ONLY prep and is idle. No20 edits/
-SQL/build/tests/generator/provider calls or gate approval. Assign current-main worktree
-and claim after quality closure; fresh independent reviewer still needed. Four deps
-done: STORAGECONTRACT002/STORAGE010/STORAGE011/STORAGETEST020. Accepted contracts/API
-and real reviewed44 intended-red marker/exit8/no skips in PR89/archive; do NOT replay
-historical red for receipts. Subsequent TESTCLEAN004 shared fixture/warning changes
-6d375bb were separately reviewed;008 changes only comments in that test. Preserve both
-valid approvals, do not falsely describe every post-red change as comments.
+NEXT: commit claim -> explicit author assignment -> additive selector test review/red/
+wiring review/green -> exact source/resource/schema/config review -> fresh actual44
+unfiltered Qt bodies with zero skips + applicable writer/work/migration/prefix ->
+ordinary CI promotion/remove account intentional-red only after real green -> metadata/
+final packet/latestheadCI/rules/resolved threads -> normal match-head merge.
+Acceptance uses actual Qt>=6.12 and admitted static sodium1.0.22 SDK at
+/tmp/subathon-sdk-sodium-1.0.22-p6m9mza6/prefix; sdkreceipt SHA
+ef8c648cc3e7fb61c0cd46baaa460714d0e381879d2db6ff36776484db2942e7.
+No global install/vendor tests/new dependency. All-six fixture --check and stable SQL
+CI stay. Current passive account guard checks nonempty metaobject, not actual44.
+Rate53 remains reviewed intentional red. Full release/UI/platform gates remain.
 
-020 bounded ownership: existing server sqlite_account_sessions.hpp private state and
-sqlite_account_sessions.cpp, actual additive8 account-sessions-v1 over compiled factory7;
-no API change/marker declaration removal/MAX seam loss. Borrow SqliteWorkSession and
-scope, NO own connection/transaction/cleanup. Metadata bounds BEFORE class/shape/errors/
-payload, no joined-away orphans, full tuple preflight even foreign/expired ticket,
-actual QVariant classes/signed64, exact binary revisions/epochs/CAS, guarded payloads,
-indexed paging/probe validation, independent supplier budgets, successful-only ordinal
-(MAX once). No accepted-login authority/time trust/session policy manufactured.
+## EPIC-028 leaf work completed by normal PR105 merge
 
-Root must explicitly own necessary CMake/CI promotion. Current account-only selector
-closure is writer/work/migrations/account; actual factory8 calls factory7 so extend
-selection through sqlite-reference-capture and link existing factory target. Existing
-selector expectations/contract must be independently revised/test-first for that new
-dependency behavior before helper implementation, not silently weakened. Keep six-
-fixture CI check and stable SQL, promote44 to ordinary execution/remove intentional-red
-only after real implementation passes; do not restore retired environment/closed-slot
-harness. Current passive guard only nonempty-functions, not counted44. Public fixture
-oracles/recipes stay frozen; proposed fixture provenance is not implementation status.
-Cheap PHC preflight is private today; bounded store-local pure validation can avoid
-password-module changes/native calls. sodium needs_rehash is wider/allocates scratch,
-not equivalent to cheap admitted policy; no native hash/verify on writer. No provider
-credentials/owner decision presently needed. Qt6.12 plus existing static SDK suffice.
+Actual PR https://github.com/Kernol12/subathon-bot-ai/pull/105 normal merge
+344c1e2d517827d2bf02fbfb93ff3fc9de193cc5 at2026-11-08T13:44:49Z.
+Final head930c558ee673ca04dbf6a5efc929bb2862323118 independently approved and all19
+current checks SUCCESS; active rules require PR/resolved discussions, count0; zero
+threads, MERGEABLE/CLEAN, no bypass. Transparent independent review posted COMMENT
+under same GitHub account, not a second human approval. All13 epic dependencies done;
+different /root/account_store_review verified all13 child reviews/actual normal merges
+and approved factual epic closure/new priority. State now closes EPIC028; full product
+acceptance stays open.
 
-## Completed prerequisites and continuity
+Seven regressions retained in23/33/32 owners;52static assertion sites/bodies/helpers/
+paths unchanged;37 exact intent comments. Proposal5b8d8729 before edits, sourcef65fa1e
+execution gate, shareda241c8e/final9400/corrected930 all separately approved. One local
+91node/88native+3infra run and tooling37 pass0skips, no native rerun/source correction.
+Temp-generator addendum preserves original handoff; copied disposable generators ran,
+no tracked regeneration. Local ELF allocator proof separate from hosted evidence.
+Current930 hosted actual23/33/32 case IDs/labels,32permission+33numericclosure verbose
+RUN/OK/argv counted once,37+39identity,14stableSQL including separate Qt ownership,
+early all-six check/passive account guard. Hosted credit is nonverbose, no hosted raw
+filter/RUN/OK claim. SQL logs establish runner results, not per-row raw Qt output.
+Original9400 CI is historical after checkpoint004 provenance correction930; final
+review independently audited actual930 too. No native/tooling replay for receipts.
 
-PR104 normalmerge7bb1e21 at2026-11-08T12:34:36Z, exact9b256f2 review/all19/actual37+39
-hosted/no skips/rules/zero threads; local79 run plus recorded scratch audit/sequencing
-errors preserved, no rerun. Runtime approval derives captured metadata/native/JUnit/
-build artifacts, not reconstructed audit logs. PR103 merge22d4c2e all-six early CI/check
-and provenance README; PR102 mergeb538fa5 servicefullcanonical preserved; PR101 merge
-7cbfb10 priorQt14/361/869/sixselector crosswalk; PR100 mergeddd03e1d reference/account
-raw. Full detail in PRs100–104; all earlier implementation sessions retired.
+Final review /tmp/testclean008-review-comment.md SHA
+34df2609497814ebab4e17680edf01e22c63edada04e6355ddd84ad6dd1b4d7c;
+CIreceipt /tmp/testclean008-final-ci-review.json SHA
+d6f74ebf93d742cdd1ee2fcf1335b97fbcc4c7c509ca4545e594d1074da8474d.
+Prior PR100–104 and all valid reviews preserved. Implementation sessions retired.
 
-Initial audit had no old live worker/build/claim. Preserve all branches/worktrees and
-missing historical /tmp registrations, clean CONTRACT011 worktree, reviewed unpublished
-ACCESSCONTRACT00153524fc. Never reset/prune/delete valid work. Full v0.45/seven
-integrations/three FX/English-German/themes/editor/both renderers/Linux-Windows-OBS/
-operations/release scope remains. Account8 still unimplemented/proposed; account44/
-rates53 reviewed intentional red. No live provider/chat/payment/deployment effects
-authorized. Continue standing loop after normal merge without routine owner approval.
+## Continuity
+
+Preserve all historical branches/worktrees/missing /tmp registrations; never reset,
+prune or delete. Initial audit found no stale active worker/claim; explicit fresh
+assignments replace any historical names. Reviewed unpublished ACCESSCONTRACT001
+53524fc/docblob e08c61d stays preserved; main still planned, old metadata obsolete.
+STORAGE020 preferred over RATES001 because it unlocks actual source/login/session
+slices; FX still required. ACCESS003 lacks authority producer, split substantial
+prerequisite before implementing. Full v0.45/seven integrations/three FX/English-
+German/themes/both renderers/full desktop editor/Linux-Windows-OBS/operations/release
+scope remains. No live provider/chat/payment/deployment effects or credentials used.
+Continue after each normal merge; ask only for genuine missing decision/access.

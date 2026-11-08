@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T13:29:35.243695+00:00",
-  "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
+  "updated_at": "2026-11-08T13:48:28.026545+00:00",
+  "summary": "EPIC-028 evidence/test cleanup and all six fixture recipes are complete under separate reviews. Current priority STORAGE-020 implements the reviewed physical account/session store. Existing bounded core/accounting and controlled SQLite components have synthetic/component proof; actual authority/login/clock/action adapters, financial workflows, all integrations/FX, UI and operational/platform/release scope remain incomplete.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -49,8 +49,8 @@
       "title": "Simplify agent workflow and focus test coverage",
       "module": "Quality and tooling",
       "kind": "epic",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "Coordinator /root; separately reviewed child tasks",
       "depends_on": [
         "EVIDENCE-001",
         "EVIDENCE-002",
@@ -73,11 +73,24 @@
       "brief": "docs/tasks/EPIC-028.md",
       "summary": "10 bounded evidence/test-cleanup tasks plus three explicit fixture-generation prerequisites, with independent review and complete v0.45 release scope preserved.",
       "notes": [
-        "All v0.45 requirements remain. Three planned fixture prerequisites preserve all six oracle families before final TESTCLEAN-006 adoption. No test assertion, fixture value or product behavior is changed by decomposition; every new tool behavior retains test-first and separate oracle/source/relevant-check/merge gates."
+        "All13 evidence/test-cleanup/fixture tasks merged with independent reviews. Final PR105 normal merge344c1e2 followed exact930c558/current19 green checks; separate closure review verified every child. Existing behavior/assertions/proof limits remain. This completes quality/tooling only; full v0.45 product/release scope remains. Next: dependency-ready STORAGE-020 physical account/session implementation."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "child_reviews": "passed",
+        "child_merges": "passed",
+        "closure_review": "passed",
+        "product_acceptance": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/105"
+      ],
+      "review": {
+        "author": "Coordinator /root and separately recorded child authors",
+        "reviewer": "/root/account_store_review",
+        "outcome": "approved",
+        "revision": "Read-only closure audit at actual main344c1e2: all13 children done/separate approved reviews/normal merged owningPRs92-98,100-105 (planningPR99), current PR105 exact930/all19/rules. Metadata closure only.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/105"
+      }
     },
     {
       "id": "EVIDENCE-001",
@@ -607,7 +620,7 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-008.md",
       "summary": "Merge meaningful regression cases into owning suites and clean stale labels/comments without deleting behavior coverage.",
       "notes": [
-        "Seven regressions now run in owners (23/33/32 cases); all 52 assertion sites/helpers/source paths remain. Labels/two prefixes and 37 intent comments were independently reviewed. Proposal/source/runtime gates passed; one 91-node run/tooling 37 passed with zero skips and per-case allocator isolation. Generator-wording addendum retained; no rerun. Final packet/current CI/normal PR105 merge remain open. Next: STORAGE-020 after EPIC-028 closure."
+        "Seven regressions run in owners (23/33/32); all 52 assertion sites/helpers/source paths remain. Independently approved proposal/source/allocator/comments and one 91-node run/tooling37 passed, zero skips. Exact930c558 final packet/current19 CI approved; normal PR105 merge344c1e2. Hosted credit is nonverbose; SQL proves runner results, account stays passive red. Temporary-generator addendum/provenance correction retained. Next: STORAGE-020; full product gates remain."
       ],
       "verification": {
         "cleanup_proposal_review": "passed",
@@ -618,8 +631,9 @@
         "tooling": "passed",
         "scaffold": "passed",
         "runtime_review": "passed",
-        "github_ci": "not_run",
-        "product_acceptance": "not_run"
+        "github_ci": "passed",
+        "product_acceptance": "not_run",
+        "final_packet_review": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/105"
@@ -628,7 +642,7 @@
         "author": "/root/regression_merge_author; coordinator shared factual/status edits",
         "reviewer": "/root/regression_merge_review",
         "outcome": "approved",
-        "revision": "Revised proposal SHA5b8d8729/sourcef65fa1e/shareda241c8e/runtime independently approved. All88 names/52 assertions and explicit label/prefix/allocator boundaries verified, no rerun; final packet/current hosted CI/normal merge pending.",
+        "revision": "Exact revised proposal/source/runtime/shared/final packets independently approved, corrected930c558 and current19 CI/rules/zero threads approved before normal PR105 merge344c1e2. Earlier valid reviews/receipts retained.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/105"
       }
     },
@@ -14623,8 +14637,8 @@
       "title": "Physical account/session store and current fact producers",
       "module": "Operations",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "/root/account_store_author; coordinator shared wiring/status",
       "depends_on": [
         "STORAGECONTRACT-002",
         "STORAGE-010",
@@ -14647,9 +14661,20 @@
       "brief": "docs/tasks/EPIC-009/STORAGE-020.md",
       "summary": "Implement the reviewed store/migration/current snapshot readers on the existing writer; no login acceptance, service authorization or credential publication.",
       "notes": [
-        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+        "Claimed from main344c1e2 before edits. Physical v1/8dc7ba9; all44 reviewed red tests and TESTCLEAN004/008 approvals retained. Author owns account CPP/private header; root owns additive8 compiled-prefix reuse, selector test-first/wiring/CI/status. Reviewer account_store_review approved bounded plans; exact selector test/red, source/resource/schema review, realQtSQL44+regressions, current CI/merge remain. Scope/ownership in checkpoint. No login/authority/platform claim."
       ],
-      "verification": {},
+      "verification": {
+        "inherited_test_review": "passed",
+        "inherited_baseline": "observed_red",
+        "implementation_plan_review": "passed",
+        "selector_contract_review": "passed",
+        "selector_test_review": "not_run",
+        "selector_baseline": "not_run",
+        "source_review": "not_run",
+        "real_sql_acceptance": "not_run",
+        "github_ci": "not_run",
+        "product_acceptance": "not_run"
+      },
       "evidence": [],
       "review": null
     },
@@ -16894,6 +16919,21 @@
       "date": "2026-11-08",
       "task": "TESTCLEAN-008",
       "note": "Fresh /root/regression_merge_author and independent /root/regression_merge_review assigned current-main worktrees before edits. Seven-case source/label/CI/comment proposal and explicit allocator isolation review required; read-only prep is no gate approval."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "TESTCLEAN-008",
+      "note": "Normal PR105 merge344c1e2 at13:44:49UTC after corrected930c558 independent finalpacket/all19 hosted/source/runtime/rules/zero threads. Preserve nonverbose/Qt-runner evidence limits and all baseline approvals."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "STORAGE-020",
+      "note": "Fresh author/reviewer current-main344c1e2 isolated worktrees assigned. Claim before source edits; accepted contract/original reviewed44red and TESTCLEAN004/008 deltas preserved. Root owns selector test-first/wiring/CI and additive8 allocation."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "EPIC-028",
+      "note": "Independent account_store_review verified all13 child reviews/normal PRmerges and final105/current19; factual quality epic closure approved, fullproductscope preserved. Current priority STORAGE020."
     }
   ]
 }
