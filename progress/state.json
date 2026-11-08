@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T14:36:23.658529+00:00",
+  "updated_at": "2026-11-08T14:40:08.021663+00:00",
   "summary": "EPIC-028 evidence/test cleanup and all six fixture recipes are complete under separate reviews. Current priority STORAGE-020 implements the reviewed physical account/session store. Existing bounded core/accounting and controlled SQLite components have synthetic/component proof; actual authority/login/clock/action adapters, financial workflows, all integrations/FX, UI and operational/platform/release scope remain incomplete.",
   "verification": [
     {
@@ -14681,7 +14681,9 @@
         "resource_review": "passed",
         "schema_config_review": "passed",
         "native_configure": "passed",
-        "native_build": "failed"
+        "native_build": "passed",
+        "passive_discovery": "passed",
+        "discovery_audit": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/106"
@@ -14690,7 +14692,7 @@
         "author": "/root/account_store_author; coordinator shared wiring/status",
         "reviewer": "/root/account_store_review; independent resource /root/account_resource_audit",
         "outcome": "approved",
-        "revision": "Exact source81263f2/root1ac8f07 + wiringe565 independently approved before first configure/build/discovery/18-node release; source63ac4678/resource238f243b. Runtime/currentCI/finalpacket/merge pending.",
+        "revision": "Exact source81263/root1ac8 + wiree565 independently approved; four-line Qtidentifier fix05aad87/root94886 independently approved8ef9944, old source/resource gates preserved. Build/discovery/metadata pass; first18/runtime/currentCI/finalpacket/merge pending.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/106"
       }
     },

@@ -117,7 +117,22 @@ primary reviewer explicitly resumed to approve exactdelta before incremental reb
 Preserve original failed build and unchanged valid source/resource approvals.
 All653trackedfiles captured beforeconfig in /tmp/storage020-tracked-before.json.
 
-NEXT: exactidentifierfix/deltaapproval -> incremental build -> discovery -> ONLY after
+Exact macrofix05aad875d9990ec64ec68938f050c02454025a3a/root94886ff changes
+ONLY4identifierlines; inverse recovers every81263CPPbyte, header/tests/flags/SQL
+unchanged. CPP SHAafac0d0266c6b46eeaaf4d99200359e1f17ce685bff19c2a6fe95dea72eecbd3.
+Independent fix /tmp/storage020-build-fix-review.md SHA
+8ef9944bd3c7fe190d16eeffcdda441b115e0e6b149f9f94ad54977c72b1cca4
+released existingdir rebuild; prior source/resource approvals remain valid.
+Original source report62a079 prefix preserved; appended report4fffc42f.
+Incrementalbuild2PASS0/10.491006s, raw /tmp/storage020-build2.* stdoutSHA
+b8124d52e59e8250b879e79ac94fe20b68bcb256b8b5c08cfe40ee672551ca43.
+Discovery0/.008195s + actualmetaobject0/.005374s captured before anybody in
+/tmp/storage020-discovery.* and /tmp/storage020-functions.*. Reviewed metadata
+auditorPASS0/.017060s:44frozenmethods/15unfilteredQt+3infra/120timeouts/labels/
+resulttruth; /tmp/storage020-discovery-audit.*. All653tracked unchanged versus
+/tmp/storage020-tracked-before-build2.json. No unresolvedaudit issue/nativebody.
+
+NEXT RELEASED: FIRST full18 CTest now after
 reviewed metadata audit PASSES run one full18 CTest
 (15unfiltered Qt runners incl44account bodies +3infra/fulltooling38). Metadata audit
 /tmp/storage020-discovery-audit.py SHA
