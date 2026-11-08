@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T14:33:53.767770+00:00",
+  "updated_at": "2026-11-08T14:36:23.658529+00:00",
   "summary": "EPIC-028 evidence/test cleanup and all six fixture recipes are complete under separate reviews. Current priority STORAGE-020 implements the reviewed physical account/session store. Existing bounded core/accounting and controlled SQLite components have synthetic/component proof; actual authority/login/clock/action adapters, financial workflows, all integrations/FX, UI and operational/platform/release scope remain incomplete.",
   "verification": [
     {
@@ -14679,7 +14679,9 @@
         "selector_runtime_review": "passed",
         "source_authored": "passed",
         "resource_review": "passed",
-        "schema_config_review": "passed"
+        "schema_config_review": "passed",
+        "native_configure": "passed",
+        "native_build": "failed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/106"
@@ -16953,6 +16955,11 @@
       "date": "2026-11-08",
       "task": "STORAGE-020",
       "note": "Author81263f2/import1ac8f07 source handoff: only two assigned paths, tests/fixtures/publicAPI unchanged, static-only checks. Independent final source/resource/schema review active; no configure/build/discovery/body run or account CI promotion."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "STORAGE-020",
+      "note": "First fresh configure0 selected13; firstbuild1 failed solely at payload local slots Qtmacro collision, rawlogs retained. No discovery/body execution or newred claim. Sameauthor explicitly resumed for identifier-only correction; independent delta review before rebuild."
     }
   ]
 }

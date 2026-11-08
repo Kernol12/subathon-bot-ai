@@ -105,7 +105,19 @@ independent resource /tmp/storage020-resource-audit.md SHA
 All findings resolved before first execution; no new test/fixture/oracle changes.
 Root matched exact CPP/header/static SDK hashes and absent account build directory.
 
-NEXT RELEASED: first fresh account-only configure/build/discovery -> ONLY after
+FIRST NATIVE STAGE observed ataa0773c after bothactualsourceapprovals:
+configure0 .551428s selectedexact13/Qtavailable/Boost1.92/GCC16.2.1; raw
+/tmp/storage020-configure.{json,stdout,stderr}. FIRSTbuildFAILED1/8.736648s solely
+payload local QStringList slots collidesQtmacro (CPP439/442/446/449); raw
+/tmp/storage020-build.{json,stdout,stderr}, stdoutSHA
+e9bf29567eab68dc2a170edf0ca9dae08a4b775d85042fbe74371b1d9c07fe1c.
+No discovery/metadataaudit/feature Qtbody; NOT a new intended-red baseline.
+Author explicitly resumed for narrow identifier-only rename, no globalQtflags/tests;
+primary reviewer explicitly resumed to approve exactdelta before incremental rebuild.
+Preserve original failed build and unchanged valid source/resource approvals.
+All653trackedfiles captured beforeconfig in /tmp/storage020-tracked-before.json.
+
+NEXT: exactidentifierfix/deltaapproval -> incremental build -> discovery -> ONLY after
 reviewed metadata audit PASSES run one full18 CTest
 (15unfiltered Qt runners incl44account bodies +3infra/fulltooling38). Metadata audit
 /tmp/storage020-discovery-audit.py SHA
