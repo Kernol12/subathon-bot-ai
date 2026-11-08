@@ -111,7 +111,8 @@ ordering remain. One real selected libsodium 1.0.22/GTest 1.18 run passed 79 nod
 review matched all actual per-suite identities to the genuine old passing CI baseline.
 Two scratch audit assumptions and a premature run launch are preserved as procedural
 errors, not feature red; runtime approval derives from captured artifacts, with no
-source/assertion change or native rerun. Current packet/CI/merge gates are in the PR.
+source/assertion change or native rerun. Independent final packet review and all 19
+checks, including actual hosted 37+39/no skips, passed before normal PR #104 merge `7bb1e21`.
 No additional operational login/session lifecycle or platform capability follows.
 
 Transport, lifecycle mutations, current clock production, and lossless/secret-safe
