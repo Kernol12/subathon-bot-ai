@@ -1,6 +1,6 @@
 # Independent fixture generation — revision 1
 
-Task: FIXTURE-001 / FIXTURE-002, under TESTCLEAN-006 / ADR-0012 and specification v0.45 §17.
+Task: FIXTURE-001 / FIXTURE-002 / FIXTURE-003, under TESTCLEAN-006 / ADR-0012 and specification v0.45 §17.
 Status: implemented fixture tooling; current review/check gates are recorded in task state and PRs.
 This developer tool reproduces independent test data. It establishes no running
 server, account/session storage, authority, provider or platform capability.
@@ -14,7 +14,7 @@ python3 tools/generate_fixtures.py (--check | --output-dir DIR) [--fixture NAME 
 Use Python>=3.10 standard library only. Exactly one operation mode is required:
 no mode or both modes is a usage error. Unsupported names are usage errors, not a
 request to copy an existing fixture. Usage errors exit2 before recipe/file work.
-The supported families and fixed filenames after the FIXTURE-002 extension are:
+The supported families and fixed filenames after the FIXTURE-003 extension are:
 
 | Name | Filename |
 | --- | --- |
@@ -23,6 +23,7 @@ The supported families and fixed filenames after the FIXTURE-002 extension are:
 | bundle | sqlite_application_bundle_vectors.json |
 | holds | sqlite_application_holds_vectors.json |
 | original_claims | sqlite_original_claims_vectors.json |
+| application_service | application_service_vectors.json |
 
 No `--fixture` selects all currently supported families. Repeated selections are
 deduplicated; processing follows the table order, independent of argument order.
@@ -77,7 +78,7 @@ named arrangements.pending.setup and arrangements.timer.setup arrays retain each
 statement object as one compact JSON line at their existing indentation, with
 separators=(',', ':'). Shared rendering still validates all values first. Every
 other field/family retains the common layout. The CLI explicitly declares each
-family's serializer beside its recipe; the four other families retain common
+family's serializer beside its recipe; the five other families retain common
 rendering. No NaN/Infinity/floats are permitted. Preserve all
 strings, embedded hex bytes, arrays, types and NULLs exactly; do not normalize text.
 Reference/account already have this formatting and must reproduce their original
@@ -118,12 +119,12 @@ or unique rollback/idempotency/ownership assertion is removed.
 
 | Invocation/state | Required outcome |
 | --- | --- |
-| `--output-dir generated` from an unrelated cwd | All five reviewed outputs in cwd/generated, using only script-relative seeds/source recipes; six legacy outputs can be absent |
+| `--output-dir generated` from an unrelated cwd | All six reviewed outputs in cwd/generated, using only script-relative seeds/source recipes; six legacy outputs can be absent |
 | `--fixture reference_capture --output-dir selected` | Reference is created/overwritten; existing account/unrelated sentinel bytes stay unchanged |
-| `--check` with all five exact committed comparison files | exit0 and no writes |
+| `--check` with all six exact committed comparison files | exit0 and no writes |
 | `--check` after only a newline is appended to reference output | exit1 drift and no repair, even though typed JSON is unchanged |
 | `--check` after whitespace is appended to a seed | exit1 raw-pin refusal/no writes; valid JSON does not bypass the immutable input pin |
-| `--fixture application_service --output-dir generated` | exit2 unsupported, no fallback or output writes |
+| `--fixture unknown_family --output-dir generated` | exit2 unsupported, no fallback or output writes |
 | no mode, or both `--check --output-dir generated` | exit2 usage error/no writes |
 
 ## Review and proof limits
@@ -153,9 +154,9 @@ these families in this exact order after reference_capture/account_sessions:
 | holds | sqlite_application_holds_vectors.json | fixture_sources/holds.py |
 | original_claims | sqlite_original_claims_vectors.json | fixture_sources/original_claims.py |
 
-No selection now means all five reviewed families. Explicit selections still
+At the FIXTURE-002 stage, no selection meant all five reviewed families. Explicit selections still
 follow registration order and overwrite only their selected fixed files; repeated
-names deduplicate. application_service remains unsupported until FIXTURE-003.
+names deduplicate. application_service was unsupported until the FIXTURE-003 extension.
 Check mode still compares independently rendered raw bytes, never a canonical
 comparison that would ignore drift. All selected recipes finish before writes.
 Only approved seeds/source functions are inputs even when all six outputs are absent.
@@ -236,12 +237,12 @@ substantial expansion, report and review the design before expanding scope.
 - From an unrelated cwd, `--fixture bundle --fixture holds --fixture original_claims
   --output-dir generated` reproduces those three files using a relocated script,
   source functions and ONLY four pinned seeds; all six legacy outputs can be absent.
-- No selection creates all five files. A single selected family may overwrite its
+- At the FIXTURE-002 stage, no selection created all five files. A single selected family may overwrite its
   stale output while unselected-family/unrelated sentinel files stay byte-identical.
 - `--check --fixture holds` with the frozen comparison succeeds without writes;
   appended whitespace is drift/exit1 even when typed JSON is unchanged. Claims check
   requires exactly annotated generated bytes, not the old unannotated comparison.
-- Unknown application_service remains exit2 before recipes/file work; raw seed drift
+- At the FIXTURE-002 stage, unsupported application_service exited2 before recipes/file work; raw seed drift
   remains exit1 before output writes. No F001 assertion/pin/expected value is weakened.
 
 Authored CLI tests use pre-generator whole-object fingerprints and an independent

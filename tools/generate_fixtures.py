@@ -8,7 +8,9 @@ import sys
 # A read-only check must not leave recipe bytecode files behind.
 sys.dont_write_bytecode = True
 
-from fixture_sources import account_sessions, bundle, holds, original_claims, reference_capture
+from fixture_sources import (
+    account_sessions, application_service, bundle, holds, original_claims, reference_capture,
+)
 from fixture_sources.common import render
 
 
@@ -18,6 +20,7 @@ RECIPES = {
     "bundle": ("sqlite_application_bundle_vectors.json", bundle.build, render),
     "holds": ("sqlite_application_holds_vectors.json", holds.build, holds.render),
     "original_claims": ("sqlite_original_claims_vectors.json", original_claims.build, render),
+    "application_service": ("application_service_vectors.json", application_service.build, render),
 }
 
 
