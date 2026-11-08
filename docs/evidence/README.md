@@ -183,6 +183,14 @@ and platform support remain open. See [spike #4](https://github.com/Kernol12/sub
 [HTTP #79](https://github.com/Kernol12/subathon-bot-ai/pull/79), and
 [adapters #66](https://github.com/Kernol12/subathon-bot-ai/pull/66).
 
+The [host lifecycle and native WebSocket profile #107](https://github.com/Kernol12/subathon-bot-ai/pull/107)
+now have independently reviewed documents and 17/22 literal examples. They define
+actual invocation/publication/readiness ownership, monotonic resource deadlines,
+writer cancellation/drain and finite protocol/control/fragment/Close obligations.
+This is document proof only; native baseline/red, selected source correction, actual
+host/readiness producers, current CI and normal merge remain. Account H1 Upgrade
+refusal and complete synchronization/authorization scope remain unchanged.
+
 ## Presentation and clients
 
 Scene documents and portable asset/font/package formats have reviewed contracts and

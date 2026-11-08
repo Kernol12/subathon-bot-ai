@@ -13,59 +13,53 @@ explicitly depend on actualAPI001host, as accepted clockcontract§2 assigns. All
 API1 persistent/realclose/startup/shutdown/backpressure/cancellation criteria remain.
 No reduced release scope or supported capability follows from decomposition.
 
-Fresh /root/api_lifecycle_contract_author is ACTIVE authoring ONLY the two docs after
-explicit committedclaim806dba7 release, /tmp/subathon-apicontract001-author task/APICONTRACT-001-author, main1dc.
-Fresh independent /root/api_lifecycle_contract_review ACTIVE independent review, separate
-/tmp/subathon-apicontract001-review review/APICONTRACT-001-lifecycle, same main.
-Author owns ONLY new docs/contracts/api-host-lifecycle-v1.md and
-native-websocket-profile-v1.md afterclaim. Root owns taskbriefs/DAG/state/HTML/current
-priority, schemas, CMake/CI, dependency/sourcepatch/ABI/license identity and SDK.
-NO tests/headers/source/SDK/build/native/SQL/provider calls authorized incontracttask.
-Read docs/tasks/EPIC-008/APICONTRACT-001.md and API-012.md plus scopedinstructions.
-Contract/examples -> DIFFERENT exactdocument/planningreview -> relevantchecks/current
-CI/normalfocusedPR; then separate reviewednative test/red and implementation tasks.
+Contract author /root/api_lifecycle_contract_author completed and retired after
+357124230d3270ef7eb14c28f7f1c56cadd11f68; worktree clean, retained at
+/tmp/subathon-apicontract001-author task/APICONTRACT-001-author. Independent reviewer
+/root/api_lifecycle_contract_review completed document gate, retained clean atmain1dc
+/tmp/subathon-apicontract001-review review/APICONTRACT-001-lifecycle. Explicitly resume
+that separate reviewer for final shared packet/currentCI; do not infer active sessions.
+Root owns shared briefs/DAG/state/HTML/CI/CMake/dependencies/SDK/ABI/licenses; author
+changed ONLY docs/contracts/api-host-lifecycle-v1.md and native-websocket-profile-v1.md.
+No source/tests/SDK/build/native/SQL/provider execution authorized by this contract task.
 
-Actual stockSDK/source available and clean under build/deps/drogon-1.9.14-source,
-HEAD3aae769cc405cf5abb9d477675c6430924f02c7c; Trantor78e480f5e138acdc05f76c55a2716718cd846364.
-Installed dependency-build.json matches tools/setup_drogon.py pins/options. Preserve
-that stocksource/cache; nativeprofile mustuse distinct freshprefix/patch/build/ABI/
-license admission. No source upgrade/patch/build is authorized by this claim.
+Draft PR https://github.com/Kernol12/subathon-bot-ai/pull/107. First author5a96f8b/import73e9ec5
+received four changes-required findings; initial review SHA
+cefef611ebe98a602d417293121832eb5ee1571bf0f16212aea1350f739e4f85 preserved.
+Corrected exact35712423/import398410df4eb3527903f8874e74e5bb609af0da24 approved:
+/tmp/apicontract001-document-review-357124.md SHA
+14dd487ed7477a016e75e7f5a9b7dd47184a39e8588d36bed61e6eb919b3a3ad.
+Host blobf1808d018f3b7a6f2488094797d5d1fd99a7a485; native6e376306682cda4c51d0eff63c4543428c8baf8a.
+17host/22native literal examples reviewed, not executed. Corrections: trustedUTC only
+where imported operation requires it (credentials retain final resample); first valid
+Close immutable including absence; preserve accepted writer wrappers/FIFO/completions
+while cancelling domain entry, actual not_started/missing_transaction or unavailable;
+explicit checked CLOCK_MONOTONIC deadlines/overflow/equality/IO continuation failure.
 
-Concrete source defects independently verified by priorreadonly baseline author/
-reviewer and freshcontractroles: Close payload DOES reachcallback, but Drogon calls
-TCPshutdown BEFORE callback. Trantor immediately Disconnects only with emptypending
-writes; bufferedwrites use closeOnEmpty. Later send rejected ifnonConnected. Parser
-has ONE message_/type_ for fragmenteddata andcontrol, soClose/Ping canbecontaminated
-with earlierfragment data. Blind5lineecho/move cannotclaimpersistentRFCsupport.
-PinnedTrantor bindAddress exits1: contractmustchoose explicitprocess-terminal lifetime
-andfreshprocess retries orsplitrealrecoverable-bind prerequisite; no callback/SQL-
-owner cleanup or sameprocessrestart promise inferred. FullRFCfragmented/unfragmented
-andinterleavedcontrol scope stays; no fragmentation deletion toavoidthebug.
+Claim/planning806dba7 independently approved2598c31e3fff02780c241dcdf8797eda61393f1af12c43432142b85426f8fffd.
+Actual398 project467tasks/122decisions, currentHTML and diffchecks passed. No native or
+program-body check rerun for this document task; existing currentCI/packet/normalmerge
+remain. PR body preserves substantive independent review and proof limitations.
 
-SESSION-011 is the nativeaccount H1pre-map/pre-log owner and explicitlyREFUSESUpgrade;
-it is NOT SESSION007(keyrotation), nor the nativeWSprofile. API3sync/authscope stays.
-IANA primaryregistry current2026-10-05 includes1012–1014; don'tcapvalidcodesatoldSDKenum1011.
-EmptyClose has NOreceivedcode (not0/1000); separatetextwholemessageUTF8 fromCloseUTF8,
-valid/invalidcode/length/mask/FIN/fragment/control, simultaneousclosure/one reply/no
-postCloseapplicationadmission/boundedbuffers/forcedclose. Nativecontractmustderive
-literalexamples fromRFC/source, no futureimplementation-generatedoracle.
+Clean stock selectedsource3aae769cc405cf5abb9d477675c6430924f02c7c and Trantor
+78e480f5e138acdc05f76c55a2716718cd846364 preserved. Future native correction MUST use
+distinct admitted source/patch/build/ABI/license prefix. Selected Close callback occurs
+AFTER shutdown; pending-output vs immediate differ; fragment/control parser sharesstate.
+No blindecho/reorder/sourceupgrade is approved. Full fragmentation/persistent scope stays.
+SESSION-011 account H1 refuses Upgrade; native profile grants no auth/sync/readiness.
 
-Actualhostscope is missing: SqliteWriter.finish revokes ticket BEFOREcompletion.
-A retainedticket/resultDTO/listener-running/writer-open is not publication/operational
-readiness. API1owns actual invocation/currentgeneration/publication/readiness/refusal/
-shutdown lifetimes. Nameactualsources; unknownrefuses. No arbitraryreadybool, caller
-refs/token or parallelclockhost. Any substantialdurablerecovery/reusableissuer beyond
-that host ownership mustsplitbeforeimplementation. Native component+fakehost cannot
-complete existingclock009actualbinding acceptance. No fakeproducer upgrade permitted.
+Actual normal-start activation/current-source publication producers remain mandatory
+independently reviewed API-001 design gates BEFORE code. Ticket revoked beforecompletion;
+listener/writer/DTO/fake source is not readiness/publication. Unknown refuses. Split
+substantial reusable issuer/durable recovery machinery before implementation. Native
+clock+fakehost cannot finish SESSION009 actual ready-host binding. Process-terminal
+framework lifetime/freshprocessretry follows pinned bind exit1; no sameprocessrestart,
+SQLpreemption or hard OS deadline guarantee is supplied by these documents.
 
-Exact planning/claim806dba7 independently APPROVED; receipt
-/tmp/apicontract001-planning-review.md SHA
-2598c31e3fff02780c241dcdf8797eda61393f1af12c43432142b85426f8fffd.
-Root467tasks/122decisions/project/rendercheck/diffpass. Actualcontractreviewnotyetrun.
-
-NEXT: authored exactboundedcontracts/literalexamples -> independentdocumentreview -> currentchecks/
-CI/PRmerge. Stopbeforecode if requirementconflict/unboundedclaim/newsubsystem appears;
-resolve routine choiceswithinaccepted scope, askowneronlygenuinedecision/access.
+NEXT: exact root packet review/currentCI/rules/zero threads/normalmerge; refreshmain,
+then fresh APITEST-012 author/reviewer claim before edits. Contract→nativebaseline/red→
+profileimplementation→actualhostbaseline/implementation→clockbinding. No owner decision
+or access blocker observed. All old reviews/source/runtime proof remain preserved.
 
 ## Preserved read-only investigations and unused clean work
 
