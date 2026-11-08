@@ -436,17 +436,17 @@ SqlRows payload(const SqliteWorkSession &s, const Metas &selected, const char *f
         }
     }
     for (const auto &row : selected) {
-        QStringList slots;
+        QStringList placeholders;
         for (const auto &m : row) {
             bindings.append(*m.rowid);
-            slots.append("?");
+            placeholders.append("?");
             for (std::size_t c = 0; c < m.table.columns.size(); ++c) {
                 bindings.append(scalar(m.table.columns[c].kind) ? m.fields[c].value
                                                                 : qint64(m.fields[c].length));
-                slots.append("?");
+                placeholders.append("?");
             }
         }
-        tuples.append('(' + slots.join(',') + ')');
+        tuples.append('(' + placeholders.join(',') + ')');
     }
     auto rows =
         s.execute({"WITH b(" + names.join(',') + ") AS (VALUES " + tuples.join(',') + ") SELECT " +
