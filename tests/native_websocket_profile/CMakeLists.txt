@@ -14,8 +14,8 @@ add_test(NAME native-websocket-profile.suite
         "LD_LIBRARY_PATH=${sbt_drogon_root}/lib"
         "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/test_native_ws_profile.py"
         --probe "$<TARGET_FILE:native_websocket_probe>" -v)
-# Authored maximum: 100 child scenarios, each bounded by 10s + 8s cleanup,
-# plus 60s runner margin. Forced cleanup preserves failure; it is no green proof.
+# Authored maximum: 102 child scenarios, each 10s plus two bounded 10s cleanup
+# attempts, then 60s runner margin. This is a failure watchdog, not OS preemption.
 set_tests_properties(native-websocket-profile.suite PROPERTIES
     LABELS "native-websocket-profile;acceptance;intentional-red;server;loopback"
-    TIMEOUT 1860)
+    TIMEOUT 3120)

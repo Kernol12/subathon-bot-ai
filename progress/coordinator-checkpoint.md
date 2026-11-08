@@ -166,7 +166,37 @@ method/subcase/child/control/timeout bounds and preserveoldsource beforehandoff.
 Primary/resource reviewers completedinitialgates/IDLE; explicitlyresume exactre-review.
 No configure/compiler/import/list/identity/socket/native/body/SDK execution authorized.
 
-NEXT: sameauthor boundedcorrections -> exactdifferentreview of changednativefiles,
+Corrected handoff original3dccc34007216b2119eef9d7e7f6beebac8c2b99,
+rootimport431b7bc, exactCPPblob7bffaf91e1cfd7e0c3f17a7799eb29eea8d2e105 /
+PYblobaae1c819145a52b6215674098e79e4b72611879e. Authorcompleted/IDLEclean again;
+explicitlyresumeonlygenuinereviewfixes, no nexttask. ClaimsR1-R7/G1-G4corrected;
+38methods/72unchangedliteral-subcaserows/max102children STATIC, notrun. Rootupdated
+CTestwatchdog3120=102*(10scenario+2cleanupattempts*(2grace+2reap+2readers*(2drain+1stop)))+60.
+Fullnewsource/test/resource/registration review remainsbeforeconfigure/body.
+WS22exactboundedplan approved /tmp/apitest012-ws22-plan-review.md SHA
+bf445c0818c14c7449f49b6294846e514508fcb75e711a1bad47278de5a30085;
+observer nativePing callbackqueuesCbeforeactualquota continuation, MUST seeactual
+read>=7/consumed6/framecount1/quota1/pending/originalanchor BEFOREfakeadvance;
+no recheck/close/fixturecounterrepair. Missingbarrier SETUP/nonred, timer-onlyclosure
+notproof; futureselectedsource timer/FIFO causality remainsindependentgate. No SDK
+hook/newpublicseam added. WS21allowsignoreddup andoptionalterminalanchor; truefirst
+Close/onewireReply/activeanchor retained. CodeplannedfullDSO typedcurrentobjects,
+truthfulSDKpremaininit/controllerdeferred, fixedcallerTLSclockaudit, ACKpermitrelease,
+nonblockingreader+allpathnonraisingcleanup/separateverdict, initializedidempotentstop,
+512commandquota/strictcapturecaps, realjoinedoffownerlease path. None executed.
+
+PassiveCIinputplan only /tmp/apitest012-ci-input-plan.json SHA3a5a636b...
+review /tmp/apitest012-ci-input-review.md SHA
+42f2a64fc87dc2d240f16de825a905569ffdde9d52c8923d028b583b129a21fb.
+OfficialUbuntu24 pins(dev+runtime):jsoncpp1.9.5-6build1,SSL3.0.13-0ubuntu3.16,
+uuid2.39.3-9ubuntu6.6,zlib1:1.3.dfsg-3.1ubuntu2.3. SameDrogonselectedtransitives,
+nonewdependencytask, BUT workflow/artifact/source/license/toolchain/ABI/identity
+stagedreviews stillrequired; localArchstaticadmission isnotUbuntuadmission. No CI
+workflowauthored/activated/install/downloadSDK/compile/native call yet. Nativefeature
+bodies stayenabledintentionalred/outsidepassingCI, all19existingworkflowbytes/rate
+preserved. OnlycurrentAPITEST012thenSTOP. SourceZlibdirectURLrefinementpending.
+
+NEXT: exactdifferentreview of corrected3dccc/import431b nativefiles,
 retainedprotocol/resource assertions, timeout/registration/foundation,
 resolve genuinefindings bysameauthor+differentreview, preserve expectedoracles ->
 configure/build/passive registration/actualcompiledprobe identity (existingselected

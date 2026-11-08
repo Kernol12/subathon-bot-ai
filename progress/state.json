@@ -5135,7 +5135,7 @@
       "verification": {
         "claim": "passed",
         "boundary_review": "passed",
-        "test_review": "failed",
+        "test_review": "not_run",
         "foundation_admission": "not_run",
         "native_build": "not_run",
         "passive_discovery": "not_run",
@@ -5152,7 +5152,8 @@
         "build_wiring_review": "not_run",
         "tests_authored": "passed",
         "static_build_wiring_review": "passed",
-        "fixture_resource_review": "failed"
+        "fixture_resource_review": "not_run",
+        "ws22_plan_review": "passed"
       },
       "evidence": [],
       "review": null,
@@ -5169,7 +5170,7 @@
       "brief": "docs/tasks/EPIC-008/API-012.md",
       "summary": "Independently review literal native control/fragment/Close and bounded lifecycle cases, then observe intended behavior red on working selected dependencies.",
       "notes": [
-        "Initial native test/protocol and resource reviews require bounded coverage/lifecycle fixes; same author explicitly resumed, no native body run. Valid literal assertions remain; corrected closing-output contract separately approved. Boundary/stub/SDK wiring and selector7/7 proof preserved. Exact corrected tests/build review, compile/link/maps/discovery, intended native red and current CI/normal merge remain. Owner requests stop after this baseline; no API-012 implementation will start."
+        "Corrected native handoff authors38 methods/72 literal table rows/max102 child scenarios; no native body run. Original review findings/valid oracles preserved; exact corrected source and3120s watchdog await independent re-review. Boundary/stub/SDK wiring, closing clarification, selector7/7 and WS22 observation plan approved. Compile/link/maps/discovery, intended native red and current CI/normal merge remain. Stop after this baseline; no API-012 implementation."
       ]
     },
     {
@@ -17210,6 +17211,11 @@
       "date": "2026-11-08",
       "task": "APITEST-012",
       "note": "Initial95e authoredtestreview26742 andresource/lifecyclereview22a48 require boundedfixes; samefreshcaaauthor explicitly resumed TWOownedfiles only. Closingoutputdoc4ed approved1aec; oldsource/positiveoracles/reports preserved. Allnativebody/configure gatesremainclosed; ownerstopaftercurrentbaseline held."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "APITEST-012",
+      "note": "Correctedauthor3dccc340/import431b7bc only2files CPP7bffaf91/PYaae1c819; static38/72/max102 +twoattemptcleanup watchdog3120. WS22planbf445 approvedauthoringonly/no newSDKseam. Bothfullinitialreviewsets addressed perauthor; exactindependent re-review pending beforecompile/body. Ownerstopaftercurrenttask held."
     }
   ]
 }
