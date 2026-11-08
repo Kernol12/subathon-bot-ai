@@ -15,7 +15,11 @@ No configure/build/discovery/feature body yet. Worktree
 /tmp/subathon-storage020-author, branch task/STORAGE-020-author, main344c1e2.
 Fresh independent /root/account_store_review uses /tmp/subathon-storage020-review,
 review/STORAGE-020-account-store, same main. Never assume idle sessions are active;
-resume them explicitly. No other implementation claim.
+resume them explicitly. Extra fresh /root/account_resource_audit completed READ-ONLY
+independent copy/budget/finite-query audit of exact81263 and APPROVED; primary full
+source/schema/config reviewer also APPROVED. Both review sessions are IDLE now;
+resume explicitly for actual runtime artifacts or reviewed corrections.
+No other implementation claim.
 
 Scope/contract: docs/tasks/EPIC-009/STORAGE-020.md; physical identity
 subathon.sqlite-account-sessions.v1, accepted logical blob8dc7ba9, current document
@@ -88,13 +92,21 @@ Page metadata uses exact indexed range; admitted payload nowCROSS JOIN rowid-dri
 All findings/revisions retained, no tests weakened.
 No new raw corrupt-scalar byte cap is defined or needed: CASE does not materialize
 wrong-class scalar payload and semantic scalar B remains1/8. Exact final source gate
-is still OPEN. Temporary historical/current44-name oracle
+is now APPROVED (see receipts below), no native pass claimed. Temporary historical/current44-name oracle
 /tmp/storage020-expected-body-oracle.json SHA
 748c272e1f697a4868f9544627873a7696e74ec5144bc73b24fedf654cedead8
 was derived from approvedd717, not implementation output; no checked-in case list.
 
-NEXT: independent exact81263/root1ac8 source/resource/schema/config review ->
-first fresh account-only configure/build/discovery -> one full18 CTest run
+APPROVED exact81263/root1ac8 source/resource/schema/config gate: primary receipt
+/tmp/storage020-independent-source-review.md SHA
+63ac4678c1d404e4ac652be8ea8d957ba84ad5ab7ce191882680e41fb309ebfa;
+independent resource /tmp/storage020-resource-audit.md SHA
+238f243bb5b0c9c0e8558e37a84a8ae4df6a0f89e3a20d5b2bf231949cee0a43.
+All findings resolved before first execution; no new test/fixture/oracle changes.
+Root matched exact CPP/header/static SDK hashes and absent account build directory.
+
+NEXT RELEASED: first fresh account-only configure/build/discovery -> ONLY after
+reviewed metadata audit PASSES run one full18 CTest
 (15unfiltered Qt runners incl44account bodies +3infra/fulltooling38). Metadata audit
 /tmp/storage020-discovery-audit.py SHA
 ce245f8bb2ca960cb35f524e39c865a71b4de3238cbb43545b84078eb7d326db

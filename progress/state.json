@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T14:22:08.203366+00:00",
+  "updated_at": "2026-11-08T14:33:53.767770+00:00",
   "summary": "EPIC-028 evidence/test cleanup and all six fixture recipes are complete under separate reviews. Current priority STORAGE-020 implements the reviewed physical account/session store. Existing bounded core/accounting and controlled SQLite components have synthetic/component proof; actual authority/login/clock/action adapters, financial workflows, all integrations/FX, UI and operational/platform/release scope remain incomplete.",
   "verification": [
     {
@@ -14670,19 +14670,27 @@
         "selector_contract_review": "passed",
         "selector_test_review": "passed",
         "selector_baseline": "observed_red",
-        "source_review": "not_run",
+        "source_review": "passed",
         "real_sql_acceptance": "not_run",
         "github_ci": "not_run",
         "product_acceptance": "not_run",
         "selector_source_review": "passed",
         "selector_tests": "passed",
         "selector_runtime_review": "passed",
-        "source_authored": "passed"
+        "source_authored": "passed",
+        "resource_review": "passed",
+        "schema_config_review": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/106"
       ],
-      "review": null
+      "review": {
+        "author": "/root/account_store_author; coordinator shared wiring/status",
+        "reviewer": "/root/account_store_review; independent resource /root/account_resource_audit",
+        "outcome": "approved",
+        "revision": "Exact source81263f2/root1ac8f07 + wiringe565 independently approved before first configure/build/discovery/18-node release; source63ac4678/resource238f243b. Runtime/currentCI/finalpacket/merge pending.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/106"
+      }
     },
     {
       "id": "SESSIONCONTRACT-004",
