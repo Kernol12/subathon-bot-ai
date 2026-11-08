@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T11:08:33.234670+00:00",
+  "updated_at": "2026-11-08T11:15:24.410539+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -453,7 +453,7 @@
       "title": "Independent application-service fixture recipes",
       "module": "Fixture tooling",
       "kind": "implementation",
-      "status": "in_progress",
+      "status": "done",
       "owner": "/root/fixture_service_author",
       "depends_on": [
         "FIXTURE-002"
@@ -464,7 +464,7 @@
       "brief": "docs/tasks/EPIC-028/FIXTURE-003.md",
       "summary": "Reproduce all named service cases, formats, arrangements and snapshots without computing expected semantics through the product.",
       "notes": [
-        "The complete named service source and size refinement were independently approved before execution. Frozen default/selected generation matches the full typed baseline. The first three-test run had one check-comparison failure from presentation only; its raw receipt is preserved. No output adoption or golden change. A narrow constructor correction requires separate review before rerun; native/tooling/CI remain open."
+        "All six recipes reproduce frozen typed data from four pinned seeds. Service JSON changes presentation only; five other fixtures and native sources stay identical. Independent test-first/source/fix/runtime reviews approved; focused 3/tooling 37/infra 3 and 43 service methods/233 scenarios pass, with 235 unchanged raw PASS IDs. First failure and key-order fix retained. Final packet review/current CI/normal PR102 merge remain open. Next: final TESTCLEAN-006 adoption."
       ],
       "verification": {
         "scope_contract_review": "passed",
@@ -474,10 +474,27 @@
         "source_oracle_review": "passed",
         "initial_implementation_run": "failed",
         "canonical_generation": "passed",
-        "acceptance": "failed"
+        "acceptance": "passed",
+        "source_fix_review": "passed",
+        "runtime_review": "passed",
+        "usage_identity": "passed",
+        "native_acceptance": "passed",
+        "tooling": "passed",
+        "github_ci": "not_run",
+        "product_acceptance": "not_run",
+        "native_identity_review": "passed",
+        "scaffold": "passed"
       },
-      "evidence": [],
-      "review": null
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/102"
+      ],
+      "review": {
+        "author": "/root/fixture_service_author",
+        "reviewer": "/root/fixture_service_review",
+        "outcome": "approved",
+        "revision": "Contract/tests/red/source 27217787/fix 45102c23/adoption ca3f962 and root 5b45141 source/binary/runtime identity independently approved. SAME 235 ordered service IDs, 43 methods/233 scenarios. Final packet/current CI/normal merge pending.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/102"
+      }
     },
     {
       "id": "TESTCLEAN-006",

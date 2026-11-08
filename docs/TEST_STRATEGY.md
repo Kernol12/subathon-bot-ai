@@ -160,7 +160,8 @@ bootstrap precedes candidate imports. No native artifact/kernel admission is req
 Translation acceptance requires the selected Qt tools as well as Python.
 
 Independent fixture reproduction currently supports `reference_capture`,
-`account_sessions`, `bundle`, `holds` and `original_claims`, with fixed script-relative
+`account_sessions`, `bundle`, `holds`, `original_claims` and `application_service`,
+with fixed script-relative
 seed inputs and explicit literal recipes. Check committed bytes without writing:
 
 ```sh
@@ -172,8 +173,8 @@ restricts selection. No mode writes in place by default. The [fixture contract](
 defines raw seed pins, byte-exact checks and independent inputs. Reproducing a proposed
 account fixture adds no account-storage capability. Claim selectors use six reviewed
 names and explicit corruption-priority roles; all earlier typed values remain frozen.
-Application-service recipes and final all-family adoption remain planned until their
-separate oracle and implementation gates pass.
+Service output uses the common JSON layout while preserving its entire frozen typed
+content. Final all-family CI/docs adoption remains a separate reviewed task.
 
 Infrastructure checks remain distinct from component acceptance:
 
