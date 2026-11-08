@@ -242,6 +242,6 @@ frozenSelectorsPreserveGlobalPriorityAndRoles. Keep the original lower-priority
 corrupt-B-after-selected-A assertion; replace index0 branching with the explicit
 bool field. Keep setup[9]/revised_scalar30–33, every method/assertion and all other
 native files unchanged. Runtime review maps the six old selector PASS IDs one-to-one
-to the six new names; all other869-ID/361-method baseline identities remain. Run
+to the six new names; the remaining863 PASS IDs and all361 methods remain unchanged. Run
 relevant Qt/tooling once for the changed baseline, compile/passively discover account44
 without its feature bodies, and distinguish actual results from planned counts.
