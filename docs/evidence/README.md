@@ -239,8 +239,8 @@ byte, recipe, fixture, assertion, pin and build input unchanged. Independent pro
 source/CI and actual output/runtime reviews passed. All six raw presentations and full
 parent canonical/projection oracles match; CLI generation/check snapshots are unchanged.
 The existing tooling 37/37 and project checks pass; tooling separately creates ordinary
-Python caches. Prior native proof is reused by identity. Final packet, current hosted
-new-step/SQL/passive-account and normal merge gates are recorded in the PR.
+Python caches. Prior native proof is reused by identity. Independent final packet review and all 19 current checks, including the actual early
+all-six step/full SQL/passive-account lane, passed before normal PR #103 merge `22d4c2e`.
 Earlier cleanup PRs merged normally after
 independent review and all current checks. Later cleanup retains separate baseline
 reviews; full specification acceptance, live/provider/platform evidence and release

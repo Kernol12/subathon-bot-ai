@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T11:43:36.243788+00:00",
+  "updated_at": "2026-11-08T11:54:01.523601+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -515,7 +515,7 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-006.md",
       "summary": "Complete all-six generator adoption with retained coverage/provenance documentation and a check step in the existing SQL CI job.",
       "notes": [
-        "All six fixtures reproduce frozen bytes/typed oracles; recipes and assertions unchanged. Existing SQL job gains an early all-six check plus provenance/coverage docs. Independent proposal/source/runtime reviews passed; no-write CLI snapshots, tooling 37 and project checks pass. Prior native proof reused by full identity; tooling created ordinary caches. Final packet/current CI/new-step/normal PR103 merge remain open. Next: TESTCLEAN-007."
+        "All six fixtures reproduce frozen bytes/typed oracles; recipes and assertions unchanged. Existing SQL job checks all six before SDK/native use; provenance/coverage docs added. Independent proposal/source/runtime/packet reviews passed; CLI no-write snapshots, tooling 37 and project checks pass. Prior native proof reused; later tooling caches recorded. All 19 checks/new step passed before normal PR103 merge 22d4c2e. Next: TESTCLEAN-007."
       ],
       "verification": {
         "decomposition_plan_review": "passed",
@@ -529,8 +529,8 @@
         "project_consistency": "passed",
         "native_identity": "passed",
         "runtime_review": "passed",
-        "github_ci": "not_run",
-        "sql_fixture_check_ci": "not_run",
+        "github_ci": "passed",
+        "sql_fixture_check_ci": "passed",
         "product_acceptance": "not_run"
       },
       "evidence": [
@@ -541,7 +541,7 @@
         "author": "/root/fixture_adoption_author",
         "reviewer": "/root/fixture_adoption_review",
         "outcome": "approved",
-        "revision": "Exact proposal SHA3829ad8b, two-file patch39b62bb and actual all-six output/provenance/no-write/tooling/runtime identity independently approved. No assertions removed or new behavior. Final packet/current hosted new step/normal merge remain pending.",
+        "revision": "Exact proposal,39b62bb source/runtime and final10cdd06 independently approved. All19 current checks SUCCESS; actual early all-six step/full SQL/passive-account audit passed. Normal PR103 merge22d4c2e at2026-11-08T11:51:12Z.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/103"
       }
     },
@@ -550,8 +550,8 @@
       "title": "Trim libsodium call-counting tests",
       "module": "Identity tests",
       "kind": "cleanup",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "/root/sodium_cleanup_author",
       "depends_on": [
         "TESTCLEAN-003"
       ],
@@ -562,7 +562,7 @@
       "brief": "docs/tasks/EPIC-028/TESTCLEAN-007.md",
       "summary": "Remove call-count/order pins while retaining failure, zeroization, and sensitive-allocation checks.",
       "notes": [
-        "Parent epic: EPIC-028. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Claimed from main22d4c2e after normal PR103 merge. Fresh author and separate reviewer read-only inventories identify private positive count pins plus a nonvacuity guard and pass-through password memzero wrapper. No deletion approval yet. Exact assertion/retained-security proposal must be independently approved before edits; all37 password/39 session methods and contractual observations remain."
       ],
       "verification": {},
       "evidence": [],
@@ -16833,6 +16833,16 @@
       "date": "2026-11-08",
       "task": "TESTCLEAN-006",
       "note": "Final adoption assigned fresh author /root/fixture_adoption_author and independent /root/fixture_adoption_review in current-main worktrees. Coordinator owns shared metadata and all other CI/CMake; only one existing check step and fixture README proposed."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "TESTCLEAN-006",
+      "note": "Normal PR103 merge22d4c2e after exact10cdd06 independent packet approval/all19checks/actualearly-six-step/fullSQL/passiveaccount/rules/zeroThreads. Final all-six adoption complete; source and assertions unchanged."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "TESTCLEAN-007",
+      "note": "Fresh /root/sodium_cleanup_author and independent /root/sodium_cleanup_review assigned current-main isolated worktrees. Claim precedes edits; read-only inventory is context, not deletion approval. Coordinator owns authenticated SDK preparation and shared metadata/CI."
     }
   ]
 }
