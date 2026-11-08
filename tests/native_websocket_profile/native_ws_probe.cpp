@@ -16,6 +16,7 @@
 #include <ctime>
 #include <deque>
 #include <fcntl.h>
+#include <future>
 #include <iostream>
 #include <limits>
 #include <link.h>
@@ -31,8 +32,8 @@
 
 namespace ws = subathon::server::native_ws;
 namespace {
-constexpr std::size_t maxEvent = 8192, maxEvents = 128, maxEventBytes = 2 * 1024 * 1024;
-constexpr std::size_t maxCommand = 4096, maxCommands = 256, maxPeers = 64, maxLeases = 64;
+constexpr std::size_t maxEvent = 65536, maxEvents = 128, maxEventBytes = 2 * 1024 * 1024;
+constexpr std::size_t maxCommand = 4096, maxCommands = 512, maxPeers = 64, maxLeases = 64;
 constexpr std::size_t maxPayload = 1048576;
 using namespace std::chrono_literals;
 
@@ -272,6 +273,8 @@ Json::Value snapshot(const ws::Snapshot &s) {
     return v;
 }
 
+thread_local std::uint64_t callerSourceSamples = 0;
+
 struct ClockAudit {
     std::atomic<std::uint64_t> samples{0}, destroyed{0};
 };
@@ -282,6 +285,9 @@ class Clock final : public ws::ElapsedSource {
         : native_(native), audit_(std::move(audit)) {}
     ~Clock() override { audit_->destroyed.fetch_add(1); }
     std::variant<ws::ElapsedInstant, ws::ElapsedUnavailable> sample() const noexcept override {
+        if (callerSourceSamples == std::numeric_limits<std::uint64_t>::max())
+            std::_Exit(85);
+        ++callerSourceSamples;
         audit_->samples.fetch_add(1);
         if (!available_.load())
             return ws::ElapsedUnavailable{};
@@ -393,28 +399,68 @@ Json::Value identity() {
     v["consumer_cplusplus"] = Json::UInt64(__cplusplus);
     v["pid"] = Json::UInt64(::getpid());
     v["loaded_objects"] = Json::Value(Json::arrayValue);
-    const auto complete = ::dl_iterate_phdr(
+    struct Inventory {
+        Json::Value *objects;
+        bool complete = true;
+        const char *reason = "none";
+    } inventory{&v["loaded_objects"]};
+    const auto stopped = ::dl_iterate_phdr(
         [](dl_phdr_info *info, std::size_t, void *context) {
-            const std::string_view name(info->dlpi_name);
-            if (name.find("libdrogon") == name.npos && name.find("libtrantor") == name.npos &&
-                name.find("libcrypto") == name.npos && name.find("libssl") == name.npos &&
-                name.find("libjsoncpp") == name.npos && name.find("libstdc++") == name.npos)
-                return 0;
-            auto &objects = *static_cast<Json::Value *>(context);
-            if (objects.size() == 16 || name.size() > 512)
+            auto &state = *static_cast<Inventory *>(context);
+            if (state.objects->size() == 64 || info->dlpi_name == nullptr) {
+                state.complete = false;
+                state.reason = "object_count_or_name_missing";
                 return 1;
-            objects.append(std::string(name));
+            }
+            const auto size = ::strnlen(info->dlpi_name, 513);
+            if (size > 512) {
+                state.complete = false;
+                state.reason = "object_name_capacity";
+                return 1;
+            }
+            std::string name(info->dlpi_name, size);
+            Json::Value item(Json::objectValue);
+            item["load_address"] = Json::UInt64(info->dlpi_addr);
+            if (name.empty()) {
+                std::array<char, 513> path{};
+                const auto n = ::readlink("/proc/self/exe", path.data(), path.size());
+                if (n <= 0 || n >= static_cast<ssize_t>(path.size())) {
+                    state.complete = false;
+                    state.reason = "main_path_unresolved";
+                    item["kind"] = "unresolved_main";
+                } else {
+                    name.assign(path.data(), static_cast<std::size_t>(n));
+                    item["kind"] = "main";
+                }
+            } else if (name == "linux-vdso.so.1" || name == "linux-gate.so.1")
+                item["kind"] = "virtual";
+            else if (name.front() == '/')
+                item["kind"] = "file";
+            else {
+                item["kind"] = "unresolved";
+                state.complete = false;
+                state.reason = "relative_object_path_unresolved";
+            }
+            if (name.size() > 512) {
+                state.complete = false;
+                state.reason = "resolved_name_capacity";
+                return 1;
+            }
+            item["path"] = name;
+            state.objects->append(std::move(item));
             return 0;
         },
-        &v["loaded_objects"]);
-    if (complete != 0)
-        throw std::runtime_error("loaded-object identity cap");
+        &inventory);
+    v["complete"] = inventory.complete && stopped == 0;
+    v["incomplete_reason"] = inventory.reason;
+    // Complete means this bounded CURRENT loader inventory, not future dlopen/ABI proof.
+    v["sdk_initialization"] = "selected_DSO_initializers_have_run";
     return v;
 }
 
 class Harness;
 Harness *active = nullptr;
-class Controller final : public drogon::WebSocketController<Controller> {
+class Controller final : public drogon::WebSocketController<Controller, false> {
   public:
     void handleNewConnection(const drogon::HttpRequestPtr &, const ws::Connection &) override;
     void handleNewMessage(const ws::Connection &, std::string &&,
@@ -498,6 +544,7 @@ class Harness {
             .setThreadNum(1)
             .addListener("127.0.0.1", 0)
             .setIdleConnectionTimeout(0);
+        app.registerController(std::make_shared<Controller>());
         if (backend == ws::Backend::stock_upstream)
             app.setClientMaxWebSocketMessageSize(1048576).setMaxConnectionNum(64);
         if (settings_["small_send_buffer"].asBool()) {
@@ -520,6 +567,10 @@ class Harness {
                         drogon::app().quit();
                         return;
                     }
+                    controlOwner_ = trantor::EventLoop::getEventLoopOfCurrentThread();
+                    if (controlOwner_ == nullptr)
+                        std::_Exit(87);
+                    reader_ = std::thread([this] { readCommands(); });
                     auto ready = event("ready");
                     ready["port"] = port;
                     ready["profile"] = profile_ != nullptr;
@@ -527,10 +578,10 @@ class Harness {
                 });
             });
         });
-        reader_ = std::thread([this] { readCommands(); });
         app.run();
         finishReader_.store(true);
-        reader_.join();
+        if (reader_.joinable())
+            reader_.join();
         auto stopped = event("fixture_stopped");
         stopped["failed"] = failed_.load();
         events_.emit(stopped);
@@ -571,10 +622,40 @@ class Harness {
         if (!data || !profile_) {
             auto v = event(data ? "message" : "control");
             v["connection"] = id;
-            v["origin"] = "stock_raw";
+            v["origin"] = profile_ ? "native_control" : "stock_raw";
             v["kind"] = kind(type);
             v["payload"] = payload(bytes(text));
             events_.emit(v);
+            if (profile_ && type == drogon::WebSocketMessageType::Ping &&
+                settings_["quota_observer"].asBool() && !quotaObserverQueued_) {
+                quotaObserverQueued_ = true;
+                auto *owner = trantor::EventLoop::getEventLoopOfCurrentThread();
+                // Posted during the real control callback, before native quota dispatch returns
+                // and queues its continuation. FIFO runs this observer first, then continuation
+                // without another poll. Source review must exclude an interposed timer guard.
+                owner->queueInLoop([this, connection, id] {
+                    auto observed = event("quota_observed");
+                    observed["connection"] = id;
+                    const auto native = profile_->inspect(connection);
+                    observed["inspection"] = status(native);
+                    bool valid = false;
+                    if (const auto *s = std::get_if<ws::Snapshot>(&native)) {
+                        observed["snapshot"] = snapshot(*s);
+                        valid = s->continuation_pending && s->frames_in_last_turn == 1 &&
+                                s->frames_consumed == 1 && s->ws_bytes_read >= 7 &&
+                                s->ws_bytes_consumed == 6 && s->frame_deadline &&
+                                s->frame_deadline->nanoseconds == 1010000000;
+                    }
+                    if (valid && clock_) {
+                        // Test input only: no recheck/parser/close/counter mutation here.
+                        clock_->set(1010000000, true);
+                        observed["status"] = "observed_and_advanced";
+                        observed["advanced_to"] = Json::UInt64(1010000000);
+                    } else
+                        observed["status"] = "fixture_barrier_not_established";
+                    events_.emit(observed);
+                });
+            }
             return;
         }
         // The corrected source binds the current validated native delivery. The fixture
@@ -659,7 +740,18 @@ class Harness {
                 return slot;
         throw std::runtime_error("lease id");
     }
+    void requestStop() {
+        if (stopRequested_.exchange(true))
+            return;
+        if (controlOwner_ == nullptr)
+            std::_Exit(88); // Reader starts only after actual owner initialization.
+        controlOwner_->queueInLoop([this] { stop(); });
+    }
     void stop() {
+        if (stopping_)
+            return;
+        stopping_ = true;
+        // All teardown is on the initialized IO owner, including wrong-owner failures.
         // Cleanup is deliberately explicit and cannot count as tested native teardown.
         for (auto &slot : held_)
             slot.lease.reset();
@@ -691,9 +783,9 @@ class Harness {
             v["request"] = c["request"];
             if (op == "stop") {
                 v["status"] = "ok";
-                events_.emit(v);
                 pending_.store(false);
-                stop();
+                events_.emit(v);
+                requestStop();
                 return;
             }
             ws::Connection connection;
@@ -701,7 +793,7 @@ class Harness {
                 connection = std::make_shared<Foreign>();
             else if (c["target"].asString() != "null" && c["connection"].isUInt())
                 connection = peer(c["connection"].asUInt()).connection;
-            const auto before = audit_->samples.load();
+            const auto before = callerSourceSamples;
             if (op == "barrier")
                 v["status"] = "ok";
             else if (op == "drop_clock") {
@@ -773,6 +865,46 @@ class Harness {
                 if (const auto *d = std::get_if<ws::CloseDisposition>(&r))
                     v["disposition"] =
                         *d == ws::CloseDisposition::started ? "started" : "already_closing";
+            } else if (op == "lease_consumer") {
+                auto &source = held(c["lease"].asUInt());
+                ws::MessageLease transferred(std::move(*source.lease));
+                source.lease.reset();
+                std::promise<Json::Value> completion;
+                auto ready = completion.get_future();
+                std::thread consumer(
+                    [lease = std::move(transferred), &completion, owner = controlOwner_]() mutable {
+                        Json::Value outcome(Json::objectValue);
+                        try {
+                            outcome["off_owner"] =
+                                trantor::EventLoop::getEventLoopOfCurrentThread() != owner;
+                            const auto view = lease.view();
+                            outcome["original_present"] = view.has_value();
+                            if (view)
+                                outcome["payload"] = payload(view->bytes);
+                            auto copy = lease.try_copy();
+                            outcome["copy"] = status(copy.value);
+                            if (auto *cloned = std::get_if<ws::MessageLease>(&copy.value)) {
+                                cloned->reset();
+                                outcome["copy_reset_absent"] = !cloned->view().has_value();
+                                outcome["copy_reset_reserved"] =
+                                    Json::UInt64(cloned->reserved_payload_bytes());
+                            }
+                            lease.reset();
+                            outcome["original_reset_absent"] = !lease.view().has_value();
+                            outcome["original_reset_reserved"] =
+                                Json::UInt64(lease.reserved_payload_bytes());
+                            outcome["status"] = "ok";
+                        } catch (...) {
+                            outcome["status"] = "fixture_consumer_error";
+                        }
+                        completion.set_value(std::move(outcome));
+                    });
+                // IO cannot run a resumption while waiting here. Consumer release/copy must
+                // complete independently; the watchdog is failure, never simulated success.
+                if (ready.wait_for(2s) != std::future_status::ready)
+                    std::_Exit(90);
+                consumer.join();
+                v = result(v, ready.get());
             } else if (op == "lease_copy") {
                 auto &source = held(c["lease"].asUInt());
                 auto r = source.lease->try_copy();
@@ -799,19 +931,22 @@ class Harness {
                 v["status"] = "ok";
             } else
                 throw std::runtime_error("unknown operation");
+            v["clock_audit_scope"] = "current_caller_thread";
             v["clock_calls_before"] = Json::UInt64(before);
-            v["clock_calls_after"] = Json::UInt64(audit_->samples.load());
+            v["clock_calls_after"] = Json::UInt64(callerSourceSamples);
             v["foreign_virtual_calls"] = foreignCalls.load();
             v["source_destroyed"] = Json::UInt64(audit_->destroyed.load());
+            pending_.store(
+                false); // Publish terminal result only after releasing command ownership.
             events_.emit(v);
         } catch (...) {
             failed_.store(true);
+            pending_.store(false);
             auto v = event("fixture_error");
             v["reason"] = "command";
             events_.emit(v);
-            stop();
+            requestStop();
         }
-        pending_.store(false);
     }
     static Json::Value result(Json::Value v, const Json::Value &fields) {
         for (const auto &key : fields.getMemberNames())
@@ -833,8 +968,15 @@ class Harness {
                 if (ready == 0)
                     continue;
                 const auto n = ::read(STDIN_FILENO, buffer.data(), buffer.size());
-                if (n <= 0) {
-                    drogon::app().getIOLoop(0)->queueInLoop([this] { stop(); });
+                if (n < 0) {
+                    if (errno == EINTR)
+                        continue;
+                    throw std::runtime_error("stdin read error");
+                }
+                if (n == 0) {
+                    if (!line.empty())
+                        throw std::runtime_error("truncated stdin command");
+                    requestStop();
                     return;
                 }
                 for (ssize_t i = 0; i < n; ++i) {
@@ -861,8 +1003,9 @@ class Harness {
             failed_.store(true);
             auto v = event("fixture_error");
             v["reason"] = "stdin";
+            pending_.store(false);
             events_.emit(v);
-            drogon::app().getIOLoop(0)->queueInLoop([this] { stop(); });
+            requestStop();
         }
     }
     Events &events_;
@@ -876,7 +1019,9 @@ class Harness {
     unsigned peerCount_ = 0;
     std::array<Held, maxLeases> held_{};
     unsigned leaseSequence_ = 0;
-    std::atomic<bool> finishReader_{false}, pending_{false}, failed_{false};
+    std::atomic<bool> finishReader_{false}, pending_{false}, failed_{false}, stopRequested_{false};
+    trantor::EventLoop *controlOwner_ = nullptr;
+    bool stopping_ = false, quotaObserverQueued_ = false;
     std::thread reader_;
 };
 
@@ -900,8 +1045,9 @@ int main(int argc, char **argv) {
             v["backend"] = ws::linked_backend() == ws::Backend::stock_upstream
                                ? "stock_upstream"
                                : "admitted_corrected";
+            const bool complete = v["complete"].asBool();
             events.emit(v);
-            return 0;
+            return complete ? 0 : 89;
         }
         Harness harness(events, parse(argv[1]));
         return harness.run();
