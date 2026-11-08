@@ -181,5 +181,5 @@ if(SUBATHON_BUILD_SQLITE_ACCOUNT_SESSION_TESTS)
     subathon_add_qt_suite(server_sqlite_account_sessions_acceptance
         NAME sqlite-account-sessions SOURCES qt/sqlite_account_sessions_tests.cpp
         LIBRARIES subathon_sqlite_account_sessions subathon_sqlite_migrations subathon_session_resolution
-        LABELS "sqlite-account-sessions;acceptance;intentional-red;qt;server")
+        LABELS "sqlite-account-sessions;acceptance;qt;server")
 endif()

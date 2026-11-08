@@ -79,12 +79,26 @@ methods/67 scenarios, with separate source/resource/configuration reviews and se
 CI. See [codecs #69](https://github.com/Kernol12/subathon-bot-ai/pull/69) and
 [store #70](https://github.com/Kernol12/subathon-bot-ai/pull/70).
 
-Account/session storage has a reviewed physical/API contract and a compiled, independently
-reviewed 44-case intended-red baseline. The selected SDK foundation passed before the
-feature run; all 44 failed from the intended missing implementation marker. Its current CI
-checks discovery and stable existing suites, not passing feature behavior. STORAGE-020 remains
-unimplemented. See [contract #86](https://github.com/Kernol12/subathon-bot-ai/pull/86) and
-[baseline #89](https://github.com/Kernol12/subathon-bot-ai/pull/89).
+[Physical account/session storage #106](https://github.com/Kernol12/subathon-bot-ai/pull/106)
+now passes all 44 original real-Qt-SQL methods. Separate source/resource/schema reviews
+preserve complete preownership bounds, exact binary/signed facts, indexed pages,
+full conditional fences, caller-owned transactions and snapshot ordinals. Compiled
+factory equality/frame/digest assertions cover every prefix and additive head8;
+the real store cases use the independent literal manifest through the actual runner.
+No directly observed production-factory migration invocation or printed digest is
+claimed. One local 18-node run passed, including 15 Qt runners/915 raw results and
+38 tooling tests, zero skips; all 653 tracked files stayed unchanged. All 869 prior
+Qt result identities/order match the preserved old raw log, without replay. An initial
+Qt macro compile failure was preserved and fixed by a separately reviewed four-line
+identifier rename before any test body. Original [contract #86](https://github.com/Kernol12/subathon-bot-ai/pull/86),
+[44-case red #89](https://github.com/Kernol12/subathon-bot-ai/pull/89) and later approved
+helper/comment revisions remain preserved. Reviewed implementation head `f30a720`
+passed all 19 CI checks, including actual hosted 44 account methods/zero skips, all
+14 prior SQL runners, the six-fixture check and ordinary guard. The tested merge
+tree equals the reviewed source tree. Final metadata review/current-head CI and
+normal merge remain open. This component
+supplies physical current facts, without accepted login, permission, clock or session
+publication authority.
 
 Crash/reopen and populated-database upgrades, corruption/disk-full handling, backup,
 recovery authorization, operations/update workflows and supported-platform release
@@ -118,7 +132,7 @@ No additional operational login/session lifecycle or platform capability follows
 Transport, lifecycle mutations, current clock production, and lossless/secret-safe
 ingress have reviewed documents and literal examples. They are contracts, without
 implemented native parser patch, proxy admission, actual login, session issuance,
-current SQL source, trustworthy runtime clock or permission enforcement. Hardware
+application-bound source hosts, trustworthy runtime clock or permission enforcement. Hardware
 password benchmarking and Linux/Windows package/security checks remain open.
 See [transport #74](https://github.com/Kernol12/subathon-bot-ai/pull/74),
 [lifecycle #83](https://github.com/Kernol12/subathon-bot-ai/pull/83),
@@ -191,7 +205,7 @@ and [implementation #77](https://github.com/Kernol12/subathon-bot-ai/pull/77) re
 archived; hostile-package/resource/kernel guarantees are not current capabilities.
 These offline artifact checks establish no runtime HTTP/auth/provider/client/platform
 behavior. The progress schema remains an editor hint; runtime tooling owns DAG,
-review and note-length invariants. Current tooling 37/37 and infrastructure 3/3 pass.
+review and note-length invariants. Current tooling 38/38 and infrastructure 3/3 pass.
 
 [ADR-0012](../decisions/0012-test-suite-simplification.md) bounds the current cleanup.
 The published archive preserves all 969 removed receipts, verified after publication;
@@ -202,17 +216,18 @@ Environment-only programs and translation foundation mode were retired after sep
 review; real test bodies, fixtures, pins and the Qt verifier remain. See
 [environment cleanup #94](https://github.com/Kernol12/subathon-bot-ai/pull/94).
 
-One acceptance option and explicit suite selection preserve all 31 preset closures;
-enabled retired cache options fail with migration guidance. Independently reviewed
+The registration cleanup preserved all 31 then-current preset closures; account-only
+selection now includes its compiled migration prefix as recorded above. Enabled
+retired cache options fail with migration guidance. Independently reviewed
 selector tests reached intended red before implementation. Qt/translation use whole
 suites; GoogleTest keeps per-case isolation. The combined stable baseline passed 428
 CTest nodes: 410 GoogleTest cases, 14 Qt suites covering 361 methods, translation's
-43 methods and three infrastructure checks. The 53 rate and 44 account feature methods remain enabled
-intentional red, without replay for receipts. See [registration #96](https://github.com/Kernol12/subathon-bot-ai/pull/96).
+43 methods and three infrastructure checks. At that cleanup stage, the 53 rate and 44 account feature methods stayed enabled
+intentional red without replay; account implementation is now recorded above. See [registration #96](https://github.com/Kernol12/subathon-bot-ai/pull/96).
 
 Shared Qt support preserves throwing callback failures, real completion outcomes,
 typed errors and timeouts. Thirteen existing warning policies now run per test;
-twelve guarded stable classes ran, while account remains passive. Exact repeated
+twelve guarded stable classes ran, while account was still passive. Exact repeated
 writer checks moved to writer owners without dropping unique repository outcomes.
 See [Qt support #97](https://github.com/Kernol12/subathon-bot-ai/pull/97). Shipped
 migration framing/digest freezes now live in the owning stable suite for each
@@ -243,7 +258,7 @@ binary after independently verifying every native/build/support input: the focus
 service run passed 43 methods/233 body scenarios plus two lifecycle results, with the
 same ordered 235 raw PASS IDs. Infrastructure 3/3 and tooling 37/37 pass. Other Qt
 suites were not replayed solely for receipts. Independent final packet review and all 19 current checks passed before normal
-PR #102 merge `b538fa5`. Account coordinate8 remains proposed and its 44 feature bodies passive;
+PR #102 merge `b538fa5`. At that stage account coordinate8 was proposed and its 44 feature bodies passive;
 hosted SQL CI builds the baseline and checks nonempty metaobject discovery, without
 running or independently counting 44 feature bodies. Final [adoption PR #103](https://github.com/Kernol12/subathon-bot-ai/pull/103) adds an
 all-six `--check` immediately after SQL-job checkout and the
@@ -273,5 +288,9 @@ actual per-case process/filters and permissions allocator isolation were verifie
 Old credit/numeric CI exposes per-case CTest results but no raw filter argv; old
 permissions and the new run provide verbose native evidence. A handoff addendum
 clarifies tooling's copied temporary-tree generators; no tracked fixture regeneration
-or native rerun occurred. Final packet/current hosted CI/normal merge gates remain in
-the PR. This closes local test organization only; full product verification is separate.
+or native rerun occurred. Corrected final head `930c558` received independent final
+packet and current hosted CI review: all 19 checks passed before normal merge
+`344c1e2`. Hosted credit is nonverbose; SQL logs prove complete runner results rather
+than per-row Qt output. A separate closure audit verified all 13 EPIC-028 children
+reviewed and normally merged. The quality epic is complete; STORAGE-020 now owns
+physical account/session implementation. Full product verification is separate.

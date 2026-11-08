@@ -58,11 +58,13 @@ function(subathon_resolve_acceptance_suites output)
         message(FATAL_ERROR "Acceptance suite selection must not be empty")
     endif()
 
-    # These prefixes are the existing named SQLite preset closures, not a new
-    # dependency graph. Other selected suites retain their prior small closures.
+    # SQLite repositories reuse the preceding compiled migration factories;
+    # account/session storage therefore includes the initial-capture prefix.
+    # Other selected suites retain their small closures.
     set(sqlite_chain sqlite-writer sqlite-work sqlite-migrations sqlite-retained
         sqlite-receipt sqlite-contribution sqlite-plan sqlite-bundle
-        sqlite-original-claim sqlite-hold application-service sqlite-reference-capture)
+        sqlite-original-claim sqlite-hold application-service sqlite-reference-capture
+        sqlite-account-sessions)
     set(selected)
     foreach(suite IN LISTS requested)
         if(suite STREQUAL "all")
@@ -77,8 +79,6 @@ function(subathon_resolve_acceptance_suites output)
             math(EXPR prefix_length "${sqlite_index} + 1")
             list(SUBLIST sqlite_chain 0 ${prefix_length} prefix)
             list(APPEND selected ${prefix})
-        elseif(suite STREQUAL "sqlite-account-sessions")
-            list(APPEND selected sqlite-writer sqlite-work sqlite-migrations sqlite-account-sessions)
         elseif(suite STREQUAL "milestone-progression" OR suite STREQUAL "effective-permissions"
                OR suite STREQUAL "rate-snapshot")
             list(APPEND selected exact-numeric "${suite}")
