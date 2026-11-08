@@ -346,7 +346,14 @@ old release cannot reopen a closed/new-generation connection. Source/resource re
 must verify these operations and the full context/metadata bounds.
 
 **Send/Close/recheck.** `try_send` is local admission only, never delivered-to-peer
-proof. It admits the complete encoded wire bytes including headers and every live
+proof. For a live owned connection, try_send refuses Unavailable/closed when
+close_sent or a valid close_received is latched, before capacity reservation,
+encoding, copy or queue. This means application-output admission is closed; it
+never sets or infers Snapshot.transport_closed. Actual deadline/source guards
+still run as required; expiry or unavailable-time teardown is not bypassed. With
+valid time before the original deadline, another valid start_close returns
+already_closing, emits no extra Close and preserves the first body/deadline.
+It admits the complete encoded wire bytes including headers and every live
 owned copy BEFORE encoding/copy/queue; input span need live only for this call.
 Refusal changes no application output; invalid local Text/input is invalid_input.
 Use the native profile's separate control reserve. `start_close` validates LocalClose
