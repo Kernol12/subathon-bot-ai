@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "support/sqlite_test_support.hpp"
-// OC01–14: independent frozen fixtures; no new reader runs until full baseline review.
+// Original-claim queries preserve global priority and independently frozen source closures.
 #include "support/sqlite_original_claim_fixture.hpp"
 #include <QMap>
 #include <QRegularExpression>

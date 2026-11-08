@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Specification v0.45 §10/AUTH-03/06; frozen model3d82bfa4/API dda2793c.
+// Supplied facts require complete permission witnesses, exact quantities and owned explanations.
 // Raw synthetic inputs and independent literals; no SUT factory or runtime setup.
 #include <subathon/core/effective_permissions.hpp>
 

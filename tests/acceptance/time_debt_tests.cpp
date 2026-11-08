@@ -122,7 +122,7 @@ TEST(TimeDebtReversal, SelectingAnotherPolicyDoesNotClearOutstandingDebt) {
     EXPECT_EQ(held.disposition, TimeReversalDisposition::RequiresReview);
 }
 
-// NUM-02/04: signed extrema are data, not a license to negate/wrap/saturate.
+// Signed extrema remain exact without negation overflow, wrapping or saturation.
 TEST(TimeDebtReversal, MinimumSignedRequestCanStopAtZeroWithoutNegation) {
     const auto result =
         plan_time_reversal({maximum, 7}, reversal(minimum), RefundDeficitPolicy::StopAtZero);

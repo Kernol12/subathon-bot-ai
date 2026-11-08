@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// RS01–17, specification NUM-04/FX-06, rate-snapshots-api-v1.md.
+// These cases specify retained rate sources, exact conversion and bounded refusal behavior.
 // All fixtures are raw inputs; expected fractions and budgets are independent literals.
 #include "../fixtures/rate_snapshots_vectors.hpp"
 #include <algorithm>

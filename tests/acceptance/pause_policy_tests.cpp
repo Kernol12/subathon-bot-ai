@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Specification v0.45 §4/TIMER-03/05 and §18; pause-policy-v1.md proposed revision 1.
+// Independent pause reasons and monotonic signal delays determine the final pause proposal.
 // Expected snapshots are manually derived from durations and independent set membership.
 #include <gtest/gtest.h>
 #include <limits>

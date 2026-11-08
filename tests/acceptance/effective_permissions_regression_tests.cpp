@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Isolated executable: the allocation hook is armed only around one direct evaluator call.
+// The allocation hook is armed only around one evaluator call in its isolated test process.
 #include <subathon/core/effective_permissions.hpp>
 
 #include <cstddef>

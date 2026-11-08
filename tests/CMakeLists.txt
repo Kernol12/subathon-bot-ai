@@ -69,21 +69,15 @@ if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS)
 endif()
 
 if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
-    add_executable(core_effective_permissions_acceptance acceptance/effective_permissions_tests.cpp)
+    # The allocation hook is armed only inside an isolated per-case evaluator call.
+    add_executable(core_effective_permissions_acceptance
+        acceptance/effective_permissions_tests.cpp
+        acceptance/effective_permissions_regression_tests.cpp)
     target_link_libraries(core_effective_permissions_acceptance PRIVATE subathon_effective_permissions GTest::gtest_main)
     subathon_target_options(core_effective_permissions_acceptance)
     subathon_discover_gtests(core_effective_permissions_acceptance
         PREFIX "effective-permissions."
         LABELS "effective-permissions;acceptance;core" TIMEOUT 10)
-    # Private allocator fault injection is confined to this separate executable.
-    add_executable(core_effective_permissions_regression
-        acceptance/effective_permissions_regression_tests.cpp)
-    target_link_libraries(core_effective_permissions_regression PRIVATE
-        subathon_effective_permissions GTest::gtest_main)
-    subathon_target_options(core_effective_permissions_regression)
-    subathon_discover_gtests(core_effective_permissions_regression
-        PREFIX "effective-permissions-regression."
-        LABELS "effective-permissions;acceptance;core;regression" TIMEOUT 10)
 
 endif()
 
@@ -95,30 +89,24 @@ if(SUBATHON_BUILD_TIME_DEBT_TESTS)
         LABELS "time-debt;acceptance;core" TIMEOUT 5)
 endif()
 if(SUBATHON_BUILD_TIME_CREDIT_TESTS)
-    add_executable(core_credit_acceptance acceptance/time_credit_tests.cpp)
+    add_executable(core_credit_acceptance
+        acceptance/time_credit_tests.cpp
+        acceptance/time_credit_regression_tests.cpp)
     target_link_libraries(core_credit_acceptance PRIVATE subathon_core GTest::gtest_main)
     subathon_target_options(core_credit_acceptance)
     include(GoogleTest)
     subathon_discover_gtests(core_credit_acceptance
-        LABELS "acceptance;draft")
-    add_executable(core_credit_regression acceptance/time_credit_regression_tests.cpp)
-    target_link_libraries(core_credit_regression PRIVATE subathon_core GTest::gtest_main)
-    subathon_target_options(core_credit_regression)
-    subathon_discover_gtests(core_credit_regression
-        LABELS "regression;core")
+        LABELS "acceptance;core")
 endif()
 
 if(SUBATHON_BUILD_EXACT_NUMERIC_TESTS)
-    add_executable(core_exact_numeric_acceptance acceptance/exact_decimal_tests.cpp)
+    add_executable(core_exact_numeric_acceptance
+        acceptance/exact_decimal_tests.cpp
+        acceptance/exact_decimal_regression_tests.cpp)
     target_link_libraries(core_exact_numeric_acceptance PRIVATE subathon_exact_numeric GTest::gtest_main)
     subathon_target_options(core_exact_numeric_acceptance)
     subathon_discover_gtests(core_exact_numeric_acceptance
         LABELS "exact-numeric;acceptance;core")
-    add_executable(core_exact_numeric_regression acceptance/exact_decimal_regression_tests.cpp)
-    target_link_libraries(core_exact_numeric_regression PRIVATE subathon_exact_numeric GTest::gtest_main)
-    subathon_target_options(core_exact_numeric_regression)
-    subathon_discover_gtests(core_exact_numeric_regression
-        LABELS "exact-numeric;regression;core")
 endif()
 
 if(SUBATHON_BUILD_MILESTONE_PROGRESSION_TESTS)

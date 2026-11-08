@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Specification v0.45 §4/§18/TIMER-01; logical f4a4c3ce / API a2ac5a2c.
+// Editorial proposals preserve timer, debt, cap and first-Start semantics without committing state.
 // Raw synthetic aggregates and independent literals. No reducer builds an oracle.
 #include <subathon/core/timer_editorial_commands.hpp>
 

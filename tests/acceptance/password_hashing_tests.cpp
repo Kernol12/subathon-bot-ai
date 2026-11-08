@@ -258,7 +258,7 @@ void call_raw(Operation operation, PasswordBytes password, const PasswordHashing
 constexpr std::array operations{Operation::create, Operation::verify, Operation::upgrade};
 } // namespace
 
-// PH01/03/04/05: raw bytes are preserved; real SDK alone checks each returned new verifier.
+// Raw bytes are preserved; the real SDK checks each returned new verifier.
 TEST(PasswordCreation, EmptyNulUnicodeAndFullLengthRemainExactBytes) {
     struct Row {
         const char *id;
@@ -308,7 +308,7 @@ TEST(PasswordCreation, EmptyNulUnicodeAndFullLengthRemainExactBytes) {
     }
 }
 
-// PH11: acceptance of the boundary costs is observed through an error-only native hash refusal.
+// Admitted boundary costs reach an error-only native hash refusal.
 TEST(PasswordCreation, ExactDesiredCostBoundariesReachNativeWithoutSubstitution) {
     for (const auto &[passes, memory] : std::array<std::pair<std::uint32_t, std::uint64_t>, 4>{
              {{2, 67108864}, {10, 67108864}, {2, 268435456}, {10, 268435456}}}) {
@@ -432,7 +432,7 @@ TEST(PasswordVerification, Exact1024ByteInputIsAdmittedByVerifyAndUpgrade) {
     }
 }
 
-// PH06/07: bounded raw assembly never computes classification with a parser/SUT helper.
+// Bounded raw assembly keeps classification independent of parser and production helpers.
 TEST(PasswordRecordPreflight, MalformedFramingNumbersAndBase64NeverReachNative) {
     const std::array headers{"$ARGON2ID$v=19$m=4882,t=2,p=1",     "$argon2id$v=019$m=4882,t=2,p=1",
                              "$argon2id$v=19$m=04882,t=2,p=1",    "$argon2id$v=19$m=+4882,t=2,p=1",
@@ -474,7 +474,7 @@ TEST(PasswordRecordPreflight, MalformedFramingNumbersAndBase64NeverReachNative) 
     }
 }
 
-// PH08/09/10: full malformed checks precede unsupported profile, which precedes supported cost.
+// Complete malformed checks precede unsupported-profile checks and supported-cost admission.
 TEST(PasswordRecordPreflight, UnsupportedAndCostCombinedFailuresHaveFixedPriority) {
     struct Row {
         const char *header;
@@ -911,7 +911,7 @@ TEST(PasswordUpgrade, AdditionalPublishedInputRetainsStrongerTimeWhileRaisingMem
     exact_protected_input();
 }
 
-// PH12: exact independently prepared input, not an H0 metadata edit or prior SUT setup.
+// Independent verifier and password fixtures exercise the retained profile and its upgrade.
 TEST(PasswordUpgrade, PH12RetainsSixPassesWhileRaising32768KiBTo65536) {
     LoginSource source;
     source.reading.credential->encoded_verifier = vectors::ph12_record;
@@ -943,7 +943,7 @@ TEST(PasswordUpgrade, PH12RetainsSixPassesWhileRaising32768KiBTo65536) {
     exact_protected_input();
 }
 
-// PH13: already stronger in both dimensions; retained encoded bytes are untouched.
+// A profile already stronger in both dimensions retains its encoded bytes.
 TEST(PasswordUpgrade, PH13SixPassesAnd131072KiBNeedNoReplacement) {
     LoginSource source;
     source.reading.credential->encoded_verifier = vectors::ph13_record;

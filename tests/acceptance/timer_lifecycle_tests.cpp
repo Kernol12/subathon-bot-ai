@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Specification v0.45 §4/TIMER-01/02; timer-lifecycle-v1.md revision 1.
+// Supplied elapsed and UTC inputs determine Main, Grace and confirmation transitions.
 // All durations and transition sequences below are manually derived examples.
 #include <gtest/gtest.h>
 #include <limits>
