@@ -32,3 +32,10 @@ This producer does not implement timer countdown/checkpoint/downtime, accepted l
 recovery offers, staged restore or installation-epoch rotation protocols. ACCESS-005
 and STORAGE-007 must test their actual use of its refusal/fence boundary. Record
 exact revisions/commands/environment/results and those remaining gates in a handoff.
+
+
+The accepted clock contract §2 assigns actual host/queue lifecycle to API-001. Both
+SESSIONTEST-009 and SESSION-009 therefore require that real host explicitly. A
+supplied readiness fixture combined with real native calls remains simulated host
+evidence; it cannot complete this brief's actual producer-binding acceptance. The
+clock owns its adapter/continuity/facade binding, not a parallel generic host issuer.

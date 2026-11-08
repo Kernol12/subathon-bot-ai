@@ -38,8 +38,9 @@ Routine implementation choices are allowed within scope. Unknown provider behavi
 not a supported capability; never turn unknown source fields into known values.
 Start with `docs/ARCHITECTURE.md`, `docs/AGENT_WORKFLOW.md`, `docs/TEST_STRATEGY.md`,
 `progress/state.json`, and the selected task brief. Read scoped `AGENTS.md` files in
-every module being edited. EPIC-028 is complete. Current priority is STORAGE-020 in
-`docs/tasks/EPIC-009/`; then continue dependency-ready product tasks.
+every module being edited. EPIC-028 and STORAGE-020 are complete. Current priority is
+APICONTRACT-001, then APITEST-012/API-012 and APITEST-001/API-001 in
+`docs/tasks/EPIC-008/`, before actual session-clock binding.
 
 ## Test-first and review gates
 

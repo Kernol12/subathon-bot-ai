@@ -95,8 +95,9 @@ identifier rename before any test body. Original [contract #86](https://github.c
 helper/comment revisions remain preserved. Reviewed implementation head `f30a720`
 passed all 19 CI checks, including actual hosted 44 account methods/zero skips, all
 14 prior SQL runners, the six-fixture check and ordinary guard. The tested merge
-tree equals the reviewed source tree. Final metadata review/current-head CI and
-normal merge remain open. This component
+tree equals the reviewed source tree. Final head `b187b57` then passed all 19
+current checks and separate packet/hosted review before normal PR106 merge `1dcf2b6`.
+The final hosted account run had 44 methods plus lifecycle results and zero skips. This component
 supplies physical current facts, without accepted login, permission, clock or session
 publication authority.
 
@@ -181,6 +182,15 @@ and platform support remain open. See [spike #4](https://github.com/Kernol12/sub
 [wire #58](https://github.com/Kernol12/subathon-bot-ai/pull/58),
 [HTTP #79](https://github.com/Kernol12/subathon-bot-ai/pull/79), and
 [adapters #66](https://github.com/Kernol12/subathon-bot-ai/pull/66).
+
+The [host lifecycle and native WebSocket profile #107](https://github.com/Kernol12/subathon-bot-ai/pull/107)
+now have independently reviewed documents and 17/22 literal examples. They define
+actual invocation/publication/readiness ownership, monotonic resource deadlines,
+writer cancellation/drain and finite protocol/control/fragment/Close obligations.
+This is document proof only; native baseline/red, selected source correction, actual
+host/readiness producers and normal merge remain. All 19 reviewed a7ab CI checks
+pass; final metadata/current-head gates remain. Account H1 Upgrade
+refusal and complete synchronization/authorization scope remain unchanged.
 
 ## Presentation and clients
 
