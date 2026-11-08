@@ -5135,7 +5135,7 @@
       "verification": {
         "claim": "passed",
         "boundary_review": "passed",
-        "test_review": "not_run",
+        "test_review": "failed",
         "foundation_admission": "not_run",
         "native_build": "not_run",
         "passive_discovery": "not_run",
@@ -5151,7 +5151,8 @@
         "selector_runtime_review": "passed",
         "build_wiring_review": "not_run",
         "tests_authored": "passed",
-        "static_build_wiring_review": "passed"
+        "static_build_wiring_review": "passed",
+        "fixture_resource_review": "failed"
       },
       "evidence": [],
       "review": null,
@@ -5168,7 +5169,7 @@
       "brief": "docs/tasks/EPIC-008/API-012.md",
       "summary": "Independently review literal native control/fragment/Close and bounded lifecycle cases, then observe intended behavior red on working selected dependencies.",
       "notes": [
-        "Authored 36 native methods/72 table rows; no body run. Boundary/stub and SDK import wiring independently reviewed; selector has observed red and actual7/7 green. Static SDK audit records Drogon C++20/Trantor C++14, notices and loader limits. Exact two-file native handoff and one intentional-red CTest node await protocol/resource/lifecycle/build review. Compile/link/maps, passive discovery and first intended native red remain; no source correction or runtime capability supplied."
+        "Initial native test/protocol and resource reviews require bounded coverage/lifecycle fixes; same author explicitly resumed, no native body run. Valid literal assertions remain; corrected closing-output contract separately approved. Boundary/stub/SDK wiring and selector7/7 proof preserved. Exact corrected tests/build review, compile/link/maps/discovery, intended native red and current CI/normal merge remain. Owner requests stop after this baseline; no API-012 implementation will start."
       ]
     },
     {
@@ -17204,6 +17205,11 @@
       "date": "2026-11-08",
       "task": "APITEST-012",
       "note": "Owner steering: cleanly finish current APITEST-012 baseline through all review/red/CI/merge gates, then stop standing loop. Do not begin API-012 implementation or another task. Current authoredtests remain unexecuted pending independent review/corrections."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "APITEST-012",
+      "note": "Initial95e authoredtestreview26742 andresource/lifecyclereview22a48 require boundedfixes; samefreshcaaauthor explicitly resumed TWOownedfiles only. Closingoutputdoc4ed approved1aec; oldsource/positiveoracles/reports preserved. Allnativebody/configure gatesremainclosed; ownerstopaftercurrentbaseline held."
     }
   ]
 }

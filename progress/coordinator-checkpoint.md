@@ -135,7 +135,39 @@ existing C++17 std::filesystem configureprobe; classify it as foundation executi
 not nativeprofilebody/no-program-execution. No configure/compiler/SDK/app ran yet.
 Sourcehelper completedfixreview; explicitly resume exactfixture/registration/resource review.
 
-NEXT: exact authoredtest/protocol/resource/lifecycle/registration/foundation review,
+Initial exact95e native reviews CHANGES REQUIRED, both preserved:
+/tmp/apitest012-authored-test-review.md SHA
+26742df199bd999c905f9536bda776f28fb5f56066110dcd0548c189b777b5af;
+/tmp/apitest012-fixture-resource-review.md SHA
+22a48eee9588cec2008a0026e5688f4172b9c75852908afb7038308aeba4a07b.
+Primaryfourgroups: actualWS22quota continuation (notmanualrecheck substitution);
+WS11separatevalidPing/deadline fromallowedlate-data teardown +repeatClose/localSend
+refusal; WS21terminaldeadlineoptional(activeimmutabilitynotinventedinactivevalue);
+nonvacuousraw>128/Pongpressure/offownerleasecopy-release. Allvalidprotocolpositives
+preserved; exact36/72/100staticcounts+1860nominalbudget independentlyderived.
+ResourceR1-R7: ACKownershipreleasedbeforepublishedresult; actualcallerclockaudit;
+primaryfailure+allpathreap/join/capturecaps; fullboundedcurrentDSO/nonfile observation
+andtruthfulSDKpremaininit; initializedownerEOF/readerror/idempotentstop; commandquota
+>=actual264B02bound; offownerleaselifecycle. No genericnewframework or scopecut.
+
+ClosingG2 boundedclarification integrated4edebd74365b64e4bca0b1f96888cdb4ad6a1c44:
+try_send close_sent/validreceived =>Unavailable/closed =OUTPUTadmissiononly, never
+Snapshot.transport_closed; deadline/sourceguardsremain; validtime repeatedClose
+already_closing/body+anchorunchanged/noextraframe. Exactdocblobddc5605e41faddd4caae1adae1bf5d330ca9a391
+review /tmp/apitest012-closing-clarification-review.md SHA
+1aec58c8c155083bb6026623b20f10f785a6f3fa98aac8b381aea75a5a14cefc.
+No header/stub/SUT behavior changed.
+
+Samefresh /root/native_ws_baseline_author explicitly resumed ACTIVE corrections
+ONLYtwoownedfiles on originalcaa authorbranch; readsroot4eddocviagitshow, no shared
+branchmerge needed. Bothfullreports sent. Must get independentWS22observation plan
+review BEFORE extra publicseam/SDKhook, no SDK/sourcecorrection permitted. Recompute
+method/subcase/child/control/timeout bounds and preserveoldsource beforehandoff.
+Primary/resource reviewers completedinitialgates/IDLE; explicitlyresume exactre-review.
+No configure/compiler/import/list/identity/socket/native/body/SDK execution authorized.
+
+NEXT: sameauthor boundedcorrections -> exactdifferentreview of changednativefiles,
+retainedprotocol/resource assertions, timeout/registration/foundation,
 resolve genuinefindings bysameauthor+differentreview, preserve expectedoracles ->
 configure/build/passive registration/actualcompiledprobe identity (existingselected
 C++17filesystemconfigureprogram isfoundation, notSDKprofilebody) -> actual FIRST
