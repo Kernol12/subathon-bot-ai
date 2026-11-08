@@ -72,6 +72,17 @@ approval and actual44 body passes/zero skips. Three paths: ordinary workflow ste
 existing guard normal labels, CMake red-label removal, presetdisplay acceptance.
 No extra code/harness or omitted stable checks.
 
+Source is in progress in author worktree (two owned paths only), no native build/body
+yet. Preliminary independent helper review found full DTO/snapshot/variant/supplier
+budget projection occurring AFTER physical class validation in local/session/page
+reads. Author was sent the §6 ordering correction BEFORE execution; preserve all44.
+No new raw corrupt-scalar byte cap is defined or needed: CASE does not materialize
+wrong-class scalar payload and semantic scalar B remains1/8. Exact final source gate
+is still OPEN. Temporary historical/current44-name oracle
+/tmp/storage020-expected-body-oracle.json SHA
+748c272e1f697a4868f9544627873a7696e74ec5144bc73b24fedf654cedead8
+was derived from approvedd717, not implementation output; no checked-in case list.
+
 NEXT: author source handoff -> exact source/resource/schema/config review -> integrate
 source into root and fresh actual44
 unfiltered Qt bodies with zero skips + applicable writer/work/migration/prefix ->
@@ -126,6 +137,14 @@ slices; FX still required. ACCESS003 lacks authority producer, split substantial
 prerequisite before implementing. Full v0.45/seven integrations/three FX/English-
 German/themes/both renderers/full desktop editor/Linux-Windows-OBS/operations/release
 scope remains. No live provider/chat/payment/deployment effects or credentials used.
-Read-only next-task preparation /root/clock_baseline_prep investigates actual
-SESSIONTEST009/clock interfaces and prerequisites; no claim/edit/execution authorized.
+Read-only /root/clock_baseline_prep completed (idle/retired), no task claim/edit/
+execution. Report /tmp/sessiontest009-readonly-prep.md SHA
+55958bf8234776da912f1f48bc9f48f8146d3fe8712e782ccace4f0f342d7eb3
+recommends SESSIONTEST009 after020: acceptedclock946bd12/db874a0 plus30SCexamples,
+minimal contract-owned native adapter/revocable scope needs interface+test review.
+Generic installation-readiness/generation issuer is absent (fullhostAPI001planned);
+unknown readiness mustrefuse, split any substantive reusable producer. Preserve
+actual archived ktime_set saturation below signedns ceiling case and pure conversion
+seam forfullsignedms domain. Native profile is narrower; no fakehosttrust. Setup
+baseline first needs missing concrete contract/schema/authority work.
 Continue after each normal merge; ask only for genuine missing decision/access.
