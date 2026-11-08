@@ -1,7 +1,7 @@
 # Independent fixture generation — revision 1
 
 Task: FIXTURE-001 / FIXTURE-002, under TESTCLEAN-006 / ADR-0012 and specification v0.45 §17.
-Status: reviewed contract/test baseline; storage source and execution gates remain pending.
+Status: implemented fixture tooling; current review/check gates are recorded in task state and PRs.
 This developer tool reproduces independent test data. It establishes no running
 server, account/session storage, authority, provider or platform capability.
 

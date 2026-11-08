@@ -159,9 +159,9 @@ Independent test/oracle review precedes execution, and the dependency-only metad
 bootstrap precedes candidate imports. No native artifact/kernel admission is required.
 Translation acceptance requires the selected Qt tools as well as Python.
 
-Independent fixture reproduction currently supports `reference_capture` and
-`account_sessions`, with fixed script-relative seed inputs and explicit literal
-recipes. Check committed bytes without writing:
+Independent fixture reproduction currently supports `reference_capture`,
+`account_sessions`, `bundle`, `holds` and `original_claims`, with fixed script-relative
+seed inputs and explicit literal recipes. Check committed bytes without writing:
 
 ```sh
 python3 tools/generate_fixtures.py --check
@@ -170,8 +170,10 @@ python3 tools/generate_fixtures.py --check
 Use `--output-dir <directory>` to generate selected files elsewhere; `--fixture <name>`
 restricts selection. No mode writes in place by default. The [fixture contract](contracts/fixture-generation-v1.md)
 defines raw seed pins, byte-exact checks and independent inputs. Reproducing a proposed
-account fixture adds no account-storage capability. Other fixture families remain
-planned until their separate oracle and implementation gates pass.
+account fixture adds no account-storage capability. Claim selectors use six reviewed
+names and explicit corruption-priority roles; all earlier typed values remain frozen.
+Application-service recipes and final all-family adoption remain planned until their
+separate oracle and implementation gates pass.
 
 Infrastructure checks remain distinct from component acceptance:
 

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T10:05:27.393758+00:00",
+  "updated_at": "2026-11-08T10:29:51.243647+00:00",
   "summary": "EPIC-028 now prioritizes readable evidence archival and focused test cleanup under independent review, without reducing the v0.45 release scope. Existing bounded core/accounting and controlled SQLite components have reviewed passing synthetic/component acceptance; actual authority/policy/clock/action adapters, financial/review workflows, integrations/FX, UI and operational/platform scope remain incomplete.",
   "verification": [
     {
@@ -15,7 +15,7 @@
     {
       "label": "Progress tooling",
       "status": "passed",
-      "detail": "36 Python tooling tests, project consistency and current HTML pass. Earlier offline-controller DOM simulation remains recorded; no new browser/OBS proof. Synthetic completion fixtures preserve acceptance and independent-review gates."
+      "detail": "37 Python tooling tests, project consistency and current HTML pass. Earlier offline-controller DOM simulation remains recorded; no new browser/OBS proof. Synthetic completion fixtures preserve acceptance and independent-review gates."
     },
     {
       "label": "CMake / CLion / Qt",
@@ -406,7 +406,7 @@
       "title": "Storage fixture recipes and named selector roles",
       "module": "Fixture tooling",
       "kind": "implementation",
-      "status": "in_progress",
+      "status": "done",
       "owner": "/root/fixture_storage_author",
       "depends_on": [
         "FIXTURE-001"
@@ -417,16 +417,36 @@
       "brief": "docs/tasks/EPIC-028/FIXTURE-002.md",
       "summary": "Reproduce bundle/hold/claim oracles from independent recipes and preserve the exact six-selector corruption-priority crosswalk.",
       "notes": [
-        "Independent storage inventory/R1 contract and frozen CLI tests approved. Focused3methods/5failures attributed solely to three reachable recipe stubs; implementation now assigned fresh author plus isolated holds-only helper. Coordinator owns shared metadata; source/oracle execution review precedes generation/adoption/native checks."
+        "Bundle/holds reproduce original bytes; claims adds only six reviewed names/roles with old typed content intact. Independent test-first/source/fix/runtime reviews approved; focused3/tooling37/infra3 and Qt14/361methods/869results pass. Hold layout-only first failure preserved; common renderer/goldens unchanged. Final packet approval, current-head CI and normal PR101 merge remain open. Next: FIXTURE-003."
       ],
       "verification": {
         "scope_contract_review": "passed",
         "test_oracle_review": "passed",
         "baseline": "observed_red",
-        "baseline_review": "passed"
+        "baseline_review": "passed",
+        "source_oracle_review": "passed",
+        "initial_implementation_run": "failed",
+        "source_fix_review": "passed",
+        "acceptance": "passed",
+        "usage_identity": "passed",
+        "runtime_review": "passed",
+        "native_acceptance": "passed",
+        "tooling": "passed",
+        "github_ci": "not_run",
+        "product_acceptance": "not_run",
+        "native_crosswalk_review": "passed",
+        "scaffold": "passed"
       },
-      "evidence": [],
-      "review": null
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/101"
+      ],
+      "review": {
+        "author": "/root/fixture_storage_author; holds-only helper /root/fixture_holds_author",
+        "reviewer": "/root/fixture_storage_review",
+        "outcome": "approved",
+        "revision": "Contract6e870e2/testb56fbba/red/source54c0462/fix9752a05/runtime454833d and root33f5239 native869-ID/361-method crosswalk independently approved. Exact root packet/current-head CI/normalmerge remain pending.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/101"
+      }
     },
     {
       "id": "FIXTURE-003",
