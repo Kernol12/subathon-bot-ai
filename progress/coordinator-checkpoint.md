@@ -91,7 +91,7 @@ SQL/build/tests/generator/provider calls or gate approval. Assign current-main w
 and claim after quality closure; fresh independent reviewer still needed. Four deps
 done: STORAGECONTRACT002/STORAGE010/STORAGE011/STORAGETEST020. Accepted contracts/API
 and real reviewed44 intended-red marker/exit8/no skips in PR89/archive; do NOT replay
-historical red for receipts. Subsequent TESTCLEAN005 shared fixture/warning changes
+historical red for receipts. Subsequent TESTCLEAN004 shared fixture/warning changes
 6d375bb were separately reviewed;008 changes only comments in that test. Preserve both
 valid approvals, do not falsely describe every post-red change as comments.
 
