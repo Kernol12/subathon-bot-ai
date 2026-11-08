@@ -188,7 +188,8 @@ now have independently reviewed documents and 17/22 literal examples. They defin
 actual invocation/publication/readiness ownership, monotonic resource deadlines,
 writer cancellation/drain and finite protocol/control/fragment/Close obligations.
 This is document proof only; native baseline/red, selected source correction, actual
-host/readiness producers, current CI and normal merge remain. Account H1 Upgrade
+host/readiness producers and normal merge remain. All 19 reviewed a7ab CI checks
+pass; final metadata/current-head gates remain. Account H1 Upgrade
 refusal and complete synchronization/authorization scope remain unchanged.
 
 ## Presentation and clients

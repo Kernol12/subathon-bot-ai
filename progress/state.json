@@ -5080,8 +5080,10 @@
         "implementation": "not_run",
         "planning_review": "passed",
         "tooling": "passed",
-        "github_ci": "not_run",
-        "final_packet_review": "not_run"
+        "github_ci": "passed",
+        "final_packet_review": "passed",
+        "hosted_ci_review": "passed",
+        "final_head_ci": "not_run"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/107",
@@ -5092,13 +5094,13 @@
         "author": "/root/api_lifecycle_contract_author; coordinator shared planning/status",
         "reviewer": "/root/api_lifecycle_contract_review",
         "outcome": "approved",
-        "revision": "Author35712423/import398410d exact hostf1808d0/native6e37630 documents/examples approved14dd487e; planning806dba7 approved2598c31e. No runtime/SDK/source/readiness implementation approval. Final packet/currentCI/merge remain.",
+        "revision": "Author35712423/import398410d exact documents/examples approved14dd487e; planning2598c31e; exacta7ab packetb9e18bc5/actual19CIe38ec038 approved. Final metadata/current-head CI/normal merge remain; no runtime profile/readiness approval.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/107"
       },
       "id": "APICONTRACT-001",
       "title": "Production host lifecycle and persistent WebSocket profile contract",
       "kind": "contract",
-      "status": "in_review",
+      "status": "done",
       "owner": "/root/api_lifecycle_contract_author; coordinator shared planning/status",
       "depends_on": [
         "SPIKE-001",
@@ -5110,7 +5112,7 @@
       "brief": "docs/tasks/EPIC-008/APICONTRACT-001.md",
       "summary": "Specify actual host scope/readiness/lifetime and an admitted native WebSocket control profile before baseline/source work.",
       "notes": [
-        "Host lifecycle and native WS contracts plus 17/22 literal examples independently approved; four findings corrected. Project/render/whitespace pass. Document proof only: no source/tests/SDK/native calls or readiness capability. PR107 final packet/current CI/normal merge remain. Next: APITEST-012 reviewed native baseline and intended behavior red, then profile/actual host; actual readiness producers remain mandatory before API-001 code."
+        "Host lifecycle/native WS documents and17/22 literal examples independently approved; four findings corrected. Project/render/whitespace and all19 a7ab CI pass, with exact tested tree and separate packet/CI review. Document proof only; no new native/profile capability or actual readiness producer. Final metadata/current-head CI/normal merge remain. Next: APITEST-012 reviewed native baseline/intended red, then corrected profile and actual host; readiness producer design precedes API-001 code."
       ]
     },
     {
@@ -17137,6 +17139,11 @@
       "date": "2026-11-08",
       "task": "APICONTRACT-001",
       "note": "Exact35712423 documents/examples approved14dd487e after four corrected findings; imported398410d blobs match. Actual project467/122/rendercheck/diff pass; draftPR107 open. Contract author/reviewer completed; explicitly resume reviewer for final shared packet/currentCI. No native execution."
+    },
+    {
+      "date": "2026-11-08",
+      "task": "APICONTRACT-001",
+      "note": "Exacta7ab packetb9e18bc5 and all19 actualCIe38ec038 independently approved; mergecheckoutcccbc089 tree57cd80e6 equalsa7. Contract-only completion recorded, with finalmetadata/currentCI/normalmerge gates explicitly pending. Existing hosted component bodies ran; no local/newprofile native bodies."
     }
   ]
 }

@@ -4,7 +4,7 @@ Updated: 8 November 2026. Standing loop resumed under AGENTS.md and
 COORDINATOR_PROMPT.md. No stop requested. Inspect actual branches/worktrees/claims/
 processes/PRs/checks before acting; preserve all valid work and independent reviews.
 
-## Current claim APICONTRACT-001: contract only, before baseline/source work
+## APICONTRACT-001: document gate complete; final metadata/CI/merge pending
 
 Actual main/originmain1dcf2b61f65a4d87a29a0ac52e68d7c8b0d20c90 after normalPR106merge.
 Root task/APICONTRACT-001-lifecycle-profile. Claim/DAG/brief806dba7 was committed BEFORE author edits. New tasks: APICONTRACT001 -> APITEST012/API012 native persistent
@@ -37,9 +37,18 @@ while cancelling domain entry, actual not_started/missing_transaction or unavail
 explicit checked CLOCK_MONOTONIC deadlines/overflow/equality/IO continuation failure.
 
 Claim/planning806dba7 independently approved2598c31e3fff02780c241dcdf8797eda61393f1af12c43432142b85426f8fffd.
-Actual398 project467tasks/122decisions, currentHTML and diffchecks passed. No native or
-program-body check rerun for this document task; existing currentCI/packet/normalmerge
-remain. PR body preserves substantive independent review and proof limitations.
+Actual398/a7 project467tasks/122decisions, currentHTML and diffchecks passed. Exacta7
+packet independently approved /tmp/apicontract001-packet-a7abf64-review.md SHA
+b9e18bc5b2e75603dad25d763923619f4d4991e1e7e674d5afdcdd46b072d1a6.
+Actuala7 all19CI/18firstattempts independently approved
+/tmp/apicontract001-current-ci-a7abf64-review.md SHA
+e38ec0387ee283cec296779b7fdb4b28b1f7084c2acbd5507ad686a50b9aadec.
+Checkoutcccbc089 parents1dc+a7/tree57cd80e6 exactlya7. Hosted account44+2/zero bad/
+4475ms,14priorSQLrunners/all6earlycheck/ordinaryguard26,identity37+39,rate53passive
++36stable,schema2lanes8/tool38/467+122 pass. OldSQLnonverbose runnerproof only; no
+newprofile acceptance. No LOCAL/newprofile body rerun; existing HOSTED native
+component bodies actually ran. Final metadata/currentheadCI/normalmerge remain.
+PR body preserves substantive independent reviews and proof limitations.
 
 Clean stock selectedsource3aae769cc405cf5abb9d477675c6430924f02c7c and Trantor
 78e480f5e138acdc05f76c55a2716718cd846364 preserved. Future native correction MUST use
@@ -56,7 +65,19 @@ clock+fakehost cannot finish SESSION009 actual ready-host binding. Process-termi
 framework lifetime/freshprocessretry follows pinned bind exit1; no sameprocessrestart,
 SQLpreemption or hard OS deadline guarantee is supplied by these documents.
 
-NEXT: exact root packet review/currentCI/rules/zero threads/normalmerge; refreshmain,
+Prospective fresh APITEST012 author/reviewer completed READ-ONLY prep only, no claim/
+repoedits/configure/build/discovery/body/native/SDK calls; explicitly resume aftermerge.
+/tmp/apitest012-readonly-prep.md SHA
+51b8ab896af36bf9311a9063b60f9176c4b029692fa58d679102263e71700481;
+/tmp/apitest012-independent-readonly-prep.md SHA
+38d4e2c123093671f3aeb8902a1cfec9ca3ba7f980200fb6a4b420b03fbb129e.
+StockpublicAPI supports actualprotocolred. Exactminimal config/ownedelapsed/lease/
+actualownerdiagnostic seam still needs refinement/review BEFORE fullresource tests;
+no fakecapacity or unknown0. §1 admits transparentlystock/zero-patch baselineidentity;
+correctedAPI012lateruses distinctprefix. Missing symbols/setup/stubcannot masquerade
+as reachednativecapacityred. These reports are design inputs, not accepted interfaces.
+
+NEXT: finalsmallmetadata/currentheadCI/rules/zero threads/normalmerge; refreshmain,
 then fresh APITEST-012 author/reviewer claim before edits. Contract→nativebaseline/red→
 profileimplementation→actualhostbaseline/implementation→clockbinding. No owner decision
 or access blocker observed. All old reviews/source/runtime proof remain preserved.
