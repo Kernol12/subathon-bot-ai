@@ -15,8 +15,13 @@ product work. Full release scope remains incomplete.
   Codex test author and fresh implementation worker own their assigned test/tool
   paths; separate Claude test/final reviewers. Actual session links and exact reviewed
   revisions belong in the PR; do not infer active processes from this checkpoint.
-- Pending: test review, intended red, fresh implementation, independent final review,
-  tooling/project/scaffold checks, current-head CI and normal protected merge.
+- Completed locally: independently reviewed tests before intended missing-command red;
+  fresh implementation; Claude source/docs approval at `fcde3fd`; tooling44, project
+  validation, render freshness and scaffold3 pass. Details/review identities:
+  [PR109](https://github.com/Kernol12/subathon-bot-ai/pull/109).
+- Pending: focused final metadata review, latest-head CI/rules/discussion inspection
+  and normal protected merge. Task done records bounded implementation/local proof,
+  not a claim that those final publication gates have already passed.
 - Next action: finish only the pending WORKFLOW-001 gates and stop after merge.
 
 ## Preserved product handoff
