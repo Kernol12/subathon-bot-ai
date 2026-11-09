@@ -132,3 +132,7 @@ baselines and the reference HTTP schema; runtime authentication gates remain.
 [ADR-0008](../decisions/0008-schema-validation-foundation.md) add standalone
 SCHEMATEST-001/SCHEMATOOL-001 foundations before actual CONTRACT013 validation.
 They are not extra epic work packages or evidence of a selected/working validator.
+
+## Coordination tooling
+
+- [WORKFLOW-001 — T3 coordination and derived task context](WORKFLOW-001.md).
