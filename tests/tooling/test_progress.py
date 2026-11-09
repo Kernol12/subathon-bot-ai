@@ -360,7 +360,7 @@ class ContextCliTests(unittest.TestCase):
         self.assertTrue(limitations.strip())
         # Wording is free, but each source of unverified information must be explicit.
         self.assertRegex(limitations.lower(), r"recorded")
-        for concept in (r"github", r"ci", r"session[\s\S]*liveness", r"checkout[\s\S]*revision"):
+        for concept in (r"github", r"\bci\b", r"session[\s\S]*liveness", r"checkout[\s\S]*revision"):
             self.assertRegex(limitations.lower(), concept)
         self.assertRegex(limitations.lower(), r"not verified|unverified|does not verify|do not verify")
         self.assertEqual(output, {
