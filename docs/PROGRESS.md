@@ -32,6 +32,22 @@ independent reviews, test-first gates, ownership or live/platform requirements.
 This remains an offline snapshot: GitHub merges do not change task status automatically.
 Record the verified merge/result in progress/state.json and regenerate the page.
 
+## Read a bounded task context
+
+```sh
+python3 tools/progress.py context API-012
+```
+
+This read-only command validates state and prints JSON to stdout: the complete selected
+task, direct dependency status/evidence/reviews, direct dependents, other tasks sharing
+its brief, specification version, state update time and dashboard availability. It
+omits unrelated task records and activity history, writes no generated context file,
+and leaves state/HTML untouched. Unknown IDs fail with a diagnostic and nonzero exit.
+Output is recorded information, not verified live GitHub/CI, session liveness or
+checkout revisions. Availability is dependency readiness, never authority to override
+an owner stop instruction. Read the linked brief, required contracts and scoped
+instructions; the coordinator separately checks actual branches, sessions and PRs.
+
 ## Updating the snapshot
 
 The authoritative editable file is progress/state.json. Do not edit PROGRESS.html by

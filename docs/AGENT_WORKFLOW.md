@@ -10,10 +10,43 @@ never approve their own work.
 
 The coordinator selects and decomposes tasks, assigns shared paths and integrates state.
 Authors produce bounded work and factual evidence; reviewers assess requirements, oracles,
-implementation and gaps. Status lives only in `progress/state.json`; task briefs define
+implementation and gaps. Status lives only in `progress/state.json`; use
+`python3 tools/progress.py context TASK-ID` for a read-only task view. Task briefs define
 acceptance, and `docs/tasks/README.md` is navigation. Read the brief and scoped
 `AGENTS.md` before editing. Production tasks require dependencies, specification refs,
 contract revision, acceptance criteria and shared-file ownership.
+
+## T3 roles and handoffs
+
+Sol is the Codex coordinator: it selects tasks, assigns paths, integrates shared
+files and owns state, evidence, CI inspection and protected merges. A Codex worker
+authors contract examples/tests and captures reviewed intended red. A fresh Codex
+implementation session receives that approved baseline. Separate Claude sessions
+review the test stage against the specification and the finished implementation.
+These are two default review stages, not a ceiling: retain every task-specific
+contract, source/resource, dependency/license, build/CI and evidence gate. Substantive
+coordinator-authored changes also require independent review. Session names alone
+and reviews posted through the owner's GitHub account do not prove independence or
+constitute a second human GitHub approval.
+
+Use stable provider/session identities and durable T3 thread links in handoffs and
+review evidence. Record task owner/status in state; record temporary session/worktree
+assignments in the checkpoint. Never assume an old assignment is a live process.
+Each handoff includes task ID, brief, base/head SHA, actual checkout, owned paths,
+relevant spec/contract revisions, acceptance criteria and required gates, previous
+findings and expected output. The reviewer verifies the revision and worktree before
+review, including material uncommitted changes, and may inspect surrounding code and
+requirements beyond the supplied diff. Focused rechecks retain the earlier findings
+and access to the complete affected context; unchanged valid approvals remain valid.
+
+T3 creates isolated delegated worktrees for concurrent writers. Shell tools and
+existing build presets remain available. CLion MCP may assist only when its project
+path and reviewed revision match the intended checkout; otherwise use that checkout's
+file/shell tools. Do not assume the main IDE project represents a worker worktree.
+Use bounded Claude reviews and avoid rereading global history for each worker. If a
+provider's quota blocks a required review, checkpoint the pending gate and continue
+only independent authorized work. Do not silently switch provider/model, buy usage or
+use paid API fallback. Obtain explicit authorization for a change of those choices.
 
 ## Scope and sessions
 
