@@ -174,14 +174,42 @@ def execution_order(tasks: list[dict]) -> list[dict]:
     return ordered
 
 
+def is_available(task: dict, by_id: dict[str, dict]) -> bool:
+    """Report dependency readiness from recorded state, without granting authorization."""
+    return (task["kind"] != "epic" and task["status"] in {"planned", "ready"}
+            and all(by_id[d]["status"] == "done" for d in task["depends_on"]))
+
+
+def context(data: dict, task_id: str) -> dict:
+    """Derive a read-only task view from validated state."""
+    tasks = data["tasks"]
+    by_id = {t["id"]: t for t in tasks}
+    if task_id not in by_id:
+        raise ValueError(f"Unknown task: {task_id}")
+    task = by_id[task_id]
+    dependency_fields = ("id", "status", "owner", "brief", "evidence", "verification", "review")
+    return {
+        "specification_version": data["specification_version"],
+        "state_updated_at": data["updated_at"],
+        "task": task,
+        "dependencies": [{key: by_id[d].get(key) for key in dependency_fields}
+                         for d in task["depends_on"]],
+        "dependents": [t["id"] for t in tasks if task_id in t["depends_on"]],
+        "shared_brief_tasks": [t["id"] for t in tasks
+                               if t["id"] != task_id and t["brief"] == task["brief"]],
+        "available": is_available(task, by_id),
+        "limitations": ("Recorded information only; live GitHub/CI, session liveness and "
+                        "checkout revisions are not verified. Availability grants no permission "
+                        "to resume stopped work."),
+    }
+
+
 def render(data: dict) -> str:
     tasks = data["tasks"]
     by_id = {t["id"]: t for t in tasks}
     source_positions = {t["id"]: i for i, t in enumerate(tasks)}
     ordered = execution_order(tasks)
-    available = {t["id"] for t in tasks
-                 if t["kind"] != "epic" and t["status"] in {"planned", "ready"}
-                 and all(by_id[d]["status"] == "done" for d in t["depends_on"])}
+    available = {t["id"] for t in tasks if is_available(t, by_id)}
     done = sum(t["status"] == "done" for t in tasks)
     concrete = sum(t["kind"] != "epic" for t in tasks)
     blocked = sum(t["status"] == "blocked" for t in tasks)
@@ -228,6 +256,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
     sub.add_parser("validate")
+    contextual = sub.add_parser("context")
+    contextual.add_argument("task_id")
     rendering = sub.add_parser("render")
     rendering.add_argument("--check", action="store_true", help="Fail if the HTML snapshot is stale")
     setting = sub.add_parser("set")
@@ -239,6 +269,9 @@ def main() -> int:
     try:
         data = json.loads(STATE.read_text(encoding="utf-8"))
         validate(data)
+        if args.command == "context":
+            print(json.dumps(context(data, args.task_id), indent=2, ensure_ascii=False))
+            return 0
         if args.command == "set":
             task = next((t for t in data["tasks"] if t["id"] == args.task_id), None)
             if task is None:

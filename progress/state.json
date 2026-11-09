@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-08T16:20:03.849229+00:00",
+  "updated_at": "2026-11-09T21:58:37+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite and physical account/session components have synthetic/component evidence. Current priority is the actual host lifecycle and native persistent WebSocket profile contract; concrete source defects and missing host readiness prevent honest clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains.",
   "verification": [
     {
@@ -15471,6 +15471,47 @@
       "verification": {},
       "evidence": [],
       "review": null
+    },
+    {
+      "id": "WORKFLOW-001",
+      "title": "T3 coordination and derived task context",
+      "module": "Quality and tooling",
+      "kind": "implementation",
+      "status": "done",
+      "owner": "codex:coordinator-026ae7fd-b6dd-4ed9-882f-4230579dcd95",
+      "depends_on": [
+        "EVIDENCE-002",
+        "APITEST-012"
+      ],
+      "spec_refs": [
+        "\u00a717",
+        "\u00a718"
+      ],
+      "brief": "docs/tasks/WORKFLOW-001.md",
+      "summary": "Adopt Codex/Claude stage roles and derive bounded agent context from the existing progress authority.",
+      "notes": [
+        "Read-only context CLI and T3 roles implemented; 5 new/44 total tooling tests and scaffold3 pass. Claude reviewed tests before actual missing-command red and approved final source/docs; no product behavior or release proof added. PR109 current-head CI/normal merge remain final gates. Stop after merge; API-012 stays planned."
+      ],
+      "verification": {
+        "test_review": "passed",
+        "baseline": "observed_red",
+        "implementation": "passed",
+        "acceptance": "passed",
+        "tooling": "passed",
+        "code_review": "passed",
+        "scaffold": "passed",
+        "github_ci": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/109"
+      ],
+      "review": {
+        "author": "codex:test-126a85aa; codex:implementation-d14610c7; codex:coordinator-026ae7fd",
+        "reviewer": "claude:test-71cfed34/3ecceb1c; claude:code-faf904d5",
+        "outcome": "approved",
+        "revision": "Tests6b7c398 corrected7b6b690 independently approved before intended argparse red; fresh implementation4d973057/importfcde3fd and complete docs independently approved at fcde3fd. Current-head CI and normal merge remain PR109 gates.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/109"
+      }
     }
   ],
   "activity": [
@@ -17233,6 +17274,11 @@
       "date": "2026-11-08",
       "task": "APITEST-012",
       "note": "Reviewed baseline complete: final real WS02 native red, zero capture/cleanup faults, stock source/SDK unchanged. PR108 preserves first setup/runtime/CI failures and current review/check/merge gates. Owner requests stop after normal merge; API-012 stays planned."
+    },
+    {
+      "date": "2026-11-09T21:50:43+00:00",
+      "task": "WORKFLOW-001",
+      "note": "Claimed workflow-only migration and context CLI v1 before edits; independent tests/red/fresh implementation/review/CI gates required. API-012 remains paused."
     }
   ]
 }

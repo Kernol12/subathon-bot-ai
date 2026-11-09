@@ -14,11 +14,17 @@ investigation and independent review. The same author must not approve a review 
 ### Startup and task selection
 
 Read `AGENTS.md`, `docs/ARCHITECTURE.md`, `docs/AGENT_WORKFLOW.md`,
-`docs/TEST_STRATEGY.md`, `docs/PROGRESS.md`, `progress/state.json` and the selected brief.
+`docs/TEST_STRATEGY.md`, `docs/PROGRESS.md` and the selected brief. Read a bounded
+`python3 tools/progress.py context TASK-ID` view of `progress/state.json`; inspect the
+full state selectively for task selection/dependencies/claims rather than dumping its
+activity history into every worker session.
 Read scoped `AGENTS.md` files before editing. Inspect the actual branch, worktree, active
 claims, and open PR/check state; do not assume past chat or a checkpoint is current.
 
-Follow the current priority named in `AGENTS.md`; otherwise
+Follow the current owner stop/resume instruction first. The prompt below does not
+override an explicit task-bounded stop. Apply the T3 roles and handoff fields in
+`docs/AGENT_WORKFLOW.md` (Sol coordinator, Codex author/fresh implementer, independent
+Claude stage reviews and task-specific gates). Follow the priority in `AGENTS.md`; otherwise
 choose a dependency-ready executable task that advances a product slice. Split epics and
 substantial architectural prerequisites into bounded tasks with explicit dependencies,
 acceptance criteria and focused PRs before implementation. Preserve all requirements;
@@ -49,9 +55,14 @@ planning changes do not authorize a reduced release scope.
    total note limit and updating the matching area in `docs/evidence/README.md`).
 8. Open one focused PR per executable task. Merge only after latest-head required CI,
    relevant checks, independent reviews, resolved discussions and repository protections
-   all pass. Recheck after new commits. Then refresh `main` and select the next ready task.
+   all pass. Recheck after new commits. Then refresh `main`; stop if the owner bounded
+   the authorization to this task, otherwise select the next ready task.
 
 ### Continuity and blockers
+
+Keep the checkpoint concise: owner stop/resume directive, task, checkout/revision,
+agent roles/links, pending gates, blockers and next action. Preserve detailed receipts
+in existing PRs/git history and link them; do not create a second task-status tracker.
 
 Maintain `progress/coordinator-checkpoint.md` at task handoffs, prerequisite splits and
 session interruptions. Record observed branch/PR revisions, assignments and ownership,
@@ -62,7 +73,8 @@ first; never assume an agent or process is still active. Resolve routine issues 
 ask the owner only for decisions or access actually needed. No live chat/payment effects
 are authorized by these instructions.
 
-Do not stop at an empty ready queue, green scaffold suite or completed labels. The product
+When the standing loop is authorized, do not stop at an empty ready queue, green
+scaffold suite or completed labels. Explicit owner stop instructions take precedence. The product
 is complete only when the full specification and release gates have evidence. Otherwise
 record the exact remaining work or blocker and continue with useful authorized tasks.
 
@@ -76,7 +88,8 @@ progress/coordinator-checkpoint.md and the selected brief. Inspect actual branch
 worktrees, claims and PR state. Use subagents for bounded work and independent reviews, with a
 fresh implementation session per executable task. Preserve every test-first and merge
 gate, keep one concise task note and PR evidence, and update progress/coordinator-checkpoint.md.
-Open focused PRs and continue with the next task after required gates pass. Start now.
+Open focused PRs. Respect current owner stop/resume directives; continue with the next
+task only within the authorized scope after required gates pass. Start now.
 ```
 
 ## Continuation prompt
@@ -86,7 +99,8 @@ Resume under AGENTS.md and docs/COORDINATOR_PROMPT.md. Read
 progress/coordinator-checkpoint.md if present, plus progress/state.json and linked task
 records. Inspect actual branches, worktrees, claims, processes and PR/check/review state
 before acting. Preserve valid work and reviews; explicitly reassign stale tasks rather
-than assuming agents remain active. Continue the standing task loop with fresh
+than assuming agents remain active. Respect the current owner stop/resume directive and authorized task scope. Within that
+scope, continue the task loop with fresh
 implementation sessions, independent reviews and all acceptance/merge gates intact.
 Update the checkpoint at meaningful boundaries and continue without routine owner
 approval. Ask only for decisions or access genuinely needed. Resume now.

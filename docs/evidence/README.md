@@ -25,6 +25,14 @@ merge. See [PR #6](https://github.com/Kernol12/subathon-bot-ai/pull/6),
 [CI #9](https://github.com/Kernol12/subathon-bot-ai/pull/9), and
 [workflow planning #90–91](https://github.com/Kernol12/subathon-bot-ai/pull/91).
 
+T3 coordination now uses bounded Codex author/fresh implementation and independent
+Claude review stages. The read-only progress context CLI derives task/dependency facts
+from the same state as the offline HTML, explicitly excluding live-state guarantees.
+Five new context tests, all44 tooling methods and scaffold3 pass locally; separate
+test-before-red and final source/docs reviews are recorded in
+[PR109](https://github.com/Kernol12/subathon-bot-ai/pull/109), which records final CI
+and merge outcomes. This is workflow/tooling proof only; API-012 is not resumed.
+
 ## Core time and exact arithmetic
 
 Reviewed native component suites pass for cap-limited credit (23 cases), exact decimal
