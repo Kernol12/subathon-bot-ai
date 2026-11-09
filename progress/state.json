@@ -15490,9 +15490,12 @@
       "brief": "docs/tasks/WORKFLOW-001.md",
       "summary": "Adopt Codex/Claude stage roles and derive bounded agent context from the existing progress authority.",
       "notes": [
-        "Owner authorized workflow-only PR and merge; product work remains stopped. Context CLI v1 and shared ownership in brief."
+        "Context v1 tests independently reviewed at 7b6b690 after CI-regex correction. First run: 5 tests/6 argparse SystemExit errors; direct CLI confirms missing context choice. No setup failure. Fresh implementation next; product work stays stopped."
       ],
-      "verification": {},
+      "verification": {
+        "test_review": "passed",
+        "baseline": "observed_red"
+      },
       "evidence": [],
       "review": null
     }
