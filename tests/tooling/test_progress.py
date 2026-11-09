@@ -5,6 +5,7 @@ from contextlib import redirect_stderr, redirect_stdout
 from io import StringIO
 from html.parser import HTMLParser
 import json
+import os
 from pathlib import Path
 import sys
 import tempfile
@@ -281,6 +282,157 @@ class ProgressTests(unittest.TestCase):
         self.assertEqual({i["value"] for i in modules}, {'R&D <Tools> "Ops"', "Core"})
         self.assertTrue(all(i.get("type") == "checkbox" and "checked" in i for i in states + modules))
         self.assertNotIn('<Tools>', html)
+
+
+class ContextCliTests(unittest.TestCase):
+    """Literal context CLI v1 examples; no dashboard/helper-derived oracle."""
+
+    def setUp(self):
+        completed = task("CTX-001", status="done")
+        completed.update(owner="dependency-author", notes=["Dependency private detail"],
+                         evidence=["https://example.com/dependency-proof"],
+                         verification={"tooling": "passed"},
+                         review={"author": "dep-author", "reviewer": "dep-reviewer",
+                                 "outcome": "approved"})
+        selected = task("CTX-002", ["CTX-001"])
+        selected.update(title="Selected synthetic task", owner="selected-author",
+                        brief="docs/tasks/WORKFLOW-001.md", summary="Selected scope",
+                        notes=["Preserve this note verbatim: ä <tag>"],
+                        spec_refs=["§17", "§18"],
+                        evidence=["https://example.com/selected-proof"],
+                        verification={"acceptance": "not_run"},
+                        review={"author": "selected-author", "reviewer": "other-session",
+                                "outcome": "pending"})
+        dependent = task("CTX-003", ["CTX-002"])
+        dependent["brief"] = selected["brief"]
+        unrelated = task("CTX-900")
+        unrelated.update(title="Unrelated full record sentinel",
+                         notes=["Unrelated historical note sentinel"])
+        # Keep the literal three-task example, with unrelated history to exclude.
+        self.state = {
+            "schema_version": 1, "project": "Synthetic context project",
+            "baseline_version": "0.1.0", "specification_version": "0.45",
+            "updated_at": "2026-10-03T12:34:56+02:00", "summary": "Synthetic state",
+            "tasks": [completed, selected, dependent, unrelated],
+            "verification": [],
+            "activity": [{"date": "2025-01-02T00:00:00Z", "task": "CTX-900",
+                          "note": "Historical activity sentinel"}],
+        }
+
+    def invoke_context(self, task_id):
+        """Capture the CLI and check the complete disposable tree for writes."""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            state_path = root / "state.json"
+            html_path = root / "PROGRESS.html"
+            state_path.write_text(json.dumps(self.state, indent=3, ensure_ascii=False),
+                                  encoding="utf-8")
+            html_path.write_bytes(b"Existing HTML snapshot must remain unchanged.")
+            before = {p.relative_to(root): p.read_bytes() for p in root.rglob("*")
+                      if p.is_file()}
+            entries = set(root.rglob("*"))
+            stdout, stderr = StringIO(), StringIO()
+            previous_directory = Path.cwd()
+            try:
+                os.chdir(root)
+                with patch.object(progress, "STATE", state_path), \
+                     patch.object(progress, "OUTPUT", html_path), \
+                     patch.object(sys, "argv", ["progress.py", "context", task_id]), \
+                     redirect_stdout(stdout), redirect_stderr(stderr):
+                    result = progress.main()
+            finally:
+                os.chdir(previous_directory)
+                self.assertEqual(set(root.rglob("*")), entries, "CLI created/deleted paths")
+                self.assertEqual({p.relative_to(root): p.read_bytes()
+                                  for p in root.rglob("*") if p.is_file()}, before)
+            return result, stdout.getvalue(), stderr.getvalue()
+
+    def context(self, task_id):
+        result, stdout, stderr = self.invoke_context(task_id)
+        self.assertEqual(result, 0, stderr)
+        self.assertEqual(stderr, "")
+        return json.loads(stdout)
+
+    def test_literal_context_preserves_selected_record_and_excludes_history(self):
+        output = self.context("CTX-002")
+        limitations = output.pop("limitations")
+        self.assertIsInstance(limitations, str)
+        self.assertTrue(limitations.strip())
+        # Wording is free, but each source of unverified information must be explicit.
+        self.assertRegex(limitations.lower(), r"recorded")
+        for concept in (r"github", r"ci", r"session.*liveness", r"checkout.*revision"):
+            self.assertRegex(limitations.lower(), concept)
+        self.assertRegex(limitations.lower(), r"not verified|unverified|does not verify|do not verify")
+        self.assertEqual(output, {
+            "specification_version": "0.45",
+            "state_updated_at": "2026-10-03T12:34:56+02:00",
+            "task": copy.deepcopy(self.state["tasks"][1]),
+            "dependencies": [{
+                "id": "CTX-001", "status": "done", "owner": "dependency-author",
+                "brief": "docs/tasks/BOOT-001.md",
+                "evidence": ["https://example.com/dependency-proof"],
+                "verification": {"tooling": "passed"},
+                "review": {"author": "dep-author", "reviewer": "dep-reviewer",
+                           "outcome": "approved"},
+            }],
+            "dependents": ["CTX-003"], "shared_brief_tasks": ["CTX-003"],
+            "available": True,
+        })
+
+    def test_relationships_are_direct_and_preserve_declared_and_source_order(self):
+        ancestor = task("CTX-800", ["CTX-801"], status="done")
+        transitive_dependency = task("CTX-801", status="done")
+        transitive_dependency["evidence"] = ["https://example.com/transitive"]
+        ancestor["evidence"] = ["https://example.com/ancestor"]
+        self.state["tasks"][0]["depends_on"] = ["CTX-800"]
+        self.state["tasks"][1]["depends_on"] = ["CTX-800", "CTX-001"]
+        first_dependent = task("CTX-700", ["CTX-002"])
+        first_dependent["brief"] = "docs/tasks/WORKFLOW-001.md"
+        transitive = task("CTX-600", ["CTX-003"])
+        self.state["tasks"] = [first_dependent, *self.state["tasks"], ancestor,
+                               transitive, transitive_dependency]
+        output = self.context("CTX-002")
+        self.assertEqual([d["id"] for d in output["dependencies"]], ["CTX-800", "CTX-001"])
+        self.assertEqual(output["dependents"], ["CTX-700", "CTX-003"])
+        self.assertEqual(output["shared_brief_tasks"], ["CTX-700", "CTX-003"])
+        leaf = self.context("CTX-900")
+        self.assertEqual(leaf["dependencies"], [])
+        self.assertEqual(leaf["dependents"], [])
+        self.assertEqual(leaf["shared_brief_tasks"], ["CTX-001", "CTX-800", "CTX-600", "CTX-801"])
+
+    def test_availability_matches_literal_contract_variants(self):
+        self.assertIs(self.context("CTX-003")["available"], False)
+        for status, kind, dependencies, expected in (
+                ("planned", "scaffold", ["CTX-001"], True),
+                ("ready", "scaffold", ["CTX-001"], True),
+                ("planned", "scaffold", [], True),
+                ("planned", "scaffold", ["CTX-001", "CTX-900"], False),
+                ("in_progress", "scaffold", ["CTX-001"], False),
+                ("in_review", "scaffold", ["CTX-001"], False),
+                ("blocked", "scaffold", ["CTX-001"], False),
+                ("done", "scaffold", ["CTX-001"], False),
+                ("planned", "epic", ["CTX-001"], False),
+                ("ready", "epic", [], False)):
+            with self.subTest(status=status, kind=kind, dependencies=dependencies):
+                selected = self.state["tasks"][1]
+                selected.update(status=status, kind=kind, depends_on=dependencies)
+                self.assertIs(self.context("CTX-002")["available"], expected)
+
+    def test_unknown_id_fails_on_stderr_without_stdout_or_writes(self):
+        result, stdout, stderr = self.invoke_context("CTX-404")
+        self.assertEqual(result, 1)
+        self.assertEqual(stdout, "")
+        self.assertEqual(stderr, "Progress error: Unknown task: CTX-404\n")
+
+    def test_invalid_state_uses_existing_validation_before_lookup_without_writes(self):
+        self.state["tasks"][3]["depends_on"] = ["MISSING-999"]
+        for task_id in ("CTX-002", "CTX-404"):
+            with self.subTest(task_id=task_id):
+                result, stdout, stderr = self.invoke_context(task_id)
+                self.assertEqual(result, 1)
+                self.assertEqual(stdout, "")
+                self.assertEqual(stderr,
+                                 "Progress error: CTX-900: unknown dependency MISSING-999\n")
 
 
 if __name__ == "__main__":
