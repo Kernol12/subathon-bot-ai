@@ -71,9 +71,19 @@ candidate findings and assignments remain in git. Preserve unchanged approvals.
   probe/Drogon/Trantor references resolved by name/version, exact patched API
   exports and default-visible defined Session RTTI in probe+Drogon. L2 symlink
   RuntimeError caught; L4 explicitly localgreen/hostedpending. No recipe execution.
-- Next: focused independent Claude script/workflow re-review; execution/push remain
-  NOT released. Then hosted run/receipts, independent native runtime/code review,
-  relevant checks and final
+- Focused Claude re-review APPROVED exacta28dc4f B1/B2; report ignored
+  `local-evidence/API-012/native-ci-review-r2.md`. One fresh hosted recipe run and
+  push/PR RELEASED subject to local checks; project/tooling50/render all passed.
+  Reviewer:
+  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A6b260d75-b701-4b21-8fc9-01c82a2c1093>.
+  Current rebuilt localprobee6c93ba4 was admitted by the fixture-r2 conditional
+  rebuild release and exact closure/map checks (prior report used saved7fbf for
+  passive parser checks only); no new binary is being silently substituted.
+  Ruleset26170263 active, no bypass actors, PR/resolved threads required,
+  zero GitHub approvals/no status-rule. Written latest-head CI gates still apply.
+- Next: push/open focused draft PR, immediately T3 link/watch; first hosted
+  recipe/native44 run, then independent actual Ubuntu receipts/native runtime/code
+  and final
   packet review, resolved discussions/live rules and normal protected merge.
   Use T3 PR link/watch tools; stop after merge. No approval is inferred.
 - Runtime limitations remain: direct native TLS, proxy/Caddy WS routing, actual

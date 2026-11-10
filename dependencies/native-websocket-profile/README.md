@@ -5,8 +5,8 @@ vendor patches. Exact source/resource review at `2cc999c` and compiled SDK/ABI r
 at `82bf92c` released the local build and controlled load. The per-request fixture
 correction at `150c280` passed independent review. The current 44 methods then passed
 on real Linux loopback, with an exact complete loaded map and unchanged input hashes.
-Independent runtime/code review, the new CI recipe review, hosted checks and protected
-merge are still pending; current status lives in [state](../../progress/state.json).
+Independent runtime/code review, hosted checks and protected merge are still
+pending; the CI recipe has independent approval; current status lives in [state](../../progress/state.json).
 The manifest's retained `implementation_candidate_not_admitted` value records the
 source author's original handoff stage. It is not a current admission verdict or a
 runtime capability claim. Its bytes remain unchanged to preserve the admitted SDK
@@ -249,8 +249,7 @@ Drogon C++20/Trantor C++14 flags, retains full framework/ORM/project/package not
 records source and command provenance, and seals the final SDK before CMake import.
 Its `gate` stage inventories all 44 methods and the enabled ordinary CTest suite,
 derives the host ELF closure passively, and compares it with a complete scrubbed
-`--identity` loaded map before the workflow runs native bodies. Independent review
-must approve the recipe before its first execution. Local Arch and hosted Ubuntu
+`--identity` loaded map before the workflow runs native bodies. Independent review at `a28dc4f` approved the recipe for its first hosted execution. Local Arch and hosted Ubuntu
 artifacts have separate identities and proof limits.
 
 Preserve the pristine stock source/SDK and previous native receipts. Local corrected

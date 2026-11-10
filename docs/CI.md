@@ -60,7 +60,7 @@ retains notices/provenance and seals every SDK file before configuration. A pass
 ELF closure is compared with the scrubbed probe's complete loaded map before the
 ordinary 44-method loopback suite can run. Native failures fail CI; no inversion,
 skipping or continuation supplies acceptance. Local native44 is green; this new
-recipe still requires independent review and its first actual hosted run. Ubuntu
+recipe has independent approval and still needs its first actual hosted run. Ubuntu
 artifacts are assessed on that host, separately from the admitted local Arch set.
 The real application host, TLS/proxy routing, authoritative clock, authentication,
 synchronization and platform/release support remain separate gates.

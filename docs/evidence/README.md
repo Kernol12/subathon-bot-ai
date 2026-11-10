@@ -219,8 +219,8 @@ the admitted local artifacts, and all 1,563 inputs stayed unchanged during the r
 The first 43/44 run and the independently diagnosed retirement-sampling fixture
 failure remain preserved; every test method/assertion is retained. Source review
 also establishes nonfragmenting storage and pre-read/pre-growth bounds beyond what
-snapshots alone prove. Runtime/code and new CI recipe review, actual Ubuntu checks
-and protected merge are still pending. Direct native TLS, Caddy/proxy routing,
+snapshots alone prove. The corrected CI recipe is independently approved; runtime/code review, actual
+Ubuntu checks and protected merge are still pending. Direct native TLS, Caddy/proxy routing,
 actual ready host/session clock/auth/sync and full platform/release proof remain
 separate. The owner authorized completion of API-012 only, followed by a stop.
 
