@@ -24,10 +24,16 @@ claims, and open PR/check state; do not assume past chat or a checkpoint is curr
 Follow the current owner stop/resume instruction first. The prompt below does not
 override an explicit task-bounded stop. Apply the T3 roles and handoff fields in
 `docs/AGENT_WORKFLOW.md` (Sol coordinator, Codex author/fresh implementer, independent
-Claude stage reviews and task-specific gates). Follow the priority in `AGENTS.md`; otherwise
-choose a dependency-ready executable task that advances a product slice. Split epics and
-substantial architectural prerequisites into bounded tasks with explicit dependencies,
-acceptance criteria and focused PRs before implementation. Preserve all requirements;
+Claude stage reviews and task-specific gates). For each substantive stage, use its
+initial Claude review → Codex fixes/separate Codex review loop → Claude closing review;
+closing blockers return to the Codex loop. The coordinator chooses reviewer models
+for complexity, risk and quota within owner constraints. Keep a blocked required
+review pending rather than waive it with Codex readiness.
+Follow the full cycle and concise handoff rules in the workflow. Follow the priority in
+`AGENTS.md`; otherwise choose a dependency-ready executable task that advances a
+product slice. Split epics and substantial architectural prerequisites into bounded
+tasks with explicit dependencies, acceptance criteria and focused PRs before
+implementation. Preserve all requirements;
 planning changes do not authorize a reduced release scope.
 
 ### Execution loop

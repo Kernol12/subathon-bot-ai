@@ -33,6 +33,17 @@ test-before-red and final source/docs reviews are recorded in
 [PR109](https://github.com/Kernol12/subathon-bot-ai/pull/109), which records final CI
 and merge outcomes. This is workflow/tooling proof only; API-012 is not resumed.
 
+The [review-cycle guidance](../tasks/WORKFLOW-002.md) keeps independent Claude initial
+and closing reviews for each substantive stage, with Codex fixes and separate Codex
+verification between them. Concise handoffs retain earlier findings and valid approvals;
+test-first and task-specific gates remain separate. This documentation changes no
+runtime behavior, provider settings or authorization to resume product work. The task
+record and [PR111](https://github.com/Kernol12/subathon-bot-ai/pull/111) retain the
+initial reviews through 4452648. The owner subsequently gave the coordinator reviewer
+model selection; separate Codex and closing Claude Sonnet5.5 reviews approved that
+revision at ce55cbf. Project/progress checks and the unchanged tooling50 suite pass;
+latest-head CI and the normal merge remain publication gates.
+
 ## Core time and exact arithmetic
 
 Reviewed native component suites pass for cap-limited credit (23 cases), exact decimal

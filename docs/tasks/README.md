@@ -136,3 +136,4 @@ They are not extra epic work packages or evidence of a selected/working validato
 ## Coordination tooling
 
 - [WORKFLOW-001 — T3 coordination and derived task context](WORKFLOW-001.md).
+- [WORKFLOW-002 — Coordinator-selected reviews with Codex correction cycles](WORKFLOW-002.md).

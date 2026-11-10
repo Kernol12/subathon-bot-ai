@@ -22,7 +22,8 @@ Sol is the Codex coordinator: it selects tasks, assigns paths, integrates shared
 files and owns state, evidence, CI inspection and protected merges. A Codex worker
 authors contract examples/tests and captures reviewed intended red. A fresh Codex
 implementation session receives that approved baseline. Separate Claude sessions
-review the test stage against the specification and the finished implementation.
+review the test stage against the specification and the finished implementation,
+following the review cycle below. The coordinator chooses reviewer models.
 These are two default review stages, not a ceiling: retain every task-specific
 contract, source/resource, dependency/license, build/CI and evidence gate. Substantive
 coordinator-authored changes also require independent review. Session names alone
@@ -32,21 +33,64 @@ constitute a second human GitHub approval.
 Use stable provider/session identities and durable T3 thread links in handoffs and
 review evidence. Record task owner/status in state; record temporary session/worktree
 assignments in the checkpoint. Never assume an old assignment is a live process.
-Each handoff includes task ID, brief, base/head SHA, actual checkout, owned paths,
-relevant spec/contract revisions, acceptance criteria and required gates, previous
-findings and expected output. The reviewer verifies the revision and worktree before
-review, including material uncommitted changes, and may inspect surrounding code and
-requirements beyond the supplied diff. Focused rechecks retain the earlier findings
-and access to the complete affected context; unchanged valid approvals remain valid.
+Keep handoffs concise: identify task/brief, base/head SHA, actual checkout and owned
+paths; link the relevant specification/contracts, acceptance criteria, required gates
+and prior reviews. State the requested review and open findings/resolutions. For
+rechecks, send the changed revision/paths, findings and resolutions rather than repeat
+the full history. Keep the complete affected context available through durable links.
+The reviewer verifies the revision and worktree before review, including material
+uncommitted changes, and may inspect surrounding code and requirements beyond the
+supplied diff. Retain earlier findings and unchanged valid approvals.
 
 T3 creates isolated delegated worktrees for concurrent writers. Shell tools and
 existing build presets remain available. CLion MCP may assist only when its project
 path and reviewed revision match the intended checkout; otherwise use that checkout's
 file/shell tools. Do not assume the main IDE project represents a worker worktree.
-Use bounded Claude reviews and avoid rereading global history for each worker. If a
-provider's quota blocks a required review, checkpoint the pending gate and continue
-only independent authorized work. Do not silently switch provider/model, buy usage or
-use paid API fallback. Obtain explicit authorization for a change of those choices.
+Keep review context focused on the affected stage and avoid rereading global history
+for each worker. The coordinator selects available reviewer models for the stage's
+complexity, risk and remaining quota, and records the actual provider/model with the
+reviewer identity. Honor explicit owner constraints. Model selection within the
+authorized providers is a routine coordinator choice, including changing models
+between reviews; no particular model is mandatory. If no authorized model is
+available for a required Claude or Codex review, checkpoint the pending gate and
+continue only independent authorized work. Do not waive review, change providers,
+buy usage or use paid API fallback without owner authorization. Codex readiness does
+not satisfy a pending Claude gate.
+
+## Substantive review cycle
+
+Apply this cycle separately to every substantive review stage, including contracts,
+test/oracle review, implementation and substantive coordinator-authored changes:
+
+1. An independent Claude reviewer assesses the stage against its requirements
+   and records findings on the actual revision.
+2. A Codex author fixes the findings. A separate independent Codex reviewer checks
+   the resolutions, related edge cases and affected requirements. Repeat Codex fixes
+   and independent Codex review until no blocking findings remain. If the initial
+   Claude review finds no blockers, still obtain independent Codex verification before
+   the closing Claude review; do not invent changes merely to exercise the cycle.
+3. An independent Claude reviewer performs the closing review of the resulting
+   revision. Codex readiness is a handoff to this gate, never its replacement. If the
+   reviewer finds blockers, return to the Codex correction/review loop, then request
+   Claude closing review again. The stage closes only with the required approval.
+
+Material changes or new blocking findings after Claude closing approval return to the
+Codex correction/review loop and then a new Claude closing review on the resulting
+revision. A fresh initial review is unnecessary for the same affected stage.
+
+Keep authors and reviewers independent: a reviewer who authors a correction cannot
+approve that correction. Batch related findings within a stage and retain valid prior
+approvals, while reviewing material changes and their affected context. No fixed
+review-count limit waives unresolved findings or a required approval.
+
+Complete the test-stage cycle before observing intended red; implementation then
+receives its own review cycle. Preserve every task-specific contract, source/resource,
+dependency/license, build/CI, evidence and protected-merge gate. The cycle does not
+combine stages or replace their checks. Routine non-substantive metadata may use
+independent Codex review unless an explicit gate requires Claude. Changes to requirements
+or material evidence claims are substantive even when they appear in metadata. When
+classification is uncertain, treat the change as substantive; any reviewer may escalate
+it to the Claude gate.
 
 ## Scope and sessions
 
