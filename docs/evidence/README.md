@@ -219,8 +219,12 @@ the admitted local artifacts, and all 1,563 inputs stayed unchanged during the r
 The first 43/44 run and the independently diagnosed retirement-sampling fixture
 failure remain preserved; every test method/assertion is retained. Source review
 also establishes nonfragmenting storage and pre-read/pre-growth bounds beyond what
-snapshots alone prove. The corrected CI recipe is independently approved; runtime/code review, actual
-Ubuntu checks and protected merge are still pending. Direct native TLS, Caddy/proxy routing,
+snapshots alone prove. The independently approved corrected CI recipe also passes all 44 methods through
+CTest on Ubuntu, plus three infrastructure nodes; its complete 14-object loaded map
+(main, vDSO and 12 library files) matches the host-specific passive admission.
+[PR110](https://github.com/Kernol12/subathon-bot-ai/pull/110) records the run. Independent
+hosted-results/native code and final packet reviews, latest-head checks and protected
+merge remain pending. Direct native TLS, Caddy/proxy routing,
 actual ready host/session clock/auth/sync and full platform/release proof remain
 separate. The owner authorized completion of API-012 only, followed by a stop.
 

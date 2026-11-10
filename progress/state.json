@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-10T19:56:13+00:00",
+  "updated_at": "2026-11-10T20:05:01+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite and physical account/session components have synthetic/component evidence. Current priority is the actual host lifecycle and native persistent WebSocket profile contract; concrete source defects and missing host readiness prevent honest clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains.",
   "verification": [
     {
@@ -5203,7 +5203,7 @@
         "TEST-05"
       ],
       "verification": {
-        "implementation": "draft",
+        "implementation": "passed",
         "source_review": "passed",
         "supplemental_test_review": "passed",
         "supplemental_stock_build": "passed",
@@ -5224,9 +5224,15 @@
         "ci_recipe_review": "passed",
         "native_results_review": "passed",
         "prepush_tooling": "passed",
-        "github_ci": "not_run"
+        "github_ci": "passed",
+        "hosted_native_acceptance": "passed",
+        "hosted_ci_review": "not_run",
+        "final_head_ci": "not_run",
+        "final_packet_review": "not_run"
       },
-      "evidence": [],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/110"
+      ],
       "review": null,
       "id": "API-012",
       "title": "Admitted native persistent WebSocket control profile",
@@ -5240,7 +5246,7 @@
       "brief": "docs/tasks/EPIC-008/API-012.md",
       "summary": "Correct the reviewed selected-framework control/fragment/Close lifecycle in a distinct admitted profile before the production bridge consumes it.",
       "notes": [
-        "Corrected profile passes44 real Linux loopback methods; exact18-object map/1563 inputs unchanged. Source/resource, SDK/ABI, fixture, native-result and corrected CI recipe reviews approved. Prepush tooling50/project/render pass. First Ubuntu run/receipts, native runtime/code/final review and protected merge pending. Historical red/fixture failure retained; host/TLS/clock/auth/platform gates separate. Stop after API-012."
+        "Corrected profile passes44 real loopback methods locally and in Ubuntu CI6f719a7; exact artifact/loaded-map gates pass. Source/resource, SDK/ABI, fixture, native-result and CI recipe reviews approved; tooling50/project/render pass. Hosted receipts/native code and final packet review, final-head checks and normal PR110 merge pending. Historical red/fixture failure retained; host/TLS/clock/auth/platform gates separate. Stop after API-012."
       ]
     },
     {

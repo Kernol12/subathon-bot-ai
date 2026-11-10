@@ -59,8 +59,9 @@ prepares the pinned, ordered corrected sources in a fresh disposable prefix,
 retains notices/provenance and seals every SDK file before configuration. A passive
 ELF closure is compared with the scrubbed probe's complete loaded map before the
 ordinary 44-method loopback suite can run. Native failures fail CI; no inversion,
-skipping or continuation supplies acceptance. Local native44 is green; this new
-recipe has independent approval and still needs its first actual hosted run. Ubuntu
+skipping or continuation supplies acceptance. Local native44 and the first selected Ubuntu native44 run pass; the recipe has
+independent approval. [PR110](https://github.com/Kernol12/subathon-bot-ai/pull/110)
+records the actual run and remaining review/merge gates. Ubuntu
 artifacts are assessed on that host, separately from the admitted local Arch set.
 The real application host, TLS/proxy routing, authoritative clock, authentication,
 synchronization and platform/release support remain separate gates.

@@ -5,8 +5,9 @@ vendor patches. Exact source/resource review at `2cc999c` and compiled SDK/ABI r
 at `82bf92c` released the local build and controlled load. The per-request fixture
 correction at `150c280` passed independent review. The current 44 methods then passed
 on real Linux loopback, with an exact complete loaded map and unchanged input hashes.
-Independent runtime/code review, hosted checks and protected merge are still
-pending; the CI recipe has independent approval; current status lives in [state](../../progress/state.json).
+The independently approved CI recipe also passes all 44 methods on Ubuntu through
+CTest with its host-specific loaded-map gate. Independent hosted-results/native code
+and final review, latest-head checks and protected merge remain pending; current status lives in [state](../../progress/state.json).
 The manifest's retained `implementation_candidate_not_admitted` value records the
 source author's original handoff stage. It is not a current admission verdict or a
 runtime capability claim. Its bytes remain unchanged to preserve the admitted SDK

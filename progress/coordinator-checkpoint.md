@@ -81,11 +81,21 @@ candidate findings and assignments remain in git. Preserve unchanged approvals.
   passive parser checks only); no new binary is being silently substituted.
   Ruleset26170263 active, no bypass actors, PR/resolved threads required,
   zero GitHub approvals/no status-rule. Written latest-head CI gates still apply.
-- Next: push/open focused draft PR, immediately T3 link/watch; first hosted
-  recipe/native44 run, then independent actual Ubuntu receipts/native runtime/code
-  and final
-  packet review, resolved discussions/live rules and normal protected merge.
-  Use T3 PR link/watch tools; stop after merge. No approval is inferred.
+- Draft [PR110](https://github.com/Kernol12/subathon-bot-ai/pull/110) opened/linked/
+  watched at6f719a7; currentmain642c9a0. All21 check entries (20 distinct names,
+  duplicate scaffold push/PR) passed. No review threads. FIRST Ubuntu native job
+  [42890430204](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42890430204)
+  passes SDK preparation/seal172names, passive ABI then complete14-object map
+  (main+vDSO+12libraries), ordinary44/44 CTest/0skips and infrastructure3/3.
+  Absolute CTest is /usr/local/bin/ctest; consumer Python is /usr/bin/python3.12.
+  Raw log/runJSON/seal/map/normalized summary saved under ignored
+  `pr110-FIRST-native-ci*`, `pr110-FIRST-ubuntu-*`, `pr110-first-green.json`.
+  Runner-local passive-abi.json is not printed; successful fail-closed reviewed
+  gate is evidence of its checks, not an archived Ubuntu binary re-audit.
+- Next: independent hosted-results/native runtime/code review against this exact
+  source and actual receipts; then completion metadata/final packet, final-head
+  CI/rules/zero threads and normal protected merge. Watch stays active; do not
+  relink/rewatch/list on wakes. Unwatch before final handback; stop after merge.
 - Runtime limitations remain: direct native TLS, proxy/Caddy WS routing, actual
   ready host/session clock/auth/sync and full platform/release proof. Source review
   records MsgBuffer append-zero UB reachability, bounded pending-upgrade CPU spin,
