@@ -1,28 +1,26 @@
-# API-012 source correction candidate 4
+# API-012 corrected native WebSocket profile
 
-**Unadmitted source candidate. No corrected SDK preparation, compilation, load or
-native acceptance is claimed or released by this handoff.** Candidate 1 was
-b3f04db0a10c1ced77bdb0488566e1155dd8da71 (author 1915bae4009d1fff79b14a8bd41589079305b61e).
-This correction session started clean at fdb073ed3072ae06e05045fff669e4eae30a1ed9,
-branch `t3/api-012-native-profile-fixes`, checkout
-`/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-0014ea98`.
-The coordinator owns status, contracts, build/CI, SDK admission and protected merge.
-The candidate2 author changed only the cpp, two patches, manifest and this README.
-Coordinator candidate3 corrected source-review B5/B6/L1 on the same owned paths;
-candidate4 additionally fixes B7 by completing any started native frame before
-selecting another frame. No extra state, storage or queue is introduced.
-source/resource re-review still precedes corrected SDK preparation.
-Public first-party header and all tests are frozen. The baseline is the independently
-reviewed 44 methods (38 original assertions preserved, six additions at d9ac991).
-Original stock WS02 red and supplemental missing-profile red remain distinct;
-neither supplies corrected native capacity or deadline evidence. No stock replay.
+The immutable `api012-candidate4` identity binds the reviewed source and two ordered
+vendor patches. Exact source/resource review at `2cc999c` and compiled SDK/ABI review
+at `82bf92c` released the local build and controlled load. The per-request fixture
+correction at `150c280` passed independent review. The current 44 methods then passed
+on real Linux loopback, with an exact complete loaded map and unchanged input hashes.
+Independent runtime/code review, the new CI recipe review, hosted checks and protected
+merge are still pending; current status lives in [state](../../progress/state.json).
+The manifest's retained `implementation_candidate_not_admitted` value records the
+source author's original handoff stage. It is not a current admission verdict or a
+runtime capability claim. Its bytes remain unchanged to preserve the admitted SDK
+seal; reviews, artifact identity and actual observations supply admission evidence.
+
+The public header and all 44 test methods remain frozen (38 original methods and
+six reviewed additions). Original stock WS02 red and supplemental missing-profile
+red remain distinct and preserved. The first corrected 43/44 failure was an
+independently reviewed fixture sampling defect; no production fix or assertion
+removal was needed. No stock replay is required.
 
 `manifest.json` binds the first-party source, exact ordered patch hashes and profile
 identity. Patch 1 applies at the pinned Trantor root; patch 2 at the pinned Drogon
-root. Patches were generated as in-memory strings from read-only stock. No corrected
-vendor tree or build/install prefix was prepared. No upgrade, dependency or feature
-switch is introduced. The selected Release/shared recipe remains Drogon C++20,
-Trantor C++14 and OpenSSL with the same 16 options.
+root. Corrected and pristine SDK headers/libraries must never be mixed.
 
 ## Nonfragmenting storage proof (B2)
 
@@ -208,8 +206,8 @@ The private Session handle is atomically observed/exchanged across detach.
 All elapsed guards use immutable owned uint64 monotonic observations. Arithmetic,
 regression, unavailability and equality expiry retain bounded teardown semantics.
 Read/write/timer/API/quota continuations recheck original anchors. The 5ms recurring
-timer is only a wake hint. FIFO quota causal ordering remains source-derived and
-requires native confirmation; no UTC or actual host-clock binding is supplied.
+timer is only a wake hint. FIFO quota causal ordering has source and native-case evidence; no UTC or actual
+host-clock binding is supplied.
 
 ## Coordinator wiring and remaining gates
 
@@ -244,39 +242,25 @@ for independent artifact review, or proof of ABI/native/platform compatibility.
 The configuration-only tests use synthetic files and package targets, load no DSO
 and claim no native foundation evidence.
 
-1. Independent Claude exact source/resource/protocol/build/license review of this
-   revision and manifest must RELEASE preparation first. Review all B1-B4/M1-M3,
-   H1, fixed-slot backing/live accounting, marked-without-profile/TLS registration
-   refusal, handoff ownership, and unchanged socket/queued-record retirement.
-2. Only then create DISTINCT ignored primary paths, for example
-   `build/deps/drogon-1.9.14-api012-candidate4-{source,build,sdk}`. Preserve stock
-   `drogon-1.9.14-source`, its Trantor submodule and `drogon-1.9.14` unchanged.
-   Clone pinned local sources without hardlinks/alternates; initialize exact
-   submodule pin, capture provenance, apply patch1 at Trantor then patch2 at Drogon.
-   Never run pristine setup automation on a corrected tree or call it pristine.
-3. Configure/build/install only after the corresponding releases, using Ninja,
-   manifest's unchanged 16 options and the distinct CMAKE_INSTALL_PREFIX. Capture
-   actual compiler, C++ standards, libc/stdlib/OS/Qt/ABI, cache, logs and outputs.
-   No compiler probes/build/install/load were performed by this author session.
-4. Preserve Drogon LICENSE, Trantor License and orm_lib/COPYING even with
-   BUILD_ORM=OFF (orm core still compiles), bundled crypto headers, actual direct/
-   transitive notices and project GPL-3.0-or-later LICENSE/correction provenance.
-   Full license inventory remains coordinator admission.
-5. Coordinator updates cmake/DrogonDependency.cmake and CI to admit this exact
-   profile/source/ordered hashes, distinct prefix and actual artifact identities
-   in dependency-build.json. Never reuse the pristine three-field manifest.
-   The existing server target already owns this cpp and links Drogon::Drogon;
-   no first-party header or shared CMake edit is needed from this worker. The
-   frozen fixture already selects the final true listener argument under the
-   header marker. Keep that selection and the unmodified stock path.
-6. Independently admit actual ELF NEEDED, resolved direct/transitive libraries,
-   SONAME, vtable/symbol/RTTI (including cross-DSO Session casts), RPATH/version
-   requirements and loader map BEFORE load/identity/passive/native execution.
-   Stock and corrected SDK headers/DSOs MUST NOT mix across profile identities: TcpConnection's
-   virtual ABI, Session, HttpAppFramework::addListener and private layouts differ.
-7. Only after these gates run actual current44, then independent code/native
-   review, regressions/current CI, ordinary CI promotion and protected merge.
-   Preserve red evidence; no new stock run or assertion changes. Stop after API-012.
+The committed [CI recipe](../../tools/native_websocket_ci.py) prepares a fresh
+`$RUNNER_TEMP/native-ws-candidate4/{source,build,sdk}` prefix from the exact pins and
+ordered patch hashes. It audits the unchanged 16 build options and effective
+Drogon C++20/Trantor C++14 flags, retains full framework/ORM/project/package notices,
+records source and command provenance, and seals the final SDK before CMake import.
+Its `gate` stage inventories all 44 methods and the enabled ordinary CTest suite,
+derives the host ELF closure passively, and compares it with a complete scrubbed
+`--identity` loaded map before the workflow runs native bodies. Independent review
+must approve the recipe before its first execution. Local Arch and hosted Ubuntu
+artifacts have separate identities and proof limits.
+
+Preserve the pristine stock source/SDK and previous native receipts. Local corrected
+builds use distinct `build/deps/drogon-1.9.14-api012-candidate4-{source,build,sdk}`
+paths. Never run pristine setup automation against a corrected tree. Rebuilding
+changed source/patch/options requires renewed exact source and compiled admission;
+a file inventory alone is not ABI, license or native acceptance. Actual ELF NEEDED,
+SONAME, symbol/vtable/RTTI, version requirements, RUNPATH and library closure must be
+admitted before load. The selected native paths have now exercised cross-DSO Session
+binding, without establishing compatibility for other binaries or platforms.
 
 Remaining limitations: one pending application frame and no writable notification
 need downstream backpressure design; M-byte lease charging is conservative. Dead

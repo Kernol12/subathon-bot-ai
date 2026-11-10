@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-10T19:29:00+00:00",
+  "updated_at": "2026-11-10T19:39:43+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite and physical account/session components have synthetic/component evidence. Current priority is the actual host lifecycle and native persistent WebSocket profile contract; concrete source defects and missing host readiness prevent honest clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains.",
   "verification": [
     {
@@ -5219,8 +5219,9 @@
         "actual_loaded_identity": "passed",
         "native_acceptance": "passed",
         "runtime_fixture_review": "passed",
-        "ci_recipe": "not_run",
-        "native_runtime_review": "not_run"
+        "ci_recipe": "draft",
+        "native_runtime_review": "not_run",
+        "ci_recipe_review": "not_run"
       },
       "evidence": [],
       "review": null,
@@ -5236,7 +5237,7 @@
       "brief": "docs/tasks/EPIC-008/API-012.md",
       "summary": "Correct the reviewed selected-framework control/fragment/Close lifecycle in a distinct admitted profile before the production bridge consumes it.",
       "notes": [
-        "Corrected native profile passes all44 real loopback methods; exact18-object loaded map and1563 inputs unchanged. Source/resource, SDK/ABI and per-request fixture reviews approved. First43/44 failure and stock/missing-profile red retained. Corrected CI recipe, independent runtime/code review, hosted checks and protected merge remain. Host/TLS/Caddy/clock/auth/platform gates stay separate. Stop after API-012."
+        "Corrected profile passes44 real Linux loopback methods; exact18-object map/1563 inputs unchanged. Source/resource, SDK/ABI and per-request fixture reviews approved. Historical43/44 failure and red preserved. Fresh CI recipe imported byte-identically; independent runtime/code/CI review, hosted checks and protected merge pending. Host/TLS/Caddy/clock/auth/platform gates separate. Stop after API-012."
       ]
     },
     {

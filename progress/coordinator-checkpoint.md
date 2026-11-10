@@ -1,114 +1,73 @@
 # Coordinator checkpoint
 
 Owner authorization (2026-11-10): complete API-012 through independent reviews,
-acceptance and normal protected merge, then STOP. Do not start APITEST-001/API-001
-or actual session-clock binding. Full release scope remains required.
+acceptance and normal protected merge, then STOP. APITEST-001/API-001 and actual
+session-clock binding are not authorized. Full release scope remains required.
 
-## Current handoff
+## Verified checkout and ownership
 
 - Authority: [API-012 brief](../docs/tasks/EPIC-008/API-012.md), [state](state.json),
-  native profile v1 and refined consumer boundary v1. Branch
-  `task/API-012-native-websocket-profile`, base main642c9a0. Root is primary checkout.
-  Startup verified clean local/remote main, no open PRs/active claims, matching CLion
-  checkout. Historical worktrees/receipts/SDKs preserved; old sessions not assumed live.
-- Coordinator `codex:27731ff9-5bb1-4e9f-b2f3-b78e37ae011e` owns shared state/docs,
-  CMake/CI and admission. Fresh Codex source author b13f4db imported as a9d9161,
-  isolated checkout `/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-0014ea98`:
-  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3Ab4d17794-7c8e-4bc5-b2dd-60d312f98b31>.
-  Completed source corrections are candidates only; worker retired at handoff.
-- Candidate2 independent Claude source/resource review (session93fd86c3) confirms
-  B1-B4/M1-M3/H1/TimerQueue fixes and nonfragmentation proof, but CHANGES REQUIRED
-  for B5 fixed HTTP refusal, B6 latest pending Pong/legacy control interference,
-  and L1 handoff compaction. Source preparation/compiler probes/build NOT released.
-  Report: ignored `local-evidence/API-012/source-resource-review-r2.md`; reviewer:
-  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A223f91bf-6253-4b89-94d9-a4b15f55787f>.
-- Candidate3 independent source review confirms B5/B6/L1 corrections but found
-  pre-existing B7: a new application frame could split a started Pong, or a new
-  Pong split a started Close. r2's contrary framing claim is withdrawn. Report:
-  ignored `local-evidence/API-012/source-resource-review-r3.md`; reviewer:
-  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A7d6c6686-7415-43bb-9d4e-8856bf0b836f>.
-- Independent source/resource r4 APPROVED exact2cc999c candidate4; report ignored
-  `local-evidence/API-012/source-resource-review-r4.md`. Reviewer:
-  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A2c78f69f-4216-41fe-a0db-ee98106ad860>.
-  SDK preparation/configure/compiler probes/build/install released; load/native
-  remains gated by compiled artifact/ABI/loader admission.
-- DISTINCT `build/deps/drogon-1.9.14-api012-candidate4-{source,build,sdk}` prepared
-  from exact pins with no hardlinks/alternates and exact reviewed ordered patches.
-  Configure/build184steps/install passed. Effective DrogonC++20/TrantorC++14 confirmed;
-  options unchanged. Source726file hashes, commands, logs, ELF/package metadata and
-  selected framework/ORM/system/project notices retained under ignored evidence/SDK.
-  No corrected SDK load, probe or native test execution. Stock SDK/source preserved.
-- SDK admission contract/tests independently APPROVED exact a4db41a; report ignored
-  `local-evidence/API-012/sdk-admission-test-review-r2.md`. Source/test bytes:
-  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A2233a3c3-e5c1-4668-a9f7-20847c5224df>.
-  Actual FIRST configure-red: exactly2 intended failures/4 guards pass,0errors.
-  Reviewed sealing recipe hash10a42c79 ran ONCE with optimization disabled, clean
-  checkout; exact161 count, identity SHA8c82448f saved under ignored evidence.
-- CMake corrected identity admission implemented; six methods now pass, full tooling50
-  pass. Consumer configure/build pass in `build/native-websocket-profile-api012-debug`
-  (historical stock build preserved). Header/native44 tests unchanged. C1/C2 wording
-  now explicit: toolchain object, file symlink aliases hashed by resolved bytes,
-  directory symlinks refused. Admission source review APPROVED exact82bf92c with compiled SDK/ABI review;
-  ignored `local-evidence/API-012/compiled-admission-review.md`.
-- PASSIVE artifact input: ignored `local-evidence/API-012/candidate4-compiled-admission-input.json`,
-  exact ELF/symbol/compile-command records.17 prospective file objects including
-  probe+loader;14 system hashes unchanged,2 distinct corrected DSOs. Probe SHA7fbfb79e.
-  RTTI symbols present in both DSOs/consumer, C++11 ABI1/RTTI enabled; no assertions
-  macro in actual selected stdlib preprocessing. Controlled identity load used scrubbed environment. Actual complete18-object map
-  matches reviewed paths/hashes/sizes, backend corrected/C++20; no capture fault.
-  Record `candidate4-actual-loaded-map.json`. First actual native44 run passed43,
-  failed1 owner-retirement wait,0setup/cleanup faults,1563 input hashes unchanged.
-  Actual native paths exercised cross-DSO binding; no full ABI/platform certification.
-- Runtime investigation: raw FIRST run under ignored `candidate4-FIRST-native44.*`,
-  original compiled probe preserved as `local-evidence/API-012/candidate4-FIRST-probe`.
-  Diagnostic preserves original64-poll failure and samples actual0 at124,4.6ms after
-  first sample (`retirement-diagnostic.*`). Native timer record properly remains
-  counted until destroyed; immediate64-poll helper may finish first.
-  Independent runtime fixture r1 APPROVES defect diagnosis/no production fix, but
-  rejects startup snapshots as stale and shared64 cap. Report ignored
-  `local-evidence/API-012/runtime-fixture-review-r1.md`.
-  Corrected proposal: explicit per-helper IO-owner arm result, request-tagged
-  ordinal1–64 snapshots/10ms, explicit stop/FIFO result and tagged-leftover purge.
-  No startup observer. One active observer, no peer reference/enforcement; cancelled
-  peer-free timer entries bounded by512 commands. All44 method bytes intact.
-  Independent focused fixture re-review APPROVED exact150c280; report ignored
-  `local-evidence/API-012/runtime-fixture-review-r2.md`, reviewer:
+  native profile v1 and refined consumer boundary v1. Primary branch
+  `task/API-012-native-websocket-profile`, base/current remote main642c9a0 (PR109).
+  Resume audit found clean150c280, no open PRs, no native build/test processes.
+  Historical worktrees, pristine stock SDK/source and receipts are preserved.
+- Coordinator `codex:27731ff9-5bb1-4e9f-b2f3-b78e37ae011e` owns shared docs/state,
+  integration, CI inspection and merge. Previous authors/reviewers are completed,
+  not assumed active. Fresh CI author8d029417 imported byte-identically as99dbd66;
+  isolated clean worktree `/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-296a2d58`.
+  Author retired at handoff:
+  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A3035ce70-b74b-4297-a785-5048a9bc8955>.
+
+## Valid completed gates and receipts
+
+Detailed reports/raw outputs remain under ignored `local-evidence/API-012/`; earlier
+candidate findings and assignments remain in git. Preserve unchanged approvals.
+
+- Original38 assertions/header and actual stock WS02 wrong-Pong red remain in
+  [PR108](https://github.com/Kernol12/subathon-bot-ai/pull/108). Six reviewed additive
+  listener/lifecycle cases bring total44. Supplemental review approved d9ac991;
+  isolated stock-stub run observed6 missing-profile failures,0setup/cleanup faults.
+  It is not new native red. No stock replay.
+- Exact candidate4 source/resource review APPROVED2cc999c after B1-B7/M1-M3/H1 fixes;
+  `source-resource-review-r4.md`. Manifest/patches/header/production remain unchanged.
+  SDK configure/build184/install passed in distinct candidate4 source/build/sdk
+  paths. Fixed pool proof and full selected framework/ORM/project/system notices
+  admitted. Actual Trantor license is BSD three-clause; older MIT labels are wrong.
+- SDK admission tests reviewed at a4db41a; exactly2 semantic configuration-red
+  failures/4guard passes, then6/6green. Full tooling50 passed. One-off reviewed
+  sealing script executed ONCE with optimization disabled; SDK161 entries,
+  seal SHA8c82448f. Do not rerun/reseal casually. Compiled SDK/ABI/CMake source
+  APPROVED82bf92c (`compiled-admission-review.md`). Initial controlled identity
+  exactly matched complete18-object map. Original probe SHA7fbfb79e preserved.
+- FIRST native44:43pass/1failure,0setup/cleanup;1563 inputs unchanged. Diagnostic
+  preserves immediate64-poll failure and observes retirement at124 after4.6ms.
+  Independent review confirms genuine fixture sampling defect, no production fix.
+  Corrected per-request IO observer at150c280 APPROVED (`runtime-fixture-review-r2.md`):
+  fresh request tag/ordinal1–64/10ms, explicit stop/FIFO purge, actual SDK count,
+  one active observer, no peer reference, bounded512commands. All44 method bytes
+  and assertions unchanged since d9ac991. Reviewer:
   <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A46bb9da0-7e95-495f-bd44-278521e9f0f7>.
-  Only fixture/main rebuilt: new probe SHAe6c93ba4; native object/archive, SDK seal,
-  all16-library closure/ELF/undefined-symbol requirements unchanged. Scrubbed identity
-  again matches complete18-object map. Revised FIRST native44 passes44/44,0errors/
-  skips/setup/capture/cleanup faults;1563 inputs unchanged. Receipts:
+- Only revised fixture/main rebuilt: SHAe6c93ba4. Native object/archive, SDKseal,
+  all16library closure/ELF/undefined requirements unchanged; scrubbed identity
+  again matches complete18-object map. Revised FIRST native44 passes44/44,
+  zero errors/skips/setup/capture/cleanup faults;1563 inputs unchanged. Receipts:
   `fixture-r2-build-identity.json`, `fixture-r2-compiled-admission.json`,
   `fixture-r2-actual-loaded-map.json`, `fixture-r2-FIRST-native44.log/.json`.
-- Actual Trantor License is BSD three-clause; earlier review MIT labels are wrong.
-  Full selected license bytes preserved; root notices clarify source/patch scope.
 
-## Baseline and next gates
+## Current candidate and next gates
 
-- [PR108](https://github.com/Kernol12/subathon-bot-ai/pull/108) preserves original38
-  tests/reviews and actual stock WS02 wrong-Pong red. All original38 method bytes
-  and frozen public header remain intact. Six added B1/B3/B4/H1 cases bring total44.
-- Independent Claude supplemental boundary/test review APPROVED exact d9ac991:
-  ignored `local-evidence/API-012/supplemental-test-review-r2.md`; reviewer:
-  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3Ae9113ca3-00c3-4c61-9da7-fa0d6720bb85>.
-  Isolated reviewed snapshot plus original stuba335f9cc configured/built against
-  stock. ELF/resolved16DSO hashes matched admission; identity complete/stock,
-  passive44. ONLY six additions ran:6 expected missing-profile failures,0errors/
-  skips/setup/cleanup faults. This is missing first-party red, not new native red.
-  Raw FIRST outputs/hashes in ignored `local-evidence/API-012/`; SDK138files unchanged.
-- Resume audit: clean150c280, remote main still642c9a0, no open PRs or native build/test
-  processes. Completed author/reviewer assignments remain retired; CLion project
-  configurations inspected read-only. No worker is assumed active.
-- Next: assign a fresh Codex CI author for the corrected SDK preparation/seal and
-  ordinary44-test lane. Existing stock-only CI cannot accept the new SDK contract;
-  do not push it as feature red. Keep source/header/tests/manifest/stockSDK immutable.
-  Then independent actual native/code and CI recipe review, relevant checks, final packet/current
-  checks/discussions/rules and normal protected merge. No approval is inferred.
-- Runtime gaps: direct native TLS, HTTP ingress security, Caddy/proxy WS routing,
-  actual ready host/session clock/auth/sync and platform/full-release proof remain
-  separate. No live provider/payment effects authorized. Preserve the noted stale
-  original late-Text comment; the refined contract governs its looser oracle.
-
-WORKFLOW-001 completed normally in [PR109](https://github.com/Kernol12/subathon-bot-ai/pull/109)
-as main642c9a0 with all21 checks and separate source/docs/metadata approvals.
-Earlier exact task handoffs/reviews remain in git and ignored receipts; no cleanup.
+- Corrected CI recipe authored/imported, NOT EXECUTED: preserves eight package
+  guards, pins/options/context; fresh SDK, notices/provenance/seal, passive ELF
+  closure and exact scrubbed loaded map before ordinary44. Native labels/display
+  promoted after actual localgreen; docs reflect local proof and pending Ubuntu.
+  Static AST/JSON/whitespace/scope checks passed; check_project passed. No push/PR.
+- Next: independent Claude actual native/code and exact CI recipe/docs review.
+  Then only released execution/checks, focused PR, latest-head hosted CI and final
+  packet review, resolved discussions/live rules and normal protected merge.
+  Use T3 PR link/watch tools; stop after merge. No approval is inferred.
+- Runtime limitations remain: direct native TLS, proxy/Caddy WS routing, actual
+  ready host/session clock/auth/sync and full platform/release proof. Source review
+  records MsgBuffer append-zero UB reachability, bounded pending-upgrade CPU spin,
+  off-owner legacy shutdown and global-factory/IO-join lifetime obligations.
+  Preserve the stale original late-Text comment; refined contract governs that
+  looser oracle. No live provider/chat/payment effects authorized.

@@ -6,6 +6,7 @@ revisions are linked from each task handoff; inspect the latest PR head before m
 
 | Workflow | Automatic PR/main scope |
 | --- | --- |
+| native-websocket-profile.yml | Corrected SDK preparation/seal, passive ELF and scrubbed loaded-map gate, then all 44 synthetic loopback native methods |
 | scaffold.yml | Infrastructure build, Python tooling, repository/progress checks |
 | acceptance.yml | Reviewed time-credit acceptance and regression cases |
 | exact-numeric.yml | Reviewed exact decimal/final conversion and regression cases |
@@ -51,6 +52,18 @@ remain required before every merge. Local archive-consumer evidence alone is ins
 The checkout action remains pinned to official v7.0.1. Numeric-dependent stable
 lanes retain pinned Boost1.83 Ubuntu headers. System runner/compiler/runtime package
 versions are recorded in actual logs rather than called a reproducible OS image.
+
+The native WebSocket lane keeps the `native-websocket-profile-build` context and
+exact eight Ubuntu package checks. Its [recipe](../tools/native_websocket_ci.py)
+prepares the pinned, ordered corrected sources in a fresh disposable prefix,
+retains notices/provenance and seals every SDK file before configuration. A passive
+ELF closure is compared with the scrubbed probe's complete loaded map before the
+ordinary 44-method loopback suite can run. Native failures fail CI; no inversion,
+skipping or continuation supplies acceptance. Local native44 is green; this new
+recipe still requires independent review and its first actual hosted run. Ubuntu
+artifacts are assessed on that host, separately from the admitted local Arch set.
+The real application host, TLS/proxy routing, authoritative clock, authentication,
+synchronization and platform/release support remain separate gates.
 
 Add Windows/MSVC, Qt/QML, browser/OBS, deployment/restore and performance jobs as
 their harnesses exist. Generic CI cannot substitute live provider, actual OBS or
