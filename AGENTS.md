@@ -54,6 +54,11 @@ Do not delete, skip or weaken baseline assertions to make code pass. Test cleanu
 remove assertions only under ADR-0012, an explicit task brief and a separate approved
 review; preserve historical evidence and record any revised baseline.
 
+Each substantive review stage follows the Opus/Codex cycle in
+`docs/AGENT_WORKFLOW.md`: independent Claude Opus initial review, Codex fixes and
+separate Codex review until no blockers remain, then independent Opus closing review.
+Codex readiness cannot waive Opus approval; closing blockers repeat the cycle.
+
 ## Boundaries
 
 - C++20/Qt >=6.12 server/desktop; QML desktop UI; HTML/CSS/TypeScript browser UI.

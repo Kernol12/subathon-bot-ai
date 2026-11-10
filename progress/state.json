@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-10T20:11:15+00:00",
+  "updated_at": "2026-11-10T20:43:47+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. The owner authorized API-012 only, followed by a stop.",
   "verification": [
     {
@@ -15551,6 +15551,33 @@
         "revision": "Tests6b7c398 corrected7b6b690 independently approved before intended argparse red; fresh implementation4d973057/importfcde3fd and complete docs independently approved at fcde3fd. Current-head CI and normal merge remain PR109 gates.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/109"
       }
+    },
+    {
+      "id": "WORKFLOW-002",
+      "title": "Opus stage reviews with Codex correction cycles",
+      "module": "Quality and tooling",
+      "kind": "implementation",
+      "status": "in_progress",
+      "owner": "codex:coordinator-9bae765e-bb17-4f99-8859-1361d2e80d35",
+      "depends_on": [
+        "WORKFLOW-001"
+      ],
+      "spec_refs": [
+        "\u00a717",
+        "\u00a718"
+      ],
+      "brief": "docs/tasks/WORKFLOW-002.md",
+      "summary": "Keep Opus initial/closing stage reviews and use independent Codex correction cycles between them.",
+      "notes": [
+        "Owner authorized guidance only: Opus initial review, Codex fixes and separate Codex review until ready, then Opus closing review. No Sonnet substitution or product-work resumption. Reviews and checks pending."
+      ],
+      "verification": {
+        "implementation": "draft",
+        "acceptance": "not_run",
+        "code_review": "not_run"
+      },
+      "evidence": [],
+      "review": {}
     }
   ],
   "activity": [
