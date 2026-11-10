@@ -1,0 +1,212 @@
+--- a/lib/inc/drogon/WebSocketConnection.h
++++ b/lib/inc/drogon/WebSocketConnection.h
+@@ -234,3 +234,37 @@
+ 
+ using WebSocketConnectionPtr = std::shared_ptr<WebSocketConnection>;
+ }  // namespace drogon
++
++// Private API-012 seam: the pinned patched SDK and first-party profile are one
++// admitted ABI. Ordinary WebSocket users cannot issue a delivery scope.
++#include <drogon/exports.h>
++#include <trantor/net/TcpConnection.h>
++#include <atomic>
++#include <functional>
++namespace subathon::server::native_ws { struct ProfileFactory; }
++namespace drogon { class HttpServer; class HttpAppFrameworkImpl; class WebSocketConnectionImpl; }
++namespace drogon::native_profile
++{
++class DROGON_EXPORT Session : public trantor::NativeProfileIo
++{
++  public:
++    ~Session() override = default;
++  private:
++    friend class drogon::WebSocketConnectionImpl;
++    virtual bool bind(const std::shared_ptr<WebSocketConnection> &,
++                      std::function<void(unsigned)> dispatch) noexcept = 0;
++    virtual void initial(trantor::MsgBuffer *) noexcept = 0;
++    virtual void send(unsigned, const char *, std::size_t) noexcept = 0;
++    virtual void close(unsigned short, const std::string &) noexcept = 0;
++};
++using Factory = std::function<std::shared_ptr<Session>(const trantor::TcpConnectionPtr &)>;
++class DROGON_EXPORT Runtime
++{
++    friend class drogon::HttpServer;
++    friend class drogon::HttpAppFrameworkImpl;
++    friend class drogon::WebSocketConnectionImpl;
++    friend struct subathon::server::native_ws::ProfileFactory;
++    static Factory &factory() noexcept;
++    static std::atomic<bool> &started() noexcept;
++};
++}
+--- a/lib/src/HttpAppFrameworkImpl.cc
++++ b/lib/src/HttpAppFrameworkImpl.cc
+@@ -13,6 +13,7 @@
+  */
+ 
+ #include "HttpAppFrameworkImpl.h"
++#include <drogon/WebSocketConnection.h>
+ #include <drogon/DrClassMap.h>
+ #include <drogon/HttpResponse.h>
+ #include <drogon/HttpTypes.h>
+@@ -519,6 +520,7 @@
+ 
+ void HttpAppFrameworkImpl::run()
+ {
++    native_profile::Runtime::started().store(true, std::memory_order_release);
+     if (!getLoop()->isInLoopThread())
+     {
+         getLoop()->moveToCurrentThread();
+--- a/lib/src/HttpServer.cc
++++ b/lib/src/HttpServer.cc
+@@ -115,6 +115,12 @@
+ {
+     if (conn->connected())
+     {
++        if (native_profile::Runtime::factory())
++        {
++            auto session = native_profile::Runtime::factory()(conn);
++            if (!session) { conn->forceClose(); return; }
++            conn->setNativeProfileIo(std::move(session));
++        }
+         auto parser = std::make_shared<HttpRequestParser>(conn);
+         parser->reset();
+         conn->setContext(parser);
+@@ -295,7 +301,8 @@
+                             false /* Not HEAD */))
+         {
+             auto wsConn = std::make_shared<WebSocketConnectionImpl>(conn);
+-            wsConn->setPingMessage("", std::chrono::seconds{30});
++            if (!native_profile::Runtime::factory())
++                wsConn->setPingMessage("", std::chrono::seconds{30});
+             onWebsocketRequest(
+                 req,
+                 [conn, wsConn, requestParser, req](
+@@ -307,6 +314,10 @@
+                         AopAdvice::instance().passPreSendingAdvices(req, resp);
+                         if (resp->statusCode() == k101SwitchingProtocols)
+                         {
++                            if (native_profile::Runtime::factory() && conn->getRecvBuffer()->readableBytes() == 0)
++                                conn->getRecvBuffer()->releaseNativeProfileStorage();
++                            if (native_profile::Runtime::factory() && !wsConn->bindNativeProfile())
++                            { conn->forceClose(); return; }
+                             requestParser->setWebsockConnection(wsConn);
+                         }
+                         auto httpString =
+@@ -781,9 +792,12 @@
+             callback(resp);
+         });
+ 
++    if (native_profile::Runtime::factory() && !wsConn->connected()) return;
+     // TODO: more elegant?
+     static_cast<WebsocketControllerBinder *>(binder.get())
+         ->handleNewConnection(request, wsConn);
++    if (native_profile::Runtime::factory() && wsConn->connected())
++        wsConn->consumeNativeProfileInitial();
+ }
+ 
+ void HttpServer::handleResponse(
+--- a/lib/src/WebSocketConnectionImpl.cc
++++ b/lib/src/WebSocketConnectionImpl.cc
+@@ -20,6 +20,10 @@
+ #include <limits>
+ 
+ using namespace drogon;
++namespace drogon::native_profile {
++Factory &Runtime::factory() noexcept { static Factory value; return value; }
++std::atomic<bool> &Runtime::started() noexcept { static std::atomic<bool> value{false}; return value; }
++}
+ 
+ WebSocketConnectionImpl::WebSocketConnectionImpl(
+     const trantor::TcpConnectionPtr &conn,
+@@ -41,6 +45,16 @@
+                                    uint64_t len,
+                                    const WebSocketMessageType type)
+ {
++    if (auto session = std::dynamic_pointer_cast<native_profile::Session>(
++            tcpConnectionPtr_->nativeProfileIo()))
++    {
++        unsigned opcode = type == WebSocketMessageType::Text ? 1 :
++                          type == WebSocketMessageType::Binary ? 2 :
++                          type == WebSocketMessageType::Close ? 8 :
++                          type == WebSocketMessageType::Ping ? 9 : 10;
++        session->send(opcode, msg, len);
++        return;
++    }
+     unsigned char opcode;
+     if (type == WebSocketMessageType::Text)
+         opcode = 1;
+@@ -171,6 +185,7 @@
+ void WebSocketConnectionImpl::sendJson(const Json::Value &json,
+                                        const WebSocketMessageType type)
+ {
++    if (tcpConnectionPtr_->nativeProfileIo()) return;
+     static std::once_flag once;
+     static Json::StreamWriterBuilder builder;
+     std::call_once(once, []() {
+@@ -215,6 +230,12 @@
+     const CloseCode code,
+     const std::string &reason)
+ {
++    if (auto session = std::dynamic_pointer_cast<native_profile::Session>(
++            tcpConnectionPtr_->nativeProfileIo()))
++    {
++        session->close(static_cast<unsigned short>(code), reason);
++        return;
++    }
+     tcpConnectionPtr_->getLoop()->invalidateTimer(pingTimerId_);
+     if (!tcpConnectionPtr_->connected())
+         return;
+@@ -237,6 +258,7 @@
+     const std::string &message,
+     const std::chrono::duration<double> &interval)
+ {
++    if (tcpConnectionPtr_->nativeProfileIo()) return;
+     auto loop = tcpConnectionPtr_->getLoop();
+     if (loop->isInLoopThread())
+     {
+@@ -447,6 +469,12 @@
+     const trantor::TcpConnectionPtr &connPtr,
+     trantor::MsgBuffer *buffer)
+ {
++    if (auto session = std::dynamic_pointer_cast<native_profile::Session>(
++            connPtr->nativeProfileIo()))
++    {
++        session->initial(buffer);
++        return;
++    }
+     auto self = shared_from_this();
+     while (buffer->readableBytes() > 0)
+     {
+--- a/lib/src/WebSocketConnectionImpl.h
++++ b/lib/src/WebSocketConnectionImpl.h
+@@ -100,6 +100,30 @@
+     void onNewMessage(const trantor::TcpConnectionPtr &connPtr,
+                       trantor::MsgBuffer *buffer);
+ 
++    void consumeNativeProfileInitial()
++    {
++        if (auto session = std::dynamic_pointer_cast<native_profile::Session>(
++                tcpConnectionPtr_->nativeProfileIo()))
++            session->initial(tcpConnectionPtr_->getRecvBuffer());
++    }
++    bool bindNativeProfile()
++    {
++        auto session = std::dynamic_pointer_cast<native_profile::Session>(
++            tcpConnectionPtr_->nativeProfileIo());
++        if (!session) return false;
++        std::weak_ptr<WebSocketConnectionImpl> weak = shared_from_this();
++        return session->bind(shared_from_this(), [weak](unsigned opcode) {
++            if (auto self = weak.lock())
++            {
++                // Payload never crosses the public mutable-string callback.
++                // It stays in the private validated scope until accept_callback.
++                const auto type = opcode == 1 ? WebSocketMessageType::Text :
++                                  opcode == 2 ? WebSocketMessageType::Binary :
++                                  WebSocketMessageType::Ping;
++                self->messageCallback_(std::string{}, self, type);
++            }
++        });
++    }
+     void onClose()
+     {
+         if (pingTimerId_ != trantor::InvalidTimerId)
