@@ -27,12 +27,23 @@ APITEST-001/API-001 or actual session-clock binding afterward.
   test/source/resource reviews and observed stock WS02 wrong-Pong red. Frozen
   tests remain unchanged; missing facade/resource observations remain unimplemented.
   The clean stock SDK at `build/deps/drogon-1.9.14` must remain untouched.
-- Pending: fresh implementation, exact corrected patch/build/ABI/license admission,
+- First independent Claude review: CHANGES REQUIRED for b3f04db; report in ignored
+  `local-evidence/API-012/source-resource-review-r1.md`, session7f25400f. Review link:
+  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3Ae63b58ce-e7d6-40f0-b4bb-4b30dbd4efce>.
+  B1 idle kickoff, B2 arena fragmentation, B3 local Close sequence, B4 global factory
+  HTTP interference; M1 callback-under-lock, M2 owner bind/handoff, M3 released buffer.
+  Corrected SDK preparation/compiler probes/build are NOT released.
+- Pending: source corrections, independent listener-boundary/test review, exact patch/build/ABI/license admission,
   independent source/resource review, native38 acceptance, ordinary selected CI,
   final packet/current checks/discussions and normal protected merge.
-- Next action: independent Claude source/resource review of exact b3f04db before any
-  corrected SDK preparation/execution. Review arena backing/live accounting, early
-  socket retirement, timers/FIFO lifetime, legacy native restrictions and ABI/notices.
+- Coordinator decision for B4: explicit per-listener startup marker, default false,
+  carried through selected SDK ListenerInfo/HttpServer. Same process/Caddy scope;
+  ordinary HTTP/TLS unchanged. Consumer-boundary/brief refinement authored; review
+  and focused additive test/fixture wiring still pending. No owner product decision
+  or reduction of release scope is required for this internal implementation choice.
+- Next action: fresh test author for preserved oracles plus listener-selection wiring;
+  independent Claude boundary/test review, then source fixes and focused re-review.
+  No corrected preparation/build/load until source admission.
   Claim committed at54df5b3. Any new
   substantial prerequisite must be explicitly split before scope expansion.
 

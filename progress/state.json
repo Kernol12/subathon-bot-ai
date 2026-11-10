@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-10T15:59:11+00:00",
+  "updated_at": "2026-11-10T16:57:10+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite and physical account/session components have synthetic/component evidence. Current priority is the actual host lifecycle and native persistent WebSocket profile contract; concrete source defects and missing host readiness prevent honest clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains.",
   "verification": [
     {
@@ -5202,7 +5202,10 @@
         "TEST-04",
         "TEST-05"
       ],
-      "verification": {},
+      "verification": {
+        "implementation": "draft",
+        "source_review": "failed"
+      },
       "evidence": [],
       "review": null,
       "id": "API-012",
@@ -5217,7 +5220,7 @@
       "brief": "docs/tasks/EPIC-008/API-012.md",
       "summary": "Correct the reviewed selected-framework control/fragment/Close lifecycle in a distinct admitted profile before the production bridge consumes it.",
       "notes": [
-        "Owner resumed one new task on 2026-11-10: API-012 only, then stop. Consume accepted APITEST-012 baseline/real stock wire red unchanged. Corrected source/SDK admission, independent Claude source/resource review, native acceptance, current CI and normal merge remain open. No host readiness, authentication or synchronization capability claimed."
+        "API-012 candidate authored; independent Claude source/resource review requires fixes for idle timeout, arena fragmentation, fragmented local Close and process-wide HTTP interference, plus lock/thread/buffer handling. No corrected SDK prepared or executed. Preserve frozen baseline/stock red. Resolve source and listener boundary, then native/CI/merge gates; stop afterward."
       ]
     },
     {
