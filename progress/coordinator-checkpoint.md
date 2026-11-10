@@ -63,9 +63,17 @@ APITEST-001/API-001 or actual session-clock binding afterward.
   this is missing first-party behavior, not new B1/B3/B4/H1 native red. Raw FIRST
   outputs, exact hashes and commands remain in ignored `local-evidence/API-012/`.
   SDK138file inventory unchanged; stock vendor trees clean.
-- Next action: fresh source-correction worker fixes B1-B4/M1-M3 plus explicit listener
-  selection and ordinary Upgrade refusal under current reviewed44. Then independent
-  exact source/resource admission before corrected SDK preparation/compiler probes.
+- Fresh source-correction worker assigned from fdb073e (isolated T3 checkout):
+  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3Ab4d17794-7c8e-4bc5-b2dd-60d312f98b31>.
+  Completed candidate b13f4db imported byte-identically as a9d9161; worker checkout
+  `/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-0014ea98` clean at handoff.
+  Candidate2 manifest hashes verified; reviewed44 tests/header unchanged. Source
+  corrections authored only; no corrected SDK preparation/build/load.
+- Next action: independent exact candidate2 source/resource re-review, including
+  B1-B4/M1-M3/H1, fixed-slot nonfragmentation, marked TLS/missing-policy refusal,
+  ordinary Upgrade rejection and partially-written Pong semantics. Do not accept
+  a documented limitation that contradicts the profile. SDK preparation/compiler
+  probes/build still blocked until source admission.
   No corrected preparation/build/load until source admission.
   Claim committed at54df5b3. Any new
   substantial prerequisite must be explicitly split before scope expansion.
