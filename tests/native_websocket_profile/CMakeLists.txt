@@ -17,5 +17,5 @@ add_test(NAME native-websocket-profile.suite
 # Authored maximum: 108 child scenarios, each 10s plus two bounded 10s cleanup
 # attempts, then 60s runner margin. This is a failure watchdog, not OS preemption.
 set_tests_properties(native-websocket-profile.suite PROPERTIES
-    LABELS "native-websocket-profile;acceptance;intentional-red;server;loopback"
+    LABELS "native-websocket-profile;acceptance;server;loopback"
     TIMEOUT 3300)
