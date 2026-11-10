@@ -71,7 +71,15 @@ or actual session-clock binding. Full release scope remains required.
   ordinal1–64 snapshots/10ms, explicit stop/FIFO result and tagged-leftover purge.
   No startup observer. One active observer, no peer reference/enforcement; cancelled
   peer-free timer entries bounded by512 commands. All44 method bytes intact.
-  Do NOT compile/use until separate focused test/resource re-review approves.
+  Independent focused fixture re-review APPROVED exact150c280; report ignored
+  `local-evidence/API-012/runtime-fixture-review-r2.md`, reviewer:
+  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A46bb9da0-7e95-495f-bd44-278521e9f0f7>.
+  Only fixture/main rebuilt: new probe SHAe6c93ba4; native object/archive, SDK seal,
+  all16-library closure/ELF/undefined-symbol requirements unchanged. Scrubbed identity
+  again matches complete18-object map. Revised FIRST native44 passes44/44,0errors/
+  skips/setup/capture/cleanup faults;1563 inputs unchanged. Receipts:
+  `fixture-r2-build-identity.json`, `fixture-r2-compiled-admission.json`,
+  `fixture-r2-actual-loaded-map.json`, `fixture-r2-FIRST-native44.log/.json`.
 - Actual Trantor License is BSD three-clause; earlier review MIT labels are wrong.
   Full selected license bytes preserved; root notices clarify source/patch scope.
 
@@ -88,9 +96,13 @@ or actual session-clock binding. Full release scope remains required.
   passive44. ONLY six additions ran:6 expected missing-profile failures,0errors/
   skips/setup/cleanup faults. This is missing first-party red, not new native red.
   Raw FIRST outputs/hashes in ignored `local-evidence/API-012/`; SDK138files unchanged.
-- Next: independent runtime fixture-defect review, then revised probe compile/artifact
-  identity checks and native44. SDK/source profile unchanged; no source protocol fix, independent native/
-  code review, relevant regression and ordinary selected CI, final packet/current
+- Resume audit: clean150c280, remote main still642c9a0, no open PRs or native build/test
+  processes. Completed author/reviewer assignments remain retired; CLion project
+  configurations inspected read-only. No worker is assumed active.
+- Next: assign a fresh Codex CI author for the corrected SDK preparation/seal and
+  ordinary44-test lane. Existing stock-only CI cannot accept the new SDK contract;
+  do not push it as feature red. Keep source/header/tests/manifest/stockSDK immutable.
+  Then independent actual native/code and CI recipe review, relevant checks, final packet/current
   checks/discussions/rules and normal protected merge. No approval is inferred.
 - Runtime gaps: direct native TLS, HTTP ingress security, Caddy/proxy WS routing,
   actual ready host/session clock/auth/sync and platform/full-release proof remain
