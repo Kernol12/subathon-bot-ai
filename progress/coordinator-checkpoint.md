@@ -17,7 +17,12 @@ APITEST-001/API-001 or actual session-clock binding afterward.
 - Coordinator: `codex:27731ff9-5bb1-4e9f-b2f3-b78e37ae011e`; owns shared
   documentation/state/HTML, CMake/CI integration and dependency admission. A fresh
   Codex implementation worker owns native implementation/patch paths; new Claude
-  source/resource reviews are required. Record actual links on assignment.
+  source/resource reviews are required. Fresh implementation assignment:
+  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3Ad2ff7e15-abb7-437f-ad78-831c037bebd7>.
+  Completed author checkout: `/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-f7dee49d`,
+  branch `t3/native-websocket-profile`, candidate1915bae imported as b3f04db.
+  Candidate1194-line facade and two exact hashed patches are authored only; frozen
+  tests/header and clean stock SDK preserved. No corrected preparation/build/load.
 - Reuse accepted [PR108](https://github.com/Kernol12/subathon-bot-ai/pull/108)
   test/source/resource reviews and observed stock WS02 wrong-Pong red. Frozen
   tests remain unchanged; missing facade/resource observations remain unimplemented.
@@ -25,7 +30,10 @@ APITEST-001/API-001 or actual session-clock binding afterward.
 - Pending: fresh implementation, exact corrected patch/build/ABI/license admission,
   independent source/resource review, native38 acceptance, ordinary selected CI,
   final packet/current checks/discussions and normal protected merge.
-- Next action: commit claim and hand off a fresh implementation session. Any new
+- Next action: independent Claude source/resource review of exact b3f04db before any
+  corrected SDK preparation/execution. Review arena backing/live accounting, early
+  socket retirement, timers/FIFO lifetime, legacy native restrictions and ABI/notices.
+  Claim committed at54df5b3. Any new
   substantial prerequisite must be explicitly split before scope expansion.
 
 ## Preserved completed work
