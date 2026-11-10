@@ -1,12 +1,13 @@
 # Third-party inventory
 
-No dependency binaries or sources are bundled. System tools are not redistributed.
+No dependency binaries or complete upstream source trees are bundled. The selected
+native profile's exact correction patches are tracked. System tools are not redistributed.
 
 | Component | Intended use | State |
 | --- | --- | --- |
 | Qt >=6.12 | Server/desktop, Qt Test/Quick Test | Required for product; optional environment probe and Qt SQL writer acceptance |
 | GoogleTest >=1.17 | Native acceptance tests | System/local source, or opt-in v1.18.0 commit fetch |
-| Drogon | HTTP/webhooks/WebSockets | Stock native WebSocket baseline only; source/profile correction and production host remain pending |
+| Drogon / Trantor | HTTP/webhooks/WebSockets | Reviewed corrected native profile and distinct SDK/consumer build; native acceptance and production host remain pending |
 | Boost.Multiprecision | Exact arithmetic | Bounded numeric primitives use installed headers; local1.92.0 and pinned Ubuntu1.83.0 CI tested; Boost Software License1.0; no sources/binaries bundled |
 | libsodium | Passwords/credentials/backups | Selected; not integrated |
 | QtKeychain | Linux remembered login | Selected; not integrated |
@@ -28,6 +29,15 @@ C++20 consumer/Drogon build; pinned upstream Trantor explicitly compiles as C++1
 The fresh CI prefix retains Drogon's MIT `LICENSE`, Trantor's BSD three-clause
 `License`, and compiled ORM utility/libpqxx `orm_lib/COPYING`, even with database
 backends disabled. No source or binary is committed or redistributed.
+
+API-012's [corrected profile](dependencies/native-websocket-profile/manifest.json)
+keeps those source pins and build options with the exact ordered patches in that
+directory. Corrected SDKs retain the full Drogon MIT, Trantor BSD three-clause and
+compiled ORM MIT license files, project GPL-3.0-or-later text and correction/source
+provenance. Earlier review receipts that called Trantor MIT mislabel that license;
+the actual selected `trantor/License` bytes and the BSD notice above govern. A
+corrected prefix is distinct from the pristine SDK and has independently reviewed
+source identity; its configuration manifest is not ABI, native or distribution proof.
 
 [Ubuntu baseline inputs](tools/native_websocket_ubuntu.json) record the exact eight
 JsonCpp/OpenSSL/UUID/zlib development/runtime archives, hashes, declared dependencies

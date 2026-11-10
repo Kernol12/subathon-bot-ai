@@ -1,82 +1,98 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Configure an explicit stock baseline SDK; never download, rebuild or load it.
+# Configure an explicit corrected SDK; never download, rebuild or load a DSO.
 include_guard(GLOBAL)
 if(TARGET Drogon::Drogon OR TARGET Trantor::Trantor)
     message(FATAL_ERROR
         "Native WebSocket acceptance must import both framework targets from its explicit SDK; use a fresh configuration")
 endif()
-set(SUBATHON_DROGON_ROOT "" CACHE PATH "Independently admitted stock Drogon 1.9.14 SDK prefix")
+set(SUBATHON_DROGON_ROOT "" CACHE PATH "Independently reviewed corrected Drogon 1.9.14 SDK prefix")
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Linux" OR NOT CMAKE_SIZEOF_VOID_P EQUAL 8
    OR NOT CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64)$")
     message(FATAL_ERROR "The selected native WebSocket baseline requires Linux x86-64")
 endif()
 if(NOT SUBATHON_DROGON_ROOT)
-    message(FATAL_ERROR "Set SUBATHON_DROGON_ROOT to the independently admitted stock SDK")
+    message(FATAL_ERROR "Set SUBATHON_DROGON_ROOT to the independently reviewed corrected SDK")
 endif()
 file(REAL_PATH "${SUBATHON_DROGON_ROOT}" sbt_drogon_root)
 set(sbt_drogon_manifest "${sbt_drogon_root}/dependency-build.json")
-foreach(sbt_drogon_file IN ITEMS
-        "${sbt_drogon_manifest}"
-        "${sbt_drogon_root}/include/drogon/WebSocketConnection.h"
-        "${sbt_drogon_root}/include/trantor/net/TcpConnection.h"
-        "${sbt_drogon_root}/lib/libdrogon.so.1.9.14"
-        "${sbt_drogon_root}/lib/libtrantor.so.1.5.29"
-        "${sbt_drogon_root}/share/licenses/drogon/LICENSE"
-        "${sbt_drogon_root}/share/licenses/trantor/License")
-    if(NOT EXISTS "${sbt_drogon_file}" OR IS_DIRECTORY "${sbt_drogon_file}")
-        message(FATAL_ERROR "The explicit stock SDK is incomplete: ${sbt_drogon_file}")
+set(sbt_profile_manifest "${CMAKE_CURRENT_LIST_DIR}/../dependencies/native-websocket-profile/manifest.json")
+set(sbt_installed_profile "${sbt_drogon_root}/share/subathon-native-profile/manifest.json")
+set(sbt_drogon_required
+    "include/drogon/HttpAppFramework.h"
+    "include/drogon/WebSocketConnection.h"
+    "include/trantor/net/TcpConnection.h"
+    "include/trantor/utils/MsgBuffer.h"
+    "lib/libdrogon.so.1.9.14"
+    "lib/libtrantor.so.1.5.29"
+    "share/licenses/drogon/LICENSE"
+    "share/licenses/drogon/orm_lib-COPYING"
+    "share/licenses/trantor/License"
+    "share/subathon-native-profile/manifest.json")
+foreach(sbt_name IN LISTS sbt_drogon_required)
+    if(NOT EXISTS "${sbt_drogon_root}/${sbt_name}" OR IS_DIRECTORY "${sbt_drogon_root}/${sbt_name}")
+        message(FATAL_ERROR "The corrected SDK is missing required file: ${sbt_name}")
     endif()
 endforeach()
+if(NOT EXISTS "${sbt_drogon_manifest}" OR IS_DIRECTORY "${sbt_drogon_manifest}")
+    message(FATAL_ERROR "The corrected SDK has no sealed dependency-build.json")
+endif()
 file(READ "${sbt_drogon_manifest}" sbt_drogon_identity)
-string(JSON sbt_drogon_fields ERROR_VARIABLE sbt_drogon_error LENGTH "${sbt_drogon_identity}")
-if(sbt_drogon_error OR NOT sbt_drogon_fields EQUAL 3)
-    message(FATAL_ERROR "Unrecognized stock SDK identity; preserve and independently review it")
+string(JSON sbt_fields ERROR_VARIABLE sbt_error LENGTH "${sbt_drogon_identity}")
+if(sbt_error OR NOT sbt_fields EQUAL 4)
+    message(FATAL_ERROR "Corrected native WebSocket SDK identity required; stock metadata cannot admit this ABI")
 endif()
-foreach(sbt_drogon_pin IN ITEMS
-        "drogon=3aae769cc405cf5abb9d477675c6430924f02c7c"
-        "trantor=78e480f5e138acdc05f76c55a2716718cd846364")
-    string(REPLACE "=" ";" sbt_drogon_parts "${sbt_drogon_pin}")
-    list(GET sbt_drogon_parts 0 sbt_drogon_key)
-    list(GET sbt_drogon_parts 1 sbt_drogon_expected)
-    string(JSON sbt_drogon_type ERROR_VARIABLE sbt_drogon_error
-        TYPE "${sbt_drogon_identity}" "${sbt_drogon_key}")
-    if(sbt_drogon_error OR NOT sbt_drogon_type STREQUAL "STRING")
-        message(FATAL_ERROR "Invalid stock SDK revision type")
-    endif()
-    string(JSON sbt_drogon_actual ERROR_VARIABLE sbt_drogon_error
-        GET "${sbt_drogon_identity}" "${sbt_drogon_key}")
-    if(sbt_drogon_error OR NOT sbt_drogon_actual STREQUAL sbt_drogon_expected)
-        message(FATAL_ERROR "Unexpected ${sbt_drogon_key} stock SDK revision")
+foreach(sbt_field IN ITEMS "format=NUMBER" "profile_manifest_sha256=STRING" "artifacts=OBJECT" "toolchain=OBJECT")
+    string(REPLACE "=" ";" sbt_parts "${sbt_field}")
+    list(GET sbt_parts 0 sbt_key)
+    list(GET sbt_parts 1 sbt_expected_type)
+    string(JSON sbt_type ERROR_VARIABLE sbt_error TYPE "${sbt_drogon_identity}" "${sbt_key}")
+    if(sbt_error OR NOT sbt_type STREQUAL sbt_expected_type)
+        message(FATAL_ERROR "Invalid corrected SDK identity field: ${sbt_key}")
     endif()
 endforeach()
-string(JSON sbt_drogon_fields ERROR_VARIABLE sbt_drogon_error
-    LENGTH "${sbt_drogon_identity}" options)
-if(sbt_drogon_error OR NOT sbt_drogon_fields EQUAL 16)
-    message(FATAL_ERROR "Unrecognized stock SDK build options")
+string(JSON sbt_format GET "${sbt_drogon_identity}" format)
+if(NOT sbt_format STREQUAL "1")
+    message(FATAL_ERROR "Unsupported corrected SDK identity format")
 endif()
-# This is the existing setup_drogon.py recipe. The pinned Trantor target itself
-# overrides the global C++20 setting to C++14; record effective flags in admission.
-foreach(sbt_drogon_option IN ITEMS
-        "CMAKE_BUILD_TYPE=Release" "CMAKE_CXX_STANDARD=20"
-        "CMAKE_CXX_STANDARD_REQUIRED=ON" "CMAKE_INSTALL_LIBDIR=lib"
-        "BUILD_SHARED_LIBS=ON" "USE_SUBMODULE=ON" "BUILD_ORM=OFF"
-        "BUILD_CTL=OFF" "BUILD_EXAMPLES=OFF" "BUILD_TESTING=OFF" "BUILD_DOC=OFF"
-        "BUILD_BROTLI=OFF" "BUILD_YAML_CONFIG=OFF" "BUILD_C-ARES=OFF"
-        "USE_SPDLOG=OFF" "TRANTOR_USE_TLS=openssl")
-    string(REPLACE "=" ";" sbt_drogon_parts "${sbt_drogon_option}")
-    list(GET sbt_drogon_parts 0 sbt_drogon_key)
-    list(GET sbt_drogon_parts 1 sbt_drogon_expected)
-    string(JSON sbt_drogon_type ERROR_VARIABLE sbt_drogon_error
-        TYPE "${sbt_drogon_identity}" options "${sbt_drogon_key}")
-    if(sbt_drogon_error OR NOT sbt_drogon_type STREQUAL "STRING")
-        message(FATAL_ERROR "Invalid stock SDK option type ${sbt_drogon_key}")
+file(SHA256 "${sbt_profile_manifest}" sbt_profile_sha)
+file(SHA256 "${sbt_installed_profile}" sbt_installed_sha)
+string(JSON sbt_recorded_sha GET "${sbt_drogon_identity}" profile_manifest_sha256)
+if(NOT sbt_profile_sha STREQUAL sbt_installed_sha OR NOT sbt_profile_sha STREQUAL sbt_recorded_sha)
+    message(FATAL_ERROR "Corrected SDK profile does not match the exact repository manifest")
+endif()
+
+# Validate the complete installed inventory before importing executable CMake
+# package configs. File aliases are charged by name and hash their resolved bytes.
+file(GLOB_RECURSE sbt_entries LIST_DIRECTORIES TRUE RELATIVE "${sbt_drogon_root}" "${sbt_drogon_root}/*")
+set(sbt_file_count 0)
+foreach(sbt_name IN LISTS sbt_entries)
+    set(sbt_path "${sbt_drogon_root}/${sbt_name}")
+    if(IS_SYMLINK "${sbt_path}" AND IS_DIRECTORY "${sbt_path}")
+        message(FATAL_ERROR "SDK directory symlinks are not admitted: ${sbt_name}")
     endif()
-    string(JSON sbt_drogon_actual ERROR_VARIABLE sbt_drogon_error
-        GET "${sbt_drogon_identity}" options "${sbt_drogon_key}")
-    if(sbt_drogon_error OR NOT sbt_drogon_actual STREQUAL sbt_drogon_expected)
-        message(FATAL_ERROR "Unexpected stock SDK option ${sbt_drogon_key}")
+    file(REAL_PATH "${sbt_path}" sbt_resolved)
+    string(FIND "${sbt_resolved}" "${sbt_drogon_root}/" sbt_within_prefix)
+    if(NOT sbt_within_prefix EQUAL 0 OR NOT EXISTS "${sbt_path}")
+        message(FATAL_ERROR "SDK artifact is missing or escapes the explicit prefix: ${sbt_name}")
     endif()
+    if(IS_DIRECTORY "${sbt_path}" OR sbt_name STREQUAL "dependency-build.json")
+        continue()
+    endif()
+    string(JSON sbt_type ERROR_VARIABLE sbt_error TYPE "${sbt_drogon_identity}" artifacts "${sbt_name}")
+    if(sbt_error OR NOT sbt_type STREQUAL "STRING")
+        message(FATAL_ERROR "SDK installed file has no recorded digest: ${sbt_name}")
+    endif()
+    string(JSON sbt_recorded_sha GET "${sbt_drogon_identity}" artifacts "${sbt_name}")
+    file(SHA256 "${sbt_path}" sbt_actual_sha)
+    if(NOT sbt_recorded_sha STREQUAL sbt_actual_sha)
+        message(FATAL_ERROR "SDK installed-file digest mismatch: ${sbt_name}")
+    endif()
+    math(EXPR sbt_file_count "${sbt_file_count} + 1")
 endforeach()
+string(JSON sbt_recorded_count LENGTH "${sbt_drogon_identity}" artifacts)
+if(NOT sbt_recorded_count EQUAL sbt_file_count)
+    message(FATAL_ERROR "SDK inventory contains missing or extra file names")
+endif()
 
 # Resolve both framework packages from this prefix; system transitive libraries
 # and actual loaded objects still require the separate exact foundation review.
@@ -96,11 +112,11 @@ foreach(sbt_drogon_target IN ITEMS Drogon::Drogon Trantor::Trantor)
     endif()
     file(REAL_PATH "${sbt_drogon_expected}" sbt_drogon_expected)
     if(NOT sbt_drogon_location STREQUAL sbt_drogon_expected)
-        message(FATAL_ERROR "${sbt_drogon_target} does not use the explicit stock SDK")
+        message(FATAL_ERROR "${sbt_drogon_target} does not use the explicit corrected SDK")
     endif()
     get_target_property(sbt_drogon_include "${sbt_drogon_target}" INTERFACE_INCLUDE_DIRECTORIES)
     if(NOT sbt_drogon_include STREQUAL "${sbt_drogon_root}/include")
-        message(FATAL_ERROR "${sbt_drogon_target} does not use the explicit stock SDK headers")
+        message(FATAL_ERROR "${sbt_drogon_target} does not use the explicit corrected SDK headers")
     endif()
 endforeach()
-message(STATUS "Stock Drogon/Trantor SDK: ${sbt_drogon_root}; compiled probe/load identity remains a separate gate")
+message(STATUS "Corrected Drogon/Trantor SDK identity checked: ${sbt_drogon_root}; compiled probe/load identity remains a separate gate")

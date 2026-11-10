@@ -38,17 +38,25 @@ or actual session-clock binding. Full release scope remains required.
   options unchanged. Source726file hashes, commands, logs, ELF/package metadata and
   selected framework/ORM/system/project notices retained under ignored evidence/SDK.
   No corrected SDK load, probe or native test execution. Stock SDK/source preserved.
-- Current coordinator integration: six configuration-only SDK admission methods and
-  installed-identity contract authored (README); no test bodies yet. Existing CMake
-  accepts only pristine SDK metadata and cannot yet build the corrected consumer.
-  First contract/test review requires resealed missing-required cases, in-prefix
-  symlink chains/digest convention and before-import markers. Coordinator authored
-  these fixes plus format/member/type, varied bytes/swapped hashes and outward
-  directory-symlink guards. Six methods remain unexecuted. Exact one-off sealing
-  recipe `/tmp/api012-seal-sdk.py` authored only; no dependency-build.json yet.
-  Report ignored `local-evidence/API-012/sdk-admission-test-review-r1.md`.
-  Focused independent re-review precedes semantic configure red, identity sealing
-  and CMake/CI integration. No DSO load or compiler probe in synthetic tests.
+- SDK admission contract/tests independently APPROVED exact a4db41a; report ignored
+  `local-evidence/API-012/sdk-admission-test-review-r2.md`. Source/test bytes:
+  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A2233a3c3-e5c1-4668-a9f7-20847c5224df>.
+  Actual FIRST configure-red: exactly2 intended failures/4 guards pass,0errors.
+  Reviewed sealing recipe hash10a42c79 ran ONCE with optimization disabled, clean
+  checkout; exact161 count, identity SHA8c82448f saved under ignored evidence.
+- CMake corrected identity admission implemented; six methods now pass, full tooling50
+  pass. Consumer configure/build pass in `build/native-websocket-profile-api012-debug`
+  (historical stock build preserved). Header/native44 tests unchanged. C1/C2 wording
+  now explicit: toolchain object, file symlink aliases hashed by resolved bytes,
+  directory symlinks refused. Admission source review still pending.
+- PASSIVE artifact input: ignored `local-evidence/API-012/candidate4-compiled-admission-input.json`,
+  exact ELF/symbol/compile-command records.17 prospective file objects including
+  probe+loader;14 system hashes unchanged,2 distinct corrected DSOs. Probe SHA7fbfb79e.
+  RTTI symbols present in both DSOs/consumer, C++11 ABI1/RTTI enabled; no assertions
+  macro in actual selected stdlib preprocessing. Actual loaded map and cross-DSO
+  casting unobserved. No corrected SDK load, identity/probe or native run.
+- Actual Trantor License is BSD three-clause; earlier review MIT labels are wrong.
+  Full selected license bytes preserved; root notices clarify source/patch scope.
 
 ## Baseline and next gates
 
@@ -63,8 +71,8 @@ or actual session-clock binding. Full release scope remains required.
   passive44. ONLY six additions ran:6 expected missing-profile failures,0errors/
   skips/setup/cleanup faults. This is missing first-party red, not new native red.
   Raw FIRST outputs/hashes in ignored `local-evidence/API-012/`; SDK138files unchanged.
-- Next: independent SDK admission contract/test review, semantic configure red and
-  build wiring; then exact compiled SDK/probe ABI/license/loader admission, native44, independent native/
+- Next: independent CMake admission source + actual compiled SDK/probe ABI/license
+  review before controlled identity load; exact loaded map validation then native44, independent native/
   code review, relevant regression and ordinary selected CI, final packet/current
   checks/discussions/rules and normal protected merge. No approval is inferred.
 - Runtime gaps: direct native TLS, HTTP ingress security, Caddy/proxy WS routing,

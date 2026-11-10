@@ -218,13 +218,15 @@ requires native confirmation; no UTC or actual host-clock binding is supplied.
 The corrected prefix contains `dependency-build.json` with exactly four members:
 `format` (integer 1), `profile_manifest_sha256` (the SHA256 of this repository's
 exact manifest.json bytes), `artifacts` (relative installed-file names to SHA256
-strings), and `toolchain` (actual build metadata, not an ABI certification).
+strings), and `toolchain` (a JSON object containing actual build metadata, not an ABI
+certification).
 `share/subathon-native-profile/manifest.json` is an exact copy of that manifest.
 Artifacts enumerate every installed file except dependency-build.json itself,
 including headers, libraries, package configs, notices and correction provenance.
 File symlinks are listed under their own relative names with the SHA256 of the
 resolved file bytes, including both links in each `.so -> .so.1 -> version` chain.
-File and directory symlinks may resolve only within the explicit prefix. Extra, missing, changed or
+File symlinks may resolve only within the explicit prefix. Directory symlinks
+are refused (the selected SDK has none). Extra, missing, changed or
 out-of-prefix files are refused before framework package import; copied profile
 bytes and the recorded profile digest must both match this repository.
 

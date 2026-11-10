@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-10T18:26:48+00:00",
+  "updated_at": "2026-11-10T18:45:44+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite and physical account/session components have synthetic/component evidence. Current priority is the actual host lifecycle and native persistent WebSocket profile contract; concrete source defects and missing host readiness prevent honest clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains.",
   "verification": [
     {
@@ -5211,7 +5211,11 @@
         "corrected_sdk_configure": "passed",
         "corrected_sdk_build": "passed",
         "corrected_sdk_artifact_review": "not_run",
-        "sdk_admission_test_review": "not_run"
+        "sdk_admission_test_review": "passed",
+        "sdk_admission_baseline": "observed_red",
+        "sdk_admission_implementation": "passed",
+        "consumer_build": "passed",
+        "tooling": "passed"
       },
       "evidence": [],
       "review": null,
@@ -5227,7 +5231,7 @@
       "brief": "docs/tasks/EPIC-008/API-012.md",
       "summary": "Correct the reviewed selected-framework control/fragment/Close lifecycle in a distinct admitted profile before the production bridge consumes it.",
       "notes": [
-        "Native44 baseline reviewed; original38/WS02 wire red and six stock-stub missing-profile reds preserved. Old late-Text comment is looser than contract. Candidate4 source/resource approved; distinct corrected SDK configured/built/installed with unchanged pins/options, not loaded. Six configuration-only SDK admission methods authored. Remaining: test/reviewed build wiring, ABI/loader admission, native44, CI/review/normal merge; stop afterward."
+        "Native44 baseline reviewed; original38/WS02 wire red and six missing-profile reds preserved; old late-Text comment is looser than contract. Candidate4 source/resource approved; distinct SDK and consumer compile, tooling50 pass. SDK161 files sealed after review; two intended configuration-red failures preceded admission code. No corrected SDK load/native run yet. Remaining: admission/ABI review, native44, CI/review/normal merge; then stop."
       ]
     },
     {
