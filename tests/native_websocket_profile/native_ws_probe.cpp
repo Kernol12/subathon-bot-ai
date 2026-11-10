@@ -600,6 +600,8 @@ class Harness {
         else
             app.addListener("127.0.0.1", 0);
 #else
+        if (backend == ws::Backend::admitted_corrected)
+            return 94; // SETUP: corrected SDK lacks explicit listener-selection wiring.
         app.addListener("127.0.0.1", 0);
 #endif
         if (settings_["ordinary_listener"].asBool()) {
@@ -690,12 +692,13 @@ class Harness {
             if (!profile_ || id != 1 || idleObserver_ != trantor::InvalidTimerId)
                 std::_Exit(93); // This optional observer permits exactly one WS peer/timer.
             const auto began = std::chrono::steady_clock::now();
-            idleObserver_ = trantor::EventLoop::getEventLoopOfCurrentThread()->runEvery(
-                0.5s, [this, connection, id, began] {
+            idleObserverOwner_ = trantor::EventLoop::getEventLoopOfCurrentThread();
+            idleObserver_ = idleObserverOwner_->runEvery(
+                0.5s, [this, weak = std::weak_ptr<drogon::WebSocketConnection>(connection), id, began] {
                     if (idleObserverTicks_ == 7)
                         std::_Exit(93);
                     if (++idleObserverTicks_ == 7) {
-                        controlOwner_->invalidateTimer(idleObserver_);
+                        idleObserverOwner_->invalidateTimer(idleObserver_);
                         idleObserver_ = trantor::InvalidTimerId;
                     }
                     auto observed = event("idle_observed");
@@ -706,6 +709,9 @@ class Harness {
                             std::chrono::steady_clock::now() - began)
                             .count());
                     // Observation only: no deadline recheck, send, close or state mutation.
+                    const auto connection = weak.lock();
+                    if (!connection)
+                        std::_Exit(93);
                     const auto result = profile_->inspect(connection);
                     observed["inspection"] = status(result);
                     if (const auto *s = std::get_if<ws::Snapshot>(&result))
@@ -864,7 +870,7 @@ class Harness {
             return;
         stopping_ = true;
         if (idleObserver_ != trantor::InvalidTimerId) {
-            controlOwner_->invalidateTimer(idleObserver_);
+            idleObserverOwner_->invalidateTimer(idleObserver_);
             idleObserver_ = trantor::InvalidTimerId;
         }
         // All teardown is on the initialized IO owner, including wrong-owner failures.
@@ -1139,6 +1145,7 @@ class Harness {
     std::atomic<bool> finishReader_{false}, pending_{false}, failed_{false}, stopRequested_{false};
     trantor::EventLoop *controlOwner_ = nullptr;
     trantor::TimerId idleObserver_ = trantor::InvalidTimerId;
+    trantor::EventLoop *idleObserverOwner_ = nullptr;
     unsigned idleObserverTicks_ = 0; // At most seven read-only observations on one IO owner.
     bool stopping_ = false, quotaObserverQueued_ = false;
     std::thread reader_;

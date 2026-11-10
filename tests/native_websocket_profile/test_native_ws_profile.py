@@ -713,13 +713,28 @@ class NativeProfile(unittest.TestCase):
         native.send(b"GET /native-profile HTTP/1.1\r\nUpgrade: websocket\r\n")
         self.assertEqual(self.upgrade_owners(p, 1)["owners_live_or_retiring"], 0)
         p.set_time(2000000000)  # Initial 1s + literal 1000ms upgrade deadline, equality.
-        native.eof()  # Actual native timer/transport progress, not the clock-command ack.
+        native.refused_upgrade()  # Actual refusal/close, not the clock-command ack.
         native.close_socket()
         self.assertEqual(self.upgrade_owners(p, 0)["owners_live_or_retiring"], 0)
         self.ordinary_request(p, ordinary, 2)
         fresh = self.http_peer(p)
         self.ordinary_request(p, fresh, 3)
         self.assertEqual(p.global_snapshot()["upgrade_owners"], 0)
+
+    def test_ordinary_listener_refuses_websocket_upgrade_without_stock_fallback(self):
+        p = self.start(profile=True, limits=SMALL, ordinary_listener=True)
+        attempted = self.http_peer(p)
+        attempted.send(b"GET /native-profile HTTP/1.1\r\nHost: localhost\r\nUpgrade: websocket\r\n"
+                       b"Connection: Upgrade\r\nSec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r\n"
+                       b"Sec-WebSocket-Version: 13\r\n\r\n")
+        attempted.refused_upgrade()
+        attempted.close_socket()
+        ordinary = self.http_peer(p)
+        self.ordinary_request(p, ordinary, 1)  # Positive owner-dispatch barrier.
+        self.assertFalse(any(v.get("event") == "opened" for v in p.pending))
+        actual = p.global_snapshot()
+        self.assertEqual(actual["upgrade_owners"], 0)
+        self.assertEqual(actual["owners_live_or_retiring"], 0)
 
     def test_ws01_persistent_text_binary_and_empty_messages(self):
         p = self.start()

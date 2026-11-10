@@ -4,7 +4,10 @@ This directory is an **unadmitted source candidate**, not acceptance evidence.
 Base/claim: `642c9a0e7e7a5f7e97b2f27da3a0508edb85ec83` /
 `54df5b30149e35c26e27dc2b62a7ad428a37efa9`. The implementation checkout was
 `t3/native-websocket-profile`, initially clean at the claim. The consumer header,
-38-method baseline, fixtures, status, CMake, CI and stock SDK remain unchanged.
+original 38-method baseline, fixtures, status, CMake, CI and stock SDK were unchanged
+at that author handoff. Subsequent coordinator revisions add six independently
+reviewed-or-pending listener/lifecycle methods (44 total) and explicit fixture wiring;
+see the task record for actual gates. The original 38 method assertions stay intact.
 
 Read `manifest.json` for ordered patch bytes and exact source identities. Apply
 patch 1 at the Trantor repository root and patch 2 at the Drogon repository root.
@@ -210,7 +213,7 @@ otherwise later input continues normally with newly freed lease capacity.
    never mix patched and stock headers/DSOs. Admit the actual artifact before load
    and native feature bodies. The current consumer's admitted_corrected result
    identifies this compiled implementation, not a runtime configuration switch.
-7. Run the unchanged 38-method native baseline only after those gates. Preserve
+7. Run the full current 44-method native baseline only after those gates. Preserve
    original stock red/reviews; do not replay stock. Then independent code/native
    acceptance review, relevant regression/current CI, ordinary selected-suite CI
    promotion, final source/license packet and protected merge remain coordinator work.

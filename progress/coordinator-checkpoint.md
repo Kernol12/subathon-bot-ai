@@ -47,8 +47,16 @@ APITEST-001/API-001 or actual session-clock binding afterward.
   at661fdf2. Import commit recorded in git; only fixture/driver changed. Five additional
   B1/B3/B4 cases authored; all original38 methods byte/AST preserved. B2 remains
   source-proof-only. No new case, SDK or listener execution.
-- Next action: independent Claude review of cca4f32 boundary and exact supplemental
-  tests/fixture import, then source fixes and focused source/resource re-review.
+- Supplemental Claude review: CHANGES REQUIRED at91db406 (sessionb2ea47b1),
+  report ignored `local-evidence/API-012/supplemental-test-review-r1.md`.
+  H1 ordinary Upgrade bypass, M1 HTTP deadline-refusal latitude, M2 watchdog,
+  L1-L5 sequence/weak timer/setup marker/budget wording/count clarifications.
+  Coordinator authored focused corrections plus sixth case; all original38 methods
+  remain unchanged, total44/maximum108 children/watchdog3300s. Review still pending.
+- Next action: focused independent test/boundary re-review, then isolated stock-stub
+  compile and only six new IDs for missing-profile red. No original38 replay, no
+  corrected SDK build or source correction before stage review. Then fix B1-B4/M1-M3
+  and independent source/resource admission before corrected SDK preparation.
   No corrected preparation/build/load until source admission.
   Claim committed at54df5b3. Any new
   substantial prerequisite must be explicitly split before scope expansion.

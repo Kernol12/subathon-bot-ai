@@ -28,6 +28,10 @@ refusal and native socket retirement. No path, peer address, registration order
 or process-global installed-policy test implicitly marks an ordinary listener.
 Registration of a marked listener requires the installed profile before startup;
 ordinary listeners retain their own HTTP/TLS/timeout policy unchanged.
+While a profile is installed, an ordinary listener refuses WebSocket Upgrade with
+a bounded non-101 response or connection close before WebSocket controller dispatch.
+It must never fall back to the stock WebSocket parser on that listener; ordinary
+HTTP endpoint, asset and webhook handling remains available.
 
 The selected SDK refinement adds a final `bool nativeProfile = false` argument to
 `HttpAppFramework::addListener`, carried through `ListenerInfo` to its actual
@@ -358,6 +362,9 @@ calling it weak or invalidated does not erase its retained queue/control block.
 New admission refuses when all live-or-retiring owner slots are occupied. The
 same lifetime rule holds the separate finite incomplete-upgrade owner slots until
 their actual work is gone. There is no unbounded retired-owner/history list.
+Before establishment, an incomplete upgrade counts only in `upgrade_owners`, not
+`owners_live_or_retiring`; promotion transfers its count to the established/retiring
+budget. An ordinary HTTP listener's connections consume neither profile budget.
 
 Consequently total outstanding lease handles are also bounded by the checked
 connections*slots product, including outstanding leases from closed connections:
@@ -390,7 +397,10 @@ Use the native profile's separate control reserve. `start_close` validates Local
 under the frozen set/direction/reason rules, latches its first deadline and native
 state on the IO loop, and enqueues at most one Close behind already admitted output.
 Repeated calls return already_closing without rewriting peer observation or resetting
-time. It does not prematurely half-close away the peer handshake. `recheck_deadlines`
+time. It does not prematurely half-close away the peer handshake. A legal peer frame
+sequence after local Close is parsed and its data discarded without delivery; that
+sequence alone does not cause teardown or erase the unfinished-message sequence state.
+`recheck_deadlines`
 is a narrow native-owner wake: reads the configured source and invokes the SAME
 native deadline/continuation entry check used by actual IO/timer callbacks. It accepts
 no caller-supplied time, does not advance/fix time and creates no parallel timer.

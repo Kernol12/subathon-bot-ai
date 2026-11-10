@@ -83,7 +83,7 @@ from schema shape, and editor hints do not replace runtime progress invariants.
 | Preset / focused selection | Current state |
 | --- | --- |
 | `rate-snapshot-debug` / `-L '^rate-snapshot$'` | 53 reviewed feature cases have intended stub-red evidence; rate behavior remains unimplemented. The suite has `intentional-red` labels. |
-| `native-websocket-profile-debug` / `-L '^native-websocket-profile$'` | 38 reviewed Python methods drive actual selected Drogon loopback traffic. Stock fragmented/control behavior has reached wire red; profile ownership/resource/deadline cases remain `Unimplemented`, without native capacity proof. |
+| `native-websocket-profile-debug` / `-L '^native-websocket-profile$'` | Original 38 reviewed Python methods have actual stock loopback/red evidence; six additional listener/lifecycle methods are authored and awaiting review (44 total). Corrected profile native acceptance remains unobserved; no native capacity proof follows from missing first-party behavior. |
 
 These lanes' passing CI checks compile/discover feature registrations, enforce selected
 dependency configuration and execute existing stable component/infrastructure suites. They do not turn the red feature bodies into
