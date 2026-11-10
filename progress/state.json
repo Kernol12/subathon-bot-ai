@@ -5256,7 +5256,7 @@
       "brief": "docs/tasks/EPIC-008/API-012.md",
       "summary": "Correct the reviewed selected-framework control/fragment/Close lifecycle in a distinct admitted profile before the production bridge consumes it.",
       "notes": [
-        "Implements the bounded native WebSocket profile. All 44 real loopback methods pass locally and in Ubuntu CI, with reviewed source, SDK/ABI, fixture and loaded-map evidence. Original red and the corrected fixture failure are retained. PR110 records final review, latest-head checks and protected merge. Host/TLS, actual clock, auth/sync and platform/release proof remain separate. Stop after this merge."
+        "Implements the bounded native WebSocket profile. All 44 real loopback methods pass locally and in Ubuntu CI, with reviewed source, SDK/ABI, fixture and loaded-map evidence. Original red and the first-run fixture failure are retained. PR110 records final review, latest-head checks and protected merge. Host/TLS, actual clock, auth/sync and platform/release proof remain separate. Stop after this merge."
       ]
     },
     {
