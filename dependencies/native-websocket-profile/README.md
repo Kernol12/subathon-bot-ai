@@ -222,7 +222,9 @@ strings), and `toolchain` (actual build metadata, not an ABI certification).
 `share/subathon-native-profile/manifest.json` is an exact copy of that manifest.
 Artifacts enumerate every installed file except dependency-build.json itself,
 including headers, libraries, package configs, notices and correction provenance.
-Symlinks may resolve only within the explicit prefix. Extra, missing, changed or
+File symlinks are listed under their own relative names with the SHA256 of the
+resolved file bytes, including both links in each `.so -> .so.1 -> version` chain.
+File and directory symlinks may resolve only within the explicit prefix. Extra, missing, changed or
 out-of-prefix files are refused before framework package import; copied profile
 bytes and the recorded profile digest must both match this repository.
 
@@ -231,6 +233,10 @@ Trantor TcpConnection/MsgBuffer headers, the exact versioned Drogon/Trantor DSOs
 Drogon LICENSE, Trantor License, compiled orm_lib-COPYING, and the copied manifest.
 The existing explicit imported-target location/include checks remain required.
 Stock's old three-field identity is refused for the corrected implementation.
+The old stock configuration lane is intentionally retired by this admission:
+original38/WS02 red remains preserved in PR108/git and ignored receipts, rather
+than a runnable stock mode of the corrected consumer. CI must prepare this exact
+corrected profile before configuring its ordinary native acceptance lane.
 This catches stale or mixed build inputs; it is not signed provenance, a substitute
 for independent artifact review, or proof of ABI/native/platform compatibility.
 The configuration-only tests use synthetic files and package targets, load no DSO

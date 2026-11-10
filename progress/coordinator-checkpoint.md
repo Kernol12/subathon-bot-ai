@@ -41,8 +41,14 @@ or actual session-clock binding. Full release scope remains required.
 - Current coordinator integration: six configuration-only SDK admission methods and
   installed-identity contract authored (README); no test bodies yet. Existing CMake
   accepts only pristine SDK metadata and cannot yet build the corrected consumer.
-  Independent contract/test review precedes observed semantic configure red and
-  CMake/CI integration. Synthetic package targets never load a DSO or probe compiler.
+  First contract/test review requires resealed missing-required cases, in-prefix
+  symlink chains/digest convention and before-import markers. Coordinator authored
+  these fixes plus format/member/type, varied bytes/swapped hashes and outward
+  directory-symlink guards. Six methods remain unexecuted. Exact one-off sealing
+  recipe `/tmp/api012-seal-sdk.py` authored only; no dependency-build.json yet.
+  Report ignored `local-evidence/API-012/sdk-admission-test-review-r1.md`.
+  Focused independent re-review precedes semantic configure red, identity sealing
+  and CMake/CI integration. No DSO load or compiler probe in synthetic tests.
 
 ## Baseline and next gates
 
