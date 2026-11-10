@@ -211,6 +211,7 @@ class Probe:
             raise AssertionError(f"SETUP: valid corrected profile factory failed: {self.factory}")
         ready = self.wait("ready")
         self.port = ready["port"]
+        self.ordinary_port = ready.get("ordinary_port")
         if not isinstance(self.port, int) or not 0 < self.port < 65536:
             raise AssertionError("SETUP: invalid actual listener port")
         if require_profile and not ready["profile"]:
@@ -365,7 +366,7 @@ class Probe:
 
 
 class Peer:
-    def __init__(self, probe, *, upgrade=True, tiny_receive=False):
+    def __init__(self, probe, *, upgrade=True, tiny_receive=False, port=None):
         self.probe = probe
         if len(probe.sockets) == 64:
             raise AssertionError("fixture peer cap")
@@ -376,7 +377,7 @@ class Peer:
         if tiny_receive:
             self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 16384)
         self.socket.settimeout(probe.remaining())
-        self.socket.connect(("127.0.0.1", probe.port))
+        self.socket.connect(("127.0.0.1", probe.port if port is None else port))
         if not upgrade:
             return
         self.send(b"GET /native-profile HTTP/1.1\r\nHost: localhost\r\nUpgrade: websocket\r\n"
@@ -537,6 +538,188 @@ class NativeProfile(unittest.TestCase):
             probe.assert_no_data()
         finally:
             probe.cleanup()
+
+    def http_peer(self, probe, *, ordinary=True):
+        port = probe.ordinary_port if ordinary else probe.port
+        self.assertIsInstance(port, int, "SETUP: missing actual sibling port")
+        self.assertGreater(port, 0)
+        self.assertLess(port, 65536)
+        if ordinary:
+            self.assertNotEqual(port, probe.port)
+        return Peer(probe, upgrade=False, port=port)
+
+    def http_headers(self, peer):
+        # Independent peer-side HTTP observation only; no parser/guard in the native fixture.
+        header = bytearray()
+        for _ in range(4096):
+            header.extend(peer.exact(1))
+            if header.endswith(b"\r\n\r\n"):
+                break
+        else:
+            self.fail("HTTP observation header cap")
+        lines = header.decode("ascii").split("\r\n")
+        status_line = lines[0].split()
+        self.assertEqual(status_line[0], "HTTP/1.1")
+        self.assertEqual(len(status_line[1]), 3)
+        fields = {}
+        for line in lines[1:-2]:
+            name, value = line.split(":", 1)
+            name = name.lower()
+            self.assertNotIn(name, fields)
+            fields[name] = value.strip()
+        return int(status_line[1]), fields, len(header)
+
+    def ordinary_request(self, probe, peer, ordinal):
+        peer.send(b"GET /ordinary-probe HTTP/1.1\r\nHost: localhost\r\n"
+                  b"Connection: keep-alive\r\n\r\n")
+        status, fields, _ = self.http_headers(peer)
+        self.assertEqual(status, 200)
+        self.assertNotIn("transfer-encoding", fields)
+        self.assertEqual(fields["content-length"], "12")
+        self.assertEqual(peer.exact(12), b"ordinary-ok\n")
+        self.assertEqual(fields["x-probe-request"], str(ordinal))
+        self.assertEqual(probe.wait("ordinary_request")["ordinal"], ordinal)
+
+    def upgrade_owners(self, probe, expected):
+        for _ in range(64):
+            value = probe.global_snapshot()
+            if value["upgrade_owners"] == expected:
+                return value
+        self.fail("actual incomplete-upgrade ownership/retirement not observed")
+
+    def assert_no_native_delivery(self, probe):
+        # A refused data ownership claim would still expose an illicit native data callback.
+        probe.assert_no_data()
+        self.assertFalse(any(v.get("event") == "callback_refused" for v in probe.pending))
+
+    def test_local_close_preserves_inflight_fragment_sequence_until_peer_close(self):
+        # Profile sections 2/3: a local Close ends delivery, not a legal peer sequence.
+        p = self.start(profile=True, limits=SMALL)
+        c = Peer(p)
+        first = bytes.fromhex("01 81 01 02 03 04 e3")  # Nonfinal Text e2.
+        c.send(first)
+        before = p.progress(c, consumed=7)
+        self.assertEqual(before["frames_consumed"], 1)
+        self.assertEqual(before["message_deadline"], 1030000000)
+        self.assertEqual(before["first_peer_close"], {"kind": "no_close_frame"})
+        self.assert_no_native_delivery(p)
+        r = p.control("close", connection=c.id, code=1000)
+        self.assertEqual((r["status"], r["disposition"]), ("ok", "started"))
+        self.assertEqual(c.receive(), (8, b"\x03\xe8"))
+        # Legal nonfinal continuation 82, then Ping p. A Pong and consumed counters
+        # establish parsing past the continuation before the final fragment/peer Close.
+        c.send(bytes.fromhex("00 81 01 02 03 04 83 89 81 05 06 07 08 75"))
+        self.assertEqual(c.receive(), (10, b"p"))
+        closing = p.progress(c, consumed=21)
+        self.assertEqual(closing["frames_consumed"], 3)
+        self.assertTrue(closing["close_sent"])
+        self.assertFalse(closing["transport_closed"])
+        self.assertEqual(closing["close_deadline"], 1010000000)
+        self.assertEqual(closing["first_peer_close"], {"kind": "no_close_frame"})
+        self.assert_no_native_delivery(p)
+        # Final ac completes scalar e2 82 ac; valid peer 1001/bye must be retained.
+        c.send(bytes.fromhex("80 81 01 02 03 04 ad 88 85 01 02 03 04 02 eb 61 7d 64"))
+        closed = self.closed(p, c)  # EOF also rejects any second local Close or data frame.
+        self.assertEqual(closed["inspection"]["status"], "ok")
+        terminal = closed["inspection"]["snapshot"]
+        self.assertTrue(terminal["transport_closed"])
+        self.assertTrue(terminal["close_sent"])
+        self.assertEqual(terminal["frames_consumed"], 5)
+        self.assertEqual(terminal["ws_bytes_consumed"], 39)
+        self.assertEqual(terminal["first_peer_close"],
+                         {"kind": "close_with_status", "code": 1001, "reason_hex": "627965"})
+        self.assert_no_native_delivery(p)
+
+    def test_native_traffic_outlives_framework_http_idle_timeout(self):
+        p = self.start(profile=True, clock="native", limits=SMALL, idle_observer=True)
+        c = Peer(p)
+        # Real IO-loop observations pace active native Ping/Pong service past the 2s
+        # HTTP idle timeout and its <=1s wheel tick. No ordering sleep or fixture send.
+        for ordinal in range(1, 8):
+            marker = p.wait("idle_observed", connection=c.id)
+            self.assertEqual(marker["ordinal"], ordinal)
+            self.assertEqual(marker["inspection"]["status"], "ok")
+            s = marker["inspection"]["snapshot"]
+            self.assertFalse(s["transport_closed"])
+            self.assertFalse(s["close_sent"])
+            self.assertIsNone(s["frame_deadline"])
+            self.assertIsNone(s["message_deadline"])
+            self.assertIsNone(s["close_deadline"])
+            c.send(bytes.fromhex("89 81 01 02 03 04 79"))
+            self.assertEqual(c.receive(), (10, b"x"))
+        self.assertGreaterEqual(marker["elapsed_ns"], 3500000000)
+        c.send(bytes.fromhex("88 80 01 02 03 04"))
+        self.assertEqual(c.receive(), (8, b""))
+        closed = self.closed(p, c)
+        self.assertEqual(closed["inspection"]["status"], "ok")
+        self.assertEqual(closed["inspection"]["snapshot"]["first_peer_close"],
+                         {"kind": "close_without_status"})
+        self.assert_no_native_delivery(p)
+
+    def test_marked_listener_refuses_complete_http_before_ordinary_dispatch(self):
+        p = self.start(profile=True, limits=SMALL, ordinary_listener=True)
+        native = self.http_peer(p, ordinary=False)
+        native.send(b"GET /ordinary-probe HTTP/1.1\r\nHost: localhost\r\n"
+                    b"Connection: close\r\n\r\n")
+        status, _, total = self.http_headers(native)
+        self.assertGreaterEqual(status, 400)
+        self.assertLessEqual(status, 599)  # No error-body/status schema is imposed.
+        # A complete HTTP refusal has finite wire/EOF bounds, independent of its encoding.
+        for _ in range(4096 - total + 1):
+            native.socket.settimeout(p.remaining())
+            try:
+                block = native.socket.recv(1)
+            except ConnectionResetError:
+                block = b""
+            if not block:
+                break
+            total += 1
+            self.assertLessEqual(total, 4096, "HTTP refusal observation cap")
+        else:
+            self.fail("bounded native HTTP refusal did not drain/close")
+        native.close_socket()
+        self.assertEqual(self.upgrade_owners(p, 0)["owners_live_or_retiring"], 0)
+        ordinary = self.http_peer(p)
+        # The first route invocation must be this ordinary request, never the refused one.
+        self.ordinary_request(p, ordinary, 1)
+        self.assertEqual(p.global_snapshot()["upgrade_owners"], 0)
+
+    def test_ordinary_listener_is_not_charged_and_serves_with_native_slots_full(self):
+        p = self.start(profile=True, limits=SMALL, ordinary_listener=True)
+        ordinary = self.http_peer(p)
+        self.ordinary_request(p, ordinary, 1)
+        empty = p.global_snapshot()
+        self.assertEqual(empty["upgrade_owners"], 0)
+        self.assertEqual(empty["owners_live_or_retiring"], 0)
+        a, b = Peer(p, upgrade=False), Peer(p, upgrade=False)
+        partial = b"GET /native-profile HTTP/1.1\r\nUpgrade: websocket\r\n"
+        a.send(partial)
+        b.send(partial)
+        full = self.upgrade_owners(p, 2)
+        self.assertEqual(full["owners_live_or_retiring"], 0)
+        self.ordinary_request(p, ordinary, 2)
+        fresh = self.http_peer(p)
+        self.ordinary_request(p, fresh, 3)  # New accepts must also bypass native admission.
+        full = p.global_snapshot()
+        self.assertEqual(full["upgrade_owners"], 2)
+        self.assertEqual(full["upgrade_owners_peak"], 2)
+        self.assertEqual(full["owners_live_or_retiring"], 0)
+
+    def test_ordinary_keepalive_survives_native_upgrade_deadline(self):
+        p = self.start(profile=True, limits=SMALL, ordinary_listener=True)
+        ordinary = self.http_peer(p)
+        self.ordinary_request(p, ordinary, 1)
+        native = Peer(p, upgrade=False)
+        native.send(b"GET /native-profile HTTP/1.1\r\nUpgrade: websocket\r\n")
+        self.assertEqual(self.upgrade_owners(p, 1)["owners_live_or_retiring"], 0)
+        p.set_time(2000000000)  # Initial 1s + literal 1000ms upgrade deadline, equality.
+        native.eof()  # Actual native timer/transport progress, not the clock-command ack.
+        native.close_socket()
+        self.assertEqual(self.upgrade_owners(p, 0)["owners_live_or_retiring"], 0)
+        self.ordinary_request(p, ordinary, 2)
+        fresh = self.http_peer(p)
+        self.ordinary_request(p, fresh, 3)
+        self.assertEqual(p.global_snapshot()["upgrade_owners"], 0)
 
     def test_ws01_persistent_text_binary_and_empty_messages(self):
         p = self.start()
