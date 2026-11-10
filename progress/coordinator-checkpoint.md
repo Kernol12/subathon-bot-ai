@@ -1,36 +1,43 @@
 # Coordinator checkpoint
 
-Owner authorization: complete WORKFLOW-001 (T3 workflow/context command), open its PR,
-normal protected merge, then STOP. Product work is not resumed; API-012 remains
-planned/unclaimed. The earlier stop-after-APITEST-012 instruction still applies to
-product work. Full release scope remains incomplete.
+Owner authorization (2026-11-10): start and finish one new task, then STOP.
+API-012 is the dependency-ready priority. Complete only that task through independent
+reviews, acceptance, publication and normal protected merge; do not start
+APITEST-001/API-001 or actual session-clock binding afterward.
 
 ## Current handoff
 
-- Task: [WORKFLOW-001](../docs/tasks/WORKFLOW-001.md); status/evidence authority:
-  [state.json](state.json). CLI contract revision 1 is in the brief.
-- Branch: `task/WORKFLOW-001-t3-context`; base main
-  `6594758adebfdb1f87cd8bdb261ba39178fc189b`. Verify actual HEAD/checkout on resume.
-- Sol coordinator owns shared documentation/state/HTML and integration. Separate
-  Codex test author and fresh implementation worker own their assigned test/tool
-  paths; separate Claude test/final reviewers. Actual session links and exact reviewed
-  revisions belong in the PR; do not infer active processes from this checkpoint.
-- Completed locally: independently reviewed tests before intended missing-command red;
-  fresh implementation; Claude source/docs approval at `fcde3fd`; tooling44, project
-  validation, render freshness and scaffold3 pass. Details/review identities:
-  [PR109](https://github.com/Kernol12/subathon-bot-ai/pull/109).
-- Pending: focused final metadata review, latest-head CI/rules/discussion inspection
-  and normal protected merge. Task done records bounded implementation/local proof,
-  not a claim that those final publication gates have already passed.
-- Next action: finish only the pending WORKFLOW-001 gates and stop after merge.
+- Task: [API-012](../docs/tasks/EPIC-008/API-012.md); status authority:
+  [state.json](state.json). Native profile v1 and consumer boundary v1 are normative.
+- Branch: `task/API-012-native-websocket-profile`; base main
+  `642c9a0e7e7a5f7e97b2f27da3a0508edb85ec83`. Primary checkout is repository root.
+- Startup verified local/remote main, clean checkout, no open PRs and no active state
+  claims. Historical worktrees remain preserved; no old worker is assumed active.
+  CLion project path and HEAD matched this checkout before branch creation.
+- Coordinator: `codex:27731ff9-5bb1-4e9f-b2f3-b78e37ae011e`; owns shared
+  documentation/state/HTML, CMake/CI integration and dependency admission. A fresh
+  Codex implementation worker owns native implementation/patch paths; new Claude
+  source/resource reviews are required. Record actual links on assignment.
+- Reuse accepted [PR108](https://github.com/Kernol12/subathon-bot-ai/pull/108)
+  test/source/resource reviews and observed stock WS02 wrong-Pong red. Frozen
+  tests remain unchanged; missing facade/resource observations remain unimplemented.
+  The clean stock SDK at `build/deps/drogon-1.9.14` must remain untouched.
+- Pending: fresh implementation, exact corrected patch/build/ABI/license admission,
+  independent source/resource review, native38 acceptance, ordinary selected CI,
+  final packet/current checks/discussions and normal protected merge.
+- Next action: commit claim and hand off a fresh implementation session. Any new
+  substantial prerequisite must be explicitly split before scope expansion.
 
-## Preserved product handoff
+## Preserved completed work
 
-APITEST-012 merged normally as main `6594758adebfdb1f87cd8bdb261ba39178fc189b`.
-Detailed baseline/source/build/runtime/CI receipts and reviews remain in
-[PR108](https://github.com/Kernol12/subathon-bot-ai/pull/108) and the
-[pre-migration checkpoint](https://github.com/Kernol12/subathon-bot-ai/blob/6594758adebfdb1f87cd8bdb261ba39178fc189b/progress/coordinator-checkpoint.md).
-Ignored local receipts, including `local-evidence/APITEST-012/final-stop.json`, old
-branches/worktrees and SDKs are preserved. No cleanup/pruning or native rerun is
-part of WORKFLOW-001. On future explicit product resumption, verify live PR/main
-state and consume the accepted baseline for API-012 without reauthoring it.
+WORKFLOW-001 normally merged in
+[PR109](https://github.com/Kernol12/subathon-bot-ai/pull/109) as main642c9a0 at
+2026-11-09T22:04:14Z. Startup independently verified all21 head checks successful
+and separate source/docs and final metadata approvals recorded in the PR. Its
+committed pending-publication notes are historical; final outcome is in that PR.
+
+APITEST-012 normally merged as main6594758 in PR108. Detailed baseline, source,
+build, runtime, CI and independent reviews remain in PR108 and ignored
+`local-evidence/APITEST-012/`. Preserve receipts, old branches/worktrees and SDKs.
+Full release, host/readiness, authentication, synchronization and platform verification
+remain incomplete; no live provider or payment effects are authorized.

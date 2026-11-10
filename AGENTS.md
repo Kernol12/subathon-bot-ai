@@ -40,8 +40,9 @@ Start with `docs/ARCHITECTURE.md`, `docs/AGENT_WORKFLOW.md`, `docs/TEST_STRATEGY
 `progress/state.json`, and the selected task brief. Read scoped `AGENTS.md` files in
 every module being edited. EPIC-028 and STORAGE-020 are complete. APICONTRACT-001 and APITEST-012 are complete. After explicit product-work resumption,
 priority is API-012, then APITEST-001/API-001 in `docs/tasks/EPIC-008/`, before actual
-session-clock binding. The current authorization covers WORKFLOW-001 only; finish its
-PR and normal merge, then stop. API-012 remains planned and unclaimed.
+session-clock binding. WORKFLOW-001 merged normally in PR109. The owner resumed one new task on
+2026-11-10: complete API-012 through its reviews, acceptance and normal protected
+merge, then stop. APITEST-001/API-001 and session-clock binding are not yet authorized.
 
 ## Test-first and review gates
 
