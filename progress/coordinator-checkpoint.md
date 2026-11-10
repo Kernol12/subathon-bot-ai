@@ -41,8 +41,14 @@ APITEST-001/API-001 or actual session-clock binding afterward.
   ordinary HTTP/TLS unchanged. Consumer-boundary/brief refinement authored; review
   and focused additive test/fixture wiring still pending. No owner product decision
   or reduction of release scope is required for this internal implementation choice.
-- Next action: fresh test author for preserved oracles plus listener-selection wiring;
-  independent Claude boundary/test review, then source fixes and focused re-review.
+- Fresh test author assigned (isolated T3 checkout; verify handoff path/HEAD):
+  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A429c54cb-7eca-40fd-b655-a00eb76d108a>.
+  Completed author checkout `/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-64519cfb`
+  at661fdf2. Import commit recorded in git; only fixture/driver changed. Five additional
+  B1/B3/B4 cases authored; all original38 methods byte/AST preserved. B2 remains
+  source-proof-only. No new case, SDK or listener execution.
+- Next action: independent Claude review of cca4f32 boundary and exact supplemental
+  tests/fixture import, then source fixes and focused source/resource re-review.
   No corrected preparation/build/load until source admission.
   Claim committed at54df5b3. Any new
   substantial prerequisite must be explicitly split before scope expansion.
