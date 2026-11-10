@@ -31,8 +31,8 @@ Sonnet, and keep a blocked Opus gate pending rather than waive it with Codex rea
 Follow the full cycle and concise handoff rules in the workflow. Follow the priority in
 `AGENTS.md`; otherwise choose a dependency-ready executable task that advances a
 product slice. Split epics and substantial architectural prerequisites into bounded
-tasks with explicit dependencies,
-acceptance criteria and focused PRs before implementation. Preserve all requirements;
+tasks with explicit dependencies, acceptance criteria and focused PRs before
+implementation. Preserve all requirements;
 planning changes do not authorize a reduced release scope.
 
 ### Execution loop

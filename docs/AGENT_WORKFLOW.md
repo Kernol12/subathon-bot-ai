@@ -49,7 +49,7 @@ file/shell tools. Do not assume the main IDE project represents a worker worktre
 Keep review context focused on the affected stage and avoid rereading global history
 for each worker. Explicitly select Claude Opus and record the actual provider/model
 with the reviewer identity; do not substitute Sonnet. If availability or quota blocks
-a required Opus review, checkpoint the pending gate and continue only independent
+a required Opus or Codex review, checkpoint the pending gate and continue only independent
 authorized work. Do not silently switch provider/model, buy usage or use paid API
 fallback. Obtain explicit authorization for a change of those choices; Codex readiness
 does not satisfy the pending Opus gate.
@@ -63,11 +63,17 @@ test/oracle review, implementation and substantive coordinator-authored changes:
    and records findings on the actual revision.
 2. A Codex author fixes the findings. A separate independent Codex reviewer checks
    the resolutions, related edge cases and affected requirements. Repeat Codex fixes
-   and independent Codex review until no blocking findings remain.
+   and independent Codex review until no blocking findings remain. If the initial
+   Opus review finds no blockers, still obtain independent Codex verification before
+   the closing Opus review; do not invent changes merely to exercise the cycle.
 3. An independent Claude Opus reviewer performs the closing review of the resulting
    revision. Codex readiness is a handoff to this gate, never its replacement. If Opus
    finds blockers, return to the Codex correction/review loop, then request Opus
    closing review again. The stage closes only with the required Opus approval.
+
+Material changes or new blocking findings after Opus closing approval return to the
+Codex correction/review loop and then a new Opus closing review on the resulting
+revision. A fresh initial Opus review is unnecessary for the same affected stage.
 
 Keep authors and reviewers independent: a reviewer who authors a correction cannot
 approve that correction. Batch related findings within a stage and retain valid prior
@@ -79,7 +85,9 @@ receives its own review cycle. Preserve every task-specific contract, source/res
 dependency/license, build/CI, evidence and protected-merge gate. The cycle does not
 combine stages or replace their checks. Routine non-substantive metadata may use
 independent Codex review unless an explicit gate requires Opus. Changes to requirements
-or material evidence claims are substantive even when they appear in metadata.
+or material evidence claims are substantive even when they appear in metadata. When
+classification is uncertain, treat the change as substantive; any reviewer may escalate
+it to the Opus gate.
 
 ## Scope and sessions
 
