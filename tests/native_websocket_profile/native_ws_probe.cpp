@@ -655,6 +655,26 @@ class Harness {
                     controlOwner_ = trantor::EventLoop::getEventLoopOfCurrentThread();
                     if (controlOwner_ == nullptr)
                         std::_Exit(87);
+                    if (ordinaryPort != 0) {
+                        if (!profile_)
+                            std::_Exit(95);
+                        // Read-only observations let native timers/cleanup make progress.
+                        // A wake itself proves nothing; only the actual snapshot is reported.
+                        retirementObserver_ = controlOwner_->runEvery(0.01, [this] {
+                            if (retirementObserverTicks_ == 64)
+                                std::_Exit(95);
+                            if (++retirementObserverTicks_ == 64) {
+                                controlOwner_->invalidateTimer(retirementObserver_);
+                                retirementObserver_ = trantor::InvalidTimerId;
+                            }
+                            auto observed = event("global_observed");
+                            const auto value = profile_->inspect_global();
+                            observed["inspection"] = status(value);
+                            if (const auto *s = std::get_if<ws::GlobalSnapshot>(&value))
+                                observed["inspection"]["snapshot"] = global(*s);
+                            events_.emit(observed);
+                        });
+                    }
                     reader_ = std::thread([this] { readCommands(); });
                     auto ready = event("ready");
                     ready["port"] = port;
@@ -869,6 +889,10 @@ class Harness {
         if (stopping_)
             return;
         stopping_ = true;
+        if (retirementObserver_ != trantor::InvalidTimerId) {
+            controlOwner_->invalidateTimer(retirementObserver_);
+            retirementObserver_ = trantor::InvalidTimerId;
+        }
         if (idleObserver_ != trantor::InvalidTimerId) {
             idleObserverOwner_->invalidateTimer(idleObserver_);
             idleObserver_ = trantor::InvalidTimerId;
@@ -1147,6 +1171,8 @@ class Harness {
     trantor::TimerId idleObserver_ = trantor::InvalidTimerId;
     trantor::EventLoop *idleObserverOwner_ = nullptr;
     unsigned idleObserverTicks_ = 0; // At most seven read-only observations on one IO owner.
+    trantor::TimerId retirementObserver_ = trantor::InvalidTimerId;
+    unsigned retirementObserverTicks_ = 0; // At most 64 snapshots, sibling-listener cases only.
     bool stopping_ = false, quotaObserverQueued_ = false;
     std::thread reader_;
 };

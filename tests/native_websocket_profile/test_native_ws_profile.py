@@ -582,7 +582,9 @@ class NativeProfile(unittest.TestCase):
 
     def upgrade_owners(self, probe, expected):
         for _ in range(64):
-            value = probe.global_snapshot()
+            observed = probe.wait("global_observed")["inspection"]
+            self.assertEqual(observed["status"], "ok", "missing actual global-owner observation")
+            value = observed["snapshot"]
             if value["upgrade_owners"] == expected:
                 return value
         self.fail("actual incomplete-upgrade ownership/retirement not observed")

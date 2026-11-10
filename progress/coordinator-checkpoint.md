@@ -48,13 +48,27 @@ or actual session-clock binding. Full release scope remains required.
   pass. Consumer configure/build pass in `build/native-websocket-profile-api012-debug`
   (historical stock build preserved). Header/native44 tests unchanged. C1/C2 wording
   now explicit: toolchain object, file symlink aliases hashed by resolved bytes,
-  directory symlinks refused. Admission source review still pending.
+  directory symlinks refused. Admission source review APPROVED exact82bf92c with compiled SDK/ABI review;
+  ignored `local-evidence/API-012/compiled-admission-review.md`.
 - PASSIVE artifact input: ignored `local-evidence/API-012/candidate4-compiled-admission-input.json`,
   exact ELF/symbol/compile-command records.17 prospective file objects including
   probe+loader;14 system hashes unchanged,2 distinct corrected DSOs. Probe SHA7fbfb79e.
   RTTI symbols present in both DSOs/consumer, C++11 ABI1/RTTI enabled; no assertions
-  macro in actual selected stdlib preprocessing. Actual loaded map and cross-DSO
-  casting unobserved. No corrected SDK load, identity/probe or native run.
+  macro in actual selected stdlib preprocessing. Controlled identity load used scrubbed environment. Actual complete18-object map
+  matches reviewed paths/hashes/sizes, backend corrected/C++20; no capture fault.
+  Record `candidate4-actual-loaded-map.json`. First actual native44 run passed43,
+  failed1 owner-retirement wait,0setup/cleanup faults,1563 input hashes unchanged.
+  Actual native paths exercised cross-DSO binding; no full ABI/platform certification.
+- Runtime investigation: raw FIRST run under ignored `candidate4-FIRST-native44.*`,
+  original compiled probe preserved as `local-evidence/API-012/candidate4-FIRST-probe`.
+  Diagnostic preserves original64-poll failure and samples actual0 at124,4.6ms after
+  first sample (`retirement-diagnostic.*`). Native timer record properly remains
+  counted until destroyed; immediate64-poll helper may finish first.
+  Proposed fixture correction: one read-only IO-loop global observer for sibling
+  listener cases, at most64 snapshots/10ms, cancellation cap/cleanup, no peer reference
+  or enforcement. Only additive helper consumes these actual typed snapshots; ALL44
+  method bytes/assertions unchanged. Explicit task-brief rationale authored. Do NOT
+  compile/use this revised baseline until independent test/resource review approves.
 - Actual Trantor License is BSD three-clause; earlier review MIT labels are wrong.
   Full selected license bytes preserved; root notices clarify source/patch scope.
 
@@ -71,8 +85,8 @@ or actual session-clock binding. Full release scope remains required.
   passive44. ONLY six additions ran:6 expected missing-profile failures,0errors/
   skips/setup/cleanup faults. This is missing first-party red, not new native red.
   Raw FIRST outputs/hashes in ignored `local-evidence/API-012/`; SDK138files unchanged.
-- Next: independent CMake admission source + actual compiled SDK/probe ABI/license
-  review before controlled identity load; exact loaded map validation then native44, independent native/
+- Next: independent runtime fixture-defect review, then revised probe compile/artifact
+  identity checks and native44. SDK/source profile unchanged; no source protocol fix, independent native/
   code review, relevant regression and ordinary selected CI, final packet/current
   checks/discussions/rules and normal protected merge. No approval is inferred.
 - Runtime gaps: direct native TLS, HTTP ingress security, Caddy/proxy WS routing,
