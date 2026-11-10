@@ -22,8 +22,8 @@ Sol is the Codex coordinator: it selects tasks, assigns paths, integrates shared
 files and owns state, evidence, CI inspection and protected merges. A Codex worker
 authors contract examples/tests and captures reviewed intended red. A fresh Codex
 implementation session receives that approved baseline. Separate Claude sessions
-using explicitly selected Opus review the test stage against the specification and
-the finished implementation, following the review cycle below.
+review the test stage against the specification and the finished implementation,
+following the review cycle below. The coordinator chooses reviewer models.
 These are two default review stages, not a ceiling: retain every task-specific
 contract, source/resource, dependency/license, build/CI and evidence gate. Substantive
 coordinator-authored changes also require independent review. Session names alone
@@ -47,33 +47,36 @@ existing build presets remain available. CLion MCP may assist only when its proj
 path and reviewed revision match the intended checkout; otherwise use that checkout's
 file/shell tools. Do not assume the main IDE project represents a worker worktree.
 Keep review context focused on the affected stage and avoid rereading global history
-for each worker. Explicitly select Claude Opus and record the actual provider/model
-with the reviewer identity; do not substitute Sonnet. If availability or quota blocks
-a required Opus or Codex review, checkpoint the pending gate and continue only independent
-authorized work. Do not silently switch provider/model, buy usage or use paid API
-fallback. Obtain explicit authorization for a change of those choices; Codex readiness
-does not satisfy the pending Opus gate.
+for each worker. The coordinator selects available reviewer models for the stage's
+complexity, risk and remaining quota, and records the actual provider/model with the
+reviewer identity. Honor explicit owner constraints. Model selection within the
+authorized providers is a routine coordinator choice, including changing models
+between reviews; no particular model is mandatory. If no authorized model is
+available for a required Claude or Codex review, checkpoint the pending gate and
+continue only independent authorized work. Do not waive review, change providers,
+buy usage or use paid API fallback without owner authorization. Codex readiness does
+not satisfy a pending Claude gate.
 
 ## Substantive review cycle
 
 Apply this cycle separately to every substantive review stage, including contracts,
 test/oracle review, implementation and substantive coordinator-authored changes:
 
-1. An independent Claude Opus reviewer assesses the stage against its requirements
+1. An independent Claude reviewer assesses the stage against its requirements
    and records findings on the actual revision.
 2. A Codex author fixes the findings. A separate independent Codex reviewer checks
    the resolutions, related edge cases and affected requirements. Repeat Codex fixes
    and independent Codex review until no blocking findings remain. If the initial
-   Opus review finds no blockers, still obtain independent Codex verification before
-   the closing Opus review; do not invent changes merely to exercise the cycle.
-3. An independent Claude Opus reviewer performs the closing review of the resulting
-   revision. Codex readiness is a handoff to this gate, never its replacement. If Opus
-   finds blockers, return to the Codex correction/review loop, then request Opus
-   closing review again. The stage closes only with the required Opus approval.
+   Claude review finds no blockers, still obtain independent Codex verification before
+   the closing Claude review; do not invent changes merely to exercise the cycle.
+3. An independent Claude reviewer performs the closing review of the resulting
+   revision. Codex readiness is a handoff to this gate, never its replacement. If the
+   reviewer finds blockers, return to the Codex correction/review loop, then request
+   Claude closing review again. The stage closes only with the required approval.
 
-Material changes or new blocking findings after Opus closing approval return to the
-Codex correction/review loop and then a new Opus closing review on the resulting
-revision. A fresh initial Opus review is unnecessary for the same affected stage.
+Material changes or new blocking findings after Claude closing approval return to the
+Codex correction/review loop and then a new Claude closing review on the resulting
+revision. A fresh initial review is unnecessary for the same affected stage.
 
 Keep authors and reviewers independent: a reviewer who authors a correction cannot
 approve that correction. Batch related findings within a stage and retain valid prior
@@ -84,10 +87,10 @@ Complete the test-stage cycle before observing intended red; implementation then
 receives its own review cycle. Preserve every task-specific contract, source/resource,
 dependency/license, build/CI, evidence and protected-merge gate. The cycle does not
 combine stages or replace their checks. Routine non-substantive metadata may use
-independent Codex review unless an explicit gate requires Opus. Changes to requirements
+independent Codex review unless an explicit gate requires Claude. Changes to requirements
 or material evidence claims are substantive even when they appear in metadata. When
 classification is uncertain, treat the change as substantive; any reviewer may escalate
-it to the Opus gate.
+it to the Claude gate.
 
 ## Scope and sessions
 

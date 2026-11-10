@@ -33,15 +33,16 @@ test-before-red and final source/docs reviews are recorded in
 [PR109](https://github.com/Kernol12/subathon-bot-ai/pull/109), which records final CI
 and merge outcomes. This is workflow/tooling proof only; API-012 is not resumed.
 
-The [review-cycle guidance](../tasks/WORKFLOW-002.md) keeps independent Opus initial
+The [review-cycle guidance](../tasks/WORKFLOW-002.md) keeps independent Claude initial
 and closing reviews for each substantive stage, with Codex fixes and separate Codex
 verification between them. Concise handoffs retain earlier findings and valid approvals;
 test-first and task-specific gates remain separate. This documentation changes no
 runtime behavior, provider settings or authorization to resume product work. The task
-record and [PR111](https://github.com/Kernol12/subathon-bot-ai/pull/111) record the
-initial Opus findings, independent Codex verification and closing Opus approval at
-4452648. Project/progress checks and tooling50 pass; latest-head CI and the normal
-merge remain publication gates.
+record and [PR111](https://github.com/Kernol12/subathon-bot-ai/pull/111) retain the
+initial reviews through 4452648. The owner subsequently gave the coordinator reviewer
+model selection; that revision requires Codex verification and closing Claude review.
+Project/progress checks and tooling50 passed before this revision; latest checks and
+the normal merge remain publication gates.
 
 ## Core time and exact arithmetic
 

@@ -54,10 +54,11 @@ Do not delete, skip or weaken baseline assertions to make code pass. Test cleanu
 remove assertions only under ADR-0012, an explicit task brief and a separate approved
 review; preserve historical evidence and record any revised baseline.
 
-Each substantive review stage follows the Opus/Codex cycle in
-`docs/AGENT_WORKFLOW.md`: independent Claude Opus initial review, Codex fixes and
-separate Codex review until no blockers remain, then independent Opus closing review.
-Codex readiness cannot waive Opus approval; closing blockers repeat the cycle.
+Each substantive review stage follows the cycle in `docs/AGENT_WORKFLOW.md`:
+independent Claude initial review, Codex fixes and separate Codex review until no
+blockers remain, then independent Claude closing review. The coordinator chooses
+reviewer models. Codex readiness cannot waive closing approval; blockers repeat
+the cycle.
 
 ## Boundaries
 

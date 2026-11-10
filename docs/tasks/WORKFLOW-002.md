@@ -1,4 +1,4 @@
-# WORKFLOW-002 — Opus stage reviews with Codex correction cycles
+# WORKFLOW-002 — Coordinator-selected reviews with Codex correction cycles
 
 Module: Quality and tooling. Kind: implementation. Specification v0.45 §§17–18;
 documentation only, no product behavior or release-scope changes. Depends on
@@ -15,20 +15,21 @@ existing foundation entry in docs/evidence/README.md. Reviewers inspect read-onl
 
 ## Acceptance and gates
 
-- Each substantive review stage starts with independent Opus review. Codex fixes
+- Each substantive review stage starts with independent Claude review. Codex fixes
   findings; a separate Codex reviewer checks the findings, related edge cases and
-  affected requirements until no blocking findings remain. Independent Opus closing
-  review is required; further blockers repeat the Codex cycle and Opus closing gate.
-- Keep Opus as the Claude reviewer, explicitly select the model and do not substitute
-  Sonnet. Codex readiness never substitutes for required Opus approval.
+  affected requirements until no blocking findings remain. Independent Claude closing
+  review is required; further blockers repeat the Codex cycle and Claude closing gate.
+- The coordinator chooses reviewer models for complexity, risk and quota within
+  owner constraints, and records actual provider/model identities. No model is pinned.
+  Codex readiness never substitutes for required Claude approval.
 - Preserve separate test-before-red and implementation stages and every task-specific
   source/resource, dependency/license, build/CI, evidence and protected-merge gate.
   Batch related review work within a stage. Routine metadata may use independent
   Codex review unless substantive requirements/evidence or an explicit gate requires
-  Opus. No fixed review-count limit may waive unresolved findings.
+  Claude. No fixed review-count limit may waive unresolved findings.
 - Use concise revision/path/finding handoffs with prior approvals and complete
   affected context available. Preserve independent author/reviewer identities.
-- Initial Opus review, independent Codex verification and closing Opus review of this
+- Initial Claude review, independent Codex verification and closing Claude review of this
   documentation; project/link/progress checks and latest required CI before normal
   protected merge. Record actual results without inventing red/native evidence.
 
