@@ -294,7 +294,7 @@
     },
     {
       "name": "native-websocket-profile-debug",
-      "displayName": "31 \u00b7 Native WebSocket profile baseline (intentional red)",
+      "displayName": "31 \u00b7 Native WebSocket profile acceptance",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",

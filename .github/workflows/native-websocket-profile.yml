@@ -1,4 +1,4 @@
-name: Native WebSocket baseline compilation
+name: Native WebSocket profile acceptance
 on:
   pull_request:
     branches: [main]
@@ -10,7 +10,7 @@ permissions:
 jobs:
   native-websocket-profile-build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 80
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -71,79 +71,23 @@ jobs:
           cmake --version
           python3 --version
           dpkg-query -W libc6 libc6-dev libgcc-s1 libstdc++6 libjsoncpp-dev libjsoncpp25 libssl-dev libssl3t64 uuid-dev libuuid1 zlib1g-dev zlib1g
-      - name: Prepare the pinned stock SDK in a fresh disposable prefix
-        # Upstream configure has compiler/standard-library probes; no vendor or feature tests run.
+      - name: Prepare and seal the exact corrected SDK in a fresh disposable prefix
+        # This recipe must receive independent review before its first hosted execution.
+        run: python3 tools/native_websocket_ci.py prepare --root "$RUNNER_TEMP/native-ws-candidate4"
+      - name: Configure the corrected native profile and build the observer
         run: |
-          test ! -e "$RUNNER_TEMP/native-ws-sdk"
-          python3 tools/setup_drogon.py --root "$RUNNER_TEMP/native-ws-sdk" --jobs 2
-          install -Dm644 "$RUNNER_TEMP/native-ws-sdk/drogon-1.9.14-source/orm_lib/COPYING" "$RUNNER_TEMP/native-ws-sdk/drogon-1.9.14/share/licenses/drogon/orm_lib-COPYING"
-          python3 - <<'PYTHON'
-          import hashlib
-          import os
-          from pathlib import Path
-          import shlex
-          import subprocess
-          import sys
-          sys.path.insert(0, "tools")
-          import setup_drogon
-          root = Path(os.environ["RUNNER_TEMP"]) / "native-ws-sdk"
-          source = root / "drogon-1.9.14-source"
-          setup_drogon.verify_source(source, setup_drogon.DROGON_COMMIT)
-          setup_drogon.verify_source(source / "trantor", setup_drogon.TRANTOR_COMMIT)
-          commands = subprocess.check_output(
-              ["ninja", "-C", str(root / "drogon-1.9.14-build"), "-t", "commands", "drogon"], text=True)
-          standards = {"drogon": set(), "trantor": set()}
-          for line in commands.splitlines():
-              args = shlex.split(line)
-              if "-c" not in args:
-                  continue
-              unit = Path(args[args.index("-c") + 1])
-              owner = "trantor" if unit.is_relative_to(source / "trantor") else "drogon"
-              standards[owner].add(tuple(arg for arg in args if arg.startswith("-std=")))
-          if standards != {"drogon": {("-std=c++20",)}, "trantor": {("-std=c++14",)}}:
-              raise SystemExit(f"Unexpected effective SDK language flags: {standards}")
-          print("Effective target language flags:", standards)
-          prefix = root / "drogon-1.9.14"
-          for path in sorted(prefix.rglob("*")):
-              if path.is_file():
-                  print(hashlib.sha256(path.read_bytes()).hexdigest(), path.relative_to(prefix))
-          PYTHON
-      - name: Configure the native baseline and build the observer without executing it
-        run: |
-          cmake --preset native-websocket-profile-debug -DSUBATHON_DROGON_ROOT="$RUNNER_TEMP/native-ws-sdk/drogon-1.9.14"
+          cmake --preset native-websocket-profile-debug -DSUBATHON_DROGON_ROOT="$RUNNER_TEMP/native-ws-candidate4/sdk"
           cmake --build --preset native-websocket-profile-debug --parallel 2
-      - name: Record compiled observer and link metadata without loading it
+      - name: Record consumer commands without loading the observer
+        run: ninja -C build/native-websocket-profile-debug -t commands native_websocket_probe
+      - name: Check passive native44 inventory and ELF closure, then gate controlled identity
+        # --identity is read-only. No native test body runs unless the complete map matches.
+        run: python3 tools/native_websocket_ci.py gate --root "$RUNNER_TEMP/native-ws-candidate4"
+      - name: Run required-success native44 synthetic loopback acceptance
         run: |
-          sha256sum build/native-websocket-profile-debug/tests/native_websocket_profile/native_websocket_probe
-          readelf --file-header --dynamic --version-info build/native-websocket-profile-debug/tests/native_websocket_profile/native_websocket_probe
-          ninja -C build/native-websocket-profile-debug -t commands native_websocket_probe
-      - name: Inventory enabled intentional-red cases without a native feature body
-        run: |
-          python3 - <<'PYTHON'
-          import ast
-          import json
-          from pathlib import Path
-          import subprocess
-          driver = Path("tests/native_websocket_profile/test_native_ws_profile.py")
-          tree = ast.parse(driver.read_text())
-          owner = next(node for node in tree.body if isinstance(node, ast.ClassDef) and node.name == "NativeProfile")
-          expected = {f"NativeProfile.{node.name}" for node in owner.body
-                      if isinstance(node, ast.FunctionDef) and node.name.startswith("test_")}
-          found = subprocess.check_output(["python3", str(driver), "--list"], text=True).splitlines()
-          if not expected or set(found) != expected or len(found) != len(expected):
-              raise SystemExit("Passive inventory did not select every authored native method exactly once")
-          discovery = json.loads(subprocess.check_output(
-              ["ctest", "--preset", "native-websocket-profile-debug", "--show-only=json-v1"], text=True))
-          native = [test for test in discovery["tests"] if test["name"] == "native-websocket-profile.suite"]
-          if len(native) != 1:
-              raise SystemExit("Native baseline must have one enabled owning suite")
-          props = {p["name"]: p["value"] for p in native[0]["properties"]}
-          required = {"native-websocket-profile", "acceptance", "intentional-red", "server", "loopback"}
-          if not required.issubset(props.get("LABELS", [])) or props.get("DISABLED", False) or props.get("WILL_FAIL", False):
-              raise SystemExit("Native baseline lost its enabled intentional-red semantics")
-          print(f"Discovered {len(found)} native methods; no probe/feature body invoked")
-          print(native[0])
-          PYTHON
-      - name: Run existing infrastructure and tooling only
-        # Actual new native feature execution is a separate explicit intended-red operation.
+          ctest_command="$(cat "$RUNNER_TEMP/native-ws-candidate4/receipts/ctest-command.txt")"
+          env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 \
+            LD_LIBRARY_PATH="$RUNNER_TEMP/native-ws-candidate4/sdk/lib" \
+            "$ctest_command" --preset native-websocket-profile-debug -L '^native-websocket-profile$' --no-tests=error --verbose
+      - name: Run existing infrastructure and tooling
         run: ctest --preset native-websocket-profile-debug -L '^scaffold$' --no-tests=error --verbose

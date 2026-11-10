@@ -1,0 +1,296 @@
+--- a/trantor/net/TcpConnection.h
++++ b/trantor/net/TcpConnection.h
+@@ -22,12 +22,26 @@
+ #include <trantor/net/Certificate.h>
+ #include <trantor/net/TLSPolicy.h>
+ #include <trantor/net/AsyncStream.h>
++#include <atomic>
+ #include <memory>
+ #include <functional>
+ #include <string>
+
+ namespace trantor
+ {
++// Private API-012 SDK seam. Not a general stream/transport extension API.
++class TRANTOR_EXPORT NativeProfileIo
++{
++  public:
++    virtual ~NativeProfileIo() = default;
++  private:
++    friend class TcpConnectionImpl;
++    virtual bool read(int fd) noexcept = 0;
++    virtual bool guardWrite() noexcept = 0;
++    virtual void write(int fd) noexcept = 0;
++    virtual void closed() noexcept = 0;
++    virtual void detached() noexcept = 0;
++};
+ class TimingWheel;
+
+ struct SSLContext;
+@@ -46,6 +60,10 @@
+
+     TcpConnection() = default;
+     virtual ~TcpConnection(){};
++    virtual void setNativeProfileIo(std::shared_ptr<NativeProfileIo>) = 0;
++    virtual std::shared_ptr<NativeProfileIo> nativeProfileIo() const = 0;
++    virtual void requestNativeProfileWrite() = 0;
++    virtual void establishNativeProfile() = 0;
+
+     /**
+      * @brief Send some data to the peer.
+--- a/trantor/net/inner/Socket.cc
++++ b/trantor/net/inner/Socket.cc
+@@ -240,6 +240,17 @@
+     }
+ }
+
++void Socket::closeNativeProfile()
++{
++    const int fd = sockFd_;
++    sockFd_ = -1; // Linux close must not be retried after EINTR / descriptor reuse.
++    if (fd >= 0)
++#ifndef _WIN32
++        ::close(fd);
++#else
++        ::closesocket(fd);
++#endif
++}
+ Socket::~Socket()
+ {
+     LOG_TRACE << "Socket deconstructed:" << sockFd_;
+--- a/trantor/net/inner/Socket.h
++++ b/trantor/net/inner/Socket.h
+@@ -92,6 +92,7 @@
+     void listen();
+     int accept(InetAddress *peeraddr);
+     void closeWrite();
++    void closeNativeProfile();
+     int read(char *buffer, uint64_t len);
+     int fd()
+     {
+--- a/trantor/net/inner/TcpConnectionImpl.cc
++++ b/trantor/net/inner/TcpConnectionImpl.cc
+@@ -131,6 +131,10 @@
+ {
+     // LOG_TRACE<<"read Callback";
+     loop_->assertInLoopThread();
++    if (nativeProfileChannelRemoved_) return;
++    auto native = nativeProfileIo();
++    if (native && native->read(socketPtr_->fd()))
++        return;
+     int ret = 0;
+
+     ssize_t n = readBuffer_.readFd(socketPtr_->fd(), &ret);
+@@ -209,9 +213,49 @@
+         }
+     }
+ }
++void TcpConnectionImpl::retireNativeProfileSocket()
++{
++    // Detach the poller entry before releasing the numeric fd for reuse. A
++    // retained WebSocketConnection must not retain a closed connection's socket.
++    if (!nativeProfileChannelRemoved_)
++    {
++        ioChannelPtr_->remove();
++        nativeProfileChannelRemoved_ = true;
++        socketPtr_->closeNativeProfile();
++        readBuffer_.releaseNativeProfileStorage();
++        writeBufferList_.clear();
++        pendingTlsWriteBufferList_.clear();
++    }
++}
++void TcpConnectionImpl::establishNativeProfile()
++{
++    loop_->assertInLoopThread();
++    assert(nativeProfileIo());
++    // Native absolute deadlines replace HTTP idle kickoff, including idle forever.
++    // Reset the entry's weak connection BEFORE dropping our weak reference: the
++    // TimingWheel may retain the entry until expiry, but its destructor is inert.
++    auto entry = kickoffEntry_.lock();
++    if (entry) entry->reset();
++    kickoffEntry_.reset();
++    idleTimeout_ = 0;
++    idleTimeoutBackup_ = 0; // No async-stream restoration of an HTTP idle policy.
++}
++void TcpConnectionImpl::requestNativeProfileWrite()
++{
++    loop_->assertInLoopThread();
++    if (status_ != ConnStatus::Connected) return;
++    const bool wasWriting = ioChannelPtr_->isWriting();
++    if (!wasWriting) ioChannelPtr_->enableWriting();
++    if (!wasWriting && !nativeProfileWriting_ && writeBufferList_.empty())
++        writeCallback();
++}
+ void TcpConnectionImpl::writeCallback()
+ {
+     loop_->assertInLoopThread();
++    if (nativeProfileChannelRemoved_) return;
++    auto native = nativeProfileIo();
++    if (native && !native->guardWrite())
++        return;
+     if (ioChannelPtr_->isWriting())
+     {
+         if (tlsProviderPtr_)
+@@ -258,6 +302,12 @@
+             tlsProviderPtr_->getBufferedData().readableBytes() == 0)
+         {
+             ioChannelPtr_->disableWriting();
++            if (native && status_ == ConnStatus::Connected)
++            {
++                nativeProfileWriting_ = true;
++                native->write(socketPtr_->fd());
++                nativeProfileWriting_ = false;
++            }
+             if (status_ == ConnStatus::Disconnecting)
+             {
+                 socketPtr_->closeWrite();
+@@ -291,6 +341,7 @@
+ }
+ void TcpConnectionImpl::handleClose()
+ {
++    if (nativeProfileChannelRemoved_) return;
+     LOG_TRACE << "connection closed, fd=" << socketPtr_->fd();
+     LOG_TRACE << "write buffer size: " << writeBufferList_.size();
+     if (!writeBufferList_.empty())
+@@ -303,6 +354,12 @@
+     ioChannelPtr_->disableAll();
+     //  ioChannelPtr_->remove();
+     auto guardThis = shared_from_this();
++    auto native = std::atomic_exchange_explicit(&nativeProfileIo_, std::shared_ptr<NativeProfileIo>{}, std::memory_order_acq_rel);
++    if (native)
++    {
++        retireNativeProfileSocket();
++        native->closed();
++    }
+     if (connectionCallback_)
+         connectionCallback_(guardThis);
+     if (closeCallback_)
+@@ -310,9 +367,12 @@
+         LOG_TRACE << "to call close callback";
+         closeCallback_(guardThis);
+     }
++    if (native)
++        native->detached();
+ }
+ void TcpConnectionImpl::handleError()
+ {
++    if (nativeProfileChannelRemoved_) return;
+     int err = socketPtr_->getSocketError();
+     if (err == 0)
+         return;
+@@ -343,9 +403,12 @@
+         status_ = ConnStatus::Disconnected;
+         ioChannelPtr_->disableAll();
+
++        auto native = std::atomic_exchange_explicit(&nativeProfileIo_, std::shared_ptr<NativeProfileIo>{}, std::memory_order_acq_rel);
++        if (native) { retireNativeProfileSocket(); native->closed(); }
+         connectionCallback_(shared_from_this());
+-    }
+-    ioChannelPtr_->remove();
++        if (native) native->detached();
++    }
++    if (!nativeProfileChannelRemoved_) ioChannelPtr_->remove();
+ }
+ void TcpConnectionImpl::shutdown()
+ {
+--- a/trantor/net/inner/TcpConnectionImpl.h
++++ b/trantor/net/inner/TcpConnectionImpl.h
+@@ -38,7 +38,23 @@
+     friend class TcpServer;
+     friend class TcpClient;
+
++  private:
++    std::shared_ptr<NativeProfileIo> nativeProfileIo_;
++    bool nativeProfileWriting_{false};
++    bool nativeProfileChannelRemoved_{false};
++    void retireNativeProfileSocket();
+   public:
++    void setNativeProfileIo(std::shared_ptr<NativeProfileIo> io) override
++    {
++        loop_->assertInLoopThread();
++        std::atomic_store_explicit(&nativeProfileIo_, std::move(io), std::memory_order_release);
++    }
++    std::shared_ptr<NativeProfileIo> nativeProfileIo() const override
++    {
++        return std::atomic_load_explicit(&nativeProfileIo_, std::memory_order_acquire);
++    }
++    void requestNativeProfileWrite() override;
++    void establishNativeProfile() override;
+     class KickoffEntry
+     {
+       public:
+--- a/trantor/utils/MsgBuffer.h
++++ b/trantor/utils/MsgBuffer.h
+@@ -257,6 +257,12 @@
+      *
+      */
+     void retrieveAll();
++    std::size_t nativeProfileCapacity() const noexcept { return buffer_.capacity(); }
++    void releaseNativeProfileStorage()
++    {
++        std::vector<char>().swap(buffer_);
++        head_ = tail_ = initCap_ = 0;
++    }
+
+     /**
+      * @brief Remove some bytes in the buffer.
+@@ -352,13 +358,18 @@
+     size_t initCap_;
+     std::vector<char> buffer_;
+     size_t tail_;
++    static char *emptyStorage() noexcept
++    {
++        static char empty = 0;
++        return &empty;
++    }
+     const char *begin() const
+     {
+-        return &buffer_[0];
++        return buffer_.empty() ? emptyStorage() : buffer_.data();
+     }
+     char *begin()
+     {
+-        return &buffer_[0];
++        return buffer_.empty() ? emptyStorage() : buffer_.data();
+     }
+ };
+
+--- a/trantor/utils/MsgBuffer.cc
++++ b/trantor/utils/MsgBuffer.cc
+@@ -139,6 +139,13 @@
+ }
+ void MsgBuffer::retrieveAll()
+ {
++    // releaseNativeProfileStorage() leaves no vector allocation. Repeated
++    // retrieve/retrieveAll must not restore offset 8 into a zero-sized vector.
++    if (buffer_.empty())
++    {
++        head_ = tail_ = initCap_ = 0;
++        return;
++    }
+     if (buffer_.size() > (initCap_ * 2))
+     {
+         buffer_.resize(initCap_ + kBufferOffset);
+--- a/trantor/net/inner/TimerQueue.cc
++++ b/trantor/net/inner/TimerQueue.cc
+@@ -207,7 +207,19 @@
+ {
+     loop_->assertInLoopThread();
+     timerIdSet_.insert(timer->id());
+-    if (insert(timer))
++    bool earliestChanged;
++    try
++    {
++        earliestChanged = insert(timer);
++    }
++    catch (...)
++    {
++        // Native owner timer admission can fail under memory pressure. Do not
++        // leave an orphan ID after the heap insertion fails.
++        timerIdSet_.erase(timer->id());
++        throw;
++    }
++    if (earliestChanged)
+     {
+ // the earliest timer changed
+ #ifdef __linux__

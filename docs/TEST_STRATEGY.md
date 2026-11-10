@@ -57,6 +57,7 @@ still using synthetic data and supplied policy/authority facts.
 | `sqlite-reference-capture-debug` | `-L '^reference-capture-values$'` / `-L '^sqlite-reference-capture$'` | 28 structural codec cases and 38 real-SQL methods/67 scenarios |
 | `sqlite-account-sessions-debug` | `-L '^sqlite-account-sessions$'` | 44 real-SQL methods for physical current facts, full conditional writes and compiled-prefix/frame equality; host login/authority remains separate |
 | `translation-catalog-debug` | `-L '^translation-catalog$'` | 43 generator methods with literal goldens; build also produces/validates real Qt QM |
+| `native-websocket-profile-debug` | `-L '^native-websocket-profile$'` | 44 reviewed methods passing locally and in selected Ubuntu CI against the corrected Drogon/Trantor SDK: real Linux loopback framing/control/Close, listener isolation, ownership and resource/deadline observations with supplied elapsed time; actual host/TLS/clock/auth/platform gates remain separate |
 | `schema-validation-debug` | `-L '^schema-validation$'` | 8 Python methods: actual OpenAPI/17 components, 23 existing positive examples, 77 independent component cases, and 11 structural progress cases plus actual state |
 
 Source/resource review remains necessary for allocation bounds, owned capabilities,
@@ -83,9 +84,8 @@ from schema shape, and editor hints do not replace runtime progress invariants.
 | Preset / focused selection | Current state |
 | --- | --- |
 | `rate-snapshot-debug` / `-L '^rate-snapshot$'` | 53 reviewed feature cases have intended stub-red evidence; rate behavior remains unimplemented. The suite has `intentional-red` labels. |
-| `native-websocket-profile-debug` / `-L '^native-websocket-profile$'` | 38 reviewed Python methods drive actual selected Drogon loopback traffic. Stock fragmented/control behavior has reached wire red; profile ownership/resource/deadline cases remain `Unimplemented`, without native capacity proof. |
 
-These lanes' passing CI checks compile/discover feature registrations, enforce selected
+The rate lane's passing CI checks compile/discover feature registrations, enforce selected
 dependency configuration and execute existing stable component/infrastructure suites. They do not turn the red feature bodies into
 passing product coverage. Keep their intended-red runs separate from passing CI;
 never use `WILL_FAIL`, blanket continue-on-error, disabled/skipped bodies or a failed

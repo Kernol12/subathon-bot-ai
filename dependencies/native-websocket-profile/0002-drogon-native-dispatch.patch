@@ -1,0 +1,483 @@
+--- a/lib/inc/drogon/WebSocketConnection.h
++++ b/lib/inc/drogon/WebSocketConnection.h
+@@ -234,3 +234,38 @@
+
+ using WebSocketConnectionPtr = std::shared_ptr<WebSocketConnection>;
+ }  // namespace drogon
++
++// Private API-012 seam: the pinned patched SDK and first-party profile are one
++// admitted ABI. Ordinary WebSocket users cannot issue a delivery scope.
++#include <drogon/exports.h>
++#include <trantor/net/TcpConnection.h>
++#include <atomic>
++#include <functional>
++namespace subathon::server::native_ws { struct ProfileFactory; }
++namespace drogon { class HttpServer; class HttpAppFrameworkImpl; class WebSocketConnectionImpl; }
++namespace drogon::native_profile
++{
++class DROGON_EXPORT Session : public trantor::NativeProfileIo
++{
++  public:
++    ~Session() override = default;
++  private:
++    friend class drogon::WebSocketConnectionImpl;
++    virtual bool beginUpgrade() noexcept = 0;
++    virtual bool bind(const std::shared_ptr<WebSocketConnection> &,
++                      std::function<void(unsigned)> dispatch) noexcept = 0;
++    virtual void initial(trantor::MsgBuffer *) noexcept = 0;
++    virtual void send(unsigned, const char *, std::size_t) noexcept = 0;
++    virtual void close(unsigned short, const std::string &) noexcept = 0;
++};
++using Factory = std::function<std::shared_ptr<Session>(const trantor::TcpConnectionPtr &)>;
++class DROGON_EXPORT Runtime
++{
++    friend class drogon::HttpServer;
++    friend class drogon::HttpAppFrameworkImpl;
++    friend class drogon::WebSocketConnectionImpl;
++    friend struct subathon::server::native_ws::ProfileFactory;
++    static Factory &factory() noexcept;
++    static std::atomic<bool> &started() noexcept;
++};
++}
+--- a/lib/src/HttpAppFrameworkImpl.cc
++++ b/lib/src/HttpAppFrameworkImpl.cc
+@@ -13,6 +13,8 @@
+  */
+
+ #include "HttpAppFrameworkImpl.h"
++#include <drogon/WebSocketConnection.h>
++#include <stdexcept>
+ #include <drogon/DrClassMap.h>
+ #include <drogon/HttpResponse.h>
+ #include <drogon/HttpTypes.h>
+@@ -404,11 +406,16 @@
+     const std::string &certFile,
+     const std::string &keyFile,
+     bool useOldTLS,
+-    const std::vector<std::pair<std::string, std::string>> &sslConfCmds)
++    const std::vector<std::pair<std::string, std::string>> &sslConfCmds,
++    bool nativeProfile)
+ {
+     assert(!running_);
++    // Refuse before storing ListenerInfo or constructing any bind/listen socket.
++    if (nativeProfile &&
++        (useSSL || !native_profile::Runtime::factory()))
++        throw std::invalid_argument("native listener requires installed profile and plaintext ingress");
+     listenerManagerPtr_->addListener(
+-        ip, port, useSSL, certFile, keyFile, useOldTLS, sslConfCmds);
++        ip, port, useSSL, certFile, keyFile, useOldTLS, sslConfCmds, nativeProfile);
+     return *this;
+ }
+
+@@ -519,6 +526,7 @@
+
+ void HttpAppFrameworkImpl::run()
+ {
++    native_profile::Runtime::started().store(true, std::memory_order_release);
+     if (!getLoop()->isInLoopThread())
+     {
+         getLoop()->moveToCurrentThread();
+--- a/lib/src/HttpServer.cc
++++ b/lib/src/HttpServer.cc
+@@ -71,11 +71,12 @@
+
+ HttpServer::HttpServer(EventLoop *loop,
+                        const InetAddress &listenAddr,
+-                       std::string name)
++                       std::string name,
++                       bool nativeProfile)
+ #ifdef __linux__
+-    : server_(loop, listenAddr, std::move(name))
++    : nativeProfile_(nativeProfile), server_(loop, listenAddr, std::move(name))
+ #else
+-    : server_(loop, listenAddr, std::move(name), true, app().reusePort())
++    : nativeProfile_(nativeProfile), server_(loop, listenAddr, std::move(name), true, app().reusePort())
+ #endif
+ {
+     server_.setConnectionCallback(
+@@ -85,8 +86,11 @@
+                 connectionCallback_(conn);
+         });
+     server_.setRecvMessageCallback(onMessage);
+-    server_.kickoffIdleConnections(
+-        HttpAppFrameworkImpl::instance().getIdleConnectionTimeout());
++    // Marked ingress has its own absolute Upgrade deadline from acceptance.
++    // Ordinary listeners keep the application's stock HTTP idle policy.
++    if (!nativeProfile_)
++        server_.kickoffIdleConnections(
++            HttpAppFrameworkImpl::instance().getIdleConnectionTimeout());
+ }
+
+ HttpServer::~HttpServer() = default;
+@@ -115,6 +119,14 @@
+ {
+     if (conn->connected())
+     {
++        if (nativeProfile_)
++        {
++            if (!native_profile::Runtime::factory() || conn->isSSLConnection())
++            { conn->forceClose(); return; }
++            auto session = native_profile::Runtime::factory()(conn);
++            if (!session) { conn->forceClose(); return; }
++            conn->setNativeProfileIo(std::move(session));
++        }
+         auto parser = std::make_shared<HttpRequestParser>(conn);
+         parser->reset();
+         conn->setContext(parser);
+@@ -242,6 +254,8 @@
+             }
+             requestParser->reset();
+         }
++        if (conn->nativeProfileIo() && !requests.empty())
++            break;
+     }
+     if (!requests.empty())
+     {
+@@ -280,6 +294,26 @@
+ {
+     assert(!requests.empty());
+
++    const bool native = bool(conn->nativeProfileIo());
++    // Listener selection is explicit. Refuse before advices/controller dispatch;
++    // a profile-installed ordinary listener can never use the stock WS parser.
++    if (native_profile::Runtime::factory())
++    {
++        bool upgrade = false;
++        for (const auto &request : requests) upgrade = upgrade || isWebSocket(request);
++        if ((!native && upgrade) ||
++            (native && (requests.size() != 1 || !requestParser->emptyPipelining() ||
++                        !isWebSocket(requests[0]))))
++        {
++            requestParser->stop();
++            static constexpr char refusal[] =
++                "HTTP/1.1 400 Bad Request\r\nContent-Length: 0\r\nConnection: close\r\n\r\n";
++            conn->send(refusal, sizeof(refusal) - 1);
++            conn->shutdown(); // Drain the fixed response before half-closing TCP.
++            return;
++        }
++    }
++
+     // A WebSocket upgrade may arrive after earlier HTTP requests on the same
+     // keep-alive connection. Reverse proxies commonly reuse their upstream
+     // connections, so limiting upgrade detection to the first request causes
+@@ -295,18 +329,26 @@
+                             false /* Not HEAD */))
+         {
+             auto wsConn = std::make_shared<WebSocketConnectionImpl>(conn);
+-            wsConn->setPingMessage("", std::chrono::seconds{30});
++            if (!native)
++                wsConn->setPingMessage("", std::chrono::seconds{30});
++            else if (!wsConn->beginNativeProfileUpgrade())
++            { conn->forceClose(); return; }
+             onWebsocketRequest(
+                 req,
+-                [conn, wsConn, requestParser, req](
++                [conn, wsConn, requestParser, req, native](
+                     const HttpResponsePtr &resp0) mutable {
++                    if (native && !conn->getLoop()->isInLoopThread())
++                    { conn->forceClose(); return; }
+                     if (conn->connected())
+                     {
+                         auto resp = HttpAppFrameworkImpl::instance()
+                                         .handleSessionForResponse(req, resp0);
+                         AopAdvice::instance().passPreSendingAdvices(req, resp);
++                        if (native && (!conn->connected() || !conn->nativeProfileIo())) return;
+                         if (resp->statusCode() == k101SwitchingProtocols)
+                         {
++                            if (conn->nativeProfileIo() && !wsConn->bindNativeProfile())
++                            { conn->forceClose(); return; }
+                             requestParser->setWebsockConnection(wsConn);
+                         }
+                         auto httpString =
+@@ -774,6 +816,7 @@
+     auto binder = std::move(binderPtr);
+     auto wsConn = std::move(wsConnPtr);
+
++    if (!wsConn->checkNativeProfileOwner()) return;
+     binder->handleRequest(
+         request,
+         [request, callback = std::move(callback)](const HttpResponsePtr &resp) {
+@@ -781,9 +824,13 @@
+             callback(resp);
+         });
+
++    if (!wsConn->checkNativeProfileOwner() ||
++        (native_profile::Runtime::factory() && !wsConn->connected())) return;
+     // TODO: more elegant?
+     static_cast<WebsocketControllerBinder *>(binder.get())
+         ->handleNewConnection(request, wsConn);
++    if (native_profile::Runtime::factory() && wsConn->connected())
++        wsConn->consumeNativeProfileInitial();
+ }
+
+ void HttpServer::handleResponse(
+--- a/lib/src/WebSocketConnectionImpl.cc
++++ b/lib/src/WebSocketConnectionImpl.cc
+@@ -20,6 +20,10 @@
+ #include <limits>
+
+ using namespace drogon;
++namespace drogon::native_profile {
++Factory &Runtime::factory() noexcept { static Factory value; return value; }
++std::atomic<bool> &Runtime::started() noexcept { static std::atomic<bool> value{false}; return value; }
++}
+
+ WebSocketConnectionImpl::WebSocketConnectionImpl(
+     const trantor::TcpConnectionPtr &conn,
+@@ -41,6 +45,16 @@
+                                    uint64_t len,
+                                    const WebSocketMessageType type)
+ {
++    if (auto session = std::dynamic_pointer_cast<native_profile::Session>(
++            tcpConnectionPtr_->nativeProfileIo()))
++    {
++        unsigned opcode = type == WebSocketMessageType::Text ? 1 :
++                          type == WebSocketMessageType::Binary ? 2 :
++                          type == WebSocketMessageType::Close ? 8 :
++                          type == WebSocketMessageType::Ping ? 9 : 10;
++        session->send(opcode, msg, len);
++        return;
++    }
+     unsigned char opcode;
+     if (type == WebSocketMessageType::Text)
+         opcode = 1;
+@@ -171,6 +185,7 @@
+ void WebSocketConnectionImpl::sendJson(const Json::Value &json,
+                                        const WebSocketMessageType type)
+ {
++    if (tcpConnectionPtr_->nativeProfileIo()) return;
+     static std::once_flag once;
+     static Json::StreamWriterBuilder builder;
+     std::call_once(once, []() {
+@@ -215,6 +230,12 @@
+     const CloseCode code,
+     const std::string &reason)
+ {
++    if (auto session = std::dynamic_pointer_cast<native_profile::Session>(
++            tcpConnectionPtr_->nativeProfileIo()))
++    {
++        session->close(static_cast<unsigned short>(code), reason);
++        return;
++    }
+     tcpConnectionPtr_->getLoop()->invalidateTimer(pingTimerId_);
+     if (!tcpConnectionPtr_->connected())
+         return;
+@@ -237,6 +258,7 @@
+     const std::string &message,
+     const std::chrono::duration<double> &interval)
+ {
++    if (tcpConnectionPtr_->nativeProfileIo()) return;
+     auto loop = tcpConnectionPtr_->getLoop();
+     if (loop->isInLoopThread())
+     {
+@@ -447,6 +469,12 @@
+     const trantor::TcpConnectionPtr &connPtr,
+     trantor::MsgBuffer *buffer)
+ {
++    if (auto session = std::dynamic_pointer_cast<native_profile::Session>(
++            connPtr->nativeProfileIo()))
++    {
++        session->initial(buffer);
++        return;
++    }
+     auto self = shared_from_this();
+     while (buffer->readableBytes() > 0)
+     {
+--- a/lib/src/WebSocketConnectionImpl.h
++++ b/lib/src/WebSocketConnectionImpl.h
+@@ -100,6 +100,47 @@
+     void onNewMessage(const trantor::TcpConnectionPtr &connPtr,
+                       trantor::MsgBuffer *buffer);
+
++    bool checkNativeProfileOwner()
++    {
++        // Installation is immutable, even after transport closure detaches IO.
++        if (native_profile::Runtime::factory() &&
++            !tcpConnectionPtr_->getLoop()->isInLoopThread())
++        { tcpConnectionPtr_->forceClose(); return false; }
++        return true;
++    }
++    bool beginNativeProfileUpgrade()
++    {
++        if (!checkNativeProfileOwner()) return false;
++        auto session = std::dynamic_pointer_cast<native_profile::Session>(
++            tcpConnectionPtr_->nativeProfileIo());
++        return session && session->beginUpgrade();
++    }
++    void consumeNativeProfileInitial()
++    {
++        if (!checkNativeProfileOwner()) return;
++        if (auto session = std::dynamic_pointer_cast<native_profile::Session>(
++                tcpConnectionPtr_->nativeProfileIo()))
++            session->initial(tcpConnectionPtr_->getRecvBuffer());
++    }
++    bool bindNativeProfile()
++    {
++        if (!checkNativeProfileOwner()) return false;
++        auto session = std::dynamic_pointer_cast<native_profile::Session>(
++            tcpConnectionPtr_->nativeProfileIo());
++        if (!session) return false;
++        std::weak_ptr<WebSocketConnectionImpl> weak = shared_from_this();
++        return session->bind(shared_from_this(), [weak](unsigned opcode) {
++            if (auto self = weak.lock())
++            {
++                // Payload never crosses the public mutable-string callback.
++                // It stays in the private validated scope until accept_callback.
++                const auto type = opcode == 1 ? WebSocketMessageType::Text :
++                                  opcode == 2 ? WebSocketMessageType::Binary :
++                                  WebSocketMessageType::Ping;
++                self->messageCallback_(std::string{}, self, type);
++            }
++        });
++    }
+     void onClose()
+     {
+         if (pingTimerId_ != trantor::InvalidTimerId)
+--- a/lib/inc/drogon/HttpAppFramework.h
++++ b/lib/inc/drogon/HttpAppFramework.h
+@@ -13,6 +13,8 @@
+  */
+
+ #pragma once
++// Exact selected API-012 private SDK ABI; stock headers/DSOs cannot be mixed.
++#define DROGON_SUBATHON_NATIVE_PROFILE_V1 1
+ #ifdef __cpp_impl_coroutine
+ #include <drogon/utils/coroutine.h>
+ #endif
+@@ -857,6 +859,8 @@
+      * @param useOldTLS if true, the TLS1.0/1.1 are enabled for HTTPS
+      * connections.
+      * @param sslConfCmds vector of ssl configuration key/value pairs.
++     * @param nativeProfile API-012 dedicated listener. Requires the installed
++     * native profile and refuses direct TLS at registration (before binding).
+      *
+      * @note
+      * This operation can be performed by an option in the configuration file.
+@@ -869,7 +873,8 @@
+         const std::string &keyFile = "",
+         bool useOldTLS = false,
+         const std::vector<std::pair<std::string, std::string>> &sslConfCmds =
+-            {}) = 0;
++            {},
++        bool nativeProfile = false) = 0;
+
+     /// Enable sessions supporting.
+     /**
+--- a/lib/src/HttpAppFrameworkImpl.h
++++ b/lib/src/HttpAppFrameworkImpl.h
+@@ -70,7 +70,8 @@
+         const std::string &certFile,
+         const std::string &keyFile,
+         bool useOldTLS,
+-        const std::vector<std::pair<std::string, std::string>> &sslConfCmds)
++        const std::vector<std::pair<std::string, std::string>> &sslConfCmds,
++        bool nativeProfile)
+         override;
+     HttpAppFramework &setThreadNum(size_t threadNum) override;
+
+--- a/lib/src/ListenerManager.h
++++ b/lib/src/ListenerManager.h
+@@ -41,7 +41,8 @@
+                      const std::string &keyFile = "",
+                      bool useOldTLS = false,
+                      const std::vector<std::pair<std::string, std::string>>
+-                         &sslConfCmds = {});
++                         &sslConfCmds = {},
++                     bool nativeProfile = false);
+     std::vector<trantor::InetAddress> getListeners() const;
+     void createListeners(
+         const std::string &globalCertFile,
+@@ -79,14 +80,16 @@
+             std::string certFile,
+             std::string keyFile,
+             bool useOldTLS,
+-            std::vector<std::pair<std::string, std::string>> sslConfCmds)
++            std::vector<std::pair<std::string, std::string>> sslConfCmds,
++            bool nativeProfile)
+             : ip_(std::move(ip)),
+               port_(port),
+               useSSL_(useSSL),
+               certFile_(std::move(certFile)),
+               keyFile_(std::move(keyFile)),
+               useOldTLS_(useOldTLS),
+-              sslConfCmds_(std::move(sslConfCmds))
++              sslConfCmds_(std::move(sslConfCmds)),
++              nativeProfile_(nativeProfile)
+         {
+         }
+
+@@ -97,6 +100,7 @@
+         std::string keyFile_;
+         bool useOldTLS_;
+         std::vector<std::pair<std::string, std::string>> sslConfCmds_;
++        bool nativeProfile_;
+     };
+
+     std::vector<ListenerInfo> listeners_;
+--- a/lib/src/ListenerManager.cc
++++ b/lib/src/ListenerManager.cc
+@@ -57,12 +57,13 @@
+     const std::string &certFile,
+     const std::string &keyFile,
+     bool useOldTLS,
+-    const std::vector<std::pair<std::string, std::string>> &sslConfCmds)
++    const std::vector<std::pair<std::string, std::string>> &sslConfCmds,
++    bool nativeProfile)
+ {
+     if (useSSL && !utils::supportsTls())
+         LOG_ERROR << "Can't use SSL without OpenSSL found in your system";
+     listeners_.emplace_back(
+-        ip, port, useSSL, certFile, keyFile, useOldTLS, sslConfCmds);
++        ip, port, useSSL, certFile, keyFile, useOldTLS, sslConfCmds, nativeProfile);
+ }
+
+ std::vector<trantor::InetAddress> ListenerManager::getListeners() const
+@@ -110,7 +111,8 @@
+             std::shared_ptr<HttpServer> serverPtr =
+                 std::make_shared<HttpServer>(ioLoops[i],
+                                              listenAddress,
+-                                             "drogon");
++                                             "drogon",
++                                             listener.nativeProfile_);
+             if (beforeListenSetSockOptCallback_)
+             {
+                 serverPtr->setBeforeListenSockOptCallback(
+@@ -167,7 +169,8 @@
+             auto serverPtr = std::make_shared<HttpServer>(
+                 listeningThread_->getLoop(),
+                 InetAddress(ip, listener.port_, isIpv6),
+-                "drogon");
++                "drogon",
++                listener.nativeProfile_);
+             if (listener.useSSL_ && utils::supportsTls())
+             {
+                 auto cert = listener.certFile_;
+--- a/lib/src/HttpServer.h
++++ b/lib/src/HttpServer.h
+@@ -32,7 +32,8 @@
+   public:
+     HttpServer(trantor::EventLoop *loop,
+                const trantor::InetAddress &listenAddr,
+-               std::string name);
++               std::string name,
++               bool nativeProfile = false);
+
+     ~HttpServer();
+
+@@ -78,7 +79,7 @@
+   private:
+     friend class HttpInternalForwardHelper;
+
+-    static void onConnection(const trantor::TcpConnectionPtr &conn);
++    void onConnection(const trantor::TcpConnectionPtr &conn);
+     static void onMessage(const trantor::TcpConnectionPtr &,
+                           trantor::MsgBuffer *);
+     static void onRequests(const trantor::TcpConnectionPtr &,
+@@ -146,6 +147,7 @@
+         const std::vector<std::pair<HttpResponsePtr, bool>> &responses,
+         trantor::MsgBuffer &buffer);
+
++    const bool nativeProfile_;
+     trantor::TcpServer server_;
+
+     std::function<void(int)> beforeListenSetSockOptCallback_;

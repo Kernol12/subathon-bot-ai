@@ -18,6 +18,40 @@ startup policy, callback ownership, local commands and bounded diagnostics.
 No vendor patch, new framework, general allocator or process subsystem is chosen
 by this boundary. Exact private SDK ABI remains a separate source/admission gate.
 
+### Explicit listener admission
+
+Policy installation is process-wide; connection admission is listener-specific.
+The admitted SDK must expose an explicit startup listener marker, defaulting to
+ordinary HTTP behavior. Only a listener registered with that marker uses this
+profile's incomplete-upgrade owner slots, Upgrade deadline, direct-native-TLS
+refusal and native socket retirement. No path, peer address, registration order
+or process-global installed-policy test implicitly marks an ordinary listener.
+Registration of a marked listener requires the installed profile before startup;
+ordinary listeners retain their own HTTP/TLS/timeout policy unchanged.
+While a profile is installed, an ordinary listener refuses WebSocket Upgrade with
+a bounded non-101 response or connection close before WebSocket controller dispatch.
+It must never fall back to the stock WebSocket parser on that listener; ordinary
+HTTP endpoint, asset and webhook handling remains available.
+
+The selected SDK refinement adds a final `bool nativeProfile = false` argument to
+`HttpAppFramework::addListener`, carried through `ListenerInfo` to its actual
+`HttpServer` instances, and exports the header feature marker
+`DROGON_SUBATHON_NATIVE_PROFILE_V1`. This is part of the exact corrected SDK ABI,
+not a provider capability or general ingress extension. Marked native TLS is
+refused before listening. On the marked listener, a completed ordinary HTTP
+request is refused with a bounded response rather than entering ordinary endpoint
+dispatch. Pre-parser request/header/log byte admission remains the later ingress
+owner's obligation; this does not claim full H1 safety.
+
+The fixture's corrected build explicitly marks its loopback listener; its stock
+build retains the original public call. This necessary listener-selection wiring
+and additive isolation tests need independent review before use. Existing wire,
+resource and deadline assertions remain unchanged, and original stock red remains
+preserved. API-001 must later configure the ordinary HTTP and dedicated native
+listeners in the same process; Caddy routing, authenticated Upgrade, host readiness
+and deployment verification remain separate gates. This internal separation does
+not reduce the specified HTTP, webhook, WebSocket or TLS release scope.
+
 The stock factory returns Unimplemented, creates no Profile or lease and touches
 no native state or elapsed source. Its backend query reports stock upstream.
 Other methods have linkable out-of-line stubs returning Unimplemented, with empty
@@ -328,6 +362,9 @@ calling it weak or invalidated does not erase its retained queue/control block.
 New admission refuses when all live-or-retiring owner slots are occupied. The
 same lifetime rule holds the separate finite incomplete-upgrade owner slots until
 their actual work is gone. There is no unbounded retired-owner/history list.
+Before establishment, an incomplete upgrade counts only in `upgrade_owners`, not
+`owners_live_or_retiring`; promotion transfers its count to the established/retiring
+budget. An ordinary HTTP listener's connections consume neither profile budget.
 
 Consequently total outstanding lease handles are also bounded by the checked
 connections*slots product, including outstanding leases from closed connections:
@@ -360,7 +397,10 @@ Use the native profile's separate control reserve. `start_close` validates Local
 under the frozen set/direction/reason rules, latches its first deadline and native
 state on the IO loop, and enqueues at most one Close behind already admitted output.
 Repeated calls return already_closing without rewriting peer observation or resetting
-time. It does not prematurely half-close away the peer handshake. `recheck_deadlines`
+time. It does not prematurely half-close away the peer handshake. A legal peer frame
+sequence after local Close is parsed and its data discarded without delivery; that
+sequence alone does not cause teardown or erase the unfinished-message sequence state.
+`recheck_deadlines`
 is a narrow native-owner wake: reads the configured source and invokes the SAME
 native deadline/continuation entry check used by actual IO/timer callbacks. It accepts
 no caller-supplied time, does not advance/fix time and creates no parallel timer.

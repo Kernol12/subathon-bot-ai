@@ -140,7 +140,7 @@ No additional operational login/session lifecycle or platform capability follows
 
 Transport, lifecycle mutations, current clock production, and lossless/secret-safe
 ingress have reviewed documents and literal examples. They are contracts, without
-implemented native parser patch, proxy admission, actual login, session issuance,
+proxy admission, actual login, session issuance,
 application-bound source hosts, trustworthy runtime clock or permission enforcement. Hardware
 password benchmarking and Linux/Windows package/security checks remain open.
 See [transport #74](https://github.com/Kernol12/subathon-bot-ai/pull/74),
@@ -195,8 +195,8 @@ The [host lifecycle and native WebSocket profile #107](https://github.com/Kernol
 now have independently reviewed documents and 17/22 literal examples. They define
 actual invocation/publication/readiness ownership, monotonic resource deadlines,
 writer cancellation/drain and finite protocol/control/fragment/Close obligations.
-These contracts are document proof; selected source correction and actual
-host/readiness producers remain. All 19 final65c CI checks and independent packet/CI
+These contracts are document proof; actual host/readiness producers remain.
+The selected native source correction is recorded below. All 19 final65c CI checks and independent packet/CI
 reviews passed before normal PR107 mergeb27ff138. Account H1 Upgrade
 refusal and complete synchronization/authorization scope remain unchanged.
 
@@ -208,10 +208,25 @@ and 59 errors: 34 missing-profile results, one wrong-Pong assertion, 45 early EO
 and 14 receive timeouts after successful upgrades. Diagnostic capture and cleanup
 have no failure verdicts; three infrastructure nodes and 39 tooling methods pass.
 First compile, sandbox and diagnostic-capture failures remain recorded separately.
-The CI lane is limited to compilation, passive inventory and existing infrastructure.
-Profile resource capacities/deadlines, WS21/22, corrected native source and actual
-host/platform support remain open; `Unimplemented` establishes no native capacity.
-Current check/review/normal-merge evidence is in PR108. Work stops after this baseline.
+That baseline's CI was limited to compilation, passive inventory and infrastructure;
+`Unimplemented` establishes no native capacity. Its check/review/normal-merge evidence
+remains in PR108.
+
+API-012's corrected native profile now passes all 44 real Linux loopback methods,
+including six reviewed listener/lifecycle additions. Exact source/resource, SDK/ABI
+and fixture reviews are approved. The scrubbed complete 18-object loaded map matches
+the admitted local artifacts, and all 1,563 inputs stayed unchanged during the run.
+The first 43/44 run and the independently diagnosed retirement-sampling fixture
+failure remain preserved; every test method/assertion is retained. Source review
+also establishes nonfragmenting storage and pre-read/pre-growth bounds beyond what
+snapshots alone prove. The independently approved corrected CI recipe also passes all 44 methods through
+CTest on Ubuntu, plus three infrastructure nodes; its complete 14-object loaded map
+(main, vDSO and 12 library files) matches the host-specific passive admission.
+Independent hosted-results and native runtime/code review is approved at `d554934`.
+[PR110](https://github.com/Kernol12/subathon-bot-ai/pull/110) records final packet review,
+latest-head checks and the normal protected merge gate. Direct native TLS, Caddy/proxy routing,
+actual ready host/session clock/auth/sync and full platform/release proof remain
+separate. The owner authorized completion of API-012 only, followed by a stop.
 
 ## Presentation and clients
 

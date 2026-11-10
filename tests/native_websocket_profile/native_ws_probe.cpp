@@ -19,6 +19,7 @@
 #include <ctime>
 #include <deque>
 #include <fcntl.h>
+#include <functional>
 #include <future>
 #include <iostream>
 #include <limits>
@@ -589,8 +590,39 @@ class Harness {
         app.setLogLevel(trantor::Logger::kFatal)
             .disableSigtermHandling()
             .setThreadNum(1)
-            .addListener("127.0.0.1", 0)
             .setIdleConnectionTimeout(0);
+        if (settings_["idle_observer"].asBool())
+            app.setIdleConnectionTimeout(2); // Selected TimingWheel requires timeout > 1s.
+#if defined(DROGON_SUBATHON_NATIVE_PROFILE_V1)
+        // Startup-factory refusal cases must still start an ordinary native framework.
+        if (created)
+            app.addListener("127.0.0.1", 0, false, "", "", false, {}, true);
+        else
+            app.addListener("127.0.0.1", 0);
+#else
+        if (backend == ws::Backend::admitted_corrected)
+            return 94; // SETUP: corrected SDK lacks explicit listener-selection wiring.
+        app.addListener("127.0.0.1", 0);
+#endif
+        if (settings_["ordinary_listener"].asBool()) {
+            app.addListener("127.0.0.1", 0); // Default policy, in the SAME Drogon process.
+            app.registerHandler(
+                "/ordinary-probe",
+                [this](const drogon::HttpRequestPtr &,
+                       std::function<void(const drogon::HttpResponsePtr &)> &&callback) {
+                    if (++ordinaryRequests_ > 16)
+                        std::_Exit(92);
+                    auto observed = event("ordinary_request");
+                    observed["ordinal"] = ordinaryRequests_;
+                    events_.emit(observed);
+                    auto response = drogon::HttpResponse::newHttpResponse();
+                    response->setContentTypeCode(drogon::CT_TEXT_PLAIN);
+                    response->setBody("ordinary-ok\n");
+                    response->addHeader("X-Probe-Request", std::to_string(ordinaryRequests_));
+                    callback(response);
+                },
+                {drogon::Get});
+        }
         app.registerController(std::make_shared<Controller>());
         if (backend == ws::Backend::stock_upstream)
             app.setClientMaxWebSocketMessageSize(1048576).setMaxConnectionNum(64);
@@ -604,10 +636,16 @@ class Harness {
         app.registerBeginningAdvice([this] {
             drogon::app().getLoop()->queueInLoop([this] {
                 const auto listeners = drogon::app().getListeners();
-                if (listeners.size() != 1)
+                const bool ordinary = settings_["ordinary_listener"].asBool();
+                if (listeners.size() != (ordinary ? 2u : 1u))
                     std::_Exit(74);
+                // Selected Linux ListenerManager returns actual bound addresses in registration
+                // order for this ONE IO loop. This labels ports only; SDK admission uses the bool.
                 const auto port = listeners.front().toPort();
-                drogon::app().getIOLoop(0)->queueInLoop([this, port] {
+                const auto ordinaryPort = ordinary ? listeners.back().toPort() : 0;
+                if (port == 0 || (ordinary && (ordinaryPort == 0 || ordinaryPort == port)))
+                    std::_Exit(74);
+                drogon::app().getIOLoop(0)->queueInLoop([this, port, ordinaryPort] {
                     const auto action = settings_["factory_action"].asString();
                     if (action == "after_start" || action == "repeat_after_start") {
                         create(action == "repeat_after_start");
@@ -621,6 +659,8 @@ class Harness {
                     auto ready = event("ready");
                     ready["port"] = port;
                     ready["profile"] = profile_ != nullptr;
+                    if (ordinaryPort != 0)
+                        ready["ordinary_port"] = ordinaryPort;
                     events_.emit(ready);
                 });
             });
@@ -648,6 +688,37 @@ class Harness {
         auto v = event("opened");
         v["connection"] = id;
         events_.emit(v);
+        if (settings_["idle_observer"].asBool()) {
+            if (!profile_ || id != 1 || idleObserver_ != trantor::InvalidTimerId)
+                std::_Exit(93); // This optional observer permits exactly one WS peer/timer.
+            const auto began = std::chrono::steady_clock::now();
+            idleObserverOwner_ = trantor::EventLoop::getEventLoopOfCurrentThread();
+            idleObserver_ = idleObserverOwner_->runEvery(
+                0.5s, [this, weak = std::weak_ptr<drogon::WebSocketConnection>(connection), id, began] {
+                    if (idleObserverTicks_ == 7)
+                        std::_Exit(93);
+                    if (++idleObserverTicks_ == 7) {
+                        idleObserverOwner_->invalidateTimer(idleObserver_);
+                        idleObserver_ = trantor::InvalidTimerId;
+                    }
+                    auto observed = event("idle_observed");
+                    observed["connection"] = id;
+                    observed["ordinal"] = idleObserverTicks_;
+                    observed["elapsed_ns"] = Json::UInt64(
+                        std::chrono::duration_cast<std::chrono::nanoseconds>(
+                            std::chrono::steady_clock::now() - began)
+                            .count());
+                    // Observation only: no deadline recheck, send, close or state mutation.
+                    const auto connection = weak.lock();
+                    if (!connection)
+                        std::_Exit(93);
+                    const auto result = profile_->inspect(connection);
+                    observed["inspection"] = status(result);
+                    if (const auto *s = std::get_if<ws::Snapshot>(&result))
+                        observed["inspection"]["snapshot"] = snapshot(*s);
+                    events_.emit(observed);
+                });
+        }
     }
     void closed(const ws::Connection &connection) {
         const auto id = find(connection);
@@ -798,6 +869,15 @@ class Harness {
         if (stopping_)
             return;
         stopping_ = true;
+        if (retirementObserver_ != trantor::InvalidTimerId) {
+            controlOwner_->invalidateTimer(retirementObserver_);
+            retirementObserver_ = trantor::InvalidTimerId;
+        }
+        retirementObserverRequest_ = 0;
+        if (idleObserver_ != trantor::InvalidTimerId) {
+            idleObserverOwner_->invalidateTimer(idleObserver_);
+            idleObserver_ = trantor::InvalidTimerId;
+        }
         // All teardown is on the initialized IO owner, including wrong-owner failures.
         // Cleanup is deliberately explicit and cannot count as tested native teardown.
         for (auto &slot : held_)
@@ -887,6 +967,47 @@ class Harness {
                 v = result(v, status(r));
                 if (const auto *s = std::get_if<ws::GlobalSnapshot>(&r))
                     v["snapshot"] = global(*s);
+            } else if (op == "observe_global") {
+                if (stopping_ || retirementObserverRequest_ != 0 ||
+                    trantor::EventLoop::getEventLoopOfCurrentThread() != controlOwner_)
+                    throw std::runtime_error("global observer ownership");
+                const auto request = c["request"].asUInt64();
+                if (request == 0)
+                    throw std::runtime_error("global observer request");
+                retirementObserverRequest_ = request;
+                retirementObserverTicks_ = 0;
+                retirementObserver_ = controlOwner_->runEvery(0.01, [this, request] {
+                    if (stopping_ || retirementObserverRequest_ != request)
+                        return;
+                    if (retirementObserverTicks_ == 64)
+                        std::_Exit(95);
+                    const auto ordinal = ++retirementObserverTicks_;
+                    if (ordinal == 64) {
+                        controlOwner_->invalidateTimer(retirementObserver_);
+                        retirementObserver_ = trantor::InvalidTimerId;
+                    }
+                    auto observed = event("global_observed");
+                    observed["observation_request"] = Json::UInt64(request);
+                    observed["ordinal"] = ordinal;
+                    const auto value = profile_->inspect_global();
+                    observed["inspection"] = status(value);
+                    if (const auto *s = std::get_if<ws::GlobalSnapshot>(&value))
+                        observed["inspection"]["snapshot"] = global(*s);
+                    events_.emit(observed);
+                });
+                v["status"] = "ok";
+                v["observation_request"] = Json::UInt64(request);
+            } else if (op == "observe_global_stop") {
+                const auto request = c["observation_request"].asUInt64();
+                if (request == 0 || request != retirementObserverRequest_ ||
+                    trantor::EventLoop::getEventLoopOfCurrentThread() != controlOwner_)
+                    throw std::runtime_error("global observer stop ownership");
+                if (retirementObserver_ != trantor::InvalidTimerId)
+                    controlOwner_->invalidateTimer(retirementObserver_);
+                retirementObserver_ = trantor::InvalidTimerId;
+                retirementObserverRequest_ = 0;
+                v["status"] = "ok";
+                v["observation_request"] = Json::UInt64(request);
             } else if (op == "recheck")
                 v = result(v, status(profile_->recheck_deadlines(connection)));
             else if (op == "claim") {
@@ -1064,10 +1185,17 @@ class Harness {
     std::mutex peersMutex_;
     std::array<Peer, maxPeers> peers_{};
     unsigned peerCount_ = 0;
+    unsigned ordinaryRequests_ = 0; // Optional synthetic route, on the sole IO owner.
     std::array<Held, maxLeases> held_{};
     unsigned leaseSequence_ = 0;
     std::atomic<bool> finishReader_{false}, pending_{false}, failed_{false}, stopRequested_{false};
     trantor::EventLoop *controlOwner_ = nullptr;
+    trantor::TimerId idleObserver_ = trantor::InvalidTimerId;
+    trantor::EventLoop *idleObserverOwner_ = nullptr;
+    unsigned idleObserverTicks_ = 0; // At most seven read-only observations on one IO owner.
+    trantor::TimerId retirementObserver_ = trantor::InvalidTimerId;
+    unsigned retirementObserverTicks_ = 0; // At most 64 snapshots per explicitly armed request.
+    Json::UInt64 retirementObserverRequest_ = 0;
     bool stopping_ = false, quotaObserverQueued_ = false;
     std::thread reader_;
 };

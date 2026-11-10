@@ -1,0 +1,50 @@
+{
+  "format": 1,
+  "status": "implementation_candidate_not_admitted",
+  "profile": "subathon.native-websocket-profile.v1.api012-candidate4",
+  "upstreams": {
+    "drogon": "3aae769cc405cf5abb9d477675c6430924f02c7c",
+    "trantor": "78e480f5e138acdc05f76c55a2716718cd846364"
+  },
+  "ordered_patches": [
+    {
+      "file": "0001-trantor-native-io.patch",
+      "apply_at": "trantor",
+      "sha256": "3d6738d658f4ef8cee7c06bd338e1a4e08a55da51a935cb07487661765a1e988"
+    },
+    {
+      "file": "0002-drogon-native-dispatch.patch",
+      "apply_at": "drogon",
+      "sha256": "10e950f63492627ca4b148d79f59630bbf41e47e52361d8aa4ef88bf4ef14852"
+    }
+  ],
+  "build_options": {
+    "CMAKE_BUILD_TYPE": "Release",
+    "CMAKE_CXX_STANDARD": "20",
+    "CMAKE_CXX_STANDARD_REQUIRED": "ON",
+    "CMAKE_INSTALL_LIBDIR": "lib",
+    "BUILD_SHARED_LIBS": "ON",
+    "USE_SUBMODULE": "ON",
+    "BUILD_ORM": "OFF",
+    "BUILD_CTL": "OFF",
+    "BUILD_EXAMPLES": "OFF",
+    "BUILD_TESTING": "OFF",
+    "BUILD_DOC": "OFF",
+    "BUILD_BROTLI": "OFF",
+    "BUILD_YAML_CONFIG": "OFF",
+    "BUILD_C-ARES": "OFF",
+    "USE_SPDLOG": "OFF",
+    "TRANTOR_USE_TLS": "openssl"
+  },
+  "first_party": {
+    "file": "server/src/native_websocket_profile.cpp",
+    "sha256": "a5c2dd0a0a4ec87a769b4509686d0a5457f253b59417706e6445b036a535d0ac"
+  },
+  "required_notices": [
+    "Drogon LICENSE",
+    "Trantor License",
+    "orm_lib/COPYING",
+    "applicable bundled and actual direct/transitive dependency notices",
+    "project GPL-3.0-or-later LICENSE and correction provenance"
+  ]
+}
