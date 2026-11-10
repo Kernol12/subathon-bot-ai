@@ -38,7 +38,10 @@ and closing reviews for each substantive stage, with Codex fixes and separate Co
 verification between them. Concise handoffs retain earlier findings and valid approvals;
 test-first and task-specific gates remain separate. This documentation changes no
 runtime behavior, provider settings or authorization to resume product work. The task
-record links actual reviews, checks and publication evidence when available.
+record and [PR111](https://github.com/Kernol12/subathon-bot-ai/pull/111) record the
+initial Opus findings, independent Codex verification and closing Opus approval at
+4452648. Project/progress checks and tooling50 pass; latest-head CI and the normal
+merge remain publication gates.
 
 ## Core time and exact arithmetic
 

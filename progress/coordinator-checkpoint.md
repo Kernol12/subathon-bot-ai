@@ -5,30 +5,30 @@ Claude reviewer; do not substitute Sonnet. Product work remains stopped after AP
 merged in [PR110](https://github.com/Kernol12/subathon-bot-ai/pull/110), main 5ba0bdb.
 APITEST-001/API-001 and actual session-clock binding remain unauthorized.
 
-## Current task
+## Current task and proof
 
-- Branch: `task/WORKFLOW-002-opus-review-cycle`, based on current main 5ba0bdb.
+- Branch: `task/WORKFLOW-002-opus-review-cycle`, based on main 5ba0bdb.
 - [Brief](../docs/tasks/WORKFLOW-002.md); [authoritative state](state.json).
-- Coordinator: codex:9bae765e-bb17-4f99-8859-1361d2e80d35. Owns brief, task index,
-  state, generated HTML, evidence summary and this checkpoint.
-- Fresh Codex author `/root/guidance_author` owns only AGENTS.md, CLAUDE.md,
-  docs/AGENT_WORKFLOW.md and docs/COORDINATOR_PROMPT.md. No other writer is assigned.
-- Initial Opus reviewed f545802: changes requested. Clarified mandatory Codex and
-  closing Opus verification even without initial blockers (owner-requested two passes),
-  material post-approval re-entry, both-provider quota handling and uncertain scope.
-  Reviewer: claude-opus-5-5, delegate e6923a50-ea9d-4d4e-af04-d6b4b41625de.
-- Independent Codex `/root/guidance_codex_review` APPROVED 702bcfa and the
-  evidence-summary paragraph, ready for closing Opus only. Author and reviewer
-  handoffs are complete; neither is assumed active.
-- Pending:
-  closing Opus approval, project/progress checks, PR/current CI and normal protected
-  merge. Project/link/progress checks passed (469 tasks), tooling50 passed; CI pending. No runtime behavior or tests change.
+- [PR111](https://github.com/Kernol12/subathon-bot-ai/pull/111) is the guidance PR.
+- Coordinator: codex:9bae765e-bb17-4f99-8859-1361d2e80d35. Fresh Codex author
+  `/root/guidance_author` and reviewer `/root/guidance_codex_review` have completed
+  their handoffs. No old assignment is assumed active.
+- Initial Opus reviewed f545802 (e6923a50), requiring clearer review paths.
+  Corrections at702bcfa preserve both owner-requested Opus passes, require re-entry
+  after material changes, and cover quota blocks and uncertain classification.
+- Independent Codex approved702bcfa plus the evidence paragraph. Closing Opus
+  APPROVED clean4452648284eb64d3bac1cb1df14e4826f5fb2043 (ea03a568).
+  Subsequent edits only record actual reviews/checks and final publication steps.
+- Project/link/progress checks passed (469 tasks), tooling50 and diff checks passed.
+  Guidance component is complete; no runtime behavior, tests or provider settings
+  changed. Hosted CI and protected merge are publication gates, not claimed passed.
 
-## Next action
+## Next action and stop
 
-The author handoff is integrated. Resolve initial findings through Codex fixes and
-separate Codex review before closing
-Opus review. Retain all task-specific gates and unchanged valid approvals. Publish
-one focused PR, merge only after latest checks/reviews/protection pass, then stop.
-Detailed API-012 receipts remain in PR110, ignored local-evidence/API-012 and git history;
-this task does not reopen its completed gates or replay native acceptance.
+Push the completion metadata, update the PR body with actual reviews and mark ready.
+Require all applicable latest-head CI checks, no unresolved discussions and live
+repository protection before a normal merge with the exact head guard. Refresh main,
+unwatch if watched, then stop. Record merge/check receipts in PR111 rather than a
+follow-up metadata commit. If resumed after merge, verify and stop. Detailed API-012
+receipts remain in PR110, ignored local-evidence/API-012 and git history; do not reopen
+completed product gates or replay native acceptance for this guidance task.

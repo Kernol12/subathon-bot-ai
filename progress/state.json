@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-10T20:49:54+00:00",
+  "updated_at": "2026-11-10T20:52:01+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. The owner authorized API-012 only, followed by a stop.",
   "verification": [
     {
@@ -15557,7 +15557,7 @@
       "title": "Opus stage reviews with Codex correction cycles",
       "module": "Quality and tooling",
       "kind": "implementation",
-      "status": "in_review",
+      "status": "done",
       "owner": "codex:coordinator-9bae765e-bb17-4f99-8859-1361d2e80d35",
       "depends_on": [
         "WORKFLOW-001"
@@ -15569,17 +15569,26 @@
       "brief": "docs/tasks/WORKFLOW-002.md",
       "summary": "Keep Opus initial/closing stage reviews and use independent Codex correction cycles between them.",
       "notes": [
-        "Guidance and initial Opus corrections verified by a separate Codex reviewer at 702bcfa plus the evidence paragraph. Project/progress checks and tooling50 pass. Closing Opus, latest CI and normal protected merge remain; no product work resumed."
+        "AI guidance keeps Opus initial/closing reviews with separate Codex correction reviews. Initial Opus findings resolved; independent Codex and closing Opus approved. Project/progress checks and tooling50 pass; PR111 records latest CI and normal merge gates. Product work remains stopped."
       ],
       "verification": {
         "implementation": "passed",
         "acceptance": "passed",
-        "code_review": "partial",
+        "code_review": "passed",
         "tooling": "passed",
-        "codex_review": "passed"
+        "codex_review": "passed",
+        "github_ci": "not_run"
       },
-      "evidence": [],
-      "review": {}
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/111"
+      ],
+      "review": {
+        "author": "codex:/root/guidance_author; codex:coordinator-9bae765e",
+        "reviewer": "claude-opus-5-5:initial-e6923a50/closing-ea03a568; codex:/root/guidance_codex_review",
+        "outcome": "approved",
+        "revision": "Initial Opus f545802 findings resolved at702bcfa; independent Codex approved702bcfa plus evidence paragraph; closing Opus approved clean4452648284eb64d3bac1cb1df14e4826f5fb2043. Only factual completion metadata follows; latest-head CI and normal merge remain PR111 gates.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/111"
+      }
     }
   ],
   "activity": [
