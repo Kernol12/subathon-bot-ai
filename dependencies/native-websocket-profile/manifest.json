@@ -1,7 +1,7 @@
 {
   "format": 1,
   "status": "implementation_candidate_not_admitted",
-  "profile": "subathon.native-websocket-profile.v1.api012-candidate1",
+  "profile": "subathon.native-websocket-profile.v1.api012-candidate2",
   "upstreams": {
     "drogon": "3aae769cc405cf5abb9d477675c6430924f02c7c",
     "trantor": "78e480f5e138acdc05f76c55a2716718cd846364"
@@ -10,12 +10,12 @@
     {
       "file": "0001-trantor-native-io.patch",
       "apply_at": "trantor",
-      "sha256": "4e73c67bc7bc13f5b5a4aefbc675c559258252805e3919b5e4b9e28897f90e0a"
+      "sha256": "3d6738d658f4ef8cee7c06bd338e1a4e08a55da51a935cb07487661765a1e988"
     },
     {
       "file": "0002-drogon-native-dispatch.patch",
       "apply_at": "drogon",
-      "sha256": "34573df89aca1ea84ff05dd9d84179824a7084903ed91485550808e16e254f2e"
+      "sha256": "efc7ca60dcb419f0670188438906a26e6d1458bb8fb7c4a6748945c674ab7a39"
     }
   ],
   "build_options": {
@@ -38,7 +38,7 @@
   },
   "first_party": {
     "file": "server/src/native_websocket_profile.cpp",
-    "sha256": "f8c0da41a297ed6e4619dcf06f03a7e2b2a004da39aa6f6fe2adef97fe42d40e"
+    "sha256": "a80105ead7726bc6d20689cb04633a32e17d5390f47806ff605557a82c4d91be"
   },
   "required_notices": [
     "Drogon LICENSE",

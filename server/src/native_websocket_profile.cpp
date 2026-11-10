@@ -49,15 +49,16 @@ struct Buffer {
     void reset() noexcept;
 };
 
-// One private, byte-aligned payload arena. There is no per-payload libc allocation,
-// terminator, geometric growth, SSO or hidden encoded copy. Metadata never lives in
-// a payload extent. The complete mapping (including page tail) is bounded at startup.
+// Fixed, disjoint owner regions followed by equal M-byte assembly/lease slots.
+// Offsets and capacities never depend on allocation history. The entire backing
+// mapping (including unused regions and page tail) is reserved at startup.
 struct Context : std::enable_shared_from_this<Context> {
     const Limits limits;
     const std::shared_ptr<const ElapsedSource> source;
     mutable std::recursive_mutex mutex;
     std::vector<std::shared_ptr<Owner>> owners;
     std::vector<Block> blocks;
+    std::vector<unsigned char> regions;
     void *mapping{MAP_FAILED};
     U mapping_size{}, arena_size{};
     GlobalSnapshot global{};
@@ -67,33 +68,29 @@ struct Context : std::enable_shared_from_this<Context> {
         if (mapping != MAP_FAILED)
             ::munmap(mapping, mapping_size);
     }
-    Buffer allocate(U size) {
-        std::lock_guard lock(mutex);
+    Buffer take(std::size_t slot) noexcept {
         Buffer result;
-        if (!size)
+        auto &b = blocks[slot];
+        if (b.live)
             return result;
-        auto free =
-            std::find_if(blocks.begin(), blocks.end(), [](const auto &b) { return !b.live; });
-        if (free == blocks.end())
-            return result;
-        U offset = 0;
-        for (;;) {
-            if (size > arena_size - offset)
-                return result;
-            U next = offset;
-            for (const auto &b : blocks)
-                if (b.live && offset < b.offset + b.size && b.offset < offset + size)
-                    next = std::max(next, b.offset + b.size);
-            if (next == offset)
-                break;
-            offset = next;
-        }
-        *free = {offset, size, true};
+        b.live = true;
         result.context = shared_from_this();
-        result.slot = free - blocks.begin();
-        result.capacity = size;
-        result.data = static_cast<std::byte *>(mapping) + offset;
+        result.slot = slot;
+        result.capacity = b.size;
+        result.data = static_cast<std::byte *>(mapping) + b.offset;
         return result;
+    }
+    Buffer region(U owner, U kind) noexcept {
+        std::lock_guard lock(mutex);
+        return take(static_cast<std::size_t>(owner * 3 + kind));
+    }
+    Buffer message() noexcept {
+        std::lock_guard lock(mutex);
+        const auto first = blocks.begin() + static_cast<std::ptrdiff_t>(limits.connections * 3);
+        const auto free = std::find_if(first, blocks.end(), [](const auto &b) { return !b.live; });
+        if (free == blocks.end())
+            return {};
+        return take(static_cast<std::size_t>(free - blocks.begin()));
     }
     void retire(const std::shared_ptr<Owner> &) noexcept;
 };
@@ -102,7 +99,7 @@ void Buffer::reset() noexcept {
         return;
     auto keep = std::move(context);
     std::lock_guard lock(keep->mutex);
-    keep->blocks[slot] = {};
+    keep->blocks[slot].live = false;
     data = nullptr;
     capacity = 0;
 }
@@ -145,24 +142,30 @@ bool status_code(unsigned code) noexcept {
     return (code >= 1000 && code <= 1003) || (code >= 1007 && code <= 1014) ||
            (code >= 3000 && code <= 4999);
 }
-constexpr U fixed_scratch =
-    sizeof(std::array<std::byte, 4>) + sizeof(std::array<std::byte, 125>) + sizeof(PeerClose);
+constexpr U fixed_scratch = sizeof(std::array<std::byte, 4>) + sizeof(std::array<std::byte, 125>) +
+                            sizeof(PeerClose) + 3 * sizeof(unsigned);
 thread_local Owner *delivery = nullptr;
 
 struct Owner final : drogon::native_profile::Session, std::enable_shared_from_this<Owner> {
     std::shared_ptr<Context> context;
     std::weak_ptr<trantor::TcpConnection> tcp;
     std::weak_ptr<drogon::WebSocketConnection> connection;
+    drogon::WebSocketConnection *connection_object{}; // Identity only; never dereferenced.
     trantor::EventLoop *loop;
     std::thread::id thread;
     std::function<void(unsigned)> dispatch;
     Buffer raw, assembly, output, controls;
-    U raw_begin{}, raw_end{}, assembly_size{}, message_frames{}, output_size{}, output_offset{};
+    U raw_begin{}, raw_end{}, assembly_size{}, message_size{}, message_frames{}, output_size{},
+        output_offset{};
+    U region_slot{maximum};
+    // Streaming Text validation survives payload discard during local closing.
+    unsigned text_scalar{}, text_minimum{}, text_remaining{};
     U leases{}, lease_bytes{}, lease_peak{}, bytes_peak{}, work{};
     U ws_read{}, ws_consumed{}, frames{}, last_turn{}, ingress_capacity{};
     ByteCounters peak{};
     U fixed_peak{fixed_scratch};
-    bool established{}, terminal{}, detached_native{}, continuation{}, sent{}, received{};
+    bool established{}, upgrade_pending{}, terminal{}, detached_native{}, continuation{}, sent{},
+        received{};
     bool error_drain{}, claimed{}, in_dispatch{}, native_callback{};
     unsigned message_opcode{}, opcode{};
     bool active{}, fin{};
@@ -241,38 +244,61 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
         if (auto t = tcp.lock())
             t->requestNativeProfileWrite();
     }
-    bool bind(const Connection &c, std::function<void(unsigned)> callback) noexcept override {
-        if (terminal || established || guard())
+    bool beginUpgrade() noexcept override {
+        if (std::this_thread::get_id() != thread || !loop->isInLoopThread()) {
+            force();
             return false;
-        std::lock_guard lock(context->mutex);
-        if (context->global.owners_live_or_retiring >= limits().connections)
+        }
+        if (terminal || established || upgrade_pending || guard())
+            return false;
+        // Leave all HTTP read-ahead in place. Until the synchronous owner-thread
+        // handoff, readiness notifications must not read/parse another HTTP chunk.
+        upgrade_pending = true;
+        return true;
+    }
+    bool bind(const Connection &c, std::function<void(unsigned)> callback) noexcept override {
+        // Never touch the native buffer or elapsed state on an async advice thread.
+        if (std::this_thread::get_id() != thread || !loop->isInLoopThread()) {
+            force();
+            return false;
+        }
+        if (terminal || established || !upgrade_pending || guard())
             return false;
         try {
             auto transport = tcp.lock();
             if (!transport)
                 return false;
             auto *input = transport->getRecvBuffer();
-            const U existing = input->readableBytes() ? input->nativeProfileCapacity() : 0;
+            if (!input->readableBytes())
+                input->releaseNativeProfileStorage();
+            const U existing = input->nativeProfileCapacity();
             const U raw_size = std::min<U>(4096, limits().raw_capacity_bytes);
             if (existing > limits().raw_capacity_bytes - raw_size)
                 return false;
-            ingress_capacity = existing;
-            raw = context->allocate(raw_size);
-            controls = context->allocate(254);
-            if (!raw.data || !controls.data) {
-                raw.reset();
-                controls.reset();
-                return false;
+            {
+                std::lock_guard lock(context->mutex);
+                if (context->global.owners_live_or_retiring >= limits().connections)
+                    return false;
+                auto slot = std::find(context->regions.begin(), context->regions.end(), 0);
+                if (slot == context->regions.end())
+                    return false;
+                region_slot = static_cast<U>(slot - context->regions.begin());
+                *slot = 1; // Held through terminal + leases + queued work retirement.
+                ingress_capacity = existing;
+                raw = context->region(region_slot, 0);
+                controls = context->region(region_slot, 1);
+                connection = c;
+                connection_object = c.get();
+                dispatch = std::move(callback);
+                established = true;
+                --context->global.upgrade_owners;
+                ++context->global.owners_live_or_retiring;
+                context->global.owners_peak =
+                    std::max(context->global.owners_peak, context->global.owners_live_or_retiring);
+                upgrade_deadline.reset();
+                peaks();
             }
-            connection = c;
-            dispatch = std::move(callback);
-            established = true;
-            --context->global.upgrade_owners;
-            ++context->global.owners_live_or_retiring;
-            context->global.owners_peak =
-                std::max(context->global.owners_peak, context->global.owners_live_or_retiring);
-            upgrade_deadline.reset();
-            peaks();
+            transport->establishNativeProfile();
             return true;
         } catch (...) {
             force();
@@ -280,6 +306,10 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
         }
     }
     void initial(trantor::MsgBuffer *input) noexcept override {
+        if (std::this_thread::get_id() != thread || !loop->isInLoopThread()) {
+            force();
+            return;
+        }
         auto source = tcp.lock();
         if (!source || input != source->getRecvBuffer() || !established || terminal || guard())
             return;
@@ -319,7 +349,7 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
         if (guard())
             return true;
         if (!established)
-            return false;
+            return upgrade_pending;
         if (continuation)
             return true;
         if (raw_begin) {
@@ -506,10 +536,10 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
         }
         if (!anchor(close_deadline, limits().close_ms))
             return Failure::elapsed_unavailable;
+        // Retain frame/fragment sequence, aggregate counts, UTF-8 state and all
+        // original anchors. Subsequent legal fragments are validated/discarded.
         assembly.reset();
         assembly_size = 0;
-        message_opcode = 0;
-        message_deadline.reset();
         const U n = has_status ? reason_size + 2 : 0;
         sent = true;
         controls.data[0] = std::byte{0x88};
@@ -544,7 +574,7 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
             return Failure::resource_limit;
         if (op == 1 && !utf8(p, n))
             return Failure::invalid_input;
-        auto buffer = context->allocate(n + header);
+        auto buffer = context->region(region_slot, 2);
         if (!buffer.data)
             return Failure::resource_limit;
         buffer.data[0] = std::byte(0x80 | op);
@@ -653,7 +683,12 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
     void finish_frame() noexcept {
         if (opcode < 8) {
             if (fin) {
+                if (message_opcode == 1 && text_remaining) {
+                    fail(1007);
+                    return;
+                }
                 deliver();
+                message_size = 0;
                 message_opcode = 0;
                 message_frames = 0;
                 message_deadline.reset();
@@ -692,7 +727,7 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
                     std::memcpy(body.reason.data(), control_body.data() + 2, body.reason_size);
                 }
                 assembly.reset();
-                assembly_size = 0;
+                assembly_size = message_size = message_frames = 0;
                 message_opcode = 0;
                 message_deadline.reset();
                 if (!anchor(close_deadline, limits().close_ms))
@@ -741,7 +776,7 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
                 fail(1002);
                 return false;
             }
-            if (length > limits().frame_bytes || length > limits().message_bytes - assembly_size ||
+            if (length > limits().frame_bytes || length > limits().message_bytes - message_size ||
                 message_frames >= limits().frames_per_message) {
                 fail(1009);
                 return false;
@@ -755,8 +790,10 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
             if (opcode != 0) {
                 message_opcode = opcode;
                 message_frames = 0;
+                message_size = 0;
+                text_scalar = text_minimum = text_remaining = 0;
                 if (!sent && !received) {
-                    assembly = context->allocate(limits().message_bytes);
+                    assembly = context->message();
                     if (!assembly.data) {
                         fail(1009);
                         return false;
@@ -772,6 +809,33 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
         payload_offset = 0;
         active = true;
         return consume(bytes + 4);
+    }
+    bool text_byte(unsigned b) noexcept {
+        if (text_remaining) {
+            if ((b & 0xc0) != 0x80)
+                return false;
+            text_scalar = (text_scalar << 6) | (b & 63);
+            if (--text_remaining == 0 && (text_scalar < text_minimum || text_scalar > 0x10ffff ||
+                                          (text_scalar >= 0xd800 && text_scalar <= 0xdfff)))
+                return false;
+        } else if (b < 0x80) {
+            return true;
+        } else if (b >= 0xc2 && b <= 0xdf) {
+            text_scalar = b & 31;
+            text_minimum = 0x80;
+            text_remaining = 1;
+        } else if (b >= 0xe0 && b <= 0xef) {
+            text_scalar = b & 15;
+            text_minimum = 0x800;
+            text_remaining = 2;
+        } else if (b >= 0xf0 && b <= 0xf4) {
+            text_scalar = b & 7;
+            text_minimum = 0x10000;
+            text_remaining = 3;
+        } else {
+            return false;
+        }
+        return true;
     }
     void turn() noexcept {
         if (terminal || guard())
@@ -789,13 +853,20 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
             const U n = std::min(raw_end - raw_begin, payload_length - payload_offset);
             for (U i = 0; i < n; ++i) {
                 const auto b = raw.data[raw_begin + i] ^ mask[(payload_offset + i) % 4];
+                if (opcode < 8 && message_opcode == 1 && !text_byte(std::to_integer<unsigned>(b))) {
+                    fail(1007);
+                    return;
+                }
                 if (opcode >= 8)
                     control_body[payload_offset + i] = b;
                 else if (!sent && !received)
                     assembly.data[assembly_size + i] = b;
             }
-            if (opcode < 8 && !sent && !received)
-                assembly_size += n;
+            if (opcode < 8) {
+                message_size += n; // Header checked the full frame against M.
+                if (!sent && !received)
+                    assembly_size += n;
+            }
             payload_offset += n;
             if (!consume(n))
                 return;
@@ -819,9 +890,10 @@ void Context::retire(const std::shared_ptr<Owner> &owner) noexcept {
         return;
     for (auto &slot : owners)
         if (slot == owner) {
-            if (owner->established)
+            if (owner->established) {
                 --global.owners_live_or_retiring;
-            else
+                regions[owner->region_slot] = 0;
+            } else
                 --global.upgrade_owners;
             slot.reset();
             break;
@@ -836,9 +908,11 @@ std::optional<Failure> find_owner(const std::shared_ptr<Context> &c, const Conne
     for (const auto &owner : c->owners) {
         if (!owner || !owner->established)
             continue;
-        auto registered = owner->connection.lock();
-        if (registered.get() == connection.get() && !registered.owner_before(connection) &&
-            !connection.owner_before(registered)) {
+        // Compare identity without creating a temporary strong native reference:
+        // its last destruction could otherwise invoke shutdown under this mutex.
+        if (owner->connection_object == connection.get() &&
+            !owner->connection.owner_before(connection) &&
+            !connection.owner_before(owner->connection)) {
             result = owner;
             break;
         }
@@ -925,7 +999,7 @@ LeaseResult MessageLease::try_copy() const noexcept {
         return {Unavailable{Failure::resource_limit}};
     try {
         auto copy = std::make_unique<State>();
-        copy->payload = c->allocate(bound);
+        copy->payload = c->message();
         if (bound && !copy->payload.data) {
             release_lease(owner, bound);
             return {Unavailable{Failure::resource_limit}};
@@ -958,9 +1032,10 @@ LeaseResult Profile::accept_callback(const Connection &connection) noexcept {
     if (p->sent || p->received)
         return {Unavailable{Failure::closed}};
     auto c = p->context;
-    std::lock_guard lock(c->mutex);
+    std::unique_lock lock(c->mutex);
     const U charge = p->assembly.capacity;
     if (!reserve_lease(*p, charge)) {
+        lock.unlock();
         p->fail(1009);
         return {Unavailable{Failure::resource_limit}};
     }
@@ -974,6 +1049,7 @@ LeaseResult Profile::accept_callback(const Connection &connection) noexcept {
         return {MessageLease(std::move(value))};
     } catch (...) {
         release_lease(p, charge);
+        lock.unlock();
         p->fail(1009);
         return {Unavailable{Failure::allocation_failure}};
     }
@@ -1014,7 +1090,7 @@ Result<Snapshot> Profile::inspect(const Connection &connection) const noexcept {
     const auto &g = p->context->global;
     Snapshot s{};
     // Fixed framing/masking/control decoding scratch is not a payload arena extent.
-    constexpr U scratch = sizeof(p->mask) + sizeof(p->control_body) + sizeof(p->peer);
+    constexpr U scratch = fixed_scratch;
     s.current = {p->raw.capacity + p->ingress_capacity,
                  p->assembly.capacity,
                  scratch + (p->native_callback ? sizeof(std::string) : 0),
@@ -1113,15 +1189,14 @@ CreateResult create_profile(const Limits &l, std::shared_ptr<const ElapsedSource
         result = a * b;
         return true;
     };
-    U slots, block_count, bytes, per_owner, frame_raw, frame_wire;
+    U slots, block_count, pool_count, bytes, per_owner, frame_raw, frame_wire, pool_bytes;
     if (!add(l.connections, l.incomplete_upgrades, slots) ||
-        !add(l.callback_leases_per_connection, 4, block_count) ||
-        !mul(l.connections, block_count, block_count) ||
-        !add(block_count, l.incomplete_upgrades, block_count) ||
+        !add(l.connections, l.callback_bytes_global / l.message_bytes, pool_count) ||
+        !mul(l.connections, 3, block_count) || !add(block_count, pool_count, block_count) ||
         !add(l.frame_bytes, 14, frame_raw) || !add(l.frame_bytes, 10, frame_wire) ||
-        !add(std::min<U>(4096, l.raw_capacity_bytes), l.message_bytes, per_owner) ||
-        !add(per_owner, l.application_output_bytes, per_owner) || !add(per_owner, 254, per_owner) ||
-        !mul(per_owner, l.connections, bytes) || !add(bytes, l.callback_bytes_global, bytes) ||
+        !add(std::min<U>(4096, l.raw_capacity_bytes), l.application_output_bytes, per_owner) ||
+        !add(per_owner, 254, per_owner) || !mul(per_owner, l.connections, bytes) ||
+        !mul(pool_count, l.message_bytes, pool_bytes) || !add(bytes, pool_bytes, bytes) ||
         !mul(l.connections, l.callback_leases_per_connection, per_owner) ||
         slots > static_cast<U>(std::numeric_limits<std::ptrdiff_t>::max()) /
                     sizeof(std::shared_ptr<Owner>) ||
@@ -1144,6 +1219,21 @@ CreateResult create_profile(const Limits &l, std::shared_ptr<const ElapsedSource
         auto c = std::make_shared<Context>(l, std::move(source));
         c->owners.resize(slots);
         c->blocks.resize(block_count);
+        c->regions.resize(l.connections);
+        U offset = 0;
+        for (U i = 0; i < l.connections; ++i) {
+            for (U kind = 0; kind < 3; ++kind) {
+                const U n = kind == 0   ? std::min<U>(4096, l.raw_capacity_bytes)
+                            : kind == 1 ? 254
+                                        : l.application_output_bytes;
+                c->blocks[i * 3 + kind] = {offset, n, false};
+                offset += n; // Bounded by the checked total above.
+            }
+        }
+        for (U i = l.connections * 3; i < block_count; ++i) {
+            c->blocks[i] = {offset, l.message_bytes, false};
+            offset += l.message_bytes;
+        }
         c->arena_size = bytes;
         c->mapping_size = rounded;
         c->mapping =
@@ -1156,21 +1246,39 @@ CreateResult create_profile(const Limits &l, std::shared_ptr<const ElapsedSource
         auto profile = ProfileFactory::make(c);
         ProfileFactory::install([c](const trantor::TcpConnectionPtr &tcp)
                                     -> std::shared_ptr<drogon::native_profile::Session> {
-            std::lock_guard lock(c->mutex);
-            if (tcp->isSSLConnection() || c->global.upgrade_owners >= c->limits.incomplete_upgrades)
-                return {};
-            auto slot = std::find(c->owners.begin(), c->owners.end(), nullptr);
-            if (slot == c->owners.end())
+            if (!tcp->getLoop()->isInLoopThread() || tcp->isSSLConnection())
                 return {};
             try {
                 auto p = std::make_shared<Owner>(c, tcp);
+                // sample/anchor may force-close; never hold the global lock here.
                 if (p->guard() || !p->anchor(p->upgrade_deadline, c->limits.upgrade_ms))
                     return {};
-                p->arm();
-                *slot = p;
-                ++c->global.upgrade_owners;
-                c->global.upgrade_owners_peak =
-                    std::max(c->global.upgrade_owners_peak, c->global.upgrade_owners);
+                {
+                    std::lock_guard lock(c->mutex);
+                    if (c->global.upgrade_owners >= c->limits.incomplete_upgrades)
+                        return {};
+                    auto slot = std::find(c->owners.begin(), c->owners.end(), nullptr);
+                    if (slot == c->owners.end())
+                        return {};
+                    *slot = p;
+                    ++c->global.upgrade_owners;
+                    c->global.upgrade_owners_peak =
+                        std::max(c->global.upgrade_owners_peak, c->global.upgrade_owners);
+                }
+                try {
+                    p->arm();
+                } catch (...) {
+                    // Registered owner has no native attachment yet. Remove it
+                    // without teardown/callbacks under the registry lock.
+                    std::lock_guard lock(c->mutex);
+                    for (auto &slot : c->owners)
+                        if (slot == p) {
+                            slot.reset();
+                            --c->global.upgrade_owners;
+                            break;
+                        }
+                    return {};
+                }
                 return p;
             } catch (...) {
                 return {};

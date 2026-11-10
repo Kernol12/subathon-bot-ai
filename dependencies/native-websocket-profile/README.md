@@ -1,249 +1,266 @@
-# API-012 implementation candidate
+# API-012 source correction candidate 2
 
-This directory is an **unadmitted source candidate**, not acceptance evidence.
-Base/claim: `642c9a0e7e7a5f7e97b2f27da3a0508edb85ec83` /
-`54df5b30149e35c26e27dc2b62a7ad428a37efa9`. The implementation checkout was
-`t3/native-websocket-profile`, initially clean at the claim. The consumer header,
-original 38-method baseline, fixtures, status, CMake, CI and stock SDK were unchanged
-at that author handoff. Subsequent coordinator revisions add six independently
-reviewed listener/lifecycle methods (44 total) and explicit fixture wiring;
-see the task record for actual gates. The original 38 method assertions stay intact.
+**Unadmitted source candidate. No corrected SDK preparation, compilation, load or
+native acceptance is claimed or released by this handoff.** Candidate 1 was
+b3f04db0a10c1ced77bdb0488566e1155dd8da71 (author 1915bae4009d1fff79b14a8bd41589079305b61e).
+This correction session started clean at fdb073ed3072ae06e05045fff669e4eae30a1ed9,
+branch `t3/api-012-native-profile-fixes`, checkout
+`/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-0014ea98`.
+The coordinator owns status, contracts, build/CI, SDK admission and protected merge.
+Only the cpp, these two patches, manifest and this README belong to this handoff.
+Public first-party header and all tests are frozen. The baseline is the independently
+reviewed 44 methods (38 original assertions preserved, six additions at d9ac991).
+Original stock WS02 red and supplemental missing-profile red remain distinct;
+neither supplies corrected native capacity or deadline evidence. No stock replay.
 
-Read `manifest.json` for ordered patch bytes and exact source identities. Apply
-patch 1 at the Trantor repository root and patch 2 at the Drogon repository root.
-The patches were authored in memory against read-only stock; no corrected vendor
-checkout, configure, compiler invocation, install, load or native body was used.
-`git apply --check` is a read-only applicability check, not a patched build.
+`manifest.json` binds the first-party source, exact ordered patch hashes and profile
+identity. Patch 1 applies at the pinned Trantor root; patch 2 at the pinned Drogon
+root. Patches were generated as in-memory strings from read-only stock. No corrected
+vendor tree or build/install prefix was prepared. No upgrade, dependency or feature
+switch is introduced. The selected Release/shared recipe remains Drogon C++20,
+Trantor C++14 and OpenSSL with the same 16 options.
 
-The private arena, frame state, native source dispatch and lease accounting are in
-`server/src/native_websocket_profile.cpp`. There is no tooling behavior change and
-no additional dependency or feature switch. The stock facade is replaced; the
-candidate requires its exact patched SDK, with no stock-header fallback.
+## Nonfragmenting storage proof (B2)
 
-## Storage and preallocation argument for review
+Let C=connections, U=incomplete_upgrades, L=callback_leases_per_connection,
+R=min(raw_capacity_bytes,4096), M=message_bytes, O=application_output_bytes,
+G=callback_bytes_global and Q=floor(G/M). Startup rejects zero/incoherent limits
+and checks all sums, products, vector sizes, offsets and page rounding before use.
+The mapping consists of:
 
-All WebSocket payload storage is allocated from one private byte arena. Its only
-operations are exact-size, byte-aligned extents and release. Extent metadata is
-outside payload storage, fixed in count at startup, and never grows. The allocator
-searches existing live extents for a disjoint interval before exposing that interval;
-no pointer, logical length or string supplied by a consumer selects an allocation.
-Fragmentation may refuse with resource_limit; it cannot grow the arena or borrow a
-payload budget. This is a private profile strategy, not a generic allocator API.
+- C disjoint owner regions, each `[R raw][254 control][O application output]`.
+  The regions have fixed index-derived offsets. A promoted owner exclusively holds
+  its region index through actual terminal+detach+zero leases+zero queued work.
+  Releasing individual buffers never releases that owner region to another peer.
+- C+Q disjoint M-byte slots, shared ONLY by assembly and callback leases. Offsets
+  and sizes are fixed at startup. Allocation scans a fixed live-bit table for a
+  free slot; it never searches variable-sized holes or moves a live payload.
+- Metadata: C+U fixed owner registry entries, C region flags and 3C+(C+Q) fixed
+  block records. These vectors never grow after startup. Incomplete owners have
+  separate U accounting and no payload region/message slot before promotion.
 
-For C=connections, U=incomplete_upgrades, L=callback_leases_per_connection,
-R=min(raw_capacity_bytes,4096), M=message_bytes, O=application_output_bytes and
-G=callback_bytes_global, startup checks and bounds:
+At most C owners can each hold one assembly slot. Every live lease (including an
+empty logical message and a clone) reserves exactly M global/per-owner bytes and
+one lease handle, so there can be at most Q live lease slots. A new assembly has
+at most C-1 other assemblies; a successfully reserved clone has at most Q leases
+including itself. Therefore a free M slot exists for either operation whenever
+its declared counters admit it. Claiming a current assembly transfers that very
+slot into a lease without copying. Reservation and slot acquisition/release share
+one mutex. Native regions cannot contend with message slots or another owner's
+regions. No allocation history, small output hole, or other peer can cause a
+contiguity refusal. Genuine system allocation failure of metadata is separately
+allocation_failure; counters/snapshots alone do not establish allocator behavior.
 
-- Owner records: C+U fixed registry entries; at most C established/retiring owners
-  and U incomplete owners. One transient refused Owner can exist on each accepting
-  IO owner before registration; it has no payload extents or timer on refusal.
-- Extent metadata: C*(L+4)+U fixed entries. The four native extents are raw,
-  assembly, application wire and the two-slot control reserve. Each live lease owns
-  exactly one extent, including a zero-length logical message.
-- Arena usable bytes: A=C*(R+M+O+254)+G. Mapping bytes are ceil(A/page)*page,
-  checked before mmap. The unassignable page tail is less than one page. No extent
-  can overlap that tail. At page=4096, reference A=84025728 and mapping=84029440;
-  SMALL A=1404 and mapping=4096. These are source-derived allocation bounds, not
-  measured RSS. The whole mapping remains reserved for the one framework lifetime.
-- Each IO owner has at most one recurring timer record, one pending quota callback
-  (plus its executing predecessor) and one detach cleanup record. A consumed callback
-  releases its dependency only when its queue callable is destroyed. Timers removed
-  from Trantor's ID set can still retain a record until their heap entry is destroyed;
-  the owner slot remains charged through that interval.
-- Live lease metadata is bounded by C*L. The fixed Profile/Context, vectors, shared
-  pointer control blocks, std::function and native framework objects remain separately
-  bounded metadata. They are not payload copies or total-RSS claims. Exact compiler,
-  standard-library/allocator ABI and these object/control-block sizes remain an
-  independent admission concern; no invented libc allocation bound is used for
-  payload copies.
+Clone's proven payload bound is B=A=M, reserved BEFORE metadata allocation, slot
+acquisition or copying. No libc payload allocation, terminator, SSO, geometric
+rounding or second native payload copy occurs. Both original and clone stay
+charged simultaneously. Move transfers ownership; reset frees the slot and
+counters once under the same lock. Handle count is additionally bounded by C*L,
+checked at startup. At reference, Q=16, so conservative M-byte charges allow only
+16 globally retained leases even though C*L=64. This consequence is intentional
+and explicit; there is no payload-length-based overcommit.
 
-Raw extent capacity is R, allocated before native reads. recv is passed exactly
-remaining raw space, with no readv scratch or fallback. Parsing drains header and
-payload incrementally, so a full maximum-sized frame needs neither frame+header
-read-ahead nor an unbounded pipeline. Masking is in place into the separate
-assembly extent; the only fixed payload scratch is the 125-byte control body and
-four-byte mask. One data assembly extent has capacity M from its first admitted
-data header until release or transfer. Oversized advertised lengths, bad sequence,
-nonminimal lengths and frame-count exhaustion refuse before that body's growth.
+Usable backing A=C*(R+254+O)+(C+Q)*M. Mapping reservation is
+ceil(A/page)*page, with an unassignable tail less than one page. If G is not a
+multiple of M, its remainder cannot fund another lease and is not mapped as a
+message slot. At page=4096:
 
-Raw includes retained Upgrade read-buffer capacity during handoff. Empty HTTP
-storage is released before promotion. Nonempty read-ahead must fit *together* with
-R before native promotion allocates/registers an established owner. During handoff
-inspect/peak includes both source and destination capacities; the source vector is
-released afterward. The reduced profile can refuse an Upgrade whose existing HTTP
-read-ahead allocation cannot fit. Existing HTTP parsing, TLS ingress, accept queues,
-logs and request/header storage are separate ingress work, not a newly claimed
-SESSION-011 budget. The selected synchronous WebsocketControllerBinder handshake
-and callback registration order are essential source-review inputs.
+| Profile | Native region bytes | M slots | Usable A | Mapping | Page tail |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Reference | 33,694,080 | 48 x 1,048,576 | 84,025,728 | 84,029,440 | 3,712 |
+| SMALL | 1,020 | 6 x 64 | 1,404 | 4,096 | 2,692 |
 
-Assembly transfers its exact extent to the first lease without a payload copy.
-The arena uses no per-message operator new, SSO, capacity rounding or terminator.
-A clone's proven payload bound is exactly the original extent capacity M, even for
-an empty logical message. Reserve that bound and a slot under the Context lock
-before obtaining another extent or copying. Capacity stays exactly M, so no downward
-adjustment is necessary. Both original and clone remain charged while live. A
-message of 65 bytes therefore needs at least 65 more bytes for its clone; a pair
-cannot fit a 128-byte payload budget. Empty messages still consume slots and M
-bytes under this deliberately conservative private strategy.
+The ENTIRE backing reservation, including unused slots/regions and page tail,
+lasts for the single framework lifetime. Touched pages need not be returned;
+this is not RSS or allocator-resident-byte proof. Snapshots report LIVE assigned
+buffer capacities, not that whole reservation. An active output buffer charges
+its full O region capacity even when encoded wire size is only n+header; only
+n+header bytes are formatted/sent. Raw/controls charge R/254 when active, assembly
+and each lease charge M. Unused backing and page tail are accounted here explicitly,
+not hidden inside `fixed_native_storage` or fabricated as observed live buffers.
 
-A send owns one exact n+header extent, reserved before formatting/copy; it does not
-pass a string or MemBufferNode copy to Trantor. Another send while that extent is
-occupied refuses. The two control slots occupy 254 distinct bytes, allocated before
-use and unavailable to application output. One pending Pong can be replaced before
-its first byte is written; an already started Pong is not mutated. A Close is
-immutable once latched. Output begins on the owner immediately when ordinary
-Upgrade output has drained, then resumes on writable callbacks. A successful local
-admission never proves peer receipt. Already started application output drains
-before controls, and neither control consumes its capacity.
+Raw is acquired before recv, which receives only into its remaining space, with
+no readv scratch/fallback. Parsing drains headers/payload incrementally. Advertised
+length, sequence, aggregate M, frame count and minimal length checks precede body
+storage/copy. Controls use an inline 125-byte body and a separate two-slot 254-byte
+output region. Whole-message Text UTF-8 and Close-reason UTF-8 remain independent.
+Streaming Text scalar state additionally preserves validation after payload discard.
+Fixed scratch reports the inline mask/control/first-Close and three UTF-8 words;
+the SDK empty dispatch string is included during dispatch and in its peak.
 
-`fixed_native_storage` includes the inline masking/control/peer-Close storage even
-for a still-owned terminal object; it is not fabricated as zero after socket close.
-The SDK data-dispatch empty-string scratch is included during dispatch and in its
-observed peak. Local Close is encoded directly into the reserved slot rather than
-through a reason string/125-byte temporary. Snapshot/result DTOs and consumer-owned
-call arguments are fixed bounded observations, not retained native payload copies.
-Review MUST distinguish live extent capacities (snapshot fields) from the explicitly
-bounded arena backing reservation, its unused extents/page tail and allocator/native
-metadata above; counters alone cannot admit that distinction.
+Upgrade read-ahead remains a separate stock HTTP allocation until owner-thread
+handoff. Empty storage is released before promotion. Nonempty existing vector
+CAPACITY plus R must fit raw_capacity_bytes BEFORE promotion; snapshots/peaks count
+both while simultaneously retained, then release the source vector. A reduced
+profile may refuse read-ahead that cannot fit. This is not full pre-parser HTTP,
+request/header/log, TLS, accept-queue or kernel-memory admission. Those ingress
+budgets remain downstream, not inferred from SESSION-011's H1 profile.
 
-## Native dispatch, elapsed guards and retirement
+Profile/Context objects, shared_ptr control blocks, fixed vectors, lease State,
+std::function and framework objects are separately bounded metadata, not payload
+copies or a total-RSS guarantee. At most C+U registered owners plus one transient
+refused owner per accepting IO loop exist. Lease metadata is bounded by C*L.
+Per owner there is one timer callable, one pending continuation (plus an executing
+predecessor), and one detach-cleanup callable. Each record counts as work until
+its last queue/timer capture is destroyed, including invalidated timer heap entries.
+Exact compiler/stdlib/allocator object sizes remain independent admission work.
 
-The Trantor seam is private to TcpConnectionImpl. The Drogon Runtime and Session
-operations are private to the selected framework owners and first-party factory.
-They cannot be called by the fixture to issue a delivery or supply substitute
-payloads. Runtime startup is latched at actual HttpAppFrameworkImpl::run entry.
-The factory is installed once before startup; it owns immutable Limits/source and
-cannot be reset by facade destruction.
+## Listener, idle and thread boundary (B1/B4/M2/H1)
 
-The registry compares object pointer AND shared-ownership identity without calling
-unknown virtual functions. Null, no matching binding, and wrong recorded IO thread
-refuse in that order, before time or allocations. A terminal owner is inspectable
-until genuine retirement; mutators refuse. Inspect and global inspect do not read
-time, schedule work, consume bytes or repair state.
+The selected private SDK ABI exports `DROGON_SUBATHON_NATIVE_PROFILE_V1` from
+HttpAppFramework.h. `addListener` has a final `bool nativeProfile=false` argument.
+HttpAppFrameworkImpl rejects marked+TLS OR marked+missing installed profile by
+throwing invalid_argument BEFORE ListenerInfo is stored, HttpServer is constructed,
+or any bind/listen socket is created. ListenerInfo carries the explicit flag to
+every actual HttpServer (both ListenerManager construction paths). Only its marked
+onConnection invokes the native factory and attaches a Session. There is no
+path/address/peer/order heuristic or global-policy-based listener marking.
 
-Only complete, validated Text/Binary establishes the private thread-local current
-scope. Controls temporarily clear any outer data scope; nested data delivery
-refuses. The source keeps its exact assembly/type/length until one successful claim
-moves its extent; a second claim sees delivery_claimed even after that move. Scope
-RAII clears current state on return/exception. The SDK invokes the application with
-an empty raw string while bytes stay private; the consumer can observe payload only
-through accept_callback. Ping callbacks carry metadata only; the genuine control
-body is handled by the native owner. There is no fixture parser, private-hook setter
-or fixture resource enforcement.
+Ordinary listeners retain stock HTTP/TLS/idle/connection behavior and consume zero
+native slots/timers. While any profile is installed, onRequests refuses EVERY
+ordinary-listener WebSocket Upgrade before advices/WebSocket controller dispatch;
+there is no stock parser fallback. A completed ordinary HTTP request on the marked
+listener is force-closed before ordinary endpoint dispatch, with no response-body
+allocation. The ordinary Upgrade guard covers pipeline batches too. A marked
+listener is dedicated internal ingress within the SAME Drogon process; API-001
+must later configure both listeners and Caddy routing without reducing HTTP,
+webhook, WebSocket, TLS or deployment scope.
 
-All native entry guards use the owned source's uint64 nanoseconds and per-owner
-previous observation. Milliseconds-to-nanoseconds, start+duration, counts and byte
-arithmetic are checked. Equality expires. Native read, write, timer, explicit recheck
-and quota continuation all enter the same guard; there is no source replacement,
-UTC fallback or deadline reset. Header/trickle/control traffic cannot extend an
-existing frame/message/Close anchor. The timer is just a 5ms wake hint. Source
-unavailability, regression and anchor overflow close the affected peer on its IO
-owner. Factory performs no elapsed observation. Fake sources remain simulation.
+Marked connections consume U incomplete owners with original upgrade deadline and
+native socket retirement. Marked HttpServer instances do not enable stock HTTP
+idle kickoff: incomplete owners use the native Upgrade deadline from acceptance.
+At explicit successful native establishment, the Trantor seam also resets any kickoff
+entry's connection BEFORE dropping its weak reference and zeros idleTimeout and
+its backup. The wheel may retain an inert entry until expiry. Native reads/writes
+need no stock extendLife: established idle is permitted indefinitely, and all
+native partial/message/Close deadlines remain authoritative. This is permanent,
+unlike sendAsyncStream(disableKickoff)'s temporary backup/restoration. The selected
+startEncryption path is TLS handshake machinery, not a safe native idle policy;
+marked TLS is refused before listening. Ordinary listener kickoff is unchanged.
 
-At quota, the next buffered byte establishes a partial-frame anchor *before* the
-single continuation is queued. A Ping observer queued synchronously in its actual
-control callback precedes that continuation. Selected EventLoop::doRunInLoopFuncs
-consumes the FIFO without another poll/timer dispatch between those two records;
-the continuation rechecks the original anchor before parsing. This is the WS22
-source causality argument, still requiring independent exact-source review.
+beginUpgrade/bind/initial check BOTH recorded IO thread identity and the actual
+EventLoop owner before native buffer operations or time guards. The SDK checks
+owner before acquiring/releasing any handoff buffer or processing a native 101;
+asynchronous filters/advices returning off-owner are force-closed through the
+stock thread-safe forceClose path, without copying input or enqueuing handoff work.
+Ordinary HTTP asynchronous response handling is unchanged. A native beginUpgrade
+latch suppresses further stock reads during handshake processing; onMessage stops
+after the parsed native request so WS read-ahead stays intact until initial().
+On-owner synchronous bind, 101, callback registration and initial handoff cannot
+interleave another IO read. Original absolute Upgrade deadline remains while pending.
 
-Close state and first valid peer body are separate and immutable. Valid empty,
-status/reason, peer 1010, invalid status/UTF-8, local Close and protocol-error Close
-follow the frozen distinctions. The first anchor is never refreshed. After local
-Close, application sends refuse while TCP can still be live; after peer Close no
-new Pong is admitted. Both-sides Close or protocol failure tears down after admitted
-wire drains; an uncooperative peer is forcibly closed at the original deadline.
+MsgBuffer release swaps out the vector and sets size/capacity/head/tail/initCap to
+the empty state (M3). retrieveAll (and retrieve through it) preserves zero indices
+for an empty vector instead of restoring offset 8. Empty begin/peek uses one shared
+nonpayload char sentinel; nonempty begin uses vector.data(). Positive subsequent
+growth reconstructs an ordinary MsgBuffer via its existing checked-owner paths;
+size >= tail >= head and writableBytes=size-tail cannot underflow after release.
+No per-peer replacement allocation is retained after release. That sentinel is
+one fixed SDK byte, not a claimed payload allocation or new receive scratch.
 
-Trantor retirement removes the poller entry before closing/releasing the fd, clears
-its native buffers, invokes closed before the public Close callback, and detaches
-after that callback. Later read/write/error callbacks in the same channel event
-are inert, and connectDestroyed does not remove the entry twice. A retained public
-WebSocket object thus cannot keep that fd or growable native buffer alive. This is
-a material vendor lifecycle change requiring focused independent review.
+## Close, dispatch and retirement (B3/M1)
 
-The profile's timer and queued records retain Context/Owner and count as work.
-closed releases native extents and invalidates the timer; detached queues one cleanup
-record. A slot retires only at terminal+detached+zero leases+zero work. Off-owner
-lease copy/release uses the same lock as global/per-connection reservation; reset
-releases payload and counters in one critical section. Empty retained leases keep
-the slot occupied. No tombstone/history exists. Release does not queue resumption:
-the parser never retains a consumer-wait list, and capacity exhaustion closes 1009;
-otherwise later input continues normally with newly freed lease capacity.
+Local Close discards the assembly SLOT and payload length but preserves opcode,
+active frame, aggregate message byte/frame counts, streaming UTF-8 state and the
+original partial-frame/message anchors. Legal continuation/control frames are
+validated/discarded without delivery; Ping can still obtain Pong. FIN still checks
+complete scalar UTF-8. Close/body/header/frame/message limits apply while closing.
+The FIRST valid peer Close body is retained without a second local Close or any
+refresh of the original absolute Close deadline. Invalid sequence/status/UTF-8
+still causes bounded failure. Immediate/buffered output and peer1010 distinctions
+remain intact, as does the immutable first-Close observation.
 
-## Coordinator integration recipe — deferred, not executed
+No native fail/force or consumer/close callback is invoked under Context::mutex.
+Factory time sampling/guard/anchor and timer arming run outside its registry
+critical section. Bind's registry/region updates end before native establishment
+or catch teardown. accept_callback unlocks before resource/allocation-error fail.
+Buffer/lease/counter updates and retirement remain synchronized; those operations
+invoke no application callback or native force. An allocation failure while arming
+an unattached owner removes its registration; it does not publish a partial Session.
+The small TimerQueue addTimerInLoop correction rolls back its ID-set insertion
+if heap insertion throws, so failed native timer arming cannot accumulate orphan
+IDs outside the owner/queued-record bounds. No timer API or ordinary successful
+timer semantics change; its exact exception path also needs source review.
 
-1. Obtain independent Claude source/resource/protocol and build/ABI/license admission
-   of this exact commit, patch order/hashes and private arena strategy. Specifically
-   review arena backing versus live-capacity accounting, pre-promotion read-ahead,
-   Socket/Channel early retirement/reentrancy, timer-record destruction/FIFO causality,
-   caller check order and private source attribution. No source approval is claimed
-   by this author packet. Resolve concerns before releasing preparation/build.
-2. Only after admission create distinct ignored paths under primary build/deps:
-   `drogon-1.9.14-api012-candidate1-source`, `...-build`, `...-sdk`. Preserve pristine
-   `drogon-1.9.14-source`, its Trantor submodule and `drogon-1.9.14` byte-for-byte.
-   Clone the pinned local repositories without hard links/alternates, detach at the
-   manifest's commits, initialize the Trantor path at its exact pin, then apply
-   patch 1 there with `git apply --check` followed by `git apply`; apply patch 2 at
-   Drogon root likewise. Do not label either corrected tree pristine or rerun the
-   existing pristine setup script on it. Capture both before/after file hashes,
-   git status/diff and all ordered patch digests.
-3. Configure only the corrected source/build/sdk with Ninja and the unchanged
-   16 options in tools/setup_drogon.py OPTIONS. Pass each `-Dkey=value` literally,
-   plus the distinct `CMAKE_INSTALL_PREFIX`. Retain Release/shared, Drogon C++20,
-   effective Trantor C++14 and OpenSSL. Keep compile commands/cache/link logs and
-   actual compiler/libstdc++/glibc/OS identity. No upgrade or feature toggle is needed.
-   Existing configure probes that execute native stdlib code remain an admission gate.
-4. After that stage's release, `cmake --build <corrected-build> --parallel 4`, then
-   `cmake --install <corrected-build>`. Record true outputs rather than predicting
-   ABI or build success. Preserve Drogon LICENSE, Trantor License, orm_lib/COPYING
-   even with BUILD_ORM=OFF, applicable bundled notices and all actual direct/transitive
-   notices. Preserve GPL-3.0-or-later for the first-party code and these modifications;
-   copy project LICENSE and the exact patch set/manifest as correction provenance.
-   A full notice/legal inventory belongs to coordinator admission, not these examples.
-5. Create corrected dependency-build.json from this manifest's profile, upstreams,
-   ordered_patches and build_options plus actual build/artifact identities. Never copy
-   the three-field pristine manifest to label this SDK. Coordinator updates
-   cmake/DrogonDependency.cmake to require this corrected identity, full patch hashes,
-   distinct SDK path, correct imported target/header/library locations and notices.
-   No new first-party source is needed in server/CMakeLists.txt: its existing static
-   target already owns native_websocket_profile.cpp and links Drogon::Drogon.
-6. Independently inspect actual compiled SDK/probe direct/transitive ELF, SONAME,
-   symbols/vtable/RTTI, RPATH/version requirements, licenses and controlled loader
-   map. Pure-virtual TCP additions are intentionally ABI-incompatible with stock;
-   never mix patched and stock headers/DSOs. Admit the actual artifact before load
-   and native feature bodies. The current consumer's admitted_corrected result
-   identifies this compiled implementation, not a runtime configuration switch.
-7. Run the full current 44-method native baseline only after those gates. Preserve
-   original stock red/reviews; do not replay stock. Then independent code/native
-   acceptance review, relevant regression/current CI, ordinary selected-suite CI
-   promotion, final source/license packet and protected merge remain coordinator work.
-   Do not erase intentional-red classification before actual corrected green.
+The source-bound delivery scope remains private: complete validated Text/Binary
+holds its exact assembly/type/length; one accept_callback reserves and moves it.
+Second claim is delivery_claimed, expired scope is outside_delivery, control scopes
+clear outer delivery, nested data refuses. SDK dispatch uses an empty mutable string,
+not a payload surrogate. Null -> not_owned (pointer AND ownership identity, no
+unknown virtual call) -> wrong_owner -> closed ordering is unchanged. Registry
+matching uses the bound pointer and weak ownership identity without creating a
+strong temporary whose last destruction could run SDK shutdown under the lock. Inspection
+allows terminal-owned state, samples no time and performs no repair/scheduling.
 
-This profile refuses direct native TLS sockets; TLS/HTTP ingress requires its own
-admission and remains in release scope. No whole host/readiness, authentication,
-synchronization, SESSION-011 Upgrade admission or session-clock binding is supplied.
-No preparation script was added: new automation behavior would need its own focused
-test-first path. The recipe is declarative so the coordinator can perform or separately
-author that preparation after the required reviews.
+Trantor disableAll -> Channel remove -> fd close ordering, same-event inertness,
+closed before public close callback and detached afterward remain unchanged.
+The owner/region slot retires only after terminal+detached+zero leases+zero work;
+TCP close or invalidating a timer alone cannot free it. No tombstones or history.
+Off-owner lease release/copy shares the budget mutex and cannot revive a socket.
+The private Session handle is atomically observed/exchanged across detach.
 
-## Author's verification and remaining gates
+All elapsed guards use immutable owned uint64 monotonic observations. Arithmetic,
+regression, unavailability and equality expiry retain bounded teardown semantics.
+Read/write/timer/API/quota continuations recheck original anchors. The 5ms recurring
+timer is only a wake hint. FIFO quota causal ordering remains source-derived and
+requires native confirmation; no UTC or actual host-clock binding is supplied.
 
-Read-only patch applicability checks passed at both exact upstream pins, and both
-stock git worktrees remained clean afterward. `clang-format --dry-run --Werror`
-and `git diff --check` passed. Stock ELF digests remained Drogon
-`a478e5a1e933f3e7b44feec5e7492e26da2d12231c566ae3d6a8684499046fcd` and Trantor
-`71329f317d50b73c24d043bf0755a742eaaf24f9536afd0eef5affb06a545d33`, matching the
-accepted baseline receipts. Frozen test/header equality was checked against the
-claim. No test, compiler, SDK configure/build/install, shared-library load, listener,
-feature body, stock replay, PR, push or merge was performed. Syntax/link/native
-results are deliberately unknown until their review stages release those checks.
+## Coordinator wiring and remaining gates
 
-Legacy public native send/shutdown calls are routed into the IO-owned guards with
-no off-owner copied-payload queue. The native Session handle itself is exchanged/
-observed atomically, so off-owner lookup cannot race detach. Those void legacy
-methods cannot return the consumer boundary's typed refusals. Automatic Ping
-configuration and SDK sendJson formatting are refused before retaining/formatting
-payload in this profile: callers must prepare a separately budgeted envelope and
-use the frozen Profile API. This adds no JSON/auth/sync capability and does not
-remove those release requirements. These restrictions need explicit source/API
-review along with the admitted consumer routing.
+1. Independent Claude exact source/resource/protocol/build/license review of this
+   revision and manifest must RELEASE preparation first. Review all B1-B4/M1-M3,
+   H1, fixed-slot backing/live accounting, marked-without-profile/TLS registration
+   refusal, handoff ownership, and unchanged socket/queued-record retirement.
+2. Only then create DISTINCT ignored primary paths, for example
+   `build/deps/drogon-1.9.14-api012-candidate2-{source,build,sdk}`. Preserve stock
+   `drogon-1.9.14-source`, its Trantor submodule and `drogon-1.9.14` unchanged.
+   Clone pinned local sources without hardlinks/alternates; initialize exact
+   submodule pin, capture provenance, apply patch1 at Trantor then patch2 at Drogon.
+   Never run pristine setup automation on a corrected tree or call it pristine.
+3. Configure/build/install only after the corresponding releases, using Ninja,
+   manifest's unchanged 16 options and the distinct CMAKE_INSTALL_PREFIX. Capture
+   actual compiler, C++ standards, libc/stdlib/OS/Qt/ABI, cache, logs and outputs.
+   No compiler probes/build/install/load were performed by this author session.
+4. Preserve Drogon LICENSE, Trantor License and orm_lib/COPYING even with
+   BUILD_ORM=OFF (orm core still compiles), bundled crypto headers, actual direct/
+   transitive notices and project GPL-3.0-or-later LICENSE/correction provenance.
+   Full license inventory remains coordinator admission.
+5. Coordinator updates cmake/DrogonDependency.cmake and CI to admit this exact
+   profile/source/ordered hashes, distinct prefix and actual artifact identities
+   in dependency-build.json. Never reuse the pristine three-field manifest.
+   The existing server target already owns this cpp and links Drogon::Drogon;
+   no first-party header or shared CMake edit is needed from this worker. The
+   frozen fixture already selects the final true listener argument under the
+   header marker. Keep that selection and the unmodified stock path.
+6. Independently admit actual ELF NEEDED, resolved direct/transitive libraries,
+   SONAME, vtable/symbol/RTTI (including cross-DSO Session casts), RPATH/version
+   requirements and loader map BEFORE load/identity/passive/native execution.
+   Stock/candidate1/candidate2 SDK headers and DSOs MUST NOT mix: TcpConnection's
+   virtual ABI, Session, HttpAppFramework::addListener and private layouts differ.
+7. Only after these gates run actual current44, then independent code/native
+   review, regressions/current CI, ordinary CI promotion and protected merge.
+   Preserve red evidence; no new stock run or assertion changes. Stop after API-012.
+
+Remaining limitations: one pending application frame and no writable notification
+need downstream backpressure design; M-byte lease charging is conservative. Dead
+half-open idle peers can hold slots until host liveness/stop policy acts. Periodic
+timers and parsing/discard after peer Close remain bounded, with no performance
+claim. A partially sent Pong is not mutated/coalesced; a newer Ping during that
+write can be dropped. Legacy void send/shutdown off-owner refuse without a copied
+payload queue; sendJson and automatic Ping configuration are suppressed. Use the
+frozen Profile API for typed refusals/owned envelopes. These restrictions add no
+JSON/auth/sync/host capability. Full HTTP ingress, native TLS, Caddy, platform,
+API-001 ready host/clock/auth and API-003 sync remain separate unimplemented gates.
+All integrations/providers and the complete release scope remain required.
+
+## Author static checks
+
+Both ordered patches passed `git apply --check` against the exact pinned pristine
+repositories. `clang-format --dry-run --Werror` for the first-party cpp and
+`git diff --check` passed. Manifest hashes, unchanged 16-option recipe, and frozen
+header/test bytes were checked statically. Stock source repositories remain clean;
+installed stock Drogon/Trantor DSO hashes match the earlier admitted receipts.
+These checks establish source identity/applicability only. No configure, compiler,
+SDK preparation/build/install, load, listener, test body, stock replay, push, PR or
+merge ran in this session. Syntax/link/ABI/native results remain unknown pending
+the independent review releases and coordinator's subsequent stages.
