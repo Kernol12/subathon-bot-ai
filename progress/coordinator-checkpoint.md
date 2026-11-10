@@ -64,11 +64,14 @@ or actual session-clock binding. Full release scope remains required.
   Diagnostic preserves original64-poll failure and samples actual0 at124,4.6ms after
   first sample (`retirement-diagnostic.*`). Native timer record properly remains
   counted until destroyed; immediate64-poll helper may finish first.
-  Proposed fixture correction: one read-only IO-loop global observer for sibling
-  listener cases, at most64 snapshots/10ms, cancellation cap/cleanup, no peer reference
-  or enforcement. Only additive helper consumes these actual typed snapshots; ALL44
-  method bytes/assertions unchanged. Explicit task-brief rationale authored. Do NOT
-  compile/use this revised baseline until independent test/resource review approves.
+  Independent runtime fixture r1 APPROVES defect diagnosis/no production fix, but
+  rejects startup snapshots as stale and shared64 cap. Report ignored
+  `local-evidence/API-012/runtime-fixture-review-r1.md`.
+  Corrected proposal: explicit per-helper IO-owner arm result, request-tagged
+  ordinal1–64 snapshots/10ms, explicit stop/FIFO result and tagged-leftover purge.
+  No startup observer. One active observer, no peer reference/enforcement; cancelled
+  peer-free timer entries bounded by512 commands. All44 method bytes intact.
+  Do NOT compile/use until separate focused test/resource re-review approves.
 - Actual Trantor License is BSD three-clause; earlier review MIT labels are wrong.
   Full selected license bytes preserved; root notices clarify source/patch scope.
 

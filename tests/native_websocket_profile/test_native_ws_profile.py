@@ -581,13 +581,27 @@ class NativeProfile(unittest.TestCase):
         self.assertEqual(probe.wait("ordinary_request")["ordinal"], ordinal)
 
     def upgrade_owners(self, probe, expected):
-        for _ in range(64):
-            observed = probe.wait("global_observed")["inspection"]
-            self.assertEqual(observed["status"], "ok", "missing actual global-owner observation")
-            value = observed["snapshot"]
-            if value["upgrade_owners"] == expected:
-                return value
-        self.fail("actual incomplete-upgrade ownership/retirement not observed")
+        armed = probe.control("observe_global")
+        self.assertEqual(armed["status"], "ok")
+        request = armed["observation_request"]
+        self.assertEqual(request, armed["request"])
+        try:
+            for ordinal in range(1, 65):
+                event = probe.wait("global_observed", observation_request=request)
+                self.assertEqual(event["ordinal"], ordinal)
+                observed = event["inspection"]
+                self.assertEqual(observed["status"], "ok", "missing actual global-owner observation")
+                value = observed["snapshot"]
+                if value["upgrade_owners"] == expected:
+                    return value
+            self.fail("actual incomplete-upgrade ownership/retirement not observed")
+        finally:
+            stopped = probe.control("observe_global_stop", observation_request=request)
+            self.assertEqual((stopped["status"], stopped["observation_request"]), ("ok", request))
+            # Same-owner FIFO stop result follows every event from this observer.
+            # Preserve all unrelated native events and discard only this completed request.
+            probe.pending[:] = [v for v in probe.pending if not (
+                v.get("event") == "global_observed" and v.get("observation_request") == request)]
 
     def assert_no_native_delivery(self, probe):
         # A refused data ownership claim would still expose an illicit native data callback.
