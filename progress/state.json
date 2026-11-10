@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-10T20:05:01+00:00",
-  "summary": "Reviewed bounded core/accounting, controlled SQLite and physical account/session components have synthetic/component evidence. Current priority is the actual host lifecycle and native persistent WebSocket profile contract; concrete source defects and missing host readiness prevent honest clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains.",
+  "updated_at": "2026-11-10T20:11:15+00:00",
+  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. The owner authorized API-012 only, followed by a stop.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -15,7 +15,7 @@
     {
       "label": "Progress tooling",
       "status": "passed",
-      "detail": "38 Python tooling tests, project consistency and current HTML pass. Earlier offline-controller DOM simulation remains recorded; no new browser/OBS proof. Synthetic completion fixtures preserve acceptance and independent-review gates."
+      "detail": "50 Python tooling methods, project consistency and current HTML pass. Earlier offline-controller DOM simulation remains recorded; no new browser/OBS proof. Synthetic completion fixtures preserve acceptance and independent-review gates."
     },
     {
       "label": "CMake / CLion / Qt",
@@ -41,6 +41,11 @@
       "label": "Drogon / Qt feasibility",
       "status": "partial",
       "detail": "Pinned local libraries and six reviewed real Linux loopback experiments pass; independent rebuild/replay passes. Production bridge, persistent WebSocket sessions, deployment/TLS and platform support remain unverified."
+    },
+    {
+      "label": "Native WebSocket profile",
+      "status": "passed",
+      "detail": "44 real Linux loopback methods pass locally and in selected Ubuntu CI with reviewed source/resource, SDK/ABI, fixture, CI recipe and loaded-map evidence. Actual host, TLS/proxy routing, clock, auth/sync and full platform/release gates remain separate; final publication gates are recorded in PR110."
     }
   ],
   "tasks": [
@@ -5220,24 +5225,29 @@
         "native_acceptance": "passed",
         "runtime_fixture_review": "passed",
         "ci_recipe": "passed",
-        "native_runtime_review": "not_run",
+        "native_runtime_review": "passed",
         "ci_recipe_review": "passed",
         "native_results_review": "passed",
         "prepush_tooling": "passed",
         "github_ci": "passed",
         "hosted_native_acceptance": "passed",
-        "hosted_ci_review": "not_run",
-        "final_head_ci": "not_run",
-        "final_packet_review": "not_run"
+        "hosted_ci_review": "passed",
+        "acceptance": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/110"
       ],
-      "review": null,
+      "review": {
+        "author": "Codex native profile, fixture and CI authors; coordinator integration",
+        "reviewer": "Independent Claude Opus 5.5 source/resource, SDK/ABI, fixture, CI and hosted/native sessions",
+        "outcome": "approved",
+        "revision": "Source 2cc999c, admission 82bf92c, fixture 150c280 and CI a28dc4f approved. Hosted native44 at 6f719a7 and native runtime/code at d554934 approved. Final packet, latest-head checks and protected merge are recorded in PR110.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/110"
+      },
       "id": "API-012",
       "title": "Admitted native persistent WebSocket control profile",
       "kind": "implementation",
-      "status": "in_progress",
+      "status": "done",
       "owner": "codex:coordinator-27731ff9",
       "depends_on": [
         "APICONTRACT-001",
@@ -5246,7 +5256,7 @@
       "brief": "docs/tasks/EPIC-008/API-012.md",
       "summary": "Correct the reviewed selected-framework control/fragment/Close lifecycle in a distinct admitted profile before the production bridge consumes it.",
       "notes": [
-        "Corrected profile passes44 real loopback methods locally and in Ubuntu CI6f719a7; exact artifact/loaded-map gates pass. Source/resource, SDK/ABI, fixture, native-result and CI recipe reviews approved; tooling50/project/render pass. Hosted receipts/native code and final packet review, final-head checks and normal PR110 merge pending. Historical red/fixture failure retained; host/TLS/clock/auth/platform gates separate. Stop after API-012."
+        "Implements the bounded native WebSocket profile. All 44 real loopback methods pass locally and in Ubuntu CI, with reviewed source, SDK/ABI, fixture and loaded-map evidence. Original red and the corrected fixture failure are retained. PR110 records final review, latest-head checks and protected merge. Host/TLS, actual clock, auth/sync and platform/release proof remain separate. Stop after this merge."
       ]
     },
     {

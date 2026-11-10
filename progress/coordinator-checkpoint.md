@@ -1,104 +1,78 @@
 # Coordinator checkpoint
 
-Owner authorization (2026-11-10): complete API-012 through independent reviews,
-acceptance and normal protected merge, then STOP. APITEST-001/API-001 and actual
-session-clock binding are not authorized. Full release scope remains required.
+Owner authorization (2026-11-10): finish API-012 through independent reviews,
+acceptance and normal protected merge, then STOP. APITEST-001, API-001 and actual
+session-clock binding are not authorized. The complete release scope remains required.
 
-## Verified checkout and ownership
+## Current state
 
-- Authority: [API-012 brief](../docs/tasks/EPIC-008/API-012.md), [state](state.json),
-  native profile v1 and refined consumer boundary v1. Primary branch
-  `task/API-012-native-websocket-profile`, base/current remote main642c9a0 (PR109).
-  Resume audit found clean150c280, no open PRs, no native build/test processes.
-  Historical worktrees, pristine stock SDK/source and receipts are preserved.
-- Coordinator `codex:27731ff9-5bb1-4e9f-b2f3-b78e37ae011e` owns shared docs/state,
-  integration, CI inspection and merge. Previous authors/reviewers are completed,
-  not assumed active. Fresh CI author8d029417 imported byte-identically as99dbd66;
-  isolated clean worktree `/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-296a2d58`.
-  Author retired at handoff:
-  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A3035ce70-b74b-4297-a785-5048a9bc8955>.
+- Primary branch: `task/API-012-native-websocket-profile`. Implementation and its
+  native/code/hosted reviews are complete; final publication gates remain below.
+  Local completion metadata follows d554934. Remote PR head is 6f719a7, with main
+  still 642c9a0. Inspect actual refs and PR state before acting on this checkpoint.
+- [PR110](https://github.com/Kernol12/subathon-bot-ai/pull/110) is draft, linked and
+  watched. All 21 check entries (20 names, duplicate scaffold) passed at 6f719a7.
+  The last inspected PR has zero reviews/comments/threads. Do not relink or rewatch
+  on wakes. Unwatch before the final handback.
+- [API-012 state](state.json) records the completed component, separate approved
+  review, passing acceptance and a readable note under 500 characters. This does
+  not claim that the PR has already merged. Final packet/current-head publication
+  evidence belongs in PR110; no unrun check is marked passed.
+- Coordinator `codex:27731ff9-5bb1-4e9f-b2f3-b78e37ae011e` owns integration and merge.
+  All source/fixture/CI authors and stage reviewers have completed their handoffs.
+  No old session is assumed active. Historical worktrees and receipts are preserved.
 
-## Valid completed gates and receipts
+## Valid approvals and actual proof
 
-Detailed reports/raw outputs remain under ignored `local-evidence/API-012/`; earlier
-candidate findings and assignments remain in git. Preserve unchanged approvals.
+Detailed raw receipts/reports are under ignored `local-evidence/API-012/` and linked
+from PR110. Earlier findings and exact assignments remain in git history.
 
-- Original38 assertions/header and actual stock WS02 wrong-Pong red remain in
-  [PR108](https://github.com/Kernol12/subathon-bot-ai/pull/108). Six reviewed additive
-  listener/lifecycle cases bring total44. Supplemental review approved d9ac991;
-  isolated stock-stub run observed6 missing-profile failures,0setup/cleanup faults.
-  It is not new native red. No stock replay.
-- Exact candidate4 source/resource review APPROVED2cc999c after B1-B7/M1-M3/H1 fixes;
-  `source-resource-review-r4.md`. Manifest/patches/header/production remain unchanged.
-  SDK configure/build184/install passed in distinct candidate4 source/build/sdk
-  paths. Fixed pool proof and full selected framework/ORM/project/system notices
-  admitted. Actual Trantor license is BSD three-clause; older MIT labels are wrong.
-- SDK admission tests reviewed at a4db41a; exactly2 semantic configuration-red
-  failures/4guard passes, then6/6green. Full tooling50 passed. One-off reviewed
-  sealing script executed ONCE with optimization disabled; SDK161 entries,
-  seal SHA8c82448f. Do not rerun/reseal casually. Compiled SDK/ABI/CMake source
-  APPROVED82bf92c (`compiled-admission-review.md`). Initial controlled identity
-  exactly matched complete18-object map. Original probe SHA7fbfb79e preserved.
-- FIRST native44:43pass/1failure,0setup/cleanup;1563 inputs unchanged. Diagnostic
-  preserves immediate64-poll failure and observes retirement at124 after4.6ms.
-  Independent review confirms genuine fixture sampling defect, no production fix.
-  Corrected per-request IO observer at150c280 APPROVED (`runtime-fixture-review-r2.md`):
-  fresh request tag/ordinal1–64/10ms, explicit stop/FIFO purge, actual SDK count,
-  one active observer, no peer reference, bounded512commands. All44 method bytes
-  and assertions unchanged since d9ac991. Reviewer:
-  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A46bb9da0-7e95-495f-bd44-278521e9f0f7>.
-- Only revised fixture/main rebuilt: SHAe6c93ba4. Native object/archive, SDKseal,
-  all16library closure/ELF/undefined requirements unchanged; scrubbed identity
-  again matches complete18-object map. Revised FIRST native44 passes44/44,
-  zero errors/skips/setup/capture/cleanup faults;1563 inputs unchanged. Receipts:
-  `fixture-r2-build-identity.json`, `fixture-r2-compiled-admission.json`,
-  `fixture-r2-actual-loaded-map.json`, `fixture-r2-FIRST-native44.log/.json`.
+- Source/resource/protocol: candidate4 at 2cc999c approved after B1–B7, M1–M3 and H1
+  corrections. Production cpp, header, patches and manifest have not changed since.
+  Fixed regions and an M-byte slot pool establish nonfragmenting bounds beyond what
+  snapshots alone prove. Pins and all 16 build options are unchanged.
+- SDK/CMake/compiled ABI: 82bf92c approved. The distinct local candidate4 SDK has
+  161 sealed names, seal SHA8c82448f. Preserve pristine stock sources/SDK and the
+  one-time seal; do not rerun the one-off sealing script. Trantor is BSD three-clause;
+  older MIT labels are incorrect. Framework/ORM/project/selected package notices stay.
+- Tests/fixture: all 44 method bytes and assertions remain identical to d9ac991.
+  Original38/stock WS02 red and six supplemental missing-profile reds remain distinct.
+  First corrected native run passed 43/44; independent review approved a genuine
+  sampling defect, not a production defect. The per-request IO observation fix at
+  150c280 was independently approved; original failure/diagnostic are preserved.
+- Local fixture-only rebuild: main SHAe6c93ba4, unchanged native implementation
+  object/archive, SDK and 16-library closure/ABI requirements. Controlled complete
+  18-object map matched. Revised native44 passed all methods with no setup/capture/
+  cleanup faults or skips and all 1,563 inputs unchanged.
+- CI recipe: exact a28dc4f independently approved. Absolute configured CTest and
+  passive symbol/version/export/RTTI admission precede the scrubbed identity load.
+  Actual Ubuntu run [42890430204](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42890430204)
+  passed at 6f719a7: 172 sealed SDK names, exact complete 14-object map (main, vDSO,
+  12 libraries), ordinary CTest native44 with zero skips, and three infrastructure
+  nodes including tooling50. CTest is /usr/local/bin/ctest; actual suite Python is
+  /usr/bin/python3.12. Raw logs, seal, map and normalized receipts are preserved.
+- Independent hosted-results/native runtime/code review APPROVED d554934, retaining
+  every unchanged prior approval. Report `hosted-native-review.md`; reviewer:
+  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3Abc359916-b82d-4426-a0c2-94a6af66795a>.
+  Runner-local passive-abi.json was not archived; the passing fail-closed gate is
+  evidence that checks ran, not an independent Ubuntu binary re-audit. No readlink
+  proof is claimed for /usr/bin/python3 versus /usr/bin/python3.12.
 
-## Current candidate and next gates
+## Final gates and stop
 
-- Corrected CI recipe authored/imported, NOT EXECUTED: preserves eight package
-  guards, pins/options/context; fresh SDK, notices/provenance/seal, passive ELF
-  closure and exact scrubbed loaded map before ordinary44. Native labels/display
-  promoted after actual localgreen; docs reflect local proof and pending Ubuntu.
-  Static AST/JSON/whitespace/scope checks passed; check_project passed. No push/PR.
-- Independent Claude review64ca372 retains/APPROVES actual native results/evidence
-  and previous exact approvals. Recipe CHANGES REQUIRED: scrubbed PATH may omit
-  CTest; no passive symbol/version/export/RTTI checks before Ubuntu load. Report
-  ignored `local-evidence/API-012/native-ci-review-r1.md`; reviewer:
-  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A2f0019be-4ae9-4fc1-a225-34f99b2ec7a2>.
-  B1/B2 fixes authored: configured absoluteCTest path/hash and receipt, passive GNU
-  readelf declared-count parsing, closure SONAME/VERNEED satisfaction, all strong
-  probe/Drogon/Trantor references resolved by name/version, exact patched API
-  exports and default-visible defined Session RTTI in probe+Drogon. L2 symlink
-  RuntimeError caught; L4 explicitly localgreen/hostedpending. No recipe execution.
-- Focused Claude re-review APPROVED exacta28dc4f B1/B2; report ignored
-  `local-evidence/API-012/native-ci-review-r2.md`. One fresh hosted recipe run and
-  push/PR RELEASED subject to local checks; project/tooling50/render all passed.
-  Reviewer:
-  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A6b260d75-b701-4b21-8fc9-01c82a2c1093>.
-  Current rebuilt localprobee6c93ba4 was admitted by the fixture-r2 conditional
-  rebuild release and exact closure/map checks (prior report used saved7fbf for
-  passive parser checks only); no new binary is being silently substituted.
-  Ruleset26170263 active, no bypass actors, PR/resolved threads required,
-  zero GitHub approvals/no status-rule. Written latest-head CI gates still apply.
-- Draft [PR110](https://github.com/Kernol12/subathon-bot-ai/pull/110) opened/linked/
-  watched at6f719a7; currentmain642c9a0. All21 check entries (20 distinct names,
-  duplicate scaffold push/PR) passed. No review threads. FIRST Ubuntu native job
-  [42890430204](https://github.com/Kernol12/subathon-bot-ai/actions/runs/42890430204)
-  passes SDK preparation/seal172names, passive ABI then complete14-object map
-  (main+vDSO+12libraries), ordinary44/44 CTest/0skips and infrastructure3/3.
-  Absolute CTest is /usr/local/bin/ctest; consumer Python is /usr/bin/python3.12.
-  Raw log/runJSON/seal/map/normalized summary saved under ignored
-  `pr110-FIRST-native-ci*`, `pr110-FIRST-ubuntu-*`, `pr110-first-green.json`.
-  Runner-local passive-abi.json is not printed; successful fail-closed reviewed
-  gate is evidence of its checks, not an archived Ubuntu binary re-audit.
-- Next: independent hosted-results/native runtime/code review against this exact
-  source and actual receipts; then completion metadata/final packet, final-head
-  CI/rules/zero threads and normal protected merge. Watch stays active; do not
-  relink/rewatch/list on wakes. Unwatch before final handback; stop after merge.
-- Runtime limitations remain: direct native TLS, proxy/Caddy WS routing, actual
-  ready host/session clock/auth/sync and full platform/release proof. Source review
-  records MsgBuffer append-zero UB reachability, bounded pending-upgrade CPU spin,
-  off-owner legacy shutdown and global-factory/IO-join lifetime obligations.
-  Preserve the stale original late-Text comment; refined contract governs that
-  looser oracle. No live provider/chat/payment effects authorized.
+1. Independently review the exact final completion packet and proposed PR body.
+2. Push only the reviewed metadata; immediately link the full PR URL after pushing.
+   Update the PR body/review receipts and take it out of draft after approval.
+3. Let every applicable latest-head check pass, including actual native44 through
+   the unchanged admitted recipe. Recheck head/base, live protection, reviews and
+   unresolved discussions. Any material source/recipe/fixture change needs review.
+4. Merge normally with an exact head guard, never bypass protection. Refresh main.
+   Record actual merge/check evidence in PR110 and ignored local receipts, unwatch,
+   and STOP. If PR110 is already merged when resumed, verify it and stop; do not
+   select another task or create a follow-up metadata PR.
+
+Source residuals remain documented: unreachable released-buffer append-zero UB,
+bounded pending-Upgrade CPU spin, off-owner legacy shutdown, global-factory/IO-join
+lifetime, conservative lease charging, one pending output frame and half-open idle
+retention. Actual host/clock/auth/sync, TLS/Caddy/proxy routing, platforms, performance
+and distribution remain separate gates. No live provider/chat/payment effects were used.

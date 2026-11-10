@@ -222,9 +222,9 @@ also establishes nonfragmenting storage and pre-read/pre-growth bounds beyond wh
 snapshots alone prove. The independently approved corrected CI recipe also passes all 44 methods through
 CTest on Ubuntu, plus three infrastructure nodes; its complete 14-object loaded map
 (main, vDSO and 12 library files) matches the host-specific passive admission.
-[PR110](https://github.com/Kernol12/subathon-bot-ai/pull/110) records the run. Independent
-hosted-results/native code and final packet reviews, latest-head checks and protected
-merge remain pending. Direct native TLS, Caddy/proxy routing,
+Independent hosted-results and native runtime/code review is approved at `d554934`.
+[PR110](https://github.com/Kernol12/subathon-bot-ai/pull/110) records final packet review,
+latest-head checks and the normal protected merge gate. Direct native TLS, Caddy/proxy routing,
 actual ready host/session clock/auth/sync and full platform/release proof remain
 separate. The owner authorized completion of API-012 only, followed by a stop.
 

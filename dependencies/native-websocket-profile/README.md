@@ -6,8 +6,9 @@ at `82bf92c` released the local build and controlled load. The per-request fixtu
 correction at `150c280` passed independent review. The current 44 methods then passed
 on real Linux loopback, with an exact complete loaded map and unchanged input hashes.
 The independently approved CI recipe also passes all 44 methods on Ubuntu through
-CTest with its host-specific loaded-map gate. Independent hosted-results/native code
-and final review, latest-head checks and protected merge remain pending; current status lives in [state](../../progress/state.json).
+CTest with its host-specific loaded-map gate. Independent hosted-results and native
+runtime/code review at `d554934` is approved. [PR110](https://github.com/Kernol12/subathon-bot-ai/pull/110)
+records the final packet, latest-head checks and protected merge; current status lives in [state](../../progress/state.json).
 The manifest's retained `implementation_candidate_not_admitted` value records the
 source author's original handoff stage. It is not a current admission verdict or a
 runtime capability claim. Its bytes remain unchanged to preserve the admitted SDK
