@@ -1,7 +1,7 @@
 {
   "format": 1,
   "status": "implementation_candidate_not_admitted",
-  "profile": "subathon.native-websocket-profile.v1.api012-candidate3",
+  "profile": "subathon.native-websocket-profile.v1.api012-candidate4",
   "upstreams": {
     "drogon": "3aae769cc405cf5abb9d477675c6430924f02c7c",
     "trantor": "78e480f5e138acdc05f76c55a2716718cd846364"
@@ -38,7 +38,7 @@
   },
   "first_party": {
     "file": "server/src/native_websocket_profile.cpp",
-    "sha256": "de2e1edf1ff274c5e123b0f55b83be8198ab442d589fb9be7d897bd986d6afbc"
+    "sha256": "a5c2dd0a0a4ec87a769b4509686d0a5457f253b59417706e6445b036a535d0ac"
   },
   "required_notices": [
     "Drogon LICENSE",

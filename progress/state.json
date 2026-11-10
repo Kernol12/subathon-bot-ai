@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-10T18:08:11+00:00",
+  "updated_at": "2026-11-10T18:15:11+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite and physical account/session components have synthetic/component evidence. Current priority is the actual host lifecycle and native persistent WebSocket profile contract; concrete source defects and missing host readiness prevent honest clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains.",
   "verification": [
     {
@@ -5223,7 +5223,7 @@
       "brief": "docs/tasks/EPIC-008/API-012.md",
       "summary": "Correct the reviewed selected-framework control/fragment/Close lifecycle in a distinct admitted profile before the production bridge consumes it.",
       "notes": [
-        "44-method baseline reviewed; six additions have isolated stock-stub missing-profile red, not native wire red. Original38/WS02 stock red preserved; old late-Text comment is looser than contract. Candidate3 fixes source-review B5/B6/L1 after candidate2 B1-B4/M1-M3 corrections. Exact source re-review, corrected SDK admission, native44/CI/normal merge remain open; no corrected SDK executed. Stop after API-012."
+        "44-method baseline reviewed; six additions have isolated stock-stub missing-profile red, not native wire red. Original38/WS02 red preserved; old late-Text comment is looser than contract. Candidate3 B5/B6/L1 fixes confirmed; candidate4 addresses B7 partial-frame interleaving. Exact source re-review, corrected SDK admission, native44/CI/normal merge remain open; no corrected SDK executed. Stop after API-012."
       ]
     },
     {

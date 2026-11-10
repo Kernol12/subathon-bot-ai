@@ -22,13 +22,18 @@ or actual session-clock binding. Full release scope remains required.
   and L1 handoff compaction. Source preparation/compiler probes/build NOT released.
   Report: ignored `local-evidence/API-012/source-resource-review-r2.md`; reviewer:
   <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A223f91bf-6253-4b89-94d9-a4b15f55787f>.
-- Coordinator candidate3 fixes only those small findings, updates exact manifest/
-  README. Native control wire reserve stays254; one extra125-byte fixed payload
-  holds the latest pending Ping behind a started Pong. Fixed HTTP400 drains before
-  shutdown. Header and approved44 tests remain unchanged; source re-review pending.
+- Candidate3 independent source review confirms B5/B6/L1 corrections but found
+  pre-existing B7: a new application frame could split a started Pong, or a new
+  Pong split a started Close. r2's contrary framing claim is withdrawn. Report:
+  ignored `local-evidence/API-012/source-resource-review-r3.md`; reviewer:
+  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A7d6c6686-7415-43bb-9d4e-8856bf0b836f>.
+- Coordinator candidate4 fixes only B7: finish started Pong/Close before unstarted
+  application/Pong/Close order. No new state/storage, patches unchanged, exact cpp
+  hash/profile/README updated. Header and approved44 tests unchanged; source
+  re-review pending. No corrected SDK preparation/compiler probes/build released.
 - Existing SDK/source at `build/deps/drogon-1.9.14{,-source}` remains pristine.
   No corrected source/build/install prefix has been prepared, compiled or loaded.
-  Candidate3 must use a DISTINCT admitted prefix after source approval. Full actual
+  Candidate4 must use a DISTINCT admitted prefix after source approval. Full actual
   ELF/ABI/loader admission precedes native body execution.
 
 ## Baseline and next gates
@@ -44,7 +49,7 @@ or actual session-clock binding. Full release scope remains required.
   passive44. ONLY six additions ran:6 expected missing-profile failures,0errors/
   skips/setup/cleanup faults. This is missing first-party red, not new native red.
   Raw FIRST outputs/hashes in ignored `local-evidence/API-012/`; SDK138files unchanged.
-- Next: focused independent candidate3 source/resource re-review; then exact corrected
+- Next: focused independent candidate4 source/resource re-review; then exact corrected
   SDK preparation/build/ABI/license/loader admission, native44, independent native/
   code review, relevant regression and ordinary selected CI, final packet/current
   checks/discussions/rules and normal protected merge. No approval is inferred.

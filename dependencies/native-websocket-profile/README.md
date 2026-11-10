@@ -1,4 +1,4 @@
-# API-012 source correction candidate 3
+# API-012 source correction candidate 4
 
 **Unadmitted source candidate. No corrected SDK preparation, compilation, load or
 native acceptance is claimed or released by this handoff.** Candidate 1 was
@@ -8,7 +8,9 @@ branch `t3/api-012-native-profile-fixes`, checkout
 `/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-0014ea98`.
 The coordinator owns status, contracts, build/CI, SDK admission and protected merge.
 The candidate2 author changed only the cpp, two patches, manifest and this README.
-Coordinator candidate3 corrects source-review B5/B6/L1 on the same owned paths;
+Coordinator candidate3 corrected source-review B5/B6/L1 on the same owned paths;
+candidate4 additionally fixes B7 by completing any started native frame before
+selecting another frame. No extra state, storage or queue is introduced.
 source/resource re-review still precedes corrected SDK preparation.
 Public first-party header and all tests are frozen. The baseline is the independently
 reviewed 44 methods (38 original assertions preserved, six additions at d9ac991).
@@ -216,7 +218,7 @@ requires native confirmation; no UTC or actual host-clock binding is supplied.
    H1, fixed-slot backing/live accounting, marked-without-profile/TLS registration
    refusal, handoff ownership, and unchanged socket/queued-record retirement.
 2. Only then create DISTINCT ignored primary paths, for example
-   `build/deps/drogon-1.9.14-api012-candidate3-{source,build,sdk}`. Preserve stock
+   `build/deps/drogon-1.9.14-api012-candidate4-{source,build,sdk}`. Preserve stock
    `drogon-1.9.14-source`, its Trantor submodule and `drogon-1.9.14` unchanged.
    Clone pinned local sources without hardlinks/alternates; initialize exact
    submodule pin, capture provenance, apply patch1 at Trantor then patch2 at Drogon.
@@ -239,7 +241,7 @@ requires native confirmation; no UTC or actual host-clock binding is supplied.
 6. Independently admit actual ELF NEEDED, resolved direct/transitive libraries,
    SONAME, vtable/symbol/RTTI (including cross-DSO Session casts), RPATH/version
    requirements and loader map BEFORE load/identity/passive/native execution.
-   Stock/candidate1/candidate2/candidate3 SDK headers and DSOs MUST NOT mix: TcpConnection's
+   Stock and corrected SDK headers/DSOs MUST NOT mix across profile identities: TcpConnection's
    virtual ABI, Session, HttpAppFramework::addListener and private layouts differ.
 7. Only after these gates run actual current44, then independent code/native
    review, regressions/current CI, ordinary CI promotion and protected merge.
@@ -252,11 +254,15 @@ timers and parsing/discard after peer Close remain bounded, with no performance
 claim. A partially sent Pong is immutable. Exactly one additional 125-byte fixed
 payload buffer retains the latest pending Ping, replacing older unsent pending
 responses. After the started Pong drains, that payload is encoded into the SAME
-127-byte Pong slot and drains before Close. Empty Ping is represented distinctly;
+127-byte Pong slot. A started application/Pong/Close frame always finishes first;
+unstarted frames then use application, Pong, Close order. Thus a Pong received
+after Close starts follows that complete Close, never splits it. Empty Ping is
+represented distinctly;
 no new wire slot, history, timer or deadline is introduced. The control wire reserve
 stays 254 bytes, and the extra payload capacity is charged in fixed native storage.
 Legacy Ping/Pong sends are suppressed so they cannot replace an owed response.
-Legacy void send/shutdown off-owner refuse without a copied payload queue; sendJson and automatic Ping configuration are suppressed. Use the
+Legacy void send/shutdown off-owner refuse without a copied payload queue;
+sendJson and automatic Ping configuration are suppressed. Use the
 frozen Profile API for typed refusals/owned envelopes. These restrictions add no
 JSON/auth/sync/host capability. Full HTTP ingress, native TLS, Caddy, platform,
 API-001 ready host/clock/auth and API-003 sync remain separate unimplemented gates.

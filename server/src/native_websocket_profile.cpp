@@ -397,11 +397,37 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
         offset += static_cast<U>(n);
         return offset == size;
     }
+    bool drain_pong(int fd) noexcept {
+        if (!write_bytes(fd, controls.data + 127, pong_size, pong_offset))
+            return false;
+        pong_size = pong_offset = 0;
+        if (next_pong_size) {
+            auto *out = controls.data + 127;
+            out[0] = std::byte{0x8a};
+            out[1] = std::byte(next_pong_size - 2);
+            if (next_pong_size > 2)
+                std::memcpy(out + 2, next_pong.data(), next_pong_size - 2);
+            pong_size = std::exchange(next_pong_size, 0);
+        }
+        return true;
+    }
+    bool drain_close(int fd) noexcept {
+        if (!write_bytes(fd, controls.data, close_size, close_offset))
+            return false;
+        close_size = close_offset = 0;
+        return true;
+    }
     void write(int fd) noexcept override {
         if (terminal || guard() || !established)
             return;
-        // A single admitted complete data frame precedes control. No encoded
-        // copy is ever passed to Trantor's growable MemBufferNode.
+        // Only one frame can be started. Finish it before selecting any other
+        // frame, even if application output or a Pong has arrived meanwhile.
+        if ((pong_offset && !drain_pong(fd)) || (close_offset && !drain_close(fd))) {
+            want_write();
+            return;
+        }
+        // Unstarted frames retain application -> Pong -> Close order. No encoded
+        // copy is passed to Trantor's growable MemBufferNode.
         if (output.data) {
             if (!write_bytes(fd, output.data, output_size, output_offset)) {
                 want_write();
@@ -411,28 +437,16 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
             output_size = output_offset = 0;
         }
         while (pong_size) {
-            if (!write_bytes(fd, controls.data + 127, pong_size, pong_offset)) {
+            if (!drain_pong(fd)) {
                 want_write();
                 return;
-            }
-            pong_size = pong_offset = 0;
-            if (next_pong_size) {
-                // A started frame cannot change. The latest pending Ping uses
-                // the same wire slot only after that frame has fully drained.
-                auto *out = controls.data + 127;
-                out[0] = std::byte{0x8a};
-                out[1] = std::byte(next_pong_size - 2);
-                if (next_pong_size > 2)
-                    std::memcpy(out + 2, next_pong.data(), next_pong_size - 2);
-                pong_size = std::exchange(next_pong_size, 0);
             }
         }
         if (close_size) {
-            if (!write_bytes(fd, controls.data, close_size, close_offset)) {
+            if (!drain_close(fd)) {
                 want_write();
                 return;
             }
-            close_size = close_offset = 0;
         }
         if ((received && sent) || error_drain)
             force();
