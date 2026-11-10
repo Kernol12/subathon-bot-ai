@@ -1,4 +1,4 @@
-# API-012 source correction candidate 2
+# API-012 source correction candidate 3
 
 **Unadmitted source candidate. No corrected SDK preparation, compilation, load or
 native acceptance is claimed or released by this handoff.** Candidate 1 was
@@ -7,7 +7,9 @@ This correction session started clean at fdb073ed3072ae06e05045fff669e4eae30a1ed
 branch `t3/api-012-native-profile-fixes`, checkout
 `/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-0014ea98`.
 The coordinator owns status, contracts, build/CI, SDK admission and protected merge.
-Only the cpp, these two patches, manifest and this README belong to this handoff.
+The candidate2 author changed only the cpp, two patches, manifest and this README.
+Coordinator candidate3 corrects source-review B5/B6/L1 on the same owned paths;
+source/resource re-review still precedes corrected SDK preparation.
 Public first-party header and all tests are frozen. The baseline is the independently
 reviewed 44 methods (38 original assertions preserved, six additions at d9ac991).
 Original stock WS02 red and supplemental missing-profile red remain distinct;
@@ -85,7 +87,8 @@ length, sequence, aggregate M, frame count and minimal length checks precede bod
 storage/copy. Controls use an inline 125-byte body and a separate two-slot 254-byte
 output region. Whole-message Text UTF-8 and Close-reason UTF-8 remain independent.
 Streaming Text scalar state additionally preserves validation after payload discard.
-Fixed scratch reports the inline mask/control/first-Close and three UTF-8 words;
+Fixed scratch reports the inline mask, 125-byte parsed control body, separate
+125-byte latest-Ping payload, first-Close and three UTF-8 words;
 the SDK empty dispatch string is included during dispatch and in its peak.
 
 Upgrade read-ahead remains a separate stock HTTP allocation until owner-thread
@@ -120,8 +123,9 @@ Ordinary listeners retain stock HTTP/TLS/idle/connection behavior and consume ze
 native slots/timers. While any profile is installed, onRequests refuses EVERY
 ordinary-listener WebSocket Upgrade before advices/WebSocket controller dispatch;
 there is no stock parser fallback. A completed ordinary HTTP request on the marked
-listener is force-closed before ordinary endpoint dispatch, with no response-body
-allocation. The ordinary Upgrade guard covers pipeline batches too. A marked
+listener stops its parser and sends one fixed HTTP 400 literal with Content-Length: 0
+and Connection: close before ordinary endpoint dispatch. Stock transport drains
+that bounded pre-Upgrade response before shutdown; no request-derived body is allocated. The ordinary Upgrade guard covers pipeline batches too. A marked
 listener is dedicated internal ingress within the SAME Drogon process; API-001
 must later configure both listeners and Caddy routing without reducing HTTP,
 webhook, WebSocket, TLS or deployment scope.
@@ -212,7 +216,7 @@ requires native confirmation; no UTC or actual host-clock binding is supplied.
    H1, fixed-slot backing/live accounting, marked-without-profile/TLS registration
    refusal, handoff ownership, and unchanged socket/queued-record retirement.
 2. Only then create DISTINCT ignored primary paths, for example
-   `build/deps/drogon-1.9.14-api012-candidate2-{source,build,sdk}`. Preserve stock
+   `build/deps/drogon-1.9.14-api012-candidate3-{source,build,sdk}`. Preserve stock
    `drogon-1.9.14-source`, its Trantor submodule and `drogon-1.9.14` unchanged.
    Clone pinned local sources without hardlinks/alternates; initialize exact
    submodule pin, capture provenance, apply patch1 at Trantor then patch2 at Drogon.
@@ -235,7 +239,7 @@ requires native confirmation; no UTC or actual host-clock binding is supplied.
 6. Independently admit actual ELF NEEDED, resolved direct/transitive libraries,
    SONAME, vtable/symbol/RTTI (including cross-DSO Session casts), RPATH/version
    requirements and loader map BEFORE load/identity/passive/native execution.
-   Stock/candidate1/candidate2 SDK headers and DSOs MUST NOT mix: TcpConnection's
+   Stock/candidate1/candidate2/candidate3 SDK headers and DSOs MUST NOT mix: TcpConnection's
    virtual ABI, Session, HttpAppFramework::addListener and private layouts differ.
 7. Only after these gates run actual current44, then independent code/native
    review, regressions/current CI, ordinary CI promotion and protected merge.
@@ -245,9 +249,14 @@ Remaining limitations: one pending application frame and no writable notificatio
 need downstream backpressure design; M-byte lease charging is conservative. Dead
 half-open idle peers can hold slots until host liveness/stop policy acts. Periodic
 timers and parsing/discard after peer Close remain bounded, with no performance
-claim. A partially sent Pong is not mutated/coalesced; a newer Ping during that
-write can be dropped. Legacy void send/shutdown off-owner refuse without a copied
-payload queue; sendJson and automatic Ping configuration are suppressed. Use the
+claim. A partially sent Pong is immutable. Exactly one additional 125-byte fixed
+payload buffer retains the latest pending Ping, replacing older unsent pending
+responses. After the started Pong drains, that payload is encoded into the SAME
+127-byte Pong slot and drains before Close. Empty Ping is represented distinctly;
+no new wire slot, history, timer or deadline is introduced. The control wire reserve
+stays 254 bytes, and the extra payload capacity is charged in fixed native storage.
+Legacy Ping/Pong sends are suppressed so they cannot replace an owed response.
+Legacy void send/shutdown off-owner refuse without a copied payload queue; sendJson and automatic Ping configuration are suppressed. Use the
 frozen Profile API for typed refusals/owned envelopes. These restrictions add no
 JSON/auth/sync/host capability. Full HTTP ingress, native TLS, Caddy, platform,
 API-001 ready host/clock/auth and API-003 sync remain separate unimplemented gates.

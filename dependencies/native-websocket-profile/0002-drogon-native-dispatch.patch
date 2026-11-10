@@ -133,7 +133,7 @@
      }
      if (!requests.empty())
      {
-@@ -280,6 +294,23 @@
+@@ -280,6 +294,26 @@
  {
      assert(!requests.empty());
 
@@ -149,7 +149,10 @@
 +                        !isWebSocket(requests[0]))))
 +        {
 +            requestParser->stop();
-+            conn->forceClose(); // Bounded refusal, no response/output allocation.
++            static constexpr char refusal[] =
++                "HTTP/1.1 400 Bad Request\r\nContent-Length: 0\r\nConnection: close\r\n\r\n";
++            conn->send(refusal, sizeof(refusal) - 1);
++            conn->shutdown(); // Drain the fixed response before half-closing TCP.
 +            return;
 +        }
 +    }
@@ -157,7 +160,7 @@
      // A WebSocket upgrade may arrive after earlier HTTP requests on the same
      // keep-alive connection. Reverse proxies commonly reuse their upstream
      // connections, so limiting upgrade detection to the first request causes
-@@ -295,18 +326,26 @@
+@@ -295,18 +329,26 @@
                              false /* Not HEAD */))
          {
              auto wsConn = std::make_shared<WebSocketConnectionImpl>(conn);
@@ -186,7 +189,7 @@
                              requestParser->setWebsockConnection(wsConn);
                          }
                          auto httpString =
-@@ -774,6 +813,7 @@
+@@ -774,6 +816,7 @@
      auto binder = std::move(binderPtr);
      auto wsConn = std::move(wsConnPtr);
 
@@ -194,7 +197,7 @@
      binder->handleRequest(
          request,
          [request, callback = std::move(callback)](const HttpResponsePtr &resp) {
-@@ -781,9 +821,13 @@
+@@ -781,9 +824,13 @@
              callback(resp);
          });
 

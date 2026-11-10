@@ -142,8 +142,9 @@ bool status_code(unsigned code) noexcept {
     return (code >= 1000 && code <= 1003) || (code >= 1007 && code <= 1014) ||
            (code >= 3000 && code <= 4999);
 }
-constexpr U fixed_scratch = sizeof(std::array<std::byte, 4>) + sizeof(std::array<std::byte, 125>) +
-                            sizeof(PeerClose) + 3 * sizeof(unsigned);
+constexpr U fixed_scratch = sizeof(std::array<std::byte, 4>) +
+                            2 * sizeof(std::array<std::byte, 125>) + sizeof(PeerClose) +
+                            3 * sizeof(unsigned);
 thread_local Owner *delivery = nullptr;
 
 struct Owner final : drogon::native_profile::Session, std::enable_shared_from_this<Owner> {
@@ -172,7 +173,9 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
     U payload_length{}, payload_offset{};
     std::array<std::byte, 4> mask{};
     std::array<std::byte, 125> control_body{};
+    std::array<std::byte, 125> next_pong{};
     U close_size{}, close_offset{}, pong_size{}, pong_offset{};
+    U next_pong_size{}; // Encoded length, so an empty pending Pong is distinguishable.
     PeerClose peer{NoCloseFrame{}};
     std::optional<ElapsedInstant> prior, upgrade_deadline, frame_deadline, message_deadline,
         close_deadline;
@@ -328,6 +331,11 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
                 fail(1009);
                 break;
             }
+            if (raw_begin) {
+                std::memmove(raw.data, raw.data + raw_begin, raw_end - raw_begin);
+                raw_end -= raw_begin;
+                raw_begin = 0;
+            }
             U n = std::min<U>(input->readableBytes(), raw.capacity - raw_end);
             if (!n) {
                 fail(1009);
@@ -402,12 +410,22 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
             output.reset();
             output_size = output_offset = 0;
         }
-        if (pong_size) {
+        while (pong_size) {
             if (!write_bytes(fd, controls.data + 127, pong_size, pong_offset)) {
                 want_write();
                 return;
             }
             pong_size = pong_offset = 0;
+            if (next_pong_size) {
+                // A started frame cannot change. The latest pending Ping uses
+                // the same wire slot only after that frame has fully drained.
+                auto *out = controls.data + 127;
+                out[0] = std::byte{0x8a};
+                out[1] = std::byte(next_pong_size - 2);
+                if (next_pong_size > 2)
+                    std::memcpy(out + 2, next_pong.data(), next_pong_size - 2);
+                pong_size = std::exchange(next_pong_size, 0);
+            }
         }
         if (close_size) {
             if (!write_bytes(fd, controls.data, close_size, close_offset)) {
@@ -432,6 +450,7 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
         output.reset();
         controls.reset();
         raw_begin = raw_end = assembly_size = 0;
+        next_pong_size = 0;
         // The dispatch captures only the SDK's weak connection, not a facade or
         // application consumer. Keep its callable intact if close is reentrant.
     }
@@ -489,8 +508,15 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
         if (terminal || !controls.data)
             return;
         if (op == 10) {
-            if (received || pong_offset)
+            if (received)
                 return;
+            if (pong_offset) {
+                if (n)
+                    std::memcpy(next_pong.data(), p, n);
+                next_pong_size = n + 2;
+                want_write();
+                return;
+            }
             auto *out = controls.data + 127;
             out[0] = std::byte{0x8a};
             out[1] = std::byte(n);
@@ -609,8 +635,8 @@ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_th
             (void)request_close(n != 0, code,
                                 n ? reinterpret_cast<const std::byte *>(p + 2) : nullptr,
                                 n ? n - 2 : 0, result);
-        } else if (op == 10 && !guard() && n <= 125 && !received)
-            control(10, reinterpret_cast<const std::byte *>(p), n);
+        }
+        // Legacy Ping/Pong sends cannot replace a response owed to a peer Ping.
     }
     void close(unsigned short code, const std::string &reason) noexcept override {
         if (std::this_thread::get_id() != thread || terminal || !established)

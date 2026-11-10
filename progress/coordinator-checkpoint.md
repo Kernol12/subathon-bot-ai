@@ -1,93 +1,58 @@
 # Coordinator checkpoint
 
-Owner authorization (2026-11-10): start and finish one new task, then STOP.
-API-012 is the dependency-ready priority. Complete only that task through independent
-reviews, acceptance, publication and normal protected merge; do not start
-APITEST-001/API-001 or actual session-clock binding afterward.
+Owner authorization (2026-11-10): complete API-012 through independent reviews,
+acceptance and normal protected merge, then STOP. Do not start APITEST-001/API-001
+or actual session-clock binding. Full release scope remains required.
 
 ## Current handoff
 
-- Task: [API-012](../docs/tasks/EPIC-008/API-012.md); status authority:
-  [state.json](state.json). Native profile v1 and consumer boundary v1 are normative.
-- Branch: `task/API-012-native-websocket-profile`; base main
-  `642c9a0e7e7a5f7e97b2f27da3a0508edb85ec83`. Primary checkout is repository root.
-- Startup verified local/remote main, clean checkout, no open PRs and no active state
-  claims. Historical worktrees remain preserved; no old worker is assumed active.
-  CLion project path and HEAD matched this checkout before branch creation.
-- Coordinator: `codex:27731ff9-5bb1-4e9f-b2f3-b78e37ae011e`; owns shared
-  documentation/state/HTML, CMake/CI integration and dependency admission. A fresh
-  Codex implementation worker owns native implementation/patch paths; new Claude
-  source/resource reviews are required. Fresh implementation assignment:
-  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3Ad2ff7e15-abb7-437f-ad78-831c037bebd7>.
-  Completed author checkout: `/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-f7dee49d`,
-  branch `t3/native-websocket-profile`, candidate1915bae imported as b3f04db.
-  Candidate1194-line facade and two exact hashed patches are authored only; frozen
-  tests/header and clean stock SDK preserved. No corrected preparation/build/load.
-- Reuse accepted [PR108](https://github.com/Kernol12/subathon-bot-ai/pull/108)
-  test/source/resource reviews and observed stock WS02 wrong-Pong red. Frozen
-  tests remain unchanged; missing facade/resource observations remain unimplemented.
-  The clean stock SDK at `build/deps/drogon-1.9.14` must remain untouched.
-- First independent Claude review: CHANGES REQUIRED for b3f04db; report in ignored
-  `local-evidence/API-012/source-resource-review-r1.md`, session7f25400f. Review link:
-  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3Ae63b58ce-e7d6-40f0-b4bb-4b30dbd4efce>.
-  B1 idle kickoff, B2 arena fragmentation, B3 local Close sequence, B4 global factory
-  HTTP interference; M1 callback-under-lock, M2 owner bind/handoff, M3 released buffer.
-  Corrected SDK preparation/compiler probes/build are NOT released.
-- Pending: source corrections, independent listener-boundary/test review, exact patch/build/ABI/license admission,
-  independent source/resource review, native38 acceptance, ordinary selected CI,
-  final packet/current checks/discussions and normal protected merge.
-- Coordinator decision for B4: explicit per-listener startup marker, default false,
-  carried through selected SDK ListenerInfo/HttpServer. Same process/Caddy scope;
-  ordinary HTTP/TLS unchanged. Consumer-boundary/brief refinement authored; review
-  and focused additive test/fixture wiring still pending. No owner product decision
-  or reduction of release scope is required for this internal implementation choice.
-- Fresh test author assigned (isolated T3 checkout; verify handoff path/HEAD):
-  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A429c54cb-7eca-40fd-b655-a00eb76d108a>.
-  Completed author checkout `/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-64519cfb`
-  at661fdf2. Import commit recorded in git; only fixture/driver changed. Five additional
-  B1/B3/B4 cases authored; all original38 methods byte/AST preserved. B2 remains
-  source-proof-only. No new case, SDK or listener execution.
-- Supplemental Claude review: CHANGES REQUIRED at91db406 (sessionb2ea47b1),
-  report ignored `local-evidence/API-012/supplemental-test-review-r1.md`.
-  H1 ordinary Upgrade bypass, M1 HTTP deadline-refusal latitude, M2 watchdog,
-  L1-L5 sequence/weak timer/setup marker/budget wording/count clarifications.
-  Coordinator authored focused corrections plus sixth case; all original38 methods
-  remain unchanged, total44/maximum108 children/watchdog3300s. Review still pending.
-- Supplemental re-review APPROVED exact d9ac991, including red staging; report ignored
-  `local-evidence/API-012/supplemental-test-review-r2.md`. Reviewer:
-  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3Ae9113ca3-00c3-4c61-9da7-fa0d6720bb85>.
-- Isolated reviewed d9ac991 snapshot plus original stub a335f9cc configured/built
-  against stock SDK. ELF/resolved16DSO hashes matched prior admission; identity
-  stock_upstream/complete, passive44. ONLY six new cases ran:6 intended missing-profile
-  failures/0errors/0skips/0setup-or-cleanup faults. No listener/original38 replay;
-  this is missing first-party behavior, not new B1/B3/B4/H1 native red. Raw FIRST
-  outputs, exact hashes and commands remain in ignored `local-evidence/API-012/`.
-  SDK138file inventory unchanged; stock vendor trees clean.
-- Fresh source-correction worker assigned from fdb073e (isolated T3 checkout):
+- Authority: [API-012 brief](../docs/tasks/EPIC-008/API-012.md), [state](state.json),
+  native profile v1 and refined consumer boundary v1. Branch
+  `task/API-012-native-websocket-profile`, base main642c9a0. Root is primary checkout.
+  Startup verified clean local/remote main, no open PRs/active claims, matching CLion
+  checkout. Historical worktrees/receipts/SDKs preserved; old sessions not assumed live.
+- Coordinator `codex:27731ff9-5bb1-4e9f-b2f3-b78e37ae011e` owns shared state/docs,
+  CMake/CI and admission. Fresh Codex source author b13f4db imported as a9d9161,
+  isolated checkout `/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-0014ea98`:
   <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3Ab4d17794-7c8e-4bc5-b2dd-60d312f98b31>.
-  Completed candidate b13f4db imported byte-identically as a9d9161; worker checkout
-  `/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-0014ea98` clean at handoff.
-  Candidate2 manifest hashes verified; reviewed44 tests/header unchanged. Source
-  corrections authored only; no corrected SDK preparation/build/load.
-- Next action: independent exact candidate2 source/resource re-review, including
-  B1-B4/M1-M3/H1, fixed-slot nonfragmentation, marked TLS/missing-policy refusal,
-  ordinary Upgrade rejection and partially-written Pong semantics. Do not accept
-  a documented limitation that contradicts the profile. SDK preparation/compiler
-  probes/build still blocked until source admission.
-  No corrected preparation/build/load until source admission.
-  Claim committed at54df5b3. Any new
-  substantial prerequisite must be explicitly split before scope expansion.
+  Completed source corrections are candidates only; worker retired at handoff.
+- Candidate2 independent Claude source/resource review (session93fd86c3) confirms
+  B1-B4/M1-M3/H1/TimerQueue fixes and nonfragmentation proof, but CHANGES REQUIRED
+  for B5 fixed HTTP refusal, B6 latest pending Pong/legacy control interference,
+  and L1 handoff compaction. Source preparation/compiler probes/build NOT released.
+  Report: ignored `local-evidence/API-012/source-resource-review-r2.md`; reviewer:
+  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A223f91bf-6253-4b89-94d9-a4b15f55787f>.
+- Coordinator candidate3 fixes only those small findings, updates exact manifest/
+  README. Native control wire reserve stays254; one extra125-byte fixed payload
+  holds the latest pending Ping behind a started Pong. Fixed HTTP400 drains before
+  shutdown. Header and approved44 tests remain unchanged; source re-review pending.
+- Existing SDK/source at `build/deps/drogon-1.9.14{,-source}` remains pristine.
+  No corrected source/build/install prefix has been prepared, compiled or loaded.
+  Candidate3 must use a DISTINCT admitted prefix after source approval. Full actual
+  ELF/ABI/loader admission precedes native body execution.
 
-## Preserved completed work
+## Baseline and next gates
 
-WORKFLOW-001 normally merged in
-[PR109](https://github.com/Kernol12/subathon-bot-ai/pull/109) as main642c9a0 at
-2026-11-09T22:04:14Z. Startup independently verified all21 head checks successful
-and separate source/docs and final metadata approvals recorded in the PR. Its
-committed pending-publication notes are historical; final outcome is in that PR.
+- [PR108](https://github.com/Kernol12/subathon-bot-ai/pull/108) preserves original38
+  tests/reviews and actual stock WS02 wrong-Pong red. All original38 method bytes
+  and frozen public header remain intact. Six added B1/B3/B4/H1 cases bring total44.
+- Independent Claude supplemental boundary/test review APPROVED exact d9ac991:
+  ignored `local-evidence/API-012/supplemental-test-review-r2.md`; reviewer:
+  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3Ae9113ca3-00c3-4c61-9da7-fa0d6720bb85>.
+  Isolated reviewed snapshot plus original stuba335f9cc configured/built against
+  stock. ELF/resolved16DSO hashes matched admission; identity complete/stock,
+  passive44. ONLY six additions ran:6 expected missing-profile failures,0errors/
+  skips/setup/cleanup faults. This is missing first-party red, not new native red.
+  Raw FIRST outputs/hashes in ignored `local-evidence/API-012/`; SDK138files unchanged.
+- Next: focused independent candidate3 source/resource re-review; then exact corrected
+  SDK preparation/build/ABI/license/loader admission, native44, independent native/
+  code review, relevant regression and ordinary selected CI, final packet/current
+  checks/discussions/rules and normal protected merge. No approval is inferred.
+- Runtime gaps: direct native TLS, HTTP ingress security, Caddy/proxy WS routing,
+  actual ready host/session clock/auth/sync and platform/full-release proof remain
+  separate. No live provider/payment effects authorized. Preserve the noted stale
+  original late-Text comment; the refined contract governs its looser oracle.
 
-APITEST-012 normally merged as main6594758 in PR108. Detailed baseline, source,
-build, runtime, CI and independent reviews remain in PR108 and ignored
-`local-evidence/APITEST-012/`. Preserve receipts, old branches/worktrees and SDKs.
-Full release, host/readiness, authentication, synchronization and platform verification
-remain incomplete; no live provider or payment effects are authorized.
+WORKFLOW-001 completed normally in [PR109](https://github.com/Kernol12/subathon-bot-ai/pull/109)
+as main642c9a0 with all21 checks and separate source/docs/metadata approvals.
+Earlier exact task handoffs/reviews remain in git and ignored receipts; no cleanup.
