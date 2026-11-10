@@ -40,9 +40,9 @@ test-first and task-specific gates remain separate. This documentation changes n
 runtime behavior, provider settings or authorization to resume product work. The task
 record and [PR111](https://github.com/Kernol12/subathon-bot-ai/pull/111) retain the
 initial reviews through 4452648. The owner subsequently gave the coordinator reviewer
-model selection; that revision requires Codex verification and closing Claude review.
-Project/progress checks and tooling50 passed before this revision; latest checks and
-the normal merge remain publication gates.
+model selection; separate Codex and closing Claude Sonnet5.5 reviews approved that
+revision at ce55cbf. Project/progress checks and the unchanged tooling50 suite pass;
+latest-head CI and the normal merge remain publication gates.
 
 ## Core time and exact arithmetic
 

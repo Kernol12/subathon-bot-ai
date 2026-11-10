@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-10T20:55:10+00:00",
+  "updated_at": "2026-11-10T20:58:20+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. The owner authorized API-012 only, followed by a stop.",
   "verification": [
     {
@@ -15557,7 +15557,7 @@
       "title": "Coordinator-selected reviews with Codex correction cycles",
       "module": "Quality and tooling",
       "kind": "implementation",
-      "status": "in_review",
+      "status": "done",
       "owner": "codex:coordinator-9bae765e-bb17-4f99-8859-1361d2e80d35",
       "depends_on": [
         "WORKFLOW-001"
@@ -15569,14 +15569,14 @@
       "brief": "docs/tasks/WORKFLOW-002.md",
       "summary": "Let the coordinator choose reviewer models while retaining initial/closing Claude reviews and independent Codex correction cycles.",
       "notes": [
-        "Owner revised guidance: coordinator chooses reviewer models; remove the Opus mandate and Sonnet prohibition. Initial/closing review and independent Codex correction cycles remain. Prior reviews cover 4452648 only; changed guidance requires Codex verification and closing review. Product work remains stopped."
+        "Guidance lets the coordinator choose reviewer models while retaining initial/closing Claude reviews and independent Codex correction cycles. Revised ce55cbf approved by separate Codex and Claude Sonnet5.5 reviewers. Project/progress checks and tooling50 pass; PR111 records final CI and normal merge gates. Product work remains stopped."
       ],
       "verification": {
         "implementation": "passed",
-        "acceptance": "draft",
-        "code_review": "partial",
+        "acceptance": "passed",
+        "code_review": "passed",
         "tooling": "passed",
-        "codex_review": "not_run",
+        "codex_review": "passed",
         "github_ci": "not_run"
       },
       "evidence": [
@@ -15584,9 +15584,9 @@
       ],
       "review": {
         "author": "codex:/root/guidance_author; codex:coordinator-9bae765e",
-        "reviewer": "claude-opus-5-5:initial-e6923a50/closing-ea03a568; codex:/root/guidance_codex_review",
-        "outcome": "changes_requested",
-        "revision": "Prior Opus initial/closing and Codex approvals cover4452648 only. Owner requested model-selection discretion after approval; revised guidance pending separate Codex and closing Claude review.",
+        "reviewer": "codex:/root/model_choice_codex_review; claude-sonnet-5-5:closing-9464edef",
+        "outcome": "approved",
+        "revision": "Earlier initial/closing Opus and Codex reviews cover4452648. Owner changed model selection; independent Codex and Claude Sonnet5.5 closing reviews approved cleance55cbf32045576d4d7ee7bb8416ba50faabf7c9. Only factual completion records follow; latest-head CI/normal merge remain PR111 gates.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/111"
       }
     }
