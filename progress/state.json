@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-10T16:57:10+00:00",
+  "updated_at": "2026-11-10T17:33:10+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite and physical account/session components have synthetic/component evidence. Current priority is the actual host lifecycle and native persistent WebSocket profile contract; concrete source defects and missing host readiness prevent honest clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains.",
   "verification": [
     {
@@ -5204,7 +5204,10 @@
       ],
       "verification": {
         "implementation": "draft",
-        "source_review": "failed"
+        "source_review": "failed",
+        "supplemental_test_review": "passed",
+        "supplemental_stock_build": "passed",
+        "supplemental_baseline": "observed_red"
       },
       "evidence": [],
       "review": null,
@@ -5220,7 +5223,7 @@
       "brief": "docs/tasks/EPIC-008/API-012.md",
       "summary": "Correct the reviewed selected-framework control/fragment/Close lifecycle in a distinct admitted profile before the production bridge consumes it.",
       "notes": [
-        "API-012 candidate authored; independent Claude source/resource review requires fixes for idle timeout, arena fragmentation, fragmented local Close and process-wide HTTP interference, plus lock/thread/buffer handling. No corrected SDK prepared or executed. Preserve frozen baseline/stock red. Resolve source and listener boundary, then native/CI/merge gates; stop afterward."
+        "44-method baseline separately reviewed; six additions show missing-profile red on isolated stock stub, not native protocol red. Original38/stock WS02 red preserved; old late-Text comment is looser than governing contract. Candidate source review requires B1-B4/M1-M3 fixes. No corrected SDK/native acceptance. Next: source fixes/review, SDK admission, native44/CI/normal merge; stop."
       ]
     },
     {

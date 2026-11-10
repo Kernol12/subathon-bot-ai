@@ -83,7 +83,7 @@ from schema shape, and editor hints do not replace runtime progress invariants.
 | Preset / focused selection | Current state |
 | --- | --- |
 | `rate-snapshot-debug` / `-L '^rate-snapshot$'` | 53 reviewed feature cases have intended stub-red evidence; rate behavior remains unimplemented. The suite has `intentional-red` labels. |
-| `native-websocket-profile-debug` / `-L '^native-websocket-profile$'` | Original 38 reviewed Python methods have actual stock loopback/red evidence; six additional listener/lifecycle methods are authored and awaiting review (44 total). Corrected profile native acceptance remains unobserved; no native capacity proof follows from missing first-party behavior. |
+| `native-websocket-profile-debug` / `-L '^native-websocket-profile$'` | 44 reviewed methods: original 38 retain actual stock loopback/red evidence; six additional listener/lifecycle cases have isolated stock-stub missing-profile red. Corrected profile native acceptance remains unobserved; missing first-party behavior proves no native capacity. |
 
 These lanes' passing CI checks compile/discover feature registrations, enforce selected
 dependency configuration and execute existing stable component/infrastructure suites. They do not turn the red feature bodies into

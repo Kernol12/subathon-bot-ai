@@ -6,7 +6,7 @@ Base/claim: `642c9a0e7e7a5f7e97b2f27da3a0508edb85ec83` /
 `t3/native-websocket-profile`, initially clean at the claim. The consumer header,
 original 38-method baseline, fixtures, status, CMake, CI and stock SDK were unchanged
 at that author handoff. Subsequent coordinator revisions add six independently
-reviewed-or-pending listener/lifecycle methods (44 total) and explicit fixture wiring;
+reviewed listener/lifecycle methods (44 total) and explicit fixture wiring;
 see the task record for actual gates. The original 38 method assertions stay intact.
 
 Read `manifest.json` for ordered patch bytes and exact source identities. Apply

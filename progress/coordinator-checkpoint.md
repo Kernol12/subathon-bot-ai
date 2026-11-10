@@ -53,10 +53,19 @@ APITEST-001/API-001 or actual session-clock binding afterward.
   L1-L5 sequence/weak timer/setup marker/budget wording/count clarifications.
   Coordinator authored focused corrections plus sixth case; all original38 methods
   remain unchanged, total44/maximum108 children/watchdog3300s. Review still pending.
-- Next action: focused independent test/boundary re-review, then isolated stock-stub
-  compile and only six new IDs for missing-profile red. No original38 replay, no
-  corrected SDK build or source correction before stage review. Then fix B1-B4/M1-M3
-  and independent source/resource admission before corrected SDK preparation.
+- Supplemental re-review APPROVED exact d9ac991, including red staging; report ignored
+  `local-evidence/API-012/supplemental-test-review-r2.md`. Reviewer:
+  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3Ae9113ca3-00c3-4c61-9da7-fa0d6720bb85>.
+- Isolated reviewed d9ac991 snapshot plus original stub a335f9cc configured/built
+  against stock SDK. ELF/resolved16DSO hashes matched prior admission; identity
+  stock_upstream/complete, passive44. ONLY six new cases ran:6 intended missing-profile
+  failures/0errors/0skips/0setup-or-cleanup faults. No listener/original38 replay;
+  this is missing first-party behavior, not new B1/B3/B4/H1 native red. Raw FIRST
+  outputs, exact hashes and commands remain in ignored `local-evidence/API-012/`.
+  SDK138file inventory unchanged; stock vendor trees clean.
+- Next action: fresh source-correction worker fixes B1-B4/M1-M3 plus explicit listener
+  selection and ordinary Upgrade refusal under current reviewed44. Then independent
+  exact source/resource admission before corrected SDK preparation/compiler probes.
   No corrected preparation/build/load until source admission.
   Claim committed at54df5b3. Any new
   substantial prerequisite must be explicitly split before scope expansion.
