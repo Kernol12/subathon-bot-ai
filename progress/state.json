@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-10T20:47:25+00:00",
+  "updated_at": "2026-11-10T20:49:54+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. The owner authorized API-012 only, followed by a stop.",
   "verification": [
     {
@@ -15569,12 +15569,14 @@
       "brief": "docs/tasks/WORKFLOW-002.md",
       "summary": "Keep Opus initial/closing stage reviews and use independent Codex correction cycles between them.",
       "notes": [
-        "Guidance authored. Initial Opus review requested clearer no-fix and post-approval paths; corrections preserve the owner-requested initial and closing Opus passes. Independent Codex and closing Opus reviews pending; no product work resumed."
+        "Guidance and initial Opus corrections verified by a separate Codex reviewer at 702bcfa plus the evidence paragraph. Project/progress checks and tooling50 pass. Closing Opus, latest CI and normal protected merge remain; no product work resumed."
       ],
       "verification": {
         "implementation": "passed",
-        "acceptance": "not_run",
-        "code_review": "partial"
+        "acceptance": "passed",
+        "code_review": "partial",
+        "tooling": "passed",
+        "codex_review": "passed"
       },
       "evidence": [],
       "review": {}

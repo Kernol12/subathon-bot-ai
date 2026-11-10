@@ -17,9 +17,12 @@ APITEST-001/API-001 and actual session-clock binding remain unauthorized.
   closing Opus verification even without initial blockers (owner-requested two passes),
   material post-approval re-entry, both-provider quota handling and uncertain scope.
   Reviewer: claude-opus-5-5, delegate e6923a50-ea9d-4d4e-af04-d6b4b41625de.
-- Pending: independent Codex verification/correction cycle,
+- Independent Codex `/root/guidance_codex_review` APPROVED 702bcfa and the
+  evidence-summary paragraph, ready for closing Opus only. Author and reviewer
+  handoffs are complete; neither is assumed active.
+- Pending:
   closing Opus approval, project/progress checks, PR/current CI and normal protected
-  merge. Initial project/link/progress check passed (469 tasks); final checks pending. No runtime behavior or tests change.
+  merge. Project/link/progress checks passed (469 tasks), tooling50 passed; CI pending. No runtime behavior or tests change.
 
 ## Next action
 

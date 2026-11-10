@@ -33,6 +33,13 @@ test-before-red and final source/docs reviews are recorded in
 [PR109](https://github.com/Kernol12/subathon-bot-ai/pull/109), which records final CI
 and merge outcomes. This is workflow/tooling proof only; API-012 is not resumed.
 
+The [review-cycle guidance](../tasks/WORKFLOW-002.md) keeps independent Opus initial
+and closing reviews for each substantive stage, with Codex fixes and separate Codex
+verification between them. Concise handoffs retain earlier findings and valid approvals;
+test-first and task-specific gates remain separate. This documentation changes no
+runtime behavior, provider settings or authorization to resume product work. The task
+record links actual reviews, checks and publication evidence when available.
+
 ## Core time and exact arithmetic
 
 Reviewed native component suites pass for cap-limited credit (23 cases), exact decimal
