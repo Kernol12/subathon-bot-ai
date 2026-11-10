@@ -108,7 +108,7 @@ def profile() -> dict:
 def elf(path: Path, receipts: Path) -> dict:
     """readelf only: never ldd, a loader invocation, dlopen or an executable probe."""
     text = run("readelf", "--wide", "--file-header", "--program-headers", "--dynamic",
-               "--notes", "--version-info", path, env=clean_env(), echo=False)
+               "--notes", "--version-info", "--dyn-syms", path, env=clean_env(), echo=False)
     require(re.search(r"Class:\s+ELF64\b", text) is not None and
             re.search(r"Machine:\s+Advanced Micro Devices X86-64\b", text) is not None,
             f"Non-x86-64 ELF: {path}")
@@ -121,10 +121,113 @@ def elf(path: Path, receipts: Path) -> dict:
         "soname": re.findall(r"\(SONAME\).*?\[([^\]]+)\]", text),
         "runpath": re.findall(r"\(RUNPATH\).*?\[([^\]]*)\]", text),
         "interpreter": re.findall(r"Requesting program interpreter:\s*([^\]]+)\]", text),
+        **elf_symbols_and_versions(text),
     }
     receipts.mkdir(parents=True, exist_ok=True)
     (receipts / f"{metadata['sha256']}.readelf.txt").write_text(text, encoding="utf-8")
     return metadata
+
+
+def elf_symbols_and_versions(text: str) -> dict:
+    """Parse GNU readelf's C-locale dynamic tables, checking their declared counts."""
+    counts = re.findall(r"Symbol table '\.dynsym' contains (\d+) entries:", text)
+    rows = re.findall(
+        r"^[ \t]*\d+:[ \t]+[0-9a-fA-F]{16}[ \t]+\S+[ \t]+(\S+)[ \t]+(\S+)"
+        r"[ \t]+(\S+)[ \t]+(\S+)(?:[ \t]+(\S+)(?:[ \t]+\(\d+\))?)?[ \t]*$",
+        text, re.MULTILINE)
+    require(len(counts) == 1 and len(rows) == int(counts[0]), "Incomplete dynamic symbol table")
+    symbols = []
+    for kind, binding, visibility, index, raw in rows:
+        if not raw:  # The mandatory empty symbol at index zero.
+            continue
+        name, separator, version = raw.partition("@")
+        symbols.append({"name": name, "version": version.lstrip("@") if separator else None,
+                        "default_version": version.startswith("@"), "type": kind,
+                        "binding": binding, "visibility": visibility, "index": index})
+    definition_counts = re.findall(r"Version definition section .* contains (\d+) entr", text)
+    definitions = re.findall(r"Rev:\s+\d+\s+Flags:.*?Index:\s+\d+\s+Cnt:\s+\d+\s+Name:\s+(\S+)", text)
+    require(len(definition_counts) <= 1 and
+            len(definitions) == (int(definition_counts[0]) if definition_counts else 0),
+            "Incomplete version definition table")
+    need_counts = re.findall(r"Version needs section .* contains (\d+) entr", text)
+    needs = {}
+    active = None
+    expected_versions = {}
+    for line in text.splitlines():
+        file_match = re.search(r"Version:\s+\d+\s+File:\s+(\S+)\s+Cnt:\s+(\d+)", line)
+        if file_match:
+            active, count = file_match.groups()
+            require(active not in needs, "Duplicate version dependency")
+            needs[active] = []
+            expected_versions[active] = int(count)
+        version_match = re.search(r"Name:\s+(\S+)\s+Flags:.*?Version:\s+\d+", line)
+        if version_match:
+            require(active is not None, "Version requirement without a dependency")
+            needs[active].append(version_match.group(1))
+    require(len(need_counts) <= 1 and len(needs) == (int(need_counts[0]) if need_counts else 0)
+            and all(len(versions) == expected_versions[name] for name, versions in needs.items()),
+            "Incomplete version requirement table")
+    return {"symbols": symbols, "version_definitions": definitions, "version_requirements": needs}
+
+
+def exported(symbol: dict) -> bool:
+    return (symbol["index"] != "UND" and symbol["binding"] in ("GLOBAL", "WEAK", "UNIQUE")
+            and symbol["visibility"] in ("DEFAULT", "PROTECTED"))
+
+
+def admit_symbols(closure: dict, resolve_needed, probe: Path, sdk: Path) -> dict:
+    """Check the selected ABI and all VERNEEDs passively, before --identity loads it."""
+    versions = []
+    providers = {}
+    for path, metadata in closure.items():
+        for name in metadata["needed"]:
+            dependency = str(resolve_needed(name))
+            require(closure[dependency]["soname"] == [name], f"Unexpected SONAME: {path}: {name}")
+        for name, required in metadata["version_requirements"].items():
+            dependency = str(resolve_needed(name))
+            require(dependency in closure, f"Version dependency outside closure: {path}: {name}")
+            available = set(closure[dependency]["version_definitions"])
+            require(set(required) <= available, f"Unsatisfied versions: {path}: {name}: {required}")
+            versions.append({"consumer": path, "file": name, "provider": dependency, "versions": required})
+        for symbol in metadata["symbols"]:
+            if exported(symbol):
+                providers.setdefault(symbol["name"], []).append((path, symbol))
+    drogon = str((sdk / "lib/libdrogon.so.1.9.14").resolve(strict=True))
+    trantor = str((sdk / "lib/libtrantor.so.1.5.29").resolve(strict=True))
+    resolutions = {}
+    for path in (str(probe), drogon, trantor):
+        resolutions[path] = []
+        for symbol in closure[path]["symbols"]:
+            if symbol["index"] != "UND" or symbol["binding"] == "WEAK":
+                continue
+            matches = [provider for provider, definition in providers.get(symbol["name"], [])
+                       if (definition["version"] == symbol["version"] if symbol["version"] else
+                           definition["version"] is None or definition["default_version"])]
+            require(bool(matches), f"Unresolved strong symbol: {path}: {symbol}")
+            resolutions[path].append({"name": symbol["name"], "version": symbol["version"],
+                                      "providers": sorted(set(matches))})
+    # Itanium mangled names bind the exact selected C++ signatures, including the
+    # final listener bool (eight arguments) and the shared_ptr NativeProfileIo seam.
+    required_exports = {
+        drogon: ["_ZN6drogon20HttpAppFrameworkImpl11addListenerERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEtbS8_S8_bRKSt6vectorISt4pairIS6_S6_ESaISB_EEb",
+                 "_ZN6drogon14native_profile7Runtime7factoryEv",
+                 "_ZN6drogon14native_profile7Runtime7startedEv"],
+        trantor: ["_ZN7trantor17TcpConnectionImpl22establishNativeProfileEv",
+                  "_ZN7trantor17TcpConnectionImpl18setNativeProfileIoESt10shared_ptrINS_15NativeProfileIoEE",
+                  "_ZN7trantor17TcpConnectionImpl25requestNativeProfileWriteEv",
+                  "_ZN7trantor17TcpConnectionImpl25retireNativeProfileSocketEv"],
+    }
+    for path, names in required_exports.items():
+        available = {s["name"] for s in closure[path]["symbols"]
+                     if exported(s) and s["visibility"] == "DEFAULT" and s["type"] == "FUNC"}
+        require(set(names) <= available, f"Missing patched API exports: {path}: {set(names) - available}")
+    rtti = "_ZTIN6drogon14native_profile7SessionE"
+    for path in (str(probe), drogon):
+        require(any(s["name"] == rtti and exported(s) and s["visibility"] == "DEFAULT"
+                    and s["type"] == "OBJECT" for s in closure[path]["symbols"]),
+                f"Missing defined default-visible Session RTTI: {path}")
+    return {"version_checks": versions, "strong_symbol_resolutions": resolutions,
+            "patched_exports": required_exports, "session_rtti": {"symbol": rtti, "objects": [str(probe), drogon]}}
 
 
 def copy_notice(source: Path, destination: Path, expected: str | None = None) -> str:
@@ -271,7 +374,17 @@ def checked_seal(sdk: Path) -> dict:
     return file_identity(sdk / "dependency-build.json")
 
 
-def passive_inventory(environment: dict) -> dict:
+def configured_ctest() -> Path:
+    cache = (REPO / "build" / PRESET / "CMakeCache.txt").read_text(encoding="utf-8")
+    values = re.findall(r"^CMAKE_CTEST_COMMAND:[^=\n]+=(.+)$", cache, re.MULTILINE)
+    require(len(values) == 1 and Path(values[0]).is_absolute() and "\n" not in values[0],
+            "Expected one absolute configured CTest executable")
+    command = Path(values[0]).resolve(strict=True)
+    require(command.is_file() and os.access(command, os.X_OK), "Configured CTest is not executable")
+    return command
+
+
+def passive_inventory(environment: dict, ctest: Path) -> dict:
     driver = REPO / "tests/native_websocket_profile/test_native_ws_profile.py"
     tree = ast.parse(driver.read_text(encoding="utf-8"))
     owner, = [n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "NativeProfile"]
@@ -280,7 +393,7 @@ def passive_inventory(environment: dict) -> dict:
     require(len(expected) == len(set(expected)) == 44, "Expected exactly 44 authored native methods")
     found = run("/usr/bin/python3", driver, "--list", env=environment).splitlines()
     require(sorted(found) == sorted(expected), "Passive inventory differs from authored 44 methods")
-    discovery = json.loads(run("ctest", "--preset", PRESET, "--show-only=json-v1", env=environment))
+    discovery = json.loads(run(ctest, "--preset", PRESET, "--show-only=json-v1", env=environment))
     native = [t for t in discovery["tests"] if t["name"].startswith("native-websocket-profile") or
               any(p["name"] == "LABELS" and "native-websocket-profile" in p["value"]
                   for p in t["properties"])]
@@ -298,7 +411,9 @@ def gate(root: Path) -> None:
     environment = clean_env(sdk)
     receipts = root / "receipts"
     seal = checked_seal(sdk)
-    discovery = passive_inventory(environment)  # No probe/feature body.
+    ctest = configured_ctest()
+    ctest_identity = {"path": str(ctest), **file_identity(ctest)}
+    discovery = passive_inventory(environment, ctest)  # No probe/feature body.
     probe = (REPO / "build" / PRESET / "tests/native_websocket_profile/native_websocket_probe").resolve(strict=True)
     require(not Path("/etc/ld.so.preload").exists(), "Unadmitted system-wide preload configuration")
     allowed_dirs = {d.resolve(strict=True) for d in (sdk / "lib", *SYSTEM_LIB_DIRS)}
@@ -347,6 +462,8 @@ def gate(root: Path) -> None:
                 for name in ("libdrogon.so.1.9.14", "libtrantor.so.1.5.29")),
             "Consumer closure must include both corrected SDK libraries")
     write_json(receipts / "prospective-closure.json", closure)  # BEFORE any selected native load.
+    abi = admit_symbols(closure, resolve_needed, probe, sdk)
+    write_json(receipts / "passive-abi.json", abi)
     expected = {p: {key: item[key] for key in ("sha256", "bytes")} for p, item in closure.items()}
     require(checked_seal(sdk) == seal and all(file_identity(Path(p)) == item for p, item in expected.items()),
             "Inputs changed before identity")
@@ -381,8 +498,12 @@ def gate(root: Path) -> None:
             "Loaded map differs from prospective main + vDSO + complete host-specific ELF closure")
     require(checked_seal(sdk) == seal, "SDK changed during identity")
     checked = {"identity": identity, "expected": expected, "actual": actual, "exact_match": True,
-               "sdk_seal": seal, "inventory": discovery, "environment": environment}
+               "sdk_seal": seal, "inventory": discovery, "environment": environment,
+               "ctest": ctest_identity, "passive_abi": "passive-abi.json"}
     write_json(receipts / "checked-identity.json", checked)
+    require(file_identity(ctest) == {k: ctest_identity[k] for k in ("sha256", "bytes")},
+            "Configured CTest changed during the gate")
+    (receipts / "ctest-command.txt").write_text(str(ctest) + "\n", encoding="utf-8")
     print(json.dumps(checked, indent=2, sort_keys=True))
 
 
@@ -403,5 +524,5 @@ def main() -> None:
 if __name__ == "__main__":
     try:
         main()
-    except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
+    except (OSError, ValueError, KeyError, RuntimeError, subprocess.SubprocessError) as error:
         sys.exit(f"Native WebSocket CI failed: {error}")

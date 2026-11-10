@@ -57,7 +57,7 @@ still using synthetic data and supplied policy/authority facts.
 | `sqlite-reference-capture-debug` | `-L '^reference-capture-values$'` / `-L '^sqlite-reference-capture$'` | 28 structural codec cases and 38 real-SQL methods/67 scenarios |
 | `sqlite-account-sessions-debug` | `-L '^sqlite-account-sessions$'` | 44 real-SQL methods for physical current facts, full conditional writes and compiled-prefix/frame equality; host login/authority remains separate |
 | `translation-catalog-debug` | `-L '^translation-catalog$'` | 43 generator methods with literal goldens; build also produces/validates real Qt QM |
-| `native-websocket-profile-debug` | `-L '^native-websocket-profile$'` | 44 reviewed methods against the corrected Drogon/Trantor SDK: real Linux loopback framing/control/Close, listener isolation, ownership and resource/deadline observations with supplied elapsed time; actual host/TLS/clock/auth/platform gates remain separate |
+| `native-websocket-profile-debug` | `-L '^native-websocket-profile$'` | Local green; hosted pending. 44 reviewed methods against the corrected Drogon/Trantor SDK: real Linux loopback framing/control/Close, listener isolation, ownership and resource/deadline observations with supplied elapsed time; actual host/TLS/clock/auth/platform gates remain separate |
 | `schema-validation-debug` | `-L '^schema-validation$'` | 8 Python methods: actual OpenAPI/17 components, 23 existing positive examples, 77 independent component cases, and 11 structural progress cases plus actual state |
 
 Source/resource review remains necessary for allocation bounds, owned capabilities,

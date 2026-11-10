@@ -61,8 +61,19 @@ candidate findings and assignments remain in git. Preserve unchanged approvals.
   closure and exact scrubbed loaded map before ordinary44. Native labels/display
   promoted after actual localgreen; docs reflect local proof and pending Ubuntu.
   Static AST/JSON/whitespace/scope checks passed; check_project passed. No push/PR.
-- Next: independent Claude actual native/code and exact CI recipe/docs review.
-  Then only released execution/checks, focused PR, latest-head hosted CI and final
+- Independent Claude review64ca372 retains/APPROVES actual native results/evidence
+  and previous exact approvals. Recipe CHANGES REQUIRED: scrubbed PATH may omit
+  CTest; no passive symbol/version/export/RTTI checks before Ubuntu load. Report
+  ignored `local-evidence/API-012/native-ci-review-r1.md`; reviewer:
+  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A2f0019be-4ae9-4fc1-a225-34f99b2ec7a2>.
+  B1/B2 fixes authored: configured absoluteCTest path/hash and receipt, passive GNU
+  readelf declared-count parsing, closure SONAME/VERNEED satisfaction, all strong
+  probe/Drogon/Trantor references resolved by name/version, exact patched API
+  exports and default-visible defined Session RTTI in probe+Drogon. L2 symlink
+  RuntimeError caught; L4 explicitly localgreen/hostedpending. No recipe execution.
+- Next: focused independent Claude script/workflow re-review; execution/push remain
+  NOT released. Then hosted run/receipts, independent native runtime/code review,
+  relevant checks and final
   packet review, resolved discussions/live rules and normal protected merge.
   Use T3 PR link/watch tools; stop after merge. No approval is inferred.
 - Runtime limitations remain: direct native TLS, proxy/Caddy WS routing, actual
