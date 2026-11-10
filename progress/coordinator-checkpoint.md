@@ -27,14 +27,22 @@ or actual session-clock binding. Full release scope remains required.
   Pong split a started Close. r2's contrary framing claim is withdrawn. Report:
   ignored `local-evidence/API-012/source-resource-review-r3.md`; reviewer:
   <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A7d6c6686-7415-43bb-9d4e-8856bf0b836f>.
-- Coordinator candidate4 fixes only B7: finish started Pong/Close before unstarted
-  application/Pong/Close order. No new state/storage, patches unchanged, exact cpp
-  hash/profile/README updated. Header and approved44 tests unchanged; source
-  re-review pending. No corrected SDK preparation/compiler probes/build released.
-- Existing SDK/source at `build/deps/drogon-1.9.14{,-source}` remains pristine.
-  No corrected source/build/install prefix has been prepared, compiled or loaded.
-  Candidate4 must use a DISTINCT admitted prefix after source approval. Full actual
-  ELF/ABI/loader admission precedes native body execution.
+- Independent source/resource r4 APPROVED exact2cc999c candidate4; report ignored
+  `local-evidence/API-012/source-resource-review-r4.md`. Reviewer:
+  <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9c70731a-4f93-4378-90dd-4932b6f36dc4%3Adelegate-task%3A2c78f69f-4216-41fe-a0db-ee98106ad860>.
+  SDK preparation/configure/compiler probes/build/install released; load/native
+  remains gated by compiled artifact/ABI/loader admission.
+- DISTINCT `build/deps/drogon-1.9.14-api012-candidate4-{source,build,sdk}` prepared
+  from exact pins with no hardlinks/alternates and exact reviewed ordered patches.
+  Configure/build184steps/install passed. Effective DrogonC++20/TrantorC++14 confirmed;
+  options unchanged. Source726file hashes, commands, logs, ELF/package metadata and
+  selected framework/ORM/system/project notices retained under ignored evidence/SDK.
+  No corrected SDK load, probe or native test execution. Stock SDK/source preserved.
+- Current coordinator integration: six configuration-only SDK admission methods and
+  installed-identity contract authored (README); no test bodies yet. Existing CMake
+  accepts only pristine SDK metadata and cannot yet build the corrected consumer.
+  Independent contract/test review precedes observed semantic configure red and
+  CMake/CI integration. Synthetic package targets never load a DSO or probe compiler.
 
 ## Baseline and next gates
 
@@ -49,8 +57,8 @@ or actual session-clock binding. Full release scope remains required.
   passive44. ONLY six additions ran:6 expected missing-profile failures,0errors/
   skips/setup/cleanup faults. This is missing first-party red, not new native red.
   Raw FIRST outputs/hashes in ignored `local-evidence/API-012/`; SDK138files unchanged.
-- Next: focused independent candidate4 source/resource re-review; then exact corrected
-  SDK preparation/build/ABI/license/loader admission, native44, independent native/
+- Next: independent SDK admission contract/test review, semantic configure red and
+  build wiring; then exact compiled SDK/probe ABI/license/loader admission, native44, independent native/
   code review, relevant regression and ordinary selected CI, final packet/current
   checks/discussions/rules and normal protected merge. No approval is inferred.
 - Runtime gaps: direct native TLS, HTTP ingress security, Caddy/proxy WS routing,

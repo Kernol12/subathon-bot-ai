@@ -213,6 +213,29 @@ requires native confirmation; no UTC or actual host-clock binding is supplied.
 
 ## Coordinator wiring and remaining gates
 
+### Installed SDK identity contract
+
+The corrected prefix contains `dependency-build.json` with exactly four members:
+`format` (integer 1), `profile_manifest_sha256` (the SHA256 of this repository's
+exact manifest.json bytes), `artifacts` (relative installed-file names to SHA256
+strings), and `toolchain` (actual build metadata, not an ABI certification).
+`share/subathon-native-profile/manifest.json` is an exact copy of that manifest.
+Artifacts enumerate every installed file except dependency-build.json itself,
+including headers, libraries, package configs, notices and correction provenance.
+Symlinks may resolve only within the explicit prefix. Extra, missing, changed or
+out-of-prefix files are refused before framework package import; copied profile
+bytes and the recorded profile digest must both match this repository.
+
+Required files include the Drogon HttpAppFramework/WebSocketConnection headers,
+Trantor TcpConnection/MsgBuffer headers, the exact versioned Drogon/Trantor DSOs,
+Drogon LICENSE, Trantor License, compiled orm_lib-COPYING, and the copied manifest.
+The existing explicit imported-target location/include checks remain required.
+Stock's old three-field identity is refused for the corrected implementation.
+This catches stale or mixed build inputs; it is not signed provenance, a substitute
+for independent artifact review, or proof of ABI/native/platform compatibility.
+The configuration-only tests use synthetic files and package targets, load no DSO
+and claim no native foundation evidence.
+
 1. Independent Claude exact source/resource/protocol/build/license review of this
    revision and manifest must RELEASE preparation first. Review all B1-B4/M1-M3,
    H1, fixed-slot backing/live accounting, marked-without-profile/TLS registration
