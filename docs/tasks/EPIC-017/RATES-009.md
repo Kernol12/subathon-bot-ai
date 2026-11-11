@@ -34,7 +34,7 @@ and migration/compatibility needs before changing representations.
 [RATECONTRACT-001](RATECONTRACT-001.md) separates the reviewed logical exact-rate,
 provenance and compatibility obligations from this slice's executable baseline.
 Its [proposal](../../contracts/exact-retained-valuations-v1.md) supplies document
-proof only. Planned [RATECONTRACT-002](RATECONTRACT-002.md) must define and obtain
+proof only. [RATECONTRACT-002](RATECONTRACT-002.md) must define and obtain
 separate approval for the concrete API/codec/schema contract before the baseline.
 Revised assertions, intended red and implementation remain downstream. Existing contracts and shipped
 migrations remain unchanged by that prerequisite.
@@ -51,3 +51,25 @@ No new contract/code/schema/fixture/test is supplied by this planning brief.
 This is a required currency release-epic child. Pure RATES-001 model completion
 cannot establish this bridge. Provider operations, pin solving, scheduling,
 reporting UI and all three providers remain separate required work.
+
+The controlled parent-table rebuild dependency is explicit:
+[STORAGECONTRACT-003](../EPIC-009/STORAGECONTRACT-003.md) →
+[STORAGETEST-021](../EPIC-009/STORAGETEST-021.md) →
+[STORAGE-021](../EPIC-009/STORAGE-021.md). RATESTEST-009 requires that actual
+writer/catalog capability before its real-SQL baseline; no unsupported PRAGMA or
+unproven populated migration is assumed by this bridge. All three remain planned
+under the contract task's one-task stop boundary.
+
+STORAGE-021 owns the concrete new schema MigrationStep,
+exact_valuation_repository_manifest() factory, expected-schema projection and
+populated legacy upgrade/reopen/old-catalog-refusal proof. RATESTEST-009 consumes
+that shipped schema and authors new exact value/write/read/mixed-history tests;
+RATES-009 owns exact plan/bundle/hold/reference dispatch and consumes the same
+factory. It does not ship a competing migration step or waive lifecycle admission.
+
+New binaries must preserve legacy-schema operation on unchanged supported prefix4–8
+fixtures through bounded schema-family dispatch and old SQL projections, with no
+implicit migration. Exact writes on an old schema return unsupported_valuation_schema
+before new-object SQL/writes. Additive new-schema tests do not replace old fixtures.
+Composed bundle/hold/claim failures use the concrete contract's owning typed reason
+mapping; rolled-back storage errors cannot become a normal not_ready response.

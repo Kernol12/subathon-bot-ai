@@ -1,44 +1,45 @@
 # Coordinator checkpoint
 
-Owner explicitly authorized CI runner repair after PR118's three attempts failed
-Ubuntu mirror DNS. Only CI-001 repair and PR118 normal publication gates, then STOP.
-No product/API-001/session-clock/valuation implementation is authorized.
+Owner authorized the CI repair blocking PR118 and its normal publication, then STOP.
+[State](state.json), [PR118](https://github.com/Kernol12/subathon-bot-ai/pull/118),
+[merged CI repair PR119](https://github.com/Kernol12/subathon-bot-ai/pull/119).
+No next product task, API-001, clock binding or valuation implementation is authorized.
 
-Current checkout /tmp/subathon-ci-001, branch fix/CI-001-ubuntu-apt, base main38b482d.
-[CI-001 brief](../docs/tasks/CI-001.md), [PR119](https://github.com/Kernol12/subathon-bot-ai/pull/119).
-Original PR118 checkout/branch and LOCAL uncommitted checkpoint are untouched;
-preserve and reconcile that one metadata diff when integrating fixed main.
+PR119 merged normally as5c6121d on2026-11-11 at17:28:38Z after source/test initial
+Claude, Codex fixes/separate verification and independent Claude closing; routine
+completion packet8c666e8 separately Codex-approved. All22 final-head checks passed.
+Source/proof/review receipts are in PR119 comments; no branch protection bypass.
+Post-merge main5c6121d CI was still running at initial read, with no failures.
+Verify actual complete main results before PR118 merge; do not repeat the PR117
+handoff gap of relying only on a prior PR's green checks.
 
-Test cycle: initial Claude0495679b B1–6, fixes15e4343; separate Codex C1/C2 fixedb24,
-closing02fcd8e0 approvedb24. New Canonical incident evidence required mirror revision2;
-Codex M1 release-field cases fixeddafa370, separate verification then independent
-Claude closing30806b2a approveddafa370. Actual first stub run8 methods/33 assertion
-failures/0 setup errors. Frozen tests SHA256
-a9779aafb1c56b09f72498ec78ef6c7df7f8fe8a86016f7a3250caa2f6e5020e.
-Fresh /root/ci_001_implementation authoredaebaafb; initial source Claudee4995994,
-coordinator M1/L1 fixes1d686a6, separate Codex ci_001_code_verification and closing
-Claudef311a859 APPROVEDcb5f8fc. All roles completed. No source/test changes after.
-Full test/code reports and actual local receipt in PR119 comments6802211891,
-6802212350 and6802212768; first hosted receipt6802269640.
+Current branch task/RATECONTRACT-002-exact-valuation-storage, original PR118
+head7a7d821; merging fixed main5c6121d. Resolve only metadata/HTML/navigation;
+all code/tests/CI/SDK bytes must match fixed main, and all contract/task brief bytes
+must match approved PR118. Preserve all483 PR118 task dictionaries plus exact CI001,
+both histories, both evidence/navigation additions and all independent approvals.
+No new task claim or runtime implementation. Final combined graph484 records.
 
-Actual reviewedcb5f8fc: all9 setup steps/selected jobs SUCCESS, all22 checks SUCCESS,
-none pending/failed. Normal host compilation/registration scope remains unchanged;
-no intentional-red host body is promoted to passing behavior. Root project481/122,
-progress/render,59 tooling and scaffold3 pass; all480 old task records/edges/reviews
-preserved. Ubuntu signatures/pins/SDK hashes/native baselines unchanged.
-Observed runnerDNSstub127.0.0.53/upstream168.63.129.16 resolves allCanonical names at
-17:05:52Z; apt fetches allfour signed suites from preferred kernel.org. DNS recovered
-on that runner, so no outage-time causal comparison is claimed.
+Approved contract SHA256
+c3e9e21cd0b624f9f15b8244f070462d8e5bf654dfeba72fc0a6781ded9439fe.
+Contract examples18 and planned STORAGECONTRACT003/STORAGETEST021/STORAGE021 remain
+unchanged and unassigned. Original initial Claude4f8d827b B1–5/N1–8, corrections
+d7298a2; separate Codex C1/C2, fix09c5276/recheck; independent Claude44907a68 closing
+APPROVED9509176. Original completion packet separately Codex-approved7a7d821:
+https://github.com/Kernol12/subathon-bot-ai/pull/118#issuecomment-6799058174
+Full reports/nonblockers remain in PR118. Prior assignments retired, none assumed live.
 
-Current delta is completion metadata/HTML/evidence summary only, pending separate
-Codex packet review and one final commit/push. Task records component done with actual
-proof; final-current-head CI and normal protected merge remain publication gates.
-Live rules26170263 require PR/resolved threads/0 GitHub approvals; all applicable
-current checks and independent reviews still required by workflow. PR119 has no
-unresolved review threads. Never bypass or merge red checks.
+Original uncommitted checkpoint was preserved byte-for-byte in named Git stash
+"Preserve PR118 pre-CI checkpoint for reviewed reconciliation" and backups
+/tmp/pr118-original-local-checkpoint.md and .patch; SHA256
+60d4f7b31d2bf94b795d5029dbb9146111f24978034cbed7775abf6a066b21a3.
+Its factual final-packet approval and first two DNS-failure attempts are reconciled
+here; this session's third retry also failed DNS in all9 jobs, before compile/tests.
+CI repair now supplies independent mirror preference and bounded DNS diagnostics;
+all pins/trust/SDK hashes/native baselines are preserved. Canonical DNS also recovered
+on observed passing runner, so no outage-time causal comparison is claimed.
 
-After final packet approval, push only metadata, verify its fresh CI and merge119
-normally. Refresh main and ensure post-merge package jobs remain healthy, reconcile
-PR118 metadata with fixed main preserving its approved contract and every new/old
-task record, independent factual packet review/current-head CI/normal merge118.
-Then refresh main and STOP. No new task is authorized.
+Next: independent factual reconciliation packet review, actual local project/render/
+tooling checks and current-head CI; verify post-merge main healthy and PR118's
+reviews/discussions/live rules, normal protected merge, refresh main and STOP.
+No push or PR118 CI recovery claim yet for this reconciled candidate.

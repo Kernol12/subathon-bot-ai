@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T17:14:35+00:00",
-  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. RATES-001 merged normally in PR116 at c70fbec. Owner resumed for one fresh task: RATECONTRACT-001 logical exact retained valuation prerequisite is reviewed document proof in PR117; concrete RATECONTRACT-002 remains planned. Final CI/normal merge, then STOP; API-001 implementation and actual session-clock binding remain unauthorized. Owner subsequently authorized CI-001 to repair the Canonical DNS failures blocking PR118. Independent source review and all affected hosted lanes pass at cb5f8fc; final metadata/current-head CI and normal publication gates remain. Finish only the CI repair and PR118, then stop.",
+  "updated_at": "2026-11-11T17:31:17+00:00",
+  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. RATES-001 merged normally in PR116 at c70fbec. PR117 RATECONTRACT-001 merged normally at38b482d. Owner resumed for ONE new task: RATECONTRACT-002 concrete exact valuation API/codec/storage contract now has independent document-stage approval in PR118. Three explicit planned migration prerequisites preserve scope; no runtime change. Final packet/current CI/normal merge then STOP; API-001 implementation and actual session-clock binding remain unauthorized. Owner-authorized CI-001 repair merged normally in PR119 at 5c6121d after all22 final-head checks passed. PR118 now incorporates fixed main; its approved contract is unchanged. Verify post-merge main and refreshed PR118 CI, then merge normally and stop.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -5896,7 +5896,10 @@
         "STORAGE-019",
         "STORAGECONTRACT-002",
         "STORAGETEST-020",
-        "STORAGE-020"
+        "STORAGE-020",
+        "STORAGECONTRACT-003",
+        "STORAGETEST-021",
+        "STORAGE-021"
       ],
       "spec_refs": [
         "§16"
@@ -13456,8 +13459,8 @@
       "title": "Exact valuation API, codec and additive storage contract",
       "module": "Currency",
       "kind": "contract",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "codex:coordinator-9dd14702; fresh exact_valuation_storage_author",
       "depends_on": [
         "RATECONTRACT-001",
         "STORAGE-018",
@@ -13473,11 +13476,26 @@
       "brief": "docs/tasks/EPIC-017/RATECONTRACT-002.md",
       "summary": "Define concrete exact valuation API, codec, resource and append-only storage compatibility before the executable baseline.",
       "notes": [
-        "Required planned concrete contract gate exposed by RATECONTRACT-001 audit; no authored or approved API/schema/tests/implementation."
+        "Defined concrete exact valuation API/equality, codecs, resource/error and storage compatibility with18 examples. Initial Claude, Codex fixes/separate recheck and Claude closing approve9509176. Document proof; project483/122 and51 tooling pass. Planned STORAGECONTRACT-003/STORAGETEST-021/STORAGE-021 migration gates precede RATESTEST-009/RATES-009. Runtime/provider/release remain unverified; PR118 records final CI/normal merge, then STOP."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "contract": "passed",
+        "independent_review": "passed",
+        "resource_contract_review": "passed",
+        "tooling": "passed",
+        "runtime_acceptance": "not_run",
+        "product_release": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/118"
+      ],
+      "review": {
+        "author": "Codex gpt-6.1-sol /root/exact_valuation_storage_author; coordinator9dd14702 corrections/graph",
+        "reviewer": "Claude Opus5.5/high initial4f8d827b/closing44907a68; Codex gpt-6.1-sol /root/exact_valuation_storage_codex_verify and /root/exact_valuation_storage_codex_recheck",
+        "outcome": "approved",
+        "revision": "Initial88f920a B1–5/N1–8 fixed d7298a2; separate Codex C1/C2 fixed09c5276 and fresh recheck approved09c5276. Independent Claude closing approved9509176, no blockers; contract SHA256c3e9e21cd0b624f9f15b8244f070462d8e5bf654dfeba72fc0a6781ded9439fe. Final packet/current CI/normal merge in PR118.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/118"
+      }
     },
     {
       "id": "RATESTEST-009",
@@ -13492,7 +13510,8 @@
         "STORAGE-015",
         "ACCT-004",
         "RATECONTRACT-001",
-        "RATECONTRACT-002"
+        "RATECONTRACT-002",
+        "STORAGE-021"
       ],
       "spec_refs": [
         "§3",
@@ -13523,7 +13542,8 @@
         "ACCT-004",
         "RATESTEST-009",
         "RATECONTRACT-001",
-        "RATECONTRACT-002"
+        "RATECONTRACT-002",
+        "STORAGE-021"
       ],
       "spec_refs": [
         "§3",
@@ -16112,6 +16132,85 @@
       "summary": "Implement reviewed remaining-budget producer and additive actual policy/scope binding with bundled and alternative AUTH-edge admission."
     },
     {
+      "id": "STORAGECONTRACT-003",
+      "title": "Controlled parent-table rebuild migration contract",
+      "module": "Operations",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "RATECONTRACT-002",
+        "STORAGE-010",
+        "STORAGE-011",
+        "STORAGE-020"
+      ],
+      "spec_refs": [
+        "§16",
+        "OPS-02",
+        "NUM-04",
+        "FX-06"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGECONTRACT-003.md",
+      "summary": "Gate the safe populated-database exact-valuation parent-table upgrade under the actual controlled writer and catalog.",
+      "notes": [
+        "Planned prerequisite exposed by RATECONTRACT-002: existing plan CHECKs/FKs and writer PRAGMA allowlist do not supply a proven safe parent rebuild. No approved contract/baseline/red/implementation yet."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGETEST-021",
+      "title": "Review and demonstrate red: controlled parent-table rebuild migration",
+      "module": "Operations",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "STORAGECONTRACT-003"
+      ],
+      "spec_refs": [
+        "§16",
+        "OPS-02",
+        "NUM-04",
+        "FX-06"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGETEST-021.md",
+      "summary": "Gate the safe populated-database exact-valuation parent-table upgrade under the actual controlled writer and catalog.",
+      "notes": [
+        "Planned prerequisite exposed by RATECONTRACT-002: existing plan CHECKs/FKs and writer PRAGMA allowlist do not supply a proven safe parent rebuild. No approved contract/baseline/red/implementation yet."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGE-021",
+      "title": "Controlled parent-table rebuild migration capability",
+      "module": "Operations",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "STORAGETEST-021",
+        "STORAGECONTRACT-003"
+      ],
+      "spec_refs": [
+        "§16",
+        "OPS-02",
+        "NUM-04",
+        "FX-06"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-021.md",
+      "summary": "Gate the safe populated-database exact-valuation parent-table upgrade under the actual controlled writer and catalog.",
+      "notes": [
+        "Planned prerequisite exposed by RATECONTRACT-002: existing plan CHECKs/FKs and writer PRAGMA allowlist do not supply a proven safe parent rebuild. No approved contract/baseline/red/implementation yet."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
       "id": "CI-001",
       "title": "Reliable Ubuntu package acquisition on GitHub runners",
       "module": "Quality and tooling",
@@ -17994,6 +18093,26 @@
       "note": "Logical exact valuation contract approved08fcfe1 after initial Claude B1/B2 fixes, Codex B3 fix and separate verification, then independent Claude closing. Document-only19examples; preserved478 old records/edges/reviews. RATECONTRACT002 remains planned; final packet/CI/normal PR117 merge, then STOP."
     },
     {
+      "date": "2026-11-11T14:07:01+00:00",
+      "task": "RATECONTRACT-002",
+      "note": "Owner resumed for ONE new task after verified PR117 merged38b482d/all22 head checks successful. No open PR/active claims/other T3 roles; historical worktrees clean and assignments retired. Claim dependency-ready concrete valuation contract; fresh author new document only, coordinator shared files."
+    },
+    {
+      "date": "2026-11-11T14:11:54+00:00",
+      "task": "RATECONTRACT-002",
+      "note": "Audit found migration4 resolved-decimal CHECK and bundle/hold/reference FKs prevent a fake-free parallel exact row feeding old consumers. Split planned STORAGECONTRACT003/STORAGETEST021/STORAGE021 controlled parent-table rebuild prerequisite; append only EPIC009 and RATESTEST009/RATES009 edges. No runtime/writer change authorized."
+    },
+    {
+      "date": "2026-11-11T14:29:55+00:00",
+      "task": "RATECONTRACT-002",
+      "note": "Initial independent Claude Opus5.5/high4f8d827b reviewed88f920a: B1–5 and N1–8. Coordinator corrected concrete equality/error/API/admission and migration ownership, preserving old bytes/assertions; sizing literal14364 bytes independently checked. Separate Codex verification and Claude closing pending."
+    },
+    {
+      "date": "2026-11-11T14:49:08+00:00",
+      "task": "RATECONTRACT-002",
+      "note": "Document stage approved9509176: initial Claude B1–5/N1–8 fixed d7298a2; independent Codex C1/C2 corrected09c5276, fresh Codex recheck then independent Claude closing44907a68 approved, no blockers. Record bounded completion; all480 old IDs/edges/unrelated reviews preserved. Final packet/currentCI/normal PR118 merge then STOP."
+    },
+    {
       "date": "2026-11-11T16:19:37+00:00",
       "task": "CI-001",
       "note": "Claimed separate CI-only repair from current main38b482d before feature edits. Owner explicitly authorizes runner changes; no product work or original assertions/pins/schema changes. Coordinator owns shared metadata; fresh implementation after independently reviewed intended red."
@@ -18017,6 +18136,11 @@
       "date": "2026-11-11T17:14:35+00:00",
       "task": "CI-001",
       "note": "All9 affected hosted setup steps and selected jobs succeed at reviewedcb5f8fc; all22 checks pass, no pending/failed checks or unresolved discussions. Actual runnerDNS now resolves allCanonicalnames, so no outage-time causal claim. Record component completion with bounded notes/reviews/PR evidence; final metadata review/current-headCI/normal protected merge remain before PR118 publication."
+    },
+    {
+      "date": "2026-11-11T17:31:17+00:00",
+      "task": "RATECONTRACT-002",
+      "note": "Reconcile fixed main5c6121d after PR119 normal protected merge/all22 final-head checks pass. Preserve every483 PR118 task dictionary and CI001 exactly, both activity histories, both evidence/navigation additions and the approved contract hash. Original dirty checkpoint saved in named stash and /tmp backups, reconciled into current checkpoint; no new behavior or task. Post-merge main CI and final packet/current-head PR118 gates remain."
     }
   ]
 }

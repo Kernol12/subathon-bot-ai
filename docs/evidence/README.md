@@ -210,11 +210,28 @@ fresh Codex verification and independent Claude closing approved `08fcfe1`.
 [PR117](https://github.com/Kernol12/subathon-bot-ai/pull/117) records reviews and
 final CI/publication/normal merge gates. Project480/122, graph/render and51 tooling
 methods pass. All478 earlier task records/edges/reviews, existing formats,
-migrations and assertions remain intact. This is document proof only: planned
-RATECONTRACT-002 must freeze concrete API/codec/additive-storage contracts before
-RATESTEST-009; no exact valuation adapter, SQL/reopen or provider capability is
+migrations and assertions remain intact. This is document proof only. The concrete RATECONTRACT-002 refinement is reviewed
+below before RATESTEST-009; no exact valuation adapter, SQL/reopen or provider capability is
 established. Source-store/authority/platform/release gates remain required. The
 owner authorized this one task, then STOP.
+
+The [concrete valuation contract](../contracts/exact-valuation-storage-v1.md) defines
+the exact DTO/equality and bounded legacy adapter, RSV1/ERV1/EVK1 byte grammars,
+owned/opaque closure, resource/error profiles and target storage dispatch, with18
+independent examples. Initial Claude B1–5/N1–8 fixes, separate Codex C1/C2
+corrections and fresh verification precede independent Claude closing approval
+at `9509176`. Contract SHA256 is
+`c3e9e21cd0b624f9f15b8244f070462d8e5bf654dfeba72fc0a6781ded9439fe`.
+[PR118](https://github.com/Kernol12/subathon-bot-ai/pull/118) records the full
+review reports, correction maps and final publication/CI/normal merge receipts.
+Project483/122, progress/render and51 tooling pass. All480 prior task IDs,
+assertions, migration bytes and unrelated reviews/verification remain intact.
+Three planned prerequisites separately gate the controlled populated parent-table
+rebuild, its real-SQL baseline and concrete migration implementation before
+RATESTEST-009/RATES-009. No source/schema/test/build changes or runtime/reopen/
+provider proof is supplied. Closing downstream mapping, sizing and budget notes
+remain in PR118 for the owning baseline/producer reviews; migration feasibility
+must be approved before use. The owner authorized this one task, then STOP.
 
 ## Milestones and automation
 

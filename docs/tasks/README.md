@@ -145,5 +145,11 @@ API/codec/additive-storage contract. These are additional foundation records,
 not extra epic work packages. No existing
 release requirement, baseline assertion or shipped migration is removed.
 
+The [controlled parent rebuild prerequisite](EPIC-009/STORAGECONTRACT-003.md)
+separates migration mechanism contract, [real-SQL baseline](EPIC-009/STORAGETEST-021.md)
+and [implementation](EPIC-009/STORAGE-021.md) before exact valuation storage tests.
+Existing writer PRAGMA admission and plan CHECK/FK constraints require explicit
+reviewed migration support; the planning split supplies no runtime capability.
+
 [CI-001 — Reliable Ubuntu package acquisition](CI-001.md) is an owner-authorized
 CI-only repair before PR118 publication; product work remains stopped.
