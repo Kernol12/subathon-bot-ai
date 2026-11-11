@@ -54,3 +54,10 @@ Draft PR114: https://github.com/Kernol12/subathon-bot-ai/pull/114
 Ruleset26170263 re-read: PR + resolved threads, no bypass actors,0 human approval
 count; no classic protection. Project requires all current CI independently.
 Next: settle Codex findings then new independent Claude closing delegate.
+
+Separate Codex reviewed28e8b40: initial B1–3/N1–6 resolved; new B4 requires
+unconditional authority-free consumer outcome settlement even after cancellation/
+stop/abnormal/unknown; N7 table break and N8 stale owner summary corrected.
+Coordinator adds once-only settle callback, bound drain lifetime/exception revocation,
+HC43–45 and clear separation from positive guarded complete. No runtime claims.
+Next: separate Codex recheck of this correction, then new Claude closing review.

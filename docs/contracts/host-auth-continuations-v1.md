@@ -136,13 +136,45 @@ Internal proposed operations, not declarations in the current header:
 Composition registers one compiled `AuthStageDispatcher` per allowed purpose with
 bounded stage kinds, phase transitions and payload/result shapes. Its proposed
 `execute(AuthExecution&, StageView)` runs synchronously on the actual Qt writer
-owner in the fresh stage binding; `complete(AuthCompletion&, StageResultView)`
-runs synchronously on Qt only after actual host settlement and fresh completion
-checks. Views borrow the private matching stage envelope for that call only.
+owner in the fresh stage binding. Every writer-accepted stage also receives
+`settle(AuthSettlementView)` once on Qt for its ACTUAL matching outcome, regardless
+of cancellation, expiry, stop, policy/source invalidation or envelope failure.
+Only then may `complete(AuthCompletion&, StageResultView)` run on Qt after fresh
+completion checks. Views borrow matched bounded information owned by the private
+host stage record for that call only; no stack/consumer reference escapes.
 The consumer dispatcher is supplied by ACCESS-008 (or the later setup/reset
 owner); API-013 knows the abstract port, never those implementations. Missing
 registration refuses BEFORE reservation/copy/post. No client-selected callback,
 lambda or generic SQL body is accepted. Test dispatchers establish simulation only.
+
+`settle` has NO execution, SQL, clock, publication, response or stage-admission
+capability. It conveys actual work error/transaction outcome, original stage and
+reservation binding, and normal/abnormal/absent-envelope status from host-owned
+records. Even absent/incorrect normal envelope cannot suppress settlement; an
+unmatchable consumer envelope is not treated as a successful domain result. The
+consumer consumes its matching mint reservation on ANY confirmed commit, poisons
+unknown outcomes, and invalidates upgrade lineage on committed abnormal/lost
+authority; it never guesses rollback. Normal lineage advancement or known-rollback
+release still needs the upstream current checks in a later fresh guarded turn;
+settlement alone cannot make an acceptance usable or release a stale reservation.
+A not-started/rolled-back cancellation must still retire or quarantine its bound
+consumer record, never resurrect an expired request.
+
+Reserve the settlement record/consumer lifetime BEFORE writer acceptance; retain
+it through actual completion/drain, even after deregistration. This is one direct
+synchronous call on Qt, no separate unbounded callback queue. Mark its once-only
+latch before invocation; duplicate results cannot invoke it twice. The consumer
+must be nonthrowing. Catch any unexpected exception at the host boundary: preserve
+actual writer truth, suppress positive completion, revoke the entire affected
+consumer registration generation and all its outstanding request capabilities,
+and quarantine unresolved private records without making them reusable. Every
+consumer entry observes that host-owned revocation; missing acknowledgment cannot
+reopen it. Continue mandatory writer/native/network drain; no retry of settlement,
+secret exception log, early permit release or freeing a live borrow. Re-enable
+requires that consumer's separately reviewed reconciliation/restart gate; it is
+not an automatic same-process recovery mechanism. Writer admission refusal has
+NO actual outcome/settle call; the separate fixed refusal/wake path unwinds only
+unaccepted reservations. Accepted stages cannot disappear with a logical response.
 
 The host checks request/phase/stage membership, kind/ordinal, policy/generation,
 installation/readiness, elapsed/stop, exact envelope pairing and once-only use.
@@ -161,7 +193,7 @@ caller boolean never substitutes for this registered synchronous consumer body.
 | --- | --- |
 | `try_begin_auth(scope, borrowed_input)` | At §3's exact point atomically reserve original association, permit, registry credit where login needs it, complete initial payload/response/control credits and deadlines; otherwise refuse before stage/secret ownership. |
 | `try_stage(request, named_kind, owned_metadata)` | Auth-specific compiled dispatch only; reserve fresh stage record/ordinal, whole command and possible reply capacity, original remaining stage credit, deadline and host writer slot BEFORE posting/copying. No client-supplied function/lambda/body. |
-| `stage_complete(actual_result)` | Host privately matches the real body/completion pair and typed phase envelope; settle truth, then open fresh completion scope for any permitted private reply/next-stage decision. |
+| `stage_complete(actual_result)` | Host privately matches the real body/completion pair and typed phase envelope; settle host truth and unconditionally call consumer settle for accepted work, then open fresh completion scope for any permitted private reply/next-stage decision. |
 | `finish_auth(request, owned_result)` | Once-only final publication decision on Qt, then bounded correlated IO handoff. Duplicate/late completion cannot finish again. Finalization does not imply network receipt. |
 | `cancel_auth` | Actual disconnect, expiry, stop, policy revocation or consumer cancellation terminally closes response/stage authority; settlement/drain still happens. |
 
@@ -576,17 +608,19 @@ later gates; simulated ports prove only their named component behavior.
 | HC35 Raw cleanup during early transport | Partial body EOF, timeout, receive compaction, parser exception, pool destruction, stop with later pipelined bytes | Before reuse/free inspect complete owned ranges zero incl moved-from/stale regions; close wipes future bytes. No borrowing after scope revocation, no dropped charged capture. Never claim whole TLS/edge heap erasure. |
 | HC36 Secret response cleanup | Lifecycle later commits candidate; publication UTC unavailable, emitter throws, IO lease expires/disconnects, or normal emit returns | Each candidate/output owner wipes on its real last-use path, at most one emit. Committed truth remains, no retry/raw-token recovery/password echo. Separate emitter/body/wire gate still required. |
 | HC37 Capture arithmetic |8 active raw scopes,128 receive peers; ninth scope or129th peer; whole frame/result overage | Ninth AUTH scope refuses after request-line binding BEFORE capture copies;129th peer refuses before receive/read. Other routes keep their own admission. Literal active835776/native8701056 sums hold at named boundaries plus fixed records, NOT process RSS or edge erasure. |
-
 | HC38 Entry versus running deadline | Stage admitted1000 enters5999, calls facade6001 with pipeline11000 and lease13000 still live; separately call at11000 while pipeline live | First allowed despite passed queue cutoff. Second refuses further operations; actual SQL rollback/commit result still settles, no forced preemption. |
 | HC39 Early edge closure | Q has the simulated16000 edge bound, but peer actually closes at7000 while pipeline cutoff11000; earlier upgrade or mint committed | Cancel Q at actual disconnect; suppress results and retain permit until drain. Keep real committed truth; no retry, new issuance or delivery claim. Unknown budget at admission instead refuses before job copy. |
 | HC40 Transport scratch and reauthentication | Supplier preparation on a separately admitted reauth route returns, refuses or throws with32-byte raw token/60-byte framed scratch; existing session cookie also present on sign-in | Inspect32/60 buffers wiped before unwind/reuse on every exit. Reauth's registered consumer requires its own actual current-session guard plus fresh password; sign-in runs pre-session guard and never adopts the cookie's identity. Neither path exposes plaintext to a generic command. |
 | HC41 Compiled consumer ownership | No dispatcher; foreign phase; dispatcher without actual accepted owner; accept_verified with unavailable clock | No registration refuses before job ownership/post. Host phase rejects before execute. Consumer fails lineage/UTC inside its fresh execution without mutation/acceptance; no DTO creates authority, no reverse host dependency. |
 | HC42 Reserved ordinary capacity |32 auth originals still referenced during drain; attempt33 and one ordinary request with other pools free | Auth33 refuses before materialization; ordinary request can reserve one of remaining96 slots under its own gates. Busy password permit still excludes new password work independently. |
+| HC43 Settlement after disconnect/stop | Mint physically commits; peer disconnects or stop wins before fresh completion; separately upgrade commits with abnormal/missing envelope | Unconditional matched settle still consumes mint or invalidates upgrade lineage. No guarded complete/positive reply/publication. Actual truth and charged drain records remain. |
+| HC44 Unknown and callback exception | Actual outcome_unknown after cancellation; separately settle unexpectedly throws after latch claimed | First still settles poison without response authority. Exception preserves actual outcome, revokes consumer registration generation/all request uses and quarantines unresolved records; no retry/false release/new authority, drain continues. |
+| HC45 Envelope absent and duplicate | Accepted work commits but normal consumer envelope absent; later duplicate completion after deregistration | Original stage's bound settlement is called once with actual commit and absent-envelope status; mint consumed/upgrade invalidated, no success reconstructed. Retained registration lifetime covers call/drain; duplicate cannot settle another record. |
 
 ## 9. Review and downstream gates
 
 The complete proposal, its compatibility/source audit, arithmetic, phase/ownership
-and HC01–42 require independent Claude initial review, Codex correction/separate
+and HC01–45 require independent Claude initial review, Codex correction/separate
 Codex verification and independent Claude closing review on the exact resulting
 revision. The author records no approvals. Coordinator owns revision receipts,
 shared metadata/HTML/index/evidence, current CI and normal protected merge.

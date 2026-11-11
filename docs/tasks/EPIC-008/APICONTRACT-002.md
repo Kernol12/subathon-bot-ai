@@ -47,7 +47,7 @@ reviewed revision and unresolved boundaries; no runtime capability is establishe
 
 [Host authentication continuations v1, revision 1](../../contracts/host-auth-continuations-v1.md)
 is authored for independent review: original lease, bounded stages, guarded ports,
-shared elapsed/permit, policy provenance, per-owner secret cleanup and HC01–42.
+shared elapsed/permit, policy provenance, per-owner secret cleanup and HC01–45.
 It proposes separately gated auth adapter extensions and identifies missing actual
 producers; no runtime, tests or review approval is claimed. Author owns only that
 contract and this brief. Coordinator retains all shared integration and the full
