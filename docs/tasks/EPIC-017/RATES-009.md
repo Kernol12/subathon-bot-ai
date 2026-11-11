@@ -66,3 +66,10 @@ populated legacy upgrade/reopen/old-catalog-refusal proof. RATESTEST-009 consume
 that shipped schema and authors new exact value/write/read/mixed-history tests;
 RATES-009 owns exact plan/bundle/hold/reference dispatch and consumes the same
 factory. It does not ship a competing migration step or waive lifecycle admission.
+
+New binaries must preserve legacy-schema operation on unchanged supported prefix4–8
+fixtures through bounded schema-family dispatch and old SQL projections, with no
+implicit migration. Exact writes on an old schema return unsupported_valuation_schema
+before new-object SQL/writes. Additive new-schema tests do not replace old fixtures.
+Composed bundle/hold/claim failures use the concrete contract's owning typed reason
+mapping; rolled-back storage errors cannot become a normal not_ready response.

@@ -51,3 +51,10 @@ B2 error priority, B3 provider count admission, B4 migration ownership, B5 legac
 adapter, plus N1–8. Report /tmp/ratecontract002-claude-initial.md to be published
 in PR118. Coordinator fixes require fresh separate Codex verification then
 independent Claude closing. Original author and initial reviewer retired.
+
+Separate Codex verification atd7298a2 resolved B1–5/N1–8 but found B6 old-schema
+fixture compatibility and B7 composed bundle/hold/service error mapping gaps.
+Coordinator corrections explicitly preserve legacy-only operations on prefixes4–8,
+refuse exact writes there before new SQL, and define owning typed failure reasons.
+Rolled-back store errors do not produce normal not_ready. Fresh independent Codex
+recheck is required before Claude closing; no runtime proof or baseline changes.

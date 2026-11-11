@@ -442,8 +442,22 @@ reuse is not evidence they were previously committed.
 The public `SqliteApplicationPlanStore` constructor/retain_initial/append/find/
 find_revision signatures remain unchanged. Exact snapshot insertion is internal
 to retain/append; no independent auto-committing snapshot store is exposed. The
-new compiled manifest must be explicitly inspected/migrated by the authorized
-installation lifecycle before use. The future production installation lifecycle MUST enforce supported catalog/
+new exact schema must be explicitly inspected/migrated by the authorized
+installation lifecycle before exact use. New binaries ALSO support unchanged
+legacy-only operations on the authentic supported old schema prefixes used by
+the existing stores/fixtures (plan4, bundle5, holds6, reference7, accounts8).
+Choose the corresponding old named-column SELECT/INSERT/update projections
+without referencing any new column/table. This path performs no implicit
+migration and preserves old validation/order/results; it does not certify new
+exact capability. Schema-family dispatch uses bounded catalog/version and shape
+metadata under the owning admission rules, never a failed new-column query as a
+fallback or a mutable-current rate lookup. On an old schema, an exact write is
+refused before writes/new-object SQL with the appended storage reason
+unsupported_valuation_schema. Legacy reads on those prefixes remain legacy; a
+request to decode an exact body cannot fabricate one from old columns. Current
+frozen prefix factories, fixtures and old assertions stay unchanged. New exact
+schema support is tested additively against the new factory, not by rewriting
+those fixtures. The future production installation lifecycle MUST enforce supported catalog/
 expected-schema inspection before invoking stores, so an old binary refuses a
 new catalog without writes. That lifecycle is not implemented or certified here.
 As a defensive fallback, current named-column old readers encounter format1's
@@ -532,9 +546,56 @@ A snapshot conflict maps to an added storage reason `snapshot_identity_conflict`
 missing required snapshot maps to `missing_valuation_snapshot`. Healthy unknown
 retained outer format maps to added storage reason `unsupported_valuation_format`;
 known malformed/contradictory stored data remains invalid_stored_data. Selected
-materialization overage is result_limit. Existing service mapping must preserve
-unsupported as not_ready and resource/allocation/storage as their distinct known
-failure sources with whole rollback; it must not manufacture a missing-rate hold.
+materialization overage is result_limit. Append unsupported_valuation_schema and
+valuation_allocation_failure to SqlitePlanStorageReason as well. The concrete
+composed mapping below replaces any assumption that all exact store refusals
+can become a normal not_ready response after rollback; they must not manufacture
+a missing-rate hold.
+
+For readers/operations owned by bundle/original-claim or hold facades, preserve
+the owning exception class and append these alternatives to BOTH
+SqliteBundleStorageReason and SqliteHoldStorageReason, without renumbering:
+unsupported_valuation_format, unsupported_valuation_schema,
+valuation_allocation_failure, snapshot_identity_conflict and
+missing_valuation_snapshot. Their priority follows selected schema/tag dispatch,
+framing, semantics and closure order above, after existing owning key/source
+validation. Use this complete mapping:
+
+| Exact failure | Plan/bundle/claim/hold mapping |
+| --- | --- |
+| Exact write on supported old schema | unsupported_valuation_schema; no own writes or new-object SQL |
+| Healthy unknown stored exact format | unsupported_valuation_format |
+| Known malformed/contradictory stored exact body, selected shared snapshot missing or key/content mismatch | existing invalid_stored_data (a corrupt retained closure) |
+| Required target absent on NEW admission, excluding a missing source plan already covered by the old contract | missing_valuation_snapshot |
+| Existing immutable snapshot key reused with different content on admission | snapshot_identity_conflict |
+| Input/staging new profile resource overage | existing resource_limit; pure plan exact input uses valuation_resource_limit as above |
+| Owned selected/full result overage | existing result_limit |
+| Feature-owned allocation failure | valuation_allocation_failure |
+| Actual SQL/busy/work/session/unknown commit | unchanged existing typed SQL/work outcomes |
+
+Standalone pure retained codec missing_target remains ExactValuationFailure;
+loading corrupt persisted closure is invalid_stored_data, not missing-rate state.
+Known-uncommitted storage exceptions are issued only after the owning port proves
+whole rollback; cleanup failure remains the original SqliteWorkFailure and cannot
+be relabelled. No public storage error promises a live session after throwing.
+
+The application service already consumes bundle and hold readers, including claim
+lookup; do NOT add SqlitePlanStorageReason to ApplicationServiceFailureReason or
+let an unhandled plan exception collapse into a generic completion. Translate
+internal plan/codec failures to the owning bundle/hold reason at that reader
+boundary. Existing ApplicationServiceFailureReason variant alternatives and
+ApplicationServiceFailureSource numeric values stay unchanged: bundle/claim maps
+to source bundle0 and its SqliteBundleStorageReason, hold to source hold1 and its
+SqliteHoldStorageReason. The service completes with that typed failure and no
+normal response after known rollback, preserving actual transaction/work status.
+Read-only unsupported schema/format failures in those storage ports are typed
+failures too; no commit or normal not_ready is attempted on their rolled-back
+session. Existing pure command/annotation unsupported-format handling continues
+to use its existing not_ready/unsupported_retained_format path before writes;
+this task does not change its bytes or turn a new store exception into that path.
+After any own staging, failures roll back the whole unit, never publish not_ready
+alongside staged effects. Fault baselines must cover all these composed mappings,
+including duplicate/claim/active-hold/selected-plan reads and cleanup uncertainty.
 The concrete API/stub stage must expose these distinct additions without renumbering
 existing enum alternatives. Capability/wrong-thread/protocol/unknown work outcomes
 remain their existing `SqliteWorkFailure`, not an input exception.
