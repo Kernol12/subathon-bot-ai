@@ -51,3 +51,13 @@ Coordinator applied its sole nonblocking wording recommendation: preselection ga
 expensive password primitives/candidate generation while bounded reserved token
 checks remain explicitly registered/budgeted (unknown mechanism refuses).
 Next: independent Claude Opus5.5/high closing review on resulting revision.
+
+Independent closing Claude Opus5.5/high8f3a8945 APPROVED1e45f66, all B1–6 resolved:
+<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A13082ac3-1366-4a40-b68f-67906ec949d5%3Adelegate-task%3A8f3a8945-508c-4338-80bb-3f7b468a1f6b>
+Coordinator clarified nonblocking N1–3: expensive-vs-token counters, one worker-side
+original digest before selection/zero queued plaintext/two current comparisons,
+read-only ER18. API014 brief retains concrete future instrumentation obligations.
+Draft PR115 linked: https://github.com/Kernol12/subathon-bot-ai/pull/115.
+State accurately in_review; no final completion/CI/merge claim.
+Next: focused independent Codex verification and fresh Claude closing on clarification,
+then completion metadata/evidence review, latest-head checks/normal merge and STOP.

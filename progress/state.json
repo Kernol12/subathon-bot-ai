@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T11:57:08+00:00",
+  "updated_at": "2026-11-11T12:25:38+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. The owner now authorized ONE new task: APICONTRACT-003 document-only guarded enrollment/recovery through normal merge, then stop; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
@@ -15790,7 +15790,7 @@
     },
     {
       "module": "Server/API",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "codex:coordinator-6e24c10f (author retired; reviews pending)",
       "spec_refs": [
         "§10",
@@ -15803,10 +15803,13 @@
         "TEST-05"
       ],
       "notes": [
-        "Document-only revision1/ER01–33; initial Claude B1–3/N1–9 corrections authored. Closed purpose/operation allowlist, pre-native selection, terminal rollback and explicit producer/delegation gates. Separate Codex verification and closing Claude pending; no runtime proof. One-task normal merge then stop."
+        "Document-only revision1/ER01–33. Initial Claude and separate Codex B1–6 resolved; Codex and closing Claude approved1e45f66. Narrow closing notes clarified token counters/worker-owned digest transfer and ER18; focused Codex/Claude recheck pending. No runtime proof. PR115 holds final CI/normal merge gates; then stop."
       ],
       "verification": {},
-      "evidence": [],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/115",
+        "docs/contracts/guarded-enrollment-recovery-v1.md"
+      ],
       "review": null,
       "id": "APICONTRACT-003",
       "title": "Guarded enrollment and recovery host contract",

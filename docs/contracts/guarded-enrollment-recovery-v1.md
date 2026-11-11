@@ -202,9 +202,18 @@ ONE permitted native verification. A negative verification permits no password o
 replacement-code creation. No scan, batch of verification attempts or caller-provided
 verified flag substitutes. All checks repeat at final mutation; selection is not a
 durable reservation or future grant.
-Only pre-reserved, bounded original-token digest/check work under that registered
-mechanism is allowed during selection; it is separately budgeted from expensive
-password primitives. Unknown mechanisms refuse, never imply a supported check.
+For setup/invitation/reset-token redemption, the SAME permitted job/worker computes
+at most ONE bounded original-input format/digest projection BEFORE posting selection.
+The registered mechanism and all input/output/scratch capacities must be admitted
+before that computation. Only its privately matched digest/format provenance enters
+the typed stage metadata, never the raw token/password; raw bytes stay in their
+guarded job owner until their real last borrower drains. The selection body compares
+that digest against the current record; the final body repeats the comparison against
+fresh current facts using the SAME digest, without recomputation or native rehash.
+At most TWO such record comparisons, one per stage. This bounded preprocessing is
+separate from expensive password primitives and code generation. It uses existing
+stage/cell/notification credits, no extra executor/channel or caller-asserted check
+flag. Unknown mechanisms refuse before this work, never imply a supported check.
 
 Abstract producer construction/binding is private trusted composition: the host
 binds actual concrete adapters to its SAME private writer session for one execution.
@@ -301,9 +310,9 @@ passwords retain exact0..1024 bytes and unchanged password API cost/preflight ru
 
 | Purpose | Maximum expensive native calls / other candidate work per original |
 | --- | --- |
-| Initial owner / invitation |1 password create +8 sequential recovery-code creates =9. |
+| Initial owner / invitation |1 password create +8 sequential recovery-code creates =9; separately ONE original-input token digest projection and at most TWO current-record comparisons. |
 | Recovery-code reset |1 verify of ONE indexed code +1 password create +8 code creates =10. |
-| Helper / console reset redemption |1 password create +8 code creates =9; one bounded reset-token check. |
+| Helper / console reset redemption |1 password create +8 code creates =9; separately ONE original-input token digest projection and at most TWO current-record comparisons. |
 | Replace recovery set |8 code creates. |
 | Setup/invitation/reset issuer / revoker |ZERO password primitives; issuer at most one bounded token candidate generation/digest, revoker ZERO candidates. Same permit prevents a second code/password pipeline. |
 
@@ -386,6 +395,9 @@ injections below test refusal with deliberately changed simulated producer/stora
 facts; they do NOT demonstrate two concurrently admitted password/issuer pipelines.
 Other authorized non-password state operations may independently change access/
 installation facts while the permit is held; those retain their own gates.
+The native-call counters in these examples count EXPENSIVE password primitives;
+the separately bounded original-token preprocessing/comparisons above are not
+Argon calls and may run even when token selection subsequently refuses.
 
 | ID | Direct setup / order | Literal expected observation |
 | --- | --- | --- |
@@ -406,7 +418,7 @@ installation facts while the permit is held; those retain their own gates.
 | ER15 | Set size9 under reference8, password1025, response4097, projected stage65537 or exhausted retained pool | Refuse before respective ownership/native/mutation; no truncation, spill allocation or lowered crypto cost. |
 | ER16 | Login holds permit; initial setup/reset/console issuance arrives, or output buffer from previous job still drains | Refuse busy/resource before new secret copy/post; no extra executor/permit or waiting password job. |
 | ER17 | Admission at elapsed1000; proved transport deadline16000 | Original lease13000, pipeline11000;5000ms queue-entry clipped accordingly. At11000 no new native call/stage under live pipeline; no batch deadline renewal. |
-| ER18 | Actual edge closes7000 while pipeline cutoff11000, native call still executing | Cancel output/new calls immediately; keep permit/input/helper until native return and cleanup. A committed earlier mutation stays committed. |
+| ER18 | Actual edge closes7000 while pipeline cutoff11000, password primitive still executing | Cancel output/new calls immediately; keep permit/input/helper until return and cleanup. This original's earlier selection was read-only; no workflow mutation has occurred. Final-stage commit/lost-output truth is separately ER22. |
 | ER19 | Elapsed read fails/regresses or arithmetic overflows; separate UTC failure at final source check | Cancel unavailable/close affected network on that IO turn; no scheduled-time trust or prior UTC reuse. Existing actual outcome still settles. |
 | ER20 | Writer enqueue refuses queue_full; alternatively accepted wrapper cancelled before entry | First has no completion/body. Second drains its real not_started completion without BEGIN; neither consumes workflow or emits codes. |
 | ER21 | Final transaction writes account then directory/audit CAS or SQL fails, known rollback | ALL staged changes undone; old current code/epoch/credential remain. New candidate bytes wiped; no automatic retry/hash. |
