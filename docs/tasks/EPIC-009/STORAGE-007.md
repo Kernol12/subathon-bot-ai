@@ -18,10 +18,39 @@ Adjacent slices retain their assigned responsibilities; do not implement the who
 
 - Decrypt/stage/validate schema/assets/integrity, preserve current installation before replacement and require stopped application.
 - On restart enter Recovery review, revoke restored sessions, hold outbound jobs and enforce hard end without replaying actions.
+- At EVERY supported restore crash/reopen point, the selected installation path must not be acceptable as an ordinary store to a host lacking a restore consumer. Keep the original ordinary installation intact or ensure guarded restart/refusal before restored credential resolution, accepted login, issuance or publication. An actual acknowledged installation-epoch fence must invalidate restored sessions before restored access; unknown fence outcomes stay held.
+- Extend the real API-001 guarded restart startup to consume the chosen restore protocol. A fixture flag, plausible epoch reread or a replacement-only unit test cannot close this integration gate.
 
 ## Boundary and failure cases
 
 Test interrupted replacement, invalid/wrong-key archives, missing credential recovery material and prior-state rollback with disposable installations.
+
+The shared STORAGETEST-007 baseline must enumerate the chosen protocol's actual
+crash points before/after staging, destructive replacement/installation and epoch
+fence acknowledgment, then reopen through real guarded host startup. For each
+point prove either the untouched original ordinary installation or refusal/Recovery
+with no restored credential acceptance/publication or outbound replay. Include a
+host that lacks the restore consumer: a valid-looking old schema8 snapshot must
+never become an ordinary acceptable selected store after a supported restore
+crash. Prove final recovery still enters review, holds outbound work, enforces hard
+end and invalidates old sessions before guarded restored access.
+
+Possible approaches include staging epoch/Recovery/outbound-fenced state before
+atomic installation, or durable intent combined with a future catalog that old
+hosts refuse. These are examples ONLY; no marker/schema/filesystem/atomic-install
+mechanism is selected or certified sufficient here. The task's own reviewed
+contract/baseline must choose and prove its crash-safety and compatibility protocol.
+
+The [APITEST-001 consumer proposal](../../contracts/api-host-lifecycle-boundary-v1.md)
+§1 permits ordinary current-schema startup now via exact acknowledged prefix1–8,
+version8 inspection plus the configured installation read/normal COMMIT on the
+same live writer. No supported restore producer exists at that schema. Coherent
+out-of-band copies/VM rollback remain the clock contract §1 trust limit; malformed
+current facts and known unresolved fences still refuse. This forward obligation
+belongs to this existing STORAGE-007/STORAGETEST-007 scope. Do not make API-001 wait
+for it: STORAGE-007 already depends on SESSION-009, which depends on API-001. No
+new task/prerequisite, dependency change, executable authorization or scope waiver
+is created by this brief correction.
 
 ## Separate baseline and implementation tasks
 

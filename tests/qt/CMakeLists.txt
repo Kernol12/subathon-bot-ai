@@ -1,5 +1,24 @@
 include("${PROJECT_SOURCE_DIR}/cmake/AcceptanceRegistration.cmake")
 
+if(SUBATHON_BUILD_API_HOST_TESTS)
+    # Exception to the usual whole-runner registration: the frozen native
+    # profile installs once per process. Preserve every individual data row.
+    add_executable(server_api_host_acceptance api_host_tests.cpp)
+    set_target_properties(server_api_host_acceptance PROPERTIES AUTOMOC ON)
+    target_link_libraries(server_api_host_acceptance PRIVATE
+        subathon_api_host Qt6::Test subathon_test_fixtures)
+    subathon_target_options(server_api_host_acceptance)
+    include(api_host_cases.cmake)
+    foreach(host_case IN LISTS subathon_api_host_cases)
+        add_test(NAME "api-host.${host_case}" COMMAND server_api_host_acceptance "${host_case}")
+        # Each invocation has at most one host. The 180s process watchdog covers
+        # bounded fixture waits/cleanup; it never certifies blocked work stopped.
+        set_tests_properties("api-host.${host_case}" PROPERTIES
+            LABELS "api-host;acceptance;qt;server;intentional-red" TIMEOUT 180
+            ENVIRONMENT "LD_LIBRARY_PATH=${sbt_drogon_root}/lib")
+    endforeach()
+endif()
+
 if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
     subathon_add_qt_suite(server_sqlite_reference_capture_acceptance
         NAME sqlite-reference-capture SOURCES sqlite_reference_capture_tests.cpp

@@ -92,6 +92,21 @@ never use `WILL_FAIL`, blanket continue-on-error, disabled/skipped bodies or a f
 build as a substitute. Preserve original red evidence rather than replaying it for a
 new receipt. A documented baseline revision requires a separate reviewer.
 
+`api-host-debug` and `api-host-native-debug` select authored host lifecycle baselines;
+their current review/execution status is recorded in progress. Both need the complete
+physical account/session SQLite closure and the corrected native WebSocket SDK;
+the native profile also selects the Qt host cases. These bodies remain enabled with
+`intentional-red` and ordinary failure semantics. The `api-host-baseline-build` job
+compiles and inspects registrations, then runs infrastructure; it supplies no host
+behavior or new-consumer native proof. Repository-required checks are determined by
+the live branch rules, not by a workflow's existence.
+
+The host Qt cases are the exception to one-process-per-suite registration: the
+native profile installs once per process. Each literal `method[:row]` from
+`tests/qt/api_host_cases.cmake` runs in its own process with Qt's normal init/cleanup
+and assertions. Compare that complete inventory with admitted Qt data-tag discovery
+before running bodies. Other Qt suites retain their existing registration.
+
 ## Running relevant checks
 
 Use the selected preset for the changed component and its dependent regression scope:
@@ -118,7 +133,8 @@ the initial-capture prefix for account/session storage; milestone,
 permissions and rate include numeric checks; editorial includes debt and lifecycle.
 Bare acceptance ON defaults to credit. An explicit empty/unknown selection fails;
 `all` explicitly includes every native/translation suite, all required SDKs and the
-known rate and native WebSocket red baselines. Schema validation and configure-only Qt probing remain separate
+rate and host lifecycle intentional-red baselines. The corrected native WebSocket
+profile itself remains ordinary passing acceptance. Schema validation and configure-only Qt probing remain separate
 controls. The account preset includes the complete compiled SQLite migration prefix:
 
 ```sh

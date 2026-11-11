@@ -1,35 +1,38 @@
 # Coordinator checkpoint
 
-Owner authorization: WORKFLOW-002 guidance update only, then stop. The latest owner
-preference gives the coordinator reviewer model selection; no model is mandated.
-Product work remains stopped after API-012 merged in
-[PR110](https://github.com/Kernol12/subathon-bot-ai/pull/110), main 5ba0bdb.
-APITEST-001/API-001 and actual session-clock binding remain unauthorized.
+Owner directive: complete ONE task APITEST-001, normal protected merge, then STOP.
+API-001 implementation and actual session-clock binding remain unauthorized.
+[Task record](state.json), [brief](../docs/tasks/EPIC-008/API-001.md),
+[PR112](https://github.com/Kernol12/subathon-bot-ai/pull/112) (live publication record).
+If PR112 is merged, take no new task. Refresh/verify main and stop.
 
-## Current task and proof
+APITEST-001 baseline is done. Branch `task/APITEST-001-host-baseline`; reviewed
+executable/test/build revision `8fa8810`, actual full-run HEAD `dd0f625`. Only
+review-approved completion metadata follows. Coordinator Codex fd2a5aa3 owns
+shared integration. Author and reviewer sessions are complete/idle; no running
+implementation/test process or next task is assigned. Existing worktrees preserved.
 
-- Branch: `task/WORKFLOW-002-opus-review-cycle`, based on main 5ba0bdb. The branch
-  name is historical; current guidance does not pin any model.
-- [Brief](../docs/tasks/WORKFLOW-002.md); [authoritative state](state.json).
-- [PR111](https://github.com/Kernol12/subathon-bot-ai/pull/111) is draft and watched.
-  Do not relink or rewatch solely on wakes; inspect the actual latest head.
-- Coordinator: codex:9bae765e-bb17-4f99-8859-1361d2e80d35. Author and reviewer
-  handoffs are complete; no old assignment is assumed active.
-- Earlier initial/closing Claude and Codex reviews through4452648 are retained.
-  The owner then superseded the fixed-model preference with coordinator selection.
-- Revised cleance55cbf32045576d4d7ee7bb8416ba50faabf7c9 independently APPROVED by
-  Codex `/root/model_choice_codex_review` and closing Claude Sonnet5.5 (9464edef).
-  Subsequent edits only record actual reviews/checks and final publication steps.
-- Project/link/progress checks passed (469 tasks), tooling50 and diff checks passed.
-  Guidance component is complete; no runtime behavior, tests or provider settings
-  changed. Hosted CI/protected merge are publication gates, not claimed passed.
+Contract, tests/oracles/stubs/fixtures/resources, build/CI, passive ELF/ABI,
+controlled identity/discovery, actual admission and full intended-red results all
+completed initial Claude, Codex fixes/separate verification and closing Claude
+cycles. Final result/packet [initial Sonnet](<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A7311aadc-7aff-4581-8d93-fb3749418f94%3Adelegate-task%3A7a0206a0-f947-4a21-908f-1117ac7aaca8>),
+separate Codex `/root/boundary_codex_review`, then [closing Sonnet](<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A7311aadc-7aff-4581-8d93-fb3749418f94%3Adelegate-task%3Afd10579d-cc51-42ec-b1a5-3c1f62f13bea>) APPROVED.
 
-## Next action and stop
+Actual red: all75 Qt selectors fail at explicit NI; all18 native methods report
+23Drogon+1elapsed NI assertions plus24 secondary cleanup failures for those same
+exit42 children. Both CTest exits8; zero skips/setup/timeouts. All pre/post guards
+passed. First-red seal41803714; raw commands/JUnit/logs/guards and original setup
+failures are ignored under local-evidence/APITEST-001, with readable PR receipts.
+No source/assertion replay/change. All API012 source/patch/44tests remain frozen.
 
-Push completion metadata, update the PR body/review records and mark ready. Require
-all applicable latest-head CI checks, no unresolved discussions and live repository
-protection before a normal merge with the exact head guard. Refresh main, unwatch,
-then stop. Record merge/check receipts in PR111 rather than a follow-up metadata
-commit. If resumed after merge, verify and stop. Detailed API-012 receipts remain in
-PR110, ignored local-evidence/API-012 and git history; do not reopen product gates or
-replay native acceptance for this guidance task.
+Proof limits: native loaded lists are self-reports; Qt actual maps pre-body only,
+no QtSQL runtime map; serving/stopped maps prospective. Static25 potential child
+lifetimes is not an observed count; early NI blocks later assertions/loops.
+MONOTONIC failure is Q simulation. Host/readiness/clock/provider/auth/sync/restore/
+TLS/platform/full release remain unproved; production components stay NI.
+
+Publication gates: final completion head must have22 successful CI checks, current
+rules/discussions and normal exact-head merge. First dd0f625 head had22 successes;
+new host CI compiles/inspects registration and runs3 scaffold cases, no host body.
+The coordinator must publish final receipts in PR112, refresh main after merge,
+and stop. No routine owner approval or further product task is authorized.

@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-10T20:58:20+00:00",
-  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. The owner authorized API-012 only, followed by a stop.",
+  "updated_at": "2026-11-11T09:31:48Z",
+  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. The owner resumed APITEST-001 baseline only through normal merge, then stop; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -15,7 +15,7 @@
     {
       "label": "Progress tooling",
       "status": "passed",
-      "detail": "50 Python tooling methods, project consistency and current HTML pass. Earlier offline-controller DOM simulation remains recorded; no new browser/OBS proof. Synthetic completion fixtures preserve acceptance and independent-review gates."
+      "detail": "51 Python tooling methods, project consistency and current HTML pass. Earlier offline-controller DOM simulation remains recorded; no new browser/OBS proof. Synthetic completion fixtures preserve acceptance and independent-review gates."
     },
     {
       "label": "CMake / CLion / Qt",
@@ -46,6 +46,11 @@
       "label": "Native WebSocket profile",
       "status": "passed",
       "detail": "44 real Linux loopback methods pass locally and in selected Ubuntu CI with reviewed source/resource, SDK/ABI, fixture, CI recipe and loaded-map evidence. Actual host, TLS/proxy routing, clock, auth/sync and full platform/release gates remain separate; final publication gates are recorded in PR110."
+    },
+    {
+      "label": "Production host lifecycle baseline",
+      "status": "partial",
+      "detail": "Reviewed stubs/tests compile. First run: 75 isolated Qt failures and all 18 native methods fail at explicit NI (24 primary, 24 secondary exit-42 cleanup assertions), no skips/setup/timeouts. Independent results approved; API-001 behavior and actual session clock remain unimplemented."
     }
   ],
   "tasks": [
@@ -5264,8 +5269,8 @@
       "title": "Review and demonstrate red: Production Qt and Drogon lifecycle bridge",
       "module": "Server/API",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "codex:coordinator-fd2a5aa3",
       "depends_on": [
         "SPIKE-001",
         "BOOT-003",
@@ -5282,11 +5287,37 @@
       "brief": "docs/tasks/EPIC-008/API-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-001.",
       "notes": [
-        "Production host lifecycle waits for the explicit lifecycle/native profile contract and reviewed corrected WS dependency. Preserve persistent multi-message WS, real peer/server Close, bounded startup/shutdown/backpressure/cancellation and actual invocation/publication/readiness source ownership. Stock spike is not reuse approval; H1 SESSION-011 refuses Upgrade. Concrete tests/red/implementation/platform gates remain."
+        "Reviewed baseline on working Linux dependencies: 75 Qt selectors fail at explicit NI; all 18 native methods report 24 NI plus 24 secondary exit-42 cleanup failures. No skips/setup/timeouts; no host behavior proved. Independent result/final reviews approved. PR112 records latest-head CI and normal merge gates. API-001/clock binding remain unauthorized; stop after merge."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "contract_review": "passed",
+        "tooling": "passed",
+        "selector_test_review": "passed",
+        "selector_baseline": "observed_red",
+        "source_authored": "passed",
+        "test_review": "passed",
+        "build_review": "passed",
+        "source_review": "passed",
+        "native_configure": "passed",
+        "native_build": "passed",
+        "passive_discovery": "passed",
+        "passive_abi": "passed",
+        "controlled_identity": "passed",
+        "compiled_inventory": "passed",
+        "baseline": "observed_red",
+        "runtime_review": "passed",
+        "acceptance": "observed_red"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/112"
+      ],
+      "review": {
+        "author": "Codex isolated authors 276d017/6c85e528/72e30a1; coordinator fd2a5aa3 shared integration",
+        "reviewer": "Independent Claude Opus5.5/Sonnet5.5 stage sessions; Codex /root/authored_baseline_codex_review and /root/boundary_codex_review",
+        "outcome": "approved",
+        "revision": "Contract7bfcca0, authored packet8fa8810 and build/CI366930b+f0a5637 approved. Actual first-red dd0f625/seal41803714 approved by initial Sonnet7a0206, separate Codex and closing Sonnetfd10579d. Only approved completion metadata follows; latest-head CI/normal merge recorded in PR112.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/112"
+      }
     },
     {
       "id": "API-001",
@@ -17361,6 +17392,21 @@
       "date": "2026-11-10T15:59:11+00:00",
       "task": "API-012",
       "note": "Claimed on dedicated branch from main642c9a0 under owner one-task resumption. No stale active claim; prior WORKFLOW-001 merged with all21 checks and independent source/metadata reviews in PR109. Coordinator owns state/docs/CMake/CI/admission; fresh Codex worker will own native implementation/patches. Contract native profile v1 and consumer boundary v1; acceptance is preserved native38 plus exact source/resource/build/license review, actual native green and current protected merge."
+    },
+    {
+      "date": "2026-11-11T05:19:08+00:00",
+      "task": "APITEST-001",
+      "note": "Claim from verified main20f8e48/PR111 merged/all21success/no open PR or active claim. Fresh sessions explicitly replace historical assignments. Coordinator owns state/HTML/checkpoint/CMake/CI/admission; author boundary/stub/tests. Contract host/nativev1/spec0.45; full baseline review/red/CI/merge gates before owner stop."
+    },
+    {
+      "date": "2026-11-11T06:01:30+00:00",
+      "task": "APITEST-001",
+      "note": "Contract7bfcca0 closed: initial Opus3a14 findings, correctionbb5d/Codex review, coordinator7893/7bf narrow fixes independently Codex-approved, closing Opusc6c87 approved. No prereq split; supported restore remains STORAGE007 with forward crash-safe startup obligation. Fresh author now released only approved header/stub/test paths; no native/body/build permission."
+    },
+    {
+      "date": "2026-11-11T08:10:51+00:00",
+      "task": "APITEST-001",
+      "note": "Full test/stub/fixture closing Opus3fe3 approved except two narrow oracles; coordinator8fa fixes independently Codex verified and closing Sonnet8b7 APPROVED. Build366930/f0a independent initialSonnet/Codex/closingSonnet4795 approved. Actual tooling51/project469/122/render/diff pass after gate. Host configure/build/discovery/body and passive admission remain unrun."
     }
   ]
 }
