@@ -1,45 +1,23 @@
 # Coordinator checkpoint
 
-Owner authorized the CI repair blocking PR118 and its normal publication, then STOP.
-[State](state.json), [PR118](https://github.com/Kernol12/subathon-bot-ai/pull/118),
-[merged CI repair PR119](https://github.com/Kernol12/subathon-bot-ai/pull/119).
-No next product task, API-001, clock binding or valuation implementation is authorized.
+Owner authorized WORKFLOW-003: implement the six workflow suggestions and open a new
+PR, then stop. No product task, API-001, clock binding or valuation implementation.
+Current branch: task/WORKFLOW-003-structured-coordination, base main f2a134e.
+Authority/status: progress/state.json and docs/tasks/WORKFLOW-003.md.
 
-PR119 merged normally as5c6121d on2026-11-11 at17:28:38Z after source/test initial
-Claude, Codex fixes/separate verification and independent Claude closing; routine
-completion packet8c666e8 separately Codex-approved. All22 final-head checks passed.
-Source/proof/review receipts are in PR119 comments; no branch protection bypass.
-Post-merge main5c6121d CI was still running at initial read, with no failures.
-Verify actual complete main results before PR118 merge; do not repeat the PR117
-handoff gap of relying only on a prior PR's green checks.
+GitHub observations in this session confirm PR118 merged f2a134e at
+2026-11-11T17:46:41Z and PR119 merged 5c6121d at17:28:38Z, both final-head check
+rollups successful. Original reviews and contract/migration/test bytes are retained.
+Historical PR118 handoff was stale; current task will reconcile publication records
+without rewriting unrun historical checks or manufacturing review receipts.
 
-Current branch task/RATECONTRACT-002-exact-valuation-storage, original PR118
-head7a7d821; merging fixed main5c6121d. Resolve only metadata/HTML/navigation;
-all code/tests/CI/SDK bytes must match fixed main, and all contract/task brief bytes
-must match approved PR118. Preserve all483 PR118 task dictionaries plus exact CI001,
-both histories, both evidence/navigation additions and all independent approvals.
-No new task claim or runtime implementation. Final combined graph484 records.
+Coordinator: Codex gpt-6.1-sol, T3 f59f5caa-5ee0-4345-a22d-1607a6ec91cd;
+owns brief/docs/schema/state/HTML/CI. Native workflow_tests author owns only new
+tests/tooling/test_workflow.py and has not been released to execute it.
+No historical assignment is presumed live. Fresh implementer follows approved red.
 
-Approved contract SHA256
-c3e9e21cd0b624f9f15b8244f070462d8e5bf654dfeba72fc0a6781ded9439fe.
-Contract examples18 and planned STORAGECONTRACT003/STORAGETEST021/STORAGE021 remain
-unchanged and unassigned. Original initial Claude4f8d827b B1–5/N1–8, corrections
-d7298a2; separate Codex C1/C2, fix09c5276/recheck; independent Claude44907a68 closing
-APPROVED9509176. Original completion packet separately Codex-approved7a7d821:
-https://github.com/Kernol12/subathon-bot-ai/pull/118#issuecomment-6799058174
-Full reports/nonblockers remain in PR118. Prior assignments retired, none assumed live.
-
-Original uncommitted checkpoint was preserved byte-for-byte in named Git stash
-"Preserve PR118 pre-CI checkpoint for reviewed reconciliation" and backups
-/tmp/pr118-original-local-checkpoint.md and .patch; SHA256
-60d4f7b31d2bf94b795d5029dbb9146111f24978034cbed7775abf6a066b21a3.
-Its factual final-packet approval and first two DNS-failure attempts are reconciled
-here; this session's third retry also failed DNS in all9 jobs, before compile/tests.
-CI repair now supplies independent mirror preference and bounded DNS diagnostics;
-all pins/trust/SDK hashes/native baselines are preserved. Canonical DNS also recovered
-on observed passing runner, so no outage-time causal comparison is claimed.
-
-Next: independent factual reconciliation packet review, actual local project/render/
-tooling checks and current-head CI; verify post-merge main healthy and PR118's
-reviews/discussions/live rules, normal protected merge, refresh main and STOP.
-No push or PR118 CI recovery claim yet for this reconciled candidate.
+Current gates: contract v1 authored; tests authoring. Independent Claude initial,
+Codex verification and Claude closing are required separately for contract and tests
+before observing red. Implementation/tooling/docs/CI then receive their own cycle.
+Next: commit authored packets, complete independent contract/test review, observe
+intended red, and release a fresh implementation session to owned tool paths.

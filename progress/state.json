@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T17:31:17+00:00",
+  "updated_at": "2026-11-11T18:45:22+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. RATES-001 merged normally in PR116 at c70fbec. PR117 RATECONTRACT-001 merged normally at38b482d. Owner resumed for ONE new task: RATECONTRACT-002 concrete exact valuation API/codec/storage contract now has independent document-stage approval in PR118. Three explicit planned migration prerequisites preserve scope; no runtime change. Final packet/current CI/normal merge then STOP; API-001 implementation and actual session-clock binding remain unauthorized. Owner-authorized CI-001 repair merged normally in PR119 at 5c6121d after all22 final-head checks passed. PR118 now incorporates fixed main; its approved contract is unchanged. Verify post-merge main and refreshed PR118 CI, then merge normally and stop.",
   "verification": [
     {
@@ -16249,6 +16249,39 @@
         "revision": "Initial aebaafb M1/L1 fixed1d686a6; separate Codex and independent Claude closing f311a859 approved cb5f8fc, no blockers. Test closing30806b2a approved dafa370 before actual8method/33assertion stub-red. All9 affected hosted lanes/22 checks passed cb5f8fc. Final metadata/current-head CI/merge remain separate.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/119#issuecomment-6802212350"
       }
+    },
+    {
+      "id": "WORKFLOW-003",
+      "title": "Structured review gates, bounded handoffs and publication reconciliation",
+      "module": "Quality and tooling",
+      "kind": "implementation",
+      "status": "in_progress",
+      "owner": "codex:coordinator-f59f5caa",
+      "depends_on": [
+        "WORKFLOW-002",
+        "CI-001",
+        "RATECONTRACT-002"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/WORKFLOW-003.md",
+      "summary": "Make review and publication records checkable, reduce duplicate context, measure review usefulness and cancel superseded PR CI without reducing coverage.",
+      "notes": [
+        "Owner authorized the six workflow improvements and a new PR. Claim before edits from main f2a134e; tooling/docs/CI only, no product implementation. Contract/tests, independent review, intended red and fresh implementation gates pending."
+      ],
+      "verification": {
+        "contract_review": "not_run",
+        "test_review": "not_run",
+        "baseline": "not_run",
+        "implementation": "not_run",
+        "acceptance": "not_run",
+        "code_review": "not_run",
+        "github_ci": "not_run"
+      },
+      "evidence": [],
+      "review": null
     }
   ],
   "activity": [
@@ -18141,6 +18174,11 @@
       "date": "2026-11-11T17:31:17+00:00",
       "task": "RATECONTRACT-002",
       "note": "Reconcile fixed main5c6121d after PR119 normal protected merge/all22 final-head checks pass. Preserve every483 PR118 task dictionary and CI001 exactly, both activity histories, both evidence/navigation additions and the approved contract hash. Original dirty checkpoint saved in named stash and /tmp backups, reconciled into current checkpoint; no new behavior or task. Post-merge main CI and final packet/current-head PR118 gates remain."
+    },
+    {
+      "date": "2026-11-11T18:45:22+00:00",
+      "task": "WORKFLOW-003",
+      "note": "Claimed owner-requested workflow improvements from verified current main f2a134e. PR118/119 confirmed merged; preserve baseline and product stop boundaries. Coordinator owns brief/shared metadata/docs; test source before review/red; fresh implementation worker after approved baseline."
     }
   ]
 }
