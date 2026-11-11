@@ -144,3 +144,6 @@ the logical representation/provenance/compatibility contract before RATESTEST-00
 API/codec/additive-storage contract. These are additional foundation records,
 not extra epic work packages. No existing
 release requirement, baseline assertion or shipped migration is removed.
+
+[CI-001 — Reliable Ubuntu package acquisition](CI-001.md) is an owner-authorized
+CI-only repair before PR118 publication; product work remains stopped.
