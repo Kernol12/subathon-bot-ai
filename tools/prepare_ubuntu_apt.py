@@ -42,15 +42,15 @@ def diagnostic(command: list[str]) -> None:
     label = " ".join(command)
     try:
         result = subprocess.run(command, check=False, capture_output=True, text=True, timeout=10)
-        print(f"{label}: exit {result.returncode}")
-    except (OSError, subprocess.SubprocessError) as error:
-        print(f"{label}: unavailable {error}")
+        print(f"{label}: exit {result.returncode}", flush=True)
+    except (OSError, subprocess.SubprocessError, UnicodeError) as error:
+        print(f"{label}: unavailable {error}", flush=True)
         result = error
     for name, stream in (("stdout", sys.stdout), ("stderr", sys.stderr)):
         output = getattr(result, name, None)
         if output:
             print(output.decode(errors="replace") if isinstance(output, bytes) else output,
-                  end="", file=stream)
+                  end="", file=stream, flush=True)
 
 
 def prepare_apt() -> None:
@@ -62,7 +62,7 @@ def prepare_apt() -> None:
         raise RuntimeError("requires Ubuntu 24.04")
     validate_sources(Path("/etc/apt/sources.list.d/ubuntu.sources").read_text(encoding="utf-8"))
 
-    print("Diagnostic only; not dependency admission")
+    print("Diagnostic only; not dependency admission", flush=True)
     for command in (["cat", "/etc/resolv.conf"], ["resolvectl", "status"],
                     ["cat", "/etc/apt/apt-mirrors.txt"]):
         diagnostic(command)
@@ -81,7 +81,7 @@ def main() -> int:
     try:
         prepare_apt()
     except (RuntimeError, OSError, subprocess.SubprocessError) as error:
-        print(f"Ubuntu APT setup failed: {error}", file=sys.stderr)
+        print(f"Ubuntu APT setup failed: {error}", file=sys.stderr, flush=True)
         return 1
     return 0
 
