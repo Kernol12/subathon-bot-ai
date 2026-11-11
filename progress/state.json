@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T13:25:00+00:00",
+  "updated_at": "2026-11-11T13:36:55+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. RATES-001 merged normally in PR116 at c70fbec. Owner resumed for one fresh task: document-only RATECONTRACT-001 exact retained valuation prerequisite, then STOP; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
@@ -13412,7 +13412,7 @@
       "title": "Exact retained valuation bridge contract",
       "module": "Currency",
       "kind": "contract",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "codex:coordinator-a26ec071; fresh exact_valuation_contract_author",
       "depends_on": [
         "RATES-001",
@@ -13432,8 +13432,15 @@
       "notes": [
         "Document-only prerequisite split from RATESTEST-009; existing assertions, migration bytes and release scope preserved."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "contract": "draft",
+        "independent_review": "partial",
+        "tooling": "passed",
+        "runtime_acceptance": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/117"
+      ],
       "review": null
     },
     {

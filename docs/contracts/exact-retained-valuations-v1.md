@@ -23,6 +23,7 @@ The audit at main `c70fbec` identifies these concrete downstream obligations:
 | Existing surface | Required bridge work / owner |
 | --- | --- |
 | `core/include/subathon/core/rate_snapshot.hpp`, `core/src/rate_snapshot.cpp` | RATES-001 remains unchanged. Adapt its owned `RatePairResult` and actual immutable snapshot; a pair's three provenance strings alone are not retained evidence |
+| `core/include/subathon/core/contribution.hpp` / contribution stores | `ContributionValuation` carries resolution identity/missing-rate state, not a rate body. Preserve its existing meaning; RATECONTRACT-002 pins consistency with the new plan alternative |
 | `core/include/subathon/core/application_plan.hpp`, `core/src/application_plan.cpp` | RATES-009 adds a versioned exact valuation alternative to capture/revise histories; ACCT-003's existing legacy transformation assertions remain intact |
 | `server/src/sqlite_application_plans.cpp`, `sqlite_application_bundle_access.hpp` | RATES-009 must update both plan and bundle hydration/validation paths and their selected/full closure rules consistently, through an approved additive storage design |
 | `server/src/sqlite_application_bundle_values.hpp` | Complete capture/bundle copy and byte accounting must include the new alternative and retained provenance; the existing decimal-field sum is insufficient |
@@ -51,7 +52,7 @@ A new resolved capture has logical version `exact-retained-valuation.v1` and own
 | original_money | Complete original decimal and currency bytes, exactly equal to the immutable source event's money; numeric value is parsed exactly |
 | comparison_currency | Destination currency of this accounting valuation, not the current display preference |
 | effective_numerator / effective_denominator | Strictly positive coprime integers in canonical ASCII base10, no sign, whitespace, exponent, leading zeros or separators; denominator is never zero |
-| basis | Exactly `identity` or `snapshot_pair`, with the distinct obligations below |
+| basis | Exactly `identity`, `snapshot_pair` or `manual_valuation`, with the distinct obligations below |
 
 Orientation is always units of comparison currency for **one** unit of original
 currency. `N/D` describes the effective rate, never a monetary amount, effect,
@@ -64,7 +65,9 @@ snapshot's full model value, including its actual snapshot/parent identities,
 optional construction time, selected complete observations, overrides, active
 constraints and components. Also retain the exact `(snapshot_ref, from, to)` pair
 key. It must match the owned snapshot and both currencies, and exact pair lookup
-must return `available` with rate `N/D`. Missing or contradictory evidence cannot
+must return `available` with rate `N/D`. Since the current query accepts
+`EffectiveRateSnapshotInput`, RATECONTRACT-002 must define bounded reconstruction/
+revalidation from the retained owned snapshot, never a mutable current input. Missing or contradictory evidence cannot
 be replaced by the supplied numerator/denominator alone. There is no separately
 editable singular fetched-rate/source/timestamp slot: a cross-rate may use several
 observations/providers and pins. Keep each original quote spelling, orientation,
@@ -77,7 +80,26 @@ This is the rate model's arithmetic identity, including for an unrepresented key
 actual currency identification and support admission remain upstream duties.
 A caller may not use equal unknown tokens as proof of a supported real currency.
 
-Both basis kinds retain the resolution identity and original source precision.
+For `manual_valuation`, retain an authorized historical rate for this one
+contribution, without modifying the effective table. Own the entered strictly
+positive decimal spelling, entered from/to currencies, nonempty decision/actor/
+reason identities and optional recorded UTC time. The entered pair must match the
+original/comparison pair in either direction; parse the exact decimal and invert
+only when entered backwards. Its exact result must equal `N/D`. No unrelated
+cross path, snapshot, provider/source/fetch/publication facts, temporary/pinned
+kind or table-wide inverse/cross update is implied. Preserve the entered spelling
+and direction independently from the canonical effective fraction.
+
+RATES-009 owns this value/capture alternative and its pure consistency checks.
+RATES-008 owns actual historical/manual-rate resolution; ACCT-005 owns authorized
+held-contribution review/continuation; API-002 owns transport authorization and
+revision checks. Those still-planned capabilities require their own contracts,
+baselines and implementation before use. Their absence cannot be replaced by
+DTO strings. A manual resolution of a held contribution follows the audited
+append-only plan-revision path with actual current permission/head checks; it
+neither clears other holds nor reapplies prior committed effects.
+
+All three basis kinds retain the resolution identity and original source precision.
 `1.20`, `1.2000`, `1.2e0` remain different original evidence even when numerically
 equal. New captures use the existing exact decimal grammar/domain/resource rules
 and currency-byte semantics; this does not retroactively narrow receipt storage.
@@ -110,16 +132,27 @@ retention make the selected result indistinguishable from owning that value.
 The concrete layout belongs to RATECONTRACT-002. Duplicate identity with identical
 content is reusable; different content is a conflict, never an overwrite.
 
-Every known linked immutable configuration, source evidence, decision or parent
-snapshot needed by the capture's declared provenance must resolve in the correct
-retained namespace before successful capture. Validate required targets in the
-same caller session, including already retained rows. A nonempty string, hash,
-configuration document or object in the wrong namespace does not satisfy this.
-Unknown optional metadata need not acquire a target. Retention/deletion policies
-must preserve required referenced history; deleting a cache entry or removing a
-pin must not invalidate a committed capture. RATECONTRACT-002 must specify bounded
-indexed checks and exact selected closure; no unbounded ancestry materialization
-or recursive provider lookup follows from this requirement.
+The capture closure has a fixed per-field classification; it does not assume
+future provider/cache stores exist:
+
+| Selected data / reference | RATES-009 retention and target-check obligation |
+| --- | --- |
+| Full selected observations, quotes, time fields, overrides/actor/reason values, constraints, components and their order | Own the complete immutable model value; it must validate without external provider/cache lookup |
+| Snapshot identity and pair key; shared snapshot row if used | Typed exact identity/content match, validated in the same caller session before success; a missing/wrong-namespace shared target refuses capture |
+| Observation provider/configuration/request/source-evidence refs; override decision ref; optional parent snapshot ref | Retain exact immutable identity bytes as declared by the model. They do not certify a retained target, raw provider evidence, permission or an available ancestry chain. No external-target lookup is required by this v1 capture alternative |
+| Manual entered pair/spelling, actor/decision/reason and optional time | Own the entered values and audited resolution identity; actual authority is a separate current producer. No table-override or provider target is fabricated |
+| Existing plan/event configuration, arrival context, decision and revision links | Preserve the existing owning plan/application store's typed validation and retention obligations; a provider configuration identity is not automatically in the application configuration namespace |
+
+RATES-005/007 must later provide their own typed source/request/evidence/decision/
+snapshot stores and admission/retention baselines. RATECONTRACT-002 must freeze
+this per-field classification, not silently require those unimplemented producers.
+A future adapter claiming typed external-target closure needs explicit reviewed
+ports, dependency-linked store prerequisites and admission checks before that
+claim is enabled; an opaque retained identity is never advertised as verified
+source evidence. Parent identity retention does not promise recursive ancestry
+materialization. Required selected snapshot rows and existing typed plan links
+must remain retained while the capture refers to them, even after cache deletion
+or pin removal. No unbounded lookup or provider request repairs history.
 
 Caller-owned atomic commit includes the capture and any newly required closure
 rows. All store results remain provisional until actual COMMIT and normal work
@@ -150,11 +183,11 @@ components remain different facts. Existing evaluator/application ownership and
 whole-input overflow handling remain; this bridge does not calculate permissions,
 refund entitlements, rule selections or actual timer capacity.
 
-The new bridge's rate components are individually at most8192 bits, matching the
-model's derived pair ceiling. Their canonical positive strings are at most2467
+The new bridge's rate components are individually at most 8192 bits, matching the
+model's derived pair ceiling. Their canonical positive strings are at most 2467
 bytes each; check byte length/ASCII shape and incremental bit bounds before big-
 integer growth or gcd. The selected snapshot keeps all rate-model item/string/
-component bounds, including8MiB owned bytes. A new valuation's complete logical
+component bounds, including 8MiB owned bytes. A new valuation's complete logical
 owned payload (including its snapshot copy, original money and references) has a
 16MiB ceiling. These local maxima do not enlarge any existing storage/service
 limit. Active transport/storage/statement/result/intermediate limits may refuse a
@@ -165,12 +198,12 @@ Preflight complete field lengths/counts and checked aggregate size arithmetic
 before copying/allocating attacker-sized inputs. Validate rate/snapshot consistency
 before accepting the capture. Bounded streaming/borrowed validation is permitted;
 partial accepted objects and unchecked multiply-then-measure are not. Arithmetic
-construction has a fixed16384-bit ceiling for each temporary integer, with checked
+construction has a fixed 16384-bit ceiling for each temporary integer, with checked
 bit-size bounds and cross-cancellation before products. Refuse before growth when
 a safe bound cannot be proved. These are arithmetic resource limits, not numeric
 approximations or claims of unbounded arbitrary-precision processing.
 
-CORE-001's existing finalizer remains limited to4096-bit normalized numerator and
+CORE-001's existing finalizer remains limited to 4096-bit normalized numerator and
 denominator. After exact cancellation/scaling a larger still-normalized final
 request is a resource refusal; this contract does not change the finalizer. Signed
 64-bit rounded range overflow holds the whole affected input without effects/jobs;
@@ -180,7 +213,7 @@ their distinct outcomes and commit no partial award. A preserved source receipt
 need not be discarded because its valuation cannot be accepted locally.
 
 The concrete gate must map, without conflation: missing pair; malformed known
-format/nonpositive or inconsistent rate; unknown supported-version tag; missing
+format/nonpositive or inconsistent rate; unsupported/unknown version tag; missing
 retained target; identity-content conflict; stale plan/current authority refusal;
 resource/allocation refusal; numeric range overflow; SQL failure; and unknown
 commit. This document freezes those distinctions, not C++ error enum values or
@@ -217,7 +250,7 @@ There is no authorized implementation shortcut through an untyped opaque blob.
 
 ## 6. Independently derived proposed examples
 
-EV01–18 are authored logical examples, **not executed tests or observed outcomes**.
+EV01–19 are authored logical examples, **not executed tests or observed outcomes**.
 Fractions follow integer place value and multiplication; half ties use the even
 integer. No production parser/bridge generates these expected values.
 
@@ -235,12 +268,17 @@ integer. No production parser/bridge generates these expected values.
 | EV10 | S1 fetched time known0, source text `2026-11-04`/UTC absent, publication wholly absent | Preserve known0 versus unknown; no midnight/publication/fetch substitution; same facts after reopen |
 | EV11 | Old effective `1.2000`, optional source absent, no reconstructible snapshot body | Preserve v1 bytes/absence; exact legacy interpretation `6/5` when admitted, no generated S1/source/time; original awards unchanged |
 | EV12 | Old structurally valid effective string `not-a-rate`; unknown new logical version | Preserve old record with unusable legacy-conversion outcome; unknown new version refuses unsupported, neither is silently rewritten |
-| EV13 | Same snapshot identity S1 with changed quote `1.25`; missing typed evidence target; wrong-namespace target | Conflict or explicit missing-target failure, no new plan head; preexisting committed S1 unchanged |
+| EV13 | Same snapshot identity S1 with changed quote `1.25`; missing selected shared-snapshot target; wrong-namespace target | Conflict or explicit missing-target failure, no new plan head; preexisting committed S1 unchanged |
 | EV14 | Temporary override later expires, pin removed, display currency changed to CHF | Original S1/capture/request/effect remain; a new snapshot/revaluation/display revision is separate, no original refund recalculation |
 | EV15 | Request10ms, actual cap-limited credit3ms, later rate doubles and full refund authorized | Reversal basis is original actual3ms under owning refund policy; no second request10ms or new-rate6ms reversal |
 | EV16 | Accepted pair `1/2^4096` reaches final request unchanged | Pair components fit8192; finalizer denominator has4097bits, so resource refusal even though rounded numeric value would be0 |
 | EV17 | Purely proposed new closure+capture, staging/COMMIT failure; or commit outcome unknown | Known rollback publishes nothing; unknown stays unknown and uses original operation identity for reconciliation, never a new blind award |
 | EV18 | New S1 capture committed, process/store reopened while current provider/pins/cache differ | Read original exact `5/6`, source spelling `1.20`, all selected provenance/unknown fields and original finalized/actual effects; current values never repair or replace history |
+| EV19 | No historical USD→EUR quote; authorized one-off manual entry EUR→USD `1.20`, original USD `1.20` | `manual_valuation` retains entered `1.20` and direction, actor/decision/reason and optional time; effective `5/6`, exact amount `1`; audited new revision, no temporary/pinned override or table mutation |
+
+EV16 is reachable under the current potential limit: weights `2^4095/1` and
+`1/2` yield `1/2^4096`; each potential component fits 4096 bits. The executable
+baseline must construct actual admitted snapshots, not an unreachable pair DTO.
 
 Future acceptance needs literal independent codec/SQL/oracle fixtures, a reviewed
 behavioral red before implementation, source/resource review, real SQLite/reopen

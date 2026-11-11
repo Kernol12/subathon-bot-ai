@@ -192,7 +192,7 @@ provider behavior must not be represented as supported capabilities.
 
 The [exact retained valuation proposal](../contracts/exact-retained-valuations-v1.md)
 separates a logical rational/provenance bridge from the legacy finite-decimal
-capture. Eighteen authored examples cover inverse/cross arithmetic, final ties,
+capture. Nineteen authored examples cover inverse/cross arithmetic, final ties,
 legacy coexistence, immutable durable closure and failure/reopen obligations.
 [RATECONTRACT-001](../tasks/EPIC-017/RATECONTRACT-001.md) records document review;
 planned RATECONTRACT-002 must first freeze concrete API/codec/additive-storage

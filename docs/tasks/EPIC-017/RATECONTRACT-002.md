@@ -13,6 +13,16 @@ STORAGE-019 structural codecs. References alone do not embed a valuation: prove
 which envelopes remain byte-identical and version only genuinely changed meanings.
 The no-money reference path does not automatically gain monetary valuation support.
 
+Freeze the logical contract's per-field closure classification: full owned selected
+snapshot/manual values and typed shared-snapshot keys versus opaque provider/config/
+request/evidence/decision/parent identities. Provider configuration refs do not by
+themselves target the application configuration store; future RATES-005/007 typed
+external closure needs its own explicit dependencies before capability admission.
+Define owned-snapshot revalidation using the actual query API, contribution/plan
+resolution consistency, and identity/snapshot/manual basis tags. Assess whether
+the 8MiB model value can fit each current statement/plan/bundle budget; lower
+admission or immutable shared storage must be explicit, without widening old limits.
+
 Define exact field grammar, version/tag admission, canonical rational budgets,
 complete provenance closure and immutable durable keys; explicitly bound every
 borrowed preflight, copy, read and retained history result. Name concrete ports,
