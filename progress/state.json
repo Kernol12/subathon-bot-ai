@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T10:59:42+00:00",
+  "updated_at": "2026-11-11T11:21:07+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. The owner authorized one new task: ACCESSCONTRACT-001 document-only authority through normal merge, then stop; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
@@ -4106,7 +4106,8 @@
         "STORAGE-002",
         "SESSION-001",
         "STORAGE-020",
-        "API-013"
+        "API-013",
+        "API-014"
       ],
       "spec_refs": [
         "§10",
@@ -4116,7 +4117,8 @@
       "brief": "docs/tasks/EPIC-006/ACCESS-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCESS-001.",
       "notes": [
-        "Planned owner setup/invitation work; ADR-0004 narrows wire sequencing without removing acceptance. ADR-0010 session prerequisites do not provide actual account/current-session/login authority. Next: reviewed owner-bootstrap/invite contracts and tests, intended red then implementation; retain full lifecycle/transport/recovery/provider/platform requirements."
+        "Planned owner setup/invitation work; ADR-0004 narrows wire sequencing without removing acceptance. ADR-0010 session prerequisites do not provide actual account/current-session/login authority. Next: reviewed owner-bootstrap/invite contracts and tests, intended red then implementation; retain full lifecycle/transport/recovery/provider/platform requirements.",
+        "APICONTRACT-002 B3 adds planned API-014 guarded-write prerequisite; API-013 alone cannot enable setup/reset."
       ],
       "verification": {},
       "evidence": [],
@@ -4135,7 +4137,8 @@
         "SESSION-001",
         "ACCESSTEST-001",
         "STORAGE-020",
-        "API-013"
+        "API-013",
+        "API-014"
       ],
       "spec_refs": [
         "§10",
@@ -4145,7 +4148,8 @@
       "brief": "docs/tasks/EPIC-006/ACCESS-001.md",
       "summary": "Console issues single-use 15-minute owner setup code only while no owner exists; replacement invalidates prior code and completion disables bootstrap.",
       "notes": [
-        "Planned owner setup/invitation work; ADR-0004 narrows wire sequencing without removing acceptance. ADR-0010 session prerequisites do not provide actual account/current-session/login authority. Next: reviewed owner-bootstrap/invite contracts and tests, intended red then implementation; retain full lifecycle/transport/recovery/provider/platform requirements."
+        "Planned owner setup/invitation work; ADR-0004 narrows wire sequencing without removing acceptance. ADR-0010 session prerequisites do not provide actual account/current-session/login authority. Next: reviewed owner-bootstrap/invite contracts and tests, intended red then implementation; retain full lifecycle/transport/recovery/provider/platform requirements.",
+        "APICONTRACT-002 B3 adds planned API-014 guarded-write prerequisite; API-013 alone cannot enable setup/reset."
       ],
       "verification": {},
       "evidence": [],
@@ -4384,7 +4388,8 @@
         "ACCESS-003",
         "STORAGE-020",
         "SESSION-009",
-        "API-013"
+        "API-013",
+        "API-014"
       ],
       "spec_refs": [
         "§10",
@@ -4395,7 +4400,8 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCESS-005.",
       "notes": [
         "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration."
+        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration.",
+        "APICONTRACT-002 B3 adds planned API-014 guarded-write prerequisite; API-013 alone cannot enable setup/reset."
       ],
       "verification": {},
       "evidence": [],
@@ -4415,7 +4421,8 @@
         "ACCESSTEST-005",
         "STORAGE-020",
         "SESSION-009",
-        "API-013"
+        "API-013",
+        "API-014"
       ],
       "spec_refs": [
         "§10",
@@ -4426,7 +4433,8 @@
       "summary": "Authorized helper recovery uses manually shared 15-minute reset links; console recovery preserves existing owner identity.",
       "notes": [
         "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
-        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration."
+        "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration.",
+        "APICONTRACT-002 B3 adds planned API-014 guarded-write prerequisite; API-013 alone cannot enable setup/reset."
       ],
       "verification": {},
       "evidence": [],
@@ -5057,7 +5065,10 @@
         "API-012",
         "APICONTRACT-002",
         "APITEST-013",
-        "API-013"
+        "API-013",
+        "APICONTRACT-003",
+        "APITEST-014",
+        "API-014"
       ],
       "spec_refs": [
         "§2",
@@ -15652,7 +15663,7 @@
     {
       "module": "Server/API",
       "status": "in_progress",
-      "owner": "codex:coordinator-f507d7d6; fresh author pending",
+      "owner": "codex:coordinator-f507d7d6; fresh author a4d9a282",
       "spec_refs": [
         "§10",
         "AUTH-01",
@@ -15665,8 +15676,7 @@
         "TEST-05"
       ],
       "notes": [
-        "Planned prerequisite exposed by ACCESSCONTRACT-001 initial review; no implementation, reviewed tests or runtime capability. Separate contract/test-first/review/CI/merge gates remain.",
-        "ONE new task then stop. Document-only revision1; fresh author owns contract/brief, coordinator owns shared metadata. Full independent reviews/checks/normal merge required; no runtime or upstream baseline changes."
+        "Document-only revision1 authored with independent examples. Initial Claude B1–3/N1–6 corrections: transport clipping, compiled consumer dispatcher, explicit API-014 prerequisite, adapter ownership. Separate Codex and closing Claude reviews pending; no runtime capability. ONE task then stop."
       ],
       "verification": {},
       "evidence": [],
@@ -15749,6 +15759,98 @@
       ],
       "brief": "docs/tasks/EPIC-008/API-013.md",
       "summary": "Implement only the separately reviewed host continuation/lease, guarded auth operations, elapsed read and shared password-work permit. No login policy or routes."
+    },
+    {
+      "module": "Server/API",
+      "status": "planned",
+      "owner": "Unassigned",
+      "spec_refs": [
+        "§10",
+        "AUTH-01",
+        "AUTH-02",
+        "AUTH-08",
+        "AUTH-10",
+        "SERVER-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "notes": [
+        "Planned prerequisite exposed by APICONTRACT-002 initial review B3; no authored contract/tests, implementation or runtime capability. Separate test-first/review/CI/merge gates remain."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null,
+      "id": "APICONTRACT-003",
+      "title": "Guarded enrollment and recovery host contract",
+      "kind": "contract",
+      "depends_on": [
+        "APICONTRACT-002",
+        "STORAGE-020",
+        "SESSIONCONTRACT-005"
+      ],
+      "brief": "docs/tasks/EPIC-008/APICONTRACT-003.md",
+      "summary": "Specify missing guarded setup/reset account/credential/directory/workflow writes and finite shared-permit profiles; document only."
+    },
+    {
+      "module": "Server/API",
+      "status": "planned",
+      "owner": "Unassigned",
+      "spec_refs": [
+        "§10",
+        "AUTH-01",
+        "AUTH-02",
+        "AUTH-08",
+        "AUTH-10",
+        "SERVER-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "notes": [
+        "Planned prerequisite exposed by APICONTRACT-002 initial review B3; no authored contract/tests, implementation or runtime capability. Separate test-first/review/CI/merge gates remain."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null,
+      "id": "APITEST-014",
+      "title": "Review and demonstrate red: guarded enrollment and recovery host extension",
+      "kind": "test_baseline",
+      "depends_on": [
+        "APICONTRACT-003",
+        "API-013"
+      ],
+      "brief": "docs/tasks/EPIC-008/API-014.md",
+      "summary": "Review additive guarded enrollment/recovery host tests and observe intended missing-behavior red on working foundations."
+    },
+    {
+      "module": "Server/API",
+      "status": "planned",
+      "owner": "Unassigned",
+      "spec_refs": [
+        "§10",
+        "AUTH-01",
+        "AUTH-02",
+        "AUTH-08",
+        "AUTH-10",
+        "SERVER-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "notes": [
+        "Planned prerequisite exposed by APICONTRACT-002 initial review B3; no authored contract/tests, implementation or runtime capability. Separate test-first/review/CI/merge gates remain."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null,
+      "id": "API-014",
+      "title": "Guarded enrollment and recovery host extension",
+      "kind": "implementation",
+      "depends_on": [
+        "APICONTRACT-003",
+        "APITEST-014",
+        "API-013"
+      ],
+      "brief": "docs/tasks/EPIC-008/API-014.md",
+      "summary": "Implement reviewed guarded enrollment/recovery ports and finite stage/native profiles; no consumer authorization policy or directory producer."
     }
   ],
   "activity": [

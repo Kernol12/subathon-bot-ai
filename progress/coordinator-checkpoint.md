@@ -37,3 +37,13 @@ Initial independent Claude Opus5.5/high is running on a09654d:
 <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A1af06bc3-f72d-416a-9f2c-1a25c85e714e%3Adelegate-task%3Aabccd7da-7963-4511-a647-a6d111107899>
 Read-only root review; author worktree t3-37f792ad remains clean/preserved.
 Completion wakes coordinator; next fixes/separate independent Codex review.
+
+Initial Claude completed REQUEST_CHANGES B1–3/N1–6 (no runtime).
+Coordinator corrections: effective transport budget/margin and shorter host profile;
+compiled consumer dispatcher + clock and consumer-owned lineage; planned
+APICONTRACT-003/APITEST-014/API-014 with four setup/reset dependency edges.
+API-013 owns all auth-only adapter deltas; capture admission, deadline classes,
+permit/console/recovery/reauth, abuse gate and scratch examples clarified HC01–42.
+Actual project475/122, validate/render/diff, tooling51 and preserved472-ID/DAG/
+status/review/verification plus arithmetic audits pass. No native behavior run.
+Next: separate independent Codex review of full corrected packet, then Claude closing.

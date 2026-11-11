@@ -46,7 +46,7 @@ acceptance remains with those owners after their own gates.
 
 The host privately registers one move-only `AuthRequest` from ONE actual guarded
 ingress scope. It owns original host/peer/request membership, trusted compiled
-purpose (login/setup/reset), original username selection or owning workflow
+purpose (sign-in/reauthentication; setup/reset need §9's follow-up), original username selection or owning workflow
 selection, installation generation, immutable policy owner/snapshot/reference,
 cancellation and absolute deadlines. Internal U64 request/stage/native-job counters
 never wrap/reuse; exhaustion refuses. IDs and correlations are equality data AFTER
@@ -68,21 +68,21 @@ Reference extension profile (trusted configuration, positive checked limits):
 
 | Resource | Bound / meaning |
 | --- | --- |
-| Live original auth requests | At most128, included in host128; per-peer included in8. |
-| Outstanding auth writer stages | One per request;128 globally, active+queued+completing including cancelled wrappers. Each substitutes for that original's writer slot, never an additional ordinary dispatch. Total ordinary+auth outstanding writer wrappers<=128; host writer pending_batches>=128. |
+| Live original auth requests | At most32, included in host128; per-peer included in8. Auth alone leaves96 association slots for ordinary commands; this is no latency/fairness guarantee. |
+| Outstanding auth writer stages | One per request;32 globally, active+queued+completing including cancelled wrappers. Each substitutes for that original's writer slot, never an additional ordinary dispatch. Total ordinary+auth outstanding writer wrappers<=128; host writer pending_batches>=128. |
 | Lifetime stage admission attempts |16 per original request, including refusals/explicit known-rollback resubmission; nonwrapping ordinals. No internal automatic retry. |
 | Stage command / stage reply | Each complete semantic payload<=65536 bytes. |
 | Aggregate retained stage command/reply payload copies |8388608 bytes TOGETHER, also charged against host input/response pools by direction; duplicate payloads consume duplicate reservations. |
-| Added control storage | Fixed128 request records and128 stage records, each charged256 bytes in addition to inherited host overhead; at most65536 added semantic control bytes. Concrete C++/Qt allocation overhead requires later audit. |
+| Added control storage | Fixed32 request records and32 stage records, each charged256 bytes in addition to inherited host overhead; at most16384 added semantic control bytes. Concrete C++/Qt allocation overhead requires later audit. |
 | Password pipelines / waiting password jobs | ONE installation-wide pipeline; ZERO waiting jobs. |
-| Pipeline duration |30000ms from successful pre-queue reservation. |
-| Original auth response/request lease |300000ms from the SAME reservation; expiry includes equality, never renewed by acceptance, stage, retries or helper checks. |
+| Pipeline duration | min(admission+10000ms, effective original deadline); this earlier host cancellation preserves the upstream30000ms maximum, never extends it. |
+| Original auth response/request lease | min(admission+12000ms, admitted transport response deadline minus2000ms margin); equality expires. No renewal by acceptance, stages, retries or helper checks. Missing trustworthy transport budget refuses admission. |
 | One stage admission-to-entry |5000ms, clipped to original request AND pipeline deadline while password pipeline is live. |
 | Final response local handoff |5000ms from completed response, clipped to original request deadline and inherited stop/peer deadline. |
-| Earlier auth capture concurrency |8 host-wide, one raw scope per peer; separate pre-read credits, including rejected requests until wiped/drained. |
+| Earlier auth capture concurrency |8 host-wide, one raw scope per peer; credits after request-line route binding and before method/target/field/body capture, including rejected requests until wiped/drained; peer receive credits precede every read. |
 
 These are engineering profiles, not new public body formats or account/session
-quotas. The proposed300000ms original lease may refuse before local acceptance's
+quotas. The proposed12000ms original lease may refuse before local acceptance's
 own300000ms retention cutoff, which starts at acceptance. It never extends that
 retention or inclusive UTC freshness. A pending response uses bounded capacity
 reservation/control only, not a preallocated password/raw-body copy. Ordinary
@@ -103,6 +103,26 @@ already counted in an owner's per-value peak. Response data separately fits host
 single/aggregate response limits; secret output uses lifecycle's reviewed owner,
 never generic OwnedReply. Refuse exhaustion without eviction or truncation.
 
+The imported edge has a15s H1 write timeout. It starts after request headers,
+not at backend password admission: see the pinned
+[Go readRequest source](https://raw.githubusercontent.com/golang/go/6e676ab2b809d46623acb5988248d95d1eb7939c/src/net/http/server.go).
+A configured timeout alone is NOT a trustworthy remaining budget. SESSION-010
+must bind an admitted transport-budget producer to the actual request/policy;
+DEPLOYMENT-007/008 own proof of its earlier edge anchor, conservative conversion
+to the host elapsed domain, transit/body/admission delay and uncertainty. No
+client header, cross-process clock equality or guessed maximum delay supplies it.
+No such producer exists today: auth remains unavailable on the stock R2 edge
+until that profile is admitted (or a separately reviewed AUTH-route edge profile
+supplies an equivalent finite bound). Direct TLS is unavailable too. This is an
+explicit future integration gate, not a claim that a new timeout was deployed.
+Given a proven remaining15000ms at reservation, the12000ms local lease leaves
+3000ms, exceeding the2000ms required transport margin; the10000ms pipeline leaves
+2000ms within that lease for lifecycle/handoff. Shorter proven budgets clip BOTH
+lease and pipeline; <=2000ms refuses. Recheck the conservative transport deadline
+at every delayed IO handoff. Early actual edge closure always cancels, retains
+committed truth and cannot trigger retry. These are local eligibility bounds,
+never promises of timely native completion or receipt at the client.
+
 Reserve control/error capacity at admission for one fixed refusal/terminal event;
 if an IO owner cannot deliver even that within limits it closes. No unbounded
 completion list, callback capture, queued proof, polling/retry backlog or new
@@ -112,6 +132,30 @@ and independently reviewed consumer bounds; invalid options fail before listenin
 ### Stage protocol
 
 Internal proposed operations, not declarations in the current header:
+
+Composition registers one compiled `AuthStageDispatcher` per allowed purpose with
+bounded stage kinds, phase transitions and payload/result shapes. Its proposed
+`execute(AuthExecution&, StageView)` runs synchronously on the actual Qt writer
+owner in the fresh stage binding; `complete(AuthCompletion&, StageResultView)`
+runs synchronously on Qt only after actual host settlement and fresh completion
+checks. Views borrow the private matching stage envelope for that call only.
+The consumer dispatcher is supplied by ACCESS-008 (or the later setup/reset
+owner); API-013 knows the abstract port, never those implementations. Missing
+registration refuses BEFORE reservation/copy/post. No client-selected callback,
+lambda or generic SQL body is accepted. Test dispatchers establish simulation only.
+
+The host checks request/phase/stage membership, kind/ordinal, policy/generation,
+installation/readiness, elapsed/stop, exact envelope pairing and once-only use.
+The registered consumer checks its own actual job/source/proposal provenance,
+accepted-object/lineage, domain entitlement and current full facts synchronously
+INSIDE the same transaction before any named mutation. Missing consumer authority
+refuses there. The host cannot reconstruct those private objects from DTOs.
+`AuthExecution::clock()` exposes the SAME revocable CurrentSessionClock binding
+as ordinary Execution, sampled only in this execution; no UTC producer is added.
+For accept_verified the consumer compares full facts and samples that clock,
+stages a private acceptance candidate, then installs it only in matching normal
+committed completion after all fresh host AND consumer checks. A result enum or
+caller boolean never substitutes for this registered synchronous consumer body.
 
 | Operation | Required behavior |
 | --- | --- |
@@ -125,11 +169,16 @@ Each stage carries actual host/original object, generation, ordinal, kind, job/s
 identity and expected phase through private control storage. Legal login stages
 are initial_read, accept_verified, upgrade_read, upgrade_check_before,
 upgrade_check_after and save_upgrade (at most SIX real works). Named lifecycle
-handoff and separately reviewed setup/reset stage kinds use remaining credits;
+handoff uses remaining credits; setup/reset require the separately planned API-014 surface (§9);
 no generic callback/SQL route is exposed. The helper's checks are separate works,
 not suspended executions. Before posting, at actual entry, at every facade call
 and at matching completion, check actual request/phase membership, current policy,
-installation/readiness, stop/cancel state and relevant elapsed deadlines. Uncertainty
+installation/readiness, stop/cancel state and relevant elapsed deadlines.
+The5000ms queue-entry cutoff applies ONLY at entry. At facade calls and completion
+check pipeline (while live), original lease and transport/stop limits; passing the
+entry cutoff during a running body alone does not expire it. Pipeline/lease expiry
+refuses further facade operations, without preempting SQL or inventing rollback.
+Uncertainty
 or missing guard refuses before private lookup/disclosure. On a live nonyielding
 execution, domain/clock/mutation priority remains the imported owner contract.
 
@@ -167,9 +216,13 @@ Old scopes keep coherent OLD facts; never mix/rewrite them under a new generatio
 
 The exact pre-queue sequence is:
 
-1. Acquire earlier native capture/concurrency/storage credits BEFORE reads/copies
-   under §6 and upstream ingress. Native parser supplies its own CaptureLease;
-   SESSION-010 constructs the actual RequestIngressScope with trusted route binding.
+1. Reserve bounded peer/receive storage BEFORE native reads. After the request
+   line binds an AUTH route, reserve one of the8 AUTH capture credits BEFORE
+   method/target slot copy, field capture or body ownership. Earlier request-line
+   bytes stay only in the already bounded receive owner. Refusal closes/wipes that
+   peer after borrower drain. Other routes keep their upstream capture admission;
+   this sub-cap does not redefine all account-ingress concurrency. Native supplies
+   its CaptureLease; SESSION-010 constructs the actual bound RequestIngressScope.
 2. While borrowing that live scope on IO, finish bounded framing/route/media/body
    scans and actual HTTPS/authority/peer/log/policy-source checks. Run the owning
    pre-session browser sign-in guard (POST, exact Origin and marker; no identity
@@ -213,8 +266,12 @@ Disconnect/cancellation revokes the request even if its policy still matches.
 
 The host owns one installation-wide `PasswordWorkPermit`, independently of any
 login owner, accepted attempt or session. It covers login verify/reverify/hash,
-initial-owner/invitation credential creation and helper/console reset creation.
-All in-process callers of the three password primitives in production composition
+reauthentication, initial-owner/invitation credential creation, recovery-code
+hash generation/redemption and helper/reset credential creation. Console commands
+only mint the specified setup/reset codes; they do not accept passwords or run
+password primitives in a separate process. No production out-of-process bypass is
+admitted; a future multi-process design needs a separately reviewed cross-process
+permit before enablement. All in-process callers of the three password primitives in production composition
 must acquire THIS permit; the primitives remain unchanged and do not enforce it.
 No separate permit per owner/account/route/worker or use of admitted_memory_bytes
 as a permit is allowed. Setup/reset need their own actual guard/selection but no
@@ -229,9 +286,13 @@ A cancelled in-flight helper may already have crossed a source check and enter
 its internal hash before observing cancellation; its same permit/input stay alive
 through the WHOLE synchronous call. No cooperative cancellation between the
 helper's instructions is assumed. A new helper invocation must not start after
-cancellation. Setup/reset consumers must declare their own finite stage/native-call
-count within the same lease/profile before enabling their path; this task does
-not implement their entitlement or mutation protocol.
+cancellation. Setup/reset/recovery-code consumers require API-014's separately reviewed finite
+stage/native-call counts and guarded write surface before enablement; no silently
+unbounded batch of recovery-code hashes fits this single permit. This task does
+not implement their entitlement or mutation protocol. An unauthenticated caller
+can occupy this permit until full native drain, excluding owner login/setup/reset;
+ACCESS-008 and setup/reset owners must review abuse/rate-limit controls before
+public enablement. The32-association sub-cap does not solve permit starvation.
 
 ## 4. Guarded named directory/credential operations and truth
 
@@ -247,7 +308,7 @@ callback receiving one. No method begins/commits independently or hashes a passw
 | --- | --- |
 | `resolve_original_username()` | Only the original immutable selection held by this request; bound installation, no replacement argument. Returns one owned stable account reference plus exact directory binding and revision, known absence, or invalid_data/resource_limit/unavailable. Each selection/key/binding/revision<=4096; local account<=256, aggregate result including tag<=65536. ACCESS-001 must supply actual bounded indexed facts in the SAME active writer transaction. No scan, normalization guess, table invented here or second connection. Missing producer returns unavailable BEFORE a lookup or crypto, never absence. |
 | `read_bound_local_credential()` | Use resolved original account/installation (or same privately bound selection on a later stage); forward actual `read_local_credential(installation,account)` unchanged. Return complete local/account/install facts and snapshot; preserve metadata-before-payload,256-byte account/revision and127 verifier caps, full closure and source variant bounds. Missing/invalid/unavailable/resource distinctions stay real. No attempt reference is invented by storage. |
-| `replace_bound_password_upgrade(proposal,new_revision,expected)` | Forward actual `replace_password_upgrade(const PasswordReplacement&,string_view,const CompleteLocalCredentialFacts&)` ONLY after private bound job/source/proposal provenance, actual accepted-login lineage and full current directory/credential/account/install/freshness checks. Entire tuple preflight before copies under store mutation limits and frame cap. Both helper checks are required but never authorize this save. Missing actual accepted-login producer refuses without mutation. |
+| `replace_bound_password_upgrade(proposal,new_revision,expected)` | Forward actual `replace_password_upgrade(const PasswordReplacement&,string_view,const CompleteLocalCredentialFacts&)` ONLY within the registered consumer body after that consumer synchronously verifies private bound job/source/proposal provenance, actual accepted-login lineage and full current directory/credential/account/install/freshness. Host independently checks only its own stage/purpose/request/transaction guards. Entire tuple preflight before copies under store mutation limits and frame cap. Both helper checks are required but never authorize this save. Missing registered consumer or actual consumer-side accepted-login producer refuses without mutation; no host import of ACCESS-008 is permitted. |
 
 Directory results do not grant authority; fresh re-resolution at each relevant
 stage compares full original binding/key/account/revision. Username grammar,
@@ -258,7 +319,7 @@ can supply an explicitly simulated bounded directory. This avoids a dependency
 cycle through a future consumer. No extension to schema8 is implicit.
 
 The credential read can be used for initial verification before any accepted
-attempt exists. Upgrade mutation requires the local owner's actual still-live
+attempt exists. The registered consumer must establish upgrade authority from the local owner's actual still-live
 request/source/accepted object, not a public DTO, password verified enum or proof.
 The source's synchronous `belongs_to` check happens on worker before copying the
 bounded needed metadata into its one cell; never queue PasswordVerifiedSource.
@@ -345,7 +406,7 @@ Final completion and local handoff share one once-only latch; claiming final
 publication consumes it even if emitter/transport fails. Output copy/lease
 reservations and erasure are owned by the reviewed emitter/IO adapter. Recheck
 elapsed/peer lease at each delayed IO continuation; deadline is
-min(original_admission+300000ms, completion+5000ms, applicable stop/peer deadline).
+min(effective original deadline, completion+5000ms, current transport deadline minus2000ms margin, applicable stop/peer deadline).
 No later queue stage or network callback renews it. Suppressed, exception or
 lost response preserves committed truth; no automatic new issuance, raw-token
 recovery, old digest restoration or delivery confirmation. End logical request
@@ -357,10 +418,11 @@ inert charged cleanup state until barriers, not usable continuation authority.
 Every malformed field/body/target may contain a password. Bounds/erasure must
 cover ALL earlier ingress/host owners; the two login/helper allocations do not
 bound the entire process. The following is a REQUIRED proposed additive
-`auth secret-transfer profile` for SESSION-010/011 and API-013, separately gated
-before real password-bearing admission. Existing API-001 opaque vectors/lease
-release and account ingress's reference-route release do NOT prove the new
-profile. Preserve frozen upstream source/tests; add adapter-specific baselines,
+`auth secret-transfer profile` owned by API-013 at its SESSION-010/011 adapter boundary, separately gated
+before real password-bearing admission. Account-ingress R2 already mandates selected-libsodium erasure of field arena,
+consumed receive, method/target/body and pending-on-close regions on every exit.
+Those obligations remain; this is not a release-only ingress contract. Existing
+API-001 opaque vectors/lease release do NOT prove this new typed profile. Preserve frozen upstream source/tests; add adapter-specific baselines,
 never silently reinterpret release/free/move/clear as erasure.
 
 | Owner / actual maximum live regions | Bound and transfer / every refusal, cancellation and cleanup obligation |
@@ -377,11 +439,17 @@ never silently reinterpret release/free/move/clear as erasure.
 | Sources/stage cells/registry/results | ZERO password payloads. Bounded verifier/replacement/account metadata is sensitive: no logs/public projection. Clear project-owned mutable scratch at last use; imported string/result/driver copies do not promise complete verifier erasure. Source never retains a password/proof borrow. Abandon/wake once on refusal/cancel; real late completion drains owned metadata rather than writing to dead stack storage. |
 | Secret response, if later requested by lifecycle | ZERO password copies. Lifecycle's separate fixed token owner/188-byte application scratch and reviewed emitter's bounded output copies retain their own wipe obligations on every suppression/error/emitter return/IO cleanup; no generic response clone or password echo. |
 
-The plain native/capture parts are upstream PROPOSALS assigned to SESSION-011,
-not mechanisms found in the current host. For auth they need an explicit adapter
-extension for whole-capacity erasure, partial-decode unwind, transfer acknowledgment
-and ZERO generic-host plaintext copies, with real early allocation/copy/release
-instrumentation and source review. If release-only ownership or implicit framework
+Delta ownership is singular: SESSION-011 retains its existing raw receive/capture
+and R2 erasure baseline; SESSION-010 retains policy/scope construction and guarded
+borrow provenance. API-013 owns ALL additional auth-only adapter changes: native
+whole-capacity wiping of previously written unused ranges, partial-decode unwind,
+cleanup acknowledgment and typed transfer with ZERO generic-host plaintext copies.
+It also owns the route-specific two-pass decoder. These are proposals, not current
+host mechanisms. APITEST-013 must review these additive interfaces and actual early
+allocation/copy/erase instrumentation on working010/011 first; its existing010
+prerequisite transitively requires011. No reverse dependency from010/011 is added.
+If a necessary change is reusable rather than this bounded auth adapter, split it
+before implementation; the current task authorizes no such expansion. If release-only ownership or implicit framework
 clones cannot meet this table, keep auth admission unavailable and split the
 necessary substantial native/adapter prerequisite before code. No upstream baseline
 assertion or native profile capacity is removed to enable auth.
@@ -427,7 +495,8 @@ nor IO waits for crypto; no BlockingQueuedConnection, nested event loop or Qt
 owner join while a worker may still need it. Stop cannot drop an accepted wrapper
 or relabel unknown/committed truth as cancellation/rollback.
 
-Native helper calls have NO cooperative hard deadline.30s pipeline and5s network
+Native helper calls have NO cooperative hard deadline.10s local pipeline (within
+the upstream30s maximum) and5s network
 drain are logical/network limits only. A still-running call retains job/helper
 buffers, stable PasswordLoginSource, permit and inert request/cell dependencies.
 It may return much later; suppress its result, finish erasure and drain. No unsafe
@@ -436,7 +505,7 @@ claim is allowed. If it never returns, graceful shutdown is incomplete. A superv
 may enforce its separately configured process hard-stop/kill policy; that is
 process-terminal, has no C++ destructor/erasure/rollback/response guarantee, and
 must be tested in disposable children. This contract does not choose a hard-stop
-duration or pretend5s/30s can make native execution preemptible.
+duration or pretend5s/10s/30s can make native execution preemptible.
 
 Safe graceful barrier order: close admission/cancel; revoke and drain raw scopes
 and network callbacks on their IO/framework owners within inherited network drain
@@ -461,8 +530,10 @@ review approval. Use synthetic request Q/peer P, actual-source-simulated policy
 g1/installation I, epoch E/revision J and complete bound credential r/H0 from
 password logical §6. Factories/flags cannot manufacture production provenance.
 Elapsed examples are exact milliseconds for readability (multiply by1000000 for
-stored ns). Q admitted at1000: pipeline deadline31000, original lease301000;
-stage admitted1000 has deadline6000. All other current gates hold unless varied.
+stored ns). For these SIMULATED timing examples only, a separately admitted
+transport-budget source gives Q a conservative absolute edge deadline16000.
+Q admitted at1000: pipeline deadline11000, original lease=min(13000,14000)=13000;
+stage admitted1000 has deadline6000. These supplied facts are not stock edge proof. All other current gates hold unless varied.
 A real directory/clock/ingress producer and selected crypto success remain distinct
 later gates; simulated ports prove only their named component behavior.
 
@@ -470,9 +541,9 @@ later gates; simulated ports prove only their named component behavior.
 | --- | --- | --- |
 | HC01 Original survives wait | Initial read commits; verify off writer; source read/check works use new stages | SAME original Q occupies one host slot throughout. Six-work maximum normal password path; distinct stage identities, no live execution/ticket across native work. No bearer/login merely from enum verified. |
 | HC02 Queue equality | Stage entry5999/6000/6001 |5999 eligible,6000/6001 cancelled before facade/domain/BEGIN. Accepted wrapper still actual not_started/missing_transaction; refused-before-enqueue has no result. |
-| HC03 Whole pipeline equality | Helper returns30999/31000/31001; wakes at last value | Only30999 may schedule next stage if other gates pass. Equality/later refuses with original deadline; never new30s. Late native cleanup still required. |
-| HC04 Original lease equality | Plaintext already drained; downstream completion300999/301000 | First potentially eligible, second expired despite still-fresh accepted UTC. Holding an attempt never extends Q. |
-| HC05 Handoff equality | Final result at299000: completion+5000=304000, original301000; IO at300999/301000 | Effective deadline301000; first at most one handoff, equality inert/wipe output. No confirmed network receipt. |
+| HC03 Whole pipeline equality | Helper returns10999/11000/11001; wakes at last value | Only10999 may schedule next stage if other gates pass. Equality/later refuses with original deadline; never a new10s or30s. Late native cleanup still required. |
+| HC04 Original lease equality | Plaintext already drained; downstream completion12999/13000 | First potentially eligible, second expired despite still-fresh accepted UTC. Holding an attempt never extends Q. |
+| HC05 Handoff equality | Final result at11000: completion+5000=16000, original13000, edge-margin14000; IO at12999/13000 | Effective deadline13000; first at most one handoff, equality inert/wipe output. No confirmed network receipt. |
 | HC06 Elapsed failure | sec=-1, nsec=1000000000, read unavailable, same-reader100→99ns, or U64_MAX+1ms | No wrap/saturation/UTC fallback. Refuse admission/next stage, cancel queued work; IO unknowable-time peer closes. Executing SQL/native outcome remains real. Cross-thread earlier read alone is not regression. |
 | HC07 Stage full | Reduced stage cap2 occupied incl completing; third attempts; later release one | Refuse third BEFORE copy/post. No retry on release; only new explicit live internal stage may admit. Exact cap/input65536 fits,65537 refuses before copy. |
 | HC08 Writer full/closed | Host reservation exists, actual enqueue returns queue_full/not_open/shutting_down | No body/completion or fabricated WorkResult; cell unavailable, resources unwind, no hidden queue/replay. |
@@ -494,7 +565,7 @@ later gates; simulated ports prove only their named component behavior.
 | HC24 Commit uncertainty | Physical upgrade COMMIT then lost ACK; separately failed rollback cleanup | Real outcome_unknown/uncertain_outcome, writer fail-close; revoke current installation source, poison acceptance, no save/mint success or guessed rollback/retry. Already accepted later wrappers fail in order. |
 | HC25 Committed abnormal | Upgrade COMMIT confirmed then body throws, wrong/missing private envelope or completion scope lost | Preserve committed verifier and bind actual staged installation; invalidate local lineage, suppress positive reply. Never recover lineage from intent or restore old verifier. Mint commit similarly consumes despite failed output. |
 | HC26 Known rollback vs normal upgrade | Matching ready proposal: known rollback; separately acknowledged normal exact commit | Rollback no upgraded claim, old lineage only if still current. Normal commit advances ONLY bound acceptance's exact lineage/revision, original time/epochs/mint state preserved. Other old-source acceptances stale. |
-| HC27 Permit excludes all consumers | Login holds permit while waiting source; setup/invitation/helper reset/console reset/second login attempt | ALL refuse busy before new job password copy/post, even for different accounts/owners and no existing session. After full drain one may freshly admit. No per-owner extra permit or lowered cost. |
+| HC27 Permit excludes all consumers | Login holds permit while waiting source; setup/invitation/helper reset, reauthentication, recovery-code generation/redemption or second login attempt | ALL refuse busy before new job password copy/post, even for different accounts/owners and no existing session. After full drain one may freshly admit. No per-owner extra permit or lowered cost. |
 | HC28 Permit at late return | Deadline expired but native still running; try setup; then return and cell drain/wipe | Setup refuses until FULL release, not merely network close. Release exactly once, no waiting password queue. Native/helper Argon memory never overlaps another pipeline. |
 | HC29 Teardown drain | Cancel source wait with one accepted wrapper and one late worker event; network drains before native finishes | Cell wake once unavailable; wrapper completion retained FIFO; no join blocking Qt. Stopped/destruction only after all owner/native/writer/network acknowledgments; counts0 then. |
 | HC30 Nonreturning crypto / hard kill | Native never returns beyond logical/network bounds; external supervisor later kills disposable child | Network can close, graceful barrier remains incomplete. No safe forced-free/zeroization/rollback/stopped claim. Process terminal exit is separate evidence, no resurrected attempts on restart. |
@@ -504,12 +575,18 @@ later gates; simulated ports prove only their named component behavior.
 | HC34 Every helper exit | Native unsuccessful, preflight/cost/runtime/protection refusal, upgrade hash failure/second-check stale/exception, normal success | Job erased after last use/drain; helper RAII wipes any actual allocation and native record/output scratch on every exit. Native−1 is not proof of wrong password; no plaintext diagnostic/output. |
 | HC35 Raw cleanup during early transport | Partial body EOF, timeout, receive compaction, parser exception, pool destruction, stop with later pipelined bytes | Before reuse/free inspect complete owned ranges zero incl moved-from/stale regions; close wipes future bytes. No borrowing after scope revocation, no dropped charged capture. Never claim whole TLS/edge heap erasure. |
 | HC36 Secret response cleanup | Lifecycle later commits candidate; publication UTC unavailable, emitter throws, IO lease expires/disconnects, or normal emit returns | Each candidate/output owner wipes on its real last-use path, at most one emit. Committed truth remains, no retry/raw-token recovery/password echo. Separate emitter/body/wire gate still required. |
-| HC37 Capture arithmetic |8 active raw scopes,128 receive peers; ninth scope or129th peer; whole frame/result overage | Refuse before allocating/reading excess. Literal active835776/native8701056 sums hold at named boundaries plus fixed records, NOT process RSS or edge erasure. |
+| HC37 Capture arithmetic |8 active raw scopes,128 receive peers; ninth scope or129th peer; whole frame/result overage | Ninth AUTH scope refuses after request-line binding BEFORE capture copies;129th peer refuses before receive/read. Other routes keep their own admission. Literal active835776/native8701056 sums hold at named boundaries plus fixed records, NOT process RSS or edge erasure. |
+
+| HC38 Entry versus running deadline | Stage admitted1000 enters5999, calls facade6001 with pipeline11000 and lease13000 still live; separately call at11000 while pipeline live | First allowed despite passed queue cutoff. Second refuses further operations; actual SQL rollback/commit result still settles, no forced preemption. |
+| HC39 Early edge closure | Q has the simulated16000 edge bound, but peer actually closes at7000 while pipeline cutoff11000; earlier upgrade or mint committed | Cancel Q at actual disconnect; suppress results and retain permit until drain. Keep real committed truth; no retry, new issuance or delivery claim. Unknown budget at admission instead refuses before job copy. |
+| HC40 Transport scratch and reauthentication | Supplier preparation on a separately admitted reauth route returns, refuses or throws with32-byte raw token/60-byte framed scratch; existing session cookie also present on sign-in | Inspect32/60 buffers wiped before unwind/reuse on every exit. Reauth's registered consumer requires its own actual current-session guard plus fresh password; sign-in runs pre-session guard and never adopts the cookie's identity. Neither path exposes plaintext to a generic command. |
+| HC41 Compiled consumer ownership | No dispatcher; foreign phase; dispatcher without actual accepted owner; accept_verified with unavailable clock | No registration refuses before job ownership/post. Host phase rejects before execute. Consumer fails lineage/UTC inside its fresh execution without mutation/acceptance; no DTO creates authority, no reverse host dependency. |
+| HC42 Reserved ordinary capacity |32 auth originals still referenced during drain; attempt33 and one ordinary request with other pools free | Auth33 refuses before materialization; ordinary request can reserve one of remaining96 slots under its own gates. Busy password permit still excludes new password work independently. |
 
 ## 9. Review and downstream gates
 
 The complete proposal, its compatibility/source audit, arithmetic, phase/ownership
-and HC01–37 require independent Claude initial review, Codex correction/separate
+and HC01–42 require independent Claude initial review, Codex correction/separate
 Codex verification and independent Claude closing review on the exact resulting
 revision. The author records no approvals. Coordinator owns revision receipts,
 shared metadata/HTML/index/evidence, current CI and normal protected merge.
@@ -524,6 +601,20 @@ Fake directory/login/clock adapters must be labeled simulation; real producers
 remain their own acceptance gates. API-013 then requires fresh implementation,
 independent code/secret/resource/thread review, relevant passing regressions and
 selected CI. No body is run or runtime capability established by this task.
+
+Setup/reset writes are deliberately a separate planned prerequisite:
+[APICONTRACT-003](../tasks/EPIC-008/APICONTRACT-003.md) →
+[APITEST-014/API-014](../tasks/EPIC-008/API-014.md). That host extension must define
+named guarded account insertion/replacement/local-credential replacement (forward
+STORAGE-020 unchanged), bounded conditional directory-binding writes and the
+workflow-specific recovery/code ports needed for atomic setup/reset, plus explicit
+finite stage/native-call profiles. ACCESS-001 owns indexed directory facts and
+its separately reviewed logical/physical producer, ACCESS-005 owns recovery policy.
+The host depends only on compiled abstract ports, missing registrations refuse;
+no dependency on ACCESS-001/005 implementations. API-013 alone enables neither
+setup nor reset. Their four baseline/implementation records explicitly depend on
+API-014 in addition to API-013; new nodes remain planned/unassigned. This split
+preserves full setup/recovery scope without authorizing another executable task.
 
 Open integration boundaries: actual API-001 host and SESSION-010 policy/scope;
 separately reviewed auth erasure/typed transfer/decoder extension under010/011 and
