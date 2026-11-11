@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T16:41:30+00:00",
+  "updated_at": "2026-11-11T16:47:55+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. RATES-001 merged normally in PR116 at c70fbec. Owner resumed for one fresh task: RATECONTRACT-001 logical exact retained valuation prerequisite is reviewed document proof in PR117; concrete RATECONTRACT-002 remains planned. Final CI/normal merge, then STOP; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
@@ -16117,7 +16117,7 @@
       "module": "Quality and tooling",
       "kind": "implementation",
       "status": "in_progress",
-      "owner": "codex:coordinator /root; fresh implementation pending",
+      "owner": "codex:coordinator /root; fresh /root/ci_001_implementation",
       "depends_on": [
         "WORKFLOW-002"
       ],
@@ -16128,11 +16128,11 @@
       "brief": "docs/tasks/CI-001.md",
       "summary": "Diagnose runner DNS and select official Ubuntu mirrors with bounded authenticated package acquisition, preserving all dependency and acceptance gates.",
       "notes": [
-        "Owner explicitly authorized the CI repair after all nine PR118 reruns reproduced mirror DNS failure. Separate branch from main38b482d; contract/tests/review/red/fresh implementation and hosted verification pending. PR118 document content and approvals stay intact."
+        "Revision2 contract/tests approved by independent Claude initial/closing and separate Codex cycles. Actual first run at dafa370: 8 methods,33 intended assertion failures,0 setup errors against loadable stub. Fresh CI-only implementation now released; hosted recovery and publication gates pending. No package/auth/hash/product-baseline change."
       ],
       "verification": {
-        "test_review": "not_run",
-        "baseline": "not_run",
+        "test_review": "passed",
+        "baseline": "observed_red",
         "implementation": "not_run",
         "acceptance": "not_run",
         "code_review": "not_run",
@@ -17991,6 +17991,11 @@
       "date": "2026-11-11T16:41:30+00:00",
       "task": "CI-001",
       "note": "Initial Claude B1–6 fixed and independent Codex C1/C2 corrected b24ad5a; closing approved that unexecuted baseline. New matching GitHub/Canonical incident confirms all Ubuntu hostnames affected. Revision2 prefers independent kernel.org Ubuntu mirror with unchanged Ubuntu authentication/pins; new Codex/Claude closing gates before any execution."
+    },
+    {
+      "date": "2026-11-11T16:47:55+00:00",
+      "task": "CI-001",
+      "note": "Revised mirror tests approved after Codex M1 missing-release-field fixesdafa370 and independent Claude closing30806b2a. Actual reviewed stub run8 methods/33 assertion failures/0errors, log /tmp/ci-001-reviewed-red.log. Fresh ci_001_implementation released only helper/nine workflows/CI docs; tests frozen."
     }
   ]
 }

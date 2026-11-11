@@ -24,3 +24,12 @@ New current incidents15296/15297 and Canonical RSS DNS major outage show mirror-
 ubuntu.com endpoints insufficient. Contract revision2 adds preferred kernel.org
 Ubuntu mirror (ordinary existing Ubuntu signatures/pins unchanged), seventh diagnostic
 and all-Canonical-DNS-failed example. Fresh Codex and Claude closing pending before red.
+
+Revised test stage: Codex ci_001_mirror_test_verification M1 fixed dafa370 and
+separately verified; independent closing Claude30806b2a APPROVEDdafa370, no blockers.
+Actual first reviewed test run:8 methods,33 assertion failures,0 errors, exit1,
+explicit unimplemented behavior; full /tmp/ci-001-reviewed-red.log.
+Frozen tests SHA256 a9779aafb1c56b09f72498ec78ef6c7df7f8fe8a86016f7a3250caa2f6e5020e.
+Fresh /root/ci_001_implementation released helper/nine workflows/docsCI only;
+no test edits, hosted execution, push or PR actions by worker. Final source review
+cycle and actual current-head hosted checks remain coordinator gates.
