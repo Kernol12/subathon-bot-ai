@@ -18,6 +18,8 @@ See [backlog workflow and complete epic index](README.md).
 | `RATESTEST-006` → [RATES-006](EPIC-017/RATES-006.md) | Ordered fallback and source provenance |
 | `RATESTEST-007` → [RATES-007](EPIC-017/RATES-007.md) | Consistent manual inverse cross-rate and pin overrides |
 | `RATESTEST-008` → [RATES-008](EPIC-017/RATES-008.md) | Historical display conversion and missing valuation review |
+| [RATECONTRACT-001](EPIC-017/RATECONTRACT-001.md) | Exact retained valuation bridge contract prerequisite |
+| [RATECONTRACT-002](EPIC-017/RATECONTRACT-002.md) | Concrete exact valuation API/codec/additive-storage contract prerequisite |
 | `RATESTEST-009` → [RATES-009](EPIC-017/RATES-009.md) | Exact rate snapshots in retained historical valuations |
 | [RATES-090](EPIC-017/RATES-090.md) | Verify all three rate provider plan profiles |
 

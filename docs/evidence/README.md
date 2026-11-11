@@ -190,6 +190,16 @@ checks remain open. Durable storage ownership must be explicit when RATESTEST-00
 007 are refined; this pure model does not provide it. Unknown fields or
 provider behavior must not be represented as supported capabilities.
 
+The [exact retained valuation proposal](../contracts/exact-retained-valuations-v1.md)
+separates a logical rational/provenance bridge from the legacy finite-decimal
+capture. Eighteen authored examples cover inverse/cross arithmetic, final ties,
+legacy coexistence, immutable durable closure and failure/reopen obligations.
+[RATECONTRACT-001](../tasks/EPIC-017/RATECONTRACT-001.md) records document review;
+planned RATECONTRACT-002 must first freeze concrete API/codec/additive-storage
+contracts before RATESTEST-009. Existing formats, migrations, assertions and all
+478 prior task records are preserved. This is document proof only; no exact
+valuation adapter, storage behavior or provider capability is established.
+
 ## Milestones and automation
 
 Pure sequential milestone progression passes 53 reviewed cases/full 90 checks, with

@@ -137,3 +137,10 @@ They are not extra epic work packages or evidence of a selected/working validato
 
 - [WORKFLOW-001 — T3 coordination and derived task context](WORKFLOW-001.md).
 - [WORKFLOW-002 — Coordinator-selected reviews with Codex correction cycles](WORKFLOW-002.md).
+
+[Exact retained valuation prerequisite](EPIC-017/RATECONTRACT-001.md) separates
+the logical representation/provenance/compatibility contract before RATESTEST-009.
+[RATECONTRACT-002](EPIC-017/RATECONTRACT-002.md) separately gates the concrete
+API/codec/additive-storage contract. These are additional foundation records,
+not extra epic work packages. No existing
+release requirement, baseline assertion or shipped migration is removed.
