@@ -68,7 +68,7 @@ jobs:
         run: |
           echo "QT_PREFIX=$RUNNER_TEMP/qt-6.12.0" >> "$GITHUB_ENV"
           sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends libarchive-tools libglib2.0-0t64 libzstd1 zlib1g libboost1.83-dev=1.83.0-2.1ubuntu3
+          sudo apt-get install --yes --no-upgrade --no-install-recommends libarchive-tools libglib2.0-0t64 libzstd1 zlib1g libboost1.83-dev=1.83.0-2.1ubuntu3
           dpkg-query -W libboost1.83-dev
       - name: Verify the compiler's selected Boost header version
         run: |
@@ -128,20 +128,41 @@ jobs:
         run: |
           python3 - <<'PYTHON'
           import json
+          import os
+          from pathlib import Path
           import subprocess
           data = json.loads(subprocess.check_output(
               ["ctest", "--preset", "api-host-native-debug", "--show-only=json-v1"], text=True))
+          inventory = Path("tests/qt/api_host_cases.cmake").read_text().splitlines()
+          cases = [line.strip() for line in inventory if line.startswith("    ")]
+          if len(cases) != 75 or len(set(cases)) != 75:
+              raise SystemExit("Complete unique host invocation inventory required")
+          expected = {"api-host." + case for case in cases} | {"api-host-native.suite"}
           selected = {test["name"]: test for test in data["tests"]
-                      if test["name"] in ("api-host.suite", "api-host-native.suite")}
-          if set(selected) != {"api-host.suite", "api-host-native.suite"}:
-              raise SystemExit("Both enabled host baseline runners are required")
+                      if test["name"].startswith(("api-host.", "api-host-native."))}
+          if set(selected) != expected:
+              raise SystemExit("All isolated Qt invocations and the native suite must be registered")
+          loader = "LD_LIBRARY_PATH=" + os.environ["RUNNER_TEMP"] + "/api-host-sdk/sdk/lib"
           for name, test in selected.items():
               props = {item["name"]: item["value"] for item in test["properties"]}
-              owner = name.removesuffix(".suite")
-              if not {owner, "intentional-red", "acceptance", "server"} <= set(props.get("LABELS", [])):
-                  raise SystemExit("Host baseline ownership/red labels missing")
+              native = name == "api-host-native.suite"
+              owner = "api-host-native" if native else "api-host"
+              labels = {owner, "intentional-red", "acceptance", "server", "loopback" if native else "qt"}
+              if set(props.get("LABELS", [])) != labels or props.get("TIMEOUT") != (660 if native else 180):
+                  raise SystemExit("Host baseline labels or watchdog changed")
+              command = test["command"]
+              if native:
+                  if (len(command) != 11 or command[1:4] != ["-E", "env", loader]
+                          or command[6] != "--probe" or command[8] != "--admission"
+                          or command[10] != "-v" or Path(command[7]).name != "api_host_probe"
+                          or Path(command[9]).name != "api-host-admission.json"):
+                      raise SystemExit("Native admission/loader command changed")
+              elif (len(command) != 2 or command[1] != name.removeprefix("api-host.")
+                    or Path(command[0]).name != "server_api_host_acceptance"
+                    or props.get("ENVIRONMENT") != [loader]):
+                  raise SystemExit("Each Qt invocation must use one fresh process with the selected loader")
               if props.get("DISABLED") or props.get("WILL_FAIL"):
-                  raise SystemExit("Host baseline must remain enabled with ordinary failure semantics")
+                  raise SystemExit("Host baselines must remain enabled with ordinary failure semantics")
               if any(key in props for key in ("SKIP_RETURN_CODE", "PASS_REGULAR_EXPRESSION",
                                              "FAIL_REGULAR_EXPRESSION", "SKIP_REGULAR_EXPRESSION")):
                   raise SystemExit("Host baseline results must not be rewritten")

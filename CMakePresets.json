@@ -303,7 +303,7 @@
     },
     {
       "name": "api-host-debug",
-      "displayName": "32 \u00b7 API host lifecycle baseline (intentional red)",
+      "displayName": "32 \u00b7 Qt API host baseline (intentional red)",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
@@ -312,7 +312,7 @@
     },
     {
       "name": "api-host-native-debug",
-      "displayName": "33 \u00b7 API host lifecycle baseline (intentional red)",
+      "displayName": "33 \u00b7 Native API host baseline (intentional red)",
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",

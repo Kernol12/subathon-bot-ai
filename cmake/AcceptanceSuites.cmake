@@ -28,7 +28,8 @@ endfunction()
 # return sorted, unique canonical suite names through output. OFF selects none;
 # bare ON selects time-credit. Explicit empty/unknown selections and any enabled
 # retired per-feature cache option fail with an actionable diagnostic. The named
-# suite closures are the existing preset contract in TESTCLEAN-003's proposal.
+# suite closures follow the current preset contracts: SQLite includes its compiled
+# prefix; host profiles also include corrected native transport and the Qt baseline.
 function(subathon_resolve_acceptance_suites output)
     # Refuse enabled retired requests before applying any new/default selection.
     # Cache provenance cannot reliably distinguish an old default from explicit -D.

@@ -14,7 +14,7 @@ add_test(NAME api-host-native.suite
     COMMAND "${CMAKE_COMMAND}" -E env "LD_LIBRARY_PATH=${sbt_drogon_root}/lib"
         "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/test_api_host_lifecycle.py"
         --probe "$<TARGET_FILE:api_host_probe>" --admission "${SUBATHON_API_HOST_ADMISSION}" -v)
-# At most23 authored child lifetimes, each20s plus two2s reap attempts; 108s margin.
+# At most25 authored child lifetimes, each20s plus two2s reap attempts; 60s margin.
 # This watchdog is fixture supervision, not a graceful shutdown guarantee.
 set_tests_properties(api-host-native.suite PROPERTIES
     LABELS "api-host-native;acceptance;server;loopback;intentional-red" TIMEOUT 660)
