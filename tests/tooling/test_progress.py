@@ -43,12 +43,11 @@ def task(task_id, dependencies=(), status="planned", kind="scaffold"):
 
 class ProgressTests(unittest.TestCase):
     def setUp(self):
+        # Real-state mutations retain policy; synthetic task replacements opt out below.
         self.state = json.loads((ROOT / "progress/state.json").read_text(encoding="utf-8"))
-        # Synthetic legacy fixtures below do not inherit the repository claim policy.
-        self.state.pop("workflow_policy", None)
 
     def test_baseline_is_valid(self):
-        progress.validate(json.loads((ROOT / "progress/state.json").read_text(encoding="utf-8")))
+        progress.validate(self.state)
 
     def test_combined_notes_at_500_characters_are_valid_for_every_status(self):
         for status in ("planned", "ready", "in_progress", "in_review", "blocked", "done"):
@@ -57,6 +56,7 @@ class ProgressTests(unittest.TestCase):
                 record.update(notes=["a" * 250, "b" * 250],
                               evidence=["https://example.com/proof"])
                 self.state["tasks"] = [record]
+                self.state.pop("workflow_policy", None)
                 self.state["activity"] = []
                 progress.validate(self.state)
 
@@ -67,6 +67,7 @@ class ProgressTests(unittest.TestCase):
                 record.update(notes=["a" * 250, "b" * 250, "c"],
                               evidence=["https://example.com/proof"])
                 self.state["tasks"] = [record]
+                self.state.pop("workflow_policy", None)
                 self.state["activity"] = []
                 with self.assertRaisesRegex(ValueError, r"NOTE-999.*500.*shorten.*notes.*JSON"):
                     progress.validate(self.state)
@@ -75,6 +76,7 @@ class ProgressTests(unittest.TestCase):
         record = task("NOTE-999")
         record["notes"] = ["a" * 250, "b" * 249]
         self.state["tasks"] = [record]
+        self.state.pop("workflow_policy", None)
         self.state["activity"] = []
         with tempfile.TemporaryDirectory() as directory:
             state_path = Path(directory) / "state.json"
@@ -105,6 +107,7 @@ class ProgressTests(unittest.TestCase):
             task("CYCLEA-999", ["CYCLEB-999"]),
             task("CYCLEB-999", ["CYCLEA-999"]),
         ]
+        self.state.pop("workflow_policy", None)
         with self.assertRaisesRegex(ValueError, "cycle"):
             progress.validate(self.state)
 
@@ -113,6 +116,7 @@ class ProgressTests(unittest.TestCase):
             task("TEST-999", kind="test_baseline"),
             task("IMPL-999", ["TEST-999"], status="in_progress", kind="implementation"),
         ]
+        self.state.pop("workflow_policy", None)
         self.state["activity"] = []
         with self.assertRaisesRegex(ValueError, "dependency"):
             progress.validate(self.state)
@@ -127,6 +131,7 @@ class ProgressTests(unittest.TestCase):
             baseline,
             task("IMPL-999", ["TEST-999"], status="in_progress", kind="implementation"),
         ]
+        self.state.pop("workflow_policy", None)
         self.state["activity"] = []
         progress.validate(self.state)
 
@@ -136,6 +141,7 @@ class ProgressTests(unittest.TestCase):
                               review={"author": "author-session", "reviewer": "reviewer-session",
                                       "outcome": "approved"})
         self.state["tasks"] = [implementation]
+        self.state.pop("workflow_policy", None)
         self.state["activity"] = []
         for verification in ({}, {"acceptance": "failed"}):
             with self.subTest(verification=verification):
@@ -150,6 +156,7 @@ class ProgressTests(unittest.TestCase):
                               review={"author": "author-session", "reviewer": "reviewer-session",
                                       "outcome": "approved"})
         self.state["tasks"] = [implementation]
+        self.state.pop("workflow_policy", None)
         self.state["activity"] = []
         progress.validate(self.state)
 
@@ -157,6 +164,7 @@ class ProgressTests(unittest.TestCase):
         completed = task("DONE-999", status="done")
         completed["evidence"] = ["https://github.com/example/project/pull/42"]
         self.state["tasks"] = [completed]
+        self.state.pop("workflow_policy", None)
         self.state["activity"] = []
 
         progress.validate(self.state)
@@ -168,6 +176,7 @@ class ProgressTests(unittest.TestCase):
         cleanup = task("CLEAN-999", status="done", kind="cleanup")
         cleanup["evidence"] = ["https://github.com/example/project/pull/43"]
         self.state["tasks"] = [cleanup]
+        self.state.pop("workflow_policy", None)
         self.state["activity"] = []
 
         with self.assertRaisesRegex(ValueError, "separate approved review"):
@@ -177,6 +186,7 @@ class ProgressTests(unittest.TestCase):
         planned = task("PATH-999")
         planned["evidence"] = ["http://example.com/pull/44"]
         self.state["tasks"] = [planned]
+        self.state.pop("workflow_policy", None)
         self.state["activity"] = []
 
         with self.assertRaisesRegex(ValueError, "project-relative path"):
@@ -228,6 +238,7 @@ class ProgressTests(unittest.TestCase):
             task("RIGHT-999", ["ROOT-999"]),
             task("ROOT-999", status="done"),
         ]
+        self.state.pop("workflow_policy", None)
         original = copy.deepcopy(self.state)
         rows = TaskRows(progress.render(self.state)).rows
         self.assertEqual([r["id"] for r in rows],
@@ -249,6 +260,7 @@ class ProgressTests(unittest.TestCase):
             task("EPIC-999", ["DONE-999"], kind="epic"),
             task("READY-999", ["DONE-999"], status="ready"),
         ]
+        self.state.pop("workflow_policy", None)
         html = progress.render(self.state)
         available = {r["id"] for r in TaskRows(html).rows if r.get("data-available") == "true"}
         self.assertEqual(available, {"OPEN-999", "AVAILABLE-999", "READY-999"})
@@ -266,6 +278,7 @@ class ProgressTests(unittest.TestCase):
 
     def test_no_available_tasks_does_not_offer_a_blocked_or_completed_handoff(self):
         self.state["tasks"] = [task("DONE-999", status="done"), task("HELD-999", status="blocked")]
+        self.state.pop("workflow_policy", None)
         html = progress.render(self.state)
         self.assertTrue('id="available-count">0<' in html, "Available count must be zero")
         self.assertTrue('class="next-task">No tasks ready to pick up</div>' in html,
@@ -273,6 +286,7 @@ class ProgressTests(unittest.TestCase):
 
     def test_state_and_module_filters_offer_all_choices_as_checked_checkboxes(self):
         self.state["tasks"] = [task("ONE-999"), task("TWO-999")]
+        self.state.pop("workflow_policy", None)
         self.state["tasks"][0]["module"] = 'R&D <Tools> "Ops"'
         self.state["tasks"][1]["module"] = "Core"
         html = progress.render(self.state)

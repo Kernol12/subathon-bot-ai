@@ -304,6 +304,9 @@ class WorkflowRecordTests(unittest.TestCase):
         multiple["workflow"]["stages"]["implementation"] = stage([])
         with self.assertRaises(ValueError):
             progress.validate(state(multiple))
+        del multiple["workflow"]["stages"]["implementation"]
+        with self.assertRaises(ValueError):
+            progress.validate(state(multiple))
 
     def test_publication_shape_and_dependency_readiness_match_context_and_html(self):
         done = task(status="done")

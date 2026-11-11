@@ -15,8 +15,9 @@ Coordinator owns this brief, instructions/workflow/progress/architecture docs,
 existing evidence summary, task navigation, state/schema/HTML/checkpoint and CI YAML.
 Test author owns new `tests/tooling/test_workflow.py` only. Coordinator also owns a
 setup-only adjustment in `tests/tooling/test_progress.py`: remove workflow_policy
-from synthetic fixture setup, leaving every existing assertion unchanged, and make
-test_baseline_is_valid load the complete real state. Review this fixture isolation
+only in tests replacing tasks with synthetic fixture records, leaving every existing
+assertion unchanged. Retain the policy for tests mutating the real task list and
+keep test_baseline_is_valid on the complete real state. Review this fixture isolation
 with the new tests. Fresh implementation
 session owns `tools/workflow.py` and the integration in `tools/progress.py` only.
 No new dependencies, assertion deletions, production schema/migration/SDK changes.
