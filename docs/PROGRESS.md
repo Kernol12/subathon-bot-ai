@@ -30,7 +30,8 @@ the status filter still matches the recorded status. Availability does not waive
 independent reviews, test-first gates, ownership or live/platform requirements.
 
 This remains an offline snapshot: GitHub merges do not change task status automatically.
-Record the verified merge/result in progress/state.json and regenerate the page.
+Record the verified merge/result in progress/state.json and regenerate the page; the
+reconcile command below imports a saved observation without checking GitHub itself.
 
 ## Read a bounded task context
 
@@ -70,12 +71,24 @@ add no files under `docs/evidence/`. Follow [`docs/AGENT_WORKFLOW.md`](AGENT_WOR
 for the readable-summary and archive rules. Local evidence uses project-relative paths,
 never absolute machine paths.
 
-Dependency-ready means every `depends_on` task is done. The tool refuses starting or
-completing tasks with unfinished dependencies and detects cycles/unknown IDs. The `done`
-status requires evidence and an independent approved review for implementation,
-test-review, baseline and cleanup kinds. Cleanup removes tests only under an approved
-decision and its separate review. This is a record consistency check; it cannot prove
-that an agent claim is true. Do not invent a reviewer or pass result to satisfy validation.
+Dependency-ready means every prerequisite is complete under its recorded policy.
+Legacy done tasks keep their original dependency semantics. A newly tracked done
+prerequisite also needs recorded merged publication; artifact completion alone does
+not authorize dependent work. Validation refuses ready/active/done dependents while
+that prerequisite is unfinished, and checks cycles and unknown IDs. Availability
+is still not owner authorization.
+
+The forward `workflow_policy` freezes the 120 already-done IDs and their integrity
+fingerprint. New non-epic claims require structured stages; do not backfill invented
+historical reviews. Contract tasks need an approved separate review except the
+explicit historical exemptions. Implementation, baseline and cleanup retain their
+existing passing-acceptance, observed-red and separate-review requirements. Tracked
+done tasks additionally require every declared stage closed on its packet revision
+and a publication observation (which may still be open). The developer JSON schema
+provides structural hints; runtime tooling enforces the relational rules.
+
+This is record consistency, not authentication of sessions, commits, review quality
+or live CI. Never invent a reviewer or pass result to satisfy validation.
 
 The [backlog index](tasks/README.md) links every epic to its bounded child briefs.
 An epic's dependencies aggregate required child completion; children depend on their
@@ -98,3 +111,42 @@ This uses a small DOM simulation to check both orderings and retained controls;
 it does not verify real-browser layout or OBS.
 The state.schema.json file provides editor hints; tools/progress.py performs the
 runtime checks including dependencies, evidence and separate-review records.
+
+## Stage handoffs and observed review outcomes
+
+```sh
+python3 tools/progress.py context WORKFLOW-003 --stage tests
+```
+
+The optional stage view adds only `stage_context` to the original output. It gives
+the selected packet, completeness, next gate and derived metrics. A required stage
+not yet authored has no packet and next gate authoring; no invented revision or
+assignment is needed. Unknown stages or a task without workflow fail read-only.
+The view contains no unrelated activity or new manually maintained context files.
+See [workflow records v1](tasks/WORKFLOW-003.md) for the exact record/CLI contract.
+
+Record actual provider/model/session, phase, revision, verdict, report and scoped
+finding IDs per receipt. Add observed timing pairs when available; omit estimates.
+Counts, distinct blockers, findings first seen at closing and measured durations help
+assess review usefulness. They are not quality scores or automatic review waivers.
+
+## Import a publication observation
+
+```sh
+gh pr view 120 --json url,state,headRefOid,mergedAt,mergeCommit > /tmp/task-pr.json
+python3 tools/progress.py reconcile WORKFLOW-003 --pr-json /tmp/task-pr.json
+```
+
+The PR URL must already be recorded in task evidence. This imports OPEN/MERGED
+metadata with a UTC import timestamp and regenerates HTML. It changes no artifact
+status, task notes, reviews, verification, activity, authorization or checkpoint.
+It rejects malformed input, PR reassociation, merged-to-open regression and changed
+immutable merged fields. Review the diff, check live gates separately and reconcile
+checkpoint prose manually. An open head is an observation, not a future-head promise.
+
+Validation, serialization and rendering complete before either output is replaced.
+Sibling temporary files are cleaned up; an OS failure between replacements can still
+leave mismatched outputs, so inspect and reconcile after such failure. The command
+performs no network, git or merge operation and does not authenticate saved JSON.
+Finalize a PR's own merge in the next already-authorized metadata change; avoid a
+chain of completion-only PRs. Historical unrun checks are never promoted by inference.

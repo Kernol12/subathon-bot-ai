@@ -52,9 +52,23 @@ jobs and all 22 checks pass at reviewed cb5f8fc; package pins, Ubuntu trust, SDK
 and native baselines are unchanged. DNS had also recovered on the observed runner,
 so these runs do not isolate an outage-time causal comparison. Full reviews, actual
 stub-red and selected-host receipts are in [PR119](https://github.com/Kernol12/subathon-bot-ai/pull/119);
-final metadata/current-head CI and normal merge remain publication gates. Host
-lifecycle CI still compiles its intentional-red baseline; no new host or product
-behavior is claimed. PR118's unchanged contract publishes after the repair.
+PR119 merged normally as `5c6121d` at 2026-11-11T17:28:38Z with22 successful
+final-head checks. PR118 then merged normally as `f2a134e` at17:46:41Z with 22
+successful final-head checks. These publication observations were read from GitHub
+for WORKFLOW-003; historical unrun checks remain unchanged. Host lifecycle CI still
+compiles its intentional-red baseline; no new host or product behavior is claimed.
+
+[WORKFLOW-003](../tasks/WORKFLOW-003.md) implements structured forward review gates,
+publication observations and dependency readiness, derived stage packets/metrics and
+coherent handoff guidance. Independent contract/test initial and closing Claude reviews
+with Codex fixes/separate verification preceded actual 12-method/96-assertion red;
+earlier premature hosted execution remains a process exception in
+[PR120](https://github.com/Kernol12/subathon-bot-ai/pull/120). The frozen baseline
+then passes 12 methods; full 71 tooling, scaffold 3, project 485/122 and simulated DOM
+checks pass. All 19 CI bodies/pins are byte-preserved after reversing only reviewed
+concurrency/trigger edits. PR118/119 publication is reconciled without inventing old
+reviews or promoting historical unrun checks. Implementation review and current-head
+hosted outcomes are recorded in PR120; this is development tooling, not product proof.
 
 ## Core time and exact arithmetic
 

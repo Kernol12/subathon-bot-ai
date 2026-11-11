@@ -152,4 +152,9 @@ Existing writer PRAGMA admission and plan CHECK/FK constraints require explicit
 reviewed migration support; the planning split supplies no runtime capability.
 
 [CI-001 — Reliable Ubuntu package acquisition](CI-001.md) is an owner-authorized
-CI-only repair before PR118 publication; product work remains stopped.
+CI-only repair; publication receipts are recorded in state and PR119. Product work
+remains bounded by the current owner instruction.
+
+[WORKFLOW-003 — Structured coordination and publication](WORKFLOW-003.md) adds
+forward review records, derived stage handoffs/metrics and saved-PR reconciliation
+while preserving historical evidence and the existing review cycle.

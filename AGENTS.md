@@ -37,20 +37,12 @@ release scope and identify requirement conflicts instead of silently changing be
 Routine implementation choices are allowed within scope. Unknown provider behavior is
 not a supported capability; never turn unknown source fields into known values.
 Start with `docs/ARCHITECTURE.md`, `docs/AGENT_WORKFLOW.md`, `docs/TEST_STRATEGY.md`,
-`progress/state.json`, and the selected task brief. Read scoped `AGENTS.md` files in
-every module being edited. EPIC-028, STORAGE-020, APICONTRACT-001, APITEST-012 and
-API-012 are complete; API-012 merged normally in PR110. WORKFLOW-001/002 merged in
-PR109/111, and APITEST-001 merged normally in PR112. ACCESSCONTRACT-001
-merged normally in PR113; APICONTRACT-002 merged normally in PR114. On 2026-11-11
-the owner resumed after RATECONTRACT-001 merged normally in PR117 (38b482d) and
-requested ONE new task, finish it and STOP. The coordinator selected
-RATECONTRACT-002 in `docs/tasks/EPIC-017/`: document-only concrete exact retained
-valuation API, codec, resource and additive-storage contract before RATESTEST-009.
-Preserve RATECONTRACT-001/RATES-001 reviews, all baseline assertions and shipped
-migration bytes. No production code, schema, provider/cache/store/valuation
-implementation is authorized by this contract task. Finish independent review,
-current-head CI and normal protected merge, then STOP; do not select another task.
-API-001 implementation and actual session-clock binding remain unauthorized.
+the selected task brief and a bounded `python3 tools/progress.py context TASK-ID`.
+Read scoped `AGENTS.md` files in every module being edited. Current owner scope,
+stop/resume directive and temporary assignments belong in
+`progress/coordinator-checkpoint.md`; the latest owner instruction takes precedence.
+Dependency readiness never authorizes a new task or resumes stopped product work.
+Keep permanent rules here, task status in state and detailed receipts in the PR.
 
 ## Test-first and review gates
 
@@ -127,8 +119,8 @@ Use `CMakeUserPresets.json` for personal paths; never commit machine-specific ID
 Distinguish planned, authored, reviewed, observed red, implemented, simulated and
 live/platform-verified. Never claim unrun checks or invent verification percentages.
 For completed tasks, keep all task notes together to 500 characters or fewer and follow
-the readable-summary rule in `docs/AGENT_WORKFLOW.md`. Historical receipts will live
-under git tag `evidence-archive-2026-11` once EVIDENCE-001 lands; `docs/evidence/README.md`
+the readable-summary rule in `docs/AGENT_WORKFLOW.md`. Historical receipts are available
+under git tag `evidence-archive-2026-11`; `docs/evidence/README.md`
 is the readable record.
 Use synthetic/redacted fixtures, fake adapters and disposable state by default. Keep
 credentials and supporter data out of source, fixtures, reports and HTML; live provider
