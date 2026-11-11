@@ -2,7 +2,8 @@
 
 Parent: [EPIC-017](../EPIC-017.md). Kind: contract, document only.
 Specification v0.45 §§3.5, 9, NUM-04, FX-03/06.
-Status, owner and dependencies: progress/state.json. Planned and unassigned.
+Status, owner and dependencies: progress/state.json.
+Owner resumed for this ONE document-only task after PR117; finish normal merge, then STOP.
 
 Refine the reviewed [logical bridge](../../contracts/exact-retained-valuations-v1.md)
 into concrete bounded DTO/API, error priority, ownership/resource, command/codec and
@@ -41,3 +42,23 @@ ABI/schema/fixture/test/implementation and authorizes no runtime change by itsel
 Coordinator owns shared state/build/schema integration. RATES-009 retains actual
 capture/durable closure and baseline/implementation gates; RATES-005/007 retain
 actual fetched/effective/override stores. All providers and release scope remain.
+
+## Acceptance, ownership and gates
+
+The fresh author owns [the proposed concrete contract](../../contracts/exact-valuation-storage-v1.md)
+only. Coordinator owns this brief, navigation, AGENTS.md, shared state, evidence,
+generated HTML, checkpoint and PR/CI/merge. Acceptance is a complete concrete
+API/value/error contract, literal codec framing, field closure and bounded resource
+profiles, proposed additive schema/catalog/legacy dispatch, independently derived
+examples and a separately reviewed baseline plan for RATESTEST-009/RATES-009.
+Audit the actual current consumers; expose substantial extra prerequisites as
+explicit dependency-linked planned tasks before implementation.
+
+No C++/SQL/schema/fixtures/assertions/build/CI/dependencies or provider behavior is
+changed by this task. Preserve RATECONTRACT-001 and RATES-001 approvals, all existing
+baseline assertions and every shipped migration byte. Full independent Claude
+initial → Codex fixes/separate verification → Claude closing review is mandatory.
+Document proof is not runtime, authored-test or observed-red proof. Project/progress
+validation, render and tooling checks plus latest-head CI, resolved discussions and
+normal protected merge remain required. API-001 and actual clock binding stay outside
+authorization. Do not start RATESTEST-009, RATES-009 or another task after this merge.
