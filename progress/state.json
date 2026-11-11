@@ -17805,9 +17805,9 @@
       "note": "Independent Codex and Claude closing f4cb7018 approve67e2a1f/blob30891e74 with all B1–5/N1–11 resolved. Record document-only completion and six planned prerequisites, preserving original472 IDs/edges and unrelated reviews. No runtime proof; final metadata review/CI/normal merge then stop."
     },
     {
-      "at": "2026-11-11T11:57:08+00:00",
       "task": "APICONTRACT-003",
-      "message": "Owner authorized one fresh task then stop; coordinator6e24c10f claims document-only guarded enrollment/recovery from verified main55913bc. Prior APICONTRACT-002 roles retired, valid reviews/worktrees preserved."
+      "date": "2026-11-11T11:57:08+00:00",
+      "note": "Owner authorized one fresh task then stop; coordinator6e24c10f claims document-only guarded enrollment/recovery from verified main55913bc. Prior APICONTRACT-002 roles retired, valid reviews/worktrees preserved."
     }
   ]
 }
