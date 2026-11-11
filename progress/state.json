@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T13:09:09+00:00",
+  "updated_at": "2026-11-11T13:25:00+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. Final publication/normal merge receipts are in PR116, then STOP; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
@@ -9039,7 +9039,8 @@
         "RATES-008",
         "RATESTEST-009",
         "RATES-009",
-        "RATES-090"
+        "RATES-090",
+        "RATECONTRACT-001"
       ],
       "spec_refs": [
         "§9",
@@ -13406,6 +13407,35 @@
       "review": null
     },
     {
+      "id": "RATECONTRACT-001",
+      "title": "Exact retained valuation bridge contract",
+      "module": "Currency",
+      "kind": "contract",
+      "status": "in_progress",
+      "owner": "codex:coordinator-a26ec071; fresh exact_valuation_contract_author",
+      "depends_on": [
+        "RATES-001",
+        "ACCT-003",
+        "STORAGE-015",
+        "ACCT-004"
+      ],
+      "spec_refs": [
+        "§3",
+        "§9",
+        "NUM-04",
+        "FX-03",
+        "FX-06"
+      ],
+      "brief": "docs/tasks/EPIC-017/RATECONTRACT-001.md",
+      "summary": "Define the exact rational/provenance and compatibility bridge before retained valuation baseline changes.",
+      "notes": [
+        "Document-only prerequisite split from RATESTEST-009; existing assertions, migration bytes and release scope preserved."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
       "id": "RATESTEST-009",
       "title": "Review and demonstrate red: Exact rate snapshots in retained historical valuations",
       "module": "Currency",
@@ -13416,7 +13446,8 @@
         "RATES-001",
         "ACCT-003",
         "STORAGE-015",
-        "ACCT-004"
+        "ACCT-004",
+        "RATECONTRACT-001"
       ],
       "spec_refs": [
         "§3",
@@ -13445,7 +13476,8 @@
         "ACCT-003",
         "STORAGE-015",
         "ACCT-004",
-        "RATESTEST-009"
+        "RATESTEST-009",
+        "RATECONTRACT-001"
       ],
       "spec_refs": [
         "§3",
@@ -17864,6 +17896,11 @@
       "date": "2026-11-11T13:09:09+00:00",
       "task": "RATES-001",
       "note": "Fresh source33e60d8 preserves frozen contracts/assertions/fixtures;53/full89 pass locally and selectedBoost1.83 CI. Independent initial Claude, separate Codex verification and Claude closing1d31975a approve30bde01. Record bounded component completion; final packet/current CI/normal PR116 merge then stop. Durable storage ownership and full FX/release gates remain."
+    },
+    {
+      "date": "2026-11-11T13:25:00+00:00",
+      "task": "RATECONTRACT-001",
+      "note": "Owner resumed for one fresh task after verified PR116 merge c70fbec. Split/claim exact retained valuation contract prerequisite before RATESTEST-009; coordinator owns shared records; fresh author owns new contract only."
     }
   ]
 }

@@ -42,13 +42,14 @@ every module being edited. EPIC-028, STORAGE-020, APICONTRACT-001, APITEST-012 a
 API-012 are complete; API-012 merged normally in PR110. WORKFLOW-001/002 merged in
 PR109/111, and APITEST-001 merged normally in PR112. ACCESSCONTRACT-001
 merged normally in PR113; APICONTRACT-002 merged normally in PR114. On 2026-11-11
-the owner resumed after APICONTRACT-003 merged normally in PR115 and requested ONE
-fresh dependency-ready task, then stop. The coordinator selected RATES-001 in
-`docs/tasks/EPIC-017/`: implement the frozen pure exact rate snapshot model against
-the preserved reviewed RATESTEST-001 baseline. Implementation and independent
-source/resource/CI reviews are complete; finish final PR116 current-head CI and
-normal protected merge, then STOP. Do not select another task. No provider/cache/store/valuation bridge
-implementation is part of this task.
+the owner resumed after RATES-001 merged normally in PR116 (c70fbec) and requested
+ONE new task, finish it and STOP. The coordinator split and selected
+RATECONTRACT-001 in `docs/tasks/EPIC-017/`: define the document-only exact retained
+valuation bridge prerequisite before RATESTEST-009. Preserve RATES-001 reviews,
+all existing baseline assertions and shipped migration bytes. No production
+code, schema, provider/cache/store/valuation implementation is authorized by this
+contract task. Finish independent review, current-head CI and normal protected
+merge, then STOP; do not select another task.
 API-001 implementation and actual session-clock binding remain unauthorized.
 
 ## Test-first and review gates
