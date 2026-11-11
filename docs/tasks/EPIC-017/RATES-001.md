@@ -3,13 +3,19 @@
 Parent: [EPIC-017](../EPIC-017.md). Kind: implementation.
 Specification: v0.45; §9, §15, NUM-04.
 Status, owners and dependency IDs: progress/state.json (authoritative).
-Contract revision: use the current reviewed slice contract; none is finalized by this plan.
+Contract revision: reviewed [logical revision1](../../contracts/rate-snapshots-v1.md)
+and [C++ API revision1](../../contracts/rate-snapshots-api-v1.md).
+RATESTEST-001 records the independent test review and original intended red.
 
 ## Scope and ownership
 
-Exact rate observations/effective-table contracts and provenance storage independent of provider UI.
+Pure owned original-money, fetched-observation and effective-snapshot values,
+validation and exact pair queries. No persistent store or provider service is
+implemented by this slice.
 
-Primary module paths: core/ exact currency values and server/ rate/provider services
+Primary module paths: core/ exact currency values; coordinator owns acceptance
+registration and CI promotion. Server provider/cache/valuation/storage composition
+remains in the adjacent tasks.
 Read root/scoped AGENTS.md before editing. Shared schemas, migrations, dependency pins,
 root build files and progress records require explicit integrator ownership in the claim.
 Adjacent slices retain their assigned responsibilities; do not implement the whole epic.
