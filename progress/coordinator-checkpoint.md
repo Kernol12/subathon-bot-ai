@@ -46,6 +46,15 @@ Separate independent Codex gpt-6.1-sol /root/rates_snapshot_codex_verify APPROVE
 [PR116 comment](https://github.com/Kernol12/subathon-bot-ai/pull/116#issuecomment-6796574173).
 Author and Codex reviewer retired; source/fixtures/contracts unchanged.
 030c2eb pushed; new current-head CI pending. State now in_review, not done.
-Next: independent Claude closing whole stage on actual resulting revision; then
-routine completion packet/independent Codex metadata review/current CI/protected
-merge, refresh main and STOP. No watch.
+Independent Claude Opus5.5/high closing1d31975a APPROVED30bde01, no blockers:
+[Closing review](<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9bb3399b-28ac-429e-b793-504c3c18c39e%3Adelegate-task%3A1d31975a-eecb-477f-9de3-f4b5eab27136>).
+All substantive gates closed; reviewer sessions retired. Source hash unchanged.
+Routine completion packet records done/component proof, review/evidence and bounded
+note; N7 paragraph placement tidied. N6 durable observation/snapshot/provenance
+storage remains REQUIRED: assign explicit reviewed ownership when RATESTEST005/007
+are refined. No task/dependency/release scope removed; no next task authorized.
+Next: independent Codex metadata/packet review, push/update ready PR116, current
+exact-head CI/discussions/live rules, normal protected merge, refresh main and STOP.
+Do not edit substantive source/contracts/tests after closing without another cycle.
+No watcher active. Live rules inspected: PR/resolved threads,0 human approvals,
+no required-status rule; written workflow still requires all current checks.

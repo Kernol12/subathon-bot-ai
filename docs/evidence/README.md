@@ -184,8 +184,10 @@ records independent source/resource/CI reviews and final publication gates. The
 original [baseline PR54](https://github.com/Kernol12/subathon-bot-ai/pull/54) and
 intended-red evidence remain historical; no reviewed assertions were changed.
 All three exchange-rate providers and all seven integrations remain in release scope.
-Actual provider authentication, source capability/admission, lossless valuation,
-refresh/failure handling and live/platform checks remain open. Unknown fields or
+Actual provider authentication, source capability/admission, durable observation/
+snapshot retention, lossless valuation, refresh/failure handling and live/platform
+checks remain open. Durable storage ownership must be explicit when RATESTEST-005/
+007 are refined; this pure model does not provide it. Unknown fields or
 provider behavior must not be represented as supported capabilities.
 
 ## Milestones and automation

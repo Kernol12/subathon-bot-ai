@@ -45,8 +45,9 @@ merged normally in PR113; APICONTRACT-002 merged normally in PR114. On 2026-11-1
 the owner resumed after APICONTRACT-003 merged normally in PR115 and requested ONE
 fresh dependency-ready task, then stop. The coordinator selected RATES-001 in
 `docs/tasks/EPIC-017/`: implement the frozen pure exact rate snapshot model against
-the preserved reviewed RATESTEST-001 baseline, through independent reviews, current
-CI and normal protected merge, then stop. No provider/cache/store/valuation bridge
+the preserved reviewed RATESTEST-001 baseline. Implementation and independent
+source/resource/CI reviews are complete; finish final PR116 current-head CI and
+normal protected merge, then STOP. Do not select another task. No provider/cache/store/valuation bridge
 implementation is part of this task.
 API-001 implementation and actual session-clock binding remain unauthorized.
 

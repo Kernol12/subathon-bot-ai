@@ -70,6 +70,14 @@ locking, lifetime and fault observations remain. Standard GoogleTest skip recogn
 is runner metadata; actual acceptance still requires zero skipped cases. Schema checks validate real OpenAPI/JSON-schema
 packages and examples, without establishing authorization or runtime transport safety.
 
+Original intended-red evidence remains historical and is not replayed after a suite
+becomes passing acceptance. Rate snapshots now run all 53 preserved methods under
+`rate-snapshot;acceptance;core`, with numeric regressions and infrastructure in the
+same preset. Selected CI executes these ordinary bodies with pinned Boost 1.83.
+Never use `WILL_FAIL`, blanket continue-on-error, disabled/skipped bodies or a failed
+build as a substitute for acceptance. A documented baseline revision requires a
+separate reviewer.
+
 ## Repository-schema validation
 
 The [current contract](contracts/schema-validation-tool-v1.md) requires the actual
@@ -81,14 +89,6 @@ evidence. No runtime authority, raw ingress or provider/platform support follows
 from schema shape, and editor hints do not replace runtime progress invariants.
 
 ## Reviewed baselines still awaiting implementation
-
-Original intended-red evidence remains historical and is not replayed after a suite
-becomes passing acceptance. Rate snapshots now run all 53 preserved methods under
-`rate-snapshot;acceptance;core`, with numeric regressions and infrastructure in the
-same preset. Selected CI executes these ordinary bodies with pinned Boost 1.83.
-Never use `WILL_FAIL`, blanket continue-on-error, disabled/skipped bodies or a failed
-build as a substitute for acceptance. A documented baseline revision requires a
-separate reviewer.
 
 `api-host-debug` and `api-host-native-debug` select authored host lifecycle baselines;
 their current review/execution status is recorded in progress. Both need the complete
