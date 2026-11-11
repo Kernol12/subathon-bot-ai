@@ -2,62 +2,40 @@
 
 Owner: finish ONE new APICONTRACT-003 task normally, then STOP. No next task.
 API-001 implementation and actual session-clock binding remain unauthorized.
-[Brief](../docs/tasks/EPIC-008/APICONTRACT-003.md), [state](state.json).
+[Brief](../docs/tasks/EPIC-008/APICONTRACT-003.md), [state](state.json),
+[PR115](https://github.com/Kernol12/subathon-bot-ai/pull/115).
 
-Coordinator Codex6e24c10f, branch `task/APICONTRACT-003-guarded-enrollment`,
-base verified current main55913bc. PR114 merged55913bc at2026-11-11T11:47:50Z;
-no open PR or prior active claim. Host process inventory includes idle historical
-Codex/Claude processes; T3 active-run inventory contains only this coordinator.
-No old process is treated as a live assignment or terminated. Existing live worktrees
-are clean; historical missing /tmp worktrees preserved, not reassigned as workers.
-APICONTRACT-002 author/reviewer roles explicitly retired; their valid work/reviews
-remain intact. CLion matches clean main at startup; shell checkout is authoritative.
+Coordinator Codex6e24c10f on `task/APICONTRACT-003-guarded-enrollment`,
+base verified main55913bc/PR114 merged. Startup: clean main/CLion, no open PR or
+prior active claim; actual T3 active inventory only coordinator despite historical
+idle Codex/Claude processes. Prior roles explicitly retired; old clean worktrees,
+claims/history and valid reviews preserved. No runtime/build process assigned.
 
-Scope: revision1 document-only additive guarded enrollment/recovery ports,
-compiled stages, finite native/secret/deadline profiles and independent examples,
-per brief. No source/header/schema/build/CI or frozen-contract edits.
-Coordinator owns AGENTS.md, state/HTML, evidence/checkpoint and brief linkage;
-fresh author owns only docs/contracts/guarded-enrollment-recovery-v1.md.
-Acceptance: complete brief, actual source/operation audit, independent Claude initial,
-separate Codex verification, Claude closing, project/tooling/progress checks,
-latest-head CI/discussions/live rules and normal protected merge.
-Claim committed2b58197; fresh Codex author `/root/enrollment_contract_author` completed
-only docs/contracts/guarded-enrollment-recovery-v1.md, SHA256992b46455a87ca80af3f729c578798697ab787ce625f829c4d363c1e54cb7eeb;
-retired after handoff. Coordinator added brief link and owns shared files.
-Document revision1/ER01–33; no frozen/source/schema/build/CI change.
-Project478/122 and51 tooling methods pass (initial reviewer independently replayed).
-Initial Claude Opus5.5/high8212196d BLOCKEDcd0d255 on B1–3/N1–9:
+Fresh Codex author `/root/enrollment_contract_author` retired aftercd0d255 handoff.
+Initial Claude Opus5.5/high BLOCKB1–3/N1–9:
 <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A13082ac3-1366-4a40-b68f-67906ec949d5%3Adelegate-task%3A8212196d-e2e9-407c-8be3-b69f963f9255>
-Coordinator corrections: rollback terminal/fresh request only; closed purpose/operation
-allowlist with revoke/replace; pre-native positive committed entitlement (one necessary
-recovery-code verify distinct); original-username-only reset binding read; named current
-delegation/audit producers, ACCESS-003 added to ACCESS-001 and its baseline prerequisites;
-conservative shared issuer permit/abuse gate, overlapping secret sum, preserved Twitch/
-transfer scope and metadata fixes. No added executable authorization or graph cycle.
-Next: separate independent Codex review of corrections/full affected context, then
-independent closing Claude. All required gates remain pending until approval.
-
-Separate Codex `/root/enrollment_codex_review` BLOCK69bd54b on B4–6:
-console admission/sink lifetime, initial recovery-set producer dependency and
-unattainable race traces under the sole permit. Coordinator corrections transfer
-console scope synchronously to inert original provenance, assign initial set to
-ACCESS-001/later lifecycle to ACCESS-005, and separate actual busy/fresh-request
-traces from explicit injected full-CAS/source faults. No scope/facade crosses yield.
-Next: independent Codex verification of corrected revision, then Claude closing.
-
-Independent Codex `/root/enrollment_codex_verify` APPROVED025d261, including
-B1–6 fixes/full affected context, exact source/graph/arithmetic/33 examples.
-Coordinator applied its sole nonblocking wording recommendation: preselection gates
-expensive password primitives/candidate generation while bounded reserved token
-checks remain explicitly registered/budgeted (unknown mechanism refuses).
-Next: independent Claude Opus5.5/high closing review on resulting revision.
-
-Independent closing Claude Opus5.5/high8f3a8945 APPROVED1e45f66, all B1–6 resolved:
+Coordinator69bd54b fixed; separate Codex `/root/enrollment_codex_review` B4–6 fixed
+025d261. Independent `/root/enrollment_codex_verify` APPROVED025d261.
+Full closing Claude Opus5.5/high APPROVED1e45f66:
 <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A13082ac3-1366-4a40-b68f-67906ec949d5%3Adelegate-task%3A8f3a8945-508c-4338-80bb-3f7b468a1f6b>
-Coordinator clarified nonblocking N1–3: expensive-vs-token counters, one worker-side
-original digest before selection/zero queued plaintext/two current comparisons,
-read-only ER18. API014 brief retains concrete future instrumentation obligations.
-Draft PR115 linked: https://github.com/Kernol12/subathon-bot-ai/pull/115.
-State accurately in_review; no final completion/CI/merge claim.
-Next: focused independent Codex verification and fresh Claude closing on clarification,
-then completion metadata/evidence review, latest-head checks/normal merge and STOP.
+Narrow token-transfer/counter/ER18 clarificationsf4c1584 independently APPROVED
+by Codex `/root/enrollment_token_review` and focused closing Claude Sonnet5.5/high:
+<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A13082ac3-1366-4a40-b68f-67906ec949d5%3Adelegate-task%3A422de370-4fb6-474c-85b3-339e7863c052>
+All substantive gates closed; author/review sessions complete. Contract SHA256
+`d51cebdda1c3a579a9828b2adb19c031f1c1e84bd1c9a1293007480dc8a1a6cd`.
+
+Document-only revision1/ER01–33. All478 IDs/original edges and unrelated full
+records/reviews preserved; only added ACCESS003 edges to ACCESS001/ACCESSTEST001.
+No cycle/back edge. Frozen/source/test/schema/build/CI unchanged. Actual producer,
+API014 executable, console/edge/platform/native/crypto/clock gates remain downstream.
+Project478/122, tooling51, validate/render/diff and independent arithmetic/source/
+graph audits pass. No runtime proof. State done means reviewed document completion;
+CI/publication/merge receipts belong in PR115, not an invented runtime capability.
+
+Coordinator owns routine completion state/HTML/evidence/checkpoint only after closing.
+Next: independent Codex final metadata review, push packet/update ready PR115,
+inspect latest-head CI/discussions/live rules, normal exact-head merge, refresh main
+and STOP. No watcher active. Ruleset26170263 requires PR/resolved threads;0 human
+approval count; no bypass/no force push/no deletion. Reinspect live before merge.
+If PR115 is already merged on resumption, verify/refresh main and STOP; do not pick
+another task. No substantive contract edit may follow closing without review cycle.

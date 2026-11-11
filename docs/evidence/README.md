@@ -217,6 +217,19 @@ document proof only: runtime/native/crypto/login/edge/platform acceptance remain
 downstream. Final CI/publication/normal merge receipts are in PR114. The owner
 bounded this run to this one task, then stop.
 
+[Guarded enrollment/recovery #115](https://github.com/Kernol12/subathon-bot-ai/pull/115)
+defines API-014's named account/directory/workflow/audit ports, closed purpose/stage
+permissions, atomic enrollment/reset obligations, shared permit and finite secret/
+work/deadline profiles, with33 literal examples. Initial Claude and separate Codex
+findings were resolved; full closing Claude approved `1e45f66`, and independent
+Codex plus focused closing Claude approved token-transfer/counter clarifications
+at `f4c1584`. All478 task IDs/original edges and unrelated reviews are preserved;
+two ACCESS-003 prerequisites make current invitation delegation explicit. Project/
+graph/render and51 tooling tests pass. This is document proof only: actual ACCESS
+producers, API-014 baseline/implementation, console/edge admission, hardware and
+platform verification remain downstream. Latest-head CI and normal merge receipts
+belong in PR115; the owner stop applies immediately after that merge.
+
 Common wire primitives, bounded reference HTTP/OpenAPI/examples, and single-rule
 adapter boundaries have reviewed contracts. Schema validation is documented separately
 below; it does not establish a running authenticated API. A Linux loopback Drogon/Qt
