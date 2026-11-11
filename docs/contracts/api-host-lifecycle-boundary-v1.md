@@ -5,7 +5,8 @@ Authority: specification v0.45 §§2/10/16/17/18, SERVER-01, DB-01,
 API-01/02/03, AUTH-05/12, OPS-02/04 and TEST-04/05.
 Source base `654ac016268c6caa9efc0241872ca0b0f88aae60`; correction base
 `ce80bbafbb1b678826f596beae65e2f8c350f1b2`. Revised after initial contract
-review; separate independent Codex verification and closing Claude review remain.
+review and Codex verification; closing review identified the refinements below.
+The resulting revision needs separate Codex verification and Claude closing approval.
 No headers, tests, observed red or implemented host.
 
 Import [host lifecycle v1](api-host-lifecycle-v1.md), including ALL HL01–17,
@@ -68,8 +69,11 @@ facts; absence of SESSION-009 still refuses trusted UTC and credentials.
 The baseline at schema8 has NO supported restore producer. An out-of-band database
 copy or coherent administrator/VM rollback is the explicit clock §1 host trust
 limit; ordinary startup does not invent detection of that history. Unknown or
-malformed CURRENT facts and any actually known unresolved startup/recovery fence
-still refuse. This is not a new `normal_startup` flag, reusable issuer or public
+malformed CURRENT facts still refuse. Schema8 has no restore-fence producer or
+representation, so Q/N cannot inject a restore-fence stimulus. Host-owned startup
+stop fencing is tested separately; supported restore-fence tests remain in
+STORAGETEST-007 with its actual future producer. This is not a new
+`normal_startup` flag, reusable issuer or public
 restore-cleared input. No new prerequisite/task is allocated, no dependency graph
 is changed and no full restore acceptance is waived. In particular, waiting for
 STORAGE-007 here would create the existing graph's cycle:
@@ -118,6 +122,7 @@ template<class T> using Result = std::variant<T, Failure, NotImplemented>;
 class CommandDispatcher {
 public:
     virtual ~CommandDispatcher() = default;
+    virtual OwnedReply diagnostic(CommandView) = 0;
     virtual OwnedDomainResult execute(Execution&, CommandView) = 0;
     virtual OwnedReply complete(Publication&, const OwnedDomainResult&) = 0;
 };
@@ -147,7 +152,7 @@ class Execution { // host-only constructor, borrowed within execute() only
 public:
     Transaction& begin_transaction(); // host owns the one actual transaction
     std::shared_ptr<CurrentSessionClock> clock() const;
-    CurrentInstallationView current_installation() const;
+    Result<CurrentInstallationView> current_installation() const;
 };
 class AccountSessions { // host-only constructor; checks live execution/transaction
 public:
@@ -164,7 +169,7 @@ public:
 class Publication { // fresh host-only constructor, no writer accessor
 public:
     std::shared_ptr<CurrentSessionClock> clock() const;
-    CurrentInstallationView current_installation() const;
+    Result<CurrentInstallationView> current_installation() const;
 };
 ```
 
@@ -178,7 +183,7 @@ public:
   publication UTC. Bounded bytes/correlation cannot select authority/membership.
   `CommandView` borrows admitted owned bytes during its synchronous body only.
 - `OwnedDomainResult`/`OwnedReply` hold bounded nonsecret bytes/domain status.
-  Host wraps normal body return in a PRIVATE typed envelope matched to the actual
+  For transactional routes, host wraps normal body return in a PRIVATE typed envelope matched to the actual
   once-only writer completion. Client correlation/QVariant shape cannot forge
   it; errors cannot reconstruct it from captured intent. Session candidates stay
   inside their owning reviewed lifecycle envelope, never these generic bytes.
@@ -203,6 +208,40 @@ public:
   change readiness. A nonreturning work body cannot service owner inspection;
   the external child supervisor observes the missing barrier, not fake stopped.
 
+### Diagnostic route execution
+
+Choose the owner-queue path OUTSIDE writer work. A compiled diagnostic route calls
+`CommandDispatcher::diagnostic(CommandView)` synchronously on the Qt owner. It
+receives bounded nonsecret data only: no Execution, Publication, transaction,
+installation source or session-clock facade. It never enters the writer FIFO,
+calls BEGIN or creates protected execution/publication membership. No diagnostic
+callback can issue credentials or perform domain state work. Generic transactional
+routes continue to use `execute` and `complete` with actual writer completion.
+
+The host privately matches a diagnostic's normal return to its live admitted
+association, producing a DISTINCT bounded diagnostic envelope, not a QVariant
+writer result. Only serving admission, current transport/response lease and
+elapsed gates permit its once-only local handoff; storage activation, installation
+facts and session UTC are not requirements. Exceptions suppress the reply or use
+the bounded nonsecret failure reserve; they cannot fabricate a domain result.
+`current_installation()` on the protected facades explicitly returns
+`Failure::unavailable` when their current source/scope is absent or invalid.
+Diagnostics never receive either facade.
+
+Diagnostics share all association/input/response budgets and queue deadlines.
+The owner cancels queued diagnostics on disconnect/expiry or its consumed stop
+fence before their callback; an active callback is non-yielding and not preempted.
+Before accepting its normal reply the host rechecks the consumed stop fence and
+elapsed/lease gates; stop prevents new handoff, with already handed-off nonsecret
+responses following the existing bounded drain. Owner cleanup retains queued
+callback dependencies until callbacks are cancelled/drained; the stopped barrier
+includes them. No reply order across diagnostic and writer routes is promised.
+HL14 still describes only actual accepted writer W1/W2/W3 wrappers: cancellation
+keeps their real `not_started/missing_transaction` results and absent values.
+A cancelled diagnostic records host cancellation alone, with NO invented writer
+result. Q/N cover diagnostic success before storage activation and with clock
+unavailable, and zero diagnostic calls/handoff for a queued item after stop.
+
 ### Host-controlled transaction and source finalization
 
 `Execution::begin_transaction()` performs the one actual `SqliteWorkContext::begin`
@@ -212,6 +251,9 @@ Neither context, session, writer, connection, generic SQL executor, commit-capab
 callback nor raw unit escapes to the dispatcher, fixtures or publication. Existing
 public writer/store APIs are unchanged. The host constructs their real objects
 internally rather than subclassing or modifying them.
+Only one begin attempt is allowed per execution; a second attempt is a protocol
+error under the unchanged writer semantics. Busy BEGIN retains the real writer
+failure/outcome and cannot create a transaction or successful completion.
 
 `AccountSessions` is a host facade over that actual unit; the two methods above
 are the minimal selected baseline surface. Its named bounded read/mutation
@@ -301,6 +343,16 @@ Production `make_linux_monotonic_elapsed` declaration/source are
 `server/src/api_host_elapsed_linux.cpp`: a read-only `native_ws::ElapsedSource`
 adapter using actual `clock_gettime(CLOCK_MONOTONIC)`, exact checked normalized
 sec/nsec→U64ns conversion and unavailable on syscall/malformed/range failure.
+The production header also declares the pure checked function
+`Result<std::uint64_t> convert_monotonic_observation(std::int64_t seconds,
+std::int64_t nanoseconds)`. It returns the exact U64 value or
+`Failure::elapsed_unavailable` for negative seconds, nonnormalized nanoseconds or
+overflow; no float, wrap or saturation. The production adapter MUST call this
+same function after its real syscall. Q tests this production function directly
+with the literal sec/nsec cases, never a fixture reimplementation. Baseline source
+stubs the converter as `NotImplemented`; source review checks adapter reuse when
+API-001 is implemented. The pure function supplies neither clock observations nor
+trusted UTC/membership and does not mutate per-owner nonregression state.
 The HOST constructs and retains ONE shared source instance from that factory,
 then calls `native_ws::create_profile(limits, shared_source)` itself before native
 startup and transfers the owned profile/configuration to transport. Host queue,
@@ -380,7 +432,7 @@ adds0. With payload cap12 but the SAME two slots, a third copy still refuses at
 **Explicit stock stubs:** after contract approval only, new host, production
 Drogon transport, signal bridge and elapsed adapter sources remain explicitly
 unimplemented: construct/destruct without framework/writer/native clock;
-host/transport/signal start and elapsed factory return their explicit
+host/transport/signal start, elapsed factory and pure conversion return their explicit
 `NotImplemented` alternatives; submission does too; inspection stays cold with
 no successful readiness/barriers; stop inert. No fake serving, SQL or publication implementation.
 Tests assert required behavior, never accept `NotImplemented` as success. Q and
@@ -427,7 +479,7 @@ Additional required failure/resource/ownership families:
 | Configuration / Q | Zero duration, incoherent counts/capacities, UINT64_MAX milliseconds | Fail startup with no framework activation; separately check duration conversion and deadline addition, never float/wrap. |
 | Elapsed conversion / Q | sec18446744073 with nsec709551615, then709551616 | First exactly UINT64_MAX ns; second overflow refuses. Per-owner nonregression must not falsely order simultaneous reads by other threads. |
 | Thread/source / Q, N | IO submit, Qt execute/commit/complete, IO handoff; accepted cancelled wrapper retains dependencies | Actual SQL/source mutation/clock guards on Qt owner; sockets/response teardown on IO owner. Record actual thread IDs/destructors. No network wait in state or state code in IO. Source review supplements counters. |
-| Activation failures / Q, N | Fresh/old schema, unsupported future head9, wrong/malformed catalog, missing/wrong/malformed installation, known unresolved fence, writer full/fail-close/lost ack | Refuse without advance/setup/epoch rotation. Unchanged schema8 ordinary activation succeeds through actual positive §1 chain; DTO equality/request reference cannot enable it. Unknown current facts refuse; no invented out-of-band restore detector. |
+| Activation failures / Q, N | Fresh/old schema, unsupported future head9, wrong/malformed catalog, missing/wrong/malformed installation, writer full/fail-close/lost ack | Refuse without advance/setup/epoch rotation. Unchanged schema8 ordinary activation succeeds through actual positive §1 chain; DTO equality/request reference cannot enable it. No schema8 restore-fence stimulus exists; real supported restore-fence tests remain in STORAGETEST-007. Host startup stop fencing is covered below. Unknown current facts refuse; no invented out-of-band restore detector. |
 | Publication invalidation / Q | Destroy/hold the installation source or change installation epoch through the actual guarded mutation before old publication | No stale installation borrow/sample/emission. The minimal surface supplies no account source: account-dependent operations refuse. Actual account-epoch mutation/invalidation is a retained downstream integration gate for the owning account source/ACCESS-005, not an authored account-recovery claim here. Its eventual guarded source must invalidate at real mutation and cannot clear independent global holds; no unobserved writer access. |
 | Stop barriers / Q, N | Stop1000ms, drain5000ms, Close1000ms; traffic/repeat stop1999/5999ms | Drain stays6000ms; Close retains its own first-Close deadline. Revoke/drain actual IO callbacks before network acknowledgment/dependency destruction. Writer ack follows all accepted completions and connection removal. Keep Qt dispatcher through owner cleanup; IO join follows socket/callback cleanup. |
 | Startup cancellation / Q, N | Stop before start, during inspection, late listener-ready after stop, startup callback exception | No transient admission, one cleanup, no restart. Bind/listen exit remains distinct process-terminal category. |
@@ -488,8 +540,9 @@ failures. Baseline acceptance is reviewed intended red, not production success.
 API-001 needs a fresh implementation session, independent code review, passing
 acceptance/regression checks and normal protected merge under separate authority.
 
-Current correction author owns ONLY this file, `docs/tasks/EPIC-008/API-001.md`
-and `docs/tasks/EPIC-009/STORAGE-007.md` and stops at committed document handoff.
+Contract authoring has changed ONLY this file, `docs/tasks/EPIC-008/API-001.md`
+and `docs/tasks/EPIC-009/STORAGE-007.md`; coordinator records current assignments
+and stage gates in the checkpoint.
 The future path list is a PROPOSAL, not permission to author executables now.
 No state/HTML/executable/build/CI/GitHub changes. Diagnostics or simulated guards cannot close real protected-ready/session-clock acceptance.
 SESSIONTEST-009/SESSION-009 retain ready/refusal/native-clock-hold gates; restore,
