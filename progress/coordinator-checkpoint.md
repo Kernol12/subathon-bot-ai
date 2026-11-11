@@ -44,3 +44,10 @@ console scope synchronously to inert original provenance, assign initial set to
 ACCESS-001/later lifecycle to ACCESS-005, and separate actual busy/fresh-request
 traces from explicit injected full-CAS/source faults. No scope/facade crosses yield.
 Next: independent Codex verification of corrected revision, then Claude closing.
+
+Independent Codex `/root/enrollment_codex_verify` APPROVED025d261, including
+B1–6 fixes/full affected context, exact source/graph/arithmetic/33 examples.
+Coordinator applied its sole nonblocking wording recommendation: preselection gates
+expensive password primitives/candidate generation while bounded reserved token
+checks remain explicitly registered/budgeted (unknown mechanism refuses).
+Next: independent Claude Opus5.5/high closing review on resulting revision.

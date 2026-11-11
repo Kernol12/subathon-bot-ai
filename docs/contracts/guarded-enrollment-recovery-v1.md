@@ -190,7 +190,7 @@ Initial enrollment/reset may be entitled without an existing session/accepted lo
 Helper reset must refuse the protected owner; console owner recovery targets the
 actual existing owner only. Missing authority source refuses before disclosure/write.
 
-BEFORE any native call or candidate generation, the selection body must check
+BEFORE any expensive password primitive or candidate generation, the selection body must check
 current entitlement, complete original source/control closure, trusted UTC expiry,
 live/unconsumed/unrevoked status and setup/invitation/reset token format+digest
 match using the owning reviewed bounded mechanism. Only its actual normal committed
@@ -202,6 +202,9 @@ ONE permitted native verification. A negative verification permits no password o
 replacement-code creation. No scan, batch of verification attempts or caller-provided
 verified flag substitutes. All checks repeat at final mutation; selection is not a
 durable reservation or future grant.
+Only pre-reserved, bounded original-token digest/check work under that registered
+mechanism is allowed during selection; it is separately budgeted from expensive
+password primitives. Unknown mechanisms refuse, never imply a supported check.
 
 Abstract producer construction/binding is private trusted composition: the host
 binds actual concrete adapters to its SAME private writer session for one execution.
