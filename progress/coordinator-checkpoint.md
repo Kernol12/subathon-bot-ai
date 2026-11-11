@@ -47,3 +47,10 @@ permit/console/recovery/reauth, abuse gate and scratch examples clarified HC01â€
 Actual project475/122, validate/render/diff, tooling51 and preserved472-ID/DAG/
 status/review/verification plus arithmetic audits pass. No native behavior run.
 Next: separate independent Codex review of full corrected packet, then Claude closing.
+
+Corrected packet commit28e8b40; contract blob3c5338dabccdbc12b3ee7a73c3b4f5f70a806930.
+Separate native Codex `/root/host_auth_codex_review` is running read-only.
+Draft PR114: https://github.com/Kernol12/subathon-bot-ai/pull/114
+Ruleset26170263 re-read: PR + resolved threads, no bypass actors,0 human approval
+count; no classic protection. Project requires all current CI independently.
+Next: settle Codex findings then new independent Claude closing delegate.
