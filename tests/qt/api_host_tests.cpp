@@ -430,7 +430,10 @@ class ApiHostTests final : public QObject {
                 success(r.submit(p, std::string(1, char(i + 1))), "Actual rebind");
                 require(
                     QTest::qWaitFor(
-                        [&] { return r.instance->inspect().generation == std::uint64_t(i + 2); },
+                        [&] {
+                            return r.instance->inspect().generation == std::uint64_t(i + 2) &&
+                                   r.instance->inspect().associations == 0;
+                        },
                         wait_ms),
                     "Automatic generation advance");
             }
@@ -1342,12 +1345,12 @@ class ApiHostTests final : public QObject {
             require(r.log->count(K::begin_attempted) == unsigned(handoff) &&
                         r.dispatch->executions == unsigned(handoff),
                     "Entry no SQL; handoff retains executed truth");
+            r.elapsed->available = true;
             r.transport->on_io([&] {
                 failure(r.transport->ingress->try_submit(p, bytes("late"),
                                                          host::RouteId::diagnostic, bytes("")),
                         host::Failure::disconnected);
             });
-            r.elapsed->available = true;
             r.stop();
         });
     }
