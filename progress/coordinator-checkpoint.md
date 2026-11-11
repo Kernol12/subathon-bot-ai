@@ -23,6 +23,11 @@ specification scope, explicit unresolved producer/adapter gates, independent
 Claude initial → separate Codex → Claude closing, project/tooling/render/DAG checks,
 latest-head CI/discussion/rules and normal protected merge, then STOP.
 
-Next: commit claim; start fresh isolated Codex author. No active worker yet.
+Claim commits 8aad0f5/6b8e69f. Fresh isolated Codex author is running:
+<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A1af06bc3-f72d-416a-9f2c-1a25c85e714e%3Adelegate-task%3A67a2e90f-da20-4fce-acde-094aee11d5a8>
+Owns only new
+`docs/contracts/host-auth-continuations-v1.md` and APICONTRACT-002 brief.
+Next: author completion wakes coordinator; inspect handoff, integrate, initial
+independent Claude review. Do not poll running delegate.
 CLion status returned main after shell branch switch; use shell checkout evidence
 until IDE revision/path is confirmed current.
