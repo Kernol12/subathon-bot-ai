@@ -46,3 +46,9 @@ N9 same-turn lost/throwing completion invalidation and N10 finished-pipeline HC0
 clarified; N11 task note now states focused rechecks pending.
 Project478/122, validate/render/diff and original472 preservation/no reverse-chain
 checks PASS. Next: separate Codex B5/N9–11 review, then NEW Claude closing recheck.
+
+Focused independent Codex B5/N9–11 recheck APPROVED67e2a1f,
+contract blob30891e7404fc240f63cf9d18afedf46e817b38f1. No new blockers;
+all prior approvals retained. Actual project478/122, graph472-preservation/no
+reverse dependencies, HC01–45/timing and validate/render/diff pass independently.
+Next: NEW focused Claude closing recheck, then routine completion metadata review.
