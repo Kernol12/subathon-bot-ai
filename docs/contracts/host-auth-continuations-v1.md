@@ -154,9 +154,12 @@ records. Even absent/incorrect normal envelope cannot suppress settlement; an
 unmatchable consumer envelope is not treated as a successful domain result. The
 consumer consumes its matching mint reservation on ANY confirmed commit, poisons
 unknown outcomes, and invalidates upgrade lineage on committed abnormal/lost
-authority; it never guesses rollback. Normal lineage advancement or known-rollback
-release still needs the upstream current checks in a later fresh guarded turn;
-settlement alone cannot make an acceptance usable or release a stale reservation.
+authority; it never guesses rollback. Normal lineage advancement requires the
+separate fresh guarded completion scope in the SAME non-yielding owner turn,
+before any event/state interleave, with all upstream current checks. This is not
+a seventh work or another queued turn. Known-rollback release retains its own
+required fresh current checks; settlement alone cannot make an acceptance usable
+or release a stale reservation.
 A not-started/rolled-back cancellation must still retire or quarantine its bound
 consumer record, never resurrect an expired request.
 
