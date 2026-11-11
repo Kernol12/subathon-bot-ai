@@ -54,3 +54,12 @@ Follow [the child-task workflow](../README.md) for PRs, role handoffs and comple
 preserves all original scope and test-first/release gates. The authoritative task
 graph adds the relevant supplier/lifecycle/store/local-login/clock/ingress prerequisites.
 These components do not complete this task's own full acceptance or real integration.
+
+## Password-work host prerequisite
+
+ACCESSTEST-005 and ACCESS-005 also depend on the planned
+[API-013](../EPIC-008/API-013.md) installation-wide password-work permit and
+reviewed secret admission/erasure profile. Reset acquires that permit independently
+of an accepted login; authorization, same-commit credential/account-epoch changes,
+recovery policy and all existing acceptance remain here. This adds no capability
+or permission to perform recovery during the document-only contract task.

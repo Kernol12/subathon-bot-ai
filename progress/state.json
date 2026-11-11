@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T09:58:18+00:00",
+  "updated_at": "2026-11-11T10:15:10+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. The owner authorized one new task: ACCESSCONTRACT-001 document-only authority through normal merge, then stop; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
@@ -4105,7 +4105,8 @@
         "CONTRACTPLAN-001",
         "STORAGE-002",
         "SESSION-001",
-        "STORAGE-020"
+        "STORAGE-020",
+        "API-013"
       ],
       "spec_refs": [
         "\u00a710",
@@ -4133,7 +4134,8 @@
         "STORAGE-002",
         "SESSION-001",
         "ACCESSTEST-001",
-        "STORAGE-020"
+        "STORAGE-020",
+        "API-013"
       ],
       "spec_refs": [
         "\u00a710",
@@ -4381,7 +4383,8 @@
         "SESSION-002",
         "ACCESS-003",
         "STORAGE-020",
-        "SESSION-009"
+        "SESSION-009",
+        "API-013"
       ],
       "spec_refs": [
         "\u00a710",
@@ -4411,7 +4414,8 @@
         "ACCESS-003",
         "ACCESSTEST-005",
         "STORAGE-020",
-        "SESSION-009"
+        "SESSION-009",
+        "API-013"
       ],
       "spec_refs": [
         "\u00a710",
@@ -5050,7 +5054,10 @@
         "API-011",
         "APICONTRACT-001",
         "APITEST-012",
-        "API-012"
+        "API-012",
+        "APICONTRACT-002",
+        "APITEST-013",
+        "API-013"
       ],
       "spec_refs": [
         "\u00a72",
@@ -15073,7 +15080,7 @@
       "module": "Identity",
       "kind": "contract",
       "status": "in_progress",
-      "owner": "codex:coordinator-18a4df20; fresh contract author pending",
+      "owner": "codex:coordinator-18a4df20; fresh author e76812b",
       "depends_on": [
         "CONTRACTPLAN-006",
         "SESSIONCONTRACT-003",
@@ -15100,7 +15107,12 @@
       "notes": [
         "Resumed document-only contract from current main40e06a8; explicitly reassign unpublished stale author/reviewer work, preserving its valid content. Scope: actual local credential/attempt authority, current checks, finite secret/worker lifetime, conditional rehash and examples. Coordinator owns shared state/HTML/evidence/build/schema. No runtime work."
       ],
-      "verification": {},
+      "verification": {
+        "authored": "passed",
+        "document_review": "blocked",
+        "tooling": "passed",
+        "runtime": "not_run"
+      },
       "evidence": [],
       "review": null
     },
@@ -15116,7 +15128,9 @@
         "ACCESS-001",
         "SESSION-001",
         "STORAGE-020",
-        "SESSION-009"
+        "SESSION-009",
+        "API-013",
+        "SESSION-010"
       ],
       "spec_refs": [
         "\u00a710",
@@ -15152,7 +15166,9 @@
         "SESSION-001",
         "STORAGE-020",
         "SESSION-009",
-        "ACCESSTEST-008"
+        "ACCESSTEST-008",
+        "API-013",
+        "SESSION-010"
       ],
       "spec_refs": [
         "\u00a710",
@@ -15620,6 +15636,106 @@
         "revision": "Earlier initial/closing Opus and Codex reviews cover4452648. Owner changed model selection; independent Codex and Claude Sonnet5.5 closing reviews approved cleance55cbf32045576d4d7ee7bb8416ba50faabf7c9. Only factual completion records follow; latest-head CI/normal merge remain PR111 gates.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/111"
       }
+    },
+    {
+      "module": "Server/API",
+      "status": "planned",
+      "owner": "Unassigned",
+      "spec_refs": [
+        "\u00a710",
+        "AUTH-01",
+        "AUTH-08",
+        "AUTH-10",
+        "AUTH-11",
+        "AUTH-12",
+        "SERVER-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "notes": [
+        "Planned prerequisite exposed by ACCESSCONTRACT-001 initial review; no implementation, reviewed tests or runtime capability. Separate contract/test-first/review/CI/merge gates remain."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null,
+      "id": "APICONTRACT-002",
+      "title": "Bounded host authentication continuation contract",
+      "kind": "contract",
+      "depends_on": [
+        "ACCESSCONTRACT-001",
+        "APICONTRACT-001",
+        "SESSIONCONTRACT-005",
+        "STORAGE-020"
+      ],
+      "brief": "docs/tasks/EPIC-008/APICONTRACT-002.md",
+      "summary": "Define the missing original-request continuation, response lease, guarded auth storage/directory, elapsed and installation password permit surfaces; document only."
+    },
+    {
+      "module": "Server/API",
+      "status": "planned",
+      "owner": "Unassigned",
+      "spec_refs": [
+        "\u00a710",
+        "AUTH-01",
+        "AUTH-08",
+        "AUTH-10",
+        "AUTH-11",
+        "AUTH-12",
+        "SERVER-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "notes": [
+        "Planned prerequisite exposed by ACCESSCONTRACT-001 initial review; no implementation, reviewed tests or runtime capability. Separate contract/test-first/review/CI/merge gates remain."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null,
+      "id": "APITEST-013",
+      "title": "Review and demonstrate red: Host authentication continuation extension",
+      "kind": "test_baseline",
+      "depends_on": [
+        "APICONTRACT-002",
+        "API-001",
+        "SESSION-010",
+        "STORAGE-020"
+      ],
+      "brief": "docs/tasks/EPIC-008/API-013.md",
+      "summary": "Author and independently review bounded host auth-continuation integration tests, then observe intended missing-behavior red on working foundations."
+    },
+    {
+      "module": "Server/API",
+      "status": "planned",
+      "owner": "Unassigned",
+      "spec_refs": [
+        "\u00a710",
+        "AUTH-01",
+        "AUTH-08",
+        "AUTH-10",
+        "AUTH-11",
+        "AUTH-12",
+        "SERVER-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "notes": [
+        "Planned prerequisite exposed by ACCESSCONTRACT-001 initial review; no implementation, reviewed tests or runtime capability. Separate contract/test-first/review/CI/merge gates remain."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null,
+      "id": "API-013",
+      "title": "Host authentication continuation extension",
+      "kind": "implementation",
+      "depends_on": [
+        "APICONTRACT-002",
+        "APITEST-013",
+        "API-001",
+        "SESSION-010",
+        "STORAGE-020"
+      ],
+      "brief": "docs/tasks/EPIC-008/API-013.md",
+      "summary": "Implement only the separately reviewed host continuation/lease, guarded auth operations, elapsed read and shared password-work permit. No login policy or routes."
     }
   ],
   "activity": [
@@ -17412,6 +17528,11 @@
       "date": "2026-11-11T09:58:18+00:00",
       "task": "ACCESSCONTRACT-001",
       "note": "Owner requested one new task then stop. Verified PR112 merged40e06a8 with22 successes, current main and no open PRs/unfinished claims. Reassign stale ACCESSCONTRACT-001 draft53524fc to fresh author for current-base reconciliation and required independent review cycle; API-001 and actual clock binding excluded."
+    },
+    {
+      "date": "2026-11-11T10:15:10+00:00",
+      "task": "ACCESSCONTRACT-001",
+      "note": "Initial independent Claude Opus5.5 b05d59ac found B1\u20134 hidden host/ingress/directory prerequisites and plaintext overclaim. Coordinator corrections explicitly plan APICONTRACT-002/APITEST-013/API-013, add consumer dependency edges, record directory ownership, narrow secret count and clarify N1\u20134. All prerequisite implementation remains unauthorized."
     }
   ]
 }

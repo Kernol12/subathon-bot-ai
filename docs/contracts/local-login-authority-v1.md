@@ -8,15 +8,6 @@ ACCESSTEST-008; no header, test, native call, login, HTTP route, schema or publi
 proof. Current review/check receipts belong in the eventual PR linked from the
 [task brief](../tasks/EPIC-006/ACCESSCONTRACT-001.md); publication is pending.
 
-Fresh Codex author in the prepared `t3/local-login-authority-contract` checkout
-explicitly replaces the historical author assignment. Recover/adapt the valid draft
-at `53524fc`, contract blob `e08c61d96a4e90f026cd689d9e31800dd85ad3f3`.
-Its author/review/handoff receipts remain at that commit in Git history. The old
-independent review's authority, source, lifetime and LA01–30 findings remain useful
-context; they predate these imports and the current review cycle, so they do not
-approve this revision. Initial Claude, separate Codex verification after fixes,
-and closing Claude review remain required, coordinator arranged.
-
 Import [password logical/API v1](password-hashing-api-v1.md), including the
 [logical byte/cost rules](password-hashing-v1.md), [supplier v1](session-resolution-v1.md)
 §§3–4, [lifecycle v1](session-lifecycle-v1.md),
@@ -32,6 +23,17 @@ not implemented request/clock/host producers. Current import identities and actu
 read-only source audits accompany the author handoff/PR; no old evidence files are
 restored and no accepted import is edited here.
 
+The multi-stage composition below is a consumer REQUIREMENT, not a capability of
+API-001's accepted single-dispatch boundary. Its explicit host-owned prerequisite
+is [APICONTRACT-002](../tasks/EPIC-008/APICONTRACT-002.md) →
+[APITEST-013 / API-013](../tasks/EPIC-008/API-013.md). That separate work must define,
+review, test and implement bounded original-request continuations, response leases,
+per-stage queue deadlines, guarded repository/directory access, a consumer elapsed
+read and the installation password-work permit before these paths can execute.
+It does not amend API-001's frozen contract or APITEST-001 baseline. SESSION-010's
+actual policy-generation producer / `RequestIngressScope` is also required; none
+of these handles can be fabricated by ACCESS-008 or by a client.
+
 ## 1. Owner, upstream inputs and downstream handoff
 
 ACCESS-008 owns one `LocalLoginOwner` on the authoritative Qt command/state thread,
@@ -45,6 +47,7 @@ can construct an owner-bound request, accepted attempt or password source.
 | --- | --- |
 | ACCESS-001 | Established account identity, current username-to-account directory and its revisions, invitation/bootstrap/local-credential creation and account policy. Initial owner requires the actual single-use 15-minute console code while no owner exists; replacement invalidation, local credentials/recovery codes and registration closure stay here. |
 | ACCESS-005 / STORAGE-007 | Actual helper/console recovery and stopped/staged restore; same-commit account-epoch or acknowledged installation-epoch fences, operational readiness and unknown-outcome holds. Recovery preserves permissions and existing protected owner identity. |
+| API-013 | Future bounded auth-continuation extension and installation password permit; implements the missing host surface named above after its own contract/test gates, without extending a live API-001 execution facade across a wait. |
 | API-001 | Actual host/startup activation, execution and fresh completion/publication membership, elapsed deadlines, stop fences and writer/source lifetime under its accepted host contracts. PR112 supplies a reviewed intended-red baseline, not this production host. |
 | SESSIONCONTRACT-005 / SESSION-010 / SESSION-003 | Lossless bounded actual ingress, original source/route binding, prior browser sign-in/CSRF/Origin guards, native guards and complete transport integration. This contract supplies neither a fabricated admission flag nor route/schema selection. |
 | SESSION-009 | Actual scope-bound Linux clock and current installation/readiness binding under accepted clock v1, including refusal. |
@@ -61,7 +64,13 @@ helper result or `application_access_enabled` field cannot grant protected-owner
 status. Fresh login also does not replace permissions, two-party transfer acceptance
 or the local-credential requirement for its recipient under AUTH-09.
 
-The directory is an actual ACCESS-001 dependency, not a new table here. Its bounded
+The directory is an explicit requirement handed to ACCESS-001, not an existing
+STORAGE-020 capability or a new table defined here. ACCESS-001 owns its logical
+username/binding/revision contract and actual indexed transactional producer;
+the coordinator owns review/integration of any additive physical schema/migration.
+Its baseline must review those semantics before intended red and implementation.
+API-013 defines only the narrow guarded directory port; missing real ACCESS-001
+facts refuse rather than turning a test adapter into a production directory. Its bounded
 indexed resolution returns one stable account identity and an exact current binding/
 revision, known absence, or typed internal inability. Public username grammar,
 normalization and password-strength policy remain its owning contract. Never invent
@@ -97,7 +106,7 @@ function, proof import or accepted-attempt enumeration operation.
 
 | Operation | Required behavior |
 | --- | --- |
-| `try_admit(request, password_view)` | On the live host's admission side, validate complete bounded input and the request's actual registration; acquire the sole pipeline slot and one registry slot before making another password copy or queued event. Return a private job owner or a fixed refusal. Admission establishes only resource ownership. |
+| `try_admit(request, password_view)` | At API-013's reviewed host-owned pre-queue admission point, after SESSION-010 capture/policy guards and before creating continuation/stage payloads, validate complete bounded input and the request's actual registration; acquire the sole pipeline slot and one registry slot before making another password copy or queued event. Return a private job owner or a fixed refusal. Admission establishes only resource ownership. |
 | `start(job)` | Submit one owned start message; on the authoritative queue resolve the original directory binding and read complete local/account/install facts in one actual host-bound writer work. Known absence/refusal/inability never starts crypto. |
 | `verification_finished(job, observation)` | Accept only the private matching worker completion of this job/phase. Native success permits the queue recheck in §4; a public `PasswordVerification::verified` argument alone is not this operation's provenance. |
 | `make_password_source(job)` | Construct at one stable address one private noncopyable/nonmovable `PasswordLoginSource` for this actual job/attempt, lasting through its synchronous upgrade call and every pending cell. No public factory returns it. |
@@ -135,9 +144,9 @@ private frame is accepted from a client or reconstructed from a stored session.
 
 V1 uses ONE active password pipeline and ZERO waiting password jobs. It includes
 initial verification, upgrade re-verification/hash and the intervening owner reads.
-The host's simple installation password-work permit exists independently of a
-local-login owner/acceptance; setup/reset acquire it too, without an upstream
-dependency on ACCESS-008. Their authorization and persistence remain their owners.
+API-013 must supply the installation password-work permit independently of a
+local-login owner/acceptance; setup/reset acquire it too. ACCESS-001 and ACCESS-005
+and their baselines explicitly depend on that prerequisite, not on ACCESS-008. Their authorization and persistence remain their owners.
 This permit is a narrow owned resource counter, not a shared executor/service.
 Busy admission refuses;
 it does not queue another password, spin, replace an admitted job or reduce cost.
@@ -176,10 +185,16 @@ bytes and length, including NUL/non-ASCII/whitespace. Never use QString, QByteAr
 logs, metrics, QVariant, CLI arguments or a callback capture containing plaintext.
 An event may copy a shared handle to the ONE private job owner, never clone its
 secret storage. After transfer, only the worker borrows the bytes; the admission
-side erases/releases its earlier owned copy under the ingress contract.
+side must erase its earlier owned plaintext copy before releasing it. Current
+host/ingress release contracts do not establish that erasure: APICONTRACT-002 must
+assign and review every earlier capture/host copy's owner, bounds, wipe point and
+error/cancellation cleanup, including the exact pre-queue admission location.
+API-013 must prove that secret profile with SESSION-010 before real login use.
 
 The accepted password helper takes its own checked protected copy synchronously.
-Thus at most TWO application plaintext buffers coexist: job1024 + helper1024;
+Within the login owner and password helper ONLY, at most TWO plaintext buffers
+coexist: job1024 + helper1024; earlier ingress capture/host payload copies are
+outside this count and remain the prerequisite's separately audited obligation;
 empty input uses two1-byte allocations. Keep the job buffer through optional
 post-acceptance upgrade; erase it immediately after the last helper call or any
 terminal/cancelled stage. Helper cleanup/record scratch remains its unchanged RAII
@@ -219,13 +234,15 @@ unavailable and requires a fresh actual client request, never rebinding an old g
 Full/closed/failed invocation or writer admission makes unavailable; no implicit
 resubmission.
 
-The host's current baseline facade exposes only installation operations. The later
-ACCESSTEST-008 minimal API review must specify the named guarded local-credential,
-conditional-upgrade and directory accessors needed here; ACCESS-008 composes them
-with that same host transaction/finalization path. No raw unit, writer ticket,
+The host's current baseline facade exposes only installation operations. The separate
+APICONTRACT-002 → APITEST-013 / API-013 prerequisite must supply the named guarded
+local-credential, conditional-upgrade and directory accessors needed here, as well
+as continuation/elapsed/permit surfaces. ACCESS-008 only consumes that reviewed
+extension on the same host transaction/finalization path. No raw unit, writer ticket,
 context or lambda receiving one may escape. Existing writer/store signatures stay
-unchanged. This bounded accessor adaptation is part of the auth slice, not a
-second host or a prerequisite supplied by an unimplemented facade.
+unchanged. These are missing host capabilities assigned to API-013, not implementation
+choices delegated to ACCESSTEST-008 or claims about API-001. The login owner's
+one-cell worker bridge is auth-specific and cannot implement those host surfaces.
 
 No BlockingQueuedConnection, nested event loop, queued `PasswordVerifiedSource`,
 borrowed view/reference, foreign SQL ticket or caller-supplied callback is used.
@@ -406,7 +423,8 @@ It runs on the worker and marshals only metadata; every read/check is a fresh re
 owner-queue work with terminal completion, not a cached snapshot across crypto.
 
 `read_current(account_ref)` first verifies this source/job/request membership and
-phase. It reads the actual bound installation/account using the physical reader;
+phase. Failed membership/phase returns `unavailable` with no credential and no
+attempt; it does not query a substituted account. It reads the actual bound installation/account using the physical reader;
 it cannot switch accounts. A complete present read returns exact current
 `PasswordCredential` and this actual attempt_ref, bounded256/256/127/256 BEFORE
 copies. Missing means proven absent account/local credential, with no credential
@@ -430,8 +448,8 @@ equal this acceptance's legitimate current lineage AND fresh actual stored bytes
 Recheck account/install full fences, access, clock/freshness and request/deadline.
 Known absent/never-accepted/revoked login or evaluated policy refusal is denied;
 changed source/binding/revision/epoch, retired stale generation or expired acceptance
-is stale; inability/unknown is unavailable. A still-bound explicitly cancelled
-request is denied. No complete positive observation returns before normal committed
+is stale; inability/unknown is unavailable. An explicitly cancelled request or abandoned cell is unavailable, consistently
+with §3 and LA25; it cannot return an accepted observation. No complete positive observation returns before normal committed
 readonly completion AND fresh matched host completion checks for the live request,
 original deadline, current generation/readiness and stop fence. Cancellation during
 that work cannot return accepted just because the earlier body check succeeded.
@@ -579,6 +597,9 @@ with a127-byte new verifier is `1+1+1+96+127 = 226`; its three reference fields 
 account, attempt and expected revision, so the maximum is `3*256+2*127 = 1022`.
 Exact101/226 budgets fit;100/225 refuse before extra ownership.
 These literal examples do not use generated hashes as expected output.
+LA11/LA27 vary UTC independently of elapsed time to isolate the inclusive UTC rule.
+With ordinary equally advancing clocks the elapsed retention cutoff already
+refuses at equality, so UTC age300000 alone never guarantees eligibility.
 
 All examples below are synthetic proposed acceptance oracles, never executed tests.
 Base: real-source-simulated registered request Q for installation i/account a,
@@ -645,7 +666,8 @@ its reviewed integration plus affected password/storage regressions, with separa
 actual authority/secret/thread/resource/source review and selected CI. Original
 receipts/assertions remain. The private one-cell bridge/worker is part of that
 allocated slice; it grants no reusable server runtime. API-001's production host,
-ACCESS-001's actual directory and SESSION-009's actual clock remain named prerequisites
+ACCESS-001's actual directory, SESSION-010's actual policy producer and
+SESSION-009's actual clock remain named prerequisites
 in the existing graph (the latter depends on API-001), not implemented mechanisms
 inherited from their DTOs. Ordinary startup uses the current host consumer boundary's
 actual schema8 inspection/read chain; no STORAGE-007 runtime prerequisite is added
@@ -653,15 +675,28 @@ upstream. Supported restore must later satisfy that owner's guarded-restart/fenc
 obligation. SESSION-009 binds the actual host, never a ready flag issued by this
 login owner; API-001 does not wait for ACCESS-008 or SESSION-009 to start serving.
 
-If implementation needs a general executor/bridge beyond the accepted host boundary,
-durable attempt survival/outcome journal or stronger UTC assurance, root must split
-an explicit contract/test/implementation prerequisite with owner, acceptance and
-focused PR before code. For example API-001 owns a generic bridge whose acceptance
-must prove bounded admission, owner-only dispatch and shutdown/drain; a durable
-acceptance owner would require separate crash/restart/replay/settlement tests and
-reviewed persistence. None is silently absorbed here or required by this in-memory
-request-scoped model. No new dependency, authorization service or provider behavior
-is selected. Full setup/invitation/recovery/transfer, lifecycle/transport/ingress,
+The already identified missing host composition MUST land separately through
+APICONTRACT-002 → APITEST-013 → API-013, with explicit dependency edges for local
+login and setup/reset consumers and their baselines. That focused prerequisite
+owns the held original association/response lease, bounded stage admissions and
+queue deadlines, guarded local-credential/upgrade/directory ports, consumer elapsed
+read and installation-wide password-work permit. It must settle cancellation,
+stop/drain, per-copy secret erasure and every actual writer completion without
+extending an API-001 execution facade across crypto. Its full contract, independent
+reviews, intended red, implementation and selected CI remain future gates; this
+PR only records their scope and graph. No frozen host assertion is weakened.
+
+SESSION-010 is a direct prerequisite of ACCESSTEST-008 and ACCESS-008: its actual
+policy-generation producer and request-scope provenance must be used at each stage.
+API-013 consumes that producer too. SESSION-003 and the route owners retain complete
+browser/native wire, guard, publication and client integration; this contract and
+ACCESS-008 provide no HTTP route or supported transport proof. Test adapters may
+establish component semantics only, never a live producer or real-route capability.
+
+If a reusable executor beyond that bounded extension, durable attempt journal or
+stronger UTC assurance is later needed, split another explicit prerequisite before
+code. None is supplied by the in-memory registry. No authorization service or
+provider behavior is selected. Full setup/invitation/recovery/transfer, lifecycle/transport/ingress,
 restore/reconciliation, supported Linux/Windows/client/package/platform/live and
 hardware-cost gates remain open with their owners. All seven integrations and
 all three FX providers remain required for release.

@@ -13,6 +13,8 @@ See [backlog workflow and complete epic index](README.md).
 | [APICONTRACT-001](EPIC-008/APICONTRACT-001.md) | Actual host lifecycle/current scope and native persistent WS profile contract |
 | `APITEST-012` → [API-012](EPIC-008/API-012.md) | Admitted native control/fragment/Close lifecycle prerequisite |
 | `APITEST-001` → [API-001](EPIC-008/API-001.md) | Production Qt and Drogon lifecycle bridge |
+| [APICONTRACT-002](EPIC-008/APICONTRACT-002.md) | Separate bounded authentication-continuation host extension contract |
+| `APITEST-013` → [API-013](EPIC-008/API-013.md) | Host continuation/lease, guarded auth storage, elapsed and password permit prerequisites |
 | `APITEST-002` → [API-002](EPIC-008/API-002.md) | HTTP command schemas exact values and revision checks |
 | `APITEST-003` → [API-003](EPIC-008/API-003.md) | Authorized WebSocket snapshots and resynchronization |
 | `APITEST-004` → [API-004](EPIC-008/API-004.md) | Capability handshake and matching web assets |

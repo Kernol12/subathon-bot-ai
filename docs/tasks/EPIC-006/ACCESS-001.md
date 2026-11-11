@@ -54,3 +54,21 @@ Follow [the child-task workflow](../README.md) for PRs, role handoffs and comple
 preserves all original scope and test-first/release gates. The authoritative task
 graph adds the relevant supplier/lifecycle/store/local-login/clock/ingress prerequisites.
 These components do not complete this task's own full acceptance or real integration.
+
+## Local-login directory and host prerequisites
+
+[Local-login authority](../../contracts/local-login-authority-v1.md) hands this
+slice the actual bounded indexed username-to-stable-account directory and exact
+binding/revision producer, including re-resolution in the caller's SAME writer
+transaction. Define username grammar/normalization, uniqueness, rebinding and
+revision semantics before tests; do not infer them from STORAGE-020, whose schema
+has no usernames. ACCESS-001 owns this logical contract/producer; the coordinator
+owns independent review and integration of any additive physical schema/migration,
+preserving the existing prefix. Split further substantial storage work before code.
+Test absence, collisions, concurrent binding/reset changes and stale revisions.
+
+ACCESSTEST-001 and ACCESS-001 depend on the planned
+[API-013](../EPIC-008/API-013.md) extension for the installation-wide password-work
+permit and reviewed secret admission/erasure profile. Setup remains independent of
+an accepted login, ACCESS-008 and any preexisting session. Other setup/invitation
+requirements and owner fallback are unchanged.

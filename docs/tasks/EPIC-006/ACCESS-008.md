@@ -38,3 +38,15 @@ upstream local component; no reverse dependency or claimed Twitch support. Sessi
 generation/lifetimes/publication remain SESSION-002/003. Record exact commands,
 environment/revisions/results, platform/live limits and next owners in one handoff;
 normal latest-head CI/PR merge gates and all release requirements remain.
+
+## Explicit producer prerequisites
+
+Both baseline and implementation depend on
+[APICONTRACT-002 → APITEST-013 / API-013](../EPIC-008/APICONTRACT-002.md) for the
+missing host continuation/response lease, per-stage guarded storage/directory
+surface, elapsed read and installation-wide password permit. They also depend
+directly on SESSION-010's actual policy-generation producer / RequestIngressScope.
+ACCESS-008 cannot add these capabilities to the frozen API-001 baseline implicitly.
+Real directory facts remain ACCESS-001, and complete real-route/browser/native
+integration remains SESSION-003/010 and route owners. Fakes establish component
+semantics only. No SESSION-002/ACCESS-004 reverse dependency is introduced.

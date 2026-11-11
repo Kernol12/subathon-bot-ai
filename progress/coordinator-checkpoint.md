@@ -33,3 +33,13 @@ contract blob `22b417bac216421e86d888320409358dbc062dcb`. Author project/tooling
 state/render, local-link/import/LA01–32/arithmetic audit and diff checks pass.
 [Author](<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9996053f-becb-4750-8564-5c5fc59834de%3Adelegate-task%3A6d9ff71d-6ac8-47a2-9c44-9b3d4fdc1aa9>) is complete; no old author is active.
 Initial Claude review is next; all review/CI/merge gates remain pending.
+
+Initial independent Claude Opus5.5 b05d59ac on `96e3b19` found B1–4: missing
+host continuation/accessors/elapsed/permit prerequisite, missing SESSION-010 edge,
+overclaimed secret-copy count, undocumented ACCESS-001 directory ownership.
+Coordinator corrections plan APICONTRACT-002 → APITEST-013 → API-013 and consumer
+edges (including baseline pairs), without authorizing any implementation or changing
+API-001/APITEST-001. Directory contract/schema handoff now lives in ACCESS-001;
+secret count is login/helper-only. N1–4 clarified. Project/tooling51/render/diff pass.
+Next: separate independent Codex verification of full correction/actual DAG, then
+Claude closing review. All new nodes remain unclaimed planned prerequisites.
