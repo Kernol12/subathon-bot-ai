@@ -1,58 +1,44 @@
 # Coordinator checkpoint
 
-Owner 2026-11-11 resumed: ONE new task, finish/normal protected merge, then STOP.
-API-001 and actual session-clock binding remain unauthorized.
+Owner 2026-11-11 resumed after PR116: ONE new task, normal protected merge, then
+STOP. API-001 and actual session-clock binding remain unauthorized. Do not select
+another task, including planned RATECONTRACT-002.
+[Brief](../docs/tasks/EPIC-017/RATECONTRACT-001.md), [state](state.json),
+[PR117](https://github.com/Kernol12/subathon-bot-ai/pull/117).
 
-Startup main/origin main c70fbec clean. Live PR116 MERGED c70fbec at13:20:42Z;
-all22 checks successful at head0c92678. No open PRs, active claims or other running
-T3 sessions. Previous RATES001 author/reviewers retired; valid work/reviews retained.
-Historical worktrees/branches preserved, missing /tmp registrations left alone.
-No previous agent assumed active; current coordinator a26ec071 owns integration.
-CLion read confirms this root project; no IDE configuration change.
+Startup main/origin main c70fbec clean; verified PR116 MERGED c70fbec13:20:42Z,
+all22 head0c92678 checks SUCCESS. No open PRs/active claims/other running T3 roles.
+Historical worktrees/branches preserved; missing /tmp registrations left alone.
+Old assignments retired, no agent assumed active. CLion read matched root project.
+Coordinator a26ec071 selected/split RATECONTRACT001 before RATESTEST009 because
+exact inverse1.20=5/6 cannot fit the old decimal field. Branch
+ task/RATECONTRACT-001-exact-valuations from c70fbec; claim939420c.
+Fresh Codex /root/exact_valuation_contract_author authored new logical contract;
+coordinator owns corrections/graph/docs/state/HTML/evidence/CI/merge. Author retired.
+No C++/SQL/schema/fixture/assertion/build/CI/dependency or live-provider changes.
+All478 original task records/status/reviews/verification and edges retained;
+new001/002 prerequisites appended only to EPIC017/RATESTEST009/RATES009.
+RATECONTRACT002 concrete API/codec/additive-storage gate stays planned/unassigned.
 
-Selected [RATECONTRACT-001](../docs/tasks/EPIC-017/RATECONTRACT-001.md), a document-only
-prerequisite split before RATESTEST009 because recurring exact rates cannot fit the
-existing finite-decimal historical valuation. All prerequisite tasks done.
-Branch task/RATECONTRACT-001-exact-valuations from c70fbec. Fresh author will own
-only docs/contracts/exact-retained-valuations-v1.md. Coordinator owns brief,
-AGENTS, linked docs, state/HTML/evidence/checkpoint. Existing graph edges retained;
-new required prerequisite added to RATESTEST009/RATES009/EPIC017. No code/schema/
-fixture/test/dependency/live-provider changes. Required contract cycle: independent
-Claude initial → Codex fixes/separate verification → Claude closing; project,
-graph/render/tooling and current-head CI before normal protected merge.
-Claim committed939420c. Fresh Codex /root/exact_valuation_contract_author active;
-only the new contract is assigned. Audit confirms concrete DTO/SQL/bundle/capture
-readers need a separate gate; RATECONTRACT-002 added planned/unassigned before
-RATESTEST009/RATES009/EPIC017. Command references do not necessarily embed valuation;
-preserve unchanged codec versions unless a concrete meaning changes. All478 original
-IDs/edges/statuses/reviews/verification preserved by actual graph comparison.
-Live rules26170263 require PR/resolved discussions,0 GitHub approvals,no bypass;
-written workflow additionally requires all current checks and independent reviews.
-Next: author handoff then independent Claude initial review. No stale claim.
+Initial independent Claude Opus5.5/high33443fb5 at1b0f9d3 required B1 external
+provenance ownership and B2 one-off manual basis. Fixeded27321; separate Codex
+/root/exact_valuation_codex_verify confirmed and found B3 same-currency manual
+bypass. Fixed1e8c894; fresh /root/exact_valuation_codex_recheck APPROVED1e8c894.
+Independent Claude Opus5.5/high closingedfa9ce4 APPROVED08fcfe1, no blockers:
+< t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A8a2973ea-00be-4291-971a-d3bbb1095d19%3Adelegate-task%3Aedfa9ce4-8d72-4297-af35-380c700c6228 >
+Full initial/Codex/recheck/closing reports published as PR117 comments. All reviewer
+roles retired.19 examples independently checked; document approval only.
+Closing nonblockers (future producer sequencing/manual-when-available policy)
+remain in PR117 for concrete002/producer refinement; no hidden runtime capability.
+Contract SHA256 33cf0fd28de43eb1822120d69116e9c72053bd0887555438d5d07662a6316bd5.
 
-Author draft: exact-retained-valuations-v1.md, EV01–18, only owned path changed.
-Coordinator integrated RATECONTRACT002 planned brief/edges and linked navigation.
-Actual project480/122, graph/render and51 tooling tests pass; original478 tasks'
-IDs/edges/statuses/review/verification unchanged. Native code/build inputs untouched;
-no local native replay justified by document-only scope. Hosted workflows unchanged.
-Pending full independent contract review cycle. No capability/approval claimed yet.
-
-Draft PR117 head1b0f9d3. Initial independent Claude Opus5.5/high33443fb5 found
-B1 unowned external-target closure and B2 no one-off manual basis; full review
-published at https://github.com/Kernol12/subathon-bot-ai/pull/117#issuecomment-6797298059.
-Coordinator corrected B1 with explicit owned-vs-opaque per-field classification,
-no assumed future RATES005/007 producer. B2 adds manual_valuation/EV19 with actual
-RATES008/ACCT005/API002 authority/continuation gates. Optional consumer/query/budget
-points incorporated. Author and initial reviewer retired. Next separate Codex
-verification then independent Claude closing; no approval or runtime claim yet.
-
-Separate Codex /root/exact_valuation_codex_verify ated27321 confirmed B1/B2 fixed,
-found B3 manual same-currency bypass. Coordinator requires distinct manual pair
-currencies; equal keys use identity1/1; EV19 now explicitly rejects USD→USD1.20.
-Report /tmp/ratecontract-001-codex-verify.md to PR117. New separate verification
-pending before Claude closing; no blocker waived.
-
-Independent fresh Codex /root/exact_valuation_codex_recheck APPROVED1e8c894,
-B1–B3 resolved, no new blockers; full report /tmp/ratecontract-001-codex-recheck.md
-published in PR117. Contract author/Codex reviewers retired. Next independent
-Claude closing review of the corrected full stage; no source/code/runtime changes.
+Completion packet records done/document proof and bounded note/review/evidence;
+state/HTML/evidence updated. Project480/122, graph/render and51 tooling pass;
+no native replay for this document-only change. Routine packet review and final
+current-head CI/discussions/live-rules/normal merge receipts belong in PR117.
+Live rules26170263 require PR/resolved threads,0 GitHub approvals,no bypass;
+written workflow still requires all current checks and independent reviews.
+Next: publish final packet, independent Codex metadata review, current-head CI,
+normal exact-head protected merge, refresh main and STOP. No substantive contract
+changes after closing without renewed Codex/Claude review. If already merged on
+resumption, verify/refresh main and STOP. No watcher active yet.

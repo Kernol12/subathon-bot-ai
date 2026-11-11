@@ -190,15 +190,19 @@ checks remain open. Durable storage ownership must be explicit when RATESTEST-00
 007 are refined; this pure model does not provide it. Unknown fields or
 provider behavior must not be represented as supported capabilities.
 
-The [exact retained valuation proposal](../contracts/exact-retained-valuations-v1.md)
-separates a logical rational/provenance bridge from the legacy finite-decimal
-capture. Nineteen authored examples cover inverse/cross arithmetic, final ties,
-legacy coexistence, immutable durable closure and failure/reopen obligations.
-[RATECONTRACT-001](../tasks/EPIC-017/RATECONTRACT-001.md) records document review;
-planned RATECONTRACT-002 must first freeze concrete API/codec/additive-storage
-contracts before RATESTEST-009. Existing formats, migrations, assertions and all
-478 prior task records are preserved. This is document proof only; no exact
-valuation adapter, storage behavior or provider capability is established.
+The [exact retained valuation contract](../contracts/exact-retained-valuations-v1.md)
+defines a logical rational/provenance bridge from the legacy finite-decimal capture,
+with19 independently derived examples. Initial Claude findings on provenance
+ownership/manual valuation and a separate Codex same-currency finding were fixed;
+fresh Codex verification and independent Claude closing approved `08fcfe1`.
+[PR117](https://github.com/Kernol12/subathon-bot-ai/pull/117) records reviews and
+final CI/publication/normal merge gates. Project480/122, graph/render and51 tooling
+methods pass. All478 earlier task records/edges/reviews, existing formats,
+migrations and assertions remain intact. This is document proof only: planned
+RATECONTRACT-002 must freeze concrete API/codec/additive-storage contracts before
+RATESTEST-009; no exact valuation adapter, SQL/reopen or provider capability is
+established. Source-store/authority/platform/release gates remain required. The
+owner authorized this one task, then STOP.
 
 ## Milestones and automation
 
