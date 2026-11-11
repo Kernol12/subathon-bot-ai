@@ -58,6 +58,7 @@ still using synthetic data and supplied policy/authority facts.
 | `sqlite-account-sessions-debug` | `-L '^sqlite-account-sessions$'` | 44 real-SQL methods for physical current facts, full conditional writes and compiled-prefix/frame equality; host login/authority remains separate |
 | `translation-catalog-debug` | `-L '^translation-catalog$'` | 43 generator methods with literal goldens; build also produces/validates real Qt QM |
 | `native-websocket-profile-debug` | `-L '^native-websocket-profile$'` | 44 reviewed methods passing locally and in selected Ubuntu CI against the corrected Drogon/Trantor SDK: real Linux loopback framing/control/Close, listener isolation, ownership and resource/deadline observations with supplied elapsed time; actual host/TLS/clock/auth/platform gates remain separate |
+| `rate-snapshot-debug` | `-L '^rate-snapshot$'` | 53 preserved cases for owned lossless observations, exact effective-table validation and inverse/cross queries; no provider/cache/valuation integration |
 | `schema-validation-debug` | `-L '^schema-validation$'` | 8 Python methods: actual OpenAPI/17 components, 23 existing positive examples, 77 independent component cases, and 11 structural progress cases plus actual state |
 
 Source/resource review remains necessary for allocation bounds, owned capabilities,
@@ -68,6 +69,14 @@ native totals may be simplified only through separately approved cleanup; erasur
 locking, lifetime and fault observations remain. Standard GoogleTest skip recognition
 is runner metadata; actual acceptance still requires zero skipped cases. Schema checks validate real OpenAPI/JSON-schema
 packages and examples, without establishing authorization or runtime transport safety.
+
+Original intended-red evidence remains historical and is not replayed after a suite
+becomes passing acceptance. Rate snapshots now run all 53 preserved methods under
+`rate-snapshot;acceptance;core`, with numeric regressions and infrastructure in the
+same preset. Selected CI executes these ordinary bodies with pinned Boost 1.83.
+Never use `WILL_FAIL`, blanket continue-on-error, disabled/skipped bodies or a failed
+build as a substitute for acceptance. A documented baseline revision requires a
+separate reviewer.
 
 ## Repository-schema validation
 
@@ -80,17 +89,6 @@ evidence. No runtime authority, raw ingress or provider/platform support follows
 from schema shape, and editor hints do not replace runtime progress invariants.
 
 ## Reviewed baselines still awaiting implementation
-
-| Preset / focused selection | Current state |
-| --- | --- |
-| `rate-snapshot-debug` / `-L '^rate-snapshot$'` | 53 reviewed feature cases have intended stub-red evidence; rate behavior remains unimplemented. The suite has `intentional-red` labels. |
-
-The rate lane's passing CI checks compile/discover feature registrations, enforce selected
-dependency configuration and execute existing stable component/infrastructure suites. They do not turn the red feature bodies into
-passing product coverage. Keep their intended-red runs separate from passing CI;
-never use `WILL_FAIL`, blanket continue-on-error, disabled/skipped bodies or a failed
-build as a substitute. Preserve original red evidence rather than replaying it for a
-new receipt. A documented baseline revision requires a separate reviewer.
 
 `api-host-debug` and `api-host-native-debug` select authored host lifecycle baselines;
 their current review/execution status is recorded in progress. Both need the complete
@@ -133,7 +131,8 @@ the initial-capture prefix for account/session storage; milestone,
 permissions and rate include numeric checks; editorial includes debt and lifecycle.
 Bare acceptance ON defaults to credit. An explicit empty/unknown selection fails;
 `all` explicitly includes every native/translation suite, all required SDKs and the
-rate and host lifecycle intentional-red baselines. The corrected native WebSocket
+host lifecycle intentional-red baselines. Rate snapshots are ordinary passing
+acceptance. The corrected native WebSocket
 profile itself remains ordinary passing acceptance. Schema validation and configure-only Qt probing remain separate
 controls. The account preset includes the complete compiled SQLite migration prefix:
 

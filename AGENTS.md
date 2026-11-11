@@ -42,10 +42,13 @@ every module being edited. EPIC-028, STORAGE-020, APICONTRACT-001, APITEST-012 a
 API-012 are complete; API-012 merged normally in PR110. WORKFLOW-001/002 merged in
 PR109/111, and APITEST-001 merged normally in PR112. ACCESSCONTRACT-001
 merged normally in PR113; APICONTRACT-002 merged normally in PR114. On 2026-11-11
-the owner requested ONE fresh dependency-ready task, then stop. The coordinator selected
-APICONTRACT-003 in `docs/tasks/EPIC-008/`: document-only guarded enrollment and
-recovery host contract, through independent reviews, current CI and normal protected
-merge, then stop.
+the owner resumed after APICONTRACT-003 merged normally in PR115 and requested ONE
+fresh dependency-ready task, then stop. The coordinator selected RATES-001 in
+`docs/tasks/EPIC-017/`: implement the frozen pure exact rate snapshot model against
+the preserved reviewed RATESTEST-001 baseline. Implementation and independent
+source/resource/CI reviews are complete; finish final PR116 current-head CI and
+normal protected merge, then STOP. Do not select another task. No provider/cache/store/valuation bridge
+implementation is part of this task.
 API-001 implementation and actual session-clock binding remain unauthorized.
 
 ## Test-first and review gates
@@ -110,8 +113,9 @@ time-credit component cases under owning acceptance labels. Full product verific
 remains a separate release gate.
 Native/translation presets use `SUBATHON_BUILD_ACCEPTANCE_TESTS` and the
 `SUBATHON_ACCEPTANCE_SUITES` list; see `docs/TEST_STRATEGY.md` for selection and
-retired-cache migration. The rate feature baseline remains enabled intentional red;
-account/session storage uses ordinary real-SQL acceptance. Do not use WILL_FAIL,
+retired-cache migration. Rate snapshots use ordinary passing pure acceptance;
+account/session storage uses ordinary real-SQL acceptance. Host lifecycle baselines
+remain enabled intentional red. Do not use WILL_FAIL,
 blanket continue-on-error, or baseline skipping to hide acceptance failures.
 `qt-probe-debug` configures Qt >=6.12 dependency discovery and scaffold checks only;
 use `sqlite-writer-debug` for actual Qt event-loop/writer behavior.

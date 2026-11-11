@@ -14,7 +14,7 @@
 
 namespace subathon::core {
 // Local ceilings and ownership metric: docs/contracts/rate-snapshots-api-v1.md.
-// Construction is inert; validation remains intentionally unimplemented.
+// Input DTO construction is inert; factories validate and return owned values.
 struct RateSnapshotLimits {
     std::size_t currency_bytes{64};
     std::size_t reference_bytes{256};
@@ -236,7 +236,7 @@ class RateSnapshotNotImplemented final : public std::logic_error {
     RateSnapshotNotImplemented();
 };
 
-// Immediate missing-feature stubs until reviewed tests establish the intended red.
+// Validate the complete bounded input before owning a result; query revalidates every call.
 [[nodiscard]] RateMoney make_rate_money(const ReceiptMoney &input,
                                         const RateSnapshotLimits &limits = {});
 [[nodiscard]] FetchedRateObservation

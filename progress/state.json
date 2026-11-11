@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T12:29:08+00:00",
-  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 document-only guarded enrollment/recovery is independently reviewed; PR115 holds final publication/CI/normal merge gates, then stop; API-001 implementation and actual session-clock binding remain unauthorized.",
+  "updated_at": "2026-11-11T13:09:09+00:00",
+  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. Final publication/normal merge receipts are in PR116, then STOP; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -9129,8 +9129,8 @@
       "title": "Lossless fetched and effective rate snapshot model",
       "module": "Currency",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "codex:coordinator-e3bf670c; fresh rates_snapshot_implementer",
       "depends_on": [
         "CONTRACT-002",
         "CORE-001",
@@ -9144,11 +9144,32 @@
       "brief": "docs/tasks/EPIC-017/RATES-001.md",
       "summary": "Preserve source/fetch/publication timestamps, positive exact values and original money precision.",
       "notes": [
-        "Parent epic: EPIC-017. Planning only; no tests, implementation, review or verification completed by this decomposition."
+        "Implemented pure lossless rate snapshots and exact inverse/cross queries;53 preserved cases/full89 pass locally and pinnedBoost1.83 CI. Initial Claude, separate Codex verification and Claude closing approve source33e60d8. No provider/cache/store/valuation proof; durable ownership refinement and adjacent FX gates remain. PR116 records final CI/normal merge; then stop."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "inherited_test_review": "passed",
+        "inherited_baseline": "observed_red",
+        "implementation": "passed",
+        "local_acceptance": "passed",
+        "hosted_component_acceptance": "passed",
+        "source_review": "passed",
+        "tooling": "passed",
+        "product_release": "not_run",
+        "resource_review": "passed",
+        "ci_recipe_review": "passed",
+        "document_review": "passed",
+        "acceptance": "passed"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/116"
+      ],
+      "review": {
+        "author": "Codex gpt-6.1-sol /root/rates_snapshot_implementer source33e60d8; coordinator e3bf670c CI/docs",
+        "reviewer": "Claude Opus5.5 initial913493b1/closing1d31975a; Codex gpt-6.1-sol /root/rates_snapshot_codex_verify",
+        "outcome": "approved",
+        "revision": "Source SHA2568d4178ea0e98d351b01b548694494d95b4a68266552ddf1dcc320fdfa68a26f8 unchanged. Initial no source blockers; stale-doc B1 fixed38c610f/030c2eb, separate Codex approved030c2eb, independent Claude closing approved30bde01. Final routine metadata/current CI/normal merge receipts in PR116.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/116"
+      }
     },
     {
       "id": "RATESTEST-002",
@@ -17833,6 +17854,16 @@
       "date": "2026-11-11T12:29:08+00:00",
       "task": "APICONTRACT-003",
       "note": "Independent initial/full closing Claude Opus5.5, separate Codex correction/verification and focused closing Claude Sonnet5.5 approve f4c1584. Record document-only completion/33 examples; all478 IDs/original edges and unrelated reviews preserved, two explicit ACCESS003 consumer edges. No runtime proof; final metadata review/current CI/normal PR115 merge then stop."
+    },
+    {
+      "task": "RATES-001",
+      "date": "2026-11-11T12:42:04+00:00",
+      "note": "Owner requested ONE fresh task after PR115 merged. Selected dependency-ready RATES-001; no prior active claim. Historical sessions retired, fresh implementer assigned; coordinator owns shared build/CI/state/docs. Stop after normal merge; API001/clock remain unauthorized."
+    },
+    {
+      "date": "2026-11-11T13:09:09+00:00",
+      "task": "RATES-001",
+      "note": "Fresh source33e60d8 preserves frozen contracts/assertions/fixtures;53/full89 pass locally and selectedBoost1.83 CI. Independent initial Claude, separate Codex verification and Claude closing1d31975a approve30bde01. Record bounded component completion; final packet/current CI/normal PR116 merge then stop. Durable storage ownership and full FX/release gates remain."
     }
   ]
 }

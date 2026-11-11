@@ -175,7 +175,7 @@ if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
     target_link_libraries(core_rate_snapshot_acceptance PRIVATE subathon_rate_snapshots GTest::gtest_main)
     subathon_target_options(core_rate_snapshot_acceptance)
     subathon_discover_gtests(core_rate_snapshot_acceptance
-        LABELS "rate-snapshot;acceptance;intentional-red;core" TIMEOUT 30)
+        LABELS "rate-snapshot;acceptance;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)

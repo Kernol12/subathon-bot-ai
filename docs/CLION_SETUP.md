@@ -62,7 +62,8 @@ and `SUBATHON_ACCEPTANCE_SUITES` list, with their existing targeted dependencies
 For an older build directory containing enabled per-feature cache switches, run
 `cmake --fresh --preset <name>` and reapply personal paths through user presets.
 See [test strategy](TEST_STRATEGY.md) for unions and explicit `all`; the latter also
-includes the rate/account intentional-red baselines and requires all selected SDKs.
+includes the host lifecycle intentional-red baselines and requires all selected SDKs.
+Rate snapshots and account/session storage run ordinary acceptance.
 Qt and translation CTest entries execute complete suites; GoogleTest keeps per-case
 process isolation. Inspect methods/results in the native output, not a fixed CTest
 node count.

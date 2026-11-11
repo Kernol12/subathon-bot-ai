@@ -1,4 +1,4 @@
-name: Rate snapshot baseline discovery
+name: Rate snapshot acceptance
 on:
   pull_request:
     branches: [main]
@@ -38,13 +38,15 @@ jobs:
           cmake --preset rate-snapshot-debug -DSUBATHON_FETCH_GOOGLETEST=ON
           -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
           -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
-      - name: Build rate baseline and existing checks
+      - name: Build rate snapshots and existing checks
         run: cmake --build --preset rate-snapshot-debug
-      - name: Verify the enabled intentional-red lane without running feature bodies
+      - name: Verify the complete enabled rate acceptance inventory
         run: |
           python3 - <<'PYTHON'
           import json
           import subprocess
+          import pathlib
+          import re
           discovery = json.loads(subprocess.check_output(
               ["ctest", "--preset", "rate-snapshot-debug", "--show-only=json-v1"], text=True))
           found = set()
@@ -55,13 +57,15 @@ jobs:
                   continue
               if props.get("DISABLED", False) or props.get("WILL_FAIL", False):
                   raise SystemExit("A reviewed rate method is disabled or failure-inverted")
-              if not {"rate-snapshot", "acceptance", "intentional-red", "core"}.issubset(labels):
-                  raise SystemExit("A reviewed rate method lost its required baseline labels")
+              if not {"rate-snapshot", "acceptance", "core"}.issubset(labels) or "intentional-red" in labels:
+                  raise SystemExit("A reviewed rate method lost its passing acceptance labels")
               found.add(item["name"])
-          if not found:
-              raise SystemExit("No enabled intentional-red rate methods were discovered")
-          print(f"Discovered {len(found)} enabled intentional-red rate methods; no feature body invoked")
+          source = pathlib.Path("tests/acceptance/rate_snapshot_tests.cpp").read_text()
+          expected = {f"{suite}.{case}" for suite, case in
+                      re.findall(r"^TEST\((\w+),\s*(\w+)\)", source, re.MULTILINE)}
+          if len(expected) != 53 or found != expected:
+              raise SystemExit("Rate acceptance discovery differs from the 53 reviewed methods")
+          print(f"Discovered all {len(found)} enabled rate acceptance methods")
           PYTHON
-      - name: Run existing numeric and infrastructure checks
-        # New rate feature execution remains a separate explicit intended-red command.
-        run: ctest --preset rate-snapshot-debug -LE '^intentional-red$' --no-tests=error --verbose
+      - name: Run rate acceptance, numeric regressions and infrastructure checks
+        run: ctest --preset rate-snapshot-debug --no-tests=error --verbose
