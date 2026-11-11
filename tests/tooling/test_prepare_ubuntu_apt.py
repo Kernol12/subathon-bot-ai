@@ -86,6 +86,10 @@ class PrepareUbuntuAptTests(unittest.TestCase):
         self.assertIn(command, DIAGNOSTICS + PRIVILEGED, "unexpected system command")
         self.assertFalse(options.get("shell", False))
         self.calls.append((command, options))
+        if options.get("capture_output") and any(options.get(k) is not None for k in ("stdout", "stderr")):
+            raise ValueError("stdout and stderr cannot be used with capture_output")
+        if options.get("input") is not None and options.get("stdin") is not None:
+            raise ValueError("stdin and input arguments may not both be used")
         if isinstance(options.get("input"), str):
             self.assertTrue(options.get("text") or options.get("encoding"), "str input needs text mode")
         response = self.responses.get(tuple(command), 0)
@@ -133,6 +137,9 @@ class PrepareUbuntuAptTests(unittest.TestCase):
         self.assertEqual(apt.main(), 0)
         output = self.stdout.getvalue()
         self.assertIn("getent ahostsv4 azure.archive.ubuntu.com: exit 2", output)
+        self.assertIn("stdout for getent ahostsv4 azure.archive.ubuntu.com", output)
+        self.assertIn("stderr for getent ahostsv4 azure.archive.ubuntu.com",
+                      output + self.stderr.getvalue())
         for host in ("archive.ubuntu.com", "security.ubuntu.com"):
             self.assertIn(f"getent ahostsv4 {host}: exit 0", output)
         self.assertEqual(self.calls[-1][0], PRIVILEGED[-1])
@@ -195,6 +202,8 @@ class PrepareUbuntuAptTests(unittest.TestCase):
         self.assertEqual(apt.main(), 0)
         self.assertIn("resolvectl status: unavailable", self.stdout.getvalue())
         self.assertIn("getent ahostsv4 azure.archive.ubuntu.com: unavailable", self.stdout.getvalue())
+        self.assertIn("resolvectl missing", self.stdout.getvalue())
+        self.assertIn("timed out after 10 seconds", self.stdout.getvalue())
         self.assertEqual(self.calls[-1][0], PRIVILEGED[-1])
 
     def test_each_critical_failure_or_timeout_returns_nonzero_and_stops(self):
