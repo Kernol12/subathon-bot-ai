@@ -1,35 +1,31 @@
 # Coordinator checkpoint
 
-Owner authorization: WORKFLOW-002 guidance update only, then stop. The latest owner
-preference gives the coordinator reviewer model selection; no model is mandated.
-Product work remains stopped after API-012 merged in
-[PR110](https://github.com/Kernol12/subathon-bot-ai/pull/110), main 5ba0bdb.
-APITEST-001/API-001 and actual session-clock binding remain unauthorized.
+Owner authorization: complete ONE new task APITEST-001 through reviews, intended red,
+CI and normal protected merge, then stop. API-001 implementation and actual session-clock
+binding are not authorized by this task.
 
-## Current task and proof
+## Actual startup audit
 
-- Branch: `task/WORKFLOW-002-opus-review-cycle`, based on main 5ba0bdb. The branch
-  name is historical; current guidance does not pin any model.
-- [Brief](../docs/tasks/WORKFLOW-002.md); [authoritative state](state.json).
-- [PR111](https://github.com/Kernol12/subathon-bot-ai/pull/111) is draft and watched.
-  Do not relink or rewatch solely on wakes; inspect the actual latest head.
-- Coordinator: codex:9bae765e-bb17-4f99-8859-1361d2e80d35. Author and reviewer
-  handoffs are complete; no old assignment is assumed active.
-- Earlier initial/closing Claude and Codex reviews through4452648 are retained.
-  The owner then superseded the fixed-model preference with coordinator selection.
-- Revised cleance55cbf32045576d4d7ee7bb8416ba50faabf7c9 independently APPROVED by
-  Codex `/root/model_choice_codex_review` and closing Claude Sonnet5.5 (9464edef).
-  Subsequent edits only record actual reviews/checks and final publication steps.
-- Project/link/progress checks passed (469 tasks), tooling50 and diff checks passed.
-  Guidance component is complete; no runtime behavior, tests or provider settings
-  changed. Hosted CI/protected merge are publication gates, not claimed passed.
+- Main/origin main20f8e488327b62d1b38a31adac4bfd6b6fa0ea08 verified; PR111 merged
+  2026-11-10T21:03:13Z, all21 checks SUCCESS, no open PRs or active state claims.
+- Existing worktrees are clean and preserved. Prior API author/review branches are
+  historical; no old assignment is assumed live. Current sandbox process tree has
+  no old worker/build. CLion root matches repository; worker checkouts require their
+  own revision verification.
+- New branch `task/APITEST-001-host-baseline` claimed before edits. Dependencies done.
+  [Brief](../docs/tasks/EPIC-008/API-001.md), [state](state.json).
 
-## Next action and stop
+## Ownership and next gate
 
-Push completion metadata, update the PR body/review records and mark ready. Require
-all applicable latest-head CI checks, no unresolved discussions and live repository
-protection before a normal merge with the exact head guard. Refresh main, unwatch,
-then stop. Record merge/check receipts in PR111 rather than a follow-up metadata
-commit. If resumed after merge, verify and stop. Detailed API-012 receipts remain in
-PR110, ignored local-evidence/API-012 and git history; do not reopen product gates or
-replay native acceptance for this guidance task.
+Coordinator codex:fd2a5aa3 owns shared state/HTML/checkpoint/root CMake/CI/admission.
+Fresh Codex author will receive host boundary/examples and test paths in a T3-managed
+worktree. Prior temporary author/reviewer assignments are retired and explicitly
+reassigned to fresh sessions; valid merged reviews are retained.
+Contract api-host-lifecycle.v1 and native-websocket-profile.v1, specification0.45.
+First gate: concrete consumer boundary/independent examples and actual readiness/source
+ownership review before authored tests, reviewed intended red and implementation-stub
+admission. No API-001 implementation, native/test execution or clock binding released.
+
+Initial/closing Claude and independent Codex cycles remain required per substantive
+stage. Normal startup/current-source producer gaps must be identified, not invented.
+Detailed receipts belong in the focused PR; update this checkpoint at handoffs.

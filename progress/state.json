@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-10T20:58:20+00:00",
+  "updated_at": "2026-11-11T05:19:08+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. The owner authorized API-012 only, followed by a stop.",
   "verification": [
     {
@@ -5264,8 +5264,8 @@
       "title": "Review and demonstrate red: Production Qt and Drogon lifecycle bridge",
       "module": "Server/API",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "codex:coordinator-fd2a5aa3",
       "depends_on": [
         "SPIKE-001",
         "BOOT-003",
@@ -5282,7 +5282,7 @@
       "brief": "docs/tasks/EPIC-008/API-001.md",
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before API-001.",
       "notes": [
-        "Production host lifecycle waits for the explicit lifecycle/native profile contract and reviewed corrected WS dependency. Preserve persistent multi-message WS, real peer/server Close, bounded startup/shutdown/backpressure/cancellation and actual invocation/publication/readiness source ownership. Stock spike is not reuse approval; H1 SESSION-011 refuses Upgrade. Concrete tests/red/implementation/platform gates remain."
+        "Owner resumes one new task, then stop. Host/native profile v1 baseline only: contract/examples, authored tests, independent Claude/Codex cycles and compiled intended red. Fresh author owns boundary/stub/tests; coordinator owns build/CI/state. Actual readiness/source ownership cannot be simulated into capability. API-001 implementation and clock binding remain unauthorized."
       ],
       "verification": {},
       "evidence": [],
@@ -17361,6 +17361,11 @@
       "date": "2026-11-10T15:59:11+00:00",
       "task": "API-012",
       "note": "Claimed on dedicated branch from main642c9a0 under owner one-task resumption. No stale active claim; prior WORKFLOW-001 merged with all21 checks and independent source/metadata reviews in PR109. Coordinator owns state/docs/CMake/CI/admission; fresh Codex worker will own native implementation/patches. Contract native profile v1 and consumer boundary v1; acceptance is preserved native38 plus exact source/resource/build/license review, actual native green and current protected merge."
+    },
+    {
+      "date": "2026-11-11T05:19:08+00:00",
+      "task": "APITEST-001",
+      "note": "Claim from verified main20f8e48/PR111 merged/all21success/no open PR or active claim. Fresh sessions explicitly replace historical assignments. Coordinator owns state/HTML/checkpoint/CMake/CI/admission; author boundary/stub/tests. Contract host/nativev1/spec0.45; full baseline review/red/CI/merge gates before owner stop."
     }
   ]
 }
