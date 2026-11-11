@@ -58,6 +58,18 @@ successful final-head checks. These publication observations were read from GitH
 for WORKFLOW-003; historical unrun checks remain unchanged. Host lifecycle CI still
 compiles its intentional-red baseline; no new host or product behavior is claimed.
 
+[WORKFLOW-003](../tasks/WORKFLOW-003.md) implements structured forward review gates,
+publication observations and dependency readiness, derived stage packets/metrics and
+coherent handoff guidance. Independent contract/test initial and closing Claude reviews
+with Codex fixes/separate verification preceded actual12-method/96-assertion red;
+earlier premature hosted execution remains a process exception in
+[PR120](https://github.com/Kernol12/subathon-bot-ai/pull/120). The frozen baseline
+then passes12 methods; full71 tooling, scaffold3, project485/122 and simulated DOM
+checks pass. All19 CI bodies/pins are byte-preserved after reversing only reviewed
+concurrency/trigger edits. PR118/119 publication is reconciled without inventing old
+reviews or promoting historical unrun checks. Implementation review and current-head
+hosted CI remain pending; this is development tooling, not product/release proof.
+
 ## Core time and exact arithmetic
 
 Reviewed native component suites pass for cap-limited credit (23 cases), exact decimal
