@@ -9,6 +9,7 @@ revisions are linked from each task handoff; inspect the latest PR head before m
 | native-websocket-profile.yml | Corrected SDK preparation/seal, passive ELF and scrubbed loaded-map gate, then all 44 synthetic loopback native methods |
 | scaffold.yml | Infrastructure build, Python tooling, repository/progress checks |
 | acceptance.yml | Reviewed time-credit acceptance and regression cases |
+| rate-snapshots.yml | All 53 preserved pure rate cases, numeric regressions and infrastructure; pinned Boost 1.83 |
 | exact-numeric.yml | Reviewed exact decimal/final conversion and regression cases |
 | timer-lifecycle.yml | Reviewed pure Main/Grace reducer |
 | pause-policy.yml | Reviewed independent pause reasons and delays |
@@ -31,14 +32,18 @@ Native/translation presets share `SUBATHON_BUILD_ACCEPTANCE_TESTS` and explicit
 names. Old enabled per-feature caches require a fresh configure. Qt suites invoke
 each existing executable without slot filters; GoogleTest keeps built-in per-case
 processes and full labels. Translation runs ordinary unittest discovery with the
-same real Qt verifier. CI no longer maintains duplicate method/count inventories;
-semantic fixture integrity, independent literal vectors and requirement maps remain.
+same real Qt verifier. CI generally derives inventories from source rather than
+maintaining duplicate method/count lists. The rate lane additionally pins the 53
+reviewed methods while comparing their source names with complete discovery; this
+explicit promotion check preserves the baseline. Semantic fixture integrity,
+independent literal vectors and requirement maps remain.
 Every stable suite selection fails on empty discovery and runs unconditionally.
 The SQL job explicitly selects `sqlite-reference-capture;sqlite-account-sessions`:
-all stable storage suites run, while the enabled account/session suite is checked
-passively with `intentional-red` labels. Rate methods likewise remain enabled red
-and discovery-only in passing CI. No failure inversion or blanket continuation hides
-their unimplemented behavior. [Test strategy](TEST_STRATEGY.md) documents selection
+all stable storage suites, including account/session storage, run ordinary acceptance.
+Rate methods also run unconditionally as ordinary acceptance; original stub-red
+evidence stays historical. Host lifecycle baselines remain enabled intentional red
+with build/discovery-only CI. No failure inversion or blanket continuation hides
+unimplemented behavior. [Test strategy](TEST_STRATEGY.md) documents selection
 and the distinction between method coverage and suite-level CTest nodes.
 
 The SQLite lane downloads official Qtbase6.12.0 and ICU archives with fixed SHA-256

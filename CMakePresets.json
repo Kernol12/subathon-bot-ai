@@ -214,7 +214,7 @@
     },
     {
       "name": "rate-snapshot-debug",
-      "displayName": "23 \u00b7 Rate snapshot baseline interfaces",
+      "displayName": "23 \u00b7 Exact rate snapshot acceptance",
       "inherits": "exact-numeric-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",

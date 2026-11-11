@@ -174,11 +174,15 @@ See [transport #74](https://github.com/Kernol12/subathon-bot-ai/pull/74),
 
 ## Currency and providers
 
-Rate snapshot models have 53 independently reviewed tests with an observed intended
-red baseline, historically preceded by the selected Boost 1.83 foundation and CI.
-Current CI builds/discovers those methods and runs existing stable suites. RATES-001 remains unimplemented;
-passing setup is not passing rate behavior. See
-[baseline #54](https://github.com/Kernol12/subathon-bot-ai/pull/54).
+The pure rate snapshot model passes all 53 preserved reviewed cases locally and
+in selected Ubuntu CI with pinned Boost 1.83 (89 full-preset checks, zero skips).
+It retains original money/rate spellings and independent unknown timestamps,
+validates supplied canonical exact potentials/constraints and returns exact inverse/
+cross fractions with owned provenance. Input/output budgets and bounded scratch/
+arithmetic are checked before ownership growth. [Implementation PR116](https://github.com/Kernol12/subathon-bot-ai/pull/116)
+records independent source/resource/CI reviews and final publication gates. The
+original [baseline PR54](https://github.com/Kernol12/subathon-bot-ai/pull/54) and
+intended-red evidence remain historical; no reviewed assertions were changed.
 All three exchange-rate providers and all seven integrations remain in release scope.
 Actual provider authentication, source capability/admission, lossless valuation,
 refresh/failure handling and live/platform checks remain open. Unknown fields or
