@@ -127,6 +127,18 @@ installation or complete end-to-end effects.
 
 ## Identity and sessions
 
+[Local-login authority #113](https://github.com/Kernol12/subathon-bot-ai/pull/113)
+defines request-bound acceptance, exact current credential/account/epoch checks,
+finite off-writer password work, attempt settlement and conditional rehash lineage,
+with 32 proposed examples. Initial Claude findings were resolved; separate Codex
+and closing Claude reviews approved the corrected document packet. The missing host continuation,
+lease, guarded accessors, elapsed read and password permit are explicitly planned
+as APICONTRACT-002/APITEST-013/API-013; actual ingress-policy and directory producers
+remain prerequisites. Earlier ingress/host secret copies need their own erase audit.
+Project/graph/render and 51 tooling tests pass. This is document-only evidence,
+with no working login/host/clock/route/provider capability. Final publication gates
+are recorded in PR113; executable baselines and implementation remain downstream.
+
 Effective permissions pass 32 pure evaluator cases with separate source review and
 selected CI. Password primitives pass 37 methods against selected libsodium, with
 source/secret-lifetime review and selected CI. Session token preparation

@@ -6,7 +6,11 @@ Dependencies/status: progress/state.json. Import password logical/API v1, suppli
 v1 §4, accepted lifecycle SESSIONCONTRACT-003, physical STORAGECONTRACT-002 and
 session-clock SESSIONCONTRACT-004 contracts; existing account setup scope unchanged.
 
-Own new internal local-login authority contract/examples/author evidence documents.
+Own [local-login authority v1](../../contracts/local-login-authority-v1.md)
+(identity `subathon.local-login-authority.v1`) and this brief's contract link.
+Recover valid draft/review context from unpublished `53524fc`; fresh author
+reconciles current imports, with current evidence in
+[PR113](https://github.com/Kernol12/subathon-bot-ai/pull/113). Add no files under docs/evidence.
 The integrator owns shared schemas/build/CI/state. No implementation, header,
 proof/protocol format, fixture/test source, provider action or session route is
 authorized by this planning brief.

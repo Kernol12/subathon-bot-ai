@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T09:31:48Z",
-  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. The owner resumed APITEST-001 baseline only through normal merge, then stop; API-001 implementation and actual session-clock binding remain unauthorized.",
+  "updated_at": "2026-11-11T10:20:09+00:00",
+  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. The owner authorized one new task: ACCESSCONTRACT-001 document-only authority through normal merge, then stop; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -4105,7 +4105,8 @@
         "CONTRACTPLAN-001",
         "STORAGE-002",
         "SESSION-001",
-        "STORAGE-020"
+        "STORAGE-020",
+        "API-013"
       ],
       "spec_refs": [
         "\u00a710",
@@ -4133,7 +4134,8 @@
         "STORAGE-002",
         "SESSION-001",
         "ACCESSTEST-001",
-        "STORAGE-020"
+        "STORAGE-020",
+        "API-013"
       ],
       "spec_refs": [
         "\u00a710",
@@ -4381,7 +4383,8 @@
         "SESSION-002",
         "ACCESS-003",
         "STORAGE-020",
-        "SESSION-009"
+        "SESSION-009",
+        "API-013"
       ],
       "spec_refs": [
         "\u00a710",
@@ -4411,7 +4414,8 @@
         "ACCESS-003",
         "ACCESSTEST-005",
         "STORAGE-020",
-        "SESSION-009"
+        "SESSION-009",
+        "API-013"
       ],
       "spec_refs": [
         "\u00a710",
@@ -5050,7 +5054,10 @@
         "API-011",
         "APICONTRACT-001",
         "APITEST-012",
-        "API-012"
+        "API-012",
+        "APICONTRACT-002",
+        "APITEST-013",
+        "API-013"
       ],
       "spec_refs": [
         "\u00a72",
@@ -15072,8 +15079,8 @@
       "title": "Actual accepted-local-login authority contract",
       "module": "Identity",
       "kind": "contract",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "codex:coordinator-18a4df20; fresh author e76812b",
       "depends_on": [
         "CONTRACTPLAN-006",
         "SESSIONCONTRACT-003",
@@ -15098,11 +15105,28 @@
       "brief": "docs/tasks/EPIC-006/ACCESSCONTRACT-001.md",
       "summary": "Define current local-login acceptance, source-bound accepted-attempt checks and conditional password-upgrade integration upstream of sessions; document only.",
       "notes": [
-        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+        "Reviewed document-only local-login authority with LA01\u201332; explicit host-continuation/permit, ingress-policy and directory prerequisites. Project/graph/render checks and 51 tooling tests pass. No runtime/crypto/login proof. PR113 records final CI/normal merge gates; downstream baselines and implementation remain. Stop after merge; API-001/actual clock binding unauthorized."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "authored": "passed",
+        "document_review": "passed",
+        "literal_audit": "passed",
+        "source_audit": "passed",
+        "graph_preservation": "passed",
+        "tooling": "passed",
+        "runtime": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/113",
+        "docs/contracts/local-login-authority-v1.md"
+      ],
+      "review": {
+        "author": "Codex fresh author e76812b (integrated cb0ed60); coordinator18a4df20 corrections46f569d",
+        "reviewer": "Independent Claude Opus5.5 b05d59ac initial / a1ad0c20 closing; Codex /root/local_authority_codex_review",
+        "outcome": "approved",
+        "revision": "Initial96e3b19 B1\u20134/N1\u20134 corrected46f569d, contract blobd478f0c73e36c151b8654f6d7724c795203dc6a4. Separate Codex and closing Claude approved full corrected packet/DAG. Only publication links/completion metadata follow; final CI/merge evidence in PR113.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/113"
+      }
     },
     {
       "id": "ACCESSTEST-008",
@@ -15116,7 +15140,9 @@
         "ACCESS-001",
         "SESSION-001",
         "STORAGE-020",
-        "SESSION-009"
+        "SESSION-009",
+        "API-013",
+        "SESSION-010"
       ],
       "spec_refs": [
         "\u00a710",
@@ -15152,7 +15178,9 @@
         "SESSION-001",
         "STORAGE-020",
         "SESSION-009",
-        "ACCESSTEST-008"
+        "ACCESSTEST-008",
+        "API-013",
+        "SESSION-010"
       ],
       "spec_refs": [
         "\u00a710",
@@ -15620,6 +15648,106 @@
         "revision": "Earlier initial/closing Opus and Codex reviews cover4452648. Owner changed model selection; independent Codex and Claude Sonnet5.5 closing reviews approved cleance55cbf32045576d4d7ee7bb8416ba50faabf7c9. Only factual completion records follow; latest-head CI/normal merge remain PR111 gates.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/111"
       }
+    },
+    {
+      "module": "Server/API",
+      "status": "planned",
+      "owner": "Unassigned",
+      "spec_refs": [
+        "\u00a710",
+        "AUTH-01",
+        "AUTH-08",
+        "AUTH-10",
+        "AUTH-11",
+        "AUTH-12",
+        "SERVER-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "notes": [
+        "Planned prerequisite exposed by ACCESSCONTRACT-001 initial review; no implementation, reviewed tests or runtime capability. Separate contract/test-first/review/CI/merge gates remain."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null,
+      "id": "APICONTRACT-002",
+      "title": "Bounded host authentication continuation contract",
+      "kind": "contract",
+      "depends_on": [
+        "ACCESSCONTRACT-001",
+        "APICONTRACT-001",
+        "SESSIONCONTRACT-005",
+        "STORAGE-020"
+      ],
+      "brief": "docs/tasks/EPIC-008/APICONTRACT-002.md",
+      "summary": "Define the missing original-request continuation, response lease, guarded auth storage/directory, elapsed and installation password permit surfaces; document only."
+    },
+    {
+      "module": "Server/API",
+      "status": "planned",
+      "owner": "Unassigned",
+      "spec_refs": [
+        "\u00a710",
+        "AUTH-01",
+        "AUTH-08",
+        "AUTH-10",
+        "AUTH-11",
+        "AUTH-12",
+        "SERVER-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "notes": [
+        "Planned prerequisite exposed by ACCESSCONTRACT-001 initial review; no implementation, reviewed tests or runtime capability. Separate contract/test-first/review/CI/merge gates remain."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null,
+      "id": "APITEST-013",
+      "title": "Review and demonstrate red: Host authentication continuation extension",
+      "kind": "test_baseline",
+      "depends_on": [
+        "APICONTRACT-002",
+        "API-001",
+        "SESSION-010",
+        "STORAGE-020"
+      ],
+      "brief": "docs/tasks/EPIC-008/API-013.md",
+      "summary": "Author and independently review bounded host auth-continuation integration tests, then observe intended missing-behavior red on working foundations."
+    },
+    {
+      "module": "Server/API",
+      "status": "planned",
+      "owner": "Unassigned",
+      "spec_refs": [
+        "\u00a710",
+        "AUTH-01",
+        "AUTH-08",
+        "AUTH-10",
+        "AUTH-11",
+        "AUTH-12",
+        "SERVER-01",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "notes": [
+        "Planned prerequisite exposed by ACCESSCONTRACT-001 initial review; no implementation, reviewed tests or runtime capability. Separate contract/test-first/review/CI/merge gates remain."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null,
+      "id": "API-013",
+      "title": "Host authentication continuation extension",
+      "kind": "implementation",
+      "depends_on": [
+        "APICONTRACT-002",
+        "APITEST-013",
+        "API-001",
+        "SESSION-010",
+        "STORAGE-020"
+      ],
+      "brief": "docs/tasks/EPIC-008/API-013.md",
+      "summary": "Implement only the separately reviewed host continuation/lease, guarded auth operations, elapsed read and shared password-work permit. No login policy or routes."
     }
   ],
   "activity": [
@@ -17407,6 +17535,21 @@
       "date": "2026-11-11T08:10:51+00:00",
       "task": "APITEST-001",
       "note": "Full test/stub/fixture closing Opus3fe3 approved except two narrow oracles; coordinator8fa fixes independently Codex verified and closing Sonnet8b7 APPROVED. Build366930/f0a independent initialSonnet/Codex/closingSonnet4795 approved. Actual tooling51/project469/122/render/diff pass after gate. Host configure/build/discovery/body and passive admission remain unrun."
+    },
+    {
+      "date": "2026-11-11T09:58:18+00:00",
+      "task": "ACCESSCONTRACT-001",
+      "note": "Owner requested one new task then stop. Verified PR112 merged40e06a8 with22 successes, current main and no open PRs/unfinished claims. Reassign stale ACCESSCONTRACT-001 draft53524fc to fresh author for current-base reconciliation and required independent review cycle; API-001 and actual clock binding excluded."
+    },
+    {
+      "date": "2026-11-11T10:15:10+00:00",
+      "task": "ACCESSCONTRACT-001",
+      "note": "Initial independent Claude Opus5.5 b05d59ac found B1\u20134 hidden host/ingress/directory prerequisites and plaintext overclaim. Coordinator corrections explicitly plan APICONTRACT-002/APITEST-013/API-013, add consumer dependency edges, record directory ownership, narrow secret count and clarify N1\u20134. All prerequisite implementation remains unauthorized."
+    },
+    {
+      "date": "2026-11-11T10:20:09+00:00",
+      "task": "ACCESSCONTRACT-001",
+      "note": "Separate Codex local_authority_codex_review and independent closing Claude Opus5.5 a1ad0c20 approve46f569d/full contract and actual472-node graph. B1\u20134/N1\u20134 resolved; all old IDs/edges and unrelated reviews preserved. Record document-only completion, PR113 evidence and downstream gates; final packet/CI/normal merge then stop."
     }
   ]
 }

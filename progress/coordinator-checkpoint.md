@@ -1,38 +1,34 @@
 # Coordinator checkpoint
 
-Owner directive: complete ONE task APITEST-001, normal protected merge, then STOP.
+Owner: finish ONE new task ACCESSCONTRACT-001 normally, then STOP. No next task.
 API-001 implementation and actual session-clock binding remain unauthorized.
-[Task record](state.json), [brief](../docs/tasks/EPIC-008/API-001.md),
-[PR112](https://github.com/Kernol12/subathon-bot-ai/pull/112) (live publication record).
-If PR112 is merged, take no new task. Refresh/verify main and stop.
+[Task brief](../docs/tasks/EPIC-006/ACCESSCONTRACT-001.md), [state](state.json),
+[PR113](https://github.com/Kernol12/subathon-bot-ai/pull/113).
 
-APITEST-001 baseline is done. Branch `task/APITEST-001-host-baseline`; reviewed
-executable/test/build revision `8fa8810`, actual full-run HEAD `dd0f625`. Only
-review-approved completion metadata follows. Coordinator Codex fd2a5aa3 owns
-shared integration. Author and reviewer sessions are complete/idle; no running
-implementation/test process or next task is assigned. Existing worktrees preserved.
+Coordinator codex18a4df20 integrates on `task/ACCESSCONTRACT-001-resumed-20261111`
+from current main `40e06a8` (PR112 verified merged/all22 successes). Preserved old
+unpublished53524fc and existing worktrees; explicitly reassigned stale author/review
+roles. Fresh author e76812b integrated cb0ed60; initial independent Opus5.5 on96e3b19
+found B1–4/N1–4. Coordinator correction46f569d plans APICONTRACT-002/APITEST-013/
+API-013, adds actual ingress producer/consumer edges and records directory/secret
+copy ownership. New nodes remain planned/unassigned; no implementation authorized.
 
-Contract, tests/oracles/stubs/fixtures/resources, build/CI, passive ELF/ABI,
-controlled identity/discovery, actual admission and full intended-red results all
-completed initial Claude, Codex fixes/separate verification and closing Claude
-cycles. Final result/packet [initial Sonnet](<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A7311aadc-7aff-4581-8d93-fb3749418f94%3Adelegate-task%3A7a0206a0-f947-4a21-908f-1117ac7aaca8>),
-separate Codex `/root/boundary_codex_review`, then [closing Sonnet](<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A7311aadc-7aff-4581-8d93-fb3749418f94%3Adelegate-task%3Afd10579d-cc51-42ec-b1a5-3c1f62f13bea>) APPROVED.
+All substantive gates closed on46f569d, contract blobd478f0c73e36c151b8654f6d7724c795203dc6a4:
+[initial Claude](<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9996053f-becb-4750-8564-5c5fc59834de%3Adelegate-task%3Ab05d59ac-323b-4110-98b1-a8e69482dbeb>),
+separate Codex `/root/local_authority_codex_review`,
+[closing Claude](<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9996053f-becb-4750-8564-5c5fc59834de%3Adelegate-task%3Aa1ad0c20-4cde-4aeb-8120-12f4c5a917f1>) APPROVED.
+[Fresh author](<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9996053f-becb-4750-8564-5c5fc59834de%3Adelegate-task%3A6d9ff71d-6ac8-47a2-9c44-9b3d4fdc1aa9>).
+All author/reviewer sessions complete; no runtime/test process assigned.
 
-Actual red: all75 Qt selectors fail at explicit NI; all18 native methods report
-23Drogon+1elapsed NI assertions plus24 secondary cleanup failures for those same
-exit42 children. Both CTest exits8; zero skips/setup/timeouts. All pre/post guards
-passed. First-red seal41803714; raw commands/JUnit/logs/guards and original setup
-failures are ignored under local-evidence/APITEST-001, with readable PR receipts.
-No source/assertion replay/change. All API012 source/patch/44tests remain frozen.
+Actual checks: project472/122, tooling51, state/render/diff, independent DAG/import/
+LA01–32/arithmetic audits pass. All469 old IDs/edges and unrelated state/reviews
+preserved, no cycles/reverse consumer dependencies; frozen host/native contracts/
+baselines unchanged. Document-only: no feature red/runtime/crypto/login/platform proof.
 
-Proof limits: native loaded lists are self-reports; Qt actual maps pre-body only,
-no QtSQL runtime map; serving/stopped maps prospective. Static25 potential child
-lifetimes is not an observed count; early NI blocks later assertions/loops.
-MONOTONIC failure is Q simulation. Host/readiness/clock/provider/auth/sync/restore/
-TLS/platform/full release remain unproved; production components stay NI.
-
-Publication gates: final completion head must have22 successful CI checks, current
-rules/discussions and normal exact-head merge. First dd0f625 head had22 successes;
-new host CI compiles/inspects registration and runs3 scaffold cases, no host body.
-The coordinator must publish final receipts in PR112, refresh main after merge,
-and stop. No routine owner approval or further product task is authorized.
+Only publication links and completion state/evidence/checkpoint/HTML follow closing
+approval. Next: independent Codex metadata review, final latest-head CI/discussions/
+rules inspection and normal exact-head merge (no bypass), refresh main, then STOP.
+Live GitHub ruleset26170263 requires PR/thread resolution, forbids deletion/force
+push; zero human approval count. No classic branch protection; CI is still a project
+gate regardless of GitHub enforcement. PR113 initially has no review threads.
+If PR113 is already merged on resumption, refresh/verify main and STOP.
