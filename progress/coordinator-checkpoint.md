@@ -1,45 +1,44 @@
 # Coordinator checkpoint
 
-Owner explicitly authorized CI runner changes after PR118's nine failed-only reruns
-(attempt3 on7a7d821) all failed Ubuntu mirror DNS before compile/test bodies.
-Selected CI-001, brief docs/tasks/CI-001.md. Isolated coordinator checkout
-/tmp/subathon-ci-001, branch fix/CI-001-ubuntu-apt, base main38b482d.
-Original PR118 checkout/branch and LOCAL uncommitted checkpoint remain untouched.
+Owner explicitly authorized CI runner repair after PR118's three attempts failed
+Ubuntu mirror DNS. Only CI-001 repair and PR118 normal publication gates, then STOP.
+No product/API-001/session-clock/valuation implementation is authorized.
 
-Coordinator /root owns contract/test baseline and shared metadata. Fresh implementation
-session and full independent contract/tests and source/workflow reviews remain pending.
-Known provider capability: GitHub Linux runners support passwordless sudo; changes
-last only for that disposable job. Recovery contract uses official mirror list,
-bounded strict APT update and diagnostic DNS; no resolver change assumed necessary.
-All dependency pins/trust/SDK hashes/bodies/job names and PR118 approvals preserved.
-No product task, API implementation, session-clock or valuation work authorized.
+Current checkout /tmp/subathon-ci-001, branch fix/CI-001-ubuntu-apt, base main38b482d.
+[CI-001 brief](../docs/tasks/CI-001.md), [PR119](https://github.com/Kernol12/subathon-bot-ai/pull/119).
+Original PR118 checkout/branch and LOCAL uncommitted checkpoint are untouched;
+preserve and reconcile that one metadata diff when integrating fixed main.
 
-Finish only CI repair and PR118 normal publication gates, then STOP. Do not bypass
-protection or merge red checks. PR118 is linked but unwatched after all reruns finished.
+Test cycle: initial Claude0495679b B1–6, fixes15e4343; separate Codex C1/C2 fixedb24,
+closing02fcd8e0 approvedb24. New Canonical incident evidence required mirror revision2;
+Codex M1 release-field cases fixeddafa370, separate verification then independent
+Claude closing30806b2a approveddafa370. Actual first stub run8 methods/33 assertion
+failures/0 setup errors. Frozen tests SHA256
+a9779aafb1c56b09f72498ec78ef6c7df7f8fe8a86016f7a3250caa2f6e5020e.
+Fresh /root/ci_001_implementation authoredaebaafb; initial source Claudee4995994,
+coordinator M1/L1 fixes1d686a6, separate Codex ci_001_code_verification and closing
+Claudef311a859 APPROVEDcb5f8fc. All roles completed. No source/test changes after.
+Full test/code reports and actual local receipt in PR119 comments6802211891,
+6802212350 and6802212768; first hosted receipt6802269640.
 
-Test stage: initial Claude0495679b reviewed80de648 B1–6; correction15e4343,
-separate Codex ci_001_test_verification C1/C2 fixedb24ad5a and verified READY;
-closing Claude02fcd8e0 approvedb24ad5a. Reports under /tmp/ci-001-*. No tests run.
-New current incidents15296/15297 and Canonical RSS DNS major outage show mirror-only
-ubuntu.com endpoints insufficient. Contract revision2 adds preferred kernel.org
-Ubuntu mirror (ordinary existing Ubuntu signatures/pins unchanged), seventh diagnostic
-and all-Canonical-DNS-failed example. Fresh Codex and Claude closing pending before red.
+Actual reviewedcb5f8fc: all9 setup steps/selected jobs SUCCESS, all22 checks SUCCESS,
+none pending/failed. Normal host compilation/registration scope remains unchanged;
+no intentional-red host body is promoted to passing behavior. Root project481/122,
+progress/render,59 tooling and scaffold3 pass; all480 old task records/edges/reviews
+preserved. Ubuntu signatures/pins/SDK hashes/native baselines unchanged.
+Observed runnerDNSstub127.0.0.53/upstream168.63.129.16 resolves allCanonical names at
+17:05:52Z; apt fetches allfour signed suites from preferred kernel.org. DNS recovered
+on that runner, so no outage-time causal comparison is claimed.
 
-Revised test stage: Codex ci_001_mirror_test_verification M1 fixed dafa370 and
-separately verified; independent closing Claude30806b2a APPROVEDdafa370, no blockers.
-Actual first reviewed test run:8 methods,33 assertion failures,0 errors, exit1,
-explicit unimplemented behavior; full /tmp/ci-001-reviewed-red.log.
-Frozen tests SHA256 a9779aafb1c56b09f72498ec78ef6c7df7f8fe8a86016f7a3250caa2f6e5020e.
-Fresh /root/ci_001_implementation released helper/nine workflows/docsCI only;
-no test edits, hosted execution, push or PR actions by worker. Final source review
-cycle and actual current-head hosted checks remain coordinator gates.
+Current delta is completion metadata/HTML/evidence summary only, pending separate
+Codex packet review and one final commit/push. Task records component done with actual
+proof; final-current-head CI and normal protected merge remain publication gates.
+Live rules26170263 require PR/resolved threads/0 GitHub approvals; all applicable
+current checks and independent reviews still required by workflow. PR119 has no
+unresolved review threads. Never bypass or merge red checks.
 
-Fresh implementationaebaafb owns helper/nine workflows/docsCI only;8 focused pass.
-Root project481/122, progress/render,59 tooling and scaffold3 pass. Exact workflow
-byte audit:9 helper insertions/10 update removals only; all pins/SDK admission/
-permissions/job names/timeouts/build/test bodies and original native baselines unchanged.
-Initial source Claude e4995994 APPROVED WITH FINDINGS aebaafb, no blockers;
-coordinator fixesM1 buffered diagnostics (flush) andL1 undecodable diagnostic output
-(UnicodeError best-effort), then focused8 pass. Frozen test hash unchanged.
-Source Codex verification and independent Claude closing remain pending; no push or
-hosted execution yet. Task stays in_review; real hosted recovery is unverified.
+After final packet approval, push only metadata, verify its fresh CI and merge119
+normally. Refresh main and ensure post-merge package jobs remain healthy, reconcile
+PR118 metadata with fixed main preserving its approved contract and every new/old
+task record, independent factual packet review/current-head CI/normal merge118.
+Then refresh main and STOP. No new task is authorized.
