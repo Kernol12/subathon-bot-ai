@@ -95,7 +95,7 @@ class AcceptanceSelectionTests(unittest.TestCase):
     def test_api_host_profiles_include_real_storage_and_corrected_transport(self):
         # These are public build-profile requirements: both host baselines need
         # the current physical store and corrected native transport. Native also
-        # keeps the Qt host baseline selected; duplicates add no second runner.
+        # keeps the Qt host baseline selected; duplicates add no suite name.
         dependencies = [
             "application-service", "native-websocket-profile",
             "sqlite-account-sessions", "sqlite-bundle", "sqlite-contribution",
@@ -104,7 +104,10 @@ class AcceptanceSelectionTests(unittest.TestCase):
             "sqlite-retained", "sqlite-work", "sqlite-writer"]
         for selector, own in (
                 ("api-host", ["api-host"]),
-                ("api-host-native;api-host;api-host-native",
+                ("api-host-native", ["api-host", "api-host-native"]),
+                ("api-host-native;api-host-native",
+                 ["api-host", "api-host-native"]),
+                ("api-host;api-host-native",
                  ["api-host", "api-host-native"])):
             with self.subTest(selector=selector):
                 self.assert_selection({
