@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T13:09:09+00:00",
-  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. Final publication/normal merge receipts are in PR116, then STOP; API-001 implementation and actual session-clock binding remain unauthorized.",
+  "updated_at": "2026-11-11T13:47:08+00:00",
+  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. RATES-001 merged normally in PR116 at c70fbec. Owner resumed for one fresh task: RATECONTRACT-001 logical exact retained valuation prerequisite is reviewed document proof in PR117; concrete RATECONTRACT-002 remains planned. Final CI/normal merge, then STOP; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -9039,7 +9039,9 @@
         "RATES-008",
         "RATESTEST-009",
         "RATES-009",
-        "RATES-090"
+        "RATES-090",
+        "RATECONTRACT-001",
+        "RATECONTRACT-002"
       ],
       "spec_refs": [
         "§9",
@@ -13406,6 +13408,78 @@
       "review": null
     },
     {
+      "id": "RATECONTRACT-001",
+      "title": "Exact retained valuation bridge contract",
+      "module": "Currency",
+      "kind": "contract",
+      "status": "done",
+      "owner": "codex:coordinator-a26ec071; fresh exact_valuation_contract_author",
+      "depends_on": [
+        "RATES-001",
+        "ACCT-003",
+        "STORAGE-015",
+        "ACCT-004"
+      ],
+      "spec_refs": [
+        "§3",
+        "§9",
+        "NUM-04",
+        "FX-03",
+        "FX-06"
+      ],
+      "brief": "docs/tasks/EPIC-017/RATECONTRACT-001.md",
+      "summary": "Define the exact rational/provenance and compatibility bridge before retained valuation baseline changes.",
+      "notes": [
+        "Defined logical exact retained valuations with19 examples, owned/opaque provenance, one-off manual rates and legacy compatibility. Initial Claude, Codex fixes/separate verification and Claude closing approve08fcfe1. Document proof; project480/122 and51 tooling pass. RATECONTRACT-002 concrete API/codec/SQL, baselines/runtime/provider gates remain. PR117 records final CI/normal merge; then STOP."
+      ],
+      "verification": {
+        "contract": "passed",
+        "independent_review": "passed",
+        "resource_contract_review": "passed",
+        "tooling": "passed",
+        "runtime_acceptance": "not_run",
+        "product_release": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/117"
+      ],
+      "review": {
+        "author": "Codex gpt-6.1-sol /root/exact_valuation_contract_author; coordinator-a26ec071 corrections/graph",
+        "reviewer": "Claude Opus5.5/high initial33443fb5 and closingedfa9ce4; Codex gpt-6.1-sol /root/exact_valuation_codex_verify and /root/exact_valuation_codex_recheck",
+        "outcome": "approved",
+        "revision": "Initial1b0f9d3 B1/B2 fixeded27321; separate Codex B3 corrected1e8c894 and fresh recheck approved1e8c894. Independent Claude closing approved08fcfe1, no blockers. Document-only; final packet/current CI/normal merge in PR117.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/117"
+      }
+    },
+    {
+      "id": "RATECONTRACT-002",
+      "title": "Exact valuation API, codec and additive storage contract",
+      "module": "Currency",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "RATECONTRACT-001",
+        "STORAGE-018",
+        "STORAGE-019"
+      ],
+      "spec_refs": [
+        "§3",
+        "§9",
+        "NUM-04",
+        "FX-03",
+        "FX-06"
+      ],
+      "brief": "docs/tasks/EPIC-017/RATECONTRACT-002.md",
+      "summary": "Define concrete exact valuation API, codec, resource and append-only storage compatibility before the executable baseline.",
+      "notes": [
+        "Required planned concrete contract gate exposed by RATECONTRACT-001 audit; no authored or approved API/schema/tests/implementation."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
       "id": "RATESTEST-009",
       "title": "Review and demonstrate red: Exact rate snapshots in retained historical valuations",
       "module": "Currency",
@@ -13416,7 +13490,9 @@
         "RATES-001",
         "ACCT-003",
         "STORAGE-015",
-        "ACCT-004"
+        "ACCT-004",
+        "RATECONTRACT-001",
+        "RATECONTRACT-002"
       ],
       "spec_refs": [
         "§3",
@@ -13445,7 +13521,9 @@
         "ACCT-003",
         "STORAGE-015",
         "ACCT-004",
-        "RATESTEST-009"
+        "RATESTEST-009",
+        "RATECONTRACT-001",
+        "RATECONTRACT-002"
       ],
       "spec_refs": [
         "§3",
@@ -17864,6 +17942,16 @@
       "date": "2026-11-11T13:09:09+00:00",
       "task": "RATES-001",
       "note": "Fresh source33e60d8 preserves frozen contracts/assertions/fixtures;53/full89 pass locally and selectedBoost1.83 CI. Independent initial Claude, separate Codex verification and Claude closing1d31975a approve30bde01. Record bounded component completion; final packet/current CI/normal PR116 merge then stop. Durable storage ownership and full FX/release gates remain."
+    },
+    {
+      "date": "2026-11-11T13:25:00+00:00",
+      "task": "RATECONTRACT-001",
+      "note": "Owner resumed for one fresh task after verified PR116 merge c70fbec. Split/claim exact retained valuation contract prerequisite before RATESTEST-009; coordinator owns shared records; fresh author owns new contract only."
+    },
+    {
+      "date": "2026-11-11T13:47:08+00:00",
+      "task": "RATECONTRACT-001",
+      "note": "Logical exact valuation contract approved08fcfe1 after initial Claude B1/B2 fixes, Codex B3 fix and separate verification, then independent Claude closing. Document-only19examples; preserved478 old records/edges/reviews. RATECONTRACT002 remains planned; final packet/CI/normal PR117 merge, then STOP."
     }
   ]
 }

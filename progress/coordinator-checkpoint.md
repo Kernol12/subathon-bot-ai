@@ -1,66 +1,44 @@
 # Coordinator checkpoint
 
-Owner 2026-11-11: ONE fresh task RATES-001, normal protected merge, then STOP.
-API-001 and actual session-clock binding remain unauthorized.
-[Brief](../docs/tasks/EPIC-017/RATES-001.md), [state](state.json).
+Owner 2026-11-11 resumed after PR116: ONE new task, normal protected merge, then
+STOP. API-001 and actual session-clock binding remain unauthorized. Do not select
+another task, including planned RATECONTRACT-002.
+[Brief](../docs/tasks/EPIC-017/RATECONTRACT-001.md), [state](state.json),
+[PR117](https://github.com/Kernol12/subathon-bot-ai/pull/117).
 
-Coordinator e3bf670c. Startup actual main/origin main714ecf4 clean; live PR115
-MERGED714ecf4 at12:38:15Z with all head21ffc6d checks successful; no open PRs.
-Checkpoint from APICONTRACT003 was stale; completed valid work/reviews preserved.
-T3 active inventory only this coordinator. Historical Codex/Claude processes
-are not assigned; prior author/reviewer roles retired. No prior active claims.
-Historical worktrees preserved (including missing /tmp registrations); no cleanup.
+Startup main/origin main c70fbec clean; verified PR116 MERGED c70fbec13:20:42Z,
+all22 head0c92678 checks SUCCESS. No open PRs/active claims/other running T3 roles.
+Historical worktrees/branches preserved; missing /tmp registrations left alone.
+Old assignments retired, no agent assumed active. CLion read matched root project.
+Coordinator a26ec071 selected/split RATECONTRACT001 before RATESTEST009 because
+exact inverse1.20=5/6 cannot fit the old decimal field. Branch
+ task/RATECONTRACT-001-exact-valuations from c70fbec; claim939420c.
+Fresh Codex /root/exact_valuation_contract_author authored new logical contract;
+coordinator owns corrections/graph/docs/state/HTML/evidence/CI/merge. Author retired.
+No C++/SQL/schema/fixture/assertion/build/CI/dependency or live-provider changes.
+All478 original task records/status/reviews/verification and edges retained;
+new001/002 prerequisites appended only to EPIC017/RATESTEST009/RATES009.
+RATECONTRACT002 concrete API/codec/additive-storage gate stays planned/unassigned.
 
-Selected RATES001 dependencies CONTRACT002/CORE001/RATESTEST001 done. Frozen
-rate-snapshots/API revision1 and53 reviewed baseline cases/red evidence retained;
-no repeated red needed. Branch task/RATES-001-exact-snapshots from714ecf4.
-Fresh Codex gpt-6.1-sol /root/rates_snapshot_implementer owns
-core/src/rate_snapshot.cpp and matching header comments only.
-Coordinator owns CMake labels, CI, state/HTML, root/docs/evidence/checkpoint.
-No source/test assertion changes, new library, provider/cache/SQL/valuation work.
-Required: exact validation/order/resources/ownership and source review cycle:
-independent Claude initial → Codex fixes/separate verification → Claude closing;
-local selected acceptance/regression, promoted CI and normal protected merge.
-Claim f6197f0 committed. Coordinator prepared rate-label/CI promotion: exact53
-source/discovery inventory and full preset execution, existing pins unchanged.
-Baseline source differs from approved64fd60b2 only in introductory comment; all
-assertions and fixture8936f4fa preserved. Archived first-red review confirms53/53
-marker failures,0skip; aggregate historical CTest exit remains unknown.
-Fresh author retired after33e60d8, source SHA256
-8d4178ea0e98d351b01b548694494d95b4a68266552ddf1dcc320fdfa68a26f8.
-Actual configure/build and full preset89/89 pass:53 rate+33 numeric+3infra,0skip;
-local GCC16.2.1/Boost1.92/system GTest, selected pinned1.83 hosted CI pending.
-Project478/122 and51 tooling/format/diff pass. Baseline/fixtures untouched.
-[Draft PR116](https://github.com/Kernol12/subathon-bot-ai/pull/116), head51dddac.
-Independent initial Claude Opus5.5/high913493b1 completed: no source blockers;
-B1 stale lane docs blocked. [Review](<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9bb3399b-28ac-429e-b793-504c3c18c39e%3Adelegate-task%3A913493b1-5ea7-43ea-8593-76f0dc8182b1>).
-Full report /tmp/rates-001-claude-initial.md copied to PR116. Reviewer observed
-pinned1.83 CI43023652331 at51dddac:53/full89 pass0skip; all checks green.
-Coordinator fixes B1 in root/strategy/CI/CLion/preset docs; rate evidence/map
-now report component proof only. Core source/tests/contracts remain frozen.
-Optional N1/N2 bounded repeated parsing performance, N4 valueless-tag boundary
-ambiguity and N5 automatic no-skip guard retained in PR review; no extra behavior.
-N3 duplicate directed evidence interpretation confirmed correct, no contract edit.
-Separate independent Codex gpt-6.1-sol /root/rates_snapshot_codex_verify APPROVED
-030c2eb (B1 resolved and full source/resource/CI/docs/map verified). Report in
-[PR116 comment](https://github.com/Kernol12/subathon-bot-ai/pull/116#issuecomment-6796574173).
-Author and Codex reviewer retired; source/fixtures/contracts unchanged.
-At30bde01:030c2eb was pushed with current-head CI pending; state was in_review,
-not done. The later completion packet below supersedes that status.
-Independent Claude Opus5.5/high closing1d31975a APPROVED30bde01, no blockers:
-[Closing review](<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9bb3399b-28ac-429e-b793-504c3c18c39e%3Adelegate-task%3A1d31975a-eecb-477f-9de3-f4b5eab27136>).
-All substantive gates closed; reviewer sessions retired. Source hash unchanged.
-Routine completion packet records done/component proof, review/evidence and bounded
-note; N7 paragraph placement tidied. N6 durable observation/snapshot/provenance
-storage remains REQUIRED: assign explicit reviewed ownership when RATESTEST005/007
-are refined. No task/dependency/release scope removed; no next task authorized.
-Independent Codex gpt-6.1-sol /root/rates_snapshot_packet_review APPROVED791e1d1:
-369-char note, state/review/evidence/HTML/PR body/graph and unchanged substantive
-artifacts verified. Report /tmp/rates-001-packet-review.md is published in PR116.
-All author/reviewer roles retired. Coordinator owns publication/merge only.
-Next: push/update ready PR116, current exact-head CI/discussions/live rules,
-normal protected merge, refresh main and STOP. Final CI/merge receipts live in
-PR116; if already merged on resumption, verify/refresh main and STOP—no next task.
-Do not edit substantive source/contracts/tests after closing without another cycle.
-No watcher active. Live rules inspected: PR/resolved threads,0 human approvals,
-no required-status rule; written workflow still requires all current checks.
+Initial independent Claude Opus5.5/high33443fb5 at1b0f9d3 required B1 external
+provenance ownership and B2 one-off manual basis. Fixeded27321; separate Codex
+/root/exact_valuation_codex_verify confirmed and found B3 same-currency manual
+bypass. Fixed1e8c894; fresh /root/exact_valuation_codex_recheck APPROVED1e8c894.
+Independent Claude Opus5.5/high closingedfa9ce4 APPROVED08fcfe1, no blockers:
+< t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A8a2973ea-00be-4291-971a-d3bbb1095d19%3Adelegate-task%3Aedfa9ce4-8d72-4297-af35-380c700c6228 >
+Full initial/Codex/recheck/closing reports published as PR117 comments. All reviewer
+roles retired.19 examples independently checked; document approval only.
+Closing nonblockers (future producer sequencing/manual-when-available policy)
+remain in PR117 for concrete002/producer refinement; no hidden runtime capability.
+Contract SHA256 33cf0fd28de43eb1822120d69116e9c72053bd0887555438d5d07662a6316bd5.
+
+Completion packet records done/document proof and bounded note/review/evidence;
+state/HTML/evidence updated. Project480/122, graph/render and51 tooling pass;
+no native replay for this document-only change. Routine packet review and final
+current-head CI/discussions/live-rules/normal merge receipts belong in PR117.
+Live rules26170263 require PR/resolved threads,0 GitHub approvals,no bypass;
+written workflow still requires all current checks and independent reviews.
+Next: publish final packet, independent Codex metadata review, current-head CI,
+normal exact-head protected merge, refresh main and STOP. No substantive contract
+changes after closing without renewed Codex/Claude review. If already merged on
+resumption, verify/refresh main and STOP. No watcher active yet.

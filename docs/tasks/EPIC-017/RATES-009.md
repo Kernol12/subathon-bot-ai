@@ -29,6 +29,16 @@ and migration/compatibility needs before changing representations.
 - Preserve existing reviewed assertions; any genuine contract/schema change needs
   written specification reasoning, separate review and a revised recorded baseline.
 
+## Contract prerequisite
+
+[RATECONTRACT-001](RATECONTRACT-001.md) separates the reviewed logical exact-rate,
+provenance and compatibility obligations from this slice's executable baseline.
+Its [proposal](../../contracts/exact-retained-valuations-v1.md) supplies document
+proof only. Planned [RATECONTRACT-002](RATECONTRACT-002.md) must define and obtain
+separate approval for the concrete API/codec/schema contract before the baseline.
+Revised assertions, intended red and implementation remain downstream. Existing contracts and shipped
+migrations remain unchanged by that prerequisite.
+
 ## Separate baseline and implementation
 
 RATESTEST-009 authors independent examples/tests against the actual reviewed model,
