@@ -114,22 +114,33 @@ class ApiHostTests final : public QObject {
             });
             r.start();
             std::vector<host::PeerLease> peers;
-            for (int n = 0; n < (cap + 7) / 8; ++n)
+            // A owns just one; B and later peers retain all other reservations.
+            for (int n = 0; n < 1 + (cap - 1 + 7) / 8; ++n)
                 peers.push_back(r.peer());
+            auto spare = r.peer(); // no per-peer saturation can explain the global refusal
             for (int n = 0; n < cap; ++n)
-                success(r.submit(peers[n / 8], std::string(1, char(n + 1))),
+                success(r.submit(peers[n == 0 ? 0 : 1 + (n - 1) / 8],
+                                 std::string(1, char(n + 1))),
                         "Fill global capacity");
             const auto before = r.instance->inspect();
-            failure(r.submit(peers[0], "overflow"), host::Failure::resource_limit);
+            failure(r.submit(spare, "overflow"), host::Failure::resource_limit);
             const auto after = r.instance->inspect();
             require(after.associations == std::uint64_t(cap) &&
                         after.input.capacity == before.input.capacity &&
                         after.input.copies == before.input.copies && r.dispatch->executions == 0,
                     "Refuse before copy/body");
+            r.disconnect(peers[0]);
+            r.disconnect(peers[0]);
+            const auto released = r.instance->inspect();
+            require(released.associations == std::uint64_t(cap - 1) &&
+                        released.input.capacity + 4 == before.input.capacity &&
+                        released.input.copies + 1 == before.input.copies &&
+                        r.dispatch->executions == 0,
+                    "Only A released once; B remains outstanding before owner dispatch");
+            success(r.submit(spare, "D"), "D eligible with B still outstanding");
+            require(r.instance->inspect().associations == std::uint64_t(cap),
+                    "D reuses exactly A's slot");
             r.completed(cap);
-            auto p = r.peer();
-            success(r.submit(p, "D"), "Released capacity reusable");
-            r.completed(cap + 1);
             r.stop();
         });
     }
@@ -606,6 +617,7 @@ class ApiHostTests final : public QObject {
     void copy_slots_exhaust_even_with_payload_capacity() {
         scenario([] {
             Rig r("current", [](auto &o) {
+                o.limits.envelope_bytes = 4;
                 o.limits.input_capacity = 12;
                 o.limits.input_slots = 2;
             });
@@ -653,6 +665,37 @@ class ApiHostTests final : public QObject {
             });
             require(r.log->count(K::local_handoff) == 0,
                     "No expired lease consumed by delayed IO continuation");
+            r.stop();
+        });
+    }
+    void retained_response_disconnect_denies_late_io_take_HL04_HL13() {
+        scenario([] {
+            Rig r;
+            r.transport->retain_replies = true;
+            r.start();
+            auto p = r.peer();
+            success(r.submit(p), "Admit");
+            r.completed();
+            require(QTest::qWaitFor([&] { return r.transport->handoffs == 1; }, wait_ms),
+                    "Actual response lease retained before disconnect");
+            require(r.instance->inspect().response.copies == 1,
+                    "Lease still outstanding, not previously reset");
+            r.disconnect(p);
+            r.transport->on_io([&] {
+                failure(r.transport->replies[0]->take(), host::Failure::disconnected);
+                r.transport->replies[0]->reset();
+                r.transport->replies[0]->reset();
+                r.transport->replies[0].reset();
+            });
+            const auto s = r.instance->inspect();
+            require(r.log->count(K::local_handoff) == 0 && r.transport->takes == 0 &&
+                        s.response.capacity == 0 && s.response.copies == 0 &&
+                        s.response.metadata == 0 && s.associations == 0,
+                    "Late IO inert; disconnect/reset releases reservations once to zero");
+            const auto work = r.log->last(K::writer_completed).work;
+            require(work && work->transaction == TransactionOutcome::committed &&
+                        r.log->count(K::actual_commit) == 1,
+                    "Disconnect preserves actual commit without replay");
             r.stop();
         });
     }
@@ -706,23 +749,27 @@ class ApiHostTests final : public QObject {
             require(r.transport->ingress == nullptr, "No framework activation");
         });
     }
+    void wall_utc_jumps_do_not_move_elapsed_deadline_HL15_data() {
+        QTest::addColumn<qlonglong>("utc");
+        QTest::newRow("UTCmin") << qlonglong(INT64_MIN);
+        QTest::newRow("UTCmax") << qlonglong(INT64_MAX);
+    }
     void wall_utc_jumps_do_not_move_elapsed_deadline_HL15() {
-        scenario([] {
-            for (auto utc : {INT64_MIN, INT64_MAX}) {
-                Rig r;
-                r.elapsed->now = 1000000000;
-                r.start();
-                auto p = r.peer();
-                success(r.submit(p), "Queue at1000ms");
-                r.sampler->utc = utc;
-                r.elapsed->now = 6000000000;
-                require(QTest::qWaitFor([&] { return r.instance->inspect().associations == 0; },
-                                        wait_ms),
-                        "Original deadline expires at6000");
-                require(r.dispatch->executions == 0 && r.log->count(K::begin_attempted) == 0,
-                        "UTC jump cannot extend entry");
-                r.stop();
-            }
+        QFETCH(qlonglong, utc);
+        scenario([&] {
+            Rig r;
+            r.elapsed->now = 1000000000;
+            r.start();
+            auto p = r.peer();
+            success(r.submit(p), "Queue at1000ms");
+            r.sampler->utc = utc;
+            r.elapsed->now = 6000000000;
+            require(QTest::qWaitFor([&] { return r.instance->inspect().associations == 0; },
+                                    wait_ms),
+                    "Original deadline expires at6000");
+            require(r.dispatch->executions == 0 && r.log->count(K::begin_attempted) == 0,
+                    "UTC jump cannot extend entry");
+            r.stop();
         });
     }
     void reference_bookkeeping_control_and_correlation_budget() {
@@ -814,11 +861,16 @@ class ApiHostTests final : public QObject {
             const auto id = hooks::HostAccess::elapsed_identity(*r.instance);
             require(id.host == r.elapsed.get() && id.profile == r.elapsed.get(),
                     "ONE shared raw source host and native profile");
-            const auto reads = r.elapsed->reads.load();
+            // FakeTransport retains but never calls the real profile. These
+            // attributable owner/IO reads prove host gates only; N tests expiry.
+            const auto owner_reads = r.elapsed->owner_reads.load();
+            const auto io_reads = r.elapsed->foreign_reads.load();
             auto p = r.peer();
             success(r.submit(p), "Admit");
             r.completed();
-            require(r.elapsed->reads > reads, "Actual host deadline reads wired");
+            require(r.transport->takes == 1 && r.elapsed->owner_reads > owner_reads &&
+                        r.elapsed->foreign_reads > io_reads,
+                    "Actual Qt host entry and IO host lease reads wired");
             r.stop();
         });
     }
@@ -1036,6 +1088,54 @@ class ApiHostTests final : public QObject {
             r.stop();
         });
     }
+    void startup_lost_commit_ack_stops_activation_chain() {
+        scenario([] {
+            Rig r;
+            const auto facts = r.store.facts();
+            const auto sessions = r.store.sessions();
+            success(hooks::HostAccess::inject_next_control_ack_loss(
+                        *r.instance,
+                        subathon::server::testing::WorkControlFault::lose_next_commit_ack),
+                    "Cold arm forwarded once to actual idle writer before inspection");
+            r.start(false);
+            r.refused_activation();
+            const auto inspection = r.log->last(K::inspection_completed);
+            require(inspection.work &&
+                        inspection.work->transaction == TransactionOutcome::outcome_unknown &&
+                        inspection.work->error == WorkError::uncertain_outcome &&
+                        !inspection.work->has_value && inspection.work->ticket_revoked,
+                    "Actual STARTUP inspection COMMIT acknowledgment lost, no forged result");
+            require(!r.instance->inspect().storage_active &&
+                        r.instance->inspect().generation == 0 && r.log->count(K::activated) == 0 &&
+                        r.log->count(K::inspection_enqueued) == 1 &&
+                        r.log->count(K::installation_read_enqueued) == 0 &&
+                        r.log->count(K::installation_read_completed) == 0,
+                    "Unknown first step stops chain, no replay or downstream read on failed writer");
+            auto p = r.peer();
+            const auto result = r.submit(p, "P");
+            if (std::holds_alternative<host::Admitted>(result))
+                require(QTest::qWaitFor([&] { return r.instance->inspect().associations == 0; },
+                                        wait_ms),
+                        "Protected refusal settles");
+            else
+                failure(result, host::Failure::unavailable);
+            success(r.submit(p, "D", host::RouteId::diagnostic), "Diagnostic remains possible");
+            require(QTest::qWaitFor([&] { return r.transport->takes == 1; }, wait_ms),
+                    "Diagnostic consumed despite startup uncertainty");
+            r.check_callbacks();
+            require(r.dispatch->diagnostics == 1 && r.dispatch->executions == 0 &&
+                        r.dispatch->completions == 0 && r.sampler->calls == 0 &&
+                        r.log->count(K::begin_attempted) == 0 &&
+                        r.log->count(K::writer_completed) == 0 &&
+                        r.log->count(K::publication_entered) == 0 &&
+                        r.log->count(K::inspection_completed) == 1 &&
+                        !r.instance->inspect().storage_active &&
+                        r.instance->inspect().generation == 0 &&
+                        r.store.facts() == facts && r.store.sessions() == sessions,
+                    "No protected publication/sample or invented command result; SQL facts unchanged");
+            r.stop();
+        });
+    }
     void startup_inspection_budget_refusal_still_serves_diagnostics() {
         scenario([] {
             Rig r("current", [](auto &o) { o.writer_limits.statements_per_batch = 1; });
@@ -1187,10 +1287,29 @@ class ApiHostTests final : public QObject {
             r.elapsed->foreign_now = 99;
             r.elapsed->foreign_override = true;
             r.start();
+            require(r.elapsed->owner_reads > 0 && r.elapsed->owner_last == 100,
+                    "Actual Qt startup observation100 precedes first IO observation");
+            const auto owner_reads = r.elapsed->owner_reads.load();
+            const auto io_reads = r.elapsed->foreign_reads.load();
             auto p = r.peer();
             success(r.submit(p, "D", host::RouteId::diagnostic),
                     "First IO sample99 is not owner regression");
-            r.elapsed->now = 100;
+            require(QTest::qWaitFor([&] { return r.transport->takes == 1; }, wait_ms),
+                    "Diagnostic actually enters Qt100 and is consumed on IO99");
+            r.transport->check();
+            r.check_callbacks();
+            require(r.elapsed->owner_reads > owner_reads && r.elapsed->owner_last == 100 &&
+                        r.elapsed->foreign_reads > io_reads && r.elapsed->foreign_last == 99 &&
+                        r.dispatch->diagnostics == 1 && r.log->count(K::local_handoff) == 1,
+                    "Both owner observations and actual response consumption, no global ordering");
+            const auto second_reads = r.elapsed->foreign_reads.load();
+            success(r.submit(p, "D2", host::RouteId::diagnostic), "Same IO99 accepted again");
+            require(QTest::qWaitFor([&] { return r.transport->takes == 2; }, wait_ms),
+                    "Second IO99 consumed");
+            r.transport->check();
+            require(r.elapsed->foreign_reads > second_reads && r.elapsed->foreign_last == 99 &&
+                        r.dispatch->diagnostics == 2 && r.log->refusal_count() == 0,
+                    "Equal same-owner time allowed; cross-owner100 never poisons IO99");
             r.stop();
         });
     }

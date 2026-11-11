@@ -13,7 +13,7 @@ enum class EventKind {
     installation_read_completed,
     activated,
     listener_ready,
-    diagnostic_queued,
+    diagnostic_queued, // Qt owner: actual retained callback/data, before entry, no live scope
     diagnostic_cancelled,
     diagnostic_entered,
     wrapper_accepted,
@@ -39,7 +39,8 @@ enum class EventKind {
     dispatcher_destroyed,
     owner_cleanup,
     stopped,
-    ingress_refused
+    ingress_refused,
+    operation_refused // actual owner terminal refusal after admission, no fabricated ingress phase
 };
 struct WorkObservation {
     TransactionOutcome transaction;
@@ -50,7 +51,8 @@ struct Event {
     EventKind kind;
     std::uint64_t ordinal = 0, generation = 0;
     std::thread::id thread;
-    // Present only for an ACTUAL writer completion; diagnostics have none.
+    // Present only for an ACTUAL writer completion (including inspection/read
+    // completion events at startup); diagnostics/refusal-only events have none.
     std::optional<WorkObservation> work;
     std::optional<Failure> refusal;
 };
@@ -70,6 +72,9 @@ class HostAccess final {
   public:
     static std::unique_ptr<Host> create(Options, std::unique_ptr<Transport>,
                                         std::unique_ptr<CommandDispatcher>, Hooks);
+    // Owner-thread, one-shot. Cold arming is forwarded once to the actual writer
+    // after open while idle, BEFORE inspection enqueue; otherwise idle-only.
+    // Never assigns a work outcome. Startup completions expose actual work truth.
     static Result<Connected>
     inject_next_control_ack_loss(Host &, subathon::server::testing::WorkControlFault);
     // Idle-only, one-shot: corrupt only the next actual wrapper's private

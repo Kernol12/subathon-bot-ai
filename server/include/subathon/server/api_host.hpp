@@ -85,7 +85,12 @@ struct Limits {
 };
 struct Options {
     std::string store_path, installation = "I";
-    StorageLimits writer_limits;
+    // Host associations need128 pending slots; the standalone writer stays64.
+    StorageLimits writer_limits = [] {
+        StorageLimits limits;
+        limits.pending_batches = 128;
+        return limits;
+    }();
     AccountSessionStoreLimits store_limits;
     Limits limits;
     native_ws::Limits native{32,      16,       1048576, 1048576, 4096,    2,

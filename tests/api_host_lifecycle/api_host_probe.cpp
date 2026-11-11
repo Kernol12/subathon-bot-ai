@@ -348,6 +348,10 @@ int child(int argc, char **argv, const QJsonObject &config) {
     options.installation = config.value("installation").toString("I").toStdString();
     if (config.value("response_cap").toInt() == 3)
         options.limits.response_bytes = 3;
+    const auto frame_ms = config.value("frame_ms").toInt();
+    fixture_require(frame_ms == 0 || frame_ms == 200, "Finite fixture frame duration selection");
+    if (frame_ms)
+        options.native.frame_ms = std::uint64_t(frame_ms);
     auto transport = implemented(
         h::make_drogon_transport({"127.0.0.1", std::uint16_t(config.value("port").toInt())}),
         "drogon_factory");
@@ -360,6 +364,7 @@ int child(int argc, char **argv, const QJsonObject &config) {
     std::atomic<bool> startup_gate_used{false};
     const bool hold_inspection = config.value("hold_inspection").toBool();
     const bool hold_wrapper = config.value("hold_wrapper").toBool();
+    const bool hold_diagnostic = config.value("hold_diagnostic").toBool();
 
     auto host = t::HostAccess::create(
         std::move(options), std::move(transport), std::move(dispatcher),
@@ -379,10 +384,18 @@ int child(int argc, char **argv, const QJsonObject &config) {
                  event["refusal"] = int(*e.refusal);
              emit_event(std::move(event));
              if (((hold_inspection && e.kind == t::EventKind::inspection_enqueued) ||
-                  (hold_wrapper && e.kind == t::EventKind::wrapper_accepted)) &&
+                  (hold_wrapper && e.kind == t::EventKind::wrapper_accepted) ||
+                  (hold_diagnostic && e.kind == t::EventKind::diagnostic_queued)) &&
                  !startup_gate_used.exchange(true)) {
-                 emit_event({{"event", hold_inspection ? "startup_gate" : "wrapper_gate"}});
-                 // No execution/publication/work scope exists at acceptance.
+                 product_require(e.thread == owner_thread &&
+                                     std::this_thread::get_id() == owner_thread,
+                                 "Pre-entry observation gate on actual Qt owner");
+                 emit_event({{"event", hold_inspection ? "startup_gate"
+                                                      : hold_diagnostic ? "diagnostic_gate"
+                                                                        : "wrapper_gate"}});
+                 // No execution/publication/work scope exists at these stages.
+                 // diagnostic_queued proves actual retained data before callback;
+                 // signal during this gate must win at next owner entry.
                  // This bounded fixture handshake observes the actual stage;
                  // it never calls Qt events or a signal handler/host algorithm.
                  release_gate();

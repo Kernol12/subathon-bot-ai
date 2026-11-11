@@ -249,7 +249,9 @@ Ingress reservation is not writer acceptance. IO submission never synchronously
 waits for Qt. The first owner ingress-processing turn enqueues each pending
 transactional wrapper before returning (including reservations received during a bounded observer gate),
 without pumping writer dispatch; configure
-`writer_limits.pending_batches >= associations`. Every outcome assertion requires
+`writer_limits.pending_batches >= associations`. Host `Options` alone defaults
+pending batches to128 to match associations128; standalone `StorageLimits` keeps
+its existing64 default. Every outcome assertion requires
 an observed actual wrapper acceptance; expired work refused before enqueue has
 no fabricated writer completion. Before queued diagnostic or wrapper entry, the
 owner consumes any pending stop, ahead of previously posted entry callbacks.
@@ -429,9 +431,29 @@ error or value truth, supplies no envelope, and cannot forge a successful match.
 The explicit stub returns NotImplemented. This seam is disclosed in admission.
 
 The same testing header may forward one pending commit/rollback ack-loss request
-to the existing `SqliteWriterWorkAccess` seam while the private writer is idle;
-it returns no writer/ticket and cannot assign a `SqliteWorkResult`. No hook may
-bypass the private completion match. Observers contain bounded nonsecret events.
+to the existing `SqliteWriterWorkAccess` seam while the private writer is idle.
+Cold arming is also allowed: retain only that one pending fault selection, forward
+it ONCE after actual writer open while idle and BEFORE inspection enqueue. No
+writer/ticket escapes, no SQL/work result is assigned, and no private completion
+match is bypassed. Inspection/installation completion observations may include
+ONLY their actual writer transaction/error/value-presence/ticket-revocation truth;
+`writer_completed` remains reserved for accepted COMMAND wrappers. A lost startup
+inspection COMMIT acknowledgment therefore records actual
+`outcome_unknown/uncertain_outcome`, keeps storage inactive and generation0, and
+stops the chain BEFORE installation-read enqueue. Do not retry or reread to clear
+uncertainty. Diagnostics may still run without that writer; protected work/sample/
+publication refuse. This is ack-loss simulation at actual successful SQL, not a
+power-loss proof. Observers contain bounded nonsecret events.
+
+`diagnostic_queued` is emitted on the Qt owner after retaining the actual queued
+callback/data dependency and before its entry, with no execution/publication/work
+scope. A bounded observer gate may hold that owner there while a real signal
+records/wakes; the next owner entry consumes pending stop before the callback.
+Q/N assert actual cancellation and zero diagnostic entry/handoff/writer result.
+`ingress_refused` describes only an actual ingress refusal. An admitted operation
+that later refuses records an actual owner `operation_refused` terminal event
+with its real failure (no payload or authority); acceptance tests must not relabel
+that phase as ingress. Either phase can refuse absent credential/account sources.
 
 Before test AUTHORING, select these concrete accounting quantities:
 
@@ -518,7 +540,7 @@ Additional required failure/resource/ownership families:
 | Configuration / Q | Zero duration, incoherent counts/capacities, UINT64_MAX milliseconds | Fail startup with no framework activation; separately check duration conversion and deadline addition, never float/wrap. |
 | Elapsed conversion / Q | sec18446744073 with nsec709551615, then709551616 | First exactly UINT64_MAX ns; second overflow refuses. Per-owner nonregression must not falsely order simultaneous reads by other threads. |
 | Thread/source / Q, N | IO submit, Qt execute/commit/complete, IO handoff; accepted cancelled wrapper retains dependencies | Actual SQL/source mutation/clock guards on Qt owner; sockets/response teardown on IO owner. Record actual thread IDs/destructors. No network wait in state or state code in IO. Source review supplements counters. |
-| Activation failures / Q, N | Fresh/old schema, unsupported future head9, wrong/malformed catalog, missing/wrong/malformed installation, writer full/fail-close/lost ack | Refuse without advance/setup/epoch rotation. Unchanged schema8 ordinary activation succeeds through actual positive §1 chain; DTO equality/request reference cannot enable it. No schema8 restore-fence stimulus exists; real supported restore-fence tests remain in STORAGETEST-007. Host startup stop fencing is covered below. Unknown current facts refuse; no invented out-of-band restore detector. |
+| Activation failures / Q, N source cases; Q startup uncertainty | Fresh/old schema, unsupported future head9, wrong/malformed catalog, missing/wrong/malformed installation; actual startup inspection lost COMMIT acknowledgment | Refuse without advance/setup/epoch rotation. Q observes actual unknown inspection completion and no downstream installation read, storage activation, protected entry/sample/publication; diagnostics still work. Unchanged schema8 ordinary activation succeeds through actual positive §1 chain; DTO equality/request reference cannot enable it. Normal startup has an initially empty PRIVATE queue, coherent nonzero capacity and no unrelated writer access, so queue-full is unreachable at either sequential startup enqueue, not an authored startup fault. The lost acknowledgment actually fail-closes the writer: the host stops this chain rather than submitting a second read to manufacture a writer-unavailable completion. Ordered fail-closed COMMAND completions remain the separate HL07/14 test, not startup evidence. Unexpected genuine startup enqueue/open failure must still refuse; no arbitrary writer-status setter is added. No schema8 restore-fence stimulus exists; real supported restore-fence tests remain in STORAGETEST-007. Host startup stop fencing is covered below. Unknown current facts refuse; no invented out-of-band restore detector. |
 | Publication invalidation / Q | Revoke source on actual uncertainty/stop, or rebind epoch/revision through actual guarded mutation before old publication | No stale installation borrow/sample/emission. The minimal surface supplies no account source: account-dependent operations refuse. Actual account-epoch mutation/invalidation is a retained downstream integration gate for the owning account source/ACCESS-005, not an authored account-recovery claim here. Its eventual guarded source must invalidate at real mutation and cannot clear independent global holds; no unobserved writer access. |
 | Stop barriers / Q, N | Stop1000ms, drain5000ms, Close1000ms; traffic/repeat stop1999/5999ms | Drain stays6000ms; Close retains its own first-Close deadline. Revoke/drain actual IO callbacks before network acknowledgment/dependency destruction. Writer ack follows all accepted completions and connection removal. Keep Qt dispatcher through owner cleanup; IO join follows socket/callback cleanup. |
 | Startup cancellation / Q, N | Stop before start, during inspection, late listener-ready after stop, startup callback exception | No transient admission, one cleanup, no restart. Bind/listen exit remains distinct process-terminal category. |
@@ -529,6 +551,54 @@ Q uses Qt Test and existing real SQLite APIs. Runner may pump events BETWEEN
 callbacks, never within domain work. Explicit disposable migration/seeding BEFORE
 host acquisition is fixture setup, not setup entitlement/readiness. Protected
 positive fixtures exercise the actual §1 inspection/read/acknowledgment chain.
+
+**Per-invocation exception for THIS Qt suite only:** the frozen API-012
+`create_profile` rejects every second installation in a process; profile destruction
+does not unregister, and the runtime factory retains its context/source. Thus each
+Qt non-data slot invocation, INCLUDING EACH DATA ROW, runs in a fresh process,
+with at most one Rig/host lifetime. Even a destroyed first host is not permission
+for a second. UTCmin/UTCmax are separate selectable rows, retaining both oracles.
+Same-host restart-refusal assertions remain valid. Coordinator registers one
+CTest invocation per literal selector in `tests/qt/api_host_cases.cmake`, using
+standard Qt Test [`method[:row]` selection](https://doc.qt.io/qt-6/qtest-overview.html).
+The inventory is ONE declarative `set(subathon_api_host_cases ...)` with all
+current cases and individual real row tags; never select a whole multirow method.
+No bespoke Python runner, frozen-profile reset/replacement or fake profile is
+allowed. Other suites keep their runner arrangements. Static source/list coverage
+and counts precede review; actual `-datatags` comparison is a later separately
+admitted discovery gate, not performed during this correction. The current
+AUTHORED source has44 case methods (34 without data,10 with41 individual rows),
+75 literal selectors:68 host-bearing invocations and7 pure converter rows. The
+native driver has18 authored methods and25 finite child lifetimes (24 host
+children plus one standalone elapsed-factory child), each with at most one profile
+installation. These are STATIC inventory counts, not discovered/executed results;
+all pipe/log/event/peer/step/child/reap budgets below remain unchanged.
+
+**Elapsed coverage allocation:** Q proves the identity of the shared source passed
+to the real profile and attributable host owner/IO deadline/lease reads. The fake
+transport stores that profile but does NOT drive native profile reads; Q must not
+claim otherwise. Its per-thread100/99 probe must actually enter a diagnostic on
+Qt100, consume its response on IO99, observe both source reads, and then admit/
+consume another IO99; same-owner100→99 still refuses. N uses the host's actual
+production monotonic factory, source and profile (empty clock hooks) and a coherent
+200ms native frame budget. A complete frame succeeds, an actual partial masked
+payload closes by the unchanged7s step watchdog without host stop or fixture close,
+never enters domain work, and another peer still succeeds. Supervisor elapsed
+observation rejects premature closure; it is never a host clock input. Source
+review of host composition must confirm SAME source to host and profile; frozen
+profile `turn` anchors frame deadline, `tick/guard` samples/rechecks that context
+source and force-closes at expiry. Identity plus this native expiry and host-gate
+coverage exercise both paths; no test observes privileged UTC changes, injected
+native syscall failure, exact scheduling latency or trusted session time.
+
+Retained-response cancellation includes the distinct order: actual IO-held lease,
+then disconnect, then delayed IO `take` refused, zero local handoff, repeated reset
+and zero capacity/copy/metadata/association reservations. Committed truth survives.
+Global exhaustion is tested with a spare-capacity peer; only A is released while B
+stays outstanding, then D becomes eligible. Native stop on idle TCP/partial HTTP/
+Upgrade allows bounded HTTP refusal or EOF; Close framing applies only after an
+actual WebSocket upgrade. All pre-existing positive/refusal/deadline/SQL/source/
+thread/destruction assertions and prior unrun evidence remain in scope.
 
 N is a NEW host child and Python unittest peer driver using corrected API-012
 and linking the SHIPPED production host/Drogon/signal/elapsed pieces in §2,
@@ -565,6 +635,7 @@ and closing Claude contract approval (initial review already returned findings):
   `server/src/api_host_signal_linux.cpp`,
   `server/src/api_host_elapsed_linux.cpp` (ALL explicit unimplemented stubs ONLY),
   `tests/qt/api_host_tests.cpp`, `tests/qt/support/api_host_fixture.hpp`,
+  `tests/qt/api_host_cases.cmake` (declarative invocation inventory ONLY),
   `tests/api_host_lifecycle/api_host_probe.cpp`,
   `tests/api_host_lifecycle/test_api_host_lifecycle.py`.
 - Coordinator: `server/CMakeLists.txt`, `tests/CMakeLists.txt`,

@@ -47,7 +47,7 @@ K = dict(inspection_enqueued=0, inspection_completed=1, installation_read_enqueu
          writer_completed=16, publication_entered=17, publication_revoked=18,
          local_handoff=19, stop_consumed=20, callbacks_revoked=21, sockets_removed=22,
          network_ack=23, writer_removed=24, writer_ack=25, framework_joined=26,
-         io_joined=27, source_destroyed=28, dispatcher_destroyed=29, owner_cleanup=30, stopped=31, ingress_refused=32)
+         io_joined=27, source_destroyed=28, dispatcher_destroyed=29, owner_cleanup=30, stopped=31, ingress_refused=32, operation_refused=33)
 
 
 def require(condition, message):
@@ -117,7 +117,7 @@ class Child:
     attempts (TERM then KILL), each2s. Every failure is retained; kill is terminal,
     never graceful-stop evidence. Popen/fixtures are not instantiated by inventory.
     """
-    def __init__(self, owner, *, store="current", port=0, block_body=False, factory=False, hold_inspection=False, hold_wrapper=False, gate_body=False, response_cap=0, diagnostic_throw=False, installation="I"):
+    def __init__(self, owner, *, store="current", port=0, block_body=False, factory=False, hold_inspection=False, hold_wrapper=False, gate_body=False, response_cap=0, diagnostic_throw=False, installation="I", hold_diagnostic=False, frame_ms=0):
         self.end = time.monotonic() + OVERALL
         self.pending = []
         self.history = []
@@ -132,7 +132,7 @@ class Child:
         self.directory = tempfile.TemporaryDirectory(prefix="api-host-")
         owner.addCleanup(self.directory.cleanup)  # also covers Popen failure and _exit stubs
         config = json.dumps(dict(store=store, port=port, block_body=block_body,
-                                 fixture_root=self.directory.name, hold_inspection=hold_inspection, hold_wrapper=hold_wrapper, gate_body=gate_body, response_cap=response_cap, diagnostic_throw=diagnostic_throw, installation=installation), separators=(",", ":"))
+                                 fixture_root=self.directory.name, hold_inspection=hold_inspection, hold_wrapper=hold_wrapper, gate_body=gate_body, response_cap=response_cap, diagnostic_throw=diagnostic_throw, installation=installation, hold_diagnostic=hold_diagnostic, frame_ms=frame_ms), separators=(",", ":"))
         args = [str(PROBE), "--elapsed-factory" if factory else config]
         # Loader search/preload environment must equal the independently gated one.
         environment = dict(ADMISSION["environment"])
@@ -545,16 +545,84 @@ class ApiHostNative(unittest.TestCase):
         uncooperative = upgrade(child, port)
         # No close reply; actual production Close deadline is1000ms.
         child.stop()
-        for peer in (idle, partial_http, partial_upgrade, partial_frame, uncooperative):
+        for peer in (idle, partial_http, partial_upgrade):
             data = drain_peer(peer)
             if data:
-                self.assertEqual(data[0], 0x88)  # a Close may be split across reads
+                # HTTP refusal or EOF is legal before WebSocket establishment.
+                header, separator, _ = data.partition(b"\r\n\r\n")
+                self.assertTrue(separator, "Complete bounded HTTP refusal header")
+                status = header.split(b"\r\n", 1)[0].split(b" ")
+                self.assertGreaterEqual(len(status), 2)
+                self.assertIn(status[0], (b"HTTP/1.0", b"HTTP/1.1"))
+                self.assertEqual(len(status[1]), 3)
+                self.assertTrue(status[1].isdigit())
+                self.assertTrue(400 <= int(status[1]) <= 599, "HTTP refusal status")
+        for peer in (partial_frame, uncooperative):
+            data = drain_peer(peer)
+            if data:
+                self.assertEqual(data[0], 0x88)  # only established WS uses Close framing
                 self.assertGreaterEqual(len(data), 2)
                 self.assertLessEqual(data[1], 125)
                 self.assertEqual(len(data), 2 + data[1])
         self.assertTrue(child.events("callbacks_revoked"))
         self.assertTrue(child.events("sockets_removed"))
         self.assertTrue(child.events("io_joined"))
+
+    def test_native_partial_frame_expiry_uses_shared_production_elapsed_HL15(self):
+        port = free_port()
+        child = Child(self, port=port, frame_ms=200)
+        child.start()
+        peer = upgrade(child, port)
+        send(peer, frame(b"A\x01data"))
+        self.assertEqual(response(peer), b"Adone")  # positive complete-frame control
+        started = time.monotonic()  # supervisor observation, never host time input
+        send(peer, frame(b"P\x01data")[:-1])  # real incomplete masked payload
+        self.assertEqual(drain_peer(peer), b"", "Native deadline force-closes incomplete frame")
+        elapsed = time.monotonic() - started
+        self.assertGreaterEqual(elapsed, 0.200, "No premature expiry of the200ms frame budget")
+        self.assertLess(elapsed, STEP, "Expiry without any host stop or fixture close")
+        snap = child.command("inspect")
+        self.assertEqual(snap["state"], 2)
+        self.assertTrue(snap["elapsed_source_shared"])
+        self.assertFalse(child.events("stop_consumed"))
+        self.assertEqual(len(child.events("execution_entered")), 1, "Partial P never enters")
+        other = upgrade(child, port)
+        send(other, frame(b"B\x01data"))
+        self.assertEqual(response(other), b"Bdone")  # host/profile still serve another peer
+        child.stop()
+        self.assertEqual(len(child.events("actual_commit")), 2)
+        self.assertEqual(len(child.events("writer_completed")), 2)
+
+    def test_diagnostic_queued_before_signal_never_enters_HL12_HL17(self):
+        port = free_port()
+        child = Child(self, port=port, store="future", hold_diagnostic=True)
+        child.start(active=False)
+        child.refused_activation()
+        peer = child.peer(port)
+        send(peer, b"POST /api-host/diagnostic HTTP/1.1\r\nHost: localhost\r\nX-Host-Correlation: 44\r\nContent-Length: 0\r\n\r\n")
+        child.wait("diagnostic_gate")  # actual Qt queue observation; owner blocked before entry
+        queued = child.events("diagnostic_queued")
+        self.assertEqual(len(queued), 1)
+        self.assertTrue(queued[0]["owner_thread"])
+        self.assertFalse(child.events("stop_consumed"))
+        self.assertFalse(child.events("diagnostic_entered"))
+        os.kill(child.process.pid, signal.SIGTERM)
+        child.release()  # no event pumping or status setter inside the observation gate
+        child.finish()
+        stop = child.events("stop_consumed")
+        cancelled = child.events("diagnostic_cancelled")
+        self.assertEqual(len(stop), 1)
+        self.assertEqual(len(cancelled), 1)
+        self.assertLess(int(queued[0]["ordinal"]), int(stop[0]["ordinal"]))
+        self.assertLess(int(stop[0]["ordinal"]), int(cancelled[0]["ordinal"]))
+        self.assertFalse(child.events("diagnostic_entered"))
+        self.assertFalse(any(e.get("event") == "diagnostic" for e in child.history))
+        self.assertFalse(child.events("local_handoff"))
+        self.assertFalse(child.events("publication_entered"))
+        self.assertFalse(child.events("execution_entered"))
+        self.assertFalse(child.events("begin_attempted"))
+        self.assertFalse(child.events("writer_completed"))
+        self.assertNotEqual(drain_peer(peer).split(b"\r\n\r\n")[-1], b"diag")
 
     def test_close_deadline_not_reset_by_ping_or_signals_HL12_HL15(self):
         port = free_port()
@@ -675,7 +743,10 @@ class ApiHostNative(unittest.TestCase):
         child.start()
         peer = upgrade(child, port)
         send(peer, frame(b"C\x02data"))
-        child.wait("host_event", kind=K["ingress_refused"], refusal=4)
+        # Admission may succeed before the owner discovers the absent source.
+        # Observe the actual terminal unavailable refusal, never forge its phase.
+        refusal = child.wait("host_event", refusal=4)
+        self.assertIn(refusal["kind"], (K["ingress_refused"], K["operation_refused"]))
         diagnostic_peer = child.peer(port)
         send(diagnostic_peer, b"POST /api-host/diagnostic HTTP/1.1\r\nHost: localhost\r\nX-Host-Correlation: 44\r\nContent-Length: 0\r\n\r\n")
         child.wait("diagnostic_exception")
@@ -683,6 +754,9 @@ class ApiHostNative(unittest.TestCase):
         self.assertNotIn(b"Cdone", drain_peer(peer))
         self.assertNotEqual(b"diag", drain_peer(diagnostic_peer).split(b"\r\n\r\n")[-1])
         self.assertFalse(child.events("execution_entered"))
+        self.assertFalse(child.events("begin_attempted"))
+        self.assertFalse(child.events("publication_entered"))
+        self.assertFalse(child.events("writer_completed"))
 
 
 def main():

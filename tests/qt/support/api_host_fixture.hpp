@@ -80,6 +80,8 @@ inline host::OwnedReply reply(std::string_view s) { return {{bytes(s).begin(), b
 class Elapsed final : public native_ws::ElapsedSource {
   public:
     std::atomic<std::uint64_t> now{0}, reads{0};
+    mutable std::atomic<std::uint64_t> owner_reads{0}, foreign_reads{0};
+    mutable std::atomic<std::uint64_t> owner_last{0}, foreign_last{0};
     std::atomic<bool> available{true}, foreign_override{false};
     std::atomic<std::uint64_t> foreign_now{0};
     const std::thread::id owner = std::this_thread::get_id();
@@ -88,9 +90,11 @@ class Elapsed final : public native_ws::ElapsedSource {
         const_cast<Elapsed *>(this)->reads.fetch_add(1);
         if (!available.load())
             return native_ws::ElapsedUnavailable{};
-        return native_ws::ElapsedInstant{
-            foreign_override.load() && std::this_thread::get_id() != owner ? foreign_now.load()
-                                                                           : now.load()};
+        const bool on_owner = std::this_thread::get_id() == owner;
+        const auto value = foreign_override.load() && !on_owner ? foreign_now.load() : now.load();
+        (on_owner ? owner_last : foreign_last).store(value);
+        (on_owner ? owner_reads : foreign_reads).fetch_add(1);
+        return native_ws::ElapsedInstant{value};
     }
 };
 class Sampler final : public CurrentSessionClock {
