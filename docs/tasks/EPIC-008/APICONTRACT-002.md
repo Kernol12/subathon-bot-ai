@@ -58,3 +58,7 @@ admitted transport response budget, define the compiled consumer dispatcher and
 same revocable clock, assign auth adapter deltas to API-013, and plan
 [APICONTRACT-003](APICONTRACT-003.md)/[API-014](API-014.md) for setup/reset writes.
 These new records remain planned; only APICONTRACT-002 is authorized this run.
+
+Actual AUTH transport-budget/edge-anchor production is the planned additive
+[SESSIONCONTRACT-007](../EPIC-007/SESSIONCONTRACT-007.md)/[SESSION-012](../EPIC-007/SESSION-012.md)
+prerequisite of password-auth consumers; frozen010/proxy tasks do not supply it.

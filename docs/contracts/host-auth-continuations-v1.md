@@ -106,14 +106,20 @@ never generic OwnedReply. Refuse exhaustion without eviction or truncation.
 The imported edge has a15s H1 write timeout. It starts after request headers,
 not at backend password admission: see the pinned
 [Go readRequest source](https://raw.githubusercontent.com/golang/go/6e676ab2b809d46623acb5988248d95d1eb7939c/src/net/http/server.go).
-A configured timeout alone is NOT a trustworthy remaining budget. SESSION-010
-must bind an admitted transport-budget producer to the actual request/policy;
-DEPLOYMENT-007/008 own proof of its earlier edge anchor, conservative conversion
-to the host elapsed domain, transit/body/admission delay and uncertainty. No
-client header, cross-process clock equality or guessed maximum delay supplies it.
-No such producer exists today: auth remains unavailable on the stock R2 edge
-until that profile is admitted (or a separately reviewed AUTH-route edge profile
-supplies an equivalent finite bound). Direct TLS is unavailable too. This is an
+A configured timeout alone is NOT a trustworthy remaining budget. The frozen
+SESSION-010 and DEPLOYMENT-007/008 contracts do NOT own or supply this producer.
+The gap is explicitly allocated to planned
+[SESSIONCONTRACT-007](../tasks/EPIC-007/SESSIONCONTRACT-007.md) →
+[SESSIONTEST-012/SESSION-012](../tasks/EPIC-007/SESSION-012.md), downstream of those
+existing tasks without changing their edges. That new slice owns the AUTH-route
+earlier edge anchor, conservative host-elapsed conversion, transit/body/admission
+delay and uncertainty for BOTH bundled and alternative edges, and the additive
+binding to the actual010 scope/policy. No client header, cross-process clock
+equality or guessed maximum delay supplies it. No such producer exists today:
+auth remains unavailable on stock R2 until that separately reviewed slice admits
+its AUTH profiles and actual producer. All six ACCESS-001/005/008 consumer baseline/
+implementation nodes now additionally wait for SESSION-012; API-013's upstream
+host stays independent and may test only unavailable/simulated budget bindings. Direct TLS is unavailable too. This is an
 explicit future integration gate, not a claim that a new timeout was deployed.
 Given a proven remaining15000ms at reservation, the12000ms local lease leaves
 3000ms, exceeding the2000ms required transport margin; the10000ms pipeline leaves
@@ -159,7 +165,13 @@ separate fresh guarded completion scope in the SAME non-yielding owner turn,
 before any event/state interleave, with all upstream current checks. This is not
 a seventh work or another queued turn. Known-rollback release retains its own
 required fresh current checks; settlement alone cannot make an acceptance usable
-or release a stale reservation.
+or release a stale reservation. A settled normal upgrade remains unusable unless
+guarded complete installs its entire lineage in that SAME turn. If complete does
+not run, treat that as lost authority and invalidate; no partially advanced tuple
+may escape. A throwing complete revokes its completion/publication capabilities
+before return (including exception unwind), invalidates incomplete lineage, and
+receives the same consumer-registration-generation revocation/quarantine as a
+throwing settle. Keep actual committed mint consumption and writer truth intact.
 A not-started/rolled-back cancellation must still retire or quarantine its bound
 consumer record, never resurrect an expired request.
 
@@ -578,7 +590,7 @@ later gates; simulated ports prove only their named component behavior.
 | HC02 Queue equality | Stage entry5999/6000/6001 |5999 eligible,6000/6001 cancelled before facade/domain/BEGIN. Accepted wrapper still actual not_started/missing_transaction; refused-before-enqueue has no result. |
 | HC03 Whole pipeline equality | Helper returns10999/11000/11001; wakes at last value | Only10999 may schedule next stage if other gates pass. Equality/later refuses with original deadline; never a new10s or30s. Late native cleanup still required. |
 | HC04 Original lease equality | Plaintext already drained; downstream completion12999/13000 | First potentially eligible, second expired despite still-fresh accepted UTC. Holding an attempt never extends Q. |
-| HC05 Handoff equality | Final result at11000: completion+5000=16000, original13000, edge-margin14000; IO at12999/13000 | Effective deadline13000; first at most one handoff, equality inert/wipe output. No confirmed network receipt. |
+| HC05 Handoff equality | Password pipeline already finished/drained before11000; final downstream result at11000: completion+5000=16000, original13000, edge-margin14000; IO at12999/13000 | Effective deadline13000; first at most one handoff, equality inert/wipe output. No confirmed network receipt. |
 | HC06 Elapsed failure | sec=-1, nsec=1000000000, read unavailable, same-reader100→99ns, or U64_MAX+1ms | No wrap/saturation/UTC fallback. Refuse admission/next stage, cancel queued work; IO unknowable-time peer closes. Executing SQL/native outcome remains real. Cross-thread earlier read alone is not regression. |
 | HC07 Stage full | Reduced stage cap2 occupied incl completing; third attempts; later release one | Refuse third BEFORE copy/post. No retry on release; only new explicit live internal stage may admit. Exact cap/input65536 fits,65537 refuses before copy. |
 | HC08 Writer full/closed | Host reservation exists, actual enqueue returns queue_full/not_open/shutting_down | No body/completion or fabricated WorkResult; cell unavailable, resources unwind, no hidden queue/replay. |
@@ -654,8 +666,8 @@ API-014 in addition to API-013; new nodes remain planned/unassigned. This split
 preserves full setup/recovery scope without authorizing another executable task.
 
 Open integration boundaries: actual API-001 host and SESSION-010 policy/scope;
-separately reviewed auth erasure/typed transfer/decoder extension under010/011 and
-API-013; route grammar/native guard; ACCESS-001 indexed directory and its logical/
+separately reviewed API-013 auth erasure/typed transfer/decoder adapter on010/011;
+SESSION-012 actual AUTH transport-budget producer and both edge profiles; route grammar/native guard; ACCESS-001 indexed directory and its logical/
 physical extension; ACCESS-008 accepted-source; setup/reset entitlement/mutation;
 SESSION-009 trusted UTC; SESSION-002/003 lifecycle/egress; restore/reconciliation;
 edge/direct TLS/platform/native overhead and supported-hardware cost evidence.

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T11:25:30+00:00",
+  "updated_at": "2026-11-11T11:33:20+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. The owner authorized ONE new task: APICONTRACT-002 document-only host-auth continuations through normal merge, then stop; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
@@ -4107,7 +4107,8 @@
         "SESSION-001",
         "STORAGE-020",
         "API-013",
-        "API-014"
+        "API-014",
+        "SESSION-012"
       ],
       "spec_refs": [
         "§10",
@@ -4118,7 +4119,7 @@
       "summary": "Specify bounded examples, author tests, obtain separate review and observe intended behavioral failure before ACCESS-001.",
       "notes": [
         "Planned owner setup/invitation work; ADR-0004 narrows wire sequencing without removing acceptance. ADR-0010 session prerequisites do not provide actual account/current-session/login authority. Next: reviewed owner-bootstrap/invite contracts and tests, intended red then implementation; retain full lifecycle/transport/recovery/provider/platform requirements.",
-        "APICONTRACT-002 B3 adds planned API-014 guarded-write prerequisite; API-013 alone cannot enable setup/reset."
+        "Planned API-014 gates setup/reset writes. Planned SESSION-012 additionally gates actual AUTH transport-budget/edge enablement."
       ],
       "verification": {},
       "evidence": [],
@@ -4138,7 +4139,8 @@
         "ACCESSTEST-001",
         "STORAGE-020",
         "API-013",
-        "API-014"
+        "API-014",
+        "SESSION-012"
       ],
       "spec_refs": [
         "§10",
@@ -4149,7 +4151,7 @@
       "summary": "Console issues single-use 15-minute owner setup code only while no owner exists; replacement invalidates prior code and completion disables bootstrap.",
       "notes": [
         "Planned owner setup/invitation work; ADR-0004 narrows wire sequencing without removing acceptance. ADR-0010 session prerequisites do not provide actual account/current-session/login authority. Next: reviewed owner-bootstrap/invite contracts and tests, intended red then implementation; retain full lifecycle/transport/recovery/provider/platform requirements.",
-        "APICONTRACT-002 B3 adds planned API-014 guarded-write prerequisite; API-013 alone cannot enable setup/reset."
+        "Planned API-014 gates setup/reset writes. Planned SESSION-012 additionally gates actual AUTH transport-budget/edge enablement."
       ],
       "verification": {},
       "evidence": [],
@@ -4389,7 +4391,8 @@
         "STORAGE-020",
         "SESSION-009",
         "API-013",
-        "API-014"
+        "API-014",
+        "SESSION-012"
       ],
       "spec_refs": [
         "§10",
@@ -4401,7 +4404,7 @@
       "notes": [
         "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration.",
-        "APICONTRACT-002 B3 adds planned API-014 guarded-write prerequisite; API-013 alone cannot enable setup/reset."
+        "Planned API-014 gates setup/reset writes. Planned SESSION-012 additionally gates actual AUTH transport-budget/edge enablement."
       ],
       "verification": {},
       "evidence": [],
@@ -4422,7 +4425,8 @@
         "STORAGE-020",
         "SESSION-009",
         "API-013",
-        "API-014"
+        "API-014",
+        "SESSION-012"
       ],
       "spec_refs": [
         "§10",
@@ -4434,7 +4438,7 @@
       "notes": [
         "Parent epic: EPIC-006. Planning only; no tests, implementation, review or verification completed by this decomposition.",
         "ADR-0010 adds explicit session architecture prerequisites; every original dependency/scope/status/review remains. Supplier/store/local-login/clock/ingress component acceptance does not complete full lifecycle/transport/recovery/provider integration.",
-        "APICONTRACT-002 B3 adds planned API-014 guarded-write prerequisite; API-013 alone cannot enable setup/reset."
+        "Planned API-014 gates setup/reset writes. Planned SESSION-012 additionally gates actual AUTH transport-budget/edge enablement."
       ],
       "verification": {},
       "evidence": [],
@@ -4572,7 +4576,10 @@
         "SESSION-010",
         "SESSIONCONTRACT-006",
         "SESSIONTEST-011",
-        "SESSION-011"
+        "SESSION-011",
+        "SESSIONCONTRACT-007",
+        "SESSIONTEST-012",
+        "SESSION-012"
       ],
       "spec_refs": [
         "§10",
@@ -15153,7 +15160,8 @@
         "STORAGE-020",
         "SESSION-009",
         "API-013",
-        "SESSION-010"
+        "SESSION-010",
+        "SESSION-012"
       ],
       "spec_refs": [
         "§10",
@@ -15170,7 +15178,7 @@
       "brief": "docs/tasks/EPIC-006/ACCESS-008.md",
       "summary": "Review actual local-account/store/accepted-attempt/rehash integration tests and observe intended red without a preexisting session or manufactured authority.",
       "notes": [
-        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record. Planned SESSION-012 additionally gates actual AUTH transport-budget/edge enablement."
       ],
       "verification": {},
       "evidence": [],
@@ -15191,7 +15199,8 @@
         "SESSION-009",
         "ACCESSTEST-008",
         "API-013",
-        "SESSION-010"
+        "SESSION-010",
+        "SESSION-012"
       ],
       "spec_refs": [
         "§10",
@@ -15208,7 +15217,7 @@
       "brief": "docs/tasks/EPIC-006/ACCESS-008.md",
       "summary": "Implement actual local acceptance and source-bound conditional upgrade integration; ACCESS-004 retains full local/Twitch login/linking and session services stay separate.",
       "notes": [
-        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record."
+        "ADR-0010 planning decomposition only; actual focused contracts/tests/independent review/intended red/implementation/selected CI and release gates remain. No runtime capability supplied by this task record. Planned SESSION-012 additionally gates actual AUTH transport-budget/edge enablement."
       ],
       "verification": {},
       "evidence": [],
@@ -15676,7 +15685,7 @@
         "TEST-05"
       ],
       "notes": [
-        "Document-only revision1 authored with independent examples. Initial Claude B1–3/N1–6 corrections: transport clipping, compiled consumer dispatcher, explicit API-014 prerequisite, adapter ownership. Separate Codex and closing Claude reviews pending; no runtime capability. ONE task then stop."
+        "Document-only revision1/HC01–45. Claude initial B1–3, Codex B4 resolved/verified. Closing Claude B5 exposes actual transport-budget producer: new planned SESSIONCONTRACT-007/SESSIONTEST-012/SESSION-012 and six consumer edges; N9–10 clarified. Focused Codex and Claude closing rechecks pending; no runtime capability. ONE task then stop."
       ],
       "verification": {},
       "evidence": [],
@@ -15851,6 +15860,120 @@
       ],
       "brief": "docs/tasks/EPIC-008/API-014.md",
       "summary": "Implement reviewed guarded enrollment/recovery ports and finite stage/native profiles; no consumer authorization policy or directory producer."
+    },
+    {
+      "module": "Identity",
+      "status": "planned",
+      "owner": "Unassigned",
+      "spec_refs": [
+        "§10",
+        "§16",
+        "AUTH-01",
+        "AUTH-08",
+        "AUTH-10",
+        "AUTH-11",
+        "AUTH-12",
+        "SERVER-01",
+        "DEP-04",
+        "DEP-05",
+        "DEP-06",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "notes": [
+        "Planned prerequisite exposed by APICONTRACT-002 closing B5; actual AUTH edge-anchor/remaining-budget producer is not supplied by frozen010/proxy contracts. No new executable work authorized."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null,
+      "id": "SESSIONCONTRACT-007",
+      "title": "AUTH-route transport budget and edge-anchor contract",
+      "kind": "contract",
+      "depends_on": [
+        "APICONTRACT-002",
+        "SESSION-010",
+        "DEPLOYMENT-007",
+        "DEPLOYMENT-008"
+      ],
+      "brief": "docs/tasks/EPIC-007/SESSIONCONTRACT-007.md",
+      "summary": "Define actual AUTH remaining-budget producer, both edge-anchor admissions and additive policy/scope binding; document only."
+    },
+    {
+      "module": "Identity",
+      "status": "planned",
+      "owner": "Unassigned",
+      "spec_refs": [
+        "§10",
+        "§16",
+        "AUTH-01",
+        "AUTH-08",
+        "AUTH-10",
+        "AUTH-11",
+        "AUTH-12",
+        "SERVER-01",
+        "DEP-04",
+        "DEP-05",
+        "DEP-06",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "notes": [
+        "Planned prerequisite exposed by APICONTRACT-002 closing B5; actual AUTH edge-anchor/remaining-budget producer is not supplied by frozen010/proxy contracts. No new executable work authorized."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null,
+      "id": "SESSIONTEST-012",
+      "title": "Review and demonstrate red: AUTH-route transport budget producer",
+      "kind": "test_baseline",
+      "depends_on": [
+        "SESSIONCONTRACT-007",
+        "API-013",
+        "SESSION-010",
+        "DEPLOYMENT-007",
+        "DEPLOYMENT-008"
+      ],
+      "brief": "docs/tasks/EPIC-007/SESSION-012.md",
+      "summary": "Review real selected-stack AUTH budget/anchor admission tests for both edges and observe intended missing-behavior red."
+    },
+    {
+      "module": "Identity",
+      "status": "planned",
+      "owner": "Unassigned",
+      "spec_refs": [
+        "§10",
+        "§16",
+        "AUTH-01",
+        "AUTH-08",
+        "AUTH-10",
+        "AUTH-11",
+        "AUTH-12",
+        "SERVER-01",
+        "DEP-04",
+        "DEP-05",
+        "DEP-06",
+        "TEST-04",
+        "TEST-05"
+      ],
+      "notes": [
+        "Planned prerequisite exposed by APICONTRACT-002 closing B5; actual AUTH edge-anchor/remaining-budget producer is not supplied by frozen010/proxy contracts. No new executable work authorized."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null,
+      "id": "SESSION-012",
+      "title": "AUTH-route transport budget producer and edge admission",
+      "kind": "implementation",
+      "depends_on": [
+        "SESSIONCONTRACT-007",
+        "SESSIONTEST-012",
+        "API-013",
+        "SESSION-010",
+        "DEPLOYMENT-007",
+        "DEPLOYMENT-008"
+      ],
+      "brief": "docs/tasks/EPIC-007/SESSION-012.md",
+      "summary": "Implement reviewed remaining-budget producer and additive actual policy/scope binding with bundled and alternative AUTH-edge admission."
     }
   ],
   "activity": [

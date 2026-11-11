@@ -12,6 +12,8 @@ See [backlog workflow and complete epic index](README.md).
 | --- | --- |
 | [SESSIONCONTRACT-001](EPIC-007/SESSIONCONTRACT-001.md) | Reviewed current-session supplier and token lifecycle document |
 | [SESSIONCONTRACT-002](EPIC-007/SESSIONCONTRACT-002.md) | Reviewed browser/desktop credential transport document |
+| [SESSIONCONTRACT-007](EPIC-007/SESSIONCONTRACT-007.md) | Additive AUTH transport-budget producer and edge-anchor contract |
+| `SESSIONTEST-012` → [SESSION-012](EPIC-007/SESSION-012.md) | Actual AUTH remaining-budget producer and both proxy-edge admissions |
 | `SESSIONTEST-001` → [SESSION-001](EPIC-007/SESSION-001.md) | Password hashing and parameter upgrades |
 | `SESSIONTEST-002` → [SESSION-002](EPIC-007/SESSION-002.md) | Opaque sessions expiry revocation and freshness |
 | `SESSIONTEST-003` → [SESSION-003](EPIC-007/SESSION-003.md) | Browser cookie CSRF and desktop header transport |
