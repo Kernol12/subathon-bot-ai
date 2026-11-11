@@ -45,3 +45,9 @@ no assumed future RATES005/007 producer. B2 adds manual_valuation/EV19 with actu
 RATES008/ACCT005/API002 authority/continuation gates. Optional consumer/query/budget
 points incorporated. Author and initial reviewer retired. Next separate Codex
 verification then independent Claude closing; no approval or runtime claim yet.
+
+Separate Codex /root/exact_valuation_codex_verify ated27321 confirmed B1/B2 fixed,
+found B3 manual same-currency bypass. Coordinator requires distinct manual pair
+currencies; equal keys use identity1/1; EV19 now explicitly rejects USD→USD1.20.
+Report /tmp/ratecontract-001-codex-verify.md to PR117. New separate verification
+pending before Claude closing; no blocker waived.

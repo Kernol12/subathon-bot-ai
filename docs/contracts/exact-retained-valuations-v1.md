@@ -80,8 +80,10 @@ This is the rate model's arithmetic identity, including for an unrepresented key
 actual currency identification and support admission remain upstream duties.
 A caller may not use equal unknown tokens as proof of a supported real currency.
 
-For `manual_valuation`, retain an authorized historical rate for this one
-contribution, without modifying the effective table. Own the entered strictly
+For `manual_valuation`, original and comparison currency must differ, as must
+the two entered currency keys. Equal-currency valuations must use `identity`
+with exactly `1/1`; manual input cannot override arithmetic identity. Retain an
+authorized historical rate for this one contribution without modifying the table. Own the entered strictly
 positive decimal spelling, entered from/to currencies, nonempty decision/actor/
 reason identities and optional recorded UTC time. The entered pair must match the
 original/comparison pair in either direction; parse the exact decimal and invert
@@ -119,7 +121,9 @@ refused by that limit**, not missing historical evidence.
 
 RATES-005 owns durable fetched-observation/cache/sync retention; RATES-007 owns
 durable effective-table/override revisions and their editing lifecycle. Those
-future stores must retain original source observations separately from overrides
+future stores retain the rate model's source-evidence retention-policy obligation;
+the opaque capture classification below neither verifies nor waives it. Those
+stores must retain original source observations separately from overrides
 and must not mutate old identities. Their planning briefs must assign concrete
 storage/baseline gates when refined; pure RATES-001 supplies no store.
 
@@ -274,7 +278,7 @@ integer. No production parser/bridge generates these expected values.
 | EV16 | Accepted pair `1/2^4096` reaches final request unchanged | Pair components fit8192; finalizer denominator has4097bits, so resource refusal even though rounded numeric value would be0 |
 | EV17 | Purely proposed new closure+capture, staging/COMMIT failure; or commit outcome unknown | Known rollback publishes nothing; unknown stays unknown and uses original operation identity for reconciliation, never a new blind award |
 | EV18 | New S1 capture committed, process/store reopened while current provider/pins/cache differ | Read original exact `5/6`, source spelling `1.20`, all selected provenance/unknown fields and original finalized/actual effects; current values never repair or replace history |
-| EV19 | No historical USD→EUR quote; authorized one-off manual entry EUR→USD `1.20`, original USD `1.20` | `manual_valuation` retains entered `1.20` and direction, actor/decision/reason and optional time; effective `5/6`, exact amount `1`; audited new revision, no temporary/pinned override or table mutation |
+| EV19 | No historical USD→EUR quote; authorized one-off manual entry EUR→USD `1.20`, original USD `1.20` | `manual_valuation` retains entered `1.20` and direction, actor/decision/reason and optional time; effective `5/6`, exact amount `1`; audited new revision, no temporary/pinned override or table mutation; same-currency USD→USD entry `1.20`/effective `6/5` rejects, never bypassing identity `1/1` |
 
 EV16 is reachable under the current potential limit: weights `2^4095/1` and
 `1/2` yield `1/2^4096`; each potential component fits 4096 bits. The executable
