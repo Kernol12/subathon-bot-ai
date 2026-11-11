@@ -52,9 +52,11 @@ jobs and all 22 checks pass at reviewed cb5f8fc; package pins, Ubuntu trust, SDK
 and native baselines are unchanged. DNS had also recovered on the observed runner,
 so these runs do not isolate an outage-time causal comparison. Full reviews, actual
 stub-red and selected-host receipts are in [PR119](https://github.com/Kernol12/subathon-bot-ai/pull/119);
-final metadata/current-head CI and normal merge remain publication gates. Host
-lifecycle CI still compiles its intentional-red baseline; no new host or product
-behavior is claimed. PR118's unchanged contract publishes after the repair.
+PR119 merged normally as `5c6121d` at2026-11-11T17:28:38Z with22 successful
+final-head checks. PR118 then merged normally as `f2a134e` at17:46:41Z with22
+successful final-head checks. These publication observations were read from GitHub
+for WORKFLOW-003; historical unrun checks remain unchanged. Host lifecycle CI still
+compiles its intentional-red baseline; no new host or product behavior is claimed.
 
 ## Core time and exact arithmetic
 

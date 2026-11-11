@@ -92,6 +92,40 @@ or material evidence claims are substantive even when they appear in metadata. W
 classification is uncertain, treat the change as substantive; any reviewer may escalate
 it to the Claude gate.
 
+## Structured packets and bounded handoffs
+
+The [workflow-records v1 contract](tasks/WORKFLOW-003.md) defines the forward review
+policy and developer schema. `workflow_policy` freezes the 120 tasks done at the
+migration base; their receipts and limitations remain historical. New non-epic
+claims require structured `workflow` stages. Planned stages may be absent until
+authoring starts. Never invent authors, revisions, reviews or results to fill fields.
+The validator checks recorded relationships; it cannot authenticate sessions,
+review quality, Git contents, remote checks or authorization.
+
+Before requesting a review, assemble one coherent packet for that stage: brief and
+specification/contract revision, authors, exact source revision and owned paths,
+acceptance/oracles, resource/ownership constraints, affected build/dependency/license
+changes, actual evidence and unresolved findings. Batch related concerns within the
+stage; keep contract, tests-before-red and implementation approvals distinct.
+Use `python3 tools/progress.py context TASK-ID --stage tests` (or contract /
+implementation) for the derived packet, next gate and observed review metrics.
+Read linked affected context, not global activity history at every handoff.
+
+Record each review's actual phase/provider/model/session/revision/verdict, HTTPS
+report and finding IDs. Prefix new findings by review identity, and reuse an ID only
+for the same issue. Add observed start/finish times when available; omit them rather
+than estimate. Metrics report review counts, distinct blockers, closing-only findings
+and observed review duration. Use them to evaluate future low-risk policy proposals;
+no score or threshold reduces the current review gates automatically.
+
+Reviewers stay read-only. If a reviewer authors a correction, preserve their old
+reports and findings in PR/git history; the packet must declare all actual authors
+and obtain a fresh independent cycle. Superseded reports must not be presented as
+current approvals or deleted from history. Keeping corrections with the author avoids
+this recovery path. Progress JSON, HTML and checkpoint bookkeeping are excluded from
+stage paths; recording a receipt does not revise its reviewed packet. Material
+requirements/evidence changes still need their applicable independent review.
+
 ## Scope and sessions
 
 Epics are planning containers. If a substantial architecture prerequisite emerges, split
@@ -108,7 +142,9 @@ the task in state. Use separate branches/worktrees for concurrent writers; the i
 coordinates `state.json`, shared schemas, migrations, dependencies and root CMake.
 Open a focused PR to `main` using `.github/pull_request_template.md`; use a draft while
 required work or review remains. Include task IDs, specification scope, exact checks,
-reviews and remaining gates.
+reviews and remaining gates. A draft still triggers CI: keep unreviewed test source
+local until its review gate passes. Observe intended red locally before publishing
+the implementation; do not disable existing CI or call premature runs reviewed proof.
 
 Merge only when latest-head required CI and relevant local checks pass, applicable
 independent reviews approve, discussions are resolved and GitHub permits the protected
@@ -122,7 +158,10 @@ Assess CI coverage for each change and add workflows as executable modules, suit
 builds or packaging land. Keep actions/dependencies pinned and permissions limited;
 run stable reviewed suites on relevant PRs. Keep intentional red baselines and live
 credential checks out of passing product gates. Record actual workflow results and gaps;
-new workflows do not automatically become required checks.
+new workflows do not automatically become required checks. Superseded PR runs may
+be cancelled; main pushes and manual runs use independent concurrency groups. Keep
+authenticated SDK admission, pinned inputs and complete test inventories. Caching,
+reusable setup or selective execution requires its own reviewed trust/coverage design.
 
 Keep commits focused and do not overwrite another writer's work. Batch related reviews
 within a test-first stage, not across test and implementation gates. Re-review changed
@@ -134,7 +173,10 @@ a separate reviewer.
 
 Test-authoring done means reviewed tests and intended red, not implemented behavior.
 Implementation done requires relevant passing acceptance/regression checks and separate
-code review. Distinguish simulation from live service, hardware, browser and package
+code review. Under structured tracking, every required stage must have current closing
+approval. Artifact `done` and publication are separate: an open PR is not merged, and
+a tracked prerequisite satisfies dependencies only after its recorded publication is
+merged. Legacy dependency semantics remain intact. Distinguish simulation from live service, hardware, browser and package
 evidence; a green scaffold is not product proof.
 
 For a completed task, put its PR URL in `evidence`, keep all of the task's `notes`
@@ -142,8 +184,8 @@ together to 500 characters or fewer, and record separate review in the state `re
 field and PR. The note states outcome, proof level (simulated, real SQLite, CI or live),
 open gates and next step. Update the matching area entry in `docs/evidence/README.md`;
 add no files under `docs/evidence/` and no per-task history to `docs/TEST_STRATEGY.md`.
-Put commands, results and details in the PR. Historical receipts will be available in git
-history under tag `evidence-archive-2026-11` once EVIDENCE-001 lands; the summary is the
+Put commands, results and details in the PR. Historical receipts are available in git
+history under tag `evidence-archive-2026-11`; the summary is the
 readable record. Update state and regenerate `PROGRESS.html`. The coordinator checkpoint
 is `progress/coordinator-checkpoint.md`. Do not rerun completed checks just to improve
 receipts, and do not put credentials or personal data in evidence.
@@ -151,3 +193,30 @@ receipts, and do not put credentials or personal data in evidence.
 Default to fake connectors and disposable databases; automated tests must not trigger
 real chat/payment side effects. Keep live checks separate. Resolve routine issues within
 scope; record unresolved product choices and provider capabilities explicitly.
+
+## Publication reconciliation and resumption
+
+Before handoff or resumption, inspect actual branch/worktree, PR head/state, checks,
+reviews and repository rules. Save the bounded GitHub observation, for example:
+
+```sh
+gh pr view PR-NUMBER --json url,state,headRefOid,mergedAt,mergeCommit > /tmp/task-pr.json
+python3 tools/progress.py reconcile TASK-ID --pr-json /tmp/task-pr.json
+```
+
+The import records publication and its UTC import time, updates state/HTML and leaves
+artifact status, notes, reviews, verification and activity unchanged. It authenticates
+nothing and performs no network/git/merge operation. Check actual latest-head gates
+separately. Review the resulting diff and reconcile checkpoint prose yourself; the
+command cannot decide authorization or whether a stale instruction is safe to execute.
+Reject a changed immutable merged record or automatic reassociation with another PR.
+Validation/render/serialization failures preserve both outputs; OS failure between two
+file replacements requires reconciliation, not a claim of pairwise atomicity.
+
+The same PR cannot commit knowledge of its own future merge. Record open publication
+as an observation while preparing it; finalize the observed merge in the next already
+authorized metadata change. Do not create an endless series of completion PRs or start
+a product task to update bookkeeping. Historical `not_run` checks remain historical;
+a merge alone never rewrites them to passed. Keep the checkpoint short: current owner
+scope, observed checkout, roles, pending gates, concrete blockers and next action, with
+links to state/brief/PR. Preserve old handoffs in Git rather than copying them forward.

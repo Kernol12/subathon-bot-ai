@@ -82,6 +82,9 @@
           }
         }
       }
+    },
+    "workflow_policy": {
+      "$ref": "#/$defs/workflow_policy"
     }
   },
   "$defs": {
@@ -221,8 +224,252 @@
               ]
             }
           }
+        },
+        "workflow": {
+          "$ref": "#/$defs/workflow"
+        },
+        "publication": {
+          "$ref": "#/$defs/publication"
         }
       }
+    },
+    "workflow_policy": {
+      "type": "object",
+      "required": [
+        "version",
+        "legacy_done",
+        "legacy_done_sha256"
+      ],
+      "properties": {
+        "version": {
+          "const": 1
+        },
+        "legacy_done": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9]*-[0-9]{3}$"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "legacy_done_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "stage_review": {
+      "type": "object",
+      "required": [
+        "phase",
+        "provider",
+        "model",
+        "reviewer",
+        "revision",
+        "outcome",
+        "evidence",
+        "findings",
+        "blocking_findings"
+      ],
+      "properties": {
+        "phase": {
+          "enum": [
+            "initial",
+            "verification",
+            "closing"
+          ]
+        },
+        "provider": {
+          "enum": [
+            "claude",
+            "codex"
+          ]
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reviewer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "outcome": {
+          "enum": [
+            "approved",
+            "changes_requested"
+          ]
+        },
+        "evidence": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://[^\\s]+$"
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "blocking_findings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "started_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "finished_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "review_stage": {
+      "type": "object",
+      "required": [
+        "authors",
+        "revision",
+        "paths",
+        "reviews"
+      ],
+      "properties": {
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "revision": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "reviews": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stage_review"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "workflow": {
+      "type": "object",
+      "required": [
+        "required_stages",
+        "stages"
+      ],
+      "properties": {
+        "required_stages": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "contract",
+              "tests",
+              "implementation"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "stages": {
+          "type": "object",
+          "properties": {
+            "contract": {
+              "$ref": "#/$defs/review_stage"
+            },
+            "tests": {
+              "$ref": "#/$defs/review_stage"
+            },
+            "implementation": {
+              "$ref": "#/$defs/review_stage"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "publication": {
+      "type": "object",
+      "required": [
+        "state",
+        "pr",
+        "head",
+        "merge_commit",
+        "merged_at",
+        "observed_at"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "open",
+            "merged"
+          ]
+        },
+        "pr": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://[^\\s]+$"
+        },
+        "head": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "merge_commit": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "merged_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
     }
   }
 }

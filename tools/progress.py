@@ -13,6 +13,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import quote, urlsplit
 
+import workflow
+
 ROOT = Path(__file__).resolve().parents[1]
 STATE = ROOT / "progress/state.json"
 OUTPUT = ROOT / "PROGRESS.html"
@@ -60,6 +62,10 @@ def validate(data: dict, root: Path = ROOT) -> None:
             raise ValueError(f"Missing/non-text field: {key}")
     if not isinstance(data.get("tasks"), list) or not data["tasks"]:
         raise ValueError("At least one task is required")
+    policy = data.get("workflow_policy")
+    if "workflow_policy" in data and policy is None:
+        raise ValueError("workflow_policy must be an object when present")
+    legacy_done = workflow.legacy_done(policy)
     by_id = {}
     for task in data["tasks"]:
         task_id = task.get("id", "")
@@ -88,7 +94,8 @@ def validate(data: dict, root: Path = ROOT) -> None:
         if task["status"] == "done":
             if not task["evidence"]:
                 raise ValueError(f"{task_id}: done requires evidence")
-            if task["kind"] in {"implementation", "test_review", "code_review", "test_baseline", "cleanup"}:
+            if (task["kind"] in {"implementation", "test_review", "code_review", "test_baseline", "cleanup"}
+                    or task["kind"] == "contract" and task_id not in legacy_done):
                 review = task.get("review") or {}
                 if (not review.get("author") or not review.get("reviewer")
                         or review["author"] == review["reviewer"] or review.get("outcome") != "approved"):
@@ -97,6 +104,9 @@ def validate(data: dict, root: Path = ROOT) -> None:
                 raise ValueError(f"{task_id}: implementation done requires passing acceptance evidence")
             if task["kind"] == "test_baseline" and task["verification"].get("baseline") != "observed_red":
                 raise ValueError(f"{task_id}: baseline done requires observed_red evidence")
+        workflow.validate_task(task, policy, root, local_path, evidence_path)
+    if any(task_id not in by_id or by_id[task_id]["status"] != "done" for task_id in legacy_done):
+        raise ValueError("workflow_policy legacy_done must contain known done task IDs")
     visiting, visited = set(), set()
 
     def visit(task_id: str) -> None:
@@ -110,7 +120,8 @@ def validate(data: dict, root: Path = ROOT) -> None:
             if dependency not in by_id:
                 raise ValueError(f"{task_id}: unknown dependency {dependency}")
             visit(dependency)
-            if task["status"] in {"ready", "in_progress", "in_review", "done"} and by_id[dependency]["status"] != "done":
+            if (task["status"] in {"ready", "in_progress", "in_review", "done"}
+                    and not workflow.dependency_complete(by_id[dependency], policy)):
                 raise ValueError(f"{task_id}: dependency {dependency} is not done")
         visiting.remove(task_id)
         visited.add(task_id)
@@ -174,10 +185,10 @@ def execution_order(tasks: list[dict]) -> list[dict]:
     return ordered
 
 
-def is_available(task: dict, by_id: dict[str, dict]) -> bool:
+def is_available(task: dict, by_id: dict[str, dict], policy: dict | None = None) -> bool:
     """Report dependency readiness from recorded state, without granting authorization."""
     return (task["kind"] != "epic" and task["status"] in {"planned", "ready"}
-            and all(by_id[d]["status"] == "done" for d in task["depends_on"]))
+            and all(workflow.dependency_complete(by_id[d], policy) for d in task["depends_on"]))
 
 
 def context(data: dict, task_id: str) -> dict:
@@ -197,7 +208,7 @@ def context(data: dict, task_id: str) -> dict:
         "dependents": [t["id"] for t in tasks if task_id in t["depends_on"]],
         "shared_brief_tasks": [t["id"] for t in tasks
                                if t["id"] != task_id and t["brief"] == task["brief"]],
-        "available": is_available(task, by_id),
+        "available": is_available(task, by_id, data.get("workflow_policy")),
         "limitations": ("Recorded information only; live GitHub/CI, session liveness and "
                         "checkout revisions are not verified. Availability grants no permission "
                         "to resume stopped work."),
@@ -209,7 +220,7 @@ def render(data: dict) -> str:
     by_id = {t["id"]: t for t in tasks}
     source_positions = {t["id"]: i for i, t in enumerate(tasks)}
     ordered = execution_order(tasks)
-    available = {t["id"] for t in tasks if is_available(t, by_id)}
+    available = {t["id"] for t in tasks if is_available(t, by_id, data.get("workflow_policy"))}
     done = sum(t["status"] == "done" for t in tasks)
     concrete = sum(t["kind"] != "epic" for t in tasks)
     blocked = sum(t["status"] == "blocked" for t in tasks)
@@ -222,6 +233,10 @@ def render(data: dict) -> str:
         notes = "".join(f"<li>{esc(n)}</li>" for n in task["notes"]) or "<li>No task notes yet.</li>"
         evidence = " · ".join(link(p, p if p.startswith("https://") else Path(p).name)
                                for p in task["evidence"]) or "No verification evidence recorded"
+        publication = task.get("publication")
+        publication_html = (f'<h4>Publication observation</h4><p>{badge(publication["state"])} '
+                            f'{link(publication["pr"], "PR ↗")} · imported {esc(publication["observed_at"])}</p>'
+                            if publication else "")
         checks = " ".join(f'<span class="check">{esc(label(k))} {badge(v)}</span>' for k, v in task["verification"].items()) or "No check outcome recorded"
         review = task.get("review")
         review_text = (f'{review.get("author", "?")} → {review.get("reviewer", "?")}: {review.get("outcome", "?")}' if review else "Not recorded")
@@ -229,7 +244,7 @@ def render(data: dict) -> str:
         pickup = '<span class="badge available">Dependencies complete</span>' if task["id"] in available else ""
         rows.append(f'''<article id="{esc(task['id'])}" class="task" data-status="{esc(task['status'])}" data-module="{esc(task['module'])}" data-search="{esc(search)}" data-epic-order="{source_positions[task['id']]}" data-execution-order="{position}" data-available="{str(task['id'] in available).lower()}">
 <details><summary><div class="task-heading"><span class="task-id">{esc(task['id'])}</span><span class="task-title">{esc(task['title'])}</span></div><div class="task-meta"><span>{esc(task['module'])}</span><span class="kind">{esc(label(task['kind']))}</span>{badge(task['status'])}{pickup}<span class="chevron" aria-hidden="true">⌄</span></div></summary>
-<div class="task-detail"><p>{esc(task['summary'])}</p><div class="detail-grid"><div><h4>Ownership</h4><p>{esc(task['owner'])}</p><h4>Specification</h4><p>{esc(', '.join(task['spec_refs']))}</p></div><div><h4>Dependencies</h4><p>{dependencies}</p><h4>Independent review</h4><p>{esc(review_text)}</p></div></div><h4>Notes</h4><ul>{notes}</ul><h4>Verification</h4><p class="checks">{checks}</p><p class="evidence">{evidence}</p><p>{link(task['brief'], 'Open task brief ↗')}</p></div></details></article>''')
+<div class="task-detail"><p>{esc(task['summary'])}</p><div class="detail-grid"><div><h4>Ownership</h4><p>{esc(task['owner'])}</p><h4>Specification</h4><p>{esc(', '.join(task['spec_refs']))}</p></div><div><h4>Dependencies</h4><p>{dependencies}</p><h4>Independent review</h4><p>{esc(review_text)}</p></div></div>{publication_html}<h4>Notes</h4><ul>{notes}</ul><h4>Verification</h4><p class="checks">{checks}</p><p class="evidence">{evidence}</p><p>{link(task['brief'], 'Open task brief ↗')}</p></div></details></article>''')
     modules = sorted({t["module"] for t in tasks})
     module_options = checkbox_options("module", [(m, m) for m in modules])
     status_options = checkbox_options("status", [(s, label(s)) for s in sorted(STATUSES)])
@@ -258,6 +273,10 @@ def main() -> int:
     sub.add_parser("validate")
     contextual = sub.add_parser("context")
     contextual.add_argument("task_id")
+    contextual.add_argument("--stage", help="Derive one required stage's packet, gates and metrics")
+    reconciling = sub.add_parser("reconcile")
+    reconciling.add_argument("task_id")
+    reconciling.add_argument("--pr-json", type=Path, required=True, help="Saved gh pr view observation")
     rendering = sub.add_parser("render")
     rendering.add_argument("--check", action="store_true", help="Fail if the HTML snapshot is stale")
     setting = sub.add_parser("set")
@@ -270,7 +289,20 @@ def main() -> int:
         data = json.loads(STATE.read_text(encoding="utf-8"))
         validate(data)
         if args.command == "context":
-            print(json.dumps(context(data, args.task_id), indent=2, ensure_ascii=False))
+            view = context(data, args.task_id)
+            if args.stage is not None:
+                view["stage_context"] = workflow.stage_context(view["task"], args.stage)
+            print(json.dumps(view, indent=2, ensure_ascii=False))
+            return 0
+        if args.command == "reconcile":
+            snapshot = json.loads(args.pr_json.read_text(encoding="utf-8"))
+            observed_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+            workflow.reconcile(data, args.task_id, snapshot, observed_at, ROOT, evidence_path)
+            validate(data)
+            state_text = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
+            html_text = render(data)
+            workflow.replace_outputs(STATE, state_text, OUTPUT, html_text)
+            print(f"Reconciled publication for {args.task_id}; saved observation only")
             return 0
         if args.command == "set":
             task = next((t for t in data["tasks"] if t["id"] == args.task_id), None)
