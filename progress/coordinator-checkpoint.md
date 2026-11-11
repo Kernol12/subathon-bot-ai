@@ -82,3 +82,11 @@ stages now closed. Actual root tooling51 PASS (1.578s), project469/122/render/di
 PASS. No host compilation/discovery/load/body yet. Verified existing Qt config6.12.0
 and QSQLITE paths; recreating already-selected static sodiumSDK from exact pinned
 archive into ignored build/deps. Setup/compile errors will not count as intended red.
+
+First fresh configure/build atf235b31 both0;125Ninja steps completed, no new target
+launched. Newshadow warnings plus one frozenprobe shadow warning retained; no
+warning-free claim. Actual CTest metadata75Qt+1native matches labels/watchdogs/
+ordinaryfailure. Passive ELF each31initial/33withQSQLITE, allstrong/version providers
+checked, sealedSDK unchanged. Initial libc interpreter alias rejection preserved
+then canonical same-loader correction passed; no actual map observed. Controlled
+load proposal in ignored admission/CONTROLLED_LOAD_PLAN.md awaits independent review.

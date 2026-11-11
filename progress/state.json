@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T08:10:51+00:00",
+  "updated_at": "2026-11-11T08:20:36+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. The owner resumed APITEST-001 baseline only through normal merge, then stop; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
@@ -5289,10 +5289,14 @@
         "tooling": "passed",
         "selector_test_review": "passed",
         "selector_baseline": "observed_red",
-        "source_authored": "draft",
+        "source_authored": "passed",
         "test_review": "passed",
         "build_review": "passed",
-        "source_review": "passed"
+        "source_review": "passed",
+        "native_configure": "passed",
+        "native_build": "passed",
+        "passive_discovery": "passed",
+        "passive_abi": "partial"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/112"
