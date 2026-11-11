@@ -300,6 +300,24 @@
         "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
         "SUBATHON_ACCEPTANCE_SUITES": "native-websocket-profile"
       }
+    },
+    {
+      "name": "api-host-debug",
+      "displayName": "32 \u00b7 API host lifecycle baseline (intentional red)",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
+        "SUBATHON_ACCEPTANCE_SUITES": "api-host"
+      }
+    },
+    {
+      "name": "api-host-native-debug",
+      "displayName": "33 \u00b7 API host lifecycle baseline (intentional red)",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
+        "SUBATHON_ACCEPTANCE_SUITES": "api-host-native"
+      }
     }
   ],
   "buildPresets": [
@@ -430,6 +448,14 @@
     {
       "name": "native-websocket-profile-debug",
       "configurePreset": "native-websocket-profile-debug"
+    },
+    {
+      "name": "api-host-debug",
+      "configurePreset": "api-host-debug"
+    },
+    {
+      "name": "api-host-native-debug",
+      "configurePreset": "api-host-native-debug"
     }
   ],
   "testPresets": [
@@ -746,6 +772,26 @@
     {
       "name": "native-websocket-profile-debug",
       "configurePreset": "native-websocket-profile-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "api-host-debug",
+      "configurePreset": "api-host-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "api-host-native-debug",
+      "configurePreset": "api-host-native-debug",
       "output": {
         "outputOnFailure": true
       },

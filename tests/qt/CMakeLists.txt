@@ -1,5 +1,15 @@
 include("${PROJECT_SOURCE_DIR}/cmake/AcceptanceRegistration.cmake")
 
+if(SUBATHON_BUILD_API_HOST_TESTS)
+    subathon_add_qt_suite(server_api_host_acceptance
+        NAME api-host SOURCES api_host_tests.cpp LIBRARIES subathon_api_host
+        LABELS "api-host;acceptance;qt;server;intentional-red" TIMEOUT 3000)
+    # The reviewed corrected SDK owns transitive native loading; do not inherit
+    # arbitrary loader paths. Qt's selected imported targets retain their RPATHs.
+    set_tests_properties(api-host.suite PROPERTIES
+        ENVIRONMENT "LD_LIBRARY_PATH=${sbt_drogon_root}/lib")
+endif()
+
 if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
     subathon_add_qt_suite(server_sqlite_reference_capture_acceptance
         NAME sqlite-reference-capture SOURCES sqlite_reference_capture_tests.cpp

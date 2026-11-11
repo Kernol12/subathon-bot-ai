@@ -8,7 +8,7 @@ set(subathon_acceptance_suites
     sqlite-bundle sqlite-original-claim sqlite-hold application-service
     translation-catalog rate-snapshot milestone-progression session-resolution
     password-hashing effective-permissions timer-editorial sqlite-reference-capture
-    sqlite-account-sessions native-websocket-profile)
+    sqlite-account-sessions native-websocket-profile api-host api-host-native)
 
 # Existing library/test guards stay private derived variables; callers select the
 # logical suites above instead of maintaining another set of cache switches.
@@ -75,7 +75,11 @@ function(subathon_resolve_acceptance_suites output)
             message(FATAL_ERROR "Unknown acceptance suite: ${suite}")
         endif()
         list(FIND sqlite_chain "${suite}" sqlite_index)
-        if(NOT sqlite_index EQUAL -1)
+        if(suite STREQUAL "api-host" OR suite STREQUAL "api-host-native")
+            # Host headers/fixtures need the real store prefix and corrected
+            # transport even in the Qt/fake lane. Native retains the Qt baseline.
+            list(APPEND selected ${sqlite_chain} native-websocket-profile api-host "${suite}")
+        elseif(NOT sqlite_index EQUAL -1)
             math(EXPR prefix_length "${sqlite_index} + 1")
             list(SUBLIST sqlite_chain 0 ${prefix_length} prefix)
             list(APPEND selected ${prefix})

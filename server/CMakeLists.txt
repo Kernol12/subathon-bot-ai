@@ -110,3 +110,20 @@ if(SUBATHON_BUILD_NATIVE_WEBSOCKET_PROFILE_TESTS)
     target_link_libraries(subathon_native_websocket_profile PRIVATE Drogon::Drogon)
     subathon_target_options(subathon_native_websocket_profile)
 endif()
+
+# APITEST-001 contains explicit unimplemented production pieces. The Qt baseline
+# uses fake transport; the native child links the separate shipped Drogon adapter.
+if(SUBATHON_BUILD_API_HOST_TESTS)
+    add_library(subathon_api_host STATIC
+        src/api_host.cpp src/api_host_signal_linux.cpp src/api_host_elapsed_linux.cpp)
+    target_include_directories(subathon_api_host PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_api_host PUBLIC
+        subathon_sqlite_account_sessions subathon_native_websocket_profile Qt6::Core Threads::Threads)
+    subathon_target_options(subathon_api_host)
+endif()
+if(SUBATHON_BUILD_API_HOST_NATIVE_TESTS)
+    add_library(subathon_api_host_drogon STATIC src/api_host_drogon.cpp)
+    target_link_libraries(subathon_api_host_drogon PUBLIC subathon_api_host PRIVATE Drogon::Drogon)
+    target_compile_definitions(subathon_api_host_drogon PRIVATE QT_NO_KEYWORDS)
+    subathon_target_options(subathon_api_host_drogon)
+endif()
