@@ -42,3 +42,13 @@ secret-copy cleanup path. Reconcile future host hard-shutdown policy with native
 crypto's non-cooperative lifetime; no hard deadline or safe forced-free claim.
 Obtain the complete independent review cycle before APITEST-013. Record exact
 reviewed revision and unresolved boundaries; no runtime capability is established.
+
+## Authored contract and review handoff
+
+[Host authentication continuations v1, revision 1](../../contracts/host-auth-continuations-v1.md)
+is authored for independent review: original lease, bounded stages, guarded ports,
+shared elapsed/permit, policy provenance, per-owner secret cleanup and HC01–37.
+It proposes separately gated auth adapter extensions and identifies missing actual
+producers; no runtime, tests or review approval is claimed. Author owns only that
+contract and this brief. Coordinator retains all shared integration and the full
+Claude initial → Codex verification → Claude closing cycle before APITEST-013.
