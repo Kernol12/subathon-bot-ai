@@ -130,8 +130,8 @@ installation or complete end-to-end effects.
 [Local-login authority #113](https://github.com/Kernol12/subathon-bot-ai/pull/113)
 defines request-bound acceptance, exact current credential/account/epoch checks,
 finite off-writer password work, attempt settlement and conditional rehash lineage,
-with 32 proposed examples. Initial Claude, separate Codex and closing Claude
-reviews approved the corrected document packet. The missing host continuation,
+with 32 proposed examples. Initial Claude findings were resolved; separate Codex
+and closing Claude reviews approved the corrected document packet. The missing host continuation,
 lease, guarded accessors, elapsed read and password permit are explicitly planned
 as APICONTRACT-002/APITEST-013/API-013; actual ingress-policy and directory producers
 remain prerequisites. Earlier ingress/host secret copies need their own erase audit.
