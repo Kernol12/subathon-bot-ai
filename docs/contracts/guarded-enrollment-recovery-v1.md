@@ -34,7 +34,12 @@ The following observations are from actual source at the source base:
 ACCESS-001 owns actual directory, owner/bootstrap/invitation and initial access
 facts plus separately reviewed logical/physical extensions. ACCESS-005 owns actual
 recovery policy, code/reset facts and console/helper entitlement. Their integrations
-must supply the named ports below. API-014 owns abstract port types, guards and
+must supply the named ports below. `read_bound_access` uses ACCESS-001's owner/role
+storage and ACCESS-003's actual current delegation evaluator; ACCESS-005 composes
+them for recovery. ACCESS-001/005 each own their same-transaction security-audit
+adapter and must split any substantial physical prerequisite before implementation.
+These are required named producers, not capabilities already supplied by STORAGE-020.
+API-014 owns abstract port types, guards and
 bounded forwarding only; it compiles/tests with unavailable production bindings
 or explicitly simulated producers. No reverse dependency on ACCESS-001/005 or
 SESSION-002/003 is introduced. No physical schema extension is implicit. Substantial
@@ -45,7 +50,10 @@ storage prerequisites must be split/reviewed before consumer implementation.
 Composition, before serving, registers one compiled dispatcher per permitted purpose:
 `initial_owner`, `invitation_registration`, `recovery_code_reset`, `helper_reset`,
 `console_owner_reset`, and the bounded issuer purposes `issue_setup`, `issue_invitation`,
-`issue_helper_reset`, `issue_console_reset`, `replace_recovery_codes`. Each registers
+`issue_helper_reset`, `issue_console_reset`, `replace_recovery_codes`,
+`revoke_invitation`, `revoke_helper_reset`, `revoke_console_reset`. The two reset
+issuer purposes include explicit replacement of their original target's offer;
+they cannot change helper/owner purpose or target. Each registers
 exact phase transitions, permitted named operations, complete bounded payload/result
 shapes, source/mutation checker, producer bindings and response emitter. Duplicate,
 unknown or incomplete registration refuses before listening/secret ownership; there
@@ -82,16 +90,20 @@ The reference stage registration is finite:
 
 | Purpose | Legal ordered stages / native work between stages |
 | --- | --- |
-| Initial owner / invitation | `select_enrollment` committed read; password creation + bounded recovery-code batch; `commit_enrollment`; final response. |
+| Initial owner / invitation | `select_enrollment` committed positive code/token/status/UTC/entitlement read; password creation + bounded recovery-code batch; `commit_enrollment`; final response. |
 | Recovery-code reset | `select_recovery` committed read; verify ONE selected recovery code, create new password and replacement code batch; `commit_reset`; final response. No scan/try-every-code verification. |
-| Helper / console-owner reset redemption | `select_recovery` committed read; create new password + replacement code batch; `commit_reset`; final response. The single-use reset token is checked by its registered bounded format/digest mechanism, not treated as an accepted login. |
+| Helper / console-owner reset redemption | `select_recovery` committed positive token/status/UTC/entitlement read; create new password + replacement code batch; `commit_reset`; final response. The single-use reset token is checked by its registered bounded format/digest mechanism, not treated as an accepted login. |
 | Issuers | `select_issue` committed read; bounded token/code candidate preparation; `commit_issue`; final response. Invitation/helper issuance additionally requires current actor/delegation authorization; console/setup requires actual console scope. |
+| Revocations | `select_issue` committed current entitlement/original-record read; ZERO candidate/native work; `commit_issue` conditionally revokes only the selected invitation or same-purpose reset offer; final nonsecret response. |
 | Replace own recovery codes | `select_recovery_set` committed read; bounded replacement batch; `commit_recovery_set`; final response. Actual current account/required fresh authentication and policy remain consumer-owned. |
 
-Only ONE writer stage is outstanding per original. At most TWO real stages for a
-successful operation; failures terminally end it. Explicit known-rollback resubmission
-may use remaining host lifetime credits (16 total admission attempts), but has no
-automatic retry and no repeated native work or reused consumed candidate. Stages
+Only ONE writer stage is outstanding per original. At most TWO accepted stages or
+admission attempts per original, each using the inherited16-credit ceiling without
+expanding it. ANY refusal/failure, including known rollback, terminally ends this
+original and wipes its candidates after actual drain. No same-original resubmission,
+repeated native work or candidate replay; retry requires a fresh guarded request
+and newly checked current facts. This consumer profile is stricter than the host's
+generic ceiling. Stages
 never wait for crypto/IO; no BEGIN, transaction, ticket, facade, proof or source
 borrow crosses a yield. Workers retain only inert handles and owned bounded values.
 The same host elapsed source is retainable read-only scheduling input; UTC is a new
@@ -115,7 +127,7 @@ no scan, cached success, separate connection or network/worker call is allowed.
 | `insert_bound_account(new_account)` | Forward STORAGE-020 `insert_account(const StoredAccountFacts&)` unchanged; only current enrollment authority, newly reserved original identity and same transaction. Collision never adopts an existing account. |
 | `replace_bound_account(expected, replacement)` | Forward `replace_account(expected,replacement)` unchanged: immutable installation/account keys, full access/epoch/revision CAS and new revision. Reset preserves enabled/access facts, changes account epoch/revision, and cannot rewrite permissions/owner. |
 | `replace_bound_local_credential(expected_optional,new_local,expected_account,expected_installation)` | Forward `replace_local_credential` unchanged with all FOUR actual arguments. Compare full old revision/verifier and current account/install fences; absence may insert only if still absent. New credential revision differs. If account changed earlier in the same transaction, supply its exact newly staged facts, not a stale pre-write account. No replacement can create accepted login or rehash lineage. |
-| `read_original_binding()` | API-013 directory read of original username/selection, returning exact key/binding/account/revision or known absence. The compiled ACCESS-001 producer must establish actual indexed absence; unbound producer returns unavailable before lookup. |
+| `read_original_binding()` | Forward API-013 `resolve_original_username()` unchanged for the privately bound original username, returning exact key/binding/account/revision or known absence. The compiled ACCESS-001 producer must establish actual indexed absence; unbound producer returns unavailable before lookup. No account-keyed reverse lookup is implied. |
 | `compare_exchange_original_binding(expected_optional,replacement)` | New bounded directory port: compare ALL original key/normalization-version/binding/account/revision facts and uniqueness in this transaction; insert only on healthy absence, replace only on exact current match/new revision. Preserve installation/key and permitted enrollment semantics; no arbitrary username reassignment. |
 | `read_enrollment_control()` | New ACCESS-001 port: one exact installation-scoped bootstrap/protected-owner/registration control record, current setup-code selection or invitation record, full revisions/status/deadline/digest/roles/delegation source and original target. Healthy no-owner is an actual singleton fact, not an empty account lookup. Return complete closure or typed absence/invalid/resource/unavailable. |
 | `compare_exchange_enrollment_control(expected,transition)` | Named transitions only: issue/replace setup code while no owner; issue/revoke invitation under current delegation; consume original live code/invitation; atomically install the initial protected owner AND close bootstrap. Full singleton/code/invitation CAS; setup replacement invalidates old code in same commit. No generic owner-transfer or ordinary role edit operation. |
@@ -124,6 +136,35 @@ no scan, cached success, separate connection or network/worker call is allowed.
 | `read_recovery_control()` | New ACCESS-005 port: exact original reset offer OR selected recovery-code record plus current recovery-set generation/revision, original account, expiry/status/digest/verifier and current permission/owner closure. One indexed candidate only; no enumeration of all account codes. Also supports current set metadata for authorized replacement/issuance. |
 | `compare_exchange_recovery_control(expected,transition)` | Named transitions only: issue/replace/revoke bound reset offer, consume selected code/reset offer, install/replace a finite recovery set and invalidate ALL former generation codes/offers for the target. Full original record AND set-generation CAS. Set replacement is bounded generation fencing, not an unbounded row walk. Physical implementation must prove old codes cannot be reused. No target/ownership/permission change. |
 | `append_security_audit(event)` | New bounded compiled audit port: same-commit fixed category, original operation identity, actor/target opaque references and revisions/outcome; no raw code/password/hash/token or arbitrary exception text. Missing/full/failing required audit prevents successful domain commit. Exact schema/retention producer remains consumer/storage-owned. |
+
+The following allowlist is closed; absent operations/transition kinds REFUSE before
+port access. Abbreviations expand to exact names above: `a`=read_bound_account,
+`c`=read_bound_local_credential, `d`=read_original_binding,
+`e`=read_enrollment_control, `p`=read_bound_access, `r`=read_recovery_control.
+`I`=insert_bound_account, `A`=replace_bound_account,
+`C`=replace_bound_local_credential, `D`=compare_exchange_original_binding,
+`E`=compare_exchange_enrollment_control, `P`=install_enrollment_access,
+`R`=compare_exchange_recovery_control, `L`=append_security_audit.
+Host-only installation/finalization reads remain inherited, never consumer escapes.
+
+| Compiled purpose | Selection reads (also reread at final stage) | Final-stage mutations ONLY |
+| --- | --- | --- |
+| initial_owner | a,c,d,e,p,r | I,C,D,E(initial-owner consume+close),P,R(initial set),L |
+| invitation_registration | a,c,d,e,p,r | I,C,D,E(consume invitation),P,R(initial set),L |
+| recovery_code_reset / helper_reset / console_owner_reset | a,c,p,r; d ONLY if original selection includes username | A,C,R(consume selected code/offer+replace set/invalidate old),L |
+| issue_setup | e,p | E(issue/replace setup while no owner),L |
+| issue_invitation | e,p | E(issue invitation),L |
+| revoke_invitation | e,p | E(revoke original invitation),L |
+| issue_helper_reset / issue_console_reset | a,p,r | R(issue/replace same-purpose original offer),L |
+| revoke_helper_reset / revoke_console_reset | a,p,r | R(revoke same-purpose original offer),L |
+| replace_recovery_codes | a,p,r | R(replace own set/invalidate old generation),L |
+
+Each row has only its §2 select/final stage pair; selection stages are READ ONLY.
+Within a shared row the original purpose remains exact: helper cannot target owner,
+console reset cannot target helper, and a code consumer cannot consume a reset offer.
+The bound original record determines each transition; no arbitrary transition enum
+can expand this matrix. In particular issuers/revokers cannot change credentials,
+and resets cannot insert accounts, write directory/access or alter ownership.
 
 Current permission/delegation and workflow policy checks are compiled CONSUMER
 operations using these current facts. The registration supplies `check_current`
@@ -135,6 +176,19 @@ the actual current supplier/owner path and UTC, not the reset token's creation t
 Initial enrollment/reset may be entitled without an existing session/accepted login.
 Helper reset must refuse the protected owner; console owner recovery targets the
 actual existing owner only. Missing authority source refuses before disclosure/write.
+
+BEFORE any native call or candidate generation, the selection body must check
+current entitlement, complete original source/control closure, trusted UTC expiry,
+live/unconsumed/unrevoked status and setup/invitation/reset token format+digest
+match using the owning reviewed bounded mechanism. Only its actual normal committed
+matching positive completion, with fresh host and consumer guards, releases worker
+work. Wrong/expired/replaced setup, invitation or reset token means ZERO expensive
+calls and ZERO output candidates. Recovery-code redemption first validates the ONE
+indexed selector/status/expiry/set/entitlement; its secret match necessarily costs
+ONE permitted native verification. A negative verification permits no password or
+replacement-code creation. No scan, batch of verification attempts or caller-provided
+verified flag substitutes. All checks repeat at final mutation; selection is not a
+durable reservation or future grant.
 
 Abstract producer construction/binding is private trusted composition: the host
 binds actual concrete adapters to its SAME private writer session for one execution.
@@ -166,11 +220,14 @@ The final no-yield transaction stages one complete operation:
   insert local credential against actual staged account/install; insert directory and
   access facts; install finite recovery set; consume code/invitation; initial setup
   installs protected owner/closes bootstrap; append required audit.
-- Reset: verify selected live code/offer, original target and current entitlement;
+- Reset (ACCESS-005 recovery policy, guarded here): verify selected live code/offer, original target and current entitlement;
   preserve exact existing permissions/protected owner and account access; replace
   account epoch/revision and local credential with full CAS; consume code/offer and
   invalidate old recovery-set/reset generations, stage offered replacement codes;
-  append audit. Directory remains byte-for-byte unchanged and freshly compared.
+  append audit. Directory remains byte-for-byte unchanged. If the original selected
+  a username, freshly compare that binding through `read_original_binding`; token/
+  console/account-selected reset instead compares its original target/control/full
+  account closure, without inventing an account-keyed directory read.
   New account epoch revokes ALL existing application sessions for that account via
   their unchanged captured-epoch supplier fence, without an unbounded session scan
   or a false claim that physical session rows were rewritten. Other accounts remain
@@ -212,6 +269,12 @@ setup, invitation, code/reset issuance/redemption and code replacement. Zero wai
 password jobs; no extra worker/permit per consumer and no out-of-process password
 path. No expensive call runs on Qt/IO. Creation/verification use unchanged primitives,
 not the login-only upgrade API or invented accepted-login proofs.
+Taking this permit even for zero-Argon issuers/revokers is a conservative additional
+profile choice: one secret workflow/drain at a time, including console issuance.
+It provides no fairness or availability guarantee; an active login may refuse console
+issuance. ACCESS-001/005's abuse/admission gates must assess this before enablement;
+any reserved/fair issuance path requires separate review, never a second executor or
+password bypass. Revocation likewise cannot claim success on a busy refusal.
 
 Reference profile: one recovery set has exactly8 codes; each raw generated code
 is at most256 bytes and each encoded verifier at most127. Eight is a finite engineering
@@ -226,7 +289,7 @@ passwords retain exact0..1024 bytes and unchanged password API cost/preflight ru
 | Recovery-code reset |1 verify of ONE indexed code +1 password create +8 code creates =10. |
 | Helper / console reset redemption |1 password create +8 code creates =9; one bounded reset-token check. |
 | Replace recovery set |8 code creates. |
-| Setup/invitation/reset issuer |ZERO password primitives; at most one bounded token candidate generation/digest. Same permit prevents a second code/password pipeline. |
+| Setup/invitation/reset issuer / revoker |ZERO password primitives; issuer at most one bounded token candidate generation/digest, revoker ZERO candidates. Same permit prevents a second code/password pipeline. |
 
 Generate each candidate once with the owning reviewed selected random primitive;
 no collision redraw/retry loop. At most8 raw code candidates plus one issuer token,
@@ -261,7 +324,8 @@ with authorized configured expiry. Checked arithmetic, no saturation/wrap. Consu
 at equality is expired. Local pipeline cancellation never extends/shortens the
 persisted code's specification lifetime or implies code consumption without commit.
 
-Additional typed secret profile, charged also to imported host input/response pools:
+Complete typed-owner secret profile, overlapping imported job/helper caps and charged
+to the SAME host input/response pools (no independent pool per profile):
 
 | Owner | Maximum live semantic capacity / last-use obligation |
 | --- | --- |
@@ -272,9 +336,11 @@ Additional typed secret profile, charged also to imported host input/response po
 | Stage commands/replies/cells | ZERO plaintext. Only bounded sensitive verifier/digest/selection/provenance metadata, complete command/reply each<=65536; imported aggregate retained stage copies<=8388608 and original control caps apply, never one pool per purpose. Imported string/driver verifier copies have no complete-erasure claim. |
 | Final typed output and IO | ONE separate guarded/locked fixed4096-byte serialized output owner (whole response incl framing must fit) plus at most ONE bounded4096-byte project plaintext IO owner while handing off. Reserve BOTH before copying. No generic OwnedReply/QByteArray/framework response clones, cache, log, password echo, automatic delivery/email or repeat emission. Adapter with unbounded/unknown copies is unavailable. Final output/IO buffers wipe on suppression, exception, disconnect, stop, timeout and real final borrower return/destruction. |
 
-Conservative additional live capacity is1024+256+4096+1024+4096+4096=14592 bytes
+Conservative live capacity for these typed owners is1024+256+4096+1024+4096+4096=14592 bytes
 at these job/helper/output owners, besides imported raw/native scratch and sensitive
-nonplaintext stage payloads. One active pipeline; retained output from a finished
+nonplaintext stage payloads. The1024 job and1024 helper owners are the SAME owners
+already counted in host-auth §6, not two new allocations or an additive14592 on top
+of those owners. One active pipeline; retained output from a finished
 pipeline remains charged until drained. Reserve one installation-wide14592 secret
 credit across that entire lifecycle, so a still-live output cannot overlap another
 pipeline under an uncounted budget. Password permit additionally lasts through all
@@ -303,7 +369,7 @@ thread/edge instrumentation is required, not a mock's success flag.
 | ID | Direct setup / order | Literal expected observation |
 | --- | --- | --- |
 | ER01 | Healthy bootstrap has no owner, setup c1 expires900000; now899999, original c1; native succeeds; final facts unchanged | Atomic account/credential/directory/access/recovery-set/owner+closed-bootstrap/consume/audit commit; one post-commit response. No session inferred. |
-| ER02 | Same c1 at now900000; alternatively UTC unavailable | Expired / unavailable respectively, zero mutation/public success; no elapsed fallback. |
+| ER02 | Same c1 at now900000; alternatively UTC unavailable | Expired / unavailable respectively, zero native calls/candidates/mutation/public success; no elapsed fallback. |
 | ER03 | Two originals selected no-owner/c1; both generated distinct candidates; first commits | Second rereads owner/control and refuses stale; no second owner/account adoption or partial directory row. |
 | ER04 | Select c1; console replaces with c2 before final commit | c1 stale, unchanged c2. Replacement CAS atomically invalidates c1; equal revision with different full bytes still loses. |
 | ER05 | Owner a already exists; actual console requests initial setup | Refuse initial-owner entitlement; no code/account/ownership rewrite. Console owner-reset may separately target a only. |
@@ -312,7 +378,7 @@ thread/edge instrumentation is required, not a mock's success flag.
 | ER08 | Invitation consumed/revoked or original directory key becomes bound a→b during crypto | Final full selection/control/binding mismatch; no adoption of b, no credential overwrite. |
 | ER09 | Reset selects account a/r/H0; credential becomes z/H1 or same r/different verifier before final stage | Full CAS refusal; H1 retained, zero partial epoch/recovery change. |
 | ER10 | Account access/revision/epoch, install epoch, permission revision, owner binding or recovery-set generation changes during crypto | Fresh current comparison refuses; no cached selection/entitlement authorizes mutation. |
-| ER11 | Valid helper reset of helper h with permissions P; sessions capture epoch e; code set G | One commit keeps P/access/identity, epoch e→f, replaces credential, consumes offer and G→H; all old-epoch sessions and G codes refuse. Other account b unchanged. |
+| ER11 | Valid helper reset of helper h with permissions P; sessions capture epoch e; code set G1 | One ACCESS-005 policy commit keeps P/access/identity, epoch e→f, replaces credential, consumes offer and G1→G2; all old-epoch sessions and G1 codes refuse. Other account b unchanged. |
 | ER12 | Administrator attempts helper reset targeting protected owner a | Denied before secret disclosure/mutation. Actual console reset of existing a preserves SAME owner binding/permissions, never transfers to a new account. |
 | ER13 | Code selector k identifies one recovery record; verify not_successful | No other code tried, no password/code creation, no mutation. It is not definitive wrong-password proof or accepted login. |
 | ER14 | Recovery reset selected8 replacement codes; all operations succeed | Exactly1+1+8=10 maximum expensive calls; one sequential native call at any instant, one permit. Failure on code4 discards whole batch; no partial commit. |
@@ -330,6 +396,11 @@ thread/edge instrumentation is required, not a mock's success flag.
 | ER26 | Console adapter missing/current source revoked; console client supplies password or trusted=true | Unavailable/invalid route; no direct primitive invocation or synthetic issuer scope. Genuine console issuance returns only specified setup/reset code with900000ms lifetime. |
 | ER27 | Normal unchanged restart vs known restore/unknown earlier outcome | No in-memory job/original/code plaintext resurrects; ordinary epochs unchanged. Restore/unknown holds remain; this contract supplies no startup acknowledgment or clock binding. |
 | ER28 | Setup c issued UTC1000; network original expires elapsed12000 before redemption commits | c's stored expiry901000 is unchanged/unconsumed absent commit; a NEW actual request may use current c before expiry. Old continuation is terminal and cannot replay. |
+| ER29 | Wrong setup/invitation/reset-token digest, revoked token, or expiry before selection; separately positive selection result with rolled-back/mismatched completion | ZERO native calls/candidates; no workflow consumption. Positive DTO/domain intent cannot release work without actual matching committed selection. |
+| ER30 | Original indexed live recovery-code record selected; first verify fails; separately selector absent or expired | First: exactly ONE verification, ZERO password/code creates. Second: ZERO native calls. Neither searches another code or mutates state. |
+| ER31 | Authorized revoke_invitation commits; alternatively issue_helper_reset explicitly replaces offer x with y | Revoked invitation refuses redemption; x refuses and y retains its own15-minute lifetime. Each uses only its allowlisted control CAS+audit, ZERO password primitives. |
+| ER32 | Issuer calls credential replacement, reset calls account insert/access install, or selection calls any mutation | Guard refuses BEFORE producer access/SQL. No generic transition enum widens the compiled allowlist. |
+| ER33 | Known rollback on final stage, then repeat same original | Original terminally invalidated; candidates erased after drain; repeat refuses with no native restart/third stage. A fresh original is required even if the old code remains current. |
 
 ## 7. Remaining gates and dependency direction
 
@@ -340,8 +411,11 @@ separate review/check/CI/normal-merge cycle, preserving ALL frozen assertions.
 Port simulations establish only host guard/forwarding behavior. Actual source/schema/
 policy/atomicity/current authorization/console/randomness and typed-output adapters
 require their owning ACCESS-001/005 and session/ingress/edge gates before enablement.
-No ownership transfer, provider method, route/OpenAPI/JSON, auto-login/session mint,
-password strength or email delivery is selected here. Full initial-owner/invitation/
+Twitch-only invitation registration (AUTH-01) and ownership transfer
+(AUTH-09/ACCESS-006) remain preserved outside this local-password host surface;
+neither is removed from release scope. No ownership transfer, provider method,
+route/OpenAPI/JSON, auto-login/session mint, password strength or email delivery is
+selected here. Full initial-owner/invitation/
 recovery/permissions and both deployment-edge release scope remains intact.
 
 Task graph direction stays APICONTRACT-003 → APITEST-014/API-014 → consumer

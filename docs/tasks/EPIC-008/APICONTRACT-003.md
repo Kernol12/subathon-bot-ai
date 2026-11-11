@@ -38,5 +38,5 @@ provider call, physical schema change or runtime capability is part of this task
 ## Authored proposal
 
 [Guarded enrollment and recovery host revision1](../../contracts/guarded-enrollment-recovery-v1.md)
-defines the additive proposal and ER01–28 examples. Review/status evidence lives
+defines the additive proposal and ER01–33 examples. Review/status evidence lives
 in progress/state.json and the focused PR; authored examples are not executed tests.
