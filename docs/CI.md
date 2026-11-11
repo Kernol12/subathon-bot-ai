@@ -17,7 +17,7 @@ revisions are linked from each task handoff; inspect the latest PR head before m
 | contribution-evidence.yml | Reviewed eligibility/linkage with primitive simulation storage |
 | application-plan.yml | Reviewed owned captured-plan transformations |
 | time-debt.yml | Reviewed 32 pure debt proposals/composition with unconditional real acceptance |
-| sqlite-writer.yml | Qt 6.12 whole-suite SQL acceptance and passive account/session red discovery |
+| sqlite-writer.yml | Qt 6.12 whole-suite SQL acceptance, including account/session storage |
 | schema-validation.yml | Real repository schemas/examples with unchanged pinned libraries on CPython 3.10/3.12 |
 
 The SQLite writer lane now runs all22 unchanged reviewed cases plus3 ownership regressions on every PR/main
