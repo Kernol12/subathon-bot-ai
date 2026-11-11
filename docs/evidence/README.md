@@ -68,7 +68,7 @@ then passes 12 methods; full 71 tooling, scaffold 3, project 485/122 and simulat
 checks pass. All 19 CI bodies/pins are byte-preserved after reversing only reviewed
 concurrency/trigger edits. PR118/119 publication is reconciled without inventing old
 reviews or promoting historical unrun checks. Implementation review and current-head
-hosted CI remain pending; this is development tooling, not product/release proof.
+hosted outcomes are recorded in PR120; this is development tooling, not product proof.
 
 ## Core time and exact arithmetic
 
