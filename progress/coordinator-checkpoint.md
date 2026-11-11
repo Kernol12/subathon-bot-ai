@@ -58,3 +58,14 @@ Coordinator corrections explicitly preserve legacy-only operations on prefixes4�
 refuse exact writes there before new SQL, and define owning typed failure reasons.
 Rolled-back store errors do not produce normal not_ready. Fresh independent Codex
 recheck is required before Claude closing; no runtime proof or baseline changes.
+
+Fresh independent Codex /root/exact_valuation_storage_codex_recheck APPROVED
+09c52761c487308ef71bde875e8c0fa39126f387, no blockers; B1–5/N1–8/C1–2 resolved.
+Contract SHA256 c3e9e21cd0b624f9f15b8244f070462d8e5bf654dfeba72fc0a6781ded9439fe.
+Recheck project483/122, validate/render/diff and preservation checks pass.
+Both Codex reviewers retired; independent Claude Opus5.5/high closing next.
+Initial durable review:
+<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A6b54b9af-5f23-45c3-b5de-f7ed3a54d4e0%3Adelegate-task%3A4f8d827b-359c-4cf2-bcf7-f06f1e457796>
+All full reports/correction maps are published in PR118 comments; no runtime
+proof. Pending Claude closing, final packet/Codex metadata review/currentCI,
+normal protected merge, refresh main and STOP. No watcher active.
