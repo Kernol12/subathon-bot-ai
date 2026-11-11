@@ -16,3 +16,11 @@ No product task, API implementation, session-clock or valuation work authorized.
 
 Finish only CI repair and PR118 normal publication gates, then STOP. Do not bypass
 protection or merge red checks. PR118 is linked but unwatched after all reruns finished.
+
+Test stage: initial Claude0495679b reviewed80de648 B1–6; correction15e4343,
+separate Codex ci_001_test_verification C1/C2 fixedb24ad5a and verified READY;
+closing Claude02fcd8e0 approvedb24ad5a. Reports under /tmp/ci-001-*. No tests run.
+New current incidents15296/15297 and Canonical RSS DNS major outage show mirror-only
+ubuntu.com endpoints insufficient. Contract revision2 adds preferred kernel.org
+Ubuntu mirror (ordinary existing Ubuntu signatures/pins unchanged), seventh diagnostic
+and all-Canonical-DNS-failed example. Fresh Codex and Claude closing pending before red.

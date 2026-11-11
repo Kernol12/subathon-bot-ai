@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T16:19:37+00:00",
+  "updated_at": "2026-11-11T16:41:30+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. RATES-001 merged normally in PR116 at c70fbec. Owner resumed for one fresh task: RATECONTRACT-001 logical exact retained valuation prerequisite is reviewed document proof in PR117; concrete RATECONTRACT-002 remains planned. Final CI/normal merge, then STOP; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
@@ -17986,6 +17986,11 @@
       "date": "2026-11-11T16:19:37+00:00",
       "task": "CI-001",
       "note": "Claimed separate CI-only repair from current main38b482d before feature edits. Owner explicitly authorizes runner changes; no product work or original assertions/pins/schema changes. Coordinator owns shared metadata; fresh implementation after independently reviewed intended red."
+    },
+    {
+      "date": "2026-11-11T16:41:30+00:00",
+      "task": "CI-001",
+      "note": "Initial Claude B1–6 fixed and independent Codex C1/C2 corrected b24ad5a; closing approved that unexecuted baseline. New matching GitHub/Canonical incident confirms all Ubuntu hostnames affected. Revision2 prefers independent kernel.org Ubuntu mirror with unchanged Ubuntu authentication/pins; new Codex/Claude closing gates before any execution."
     }
   ]
 }

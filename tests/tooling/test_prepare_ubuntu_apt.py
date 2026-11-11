@@ -34,7 +34,8 @@ DIAGNOSTICS = [
     ["cat", "/etc/resolv.conf"], ["resolvectl", "status"],
     ["cat", "/etc/apt/apt-mirrors.txt"],
     *[["getent", "ahostsv4", host] for host in (
-        "azure.archive.ubuntu.com", "archive.ubuntu.com", "security.ubuntu.com")],
+        "azure.archive.ubuntu.com", "archive.ubuntu.com", "security.ubuntu.com",
+        "mirrors.edge.kernel.org")],
 ]
 PRIVILEGED = [
     ["sudo", "tee", "/etc/apt/apt-mirrors.txt"],
@@ -105,12 +106,14 @@ class PrepareUbuntuAptTests(unittest.TestCase):
     def test_success_has_exact_command_set_trusted_mirror_bytes_and_deadlines(self):
         self.assertEqual(apt.main(), 0)
         commands = [c for c, _ in self.calls]
-        self.assertCountEqual(commands[:6], DIAGNOSTICS)
-        self.assertEqual(commands[6:], PRIVILEGED)
+        self.assertCountEqual(commands[:len(DIAGNOSTICS)], DIAGNOSTICS)
+        self.assertEqual(commands[len(DIAGNOSTICS):], PRIVILEGED)
         self.read_source.assert_called_once_with(SOURCE_PATH, encoding="utf-8")
-        writes = self.calls[6:8]
+        writes = self.calls[len(DIAGNOSTICS):len(DIAGNOSTICS) + 2]
         self.assertEqual(writes[0][1]["input"],
-                         "https://archive.ubuntu.com/ubuntu/\nhttps://security.ubuntu.com/ubuntu/\n")
+                         "https://mirrors.edge.kernel.org/ubuntu/\tpriority:1\n"
+                         "https://archive.ubuntu.com/ubuntu/\tpriority:2\n"
+                         "https://security.ubuntu.com/ubuntu/\tpriority:3\n")
         self.assertEqual(writes[1][1]["input"],
                          'Acquire::Retries "1";\nAcquire::http::Timeout "15";\n'
                          'Acquire::https::Timeout "15";\nAPT::Update::Error-Mode "any";\n')
@@ -123,7 +126,7 @@ class PrepareUbuntuAptTests(unittest.TestCase):
         self.assertTrue(self.calls[-1][1]["check"])
         self.assertEqual(self.calls[-1][1]["timeout"], 300)
         self.assertIn("Diagnostic only; not dependency admission", self.stdout.getvalue())
-        for command, options in self.calls[:6]:
+        for command, options in self.calls[:len(DIAGNOSTICS)]:
             self.assertFalse(options["check"])
             self.assertTrue(options["capture_output"])
             self.assertTrue(options["text"])
@@ -143,6 +146,17 @@ class PrepareUbuntuAptTests(unittest.TestCase):
         for host in ("archive.ubuntu.com", "security.ubuntu.com"):
             self.assertIn(f"getent ahostsv4 {host}: exit 0", output)
         self.assertEqual(self.calls[-1][0], PRIVILEGED[-1])
+
+    def test_canonical_dns_outage_does_not_require_resolver_mutation(self):
+        for command in DIAGNOSTICS[3:6]:
+            self.responses[tuple(command)] = 2
+        self.assertEqual(apt.main(), 0)
+        for command in DIAGNOSTICS[3:6]:
+            self.assertIn(f"{' '.join(command)}: exit 2", self.stdout.getvalue())
+        self.assertIn("getent ahostsv4 mirrors.edge.kernel.org: exit 0", self.stdout.getvalue())
+        self.assertEqual([c for c, _ in self.calls if c[0] == "sudo"], PRIVILEGED)
+        self.assertTrue(self.calls[len(DIAGNOSTICS)][1]["input"].startswith(
+            "https://mirrors.edge.kernel.org/ubuntu/\tpriority:1\n"))
 
     def test_host_refusals_have_specific_reasons_and_no_commands(self):
         cases = [
@@ -170,6 +184,8 @@ class PrepareUbuntuAptTests(unittest.TestCase):
 
     def test_source_layout_requires_every_stanza_and_accepts_comments_crlf(self):
         invalid = ["", "# URIs: " + MIRROR_URI + "\n",
+                   SOURCES.replace("URIs: " + MIRROR_URI + "\n", "", 1),
+                   SOURCES.replace(MIRROR_URI, MIRROR_URI + " https://extra.example", 1),
                    SOURCES.replace(MIRROR_URI, "http://azure.archive.ubuntu.com/ubuntu/", 1),
                    SOURCES.replace(MIRROR_URI, "mirror+file:/other-list"),
                    SOURCES + "\nTypes: deb\nURIs: https://third-party.example\n",
