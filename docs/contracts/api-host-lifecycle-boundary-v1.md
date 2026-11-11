@@ -385,8 +385,10 @@ response/drain deadlines AND native upgrade/frame/message/Close use that SAME
 shared instance; options/transport cannot inject an independently built profile
 or another clock. Per-owner nonregression state avoids ordering simultaneous
 cross-thread samples. There is no UTC/SESSION-009 or supervisor-time fallback.
-Q's counting-source seam checks shared identity and actual host/profile reads
-(queue admission/entry, response handoff/drain and native deadline rechecks);
+Q's counting-source seam checks shared identity and attributable host reads
+(queue admission/entry and response handoff/drain); its fake transport does not
+drive profile reads. N exercises actual production profile expiry/rechecks and
+continued service as specified by the elapsed coverage allocation below.
 N must exercise this real factory/host/transport wiring and teardown, supplemented
 by source review, never treating a fixture clock as production elapsed evidence.
 

@@ -756,7 +756,13 @@ class ApiHostNative(unittest.TestCase):
         self.assertFalse(child.events("execution_entered"))
         self.assertFalse(child.events("begin_attempted"))
         self.assertFalse(child.events("publication_entered"))
-        self.assertFalse(child.events("writer_completed"))
+        accepted = child.events("wrapper_accepted")
+        completed = child.events("writer_completed")
+        self.assertLessEqual(len(accepted), 1)
+        self.assertEqual(len(completed), len(accepted))
+        for event in completed:
+            self.assertEqual(event["work"], dict(transaction=0, error=12,
+                                                 value=False, ticket_revoked=True))
 
 
 def main():

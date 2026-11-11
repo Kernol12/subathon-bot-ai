@@ -1287,8 +1287,6 @@ class ApiHostTests final : public QObject {
             r.elapsed->foreign_now = 99;
             r.elapsed->foreign_override = true;
             r.start();
-            require(r.elapsed->owner_reads > 0 && r.elapsed->owner_last == 100,
-                    "Actual Qt startup observation100 precedes first IO observation");
             const auto owner_reads = r.elapsed->owner_reads.load();
             const auto io_reads = r.elapsed->foreign_reads.load();
             auto p = r.peer();
