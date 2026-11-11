@@ -25,8 +25,9 @@ No watcher active. Live rules26170263 still require PR/resolved threads,0 GitHub
 approvals; written workflow independently requires current checks and stage approvals.
 
 Audit boundary: migration4 CHECK requires decimal fields for resolved legacy rows.
-Author proposes additive exact-revision family/shared immutable bounded snapshot,
-unified head dispatch and explicit existing-FK consumer audit; no fake old fields.
+Final design retains the plan table name with an honest tagged exact group and
+shared immutable bounded snapshot; separately gated controlled rebuild preserves
+existing FK consumers. No fake old fields or parallel revision family.
 Model8MiB is not writer/service admission. Concrete lower byte profile and every
 selected/full/history copy charge are required before independent review.
 
@@ -44,3 +45,9 @@ admission, exact alternative and retained-name38-column target. No executable
 capability. Root project483/122, graph/render and51 tooling checks pass. Initial
 independent Claude Opus5.5/high review next on full contract + planned graph split;
 separate Codex and Claude closing still pending.
+
+Initial independent Claude Opus5.5/high4f8d827b reviewed88f920a, found B1 equality,
+B2 error priority, B3 provider count admission, B4 migration ownership, B5 legacy
+adapter, plus N1–8. Report /tmp/ratecontract002-claude-initial.md to be published
+in PR118. Coordinator fixes require fresh separate Codex verification then
+independent Claude closing. Original author and initial reviewer retired.

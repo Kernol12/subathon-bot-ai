@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T14:11:54+00:00",
+  "updated_at": "2026-11-11T14:29:55+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. RATES-001 merged normally in PR116 at c70fbec. PR117 RATECONTRACT-001 merged normally at38b482d. Owner resumed for ONE new task: RATECONTRACT-002 concrete exact valuation API/codec/additive-storage contract, document only. Complete independent reviews, current CI and normal merge, then STOP; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
@@ -13459,7 +13459,7 @@
       "title": "Exact valuation API, codec and additive storage contract",
       "module": "Currency",
       "kind": "contract",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "codex:coordinator-9dd14702; fresh exact_valuation_storage_author",
       "depends_on": [
         "RATECONTRACT-001",
@@ -13476,10 +13476,12 @@
       "brief": "docs/tasks/EPIC-017/RATECONTRACT-002.md",
       "summary": "Define concrete exact valuation API, codec, resource and append-only storage compatibility before the executable baseline.",
       "notes": [
-        "Claimed document-only revision1 concrete API/codec/resource/additive-storage prerequisite. Fresh author owns new contract only; coordinator owns shared metadata. Full independent review cycle, current CI and normal merge required; then STOP. No runtime changes authorized."
+        "Concrete contract with18 examples authored. Initial Claude found5 blockers; coordinator corrected equality, priority, provider count admission, migration ownership and explicit legacy adapter plus8 nonblockers. Separate Codex verification/Claude closing, final CI/normal merge remain; document proof only. STOP after this task."
       ],
       "verification": {},
-      "evidence": [],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/118"
+      ],
       "review": null
     },
     {
@@ -18046,6 +18048,11 @@
       "date": "2026-11-11T14:11:54+00:00",
       "task": "RATECONTRACT-002",
       "note": "Audit found migration4 resolved-decimal CHECK and bundle/hold/reference FKs prevent a fake-free parallel exact row feeding old consumers. Split planned STORAGECONTRACT003/STORAGETEST021/STORAGE021 controlled parent-table rebuild prerequisite; append only EPIC009 and RATESTEST009/RATES009 edges. No runtime/writer change authorized."
+    },
+    {
+      "date": "2026-11-11T14:29:55+00:00",
+      "task": "RATECONTRACT-002",
+      "note": "Initial independent Claude Opus5.5/high4f8d827b reviewed88f920a: B1–5 and N1–8. Coordinator corrected concrete equality/error/API/admission and migration ownership, preserving old bytes/assertions; sizing literal14364 bytes independently checked. Separate Codex verification and Claude closing pending."
     }
   ]
 }

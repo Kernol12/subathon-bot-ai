@@ -22,7 +22,7 @@ shipped assertions. The affected surfaces are:
 | `sqlite_application_bundle_values.hpp` | Charge every new owned field/snapshot, including repeated actual copies, in plan input/result metrics |
 | `application_service.cpp` and command codec | Service consumes already captured requests through `ApplicationBundleInputs`; it has no current rate producer. Preserve access-before-protected-lookup, duplicate/hold/source checks and numeric request/effect distinction |
 | `sqlite_reference_capture.cpp`, `reference_capture_values.cpp` | Preserve no-money initial path and SRC1/SRA1/SRX1/SRI1 bytes; update physical plan inspection to recognize new tags and refuse monetary exact plans in this path |
-| Physical app/hold/reference consumers | `subathon_app_operations` and hold causes reference plan revisions; app effects reference plan requests; reference initial captures reference revisions. Keep those table names, key meanings and real FKs valid |
+| Physical app/hold/reference consumers | Plan revisions self-reference `(plan_ref,parent_revision)`; rules/modifiers/requests, app operations, hold causes, hold mutations (`application_plan_ref/revision`) and reference captures reference revisions. App effects reference plan requests. Keep all table names, key meanings and real FKs valid |
 
 Migration4's `subathon_plan_revisions` CHECK requires a complete legacy decimal
 group for `valuation_state=2`. Adding an exact side table while filling that group
@@ -39,7 +39,14 @@ foreign-key checking, backup/update authority and failure/cleanup sequence.
 [STORAGETEST-021](../tasks/EPIC-009/STORAGETEST-021.md) and
 [STORAGE-021](../tasks/EPIC-009/STORAGE-021.md) must separately review, observe
 real behavioral red and implement that prerequisite before RATESTEST-009 uses it.
-All three remain separate planned work. This document neither grants arbitrary
+STORAGE-021 owns and ships BOTH the controlled mechanism and the concrete new
+version-N MigrationStep, `exact_valuation_repository_manifest()` factory and full
+expected-schema projection: snapshot table plus retained-name plan rebuild.
+STORAGETEST-021 owns its literal populated legacy upgrade/rollback/reopen and
+old-catalog-refusal tests (the schema portion of EV12); RATESTEST-009 consumes that
+shipped schema and owns new exact write/read/mixed-history tests. RATES-009 owns
+plan/bundle/hold/reference read-write dispatch, not a competing migration step.
+All three storage prerequisites remain separate planned work. This document neither grants arbitrary
 PRAGMA access nor assumes a CREATE/DROP/rename sequence is safe with foreign keys
 ON. The existing controlled writer/catalog has no certified populated-parent
 rebuild capability. Do not bypass it or add a second authoritative writer.
@@ -88,7 +95,19 @@ struct ExactValuationDocument { std::string format_ref, document; };
 ```
 
 `ExactRetainedValuation` is the immutable wrapper for
-`ExactRetainedValuationData`. The canonical numerator/denominator are the effective
+`ExactRetainedValuationData`. It also exposes
+`bool operator==(const ExactRetainedValuation &) const noexcept`. Equality is
+allocation-free structural equality of every owned field: byte-exact source
+spellings/identities, optional presence and values, basis tags, ordered vectors,
+and canonical Exact numerator/denominator values throughout the snapshot. Compare
+bounded const snapshot data recursively, including observation contexts/quotes,
+overrides, constraints and components; do not invoke codecs, normalization or
+multiplication. All admitted wrapper values compare totally without throwing.
+This custom comparator needs no new public equality on existing rate wrappers;
+existing PlanValuation/PlanCapture/CapturedPlanRevision/ApplicationPlan defaulted
+`operator==` and their reviewed assertions remain valid.
+
+The canonical numerator/denominator are the effective
 rate; they do not duplicate an owned `Exact`. Arithmetic helpers parse them under
 their fixed bounds. Snapshot pair key is exactly
 `(basis.snapshot.data().snapshot_ref, original_money.currency, comparison_currency)`;
@@ -102,11 +121,24 @@ value through those fields, and the durable snapshot key below has the same byte
     const ExactRetainedValuation &value);
 [[nodiscard]] ExactRetainedValuation decode_exact_retained_valuation(
     const ExactValuationDocument &document);
+[[nodiscard]] Exact interpret_legacy_effective_rate(
+    const HistoricalValuation &value);
 [[nodiscard]] ExactValuationDocument encode_valuation_snapshot(
     const EffectiveRateSnapshot &snapshot);
 [[nodiscard]] EffectiveRateSnapshot decode_valuation_snapshot(
     const ExactValuationDocument &document);
 ```
+
+`interpret_legacy_effective_rate` is an explicit mathematical adapter only. It
+borrows the old effective_rate_decimal without copying or rewriting any legacy
+field, uses the existing exact decimal parser (512-byte/256-digit/exponent256
+and4096-bit final component bounds), requires a positive value and returns the
+owned reduced Exact rate: `1.2000` gives6/5. Other provenance strings/optionals
+remain opaque and are not certified or reconstructed. Invalid syntax/nonpositive
+values yield `unusable_legacy_valuation`; parser byte/digit/exponent/bit admission
+refusal yields resource_limit, allocation failure yields allocation_failure.
+Already-finalized legacy requests/effects remain usable without calling this
+adapter, and failed interpretation never mutates them or a stored legacy record.
 
 These APIs use the fixed local profile in §4. A caller's lower store/service/writer
 limits remain independent. No caller option can enlarge the bridge profile.
@@ -194,8 +226,8 @@ encoded document bytes have an independent length bound. Repeated actual owned
 copies count each time in the value that contains them.
 
 The snapshot profile is the existing `RateSnapshotLimits` with: observations16,
-quotes_per_observation128,total_quotes256,overrides64,constraints256,currencies64,
-items2048,owned_bytes24576; existing currency64/reference256/time512/reason4096
+quotes_per_observation4096,total_quotes16384,overrides1024,constraints4096,currencies256,
+items32768,owned_bytes24576; existing currency64/reference256/time512/reason4096
 and4096-bit potential ceilings stay unchanged. These are lower bridge admission
 limits, not changes to RATES-001's 8MiB model. Complete raw AND parsed snapshot
 must separately fit. Canonical snapshot document ≤32768 bytes. Exact valuation
@@ -204,12 +236,38 @@ resolution/decision/actor refs ≤256, manual reason ≤4096 and money/entered d
 The logical001 16MiB valuation ceiling is an outer maximum; this concrete profile
 refuses earlier explicitly.
 
+Count limits retain the rate model's256-currency/full-observation scope rather
+than imposing a64-currency subset. Provider documentation confirms full-table
+responses: [Open Exchange Rates latest](https://docs.openexchangerates.org/reference/latest-json)
+and its [200-plus currency scope](https://openexchangerates.org/), plus
+[ExchangeRate-API's supported currency list](https://www.exchangerate-api.com/docs/supported-currencies)
+(accessed2026-11-11). These public shapes motivate count admission, not live
+provider verification or a promise every payload fits. Frankfurter and both other
+providers remain required; their actual bounded payload/metadata/normalization
+admission stays in their owning provider baselines. No observation is silently
+subsetted or relabelled as a different immutable snapshot to fit this bridge.
+
+For a concrete full-table sizing example, use snapshot S, five one-byte context
+refs (observation o), absent optionals, currencies c000..c255,255 c000→other quotes
+`1.20`,255 fetched constraints and one canonical component: c0001/1 and all
+others6/5. Parsed model B=7662 (raw input7152), and RSV1=14364 bytes:
+27 outer bytes + (31 context +4 quote-count +255×24 quote bytes)
++255×14 constraint bytes +(4 member-count +256×18 member bytes).
+All source fields are retained; this synthetic sizing proof is not provider data.
+24KiB model admission and32KiB encoded admission are INDEPENDENT ceilings, not a
+claim that every model under the former encodes under the latter. The forward
+size pass sums exactly the §5 primitives; fitting model/oversized framing returns
+resource_limit before encoding allocation. There is no worst-case assumption
+that unframed size alone bounds framing. A single32KiB document remains well
+below current256KiB value and1MiB writer/bundle ceilings; aggregate limits still
+charge each actual copy.
+
 | Owning operation/value | Bound before allocation/copy |
 | --- | --- |
 | Factory borrowed preflight | Inspect all counts, field lengths and checked recursive totals before any body copy; raw snapshot/valuation B/I as above |
 | Reconstruction/semantic validation | Each complete temporary input/output obeys its own snapshot/valuation bound. At most one reconstruction, one parsed snapshot and one exact output coexist; combined constructed scratch B≤262144,I≤8192, excluding caller input |
 | Snapshot/valuation public encode | Preflight input and exact full framed output length; output Envelope B counts actual format_ref+document, ≤65792; no output allocation before size pass |
-| Public decode | Borrowed format_ref≤256/document≤65536 (snapshot≤32768); full framing/count/length scan first. Owned result under the value bound above; input document is not copied just to parse it |
+| Public decode | Borrowed format_ref≤256/document≤65536 (snapshot≤32768); one forward framing/limit scan in §7 order before semantic parsing. Owned result under the value bound above; input document is not copied just to parse it |
 | SQL retain/append input | Existing SqlitePlanLimits remain; exact group≤65536 and snapshot≤32768 ALSO fit actual per-field/statement/session budgets. Aggregate exact-containing candidate B≤1MiB,I≤8192 before owning staging data |
 | SQL selected revision | Complete owned selected capture including hydrated snapshot B≤1MiB,I≤8192; existing selected vector/field bounds remain. No truncated projection or key-only snapshot masquerading as owned result |
 | SQL full find containing exact values | Complete returned ApplicationPlan B≤1MiB,I≤8192 plus existing1024 revisions/4096 materialized old vector items. Charge each hydrated copy, even a shared snapshot used by many revisions; unchanged legacy-only results keep existing limits |
@@ -233,6 +291,12 @@ before multiplication; normalized final requested units must fit CORE-001's4096-
 components before half-even rounding/int64 range checking. Allocation failure is
 reported distinctly; these logical quotas do not guarantee allocator/CPU success.
 No public unlimited-history read or all-snapshots materialization API is added.
+Consequently, enough exact revisions can exceed a full core/result budget even
+when each revision fits (roughly40 near-24KiB hydrated snapshots already consume
+most of1MiB, before other fields). `revise_application_plan` refuses an oversized
+returned history; production authorized resolution must use bounded selected-read
+plus storage append with normal current-head/audit checks, rather than require
+full find/core history materialization. No lifetime revision quota is introduced.
 
 ## 5. Complete canonical byte grammars
 
@@ -241,9 +305,10 @@ bytes; signed64 `I64` is the two's-complement bit pattern in U64. `B(x)` is
 U32(byte length)+exact bytes. `O(X)` is U8(0) for absent or U8(1)+X for present;
 other tags invalid. `V(X)` is U32(count)+ordered X. No NUL terminator, padding,
 locale, inferred default, trailing extension or ignored byte is allowed. Empty
-present optional strings differ from absent. All count/length arithmetic and
-complete framing are validated borrowed before allocation, then complete count
-bounds precede body semantic validation. `B` is allowed opaque binary; only the
+present optional strings differ from absent. The single forward borrowed scan
+uses §7's first-fault order for framing AND declared count/length limits before
+allocation; it does not scan past an over-limit count to choose a later framing
+failure. Only a completely fitting scan advances to semantic validation. `B` is allowed opaque binary; only the
 named numeric fields use ASCII grammar. Resulting snapshots/valuations are
 semantically revalidated, not merely deserialized.
 
@@ -317,7 +382,7 @@ codec input/output B≤131072,I≤8192; individual bounds above still apply.
 
 Dispatch first checks valid fixed bounds/outer format identity. Unknown healthy
 outer format returns unsupported_format; known outer format with wrong magic,
-truncation, unknown basis/enum, malformed integer or trailing bytes is malformed
+truncation, unknown basis/enum or trailing bytes is malformed
 known data. No old v1 body receives a suffix. SAC1/SAA1 encode plan keys rather
 than valuation bodies, and SAR1/SAH2 retain results/failures, so their bytes/tags
 remain unchanged. Adding an exact stored plan does not authorize any new semantic
@@ -378,9 +443,13 @@ The public `SqliteApplicationPlanStore` constructor/retain_initial/append/find/
 find_revision signatures remain unchanged. Exact snapshot insertion is internal
 to retain/append; no independent auto-committing snapshot store is exposed. The
 new compiled manifest must be explicitly inspected/migrated by the authorized
-installation lifecycle before use. Old binaries fail their supported catalog/
-expected-schema gates before invoking old plan readers or writers; they may not
-open version-new data and project old columns as a missing quotation. Current
+installation lifecycle before use. The future production installation lifecycle MUST enforce supported catalog/
+expected-schema inspection before invoking stores, so an old binary refuses a
+new catalog without writes. That lifecycle is not implemented or certified here.
+As a defensive fallback, current named-column old readers encounter format1's
+resolved/NULL legacy group as invalid_stored_data; old34-column INSERTs default
+to format0. Neither fallback authorizes opening an unsupported catalog or proves
+that old binaries already run the required lifecycle gate. Current
 binaries retain the old-format write/read path, without automatic semantic upgrade.
 
 Full find validates/materializes complete history and all selected snapshot
@@ -402,7 +471,10 @@ byte accounting, including actual selected closure; no private old-decimal-only
 projection may silently bypass new consistency checks. V1 reference captures
 remain no-money/not-applicable with one fixed request. Their structural reader
 recognizes format1 and refuses it as outside this producer's supported scope;
-it never upgrades SRC1/SRA1/SRX1/SRI1 to monetary forms or follows a current quote.
+it returns `ReferenceCaptureStorageFailure` with the existing
+`ReferenceCaptureStorageReason::invalid_stored_data` because the selected plan
+violates this v1 producer's no-money closure. It never upgrades
+SRC1/SRA1/SRX1/SRI1 to monetary forms or follows a current quote.
 
 ## 7. Error order, atomicity and exact effect calculation
 
@@ -410,24 +482,52 @@ New pure exceptions are `ExactValuationFailure : std::invalid_argument`, accesso
 `code() noexcept`, holding `ExactValuationError` with these named alternatives:
 `resource_limit, unsupported_format, malformed_document, invalid_reference,
 invalid_money, invalid_basis, invalid_rate, missing_pair, inconsistent_rate,
-missing_target, identity_conflict, allocation_failure`. No input text/secret in
+missing_target, identity_conflict, unusable_legacy_valuation, allocation_failure`. No input text/secret in
 messages. Known parser/model failures map by meaning; unknown exceptions are not
 fabricated business success. `std::bad_alloc` from feature-owned construction is
 translated to allocation_failure without allocating an attacker-sized diagnostic.
 
-Pure validation priority is: fixed outer limits and all borrowed count/byte bounds
-(resource_limit), outer version (unsupported_format), complete framing/known tags
-(malformed_document), reference/money/common rational grammar and positivity,
-basis shape, full snapshot/manual consistency, then exact output projection before
-construction. Fields within one stage use declaration/grammar order. Bit/temporary
-bounds apply before attempted numeric growth, even when later semantic faults
-exist. Missing_target/identity_conflict apply to retained codec closure after
-complete fitting EVK1 framing. No SQL occurs in these codecs.
+Pure DTO factories first preflight all borrowed field lengths/counts/checked
+B/I totals (resource_limit), then reference/money/common rational semantics,
+basis shape, full snapshot/manual consistency, exact output projection, then
+construction. Fields within a semantic stage use declaration order.
 
-SQL operations preserve existing option/key/candidate validation priorities before
-SQL. New errors are mapped to `SqlitePlanInputError` through added alternatives
-`invalid_exact_valuation`, `unsupported_valuation_format`, `valuation_resource_limit`,
-`valuation_allocation_failure`; untouched legacy cases keep current codes/order.
+Codec priority is normative and different only in its framing front end:
+
+1. Fixed outer format_ref/document byte ceilings → resource_limit.
+2. Outer format identity → unsupported_format; do not inspect unknown bodies.
+3. One forward borrowed scan in grammar order, first fault wins. Read each
+   fixed-width token only if present, otherwise malformed_document. On reading
+   a count/length, check its declared field/collection ceiling and checked
+   arithmetic immediately → resource_limit BEFORE reading its body. Otherwise
+   absent body bytes, bad tag/magic or trailing bytes → malformed_document.
+   Thus an over-limit count followed by truncated body is resource_limit;
+   truncation before the count is malformed_document. No allocation in this pass.
+4. Complete fitting input follows the DTO semantic stages above. ASCII rational
+   contents (`05`,zero,unreduced,etc.) yield invalid_rate for both factory and
+   known-format decode; framing alone does not certify the numeric grammar.
+
+Incremental bit/temporary bounds apply before attempted numeric growth. Retained
+codec missing_target/identity_conflict checks follow fitting EVK1 scan and common
+semantics, before snapshot content comparison. Unknown healthy outer format with
+an arbitrary internally over-limit/truncated body stays unsupported_format.
+No SQL occurs in these codecs. Allocation exceptions follow the attempted owning
+stage and never replace an already detected borrowed-input fault.
+
+SQL operations keep their existing option/key/revision/collection/override/
+receipt/event/contribution-state input order. At the existing invalid_valuation
+stage, check state/presence/dependent-request rules first: unknown state, both
+alternatives, missing resolved alternative, any alternative in not-applicable/
+missing-historical, or dependent request with missing-historical → existing
+invalid_valuation. Then validate exact payload bounds and semantics; do this
+before invalid_rule/invalid_modifier/invalid_request checks and before any SQL or
+owning copy. No new validation reorders unrelated legacy-only failures.
+Append new `SqlitePlanInputError` alternatives without renumbering existing ones:
+invalid_exact_valuation (semantic or exact event/contribution projection mismatch),
+unsupported_valuation_format (unsupported exact codec format),
+valuation_resource_limit (new exact profile admission), and
+valuation_allocation_failure (feature allocation failure). Existing store field/
+collection/codec limits still retain their existing codes at their original stages.
 A snapshot conflict maps to an added storage reason `snapshot_identity_conflict`;
 missing required snapshot maps to `missing_valuation_snapshot`. Healthy unknown
 retained outer format maps to added storage reason `unsupported_valuation_format`;
@@ -474,12 +574,12 @@ no expected value may be generated from candidate codecs.
 | EV03 | Amount3 USD×5/6 EUR/USD×1 unit/EUR =5/2→2, residual+1/2; amount9→15/2→8,residual−1/2. No exchange-rate rounding |
 | EV04 | EUR→EUR amount1.2000, identity1/1; no snapshot/manual. Equal arbitrary tokens do not certify supported currency. Same-currency manual1.00 is invalid_basis |
 | EV05 | Enter EUR→USD `1.2000` as one-off manual for USD→EUR; effective5/6. Actor/decision/reason retained, no table pin/snapshot/provider facts |
-| EV06 | `05/6`, `5/06`, `10/12`, `0/1`, `1/0`, `+5/6` rejected; a2467-byte string still exceeding8192 bits is resource_limit before gcd |
+| EV06 | Each of `05/6`, `5/06`, `10/12`, `0/1`, `1/0`, `+5/6` is invalid_rate for factory and fitting known-format decode; a2467-byte string still exceeding8192 bits is resource_limit before gcd |
 | EV07 | A valid available pair in an oversized bridge snapshot is resource_limit, not missing_pair. Full RATES-001 acceptance of that larger model remains unchanged |
 | EV08 | Source-rate UTC absent/text present, fetch UTC0 and publication text present-empty survive distinctly; no timestamp borrowing |
 | EV09 | Snapshot S canonical bytes identical→reuse; same key with `1.2000` replacing `1.20`→identity_conflict although numeric rate equals. Missing key or key/body mismatch refuses capture |
-| EV10 | Change current sync/pin/reporting currency after capture→reopened ERV1 unchanged. Refund original effect uses its actual2/8 credited units, not a current rate |
-| EV11 | Legacy effective decimal `1.2000` remains literal old bytes. New5/6 writes no effective_rate_decimal. Opaque legacy `unparsed` remains structurally readable, unavailable to exact adapter without distinct refusal |
+| EV10 | Change current sync/pin/reporting currency after capture→reopened ERV1 unchanged. For the two EV03 requests, absent caps actual credits are2 and8 units respectively; refund reverses those recorded actual effects, not a current-rate amount |
+| EV11 | Legacy effective decimal `1.2000` remains literal old bytes. New5/6 writes no effective_rate_decimal. Opaque legacy `unparsed` remains structurally readable, rejected by interpret_legacy_effective_rate with distinct unusable_legacy_valuation |
 | EV12 | Populated legacy1→exact2→legacy3 retains all row/key/FK/audit/source values; old binary catalog refuses upgraded store. No automatic old semantic upgrade |
 | EV13 | Known EVK1 outer format+trailing byte→malformed; unknown healthy outer format→unsupported. Unknown basis byte in known EVK1→malformed, no guessed legacy dispatch |
 | EV14 | Full result repeated shared snapshot bytes exceed1MiB→result_limit before result growth; one fitting selected revision still returns. Append uses structural paging, no materialization quota |

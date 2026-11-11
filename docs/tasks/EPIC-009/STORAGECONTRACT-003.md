@@ -32,3 +32,12 @@ Coordinator owns shared writer/catalog/schema/build/state integration; exact sco
 paths and baseline revision must be recorded when this task is selected. This split
 is planning only and is not authorized for execution by RATECONTRACT-002's one-task
 owner directive. Preserve all seven integrations and all three FX providers.
+
+Concrete migration ownership: this contract freezes the exact version-N step,
+`exact_valuation_repository_manifest()` factory and final catalog/schema bytes.
+STORAGETEST-021 authors populated upgrade/rollback/reopen/old-catalog-refusal
+oracles (EV12 schema portion); STORAGE-021 ships that step AND the narrow mechanism.
+RATESTEST-009 consumes the shipped schema; RATES-009 implements exact dispatch.
+Account for ALTER TABLE RENAME rewriting stored sqlite_schema.sql, including
+quoting and self/child FK targets. Freeze the ACTUAL final post-operation schema
+projection, not assumed original CREATE text; preserve old migration step bytes.

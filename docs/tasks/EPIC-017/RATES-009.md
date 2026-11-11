@@ -59,3 +59,10 @@ The controlled parent-table rebuild dependency is explicit:
 writer/catalog capability before its real-SQL baseline; no unsupported PRAGMA or
 unproven populated migration is assumed by this bridge. All three remain planned
 under the contract task's one-task stop boundary.
+
+STORAGE-021 owns the concrete new schema MigrationStep,
+exact_valuation_repository_manifest() factory, expected-schema projection and
+populated legacy upgrade/reopen/old-catalog-refusal proof. RATESTEST-009 consumes
+that shipped schema and authors new exact value/write/read/mixed-history tests;
+RATES-009 owns exact plan/bundle/hold/reference dispatch and consumes the same
+factory. It does not ship a competing migration step or waive lifecycle admission.

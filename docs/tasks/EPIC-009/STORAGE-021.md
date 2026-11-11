@@ -12,8 +12,8 @@ constraint mechanism is not a supported capability. Do not fabricate decimal fie
 weaken foreign keys, change shipped migration bytes or silently alter old formats.
 
 Use a fresh implementation session only after STORAGETEST-021 is independently
-reviewed and intended red is observed. Implement only the approved controlled
-migration capability, with the contract's concrete SQL/port/resource/ownership and
+reviewed and intended red is observed. Implement the approved controlled
+migration capability AND the concrete version-N exact-valuation schema step, with the contract's concrete SQL/port/resource/ownership and
 failure semantics. Preserve old migration prefix bytes and all existing reviewed
 assertions. No exact valuation producer/plan adapter/provider/cache or application
 behavior is included; RATESTEST-009/RATES-009 retain that separate responsibility.
@@ -29,3 +29,12 @@ Coordinator owns shared writer/catalog/schema/build/state integration; exact sco
 paths and baseline revision must be recorded when this task is selected. This split
 is planning only and is not authorized for execution by RATECONTRACT-002's one-task
 owner directive. Preserve all seven integrations and all three FX providers.
+
+This task ships the concrete MigrationStep (snapshot table plus honest retained-name
+plan-revision rebuild), exact_valuation_repository_manifest() factory and complete
+expected-schema projection frozen by STORAGECONTRACT-003 and tested by
+STORAGETEST-021. It owns passing populated legacy upgrade/rollback/reopen and
+old-catalog-refusal acceptance (EV12 schema portion), including actual renamed
+schema text/FKs. RATESTEST-009 consumes this shipped schema. RATES-009 separately
+owns plan/bundle/hold/reference exact read-write dispatch; no competing migration
+step or implicit lifecycle/automatic production upgrade is supplied there.

@@ -29,3 +29,10 @@ Coordinator owns shared writer/catalog/schema/build/state integration; exact sco
 paths and baseline revision must be recorded when this task is selected. This split
 is planning only and is not authorized for execution by RATECONTRACT-002's one-task
 owner directive. Preserve all seven integrations and all three FX providers.
+
+This baseline explicitly owns the new version-N snapshot-table/retained-name
+plan-rebuild step and exact_valuation_repository_manifest() factory oracles,
+full expected-schema projection, populated legacy upgrade/rollback/reopen and
+old-catalog-refusal acceptance (EV12 schema portion). Pin actual post-rename
+sqlite_schema text/FK targets; do not infer them from original CREATE text.
+RATESTEST-009 later tests exact new read/write/mixed history on this shipped schema.
