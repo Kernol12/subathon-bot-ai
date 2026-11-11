@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import os
 import re
+import stat
 import tempfile
 from datetime import datetime
 from pathlib import Path
@@ -37,6 +38,7 @@ def commit(value: object, field: str) -> str:
 
 
 def instant(value: object, field: str) -> datetime:
+    """Parse an observed instant, including UTC Z on the Python 3.10 floor."""
     raw = text(value, field)
     try:
         parsed = datetime.fromisoformat(raw[:-1] + "+00:00" if raw.endswith("Z") else raw)
@@ -85,6 +87,7 @@ def dependency_complete(task: dict, policy: dict | None = None) -> bool:
 
 
 def validate_stage(stage: object, root: Path, local_path, evidence_path) -> None:
+    """Check packet ownership and ordered review claims without authenticating them."""
     stage = required(stage, {"authors", "revision", "paths", "reviews"}, "workflow stage")
     authors = strings(stage["authors"], "stage.authors", nonempty=True)
     commit(stage["revision"], "stage.revision")
@@ -132,6 +135,7 @@ def validate_stage(stage: object, root: Path, local_path, evidence_path) -> None
 
 
 def stage_complete(stage: dict | None) -> bool:
+    """Require current closing and preceding verification on the same packet."""
     if stage is None or len(stage["reviews"]) < 3:
         return False
     prior, last = stage["reviews"][-2:]
@@ -161,6 +165,7 @@ def validate_publication(publication: object, task: dict, root: Path, evidence_p
 
 
 def validate_task(task: dict, policy: dict | None, root: Path, local_path, evidence_path) -> None:
+    """Validate supplied records and enforce forward claim/completion gates."""
     is_tracked = tracked(task, policy)
     if is_tracked and task["status"] in {"in_progress", "in_review", "done"} and "workflow" not in task:
         raise ValueError(f"{task['id']}: claimed task requires workflow records")
@@ -190,6 +195,7 @@ def validate_task(task: dict, policy: dict | None, root: Path, local_path, evide
 
 
 def stage_context(task: dict, name: str) -> dict:
+    """Derive one handoff and observed metrics from validated receipt order."""
     workflow = task.get("workflow")
     if workflow is None or name not in workflow["required_stages"]:
         raise ValueError(f"{task['id']}: unknown workflow stage: {name}")
@@ -243,20 +249,30 @@ def reconcile(data: dict, task_id: str, snapshot: object, observed_at: str,
                     or any(old[key] != publication[key] for key in ("head", "merge_commit"))
                     or instant(old["merged_at"], "merged_at") != instant(publication["merged_at"], "merged_at")):
                 raise ValueError("Merged publication fields are immutable")
+            publication["merged_at"] = old["merged_at"]
     task["publication"] = publication
     data["updated_at"] = observed_at
 
 
 def replace_outputs(state: Path, state_text: str, output: Path, html_text: str) -> None:
-    """Prepare both sibling files before replacement; OS failures are not pairwise atomic."""
+    """Preserve existing modes; prepare both files before non-pairwise-atomic replacement.
+
+    Newly created outputs retain the temporary file's private mode.
+    """
     prepared = []
     try:
         for destination, content in ((state, state_text), (output, html_text)):
+            try:
+                mode = stat.S_IMODE(destination.stat().st_mode)
+            except FileNotFoundError:
+                mode = None
             with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", newline="\n", delete=False,
                                              dir=destination.parent, prefix=f".{destination.name}.") as stream:
                 temporary = Path(stream.name)
                 prepared.append((temporary, destination))
                 stream.write(content)
+            if mode is not None:
+                temporary.chmod(mode)
         for temporary, destination in prepared:
             os.replace(temporary, destination)
     finally:

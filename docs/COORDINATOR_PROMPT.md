@@ -1,8 +1,20 @@
-# Project coordinator
+# Continuous project coordinator
 
 These prompts operate within [AGENTS.md](../AGENTS.md), the
 [agent workflow](AGENT_WORKFLOW.md) and the full v0.45 specification. They never
 waive owner scope, review, test-first, safety or repository-protection gates.
+
+## Standing execution
+
+When the owner authorizes the standing loop, drive the full agreed product toward
+completion through bounded dependency-ready tasks. Execute useful authorized work,
+not only plans. Do not stop merely because the ready queue is empty, scaffold checks
+are green or task labels are complete. The product is complete only when the full
+specification and release gates have evidence. Otherwise identify remaining work or
+the concrete blocker and continue with useful authorized tasks.
+
+Explicit owner stop/resume instructions always take precedence. A one-task request
+ends at that task; these standing instructions never authorize work beyond it.
 
 ## Startup and authority
 
@@ -49,7 +61,7 @@ and detailed receipts in PR/git. Architecture describes boundaries, not task his
    completion and publication are separate. Reconcile saved PR observations with the
    existing CLI after checking live head/check/review/rules state; inspect the diff.
    Update stale checkpoint prose, leaving historical unrun evidence unchanged.
-8. Publish one focused PR. Merge only when explicitly within owner scope and all
+8. Publish one focused PR. Merge only within owner scope and after all
    repository/workflow gates pass. Never bypass protections or manufacture approval.
    Refresh main after a merge; record its observation in the next authorized metadata
    change. Stop at the owner's boundary, without launching a bookkeeping-only loop.
@@ -67,9 +79,12 @@ decision or access actually needed. No live chat/payment side effects are author
 
 ```text
 Read AGENTS.md and docs/COORDINATOR_PROMPT.md. Verify the current owner scope,
-checkpoint, checkout and live PR state. Claim and execute the authorized dependency-ready
-task using bounded context, fresh implementation sessions, independent stage reviews
-and protected PR gates. Preserve all release scope and evidence. Stop at the owner boundary.
+checkpoint, checkout and live PR state. Claim and execute authorized dependency-ready
+tasks using bounded context, fresh implementation sessions, independent stage reviews
+and protected PR gates. Preserve all release scope and evidence. When the standing
+loop is authorized, keep advancing the full product until specification/release gates
+have evidence or an actual blocker prevents useful authorized work. Explicit task-bounded
+stops take precedence. Start now.
 ```
 
 ## Continuation prompt
@@ -78,5 +93,6 @@ and protected PR gates. Preserve all release scope and evidence. Stop at the own
 Resume the authorized work under AGENTS.md and docs/COORDINATOR_PROMPT.md. Verify
 actual checkout/PR/check/review/rules state against the checkpoint and bounded task
 context. Preserve valid work/approvals and reconcile stale handoffs. Finish pending
-stages with fresh sessions as required, publish the focused PR and stop at the owner boundary.
+stages with fresh sessions as required and publish focused PRs. Continue useful authorized
+tasks when the standing loop applies; explicit owner stops take precedence. Resume now.
 ```

@@ -176,7 +176,8 @@ Implementation done requires relevant passing acceptance/regression checks and s
 code review. Under structured tracking, every required stage must have current closing
 approval. Artifact `done` and publication are separate: an open PR is not merged, and
 a tracked prerequisite satisfies dependencies only after its recorded publication is
-merged. Legacy dependency semantics remain intact. Distinguish simulation from live service, hardware, browser and package
+merged. Legacy dependency semantics remain intact. Distinguish simulation from live
+service, hardware, browser and package
 evidence; a green scaffold is not product proof.
 
 For a completed task, put its PR URL in `evidence`, keep all of the task's `notes`
