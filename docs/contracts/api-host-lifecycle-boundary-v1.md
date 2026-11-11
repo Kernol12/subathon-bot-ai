@@ -6,11 +6,14 @@ API-01/02/03, AUTH-05/12, OPS-02/04 and TEST-04/05.
 Source base `654ac016268c6caa9efc0241872ca0b0f88aae60`; correction base
 `ce80bbafbb1b678826f596beae65e2f8c350f1b2`. Revised after initial contract
 review, independent Codex verification and closing Claude approval of revision
-`7bfcca0`. Contract stage only: no headers, tests, observed red or implemented host.
+`7bfcca0`. The subsequent testability refinements and authored test/stub/fixture
+packet completed separate Codex verification and Claude closing approval at
+`8fa8810`. Build/CI and controlled-admission stages were reviewed separately.
+The first full runs at `dd0f625` have attributable NI failures; independent
+actual-result/final reviews approved in [PR112](https://github.com/Kernol12/subathon-bot-ai/pull/112).
 Current stage/assignments live in progress state and the coordinator checkpoint.
-The testability refinements below address initial authored-test review of276d017;
-separate Codex verification and Claude closing review remain required. They are
-not execution, intended-red or API-001 implementation evidence.
+The host and production adapters remain explicit unimplemented stubs; this
+contract supplies no API-001 or session-clock capability.
 
 Import [host lifecycle v1](api-host-lifecycle-v1.md), including ALL HL01–17,
 [native profile v1](native-websocket-profile-v1.md),
@@ -625,8 +628,8 @@ with the actual production converter; N proves only real factory wiring and
 teardown, not native syscall failure or privileged wall-time changes. Fixture overflow/timeout is failure, not red or safe destruction.
 Supervisor wall time never becomes the product elapsed domain.
 
-Proposed EXACT ownership AFTER separate independent Codex verification/fixes
-and closing Claude contract approval (initial review already returned findings):
+Authoring ownership used after separate Codex verification and closing Claude
+contract approval (the owned sources remain explicit stubs):
 
 - Author: `server/include/subathon/server/api_host.hpp`,
   `server/include/subathon/server/testing/api_host_observers.hpp`,
@@ -648,10 +651,10 @@ and closing Claude contract approval (initial review already returned findings):
   Existing assertions/native profile source/header/patch/manifest stay frozen.
   Additional shared/support paths require explicit claim.
 
-Proposed selectors/labels `api-host` and `api-host-native`, enabled with
-`intentional-red` body labels while unimplemented; these do not exist yet.
-Coordinator assigns exact compile/discovery/body commands and dependency closure
-after reviewing authored harnesses. No such command is released/run here.
+Selectors/labels `api-host` and `api-host-native` are authored and enabled with
+`intentional-red` body labels while unimplemented. The coordinator assigned exact
+compile/discovery/body commands and dependency closure after the required reviews;
+[PR112](https://github.com/Kernol12/subathon-bot-ai/pull/112) records actual runs.
 Retain passive source/ABI/build/license admission and complete actual loaded-map
 gates for the NEW consumer; previous probe admission alone is insufficient.
 
@@ -664,11 +667,11 @@ failures. Baseline acceptance is reviewed intended red, not production success.
 API-001 needs a fresh implementation session, independent code review, passing
 acceptance/regression checks and normal protected merge under separate authority.
 
-Contract authoring has changed ONLY this file, `docs/tasks/EPIC-008/API-001.md`
-and `docs/tasks/EPIC-009/STORAGE-007.md`; coordinator records current assignments
-and stage gates in the checkpoint.
-The future path list is a PROPOSAL, not permission to author executables now.
-No state/HTML/executable/build/CI/GitHub changes. Diagnostics or simulated guards cannot close real protected-ready/session-clock acceptance.
+The original contract authoring changed only this file, the API-001 brief and
+the STORAGE-007 brief. Later reviewed authoring used the paths above; the
+coordinator records assignments and gates in the checkpoint. This task authorizes
+no host implementation. Diagnostics or simulated guards cannot close real
+protected-ready/session-clock acceptance.
 SESSIONTEST-009/SESSION-009 retain ready/refusal/native-clock-hold gates; restore,
 login/permission/disclosure, API-003 sync, TLS/Caddy ingress, deployment/platform
 and full release remain separate. Preserve all seven integrations, three FX

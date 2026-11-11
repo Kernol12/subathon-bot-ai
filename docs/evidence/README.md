@@ -239,6 +239,21 @@ latest-head checks and the normal protected merge gate. Direct native TLS, Caddy
 actual ready host/session clock/auth/sync and full platform/release proof remain
 separate. The owner authorized completion of API-012 only, followed by a stop.
 
+The [production host lifecycle baseline #112](https://github.com/Kernol12/subathon-bot-ai/pull/112)
+adds reviewed Qt/fake and corrected-framework child tests against explicit production
+stubs. Both new consumers compile; controlled discovery matches all 75 isolated Qt
+selectors. The first full run fails all 75 selectors at attributable unimplemented
+boundaries. All 18 native methods run and report 24 factory-NI assertions plus 24
+secondary cleanup assertions for those same exit-42 children; later assertions and
+loop iterations are not claimed. Both CTest exits are 8, with zero skips, setup
+faults or timeouts. Independent initial Claude, separate Codex and closing Claude
+result/final reviews approved; latest-head CI and normal merge are recorded in PR112.
+Passive ELF/ABI and controlled identity evidence cover both consumers; Qt actual
+maps are pre-body only, with no observed Qt SQL runtime map. Native object lists
+are self-reports, and serving/stopped maps remain prospective. Earlier setup failures
+are preserved separately. This baseline implements no host, clock or readiness
+behavior; API-001 and actual session-clock binding remain unauthorized.
+
 ## Presentation and clients
 
 Scene documents and portable asset/font/package formats have reviewed contracts and
