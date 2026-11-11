@@ -40,10 +40,11 @@ Start with `docs/ARCHITECTURE.md`, `docs/AGENT_WORKFLOW.md`, `docs/TEST_STRATEGY
 `progress/state.json`, and the selected task brief. Read scoped `AGENTS.md` files in
 every module being edited. EPIC-028, STORAGE-020, APICONTRACT-001, APITEST-012 and
 API-012 are complete; API-012 merged normally in PR110. WORKFLOW-001/002 merged in
-PR109/111, and APITEST-001 merged normally in PR112. On 2026-11-11 the owner
-requested ONE new dependency-ready task, then stop. The coordinator selected
-ACCESSCONTRACT-001 in `docs/tasks/EPIC-006/`: document-only local-login authority,
-through independent reviews, current CI and normal protected merge, then stop.
+PR109/111, and APITEST-001 merged normally in PR112. APICONTRACT-002 merged normally in PR114. On 2026-11-11 the owner requested
+ONE fresh dependency-ready task, then stop. The coordinator selected
+APICONTRACT-003 in `docs/tasks/EPIC-008/`: document-only guarded enrollment and
+recovery host contract, through independent reviews, current CI and normal protected
+merge, then stop.
 API-001 implementation and actual session-clock binding remain unauthorized.
 
 ## Test-first and review gates

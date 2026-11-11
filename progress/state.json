@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T11:37:40+00:00",
-  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. The owner authorized ONE new task: APICONTRACT-002 document-only host-auth continuations through normal merge, then stop; API-001 implementation and actual session-clock binding remain unauthorized.",
+  "updated_at": "2026-11-11T11:57:08+00:00",
+  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. The owner now authorized ONE new task: APICONTRACT-003 document-only guarded enrollment/recovery through normal merge, then stop; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -15788,8 +15788,8 @@
     },
     {
       "module": "Server/API",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "codex:coordinator-6e24c10f; fresh author pending",
       "spec_refs": [
         "§10",
         "AUTH-01",
@@ -15801,7 +15801,7 @@
         "TEST-05"
       ],
       "notes": [
-        "Planned prerequisite exposed by APICONTRACT-002 initial review B3; no authored contract/tests, implementation or runtime capability. Separate test-first/review/CI/merge gates remain."
+        "Claimed document-only revision1 after current main55913bc/merged PR114 verification. Scope and acceptance follow the brief; independent Claude/Codex/Claude contract review, current checks and protected merge pending. No executable behavior or actual clock binding authorized."
       ],
       "verification": {},
       "evidence": [],
@@ -17803,6 +17803,11 @@
       "date": "2026-11-11T11:37:40+00:00",
       "task": "APICONTRACT-002",
       "note": "Independent Codex and Claude closing f4cb7018 approve67e2a1f/blob30891e74 with all B1–5/N1–11 resolved. Record document-only completion and six planned prerequisites, preserving original472 IDs/edges and unrelated reviews. No runtime proof; final metadata review/CI/normal merge then stop."
+    },
+    {
+      "at": "2026-11-11T11:57:08+00:00",
+      "task": "APICONTRACT-003",
+      "message": "Owner authorized one fresh task then stop; coordinator6e24c10f claims document-only guarded enrollment/recovery from verified main55913bc. Prior APICONTRACT-002 roles retired, valid reviews/worktrees preserved."
     }
   ]
 }
