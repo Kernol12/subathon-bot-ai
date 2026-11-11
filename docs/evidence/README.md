@@ -204,6 +204,19 @@ Light/Dark/System are still required. See
 
 ## Server/API and reference path
 
+[Host-auth continuations #114](https://github.com/Kernol12/subathon-bot-ai/pull/114)
+defines a bounded original request/stage dispatcher, unconditional actual-outcome
+settlement, fresh positive completion, transport-clipped lease, shared password
+permit and per-owner secret cleanup, with 45 proposed examples. Initial/closing
+Claude findings were resolved through separate Codex checks and focused Claude
+closing approval on `67e2a1f`. Planned API-014 writes and SESSION-012 actual AUTH
+transport-budget/edge admission are explicit prerequisites, not supplied capability.
+All 472 prior task IDs/edges and unrelated reviews remain; six new records are
+planned/unassigned. Project/graph/render checks and 51 tooling tests pass. This is
+document proof only: runtime/native/crypto/login/edge/platform acceptance remains
+downstream. Final CI/publication/normal merge receipts are in PR114. The owner
+bounded this run to this one task, then stop.
+
 Common wire primitives, bounded reference HTTP/OpenAPI/examples, and single-rule
 adapter boundaries have reviewed contracts. Schema validation is documented separately
 below; it does not establish a running authenticated API. A Linux loopback Drogon/Qt

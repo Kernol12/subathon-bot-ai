@@ -15,6 +15,8 @@ See [backlog workflow and complete epic index](README.md).
 | `APITEST-001` → [API-001](EPIC-008/API-001.md) | Production Qt and Drogon lifecycle bridge |
 | [APICONTRACT-002](EPIC-008/APICONTRACT-002.md) | Separate bounded authentication-continuation host extension contract |
 | `APITEST-013` → [API-013](EPIC-008/API-013.md) | Host continuation/lease, guarded auth storage, elapsed and password permit prerequisites |
+| [APICONTRACT-003](EPIC-008/APICONTRACT-003.md) | Guarded enrollment/recovery host-write and workflow contract prerequisite |
+| `APITEST-014` → [API-014](EPIC-008/API-014.md) | Guarded setup/reset writes and finite shared-permit profiles |
 | `APITEST-002` → [API-002](EPIC-008/API-002.md) | HTTP command schemas exact values and revision checks |
 | `APITEST-003` → [API-003](EPIC-008/API-003.md) | Authorized WebSocket snapshots and resynchronization |
 | `APITEST-004` → [API-004](EPIC-008/API-004.md) | Capability handshake and matching web assets |

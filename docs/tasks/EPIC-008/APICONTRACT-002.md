@@ -42,3 +42,23 @@ secret-copy cleanup path. Reconcile future host hard-shutdown policy with native
 crypto's non-cooperative lifetime; no hard deadline or safe forced-free claim.
 Obtain the complete independent review cycle before APITEST-013. Record exact
 reviewed revision and unresolved boundaries; no runtime capability is established.
+
+## Authored contract and review handoff
+
+[Host authentication continuations v1, revision 1](../../contracts/host-auth-continuations-v1.md)
+is authored for independent review: original lease, bounded stages, guarded ports,
+shared elapsed/permit, policy provenance, per-owner secret cleanup and HC01–45.
+It proposes separately gated auth adapter extensions and identifies missing actual
+producers; no runtime, tests or review approval is claimed. Author owns only that
+contract and this brief. Coordinator retains all shared integration and the full
+Claude initial → Codex verification → Claude closing cycle before APITEST-013.
+
+Initial independent review corrections explicitly clip the host profile against an
+admitted transport response budget, define the compiled consumer dispatcher and
+same revocable clock, assign auth adapter deltas to API-013, and plan
+[APICONTRACT-003](APICONTRACT-003.md)/[API-014](API-014.md) for setup/reset writes.
+These new records remain planned; only APICONTRACT-002 is authorized this run.
+
+Actual AUTH transport-budget/edge-anchor production is the planned additive
+[SESSIONCONTRACT-007](../EPIC-007/SESSIONCONTRACT-007.md)/[SESSION-012](../EPIC-007/SESSION-012.md)
+prerequisite of password-auth consumers; frozen010/proxy tasks do not supply it.
