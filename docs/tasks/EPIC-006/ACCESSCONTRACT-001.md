@@ -9,8 +9,8 @@ session-clock SESSIONCONTRACT-004 contracts; existing account setup scope unchan
 Own [local-login authority v1](../../contracts/local-login-authority-v1.md)
 (identity `subathon.local-login-authority.v1`) and this brief's contract link.
 Recover valid draft/review context from unpublished `53524fc`; fresh author
-reconciles current imports, with current evidence in the handoff/eventual PR.
-Publication/review PR link: pending coordinator. Add no files under docs/evidence.
+reconciles current imports, with current evidence in
+[PR113](https://github.com/Kernol12/subathon-bot-ai/pull/113). Add no files under docs/evidence.
 The integrator owns shared schemas/build/CI/state. No implementation, header,
 proof/protocol format, fixture/test source, provider action or session route is
 authorized by this planning brief.

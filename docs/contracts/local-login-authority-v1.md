@@ -5,8 +5,8 @@ Specification v0.45 §10, AUTH-01/05/08/09/10/11/12/15, SERVER-01, TEST-04/05.
 Reconciled on main `40e06a8` (PR112), coordinator claim `3e4a2aa`.
 DOCUMENT ONLY: internal ownership, operations and independent examples for
 ACCESSTEST-008; no header, test, native call, login, HTTP route, schema or public
-proof. Current review/check receipts belong in the eventual PR linked from the
-[task brief](../tasks/EPIC-006/ACCESSCONTRACT-001.md); publication is pending.
+proof. Review/check receipts are recorded in [PR113](https://github.com/Kernol12/subathon-bot-ai/pull/113)
+and the [task brief](../tasks/EPIC-006/ACCESSCONTRACT-001.md).
 
 Import [password logical/API v1](password-hashing-api-v1.md), including the
 [logical byte/cost rules](password-hashing-v1.md), [supplier v1](session-resolution-v1.md)
