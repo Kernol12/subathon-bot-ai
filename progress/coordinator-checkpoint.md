@@ -1,30 +1,26 @@
 # Coordinator checkpoint
 
-Owner authorized WORKFLOW-003: implement the six workflow suggestions and open a
-new PR, then stop. No product task, API-001, clock or valuation implementation.
+Owner authorized WORKFLOW-003: implement the six workflow suggestions and open
+PR120, then stop. No product/API001/clock/valuation implementation authorized.
 Branch task/WORKFLOW-003-structured-coordination; base main f2a134e.
-Task authority/status: state.json; contract/acceptance: docs/tasks/WORKFLOW-003.md.
-Draft PR: https://github.com/Kernol12/subathon-bot-ai/pull/120
+State/brief: progress/state.json; docs/tasks/WORKFLOW-003.md.
+PR: https://github.com/Kernol12/subathon-bot-ai/pull/120 (draft; remote still1d8f1ff).
 
-PR118 and119 were independently observed MERGED with successful final-head
-rollups; their old checkpoint was stale. Reconcile publication with reviewed tooling
-later; preserve historical unrun checks and all original contract/migration bytes.
+Contract/tests d5c7ce4 approved after Claude initial, Codex fixes/separate verification
+and independent Claude closing (PRcomment6804926066). Actual reviewed red:12methods,
+96assertion failures/0errors/skips;6804940905 and /tmp/workflow-003-reviewed-red.log.
+Early draft hosted execution remains premature process exception6804508390, not redproof.
+Frozen test SHA2569c413aba unchanged; all original assertion ASTs preserved.
 
-Coordinator Codex gpt-6.1-sol/T3 f59f5caa owns shared docs/schema/state/HTML/CI.
-Native workflow_tests authored only new12-method source. Initial Claude contract
-b381fb6 and test1d8f1ff each found4 blockers; root corrected e4655fe. Independent
-Codex contract approval/test C1 are in PR comments6804640288/6804640652/6804752919.
-Root d5c7ce4 fixes fixture masking while preserving every assertion and adds one
-absent-stage case. Fresh Codex recheck and independent Claude closing approved both stages at d5c7ce4;
-prior implementation assignments are retired, no process assumed live.
+Fresh native workflow_implementation handed off two tool files; role retired.
+Coordinator owns docs/schema/CI/metadata and narrow progress-page publication display.
+Source packet2b496b5: tooling71/scaffold3/project485/122/render/DOM/diff pass;19CIbody
+byte audit confirms only concurrency/trigger edits. No product/native/live proof.
+PR118/119 observations reconciled with the new command; old pending notes corrected.
+Only those two historical task records change (notes/publication), all old checks/reviews
+and contract/migration bytes preserved. Exemptions remain exactly120 frozen done IDs.
 
-Opening draft prematurely executed tests in hosted CI at1d8f1ff. Failed/cancelled
-runs and process exception are retained in PR comment6804508390, not reviewed-red
-proof. All tested APT steps passed; observed failures were new tooling assertions.
-Keep further source changes local through review/red/implementation gates.
-
-Actual reviewed local red:12 methods/96 assertion failures/0errors/skips, exit1,
-/tmp/workflow-003-reviewed-red.log; test SHA2569c413aba unchanged. Closing PRcomment
-6804926066. Next: fresh implementation session owns tools/workflow.py/progress.py
-only; root will not concurrently edit this checkout. Docs/schema/CI then complete
-the implementation packet for separate review and checks/current-head PR CI.
+Next: independent implementation/docs/schema/CI initial Claude, separate Codex
+verification and independent Claude closing. Source remains local through this gate;
+then push, verify current-head CI and PR readiness, update checkpoint and stop.
+No next task selection or automatic review-policy relaxation.

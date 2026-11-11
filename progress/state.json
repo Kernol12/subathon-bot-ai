@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T19:12:33+00:00",
+  "updated_at": "2026-11-11T19:22:29+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. RATES-001 merged normally in PR116 at c70fbec. PR117 RATECONTRACT-001 merged normally at38b482d. Owner resumed for ONE new task: RATECONTRACT-002 concrete exact valuation API/codec/storage contract now has independent document-stage approval in PR118. Three explicit planned migration prerequisites preserve scope; no runtime change. Final packet/current CI/normal merge then STOP; API-001 implementation and actual session-clock binding remain unauthorized. Owner-authorized CI-001 repair merged normally in PR119 at 5c6121d after all22 final-head checks passed. PR118 now incorporates fixed main; its approved contract is unchanged. Verify post-merge main and refreshed PR118 CI, then merge normally and stop.",
   "verification": [
     {
@@ -13476,7 +13476,7 @@
       "brief": "docs/tasks/EPIC-017/RATECONTRACT-002.md",
       "summary": "Define concrete exact valuation API, codec, resource and append-only storage compatibility before the executable baseline.",
       "notes": [
-        "Defined concrete exact valuation API/equality, codecs, resource/error and storage compatibility with18 examples. Initial Claude, Codex fixes/separate recheck and Claude closing approve9509176. Document proof; project483/122 and51 tooling pass. Planned STORAGECONTRACT-003/STORAGETEST-021/STORAGE-021 migration gates precede RATESTEST-009/RATES-009. Runtime/provider/release remain unverified; PR118 records final CI/normal merge, then STOP."
+        "Defined exact valuation API/equality/codecs/resource/storage contract with18 examples; independent reviews approve9509176. Document proof; original483/122 and51 tooling preserved. PR118 merged normally f2a134e at17:46:41Z after22 final-head checks. Planned STORAGECONTRACT003/STORAGETEST021/STORAGE021 precede RATESTEST009/RATES009. No runtime/provider/release proof or valuation implementation; product work remains stopped."
       ],
       "verification": {
         "contract": "passed",
@@ -13495,6 +13495,14 @@
         "outcome": "approved",
         "revision": "Initial88f920a B1–5/N1–8 fixed d7298a2; separate Codex C1/C2 fixed09c5276 and fresh recheck approved09c5276. Independent Claude closing approved9509176, no blockers; contract SHA256c3e9e21cd0b624f9f15b8244f070462d8e5bf654dfeba72fc0a6781ded9439fe. Final packet/current CI/normal merge in PR118.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/118"
+      },
+      "publication": {
+        "state": "merged",
+        "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/118",
+        "head": "1d3ef296a459ede9e3238f812cae803222ca1c34",
+        "merge_commit": "f2a134e57b9e25d4033b56720b72c08d0ef4df52",
+        "merged_at": "2026-11-11T17:46:41Z",
+        "observed_at": "2026-11-11T19:20:08+00:00"
       }
     },
     {
@@ -16227,7 +16235,7 @@
       "brief": "docs/tasks/CI-001.md",
       "summary": "Diagnose runner DNS and select official Ubuntu mirrors with bounded authenticated package acquisition, preserving all dependency and acceptance gates.",
       "notes": [
-        "Implemented guarded APT setup with a Canonical-independent Ubuntu mirror and DNS diagnostics. Eight mocked tests, 59 tooling tests and scaffold3 pass; independent source reviews approve cb5f8fc. All nine affected hosted lanes and all 22 checks pass there. Pins, trust, SDK hashes and native baselines stay unchanged. PR119 final metadata/current-head CI and normal merge remain; then publish PR118 and stop."
+        "Guarded APT acquisition and independent mirror implemented;8 mocked/59 tooling/scaffold3 pass and all9 affected hosted lanes/22 final checks succeeded. Independent source/metadata reviews retained. PR119 merged5c6121d at17:28:38Z; PR118 then mergedf2a134e at17:46:41Z. Pins/trust/SDK/native baselines preserved. DNS had recovered on the observed runner; no outage-time causal proof or new product behavior."
       ],
       "verification": {
         "test_review": "passed",
@@ -16248,6 +16256,14 @@
         "outcome": "approved",
         "revision": "Initial aebaafb M1/L1 fixed1d686a6; separate Codex and independent Claude closing f311a859 approved cb5f8fc, no blockers. Test closing30806b2a approved dafa370 before actual8method/33assertion stub-red. All9 affected hosted lanes/22 checks passed cb5f8fc. Final metadata/current-head CI/merge remain separate.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/119#issuecomment-6802212350"
+      },
+      "publication": {
+        "state": "merged",
+        "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/119",
+        "head": "8c666e8f83b36d6faefe202b8edf753dd4a6fd1f",
+        "merge_commit": "5c6121de16d124c705fbe8545973ba8900fe8637",
+        "merged_at": "2026-11-11T17:28:38Z",
+        "observed_at": "2026-11-11T19:20:08+00:00"
       }
     },
     {
@@ -16269,16 +16285,20 @@
       "brief": "docs/tasks/WORKFLOW-003.md",
       "summary": "Make review and publication records checkable, reduce duplicate context, measure review usefulness and cancel superseded PR CI without reducing coverage.",
       "notes": [
-        "Contract/test packet d5c7ce4 closed by independent Claude after Codex fixes/separate verification. Actual local12-method run:96 assertion failures,0errors/skips; reviewed intended red. Frozen test9c413aba. Fresh tool implementation next; no product work. Premature hostedCI retained separately."
+        "Implemented structured gates/publication, stage context/metrics, concise docs and superseded-PR cancellation.71 tooling and scaffold3 pass; project485/122/render/DOM/CI-byte audit pass. Frozen tests/assertions/pins preserved. PR118/119 reconciled; source2b496b5 awaits independent implementation review and current-head CI. No product/live proof."
       ],
       "verification": {
         "contract_review": "passed",
         "test_review": "passed",
         "baseline": "observed_red",
-        "implementation": "not_run",
-        "acceptance": "not_run",
+        "implementation": "passed",
+        "acceptance": "passed",
         "code_review": "not_run",
-        "github_ci": "not_run"
+        "github_ci": "not_run",
+        "tooling": "passed",
+        "scaffold": "passed",
+        "project": "passed",
+        "progress_ui_simulation": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/120"
@@ -16467,8 +16487,56 @@
                 "finished_at": "2026-11-11T19:11:17.794Z"
               }
             ]
+          },
+          "implementation": {
+            "authors": [
+              "codex:/root/workflow_implementation",
+              "codex:coordinator-f59f5caa"
+            ],
+            "revision": "2b496b5a13ce61cba90dea36b3485b1cd79c39c6",
+            "paths": [
+              ".github/pull_request_template.md",
+              ".github/workflows/acceptance.yml",
+              ".github/workflows/api-host-baseline.yml",
+              ".github/workflows/application-plan.yml",
+              ".github/workflows/contribution-evidence.yml",
+              ".github/workflows/effective-permissions.yml",
+              ".github/workflows/exact-numeric.yml",
+              ".github/workflows/milestone-progression.yml",
+              ".github/workflows/native-websocket-profile.yml",
+              ".github/workflows/password-hashing.yml",
+              ".github/workflows/pause-policy.yml",
+              ".github/workflows/rate-snapshots.yml",
+              ".github/workflows/receipt-intake.yml",
+              ".github/workflows/scaffold.yml",
+              ".github/workflows/schema-validation.yml",
+              ".github/workflows/sqlite-writer.yml",
+              ".github/workflows/time-debt.yml",
+              ".github/workflows/timer-editorial.yml",
+              ".github/workflows/timer-lifecycle.yml",
+              ".github/workflows/translation-catalog.yml",
+              "AGENTS.md",
+              "docs/AGENT_WORKFLOW.md",
+              "docs/ARCHITECTURE.md",
+              "docs/COORDINATOR_PROMPT.md",
+              "docs/PROGRESS.md",
+              "docs/evidence/README.md",
+              "docs/tasks/README.md",
+              "progress/state.schema.json",
+              "tools/progress.py",
+              "tools/workflow.py"
+            ],
+            "reviews": []
           }
         }
+      },
+      "publication": {
+        "state": "open",
+        "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/120",
+        "head": "1d8f1ffb4a1039c9e439c042a5914e71af3f5237",
+        "merge_commit": null,
+        "merged_at": null,
+        "observed_at": "2026-11-11T19:20:08+00:00"
       }
     }
   ],
