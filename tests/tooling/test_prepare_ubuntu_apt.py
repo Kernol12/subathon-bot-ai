@@ -171,6 +171,10 @@ class PrepareUbuntuAptTests(unittest.TestCase):
              {"ID": "ubuntu", "VERSION_ID": "22.04"}, "requires Ubuntu 24.04"),
             ({"GITHUB_ACTIONS": "true", "RUNNER_ENVIRONMENT": "github-hosted"},
              {"ID": "debian", "VERSION_ID": "24.04"}, "requires Ubuntu 24.04"),
+            ({"GITHUB_ACTIONS": "true", "RUNNER_ENVIRONMENT": "github-hosted"},
+             {"VERSION_ID": "24.04"}, "requires Ubuntu 24.04"),
+            ({"GITHUB_ACTIONS": "true", "RUNNER_ENVIRONMENT": "github-hosted"},
+             {"ID": "ubuntu"}, "requires Ubuntu 24.04"),
         ]
         for env, release, reason in cases:
             with self.subTest(env=env, release=release), patch.dict(os.environ, env, clear=True), \
