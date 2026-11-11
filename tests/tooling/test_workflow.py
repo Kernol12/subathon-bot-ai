@@ -1,15 +1,18 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Literal WORKFLOW-003 record/CLI examples, independent of implementation helpers."""
 import copy
+import hashlib
 from contextlib import redirect_stderr, redirect_stdout
 from html.parser import HTMLParser
 from io import StringIO
 import json
 from pathlib import Path
 import subprocess
+import socket
 import sys
 import tempfile
 import unittest
+import urllib.request
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -72,8 +75,16 @@ def state(*tasks):
         "specification_version": "0.45", "updated_at": "2026-11-11T12:02:00Z",
         "summary": "Synthetic state", "verification": [], "activity": [],
         "tasks": list(tasks) if tasks else [task()],
-        "workflow_policy": {"version": 1, "legacy_done": []},
+        "workflow_policy": {"version": 1, "legacy_done": [],
+                            "legacy_done_sha256": hashlib.sha256(b"").hexdigest()},
     }
+
+
+def exempt(data, *ids):
+    """Literal fixture policy checksum; no production helper supplies the oracle."""
+    data["workflow_policy"]["legacy_done"] = list(ids)
+    raw = ("\n".join(sorted(ids)) + "\n").encode() if ids else b""
+    data["workflow_policy"]["legacy_done_sha256"] = hashlib.sha256(raw).hexdigest()
 
 
 class Articles(HTMLParser):
@@ -94,26 +105,32 @@ class WorkflowRecordTests(unittest.TestCase):
         del historical["workflow"]
         historical["review"] = None  # Explicit grandfathering preserves missing old receipts.
         data = state(historical, task())
-        data["workflow_policy"]["legacy_done"] = ["OLD-999"]
+        exempt(data, "OLD-999")
         progress.validate(data)
         original = copy.deepcopy(data)
         for status in ("in_progress", "in_review", "done"):
             with self.subTest(status=status):
                 candidate = copy.deepcopy(original)
                 candidate["tasks"][1]["status"] = status
+                if status == "done":
+                    candidate["tasks"][1]["publication"] = publication()
                 del candidate["tasks"][1]["workflow"]
                 with self.assertRaises(ValueError):
                     progress.validate(candidate)
-        for exemptions in (["OLD-999", "OLD-999"], ["UNKNOWN-999"], ["WFLOW-999"]):
+        for exemptions in (["OLD-999", "OLD-999"], ["OLD-999", "UNKNOWN-999"], ["OLD-999", "WFLOW-999"]):
             with self.subTest(exemptions=exemptions):
                 candidate = copy.deepcopy(original)
-                candidate["workflow_policy"]["legacy_done"] = exemptions
+                exempt(candidate, *exemptions)
                 with self.assertRaises(ValueError):
                     progress.validate(candidate)
         unsupported = copy.deepcopy(original)
         unsupported["workflow_policy"]["version"] = 2
         with self.assertRaises(ValueError):
             progress.validate(unsupported)
+        altered = copy.deepcopy(original)
+        altered["workflow_policy"]["legacy_done_sha256"] = "0" * 64
+        with self.assertRaises(ValueError):
+            progress.validate(altered)
         for status in ("planned", "ready", "blocked"):
             optional = task(status=status)
             del optional["workflow"]
@@ -129,6 +146,18 @@ class WorkflowRecordTests(unittest.TestCase):
         del legacy_fixture["workflow_policy"]
         legacy_fixture["tasks"][0]["kind"] = "scaffold"
         progress.validate(legacy_fixture)
+
+        # Historical prerequisites need no manufactured publication observation.
+        child = task("CHILD-999", status="ready")
+        child["depends_on"] = [historical["id"]]
+        inherited = state(historical, child)
+        exempt(inherited, historical["id"])
+        for status in ("ready", "in_progress"):
+            child["status"] = status
+            progress.validate(inherited)
+        child["status"] = "ready"
+        self.assertTrue(progress.context(inherited, child["id"])["available"])
+        self.assertEqual(Articles(progress.render(inherited)).rows[child["id"]]["data-available"], "true")
 
     def test_nonexempt_contract_done_requires_separate_approved_review(self):
         for policy in (False, True):
@@ -167,11 +196,24 @@ class WorkflowRecordTests(unittest.TestCase):
         for workflow in ({"required_stages": [], "stages": {}},
                          {"required_stages": ["contract", "contract"], "stages": {"contract": stage()}},
                          {"required_stages": ["contract"], "stages": {"implementation": stage()}},
-                         {"required_stages": ["unknown"], "stages": {"unknown": stage()}}):
+                         {"required_stages": ["contract", "unknown"], "stages": {"contract": stage(), "unknown": stage()}}):
             with self.subTest(workflow=workflow), self.assertRaises(ValueError):
                 candidate = task()
                 candidate["workflow"] = workflow
                 progress.validate(state(candidate))
+        candidate = task(kind="implementation")
+        candidate["workflow"] = {"required_stages": ["implementation"], "stages": {"implementation": stage()}}
+        with self.assertRaises(ValueError):
+            progress.validate(state(candidate))
+        extra = task()
+        extra["workflow"]["stages"]["tests"] = stage()
+        with self.assertRaises(ValueError):
+            progress.validate(state(extra))
+        extra["workflow"]["required_stages"].append("tests")
+        progress.validate(state(extra))  # Additional declared stages are allowed.
+        unstarted = task(kind="implementation")
+        unstarted["workflow"]["stages"] = {}
+        progress.validate(state(unstarted))  # Future authors/paths/revisions are not invented.
 
     def test_review_order_requires_initial_verification_and_fresh_closing_cycles(self):
         rejected = receipt("closing", outcome="changes_requested", findings=["B1"], blocking_findings=["B1"])
@@ -183,6 +225,7 @@ class WorkflowRecordTests(unittest.TestCase):
             [receipt("initial"), receipt("verification"), unapproved, receipt("closing")],
             [receipt("initial"), receipt("verification", OLD_REV), receipt("closing")],
             [receipt("initial"), receipt("verification"), rejected, receipt("closing")],
+            [receipt("initial"), receipt("verification"), receipt("closing"), receipt("closing")],
         ]
         for reviews in invalid:
             with self.subTest(phases=[r["phase"] for r in reviews]):
@@ -193,7 +236,8 @@ class WorkflowRecordTests(unittest.TestCase):
         for reviews in ([receipt("initial"), receipt("verification"), rejected,
                          receipt("verification"), receipt("closing")],
                         [receipt("initial"), receipt("verification"), receipt("closing"),
-                         receipt("verification"), receipt("closing")]):
+                         receipt("verification"), receipt("closing")],
+                        [receipt("initial"), unapproved, receipt("verification"), receipt("closing")]):
             candidate = task(status="done")
             candidate["publication"] = publication()
             candidate["workflow"]["stages"]["contract"] = stage(reviews)
@@ -207,8 +251,13 @@ class WorkflowRecordTests(unittest.TestCase):
             receipt("initial", revision="short"), receipt("initial", evidence="http://example.test/review"),
             receipt("initial", findings=["B1", "B1"]),
             receipt("initial", blocking_findings=["B1"]),
+            receipt("initial", outcome="changes_requested", blocking_findings=["B1"]),
+            receipt("initial", outcome="changes_requested", findings=["B1"], blocking_findings=["B1", "B1"]),
+            receipt("initial", findings=[1]),
             receipt("initial", findings=["B1"], blocking_findings=["B1"]),
             receipt("initial", outcome="changes_requested"),
+            receipt("verification", reviewer="author-session"),
+            receipt("closing", reviewer="coauthor-session"),
         ]
         for invalid in bad_receipts:
             with self.subTest(receipt=invalid):
@@ -250,6 +299,11 @@ class WorkflowRecordTests(unittest.TestCase):
         done = task(status="done")
         done["publication"] = publication("open")
         progress.validate(state(done))  # Artifact completion does not falsely imply merge.
+        multiple = task(kind="implementation", status="done")
+        multiple["publication"] = publication()
+        multiple["workflow"]["stages"]["implementation"] = stage([])
+        with self.assertRaises(ValueError):
+            progress.validate(state(multiple))
 
     def test_publication_shape_and_dependency_readiness_match_context_and_html(self):
         done = task(status="done")
@@ -270,6 +324,8 @@ class WorkflowRecordTests(unittest.TestCase):
         for key, value in (("state", "closed"), ("pr", "https://example.test/other/pull/1"),
                            ("head", "short"), ("merge_commit", None), ("merged_at", None),
                            ("observed_at", "2026-11-11T11:59:59Z"),
+                           ("observed_at", "2026-11-11T12:01:00"),
+                           ("pr", "http://example.test/project/pull/42"),
                            ("merged_at", "2026-11-11T12:00:00")):
             with self.subTest(field=key, value=value):
                 candidate = task()
@@ -277,10 +333,20 @@ class WorkflowRecordTests(unittest.TestCase):
                 candidate["publication"][key] = value
                 with self.assertRaises(ValueError):
                     progress.validate(state(candidate))
+        equal = task()
+        equal["publication"] = publication()
+        equal["publication"]["observed_at"] = equal["publication"]["merged_at"]
+        progress.validate(state(equal))
+        for key, value in (("merge_commit", MERGE), ("merged_at", "2026-11-11T12:00:00Z")):
+            candidate = task()
+            candidate["publication"] = publication("open")
+            candidate["publication"][key] = value
+            with self.subTest(open_field=key), self.assertRaises(ValueError):
+                progress.validate(state(candidate))
 
 
 class WorkflowCliTests(unittest.TestCase):
-    def invoke(self, data, command, snapshot=None, render_error=False):
+    def invoke(self, data, command, snapshot=None, render_error=False, serialization_error=False):
         """Use disposable files; normalize argparse refusal into an observable exit code."""
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -295,21 +361,30 @@ class WorkflowCliTests(unittest.TestCase):
             if snapshot is not None:
                 argv += ["--pr-json", str(root / "snapshot.json")]
             stdout, stderr = StringIO(), StringIO()
+            real_paths = [ROOT / p for p in ("progress/state.json", "PROGRESS.html", "progress/coordinator-checkpoint.md")]
+            real_before = [hashlib.sha256(p.read_bytes()).digest() for p in real_paths]
             with patch.object(progress, "STATE", state_path), patch.object(progress, "OUTPUT", html_path), \
                     patch.object(sys, "argv", argv), redirect_stdout(stdout), redirect_stderr(stderr), \
                     patch.object(subprocess, "run", side_effect=AssertionError("unexpected process")), \
-                    patch.object(subprocess, "Popen", side_effect=AssertionError("unexpected process")):
+                    patch.object(subprocess, "Popen", side_effect=AssertionError("unexpected process")), \
+                    patch.object(socket, "socket", side_effect=AssertionError("unexpected network")), \
+                    patch.object(urllib.request, "urlopen", side_effect=AssertionError("unexpected network")):
                 def call():
                     try:
                         return progress.main()
                     except SystemExit as error:
                         return error.code
                 if render_error:
+                    # progress.render is the CLI's output-rendering seam, before writes.
                     with patch.object(progress, "render", side_effect=ValueError("render refused")):
+                        result = call()
+                elif serialization_error:
+                    with patch.object(progress.json, "dumps", side_effect=ValueError("serialization refused")):
                         result = call()
                 else:
                     result = call()
             after = {p.name: p.read_bytes() for p in root.iterdir()}
+            self.assertEqual(real_before, [hashlib.sha256(p.read_bytes()).digest() for p in real_paths])
             return result, stdout.getvalue(), stderr.getvalue(), before, after
 
     def context(self, reviews, revision=REV):
@@ -345,14 +420,25 @@ class WorkflowCliTests(unittest.TestCase):
         self.assertIn("not verified", output["limitations"].lower())
         for history, revision, expected in (([], REV, "initial"), ([receipt("initial")], REV, "verification"),
                 ([receipt("initial"), receipt("verification")], REV, "closing"),
+                ([receipt("initial"), receipt("verification", outcome="changes_requested", findings=["C1"], blocking_findings=["C1"])], REV, "verification"),
+                (reviews[:3], REV, "verification"),
+                ([receipt("initial"), receipt("verification"), receipt("closing"), receipt("verification")], REV, "closing"),
                 ([receipt("initial"), receipt("verification"), receipt("closing")], OLD_REV, "verification")):
             with self.subTest(expected=expected):
                 output, _ = self.context(history, revision)
                 view = output["stage_context"]
                 self.assertEqual(view["next_gate"], expected)
                 self.assertFalse(view["complete"])
-                self.assertEqual(view["metrics"]["timed_reviews"], 0)
-                self.assertIsNone(view["metrics"]["elapsed_seconds"])
+                if history != reviews[:3]:
+                    self.assertEqual(view["metrics"]["timed_reviews"], 0)
+                    self.assertIsNone(view["metrics"]["elapsed_seconds"])
+        pending = task()
+        pending["workflow"]["stages"] = {}
+        result, stdout, stderr, before, after = self.invoke(state(pending), ["context", "WFLOW-999", "--stage", "contract"])
+        self.assertEqual(result, 0, stderr)
+        self.assertEqual(before, after)
+        view = json.loads(stdout)["stage_context"]
+        self.assertEqual((view["packet"], view["complete"], view["next_gate"]), (None, False, "authoring"))
 
     def test_default_context_keeps_existing_shape_and_unknown_stage_refuses_read_only(self):
         data = state(task())
@@ -382,6 +468,8 @@ class WorkflowCliTests(unittest.TestCase):
                 result, _, stderr, before, after = self.invoke(candidate, ["reconcile", "WFLOW-999"], snapshot)
                 self.assertEqual(result, 0, stderr)
                 updated = json.loads(after["state.json"])
+                progress.validate(updated)
+                self.assertEqual(after["PROGRESS.html"].decode(), progress.render(updated))
                 observed = updated["tasks"][0].pop("publication")
                 self.assertEqual({k: observed[k] for k in ("state", "pr", "head", "merge_commit", "merged_at")},
                                  {"state": "merged", "pr": PR, "head": REV, "merge_commit": MERGE,
@@ -409,6 +497,8 @@ class WorkflowCliTests(unittest.TestCase):
                    dict(snapshot, url="http://example.test/project/pull/42"),
                    dict(snapshot, state="CLOSED"), dict(snapshot, headRefOid="short"),
                    dict(snapshot, mergedAt=None), dict(snapshot, mergeCommit=None),
+                   dict(snapshot, mergeCommit="not-an-object"), dict(snapshot, mergeCommit={"oid": "short"}),
+                   dict(snapshot, state="merged"), [], "not-an-object",
                    dict(snapshot, mergedAt="2026-11-11T12:00:00"),
                    dict(snapshot, state="OPEN"),
                    {k: v for k, v in snapshot.items() if k != "headRefOid"}]
@@ -417,6 +507,7 @@ class WorkflowCliTests(unittest.TestCase):
         already_merged["tasks"][0]["publication"] = publication()
         cases.extend((already_merged, item, "WFLOW-999", False) for item in (
             dict(snapshot, state="OPEN", mergedAt=None, mergeCommit=None),
+            dict(snapshot, mergedAt="2026-11-11T11:00:00Z"),
             dict(snapshot, mergeCommit={"oid": OLD_REV}), dict(snapshot, headRefOid=OLD_REV)))
         cases += [(data, snapshot, "WFLOW-404", False), (data, snapshot, "WFLOW-999", True)]
         for candidate, incoming, task_id, render_error in cases:
@@ -426,6 +517,11 @@ class WorkflowCliTests(unittest.TestCase):
                 self.assertEqual(stdout, "")
                 self.assertTrue(stderr.strip())
                 self.assertEqual(before, after)
+        result, stdout, stderr, before, after = self.invoke(data, ["reconcile", "WFLOW-999"], snapshot, serialization_error=True)
+        self.assertEqual(result, 1)
+        self.assertEqual(stdout, "")
+        self.assertTrue(stderr.strip())
+        self.assertEqual(before, after)
 
 
 if __name__ == "__main__":
