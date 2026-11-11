@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T11:33:20+00:00",
+  "updated_at": "2026-11-11T11:37:40+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. The owner authorized ONE new task: APICONTRACT-002 document-only host-auth continuations through normal merge, then stop; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
@@ -15671,7 +15671,7 @@
     },
     {
       "module": "Server/API",
-      "status": "in_progress",
+      "status": "done",
       "owner": "codex:coordinator-f507d7d6; fresh author a4d9a282",
       "spec_refs": [
         "§10",
@@ -15685,11 +15685,28 @@
         "TEST-05"
       ],
       "notes": [
-        "Document-only revision1/HC01–45. Claude initial B1–3, Codex B4 resolved/verified. Closing Claude B5 exposes actual transport-budget producer: new planned SESSIONCONTRACT-007/SESSIONTEST-012/SESSION-012 and six consumer edges; N9–10 clarified. Focused Codex and Claude closing rechecks pending; no runtime capability. ONE task then stop."
+        "Reviewed document-only host-auth continuation revision1 with HC01–45, actual-outcome settlement, shared permit and per-owner secret cleanup. Explicit planned setup/reset and AUTH edge-budget prerequisites preserve full scope. Project/graph/render checks and 51 tooling tests pass; no runtime proof. PR114 holds final CI/normal merge gates. Stop after merge; API-001/actual clock binding unauthorized."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null,
+      "verification": {
+        "authored": "passed",
+        "document_review": "passed",
+        "literal_audit": "passed",
+        "source_audit": "passed",
+        "graph_preservation": "passed",
+        "tooling": "passed",
+        "runtime": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/114",
+        "docs/contracts/host-auth-continuations-v1.md"
+      ],
+      "review": {
+        "author": "Codex fresh author a4d9a282/import8c14fcd; coordinator f507d7d6 corrections28e8b40/3cf93d5/c76bd3f/67e2a1f",
+        "reviewer": "Independent Claude Opus5.5 abccd7da initial,364d296b closing findings,f4cb7018 closing APPROVE; Codex /root/host_auth_codex_review",
+        "outcome": "approved",
+        "revision": "Initial B1–3/N1–6, Codex B4/N7–8 and closing B5/N9–11 resolved; separate Codex and focused Claude closing approved67e2a1f, contract blob30891e7404fc240f63cf9d18afedf46e817b38f1. Only completion/publication metadata follows; final CI/normal merge evidence in PR114.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/114"
+      },
       "id": "APICONTRACT-002",
       "title": "Bounded host authentication continuation contract",
       "kind": "contract",
@@ -17781,6 +17798,11 @@
       "date": "2026-11-11T10:59:42+00:00",
       "task": "APICONTRACT-002",
       "note": "ONE new task then stop. Document-only revision1; fresh author owns contract/brief, coordinator owns shared metadata. Full independent reviews/checks/normal merge required; no runtime or upstream baseline changes."
+    },
+    {
+      "date": "2026-11-11T11:37:40+00:00",
+      "task": "APICONTRACT-002",
+      "note": "Independent Codex and Claude closing f4cb7018 approve67e2a1f/blob30891e74 with all B1–5/N1–11 resolved. Record document-only completion and six planned prerequisites, preserving original472 IDs/edges and unrelated reviews. No runtime proof; final metadata review/CI/normal merge then stop."
     }
   ]
 }

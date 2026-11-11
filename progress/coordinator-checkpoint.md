@@ -3,56 +3,39 @@
 Owner: finish ONE new APICONTRACT-002 task normally, then STOP. No next task.
 API-001 implementation and actual session-clock binding remain unauthorized.
 [Brief](../docs/tasks/EPIC-008/APICONTRACT-002.md), [state](state.json),
-[PR114](https://github.com/Kernol12/subathon-bot-ai/pull/114) (draft).
+[PR114](https://github.com/Kernol12/subathon-bot-ai/pull/114).
 
 Coordinator Codex f507d7d6 on `task/APICONTRACT-002-host-auth-continuations`,
-base verified main7df5d51 (PR113 merged,22 successes/no open PR at start).
-Existing worktrees clean/preserved, stale ACCESSCONTRACT roles retired; only this
-task reassigned. No runtime/build process assigned. CLion returned stale main;
-actual shell checkout/revision is authoritative.
+from verified current main7df5d51. Old worktrees/claims/reviews preserved; stale
+ACCESSCONTRACT roles retired. No runtime/build process assigned. Shell checkout
+is authoritative because CLion initially reported stale main.
 
-Fresh isolated author a4d9a282/import8c14fcd, t3-37f792ad, completed:
+Fresh author a4d9a282/import8c14fcd (t3-37f792ad), retired:
 <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A1af06bc3-f72d-416a-9f2c-1a25c85e714e%3Adelegate-task%3A67a2e90f-da20-4fce-acde-094aee11d5a8>
-Initial Claude Opus5.5/high REQUEST_CHANGES B1–3/N1–6:
+Initial Claude Opus5.5/high B1–3/N1–6:
 <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A1af06bc3-f72d-416a-9f2c-1a25c85e714e%3Adelegate-task%3Aabccd7da-7963-4511-a647-a6d111107899>
-Coordinator28e8b40 resolves transport budget, compiled consumer, planned API-014
-writes and adapter/secret/deadline/permit gaps. New003/014 nodes planned/unassigned.
-Separate Codex `/root/host_auth_codex_review` found B4/N7–8; fixed3cf93d5/c76bd3f.
-Recheck APPROVED c76bd3f, contract blobd6f7dcdeae1a5947d42f91089bc96077a4bfb2fe:
-unconditional consumer settlement vs fresh positive completion, same-turn lineage.
-HC01–45; all prior B1–3/N1–6 resolved. Author/Codex sessions complete.
-
-Actual project475/122, tooling51, validate/render/diff, preserved472-ID/edge/status/
-review/verification and DAG/arithmetic/example audits pass. No runtime/native/crypto/
-login/platform proof. No source/header/test-body/schema/build/CI changes.
-Coordinator owns shared metadata/evidence/HTML/checkpoint; author owned contract/brief.
-
-Next: independent Claude closing on complete corrected packet, then completion
-metadata/evidence and independent Codex metadata review; final latest-head CI,
-discussions/rules and normal exact-head merge, refresh main, STOP. Ruleset26170263
-requires PR/resolved threads, forbids force/delete,0 human approvals/no bypass;
-no classic protection. CI remains project gate. No PR watcher currently active.
-
-Independent closing Claude Opus5.5/high running on16898ec:
+Separate Codex `/root/host_auth_codex_review` found B4/N7–8; fixed/rechecked.
+First closing Claude B5/N9–11 (earlier fixes approved):
 <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A1af06bc3-f72d-416a-9f2c-1a25c85e714e%3Adelegate-task%3A364d296b-b8a0-4847-9e00-d79860eb2ca2>
-Completion wakes coordinator; do not poll it. No closing approval yet.
-
-Closing Claude REQUEST_CHANGES B5 (all B1–4/N1–8 resolved): remaining transport
-producer unowned in frozen010/proxy tasks. Coordinator now plans downstream
-SESSIONCONTRACT-007/SESSIONTEST-012/SESSION-012 importing actual010 and BOTH007/008
-proxy admissions, with six ACCESS001/005/008 baseline/implementation enablement
-edges. Existing upstream edges unchanged; six total new nodes remain planned.
-N9 same-turn lost/throwing completion invalidation and N10 finished-pipeline HC05
-clarified; N11 task note now states focused rechecks pending.
-Project478/122, validate/render/diff and original472 preservation/no reverse-chain
-checks PASS. Next: separate Codex B5/N9–11 review, then NEW Claude closing recheck.
-
-Focused independent Codex B5/N9–11 recheck APPROVED67e2a1f,
-contract blob30891e7404fc240f63cf9d18afedf46e817b38f1. No new blockers;
-all prior approvals retained. Actual project478/122, graph472-preservation/no
-reverse dependencies, HC01–45/timing and validate/render/diff pass independently.
-Next: NEW focused Claude closing recheck, then routine completion metadata review.
-
-NEW focused closing Claude Opus5.5/high running on a6d0efe:
+Coordinator28e8b40/3cf93d5/c76bd3f/67e2a1f resolved all B1–5/N1–11.
+Separate Codex and focused closing Claude APPROVED67e2a1f,
+contract blob30891e7404fc240f63cf9d18afedf46e817b38f1:
 <t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A1af06bc3-f72d-416a-9f2c-1a25c85e714e%3Adelegate-task%3Af4cb7018-56be-4d4e-84a3-ce9e9a4e0022>
-No closing approval yet. Await automatic completion; no polling.
+All substantive gates closed. Author/reviewer sessions complete.
+
+Document-only revision1/HC01–45. Planned APICONTRACT003/APITEST014/API014 guard
+setup/reset writes; SESSIONCONTRACT007/SESSIONTEST012/SESSION012 supply actual
+AUTH budget/edge producer. All six nodes planned/unassigned, not executable scope.
+Original472 IDs/edges/unrelated statuses/reviews/verification preserved, no cycle/
+reverse consumer dependency. Project478/122, tooling51, validate/render/diff,
+independent source/graph/arithmetic/example checks pass. No runtime/native/crypto/
+login/edge/platform proof. Frozen source/header/test/schema/build/CI unchanged.
+
+Only completion/publication metadata follows closing approval: coordinator owns
+state/HTML/evidence/checkpoint, independently reviewed by Codex before final push.
+Next: metadata review; push final packet/update PR; inspect latest-head CI,
+discussions and live rules; normal exact-head merge; refresh main then STOP.
+Ruleset26170263: PR/resolved threads,0 human approval count,no bypass actors,
+no deletion/force push; no classic protection. CI remains project gate. The old
+28e8b40 PR head had22 successes; final head must pass independently. No watcher
+active. If PR114 is already merged on resumption, refresh/verify main and STOP.
