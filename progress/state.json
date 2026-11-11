@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T19:22:29+00:00",
+  "updated_at": "2026-11-11T19:41:58+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. RATES-001 merged normally in PR116 at c70fbec. PR117 RATECONTRACT-001 merged normally at38b482d. Owner resumed for ONE new task: RATECONTRACT-002 concrete exact valuation API/codec/storage contract now has independent document-stage approval in PR118. Three explicit planned migration prerequisites preserve scope; no runtime change. Final packet/current CI/normal merge then STOP; API-001 implementation and actual session-clock binding remain unauthorized. Owner-authorized CI-001 repair merged normally in PR119 at 5c6121d after all22 final-head checks passed. PR118 now incorporates fixed main; its approved contract is unchanged. Verify post-merge main and refreshed PR118 CI, then merge normally and stop.",
   "verification": [
     {
@@ -16271,7 +16271,7 @@
       "title": "Structured review gates, bounded handoffs and publication reconciliation",
       "module": "Quality and tooling",
       "kind": "implementation",
-      "status": "in_progress",
+      "status": "done",
       "owner": "codex:coordinator-f59f5caa",
       "depends_on": [
         "WORKFLOW-002",
@@ -16285,7 +16285,7 @@
       "brief": "docs/tasks/WORKFLOW-003.md",
       "summary": "Make review and publication records checkable, reduce duplicate context, measure review usefulness and cancel superseded PR CI without reducing coverage.",
       "notes": [
-        "Structured workflow tooling/docs/CI implemented;71 tooling/scaffold3/project485/122/DOM pass. Initial Claude permission/standing-loop blockers corrected; independent Codex approves6c971d2, no blockers. Claude closing/current-head CI pending. Frozen assertions/pins preserved; PR118/119 reconciled. No product/live proof."
+        "Structured review/publication gates, stage context/metrics, concise docs and PR concurrency implemented. All three stages independently closed; source6c971d2. Frozen12 tests/71 tooling/scaffold3/project485/122/render/DOM pass; all old assertions and CI pins retained. PR118/119 publication reconciled. Recorded pre-push CI is not_run; hosted results/publication belong in PR120. No product/live proof; stop here."
       ],
       "verification": {
         "contract_review": "passed",
@@ -16293,7 +16293,7 @@
         "baseline": "observed_red",
         "implementation": "passed",
         "acceptance": "passed",
-        "code_review": "partial",
+        "code_review": "passed",
         "github_ci": "not_run",
         "tooling": "passed",
         "scaffold": "passed",
@@ -16303,7 +16303,13 @@
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/120"
       ],
-      "review": null,
+      "review": {
+        "author": "Codex /root/workflow_tests, /root/workflow_implementation and coordinator-f59f5caa corrections/integration",
+        "reviewer": "Independent Claude initial/closing sessions and separate Codex verification for all three stages",
+        "outcome": "approved",
+        "revision": "Contract/tests d5c7ce4 approved before actual intended red. Implementation6c971d2 approved after permission/standing-loop corrections by Codex /root/workflow_code_verification and Claude514cb273 closing. Current hosted CI/publication are separate live PR gates.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/120#issuecomment-6805560515"
+      },
       "workflow": {
         "required_stages": [
           "contract",
@@ -16560,8 +16566,22 @@
                 "reviewer": "codex:/root/workflow_code_verification",
                 "revision": "6c971d2ad627c72f8fd2a32cb7aec66d271cdbe9",
                 "outcome": "approved",
-              "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/120#issuecomment-6805462380",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/120#issuecomment-6805462380",
                 "findings": [],
+                "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:514cb273-5f45-4a32-8b33-4dc6a296a989",
+                "revision": "6c971d2ad627c72f8fd2a32cb7aec66d271cdbe9",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/120#issuecomment-6805560515",
+                "findings": [
+                  "opus_impl_closing:N1",
+                  "opus_impl_closing:N2"
+                ],
                 "blocking_findings": []
               }
             ]
@@ -18478,6 +18498,11 @@
       "date": "2026-11-11T18:59:45+00:00",
       "task": "WORKFLOW-003",
       "note": "Recorded actual initial Claude contract/test findings and corrected e4655fe; independent Codex verification active. Preserve premature1d8 draftCI execution as process exception, no approvedred or implementation claim. Added frozen120 historical policy and pending-stage records without fabricated receipts."
+    },
+    {
+      "date": "2026-11-11T19:41:58+00:00",
+      "task": "WORKFLOW-003",
+      "note": "Bounded workflow artifacts complete: contract/tests closed d5c7ce4 before actual12/96assertion red; fresh implementation6c971d2 independently closed after permission/standing-loop fixes.71 tooling/scaffold3/project485/122/DOM pass. Routine completion review then push/currenthead hosted CI; publication separate, no new product task."
     }
   ],
   "workflow_policy": {
