@@ -1,23 +1,29 @@
 # Coordinator checkpoint
 
-Owner authorized WORKFLOW-003: implement the six workflow suggestions and open a new
-PR, then stop. No product task, API-001, clock binding or valuation implementation.
-Current branch: task/WORKFLOW-003-structured-coordination, base main f2a134e.
-Authority/status: progress/state.json and docs/tasks/WORKFLOW-003.md.
+Owner authorized WORKFLOW-003: implement the six workflow suggestions and open a
+new PR, then stop. No product task, API-001, clock or valuation implementation.
+Branch task/WORKFLOW-003-structured-coordination; base main f2a134e.
+Task authority/status: state.json; contract/acceptance: docs/tasks/WORKFLOW-003.md.
+Draft PR: https://github.com/Kernol12/subathon-bot-ai/pull/120
 
-GitHub observations in this session confirm PR118 merged f2a134e at
-2026-11-11T17:46:41Z and PR119 merged 5c6121d at17:28:38Z, both final-head check
-rollups successful. Original reviews and contract/migration/test bytes are retained.
-Historical PR118 handoff was stale; current task will reconcile publication records
-without rewriting unrun historical checks or manufacturing review receipts.
+PR118 and119 were independently observed MERGED with successful final-head
+rollups; their old checkpoint was stale. Reconcile publication with reviewed tooling
+later; preserve historical unrun checks and all original contract/migration bytes.
 
-Coordinator: Codex gpt-6.1-sol, T3 f59f5caa-5ee0-4345-a22d-1607a6ec91cd;
-owns brief/docs/schema/state/HTML/CI. Native workflow_tests author owns only new
-tests/tooling/test_workflow.py and has not been released to execute it.
-No historical assignment is presumed live. Fresh implementer follows approved red.
+Coordinator Codex gpt-6.1-sol/T3 f59f5caa owns shared docs/schema/state/HTML/CI.
+Native workflow_tests authored only new12-method source. Initial Claude contract
+b381fb6 and test1d8f1ff each found4 blockers; root corrected e4655fe. Independent
+Codex contract approval/test C1 are in PR comments6804640288/6804640652/6804752919.
+Root d5c7ce4 fixes fixture masking while preserving every assertion and adds one
+absent-stage case. Native workflow_gate_recheck read-only verification is active;
+prior implementation assignments are retired, no process assumed live.
 
-Current gates: contract v1 authored; tests authoring. Independent Claude initial,
-Codex verification and Claude closing are required separately for contract and tests
-before observing red. Implementation/tooling/docs/CI then receive their own cycle.
-Next: commit authored packets, complete independent contract/test review, observe
-intended red, and release a fresh implementation session to owned tool paths.
+Opening draft prematurely executed tests in hosted CI at1d8f1ff. Failed/cancelled
+runs and process exception are retained in PR comment6804508390, not reviewed-red
+proof. All tested APT steps passed; observed failures were new tooling assertions.
+Keep further source changes local through review/red/implementation gates.
+
+Next: fresh Codex verification, independent Claude closing for contract AND tests,
+then actual intended local red. Only then release fresh implementation session for
+tools/workflow.py and tools/progress.py. Docs/schema/CI complete the same reviewed
+implementation packet; relevant checks/current-head CI and PR readiness follow.

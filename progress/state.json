@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T18:45:22+00:00",
+  "updated_at": "2026-11-11T19:04:21+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. RATES-001 merged normally in PR116 at c70fbec. PR117 RATECONTRACT-001 merged normally at38b482d. Owner resumed for ONE new task: RATECONTRACT-002 concrete exact valuation API/codec/storage contract now has independent document-stage approval in PR118. Three explicit planned migration prerequisites preserve scope; no runtime change. Final packet/current CI/normal merge then STOP; API-001 implementation and actual session-clock binding remain unauthorized. Owner-authorized CI-001 repair merged normally in PR119 at 5c6121d after all22 final-head checks passed. PR118 now incorporates fixed main; its approved contract is unchanged. Verify post-merge main and refreshed PR118 CI, then merge normally and stop.",
   "verification": [
     {
@@ -16269,19 +16269,173 @@
       "brief": "docs/tasks/WORKFLOW-003.md",
       "summary": "Make review and publication records checkable, reduce duplicate context, measure review usefulness and cancel superseded PR CI without reducing coverage.",
       "notes": [
-        "Owner authorized the six workflow improvements and a new PR. Claim before edits from main f2a134e; tooling/docs/CI only, no product implementation. Contract/tests, independent review, intended red and fresh implementation gates pending."
+        "Contract and tests independently Codex-approved at d5c7ce4 after initial Claude findings and targeted fixes. Every old assertion and all120 historical task records preserved. Independent Claude closing pending before intended local red. Premature draft CI remains a recorded process exception; no implementation or product proof."
       ],
       "verification": {
-        "contract_review": "not_run",
-        "test_review": "not_run",
+        "contract_review": "failed",
+        "test_review": "failed",
         "baseline": "not_run",
         "implementation": "not_run",
         "acceptance": "not_run",
         "code_review": "not_run",
         "github_ci": "not_run"
       },
-      "evidence": [],
-      "review": null
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/120"
+      ],
+      "review": null,
+      "workflow": {
+        "required_stages": [
+          "contract",
+          "tests",
+          "implementation"
+        ],
+        "stages": {
+          "contract": {
+            "authors": [
+              "codex:coordinator-f59f5caa"
+            ],
+            "revision": "d5c7ce4da123e2c9d482c478eaa0e35834d3c319",
+            "paths": [
+              "docs/tasks/WORKFLOW-003.md"
+            ],
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:6fd9ff44-a7b5-4eba-8731-607fd642249c",
+                "revision": "b381fb67cfbf2450460afa8b77c46901e7cafc59",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/120#issuecomment-6804640288",
+                "findings": [
+                  "opus_initial:B1",
+                  "opus_initial:B2",
+                  "opus_initial:B3",
+                  "opus_initial:B4",
+                  "opus_initial:M1",
+                  "opus_initial:M2",
+                  "opus_initial:M3",
+                  "opus_initial:M4",
+                  "opus_initial:M5",
+                  "opus_initial:M6",
+                  "opus_initial:L1",
+                  "opus_initial:L2",
+                  "opus_initial:L3",
+                  "opus_initial:L4",
+                  "opus_initial:L5",
+                  "opus_initial:L6",
+                  "opus_initial:L7",
+                  "opus_initial:L8"
+                ],
+                "blocking_findings": [
+                  "opus_initial:B1",
+                  "opus_initial:B2",
+                  "opus_initial:B3",
+                  "opus_initial:B4"
+                ],
+                "started_at": "2026-11-11T18:49:42.479Z",
+                "finished_at": "2026-11-11T18:53:30.494Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:/root/workflow_gate_verification",
+                "revision": "e4655fe18601482a7e8ba2a20d339e8c44edc4b0",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/120#issuecomment-6804752919",
+                "findings": [],
+                "blocking_findings": []
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:/root/workflow_gate_recheck",
+                "revision": "d5c7ce4da123e2c9d482c478eaa0e35834d3c319",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/120#issuecomment-6804793928",
+                "findings": [],
+                "blocking_findings": []
+              }
+            ]
+          },
+          "tests": {
+            "authors": [
+              "codex:/root/workflow_tests",
+              "codex:coordinator-f59f5caa"
+            ],
+            "revision": "d5c7ce4da123e2c9d482c478eaa0e35834d3c319",
+            "paths": [
+              "tests/tooling/test_workflow.py",
+              "tests/tooling/test_progress.py"
+            ],
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-sonnet-5-5",
+                "reviewer": "claude:c3847970-8f81-4ebb-ab13-90010d9b1a9d",
+                "revision": "1d8f1ffb4a1039c9e439c042a5914e71af3f5237",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/120#issuecomment-6804640652",
+                "findings": [
+                  "sonnet_initial:T1",
+                  "sonnet_initial:T2",
+                  "sonnet_initial:T3",
+                  "sonnet_initial:T4",
+                  "sonnet_initial:N1",
+                  "sonnet_initial:N2",
+                  "sonnet_initial:N3",
+                  "sonnet_initial:N4",
+                  "sonnet_initial:N5",
+                  "sonnet_initial:N6",
+                  "sonnet_initial:N7",
+                  "sonnet_initial:N8",
+                  "sonnet_initial:N9",
+                  "sonnet_initial:N10"
+                ],
+                "blocking_findings": [
+                  "sonnet_initial:T1",
+                  "sonnet_initial:T2",
+                  "sonnet_initial:T3",
+                  "sonnet_initial:T4"
+                ],
+                "started_at": "2026-11-11T18:52:07.720Z",
+                "finished_at": "2026-11-11T18:55:05.407Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:/root/workflow_gate_verification",
+                "revision": "e4655fe18601482a7e8ba2a20d339e8c44edc4b0",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/120#issuecomment-6804752919",
+                "findings": [
+                  "codex_verify:C1",
+                  "codex_verify:N1"
+                ],
+                "blocking_findings": [
+                  "codex_verify:C1"
+                ]
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:/root/workflow_gate_recheck",
+                "revision": "d5c7ce4da123e2c9d482c478eaa0e35834d3c319",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/120#issuecomment-6804793928",
+                "findings": [],
+                "blocking_findings": []
+              }
+            ]
+          }
+        }
+      }
     }
   ],
   "activity": [
@@ -18179,6 +18333,137 @@
       "date": "2026-11-11T18:45:22+00:00",
       "task": "WORKFLOW-003",
       "note": "Claimed owner-requested workflow improvements from verified current main f2a134e. PR118/119 confirmed merged; preserve baseline and product stop boundaries. Coordinator owns brief/shared metadata/docs; test source before review/red; fresh implementation worker after approved baseline."
+    },
+    {
+      "date": "2026-11-11T18:59:45+00:00",
+      "task": "WORKFLOW-003",
+      "note": "Recorded actual initial Claude contract/test findings and corrected e4655fe; independent Codex verification active. Preserve premature1d8 draftCI execution as process exception, no approvedred or implementation claim. Added frozen120 historical policy and pending-stage records without fabricated receipts."
     }
-  ]
+  ],
+  "workflow_policy": {
+    "version": 1,
+    "legacy_done": [
+      "ACCESS-002",
+      "ACCESSCONTRACT-001",
+      "ACCESSTEST-002",
+      "ACCT-001",
+      "ACCT-002",
+      "ACCT-003",
+      "ACCT-004",
+      "ACCTCONTRACT-001",
+      "ACCTTEST-001",
+      "ACCTTEST-002",
+      "ACCTTEST-003",
+      "ACCTTEST-004",
+      "API-012",
+      "APICONTRACT-001",
+      "APICONTRACT-002",
+      "APICONTRACT-003",
+      "APITEST-001",
+      "APITEST-012",
+      "BOOT-001",
+      "BOOT-002",
+      "BOOT-003",
+      "BOOT-004",
+      "BOOT-005",
+      "BOOT-006",
+      "BOOT-007",
+      "BOOT-008",
+      "BOOT-009",
+      "CI-001",
+      "CONTRACT-001",
+      "CONTRACT-002",
+      "CONTRACT-004",
+      "CONTRACT-005",
+      "CONTRACT-009",
+      "CONTRACT-011",
+      "CONTRACT-013",
+      "CONTRACT-014",
+      "CONTRACTPLAN-001",
+      "CONTRACTPLAN-002",
+      "CONTRACTPLAN-003",
+      "CONTRACTPLAN-004",
+      "CONTRACTPLAN-005",
+      "CONTRACTPLAN-006",
+      "CORE-001",
+      "CORE-002",
+      "CORE-003",
+      "CORE-005",
+      "CORE-008",
+      "CORETEST-001",
+      "CORETEST-002",
+      "CORETEST-003",
+      "CORETEST-005",
+      "CORETEST-008",
+      "EPIC-028",
+      "EVIDENCE-001",
+      "EVIDENCE-002",
+      "FIXTURE-001",
+      "FIXTURE-002",
+      "FIXTURE-003",
+      "IMPL-001",
+      "LOCALE-001",
+      "LOCALETEST-001",
+      "MILESTONE-001",
+      "MILESTONETEST-001",
+      "RATECONTRACT-001",
+      "RATECONTRACT-002",
+      "RATES-001",
+      "RATESTEST-001",
+      "REVIEW-001",
+      "SCHEMATEST-001",
+      "SCHEMATOOL-001",
+      "SESSION-001",
+      "SESSION-008",
+      "SESSIONCONTRACT-001",
+      "SESSIONCONTRACT-002",
+      "SESSIONCONTRACT-003",
+      "SESSIONCONTRACT-004",
+      "SESSIONCONTRACT-005",
+      "SESSIONCONTRACT-006",
+      "SESSIONTEST-001",
+      "SESSIONTEST-008",
+      "SPIKE-001",
+      "STORAGE-001",
+      "STORAGE-002",
+      "STORAGE-010",
+      "STORAGE-011",
+      "STORAGE-012",
+      "STORAGE-013",
+      "STORAGE-014",
+      "STORAGE-015",
+      "STORAGE-016",
+      "STORAGE-017",
+      "STORAGE-018",
+      "STORAGE-019",
+      "STORAGE-020",
+      "STORAGECONTRACT-001",
+      "STORAGECONTRACT-002",
+      "STORAGETEST-001",
+      "STORAGETEST-002",
+      "STORAGETEST-010",
+      "STORAGETEST-011",
+      "STORAGETEST-012",
+      "STORAGETEST-013",
+      "STORAGETEST-014",
+      "STORAGETEST-015",
+      "STORAGETEST-016",
+      "STORAGETEST-017",
+      "STORAGETEST-018",
+      "STORAGETEST-020",
+      "TEST-001",
+      "TEST-002",
+      "TESTCLEAN-001",
+      "TESTCLEAN-002",
+      "TESTCLEAN-003",
+      "TESTCLEAN-004",
+      "TESTCLEAN-005",
+      "TESTCLEAN-006",
+      "TESTCLEAN-007",
+      "TESTCLEAN-008",
+      "WORKFLOW-001",
+      "WORKFLOW-002"
+    ],
+    "legacy_done_sha256": "04afa2e0c32d4d88183e8b104f9d65402c81bd4e32521406c3d36a98e881e573"
+  }
 }
