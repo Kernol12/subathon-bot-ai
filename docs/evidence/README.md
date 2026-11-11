@@ -44,6 +44,18 @@ model selection; separate Codex and closing Claude Sonnet5.5 reviews approved th
 revision at ce55cbf. Project/progress checks and the unchanged tooling50 suite pass;
 latest-head CI and the normal merge remain publication gates.
 
+[CI-001](../tasks/CI-001.md) adds guarded Ubuntu package setup with an independent
+kernel.org mirror, bounded DNS diagnostics and strict authenticated updates in nine
+existing lanes. Eight mocked examples, 59 tooling tests and scaffold3 pass, with
+separate initial/closing Claude and Codex verification. All nine affected hosted
+jobs and all 22 checks pass at reviewed cb5f8fc; package pins, Ubuntu trust, SDK hashes
+and native baselines are unchanged. DNS had also recovered on the observed runner,
+so these runs do not isolate an outage-time causal comparison. Full reviews, actual
+stub-red and selected-host receipts are in [PR119](https://github.com/Kernol12/subathon-bot-ai/pull/119);
+final metadata/current-head CI and normal merge remain publication gates. Host
+lifecycle CI still compiles its intentional-red baseline; no new host or product
+behavior is claimed. PR118's unchanged contract publishes after the repair.
+
 ## Core time and exact arithmetic
 
 Reviewed native component suites pass for cap-limited credit (23 cases), exact decimal
