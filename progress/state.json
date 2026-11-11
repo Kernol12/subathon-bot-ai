@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T06:01:30+00:00",
+  "updated_at": "2026-11-11T08:10:51+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. The owner resumed APITEST-001 baseline only through normal merge, then stop; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
@@ -5286,7 +5286,13 @@
       ],
       "verification": {
         "contract_review": "passed",
-        "tooling": "passed"
+        "tooling": "passed",
+        "selector_test_review": "passed",
+        "selector_baseline": "observed_red",
+        "source_authored": "draft",
+        "test_review": "passed",
+        "build_review": "passed",
+        "source_review": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/112"
@@ -17376,6 +17382,11 @@
       "date": "2026-11-11T06:01:30+00:00",
       "task": "APITEST-001",
       "note": "Contract7bfcca0 closed: initial Opus3a14 findings, correctionbb5d/Codex review, coordinator7893/7bf narrow fixes independently Codex-approved, closing Opusc6c87 approved. No prereq split; supported restore remains STORAGE007 with forward crash-safe startup obligation. Fresh author now released only approved header/stub/test paths; no native/body/build permission."
+    },
+    {
+      "date": "2026-11-11T08:10:51+00:00",
+      "task": "APITEST-001",
+      "note": "Full test/stub/fixture closing Opus3fe3 approved except two narrow oracles; coordinator8fa fixes independently Codex verified and closing Sonnet8b7 APPROVED. Build366930/f0a independent initialSonnet/Codex/closingSonnet4795 approved. Actual tooling51/project469/122/render/diff pass after gate. Host configure/build/discovery/body and passive admission remain unrun."
     }
   ]
 }
