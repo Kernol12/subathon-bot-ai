@@ -15,9 +15,10 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - name: Prepare authenticated Ubuntu package acquisition
+        run: python3 tools/prepare_ubuntu_apt.py
       - name: Download and verify exact Ubuntu SDK inputs before installation
         run: |
-          sudo apt-get update
           python3 - <<'PYTHON'
           import hashlib
           import json

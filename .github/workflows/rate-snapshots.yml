@@ -15,9 +15,10 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - name: Prepare authenticated Ubuntu package acquisition
+        run: python3 tools/prepare_ubuntu_apt.py
       - name: Install the pinned selected Boost headers
         run: |
-          sudo apt-get update
           sudo apt-get install --yes --no-install-recommends libboost1.83-dev=1.83.0-2.1ubuntu3
           dpkg-query -W libboost1.83-dev
       - name: Verify the compiler's selected Boost header version

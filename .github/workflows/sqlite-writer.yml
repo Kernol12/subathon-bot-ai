@@ -17,10 +17,11 @@ jobs:
           persist-credentials: false
       - name: Check independent fixture reproduction
         run: python3 tools/generate_fixtures.py --check
+      - name: Prepare authenticated Ubuntu package acquisition
+        run: python3 tools/prepare_ubuntu_apt.py
       - name: Install archive, Qt runtime and pinned Boost headers
         run: |
           echo "QT_PREFIX=$RUNNER_TEMP/qt-6.12.0" >> "$GITHUB_ENV"
-          sudo apt-get update
           sudo apt-get install --yes --no-install-recommends libarchive-tools libglib2.0-0t64 libzstd1 zlib1g libboost1.83-dev=1.83.0-2.1ubuntu3
           dpkg-query -W libboost1.83-dev
       - name: Verify the compiler's selected Boost header version
