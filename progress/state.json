@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T19:04:21+00:00",
+  "updated_at": "2026-11-11T19:12:33+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. RATES-001 merged normally in PR116 at c70fbec. PR117 RATECONTRACT-001 merged normally at38b482d. Owner resumed for ONE new task: RATECONTRACT-002 concrete exact valuation API/codec/storage contract now has independent document-stage approval in PR118. Three explicit planned migration prerequisites preserve scope; no runtime change. Final packet/current CI/normal merge then STOP; API-001 implementation and actual session-clock binding remain unauthorized. Owner-authorized CI-001 repair merged normally in PR119 at 5c6121d after all22 final-head checks passed. PR118 now incorporates fixed main; its approved contract is unchanged. Verify post-merge main and refreshed PR118 CI, then merge normally and stop.",
   "verification": [
     {
@@ -16269,12 +16269,12 @@
       "brief": "docs/tasks/WORKFLOW-003.md",
       "summary": "Make review and publication records checkable, reduce duplicate context, measure review usefulness and cancel superseded PR CI without reducing coverage.",
       "notes": [
-        "Contract and tests independently Codex-approved at d5c7ce4 after initial Claude findings and targeted fixes. Every old assertion and all120 historical task records preserved. Independent Claude closing pending before intended local red. Premature draft CI remains a recorded process exception; no implementation or product proof."
+        "Contract/test packet d5c7ce4 closed by independent Claude after Codex fixes/separate verification. Actual local12-method run:96 assertion failures,0errors/skips; reviewed intended red. Frozen test9c413aba. Fresh tool implementation next; no product work. Premature hostedCI retained separately."
       ],
       "verification": {
-        "contract_review": "failed",
-        "test_review": "failed",
-        "baseline": "not_run",
+        "contract_review": "passed",
+        "test_review": "passed",
+        "baseline": "observed_red",
         "implementation": "not_run",
         "acceptance": "not_run",
         "code_review": "not_run",
@@ -16358,6 +16358,22 @@
                 "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/120#issuecomment-6804793928",
                 "findings": [],
                 "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:5487566d-e95c-46c3-86b5-3a306d226d96",
+                "revision": "d5c7ce4da123e2c9d482c478eaa0e35834d3c319",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/120#issuecomment-6804926066",
+                "findings": [
+                  "opus_closing:CL1",
+                  "opus_closing:CL2"
+                ],
+                "blocking_findings": [],
+                "started_at": "2026-11-11T19:06:01.090Z",
+                "finished_at": "2026-11-11T19:11:17.794Z"
               }
             ]
           },
@@ -16431,6 +16447,24 @@
                 "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/120#issuecomment-6804793928",
                 "findings": [],
                 "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:5487566d-e95c-46c3-86b5-3a306d226d96",
+                "revision": "d5c7ce4da123e2c9d482c478eaa0e35834d3c319",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/120#issuecomment-6804926066",
+                "findings": [
+                  "opus_closing:TN1",
+                  "opus_closing:TN2",
+                  "opus_closing:TN3",
+                  "opus_closing:TN4"
+                ],
+                "blocking_findings": [],
+                "started_at": "2026-11-11T19:06:01.090Z",
+                "finished_at": "2026-11-11T19:11:17.794Z"
               }
             ]
           }
