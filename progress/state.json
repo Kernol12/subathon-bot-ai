@@ -15789,7 +15789,7 @@
     {
       "module": "Server/API",
       "status": "in_progress",
-      "owner": "codex:coordinator-6e24c10f; fresh author pending",
+      "owner": "codex:coordinator-6e24c10f; /root/enrollment_contract_author",
       "spec_refs": [
         "§10",
         "AUTH-01",
