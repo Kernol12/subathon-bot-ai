@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T13:47:08+00:00",
-  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. RATES-001 merged normally in PR116 at c70fbec. Owner resumed for one fresh task: RATECONTRACT-001 logical exact retained valuation prerequisite is reviewed document proof in PR117; concrete RATECONTRACT-002 remains planned. Final CI/normal merge, then STOP; API-001 implementation and actual session-clock binding remain unauthorized.",
+  "updated_at": "2026-11-11T14:07:01+00:00",
+  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. RATES-001 merged normally in PR116 at c70fbec. PR117 RATECONTRACT-001 merged normally at38b482d. Owner resumed for ONE new task: RATECONTRACT-002 concrete exact valuation API/codec/additive-storage contract, document only. Complete independent reviews, current CI and normal merge, then STOP; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -13456,8 +13456,8 @@
       "title": "Exact valuation API, codec and additive storage contract",
       "module": "Currency",
       "kind": "contract",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "codex:coordinator-9dd14702; fresh exact_valuation_storage_author",
       "depends_on": [
         "RATECONTRACT-001",
         "STORAGE-018",
@@ -13473,7 +13473,7 @@
       "brief": "docs/tasks/EPIC-017/RATECONTRACT-002.md",
       "summary": "Define concrete exact valuation API, codec, resource and append-only storage compatibility before the executable baseline.",
       "notes": [
-        "Required planned concrete contract gate exposed by RATECONTRACT-001 audit; no authored or approved API/schema/tests/implementation."
+        "Claimed document-only revision1 concrete API/codec/resource/additive-storage prerequisite. Fresh author owns new contract only; coordinator owns shared metadata. Full independent review cycle, current CI and normal merge required; then STOP. No runtime changes authorized."
       ],
       "verification": {},
       "evidence": [],
@@ -17952,6 +17952,11 @@
       "date": "2026-11-11T13:47:08+00:00",
       "task": "RATECONTRACT-001",
       "note": "Logical exact valuation contract approved08fcfe1 after initial Claude B1/B2 fixes, Codex B3 fix and separate verification, then independent Claude closing. Document-only19examples; preserved478 old records/edges/reviews. RATECONTRACT002 remains planned; final packet/CI/normal PR117 merge, then STOP."
+    },
+    {
+      "date": "2026-11-11T14:07:01+00:00",
+      "task": "RATECONTRACT-002",
+      "note": "Owner resumed for ONE new task after verified PR117 merged38b482d/all22 head checks successful. No open PR/active claims/other T3 roles; historical worktrees clean and assignments retired. Claim dependency-ready concrete valuation contract; fresh author new document only, coordinator shared files."
     }
   ]
 }
