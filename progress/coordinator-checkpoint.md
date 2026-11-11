@@ -41,5 +41,11 @@ now report component proof only. Core source/tests/contracts remain frozen.
 Optional N1/N2 bounded repeated parsing performance, N4 valueless-tag boundary
 ambiguity and N5 automatic no-skip guard retained in PR review; no extra behavior.
 N3 duplicate directed evidence interpretation confirmed correct, no contract edit.
-Next: separate independent Codex source/resource/CI and B1/docs verification,
-then independent Claude closing on actual resulting revision. No watch.
+Separate independent Codex gpt-6.1-sol /root/rates_snapshot_codex_verify APPROVED
+030c2eb (B1 resolved and full source/resource/CI/docs/map verified). Report in
+[PR116 comment](https://github.com/Kernol12/subathon-bot-ai/pull/116#issuecomment-6796574173).
+Author and Codex reviewer retired; source/fixtures/contracts unchanged.
+030c2eb pushed; new current-head CI pending. State now in_review, not done.
+Next: independent Claude closing whole stage on actual resulting revision; then
+routine completion packet/independent Codex metadata review/current CI/protected
+merge, refresh main and STOP. No watch.
