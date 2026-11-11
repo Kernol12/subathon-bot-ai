@@ -32,3 +32,8 @@ initial review on 8c14fcd, then Codex corrections/separate review and Claude clo
 No review gates closed yet; do not poll a running delegate.
 CLion status returned main after shell branch switch; use shell checkout evidence
 until IDE revision/path is confirmed current.
+
+Initial independent Claude Opus5.5/high is running on a09654d:
+<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A1af06bc3-f72d-416a-9f2c-1a25c85e714e%3Adelegate-task%3Aabccd7da-7963-4511-a647-a6d111107899>
+Read-only root review; author worktree t3-37f792ad remains clean/preserved.
+Completion wakes coordinator; next fixes/separate independent Codex review.
