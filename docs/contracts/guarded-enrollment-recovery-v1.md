@@ -32,8 +32,11 @@ The following observations are from actual source at the source base:
 | `server/` producer inventory and ACCESS-001/005 briefs | No actual indexed directory, bootstrap/owner singleton, invitation/recovery record, console entitlement or current workflow authorization producer is present. A reference, enum or absent registration cannot supply one. |
 
 ACCESS-001 owns actual directory, owner/bootstrap/invitation and initial access
-facts plus separately reviewed logical/physical extensions. ACCESS-005 owns actual
-recovery policy, code/reset facts and console/helper entitlement. Their integrations
+facts plus INITIAL recovery-set/control creation and separately reviewed logical/
+physical extensions. ACCESS-005 owns SUBSEQUENT recovery policy, code/reset/set
+lifecycle facts and console/helper entitlement. The same abstract recovery-control
+ports bind ACCESS-001's initial producer for enrollment, ACCESS-005's for later
+recovery; enrollment must not depend on ACCESS-005. Their integrations
 must supply the named ports below. `read_bound_access` uses ACCESS-001's owner/role
 storage and ACCESS-003's actual current delegation evaluator; ACCESS-005 composes
 them for recovery. ACCESS-001/005 each own their same-transaction security-audit
@@ -70,8 +73,18 @@ consumer contracts before enablement, not inferred from the engineering bounds h
 
 Console issuance has a distinct compiled, host-only `ConsoleIssuerScope`: created
 only by the actual trusted server-console adapter after current OS/installation
-entitlement, bound to this running host/installation/one invocation and revoked on
-return/disconnect/stop. The scope is not constructible from an account ID, client
+entitlement, bound to this running host/installation/one invocation. During ONE
+synchronous admission call, the host validates it and creates the same bounded
+original record with inert privately matched console provenance. The borrowed scope
+revokes on admission return; it is NEVER retained through either queued stage.
+That return does not end the separately owned console invocation/sink lease. The
+actual adapter keeps a bounded invocation record alive to final response/drain,
+exposes current entitlement/liveness through its registered producer, and cancels
+the original on actual invocation end, sink loss, entitlement revocation or stop.
+No retained scope/facade supplies later authority: each stage/completion checks the
+inert original against that actual current producer and lease. Refused admission
+transfers nothing and retains no invocation credit.
+The scope is not constructible from an account ID, client
 flag or IPC payload. ACCESS-001/005 must supply the actual console provenance and
 bounded private output adapter. An external CLI may request issuance through that
 reviewed adapter, but neither accepts a password nor invokes crypto in its own
@@ -133,8 +146,8 @@ no scan, cached success, separate connection or network/worker call is allowed.
 | `compare_exchange_enrollment_control(expected,transition)` | Named transitions only: issue/replace setup code while no owner; issue/revoke invitation under current delegation; consume original live code/invitation; atomically install the initial protected owner AND close bootstrap. Full singleton/code/invitation CAS; setup replacement invalidates old code in same commit. No generic owner-transfer or ordinary role edit operation. |
 | `read_bound_access()` | New consumer-owned port: full current protected-owner binding, target permission/role facts and their revisions, and actor/delegation/fresh-auth source where applicable. Missing producer refuses. This port supplies facts, not permission merely by returning them. |
 | `install_enrollment_access(expected_absence,new_access)` | New ACCESS-001 port: initial owner or invitation's currently authorized initial access only, full expected absence/control/delegation CAS. No merge with unknown existing roles and no rights beyond current inviter delegation. Initial owner status is established through the SAME enrollment control transition. |
-| `read_recovery_control()` | New ACCESS-005 port: exact original reset offer OR selected recovery-code record plus current recovery-set generation/revision, original account, expiry/status/digest/verifier and current permission/owner closure. One indexed candidate only; no enumeration of all account codes. Also supports current set metadata for authorized replacement/issuance. |
-| `compare_exchange_recovery_control(expected,transition)` | Named transitions only: issue/replace/revoke bound reset offer, consume selected code/reset offer, install/replace a finite recovery set and invalidate ALL former generation codes/offers for the target. Full original record AND set-generation CAS. Set replacement is bounded generation fencing, not an unbounded row walk. Physical implementation must prove old codes cannot be reused. No target/ownership/permission change. |
+| `read_recovery_control()` | New purpose-bound abstract port: ACCESS-001 supplies initial-set/control absence for enrollment; ACCESS-005 supplies subsequent lifecycle facts. For recovery, return exact original reset offer OR selected recovery-code record plus current recovery-set generation/revision, original account, expiry/status/digest/verifier and current permission/owner closure. One indexed candidate only; no enumeration of all account codes. Also supports current set metadata for authorized replacement/issuance. |
+| `compare_exchange_recovery_control(expected,transition)` | Same purpose-bound producers: ACCESS-001 installs initial finite set only against actual absence; ACCESS-005 issues/replaces/revokes bound reset offers, consumes selected code/reset offer, replaces a finite recovery set and invalidates ALL former generation codes/offers for the target. Full original record AND set-generation CAS. Set replacement is bounded generation fencing, not an unbounded row walk. Physical implementation must prove old codes cannot be reused. No target/ownership/permission change. |
 | `append_security_audit(event)` | New bounded compiled audit port: same-commit fixed category, original operation identity, actor/target opaque references and revisions/outcome; no raw code/password/hash/token or arbitrary exception text. Missing/full/failing required audit prevents successful domain commit. Exact schema/retention producer remains consumer/storage-owned. |
 
 The following allowlist is closed; absent operations/transition kinds REFUSE before
@@ -365,19 +378,24 @@ records and cannot clear durable unknown-outcome or independent restore/clock ho
 These specification/import-derived oracles are authored document examples, not tests
 or observed behavior. IDs name separate future test scenarios; real SQL/source/secret/
 thread/edge instrumentation is required, not a mock's success flag.
+The sole permit serializes these workflows through actual drain. Source/CAS fault
+injections below test refusal with deliberately changed simulated producer/storage
+facts; they do NOT demonstrate two concurrently admitted password/issuer pipelines.
+Other authorized non-password state operations may independently change access/
+installation facts while the permit is held; those retain their own gates.
 
 | ID | Direct setup / order | Literal expected observation |
 | --- | --- | --- |
 | ER01 | Healthy bootstrap has no owner, setup c1 expires900000; now899999, original c1; native succeeds; final facts unchanged | Atomic account/credential/directory/access/recovery-set/owner+closed-bootstrap/consume/audit commit; one post-commit response. No session inferred. |
 | ER02 | Same c1 at now900000; alternatively UTC unavailable | Expired / unavailable respectively, zero native calls/candidates/mutation/public success; no elapsed fallback. |
-| ER03 | Two originals selected no-owner/c1; both generated distinct candidates; first commits | Second rereads owner/control and refuses stale; no second owner/account adoption or partial directory row. |
-| ER04 | Select c1; console replaces with c2 before final commit | c1 stale, unchanged c2. Replacement CAS atomically invalidates c1; equal revision with different full bytes still loses. |
+| ER03 | Two raw initial-owner contenders; first holds permit through commit/drain, second attempts admission | Second refuses busy before selection/native. Fresh second request after drain reads existing owner and refuses setup; no second owner/account adoption/partial directory. In a separate injected control-CAS race, competing owner installation makes final enrollment roll back atomically. |
+| ER04 | c1 redemption holds permit; console replacement attempts; then redemption cancels and fully drains without commit; fresh console issuance replaces c1→c2 | First console attempt busy, no replacement. Fresh committed replacement invalidates c1; later original c1 refuses before native. Separately inject c2 or same revision/different bytes after selection: final full comparison loses, never adopts/overwrites c2. |
 | ER05 | Owner a already exists; actual console requests initial setup | Refuse initial-owner entitlement; no code/account/ownership rewrite. Console owner-reset may separately target a only. |
 | ER06 | Actual directory producer absent vs bound healthy original username absent | Unavailable versus known absence; former performs no account lookup/crypto, latter alone may proceed under enrollment authority. |
 | ER07 | Invitation i expires172800000; now172799999; inviter delegated Observer originally but current grant revoked before final stage | Current delegation refusal; no account/roles/code consumption. A still-authorized unexpired invitation can consume once; replay loses. |
-| ER08 | Invitation consumed/revoked or original directory key becomes bound a→b during crypto | Final full selection/control/binding mismatch; no adoption of b, no credential overwrite. |
-| ER09 | Reset selects account a/r/H0; credential becomes z/H1 or same r/different verifier before final stage | Full CAS refusal; H1 retained, zero partial epoch/recovery change. |
-| ER10 | Account access/revision/epoch, install epoch, permission revision, owner binding or recovery-set generation changes during crypto | Fresh current comparison refuses; no cached selection/entitlement authorizes mutation. |
+| ER08 | Invitation redemption holds permit; revocation attempts; separately inject consumed/revoked invitation or directory a→b after selection | Real revoker busy before selection; fresh authorized revocation after cancel/drain makes later redemption refuse before native. Injected full-source mismatch refuses final mutation with no adoption of b or credential overwrite. |
+| ER09 | Reset holds permit with a/r/H0; competing reset attempts; separately inject z/H1 or same r/different verifier before final stage | Real competitor busy before selection/native; fresh reset only after drain/current checks. Injected full-CAS mismatch retains H1 with zero partial epoch/recovery change; no simultaneous accepted reset claimed. |
+| ER10 | Actual separately authorized non-password access/install/permission change; separately inject owner binding/account epoch/recovery-set generation change during crypto | Fresh current comparison refuses; no cached selection/entitlement authorizes mutation. Fault-injected cases establish mismatch handling only, not producer concurrency or an extra permit. |
 | ER11 | Valid helper reset of helper h with permissions P; sessions capture epoch e; code set G1 | One ACCESS-005 policy commit keeps P/access/identity, epoch e→f, replaces credential, consumes offer and G1→G2; all old-epoch sessions and G1 codes refuse. Other account b unchanged. |
 | ER12 | Administrator attempts helper reset targeting protected owner a | Denied before secret disclosure/mutation. Actual console reset of existing a preserves SAME owner binding/permissions, never transfers to a new account. |
 | ER13 | Code selector k identifies one recovery record; verify not_successful | No other code tried, no password/code creation, no mutation. It is not definitive wrong-password proof or accepted login. |

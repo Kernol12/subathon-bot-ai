@@ -36,3 +36,11 @@ conservative shared issuer permit/abuse gate, overlapping secret sum, preserved 
 transfer scope and metadata fixes. No added executable authorization or graph cycle.
 Next: separate independent Codex review of corrections/full affected context, then
 independent closing Claude. All required gates remain pending until approval.
+
+Separate Codex `/root/enrollment_codex_review` BLOCK69bd54b on B4–6:
+console admission/sink lifetime, initial recovery-set producer dependency and
+unattainable race traces under the sole permit. Coordinator corrections transfer
+console scope synchronously to inert original provenance, assign initial set to
+ACCESS-001/later lifecycle to ACCESS-005, and separate actual busy/fresh-request
+traces from explicit injected full-CAS/source faults. No scope/facade crosses yield.
+Next: independent Codex verification of corrected revision, then Claude closing.

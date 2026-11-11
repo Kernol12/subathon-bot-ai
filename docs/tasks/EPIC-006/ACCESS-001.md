@@ -77,7 +77,8 @@ requirements and owner fallback are unchanged.
 
 APICONTRACT-003's guarded invitation paths require ACCESS-003's actual current
 delegation evaluator before this slice's baseline/implementation, as recorded in
-state. ACCESS-001 owns the same-transaction enrollment/access security-audit adapter;
+state. ACCESS-001 owns initial recovery-set/control creation through the abstract recovery
+ports and the same-transaction enrollment/access security-audit adapter;
 ACCESS-005 owns its recovery counterpart. Missing producers refuse. Any substantial
 physical prerequisite must be split and reviewed before executable expansion. This
 planning clarification implements no policy/storage or host behavior.
