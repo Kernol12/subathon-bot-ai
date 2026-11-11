@@ -45,7 +45,8 @@ Separate independent Codex gpt-6.1-sol /root/rates_snapshot_codex_verify APPROVE
 030c2eb (B1 resolved and full source/resource/CI/docs/map verified). Report in
 [PR116 comment](https://github.com/Kernol12/subathon-bot-ai/pull/116#issuecomment-6796574173).
 Author and Codex reviewer retired; source/fixtures/contracts unchanged.
-030c2eb pushed; new current-head CI pending. State now in_review, not done.
+At30bde01:030c2eb was pushed with current-head CI pending; state was in_review,
+not done. The later completion packet below supersedes that status.
 Independent Claude Opus5.5/high closing1d31975a APPROVED30bde01, no blockers:
 [Closing review](<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A9bb3399b-28ac-429e-b793-504c3c18c39e%3Adelegate-task%3A1d31975a-eecb-477f-9de3-f4b5eab27136>).
 All substantive gates closed; reviewer sessions retired. Source hash unchanged.
