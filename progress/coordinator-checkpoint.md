@@ -10,7 +10,8 @@ roles. All existing worktrees clean; historical/missing registrations preserved.
 Prior assignments retired; no old author assumed active. CLion root path supplied;
 its tree response was empty, so checkout shell tools are authoritative.
 Coordinator9dd14702 owns shared brief/AGENTS/state/evidence/HTML/checkpoint/CI/merge.
-Fresh Codex author to own docs/contracts/exact-valuation-storage-v1.md only.
+Fresh Codex /root/exact_valuation_storage_author owns
+docs/contracts/exact-valuation-storage-v1.md only; author handed off and retired; others retired.
 Branch task/RATECONTRACT-002-exact-valuation-storage from main38b482d.
 No C++/SQL/schema/fixtures/assertions/build/CI/dependency/provider changes authorized.
 Preserve complete old graph and independent reviews. Contract revision1 acceptance
@@ -19,4 +20,27 @@ plan in the brief; runtime baseline/red/implementation remain downstream.
 
 Next: fresh author, independent Claude initial → Codex corrections/separate review
 → independent Claude closing; project/tooling/render and current-head CI, normal
-protected merge, refresh main and STOP. No watcher active.
+protected merge, refresh main and STOP. [Draft PR118](https://github.com/Kernol12/subathon-bot-ai/pull/118) open, linked.
+No watcher active. Live rules26170263 still require PR/resolved threads,0 GitHub
+approvals; written workflow independently requires current checks and stage approvals.
+
+Audit boundary: migration4 CHECK requires decimal fields for resolved legacy rows.
+Author proposes additive exact-revision family/shared immutable bounded snapshot,
+unified head dispatch and explicit existing-FK consumer audit; no fake old fields.
+Model8MiB is not writer/service admission. Concrete lower byte profile and every
+selected/full/history copy charge are required before independent review.
+
+Prerequisite split: existing bundle/hold/reference FKs prevent a parallel exact
+revision family from feeding current stores. Keep table names and define an honest
+new exact group; actual safe populated parent-table rebuild is not supplied by
+current writer PRAGMA allowlist. Planned STORAGECONTRACT-003 → STORAGETEST-021 →
+STORAGE-021 added to EPIC009; RATESTEST009/RATES009 depend on STORAGE021. Coordinator
+owns their briefs/graph. No new prerequisite execution authorized. Full substantive
+review includes this split and checks no old task/edge/review was removed.
+
+Author handoff: new concrete contract revision1 with18 independent examples;
+RSV1/ERV1/EVK1 full grammars, 24KiB model/32KiB snapshot codec/64KiB valuation
+admission, exact alternative and retained-name38-column target. No executable
+capability. Root project483/122, graph/render and51 tooling checks pass. Initial
+independent Claude Opus5.5/high review next on full contract + planned graph split;
+separate Codex and Claude closing still pending.

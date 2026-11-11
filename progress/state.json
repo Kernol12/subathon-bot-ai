@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T14:07:01+00:00",
+  "updated_at": "2026-11-11T14:11:54+00:00",
   "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 merged normally in PR115. RATES-001 pure exact snapshots now pass53 preserved cases/full89 checks with independent source/resource/CI reviews and selected Boost1.83 CI. RATES-001 merged normally in PR116 at c70fbec. PR117 RATECONTRACT-001 merged normally at38b482d. Owner resumed for ONE new task: RATECONTRACT-002 concrete exact valuation API/codec/additive-storage contract, document only. Complete independent reviews, current CI and normal merge, then STOP; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
@@ -5896,7 +5896,10 @@
         "STORAGE-019",
         "STORAGECONTRACT-002",
         "STORAGETEST-020",
-        "STORAGE-020"
+        "STORAGE-020",
+        "STORAGECONTRACT-003",
+        "STORAGETEST-021",
+        "STORAGE-021"
       ],
       "spec_refs": [
         "§16"
@@ -13492,7 +13495,8 @@
         "STORAGE-015",
         "ACCT-004",
         "RATECONTRACT-001",
-        "RATECONTRACT-002"
+        "RATECONTRACT-002",
+        "STORAGE-021"
       ],
       "spec_refs": [
         "§3",
@@ -13523,7 +13527,8 @@
         "ACCT-004",
         "RATESTEST-009",
         "RATECONTRACT-001",
-        "RATECONTRACT-002"
+        "RATECONTRACT-002",
+        "STORAGE-021"
       ],
       "spec_refs": [
         "§3",
@@ -16110,6 +16115,85 @@
       ],
       "brief": "docs/tasks/EPIC-007/SESSION-012.md",
       "summary": "Implement reviewed remaining-budget producer and additive actual policy/scope binding with bundled and alternative AUTH-edge admission."
+    },
+    {
+      "id": "STORAGECONTRACT-003",
+      "title": "Controlled parent-table rebuild migration contract",
+      "module": "Operations",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "RATECONTRACT-002",
+        "STORAGE-010",
+        "STORAGE-011",
+        "STORAGE-020"
+      ],
+      "spec_refs": [
+        "§16",
+        "OPS-02",
+        "NUM-04",
+        "FX-06"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGECONTRACT-003.md",
+      "summary": "Gate the safe populated-database exact-valuation parent-table upgrade under the actual controlled writer and catalog.",
+      "notes": [
+        "Planned prerequisite exposed by RATECONTRACT-002: existing plan CHECKs/FKs and writer PRAGMA allowlist do not supply a proven safe parent rebuild. No approved contract/baseline/red/implementation yet."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGETEST-021",
+      "title": "Review and demonstrate red: controlled parent-table rebuild migration",
+      "module": "Operations",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "STORAGECONTRACT-003"
+      ],
+      "spec_refs": [
+        "§16",
+        "OPS-02",
+        "NUM-04",
+        "FX-06"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGETEST-021.md",
+      "summary": "Gate the safe populated-database exact-valuation parent-table upgrade under the actual controlled writer and catalog.",
+      "notes": [
+        "Planned prerequisite exposed by RATECONTRACT-002: existing plan CHECKs/FKs and writer PRAGMA allowlist do not supply a proven safe parent rebuild. No approved contract/baseline/red/implementation yet."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "STORAGE-021",
+      "title": "Controlled parent-table rebuild migration capability",
+      "module": "Operations",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "STORAGETEST-021",
+        "STORAGECONTRACT-003"
+      ],
+      "spec_refs": [
+        "§16",
+        "OPS-02",
+        "NUM-04",
+        "FX-06"
+      ],
+      "brief": "docs/tasks/EPIC-009/STORAGE-021.md",
+      "summary": "Gate the safe populated-database exact-valuation parent-table upgrade under the actual controlled writer and catalog.",
+      "notes": [
+        "Planned prerequisite exposed by RATECONTRACT-002: existing plan CHECKs/FKs and writer PRAGMA allowlist do not supply a proven safe parent rebuild. No approved contract/baseline/red/implementation yet."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
     }
   ],
   "activity": [
@@ -17957,6 +18041,11 @@
       "date": "2026-11-11T14:07:01+00:00",
       "task": "RATECONTRACT-002",
       "note": "Owner resumed for ONE new task after verified PR117 merged38b482d/all22 head checks successful. No open PR/active claims/other T3 roles; historical worktrees clean and assignments retired. Claim dependency-ready concrete valuation contract; fresh author new document only, coordinator shared files."
+    },
+    {
+      "date": "2026-11-11T14:11:54+00:00",
+      "task": "RATECONTRACT-002",
+      "note": "Audit found migration4 resolved-decimal CHECK and bundle/hold/reference FKs prevent a fake-free parallel exact row feeding old consumers. Split planned STORAGECONTRACT003/STORAGETEST021/STORAGE021 controlled parent-table rebuild prerequisite; append only EPIC009 and RATESTEST009/RATES009 edges. No runtime/writer change authorized."
     }
   ]
 }
