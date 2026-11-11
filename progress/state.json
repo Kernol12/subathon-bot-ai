@@ -9157,7 +9157,8 @@
         "product_release": "not_run",
         "resource_review": "passed",
         "ci_recipe_review": "passed",
-        "document_review": "passed"
+        "document_review": "passed",
+        "acceptance": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/116"
