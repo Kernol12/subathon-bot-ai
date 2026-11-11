@@ -8,6 +8,9 @@ Source base `654ac016268c6caa9efc0241872ca0b0f88aae60`; correction base
 review, independent Codex verification and closing Claude approval of revision
 `7bfcca0`. Contract stage only: no headers, tests, observed red or implemented host.
 Current stage/assignments live in progress state and the coordinator checkpoint.
+The testability refinements below address initial authored-test review of276d017;
+separate Codex verification and Claude closing review remain required. They are
+not execution, intended-red or API-001 implementation evidence.
 
 Import [host lifecycle v1](api-host-lifecycle-v1.md), including ALL HL01–17,
 [native profile v1](native-websocket-profile-v1.md),
@@ -60,7 +63,7 @@ privately matches both completions to this live startup attempt/owner/store;
 request IDs, matching DTOs and a fixture flag cannot supply this chain. No unrelated
 writer access or source mutation may interleave this startup chain. Stop/failure
 at either step prevents activation. Bind bounded current facts and the initial
-live generation only after this chain and before protected entry. Do not create
+live generation (initially1) only after this chain and before protected entry. Do not create
 an installation, migrate/advance, rotate epochs or alter session times. Listener
 readiness/serving and each operation's other actual sources remain separate gates.
 Q AND N must prove this positive chain and preservation of I/E/J and session
@@ -236,6 +239,26 @@ elapsed/lease gates; stop prevents new handoff, with already handed-off nonsecre
 responses following the existing bounded drain. Owner cleanup retains queued
 callback dependencies until callbacks are cancelled/drained; the stopped barrier
 includes them. No reply order across diagnostic and writer routes is promised.
+Valid limits require nonzero finite counts/capacities/durations, per-peer count
+at most total associations, each single-payload cap at most its aggregate pool,
+and checked millisecond conversion/addition. Reduced profiles preserve coherence.
+Disconnect before entry releases cancelled input copies once while no body or
+borrow can reference them; any already accepted wrapper retains inert dependencies
+and must still dispatch/complete with its real no-BEGIN outcome.
+Ingress reservation is not writer acceptance. IO submission never synchronously
+waits for Qt. The first owner ingress-processing turn enqueues each pending
+transactional wrapper before returning (including reservations received during a bounded observer gate),
+without pumping writer dispatch; configure
+`writer_limits.pending_batches >= associations`. Every outcome assertion requires
+an observed actual wrapper acceptance; expired work refused before enqueue has
+no fabricated writer completion. Before queued diagnostic or wrapper entry, the
+owner consumes any pending stop, ahead of previously posted entry callbacks.
+A pending native signal wake counts as a pending stop at the next owner entry;
+consume/forward it before any queued diagnostic/wrapper or publication gate, even
+when the signal arrived inside a non-yielding body. The handler still only records
+and wakes. This does not preempt an already executing body. Startup callback exceptions may
+finish in failed, but require the same actual cleanup/barriers as stopped.
+
 HL14 still describes only actual accepted writer W1/W2/W3 wrappers: cancellation
 keeps their real `not_started/missing_transaction` results and absent values.
 A cancelled diagnostic records host cancellation alone, with NO invented writer
@@ -291,7 +314,7 @@ completion may publish only through the separate current-source checks.
 
 On a changed selected installation/epoch, the OWNER revokes old queued work,
 facades and source borrows and advances its internal generation before any new
-publication/admission; no public setter exists. Revision-only changes refresh
+publication/admission; no public setter exists. Revision-only changes leave generation unchanged, refresh
 bounded facts and revoke old borrows as appropriate. Exhaustion refuses/terminates
 rather than reusing a generation. A rebind cannot clear independent recovery or
 clock holds. The changing operation's old-generation publication may refuse;
@@ -389,6 +412,22 @@ source lifetime and actual execution/publication must precede the raw sampler.
 Counting proves guard connection, never trusted UTC/SESSION-009 acceptance. The
 stock host remains unimplemented even through the hook.
 
+Observers run synchronously on the emitting thread, with no host lock held.
+Bounded blocking is allowed; no event pumping or host re-entry on the emitting
+thread except `request_stop`. Independent IO ingress may progress. Observers must
+not wait for their own emitting thread's turn.
+`writer_completed` describes actual accepted command wrappers only, never startup
+work or diagnostics. Refused completion/publication gates emit a bounded event
+with the actual refusal, including when no publication binding can be entered;
+this is observation, not an outcome for a never-accepted wrapper.
+Empty HostAccess hooks use the exact production composition.
+
+The testing header also exposes `inject_next_envelope_mismatch(Host&)`, idle-only
+and one-shot. It alters only the next actual host wrapper's private envelope so
+it cannot match that association. It never changes SQL, WorkResult transaction,
+error or value truth, supplies no envelope, and cannot forge a successful match.
+The explicit stub returns NotImplemented. This seam is disclosed in admission.
+
 The same testing header may forward one pending commit/rollback ack-loss request
 to the existing `SqliteWriterWorkAccess` seam while the private writer is idle;
 it returns no writer/ticket and cannot assign a `SqliteWorkResult`. No hook may
@@ -480,7 +519,7 @@ Additional required failure/resource/ownership families:
 | Elapsed conversion / Q | sec18446744073 with nsec709551615, then709551616 | First exactly UINT64_MAX ns; second overflow refuses. Per-owner nonregression must not falsely order simultaneous reads by other threads. |
 | Thread/source / Q, N | IO submit, Qt execute/commit/complete, IO handoff; accepted cancelled wrapper retains dependencies | Actual SQL/source mutation/clock guards on Qt owner; sockets/response teardown on IO owner. Record actual thread IDs/destructors. No network wait in state or state code in IO. Source review supplements counters. |
 | Activation failures / Q, N | Fresh/old schema, unsupported future head9, wrong/malformed catalog, missing/wrong/malformed installation, writer full/fail-close/lost ack | Refuse without advance/setup/epoch rotation. Unchanged schema8 ordinary activation succeeds through actual positive §1 chain; DTO equality/request reference cannot enable it. No schema8 restore-fence stimulus exists; real supported restore-fence tests remain in STORAGETEST-007. Host startup stop fencing is covered below. Unknown current facts refuse; no invented out-of-band restore detector. |
-| Publication invalidation / Q | Destroy/hold the installation source or change installation epoch through the actual guarded mutation before old publication | No stale installation borrow/sample/emission. The minimal surface supplies no account source: account-dependent operations refuse. Actual account-epoch mutation/invalidation is a retained downstream integration gate for the owning account source/ACCESS-005, not an authored account-recovery claim here. Its eventual guarded source must invalidate at real mutation and cannot clear independent global holds; no unobserved writer access. |
+| Publication invalidation / Q | Revoke source on actual uncertainty/stop, or rebind epoch/revision through actual guarded mutation before old publication | No stale installation borrow/sample/emission. The minimal surface supplies no account source: account-dependent operations refuse. Actual account-epoch mutation/invalidation is a retained downstream integration gate for the owning account source/ACCESS-005, not an authored account-recovery claim here. Its eventual guarded source must invalidate at real mutation and cannot clear independent global holds; no unobserved writer access. |
 | Stop barriers / Q, N | Stop1000ms, drain5000ms, Close1000ms; traffic/repeat stop1999/5999ms | Drain stays6000ms; Close retains its own first-Close deadline. Revoke/drain actual IO callbacks before network acknowledgment/dependency destruction. Writer ack follows all accepted completions and connection removal. Keep Qt dispatcher through owner cleanup; IO join follows socket/callback cleanup. |
 | Startup cancellation / Q, N | Stop before start, during inspection, late listener-ready after stop, startup callback exception | No transient admission, one cleanup, no restart. Bind/listen exit remains distinct process-terminal category. |
 
@@ -499,7 +538,19 @@ occupied-port exit, fixed deadlines and actual teardown. Reply order beyond
 correlation is not promised. Control channels only observe/synchronize events;
 they cannot set readiness/generation/invocation. Assign finite pipe/log/event/
 command/peer budgets, watchdogs and cleanup attempts before independent fixture
-review. Fixture overflow/timeout is failure, not red or safe destruction.
+review. The corrected authored N protocol uses an inherited FD, separate bounded
+stdout/stderr diagnostics, one serialized writer (1MiB immutable arena plus256
+descriptors), at most256 events of128KiB and64 commands of4096 bytes. Each step is
+7s, each child20s, with at most two2s reap attempts. Its loaded-map cap is128,
+conservatively raised from64 to allow Qt Core/Sql/Test, ICU, QSQLITE and corrected
+Drogon dependencies; this is a candidate bound for review, not a measured count.
+Initial, post-QSQLITE, post-serving and stopped maps require independent admission;
+hash identities are cached only within a run using file size/mtime/ctime keys.
+The test seam's presence is disclosed, and empty hooks must equal production.
+Real CLOCK_MONOTONIC failure cannot be injected without an additional authority
+hook: HL16 malformed/failure/entry/handoff/IO-teardown checks remain Q simulation
+with the actual production converter; N proves only real factory wiring and
+teardown, not native syscall failure or privileged wall-time changes. Fixture overflow/timeout is failure, not red or safe destruction.
 Supervisor wall time never becomes the product elapsed domain.
 
 Proposed EXACT ownership AFTER separate independent Codex verification/fixes

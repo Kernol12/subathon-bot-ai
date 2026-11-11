@@ -76,5 +76,8 @@ testing::HostAccess::inject_next_control_ack_loss(Host &,
                                                   subathon::server::testing::WorkControlFault) {
     return NotImplemented{};
 }
+Result<Connected> testing::HostAccess::inject_next_envelope_mismatch(Host &) {
+    return NotImplemented{};
+}
 testing::ElapsedIdentity testing::HostAccess::elapsed_identity(const Host &) { return {}; }
 } // namespace subathon::server::api_host

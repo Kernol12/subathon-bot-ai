@@ -27,6 +27,11 @@ struct NotImplemented final : std::exception {
     }
 };
 enum class State { cold, starting, serving, stopping, stopped, failed };
+// start: invalid_options/wrong_thread/already_started; ingress: stopping,
+// unavailable/resource_limit/expired/disconnected/elapsed_unavailable/wrong_thread;
+// lease take/copy: those plus invalid_completion; current source: unavailable.
+// cancelled is owner cancellation; incomplete_shutdown never certifies stopped.
+// Every unimplemented Result operation returns NotImplemented, never success.
 enum class Failure {
     invalid_options,
     wrong_thread,
@@ -67,6 +72,10 @@ using OwnedDomainResult = std::variant<OwnedReply, Failure>;
 struct CurrentInstallationView {
     std::string_view installation, epoch, revision;
 };
+// Counts/capacities/durations are nonzero and fit the selected finite profile;
+// per_peer <= associations, envelope_bytes <= input_capacity,
+// response_bytes <= response_capacity, writer pending_batches >= associations.
+// Millisecond conversion and each absolute deadline addition are checked.
 struct Limits {
     std::uint64_t associations = 128, per_peer = 8, peers = 128;
     std::uint64_t envelope_bytes = 1048576, input_capacity = 8388608;
@@ -90,6 +99,8 @@ struct Inspection {
     State state = State::cold;
     bool storage_active = false, writer_barrier = false, network_barrier = false;
     bool owner_cleanup = false;
+    // Cold=0, first activation=1; installation/epoch rebind adds one.
+    // Normal unchanged commits and revision-only rebind leave it unchanged.
     std::uint64_t generation = 0, associations = 0, association_charge = 0;
     std::uint64_t control_charge = 0, stop_fences = 0;
     std::uint64_t queued_diagnostics = 0, accepted_wrappers = 0;

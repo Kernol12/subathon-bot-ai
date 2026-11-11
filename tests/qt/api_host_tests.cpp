@@ -13,9 +13,13 @@ class ApiHostTests final : public QObject {
             Rig r;
             const auto before = r.store.sessions();
             r.start();
+            const auto initial_generation = r.instance->inspect().generation;
+            require(initial_generation == 1, "Initial activation generation1");
             auto p = r.peer();
             success(r.submit(p), "Admit real work");
             r.completed();
+            require(r.instance->inspect().generation == initial_generation,
+                    "Normal commit does not rotate generation");
             const auto w = r.log->last(K::writer_completed).work;
             require(w && w->transaction == TransactionOutcome::committed &&
                         w->error == WorkError::none && w->has_value && w->ticket_revoked,
@@ -43,8 +47,8 @@ class ApiHostTests final : public QObject {
     }
     void activation_refusal_data() {
         QTest::addColumn<QString>("store");
-        for (auto s :
-             {"fresh", "old", "future", "wrong", "malformed_catalog", "missing", "malformed"})
+        for (auto s : {"fresh", "old", "future", "wrong", "malformed_catalog", "missing",
+                       "malformed", "wrong_selector"})
             QTest::newRow(s) << QString(s);
     }
     void activation_refusal() {
@@ -63,6 +67,7 @@ class ApiHostTests final : public QObject {
             const auto sessions_before =
                 (store == "fresh" || store == "old") ? SqlRows{} : r.store.sessions();
             r.start(false);
+            r.refused_activation();
             auto p = r.peer();
             // Diagnostic success proves listener serving despite refused activation.
             success(r.submit(p, "D", host::RouteId::diagnostic), "Diagnostic admission");
@@ -103,7 +108,10 @@ class ApiHostTests final : public QObject {
     void global_association_limit_HL01() {
         QFETCH(int, cap);
         scenario([&] {
-            Rig r("current", [&](auto &o) { o.limits.associations = cap; });
+            Rig r("current", [&](auto &o) {
+                o.limits.associations = cap;
+                o.limits.per_peer = std::min(cap, 8);
+            });
             r.start();
             std::vector<host::PeerLease> peers;
             for (int n = 0; n < (cap + 7) / 8; ++n)
@@ -185,10 +193,14 @@ class ApiHostTests final : public QObject {
                 require(r.dispatch->executions == 0 && r.log->count(K::begin_attempted) == 0 &&
                             r.sampler->calls == 0,
                         "Equality no body/BEGIN/sample");
-                const auto w = r.log->last(K::writer_completed).work;
-                require(w && w->transaction == TransactionOutcome::not_started &&
-                            w->error == WorkError::missing_transaction && !w->has_value,
-                        "Real no-BEGIN truth");
+                if (r.log->count(K::wrapper_accepted)) {
+                    const auto w = r.log->last(K::writer_completed).work;
+                    require(w && w->transaction == TransactionOutcome::not_started &&
+                                w->error == WorkError::missing_transaction && !w->has_value,
+                            "Actual accepted no-BEGIN truth");
+                } else
+                    require(r.log->count(K::writer_completed) == 0,
+                            "No invented result for never accepted work");
             }
             r.stop();
         });
@@ -213,10 +225,10 @@ class ApiHostTests final : public QObject {
             Rig r;
             r.start();
             auto p = r.peer();
-            r.log->observe = [&](const auto &e) {
+            r.log->set_observer([&](const auto &e) {
                 if (e.kind == K::execution_revoked)
                     r.disconnect(p);
-            };
+            });
             success(r.submit(p), "Queued");
             require(
                 QTest::qWaitFor([&] { return r.log->count(K::writer_completed) == 1; }, wait_ms),
@@ -248,6 +260,15 @@ class ApiHostTests final : public QObject {
                         "Live guarded synthetic probe");
                 require(r.sampler->calls == calls + 1, "One underlying sample, no recursion");
 
+                bool foreign_unavailable = false;
+                const auto before_foreign = r.sampler->calls.load();
+                std::thread foreign([clock = retained, &foreign_unavailable] {
+                    foreign_unavailable =
+                        std::holds_alternative<SessionSourceUnavailable>(clock->sample_current());
+                });
+                foreign.join(); // live body held, no event pump
+                require(foreign_unavailable && r.sampler->calls == before_foreign,
+                        "LIVE foreign-thread facade refuses before raw read");
                 auto &t = e.begin_transaction();
                 t.commit();
                 return reply("done");
@@ -299,24 +320,24 @@ class ApiHostTests final : public QObject {
             r.stop();
         });
     }
-    void invalid_domain_result_HL07() {
+    void wrong_private_envelope_HL07() {
         scenario([] {
             Rig r;
             r.start();
             auto p = r.peer();
-            r.dispatch->body = [](auto &e, auto) -> host::OwnedDomainResult {
-                auto &t = e.begin_transaction();
-                t.commit();
-                return host::Failure::invalid_completion;
-            };
+            success(hooks::HostAccess::inject_next_envelope_mismatch(*r.instance),
+                    "Idle one-shot wrong private envelope");
             success(r.submit(p), "Admit");
             require(
                 QTest::qWaitFor([&] { return r.log->count(K::writer_completed) == 1; }, wait_ms),
                 "Completion");
-            require(r.log->last(K::writer_completed).work->transaction ==
-                            TransactionOutcome::committed &&
+            const auto w = r.log->last(K::writer_completed).work;
+            require(w && w->transaction == TransactionOutcome::committed &&
+                        w->error == WorkError::none && w->has_value && w->ticket_revoked &&
                         r.transport->handoffs == 0 && r.dispatch->completions == 0,
-                    "Invalid result never a successful private envelope");
+                    "Wrong envelope preserves SQL/WorkResult truth without publication");
+            require(r.log->has_refusal(host::Failure::invalid_completion),
+                    "Exact private match refusal");
             r.stop();
         });
     }
@@ -336,9 +357,13 @@ class ApiHostTests final : public QObject {
                 QTest::qWaitFor([&] { return r.log->count(K::writer_completed) == 3; }, wait_ms),
                 "All actual completions");
             std::vector<hooks::WorkObservation> outcomes;
-            for (std::size_t i = 0; i < r.log->used; ++i)
-                if (r.log->events[i].kind == K::writer_completed)
-                    outcomes.push_back(*r.log->events[i].work);
+            for (const auto &event : r.log->matching(K::writer_completed))
+                outcomes.push_back(*event.work);
+            const auto accepted = r.log->matching(K::wrapper_accepted);
+            const auto dispatched = r.log->matching(K::wrapper_dispatched);
+            require(accepted.size() == 3 && !dispatched.empty() &&
+                        accepted[2].ordinal < dispatched[0].ordinal,
+                    "Three ACTUAL wrappers accepted before first dispatch");
             require(outcomes[0].transaction == TransactionOutcome::outcome_unknown &&
                         outcomes[0].error == WorkError::uncertain_outcome,
                     "Actual lost ack, no rollback claim");
@@ -349,7 +374,11 @@ class ApiHostTests final : public QObject {
                         "Actual fail-closed FIFO");
             require(r.dispatch->executions == 1 && r.transport->handoffs == 0,
                     "No queued domain/replay/publication");
+            require(!r.instance->inspect().storage_active, "Uncertain truth revokes source");
             r.stop();
+            for (const auto &event : r.log->matching(K::writer_completed))
+                require(event.ordinal < r.log->last(K::writer_ack).ordinal,
+                        "All fail-closed completions before writer ack");
         });
     }
     void actual_epoch_mutations_reach_generation7_then8_HL09() {
@@ -370,8 +399,17 @@ class ApiHostTests final : public QObject {
                 t.commit();
                 return reply("done");
             };
-            r.dispatch->completion = [](auto &p, const auto &) {
-                success(p.current_installation(), "Current changed facts or suppress");
+            std::shared_ptr<CurrentSessionClock> old_clock;
+            r.dispatch->completion = [&](auto &p, const auto &) {
+                const auto f = p.current_installation();
+                if (std::holds_alternative<host::Failure>(f))
+                    failure(f, host::Failure::unavailable);
+                else {
+                    const auto current = success(f, "Changed facts");
+                    require(current.installation == "I" && current.epoch == target &&
+                                current.revision == revision,
+                            "Publication must use new facts");
+                }
                 return reply("done");
             };
             // Actual writes, distinct epochs/revisions; never a generation setter.
@@ -386,6 +424,7 @@ class ApiHostTests final : public QObject {
                     "Automatic generation advance");
             }
             require(r.instance->inspect().generation == 7, "Generation7 from six actual mutations");
+            old_clock = r.dispatch->execution_clock;
             target = "F";
             revision = "N";
             success(r.submit(p, "B"), "B first");
@@ -401,6 +440,12 @@ class ApiHostTests final : public QObject {
                     "A text cannot relabel captured generation");
             require(r.store.facts() == SqlRows{{QString("49"), QString("46"), QString("4E")}},
                     "Actual persisted I/F/N");
+            const auto calls = r.sampler->calls.load();
+            require(
+                old_clock &&
+                    std::holds_alternative<SessionSourceUnavailable>(old_clock->sample_current()) &&
+                    r.sampler->calls == calls,
+                "Old generation facade refuses");
             r.dispatch->body = [](auto &e, auto) -> host::OwnedDomainResult {
                 const auto f = success(e.current_installation(), "Fresh execution source");
                 require(f.epoch == "F", "Fresh sees F");
@@ -408,9 +453,16 @@ class ApiHostTests final : public QObject {
                 t.commit();
                 return reply("done");
             };
+            const auto publications_before_fresh = r.dispatch->completions;
+            const auto refusals_before_fresh = r.log->refusal_count();
             success(r.submit(p, "fresh"), "New generation work");
-            require(QTest::qWaitFor([&] { return r.dispatch->executions == 8; }, wait_ms),
-                    "Fresh body");
+            require(
+                QTest::qWaitFor([&] { return r.log->count(K::writer_completed) == 9; }, wait_ms),
+                "Fresh completion, including cancelled A");
+            r.check_callbacks();
+            require(r.dispatch->completions == publications_before_fresh + 1 ||
+                        r.log->refusal_count() > refusals_before_fresh,
+                    "Fresh F/N publication verifies facts or has observed refusal");
             r.stop();
         });
     }
@@ -419,10 +471,10 @@ class ApiHostTests final : public QObject {
             Rig r;
             r.start();
             auto p = r.peer();
-            r.log->observe = [&](const auto &e) {
+            r.log->set_observer([&](const auto &e) {
                 if (e.kind == K::writer_completed && r.log->count(K::writer_completed) == 1)
                     r.instance->request_stop();
-            };
+            });
             success(r.submit(p, "1"), "W1");
             success(r.submit(p, "2"), "W2");
             success(r.submit(p, "3"), "W3");
@@ -435,9 +487,13 @@ class ApiHostTests final : public QObject {
                         wait_ms),
                     "FIFO then shutdown");
             std::vector<hooks::WorkObservation> results;
-            for (std::size_t i = 0; i < r.log->used; ++i)
-                if (r.log->events[i].kind == K::writer_completed)
-                    results.push_back(*r.log->events[i].work);
+            for (const auto &event : r.log->matching(K::writer_completed))
+                results.push_back(*event.work);
+            const auto accepted = r.log->matching(K::wrapper_accepted);
+            const auto dispatched = r.log->matching(K::wrapper_dispatched);
+            require(accepted.size() == 3 && !dispatched.empty() &&
+                        accepted[2].ordinal < dispatched[0].ordinal,
+                    "Three ACTUAL wrappers accepted before first dispatch");
             require(r.log->count(K::wrapper_accepted) == 3 &&
                         r.log->count(K::wrapper_dispatched) == 3 && r.dispatch->executions == 1,
                     "Every accepted wrapper dispatches once");
@@ -450,6 +506,13 @@ class ApiHostTests final : public QObject {
             require(r.log->position(K::writer_ack) > r.log->position(K::stop_consumed) &&
                         r.log->count(K::begin_attempted) == 1,
                     "One BEGIN; shutdown last");
+            const auto stop = r.log->last(K::stop_consumed).ordinal;
+            require(accepted[2].ordinal < stop && stop < dispatched[1].ordinal,
+                    "Actual acceptance < stop < W2 dispatch");
+            for (const auto &e : r.log->matching(K::writer_completed))
+                require(e.ordinal < r.log->last(K::writer_ack).ordinal,
+                        "All accepted completions precede writer ack");
+            r.stop();
         });
     }
     void busy_begin_is_actual_failure() {
@@ -477,6 +540,7 @@ class ApiHostTests final : public QObject {
         scenario([] {
             Rig r("future");
             r.start(false);
+            r.refused_activation();
             auto p = r.peer();
             success(r.submit(p, "D", host::RouteId::diagnostic), "Diagnostic queued");
             require(r.instance->inspect().queued_diagnostics == 1 && r.dispatch->diagnostics == 0,
@@ -519,8 +583,9 @@ class ApiHostTests final : public QObject {
             });
             r.start();
             auto p = r.peer();
+            auto q = r.peer();
             success(r.submit(p, "A"), "4 fits");
-            success(r.submit(p, "B"), "Second4 fits");
+            success(r.submit(q, "B"), "Second4 fits");
             auto s = r.instance->inspect();
             require(s.input.capacity == 8 && s.input.copies == 2 && s.input.metadata == 256 &&
                         s.input.peak_charge == 264,
@@ -531,6 +596,10 @@ class ApiHostTests final : public QObject {
                     host::Failure::resource_limit);
             require(r.instance->inspect().input.peak_charge == 264, "No refusal copy");
             r.disconnect(p);
+            s = r.instance->inspect();
+            require(s.input.capacity == 4 && s.input.copies == 1 && s.input.metadata == 128,
+                    "Release A once leaves charge132");
+            success(r.submit(q, "D"), "Another4 eligible after release");
             r.stop();
         });
     }
@@ -582,7 +651,8 @@ class ApiHostTests final : public QObject {
                 failure(r.transport->replies[0]->take(), host::Failure::expired);
                 r.transport->replies[0].reset();
             });
-            require(r.transport->takes == 0, "Delayed IO continuation cannot refresh expiry");
+            require(r.log->count(K::local_handoff) == 0,
+                    "No expired lease consumed by delayed IO continuation");
             r.stop();
         });
     }
@@ -689,6 +759,9 @@ class ApiHostTests final : public QObject {
             Rig r;
             r.elapsed->now = 100;
             r.start();
+            auto warm = r.peer();
+            success(r.submit(warm, "warm", host::RouteId::diagnostic), "Same IO sample100");
+            r.disconnect(warm);
             auto p = r.peer();
             if (which == 0)
                 r.elapsed->now = UINT64_MAX;
@@ -790,38 +863,81 @@ class ApiHostTests final : public QObject {
         scenario([&] {
             Rig r;
             r.transport->delay_ready = true;
+            r.transport->hold_network = true;
             if (phase == 0)
                 r.instance->request_stop();
             if (phase == 1)
-                r.log->observe = [&](const auto &e) {
+                r.log->set_observer([&](const auto &e) {
                     if (e.kind == K::inspection_enqueued)
                         r.instance->request_stop();
-                };
+                });
             if (phase == 2)
-                r.log->observe = [&](const auto &e) {
+                r.log->set_observer([&](const auto &e) {
                     if (e.kind == K::installation_read_enqueued)
                         r.instance->request_stop();
-                };
+                });
             auto result = r.instance->start([&](auto) {
                 if (phase == 3)
                     throw std::runtime_error("startup observer");
             });
             require(!std::holds_alternative<host::NotImplemented>(result),
                     "UNIMPLEMENTED production host start");
-            if (phase == 3 && r.transport->startup)
-                r.transport->startup(host::StartAccepted{});
+            if (phase == 3) {
+                require(QTest::qWaitFor([&] { return bool(r.transport->startup); }, wait_ms),
+                        "Actual transport callback installed");
+                r.transport->fire_ready();
+            }
             if (phase == 0 || phase == 1 || phase == 2) {
                 require(
                     QTest::qWaitFor([&] { return r.log->count(K::stop_consumed) == 1; }, wait_ms),
                     "Startup stop consumed");
                 if (r.transport->startup)
-                    r.transport->startup(
-                        host::StartAccepted{}); // deliberately late actual transport event
+                    r.transport->fire_ready(); // deliberately late actual transport event
+                if (r.transport->ingress)
+                    r.transport->on_io([&] {
+                        failure(r.transport->ingress->connected(), host::Failure::stopping);
+                    });
             }
-            r.stop();
-            require(r.dispatch->executions == 0 && r.log->count(K::stop_consumed) == 1,
-                    "No transient admission, one cleanup");
+            require(QTest::qWaitFor(
+                        [&] {
+                            const auto s = r.instance->inspect();
+                            return bool(r.transport->barrier) || s.network_barrier;
+                        },
+                        wait_ms),
+                    "Actual network cleanup requested");
+            if (r.transport->barrier && !r.transport->joined())
+                r.transport->acknowledge();
+            r.stop(phase == 3);
+            const auto fences = r.log->count(K::stop_consumed);
+            require(r.dispatch->executions == 0 && r.log->count(K::owner_cleanup) == 1 &&
+                        ((phase == 3 && r.instance->inspect().state == host::State::failed)
+                             ? fences <= 1
+                             : fences == 1),
+                    "No transient admission, one actual cleanup; failed startup need not serve");
             failure(r.instance->start({}), host::Failure::already_started);
+        });
+    }
+    void late_ready_after_stop_cannot_admit() {
+        scenario([] {
+            Rig r;
+            r.transport->delay_ready = true;
+            r.transport->hold_network = true;
+            success(r.instance->start([](auto) {}), "Start accepted, readiness pending");
+            require(QTest::qWaitFor([&] { return bool(r.transport->startup); }, wait_ms),
+                    "Actual transport readiness callback installed");
+            r.instance->request_stop();
+            require(QTest::qWaitFor([&] { return r.log->count(K::stop_consumed) == 1; }, wait_ms),
+                    "Stop before readiness");
+            r.transport->fire_ready();
+            r.transport->on_io(
+                [&] { failure(r.transport->ingress->connected(), host::Failure::stopping); });
+            require(r.instance->inspect().state != host::State::serving &&
+                        r.dispatch->executions == 0,
+                    "Late ready creates no serving admission");
+            require(QTest::qWaitFor([&] { return bool(r.transport->barrier); }, wait_ms),
+                    "Actual cleanup requested");
+            r.transport->acknowledge();
+            r.stop();
         });
     }
     void precommit_selected_read_failure_rolls_back_actual_mutation() {
@@ -924,6 +1040,7 @@ class ApiHostTests final : public QObject {
         scenario([] {
             Rig r("current", [](auto &o) { o.writer_limits.statements_per_batch = 1; });
             r.start(false);
+            r.refused_activation();
             auto p = r.peer();
             success(r.submit(p, "D", host::RouteId::diagnostic),
                     "Diagnostic independent of SQL inspection failure");
@@ -956,6 +1073,180 @@ class ApiHostTests final : public QObject {
             r.stop();
         });
     }
+    void domain_failure_is_normal_publishable_input() {
+        scenario([] {
+            Rig r;
+            r.start();
+            auto p = r.peer();
+            r.dispatch->body = [](auto &e, auto) -> host::OwnedDomainResult {
+                e.begin_transaction().commit();
+                return host::Failure::unavailable;
+            };
+            r.dispatch->completion = [](auto &, const auto &v) {
+                require(std::holds_alternative<host::Failure>(v) &&
+                            std::get<host::Failure>(v) == host::Failure::unavailable,
+                        "Normal domain failure reaches complete unchanged");
+                return reply("done");
+            };
+            success(r.submit(p), "Domain failure admitted");
+            r.completed();
+            r.stop();
+        });
+    }
+    void body_stop_then_commit_retains_truth_HL07() {
+        scenario([] {
+            Rig r;
+            r.start();
+            auto p = r.peer();
+            r.dispatch->body = [&](auto &e, auto) -> host::OwnedDomainResult {
+                auto &tx = e.begin_transaction();
+                r.instance->request_stop();
+                tx.commit();
+                return reply("done");
+            };
+            success(r.submit(p), "Admit");
+            require(
+                QTest::qWaitFor([&] { return r.log->count(K::writer_completed) == 1; }, wait_ms),
+                "Truth completes");
+            r.stop();
+            require(r.log->last(K::writer_completed).work->transaction ==
+                            TransactionOutcome::committed &&
+                        r.dispatch->completions == 0 && r.transport->handoffs == 0,
+                    "Stop never preempts commit, forbids subsequent publication");
+        });
+    }
+    void revision_only_rebind_keeps_generation() {
+        scenario([] {
+            Rig r;
+            r.start();
+            auto p = r.peer();
+            r.dispatch->body = [](auto &e, auto) -> host::OwnedDomainResult {
+                auto &tx = e.begin_transaction();
+                const auto f = tx.accounts().read_installation("I");
+                require(std::holds_alternative<StoredInstallationFacts>(f), "Current J");
+                require(tx.accounts().replace_installation_epoch(
+                            std::get<StoredInstallationFacts>(f), "E", "K") ==
+                            LifecycleWriteResult::staged,
+                        "Actual revision CAS");
+                tx.commit();
+                return reply("done");
+            };
+            r.dispatch->completion = [](auto &p, const auto &) {
+                auto f = p.current_installation();
+                if (std::holds_alternative<host::Failure>(f))
+                    failure(f, host::Failure::unavailable);
+                else {
+                    const auto v = success(f, "Revision source");
+                    require(v.epoch == "E" && v.revision == "K", "Fresh K or refusal");
+                }
+                return reply("done");
+            };
+            success(r.submit(p), "Revision change");
+            require(
+                QTest::qWaitFor([&] { return r.log->count(K::writer_completed) == 1; }, wait_ms),
+                "Rebind completes");
+            require(r.instance->inspect().generation == 1 &&
+                        r.store.facts() == SqlRows{{QString("49"), QString("45"), QString("4B")}},
+                    "E unchanged, K committed, generation1");
+            r.dispatch->body = [](auto &e, auto) -> host::OwnedDomainResult {
+                e.begin_transaction().commit();
+                return reply("done");
+            };
+            const auto publications_before_fresh = r.dispatch->completions;
+            const auto refusals_before_fresh = r.log->refusal_count();
+            success(r.submit(p, "fresh"), "Fresh revision");
+            require(
+                QTest::qWaitFor([&] { return r.log->count(K::writer_completed) == 2; }, wait_ms),
+                "Fresh completes");
+            require(r.dispatch->completions == publications_before_fresh + 1 ||
+                        r.log->refusal_count() > refusals_before_fresh,
+                    "Fresh E/K publication verifies facts or has observed refusal");
+            r.stop();
+        });
+    }
+    void oversized_response_uses_control_or_close() {
+        scenario([] {
+            Rig r("current", [](auto &o) { o.limits.response_bytes = 4; });
+            r.start();
+            auto p = r.peer();
+            r.dispatch->completion = [](auto &, const auto &) { return reply("12345"); };
+            success(r.submit(p), "Admit");
+            require(
+                QTest::qWaitFor([&] { return r.instance->inspect().associations == 0; }, wait_ms),
+                "Oversized response settles");
+            require(r.log->has_refusal(host::Failure::resource_limit) &&
+                        r.instance->inspect().response.capacity == 0,
+                    "Bounded control refusal or close, no payload lease");
+            r.stop();
+        });
+    }
+    void first_io99_after_owner100_is_valid() {
+        scenario([] {
+            Rig r;
+            r.elapsed->now = 100;
+            r.elapsed->foreign_now = 99;
+            r.elapsed->foreign_override = true;
+            r.start();
+            auto p = r.peer();
+            success(r.submit(p, "D", host::RouteId::diagnostic),
+                    "First IO sample99 is not owner regression");
+            r.elapsed->now = 100;
+            r.stop();
+        });
+    }
+    void elapsed_failure_at_entry_and_io_handoff_HL16_data() {
+        QTest::addColumn<bool>("handoff");
+        QTest::newRow("entry") << false;
+        QTest::newRow("handoff") << true;
+    }
+    void elapsed_failure_at_entry_and_io_handoff_HL16() {
+        QFETCH(bool, handoff);
+        scenario([&] {
+            Rig r;
+            r.transport->retain_replies = true;
+            r.start();
+            auto p = r.peer();
+            success(r.submit(p), "Queued while elapsed valid");
+            if (handoff) {
+                r.completed();
+                require(QTest::qWaitFor([&] { return r.transport->handoffs == 1; }, wait_ms),
+                        "Retained for IO gate");
+            }
+            r.elapsed->available = false;
+            if (handoff)
+                r.transport->on_io([&] {
+                    failure(r.transport->replies[0]->take(), host::Failure::elapsed_unavailable);
+                    r.transport->replies[0].reset();
+                });
+            else
+                require(QTest::qWaitFor([&] { return r.instance->inspect().associations == 0; },
+                                        wait_ms),
+                        "Entry refuses");
+            require(r.log->count(K::begin_attempted) == unsigned(handoff) &&
+                        r.dispatch->executions == unsigned(handoff),
+                    "Entry no SQL; handoff retains executed truth");
+            r.transport->on_io([&] {
+                failure(r.transport->ingress->try_submit(p, bytes("late"),
+                                                         host::RouteId::diagnostic, bytes("")),
+                        host::Failure::disconnected);
+            });
+            r.elapsed->available = true;
+            r.stop();
+        });
+    }
+    void exact_max_deadline_then_overflow_HL16() {
+        scenario([] {
+            Rig r("current", [](auto &o) { o.limits.queue_ms = 1; });
+            r.start();
+            auto p = r.peer();
+            r.elapsed->now = UINT64_MAX - 1000000;
+            success(r.submit(p, "exact", host::RouteId::diagnostic), "Deadline exactly MAX valid");
+            r.elapsed->now = UINT64_MAX - 999999;
+            failure(r.submit(p, "overflow", host::RouteId::diagnostic),
+                    host::Failure::elapsed_unavailable);
+            r.stop();
+        });
+    }
     void owner_thread_and_destruction() {
         scenario([] {
             Rig r;
@@ -965,9 +1256,9 @@ class ApiHostTests final : public QObject {
             success(r.submit(p), "IO submit");
             r.completed();
             r.stop();
-            for (auto k :
-                 {K::execution_entered, K::begin_attempted, K::precommit_read, K::writer_completed,
-                  K::publication_entered, K::writer_removed, K::owner_cleanup})
+            for (auto k : {K::execution_entered, K::begin_attempted, K::precommit_read,
+                           K::writer_completed, K::publication_entered, K::writer_removed,
+                           K::source_destroyed, K::dispatcher_destroyed, K::owner_cleanup})
                 require(r.log->last(k).thread == owner,
                         "Actual SQL/source/facade/cleanup on Qt owner");
             require(r.log->last(K::local_handoff).thread == r.transport->io_thread,

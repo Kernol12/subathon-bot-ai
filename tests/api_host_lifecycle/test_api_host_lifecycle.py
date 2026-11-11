@@ -27,13 +27,14 @@ import unittest
 
 PROBE = None
 ADMISSION = None
+HASHES = {}
 STEP = 7.0
 OVERALL = 20.0
 CLEANUP = 2.0
 MAX_COMMANDS = 64
 MAX_COMMAND = 4096
 MAX_EVENTS = 256
-MAX_LINE = 65536
+MAX_LINE = 131072
 MAX_LOG = 1048576
 MAX_PEERS = 8
 MAX_WIRE = 4096
@@ -59,6 +60,9 @@ def file_identity(path):
     path = Path(path).resolve(strict=True)
     size = path.stat().st_size
     require(path.is_file() and 0 < size <= 134217728, "SETUP: file hash admission bound")
+    stamp = (str(path), size, path.stat().st_mtime_ns, path.stat().st_ctime_ns)
+    if stamp in HASHES:
+        return HASHES[stamp]
     digest = hashlib.sha256()
     total = 0
     with path.open("rb") as stream:
@@ -67,10 +71,13 @@ def file_identity(path):
             require(total <= size, "SETUP: artifact changed during hash")
             digest.update(block)
     require(total == size, "SETUP: artifact size changed")
-    return dict(sha256=digest.hexdigest(), bytes=total)
+    value = dict(sha256=digest.hexdigest(), bytes=total)
+    require(len(HASHES) < 512, "SETUP: per-run hash cache bound")
+    HASHES[stamp] = value
+    return value
 
 
-def admitted_map(event, runtime=False):
+def admitted_map(event, runtime=False, phase=None):
     require(event.get("complete") is True and event.get("incomplete_reason") == "none" and
             event.get("backend") == "admitted_corrected" and
             event.get("consumer_cplusplus") == 202002, "SETUP: incomplete/wrong new-consumer identity")
@@ -79,7 +86,7 @@ def admitted_map(event, runtime=False):
             tuple(int(n) for n in event["qt_runtime"].split(".")) >= (6, 12, 0),
             "SETUP: selected Qt runtime/compile identity")
     objects = event.get("loaded_objects")
-    require(isinstance(objects, list) and 0 < len(objects) <= 64, "SETUP: loaded object count")
+    require(isinstance(objects, list) and 0 < len(objects) <= 128, "SETUP: loaded object count")
     actual = {}
     for obj in objects:
         require(set(obj) == {"path", "kind", "load_address"}, "SETUP: loaded object shape")
@@ -97,7 +104,7 @@ def admitted_map(event, runtime=False):
     if runtime:
         require(sum(Path(path).name == "libqsqlite.so" for path in actual) == 1,
                 "SETUP: actual selected QSQLITE plugin absent/duplicated")
-    expected = ADMISSION["runtime_objects" if runtime else "initial_objects"]
+    expected = ADMISSION[(phase + "_objects") if phase else ("runtime_objects" if runtime else "initial_objects")]
     require(actual == expected, "SETUP: actual loaded closure/hash differs from new-consumer admission")
     require(actual.get(str(PROBE)) == ADMISSION["consumer"], "SETUP: consumer hash mismatch")
 
@@ -105,16 +112,16 @@ def admitted_map(event, runtime=False):
 class Child:
     """One process lifetime; synchronous nonblocking pipes, no reader threads.
 
-    All logs <=1MiB, each line<=64KiB, pending/history<=256, 64 commands of4KiB,
+    All logs <=1MiB, each line<=128KiB, pending/history<=256, 64 commands of4KiB,
     <=8 peers of4KiB per operation. Each step7s, scenario20s. Cleanup at most TWO
     attempts (TERM then KILL), each2s. Every failure is retained; kill is terminal,
     never graceful-stop evidence. Popen/fixtures are not instantiated by inventory.
     """
-    def __init__(self, owner, *, store="current", port=0, block_body=False, factory=False, hold_inspection=False, hold_wrapper=False):
+    def __init__(self, owner, *, store="current", port=0, block_body=False, factory=False, hold_inspection=False, hold_wrapper=False, gate_body=False, response_cap=0, diagnostic_throw=False, installation="I"):
         self.end = time.monotonic() + OVERALL
         self.pending = []
         self.history = []
-        self.parts = {"stdout": bytearray(), "stderr": bytearray()}
+        self.parts = {"protocol": bytearray(), "stdout": bytearray(), "stderr": bytearray()}
         self.total = 0
         self.commands = 0
         self.peers = []
@@ -125,17 +132,26 @@ class Child:
         self.directory = tempfile.TemporaryDirectory(prefix="api-host-")
         owner.addCleanup(self.directory.cleanup)  # also covers Popen failure and _exit stubs
         config = json.dumps(dict(store=store, port=port, block_body=block_body,
-                                 fixture_root=self.directory.name, hold_inspection=hold_inspection, hold_wrapper=hold_wrapper), separators=(",", ":"))
+                                 fixture_root=self.directory.name, hold_inspection=hold_inspection, hold_wrapper=hold_wrapper, gate_body=gate_body, response_cap=response_cap, diagnostic_throw=diagnostic_throw, installation=installation), separators=(",", ":"))
         args = [str(PROBE), "--elapsed-factory" if factory else config]
         # Loader search/preload environment must equal the independently gated one.
         environment = dict(ADMISSION["environment"])
         require(set(environment) <= {"PATH", "LANG", "LC_ALL", "LD_LIBRARY_PATH",
                                       "QT_PLUGIN_PATH"}, "SETUP: unadmitted loader environment")
-        self.process = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                                        stderr=subprocess.PIPE, close_fds=True, env=environment,
-                                        start_new_session=True, bufsize=0)
+        protocol_read, protocol_write = os.pipe()
+        environment["APITEST_PROTOCOL_FD"] = str(protocol_write)
+        try:
+            self.process = subprocess.Popen(args, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                            stderr=subprocess.PIPE, close_fds=True, pass_fds=(protocol_write,), env=environment,
+                                            start_new_session=True, bufsize=0)
+        except BaseException:
+            os.close(protocol_read)
+            raise
+        finally:
+            os.close(protocol_write)
+        self.protocol = os.fdopen(protocol_read, "rb", buffering=0)
         owner.addCleanup(self.cleanup)
-        for stream in (self.process.stdin, self.process.stdout, self.process.stderr):
+        for stream in (self.process.stdin, self.protocol, self.process.stdout, self.process.stderr):
             os.set_blocking(stream.fileno(), False)
         admitted_map(self.wait("identity"))
         if not factory:
@@ -148,15 +164,23 @@ class Child:
         return left
 
     def pump(self, deadline):
-        streams = [stream for name, stream in (("stdout", self.process.stdout), ("stderr", self.process.stderr)) if name not in self.eof]
+        streams = [stream for name, stream in (("protocol", self.protocol), ("stdout", self.process.stdout), ("stderr", self.process.stderr)) if name not in self.eof]
+        if not streams:
+            self.process.wait(timeout=self.remaining(deadline))
+            return
         ready, _, _ = select.select(streams, [], [], self.remaining(deadline))
         require(ready, "FIXTURE pipe/event watchdog, not intended red")
         for stream in ready:
-            name = "stdout" if stream is self.process.stdout else "stderr"
+            name = "protocol" if stream is self.protocol else ("stdout" if stream is self.process.stdout else "stderr")
             block = os.read(stream.fileno(), 4096)
             if not block:
                 self.eof.add(name)
-                require(not self.parts[name], "FIXTURE truncated output")
+                if name == "protocol":
+                    require(not self.parts[name], "FIXTURE truncated protocol")
+                elif self.parts[name]:
+                    self.failures.append(bytes(self.parts[name][:256]).decode("utf-8", "replace"))
+                    self.parts[name].clear()
+                    require(len(self.failures) <= 32, "FIXTURE diagnostic record cap")
                 continue
             self.total += len(block)
             require(self.total <= MAX_LOG, "FIXTURE log byte cap")
@@ -167,16 +191,20 @@ class Child:
                 line = bytes(part[:end])
                 del part[:end]
                 require(len(line) <= MAX_LINE, "FIXTURE line cap")
-                if name == "stderr":
+                if name != "protocol":
                     self.failures.append(line[:256].decode("utf-8", "replace"))
-                    require(len(self.failures) <= 32, "FIXTURE stderr record cap")
+                    require(len(self.failures) <= 32, "FIXTURE diagnostic record cap")
                     continue
-                event = json.loads(line)
+                try:
+                    event = json.loads(line)
+                except (ValueError, UnicodeError) as error:
+                    raise AssertionError("FIXTURE non-JSON protocol record") from error
                 require(isinstance(event, dict), "FIXTURE event object")
                 require(len(self.history) < MAX_EVENTS and len(self.pending) < MAX_EVENTS, "FIXTURE event cap")
                 self.history.append(event)
                 if event.get("event") == "unimplemented":
                     raise AssertionError("UNIMPLEMENTED production api-host: " + event["piece"])
+                require(event.get("event") != "assertion", "PRODUCT assertion: " + str(event))
                 require(event.get("event") not in ("fixture_error", "host_failure"),
                         "FIXTURE/setup or unexpected host failure: " + str(event))
                 self.pending.append(event)
@@ -188,7 +216,7 @@ class Child:
             for index, event in enumerate(self.pending):
                 if event.get("event") == name and all(event.get(k) == v for k, v in fields.items()):
                     return self.pending.pop(index)
-            require(len(self.eof) != 2, f"FIXTURE child exited {self.process.poll()} before {name}: {self.failures}")
+            require(len(self.eof) != 3, f"FIXTURE child exited {self.process.poll()} before {name}: {self.failures}")
             self.pump(deadline)
 
     def command(self, op):
@@ -200,10 +228,15 @@ class Child:
         require(ready and os.write(self.process.stdin.fileno(), data) == len(data), "FIXTURE command write")
         return self.wait("result", request=self.commands)
 
-    def start(self):
+    def start(self, active=True):
         self.command("start")
+        admitted_map(self.wait("serving_identity"), runtime=True, phase="serving")
         snapshot = self.wait("serving")["snapshot"]
         require(snapshot["state"] == 2, "Actual serving state")
+        if active:
+            self.wait("host_event", kind=K["activated"])
+            snapshot = self.command("inspect")
+            require(snapshot["storage_active"], "Actual ordinary startup activation")
         return snapshot
 
     def events(self, name):
@@ -216,17 +249,34 @@ class Child:
         self.peers.append(peer)
         return peer
 
-    def stop(self):
-        self.command("stop")
+    def finish(self):
+        admitted_map(self.wait("stopped_identity"), runtime=True, phase="stopped")
         event = self.wait("stopped")
         snap = event["snapshot"]
         require(snap["state"] == 4 and snap["writer_barrier"] and snap["network_barrier"] and snap["owner_cleanup"], "Actual stopped barriers")
         require(snap["associations"] == "0" and snap["input_capacity"] == "0" and snap["response_capacity"] == "0", "Reservations released at barrier")
+        self.command("exit")  # production signal bridge stays alive through this handshake
         deadline = time.monotonic() + STEP
-        while self.process.poll() is None and len(self.eof) != 2:
+        while len(self.eof) != 3:
             self.pump(deadline)
         require(self.process.wait(timeout=self.remaining(deadline)) == 0, "Graceful process exit")
         return snap
+
+    def stop(self):
+        self.command("stop")
+        return self.finish()
+
+    def refused_activation(self):
+        deadline = time.monotonic() + STEP
+        while not any(e.get("refusal") is not None for name in ("inspection_completed", "installation_read_completed") for e in self.events(name)):
+            self.pump(deadline)
+        require(not self.events("activated"), "No activation after terminal refusal")
+
+    def release(self):
+        self.commands += 1
+        require(self.commands <= MAX_COMMANDS, "FIXTURE command count including gate releases")
+        data = b'{"op":"release"}\n'
+        require(os.write(self.process.stdin.fileno(), data) == len(data), "FIXTURE release write")
 
     def cleanup(self):
         if self.closed:
@@ -245,15 +295,16 @@ class Child:
             except (ProcessLookupError, subprocess.TimeoutExpired) as error:
                 cleanup_errors.append(type(error).__name__)
         reaped = self.process.poll() is not None
-        for stream in (self.process.stdin, self.process.stdout, self.process.stderr):
+        for stream in (self.process.stdin, self.protocol, self.process.stdout, self.process.stderr):
             stream.close()
         require(reaped, "FIXTURE child not reaped after two attempts: " + str(cleanup_errors))
         self.directory.cleanup()
         if self.expected_terminal is not None:
             require(self.process.returncode == self.expected_terminal, "Wrong process-terminal category")
-        # stderr is never silently treated as feature success; selected Trantor's
-        # bind exit is asserted separately. A feature assertion may have preceded it.
-        require(not self.failures or self.expected_terminal == 1, "FIXTURE unexpected stderr: " + str(self.failures))
+        # Framework stdout/stderr is diagnostic only, retained under independent
+        # byte/line/count caps. Product/fixture failures use the protocol + status.
+        require(self.process.returncode not in (42, 43, 70) or self.expected_terminal is not None,
+                "Child terminal failure: " + str(self.process.returncode) + " diagnostics=" + str(self.failures))
 
 
 def free_port():
@@ -279,6 +330,21 @@ def receive(peer, wanted):
         require(data, "Unexpected peer EOF")
         result.extend(data)
     return bytes(result)
+
+
+def drain_peer(peer):
+    result = bytearray()
+    deadline = time.monotonic() + STEP
+    while True:
+        require(time.monotonic() < deadline, "FIXTURE peer teardown watchdog")
+        try:
+            block = peer.recv(MAX_WIRE)
+        except ConnectionResetError:
+            return bytes(result)
+        if not block:
+            return bytes(result)
+        result.extend(block)
+        require(len(result) <= MAX_WIRE, "FIXTURE bounded teardown output")
 
 
 def upgrade(child, port):
@@ -347,8 +413,11 @@ class ApiHostNative(unittest.TestCase):
         for store in ("fresh", "future"):
             with self.subTest(store=store):
                 port = free_port()
-                child = Child(self, port=port, store=store)
-                snap = child.start()
+                child = Child(self, port=port, store="current" if store == "wrong_selector" else store,
+                              installation="X" if store == "wrong_selector" else "I")
+                child.start(active=False)
+                child.refused_activation()
+                snap = child.command("inspect")
                 self.assertFalse(snap["storage_active"])
                 peer = child.peer(port)
                 diagnostic(peer)
@@ -361,11 +430,13 @@ class ApiHostNative(unittest.TestCase):
                 child.cleanup()
 
     def test_old_wrong_malformed_missing_sources_refuse_without_setup(self):
-        for store in ("old", "wrong", "malformed_catalog", "missing", "malformed"):
+        for store in ("old", "wrong", "malformed_catalog", "missing", "malformed", "wrong_selector"):
             with self.subTest(store=store):
                 port = free_port()
-                child = Child(self, port=port, store=store)
-                child.start()
+                child = Child(self, port=port, store="current" if store == "wrong_selector" else store,
+                              installation="X" if store == "wrong_selector" else "I")
+                child.start(active=False)
+                child.refused_activation()
                 peer = child.peer(port)
                 diagnostic(peer)
                 self.assertFalse(child.command("inspect")["storage_active"])
@@ -391,21 +462,27 @@ class ApiHostNative(unittest.TestCase):
         child = Child(self, port=port, hold_wrapper=True)
         child.start()
         peer = upgrade(child, port)
+        other = upgrade(child, port)
         send(peer, frame(b"A\x01data"))
         child.wait("wrapper_gate")  # actual accepted wrapper, BEFORE any work scope
-        send(peer, frame(b"B\x01data") + frame(b"C\x01data"))
+        send(other, frame(b"B\x01data") + frame(b"C\x01data"))
         refusal = child.wait("host_event", kind=K["ingress_refused"])
         self.assertEqual(refusal["refusal"], 5)  # Failure::resource_limit literal
         self.assertFalse(child.events("execution_entered"))
-        release = b'{"op":"release"}\n'
-        self.assertEqual(os.write(child.process.stdin.fileno(), release), len(release))
+        child.release()
         # Refusal/control output is bounded but no application error schema is
         # invented here. Actual completion events establish the two executions.
         child.wait("publication")
         child.wait("publication")
+        child.wait("host_event", kind=K["local_handoff"])
+        child.wait("host_event", kind=K["local_handoff"])
+        child.command("inspect")
+        send(peer, frame(b"D\x01data"))
+        self.assertEqual({response(peer), response(peer)}, {b"Adone", b"Ddone"})
+        child.wait("publication")
         child.stop()
-        self.assertEqual(len(child.events("execution_entered")), 2)
-        self.assertEqual(len(child.events("actual_commit")), 2)
+        self.assertEqual(len(child.events("execution_entered")), 3)
+        self.assertEqual(len(child.events("actual_commit")), 3)
 
     def test_startup_stop_and_three_signals_HL10(self):
         child = Child(self, port=free_port())
@@ -414,23 +491,21 @@ class ApiHostNative(unittest.TestCase):
             os.kill(child.process.pid, sig)
         # No fixture replacement of handler/request_stop or admission state.
         self.assertFalse(child.events("execution_entered"))
-        child.wait("stopped")
-        self.assertEqual(child.process.wait(timeout=STEP), 0)
+        child.finish()
         self.assertEqual(len(child.events("stop_consumed")), 1)
 
     def test_signals_during_startup_HL10(self):
         child = Child(self, port=free_port(), hold_inspection=True)
         # Start acknowledgment cannot arrive while the pre-work observation gate
         # is held. The fixture never pumps/reenters a live execution scope.
+        child.commands = 1
         data = b'{"op":"start","request":1}\n'
         self.assertEqual(os.write(child.process.stdin.fileno(), data), len(data))
         child.wait("startup_gate")
         for sig in (signal.SIGINT, signal.SIGTERM, signal.SIGINT):
             os.kill(child.process.pid, sig)
-        release = b'{"op":"release"}\n'
-        self.assertEqual(os.write(child.process.stdin.fileno(), release), len(release))
-        child.wait("stopped")
-        self.assertEqual(child.process.wait(timeout=STEP), 0)
+        child.release()
+        child.finish()
         self.assertEqual(len(child.events("stop_consumed")), 1)
         self.assertFalse(child.events("execution_entered"))
 
@@ -442,12 +517,13 @@ class ApiHostNative(unittest.TestCase):
             child = Child(self, port=port)
             child.expected_terminal = 1
             # Do not wait for a start result or fabricate destructor/barrier proof.
+            child.commands = 1
             data = b'{"op":"start","request":1}\n'
             self.assertEqual(os.write(child.process.stdin.fileno(), data), len(data))
             deadline = time.monotonic() + STEP
-            while child.process.poll() is None:
+            while len(child.eof) != 3:
                 child.pump(deadline)
-            self.assertEqual(child.process.returncode, 1)
+            self.assertEqual(child.process.wait(timeout=child.remaining(deadline)), 1)
             self.assertFalse(child.events("stopped"))
             child.cleanup()
         retry = Child(self, port=port)
@@ -470,10 +546,12 @@ class ApiHostNative(unittest.TestCase):
         # No close reply; actual production Close deadline is1000ms.
         child.stop()
         for peer in (idle, partial_http, partial_upgrade, partial_frame, uncooperative):
-            data = peer.recv(MAX_WIRE)
+            data = drain_peer(peer)
             if data:
-                self.assertLessEqual(len(data), MAX_WIRE)
-                self.assertEqual(peer.recv(MAX_WIRE), b"")
+                self.assertEqual(data[0], 0x88)  # a Close may be split across reads
+                self.assertGreaterEqual(len(data), 2)
+                self.assertLessEqual(data[1], 125)
+                self.assertEqual(len(data), 2 + data[1])
         self.assertTrue(child.events("callbacks_revoked"))
         self.assertTrue(child.events("sockets_removed"))
         self.assertTrue(child.events("io_joined"))
@@ -483,7 +561,10 @@ class ApiHostNative(unittest.TestCase):
         child = Child(self, port=port)
         child.start()
         peer = upgrade(child, port)
-        first = child.command("stop")
+        child.command("stop")
+        child.wait("host_event", kind=K["stop_consumed"])
+        first = child.command("inspect")
+        self.assertIsNotNone(first["drain_deadline"])
         header = receive(peer, 2)
         self.assertEqual(header[0], 0x88)
         if header[1]:
@@ -493,8 +574,7 @@ class ApiHostNative(unittest.TestCase):
         second = child.command("inspect")
         self.assertEqual(second["drain_deadline"], first["drain_deadline"])
         self.assertEqual(second["stop_fences"], "1")
-        child.wait("stopped")
-        self.assertEqual(child.process.wait(timeout=STEP), 0)
+        child.finish()
         self.assertEqual(len(child.events("stop_consumed")), 1)
 
     def test_nonreturning_body_is_terminal_not_stopped_HL12(self):
@@ -507,6 +587,11 @@ class ApiHostNative(unittest.TestCase):
         os.kill(child.process.pid, signal.SIGTERM)
         # Owner cannot consume stop while body blocks. Supervisor termination says
         # nothing about rollback, connection removal or safe C++ destruction.
+        # The child explicitly observed an active nonreturning body before TERM.
+        # Drain protocol for a bounded observation interval; no graceful claim.
+        readable, _, _ = select.select([child.protocol], [], [], 0.1)
+        if readable:
+            child.pump(time.monotonic() + STEP)
         self.assertIsNone(child.process.poll())
         self.assertFalse(child.events("stopped"))
         child.expected_terminal = -signal.SIGKILL
@@ -520,12 +605,19 @@ class ApiHostNative(unittest.TestCase):
         peer = upgrade(child, port)
         send(peer, frame(b"A\x01data"))
         self.assertEqual(response(peer), b"Adone")
+        other = upgrade(child, port)
+        send(other, frame(b"B\x01data"))
+        self.assertEqual(response(other), b"Bdone")
         child.stop()
-        for name in ("execution_entered", "begin_attempted", "precommit_read", "writer_completed", "publication_entered", "writer_removed", "owner_cleanup"):
+        for name in ("execution_entered", "begin_attempted", "precommit_read", "writer_completed", "publication_entered", "writer_removed", "source_destroyed", "dispatcher_destroyed", "owner_cleanup"):
             events = child.events(name)
             self.assertTrue(events, name)
             self.assertTrue(all(event["owner_thread"] for event in events), name)
-        self.assertTrue(all(not event["owner_thread"] for event in child.events("local_handoff")))
+        io = child.events("local_handoff")
+        self.assertEqual(len(io), 2)
+        self.assertEqual(len({event["thread_token"] for event in io}), 1)
+        self.assertTrue(all(not event["owner_thread"] for event in io))
+        self.assertTrue(child.wait("dispatch_destructor")["owner_thread"])
         positions = {name: next(i for i, event in enumerate(child.history)
                                if event.get("event") == "host_event" and event["kind"] == K[name])
                      for name in ("callbacks_revoked", "sockets_removed", "network_ack", "writer_removed", "writer_ack", "io_joined", "framework_joined", "owner_cleanup", "stopped")}
@@ -535,6 +627,62 @@ class ApiHostNative(unittest.TestCase):
         for name, position in positions.items():
             if name != "stopped":
                 self.assertLess(position, positions["stopped"], name)
+
+
+    def test_finishing_write_signal_and_queued_frame_HL12(self):
+        port = free_port()
+        child = Child(self, port=port, hold_wrapper=True, gate_body=True)
+        child.start()
+        peer = upgrade(child, port)
+        send(peer, frame(b"A\x01data"))
+        child.wait("wrapper_gate")
+        send(peer, frame(b"B\x01data") + frame(b"C\x01data"))
+        child.wait("host_event", kind=K["ingress_refused"], refusal=5)
+        child.release()
+        child.wait("executing_gate")
+        os.kill(child.process.pid, signal.SIGTERM)
+        child.release()
+        child.finish()
+        accepted, dispatched = child.events("wrapper_accepted"), child.events("wrapper_dispatched")
+        self.assertEqual(len(accepted), 2)
+        self.assertLess(int(accepted[1]["ordinal"]), int(dispatched[0]["ordinal"]))
+        self.assertEqual(len(child.events("actual_commit")), 1)
+        outcomes = [e["work"] for e in child.events("writer_completed")]
+        self.assertEqual(outcomes[0]["transaction"], 1)
+        self.assertEqual(outcomes[1], dict(transaction=0, error=12, value=False, ticket_revoked=True))
+        stop = child.events("stop_consumed")[0]
+        self.assertLess(int(stop["ordinal"]), int(dispatched[1]["ordinal"]))
+        for event in child.events("writer_completed"):
+            self.assertLess(int(event["ordinal"]), int(child.events("writer_ack")[0]["ordinal"]))
+        self.assertFalse(child.events("publication_entered"))
+        self.assertFalse(child.events("local_handoff"))
+
+    def test_native_response_pressure_uses_bounded_refusal_HL16(self):
+        port = free_port()
+        child = Child(self, port=port, response_cap=3)
+        child.start()
+        peer = upgrade(child, port)
+        send(peer, frame(b"A\x01data"))
+        child.wait("host_event", refusal=5)
+        snap = child.stop()
+        self.assertNotIn(b"Adone", drain_peer(peer))
+        self.assertEqual(snap["response_capacity"], "0")
+        self.assertEqual(len(child.events("actual_commit")), 1)
+
+    def test_native_credentials_refuse_and_diagnostic_exception(self):
+        port = free_port()
+        child = Child(self, port=port, diagnostic_throw=True)
+        child.start()
+        peer = upgrade(child, port)
+        send(peer, frame(b"C\x02data"))
+        child.wait("host_event", kind=K["ingress_refused"], refusal=4)
+        diagnostic_peer = child.peer(port)
+        send(diagnostic_peer, b"POST /api-host/diagnostic HTTP/1.1\r\nHost: localhost\r\nX-Host-Correlation: 44\r\nContent-Length: 0\r\n\r\n")
+        child.wait("diagnostic_exception")
+        child.stop()
+        self.assertNotIn(b"Cdone", drain_peer(peer))
+        self.assertNotEqual(b"diag", drain_peer(diagnostic_peer).split(b"\r\n\r\n")[-1])
+        self.assertFalse(child.events("execution_entered"))
 
 
 def main():
@@ -551,13 +699,13 @@ def main():
         return
     require(options.probe is not None and options.admission is not None, "SETUP: --probe and new --admission required")
     PROBE = options.probe.resolve(strict=True)
-    require(options.admission.stat().st_size <= 65536, "SETUP: admission receipt cap")
+    require(options.admission.stat().st_size <= 524288, "SETUP: admission receipt cap")
     ADMISSION = json.loads(options.admission.read_text(encoding="utf-8"))
-    require(set(ADMISSION) == {"format", "consumer", "initial_objects", "runtime_objects", "environment"} and
+    require(set(ADMISSION) == {"format", "consumer", "initial_objects", "runtime_objects", "serving_objects", "stopped_objects", "environment"} and
             ADMISSION["format"] == 1, "SETUP: new-consumer admission receipt schema")
     require(file_identity(PROBE) == ADMISSION["consumer"], "SETUP: binary changed after admission")
-    for name in ("initial_objects", "runtime_objects"):
-        require(isinstance(ADMISSION[name], dict) and 0 < len(ADMISSION[name]) <= 64, "SETUP: receipt closure bound")
+    for name in ("initial_objects", "runtime_objects", "serving_objects", "stopped_objects"):
+        require(isinstance(ADMISSION[name], dict) and 0 < len(ADMISSION[name]) <= 128, "SETUP: receipt closure bound")
     unittest.main(argv=[sys.argv[0], *rest])
 
 

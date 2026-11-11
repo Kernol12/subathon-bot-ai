@@ -23,7 +23,7 @@ enum class EventKind {
     precommit_read,
     actual_commit,
     execution_revoked,
-    writer_completed,
+    writer_completed, // accepted command wrappers only; excludes startup work
     publication_entered,
     publication_revoked,
     local_handoff,
@@ -54,6 +54,10 @@ struct Event {
     std::optional<WorkObservation> work;
     std::optional<Failure> refusal;
 };
+// Observe synchronously on the emitting thread, with NO host lock held.
+// Bounded blocking is allowed. No event pumping or host re-entry on the
+// emitting thread except request_stop(). Independent IO ingress may progress;
+// never wait for a turn on the thread currently emitting.
 struct Hooks {
     std::shared_ptr<const native_ws::ElapsedSource> elapsed;
     std::shared_ptr<CurrentSessionClock> raw_session_sampler;
@@ -68,6 +72,9 @@ class HostAccess final {
                                         std::unique_ptr<CommandDispatcher>, Hooks);
     static Result<Connected>
     inject_next_control_ack_loss(Host &, subathon::server::testing::WorkControlFault);
+    // Idle-only, one-shot: corrupt only the next actual wrapper's private
+    // envelope match. Never changes SQL/WorkResult truth or forges a match.
+    static Result<Connected> inject_next_envelope_mismatch(Host &);
     static ElapsedIdentity elapsed_identity(const Host &);
 };
 } // namespace subathon::server::api_host::testing

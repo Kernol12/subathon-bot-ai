@@ -11,6 +11,7 @@
 #include <deque>
 #include <future>
 #include <mutex>
+#include <stdexcept>
 #include <subathon/server/api_host.hpp>
 #include <subathon/server/api_host_elapsed.hpp>
 #include <subathon/server/testing/api_host_observers.hpp>
@@ -21,12 +22,48 @@ namespace host = subathon::server::api_host;
 namespace hooks = host::testing;
 using namespace subathon::server;
 using account_sessions_fixture::scenario;
-using qt_test_support::require;
+// Distinguish fixture assertions from deliberately thrown domain/emitter errors.
+struct AssertionFailure : std::runtime_error {
+    using std::runtime_error::runtime_error;
+};
+inline void require(bool condition, const char *message) {
+    if (!condition)
+        throw AssertionFailure(message);
+}
+struct CallbackFailure {
+    mutable std::mutex mutex;
+    std::exception_ptr first;
+    void capture() {
+        std::lock_guard lock(mutex);
+        if (!first)
+            first = std::current_exception();
+    }
+    template <class F> auto call(F f) -> decltype(f()) {
+        try {
+            return f();
+        } catch (const AssertionFailure &) {
+            capture();
+            throw;
+        } catch (const host::NotImplemented &) {
+            capture();
+            throw;
+        }
+    }
+    void check() const {
+        std::exception_ptr error;
+        {
+            std::lock_guard lock(mutex);
+            error = first;
+        }
+        if (error)
+            std::rethrow_exception(error);
+    }
+};
 // Owned fixture watchdogs are wall-time supervision, never product elapsed time.
-inline constexpr int wait_ms = 2000;
+inline constexpr int wait_ms = 10000;
 template <class T> T success(host::Result<T> result, const char *where) {
     if (std::holds_alternative<host::NotImplemented>(result))
-        throw std::runtime_error(std::string("UNIMPLEMENTED production api-host: ") + where);
+        throw AssertionFailure(std::string("UNIMPLEMENTED production api-host: ") + where);
     require(std::holds_alternative<T>(result), where);
     return std::get<T>(std::move(result));
 }
@@ -43,13 +80,17 @@ inline host::OwnedReply reply(std::string_view s) { return {{bytes(s).begin(), b
 class Elapsed final : public native_ws::ElapsedSource {
   public:
     std::atomic<std::uint64_t> now{0}, reads{0};
-    std::atomic<bool> available{true};
+    std::atomic<bool> available{true}, foreign_override{false};
+    std::atomic<std::uint64_t> foreign_now{0};
+    const std::thread::id owner = std::this_thread::get_id();
     std::variant<native_ws::ElapsedInstant, native_ws::ElapsedUnavailable>
     sample() const noexcept override {
         const_cast<Elapsed *>(this)->reads.fetch_add(1);
         if (!available.load())
             return native_ws::ElapsedUnavailable{};
-        return native_ws::ElapsedInstant{now.load()};
+        return native_ws::ElapsedInstant{
+            foreign_override.load() && std::this_thread::get_id() != owner ? foreign_now.load()
+                                                                           : now.load()};
     }
 };
 class Sampler final : public CurrentSessionClock {
@@ -57,10 +98,11 @@ class Sampler final : public CurrentSessionClock {
     std::atomic<unsigned> calls{0};
     std::atomic<std::int64_t> utc{1000};
     std::function<void()> during_sample;
+    CallbackFailure failures;
     SessionClockResolution sample_current() override {
         ++calls;
         if (during_sample)
-            during_sample();
+            failures.call([&] { during_sample(); });
         return SessionClockSample{utc.load()}; // guard connection only, not trusted UTC
     }
 };
@@ -70,17 +112,76 @@ struct Log {
     std::size_t used = 0;
     bool overflow = false;
     std::function<void(const hooks::Event &)> observe;
+    CallbackFailure failures;
+    std::condition_variable idle;
+    unsigned active_callbacks = 0;
     void add(const hooks::Event &e) {
+        std::function<void(const hooks::Event &)> callback;
         {
             std::lock_guard lock(mutex);
+            callback = observe;
+            if (callback)
+                ++active_callbacks;
             if (used == events.size()) {
                 overflow = true;
+                if (callback)
+                    --active_callbacks;
+                idle.notify_all();
                 return;
             }
             events[used++] = e;
         }
-        if (observe)
-            observe(e);
+        if (callback) {
+            try {
+                failures.call([&] { callback(e); });
+            } catch (...) {
+                std::lock_guard lock(mutex);
+                --active_callbacks;
+                idle.notify_all();
+                throw;
+            }
+            std::lock_guard lock(mutex);
+            --active_callbacks;
+            idle.notify_all();
+        }
+    }
+    void set_observer(std::function<void(const hooks::Event &)> callback) {
+        std::unique_lock lock(mutex);
+        observe = std::move(callback);
+        // In-flight copies must finish before captured test locals can disappear.
+        if (!idle.wait_for(lock, std::chrono::milliseconds(wait_ms),
+                           [&] { return active_callbacks == 0; }))
+            std::terminate();
+    }
+    std::vector<hooks::Event> matching(hooks::EventKind kind) const {
+        std::lock_guard lock(mutex);
+        std::vector<hooks::Event> out;
+        for (std::size_t i = 0; i < used; ++i)
+            if (events[i].kind == kind)
+                out.push_back(events[i]);
+        return out;
+    }
+    bool full() const {
+        std::lock_guard lock(mutex);
+        return overflow;
+    }
+    std::size_t refusal_count() const {
+        std::lock_guard lock(mutex);
+        return std::count_if(events.begin(), events.begin() + used,
+                             [](const auto &e) { return e.refusal.has_value(); });
+    }
+    bool has_refusal(host::Failure refusal) const {
+        std::lock_guard lock(mutex);
+        return std::any_of(events.begin(), events.begin() + used,
+                           [refusal](const auto &e) { return e.refusal == refusal; });
+    }
+    bool terminal_refusal() const {
+        std::lock_guard lock(mutex);
+        return std::any_of(events.begin(), events.begin() + used, [](const auto &e) {
+            return (e.kind == hooks::EventKind::inspection_completed ||
+                    e.kind == hooks::EventKind::installation_read_completed) &&
+                   e.refusal.has_value();
+        });
     }
     std::size_t count(hooks::EventKind kind) const {
         std::lock_guard lock(mutex);
@@ -132,8 +233,11 @@ class FakeTransport final : public host::Transport {
         profile = std::move(p);
         startup = std::move(ready);
         if (!delay_ready)
-            startup(host::StartAccepted{});
+            fire_ready();
         return host::StartAccepted{};
+    }
+    void fire_ready() {
+        post([this] { startup(host::StartAccepted{}); });
     }
     void handoff(host::ResponseLease lease) override {
         auto owned = std::make_shared<host::ResponseLease>(std::move(lease));
@@ -171,7 +275,7 @@ class FakeTransport final : public host::Transport {
             }
             cv_.notify_one();
             QMetaObject::invokeMethod(
-                QCoreApplication::instance(),
+                &context_,
                 [this] {
                     // Socket/lease callbacks are already gone; this is cleanup join,
                     // never domain work waiting for an IO response.
@@ -187,8 +291,9 @@ class FakeTransport final : public host::Transport {
         const auto task = std::make_shared<std::packaged_task<R()>>(std::move(f));
         auto result = task->get_future();
         post([task] { (*task)(); });
-        require(result.wait_for(std::chrono::milliseconds(wait_ms)) == std::future_status::ready,
-                "Fixture IO step watchdog");
+        // A timed-out task may retain caller stack borrows: never unwind past it.
+        if (result.wait_for(std::chrono::milliseconds(wait_ms)) != std::future_status::ready)
+            std::terminate();
         return result.get();
     }
     bool joined() const { return joined_; }
@@ -227,6 +332,7 @@ class FakeTransport final : public host::Transport {
             }
         }
     }
+    QObject context_; // cancels queued join callback before this transport is destroyed
     std::mutex mutex_;
     std::condition_variable cv_;
     std::deque<std::function<void()>> tasks_;
@@ -240,36 +346,42 @@ class Dispatcher final : public host::CommandDispatcher {
     std::function<host::OwnedDomainResult(host::Execution &, host::CommandView)> body;
     std::function<host::OwnedReply(host::Publication &, const host::OwnedDomainResult &)>
         completion;
+    CallbackFailure failures;
     unsigned diagnostics = 0, executions = 0, completions = 0;
     std::shared_ptr<CurrentSessionClock> execution_clock, publication_clock;
     host::OwnedReply diagnostic(host::CommandView v) override {
         ++diagnostics;
-        return diagnostic_body ? diagnostic_body(v) : reply("diag");
+        return failures.call([&] { return diagnostic_body ? diagnostic_body(v) : reply("diag"); });
     }
     host::OwnedDomainResult execute(host::Execution &e, host::CommandView v) override {
         ++executions;
-        execution_clock = e.clock();
-        if (body)
-            return body(e, v);
-        auto &t = e.begin_transaction();
-        const auto facts = t.accounts().read_installation("I");
-        require(std::holds_alternative<StoredInstallationFacts>(facts),
-                "Real selected installation read");
-        const auto &f = std::get<StoredInstallationFacts>(facts);
-        require(f.current.installation_ref == "I" && f.current.session_epoch_ref == "E" &&
-                    f.revision_ref == "J",
-                "Independent I/E/J literal");
-        t.commit();
-        return reply("done");
+        return failures.call([&]() -> host::OwnedDomainResult {
+            execution_clock = e.clock();
+            if (body)
+                return body(e, v);
+            auto &t = e.begin_transaction();
+            const auto facts = t.accounts().read_installation("I");
+            require(std::holds_alternative<StoredInstallationFacts>(facts),
+                    "Real selected installation read");
+            const auto &f = std::get<StoredInstallationFacts>(facts);
+            require(f.current.installation_ref == "I" && f.current.session_epoch_ref == "E" &&
+                        f.revision_ref == "J",
+                    "Independent I/E/J literal");
+            t.commit();
+            return reply("done");
+        });
     }
     host::OwnedReply complete(host::Publication &p, const host::OwnedDomainResult &v) override {
         ++completions;
-        publication_clock = p.clock();
-        if (completion)
-            return completion(p, v);
-        const auto f = success(p.current_installation(), "Fresh publication current source");
-        require(f.installation == "I" && f.epoch == "E" && f.revision == "J", "Publication I/E/J");
-        return reply("done");
+        return failures.call([&] {
+            publication_clock = p.clock();
+            if (completion)
+                return completion(p, v);
+            const auto f = success(p.current_installation(), "Fresh publication current source");
+            require(f.installation == "I" && f.epoch == "E" && f.revision == "J",
+                    "Publication I/E/J");
+            return reply("done");
+        });
     }
 };
 // Host owns these proxies. The fixture separately retains only fake transport
@@ -390,6 +502,8 @@ struct Rig {
         o.store_path = store.path.toStdString();
         o.writer_limits = account_sessions_fixture::limits();
         o.writer_limits.pending_batches = 128;
+        if (variant == "wrong_selector")
+            o.installation = "X";
         if (configure)
             configure(o);
         instance =
@@ -397,25 +511,42 @@ struct Rig {
                                       {elapsed, sampler, [l = log](const auto &e) { l->add(e); }});
     }
     ~Rig() {
-        log->observe = {}; // test locals may already have unwound
+        log->set_observer({}); // test locals may already have unwound
+        dispatch->body = {};
+        dispatch->completion = {};
+        dispatch->diagnostic_body = {};
+        sampler->during_sample = {};
         if (!instance)
             return;
         const auto state = instance->inspect().state;
-        if (state == host::State::cold || state == host::State::stopped ||
-            state == host::State::failed)
+        if (state == host::State::cold)
             return;
+        if (state == host::State::stopped || state == host::State::failed) {
+            const auto s = instance->inspect();
+            if (s.writer_barrier && s.network_barrier && s.owner_cleanup)
+                return;
+        }
         instance->request_stop();
         if (transport->hold_network && transport->barrier && !transport->joined())
             transport->acknowledge();
-        if (!QTest::qWaitFor([&] { return instance->inspect().state == host::State::stopped; },
-                             wait_ms)) {
+        if (!QTest::qWaitFor(
+                [&] {
+                    if (transport->hold_network && transport->barrier && !transport->joined())
+                        transport->acknowledge();
+                    const auto s = instance->inspect();
+                    return (s.state == host::State::stopped || s.state == host::State::failed) &&
+                           s.writer_barrier && s.network_barrier && s.owner_cleanup;
+                },
+                wait_ms)) {
             QTest::qFail("Fixture cleanup barrier missing; process-terminal failure", __FILE__,
                          __LINE__);
             std::terminate();
         }
     }
     void start(bool active = true) {
-        success(instance->start([](auto r) { success(std::move(r), "Startup completion"); }),
+        success(instance->start([this](auto r) {
+            dispatch->failures.call([&] { success(std::move(r), "Startup completion"); });
+        }),
                 "Host::start");
         require(QTest::qWaitFor([&] { return instance->inspect().state == host::State::serving; },
                                 wait_ms),
@@ -437,18 +568,41 @@ struct Rig {
     void disconnect(const host::PeerLease &p) {
         transport->on_io([&] { transport->ingress->disconnected(p); });
     }
+    void check_callbacks() const {
+        dispatch->failures.check();
+        sampler->failures.check();
+        log->failures.check();
+    }
+    void refused_activation() {
+        require(QTest::qWaitFor([&] { return log->terminal_refusal(); }, wait_ms),
+                "Terminal actual startup refusal");
+        require(log->count(hooks::EventKind::activated) == 0, "No activation on refusal");
+    }
     void completed(unsigned n = 1) {
-        require(QTest::qWaitFor([&] { return dispatch->completions >= n; }, wait_ms),
+        require(QTest::qWaitFor(
+                    [&] {
+                        check_callbacks();
+                        return dispatch->completions >= n;
+                    },
+                    wait_ms),
                 "Matched publications finish");
         transport->check();
-        require(!log->overflow, "Bounded observer log");
+        check_callbacks();
+        require(!log->full(), "Bounded observer log");
     }
-    void stop() {
+    void stop(bool allow_failed = false) {
         instance->request_stop();
-        require(QTest::qWaitFor([&] { return instance->inspect().state == host::State::stopped; },
-                                wait_ms),
+        require(QTest::qWaitFor(
+                    [&] {
+                        const auto s = instance->inspect();
+                        return (s.state == host::State::stopped ||
+                                (allow_failed && s.state == host::State::failed)) &&
+                               s.writer_barrier && s.network_barrier && s.owner_cleanup;
+                    },
+                    wait_ms),
                 "Actual stop barriers");
         transport->check();
+        check_callbacks();
         const auto s = instance->inspect();
         require(s.writer_barrier && s.network_barrier && s.owner_cleanup,
                 "No fabricated stop from deadline");
