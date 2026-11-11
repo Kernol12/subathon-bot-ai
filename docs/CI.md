@@ -4,6 +4,25 @@ GitHub workflows use the same selected CMake presets as local checks. A passing
 lane establishes only its bounded scope. Exact historical runs and reviewed
 revisions are linked from each task handoff; inspect the latest PR head before merge.
 
+The nine APT lanes first run `tools/prepare_ubuntu_apt.py`. It requires Ubuntu 24.04,
+`GITHUB_ACTIONS=true` and `RUNNER_ENVIRONMENT=github-hosted`, and refuses unknown
+`ubuntu.sources` layouts before commands or writes. It is for disposable hosted
+runners; local and self-hosted invocation is refused. The SQL fixture reproduction
+check remains immediately after checkout, before this preparation.
+
+Best-effort resolver status, the original mirror list and four IPv4 hostname lookups
+are logged with command status and captured output, each with a ten-second deadline.
+These are diagnostics only. Preparation prefers the kernel.org Ubuntu mirror with
+canonical archive/security fallbacks, preserving Ubuntu signing trust, exact package
+versions and SDK admission checks. It changes no resolver, proxy or other source file.
+
+Checked writes set that mirror list, one acquisition retry, 15-second HTTP/HTTPS
+timeouts and strict update errors. A checked `apt-get update` has a 300-second process
+deadline; write/update failures stop the job. Other configured repositories remain
+enabled and their update failures also fail preparation. Existing job timeouts bound
+the whole run. Mocked tooling tests establish control flow; authenticated acquisition
+and all nine selected-host jobs still require actual current-head CI.
+
 | Workflow | Automatic PR/main scope |
 | --- | --- |
 | native-websocket-profile.yml | Corrected SDK preparation/seal, passive ELF and scrubbed loaded-map gate, then all 44 synthetic loopback native methods |

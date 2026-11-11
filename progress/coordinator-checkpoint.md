@@ -1,42 +1,45 @@
 # Coordinator checkpoint
 
-Owner 2026-11-11 resumed after PR117 for ONE new task, normal protected merge,
-then STOP: [RATECONTRACT-002](../docs/tasks/EPIC-017/RATECONTRACT-002.md).
-[State](state.json), [PR118](https://github.com/Kernol12/subathon-bot-ai/pull/118).
-No next task is authorized. API-001 and actual session-clock binding remain excluded.
+Owner authorized the CI repair blocking PR118 and its normal publication, then STOP.
+[State](state.json), [PR118](https://github.com/Kernol12/subathon-bot-ai/pull/118),
+[merged CI repair PR119](https://github.com/Kernol12/subathon-bot-ai/pull/119).
+No next product task, API-001, clock binding or valuation implementation is authorized.
 
-Startup main/origin38b482d clean; PR117 MERGED13:54:08Z/all22 head checks SUCCESS.
-No open PR/active claims/other running T3 roles; historical worktrees clean and
-missing registrations preserved. Prior assignments retired, fresh author assigned.
-Branch task/RATECONTRACT-002-exact-valuation-storage from38b482d, claimbc1a83b.
-Coordinator9dd14702 owns shared files/CI/merge; fresh Codex
-/root/exact_valuation_storage_author owned new contract only, now retired.
-CLion tree response empty; actual checkout shell inspection authoritative.
+PR119 merged normally as5c6121d on2026-11-11 at17:28:38Z after source/test initial
+Claude, Codex fixes/separate verification and independent Claude closing; routine
+completion packet8c666e8 separately Codex-approved. All22 final-head checks passed.
+Source/proof/review receipts are in PR119 comments; no branch protection bypass.
+Post-merge main5c6121d CI was still running at initial read, with no failures.
+Verify actual complete main results before PR118 merge; do not repeat the PR117
+handoff gap of relying only on a prior PR's green checks.
 
-Document-only revision1: exact API/equality, bounded legacy adapter, RSV1/ERV1/EVK1,
-closure/resource/error/legacy-schema dispatch and retained-name target with18 cases.
-Plan CHECK/FKs require a controlled populated parent rebuild. Explicit planned
-STORAGECONTRACT-003 → STORAGETEST-021 → STORAGE-021 own exact recipe/baseline/
-mechanism and concrete migration step/factory/schema; RATESTEST009/RATES009 consume.
-All remain planned/unassigned; no new prerequisite execution is authorized.
-All480 prior IDs/edges/unrelated reviews retained; no source/schema/fixtures/tests/
-assertions/migration bytes/build/CI/dependency/provider changes.
+Current branch task/RATECONTRACT-002-exact-valuation-storage, original PR118
+head7a7d821; merging fixed main5c6121d. Resolve only metadata/HTML/navigation;
+all code/tests/CI/SDK bytes must match fixed main, and all contract/task brief bytes
+must match approved PR118. Preserve all483 PR118 task dictionaries plus exact CI001,
+both histories, both evidence/navigation additions and all independent approvals.
+No new task claim or runtime implementation. Final combined graph484 records.
 
-Initial independent Claude Opus5.5/high4f8d827b reviewed88f920a: B1–5/N1–8;
-coordinator fixesd7298a2. Separate Codex /root/exact_valuation_storage_codex_verify
-confirmed those, found C1 old-schema and C2 composed-error gaps. Fixed09c5276;
-fresh /root/exact_valuation_storage_codex_recheck APPROVED09c5276. Independent
-Claude Opus5.5/high closing44907a68 APPROVED9509176, no blockers:
-<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A6b54b9af-5f23-45c3-b5de-f7ed3a54d4e0%3Adelegate-task%3A44907a68-4901-4818-bd0c-8044455117d2>
-All author/reviewer roles retired; full reports/correction maps in PR118 comments.
-Contract SHA256 c3e9e21cd0b624f9f15b8244f070462d8e5bf654dfeba72fc0a6781ded9439fe.
-Closing nonblockers (model-error table, producer sizing, dispatch budgets, independent
-encode refusal, migration feasibility) remain in PR118 for downstream owned gates.
+Approved contract SHA256
+c3e9e21cd0b624f9f15b8244f070462d8e5bf654dfeba72fc0a6781ded9439fe.
+Contract examples18 and planned STORAGECONTRACT003/STORAGETEST021/STORAGE021 remain
+unchanged and unassigned. Original initial Claude4f8d827b B1–5/N1–8, corrections
+d7298a2; separate Codex C1/C2, fix09c5276/recheck; independent Claude44907a68 closing
+APPROVED9509176. Original completion packet separately Codex-approved7a7d821:
+https://github.com/Kernol12/subathon-bot-ai/pull/118#issuecomment-6799058174
+Full reports/nonblockers remain in PR118. Prior assignments retired, none assumed live.
 
-Completion packet records done/document proof, bounded note/review/evidence and
-updated state/HTML/currency summary. Project483/122, graph/render and51 tooling
-pass; no native/runtime replay for this document task. Live rules26170263 require
-PR/resolved threads,0 GitHub approvals; workflow requires independent reviews and
-all current checks. No bypass. Next: independent Codex final metadata review,
-current-head CI/discussions/live rules, normal exact-head protected merge, refresh
-main and STOP. If already merged, verify/refresh and STOP. No watcher active yet.
+Original uncommitted checkpoint was preserved byte-for-byte in named Git stash
+"Preserve PR118 pre-CI checkpoint for reviewed reconciliation" and backups
+/tmp/pr118-original-local-checkpoint.md and .patch; SHA256
+60d4f7b31d2bf94b795d5029dbb9146111f24978034cbed7775abf6a066b21a3.
+Its factual final-packet approval and first two DNS-failure attempts are reconciled
+here; this session's third retry also failed DNS in all9 jobs, before compile/tests.
+CI repair now supplies independent mirror preference and bounded DNS diagnostics;
+all pins/trust/SDK hashes/native baselines are preserved. Canonical DNS also recovered
+on observed passing runner, so no outage-time causal comparison is claimed.
+
+Next: independent factual reconciliation packet review, actual local project/render/
+tooling checks and current-head CI; verify post-merge main healthy and PR118's
+reviews/discussions/live rules, normal protected merge, refresh main and STOP.
+No push or PR118 CI recovery claim yet for this reconciled candidate.

@@ -150,3 +150,6 @@ separates migration mechanism contract, [real-SQL baseline](EPIC-009/STORAGETEST
 and [implementation](EPIC-009/STORAGE-021.md) before exact valuation storage tests.
 Existing writer PRAGMA admission and plan CHECK/FK constraints require explicit
 reviewed migration support; the planning split supplies no runtime capability.
+
+[CI-001 — Reliable Ubuntu package acquisition](CI-001.md) is an owner-authorized
+CI-only repair before PR118 publication; product work remains stopped.
