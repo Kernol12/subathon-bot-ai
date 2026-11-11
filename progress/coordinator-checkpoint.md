@@ -51,3 +51,8 @@ found B3 manual same-currency bypass. Coordinator requires distinct manual pair
 currencies; equal keys use identity1/1; EV19 now explicitly rejects USD→USD1.20.
 Report /tmp/ratecontract-001-codex-verify.md to PR117. New separate verification
 pending before Claude closing; no blocker waived.
+
+Independent fresh Codex /root/exact_valuation_codex_recheck APPROVED1e8c894,
+B1–B3 resolved, no new blockers; full report /tmp/ratecontract-001-codex-recheck.md
+published in PR117. Contract author/Codex reviewers retired. Next independent
+Claude closing review of the corrected full stage; no source/code/runtime changes.
