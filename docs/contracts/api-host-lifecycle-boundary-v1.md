@@ -153,7 +153,7 @@ class AccountSessions { // host-only constructor; checks live execution/transact
 public:
     AccountSessionRead<StoredInstallationFacts> read_installation(std::string_view);
     LifecycleWriteResult replace_installation_epoch(const StoredInstallationFacts&,
-        std::string_view expected_epoch, std::string_view expected_revision);
+        std::string_view new_epoch, std::string_view new_revision);
 };
 class Transaction { // host-only constructor; borrowed during execute() only
 public:
@@ -216,8 +216,9 @@ internally rather than subclassing or modifying them.
 `AccountSessions` is a host facade over that actual unit; the two methods above
 are the minimal selected baseline surface. Its named bounded read/mutation
 methods forward the existing unit operations, including the REAL
-`replace_installation_epoch(facts, expected_epoch, expected_revision)`, with the
-same inputs/results; it grants no independent authority. Every method checks
+`replace_installation_epoch(expected_facts, new_epoch, new_revision)`: the first
+argument contains the complete expected current facts; the remaining arguments
+are the replacement epoch and revision. It preserves the same inputs/results; it grants no independent authority. Every method checks
 live execution/transaction/owner/nonreentrancy before accessing the unit. Borrowed
 facades cannot construct/copy a raw ticket or finalize a transaction; retained
 clock handles remain revocable as above. Any later repository needs an explicitly
@@ -427,7 +428,7 @@ Additional required failure/resource/ownership families:
 | Elapsed conversion / Q | sec18446744073 with nsec709551615, then709551616 | First exactly UINT64_MAX ns; second overflow refuses. Per-owner nonregression must not falsely order simultaneous reads by other threads. |
 | Thread/source / Q, N | IO submit, Qt execute/commit/complete, IO handoff; accepted cancelled wrapper retains dependencies | Actual SQL/source mutation/clock guards on Qt owner; sockets/response teardown on IO owner. Record actual thread IDs/destructors. No network wait in state or state code in IO. Source review supplements counters. |
 | Activation failures / Q, N | Fresh/old schema, unsupported future head9, wrong/malformed catalog, missing/wrong/malformed installation, known unresolved fence, writer full/fail-close/lost ack | Refuse without advance/setup/epoch rotation. Unchanged schema8 ordinary activation succeeds through actual positive §1 chain; DTO equality/request reference cannot enable it. Unknown current facts refuse; no invented out-of-band restore detector. |
-| Publication invalidation / Q | Destroy/hold source or change installation/account epoch through real owner mutation before old publication | No stale borrow/sample/emission. Account recovery cannot clear global holds. Every future mutation updates/revokes bounded source storage; no unobserved writer access. |
+| Publication invalidation / Q | Destroy/hold the installation source or change installation epoch through the actual guarded mutation before old publication | No stale installation borrow/sample/emission. The minimal surface supplies no account source: account-dependent operations refuse. Actual account-epoch mutation/invalidation is a retained downstream integration gate for the owning account source/ACCESS-005, not an authored account-recovery claim here. Its eventual guarded source must invalidate at real mutation and cannot clear independent global holds; no unobserved writer access. |
 | Stop barriers / Q, N | Stop1000ms, drain5000ms, Close1000ms; traffic/repeat stop1999/5999ms | Drain stays6000ms; Close retains its own first-Close deadline. Revoke/drain actual IO callbacks before network acknowledgment/dependency destruction. Writer ack follows all accepted completions and connection removal. Keep Qt dispatcher through owner cleanup; IO join follows socket/callback cleanup. |
 | Startup cancellation / Q, N | Stop before start, during inspection, late listener-ready after stop, startup callback exception | No transient admission, one cleanup, no restart. Bind/listen exit remains distinct process-terminal category. |
 
