@@ -5,9 +5,9 @@ Authority: specification v0.45 §§2/10/16/17/18, SERVER-01, DB-01,
 API-01/02/03, AUTH-05/12, OPS-02/04 and TEST-04/05.
 Source base `654ac016268c6caa9efc0241872ca0b0f88aae60`; correction base
 `ce80bbafbb1b678826f596beae65e2f8c350f1b2`. Revised after initial contract
-review and Codex verification; closing review identified the refinements below.
-The resulting revision needs separate Codex verification and Claude closing approval.
-No headers, tests, observed red or implemented host.
+review, independent Codex verification and closing Claude approval of revision
+`7bfcca0`. Contract stage only: no headers, tests, observed red or implemented host.
+Current stage/assignments live in progress state and the coordinator checkpoint.
 
 Import [host lifecycle v1](api-host-lifecycle-v1.md), including ALL HL01–17,
 [native profile v1](native-websocket-profile-v1.md),

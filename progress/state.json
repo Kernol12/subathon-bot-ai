@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T05:19:08+00:00",
-  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. The owner authorized API-012 only, followed by a stop.",
+  "updated_at": "2026-11-11T06:01:30+00:00",
+  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. The owner resumed APITEST-001 baseline only through normal merge, then stop; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -5284,8 +5284,13 @@
       "notes": [
         "Owner resumes one new task, then stop. Host/native profile v1 baseline only: contract/examples, authored tests, independent Claude/Codex cycles and compiled intended red. Fresh author owns boundary/stub/tests; coordinator owns build/CI/state. Actual readiness/source ownership cannot be simulated into capability. API-001 implementation and clock binding remain unauthorized."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "contract_review": "passed",
+        "tooling": "passed"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/112"
+      ],
       "review": null
     },
     {
@@ -17366,6 +17371,11 @@
       "date": "2026-11-11T05:19:08+00:00",
       "task": "APITEST-001",
       "note": "Claim from verified main20f8e48/PR111 merged/all21success/no open PR or active claim. Fresh sessions explicitly replace historical assignments. Coordinator owns state/HTML/checkpoint/CMake/CI/admission; author boundary/stub/tests. Contract host/nativev1/spec0.45; full baseline review/red/CI/merge gates before owner stop."
+    },
+    {
+      "date": "2026-11-11T06:01:30+00:00",
+      "task": "APITEST-001",
+      "note": "Contract7bfcca0 closed: initial Opus3a14 findings, correctionbb5d/Codex review, coordinator7893/7bf narrow fixes independently Codex-approved, closing Opusc6c87 approved. No prereq split; supported restore remains STORAGE007 with forward crash-safe startup obligation. Fresh author now released only approved header/stub/test paths; no native/body/build permission."
     }
   ]
 }
