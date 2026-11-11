@@ -72,3 +72,13 @@ ACCESSTEST-001 and ACCESS-001 depend on the planned
 permit and reviewed secret admission/erasure profile. Setup remains independent of
 an accepted login, ACCESS-008 and any preexisting session. Other setup/invitation
 requirements and owner fallback are unchanged.
+
+## Current delegation and audit producer gates
+
+APICONTRACT-003's guarded invitation paths require ACCESS-003's actual current
+delegation evaluator before this slice's baseline/implementation, as recorded in
+state. ACCESS-001 owns initial recovery-set/control creation through the abstract recovery
+ports and the same-transaction enrollment/access security-audit adapter;
+ACCESS-005 owns its recovery counterpart. Missing producers refuse. Any substantial
+physical prerequisite must be split and reviewed before executable expansion. This
+planning clarification implements no policy/storage or host behavior.

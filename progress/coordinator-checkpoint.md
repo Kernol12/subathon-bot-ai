@@ -1,48 +1,43 @@
 # Coordinator checkpoint
 
-Owner: finish ONE new APICONTRACT-002 task normally, then STOP. No next task.
+Owner: finish ONE new APICONTRACT-003 task normally, then STOP. No next task.
 API-001 implementation and actual session-clock binding remain unauthorized.
-[Brief](../docs/tasks/EPIC-008/APICONTRACT-002.md), [state](state.json),
-[PR114](https://github.com/Kernol12/subathon-bot-ai/pull/114).
+[Brief](../docs/tasks/EPIC-008/APICONTRACT-003.md), [state](state.json),
+[PR115](https://github.com/Kernol12/subathon-bot-ai/pull/115).
 
-Coordinator Codex f507d7d6 on `task/APICONTRACT-002-host-auth-continuations`,
-from verified current main7df5d51. Old worktrees/claims/reviews preserved; stale
-ACCESSCONTRACT roles retired. No runtime/build process assigned. Shell checkout
-is authoritative because CLion initially reported stale main.
+Coordinator Codex6e24c10f on `task/APICONTRACT-003-guarded-enrollment`,
+base verified main55913bc/PR114 merged. Startup: clean main/CLion, no open PR or
+prior active claim; actual T3 active inventory only coordinator despite historical
+idle Codex/Claude processes. Prior roles explicitly retired; old clean worktrees,
+claims/history and valid reviews preserved. No runtime/build process assigned.
 
-Fresh author a4d9a282/import8c14fcd (t3-37f792ad), retired:
-<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A1af06bc3-f72d-416a-9f2c-1a25c85e714e%3Adelegate-task%3A67a2e90f-da20-4fce-acde-094aee11d5a8>
-Initial Claude Opus5.5/high B1–3/N1–6:
-<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A1af06bc3-f72d-416a-9f2c-1a25c85e714e%3Adelegate-task%3Aabccd7da-7963-4511-a647-a6d111107899>
-Separate Codex `/root/host_auth_codex_review` found B4/N7–8; fixed/rechecked.
-First closing Claude B5/N9–11 (earlier fixes approved):
-<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A1af06bc3-f72d-416a-9f2c-1a25c85e714e%3Adelegate-task%3A364d296b-b8a0-4847-9e00-d79860eb2ca2>
-Coordinator28e8b40/3cf93d5/c76bd3f/67e2a1f resolved all B1–5/N1–11.
-Separate Codex and focused closing Claude APPROVED67e2a1f,
-contract blob30891e7404fc240f63cf9d18afedf46e817b38f1:
-<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A1af06bc3-f72d-416a-9f2c-1a25c85e714e%3Adelegate-task%3Af4cb7018-56be-4d4e-84a3-ce9e9a4e0022>
-All substantive gates closed. Author/reviewer sessions complete.
+Fresh Codex author `/root/enrollment_contract_author` retired aftercd0d255 handoff.
+Initial Claude Opus5.5/high BLOCKB1–3/N1–9:
+<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A13082ac3-1366-4a40-b68f-67906ec949d5%3Adelegate-task%3A8212196d-e2e9-407c-8be3-b69f963f9255>
+Coordinator69bd54b fixed; separate Codex `/root/enrollment_codex_review` B4–6 fixed
+025d261. Independent `/root/enrollment_codex_verify` APPROVED025d261.
+Full closing Claude Opus5.5/high APPROVED1e45f66:
+<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A13082ac3-1366-4a40-b68f-67906ec949d5%3Adelegate-task%3A8f3a8945-508c-4338-80bb-3f7b468a1f6b>
+Narrow token-transfer/counter/ER18 clarificationsf4c1584 independently APPROVED
+by Codex `/root/enrollment_token_review` and focused closing Claude Sonnet5.5/high:
+<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A13082ac3-1366-4a40-b68f-67906ec949d5%3Adelegate-task%3A422de370-4fb6-474c-85b3-339e7863c052>
+All substantive gates closed; author/review sessions complete. Contract SHA256
+`d51cebdda1c3a579a9828b2adb19c031f1c1e84bd1c9a1293007480dc8a1a6cd`.
 
-Document-only revision1/HC01–45. Planned APICONTRACT003/APITEST014/API014 guard
-setup/reset writes; SESSIONCONTRACT007/SESSIONTEST012/SESSION012 supply actual
-AUTH budget/edge producer. All six nodes planned/unassigned, not executable scope.
-Original472 IDs/edges/unrelated statuses/reviews/verification preserved, no cycle/
-reverse consumer dependency. Project478/122, tooling51, validate/render/diff,
-independent source/graph/arithmetic/example checks pass. No runtime/native/crypto/
-login/edge/platform proof. Frozen source/header/test/schema/build/CI unchanged.
+Document-only revision1/ER01–33. All478 IDs/original edges and unrelated full
+records/reviews preserved; only added ACCESS003 edges to ACCESS001/ACCESSTEST001.
+No cycle/back edge. Frozen/source/test/schema/build/CI unchanged. Actual producer,
+API014 executable, console/edge/platform/native/crypto/clock gates remain downstream.
+Project478/122, tooling51, validate/render/diff and independent arithmetic/source/
+graph audits pass. No runtime proof. State done means reviewed document completion;
+CI/publication/merge receipts belong in PR115, not an invented runtime capability.
 
-Only completion/publication metadata follows closing approval: coordinator owns
-state/HTML/evidence/checkpoint, independently reviewed by Codex before final push.
-Next: metadata review; push final packet/update PR; inspect latest-head CI,
-discussions and live rules; normal exact-head merge; refresh main then STOP.
-Ruleset26170263: PR/resolved threads,0 human approval count,no bypass actors,
-no deletion/force push; no classic protection. CI remains project gate. The old
-28e8b40 PR head had22 successes; final head must pass independently. No watcher
-active. If PR114 is already merged on resumption, refresh/verify main and STOP.
-
-Routine completion metadata independently APPROVED26ee8f5 by Codex
-`/root/host_auth_codex_review`; contract/DAG unchanged,400-char note/PR receipts
-verified, project478/122 and validate/render/diff pass. No review gate remains.
-Next: final push/ready PR, latest-head CI/discussions/live rules, normal merge,
-refresh main and STOP. Publication/CI/merge receipts belong in PR114; if merged,
-this conditional handoff is complete and no new task may be selected.
+Coordinator owns routine completion state/HTML/evidence/checkpoint only after closing.
+Routine completion metadata independently APPROVED5dd96dd by Codex
+`/root/enrollment_packet_review`;391-char note/hash/graph/PR body/limits verified.
+Next: push packet/update ready PR115,
+inspect latest-head CI/discussions/live rules, normal exact-head merge, refresh main
+and STOP. No watcher active. Ruleset26170263 requires PR/resolved threads;0 human
+approval count; no bypass/no force push/no deletion. Reinspect live before merge.
+If PR115 is already merged on resumption, verify/refresh main and STOP; do not pick
+another task. No substantive contract edit may follow closing without review cycle.

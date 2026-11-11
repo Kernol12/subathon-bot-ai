@@ -4,8 +4,8 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T11:37:40+00:00",
-  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. The owner authorized ONE new task: APICONTRACT-002 document-only host-auth continuations through normal merge, then stop; API-001 implementation and actual session-clock binding remain unauthorized.",
+  "updated_at": "2026-11-11T12:29:08+00:00",
+  "summary": "Reviewed bounded core/accounting, controlled SQLite, physical account/session and corrected native WebSocket components have synthetic/component evidence. The native profile passes selected Linux loopback acceptance; missing actual host readiness still prevents honest session-clock binding. All v0.45 authority, API, integrations/FX, UI, operations, platform and release scope remains. APITEST-001 merged in PR112. PR113 local-login contract merged. APICONTRACT-002 merged in PR114. APICONTRACT-003 document-only guarded enrollment/recovery is independently reviewed; PR115 holds final publication/CI/normal merge gates, then stop; API-001 implementation and actual session-clock binding remain unauthorized.",
   "verification": [
     {
       "label": "C++ contract/scaffold",
@@ -4108,7 +4108,8 @@
         "STORAGE-020",
         "API-013",
         "API-014",
-        "SESSION-012"
+        "SESSION-012",
+        "ACCESS-003"
       ],
       "spec_refs": [
         "§10",
@@ -4140,7 +4141,8 @@
         "STORAGE-020",
         "API-013",
         "API-014",
-        "SESSION-012"
+        "SESSION-012",
+        "ACCESS-003"
       ],
       "spec_refs": [
         "§10",
@@ -15788,8 +15790,8 @@
     },
     {
       "module": "Server/API",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "codex:coordinator-6e24c10f",
       "spec_refs": [
         "§10",
         "AUTH-01",
@@ -15801,11 +15803,29 @@
         "TEST-05"
       ],
       "notes": [
-        "Planned prerequisite exposed by APICONTRACT-002 initial review B3; no authored contract/tests, implementation or runtime capability. Separate test-first/review/CI/merge gates remain."
+        "Reviewed document-only guarded enrollment/recovery revision1 and33 literal examples; no runtime proof. Initial Claude, separate Codex corrections/verification and full/focused Claude closing approve f4c1584. Project/graph/render and51 tooling tests pass. Actual producers, API014 baseline/implementation and edge/console/platform gates remain. PR115 records final CI/normal merge; then stop."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null,
+      "verification": {
+        "authored": "passed",
+        "document_review": "passed",
+        "source_audit": "passed",
+        "literal_audit": "passed",
+        "graph_preservation": "passed",
+        "tooling": "passed",
+        "runtime": "not_run",
+        "github_ci": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/115",
+        "docs/contracts/guarded-enrollment-recovery-v1.md"
+      ],
+      "review": {
+        "author": "Codex /root/enrollment_contract_author; coordinator6e24c10f corrections",
+        "reviewer": "Claude Opus5.5 initial8212196d/full closing8f3a8945; Codex /root/enrollment_codex_review, /root/enrollment_codex_verify, /root/enrollment_token_review; Claude Sonnet5.5 focused closing422de370",
+        "outcome": "approved",
+        "revision": "Initial B1–3 and separate Codex B4–6 resolved. Codex approved025d261; full closing Claude approved1e45f66. Narrow token/counter/ER18 clarification f4c1584 independently Codex/Claude approved; contract SHA256d51cebdda1c3a579a9828b2adb19c031f1c1e84bd1c9a1293007480dc8a1a6cd. Completion metadata/CI/normal merge receipts in PR115.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/115"
+      },
       "id": "APICONTRACT-003",
       "title": "Guarded enrollment and recovery host contract",
       "kind": "contract",
@@ -17803,6 +17823,16 @@
       "date": "2026-11-11T11:37:40+00:00",
       "task": "APICONTRACT-002",
       "note": "Independent Codex and Claude closing f4cb7018 approve67e2a1f/blob30891e74 with all B1–5/N1–11 resolved. Record document-only completion and six planned prerequisites, preserving original472 IDs/edges and unrelated reviews. No runtime proof; final metadata review/CI/normal merge then stop."
+    },
+    {
+      "task": "APICONTRACT-003",
+      "date": "2026-11-11T11:57:08+00:00",
+      "note": "Owner authorized one fresh task then stop; coordinator6e24c10f claims document-only guarded enrollment/recovery from verified main55913bc. Prior APICONTRACT-002 roles retired, valid reviews/worktrees preserved."
+    },
+    {
+      "date": "2026-11-11T12:29:08+00:00",
+      "task": "APICONTRACT-003",
+      "note": "Independent initial/full closing Claude Opus5.5, separate Codex correction/verification and focused closing Claude Sonnet5.5 approve f4c1584. Record document-only completion/33 examples; all478 IDs/original edges and unrelated reviews preserved, two explicit ACCESS003 consumer edges. No runtime proof; final metadata review/current CI/normal PR115 merge then stop."
     }
   ]
 }
