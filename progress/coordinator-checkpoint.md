@@ -32,3 +32,7 @@ metadata/evidence and independent Codex metadata review; final latest-head CI,
 discussions/rules and normal exact-head merge, refresh main, STOP. Ruleset26170263
 requires PR/resolved threads, forbids force/delete,0 human approvals/no bypass;
 no classic protection. CI remains project gate. No PR watcher currently active.
+
+Independent closing Claude Opus5.5/high running on16898ec:
+<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A1af06bc3-f72d-416a-9f2c-1a25c85e714e%3Adelegate-task%3A364d296b-b8a0-4847-9e00-d79860eb2ca2>
+Completion wakes coordinator; do not poll it. No closing approval yet.
