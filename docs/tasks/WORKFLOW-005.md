@@ -1,8 +1,9 @@
 # WORKFLOW-005 — Compact context and publication checks
 
 Kind: implementation. Specification v0.45 §§17–18. Depends on WORKFLOW-004.
-Contract: bounded-coordination-v2 §§2,4–5; refine exact interfaces/examples in this
-brief and review the contract before test authorship. No product task is resumed.
+Contract: [compact context/publication v1](../contracts/context-publication-v1.md),
+refining bounded-coordination-v2 §§2,4–5. Review it before test authorship.
+No product task is resumed.
 
 Coordinator owns brief/docs, shared state/HTML/checkpoint/build integration. Test
 author owns additive focused tests in tests/tooling/ and actual-schema cases if
@@ -30,3 +31,6 @@ intended red through existing entry points → fresh implementation → full ind
 code cycle and relevant tooling/schema/scaffold checks. Keep unreviewed tests local.
 Record actual proof and limitations in a focused PR, pass latest-head CI and merge
 normally. Update guidance to use compact context and the publication command.
+WF004-C-A2 is resolved by the accompanying task-index wording: practices/private
+evidence guidance applies at WORKFLOW-004 merge; record/results policy waits for
+reviewed WORKFLOW-006 tooling. Preserve that activation split in command guidance.

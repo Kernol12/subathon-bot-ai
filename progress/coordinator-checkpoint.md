@@ -1,33 +1,22 @@
 # Coordinator checkpoint
 
-Latest owner authorizes WORKFLOW-004–007 and CI-002 through reviewed implementation,
-focused PRs, protected merges and matching CI settings, then STOP. Product/API001/API016
-stay stopped. Preserve fullv0.45, old assertions, historical receipts and private evidence.
+Latest owner authorizes WORKFLOW004-007 and CI002 through reviewed implementation,
+focused PRs/protected merges and matching CI settings, then STOP. Product/API001/API016
+remain stopped; preserve fullv0.45, historical baselines/receipts and private evidence.
 
-Checkout task/WORKFLOW-004-bounded-coordination-policy, base main240e750.
-Coordinator codex:97333d35 owns shared integration/state/CI/guidance/publication.
-PR125 draft: https://github.com/Kernol12/subathon-bot-ai/pull/125 (watched).
+Observed main3c74966, actual PR125 merge2026-11-12T22:10:34Z/headf7c3b59; all21
+final checks/reviews passed, normal protected merge. Publication reconciled here;
+PR125 unwatched. Non-record practices/private-evidence guidance is now active.
+Record/results-only policy stays inactive until reviewed WORKFLOW006 implementation.
 
-WORKFLOW004 contract artifact DONE at source7a34855; eight paths unchanged.
-Initial Claude workflow004-initial-contract-review-v1 (nativea15aa9d9), independent
-Codex /root/workflow004_contract_verification and NEW Claude closing workflow004-
-closing-contract-review-v1 (native8073513d) complete the current full cycle.
-T3 reports actual Claude provider/model/completed sessions; native Codex collaboration
-was observed separately. Closing report:
-https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6837139865
-No blockers; C-A1 seed standalone CI002 brief/record identically if needed, C-A2 clarify
-README activation at next reviewed WORKFLOW005 edit. Follow-ups live in those records.
-
-Actual tooling72/project495/render/whitespace pass; all21CI pass at e74a451.
-Earlier ea38065 layout refusal remains preserved, exact field unknown, no blind retry
-or guard relaxation. Final receipt/evidence-summary commit still needs its own CI.
-Rules observed require PR/discussion resolution, forbid deletion/non-fast-forward;
-no required-status rule configured yet. Zero unresolved PR125 review threads observed.
-
-Next: publish batched factual completion records, verify ALL final-head checks and
-live protections/discussions, then normal protected merge. Refresh main, unwatch125,
-reconcile its actual merge while claiming WORKFLOW005 on its dedicated current-main
-branch. Author/review precise compact/publication contract before tests, then fresh
-implementation. CI002 may independently proceed under its own full gates if needed.
-New record/results policy activates only with WORKFLOW006; practices/private-evidence
-rules activate with reviewed WORKFLOW004 merge. PR121 stays parked. No new product work.
+Checkout task/WORKFLOW-005-context-publication from refreshed main3c74966.
+WORKFLOW005 CLAIMED. Coordinator codex:97333d35 owns contract, shared progress/schema/
+build/CI/docs/publication; no workers assigned. Source contract authoring only.
+Read docs/tasks/WORKFLOW-005.md and bounded-coordination-v2 §§2,4-5.
+Exact contract: docs/contracts/context-publication-v1.md, WORKFLOW005 brief and
+task-index activation wording. No new tests/stub/implementation authored or executed.
+Next: publish docs/claim draft and request independent initial Claude contract review; then independent
+reviewed tests/intended red, fresh implementation, full code review and protected PR.
+Carry WF004-C-A2 activation wording into this reviewed docs change. Default context API
+and all existing assertions remain; WORKFLOW005 has no new manifest/digest format.
+CI002 remains independent if setup repair is needed. PR121 stays parked/unwatched.

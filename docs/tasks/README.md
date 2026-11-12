@@ -165,5 +165,7 @@ The owner-authorized bounded coordination program starts with
 [WORKFLOW-006 — Artifact-aware records](WORKFLOW-006.md),
 [WORKFLOW-007 — Reusable execution runner](WORKFLOW-007.md), and
 [CI-002 — Setup diagnostics/merge enforcement](CI-002.md).
-The forward policy activates with reviewed tooling; existing product work stays
-stopped. Consult state and the latest checkpoint for actual gates and authorization.
+The forward record/results policy activates with reviewed WORKFLOW-006 tooling;
+non-record practices/private-evidence guidance applies at WORKFLOW-004 merge.
+Existing product work stays stopped. Consult state and the latest checkpoint for
+actual gates and authorization.
