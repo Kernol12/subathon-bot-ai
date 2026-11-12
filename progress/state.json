@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T07:42:39+00:00",
+  "updated_at": "2026-11-12T07:51:02+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -5089,7 +5089,7 @@
         "§3"
       ],
       "brief": "docs/tasks/EPIC-008.md",
-      "summary": "12 bounded production packages and three contract gates, with separate reviewed/red baselines and full lifecycle/transport/integration scope retained.",
+      "summary": "Bounded production packages and contract gates, with separate reviewed/red baselines and full lifecycle/transport/integration scope retained.",
       "notes": [
         "All intended release requirements remain in scope; this epic is not an executable assignment or a claim of support.",
         "Decomposed by BOOT-005. Completion requires all listed children; child tasks depend on bounded prerequisites, never on their own parent epic. All release requirements remain in scope."
@@ -16619,7 +16619,7 @@
       "title": "Isolated HTTP and native WebSocket host listener contract",
       "module": "Server/API",
       "kind": "contract",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "codex:coordinator-45e6fb8d; contract author620e9ec1-5851-47a5-9cde-5b36dd7d89c7",
       "depends_on": [
         "APICONTRACT-001",
@@ -16636,12 +16636,13 @@
       "brief": "docs/tasks/EPIC-008/APICONTRACT-004.md",
       "summary": "Resolve isolated listener/HTTP baseline conflict with a separately admitted additive HTTP foundation, preserving historical native artifacts/assertions and full release scope.",
       "notes": [
-        "Corrected listener contract integrates1a6fd10 with explicit APICONTRACT-005→APITEST-016→API-016 chain; historical API012 artifacts/all44 preserved, SESSION011 rebased without host cycle. Speculative ceilings removed; scratch/socket/source/supersession oracles corrected. Source11-doc packet awaits independent Codex verification then Claude closing. No runtime/SDK/HTTP support claim."
+        "Corrected eleven-document listener/foundation packet38bf7dc independently verified by Codex0b08f13a, no blockers. Original six findings resolved; stale numeric epic summary corrected. All21 CI at7d51b9d pass. Claude closing remains mandatory before contract completion; no header/test/SDK/runtime capability delivered. API001/foundation and full release gates remain."
       ],
       "verification": {
         "contract_authored": "draft",
-        "contract_review": "failed",
-        "correction_authored": "draft"
+        "contract_review": "partial",
+        "correction_authored": "draft",
+        "correction_review": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/122"
@@ -16710,6 +16711,27 @@
                 ],
                 "started_at": "2026-11-12T06:54:43.024Z",
                 "finished_at": "2026-11-12T07:15:05.991Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A0b08f13a-ba43-4fab-acfe-fcf48a8e95a4",
+                "revision": "38bf7dcf65fdb6126c3107eebb22eac961bcc157",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6817932703",
+                "findings": [
+                  "586e44ed:B1",
+                  "586e44ed:B2",
+                  "586e44ed:B3",
+                  "586e44ed:B4",
+                  "586e44ed:B5",
+                  "586e44ed:B6",
+                  "CV7412-A1"
+                ],
+                "blocking_findings": [],
+                "started_at": "2026-11-12T07:44:14.042Z",
+                "finished_at": "2026-11-12T07:49:41.198Z"
               }
             ]
           }
