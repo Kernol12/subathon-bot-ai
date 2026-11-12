@@ -43,4 +43,3 @@ Qt75/native18/native44/SQL/CI gates remain. PR121 stays watched.
 API016 precedes account011 capture/erasure; no API001 foundation cycle.
 Full seven integrations, three FX providers, English/German, Light/Dark/System,
 both renderers, full desktop editor, all platforms and release evidence remain.
-
