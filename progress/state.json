@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T10:59:41+00:00",
+  "updated_at": "2026-11-12T11:14:50+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -16851,7 +16851,8 @@
         "progress": "passed",
         "render": "passed",
         "implementation": "not_run",
-        "completion_metadata_review": "passed"
+        "completion_metadata_review": "passed",
+        "github_ci": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/123",
@@ -16999,12 +17000,12 @@
         }
       },
       "publication": {
-        "state": "open",
+        "state": "merged",
         "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/123",
-        "head": "1a6b35117408eb16f3359793ee43e4bccfcb74f7",
-        "merge_commit": null,
-        "merged_at": null,
-        "observed_at": "2026-11-12T10:55:37+00:00"
+        "head": "1c882a3619caf4ce172e40708a4024bb79a72cee",
+        "merge_commit": "3d3be7a999cabe6668ef051b8bd392cfda38ae4c",
+        "merged_at": "2026-11-12T11:07:26Z",
+        "observed_at": "2026-11-12T11:13:06+00:00"
       }
     },
     {
@@ -17012,8 +17013,8 @@
       "title": "Review and demonstrate red: bounded HTTP transport foundation",
       "module": "Server/API",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "codex:coordinator-45e6fb8d; fresh T3 Codex baseline author",
       "depends_on": [
         "APICONTRACT-005",
         "API-012",
@@ -17030,14 +17031,25 @@
       "brief": "docs/tasks/EPIC-008/API-016.md",
       "summary": "Author and independently review literal generic HTTP producer tests and observe meaningful red before the bounded transport foundation implementation.",
       "notes": [
-        "Explicit prerequisite from APICONTRACT-004 initial review B1–B3. Planned only; no source/test/artifact capability supplied.",
-        "Closing a8d495e8 A1/A5/A6: negative retained-facade method case; F07 witness runs reference5000ms, F08 local IO0 steps after both requests arrive. Deadline expiry is fixture failure, not red. Native peers hold Peer/Wake only; pure-helper/thread/editorial clarifications enter the reviewed test/stub packet."
+        "Claimed from merged main3d3be7a after APICONTRACT005 publication reconciliation. Approved sourcecee1845 and six closing advisories govern authored literals, finite real-stack fixture and NI-only old-SDK stubs. Fresh isolated author owns new baseline paths; coordinator owns shared build/CI/admission/metadata. Full test review precedes execution; no tests, SDK admission or runtime result claimed."
       ],
-      "verification": {},
+      "verification": {
+        "claim": "passed",
+        "test_authored": "not_run",
+        "test_review": "not_run",
+        "artifact_admission": "not_run",
+        "baseline": "not_run"
+      },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196"
       ],
-      "review": null
+      "review": null,
+      "workflow": {
+        "required_stages": [
+          "tests"
+        ],
+        "stages": {}
+      }
     },
     {
       "id": "API-016",
@@ -19027,6 +19039,11 @@
       "date": "2026-11-12T10:59:41+00:00",
       "task": "APICONTRACT-005",
       "note": "Native Codex01a1cf66 approved the four-file routine completion delta, no blockers or substantive escalation; exact report published. Six source blobs remaincee1845. Final metadata publication now requires latest-head CI and live review/thread/rule/protected merge checks; downstream task not claimed."
+    },
+    {
+      "date": "2026-11-12T11:14:50+00:00",
+      "task": "APITEST-016",
+      "note": "Verified normal PR123 merge3d3be7a from1c882a3 after21checks, independent source+metadata approvals, zero threads/live rules; refreshed main and reconciled merged publication in this authorized claim. APITEST016 dependency-ready and claimed before fresh test/stub authoring; no baseline/native execution yet."
     }
   ],
   "workflow_policy": {
