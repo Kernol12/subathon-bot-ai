@@ -16,9 +16,11 @@ Root corrected all4at3720c4258aa18af43e39e541925062c137a021d9: actual unittest
 outcomes, allGitno-replace, setup link/path, childDEVNULL. Frozen5tests unchanged.
 96tooling/3actualSDK repassed/zero skips after correction; project/whitespace pass.
 Earlier8schema/3scaffold evidence retained, not rerun. Full private reports/logs
-under local-evidence/WORKFLOW-005. No source pushed; no active child yet.
+under local-evidence/WORKFLOW-005. No source pushed; independent Codex verification completed/APPROVED/no new findings.
+Receipt: https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6839528018
+Actual registered schema CTest2/2nodes(8+3methods) passed after correction.
 
-Next independent native Codex workflow005_code_verification, fresh Claude closing,
+Next fresh Claude closing code review workflow005-closing-code-review-v1,
 latest-headCI/protectedmerge. Explicit commit comparison/valid detached support
 preserved; accepted WF005-TC-A1 coverage advisory unchanged. No tests/oracles may
 change to pass; existing SDK build/workflow005-schema-venv, no install/pin changes.
