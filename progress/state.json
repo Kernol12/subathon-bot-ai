@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T06:32:39+00:00",
+  "updated_at": "2026-11-12T07:25:53+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -5079,7 +5079,10 @@
         "APITEST-014",
         "API-014",
         "APICONTRACT-004",
-        "APITEST-015"
+        "APITEST-015",
+        "APICONTRACT-005",
+        "APITEST-016",
+        "API-016"
       ],
       "spec_refs": [
         "§2",
@@ -5365,7 +5368,8 @@
         "STORAGE-020",
         "SESSIONCONTRACT-004",
         "APICONTRACT-004",
-        "APITEST-015"
+        "APITEST-015",
+        "API-016"
       ],
       "spec_refs": [
         "§2",
@@ -5374,7 +5378,7 @@
       "brief": "docs/tasks/EPIC-008/API-001.md",
       "summary": "Marshal requests onto the authoritative Qt queue and return correlated results without blocking the writer on network callbacks.",
       "notes": [
-        "Authored host compiles; all21 CI pass at df5d703 (host compile-only). Initial Claude found six blockers: SDK rejects HTTP on native listener plus resource/terminal/race/reentry defects. B1 split into APICONTRACT-004 and APITEST-015; unrelated source fixes assigned to original isolated author. Preserve prior tests/red; no runtime/admission/acceptance/UTC/provider proof. PR121 stays draft."
+        "Integrated author382ea9f and coordinator9e71961 source fixes; both consumers compile, no bodies run. Codex verified direct B2–B6 but found CV1/CV2; coordinator quarantines uncertain writer ownership and retains IO stop timer. New verification pending. B1 needs reviewed listener baseline and additive HTTP foundation API-016; no runtime/admission/provider/UTC proof. PR121 stays draft."
       ],
       "verification": {
         "inherited_test_review": "passed",
@@ -5573,9 +5577,10 @@
           },
           "implementation": {
             "authors": [
-              "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A0cefc308-4a40-4358-9f5a-0c9bb7c87b1e"
+              "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A0cefc308-4a40-4358-9f5a-0c9bb7c87b1e",
+              "codex:coordinator-45e6fb8d"
             ],
-            "revision": "b4e758d6f039a1d5291c753418de496ec5c2a7ff",
+            "revision": "5f36c445d421ee60c2c92e28b03df39444fb7cd3",
             "paths": [
               "server/src/api_host.cpp",
               "server/src/api_host_drogon.cpp",
@@ -5620,6 +5625,27 @@
                 ],
                 "started_at": "2026-11-12T06:00:00.310Z",
                 "finished_at": "2026-11-12T06:24:40.186Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A7f2c4530-07c5-4837-8718-1612393c8703",
+                "revision": "382ea9f17f74a6f6e8c61a7896fe63c9b4b38a5c",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6817346991",
+                "findings": [
+                  "7f2c4530:CV1",
+                  "7f2c4530:CV2",
+                  "ccfeeca9:B1"
+                ],
+                "blocking_findings": [
+                  "7f2c4530:CV1",
+                  "7f2c4530:CV2",
+                  "ccfeeca9:B1"
+                ],
+                "started_at": "2026-11-12T07:03:24.769Z",
+                "finished_at": "2026-11-12T07:12:24.027Z"
               }
             ]
           }
@@ -15792,7 +15818,8 @@
       "depends_on": [
         "SESSIONCONTRACT-005",
         "SPIKE-001",
-        "BOOT-003"
+        "BOOT-003",
+        "API-016"
       ],
       "spec_refs": [
         "§2",
@@ -15808,7 +15835,7 @@
       "brief": "docs/tasks/EPIC-007/SESSION-011.md",
       "summary": "Review and observe intended red for bounded pre-map/pre-log selected Drogon/Trantor correction before native artifact implementation.",
       "notes": [
-        "ADR-0011 explicit prerequisite split only. Preserve original release scope and per-behavior review/red/implementation/selected CI gates. No new proxy/parser/artifact/protocol/pin/config capability is supplied by a task record."
+        "APICONTRACT-004 review B2 explicit prerequisite/rebase amendment: generic bounded HTTP foundation API-016 precedes this account capture/erasure/pre-log layer. Preserve accepted SESSIONCONTRACT-005 budgets/lease/policy and full test/red gates. No API-001 dependency for foundation transport evidence; no implementation or successor artifact admitted yet."
       ],
       "verification": {},
       "evidence": [],
@@ -15825,7 +15852,8 @@
         "SESSIONCONTRACT-005",
         "SPIKE-001",
         "BOOT-003",
-        "SESSIONTEST-011"
+        "SESSIONTEST-011",
+        "API-016"
       ],
       "spec_refs": [
         "§2",
@@ -15841,7 +15869,7 @@
       "brief": "docs/tasks/EPIC-007/SESSION-011.md",
       "summary": "Implement and admit the narrowly reviewed selected native capture/log/bounds artifact separately from actual source/transport integration.",
       "notes": [
-        "ADR-0011 explicit prerequisite split only. Preserve original release scope and per-behavior review/red/implementation/selected CI gates. No new proxy/parser/artifact/protocol/pin/config capability is supplied by a task record."
+        "APICONTRACT-004 review B2 explicit prerequisite/rebase amendment: generic bounded HTTP foundation API-016 precedes this account capture/erasure/pre-log layer. Preserve accepted SESSIONCONTRACT-005 budgets/lease/policy and full test/red gates. No API-001 dependency for foundation transport evidence; no implementation or successor artifact admitted yet."
       ],
       "verification": {},
       "evidence": [],
@@ -16860,8 +16888,8 @@
       "title": "Isolated HTTP and native WebSocket host listener contract",
       "module": "Server/API",
       "kind": "contract",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "codex:coordinator-45e6fb8d; contract author620e9ec1",
       "depends_on": [
         "APICONTRACT-001",
         "APITEST-001",
@@ -16877,11 +16905,19 @@
       "brief": "docs/tasks/EPIC-008/APICONTRACT-004.md",
       "summary": "Resolve the reviewed HTTP/native-listener baseline conflict without changing the selected SDK, weakening assertions or reducing release scope.",
       "notes": [
-        "Explicit prerequisite exposed by API-001 initial review B1. Two internal listeners preserve HTTP/WS in one process; no implementation or revised baseline approval yet."
+        "Authored contract and exact stage receipts are under independent correction/review in PR122. Six initial findings; additive foundation chain explicitly planned. This API001 branch does not contain its unmerged contract packet or claim approval."
       ],
       "verification": {},
-      "evidence": [],
-      "review": null
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/122"
+      ],
+      "review": null,
+      "workflow": {
+        "required_stages": [
+          "contract"
+        ],
+        "stages": {}
+      }
     },
     {
       "id": "APITEST-015",
@@ -16893,7 +16929,8 @@
       "depends_on": [
         "APICONTRACT-004",
         "APITEST-001",
-        "API-012"
+        "API-012",
+        "API-016"
       ],
       "spec_refs": [
         "§2",
@@ -16906,6 +16943,93 @@
       "summary": "Resolve the reviewed HTTP/native-listener baseline conflict without changing the selected SDK, weakening assertions or reducing release scope.",
       "notes": [
         "Explicit prerequisite exposed by API-001 initial review B1. Two internal listeners preserve HTTP/WS in one process; no implementation or revised baseline approval yet."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "APICONTRACT-005",
+      "title": "Bounded selected HTTP transport foundation contract",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "APICONTRACT-004",
+        "API-012",
+        "SESSIONCONTRACT-005"
+      ],
+      "spec_refs": [
+        "§2",
+        "SERVER-01",
+        "API-01",
+        "AUTH-12",
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/EPIC-008/APICONTRACT-005.md",
+      "summary": "Define and independently prove bounded generic selected HTTP transport producers on a separately admitted additive candidate4 successor; preserve native history and account-profile scope.",
+      "notes": [
+        "Explicit prerequisite from APICONTRACT-004 initial review B1–B3. Planned only; no source/test/artifact capability supplied."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "APITEST-016",
+      "title": "Review and demonstrate red: bounded HTTP transport foundation",
+      "module": "Server/API",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "APICONTRACT-005",
+        "API-012",
+        "BOOT-003"
+      ],
+      "spec_refs": [
+        "§2",
+        "SERVER-01",
+        "API-01",
+        "AUTH-12",
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/EPIC-008/API-016.md",
+      "summary": "Define and independently prove bounded generic selected HTTP transport producers on a separately admitted additive candidate4 successor; preserve native history and account-profile scope.",
+      "notes": [
+        "Explicit prerequisite from APICONTRACT-004 initial review B1–B3. Planned only; no source/test/artifact capability supplied."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "API-016",
+      "title": "Admitted bounded HTTP transport foundation",
+      "module": "Server/API",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "APICONTRACT-005",
+        "APITEST-016",
+        "API-012"
+      ],
+      "spec_refs": [
+        "§2",
+        "SERVER-01",
+        "API-01",
+        "AUTH-12",
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/EPIC-008/API-016.md",
+      "summary": "Supply and admit the bounded generic per-listener HTTP SDK foundation independently of API-001; account capture/erasure remains SESSION-011.",
+      "notes": [
+        "Planned additive artifact only; immutable API-012 artifact/patch/pins/all44 assertions retained. Independent test/red/implementation/admission/compatibility/CI gates remain."
       ],
       "verification": {},
       "evidence": [],
@@ -18827,6 +18951,11 @@
       "date": "2026-11-12T06:32:39+00:00",
       "task": "API-001",
       "note": "Initial Claude ccfeeca9 found B1–B6; retain reviewed startup/SQL/generation/elapsed foundations. Split B1 into APICONTRACT-004 → APITEST-015 before topology changes. Original author corrects independent source defects; no host body run."
+    },
+    {
+      "date": "2026-11-12T07:25:53+00:00",
+      "task": "API-001",
+      "note": "Integrate382ea9f and coordinator9e71961 after Codex7f2c4530 found CV1/CV2; compiled both consumers, no body/admission execution. Unknown writer retention quarantines owners; final IO timer stays armed. Independent verification pending; B1/foundation gates remain."
     }
   ],
   "workflow_policy": {
