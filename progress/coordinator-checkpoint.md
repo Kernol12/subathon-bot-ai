@@ -1,43 +1,46 @@
 # Coordinator checkpoint
 
-Owner superseded old-agent stop; standing full-product execution authorized.
-Preserve all AGENTS/workflow test-first/independent/protected/release gates.
-No live provider/chat/payment effects; unknown source behavior is not support.
+Owner superseded the old-agent stop; standing full-product execution is authorized.
+Preserve all AGENTS/workflow test-first, independent review, protected merge and
+release gates. No live provider/chat/payment effects; unknown behavior is not support.
 
-Task APICONTRACT005, branch task/APICONTRACT-005-http-foundation, base current
-mainc9fd637, claimd5d19fc. Fresh author465fb408 completed e0d81ea in T3-provided
-worktree t3-8d53d95e; six docs only, integrated current source packet. Correction continuation assigned to that original author;
-coordinator does not edit its active worktree. Stage authors coordinator45e6fb8d/465fb408, required contract.
-Bounded context/paths in state; coordinator owns metadata/build/CI/schema/PR.
+Active task: APICONTRACT-005, branch task/APICONTRACT-005-http-foundation.
+Base main c9fd637; claim d5d19fc. Fresh author465fb408 completed initial e0d81ea,
+then correction8cc8b4f in T3-provided worktree t3-8d53d95e, now clean/inactive.
+Integrated corrected source: 464caad09ad9af6223738aa0c0fa60b6680d1e8c.
+Exactly six documentation paths; no header/test/SDK/source/build/CI edits.
+Stage authors remain coordinator45e6fb8d and author465fb408; coordinator owns
+shared metadata, build/CI/schema integration and PR. Bounded stage context is in state.
 
-New bounded-http-foundation-v1 proposal defines concrete private interfaces,
-fixed65536+8 receive/>=8192free, one currentrequest, P128 HTTP80/native48 roles,
-input/reply/output/metadata/pagetail accounting and F01–12 literal cases. Proposed
-requested-storage bound is NOT measured usable capacity or RSS. Source/ABI/std
-rounding and successor behavior remain review/admission gates. Initial independent Claude80994274 review requests CI005-B1–B6 plus A1–A8: peer/
-request/native association, control owner/ledger, finite cross-thread IO handoff,
-SDK-only producer direction, deterministic account/generic ordering and observable
-complete oracles. Arithmetic and source patch sites retained as valid observations.
-Report: https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6819640064
-No header/test/SDK/patch/source/body execution; author only diff/project/literal
-arithmetic checks. Full stage review before APITEST016 authoring/red/API016.
+Independent initial Claude80994274 requested CI005-B1–B6 and A1–A8 at source275f48a.
+https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6819640064
+Author R2 corrections are published, not independently approved:
+https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6820607309
+R2 specifies peer context/native retirement, finite handles/control arrays,
+post/ready/stop_drained/finish, SDK-only producers and first-party adapter,
+deterministic profile priorities and observable F01–13/F05P. Single W output
+slot gives reference requested reservation33101824; actual ABI/capacity/runtime
+and whole-process memory remain separate proof. All historical assertions remain.
+Next: DIFFERENT independent Codex verification, corrections/rechecks as needed,
+then fresh independent Claude closing before test authoring or implementation.
 
-PR122 merged normally c9fd637 at2026-11-12T08:14:24Z from06ac3cd after21CI and
-source/metadata approvals/zero threads/live rules; actual publication reconciled
-in this claim. No admin bypass or completion-only PR. PR122 unwatched.
+Draft PR123: https://github.com/Kernol12/subathon-bot-ai/pull/123
+CI21 passed on f82b9aa after authenticated APT setup timeouts/retries; original
+failed attempts are preserved. That receipt cannot certify a later pushed head.
+https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6820052366
+PR123 stays watched/draft; current-head CI and protected gates remain mandatory.
+
+PR122 merged normally c9fd637 at 2026-11-12T08:14:24Z from06ac3cd after CI21,
+independent source/metadata approval, zero threads and live rules; publication
+was reconciled in the005claim. No bypass or bookkeeping-only PR. PR122 unwatched.
 https://github.com/Kernol12/subathon-bot-ai/pull/122
 
-API001 draftPR121 currentee67059 is conflict-free/all21CI pass. It merged main
-with independent routine consistency approval; host/tests/SDK bytes unchanged.
-Source70ea261/fea1378 only scoped CV1/CV2/B2–B6 approvals; B1/foundation/revised
-baseline/fullstage/runtime/admission/Qt75/N18/native44/SQL remain open. PR121 watched.
-API016generic foundation precedes account011 capture/erasure; no API001 foundation
-cycle. Preserve all7integrations/3FX/i18n/themes/renderers/platform/release scope.
-DraftAPICONTRACT005 PR123 at32381e2, source275f48a (author e0d81ea):
-https://github.com/Kernol12/subathon-bot-ai/pull/123
-CI21 verified SUCCESS on32381e2; draft stays open. Author465fb408 corrects the
-six-doc packet in t3-8d53d95e frome0d81ea (no shared metadata writes); only a
-necessary explicit consumer-ledger qualification may add a seventh doc. Preserve
-parent listener approval, historical/native44 tests, account policies and all scope.
-Next: integrate author corrections and resource/finding mapping, different Codex
-verification, then fresh Claude closing. No tests/native admission authorized yet.
+API-001 draft PR121 at ee67059 was conflict-free/CI21; no new live claim made here.
+https://github.com/Kernol12/subathon-bot-ai/pull/121
+Host source70ea261/fea1378 retains scoped CV1/CV2/B2–B6 approvals, not full-stage
+approval. B1/foundation/revised baseline/source closing/fresh admission/runtime
+Qt75/native18/native44/SQL/CI gates remain. PR121 stays watched.
+API016 precedes account011 capture/erasure; no API001 foundation cycle.
+Full seven integrations, three FX providers, English/German, Light/Dark/System,
+both renderers, full desktop editor, all platforms and release evidence remain.
+

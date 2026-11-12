@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T09:17:47+00:00",
+  "updated_at": "2026-11-12T10:05:22+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -16838,25 +16838,31 @@
       "brief": "docs/tasks/EPIC-008/APICONTRACT-005.md",
       "summary": "Define and independently prove bounded generic selected HTTP transport producers on a separately admitted additive candidate4 successor; preserve native history and account-profile scope.",
       "notes": [
-        "Initial Claude review of six-document source275f48a requests six corrections (CI005-B1–B6); eight advisories retained. Full report is in PR123. Arithmetic and source seams hold, but interfaces/ownership/order/oracles need correction before independent Codex verification and fresh Claude closing. No executable or runtime evidence added."
+        "R2 six-document corrections authored8cc8b4f/integrated464caad: explicit context/retirement, control owners, fixed IO wake/drain, SDK direction, deterministic priorities and observable F01–13/F05P. Single wire slot gives proposed33101824-byte reference reservation, not runtime/RSS proof. Different Codex verification and fresh Claude closing pending; no tests/SDK executed."
       ],
       "verification": {
         "claim": "passed",
         "contract_authored": "draft",
         "contract_review": "failed",
         "runtime": "not_run",
-        "correction_authored": "not_run"
+        "correction_authored": "passed",
+        "correction_review": "not_run",
+        "project": "passed",
+        "progress": "passed",
+        "render": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/123",
         "https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6818185255",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6819640064"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6819640064",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6820607309",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6820052366"
       ],
       "review": {
         "author": "Codex465fb408 and coordinator45e6fb8d",
         "reviewer": "Independent Claude80994274, claude-opus-5-5",
         "outcome": "changes_requested",
-        "revision": "Source275f48a at HEAD32381e2: CI005-B1–B6 require composable ownership, control accounting, fixed IO handoff, explicit SDK direction, deterministic profile ordering and complete observable oracles. Proposed arithmetic and patch sites hold; no runtime approval.",
+        "revision": "Initial changes_requested on275f48a is preserved. Author corrections8cc8b4f/integrated464caad address CI005-B1–B6/A1–A8 but await separate verification and fresh closing; no independent approval or runtime evidence.",
         "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6819640064"
       },
       "workflow": {
@@ -16869,7 +16875,7 @@
               "codex:coordinator-45e6fb8d",
               "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A465fb408-3760-44f5-9a8f-74337571f4e2"
             ],
-            "revision": "275f48a8c1b391772a5153165bb6289cc95dd9eb",
+            "revision": "464caad09ad9af6223738aa0c0fa60b6680d1e8c",
             "paths": [
               "docs/contracts/bounded-http-foundation-v1.md",
               "docs/contracts/api-host-listeners-v1.md",
@@ -18916,6 +18922,11 @@
       "date": "2026-11-12T09:17:47+00:00",
       "task": "APICONTRACT-005",
       "note": "Published exact initial Claude80994274 report in PR123; source275f48a changes_requested with six blockers/eight advisories. Actual CI21 passed at32381e2. Author465fb408 correction continuation assigned; no runtime or full-stage approval, parent/history/scope preserved."
+    },
+    {
+      "date": "2026-11-12T10:05:22+00:00",
+      "task": "APICONTRACT-005",
+      "note": "Integrated exact six-document R2 author8cc8b4f as464caad, published full author correction receipt in PR123; no protected paths changed. Current source requires separate Codex verification/Claude closing. Historical f82b9aa CI21 recovered after package-index retries; failed attempts retained."
     }
   ],
   "workflow_policy": {
