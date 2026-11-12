@@ -23,7 +23,7 @@ add_test(NAME bounded-http-foundation.suite
         --admission "${SUBATHON_BOUNDED_HTTP_ADMISSION}")
 set_tests_properties(bounded-http-foundation.suite PROPERTIES
     LABELS "bounded-http-foundation;acceptance;server;loopback;intentional-red"
-    TIMEOUT 9546)
+    TIMEOUT 9920)
 # Ordinary failures, including NI. No WILL_FAIL, skip, DISABLED or dependency waiver.
 
-# 279 suite children * (30s lifetime + two 2s reap attempts) + 60s runner margin.
+# 290 suite children * (30s lifetime + two 2s reap attempts) + 60s runner margin.
