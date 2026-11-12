@@ -318,6 +318,15 @@
         "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
         "SUBATHON_ACCEPTANCE_SUITES": "api-host-native"
       }
+    },
+    {
+      "name": "bounded-http-foundation-debug",
+      "displayName": "34 \u00b7 Bounded HTTP foundation baseline (intentional red)",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
+        "SUBATHON_ACCEPTANCE_SUITES": "bounded-http-foundation"
+      }
     }
   ],
   "buildPresets": [
@@ -456,6 +465,10 @@
     {
       "name": "api-host-native-debug",
       "configurePreset": "api-host-native-debug"
+    },
+    {
+      "name": "bounded-http-foundation-debug",
+      "configurePreset": "bounded-http-foundation-debug"
     }
   ],
   "testPresets": [
@@ -794,6 +807,21 @@
       "configurePreset": "api-host-native-debug",
       "output": {
         "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "bounded-http-foundation-debug",
+      "configurePreset": "bounded-http-foundation-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "filter": {
+        "include": {
+          "label": "^bounded-http-foundation$"
+        }
       },
       "execution": {
         "noTestsAction": "error"
