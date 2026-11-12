@@ -75,7 +75,7 @@
     },
     {
       "selector": "FoundationTests.test_native_read_ahead_assignment",
-      "max_children": 24
+      "max_children": 9
     },
     {
       "selector": "FoundationTests.test_role_quota_retained_handles",
@@ -126,7 +126,7 @@
       "max_children": 1
     }
   ],
-  "max_children_including_legacy": 294,
+  "max_children_including_legacy": 279,
   "wire_rows": [
     {
       "id": "basic",

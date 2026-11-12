@@ -36,9 +36,9 @@ exit does not satisfy them. No WILL_FAIL, skips or expected failures are used.
 ## Finite caller/fixture bounds
 
 * Suite: 31 selectors (30 foundation methods and ONE legacy positive method),
-  at most 294 sequential child lifetimes. 93 ordinary/native wire rows, 112
-  separately observed CR/LF split children. Read-ahead permits 8 complete children
-  for each of reference/tiny/P2 (24 maximum); unwitnessed attempts are fixture
+  at most 279 sequential child lifetimes. 93 ordinary/native wire rows, 112
+  separately observed CR/LF split children. Contract F13 permits 3 fresh peers
+  for each of reference/tiny/P2 (9 complete children maximum); unwitnessed attempts are fixture
   failures/reaped retries, not product observations. No in-process reinstall.
   Controlled identity is a separate prospective admission invocation, not one
   of those suite children.
@@ -49,7 +49,7 @@ exit does not satisfy them. No WILL_FAIL, skips or expected failures are used.
   commands by ack. Stop can leave one extra pending command/ack. These are fixture
   queue allocations, NOT bounded producer mailbox evidence.
 * Each step <=7s, parent child horizon 30s, then at most TERM/wait2s and
-  KILL/wait2s. CTest watchdog: 294*(30+2+2)+60 = **10056s**. This is a failure
+  KILL/wait2s. CTest watchdog: 279*(30+2+2)+60 = **9546s**. This is a failure
   watchdog, not OS preemption or a filesystem/allocator latency guarantee.
 * Writer: one 2097152-byte immutable arena and 2048 offset/length records (8 bytes
   each), total 2113536 bytes before synchronization/thread/serializer overhead.

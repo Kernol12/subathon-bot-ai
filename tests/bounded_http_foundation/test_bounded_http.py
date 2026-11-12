@@ -509,9 +509,9 @@ class FoundationTests(unittest.TestCase):
 
     def test_native_read_ahead_assignment(self):
         for profile,accepted in (("reference",True),("tiny",False),("p2",False)):
-            # Up to eight complete child attempts; only a witnessed same-read is a valid case.
+            # Contract F13 permits three fresh peers per profile; require a real same-read witness.
             witnessed=False
-            for attempt in range(8):
+            for attempt in range(3):
                 p=self.child(profile=profile);s=p.connect(True);p.send(s,UPGRADE+BINARY_A)
                 latch=p.wait("latch",slot=0)
                 if latch["returned"]!=160:
