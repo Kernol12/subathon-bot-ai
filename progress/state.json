@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T08:16:55+00:00",
+  "updated_at": "2026-11-12T08:51:03+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -16821,7 +16821,7 @@
       "module": "Server/API",
       "kind": "contract",
       "status": "in_progress",
-      "owner": "codex:coordinator-45e6fb8d; fresh foundation-contract author pending",
+      "owner": "codex:coordinator-45e6fb8d; foundation contract author465fb408-3760-44f5-9a8f-74337571f4e2",
       "depends_on": [
         "APICONTRACT-004",
         "API-012",
@@ -16838,10 +16838,13 @@
       "brief": "docs/tasks/EPIC-008/APICONTRACT-005.md",
       "summary": "Define and independently prove bounded generic selected HTTP transport producers on a separately admitted additive candidate4 successor; preserve native history and account-profile scope.",
       "notes": [
-        "Claimed from current mainc9fd637 after verified PR122 merge/reconciliation. Define concrete generic bounded HTTP producer profile and additive SDK interface/patch seams only. Import fixed receive65536/>=8192 and chosen listener socket policy; preserve account policies/native44. Include fairness, deadline and coalesced-request ownership advisories. No test/source/SDK/runtime capability yet."
+        "Concrete six-document foundation packet authored e0d81ea: private producer/lease interfaces, fixed receive, finite role/input/output/metadata accounting, source patch seams and F01–12 literal oracles. Requested-storage arithmetic is proposed design, not actual capacity/runtime proof. Independent initial contract review pending; no header/test/SDK/source behavior changed."
       ],
       "verification": {
-        "claim": "passed"
+        "claim": "passed",
+        "contract_authored": "draft",
+        "contract_review": "not_run",
+        "runtime": "not_run"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6818185255"
@@ -16851,7 +16854,24 @@
         "required_stages": [
           "contract"
         ],
-        "stages": {}
+        "stages": {
+          "contract": {
+            "authors": [
+              "codex:coordinator-45e6fb8d",
+              "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A465fb408-3760-44f5-9a8f-74337571f4e2"
+            ],
+            "revision": "275f48a8c1b391772a5153165bb6289cc95dd9eb",
+            "paths": [
+              "docs/contracts/bounded-http-foundation-v1.md",
+              "docs/contracts/api-host-listeners-v1.md",
+              "docs/contracts/account-ingress-v1.md",
+              "docs/tasks/EPIC-008/APICONTRACT-005.md",
+              "docs/tasks/EPIC-008/API-016.md",
+              "docs/tasks/EPIC-007/SESSION-011.md"
+            ],
+            "reviews": []
+          }
+        }
       }
     },
     {

@@ -2,36 +2,35 @@
 
 Owner superseded old-agent stop; standing full-product execution authorized.
 Preserve all AGENTS/workflow test-first/independent/protected/release gates.
-No live provider/chat/payment effects, no guessed capabilities or release proof.
+No live provider/chat/payment effects; unknown source behavior is not support.
 
-PR122 MERGED normally at2026-11-12T08:14:24Z as
-c9fd6370e5ca994b1d4453803ec237a3d5d542ee from exacthead06ac3cd40bdc5396dfb549efb948fe64eaf540d1.
-All21final-head checks passed, full contract+routine metadata reviews approved,
-zero unresolved threads, live rules passed; no admin/protection bypass. Main
-refreshed to that merge. Actual publication reconciled in this authorized new
-claim; no completion-only PR or rewritten old not_run evidence. PR122 unwatched.
+Task APICONTRACT005, branch task/APICONTRACT-005-http-foundation, base current
+mainc9fd637, claimd5d19fc. Fresh author465fb408 completed e0d81ea in T3-provided
+worktree t3-8d53d95e; six docs only, integrated current source packet. No active
+author remains. Stage authors coordinator45e6fb8d/465fb408, required contract.
+Bounded context/paths in state; coordinator owns metadata/build/CI/schema/PR.
+
+New bounded-http-foundation-v1 proposal defines concrete private interfaces,
+fixed65536+8 receive/>=8192free, one currentrequest, P128 HTTP80/native48 roles,
+input/reply/output/metadata/pagetail accounting and F01–12 literal cases. Proposed
+requested-storage bound is NOT measured usable capacity or RSS. Source/ABI/std
+rounding and successor behavior remain review/admission gates. Need independent
+initial Claude review of complete six-doc packet, including actual host/peer
+association through opaque handles, native projection/transition, per-owner/global
+accounting, selected patch-seam feasibility, callback/lifetime/exception behavior.
+No header/test/SDK/patch/source/body execution; author only diff/project/literal
+arithmetic checks. Full stage review before APITEST016 authoring/red/API016.
+
+PR122 merged normally c9fd637 at2026-11-12T08:14:24Z from06ac3cd after21CI and
+source/metadata approvals/zero threads/live rules; actual publication reconciled
+in this claim. No admin bypass or completion-only PR. PR122 unwatched.
 https://github.com/Kernol12/subathon-bot-ai/pull/122
 
-Current task APICONTRACT-005, branch task/APICONTRACT-005-http-foundation, base
-current mainc9fd637. Bounded context available:true after reconciliation; claimed
-in state before source edits. Brief docs/tasks/EPIC-008/APICONTRACT-005.md.
-Contract source will be docs/contracts/bounded-http-foundation-v1.md plus narrow
-owning-contract/API016/SESSION011 notes as needed. Coordinator45e6fb8d owns shared
-metadata/build/CI/schema/PR integration; fresh contract author pending. No code,
-headers, tests, SDK/pin/artifact updates in this contract task.
-
-Scope: concrete per-listener pre-retention producer APIs/patch seams, exact finite
-per-owner/global resource profile and independent literal oracles on additive
-candidate4 successor. Fixed65536receive/+8prefix/>=8192free, one currentHTTPrequest,
-shared elapsed with separate accept/idle/request/output-drain anchors. Preserve
-historical API012 artifact/patch/pins/all44 and account capture/erasure/policies;
-no API001 dependency for foundation fixture. Import reviewed listener socket/
-scratch policy; assess role fairness and name generic vs host coalesced cases.
-Contract initialClaude→Codexfixes/separate verification→Claudeclosing before
-APITEST016 authored tests/review/red and fresh API016 implementation/admission.
-
-API001 draftPR121 headd1334d3 all21CI pass (host compile-only); source70ea261 /
-integratedfea1378 has scoped CV1/CV2/directB2–B6 source approvals only. B1 remains
-blocked until foundation and revised host baseline; no bodies/admission/runtime/
-UTC/provider/fullstage approval. PR121 stays watched. No active author/reviewer
-assignments remain. Start fresh APICONTRACT005 author, preserve bounded context.
+API001 draftPR121 currentee67059 is conflict-free/all21CI pass. It merged main
+with independent routine consistency approval; host/tests/SDK bytes unchanged.
+Source70ea261/fea1378 only scoped CV1/CV2/B2–B6 approvals; B1/foundation/revised
+baseline/fullstage/runtime/admission/Qt75/N18/native44/SQL remain open. PR121 watched.
+API016generic foundation precedes account011 capture/erasure; no API001 foundation
+cycle. Preserve all7integrations/3FX/i18n/themes/renderers/platform/release scope.
+Next: publish focused draft APICONTRACT005 PR and request independent initial
+contract review; preserve all approvals and exact proof limits. No author running.
