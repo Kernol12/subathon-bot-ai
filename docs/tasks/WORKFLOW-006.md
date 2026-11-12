@@ -11,10 +11,16 @@ schema dependencies/pins and historical exemption/evidence records remain unchan
 
 Add optional first-class required admission/results gates and artifact-manifest
 currency, with one review-order validator and strict schema/semantic agreement.
+Own the single canonical manifest digest function in tools/workflow.py, including
+its reviewed encoding convention, and extend WORKFLOW-005's publication checker
+to use that function. WORKFLOW-007/other consumers import it. No ad hoc CLI binding
+format or independently implemented digest is permitted.
 Implement explicitly eligible ONE-independent-Claude results-only review, preserving
 full substantive cycles and all old explicit task gates. Make declared pending
 results block completion. Activate the approved forward policy in guidance only
 with this reviewed implementation. No opaque parallel source of current gate truth.
+Recheck exact source/runner/oracle/configuration/binary/loaded-identity approval
+currency before results review and at closure; require the reviewer to confirm it.
 
 Independent cases include stale operator digest despite unchanged source, preserved
 rejected closing history, author self-review, pending results, results-only eligibility

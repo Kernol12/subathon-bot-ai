@@ -12,7 +12,10 @@ Read root/tools/tests instructions. Preserve default context API and all asserti
 Implement opt-in compact task/stage context without duplicated history. Publication
 checks must invoke actual admitted schema validation, project/progress/render checks,
 inspect explicit outgoing history for private paths (including subsequently deleted
-files), and check supplied reviewed-path identities. Do not claim generic secret or
+files), and compare selected stages' existing task.workflow.stages revision/paths
+with the candidate tree. Missing or stale selected bindings refuse. Introduce no
+new manifest/digest convention or schema fields; WORKFLOW-006 owns those and the
+later publication-check extension. Do not claim generic secret or
 review-authentication proof. No package install/network/push/merge in the checker.
 
 Independent examples: rich APITEST-016 selected-stage context excludes supplemental

@@ -29,6 +29,8 @@ new prerequisites require an explicit task before expansion.
   actual author/reviewer independence and current source review gates.
 - Define exact eligibility and invalidation for the future results-only path; no
   implicit migration or retroactive reopening/waiver of existing task-specific gates.
+- Land the accompanying AGENT_WORKFLOW guidance for capability/branch/report practices
+  and private evidence at this merge; later tasks activate only their reviewed tooling.
 - Keep ordinary tooling standard-library-only; reuse admitted schema validators.
 - Record bounded scopes, dependencies, examples, path owners and actual evidence.
 
@@ -37,3 +39,5 @@ separate verification → fresh Claude closing cycle. Check project/progress/sch
 consistency and latest-head CI; publish a focused PR and merge normally. The future
 policy activates only with WORKFLOW-006's reviewed tooling/guidance implementation.
 Claim WORKFLOW-005 from refreshed main after this contract is merged.
+CI-002 may proceed independently from current main if setup failures block this
+publication, under its own standalone contract and unchanged full review gates.

@@ -1,28 +1,29 @@
 # Coordinator checkpoint
 
-Latest owner: "Ok you can make these changes." Authorizes the seven investigated
-workflow improvements through WORKFLOW-004–007 and CI-002, including focused PRs,
-required reviews/checks, normal protected merges and matching required CI settings.
-Finish this workflow program, then stop. Product/API-001/API-016 work remains stopped.
-No live provider/chat/payment effects. Full specification v0.45 remains unchanged.
+Latest owner authorizes WORKFLOW-004–007 and CI-002 through reviewed implementation,
+focused PRs, protected merges and matching CI settings, then STOP. Product/API001/API016
+remain stopped; fullv0.45 and historical assertions/evidence remain unchanged.
 
-Observed checkout: task/WORKFLOW-004-bounded-coordination-policy from clean current
-main 240e750 (fetched origin/main matches). Coordinator codex:97333d35 owns shared
-state/schema/build/CI/guidance and publication. No worker is assigned yet. Authored source ed6cd80; tooling72/project495 pass.
+Checkout task/WORKFLOW-004-bounded-coordination-policy, base/current main240e750.
+Coordinator codex:97333d35 owns shared records/schema/build/CI/guidance/publication.
+PR125: https://github.com/Kernol12/subathon-bot-ai/pull/125 (draft, watched).
 
-Active: WORKFLOW-004 contract/decomposition. Packet: the bounded-coordination-v2
-contract and WORKFLOW-004–007/CI-002 briefs, with task navigation.
-Existing full Claude initial → Codex corrections/separate verification → fresh
-Claude closing applies. The proposed results-only path activates only after
-WORKFLOW-006's reviewed tooling/guidance merges; no historical gate is waived.
+WORKFLOW004 initial Claude Opus5.5 review completed in T3 workflow004-initial-contract-
+review-v1 (native reported a15aa9d9). One blocker WF004-I-B1 + advisories A1–A4:
+https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6836944207
+Author corrections designate WORKFLOW006 as sole digest owner, bind closure eligibility,
+land non-record practices here, source-bind required checks and allowlist retry signatures.
+CI002 is independent of this PR, depends only CI001, so a reviewed setup repair can land
+before policy publication if needed. No runner/schema/policy implementation started.
 
-Next: validate authored contract/planning metadata, publish draft PR, request
-independent initial Claude contract review, then corrections/verification/closing.
-After normal merge, claim WORKFLOW-005 from refreshed main. Later scopes/dependencies
-are in progress/state.json and linked briefs, not implied implementation permission.
+CI ea38065 translation failed before package acquisition/tests: unsupported APT layout,
+runner20261111.127.1; rejected field unlogged, advertised image source ref unavailable.
+https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6836870771
+No blind retry/guard relaxation. New reviewed corrections get ordinary new-head CI.
 
-Live observation: PR124 merged as 240e750 on 2026-11-12T20:57:46Z, head782b117;
-publication reconciled from saved live observation in this metadata update. Preserve all
-APITEST-016 source/review/supplemental evidence and historical not_run values.
-PR121 is the separate blocked draft; park it without branch maintenance or watches.
-Raw historical evidence stays private under ignored local-evidence/APITEST-016/.
+Next: commit corrected contract/source packet, record its revision, push/link PR125;
+request independent Codex verification, then fresh Claude closing. Current existing full
+review cycle applies; results-only policy activates only after WORKFLOW006 merges.
+Non-record practices/private evidence guidance activates with reviewed WORKFLOW004 merge.
+PR124 publication reconciled to actual merge240e750; historical not_run records retained.
+PR121 stays parked. Raw historical evidence remains in ignored private storage.

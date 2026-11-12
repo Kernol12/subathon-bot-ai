@@ -13,6 +13,8 @@ Reuse selected existing seal/ELF primitives only after reviewing their boundary.
 Separate immutable approved execution data from approval records. The runner owns
 exact argv/env, bounded output/time, exclusive scratch, interruption, child ownership,
 actual wait result and honest cleanup/observations; workflow.py owns review grammar.
+Import WORKFLOW-006's canonical manifest digest function from tools/workflow.py;
+do not reimplement identity or define another approval-binding format.
 Unknown status/ownership never succeeds or triggers automatic retry. Independent
 expected result rules classify setup/fixture/product failures and named intended red.
 
