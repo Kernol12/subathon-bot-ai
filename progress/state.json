@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T07:21:38+00:00",
+  "updated_at": "2026-11-12T07:42:39+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -5378,12 +5378,13 @@
       "brief": "docs/tasks/EPIC-008/API-001.md",
       "summary": "Marshal requests onto the authoritative Qt queue and return correlated results without blocking the writer on network callbacks.",
       "notes": [
-        "Draft PR121 has six initial blockers. Author correction382ea9f compiles, addresses B2–B6/feasible advisories; independent verification pending. B1/APICONTRACT-004→APITEST-015 and fixed SDK lock/ordinary ingress bounds remain explicit. Full receipts in PR121. No host/admission/runtime success claimed; preserve all tests and release scope."
+        "PR121 host source5f36c44/9e71961 passes21 CI (compile-only). Coordinator startup fix70ea261 compiles; independent247ed347 approves CV1 within scope, retaining prior CV2/B2–B6 partials. Full stage still blocked by B1 and additive HTTP foundation/API016; source70 not yet integrated/pushed. Reports in PR121; no runtime/admission/closing/merge proof."
       ],
       "verification": {
         "implementation": "draft",
         "code_review": "failed",
-        "acceptance": "not_run"
+        "acceptance": "not_run",
+        "correction_review": "partial"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/121"
@@ -16635,11 +16636,12 @@
       "brief": "docs/tasks/EPIC-008/APICONTRACT-004.md",
       "summary": "Resolve isolated listener/HTTP baseline conflict with a separately admitted additive HTTP foundation, preserving historical native artifacts/assertions and full release scope.",
       "notes": [
-        "Initial Claude586e44ed found six blockers; paired readiness/topology/literals validated statically. Split APICONTRACT-005→APITEST-016→API-016 generic HTTP foundation, before host baseline and SESSION-011 account layer. Correct source/options/resource/scratch/supersession examples; no new capability or runtime proof. Separate verification/closing pending."
+        "Corrected listener contract integrates1a6fd10 with explicit APICONTRACT-005→APITEST-016→API-016 chain; historical API012 artifacts/all44 preserved, SESSION011 rebased without host cycle. Speculative ceilings removed; scratch/socket/source/supersession oracles corrected. Source11-doc packet awaits independent Codex verification then Claude closing. No runtime/SDK/HTTP support claim."
       ],
       "verification": {
         "contract_authored": "draft",
-        "contract_review": "failed"
+        "contract_review": "failed",
+        "correction_authored": "draft"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/122"
@@ -16655,7 +16657,7 @@
               "codex:coordinator-45e6fb8d",
               "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A620e9ec1-5851-47a5-9cde-5b36dd7d89c7"
             ],
-            "revision": "e71402b03615807a03591699dbee5e4d7b10b66c",
+            "revision": "38bf7dcf65fdb6126c3107eebb22eac961bcc157",
             "paths": [
               "docs/contracts/api-host-listeners-v1.md",
               "docs/contracts/api-host-lifecycle-boundary-v1.md",
@@ -16663,7 +16665,11 @@
               "docs/tasks/EPIC-008/API-001.md",
               "docs/tasks/EPIC-008/APITEST-015.md",
               "docs/tasks/EPIC-008/APICONTRACT-004.md",
-              "docs/tasks/EPIC-008.md"
+              "docs/tasks/EPIC-008.md",
+              "docs/contracts/account-ingress-v1.md",
+              "docs/tasks/EPIC-007/SESSION-011.md",
+              "docs/tasks/EPIC-008/APICONTRACT-005.md",
+              "docs/tasks/EPIC-008/API-016.md"
             ],
             "reviews": [
               {
