@@ -1013,7 +1013,18 @@ int main(int argc, char **argv) {
                         Rig::onRemoved, Rig::onDrained,
                         r.action == "null-read" ? nullptr : Rig::onRead}),
             "foundation.create.before_listeners_run");
+        if (r.wipeFails) {
+            error(bh::install_raw_hooks(*r.foundation, {nullptr, Rig::wipe, Rig::revoked}),
+                  bh::Error::invalid_config, "null raw hook owner");
+            error(bh::install_raw_hooks(*r.foundation, {&r, nullptr, Rig::revoked}),
+                  bh::Error::invalid_config, "null raw wipe hook");
+            error(bh::install_raw_hooks(*r.foundation, {&r, Rig::wipe, nullptr}),
+                  bh::Error::invalid_config, "null raw revoked hook");
+        }
         required(bh::install_raw_hooks(*r.foundation, {&r, Rig::wipe, Rig::revoked}), "raw hooks");
+        if (r.wipeFails)
+            error(bh::install_raw_hooks(*r.foundation, {&r, Rig::wipe, Rig::revoked}),
+                  bh::Error::invalid_state, "raw hooks install once");
         if (r.action == "owner-nonregression")
             r.clock->ns = 999999999;
         if (r.action == "pressure" || r.action == "output-expiry" || r.action == "gate-cancel" ||

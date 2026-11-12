@@ -784,7 +784,9 @@ class FoundationTests(unittest.TestCase):
             self.assertEqual(x["peers"],1)
             # Backlog connect can succeed; no extra native construction is promised.
             spare=p.connect(True);p.send(spare,b"G");p.delivered(spare);p.barrier()
-            self.assertEqual(p.inspect()["constructed"],x["constructed"])
+            y=p.inspect()
+            self.assertEqual(y["accept_attempts"],x["accept_attempts"])
+            self.assertLessEqual(y["constructed"],x["constructed"])
             self.assertFalse(any(e["event"]=="removed" and e.get("peer")==0 for e in p.events))
             if action=="facade-negative": p.command("facade-negative")
             p.command("foreign-release");self.assertEqual(p.wait("removed",peer=0)["native_retires"],1)
@@ -942,7 +944,18 @@ class FoundationTests(unittest.TestCase):
             p.command("post-close");p.eof(s);p.wait("removed");p.stop()
 
     def test_raw_wipe_hooks_quarantine(self):
-        p=self.child(action="wipe-failure");s=p.connect();p.send(s,F01);p.eof(s)
+        p=self.child(action="wipe-failure");s=p.connect();p.send(s,F01)
+        # The first required wipe may follow commit/release_raw. Already written
+        # bytes cannot be retracted; permit only a prefix of this one response.
+        wire=bytearray()
+        for _ in range(len(DIAG)+2):
+            s.settimeout(p.remaining())
+            try: data=s.recv(len(DIAG)+1-len(wire))
+            except ConnectionResetError: data=b""
+            if not data: break
+            wire.extend(data)
+            self.assertTrue(DIAG.startswith(wire),"PRODUCT: quarantine sent more than one response prefix")
+        else: self.fail("FIXTURE: quarantine EOF read bound; not intended red")
         x=p.inspect();self.assertGreater(x["fixture_wipes"],0)
         self.assertEqual(x["output_slots"],0);p.stop()
 
