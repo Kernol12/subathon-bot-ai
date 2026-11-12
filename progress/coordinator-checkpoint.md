@@ -7,26 +7,29 @@ release gates. No live provider/chat/payment effects; unknown behavior is not su
 Active task: APICONTRACT-005, branch task/APICONTRACT-005-http-foundation.
 Base main c9fd637; claim d5d19fc. Fresh author465fb408 completed initial e0d81ea,
 then correction8cc8b4f in T3-provided worktree t3-8d53d95e, now clean/inactive.
-Integrated corrected source: 464caad09ad9af6223738aa0c0fa60b6680d1e8c.
-Exactly six documentation paths; no header/test/SDK/source/build/CI edits.
-Stage authors remain coordinator45e6fb8d and author465fb408; coordinator owns
-shared metadata, build/CI/schema integration and PR. Bounded stage context is in state.
-
-Independent initial Claude80994274 requested CI005-B1–B6 and A1–A8 at source275f48a.
+Integrated R2 source464caad matched author8cc8b4f across six documentation paths.
+Independent Codex session01a1cf39 (/root/apicontract005_correction_verify) retained
+only CI005-B1 native Connection/control-block lifetime and CI005-B6 per-read
+observability; other scoped corrections and arithmetic hold.
+https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821007931
+Coordinator45e6fb8d authored R3 sourcecee1845c847389697bea0097e94685d721d213e5:
+SDK object/control-block disposal fences before IO join, synchronous bounded
+read samples, explicit void/move thread rules and an actual-node fixture hold.
+https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821098602
+Only the new foundation document changed in R3; same six-path stage packet.
+No header/test/SDK/source/build/CI edits or native/test execution. Requested
+reference reservation33101824 remains design arithmetic, not ABI/capacity/RSS proof.
+Stage authors stay coordinator45e6fb8d and author465fb408; former verifier authored
+none. Coordinator owns shared metadata/build/CI/schema/PR. Bounded context in state.
+Next: NEW independent Codex recheck of R3 and affected closure, then fresh Claude
+closing if no blockers. Do not edit packet source during active review.
+Initial Claude report and R2 author mapping remain preserved:
 https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6819640064
-Author R2 corrections are published, not independently approved:
 https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6820607309
-R2 specifies peer context/native retirement, finite handles/control arrays,
-post/ready/stop_drained/finish, SDK-only producers and first-party adapter,
-deterministic profile priorities and observable F01–13/F05P. Single W output
-slot gives reference requested reservation33101824; actual ABI/capacity/runtime
-and whole-process memory remain separate proof. All historical assertions remain.
-Next: DIFFERENT independent Codex verification, corrections/rechecks as needed,
-then fresh independent Claude closing before test authoring or implementation.
 
 Draft PR123: https://github.com/Kernol12/subathon-bot-ai/pull/123
-CI21 passed on f82b9aa after authenticated APT setup timeouts/retries; original
-failed attempts are preserved. That receipt cannot certify a later pushed head.
+CI21 verified SUCCESS on23c962b; earlier f82b9aa authenticated APT setup timeouts
+and retries remain preserved. Neither receipt certifies a later pushed head.
 https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6820052366
 PR123 stays watched/draft; current-head CI and protected gates remain mandatory.
 
