@@ -8,7 +8,7 @@ No live provider/chat/payment effects. Full specification v0.45 remains unchange
 
 Observed checkout: task/WORKFLOW-004-bounded-coordination-policy from clean current
 main 240e750 (fetched origin/main matches). Coordinator codex:97333d35 owns shared
-state/schema/build/CI/guidance and publication. No worker is assigned yet.
+state/schema/build/CI/guidance and publication. No worker is assigned yet. Authored source ed6cd80; tooling72/project495 pass.
 
 Active: WORKFLOW-004 contract/decomposition. Packet: the bounded-coordination-v2
 contract and WORKFLOW-004–007/CI-002 briefs, with task navigation.
@@ -22,7 +22,7 @@ After normal merge, claim WORKFLOW-005 from refreshed main. Later scopes/depende
 are in progress/state.json and linked briefs, not implied implementation permission.
 
 Live observation: PR124 merged as 240e750 on 2026-11-12T20:57:46Z, head782b117;
-reconcile saved publication during this authorized metadata update. Preserve all
+publication reconciled from saved live observation in this metadata update. Preserve all
 APITEST-016 source/review/supplemental evidence and historical not_run values.
 PR121 is the separate blocked draft; park it without branch maintenance or watches.
 Raw historical evidence stays private under ignored local-evidence/APITEST-016/.

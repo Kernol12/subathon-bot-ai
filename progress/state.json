@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T21:44:53+00:00",
+  "updated_at": "2026-11-12T21:46:11+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18466,12 +18466,14 @@
       "brief": "docs/tasks/WORKFLOW-004.md",
       "summary": "Define forward artifact-aware coordination and focused tasks for the owner-authorized workflow improvements.",
       "notes": [
-        "Owner authorized all seven workflow changes; product work remains stopped. Contract authoring only; existing review gates apply."
+        "Forward contract and four implementation briefs authored at ed6cd80. Existing tooling72 and project495 checks pass; independent full contract review/CI/publication pending. Product work remains stopped."
       ],
       "verification": {
         "claim": "passed",
-        "contract_authored": "draft",
-        "contract_review": "not_run"
+        "contract_authored": "passed",
+        "contract_review": "not_run",
+        "tooling": "passed",
+        "project": "passed"
       },
       "evidence": [],
       "review": null,
@@ -18479,7 +18481,24 @@
         "required_stages": [
           "contract"
         ],
-        "stages": {}
+        "stages": {
+          "contract": {
+            "authors": [
+              "codex:coordinator-97333d35"
+            ],
+            "revision": "ed6cd801369b455b50e2cd8b6417b3cebf278100",
+            "paths": [
+              "docs/contracts/bounded-coordination-v2.md",
+              "docs/tasks/WORKFLOW-004.md",
+              "docs/tasks/WORKFLOW-005.md",
+              "docs/tasks/WORKFLOW-006.md",
+              "docs/tasks/WORKFLOW-007.md",
+              "docs/tasks/CI-002.md",
+              "docs/tasks/README.md"
+            ],
+            "reviews": []
+          }
+        }
       }
     },
     {
