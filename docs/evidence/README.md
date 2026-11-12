@@ -353,7 +353,18 @@ Passive ELF/ABI and controlled identity evidence cover both consumers; Qt actual
 maps are pre-body only, with no observed Qt SQL runtime map. Native object lists
 are self-reports, and serving/stopped maps remain prospective. Earlier setup failures
 are preserved separately. This baseline implements no host, clock or readiness
-behavior; API-001 and actual session-clock binding remain unauthorized.
+behavior. API-001 and actual session-clock binding retain their separate
+implementation, admission and runtime gates.
+
+The [isolated internal listener contract #122](https://github.com/Kernol12/subathon-bot-ai/pull/122)
+closed independent Claude initial/Codex verification/Claude closing review at
+source `38bf7dc`. It defines two internal HTTP/native-WS listeners in one process,
+paired readiness and explicit bounded HTTP foundation prerequisites. The historical
+API-012 artifact, patch, pins and all44 compatibility methods remain preserved;
+a new successor needs its own contract/test/red/artifact/admission gates. This is
+document proof only: no header, test, SDK or runtime behavior changed. API-001 stays
+blocked on the foundation and revised baseline; kernel, load, host, auth/clock and
+full release proof remain separate. Current-head CI and publication are PR gates.
 
 ## Presentation and clients
 

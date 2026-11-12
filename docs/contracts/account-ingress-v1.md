@@ -26,7 +26,7 @@ This document introduces no public auth service or raw-public-head envelope.
 
 ## 1. Verified starting point and proposed correction
 
-Selected source remains Drogon 1.9.14
+Historical authenticated starting source is Drogon 1.9.14
 `3aae769cc405cf5abb9d477675c6430924f02c7c` and bundled Trantor 1.5.29
 `78e480f5e138acdc05f76c55a2716718cd846364`, as in
 [setup](../../tools/setup_drogon.py) and
@@ -43,10 +43,25 @@ The installed binary was NOT invoked or authenticated by this document.
 | Trantor [MsgBuffer.cc](https://github.com/an-tao/trantor/blob/78e480f5e138acdc05f76c55a2716718cd846364/trantor/utils/MsgBuffer.cc) grows/copies buffers; `readFd` uses an 8192-byte stack overflow buffer; retrieval resets indices/resizes without wiping. | Later semantic limits cannot bound earlier allocations or erase released copies. |
 | [TcpConnectionImpl.cc](https://github.com/an-tao/trantor/blob/78e480f5e138acdc05f76c55a2716718cd846364/trantor/net/inner/TcpConnectionImpl.cc) reads before its receive callback. [OpenSSLProvider.cc](https://github.com/an-tao/trantor/blob/78e480f5e138acdc05f76c55a2716718cd846364/trantor/net/inner/tlsprovider/OpenSSLProvider.cc) feeds a memory BIO and grows plaintext storage before event dispatch. | An `onMessage` size check alone is not a preallocation limit for either plain or TLS ingress. The TLS single-read constant is not a total bound. |
 
-The native correction belongs to [SESSION-011](../tasks/EPIC-007/SESSION-011.md),
-against these authenticated commits, with reviewed narrow patches, preserved
-licenses and a distinct patch/build/capture-ABI identity. Do not edit a shared
-cache or label a patched library as pristine1.9.14. The [accepted006 evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-006-handoff.md)
+Execution now requires the separately reviewed/admitted additive candidate4
+successor from [APICONTRACT-005](../tasks/EPIC-008/APICONTRACT-005.md) →
+[APITEST-016 / API-016](../tasks/EPIC-008/API-016.md), preserving the historical
+API-012 artifact/patch/pins and all44 methods unchanged. The table above remains
+pristine-source history, NOT the future execution selection. Generic per-listener
+pre-map sizing/request admission, fixed receive/suspension, output reservation
+and transient connection ownership belong to API-016 and its independent native
+fixture; that foundation has NO API-001 dependency. Both SESSIONTEST-011 and
+SESSION-011 depend on API-016. Native pre-Upgrade effects must be explicitly
+reviewed per listener against unchanged44 compatibility, never assumed isolated.
+
+The account-specific correction belongs to [SESSION-011](../tasks/EPIC-007/SESSION-011.md),
+explicitly REBASED onto that admitted successor with reviewed narrow patches,
+preserved licenses and a distinct patch/build/capture-ABI identity. It still owns
+every occurrence capture, raw-secret erasure and pre-log removal obligation below;
+API-016 supplies NONE of those account guarantees. All accepted account sizes,
+credential/framing policies, lease lifetimes and literal outcomes remain unchanged.
+Do not edit a shared cache or label a patched library as pristine1.9.14.
+The [accepted006 evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-006-handoff.md)
 also supplies the separately authenticated26-file Caddy/Go candidate proof and its
 corrected different review0990c608. Those are source/engineering facts, not loaded
 artifact admission. No new parser library or TLS/proxy runtime is selected here.
@@ -93,10 +108,12 @@ the original Cookie logger to run is still failure.
 One complete raw account request is active per connection. Do not accumulate raw
 leases in Drogon's request pool/pipeline vector or accept an unbounded response
 queue. Parse a later pipelined request only when its predecessor's raw scope has
-ended and API-001 admits further work; already-read later bytes stay in the bounded
-native receive owner. Keep-alive/read suspension, continuation and shutdown are
-011/API-001 lifecycle integration, not a new process/queue/runtime here. Unknown
-routes receive the owning bounded failure/close without granting a request-selected
+ended and API-016's transport admission gate permits it; API-001 additionally
+gates work when later composed with the host. Already-read later bytes stay
+unparsed in the bounded native receive owner. Generic keep-alive/read suspension,
+continuation and transport shutdown are API-016 foundation responsibilities,
+independently testable without API-001; SESSION-011 supplies account lease erasure
+on those paths. Unknown routes receive the owning bounded failure/close without granting a request-selected
 transport purpose. Other endpoint families retain their separately owned profiles.
 
 ## 3. Native framing, allocation and secret-copy bounds
@@ -142,15 +159,16 @@ enabling them. This does not invent a generic65536-byte login body limit.
 | One reference connection/request peak at these boundaries |65536 receive+8prefix+32768 field arena+16method+2048target+4096body=104472 bytes, plus exactly64 fixed records/lease facts. It is a conservative native capacity sum, not referenceHTTP's116992 semantic application-payload sum and not whole-process RSS. No additional full head/body copy or raw request clone. |
 | Transport preparation | Imported at-most16 borrowed views, fixed counters, supplier124-byte application scratch, one32-byte digest and one owned policy string<=4096. Preproject the complete policy result before copy/crypto; retain no raw token/header view in Qt work. Native crypto scratch remains separate. |
 
-The receive mode is a narrow011 correction using existing Trantor storage/read/channel
-ownership, not an upstream capability claimed from a setting. Its concrete patch
-must enforce the pre-read invariant even on coalesced input, EAGAIN, EOF, exceptions,
-read suspension/resumption and destruction; tests/source review must prove no path
-calls a growing/unwiped read helper. Suspend via the native connection's existing
-channel ownership under API-001 lifecycle integration; do not invent a second I/O
-loop or blocking thread. If actual implementation needs substantial reusable new
-receive/runtime machinery rather than this bounded adjustment, stop and split it
-with the integrator BEFORE code expansion.
+The generic receive mode is now an explicit API-016 prerequisite using existing
+Trantor storage/read/channel ownership, not an upstream setting or account-only
+011 correction. API-016 must enforce its capacity/pre-read invariant on coalesced
+input, EAGAIN, EOF, exceptions, suspension/resumption and destruction; its tests/
+source review prove no growing path. SESSION-011 additionally proves every account
+wipe/compaction obligation in the unchanged table, with no unwiped account path.
+Generic read suspension/admission uses the reviewed transport interface and fixture
+without an API-001 evidence dependency; no second I/O loop or blocking thread.
+The substantial generic foundation is already split; further expansion still
+requires integrator scope/review before code.
 
 When route header checks and the synchronous transport call have BOTH finished,
 wipe the token-bearing field arena and consumed receive ranges before release/reuse.

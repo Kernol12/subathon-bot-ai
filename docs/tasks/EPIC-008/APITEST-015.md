@@ -33,6 +33,25 @@ counts may increase only with declared exact registrations and preserved old
 methods; no count inflation substitutes for behavior. No fixture listener or
 alternative production transport.
 
+Use [listener proposal v1](../../contracts/api-host-listeners-v1.md) §§1–5:
+append `http_port`/bounded `scratch_parent`, preserve `port` for native WS, observe
+the actual combined endpoints/private child, and map HTTP stimuli as L04/L09/L13.
+Review the complete §6 supersession table, including role-aware refusals, IO0
+listen/accept, serialization/dispatcher-allocation limits, observer exceptions and
+signal gated quiescence. L06 seeds actual docroot/upload canaries; supervisor owns
+terminal residue cleanup. Prove the public reuse-mode probe bypass plus actual
+pre-listen SO_REUSEPORT=0/SO_REUSEADDR=1, no lock-file effects and both occupied-port
+exit1 oracles, retaining the static-destructor/process-terminal proof limit.
+L01–L13 are additional contract oracles, not registrations or executed results.
+Declare any increased method/row/child counts before test-stage review; preserve
+all old assertions. APICONTRACT-005 → APITEST-016 → API-016 owns concrete generic
+pre-retention/header/request/receive/output and transient-connection guarantees,
+including low-level L10–L12; APITEST-015 owns HOST composition and depends on API-016.
+APITEST-015 itself changes NO SDK. The historical API-012 artifact/patch/pins/all44
+methods stay immutable, but API-016 supplies a separately reviewed/admitted additive
+candidate4 successor, unchanged44 compatibility and fresh new-consumer admission.
+Failed setup or post-allocation checking is not a behavioral red/substitute.
+
 Authored tests/interfaces/fixtures/resources need the full independent Claude
 initial → Codex fixes/separate verification → Claude closing cycle BEFORE
 execution. Retain native new-consumer passive ELF/ABI/controlled load and runtime
