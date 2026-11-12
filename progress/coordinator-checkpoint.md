@@ -1,26 +1,30 @@
 # Coordinator checkpoint
 
-Owner requested the six WORKFLOW-003 improvements and a new PR, then stop.
-No product/API-001/clock/valuation implementation or next task is authorized.
-Branch: task/WORKFLOW-003-structured-coordination; base main f2a134e.
-PR: https://github.com/Kernol12/subathon-bot-ai/pull/120
-Task/contract: progress/state.json; docs/tasks/WORKFLOW-003.md.
+Owner clarified the previous "then stop" applied to the old agent. The current
+coordinator is authorized to execute the standing full-product loop under
+AGENTS.md and docs/COORDINATOR_PROMPT.md, retaining all review/release gates.
+No live provider/chat/payment side effects are authorized.
 
-Contract/tests d5c7ce4 independently closed after Claude initial/Codex corrections
-and separate verification/Claude closing. Actual reviewed red:12 methods,96 assertion
-failures,0 errors/skips (6804940905). Premature hosted1d8 execution retained separately
-as process exception6804508390. Frozen test SHA2569c413aba and all old assertions intact.
+Checkout: task/API-001-host-lifecycle, base main
+bd99912ec6e0168a6c4af3047885bedbc6c92e6d. Main matches GitHub; checkout was clean.
+Live startup verification: PR120 merged normally, all21 final-head checks passed;
+no open PRs or active task claims. Rules require PR/discussion resolution, with
+zero required human approvals and no configured required-status-check rule.
+Historical worktrees are detached and clean; do not infer running assignments.
 
-Implementation6c971d2 independently closed by Claude514cb273 after Codex verification
-6805462380. Permission preservation and standing-loop regressions corrected; source,
-docs/developer schema/CI reviewed together. Actual71 tooling/scaffold3/project485/122/
-render/DOM pass;19 CI bodies/pins unchanged except concurrency/scaffold trigger.
-PR118/119 publication and notes reconciled; only those historical task fields changed.
+Current task: API-001; docs/tasks/EPIC-008/API-001.md and bounded progress context.
+Specification v0.45; api-host-lifecycle-v1, native-websocket-profile-v1 and
+api-host-lifecycle-boundary-v1 contracts. Inherit the unchanged APITEST-001
+source/test baseline8fa8810 and observed-red dd0f625, with all prior approvals
+and limitations in https://github.com/Kernol12/subathon-bot-ai/pull/112.
 
-Artifact status is done; publication is a separate saved open observation. Hosted
-results and live PR head/publication must be inspected in PR120, not inferred from
-this checkpoint or a snapshot's not_run CI field. No active author assignments remain.
-The final routine bookkeeping packet receives independent consistency review before
-push; current-head CI/schema validation precede ready handoff. Keep actual outcomes
-in PR receipts rather than creating a self-referential completion-commit loop.
-Next owner-facing step: review PR120. Preserve the bounded stop; do not start a task.
+Coordinator45e6fb8d owns progress/HTML/checkpoint, root build/dependency/CI/shared
+schema integration. Fresh implementation session will own server host/adapters;
+preserve tests, existing native profile/source/patch and all baseline assertions.
+No downstream session-clock/login/auth/restore/provider behavior is included.
+Pending: implementation assignment, independent initial Claude/Codex verification/
+closing Claude review, relevant real acceptance/regressions and protected PR gates.
+
+PR120's committed open publication is historical. Record its verified merge in
+this authorized task metadata change; retain pre-push not_run evidence unchanged.
+No API-001 PR exists yet. Continue the standing loop after this task's gates.
