@@ -24,10 +24,13 @@ accepted login, recovery record or durable timer is defined here.
 
 The [isolated internal listeners proposal](api-host-listeners-v1.md)
 (APICONTRACT-004) specifies ordinary HTTP and native WS endpoints within this
-ONE host lifetime, combined actual readiness and the explicit ordinary-ingress
-prerequisite. It supersedes the consumer baseline's same-port assumption only;
-all authority, source, finalization, clock, resource and HL01–17 oracles here
-remain unchanged. Its contract/baseline/implementation approvals are separate.
+ONE host lifetime and combined actual readiness. Its §6 supersession table also
+qualifies native-versus-ordinary buffer ownership and Linux listen/accept threads,
+adds role-aware HTTP refusals/private scratch, separately charged serialization,
+endpoint-observer failure and gated signal quiescence, and assigns the independent
+API-016 foundation/account rebase. Authority, source finalization, generation,
+clock, bridge charges and HL01–17 remain binding; these amendments and later
+baseline/implementation support need separate approval.
 
 ## 1. Owners, lifetime and state
 
@@ -212,9 +215,11 @@ termination policy remains separate from this suspend-excluding profile.
 
 Before taking ownership, reserve association and cumulative payload/response
 capacity, including every actual retained copy and its declared overhead. Check
-whole lengths before copy/parse/materialization. Network receive/parser/output
-buffers use the separate native profile; these bridge numbers alone do not cap
-them. No unbounded lambda capture, pending-completion list, response callback or
+whole lengths before copy/parse/materialization. Native frame/control buffers use
+the separate native profile; ordinary HTTP uses the API-016 foundation under the
+listener contract, including explicit native pre-Upgrade compatibility review.
+These bridge numbers alone cap neither. No unbounded lambda capture,
+pending-completion list, response callback or
 unaccounted retry queue may escape the budgets. Release each reservation exactly
 once on every terminal path. Fixed control/error reserves must still permit a
 bounded refusal when ordinary response capacity is exhausted; otherwise close

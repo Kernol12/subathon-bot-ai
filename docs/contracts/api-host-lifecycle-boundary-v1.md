@@ -26,12 +26,13 @@ composition, startup/current-source production and downstream clock holds.
 APITEST-001 supplies only their independently reviewed executable baseline.
 
 APICONTRACT-004's [isolated internal listeners proposal](api-host-listeners-v1.md)
-replaces the single internal HTTP/WS endpoint assumption only, subject to its own
-review. It defines the minimal dual-port declaration/actual endpoint observation,
-combined readiness, explicit HTTP allowlist, additional ordinary-ingress resource
-prerequisite and APITEST-015's precise endpoint-selection correction. All original
-HL01–17, 75 Qt selectors/18 native methods, assertions and historical receipts
-remain; no header/test/SDK/runtime support follows from that document.
+enumerates its complete amendments in §6: dual endpoints/actual readiness,
+ordinary versus native buffer ownership, Linux IO0 listen/accept, role-aware HTTP
+refusals and bounded private scratch, separate serialization charge, Qt endpoint-
+observer failure and gated signal quiescence. API-016 supplies the independent
+generic foundation before APITEST-015's host baseline revision; SESSION-011 rebases
+its account layer onto it. All HL01–17, 75 Qt selectors/18 native methods,
+assertions and historical receipts remain; document approval supplies no runtime.
 
 ## 1. Actual sources, ordinary activation and forward restore obligation
 
@@ -349,11 +350,11 @@ Q may inject fake transport through the same `Transport` boundary.
 Exactly one process main thread constructs/runs `QCoreApplication`; that SAME Qt
 thread owns Host, dispatcher, authoritative queue, writer/SQL, current-source and
 execution/publication lifetimes through destruction. A distinct owned framework
-main thread configures and runs the single `drogon::app().run()` lifetime and its
-main-loop accept/listen work; select exactly ONE Drogon IO thread for this baseline.
-That IO loop owns established peer sockets/parsers, callbacks, handoff, Close and
-force-close; any framework-main-loop accept/partial connection resources retain
-their own loop ownership and are included in the network barrier. Qt never calls
+main thread configures/runs the single `drogon::app().run()` lifetime, constructs
+bound sockets and coordinates startup; select exactly ONE Drogon IO thread.
+On selected Linux, that IO0 performs actual listen/accept and owns peer sockets/
+parsers, callbacks, handoff, Close and force-close. Any framework-main-loop startup
+resources retain their own loop ownership and network barrier. Qt never calls
 socket teardown directly. IO/main-loop callbacks enqueue bounded ingress/events;
 Qt never waits for a response or executes domain work on those threads. Actual
 listener readiness uses corrected beginning/listener observations, not a timer.
@@ -376,7 +377,12 @@ and quiesce ALL in-flight handlers before closing/reusing descriptors. A volatil
 `sig_atomic_t` alone does not synchronize different threads; blocking signals only
 on the teardown thread does not quiesce a handler on another thread. Every atomic
 operation used by the handler must be async-signal-safe and proven lock-free on the
-selected target, including any handler-lifetime accounting. This clarifies the
+selected target. Require a handler-entry gate and in-flight counter: entry counts
+before borrowing a wake descriptor, a closed gate prevents new borrows, and
+teardown waits for every permitted borrower to leave before closing/reusing it.
+Keep handler state valid through late entries. A separately reviewed equally safe
+mechanism may replace gate/counter; masking one thread or sampling zero once
+cannot establish quiescence. This clarifies the
 existing safety requirement exposed by API-001 review B5, not a new signal API.
 Repeated signals cannot reset first-stop/drain/Close deadlines. Stop before/during
 startup follows the same fence.
@@ -485,7 +491,11 @@ Before test AUTHORING, select these concrete accounting quantities:
 | Correlation / other variable data | One inline correlation in the association slot, borrowed by pinned execution/response records through their terminal barrier; any retained duplicate needs another charged slot. Other variable data uses the capacity/copy ledger; no uncharged string/lambda copy. |
 | Refusal/control fallback | One preallocated1024-byte bridge control slot per admitted peer, at most128 peers (131072), respecting the unchanged CommonFailure bound; otherwise close without allocating a reply. Native control/output buffers retain their separate native-profile budgets. |
 
-Reserve slots, capacity AND metadata BEFORE allocating/copying; capacity growth
+These reservations cover host-owned retention/copies. The frozen dispatcher API
+returns an already allocated OwnedReply/OwnedDomainResult; its trusted bounded-
+result precondition/source review remains, without an allocator enforcement hook.
+Host admission cannot retroactively guarantee that caller's preallocation.
+Reserve slots, capacity AND metadata BEFORE host allocation/copying; capacity growth
 requires reservation of the full replacement while the old buffer remains alive.
 An allocator requiring extra usable capacity must secure that charge before
 retention or refuse. Bridge reference charges total
