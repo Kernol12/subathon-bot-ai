@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T11:30:31+00:00",
+  "updated_at": "2026-11-12T12:04:48+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -17014,7 +17014,7 @@
       "module": "Server/API",
       "kind": "test_baseline",
       "status": "in_progress",
-      "owner": "codex:coordinator-45e6fb8d; fresh T3 Codex baseline author",
+      "owner": "codex:coordinator-45e6fb8d; T3 baseline author/native01a1cf7b",
       "depends_on": [
         "APICONTRACT-005",
         "API-012",
@@ -17031,14 +17031,16 @@
       "brief": "docs/tasks/EPIC-008/API-016.md",
       "summary": "Author and independently review literal generic HTTP producer tests and observe meaningful red before the bounded transport foundation implementation.",
       "notes": [
-        "Claimed from merged main3d3be7a after APICONTRACT005 publication reconciliation. Approved sourcecee1845 and six closing advisories govern authored literals, finite real-stack fixture and NI-only old-SDK stubs. Fresh isolated author owns new baseline paths; coordinator owns shared build/CI/admission/metadata. Full test review precedes execution; no tests, SDK admission or runtime result claimed."
+        "Authored NI-only/real-stack packet10a6d06c integrated locally; coordinator CMake/F13 retry-bound corrections yield sourcee2d2428:31selectors/93wire/112splits,max279children. Private fault-coverage gaps are explicit initial-review items. No test import/body/SDK load/build/admission/red; source remains unpublished pending full independent tests-stage cycle."
       ],
       "verification": {
         "claim": "passed",
-        "test_authored": "not_run",
+        "test_authored": "draft",
         "test_review": "not_run",
         "artifact_admission": "not_run",
-        "baseline": "not_run"
+        "baseline": "not_run",
+        "static_inventory": "passed",
+        "build_integration": "draft"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196"
@@ -17048,7 +17050,28 @@
         "required_stages": [
           "tests"
         ],
-        "stages": {}
+        "stages": {
+          "tests": {
+            "authors": [
+              "codex:coordinator-45e6fb8d",
+              "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-baseline-author-20261112-v1"
+            ],
+            "revision": "e2d24280231c0fb49a27d18037cdc9495d01a566",
+            "paths": [
+              "server/include/subathon/server/bounded_http.hpp",
+              "server/include/subathon/server/testing/bounded_http_observers.hpp",
+              "server/src/bounded_http.cpp",
+              "tests/bounded_http_foundation/CMakeLists.txt",
+              "tests/bounded_http_foundation/RESOURCE_REVIEW.md",
+              "tests/bounded_http_foundation/bounded_http_probe.cpp",
+              "tests/bounded_http_foundation/inventory.json",
+              "tests/bounded_http_foundation/test_bounded_http.py",
+              "cmake/AcceptanceSuites.cmake",
+              "tests/CMakeLists.txt"
+            ],
+            "reviews": []
+          }
+        }
       }
     },
     {
@@ -19049,6 +19072,11 @@
       "date": "2026-11-12T11:30:31+00:00",
       "task": "API-001",
       "note": "Routine main3d merge into draftPR121 published7a9aeb6 after independent Codex01a1cf80 consistency approval; source/header/tests/SDK/task record/partial approvals/histories preserved. Live conflict-free, CI17success4running in saved observation. Root returned APITEST016 claim; isolated author untouched, no runtime/whole-stage approval."
+    },
+    {
+      "date": "2026-11-12T12:04:48+00:00",
+      "task": "APITEST-016",
+      "note": "Fresh isolated author01a1cf7b/T3apitest016 handed off10a6d06c (static/syntax only). Root integrated8newfiles, added2sharedCMake paths and corrected F13 retry8→3; ten-path sourcee2d2428, max279children/9546s. Initial independent Claude test/fixture/stub/source-resource review pending; no execution/red/ABI claim or publish."
     }
   ],
   "workflow_policy": {
