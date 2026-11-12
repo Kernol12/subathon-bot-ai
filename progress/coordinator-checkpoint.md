@@ -1,7 +1,7 @@
 # Coordinator checkpoint
 
 LATEST OWNER: "Finish the current task and then stop."
-Only APITEST-016 publication/protected merge remains. Then STOP; API-016 and all
+Only APITEST-016 CI metadata compatibility/publication/protected merge remains. Then STOP; API-016 and all
 new tasks stay UNCLAIMED. No provider/chat/payment side effects. Preserve fullv0.45.
 
 Checkout task/APITEST-016-http-foundation-baseline, base/main3d3be7a, claim1c67425.
@@ -64,3 +64,20 @@ All3actual authors/review histories/120-task legacy policy intact; README-only e
 All7integrations/3FX/EnglishGerman/LightDarkSystem/separate native-browser renderers/
 full desktop editor/Linuxserver/WinLinuxclients/account/UTC/TLS/provider/OBS/
 deployment/platform/security/performance/full-release gates remain. STOP after PR124.
+
+CURRENT CI9b20c35: two schema jobs FAIL because extended receipt fields were not
+allowed by strict progress schema; native build FAIL before compilation at runner
+APT-layout guard. No acceptance/setup bypass and no baseline rerun. Other source
+checks are separate; inspect fresh new-head CI after fix, all21 required by workflow.
+CI compatibility correction (metadata only, awaiting independent routine review):
+ENTIRE former rich workflow is preserved byte-value/deep-equal at task-local
+supplemental_workflow_evidence.complete_workflow, with canonical digest. This is
+AUTHORITATIVE for exact artifact tuples/full reviews/nested identity+baseline gates.
+Standard task.workflow now projects ONLY existing schema-permitted required_stages,
+stages/authors/revision/paths/reviews and11 standard review fields. No schema/tool/
+test/source change, evidence loss, outcome/gate waiver. All closed review tuples,
+history/authors/STOP remain. Generic CLI still cannot waive detailed nested gates.
+Old full-schema field paths in historical reports describe the reviewed-time record.
+Compatibility receipt and original CI logs preserved privately publication/
+ci-9b20c35-failures/. Next routine independent metadata preservation review, then
+new safe fast-forward push/current-head CI. API016 remains unclaimed.
