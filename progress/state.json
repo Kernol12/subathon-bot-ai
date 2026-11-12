@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-11T19:45:30+00:00",
+  "updated_at": "2026-11-12T06:33:52+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -5077,7 +5077,9 @@
         "API-013",
         "APICONTRACT-003",
         "APITEST-014",
-        "API-014"
+        "API-014",
+        "APICONTRACT-004",
+        "APITEST-015"
       ],
       "spec_refs": [
         "§2",
@@ -5351,8 +5353,8 @@
       "title": "Production Qt and Drogon lifecycle bridge",
       "module": "Server/API",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "blocked",
+      "owner": "codex:coordinator-45e6fb8d",
       "depends_on": [
         "SPIKE-001",
         "BOOT-003",
@@ -5361,7 +5363,9 @@
         "APICONTRACT-001",
         "API-012",
         "STORAGE-020",
-        "SESSIONCONTRACT-004"
+        "SESSIONCONTRACT-004",
+        "APICONTRACT-004",
+        "APITEST-015"
       ],
       "spec_refs": [
         "§2",
@@ -5370,10 +5374,16 @@
       "brief": "docs/tasks/EPIC-008/API-001.md",
       "summary": "Marshal requests onto the authoritative Qt queue and return correlated results without blocking the writer on network callbacks.",
       "notes": [
-        "Production host lifecycle waits for the explicit lifecycle/native profile contract and reviewed corrected WS dependency. Preserve persistent multi-message WS, real peer/server Close, bounded startup/shutdown/backpressure/cancellation and actual invocation/publication/readiness source ownership. Stock spike is not reuse approval; H1 SESSION-011 refuses Upgrade. Concrete tests/red/implementation/platform gates remain."
+        "API-001 authored in draft PR121; initial Claude found B1–B6. B1 splits APICONTRACT-004→APITEST-015 before two-listener implementation. Same-process HTTP/WS/full release scope and all old assertions retained. Independent source corrections continue only in isolated author checkout; no host/admission/runtime success claimed. Complete branch-specific review receipts remain in PR121; integrate after prerequisites."
       ],
-      "verification": {},
-      "evidence": [],
+      "verification": {
+        "implementation": "draft",
+        "code_review": "failed",
+        "acceptance": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/121"
+      ],
       "review": null
     },
     {
@@ -16589,13 +16599,75 @@
         }
       },
       "publication": {
-        "state": "open",
+        "state": "merged",
         "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/120",
-        "head": "1d8f1ffb4a1039c9e439c042a5914e71af3f5237",
-        "merge_commit": null,
-        "merged_at": null,
-        "observed_at": "2026-11-11T19:20:08+00:00"
+        "head": "5dd18f3bf115869295d861e6914b812cc968676e",
+        "merge_commit": "bd99912ec6e0168a6c4af3047885bedbc6c92e6d",
+        "merged_at": "2026-11-11T19:58:54Z",
+        "observed_at": "2026-11-12T06:33:52+00:00"
       }
+    },
+    {
+      "id": "APICONTRACT-004",
+      "title": "Isolated HTTP and native WebSocket host listener contract",
+      "module": "Server/API",
+      "kind": "contract",
+      "status": "in_progress",
+      "owner": "codex:coordinator-45e6fb8d; fresh contract author pending",
+      "depends_on": [
+        "APICONTRACT-001",
+        "APITEST-001",
+        "API-012"
+      ],
+      "spec_refs": [
+        "§2",
+        "SERVER-01",
+        "API-01",
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/EPIC-008/APICONTRACT-004.md",
+      "summary": "Resolve the reviewed HTTP/native-listener baseline conflict without changing the selected SDK, weakening assertions or reducing release scope.",
+      "notes": [
+        "Claimed from current main bd99912. Draft isolated ordinary-HTTP/native-WS topology and exact baseline amendment contract only; preserve full v0.45 scope/API-012/all assertions. Independent contract review gates pending. Coordinator owns shared task/build/CI/progress integration."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null,
+      "workflow": {
+        "required_stages": [
+          "contract"
+        ],
+        "stages": {}
+      }
+    },
+    {
+      "id": "APITEST-015",
+      "title": "Review and demonstrate red: corrected dual-listener host baseline",
+      "module": "Server/API",
+      "kind": "test_baseline",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "APICONTRACT-004",
+        "APITEST-001",
+        "API-012"
+      ],
+      "spec_refs": [
+        "§2",
+        "SERVER-01",
+        "API-01",
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/EPIC-008/APITEST-015.md",
+      "summary": "Resolve the reviewed HTTP/native-listener baseline conflict without changing the selected SDK, weakening assertions or reducing release scope.",
+      "notes": [
+        "Explicit prerequisite exposed by API-001 initial review B1. Two internal listeners preserve HTTP/WS in one process; no implementation or revised baseline approval yet."
+      ],
+      "verification": {},
+      "evidence": [],
+      "review": null
     }
   ],
   "activity": [
@@ -18503,6 +18575,11 @@
       "date": "2026-11-11T19:41:58+00:00",
       "task": "WORKFLOW-003",
       "note": "Bounded workflow artifacts complete: contract/tests closed d5c7ce4 before actual12/96assertion red; fresh implementation6c971d2 independently closed after permission/standing-loop fixes.71 tooling/scaffold3/project485/122/DOM pass. Routine completion review then push/currenthead hosted CI; publication separate, no new product task."
+    },
+    {
+      "date": "2026-11-12T06:33:51+00:00",
+      "task": "APICONTRACT-004",
+      "note": "Claim dependency-ready listener-contract prerequisite from current main; API001 B1 conflicts with frozen native listener HTTP refusal. Two internal listeners preserve selected SDK/isolation and one-process HTTP/WS scope. No production/header/test edit in contract task."
     }
   ],
   "workflow_policy": {

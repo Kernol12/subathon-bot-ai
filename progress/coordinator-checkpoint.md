@@ -1,26 +1,35 @@
 # Coordinator checkpoint
 
-Owner requested the six WORKFLOW-003 improvements and a new PR, then stop.
-No product/API-001/clock/valuation implementation or next task is authorized.
-Branch: task/WORKFLOW-003-structured-coordination; base main f2a134e.
-PR: https://github.com/Kernol12/subathon-bot-ai/pull/120
-Task/contract: progress/state.json; docs/tasks/WORKFLOW-003.md.
+Owner superseded the old agent stop and authorized standing full-product execution.
+All AGENTS/workflow review/release/side-effect gates remain. No live provider effects.
 
-Contract/tests d5c7ce4 independently closed after Claude initial/Codex corrections
-and separate verification/Claude closing. Actual reviewed red:12 methods,96 assertion
-failures,0 errors/skips (6804940905). Premature hosted1d8 execution retained separately
-as process exception6804508390. Frozen test SHA2569c413aba and all old assertions intact.
+API-001 branch task/API-001-host-lifecycle, base main bd99912. Draft PR121:
+https://github.com/Kernol12/subathon-bot-ai/pull/121
+Source b4e758d (author c2c341f), all21 checks passed at df5d703; host CI is compile-only.
+Initial Claude Opus5.5 ccfeeca9 review CHANGES_REQUIRED, six blockers, full report:
+https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6816497937
+Keep valid startup/transaction/completion/elapsed foundations and all original tests.
+No host or runtime-admission body has run. PR remains draft; never merge yet.
 
-Implementation6c971d2 independently closed by Claude514cb273 after Codex verification
-6805462380. Permission preservation and standing-loop regressions corrected; source,
-docs/developer schema/CI reviewed together. Actual71 tooling/scaffold3/project485/122/
-render/DOM pass;19 CI bodies/pins unchanged except concurrency/scaffold trigger.
-PR118/119 publication and notes reconciled; only those historical task fields changed.
+B1 is explicit SDK/native-listener versus HTTP same-port baseline contradiction.
+Coordinator chooses two INTERNAL ordinary HTTP/native WS listeners in ONE process,
+one framework lifetime and ONE IO loop, preserving frozen API-012 isolation/all44.
+Specification has no single-internal-listener requirement; public proxy origin remains
+unchanged release scope. Split substantial prerequisite APICONTRACT-004 contract →
+APITEST-015 reviewed baseline/red before API-001 implements the new topology.
+API-001 is blocked on these tasks; no assertion removal/weakening is authorized.
 
-Artifact status is done; publication is a separate saved open observation. Hosted
-results and live PR head/publication must be inspected in PR120, not inferred from
-this checkpoint or a snapshot's not_run CI field. No active author assignments remain.
-The final routine bookkeeping packet receives independent consistency review before
-push; current-head CI/schema validation precede ready handoff. Keep actual outcomes
-in PR receipts rather than creating a self-referential completion-commit loop.
-Next owner-facing step: review PR120. Preserve the bounded stop; do not start a task.
+Original Codex author0cefc308 correction turn runs in T3-provided worktree
+/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-87783467, branch t3/api-host-lifecycle,
+base c2c341f; owns only five server implementation files. Correct B2–B6 and feasible
+A1–A10, leave B1 explicit. No header/test/SDK/native-body changes authorized there.
+<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A0cefc308-4a40-4358-9f5a-0c9bb7c87b1e>
+Coordinator owns shared state/HTML/checkpoint/build/schema/CI/PR integration.
+Current task APICONTRACT-004 claimed on task/APICONTRACT-004-host-listeners,
+base current main bd99912. Coordinator45e6fb8d owns shared metadata; fresh
+contract author will own docs/contracts/api-host-listeners-v1.md and narrow
+affected-contract/brief amendments. No header/test/production edits here. Author
+bounded listener contract and follow separate initial/verification/closing review.
+PR121 remains watched; preserve source review cycle until future coherent corrections.
+PR120 merged/reconciled; inherited tests8fa8810/red dd0f625 and seven reports retained:
+https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6815972014
