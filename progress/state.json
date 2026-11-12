@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T07:25:53+00:00",
+  "updated_at": "2026-11-12T07:54:07+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -5378,7 +5378,7 @@
       "brief": "docs/tasks/EPIC-008/API-001.md",
       "summary": "Marshal requests onto the authoritative Qt queue and return correlated results without blocking the writer on network callbacks.",
       "notes": [
-        "Integrated author382ea9f and coordinator9e71961 source fixes; both consumers compile, no bodies run. Codex verified direct B2–B6 but found CV1/CV2; coordinator quarantines uncertain writer ownership and retains IO stop timer. New verification pending. B1 needs reviewed listener baseline and additive HTTP foundation API-016; no runtime/admission/provider/UTC proof. PR121 stays draft."
+        "Startup fix70ea261 integrated; both consumers compiled identical source. Codex247ed347 approves CV1 within scope; CV2/B2–B6 partial approvals retained. Structured full-stage verification stays changes_requested because report explicitly retains B1; no whole-stage approval is claimed. B1/foundation/API016, coherent closing, fresh admission/runtime and protected gates remain."
       ],
       "verification": {
         "inherited_test_review": "passed",
@@ -5386,13 +5386,20 @@
         "implementation": "draft",
         "acceptance": "not_run",
         "native_build": "passed",
-        "code_review": "failed"
+        "code_review": "failed",
+        "correction_review": "partial"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/121",
         "https://github.com/Kernol12/subathon-bot-ai/pull/112"
       ],
-      "review": null,
+      "review": {
+        "author": "Codex0cefc308 and coordinator45e6fb8d",
+        "reviewer": "Independent Claudeccfeeca9 and Codex7f2c4530/c5f60e7e/247ed347",
+        "outcome": "changes_requested",
+        "revision": "70ea261 CV1 scoped approval retained; CV2/direct B2–B6 partials stand. Full packet still blocked by original B1; structured outcome describes that full-stage disposition, not denial of the scoped approval.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6817779009"
+      },
       "workflow": {
         "required_stages": [
           "tests",
@@ -5580,7 +5587,7 @@
               "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A0cefc308-4a40-4358-9f5a-0c9bb7c87b1e",
               "codex:coordinator-45e6fb8d"
             ],
-            "revision": "5f36c445d421ee60c2c92e28b03df39444fb7cd3",
+            "revision": "fea1378da3b348fde2eff270cd8880f312a13ad0",
             "paths": [
               "server/src/api_host.cpp",
               "server/src/api_host_drogon.cpp",
@@ -5646,6 +5653,44 @@
                 ],
                 "started_at": "2026-11-12T07:03:24.769Z",
                 "finished_at": "2026-11-12T07:12:24.027Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Ac5f60e7e-12d3-426a-8265-b9b2304e3118",
+                "revision": "9e71961b5bd5841cb1bcab36e0f8b75358840008",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6817658440",
+                "findings": [
+                  "7f2c4530:CV1",
+                  "7f2c4530:CV2",
+                  "ccfeeca9:B1"
+                ],
+                "blocking_findings": [
+                  "7f2c4530:CV1",
+                  "ccfeeca9:B1"
+                ],
+                "started_at": "2026-11-12T07:28:02.802Z",
+                "finished_at": "2026-11-12T07:32:34.429Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A247ed347-23d6-4407-b676-fca6d6f04134",
+                "revision": "70ea26150f41b15ad34386fef37e5e436c071095",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6817779009",
+                "findings": [
+                  "7f2c4530:CV1",
+                  "ccfeeca9:B1"
+                ],
+                "blocking_findings": [
+                  "ccfeeca9:B1"
+                ],
+                "started_at": "2026-11-12T07:37:32.588Z",
+                "finished_at": "2026-11-12T07:40:19.621Z"
               }
             ]
           }
