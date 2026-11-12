@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T20:48:56+00:00",
+  "updated_at": "2026-11-12T21:44:53+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -17390,12 +17390,12 @@
         }
       },
       "publication": {
-        "state": "open",
+        "state": "merged",
         "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/124",
-        "head": "9b20c35a493ff91a6e07bcd2423917e49e52f954",
-        "merge_commit": null,
-        "merged_at": null,
-        "observed_at": "2026-11-12T20:39:53+00:00"
+        "head": "782b117440d4e28da0a332df7bbbf1414412c953",
+        "merge_commit": "240e750b5c6d2c9325ade1718f7089534b960aa9",
+        "merged_at": "2026-11-12T20:57:46Z",
+        "observed_at": "2026-11-12T21:44:53+00:00"
       },
       "supplemental_workflow_evidence": {
         "format": "APITEST-016 complete supplemental receipt record; task-level data permitted by unchanged schema",
@@ -18447,6 +18447,156 @@
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196"
       ],
+      "review": null
+    },
+    {
+      "id": "WORKFLOW-004",
+      "title": "Bounded coordination policy and focused implementation plan",
+      "module": "Quality and tooling",
+      "kind": "contract",
+      "status": "in_progress",
+      "owner": "codex:coordinator-97333d35",
+      "depends_on": [
+        "WORKFLOW-003"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/WORKFLOW-004.md",
+      "summary": "Define forward artifact-aware coordination and focused tasks for the owner-authorized workflow improvements.",
+      "notes": [
+        "Owner authorized all seven workflow changes; product work remains stopped. Contract authoring only; existing review gates apply."
+      ],
+      "verification": {
+        "claim": "passed",
+        "contract_authored": "draft",
+        "contract_review": "not_run"
+      },
+      "evidence": [],
+      "review": null,
+      "workflow": {
+        "required_stages": [
+          "contract"
+        ],
+        "stages": {}
+      }
+    },
+    {
+      "id": "WORKFLOW-005",
+      "title": "Compact context and publication preflight",
+      "module": "Quality and tooling",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "WORKFLOW-004"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/WORKFLOW-005.md",
+      "summary": "Select bounded stage handoffs and check actual schemas, reviewed paths and outgoing private-path history before publication.",
+      "notes": [
+        "Owner-authorized workflow program; detailed contract/test review and fresh implementation remain required. No product work resumed."
+      ],
+      "verification": {
+        "contract_review": "not_run",
+        "test_review": "not_run",
+        "baseline": "not_run",
+        "implementation": "not_run",
+        "acceptance": "not_run"
+      },
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "WORKFLOW-006",
+      "title": "Artifact-aware approval and results-only records",
+      "module": "Quality and tooling",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "WORKFLOW-005"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/WORKFLOW-006.md",
+      "summary": "Unify source/admission/results records, enforce artifact currency and activate the explicitly eligible forward results-review policy.",
+      "notes": [
+        "Owner-authorized workflow program; detailed contract/test review and fresh implementation remain required. No product work resumed."
+      ],
+      "verification": {
+        "contract_review": "not_run",
+        "test_review": "not_run",
+        "baseline": "not_run",
+        "implementation": "not_run",
+        "acceptance": "not_run"
+      },
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "WORKFLOW-007",
+      "title": "Reusable bounded synthetic execution runner",
+      "module": "Quality and tooling",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "WORKFLOW-006"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/WORKFLOW-007.md",
+      "summary": "Maintain shared process supervision and manifest-bound execution without task-specific review parsers or historical baseline reruns.",
+      "notes": [
+        "Owner-authorized workflow program; detailed contract/test review and fresh implementation remain required. No product work resumed."
+      ],
+      "verification": {
+        "contract_review": "not_run",
+        "test_review": "not_run",
+        "baseline": "not_run",
+        "implementation": "not_run",
+        "acceptance": "not_run"
+      },
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CI-002",
+      "title": "Actionable acquisition diagnostics and enforced merge checks",
+      "module": "Quality and tooling",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "WORKFLOW-004",
+        "CI-001"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/CI-002.md",
+      "summary": "Diagnose refused runner layouts, bound attributable infrastructure retries and enforce existing required-check merge policy.",
+      "notes": [
+        "Owner-authorized workflow program; detailed contract/test review and fresh implementation remain required. No product work resumed."
+      ],
+      "verification": {
+        "contract_review": "not_run",
+        "test_review": "not_run",
+        "baseline": "not_run",
+        "implementation": "not_run",
+        "acceptance": "not_run"
+      },
+      "evidence": [],
       "review": null
     }
   ],
@@ -20555,6 +20705,11 @@
       "date": "2026-11-12T20:48:56+00:00",
       "task": "APITEST-016",
       "note": "Independent nativeCodex01a1d17f gpt-6.1-sol/xhigh APPROVED routine receipt-schema preservation atcbe059f,0findings/escalation. Full original workflow SHA5d60b640 and standard projection4064f30a independently reproduced; all source/tuples/policy/489other tasks unchanged, no schema/test/tool edits. Only sanitized PUBLIC5616B/SHA5dc7fa94 posted; PRIVATE5877B/SHAd5252c84 retained. New receipt recorded OUTSIDE immutable full record/strict workflow. Actual standards-suite/current-headCI/protected merge pending; no baseline rerun/new task."
+    },
+    {
+      "date": "2026-11-12T21:41:46+00:00",
+      "task": "WORKFLOW-004",
+      "note": "Owner authorized the investigated workflow changes. Claim contract/decomposition from main240e750; continue only WORKFLOW004-007/CI002 through protected gates, then stop. Product tasks remain stopped; historical evidence is unchanged."
     }
   ],
   "workflow_policy": {

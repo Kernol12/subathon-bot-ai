@@ -158,3 +158,12 @@ remains bounded by the current owner instruction.
 [WORKFLOW-003 — Structured coordination and publication](WORKFLOW-003.md) adds
 forward review records, derived stage handoffs/metrics and saved-PR reconciliation
 while preserving historical evidence and the existing review cycle.
+
+The owner-authorized bounded coordination program starts with
+[WORKFLOW-004 — Forward policy and task split](WORKFLOW-004.md), followed by
+[WORKFLOW-005 — Compact context/publication checks](WORKFLOW-005.md),
+[WORKFLOW-006 — Artifact-aware records](WORKFLOW-006.md),
+[WORKFLOW-007 — Reusable execution runner](WORKFLOW-007.md), and
+[CI-002 — Setup diagnostics/merge enforcement](CI-002.md).
+The forward policy activates with reviewed tooling; existing product work stays
+stopped. Consult state and the latest checkpoint for actual gates and authorization.
