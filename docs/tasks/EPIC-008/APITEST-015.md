@@ -33,6 +33,16 @@ counts may increase only with declared exact registrations and preserved old
 methods; no count inflation substitutes for behavior. No fixture listener or
 alternative production transport.
 
+Use [listener proposal v1](../../contracts/api-host-listeners-v1.md) §§1–5:
+append `http_port`, preserve `port` for native WS, observe the actual combined
+endpoint pair, and map the original HTTP stimuli exactly as L04/L09/L13 require.
+L01–L13 are additional contract oracles, not registrations or executed results.
+Declare any increased method/row/child counts before test-stage review; preserve
+all old assertions. The §4 ordinary HTTP/framework resource prerequisite remains
+explicit: later advice cannot satisfy pre-retention header/batch/raw/output bounds.
+Coordinator must split/resolve that source conflict; no SDK change, failed setup
+or post-allocation size check is an approved substitute.
+
 Authored tests/interfaces/fixtures/resources need the full independent Claude
 initial → Codex fixes/separate verification → Claude closing cycle BEFORE
 execution. Retain native new-consumer passive ELF/ABI/controlled load and runtime

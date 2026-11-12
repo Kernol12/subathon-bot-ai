@@ -22,6 +22,13 @@ base-main blobs are `11eeb5f422a174e042143df6b476ae1d717eeacf`,
 behavior and native connection buffers. No new endpoint, JSON schema, permission,
 accepted login, recovery record or durable timer is defined here.
 
+The [isolated internal listeners proposal](api-host-listeners-v1.md)
+(APICONTRACT-004) specifies ordinary HTTP and native WS endpoints within this
+ONE host lifetime, combined actual readiness and the explicit ordinary-ingress
+prerequisite. It supersedes the consumer baseline's same-port assumption only;
+all authority, source, finalization, clock, resource and HL01–17 oracles here
+remain unchanged. Its contract/baseline/implementation approvals are separate.
+
 ## 1. Owners, lifetime and state
 
 One process has one Qt application, one authoritative command/state queue, one

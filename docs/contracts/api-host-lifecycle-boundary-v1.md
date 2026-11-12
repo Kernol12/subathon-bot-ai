@@ -25,6 +25,14 @@ and [clock v1](session-clock-v1.md) unchanged. API-001 retains actual host
 composition, startup/current-source production and downstream clock holds.
 APITEST-001 supplies only their independently reviewed executable baseline.
 
+APICONTRACT-004's [isolated internal listeners proposal](api-host-listeners-v1.md)
+replaces the single internal HTTP/WS endpoint assumption only, subject to its own
+review. It defines the minimal dual-port declaration/actual endpoint observation,
+combined readiness, explicit HTTP allowlist, additional ordinary-ingress resource
+prerequisite and APITEST-015's precise endpoint-selection correction. All original
+HL01–17, 75 Qt selectors/18 native methods, assertions and historical receipts
+remain; no header/test/SDK/runtime support follows from that document.
+
 ## 1. Actual sources, ordinary activation and forward restore obligation
 
 Read at the source/correction bases above; observations are not executed results.
@@ -356,15 +364,22 @@ Production `StopSignalBridge` declaration/source are
 `server/include/subathon/server/api_host_signal.hpp` and
 `server/src/api_host_signal_linux.cpp`. Install it on the Qt main thread BEFORE
 creating framework/IO threads. Its SIGINT/SIGTERM handler only records a pending
-`sig_atomic_t` flag and wakes a preopened nonblocking close-on-exec pipe with
-async-signal-safe `write` (preserve errno; full pipe already supplies a wake).
+request in genuinely lock-free atomic state and wakes a preopened nonblocking
+close-on-exec pipe with async-signal-safe `write` (preserve errno; full pipe already
+supplies a wake).
 No Qt/Drogon/SQL, allocation, locking or `Host::request_stop()` runs in the handler.
 A Qt-owner notifier drains/consumes the pending request and calls `request_stop`.
 That method is thread-safe for ordinary callers, coalescing requests into at most
 one pending owner notification; it is NOT declared async-signal-safe. Keep handler
 state/descriptors valid through framework/IO exit; restore/block signal delivery
-and quiesce handlers before closing descriptors. Repeated signals cannot reset
-first-stop/drain/Close deadlines. Stop before/during startup follows the same fence.
+and quiesce ALL in-flight handlers before closing/reusing descriptors. A volatile
+`sig_atomic_t` alone does not synchronize different threads; blocking signals only
+on the teardown thread does not quiesce a handler on another thread. Every atomic
+operation used by the handler must be async-signal-safe and proven lock-free on the
+selected target, including any handler-lifetime accounting. This clarifies the
+existing safety requirement exposed by API-001 review B5, not a new signal API.
+Repeated signals cannot reset first-stop/drain/Close deadlines. Stop before/during
+startup follows the same fence.
 
 Production `make_linux_monotonic_elapsed` declaration/source are
 `server/include/subathon/server/api_host_elapsed.hpp` and
