@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T13:57:02+00:00",
+  "updated_at": "2026-11-12T14:10:08+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -17031,32 +17031,33 @@
       "brief": "docs/tasks/EPIC-008/API-016.md",
       "summary": "Author and independently review literal generic HTTP producer tests and observe meaningful red before the bounded transport foundation implementation.",
       "notes": [
-        "Codex01a1cffc addresses original8 blocker groups but requests native removal/retirement ordering and F08 gate fixture classification. Coordinator corrections e07e882 plus stale resource note await fresh Codex recheck/Claude closing.35 selectors/97rows/112splits/max290children/9920s unchanged; NI/source faults retain limits. No bodies/SDK loads/admission/red; source remains LOCAL."
+        "Codex01a1d00e approves sourcee07e882 with no blockers, retaining original and native-ordering/gate resolutions. Fresh independent Claude closing is next on identical13 paths.35selectors/97rows/112splits/max290children/9920s; no bodies/SDK loads/admission/red. Private faults remain source/ABI gates. Source stays LOCAL; task in_progress, no producer or release proof."
       ],
       "verification": {
         "claim": "passed",
         "test_authored": "passed",
-        "test_review": "failed",
+        "test_review": "partial",
         "artifact_admission": "not_run",
         "baseline": "not_run",
         "static_inventory": "passed",
         "build_integration": "draft",
         "correction_authored": "passed",
-        "correction_review": "failed"
+        "correction_review": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/124",
         "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196",
         "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6823972291",
         "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825124537",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825498368"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825498368",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825879370"
       ],
       "review": {
         "author": "Original T3 Codex baseline author/native01a1cf7b and coordinator45e6fb8d",
-        "reviewer": "Independent Claude initial; Codex01a1cffc-c997-7f02-9c5f-bcc9f3420365 verification",
-        "outcome": "changes_requested",
-        "revision": "Codex verification at d2b28b2 addresses originalB1–B8 at source-review scope, retaining two blockers: newV1 and originalA2 elevated for the F08 exception. Coordinator e07e882 corrects those plus new documentationA1; not independently verified. Fresh Codex recheck and Claude closing remain pending.",
-        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825498368"
+        "reviewer": "Claude initial; Codex01a1cffc verification; independent Codex01a1d00e recheck; fresh Claude closing pending",
+        "outcome": "pending",
+        "revision": "Independent Codex01a1d00e approves exact sourcee07e882 atHEAD6b3e104, no blockers. Retains initial original8 blocker resolutions plus V1/A2/resourceA1 corrections at source scope. Model gpt-6.1-sol/xhigh authenticated by exact-session SQLite agent_path/cwd. Mandatory fresh Claude closing on same source remains pending; no execution/admission/red.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825879370"
       },
       "workflow": {
         "required_stages": [
@@ -17147,6 +17148,17 @@
                   "01a1cffc:AT016-V1",
                   "f25c690c:AT016-A2"
                 ]
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:01a1d00e-68d8-7163-8d8f-2acb26478e88",
+                "revision": "e07e8827b9c913e7445eecb9b3d505b5b10e78ea",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825879370",
+                "findings": [],
+                "blocking_findings": []
               }
             ]
           }
@@ -19179,6 +19191,11 @@
       "date": "2026-11-12T13:57:02+00:00",
       "task": "APITEST-016",
       "note": "Published independent native Codex01a1cffc verification of d2b28b2: original8 blocker groups addressed at source scope, but V1 native ordering and originalA2 gate classification block; new resourceA1 advisory. Coordinator e07e882 makes bounded three-file corrections and preserves inventory/NI. Fresh independent recheck/Claude closing/admission/red pending; no bodies/source push."
+    },
+    {
+      "date": "2026-11-12T14:10:08+00:00",
+      "task": "APITEST-016",
+      "note": "Published exact final independent Codex01a1d00e approval of e07e882, checked against its completion record; exact-session metadata authenticates gpt-6.1-sol/xhigh and child identity distinct from inherited root. No blockers at tests-source scope; source unchanged, fresh Claude closing pending. No native duration invented, test execution/admission/red/source push."
     }
   ],
   "workflow_policy": {

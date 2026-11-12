@@ -11,7 +11,7 @@ returned8blockers/14advisories; f25c690c is a reported directory/finding namespa
 NOT a confirmed native-session identity. Actual T3/model/timing recorded in stage.
 https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6823972291
 Initial interfaces/NI/literal positives remain. Codex01a1cffc verifies original8
-blocker groups addressed atd2b28b2, but whole stage remains CHANGES_REQUIRED.
+blocker groups addressed atd2b28b2, then found V1/A2. That historical report stays.
 https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825498368
 No tests/SDK loads/admission/red have run. Private fault gaps received explicit
 source-review dispositions; never relabel those as executed fault coverage.
@@ -44,12 +44,17 @@ F08 explicitly requires gate unavailability be fixture failure. New advisoryA1
 is stale timeout prose. Coor sourcee07e882 corrects these in three owned files;
 retirement1/0 while SDK retained, no early removed even before actual reset,
 post-release retirement witness, gate errors exit90; resource note updated.
-These corrections are NOT independently verified. Source frozen at e07e882.
-Next planned task: fresh native /root/apitest016_native_ordering_recheck;
-no actual recheck session exists yet. Do not restart author or reuse reviewer.
+These corrections are now independently verified: fresh native recheck
+/root/apitest016_native_ordering_recheck APPROVED e07e882 atHEAD6b3e104, no blockers.
+Exact-session SQLite authenticates01a1d00e-68d8-7163-8d8f-2acb26478e88,
+gpt-6.1-sol/xhigh, correct agent_path/cwd; inherited rootSESSION_ID is distinct.
+https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825879370
+No duration invented. Source remains frozen at e07e882; no whole-stage closing yet.
+Next planned fresh T3 Claude closing client apitest016-closing-20261112-v1,
+claude-opus-5-5/xhigh, independent of author/initial/verifiers. No session yet.
 
-Next: DIFFERENT independent Codex recheck until no blockers, fresh Claude
-closing on the resulting same source. Only after complete tests review:
+Next: fresh independent Claude closing on SAME source e07e882 approved by latest
+Codex verification. Only after complete tests review:
 build/source-resource/passive ELF/ABI, controlled identity/load-map admission,
 genuine legacy positive and admitted first-NI red. No API016 implementation yet.
 All unexecuted downstream wire/F bodies remain unexecuted. No skips/WILL_FAIL or
@@ -65,6 +70,8 @@ Root correction receipt /tmp/apitest016-coordinator-initial-corrections.md;
 coherent integration /tmp/apitest016-coordinator-corrected-packet.md.
 Current corrections /tmp/apitest016-native-ordering-correction.md; previous
 verification /tmp/apitest016-correction-verification.md (all proof limits retained).
+Positive exact final /tmp/apitest016-native-ordering-recheck-published.md; separate
+written /tmp/apitest016-native-ordering-recheck.md preserved too.
 
 PR123 merged normally3d3be7a at2026-11-12T11:07:26Z from1c882a3; sourcecee1845
 contract closed independently, metadata approval/CI21/zero threads/live rules.
