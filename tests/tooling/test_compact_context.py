@@ -132,7 +132,8 @@ class CompactContextTests(unittest.TestCase):
     def success(self, result):
         code, stdout, stderr = result
         diagnostic = ("intended assertion red: COMPACT_CONTEXT_NOT_IMPLEMENTED"
-                      if code == 1 and "COMPACT_CONTEXT_NOT_IMPLEMENTED" in stderr
+                      if (code, stdout, stderr) ==
+                         (1, "", "Progress error: COMPACT_CONTEXT_NOT_IMPLEMENTED\n")
                       else "unexpected setup/interface failure is NOT intended red: " + stderr)
         self.assertEqual(code, 0, diagnostic)
         self.assertEqual(stderr, "")

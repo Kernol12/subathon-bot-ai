@@ -98,7 +98,7 @@ class PublicationSchemaIntegrationTests(unittest.TestCase):
             self.assertTrue(result.stderr.strip())
             self.assertNotIn(b"PUBLICATION_CHECK_NOT_IMPLEMENTED", result.stderr,
                              "NI cannot prove rejection by the actual validator")
-            self.assertIn(b"review", result.stderr)
+            self.assertIn(b"'review' is a required property", result.stderr)
 
     def test_empty_success_and_unavailable_schema_executables_never_pass(self):
         with tempfile.TemporaryDirectory() as directory:

@@ -37,7 +37,7 @@ class PublicationFixture:
         for name in sorted(paths - {"progress/state.json", "PROGRESS.html"}):
             source = SOURCE / name
             if not source.is_file():
-                raise AssertionError(f"Missing working-tree fixture source: {name}")
+                raise RuntimeError(f"Missing working-tree fixture source: {name}")
             target = self.root / name
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target, follow_symlinks=False)

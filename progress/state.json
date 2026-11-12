@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T23:01:04+00:00",
+  "updated_at": "2026-11-12T23:17:14+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18588,11 +18588,11 @@
       "brief": "docs/tasks/WORKFLOW-005.md",
       "summary": "Select bounded stage handoffs and check actual schemas, reviewed paths and outgoing private-path history before publication.",
       "notes": [
-        "Contract447aa06 closed; tests2558427 authored locally:26 methods, seven-path packet includes shared fixture/NI/schema registration. Syntax/whitespace only; all tests/NI branches unrun, unpublished. Full test review precedes named CLI red; fresh implementation follows."
+        "Contract447aa06 closed. Initial test review found1 blocker/4advisories; coordinator corrections authored: isolated HEAD identity, canonical path oracles, exact schema/NI attribution, setup errors, synthetic complete=true. Now27 methods, all unrun/unpublished. Verification/closing precede red."
       ],
       "verification": {
         "contract_review": "passed",
-        "test_review": "not_run",
+        "test_review": "blocked",
         "baseline": "not_run",
         "implementation": "not_run",
         "acceptance": "not_run",
@@ -18604,14 +18604,17 @@
         "schema_environment": "passed",
         "existing_schema": "passed",
         "test_authored": "passed",
-        "static_inventory": "passed"
+        "static_inventory": "passed",
+        "test_correction_authored": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837666194",
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837600121",
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837808015",
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837904218",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837843685"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837843685",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6838682443",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6838366502"
       ],
       "review": null,
       "workflow": {
@@ -18696,7 +18699,27 @@
               "tools/progress.py",
               "tests/schema_validation/CMakeLists.txt"
             ],
-            "reviews": []
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3A2344958a-02df-49a8-bd3e-16c17ddd9453%3Adelegate-task%3Aworkflow005-initial-test-review-v1",
+                "revision": "2558427c1da8c62b216df8d246688815eb341c2c",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6838682443",
+                "findings": [
+                  "WF005-TI-B1",
+                  "WF005-TI-A1",
+                  "WF005-TI-A2",
+                  "WF005-TI-A3",
+                  "WF005-TI-A4"
+                ],
+                "blocking_findings": [
+                  "WF005-TI-B1"
+                ]
+              }
+            ]
           }
         }
       }
@@ -20929,6 +20952,11 @@
       "date": "2026-11-12T23:01:04+00:00",
       "task": "WORKFLOW-005",
       "note": "Isolated Codex test author handed clean local4782f66; actual T3 provider/model/worktree observed. Six files integrated byte-identically as a08eaef, coordinator schema label registration completed packet2558427. AST inventory26, syntax/whitespace only. No new imports/tests/NI execution or publication; initial independent test review next."
+    },
+    {
+      "date": "2026-11-12T23:17:14+00:00",
+      "task": "WORKFLOW-005",
+      "note": "Preserved initial test report WF005-TI-B1/A1-A4. Coordinator corrected isolated checkout-commit equality (including identical trees), path/calling-convention oracles, precise schema/NI attribution, RuntimeError setup failure and added synthetic complete=true case.27 methods remain syntax-only/unrun/unpublished; no implementation."
     }
   ],
   "workflow_policy": {

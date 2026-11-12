@@ -73,7 +73,8 @@ class PublicationTests(unittest.TestCase):
     def success(self, result):
         code, stdout, stderr, children, git_calls = result
         diagnostic = ("intended assertion red: PUBLICATION_CHECK_NOT_IMPLEMENTED"
-                      if code == 1 and "PUBLICATION_CHECK_NOT_IMPLEMENTED" in stderr
+                      if (code, stdout, stderr) ==
+                         (1, "", "PUBLICATION_CHECK_NOT_IMPLEMENTED\n")
                       else "unexpected setup/interface failure is NOT intended red: " + stderr)
         self.assertEqual(code, 0, diagnostic)
         self.assertTrue(git_calls, "A mock host witness cannot replace Git verification")
@@ -119,6 +120,32 @@ class PublicationTests(unittest.TestCase):
             summary = self.success(self.invoke(fixture, fixture.arguments(base="HEAD")))
             self.assertEqual((summary["base"], summary["head"], summary["commit_count"]),
                              (fixture.head, fixture.head, 0))
+
+    def test_completed_synthetic_stage_reports_true_without_authentication(self):
+        with self.fixture() as fixture:
+            stage = fixture.task["workflow"]["stages"]["contract"]
+            # Deliberately synthetic receipts exercise recorded completeness only.
+            # They are never presented as actual reviewer approvals or authentication.
+            stage["reviews"] = [
+                {"phase": "initial", "provider": "claude", "model": "synthetic",
+                 "reviewer": "synthetic-initial", "revision": fixture.base,
+                 "outcome": "changes_requested", "evidence": "https://example.test/synthetic-initial",
+                 "findings": ["SYNTHETIC-B1"], "blocking_findings": ["SYNTHETIC-B1"]},
+                {"phase": "verification", "provider": "codex", "model": "synthetic",
+                 "reviewer": "synthetic-verification", "revision": fixture.base,
+                 "outcome": "approved", "evidence": "https://example.test/synthetic-verification",
+                 "findings": [], "blocking_findings": []},
+                {"phase": "closing", "provider": "claude", "model": "synthetic",
+                 "reviewer": "synthetic-closing", "revision": fixture.base,
+                 "outcome": "approved", "evidence": "https://example.test/synthetic-closing",
+                 "findings": [], "blocking_findings": []},
+            ]
+            fixture.save()
+            fixture.head = fixture.commit("Synthetic recorded closure; no actual approval claim")
+            summary = self.success(self.invoke(fixture))
+            self.assertEqual(summary["stages"], [
+                {"name": "contract", "revision": fixture.base, "path_count": 1, "complete": True}])
+            self.assertEqual(summary["limitations"][0], "Recorded bindings are not authenticated approvals.")
 
     def test_repeated_distinct_stages_preserve_cli_order_and_exclude_unselected_binding(self):
         with self.fixture() as fixture:
@@ -344,7 +371,13 @@ class PublicationTests(unittest.TestCase):
             fixture.write("side-only.txt")
             side = fixture.commit("Synthetic nonancestor")
             fixture.git("checkout", "fixture-main")
+            # base IS an ancestor of side, but side is not the checkout HEAD.
+            self.refusal(self.invoke(fixture, fixture.arguments(head=side)))
             self.refusal(self.invoke(fixture, fixture.arguments(base=side)))
+            # Pin commit equality even when both commits have the same complete tree.
+            alternative = fixture.commit("Synthetic alternate commit with identical tree")
+            fixture.git("checkout", "--detach", fixture.head)
+            self.refusal(self.invoke(fixture, fixture.arguments(head=alternative)))
 
     def test_required_arguments_unknown_duplicate_unstarted_stages_and_invalid_state(self):
         with self.fixture() as fixture:
@@ -373,6 +406,7 @@ class PublicationTests(unittest.TestCase):
             old_cwd = Path.cwd()
             try:
                 os.chdir(caller)
+                expected_interpreter = os.path.abspath("venv/bin/python")
                 result = self.invoke(fixture, fixture.arguments(schema_python="venv/bin/python"))
             finally:
                 os.chdir(old_cwd)
@@ -382,10 +416,10 @@ class PublicationTests(unittest.TestCase):
                     ("tools/progress.py", "tools/progress.py", "tools/check_project.py"),
                     (["validate"], ["render", "--check"], [])):
                 self.assertEqual(argv[:4], [os.path.abspath(sys.executable), "-E", "-s", "-B"])
-                self.assertEqual((fixture.root / argv[4]).resolve(), fixture.root / script)
+                self.assertEqual((fixture.root / argv[4]).resolve(), (fixture.root / script).resolve())
                 self.assertEqual(argv[5:], tail)
             argv = children[3]
-            self.assertEqual(argv[:5], [str(Path(caller) / "venv/bin/python"), "-I", "-S", "-B", "-c"])
+            self.assertEqual(argv[:5], [expected_interpreter, "-I", "-S", "-B", "-c"])
             self.assertEqual(len(argv), 7)
             self.assertTrue(argv[5].strip(), "The schema driver is an inline stdlib program")
             self.assertEqual(argv[6], "tests/schema_validation/test_project_schemas.py")
@@ -418,7 +452,9 @@ class PublicationTests(unittest.TestCase):
         with self.fixture() as fixture:
             with patch.object(progress, "validate", wraps=progress.validate) as validate:
                 self.success(self.invoke(fixture))
-            self.assertTrue(any(call.kwargs.get("root") == fixture.root for call in validate.call_args_list),
+            self.assertTrue(any((call.kwargs.get("root") if "root" in call.kwargs else
+                                 call.args[1] if len(call.args) > 1 else None) == fixture.root
+                                for call in validate.call_args_list),
                             "Default import-time root must not validate fixture bindings")
 
 
@@ -441,7 +477,7 @@ class PublicationRunnerTests(unittest.TestCase):
                                      (7, b"raw\xffstdout", b"raw\xfestderr"))
                     args, kwargs = run.call_args
                     self.assertEqual(args[0] if args else kwargs["args"], argv)
-                    self.assertEqual(kwargs["cwd"], root)
+                    self.assertEqual(Path(kwargs["cwd"]).resolve(), root.resolve())
                     expected_env = dict(ENV, GIT_OPTIONAL_LOCKS="0", GIT_LITERAL_PATHSPECS="1") if git else ENV
                     self.assertEqual(kwargs["env"], expected_env)
                     self.assertEqual(kwargs["timeout"], 120)
