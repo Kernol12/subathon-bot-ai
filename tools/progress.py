@@ -191,13 +191,15 @@ def is_available(task: dict, by_id: dict[str, dict], policy: dict | None = None)
             and all(workflow.dependency_complete(by_id[d], policy) for d in task["depends_on"]))
 
 
-def context(data: dict, task_id: str) -> dict:
+def context(data: dict, task_id: str, *, compact: bool = False) -> dict:
     """Derive a read-only task view from validated state."""
     tasks = data["tasks"]
     by_id = {t["id"]: t for t in tasks}
     if task_id not in by_id:
         raise ValueError(f"Unknown task: {task_id}")
     task = by_id[task_id]
+    if compact:
+        raise ValueError("COMPACT_CONTEXT_NOT_IMPLEMENTED")
     dependency_fields = ("id", "status", "owner", "brief", "evidence", "verification", "review")
     return {
         "specification_version": data["specification_version"],
@@ -274,6 +276,7 @@ def main() -> int:
     contextual = sub.add_parser("context")
     contextual.add_argument("task_id")
     contextual.add_argument("--stage", help="Derive one required stage's packet, gates and metrics")
+    contextual.add_argument("--compact", action="store_true", help="Select a compact task handoff")
     reconciling = sub.add_parser("reconcile")
     reconciling.add_argument("task_id")
     reconciling.add_argument("--pr-json", type=Path, required=True, help="Saved gh pr view observation")
@@ -292,6 +295,9 @@ def main() -> int:
             view = context(data, args.task_id)
             if args.stage is not None:
                 view["stage_context"] = workflow.stage_context(view["task"], args.stage)
+            if args.compact:
+                # Approved NI: preserve task/stage lookup before the named failure.
+                view = context(data, args.task_id, compact=True)
             print(json.dumps(view, indent=2, ensure_ascii=False))
             return 0
         if args.command == "reconcile":
