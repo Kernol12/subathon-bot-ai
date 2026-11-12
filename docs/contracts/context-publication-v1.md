@@ -109,7 +109,9 @@ runs ONLY RepositorySchemas.test_progress_schema_and_actual_state. Its existing
 setUpClass metadata admission must precede all candidate standards-library imports;
 the actual Draft202012Validator checks the shipped progress schema and current state.
 The driver requires exactly one test, zero failures/errors/skips and emits a fixed JSON
-witness with those counts. The parent requires both exit0 and that exact witness;
+witness with exactly these bytes (including one final LF):
+`{"tests":1,"failures":0,"errors":0,"skipped":0}`.
+The parent requires both exit0 and that exact witness;
 an absent interpreter, missing SDK, `/bin/true`, missing test, zero tests or skipped test
 cannot pass. It does not substitute a fake validator or add a new validation engine.
 The caller still owns host/interpreter trust; a JSON witness does not authenticate
