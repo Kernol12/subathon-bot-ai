@@ -12,6 +12,7 @@ See [backlog workflow and complete epic index](README.md).
 | --- | --- |
 | [APICONTRACT-001](EPIC-008/APICONTRACT-001.md) | Actual host lifecycle/current scope and native persistent WS profile contract |
 | `APITEST-012` → [API-012](EPIC-008/API-012.md) | Admitted native control/fragment/Close lifecycle prerequisite |
+| [APICONTRACT-005](EPIC-008/APICONTRACT-005.md) → `APITEST-016` → [API-016](EPIC-008/API-016.md) | Generic bounded HTTP SDK foundation, separate from account capture and host authority |
 | [APICONTRACT-004](EPIC-008/APICONTRACT-004.md) → [APITEST-015](EPIC-008/APITEST-015.md) | Resolve isolated native listener versus HTTP host baseline conflict before API-001 topology changes |
 | `APITEST-001` → [API-001](EPIC-008/API-001.md) | Production Qt and Drogon lifecycle bridge |
 | [APICONTRACT-002](EPIC-008/APICONTRACT-002.md) | Separate bounded authentication-continuation host extension contract |
