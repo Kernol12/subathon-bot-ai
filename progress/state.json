@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T20:48:56+00:00",
+  "updated_at": "2026-11-12T22:03:15+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -17390,12 +17390,12 @@
         }
       },
       "publication": {
-        "state": "open",
+        "state": "merged",
         "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/124",
-        "head": "9b20c35a493ff91a6e07bcd2423917e49e52f954",
-        "merge_commit": null,
-        "merged_at": null,
-        "observed_at": "2026-11-12T20:39:53+00:00"
+        "head": "782b117440d4e28da0a332df7bbbf1414412c953",
+        "merge_commit": "240e750b5c6d2c9325ade1718f7089534b960aa9",
+        "merged_at": "2026-11-12T20:57:46Z",
+        "observed_at": "2026-11-12T21:44:53+00:00"
       },
       "supplemental_workflow_evidence": {
         "format": "APITEST-016 complete supplemental receipt record; task-level data permitted by unchanged schema",
@@ -18447,6 +18447,244 @@
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196"
       ],
+      "review": null
+    },
+    {
+      "id": "WORKFLOW-004",
+      "title": "Bounded coordination policy and focused implementation plan",
+      "module": "Quality and tooling",
+      "kind": "contract",
+      "status": "done",
+      "owner": "codex:coordinator-97333d35",
+      "depends_on": [
+        "WORKFLOW-003"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/WORKFLOW-004.md",
+      "summary": "Define forward artifact-aware coordination and focused tasks for the owner-authorized workflow improvements.",
+      "notes": [
+        "Contract7a34855 independently closed; documentation/planning proof only. Tooling72/project495 and all21 hosted checks at e74a451 pass. Final-head CI/protected publication pending. Follow-ups C-A1/C-A2 retained in CI002/WORKFLOW005. Results policy waits for WORKFLOW006; product work stopped."
+      ],
+      "verification": {
+        "claim": "passed",
+        "contract_authored": "passed",
+        "contract_review": "passed",
+        "tooling": "passed",
+        "project": "passed",
+        "correction_authored": "passed",
+        "correction_review": "passed",
+        "github_ci": "passed",
+        "final_head_ci": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6836944207",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6837062788",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6837139865",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/125",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6837098850"
+      ],
+      "review": {
+        "author": "codex:coordinator-97333d35",
+        "reviewer": "Initial Claude workflow004-initial-contract-review-v1; independent Codex /root/workflow004_contract_verification; fresh Claude workflow004-closing-contract-review-v1",
+        "outcome": "approved",
+        "revision": "7a34855240ba3f5583068abe6b7e1d75a5b0b6d2",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6837139865"
+      },
+      "workflow": {
+        "required_stages": [
+          "contract"
+        ],
+        "stages": {
+          "contract": {
+            "authors": [
+              "codex:coordinator-97333d35"
+            ],
+            "revision": "7a34855240ba3f5583068abe6b7e1d75a5b0b6d2",
+            "paths": [
+              "docs/contracts/bounded-coordination-v2.md",
+              "docs/tasks/WORKFLOW-004.md",
+              "docs/tasks/WORKFLOW-005.md",
+              "docs/tasks/WORKFLOW-006.md",
+              "docs/tasks/WORKFLOW-007.md",
+              "docs/tasks/CI-002.md",
+              "docs/tasks/README.md",
+              "docs/AGENT_WORKFLOW.md"
+            ],
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3A2344958a-02df-49a8-bd3e-16c17ddd9453%3Adelegate-task%3Aworkflow004-initial-contract-review-v1",
+                "revision": "ed6cd801369b455b50e2cd8b6417b3cebf278100",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6836944207",
+                "findings": [
+                  "WF004-I-B1",
+                  "WF004-I-A1",
+                  "WF004-I-A2",
+                  "WF004-I-A3",
+                  "WF004-I-A4"
+                ],
+                "blocking_findings": [
+                  "WF004-I-B1"
+                ]
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:/root/workflow004_contract_verification",
+                "revision": "7a34855240ba3f5583068abe6b7e1d75a5b0b6d2",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6837062788",
+                "findings": [],
+                "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3A2344958a-02df-49a8-bd3e-16c17ddd9453%3Adelegate-task%3Aworkflow004-closing-contract-review-v1",
+                "revision": "7a34855240ba3f5583068abe6b7e1d75a5b0b6d2",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6837139865",
+                "findings": [
+                  "WF004-C-A1",
+                  "WF004-C-A2"
+                ],
+                "blocking_findings": []
+              }
+            ]
+          }
+        }
+      },
+      "publication": {
+        "state": "open",
+        "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/125",
+        "head": "e74a451d2a73dc3eee58446d792bab8706cf4f88",
+        "merge_commit": null,
+        "merged_at": null,
+        "observed_at": "2026-11-12T22:03:15+00:00"
+      }
+    },
+    {
+      "id": "WORKFLOW-005",
+      "title": "Compact context and publication preflight",
+      "module": "Quality and tooling",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "WORKFLOW-004"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/WORKFLOW-005.md",
+      "summary": "Select bounded stage handoffs and check actual schemas, reviewed paths and outgoing private-path history before publication.",
+      "notes": [
+        "Closing WF004-C-A2: clarify task README activation wording at next reviewed edit: record/results policy activates with WORKFLOW006; non-record guidance with WORKFLOW004. Preserve existing default context and old assertions."
+      ],
+      "verification": {
+        "contract_review": "not_run",
+        "test_review": "not_run",
+        "baseline": "not_run",
+        "implementation": "not_run",
+        "acceptance": "not_run"
+      },
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "WORKFLOW-006",
+      "title": "Artifact-aware approval and results-only records",
+      "module": "Quality and tooling",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "WORKFLOW-005"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/WORKFLOW-006.md",
+      "summary": "Unify source/admission/results records, enforce artifact currency and activate the explicitly eligible forward results-review policy.",
+      "notes": [
+        "Owner-authorized workflow program; detailed contract/test review and fresh implementation remain required. No product work resumed."
+      ],
+      "verification": {
+        "contract_review": "not_run",
+        "test_review": "not_run",
+        "baseline": "not_run",
+        "implementation": "not_run",
+        "acceptance": "not_run"
+      },
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "WORKFLOW-007",
+      "title": "Reusable bounded synthetic execution runner",
+      "module": "Quality and tooling",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "WORKFLOW-006"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/WORKFLOW-007.md",
+      "summary": "Maintain shared process supervision and manifest-bound execution without task-specific review parsers or historical baseline reruns.",
+      "notes": [
+        "Owner-authorized workflow program; detailed contract/test review and fresh implementation remain required. No product work resumed."
+      ],
+      "verification": {
+        "contract_review": "not_run",
+        "test_review": "not_run",
+        "baseline": "not_run",
+        "implementation": "not_run",
+        "acceptance": "not_run"
+      },
+      "evidence": [],
+      "review": null
+    },
+    {
+      "id": "CI-002",
+      "title": "Actionable acquisition diagnostics and enforced merge checks",
+      "module": "Quality and tooling",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "CI-001"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/CI-002.md",
+      "summary": "Diagnose refused runner layouts, bound attributable infrastructure retries and enforce existing required-check merge policy.",
+      "notes": [
+        "Closing WF004-C-A1: if standalone repair is needed before WORKFLOW004 merge, seed CI002 brief/planned record from source7a34855 byte-identically, then record legitimate claim updates and its own contract. Any differing approved packet path returns WORKFLOW004 to review."
+      ],
+      "verification": {
+        "contract_review": "not_run",
+        "test_review": "not_run",
+        "baseline": "not_run",
+        "implementation": "not_run",
+        "acceptance": "not_run"
+      },
+      "evidence": [],
       "review": null
     }
   ],
@@ -20555,6 +20793,21 @@
       "date": "2026-11-12T20:48:56+00:00",
       "task": "APITEST-016",
       "note": "Independent nativeCodex01a1d17f gpt-6.1-sol/xhigh APPROVED routine receipt-schema preservation atcbe059f,0findings/escalation. Full original workflow SHA5d60b640 and standard projection4064f30a independently reproduced; all source/tuples/policy/489other tasks unchanged, no schema/test/tool edits. Only sanitized PUBLIC5616B/SHA5dc7fa94 posted; PRIVATE5877B/SHAd5252c84 retained. New receipt recorded OUTSIDE immutable full record/strict workflow. Actual standards-suite/current-headCI/protected merge pending; no baseline rerun/new task."
+    },
+    {
+      "date": "2026-11-12T21:41:46+00:00",
+      "task": "WORKFLOW-004",
+      "note": "Owner authorized the investigated workflow changes. Claim contract/decomposition from main240e750; continue only WORKFLOW004-007/CI002 through protected gates, then stop. Product tasks remain stopped; historical evidence is unchanged."
+    },
+    {
+      "date": "2026-11-12T21:53:46+00:00",
+      "task": "WORKFLOW-004",
+      "note": "Preserved initial Claude WF004-I-B1/A1-A4 report. Author corrected single digest owner, currency recheck, practices activation, source-bound required-check inventory and retry allowlist. CI002 now depends only on CI001 to avoid failed setup blocking its own prerequisite policy publication. Existing full gates remain."
+    },
+    {
+      "date": "2026-11-12T22:03:15+00:00",
+      "task": "WORKFLOW-004",
+      "note": "Fresh independent Claude closing8073513d APPROVED source7a34855, no blockers. Actual T3 provider/model/session and distinct initial/closing identities observed. C-A1/C-A2 retained in CI002/WORKFLOW005; source unchanged. Artifact contract complete; final metadata-head CI and protected publication pending. No executable/product change."
     }
   ],
   "workflow_policy": {

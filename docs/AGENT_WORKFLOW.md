@@ -128,6 +128,11 @@ requirements/evidence changes still need their applicable independent review.
 
 ## Scope and sessions
 
+Before implementation, record each required dependency capability and its actual
+contract/source/observed support. A baseline that fails at an NI seam does not prove
+downstream compatibility. Resolve an unknown combination by bounded inspection or
+an explicit feasibility prerequisite, without adding a universal planning-review stage.
+
 Epics are planning containers. If a substantial architecture prerequisite emerges, split
 it into dependency-linked tasks and focused PRs before implementing the expansion. Preserve
 requirements and valid work; do not split every small fix or silently shrink scope.
@@ -153,6 +158,11 @@ weaken baseline assertions. If access or a gate is unavailable, leave the PR ope
 record the concrete blocker. Instructions alone do not configure branch protection.
 
 ## CI and concurrent work
+
+Park a blocked draft branch until its prerequisites are ready, suspend unnecessary
+watches, and integrate current main once before resuming. Urgent authorized security
+or correctness maintenance still proceeds. Shared progress remains coordinator-owned;
+avoid repeated branch refreshes solely to reconcile generated progress files.
 
 Assess CI coverage for each change and add workflows as executable modules, suites,
 builds or packaging land. Keep actions/dependencies pinned and permissions limited;
@@ -194,6 +204,17 @@ receipts, and do not put credentials or personal data in evidence.
 Default to fake connectors and disposable databases; automated tests must not trigger
 real chat/payment side effects. Keep live checks separate. Resolve routine issues within
 scope; record unresolved product choices and provider capabilities explicitly.
+
+Create raw evidence in ignored persistent private storage. Public receipts include
+only explicitly permitted fields, excluding raw local paths/environment/process maps.
+Inspect outgoing commits, not only the final tree: deletion does not remove private
+bytes from earlier commits. Path checks are not a complete secret scanner. Review
+public payloads and keep complete private evidence accessible to authorized reviewers.
+
+Lead review reports with the verdict and new findings; link detailed appendices rather
+than repeat unchanged history. Progress updates state changed facts, the current blocker
+and next action in plain language. Checkpoints contain current authorization, actual
+checkout, live assignments, blockers and next action with links, not copied receipts.
 
 ## Publication reconciliation and resumption
 

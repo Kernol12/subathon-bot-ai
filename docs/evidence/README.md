@@ -70,6 +70,16 @@ concurrency/trigger edits. PR118/119 publication is reconciled without inventing
 reviews or promoting historical unrun checks. Implementation review and current-head
 hosted outcomes are recorded in PR120; this is development tooling, not product proof.
 
+[WORKFLOW-004](../tasks/WORKFLOW-004.md) defines the reviewed forward coordination
+contract and focused implementation scopes. Claude initial/closing and separate Codex
+verification approve source `7a34855`; 72 existing tooling tests and project checks
+pass, and all 21 hosted checks pass at `e74a451`. Capability/branch/report and private
+evidence guidance lands here. Artifact-aware records, compact/publication commands,
+the reusable runner and CI changes remain owning implementation tasks; the narrower
+record/results policy activates only with reviewed WORKFLOW-006 tooling. Final-head
+publication gates and advisory follow-ups are recorded in
+[PR125](https://github.com/Kernol12/subathon-bot-ai/pull/125). No product work is resumed.
+
 ## Core time and exact arithmetic
 
 Reviewed native component suites pass for cap-limited credit (23 cases), exact decimal
