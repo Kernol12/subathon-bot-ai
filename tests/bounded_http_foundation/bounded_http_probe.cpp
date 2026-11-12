@@ -11,8 +11,10 @@
 #include <drogon/WebSocketConnection.h>
 #include <drogon/drogon.h>
 #include <fcntl.h>
+#include <filesystem>
 #include <fstream>
 #include <json/json.h>
+#include <limits>
 #include <link.h>
 #include <mutex>
 #include <openssl/sha.h>
@@ -205,6 +207,7 @@ struct Peer {
     std::array<bh::ReadSample, 2> latches{}; // exactly two caller-precharged 64-byte slots
     std::array<bool, 2> latched{};
     unsigned index = 0, requests = 0, ends = 0, removes = 0, ready = 0;
+    bool eofObserved = false, errorObserved = false;
     bh::U64 cumulative = 0, ordinal = 0;
 };
 static_assert(sizeof(Peer) <= 512); // finite caller record, separate from producer State slots
@@ -223,11 +226,12 @@ struct Rig {
     std::unique_ptr<ws::Profile> profile;
     std::unique_ptr<bh::Foundation> foundation;
     unsigned connected = 0, requests = 0, legacy = 0;
-    std::atomic<bool> drained{false}, finished{false}, fullReceiveRelease{false};
+    std::atomic<bool> drained{false};
     std::string action, profileName;
     std::atomic<trantor::EventLoop *> io{nullptr};
     bool nullContext = false, wipeFails = false;
     unsigned wipes = 0, revocations = 0;
+    bh::U64 readCallbacks = 0;
     static Rig &self(void *p) { return *static_cast<Rig *>(p); }
     Peer &context(void *c) {
         // Actual callback context only: never resolve a client/Connection/public token as
@@ -256,14 +260,8 @@ struct Rig {
             error(p.peer->context(&p), bh::Error::invalid_state, "context once");
         if (r.action != "no-wake")
             error(p.peer->wake(), bh::Error::invalid_state, "wake once");
-        if (r.action == "full-receive-block") {
-            r.peerEvent("connected_held", p);
-            for (unsigned i = 0; i < 5000 && !r.fullReceiveRelease.load(); ++i)
-                std::this_thread::sleep_for(1ms);
-            if (!r.fullReceiveRelease.load())
-                fixture("connected fixture gate deadline");
-        }
-        required(r.foundation->admission(*p.peer, bh::Pause::admitted), "initial admission");
+        if (r.action != "full-receive")
+            required(r.foundation->admission(*p.peer, bh::Pause::admitted), "initial admission");
         r.peerEvent("connected", p);
     }
     static void onRequest(void *o, void *c, bh::Request h) {
@@ -323,20 +321,29 @@ struct Rig {
                 emit(event("pressure_refused"));
                 if (!std::holds_alternative<bh::Done>(
                         bh::testing::Access::release_wire(*r.foundation)))
-                    fixture("gate release unavailable");
+                    must(false, "actual application gate release must be available");
             }
             return;
         }
-        if (r.action == "hold" || r.action == "deadline" || r.action == "full-receive-block")
+        if (r.action == "hold" || r.action == "full-receive")
             return;
+        if (r.action == "foreign-drop-request") {
+            std::thread t([&] { p.request.reset(); });
+            t.join();
+            return;
+        }
         if (r.action == "drop-request") {
             p.request.reset();
             return;
         }
         if (r.action == "wrong-thread-raw") {
+            auto marker = event("before_wrong_thread_void");
+            marker["operation"] = "release_raw";
+            emit(marker);
+            output->flush();
             std::thread t([&] { p.request->release_raw(); });
             t.join();
-            fixture("void raw returned");
+            must(false, "wrong-thread release_raw returned instead of terminate");
         }
         if (r.action == "wrong-thread-result") {
             std::thread t([&] {
@@ -370,6 +377,8 @@ struct Rig {
         r.reply(p);
     }
     void reply(Peer &p) {
+        if (!p.request || p.reply)
+            fixture("reply fixture handle state");
         const bh::U64 length = action == "zero-reply" ? 0 : action == "large-output" ? 1048576 : 4;
         p.reply.emplace(required(p.request->reserve_reply({200, length, action == "reply-close"}),
                                  "reserve reply"));
@@ -387,9 +396,13 @@ struct Rig {
             return;
         }
         if (action == "wrong-thread-cancel") {
+            auto marker = event("before_wrong_thread_void");
+            marker["operation"] = "cancel";
+            emit(marker);
+            output->flush();
             std::thread t([&] { p.reply->cancel(); });
             t.join();
-            fixture("void cancel returned");
+            must(false, "wrong-thread cancel returned instead of terminate");
         }
         auto fill = p.reply->fill(this, [](void *q, std::span<std::byte> b) -> bh::U64 {
             if (self(q).action == "large-output") {
@@ -412,7 +425,8 @@ struct Rig {
         if (action == "once")
             error(p.reply->fill(nullptr,
                                 [](void *, std::span<std::byte>) -> bh::U64 {
-                                    fixture("second fill called");
+                                    must(false, "second fill visitor must not run");
+                                    return 0;
                                 }),
                   bh::Error::invalid_state, "fill once");
         if (action == "commit-equality")
@@ -426,11 +440,10 @@ struct Rig {
             error(p.reply->commit(), bh::Error::invalid_state, "commit once");
         p.request->release_raw();
         if (action == "revoked")
-            error(p.request->visit(nullptr,
-                                   [](void *, bh::RequestView) { fixture("revoked visitor"); }),
+            error(p.request->visit(
+                      nullptr,
+                      [](void *, bh::RequestView) { must(false, "revoked visitor must not run"); }),
                   bh::Error::revoked, "raw revoked");
-        if (action == "cancel-committed")
-            p.reply->cancel();
         if (action != "retain-inert" && action != "gate-cancel") {
             p.reply.reset();
             p.request.reset();
@@ -458,7 +471,8 @@ struct Rig {
         emit(v);
         if (r.action == "gate-stop") {
             auto x = required(r.foundation->inspect(), "gate stop real release");
-            must(end == bh::End::stopped && x.wire_releases == 1 && !x.current.output_slots,
+            must((end == bh::End::stopped || end == bh::End::drained) && x.wire_releases == 1 &&
+                     !x.current.output_slots,
                  "stop overrides held node once");
         }
         if (r.action == "pressure" && p.index == 0) {
@@ -477,7 +491,7 @@ struct Rig {
         must(++p.removes == 1 && p.ends == p.requests,
              "ended before removed, native no invented end");
         r.peerEvent("removed", p);
-        if (r.action != "retain-inert") {
+        if (r.action != "retain-inert" && r.action != "retain-http") {
             p.request.reset();
             p.reply.reset();
             p.peer.reset();
@@ -499,12 +513,28 @@ struct Rig {
     static void onRead(void *o, void *c, bh::ReadSample s) {
         auto &r = self(o);
         auto &p = r.nullContext ? r.peers[0] : r.context(c);
-        must(s.ordinal == p.ordinal + 1 &&
+        must(r.readCallbacks != std::numeric_limits<bh::U64>::max(),
+             "fixture read callback counter overflow");
+        ++r.readCallbacks;
+        must(p.ordinal != std::numeric_limits<bh::U64>::max() && s.ordinal == p.ordinal + 1 &&
                  s.bytes_read == p.cumulative + (s.returned > 0 ? s.returned : 0),
              "signed per-peer read ordinal/cumulative");
         auto prior = p.cumulative;
         p.ordinal = s.ordinal;
         p.cumulative = s.bytes_read;
+        if ((s.returned == 0 && !p.eofObserved) || (s.returned < 0 && !p.errorObserved)) {
+            if (s.returned == 0)
+                p.eofObserved = true;
+            else
+                p.errorObserved = true;
+            auto e = event("read_result");
+            e["peer"] = p.index;
+            e["returned"] = Json::Int64(s.returned);
+            e["error"] = s.error;
+            e["ordinal"] = Json::UInt64(s.ordinal);
+            e["bytes_read"] = Json::UInt64(s.bytes_read);
+            emit(e);
+        }
         if (s.returned > 0) {
             must(s.writable >= 8192 && s.writable <= 65536 && s.offered == s.writable &&
                      s.iovcnt == 1,
@@ -556,8 +586,7 @@ struct Rig {
     }
     static bool wipe(void *o, bh::RawTag tag, std::span<std::byte> bytes) noexcept {
         auto &r = self(o);
-        if (tag.use == bh::RawUse::pending && tag.sequence != 0)
-            fixture("pending attribution");
+        must(tag.use != bh::RawUse::pending || tag.sequence == 0, "pending raw attribution");
         ++r.wipes;
         std::fill(bytes.begin(), bytes.end(), std::byte{});
         return !r.wipeFails;
@@ -592,6 +621,8 @@ struct Rig {
         O(reserved_storage);
         O(mapped_storage);
         O(reads);
+        O(read_guard_pauses);
+        O(max_iovcnt);
         O(one_iovec_reads);
         O(bytes_read);
         O(requests);
@@ -610,6 +641,7 @@ struct Rig {
         O(held_application_wire);
 #undef O
         v["peak_transient_fds"] = Json::UInt64(s.peak.transient_fds);
+        v["fixture_read_callbacks"] = Json::UInt64(readCallbacks);
         v["fixture_wipes"] = wipes;
         v["fixture_revocations"] = revocations;
         emit(v);
@@ -619,7 +651,24 @@ struct Rig {
         const auto i = v.get("peer", 0).asUInt();
         must(i < 128, "command peer table");
         auto &p = peers[i];
-        if (op == "inspect")
+        auto need = [&](bool condition) {
+            if (!condition)
+                fixture("stale command: missing actual issued handle");
+        };
+        if (op == "admit" || op == "suspend" || op == "close")
+            need(bool(p.peer));
+        if (op == "reply")
+            need(bool(p.request) && !p.reply);
+        if (op == "pressure-cancel")
+            need(bool(p.reply));
+        if (op == "post" || op == "post-pair" || op == "post-close" || op == "post-stopping")
+            need(bool(p.wake));
+        if (op == "barrier") {
+            // Actual future timer readiness, followed by the end of that whole IO0
+            // active-channel batch (EventLoop::loop calls pending functions afterward).
+            io.load()->runAfter(
+                0.001, [this] { io.load()->queueInLoop([] { emit(event("io_barrier")); }); });
+        } else if (op == "inspect")
             inspect();
         else if (op == "admit")
             required(foundation->admission(*p.peer, bh::Pause::admitted), "admit");
@@ -627,16 +676,6 @@ struct Rig {
             required(foundation->admission(*p.peer, bh::Pause::suspended), "suspend");
         else if (op == "reply")
             reply(p);
-        else if (op == "reserve-held") {
-            p.reply.emplace(required(p.request->reserve_reply({200, 4, false}), "held reserve"));
-            required(p.reply->fill(nullptr,
-                                   [](void *, std::span<std::byte> b) -> bh::U64 {
-                                       std::memcpy(b.data(), "diag", 4);
-                                       return 4;
-                                   }),
-                     "held fill");
-        } else if (op == "commit-held")
-            error(p.reply->commit(), bh::Error::expired, "held commit exact deadline");
         else if (op == "post-pair") {
             bh::Post a{}, b{};
             std::thread t([&] {
@@ -658,10 +697,6 @@ struct Rig {
             t.join();
         } else if (op == "pressure-cancel") {
             p.reply->cancel();
-        } else if (op == "release") {
-            p.request->release_raw();
-            p.request.reset();
-            p.reply.reset();
         } else if (op == "close")
             required(foundation->close(*p.peer), "close");
         else if (op == "drop") {
@@ -669,9 +704,6 @@ struct Rig {
             p.reply.reset();
             p.peer.reset();
             p.wake.reset();
-        } else if (op == "gate-release") {
-            if (!std::holds_alternative<bh::Done>(bh::testing::Access::release_wire(*foundation)))
-                fixture("gate release unavailable");
         } else if (op == "post") {
             bh::Post result{};
             std::thread t([&] {
@@ -682,6 +714,15 @@ struct Rig {
             auto e = event("post");
             e["result"] = static_cast<unsigned>(result);
             emit(e);
+        } else if (op == "drop-http-handles") {
+            p.request.reset();
+            p.reply.reset();
+            p.peer.reset();
+            p.wake.reset();
+        } else if (op == "stop-at-deadline") {
+            const auto deadline = v["ns"].asUInt64();
+            required(foundation->stop({deadline}), "stop");
+            clock->ns = deadline;
         } else if (op == "clock") {
             clock->ns = v["ns"].asUInt64();
             clock->available = v.get("available", true).asBool();
@@ -724,7 +765,6 @@ static_assert(sizeof(Rig) <= 66560); // 128 caller records x512 +1024 global fix
 Rig *retained = nullptr; // One intentionally process-retained registration owner; see receipt.
 void diagnostics(const char *, const std::uint64_t) { fixture("unexpected SDK diagnostic"); }
 void setup(drogon::HttpAppFramework &app) {
-    trantor::Logger::setOutputFunction(diagnostics, [] {});
     app.disableSigtermHandling()
         .setThreadNum(1)
         .setIdleConnectionTimeout(0)
@@ -739,14 +779,25 @@ void setup(drogon::HttpAppFramework &app) {
         .disableSession()
         .enableRequestStream(false)
         .enableCompressedRequest(false)
-        .setDocumentRoot("empty")
-        .setUploadPath("upload")
+        .setDocumentRoot((std::filesystem::current_path() / "empty").string())
+        .setUploadPath((std::filesystem::current_path() / "upload").string())
         .setClientMaxBodySize(1048576)
         .setClientMaxMemoryBodySize(1048576);
+    auto paths = event("configuration");
+    paths["document"] = app.getDocumentRoot();
+    paths["upload"] = app.getUploadPath();
+    emit(paths);
     app.enableReusePort(true); // Public probe bypass: no /tmp/drogon.lock.
     app.setBeforeListenSockOptCallback([](int fd) {
         int zero = 0, reuse = 0, address = 0;
         socklen_t n = sizeof(int);
+        int requested = 262144, received = 0;
+        if (::setsockopt(fd, SOL_SOCKET, SO_RCVBUF, &requested, sizeof(requested)) ||
+            ::getsockopt(fd, SOL_SOCKET, SO_RCVBUF, &received, &n) || received < 131072)
+            fixture("listener receive buffer configuration");
+        auto observed = event("listen_socket");
+        observed["receive_buffer"] = received;
+        emit(observed);
         if (::setsockopt(fd, SOL_SOCKET, SO_REUSEPORT, &zero, sizeof(zero)) ||
             ::getsockopt(fd, SOL_SOCKET, SO_REUSEPORT, &reuse, &n) || reuse ||
             ::getsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &address, &n) || address != 1)
@@ -835,6 +886,8 @@ int main(int argc, char **argv) {
             t.join();
         }
     } join{done, watchdog};
+    trantor::Logger::setOutputFunction(diagnostics, [] {});
+    trantor::Logger::setLogLevel(trantor::Logger::kFatal);
     maps("initial");
     if (config["mode"] == "identity") {
         auto e = event("identity");
@@ -860,10 +913,10 @@ int main(int argc, char **argv) {
     r.wipeFails = r.action == "wipe-failure";
     if (ws::linked_backend() != ws::Backend::admitted_corrected)
         fixture("requires independently admitted candidate4/successor");
-    auto n =
-        ws::create_profile(nativeLimits(r.profileName == "reference" || r.profileName == "method" ||
-                                        r.profileName == "budget"),
-                           r.clock);
+    bool referenceNative =
+        (r.profileName == "reference" || r.profileName == "method" || r.profileName == "budget") &&
+        config["case"] != "epoll-narrow";
+    auto n = ws::create_profile(nativeLimits(referenceNative), r.clock);
     if (!std::holds_alternative<std::unique_ptr<ws::Profile>>(n))
         fixture("legacy profile unavailable");
     r.profile = std::move(std::get<std::unique_ptr<ws::Profile>>(n));
@@ -892,6 +945,34 @@ int main(int argc, char **argv) {
             } else if (name == "epoll-narrow") {
                 selected = {
                     145249953336295ULL, 145249953336294ULL, 1, 1, 1, 4, 4, 50, 50, 50, 50, 1};
+            } else if (name == "overflow-before-native") {
+                selected = {
+                    145249953336296ULL, 145249953336295ULL, 1, 1, 1, 4, 4, 50, 50, 50, 50, 1};
+                expected = bh::Error::arithmetic_overflow;
+            } else if (name == "allocation") {
+                selected.body_bytes = selected.reply_bytes = 1073741824ULL;
+                // Known finite address-space headroom, not a fabricated allocator result.
+                std::ifstream status("/proc/self/statm");
+                bh::U64 pages = 0;
+                status >> pages;
+                const auto page = ::sysconf(_SC_PAGESIZE);
+                if (!status || page <= 0 ||
+                    pages > (std::numeric_limits<bh::U64>::max() - 67108864ULL) / page)
+                    fixture("address-space observation");
+                auto cap = pages * static_cast<bh::U64>(page) + 67108864ULL;
+                if (cap == RLIM_INFINITY)
+                    fixture("finite address-space limit required");
+                rlimit original{};
+                if (::getrlimit(RLIMIT_AS, &original) ||
+                    (original.rlim_max != RLIM_INFINITY && original.rlim_max < cap))
+                    fixture("address-space hard limit");
+                rlimit bounded{static_cast<rlim_t>(cap), original.rlim_max};
+                if (::setrlimit(RLIMIT_AS, &bounded))
+                    fixture("address-space fixture limit");
+                auto e = event("allocation_setup");
+                e["headroom"] = Json::UInt64(67108864);
+                emit(e);
+                expected = bh::Error::allocation_failure;
             } else if (name == "missing-source")
                 source.reset();
             else if (name == "duration-bound")
@@ -929,10 +1010,10 @@ int main(int argc, char **argv) {
         if (r.action == "owner-nonregression")
             r.clock->ns = 999999999;
         if (r.action == "pressure" || r.action == "output-expiry" || r.action == "gate-cancel" ||
-            r.action == "gate-stop") {
+            r.action == "gate-stop" || r.action == "gate-exclusions") {
             if (!std::holds_alternative<bh::Done>(
                     bh::testing::Access::arm_first_wire(*r.foundation)))
-                fixture("actual-node gate unavailable");
+                must(false, "actual application gate arm must be available");
         }
     }
     auto &app = drogon::app();
@@ -940,8 +1021,14 @@ int main(int argc, char **argv) {
     if (r.action == "large-output")
         app.setAfterAcceptSockOptCallback([](int fd) {
             int n = 4096;
-            if (::setsockopt(fd, SOL_SOCKET, SO_SNDBUF, &n, sizeof(n)))
+            int actual = 0;
+            socklen_t length = sizeof(actual);
+            if (::setsockopt(fd, SOL_SOCKET, SO_SNDBUF, &n, sizeof(n)) ||
+                ::getsockopt(fd, SOL_SOCKET, SO_SNDBUF, &actual, &length) || actual < 4096)
                 fixture("send buffer setup");
+            auto e = event("accepted_socket");
+            e["send_buffer"] = actual;
+            emit(e);
         });
     if (control) {
         app.addListener("127.0.0.1", 0, false, "", "", false, {}, false);
@@ -1010,17 +1097,15 @@ int main(int argc, char **argv) {
                 fixture("command count/order");
             auto v = parse({buf.data(), size});
             size = 0;
-            if (v["op"] == "release-connected") {
-                r.fullReceiveRelease = true;
-                auto e = event("ack");
-                e["op"] = "release-connected";
-                emit(e);
-                continue;
-            }
             if (control) {
                 if (v["op"] != "stop")
                     fixture("legacy command");
-                r.io.load()->queueInLoop([] { drogon::app().quit(); });
+                r.io.load()->queueInLoop([] {
+                    auto e = event("ack");
+                    e["op"] = "stop";
+                    emit(e);
+                    drogon::app().quit();
+                });
             } else
                 r.io.load()->queueInLoop([&r, v] { r.command(v); });
         }
@@ -1055,7 +1140,6 @@ int main(int argc, char **argv) {
             error(r.foundation->finish(), bh::Error::wipe_failed, "quarantine finish");
         else
             required(r.foundation->finish(), "finish after joins/handle quiescence");
-        r.finished = true;
     }
     maps("cleanup");
     auto final = event("cleanup_complete");

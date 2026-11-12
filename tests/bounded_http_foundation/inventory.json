@@ -7,7 +7,7 @@
   "selectors": [
     {
       "selector": "FoundationTests.test_literal_wire_inventory",
-      "max_children": 93
+      "max_children": 97
     },
     {
       "selector": "FoundationTests.test_split_priority_and_line_envelopes",
@@ -39,7 +39,7 @@
     },
     {
       "selector": "FoundationTests.test_once_drop_thread_reentry_faults",
-      "max_children": 15
+      "max_children": 16
     },
     {
       "selector": "FoundationTests.test_wrong_thread_void_terminates",
@@ -98,12 +98,28 @@
       "max_children": 2
     },
     {
+      "selector": "FoundationTests.test_http_retained_handles_pin_role",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_established_native_ignores_http_idle_and_read_observer",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_gate_excludes_control_and_native101",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_post_after_stop_is_refused",
+      "max_children": 1
+    },
+    {
       "selector": "FoundationTests.test_zero_and_close_reply",
       "max_children": 2
     },
     {
       "selector": "FoundationTests.test_configuration_checked_before_registration",
-      "max_children": 7
+      "max_children": 9
     },
     {
       "selector": "FoundationTests.test_idle_anchor_after_terminal_and_output_expiry",
@@ -126,7 +142,7 @@
       "max_children": 1
     }
   ],
-  "max_children_including_legacy": 279,
+  "max_children_including_legacy": 290,
   "wire_rows": [
     {
       "id": "basic",
@@ -964,6 +980,42 @@
       "status": 101,
       "route": null,
       "native": true
+    },
+    {
+      "id": "ordinary_upgrade_known_route",
+      "profile": "reference",
+      "bytes": 69,
+      "sha256": "59d8edb4202684a8cbae62afd834a738a56cdadfb1b5331d78e77aaaaa8aa111",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "host_userinfo",
+      "profile": "reference",
+      "bytes": 33,
+      "sha256": "a1bea3966a27f4b6c27e07de7528e9a7c1eb3614a32a450f3041d9ea080c1e05",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "host_bad_bracket",
+      "profile": "reference",
+      "bytes": 31,
+      "sha256": "3168f26302d2dc8c05ea64e5e6248b3a21de0f7b2d33d8e36e9283873d06b85c",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "host_ambiguous_port",
+      "profile": "reference",
+      "bytes": 32,
+      "sha256": "433ec8bcedb671f72070d0ea6cdaa847ee1a70cc90cda844d9cf39f7f5b5f029",
+      "status": 400,
+      "route": null,
+      "native": false
     }
   ],
   "split_positions": {
