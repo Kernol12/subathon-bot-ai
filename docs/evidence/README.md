@@ -366,6 +366,20 @@ document proof only: no header, test, SDK or runtime behavior changed. API-001 s
 blocked on the foundation and revised baseline; kernel, load, host, auth/clock and
 full release proof remain separate. Current-head CI and publication are PR gates.
 
+The [bounded HTTP foundation contract #123](https://github.com/Kernol12/subathon-bot-ai/pull/123)
+closed its independent Claude initial, Codex correction/verification/recheck and
+[fresh Claude closing](https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196)
+cycle at source `cee1845`, with no blockers. Six nonblocking advisories remain
+tracked for the owning test and implementation tasks. The six-document proposal
+defines concrete SDK/first-party ownership, bounded receive/output, native object
+disposal, observable read witnesses and literal admission/deadline examples.
+Its 33,101,824-byte reference reservation is design arithmetic, not measured
+allocator capacity or RSS. No header, test, SDK or runtime behavior changed.
+APITEST-016 still needs reviewed tests/stubs/fixture and meaningful red; API-016
+needs fresh implementation, source/resource/license/ABI/load admission and native44.
+Host, account, SQL, kernel, platform and full release evidence remain separate.
+Artifact completion does not claim merged publication or later-head CI success.
+
 ## Presentation and clients
 
 Scene documents and portable asset/font/package formats have reviewed contracts and
