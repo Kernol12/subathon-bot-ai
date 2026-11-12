@@ -375,10 +375,29 @@ defines concrete SDK/first-party ownership, bounded receive/output, native objec
 disposal, observable read witnesses and literal admission/deadline examples.
 Its 33,101,824-byte reference reservation is design arithmetic, not measured
 allocator capacity or RSS. No header, test, SDK or runtime behavior changed.
-APITEST-016 still needs reviewed tests/stubs/fixture and meaningful red; API-016
-needs fresh implementation, source/resource/license/ABI/load admission and native44.
+At that contract closure, APITEST-016 still needed reviewed tests/stubs/fixture
+and meaningful red. API-016 needs fresh implementation, source/resource/license/ABI/
+load admission and native44.
 Host, account, SQL, kernel, platform and full release evidence remain separate.
 Artifact completion does not claim merged publication or later-head CI success.
+
+
+The [bounded HTTP foundation baseline #124](https://github.com/Kernol12/subathon-bot-ai/pull/124)
+is reviewed at source `606b956`. Its tests-source, passive NI-consumer admission,
+actual identity/runtime-recipe and actual baseline-results stages closed their
+independent Claude/Codex/fresh-Claude cycles. One admitted direct Linux loopback
+run passed the genuine legacy control, then ran all 34 foundation methods with
+241 named first-NI failures (239 create, one config-create, one storage projection),
+zero errors and real exit 1. The [fresh results closing](https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6834806589)
+approved that attribution; all postflight seals matched. This is a compiled
+missing-producer baseline, not implemented bounded-HTTP behavior or CTest/CI proof.
+All downstream foundation bodies are unexecuted. Legacy initial/serving/cleanup
+maps were admitted; NI maps were initial-only, so later native-profile construction
+is unobserved. Timeout/helper libraries were unobserved. Full raw evidence remains
+private; sanitized reports bind its hashes. Current-head CI and protected
+publication remain PR gates. API-016 stays unclaimed under the owner stop;
+native44, host Qt75/native18/SQL, account/UTC/TLS/provider/platform and the complete
+v0.45 release scope remain separate.
 
 ## Presentation and clients
 

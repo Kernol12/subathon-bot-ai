@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T10:59:41+00:00",
+  "updated_at": "2026-11-12T20:48:56+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -16851,7 +16851,8 @@
         "progress": "passed",
         "render": "passed",
         "implementation": "not_run",
-        "completion_metadata_review": "passed"
+        "completion_metadata_review": "passed",
+        "github_ci": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/123",
@@ -16999,12 +17000,12 @@
         }
       },
       "publication": {
-        "state": "open",
+        "state": "merged",
         "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/123",
-        "head": "1a6b35117408eb16f3359793ee43e4bccfcb74f7",
-        "merge_commit": null,
-        "merged_at": null,
-        "observed_at": "2026-11-12T10:55:37+00:00"
+        "head": "1c882a3619caf4ce172e40708a4024bb79a72cee",
+        "merge_commit": "3d3be7a999cabe6668ef051b8bd392cfda38ae4c",
+        "merged_at": "2026-11-12T11:07:26Z",
+        "observed_at": "2026-11-12T11:13:06+00:00"
       }
     },
     {
@@ -17012,8 +17013,8 @@
       "title": "Review and demonstrate red: bounded HTTP transport foundation",
       "module": "Server/API",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "done",
+      "owner": "codex:coordinator-45e6fb8d; T3 baseline author/native01a1cf7b",
       "depends_on": [
         "APICONTRACT-005",
         "API-012",
@@ -17028,16 +17029,1393 @@
         "§18"
       ],
       "brief": "docs/tasks/EPIC-008/API-016.md",
-      "summary": "Author and independently review literal generic HTTP producer tests and observe meaningful red before the bounded transport foundation implementation.",
+      "summary": "Reviewed compiled NI foundation baseline with a real legacy positive and attributable first-NI red; bounded producer behavior remains unimplemented.",
       "notes": [
-        "Explicit prerequisite from APICONTRACT-004 initial review B1–B3. Planned only; no source/test/artifact capability supplied.",
-        "Closing a8d495e8 A1/A5/A6: negative retained-facade method case; F07 witness runs reference5000ms, F08 local IO0 steps after both requests arrive. Deadline expiry is fixture failure, not red. Native peers hold Peer/Wake only; pure-helper/thread/editorial clarifications enter the reviewed test/stub packet."
+        "Reviewed compiled NI baseline at606b956: real Linux legacy positive; all34foundation methods/241named NI failures,0errors(239/1/1). Tests/passive/identity/results cycles closed. Downstream bodies unexecuted; NI profile maps and supervisor libraries unobserved. Artifact done; current-head CI/protected publication pending in PR124. API016 unclaimed; STOP after this PR."
       ],
-      "verification": {},
+      "verification": {
+        "claim": "passed",
+        "test_authored": "passed",
+        "test_review": "passed",
+        "artifact_admission": "passed",
+        "baseline": "observed_red",
+        "static_inventory": "passed",
+        "build_integration": "passed",
+        "correction_authored": "passed",
+        "correction_review": "passed",
+        "consumer_build": "passed",
+        "passive_abi": "passed",
+        "controlled_identity": "passed",
+        "loaded_map": "passed",
+        "legacy_positive": "passed",
+        "sdk_inventory": "passed",
+        "selection_tooling": "passed",
+        "admission_packet_authored": "passed",
+        "admission_review": "passed",
+        "identity_operator_review": "passed",
+        "admission_correction_authored": "passed",
+        "admission_correction_review": "passed",
+        "identity_evidence_archived": "passed",
+        "identity_results_initial_review": "passed",
+        "runtime_preflight_authored": "passed",
+        "runtime_recipe_verification": "passed",
+        "identity_results_closing_review": "passed",
+        "runtime_receipt": "passed",
+        "baseline_results_review": "passed",
+        "baseline_postflight": "passed",
+        "baseline_results_initial_review": "passed",
+        "baseline_results_verification": "passed",
+        "baseline_results_closing_review": "passed",
+        "current_head_ci": "not_run",
+        "completion_metadata_review": "passed",
+        "receipt_schema_compatibility_review": "passed"
+      },
       "evidence": [
-        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6823972291",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825124537",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825498368",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825879370",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6826496413",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6826904669",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6827449351",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6828650631",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6828789323",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6828791016",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6829593680",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6829702184",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6829703675",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6829987958",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6830030477",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6830032175",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6830254349",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6830764767",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6830834410",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6830836149",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6831167689",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6831565288",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6831956852",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6832560735",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6832979608",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6833573859",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6834080747",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6834380374",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6834806589",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6835175825",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6835519739"
       ],
-      "review": null
+      "review": {
+        "author": "Original baseline native01a1cf7b; coordinator45e6fb8d including R2; admission author01a1d062",
+        "reviewer": "Baseline-results initial Claude7a9cbf60, independent Codex01a1d14a, NEW closing Clauded8969407; prior source/passive/identity cycles retained",
+        "outcome": "approved",
+        "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6834806589"
+      },
+      "workflow": {
+        "required_stages": [
+          "tests",
+          "implementation"
+        ],
+        "stages": {
+          "tests": {
+            "authors": [
+              "codex:coordinator-45e6fb8d",
+              "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-baseline-author-20261112-v1"
+            ],
+            "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+            "paths": [
+              "server/include/subathon/server/bounded_http.hpp",
+              "server/include/subathon/server/testing/bounded_http_observers.hpp",
+              "server/src/bounded_http.cpp",
+              "tests/bounded_http_foundation/CMakeLists.txt",
+              "tests/bounded_http_foundation/RESOURCE_REVIEW.md",
+              "tests/bounded_http_foundation/bounded_http_probe.cpp",
+              "tests/bounded_http_foundation/inventory.json",
+              "tests/bounded_http_foundation/test_bounded_http.py",
+              "cmake/AcceptanceSuites.cmake",
+              "tests/CMakeLists.txt",
+              "CMakePresets.json",
+              "docs/TEST_STRATEGY.md",
+              "tests/tooling/test_acceptance_selection.py"
+            ],
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-initial-review-20261112-v1",
+                "revision": "e2d24280231c0fb49a27d18037cdc9495d01a566",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6823972291",
+                "findings": [
+                  "f25c690c:AT016-B1",
+                  "f25c690c:AT016-B2",
+                  "f25c690c:AT016-B3",
+                  "f25c690c:AT016-B4",
+                  "f25c690c:AT016-B5",
+                  "f25c690c:AT016-B6",
+                  "f25c690c:AT016-B7",
+                  "f25c690c:AT016-B8",
+                  "f25c690c:AT016-A1",
+                  "f25c690c:AT016-A2",
+                  "f25c690c:AT016-A3",
+                  "f25c690c:AT016-A4",
+                  "f25c690c:AT016-A5",
+                  "f25c690c:AT016-A6",
+                  "f25c690c:AT016-A7",
+                  "f25c690c:AT016-A8",
+                  "f25c690c:AT016-A9",
+                  "f25c690c:AT016-A10",
+                  "f25c690c:AT016-A11",
+                  "f25c690c:AT016-A12",
+                  "f25c690c:AT016-A13",
+                  "f25c690c:AT016-A14"
+                ],
+                "blocking_findings": [
+                  "f25c690c:AT016-B1",
+                  "f25c690c:AT016-B2",
+                  "f25c690c:AT016-B3",
+                  "f25c690c:AT016-B4",
+                  "f25c690c:AT016-B5",
+                  "f25c690c:AT016-B6",
+                  "f25c690c:AT016-B7",
+                  "f25c690c:AT016-B8"
+                ],
+                "started_at": "2026-11-12T12:12:31.697Z",
+                "finished_at": "2026-11-12T12:40:32.017Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:01a1cffc-c997-7f02-9c5f-bcc9f3420365",
+                "revision": "d2b28b298535c2b24e33f6c1354b139cf75c8d87",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825498368",
+                "findings": [
+                  "01a1cffc:AT016-V1",
+                  "f25c690c:AT016-A2",
+                  "01a1cffc:AT016-A1"
+                ],
+                "blocking_findings": [
+                  "01a1cffc:AT016-V1",
+                  "f25c690c:AT016-A2"
+                ]
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:01a1d00e-68d8-7163-8d8f-2acb26478e88",
+                "revision": "e07e8827b9c913e7445eecb9b3d505b5b10e78ea",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825879370",
+                "findings": [],
+                "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-closing-20261112-v1",
+                "revision": "e07e8827b9c913e7445eecb9b3d505b5b10e78ea",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6826496413",
+                "findings": [
+                  "f1a7beb9:AT016-C1",
+                  "f1a7beb9:AT016-CA1",
+                  "f1a7beb9:AT016-CA2",
+                  "f1a7beb9:AT016-CA3",
+                  "f1a7beb9:AT016-CA4"
+                ],
+                "blocking_findings": [
+                  "f1a7beb9:AT016-C1"
+                ],
+                "started_at": "2026-11-12T14:12:15.903Z",
+                "finished_at": "2026-11-12T14:30:17.647Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:01a1d033-8f30-79d1-815a-489e88e66f43",
+                "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6826904669",
+                "findings": [],
+                "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-closing-20261112-v2",
+                "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6827449351",
+                "findings": [],
+                "blocking_findings": [],
+                "started_at": "2026-11-12T14:54:39.901Z",
+                "finished_at": "2026-11-12T15:06:23.318Z"
+              }
+            ]
+          },
+          "implementation": {
+            "authors": [
+              "codex:coordinator-45e6fb8d",
+              "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-baseline-author-20261112-v1",
+              "codex:01a1d062-c8f6-7fc3-8502-3468da1b98f7"
+            ],
+            "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+            "paths": [
+              "server/include/subathon/server/bounded_http.hpp",
+              "server/include/subathon/server/testing/bounded_http_observers.hpp",
+              "server/src/bounded_http.cpp",
+              "tests/bounded_http_foundation/CMakeLists.txt",
+              "tests/bounded_http_foundation/RESOURCE_REVIEW.md",
+              "tests/bounded_http_foundation/bounded_http_probe.cpp",
+              "tests/bounded_http_foundation/inventory.json",
+              "tests/bounded_http_foundation/test_bounded_http.py",
+              "cmake/AcceptanceSuites.cmake",
+              "tests/CMakeLists.txt",
+              "CMakePresets.json",
+              "docs/TEST_STRATEGY.md",
+              "tests/tooling/test_acceptance_selection.py"
+            ],
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-admission-initial-20261112-v1",
+                "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6829593680",
+                "findings": [
+                  "3a05d080:AT016-NB1",
+                  "3a05d080:AT016-NB2",
+                  "3a05d080:AT016-NA1",
+                  "3a05d080:AT016-NA2",
+                  "3a05d080:AT016-NA3",
+                  "3a05d080:AT016-NA4",
+                  "3a05d080:AT016-NA5",
+                  "3a05d080:AT016-NA6",
+                  "3a05d080:AT016-NA7",
+                  "3a05d080:AT016-NA8",
+                  "3a05d080:AT016-NA9",
+                  "3a05d080:AT016-NA10",
+                  "3a05d080:AT016-NA11"
+                ],
+                "blocking_findings": [
+                  "3a05d080:AT016-NB1",
+                  "3a05d080:AT016-NB2"
+                ],
+                "started_at": "2026-11-12T16:12:47.488Z",
+                "finished_at": "2026-11-12T16:32:39.215Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:01a1d0a3-097c-7cc3-95d8-7e7fcfff20fe",
+                "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6829987958",
+                "findings": [
+                  "01a1d0a3:AT016-RV1"
+                ],
+                "blocking_findings": [
+                  "01a1d0a3:AT016-RV1"
+                ]
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:01a1d0ae-2f46-7012-89ca-1dc672ca1a63",
+                "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6830254349",
+                "findings": [],
+                "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-admission-closing-20261112-v1",
+                "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6830764767",
+                "findings": [
+                  "37b9088e:AT016-CB1",
+                  "37b9088e:AT016-CA1",
+                  "37b9088e:AT016-CA2"
+                ],
+                "blocking_findings": [
+                  "37b9088e:AT016-CB1"
+                ],
+                "started_at": "2026-11-12T17:03:27.876Z",
+                "finished_at": "2026-11-12T17:19:58.523Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:01a1d0cc-86cd-7ae0-b376-bbb5802734c4",
+                "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6831167689",
+                "findings": [],
+                "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-admission-closing-20261112-v2",
+                "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6831565288",
+                "findings": [
+                  "555b33e0:AT016-DA1"
+                ],
+                "blocking_findings": [],
+                "started_at": "2026-11-12T17:40:21.661Z",
+                "finished_at": "2026-11-12T17:51:39.980Z"
+              }
+            ]
+          }
+        }
+      },
+      "publication": {
+        "state": "open",
+        "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/124",
+        "head": "9b20c35a493ff91a6e07bcd2423917e49e52f954",
+        "merge_commit": null,
+        "merged_at": null,
+        "observed_at": "2026-11-12T20:39:53+00:00"
+      },
+      "supplemental_workflow_evidence": {
+        "format": "APITEST-016 complete supplemental receipt record; task-level data permitted by unchanged schema",
+        "complete_workflow": {
+          "required_stages": [
+            "tests",
+            "implementation"
+          ],
+          "stages": {
+            "tests": {
+              "authors": [
+                "codex:coordinator-45e6fb8d",
+                "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-baseline-author-20261112-v1"
+              ],
+              "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+              "paths": [
+                "server/include/subathon/server/bounded_http.hpp",
+                "server/include/subathon/server/testing/bounded_http_observers.hpp",
+                "server/src/bounded_http.cpp",
+                "tests/bounded_http_foundation/CMakeLists.txt",
+                "tests/bounded_http_foundation/RESOURCE_REVIEW.md",
+                "tests/bounded_http_foundation/bounded_http_probe.cpp",
+                "tests/bounded_http_foundation/inventory.json",
+                "tests/bounded_http_foundation/test_bounded_http.py",
+                "cmake/AcceptanceSuites.cmake",
+                "tests/CMakeLists.txt",
+                "CMakePresets.json",
+                "docs/TEST_STRATEGY.md",
+                "tests/tooling/test_acceptance_selection.py"
+              ],
+              "reviews": [
+                {
+                  "phase": "initial",
+                  "provider": "claude",
+                  "model": "claude-opus-5-5",
+                  "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-initial-review-20261112-v1",
+                  "revision": "e2d24280231c0fb49a27d18037cdc9495d01a566",
+                  "outcome": "changes_requested",
+                  "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6823972291",
+                  "findings": [
+                    "f25c690c:AT016-B1",
+                    "f25c690c:AT016-B2",
+                    "f25c690c:AT016-B3",
+                    "f25c690c:AT016-B4",
+                    "f25c690c:AT016-B5",
+                    "f25c690c:AT016-B6",
+                    "f25c690c:AT016-B7",
+                    "f25c690c:AT016-B8",
+                    "f25c690c:AT016-A1",
+                    "f25c690c:AT016-A2",
+                    "f25c690c:AT016-A3",
+                    "f25c690c:AT016-A4",
+                    "f25c690c:AT016-A5",
+                    "f25c690c:AT016-A6",
+                    "f25c690c:AT016-A7",
+                    "f25c690c:AT016-A8",
+                    "f25c690c:AT016-A9",
+                    "f25c690c:AT016-A10",
+                    "f25c690c:AT016-A11",
+                    "f25c690c:AT016-A12",
+                    "f25c690c:AT016-A13",
+                    "f25c690c:AT016-A14"
+                  ],
+                  "blocking_findings": [
+                    "f25c690c:AT016-B1",
+                    "f25c690c:AT016-B2",
+                    "f25c690c:AT016-B3",
+                    "f25c690c:AT016-B4",
+                    "f25c690c:AT016-B5",
+                    "f25c690c:AT016-B6",
+                    "f25c690c:AT016-B7",
+                    "f25c690c:AT016-B8"
+                  ],
+                  "started_at": "2026-11-12T12:12:31.697Z",
+                  "finished_at": "2026-11-12T12:40:32.017Z"
+                },
+                {
+                  "phase": "verification",
+                  "provider": "codex",
+                  "model": "gpt-6.1-sol",
+                  "reviewer": "codex:01a1cffc-c997-7f02-9c5f-bcc9f3420365",
+                  "revision": "d2b28b298535c2b24e33f6c1354b139cf75c8d87",
+                  "outcome": "changes_requested",
+                  "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825498368",
+                  "findings": [
+                    "01a1cffc:AT016-V1",
+                    "f25c690c:AT016-A2",
+                    "01a1cffc:AT016-A1"
+                  ],
+                  "blocking_findings": [
+                    "01a1cffc:AT016-V1",
+                    "f25c690c:AT016-A2"
+                  ]
+                },
+                {
+                  "phase": "verification",
+                  "provider": "codex",
+                  "model": "gpt-6.1-sol",
+                  "reviewer": "codex:01a1d00e-68d8-7163-8d8f-2acb26478e88",
+                  "revision": "e07e8827b9c913e7445eecb9b3d505b5b10e78ea",
+                  "outcome": "approved",
+                  "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825879370",
+                  "findings": [],
+                  "blocking_findings": []
+                },
+                {
+                  "phase": "closing",
+                  "provider": "claude",
+                  "model": "claude-opus-5-5",
+                  "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-closing-20261112-v1",
+                  "revision": "e07e8827b9c913e7445eecb9b3d505b5b10e78ea",
+                  "outcome": "changes_requested",
+                  "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6826496413",
+                  "findings": [
+                    "f1a7beb9:AT016-C1",
+                    "f1a7beb9:AT016-CA1",
+                    "f1a7beb9:AT016-CA2",
+                    "f1a7beb9:AT016-CA3",
+                    "f1a7beb9:AT016-CA4"
+                  ],
+                  "blocking_findings": [
+                    "f1a7beb9:AT016-C1"
+                  ],
+                  "started_at": "2026-11-12T14:12:15.903Z",
+                  "finished_at": "2026-11-12T14:30:17.647Z"
+                },
+                {
+                  "phase": "verification",
+                  "provider": "codex",
+                  "model": "gpt-6.1-sol",
+                  "reviewer": "codex:01a1d033-8f30-79d1-815a-489e88e66f43",
+                  "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                  "outcome": "approved",
+                  "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6826904669",
+                  "findings": [],
+                  "blocking_findings": []
+                },
+                {
+                  "phase": "closing",
+                  "provider": "claude",
+                  "model": "claude-opus-5-5",
+                  "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-closing-20261112-v2",
+                  "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                  "outcome": "approved",
+                  "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6827449351",
+                  "findings": [],
+                  "blocking_findings": [],
+                  "started_at": "2026-11-12T14:54:39.901Z",
+                  "finished_at": "2026-11-12T15:06:23.318Z"
+                }
+              ]
+            },
+            "implementation": {
+              "authors": [
+                "codex:coordinator-45e6fb8d",
+                "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-baseline-author-20261112-v1",
+                "codex:01a1d062-c8f6-7fc3-8502-3468da1b98f7"
+              ],
+              "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+              "paths": [
+                "server/include/subathon/server/bounded_http.hpp",
+                "server/include/subathon/server/testing/bounded_http_observers.hpp",
+                "server/src/bounded_http.cpp",
+                "tests/bounded_http_foundation/CMakeLists.txt",
+                "tests/bounded_http_foundation/RESOURCE_REVIEW.md",
+                "tests/bounded_http_foundation/bounded_http_probe.cpp",
+                "tests/bounded_http_foundation/inventory.json",
+                "tests/bounded_http_foundation/test_bounded_http.py",
+                "cmake/AcceptanceSuites.cmake",
+                "tests/CMakeLists.txt",
+                "CMakePresets.json",
+                "docs/TEST_STRATEGY.md",
+                "tests/tooling/test_acceptance_selection.py"
+              ],
+              "reviews": [
+                {
+                  "phase": "initial",
+                  "provider": "claude",
+                  "model": "claude-opus-5-5",
+                  "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-admission-initial-20261112-v1",
+                  "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                  "outcome": "changes_requested",
+                  "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6829593680",
+                  "findings": [
+                    "3a05d080:AT016-NB1",
+                    "3a05d080:AT016-NB2",
+                    "3a05d080:AT016-NA1",
+                    "3a05d080:AT016-NA2",
+                    "3a05d080:AT016-NA3",
+                    "3a05d080:AT016-NA4",
+                    "3a05d080:AT016-NA5",
+                    "3a05d080:AT016-NA6",
+                    "3a05d080:AT016-NA7",
+                    "3a05d080:AT016-NA8",
+                    "3a05d080:AT016-NA9",
+                    "3a05d080:AT016-NA10",
+                    "3a05d080:AT016-NA11"
+                  ],
+                  "blocking_findings": [
+                    "3a05d080:AT016-NB1",
+                    "3a05d080:AT016-NB2"
+                  ],
+                  "started_at": "2026-11-12T16:12:47.488Z",
+                  "finished_at": "2026-11-12T16:32:39.215Z",
+                  "artifacts": {
+                    "source_revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                    "packet_sha256": "e8e2c19d3987355fb8f2f3205dc6ee88705ea34c0df1aeb673f64b5a9e3f778e",
+                    "operator_sha256": "4d70229d001bc964b4d6ac45f967c2e44cd809ad111a7c171be4d2687893d74d",
+                    "operator_inputs_sha256": "db6c3d73b69cbe3c12c3ba13a773ab56aaecad5b03a09ee49cb276e860905315",
+                    "artifact_manifest_sha256": "5f22266f5456f53a5a6cd426fdf1332006a3358e63b4b8de73aeeba29cb4aea8",
+                    "consumer_sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e"
+                  }
+                },
+                {
+                  "phase": "verification",
+                  "provider": "codex",
+                  "model": "gpt-6.1-sol",
+                  "reviewer": "codex:01a1d0a3-097c-7cc3-95d8-7e7fcfff20fe",
+                  "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                  "outcome": "changes_requested",
+                  "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6829987958",
+                  "findings": [
+                    "01a1d0a3:AT016-RV1"
+                  ],
+                  "blocking_findings": [
+                    "01a1d0a3:AT016-RV1"
+                  ],
+                  "artifacts": {
+                    "source_revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                    "packet_sha256": "c5f517eebcd11d99df273839d3e19a6744419f8a3e1f53b582cc0961bf09cfca",
+                    "operator_sha256": "457c9ce2305c88d8a3c332405cba7cabc38dfd61e3340135b73cc5dcf6ce13c7",
+                    "operator_inputs_sha256": "5f0e5600f75af7b7cb4a1875eca6272faffd729fe00a0a7a46286d28b52540fc",
+                    "artifact_manifest_sha256": "602658fec39b6887d7d86e5d5ffc7cb8a9b49ec7ec82b758229733a986508861",
+                    "consumer_sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e"
+                  }
+                },
+                {
+                  "phase": "verification",
+                  "provider": "codex",
+                  "model": "gpt-6.1-sol",
+                  "reviewer": "codex:01a1d0ae-2f46-7012-89ca-1dc672ca1a63",
+                  "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                  "outcome": "approved",
+                  "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6830254349",
+                  "findings": [],
+                  "blocking_findings": [],
+                  "artifacts": {
+                    "source_revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                    "packet_sha256": "2c41d482be3a22b321d96a9533dd3196077f22617cfcb8542f25a5c29adb9c1d",
+                    "operator_sha256": "80c4c8a0f4a34380dbc13b12c9d166a77529584a1074e40fe04cf077fab53a6d",
+                    "operator_inputs_sha256": "6ec6f89bbee7b9d21160666ae38f6893530b13402240a7fab37536c7ac832220",
+                    "artifact_manifest_sha256": "07bc20880e0401d710a52e6ccf4e6c784bff3f3c56db9d8860664bdf0759a5dc",
+                    "consumer_sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e"
+                  }
+                },
+                {
+                  "phase": "closing",
+                  "provider": "claude",
+                  "model": "claude-opus-5-5",
+                  "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-admission-closing-20261112-v1",
+                  "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                  "outcome": "changes_requested",
+                  "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6830764767",
+                  "findings": [
+                    "37b9088e:AT016-CB1",
+                    "37b9088e:AT016-CA1",
+                    "37b9088e:AT016-CA2"
+                  ],
+                  "blocking_findings": [
+                    "37b9088e:AT016-CB1"
+                  ],
+                  "started_at": "2026-11-12T17:03:27.876Z",
+                  "finished_at": "2026-11-12T17:19:58.523Z",
+                  "artifacts": {
+                    "source_revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                    "packet_sha256": "2c41d482be3a22b321d96a9533dd3196077f22617cfcb8542f25a5c29adb9c1d",
+                    "operator_sha256": "80c4c8a0f4a34380dbc13b12c9d166a77529584a1074e40fe04cf077fab53a6d",
+                    "operator_inputs_sha256": "6ec6f89bbee7b9d21160666ae38f6893530b13402240a7fab37536c7ac832220",
+                    "artifact_manifest_sha256": "07bc20880e0401d710a52e6ccf4e6c784bff3f3c56db9d8860664bdf0759a5dc",
+                    "consumer_sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e"
+                  }
+                },
+                {
+                  "phase": "verification",
+                  "provider": "codex",
+                  "model": "gpt-6.1-sol",
+                  "reviewer": "codex:01a1d0cc-86cd-7ae0-b376-bbb5802734c4",
+                  "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                  "outcome": "approved",
+                  "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6831167689",
+                  "findings": [],
+                  "blocking_findings": [],
+                  "artifacts": {
+                    "source_revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                    "packet_sha256": "558f335e91567cf904e61885a508130b3094cbe4d8667cd533571e1d337381c8",
+                    "operator_sha256": "314f3001a88f63407b3fda654d899abfd157d5af08110812259fc8455f84f643",
+                    "operator_inputs_sha256": "d87ca309016fd711392a9fc73face5a35096cc0383a2cf96016a89dc49a6fd37",
+                    "artifact_manifest_sha256": "83815442d0f8918e99e9e9347c882fd665660ff8bd17e21554d8eb2b97372ee6",
+                    "consumer_sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e"
+                  }
+                },
+                {
+                  "phase": "closing",
+                  "provider": "claude",
+                  "model": "claude-opus-5-5",
+                  "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-admission-closing-20261112-v2",
+                  "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                  "outcome": "approved",
+                  "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6831565288",
+                  "findings": [
+                    "555b33e0:AT016-DA1"
+                  ],
+                  "blocking_findings": [],
+                  "started_at": "2026-11-12T17:40:21.661Z",
+                  "finished_at": "2026-11-12T17:51:39.980Z",
+                  "artifacts": {
+                    "source_revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                    "packet_sha256": "558f335e91567cf904e61885a508130b3094cbe4d8667cd533571e1d337381c8",
+                    "operator_sha256": "314f3001a88f63407b3fda654d899abfd157d5af08110812259fc8455f84f643",
+                    "operator_inputs_sha256": "d87ca309016fd711392a9fc73face5a35096cc0383a2cf96016a89dc49a6fd37",
+                    "artifact_manifest_sha256": "83815442d0f8918e99e9e9347c882fd665660ff8bd17e21554d8eb2b97372ee6",
+                    "consumer_sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e"
+                  }
+                }
+              ],
+              "artifacts": {
+                "scope": "NI baseline consumer admission only; not API016 producer implementation",
+                "consumer": {
+                  "sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e",
+                  "bytes": 5461944
+                },
+                "packet": {
+                  "bytes": 63352,
+                  "sha256": "558f335e91567cf904e61885a508130b3094cbe4d8667cd533571e1d337381c8",
+                  "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6830834410"
+                },
+                "operator": {
+                  "bytes": 30069,
+                  "sha256": "314f3001a88f63407b3fda654d899abfd157d5af08110812259fc8455f84f643",
+                  "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6830836149"
+                },
+                "operator_inputs": {
+                  "bytes": 525217,
+                  "sha256": "d87ca309016fd711392a9fc73face5a35096cc0383a2cf96016a89dc49a6fd37"
+                },
+                "artifact_manifest": {
+                  "bytes": 29760,
+                  "sha256": "83815442d0f8918e99e9e9347c882fd665660ff8bd17e21554d8eb2b97372ee6"
+                },
+                "local_archive": "local-evidence/APITEST-016/admission-correction-v4",
+                "not_executed": false
+              },
+              "artifact_history": [
+                {
+                  "scope": "NI baseline consumer admission only; not API016 producer implementation",
+                  "consumer": {
+                    "sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e",
+                    "bytes": 5461944
+                  },
+                  "packet": {
+                    "sha256": "e8e2c19d3987355fb8f2f3205dc6ee88705ea34c0df1aeb673f64b5a9e3f778e",
+                    "bytes": 46656,
+                    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6828789323"
+                  },
+                  "operator": {
+                    "sha256": "4d70229d001bc964b4d6ac45f967c2e44cd809ad111a7c171be4d2687893d74d",
+                    "bytes": 20946,
+                    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6828791016"
+                  },
+                  "operator_inputs": {
+                    "sha256": "db6c3d73b69cbe3c12c3ba13a773ab56aaecad5b03a09ee49cb276e860905315",
+                    "bytes": 509181
+                  },
+                  "artifact_manifest": {
+                    "sha256": "5f22266f5456f53a5a6cd426fdf1332006a3358e63b4b8de73aeeba29cb4aea8",
+                    "bytes": 5984
+                  },
+                  "local_archive": "local-evidence/APITEST-016/admission-author-v1-e8e2c19d",
+                  "not_executed": true
+                },
+                {
+                  "scope": "NI baseline consumer admission only; not API016 producer implementation",
+                  "consumer": {
+                    "sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e",
+                    "bytes": 5461944
+                  },
+                  "packet": {
+                    "bytes": 55015,
+                    "sha256": "c5f517eebcd11d99df273839d3e19a6744419f8a3e1f53b582cc0961bf09cfca",
+                    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6829702184"
+                  },
+                  "operator": {
+                    "bytes": 27680,
+                    "sha256": "457c9ce2305c88d8a3c332405cba7cabc38dfd61e3340135b73cc5dcf6ce13c7",
+                    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6829703675"
+                  },
+                  "operator_inputs": {
+                    "bytes": 525049,
+                    "sha256": "5f0e5600f75af7b7cb4a1875eca6272faffd729fe00a0a7a46286d28b52540fc"
+                  },
+                  "artifact_manifest": {
+                    "bytes": 28750,
+                    "sha256": "602658fec39b6887d7d86e5d5ffc7cb8a9b49ec7ec82b758229733a986508861"
+                  },
+                  "local_archive": "local-evidence/APITEST-016/admission-correction-v2",
+                  "not_executed": true
+                },
+                {
+                  "scope": "NI baseline consumer admission only; not API016 producer implementation",
+                  "consumer": {
+                    "sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e",
+                    "bytes": 5461944
+                  },
+                  "packet": {
+                    "bytes": 58295,
+                    "sha256": "2c41d482be3a22b321d96a9533dd3196077f22617cfcb8542f25a5c29adb9c1d",
+                    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6830030477"
+                  },
+                  "operator": {
+                    "bytes": 28652,
+                    "sha256": "80c4c8a0f4a34380dbc13b12c9d166a77529584a1074e40fe04cf077fab53a6d",
+                    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6830032175"
+                  },
+                  "operator_inputs": {
+                    "bytes": 525049,
+                    "sha256": "6ec6f89bbee7b9d21160666ae38f6893530b13402240a7fab37536c7ac832220"
+                  },
+                  "artifact_manifest": {
+                    "bytes": 29256,
+                    "sha256": "07bc20880e0401d710a52e6ccf4e6c784bff3f3c56db9d8860664bdf0759a5dc"
+                  },
+                  "local_archive": "local-evidence/APITEST-016/admission-correction-v3",
+                  "not_executed": true
+                },
+                {
+                  "scope": "NI baseline consumer admission only; not API016 producer implementation",
+                  "consumer": {
+                    "sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e",
+                    "bytes": 5461944
+                  },
+                  "packet": {
+                    "bytes": 63352,
+                    "sha256": "558f335e91567cf904e61885a508130b3094cbe4d8667cd533571e1d337381c8",
+                    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6830834410"
+                  },
+                  "operator": {
+                    "bytes": 30069,
+                    "sha256": "314f3001a88f63407b3fda654d899abfd157d5af08110812259fc8455f84f643",
+                    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6830836149"
+                  },
+                  "operator_inputs": {
+                    "bytes": 525217,
+                    "sha256": "d87ca309016fd711392a9fc73face5a35096cc0383a2cf96016a89dc49a6fd37"
+                  },
+                  "artifact_manifest": {
+                    "bytes": 29760,
+                    "sha256": "83815442d0f8918e99e9e9347c882fd665660ff8bd17e21554d8eb2b97372ee6"
+                  },
+                  "local_archive": "local-evidence/APITEST-016/admission-correction-v4",
+                  "not_executed": true
+                }
+              ],
+              "results_stages": {
+                "identity": {
+                  "authors": [
+                    "codex:coordinator-45e6fb8d",
+                    "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-baseline-author-20261112-v1",
+                    "codex:01a1d062-c8f6-7fc3-8502-3468da1b98f7"
+                  ],
+                  "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                  "paths": [
+                    "server/include/subathon/server/bounded_http.hpp",
+                    "server/include/subathon/server/testing/bounded_http_observers.hpp",
+                    "server/src/bounded_http.cpp",
+                    "tests/bounded_http_foundation/CMakeLists.txt",
+                    "tests/bounded_http_foundation/RESOURCE_REVIEW.md",
+                    "tests/bounded_http_foundation/bounded_http_probe.cpp",
+                    "tests/bounded_http_foundation/inventory.json",
+                    "tests/bounded_http_foundation/test_bounded_http.py",
+                    "cmake/AcceptanceSuites.cmake",
+                    "tests/CMakeLists.txt",
+                    "CMakePresets.json",
+                    "docs/TEST_STRATEGY.md",
+                    "tests/tooling/test_acceptance_selection.py"
+                  ],
+                  "reviews": [
+                    {
+                      "phase": "initial",
+                      "provider": "claude",
+                      "model": "claude-opus-5-5",
+                      "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-identity-results-initial-20261112-v1",
+                      "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                      "outcome": "approved",
+                      "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6832560735",
+                      "findings": [
+                        "64778a4c:AT016-IA1",
+                        "64778a4c:AT016-IA2",
+                        "64778a4c:AT016-IA3",
+                        "64778a4c:AT016-IA4",
+                        "64778a4c:AT016-IA5",
+                        "64778a4c:AT016-IA6",
+                        "64778a4c:AT016-IA7",
+                        "64778a4c:AT016-IA8"
+                      ],
+                      "blocking_findings": [],
+                      "started_at": "2026-11-12T18:17:13.737Z",
+                      "finished_at": "2026-11-12T18:31:40.220Z",
+                      "result_tuple": {
+                        "source_revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                        "consumer_sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e",
+                        "operator_sha256": "314f3001a88f63407b3fda654d899abfd157d5af08110812259fc8455f84f643",
+                        "operator_inputs_sha256": "d87ca309016fd711392a9fc73face5a35096cc0383a2cf96016a89dc49a6fd37",
+                        "passive_manifest_sha256": "83815442d0f8918e99e9e9347c882fd665660ff8bd17e21554d8eb2b97372ee6",
+                        "passive_approval_sha256": "8d1f5f09b0b75a63cd67f0e6746313fe7bcd0599c44e8a8fe2163249e58c1604",
+                        "packet_sha256": "f74ed7a36daf3b5a6c0d5f75dd229ed5b7baef7b8a258954493c45cdec8bd1b4",
+                        "runtime_plan_sha256": "f2508870e7ed03fe22ae31d6c793175b178e18d0faf3b517413609a5e5491d54",
+                        "publication_boundary_sha256": "1310ab5e15be4acdd7a0745872f4954edb8793c1c6bd4271c8a57afe18c30dbe",
+                        "results_manifest_sha256": "7d289e33c72af41052741883556e695fb8f9afe70c0256935a635579fae2049a",
+                        "observation_sha256": "56cbe481559f2b2ece61ffef52a64050d046b13bd9cac64bbb68f0d717e13c36",
+                        "stdout_sha256": "d5e0f1d63eefea4ac1a6283cf00bb58bbd2305379e762e2669b908ecd477f356",
+                        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                        "observation_archive_manifest_sha256": "f40cef22bf6c512fde9e1097a81900433f1cbebe12e8c2546aa163608fa8a828"
+                      },
+                      "private_report_sha256": "271301d8bfa37f8170547a0fdcc2fdb9520bf69b883a5c81f848e6e1865c0d11",
+                      "public_report_sha256": "55003869e5b28e84f1ca3d341e8f358d5ca1eb9ef67c3d28472084f9b51a59bf",
+                      "public_report_redacted": true
+                    },
+                    {
+                      "phase": "verification",
+                      "provider": "codex",
+                      "model": "gpt-6.1-sol",
+                      "reviewer": "codex:01a1d116-230c-7012-b75f-3925aae275db",
+                      "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                      "outcome": "approved",
+                      "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6832979608",
+                      "findings": [],
+                      "blocking_findings": [],
+                      "result_tuple": {
+                        "source_revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                        "consumer_sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e",
+                        "operator_sha256": "314f3001a88f63407b3fda654d899abfd157d5af08110812259fc8455f84f643",
+                        "operator_inputs_sha256": "d87ca309016fd711392a9fc73face5a35096cc0383a2cf96016a89dc49a6fd37",
+                        "passive_manifest_sha256": "83815442d0f8918e99e9e9347c882fd665660ff8bd17e21554d8eb2b97372ee6",
+                        "passive_approval_sha256": "8d1f5f09b0b75a63cd67f0e6746313fe7bcd0599c44e8a8fe2163249e58c1604",
+                        "packet_sha256": "a44037055e3ee5ab3972fcd8dd1d66d2bae5f260a02b4fb5da144eb114778b08",
+                        "runtime_plan_sha256": "c5eac18605fa59256d91b7603f55cd5405f08417032a346d19345602faa48945",
+                        "publication_boundary_sha256": "1310ab5e15be4acdd7a0745872f4954edb8793c1c6bd4271c8a57afe18c30dbe",
+                        "results_manifest_sha256": "f9e11b7680c4cb8921e36e3e716860cba259f746be5f896236aa00a6b93a6491",
+                        "observation_sha256": "56cbe481559f2b2ece61ffef52a64050d046b13bd9cac64bbb68f0d717e13c36",
+                        "stdout_sha256": "d5e0f1d63eefea4ac1a6283cf00bb58bbd2305379e762e2669b908ecd477f356",
+                        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                        "observation_archive_manifest_sha256": "f40cef22bf6c512fde9e1097a81900433f1cbebe12e8c2546aa163608fa8a828",
+                        "runtime_preflight_sha256": "77de138b762f20eaca8f16e1433afe2930519aba898a404fd4fb723a73e38468"
+                      },
+                      "private_report_sha256": "bc9c45a19c35ad92d2c550c5163a33cafad9a8ce2a49086420d8a7dc88d5160d",
+                      "public_report_sha256": "e962275b1f96ccfd781e74069ce572964f88f33205d34a03511dffb7c68610dc",
+                      "public_report_redacted": true
+                    },
+                    {
+                      "phase": "closing",
+                      "provider": "claude",
+                      "model": "claude-opus-5-5",
+                      "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-identity-results-closing-20261112-v1",
+                      "native_session": "0dccd41a-7985-479a-b758-6ecba58b4e55",
+                      "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                      "outcome": "approved",
+                      "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6833573859",
+                      "findings": [
+                        "0dccd41a:AT016-CLA1",
+                        "0dccd41a:AT016-CLA2"
+                      ],
+                      "blocking_findings": [],
+                      "started_at": "2026-11-12T19:00:32.441Z",
+                      "finished_at": "2026-11-12T19:16:05.051Z",
+                      "result_tuple": {
+                        "source_revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                        "consumer_sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e",
+                        "operator_sha256": "314f3001a88f63407b3fda654d899abfd157d5af08110812259fc8455f84f643",
+                        "operator_inputs_sha256": "d87ca309016fd711392a9fc73face5a35096cc0383a2cf96016a89dc49a6fd37",
+                        "passive_manifest_sha256": "83815442d0f8918e99e9e9347c882fd665660ff8bd17e21554d8eb2b97372ee6",
+                        "passive_approval_sha256": "8d1f5f09b0b75a63cd67f0e6746313fe7bcd0599c44e8a8fe2163249e58c1604",
+                        "packet_sha256": "a44037055e3ee5ab3972fcd8dd1d66d2bae5f260a02b4fb5da144eb114778b08",
+                        "runtime_plan_sha256": "c5eac18605fa59256d91b7603f55cd5405f08417032a346d19345602faa48945",
+                        "publication_boundary_sha256": "1310ab5e15be4acdd7a0745872f4954edb8793c1c6bd4271c8a57afe18c30dbe",
+                        "results_manifest_sha256": "f9e11b7680c4cb8921e36e3e716860cba259f746be5f896236aa00a6b93a6491",
+                        "observation_sha256": "56cbe481559f2b2ece61ffef52a64050d046b13bd9cac64bbb68f0d717e13c36",
+                        "stdout_sha256": "d5e0f1d63eefea4ac1a6283cf00bb58bbd2305379e762e2669b908ecd477f356",
+                        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                        "observation_archive_manifest_sha256": "f40cef22bf6c512fde9e1097a81900433f1cbebe12e8c2546aa163608fa8a828",
+                        "runtime_preflight_sha256": "77de138b762f20eaca8f16e1433afe2930519aba898a404fd4fb723a73e38468"
+                      },
+                      "private_report_sha256": "57c9d7f8d87718d6ffedd4e7c57e9888cba62feae46092edc916ea71bb2107fb",
+                      "public_report_sha256": "6e986979c9bc1eeb5d1c7f01ae3f86e94f85604610fb0326ed5c6e778c4ce7ae",
+                      "public_report_redacted": true
+                    }
+                  ],
+                  "artifacts": {
+                    "scope": "actual single identity/maps and conditional frozen-runner runtime-admission recipe; raw local metadata private",
+                    "result_packet": {
+                      "bytes": 9504,
+                      "sha256": "a44037055e3ee5ab3972fcd8dd1d66d2bae5f260a02b4fb5da144eb114778b08"
+                    },
+                    "runtime_plan": {
+                      "bytes": 13390,
+                      "sha256": "c5eac18605fa59256d91b7603f55cd5405f08417032a346d19345602faa48945"
+                    },
+                    "publication_boundary": {
+                      "bytes": 1025,
+                      "sha256": "1310ab5e15be4acdd7a0745872f4954edb8793c1c6bd4271c8a57afe18c30dbe"
+                    },
+                    "results_manifest": {
+                      "bytes": 5002,
+                      "sha256": "f9e11b7680c4cb8921e36e3e716860cba259f746be5f896236aa00a6b93a6491"
+                    },
+                    "observation": {
+                      "bytes": 15157,
+                      "sha256": "56cbe481559f2b2ece61ffef52a64050d046b13bd9cac64bbb68f0d717e13c36"
+                    },
+                    "stdout": {
+                      "bytes": 31702,
+                      "sha256": "d5e0f1d63eefea4ac1a6283cf00bb58bbd2305379e762e2669b908ecd477f356"
+                    },
+                    "stderr": {
+                      "bytes": 0,
+                      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                    },
+                    "observation_archive_manifest": {
+                      "bytes": 1520,
+                      "sha256": "f40cef22bf6c512fde9e1097a81900433f1cbebe12e8c2546aa163608fa8a828"
+                    },
+                    "passive_approval": {
+                      "bytes": 7267,
+                      "sha256": "8d1f5f09b0b75a63cd67f0e6746313fe7bcd0599c44e8a8fe2163249e58c1604"
+                    },
+                    "consumer": {
+                      "sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e",
+                      "bytes": 5461944
+                    },
+                    "operator": {
+                      "bytes": 30069,
+                      "sha256": "314f3001a88f63407b3fda654d899abfd157d5af08110812259fc8455f84f643"
+                    },
+                    "private_packet": "local-evidence/APITEST-016/identity-results-packet-v2",
+                    "private_observation_archive": "local-evidence/APITEST-016/identity-observation-r4-20261112-v1",
+                    "public_redacted_summary": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6831956852",
+                    "runtime_receipt_exists": true,
+                    "runtime_recipe_executed": true,
+                    "runtime_preflight": {
+                      "bytes": 12666,
+                      "sha256": "77de138b762f20eaca8f16e1433afe2930519aba898a404fd4fb723a73e38468"
+                    },
+                    "runtime_preflight_executed": true
+                  },
+                  "result_tuple": {
+                    "source_revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                    "consumer_sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e",
+                    "operator_sha256": "314f3001a88f63407b3fda654d899abfd157d5af08110812259fc8455f84f643",
+                    "operator_inputs_sha256": "d87ca309016fd711392a9fc73face5a35096cc0383a2cf96016a89dc49a6fd37",
+                    "passive_manifest_sha256": "83815442d0f8918e99e9e9347c882fd665660ff8bd17e21554d8eb2b97372ee6",
+                    "passive_approval_sha256": "8d1f5f09b0b75a63cd67f0e6746313fe7bcd0599c44e8a8fe2163249e58c1604",
+                    "packet_sha256": "a44037055e3ee5ab3972fcd8dd1d66d2bae5f260a02b4fb5da144eb114778b08",
+                    "runtime_plan_sha256": "c5eac18605fa59256d91b7603f55cd5405f08417032a346d19345602faa48945",
+                    "publication_boundary_sha256": "1310ab5e15be4acdd7a0745872f4954edb8793c1c6bd4271c8a57afe18c30dbe",
+                    "results_manifest_sha256": "f9e11b7680c4cb8921e36e3e716860cba259f746be5f896236aa00a6b93a6491",
+                    "observation_sha256": "56cbe481559f2b2ece61ffef52a64050d046b13bd9cac64bbb68f0d717e13c36",
+                    "stdout_sha256": "d5e0f1d63eefea4ac1a6283cf00bb58bbd2305379e762e2669b908ecd477f356",
+                    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "observation_archive_manifest_sha256": "f40cef22bf6c512fde9e1097a81900433f1cbebe12e8c2546aa163608fa8a828",
+                    "runtime_preflight_sha256": "77de138b762f20eaca8f16e1433afe2930519aba898a404fd4fb723a73e38468"
+                  },
+                  "scope": "Actual identity/loaded-map evidence plus conditional runtime receipt/runner recipe and UNEXECUTED preflight-to-exec operator; no actual runtime receipt, baseline authorization or legacy/NI execution.",
+                  "artifact_history": [
+                    {
+                      "artifacts": {
+                        "scope": "actual single identity/maps and conditional frozen-runner runtime-admission recipe; raw local metadata private",
+                        "result_packet": {
+                          "bytes": 8278,
+                          "sha256": "f74ed7a36daf3b5a6c0d5f75dd229ed5b7baef7b8a258954493c45cdec8bd1b4"
+                        },
+                        "runtime_plan": {
+                          "bytes": 7060,
+                          "sha256": "f2508870e7ed03fe22ae31d6c793175b178e18d0faf3b517413609a5e5491d54"
+                        },
+                        "publication_boundary": {
+                          "bytes": 1025,
+                          "sha256": "1310ab5e15be4acdd7a0745872f4954edb8793c1c6bd4271c8a57afe18c30dbe"
+                        },
+                        "results_manifest": {
+                          "bytes": 3967,
+                          "sha256": "7d289e33c72af41052741883556e695fb8f9afe70c0256935a635579fae2049a"
+                        },
+                        "observation": {
+                          "bytes": 15157,
+                          "sha256": "56cbe481559f2b2ece61ffef52a64050d046b13bd9cac64bbb68f0d717e13c36"
+                        },
+                        "stdout": {
+                          "bytes": 31702,
+                          "sha256": "d5e0f1d63eefea4ac1a6283cf00bb58bbd2305379e762e2669b908ecd477f356"
+                        },
+                        "stderr": {
+                          "bytes": 0,
+                          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                        },
+                        "observation_archive_manifest": {
+                          "bytes": 1520,
+                          "sha256": "f40cef22bf6c512fde9e1097a81900433f1cbebe12e8c2546aa163608fa8a828"
+                        },
+                        "passive_approval": {
+                          "bytes": 7267,
+                          "sha256": "8d1f5f09b0b75a63cd67f0e6746313fe7bcd0599c44e8a8fe2163249e58c1604"
+                        },
+                        "consumer": {
+                          "sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e",
+                          "bytes": 5461944
+                        },
+                        "operator": {
+                          "bytes": 30069,
+                          "sha256": "314f3001a88f63407b3fda654d899abfd157d5af08110812259fc8455f84f643"
+                        },
+                        "private_packet": "local-evidence/APITEST-016/identity-results-packet-v1",
+                        "private_observation_archive": "local-evidence/APITEST-016/identity-observation-r4-20261112-v1",
+                        "public_redacted_summary": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6831956852",
+                        "runtime_receipt_exists": false,
+                        "runtime_recipe_executed": false
+                      },
+                      "result_tuple": {
+                        "source_revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                        "consumer_sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e",
+                        "operator_sha256": "314f3001a88f63407b3fda654d899abfd157d5af08110812259fc8455f84f643",
+                        "operator_inputs_sha256": "d87ca309016fd711392a9fc73face5a35096cc0383a2cf96016a89dc49a6fd37",
+                        "passive_manifest_sha256": "83815442d0f8918e99e9e9347c882fd665660ff8bd17e21554d8eb2b97372ee6",
+                        "passive_approval_sha256": "8d1f5f09b0b75a63cd67f0e6746313fe7bcd0599c44e8a8fe2163249e58c1604",
+                        "packet_sha256": "f74ed7a36daf3b5a6c0d5f75dd229ed5b7baef7b8a258954493c45cdec8bd1b4",
+                        "runtime_plan_sha256": "f2508870e7ed03fe22ae31d6c793175b178e18d0faf3b517413609a5e5491d54",
+                        "publication_boundary_sha256": "1310ab5e15be4acdd7a0745872f4954edb8793c1c6bd4271c8a57afe18c30dbe",
+                        "results_manifest_sha256": "7d289e33c72af41052741883556e695fb8f9afe70c0256935a635579fae2049a",
+                        "observation_sha256": "56cbe481559f2b2ece61ffef52a64050d046b13bd9cac64bbb68f0d717e13c36",
+                        "stdout_sha256": "d5e0f1d63eefea4ac1a6283cf00bb58bbd2305379e762e2669b908ecd477f356",
+                        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                        "observation_archive_manifest_sha256": "f40cef22bf6c512fde9e1097a81900433f1cbebe12e8c2546aa163608fa8a828"
+                      }
+                    }
+                  ],
+                  "completion": "closed actual identity-results and conditional runtime recipe only; generated receipt and one baseline call remain separately scoped",
+                  "post_closing_status_observation": {
+                    "finding": "d8969407:AT016-BCA1",
+                    "closing_time_commit": "da0fe1cb2df6fb25195a9c63cf10d20167a6ca6b",
+                    "scope_and_completion_mean": "what the identity closing approved: actual identity plus then-conditional recipe, before runtime receipt/baseline execution",
+                    "closing_time_artifact_flags": {
+                      "runtime_receipt_exists": false,
+                      "runtime_recipe_executed": false,
+                      "runtime_preflight_executed": false
+                    },
+                    "current_artifact_flags": {
+                      "runtime_receipt_exists": true,
+                      "runtime_recipe_executed": true,
+                      "runtime_preflight_executed": true
+                    },
+                    "flags_mean": "truthful post-closing observations only; not content approved by identity closing; subsequent baseline results separately reviewed",
+                    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6834806589"
+                  }
+                },
+                "baseline": {
+                  "authors": [
+                    "codex:coordinator-45e6fb8d",
+                    "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-baseline-author-20261112-v1",
+                    "codex:01a1d062-c8f6-7fc3-8502-3468da1b98f7"
+                  ],
+                  "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                  "paths": [
+                    "server/include/subathon/server/bounded_http.hpp",
+                    "server/include/subathon/server/testing/bounded_http_observers.hpp",
+                    "server/src/bounded_http.cpp",
+                    "tests/bounded_http_foundation/CMakeLists.txt",
+                    "tests/bounded_http_foundation/RESOURCE_REVIEW.md",
+                    "tests/bounded_http_foundation/bounded_http_probe.cpp",
+                    "tests/bounded_http_foundation/inventory.json",
+                    "tests/bounded_http_foundation/test_bounded_http.py",
+                    "cmake/AcceptanceSuites.cmake",
+                    "tests/CMakeLists.txt",
+                    "CMakePresets.json",
+                    "docs/TEST_STRATEGY.md",
+                    "tests/tooling/test_acceptance_selection.py"
+                  ],
+                  "reviews": [
+                    {
+                      "phase": "initial",
+                      "provider": "claude",
+                      "model": "claude-opus-5-5",
+                      "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-baseline-results-initial-20261112-v1",
+                      "native_session": "7a9cbf60-c3c2-4cf9-b222-9cd944bee869",
+                      "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                      "outcome": "approved",
+                      "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6834080747",
+                      "findings": [
+                        "7a9cbf60:AT016-BIA1",
+                        "7a9cbf60:AT016-BIA2",
+                        "7a9cbf60:AT016-BIA3",
+                        "7a9cbf60:AT016-BIA4",
+                        "7a9cbf60:AT016-BIA5",
+                        "7a9cbf60:AT016-BIA6"
+                      ],
+                      "blocking_findings": [],
+                      "started_at": "2026-11-12T19:28:26.994Z",
+                      "finished_at": "2026-11-12T19:40:56.100Z",
+                      "result_tuple": {
+                        "source_revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                        "consumer_sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e",
+                        "identity_results_tuple_sha256": "e442ef234875e2c0e86d32ba8392b4ff69c70bda68b5068d2328af1663511a6e",
+                        "packet_sha256": "16e01834c1c4a1daa387b34ab20b146c33f585b72320b146025c0f5c1aa0094a",
+                        "results_manifest_sha256": "a44d8c1243eeff744767ca5f13ab6b248d8c0dce433d9908650e7715cf6eb9fb",
+                        "runtime_receipt_sha256": "b2133025d9e109b086815a7e998c708f2b25146ec8739416cb2934827da0f461",
+                        "baseline_authorization_sha256": "660264e8b5809f498c65f7c536acc6de8aa301bfa9d087b9bdffa2c266e522e3",
+                        "execution_scope_sha256": "7882ffde1c2465da3b6a67d882a0a07bd2293f8468cfd9126a2ae2d0e1e6602e",
+                        "generated_data_validation_sha256": "f5d9b416f314c954896b2d0913542b5b8f01d0cf97e748d6004c3093a6e80c4b",
+                        "runtime_preflight_sha256": "78c1be13c9b425585cef74306318246e4ae37474d66b8ac466634c4e20fb9aaf",
+                        "runner_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                        "runner_stderr_sha256": "a49900495ebec60369240f838bd5a359514ffcbbeda2ca56049c7574b80acd73",
+                        "tool_result_sha256": "fadd9ced25b1c7eb32d0279d7d82051c744889987aaa4ffc93ea7d086b84f43c",
+                        "classification_sha256": "148b9a635237029f68cf7360e88422ef8845b0b94be773f01ec47f107d4b472e",
+                        "postflight_sha256": "48aa29486cd0cecbfc11ca397f650496695461c97a8207cfe882e4b7980c12f3"
+                      },
+                      "private_report_sha256": "4bdc09d44018a5dd4a769ffecdb8cb9ef7ad3f312580c8c16f9edfc55783d735",
+                      "public_report_sha256": "722137745302bc43cf0da2ae71065119bd2686bac4162a5a37beaa59e441307c",
+                      "public_report_redacted": true
+                    },
+                    {
+                      "phase": "verification",
+                      "provider": "codex",
+                      "model": "gpt-6.1-sol",
+                      "reviewer": "codex:01a1d14a-fa05-7000-850f-3c8741b99cac",
+                      "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                      "outcome": "approved",
+                      "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6834380374",
+                      "findings": [],
+                      "blocking_findings": [],
+                      "result_tuple": {
+                        "source_revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                        "consumer_sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e",
+                        "identity_results_tuple_sha256": "e442ef234875e2c0e86d32ba8392b4ff69c70bda68b5068d2328af1663511a6e",
+                        "packet_sha256": "16e01834c1c4a1daa387b34ab20b146c33f585b72320b146025c0f5c1aa0094a",
+                        "results_manifest_sha256": "a44d8c1243eeff744767ca5f13ab6b248d8c0dce433d9908650e7715cf6eb9fb",
+                        "runtime_receipt_sha256": "b2133025d9e109b086815a7e998c708f2b25146ec8739416cb2934827da0f461",
+                        "baseline_authorization_sha256": "660264e8b5809f498c65f7c536acc6de8aa301bfa9d087b9bdffa2c266e522e3",
+                        "execution_scope_sha256": "7882ffde1c2465da3b6a67d882a0a07bd2293f8468cfd9126a2ae2d0e1e6602e",
+                        "generated_data_validation_sha256": "f5d9b416f314c954896b2d0913542b5b8f01d0cf97e748d6004c3093a6e80c4b",
+                        "runtime_preflight_sha256": "78c1be13c9b425585cef74306318246e4ae37474d66b8ac466634c4e20fb9aaf",
+                        "runner_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                        "runner_stderr_sha256": "a49900495ebec60369240f838bd5a359514ffcbbeda2ca56049c7574b80acd73",
+                        "tool_result_sha256": "fadd9ced25b1c7eb32d0279d7d82051c744889987aaa4ffc93ea7d086b84f43c",
+                        "classification_sha256": "148b9a635237029f68cf7360e88422ef8845b0b94be773f01ec47f107d4b472e",
+                        "postflight_sha256": "48aa29486cd0cecbfc11ca397f650496695461c97a8207cfe882e4b7980c12f3"
+                      },
+                      "private_report_sha256": "009891fc01a38a9d5243a1f4d8ecc59ddf58c29d679181d57d79f939288466b1",
+                      "public_report_sha256": "cfac22832ceada0b7ecb76e7cbac767e259415d13446d2cdbae37c6769e391ac",
+                      "public_report_redacted": true,
+                      "coordinator_supplement_sha256": "eaee756c0c6ee520ec9137a9262b072b12cc480ac2c0b8e6442d85f7c18b4fa7"
+                    },
+                    {
+                      "phase": "closing",
+                      "provider": "claude",
+                      "model": "claude-opus-5-5",
+                      "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-baseline-results-closing-20261112-v1",
+                      "native_session": "d8969407-95f6-4ac4-8829-2b933f29f517",
+                      "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                      "outcome": "approved",
+                      "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6834806589",
+                      "findings": [
+                        "d8969407:AT016-BCA1"
+                      ],
+                      "blocking_findings": [],
+                      "started_at": "2026-11-12T19:58:35.570Z",
+                      "finished_at": "2026-11-12T20:13:11.424Z",
+                      "result_tuple": {
+                        "source_revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                        "consumer_sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e",
+                        "identity_results_tuple_sha256": "e442ef234875e2c0e86d32ba8392b4ff69c70bda68b5068d2328af1663511a6e",
+                        "packet_sha256": "16e01834c1c4a1daa387b34ab20b146c33f585b72320b146025c0f5c1aa0094a",
+                        "results_manifest_sha256": "a44d8c1243eeff744767ca5f13ab6b248d8c0dce433d9908650e7715cf6eb9fb",
+                        "runtime_receipt_sha256": "b2133025d9e109b086815a7e998c708f2b25146ec8739416cb2934827da0f461",
+                        "baseline_authorization_sha256": "660264e8b5809f498c65f7c536acc6de8aa301bfa9d087b9bdffa2c266e522e3",
+                        "execution_scope_sha256": "7882ffde1c2465da3b6a67d882a0a07bd2293f8468cfd9126a2ae2d0e1e6602e",
+                        "generated_data_validation_sha256": "f5d9b416f314c954896b2d0913542b5b8f01d0cf97e748d6004c3093a6e80c4b",
+                        "runtime_preflight_sha256": "78c1be13c9b425585cef74306318246e4ae37474d66b8ac466634c4e20fb9aaf",
+                        "runner_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                        "runner_stderr_sha256": "a49900495ebec60369240f838bd5a359514ffcbbeda2ca56049c7574b80acd73",
+                        "tool_result_sha256": "fadd9ced25b1c7eb32d0279d7d82051c744889987aaa4ffc93ea7d086b84f43c",
+                        "classification_sha256": "148b9a635237029f68cf7360e88422ef8845b0b94be773f01ec47f107d4b472e",
+                        "postflight_sha256": "48aa29486cd0cecbfc11ca397f650496695461c97a8207cfe882e4b7980c12f3"
+                      },
+                      "private_report_sha256": "1af558af6b9c036440e8545701404897aaa013b971cbd0c6543c2d02fda0502b",
+                      "public_report_sha256": "6a0d3c25c0fd4e262e0af0ae902d2da319ce65d84383cdef5969baf0b5c83ed1",
+                      "public_report_redacted": true,
+                      "coordinator_supplement_sha256": "eaee756c0c6ee520ec9137a9262b072b12cc480ac2c0b8e6442d85f7c18b4fa7"
+                    }
+                  ],
+                  "result_tuple": {
+                    "source_revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+                    "consumer_sha256": "96ef0c52082c74669437fd8083f84f8a14f902f8a25e89a5b8434329e3e44d6e",
+                    "identity_results_tuple_sha256": "e442ef234875e2c0e86d32ba8392b4ff69c70bda68b5068d2328af1663511a6e",
+                    "packet_sha256": "16e01834c1c4a1daa387b34ab20b146c33f585b72320b146025c0f5c1aa0094a",
+                    "results_manifest_sha256": "a44d8c1243eeff744767ca5f13ab6b248d8c0dce433d9908650e7715cf6eb9fb",
+                    "runtime_receipt_sha256": "b2133025d9e109b086815a7e998c708f2b25146ec8739416cb2934827da0f461",
+                    "baseline_authorization_sha256": "660264e8b5809f498c65f7c536acc6de8aa301bfa9d087b9bdffa2c266e522e3",
+                    "execution_scope_sha256": "7882ffde1c2465da3b6a67d882a0a07bd2293f8468cfd9126a2ae2d0e1e6602e",
+                    "generated_data_validation_sha256": "f5d9b416f314c954896b2d0913542b5b8f01d0cf97e748d6004c3093a6e80c4b",
+                    "runtime_preflight_sha256": "78c1be13c9b425585cef74306318246e4ae37474d66b8ac466634c4e20fb9aaf",
+                    "runner_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "runner_stderr_sha256": "a49900495ebec60369240f838bd5a359514ffcbbeda2ca56049c7574b80acd73",
+                    "tool_result_sha256": "fadd9ced25b1c7eb32d0279d7d82051c744889987aaa4ffc93ea7d086b84f43c",
+                    "classification_sha256": "148b9a635237029f68cf7360e88422ef8845b0b94be773f01ec47f107d4b472e",
+                    "postflight_sha256": "48aa29486cd0cecbfc11ca397f650496695461c97a8207cfe882e4b7980c12f3"
+                  },
+                  "scope": "Actual single default legacy-positive and first-NI red results; no downstream wire bodies or producer implementation",
+                  "artifacts": {
+                    "private_packet": "local-evidence/APITEST-016/baseline-results-packet-v1",
+                    "private_run": "local-evidence/APITEST-016/baseline-execution-r4-v1",
+                    "actual_exit_code": 1,
+                    "legacy_positive": "passed",
+                    "foundation_methods": 34,
+                    "NI_failures": 241,
+                    "errors": 0,
+                    "NI_boundary_counts": {
+                      "foundation.create.before_listeners_run": 239,
+                      "foundation.create.config_before_listeners_run": 1,
+                      "project_storage": 1
+                    },
+                    "children_from_log_and_source": 242,
+                    "downstream_wire_bodies": "unexecuted",
+                    "postflight_seals": "passed",
+                    "independent_results_review": "passed"
+                  },
+                  "advisory_dispositions": {
+                    "coordinator_supplement_sha256": "eaee756c0c6ee520ec9137a9262b072b12cc480ac2c0b8e6442d85f7c18b4fa7",
+                    "tool_transcript_excerpts_private_sha256": "15b4528d5bc7a1c31ba8aceb3fa797ac2ada4d6ba2d7b53bf97509795741d9b3",
+                    "BIA1": "Consumed baseline execution appended without changing identity history.",
+                    "BIA2": "Baseline preflight digest is OUTPUT78c1be13; helper SCRIPT77de138b. Identity tuple digest is compact sorted UTF8 JSON/no newline.",
+                    "BIA3": "Timeout/helper inherited host loader search path; their library identity unobserved. Runner clean env/children admitted env.",
+                    "BIA4": "Tool-result JSON is root transcription; exact native exec+poll excerpts separately authenticated/preserved privately. One attempt, real exit1.",
+                    "BIA5": "Legacy initial/serving/cleanup admitted; NI initial only. Profile creation after initial snapshot in240NI children is unobserved.",
+                    "BIA6": "Frozen source/status literals retained as authorship-time history, never current evidence.",
+                    "BCA1": "Identity scope/completion describe closing-time approval; three true artifact flags are explicitly labelled post-closing status, with false closing-time values preserved at da0fe1c and copied into status observation. No reviewed tuple or artifact changed."
+                  },
+                  "completion": "closed actual single legacy-positive/first-NI-red results on unchanged fifteen-field tuple; artifact completion and publication are separate"
+                }
+              },
+              "results_policy": "Separate actual identity/maps and baseline-results review cycles will be recorded here with their own evidence hashes/reviews. Passive admission closing alone cannot complete APITEST-016; keep in_progress until actual admitted legacy-positive, attributable NI-red, results reviews and protected publication. Owner requires stop after this task.",
+              "execution_history": [
+                {
+                  "kind": "controlled_identity_only",
+                  "invocations": 1,
+                  "outcome": "observed_pending_independent_review",
+                  "returncode": 0,
+                  "empty_child_stderr": true,
+                  "reaped": true,
+                  "private_scratch_removed": true,
+                  "post_seals_passed": true,
+                  "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6831956852",
+                  "raw_evidence_public": false
+                },
+                {
+                  "kind": "direct_default_legacy_positive_and_first_NI_red",
+                  "invocations": 1,
+                  "outcome": "observed_red_pending_full_independent_results_review",
+                  "returncode": 1,
+                  "legacy_positive": "passed",
+                  "foundation_methods": 34,
+                  "NI_failures": 241,
+                  "errors": 0,
+                  "NI_boundaries": {
+                    "foundation.create.before_listeners_run": 239,
+                    "foundation.create.config_before_listeners_run": 1,
+                    "project_storage": 1
+                  },
+                  "post_seals_passed": true,
+                  "private_scratch_parent_empty": true,
+                  "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6834080747",
+                  "raw_evidence_public": false,
+                  "tool_transcript_authenticated_by_coordinator": true,
+                  "private_transcript_sha256": "15b4528d5bc7a1c31ba8aceb3fa797ac2ada4d6ba2d7b53bf97509795741d9b3"
+                }
+              ]
+            }
+          },
+          "completion_reviews": [
+            {
+              "kind": "routine_completion_and_safe_publication_consistency",
+              "provider": "codex",
+              "model": "gpt-6.1-sol",
+              "reviewer": "codex:01a1d171-1820-7211-99c9-a714ac26a850",
+              "revision": "7a360d4f1e402bdbe87a640b6cef1815849cf5d2",
+              "outcome": "approved",
+              "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6835175825",
+              "private_report_sha256": "c08d6471f56892b2a9bbc9705ba5543faf47c67f63b7e8cf320c30aa01de822c",
+              "public_report_sha256": "e06df695085794124bafe932acdce674590fe89dc5396b6ce7ac51ced6c9c5e1",
+              "public_report_redacted": true,
+              "blocking_findings": []
+            }
+          ]
+        },
+        "complete_workflow_sha256": "5d60b640d2b0949dce9ed8fa38624781cbe1f115e67619be6705b0d8e7921f92",
+        "digest_convention": "SHA256 UTF8 compact sorted-key JSON, ensure_ascii=False, no trailing newline",
+        "standard_projection_sha256": "4064f30a3aeba188be81f04cec85d339cfee92996824503ca08ccd4ed8dbb024",
+        "authority": "Complete actual artifact/result tuples, ordered full receipts and nested results remain here unchanged; standard workflow is the exact schema-compatible projection for generic gates. No artifact, source, review outcome or required stage changed.",
+        "reason": "CI schema-validation rejected extra receipt artifacts in the strict standard workflow shape; preserve complete evidence without relaxing schema or dropping fields.",
+        "compatibility_reviews": [
+          {
+            "kind": "routine_receipt_schema_compatibility",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:01a1d17f-6b54-79a0-9cec-82730f0bdc8a",
+            "revision": "cbe059f1f101e08d15eedfc3e2e17e370b4d76e4",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6835519739",
+            "private_report_sha256": "d5252c84e7a66c298433704f21f89e76c16171d6a8199bdcc6bf64e55ac95d3b",
+            "public_report_sha256": "5dc7fa9451f356d7bde3c6363e410dcf8c2f07900cddc109b4c2d98939300b04",
+            "blocking_findings": []
+          }
+        ]
+      }
     },
     {
       "id": "API-016",
@@ -19027,6 +20405,156 @@
       "date": "2026-11-12T10:59:41+00:00",
       "task": "APICONTRACT-005",
       "note": "Native Codex01a1cf66 approved the four-file routine completion delta, no blockers or substantive escalation; exact report published. Six source blobs remaincee1845. Final metadata publication now requires latest-head CI and live review/thread/rule/protected merge checks; downstream task not claimed."
+    },
+    {
+      "date": "2026-11-12T11:14:50+00:00",
+      "task": "APITEST-016",
+      "note": "Verified normal PR123 merge3d3be7a from1c882a3 after21checks, independent source+metadata approvals, zero threads/live rules; refreshed main and reconciled merged publication in this authorized claim. APITEST016 dependency-ready and claimed before fresh test/stub authoring; no baseline/native execution yet."
+    },
+    {
+      "date": "2026-11-12T11:30:31+00:00",
+      "task": "API-001",
+      "note": "Routine main3d merge into draftPR121 published7a9aeb6 after independent Codex01a1cf80 consistency approval; source/header/tests/SDK/task record/partial approvals/histories preserved. Live conflict-free, CI17success4running in saved observation. Root returned APITEST016 claim; isolated author untouched, no runtime/whole-stage approval."
+    },
+    {
+      "date": "2026-11-12T12:04:48+00:00",
+      "task": "APITEST-016",
+      "note": "Fresh isolated author01a1cf7b/T3apitest016 handed off10a6d06c (static/syntax only). Root integrated8newfiles, added2sharedCMake paths and corrected F13 retry8→3; ten-path sourcee2d2428, max279children/9546s. Initial independent Claude test/fixture/stub/source-resource review pending; no execution/red/ABI claim or publish."
+    },
+    {
+      "date": "2026-11-12T12:54:03+00:00",
+      "task": "APITEST-016",
+      "note": "Published exact initial Claude report (T3 authoritative ID, f25c690c report namespace, observed interval),8blockers/14advisories. Root locally fixes B8 cache default and A13 selector/preset/docs; no execution. Original author continuation owns B1–B7/remaining advisories; full review gates and unpublished-source boundary retained."
+    },
+    {
+      "date": "2026-11-12T13:37:51+00:00",
+      "task": "APITEST-016",
+      "note": "Integrated completed original-author ef121a0 four-file corrections at a6253f4; exact source d2b28b2 adds coordinator-owned290-child/9920s watchdog and prior B8/A13 changes. Expanded13-path packet preserves initial report and NI/native/host history. Static checks only; independent Codex verification/Claude closing/admission/red pending; no source push."
+    },
+    {
+      "date": "2026-11-12T13:57:02+00:00",
+      "task": "APITEST-016",
+      "note": "Published independent native Codex01a1cffc verification of d2b28b2: original8 blocker groups addressed at source scope, but V1 native ordering and originalA2 gate classification block; new resourceA1 advisory. Coordinator e07e882 makes bounded three-file corrections and preserves inventory/NI. Fresh independent recheck/Claude closing/admission/red pending; no bodies/source push."
+    },
+    {
+      "date": "2026-11-12T14:10:08+00:00",
+      "task": "APITEST-016",
+      "note": "Published exact final independent Codex01a1d00e approval of e07e882, checked against its completion record; exact-session metadata authenticates gpt-6.1-sol/xhigh and child identity distinct from inherited root. No blockers at tests-source scope; source unchanged, fresh Claude closing pending. No native duration invented, test execution/admission/red/source push."
+    },
+    {
+      "date": "2026-11-12T14:37:19+00:00",
+      "task": "APITEST-016",
+      "note": "Published exact first Claude closing e07e882 report: newC1/4advisories, prior positives retained. T3 observed interval/native f1a7beb9 exact log/model authenticated. Coor606b956 authors bounded response-prefix quarantine oracle plus CA1–4, preserves wipes/output/finish and unchanged inventory/NI. Fresh independent recheck/new Claude closing/admission/red pending; no source push or runtime."
+    },
+    {
+      "date": "2026-11-12T14:51:13+00:00",
+      "task": "APITEST-016",
+      "note": "Published exact final Codex01a1d033 approval of606b956, compared with its actual task_complete message; authenticated child model/path/cwd independently of inherited root SESSION_ID. C1/CA1–4 and prior scopes resolved at source level. No new/blocking findings. Source unchanged; new fresh Claude closing/admission/red pending; no bodies/source push or invented duration."
+    },
+    {
+      "date": "2026-11-12T15:14:53+00:00",
+      "task": "APITEST-016",
+      "note": "Published exact fresh Claude closing-v2 approval of SAME606b956 as preceding Codex01a1d033, no findings; authenticated native76e9a89e and observed T3 interval. Tests-source stage closed only, task remains in_progress. GraphQL publication failed with no comment; REST retry returned real HTTPS receipt. Prepare reviewed consumer build/passive admission next; no source/body/load/red/implementation execution yet."
+    },
+    {
+      "date": "2026-11-12T15:30:12+00:00",
+      "task": "APITEST-016",
+      "note": "After approved tests-source closing, verified SDK161-file seal/profile/patch/first-party identity, passed focused selection test, configured fresh606b956 build and compiled/linked NI consumer only (4 warnings retained). Passive17ELFs/2118strong/41VERNEED authored; first resolver refused Arch libc interpreter alias, same canonical loader correction/log preserved. Added separate NI-consumer implementation/admission stage before authoring its packet, not API016 product behavior. No SDK load, identity/body/red."
+    },
+    {
+      "date": "2026-11-12T16:01:03+00:00",
+      "task": "APITEST-016",
+      "note": "Integrated exact authored NI-consumer admission packet and operator appendix as doc049d998,14-path separate stage with baseline/root/native01a1d062 authors. Verified36 artifact members,1522 live file seals and unchanged closed13source606b956; archived original draft/evidence. Published real author handoff. No operator import/load/body/identity/admission/red; initial independent review next."
+    },
+    {
+      "date": "2026-11-12T16:06:49+00:00",
+      "task": "APITEST-016",
+      "note": "Owner now explicitly requires finish current APITEST016 then stop; no API016/new claims. Project check caught README-only evidence policy; removed newly authored local receipt doc before push, preserved exact packet/operator in real PR comments and ignored sealed archive. Admission stage binds13 tracked code paths plus portable artifact SHA/URL records; no initial review or selected-program execution yet."
+    },
+    {
+      "date": "2026-11-12T16:40:11+00:00",
+      "task": "APITEST-016",
+      "note": "Authenticated/published full Claude initial native3a05d080/T3admission-initial:2 operator blockers/11advisories; all source606b956 unchanged. Coordinator R2 corrects full-history grammar and nonraising signal supervision/unknown-child reporting, hash currency/read parsing/interpreter/process-state/stack disclosures.61 tmp seals persisted;2 runtime configs added.1524 static seals pass; no selected program/operator executed. Independent verification/fresh closing and actual results gates remain; finish this task then stop."
+    },
+    {
+      "date": "2026-11-12T16:52:46+00:00",
+      "task": "APITEST-016",
+      "note": "Published full independent Codex01a1d0a3 R2 verification:original NB1/NB2 resolved, new RV1 inherited SIGCHLD can make CPython synthesize zero. Coordinator authored R3 default disposition/exclusive wait correction in separate persistent artifacts, reprojected61 seal paths byte-identically; all1524 seals/13 sources and AST pass. Prior artifacts/reports preserved; no native/operator execution. Separate Codex recheck/new Claude closing and all results/publication gates remain; stop after this task."
+    },
+    {
+      "date": "2026-11-12T17:01:26+00:00",
+      "task": "APITEST-016",
+      "note": "Authenticated/published full fresh Codex01a1d0ae R3 recheck APPROVED:RV1 resolved, no new findings, prior NB1/NB2 and scoped positives retained. Exact source606b956 and current four artifact/consumer hashes verified; default SIGCHLD clears auto-reap with exclusive waits, all1524 seals/103members/61copies/13sources pass. No SDK/operator/native execution. Next NEW independent Claude closing on same tuple; actual identity/results/legacy/red/publication still required; then stop."
+    },
+    {
+      "date": "2026-11-12T17:25:23+00:00",
+      "task": "APITEST-016",
+      "note": "Authenticated/published fresh Claude closing37b9088e CHANGES_REQUIRED:NB1/NB2/RV1 resolved, newCB1 resident loader cache outside17ELFs plusCA1/CA2. Coordinator R4 adds only existing sealed cache as separate optional-once r--p/offset0/device/inode/hash/extent data allowance, keeps17ELF equality; every invocation consumes single attempt, history prose clarified. All1524 seals/13paths/AST pass; no source/binary/native/operator changes or execution. Separate Codex recheck/new Claude closing and actual results gates remain; stop after task."
+    },
+    {
+      "date": "2026-11-12T17:38:09+00:00",
+      "task": "APITEST-016",
+      "note": "Authenticated/published full fresh Codex01a1d0cc R4 APPROVED, no new finding:CB1 sealed loader-data allowance preserves17ELF equality; CA1/CA2 addressed, previous fixes retained. Exact current tuple/context/1524seals/105members/61relocations/162SDKnames/13paths verified statically. No operator/native/test execution. Next NEW independent Claude closing on SAME tuple, then actual identity/results/legacy/red/protected publication; stop after this task."
+    },
+    {
+      "date": "2026-11-12T17:55:52+00:00",
+      "task": "APITEST-016",
+      "note": "Authenticated/published NEW Claude closing555b33e0/T3admission-closing-v2 APPROVED exactR4 tuple, no blocker, DA1 data-only preflight advisory. Full six-review I/V/V/C/V/C history retained with exact hashes; same final Codex01a1d0cc tuple. Passive NI source/resource/license/build/ABI/artifact/operator gate CLOSED only. Coordinator scopes one identity invocation under current owner task after data-only preflight; actual results/legacy/red/protected publication pending; then stop."
+    },
+    {
+      "date": "2026-11-12T18:13:40+00:00",
+      "task": "APITEST-016",
+      "note": "After complete passive closure/authentication/DA1 preflight, exactly ONE identity-only invocation observed exit0,empty child stderr,known reap,private scratch removal,unchanged seals and both complete17ELF+loader-data snapshots. Full raw/archive hashes preserved privately. Auto-review rejected raw external metadata upload before execution; safe redacted summary published, no workaround/raw disclosure. New identity-results/conditional-runtime-plan stage authored; no receipt/legacy/NI-red yet. Finish this task then stop."
+    },
+    {
+      "date": "2026-11-12T18:44:40+00:00",
+      "task": "APITEST-016",
+      "note": "Authenticated/published sanitized Claude64778a4c identity-results initial APPROVED V1,8nonblocking IA1–IA8; full private report/raw unchanged and not uploaded. Coordinator V2 fixes execution-context scope, exact legacy/241NI239-1-1 terminal classification, actual pre-exec SIGCHLD/mask normalization and private parent-env recording in UNEXECUTED helper; fresh runtime receipt/auth files absent. Derived-count/context/direct-command claim rules explicit. Source/binary/identity unchanged; independent Codex verification/new Claude closing required; stop after task."
+    },
+    {
+      "date": "2026-11-12T18:56:45+00:00",
+      "task": "APITEST-016",
+      "note": "Authenticated/published sanitized independent Codex01a1d116 verification APPROVED exact V2 fifteen-field tuple, no new finding, IA1–IA8 addressed. Full PRIVATE30413B/SHAbc9c45a1 and PUBLIC21283B/SHAe962275b separately preserved; no raw upload. All tuple/source/custody/19-11-105manifests/1524seals checked statically; helper never executed. Next NEW Claude closing before actual receipt/auth/runtime run; baseline results/protected publication remain; then stop."
+    },
+    {
+      "date": "2026-11-12T19:21:39+00:00",
+      "task": "APITEST-016",
+      "note": "Authenticated exact native0dccd41a/T3 Opus5.5 xhigh closing 19:00:32.441Z–19:16:05.051Z; APPROVED same V2 fifteen-field actual-identity/runtime-recipe tuple as Codex01a1d116. Public sanitized report published; full PRIVATE sealed locally. IA1–IA8 addressed; CLA1 exact logged single call and CLA2 generated private receipt/auth checks assigned before execution. No baseline invocation/red. Finish task then stop."
+    },
+    {
+      "date": "2026-11-12T19:26:40+00:00",
+      "task": "APITEST-016",
+      "note": "ONE reviewed require_escalated timeout/helper default runner attempt consumed. Actual legacy positive passed; all34 foundation methods reported241 attributable missing-producer failures239/1/1,0errors,real exit1. Full private logs preserved; all1524input/105artifact/18file/13source and receipt/auth post-seals match, scratch empty. New separate actual-baseline-results stage pending full independent cycle. Downstream bodies unexecuted; no rerun/producer/new task. Stop after APITEST016."
+    },
+    {
+      "date": "2026-11-12T19:44:02+00:00",
+      "task": "APITEST-016",
+      "note": "Authenticated Claude7a9cbf60/T3Opus5.5 xhigh initial actual-baseline-results APPROVED same fifteen-field tuple,0blockers/6advisories. Only sanitized PUBLIC posted; full PRIVATE sealed. BIA1–6 metadata/proof-limit dispositions preserve frozen artifacts; native actual exec/poll transcript independently authenticated and privately archived. Next separate Codex verification then NEW Claude closing. No rerun/producer/new task; stop after APITEST016."
+    },
+    {
+      "date": "2026-11-12T19:56:51+00:00",
+      "task": "APITEST-016",
+      "note": "Authenticated nativeCodex01a1d14a exact SQLite/session_meta gpt-6.1-sol/xhigh/path/cwd; independent baseline-results verification APPROVED same15tuple,0blockers/new advisories; all6BIA dispositions supported. Full PRIVATE46253B/SHA009891fc and sanitized PUBLIC26640B/SHAcfac2283 preserved, only PUBLIC posted. Complete5384loglines/241blocks/exact97wire+112split+32plain/239-1-1 derived; all seals match. Next NEW Claude closing, then completion/currentCI/protected merge; stop after task."
+    },
+    {
+      "date": "2026-11-12T20:18:01+00:00",
+      "task": "APITEST-016",
+      "note": "Authenticated NEW Clauded8969407 exact nativeJSONL/T3Opus5.5 xhigh19:58:35.570Z–20:13:11.424Z: APPROVED same15field actual-baseline tuple,0blockers/1nonblocking BCA1. Only sanitized PUBLIC32204B/SHA6a0d3c25 posted; PRIVATE44681B/SHA1af558af retained. BCA1 labels post-identity-closing status flags without changing scope/tuple/artifacts. Full source/passive/identity/baseline cycles closed; artifact done with observed_red, current-head CI/protected publication pending. API016 unclaimed; stop after task."
+    },
+    {
+      "date": "2026-11-12T20:32:55+00:00",
+      "task": "APITEST-016",
+      "note": "Independent nativeCodex01a1d171 gpt-6.1-sol/xhigh APPROVED routine completion/projection at7a360d4,0findings/escalation. Verified4metadata paths, all13source600 bytes/core15tuple/history/policy/STOP, identical-tree safe graph and excluded private packet, reviewed PR body. Full PRIVATE6230B/SHAc08d6471 and PUBLIC5991B/SHAe06df695 preserved; only PUBLIC posted. Recording receipt only; next normal safe-branch push/latest-head CI/protected merge, then STOP."
+    },
+    {
+      "date": "2026-11-12T20:39:53+00:00",
+      "task": "APITEST-016",
+      "note": "Current-head9b20c35 CI exposed strict workflow-schema mismatch: supplemental artifact tuples/nested result fields were outside supported standard shape. Preserved ENTIRE complete workflow record unchanged in task-level supplemental_workflow_evidence.complete_workflow with canonical digest; standard workflow is exact allowed-key projection. Schema/tools/tests/13source/15tuples/review outcomes untouched; no evidence discarded/gate relaxed or baseline rerun. Routine independent compatibility review and fresh CI pending. Separate native job failed before compilation on unsupported runner APT layout."
+    },
+    {
+      "date": "2026-11-12T20:48:56+00:00",
+      "task": "APITEST-016",
+      "note": "Independent nativeCodex01a1d17f gpt-6.1-sol/xhigh APPROVED routine receipt-schema preservation atcbe059f,0findings/escalation. Full original workflow SHA5d60b640 and standard projection4064f30a independently reproduced; all source/tuples/policy/489other tasks unchanged, no schema/test/tool edits. Only sanitized PUBLIC5616B/SHA5dc7fa94 posted; PRIVATE5877B/SHAd5252c84 retained. New receipt recorded OUTSIDE immutable full record/strict workflow. Actual standards-suite/current-headCI/protected merge pending; no baseline rerun/new task."
     }
   ],
   "workflow_policy": {

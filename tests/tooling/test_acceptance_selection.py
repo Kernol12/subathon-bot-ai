@@ -92,6 +92,13 @@ class AcceptanceSelectionTests(unittest.TestCase):
                 "native-websocket-profile;native-websocket-profile"},
             ["native-websocket-profile"])
 
+    def test_bounded_http_foundation_has_only_its_transport_dependency(self):
+        self.assert_selection({
+            "SUBATHON_BUILD_ACCEPTANCE_TESTS:BOOL": "ON",
+            "SUBATHON_ACCEPTANCE_SUITES:STRING":
+                "bounded-http-foundation;bounded-http-foundation"},
+            ["bounded-http-foundation", "native-websocket-profile"])
+
     def test_api_host_profiles_include_real_storage_and_corrected_transport(self):
         # These are public build-profile requirements: both host baselines need
         # the current physical store and corrected native transport. Native also

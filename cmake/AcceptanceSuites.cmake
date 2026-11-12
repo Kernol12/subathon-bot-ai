@@ -8,7 +8,8 @@ set(subathon_acceptance_suites
     sqlite-bundle sqlite-original-claim sqlite-hold application-service
     translation-catalog rate-snapshot milestone-progression session-resolution
     password-hashing effective-permissions timer-editorial sqlite-reference-capture
-    sqlite-account-sessions native-websocket-profile api-host api-host-native)
+    sqlite-account-sessions native-websocket-profile api-host api-host-native
+    bounded-http-foundation)
 
 # Existing library/test guards stay private derived variables; callers select the
 # logical suites above instead of maintaining another set of cache switches.
@@ -80,6 +81,9 @@ function(subathon_resolve_acceptance_suites output)
             # Host headers/fixtures need the real store prefix and corrected
             # transport even in the Qt/fake lane. Native retains the Qt baseline.
             list(APPEND selected ${sqlite_chain} native-websocket-profile api-host "${suite}")
+        elseif(suite STREQUAL "bounded-http-foundation")
+            # This fixture reuses the historical transport without Qt/SQL/host.
+            list(APPEND selected native-websocket-profile bounded-http-foundation)
         elseif(NOT sqlite_index EQUAL -1)
             math(EXPR prefix_length "${sqlite_index} + 1")
             list(SUBLIST sqlite_chain 0 ${prefix_length} prefix)

@@ -58,6 +58,7 @@ still using synthetic data and supplied policy/authority facts.
 | `sqlite-account-sessions-debug` | `-L '^sqlite-account-sessions$'` | 44 real-SQL methods for physical current facts, full conditional writes and compiled-prefix/frame equality; host login/authority remains separate |
 | `translation-catalog-debug` | `-L '^translation-catalog$'` | 43 generator methods with literal goldens; build also produces/validates real Qt QM |
 | `native-websocket-profile-debug` | `-L '^native-websocket-profile$'` | 44 reviewed methods passing locally and in selected Ubuntu CI against the corrected Drogon/Trantor SDK: real Linux loopback framing/control/Close, listener isolation, ownership and resource/deadline observations with supplied elapsed time; actual host/TLS/clock/auth/platform gates remain separate |
+| `bounded-http-foundation-debug` | `-L '^bounded-http-foundation$'` | NI-only bounded HTTP baseline; see APITEST-016 for actual review/admission/red status. Compiles the existing native transport dependency without Qt/SQL/host scope. |
 | `rate-snapshot-debug` | `-L '^rate-snapshot$'` | 53 preserved cases for owned lossless observations, exact effective-table validation and inverse/cross queries; no provider/cache/valuation integration |
 | `schema-validation-debug` | `-L '^schema-validation$'` | 8 Python methods: actual OpenAPI/17 components, 23 existing positive examples, 77 independent component cases, and 11 structural progress cases plus actual state |
 
@@ -105,6 +106,14 @@ native profile installs once per process. Each literal `method[:row]` from
 and assertions. Compare that complete inventory with admitted Qt data-tag discovery
 before running bodies. Other Qt suites retain their existing registration.
 
+The `bounded-http-foundation-debug` test preset filters its own label; the native
+profile is a compiled dependency, with separate consumer-admission/regression gates.
+Its admission receipt defaults to `bounded-http-admission.json` under the binary
+directory and may be overridden with `SUBATHON_BOUNDED_HTTP_ADMISSION`. Configuration
+can precede the reviewed receipt contents; a missing runtime receipt is a setup
+failure, never intended red. Independent test/fixture review and new-consumer
+admission precede any execution; the preset name conveys no approval or capability.
+
 ## Running relevant checks
 
 Use the selected preset for the changed component and its dependent regression scope:
@@ -131,7 +140,7 @@ the initial-capture prefix for account/session storage; milestone,
 permissions and rate include numeric checks; editorial includes debt and lifecycle.
 Bare acceptance ON defaults to credit. An explicit empty/unknown selection fails;
 `all` explicitly includes every native/translation suite, all required SDKs and the
-host lifecycle intentional-red baselines. Rate snapshots are ordinary passing
+host lifecycle and bounded HTTP foundation intentional-red baselines. Rate snapshots are ordinary passing
 acceptance. The corrected native WebSocket
 profile itself remains ordinary passing acceptance. Schema validation and configure-only Qt probing remain separate
 controls. The account preset includes the complete compiled SQLite migration prefix:

@@ -1,0 +1,1153 @@
+{
+  "status": "AUTHORED_UNREVIEWED_UNEXECUTED",
+  "contract_source": "cee1845c847389697bea0097e94685d721d213e5",
+  "legacy_selectors": [
+    "LegacyControl.test_actual_legacy_positive"
+  ],
+  "selectors": [
+    {
+      "selector": "FoundationTests.test_literal_wire_inventory",
+      "max_children": 97
+    },
+    {
+      "selector": "FoundationTests.test_split_priority_and_line_envelopes",
+      "max_children": 112
+    },
+    {
+      "selector": "FoundationTests.test_field_occurrence_views",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_reference_body_stream",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_read_witness_two_phases",
+      "max_children": 2
+    },
+    {
+      "selector": "FoundationTests.test_second_coalesced_request_after_release",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_full_receive_held_successor",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_output_pressure_actual_node",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_once_drop_thread_reentry_faults",
+      "max_children": 16
+    },
+    {
+      "selector": "FoundationTests.test_wrong_thread_void_terminates",
+      "max_children": 2
+    },
+    {
+      "selector": "FoundationTests.test_truncated_body_eof",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_request_connection_close_wins",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_accept_time_equality_and_failure",
+      "max_children": 5
+    },
+    {
+      "selector": "FoundationTests.test_request_no_trickle_extension_commit_equality",
+      "max_children": 2
+    },
+    {
+      "selector": "FoundationTests.test_stop_first_deadline",
+      "max_children": 2
+    },
+    {
+      "selector": "FoundationTests.test_native_retention_blocks_stop_drain",
+      "max_children": 3
+    },
+    {
+      "selector": "FoundationTests.test_native_lifetime_strong_weak_lease",
+      "max_children": 4
+    },
+    {
+      "selector": "FoundationTests.test_native_read_ahead_assignment",
+      "max_children": 9
+    },
+    {
+      "selector": "FoundationTests.test_role_quota_retained_handles",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_reference_http_quota80",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_post_ready_and_moves",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_input_pool_before_first_read",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_gate_cancel_releases_node_once",
+      "max_children": 2
+    },
+    {
+      "selector": "FoundationTests.test_http_retained_handles_pin_role",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_established_native_ignores_http_idle_and_read_observer",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_gate_excludes_control_and_native101",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_post_after_stop_is_refused",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_zero_and_close_reply",
+      "max_children": 2
+    },
+    {
+      "selector": "FoundationTests.test_configuration_checked_before_registration",
+      "max_children": 9
+    },
+    {
+      "selector": "FoundationTests.test_idle_anchor_after_terminal_and_output_expiry",
+      "max_children": 2
+    },
+    {
+      "selector": "FoundationTests.test_owner_samples_are_not_globally_ordered",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_mailbox_coalescing_during_ready_and_close",
+      "max_children": 2
+    },
+    {
+      "selector": "FoundationTests.test_raw_wipe_hooks_quarantine",
+      "max_children": 1
+    },
+    {
+      "selector": "FoundationTests.test_storage_and_guard_literals",
+      "max_children": 1
+    }
+  ],
+  "max_children_including_legacy": 290,
+  "wire_rows": [
+    {
+      "id": "basic",
+      "profile": "tiny",
+      "bytes": 52,
+      "sha256": "1a2976d920e855f6467f0b755462a3f2b7f3e3672a8eb0df6599bbf0c75e8102",
+      "status": 200,
+      "route": 0,
+      "native": false
+    },
+    {
+      "id": "get",
+      "profile": "reference",
+      "bytes": 28,
+      "sha256": "28517fd2d61c3611019b3ca17facd0460c80b7033faf85aaa2f525eb60018f2e",
+      "status": 200,
+      "route": 1,
+      "native": false
+    },
+    {
+      "id": "line2048",
+      "profile": "reference",
+      "bytes": 2059,
+      "sha256": "9e8658701f936d77e596b1a527306108949bf924c1021b0f028b60762d100eeb",
+      "status": 200,
+      "route": 2,
+      "native": false
+    },
+    {
+      "id": "line2049",
+      "profile": "reference",
+      "bytes": 2060,
+      "sha256": "87d93cbbbd77d6d5022cb1a5a328ae5af1ed4ec81192e0e5474729640e8c8481",
+      "status": 414,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "method16",
+      "profile": "method",
+      "bytes": 41,
+      "sha256": "9b2c4fb735c44f5bdcce20aa0b9663a0749d3684c98b4800569f229f530a374a",
+      "status": 200,
+      "route": 1,
+      "native": false
+    },
+    {
+      "id": "method17",
+      "profile": "method",
+      "bytes": 42,
+      "sha256": "6a87346ebf360cdda9cebccb0a09e0e8e4a2169d62a020ae9cdc4f5fd2ecdec3",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "method_unknown",
+      "profile": "reference",
+      "bytes": 29,
+      "sha256": "9dd93571b091c6f035663f8d946a0c7fbdbd91e150ea0fe8d91661f7d4d206d4",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "raw40960",
+      "profile": "reference",
+      "bytes": 40960,
+      "sha256": "b00b96e6ec57bf947203c3d5a34f4723b4c586b30deff878d22b0e7ad2264f5f",
+      "status": 200,
+      "route": 1,
+      "native": false
+    },
+    {
+      "id": "raw40961",
+      "profile": "reference",
+      "bytes": 40961,
+      "sha256": "bf59857b7861b779bbc94b7f4ed659bf1edaa268b4109af489e7b39fd9baf39b",
+      "status": 431,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "fields64",
+      "profile": "reference",
+      "bytes": 280,
+      "sha256": "53747a890f6e22ae2cb0ffbc537cbf89cecaf65d1aec173f2d6604a8ca67d3d4",
+      "status": 200,
+      "route": 1,
+      "native": false
+    },
+    {
+      "id": "fields65",
+      "profile": "reference",
+      "bytes": 284,
+      "sha256": "bf5be422305fd2cf0d6e0881347d989bb4326c621ddcc0b6cdb20f78930ffa23",
+      "status": 431,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "field8192",
+      "profile": "reference",
+      "bytes": 8224,
+      "sha256": "d5e70db148045c6af4d4f9333baa26c981c859dbdd13a6d8aa7fe6ef23926b52",
+      "status": 200,
+      "route": 1,
+      "native": false
+    },
+    {
+      "id": "field8193",
+      "profile": "reference",
+      "bytes": 8225,
+      "sha256": "9f0cce84b836a7bc684ef6640faa1a05069b4c5a30f104f3d3537b250066c491",
+      "status": 431,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "semantic32768",
+      "profile": "reference",
+      "bytes": 32785,
+      "sha256": "38ecd04d495ac47c17b2734140b028d5e55042df5f14f6678bf335dfa3e413fc",
+      "status": 200,
+      "route": 1,
+      "native": false
+    },
+    {
+      "id": "semantic32769",
+      "profile": "reference",
+      "bytes": 32786,
+      "sha256": "66be0285eb65e8e3a6b1cbad8838696ee19972c40fd148bbc847e7eddb87af7b",
+      "status": 431,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "body5",
+      "profile": "tiny",
+      "bytes": 52,
+      "sha256": "57139338765e976117afcdd9628ef321a4ee6912fab1904a7ab789af7b58fcf9",
+      "status": 413,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "cl_zero",
+      "profile": "tiny",
+      "bytes": 48,
+      "sha256": "3b1d0683488e5af5ed883e3fee6a15d6c94c91f547fc52bb8a591383c07d3a23",
+      "status": 200,
+      "route": 0,
+      "native": false
+    },
+    {
+      "id": "cl_zeros",
+      "profile": "tiny",
+      "bytes": 51,
+      "sha256": "05e31b04bdcfef0d0ffc77e24f5e8d091317a7f938e1488af90bd137fcb26ace",
+      "status": 200,
+      "route": 0,
+      "native": false
+    },
+    {
+      "id": "priority_body",
+      "profile": "budget",
+      "bytes": 66,
+      "sha256": "9ecb1ada1fb515afe72e648c4b25018935d30cc48ccd48a29543eb5c87908831",
+      "status": 413,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "priority_header",
+      "profile": "budget",
+      "bytes": 4097,
+      "sha256": "cd6db8ee49cbfbf04c7e1688ad673f31880f792d96c3af1a73a8d1bfacd9571e",
+      "status": 431,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "priority_total",
+      "profile": "budget",
+      "bytes": 66,
+      "sha256": "1dc8277acfaeb584172d6a8dbd85e0250eb31116e71f323e42b0e464b46434c3",
+      "status": 431,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "priority_syntax",
+      "profile": "budget",
+      "bytes": 63,
+      "sha256": "d1da2217233e2cf3733d723d45e77c5bd4a2d3d566e7e662f0e591fddfd451f5",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "priority_positive",
+      "profile": "budget",
+      "bytes": 64,
+      "sha256": "e7839b16dd708f361f2e505a5b16610efca825647927585502145e484e3496f8",
+      "status": 200,
+      "route": 3,
+      "native": false
+    },
+    {
+      "id": "native",
+      "profile": "tiny",
+      "bytes": 153,
+      "sha256": "5d3a0365777cdbc4086fc4c78dfd9e13467ea26312ec309d252385184bf9881d",
+      "status": 101,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "native_host256",
+      "profile": "reference",
+      "bytes": 408,
+      "sha256": "b9cd2e3d018f7269e1c65801949ae9f2a30cd4f07fcdae92fae0e8aaca388ada",
+      "status": 101,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "native_host257",
+      "profile": "reference",
+      "bytes": 409,
+      "sha256": "8c337e9f5b1147a95893f6b11c29a0c79a946c650d5234fa62c42a07f883b2f8",
+      "status": 431,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "native_cookie",
+      "profile": "reference",
+      "bytes": 174,
+      "sha256": "518057f7e0fbaeea5f976a2f821e98c2b2bcc503b47b04ce0a74bc48516b65c8",
+      "status": 101,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "native_cl0",
+      "profile": "tiny",
+      "bytes": 172,
+      "sha256": "73ed96b2bb28d5bcd9aa134d53051938a10c874a7c87e2d8f7d3e93fc1cc902e",
+      "status": 101,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "native_cl00",
+      "profile": "p2",
+      "bytes": 173,
+      "sha256": "b25e3aecdd16f4fda0a7281e7a194239709b0df19c29102a7aa23cb4ca8038ab",
+      "status": 101,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "native_http",
+      "profile": "tiny",
+      "bytes": 28,
+      "sha256": "28517fd2d61c3611019b3ca17facd0460c80b7033faf85aaa2f525eb60018f2e",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "ordinary_upgrade",
+      "profile": "reference",
+      "bytes": 153,
+      "sha256": "5d3a0365777cdbc4086fc4c78dfd9e13467ea26312ec309d252385184bf9881d",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badcl0",
+      "profile": "tiny",
+      "bytes": 53,
+      "sha256": "51e66d868eb47710b97e53e5c61ed8f75caa186dd17f7f56507d73085f66d4c5",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badcl1",
+      "profile": "tiny",
+      "bytes": 53,
+      "sha256": "5a9124ed55f3ab40bee9fec2b6da31a57d2fe06a071c8103242905394a35757e",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badcl2",
+      "profile": "tiny",
+      "bytes": 51,
+      "sha256": "1cafc1a41c4c8ce2113df174dba4e4c92f96307a7af5d6bfeb16be47b3566862",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badcl3",
+      "profile": "tiny",
+      "bytes": 71,
+      "sha256": "b75368e9402b01fda7666a31f2bda38dd5bf49fab8c92bcde369ce0e5058a5ae",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badcl4",
+      "profile": "tiny",
+      "bytes": 53,
+      "sha256": "01cf0736f70ac6b94b17dd7f48b617b318ce77a492ea8b3c1667889a5a549951",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badcl5",
+      "profile": "tiny",
+      "bytes": 54,
+      "sha256": "42352a49d4c957a1fd4508f3cfdbeceb787e4812694f8d9a926df2fae5b47e9c",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badfield0",
+      "profile": "reference",
+      "bytes": 67,
+      "sha256": "4b782e08833f0e67a867598139bf595fedb343323bc9ca9cbc75a61fadd709dd",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badfield1",
+      "profile": "reference",
+      "bytes": 75,
+      "sha256": "6355688b0c5895448f8e513092d2563e87cf286049bffda32efb91560686debf",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badfield2",
+      "profile": "reference",
+      "bytes": 76,
+      "sha256": "b3e9ca7fa14281c4b4c29e737e5816701df5566a7b9d19f7c35d498cde98ec50",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badfield3",
+      "profile": "reference",
+      "bytes": 33,
+      "sha256": "52da966257d7c1e6fe488b32a898938e3bcae5cf7c82ad1061d55932b51d0e76",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badfield4",
+      "profile": "reference",
+      "bytes": 40,
+      "sha256": "002f9888aac94b0f25d771dd6708bbf774357736c7452330148c65f2e182237b",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badfield5",
+      "profile": "reference",
+      "bytes": 37,
+      "sha256": "d3331ad79e832e742e706e94dc81c7bf860e1ba8e9173087cc5cbc2286bb20e1",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badfield6",
+      "profile": "reference",
+      "bytes": 50,
+      "sha256": "8830b2e6a8f74078c9b36a8a07db311d0dd63ec02a96724b7b0717af6e4ecf0c",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badfield7",
+      "profile": "reference",
+      "bytes": 53,
+      "sha256": "6d7e05d88c4693809280ebb2c5d79de4bad74bea39c70adc38d3c7df501e992e",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badfield8",
+      "profile": "reference",
+      "bytes": 60,
+      "sha256": "10ee29fa2d1a2509241f9319a418659d9cccdb45bf6ff6da55d7c89fef239289",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badfield9",
+      "profile": "reference",
+      "bytes": 37,
+      "sha256": "94d411d347fa2f63b43acc5eccf9f7482612fc5babd0a447ad7936bba9ae0341",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badfield10",
+      "profile": "reference",
+      "bytes": 39,
+      "sha256": "0a9e87c20cb8a330114c6921ea0f663dc2f16ad68175b84ec7bae0730ff800a8",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badfield11",
+      "profile": "reference",
+      "bytes": 37,
+      "sha256": "7cf7843c5b6583bf8145ad7cbcfd79d79d4d5725e6f211afcdb0a4d2983243a2",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badfield12",
+      "profile": "reference",
+      "bytes": 34,
+      "sha256": "f1d519b8e7bc9aea7f18d8d5049d6854b954f23b3bd17bd894451b300571d3b8",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badfield13",
+      "profile": "reference",
+      "bytes": 34,
+      "sha256": "34654d126987f63deff7e3f39a90d86947e4eaefa63cfd44a4c699ff5138a2f0",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badfield14",
+      "profile": "reference",
+      "bytes": 48,
+      "sha256": "ec0db81f7a0793b874fb55232a7828cc4afa97e7ca5d72e786c29ca8acb4517c",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badnative0",
+      "profile": "reference",
+      "bytes": 144,
+      "sha256": "f7c51651f9cf28b1b2104ee34bb1d1a3ad4e9dad1f0e45f750938c90fdb4dab7",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "badnative1",
+      "profile": "reference",
+      "bytes": 162,
+      "sha256": "4042717bd618afbb379ceff259854275ffce313d0cb7f17da8693ba772696941",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "badnative2",
+      "profile": "reference",
+      "bytes": 155,
+      "sha256": "a88b2dfd02ec51e89f905c8c305fe42e3a5cab8f2d47eee718db5b6be49d389e",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "badnative3",
+      "profile": "reference",
+      "bytes": 160,
+      "sha256": "b4fa361595ef2870a6835ef55af93a1e4e08f841e3dd6cdc38bee9e652c6fdb6",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "badnative4",
+      "profile": "reference",
+      "bytes": 152,
+      "sha256": "fa3368ab84180e10c12f2daa85affa19e5a273a9b2c52a52bf96669ec6b0066e",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "badnative5",
+      "profile": "reference",
+      "bytes": 154,
+      "sha256": "526f4e491c904bb247262ed83959120a238161b3f088eae454898bb3cf9351fb",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "badnative6",
+      "profile": "reference",
+      "bytes": 153,
+      "sha256": "3231d06aec158cdcbb700db278a16d0685fb71c13a42e6c058ef671480e289a1",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "badnative7",
+      "profile": "reference",
+      "bytes": 153,
+      "sha256": "b98b24bee066d14acbfb62481bc405220a7c517215b21917fd20b602bb342953",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "badnative8",
+      "profile": "reference",
+      "bytes": 126,
+      "sha256": "53eb3e817ac31091fbe646780e42beec54229160af6a7e700fbc0ac737d08fe3",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "badnative9",
+      "profile": "reference",
+      "bytes": 180,
+      "sha256": "095a1ccaeed316741fe0f7c84737613fec86ff3aa20553f2a8956ce598f3949d",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "badnative10",
+      "profile": "reference",
+      "bytes": 178,
+      "sha256": "6bd40e723addda8c6cb2180b1274d9fe303af2f75c7c0dd24a8023e85c41b310",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "badnative11",
+      "profile": "reference",
+      "bytes": 180,
+      "sha256": "4df1697757e2241788320cf67eeebbaac8bc0bdb0e4f4144e8a90916912d0cf7",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "badnative12",
+      "profile": "reference",
+      "bytes": 172,
+      "sha256": "e0c5a9ddce3345be49f52881a80fb5d6d204bfd90bc8cc2f9dbb9199b6415c06",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "badnative13",
+      "profile": "reference",
+      "bytes": 147,
+      "sha256": "8c0b757d1eac72df8e17af7d7f20ab1d891c9ca46be0bef1cb1241441dbe3a10",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "badnative14",
+      "profile": "reference",
+      "bytes": 151,
+      "sha256": "d92362ebbe0c5a1705c079c0ab07deb214fa82e42b34fca3fe4cdccdff6ef62a",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "badnative15",
+      "profile": "reference",
+      "bytes": 177,
+      "sha256": "93c1235bdc7815755fa39bf9cdf8e5024e931a12ea756241b6aa2e801762383c",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "badline0",
+      "profile": "reference",
+      "bytes": 28,
+      "sha256": "733cd012597922d3875f30a98ed149bea57a48fe0e1d118ed73365756f98cec1",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badline1",
+      "profile": "reference",
+      "bytes": 28,
+      "sha256": "496784b4622aa7fb9fac7c519b53fe1723d90b78be6d0423ba6c7815c03346dc",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badline2",
+      "profile": "reference",
+      "bytes": 19,
+      "sha256": "532de7bf636b1ac796ee76022e7a2b952a97d81038c7b975fea244ef9e48ea8a",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badline3",
+      "profile": "reference",
+      "bytes": 37,
+      "sha256": "18a9aa03134fdbf1515d32352d8684d05e22108ed802834977b925a4a1798caa",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badline4",
+      "profile": "reference",
+      "bytes": 30,
+      "sha256": "46bba52747ad3996227bb80222a606972afc508cb80b2b59e30cd528a677488d",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badline5",
+      "profile": "reference",
+      "bytes": 25,
+      "sha256": "a8c2986353ae74913698269a5d9b3e2e3ff8ec135b15d0fc537a7db735e37201",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badline6",
+      "profile": "reference",
+      "bytes": 47,
+      "sha256": "3729a3125eef641fae58f331799fa2304a3ded195ad095ec73b48def039c8c9e",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badline7",
+      "profile": "reference",
+      "bytes": 54,
+      "sha256": "c33d650db50e698d90c379b6f080295096a6582e160ae3eb9a9787655ef27b0a",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badline8",
+      "profile": "reference",
+      "bytes": 29,
+      "sha256": "37f7a2a43bf9e092c4dcccfce90fff8cdc57887b408db0b88171bc32d52ee872",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badline9",
+      "profile": "reference",
+      "bytes": 30,
+      "sha256": "7a509356b144d57cc678bd24b305722d7212df402ef4e6188b09343fa3713fe4",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badline10",
+      "profile": "reference",
+      "bytes": 33,
+      "sha256": "9c9bfa43d015612602cc539461faab4cb206342acd7125331eca37d85accac3b",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "badline11",
+      "profile": "reference",
+      "bytes": 36,
+      "sha256": "9c0c6b9ed46a1a8f072c7f45ba9236cb94b96587b374b3801c1bed6c9ceb44f8",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "priority_raw_over_line",
+      "profile": "reference",
+      "bytes": 42993,
+      "sha256": "fcea825b041b04238549ee5075c16cc7031da79f854baeb5638818c190103c8d",
+      "status": 431,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "priority_count_over_syntax",
+      "profile": "reference",
+      "bytes": 732,
+      "sha256": "acb6d943e8ca63826e986329441b32e9ec449fd55b2bdfed94be8dc3b1e9e90c",
+      "status": 431,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "native_query",
+      "profile": "reference",
+      "bytes": 154,
+      "sha256": "efa5614d1eb1337eaa19e00535fdefb54b137206ca5ec14076d1e4f71c92477d",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "native_key_absent",
+      "profile": "reference",
+      "bytes": 108,
+      "sha256": "72f7667470df39d7eafc827edc0807e4f0813c398644200694d6cde4625cb12d",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "native_upgrade_absent",
+      "profile": "reference",
+      "bytes": 133,
+      "sha256": "9c2405e48d495278e4dbd3b2eece02a1dbb733bdb2664a66ad0c625acd622f3c",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "native_connection_absent",
+      "profile": "reference",
+      "bytes": 132,
+      "sha256": "45a6138990a023bba278e63e255bc148ee1172f6bb13ac51638af06413b32550",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "native_upgrade_duplicate",
+      "profile": "reference",
+      "bytes": 173,
+      "sha256": "d7bf37b2b1b7bfb84993522a209999dab3fdd49f0b8d8fba0002637d620bc55b",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "native_connection_duplicate",
+      "profile": "reference",
+      "bytes": 174,
+      "sha256": "9eecc3d9cb2163561e362b589189bb43be0f9ab69bb4c07d8a294bfde8019f69",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "native_negotiation_nonempty",
+      "profile": "reference",
+      "bytes": 188,
+      "sha256": "ba90c9b28fc58355a905af3b4a67015918b5a4613dc93dfcd59b6bab5f9c5575",
+      "status": 400,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "host_ipv6",
+      "profile": "reference",
+      "bytes": 38,
+      "sha256": "401f8d5ad51c14cc9c4ba7571c5b4208d7d174244e5545eb07855f9bb545be19",
+      "status": 200,
+      "route": 1,
+      "native": false
+    },
+    {
+      "id": "cl_leading_zeros4",
+      "profile": "tiny",
+      "bytes": 55,
+      "sha256": "4c54fe4db62b3261f07c5922f56f8f3c0835fedda3c56b789a6f3ad233eec80c",
+      "status": 200,
+      "route": 0,
+      "native": false
+    },
+    {
+      "id": "connection_keepalive",
+      "profile": "reference",
+      "bytes": 76,
+      "sha256": "78bd60ca3e44a6246ede6d5855133a2c71f5fc0328d3b02f36143ccc06a512bb",
+      "status": 200,
+      "route": 0,
+      "native": false
+    },
+    {
+      "id": "native_connection_tokens",
+      "profile": "reference",
+      "bytes": 165,
+      "sha256": "2d865dc89b15216a96c1210a4faeed955194f76e4664f861a250870bda619966",
+      "status": 101,
+      "route": null,
+      "native": true
+    },
+    {
+      "id": "ordinary_upgrade_known_route",
+      "profile": "reference",
+      "bytes": 69,
+      "sha256": "59d8edb4202684a8cbae62afd834a738a56cdadfb1b5331d78e77aaaaa8aa111",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "host_userinfo",
+      "profile": "reference",
+      "bytes": 33,
+      "sha256": "a1bea3966a27f4b6c27e07de7528e9a7c1eb3614a32a450f3041d9ea080c1e05",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "host_bad_bracket",
+      "profile": "reference",
+      "bytes": 31,
+      "sha256": "3168f26302d2dc8c05ea64e5e6248b3a21de0f7b2d33d8e36e9283873d06b85c",
+      "status": 400,
+      "route": null,
+      "native": false
+    },
+    {
+      "id": "host_ambiguous_port",
+      "profile": "reference",
+      "bytes": 32,
+      "sha256": "433ec8bcedb671f72070d0ea6cdaa847ee1a70cc90cda844d9cf39f7f5b5f029",
+      "status": 400,
+      "route": null,
+      "native": false
+    }
+  ],
+  "split_positions": {
+    "line2048": [
+      2047,
+      2048,
+      2056,
+      2057,
+      2058,
+      2059
+    ],
+    "line2049": [
+      2048,
+      2049,
+      2057,
+      2058,
+      2059,
+      2060
+    ],
+    "raw40960": [
+      16,
+      17,
+      25,
+      26,
+      4123,
+      4124,
+      8221,
+      8222,
+      12319,
+      12320,
+      16417,
+      16418,
+      20515,
+      20516,
+      24613,
+      24614,
+      28711,
+      28712,
+      32809,
+      32810,
+      40957,
+      40958,
+      40959,
+      40960
+    ],
+    "raw40961": [
+      16,
+      17,
+      25,
+      26,
+      4123,
+      4124,
+      8221,
+      8222,
+      12319,
+      12320,
+      16417,
+      16418,
+      20515,
+      20516,
+      24613,
+      24614,
+      28711,
+      28712,
+      32809,
+      32810,
+      40958,
+      40959,
+      40960,
+      40961
+    ],
+    "priority_body": [
+      17,
+      18,
+      26,
+      27,
+      48,
+      49,
+      63,
+      64,
+      65,
+      66
+    ],
+    "priority_header": [
+      17,
+      18,
+      26,
+      27,
+      48,
+      49,
+      63,
+      64,
+      4094,
+      4095,
+      4096,
+      4097
+    ],
+    "priority_total": [
+      17,
+      18,
+      26,
+      27,
+      48,
+      49,
+      63,
+      64,
+      65,
+      66
+    ],
+    "priority_syntax": [
+      17,
+      18,
+      26,
+      27,
+      45,
+      46,
+      60,
+      61,
+      62,
+      63
+    ],
+    "priority_positive": [
+      17,
+      18,
+      26,
+      27,
+      45,
+      46,
+      60,
+      61,
+      62,
+      63
+    ]
+  }
+}
