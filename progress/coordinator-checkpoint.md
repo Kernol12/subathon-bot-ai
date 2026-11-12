@@ -3,23 +3,23 @@
 Owner authorizes WORKFLOW004-007/CI002 through reviewed implementation/protected
 publication, then STOP. Product/API001/API016 stopped; fullv0.45 preserved.
 Main/base3c74966; PR125 merged/reconciled/unwatched, PR121 parked.
-Checkout task/WORKFLOW-005-context-publication. Coordinator97333d35 owns shared
-integration/metadata/publication. PR126 remote docs/claim8a0c867 only, watched:
-https://github.com/Kernol12/subathon-bot-ai/pull/126 (old21CI is not new test proof).
+Checkout task/WORKFLOW-005-context-publication. PR126 remote docs/claim8a0c867 only,
+watched: https://github.com/Kernol12/subathon-bot-ai/pull/126 (old21CI).
+Coordinator97333d35 owns shared state/docs/build/publication and review corrections.
 
-Contract447aa06 and corrected seven-path tests77b1522 fully closed. Initial report
-6838682443, Codex6838867309, fresh Claude closing6839012910 on PR126. Full reports
-privately retained under local-evidence/WORKFLOW-005. WF005-TC-A1 positive detached
-coverage advisory accepted; exact commit comparison and valid detached support
-remain implementation/code-review requirements. Approved tests frozen at27methods.
-Exactly two reviewed positive methods observed named-NI assertion FAILs/zeroERRORs.
-Red receipt: https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6839050969
-Remaining25 new methods unrun; all candidate source unpublished. No active child yet.
+Contract447aa06/tests77b1522 fully closed; exact2named-NI assertion reds/zeroERRORs
+observed. Receipts in task state/PR126; full private material local-evidence/WORKFLOW-005.
+Fresh Codex implementation e976284 from isolated t3/workflow-context-publication
+integrated byte-identically asd1b05a65735cae080f0dbe8edc4b1eded9a73ddf. Frozen5tests/
+helper/CMake unchanged; NI producer replacements intentional. Code binding includes
+all8producer/test/helper/registration/guidance paths and all3actual author sessions.
+Local96tooling,3actualSDK+8existingSchema,3scaffold pass, zero skips. Handback receipt:
+https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6839219726
+Raw logs privately retained. These are local evidence, no independent code approval.
 
-Next fresh isolated Codex workflow005-implementation-v1 owns ONLY tools/progress.py
-and tools/check_publication.py. Frozen approved tests/helpers/CMake/contracts;
-coordinator authored compact/publication guidance in docs/AGENT_WORKFLOW.md. Full code cycle,
-tooling/realSDK/scaffold, currentCI/protectedmerge remain. Keep product stopped.
-Actual oldSDK admission/8pass under build/workflow005-schema-venv; newSDK3unrun.
-Until red/implementation use approved-main control-plane source for bookkeeping.
-Existing full review policy applies until WORKFLOW006; no new approval grammar.
+Next fresh Claude initial code review workflow005-initial-code-review-v1, Codex fixes
++separate verification, fresh Claude closing, latest-headCI/protectedmerge. No active
+child yet; source still unpublished. Check exact commit equality/detached support
+explicitly (accepted WF005-TC-A1 positive-test coverage advisory). No tests/oracles
+may change to make implementation pass. Existing SDK build/workflow005-schema-venv;
+no install/lock changes. Full review policy stays until WORKFLOW006, no new digest.
