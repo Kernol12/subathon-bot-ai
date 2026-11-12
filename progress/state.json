@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T12:04:48+00:00",
+  "updated_at": "2026-11-12T12:54:03+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -17031,21 +17031,30 @@
       "brief": "docs/tasks/EPIC-008/API-016.md",
       "summary": "Author and independently review literal generic HTTP producer tests and observe meaningful red before the bounded transport foundation implementation.",
       "notes": [
-        "Authored NI-only/real-stack packet10a6d06c integrated locally; coordinator CMake/F13 retry-bound corrections yield sourcee2d2428:31selectors/93wire/112splits,max279children. Private fault-coverage gaps are explicit initial-review items. No test import/body/SDK load/build/admission/red; source remains unpublished pending full independent tests-stage cycle."
+        "Initial Claude requests8blockers/14advisories at sourcee2d2428; interfaces/NI/literals hold but no valid red is possible yet. Root authored B8/A13 correction934d4e5; larger fixture corrections assigned to original isolated author. Private fault gaps have accepted source-review dispositions, not runtime coverage. New coherent packet/separate Codex verification/Claude closing/admission/red remain pending. All test source stays LOCAL."
       ],
       "verification": {
         "claim": "passed",
         "test_authored": "draft",
-        "test_review": "not_run",
+        "test_review": "failed",
         "artifact_admission": "not_run",
         "baseline": "not_run",
         "static_inventory": "passed",
-        "build_integration": "draft"
+        "build_integration": "draft",
+        "correction_authored": "draft"
       },
       "evidence": [
-        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6823972291"
       ],
-      "review": null,
+      "review": {
+        "author": "T3 Codex baseline author/native01a1cf7b and coordinator45e6fb8d",
+        "reviewer": "Independent Claude Opus5.5 T3apitest016-initial-review-20261112-v1; report namespacef25c690c is a reported unconfirmed directory ID",
+        "outcome": "changes_requested",
+        "revision": "Initial review sourcee2d2428 atHEAD8faa919:8blockers/14advisories. Header/NI/literals hold; fixture/runner defects prevent valid red. Coordinator B8/A13 corrections934d4e5 are local/unverified; original author continuation addresses larger fixture corrections before separate Codex verification/Claude closing.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6823972291"
+      },
       "workflow": {
         "required_stages": [
           "tests"
@@ -17069,9 +17078,63 @@
               "cmake/AcceptanceSuites.cmake",
               "tests/CMakeLists.txt"
             ],
-            "reviews": []
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-initial-review-20261112-v1",
+                "revision": "e2d24280231c0fb49a27d18037cdc9495d01a566",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6823972291",
+                "findings": [
+                  "f25c690c:AT016-B1",
+                  "f25c690c:AT016-B2",
+                  "f25c690c:AT016-B3",
+                  "f25c690c:AT016-B4",
+                  "f25c690c:AT016-B5",
+                  "f25c690c:AT016-B6",
+                  "f25c690c:AT016-B7",
+                  "f25c690c:AT016-B8",
+                  "f25c690c:AT016-A1",
+                  "f25c690c:AT016-A2",
+                  "f25c690c:AT016-A3",
+                  "f25c690c:AT016-A4",
+                  "f25c690c:AT016-A5",
+                  "f25c690c:AT016-A6",
+                  "f25c690c:AT016-A7",
+                  "f25c690c:AT016-A8",
+                  "f25c690c:AT016-A9",
+                  "f25c690c:AT016-A10",
+                  "f25c690c:AT016-A11",
+                  "f25c690c:AT016-A12",
+                  "f25c690c:AT016-A13",
+                  "f25c690c:AT016-A14"
+                ],
+                "blocking_findings": [
+                  "f25c690c:AT016-B1",
+                  "f25c690c:AT016-B2",
+                  "f25c690c:AT016-B3",
+                  "f25c690c:AT016-B4",
+                  "f25c690c:AT016-B5",
+                  "f25c690c:AT016-B6",
+                  "f25c690c:AT016-B7",
+                  "f25c690c:AT016-B8"
+                ],
+                "started_at": "2026-11-12T12:12:31.697Z",
+                "finished_at": "2026-11-12T12:40:32.017Z"
+              }
+            ]
           }
         }
+      },
+      "publication": {
+        "state": "open",
+        "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/124",
+        "head": "67c0c1f8c5d0da41e45334fb1241b37dcab58158",
+        "merge_commit": null,
+        "merged_at": null,
+        "observed_at": "2026-11-12T12:09:46+00:00"
       }
     },
     {
@@ -19077,6 +19140,11 @@
       "date": "2026-11-12T12:04:48+00:00",
       "task": "APITEST-016",
       "note": "Fresh isolated author01a1cf7b/T3apitest016 handed off10a6d06c (static/syntax only). Root integrated8newfiles, added2sharedCMake paths and corrected F13 retry8→3; ten-path sourcee2d2428, max279children/9546s. Initial independent Claude test/fixture/stub/source-resource review pending; no execution/red/ABI claim or publish."
+    },
+    {
+      "date": "2026-11-12T12:54:03+00:00",
+      "task": "APITEST-016",
+      "note": "Published exact initial Claude report (T3 authoritative ID, f25c690c report namespace, observed interval),8blockers/14advisories. Root locally fixes B8 cache default and A13 selector/preset/docs; no execution. Original author continuation owns B1–B7/remaining advisories; full review gates and unpublished-source boundary retained."
     }
   ],
   "workflow_policy": {

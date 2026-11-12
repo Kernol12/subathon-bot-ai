@@ -1,56 +1,59 @@
 # Coordinator checkpoint
 
-Owner superseded old-agent stop; standing full-product execution is authorized.
-Preserve full v0.45 scope and all test-first/independent/protected/release gates.
+Owner superseded old-agent stop; standing full-product execution authorized.
+Preserve full v0.45 scope and every test-first/independent/protected/release gate.
 No live provider/chat/payment effects; unknown behavior is not supported capability.
 
-APITEST-016 active, local branch task/APITEST-016-http-foundation-baseline.
-Base main3d3be7a after normal PR123 merge; claim1c67425 before source edits.
-Fresh T3 author apitest016-baseline-author-20261112-v1 / native01a1cf7b completed
-10a6d06c in t3-27d3f66f (clean/inactive, no push). Actual gpt-6.1-sol/xhigh identity
-and checkout verified through T3 metadata/native session record. No author running.
-Root integrated8newfiles9e2dce9, added2sharedCMake paths0d829be, corrected F13
-retry8→3 in e2d24280231c0fb49a27d18037cdc9495d01a566.
-Exact tests-stage sourcee2d2428, TEN paths and both actual authors in state.
-Coordinator45e6fb8d authored shared integration and retry/resource correction.
-Source unchanged during review; metadata excluded from stage. No test source pushed.
+APITEST016 branch task/APITEST-016-http-foundation-baseline, base main3d3be7a,
+claim1c67425 before edits. Last coherent ten-path sourcee2d2428 / HEAD8faa919.
+Initial independent Claude T3apitest016-initial-review-20261112-v1 (Opus5.5)
+returned8blockers/14advisories; f25c690c is a reported directory/finding namespace,
+NOT a confirmed native-session identity. Actual T3/model/timing recorded in stage.
+https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6823972291
+Interfaces/NI/literals hold; fixture/parent defects prevent valid red as written.
+No tests/SDK loads/admission/red have run. Private fault gaps received explicit
+source-review dispositions; never relabel those as executed fault coverage.
 
-Authored inventory:31selectors (30foundation+1legacy),93wire rows,112split cases.
-F13 max3fresh peers per reference/tiny/P2 profile gives9read-ahead children;
-suite max279children,279*(30+2+2)+60=9546s watchdog. Author's original294/10056
-receipt is historical; coordinator correction receipt records current bound.
-Private fault-injection coverage gaps are EXPLICIT unresolved review items,
-not runtime coverage or complete-feature acceptance. Admission bootstrap/failfast/
-first-NI classification/actual cleanup and resource limits need independent review.
+Coordinator45e6fb8d locally authored B8/A13 fix934d4e5: default receipt CACHE path,
+focused selector test, preset/filter and TEST_STRATEGY. Static checks only; not
+independently verified. Last stage revision remains e2d2428 until coherent full fix.
+Root owns CMakePresets, TEST_STRATEGY, tooling selector test, shared root CMake and
+reserved tests/bounded_http_foundation/CMakeLists.txt (including eventual timeout).
+No new source is pushed; do not execute new tooling tests/CMake/probes yet.
 
-Read selected shared API016 brief, approved contract sourcecee1845 and six closing
-advisories. F07 uses reference5000ms; F08 runs locally on IO0 after both requests.
-NI-only header/source/test observer declarations compile against unchanged candidate4;
-successor adapter/SDK behavior NOT implemented. A legacy positive must prove real
-fixture/framework setup separately; feature children fail at first missing producer
-before listeners/run. Later F wire bodies remain UNEXECUTED at baseline.
-No configure/link/discovery/test imports/bodies/probe/identity/SDK loads or red ran.
-Author syntax/static and root AST/arithmetic/project checks are not admission.
+Correction assignment: ORIGINAL isolated Codex author T3
+apitest016-baseline-author-20261112-v1, continuation client
+apitest016-initial-corrections-20261112-v1; supplied checkout t3-27d3f66f,
+branch t3/http-foundation-test-baseline, last clean10a6d06c, native initial01a1cf7b.
+Author imports exact coor0d829be/e2d2428/934d4e5, then owns B1–B7 and remaining
+A1–A12/A14 fixture/source/resource/inventory fixes ONLY. No new private fault API,
+NI implementation, SDK/adapter, contract or historical test change. Root-owned
+shared files are not authored there. No separate reviewer currently running.
+Do not inspect active author files or poll it; completion wakes the coordinator.
+Actual resumed native identity belongs in handoff, not guessed.
 
-Initial review packet: /tmp/apitest016-initial-context.json derived by progress CLI.
-Author report /tmp/apitest016-author-receipt.md; root integration report
-/tmp/apitest016-coordinator-integration-receipt.md. No review receipt is invented.
-Next: fresh independent Claude initial test/fixture/stub/build/resource review,
-Codex corrections + SEPARATE verification, fresh Claude closing. Only afterward
-build/source-resource/passive ELF/ABI/controlled identity/load-map admission,
-genuine legacy positive and admitted intended red. No API016 implementation yet.
-Coordinator owns shared build/CI/dependencies/admission/metadata/PR. Keep source LOCAL.
+Next: integrate complete corrected fixture, actual budget/timeout/shared changes,
+derive expanded coherent tests packet with actual authors, then DIFFERENT Codex
+verification until no blockers, fresh Claude closing. Only after tests review:
+build/source-resource/passive ELF/ABI, controlled identity/load-map admission,
+genuine legacy positive and admitted first-NI red. No API016 implementation yet.
+All unexecuted downstream wire/F bodies remain unexecuted. No skips/WILL_FAIL or
+fixture/setup/timeouts/compile/import errors can be red. Source remains LOCAL.
 
-PR123 merged normally3d3be7a at2026-11-12T11:07:26Z from1c882a3 after21CI,
-sourcecee1845 closed independently, metadata review/zero threads/live rules.
-Publication reconciled; PR123 unwatched. Proposed33101824 is NOT actual ABI/RSS proof.
-https://github.com/Kernol12/subathon-bot-ai/pull/123
+PR124 https://github.com/Kernol12/subathon-bot-ai/pull/124 is open/watched/draft,
+REMOTE67c0c1f contains ONLY claim metadata and hasCI21SUCCESS/CLEAN. It does not
+verify local e2d/934 sources. Reports use real PR comments; no source push until
+review gates. Publication saved in state; no baseline/implementation completion.
+Author/source receipts: /tmp/apitest016-author-receipt.md and
+/tmp/apitest016-coordinator-integration-receipt.md (old294→correct279 children).
+Root correction receipt /tmp/apitest016-coordinator-initial-corrections.md.
 
-PR121 normal main reconciliation7a9aeb6 independently approved; source/header/
-tests/SDK/task record/partial approvals unchanged. Live CI21SUCCESS/CLEAN/draft
-at7a9aeb6, still full-stage changes_requested/B1 with source70ea261 scoped only.
-https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6822472467
-Original8fa8810/dd0f625/native44/Qt75/native18/SQL/account/UTC/provider/TLS/kernel/
-platform gates remain. PR121 watched. API016 precedes account011; no API001 cycle.
-All seven integrations, three FX, English/German, Light/Dark/System, both renderers,
-full desktop editor, all platforms and release evidence remain.
+PR123 merged normally3d3be7a at2026-11-12T11:07:26Z from1c882a3; sourcecee1845
+contract closed independently, metadata approval/CI21/zero threads/live rules.
+Publication reconciled; unwatched. Proposed33101824 is NOT ABI/capacity/RSS proof.
+PR121 draft7a9aeb6 is conflict-free/CI21 after routine main merge; source70ea261
+still only partial approvals/full-stageB1. Original8fa8810/dd0f625/native44,
+Qt75/native18/SQL/account/UTC/provider/TLS/kernel/platform/release gates remain.
+PR121 watched. API016 precedes account011 without API001 cycle.
+All7integrations/3FX/EnglishGerman/LightDarkSystem/renderers/full editor/platform
+and full release evidence remain.
