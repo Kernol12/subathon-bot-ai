@@ -41,3 +41,16 @@ until all components integrate. The substantial generic receive/suspension/runti
 prerequisite is explicitly allocated to API-016; no API-001 wait is needed for
 SESSIONTEST-011's native foundation/capture evidence. Further TLS/runtime expansion
 still requires a separate split. Root owns pins/patches/build/CI/state.
+
+Rebase against the admitted revision of [foundation v1](../../contracts/bounded-http-foundation-v1.md),
+including its no-stock-map ordinary sink, secure-wipe installation seam and
+per-listener native pre-Upgrade transition. Generic occurrence storage is not
+this task's capture capability:011 still binds actual selected connection/profile
+identity, preserves ALL account policies/4096 semantic bounds, proves secure
+erasure on every foundation exit and removes pre-log secrets before admission.
+
+R2's RawHooks cover attributed mapped raw regions only; they do not claim heap
+native-projection erasure. Preserve reference header431/body413/aggregate431/
+syntax400 ordering through the ordered pre-body sink, and all account syntax/
+route/credential/envelope decisions. The F05P budget probe implements no account
+feature;011 still admits its actual capture/secure-erasure/pre-log capability.

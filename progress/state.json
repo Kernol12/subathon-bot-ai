@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T08:22:58+00:00",
+  "updated_at": "2026-11-12T11:23:28+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -17094,7 +17094,7 @@
         "head": "06ac3cd40bdc5396dfb549efb948fe64eaf540d1",
         "merge_commit": "c9fd6370e5ca994b1d4453803ec237a3d5d542ee",
         "merged_at": "2026-11-12T08:14:24Z",
-        "observed_at": "2026-11-12T08:22:58+00:00"
+        "observed_at": "2026-11-12T08:14:37+00:00"
       }
     },
     {
@@ -17134,7 +17134,7 @@
       "title": "Bounded selected HTTP transport foundation contract",
       "module": "Server/API",
       "kind": "contract",
-      "status": "in_progress",
+      "status": "done",
       "owner": "codex:coordinator-45e6fb8d; foundation contract author465fb408-3760-44f5-9a8f-74337571f4e2",
       "depends_on": [
         "APICONTRACT-004",
@@ -17150,22 +17150,176 @@
         "§18"
       ],
       "brief": "docs/tasks/EPIC-008/APICONTRACT-005.md",
-      "summary": "Define and independently prove bounded generic selected HTTP transport producers on a separately admitted additive candidate4 successor; preserve native history and account-profile scope.",
+      "summary": "Define reviewed bounded HTTP producer ownership, resource limits and literal oracles for the additive selected-framework successor while preserving native history and account policies.",
       "notes": [
-        "Claimed from current mainc9fd637 after verified PR122 merge/reconciliation. Define concrete generic bounded HTTP producer profile and additive SDK interface/patch seams only. Import fixed receive65536/>=8192 and chosen listener socket policy; preserve account policies/native44. Include fairness, deadline and coalesced-request ownership advisories. No test/source/SDK/runtime capability yet."
+        "Bounded HTTP contract/examples independently closed at sourcecee1845 through Claude initial, separate Codex verification/recheck and fresh Claude closing; no blockers. Document/source-feasibility proof only, no header/test/SDK/runtime behavior. Six closing advisories tracked for APITEST016/API016. Publication/latest-head CI/protected merge separate; next APITEST016 after normal merge. All artifact/ABI/load/native44/host/SQL/platform/release gates remain."
       ],
       "verification": {
-        "claim": "passed"
+        "claim": "passed",
+        "contract_authored": "passed",
+        "contract_review": "passed",
+        "runtime": "not_run",
+        "correction_authored": "passed",
+        "correction_review": "passed",
+        "project": "passed",
+        "progress": "passed",
+        "render": "passed",
+        "implementation": "not_run",
+        "completion_metadata_review": "passed",
+        "github_ci": "passed"
       },
       "evidence": [
-        "https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6818185255"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/123",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6818185255",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6819640064",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6820607309",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6820052366",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821007931",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821098602",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821304153",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821742252"
       ],
-      "review": null,
+      "review": {
+        "author": "Codex465fb408 and coordinator45e6fb8d",
+        "reviewer": "Independent Claude80994274 initial; Codex01a1cf39 verification; Codex01a1cf4e recheck; Claude T3c8790736/nativea8d495e8 closing",
+        "outcome": "approved",
+        "revision": "Contract sourcecee1845 six-document packet closed at HEAD1a6b351, no blockers. T3c8790736 and native Claude Code a8d495e8 identify different orchestration/provider layers. Completion/publication receipts follow only; no header/test/SDK/runtime capability.",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196"
+      },
       "workflow": {
         "required_stages": [
           "contract"
         ],
-        "stages": {}
+        "stages": {
+          "contract": {
+            "authors": [
+              "codex:coordinator-45e6fb8d",
+              "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A465fb408-3760-44f5-9a8f-74337571f4e2"
+            ],
+            "revision": "cee1845c847389697bea0097e94685d721d213e5",
+            "paths": [
+              "docs/contracts/bounded-http-foundation-v1.md",
+              "docs/contracts/api-host-listeners-v1.md",
+              "docs/contracts/account-ingress-v1.md",
+              "docs/tasks/EPIC-008/APICONTRACT-005.md",
+              "docs/tasks/EPIC-008/API-016.md",
+              "docs/tasks/EPIC-007/SESSION-011.md"
+            ],
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A80994274-1214-4048-9262-83f3124ce52d",
+                "revision": "275f48a8c1b391772a5153165bb6289cc95dd9eb",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6819640064",
+                "findings": [
+                  "80994274:CI005-B1",
+                  "80994274:CI005-B2",
+                  "80994274:CI005-B3",
+                  "80994274:CI005-B4",
+                  "80994274:CI005-B5",
+                  "80994274:CI005-B6",
+                  "80994274:A1",
+                  "80994274:A2",
+                  "80994274:A3",
+                  "80994274:A4",
+                  "80994274:A5",
+                  "80994274:A6",
+                  "80994274:A7",
+                  "80994274:A8"
+                ],
+                "blocking_findings": [
+                  "80994274:CI005-B1",
+                  "80994274:CI005-B2",
+                  "80994274:CI005-B3",
+                  "80994274:CI005-B4",
+                  "80994274:CI005-B5",
+                  "80994274:CI005-B6"
+                ],
+                "started_at": "2026-11-12T08:55:43.607Z",
+                "finished_at": "2026-11-12T09:15:31.364Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:01a1cf39-e8fb-7e01-a2f1-2c61ed6cbc6e",
+                "revision": "464caad09ad9af6223738aa0c0fa60b6680d1e8c",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821007931",
+                "findings": [
+                  "80994274:CI005-B1",
+                  "80994274:CI005-B2",
+                  "80994274:CI005-B3",
+                  "80994274:CI005-B4",
+                  "80994274:CI005-B5",
+                  "80994274:CI005-B6",
+                  "80994274:A1",
+                  "80994274:A2",
+                  "80994274:A3",
+                  "80994274:A4",
+                  "80994274:A5",
+                  "80994274:A6",
+                  "80994274:A7",
+                  "80994274:A8",
+                  "apicontract005_correction_verify:A1",
+                  "apicontract005_correction_verify:A2"
+                ],
+                "blocking_findings": [
+                  "80994274:CI005-B1",
+                  "80994274:CI005-B6"
+                ]
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:01a1cf4e-6865-7f92-b1e2-046869a9fe34",
+                "revision": "cee1845c847389697bea0097e94685d721d213e5",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821304153",
+                "findings": [
+                  "80994274:CI005-B1",
+                  "80994274:CI005-B6",
+                  "apicontract005_correction_verify:A1",
+                  "apicontract005_correction_verify:A2"
+                ],
+                "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Ac8790736-eafd-416c-9e65-e4d0ac47bce2",
+                "revision": "cee1845c847389697bea0097e94685d721d213e5",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196",
+                "findings": [
+                  "a8d495e8:CC005-A1",
+                  "a8d495e8:CC005-A2",
+                  "a8d495e8:CC005-A3",
+                  "a8d495e8:CC005-A4",
+                  "a8d495e8:CC005-A5",
+                  "a8d495e8:CC005-A6"
+                ],
+                "blocking_findings": [],
+                "started_at": "2026-11-12T10:39:52.775Z",
+                "finished_at": "2026-11-12T10:52:49.914Z"
+              }
+            ]
+          }
+        }
+      },
+      "publication": {
+        "state": "merged",
+        "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/123",
+        "head": "1c882a3619caf4ce172e40708a4024bb79a72cee",
+        "merge_commit": "3d3be7a999cabe6668ef051b8bd392cfda38ae4c",
+        "merged_at": "2026-11-12T11:07:26Z",
+        "observed_at": "2026-11-12T11:13:06+00:00"
       }
     },
     {
@@ -17173,8 +17327,8 @@
       "title": "Review and demonstrate red: bounded HTTP transport foundation",
       "module": "Server/API",
       "kind": "test_baseline",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "codex:coordinator-45e6fb8d; fresh T3 Codex baseline author",
       "depends_on": [
         "APICONTRACT-005",
         "API-012",
@@ -17191,11 +17345,25 @@
       "brief": "docs/tasks/EPIC-008/API-016.md",
       "summary": "Author and independently review literal generic HTTP producer tests and observe meaningful red before the bounded transport foundation implementation.",
       "notes": [
-        "Explicit prerequisite from APICONTRACT-004 initial review B1–B3. Planned only; no source/test/artifact capability supplied."
+        "Claimed from merged main3d3be7a after APICONTRACT005 publication reconciliation. Approved sourcecee1845 and six closing advisories govern authored literals, finite real-stack fixture and NI-only old-SDK stubs. Fresh isolated author owns new baseline paths; coordinator owns shared build/CI/admission/metadata. Full test review precedes execution; no tests, SDK admission or runtime result claimed."
       ],
-      "verification": {},
-      "evidence": [],
-      "review": null
+      "verification": {
+        "claim": "passed",
+        "test_authored": "not_run",
+        "test_review": "not_run",
+        "artifact_admission": "not_run",
+        "baseline": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196"
+      ],
+      "review": null,
+      "workflow": {
+        "required_stages": [
+          "tests"
+        ],
+        "stages": {}
+      }
     },
     {
       "id": "API-016",
@@ -17220,10 +17388,13 @@
       "brief": "docs/tasks/EPIC-008/API-016.md",
       "summary": "Supply and admit the bounded generic per-listener HTTP SDK foundation independently of API-001; account capture/erasure remains SESSION-011.",
       "notes": [
-        "Planned additive artifact only; immutable API-012 artifact/patch/pins/all44 assertions retained. Independent test/red/implementation/admission/compatibility/CI gates remain."
+        "Planned additive successor; historical API012 artifact/patch/pins/native44 unchanged. Reviewed tests/red/source/artifact/ABI/load/CI gates remain.",
+        "Closing a8d495e8 A1–A4/A6: bound facade calls off IO0/after close; declare disposal-callback thread/Transport lifetime and terminal-registry peer context; foundation-only read_observed/throw-before-parse. Pure-helper/thread/editorial clarifications enter the owning reviewed stage; sourcecee1845 stays frozen."
       ],
       "verification": {},
-      "evidence": [],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196"
+      ],
       "review": null
     }
   ],
@@ -19172,6 +19343,46 @@
       "date": "2026-11-12T08:22:27+00:00",
       "task": "API-001",
       "note": "Merge current mainc9fd637 into existing draft after PR122. Preserve approved main listener/account docs, API001 source/complete branch review receipts and active APICONTRACT005 claim. Regenerate HTML; no source/header/test/SDK/CI or behavioral change."
+    },
+    {
+      "date": "2026-11-12T09:17:47+00:00",
+      "task": "APICONTRACT-005",
+      "note": "Published exact initial Claude80994274 report in PR123; source275f48a changes_requested with six blockers/eight advisories. Actual CI21 passed at32381e2. Author465fb408 correction continuation assigned; no runtime or full-stage approval, parent/history/scope preserved."
+    },
+    {
+      "date": "2026-11-12T10:05:22+00:00",
+      "task": "APICONTRACT-005",
+      "note": "Integrated exact six-document R2 author8cc8b4f as464caad, published full author correction receipt in PR123; no protected paths changed. Current source requires separate Codex verification/Claude closing. Historical f82b9aa CI21 recovered after package-index retries; failed attempts retained."
+    },
+    {
+      "date": "2026-11-12T10:28:14+00:00",
+      "task": "APICONTRACT-005",
+      "note": "Published exact independent Codex01a1cf39 verification of464caad: changes_requested only CI005-B1/B6; original scoped approvals retained. Coordinator authored R3cee1845 and exact mapping, pending fresh independent recheck/Claude closing. CI21 observed23c962b is historical after this change; no new runtime proof."
+    },
+    {
+      "date": "2026-11-12T10:38:04+00:00",
+      "task": "APICONTRACT-005",
+      "note": "Published exact fresh Codex01a1cf4e approval of sourcecee1845 at HEAD1a6b351, no blockers. Structured next gate is independent Claude closing on SAME source. All runtime/artifact/release gates preserved; translation CI setup retry pending in saved observation."
+    },
+    {
+      "date": "2026-11-12T10:54:59+00:00",
+      "task": "APICONTRACT-005",
+      "note": "Independent Claude T3c8790736/nativea8d495e8 closed sourcecee1845 at HEAD1a6b351: approved, no blockers, six nonblocking advisories preserved for API016/APITEST016. Contract artifact done; publication remains open. CI21 observed at1a6b351; final metadata review/latest-head/protected gates still required, no test/runtime authorization yet."
+    },
+    {
+      "date": "2026-11-12T10:59:41+00:00",
+      "task": "APICONTRACT-005",
+      "note": "Native Codex01a1cf66 approved the four-file routine completion delta, no blockers or substantive escalation; exact report published. Six source blobs remaincee1845. Final metadata publication now requires latest-head CI and live review/thread/rule/protected merge checks; downstream task not claimed."
+    },
+    {
+      "date": "2026-11-12T11:14:50+00:00",
+      "task": "APITEST-016",
+      "note": "Verified normal PR123 merge3d3be7a from1c882a3 after21checks, independent source+metadata approvals, zero threads/live rules; refreshed main and reconciled merged publication in this authorized claim. APITEST016 dependency-ready and claimed before fresh test/stub authoring; no baseline/native execution yet."
+    },
+    {
+      "date": "2026-11-12T11:23:28+00:00",
+      "task": "API-001",
+      "note": "Routine main3d3be7a merge resolution preserves exact prior API001 record/source/partial approvals and all reviewed foundation docs. Both parent histories plus actual APITEST016 claim1c67425 preserved; merged PR123 publication imported from that verified claim. No host/test/SDK/behavior change; independent consistency review pending."
     }
   ],
   "workflow_policy": {
