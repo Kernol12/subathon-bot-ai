@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T23:30:13Z",
+  "updated_at": "2026-11-12T23:32:10Z",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18588,12 +18588,12 @@
       "brief": "docs/tasks/WORKFLOW-005.md",
       "summary": "Select bounded stage handoffs and check actual schemas, reviewed paths and outgoing private-path history before publication.",
       "notes": [
-        "Contract447aa06 and tests77b1522 fully approved.27 methods authored/unrun/unpublished; detached-HEAD positive coverage advisory accepted, contract unchanged. Next observe exact two named-NI assertion reds, then fresh implementation/full code review."
+        "Contract447aa06/tests77b1522 fully approved. Exact2 named-NI assertion reds observed, zeroERRORs; remaining25 new methods unrun. Fresh implementation pending; tests frozen, detached positive coverage advisory accepted without requirement change. Full code review/checks/CI/protected merge remain."
       ],
       "verification": {
         "contract_review": "passed",
         "test_review": "passed",
-        "baseline": "not_run",
+        "baseline": "passed",
         "implementation": "not_run",
         "acceptance": "not_run",
         "claim": "passed",
@@ -18618,7 +18618,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6838366502",
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6838867309",
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6838790440",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6839012910"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6839012910",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6839050969"
       ],
       "review": null,
       "workflow": {
@@ -20987,6 +20988,11 @@
       "date": "2026-11-12T23:17:14+00:00",
       "task": "WORKFLOW-005",
       "note": "Preserved initial test report WF005-TI-B1/A1-A4. Coordinator corrected isolated checkout-commit equality (including identical trees), path/calling-convention oracles, precise schema/NI attribution, RuntimeError setup failure and added synthetic complete=true case.27 methods remain syntax-only/unrun/unpublished; no implementation."
+    },
+    {
+      "date": "2026-11-12",
+      "task": "WORKFLOW-005",
+      "note": "Full independent test cycle closed on77b1522. Observed exactly2 named-NI assertion failures/zeroERRORs after approval; fresh bounded implementation next, product remains stopped."
     }
   ],
   "workflow_policy": {

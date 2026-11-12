@@ -12,11 +12,13 @@ Contract447aa06 and corrected seven-path tests77b1522 fully closed. Initial repo
 privately retained under local-evidence/WORKFLOW-005. WF005-TC-A1 positive detached
 coverage advisory accepted; exact commit comparison and valid detached support
 remain implementation/code-review requirements. Approved tests frozen at27methods.
-All tests/helpers/NI remain UNRUN/UNPUBLISHED. No active child now.
+Exactly two reviewed positive methods observed named-NI assertion FAILs/zeroERRORs.
+Red receipt: https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6839050969
+Remaining25 new methods unrun; all candidate source unpublished. No active child yet.
 
-Next ONLY two reviewed positive CLI methods: exact named NI assertion FAILs,
-zeroERRORs, no setup/interface substitution. Then fresh isolated implementation
-session for tools/progress.py and tools/check_publication.py; full code cycle,
+Next fresh isolated Codex workflow005-implementation-v1 owns ONLY tools/progress.py
+and tools/check_publication.py. Frozen approved tests/helpers/CMake/contracts;
+coordinator authored compact/publication guidance in docs/AGENT_WORKFLOW.md. Full code cycle,
 tooling/realSDK/scaffold, currentCI/protectedmerge remain. Keep product stopped.
 Actual oldSDK admission/8pass under build/workflow005-schema-venv; newSDK3unrun.
 Until red/implementation use approved-main control-plane source for bookkeeping.
