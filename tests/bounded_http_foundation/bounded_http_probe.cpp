@@ -321,7 +321,7 @@ struct Rig {
                 emit(event("pressure_refused"));
                 if (!std::holds_alternative<bh::Done>(
                         bh::testing::Access::release_wire(*r.foundation)))
-                    must(false, "actual application gate release must be available");
+                    fixture("actual application gate release unavailable");
             }
             return;
         }
@@ -490,7 +490,11 @@ struct Rig {
         auto &p = r.nullContext ? r.peers[0] : r.context(c);
         must(++p.removes == 1 && p.ends == p.requests,
              "ended before removed, native no invented end");
-        r.peerEvent("removed", p);
+        auto v = event("removed");
+        v["peer"] = p.index;
+        v["native_retires"] = Json::UInt64(
+            required(r.foundation->inspect(), "removal retirement witness").native_retires);
+        emit(v);
         if (r.action != "retain-inert" && r.action != "retain-http") {
             p.request.reset();
             p.reply.reset();
@@ -732,6 +736,9 @@ struct Rig {
             error(foundation->post(*p.wake, bh::Intent::owner_ready), bh::Error::stopping,
                   "post after stop refuses before work");
         else if (op == "foreign-release") {
+            // This IO0 check precedes the actual reset, so an earlier removed
+            // callback cannot hide in the parent's buffered events.
+            must(p.removes == 0, "removed before final foreign owner release");
             // Actual final owner/weak reset on a non-IO thread; no fabricated fence observation.
             std::thread t([&] {
                 p.strong.reset();
@@ -1013,7 +1020,7 @@ int main(int argc, char **argv) {
             r.action == "gate-stop" || r.action == "gate-exclusions") {
             if (!std::holds_alternative<bh::Done>(
                     bh::testing::Access::arm_first_wire(*r.foundation)))
-                must(false, "actual application gate arm must be available");
+                fixture("actual application gate arm unavailable");
         }
     }
     auto &app = drogon::app();

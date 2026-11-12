@@ -560,6 +560,23 @@ class Child:
 class FoundationTests(unittest.TestCase):
     def child(self,**kw): return Child(self,mode="feature",**kw).start()
 
+    def retained_native(self, p, *, lease=False):
+        # Native Context retirement and SDK disposal are independent. Real IO
+        # progress may complete the former while the caller still pins the latter.
+        for _ in range(32):
+            p.barrier()
+            x = p.inspect()
+            self.assertFalse(any(e["event"] == "removed" and e.get("peer") == 0
+                                 for e in p.events), "PRODUCT: removed while native owner retained")
+            self.assertEqual(x["sdk_retained_peers"], 1)
+            if lease:
+                self.assertEqual(x["native_retires"], 0, "live lease must prevent native retirement")
+                return x
+            self.assertIn(x["native_retires"], (0, 1))
+            if x["native_retires"] == 1:
+                return x
+        self.fail("PRODUCT: native retirement missing independently of SDK disposal; timeout alone is not red")
+
     def wire(self,row,split=None):
         name,profile,request,status,route,native=row
         p=self.child(profile=profile)
@@ -747,10 +764,11 @@ class FoundationTests(unittest.TestCase):
             self.assertEqual(p.read(s,129),SWITCH);p.wait("opened")
             if action=="lease": p.send(s,BINARY_A);p.wait("message")
             p.command("close");p.wait("closed");p.command("drop")
-            p.command("stop",ns=6000000000);p.command("clock",ns=6000000000);p.barrier()
-            x=p.inspect();self.assertEqual(x["sdk_retained_peers"],1)
+            p.command("stop",ns=6000000000);p.command("clock",ns=6000000000)
+            self.retained_native(p,lease=action=="lease")
             self.assertFalse(any(e["event"]=="stop_drained" for e in p.events))
-            p.command("foreign-release");p.wait("removed");p.wait("stop_drained")
+            p.command("foreign-release");self.assertEqual(p.wait("removed",peer=0)["native_retires"],1)
+            p.wait("stop_drained")
             p.wait("framework_joined");p.wait("maps_end",phase="cleanup");p.check_maps("cleanup")
             p.wait("cleanup_complete");self.assertEqual(p.reap(0),0);p.closed=True;p.cleanup()
 
@@ -762,13 +780,15 @@ class FoundationTests(unittest.TestCase):
             if action=="facade-negative": p.command("facade-negative")
             p.command("close");p.wait("closed")
             p.command("drop") # native peers only receive Peer+Wake; no fabricated Request/Reply
-            x=p.inspect();self.assertEqual(x["sdk_retained_peers"],1)
+            x=self.retained_native(p,lease=action=="lease")
             self.assertEqual(x["peers"],1)
             # Backlog connect can succeed; no extra native construction is promised.
             spare=p.connect(True);p.send(spare,b"G");p.delivered(spare);p.barrier()
             self.assertEqual(p.inspect()["constructed"],x["constructed"])
+            self.assertFalse(any(e["event"]=="removed" and e.get("peer")==0 for e in p.events))
             if action=="facade-negative": p.command("facade-negative")
-            p.command("foreign-release");p.wait("removed");spare.close();p.stop()
+            p.command("foreign-release");self.assertEqual(p.wait("removed",peer=0)["native_retires"],1)
+            spare.close();p.stop()
 
     def test_native_read_ahead_assignment(self):
         for profile,accepted in (("reference",True),("tiny",False),("p2",False)):
@@ -876,10 +896,11 @@ class FoundationTests(unittest.TestCase):
         p=self.child(action="strong");s=p.connect(True);p.send(s,UPGRADE)
         self.assertEqual(p.read(s,129),SWITCH);p.wait("opened")
         p.command("stop",ns=5000000000);p.command("post-stopping")
-        p.command("clock",ns=5000000000);p.barrier();x=p.inspect()
-        self.assertEqual(x["sdk_retained_peers"],1)
+        p.command("clock",ns=5000000000);p.wait("closed")
+        self.retained_native(p)
         self.assertFalse(any(e["event"]=="stop_drained" for e in p.events))
-        p.command("foreign-release");p.wait("removed");p.wait("stop_drained")
+        p.command("foreign-release");self.assertEqual(p.wait("removed",peer=0)["native_retires"],1)
+        p.wait("stop_drained")
         p.wait("framework_joined");p.wait("maps_end",phase="cleanup");p.check_maps("cleanup")
         p.wait("cleanup_complete");p.reap(0);p.cleanup()
 
