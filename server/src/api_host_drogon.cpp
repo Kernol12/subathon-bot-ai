@@ -405,21 +405,27 @@ class DrogonTransport final : public NetworkTransport {
             if (!native || native->owners_live_or_retiring || native->upgrade_owners ||
                 native->callback_leases)
                 return;
-            quitting_ = true;
-            if (tick_ != trantor::InvalidTimerId) {
-                io_->invalidateTimer(tick_);
-                tick_ = trantor::InvalidTimerId;
+            // Keep the fixed timer armed until the real IO loop exits. A failed
+            // post (or nested framework quit post) must not escape the IO thread
+            // or disable its remaining stop driver. No barrier is synthesized.
+            try {
+                io_->queueInLoop([this] {
+                    try {
+                        for (std::uint64_t i = 0; i < limits_.peers; ++i) {
+                            revoke(peers_[i]);
+                            peers_[i].ws.reset();
+                        }
+                        drogon::app().quit();
+                        profile_.reset();
+                    } catch (...) {
+                        quitting_ = false;
+                    }
+                });
+                quitting_ = true;
+            } catch (...) {
+                // Allocation failure is not successful queueing or shutdown.
+                quitting_ = false;
             }
-            // A final queued IO turn lets TCP close callbacks and native retirement
-            // run before framework quit removes listeners and joins the IO pool.
-            io_->queueInLoop([this] {
-                for (std::uint64_t i = 0; i < limits_.peers; ++i) {
-                    revoke(peers_[i]);
-                    peers_[i].ws.reset();
-                }
-                profile_.reset();
-                drogon::app().quit();
-            });
         }
     }
 

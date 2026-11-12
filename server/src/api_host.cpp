@@ -732,6 +732,9 @@ struct Host::Impl {
     bool attempted = false, transport_started = false, shutting_writer = false;
     bool failed = false, mismatch = false;
     bool writer_ack_pending = false, processing_pending = false;
+    // An enqueue/post exception may follow callback retention in the unchanged
+    // writer. Quarantine its owners; neither rejection nor safe cleanup is known.
+    bool writer_ownership_uncertain = false;
     std::optional<MigrationResult> inspection_mail;
     std::optional<SqliteWorkResult> installation_mail;
     std::optional<StoredInstallationFacts> startup_candidate;
@@ -918,12 +921,18 @@ struct Host::Impl {
     void request_writer_shutdown() {
         if (writer && !shutting_writer) {
             StorageError admitted = StorageError::invalid_work;
+            // Registration may precede a throwing dispatch post. Never register
+            // another callback after an exception or assume scheduling recovered.
+            shutting_writer = true;
             try {
                 admitted = writer->shutdown([this] {
                     writer_ack_pending = true;
                     poll();
                 });
             } catch (...) {
+                writer_ownership_uncertain = true;
+                event(Kind::operation_refused, {}, Failure::incomplete_shutdown);
+                return;
             }
             shutting_writer = admitted == StorageError::none;
             if (!shutting_writer)
@@ -965,7 +974,8 @@ struct Host::Impl {
         Depth cleanup(s->owner_depth);
         {
             std::lock_guard lock(s->mutex);
-            if (!s->status.network_barrier || !s->status.writer_barrier || s->status.owner_cleanup)
+            if (writer_ownership_uncertain || !s->status.network_barrier ||
+                !s->status.writer_barrier || s->status.owner_cleanup)
                 return;
             for (std::uint64_t i = 0; s->associations && i < s->options.limits.associations; ++i) {
                 auto &a = s->associations[i];
@@ -1524,9 +1534,14 @@ struct Host::Impl {
                 }
             } else {
                 auto &record = records[index];
+                if (writer_ownership_uncertain) {
+                    // This item was never offered to the quarantined writer.
+                    refuse(index, serial, Failure::unavailable);
+                    continue;
+                }
                 record.serial = serial;
                 StorageError admission = StorageError::invalid_work;
-                bool allocation_failed = false;
+                bool ownership_unknown = false;
                 try {
                     admission = writer->enqueue_work(
                         [this, index, serial](auto c) { return execute(index, serial, c); },
@@ -1534,8 +1549,20 @@ struct Host::Impl {
                             receive_work(index, serial, std::move(r));
                         });
                 } catch (...) {
-                    allocation_failed = true;
+                    ownership_unknown = true;
+                    writer_ownership_uncertain = true;
+                    failed = true;
+                    s->stop = true;
+                    {
+                        std::lock_guard lock(s->mutex);
+                        // Pin the association as potentially retained, WITHOUT
+                        // claiming an acknowledged wrapper or a SQL outcome.
+                        s->associations[index].accepted = true;
+                    }
+                    event(Kind::operation_refused, {}, Failure::incomplete_shutdown);
                 }
+                if (ownership_unknown)
+                    continue;
                 if (admission == StorageError::none) {
                     record.mismatched = std::exchange(mismatch, false);
                     {
@@ -1546,8 +1573,7 @@ struct Host::Impl {
                     event(Kind::wrapper_accepted);
                 } else {
                     clear_record(record);
-                    refuse(index, serial,
-                           allocation_failed ? Failure::resource_limit : Failure::unavailable);
+                    refuse(index, serial, Failure::unavailable);
                 }
             }
             // Keep accepting arrivals made during observer gates, without pumping
