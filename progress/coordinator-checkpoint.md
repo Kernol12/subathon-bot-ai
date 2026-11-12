@@ -19,12 +19,21 @@ source/test baseline8fa8810 and observed-red dd0f625, with all prior approvals
 and limitations in https://github.com/Kernol12/subathon-bot-ai/pull/112.
 
 Coordinator45e6fb8d owns progress/HTML/checkpoint, root build/dependency/CI/shared
-schema integration. Fresh implementation session will own server host/adapters;
+schema integration. Fresh Codex implementation owns server host/adapters:
+t3/api-host-lifecycle at /home/archnoob/.t3/worktrees/subathon-bot-ai/t3-87783467,
+base0355707182f4ff314ce22fc15c86fe3086ef0b54. Running delegated task:
+<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A0cefc308-4a40-4358-9f5a-0c9bb7c87b1e>.
+Read-only /root/api001_baseline_receipts recovered seven exact historical reports
+in /tmp/api001-inherited-review-compendium.md and proposed tests-stage JSON;
+coordinator imported the unchanged 14-path packet8fa8810. Independent Codex
+/root/api001_import_consistency approved claim0355707 and the import as routine
+metadata, no blockers; full historical-report HTTPS publication with API-001 PR
+remains pending. Validate/project/render/diff checks passed;
 preserve tests, existing native profile/source/patch and all baseline assertions.
 No downstream session-clock/login/auth/restore/provider behavior is included.
-Pending: implementation assignment, independent initial Claude/Codex verification/
+Pending: implementation handoff, independent initial Claude/Codex verification/
 closing Claude review, relevant real acceptance/regressions and protected PR gates.
 
-PR120's committed open publication is historical. Record its verified merge in
-this authorized task metadata change; retain pre-push not_run evidence unchanged.
+PR120's verified merge was reconciled in claim0355707. Its historical pre-push
+not_run evidence remains unchanged.
 No API-001 PR exists yet. Continue the standing loop after this task's gates.

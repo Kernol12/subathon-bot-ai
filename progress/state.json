@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T05:24:26+00:00",
+  "updated_at": "2026-11-12T05:38:14+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -5352,7 +5352,7 @@
       "module": "Server/API",
       "kind": "implementation",
       "status": "in_progress",
-      "owner": "codex:coordinator-45e6fb8d; fresh implementation session pending",
+      "owner": "codex:coordinator-45e6fb8d; implementation delegate0cefc308-4a40-4358-9f5a-0c9bb7c87b1e",
       "depends_on": [
         "SPIKE-001",
         "BOOT-003",
@@ -5385,7 +5385,184 @@
           "tests",
           "implementation"
         ],
-        "stages": {}
+        "stages": {
+          "tests": {
+            "authors": [
+              "codex:thread:delegated-task:command%3Amcp%3A7311aadc-7aff-4581-8d93-fb3749418f94%3Adelegate-task%3A2d0d8c1b-b794-473b-9ee1-409cb60295f0",
+              "codex:thread:delegated-task:command%3Amcp%3A7311aadc-7aff-4581-8d93-fb3749418f94%3Adelegate-task%3A5f3e2538-e71a-4925-b5d1-a77e0476042c",
+              "codex:thread:delegated-task:command%3Amcp%3A7311aadc-7aff-4581-8d93-fb3749418f94%3Adelegate-task%3A2a30fad9-9131-4548-93c7-077ec1987e43",
+              "codex:fd2a5aa3-c37b-460f-b30b-e7370b57f020"
+            ],
+            "revision": "8fa881000f557e62e002a92c81dfc4414173ddfa",
+            "paths": [
+              "server/include/subathon/server/api_host.hpp",
+              "server/include/subathon/server/api_host_drogon.hpp",
+              "server/include/subathon/server/api_host_elapsed.hpp",
+              "server/include/subathon/server/api_host_signal.hpp",
+              "server/include/subathon/server/testing/api_host_observers.hpp",
+              "server/src/api_host.cpp",
+              "server/src/api_host_drogon.cpp",
+              "server/src/api_host_elapsed_linux.cpp",
+              "server/src/api_host_signal_linux.cpp",
+              "tests/qt/api_host_tests.cpp",
+              "tests/qt/support/api_host_fixture.hpp",
+              "tests/qt/api_host_cases.cmake",
+              "tests/api_host_lifecycle/api_host_probe.cpp",
+              "tests/api_host_lifecycle/test_api_host_lifecycle.py"
+            ],
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7311aadc-7aff-4581-8d93-fb3749418f94%3Adelegate-task%3Ac2e08e2d-3814-494f-b286-aaa89f777196",
+                "revision": "276d01705a77a6c2473b68c2180b272f59b274ee",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/112",
+                "findings": [
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/1",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/2",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/3",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/4",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/5",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/6",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/A1",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/A2",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/A3",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/A4",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/A5",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/A6",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/A7",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/A8",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/A9"
+                ],
+                "blocking_findings": [
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/1",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/2",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/3",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/4",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/5",
+                  "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/6"
+                ],
+                "started_at": "2026-11-11T06:38:17.736Z",
+                "finished_at": "2026-11-11T06:54:11.958Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:01a1c97b-c406-7aa2-aec2-6c34e0b53455:/root/authored_baseline_codex_review",
+                "revision": "6c85e52822eaf5aa02abebe83382648b299d65d1",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/112",
+                "findings": [
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/1",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/2",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/3",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/4",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/5",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/6",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/smaller-global-capacity",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/smaller-default-options"
+                ],
+                "blocking_findings": [
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/1",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/2",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/3",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/4",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/5",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/6"
+                ]
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:01a1c97b-c406-7aa2-aec2-6c34e0b53455:/root/authored_baseline_codex_review",
+                "revision": "72e30a1aff04a72635c27b484bf51530ce3889d0",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/112",
+                "findings": [
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/4",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@72e30a1aff04a72635c27b484bf51530ce3889d0/2",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/5"
+                ],
+                "blocking_findings": [
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/4",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@72e30a1aff04a72635c27b484bf51530ce3889d0/2",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/5"
+                ]
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:01a1c97b-c406-7aa2-aec2-6c34e0b53455:/root/authored_baseline_codex_review",
+                "revision": "2ab1756ffa72aeee25207b6973b536746fe786a7",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/112",
+                "findings": [
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/4",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@72e30a1aff04a72635c27b484bf51530ce3889d0/2",
+                  "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/5"
+                ],
+                "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7311aadc-7aff-4581-8d93-fb3749418f94%3Adelegate-task%3A3fe3b83c-96b8-4382-a0f9-c65b350f54d5",
+                "revision": "2ab1756ffa72aeee25207b6973b536746fe786a7",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/112",
+                "findings": [
+                  "3fe3b83c-96b8-4382-a0f9-c65b350f54d5@2ab1756ffa72aeee25207b6973b536746fe786a7/B1",
+                  "3fe3b83c-96b8-4382-a0f9-c65b350f54d5@2ab1756ffa72aeee25207b6973b536746fe786a7/B2",
+                  "3fe3b83c-96b8-4382-a0f9-c65b350f54d5@2ab1756ffa72aeee25207b6973b536746fe786a7/advisory-1",
+                  "3fe3b83c-96b8-4382-a0f9-c65b350f54d5@2ab1756ffa72aeee25207b6973b536746fe786a7/advisory-2",
+                  "3fe3b83c-96b8-4382-a0f9-c65b350f54d5@2ab1756ffa72aeee25207b6973b536746fe786a7/advisory-3"
+                ],
+                "blocking_findings": [
+                  "3fe3b83c-96b8-4382-a0f9-c65b350f54d5@2ab1756ffa72aeee25207b6973b536746fe786a7/B1",
+                  "3fe3b83c-96b8-4382-a0f9-c65b350f54d5@2ab1756ffa72aeee25207b6973b536746fe786a7/B2"
+                ],
+                "started_at": "2026-11-11T08:00:06.582Z",
+                "finished_at": "2026-11-11T08:07:37.129Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:01a1c97b-c406-7aa2-aec2-6c34e0b53455:/root/authored_baseline_codex_review",
+                "revision": "8fa881000f557e62e002a92c81dfc4414173ddfa",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/112",
+                "findings": [
+                  "3fe3b83c-96b8-4382-a0f9-c65b350f54d5@2ab1756ffa72aeee25207b6973b536746fe786a7/B1",
+                  "3fe3b83c-96b8-4382-a0f9-c65b350f54d5@2ab1756ffa72aeee25207b6973b536746fe786a7/B2"
+                ],
+                "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-sonnet-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7311aadc-7aff-4581-8d93-fb3749418f94%3Adelegate-task%3A8b7ce328-e6b8-4197-a492-c72506660e0e",
+                "revision": "8fa881000f557e62e002a92c81dfc4414173ddfa",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/112",
+                "findings": [
+                  "3fe3b83c-96b8-4382-a0f9-c65b350f54d5@2ab1756ffa72aeee25207b6973b536746fe786a7/B1",
+                  "3fe3b83c-96b8-4382-a0f9-c65b350f54d5@2ab1756ffa72aeee25207b6973b536746fe786a7/B2"
+                ],
+                "blocking_findings": [],
+                "started_at": "2026-11-11T08:09:23.930Z",
+                "finished_at": "2026-11-11T08:09:58.108Z"
+              }
+            ]
+          }
+        }
       }
     },
     {
