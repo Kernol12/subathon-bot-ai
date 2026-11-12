@@ -27,6 +27,13 @@ namespace subathon::server::api_host {
 namespace {
 namespace ht = testing;
 using Kind = ht::EventKind;
+struct Depth {
+    unsigned &value;
+    explicit Depth(unsigned &v) : value(v) { ++value; }
+    ~Depth() { --value; }
+    Depth(const Depth &) = delete;
+    Depth &operator=(const Depth &) = delete;
+};
 constexpr auto maximum = std::numeric_limits<std::uint64_t>::max();
 bool deadline(std::uint64_t now, std::uint64_t ms, std::uint64_t &out) {
     if (ms > maximum / 1000000 || now > maximum - ms * 1000000)
@@ -69,19 +76,49 @@ struct Shared : ResponseBudget {
     QObject *context = nullptr;
     std::atomic<bool> stop{false};
     std::atomic<std::uint64_t> ordinal{0};
-    bool wake_pending = false, alive = true;
+    bool wake_pending = false, notify_pending = false, alive = true;
+    unsigned owner_depth = 0, observer_depth = 0; // Qt owner only
+    std::function<void()> owner_wake;
+    std::optional<Result<StartAccepted>> ready_mail;
+    std::optional<NetworkBarrier> network_mail;
+    bool notify_locked() noexcept {
+        if (notify_pending)
+            return true;
+        if (!context)
+            return false;
+        notify_pending = true;
+        try {
+            if (QMetaObject::invokeMethod(context, owner_wake, Qt::QueuedConnection))
+                return true;
+        } catch (...) {
+        }
+        notify_pending = false;
+        return false;
+    }
     std::uint64_t serial = 0;
     std::optional<StoredInstallationFacts> current;
     void event(Kind k, std::optional<ht::WorkObservation> work = {},
-               std::optional<Failure> f = {}) {
-        if (!hooks.observe)
+               std::optional<Failure> f = {}) noexcept {
+        // A failing or reentrant test observer cannot strand actual cleanup.
+        static thread_local bool observing = false;
+        if (!hooks.observe || observing)
             return;
-        std::uint64_t generation;
-        {
-            std::lock_guard lock(mutex);
-            generation = status.generation;
+        const bool on_owner = std::this_thread::get_id() == owner;
+        observing = true;
+        if (on_owner)
+            ++observer_depth;
+        try {
+            std::uint64_t generation;
+            {
+                std::lock_guard lock(mutex);
+                generation = status.generation;
+            }
+            hooks.observe({k, ++ordinal, generation, std::this_thread::get_id(), work, f});
+        } catch (...) {
         }
-        hooks.observe({k, ++ordinal, generation, std::this_thread::get_id(), work, f});
+        if (on_owner)
+            --observer_depth;
+        observing = false;
     }
     std::optional<std::uint64_t> sample(std::optional<std::uint64_t> &last) const {
         if (!elapsed)
@@ -118,6 +155,8 @@ struct Shared : ResponseBudget {
             p.control_reserved = false;
             status.control_charge -= 1024;
         }
+        if (!associations)
+            return; // partial startup allocation owns no commands
         for (std::uint64_t i = 0; i < options.limits.associations; ++i) {
             auto &a = associations[i];
             if (!a.used || a.peer != index)
@@ -143,6 +182,9 @@ struct Shared : ResponseBudget {
         status.response.capacity -= bytes;
         --status.response.copies;
         status.response.metadata -= 128;
+    }
+    void resource_refused() noexcept override {
+        event(Kind::operation_refused, {}, Failure::resource_limit);
     }
     bool peer_live(std::uint64_t serial_value) const override {
         std::lock_guard lock(mutex);
@@ -179,7 +221,8 @@ class ScopedClock final : public CurrentSessionClock {
     explicit ScopedClock(std::shared_ptr<Membership> s) : scope_(std::move(s)) {}
     SessionClockResolution sample_current() override {
         auto h = scope_->host.lock();
-        if (!h || std::this_thread::get_id() != h->owner || !scope_->live || scope_->sampling)
+        if (!h || std::this_thread::get_id() != h->owner || !scope_->live || scope_->sampling ||
+            h->observer_depth || h->owner_depth != 1)
             return SessionSourceUnavailable{};
         {
             std::lock_guard lock(h->mutex);
@@ -202,7 +245,8 @@ class ScopedClock final : public CurrentSessionClock {
 };
 Result<CurrentInstallationView> installation(const std::shared_ptr<Membership> &m) {
     auto h = m->host.lock();
-    if (!h || std::this_thread::get_id() != h->owner || !m->live || m->sampling)
+    if (!h || std::this_thread::get_id() != h->owner || !m->live || m->sampling ||
+        h->observer_depth || h->owner_depth != 1)
         return Failure::unavailable;
     std::lock_guard lock(h->mutex);
     if (!h->alive || !h->current || !h->status.storage_active || h->stop ||
@@ -223,7 +267,7 @@ struct TransactionState {
         const auto h = membership->host.lock();
         if (!h || std::this_thread::get_id() != h->owner)
             throw SqliteWorkFailure(WorkError::wrong_thread);
-        if (!membership->live || membership->sampling)
+        if (!membership->live || membership->sampling || h->observer_depth || h->owner_depth != 1)
             throw SqliteWorkFailure(WorkError::stale_session);
         if (!begun || terminal || busy)
             throw SqliteWorkFailure(WorkError::session_closed);
@@ -250,6 +294,10 @@ bool valid_options(const Options &o) {
     for (auto n : sizes)
         if (!n || n > std::size_t(-1) / 4)
             return false;
+    // Includes the transport's peer × per-peer fixed request table. Reject
+    // unrepresentable aggregate table bounds before any startup allocation.
+    if (l.peers > std::size_t(-1) / l.per_peer || l.peers * l.per_peer > std::size_t(-1) / 128)
+        return false;
     std::uint64_t unused;
     for (auto n : {l.queue_ms, l.handoff_ms, l.drain_ms})
         if (!n || !deadline(0, n, unused))
@@ -267,7 +315,8 @@ bool valid_options(const Options &o) {
     return l.per_peer <= l.associations && l.envelope_bytes <= l.input_capacity &&
            l.response_bytes <= l.response_capacity && o.writer_limits.pending_batches > 0 &&
            std::uint64_t(o.writer_limits.pending_batches) >= l.associations &&
-           !o.store_path.empty() && !o.installation.empty() &&
+           !o.store_path.empty() && o.store_path.size() <= 4096 &&
+           o.store_path.find('\0') == std::string::npos && !o.installation.empty() &&
            o.installation.size() <= o.store_limits.reference_bytes;
 }
 } // namespace
@@ -286,7 +335,6 @@ struct PeerLease::Impl {
 };
 struct Ingress::Impl {
     std::shared_ptr<Shared> shared;
-    std::function<void()> wake;
 };
 struct ResponseLease::Impl {
     std::shared_ptr<Shared> shared;
@@ -406,8 +454,11 @@ Ingress::~Ingress() = default;
 Result<PeerLease> Ingress::connected() {
     auto s = impl_->shared;
     std::lock_guard lock(s->mutex);
-    if (!s->alive || s->status.state != State::serving || s->stop)
+    if (!s->alive || s->stop || s->status.state == State::stopping ||
+        s->status.state == State::stopped || s->status.state == State::failed)
         return Failure::stopping;
+    if (s->status.state != State::serving)
+        return Failure::unavailable;
     for (std::uint64_t i = 0; i < s->options.limits.peers; ++i) {
         auto &p = s->peers[i];
         if (p.leased || p.associations)
@@ -526,7 +577,13 @@ Result<Admitted> Ingress::try_submit(const PeerLease &lease, std::span<const std
         // One coalesced notification, with no input capture or per-request callback.
         if (!s->wake_pending) {
             s->wake_pending = true;
-            QMetaObject::invokeMethod(s->context, impl_->wake, Qt::QueuedConnection);
+            if (!s->notify_locked()) {
+                s->wake_pending = false;
+                if (route == RouteId::diagnostic)
+                    --s->status.queued_diagnostics;
+                s->release(a);
+                return refuse(Failure::resource_limit);
+            }
         }
         submitted_command_serial = a.serial;
         return Admitted{};
@@ -592,24 +649,37 @@ void Transaction::commit() {
     auto &t = *impl_->state;
     t.guard();
     Busy busy(t.busy);
-    auto h = t.membership->host.lock();
-    h->event(Kind::precommit_read);
-    auto read = t.unit->read_installation(h->options.installation);
-    auto *f = std::get_if<StoredInstallationFacts>(&read);
-    if (!f)
-        throw AccountSessionStorageFailure(std::get<AccountSessionReadFailure>(read));
-    t.candidate = std::move(*f);
-    // No callbacks, repository operation or yielding between this final read and COMMIT.
-    t.session.commit();
     t.terminal = true;
-    h->event(Kind::actual_commit);
+    t.candidate.reset();
+    try {
+        auto h = t.membership->host.lock();
+        h->event(Kind::precommit_read);
+        auto read = t.unit->read_installation(h->options.installation);
+        auto *f = std::get_if<StoredInstallationFacts>(&read);
+        if (!f)
+            throw AccountSessionStorageFailure(std::get<AccountSessionReadFailure>(read));
+        t.candidate = std::move(*f);
+        // No callbacks, repository operation or yielding between this final read and COMMIT.
+        t.session.commit();
+        h->event(Kind::actual_commit);
+    } catch (...) {
+        t.candidate.reset();
+        (void)t.session.cleanup();
+        throw;
+    }
 }
 void Transaction::rollback() {
     auto &t = *impl_->state;
     t.guard();
     Busy busy(t.busy);
-    t.session.rollback();
     t.terminal = true;
+    t.candidate.reset();
+    try {
+        t.session.rollback();
+    } catch (...) {
+        (void)t.session.cleanup();
+        throw;
+    }
 }
 Execution::Execution() = default;
 Execution::~Execution() = default;
@@ -618,7 +688,8 @@ Transaction &Execution::begin_transaction() {
     auto h = t.membership->host.lock();
     if (!h || std::this_thread::get_id() != h->owner)
         throw SqliteWorkFailure(WorkError::wrong_thread);
-    if (!t.membership->live || t.membership->sampling || t.busy)
+    if (!t.membership->live || t.membership->sampling || t.busy || h->observer_depth ||
+        h->owner_depth != 1)
         throw SqliteWorkFailure(WorkError::stale_session);
     Busy busy(t.busy);
     h->event(Kind::begin_attempted);
@@ -659,7 +730,11 @@ struct Host::Impl {
     std::optional<std::uint64_t> last;
     std::optional<subathon::server::testing::WorkControlFault> fault;
     bool attempted = false, transport_started = false, shutting_writer = false;
-    bool failed = false, mismatch = false, owner_busy = false;
+    bool failed = false, mismatch = false;
+    bool writer_ack_pending = false, processing_pending = false;
+    std::optional<MigrationResult> inspection_mail;
+    std::optional<SqliteWorkResult> installation_mail;
+    std::optional<StoredInstallationFacts> startup_candidate;
     // Fixed per-association command completion records, separate from the data
     // envelope. Writer closures capture slot+serial only, never unbounded data.
     struct WorkRecord {
@@ -668,18 +743,130 @@ struct Host::Impl {
         std::optional<OwnedDomainResult> result;
         std::uint64_t result_capacity = 0;
         bool normal = false, mismatched = false;
+        std::optional<Failure> host_failure;
     };
     static_assert(sizeof(WorkRecord) <= 128);
     std::unique_ptr<WorkRecord[]> records;
+    // Accepted writer completions may arrive during an illegal nested event pump.
+    // Fixed slots retain their actual outcomes until the outer owner turn returns.
+    std::unique_ptr<std::optional<SqliteWorkResult>[]> completion_mail;
     Impl(Host &h, Options o, std::unique_ptr<Transport> t, std::unique_ptr<CommandDispatcher> d)
         : host(h), transport(std::move(t)), dispatcher(std::move(d)) {
         s->options = std::move(o);
         s->context = &context;
-        QObject::connect(&sweep, &QTimer::timeout, &context, [this] { sweep_queued(); });
+        s->owner_wake = [this] {
+            {
+                std::lock_guard lock(s->mutex);
+                s->notify_pending = false;
+            }
+            poll();
+        };
+        QObject::connect(&sweep, &QTimer::timeout, &context, [this] { poll(); });
+        // Already armed before any ingress/stop notification can allocate. This
+        // owner wake is the no-allocation fallback when invokeMethod refuses.
+        sweep.start(10);
     }
     bool owner() const { return std::this_thread::get_id() == s->owner; }
     void event(Kind k, std::optional<ht::WorkObservation> w = {}, std::optional<Failure> f = {}) {
         s->event(k, w, f);
+    }
+    bool occupied() const { return s->owner_depth || s->observer_depth; }
+    template <class F> bool on_owner(F &&body) {
+        if (occupied())
+            return false;
+        Depth turn(s->owner_depth);
+        body();
+        return true;
+    }
+    void report_startup(Result<StartAccepted> result) noexcept {
+        if (!startup)
+            return;
+        auto callback = std::move(startup);
+        try {
+            callback(std::move(result));
+        } catch (...) {
+            failed = true;
+            s->stop = true;
+        }
+    }
+    void receive_work(std::size_t index, std::uint64_t serial, SqliteWorkResult result) {
+        if (!on_owner([&] {
+                try {
+                    completed(index, serial, std::move(result));
+                } catch (...) {
+                    clear_record(records[index]);
+                    refuse(index, serial, Failure::unavailable);
+                    consume_stop();
+                }
+            })) {
+            completion_mail[index] = std::move(result);
+            return;
+        }
+        poll();
+    }
+    void poll() noexcept {
+        try {
+            poll_owned();
+        } catch (...) {
+            failed = true;
+            s->stop = true;
+            event(Kind::operation_refused, {}, Failure::resource_limit);
+        }
+    }
+    void poll_owned() {
+        if (!on_owner([&] {
+                consume_stop();
+                std::optional<Result<StartAccepted>> ready_result;
+                std::optional<NetworkBarrier> network_result;
+                {
+                    std::lock_guard lock(s->mutex);
+                    ready_result = std::exchange(s->ready_mail, {});
+                    network_result = std::exchange(s->network_mail, {});
+                }
+                if (ready_result)
+                    ready(std::move(*ready_result));
+                if (network_result)
+                    network_done(*network_result);
+                if (inspection_mail)
+                    inspection_done(std::move(*std::exchange(inspection_mail, {})));
+                if (installation_mail)
+                    installation_done(std::move(*std::exchange(installation_mail, {})));
+                for (;;) {
+                    std::size_t index = 0;
+                    std::uint64_t serial = maximum;
+                    for (std::uint64_t n = 0;
+                         records && completion_mail && n < s->options.limits.associations; ++n)
+                        if (completion_mail[n] && records[n].serial < serial) {
+                            index = n;
+                            serial = records[n].serial;
+                        }
+                    if (serial == maximum)
+                        break;
+                    auto result = std::move(*completion_mail[index]);
+                    completion_mail[index].reset();
+                    try {
+                        completed(index, serial, std::move(result));
+                    } catch (...) {
+                        clear_record(records[index]);
+                        refuse(index, serial, Failure::unavailable);
+                    }
+                }
+                if (writer_ack_pending) {
+                    writer_ack_pending = false;
+                    event(Kind::writer_removed);
+                    {
+                        std::lock_guard lock(s->mutex);
+                        s->status.writer_barrier = true;
+                    }
+                    event(Kind::writer_ack);
+                }
+                process_pending();
+                sweep_queued();
+                if (s->stop && writer && !shutting_writer)
+                    request_writer_shutdown();
+            }))
+            return;
+        finish_stop();
     }
     void consume_stop() {
         consume_stop_signal(host);
@@ -712,31 +899,35 @@ struct Host::Impl {
         }
         // An unmeasurable drain requests immediate network teardown, never an unlimited wait.
         event(Kind::stop_consumed);
+        // A consumed stop cancels readiness notification, preserving the frozen
+        // startup-stop consumer. Actual start failures report through their own
+        // failure path before initiating this same cleanup sequence.
+        startup = {};
         if (transport_started) {
             transport->stop({end}, [this](NetworkBarrier b) {
-                QMetaObject::invokeMethod(
-                    &context, [this, b] { network_done(b); }, Qt::QueuedConnection);
+                std::lock_guard lock(s->mutex);
+                s->network_mail = b;
+                (void)s->notify_locked();
             });
         } else {
             network_done({true, true, true, true});
         }
         process_pending();
+        request_writer_shutdown();
+    }
+    void request_writer_shutdown() {
         if (writer && !shutting_writer) {
-            shutting_writer = true;
-            const auto admitted = writer->shutdown([this] {
-                // SqliteWriter removes the connection before this actual callback.
-                event(Kind::writer_removed);
-                {
-                    std::lock_guard lock(s->mutex);
-                    s->status.writer_barrier = true;
-                }
-                event(Kind::writer_ack);
-                finish_stop();
-            });
-            if (admitted != StorageError::none) {
-                // No ack means no cleanup claim. The owner/supervisor can observe stopping.
-                event(Kind::operation_refused, {}, Failure::incomplete_shutdown);
+            StorageError admitted = StorageError::invalid_work;
+            try {
+                admitted = writer->shutdown([this] {
+                    writer_ack_pending = true;
+                    poll();
+                });
+            } catch (...) {
             }
+            shutting_writer = admitted == StorageError::none;
+            if (!shutting_writer)
+                event(Kind::operation_refused, {}, Failure::incomplete_shutdown);
         } else if (!writer) {
             {
                 std::lock_guard lock(s->mutex);
@@ -769,10 +960,12 @@ struct Host::Impl {
         finish_stop();
     }
     void finish_stop() {
+        if (occupied())
+            return;
+        Depth cleanup(s->owner_depth);
         {
             std::lock_guard lock(s->mutex);
-            if (!s->status.network_barrier || !s->status.writer_barrier ||
-                s->status.owner_cleanup || owner_busy)
+            if (!s->status.network_barrier || !s->status.writer_barrier || s->status.owner_cleanup)
                 return;
             for (std::uint64_t i = 0; s->associations && i < s->options.limits.associations; ++i) {
                 auto &a = s->associations[i];
@@ -788,6 +981,7 @@ struct Host::Impl {
         }
         sweep.stop();
         writer.reset();
+        startup_candidate.reset();
         transport.reset();
         s->elapsed.reset();
         s->hooks.elapsed.reset();
@@ -818,21 +1012,29 @@ struct Host::Impl {
                 s->status.state = State::serving;
         }
         if (failed) {
+            report_startup(std::holds_alternative<Failure>(r)
+                               ? Result<StartAccepted>(std::get<Failure>(r))
+                               : Result<StartAccepted>(Failure::unavailable));
             s->stop = true;
             consume_stop();
             return;
         }
         event(Kind::listener_ready);
-        try {
-            if (startup) {
-                auto done = std::move(startup);
-                done(StartAccepted{});
-            }
-        } catch (...) {
-            failed = true;
-            s->stop = true;
-            consume_stop();
-        }
+        report_startup(StartAccepted{});
+        consume_stop();
+    }
+    void inspection_done(MigrationResult r) {
+        consume_stop();
+        const bool valid = r.work.transaction == TransactionOutcome::committed &&
+                           r.work.error == WorkError::none && r.reason == MigrationReason::none &&
+                           r.report && r.report->state == CatalogState::current &&
+                           r.report->version == 8 && r.report->target_version == 8 &&
+                           r.report->applied == 0 && !s->stop;
+        event(Kind::inspection_completed, observed(r.work),
+              valid ? std::optional<Failure>{} : Failure::unavailable);
+        consume_stop();
+        if (valid && !s->stop)
+            read_initial();
     }
     void inspect_store() {
         MigrationRequest request;
@@ -840,22 +1042,14 @@ struct Host::Impl {
         request.manifest = account_session_repository_manifest();
         request.cancel = [this](const MigrationProgress &) {
             consume_stop_signal(host);
-            return s->stop.load();
+            return s->stop.load() || occupied();
         };
         const auto admission =
             SqliteMigrationRunner::enqueue(*writer, std::move(request), [this](MigrationResult r) {
-                consume_stop();
-                const bool valid = r.work.transaction == TransactionOutcome::committed &&
-                                   r.work.error == WorkError::none &&
-                                   r.reason == MigrationReason::none && r.report &&
-                                   r.report->state == CatalogState::current &&
-                                   r.report->version == 8 && r.report->target_version == 8 &&
-                                   r.report->applied == 0 && !s->stop;
-                event(Kind::inspection_completed, observed(r.work),
-                      valid ? std::optional<Failure>{} : Failure::unavailable);
-                consume_stop();
-                if (valid && !s->stop)
-                    read_initial();
+                if (!on_owner([&] { inspection_done(std::move(r)); }))
+                    inspection_mail = std::move(r);
+                else
+                    poll();
             });
         if (admission.error == StorageError::none)
             event(Kind::inspection_enqueued);
@@ -863,12 +1057,32 @@ struct Host::Impl {
             event(Kind::inspection_completed, {}, Failure::unavailable);
         consume_stop();
     }
+    void installation_done(SqliteWorkResult r) {
+        consume_stop();
+        const bool valid = !s->stop && r.transaction == TransactionOutcome::committed &&
+                           r.error == WorkError::none && r.value && startup_candidate;
+        event(Kind::installation_read_completed, observed(r),
+              valid ? std::optional<Failure>{} : Failure::unavailable);
+        consume_stop();
+        if (!valid || s->stop)
+            return;
+        {
+            std::lock_guard lock(s->mutex);
+            s->current = std::move(*startup_candidate);
+            s->status.storage_active = true;
+            s->status.generation = 1;
+        }
+        event(Kind::activated);
+    }
     void read_initial() {
         // Startup has its own fixed record; no command can access the private writer
         // or source before this acknowledged chain activates it.
-        auto candidate = std::make_shared<std::optional<StoredInstallationFacts>>();
+        startup_candidate.reset();
         const auto admission = writer->enqueue_work(
-            [this, candidate](SqliteWorkContext c) -> QVariant {
+            [this](SqliteWorkContext c) -> QVariant {
+                if (occupied())
+                    return {};
+                Depth turn(s->owner_depth);
                 consume_stop();
                 if (s->stop)
                     return {};
@@ -880,7 +1094,7 @@ struct Host::Impl {
                     if (!std::holds_alternative<StoredInstallationFacts>(read))
                         throw AccountSessionStorageFailure(
                             std::get<AccountSessionReadFailure>(read));
-                    *candidate = std::get<StoredInstallationFacts>(std::move(read));
+                    startup_candidate = std::get<StoredInstallationFacts>(std::move(read));
                     session.commit();
                     return QVariant(true);
                 } catch (...) {
@@ -888,22 +1102,11 @@ struct Host::Impl {
                     throw;
                 }
             },
-            [this, candidate](SqliteWorkResult r) {
-                consume_stop();
-                const bool valid = !s->stop && r.transaction == TransactionOutcome::committed &&
-                                   r.error == WorkError::none && r.value && *candidate;
-                event(Kind::installation_read_completed, observed(r),
-                      valid ? std::optional<Failure>{} : Failure::unavailable);
-                consume_stop();
-                if (!valid || s->stop)
-                    return;
-                {
-                    std::lock_guard lock(s->mutex);
-                    s->current = std::move(**candidate);
-                    s->status.storage_active = true;
-                    s->status.generation = 1;
-                }
-                event(Kind::activated);
+            [this](SqliteWorkResult r) {
+                if (!on_owner([&] { installation_done(std::move(r)); }))
+                    installation_mail = std::move(r);
+                else
+                    poll();
             });
         if (admission == StorageError::none)
             event(Kind::installation_read_enqueued);
@@ -1037,7 +1240,6 @@ struct Host::Impl {
             settle(i, serial);
             return;
         }
-        owner_busy = true;
         event(Kind::diagnostic_entered);
         try {
             auto reply = dispatcher->diagnostic(view(i));
@@ -1045,17 +1247,20 @@ struct Host::Impl {
         } catch (...) {
             refuse(i, serial, Failure::unavailable);
         }
-        owner_busy = false;
         consume_stop();
         finish_stop();
     }
     QVariant execute(std::size_t i, std::uint64_t serial, SqliteWorkContext context_value) {
         event(Kind::wrapper_dispatched);
+        if (occupied()) {
+            event(Kind::operation_refused, {}, Failure::unavailable);
+            return {}; // actual writer reports not_started/missing_transaction
+        }
+        Depth turn(s->owner_depth);
         if (auto f = entry(i, serial)) {
             event(Kind::operation_refused, {}, *f);
             return {};
         }
-        owner_busy = true;
         auto &record = records[i];
         auto membership = std::make_shared<Membership>();
         membership->host = s;
@@ -1085,7 +1290,6 @@ struct Host::Impl {
                 s->drop_input(a);
             }
             event(Kind::execution_revoked);
-            owner_busy = false;
         };
         try {
             auto result = dispatcher->execute(e, view(i));
@@ -1095,14 +1299,15 @@ struct Host::Impl {
                 {
                     std::lock_guard lock(s->mutex);
                     if (capacity > s->options.limits.response_bytes ||
-                        !s->reserve(s->status.response, capacity, true))
+                        !s->reserve(s->status.response, capacity, true)) {
+                        record.host_failure = Failure::resource_limit;
                         throw SqliteWorkFailure(WorkError::resource_limit);
+                    }
                 }
                 record.result_capacity = capacity;
             }
             record.result = std::move(result);
             record.normal = true;
-            record.mismatched = std::exchange(mismatch, false);
             revoke();
             // Private identity is a slot serial, never client data. The actual
             // completion must also match the record, normal return and work truth.
@@ -1157,7 +1362,6 @@ struct Host::Impl {
     }
     void completed(std::size_t i, std::uint64_t serial, SqliteWorkResult r) {
         // Includes allocation exceptions before an execution facade could escape.
-        owner_busy = false;
         {
             std::lock_guard lock(s->mutex);
             auto &a = s->associations[i];
@@ -1178,13 +1382,13 @@ struct Host::Impl {
             r.value->value<private_detail::Completion>().generation == record.generation &&
             record.result;
         if (!match) {
-            Failure reason = Failure::invalid_completion;
+            Failure reason = record.host_failure.value_or(Failure::invalid_completion);
             {
                 std::lock_guard lock(s->mutex);
                 const auto &a = s->associations[i];
-                if (a.cancelled)
+                if (a.cancelled && !record.host_failure)
                     reason = *a.cancelled;
-                else if (r.error != WorkError::none)
+                else if (r.error != WorkError::none && !record.host_failure)
                     reason = Failure::unavailable;
             }
             if (record.normal && r.transaction == TransactionOutcome::committed &&
@@ -1192,6 +1396,12 @@ struct Host::Impl {
                 std::lock_guard lock(s->mutex);
                 s->current.reset();
                 s->status.storage_active = false;
+            }
+            if (reason == Failure::resource_limit) {
+                std::lock_guard lock(s->mutex);
+                const auto &a = s->associations[i];
+                if (a.used && a.serial == serial)
+                    s->cancel_peer(a.peer, reason);
             }
             clear_record(record);
             refuse(i, serial, reason);
@@ -1230,7 +1440,6 @@ struct Host::Impl {
         p.impl_ = std::make_unique<Publication::Impl>();
         p.impl_->membership = membership;
         p.impl_->clock = std::make_shared<ScopedClock>(membership);
-        owner_busy = true;
         event(Kind::publication_entered);
         std::optional<OwnedReply> reply;
         try {
@@ -1249,11 +1458,17 @@ struct Host::Impl {
             send(i, serial, std::move(*reply));
         else
             settle(i, serial);
-        owner_busy = false;
         consume_stop();
         finish_stop();
     }
     void process_pending() {
+        if (processing_pending)
+            return;
+        struct Processing {
+            bool &flag;
+            explicit Processing(bool &f) : flag(f) { flag = true; }
+            ~Processing() { flag = false; }
+        } processing(processing_pending);
         // Admission sequence, rather than array order, preserves actual FIFO when
         // released slots are reused. The table is finite; observers hold no lock.
         for (;;) {
@@ -1278,36 +1493,51 @@ struct Host::Impl {
             }
             if (route == RouteId::diagnostic) {
                 event(Kind::diagnostic_queued);
-                QMetaObject::invokeMethod(
-                    &context,
-                    [this, index, serial] {
-                        {
-                            std::lock_guard lock(s->mutex);
-                            auto &a = s->associations[index];
-                            if (!a.used || a.serial != serial)
-                                return;
-                            --s->status.queued_diagnostics;
-                        }
-                        diagnostic(index, serial);
-                    },
-                    Qt::QueuedConnection);
+                bool posted = false;
+                try {
+                    posted = QMetaObject::invokeMethod(
+                        &context,
+                        [this, index, serial] {
+                            {
+                                std::lock_guard lock(s->mutex);
+                                auto &a = s->associations[index];
+                                if (!a.used || a.serial != serial)
+                                    return;
+                                --s->status.queued_diagnostics;
+                            }
+                            if (!on_owner([&] { diagnostic(index, serial); })) {
+                                event(Kind::diagnostic_cancelled, {}, Failure::unavailable);
+                                settle(index, serial);
+                            }
+                            poll();
+                        },
+                        Qt::QueuedConnection);
+                } catch (...) {
+                }
+                if (!posted) {
+                    {
+                        std::lock_guard lock(s->mutex);
+                        --s->status.queued_diagnostics;
+                    }
+                    event(Kind::diagnostic_cancelled, {}, Failure::resource_limit);
+                    settle(index, serial);
+                }
             } else {
                 auto &record = records[index];
                 record.serial = serial;
-                auto admission = writer->enqueue_work(
-                    [this, index, serial](auto c) { return execute(index, serial, c); },
-                    [this, index, serial](auto r) {
-                        try {
-                            completed(index, serial, std::move(r));
-                        } catch (...) {
-                            owner_busy = false;
-                            clear_record(records[index]);
-                            refuse(index, serial, Failure::unavailable);
-                            consume_stop();
-                            finish_stop();
-                        }
-                    });
+                StorageError admission = StorageError::invalid_work;
+                bool allocation_failed = false;
+                try {
+                    admission = writer->enqueue_work(
+                        [this, index, serial](auto c) { return execute(index, serial, c); },
+                        [this, index, serial](auto r) {
+                            receive_work(index, serial, std::move(r));
+                        });
+                } catch (...) {
+                    allocation_failed = true;
+                }
                 if (admission == StorageError::none) {
+                    record.mismatched = std::exchange(mismatch, false);
                     {
                         std::lock_guard lock(s->mutex);
                         s->associations[index].accepted = true;
@@ -1316,7 +1546,8 @@ struct Host::Impl {
                     event(Kind::wrapper_accepted);
                 } else {
                     clear_record(record);
-                    refuse(index, serial, Failure::unavailable);
+                    refuse(index, serial,
+                           allocation_failed ? Failure::resource_limit : Failure::unavailable);
                 }
             }
             // Keep accepting arrivals made during observer gates, without pumping
@@ -1346,7 +1577,7 @@ Host::Host(Options o, std::unique_ptr<Transport> t, std::unique_ptr<CommandDispa
     : impl_(std::make_unique<Impl>(*this, std::move(o), std::move(t), std::move(d))) {}
 Host::~Host() {
     auto &i = *impl_;
-    if (!i.owner())
+    if (!i.owner() || i.occupied())
         std::terminate();
     // Destruction is never a substitute for asynchronous stop/join. Refuse to
     // free callback dependencies if an owner barrier has not actually passed.
@@ -1355,6 +1586,7 @@ Host::~Host() {
     std::lock_guard lock(i.s->mutex);
     i.s->alive = false;
     i.s->context = nullptr;
+    i.s->owner_wake = {};
 }
 Result<StartAccepted> Host::start(StartupObserver done) {
     auto &i = *impl_;
@@ -1362,39 +1594,47 @@ Result<StartAccepted> Host::start(StartupObserver done) {
     if (!i.owner() || !QCoreApplication::instance() ||
         QThread::currentThread() != QCoreApplication::instance()->thread())
         return Failure::wrong_thread;
+    if (i.occupied())
+        return Failure::unavailable;
     if (i.attempted || s->status.state != State::cold)
         return Failure::already_started;
+    Depth turn(s->owner_depth);
+    i.attempted = true;
+    i.startup = std::move(done);
+    {
+        std::lock_guard lock(s->mutex);
+        s->status.state = State::starting;
+    }
+    auto fail = [&](Failure reason) -> Result<StartAccepted> {
+        i.failed = true;
+        i.report_startup(reason);
+        s->stop = true;
+        i.consume_stop();
+        return reason;
+    };
     if (!valid_options(s->options) || !i.transport || !i.dispatcher)
-        return Failure::invalid_options;
+        return fail(Failure::invalid_options);
     try {
         s->peers = std::make_unique<Peer[]>(s->options.limits.peers);
         s->time_owners = std::make_unique<TimeOwner[]>(s->options.limits.peers);
         s->associations = std::make_unique<Association[]>(s->options.limits.associations);
         i.records = std::make_unique<Impl::WorkRecord[]>(s->options.limits.associations);
+        i.completion_mail =
+            std::make_unique<std::optional<SqliteWorkResult>[]>(s->options.limits.associations);
         if (s->hooks.elapsed)
             s->elapsed = s->hooks.elapsed;
         else {
             auto clock = make_linux_monotonic_elapsed();
             if (!std::holds_alternative<std::shared_ptr<const native_ws::ElapsedSource>>(clock))
-                return Failure::elapsed_unavailable;
+                return fail(Failure::elapsed_unavailable);
             s->elapsed =
                 std::get<std::shared_ptr<const native_ws::ElapsedSource>>(std::move(clock));
         }
         auto profile = native_ws::create_profile(s->options.native, s->elapsed);
         if (!std::holds_alternative<std::unique_ptr<native_ws::Profile>>(profile))
-            return Failure::invalid_options;
-        i.attempted = true;
-        i.startup = std::move(done);
-        {
-            std::lock_guard lock(s->mutex);
-            s->status.state = State::starting;
-        }
+            return fail(Failure::invalid_options);
         i.ingress.reset(new Ingress(std::make_unique<Ingress::Impl>()));
         i.ingress->impl_->shared = s;
-        i.ingress->impl_->wake = [&i] {
-            i.consume_stop();
-            i.process_pending();
-        };
         if (s->stop) {
             i.consume_stop();
             return StartAccepted{};
@@ -1413,32 +1653,28 @@ Result<StartAccepted> Host::start(StartupObserver done) {
             i.event(Kind::inspection_completed, {}, Failure::unavailable);
         if (!s->stop) {
             if (auto *network = dynamic_cast<NetworkTransport *>(i.transport.get()))
-                network->configure(s->options.limits, s->elapsed, s);
+                network->configure(s->options.limits, s->elapsed, s, s->options.store_path);
             i.transport_started = true;
             auto result = i.transport->start(
                 *i.ingress, std::get<std::unique_ptr<native_ws::Profile>>(std::move(profile)),
                 [&i](auto r) {
-                    QMetaObject::invokeMethod(
-                        &i.context, [&i, r = std::move(r)]() mutable { i.ready(std::move(r)); },
-                        Qt::QueuedConnection);
+                    std::lock_guard lock(i.s->mutex);
+                    if (!i.s->ready_mail)
+                        i.s->ready_mail = std::move(r);
+                    (void)i.s->notify_locked();
                 });
             if (!std::holds_alternative<StartAccepted>(result)) {
-                i.failed = true;
-                s->stop = true;
+                return fail(std::holds_alternative<Failure>(result) ? std::get<Failure>(result)
+                                                                    : Failure::unavailable);
             }
         }
-        i.sweep.start(10);
         i.consume_stop();
         return StartAccepted{};
     } catch (...) {
-        if (!i.attempted)
-            return Failure::resource_limit;
-        i.failed = true;
-        s->stop = true;
-        i.consume_stop();
-        return Failure::unavailable;
+        return fail(Failure::resource_limit);
     }
 }
+
 void Host::request_stop() noexcept {
     auto &i = *impl_;
     auto s = i.s;
@@ -1446,7 +1682,7 @@ void Host::request_stop() noexcept {
         return;
     std::lock_guard lock(s->mutex);
     if (s->alive && s->context)
-        QMetaObject::invokeMethod(s->context, [&i] { i.consume_stop(); }, Qt::QueuedConnection);
+        (void)s->notify_locked();
 }
 Inspection Host::inspect() const {
     auto &i = *impl_;
@@ -1468,6 +1704,8 @@ testing::HostAccess::inject_next_control_ack_loss(Host &h,
     auto &i = *h.impl_;
     if (!i.owner())
         return Failure::wrong_thread;
+    if (i.occupied())
+        return Failure::unavailable;
     if (f != subathon::server::testing::WorkControlFault::lose_next_commit_ack &&
         f != subathon::server::testing::WorkControlFault::lose_next_rollback_ack)
         return Failure::invalid_options;
@@ -1489,6 +1727,8 @@ Result<Connected> testing::HostAccess::inject_next_envelope_mismatch(Host &h) {
     auto &i = *h.impl_;
     if (!i.owner())
         return Failure::wrong_thread;
+    if (i.occupied())
+        return Failure::unavailable;
     std::lock_guard lock(i.s->mutex);
     if (i.s->status.associations || i.mismatch)
         return Failure::unavailable;

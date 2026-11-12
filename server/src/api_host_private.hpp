@@ -15,6 +15,7 @@ class ResponseBudget {
     virtual ~ResponseBudget() = default;
     virtual bool acquire(std::uint64_t) = 0;
     virtual void release(std::uint64_t) noexcept = 0;
+    virtual void resource_refused() noexcept = 0;
     virtual bool peer_live(std::uint64_t) const = 0;
 };
 class CopyCredit {
@@ -43,7 +44,7 @@ class CopyCredit {
 class NetworkTransport : public Transport {
   public:
     virtual void configure(const Limits &, std::shared_ptr<const native_ws::ElapsedSource>,
-                           std::shared_ptr<ResponseBudget>) = 0;
+                           std::shared_ptr<ResponseBudget>, std::string_view store_path) = 0;
     virtual void handoff_to(std::uint64_t peer, std::uint64_t command, ResponseLease) = 0;
 };
 } // namespace subathon::server::api_host

@@ -1,9 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "api_host_private.hpp"
 #include <QCoreApplication>
+#include <QDir>
+#include <QFileInfo>
 #include <QMetaObject>
 #include <QObject>
+#include <QTemporaryDir>
+#include <QTimer>
 #include <algorithm>
+#include <arpa/inet.h>
 #include <array>
 #include <atomic>
 #include <cstring>
@@ -12,6 +17,7 @@
 #include <drogon/drogon.h>
 #include <mutex>
 #include <optional>
+#include <stdexcept>
 #include <subathon/server/api_host_drogon.hpp>
 #include <thread>
 #include <trantor/net/EventLoop.h>
@@ -59,17 +65,23 @@ class DrogonTransport final : public NetworkTransport {
         std::optional<ResponseLease> lease;
         std::uint64_t peer = 0, command = 0;
     };
+    static_assert(sizeof(Pending) <= 128);
+    static_assert(sizeof(Peer) <= 512);
+    static_assert(sizeof(Mail) <= 128);
     DrogonOptions options_;
     Limits limits_;
     Ingress *ingress_ = nullptr;
     std::unique_ptr<native_ws::Profile> profile_;
     std::shared_ptr<const native_ws::ElapsedSource> elapsed_;
     std::shared_ptr<ResponseBudget> budget_;
-    CopyCredit output_credit_;
+    std::unique_ptr<QTemporaryDir> upload_directory_;
+    std::string upload_path_;
     std::optional<std::uint64_t> last_;
     StartupObserver ready_;
     NetworkBarrierObserver barrier_;
     QObject owner_context_;
+    QTimer finish_timer_;
+    std::atomic<bool> framework_done_{false}, framework_clean_{false};
     std::thread framework_;
     std::unique_ptr<Peer[]> peers_;
     std::unique_ptr<Mail[]> mail_;
@@ -80,8 +92,6 @@ class DrogonTransport final : public NetworkTransport {
     std::atomic<bool> stop_requested_{false};
     std::atomic<std::uint64_t> stop_deadline_{0};
     trantor::TimerId tick_ = trantor::InvalidTimerId;
-    std::unique_ptr<std::byte[]> output_; // one IO scratch, finite HTTP/WS output projection
-    std::uint64_t output_size_ = 0;
     bool time_ok(std::uint64_t *value = nullptr) {
         auto sample = elapsed_->sample();
         auto *now = std::get_if<native_ws::ElapsedInstant>(&sample);
@@ -123,6 +133,20 @@ class DrogonTransport final : public NetworkTransport {
         revoke(p);
         if (p.tcp)
             p.tcp->forceClose();
+    }
+    void resource_close(Peer &p) {
+        if (!p.ws) {
+            force(p);
+            return;
+        }
+        native_ws::CloseWithStatus status{};
+        status.code = 1009;
+        const auto closed = profile_->start_close(p.ws, status);
+        // Profile controls use their separately reserved fixed output storage.
+        // Keep earlier accepted association truth; only their transport lease may
+        // subsequently be revoked by the actual Close/disconnect.
+        if (!std::holds_alternative<native_ws::CloseDisposition>(closed))
+            force(p);
     }
     void connection(const Tcp &tcp) {
         if (!tcp->connected()) {
@@ -250,16 +274,30 @@ class DrogonTransport final : public NetworkTransport {
                 continue;
             }
             if (p->ws) {
-                if (v->correlation.size() != 1 || v->bytes.size() >= output_size_) {
+                if (v->correlation.size() != 1 || v->bytes.size() > limits_.response_bytes) {
                     force(*p);
                     continue;
                 }
-                output_[0] = v->correlation[0];
-                std::copy(v->bytes.begin(), v->bytes.end(), output_.get() + 1);
-                auto sent = profile_->try_send(p->ws, native_ws::MessageKind::binary,
-                                               {output_.get(), v->bytes.size() + 1});
-                if (!std::holds_alternative<native_ws::Admitted>(sent))
-                    force(*p);
+                // No startup payload reservation: equal single/pool capacities
+                // remain valid. Each actual projection competes for another copy.
+                CopyCredit credit;
+                if (!credit.reserve(budget_, v->bytes.size() + 1)) {
+                    budget_->resource_refused();
+                    resource_close(*p);
+                    continue;
+                }
+                try {
+                    auto output = std::make_unique<std::byte[]>(v->bytes.size() + 1);
+                    output[0] = v->correlation[0];
+                    std::copy(v->bytes.begin(), v->bytes.end(), output.get() + 1);
+                    auto sent = profile_->try_send(p->ws, native_ws::MessageKind::binary,
+                                                   {output.get(), v->bytes.size() + 1});
+                    if (!std::holds_alternative<native_ws::Admitted>(sent))
+                        resource_close(*p);
+                } catch (...) {
+                    budget_->resource_refused();
+                    resource_close(*p);
+                }
             } else {
                 Pending *slot = nullptr;
                 for (std::uint64_t i = 0; i < limits_.per_peer; ++i) {
@@ -284,6 +322,7 @@ class DrogonTransport final : public NetworkTransport {
                 if (!p->http_output[0].reserve(budget_, body_capacity) ||
                     !p->http_output[1].reserve(budget_, 2 * (body_capacity + 1024)) ||
                     !p->http_output[2].reserve(budget_, 2 * (body_capacity + 1024))) {
+                    budget_->resource_refused();
                     force(*p);
                     continue;
                 }
@@ -296,12 +335,17 @@ class DrogonTransport final : public NetworkTransport {
                 p->output_deadline = now + limits_.handoff_ms * 1000000;
                 auto callback = std::move(slot->callback);
                 slot->used = false;
-                auto reply = drogon::HttpResponse::newHttpResponse();
-                reply->setContentTypeCode(drogon::CT_APPLICATION_OCTET_STREAM);
-                reply->setCloseConnection(true);
-                reply->setBody(
-                    std::string(reinterpret_cast<const char *>(v->bytes.data()), v->bytes.size()));
-                callback(reply);
+                try {
+                    auto reply = drogon::HttpResponse::newHttpResponse();
+                    reply->setContentTypeCode(drogon::CT_APPLICATION_OCTET_STREAM);
+                    reply->setCloseConnection(true);
+                    reply->setBody(std::string(reinterpret_cast<const char *>(v->bytes.data()),
+                                               v->bytes.size()));
+                    callback(reply);
+                } catch (...) {
+                    budget_->resource_refused();
+                    force(*p);
+                }
             }
         }
     }
@@ -329,6 +373,8 @@ class DrogonTransport final : public NetworkTransport {
     void turn() {
         if (quitting_)
             return;
+        if (!stop_requested_.load(std::memory_order_acquire))
+            drain_mail();
         std::uint64_t now = 0;
         const bool valid = time_ok(&now);
         if (stop_requested_ && !closing_) {
@@ -372,15 +418,28 @@ class DrogonTransport final : public NetworkTransport {
                     peers_[i].ws.reset();
                 }
                 profile_.reset();
-                output_.reset();
-                output_credit_.reset();
                 drogon::app().quit();
             });
         }
     }
 
   public:
-    explicit DrogonTransport(DrogonOptions options) : options_(std::move(options)) {}
+    explicit DrogonTransport(DrogonOptions options) : options_(std::move(options)) {
+        QObject::connect(&finish_timer_, &QTimer::timeout, &owner_context_, [this] {
+            if (!framework_done_.load(std::memory_order_acquire) || joined_)
+                return;
+            framework_.join();
+            joined_ = true;
+            finish_timer_.stop();
+            if (!stop_requested_.load(std::memory_order_acquire))
+                ready_(Failure::unavailable);
+            if (barrier_) {
+                auto done = std::move(barrier_);
+                const bool clean = framework_clean_.load(std::memory_order_acquire);
+                done({clean, clean, true, clean});
+            }
+        });
+    }
     ~DrogonTransport() override {
         if (framework_.joinable()) {
             // Host must retain this owner through the explicit joined acknowledgment.
@@ -390,7 +449,7 @@ class DrogonTransport final : public NetworkTransport {
         }
     }
     void configure(const Limits &limits, std::shared_ptr<const native_ws::ElapsedSource> elapsed,
-                   std::shared_ptr<ResponseBudget> budget) override {
+                   std::shared_ptr<ResponseBudget> budget, std::string_view store_path) override {
         limits_ = limits;
         elapsed_ = std::move(elapsed);
         budget_ = std::move(budget);
@@ -398,10 +457,13 @@ class DrogonTransport final : public NetworkTransport {
         for (std::uint64_t i = 0; i < limits_.peers; ++i)
             peers_[i].requests = std::make_unique<Pending[]>(limits_.per_peer);
         mail_ = std::make_unique<Mail[]>(limits_.associations);
-        output_size_ = limits_.response_bytes + 1;
-        if (!output_credit_.reserve(budget_, output_size_))
-            throw std::bad_alloc();
-        output_ = std::make_unique<std::byte[]>(output_size_);
+        const auto parent =
+            QFileInfo(QString::fromUtf8(store_path.data(), qsizetype(store_path.size())))
+                .absolutePath();
+        upload_directory_ = std::make_unique<QTemporaryDir>(parent + "/.api-host-upload-XXXXXX");
+        if (!upload_directory_->isValid())
+            throw std::runtime_error("Host upload directory unavailable");
+        upload_path_ = upload_directory_->path().toStdString();
     }
     Result<StartAccepted> start(Ingress &ingress, std::unique_ptr<native_ws::Profile> profile,
                                 StartupObserver observer) override {
@@ -413,72 +475,82 @@ class DrogonTransport final : public NetworkTransport {
         ingress_ = &ingress;
         profile_ = std::move(profile);
         ready_ = std::move(observer);
+        finish_timer_.start(10);
         try {
             framework_ = std::thread([this] {
-                auto &app = drogon::app();
-                app.disableSigtermHandling()
-                    .enableGzip(false)
-                    .enableBrotli(false)
-                    .enableDateHeader(false)
-                    .enableServerHeader(false)
-                    .setPipeliningRequestsNumber(limits_.per_peer)
-                    .setThreadNum(1)
-                    .setIdleConnectionTimeout(0)
-                    .setMaxConnectionNum(limits_.peers)
-                    .setClientMaxBodySize(limits_.envelope_bytes)
-                    .setClientMaxMemoryBodySize(limits_.envelope_bytes);
-                app.addListener(options_.address, options_.port, false, "", "", false, {}, true);
-                app.setConnectionCallback([this](const Tcp &tcp) { connection(tcp); });
-                for (auto [path, route] : {std::pair{"diagnostic", RouteId::diagnostic},
-                                           {"installation", RouteId::installation},
-                                           {"credential", RouteId::credential},
-                                           {"account", RouteId::account}}) {
-                    app.registerHandler(
-                        std::string("/api-host/") + path,
-                        [this, route](const drogon::HttpRequestPtr &request, Callback &&cb) {
-                            http(request, std::move(cb), route);
-                        },
-                        {drogon::Post});
-                }
-                app.registerController(std::make_shared<Controller>(*this));
-                app.registerBeginningAdvice([this] {
-                    // Beginning advice itself precedes the actual listen turn.
-                    drogon::app().getLoop()->queueInLoop([this] {
-                        auto listeners = drogon::app().getListeners();
-                        if (listeners.size() != 1 || listeners.front().toPort() == 0) {
-                            ready_(Failure::unavailable);
-                            drogon::app().quit();
-                            return;
-                        }
-                        auto *loop = drogon::app().getIOLoop(0);
-                        loop->queueInLoop([this, loop] {
-                            {
-                                std::lock_guard lock(mutex_);
-                                io_ = loop;
+                try {
+                    auto &app = drogon::app();
+                    app.setLogLevel(trantor::Logger::kFatal)
+                        .setUploadPath(upload_path_)
+                        .disableSigtermHandling()
+                        .enableGzip(false)
+                        .enableBrotli(false)
+                        .enableDateHeader(false)
+                        .enableServerHeader(false)
+                        .setPipeliningRequestsNumber(limits_.per_peer)
+                        .setThreadNum(1)
+                        .setIdleConnectionTimeout(0)
+                        .setMaxConnectionNum(limits_.peers)
+                        .setClientMaxBodySize(limits_.envelope_bytes)
+                        .setClientMaxMemoryBodySize(limits_.envelope_bytes);
+                    // B1 remains unresolved: this admitted SDK listener refuses HTTP.
+                    // No ordinary listener or alternate routing is introduced here.
+                    app.addListener(options_.address, options_.port, false, "", "", false, {},
+                                    true);
+                    app.setConnectionCallback([this](const Tcp &tcp) { connection(tcp); });
+                    for (auto [path, route] : {std::pair{"diagnostic", RouteId::diagnostic},
+                                               {"installation", RouteId::installation},
+                                               {"credential", RouteId::credential},
+                                               {"account", RouteId::account}}) {
+                        app.registerHandler(
+                            std::string("/api-host/") + path,
+                            [this, route](const drogon::HttpRequestPtr &request, Callback &&cb) {
+                                http(request, std::move(cb), route);
+                            },
+                            {drogon::Post});
+                    }
+                    app.registerController(std::make_shared<Controller>(*this));
+                    app.registerBeginningAdvice([this] {
+                        // Beginning advice itself precedes the actual listen turn.
+                        drogon::app().getLoop()->queueInLoop([this] {
+                            auto listeners = drogon::app().getListeners();
+                            if (listeners.size() != 1 || listeners.front().toPort() == 0) {
+                                ready_(Failure::unavailable);
+                                drogon::app().quit();
+                                return;
                             }
-                            tick_ = loop->runEvery(0.01, [this] { turn(); });
-                            if (stop_requested_)
-                                begin_stop();
-                            else
-                                ready_(StartAccepted{});
+                            auto *loop = drogon::app().getIOLoop(0);
+                            loop->queueInLoop([this, loop] {
+                                {
+                                    std::lock_guard lock(mutex_);
+                                    io_ = loop;
+                                }
+                                tick_ = loop->runEvery(0.01, [this] { turn(); });
+                                if (stop_requested_)
+                                    begin_stop();
+                                else
+                                    ready_(StartAccepted{});
+                            });
                         });
                     });
-                });
-                app.run(); // quit joins the selected IO pool before returning
-                QMetaObject::invokeMethod(
-                    &owner_context_,
-                    [this] {
-                        framework_.join();
-                        joined_ = true;
-                        if (barrier_) {
-                            auto done = std::move(barrier_);
-                            done({true, true, true, true});
-                        }
-                    },
-                    Qt::QueuedConnection);
+                    app.run(); // quit joins the selected IO pool before returning
+                    framework_clean_.store(true, std::memory_order_release);
+                } catch (...) {
+                    // A partial SDK startup/run exception has no public cleanup
+                    // proof. Report failure and retain dependencies; do not forge
+                    // an IO/socket barrier or destruct an unknown framework state.
+                    try {
+                        ready_(Failure::resource_limit);
+                    } catch (...) {
+                    }
+                }
+                // No allocation or Qt invocation on the finishing framework
+                // thread; the prearmed Qt timer observes actual run completion.
+                framework_done_.store(true, std::memory_order_release);
             });
         } catch (...) {
             started_ = false;
+            finish_timer_.stop();
             return Failure::resource_limit;
         }
         return StartAccepted{};
@@ -499,7 +571,11 @@ class DrogonTransport final : public NetworkTransport {
             slot.lease.emplace(std::move(lease));
             if (!mail_wake_) {
                 mail_wake_ = true;
-                io_->queueInLoop([this] { drain_mail(); });
+                try {
+                    io_->queueInLoop([this] { drain_mail(); });
+                } catch (...) {
+                    mail_wake_ = false;
+                } // fixed IO tick retains/drains the mailbox
             }
             return;
         }
@@ -508,19 +584,23 @@ class DrogonTransport final : public NetworkTransport {
     }
     void stop(StopDeadline deadline, NetworkBarrierObserver done) override {
         std::lock_guard lock(mutex_);
-        if (stop_requested_.exchange(true))
+        if (stop_requested_.load(std::memory_order_relaxed))
             return;
-        stop_deadline_ = deadline.nanoseconds;
+        stop_deadline_.store(deadline.nanoseconds, std::memory_order_relaxed);
         barrier_ = std::move(done);
-        if (io_)
-            io_->queueInLoop([this] { begin_stop(); });
-        else if (!framework_.joinable()) {
+        // IO must acquire the immutable deadline before observing stop.
+        stop_requested_.store(true, std::memory_order_release);
+        if (io_) {
+            try {
+                io_->queueInLoop([this] { begin_stop(); });
+            } catch (...) {
+            } // fixed IO tick consumes the published stop/deadline
+        } else if (!framework_.joinable()) {
             profile_.reset();
-            output_.reset();
-            output_credit_.reset();
             joined_ = true;
             auto complete = std::move(barrier_);
-            complete({true, true, true, true});
+            const bool clean = !started_ || framework_clean_.load(std::memory_order_acquire);
+            complete({clean, clean, true, clean});
         }
     }
     void opened(const drogon::HttpRequestPtr &request, const Ws &ws) {
@@ -557,10 +637,12 @@ class DrogonTransport final : public NetworkTransport {
             ingress_->try_submit(*p->lease, message->bytes.first(1),
                                  static_cast<RouteId>(std::to_integer<unsigned>(message->bytes[1])),
                                  message->bytes.subspan(2));
-        // A bounded refusal has no invented application schema. Capacity pressure
-        // leaves earlier admitted requests eligible; unavailable routes close.
-        if (const auto *f = std::get_if<Failure>(&result); f && *f != Failure::resource_limit)
-            force(*p);
+        if (const auto *f = std::get_if<Failure>(&result)) {
+            if (*f == Failure::resource_limit)
+                resource_close(*p);
+            else
+                force(*p);
+        }
     }
     void closed(const Ws &ws) {
         if (auto *p = find(ws)) {
@@ -579,7 +661,13 @@ void Controller::handleNewMessage(const Ws &w, std::string &&,
 void Controller::handleConnectionClosed(const Ws &w) { owner_.closed(w); }
 } // namespace
 Result<std::unique_ptr<Transport>> make_drogon_transport(DrogonOptions options) {
-    if (options.address.empty() || options.address.size() > 255)
+    if (options.address.empty() || options.address.size() > 255 ||
+        options.address.find('\0') != std::string::npos)
+        return Failure::invalid_options;
+    in_addr ipv4{};
+    in6_addr ipv6{};
+    if (::inet_pton(AF_INET, options.address.c_str(), &ipv4) != 1 &&
+        ::inet_pton(AF_INET6, options.address.c_str(), &ipv6) != 1)
         return Failure::invalid_options;
     try {
         return std::unique_ptr<Transport>(std::make_unique<DrogonTransport>(std::move(options)));
