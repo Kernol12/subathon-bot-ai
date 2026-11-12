@@ -27,8 +27,9 @@ Read-only /root/api001_baseline_receipts recovered seven exact historical report
 in /tmp/api001-inherited-review-compendium.md and proposed tests-stage JSON;
 coordinator imported the unchanged 14-path packet8fa8810. Independent Codex
 /root/api001_import_consistency approved claim0355707 and the import as routine
-metadata, no blockers; full historical-report HTTPS publication with API-001 PR
-remains pending. Validate/project/render/diff checks passed;
+metadata, no blockers. Full historical reports published at
+https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6815972014.
+Validate/project/render/diff checks passed;
 preserve tests, existing native profile/source/patch and all baseline assertions.
 No downstream session-clock/login/auth/restore/provider behavior is included.
 Implementation c2c341f (five owned server files) integrated; author reports both
@@ -38,5 +39,7 @@ closing Claude review, relevant real acceptance/regressions and protected PR gat
 
 PR120's verified merge was reconciled in claim0355707. Its historical pre-push
 not_run evidence remains unchanged.
-Prepare focused draft API-001 PR, then initial implementation/resource review.
+Draft API-001 PR: https://github.com/Kernol12/subathon-bot-ai/pull/121
+Source packet b4e758d; only routine metadata follows at4518c0b. Initial independent
+Claude implementation/resource review is next. No new authors remain active.
 Continue the standing loop after this task's gates.

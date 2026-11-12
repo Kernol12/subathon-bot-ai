@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T05:56:44+00:00",
+  "updated_at": "2026-11-12T05:58:43+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -5379,7 +5379,10 @@
         "acceptance": "not_run",
         "native_build": "passed"
       },
-      "evidence": [],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/121",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/112"
+      ],
       "review": null,
       "workflow": {
         "required_stages": [
@@ -5419,7 +5422,7 @@
                 "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7311aadc-7aff-4581-8d93-fb3749418f94%3Adelegate-task%3Ac2e08e2d-3814-494f-b286-aaa89f777196",
                 "revision": "276d01705a77a6c2473b68c2180b272f59b274ee",
                 "outcome": "changes_requested",
-                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/112",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6815972014",
                 "findings": [
                   "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/1",
                   "c2e08e2d-3814-494f-b286-aaa89f777196@276d01705a77a6c2473b68c2180b272f59b274ee/2",
@@ -5455,7 +5458,7 @@
                 "reviewer": "codex:01a1c97b-c406-7aa2-aec2-6c34e0b53455:/root/authored_baseline_codex_review",
                 "revision": "6c85e52822eaf5aa02abebe83382648b299d65d1",
                 "outcome": "changes_requested",
-                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/112",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6815972014",
                 "findings": [
                   "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/1",
                   "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/2",
@@ -5482,7 +5485,7 @@
                 "reviewer": "codex:01a1c97b-c406-7aa2-aec2-6c34e0b53455:/root/authored_baseline_codex_review",
                 "revision": "72e30a1aff04a72635c27b484bf51530ce3889d0",
                 "outcome": "changes_requested",
-                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/112",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6815972014",
                 "findings": [
                   "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/4",
                   "01a1c97b-c406-7aa2-aec2-6c34e0b53455@72e30a1aff04a72635c27b484bf51530ce3889d0/2",
@@ -5501,7 +5504,7 @@
                 "reviewer": "codex:01a1c97b-c406-7aa2-aec2-6c34e0b53455:/root/authored_baseline_codex_review",
                 "revision": "2ab1756ffa72aeee25207b6973b536746fe786a7",
                 "outcome": "approved",
-                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/112",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6815972014",
                 "findings": [
                   "01a1c97b-c406-7aa2-aec2-6c34e0b53455@6c85e52822eaf5aa02abebe83382648b299d65d1/4",
                   "01a1c97b-c406-7aa2-aec2-6c34e0b53455@72e30a1aff04a72635c27b484bf51530ce3889d0/2",
@@ -5516,7 +5519,7 @@
                 "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7311aadc-7aff-4581-8d93-fb3749418f94%3Adelegate-task%3A3fe3b83c-96b8-4382-a0f9-c65b350f54d5",
                 "revision": "2ab1756ffa72aeee25207b6973b536746fe786a7",
                 "outcome": "changes_requested",
-                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/112",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6815972014",
                 "findings": [
                   "3fe3b83c-96b8-4382-a0f9-c65b350f54d5@2ab1756ffa72aeee25207b6973b536746fe786a7/B1",
                   "3fe3b83c-96b8-4382-a0f9-c65b350f54d5@2ab1756ffa72aeee25207b6973b536746fe786a7/B2",
@@ -5538,7 +5541,7 @@
                 "reviewer": "codex:01a1c97b-c406-7aa2-aec2-6c34e0b53455:/root/authored_baseline_codex_review",
                 "revision": "8fa881000f557e62e002a92c81dfc4414173ddfa",
                 "outcome": "approved",
-                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/112",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6815972014",
                 "findings": [
                   "3fe3b83c-96b8-4382-a0f9-c65b350f54d5@2ab1756ffa72aeee25207b6973b536746fe786a7/B1",
                   "3fe3b83c-96b8-4382-a0f9-c65b350f54d5@2ab1756ffa72aeee25207b6973b536746fe786a7/B2"
@@ -5552,7 +5555,7 @@
                 "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7311aadc-7aff-4581-8d93-fb3749418f94%3Adelegate-task%3A8b7ce328-e6b8-4197-a492-c72506660e0e",
                 "revision": "8fa881000f557e62e002a92c81dfc4414173ddfa",
                 "outcome": "approved",
-                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/112",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6815972014",
                 "findings": [
                   "3fe3b83c-96b8-4382-a0f9-c65b350f54d5@2ab1756ffa72aeee25207b6973b536746fe786a7/B1",
                   "3fe3b83c-96b8-4382-a0f9-c65b350f54d5@2ab1756ffa72aeee25207b6973b536746fe786a7/B2"
@@ -5578,6 +5581,14 @@
             "reviews": []
           }
         }
+      },
+      "publication": {
+        "state": "open",
+        "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/121",
+        "head": "4518c0b010ebad93028f352cd9c7eccd75543c1e",
+        "merge_commit": null,
+        "merged_at": null,
+        "observed_at": "2026-11-12T05:58:43+00:00"
       }
     },
     {
