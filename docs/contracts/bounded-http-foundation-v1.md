@@ -1,8 +1,10 @@
-# Bounded selected HTTP foundation — v 1, author correction R2
+# Bounded selected HTTP foundation — v1, correction R3
 
 APICONTRACT-005; identity `subathon.bounded-http-foundation.v1`. Normative
-**proposal**, not implemented or admitted. R2 corrects initial-review findings
-CI005-B = 1–B = 6 and A1–A8; it has no independent correction approval yet. Author base
+**proposal**, not implemented or admitted. R2 addressed initial-review findings
+CI005-B1–B6 and A1–A8. Independent Codex verification retained B1's native-wrapper
+lifetime gap and B6's read-witness gap. R3 addresses those and its thread/backpressure
+advisories; separate re-verification and Claude closing remain required. Author base
 `e0d81ead9fdba8d130fb8ad52269a9cb995be4e7`; original source was integrated as
 `275f48a8c1b391772a5153165bb6289cc95dd9eb`. Authority is specification v 0.45,
 §2, SERVER-01, API-01, AUTH-12 and §§17–18. Import the complete
@@ -86,6 +88,7 @@ public:
     virtual void wire_released(void* release_cookie) noexcept = 0;
     virtual void socket_removed() noexcept = 0;
     virtual void native_retired() noexcept = 0; // latch/wake only, any thread
+    virtual void sdk_objects_released() noexcept = 0; // actual SDK deletion fence
 };
 class Producer { // first-party implementation, installed before run
 public:
@@ -119,6 +122,9 @@ public:
     static bool install(trantor::bounded_io::Producer&, Sink&, U64 peers) noexcept;
     static bool listener(HttpAppFramework&, Endpoint,
                          trantor::bounded_io::Role) noexcept;
+    // Private fixture instrumentation; absent from the NI target's dependencies.
+    static bool arm_first_wire() noexcept;
+    static bool release_wire() noexcept;
 };
 }
 ```
@@ -239,6 +245,10 @@ struct NativeBinding { std::string_view target;
     void (*opened)(void*, void* peer_context, const native_ws::Connection&);
     void (*message)(void*, void* peer_context, const native_ws::Connection&);
     void (*closed)(void*, void* peer_context, const native_ws::Connection&); };
+struct ReadSample { // at most 64 bytes on the admitted ABI; no payload
+    U64 ordinal, bytes_read, head, tail, writable, offered;
+    std::int64_t returned; std::int32_t error; std::uint8_t iovcnt;
+};
 struct Callbacks {
     void* owner;
     void (*connected)(void*, Peer);
@@ -247,10 +257,12 @@ struct Callbacks {
     void (*ended)(void*, void* peer_context, End);
     void (*removed)(void*, void* peer_context);
     void (*stop_drained)(void*); // actual network barrier, before quit
+    void (*read_observed)(void*, void* peer_context, ReadSample); // optional, IO0
 };
 struct Counts { U64 peers, http_peers, native_peers, retiring_peers, handles;
     U64 input_slots, output_slots, input_capacity, output_capacity, control_capacity;
-    U64 metadata_charge, pending_wakes, transient_fds, constructed, native_retiring; };
+    U64 metadata_charge, pending_wakes, transient_fds, constructed, native_retiring;
+    U64 sdk_retained_peers; };
 struct Storage { U64 payload, external, reserved, mapped, tail, total; };
 Result<Storage> project_storage(Limits) noexcept; // pure sizes, no authority
 Result<Done> check_read_window(U64 writable) noexcept; // actual adapter guard
@@ -262,7 +274,7 @@ struct Observation { Counts current, peak;
     U64 read_min_writable, max_iovcnt, read_guard_pauses;
     U64 raw_releases, wire_releases, native_retires, generation_exhaustions;
     U64 native_handoff_capacity, native_handoff_accepted, native_projected_fields;
-    U64 native_projected_cookies; };
+    U64 native_projected_cookies, held_application_wire; };
 enum class Intent : std::uint8_t { owner_ready, admit, suspend, close };
 enum class Post : std::uint8_t { queued, coalesced, wake_uncertain };
 class Foundation {
@@ -318,8 +330,13 @@ neither reads nor grants a connection permit.
 create, hook installation, finish and Foundation destruction use the creating
 thread (fixture main or future Qt owner). Listener registration runs on the
 framework-main thread before run. Socket/visit/fill/commit/admission/close and all
-owner callbacks run on IO0. Except post/stop and destructors, cross-thread calls
-return wrong_thread without touching native state. Callbacks never pump events,
+owner callbacks run on IO0. Cross-thread Result-returning operations other than
+post/stop return wrong_thread without touching native state. release_raw and cancel
+are IO0 operations; wrong-thread calls terminate before native access, since their
+void signatures cannot report refusal. Moves may run on any ordinary thread with
+exclusive access to both handles: they transfer State and only destroy the old
+destination through the any-thread drop path below. They perform no IO operation.
+Callbacks never pump events,
 reenter dispatch or retain views. One owner callback executes at once; it may
 invoke one synchronous visit/fill visitor, which cannot recursively visit/fill.
 Exceptions are caught and mapped to callback_failed/close. No SQL/Qt host/current
@@ -379,9 +396,83 @@ terminal owner decision fixes End: successful local wire release=drained; peer
 EOF/error=disconnected; explicit/drop cancel=cancelled; deadline=expired;
 stop=stopped; elapsed failure=elapsed_failed; callback exception=callback_failed;
 wipe failure=wipe_failed. Later events do not relabel it. ended precedes removed.
-removed occurs after socket/channel/removal callbacks AND actual native retirement,
+removed occurs after socket/channel/removal callbacks, actual native retirement
+AND the separate SDK-object deletion fence below,
 but retained inert handles still pin the slot afterward. Non-request native peers
 have removed but no invented ended callback.
+
+### Owning SDK objects, strong and weak native references
+
+native_ws::Connection is an owning shared_ptr, distinct from the four new handle
+States and native message leases. The selected WebSocketConnectionImpl strongly
+owns TcpConnectionImpl; its shutdown/destructor can touch EventLoop even after
+disconnect. Context::retire does not prove either SDK object's final destruction.
+An owner may retain the actual Connection after native closed/retirement, but
+the peer's SDK metadata and slot remain charged and unavailable for reuse.
+
+For opted-in peers ONLY, change the SDK construction sites to separate pre-reserved
+object storage and shared_ptr control blocks for TcpConnectionImpl and, when used,
+WebSocketConnectionImpl. Do not use an ordinary make_shared deleter. Each real
+shared_ptr has an SDK-private custom deleter and control-block allocator bound to
+that peer's fixed deletion fence; the unchanged public Connection alias remains.
+At most two objects, two control blocks and two 128-byte deletion records exist
+per peer, all inside its existing 16384-byte metadata allowance. Selected source/
+ABI proof must account every simultaneous object/control request there. Failure
+before construction releases only actually reserved parts; no heap fallback.
+
+The last strong release on ANY ordinary thread only latches that object's one
+pre-reserved destruction record and wakes IO0 through the nonallocating cleanup
+path. That path remains enabled during stop; it is not a new public admission
+intent. IO0 destroys the real object after active callbacks/channel removal, while
+its loop is still alive. No deletion closure or queue node is allocated. Object
+destruction, deleter return and control-block storage return have separate pins.
+The control-block allocator's deallocate records return intent; storage is actually
+reusable only after object destruction and all deleter/allocator accesses finish.
+Retained weak_ptr copies also keep that control block and the peer slot charged;
+a final weak release on another thread only latches/wakes the same cleanup path.
+There is no use_count-based inference or promise that a disconnected facade is inert.
+
+Close cleanup clears the SDK's connection/parser/controller callbacks, native
+binding and internal strong/weak references in their actual source owners before
+dropping them. Break the WebSocket→TCP/parser ownership cycle explicitly on this
+branch. Retire notifications remain independent and must release their own
+binding pins; they cannot release SDK object/control-block storage. Once BOTH
+objects, their actual control blocks and every destructor/deleter/allocator pin
+are gone (one object on HTTP peers), the SDK fence invokes sdk_objects_released
+once. This is a private actual-construction binding, never a caller-supplied ID,
+test flag or writable snapshot. IO0 consumes the final notification only after
+its sender's last fence access; sdk_retained_peers falls then, never at closed.
+
+removed, peer-slot reuse and stop_drained require that fence as well as socket
+removal/native retirement. Foundation and the owner context remain alive until
+it completes; IO0 is not joined first. Owners should release their Connection
+and weak copies during closed or independently before stop drains. An owner that
+keeps one prevents clean drain/join/finish; it does not acquire a resettable
+deadline or permission to destroy the loop. After the stop deadline, sockets can
+be closed but retained facades still cause honest incomplete cleanup. The parent
+supervisor may terminate; no graceful completion is fabricated. This changes only
+the opt-in successor; historical native source/header/artifact/native44 stay intact.
+
+### Actual read observations
+
+After EVERY actual syscall result, PeerStorage::read_witness updates the peer's
+checked ordinal and cumulative positive bytes, then synchronously invokes optional
+read_observed on IO0 BEFORE parsing, compaction or another read can overwrite the
+witness. ReadSample copies the actual pre-read indices/offered length, iovcnt and
+signed return/errno; bytes_read is that peer's cumulative positive total including
+this result. EAGAIN/EINTR/EOF are events too, not invented positive reads. Ordinal
+overflow closes rather than wrapping. last_read_* remains a convenience snapshot.
+
+There is one stack sample and no queue/history allocation or coalescing. Delivery
+of a configured read callback is once per result; a throw closes with callback_failed.
+The observation callback may inspect/copy the sample but cannot reenter transport
+operations, pump events or retain borrowed payloads (none are supplied). No callback
+occurs after removed. With a null callback only internal counters are maintained.
+Caller-owned histories must have their own finite reservation: F07 uses two fixed
+64-byte first-positive latches (128 bytes in its fixture context), never a growing
+vector or log per read. Each latch is write-once; later samples only update bounded
+counters, so splitting cannot overwrite it. Invalid/missing expected latches are
+fixture failures, not skips or product-red claims. No witness setter grants IO.
 
 ### Cross-thread intents and real stop drain
 
@@ -423,7 +514,8 @@ stop first records and preserves ONE absolute deadline, closes admission for all
 later posts, and wakes IO0. Later stop calls (earlier or later arguments) coalesce
 without changing it. Already committed nonsecret output may drain until the
 original output/stop bound; uncommitted requests/replies cancel. IO0 removes both
-acceptors, then actual peers/nodes/callbacks, and awaits native retirement. When
+acceptors, then actual peers/nodes/callbacks, and awaits native retirement AND the
+SDK-object/control-block deletion fences. When
 there is no network owner, executing/pending callback or removal work (apart from
 the notification itself), stop_drained fires once on IO0. Inert handles may still
 remain; they do not grant network access. Only AFTER this notification may the
@@ -587,7 +679,7 @@ Uniform capacities, including unused pool slots, are reserved before allocation.
 | Owner | Finite reservation and release |
 | --- | --- |
 | Every peer until actual removal AND last retained handle/post |65544 receive +32768 arena +2064 method/target +1024 records +1024 foundation control =102424 fixed mapped bytes; additional 8192 external native-projection character allowance, unused on HTTP. |
-| Per-peer metadata |16384 bytes, includes connection/channel/socket/parser/control blocks, fixed name, four 128-byte handle States, pending/executing 128-byte mailbox records, removal record, one native wrapper/projection when applicable, counters/deadlines, and 128 bytes for its fixed poller record. No live or inert handle escapes this charge. |
+| Per-peer metadata |16384 bytes, includes connection/channel/socket/parser/control blocks, fixed name, four 128-byte handle States, pending/executing 128-byte mailbox records, removal record, up to two SDK object/control-block owners with two 128-byte deletion records and their fence, one native wrapper/projection when applicable, counters/deadlines, and 128 bytes for its fixed poller record. Retained native strong/weak references pin this charge too. |
 | Global metadata |65536 bytes: two listener/acceptor bindings/idle FDs, fixed route table (eight targets ≤ 2048 and one native target ≤ 128), source/profile refs, mutex/eventfd/scan timer, free/role/cursor tables, global stop/drain record, and 24 fixed infrastructure poller records×128 (main 16 plus IO infrastructure 8). Peer membership itself is in per-peer metadata. |
 | Input pool |I slots of B bytes and 128 metadata each, one per current ordinary request, including zero body; acquire before head scan/read. Move transfers the same slot; no input copy API. |
 | Output pool |O slots of W=E+128 bytes and 128 metadata each (fixed node/bookkeeping), one per peer. Reserve whole W+128 before fill/render; node retains W until wire_released after actual drain/teardown. |
@@ -723,7 +815,7 @@ mapped L, assigned capacities and per-slot live/peak/release counts separately;
 none measures RSS or untouched pages. A move adds zero; each separately retained
 host/bridge copy is charged by its own pool.
 
-### Exact consumer control-ledger qualification (B = 2)
+### Exact consumer control-ledger qualification (CI005-B2)
 
 The foundation SOLELY owns its per-peer 1024 mapped control array, used for fixed
 HTTP failures and native 101; it is never lent/returned/aliased to host code. Host
@@ -864,13 +956,44 @@ Host production still has its four literal POST paths, never these fixture paths
 | F05 framing/syntax | F01 CL = 5 under B = 4 → 413 before body copy; CL = 4 positive. CL `+4`, `4x`, empty, `18446744073709551616`, duplicate 0/00, CL+TE → 400. CL = 0/0000 with empty body → 200. Duplicate X-Host-Correlation 44/44, any TE/Trailer/Expect(empty/100-continue) → 400, no 100 prefix. Host absent/duplicate/space-invalid, HTTP/1.0/2.0, obs-fold/colonless/whitespace-before-colon/NUL/bare-LF head → 400 after bounded scan. Route /missing, GET-only /f sent as PUT, /f? or /%66 → 400 and no advertised body read. |
 | F05P priority probe | Separate B = 8192 route 3: `POST /p HTTP/1.1\r\nHost: x\r\nContent-Length: 4097\r\nBad Header: x\r\n\r\n` → 413 despite malformed field token, identically split or coalesced; S=48 and header projection=4+2+12+48=66, complete 4163. Add `X-Pad: `+4022 a+CRLF: extra 4031 gives header 4097 → 431 even with CL = 4097. Without X-Pad and CL = 4096, header 66+body 4096=4162 → 431. CL = 1 gives header 63+body 1=64 → 400 for the same bad field. With a well-formed `Bad-Header: x`, CL = 1 and appended literal body `a`, the 64-byte projection is admitted/route 3. All split variants preserve these results. Refusals have no route callback/auth/Cookie/state lookup; the well-formed control has one route 3 callback. |
 | F06 coalescing | Two F01 requests concatenated 104 bytes, one write. Hold first raw/Reply/current handles or suspend → requests 1, batches 0. Release raw and actual first wire, drop old Request/Reply, still suspended → 1. Admit once → route 0 request 2 once, pending consumed before read; repeat resume adds no wake. Owns generic second_coalesced_request_after_release, not host composition. |
-| F07 read witnesses | Send first 32 bytes of F01 and observe bytes_read = 32 while head incomplete; kernel read returns may split. Initial actual read witness is head=8/tail=8/writable=65536/offered=65536/iovcnt=1. After those 32 bytes, the first read for remaining 20 has head=8/tail=40/writable=65504/offered=65504/iovcnt=1; returns may split, total 52 gives one dispatch. Witness.returned is signed with errno on failure; no fabricated successful read. check_read_window(8192) → Done;8191 → resource_limit/no syscall, using the SAME adapter guard. Every actual positive read has writable ≥8192 and max_iovcnt1. Full 65536 coalesced receive while predecessor owns the request stays suspended/unparsed, no extra read/growth. Reference CL=1048576 streams to one B slot with raw=65544, no second body owner. |
-| F08 output ownership | Two tiny output slots cost 2 × (W132 + metadata128) = 520, not the retired three-copy 792. For actual pressure use the separate Tiny-with-O = 1 child (all other tiny limits unchanged): two HTTP requests are eligible, first holds 260, second reserve → resource_limit before fill. Release first actual node/metadata → 0; second may reserve 260 under its original deadline. Failed resource reservation does not consume the response right. Commit then drop Reply and raw-released Request while peer backpressures → capacity still 132/slot 1; only wire_released/drain/teardown releases once. Move adds 0. Partial emitted reply then error → EOF, no second head; busy control → EOF. No host handoff concept in this fixture. |
+| F07 read witnesses | Configure read_observed with two write-once 64-byte latches. Send only first 32 bytes of F01; callback latches the first positive read at head=8/tail=8/writable=65536/offered=65536/iovcnt=1. Wait for its cumulative bytes_read=32 while head incomplete, then send remaining 20. Latch the first positive sample whose prior cumulative bytes were 32: head=8/tail=40/writable=65504/offered=65504/iovcnt=1. Permitted 16+16 then 10+10 splitting preserves BOTH latches before subsequent samples overwrite last_read_*. EAGAIN/EINTR do not consume a positive latch. Total 52 gives one dispatch. Missing/contradictory latches or context overflow are fixture failures; no assumed packetization. Signed return/errno comes from the syscall. check_read_window(8192) → Done;8191 → resource_limit/no syscall, using the SAME adapter guard. Every actual positive read has writable ≥8192 and max_iovcnt1. Full 65536 coalesced receive while predecessor owns the request stays suspended/unparsed, no extra read/growth. Reference CL=1048576 streams to one B slot with raw=65544, no second body owner. |
+| F08 output ownership | Two tiny output slots cost 2 × (W132 + metadata128) = 520. Use the separate tiny O=1 child and the finite actual-node hold gate below; withholding client reads alone is NOT proof of user-space retention. First committed node holds 260, then drop Reply and raw-released Request: observed slot1/capacity132 remains. A second HTTP request reserve → resource_limit before fill, without consuming its response right. Release gate and observe actual wire_released/node+metadata return → 0; second may reserve260 under its original deadline. Moves add0. Also require an ungated real-loopback66-byte positive control. The gate tests SDK ownership under a deliberate hold, not kernel EAGAIN or peer receipt. Partial emitted reply then error → EOF, no second head; busy control → EOF. |
 | F09 admission/fairness | Reference HTTP peer 80 fills its quota and disables HTTP accept; peer 81 can sit in kernel backlog but accept_attempts/constructed do not increase. Native reserved 48 remain eligible subject to C = 32 / U = 16. P2 one HTTP+one native fills 2, no third accepted FD claim. An allowed attempt raises transient_fds 1 then returns 0 on accept/EAGAIN/stop-before-construction; zero refused construction. Actual removed plus last inert handle release frees quota once; disconnected alone doesn't. Observe per-role opportunities/caps, no kernel no-starvation claim. |
 | F10 time/stop | Accept 1000 ms+5000 → 6000, idle 5999 eligible/6000 close; first request read 1100 → 6100 despite bytes 6099; commit 2000 → output 7000 despite progress 6999; raw+wire terminal 3000 → idle 8000. Tiny/P2 add 50. stop argument 6000 called at 1000 fixes 6000; repeat at 5999 with arguments 6500 OR 5500 keeps 6000. Equality expires. The creating-thread preflight 100/IO0 first 99 aren't falsely globally ordered; same owner's 100 → 99 ns closes with elapsed_failed. Native established idle has no HTTP expiry. stop_drained precedes quit/join/finish and has zero network counts. |
 | F11 configuration/arithmetic | project_storage uses checked W=E+128, P*102424, I*B, O*W, L sums, P*24576, I+O and 128 product, X sums, A=L+X, page count/multiply, then total=mapped+X, in that order. With B = E = 4, I = O = 1, P = 145249953336295 (HTTP = P−1, native = 1), L = 14877081220516679216 and X = 3569662853192851712 individually fit, A = 18446744073709530928 fits; next P = 145249953336296 gives L = 14877081220516781640 and X = 3569662853192876288 individually fit but A = 18446744073709657928 → arithmetic_overflow at L+X. project_storage's first case returns its literal plan; actual create then refuses that huge otherwise numeric plan as invalid_config at epoll int narrowing, before registration. E=18446744073709551615 → arithmetic_overflow at E+128. Real create duration 18446744073709 ms converts 18446744073709000000 ns; next ms → arithmetic_overflow. Size preflight precedes platform/native profile coherence checks. Zero/incoherent scalar counts → invalid_config; allocation failure → allocation_failure. Actual source U64_MAX ns plus 1 ms → elapsed_unavailable/close, no wrap. |
-| F12 once/drop/fault | Second reserve → already_replied; second fill/commit-before-fill/duplicate commit → invalid_state without extra callback/send. Wrong returned fill count → invalid_size then cancelled/close. Commit at exact request deadline → expired/no wire. Drop before commit → cancelled, after commit retains W until real release. EOF with 3/4 body → zero request callback; callback throw → callback_failed/close. End once before removed; native retirement delayed by a real retained lease pins peer even after closed. Inert handles after IO join block finish until any-thread destruction; no closed-FD wake. Wrong-thread/reentrant/revoked access refuses without underlying work. |
+| F12 once/drop/fault | Second reserve → already_replied; second fill/commit-before-fill/duplicate commit → invalid_state without extra callback/send. Wrong returned fill count → invalid_size then cancelled/close. Commit at exact request deadline → expired/no wire. Drop before commit → cancelled, after commit retains W until real release. EOF with 3/4 body → zero request callback; callback throw → callback_failed/close. End once before removed; native retirement delayed by a real retained lease pins peer even after closed. Inert custom handles after IO join block finish until any-thread destruction; no closed-FD wake. Result-returning wrong-thread/reentrant/revoked access refuses without underlying work. Wrong-thread void release_raw/cancel terminates its disposable child before native access; exclusive off-thread moves remain allowed. |
 | F13 native | Literal canonical Upgrade and all native/refusal/read-ahead cases are enumerated immediately below; observe callback context, control release and native retirement, not a fabricated map DTO. |
+
+For F08 only, the reviewed fixture observer header
+`server/include/subathon/server/testing/bounded_http_observers.hpp` declares
+`testing::Access::arm_first_wire(Foundation&)` (creating thread, cold, once) and
+`testing::Access::release_wire(Foundation&)` (IO0), both Result<Done>/noexcept.
+The optional one-shot gate holds the first actual application fixed wire node
+after commit and BEFORE its first socket write. It neither fabricates a node nor
+replaces Transport::wire; controls/101 are never gated. One 128-byte global record
+inside G65536 holds its state; inspect exposes held_application_wire=0/1. The fixture
+uses existing post(owner_ready) to release on IO0, with no new payload queue. Wrong
+thread/state returns the corresponding error. Expiry, cancellation and stop close
+and release the real node once regardless of the gate; the gate cannot extend a
+deadline. Unavailable gate/witness/positive control is fixture failure, not red.
+Its instrumentation and actual node position require independent test/source and
+artifact admission; no production/public host option or capability setter is added.
+The first-party test adapter calls the SDK-only Runtime arm/release functions,
+which validate the actual installed cold/IO binding. NI Access definitions call
+no new SDK symbol. The SDK owns the gate and actual fixed node; the fixture cannot
+set wire_released or an observed capacity directly.
+
+Native lifetime cases additionally retain one real Connection from opened, with
+NO message lease, across closed and actual native retirement. Drop all four new
+handles: sdk_retained_peers remains1, removed stays0, role quota is not reused and
+stop_drained does not fire even after socket removal/deadline. Releasing the last
+Connection on an ordinary non-IO thread queues bounded SDK destruction; observe
+the real destructors/control-block return on IO0, then removed once and drain
+before quit/join/finish. Repeat while retaining only a weak Connection: object
+destruction may complete but the control-block fence still pins the peer until
+the final weak reset. No use_count, native closed, zero leases or public snapshot
+can substitute for actual final disposal. A retained message-lease case remains
+separate; neither assertion replaces the other.
 
 Native positive request is exactly:
 
@@ -904,7 +1027,7 @@ Future ownership remains bounded:
 
 | Owner | Planned paths and gates |
 | --- | --- |
-| APITEST-016 after contract closing | `server/include/subathon/server/bounded_http.hpp`, `server/src/bounded_http.cpp` NI-only declaration/stub packet; `tests/bounded_http_foundation/bounded_http_probe.cpp`, `tests/bounded_http_foundation/test_bounded_http.py`. Independent literal/fixture/stub review before behavioral red; finite child/peer/pipe/log/event/maps/watchdog/reap budgets fixed before execution. No API001/Qt/SQL dependency. |
+| APITEST-016 after contract closing | `server/include/subathon/server/bounded_http.hpp`, `server/src/bounded_http.cpp` NI-only declaration/stub packet, including the private `server/include/subathon/server/testing/bounded_http_observers.hpp` and NI Access functions; `tests/bounded_http_foundation/bounded_http_probe.cpp`, `tests/bounded_http_foundation/test_bounded_http.py`. Independent literal/fixture/stub review before behavioral red; finite child/peer/pipe/log/event/maps/watchdog/reap budgets fixed before execution. No API001/Qt/SQL dependency. |
 | API-016 fresh implementation | Those first-party producers plus `server/src/bounded_http_sdk_adapter.cpp` and the exact §1 source seams, including the new native build copy. Preserve reviewed tests, source/resource and separate code/artifact/native review. |
 | Coordinator | New `dependencies/bounded-http-foundation/{manifest.json,0003-trantor-bounded-http.patch,0004-drogon-bounded-http.patch,0005-native-source-binding.patch,README.md}`, SDK prefix/provenance, build-copy recipe, dependency/CMake/CI/acceptance/license integration. Original native files/input hashes remain unchanged. Names are proposed, not actual artifact identity. |
 | SESSION-011 | Actual successor rebase, account-specific lossless capture ABI, secure erasure/pre-log suppression and accepted account priorities. SESSION010 retains later source/policy integration. No API001 dependency for generic/capture fixture proof. |
@@ -947,7 +1070,7 @@ cleanup and unchanged seal throughout. No old loaded receipt admits a new binary
 Only authored design/source reading/literal arithmetic and document validation
 are evidence here. No header/stub/test/source/patch/build/SDK/native execution is
 authored or run. Independent different Codex verification then fresh Claude closing
-must approve this correction before test authorship. API001 draftPR121 source 70 ea 261
+must approve this correction before test authorship. API001 draftPR121 source70ea261
 has scoped partial approvals only; current main host stubs are unimplemented.
 All SQL/CI/provider/platform/security/deployment/release gates, seven integrations,
 three FX providers, English/German, themes, separate renderers and full desktop
