@@ -223,11 +223,12 @@ checkout, live assignments, blockers and next action with links, not copied rece
 ## Publication reconciliation and resumption
 
 Before publishing a candidate, run the local publication check with explicit refs,
-current recorded stages and an already prepared admitted schema interpreter:
+current recorded stages and an admitted interpreter prepared using the
+[isolated schema setup](schema-validation.md):
 
 ```sh
 python3 tools/check_publication.py --base origin/main --head HEAD \
-  --task TASK-ID --stage implementation --schema-python build/schema-venv/bin/python
+  --task TASK-ID --stage implementation --schema-python .venv/bin/python
 ```
 
 Select only the stages whose recorded revision/paths should match the candidate;

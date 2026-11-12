@@ -39,7 +39,8 @@ suite = unittest.TestLoader().loadTestsFromName(
 if suite.countTestCases() != 1:
     raise SystemExit(1)
 result = unittest.TextTestRunner(verbosity=2, stream=sys.stderr).run(suite)
-if result.testsRun != 1 or result.failures or result.errors or result.skipped:
+if (result.testsRun != 1 or result.failures or result.errors or result.skipped
+        or result.expectedFailures or result.unexpectedSuccesses):
     raise SystemExit(1)
 sys.stdout.write('{"tests":1,"failures":0,"errors":0,"skipped":0}\n')
 '''
@@ -55,7 +56,8 @@ def run_step(argv: list[str], *, git: bool = False) -> subprocess.CompletedProce
     if git:
         env.update(GIT_OPTIONAL_LOCKS="0", GIT_LITERAL_PATHSPECS="1")
     try:
-        result = subprocess.run(argv, cwd=ROOT, env=env, capture_output=True, timeout=DEADLINE)
+        result = subprocess.run(argv, cwd=ROOT, env=env, stdin=subprocess.DEVNULL,
+                                capture_output=True, timeout=DEADLINE)
     except (OSError, subprocess.TimeoutExpired) as error:
         raise ValueError(f"Child unavailable or deadline exceeded: {argv[0]}: {error}") from error
     if len(result.stdout) > OUTPUT_LIMIT or len(result.stderr) > OUTPUT_LIMIT:
@@ -73,7 +75,8 @@ def checked_step(argv: list[str], *, git: bool = False) -> bytes:
 
 
 def git_output(*args: str) -> bytes:
-    return checked_step(["git", *args], git=True)
+    # Inspect real objects: local replacement refs are not the objects sent by a push.
+    return checked_step(["git", "--no-replace-objects", *args], git=True)
 
 
 def resolve_commit(ref: str) -> str:
@@ -146,7 +149,7 @@ def check_checkout(base: str, head: str) -> None:
     if head != resolve_commit("HEAD"):
         raise ValueError("Candidate head is not the actual checkout HEAD commit")
     git_output("merge-base", "--is-ancestor", base, head)
-    merge = run_step(["git", "rev-parse", "--verify", "--quiet", "MERGE_HEAD"], git=True)
+    merge = run_step(["git", "--no-replace-objects", "rev-parse", "--verify", "--quiet", "MERGE_HEAD"], git=True)
     if merge.returncode != 1:
         raise ValueError("Unresolved merge or invalid Git merge state")
     if git_output("status", "--porcelain=v1", "-z", "--untracked-files=all"):
