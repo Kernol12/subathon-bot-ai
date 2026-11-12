@@ -13,7 +13,8 @@ https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837666194
 Three blockers B1-B3 and four advisories A1-A4 retained. Author corrected private
 ROOT/main/run_step seams/working-tree fixtures, fixed all child envs, explicit named
 compact/publication NI, exact output/witness, limits/literal/case and ignored-file
-rules, SDK integration labels. Source is CONTRACT ONLY; no tests/NI/implementation.
+rules, SDK integration labels. Corrected packet447aa06 (same three paths).
+Source is CONTRACT ONLY; no tests/NI/implementation.
 
 All21CI passed b6408ae; source corrections need ordinary new-head CI. No setup retry,
 guard weakening or product/native execution. Next commit/bind corrected packet,
