@@ -24,6 +24,10 @@ if(SUBATHON_BUILD_NATIVE_WEBSOCKET_PROFILE_TESTS)
     add_subdirectory(native_websocket_profile)
 endif()
 
+if(SUBATHON_BUILD_BOUNDED_HTTP_FOUNDATION_TESTS)
+    add_subdirectory(bounded_http_foundation)
+endif()
+
 if(SUBATHON_BUILD_API_HOST_NATIVE_TESTS)
     add_subdirectory(api_host_lifecycle)
 endif()
