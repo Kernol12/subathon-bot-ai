@@ -18,7 +18,7 @@ attribution, RuntimeError setup errors and new synthetic complete=true case.
 Now27methods, unchanged7path scope, AST/whitespace only. Tests/helpers/NI branches all
 UNRUN and UNPUBLISHED. Six-file original author4782f66/history retained unchanged.
 
-Next commit/bind corrected test packet locally, independent Codex verification,
+Corrected seven-path source 77b152256055931c83a84135f6b18be40997cadc bound locally. Next independent Codex verification,
 fresh Claude closing, then ONLY two reviewed positive named-NI assertion red cases
 with exact messages/zeroERRORs. Fresh implementation/full code review follow.
 Use approved main control-plane source for bookkeeping; no candidate module imports.
