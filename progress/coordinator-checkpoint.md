@@ -21,7 +21,8 @@ runner20261111.127.1; rejected field unlogged, advertised image source ref unava
 https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6836870771
 No blind retry/guard relaxation. New reviewed corrections get ordinary new-head CI.
 
-Next: commit corrected contract/source packet, record its revision, push/link PR125;
+Corrected source packet: 7a34855240ba3f5583068abe6b7e1d75a5b0b6d2 (eight paths).
+Next: push/link PR125;
 request independent Codex verification, then fresh Claude closing. Current existing full
 review cycle applies; results-only policy activates only after WORKFLOW006 merges.
 Non-record practices/private evidence guidance activates with reviewed WORKFLOW004 merge.
