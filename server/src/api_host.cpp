@@ -781,6 +781,14 @@ struct Host::Impl {
         body();
         return true;
     }
+    void quarantine_writer() {
+        if (writer_ownership_uncertain)
+            return;
+        writer_ownership_uncertain = true;
+        failed = true;
+        s->stop = true;
+        event(Kind::operation_refused, {}, Failure::incomplete_shutdown);
+    }
     void report_startup(Result<StartAccepted> result) noexcept {
         if (!startup)
             return;
@@ -930,8 +938,7 @@ struct Host::Impl {
                     poll();
                 });
             } catch (...) {
-                writer_ownership_uncertain = true;
-                event(Kind::operation_refused, {}, Failure::incomplete_shutdown);
+                quarantine_writer();
                 return;
             }
             shutting_writer = admitted == StorageError::none;
@@ -1039,7 +1046,7 @@ struct Host::Impl {
                            r.work.error == WorkError::none && r.reason == MigrationReason::none &&
                            r.report && r.report->state == CatalogState::current &&
                            r.report->version == 8 && r.report->target_version == 8 &&
-                           r.report->applied == 0 && !s->stop;
+                           r.report->applied == 0 && !s->stop && !writer_ownership_uncertain;
         event(Kind::inspection_completed, observed(r.work),
               valid ? std::optional<Failure>{} : Failure::unavailable);
         consume_stop();
@@ -1054,22 +1061,29 @@ struct Host::Impl {
             consume_stop_signal(host);
             return s->stop.load() || occupied();
         };
-        const auto admission =
-            SqliteMigrationRunner::enqueue(*writer, std::move(request), [this](MigrationResult r) {
-                if (!on_owner([&] { inspection_done(std::move(r)); }))
-                    inspection_mail = std::move(r);
-                else
-                    poll();
-            });
-        if (admission.error == StorageError::none)
-            event(Kind::inspection_enqueued);
-        else
-            event(Kind::inspection_completed, {}, Failure::unavailable);
+        try {
+            const auto admission = SqliteMigrationRunner::enqueue(
+                *writer, std::move(request), [this](MigrationResult r) {
+                    if (!on_owner([&] { inspection_done(std::move(r)); }))
+                        inspection_mail = std::move(r);
+                    else
+                        poll();
+                });
+            if (admission.error == StorageError::none)
+                event(Kind::inspection_enqueued);
+            else
+                event(Kind::inspection_completed, {}, Failure::unavailable);
+        } catch (...) {
+            quarantine_writer();
+            // Preserve the synchronous start failure notification.
+            throw;
+        }
         consume_stop();
     }
     void installation_done(SqliteWorkResult r) {
         consume_stop();
-        const bool valid = !s->stop && r.transaction == TransactionOutcome::committed &&
+        const bool valid = !s->stop && !writer_ownership_uncertain &&
+                           r.transaction == TransactionOutcome::committed &&
                            r.error == WorkError::none && r.value && startup_candidate;
         event(Kind::installation_read_completed, observed(r),
               valid ? std::optional<Failure>{} : Failure::unavailable);
@@ -1088,40 +1102,45 @@ struct Host::Impl {
         // Startup has its own fixed record; no command can access the private writer
         // or source before this acknowledged chain activates it.
         startup_candidate.reset();
-        const auto admission = writer->enqueue_work(
-            [this](SqliteWorkContext c) -> QVariant {
-                if (occupied())
-                    return {};
-                Depth turn(s->owner_depth);
-                consume_stop();
-                if (s->stop)
-                    return {};
-                auto session = c.begin();
-                try {
-                    SqliteAccountSessionUnit unit(session, AccountSessionReadScope{{1}},
-                                                  s->options.store_limits);
-                    auto read = unit.read_installation(s->options.installation);
-                    if (!std::holds_alternative<StoredInstallationFacts>(read))
-                        throw AccountSessionStorageFailure(
-                            std::get<AccountSessionReadFailure>(read));
-                    startup_candidate = std::get<StoredInstallationFacts>(std::move(read));
-                    session.commit();
-                    return QVariant(true);
-                } catch (...) {
-                    (void)session.cleanup();
-                    throw;
-                }
-            },
-            [this](SqliteWorkResult r) {
-                if (!on_owner([&] { installation_done(std::move(r)); }))
-                    installation_mail = std::move(r);
-                else
-                    poll();
-            });
-        if (admission == StorageError::none)
-            event(Kind::installation_read_enqueued);
-        else
-            event(Kind::installation_read_completed, {}, Failure::unavailable);
+        try {
+            const auto admission = writer->enqueue_work(
+                [this](SqliteWorkContext c) -> QVariant {
+                    if (occupied())
+                        return {};
+                    Depth turn(s->owner_depth);
+                    consume_stop();
+                    if (s->stop)
+                        return {};
+                    auto session = c.begin();
+                    try {
+                        SqliteAccountSessionUnit unit(session, AccountSessionReadScope{{1}},
+                                                      s->options.store_limits);
+                        auto read = unit.read_installation(s->options.installation);
+                        if (!std::holds_alternative<StoredInstallationFacts>(read))
+                            throw AccountSessionStorageFailure(
+                                std::get<AccountSessionReadFailure>(read));
+                        startup_candidate = std::get<StoredInstallationFacts>(std::move(read));
+                        session.commit();
+                        return QVariant(true);
+                    } catch (...) {
+                        (void)session.cleanup();
+                        throw;
+                    }
+                },
+                [this](SqliteWorkResult r) {
+                    if (!on_owner([&] { installation_done(std::move(r)); }))
+                        installation_mail = std::move(r);
+                    else
+                        poll();
+                });
+            if (admission == StorageError::none)
+                event(Kind::installation_read_enqueued);
+            else
+                event(Kind::installation_read_completed, {}, Failure::unavailable);
+        } catch (...) {
+            // Writer completion containment cannot hide this admission uncertainty.
+            quarantine_writer();
+        }
         consume_stop();
     }
     // Gate is checked on the authoritative owner immediately before entry. It
@@ -1550,16 +1569,13 @@ struct Host::Impl {
                         });
                 } catch (...) {
                     ownership_unknown = true;
-                    writer_ownership_uncertain = true;
-                    failed = true;
-                    s->stop = true;
                     {
                         std::lock_guard lock(s->mutex);
                         // Pin the association as potentially retained, WITHOUT
                         // claiming an acknowledged wrapper or a SQL outcome.
                         s->associations[index].accepted = true;
                     }
-                    event(Kind::operation_refused, {}, Failure::incomplete_shutdown);
+                    quarantine_writer();
                 }
                 if (ownership_unknown)
                     continue;
