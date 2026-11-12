@@ -25,6 +25,15 @@ and [clock v1](session-clock-v1.md) unchanged. API-001 retains actual host
 composition, startup/current-source production and downstream clock holds.
 APITEST-001 supplies only their independently reviewed executable baseline.
 
+APICONTRACT-004's [isolated internal listeners proposal](api-host-listeners-v1.md)
+enumerates its complete amendments in §6: dual endpoints/actual readiness,
+ordinary versus native buffer ownership, Linux IO0 listen/accept, role-aware HTTP
+refusals and bounded private scratch, separate serialization charge, Qt endpoint-
+observer failure and gated signal quiescence. API-016 supplies the independent
+generic foundation before APITEST-015's host baseline revision; SESSION-011 rebases
+its account layer onto it. All HL01–17, 75 Qt selectors/18 native methods,
+assertions and historical receipts remain; document approval supplies no runtime.
+
 ## 1. Actual sources, ordinary activation and forward restore obligation
 
 Read at the source/correction bases above; observations are not executed results.
@@ -341,11 +350,11 @@ Q may inject fake transport through the same `Transport` boundary.
 Exactly one process main thread constructs/runs `QCoreApplication`; that SAME Qt
 thread owns Host, dispatcher, authoritative queue, writer/SQL, current-source and
 execution/publication lifetimes through destruction. A distinct owned framework
-main thread configures and runs the single `drogon::app().run()` lifetime and its
-main-loop accept/listen work; select exactly ONE Drogon IO thread for this baseline.
-That IO loop owns established peer sockets/parsers, callbacks, handoff, Close and
-force-close; any framework-main-loop accept/partial connection resources retain
-their own loop ownership and are included in the network barrier. Qt never calls
+main thread configures/runs the single `drogon::app().run()` lifetime, constructs
+bound sockets and coordinates startup; select exactly ONE Drogon IO thread.
+On selected Linux, that IO0 performs actual listen/accept and owns peer sockets/
+parsers, callbacks, handoff, Close and force-close. Any framework-main-loop startup
+resources retain their own loop ownership and network barrier. Qt never calls
 socket teardown directly. IO/main-loop callbacks enqueue bounded ingress/events;
 Qt never waits for a response or executes domain work on those threads. Actual
 listener readiness uses corrected beginning/listener observations, not a timer.
@@ -356,15 +365,27 @@ Production `StopSignalBridge` declaration/source are
 `server/include/subathon/server/api_host_signal.hpp` and
 `server/src/api_host_signal_linux.cpp`. Install it on the Qt main thread BEFORE
 creating framework/IO threads. Its SIGINT/SIGTERM handler only records a pending
-`sig_atomic_t` flag and wakes a preopened nonblocking close-on-exec pipe with
-async-signal-safe `write` (preserve errno; full pipe already supplies a wake).
+request in genuinely lock-free atomic state and wakes a preopened nonblocking
+close-on-exec pipe with async-signal-safe `write` (preserve errno; full pipe already
+supplies a wake).
 No Qt/Drogon/SQL, allocation, locking or `Host::request_stop()` runs in the handler.
 A Qt-owner notifier drains/consumes the pending request and calls `request_stop`.
 That method is thread-safe for ordinary callers, coalescing requests into at most
 one pending owner notification; it is NOT declared async-signal-safe. Keep handler
 state/descriptors valid through framework/IO exit; restore/block signal delivery
-and quiesce handlers before closing descriptors. Repeated signals cannot reset
-first-stop/drain/Close deadlines. Stop before/during startup follows the same fence.
+and quiesce ALL in-flight handlers before closing/reusing descriptors. A volatile
+`sig_atomic_t` alone does not synchronize different threads; blocking signals only
+on the teardown thread does not quiesce a handler on another thread. Every atomic
+operation used by the handler must be async-signal-safe and proven lock-free on the
+selected target. Require a handler-entry gate and in-flight counter: entry counts
+before borrowing a wake descriptor, a closed gate prevents new borrows, and
+teardown waits for every permitted borrower to leave before closing/reusing it.
+Keep handler state valid through late entries. A separately reviewed equally safe
+mechanism may replace gate/counter; masking one thread or sampling zero once
+cannot establish quiescence. This clarifies the
+existing safety requirement exposed by API-001 review B5, not a new signal API.
+Repeated signals cannot reset first-stop/drain/Close deadlines. Stop before/during
+startup follows the same fence.
 
 Production `make_linux_monotonic_elapsed` declaration/source are
 `server/include/subathon/server/api_host_elapsed.hpp` and
@@ -470,7 +491,11 @@ Before test AUTHORING, select these concrete accounting quantities:
 | Correlation / other variable data | One inline correlation in the association slot, borrowed by pinned execution/response records through their terminal barrier; any retained duplicate needs another charged slot. Other variable data uses the capacity/copy ledger; no uncharged string/lambda copy. |
 | Refusal/control fallback | One preallocated1024-byte bridge control slot per admitted peer, at most128 peers (131072), respecting the unchanged CommonFailure bound; otherwise close without allocating a reply. Native control/output buffers retain their separate native-profile budgets. |
 
-Reserve slots, capacity AND metadata BEFORE allocating/copying; capacity growth
+These reservations cover host-owned retention/copies. The frozen dispatcher API
+returns an already allocated OwnedReply/OwnedDomainResult; its trusted bounded-
+result precondition/source review remains, without an allocator enforcement hook.
+Host admission cannot retroactively guarantee that caller's preallocation.
+Reserve slots, capacity AND metadata BEFORE host allocation/copying; capacity growth
 requires reservation of the full replacement while the old buffer remains alive.
 An allocator requiring extra usable capacity must secure that charge before
 retention or refuse. Bridge reference charges total
