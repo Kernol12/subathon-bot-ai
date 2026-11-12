@@ -81,3 +81,12 @@ Old full-schema field paths in historical reports describe the reviewed-time rec
 Compatibility receipt and original CI logs preserved privately publication/
 ci-9b20c35-failures/. Next routine independent metadata preservation review, then
 new safe fast-forward push/current-head CI. API016 remains unclaimed.
+
+Receipt-schema routine consistency APPROVED native01a1d17f-6b54-79a0-9cec-82730f0bdc8a,
+exact SQLite/session_meta gpt-6.1-sol/xhigh authenticated,0findings/escalation.
+https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6835519739
+Complete original workflow SHA5d60b640.../projection4064f30a... independently verified.
+This new receipt sits at supplemental_workflow_evidence.compatibility_reviews,
+outside immutable complete_workflow and strict standard workflow. No schema/tool/
+test/source/gate change. Fresh-head standards-suite and ALL21CI remain mandatory.
+Next safe fast-forward push/link/body update/watch; then protected merge and STOP.

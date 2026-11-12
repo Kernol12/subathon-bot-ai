@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T20:39:53+00:00",
+  "updated_at": "2026-11-12T20:48:56+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -17068,7 +17068,7 @@
         "baseline_results_closing_review": "passed",
         "current_head_ci": "not_run",
         "completion_metadata_review": "passed",
-        "receipt_schema_compatibility_review": "not_run"
+        "receipt_schema_compatibility_review": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/124",
@@ -17102,7 +17102,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6834080747",
         "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6834380374",
         "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6834806589",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6835175825"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6835175825",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6835519739"
       ],
       "review": {
         "author": "Original baseline native01a1cf7b; coordinator45e6fb8d including R2; admission author01a1d062",
@@ -18399,7 +18400,21 @@
         "digest_convention": "SHA256 UTF8 compact sorted-key JSON, ensure_ascii=False, no trailing newline",
         "standard_projection_sha256": "4064f30a3aeba188be81f04cec85d339cfee92996824503ca08ccd4ed8dbb024",
         "authority": "Complete actual artifact/result tuples, ordered full receipts and nested results remain here unchanged; standard workflow is the exact schema-compatible projection for generic gates. No artifact, source, review outcome or required stage changed.",
-        "reason": "CI schema-validation rejected extra receipt artifacts in the strict standard workflow shape; preserve complete evidence without relaxing schema or dropping fields."
+        "reason": "CI schema-validation rejected extra receipt artifacts in the strict standard workflow shape; preserve complete evidence without relaxing schema or dropping fields.",
+        "compatibility_reviews": [
+          {
+            "kind": "routine_receipt_schema_compatibility",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:01a1d17f-6b54-79a0-9cec-82730f0bdc8a",
+            "revision": "cbe059f1f101e08d15eedfc3e2e17e370b4d76e4",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6835519739",
+            "private_report_sha256": "d5252c84e7a66c298433704f21f89e76c16171d6a8199bdcc6bf64e55ac95d3b",
+            "public_report_sha256": "5dc7fa9451f356d7bde3c6363e410dcf8c2f07900cddc109b4c2d98939300b04",
+            "blocking_findings": []
+          }
+        ]
       }
     },
     {
@@ -20535,6 +20550,11 @@
       "date": "2026-11-12T20:39:53+00:00",
       "task": "APITEST-016",
       "note": "Current-head9b20c35 CI exposed strict workflow-schema mismatch: supplemental artifact tuples/nested result fields were outside supported standard shape. Preserved ENTIRE complete workflow record unchanged in task-level supplemental_workflow_evidence.complete_workflow with canonical digest; standard workflow is exact allowed-key projection. Schema/tools/tests/13source/15tuples/review outcomes untouched; no evidence discarded/gate relaxed or baseline rerun. Routine independent compatibility review and fresh CI pending. Separate native job failed before compilation on unsupported runner APT layout."
+    },
+    {
+      "date": "2026-11-12T20:48:56+00:00",
+      "task": "APITEST-016",
+      "note": "Independent nativeCodex01a1d17f gpt-6.1-sol/xhigh APPROVED routine receipt-schema preservation atcbe059f,0findings/escalation. Full original workflow SHA5d60b640 and standard projection4064f30a independently reproduced; all source/tuples/policy/489other tasks unchanged, no schema/test/tool edits. Only sanitized PUBLIC5616B/SHA5dc7fa94 posted; PRIVATE5877B/SHAd5252c84 retained. New receipt recorded OUTSIDE immutable full record/strict workflow. Actual standards-suite/current-headCI/protected merge pending; no baseline rerun/new task."
     }
   ],
   "workflow_policy": {
