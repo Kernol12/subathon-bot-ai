@@ -1,35 +1,37 @@
 # Coordinator checkpoint
 
-Owner superseded old-agent stop; standing full-product loop authorized.
-Preserve AGENTS/workflow test-first/independent/protected/release gates; no live effects.
+Owner superseded old-agent stop; standing full-product execution authorized.
+Preserve all AGENTS/workflow test-first/independent/protected/release gates.
+No live provider/chat/payment effects, no guessed capabilities or release proof.
 
-Active contract branch task/APICONTRACT-004-host-listeners, base mainbd99912.
-Source38bf7dc eleven-document packet closed: Claude586e44ed initial, independent
-Codex0b08f13a verification, independent Claude23f3a73d closing, all blockers resolved.
-https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6818185255
-PR122 current observed71487e0 is OPEN/draft, all21CI pass; publication is separate.
-Actual done record + concise evidence summary + future task advisory notes authored.
-Independent routine completion metadata review by Codex
-/root/apicontract004_completion_metadata APPROVED at71487e0 plus the four-file
-completion delta, no blockers. Pending commit/push and current-head
-CI/schema/discussions/rules and normal exact-head merge. No source packet changed.
-Do not record a future merge or rewrite previous not_run evidence. After merge,
-refresh main and reconcile publication in the next authorized APICONTRACT005 claim.
+PR122 MERGED normally at2026-11-12T08:14:24Z as
+c9fd6370e5ca994b1d4453803ec237a3d5d542ee from exacthead06ac3cd40bdc5396dfb549efb948fe64eaf540d1.
+All21final-head checks passed, full contract+routine metadata reviews approved,
+zero unresolved threads, live rules passed; no admin/protection bypass. Main
+refreshed to that merge. Actual publication reconciled in this authorized new
+claim; no completion-only PR or rewritten old not_run evidence. PR122 unwatched.
+https://github.com/Kernol12/subathon-bot-ai/pull/122
 
-Closing nonblocking advice retained in owning planned task notes: reuse-port
-occupied-peer variant, role fairness/host-clock backstop, inherited socket choice,
-coalesced-request ownership, and two-upstream/owned-temp restart cleanup. Optional
-source wording changes wait for those tasks; do not invalidate the approved packet.
+Current task APICONTRACT-005, branch task/APICONTRACT-005-http-foundation, base
+current mainc9fd637. Bounded context available:true after reconciliation; claimed
+in state before source edits. Brief docs/tasks/EPIC-008/APICONTRACT-005.md.
+Contract source will be docs/contracts/bounded-http-foundation-v1.md plus narrow
+owning-contract/API016/SESSION011 notes as needed. Coordinator45e6fb8d owns shared
+metadata/build/CI/schema/PR integration; fresh contract author pending. No code,
+headers, tests, SDK/pin/artifact updates in this contract task.
 
-Next dependency chain APICONTRACT005→APITEST016→API016 supplies a separately
-admitted additive candidate4 HTTP foundation, preserving historical API012
-artifact/patch/pins/all44. API001/APITEST015 and SESSIONTEST011/SESSION011 depend
-API016; account capture/erasure/pre-log stays011, no API001 foundation dependency.
-Claim next task from fresh current main only after actual prerequisite publication.
+Scope: concrete per-listener pre-retention producer APIs/patch seams, exact finite
+per-owner/global resource profile and independent literal oracles on additive
+candidate4 successor. Fixed65536receive/+8prefix/>=8192free, one currentHTTPrequest,
+shared elapsed with separate accept/idle/request/output-drain anchors. Preserve
+historical API012 artifact/patch/pins/all44 and account capture/erasure/policies;
+no API001 dependency for foundation fixture. Import reviewed listener socket/
+scratch policy; assess role fairness and name generic vs host coalesced cases.
+Contract initialClaude→Codexfixes/separate verification→Claudeclosing before
+APITEST016 authored tests/review/red and fresh API016 implementation/admission.
 
-API001 draft PR121 headd1334d3 all21CIpass, host compile-only. Source70ea261 /
-integratedfea1378 has only scoped CV1/CV2/direct B2–B6 source approvals; B1 still
-blocks full stage. No native/admission/host body/UTC/provider/runtime proof. All
-old75Qt/18N/44native/SQL/assertions and original8fa8810/dd0f625 history retained.
-No author/reviewer assignments remain active. Coordinator45e6fb8d owns shared
-metadata/build/CI/schema/PR integration. Both PRs watched; do not poll/wait-loop.
+API001 draftPR121 headd1334d3 all21CI pass (host compile-only); source70ea261 /
+integratedfea1378 has scoped CV1/CV2/directB2–B6 source approvals only. B1 remains
+blocked until foundation and revised host baseline; no bodies/admission/runtime/
+UTC/provider/fullstage approval. PR121 stays watched. No active author/reviewer
+assignments remain. Start fresh APICONTRACT005 author, preserve bounded context.

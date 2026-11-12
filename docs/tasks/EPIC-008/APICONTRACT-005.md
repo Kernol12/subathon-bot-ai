@@ -27,9 +27,16 @@ fixture independent of API-001, with finite listener/connection/callback ownersh
 shared elapsed-source identity and separate accept/idle/request/output-drain
 anchors. No host/generation/authority setter. Select concrete existing-source
 patch seams, exact SDK compatibility/ABI/license/build inputs and literal oracles.
-Choose public settings for scratch/log/default routes and safe port-lock avoidance
-where available; any remaining source correction is explicit. No unsafe lock,
+Import the listener contract's selected public probe-bypass/pre-listen socket
+policy and scratch/log/default-route restrictions; do not create a second owner
+for that choice. Any remaining source correction is explicit. No unsafe lock,
 implicit filesystem/HTTP/default-body or allocation capability is inferred.
+
+Closing review CC71487-A2/A3 asks this contract to assess role fairness/reserved
+capacity rather than treating finite HTTP deadlines as a no-starvation proof.
+The stock timing wheel is only a backstop to the shared elapsed source. Name the
+generic fixture's second-coalesced-request-after-release case and the separate
+APITEST-015 host-composition case; preserve the one-current-request rule.
 
 SESSION-011 subsequently layers account occurrence capture/erasure/pre-log removal
 on this foundation. It retains every accepted credential/body/field/lease policy,
