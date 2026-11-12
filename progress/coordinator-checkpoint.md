@@ -1,45 +1,32 @@
 # Coordinator checkpoint
 
-Owner clarified the previous "then stop" applied to the old agent. The current
-coordinator is authorized to execute the standing full-product loop under
-AGENTS.md and docs/COORDINATOR_PROMPT.md, retaining all review/release gates.
-No live provider/chat/payment side effects are authorized.
+Owner superseded the old agent stop and authorized standing full-product execution.
+All AGENTS/workflow review/release/side-effect gates remain. No live provider effects.
 
-Checkout: task/API-001-host-lifecycle, base main
-bd99912ec6e0168a6c4af3047885bedbc6c92e6d. Main matches GitHub; checkout was clean.
-Live startup verification: PR120 merged normally, all21 final-head checks passed;
-no open PRs or active task claims. Rules require PR/discussion resolution, with
-zero required human approvals and no configured required-status-check rule.
-Historical worktrees are detached and clean; do not infer running assignments.
+API-001 branch task/API-001-host-lifecycle, base main bd99912. Draft PR121:
+https://github.com/Kernol12/subathon-bot-ai/pull/121
+Source b4e758d (author c2c341f), all21 checks passed at df5d703; host CI is compile-only.
+Initial Claude Opus5.5 ccfeeca9 review CHANGES_REQUIRED, six blockers, full report:
+https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6816497937
+Keep valid startup/transaction/completion/elapsed foundations and all original tests.
+No host or runtime-admission body has run. PR remains draft; never merge yet.
 
-Current task: API-001; docs/tasks/EPIC-008/API-001.md and bounded progress context.
-Specification v0.45; api-host-lifecycle-v1, native-websocket-profile-v1 and
-api-host-lifecycle-boundary-v1 contracts. Inherit the unchanged APITEST-001
-source/test baseline8fa8810 and observed-red dd0f625, with all prior approvals
-and limitations in https://github.com/Kernol12/subathon-bot-ai/pull/112.
+B1 is explicit SDK/native-listener versus HTTP same-port baseline contradiction.
+Coordinator chooses two INTERNAL ordinary HTTP/native WS listeners in ONE process,
+one framework lifetime and ONE IO loop, preserving frozen API-012 isolation/all44.
+Specification has no single-internal-listener requirement; public proxy origin remains
+unchanged release scope. Split substantial prerequisite APICONTRACT-004 contract →
+APITEST-015 reviewed baseline/red before API-001 implements the new topology.
+API-001 is blocked on these tasks; no assertion removal/weakening is authorized.
 
-Coordinator45e6fb8d owns progress/HTML/checkpoint, root build/dependency/CI/shared
-schema integration. Fresh Codex implementation owns server host/adapters:
-t3/api-host-lifecycle at /home/archnoob/.t3/worktrees/subathon-bot-ai/t3-87783467,
-base0355707182f4ff314ce22fc15c86fe3086ef0b54. Completed implementation session:
-<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A0cefc308-4a40-4358-9f5a-0c9bb7c87b1e>.
-Read-only /root/api001_baseline_receipts recovered seven exact historical reports
-in /tmp/api001-inherited-review-compendium.md and proposed tests-stage JSON;
-coordinator imported the unchanged 14-path packet8fa8810. Independent Codex
-/root/api001_import_consistency approved claim0355707 and the import as routine
-metadata, no blockers. Full historical reports published at
-https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6815972014.
-Validate/project/render/diff checks passed;
-preserve tests, existing native profile/source/patch and all baseline assertions.
-No downstream session-clock/login/auth/restore/provider behavior is included.
-Implementation c2c341f (five owned server files) integrated; author reports both
-consumers compiled with Qt6.12/corrected SDK. No host or admission bodies ran.
-Pending: independent initial Claude/Codex verification/
-closing Claude review, relevant real acceptance/regressions and protected PR gates.
-
-PR120's verified merge was reconciled in claim0355707. Its historical pre-push
-not_run evidence remains unchanged.
-Draft API-001 PR: https://github.com/Kernol12/subathon-bot-ai/pull/121
-Source packet b4e758d; only routine metadata follows at4518c0b. Initial independent
-Claude implementation/resource review is next. No new authors remain active.
-Continue the standing loop after this task's gates.
+Original Codex author0cefc308 correction turn runs in T3-provided worktree
+/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-87783467, branch t3/api-host-lifecycle,
+base c2c341f; owns only five server implementation files. Correct B2–B6 and feasible
+A1–A10, leave B1 explicit. No header/test/SDK/native-body changes authorized there.
+<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A0cefc308-4a40-4358-9f5a-0c9bb7c87b1e>
+Coordinator owns shared state/HTML/checkpoint/build/schema/CI/PR integration.
+Next: claim dependency-ready APICONTRACT-004 on fresh current-main branch, author
+bounded listener contract and follow separate initial/verification/closing review.
+PR121 remains watched; preserve source review cycle until future coherent corrections.
+PR120 merged/reconciled; inherited tests8fa8810/red dd0f625 and seven reports retained:
+https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6815972014
