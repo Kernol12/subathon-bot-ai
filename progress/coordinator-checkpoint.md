@@ -13,8 +13,9 @@ approved authoritative contract sourcecee1845 and PR123 closing report override
 historical R2/pending wording. Closing a8d495e8 advisories are preserved in state.
 
 Fresh author assignment: T3-isolated Codex gpt-6.1-sol/xhigh test/stub author,
-clientRequestId apitest016-baseline-author-20261112-v1. T3 provides checkout;
-actual runtime identity/path belongs in its launch/handoff receipt, not guessed.
+clientRequestId/task apitest016-baseline-author-20261112-v1. T3 launch confirmed;
+registry metadata shows checkout t3-27d3f66f / t3/http-foundation-test-baseline
+at supplied claim1c67425. No active author files/status/diff inspection or polling.
 Owned new files: server/include/subathon/server/bounded_http.hpp,
 server/include/subathon/server/testing/bounded_http_observers.hpp,
 server/src/bounded_http.cpp (explicit NI only), tests/bounded_http_foundation/.
@@ -42,7 +43,13 @@ https://github.com/Kernol12/subathon-bot-ai/pull/123
 Actual publication reconciled in this claim; PR123 unwatched. No bypass/bookkeeping PR.
 Requested33101824 remains contract arithmetic; no SDK/implementation/runtime proof.
 
-API001 draft PR121 source70ea261 retains partial approvals only. Its host bytes/
+API001 draft PR121 now includes main3d3be7a via normal merge7a9aeb6 after
+independent routine consistency approval (native01a1cf80). Live readback confirms
+MERGEABLE/conflict-free; latest saved CI has17SUCCESS/4running, not final success.
+https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6822333313
+No host/header/test/SDK/build/CI behavior changed; its entire old task record,
+partial source approvals and parent histories are preserved on that branch.
+API001 source70ea261 retains partial approvals only. Its host bytes/
 baseline8fa8810/red dd0f625/native44 and all SQL/host/account/UTC/provider/TLS/platform
 proof limits remain. PR121 watched; live conflict/CI state must be rechecked if acting.
 API016 foundation precedes account011; no API001 dependency cycle.

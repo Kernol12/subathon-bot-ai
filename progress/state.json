@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T11:14:50+00:00",
+  "updated_at": "2026-11-12T11:30:31+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -19044,6 +19044,11 @@
       "date": "2026-11-12T11:14:50+00:00",
       "task": "APITEST-016",
       "note": "Verified normal PR123 merge3d3be7a from1c882a3 after21checks, independent source+metadata approvals, zero threads/live rules; refreshed main and reconciled merged publication in this authorized claim. APITEST016 dependency-ready and claimed before fresh test/stub authoring; no baseline/native execution yet."
+    },
+    {
+      "date": "2026-11-12T11:30:31+00:00",
+      "task": "API-001",
+      "note": "Routine main3d merge into draftPR121 published7a9aeb6 after independent Codex01a1cf80 consistency approval; source/header/tests/SDK/task record/partial approvals/histories preserved. Live conflict-free, CI17success4running in saved observation. Root returned APITEST016 claim; isolated author untouched, no runtime/whole-stage approval."
     }
   ],
   "workflow_policy": {
