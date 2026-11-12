@@ -51,6 +51,11 @@ verification → Claude closing, focused PR/current CI/protected merge. Approval
 supplies no selected artifact, parser safety or runtime capability.
 
 Normative authored packet: [bounded HTTP foundation v1](../../contracts/bounded-http-foundation-v1.md).
-Its interfaces, source seams, configured reservation arithmetic and literal F01–12
+Its interfaces, source seams, configured reservation arithmetic and literal F01–13 (including F05P)
 are the single generic design input to APITEST-016; independent contract closing
 approval is still required before test authorship.
+
+R2 author corrections address CI005-B1–B6/A1–A8 with SDK-only interfaces, actual
+context/retirement, bounded cross-thread wakes, single-wire output ownership and
+deterministic preflight. The initial-review disposition and arithmetic receipt
+remain outside this brief; different Codex verification/Claude closing are pending.

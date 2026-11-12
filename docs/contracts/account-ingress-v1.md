@@ -30,6 +30,10 @@ Its ordinary sink bypasses stock maps; its sanitized native Upgrade projection
 is a separate listener path and is NEVER an account capture. SESSION-011 retains
 this document's exact policies/limits, secure erasure and pre-log obligations,
 and must bind its capture ABI to the actual admitted successor/connection.
+R2 separates generic pre-body preflight from later account syntax/route policy;
+its budget-only probe does not change accepted reference/error priorities. Raw
+hooks cover mapped attributed regions, not native heap strings; the native
+projection remains excluded from account capture and secure-erasure claims.
 
 ## 1. Verified starting point and proposed correction
 

@@ -31,6 +31,10 @@ leases, fixed receive/preconstruction/output owners and explicit role reservatio
 The later SDK registration delegates to the same two addListener instances and
 chosen §1 socket policy; it introduces no second host/listener policy. Its new
 interfaces/limits require independent approval and actual API-016 admission.
+R2's explicit control-ledger qualification retains the distinct host arrays and
+charges foundation arrays additionally; no lending API or changed host HTTP
+refusal wire behavior is inferred. SDK-only interfaces and the first-party
+adapter provide the actual bounded wake/drain path; this is still design only.
 
 ## 1. Two endpoints, one host
 

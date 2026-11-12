@@ -48,3 +48,9 @@ per-listener native pre-Upgrade transition. Generic occurrence storage is not
 this task's capture capability:011 still binds actual selected connection/profile
 identity, preserves ALL account policies/4096 semantic bounds, proves secure
 erasure on every foundation exit and removes pre-log secrets before admission.
+
+R2's RawHooks cover attributed mapped raw regions only; they do not claim heap
+native-projection erasure. Preserve reference header431/body413/aggregate431/
+syntax400 ordering through the ordered pre-body sink, and all account syntax/
+route/credential/envelope decisions. The F05P budget probe implements no account
+feature;011 still admits its actual capture/secure-erasure/pre-log capability.
