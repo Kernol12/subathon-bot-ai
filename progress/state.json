@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T22:42:09+00:00",
+  "updated_at": "2026-11-12T23:01:04+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18588,7 +18588,7 @@
       "brief": "docs/tasks/WORKFLOW-005.md",
       "summary": "Select bounded stage handoffs and check actual schemas, reviewed paths and outgoing private-path history before publication.",
       "notes": [
-        "Contract447aa06 fully closed. C-A1: absolute caller Python; Git via fixed PATH; reviewed inline schema driver with suite path argument. Test/NI authoring next, no execution before full test review. Existing SDK metadata/old8 schema pass; all21CI at8a0c867. Product stopped."
+        "Contract447aa06 closed; tests2558427 authored locally:26 methods, seven-path packet includes shared fixture/NI/schema registration. Syntax/whitespace only; all tests/NI branches unrun, unpublished. Full test review precedes named CLI red; fresh implementation follows."
       ],
       "verification": {
         "contract_review": "passed",
@@ -18603,7 +18603,8 @@
         "correction_review": "passed",
         "schema_environment": "passed",
         "existing_schema": "passed",
-        "test_authored": "draft"
+        "test_authored": "passed",
+        "static_inventory": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837666194",
@@ -18679,6 +18680,23 @@
                 "blocking_findings": []
               }
             ]
+          },
+          "tests": {
+            "authors": [
+              "codex:thread:delegated-task:command%3Amcp%3A2344958a-02df-49a8-bd3e-16c17ddd9453%3Adelegate-task%3Aworkflow005-test-author-v1",
+              "codex:coordinator-97333d35"
+            ],
+            "revision": "2558427c1da8c62b216df8d246688815eb341c2c",
+            "paths": [
+              "tests/tooling/test_compact_context.py",
+              "tests/tooling/test_publication.py",
+              "tests/schema_validation/test_publication_integration.py",
+              "tests/support/publication_fixture.py",
+              "tools/check_publication.py",
+              "tools/progress.py",
+              "tests/schema_validation/CMakeLists.txt"
+            ],
+            "reviews": []
           }
         }
       }
@@ -20906,6 +20924,11 @@
       "date": "2026-11-12T22:42:09+00:00",
       "task": "WORKFLOW-005",
       "note": "Fresh Claude contract closing APPROVED447aa06, no blockers. Actual distinct T3 initial/closing provider/model/completed runs observed. C-A1 reviewed argv reading retained for test authors/reviewers. Next isolated test/NI authoring; no new feature execution or source publication before reviewed test gate."
+    },
+    {
+      "date": "2026-11-12T23:01:04+00:00",
+      "task": "WORKFLOW-005",
+      "note": "Isolated Codex test author handed clean local4782f66; actual T3 provider/model/worktree observed. Six files integrated byte-identically as a08eaef, coordinator schema label registration completed packet2558427. AST inventory26, syntax/whitespace only. No new imports/tests/NI execution or publication; initial independent test review next."
     }
   ],
   "workflow_policy": {

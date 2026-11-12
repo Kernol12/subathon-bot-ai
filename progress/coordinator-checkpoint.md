@@ -1,31 +1,30 @@
 # Coordinator checkpoint
 
 Owner authorizes WORKFLOW004-007/CI002 through reviewed implementation/protected
-publication, then STOP. Product/API001/API016 remain stopped; fullv0.45 unchanged.
-Main/base3c74966; PR125 merged/reconciled/unwatched. PR121 parked/unwatched.
+publication, then STOP. Product/API001/API016 stays stopped; fullv0.45 preserved.
+Main/base3c74966; PR125 merged/reconciled/unwatched. PR121 remains parked.
 
-Checkout task/WORKFLOW-005-context-publication. PR126 docs/claim draft watched:
-https://github.com/Kernol12/subathon-bot-ai/pull/126
-Coordinator codex:97333d35 owns shared records/docs/build/CI/publication.
+Checkout task/WORKFLOW-005-context-publication, remote PR126 docs/claim8a0c867:
+https://github.com/Kernol12/subathon-bot-ai/pull/126 (watched, prior21CI passes).
+Local contract receipt3cab840, integrated author a08eaef, complete tests2558427.
+Contract447aa06 fully closed; reports in PR126. New tests/NI remain UNPUBLISHED.
 
-Contract source447aa06 (three paths) CLOSED: initial Claude T3 workflow005-initial-
-contract-review-v1, native Codex /root/workflow005_contract_verification, NEW Claude
-T3 workflow005-closing-contract-review-v1 approved the current revision. Actual T3
-provider/model/completed runs and native collaboration observed; reports in PR126.
-https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837904218
-C-A1 reviewed reading: host steps use abspath(sys.executable), Git via fixed PATH;
-choose inline schema -c driver with ROOT-relative suite-path arg; test review covers it.
+Actual T3 isolated test author workflow005-test-author-v1 (Codex/gpt6.1sol) returned
+clean4782f66; coordinator verified six authored files byte-identical on integration.
+26methods via AST only:6compact/17publication-unit/3actual-SDK integration. Shared
+fixture copies working-tree source into disposable Git. Coordinator added opt-in
+schema.publication CMake label schema-validation;acceptance;tooling, timeout120.
+Seven-path test packet2558427 is in state with both actual authors and empty reviews.
+No new test/helper/NI import or branch execution, discovery, SDK integration or red ran.
 
-All21CI at8a0c867 passes (docs only). Existing unchanged20wheel schema SDK prepared
-at build/workflow005-schema-venv; metadata/pip and existing8 schema methods pass.
-No new tests/NI/implementation have been authored or executed yet.
-
-Next requested isolated Codex test author workflow005-test-author-v1 owns only
-new test_compact_context.py, test_publication.py, SDK integration test, optional small
-shared test-fixture helper, tools/check_publication.py NI and narrow progress.py NI.
-T3 creates its worktree. Do not publish or run new source. Author stops after local
-commit/handback. Coordinator integrates tests and CMake registration, then complete
-Claude initial/Codex verification/fresh Claude closing BEFORE meaningful named NI red.
-Fresh implementation and full code review follow. No new digest/schema/approval grammar.
-Parent contract receipt commit is local; source remote remains docs-only until safe
-publication. Existing full gates apply; results-only policy waits WORKFLOW006.
+Next: commit local packet records, publish sanitized author receipt only, request
+independent initial Claude test/source/oracle/fixture/NI/build review. Complete full
+Codex correction/verification/fresh Claude closing BEFORE positive named-NI CLI red.
+Then fresh implementation and separate full code review; no new manifest/digest schema.
+WF005-C-A1: host Python abspath(sys.executable); Git via fixed PATH; inline schema -c
+with ROOT-relative suite arg. Existing SDK at build/workflow005-schema-venv has old8
+schema/metadata/pip pass; no new consumer or feature proof.
+Coordinator owns progress/docs/build/CI/publication. Author owns tests/NI only; no
+worker running now. Full handback private under local-evidence/WORKFLOW-005/test-author.
+Use reviewed main control-plane code for metadata until test review; do not import or
+run new tests/stub. Remote source must remain docs-only until authorized publication.
