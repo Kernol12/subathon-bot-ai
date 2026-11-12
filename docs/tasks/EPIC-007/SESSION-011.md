@@ -41,3 +41,10 @@ until all components integrate. The substantial generic receive/suspension/runti
 prerequisite is explicitly allocated to API-016; no API-001 wait is needed for
 SESSIONTEST-011's native foundation/capture evidence. Further TLS/runtime expansion
 still requires a separate split. Root owns pins/patches/build/CI/state.
+
+Rebase against the admitted revision of [foundation v1](../../contracts/bounded-http-foundation-v1.md),
+including its no-stock-map ordinary sink, secure-wipe installation seam and
+per-listener native pre-Upgrade transition. Generic occurrence storage is not
+this task's capture capability:011 still binds actual selected connection/profile
+identity, preserves ALL account policies/4096 semantic bounds, proves secure
+erasure on every foundation exit and removes pre-log secrets before admission.

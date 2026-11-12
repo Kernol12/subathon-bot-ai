@@ -25,6 +25,13 @@ so do SESSIONTEST-011/SESSION-011. The foundation has NO API-001 dependency.
 It is on the critical path to API-001 and its dependent SESSION-009/010, API-002,
 API-013 and DEPLOYMENT-007/008; dependency readiness grants no implementation waiver.
 
+APICONTRACT-005's [foundation v1](bounded-http-foundation-v1.md) is the proposed
+concrete producer for §4: it adds a bounded branch to the existing parser, private
+leases, fixed receive/preconstruction/output owners and explicit role reservations.
+The later SDK registration delegates to the same two addListener instances and
+chosen §1 socket policy; it introduces no second host/listener policy. Its new
+interfaces/limits require independent approval and actual API-016 admission.
+
 ## 1. Two endpoints, one host
 
 Use TWO internal TCP listeners in the SAME Drogon application/framework lifetime,

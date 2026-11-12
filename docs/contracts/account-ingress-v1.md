@@ -24,6 +24,13 @@ producers; an ingress digest, policy generation, TLS connection or stored sessio
 reference grants no identity, time trust, permission, transaction or publication.
 This document introduces no public auth service or raw-public-head envelope.
 
+The authored [foundation v1](bounded-http-foundation-v1.md) supplies the proposed
+generic fixed receive, bounded sink and wipe-installation seams for this rebase.
+Its ordinary sink bypasses stock maps; its sanitized native Upgrade projection
+is a separate listener path and is NEVER an account capture. SESSION-011 retains
+this document's exact policies/limits, secure erasure and pre-log obligations,
+and must bind its capture ABI to the actual admitted successor/connection.
+
 ## 1. Verified starting point and proposed correction
 
 Historical authenticated starting source is Drogon 1.9.14

@@ -49,3 +49,8 @@ amendments, no header/test/production/SDK edits. Coordinator owns shared build,
 schemas, state/HTML/checkpoint. Independent Claude initial → Codex fixes/separate
 verification → Claude closing, focused PR/current CI/protected merge. Approval
 supplies no selected artifact, parser safety or runtime capability.
+
+Normative authored packet: [bounded HTTP foundation v1](../../contracts/bounded-http-foundation-v1.md).
+Its interfaces, source seams, configured reservation arithmetic and literal F01–12
+are the single generic design input to APITEST-016; independent contract closing
+approval is still required before test authorship.
