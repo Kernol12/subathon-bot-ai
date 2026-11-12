@@ -1,23 +1,22 @@
 # Coordinator checkpoint
 
-Latest owner authorizes WORKFLOW004-007 and CI002 through reviewed implementation,
-focused PRs/protected merges and matching CI settings, then STOP. Product/API001/API016
-remain stopped; preserve fullv0.45, historical baselines/receipts and private evidence.
+Owner authorizes WORKFLOW004-007/CI002 through reviewed implementation/protected
+publication, then STOP. Product/API001/API016 remain stopped; preserve fullv0.45.
+Main/base3c74966; PR125 merged with21checks/reviews and is unwatched/reconciled.
 
-Observed main3c74966, actual PR125 merge2026-11-12T22:10:34Z/headf7c3b59; all21
-final checks/reviews passed, normal protected merge. Publication reconciled here;
-PR125 unwatched. Non-record practices/private-evidence guidance is now active.
-Record/results-only policy stays inactive until reviewed WORKFLOW006 implementation.
+Checkout task/WORKFLOW-005-context-publication, PR126 draft/watched:
+https://github.com/Kernol12/subathon-bot-ai/pull/126
+Coordinator codex:97333d35 owns contracts/shared state/docs/build/CI/publication.
+Initial Claude T3 workflow005-initial-contract-review-v1 completed; actual provider
+claudeAgent/modelopus5.5/completion observed in T3. Initial report:
+https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837666194
+Three blockers B1-B3 and four advisories A1-A4 retained. Author corrected private
+ROOT/main/run_step seams/working-tree fixtures, fixed all child envs, explicit named
+compact/publication NI, exact output/witness, limits/literal/case and ignored-file
+rules, SDK integration labels. Source is CONTRACT ONLY; no tests/NI/implementation.
 
-Checkout task/WORKFLOW-005-context-publication from refreshed main3c74966.
-WORKFLOW005 CLAIMED. Coordinator codex:97333d35 owns contract, shared progress/schema/
-build/CI/docs/publication; no workers assigned. Source contract authoring only.
-Read docs/tasks/WORKFLOW-005.md and bounded-coordination-v2 §§2,4-5.
-Exact contract: docs/contracts/context-publication-v1.md, WORKFLOW005 brief and
-task-index activation wording. Authored contract source9ce7e72 (three paths). No new tests/stub/implementation
-authored or executed.
-Next: publish docs/claim draft and request independent initial Claude contract review; then independent
-reviewed tests/intended red, fresh implementation, full code review and protected PR.
-Carry WF004-C-A2 activation wording into this reviewed docs change. Default context API
-and all existing assertions remain; WORKFLOW005 has no new manifest/digest format.
-CI002 remains independent if setup repair is needed. PR121 stays parked/unwatched.
+All21CI passed b6408ae; source corrections need ordinary new-head CI. No setup retry,
+guard weakening or product/native execution. Next commit/bind corrected packet,
+push/link, independent Codex verification, fresh Claude closing, then authored tests.
+The existing full review cycle still applies; results-only policy waits WORKFLOW006.
+PR121 parked. CI002 independent if needed. Private historical evidence stays ignored.

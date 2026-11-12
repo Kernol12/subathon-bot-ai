@@ -9,6 +9,11 @@ Coordinator owns brief/docs, shared state/HTML/checkpoint/build integration. Tes
 author owns additive focused tests in tests/tooling/ and actual-schema cases if
 needed; fresh implementer owns tools/progress.py and a small publication checker.
 Read root/tools/tests instructions. Preserve default context API and all assertions.
+The reviewed contract also assigns the test author narrow explicit NI seams in
+tools/check_publication.py and tools/progress.py; they accept the new interfaces but
+fail by name until the fresh implementation. No missing-interface/setup failure
+counts as red. Publication unit tests patch private ROOT/main/run_step seams;
+SDK integration uses a fresh committed copy of working-tree source, not HEAD cloning.
 
 Implement opt-in compact task/stage context without duplicated history. Publication
 checks must invoke actual admitted schema validation, project/progress/render checks,

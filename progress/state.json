@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T22:17:30+00:00",
+  "updated_at": "2026-11-12T22:29:00+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18588,19 +18588,23 @@
       "brief": "docs/tasks/WORKFLOW-005.md",
       "summary": "Select bounded stage handoffs and check actual schemas, reviewed paths and outgoing private-path history before publication.",
       "notes": [
-        "Exact compact JSON and publication CLI contract authored; existing default context preserved, actual-schema witness and outgoing-history/private-path checks specified. Contract review precedes any new test/NI execution. Product work remains stopped."
+        "Initial Claude found3 contract blockers/4advisories; all corrected in authored packet: private test seams, fixed child environment, explicit compact NI, exact output/path/limit rules. Independent verification/closing pending. No new tests/stub/implementation run."
       ],
       "verification": {
-        "contract_review": "not_run",
+        "contract_review": "blocked",
         "test_review": "not_run",
         "baseline": "not_run",
         "implementation": "not_run",
         "acceptance": "not_run",
         "claim": "passed",
         "contract_authored": "passed",
-        "project": "passed"
+        "project": "passed",
+        "correction_authored": "passed"
       },
-      "evidence": [],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837666194",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837600121"
+      ],
       "review": null,
       "workflow": {
         "required_stages": [
@@ -18619,7 +18623,31 @@
               "docs/tasks/WORKFLOW-005.md",
               "docs/tasks/README.md"
             ],
-            "reviews": []
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3A2344958a-02df-49a8-bd3e-16c17ddd9453%3Adelegate-task%3Aworkflow005-initial-contract-review-v1",
+                "revision": "9ce7e72ec2573ff4f5d2a913c1c7b283f002165e",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837666194",
+                "findings": [
+                  "WF005-I-B1",
+                  "WF005-I-B2",
+                  "WF005-I-B3",
+                  "WF005-I-A1",
+                  "WF005-I-A2",
+                  "WF005-I-A3",
+                  "WF005-I-A4"
+                ],
+                "blocking_findings": [
+                  "WF005-I-B1",
+                  "WF005-I-B2",
+                  "WF005-I-B3"
+                ]
+              }
+            ]
           }
         }
       }
@@ -20837,6 +20865,11 @@
       "date": "2026-11-12T22:11:19+00:00",
       "task": "WORKFLOW-005",
       "note": "PR125 merged3c74966 after21 final-head checks/reviews and normal protected merge; publication reconciled without changing historical checks. Claim dedicated WORKFLOW005 branch, coordinator shared paths; author detailed contract before tests. Product work stays stopped."
+    },
+    {
+      "date": "2026-11-12T22:29:00+00:00",
+      "task": "WORKFLOW-005",
+      "note": "Preserved initial Claude WF005-I-B1-B3/A1-A4 report. Corrected test seam/working-tree fixtures, controlled every child environment, explicit named compact/publication NI, exact serialization/witness, literal paths/size/case/ignored-file limits and integration labels. No executable test/NI/implementation source authored or run."
     }
   ],
   "workflow_policy": {
