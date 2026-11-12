@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T22:29:32+00:00",
+  "updated_at": "2026-11-12T22:42:09+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18588,10 +18588,10 @@
       "brief": "docs/tasks/WORKFLOW-005.md",
       "summary": "Select bounded stage handoffs and check actual schemas, reviewed paths and outgoing private-path history before publication.",
       "notes": [
-        "Initial Claude found3 contract blockers/4advisories; all corrected in authored packet: private test seams, fixed child environment, explicit compact NI, exact output/path/limit rules. Independent verification/closing pending. No new tests/stub/implementation run."
+        "Contract447aa06 fully closed. C-A1: absolute caller Python; Git via fixed PATH; reviewed inline schema driver with suite path argument. Test/NI authoring next, no execution before full test review. Existing SDK metadata/old8 schema pass; all21CI at8a0c867. Product stopped."
       ],
       "verification": {
-        "contract_review": "blocked",
+        "contract_review": "passed",
         "test_review": "not_run",
         "baseline": "not_run",
         "implementation": "not_run",
@@ -18599,11 +18599,18 @@
         "claim": "passed",
         "contract_authored": "passed",
         "project": "passed",
-        "correction_authored": "passed"
+        "correction_authored": "passed",
+        "correction_review": "passed",
+        "schema_environment": "passed",
+        "existing_schema": "passed",
+        "test_authored": "draft"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837666194",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837600121"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837600121",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837808015",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837904218",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837843685"
       ],
       "review": null,
       "workflow": {
@@ -18646,6 +18653,30 @@
                   "WF005-I-B2",
                   "WF005-I-B3"
                 ]
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:/root/workflow005_contract_verification",
+                "revision": "447aa06def00a9dd2b8de01f31ad06d30637c085",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837808015",
+                "findings": [],
+                "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3A2344958a-02df-49a8-bd3e-16c17ddd9453%3Adelegate-task%3Aworkflow005-closing-contract-review-v1",
+                "revision": "447aa06def00a9dd2b8de01f31ad06d30637c085",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837904218",
+                "findings": [
+                  "WF005-C-A1"
+                ],
+                "blocking_findings": []
               }
             ]
           }
@@ -20870,6 +20901,11 @@
       "date": "2026-11-12T22:29:00+00:00",
       "task": "WORKFLOW-005",
       "note": "Preserved initial Claude WF005-I-B1-B3/A1-A4 report. Corrected test seam/working-tree fixtures, controlled every child environment, explicit named compact/publication NI, exact serialization/witness, literal paths/size/case/ignored-file limits and integration labels. No executable test/NI/implementation source authored or run."
+    },
+    {
+      "date": "2026-11-12T22:42:09+00:00",
+      "task": "WORKFLOW-005",
+      "note": "Fresh Claude contract closing APPROVED447aa06, no blockers. Actual distinct T3 initial/closing provider/model/completed runs observed. C-A1 reviewed argv reading retained for test authors/reviewers. Next isolated test/NI authoring; no new feature execution or source publication before reviewed test gate."
     }
   ],
   "workflow_policy": {
