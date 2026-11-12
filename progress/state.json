@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T06:33:52+00:00",
+  "updated_at": "2026-11-12T06:52:51+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -16613,7 +16613,7 @@
       "module": "Server/API",
       "kind": "contract",
       "status": "in_progress",
-      "owner": "codex:coordinator-45e6fb8d; fresh contract author pending",
+      "owner": "codex:coordinator-45e6fb8d; contract author620e9ec1-5851-47a5-9cde-5b36dd7d89c7",
       "depends_on": [
         "APICONTRACT-001",
         "APITEST-001",
@@ -16629,16 +16629,37 @@
       "brief": "docs/tasks/EPIC-008/APICONTRACT-004.md",
       "summary": "Resolve the reviewed HTTP/native-listener baseline conflict without changing the selected SDK, weakening assertions or reducing release scope.",
       "notes": [
-        "Claimed from current main bd99912. Draft isolated ordinary-HTTP/native-WS topology and exact baseline amendment contract only; preserve full v0.45 scope/API-012/all assertions. Independent contract review gates pending. Coordinator owns shared task/build/CI/progress integration."
+        "Dual internal-listener contract authored at1bed699; HTTP/WS same process/oneIO, real pair readiness and explicit baseline mapping. Ordinary HTTP pre-retention/connection/output/lock-file gaps remain unsupported prerequisites; comparing existing SESSION-011 scope before splitting. No header/test/SDK/source changes or runtime claim. Initial independent contract review pending."
       ],
-      "verification": {},
+      "verification": {
+        "contract_authored": "draft",
+        "contract_review": "not_run"
+      },
       "evidence": [],
       "review": null,
       "workflow": {
         "required_stages": [
           "contract"
         ],
-        "stages": {}
+        "stages": {
+          "contract": {
+            "authors": [
+              "codex:coordinator-45e6fb8d",
+              "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A620e9ec1-5851-47a5-9cde-5b36dd7d89c7"
+            ],
+            "revision": "e71402b03615807a03591699dbee5e4d7b10b66c",
+            "paths": [
+              "docs/contracts/api-host-listeners-v1.md",
+              "docs/contracts/api-host-lifecycle-boundary-v1.md",
+              "docs/contracts/api-host-lifecycle-v1.md",
+              "docs/tasks/EPIC-008/API-001.md",
+              "docs/tasks/EPIC-008/APITEST-015.md",
+              "docs/tasks/EPIC-008/APICONTRACT-004.md",
+              "docs/tasks/EPIC-008.md"
+            ],
+            "reviews": []
+          }
+        }
       }
     },
     {
