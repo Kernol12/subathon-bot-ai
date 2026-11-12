@@ -1,52 +1,35 @@
 # Coordinator checkpoint
 
-Owner superseded the old-agent stop; standing full-product loop authorized.
-Preserve AGENTS/workflow test-first/independent-review/protected/release gates.
-No live provider/chat/payment side effects. No runtime/UTC/product proof yet.
+Owner superseded old-agent stop; standing full-product loop authorized.
+Preserve AGENTS/workflow test-first/independent/protected/release gates; no live effects.
 
-Root: task/APICONTRACT-004-host-listeners, base mainbd99912, HEAD890d961 plus
-routine task/checkpoint updates. PR122 draft at0ad6903, all21 checks passed:
-https://github.com/Kernol12/subathon-bot-ai/pull/122
-Initial sourcee71402b/authored1bed699; Claude586e44ed found six blockers:
-https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6817347262
-Doc author620e9ec1 correction turn2 completed1a6fd10 in t3-19c25346; integrated
-with planner890d961 into current source packet (eleven docs),
-against pinned planner890d961; owns listener/consumer/lifecycle/API001/APITEST015/
-APICONTRACT004/SESSION011 brief and narrow account-ingress rebase docs. No code.
-<t3-thread://v2/2a8cf5b0-ea0f-4760-972f-17effee4968b/thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A620e9ec1-5851-47a5-9cde-5b36dd7d89c7>
-Independent Codex0b08f13a APPROVED exact source38bf7dc, all original blockers
-resolved; next mandatory independent Claude closing.
+Active contract branch task/APICONTRACT-004-host-listeners, base mainbd99912.
+Source38bf7dc eleven-document packet closed: Claude586e44ed initial, independent
+Codex0b08f13a verification, independent Claude23f3a73d closing, all blockers resolved.
+https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6818185255
+PR122 current observed71487e0 is OPEN/draft, all21CI pass; publication is separate.
+Actual done record + concise evidence summary + future task advisory notes authored.
+Independent routine completion metadata review by Codex
+/root/apicontract004_completion_metadata APPROVED at71487e0 plus the four-file
+completion delta, no blockers. Pending commit/push and current-head
+CI/schema/discussions/rules and normal exact-head merge. No source packet changed.
+Do not record a future merge or rewrite previous not_run evidence. After merge,
+refresh main and reconcile publication in the next authorized APICONTRACT005 claim.
 
-Planned chain APICONTRACT005→APITEST016→API016 supplies generic bounded HTTP
-foundation as separately admitted additive candidate4 successor. Original API012
-artifact/patch/pins/all44 remain immutable history/compatibility. API001/APITEST015
-and SESSIONTEST011/SESSION011 depend API016; account capture/erasure/pre-log stays
-011. No API001 dependency for foundation, no cyclic evidence or new capability.
-Planner890d961 and corrected docs pushed in7d51b9d (all21 checks passed); no new SDK
-artifact or tests are supplied by this contract.
-Coordinator45e6fb8d owns shared state/HTML/checkpoint/build/schema/CI/PR integration.
+Closing nonblocking advice retained in owning planned task notes: reuse-port
+occupied-peer variant, role fairness/host-clock backstop, inherited socket choice,
+coalesced-request ownership, and two-upstream/owned-temp restart cleanup. Optional
+source wording changes wait for those tasks; do not invalidate the approved packet.
 
-API001: draftPR121 head1b744a1, all21 CI passed (host compile/registration only):
-https://github.com/Kernol12/subathon-bot-ai/pull/121
-Source5f36c44 equals isolated9e71961. Original author382ea9f corrected B2–B6;
-initial/source/correction reports and old reviewed red8fa8810/dd0f625 retained.
-Original source worktree t3-87783467 has NO active author. Coordinator authored
-CV1/CV2 and latest startup quarantine there. c5f60e7e approves CV2/command+shutdown
-quarantine, but CV1 also needed both startup submission catches/permanent guards:
-https://github.com/Kernol12/subathon-bot-ai/pull/121#issuecomment-6817658440
-Latest source70ea26150f41b15ad34386fef37e5e436c071095 is clean in
-t3/api-host-lifecycle at t3-87783467; compiled
-both consumers, no native/admission/test bodies. Startup fix NOT integrated/pushed
-until source-branch integration. Independent247ed347 approved remaining CV1
-startup correction at70ea261 within scope; preserve earlier partial approvals. B1,
-public lock/socket disposition, coherent source/Claude closing, fresh ABI/load
-admission, full Qt/native/SQL/native44 and hosted/protected gates remain open.
-Both PRs watched. End-of-run handback must unwatch; while useful work runs retain
-wake notifications. Do not poll running delegates; completion wakes coordinator.
+Next dependency chain APICONTRACT005→APITEST016→API016 supplies a separately
+admitted additive candidate4 HTTP foundation, preserving historical API012
+artifact/patch/pins/all44. API001/APITEST015 and SESSIONTEST011/SESSION011 depend
+API016; account capture/erasure/pre-log stays011, no API001 foundation dependency.
+Claim next task from fresh current main only after actual prerequisite publication.
 
-Contract verification report:
-https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6817932703
-Routine CV7412-A1 epic numeric summary removed; source packet remains38bf7dc.
-Task in_review, derived nextgateclosing; contract is NOT complete until Claude
-closing approval. Completion/CI/merge/publication and next foundation claim remain
-separate, with no bookkeeping-only completion PR loop.
+API001 draft PR121 headd1334d3 all21CIpass, host compile-only. Source70ea261 /
+integratedfea1378 has only scoped CV1/CV2/direct B2–B6 source approvals; B1 still
+blocks full stage. No native/admission/host body/UTC/provider/runtime proof. All
+old75Qt/18N/44native/SQL/assertions and original8fa8810/dd0f625 history retained.
+No author/reviewer assignments remain active. Coordinator45e6fb8d owns shared
+metadata/build/CI/schema/PR integration. Both PRs watched; do not poll/wait-loop.
