@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-12T05:38:14+00:00",
+  "updated_at": "2026-11-12T05:56:44+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -5370,13 +5370,14 @@
       "brief": "docs/tasks/EPIC-008/API-001.md",
       "summary": "Marshal requests onto the authoritative Qt queue and return correlated results without blocking the writer on network callbacks.",
       "notes": [
-        "Claimed under renewed standing-loop authorization. Inherit APITEST-001 reviewed baseline8fa8810 and actual red dd0f625 (PR112); no assertion changes. Implement host/server adapters only against v0.45 lifecycle/native/consumer-boundary v1; coordinator owns shared build/CI/schema/progress. Implementation review and actual acceptance remain pending."
+        "Host/adapters authored in fresh session c2c341f; Qt/native consumers compile with Qt6.12 and corrected SDK. Preserved APITEST-001 baseline8fa8810 and reviewed red dd0f625 (PR112). Independent implementation/resource review, fresh native admission, actual acceptance and hosted/protected PR gates pending; no host/runtime/UTC/provider/release proof yet."
       ],
       "verification": {
         "inherited_test_review": "passed",
         "inherited_baseline": "observed_red",
-        "implementation": "not_run",
-        "acceptance": "not_run"
+        "implementation": "draft",
+        "acceptance": "not_run",
+        "native_build": "passed"
       },
       "evidence": [],
       "review": null,
@@ -5561,6 +5562,20 @@
                 "finished_at": "2026-11-11T08:09:58.108Z"
               }
             ]
+          },
+          "implementation": {
+            "authors": [
+              "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A0cefc308-4a40-4358-9f5a-0c9bb7c87b1e"
+            ],
+            "revision": "b4e758d6f039a1d5291c753418de496ec5c2a7ff",
+            "paths": [
+              "server/src/api_host.cpp",
+              "server/src/api_host_drogon.cpp",
+              "server/src/api_host_elapsed_linux.cpp",
+              "server/src/api_host_signal_linux.cpp",
+              "server/src/api_host_private.hpp"
+            ],
+            "reviews": []
           }
         }
       }
