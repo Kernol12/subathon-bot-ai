@@ -34,3 +34,10 @@ Adapt consumers to the smaller evidence records without changing the current pla
 Reuse and adapt existing review-gate and publication tests. Add cases only where the new record loader or changed behavior needs coverage: valid/malformed records, missing required proof, reviewer independence, current-revision approvals and source binding. A missing module, dependency, compilation failure or skipped test is not an intended red baseline.
 
 Use a one-time reconciliation report for the actual data conversion. Do not create hundreds of record fixtures or tests asserting that deleted files/buttons are absent. Preserve meaningful baseline assertions; any removal follows the explicitly reviewed ADR-0012 cleanup scope. Run relevant existing tooling/schema/scaffold/CI checks, including ordinary checks without live board access. New behavior follows the existing contract/examples, independent test review, meaningful intended red, fresh implementation and independent code-review sequence.
+
+### Authorized execution boundary
+
+Owner authorization supersedes the issue snapshot’s instruction to remain Planned/
+unassigned; it does not waive registration, fresh sessions, review or protected merges.
+Dependency readiness never grants owner authorization. Until cutover, preserve GitHub
+planning items during mirror synchronization. No product or WORKFLOW-006/007 execution.

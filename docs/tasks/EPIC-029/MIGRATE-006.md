@@ -35,3 +35,11 @@ Make task-brief compaction and removal an explicit migration deliverable after M
 
 ### Verification and review
 Use one-time inventory, coverage and link-reconciliation reports and the relevant existing Markdown/repository checks. Do not add tests whose only assertion is that a file was deleted, or create a giant brief fixture suite. This documentation cleanup needs the applicable independent substantive review; no manufactured intended-red baseline is required for deleting or condensing prose. Preserve meaningful tests; any assertion removal requires the approved ADR-0012 scope and separate review.
+
+### Authorized execution boundary
+
+Owner authorization supersedes the issue snapshot’s instruction to remain Planned/
+unassigned; it does not waive registration, fresh sessions, review or protected merges.
+Dependency readiness never grants owner authorization. Until cutover, preserve GitHub
+planning items during mirror synchronization. No product or WORKFLOW-006/007 execution.
+Native blocker: MIGRATE-004. Native successor: MIGRATE-005.

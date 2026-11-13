@@ -30,3 +30,10 @@ WORKFLOW-006 remains stopped and is sequenced after MIGRATE-005; its storage int
 
 ### Mandatory task-brief cleanup
 MIGRATE-006 compacts active briefs, archives full completed briefs and removes obsolete active copies after cutover. Pin and repair links before removal; keep shared briefs needed by unfinished tasks. MIGRATE-005 must verify this cleanup before the epic closes.
+
+### Authorized execution boundary
+
+Owner authorization supersedes the issue snapshot’s instruction to remain Planned/
+unassigned; it does not waive registration, fresh sessions, review or protected merges.
+Dependency readiness never grants owner authorization. Until cutover, preserve GitHub
+planning items during mirror synchronization. No product or WORKFLOW-006/007 execution.

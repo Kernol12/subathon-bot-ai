@@ -36,3 +36,10 @@ Use the existing independent substantive contract-review cycle. Documentation an
 
 ### Task-brief cleanup contract
 Include MIGRATE-006 in the reviewed migration contract: define active/shared/completed brief classification, archive eligibility, immutable archive/link mapping, acceptance preservation and reviewed consolidation rules. Brief cleanup runs after MIGRATE-004 and before MIGRATE-005; no deletion is authorized merely by adding the planning item.
+
+### Authorized execution boundary
+
+Owner authorization supersedes the issue snapshot’s instruction to remain Planned/
+unassigned; it does not waive registration, fresh sessions, review or protected merges.
+Dependency readiness never grants owner authorization. Until cutover, preserve GitHub
+planning items during mirror synchronization. No product or WORKFLOW-006/007 execution.

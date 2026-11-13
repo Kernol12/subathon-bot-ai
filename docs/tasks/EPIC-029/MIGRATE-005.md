@@ -35,3 +35,10 @@ This is an operational audit, not new product behavior. Use a one-time reconcili
 
 ### Required brief-cleanup prerequisite
 Complete [MIGRATE-006](https://github.com/Kernol12/subathon-bot-ai/issues/631) after cutover before this audit. Verify compact active briefs, retained shared requirements, the durable archive of completed briefs, obsolete-file removal and all replacement/pinned GitHub/documentation/evidence links. Native prerequisites now place MIGRATE-006 immediately before this task.
+
+### Authorized execution boundary
+
+Owner authorization supersedes the issue snapshot’s instruction to remain Planned/
+unassigned; it does not waive registration, fresh sessions, review or protected merges.
+Dependency readiness never grants owner authorization. Until cutover, preserve GitHub
+planning items during mirror synchronization. No product or WORKFLOW-006/007 execution.

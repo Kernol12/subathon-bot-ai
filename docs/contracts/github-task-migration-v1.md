@@ -2,7 +2,8 @@
 
 Authored contract for EPIC-029 / MIGRATE-001, specification v0.45 §§17–18.
 Author: `codex:migrate001-author-20261113:/root` (Codex gpt-6.1-sol).
-Independent review pending. This document grants no approval or cutover.
+Initial review requested changes; corrections await independent verification/closing.
+Correction author: `codex:coordinator-59095155`. This document grants no approval or cutover.
 Issue-derived [briefs](../tasks/EPIC-029.md) preserve every issue acceptance criterion.
 The [consumer inventory](github-task-migration-inventory-v1.md) is part of this packet.
 
@@ -37,19 +38,22 @@ seven integrations, three rate providers and unverified platform/live gates surv
 
 MIGRATE-002 implements version 1 JSON records at `progress/proofs/TASK-ID.json` and
 one small `progress/proof-policy.json`. These are proposed successor paths, not active
-inputs yet. A record has only `version`, `task_id`, `issue`, `kind`, `brief`, `workflow`,
-`evidence`, `limitations`, and optional `publication`. `issue` contains `repository`
+inputs yet. A record has only `version`, `task_id`, `issue`, `kind`, `brief`,
+`evidence`, `limitations`, optional `workflow`/`publication`, and the closed historical
+fields in §9. `issue` contains `repository`
 and `number`; URL is derived. `kind` freezes gate eligibility, not board work status.
 `brief` is the active versioned acceptance path or pinned archive URL. `evidence` is
 existing relevant proof references; `limitations` retains existing evidence caveats.
-No title/status/owner/priority/epic/dependency/activity projection belongs here.
+Optional historical fields are specified in §9. No title/status/owner/priority/epic/
+dependency/activity projection belongs here.
 No new artifact-manifest/digest or results-only grammar is introduced by migration.
 
 Policy fields: `version: 1`, `legacy_done`, `legacy_done_sha256` with the exact frozen
-list/fingerprint from workflow records v1; `required_records` is a sorted unique list
+list/fingerprint from workflow records v1; `archive_commit` pins the full pre-cutover
+archive including the reconciled ID/issue/kind appendix (§9); `required_records` is a sorted unique list
 of stable IDs needing proof, not a task ledger. A claimed non-epic must be enrolled
-before authoring. Every non-epic with an existing workflow or publication record at
-cutover is enrolled, including planned tasks with supplied evidence. Every forward
+before authoring. Enrollment is the exact predicate in §9, including planned tasks with supplied
+evidence; it is not limited to tasks with structured workflow/publication. Every forward
 claimed task outside the frozen exemption list is enrolled. Exempt tasks with supplied
 records retain and validate those records; exemption is never a reason to discard proof.
 Unstarted planning issues need no fake authors/revisions. Epics need no artificial
@@ -92,13 +96,16 @@ Authors cannot approve their own corrections. Final closing and preceding approv
 verification must bind the current stage revision. Preserve earlier valid approvals
 only where unchanged; preserve old rejections as history, not current approvals.
 
-A stage retains `authors`, full lowercase 40-hex `revision`, unique project-relative
-regular-file `paths`, and ordered `reviews` with existing fields. Resolve the actual
+A stage retains `authors`, full lowercase 40-hex `revision`, unique lexically safe
+project-relative `paths`, and ordered `reviews` with existing fields. All-record
+validation is tree-free: historical paths need not exist in the candidate tree.
+Current selected-stage publication binding separately requires regular Git files. Resolve the actual
 Git commit and compare each selected file's Git mode/blob at recorded revision and
 candidate head, using literal paths; missing, nonregular, escaped or stale bindings
 refuse publication. Unchanged reviewed files may pass across unrelated commits.
 Receipt-only bookkeeping is excluded from its own packet, including the new proof
-record/policy metadata when used solely to record that packet. Schema/loader/policy
+record receipt metadata. The mechanical immutable-eligibility guard in §9 applies
+regardless of intent; policy changes are not blanket bookkeeping. Schema/loader/policy
 behavior edits themselves require separately bound substantive source review; exclusion
 cannot hide requirement changes. No self-referential digest or synthetic future commit.
 
@@ -165,9 +172,11 @@ protected PR(s). Successor readiness alone never expands a worker assignment.
    offline checkout checks, live board configuration/closure inspection and reviewed
    corrections until no unexplained drift. Only then final lifecycle closure.
 
-The one-time reconciliation receipt is a versioned bounded report under
-`docs/migrations/EPIC-029/`, not a permanent tracker or fixture suite. Its archive-backed
-appendix maps each source task/issue identity, title/history, parent and prerequisites,
+The one-time reconciliation summary lives under `docs/migrations/EPIC-029/`; it
+contains pins/digests, totals and discrepancy resolutions, never a per-task ledger.
+The full frozen appendix is published only at the remotely available immutable report/
+archive revision, linked by full commit URL from the summary. That appendix maps each
+source task/issue identity, title/history, parent and prerequisites,
 brief destination, proof destination/eligibility, evidence limitations and disposition.
 Record source/remote snapshot pins, observation times, converter revision, canonical
 input/output digests, all discrepancies/resolutions and field-preservation comparisons
@@ -205,9 +214,12 @@ availability as blockers. MIGRATE-005 verifies archive reachability and this pro
 
 No assertion removal occurs in 001–003. 004 may retire only ledger-specific validation,
 serialization/render/controller/UI fixtures and checks whose entire contract is the
-retired JSON task model/HTML snapshot: affected portions of test_progress.py,
-test_compact_context.py, check_progress_ui.mjs, progress schema fixtures and render-only
-project/scaffold expectations. Before removal, a separate approved cleanup review must
+retired JSON task model/HTML snapshot: affected ledger-only portions of test_progress.py, check_progress_ui.mjs,
+progress schema fixtures and render-only
+project/scaffold expectations. Preserve/adapt test_compact_context.py stage-packet,
+next-gate, review-reference, blocker-history, metrics, serialization and explicit-omission
+assertions to the proof context CLI in §9; only its obsolete ledger projections qualify.
+Before removal, a separate approved cleanup review must
 name exact methods/assertions at pinned revisions and map each to retirement or a
 retained proof/schema/relationship check. This category list is not deletion approval.
 If a method mixes old UI with meaningful workflow/publication/repository assertions,
@@ -268,3 +280,172 @@ final applicable audit PR merge and remote readback precede epic closure. A PR c
 commit its future merge: record it operationally/next authorized change, with no endless
 status-only completion PR. Current-head CI/protection and resolved discussion remain
 mandatory. No reviews, checks or audit results are claimed by this authored packet.
+
+## 9. Review resolutions: exact retained behavior and field disposition
+
+This section completes §§1–8; these are requirements for 002–006, not implemented
+capabilities. No new results-only policy or artifact digest is authorized.
+
+### All-record validation versus publication and closure
+
+`python3 tools/proofs.py validate` loads policy and every enrolled proof, applying
+schema/grammar, lexical path safety, frozen exemptions and required-stage minima.
+It does not inspect Git objects or require historical files in today's filesystem.
+Canonical relative path strings reject absolute, empty, dot/parent, backslash, colon
+and NUL components; current selected publication additionally uses the existing
+containment and literal regular-Git-file checks. Historical brief references may be
+immutable HTTPS archive URLs. No fake relocated revision or rewritten stage path.
+
+Ordinary shallow CI runs this tree-free validation and the actual proof/policy schema
+suite plus repository checks. It cannot authenticate archived blobs, review identities,
+unrecorded board claims or actual PR completion. It never fetches history or reads
+Projects. Local publication requires available full recorded commits; unavailable
+history is a clear setup failure, never an approval or exemption. Cutover/final audit
+verify historical recorded revisions/paths against full archive history, not current
+working-tree existence. Missing historical objects block that audit.
+
+`tools/check_publication.py --complete` is the explicit final-completion gate prepared
+in 003 and activated in 004. In addition to normal publication checks it requires a
+non-exempt task's workflow, every required stage's current approved verification and
+closing under workflow.py, and blob/mode currency for **all** required stages against
+candidate HEAD. Selected `--stage` arguments must cover all required stages (no subset
+can bypass completion); unstarted/incomplete stages fail. Normal mode still permits
+incomplete authored packets and reports completeness honestly. `--complete` produces
+no merge authorization and performs no live lookup. Unchanged source across unrelated
+commits passes; a missing current selected file fails. Historical completed records
+with retired paths remain valid tree-free and are not republished as current packets.
+For an exempt task, the frozen exemption is explicit and reported; supplied records
+are still validated. New forward work on an exempt identity requires a separately
+reviewed policy amendment, not automatic reuse of its historical exemption.
+
+Coordinator runs final-completion publication before proposing the final PR and again
+on its latest candidate head, retains the factual receipt in that PR, verifies actual
+current-head CI/reviews/resolved threads and protected merge, then reads back the
+merged PR/head/time and closes the issue/sets board completion. Audit-only tasks use
+their required implementation/audit stage without manufactured tests/red. Intermediate
+PRs cannot close unfinished work. Optional `publication` preserves/imports observed
+PR facts only; it is never required to predict its own merge and an old/intermediate
+merged observation never satisfies current task closure. No permanent publication
+sync command. `dependency_complete` and local task-availability calculation retire;
+GitHub native prerequisites own readiness, with coordinator verification of actual
+prerequisite completion receipts/merges and owner authorization before dispatch.
+
+`python3 tools/proofs.py context TASK-ID [--stage NAME] [--compact]` replaces only
+WORKFLOW-005's bounded evidence handoff. It validates all records before selecting;
+unknown task/stage fails read-only. Full output contains task_id/issue/kind/brief,
+required stages, workflow/evidence/limitations and optional historical proof fields.
+Selected-stage context reuses workflow.stage_context. Compact output omits complete
+workflow/other stages/supplemental history; retains packet authors/revision/paths,
+ordered review_refs, historical blocker IDs, next gate and observed count/timing
+metrics with the existing explicit compact omissions warning. Preserve deterministic
+JSON serialization and no mutation. Neither form projects board status/assignment/
+prerequisites/availability. Retrieve those from the issue separately. Unenrolled
+planning tasks resolve through GitHub and their versioned brief; context refuses
+rather than inventing an empty proof. Reuse/adapt existing substantive compact tests.
+
+### Complete field ownership and exact enrollment
+
+| Existing field | Post-cutover authority/disposition |
+| --- | --- |
+| id, title, owner, status | GitHub identity, readable title, assignment and status; proof references ID/issue only |
+| module | GitHub Area field; original value in immutable conversion archive |
+| kind | Frozen proof eligibility for enrolled work; original archived state for pre-cutover unenrolled IDs; new-task rule below |
+| depends_on | Native containment/prerequisites by rule below; no proof copy |
+| spec_refs, brief | Versioned acceptance brief/specification; proof holds brief reference; archive retains original arrays |
+| summary | Readable GitHub issue description; meaningful technical constraints also retained in brief |
+| notes | Issue activity/completion receipt plus immutable archive; no notes field in proof. Existing ≤500-character completion-summary rule applies to the concise issue/PR completion note after cutover, not all issue history |
+| verification | Preserve exact existing per-task map as optional historical `verification` proof field, including failed/not_run values. No synthetic upgrades; forward observations go in workflow evidence/PR receipts, not a board-state projection |
+| evidence | Versioned proof references; original set and limitations preserved in archive |
+| review | Preserve exact legacy author/reviewer/outcome receipt as optional `review` proof field; never convert it into a full structured approval |
+| workflow | Current canonical proof workflow with unchanged ordered review grammar |
+| supplemental_workflow_evidence | Optional exact historical field of the same name, retaining APITEST-016's complete supplemental object and all rejected review history. Closed schema admits its actual frozen structure; supplemental approvals never substitute for canonical required stages |
+| publication | Optional observed PR record; GitHub owns actual lifecycle; no status authority in proof |
+| workflow_policy | Frozen exemption list/checksum and explicit enrollment in proof-policy |
+| top-level summary, verification | Preserve honest current project capability/limitations in versioned docs/STATUS.md at cutover, with source revision; full original arrays archived, no calculated readiness percentage |
+| project, baseline_version | Existing README/baseline manifest/ADR provenance; original values archived |
+| specification_version | docs/specification.md remains authority; record current version in docs/STATUS.md, enforce consistency in repository checks |
+| schema_version | Retired tracker format archived; successor policy/proof each has version1 validated by shipped schemas |
+| updated_at | Original archive snapshot timestamp; no new global tracker clock. Actual new observations retain their own timestamps |
+| activity | Immutable archive preserves original ordered activity; GitHub issue/PR activity thereafter |
+
+At cutover enroll every non-epic with any workflow/publication/review/supplemental
+record, nonempty evidence, or any verification value other than not_run/draft; also
+every claimed non-epic outside the exemption list. Existing planned evidence and blocked
+passed checks thus cannot disappear. Set of immediate record filenames/IDs must equal
+required_records exactly. It may intersect legacy_done. Optional workflow is absent
+for publication-only/exempt historical records; absence is not a current closure claim.
+For non-exempt claimed work it must exist and name kind minima, though stages may be
+unstarted until authoring. For pre-cutover records containing only historical evidence,
+no workflow is fabricated; final completion refuses until required proof is authored.
+Epics retain their full legacy evidence in the archive, and their GitHub closure links
+the independently reviewed final child/audit; no artificial implementation packet.
+
+### Mechanical eligibility guard and relationships
+
+At local publication compare base and candidate policy and proof identity fields.
+Freeze policy archive commit, exemption list/fingerprint and existing task_id/issue/kind.
+Refuse enrollment shrink, record deletion, identity/kind change or exemption/archive-pin
+change outright in normal and --complete modes; no skip flag or intent-based exception.
+A genuine correction needs a separately reviewed contract amendment and explicit narrow
+validator change, never silently weakened minimums. Policy enrollment additions must
+be in a selected stage's paths and blob-bound at its recorded revision; policy has no
+review receipts so this causes no self-reference. Receipt-only proof edits are not
+blanket permission to change eligibility. Existing required_stages may expand but may
+not shrink in ordinary publication. Canonical review history must retain the base's
+ordered receipts as a prefix; changes to historical verification/review/supplemental
+fields also refuse absent a separately reviewed correction. Forward fixes append new
+reviews and update canonical stage revision/authors/paths honestly.
+
+The policy pins the remotely verified pre-cutover archive commit. For each newly
+enrolled pre-cutover ID, publication reads its archived kind/identity mapping from
+that available full-history archive and refuses mismatches or unavailable source.
+Ordinary CI only validates recorded schema/grammar, as stated above. For a genuinely
+new post-cutover ID, create a per-ID versioned acceptance brief with an explicit
+`Task ID`, `Work type` (canonical kind) and `Issue` stanza before enrollment; publication
+checks these against the record and requires that brief in the selected reviewed
+packet. Shared briefs for old tasks need no ambiguous retroactive kind inference.
+New identity/kind thereafter is immutable under the same guard. No second kind ledger.
+
+Derive old containment from each epic's depends_on intersection with tasks whose
+brief is inside that epic's `docs/tasks/EPIC-NNN/` directory. All remaining depends_on
+edges become directed blocked-by, including epic external prerequisites and non-epic
+prerequisites on epics. Never emit a containment edge again as blocked-by. Classify
+no-parent tasks explicitly; multiple/ambiguous parents are reconciliation blockers.
+Reconcile live native links against this deterministic baseline; preserve justified
+board-only relationships with explicit reviewed discrepancy resolutions, never infer
+all epic dependencies to be children. Do not overwrite live planning items by mirror.
+
+WORKFLOW-006's authoritative ordering now includes MIGRATE-005 in state as well as
+WORKFLOW-005, matching live native #619 blockers. Its readable-title drift (#619 title
+“Bind approvals to artifacts and record execution results only” versus existing state
+name) is an explicit cutover reconciliation input; retain both original names. This
+changes no policy or implementation and does not resume work.
+
+### Coordinator go/no-go and rollback checklist
+
+Coordinator owns every go/no-go decision; failed item stops cutover, not the gates.
+
+1. Verify all predecessor PRs/gates actually merged; stop dispatch and capture current
+   state/GitHub inventories. Archive pattern: `task-tracker-archive-YYYYMMDD-<shortsha>`;
+   record exact tag object/full commit, not a guessed future SHA.
+2. Reconcile task/issue/kind/name sets and containment/prerequisite edge sets, proof
+   eligibility/history and every brief consumer. Resolve all discrepancies or abort.
+3. Publish archive and full appendix at immutable remotely available revisions;
+   independently fetch/read required historical paths and prove availability or abort.
+4. Validate one canonical extraction against the frozen input and prepare atomic
+   cutover changes including all consumers/stops. No two editable production proofs.
+5. Run current local checks and full required independent reviews; compare latest
+   remote inventories for drift. Any unexplained drift returns to reconciliation.
+6. Run final latest-head publication, verify current CI/rules/resolved threads and
+   merge normally. Only that observed merge switches authority; read back GitHub facts.
+7. Execute006 cleanup with immutable prior brief bytes/links before removal; then005
+   fresh-checkout offline checks and independent readback audit before final closure.
+
+Before cutover, merged002/003 support remains inert with state authoritative; rollback
+may leave inert code or revert it through a reviewed protected PR, never enable both.
+After cutover, GitHub stays authoritative while dispatch is paused and all intervening
+facts are captured. A protected reviewed rollback restores archived tracker consumers
+and, if006 has merged, full removed briefs plus repaired links from the archive,
+reconciles intervening task/proof/PR changes and preserves full receipts. Switch back
+only at that rollback merge; resume no product work automatically. Unavailable archive,
+unexplained intervening facts or failing review/CI blocks rollback just as cutover.
