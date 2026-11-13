@@ -26,24 +26,17 @@ WORKFLOW005/CI003/CI002 completion facts and historical failures retained. Origi
 Private receipts: local-evidence/EPIC-029; prior receipts remain under WORKFLOW-005.
 No live/provider/platform/product proof added.
 
-Next: fresh independent Claude closing on source b506434. Codex recheck approved
-both closing fixes and all prior resolutions; report:
-https://github.com/Kernol12/subathon-bot-ai/issues/626#issuecomment-6858607704
-No new blockers; 136 tooling and 3 scaffold checks passed. Rejected closing report preserved at
-https://github.com/Kernol12/subathon-bot-ai/issues/626#issuecomment-6858503933
-Two blockers fixed: shared policy enrollment no longer stales task bindings, and
-limitations copy original notes verbatim. CI guard limits/receipt duty explicit.
-Codex verification approved all 13 resolutions at
-https://github.com/Kernol12/subathon-bot-ai/issues/626#issuecomment-6858364588
-No new blockers; existing 136 tooling and 3 scaffold checks passed independently. Initial Claude changes-requested report retained at
-https://github.com/Kernol12/subathon-bot-ai/issues/626#issuecomment-6858242387
-Initial reviewer independently verified PR126 material completion claims including
-head-specific current CI/merge facts and evidence URLs. hosted_ci now describes
-afc46d6 only; prior failed-head observations remain unchanged, not retroactively passed.
-WORKFLOW-006 now depends on MIGRATE-005 in authoritative state to match live native
-blocking; title drift on issue 619 is an explicit cutover reconciliation input.
-Correction author codex:coordinator-59095155; original author session finished.
-No active writer; pending independent review. No production or successor work.
-
-Prior Codex report finalized 2026-11-13T16:09:06Z. Its actual start was not
-observed, so no paired duration is invented in the structured receipt.
+Next: latest-head publication preflight, focused PR, current CI/rules/resolved-thread
+verification and normal protected merge for MIGRATE-001. No successor implementation
+before that observed merge. Full contract cycle approved source b506434, 10 paths.
+Closing approval: https://github.com/Kernol12/subathon-bot-ai/issues/626#issuecomment-6858730959
+Prior Codex approval: https://github.com/Kernol12/subathon-bot-ai/issues/626#issuecomment-6858607704
+Initial/rejected closing reports and actual identities/revisions remain in state.
+No active worker. Shared state/HTML/checkpoint/publication owned by coordinator.
+Codex recheck finalized 2026-11-13T16:19:30Z; actual start unknown, no invented duration.
+Follow-up test-contract detail for 002/003: specify base-absent policy semantics at
+004 bootstrap explicitly, verify frozen fingerprint/archive pin and every extracted
+identity, without a silent bypass. All original gates remain; this is proposed behavior.
+WORKFLOW-006 depends on MIGRATE-005 and WORKFLOW-005; title drift on issue 619 must be
+reconciled at cutover. Its implementation/results policy and WORKFLOW-007 remain stopped.
+WF005 hosted_ci describes afc46d6 only; historical failed-head entries remain unchanged.
