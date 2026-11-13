@@ -41,3 +41,15 @@ Independent Codex verification approved contractb211847, all6blockers7notes reso
 https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6862297215
 Next fresh Claude closing before test authorship. Docs/project/progress/render checks
 passed; no tests/runtime/red/CI/archive capability newly verified. No active writer.
+
+Closing Claude requested2 blockers6notes, retained:
+https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6862477711
+Source7f0b876 fixes packet identity and truthful open-publication transitions; clarifies
+same forward rules for archive comparison, frozen source/re-archive, byte-bound brief
+relocation and conservative complete new-ID brief admission in both modes. Header now
+credits correction author and labels original inspection base. Next independent Codex
+verification then fresh Claude closing. No runtime/tests/red claim or active writer.
+Codex report's locally declared label codex:migrate003-contract-verification-20261113:/root
+and receipt's unique T3 dispatch9d972c3a refer to the same independent invocation; the
+receipt uses actual dispatch identity to distinguish sessions. No identity authentication
+is claimed and the original report/receipt is preserved, not relabelled retroactively.
