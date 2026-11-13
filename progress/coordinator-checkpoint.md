@@ -13,13 +13,18 @@ Test author `fed07cc` integrated byte-identically at `57ee2bc`; root corrected t
 blockers and three advisories at `221a749`. Independent Codex approved, then fresh
 Claude closing review approved with no blockers (session `4787cfc5`). Receipt:
 https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846728971
-All 19 tests remain unimported, undiscovered, unrun and unpublished.
+All 19 tests remain unpublished. Only the two selected red methods have now run;
+the other 17 methods remain unrun.
 
-Next run ONLY the two named missing-runner/refusal-record red methods. Require
-exact intended assertion messages, two FAILs total, zero ERRORs/skips; fixture,
-barrier, import or decoding failures are not red. Save private raw evidence and a
-safe public receipt. Then fresh isolated Codex implementation owns only
+Observed red at `cbc54d8`: exactly two intended missing-runner/refusal-record
+assertion FAILs, zero ERRORs/skips. Prerequisites passed; raw logs are private in
+`local-evidence/CI-002/red-baseline`. Public actual receipt:
+https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846752039
+Next fresh isolated Codex implementation `ci002-implementation-v1` owns ONLY
 `tools/prepare_ubuntu_apt.py`; root owns metadata, integration, settings and publication.
+The fresh worker must not replay red, edit frozen tests or publish. Full independent
+code/settings cycle, current-head hosted success, actual administration/readback and
+protected merge remain pending.
 Tests frozen at `221a749`; contract/brief frozen at `67c5506`.
 
 TC-A1 accepted test limit: four legacy Python socket lookup APIs are not blocked.
