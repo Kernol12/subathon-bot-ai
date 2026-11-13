@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T20:11:03.078585+00:00",
+  "updated_at": "2026-11-13T20:21:36.696634+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20145,23 +20145,28 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-003.md",
       "summary": "Prepare publication checks and CI for evidence records. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Contract/tests approved; source5c89947. Actual NI baseline at9be92e2: new tooling27 methods (25 failures/55 errors), SDK3 (7 failures), no skips; all87 sections namedNI after reached setup/probe success. Existing154 tooling/schema1+8/SDK3 passed. Fresh implementation claimed; independent code review pending. State authoritative; product/WF006/007 stopped."
+        "Implementation authored at a8f8358, four paths; tests/contracts unchanged. Author reports 181 tooling, four schema nodes, three scaffold nodes pass; earlier mock incompatibility failure retained and repaired in runtime. Independent code review, hosted CI and publication pending. Archive raw-state exceeds1MiB; lossless compact representation fits currently, actual004 archive verification owed. State authoritative; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
         "contract_review": "passed",
         "test_review": "passed",
         "baseline": "observed_red",
-        "implementation": "not_run",
+        "implementation": "passed",
         "acceptance": "not_run",
         "contract_verification": "passed",
         "tests_authored": "passed",
         "sdk_setup": "passed",
-        "existing_baseline": "passed"
+        "existing_baseline": "passed",
+        "implementation_review": "not_run",
+        "local_tooling": "passed",
+        "local_schemas": "passed",
+        "scaffold": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/issues/628",
-        "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6863680260"
+        "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6863680260",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6863906280"
       ],
       "review": null,
       "workflow": {
@@ -20383,6 +20388,20 @@
                 "finished_at": "2026-11-13T20:05:29Z"
               }
             ]
+          },
+          "implementation": {
+            "authors": [
+              "codex:migrate003-implementation-20261113:/root",
+              "codex:migrate003-test-author-20261113:/root"
+            ],
+            "revision": "a8f83587b7cebb1839f0e9914ee391cfe3975783",
+            "paths": [
+              "tools/check_publication.py",
+              "tools/check_project.py",
+              "tools/proofs.py",
+              "tests/schema_validation/CMakeLists.txt"
+            ],
+            "reviews": []
           }
         }
       }
