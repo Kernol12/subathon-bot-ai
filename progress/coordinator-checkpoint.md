@@ -1,31 +1,26 @@
-# Coordinator checkpoint — resumed by explicit owner continue
+# Coordinator checkpoint
 
 Authorized WORKFLOW004-007/CI002 through fullreview/protectedpublication, thenSTOP.
-Product/API001/API016 remain stopped. Owner continue revoked the token-budget pause.
-Current root task/CI-002-setup-diagnostics from main3c74966; claim48a0896/pausebea53e3.
-No active child; cancelled ci002-contract-author-v1 remains interrupted. Its two-doc
-uncommitted draft is preserved in its worktree and private snapshot/manifest under
-local-evidence/CI-002/paused-contract-draft. Root resumed authorship from exact saved
-bytes, correcting image-version recognition and independent literal byte counts.
-Own ONLY docs/contracts/ci-setup-gates-v1.md and docs/tasks/CI-002.md at this stage;
-no producer/test/NI/admin changes. Coordinator owns shared metadata/publication.
-Contract packet77a2177 (two docs) authored/bound. Next fresh Claude initial contract
-review ci002-initial-contract-review-v1, Codex fixes/separate review,
-fresh Claude closing before tests. Detailed archived continuation local-evidence/CONTINUE.md.
+Product/API001/API016 stopped. Owner continue revoked priorpause. Current root
+branch task/CI-002-setup-diagnostics from main3c74966 (remote rechecked unchanged).
+CI002PR622 OPEN DRAFT, currently published67c5506 contract/docs ONLY:
+https://github.com/Kernol12/subathon-bot-ai/pull/622
+No tests/NI/helper/workflow/admin changes. All8legacyAPT methods/assertions preserved.
 
-PR126 remains parked/unwatched: remote42462d1; local005branch05e204d retains blocked
-CI receipt. All005contract447aa06/tests77b1522/code3720c42 reviews/source intact.
-Milestone APT-layout guard failed BEFORE writes/build; offending field UNKNOWN.
-https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6840078428
-ImageUbuntu24.04.5/20261111.127.1/AWS does not prove source variant. No blindretry or
-trust relaxation. Main005record stillplanned due to unmerged featurebranch; preserve
-its separate claim/reviews on later integration. PR121parked; PR125merged/unwatched.
+Contract initial Claude CHANGES_REQUESTED5B/6A on77a2177; fullreport6845188651 and
+root dispositions6845189511 onPR622. Corrected2path source67c5506209df3f38d80083fdf492d7f235c176ea:
+NO processretry/capture in v1; retain updateoutput/singlecall/nativeAcquireRetries1.
+Fixed malformed oracle, fixed diagnostic-only knownfields/publicURIlabels (still
+refused), emission/decode failure mapping, removecloud, set-based checkreadback,
+splitlines/historycount clarification. No runtime/transient recovery claim.
+Next native independent Codex ci002_contract_verification, freshClaudeclosing before
+newtests. Later settings payload fullreview/livecurrentgreen/readback mandatory.
+Reports/rawfacts private local-evidence/CI-002. Originalinterruptedauthor draft saved;
+rootcoauthor corrections recorded, no completedchildhandback invented.
 
-CI002: preserve ALL8legacyAPT methods/assertions, directAzure refusal, invalidsource
-no commands/writes, mirror/configbytes incl Acquire::Retries1, pins/trust/coverage.
-Bounded source reasons/imageidentity; only allowlistedtransient processretry once;
-unknown/mixed/layout/integrity/build/test/timeout neverretry. No caching/selectiveCI.
-21observed contexts:20Actions app15368 plus GitGuardian46505; ruleset26170263 no
-requiredchecks yet. No settings change before fullreview/currentheadsuccess/fresh
-complete before/after inspections. Historical record policy unchanged until006.
-AfterCI002 lands integrate main once into005, resume publication, then006/007, STOP.
+PR126 stillparked/unwatched (recheckedOPEN DRAFT/remote42462d1), local005branch05e204d
+blockedreceipt/source+allreviews447aa06/77b1522/3720c42 intact. UnknownAPTlayoutfailed
+beforewrites/build; no guess/retry/guard relaxation. Main005recordplanned because
+branchunmerged; preserveclaim/reviews onlaterintegration. PR121parked;125merged.
+AfterCI002lands integrate currentmainonce into005, resume publication, then006/007.
+Historical120taskpolicy unchanged;006recordpolicyinactive. No new GitHubframework.

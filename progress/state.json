@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T05:23:24Z",
+  "updated_at": "2026-11-13T05:41:02Z",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18675,19 +18675,23 @@
       "brief": "docs/tasks/CI-002.md",
       "summary": "Diagnose refused runner layouts, bound attributable infrastructure retries and enforce existing required-check merge policy.",
       "notes": [
-        "Resumed by owner; two-path CI002 contract authored at77a2177 from preserved draft plus coordinator corrections. Independent initial contract review next. No tests/implementation/settings changed; PR126 remains parked/unwatched and005approvals preserved. Product stopped."
+        "Initial contract review requested5blockers/6advisories; corrected67c5506 removes speculative processretry/capture and adds fixed refusal labels/error mapping. Separate Codex verification/fresh Claude closing pending. No tests/implementation/admin changes; PR622draft, PR126parked; product stopped."
       ],
       "verification": {
-        "contract_review": "not_run",
+        "contract_review": "blocked",
         "test_review": "not_run",
         "baseline": "not_run",
         "implementation": "not_run",
         "acceptance": "not_run",
         "claim": "passed",
-        "contract_authored": "passed"
+        "contract_authored": "passed",
+        "contract_correction_authored": "passed"
       },
       "evidence": [
-        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6840078428"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6840078428",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/622",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6845188651",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6845189511"
       ],
       "review": null,
       "workflow": {
@@ -18702,12 +18706,44 @@
               "codex:thread:delegated-task:command%3Amcp%3A2344958a-02df-49a8-bd3e-16c17ddd9453%3Adelegate-task%3Aci002-contract-author-v1",
               "codex:coordinator-97333d35"
             ],
-            "revision": "77a2177c2bf2ecd37ef01cb58ab33926a7472869",
+            "revision": "67c5506209df3f38d80083fdf492d7f235c176ea",
             "paths": [
               "docs/contracts/ci-setup-gates-v1.md",
               "docs/tasks/CI-002.md"
             ],
-            "reviews": []
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci002-initial-contract-review-v1",
+                "revision": "77a2177c2bf2ecd37ef01cb58ab33926a7472869",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6845188651",
+                "findings": [
+                  "CI002-I-B1",
+                  "CI002-I-B2",
+                  "CI002-I-B3",
+                  "CI002-I-B4",
+                  "CI002-I-B5",
+                  "CI002-I-A1",
+                  "CI002-I-A2",
+                  "CI002-I-A3",
+                  "CI002-I-A4",
+                  "CI002-I-A5",
+                  "CI002-I-A6"
+                ],
+                "blocking_findings": [
+                  "CI002-I-B1",
+                  "CI002-I-B2",
+                  "CI002-I-B3",
+                  "CI002-I-B4",
+                  "CI002-I-B5"
+                ],
+                "started_at": "2026-11-13T05:24:58.518Z",
+                "finished_at": "2026-11-13T05:30:46.234Z"
+              }
+            ]
           }
         }
       }
