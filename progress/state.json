@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T11:14:12Z",
+  "updated_at": "2026-11-13T11:25:59Z",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18988,7 +18988,7 @@
       "brief": "docs/tasks/CI-003.md",
       "summary": "Admit only a fully checked Noble archive/security source profile while retaining all existing refusal assertions.",
       "notes": [
-        "Contract e41a830 full cycle closed. Fresh isolated author added20 test methods at087f465; integrated byte-identically, syntax/static/diff checks only. Tests AUTHORED UNRUN UNIMPORTED UNPUBLISHED; initial Claude test review next, then Codex/closing before single named red. Preserve27 old methods. Finish prerequisite and PR126, then pause."
+        "Contract e41a830 closed. Test initial Claude1B/4A corrected at8a3b9f6: raw URI/Types prefixes, token separator runs, clear labels/actual record-length assertion; literal allowlist source audit owed at code review.21 methods remain AUTHORED UNRUN; selected red unchanged. Separate Codex verification then fresh Claude closing before red. Finish prerequisite/PR126 then pause."
       ],
       "verification": {
         "claim": "passed",
@@ -19000,7 +19000,9 @@
         "contract_authored": "passed",
         "contract_correction_authored": "passed",
         "contract_correction_review": "passed",
-        "test_authored": "passed"
+        "test_authored": "passed",
+        "test_correction_authored": "passed",
+        "test_correction_review": "partial"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6849584005",
@@ -19010,7 +19012,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850649333",
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850777867",
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850904348",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851174086"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851174086",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851435561"
       ],
       "review": null,
       "workflow": {
@@ -19113,13 +19116,36 @@
           },
           "tests": {
             "authors": [
-              "codex:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci003-test-author-v1"
+              "codex:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci003-test-author-v1",
+              "codex:coordinator-97333d35"
             ],
-            "revision": "087f4657570e71b7a5190f793712a25c91493390",
+            "revision": "8a3b9f65f3fbd0e9d1dbaec3f033a66a23b8fe40",
             "paths": [
               "tests/tooling/test_apt_security_profile.py"
             ],
-            "reviews": []
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci003-initial-test-review-v1",
+                "revision": "087f4657570e71b7a5190f793712a25c91493390",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851435561",
+                "findings": [
+                  "CI003-TI-B1",
+                  "CI003-TI-A1",
+                  "CI003-TI-A2",
+                  "CI003-TI-A3",
+                  "CI003-TI-A4"
+                ],
+                "blocking_findings": [
+                  "CI003-TI-B1"
+                ],
+                "started_at": "2026-11-13T11:15:07.647Z",
+                "finished_at": "2026-11-13T11:21:47.638Z"
+              }
+            ]
           }
         }
       }

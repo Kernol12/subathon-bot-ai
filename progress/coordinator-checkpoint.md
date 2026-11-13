@@ -16,22 +16,28 @@ Private reports/dispositions: local-evidence/CI-003/contract-reviews. Primary so
 local-evidence/CI-003/sources, pinned Canonical30b3ea2 and Noble manual observations.
 No full failed-host source or recovery is claimed; hidden values remain unknown.
 
-Tests AUTHORED at087f4657570e71b7a5190f793712a25c91493390, parentf8bd796,
-by fresh isolated Codex ci003-test-author-v1; integrated byte-for-byte with fast-
-forward. Only tests/tooling/test_apt_security_profile.py added,20 methods viaAST.
-Producer/both old test files remain frozen. Syntax/static/diff checks passed; NO
-candidate test/fixture/producer import, discovery, red or implementation execution.
-Handback/oracles/every-method static PASS or behavioral FAIL inventory:
-local-evidence/CI-003/test-author-v1/handback.txt. Public receipt:
-https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851174086
-NEXT initial independent Claude test review via client ci003-initial-test-review-v1;
-then Codex fixes/separate verification and fresh Claude closing. Tests stay authored
-UNRUN UNIMPORTED UNPUBLISHED until that cycle closes. Contract specifies EXACT one-
-method intended red afterward: one assertion FAIL/fixed marker, zero ERRORs/skips.
-No NI stub is authorized. Then fresh isolated implementer owns only the producer.
-Coordinator owns docs,
-state/HTML/checkpoint and publication. docs/CI.md must be updated for the conditional
-profile/event/direct-security outage before code review. Full code cycle follows.
+Test author source087f465 integrated byte-for-byte. Initial independent Claude test
+review CHANGES_REQUESTED1B/4A; root corrected only the new test file at current packet
+8a3b9f65f3fbd0e9d1dbaec3f033a66a23b8fe40.21methods remain AUTHORED UNRUN
+UNIMPORTED UNPUBLISHED. B1 raw prefixes on both URI/Types lines, A1 token separator
+runs, A3 unique layout labels, A4 checks actual emitted record length after list
+equality; A2 mandatory future CODE SOURCE AUDIT: separate literal security allowlist,
+never derived from diagnostic labels even at import time (runtime patch blind spot).
+All20 original methods retained; selected red method AST unchanged, marker once;
+all27 old methods/producer blobs frozen. Syntax/static/diff checks only, no tests.
+Initial review/dispositions:
+https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851435561
+Private initial report/corrections/static21-method outcomes:
+local-evidence/CI-003/test-reviews/{initial-v1,corrections-v1}.md; original author
+handback: local-evidence/CI-003/test-author-v1/handback.txt. Predictions11PASS/
+10behavioralFAIL/0ERROR are static, never observed results.
+NEXT separate native Codex correction verification, then fresh Claude closing via
+client ci003-closing-test-review-v1. No candidate tests/fixtures/producer may run
+before closing; contract permits EXACT one named red afterward (1assertFAIL/fixed
+marker,0ERROR/skips), then fresh isolated implementer owns only the producer.
+No NI stub. Coordinator owns docs/state/HTML/checkpoint/publication. docs/CI.md must
+explain conditional profile/event/direct-security outage BEFORE full code review;
+carry TI-A2 literal-allowlist source audit into implementation and review packets.
 
 Freeze all bytes/assertions in test_prepare_ubuntu_apt.py and test_apt_diagnostics.py
 (8+19 methods) and current producer until implementation. No source rewrite/additional
