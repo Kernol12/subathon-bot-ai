@@ -54,3 +54,9 @@ now canonical in both modes (tightening, not weakening); lone surrogate serializ
 fails with cleanup; production source identity path-only, hardlink advisory remains.
 Author first scaffold project node failed staleHTML then rerun passed, never first-run green.
 No live/platform/product capability or new proof authority. No active writer.
+
+Independent Codex implementation verification APPROVED source02966ad:
+https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6861143191
+154 tooling +1 actual proof aggregate +8 schema +3 SDK publication passed. Tests frozen.
+Next Claude closing, then selected implementation/contract publication, CI/protectedmerge.
+No current approval claimed for deliberately superseded NI source blobs in tests packet.
