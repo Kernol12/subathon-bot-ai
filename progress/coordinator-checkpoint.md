@@ -31,8 +31,10 @@ Private initial report/corrections/static21-method outcomes:
 local-evidence/CI-003/test-reviews/{initial-v1,corrections-v1}.md; original author
 handback: local-evidence/CI-003/test-author-v1/handback.txt. Predictions11PASS/
 10behavioralFAIL/0ERROR are static, never observed results.
-NEXT separate native Codex correction verification, then fresh Claude closing via
-client ci003-closing-test-review-v1. No candidate tests/fixtures/producer may run
+Separate native Codex correction verification APPROVED, no new findings:
+https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851630248
+Private report local-evidence/CI-003/test-reviews/codex-verification-v1.md. No
+review timings asserted. NEXT fresh Claude closing via client ci003-closing-test-review-v1. No candidate tests/fixtures/producer may run
 before closing; contract permits EXACT one named red afterward (1assertFAIL/fixed
 marker,0ERROR/skips), then fresh isolated implementer owns only the producer.
 No NI stub. Coordinator owns docs/state/HTML/checkpoint/publication. docs/CI.md must
