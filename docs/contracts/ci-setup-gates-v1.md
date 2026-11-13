@@ -36,15 +36,15 @@ trust, pins, diagnostics, successful command set and order. In particular:
 - On admitted input the seven existing best-effort diagnostics keep their commands,
   `check=False, capture_output=True, text=True, timeout=10`, labels and output behavior.
   Two checked `sudo tee` calls retain their bytes, `text=True`, `stdout=DEVNULL`,
-  inherited stderr and 10-second deadlines. Only the update gains capture/retry logic.
-  No repeat writes/diagnostics on retry. No additional command or shell is permitted.
+  inherited stderr and 10-second deadlines. The update retains its original inherited output and one-call behavior.
+  Each setup keeps the original one-call sequence; no additional command or shell is permitted.
 - No retry around installs, downloads, SDK admission, schema/configure/build/tests or
   a workflow/job rerun. Existing vendor download retry flags remain unchanged and
   are outside this helper's process-call bound. No cache, selective CI, hidden retry,
   continue-on-error, failure inversion, source relaxation or new dependency.
 
-This contract adds evidence and a deliberately narrow update retry. It does not
-promise that the incident layout will become accepted. Any layout expansion needs
+This contract adds bounded evidence and required-check enforcement. It adds no process
+retry and does not promise that the incident layout will become accepted. Any layout expansion needs
 actual source evidence, a separately reviewed contract refinement and independent
 baseline review; do not guess the unlogged field or weaken the frozen assertions.
 
@@ -58,6 +58,16 @@ future tests must exercise these existing entry points, not require an unreviewe
 I/O or subprocess failure, reporting `Ubuntu APT setup failed:` on stderr. Source
 refusal still raises RuntimeError containing `unsupported Ubuntu APT source layout`.
 New errors contain only fixed labels, not captured output or source values.
+Use this order: host guards and their existing OS read, the one source-text read,
+runner record, validation/refusal record, then the unchanged diagnostics/writes/update.
+A source UnicodeError returns1 with fixed message `Ubuntu APT setup failed: source text decoding failed`;
+it emits no runner/refusal record or child command. A record write/flush OSError or
+ValueError (including a closed stream), or short write, returns1 before any child.
+Each record is one complete stderr.write followed by flush; a short write is failure.
+On emission failure, attempt the fixed legacy-prefix message
+`Ubuntu APT setup failed: CI APT diagnostic unavailable` once, best-effort; if stderr
+is also unavailable, return1 without recursively logging. Other existing errors and
+prefixes remain unchanged. No error path becomes permission to continue or retry.
 
 Every NEW record is one stderr line: literal `CI_APT_V1 `, followed by JSON serialized
 with `sort_keys=True, separators=(',', ':'), ensure_ascii=True, allow_nan=False`,
@@ -73,12 +83,12 @@ refused source into those commands.
 
 ### 2.1 Runner record
 
-After host guards pass, before source validation (and hence before any subprocess or
-write), emit exactly one `runner` record using the SAME OS-release mapping already
+After host guards and the sole source read succeed, before source validation
+(and hence before any subprocess or write), emit exactly one `runner` record using the SAME OS-release mapping already
 read for the guard and only the two named environment values below:
 
 ```json
-{"cloud":"unknown","event":"runner","image_os":"ubuntu24","image_version":"20261111.127.1","os_id":"ubuntu","os_patch":"24.04.5","os_version":"24.04","redacted_fields":[],"unknown_fields":["cloud"],"v":1}
+{"event":"runner","image_os":"ubuntu24","image_version":"20261111.127.1","os_id":"ubuntu","os_patch":"24.04.5","os_version":"24.04","redacted_fields":[],"unknown_fields":[],"v":1}
 ```
 
 This is a synthetic example, not newly observed helper output. `os_id`/`os_version`
@@ -91,9 +101,8 @@ OS `VERSION` only when its entire value matches
 fullmatch, without stripping, decoding escapes or removing control characters first.
 Missing/empty inputs produce null and an `unknown_fields` entry. Nonempty nonmatching
 inputs produce null and a `redacted_fields` entry. Those arrays use sorted output key
-names (`image_os`, `image_version`, `os_patch`); cloud always adds `cloud` to unknown.
-No claim of live cloud detection: absent a reviewed producer, runtime cloud is always
-`unknown`. AWS above is a historical job-setup fact, not a fact inferred by this helper.
+names (`image_os`, `image_version`, `os_patch`). There is no cloud field or detector.
+AWS above is a historical job-setup fact, not a fact inferred by this helper.
 Missing image facts do not relax or fail the host guard, and need no further I/O.
 Host/OS-read refusals retain their existing errors and no commands/writes; they do
 not emit a runner record fabricated from unavailable/admission-failed identity.
@@ -107,180 +116,97 @@ RuntimeError. It reports the first applicable reason, not source text. Example:
 {"event":"source_refused","field":"URIs","fields_omitted":5,"line":2,"reason":"uri_not_admitted","stanza":1,"stanzas_omitted":0,"v":1,"value_class":"other"}
 ```
 
-Indices are one-based physical line and stanza, using `str.splitlines()` as the
+Indices are one-based `str.splitlines()` line positions and stanza, as the
 existing validator does; comments with leading whitespace are ignored, blank/whitespace
 lines separate stanzas, CRLF is accepted. For evidence counting, a stanza is a maximal
 nonblank block with at least one noncomment line; comment-only blocks do not count.
 `fields_omitted` counts nonblank noncomment lines in the selected stanza except the
-reported physical line (all such lines for a missing-field reason). It includes
+reported line position (all such lines for a missing-field reason). It includes
 malformed/continuation/duplicate lines, without printing them. `stanzas_omitted` is
 the number of other such stanzas. Counts are integers, not estimates; no list of
 omitted values is retained in public output. Empty/comment-only input has null
 stanza/line/field/value_class and both counts0. This scan reuses the original string.
 
-Preserve existing refusal precedence: first structural error in physical order
+Preserve existing refusal precedence: first structural error in splitlines order
 anywhere in the file; only if there is none, first semantic refusal in stanza order,
 URIs before Enabled in each stanza. For a noncomment line, structural priority is
 leading whitespace, missing colon, unknown field name, duplicate known field.
-Known names are exactly `Types`, `URIs`, `Suites`, `Components`, `Signed-By`,
-`Architectures`, `Enabled`. Known field spelling may be emitted; any unknown name is
-`"<unknown>"`. Continuation/malformed-line field is null. Never echo an unknown name,
-line, URI, keyring path or otherwise unreviewed source value.
+The ADMITTED field names stay exactly `Types`, `URIs`, `Suites`, `Components`,
+`Signed-By`, `Architectures`, `Enabled`. A separate diagnostic-only closed label set
+also recognizes the documented names below. This DOES NOT admit any extra field:
+its reason is still `unknown_field`, and the entire layout still refuses before children.
+
+`Architectures-Add`, `Architectures-Remove`, `Languages`, `Targets`, `PDiffs`,
+`By-Hash`, `Allow-Insecure`, `Allow-Weak`, `Allow-Downgrade-To-Insecure`, `Trusted`,
+`Check-Valid-Until`, `Valid-Until-Min`, `Valid-Until-Max`, `Check-Date`,
+`Date-Max-Future`, `InRelease-Path`, `Snapshot`.
+
+Emit only a fixed label from those two closed sets; any other key maps to `<unknown>`.
+Matching is exact/case-sensitive, without normalization. Continuation/malformed-line
+field is null. Never echo an arbitrary name, line, URI, keyring or field value.
+Line positions are splitlines indices, not byte offsets or claims about LF-only files;
+VT/FF/U+2028 and other splitlines separators have the same indexing behavior as CI-001.
 
 | reason | field / line | value_class |
 | --- | --- | --- |
 | `continuation` | null / offending line | null |
 | `malformed_line` | null / offending line | null |
-| `unknown_field` | `<unknown>` / offending line | null |
+| `unknown_field` | diagnostic-only fixed label if recognized, otherwise `<unknown>` / offending line | null |
 | `duplicate_field` | known name / second occurrence | null |
 | `empty_source` | null / null | null |
 | `missing_uri` | `URIs` / null | `missing` |
-| `uri_not_admitted` | `URIs` / its line | `empty` if stripped value empty; `multiple` if whitespace splitting yields >1 token; otherwise `other` |
+| `uri_not_admitted` | `URIs` / its line | `empty` if stripped value empty; `multiple` if whitespace splitting yields >1 token; otherwise the exact public-address label below or `other` |
 | `enabled_not_admitted` | `Enabled` / its line | `disabled` for exactly stripped `no`; otherwise `other` |
+
+For a single stripped URI token, the diagnostic-only address labels are exactly:
+
+| value_class | Exact public forms (each with or without its final slash) |
+| --- | --- |
+| `azure_archive` | `http://azure.archive.ubuntu.com/ubuntu/`, `https://azure.archive.ubuntu.com/ubuntu/` |
+| `ubuntu_archive` | `http://archive.ubuntu.com/ubuntu/`, `https://archive.ubuntu.com/ubuntu/` |
+| `ubuntu_security` | `http://security.ubuntu.com/ubuntu/`, `https://security.ubuntu.com/ubuntu/` |
+
+These are twelve fixed literals, not suffix matching or URI normalization. Credentials,
+explicit ports, queries, fragments, other paths, case variants, and other hosts map to
+`other`. Empty and multiple-token classifications take precedence over these labels.
+ALL of these direct addresses remain refused; the sole admitted MIRROR_URI is unchanged.
+Unlisted field names/addresses stay opaque; a further private inspection or reviewed
+diagnostic refinement may be needed for an unlisted variant. Labels are not full raw
+source evidence, URI support, liveness or authentication. The incident's field stays unknown.
 
 A stanza with exactly one admitted URIs value and absent or exactly stripped `yes`
 Enabled remains accepted; other known fields retain CI-001 treatment. This is a guard
 for one reviewed runner layout, not a general deb822 parser or a new validator of
 suite/keyring semantics. APT's own authenticated update remains mandatory.
 
-## 3. One narrowly classified process retry
+## 3. Preserve update visibility; no new process retry
 
-Only `['sudo', 'apt-get', 'update']` may run twice. Each invocation uses
-`subprocess.run(check=True, capture_output=True, text=True, timeout=300)` without a
-shell; no environment/locale mutation. Capture `CalledProcessError` streams as well
-as completed results. Valid transcript text is ASCII plus LF; CRLF is converted to LF
-for classification only. Any remaining control/non-ASCII character prevents retry.
-Native APT `Acquire::Retries "1"` still retries failed files internally. Thus **at
-most two update process calls** is not a bound of two HTTP requests, mirror accesses
-or total network attempts. Configuration and original overall job deadlines remain.
+Keep exactly the CI-001 update invocation:
+`subprocess.run(["sudo", "apt-get", "update"], check=True, timeout=300)`.
+Do not capture, buffer, replay, classify, replace or hide its inherited stdout/stderr;
+APT's own failure text stays visible in the ordinary job log. There is no new
+`update_attempt` record, transcript grammar, classification API, retry receipt or wrapper.
+Each admitted setup invokes update at most ONCE, with no additional delay or repeat
+writes/diagnostics. Any nonzero exit, timeout or unavailable command fails main1 as
+before; unknown/mixed/layout/integrity/signing/schema/build/test failures never retry.
+No workflow/job rerun is introduced. Successful updates still require exit0.
 
-### 3.1 Complete, strict allowlist
+Zero new process retries complies with the parent policy's AT MOST one. A future
+retry needs an actual captured hosted failure transcript, safe ownership/deadline
+analysis and a separately reviewed contract/test/code refinement before execution.
+No synthetic transcript is evidence that a retry matches or recovers hosted failures.
+Existing `Acquire::Retries "1"` remains byte-identical: its internal file/request
+retries and mirror fallback are not a promise of one network attempt. No broader
+network-attempt guarantee is made.
 
-A first invocation qualifies only if it completed normally with exit100, both streams
-are present as strings, each is <=16384 UTF-8 bytes, each has <=256 lines, every line
-is <=1024 bytes, and the ENTIRE transcript matches the following grammar. No substring
-search for an isolated DNS phrase can admit a mixed failure. No stderr is inherited
-from the update. A missing stream on failure is unclassified, not an empty success.
-
-The only retry signature is `transient_dns`, the exact English APT temporary-resolution
-error. No connection timeout, HTTP status, permanent `Could not resolve`, signing or
-integrity error is allowlisted. Restrictive formatting is intentional: untranslated,
-new, third-party, mirror-method or otherwise different output fails closed. This
-contract does not claim every hosted APT error uses the allowed grammar.
-
-Grammar notation: `H` is exactly one of `mirrors.edge.kernel.org`, `archive.ubuntu.com`,
-`security.ubuntu.com`; `S` is exactly `noble`, `noble-updates`, `noble-backports`,
-`noble-security`; `N` is `[1-9][0-9]{0,3}`. `B` is literal `https://H/ubuntu` with
-optional trailing slash. `U` is literal `https://H/ubuntu/dists/S/InRelease` with
-no userinfo, port, query, fragment, percent encoding or other path. Matched H/S values
-in one entry must agree. No general URI parser accepting alternate forms is required.
-
-Allowed stdout consists solely of zero or more lines `Ign:N B S InRelease`,
-`Hit:N B S InRelease`, or two-line blocks
-
-```text
-Err:N B S InRelease
-  Temporary failure resolving 'H'
-```
-
-followed by exactly one `Reading package lists...` line. At least one Err block is
-required; each N identifies one consistent B/S tuple, may have repeated Ign lines,
-and has only one terminal Hit or Err. Every Ign must ultimately have a terminal
-record; no dangling reason line is accepted. Blank lines are allowed and ignored.
-No Get/progress/other stdout line is allowlisted in v1.
-
-Allowed stderr consists solely of one or more
-
-```text
-E: Failed to fetch U  Temporary failure resolving 'H'
-```
-
-followed by exactly one
-
-```text
-E: Some index files failed to download. They have been ignored, or old ones used instead.
-```
-
-Blank lines are allowed and ignored. Every failed URL's H/S must match an Err block,
-every Err must have a failed URL, and there are no duplicate failed URLs. A recognized
-DNS error is not evidence that stale indexes are acceptable; exit100 remains a failed
-attempt. Generic summary alone, warnings instead of errors, extra suffixes, malformed
-correspondence, unknown app/tool text or any extra line refuses retry.
-
-`transient_dns` is emitted only for that complete grammar. Otherwise classify as
-`mixed` if at least one exact Err+reason block or failed-fetch line is present together
-with any unmatched/forbidden text or broken correspondence; as `unclassified` if no
-such exact DNS item exists. Explicit signing/integrity indicators anywhere in either
-stream take precedence and classify `integrity`: case-sensitive substrings
-`NO_PUBKEY`, `BADSIG`, `EXPKEYSIG`, `Hash Sum mismatch`, `not signed`,
-`signatures couldn't be verified`, `Certificate verification failed`. This list improves
-explanation, not eligibility: all other integrity wording is still outside the grammar.
-Check size/encoding/completeness before this classification; overflow is `output_limit`,
-invalid text/type is `unclassified`. Never classify a truncated prefix as complete.
-
-### 3.2 Receipts, bounds and first-failure preservation
-
-Emit one `update_attempt` record for each invocation, even success, before returning
-or deciding another call. Exact keys/example for the positive transcript in §5:
-
-```json
-{"attempt":1,"classification":"transient_dns","event":"update_attempt","evidence":[{"host":"mirrors.edge.kernel.org","reason":"temporary_dns","suite":"noble"}],"evidence_omitted":0,"exit_code":100,"retry":true,"stderr_bytes":225,"stderr_lines":2,"stdout_bytes":203,"stdout_lines":4,"v":1}
-```
-
-Byte counts above include the final LF of each line in §5's literal first-attempt
-streams. Counts describe the complete received streams before CRLF conversion, not
-characters or printed excerpts. Lines use splitlines(). Evidence is the first eight
-unique complete Err H/S pairs in stdout order; only grammar-admitted host/suite
-literals can appear, with the fixed reason `temporary_dns`. `evidence_omitted` is the
-number of further unique admitted pairs not shown. Do not print raw captured text,
-including unknown lines, URI strings, IPs, credentials, prompts or tracebacks. All raw
-lines are withheld, so byte/line counts cover omitted raw output; the evidence array
-is a safe semantic projection, never a truncated raw log. For non-transient classes,
-evidence may still show exact complete DNS pairs; absence is `[]`, omitted0.
-
-The classifications are `success` (exit0), `transient_dns`, `mixed`, `integrity`,
-`unclassified`, `output_limit`, `timeout`, `unavailable`. Nonzero exit other than100
-is `unclassified` regardless of phrase; signal return codes are failures. Timeout
-and OSError override output classification, use null exit_code and `retry:false`;
-Unicode decode failure is `unclassified`, null exit_code. Unavailable covers missing
-sudo/apt command or another launch OSError. On success no failure classification can
-turn exit0 into recovery evidence; `retry:false`, evidence empty. Missing streams
-on exit0 have byte/line counts null. Missing/non-string failure streams have null
-counts for those streams. Bytes supplied by TimeoutExpired are counted directly,
-not guessed decoded; they never qualify for retry. Non-transient evidence extraction
-is bounded to size-admitted text; otherwise empty.
-
-`retry:true` occurs ONLY for eligible first-attempt `transient_dns`. Flush its receipt
-successfully BEFORE starting attempt2; an emission failure must fail, not retry without
-evidence. The second call uses identical argv/options/configuration, immediately with
-no sleep or diagnostic/rewrite replay. There is no third call, even if attempt2 has
-the same transient signature; its receipt has retry:false. Retain the first receipt
-and second receipt in chronological order; never overwrite the first with the last
-attempt or relabel a failed first attempt as success. Only exit0 of attempt2 permits
-main0; every failed final attempt returns main1 with the existing failure prefix.
-The transcript is not copied to a new raw artifact by this helper. The bounded safe
-receipts survive in the ordinary job log; the coordinator retains them, run/job URL,
-source revision and final classification in private evidence through task closure.
-No new upload/artifact retention policy or public raw-log publication is introduced.
-
-Two update deadlines total at most600 seconds of requested subprocess wait, plus the
-existing seven diagnostic deadlines (70) and two writes (20): 690 seconds of requested
-child wait, excluding process creation/cleanup/Python/logging overhead. A timeout on
-attempt1 forbids attempt2; attempt2 timeout fails. Existing 15/80-minute job limits
-remain unchanged. No tight overall wall-clock or surviving-descendant deadline is
-claimed. `subprocess.run` waits/reaps the directly invoked process on normal completion;
-this is not independent process-tree supervision. Unknown cleanup after timeout or
-launch failure never licenses retry. Normal completed `sudo apt-get update` on the
-trusted disposable runner is the narrow retry ownership assumption.
-
-**Resource/trust limits:** subprocess.run captures streams in memory before the
-16384-byte admission check; this bounds classifier input/retained public evidence,
-NOT peak capture memory. The existing full source read and diagnostic captures are
-also not memory bounded. Do not advertise streaming/memory/process-tree guarantees.
-No Popen/thread/supervisor framework is introduced to evade legacy seams. If a hard
-capture-memory or descendant guarantee is required, stop for a separate reviewed
-prerequisite instead of silently importing WORKFLOW-007. Environment host flags and
-OS/image strings are trusted runner facts, not cryptographic host attestation.
+Requested child waits remain seven diagnostics at10s, two writes at10s and one update
+at300s:390s total, excluding launch/cleanup/Python/logging overhead, within the unchanged
+15/80-minute job limits. This is not a tight wall-clock or descendant guarantee.
+The existing full source read and legacy diagnostic captures remain in memory; only
+the NEW JSON records have the4096-byte output bound. Do not claim capture-memory,
+process-tree, host-attestation or general credential-redaction guarantees. No new
+Popen/thread/supervisor framework, dependency or WORKFLOW-007 prerequisite is added.
+Public receipts still use selected safe fields rather than wholesale job-log copies.
 
 ## 4. Reviewed required-check inventory and settings procedure
 
@@ -289,7 +215,9 @@ OS/image strings are trusted runner facts, not cryptographic host attestation.
 Derived from ALL19 PR workflow declarations in main
 `3c74966f243b3628a12eb760e2a96ff455717d50` and the 21 actual head contexts at
 PR126 source `42462d165a5aa90f92eb3625941bcda163f178c4`. These are observed names/apps,
-not proof that CI-002 has passed them. All workflows run on PRs to main (scaffold
+not proof that CI-002 has passed them. CI-001's historical receipt counted22 checks;
+that historical observation is preserved, not rewritten or assumed to be this21-entry
+inventory. Any extra current producer must be identified and reviewed under step2. All workflows run on PRs to main (scaffold
 runs on all PR targets); none has path filtering or a job-level skip. Each has one
 job except the schema job's two explicit matrix rows. No workflow/pin/permission/
 trust/coverage change is needed by this inventory. Paths below are under
@@ -398,7 +326,10 @@ ambiguous run association or inconsistent readback is a pending gate, never succ
    API/UI, stop and resolve through review; do not discard it to make the PUT succeed.
    Do not broaden a token, bypass, permission or repository policy to obtain access.
 7. Immediately GET the full ruleset and effective main rules again. Compare against
-   the reviewed after payload: all21 exact app-bound pairs, both booleans, active
+   the reviewed after payload: compare required_status_checks as a SET of all21 exact
+   (context,integration_id) pairs, separately requiring length21/no duplicates. API
+   reordering of that new array is harmless; no missing/extra/substituted pair is.
+   Preserve exact JSON-value comparison for all unrelated settings/arrays. Verify both booleans, active
    application to main, and every unrelated setting unchanged. Unexpected response,
    dropped parameter, concurrent change or missing effective rule means enforcement
    is unverified and blocks merge; do not retry a mutation or revert protections
@@ -454,7 +385,7 @@ counts are fields/stanzas in that order. Legacy failure prefix/text follows it.
 | append ` https://extra.example` to URI | uri_not_admitted | 1 / 2 / URIs / multiple | 5 / 0 |
 | delete line2 | missing_uri | 1 / null / URIs / missing | 5 / 0 |
 | insert second identical URIs line immediately after line2 | duplicate_field | 1 / 3 / URIs / null | 6 / 0 |
-| replace line2 by `URIs mirror+file:/etc/apt/apt-mirrors.txt` | malformed_line | 1 / 2 / null / null | 5 / 0 |
+| replace line2 by `URIs mirror` | malformed_line | 1 / 2 / null / null | 5 / 0 |
 | insert `X-Secret: opaque` after line2 | unknown_field | 1 / 3 / <unknown> / null | 6 / 0 |
 | insert ` https://extra.example` after line2 | continuation | 1 / 3 / null / null | 6 / 0 |
 | replace final yes by no | enabled_not_admitted | 1 / 6 / Enabled / disabled | 5 / 0 |
@@ -466,68 +397,62 @@ third-party URI. If A has a semantic bad URI and stanza2 has an unknown field, t
 structural unknown-field reason in stanza2 wins, preserving validator precedence.
 With `ImageVersion="20261111.127.1\n::error::secret"`, `ImageOS="ubuntu24\u001b[31m"`
 and absent VERSION, runner image fields/os_patch are null, redacted_fields is
-`["image_os","image_version"]`, unknown_fields is `["cloud","os_patch"]`.
+`["image_os","image_version"]`, unknown_fields is `["os_patch"]`.
 No injected text/control survives. VERSION literal `24.04.5 LTS (Noble Numbat)`
-produces os_patch `24.04.5`; cloud remains unknown even if an unrelated env field says AWS.
+produces os_patch `24.04.5`; unrelated cloud/provider environment fields are not read.
 
-### B. Strict positive recovery and first-failure retention
+### B. Additional fixed diagnostic labels and failure safety
 
-First update raises CalledProcessError(100) containing exactly these streams:
+For EACH following literal input appended as line7 to A (final LF included), expect
+main1, zero commands/writes, reason `unknown_field`, stanza1/line7, value_class=null,
+fields_omitted6/stanzas_omitted0, and exactly the fixed field label in the second column:
 
-stdout (four lines, final LF):
-
-```text
-Ign:1 https://mirrors.edge.kernel.org/ubuntu noble InRelease
-Err:1 https://mirrors.edge.kernel.org/ubuntu noble InRelease
-  Temporary failure resolving 'mirrors.edge.kernel.org'
-Reading package lists...
-```
-
-stderr (two lines, final LF):
-
-```text
-E: Failed to fetch https://mirrors.edge.kernel.org/ubuntu/dists/noble/InRelease  Temporary failure resolving 'mirrors.edge.kernel.org'
-E: Some index files failed to download. They have been ignored, or old ones used instead.
-```
-
-Expect first attempt receipt: classification transient_dns, exit100, retry true,
-evidence exactly `[{"host":"mirrors.edge.kernel.org","reason":"temporary_dns","suite":"noble"}]`,
-evidence_omitted0. If attempt2 completes exit0 with stdout/stderr `""`, expect second
-receipt classification success, exit0, retry false, empty evidence, all four byte/line
-counts0, and main0. Two update calls total, identical options/deadlines, each tee once.
-A mock should observe that the first receipt has already been flushed at entry to
-call2. Do not infer recovery from a receipt without the second successful result.
-If attempt2 repeats the first failure, expect two transient_dns receipts, retry flags
-true/false and main1; no third call. The first failure remains available in both cases.
-
-### C. Refusal to retry and bounds
-
-Starting with B's first streams, each independent edit below yields one update call,
-retry false and main1 (no successful retry scripted/consumed):
-
-| Change | Classification / reason |
+| Appended input | field |
 | --- | --- |
-| exit1 instead of100 | unclassified; no generic nonzero retry |
-| stderr only `E: unexplained acquisition failure\n` and stdout empty | unclassified |
-| append `E: configuration parse failed\n` to B stderr | mixed |
-| append `E: Hash Sum mismatch\n` or `E: repository is not signed\n` | integrity |
-| replace DNS text everywhere by `Could not resolve 'mirrors.edge.kernel.org'` | unclassified |
-| use unknown host or credential-bearing URI | unclassified; no projected URI/host |
-| remove all failed-fetch lines, leaving B stdout | mixed; no complete correspondence |
-| stderr absent (None) | unclassified; stderr counts null |
-| B stderr followed by enough literal `x` bytes to exceed16384 total | output_limit; no prefix classification |
-| B stdout followed by ANSI escape or non-ASCII text | unclassified |
-| raise TimeoutExpired(update,300,output=B stdout,stderr=B stderr) | timeout, exit null; partial text never eligible |
-| raise FileNotFoundError("sudo missing") | unavailable, exit null |
+| `Architectures-Add: private` | `Architectures-Add` |
+| `Architectures-Remove: private` | `Architectures-Remove` |
+| `Languages: private` | `Languages` |
+| `Targets: private` | `Targets` |
+| `PDiffs: private` | `PDiffs` |
+| `By-Hash: private` | `By-Hash` |
+| `Allow-Insecure: private` | `Allow-Insecure` |
+| `Allow-Weak: private` | `Allow-Weak` |
+| `Allow-Downgrade-To-Insecure: private` | `Allow-Downgrade-To-Insecure` |
+| `Trusted: private` | `Trusted` |
+| `Check-Valid-Until: private` | `Check-Valid-Until` |
+| `Valid-Until-Min: private` | `Valid-Until-Min` |
+| `Valid-Until-Max: private` | `Valid-Until-Max` |
+| `Check-Date: private` | `Check-Date` |
+| `Date-Max-Future: private` | `Date-Max-Future` |
+| `InRelease-Path: private` | `InRelease-Path` |
+| `Snapshot: private` | `Snapshot` |
 
-For the maximum retry path, script B then a second TimeoutExpired at300: deadlines
-remain300/300, first receipt retained, second timeout/no retry, main1. Test deadline
-arguments and call bounds using mocks, not a 600-second sleep or real apt. Tee timeout
-or failure never starts update. Existing diagnostic timeout remains best-effort and
-cannot create a retry classification. Missing SDK/tool/configure/build/test errors
-in later steps still fail their original lane, without any retry wrapper.
+No record contains the value `private`; unknown `X-Secret: opaque` remains field
+`<unknown>` and never exposes either string. These are refused fields, not newly
+admitted options. The extra input `URIs mirror+file:/etc/apt/apt-mirrors.txt` replacing
+A line2 contains a colon: expect `unknown_field`, field `<unknown>`, line2, omitted5/0.
 
-### D. Inventory and settings readiness examples
+Replace A line2 with each of the12 exact public URI literals in §2.2: main1/no children,
+reason `uri_not_admitted`, stanza1/line2/fieldURIs, omitted5/0, and its fixed address
+class. In particular `http://azure.archive.ubuntu.com/ubuntu/` is `azure_archive`,
+`https://archive.ubuntu.com/ubuntu` is `ubuntu_archive`, and
+`http://security.ubuntu.com/ubuntu` is `ubuntu_security`. Direct addresses remain refused.
+A credential, port, query, fragment, other path or case variant gives `other`, never
+source text. Adding a second token gives `multiple`, even if the first is recognized.
+
+A source-read UnicodeError gives main1/fixed decoding-failure prefix/no records or
+commands. Record write/flush OSError or ValueError, and a short write, give main1 and
+no child commands; legacy diagnostic-unavailable message is best effort once. Test
+writers that fail the runner record and the source_refused record separately; previous
+complete records remain visible, but logging failure never authorizes setup.
+
+On admitted A, script an update CalledProcessError or TimeoutExpired: main1/ONE update
+invocation, original check=True/timeout300 and inherited output; no capture_output,
+stdout/stderr redirection or update-attempt record. Do not script/consume a recovery
+call. Existing8tests anchor original command/config/deadline/error behavior; additive
+cases pin no new capture/retry and the diagnostic records, without replaying realAPT.
+
+### C. Inventory and settings readiness examples
 
 These are manual review oracles over synthetic observations, not a request for a
 new GitHub client/test API or real administration by tests:
@@ -551,22 +476,24 @@ new GitHub client/test API or real administration by tests:
   not effective on main: not enforced. API denial or hidden bypass data: admin gate
   pending; never disable protection or manufacture a human approving review.
 
-### E. Test author boundary and real gates
+### D. Test author boundary and real gates
 
 Future focused unittest cases may import the CURRENT helper and call main or
 validate_sources with synthetic strings. Patch `platform.freedesktop_os_release`,
 `os.environ`, `Path.read_text`, `subprocess.run`, stderr/stdout with flush observation;
 retain the existing no-real-process/no-direct-write barriers. Script actual
-CompletedProcess/CalledProcessError/TimeoutExpired semantics, including stdout/stderr.
-Use literal transcript/JSON/count expectations from this contract, not production
+CompletedProcess/CalledProcessError/TimeoutExpired semantics, including failures.
+Use literal source/JSON/count expectations from this contract, not production
 classifier calls to calculate expected results. No real apt/DNS/sudo/file writes,
 privileged fixture, package install or GitHub mutation is needed. Private helper names
 or future SDKs are not acceptance seams. Settings procedure proof comes from independent
 inventory/payload review and later actual readback, not a test of invented machinery.
 
-Two legitimate intended-red assertions through the existing callable main are missing
-exact source_refused/runner records on a refused input, or B expecting recovery main0
-while the current single-update main returns1. No NI/stub/import error/new-symbol
+Two legitimate intended-red assertions through existing main are (1) missing exact
+runner record on admitted A, where old setup succeeds, and (2) missing exact refusal
+record/fixed diagnostic label on refused A/B, where old main alreadyreturns1.
+The assertion must fail on the missing required record, not fixture/import/setup.
+The unchanged one-call update failure is baseline evidence, NOT a new-feature red. No NI/stub/import error/new-symbol
 failure, argparse error, missing dependency/SDK, TypeError, compile failure, skipped
 test or arbitrary exit is intended red. First complete full independent contract
 review, then author tests, then full independent test review, then observe actual
@@ -588,16 +515,11 @@ reviews, complete the authorized workflow program and STOP; product/API work sta
   documents deb822 stanzas and Enabled. CI-001 intentionally admits a stricter subset;
   broader APT syntax does not authorize broader runner-layout admission.
 - [Ubuntu noble apt.conf](https://manpages.ubuntu.com/manpages/noble/man5/apt.conf.5.html)
-  documents file-level Acquire retries. This supports distinguishing internal request
-  behavior from CI-002's process retry; it does not bound total network attempts.
+  documents file-level Acquire retries, which are preserved; it does not bound total
+  network attempts or authorize a new helper-level retry.
 - [Ubuntu noble apt-get](https://manpages.ubuntu.com/manpages/noble/man8/apt-get.8.html)
-  documents exit0/100. The following archived upstream mirror is cited for output
-  construction, not as attestation of the deployed runner package. [APT connect](https://github.com/Debian/apt/blob/main/methods/connect.cc)
-  emits the temporary DNS phrase for EAI_AGAIN;
-  [upstream update](https://github.com/Debian/apt/blob/main/apt-pkg/update.cc) emits
-  failed-fetch errors and the index summary under strict error mode. The deliberately
-  narrow English transcript/correspondence profile is OUR admission policy, not a
-  claim of a stable machine-readable APT API or observed incident transcript.
+  documents exit0/100. v1 preserves inherited APT output rather than parsing a claimed
+  stable machine-readable error protocol. No new process retry is supported.
 - [GitHub rules REST API](https://docs.github.com/en/rest/repos/rules)
   defines required_status_checks context/integration_id and strict policy, full ruleset
   inspection/update and Administration(write). It warns bypass_actors can be hidden
