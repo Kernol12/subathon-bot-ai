@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T20:07:54.638518+00:00",
+  "updated_at": "2026-11-13T20:11:03.078585+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20134,7 +20134,7 @@
       "module": "Quality and tooling",
       "kind": "implementation",
       "status": "in_progress",
-      "owner": "codex:coordinator-59095155",
+      "owner": "codex:migrate003-implementation-20261113:/root",
       "depends_on": [
         "MIGRATE-002"
       ],
@@ -20145,20 +20145,23 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-003.md",
       "summary": "Prepare publication checks and CI for evidence records. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Contract and tests independently approved; tests source5c89947, final Claude issue628#6863614765. No execution/red yet. Next SDK setup, classified NI baseline, fresh implementation. Closing N1 requires implementation source review of prepared check_checkout; N2–N5 retained advisory. State authoritative; product/WF006/007 stopped."
+        "Contract/tests approved; source5c89947. Actual NI baseline at9be92e2: new tooling27 methods (25 failures/55 errors), SDK3 (7 failures), no skips; all87 sections namedNI after reached setup/probe success. Existing154 tooling/schema1+8/SDK3 passed. Fresh implementation claimed; independent code review pending. State authoritative; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
         "contract_review": "passed",
         "test_review": "passed",
-        "baseline": "not_run",
+        "baseline": "observed_red",
         "implementation": "not_run",
         "acceptance": "not_run",
         "contract_verification": "passed",
-        "tests_authored": "passed"
+        "tests_authored": "passed",
+        "sdk_setup": "passed",
+        "existing_baseline": "passed"
       },
       "evidence": [
-        "https://github.com/Kernol12/subathon-bot-ai/issues/628"
+        "https://github.com/Kernol12/subathon-bot-ai/issues/628",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6863680260"
       ],
       "review": null,
       "workflow": {
@@ -22684,6 +22687,11 @@
       "date": "2026-11-13",
       "task": "MIGRATE-003",
       "note": "Claimed next owner-authorized migration task from current main; exact contract must resolve historical NI baseline versus current final-source binding before implementation."
+    },
+    {
+      "date": "2026-11-13",
+      "task": "MIGRATE-003",
+      "note": "Observed reviewed source-bound NI baseline after SDK setup; all87 nonpassing sections classified. Assigned fresh implementation session; production authority unchanged."
     }
   ],
   "workflow_policy": {
