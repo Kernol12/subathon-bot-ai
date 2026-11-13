@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T07:56:20Z",
+  "updated_at": "2026-11-13T08:13:00Z",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18675,32 +18675,35 @@
       "brief": "docs/tasks/CI-002.md",
       "summary": "Diagnose refused runner layouts, bound attributable infrastructure retries and enforce existing required-check merge policy.",
       "notes": [
-        "Contract/tests/code-settings cycles approved; packet 13990d4 and exact 21-check payload unchanged. Two intended assertion reds retained; local 91 tooling/scaffold 3 pass, zero skips; closing reviewer27 APT pass. Publish candidate for current-head CI. Settings remain unapplied until all21 succeed and fresh complete observations/readback pass. Any layout refusal needs actual diagnostics/evidence and reviewed refinement. Product stopped."
+        "At d252201 all21 exact producers and all9 real APT preparation steps passed, attempt1/no reruns. Reviewed payload applied once; full/effective-main readback verified21 app-bound checks and every prior protection. Dated CI-guide receipt at3584f08 is local/unpublished and needs narrow Codex verification/fresh Claude closing, then final-head CI/protected merge. Helper/tests unchanged; earlier approvals retained. Product stopped."
       ],
       "verification": {
         "contract_review": "passed",
         "test_review": "passed",
         "baseline": "observed_red",
         "implementation": "passed",
-        "acceptance": "not_run",
+        "acceptance": "passed",
         "claim": "passed",
         "contract_authored": "passed",
         "contract_correction_authored": "passed",
         "contract_correction_review": "passed",
         "test_authored": "passed",
-        "current_draft_ci": "failed",
+        "current_draft_ci": "passed",
         "static_inventory": "passed",
         "test_correction_authored": "passed",
         "test_correction_review": "passed",
         "local_mocked_tooling": "passed",
         "scaffold": "passed",
-        "code_review": "passed",
+        "code_review": "partial",
         "settings_review": "passed",
-        "settings_enforcement": "not_run",
-        "current_source_ci": "not_run",
+        "settings_enforcement": "passed",
+        "current_source_ci": "partial",
         "code_guidance_correction": "passed",
         "code_correction_review": "passed",
-        "settings_verification": "passed"
+        "settings_verification": "passed",
+        "hosted_d252201": "passed",
+        "settings_readback": "passed",
+        "application_receipt_review": "not_run"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6840078428",
@@ -18718,7 +18721,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846948587",
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847107097",
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847241282",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847372194"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847372194",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847660001"
       ],
       "review": null,
       "workflow": {
@@ -18866,7 +18870,7 @@
               "codex:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci002-implementation-v1",
               "codex:coordinator-97333d35"
             ],
-            "revision": "13990d440e7f23c79b218e23f1ccff6edec74e93",
+            "revision": "3584f086f242b9d2c7797f013ecab8767b563c62",
             "paths": [
               "tools/prepare_ubuntu_apt.py",
               "docs/CI.md"
@@ -18922,10 +18926,10 @@
       "publication": {
         "state": "open",
         "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/622",
-        "head": "a9d2464caca8ac36ece97b254a2ae78a27ebb9b0",
+        "head": "d252201ad24c039aed5724833fa08d744b757391",
         "merge_commit": null,
         "merged_at": null,
-        "observed_at": "2026-11-13T07:56:20Z"
+        "observed_at": "2026-11-13T08:13:00Z"
       }
     }
   ],
