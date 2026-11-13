@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import re
 import sys
+import progress
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote
@@ -26,70 +27,89 @@ class OfflineLinks(HTMLParser):
             self.links.append(attrs["href"])
 
 
+def check_repository(root: Path) -> dict:
+    """Check repository artifacts independently of tracker state and rendered HTML."""
+    spec = (root / "docs/specification.md").read_text(encoding="utf-8")
+    version = re.search(r"^Version: (\S+)", spec, re.M).group(1)
+    ids = re.findall(r"^\| ([A-Z][A-Z0-9-]*-\d+) \|", spec, re.M)
+    if len(ids) != len(set(ids)):
+        raise ValueError("Duplicate specification decision IDs")
+    coverage = json.loads((root / "tests/acceptance-map.json").read_text(encoding="utf-8"))
+    mapped = [item["id"] for item in coverage["decisions"]]
+    if set(mapped) != set(ids) or len(mapped) != len(ids) or coverage["specification_version"] != version:
+        raise ValueError("Acceptance map must track every current decision exactly once")
+    for item in [*coverage["decisions"], *coverage["scenarios"]]:
+        for path in item.get("tests", []):
+            if not progress.local_path(path, root).is_file():
+                raise ValueError(f"Missing acceptance-map test artifact: {path}")
+        for reference in item.get("evidence", []):
+            path = evidence_path(reference, root)
+            if path is not None and not path.is_file():
+                raise ValueError(f"Missing acceptance-map evidence: {reference}")
+    # Historical receipts live at the archive tag; keep the current record readable.
+    evidence = root / "docs/evidence"
+    if {path.relative_to(evidence).as_posix() for path in evidence.rglob("*") if path.is_file()} != {"README.md"}:
+        raise ValueError("docs/evidence must contain only README.md; keep detailed receipts in the PR")
+    presets = json.loads((root / "CMakePresets.json").read_text(encoding="utf-8"))
+    if presets["version"] != 6:
+        raise ValueError("Review the documented CMake/preset minimum before changing preset schema")
+    names = {p["name"] for p in presets["configurePresets"]}
+    for section in ("buildPresets", "testPresets"):
+        if any(p["configurePreset"] not in names for p in presets[section]):
+            raise ValueError("Preset references an unknown configuration")
+    # Check actual Markdown links; fenced setup examples are intentionally not path manifests.
+    for document in [root / "README.md", *list((root / "docs").rglob("*.md"))]:
+        for href in re.findall(r"\[[^\]]+\]\(([^)]+)\)", document.read_text(encoding="utf-8")):
+            if href.startswith(("https://", "http://", "#")):
+                continue
+            target = (document.parent / href.split("#")[0]).resolve()
+            if not target.is_relative_to(root) or not target.exists():
+                raise ValueError(f"Broken Markdown link in {document.relative_to(root)}: {href}")
+    count = len(re.findall(r"\bTEST\(TimeCreditAcceptance,", (root / "tests/acceptance/time_credit_tests.cpp").read_text()))
+    return dict(decisions=len(ids), time_credit_declarations=count)
+
+
+def check_tracker(data: dict, root: Path) -> dict:
+    """Validate tracker semantics and its exact offline rendered snapshot."""
+    validate(data, root=root)
+    spec = (root / "docs/specification.md").read_text(encoding="utf-8")
+    version = re.search(r"^Version: (\S+)", spec, re.M).group(1)
+    if version != data["specification_version"]:
+        raise ValueError("Progress/specification version mismatch")
+    ids = re.findall(r"^\| ([A-Z][A-Z0-9-]*-\d+) \|", spec, re.M)
+    for task in data["tasks"]:
+        for ref in task["spec_refs"]:
+            if ref not in ids and not re.fullmatch(r"§(?:[1-9]|1[0-9]|2[01])", ref):
+                raise ValueError(f"{task['id']}: unknown specification reference {ref}")
+    expected = render(data)
+    if not (root / "PROGRESS.html").is_file() or (root / "PROGRESS.html").read_text(encoding="utf-8") != expected:
+        raise ValueError("Stale progress snapshot: run python3 tools/progress.py render")
+    parser = OfflineLinks()
+    parser.feed(expected)
+    if len(parser.ids) != len(set(parser.ids)):
+        raise ValueError("Duplicate HTML element IDs")
+    for href in parser.links:
+        if href.startswith("#"):
+            if href[1:] not in parser.ids:
+                raise ValueError(f"Missing HTML anchor {href}")
+        elif href.startswith(("https://", "http://")):
+            continue
+        elif not progress.local_path(unquote(href), root).is_file():
+            raise ValueError(f"Missing HTML link {href}")
+    return dict(tasks=len(data['tasks']))
+
+
 def main() -> int:
     try:
+        if sys.argv[1:] == ["--repository-only"]:
+            check_repository(ROOT)
+            print("PASS: repository checks")
+            return 0
         data = json.loads(STATE.read_text(encoding="utf-8"))
-        validate(data)
-        spec = (ROOT / "docs/specification.md").read_text(encoding="utf-8")
-        version = re.search(r"^Version: (\S+)", spec, re.M).group(1)
-        if version != data["specification_version"]:
-            raise ValueError("Progress/specification version mismatch")
-        ids = re.findall(r"^\| ([A-Z][A-Z0-9-]*-\d+) \|", spec, re.M)
-        if len(ids) != len(set(ids)):
-            raise ValueError("Duplicate specification decision IDs")
-        for task in data["tasks"]:
-            for ref in task["spec_refs"]:
-                if ref not in ids and not re.fullmatch(r"§(?:[1-9]|1[0-9]|2[01])", ref):
-                    raise ValueError(f"{task['id']}: unknown specification reference {ref}")
-        coverage = json.loads((ROOT / "tests/acceptance-map.json").read_text(encoding="utf-8"))
-        mapped = [item["id"] for item in coverage["decisions"]]
-        if set(mapped) != set(ids) or len(mapped) != len(ids) or coverage["specification_version"] != version:
-            raise ValueError("Acceptance map must track every current decision exactly once")
-        for item in [*coverage["decisions"], *coverage["scenarios"]]:
-            for path in item.get("tests", []):
-                if not local_path(path).is_file():
-                    raise ValueError(f"Missing acceptance-map test artifact: {path}")
-            for reference in item.get("evidence", []):
-                path = evidence_path(reference, ROOT)
-                if path is not None and not path.is_file():
-                    raise ValueError(f"Missing acceptance-map evidence: {reference}")
-        # Historical receipts live at the archive tag; keep the current record readable.
-        evidence = ROOT / "docs/evidence"
-        if {path.relative_to(evidence).as_posix() for path in evidence.rglob("*") if path.is_file()} != {"README.md"}:
-            raise ValueError("docs/evidence must contain only README.md; keep detailed receipts in the PR")
-        presets = json.loads((ROOT / "CMakePresets.json").read_text(encoding="utf-8"))
-        if presets["version"] != 6:
-            raise ValueError("Review the documented CMake/preset minimum before changing preset schema")
-        names = {p["name"] for p in presets["configurePresets"]}
-        for section in ("buildPresets", "testPresets"):
-            if any(p["configurePreset"] not in names for p in presets[section]):
-                raise ValueError("Preset references an unknown configuration")
-        expected = render(data)
-        if not OUTPUT.is_file() or OUTPUT.read_text(encoding="utf-8") != expected:
-            raise ValueError("Stale progress snapshot: run python3 tools/progress.py render")
-        parser = OfflineLinks()
-        parser.feed(expected)
-        if len(parser.ids) != len(set(parser.ids)):
-            raise ValueError("Duplicate HTML element IDs")
-        for href in parser.links:
-            if href.startswith("#"):
-                if href[1:] not in parser.ids:
-                    raise ValueError(f"Missing HTML anchor {href}")
-            elif href.startswith(("https://", "http://")):
-                continue
-            elif not local_path(unquote(href)).is_file():
-                raise ValueError(f"Missing HTML link {href}")
-        # Check actual Markdown links; fenced setup examples are intentionally not path manifests.
-        for document in [ROOT / "README.md", *list((ROOT / "docs").rglob("*.md"))]:
-            for href in re.findall(r"\[[^\]]+\]\(([^)]+)\)", document.read_text(encoding="utf-8")):
-                if href.startswith(("https://", "http://", "#")):
-                    continue
-                target = (document.parent / href.split("#")[0]).resolve()
-                if not target.is_relative_to(ROOT) or not target.exists():
-                    raise ValueError(f"Broken Markdown link in {document.relative_to(ROOT)}: {href}")
-        count = len(re.findall(r"\bTEST\(TimeCreditAcceptance,", (ROOT / "tests/acceptance/time_credit_tests.cpp").read_text()))
-        print(f"PASS: {len(data['tasks'])} task records, {len(ids)} decisions, local links, presets and current HTML")
-        print(f"INFO: {count} TimeCreditAcceptance source declarations; native execution and product acceptance require separate checks")
+        tracker = check_tracker(data, ROOT)
+        repository = check_repository(ROOT)
+        print(f"PASS: {tracker['tasks']} task records, {repository['decisions']} decisions, local links, presets and current HTML")
+        print(f"INFO: {repository['time_credit_declarations']} TimeCreditAcceptance source declarations; native execution and product acceptance require separate checks")
         return 0
     except (OSError, ValueError, TypeError, KeyError, AttributeError) as error:
         print(f"Project check failed: {error}", file=sys.stderr)

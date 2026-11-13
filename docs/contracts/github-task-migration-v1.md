@@ -459,3 +459,12 @@ and, if 006 has merged, full removed briefs plus repaired links from the archive
 reconciles intervening task/proof/PR changes and preserves full receipts. Switch back
 only at that rollback merge; resume no product work automatically. Unavailable archive,
 unexplained intervening facts or failing review/CI blocks rollback just as cutover.
+
+## MIGRATE-003 source-ownership clarification
+
+[Prepared proof publication v1](proof-publication-v1.md) §1 preserves normal current
+mode/blob checking. From003, tests packets list current oracles/fixtures; NI source
+bytes remain pinned by their original tests revision and review/red receipts while
+implementation owns current runtime source. Completed historical packets are unchanged
+and never gain a supersession bypass. No JSON-format or review-grammar amendment.
+This clarification and the003 opt-in integration contract await independent approval.

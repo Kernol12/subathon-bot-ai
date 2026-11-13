@@ -17,6 +17,11 @@ ENV = {"PATH": "/usr/bin:/bin", "LANG": "C.UTF-8", "LC_ALL": "C.UTF-8"}
 GIT_ENV = dict(ENV, GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL="/dev/null",
                GIT_OPTIONAL_LOCKS="0", GIT_LITERAL_PATHSPECS="1")
 LOCAL_SOURCES = (
+    "tools/check_project.py", "tools/proofs.py",
+    "tests/support/proof_publication_fixture.py",
+    "tests/tooling/test_proof_publication.py",
+    "tests/tooling/test_repository_checks.py",
+    "tests/schema_validation/test_proof_publication_integration.py",
     "tools/check_publication.py", "tools/progress.py",
     "tests/tooling/test_compact_context.py", "tests/tooling/test_publication.py",
     "tests/schema_validation/test_publication_integration.py",

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T18:25:46.582286+00:00",
+  "updated_at": "2026-11-13T20:56:07+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -19742,7 +19742,7 @@
       "title": "Separate review evidence from task tracking",
       "module": "Quality and tooling",
       "kind": "implementation",
-      "status": "in_review",
+      "status": "done",
       "owner": "codex:migrate002-implementation-20261113:/root",
       "depends_on": [
         "MIGRATE-001"
@@ -19754,7 +19754,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-002.md",
       "summary": "Separate review evidence from task tracking. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Prepared explicit-path proof loader/schema/context/completion and disposable conversion, full independent contract/test/code cycles with observed NI red retained. Local 154 tooling, schema 1+8+3 and later fresh scaffold 3 pass; prior stale-HTML failure retained. Current publication/CI/protected merge pending. State authority unchanged; 003 guard conflict retained."
+        "Explicit-path proof loader/schema/context/completion and disposable conversion merged normally in PR633 as a277c5d after 21 app-bound checks. Full contract/test/code cycles, rejected history and NI red retained. Local 154 tooling/schema 1+8+3 and later scaffold 3 pass; prior failure retained. State authority unchanged; 003 next; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -19774,11 +19774,15 @@
         "scaffold": "passed",
         "project": "passed",
         "code_review": "passed",
-        "code_verification": "passed"
+        "code_verification": "passed",
+        "hosted_ci": "passed",
+        "publication_preflight": "passed",
+        "protected_merge": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/issues/627",
-        "https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6860598870"
+        "https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6860598870",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/633"
       ],
       "review": {
         "author": "codex:migrate002-implementation-20261113:/root; codex:coordinator-59095155",
@@ -20114,6 +20118,14 @@
             ]
           }
         }
+      },
+      "publication": {
+        "state": "merged",
+        "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/633",
+        "head": "eb2d991a020bb581b8841d0a846a656677e5c164",
+        "merge_commit": "a277c5dedd45eb53e98dca6218e5164daed985b6",
+        "merged_at": "2026-11-13T18:33:51Z",
+        "observed_at": "2026-11-13T18:35:41.676487+00:00"
       }
     },
     {
@@ -20121,8 +20133,8 @@
       "title": "Prepare publication checks and CI for evidence records",
       "module": "Quality and tooling",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "codex:coordinator-59095155",
       "depends_on": [
         "MIGRATE-002"
       ],
@@ -20132,12 +20144,338 @@
       ],
       "brief": "docs/tasks/EPIC-029/MIGRATE-003.md",
       "summary": "Prepare publication checks and CI for evidence records. See versioned issue-derived acceptance brief.",
-      "notes": [],
-      "verification": {},
-      "evidence": [
-        "https://github.com/Kernol12/subathon-bot-ai/issues/628"
+      "notes": [
+        "Prepared publication independently approved; local181tooling/schema4/scaffold3 pass. PR634 open, current hostedCI/protected merge pending; issue stays open until verified merge. Precise guard-counterexample advisory and production archive-size/readback obligations retained for004. State authoritative; product/WF006/007 stopped."
       ],
-      "review": null
+      "verification": {
+        "contract_authored": "passed",
+        "contract_review": "passed",
+        "test_review": "passed",
+        "baseline": "observed_red",
+        "implementation": "passed",
+        "acceptance": "not_run",
+        "contract_verification": "passed",
+        "tests_authored": "passed",
+        "sdk_setup": "passed",
+        "existing_baseline": "passed",
+        "implementation_review": "passed",
+        "local_tooling": "passed",
+        "local_schemas": "passed",
+        "scaffold": "passed",
+        "implementation_verification": "passed"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/issues/628",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6863680260",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6863906280",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/634"
+      ],
+      "review": null,
+      "workflow": {
+        "required_stages": [
+          "contract",
+          "tests",
+          "implementation"
+        ],
+        "stages": {
+          "contract": {
+            "authors": [
+              "codex:migrate003-contract-author-20261113:/root",
+              "codex:coordinator-59095155"
+            ],
+            "revision": "7f0b8768279252ee0cc8c4efcb3768d58e916500",
+            "paths": [
+              "docs/contracts/proof-publication-v1.md",
+              "docs/contracts/github-task-migration-v1.md",
+              "docs/contracts/proof-records-v1.md",
+              "docs/tasks/EPIC-029/MIGRATE-003.md",
+              "docs/evidence/README.md"
+            ],
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:d5a2b4eb-4f33-46f6-93ff-9420be4045f7",
+                "revision": "4876dc68978577f3cb7d1d19ab0a2f72ddcb44a0",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6862204280",
+                "findings": [
+                  "M003-CI-01",
+                  "M003-CI-02",
+                  "M003-CI-03",
+                  "M003-CI-04",
+                  "M003-CI-05",
+                  "M003-CI-06",
+                  "M003-CI-N1",
+                  "M003-CI-N2",
+                  "M003-CI-N3",
+                  "M003-CI-N4",
+                  "M003-CI-N5",
+                  "M003-CI-N6",
+                  "M003-CI-N7"
+                ],
+                "blocking_findings": [
+                  "M003-CI-01",
+                  "M003-CI-02",
+                  "M003-CI-03",
+                  "M003-CI-04",
+                  "M003-CI-05",
+                  "M003-CI-06"
+                ],
+                "started_at": "2026-11-13T18:45:05Z",
+                "finished_at": "2026-11-13T18:52:16Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:thread:delegated-task:command%3Amcp%3Ab2757b58-6822-48d2-85a7-be32319084c6%3Adelegate-task%3A9d972c3a-484d-440c-b498-89172c2de790",
+                "revision": "b2118475396d24ba8a3c929c73a4d3405152bb75",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6862297215",
+                "findings": [],
+                "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:ebda90c8-b55c-45ac-85ea-243f259c7bde",
+                "revision": "b2118475396d24ba8a3c929c73a4d3405152bb75",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6862477711",
+                "findings": [
+                  "M003-CC-01",
+                  "M003-CC-02",
+                  "M003-CC-N1",
+                  "M003-CC-N2",
+                  "M003-CC-N3",
+                  "M003-CC-N4",
+                  "M003-CC-N5",
+                  "M003-CC-N6"
+                ],
+                "blocking_findings": [
+                  "M003-CC-01",
+                  "M003-CC-02"
+                ],
+                "started_at": "2026-11-13T19:04:58Z",
+                "finished_at": "2026-11-13T19:09:33Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:thread:delegated-task:command%3Amcp%3Ab2757b58-6822-48d2-85a7-be32319084c6%3Adelegate-task%3Ac469c336-873d-4f86-bd85-eabf7d9167f8",
+                "revision": "7f0b8768279252ee0cc8c4efcb3768d58e916500",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6862556506",
+                "findings": [],
+                "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:2934046d-2b2e-42d4-a01a-9bcd1a78bf40",
+                "revision": "7f0b8768279252ee0cc8c4efcb3768d58e916500",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6862658166",
+                "findings": [
+                  "M003-CC2-N1",
+                  "M003-CC2-N2",
+                  "M003-CC2-N3"
+                ],
+                "blocking_findings": [],
+                "started_at": "2026-11-13T19:17:11Z",
+                "finished_at": "2026-11-13T19:19:27Z"
+              }
+            ]
+          },
+          "tests": {
+            "authors": [
+              "codex:migrate003-test-author-20261113:/root",
+              "codex:coordinator-59095155"
+            ],
+            "revision": "5c89947c8cf4056f4463cf496fe099bb777c6967",
+            "paths": [
+              "tests/tooling/test_proof_publication.py",
+              "tests/tooling/test_repository_checks.py",
+              "tests/schema_validation/test_proof_publication_integration.py",
+              "tests/support/publication_fixture.py",
+              "tests/support/proof_publication_fixture.py",
+              "tests/support/frozen_proof_policy.py",
+              "tests/support/apitest016-supplemental-b506434.json",
+              "tests/tooling/test_proofs.py",
+              "tests/tooling/test_workflow.py",
+              "tests/schema_validation/test_proof_schemas.py",
+              "tests/tooling/test_publication.py",
+              "tests/schema_validation/test_publication_integration.py"
+            ],
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:b03773b7-9bb7-4236-997e-f25cbeba6bc0",
+                "revision": "9db694c5fe2ae81be9accc3188e096df72ec884f",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6863285521",
+                "findings": [
+                  "M003-TI-B1",
+                  "M003-TI-B2",
+                  "M003-TI-B3",
+                  "M003-TI-B4",
+                  "M003-TI-B5",
+                  "M003-TI-B6",
+                  "M003-TI-B7",
+                  "M003-TI-B8",
+                  "M003-TI-N1",
+                  "M003-TI-N2",
+                  "M003-TI-N3",
+                  "M003-TI-N4",
+                  "M003-TI-N5",
+                  "M003-TI-N6",
+                  "M003-TI-N7",
+                  "M003-TI-N8",
+                  "M003-TI-N9",
+                  "M003-TI-N10",
+                  "M003-TI-N11",
+                  "M003-TI-N12",
+                  "M003-TI-N13"
+                ],
+                "blocking_findings": [
+                  "M003-TI-B1",
+                  "M003-TI-B2",
+                  "M003-TI-B3",
+                  "M003-TI-B4",
+                  "M003-TI-B5",
+                  "M003-TI-B6",
+                  "M003-TI-B7",
+                  "M003-TI-B8"
+                ],
+                "started_at": "2026-11-13T19:33:53Z",
+                "finished_at": "2026-11-13T19:43:59Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:2133dce1-25d3-4bc5-91f7-1726b83db149",
+                "revision": "5c89947c8cf4056f4463cf496fe099bb777c6967",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6863395981",
+                "findings": [],
+                "blocking_findings": [],
+                "started_at": "2026-11-13T19:54:03Z",
+                "finished_at": "2026-11-13T19:56:38Z"
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:2d8d8109-b200-4d4d-b7e4-e62c4b388042",
+                "revision": "5c89947c8cf4056f4463cf496fe099bb777c6967",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6863614765",
+                "findings": [
+                  "M003-TC-N1",
+                  "M003-TC-N2",
+                  "M003-TC-N3",
+                  "M003-TC-N4",
+                  "M003-TC-N5"
+                ],
+                "blocking_findings": [],
+                "started_at": "2026-11-13T19:58:06Z",
+                "finished_at": "2026-11-13T20:05:29Z"
+              }
+            ]
+          },
+          "implementation": {
+            "authors": [
+              "codex:migrate003-implementation-20261113:/root",
+              "codex:migrate003-test-author-20261113:/root",
+              "codex:coordinator-59095155"
+            ],
+            "revision": "fcf205a86398004b5c2863eee4d8c85e2af2d023",
+            "paths": [
+              "tools/check_publication.py",
+              "tools/check_project.py",
+              "tools/proofs.py",
+              "tests/schema_validation/CMakeLists.txt"
+            ],
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:12c6bbe7-fbe7-473e-b5af-a964f8e2410f",
+                "revision": "a8f83587b7cebb1839f0e9914ee391cfe3975783",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6864254025",
+                "findings": [
+                  "M003-II-B1",
+                  "M003-II-B2",
+                  "M003-II-N1",
+                  "M003-II-N2",
+                  "M003-II-N3",
+                  "M003-II-N4",
+                  "M003-II-N5",
+                  "M003-II-N6",
+                  "M003-II-N7",
+                  "M003-II-N8",
+                  "M003-II-N9",
+                  "M003-II-N10"
+                ],
+                "blocking_findings": [
+                  "M003-II-B1",
+                  "M003-II-B2"
+                ],
+                "started_at": "2026-11-13T20:22:45Z",
+                "finished_at": "2026-11-13T20:32:35Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:01a1d6a3-dc3a-77e2-b2d4-9ef1a5e66eac",
+                "revision": "fcf205a86398004b5c2863eee4d8c85e2af2d023",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6864492856",
+                "findings": [
+                  "M003-IV-N1"
+                ],
+                "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:aef755ed-bee2-4d0e-8416-9145cb035f6a",
+                "revision": "fcf205a86398004b5c2863eee4d8c85e2af2d023",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6864658882",
+                "findings": [
+                  "M003-IC-N1",
+                  "M003-IC-N2",
+                  "M003-IC-N3",
+                  "M003-IC-N4",
+                  "M003-IC-N5"
+                ],
+                "blocking_findings": []
+              }
+            ]
+          }
+        }
+      },
+      "publication": {
+        "state": "open",
+        "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/634",
+        "head": "9fa49fbf76e28075d88a49547cf2116ecdf28d33",
+        "merge_commit": null,
+        "merged_at": null,
+        "observed_at": "2026-11-13T20:56:07+00:00"
+      }
     },
     {
       "id": "MIGRATE-004",
@@ -22429,6 +22767,21 @@
       "date": "2026-11-13",
       "task": "MIGRATE-002",
       "note": "Coordinator claimed authorized successor on branch from current main; fresh contract authorship before reviewed tests/intended red/implementation. No cutover."
+    },
+    {
+      "date": "2026-11-13",
+      "task": "MIGRATE-002",
+      "note": "Verified final PR633 protected merge a277c5d at reviewed eb2d991 after 21 app-bound checks, full independent approvals, no unresolved threads; issue627 closed after readback."
+    },
+    {
+      "date": "2026-11-13",
+      "task": "MIGRATE-003",
+      "note": "Claimed next owner-authorized migration task from current main; exact contract must resolve historical NI baseline versus current final-source binding before implementation."
+    },
+    {
+      "date": "2026-11-13",
+      "task": "MIGRATE-003",
+      "note": "Observed reviewed source-bound NI baseline after SDK setup; all87 nonpassing sections classified. Assigned fresh implementation session; production authority unchanged."
     }
   ],
   "workflow_policy": {

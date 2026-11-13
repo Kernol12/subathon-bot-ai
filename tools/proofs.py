@@ -67,26 +67,31 @@ def safe_path(path: Path, *, directory=False) -> Path:
     return path
 
 
-def read_json(path: Path) -> object:
-    """Read a regular UTF-8 JSON input with duplicate and nonfinite values refused."""
+def read_json_bytes(payload: bytes, source: str) -> object:
+    """Parse strict UTF-8 JSON identically for filesystem and Git transports."""
     def pairs(items):
         result = {}
         for key, value in items:
             if key in result:
-                raise ValueError(f'{path}: duplicate key {key}')
+                raise ValueError(f'{source}: duplicate key {key}')
             result[key] = value
         return result
     def constant(value):
-        raise ValueError(f'{path}: nonfinite JSON number {value}')
+        raise ValueError(f'{source}: nonfinite JSON number {value}')
     def floating(value):
         number = float(value)
         if not math.isfinite(number):
-            raise ValueError(f'{path}: nonfinite JSON number {value}')
+            raise ValueError(f'{source}: nonfinite JSON number {value}')
         return number
     try:
-        return json.loads(safe_path(path).read_text(encoding='utf-8'), object_pairs_hook=pairs, parse_constant=constant, parse_float=floating)
+        return json.loads(payload.decode('utf-8'), object_pairs_hook=pairs, parse_constant=constant, parse_float=floating)
     except (ValueError, UnicodeError, RecursionError) as error:
-        raise ValueError(f'{path}: {error}') from error
+        raise ValueError(f'{source}: {error}') from error
+
+
+def read_json(path: Path) -> object:
+    """Preflight a regular input, then use the shared strict bytes parser."""
+    return read_json_bytes(safe_path(path).read_bytes(), str(path))
 
 
 def discover_records(directory: Path) -> list[Path]:
