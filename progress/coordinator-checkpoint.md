@@ -26,12 +26,13 @@ WORKFLOW005/CI003/CI002 completion facts and historical failures retained. Origi
 Private receipts: local-evidence/EPIC-029; prior receipts remain under WORKFLOW-005.
 No live/provider/platform/product proof added.
 
-Next: coordinator independently reviews the authored MIGRATE-001 packet at its exact
-committed revision, resolves findings through required cycle, then controls publication.
-No runtime/test behavior change or production cutover in this packet.
-
-Authored packet revision: 155521fba3bf004ed8cb64e3244c24c83943e23b. Stage has no review receipts;
-next gate is independent Claude initial. Existing tooling136 passed, project/validate/
-render checks passed; private command logs retained. No unresolved product question
-is claimed resolved by review; contract decisions await the coordinator review cycle.
-Scaffold configure/build/CTest passed 3/3 infrastructure nodes; no product acceptance.
+Next: independent Codex verification of corrected contract and metadata, then fresh
+Claude closing review. Initial Claude changes-requested report retained at
+https://github.com/Kernol12/subathon-bot-ai/issues/626#issuecomment-6858242387
+Initial reviewer independently verified PR126 material completion claims including
+head-specific current CI/merge facts and evidence URLs. hosted_ci now describes
+afc46d6 only; prior failed-head observations remain unchanged, not retroactively passed.
+WORKFLOW-006 now depends on MIGRATE-005 in authoritative state to match live native
+blocking; title drift on issue619 is an explicit cutover reconciliation input.
+Correction author codex:coordinator-59095155; original author session finished.
+No active writer; pending independent review. No production or successor work.
