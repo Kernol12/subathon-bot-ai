@@ -51,7 +51,7 @@ class ProofSchemas(unittest.TestCase):
             self.assertEqual(schema['$schema'], 'https://json-schema.org/draft/2020-12/schema')
             self.Draft.check_schema(schema)
         proof_validator, policy_validator = [self.Draft(s, registry=self.registry) for s in schemas]
-        positives = [examples.record(), examples.reviewed_record()]
+        positives = examples.shape_positive_records()
         historical = examples.record('APITEST-016')
         historical['supplemental_workflow_evidence'] = examples.supplemental()
         positives.append(historical)
@@ -75,6 +75,16 @@ class ProofSchemas(unittest.TestCase):
             bad = examples.record(); bad[key] = value
             with self.subTest(field=key, value=value), self.assertRaises(self.Invalid):
                 proof_validator.validate(bad)
+        baseline, nested_negatives = examples.nested_shape_refusals()
+        proof_validator.validate(baseline)
+        for bad in nested_negatives:
+            with self.subTest(nested='single shape/enum edit'), self.assertRaises(self.Invalid):
+                proof_validator.validate(bad)
+        for brief in examples.immutable_brief_refusals():
+            bad = examples.record(); bad['brief'] = brief
+            with self.subTest(immutable_brief=brief), self.assertRaises(self.Invalid):
+                proof_validator.validate(bad)
+        # ID patterns must exclude a final LF explicitly; bare regex '$' is unsafe.
         for key in examples.record():
             bad = examples.record(); del bad[key]
             with self.subTest(missing=key), self.assertRaises(self.Invalid):
