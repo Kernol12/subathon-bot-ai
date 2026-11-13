@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T17:03:54.429868+00:00",
+  "updated_at": "2026-11-13T17:24:22.906292+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -19754,12 +19754,12 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-002.md",
       "summary": "Separate review evidence from task tracking. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Contract approved at 8920909; 17 tooling methods + 1 real-schema aggregate authored at 7d5bcdd with frozen policy/history and NI seams. Full independent test review pending; no new tests/schema tests executed, no intended red or implementation. Static/project/progress checks passed. State sole authority; product/WF006/007 stopped."
+        "Tests corrected after initial Claude findings: immutable links, missing input, canonical symlinks, bookkeeping/path safety, nested shapes/parity, serialization/report and strict-source oracles, full context nonaliasing. No new test bodies run. Independent Codex verification then Claude closing pending before meaningful red/fresh implementation."
       ],
       "verification": {
         "contract_authored": "passed",
         "contract_review": "passed",
-        "test_review": "not_run",
+        "test_review": "blocked",
         "baseline": "not_run",
         "implementation": "not_run",
         "acceptance": "not_run",
@@ -19866,9 +19866,10 @@
           },
           "tests": {
             "authors": [
-              "codex:test-author:01a1d5de-93a6-7f72-a732-52f576b6a33f"
+              "codex:test-author:01a1d5de-93a6-7f72-a732-52f576b6a33f",
+              "codex:coordinator-59095155"
             ],
-            "revision": "7d5bcdd6d4100bdd4c86bd2af780f86deb51a880",
+            "revision": "14c6c459ee21b09557aa6bbb0fc812d5afc6f230",
             "paths": [
               "tests/tooling/test_proofs.py",
               "tests/support/frozen_proof_policy.py",
@@ -19879,7 +19880,51 @@
               "progress/proof.schema.json",
               "progress/proof-policy.schema.json"
             ],
-            "reviews": []
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:112cbf21-ac6e-4a14-b829-1d2b697e5b5e",
+                "revision": "7d5bcdd6d4100bdd4c86bd2af780f86deb51a880",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6860058723",
+                "findings": [
+                  "M002-TI-001",
+                  "M002-TI-002",
+                  "M002-TI-003",
+                  "M002-TI-004",
+                  "M002-TI-005",
+                  "M002-TI-006",
+                  "M002-TI-007",
+                  "M002-TI-008",
+                  "M002-TI-009",
+                  "M002-TI-N01",
+                  "M002-TI-N02",
+                  "M002-TI-N03",
+                  "M002-TI-N04",
+                  "M002-TI-N05",
+                  "M002-TI-N06",
+                  "M002-TI-N07",
+                  "M002-TI-N08",
+                  "M002-TI-N09",
+                  "M002-TI-N10"
+                ],
+                "blocking_findings": [
+                  "M002-TI-001",
+                  "M002-TI-002",
+                  "M002-TI-003",
+                  "M002-TI-004",
+                  "M002-TI-005",
+                  "M002-TI-006",
+                  "M002-TI-007",
+                  "M002-TI-008",
+                  "M002-TI-009"
+                ],
+                "started_at": "2026-11-13T17:13:17Z",
+                "finished_at": "2026-11-13T17:19:45Z"
+              }
+            ]
           }
         }
       }
