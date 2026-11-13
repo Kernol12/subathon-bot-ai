@@ -11,12 +11,12 @@ import sys
 
 MIRROR_URI = "mirror+file:/etc/apt/apt-mirrors.txt"
 # Admission is independent of the diagnostic-only URI labels below.
-_SECURITY_URIS = {
+_SECURITY_URIS = frozenset({
     "http://security.ubuntu.com/ubuntu",
     "http://security.ubuntu.com/ubuntu/",
     "https://security.ubuntu.com/ubuntu",
     "https://security.ubuntu.com/ubuntu/",
-}
+})
 MIRRORS = ("https://mirrors.edge.kernel.org/ubuntu/\tpriority:1\n"
            "https://archive.ubuntu.com/ubuntu/\tpriority:2\n"
            "https://security.ubuntu.com/ubuntu/\tpriority:3\n")
@@ -120,7 +120,7 @@ def _matches_split_security_profile(source: str, parsed: list[dict]) -> bool:
 
 
 def validate_sources(source: str) -> None:
-    """Refuse unfamiliar deb822 layouts before touching the runner configuration."""
+    """Refuse unfamiliar layouts; emit source_admitted for a full split match."""
     # Count complete evidence stanzas before selecting the first refusal. Comments
     # do not create stanzas; positions retain the original splitlines numbering.
     stanzas, lines = [], []

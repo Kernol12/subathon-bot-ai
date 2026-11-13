@@ -44,9 +44,11 @@ or update-output capture is added. Existing job timeouts bound
 the whole run. Mocked tooling tests establish control flow; authenticated acquisition
 and all nine selected-host jobs still require actual current-head CI.
 Hosted evidence must say whether the new admission record appeared. A green run
-without it establishes only "profile not platform-observed". Any required lane that
-still refuses its source blocks merge and needs a reviewed refinement; rerunning for
-luck or guessing hidden source values does not establish compatibility.
+without it establishes only "profile not platform-observed". Any failed required
+lane blocks merge; a remaining source refusal needs a separately reviewed refinement.
+Local passes or a green run do not show that the originally refused PR126 host
+matched this profile; its unobserved values remain unknown. Rerunning for luck or
+guessing hidden source values does not establish compatibility.
 
 | Workflow | Automatic PR/main scope |
 | --- | --- |
