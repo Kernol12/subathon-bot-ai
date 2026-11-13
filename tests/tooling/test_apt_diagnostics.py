@@ -11,6 +11,7 @@ import json
 import os
 from pathlib import Path
 import platform
+import socket
 import subprocess
 import sys
 import unittest
@@ -108,6 +109,31 @@ class NamedEnvironment(dict):
         except KeyError:
             return default
 
+    def __contains__(self, key):
+        if key not in ("GITHUB_ACTIONS", "RUNNER_ENVIRONMENT", "ImageOS", "ImageVersion"):
+            raise AssertionError("unrelated environment read")
+        return super().__contains__(key)
+
+    def setdefault(self, key, default=None):
+        self.__contains__(key)
+        return super().setdefault(key, default)
+
+    def pop(self, key, *default):
+        self.__contains__(key)
+        return super().pop(key, *default)
+
+    def copy(self):
+        raise AssertionError("environment dump")
+
+    def __repr__(self):
+        raise AssertionError("environment dump")
+
+    def __str__(self):
+        raise AssertionError("environment dump")
+
+    def __len__(self):
+        raise AssertionError("environment dump")
+
     def __iter__(self):
         raise AssertionError("environment dump")
 
@@ -183,6 +209,7 @@ class AptSandbox:
                      "ImageOS": "ubuntu24", "ImageVersion": "20261111.127.1"}
                     if env is None else env)
         self.trace, self.calls = [], []
+        self.validation_error = None
         self.stdout = StringIO()
         self.stderr = ControlledStderr(self.trace, target, fault, persistent)
 
@@ -200,12 +227,20 @@ class AptSandbox:
 
         def validate(source):
             self.trace.append(("validate",))
-            return original_validation(source)
+            try:
+                return original_validation(source)
+            except BaseException as error:
+                self.validation_error = error
+                raise
+            finally:
+                self.trace.append(("validate_end",))
 
         self.validation = enter(patch.object(apt, "validate_sources", side_effect=validate))
         enter(patch.object(subprocess, "run", side_effect=self.run_command))
         for name in ("Popen", "check_call", "check_output", "call"):
             enter(patch.object(subprocess, name, side_effect=AssertionError("real process")))
+        for name in ("socket", "create_connection", "getaddrinfo"):
+            enter(patch.object(socket, name, side_effect=AssertionError("real network")))
         enter(patch.object(os, "system", side_effect=AssertionError("real process")))
         enter(patch.object(os, "open", side_effect=AssertionError("direct file access")))
         for name in ("open", "read_bytes", "write_text", "write_bytes"):
@@ -281,6 +316,9 @@ class AptDiagnosticsTests(unittest.TestCase):
             self.assert_read_once(sandbox)
             self.assertIn(UNSUPPORTED, sandbox.stderr.getvalue())
             self.assert_records(sandbox, [RUNNER_LINE, expected])
+            self.assertLess(sandbox.trace.index(("write", expected)),
+                            sandbox.trace.index(("validate_end",)))
+            self.assertIsInstance(sandbox.validation_error, RuntimeError)
             self.assertEqual(sandbox.stderr.getvalue(), RUNNER_LINE + expected + UNSUPPORTED)
             self.assertEqual(sandbox.trace[:5], [("os_release",), ("source_read",),
                                                ("write", RUNNER_LINE), ("flush",),
@@ -298,9 +336,10 @@ class AptDiagnosticsTests(unittest.TestCase):
                           "intended assertion red: CI_APT_RUNNER_RECORD_MISSING")
             self.assert_records(sandbox, [RUNNER_LINE])
             self.assertEqual(sandbox.stderr.getvalue(), RUNNER_LINE)
-            self.assertEqual(sandbox.trace[:6], [("os_release",), ("source_read",),
+            self.assertEqual(sandbox.trace[:7], [("os_release",), ("source_read",),
                                                ("write", RUNNER_LINE), ("flush",),
-                                               ("validate",), ("command",)])
+                                               ("validate",), ("validate_end",), ("command",)])
+            self.assertNotIn("noble-backports", sandbox.stdout.getvalue() + sandbox.stderr.getvalue())
 
     def test_source_refused_record_for_fixed_label(self):
         """Future red #2: legacy refusal/zero-work prerequisites before protocol red."""
@@ -315,6 +354,9 @@ class AptDiagnosticsTests(unittest.TestCase):
             self.assertIn(expected, sandbox.stderr.getvalue(),
                           "intended assertion red: CI_APT_SOURCE_REFUSED_RECORD_MISSING")
             self.assert_records(sandbox, [RUNNER_LINE, expected])
+            self.assertLess(sandbox.trace.index(("write", expected)),
+                            sandbox.trace.index(("validate_end",)))
+            self.assertIsInstance(sandbox.validation_error, RuntimeError)
             self.assertNotIn("private", sandbox.stderr.getvalue())
             self.assertEqual(sandbox.stdout.getvalue(), "")
 
@@ -395,6 +437,8 @@ class AptDiagnosticsTests(unittest.TestCase):
             with self.subTest(layout=index), AptSandbox(self, source) as sandbox:
                 self.assertEqual(apt.main(), 0)
                 self.assert_records(sandbox, [RUNNER_LINE])
+                self.assertNotIn("noble-backports", sandbox.stdout.getvalue() + sandbox.stderr.getvalue())
+                self.assertNotIn(source, sandbox.stdout.getvalue() + sandbox.stderr.getvalue())
                 self.assert_read_once(sandbox)
                 self.assertEqual(sandbox.calls[-1][0], UPDATE)
 
@@ -578,6 +622,9 @@ class AptDiagnosticsTests(unittest.TestCase):
                         sandbox.validation.assert_called_once_with(A + "Snapshot: private\n")
                     prior = "" if target == "runner" else RUNNER_LINE
                     attempted = RUNNER_LINE if target == "runner" else refused_line
+                    if target == "source_refused":
+                        self.assertLess(sandbox.trace.index(("write", attempted)),
+                                        sandbox.trace.index(("validate_end",)))
                     if fault in ("write_oserror", "write_valueerror"):
                         retained = ""
                     elif fault == "write_short":
@@ -610,6 +657,9 @@ class AptDiagnosticsTests(unittest.TestCase):
                         sandbox.validation.assert_not_called()
                     else:
                         self.assertTrue(sandbox.stderr.getvalue().startswith(RUNNER_LINE))
+                        attempted = refusal("unknown_field", 1, 7, "Snapshot", None, 6, 0)
+                        self.assertLess(sandbox.trace.index(("write", attempted)),
+                                        sandbox.trace.index(("validate_end",)))
                     self.assert_read_once(sandbox)
 
     def test_checked_update_keeps_inherited_output_and_never_retries(self):
