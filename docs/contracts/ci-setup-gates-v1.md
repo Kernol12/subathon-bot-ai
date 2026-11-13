@@ -1,6 +1,9 @@
 # CI setup and merge gates — v1
 
 CI-002; specification v0.45 §§17–18; [task brief](../tasks/CI-002.md).
+The later [CI-003 profile contract](ci-noble-security-source-v1.md) proposes one
+strict split-security admission and fixed event extension. It applies only with
+reviewed CI-003 tooling; every other v1 requirement below remains unchanged.
 This is authored contract material awaiting independent review, not approval,
 implementation, an observed red run, hosted recovery or an applied settings change.
 It refines [CI-001 recovery revision 2](../tasks/CI-001.md) and

@@ -1,77 +1,60 @@
-# Coordinator checkpoint
+# Coordinator checkpoint — publish CI-003, finish PR126, pause
 
-Owner authorized WORKFLOW-004–007 and CI-002 through full reviews and protected
-publication, then STOP. Product/API-001/API-016 remain stopped. Root branch
-`task/CI-002-setup-diagnostics`, base/main `3c74966`.
+Latest owner instruction: finish PR126 then PAUSE. CI-003 is its necessary explicit
+prerequisite. No WORKFLOW-006/007 or product/API001/API016 work is authorized.
+Branch task/CI-003-noble-security-source; base main e0816de503a88f94726a774be1932fbf4eea4984.
+CI-002/PR622 already merged there; its done record is reconciled, no settings PUT.
 
-## CI-002 final hosted and protected merge gate
+ALL CI-003 substantive cycles CLOSED:
+contract e41a830d7e35aeab0bb03cbd7812709876498b23 (3paths), closing receipt
+https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850904348
+tests8a3b9f65f3fbd0e9d1dbaec3f033a66a23b8fe40 (1file/21methods), closing
+https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851831236
+code1acf18d9eea7f451148733f83e4568ccd39ac1cf (producer+docsCI), closing0B/0A
+https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6852698060
+Full histories/actual identities/verdicts remain in state and public PR receipts.
+Private reports: local-evidence/CI-003/{contract-reviews,test-reviews,code-reviews}.
+Actual named intended red at0950c82:1test/1assertFAIL/0ERROR/0skip AFTER all
+fixture/read/runner/refusal/zerochild prerequisites. No missingAPI/stub. Receipt
+https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851874359
+Raw proof local-evidence/CI-003/red-v1. Never replay as red after implementation.
 
-PR622 is watched and open draft. Last observed remote `d252201` has all 21 exact
-app-bound checks successful: 19 PR runs, all attempt 1, 20 Actions jobs plus
-GitGuardian, no extra statuses. All nine APT preparation steps succeeded with one
-real runner record each; merge-test parents and job/check-suite/run/head/base
-associations were verified. No unknown layout was newly admitted or rerun for luck.
-Actual hosted/admin receipt:
-https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847660001
-Private raw data: `local-evidence/CI-002/hosted-d252201`.
+Source FROZEN: producer4b38809e851a94b2f37d0c90eeb060180af90564,
+guide016b88e1ee124ba4b14f5c16d6a6b307a8e4d3ae, newtest4b40acb2b83547ec644539876c77dab7b8414dfd,
+legacy919f15a8efc755b611dd18ce25d6394ba1c494d8, diagnosticfd3f1ec2d254b66004bd23b184e966a6b99597d1.
+Independent source audits confirmed literal immutable4URI allowlist, original decoded
+raw eligibility before strippedvalues, full structural scan/profile/fallback order,
+C-A1 emission failures, no new I/O/lookup/env/process/read/rewrite/retry/capture/trust/
+pin/dependency. All27 old methods/assertions stay unchanged;496tasks/120exemptions.
 
-All source and material-evidence reviews are now APPROVED. Current implementation
-packet `3584f08` binds exactly `tools/prepare_ubuntu_apt.py` and `docs/CI.md`.
-The dated guide was the only change after earlier full code/settings approval.
-Independent Codex follow-up and fresh Claude closing approved it with no blockers:
-https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847852210
-https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847967578
-PC-A1 spacing nit is accepted; preserve the exact approved packet. Reviewers
-recomputed saved hosted/admin data and independently read current full/effective
-rules. Capture freshness and the single PUT are coordinator-observed executions,
-not independently authenticated review claims. No denial experiment was claimed.
+Actual corrected-code112tooling (includes48APT) passed0skips; independent Codex and
+Claude closing each ran48APT/metadata successfully. Earlier author8real-schema/
+3scaffold at priorproducer9022609 passed. NEXT final committed-head local preflight
+(schema8/scaffold3/project/progress and artifact binding) before own focused PR;
+all logs private under local-evidence/CI-003. Existing admitted schema interpreter:
+build/workflow005-schema-venv/bin/python; preserve lexicalvenvpath, fixedenv/-I-S-B,
+no installs. Source reviews are complete; routine publication records do not revise
+source packets. PR body draft/snapshots in publication-prep-v1, copy to /tmp as needed.
+Root read-only12:10Z fullruleset snapshot matched reviewedpayload/alloldparameters/
+21appboundpairs, main e0816de; NOT futuremerge/currentheadCI proof. No settings changes.
 
-Next: commit/push the final metadata candidate, immediately link after push, then
-let the existing watch wake on actual new-head CI. Do not rewatch/list/relink on
-ordinary wakes. Require all 21 current-head checks, fresh actual protections/main/
-head/producer inventory, reviews and resolved threads; mark ready and use normal
-protected merge only. Task stays in_review until publication. Do not resume PR126
-before CI-002 actually merges. Record actual merge publication/done during the next
-authorized integration; no status-only completion PR is needed.
+Own CI-003 PR/push not created yet at this checkpoint. Publish exact checked clean
+candidate, link as next call, then watch and wait for current-head all21success.
+Inspect all9actual hosted package-preparation logs, record whether source_admitted
+ran. Greenwithout event allows ONLY profile not platform-observed; anyfailedrequired
+lane blocksmerge, continued refusal needs reviewedrefinement. No luckrerun/relaxation/
+hiddenvalueguess. No fullfailedhostsource/match/recovery/platformrelease claim.
+Merge normally only with exactcurrenthead checks/reviews/rules and resolvedthreads;
+never --admin/bypass. Save actualCI003closure locally for parent resume.
 
-## Applied settings — do not apply again
-
-The exact reviewed payload was applied once to ruleset 26170263 after complete
-fresh observations and all 21 successes. At 08:09:41 UTC, PUT response, separate
-full GET and effective-main GET matched: active default-branch enforcement of
-21 unique app-bound pairs (20 Actions 15368, GitGuardian 46505), both booleans false;
-all prior rules, parameters and array order preserved, empty bypass list and
-extra-approval true retained. Independent Codex and Claude later live GETs found
-no drift. Private evidence: `local-evidence/CI-002/settings-apply-d252201`.
-Payload SHA256 `680e0afc805d2c90e572c6726f3dc334f8cf0f332f359915337bdcbeb88912f7`.
-No blind retry/revert/bypass/fake human approval/permission broadening. Future
-material drift needs reviewed reconciliation. Readback proves configuration;
-actual final-head checks and normal merge remain the publication evidence.
-
-## Retained scope and evidence
-
-Contract/brief `67c5506`, tests `221a749` and prior helper/guidance `13990d4` full
-cycles remain valid for unchanged material. Exact two intended assertion reds at
-`cbc54d8`, zero errors/skips, preceded fresh helper implementation `22e4950`.
-Local author 19 diagnostics/8 legacy/91 tooling/scaffold 3 pass, initial Claude
-27+91 pass, Codex/closing reviewers 27 pass; zero skips. The dated receipt reviewers
-ran project/progress/render/diff only. No redundant suite or red replay needed.
-Helper/tests/contract/workflows/CMake/pins remain frozen; all eight legacy APT
-methods/64 assertions preserved. No new identity/cloud/network/Python DNS lookup,
-process retry/capture or admission change. Seven diagnostics, two writes, native
-Acquire::Retries 1 and one checked inherited-output update300s remain unchanged.
-TC-A1 old-lookup fixture gap is accepted and covered by source audit. C-A1 precision
-must remain in future changed implementation/review packets:
-https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6845562002
-Former incident layout remains unidentified. A future refusal needs actual records
-and private source evidence, reviewed refinement inside CI-002 and any substantial
-prerequisite split first. Raw logs stay ignored/private; safe public receipts only.
-
-## Parked program
-
-PR126 is open draft, parked and unwatched at `42462d1`; local WORKFLOW-005 branch
-`05e204d` retains source and complete reviews `447aa06`/`77b1522`/`3720c42`.
-Main's WORKFLOW-005 record is planned because its claim branch is unmerged; preserve
-that history when integrating current main once after CI-002. PR121 parked; PR125
-merged. Finish CI-002, resume/merge WORKFLOW-005, then WORKFLOW-006/007, then STOP.
-Historical 120-task exemptions and inactive WORKFLOW-006 policy remain unchanged.
+PR126 stays linked/watched and parked remotely at1fdedfb363e79f134975dc7b796fec85034fea9d;
+local118425c4aee6cc8e3a1e9c0c55bb9dfd6e95aa31 on task/WORKFLOW-005-context-publication.
+Approved contract447aa06/tests77b1522/code3720c42 remain. Its6check publisher passed;
+API-host/exact-numeric hosted refusals: stanza2/line52 ubuntu_security,4fields/1otherstanza.
+Rawlogs local-evidence/WORKFLOW-005/ci-1fdedfb, boundedtriage
+https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6849584005
+After CI003protectedmerge, resume PR126, integrate substantiveprerequisite ONCE and
+retain its rich WORKFLOW005record (main still planned). Carry actualCI003done/merged
+receipt, rerun relevant local/tooling/scaffold/schema and actualpublicationchecker
+with admittedvenv, freshall21/normalprotectedmerge. Then save final localpause state,
+unwatch allwatched PRs, PAUSE. Start no newtask after PR126.

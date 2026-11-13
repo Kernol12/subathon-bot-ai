@@ -15,14 +15,26 @@ After the existing host guards and single source read, preparation emits a bound
 environment values. A refused layout emits a fixed-label `source_refused` record
 before raising, without printing the source or starting any command. Unknown values
 stay unknown. Record-emission or source-decoding failure stops preparation; a
-diagnostic record does not admit an unfamiliar layout. The exact format, failure
+runner record does not admit an unfamiliar layout. The exact format, failure
 semantics and evidence limits are in the [CI-002 contract](contracts/ci-setup-gates-v1.md).
+
+The [CI-003 profile](contracts/ci-noble-security-source-v1.md) also recognizes an
+exact two-stanza Noble archive/security layout. It checks all five required fields
+in both stanzas, the suites, components and Ubuntu keyring, and the original decoded
+line grammar. Only a complete match emits the fixed `source_admitted` record with
+profile `noble_split_security_v1`, before any command or write. This record confirms
+profile validation; later acquisition can still fail. Other layouts use the existing
+validation and refusal rules. The contract defines the exact literal URI allowlist,
+column-zero comments and empty separators.
 
 Best-effort resolver status, the original mirror list and four IPv4 hostname lookups
 are logged with command status and captured output, each with a ten-second deadline.
 These are diagnostics only. Preparation prefers the kernel.org Ubuntu mirror with
 canonical archive/security fallbacks, preserving Ubuntu signing trust, exact package
 versions and SDK admission checks. It changes no resolver, proxy or other source file.
+For the split profile, the security pocket is fetched directly from its validated
+`security.ubuntu.com` URI, outside that mirror list. An outage there fails the strict
+update; preparation adds no fallback rewrite or process retry.
 
 Checked writes set that mirror list, APT's native `Acquire::Retries "1"`, 15-second HTTP/HTTPS
 timeouts and strict update errors. A checked `apt-get update` has a 300-second process
@@ -31,6 +43,12 @@ enabled and their update failures also fail preparation. No additional process r
 or update-output capture is added. Existing job timeouts bound
 the whole run. Mocked tooling tests establish control flow; authenticated acquisition
 and all nine selected-host jobs still require actual current-head CI.
+Hosted evidence must say whether the new admission record appeared. A green run
+without it establishes only "profile not platform-observed". Any failed required
+lane blocks merge; a remaining source refusal needs a separately reviewed refinement.
+Local passes or a green run do not show that the originally refused PR126 host
+matched this profile; its unobserved values remain unknown. Rerunning for luck or
+guessing hidden source values does not establish compatibility.
 
 | Workflow | Automatic PR/main scope |
 | --- | --- |

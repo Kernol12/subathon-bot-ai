@@ -58,6 +58,15 @@ successful final-head checks. These publication observations were read from GitH
 for WORKFLOW-003; historical unrun checks remain unchanged. Host lifecycle CI still
 compiles its intentional-red baseline; no new host or product behavior is claimed.
 
+[CI-002](../tasks/CI-002.md) adds bounded runner/source-refusal records and enforces
+21 required contexts bound to their source apps. Existing source admission, package
+trust, command bytes, assertions and repository protections are preserved. All nine
+APT preparation steps and all 21 final required checks pass at `bd060a0`; the normal
+protected merge and full/effective-main readback are recorded in
+[PR622](https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6848369574).
+The formerly refused layout remains unidentified; no new process retry or source
+relaxation was introduced.
+
 [WORKFLOW-003](../tasks/WORKFLOW-003.md) implements structured forward review gates,
 publication observations and dependency readiness, derived stage packets/metrics and
 coherent handoff guidance. Independent contract/test initial and closing Claude reviews
