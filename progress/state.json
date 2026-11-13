@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T23:20:34.729232+00:00",
+  "updated_at": "2026-11-13T23:21:40.829249+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20500,7 +20500,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
       "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Primary closing rejected glued-prose citation gaps; separate ADR-0012 initial rejected seven scope gaps. Both reports retained. Correcting contracts only; no tests/runtime/deletions. Availability candidate has 799 non-main candidates with roles unresolved, not approval. State remains authoritative; product/WF006/007 stopped."
+        "Contract corrections45f14d1 address glued citations and seven separate cleanup findings, including actual proof CI and explicit automation losses. Independent primary and cleanup Codex verifications then Claude closings remain required. No tests/runtime/deletions or cutover; availability audit partial, roles unresolved. State authoritative; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -20509,7 +20509,7 @@
         "baseline": "not_run",
         "implementation": "not_run",
         "acceptance": "not_run",
-        "contract_verification": "passed"
+        "contract_verification": "not_run"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/issues/629",
@@ -20528,7 +20528,7 @@
               "codex:migrate004-contract-author-20261113:/root",
               "codex:coordinator-59095155"
             ],
-            "revision": "d082c4932c1668891621a3c50af7d07f7bcdaa6b",
+            "revision": "45f14d1af9398376ddb011eb47d4b87fec1032b3",
             "paths": [
               "docs/contracts/github-authority-cutover-v1.md",
               "docs/contracts/github-tracker-retirement-scope-v1.md",

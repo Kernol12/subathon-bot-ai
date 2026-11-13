@@ -82,3 +82,15 @@ Availability research candidate /tmp/migrate004-availability-candidate is PARTIA
 closure and durable remote readback incomplete. Exact six receipt blob matches are
 local facts only. No archive/pin/role/availability approval. Continue documentary review
 and independent migration work only; no forbidden ancestry publication or blanket waiver.
+
+Corrections source45f14d1af9398376ddb011eb47d4b87fec1032b3 changes only the primary
+cutover and exact retirement documents. Full correction matrix is privately saved at
+/tmp/migrate004-scope-and-discovery-corrections.md. Primary packet still three paths,
+same two authors, every rejected/approved prior review retained. New proposal now
+requires actual canonical bundle Python/real-SDK validation in ordinary CI, ten honest
+publication limitations, corrected mixed assertion splits, exact non-method/helper
+pins and destinations, and one primary SDK integration owner. No behavior source or
+test source changed. Existing project/validate/render/whitespace checks pass. Separate
+Codex primary and ADR-scope verifications next, then fresh Claude closings; no test
+authorship before both approvals. Availability role/closure/privacy/remote audit remains
+unresolved; no archive/pin/deletion/native mutation or implicit waiver.
