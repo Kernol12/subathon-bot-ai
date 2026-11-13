@@ -6,8 +6,7 @@ dependency rescope permitted, not new review/results policy. Fullv0.45 preserved
 State remains task/proof authority until the final reviewed004 cutover merge.
 
 Checkout task/MIGRATE-004-github-authority from actual main b80e94f. Old003 branch,
-stale unrelated localmain and worktrees preserved.004 claimed for fresh contract author
-codex:migrate004-contract-author-20261113:/root; no active writer until dispatch.
+stale unrelated localmain and worktrees preserved.004 contract authored by codex:migrate004-contract-author-20261113:/root atcdbfed03dd84333a00a79438ffaea2c87028af03; no active writer after handoff.
 Coordinator owns state/HTML/checkpoint/GitHub reconciliation/archive/publication.
 Contract author owns versioned exact cutover contract, separate exact ADR0012 method/
 assertion disposition map and004brief links only; independent cycles before newbehavior.
@@ -47,3 +46,5 @@ shared briefs needed by unfinishedtasks. Nativeboard status not proof or authori
 No permanent kind ledger/claimlease/results/backlog service. Private snapshots/receipts
 local-evidence/EPIC-029; currentissue629/631/630 bodies saved/tmp. AdmittedSDK literal
 build/workflow005-schema-venv/bin/python, never symlink-resolve or globalfallback.
+
+Authored contract packet threepaths: github-authority-cutover-v1, github-tracker-retirement-scope-v1,004brief. Static/project/progress checks passed; no newtests/code/deletions. Currentcomplete inventories503IDs/issues/items, native432parents/1539blockers versus deterministicbaseline422/1549, ten proposedreclassifications require independentreview before anyGitHubwrites.496readabletitlechanges preserved asoriginal-namehistory, notoverwritten. Initialcontractreviewnext; exactADR0012cleanupscope requires separate substantivecycle beforeassertionremoval. One structuredcontractstage remains primarysource-binding; any supplemental cleanupreports mustremain source-bound actualreceipts/evidence, never invent extra initialphase or schemafields to bypass existinggrammar.
