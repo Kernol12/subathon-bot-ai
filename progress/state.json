@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T23:39:01.897925+00:00",
+  "updated_at": "2026-11-13T23:48:21.381289+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20500,11 +20500,11 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
       "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Primary and separate ADR scope Codex verifications approveffdc38f; fresh Claude closings required. Historical research partial:12 traced claims/850 candidates, original-approval role unresolved. Fresh GitHub readback confirms10 mapped receipts+4 imported source files; not role approval. No tests/runtime/deletions/cutover; state authoritative, product/WF006/007 stopped."
+        "Primary contractffdc38f independently Claude-closing approved; separate ADR closing still pending before test authorship. Historical role audit partial850 candidates/12 traced claims; pin/cutover blocked pending dispositions. No tests/runtime/deletions. State authoritative; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
-        "contract_review": "failed",
+        "contract_review": "passed",
         "test_review": "not_run",
         "baseline": "not_run",
         "implementation": "not_run",
@@ -20692,6 +20692,21 @@
                 "outcome": "approved",
                 "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6867678199",
                 "findings": [],
+                "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:10095ab9-922c-4ea1-b7d2-2ac68d3fd4e8",
+                "revision": "ffdc38fa91ae89ce3972d08765d7b3b53877fa11",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6867842389",
+                "findings": [
+                  "M004-CC4-N1",
+                  "M004-CC4-N2",
+                  "M004-CC4-N3"
+                ],
                 "blocking_findings": []
               }
             ]

@@ -150,3 +150,14 @@ Research report SHA25698887887fae7fca35db3782c375ec1f2caf5f6bd3fccf0f9219e3f9a76
 rows SHA25662ce9f607fb1d784185479387f10a33cdc5161ea7f51ef7a5b4cff2b64ab5403.
 Next independent initial source-aware review can adjudicate bounded rows only; it does
 not complete remaining audit or authorize archive pin. State authoritative/stops intact.
+
+Primary Claude closing APPROVEDffdc38f, reviewer claude:10095ab9-922c-4ea1-b7d2-
+2ac68d3fd4e8, dispatch7d2daa2b-ba7c-4e5b-9bc2-bae5967d5480, issue629#issuecomment-6867842389.
+No blockers; nonblocking CC4-N1 dated count wording, N2 compact state926,540 bytes
+(122,036 headroom at inspected HEAD), N3 authored probe must expose actual SDK
+ValidationError plus record identity. Tool activity23:40:25–23:45:27 not exact session
+bounds; structured timing omitted. Full prior rejected reviews retained. Primary
+contract complete only; separate ADR closing must approve before any changed-test
+authorship/removal. Historical role initial review remains active;850 candidates/
+12 rows are partial, pin/cutover remain blocked pending full reviewed availability.
+No archive, runtime/tests/deletions or authority switch. State/stops unchanged.
