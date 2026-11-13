@@ -86,11 +86,14 @@ def dependency_complete(task: dict, policy: dict | None = None) -> bool:
             (not tracked(task, policy) or task.get("publication", {}).get("state") == "merged"))
 
 
-def validate_stage(stage: object, root: Path, local_path, evidence_path) -> None:
+def validate_stage(stage: object, root: Path, local_path, evidence_path, *,
+                   tree_free: bool = False) -> None:
     """Check packet ownership and ordered review claims without authenticating them."""
     stage = required(stage, {"authors", "revision", "paths", "reviews"}, "workflow stage")
     authors = strings(stage["authors"], "stage.authors", nonempty=True)
     commit(stage["revision"], "stage.revision")
+    if tree_free:
+        raise ValueError("PROOF_RECORDS_NOT_IMPLEMENTED")
     excluded = {(root / path).resolve() for path in BOOKKEEPING}
     for value in strings(stage["paths"], "stage.paths", nonempty=True):
         path = local_path(value, root)

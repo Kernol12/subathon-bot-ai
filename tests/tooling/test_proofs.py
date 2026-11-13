@@ -1,0 +1,557 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+"""MIGRATE-002 literal oracles. Authored only: full test review precedes execution.
+
+Synthetic issue ordinals are fixtures, never real issue mappings. Existing workflow
+helpers supply mechanics only; expected proof/context values below are hand authored.
+"""
+import copy
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+import unittest
+from unittest.mock import patch
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / 'tools'))
+sys.path.insert(0, str(ROOT / 'tests/support'))
+import proofs
+import progress
+import workflow
+from frozen_proof_policy import LEGACY_DONE, LEGACY_DONE_SHA256
+from test_workflow import task, state, stage, receipt, publication
+
+REV = 'b' * 40
+ARCHIVE = 'c' * 40
+NI = 'PROOF_RECORDS_NOT_IMPLEMENTED'
+WARNING = ('Recorded information only; Git contents, live GitHub/CI, review identity '
+           'and authorization are not verified.')
+OMISSIONS = (' Compact view omits complete workflow, other stages, supplemental history, '
+             'non-blocking finding details and closing-only finding metrics; use full mode or review links.')
+
+
+def policy(*ids):
+    return dict(version=1, legacy_done=list(LEGACY_DONE), legacy_done_sha256=LEGACY_DONE_SHA256,
+                archive_commit=ARCHIVE, required_records=sorted(ids))
+
+
+def record(task_id='CONVERT-901', number=9901):
+    return dict(version=1, task_id=task_id,
+                issue=dict(repository='Kernol12/subathon-bot-ai', number=number),
+                kind='contract', brief='docs/retired-synthetic.md',
+                evidence=['https://example.test/receipt'], limitations=['Only synthetic checks.'])
+
+
+def reviewed_record():
+    value = record()
+    rejected = receipt('closing', outcome='changes_requested', findings=['SYN-C1'],
+                       blocking_findings=['SYN-C1'])
+    packet = stage([receipt('initial', 'a' * 40), receipt('verification'), rejected,
+                    receipt('verification'), receipt('closing')])
+    packet['authors'] = ['codex:synthetic-author']
+    packet['paths'] = ['docs/retired-synthetic.md']
+    value['workflow'] = dict(required_stages=['contract'], stages=dict(contract=packet))
+    return value
+
+
+def bundle(value):
+    return dict(policy=policy(value['task_id']), records={value['task_id']: value})
+
+
+def supplemental():
+    return json.loads((ROOT / 'tests/support/apitest016-supplemental-b506434.json').read_text())
+
+
+def supplemental_mutations():
+    """Manually selected single edits, independent of any schema/skeleton generator."""
+    baseline = supplemental()
+    extra = copy.deepcopy(baseline)
+    extra['complete_workflow']['stages']['tests']['invented'] = 'extra'
+    missing = copy.deepcopy(baseline)
+    del missing['authority']
+    leaf = copy.deepcopy(baseline)
+    leaf['format'] = 17
+    length = copy.deepcopy(baseline)
+    length['complete_workflow']['required_stages'].append('contract')
+    boolean = copy.deepcopy(baseline)
+    boolean['complete_workflow']['stages']['implementation']['artifacts']['consumer']['bytes'] = True
+    return [extra, missing, leaf, length, boolean]
+
+
+def mapping(*tasks):
+    return dict(version=1, entries=[dict(task_id=t['id'], issue=dict(
+        repository='Kernol12/subathon-bot-ai', number=9901+i)) for i, t in enumerate(tasks)])
+
+
+def source(*tasks):
+    data = state(*tasks)
+    data['workflow_policy'] = {k: v for k, v in policy().items()
+                               if k in ('version', 'legacy_done', 'legacy_done_sha256')}
+    return data
+
+
+class ProofTests(unittest.TestCase):
+    def refuses(self, function, *args, **kwargs):
+        with self.assertRaises(ValueError) as caught:
+            function(*args, **kwargs)
+        self.assertNotEqual(str(caught.exception), NI, 'NI is not evidence of semantic refusal')
+        self.assertTrue(str(caught.exception).strip())
+
+    def test_literal_frozen_policy_and_explicit_empty_enrollment(self):
+        self.assertEqual(len(LEGACY_DONE), 120)
+        self.assertEqual(len(set(LEGACY_DONE)), 120)
+        self.assertEqual(hashlib.sha256(('\n'.join(sorted(LEGACY_DONE))+'\n').encode()).hexdigest(),
+                         LEGACY_DONE_SHA256)
+        self.assertIsNone(proofs.validate_policy(policy()))
+        self.assertIsNone(proofs.validate(policy(), []))
+        for key, value in [('legacy_done', list(LEGACY_DONE[:-1])),
+                           ('legacy_done_sha256', '0'*64), ('version', True),
+                           ('required_records', ['CONVERT-902', 'CONVERT-901']),
+                           ('required_records', ['CONVERT-901']*2), ('unknown', 1)]:
+            p = policy(); p[key] = value
+            self.refuses(proofs.validate_policy, p)
+        p = policy(); p['legacy_done'].reverse()
+        self.assertIsNone(proofs.validate_policy(p))  # membership, not list order, at load
+        p['legacy_done'][0] = 'CONVERT-999'
+        p['legacy_done_sha256'] = hashlib.sha256(('\n'.join(sorted(p['legacy_done']))+'\n').encode()).hexdigest()
+        self.refuses(proofs.validate_policy, p)  # recomputation cannot create exemptions
+
+    def test_record_shapes_and_lexical_references(self):
+        valid = record()
+        self.assertIsNone(proofs.validate_record(valid))
+        for key, value in [('version', True), ('version', 1.0), ('version', 2),
+                           ('task_id', 'CONVERT-901\n'), ('kind', 'epic'), ('owner', 'invented'),
+                           ('limitations', None), ('brief', '../outside'), ('brief', 'a//b'),
+                           ('brief', '/abs'), ('brief', 'a/./b'), ('brief', 'a\\b'),
+                           ('brief', 'a:b'), ('brief', 'a\x00b'), ('evidence', ['']),
+                           ('evidence', ['https://user:pass@example.test/x']),
+                           ('evidence', ['https://example.test:bad/x'])]:
+            with self.subTest(key=key, value=value):
+                bad = copy.deepcopy(valid); bad[key] = value
+                self.refuses(proofs.validate_record, bad)
+        for key in valid:
+            bad = copy.deepcopy(valid); del bad[key]
+            self.refuses(proofs.validate_record, bad)
+        for number in (True, 1.0, 0, -1):
+            bad = record(); bad['issue']['number'] = number
+            self.refuses(proofs.validate_record, bad)
+        for brief in ('docs/absent.md', f'https://github.com/Kernol12/subathon-bot-ai/blob/{ARCHIVE}/docs/absent.md'):
+            good = record(); good['brief'] = brief; good['limitations'] = ['', 'x'*600, 'same', 'same']
+            self.assertIsNone(proofs.validate_record(good))
+        base = f'https://github.com/Kernol12/subathon-bot-ai/blob/{ARCHIVE}/docs/'
+        for suffix in ('a.md?x=1', 'a.md#x', '%2Fescape', '%252e%252e/a', '%61.md', '%5cescape'):
+            bad = record(); bad['brief'] = base+suffix
+            self.refuses(proofs.validate_record, bad)
+
+    def test_enrollment_identity_and_exempt_records_remain_strict(self):
+        one, two = record(), record('CONVERT-902', 9902)
+        self.assertIsNone(proofs.validate(policy('CONVERT-901', 'CONVERT-902'), [two, one]))
+        for records in ([], [one, two], [one, one]):
+            self.refuses(proofs.validate, policy('CONVERT-901'), records)
+        two['issue'] = copy.deepcopy(one['issue'])
+        self.refuses(proofs.validate, policy('CONVERT-901', 'CONVERT-902'), [one, two])
+        exempt = record('ACCESS-002')
+        self.assertIsNone(proofs.validate(policy('ACCESS-002'), [exempt]))
+        self.refuses(proofs.require_complete, bundle(exempt), 'ACCESS-002')
+        exempt['version'] = False
+        self.refuses(proofs.validate, policy('ACCESS-002'), [exempt])
+
+    def test_read_json_strict_decoding(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary).resolve()/'input.json'
+            path.write_bytes(b'{"nested":{"text":"Gr\xc3\xbc\xc3\x9fe"}}')
+            self.assertEqual(proofs.read_json(path), {'nested': {'text': 'Grüße'}})
+            for raw in (b'{"a":1,"a":2}', b'{"x":{"a":1,"\\u0061":2}}', b'{',
+                        b'NaN', b'Infinity', b'-Infinity', b'"\xff"', b'\xef\xbb\xbf{}'):
+                path.write_bytes(raw)
+                self.refuses(proofs.read_json, path)
+
+    def write_bundle(self, root, *records):
+        directory = root/'records'; directory.mkdir()
+        path = root/'policy.json'
+        path.write_text(json.dumps(policy(*(r['task_id'] for r in records))))
+        for r in records:
+            (directory/(r['task_id']+'.json')).write_text(json.dumps(r))
+        return path, directory
+
+    def test_sorted_discovery_load_and_missing_inputs(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary).resolve()
+            one, two = record(), record('CONVERT-902', 9902)
+            path, directory = self.write_bundle(root, two, one)
+            self.assertEqual(proofs.discover_records(directory),
+                             [directory/'CONVERT-901.json', directory/'CONVERT-902.json'])
+            loaded = proofs.load(path, directory)
+            self.assertEqual(loaded, dict(policy=policy('CONVERT-901', 'CONVERT-902'),
+                                          records={'CONVERT-901': one, 'CONVERT-902': two}))
+            self.assertEqual(list(loaded['records']), ['CONVERT-901', 'CONVERT-902'])
+            (directory/'CONVERT-901.json').unlink()
+            self.refuses(proofs.load, path, directory)
+            path.unlink()
+            with self.assertRaises((ValueError, OSError)):
+                proofs.load(path, directory)
+        with tempfile.TemporaryDirectory() as temporary:
+            path, directory = self.write_bundle(Path(temporary).resolve())
+            self.assertEqual(proofs.load(path, directory), dict(policy=policy(), records={}))
+
+    def test_discovery_rejects_unexpected_children_filename_and_all_ancestor_symlinks(self):
+        for child in ('.hidden', 'notes.txt', 'CONVERT-901.JSON', 'convert-901.json', 'nested', 'link', 'fifo'):
+            with self.subTest(child=child), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary).resolve()
+                path, directory = self.write_bundle(root, record())
+                proofs.load(path, directory)  # known passing baseline before one mutation
+                p = directory/child
+                if child == 'nested': p.mkdir()
+                elif child == 'link': p.symlink_to(path)
+                elif child == 'fifo':
+                    import os
+                    os.mkfifo(p)
+                else: p.write_text('{}')
+                self.refuses(proofs.load, path, directory)
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary).resolve()
+            path, directory = self.write_bundle(root, record())
+            proofs.load(path, directory)
+            (directory/'CONVERT-901.json').write_text(json.dumps(record('CONVERT-902')))
+            self.refuses(proofs.load, path, directory)
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary).resolve(); real = root/'real'; real.mkdir()
+            path, directory = self.write_bundle(real, record())
+            proofs.load(path, directory)
+            alias = root/'ancestor'; alias.symlink_to(real, target_is_directory=True)
+            self.refuses(proofs.load, alias/'policy.json', directory)
+            self.refuses(proofs.load, path, alias/'records')
+            direct = real/'alias-policy.json'; direct.symlink_to(path)
+            self.refuses(proofs.load, direct, directory)
+            dir_alias = real/'alias-records'; dir_alias.symlink_to(directory, target_is_directory=True)
+            self.refuses(proofs.load, path, dir_alias)
+
+    def test_shared_review_engine_tree_free_and_strict_production_default(self):
+        value = reviewed_record(); packet = value['workflow']['stages']['contract']
+        self.assertIsNone(workflow.validate_stage(packet, ROOT, progress.local_path,
+                                                progress.evidence_path, tree_free=True))
+        self.refuses(workflow.validate_stage, packet, ROOT, progress.local_path, progress.evidence_path)
+        candidate = task(); candidate['workflow']['stages']['contract'] = packet
+        self.refuses(progress.validate, state(candidate))
+        for field in ('brief', 'evidence'):
+            candidate = task()
+            candidate[field] = 'docs/retired-synthetic.md' if field == 'brief' else ['docs/retired-synthetic.md']
+            self.refuses(progress.validate, state(candidate))
+        with patch.object(workflow, 'validate_stage', wraps=workflow.validate_stage) as shared:
+            proofs.validate_record(value)
+            self.assertTrue(shared.called, 'Use the owning workflow engine')
+            self.assertTrue(all(c.kwargs.get('tree_free') is True for c in shared.call_args_list))
+
+    def test_review_independence_order_outcomes_times_and_rejected_history(self):
+        valid = reviewed_record()
+        self.assertIsNone(proofs.validate_record(valid))
+        for index, key, value in [(0, 'reviewer', 'codex:synthetic-author'), (0, 'provider', 'codex'),
+                (0, 'phase', 'verification'), (1, 'phase', 'initial'),
+                (1, 'blocking_findings', ['unlisted']), (1, 'outcome', 'changes_requested'),
+                (1, 'model', ''), (1, 'findings', ['X', 'X']),
+                (4, 'revision', 'a'*40), (0, 'started_at', '2026-11-13T12:00:00Z')]:
+            bad = copy.deepcopy(valid); bad['workflow']['stages']['contract']['reviews'][index][key] = value
+            self.refuses(proofs.validate_record, bad)
+        bad = copy.deepcopy(valid)
+        del bad['workflow']['stages']['contract']['reviews'][3]
+        self.refuses(proofs.validate_record, bad)  # closing cannot follow rejected closing
+        for start, finish in [('2026-11-13T12:00:00', '2026-11-13T12:01:00'),
+                              ('2026-11-13T12:02:00Z', '2026-11-13T12:01:00Z')]:
+            bad = copy.deepcopy(valid)
+            bad['workflow']['stages']['contract']['reviews'][0].update(started_at=start, finished_at=finish)
+            self.refuses(proofs.validate_record, bad)
+        good = copy.deepcopy(valid)
+        good['workflow']['stages']['contract']['reviews'][0].update(
+            started_at='2026-11-13T13:00:00+01:00', finished_at='2026-11-13T12:00:10Z')
+        self.assertIsNone(proofs.validate_record(good))
+        self.assertEqual(proofs.context(bundle(good), 'CONVERT-901', stage='contract')['stage_context']['metrics']['elapsed_seconds'], 10)
+
+    def test_completion_currency_pending_minima_and_extra_stages(self):
+        good = reviewed_record()
+        self.assertIsNone(proofs.require_complete(bundle(good), 'CONVERT-901'))
+        pending = []
+        no_workflow = record(); pending.append(no_workflow)
+        unstarted = copy.deepcopy(good); unstarted['workflow']['stages'] = {}; pending.append(unstarted)
+        rejected = copy.deepcopy(good); rejected['workflow']['stages']['contract']['reviews'] = rejected['workflow']['stages']['contract']['reviews'][:3]; pending.append(rejected)
+        stale = copy.deepcopy(good)
+        for r in stale['workflow']['stages']['contract']['reviews'][-2:]: r['revision'] = 'a'*40
+        pending.append(stale)
+        extra = copy.deepcopy(good); extra['workflow']['required_stages'].append('tests'); pending.append(extra)
+        for value in pending:
+            self.assertIsNone(proofs.validate_record(value))
+            self.refuses(proofs.require_complete, bundle(value), 'CONVERT-901')
+            if 'workflow' in value and value is not extra:
+                self.assertFalse(proofs.context(bundle(value), 'CONVERT-901', stage='contract')['stage_context']['complete'])
+        minima = {'contract': ['contract'], 'implementation': ['tests', 'implementation'],
+                  'test_draft': ['tests'], 'test_review': ['tests'], 'test_baseline': ['tests'],
+                  'code_review': ['implementation'], 'cleanup': ['implementation'],
+                  'environment': ['implementation'], 'feasibility': ['implementation'], 'scaffold': ['implementation']}
+        for kind, names in minima.items():
+            value = record(); value['kind'] = kind
+            value['workflow'] = dict(required_stages=names, stages={})
+            self.assertIsNone(proofs.validate_record(value))
+            bad = copy.deepcopy(value); bad['workflow']['required_stages'] = ['contract'] if kind != 'contract' else ['tests']
+            self.refuses(proofs.validate_record, bad)
+        bad = copy.deepcopy(good); bad['workflow']['stages']['tests'] = stage()
+        self.refuses(proofs.validate_record, bad)
+
+    def test_full_compact_context_exact_projection_and_nonaliasing(self):
+        value = reviewed_record(); value['verification'] = {'baseline': 'not_run', 'ci': 'failed'}
+        value['review'] = {'author': 'same', 'reviewer': 'same', 'outcome': 'approved'}
+        data = bundle(value); before = copy.deepcopy(data)
+        self.assertEqual(proofs.context(data, 'CONVERT-901'),
+                         dict(proof=value, required_stages=['contract'], limitations=WARNING))
+        compact = proofs.context(data, 'CONVERT-901', stage='contract', compact=True)
+        proof = {k: v for k, v in value.items() if k != 'workflow'}
+        packet = value['workflow']['stages']['contract']
+        refs = [{k: r[k] for k in ('phase', 'provider', 'model', 'reviewer', 'revision', 'outcome', 'evidence')}
+                for r in packet['reviews']]
+        self.assertEqual(compact, dict(proof=proof, required_stages=['contract'], limitations=WARNING+OMISSIONS,
+            stage_context=dict(name='contract', complete=True, next_gate='complete',
+                packet={k: packet[k] for k in ('authors', 'revision', 'paths')}, review_refs=refs,
+                historical_blocking_findings=['SYN-C1'], metrics=dict(review_count=5, elapsed_seconds=None, timed_reviews=0))))
+        full = proofs.context(data, 'CONVERT-901', stage='contract')
+        full['proof']['workflow']['stages']['contract']['reviews'].clear()
+        self.assertEqual(data, before)
+        compact['proof']['limitations'].append('projection edit')
+        compact['stage_context']['packet']['authors'].append('projection edit')
+        self.assertEqual(data, before)
+        self.refuses(proofs.context, data, 'CONVERT-404')
+        self.refuses(proofs.context, data, 'CONVERT-901', stage='tests')
+        unrelated = record('CONVERT-902', 9902); unrelated['version'] = False
+        data['policy'] = policy('CONVERT-901', 'CONVERT-902'); data['records']['CONVERT-902'] = unrelated
+        self.refuses(proofs.context, data, 'CONVERT-901')
+        self.refuses(proofs.require_complete, data, 'CONVERT-901')
+
+    def test_publication_observations_never_replace_current_approvals(self):
+        value = reviewed_record(); value['publication'] = publication()
+        value['evidence'].append(value['publication']['pr'])
+        self.assertIsNone(proofs.validate_record(value))
+        for key, bad_value in [('merged_at', '2026-11-12T12:00:00'),
+                               ('observed_at', '2026-11-10T12:00:00Z'), ('merge_commit', None)]:
+            bad = copy.deepcopy(value); bad['publication'][key] = bad_value
+            self.refuses(proofs.validate_record, bad)
+        bad = copy.deepcopy(value); bad['evidence'].remove(value['publication']['pr'])
+        self.refuses(proofs.validate_record, bad)
+        value['workflow']['stages'] = {}
+        self.assertIsNone(proofs.validate_record(value))
+        self.refuses(proofs.require_complete, bundle(value), 'CONVERT-901')
+
+    def test_frozen_supplemental_shape_and_no_canonical_completion_promotion(self):
+        self.assertEqual(hashlib.sha256((ROOT/'tests/support/apitest016-supplemental-b506434.json').read_bytes()).hexdigest(),
+                         'ae0160f99c453ff699189bd1a9c3a14e359495f2271187cfe6faab0e4e8b35cf')
+        value = record('APITEST-016'); value['supplemental_workflow_evidence'] = supplemental()
+        self.assertIsNone(proofs.validate_record(value))
+        self.refuses(proofs.require_complete, bundle(value), 'APITEST-016')
+        for mutation in supplemental_mutations():
+            bad = copy.deepcopy(value); bad['supplemental_workflow_evidence'] = mutation
+            self.refuses(proofs.validate_record, bad)
+        bad = copy.deepcopy(value); bad['task_id'] = 'CONVERT-901'
+        self.refuses(proofs.validate_record, bad)
+
+
+class ConversionTests(unittest.TestCase):
+    refuses = ProofTests.refuses
+
+    def test_bounded_conversion_enrollment_preservation_report_and_nonaliasing(self):
+        quiet = task('CONVERT-901', status='planned')
+        for key in ('workflow', 'publication'): quiet.pop(key, None)
+        quiet.update(evidence=[], verification={'acceptance': 'not_run'}, review=None,
+                     notes=['Only synthetic checks.'])
+        data = source(quiet); identities = mapping(quiet)
+        empty = proofs.convert(data, identities, ARCHIVE)
+        self.assertEqual(empty['records'], [])
+        self.assertEqual(empty['policy'], policy())
+        quiet['evidence'] = ['https://example.test/receipt']
+        quiet['notes'] = ['same', 'same', 'Grüße']
+        pending = task('CONVERT-902', kind='implementation')
+        pending['workflow']['stages'] = {}
+        pending['verification'] = {'baseline': 'observed_red', 'github_ci': 'failed'}
+        pending['notes'] = ['Baseline observed; implementation pending.']
+        epic = task('EPIC-999', kind='epic', status='planned'); epic.pop('workflow')
+        data = source(pending, epic, quiet); identities = mapping(pending, epic, quiet)
+        before = copy.deepcopy((data, identities))
+        result = proofs.convert(data, identities, ARCHIVE)
+        expected_quiet = record()
+        expected_quiet.update(issue=identities['entries'][2]['issue'], evidence=quiet['evidence'],
+                              limitations=quiet['notes'], verification=quiet['verification'], review=None,
+                              brief=quiet['brief'])
+        expected_pending = dict(version=1, task_id='CONVERT-902', issue=identities['entries'][0]['issue'],
+            kind='implementation', brief=pending['brief'], evidence=pending['evidence'],
+            limitations=pending['notes'], workflow=pending['workflow'],
+            verification=pending['verification'], review=pending['review'])
+        self.assertEqual(set(result), {'policy', 'records', 'report'})
+        self.assertEqual(result['records'], [expected_quiet, expected_pending])
+        self.assertEqual(result['policy'], policy('CONVERT-901', 'CONVERT-902'))
+        comparisons = [dict(task_id=t, **{key: True for key in (
+            'kind', 'brief', 'evidence', 'limitations', 'workflow', 'publication',
+            'verification', 'review', 'supplemental_workflow_evidence')})
+            for t in ('CONVERT-901', 'CONVERT-902')]
+        report = result['report']
+        self.assertEqual(set(report), {'version', 'source_task_count', 'record_count', 'archive_only_ids',
+            'enrolled_ids', 'mappings', 'field_comparisons', 'discrepancies'})
+        self.assertEqual(report, dict(version=1, source_task_count=3, record_count=2,
+            archive_only_ids=['EPIC-999'], enrolled_ids=['CONVERT-901', 'CONVERT-902'],
+            mappings=identities['entries'], field_comparisons=comparisons, discrepancies=[]))
+        b = dict(policy=result['policy'], records={r['task_id']: r for r in result['records']})
+        view = proofs.context(b, 'CONVERT-902', stage='tests')['stage_context']
+        self.assertEqual((view['packet'], view['next_gate'], view['complete']), (None, 'authoring', False))
+        self.refuses(proofs.require_complete, b, 'CONVERT-902')
+        result['records'][0]['limitations'].append('new')
+        result['records'][1]['workflow']['required_stages'].append('contract')
+        result['report']['mappings'][0]['issue']['number'] = 17
+        result['policy']['legacy_done'].clear()
+        self.assertEqual((data, identities), before)
+        # Returned record and report identity must not alias one another either.
+        self.assertEqual(result['records'][1]['issue']['number'], 9901)
+
+    def test_conversion_absent_notes_historical_fields_and_claim_refusals(self):
+        value = task('CONVERT-901'); value.pop('notes')
+        value['workflow']['stages']['contract'] = reviewed_record()['workflow']['stages']['contract']
+        value['review'] = {}  # optional empty historical object must remain present
+        data = source(value)
+        self.assertEqual(proofs.convert(data, mapping(value), ARCHIVE)['records'][0]['limitations'], [])
+        result = proofs.convert(data, mapping(value), ARCHIVE)['records'][0]
+        self.assertEqual(result['review'], {})
+        self.assertEqual(result['workflow'], value['workflow'])
+        for key, change in [('workflow_policy', None), ('tasks', [])]:
+            bad = copy.deepcopy(data); bad[key] = change
+            self.refuses(proofs.convert, bad, mapping(value), ARCHIVE)
+        bad = copy.deepcopy(data); del bad['workflow_policy']
+        self.refuses(proofs.convert, bad, mapping(value), ARCHIVE)
+        bad = copy.deepcopy(data); del bad['tasks'][0]['workflow']
+        self.refuses(proofs.convert, bad, mapping(value), ARCHIVE)
+        for identity in ({'version': 1, 'entries': []},
+                         {'version': 1, 'entries': mapping(value)['entries']*2},
+                         dict(mapping(value), unknown=True)):
+            self.refuses(proofs.convert, data, identity, ARCHIVE)
+        self.refuses(proofs.convert, data, mapping(value), 'short')
+        bad = copy.deepcopy(data); bad['tasks'][0]['notes'] = None
+        self.refuses(proofs.convert, bad, mapping(value), ARCHIVE)
+
+    def test_enrollment_is_evidence_based_and_never_status_age_exemption(self):
+        quiet = task('CONVERT-901', status='planned')
+        quiet.pop('workflow'); quiet.update(evidence=[], verification={'a': 'draft'}, review=None)
+        baseline = source(quiet)
+        self.assertEqual(proofs.convert(baseline, mapping(quiet), ARCHIVE)['records'], [])
+        for key, value in [('review', {}), ('verification', {'a': 'failed'}),
+                           ('evidence', ['https://example.test/evidence']),
+                           ('workflow', {'required_stages': ['contract'], 'stages': {}})]:
+            data = copy.deepcopy(baseline); data['tasks'][0][key] = value
+            self.assertEqual(len(proofs.convert(data, mapping(quiet), ARCHIVE)['records']), 1)
+        for status in ('blocked', 'ready'):
+            data = copy.deepcopy(baseline); data['tasks'][0]['status'] = status
+            self.assertEqual(proofs.convert(data, mapping(quiet), ARCHIVE)['records'], [])
+        for status in ('in_progress', 'in_review', 'done'):
+            data = copy.deepcopy(baseline); data['tasks'][0]['status'] = status
+            self.refuses(proofs.convert, data, mapping(quiet), ARCHIVE)
+        exempt = copy.deepcopy(quiet); exempt['id'] = 'ACCESS-002'; exempt['status'] = 'done'
+        self.assertEqual(proofs.convert(source(exempt), mapping(exempt), ARCHIVE)['records'], [])
+        exempt['evidence'] = ['https://example.test/historical']
+        self.assertEqual(len(proofs.convert(source(exempt), mapping(exempt), ARCHIVE)['records']), 1)
+
+
+class ProofCliTests(unittest.TestCase):
+    def invoke(self, *args):
+        return subprocess.run([sys.executable, '-B', str(ROOT/'tools/proofs.py'), *map(str, args)],
+                              capture_output=True, text=True, timeout=60)
+
+    def assert_error(self, result, code=1):
+        self.assertEqual(result.returncode, code, result.stderr)
+        self.assertEqual(result.stdout, '')
+        self.assertTrue(result.stderr)
+        if code == 1:
+            self.assertTrue(result.stderr.startswith('Proof error: '))
+            self.assertNotIn(NI, result.stderr)
+
+    def test_explicit_inputs_usage_and_read_only_json_serialization(self):
+        for args in ([], ['validate'], ['context', 'CONVERT-901'], ['convert', '--source', 'x'],
+                     ['validate', '--unknown']):
+            self.assert_error(self.invoke(*args), 2)
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary).resolve()
+            value = record(); value['limitations'] = ['Grüße']
+            path, directory = ProofTests.write_bundle(self, root, value)
+            before = {p: p.read_bytes() for p in root.rglob('*') if p.is_file()}
+            args = ['--policy', path, '--records-dir', directory]
+            valid = self.invoke('validate', *args)
+            self.assertEqual((valid.returncode, valid.stdout, valid.stderr),
+                             (0, '{\n  "version": 1,\n  "record_count": 1\n}\n', ''))
+            context = self.invoke('context', 'CONVERT-901', *args, '--compact')
+            expected = dict(proof=value, required_stages=[], limitations=WARNING+OMISSIONS)
+            self.assertEqual((context.returncode, context.stdout, context.stderr),
+                             (0, json.dumps(expected, indent=2, ensure_ascii=False)+'\n', ''))
+            self.assert_error(self.invoke('context', 'CONVERT-404', *args))
+            self.assertEqual(before, {p: p.read_bytes() for p in root.rglob('*') if p.is_file()})
+
+    def test_one_disposable_full_source_cli_conversion_synthetic_mapping_only(self):
+        """Temporary pre-004 coupling. All ordinals below are fictional issue identities."""
+        original = (ROOT/'progress/state.json').read_bytes()
+        source_data = json.loads(original)
+        # Determine enrollment independently from contract, never candidate output.
+        enrolled = [t for t in source_data['tasks'] if t['kind'] != 'epic' and (
+            any(k in t for k in ('workflow', 'publication', 'supplemental_workflow_evidence'))
+            or ('review' in t and t['review'] is not None) or t['evidence']
+            or any(v not in ('not_run', 'draft') for v in t['verification'].values())
+            or (t['status'] in ('in_progress', 'in_review', 'done') and t['id'] not in LEGACY_DONE))]
+        identities = mapping(*source_data['tasks'])
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary).resolve()
+            src, ids, output = root/'source.json', root/'identities.json', root/'output'
+            src.write_bytes(original); ids.write_text(json.dumps(identities))
+            def args(source_path=src, source_root=ROOT, destination=output):
+                return ('convert', '--source', source_path, '--source-root', source_root,
+                        '--identities', ids, '--archive-commit', ARCHIVE, '--output-dir', destination)
+            result = self.invoke(*args())
+            self.assertEqual((result.returncode, result.stderr), (0, ''))
+            self.assertEqual(result.stdout, json.dumps(dict(version=1, record_count=len(enrolled)), indent=2)+'\n')
+            expected_paths = {'proof-policy.json', 'report.json'} | {'proofs/'+t['id']+'.json' for t in enrolled}
+            self.assertEqual({p.relative_to(output).as_posix() for p in output.rglob('*') if p.is_file()}, expected_paths)
+            output_policy = json.loads((output/'proof-policy.json').read_text())
+            self.assertEqual(output_policy, policy(*(t['id'] for t in enrolled)))
+            for t in enrolled:
+                r = json.loads((output/'proofs'/(t['id']+'.json')).read_text())
+                expected = dict(version=1, task_id=t['id'], issue=next(e['issue'] for e in identities['entries'] if e['task_id']==t['id']),
+                    kind=t['kind'], brief=t['brief'], evidence=t['evidence'], limitations=t.get('notes', []))
+                for key in ('workflow', 'publication', 'verification', 'review', 'supplemental_workflow_evidence'):
+                    if key in t: expected[key] = t[key]
+                self.assertEqual(r, expected)
+            for p in output.rglob('*.json'):
+                self.assertEqual(p.read_text(), json.dumps(json.loads(p.read_text()), indent=2, ensure_ascii=False)+'\n')
+            saved = {p: p.read_bytes() for p in output.rglob('*') if p.is_file()}
+            self.assert_error(self.invoke(*args()))  # existing output cannot be overwritten
+            self.assertEqual(saved, {p: p.read_bytes() for p in output.rglob('*') if p.is_file()})
+            # Production source identity is forbidden relative to either root.
+            self.assert_error(self.invoke(*args(ROOT/'progress/state.json', ROOT, root/'refused')))
+            fake_root = root/'fake'; (fake_root/'progress').mkdir(parents=True)
+            (fake_root/'progress/state.json').write_bytes(original)
+            self.assert_error(self.invoke(*args(fake_root/'progress/state.json', fake_root, root/'refused')))
+            self.assert_error(self.invoke(*args(src, ROOT, ROOT/'build/migrate002-forbidden-output')))
+            self.assert_error(self.invoke(*args(ROOT/'progress/state.json', fake_root, root/'refused')))
+            existing = root/'existing'; existing.mkdir()
+            self.assert_error(self.invoke(*args(destination=existing)))
+            self.assertEqual(list(existing.iterdir()), [])
+            alias = root/'alias-source'; alias.symlink_to(src)
+            self.assert_error(self.invoke(*args(source_path=alias, destination=root/'alias-refused')))
+            ancestor = root/'ancestor'; ancestor.symlink_to(root, target_is_directory=True)
+            self.assert_error(self.invoke(*args(source_path=ancestor/'source.json', destination=root/'ancestor-refused')))
+            self.assert_error(self.invoke(*args(destination=src/'overlap')))
+            # A strict source-file requirement cannot be bypassed by tree-free conversion.
+            invalid_source = copy.deepcopy(source_data)
+            selected = next(t for t in invalid_source['tasks'] if t['kind'] != 'epic')
+            selected['brief'] = 'docs/missing-synthetic-migrate002.md'
+            src.write_text(json.dumps(invalid_source))
+            self.assert_error(self.invoke(*args(destination=root/'missing-file-refused')))
+            self.assertFalse((root/'missing-file-refused').exists())
+            # Bounded API fixture is deliberately not admitted as a full CLI source.
+            bounded = source(task('CONVERT-901')); src.write_text(json.dumps(bounded))
+            self.assert_error(self.invoke(*args(destination=root/'bounded-refused')))
+            self.assertFalse((root/'bounded-refused').exists())
+            self.assertFalse((root/'refused').exists())
+            self.assertEqual((ROOT/'progress/state.json').read_bytes(), original)
+
+
+if __name__ == '__main__':
+    unittest.main()
