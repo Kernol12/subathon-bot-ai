@@ -15,6 +15,18 @@ New detailed commands, results and review discussion belong in the focused PR.
 
 ## Foundation and coordination
 
+
+[MIGRATE-003 / PR634](https://github.com/Kernol12/subathon-bot-ai/pull/634)
+adds prepared guarded proof publication, independent repository checks and actual proof
+schema/publication CI nodes. Normal merge `b80e94f514caf33cad8abde8d00fa744b565768a`
+at 2026-11-13T21:04:31Z followed all21 app-bound checks on `e8b5be9` and the full
+independent contract/test/code cycles. Local181tooling/schema4/scaffold3 pass; hosted
+Python3.10/3.12 ran both added nodes successfully. Rejected reviews and failures remain
+historical. State is still authoritative; cutover/archive/board/brief/final audits remain.
+The unchanged1MiB archive input bound requires actual lossless archive preparation and
+remote readback in004; no product or WORKFLOW-006/007 execution is established.
+
+
 The [migration contract #632](https://github.com/Kernol12/subathon-bot-ai/pull/632)
 completed the full independent cycle, retaining rejected initial/closing reports;
 final Codex verification and Claude closing approved source `b506434` before its normal merge. It defines proof separation, archive/cutover

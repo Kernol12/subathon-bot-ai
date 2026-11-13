@@ -1,48 +1,49 @@
-# EPIC-029 authorized — MIGRATE-003 publication gates
+# EPIC-029 authorized — MIGRATE-004 contract and inventory
 
-Owner authorizes migration only, exact001→002→003→004→006→005 without renewed confirmation.
-State remains task/proof authority until004. Product/API and WORKFLOW-006/007 execution
-stopped; WF006 storage/dependency rescope only in migration. Preserve fullv0.45/history.
+Owner authorizes exact migration001→002→003→004→006→005 without renewed permission.
+Work only migration. Product/API and WORKFLOW-006/007 execution stopped; WF006 storage/
+dependency rescope permitted, not new review/results policy. Fullv0.45 preserved.
+State remains task/proof authority until the final reviewed004 cutover merge.
 
-Checkout task/MIGRATE-003-publication-proof, fetched origin/main a277c5d; actual GitHub
-main same at publication preparation. Only003 active; no worker currently assigned.
-Implementation source fcf205a, contract7f0b876, tests5c89947. All three stages completed
-required independent cycles; ordered rejected history retained. Final code closing:
-https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6864658882
-Claude dispatch aef755ed-bee2-4d0e-8416-9145cb035f6a; own UUID unavailable, no invented
-identity. Observed20:46:34Z to approximately20:52Z; omit structured timing rather than
-invent precision. Code source/contract/test blobs unchanged since their reviewed pins.
+Checkout task/MIGRATE-004-github-authority from actual main b80e94f. Old003 branch,
+stale unrelated localmain and worktrees preserved.004 claimed for fresh contract author
+codex:migrate004-contract-author-20261113:/root; no active writer until dispatch.
+Coordinator owns state/HTML/checkpoint/GitHub reconciliation/archive/publication.
+Contract author owns versioned exact cutover contract, separate exact ADR0012 method/
+assertion disposition map and004brief links only; independent cycles before newbehavior.
+No deletion, canonical proof activation or production authority switch during preparation.
 
-Local181tooling/schemaCTest4/scaffold3 pass; actual source-bound NI baseline retained.
-PR634 open: https://github.com/Kernol12/subathon-bot-ai/pull/634
-Preflight passed allthreepackets/currentpaths at9fa49fb (basea277c5d), then PRopened.
-Open publication observation is actual9fa49fb, not a guessed futurehead. Receipt-only
-publication metadata follows; rerun preflight and currentCI at final pushedhead.
-Normal protected merge and actualmerge readback/issueclosure next;003 remainsinprogress.
-001/PR632 mergedcfd6da9,002/PR633 mergeda277c5d verified21checks; issues closed after
-readback. Preserve newer completion evidence in next authorized metadata, not stale main.
-003 evidence README is held stable as part of contract packet; completion summary goes004.
+003/PR634 actual normal merge b80e94f514caf33cad8abde8d00fa744b565768a at21:04:31Z,
+head e8b5be99e640d3109799da7cf3213b91ab294028, all21 current app-bound required checks,
+CLEAN and no unresolved threads, active26170263/no bypass. Merge ancestry/readback verified;
+issue628 closed21:05:21Z afterverification; watch stopped. Reconcile this newer completion
+into004 metadata, never overwrite from stale oldmain. 001/PR632 mergedcfd6da9,
+002/PR633 mergeda277c5d retain all receipts. Fullstructured003packets/rejectedhistory
+unchanged. HostedPython3.10.12/3.12.3 schema4/scaffold3 pass confirms both added nodes.
+Final003 sourcefcf205a, tests5c89947, contract7f0b876; held evidence summary now updated004.
 
-Current ownership: coordinator state/checkpoint/render/PR/CI/merge; no product successor.
-Prepared mode only; no canonical production proof or archive files until004. Shared
-parser/workflow grammar one; no second planning authority. NI source objects pinned at
-same approved testrevision, separate current oracle paths. Historical002/WF005/APITEST016
-NI-containing packets remain exact tree-free history, never republished as current.
+Next: exact004 contract and separate approved cleanup scope before implementation;
+current task/GitHub/native containment versus prerequisite inventories, one-time full
+reconciliation appendix only in archive, no permanent duplicateledger/sync. Prior
+protected archive-preparation PR and independently readback actual mergedcommit/tag
+before final pin/cutover. Intermediate PR must not close004. Actual archive state/identity/
+reportbytes ≤1MiB, semanticidentity/growth/briefbytes verify; rawstate>1MiB, losslesscompact
+~920k only feasibility. No bound waiver/historyloss. Never predict futurearchiveSHA.
+Historical source frozen at archive; append-only forward receipts afterward or rearchive.
 
-004 carry: prior protected archive-preparation PR, actual mergedcommit/tag independent
-readback before immutable pin; actual state/identity/report bytes ≤1MiB each and lossless
-semantic identity/growth verified. Current rawstate exceeds bound, compact ~920k only
-feasibility, not production archive proof. No bound waiver/history loss. Archive-only full
-appendices leaveHEAD at cutover. Remove all temporary state compatibility in004.
-Relocation compares new pointer to actualtargetbytes; already-published pinned URLs
-remain valid after006 removes obsolete localfiles. Preserve exact frozen120 exemptions.
-Review advisory precise B1/B2 variants recommended in next reviewed004 guard-test change;
-existing contract corrections approved with independent disposable probes, no assertion
-removal/skip/weakening. Prepared partial/promisor clones refused. Actual approval identities
-self-reported; prior report aliases/dispatch details preserved in state/history.
+004 guard test revision should add precise unrelatednewID and newer-target-bootstrap
+relocation counterexamples through normal review, per approved003 advisory. Preserve
+legitimate already-published archive URLs after006 localdeletion. No historical NI packet
+reinterpretation; current testpaths bindoracles, originalNIobjects pinned same revision.
+One parser/workflowgrammar/proofauthority. Scope ADR0012 method/assertion map at current
+pins with retirement/retained replacement justification before removals; preserve compact
+context, independence/staleapprovals/sourcebinding/schema/checkout/privacy/repository
+andallproduct/native assertions. Readonly/docs cleanup never manufacturedred.
 
-006 mandatory actual brief inventory/compaction/consolidation/archive/removal/retention
-with justification and affected immutable-link repair; preserve shared unfinished briefs.
-005 full fresh checkout/proof-bypass/history/board/archive audit then closure, no product.
-Private detailed receipts local-evidence/EPIC-029. Literal admitted SDK path is retained
-locally, never symlink-resolved; Python3.14 local,3.10/3.12 execution pending hosted CI.
+All brief paths remain through004;006 actual active/shared/completed inventory, lossless
+requirements compaction, fullbrief remote archive/linkrepair, justified removals/retentions
+is mandatory before005 full fresh checkout/board/history/proof-bypass audit. Preserve
+shared briefs needed by unfinishedtasks. Nativeboard status not proof or authorization.
+No permanent kind ledger/claimlease/results/backlog service. Private snapshots/receipts
+local-evidence/EPIC-029; currentissue629/631/630 bodies saved/tmp. AdmittedSDK literal
+build/workflow005-schema-venv/bin/python, never symlink-resolve or globalfallback.
