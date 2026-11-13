@@ -5,9 +5,10 @@ confirmation. State remains sole task/proof authority until reviewed 004 cutover
 Product/API and WORKFLOW-006/007 execution remain stopped; WF006 storage/dependency
 rescope only is migration scope. Full v0.45 release scope and review gates unchanged.
 
-Actual checkout: task/MIGRATE-002-proof-records from origin/main cfd6da9. No active
-worker yet. Coordinator owns state/HTML/checkpoint and shared integration; fresh002
-contract author receives bounded loader/schema/converter scope, not publication
+Actual checkout: task/MIGRATE-002-proof-records from origin/main cfd6da9. Active
+contract author is completing handoff; no runtime/test author assigned. Actual author: `codex:migrate002-contract-author-20261113:/root`
+(gpt-6.1-sol), owning the exact contract/brief link/evidence entry and delegated
+author-binding metadata only; coordinator retains shared integration. No publication
 activation or successor implementation. Brief: docs/tasks/EPIC-029/MIGRATE-002.md.
 Contract: docs/contracts/github-task-migration-v1.md at approved b506434.
 
@@ -20,8 +21,10 @@ Issue626 closed only after readback; PR632 watch stopped. Record carried in next
 already-authorized metadata, avoiding a completion-only PR. Prior PR126 completion
 facts and120 exemptions remain; historical failures remain historical.
 
-Next: fresh002 exact contract/examples author, then independent Claude initial,
-Codex fixes/separate verification and Claude closing before test authorship. Tests
+002 authored packet: `docs/contracts/proof-records-v1.md` at `dffef1153160715339247bb338893f82e23c1fe5`;
+paths/authors registered in state, no reviews claimed. Existing validate/render/project
+checks passed. Next: coordinator assigns independent Claude initial, Codex fixes/
+separate verification and Claude closing before test authorship. Tests
 receive their own full cycle, meaningful assertion red then fresh implementation.
 Closing note N1: explicitly specify first-cutover/base-absent policy semantics for
 002/003 tests; no silent success or blanket fail on the one legitimate bootstrap.

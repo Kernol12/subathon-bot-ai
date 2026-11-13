@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T16:35:10.282754+00:00",
+  "updated_at": "2026-11-13T16:40:57.843430+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -19743,7 +19743,7 @@
       "module": "Quality and tooling",
       "kind": "implementation",
       "status": "in_progress",
-      "owner": "codex:coordinator-59095155 (dispatch; fresh author pending)",
+      "owner": "codex:migrate002-contract-author-20261113:/root",
       "depends_on": [
         "MIGRATE-001"
       ],
@@ -19754,10 +19754,10 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-002.md",
       "summary": "Separate review evidence from task tracking. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Claimed after verified MIGRATE-001 protected merge. Fresh author to define precise loader/schema/converter and bounded oracle examples before tests; independent contract/test cycles and intended red precede fresh implementation. Production state authority unchanged."
+        "Exact proof API/schema/converter contract and bounded examples authored at dffef11. Existing validate/render/project checks passed; no runtime/test edits or intended red. Independent contract cycle is pending before test authorship. State remains sole production authority; product and WF006/007 execution stopped."
       ],
       "verification": {
-        "contract_authored": "not_run",
+        "contract_authored": "passed",
         "contract_review": "not_run",
         "test_review": "not_run",
         "baseline": "not_run",
@@ -19774,7 +19774,20 @@
           "tests",
           "implementation"
         ],
-        "stages": {}
+        "stages": {
+          "contract": {
+            "authors": [
+              "codex:migrate002-contract-author-20261113:/root"
+            ],
+            "revision": "dffef1153160715339247bb338893f82e23c1fe5",
+            "paths": [
+              "docs/contracts/proof-records-v1.md",
+              "docs/tasks/EPIC-029/MIGRATE-002.md",
+              "docs/evidence/README.md"
+            ],
+            "reviews": []
+          }
+        }
       }
     },
     {
