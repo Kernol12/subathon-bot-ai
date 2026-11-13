@@ -36,9 +36,11 @@ actual WF004merged125 and CI002done, CI003done/merged receipt. State remains sol
 canonical authority. Earlier local CI3 import-order error was corrected before carry;
 its private metadata commits were not merged/pushed into this branch.
 
-NEXT independent routine Codex integration-metadata/source-currency review. No new
-substantive source changes; retain full source approvals. After recording review,
-run actual final clean-head publicationchecker with exact fullbasef6dad07/headHEAD,
+Independent routine Codex integration-metadata/source-currency review APPROVED,
+no new findings: https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6853824553
+Private metadata-review.md in resume-f6dad07; no native timings asserted. No new
+substantive source change; all valid approvals retained. NEXT on final clean HEAD,
+run actual publicationchecker with exact fullbasef6dad07/headHEAD,
 WORKFLOW-005 contract+implementation stages, existing admitted lexical
 build/workflow005-schema-venv/bin/python. Do not select historical tests-NI stage.
 No new test/probe/oracle or oldred replay. Then push exact checked candidate, link
@@ -49,3 +51,7 @@ link immediately after push as required, do not rewatch. Update PR body with exa
 candidate/current evidence, require fresh21app-bound checks/normal protected merge.
 Prior42462d1 and1fdedfb failures stay historical; no rerun-for-luck. After merge save
 actualpublication/localpause state, unwatch, PAUSE; start no nexttask.
+
+Store actual final publisher stdout/stderr/observation in resume-f6dad07 and public
+receipt/PR body. Do not make a new commit solely to chase that read-only observation;
+current-head CI and final merged publication are recorded when actually known.
