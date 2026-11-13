@@ -15,8 +15,12 @@ ImageVersion20261111.127.1. The helper stopped before commands/writes/update/bui
 [Actual triage](https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6849584005).
 
 This identifies a URI in the existing four-member Ubuntu-security class and two
-evidence stanzas, with five noncomment lines in the selected stanza. It does NOT
-identify the exact URI spelling, other field names/values, source contents or cloud.
+evidence stanzas, with five distinct admitted keys in the selected stanza, including
+URIs. Both stanzas passed the complete structural scan: only the seven admitted
+keys, no duplicates, continuations or malformed field lines. Stanza1 also passed v1
+semantics: its stripped URI is the mirror URI, and Enabled is absent or exactly yes.
+It does NOT identify the exact security URI spelling, the remaining field names/
+values, full source contents or cloud.
 No full failed-host source capture is claimed. Image links did not provide a
 retrievable complete source configuration. Do not infer unknown values from an image.
 
@@ -29,12 +33,21 @@ They document separate distribution/security stanzas, Noble pockets, whitespace
 lists and the Ubuntu keyring. These are normative design inputs, NOT a claim that
 the failed runner contains every value below. Support is conditional on checking
 ALL profile requirements against the actual source string at runtime.
+This is the actual-source-evidence path required by CI-002 §1: bounded observations
+from the failed source, corroborating primary format documentation, a reviewed
+conditional profile, and runtime validation of every still-unobserved value. It is
+not permission to assume those values. The pinned template's security URI position
+after removal of its template marker is consistent with line52; this is a static
+correlation, not a rendered-template experiment or a full failed-host capture.
 
 ## 2. Exact additional profile
 
 Keep the existing GitHub-hosted Ubuntu24.04 guards and sole UTF-8 source read.
-Keep the existing structural scan, refusal precedence, counts and labels. Only
-after the complete structural scan succeeds may this additional profile match.
+Keep the existing structural scan, refusal precedence, counts and labels. Exact
+order: finish the complete structural scan, check this profile, then (only if it
+does not match) run the unchanged v1 semantic loop. On a match, write and flush the
+admission record inside validate_sources and return without the v1 semantic loop.
+The fixture order is validate, admission write, flush, validate_end, first child.
 It must not be selected by ImageVersion, cloud, hostname or any extra I/O.
 
 The source has exactly two evidence stanzas, in archive then security order.
@@ -67,12 +80,20 @@ Suites and Components are whitespace-token lists, separated by ASCII spaces/tabs
 Those token lists may be permuted, but duplicates, missing or extra tokens refuse.
 Types, URIs and Signed-By otherwise match their exact case-sensitive strings.
 
-For this new profile, line endings are LF or CRLF; lone CR, VT, FF, FS, GS, RS,
-NEL, Unicode line/paragraph separators are ineligible. Empty separators contain
-only ASCII space/tab. A comment starts with `#` after zero or more ASCII spaces/tabs;
-its content may be UTF-8. Every noncomment field line contains only printable ASCII
-(0x20–0x7e) or tab. Thus trimming/tokenization cannot turn unknown Unicode/control
-field values into known values. No source file or URI is rewritten or normalized.
+These grammar rules apply to the exact decoded string passed to validate_sources.
+The unchanged read_text(encoding='utf-8') already performs Python's universal-newline
+translation of on-disk CR/CRLF to LF. CI-003 changes neither that read nor its
+arguments and adds no further normalization; it cannot detect the original disk
+newline spelling. Direct callers/fixtures may supply LF or CRLF in the string,
+including mixed LF/CRLF; the final terminator is optional. A remaining lone CR,
+VT, FF, FS, GS, RS, NEL or Unicode line/paragraph separator makes this profile
+ineligible. A raw-CR fixture tests this string boundary, not on-disk CR detection.
+Any number of blank lines containing only ASCII space/tab is allowed. ASCII-
+indented # comments may appear before, inside, between or after stanzas; they
+never split or count as evidence stanzas. Comment-only blocks are allowed and
+ignored, and their content may be UTF-8. Every noncomment field line contains only
+printable ASCII (0x20–0x7e) or tab. Thus field trimming/tokenization cannot turn
+unknown Unicode/control values into known values. No source file or URI is rewritten.
 
 An ineligible profile does NOT bypass existing validation. Fall back to the existing
 semantic checks and exact refusal records. In particular, both-mirror sources keep
@@ -111,6 +132,17 @@ diagnostics, two checked tee writes/bytes and single checked inherited-output
 update300s, native Acquire::Retries1, trust, pins and all timeout/error behavior.
 No source write, extra read/command/process, new retry/capture, image pin, dependency,
 resolver/proxy change or signature bypass. No new identity/cloud/Python name lookup.
+For this profile, the archive uses the configured mirror list, while the security
+pocket is fetched directly from the validated source URI, outside that list.
+A security-host outage therefore fails the unchanged strict update; it grants no
+retry, fallback rewrite or exception to Error-Mode any/native Retries1.
+
+Code review must statically audit that there are no new socket/urllib/http/ssl
+imports or calls, environment keys, Path/os I/O or subprocess surfaces. The shared
+fixture omits legacy DNS entry points; the new test file adds its own patches for
+gethostbyname, gethostbyname_ex, gethostbyaddr, getfqdn and getnameinfo, raising
+AssertionError, without changing either frozen test file. Source audit remains
+required and does not claim that fixture barriers alone prove complete isolation.
 
 ## 4. Independent examples and test seam
 
@@ -130,12 +162,44 @@ Components: main universe restricted multiverse
 Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 ```
 
+Positive P2 is a synthetic template-shaped layout, not a host capture. It is
+eligible with either final-LF presence, permitted mixed LF/CRLF and any number of
+ASCII blank/comment-only blocks. The in-stanza comments are deliberately positive:
+
+```text
+## synthetic template-shaped header
+  # comments do not count as fields
+
+Types: deb
+URIs: mirror+file:/etc/apt/apt-mirrors.txt
+# comment inside archive stanza
+Suites: noble noble-updates noble-backports
+Components: main universe restricted multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+## synthetic security updates
+  # comment block before fields
+Types: deb
+URIs: https://security.ubuntu.com/ubuntu
+Suites: noble-security
+# comment inside security stanza
+Components: main universe restricted multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+# trailing comment
+```
+
 | Example/mutation | Required result through main |
 | --- | --- |
-| P1; each other allowed security URI; permitted field/token order/comments/CRLF | 0 after the unchanged update; runner then exact admission record, before any child |
-| First URI changed to direct Azure | 1; original uri_not_admitted at stanza1/line2, azure_archive, omitted4/1 |
-| P1 security Suites changed to noble; or its keyring changed | 1; original uri_not_admitted at stanza2/line8, ubuntu_security, omitted4/1 |
+| P1/P2; each other allowed security URI; permitted field/token order/comments/line endings | 0 after the unchanged update; runner then exact admission record, before any child |
+| P1 first URI changed to http://azure.archive.ubuntu.com/ubuntu/ | 1; original uri_not_admitted at stanza1/line2, field URIs, azure_archive, omitted4/1 |
+| P1 security Suites changed to noble; or security Signed-By changed to /other/keyring.gpg | 1; original uri_not_admitted at stanza2/line8, field URIs, ubuntu_security, omitted4/1 |
 | P1 adds Enabled:yes as security line12 | 1; same URI refusal at line8, omitted5/1 |
+| P1 inserts Enabled:yes after archive Signed-By, before its blank separator | 1; uri_not_admitted at stanza2/line9, field URIs, ubuntu_security, omitted4/1 (the insertion shifts later lines) |
+| P1 archive Types changed to deb deb-src | 1; uri_not_admitted at stanza2/line8, field URIs, ubuntu_security, omitted4/1 |
+| P1 archive Suites changed to noble noble noble-updates noble-backports | 1; uri_not_admitted at stanza2/line8, field URIs, ubuntu_security, omitted4/1 |
+| P1 security URI changed to http://security.ubuntu.com/ubuntu// | 1; uri_not_admitted at stanza2/line8, field URIs, other, omitted4/1 |
+| P1 security Signed-By prefixed by NBSP or U+001F before the canonical path | 1; uri_not_admitted at stanza2/line8, field URIs, ubuntu_security, omitted4/1; raw field fails the profile even though v1 strips its prefix |
+| Prefix P1 with one line NBSP + # synthetic comment + LF | 1; uri_not_admitted at stanza2/line9, field URIs, ubuntu_security, omitted4/1; v1 ignores that comment but the new profile rejects its indentation |
 | P1 adds unknown X-Test field as line12 | 1; structural unknown_field at stanza2/line12, field <unknown>, omitted5/1 |
 | P1 adds a third mirror-only stanza | 1; URI refusal at stanza2/line8, ubuntu_security, omitted4/2 |
 | Both URIs use the original mirror URI | existing0 with runner only; no admission record |
@@ -148,6 +212,12 @@ diagnostics module, without importing/inheriting its TestCase or changing either
 old test file. Its controlled stderr targets an arbitrary event, so source_admitted
 faults need no new producer API. Preserve every old assertion and source byte.
 No implementation-derived expectations or broad duplicate baseline suite.
+The new file explicitly inserts its own resolved tests/tooling directory in
+sys.path and imports the sibling test_apt_diagnostics module by filename (or only
+its fixture/constants); tests/tooling is not a package. It must include the normal
+unittest.main() script guard. Do not expose the old TestCase as an imported class
+in the new module, which would duplicate discovery. A producer import after the
+fixture's established path setup refers to the same patched producer module.
 
 Focused coverage must isolate each profile field/shape condition, invalid URI/raw
 format and structural bypass, record ordering/failure before children, unchanged
@@ -156,11 +226,32 @@ cases need not be copied wholesale: exercise the new call site's count/type,
 write/flush and persistent-failure paths with the reviewed fixture. Use synthetic
 sources, environment and child results; no actual local APT/network/write operation.
 
-Selected intended red is ONLY
-`AptSecurityProfileTests.test_reviewed_split_profile_is_admitted`, on literal P1.
-Before its decisive assertion, establish valid host/read/runner prerequisites;
-if current main returns1, require the exact old runner/refusal/unsupported outcome,
-no children and the one source read. Then require0 with the exact message
+The author handback must list every new method's expected current-main outcome,
+derived statically: PASS or an explicit behavioral assertion FAIL, never ERROR.
+Assert missing records/calls before indexing their trace; do not convert fixture,
+import or barrier failures into red. Other positive/fault/update cases will also
+fail before implementation, but they are not selected red evidence and remain
+unrun until implementation. Only the selected method uses the intended-red marker.
+
+Run EXACTLY this one command after the full test-review cycle, not discovery or
+the whole file:
+
+```sh
+python3 -B tests/tooling/test_apt_security_profile.py AptSecurityProfileTests.test_reviewed_split_profile_is_admitted -v
+```
+
+It uses literal P1 and AptSandbox's default valid runner facts. Before its decisive
+assertion, establish the one UTF-8 source read, runner and result-in-{0,1}
+prerequisites. If current main returns1, require exactly these three stderr lines
+(each with LF), zero child calls and the one source read:
+
+```text
+CI_APT_V1 {"event":"runner","image_os":"ubuntu24","image_version":"20261111.127.1","os_id":"ubuntu","os_patch":"24.04.5","os_version":"24.04","redacted_fields":[],"unknown_fields":[],"v":1}
+CI_APT_V1 {"event":"source_refused","field":"URIs","fields_omitted":4,"line":8,"reason":"uri_not_admitted","stanza":2,"stanzas_omitted":1,"v":1,"value_class":"ubuntu_security"}
+Ubuntu APT setup failed: unsupported Ubuntu APT source layout
+```
+
+Then require0 with the exact message
 `intended assertion red: CI_SECURITY_SPLIT_PROFILE_NOT_ADMITTED`.
 Expect one behavioral assertion FAIL, zero ERRORs/skips. No missing API/fixture,
 syntax/dependency/decoding failure is red. No NI stub is necessary or authorized.
@@ -171,11 +262,21 @@ Full independent contract and test cycles close before this red. A fresh isolate
 implementer then changes only tools/prepare_ubuntu_apt.py, followed by full code
 review and relevant tooling/schema/scaffold checks. Coordinator owns docs, shared
 metadata and publication. No unreviewed tests are imported/run/published.
+Before the code packet is reviewed, the coordinator updates docs/CI.md to explain
+the conditional profile, source_admitted and direct security-pocket availability.
+Code review includes that guidance and the explicit static no-new-I/O/lookup audit.
 
 Keep all21 app-bound contexts and19 workflow declarations unchanged, plus all prior
 protections. Use a focused prerequisite PR and normal protected merge. Inspect all
 nine actual hosted preparation lanes, final-head producers and the admission event.
 Report whether this profile was exercised; mirror-only successes do not establish
-new-profile platform execution. Do not rerun for luck or invent missing source facts.
+new-profile platform execution. A fully green candidate may merge even if no new
+admission record appeared, but must report "profile not platform-observed" and
+must not claim the originally refused host was fixed. Any required failed lane
+still blocks merge. If a split host remains refused after this implementation,
+the profile did not match it: retain the failure, do not rerun/relax, and return for
+another separately reviewed evidence-based refinement. An unchanged refusal may
+add no facts; do not pretend otherwise or guess the hidden mismatch.
+Do not rerun for luck or invent missing source facts.
 After this prerequisite merges, resume PR126 with fresh checks and normal merge,
 then PAUSE. No WORKFLOW-006/007 or stopped product work is authorized here.
