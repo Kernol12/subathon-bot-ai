@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T09:22:03Z",
+  "updated_at": "2026-11-13T09:50:31Z",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18576,7 +18576,7 @@
       "title": "Compact context and publication preflight",
       "module": "Quality and tooling",
       "kind": "implementation",
-      "status": "in_review",
+      "status": "blocked",
       "owner": "codex:coordinator-97333d35",
       "depends_on": [
         "WORKFLOW-004"
@@ -18588,7 +18588,7 @@
       "brief": "docs/tasks/WORKFLOW-005.md",
       "summary": "Select bounded stage handoffs and check actual schemas, reviewed paths and outgoing private-path history before publication.",
       "notes": [
-        "Approved source447aa06/77b1522/3720c42 unchanged after one main integration at8e9e996. Independent metadata verification approved. Integrated 115 tooling methods, scaffold 3/3 and schema preset 5/5 (8+3 schema methods; infrastructure overlaps) pass, zero skips. Current-head CI/protected merge pending; old42462d1 failure retained. Pause after PR126 merges; product stopped."
+        "Approved447aa06/77b1522/3720c42 and final1fdedfb six-check preflight remain unchanged. Required API-host/exact-numeric jobs refuse stanza2 URIs class ubuntu_security on image20261111.127.1 before commands/build. No rerun. Parked for explicit CI-003 compatibility prerequisite with all baseline assertions preserved; then resume current CI, normal merge and PAUSE. Product stopped."
       ],
       "verification": {
         "contract_review": "passed",
@@ -18614,11 +18614,12 @@
         "code_correction_authored": "passed",
         "code_correction_review": "passed",
         "schema_registration": "passed",
-        "hosted_ci": "not_run",
+        "hosted_ci": "failed",
         "publication_metadata": "passed",
         "resume_integration": "passed",
         "prior_42462d1_ci": "failed",
-        "resume_metadata_review": "passed"
+        "resume_metadata_review": "passed",
+        "prior_1fdedfb_ci": "failed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837666194",
@@ -18640,7 +18641,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6839885237",
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6840078428",
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6848769823",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6849040877"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6849040877",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6849584005"
       ],
       "review": {
         "author": "Codex test author, coordinator and fresh implementer (structured stage authors)",
@@ -18850,10 +18852,10 @@
       "publication": {
         "state": "open",
         "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/126",
-        "head": "42462d165a5aa90f92eb3625941bcda163f178c4",
+        "head": "1fdedfb363e79f134975dc7b796fec85034fea9d",
         "merge_commit": null,
         "merged_at": null,
-        "observed_at": "2026-11-13T09:04:44.531374+00:00"
+        "observed_at": "2026-11-13T09:28:00.517348+00:00"
       }
     },
     {
@@ -21403,6 +21405,11 @@
       "date": "2026-11-13T08:59:54Z",
       "task": "WORKFLOW-005",
       "note": "Owner resumed only PR126 through protected merge, then pause. Integrating merged CI-002 main e0816de once; preserve approved WORKFLOW-005 source, claim, reviews and prior failed-host evidence. No new product task."
+    },
+    {
+      "date": "2026-11-13T09:50:31Z",
+      "task": "WORKFLOW-005",
+      "note": "Two required1fdedfb jobs refused URIs class ubuntu_security in stanza2/line52 before commands/build. No rerun; park approved source for explicit CI-003 prerequisite. Owner boundary remains finishPR126 then pause."
     }
   ],
   "workflow_policy": {
