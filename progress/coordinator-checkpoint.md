@@ -94,3 +94,12 @@ test source changed. Existing project/validate/render/whitespace checks pass. Se
 Codex primary and ADR-scope verifications next, then fresh Claude closings; no test
 authorship before both approvals. Availability role/closure/privacy/remote audit remains
 unresolved; no archive/pin/deletion/native mutation or implicit waiver.
+
+Primary Codex verification APPROVED45f14d1, dispatch2ba36508-b8ee-4c32-b798-10a9452411b0,
+reviewer codex:migrate004-primary-segmentation-ci-verification:/root (report identity),
+issue629#issuecomment-6867542395. CC3-01/N1 resolved, no new primary blocker.
+Observed activity23:26:10–23:27:07 is not session endpoints; structured timing omitted.
+Independent275 candidate/ref/pack observations are local preservation only. Actual
+canonical CI requirements are proposed, not implemented/passing. Fresh independent
+Claude primary closing next. Separate ADR verification and historical role research
+remain active and independent; their approval is not granted by primary verification.
