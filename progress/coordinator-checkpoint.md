@@ -50,12 +50,18 @@ points patched only in new futuretestfile; static code audit mandatory. Direct
 security-host outage fails strict update; docsCI guidance owed before code review.
 Green with no new admission event maymerge only as profile not platform-observed;
 any continued refusal staysblocked for reviewed refinement, no rerun/relaxation.
-Separate native Codex ci003_contract_verification APPROVED with no new findings;
-receipt https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850397768
-Recorded against corrected packet6c77393; no reviewer timings asserted.
-Next fresh Claude closing contract review, client ci003-closing-contract-review-v1.
-Initial report/corrections/Codex report: local-evidence/CI-003/contract-reviews.
-Contract remains partial until closing approval; tests remain gated.
+Separate native Codex verification approved6c77393, but closing Claude requested
+changes: CI003-C-B1 (indented comments) and CI003-C-A1 (closed raw-line classes).
+Report/dispositions https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850649333
+Both corrected ate41a830d7e35aeab0bb03cbd7812709876498b23: only column-zero
+comments, truly empty separators and closed original decoded-line eligibility before
+reusing v1 stripped values/stanzas; P2/negative fallback examples corrected. Only
+contract changed; all prior scope/gates and27 frozen test methods remain unchanged.
+Primary Noble manual observations saved under sources/comment-grammar-primary-review.json.
+Reports/dispositions: local-evidence/CI-003/contract-reviews/closing-v1.md and
+corrections-v2.md. Next separate native Codex correction verification, then fresh
+Claude closing via client ci003-closing-contract-review-v2. Contract remains partial;
+no test authoring until closing approval. Runtime/session provenance is observational.
 No new tests/probes/authored code/own PR yet. Then additive authored tests
 unrun until full review, true intended red, fresh isolated implementation/full code
 cycle. Separate focused prerequisite PR/main merge with all21, then resume PR126,
