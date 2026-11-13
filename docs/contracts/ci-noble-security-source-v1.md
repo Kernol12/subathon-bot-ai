@@ -28,7 +28,8 @@ Primary design inputs are Canonical cloud-init commit
 `30b3ea21ec86269a2e31ae0028fbb4a7cc5b41a1`:
 [deb822 template](https://github.com/canonical/cloud-init/blob/30b3ea21ec86269a2e31ae0028fbb4a7cc5b41a1/templates/sources.list.ubuntu.deb822.tmpl),
 [APT defaults](https://github.com/canonical/cloud-init/blob/30b3ea21ec86269a2e31ae0028fbb4a7cc5b41a1/cloudinit/config/cc_apt_configure.py),
-and Ubuntu Noble's [sources.list(5)](https://manpages.ubuntu.com/manpages/noble/man5/sources.list.5.html).
+and Ubuntu Noble's [sources.list(5)](https://manpages.ubuntu.com/manpages/noble/man5/sources.list.5.html)
+and [deb822(5)](https://manpages.ubuntu.com/manpages/noble/man5/deb822.5.html).
 They document separate distribution/security stanzas, Noble pockets, whitespace
 lists and the Ubuntu keyring. These are normative design inputs, NOT a claim that
 the failed runner contains every value below. Support is conditional on checking
@@ -88,12 +89,22 @@ newline spelling. Direct callers/fixtures may supply LF or CRLF in the string,
 including mixed LF/CRLF; the final terminator is optional. A remaining lone CR,
 VT, FF, FS, GS, RS, NEL or Unicode line/paragraph separator makes this profile
 ineligible. A raw-CR fixture tests this string boundary, not on-disk CR detection.
-Any number of blank lines containing only ASCII space/tab is allowed. ASCII-
-indented # comments may appear before, inside, between or after stanzas; they
-never split or count as evidence stanzas. Comment-only blocks are allowed and
-ignored, and their content may be UTF-8. Every noncomment field line contains only
-printable ASCII (0x20–0x7e) or tab. Thus field trimming/tokenization cannot turn
-unknown Unicode/control values into known values. No source file or URI is rewritten.
+Classify every original decoded line after removing only its LF/CRLF delimiter,
+before relying on v1's stripped fields or stanza grouping. For this profile only,
+a blank separator must be truly empty; whitespace-only lines, including ASCII
+space/tab, NBSP and U+001F, make the profile ineligible. Any number of empty lines
+is allowed. A comment's first character must be # in column zero; leading space,
+tab or other whitespace before # makes the profile ineligible. Column-zero comments
+may appear before, inside, between or after stanzas; they never split or count as
+evidence stanzas. Comment-only blocks are ignored, and comment content may be UTF-8.
+Each line must be exactly an empty separator, a column-zero comment, or a column-zero
+field line containing only printable ASCII (0x20–0x7e) or tab and satisfying the
+field rules above. Every other line makes the profile ineligible. In particular,
+an indented # line must not be mistaken for a comment rather than a continuation.
+The empty-separator restriction is a conservative subset of the documented format;
+it does not change v1's existing whitespace/comment handling on fallback. Thus field
+trimming/tokenization cannot turn unknown Unicode/control values into known values.
+No source file or URI is rewritten.
 
 An ineligible profile does NOT bypass existing validation. Fall back to the existing
 semantic checks and exact refusal records. In particular, both-mirror sources keep
@@ -164,11 +175,12 @@ Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 
 Positive P2 is a synthetic template-shaped layout, not a host capture. It is
 eligible with either final-LF presence, permitted mixed LF/CRLF and any number of
-ASCII blank/comment-only blocks. The in-stanza comments are deliberately positive:
+empty-line/comment-only blocks. All comments start in column zero; the in-stanza
+comments are deliberately positive:
 
 ```text
 ## synthetic template-shaped header
-  # comments do not count as fields
+# comments do not count as fields
 
 Types: deb
 URIs: mirror+file:/etc/apt/apt-mirrors.txt
@@ -178,7 +190,7 @@ Components: main universe restricted multiverse
 Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 
 ## synthetic security updates
-  # comment block before fields
+# comment block before fields
 Types: deb
 URIs: https://security.ubuntu.com/ubuntu
 Suites: noble-security
@@ -200,6 +212,8 @@ Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 | P1 security URI changed to http://security.ubuntu.com/ubuntu// | 1; uri_not_admitted at stanza2/line8, field URIs, other, omitted4/1 |
 | P1 security Signed-By prefixed by NBSP or U+001F before the canonical path | 1; uri_not_admitted at stanza2/line8, field URIs, ubuntu_security, omitted4/1; raw field fails the profile even though v1 strips its prefix |
 | Prefix P1 with one line NBSP + # synthetic comment + LF | 1; uri_not_admitted at stanza2/line9, field URIs, ubuntu_security, omitted4/1; v1 ignores that comment but the new profile rejects its indentation |
+| P1 inserts tab + # note after security Components as new line11 | 1; uri_not_admitted at stanza2/line8, field URIs, ubuntu_security, omitted4/1; v1 ignores the indented comment but the new profile must not |
+| P1 replaces its empty line6 by a line containing only ASCII spaces/tabs, NBSP or U+001F | 1; uri_not_admitted at stanza2/line8, field URIs, ubuntu_security, omitted4/1; v1 still groups two stanzas, but the new profile rejects the original nonempty separator |
 | P1 adds unknown X-Test field as line12 | 1; structural unknown_field at stanza2/line12, field <unknown>, omitted5/1 |
 | P1 adds a third mirror-only stanza | 1; URI refusal at stanza2/line8, ubuntu_security, omitted4/2 |
 | Both URIs use the original mirror URI | existing0 with runner only; no admission record |
