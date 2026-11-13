@@ -26,8 +26,22 @@ class OfflineLinks(HTMLParser):
             self.links.append(attrs["href"])
 
 
+def check_repository(root: Path) -> dict:
+    """Independent repository checks: authored NI boundary only."""
+    raise ValueError("PROOF_PUBLICATION_NOT_IMPLEMENTED")
+
+
+def check_tracker(data: dict, root: Path) -> dict:
+    """Explicit-root tracker checks: authored NI boundary only."""
+    raise ValueError("PROOF_PUBLICATION_NOT_IMPLEMENTED")
+
+
 def main() -> int:
     try:
+        if sys.argv[1:] == ["--repository-only"]:
+            check_repository(ROOT)
+            print("PASS: repository checks")
+            return 0
         data = json.loads(STATE.read_text(encoding="utf-8"))
         validate(data)
         spec = (ROOT / "docs/specification.md").read_text(encoding="utf-8")

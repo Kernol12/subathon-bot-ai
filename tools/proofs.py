@@ -67,6 +67,11 @@ def safe_path(path: Path, *, directory=False) -> Path:
     return path
 
 
+def read_json_bytes(payload: bytes, source: str) -> object:
+    """Shared Git JSON transport seam; existing filesystem parser stays unchanged."""
+    raise ValueError("PROOF_PUBLICATION_NOT_IMPLEMENTED")
+
+
 def read_json(path: Path) -> object:
     """Read a regular UTF-8 JSON input with duplicate and nonfinite values refused."""
     def pairs(items):

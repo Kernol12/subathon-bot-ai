@@ -156,6 +156,18 @@ def check_checkout(base: str, head: str) -> None:
         raise ValueError("Working tree has tracked changes, conflicts or non-ignored untracked files")
 
 
+def check_proof_policy(base: str, head: str, *, task_id: str,
+                       bootstrap: bool = False) -> dict:
+    """Prepared guard seam; immutable test revision pins this NI baseline."""
+    raise ValueError("PROOF_PUBLICATION_NOT_IMPLEMENTED")
+
+
+def check_proof_bindings(bundle: dict, task_id: str, stages: list[str], *,
+                         head: str, complete: bool = False) -> list[dict]:
+    """Prepared current-source seam; implementation belongs to the next session."""
+    raise ValueError("PROOF_PUBLICATION_NOT_IMPLEMENTED")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--base", required=True)
@@ -163,8 +175,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--task", required=True)
     parser.add_argument("--stage", action="append", required=True)
     parser.add_argument("--schema-python", required=True)
+    parser.add_argument("--proofs", action="store_true")
+    parser.add_argument("--complete", action="store_true")
+    parser.add_argument("--bootstrap", action="store_true")
     args = parser.parse_args(argv)
+    if (args.complete or args.bootstrap) and not args.proofs:
+        parser.error("--complete and --bootstrap require --proofs")
     try:
+        if args.proofs:
+            raise ValueError("PROOF_PUBLICATION_NOT_IMPLEMENTED")
         # abspath preserves the selected venv symlink and uses the original caller cwd.
         schema_python = os.path.abspath(args.schema_python)
         if len(args.stage) != len(set(args.stage)):
