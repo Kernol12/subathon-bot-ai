@@ -60,3 +60,10 @@ https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6861143191
 154 tooling +1 actual proof aggregate +8 schema +3 SDK publication passed. Tests frozen.
 Next Claude closing, then selected implementation/contract publication, CI/protectedmerge.
 No current approval claimed for deliberately superseded NI source blobs in tests packet.
+
+Implementation closing rejected one schema archive-path first-component gap:
+https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6861298697
+Fixed source2009aa7 changes one regex and restores projector wrapper docstring;
+no test/contract changes. Next independent Codex verification then Claude closing.
+Prior closing independently passed154tooling, actualschema1+8+3 and fresh scaffold3/3
+at a28f68e; earlier author staleHTMLfailure/rerun still historical, not overwritten.

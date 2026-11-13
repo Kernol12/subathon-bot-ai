@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T18:13:36.283338+00:00",
+  "updated_at": "2026-11-13T18:19:05.293412+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -19754,7 +19754,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-002.md",
       "summary": "Separate review evidence from task tracking. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Independent Codex implementation verification approved 02966ad: both blockers resolved. 154 tooling, proof aggregate, existing 8 schemas and 3 SDK publication tests pass; tests frozen. Claude closing/current-head publication/CI/protected merge pending. State sole authority; 003 NI-binding conflict explicitly retained."
+        "Closing review found first-component archive traversal schema gap; corrected at 2009aa7, wrapper docstring restored. Earlier fixes and frozen tests retained. Prior closing ran 154 tooling, schema 1+8+3 and fresh scaffold 3/3 passing. New independent verification/closing pending; state sole authority."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -20017,7 +20017,7 @@
               "codex:migrate002-implementation-20261113:/root",
               "codex:coordinator-59095155"
             ],
-            "revision": "02966ad67e12e229da60a5ae5716fdaeec9ed3de",
+            "revision": "2009aa701bbcf6bc1c28b78ecdf4721124f50095",
             "paths": [
               "progress/proof-policy.schema.json",
               "progress/proof.schema.json",
@@ -20062,6 +20062,26 @@
                 "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6861143191",
                 "findings": [],
                 "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:fd518f71-bf18-46f8-99b2-207eaef7f643",
+                "revision": "02966ad67e12e229da60a5ae5716fdaeec9ed3de",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6861298697",
+                "findings": [
+                  "M002-IC-01",
+                  "M002-IC-N1",
+                  "M002-IC-N2",
+                  "M002-IC-N3"
+                ],
+                "blocking_findings": [
+                  "M002-IC-01"
+                ],
+                "started_at": "2026-11-13T18:13:51Z",
+                "finished_at": "2026-11-13T18:17:17Z"
               }
             ]
           }
