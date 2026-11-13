@@ -89,21 +89,12 @@ class ProofSchemas(unittest.TestCase):
             bad = examples.record(); del bad[key]
             with self.subTest(missing=key), self.assertRaises(self.Invalid):
                 proof_validator.validate(bad)
-        for issue in ({'repository': 'other/project', 'number': 9901},
-                      {'repository': 'Kernol12/subathon-bot-ai', 'number': True},
-                      {'repository': 'Kernol12/subathon-bot-ai', 'number': 0},
-                      dict(examples.record()['issue'], url='invented')):
+        for issue in examples.issue_shape_refusals():
             bad = examples.record(); bad['issue'] = issue
             with self.subTest(issue=issue), self.assertRaises(self.Invalid):
                 proof_validator.validate(bad)
-        for key, value in [('version', True), ('archive_commit', 'short'),
-                           ('legacy_done_sha256', 'x'*64), ('unknown', 'field')]:
-            bad = examples.policy(); bad[key] = value
-            with self.subTest(policy=key), self.assertRaises(self.Invalid):
-                policy_validator.validate(bad)
-        for key in examples.policy():
-            bad = examples.policy(); del bad[key]
-            with self.subTest(policy_missing=key), self.assertRaises(self.Invalid):
+        for bad in examples.policy_shape_refusals():
+            with self.subTest(policy='single shape edit'), self.assertRaises(self.Invalid):
                 policy_validator.validate(bad)
         for mutation in examples.supplemental_mutations():
             bad = copy.deepcopy(historical); bad['supplemental_workflow_evidence'] = mutation

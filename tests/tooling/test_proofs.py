@@ -89,6 +89,23 @@ def immutable_brief_refusals():
             'https://example.test/brief', base.replace('/docs/a.md', '/docs/../a.md')]
 
 
+def issue_shape_refusals():
+    return [{'repository': 'other/project', 'number': 9901},
+            {'repository': 'Kernol12/subathon-bot-ai', 'number': True},
+            {'repository': 'Kernol12/subathon-bot-ai', 'number': 0},
+            dict(record()['issue'], url='invented')]
+
+
+def policy_shape_refusals():
+    values = []
+    for key, value in [('version', True), ('archive_commit', 'short'),
+                       ('legacy_done_sha256', 'x'*64), ('unknown', 'field')]:
+        bad = policy(); bad[key] = value; values.append(bad)
+    for key in policy():
+        bad = policy(); del bad[key]; values.append(bad)
+    return values
+
+
 def nested_shape_refusals():
     """One authored shape/enum edit per valid baseline, shared by both validators."""
     baseline = reviewed_record()
@@ -104,6 +121,7 @@ def nested_shape_refusals():
         (('review', 'author'), 17), (('publication', 'state'), 'closed'),
         (('workflow', 'required_stages'), []),
         (('workflow', 'required_stages'), ['unknown']),
+        (('workflow', 'required_stages'), ['contract', 'unknown']),
         (('workflow', 'required_stages'), ['contract', 'contract']),
         (('workflow', 'stages', 'unknown'), copy.deepcopy(baseline['workflow']['stages']['contract'])),
         (('workflow', 'stages', 'contract', 'reviews', 0, 'phase'), 'unknown'),
@@ -183,6 +201,8 @@ class ProofTests(unittest.TestCase):
                          LEGACY_DONE_SHA256)
         self.assertIsNone(proofs.validate_policy(policy()))
         self.assertIsNone(proofs.validate(policy(), []))
+        for bad in policy_shape_refusals():
+            self.refuses(proofs.validate_policy, bad)
         for key, value in [('legacy_done', list(LEGACY_DONE[:-1])),
                            ('legacy_done_sha256', '0'*64), ('version', True),
                            ('required_records', ['CONVERT-902', 'CONVERT-901']),
@@ -218,6 +238,9 @@ class ProofTests(unittest.TestCase):
                 self.refuses(proofs.validate_record, bad)
         for key in valid:
             bad = copy.deepcopy(valid); del bad[key]
+            self.refuses(proofs.validate_record, bad)
+        for issue in issue_shape_refusals():
+            bad = record(); bad['issue'] = issue
             self.refuses(proofs.validate_record, bad)
         for number in (True, 1.0, 0, -1):
             bad = record(); bad['issue']['number'] = number
