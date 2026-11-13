@@ -1,7 +1,7 @@
 # MIGRATE-004 — Switch task authority to GitHub and retire the tracker
 
 Source: [issue #629](https://github.com/Kernol12/subathon-bot-ai/issues/629), snapshot 2026-11-13.
-Contract: `docs/contracts/github-task-migration-v1.md` (authored; independent review pending).
+Contract: `docs/contracts/github-task-migration-v1.md`.
 
 Owner authorization now permits migration sequence 001 → 002 → 003 → 004 → 006 → 005.
 This brief registers scope; only 001 is claimed in this session. Until 004, state remains

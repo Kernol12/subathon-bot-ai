@@ -2,8 +2,7 @@
 
 Authored contract for EPIC-029 / MIGRATE-001, specification v0.45 §§17–18.
 Author: `codex:migrate001-author-20261113:/root` (Codex gpt-6.1-sol).
-Initial review requested changes; corrections await independent verification/closing.
-Correction author: `codex:coordinator-59095155`. This document grants no approval or cutover.
+Correction author: `codex:coordinator-59095155`. Review status and source receipts are recorded in the current proof authority, not here.
 Issue-derived [briefs](../tasks/EPIC-029.md) preserve every issue acceptance criterion.
 The [consumer inventory](github-task-migration-inventory-v1.md) is part of this packet.
 
@@ -104,8 +103,9 @@ Git commit and compare each selected file's Git mode/blob at recorded revision a
 candidate head, using literal paths; missing, nonregular, escaped or stale bindings
 refuse publication. Unchanged reviewed files may pass across unrelated commits.
 Receipt-only bookkeeping is excluded from its own packet, including the new proof
-record receipt metadata. The mechanical immutable-eligibility guard in §9 applies
-regardless of intent; policy changes are not blanket bookkeeping. Schema/loader/policy
+record receipt metadata and the enrollment policy file. Policy is excluded from
+stage paths/currency; its independent mechanical immutable-eligibility guard in §9
+applies regardless of intent. Schema/loader/policy
 behavior edits themselves require separately bound substantive source review; exclusion
 cannot hide requirement changes. No self-referential digest or synthetic future commit.
 
@@ -134,6 +134,7 @@ existing workflow/publication/schema cases; add only newly needed loader behavio
 | Earlier initial then current approved verification/closing; unchanged selected blobs | Accept grammar and source binding; no authentication claim |
 | Closing approves old revision; current selected blob/mode differs or is missing | Refuse current closure/publication |
 | Only receipt metadata/unrelated source changes; selected files unchanged | Existing binding remains valid; actual checkout checks still apply |
+| Unrelated task enrolls after a stage closes | Existing stage bindings stay current; additive policy change is checked independently |
 | Unavailable or empty-success schema interpreter; schema-invalid record despite semantic pass | Refuse publication; no manufactured success |
 | Private path added then deleted in outgoing history, including merge-side history | Refuse; clean final tree is insufficient |
 | Board moved to Done or intermediate contract/test PR merged | No task lifecycle closure or new authority |
@@ -296,6 +297,12 @@ and NUL components; current selected publication additionally uses the existing
 containment and literal regular-Git-file checks. Historical brief references may be
 immutable HTTPS archive URLs. No fake relocated revision or rewritten stage path.
 
+Every PR touching proof records or policy requires a successful latest-head local
+publication receipt, including the base-versus-candidate eligibility guard; the
+coordinator verifies it before protected merge. Shallow CI does not enforce that
+cross-revision/archive guard and cannot establish receipt authenticity or detect
+a missing publication run. It checks fingerprint/set equality and grammar only.
+
 Ordinary shallow CI runs this tree-free validation and the actual proof/policy schema
 suite plus repository checks. It cannot authenticate archived blobs, review identities,
 unrecorded board claims or actual PR completion. It never fetches history or reads
@@ -353,7 +360,8 @@ rather than inventing an empty proof. Reuse/adapt existing substantive compact t
 | depends_on | Native containment/prerequisites by rule below; no proof copy |
 | spec_refs, brief | Versioned acceptance brief/specification; proof holds brief reference; archive retains original arrays |
 | summary | Readable GitHub issue description; meaningful technical constraints also retained in brief |
-| notes | Issue activity/completion receipt plus immutable archive; no notes field in proof. Existing ≤500-character completion-summary rule applies to the concise issue/PR completion note after cutover, not all issue history |
+| notes | Issue activity/completion receipt plus immutable archive; no notes field in proof (verbatim caveats retained as limitations below). Existing ≤500-character completion-summary rule applies to the concise issue/PR completion note after cutover, not all issue history |
+| limitations (new) | Convert by copying the entire original notes array verbatim, or [] if absent; no summarization, classification or inferred caveats. Forward entries are authored in reviewed packets or receipts; existing entries cannot silently disappear |
 | verification | Preserve exact existing per-task map as optional historical `verification` proof field, including failed/not_run values. No synthetic upgrades; forward observations go in workflow evidence/PR receipts, not a board-state projection |
 | evidence | Versioned proof references; original set and limitations preserved in archive |
 | review | Preserve exact legacy author/reviewer/outcome receipt as optional `review` proof field; never convert it into a full structured approval |
@@ -387,13 +395,15 @@ Freeze policy archive commit, exemption list/fingerprint and existing task_id/is
 Refuse enrollment shrink, record deletion, identity/kind change or exemption/archive-pin
 change outright in normal and --complete modes; no skip flag or intent-based exception.
 A genuine correction needs a separately reviewed contract amendment and explicit narrow
-validator change, never silently weakened minimums. Policy enrollment additions must
-be in a selected stage's paths and blob-bound at its recorded revision; policy has no
-review receipts so this causes no self-reference. Receipt-only proof edits are not
-blanket permission to change eligibility. Existing required_stages may expand but may
+validator change, never silently weakened minimums. Exclude the shared policy from
+stage paths/currency. Accept additive enrollment only with a matching well-formed
+record whose identity/kind passes the archive or per-ID reviewed-brief check below;
+additions increase obligations without rebinding unrelated source approvals.
+Receipt-only proof edits are not blanket permission to change eligibility. Existing required_stages may expand but may
 not shrink in ordinary publication. Canonical review history must retain the base's
 ordered receipts as a prefix; changes to historical verification/review/supplemental
-fields also refuse absent a separately reviewed correction. Forward fixes append new
+fields also refuse absent a separately reviewed correction. Existing limitations
+entries remain an ordered prefix; forward entries append without rewriting caveats. Forward fixes append new
 reviews and update canonical stage revision/authors/paths honestly.
 
 The policy pins the remotely verified pre-cutover archive commit. For each newly
@@ -438,14 +448,14 @@ Coordinator owns every go/no-go decision; failed item stops cutover, not the gat
    remote inventories for drift. Any unexplained drift returns to reconciliation.
 6. Run final latest-head publication, verify current CI/rules/resolved threads and
    merge normally. Only that observed merge switches authority; read back GitHub facts.
-7. Execute006 cleanup with immutable prior brief bytes/links before removal; then005
+7. Execute 006 cleanup with immutable prior brief bytes/links before removal; then 005
    fresh-checkout offline checks and independent readback audit before final closure.
 
-Before cutover, merged002/003 support remains inert with state authoritative; rollback
+Before cutover, merged 002/003 support remains inert with state authoritative; rollback
 may leave inert code or revert it through a reviewed protected PR, never enable both.
 After cutover, GitHub stays authoritative while dispatch is paused and all intervening
 facts are captured. A protected reviewed rollback restores archived tracker consumers
-and, if006 has merged, full removed briefs plus repaired links from the archive,
+and, if 006 has merged, full removed briefs plus repaired links from the archive,
 reconciles intervening task/proof/PR changes and preserves full receipts. Switch back
 only at that rollback merge; resume no product work automatically. Unavailable archive,
 unexplained intervening facts or failing review/CI blocks rollback just as cutover.

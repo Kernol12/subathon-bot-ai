@@ -1,7 +1,7 @@
 # MIGRATE-005 — Verify and close the task-tracking migration
 
 Source: [issue #630](https://github.com/Kernol12/subathon-bot-ai/issues/630), snapshot 2026-11-13.
-Contract: `docs/contracts/github-task-migration-v1.md` (authored; independent review pending).
+Contract: `docs/contracts/github-task-migration-v1.md`.
 
 Owner authorization now permits migration sequence 001 → 002 → 003 → 004 → 006 → 005.
 This brief registers scope; only 001 is claimed in this session. Until 004, state remains
