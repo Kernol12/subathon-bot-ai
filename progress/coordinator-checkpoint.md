@@ -103,3 +103,17 @@ Independent275 candidate/ref/pack observations are local preservation only. Actu
 canonical CI requirements are proposed, not implemented/passing. Fresh independent
 Claude primary closing next. Separate ADR verification and historical role research
 remain active and independent; their approval is not granted by primary verification.
+
+Separate ADR scope Codex verification CHANGES_REQUESTED CL-CV-01, dispatchc147d496-
+5e92-4593-ad5d-7942b0f87169, issue629#issuecomment-6867565222. Report preserves
+130 exact method rows/26 verified pins and all initial resolutions. Tool-activity
+samples23:24:41/23:26:07, report-write23:29:05 are not exact session duration.
+Sourceffdc38fa91ae89ce3972d08765d7b3b53877fa11 corrects only SDK method disposition:
+retire post-schema-mutation success assertion76; require actual aggregate refusal
+with ValidationError/identity/no witness, preserving pre-mutation SDK success, both
+selected/unselected mutations, no writes and passing Python/project controls.
+Matrix /tmp/migrate004-schema-probe-scope-fix.md; no test source/execution or red.
+Primary closing dispatch994f52bb-ad84-4003-8696-47603a7ddb97 cancelled as superseded
+because scope is part of primary packet; no verdict/approval inferred. Both current
+source Codex verifications then fresh Claude closings remain required. Historical
+role research continues independently; no authority switch, deletion, pin or waiver.
