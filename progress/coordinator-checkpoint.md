@@ -1,4 +1,4 @@
-# EPIC-029 authorized — MIGRATE-003 tests awaiting Claude closing
+# EPIC-029 authorized — MIGRATE-003 approved tests, actual red next
 
 Owner authorizes migration only:001→002→003→004→006→005 without renewed confirmation.
 State remains sole task/proof authority until004 reviewed cutover. Product/API and
@@ -44,3 +44,5 @@ spelling; no install/globalSDK. Board/archive/freshretiredcheckout/platform audi
 Implementation handoff notes from test review: register real proof publication SDK integration in selected CI as well as schema.proofs; preserve useful actual validator diagnostics. Record fixture-suite duration and classify every red traceback; SDK/admission/setup must pass independently first. CPython 3.14 reviewer observed depth100000 refusal; admitted 3.10/3.12 verification remains target execution work. No approval or red inferred from static checks.
 
 Codex test verification approved source5c89947 (dispatch2133dce1, local report alias codex:migrate003-tests-verification-20261113:/root), observed19:54:03Z–19:56:38Z, issue628#issuecomment-6863395981. All eight blockers resolved; no new findings. Actual dispatch identity retained independently of self-reported report alias. Fresh Claude closing next, no new test execution or red yet.
+
+Claude test closing APPROVED source5c89947, session2d8d8109-b200-4d4d-b7e4-e62c4b388042,20:05:29Z, issue628#issuecomment-6863614765. No blockers. N1: prepared head mutation remains confounded (prior Codex isolation claim corrected); implementation review MUST confirm prepared check_checkout by inspection. N2 exempt CLI control/pending double-cause, N3bootstrap supplied-workflow variants, N4symlink target NAME_MAX fragility, N5archive files retained by one-sided fixtures are disclosed advisory. Do not edit approved tests merely to clear advisory. Next SDK setup then classify every actual red (ENAMETOOLONG/setup never red), record duration, retain three sourceNI blobs at5c89947. Python3.10/3.12 unavailable locally; selected CI target execution remains pending. Fresh implementation after meaningful baseline.
