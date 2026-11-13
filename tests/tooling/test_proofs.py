@@ -537,7 +537,8 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(set(report), {'version', 'source_task_count', 'record_count', 'archive_only_ids',
             'enrolled_ids', 'mappings', 'field_comparisons', 'discrepancies'})
         # Field-comparison row ordering is not normative; compare rows by identity.
-        self.assertEqual({r['task_id']: r for r in report['field_comparisons']}, {r['task_id']: r for r in comparisons})
+        self.assertEqual(sorted(report['field_comparisons'], key=lambda r: r['task_id']),
+                         sorted(comparisons, key=lambda r: r['task_id']))
         report_orderless = copy.deepcopy(report); report_orderless['field_comparisons'] = comparisons
         self.assertEqual(report_orderless, dict(version=1, source_task_count=3, record_count=2,
             archive_only_ids=['EPIC-999'], enrolled_ids=['CONVERT-901', 'CONVERT-902'],
@@ -683,8 +684,9 @@ class ProofCliTests(unittest.TestCase):
                 enrolled_ids=sorted(t['id'] for t in enrolled), mappings=identities['entries'], discrepancies=[]))
             keys = ('kind', 'brief', 'evidence', 'limitations', 'workflow', 'publication',
                     'verification', 'review', 'supplemental_workflow_evidence')
-            self.assertEqual({r['task_id']: r for r in report['field_comparisons']},
-                             {t['id']: dict(task_id=t['id'], **dict.fromkeys(keys, True)) for t in enrolled})
+            expected_comparisons = [dict(task_id=t['id'], **dict.fromkeys(keys, True)) for t in enrolled]
+            self.assertEqual(sorted(report['field_comparisons'], key=lambda r: r['task_id']),
+                             sorted(expected_comparisons, key=lambda r: r['task_id']))
             for p in output.rglob('*.json'):
                 self.assertNotIn(str(root), p.read_text())
                 self.assertNotIn(str(ROOT), p.read_text())
