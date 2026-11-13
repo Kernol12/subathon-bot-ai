@@ -62,8 +62,11 @@ scaffold3 are author observations at producer9022609, not rerun for immutable
 constant/docstring-only correction; actual logs preserved in implementation-v1.
 No hosted source/recovery claim. Profile not platform-observed.
 
-NEXT separate independent native Codex CODE correction verification, then fresh
-Claude closing via client ci003-closing-code-review-v1. Both declared coauthors
+Separate independent native Codex CODE verification APPROVED0B/0A, own48APT and
+metadata checks passed:
+https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6852557669
+Private code-reviews/codex-verification-v1.md; no native review timings asserted.
+NEXT fresh Claude closing via client ci003-closing-code-review-v1. Both declared coauthors
 (isolated producer/root guide+correction) must not approve their own material.
 Independent STATIC audits remain required: TI-A2 separate LITERAL4URI allowlist
 not diagnostic-derived even at import; no new I/O/lookup/envkeys/source rewrite/
@@ -91,3 +94,9 @@ its rich task record rather than main's planned WORKFLOW-005 record. Recheck rel
 local tooling/scaffold/schema and publication checker (schema interpreter is existing
 build/workflow005-schema-venv/bin/python), fresh all21 CI, normal protected merge.
 Then save the final pause checkpoint, unwatch and PAUSE. Start no new task afterward.
+
+Publication prep (read-only, not merge-time evidence): main stayed e0816de and full
+ruleset26170263 matched reviewed payload/all old parameters/21app-bound pairs at
+2026-11-13T12:10:12Z. No settings mutation. Snapshots and unpublished draft PR body
+are under local-evidence/CI-003/publication-prep-v1; replace pending closing/head/CI
+fields with actual observations before creating the focused PR.
