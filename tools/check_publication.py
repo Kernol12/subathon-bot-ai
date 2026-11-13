@@ -225,8 +225,11 @@ def regular_entry(revision: str, name: str):
 
 
 def git_json(revision: str, name: str):
-    entry = regular_entry(revision, name)
-    return proofs.read_json_bytes(git_output('cat-file', 'blob', entry[2].decode('ascii')), name)
+    try:
+        entry = regular_entry(revision, name)
+        return proofs.read_json_bytes(git_output('cat-file', 'blob', entry[2].decode('ascii')), name)
+    except (OSError, ValueError) as error:
+        raise ValueError(f'{name} at {revision}: {error}') from error
 
 
 def tree_bundle(revision: str) -> dict:
@@ -297,9 +300,20 @@ def forward_record(old: dict, new: dict, *, baseline: str, archive: str):
             raise ValueError('Publication observation moved backwards')
 
 
+def check_local_objects() -> None:
+    """Refuse lazy-fetch configurations, including on Git without the env guard."""
+    result = run_step(['git', '--no-replace-objects', 'config', '--get-regexp',
+                       r'^(extensions\.partialclone|remote\..*\.promisor)$'], git=True)
+    if result.returncode == 0:
+        raise ValueError('Partial/promisor clone cannot supply offline proof publication')
+    if result.returncode != 1:
+        raise ValueError('Cannot inspect partial/promisor clone configuration')
+
+
 def check_proof_policy(base: str, head: str, *, task_id: str,
                        bootstrap: bool = False) -> dict:
     """Check canonical Git inputs against target history and pinned archive origin."""
+    check_local_objects()
     base, head = resolve_commit(base), resolve_commit(head)
     check_checkout(base, head)
     if git_output('rev-parse', '--is-shallow-repository') != b'false\n':
@@ -339,9 +353,25 @@ def check_proof_policy(base: str, head: str, *, task_id: str,
     source = git_json(archive, 'progress/state.json')
     identities = git_json(archive, ARCHIVE+'identities.json')
     extracted = proofs.convert(source, identities, archive)
-    if git_json(archive, ARCHIVE+'conversion-report.json') != extracted['report']:
+    report = git_json(archive, ARCHIVE+'conversion-report.json')
+    if (json.dumps(report, sort_keys=True, ensure_ascii=False)
+            != json.dumps(extracted['report'], sort_keys=True, ensure_ascii=False)):
         raise ValueError('Archive conversion report differs from full reconciliation')
     origin = dict(policy=extracted['policy'], records={r['task_id']: r for r in extracted['records']})
+    archived_ids = {entry['task_id'] for entry in identities['entries']}
+    previous_records = previous['records'] if previous else {}
+    new_ids = set(candidate['records']) - set(previous_records) - archived_ids
+    if new_ids - {task_id}:
+        raise ValueError('New identities must be selected for reviewed brief admission')
+
+    def relocation_baseline(identity):
+        # Already published archive URLs remain valid after their old local files
+        # are retired. A newly changed pointer must match the actual target bytes.
+        before = previous_records.get(identity)
+        current = candidate['records'][identity]
+        if before is not None and before['brief'] == current['brief']:
+            return archive
+        return base
     for baseline, bundle in [(archive, origin)] + ([(base, previous)] if previous else []):
         for key in ('archive_commit', 'legacy_done', 'legacy_done_sha256'):
             if bundle['policy'][key] != policy[key]:
@@ -349,7 +379,8 @@ def check_proof_policy(base: str, head: str, *, task_id: str,
         if not set(bundle['records']) <= set(candidate['records']):
             raise ValueError('Historical record enrollment shrank')
         for identity, record in bundle['records'].items():
-            forward_record(record, candidate['records'][identity], baseline=baseline, archive=archive)
+            compare_at = relocation_baseline(identity) if baseline == archive else base
+            forward_record(record, candidate['records'][identity], baseline=compare_at, archive=archive)
     # Archive-only identities may enroll later, but cannot change their provenance.
     mapped = {i['task_id']: i['issue'] for i in identities['entries']}
     for task in source['tasks']:
@@ -360,7 +391,7 @@ def check_proof_policy(base: str, head: str, *, task_id: str,
             for key in proofs.OPTIONAL:
                 if key in task:
                     old[key] = task[key]
-            forward_record(old, candidate['records'][identity], baseline=archive, archive=archive)
+            forward_record(old, candidate['records'][identity], baseline=relocation_baseline(identity), archive=archive)
     return dict(mode='existing' if previous else 'bootstrap', record_count=len(candidate['records']),
                 archive_record_count=len(origin['records']), legacy_exempt=task_id in policy['legacy_done'])
 
@@ -368,6 +399,8 @@ def check_proof_policy(base: str, head: str, *, task_id: str,
 def check_proof_bindings(bundle: dict, task_id: str, stages: list[str], *,
                          head: str, complete: bool = False) -> list[dict]:
     """Bind selected packets normally, including every required stage at completion."""
+    check_local_objects()
+    head = resolve_commit(head)
     record = proofs.selected(bundle, task_id)
     if len(stages) != len(set(stages)):
         raise ValueError('Duplicate selected stages')
@@ -422,6 +455,8 @@ def main(argv: list[str] | None = None) -> int:
         schema_python = os.path.abspath(args.schema_python)
         if len(args.stage) != len(set(args.stage)):
             raise ValueError("Duplicate selected stages")
+        if args.proofs:
+            check_local_objects()
         base, head = resolve_commit(args.base), resolve_commit(args.head)
         check_checkout(base, head)
         if args.proofs:
