@@ -7,21 +7,19 @@ Checkout task/WORKFLOW-005-context-publication. PR126 remote docs/claim8a0c867 o
 watched: https://github.com/Kernol12/subathon-bot-ai/pull/126 (old21CI).
 Coordinator97333d35 owns shared state/docs/build/publication and corrections.
 
-Contract447aa06/tests77b1522 fully closed; exact2named-NI reds/zeroERRORs observed.
-Fresh implementatione976284 integrated byte-identically asd1b05a6. Eight-path code
-packet includes producer+frozen tests/helper/CMake+guidance, all3actual authors.
-Initial Claude code APPROVED/no blockers, four advisories; report/corrections:
-https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6839431006
-Root corrected all4at3720c4258aa18af43e39e541925062c137a021d9: actual unittest
-outcomes, allGitno-replace, setup link/path, childDEVNULL. Frozen5tests unchanged.
-96tooling/3actualSDK repassed/zero skips after correction; project/whitespace pass.
-Earlier8schema/3scaffold evidence retained, not rerun. Full private reports/logs
-under local-evidence/WORKFLOW-005. No source pushed; independent Codex verification completed/APPROVED/no new findings.
-Receipt: https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6839528018
-Actual registered schema CTest2/2nodes(8+3methods) passed after correction.
+Contract447aa06/tests77b1522/implementation3720c42 full cycles CLOSED. All8code paths
+and frozen5test/helper/CMake artifacts unchanged. Latest closing:
+https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6839717745
+Local96tooling and actual registered schema2nodes(8+3methods) pass/zero skips; raw
+reports/logs under local-evidence/WORKFLOW-005. Earlier scaffold3pass retained.
+CC-A1 maintained-index limitation accepted; separate bounded current-index read
+found740entries/zero assume-unchanged or skip-worktree flags. This is not a new
+checker guard. TC-A1 positive detached test gap accepted; code support verified.
+CC-A2 factual TEST_STRATEGY count corrected; brief evidence summary updated, both
+outside locked8paths. CC-A3 informational/no change. No product work resumed.
 
-Next fresh Claude closing code review workflow005-closing-code-review-v1,
-latest-headCI/protectedmerge. Explicit commit comparison/valid detached support
-preserved; accepted WF005-TC-A1 coverage advisory unchanged. No tests/oracles may
-change to pass; existing SDK build/workflow005-schema-venv, no install/pin changes.
-Full review policy until WORKFLOW006; no new digest or broader host authentication.
+Next separate Codex review of routine metadata/docs/public payload only; escalate
+if substantive. Then final actual publication check/index observation, push/link,
+await current-headCI via existing watch, inspect live rules/discussions and normal
+merge. Task stays in_progress until currentCI. Source still unpublished. Fullreview
+policy remains until WORKFLOW006; existing admitted SDK, no install/pin changes.

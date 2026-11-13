@@ -60,7 +60,7 @@ still using synthetic data and supplied policy/authority facts.
 | `native-websocket-profile-debug` | `-L '^native-websocket-profile$'` | 44 reviewed methods passing locally and in selected Ubuntu CI against the corrected Drogon/Trantor SDK: real Linux loopback framing/control/Close, listener isolation, ownership and resource/deadline observations with supplied elapsed time; actual host/TLS/clock/auth/platform gates remain separate |
 | `bounded-http-foundation-debug` | `-L '^bounded-http-foundation$'` | NI-only bounded HTTP baseline; see APITEST-016 for actual review/admission/red status. Compiles the existing native transport dependency without Qt/SQL/host scope. |
 | `rate-snapshot-debug` | `-L '^rate-snapshot$'` | 53 preserved cases for owned lossless observations, exact effective-table validation and inverse/cross queries; no provider/cache/valuation integration |
-| `schema-validation-debug` | `-L '^schema-validation$'` | 8 Python methods: actual OpenAPI/17 components, 23 existing positive examples, 77 independent component cases, and 11 structural progress cases plus actual state |
+| `schema-validation-debug` | `-L '^schema-validation$'` | 2 nodes / 11 Python methods: 8 schema methods for actual OpenAPI/17 components, 23 positive examples, 77 component cases and 11 progress cases plus actual state; 3 real-SDK publication methods for valid/schema-invalid state and unavailable/empty-success interpreters |
 
 Source/resource review remains necessary for allocation bounds, owned capabilities,
 secret handling, process cleanup and SQL projection/ownership; output assertions alone

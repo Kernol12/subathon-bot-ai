@@ -80,6 +80,15 @@ record/results policy activates only with reviewed WORKFLOW-006 tooling. Final-h
 publication gates and advisory follow-ups are recorded in
 [PR125](https://github.com/Kernol12/subathon-bot-ai/pull/125). No product work is resumed.
 
+[WORKFLOW-005](../tasks/WORKFLOW-005.md) adds opt-in compact handoffs and a local
+publication checker for recorded paths, outgoing history and actual schema checks.
+Full contract, test and code review cycles approve the implementation after the two
+observed named-NI assertion failures. All 96 tooling methods and both registered
+schema nodes (8 existing plus 3 publication methods) pass locally without skips.
+This is developer-tool evidence under maintained Git/index assumptions, not review
+authentication, complete secret scanning or product proof. Current-head hosted CI
+and normal publication gates remain in [PR126](https://github.com/Kernol12/subathon-bot-ai/pull/126).
+
 ## Core time and exact arithmetic
 
 Reviewed native component suites pass for cap-limited credit (23 cases), exact decimal
