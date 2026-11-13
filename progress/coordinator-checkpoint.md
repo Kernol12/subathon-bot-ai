@@ -117,3 +117,36 @@ Primary closing dispatch994f52bb-ad84-4003-8696-47603a7ddb97 cancelled as supers
 because scope is part of primary packet; no verdict/approval inferred. Both current
 source Codex verifications then fresh Claude closings remain required. Historical
 role research continues independently; no authority switch, deletion, pin or waiver.
+
+Primary delta Codex APPROVEDffdc38f, reviewer codex:migrate004-primary-probe-delta-
+verification:/root, dispatch1f1520f9-e1cb-4f36-b7e0-f3e4ac794598, issue629#issuecomment-
+6867678199. Separate ADR scope Codex APPROVED same source/blobc300f363, reviewer
+codex:migrate004-cleanup-probe-recheck:/root, dispatch090d7a3d-136f-4d73-a30d-b42de49edff7,
+issue629#issuecomment-6867679272; CV-01 resolved,130 rows/26 pins verified. Activity
+samples/report-write times are not session bounds; structured timing omitted. Minor
+report wording says source commit also updates metadata: exactffdc38f changes ONLY
+one scope line;9e08dc9 is the separate metadata binding. Fresh Claude closings for
+both independent cycles next; no test authorship/execution/removal approval yet.
+
+Historical role tranche dispatch9646f032-8a87-4345-aad4-15532739c520 remains PARTIAL,
+issue629#issuecomment-6867680339:12 traced claims;850 candidates/51 new; role/namespace/
+nontext/dependency/privacy closure incomplete. Exact open M004-ROLE-01 concerns
+ACCESSTEST-002 review.revision approved1d8e9335, original1d8e93354e99b236d4f64cb5a3c267fd5d6b5e35,
+required independent oracle approval vs publication-container identity not yet adjudicated.
+Original sole outgoing tree contains docs/evidence/accesstest-002-api-author.md,
+100644/blob0680aa30738e693612376a026a6d71e4898bdf28. Exact note blob680297885c6c75d0cf31ca4b4cfe35d86a523057
+is published at6805011cfe9994984c2a7b350413e69eaf10a517; that alone waives nothing.
+Original required-identity premise and complete dependencies need independent source-aware
+disposition; no claim that all GitHub storage lacks the original object. Pin/cutover blocked.
+
+Fresh isolated GitHub bare clone has no local alternates; main stillb80e94f. Actual
+ten receipt mode/blob mappings and four sodium imported source files match remote
+history. Raw /tmp/migrate004-remote-readback-rows.json SHA256
+f25807408bc5d0162e9b134c84522c3cc24797d072a1eb15c7c9e8a2724aec76; report
+issue629#issuecomment-6867699831. None of12 originals in fetched heads/tags closure,
+not universal absence/role approval.850 candidate commits now private local-only refs,
+575 new, verified19,289,447-byte bundle; original refs untouched, no remote writes.
+Research report SHA25698887887fae7fca35db3782c375ec1f2caf5f6bd3fccf0f9219e3f9a762b0512;
+rows SHA25662ce9f607fb1d784185479387f10a33cdc5161ea7f51ef7a5b4cff2b64ab5403.
+Next independent initial source-aware review can adjudicate bounded rows only; it does
+not complete remaining audit or authorize archive pin. State authoritative/stops intact.
