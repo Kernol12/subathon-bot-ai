@@ -81,3 +81,8 @@ Codex approved closing fixes at 8aa9596, no new findings:
 https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6860484779
 Next: fresh Claude test closing; bodies unrun. Retained limitations and red-classification
 notes from rejected closing go to implementer; no scope expansion or waived gate.
+
+Final test closing APPROVED source 8aa9596, no new findings:
+https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6860550476
+Next actual reviewed red, then fresh implementation. Closing finish is approximate;
+no structured paired duration invented. No implementation author assigned yet.
