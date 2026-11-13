@@ -117,8 +117,9 @@ merge commit in the issue/PR readback, so a later checkpoint rewrite cannot hide
 P must be an ancestor of the actual final PR head and become remotely reachable through
 that protected merge; finalization deletes state/full report from HEAD, never history.
 Put the observed full P pin and final factual recapture/readback in the existing
-bookkeeping coordinator checkpoint; the bounded docs/migrations summary links that
-authority checkpoint and immutable report. Its static contract/content is reviewed
+bookkeeping coordinator checkpoint; the bounded docs/migrations summary names the
+fixed report path and retrieval route (final PR → actual merge → checkpoint blob → P),
+not a P-derived report URL. Its static contract/content is reviewed
 before freeze. Do not bind final factual receipt data as a changed current source packet
 or create a new bookkeeping allowlist: this prevents a self-referential P/review loop.
 The final independent preservation receipt verifies the actual checkpoint pin against
@@ -269,12 +270,31 @@ re-archive. No stale-main overwrite.
 
 ### Historical object reachability and original bytes
 
-Inventory **every 40-hex token in every archived string**, including JSON keys, free
-legacy review/notes/activity prose, supplemental values, evidence URLs and recorded
-mode/blob references, not merely fields named revision/commit. Match tokens bounded by
-non-hex characters rather than word boundaries (adjacent prose can otherwise hide them);
-retain original case/string, field path and span. Classify each as project commit/tree/
-blob, qualified external-repository reference, or missing/unresolved. Preserve external
+Inventory full **and abbreviated** revision citations in every archived provenance
+carrier, not merely fields named revision/commit. The carrier manifest covers final
+state/proof/policy JSON (all keys and strings, including legacy review/notes/activity),
+state schema/HTML, full one-time reports/appendices, all task briefs, versioned contracts,
+authority/setup/navigation instructions, retired tools/templates and tracked text in
+the frozen archive snapshot. Follow immutable project evidence/review/source documents
+that those proof claims depend on, including referenced evidence-archive receipts.
+Record exact path/revision/digest for each carrier. Nontext artifacts are retained by
+exact bytes/digest and inspected for their declared identity format, not decoded as
+invented UTF-8. Outside-repository references retain their explicit namespace.
+
+Scan full40 and7–39-hex runs with non-hex boundaries, original case/string/path/span
+retained. Also identify3–6-hex fragments when used as revision-like shorthand (including
+prose prefixes such as source9b0/configc801); record their exact citation and limitation.
+Use the complete local object database, including unreferenced objects, for possible
+prefix matches. Classify unique project object, ambiguous prefix (retain candidates),
+too-short fragment, no-object/prose, external namespace, or unresolved. A unique local
+prefix is only a resolution candidate, not proof that prose intended that object.
+Classify full object type commit/tree/blob separately. Never turn an ambiguous/short
+fragment, coincidental hex word, numeric constant or artifact digest into known source
+identity; independently justify non-citation/external classifications from context.
+For ambiguous/too-short historical references retain this explicit limitation with
+actual values: `Historical citation FRAGMENT at FIELD-OR-CARRIER is retained as recorded; no unique source or approval identity is inferred.`
+If the claim requires that unresolved identity, cutover blocks; the limitation is not
+its replacement. Do not silently drop these strings or infer their full SHA. Preserve external
 namespace evidence; do not call an external URL's token a missing project object or
 silently infer a project commit. Record required source/NI/approval role separately from
 receipt-publication/observational role. Unknown role is an unresolved blocker.
@@ -292,6 +312,38 @@ gc using verified local-only refs and ignored private safety copies; never push 
 refs/copies, tunnel forbidden ancestry, rewrite originals or delete existing refs. Verify
 backup integrity privately and record a private preservation receipt. No object-availability
 claim follows from private preservation. Unavailable required objects still block.
+
+Legacy role and audit cost are explicit. The same required source/NI/approval test
+applies to structured fields and short/free-text review/activity citations. Required
+means an object needed to establish the preserved task's declared source/result/approval
+gate, not merely an object selected by today's CLI. Neither token length, field name,
+frozen120 membership nor a matching receipt blob alone makes an object non-required.
+A row may establish receipt-publication/context/superseded-attempt status only by tracing
+the actual claim, reviewer, exact preserved receipt/content and source/artifact/result
+references; identify the separately available gate basis and any narrower availability
+limitation. If the old approval itself is essential and unavailable, it remains a blocker.
+No blanket legacy waiver, role inferred from age, new exemption or revised original SHA.
+
+The initial closing probe resolved roughly190 non-main commits from abbreviated state
+citations (191 at that source;107 in legacy review fields), of which142 had no ref/reflog.
+This is substantial real audit work, not a count-based waiver or a promise already met.
+Deduplicate object rows but retain every citation/role and require independent row-level
+source-aware decisions in one finite, source-bound documentary audit cycle before A is
+pinned. This does not create190 tasks/review cycles or a permanent ledger/synchronizer.
+If any required role cannot be satisfied under the preserved outgoing guard, checkpoint
+the exact object/claim/gate conflict to the owner and block archive pin/cutover; continue
+only independent authorized migration work. Do not label that failure an approved legacy
+limitation. Availability audit approval is distinct from this proposed contract.
+
+Private GC safety has been extended promptly: the coordinator protected200 non-main
+commit candidates found in state and218 across tracked UTF-8 text at the inspected
+snapshot, including ambiguous prefix candidates, with local-only refs/private verified
+copies. Counts include candidates, not approved roles, and will change on recapture.
+A private complete local-object safety pack also protects currently available objects
+while the full carrier/role inventory proceeds; it is never an archive publication,
+fixture, tunnel or availability claim. Before A and P re-run discovery, protect new
+local-only objects of every type and verify private copies; unresolved/missing objects
+cannot be recovered merely by naming them. All original refs/strings remain untouched.
 
 Historical discovery and proposed disposition (requires independent source-aware
 approval before pinning): supplemental APITEST-016 post-closing status observation
