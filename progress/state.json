@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T09:53:56Z",
+  "updated_at": "2026-11-13T10:04:18Z",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18988,7 +18988,7 @@
       "brief": "docs/tasks/CI-003.md",
       "summary": "Admit only a fully checked Noble archive/security source profile while retaining all existing refusal assertions.",
       "notes": [
-        "Claimed necessary prerequisite for PR126 after two real URI-class ubuntu_security refusals. Contract/examples first; no tests, red or implementation authored or run. Owner boundary remains finish PR126 then pause; product work stopped."
+        "Proposed contractcaa3e3d defines only a fully checked two-stanza Noble security profile and fixed admission event; preserves all27 old test methods/assertions. Actual records identify only the URI class, not full host values. No tests/red/implementation yet. Independent contract review next; PR126 stays parked, then finish it and pause."
       ],
       "verification": {
         "claim": "passed",
@@ -18996,7 +18996,8 @@
         "test_review": "not_run",
         "baseline": "not_run",
         "implementation": "not_run",
-        "acceptance": "not_run"
+        "acceptance": "not_run",
+        "contract_authored": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6849584005",
@@ -19009,7 +19010,20 @@
           "tests",
           "implementation"
         ],
-        "stages": {}
+        "stages": {
+          "contract": {
+            "authors": [
+              "codex:coordinator-97333d35"
+            ],
+            "revision": "caa3e3d5f3a3a8f7b40afcf160b654f88e7c3d2d",
+            "paths": [
+              "docs/contracts/ci-noble-security-source-v1.md",
+              "docs/tasks/CI-003.md",
+              "docs/contracts/ci-setup-gates-v1.md"
+            ],
+            "reviews": []
+          }
+        }
       }
     }
   ],

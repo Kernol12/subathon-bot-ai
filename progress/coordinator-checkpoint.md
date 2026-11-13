@@ -28,8 +28,18 @@ protections. Its done/publication record and previously approved evidence pointe
 are carried here from local completion metadata; no settings PUT. Baseline count
 495 preserved plus explicit CI-003 gives496; policy/120 exemptions unchanged.
 
-Next author the exact contract/examples, freeze a packet, independent Claude initial,
-Codex fixes/separate verification, fresh Claude closing. Then additive authored tests
+Contract/examples authored atcaa3e3d5f3a3a8f7b40afcf160b654f88e7c3d2d, exact3paths
+in structured contract packet: new ci-noble-security-source-v1, CI-003 brief and
+CI-002 parent-contract scoped-extension notice. New profile checks complete exact
+five-key archive/security stanzas, Noble suites/components/default Ubuntu keyring,
+four literal security URIs, conservative field/line format; oldmirrorlanguage and
+all27 oldmethods remain unchanged. It adds only a fixed source_admitted profile
+record through the existing bounded emitter, so actual hosted use is observable.
+No tests/code authored or executed, no new PR/push yet. Plan to keep stage work
+local and post review receipts on parentPR126 until a reviewed implementation is
+ready for a focused CI-003 prerequisite PR (avoid unnecessary docs-only CI runs).
+Next independent Claude initial ci003-initial-contract-review-v1, Codex fixes /
+separate verification, fresh Claude closing. Then additive authored tests
 unrun until full review, true intended red, fresh isolated implementation/full code
 cycle. Separate focused prerequisite PR/main merge with all21, then resume PR126,
 integrate that substantive prerequisite once, fresh CI/normal merge and PAUSE.
