@@ -29,7 +29,11 @@ validator replaces them. Native relationships are audited by full one-time set m
 not a permanent dependency engine. New proof closure retains review/source gates;
 actual baseline/acceptance execution receipts remain required and reviewed independently
 of board status. Retiring old state status transitions never waives test-first or
-passing acceptance requirements.
+passing acceptance requirements. The mechanical state acceptance-value check does retire;
+the coordinator/independent review/CI receipt gate replaces it procedurally, with the
+explicit capability limitation in the cutover contract. This is not equivalent automated
+results enforcement. Per-task spec_refs validation also retires to immutable archive
+evidence and active-brief review; repository specification/acceptance-map checks remain.
 
 Exact line ranges below include every assertion in a method unless the disposition
 explicitly narrows it. All expected error return/no-stdout/no-write properties of adapted
@@ -50,8 +54,8 @@ Baseline blob `a5d18135d9614da02d3db14be6f4d18a57370d58` at `820544f1093f1649b0a
 | `ProgressTests.test_dependency_cycle_is_rejected` (105–112) | R: current state graph; one-time reconciliation rejects cycles. |
 | `ProgressTests.test_cannot_start_implementation_before_red_baseline` (114–122) | A: remove depends_on/status mechanism only; retain refusal to claim implementation readiness without reviewed intended red in proof/dispatch procedure. |
 | `ProgressTests.test_can_start_implementation_after_reviewed_red_baseline` (124–136) | A: preserve positive reviewed-red prerequisite example as procedural dispatch evidence; board readiness alone never authorizes implementation. |
-| `ProgressTests.test_completed_implementation_requires_passing_acceptance` (138–150) | A: keep each invalid acceptance value as a closure refusal obligation in reviewed completion evidence; proof complete cannot authenticate actual results. |
-| `ProgressTests.test_completed_implementation_accepts_passing_acceptance_and_separate_review` (152–161) | A: keep passing acceptance plus independent review as necessary closure evidence; replace done-state success with proof gate plus actual merge procedure. |
+| `ProgressTests.test_completed_implementation_requires_passing_acceptance` (138–150) | R (mechanical): retire the state done/acceptance-value assertion, explicitly losing this automated check. Actual passing acceptance remains a coordinator closure obligation with source-bound receipts and005 audit; proof complete does not enforce result values. Separate cleanup approval must accept this precise loss. |
+| `ProgressTests.test_completed_implementation_accepts_passing_acceptance_and_separate_review` (152–161) | A/R: retain independent review and proof-completion positives; retire only the state done/acceptance-value routing. Passing actual acceptance is mandatory procedural closure evidence, not an equivalent proof-validator result field. |
 | `ProgressTests.test_https_pull_request_evidence_is_valid_and_rendered_as_a_link` (163–173) | A: keep HTTPS evidence admission; retire only rendered HTML hyperlink assertion. Loader/reference and context evidence oracle. |
 | `ProgressTests.test_done_cleanup_requires_a_separate_approved_review` (175–183) | A: keep independent cleanup approval requirement via workflow completeness; retire state done field plumbing. |
 | `ProgressTests.test_non_https_url_is_not_accepted_as_evidence` (185–193) | A: preserve insecure/malformed URL rejection through proof reference validation. |
@@ -239,7 +243,7 @@ Every method in the following full pinned files is K; no deletion authority. The
 
 - `RepositoryChecks.test_repository_only_never_reads_tracker_or_render` (36–47): K.
 - `RepositoryChecks.test_repository_checks_preserve_each_artifact_refusal` (49–67): K.
-- `RepositoryChecks.test_tracker_checks_preserve_spec_refs_version_render_assets_anchors_links` (69–100): K.
+- `RepositoryChecks.test_tracker_checks_preserve_spec_refs_version_render_assets_anchors_links` (69–100): R for retired tracker spec_refs/render/assets/anchors/HTML-link checks. A for version: replace exact state-version refusal with exact STATUS version declaration/missing/duplicate/mismatch cases. Preserve independent repository Markdown/acceptance-map/spec-ID checks in their existing owners; declare lost per-task spec-ref semantics explicitly. Subject to separate cleanup approval, not this proposal alone.
 
 All other tooling, native, schema, security, accounting, provider and product assertions
 are outside removal scope. Preserve acceptance-map completeness/version/decision IDs,
