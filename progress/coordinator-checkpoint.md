@@ -76,3 +76,8 @@ Next: independent Codex verification, then fresh Claude closing. All prior asser
 preserved; schema cases moved into shared literals, not removed. Bodies still unrun.
 Carry closing notes: lstat before opening FIFO; red traceback classification; remaining
 nonblocking fake-root/overlap cases supplementary, no stronger claims. No new scope.
+
+Codex approved closing fixes at 8aa9596, no new findings:
+https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6860484779
+Next: fresh Claude test closing; bodies unrun. Retained limitations and red-classification
+notes from rejected closing go to implementer; no scope expansion or waived gate.
