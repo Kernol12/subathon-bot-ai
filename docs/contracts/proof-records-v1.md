@@ -2,6 +2,7 @@
 
 Authored contract/examples, specification v0.45 §§17–18.
 Author: `codex:migrate002-contract-author-20261113:/root` (gpt-6.1-sol).
+Correction author: `codex:coordinator-59095155`.
 Parent: [approved migration contract](github-task-migration-v1.md), source
 `b506434`; this refines its §9 without changing policy or claiming review.
 Inspection base: `fb324d23c20df24fad504e50f0046726de6cc61c`.
@@ -35,6 +36,7 @@ discover_records(directory: Path) -> list[Path]
 validate_policy(policy: object) -> None
 validate_record(record: object) -> None
 validate(policy: object, records: list[dict]) -> None
+require_complete(bundle: dict, task_id: str) -> None
 load(policy_path: Path, records_dir: Path) -> dict
 context(bundle: dict, task_id: str, *, stage: str | None = None,
         compact: bool = False) -> dict
@@ -53,16 +55,18 @@ objects: no mutation of source/bundle by conversion or projection.
 `ValueError` means malformed JSON, duplicate keys at any depth, NaN/Infinity,
 invalid shape/semantics, missing/extra enrollment, unsafe discovery, unknown task or
 stage, or reconciliation discrepancy. Filesystem failures may raise `OSError`.
+JSON decoding is strict UTF-8 without a BOM; invalid bytes/BOM fail as ValueError.
+Python integer fields require type(value) is int: reject booleans and integral floats.
 No SDK exception escapes these standard-library interfaces. Messages identify the
 file/task/field and cause; wording is diagnostic, not a new pinned error vocabulary.
 Integer fields reject booleans. Unsupported versions and unknown keys fail.
 
-Prepared read-only commands in 002:
+Prepared commands in 002 (validate/context are read-only; convert writes only disposable output):
 
 ```sh
 python3 tools/proofs.py validate --policy PATH --records-dir DIR
 python3 tools/proofs.py context TASK-ID --policy PATH --records-dir DIR --stage tests --compact
-python3 tools/proofs.py convert --source PATH --identities PATH --archive-commit FULL-SHA --output-dir NEW-DIR
+python3 tools/proofs.py convert --source PATH --source-root ROOT --identities PATH --archive-commit FULL-SHA --output-dir NEW-DIR
 ```
 
 Before 004, validate/context require both explicit options (no fallback to canonical
@@ -75,7 +79,7 @@ stderr; argparse usage errors retain exit 2. No live verification or approvals f
 from success. SDK admission/setup failure is never intended assertion red.
 
 Discovery requires a real nonsymlink directory and policy regular file, rejects
-symlink components in these supplied paths, and enumerates immediate children in
+symlink components in all ancestors of these supplied paths, including absolute paths, and enumerates immediate children in
 filename order. Every child must be a nonsymlink regular canonical `TASK-ID.json`;
 reject subdirectories, non-JSON/hidden files and all special files rather than ignore
 possible proof. No recursive traversal. Filename and record task_id must agree;
@@ -98,7 +102,9 @@ HTTPS references use the current `progress.evidence_path` URL checks (host requi
 no credentials/whitespace, valid port), factored for tree-free reuse. A brief is a
 lexical local reference or immutable archive URL of the form
 `https://github.com/Kernol12/subathon-bot-ai/blob/FULL-SHA/PATH`; URL path uses the same
-lexical safety after URL decoding. Evidence permits local lexical or valid HTTPS
+lexical safety after URL decoding. Archive brief URLs reject queries/fragments,
+encoded slash/backslash separators, double encoding and noncanonical percent escapes;
+use ordinary unescaped safe ASCII path components for these immutable brief links. Evidence permits local lexical or valid HTTPS
 references. Historical paths/URLs do not require today's files or a network read.
 
 | Object | Fields and constraints |
@@ -115,8 +121,9 @@ references. Historical paths/URLs do not require today's files or a network read
 
 Kind is one of `code_review`, `cleanup`, `contract`, `environment`, `feasibility`,
 `implementation`, `scaffold`, `test_baseline`, `test_draft`, `test_review`; epics
-have no proof record. Evidence/limitations may be empty and may contain repeated or
-empty original strings (reference syntax still applies to each evidence entry).
+have no proof record. Evidence/limitations arrays may be empty and may contain repeated original strings;
+evidence entries must each be nonempty valid references. Only limitations entries
+may be empty strings.
 Limitations have no aggregate 500-character cap: copy the entire notes array verbatim,
 or [] if absent. Retain optional historical fields even when null/empty; do not
 normalize or “repair” them. New forward observations belong in canonical workflow/PR
@@ -126,7 +133,10 @@ Policy required_records is lexically sorted and unique. legacy_done retains the
 original ordered list, is unique and must equal the original frozen 120-member set;
 its checksum is SHA256 of UTF-8 sorted IDs joined by LF with a final LF. Require
 `04afa2e0c32d4d88183e8b104f9d65402c81bd4e32521406c3d36a98e881e573`
-as well as recomputation. Reordering does not change membership but ordinary later
+as well as recomputation. The implementation retains the explicit frozen ID tuple
+as proof-policy constants after tracker retirement. Tests keep an independent literal
+ID list under tests/support/frozen_proof_policy.py with this pinned checksum; no
+fixture is generated from implementation or a removed state file. Reordering does not change membership but ordinary later
 publication freezes the original list too. No “old”, “done” or absent-proof exemption.
 
 ### APITEST-016 supplemental historical shape
@@ -180,6 +190,16 @@ both on packet.revision. Earlier initial may bind an earlier revision. A stale f
 pair makes a packet pending, not invalid historical grammar. Rejected closing may be
 retained but requires a new approved verification/closing pair to become complete.
 
+`require_complete` revalidates the entire bundle and fails with task/stage diagnostics
+unless the selected task has workflow satisfying every required stage via the existing
+workflow.stage_complete predicate. Missing workflow, absent required packets or stale/
+pending final approvals refuse, including for supplied exempt records; historical
+exemption is not permission to claim new completion. It returns None on success,
+without Git/source/PR authentication. This is the 002 operation satisfying stale-proof
+rejection in issue627; current file binding and actual final merge remain003/coordinator
+responsibilities. A valid historical pending packet may load and show complete:false
+but require_complete must refuse it. Tests distinguish these operations explicitly.
+
 Kind minima: contract → contract; test_draft/test_review/test_baseline → tests;
 implementation → tests and implementation; all other admitted kinds → implementation.
 Any explicit extra required stage remains required. Optional workflow absence can
@@ -197,7 +217,8 @@ Only later explicit `--complete` checks every required current stage; actual fin
 merge/readback remains separate.
 
 Bookkeeping excludes state/HTML/checkpoint, proof record files and proof-policy.json
-from packet paths. 003 selected-stage publication still resolves full Git commits,
+from packet paths in both strict and tree-free modes, using one shared predicate/
+constant; no meaningful existing assertion is removed. 003 selected-stage publication still resolves full Git commits,
 checks contained regular files and literal Git mode/blob equality at revision and
 HEAD; retired paths load tree-free but cannot be published as current. Policy enrollment
 never changes packet currency. Changes to schema/loader/guard behavior require their
@@ -212,7 +233,8 @@ selected stage_context is workflow.stage_context, adapting task_id to its error/
 input only, without exposing a fabricated task or board state.
 
 Compact proof retains only version/task_id/issue/kind/brief/evidence/limitations and
-optional publication; required_stages remains top-level. With --stage, stage_context
+optional publication, verification and review; required_stages remains top-level.
+Failed/not_run historical verification stays visible rather than silently omitted. With --stage, stage_context
 has exactly the existing progress.compact_stage_context projection: name, complete,
 next_gate, packet (authors/revision/paths or null), ordered review_refs (phase/provider/
 model/reviewer/revision/outcome/evidence), historical_blocking_findings and metrics
@@ -236,10 +258,29 @@ additions are reconciled explicitly in 004, not invented by this converter.
 Source is a disposable copy of tracker v1. Validate its structural/current workflow
 invariants using existing source validation against an explicitly supplied source root
 at CLI (`--source-root ROOT` is required), preserving current file requirements there.
-Python convert validates source shapes/enrollment/grammar tree-free; CLI must run the
+Python convert validates consumed source shapes/enrollment/grammar tree-free; CLI must run the
 strict source validator before calling it, supplying [] for an absent notes field
 in a validation copy only. Real paths are not rewritten to make it pass.
-Absent notes alone means []; other malformed inputs fail. No production write path.
+The Python convert API permits a bounded disposable source containing only selected
+synthetic tasks while retaining the full frozen policy. It does not require absent
+frozen members to be present as done tasks. It validates present tasks, identity-set
+equality, consumed fields, kind/claim/workflow invariants and exact policy; source
+without workflow_policy refuses. This is solely converter input validation, not a
+new authoritative task validator or a relaxation of progress.validate. CLI strict
+source admission still requires the complete source inventory. --source-root may be
+the repository root for read-only resolution; source itself must be a separate copy.
+Absent notes alone means []; other malformed consumed inputs fail. No production write path.
+
+Examples 1–2 below exercise this bounded Python API, not a CLI full-source claim.
+For one positive CLI case use a disposable copy of current real tracker source and
+its current read-only root with a generated, explicitly synthetic/non-authoritative
+one-to-one mapping (e.g. fixture ordinals). Do not claim those fixture numbers are
+real issues, publish outputs, or commit a hundreds-record fixture. Expected per-field
+preservation is derived from input identity/copy rules, not observed converter output.
+Only this one whole-inventory orchestration case uses current tracker input; existing
+strict-source assertions remain independent. 004 must explicitly review retirement/
+adaptation of this temporary CLI case and converter as tracker consumers; no surviving
+offline CI test may fetch archived history or depend on a removed ledger.
 
 Enroll each non-epic with any supplied workflow/publication/review/supplemental field
 (non-null review; empty review object still counts), nonempty evidence, any verification
@@ -257,9 +298,17 @@ CLI source/mapping/root/output paths are explicit, with no defaults; refuse prod
 state as source and any output within the repository. Inputs may be read from a
 caller-created disposable copy; reject symlinks, overlapping inputs/output and existing
 output directory. Prepare/validate all outputs in a private sibling temporary directory
-then rename into the new destination; on failure no success report/destination, clean
-own temporary files. Never overwrite existing data. Write proof-policy.json,
-proofs/TASK-ID.json and report.json only. No sync/reconcile/approval command, no Git,
+then publish into the new destination without replacing any existing path; on failure no success report/destination, clean
+own temporary files. Never overwrite existing data. No race-free or hostile-concurrent-writer guarantee
+is claimed for this trusted one-time tool. Reserve NEW-DIR with exclusive mkdir before
+publication; if it already exists (even empty), fail. Move prepared child files into
+that owned directory, removing only owned output on failure; never rename over an
+existing destination or follow a symlink. Inputs/root/output check every ancestor
+for symlinks, as discovery does. Write proof-policy.json,
+proofs/TASK-ID.json and report.json only. All files use the same indent=2,
+ensure_ascii=False, final-LF serialization as stdout. Proof keys follow table order
+with optional fields appended in table order; policy keys follow table order; report
+keys follow its declaration below. Original nested object/array order is preserved. No sync/reconcile/approval command, no Git,
 network, production state/HTML writes, archive publication or issue side effects.
 
 Report is a closed object: version1, source_task_count, record_count, archive_only_ids
@@ -282,6 +331,19 @@ limitations non-prefix edits and any changes to historical verification/review/
 supplemental objects. Additions require matching record plus archived identity/kind
 or genuinely new per-ID reviewed brief (Task ID, canonical Work type, Issue stanzas).
 A new brief must be in the selected reviewed packet. No skip or intent override.
+
+Before either guard mode, 003 requires --base to resolve to the local origin/main
+commit, and that commit to be an ancestor of candidate HEAD. Arbitrary older ancestor
+bases refuse even if they have no policy. Immediately before accepting the receipt
+and protected merge the coordinator fetches/reads current target main and verifies
+it equals that receipt base; if target moved, update/reconcile and rerun. This is a
+mandatory operational gate: offline code cannot authenticate remote-tip freshness.
+Synthetic Git fixtures explicitly create origin/main; an older --base test must fail
+before bootstrap. A stale local origin/main cannot be claimed current without the
+coordinator check. Thus normal or bootstrap mode cannot erase newer target enrollment
+by choosing an older endpoint. Within an unpublished outgoing range, transient
+add/remove edits are not accepted target history; all outgoing privacy/source checks
+still run. Preservation is relative to current accepted target, not arbitrary ancestry.
 
 One legitimate base-absent case is initial policy introduction at cutover (and its
 explicit disposable rehearsal in 003): base has neither policy nor records. Absence
@@ -315,7 +377,7 @@ obligations under the parent contract.
 ## Hand-derived bounded examples and expected outcomes
 
 These are authored oracles, not converter observations. Use the real frozen policy
-for synthetic tests without adding/removing exemptions; synthetic IDs below are outside
+for synthetic proof/policy and bounded Python conversion tests without adding/removing exemptions; synthetic IDs below are outside
 it. No hundreds of production record fixtures.
 
 1. Disposable source CONVERT-901: kind contract, planned, evidence [], verification
@@ -324,13 +386,13 @@ it. No hundreds of production record fixtures.
    ["https://example.test/receipt"]: exactly one record with limitations
    ["Only synthetic checks."], same evidence/verification/review, no workflow;
    required_records ["CONVERT-901"]. Loading passes, context has names [], requesting
-   contract stage refuses, final completion refuses. Changing notes to two equal
+   contract stage refuses, require_complete refuses. Changing notes to two equal
    strings preserves both in order. Epics with the same evidence remain archive-only.
 2. CONVERT-902: implementation, in_progress, required_stages [tests, implementation],
    stages {}; notes ["Baseline observed; implementation pending."]; verification
    {baseline: observed_red, github_ci: failed}. Copy those exact fields and caveats;
    loading passes, tests context packet null/next_gate authoring/complete false;
-   closure refuses. Remove workflow: conversion refuses claimed missing proof.
+   require_complete refuses. Remove workflow: conversion refuses claimed missing proof.
 3. Contract packet uses authors ["codex:synthetic-author"], revision forty `b`s,
    paths ["docs/retired-synthetic.md"]. Ordered initial Claude at forty `a`s, approved
    Codex verification at forty `b`s, rejected Claude closing at forty `b`s with
@@ -341,13 +403,14 @@ it. No hundreds of production record fixtures.
    timed_reviews 0. Rejected report stays receipt 3. Without last two receipts it
    loads pending; a closing immediately after the rejected closing is invalid.
    Existing file absence remains invalid through production progress.validate;
-   later current publication refuses this retired path. Changing either final pair
-   revision to forty `a`s makes completion false (or grammar invalid if pair differs).
+   later current publication refuses this retired path. Changing only one final receipt revision makes grammar invalid; changing both
+   to forty `a`s preserves grammar but makes completion false and require_complete
+   refuses. The publication sentence is a 003 oracle, not 002 execution evidence.
 4. Required_records [CONVERT-901] with empty directory refuses; extra CONVERT-902
    refuses until explicit enrollment. A malformed supplied frozen-exempt record also
    refuses. Duplicate JSON keys, issue 9901 reused, boolean version, unknown field,
    dot/parent path, symlink or nested file refuse. Original self-review fails.
-5. Base absent plus missing archive mapping refuses, even with matching fingerprint.
+5. **003 guard oracles, not 002 execution:** Base absent plus missing archive mapping refuses, even with matching fingerprint.
    Verified available archive/mapping plus every extracted entry exactly preserved
    passes bootstrap; dropping one enrolled historical-evidence record refuses.
    Later unrelated additive enrollment leaves an unchanged stage's mode/blob binding
@@ -363,6 +426,59 @@ proof/policy test and retains exact success bytes
 or interpreter exit-zero substitute. Schema validation is shape validation, not
 workflow/identity/source authentication. A stale historical packet may load pending;
 current completion/publication refuses it. No test/assertion deletion is authorized.
+
+## Validator responsibilities and authored-red setup
+
+Semantic acceptance implies schema validity. Both schemas and Python reject closed
+shape/required-key/type/enum/pattern violations. Draft integer permits 1.0 by standard;
+Python deliberately rejects integral floats too, as a narrower runtime input contract.
+Schema is necessary, never sufficient. Python-only checks: frozen-list checksum/set,
+required/discovered ID equality, filename/issue uniqueness, decoded path/URL/valid-port
+rules, stage-kind minima/subset and review order/independence/blocker/outcome/timing,
+publication PR membership/time order, completion currency, and no mutable aliasing.
+Schema may encode simple conditional shapes, but cannot replace those semantic gates.
+All positive authored examples must pass both where their shape is relevant. Shape/
+unknown-key/enum/raw-path negative cases require both validators to refuse. Duplicate
+JSON keys/invalid UTF-8/BOM/nonfinite values fail read_json before schema validation;
+symlinks/discovery fail load; bool integers fail both, integral floats fail Python.
+Stale final approvals fail require_complete (context reports pending); self-review or
+invalid order fails semantic load; required missing record fails bundle validation.
+Invalid decoded URL/port and cross-field negatives are semantic refusals; do not pin
+a schema refusal for constraints it cannot express. Example5 belongs 003 only.
+
+Test author owns additive tests/tooling/test_proofs.py, the independent frozen ID
+constant in tests/support/, and a separate tests/schema_validation/test_proof_schemas.py
+with its own metadata admission before SDK imports. Do not add candidate proof schema
+loading to RepositorySchemas.setUpClass or its production one-test witness. During002
+run the new schema file directly with the already admitted interpreter -I -S -B;
+003 adds its CMake/CI registration. Existing schema.repository/schema.publication and
+the progress witness remain unchanged in002 and must still pass during authored red.
+The separate file validates schemas/hand-derived examples, including exactly one
+aggregate method later selectable by003's one-test schema witness. It independently
+validates the pinned APITEST-016 value with manual mutations: extra/missing key,
+leaf type, array length and integer→boolean. Do not derive expected outcomes from
+any schema generator. Preserve its frozen raw input in one reviewed historical
+support artifact when004 removes state; no generated suite of per-task fixtures.
+
+After this contract's full review, the test author may supply loadable tools/proofs.py
+NI definitions with exactly the public signatures above; each new entry point raises
+ValueError('PROOF_RECORDS_NOT_IMPLEMENTED'). CLI parses all stated options/subcommands
+then emits the named exit1 NI with empty stdout; argparse misuse stays exit2. The
+same author may add keyword-only tree-free mode to workflow.validate_stage defaulting
+False; True initially raises that named NI after shared argument validation. Strict
+False remains unchanged. No production progress call uses the new mode yet. New
+schema files are valid Draft schemas {"$schema":"https://json-schema.org/draft/2020-12/schema",
+"not":{}}: loaded successfully, they reject every instance by schema assertion. This
+is a deliberate meaningful red seam, never a missing-schema/import/dependency error.
+Positive loader/converter/context/completion assertions must fail at the named NI;
+positive actual-schema assertions fail ValidationError from the valid reject-all stub.
+Negative tests alone passing on NI establish nothing. Test review precedes execution;
+then record intended positive-assertion red distinctly from setup failure. Fresh
+implementer replaces these explicit seams and schemas only after red is observed.
+
+The historical MIGRATE-001 packet includes the002 brief at its completed source;
+this packet's brief-link edit does not alter that history. Never republish001 as a
+current packet or rewrite its source bindings to follow this edit.
 
 This packet is authored only. Independent full contract review precedes test
 authorship; test review precedes loadable NI-seam assertion red and fresh implementation.
