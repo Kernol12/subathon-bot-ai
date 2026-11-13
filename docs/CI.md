@@ -114,6 +114,11 @@ separate coordinator gate after full reviews and actual current-head success, wi
 fresh complete before/after and effective-main observations. The proposed rule is
 not evidence that enforcement has been applied; preserve every unrelated setting
 and use the normal protected merge requirements.
+Adding, renaming or removing a job, matrix row or security context needs a reviewed
+inventory and settings update in the same change. Once the rule is enforced,
+renaming or removing a required context without that update leaves PRs waiting for
+the old context and blocks their merge. Record the dated application/readback
+receipt here after enforcement is actually verified.
 
 CORE-005 promotes the original32 reviewed time-debt cases to unconditional
 ordinary acceptance while retaining the time-debt-build check name. Built-in
