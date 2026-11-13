@@ -9,6 +9,7 @@ import stat
 import tempfile
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import urlsplit
 
 STAGES = {"contract", "tests", "implementation"}
 PHASE_PROVIDERS = {"initial": "claude", "verification": "codex", "closing": "claude"}
@@ -62,6 +63,55 @@ def https(value: object, field: str, evidence_path, root: Path) -> str:
     return url
 
 
+def lexical_path(value: object, field: str = "path") -> str:
+    value = text(value, field)
+    if any(c in value for c in ("\\", ":", "\0")) or any(p in ("", ".", "..") for p in value.split("/")):
+        raise ValueError(f"{field}: expected canonical relative path: {value!r}")
+    return value
+
+
+def evidence_reference(value: object) -> str | None:
+    """Tree-independent HTTPS grammar shared with production evidence resolution."""
+    if isinstance(value, str) and value.startswith("https://"):
+        parsed = urlsplit(value)
+        try:
+            parsed.port
+        except ValueError as error:
+            raise ValueError(f"Invalid HTTPS evidence URL: {value!r}") from error
+        if (parsed.scheme != "https" or not parsed.hostname or parsed.username is not None
+                or parsed.password is not None or any(char.isspace() for char in value)):
+            raise ValueError(f"Invalid HTTPS evidence URL: {value!r}")
+        return None
+    return lexical_path(value, "evidence")
+
+
+def bookkeeping(value: str) -> bool:
+    return value in BOOKKEEPING or value == "progress/proof-policy.json" or value.startswith("progress/proofs/")
+
+
+def kind_minimum(kind: str) -> set[str]:
+    if kind == "epic":
+        return set()
+    if kind == "contract":
+        return {"contract"}
+    if kind in {"test_draft", "test_review", "test_baseline"}:
+        return {"tests"}
+    return {"tests", "implementation"} if kind == "implementation" else {"implementation"}
+
+
+def validate_workflow(value: object, kind: str, root: Path, local_path, evidence_path, *, tree_free=False) -> None:
+    value = required(value, {"required_stages", "stages"}, "workflow")
+    names = strings(value["required_stages"], "workflow.required_stages", nonempty=True)
+    if not set(names).issubset(STAGES):
+        raise ValueError("Unknown required workflow stage")
+    if not kind_minimum(kind).issubset(names):
+        raise ValueError("Required stages omit task-kind minimum")
+    if not isinstance(value["stages"], dict) or not set(value["stages"]).issubset(names):
+        raise ValueError("Started stages must be a subset of required stages")
+    for stage in value["stages"].values():
+        validate_stage(stage, root, local_path, evidence_path, tree_free=tree_free)
+
+
 def legacy_done(policy: object) -> set[str]:
     """Check the recorded exception list's integrity, not its historical authenticity."""
     if policy is None:
@@ -86,16 +136,21 @@ def dependency_complete(task: dict, policy: dict | None = None) -> bool:
             (not tracked(task, policy) or task.get("publication", {}).get("state") == "merged"))
 
 
-def validate_stage(stage: object, root: Path, local_path, evidence_path) -> None:
+def validate_stage(stage: object, root: Path, local_path, evidence_path, *,
+                   tree_free: bool = False) -> None:
     """Check packet ownership and ordered review claims without authenticating them."""
     stage = required(stage, {"authors", "revision", "paths", "reviews"}, "workflow stage")
     authors = strings(stage["authors"], "stage.authors", nonempty=True)
     commit(stage["revision"], "stage.revision")
-    excluded = {(root / path).resolve() for path in BOOKKEEPING}
+    excluded = {(root / path).resolve() for path in BOOKKEEPING} if not tree_free else set()
     for value in strings(stage["paths"], "stage.paths", nonempty=True):
-        path = local_path(value, root)
-        if not path.is_file() or path in excluded:
-            raise ValueError(f"Stage path must be an existing non-bookkeeping file: {value}")
+        lexical_path(value, "stage.paths")
+        if bookkeeping(value):
+            raise ValueError(f"Stage path is bookkeeping: {value}")
+        if not tree_free:
+            path = local_path(value, root)
+            if not path.is_file() or path in excluded or bookkeeping(path.relative_to(root.resolve()).as_posix()):
+                raise ValueError(f"Stage path must be an existing non-bookkeeping file: {value}")
     if not isinstance(stage["reviews"], list):
         raise ValueError("stage.reviews must be an array")
     previous = None
@@ -164,28 +219,19 @@ def validate_publication(publication: object, task: dict, root: Path, evidence_p
         raise ValueError("Unknown publication state")
 
 
-def validate_task(task: dict, policy: dict | None, root: Path, local_path, evidence_path) -> None:
+def validate_task(task: dict, policy: dict | None, root: Path, local_path, evidence_path, *,
+                  tree_free: bool = False) -> None:
     """Validate supplied records and enforce forward claim/completion gates."""
     is_tracked = tracked(task, policy)
     if is_tracked and task["status"] in {"in_progress", "in_review", "done"} and "workflow" not in task:
         raise ValueError(f"{task['id']}: claimed task requires workflow records")
     if "workflow" in task:
-        workflow = required(task["workflow"], {"required_stages", "stages"}, "workflow")
-        names = strings(workflow["required_stages"], "workflow.required_stages", nonempty=True)
-        if not set(names).issubset(STAGES):
-            raise ValueError("Unknown required workflow stage")
-        minimum = ({"contract"} if task["kind"] == "contract" else
-                   {"tests"} if task["kind"] in {"test_draft", "test_review", "test_baseline"} else
-                   set() if task["kind"] == "epic" else {"implementation"})
-        if task["kind"] == "implementation":
-            minimum.add("tests")
-        if not minimum.issubset(names):
-            raise ValueError(f"{task['id']}: required stages omit task-kind minimum")
-        stages = workflow["stages"]
-        if not isinstance(stages, dict) or not set(stages).issubset(names):
-            raise ValueError("Started stages must be a subset of required stages")
-        for stage in stages.values():
-            validate_stage(stage, root, local_path, evidence_path)
+        try:
+            validate_workflow(task["workflow"], task["kind"], root, local_path, evidence_path, tree_free=tree_free)
+        except ValueError as error:
+            raise ValueError(f"{task['id']}: {error}") from error
+        names = task["workflow"]["required_stages"]
+        stages = task["workflow"]["stages"]
         if is_tracked and task["status"] == "done" and not all(stage_complete(stages.get(name)) for name in names):
             raise ValueError(f"{task['id']}: done requires every stage's current closing approval")
     if "publication" in task:
@@ -278,3 +324,21 @@ def replace_outputs(state: Path, state_text: str, output: Path, html_text: str) 
     finally:
         for temporary, _ in prepared:
             temporary.unlink(missing_ok=True)
+
+
+def compact_stage_context(stage: dict) -> dict:
+    """Project an already derived stage without repeating its packet or finding prose."""
+    packet = stage["packet"]
+    ref_fields = ("phase", "provider", "model", "reviewer", "revision", "outcome", "evidence")
+    return {
+        "name": stage["name"],
+        "complete": stage["complete"],
+        "next_gate": stage["next_gate"],
+        "packet": ({key: packet[key] for key in ("authors", "revision", "paths")}
+                   if packet is not None else None),
+        "review_refs": [{key: review[key] for key in ref_fields}
+                        for review in packet["reviews"]] if packet is not None else [],
+        "historical_blocking_findings": stage["metrics"]["blocking_findings"],
+        "metrics": {key: stage["metrics"][key]
+                    for key in ("review_count", "elapsed_seconds", "timed_reviews")},
+    }

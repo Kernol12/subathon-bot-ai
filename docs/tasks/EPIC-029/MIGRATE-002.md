@@ -1,10 +1,11 @@
 # MIGRATE-002 — Separate review evidence from task tracking
 
 Source: [issue #627](https://github.com/Kernol12/subathon-bot-ai/issues/627), snapshot 2026-11-13.
-Contract: `docs/contracts/github-task-migration-v1.md`.
+Contracts: [approved migration contract](../../contracts/github-task-migration-v1.md)
+and [exact proof API/schema/converter contract](../../contracts/proof-records-v1.md).
 
 Owner authorization now permits migration sequence 001 → 002 → 003 → 004 → 006 → 005.
-This brief registers scope; only 001 is claimed in this session. Until 004, state remains
+This brief registers 002 scope; the coordinator records current claims and sessions. Until 004, state remains
 authoritative. WORKFLOW-006/007 and product work remain stopped; only WF006 storage/
 dependency rescope is permitted. Successors require fresh sessions and all current gates.
 Coordinator owns shared metadata/integration; executable authors own only assigned paths.

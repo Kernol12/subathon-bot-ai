@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "legacy_done": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z][A-Z0-9]*-[0-9]{3}$(?![\\s\\S])"
+      },
+      "uniqueItems": true
+    },
+    "legacy_done_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$(?![\\s\\S])"
+    },
+    "archive_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$(?![\\s\\S])"
+    },
+    "required_records": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z][A-Z0-9]*-[0-9]{3}$(?![\\s\\S])"
+      },
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "version",
+    "legacy_done",
+    "legacy_done_sha256",
+    "archive_commit",
+    "required_records"
+  ],
+  "additionalProperties": false
+}

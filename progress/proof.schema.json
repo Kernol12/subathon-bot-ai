@@ -1,0 +1,4490 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9]*-[0-9]{3}$(?![\\s\\S])"
+    },
+    "issue": {
+      "type": "object",
+      "properties": {
+        "repository": {
+          "const": "Kernol12/subathon-bot-ai"
+        },
+        "number": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "repository",
+        "number"
+      ],
+      "additionalProperties": false
+    },
+    "kind": {
+      "enum": [
+        "code_review",
+        "cleanup",
+        "contract",
+        "environment",
+        "feasibility",
+        "implementation",
+        "scaffold",
+        "test_baseline",
+        "test_draft",
+        "test_review"
+      ]
+    },
+    "brief": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^(?![\\s\\S]*[\\\\:\\u0000])(?!(?:[\\s\\S]*/)?\\.{1,2}(?:/|(?![\\s\\S])))[^/]+(?:/[^/]+)*$(?![\\s\\S])"
+        },
+        {
+          "type": "string",
+          "pattern": "^https://github\\.com/Kernol12/subathon-bot-ai/blob/[0-9a-f]{40}/(?!(?:[\\s\\S]*/)?\\.{1,2}(?:/|(?![\\s\\S])))[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$(?![\\s\\S])"
+        }
+      ]
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "string",
+            "pattern": "^(?![\\s\\S]*[\\\\:\\u0000])(?!(?:[\\s\\S]*/)?\\.{1,2}(?:/|(?![\\s\\S])))[^/]+(?:/[^/]+)*$(?![\\s\\S])"
+          },
+          {
+            "type": "string",
+            "pattern": "^https://\\S+$(?![\\s\\S])"
+          }
+        ]
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "workflow": {
+      "$ref": "#/$defs/workflow"
+    },
+    "publication": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "enum": [
+            "open",
+            "merged"
+          ]
+        },
+        "pr": {
+          "type": "string",
+          "pattern": "^https://\\S+$(?![\\s\\S])"
+        },
+        "head": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$(?![\\s\\S])"
+        },
+        "merge_commit": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$(?![\\s\\S])"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "merged_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observed_at": {
+          "type": "string",
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "state",
+        "pr",
+        "head",
+        "merge_commit",
+        "merged_at",
+        "observed_at"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "open"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "merge_commit": {
+                "type": "null"
+              },
+              "merged_at": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "merge_commit": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{40}$(?![\\s\\S])"
+              },
+              "merged_at": {
+                "type": "string",
+                "pattern": "\\S"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": {
+        "enum": [
+          "blocked",
+          "draft",
+          "failed",
+          "not_run",
+          "observed_red",
+          "partial",
+          "passed"
+        ]
+      }
+    },
+    "review": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "author": {
+              "type": "string"
+            },
+            "reviewer": {
+              "type": "string"
+            },
+            "evidence": {
+              "type": "string"
+            },
+            "baseline": {
+              "type": "string"
+            },
+            "revision": {
+              "type": "string"
+            },
+            "scope": {
+              "type": "string"
+            },
+            "outcome": {
+              "enum": [
+                "approved",
+                "changes_requested"
+              ]
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "supplemental_workflow_evidence": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string"
+        },
+        "complete_workflow": {
+          "type": "object",
+          "properties": {
+            "required_stages": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "minItems": 2,
+              "maxItems": 2,
+              "items": false
+            },
+            "stages": {
+              "type": "object",
+              "properties": {
+                "tests": {
+                  "type": "object",
+                  "properties": {
+                    "authors": {
+                      "type": "array",
+                      "prefixItems": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ],
+                      "minItems": 2,
+                      "maxItems": 2,
+                      "items": false
+                    },
+                    "revision": {
+                      "type": "string"
+                    },
+                    "paths": {
+                      "type": "array",
+                      "prefixItems": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ],
+                      "minItems": 13,
+                      "maxItems": 13,
+                      "items": false
+                    },
+                    "reviews": {
+                      "type": "array",
+                      "prefixItems": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "phase": {
+                              "type": "string"
+                            },
+                            "provider": {
+                              "type": "string"
+                            },
+                            "model": {
+                              "type": "string"
+                            },
+                            "reviewer": {
+                              "type": "string"
+                            },
+                            "revision": {
+                              "type": "string"
+                            },
+                            "outcome": {
+                              "type": "string"
+                            },
+                            "evidence": {
+                              "type": "string"
+                            },
+                            "findings": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ],
+                              "minItems": 22,
+                              "maxItems": 22,
+                              "items": false
+                            },
+                            "blocking_findings": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ],
+                              "minItems": 8,
+                              "maxItems": 8,
+                              "items": false
+                            },
+                            "started_at": {
+                              "type": "string"
+                            },
+                            "finished_at": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "phase",
+                            "provider",
+                            "model",
+                            "reviewer",
+                            "revision",
+                            "outcome",
+                            "evidence",
+                            "findings",
+                            "blocking_findings",
+                            "started_at",
+                            "finished_at"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "phase": {
+                              "type": "string"
+                            },
+                            "provider": {
+                              "type": "string"
+                            },
+                            "model": {
+                              "type": "string"
+                            },
+                            "reviewer": {
+                              "type": "string"
+                            },
+                            "revision": {
+                              "type": "string"
+                            },
+                            "outcome": {
+                              "type": "string"
+                            },
+                            "evidence": {
+                              "type": "string"
+                            },
+                            "findings": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ],
+                              "minItems": 3,
+                              "maxItems": 3,
+                              "items": false
+                            },
+                            "blocking_findings": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ],
+                              "minItems": 2,
+                              "maxItems": 2,
+                              "items": false
+                            }
+                          },
+                          "required": [
+                            "phase",
+                            "provider",
+                            "model",
+                            "reviewer",
+                            "revision",
+                            "outcome",
+                            "evidence",
+                            "findings",
+                            "blocking_findings"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "phase": {
+                              "type": "string"
+                            },
+                            "provider": {
+                              "type": "string"
+                            },
+                            "model": {
+                              "type": "string"
+                            },
+                            "reviewer": {
+                              "type": "string"
+                            },
+                            "revision": {
+                              "type": "string"
+                            },
+                            "outcome": {
+                              "type": "string"
+                            },
+                            "evidence": {
+                              "type": "string"
+                            },
+                            "findings": {
+                              "type": "array",
+                              "maxItems": 0,
+                              "items": false
+                            },
+                            "blocking_findings": {
+                              "type": "array",
+                              "maxItems": 0,
+                              "items": false
+                            }
+                          },
+                          "required": [
+                            "phase",
+                            "provider",
+                            "model",
+                            "reviewer",
+                            "revision",
+                            "outcome",
+                            "evidence",
+                            "findings",
+                            "blocking_findings"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "phase": {
+                              "type": "string"
+                            },
+                            "provider": {
+                              "type": "string"
+                            },
+                            "model": {
+                              "type": "string"
+                            },
+                            "reviewer": {
+                              "type": "string"
+                            },
+                            "revision": {
+                              "type": "string"
+                            },
+                            "outcome": {
+                              "type": "string"
+                            },
+                            "evidence": {
+                              "type": "string"
+                            },
+                            "findings": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ],
+                              "minItems": 5,
+                              "maxItems": 5,
+                              "items": false
+                            },
+                            "blocking_findings": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "string"
+                                }
+                              ],
+                              "minItems": 1,
+                              "maxItems": 1,
+                              "items": false
+                            },
+                            "started_at": {
+                              "type": "string"
+                            },
+                            "finished_at": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "phase",
+                            "provider",
+                            "model",
+                            "reviewer",
+                            "revision",
+                            "outcome",
+                            "evidence",
+                            "findings",
+                            "blocking_findings",
+                            "started_at",
+                            "finished_at"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "phase": {
+                              "type": "string"
+                            },
+                            "provider": {
+                              "type": "string"
+                            },
+                            "model": {
+                              "type": "string"
+                            },
+                            "reviewer": {
+                              "type": "string"
+                            },
+                            "revision": {
+                              "type": "string"
+                            },
+                            "outcome": {
+                              "type": "string"
+                            },
+                            "evidence": {
+                              "type": "string"
+                            },
+                            "findings": {
+                              "type": "array",
+                              "maxItems": 0,
+                              "items": false
+                            },
+                            "blocking_findings": {
+                              "type": "array",
+                              "maxItems": 0,
+                              "items": false
+                            }
+                          },
+                          "required": [
+                            "phase",
+                            "provider",
+                            "model",
+                            "reviewer",
+                            "revision",
+                            "outcome",
+                            "evidence",
+                            "findings",
+                            "blocking_findings"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "phase": {
+                              "type": "string"
+                            },
+                            "provider": {
+                              "type": "string"
+                            },
+                            "model": {
+                              "type": "string"
+                            },
+                            "reviewer": {
+                              "type": "string"
+                            },
+                            "revision": {
+                              "type": "string"
+                            },
+                            "outcome": {
+                              "type": "string"
+                            },
+                            "evidence": {
+                              "type": "string"
+                            },
+                            "findings": {
+                              "type": "array",
+                              "maxItems": 0,
+                              "items": false
+                            },
+                            "blocking_findings": {
+                              "type": "array",
+                              "maxItems": 0,
+                              "items": false
+                            },
+                            "started_at": {
+                              "type": "string"
+                            },
+                            "finished_at": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "phase",
+                            "provider",
+                            "model",
+                            "reviewer",
+                            "revision",
+                            "outcome",
+                            "evidence",
+                            "findings",
+                            "blocking_findings",
+                            "started_at",
+                            "finished_at"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ],
+                      "minItems": 6,
+                      "maxItems": 6,
+                      "items": false
+                    }
+                  },
+                  "required": [
+                    "authors",
+                    "revision",
+                    "paths",
+                    "reviews"
+                  ],
+                  "additionalProperties": false
+                },
+                "implementation": {
+                  "type": "object",
+                  "properties": {
+                    "authors": {
+                      "type": "array",
+                      "prefixItems": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ],
+                      "minItems": 3,
+                      "maxItems": 3,
+                      "items": false
+                    },
+                    "revision": {
+                      "type": "string"
+                    },
+                    "paths": {
+                      "type": "array",
+                      "prefixItems": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ],
+                      "minItems": 13,
+                      "maxItems": 13,
+                      "items": false
+                    },
+                    "reviews": {
+                      "type": "array",
+                      "prefixItems": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "phase": {
+                              "type": "string"
+                            },
+                            "provider": {
+                              "type": "string"
+                            },
+                            "model": {
+                              "type": "string"
+                            },
+                            "reviewer": {
+                              "type": "string"
+                            },
+                            "revision": {
+                              "type": "string"
+                            },
+                            "outcome": {
+                              "type": "string"
+                            },
+                            "evidence": {
+                              "type": "string"
+                            },
+                            "findings": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ],
+                              "minItems": 13,
+                              "maxItems": 13,
+                              "items": false
+                            },
+                            "blocking_findings": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ],
+                              "minItems": 2,
+                              "maxItems": 2,
+                              "items": false
+                            },
+                            "started_at": {
+                              "type": "string"
+                            },
+                            "finished_at": {
+                              "type": "string"
+                            },
+                            "artifacts": {
+                              "type": "object",
+                              "properties": {
+                                "source_revision": {
+                                  "type": "string"
+                                },
+                                "packet_sha256": {
+                                  "type": "string"
+                                },
+                                "operator_sha256": {
+                                  "type": "string"
+                                },
+                                "operator_inputs_sha256": {
+                                  "type": "string"
+                                },
+                                "artifact_manifest_sha256": {
+                                  "type": "string"
+                                },
+                                "consumer_sha256": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "source_revision",
+                                "packet_sha256",
+                                "operator_sha256",
+                                "operator_inputs_sha256",
+                                "artifact_manifest_sha256",
+                                "consumer_sha256"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "required": [
+                            "phase",
+                            "provider",
+                            "model",
+                            "reviewer",
+                            "revision",
+                            "outcome",
+                            "evidence",
+                            "findings",
+                            "blocking_findings",
+                            "started_at",
+                            "finished_at",
+                            "artifacts"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "phase": {
+                              "type": "string"
+                            },
+                            "provider": {
+                              "type": "string"
+                            },
+                            "model": {
+                              "type": "string"
+                            },
+                            "reviewer": {
+                              "type": "string"
+                            },
+                            "revision": {
+                              "type": "string"
+                            },
+                            "outcome": {
+                              "type": "string"
+                            },
+                            "evidence": {
+                              "type": "string"
+                            },
+                            "findings": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "string"
+                                }
+                              ],
+                              "minItems": 1,
+                              "maxItems": 1,
+                              "items": false
+                            },
+                            "blocking_findings": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "string"
+                                }
+                              ],
+                              "minItems": 1,
+                              "maxItems": 1,
+                              "items": false
+                            },
+                            "artifacts": {
+                              "type": "object",
+                              "properties": {
+                                "source_revision": {
+                                  "type": "string"
+                                },
+                                "packet_sha256": {
+                                  "type": "string"
+                                },
+                                "operator_sha256": {
+                                  "type": "string"
+                                },
+                                "operator_inputs_sha256": {
+                                  "type": "string"
+                                },
+                                "artifact_manifest_sha256": {
+                                  "type": "string"
+                                },
+                                "consumer_sha256": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "source_revision",
+                                "packet_sha256",
+                                "operator_sha256",
+                                "operator_inputs_sha256",
+                                "artifact_manifest_sha256",
+                                "consumer_sha256"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "required": [
+                            "phase",
+                            "provider",
+                            "model",
+                            "reviewer",
+                            "revision",
+                            "outcome",
+                            "evidence",
+                            "findings",
+                            "blocking_findings",
+                            "artifacts"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "phase": {
+                              "type": "string"
+                            },
+                            "provider": {
+                              "type": "string"
+                            },
+                            "model": {
+                              "type": "string"
+                            },
+                            "reviewer": {
+                              "type": "string"
+                            },
+                            "revision": {
+                              "type": "string"
+                            },
+                            "outcome": {
+                              "type": "string"
+                            },
+                            "evidence": {
+                              "type": "string"
+                            },
+                            "findings": {
+                              "type": "array",
+                              "maxItems": 0,
+                              "items": false
+                            },
+                            "blocking_findings": {
+                              "type": "array",
+                              "maxItems": 0,
+                              "items": false
+                            },
+                            "artifacts": {
+                              "type": "object",
+                              "properties": {
+                                "source_revision": {
+                                  "type": "string"
+                                },
+                                "packet_sha256": {
+                                  "type": "string"
+                                },
+                                "operator_sha256": {
+                                  "type": "string"
+                                },
+                                "operator_inputs_sha256": {
+                                  "type": "string"
+                                },
+                                "artifact_manifest_sha256": {
+                                  "type": "string"
+                                },
+                                "consumer_sha256": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "source_revision",
+                                "packet_sha256",
+                                "operator_sha256",
+                                "operator_inputs_sha256",
+                                "artifact_manifest_sha256",
+                                "consumer_sha256"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "required": [
+                            "phase",
+                            "provider",
+                            "model",
+                            "reviewer",
+                            "revision",
+                            "outcome",
+                            "evidence",
+                            "findings",
+                            "blocking_findings",
+                            "artifacts"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "phase": {
+                              "type": "string"
+                            },
+                            "provider": {
+                              "type": "string"
+                            },
+                            "model": {
+                              "type": "string"
+                            },
+                            "reviewer": {
+                              "type": "string"
+                            },
+                            "revision": {
+                              "type": "string"
+                            },
+                            "outcome": {
+                              "type": "string"
+                            },
+                            "evidence": {
+                              "type": "string"
+                            },
+                            "findings": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ],
+                              "minItems": 3,
+                              "maxItems": 3,
+                              "items": false
+                            },
+                            "blocking_findings": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "string"
+                                }
+                              ],
+                              "minItems": 1,
+                              "maxItems": 1,
+                              "items": false
+                            },
+                            "started_at": {
+                              "type": "string"
+                            },
+                            "finished_at": {
+                              "type": "string"
+                            },
+                            "artifacts": {
+                              "type": "object",
+                              "properties": {
+                                "source_revision": {
+                                  "type": "string"
+                                },
+                                "packet_sha256": {
+                                  "type": "string"
+                                },
+                                "operator_sha256": {
+                                  "type": "string"
+                                },
+                                "operator_inputs_sha256": {
+                                  "type": "string"
+                                },
+                                "artifact_manifest_sha256": {
+                                  "type": "string"
+                                },
+                                "consumer_sha256": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "source_revision",
+                                "packet_sha256",
+                                "operator_sha256",
+                                "operator_inputs_sha256",
+                                "artifact_manifest_sha256",
+                                "consumer_sha256"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "required": [
+                            "phase",
+                            "provider",
+                            "model",
+                            "reviewer",
+                            "revision",
+                            "outcome",
+                            "evidence",
+                            "findings",
+                            "blocking_findings",
+                            "started_at",
+                            "finished_at",
+                            "artifacts"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "phase": {
+                              "type": "string"
+                            },
+                            "provider": {
+                              "type": "string"
+                            },
+                            "model": {
+                              "type": "string"
+                            },
+                            "reviewer": {
+                              "type": "string"
+                            },
+                            "revision": {
+                              "type": "string"
+                            },
+                            "outcome": {
+                              "type": "string"
+                            },
+                            "evidence": {
+                              "type": "string"
+                            },
+                            "findings": {
+                              "type": "array",
+                              "maxItems": 0,
+                              "items": false
+                            },
+                            "blocking_findings": {
+                              "type": "array",
+                              "maxItems": 0,
+                              "items": false
+                            },
+                            "artifacts": {
+                              "type": "object",
+                              "properties": {
+                                "source_revision": {
+                                  "type": "string"
+                                },
+                                "packet_sha256": {
+                                  "type": "string"
+                                },
+                                "operator_sha256": {
+                                  "type": "string"
+                                },
+                                "operator_inputs_sha256": {
+                                  "type": "string"
+                                },
+                                "artifact_manifest_sha256": {
+                                  "type": "string"
+                                },
+                                "consumer_sha256": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "source_revision",
+                                "packet_sha256",
+                                "operator_sha256",
+                                "operator_inputs_sha256",
+                                "artifact_manifest_sha256",
+                                "consumer_sha256"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "required": [
+                            "phase",
+                            "provider",
+                            "model",
+                            "reviewer",
+                            "revision",
+                            "outcome",
+                            "evidence",
+                            "findings",
+                            "blocking_findings",
+                            "artifacts"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "phase": {
+                              "type": "string"
+                            },
+                            "provider": {
+                              "type": "string"
+                            },
+                            "model": {
+                              "type": "string"
+                            },
+                            "reviewer": {
+                              "type": "string"
+                            },
+                            "revision": {
+                              "type": "string"
+                            },
+                            "outcome": {
+                              "type": "string"
+                            },
+                            "evidence": {
+                              "type": "string"
+                            },
+                            "findings": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "string"
+                                }
+                              ],
+                              "minItems": 1,
+                              "maxItems": 1,
+                              "items": false
+                            },
+                            "blocking_findings": {
+                              "type": "array",
+                              "maxItems": 0,
+                              "items": false
+                            },
+                            "started_at": {
+                              "type": "string"
+                            },
+                            "finished_at": {
+                              "type": "string"
+                            },
+                            "artifacts": {
+                              "type": "object",
+                              "properties": {
+                                "source_revision": {
+                                  "type": "string"
+                                },
+                                "packet_sha256": {
+                                  "type": "string"
+                                },
+                                "operator_sha256": {
+                                  "type": "string"
+                                },
+                                "operator_inputs_sha256": {
+                                  "type": "string"
+                                },
+                                "artifact_manifest_sha256": {
+                                  "type": "string"
+                                },
+                                "consumer_sha256": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "source_revision",
+                                "packet_sha256",
+                                "operator_sha256",
+                                "operator_inputs_sha256",
+                                "artifact_manifest_sha256",
+                                "consumer_sha256"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "required": [
+                            "phase",
+                            "provider",
+                            "model",
+                            "reviewer",
+                            "revision",
+                            "outcome",
+                            "evidence",
+                            "findings",
+                            "blocking_findings",
+                            "started_at",
+                            "finished_at",
+                            "artifacts"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ],
+                      "minItems": 6,
+                      "maxItems": 6,
+                      "items": false
+                    },
+                    "artifacts": {
+                      "type": "object",
+                      "properties": {
+                        "scope": {
+                          "type": "string"
+                        },
+                        "consumer": {
+                          "type": "object",
+                          "properties": {
+                            "sha256": {
+                              "type": "string"
+                            },
+                            "bytes": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "sha256",
+                            "bytes"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "packet": {
+                          "type": "object",
+                          "properties": {
+                            "bytes": {
+                              "type": "integer"
+                            },
+                            "sha256": {
+                              "type": "string"
+                            },
+                            "evidence": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "bytes",
+                            "sha256",
+                            "evidence"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "operator": {
+                          "type": "object",
+                          "properties": {
+                            "bytes": {
+                              "type": "integer"
+                            },
+                            "sha256": {
+                              "type": "string"
+                            },
+                            "evidence": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "bytes",
+                            "sha256",
+                            "evidence"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "operator_inputs": {
+                          "type": "object",
+                          "properties": {
+                            "bytes": {
+                              "type": "integer"
+                            },
+                            "sha256": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "bytes",
+                            "sha256"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "artifact_manifest": {
+                          "type": "object",
+                          "properties": {
+                            "bytes": {
+                              "type": "integer"
+                            },
+                            "sha256": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "bytes",
+                            "sha256"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "local_archive": {
+                          "type": "string"
+                        },
+                        "not_executed": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "scope",
+                        "consumer",
+                        "packet",
+                        "operator",
+                        "operator_inputs",
+                        "artifact_manifest",
+                        "local_archive",
+                        "not_executed"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "artifact_history": {
+                      "type": "array",
+                      "prefixItems": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "scope": {
+                              "type": "string"
+                            },
+                            "consumer": {
+                              "type": "object",
+                              "properties": {
+                                "sha256": {
+                                  "type": "string"
+                                },
+                                "bytes": {
+                                  "type": "integer"
+                                }
+                              },
+                              "required": [
+                                "sha256",
+                                "bytes"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "packet": {
+                              "type": "object",
+                              "properties": {
+                                "sha256": {
+                                  "type": "string"
+                                },
+                                "bytes": {
+                                  "type": "integer"
+                                },
+                                "evidence": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "sha256",
+                                "bytes",
+                                "evidence"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "operator": {
+                              "type": "object",
+                              "properties": {
+                                "sha256": {
+                                  "type": "string"
+                                },
+                                "bytes": {
+                                  "type": "integer"
+                                },
+                                "evidence": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "sha256",
+                                "bytes",
+                                "evidence"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "operator_inputs": {
+                              "type": "object",
+                              "properties": {
+                                "sha256": {
+                                  "type": "string"
+                                },
+                                "bytes": {
+                                  "type": "integer"
+                                }
+                              },
+                              "required": [
+                                "sha256",
+                                "bytes"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "artifact_manifest": {
+                              "type": "object",
+                              "properties": {
+                                "sha256": {
+                                  "type": "string"
+                                },
+                                "bytes": {
+                                  "type": "integer"
+                                }
+                              },
+                              "required": [
+                                "sha256",
+                                "bytes"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "local_archive": {
+                              "type": "string"
+                            },
+                            "not_executed": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "scope",
+                            "consumer",
+                            "packet",
+                            "operator",
+                            "operator_inputs",
+                            "artifact_manifest",
+                            "local_archive",
+                            "not_executed"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "scope": {
+                              "type": "string"
+                            },
+                            "consumer": {
+                              "type": "object",
+                              "properties": {
+                                "sha256": {
+                                  "type": "string"
+                                },
+                                "bytes": {
+                                  "type": "integer"
+                                }
+                              },
+                              "required": [
+                                "sha256",
+                                "bytes"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "packet": {
+                              "type": "object",
+                              "properties": {
+                                "bytes": {
+                                  "type": "integer"
+                                },
+                                "sha256": {
+                                  "type": "string"
+                                },
+                                "evidence": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "bytes",
+                                "sha256",
+                                "evidence"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "operator": {
+                              "type": "object",
+                              "properties": {
+                                "bytes": {
+                                  "type": "integer"
+                                },
+                                "sha256": {
+                                  "type": "string"
+                                },
+                                "evidence": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "bytes",
+                                "sha256",
+                                "evidence"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "operator_inputs": {
+                              "type": "object",
+                              "properties": {
+                                "bytes": {
+                                  "type": "integer"
+                                },
+                                "sha256": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "bytes",
+                                "sha256"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "artifact_manifest": {
+                              "type": "object",
+                              "properties": {
+                                "bytes": {
+                                  "type": "integer"
+                                },
+                                "sha256": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "bytes",
+                                "sha256"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "local_archive": {
+                              "type": "string"
+                            },
+                            "not_executed": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "scope",
+                            "consumer",
+                            "packet",
+                            "operator",
+                            "operator_inputs",
+                            "artifact_manifest",
+                            "local_archive",
+                            "not_executed"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "scope": {
+                              "type": "string"
+                            },
+                            "consumer": {
+                              "type": "object",
+                              "properties": {
+                                "sha256": {
+                                  "type": "string"
+                                },
+                                "bytes": {
+                                  "type": "integer"
+                                }
+                              },
+                              "required": [
+                                "sha256",
+                                "bytes"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "packet": {
+                              "type": "object",
+                              "properties": {
+                                "bytes": {
+                                  "type": "integer"
+                                },
+                                "sha256": {
+                                  "type": "string"
+                                },
+                                "evidence": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "bytes",
+                                "sha256",
+                                "evidence"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "operator": {
+                              "type": "object",
+                              "properties": {
+                                "bytes": {
+                                  "type": "integer"
+                                },
+                                "sha256": {
+                                  "type": "string"
+                                },
+                                "evidence": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "bytes",
+                                "sha256",
+                                "evidence"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "operator_inputs": {
+                              "type": "object",
+                              "properties": {
+                                "bytes": {
+                                  "type": "integer"
+                                },
+                                "sha256": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "bytes",
+                                "sha256"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "artifact_manifest": {
+                              "type": "object",
+                              "properties": {
+                                "bytes": {
+                                  "type": "integer"
+                                },
+                                "sha256": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "bytes",
+                                "sha256"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "local_archive": {
+                              "type": "string"
+                            },
+                            "not_executed": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "scope",
+                            "consumer",
+                            "packet",
+                            "operator",
+                            "operator_inputs",
+                            "artifact_manifest",
+                            "local_archive",
+                            "not_executed"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "scope": {
+                              "type": "string"
+                            },
+                            "consumer": {
+                              "type": "object",
+                              "properties": {
+                                "sha256": {
+                                  "type": "string"
+                                },
+                                "bytes": {
+                                  "type": "integer"
+                                }
+                              },
+                              "required": [
+                                "sha256",
+                                "bytes"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "packet": {
+                              "type": "object",
+                              "properties": {
+                                "bytes": {
+                                  "type": "integer"
+                                },
+                                "sha256": {
+                                  "type": "string"
+                                },
+                                "evidence": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "bytes",
+                                "sha256",
+                                "evidence"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "operator": {
+                              "type": "object",
+                              "properties": {
+                                "bytes": {
+                                  "type": "integer"
+                                },
+                                "sha256": {
+                                  "type": "string"
+                                },
+                                "evidence": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "bytes",
+                                "sha256",
+                                "evidence"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "operator_inputs": {
+                              "type": "object",
+                              "properties": {
+                                "bytes": {
+                                  "type": "integer"
+                                },
+                                "sha256": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "bytes",
+                                "sha256"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "artifact_manifest": {
+                              "type": "object",
+                              "properties": {
+                                "bytes": {
+                                  "type": "integer"
+                                },
+                                "sha256": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "bytes",
+                                "sha256"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "local_archive": {
+                              "type": "string"
+                            },
+                            "not_executed": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "scope",
+                            "consumer",
+                            "packet",
+                            "operator",
+                            "operator_inputs",
+                            "artifact_manifest",
+                            "local_archive",
+                            "not_executed"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ],
+                      "minItems": 4,
+                      "maxItems": 4,
+                      "items": false
+                    },
+                    "results_stages": {
+                      "type": "object",
+                      "properties": {
+                        "identity": {
+                          "type": "object",
+                          "properties": {
+                            "authors": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ],
+                              "minItems": 3,
+                              "maxItems": 3,
+                              "items": false
+                            },
+                            "revision": {
+                              "type": "string"
+                            },
+                            "paths": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ],
+                              "minItems": 13,
+                              "maxItems": 13,
+                              "items": false
+                            },
+                            "reviews": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "phase": {
+                                      "type": "string"
+                                    },
+                                    "provider": {
+                                      "type": "string"
+                                    },
+                                    "model": {
+                                      "type": "string"
+                                    },
+                                    "reviewer": {
+                                      "type": "string"
+                                    },
+                                    "revision": {
+                                      "type": "string"
+                                    },
+                                    "outcome": {
+                                      "type": "string"
+                                    },
+                                    "evidence": {
+                                      "type": "string"
+                                    },
+                                    "findings": {
+                                      "type": "array",
+                                      "prefixItems": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "string"
+                                        }
+                                      ],
+                                      "minItems": 8,
+                                      "maxItems": 8,
+                                      "items": false
+                                    },
+                                    "blocking_findings": {
+                                      "type": "array",
+                                      "maxItems": 0,
+                                      "items": false
+                                    },
+                                    "started_at": {
+                                      "type": "string"
+                                    },
+                                    "finished_at": {
+                                      "type": "string"
+                                    },
+                                    "result_tuple": {
+                                      "type": "object",
+                                      "properties": {
+                                        "source_revision": {
+                                          "type": "string"
+                                        },
+                                        "consumer_sha256": {
+                                          "type": "string"
+                                        },
+                                        "operator_sha256": {
+                                          "type": "string"
+                                        },
+                                        "operator_inputs_sha256": {
+                                          "type": "string"
+                                        },
+                                        "passive_manifest_sha256": {
+                                          "type": "string"
+                                        },
+                                        "passive_approval_sha256": {
+                                          "type": "string"
+                                        },
+                                        "packet_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runtime_plan_sha256": {
+                                          "type": "string"
+                                        },
+                                        "publication_boundary_sha256": {
+                                          "type": "string"
+                                        },
+                                        "results_manifest_sha256": {
+                                          "type": "string"
+                                        },
+                                        "observation_sha256": {
+                                          "type": "string"
+                                        },
+                                        "stdout_sha256": {
+                                          "type": "string"
+                                        },
+                                        "stderr_sha256": {
+                                          "type": "string"
+                                        },
+                                        "observation_archive_manifest_sha256": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "source_revision",
+                                        "consumer_sha256",
+                                        "operator_sha256",
+                                        "operator_inputs_sha256",
+                                        "passive_manifest_sha256",
+                                        "passive_approval_sha256",
+                                        "packet_sha256",
+                                        "runtime_plan_sha256",
+                                        "publication_boundary_sha256",
+                                        "results_manifest_sha256",
+                                        "observation_sha256",
+                                        "stdout_sha256",
+                                        "stderr_sha256",
+                                        "observation_archive_manifest_sha256"
+                                      ],
+                                      "additionalProperties": false
+                                    },
+                                    "private_report_sha256": {
+                                      "type": "string"
+                                    },
+                                    "public_report_sha256": {
+                                      "type": "string"
+                                    },
+                                    "public_report_redacted": {
+                                      "type": "boolean"
+                                    }
+                                  },
+                                  "required": [
+                                    "phase",
+                                    "provider",
+                                    "model",
+                                    "reviewer",
+                                    "revision",
+                                    "outcome",
+                                    "evidence",
+                                    "findings",
+                                    "blocking_findings",
+                                    "started_at",
+                                    "finished_at",
+                                    "result_tuple",
+                                    "private_report_sha256",
+                                    "public_report_sha256",
+                                    "public_report_redacted"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "phase": {
+                                      "type": "string"
+                                    },
+                                    "provider": {
+                                      "type": "string"
+                                    },
+                                    "model": {
+                                      "type": "string"
+                                    },
+                                    "reviewer": {
+                                      "type": "string"
+                                    },
+                                    "revision": {
+                                      "type": "string"
+                                    },
+                                    "outcome": {
+                                      "type": "string"
+                                    },
+                                    "evidence": {
+                                      "type": "string"
+                                    },
+                                    "findings": {
+                                      "type": "array",
+                                      "maxItems": 0,
+                                      "items": false
+                                    },
+                                    "blocking_findings": {
+                                      "type": "array",
+                                      "maxItems": 0,
+                                      "items": false
+                                    },
+                                    "result_tuple": {
+                                      "type": "object",
+                                      "properties": {
+                                        "source_revision": {
+                                          "type": "string"
+                                        },
+                                        "consumer_sha256": {
+                                          "type": "string"
+                                        },
+                                        "operator_sha256": {
+                                          "type": "string"
+                                        },
+                                        "operator_inputs_sha256": {
+                                          "type": "string"
+                                        },
+                                        "passive_manifest_sha256": {
+                                          "type": "string"
+                                        },
+                                        "passive_approval_sha256": {
+                                          "type": "string"
+                                        },
+                                        "packet_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runtime_plan_sha256": {
+                                          "type": "string"
+                                        },
+                                        "publication_boundary_sha256": {
+                                          "type": "string"
+                                        },
+                                        "results_manifest_sha256": {
+                                          "type": "string"
+                                        },
+                                        "observation_sha256": {
+                                          "type": "string"
+                                        },
+                                        "stdout_sha256": {
+                                          "type": "string"
+                                        },
+                                        "stderr_sha256": {
+                                          "type": "string"
+                                        },
+                                        "observation_archive_manifest_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runtime_preflight_sha256": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "source_revision",
+                                        "consumer_sha256",
+                                        "operator_sha256",
+                                        "operator_inputs_sha256",
+                                        "passive_manifest_sha256",
+                                        "passive_approval_sha256",
+                                        "packet_sha256",
+                                        "runtime_plan_sha256",
+                                        "publication_boundary_sha256",
+                                        "results_manifest_sha256",
+                                        "observation_sha256",
+                                        "stdout_sha256",
+                                        "stderr_sha256",
+                                        "observation_archive_manifest_sha256",
+                                        "runtime_preflight_sha256"
+                                      ],
+                                      "additionalProperties": false
+                                    },
+                                    "private_report_sha256": {
+                                      "type": "string"
+                                    },
+                                    "public_report_sha256": {
+                                      "type": "string"
+                                    },
+                                    "public_report_redacted": {
+                                      "type": "boolean"
+                                    }
+                                  },
+                                  "required": [
+                                    "phase",
+                                    "provider",
+                                    "model",
+                                    "reviewer",
+                                    "revision",
+                                    "outcome",
+                                    "evidence",
+                                    "findings",
+                                    "blocking_findings",
+                                    "result_tuple",
+                                    "private_report_sha256",
+                                    "public_report_sha256",
+                                    "public_report_redacted"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "phase": {
+                                      "type": "string"
+                                    },
+                                    "provider": {
+                                      "type": "string"
+                                    },
+                                    "model": {
+                                      "type": "string"
+                                    },
+                                    "reviewer": {
+                                      "type": "string"
+                                    },
+                                    "native_session": {
+                                      "type": "string"
+                                    },
+                                    "revision": {
+                                      "type": "string"
+                                    },
+                                    "outcome": {
+                                      "type": "string"
+                                    },
+                                    "evidence": {
+                                      "type": "string"
+                                    },
+                                    "findings": {
+                                      "type": "array",
+                                      "prefixItems": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "string"
+                                        }
+                                      ],
+                                      "minItems": 2,
+                                      "maxItems": 2,
+                                      "items": false
+                                    },
+                                    "blocking_findings": {
+                                      "type": "array",
+                                      "maxItems": 0,
+                                      "items": false
+                                    },
+                                    "started_at": {
+                                      "type": "string"
+                                    },
+                                    "finished_at": {
+                                      "type": "string"
+                                    },
+                                    "result_tuple": {
+                                      "type": "object",
+                                      "properties": {
+                                        "source_revision": {
+                                          "type": "string"
+                                        },
+                                        "consumer_sha256": {
+                                          "type": "string"
+                                        },
+                                        "operator_sha256": {
+                                          "type": "string"
+                                        },
+                                        "operator_inputs_sha256": {
+                                          "type": "string"
+                                        },
+                                        "passive_manifest_sha256": {
+                                          "type": "string"
+                                        },
+                                        "passive_approval_sha256": {
+                                          "type": "string"
+                                        },
+                                        "packet_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runtime_plan_sha256": {
+                                          "type": "string"
+                                        },
+                                        "publication_boundary_sha256": {
+                                          "type": "string"
+                                        },
+                                        "results_manifest_sha256": {
+                                          "type": "string"
+                                        },
+                                        "observation_sha256": {
+                                          "type": "string"
+                                        },
+                                        "stdout_sha256": {
+                                          "type": "string"
+                                        },
+                                        "stderr_sha256": {
+                                          "type": "string"
+                                        },
+                                        "observation_archive_manifest_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runtime_preflight_sha256": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "source_revision",
+                                        "consumer_sha256",
+                                        "operator_sha256",
+                                        "operator_inputs_sha256",
+                                        "passive_manifest_sha256",
+                                        "passive_approval_sha256",
+                                        "packet_sha256",
+                                        "runtime_plan_sha256",
+                                        "publication_boundary_sha256",
+                                        "results_manifest_sha256",
+                                        "observation_sha256",
+                                        "stdout_sha256",
+                                        "stderr_sha256",
+                                        "observation_archive_manifest_sha256",
+                                        "runtime_preflight_sha256"
+                                      ],
+                                      "additionalProperties": false
+                                    },
+                                    "private_report_sha256": {
+                                      "type": "string"
+                                    },
+                                    "public_report_sha256": {
+                                      "type": "string"
+                                    },
+                                    "public_report_redacted": {
+                                      "type": "boolean"
+                                    }
+                                  },
+                                  "required": [
+                                    "phase",
+                                    "provider",
+                                    "model",
+                                    "reviewer",
+                                    "native_session",
+                                    "revision",
+                                    "outcome",
+                                    "evidence",
+                                    "findings",
+                                    "blocking_findings",
+                                    "started_at",
+                                    "finished_at",
+                                    "result_tuple",
+                                    "private_report_sha256",
+                                    "public_report_sha256",
+                                    "public_report_redacted"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              ],
+                              "minItems": 3,
+                              "maxItems": 3,
+                              "items": false
+                            },
+                            "artifacts": {
+                              "type": "object",
+                              "properties": {
+                                "scope": {
+                                  "type": "string"
+                                },
+                                "result_packet": {
+                                  "type": "object",
+                                  "properties": {
+                                    "bytes": {
+                                      "type": "integer"
+                                    },
+                                    "sha256": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "bytes",
+                                    "sha256"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "runtime_plan": {
+                                  "type": "object",
+                                  "properties": {
+                                    "bytes": {
+                                      "type": "integer"
+                                    },
+                                    "sha256": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "bytes",
+                                    "sha256"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "publication_boundary": {
+                                  "type": "object",
+                                  "properties": {
+                                    "bytes": {
+                                      "type": "integer"
+                                    },
+                                    "sha256": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "bytes",
+                                    "sha256"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "results_manifest": {
+                                  "type": "object",
+                                  "properties": {
+                                    "bytes": {
+                                      "type": "integer"
+                                    },
+                                    "sha256": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "bytes",
+                                    "sha256"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "observation": {
+                                  "type": "object",
+                                  "properties": {
+                                    "bytes": {
+                                      "type": "integer"
+                                    },
+                                    "sha256": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "bytes",
+                                    "sha256"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "stdout": {
+                                  "type": "object",
+                                  "properties": {
+                                    "bytes": {
+                                      "type": "integer"
+                                    },
+                                    "sha256": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "bytes",
+                                    "sha256"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "stderr": {
+                                  "type": "object",
+                                  "properties": {
+                                    "bytes": {
+                                      "type": "integer"
+                                    },
+                                    "sha256": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "bytes",
+                                    "sha256"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "observation_archive_manifest": {
+                                  "type": "object",
+                                  "properties": {
+                                    "bytes": {
+                                      "type": "integer"
+                                    },
+                                    "sha256": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "bytes",
+                                    "sha256"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "passive_approval": {
+                                  "type": "object",
+                                  "properties": {
+                                    "bytes": {
+                                      "type": "integer"
+                                    },
+                                    "sha256": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "bytes",
+                                    "sha256"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "consumer": {
+                                  "type": "object",
+                                  "properties": {
+                                    "sha256": {
+                                      "type": "string"
+                                    },
+                                    "bytes": {
+                                      "type": "integer"
+                                    }
+                                  },
+                                  "required": [
+                                    "sha256",
+                                    "bytes"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "operator": {
+                                  "type": "object",
+                                  "properties": {
+                                    "bytes": {
+                                      "type": "integer"
+                                    },
+                                    "sha256": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "bytes",
+                                    "sha256"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "private_packet": {
+                                  "type": "string"
+                                },
+                                "private_observation_archive": {
+                                  "type": "string"
+                                },
+                                "public_redacted_summary": {
+                                  "type": "string"
+                                },
+                                "runtime_receipt_exists": {
+                                  "type": "boolean"
+                                },
+                                "runtime_recipe_executed": {
+                                  "type": "boolean"
+                                },
+                                "runtime_preflight": {
+                                  "type": "object",
+                                  "properties": {
+                                    "bytes": {
+                                      "type": "integer"
+                                    },
+                                    "sha256": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "bytes",
+                                    "sha256"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "runtime_preflight_executed": {
+                                  "type": "boolean"
+                                }
+                              },
+                              "required": [
+                                "scope",
+                                "result_packet",
+                                "runtime_plan",
+                                "publication_boundary",
+                                "results_manifest",
+                                "observation",
+                                "stdout",
+                                "stderr",
+                                "observation_archive_manifest",
+                                "passive_approval",
+                                "consumer",
+                                "operator",
+                                "private_packet",
+                                "private_observation_archive",
+                                "public_redacted_summary",
+                                "runtime_receipt_exists",
+                                "runtime_recipe_executed",
+                                "runtime_preflight",
+                                "runtime_preflight_executed"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "result_tuple": {
+                              "type": "object",
+                              "properties": {
+                                "source_revision": {
+                                  "type": "string"
+                                },
+                                "consumer_sha256": {
+                                  "type": "string"
+                                },
+                                "operator_sha256": {
+                                  "type": "string"
+                                },
+                                "operator_inputs_sha256": {
+                                  "type": "string"
+                                },
+                                "passive_manifest_sha256": {
+                                  "type": "string"
+                                },
+                                "passive_approval_sha256": {
+                                  "type": "string"
+                                },
+                                "packet_sha256": {
+                                  "type": "string"
+                                },
+                                "runtime_plan_sha256": {
+                                  "type": "string"
+                                },
+                                "publication_boundary_sha256": {
+                                  "type": "string"
+                                },
+                                "results_manifest_sha256": {
+                                  "type": "string"
+                                },
+                                "observation_sha256": {
+                                  "type": "string"
+                                },
+                                "stdout_sha256": {
+                                  "type": "string"
+                                },
+                                "stderr_sha256": {
+                                  "type": "string"
+                                },
+                                "observation_archive_manifest_sha256": {
+                                  "type": "string"
+                                },
+                                "runtime_preflight_sha256": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "source_revision",
+                                "consumer_sha256",
+                                "operator_sha256",
+                                "operator_inputs_sha256",
+                                "passive_manifest_sha256",
+                                "passive_approval_sha256",
+                                "packet_sha256",
+                                "runtime_plan_sha256",
+                                "publication_boundary_sha256",
+                                "results_manifest_sha256",
+                                "observation_sha256",
+                                "stdout_sha256",
+                                "stderr_sha256",
+                                "observation_archive_manifest_sha256",
+                                "runtime_preflight_sha256"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "scope": {
+                              "type": "string"
+                            },
+                            "artifact_history": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "artifacts": {
+                                      "type": "object",
+                                      "properties": {
+                                        "scope": {
+                                          "type": "string"
+                                        },
+                                        "result_packet": {
+                                          "type": "object",
+                                          "properties": {
+                                            "bytes": {
+                                              "type": "integer"
+                                            },
+                                            "sha256": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "bytes",
+                                            "sha256"
+                                          ],
+                                          "additionalProperties": false
+                                        },
+                                        "runtime_plan": {
+                                          "type": "object",
+                                          "properties": {
+                                            "bytes": {
+                                              "type": "integer"
+                                            },
+                                            "sha256": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "bytes",
+                                            "sha256"
+                                          ],
+                                          "additionalProperties": false
+                                        },
+                                        "publication_boundary": {
+                                          "type": "object",
+                                          "properties": {
+                                            "bytes": {
+                                              "type": "integer"
+                                            },
+                                            "sha256": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "bytes",
+                                            "sha256"
+                                          ],
+                                          "additionalProperties": false
+                                        },
+                                        "results_manifest": {
+                                          "type": "object",
+                                          "properties": {
+                                            "bytes": {
+                                              "type": "integer"
+                                            },
+                                            "sha256": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "bytes",
+                                            "sha256"
+                                          ],
+                                          "additionalProperties": false
+                                        },
+                                        "observation": {
+                                          "type": "object",
+                                          "properties": {
+                                            "bytes": {
+                                              "type": "integer"
+                                            },
+                                            "sha256": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "bytes",
+                                            "sha256"
+                                          ],
+                                          "additionalProperties": false
+                                        },
+                                        "stdout": {
+                                          "type": "object",
+                                          "properties": {
+                                            "bytes": {
+                                              "type": "integer"
+                                            },
+                                            "sha256": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "bytes",
+                                            "sha256"
+                                          ],
+                                          "additionalProperties": false
+                                        },
+                                        "stderr": {
+                                          "type": "object",
+                                          "properties": {
+                                            "bytes": {
+                                              "type": "integer"
+                                            },
+                                            "sha256": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "bytes",
+                                            "sha256"
+                                          ],
+                                          "additionalProperties": false
+                                        },
+                                        "observation_archive_manifest": {
+                                          "type": "object",
+                                          "properties": {
+                                            "bytes": {
+                                              "type": "integer"
+                                            },
+                                            "sha256": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "bytes",
+                                            "sha256"
+                                          ],
+                                          "additionalProperties": false
+                                        },
+                                        "passive_approval": {
+                                          "type": "object",
+                                          "properties": {
+                                            "bytes": {
+                                              "type": "integer"
+                                            },
+                                            "sha256": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "bytes",
+                                            "sha256"
+                                          ],
+                                          "additionalProperties": false
+                                        },
+                                        "consumer": {
+                                          "type": "object",
+                                          "properties": {
+                                            "sha256": {
+                                              "type": "string"
+                                            },
+                                            "bytes": {
+                                              "type": "integer"
+                                            }
+                                          },
+                                          "required": [
+                                            "sha256",
+                                            "bytes"
+                                          ],
+                                          "additionalProperties": false
+                                        },
+                                        "operator": {
+                                          "type": "object",
+                                          "properties": {
+                                            "bytes": {
+                                              "type": "integer"
+                                            },
+                                            "sha256": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "bytes",
+                                            "sha256"
+                                          ],
+                                          "additionalProperties": false
+                                        },
+                                        "private_packet": {
+                                          "type": "string"
+                                        },
+                                        "private_observation_archive": {
+                                          "type": "string"
+                                        },
+                                        "public_redacted_summary": {
+                                          "type": "string"
+                                        },
+                                        "runtime_receipt_exists": {
+                                          "type": "boolean"
+                                        },
+                                        "runtime_recipe_executed": {
+                                          "type": "boolean"
+                                        }
+                                      },
+                                      "required": [
+                                        "scope",
+                                        "result_packet",
+                                        "runtime_plan",
+                                        "publication_boundary",
+                                        "results_manifest",
+                                        "observation",
+                                        "stdout",
+                                        "stderr",
+                                        "observation_archive_manifest",
+                                        "passive_approval",
+                                        "consumer",
+                                        "operator",
+                                        "private_packet",
+                                        "private_observation_archive",
+                                        "public_redacted_summary",
+                                        "runtime_receipt_exists",
+                                        "runtime_recipe_executed"
+                                      ],
+                                      "additionalProperties": false
+                                    },
+                                    "result_tuple": {
+                                      "type": "object",
+                                      "properties": {
+                                        "source_revision": {
+                                          "type": "string"
+                                        },
+                                        "consumer_sha256": {
+                                          "type": "string"
+                                        },
+                                        "operator_sha256": {
+                                          "type": "string"
+                                        },
+                                        "operator_inputs_sha256": {
+                                          "type": "string"
+                                        },
+                                        "passive_manifest_sha256": {
+                                          "type": "string"
+                                        },
+                                        "passive_approval_sha256": {
+                                          "type": "string"
+                                        },
+                                        "packet_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runtime_plan_sha256": {
+                                          "type": "string"
+                                        },
+                                        "publication_boundary_sha256": {
+                                          "type": "string"
+                                        },
+                                        "results_manifest_sha256": {
+                                          "type": "string"
+                                        },
+                                        "observation_sha256": {
+                                          "type": "string"
+                                        },
+                                        "stdout_sha256": {
+                                          "type": "string"
+                                        },
+                                        "stderr_sha256": {
+                                          "type": "string"
+                                        },
+                                        "observation_archive_manifest_sha256": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "source_revision",
+                                        "consumer_sha256",
+                                        "operator_sha256",
+                                        "operator_inputs_sha256",
+                                        "passive_manifest_sha256",
+                                        "passive_approval_sha256",
+                                        "packet_sha256",
+                                        "runtime_plan_sha256",
+                                        "publication_boundary_sha256",
+                                        "results_manifest_sha256",
+                                        "observation_sha256",
+                                        "stdout_sha256",
+                                        "stderr_sha256",
+                                        "observation_archive_manifest_sha256"
+                                      ],
+                                      "additionalProperties": false
+                                    }
+                                  },
+                                  "required": [
+                                    "artifacts",
+                                    "result_tuple"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              ],
+                              "minItems": 1,
+                              "maxItems": 1,
+                              "items": false
+                            },
+                            "completion": {
+                              "type": "string"
+                            },
+                            "post_closing_status_observation": {
+                              "type": "object",
+                              "properties": {
+                                "finding": {
+                                  "type": "string"
+                                },
+                                "closing_time_commit": {
+                                  "type": "string"
+                                },
+                                "scope_and_completion_mean": {
+                                  "type": "string"
+                                },
+                                "closing_time_artifact_flags": {
+                                  "type": "object",
+                                  "properties": {
+                                    "runtime_receipt_exists": {
+                                      "type": "boolean"
+                                    },
+                                    "runtime_recipe_executed": {
+                                      "type": "boolean"
+                                    },
+                                    "runtime_preflight_executed": {
+                                      "type": "boolean"
+                                    }
+                                  },
+                                  "required": [
+                                    "runtime_receipt_exists",
+                                    "runtime_recipe_executed",
+                                    "runtime_preflight_executed"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "current_artifact_flags": {
+                                  "type": "object",
+                                  "properties": {
+                                    "runtime_receipt_exists": {
+                                      "type": "boolean"
+                                    },
+                                    "runtime_recipe_executed": {
+                                      "type": "boolean"
+                                    },
+                                    "runtime_preflight_executed": {
+                                      "type": "boolean"
+                                    }
+                                  },
+                                  "required": [
+                                    "runtime_receipt_exists",
+                                    "runtime_recipe_executed",
+                                    "runtime_preflight_executed"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "flags_mean": {
+                                  "type": "string"
+                                },
+                                "evidence": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "finding",
+                                "closing_time_commit",
+                                "scope_and_completion_mean",
+                                "closing_time_artifact_flags",
+                                "current_artifact_flags",
+                                "flags_mean",
+                                "evidence"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "required": [
+                            "authors",
+                            "revision",
+                            "paths",
+                            "reviews",
+                            "artifacts",
+                            "result_tuple",
+                            "scope",
+                            "artifact_history",
+                            "completion",
+                            "post_closing_status_observation"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "baseline": {
+                          "type": "object",
+                          "properties": {
+                            "authors": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ],
+                              "minItems": 3,
+                              "maxItems": 3,
+                              "items": false
+                            },
+                            "revision": {
+                              "type": "string"
+                            },
+                            "paths": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ],
+                              "minItems": 13,
+                              "maxItems": 13,
+                              "items": false
+                            },
+                            "reviews": {
+                              "type": "array",
+                              "prefixItems": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "phase": {
+                                      "type": "string"
+                                    },
+                                    "provider": {
+                                      "type": "string"
+                                    },
+                                    "model": {
+                                      "type": "string"
+                                    },
+                                    "reviewer": {
+                                      "type": "string"
+                                    },
+                                    "native_session": {
+                                      "type": "string"
+                                    },
+                                    "revision": {
+                                      "type": "string"
+                                    },
+                                    "outcome": {
+                                      "type": "string"
+                                    },
+                                    "evidence": {
+                                      "type": "string"
+                                    },
+                                    "findings": {
+                                      "type": "array",
+                                      "prefixItems": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "string"
+                                        }
+                                      ],
+                                      "minItems": 6,
+                                      "maxItems": 6,
+                                      "items": false
+                                    },
+                                    "blocking_findings": {
+                                      "type": "array",
+                                      "maxItems": 0,
+                                      "items": false
+                                    },
+                                    "started_at": {
+                                      "type": "string"
+                                    },
+                                    "finished_at": {
+                                      "type": "string"
+                                    },
+                                    "result_tuple": {
+                                      "type": "object",
+                                      "properties": {
+                                        "source_revision": {
+                                          "type": "string"
+                                        },
+                                        "consumer_sha256": {
+                                          "type": "string"
+                                        },
+                                        "identity_results_tuple_sha256": {
+                                          "type": "string"
+                                        },
+                                        "packet_sha256": {
+                                          "type": "string"
+                                        },
+                                        "results_manifest_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runtime_receipt_sha256": {
+                                          "type": "string"
+                                        },
+                                        "baseline_authorization_sha256": {
+                                          "type": "string"
+                                        },
+                                        "execution_scope_sha256": {
+                                          "type": "string"
+                                        },
+                                        "generated_data_validation_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runtime_preflight_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runner_stdout_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runner_stderr_sha256": {
+                                          "type": "string"
+                                        },
+                                        "tool_result_sha256": {
+                                          "type": "string"
+                                        },
+                                        "classification_sha256": {
+                                          "type": "string"
+                                        },
+                                        "postflight_sha256": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "source_revision",
+                                        "consumer_sha256",
+                                        "identity_results_tuple_sha256",
+                                        "packet_sha256",
+                                        "results_manifest_sha256",
+                                        "runtime_receipt_sha256",
+                                        "baseline_authorization_sha256",
+                                        "execution_scope_sha256",
+                                        "generated_data_validation_sha256",
+                                        "runtime_preflight_sha256",
+                                        "runner_stdout_sha256",
+                                        "runner_stderr_sha256",
+                                        "tool_result_sha256",
+                                        "classification_sha256",
+                                        "postflight_sha256"
+                                      ],
+                                      "additionalProperties": false
+                                    },
+                                    "private_report_sha256": {
+                                      "type": "string"
+                                    },
+                                    "public_report_sha256": {
+                                      "type": "string"
+                                    },
+                                    "public_report_redacted": {
+                                      "type": "boolean"
+                                    }
+                                  },
+                                  "required": [
+                                    "phase",
+                                    "provider",
+                                    "model",
+                                    "reviewer",
+                                    "native_session",
+                                    "revision",
+                                    "outcome",
+                                    "evidence",
+                                    "findings",
+                                    "blocking_findings",
+                                    "started_at",
+                                    "finished_at",
+                                    "result_tuple",
+                                    "private_report_sha256",
+                                    "public_report_sha256",
+                                    "public_report_redacted"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "phase": {
+                                      "type": "string"
+                                    },
+                                    "provider": {
+                                      "type": "string"
+                                    },
+                                    "model": {
+                                      "type": "string"
+                                    },
+                                    "reviewer": {
+                                      "type": "string"
+                                    },
+                                    "revision": {
+                                      "type": "string"
+                                    },
+                                    "outcome": {
+                                      "type": "string"
+                                    },
+                                    "evidence": {
+                                      "type": "string"
+                                    },
+                                    "findings": {
+                                      "type": "array",
+                                      "maxItems": 0,
+                                      "items": false
+                                    },
+                                    "blocking_findings": {
+                                      "type": "array",
+                                      "maxItems": 0,
+                                      "items": false
+                                    },
+                                    "result_tuple": {
+                                      "type": "object",
+                                      "properties": {
+                                        "source_revision": {
+                                          "type": "string"
+                                        },
+                                        "consumer_sha256": {
+                                          "type": "string"
+                                        },
+                                        "identity_results_tuple_sha256": {
+                                          "type": "string"
+                                        },
+                                        "packet_sha256": {
+                                          "type": "string"
+                                        },
+                                        "results_manifest_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runtime_receipt_sha256": {
+                                          "type": "string"
+                                        },
+                                        "baseline_authorization_sha256": {
+                                          "type": "string"
+                                        },
+                                        "execution_scope_sha256": {
+                                          "type": "string"
+                                        },
+                                        "generated_data_validation_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runtime_preflight_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runner_stdout_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runner_stderr_sha256": {
+                                          "type": "string"
+                                        },
+                                        "tool_result_sha256": {
+                                          "type": "string"
+                                        },
+                                        "classification_sha256": {
+                                          "type": "string"
+                                        },
+                                        "postflight_sha256": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "source_revision",
+                                        "consumer_sha256",
+                                        "identity_results_tuple_sha256",
+                                        "packet_sha256",
+                                        "results_manifest_sha256",
+                                        "runtime_receipt_sha256",
+                                        "baseline_authorization_sha256",
+                                        "execution_scope_sha256",
+                                        "generated_data_validation_sha256",
+                                        "runtime_preflight_sha256",
+                                        "runner_stdout_sha256",
+                                        "runner_stderr_sha256",
+                                        "tool_result_sha256",
+                                        "classification_sha256",
+                                        "postflight_sha256"
+                                      ],
+                                      "additionalProperties": false
+                                    },
+                                    "private_report_sha256": {
+                                      "type": "string"
+                                    },
+                                    "public_report_sha256": {
+                                      "type": "string"
+                                    },
+                                    "public_report_redacted": {
+                                      "type": "boolean"
+                                    },
+                                    "coordinator_supplement_sha256": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "phase",
+                                    "provider",
+                                    "model",
+                                    "reviewer",
+                                    "revision",
+                                    "outcome",
+                                    "evidence",
+                                    "findings",
+                                    "blocking_findings",
+                                    "result_tuple",
+                                    "private_report_sha256",
+                                    "public_report_sha256",
+                                    "public_report_redacted",
+                                    "coordinator_supplement_sha256"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "phase": {
+                                      "type": "string"
+                                    },
+                                    "provider": {
+                                      "type": "string"
+                                    },
+                                    "model": {
+                                      "type": "string"
+                                    },
+                                    "reviewer": {
+                                      "type": "string"
+                                    },
+                                    "native_session": {
+                                      "type": "string"
+                                    },
+                                    "revision": {
+                                      "type": "string"
+                                    },
+                                    "outcome": {
+                                      "type": "string"
+                                    },
+                                    "evidence": {
+                                      "type": "string"
+                                    },
+                                    "findings": {
+                                      "type": "array",
+                                      "prefixItems": [
+                                        {
+                                          "type": "string"
+                                        }
+                                      ],
+                                      "minItems": 1,
+                                      "maxItems": 1,
+                                      "items": false
+                                    },
+                                    "blocking_findings": {
+                                      "type": "array",
+                                      "maxItems": 0,
+                                      "items": false
+                                    },
+                                    "started_at": {
+                                      "type": "string"
+                                    },
+                                    "finished_at": {
+                                      "type": "string"
+                                    },
+                                    "result_tuple": {
+                                      "type": "object",
+                                      "properties": {
+                                        "source_revision": {
+                                          "type": "string"
+                                        },
+                                        "consumer_sha256": {
+                                          "type": "string"
+                                        },
+                                        "identity_results_tuple_sha256": {
+                                          "type": "string"
+                                        },
+                                        "packet_sha256": {
+                                          "type": "string"
+                                        },
+                                        "results_manifest_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runtime_receipt_sha256": {
+                                          "type": "string"
+                                        },
+                                        "baseline_authorization_sha256": {
+                                          "type": "string"
+                                        },
+                                        "execution_scope_sha256": {
+                                          "type": "string"
+                                        },
+                                        "generated_data_validation_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runtime_preflight_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runner_stdout_sha256": {
+                                          "type": "string"
+                                        },
+                                        "runner_stderr_sha256": {
+                                          "type": "string"
+                                        },
+                                        "tool_result_sha256": {
+                                          "type": "string"
+                                        },
+                                        "classification_sha256": {
+                                          "type": "string"
+                                        },
+                                        "postflight_sha256": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "source_revision",
+                                        "consumer_sha256",
+                                        "identity_results_tuple_sha256",
+                                        "packet_sha256",
+                                        "results_manifest_sha256",
+                                        "runtime_receipt_sha256",
+                                        "baseline_authorization_sha256",
+                                        "execution_scope_sha256",
+                                        "generated_data_validation_sha256",
+                                        "runtime_preflight_sha256",
+                                        "runner_stdout_sha256",
+                                        "runner_stderr_sha256",
+                                        "tool_result_sha256",
+                                        "classification_sha256",
+                                        "postflight_sha256"
+                                      ],
+                                      "additionalProperties": false
+                                    },
+                                    "private_report_sha256": {
+                                      "type": "string"
+                                    },
+                                    "public_report_sha256": {
+                                      "type": "string"
+                                    },
+                                    "public_report_redacted": {
+                                      "type": "boolean"
+                                    },
+                                    "coordinator_supplement_sha256": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "phase",
+                                    "provider",
+                                    "model",
+                                    "reviewer",
+                                    "native_session",
+                                    "revision",
+                                    "outcome",
+                                    "evidence",
+                                    "findings",
+                                    "blocking_findings",
+                                    "started_at",
+                                    "finished_at",
+                                    "result_tuple",
+                                    "private_report_sha256",
+                                    "public_report_sha256",
+                                    "public_report_redacted",
+                                    "coordinator_supplement_sha256"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              ],
+                              "minItems": 3,
+                              "maxItems": 3,
+                              "items": false
+                            },
+                            "result_tuple": {
+                              "type": "object",
+                              "properties": {
+                                "source_revision": {
+                                  "type": "string"
+                                },
+                                "consumer_sha256": {
+                                  "type": "string"
+                                },
+                                "identity_results_tuple_sha256": {
+                                  "type": "string"
+                                },
+                                "packet_sha256": {
+                                  "type": "string"
+                                },
+                                "results_manifest_sha256": {
+                                  "type": "string"
+                                },
+                                "runtime_receipt_sha256": {
+                                  "type": "string"
+                                },
+                                "baseline_authorization_sha256": {
+                                  "type": "string"
+                                },
+                                "execution_scope_sha256": {
+                                  "type": "string"
+                                },
+                                "generated_data_validation_sha256": {
+                                  "type": "string"
+                                },
+                                "runtime_preflight_sha256": {
+                                  "type": "string"
+                                },
+                                "runner_stdout_sha256": {
+                                  "type": "string"
+                                },
+                                "runner_stderr_sha256": {
+                                  "type": "string"
+                                },
+                                "tool_result_sha256": {
+                                  "type": "string"
+                                },
+                                "classification_sha256": {
+                                  "type": "string"
+                                },
+                                "postflight_sha256": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "source_revision",
+                                "consumer_sha256",
+                                "identity_results_tuple_sha256",
+                                "packet_sha256",
+                                "results_manifest_sha256",
+                                "runtime_receipt_sha256",
+                                "baseline_authorization_sha256",
+                                "execution_scope_sha256",
+                                "generated_data_validation_sha256",
+                                "runtime_preflight_sha256",
+                                "runner_stdout_sha256",
+                                "runner_stderr_sha256",
+                                "tool_result_sha256",
+                                "classification_sha256",
+                                "postflight_sha256"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "scope": {
+                              "type": "string"
+                            },
+                            "artifacts": {
+                              "type": "object",
+                              "properties": {
+                                "private_packet": {
+                                  "type": "string"
+                                },
+                                "private_run": {
+                                  "type": "string"
+                                },
+                                "actual_exit_code": {
+                                  "type": "integer"
+                                },
+                                "legacy_positive": {
+                                  "type": "string"
+                                },
+                                "foundation_methods": {
+                                  "type": "integer"
+                                },
+                                "NI_failures": {
+                                  "type": "integer"
+                                },
+                                "errors": {
+                                  "type": "integer"
+                                },
+                                "NI_boundary_counts": {
+                                  "type": "object",
+                                  "properties": {
+                                    "foundation.create.before_listeners_run": {
+                                      "type": "integer"
+                                    },
+                                    "foundation.create.config_before_listeners_run": {
+                                      "type": "integer"
+                                    },
+                                    "project_storage": {
+                                      "type": "integer"
+                                    }
+                                  },
+                                  "required": [
+                                    "foundation.create.before_listeners_run",
+                                    "foundation.create.config_before_listeners_run",
+                                    "project_storage"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "children_from_log_and_source": {
+                                  "type": "integer"
+                                },
+                                "downstream_wire_bodies": {
+                                  "type": "string"
+                                },
+                                "postflight_seals": {
+                                  "type": "string"
+                                },
+                                "independent_results_review": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "private_packet",
+                                "private_run",
+                                "actual_exit_code",
+                                "legacy_positive",
+                                "foundation_methods",
+                                "NI_failures",
+                                "errors",
+                                "NI_boundary_counts",
+                                "children_from_log_and_source",
+                                "downstream_wire_bodies",
+                                "postflight_seals",
+                                "independent_results_review"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "advisory_dispositions": {
+                              "type": "object",
+                              "properties": {
+                                "coordinator_supplement_sha256": {
+                                  "type": "string"
+                                },
+                                "tool_transcript_excerpts_private_sha256": {
+                                  "type": "string"
+                                },
+                                "BIA1": {
+                                  "type": "string"
+                                },
+                                "BIA2": {
+                                  "type": "string"
+                                },
+                                "BIA3": {
+                                  "type": "string"
+                                },
+                                "BIA4": {
+                                  "type": "string"
+                                },
+                                "BIA5": {
+                                  "type": "string"
+                                },
+                                "BIA6": {
+                                  "type": "string"
+                                },
+                                "BCA1": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "coordinator_supplement_sha256",
+                                "tool_transcript_excerpts_private_sha256",
+                                "BIA1",
+                                "BIA2",
+                                "BIA3",
+                                "BIA4",
+                                "BIA5",
+                                "BIA6",
+                                "BCA1"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "completion": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "authors",
+                            "revision",
+                            "paths",
+                            "reviews",
+                            "result_tuple",
+                            "scope",
+                            "artifacts",
+                            "advisory_dispositions",
+                            "completion"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "identity",
+                        "baseline"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "results_policy": {
+                      "type": "string"
+                    },
+                    "execution_history": {
+                      "type": "array",
+                      "prefixItems": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "kind": {
+                              "type": "string"
+                            },
+                            "invocations": {
+                              "type": "integer"
+                            },
+                            "outcome": {
+                              "type": "string"
+                            },
+                            "returncode": {
+                              "type": "integer"
+                            },
+                            "empty_child_stderr": {
+                              "type": "boolean"
+                            },
+                            "reaped": {
+                              "type": "boolean"
+                            },
+                            "private_scratch_removed": {
+                              "type": "boolean"
+                            },
+                            "post_seals_passed": {
+                              "type": "boolean"
+                            },
+                            "evidence": {
+                              "type": "string"
+                            },
+                            "raw_evidence_public": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "invocations",
+                            "outcome",
+                            "returncode",
+                            "empty_child_stderr",
+                            "reaped",
+                            "private_scratch_removed",
+                            "post_seals_passed",
+                            "evidence",
+                            "raw_evidence_public"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "kind": {
+                              "type": "string"
+                            },
+                            "invocations": {
+                              "type": "integer"
+                            },
+                            "outcome": {
+                              "type": "string"
+                            },
+                            "returncode": {
+                              "type": "integer"
+                            },
+                            "legacy_positive": {
+                              "type": "string"
+                            },
+                            "foundation_methods": {
+                              "type": "integer"
+                            },
+                            "NI_failures": {
+                              "type": "integer"
+                            },
+                            "errors": {
+                              "type": "integer"
+                            },
+                            "NI_boundaries": {
+                              "type": "object",
+                              "properties": {
+                                "foundation.create.before_listeners_run": {
+                                  "type": "integer"
+                                },
+                                "foundation.create.config_before_listeners_run": {
+                                  "type": "integer"
+                                },
+                                "project_storage": {
+                                  "type": "integer"
+                                }
+                              },
+                              "required": [
+                                "foundation.create.before_listeners_run",
+                                "foundation.create.config_before_listeners_run",
+                                "project_storage"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "post_seals_passed": {
+                              "type": "boolean"
+                            },
+                            "private_scratch_parent_empty": {
+                              "type": "boolean"
+                            },
+                            "evidence": {
+                              "type": "string"
+                            },
+                            "raw_evidence_public": {
+                              "type": "boolean"
+                            },
+                            "tool_transcript_authenticated_by_coordinator": {
+                              "type": "boolean"
+                            },
+                            "private_transcript_sha256": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "invocations",
+                            "outcome",
+                            "returncode",
+                            "legacy_positive",
+                            "foundation_methods",
+                            "NI_failures",
+                            "errors",
+                            "NI_boundaries",
+                            "post_seals_passed",
+                            "private_scratch_parent_empty",
+                            "evidence",
+                            "raw_evidence_public",
+                            "tool_transcript_authenticated_by_coordinator",
+                            "private_transcript_sha256"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ],
+                      "minItems": 2,
+                      "maxItems": 2,
+                      "items": false
+                    }
+                  },
+                  "required": [
+                    "authors",
+                    "revision",
+                    "paths",
+                    "reviews",
+                    "artifacts",
+                    "artifact_history",
+                    "results_stages",
+                    "results_policy",
+                    "execution_history"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "tests",
+                "implementation"
+              ],
+              "additionalProperties": false
+            },
+            "completion_reviews": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string"
+                    },
+                    "provider": {
+                      "type": "string"
+                    },
+                    "model": {
+                      "type": "string"
+                    },
+                    "reviewer": {
+                      "type": "string"
+                    },
+                    "revision": {
+                      "type": "string"
+                    },
+                    "outcome": {
+                      "type": "string"
+                    },
+                    "evidence": {
+                      "type": "string"
+                    },
+                    "private_report_sha256": {
+                      "type": "string"
+                    },
+                    "public_report_sha256": {
+                      "type": "string"
+                    },
+                    "public_report_redacted": {
+                      "type": "boolean"
+                    },
+                    "blocking_findings": {
+                      "type": "array",
+                      "maxItems": 0,
+                      "items": false
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "provider",
+                    "model",
+                    "reviewer",
+                    "revision",
+                    "outcome",
+                    "evidence",
+                    "private_report_sha256",
+                    "public_report_sha256",
+                    "public_report_redacted",
+                    "blocking_findings"
+                  ],
+                  "additionalProperties": false
+                }
+              ],
+              "minItems": 1,
+              "maxItems": 1,
+              "items": false
+            }
+          },
+          "required": [
+            "required_stages",
+            "stages",
+            "completion_reviews"
+          ],
+          "additionalProperties": false
+        },
+        "complete_workflow_sha256": {
+          "type": "string"
+        },
+        "digest_convention": {
+          "type": "string"
+        },
+        "standard_projection_sha256": {
+          "type": "string"
+        },
+        "authority": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "compatibility_reviews": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string"
+                },
+                "provider": {
+                  "type": "string"
+                },
+                "model": {
+                  "type": "string"
+                },
+                "reviewer": {
+                  "type": "string"
+                },
+                "revision": {
+                  "type": "string"
+                },
+                "outcome": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "type": "string"
+                },
+                "private_report_sha256": {
+                  "type": "string"
+                },
+                "public_report_sha256": {
+                  "type": "string"
+                },
+                "blocking_findings": {
+                  "type": "array",
+                  "maxItems": 0,
+                  "items": false
+                }
+              },
+              "required": [
+                "kind",
+                "provider",
+                "model",
+                "reviewer",
+                "revision",
+                "outcome",
+                "evidence",
+                "private_report_sha256",
+                "public_report_sha256",
+                "blocking_findings"
+              ],
+              "additionalProperties": false
+            }
+          ],
+          "minItems": 1,
+          "maxItems": 1,
+          "items": false
+        }
+      },
+      "required": [
+        "format",
+        "complete_workflow",
+        "complete_workflow_sha256",
+        "digest_convention",
+        "standard_projection_sha256",
+        "authority",
+        "reason",
+        "compatibility_reviews"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "version",
+    "task_id",
+    "issue",
+    "kind",
+    "brief",
+    "evidence",
+    "limitations"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "supplemental_workflow_evidence"
+        ]
+      },
+      "then": {
+        "properties": {
+          "task_id": {
+            "const": "APITEST-016"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "receipt": {
+      "type": "object",
+      "properties": {
+        "phase": {
+          "enum": [
+            "initial",
+            "verification",
+            "closing"
+          ]
+        },
+        "provider": {
+          "enum": [
+            "claude",
+            "codex"
+          ]
+        },
+        "model": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "reviewer": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "revision": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$(?![\\s\\S])"
+        },
+        "outcome": {
+          "enum": [
+            "approved",
+            "changes_requested"
+          ]
+        },
+        "evidence": {
+          "type": "string",
+          "pattern": "^https://\\S+$(?![\\s\\S])"
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "uniqueItems": true
+        },
+        "blocking_findings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "uniqueItems": true
+        },
+        "started_at": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "finished_at": {
+          "type": "string",
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "phase",
+        "provider",
+        "model",
+        "reviewer",
+        "revision",
+        "outcome",
+        "evidence",
+        "findings",
+        "blocking_findings"
+      ],
+      "additionalProperties": false
+    },
+    "packet": {
+      "type": "object",
+      "properties": {
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "revision": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$(?![\\s\\S])"
+        },
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(?![\\s\\S]*[\\\\:\\u0000])(?!(?:[\\s\\S]*/)?\\.{1,2}(?:/|(?![\\s\\S])))[^/]+(?:/[^/]+)*$(?![\\s\\S])"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "reviews": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/receipt"
+          }
+        }
+      },
+      "required": [
+        "authors",
+        "revision",
+        "paths",
+        "reviews"
+      ],
+      "additionalProperties": false
+    },
+    "workflow": {
+      "type": "object",
+      "properties": {
+        "required_stages": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "contract",
+              "tests",
+              "implementation"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "stages": {
+          "type": "object",
+          "properties": {
+            "contract": {
+              "$ref": "#/$defs/packet"
+            },
+            "tests": {
+              "$ref": "#/$defs/packet"
+            },
+            "implementation": {
+              "$ref": "#/$defs/packet"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "required_stages",
+        "stages"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
