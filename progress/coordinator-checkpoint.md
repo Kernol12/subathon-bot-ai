@@ -23,16 +23,26 @@ producer bytes to historical NI. Publisher selects only contract+implementation.
 CI003 source packets e41a830/8a3b9f6/1acf18d also frozen, including new21APT methods
 and original8+19 baseline assertions. No unreviewed test/probe/oracle or red replay.
 
-NEXT commit resolved integration, then relevant local checks: tooling (expected136,
-record actual), scaffold configure/build/CTest, schema-validation-debug unfiltered
-5nodes with existing admitted build/workflow005-schema-venv/bin/python, no install
-or symlinkresolution. Run progress/project/render/diff and source binding checks.
-Obtain independent routine Codex integration-metadata review; source full cycles
-remain valid. Record actual results, then on clean finalmetadataHEAD run actual
-check_publication.py --base f6dad07 --head HEAD --task WORKFLOW-005 --stage contract
---stage implementation --schema-python build/workflow005-schema-venv/bin/python.
-Use exact fullSHAs in actual receipts. Source/CI integration snapshots/logs in
-local-evidence/WORKFLOW-005/resume-f6dad07.
+Integration committed0145e5bad0abdaeb891668fc4957bdf4a55f0a4b, exactparents
+118425c/f6dad07. Actual local checks passed0skips: scaffold configure/build/CTest3,
+unfiltered schema configure/build/CTest5 including136tooling,8real-schema and
+3real-SDK publication methods (counts overlap). Existing admittedvenv reused; no
+install/pinchange. Metadata/project/render/diff and source-binding checks pass.
+Public receipt https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6853647742
+Logs/snapshots local-evidence/WORKFLOW-005/resume-f6dad07. WF005workflow/review
+objects remain EXACTLY equal to parked118425c; only resume status/verification/
+notes/evidence/publication observation changed. All old records retained, including
+actual WF004merged125 and CI002done, CI003done/merged receipt. State remains sole
+canonical authority. Earlier local CI3 import-order error was corrected before carry;
+its private metadata commits were not merged/pushed into this branch.
+
+NEXT independent routine Codex integration-metadata/source-currency review. No new
+substantive source changes; retain full source approvals. After recording review,
+run actual final clean-head publicationchecker with exact fullbasef6dad07/headHEAD,
+WORKFLOW-005 contract+implementation stages, existing admitted lexical
+build/workflow005-schema-venv/bin/python. Do not select historical tests-NI stage.
+No new test/probe/oracle or oldred replay. Then push exact checked candidate, link
+as next call, preserve existingwatch and wait for actual currenthead all21checks.
 
 PR126 remains linked/watched at remote1fdedfb until checked candidate is pushed;
 link immediately after push as required, do not rewatch. Update PR body with exact

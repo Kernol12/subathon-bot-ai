@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T12:53:53Z",
+  "updated_at": "2026-11-13T12:59:38+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18588,28 +18588,28 @@
       "brief": "docs/tasks/WORKFLOW-005.md",
       "summary": "Select bounded stage handoffs and check actual schemas, reviewed paths and outgoing private-path history before publication.",
       "notes": [
-        "Approved447aa06/77b1522/3720c42 source and review histories preserved. CI003 mergedf6dad07 with21checks/9prep successes and1new-profile observation; integrated once. Current local/integration-metadata/publisher/current-head CI gates pending. Prior42462d1/1fdedfb failures retained. Finish PR126 normally, then pause; product stopped."
+        "Approved447aa06/77b1522/3720c42 source/reviews preserved. CI003 mergedf6dad07 and integrated once. Current136tooling, schema8+3SDK, scaffold3/schema5nodes passed0skips; counts overlap. Routine integration-metadata review, final publisher and current-head21CI/normal merge pending. Prior failedheads retained. Finish PR126 then pause; product stopped."
       ],
       "verification": {
         "contract_review": "passed",
         "test_review": "passed",
         "baseline": "passed",
         "implementation": "passed",
-        "acceptance": "partial",
+        "acceptance": "passed",
         "claim": "passed",
         "contract_authored": "passed",
         "project": "passed",
         "correction_authored": "passed",
         "correction_review": "passed",
         "schema_environment": "passed",
-        "existing_schema": "not_run",
+        "existing_schema": "passed",
         "test_authored": "passed",
         "static_inventory": "passed",
         "test_correction_authored": "passed",
         "test_correction_review": "passed",
-        "tooling": "not_run",
-        "schema_integration": "not_run",
-        "scaffold": "not_run",
+        "tooling": "passed",
+        "schema_integration": "passed",
+        "scaffold": "passed",
         "code_review": "passed",
         "code_correction_authored": "passed",
         "code_correction_review": "passed",
@@ -18620,7 +18620,8 @@
         "prior_42462d1_ci": "failed",
         "resume_metadata_review": "partial",
         "prior_1fdedfb_ci": "failed",
-        "ci003_prerequisite": "passed"
+        "ci003_prerequisite": "passed",
+        "resume_local_checks": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837666194",
@@ -18645,7 +18646,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6849040877",
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6849584005",
         "https://github.com/Kernol12/subathon-bot-ai/pull/623",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/623#issuecomment-6853350232"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/623#issuecomment-6853350232",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6853647742"
       ],
       "review": {
         "author": "Codex test author, coordinator and fresh implementer (structured stage authors)",
@@ -18858,7 +18860,7 @@
         "head": "1fdedfb363e79f134975dc7b796fec85034fea9d",
         "merge_commit": null,
         "merged_at": null,
-        "observed_at": "2026-11-13T09:28:00.517348+00:00"
+        "observed_at": "2026-11-13T12:59:38+00:00"
       }
     },
     {
