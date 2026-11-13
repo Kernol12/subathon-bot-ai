@@ -223,6 +223,7 @@ def context(data: dict, task_id: str, *, compact: bool = False) -> dict:
 
 
 def compact_stage_context(stage: dict) -> dict:
+    """Project a derived stage through the shared workflow handoff formatter."""
     return workflow.compact_stage_context(stage)
 
 
