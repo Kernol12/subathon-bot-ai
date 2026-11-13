@@ -26,8 +26,10 @@ WORKFLOW005/CI003/CI002 completion facts and historical failures retained. Origi
 Private receipts: local-evidence/EPIC-029; prior receipts remain under WORKFLOW-005.
 No live/provider/platform/product proof added.
 
-Next: independent Codex verification of narrow closing corrections at b506434,
-then new Claude closing. Rejected closing report preserved at
+Next: fresh independent Claude closing on source b506434. Codex recheck approved
+both closing fixes and all prior resolutions; report:
+https://github.com/Kernol12/subathon-bot-ai/issues/626#issuecomment-6858607704
+No new blockers; 136 tooling and 3 scaffold checks passed. Rejected closing report preserved at
 https://github.com/Kernol12/subathon-bot-ai/issues/626#issuecomment-6858503933
 Two blockers fixed: shared policy enrollment no longer stales task bindings, and
 limitations copy original notes verbatim. CI guard limits/receipt duty explicit.
