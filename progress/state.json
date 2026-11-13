@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T21:59:02.667032+00:00",
+  "updated_at": "2026-11-13T22:16:01.294049+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20500,7 +20500,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
       "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Primary contract c965255 independently Codex-approved; M004-CV-01 resolved by retracting blocked history integration and retaining conditional explicit supplemental availability limitation. No current source/approval binding exempted; full object/readback audit still required beforepin. Earlier rejected receipts retained. Fresh Claude closing and separate exact cleanup cycle pending; state authoritative, no runtime/tests/deletions/switch."
+        "Closing rejected P-pin contradiction and incomplete free-text history inventory; receipt retained. Corrections35e3752 pin durable checkpoint at actual merge, require normal merge/P ancestry, inventory everyhex token and row-specific unavailable-object decisions. Seven historical local objects now privately GC-protected; no remote-availability claim or exemption. Codex verification/fresh closing pending; separate cleanup gate remains. State authoritative, no runtime/deletions/switch."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -20527,7 +20527,7 @@
               "codex:migrate004-contract-author-20261113:/root",
               "codex:coordinator-59095155"
             ],
-            "revision": "c965255dd24009f867e4fd5abd65f525f3a62d01",
+            "revision": "35e3752ac9222dfb464137a8d1be7ddc7f55a174",
             "paths": [
               "docs/contracts/github-authority-cutover-v1.md",
               "docs/contracts/github-tracker-retirement-scope-v1.md",
@@ -20594,6 +20594,23 @@
                 "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6865942107",
                 "findings": [],
                 "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:05966e71-ba51-42f2-9b9d-91e3a13d632e",
+                "revision": "c965255dd24009f867e4fd5abd65f525f3a62d01",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6866219279",
+                "findings": [
+                  "M004-CC-01",
+                  "M004-CC-02"
+                ],
+                "blocking_findings": [
+                  "M004-CC-01",
+                  "M004-CC-02"
+                ]
               }
             ]
           }
