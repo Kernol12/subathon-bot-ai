@@ -23,13 +23,21 @@ parent `df48163`, sole helper change. Root fast-forwarded the exact commit. Auth
 observed 19 diagnostics, 8 legacy APT, 91 full tooling methods and scaffold 3/3 pass,
 zero skips; project/progress/diff checks pass. Root retained/inspected private logs.
 No new identity/cloud/network/Python DNS lookup, retry or admission change.
-Root added CI guidance at `9862e63`; implementation packet is that revision and TWO
+Root added CI guidance at `9862e63`, then guidance-only clarification `13990d4`;
+implementation packet is `13990d4` and TWO
 paths: `tools/prepare_ubuntu_apt.py`, `docs/CI.md`. Both authors declared in state.
 Public author evidence/scope:
 https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846948587
 
-Next independent Claude initial CODE/SETTINGS review `ci002-initial-code-review-v1`.
-Full Codex fixes/separate verification then fresh Claude closing remain required.
+Independent Claude initial CODE/SETTINGS review APPROVED/no blockers, five advisories.
+Report/dispositions:
+https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847107097
+CI-A1 actual hosted/layout gate retained; CI-A2 field is documented by current official
+update API, preserve and explicitly verify readback; CI-A3 guide clarifies inventory
+changes/blocked merges, dated actual application receipt still pending; CI-A4 complete
+fresh pre-application observations mandatory; CI-A5 informational/no change.
+Next separate native Codex verification `ci002_code_verification`, then fresh Claude
+closing on code/guidance and the exact settings proposal. Helper/tests unchanged.
 Exact private settings proposal: `local-evidence/CI-002/settings-proposal-v1`.
 Payload SHA256 `680e0afc805d2c90e572c6726f3dc334f8cf0f332f359915337bdcbeb88912f7`.
 Fresh read matches approved writable before; admin permission true, NOT APPLIED.
