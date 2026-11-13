@@ -4,65 +4,68 @@ Owner authorized WORKFLOW-004–007 and CI-002 through full reviews and protecte
 publication, then STOP. Product/API-001/API-016 remain stopped. Root branch
 `task/CI-002-setup-diagnostics`, base/main `3c74966`.
 
-## CI-002 live enforcement and final receipt
+## CI-002 final hosted and protected merge gate
 
-PR622 watched/open draft, remote `d252201` has ALL21 completed successful contexts:
-19 latest PR runs, all attempt1, 20 Actions jobs/app15368 + GitGuardian/app46505,
-zero extra statuses. Exact job/check-suite/run/head/base associations verified;
-merge-test parents explicitly bound to main3c74966 and source d252201.
-All9 APT preparation steps succeeded and emitted exactly1 real runner record each;
-Ubuntu24.04.5, ImageOSubuntu24, images20261101.360.1/20261111.370.1. No source-refusal
-record on these hosts. Former incident layout remains unidentified; admission language
-unchanged, no lucky-host rerun or recovery claim for an unknown source variant.
+PR622 is watched and open draft. Last observed remote `d252201` has all 21 exact
+app-bound checks successful: 19 PR runs, all attempt 1, 20 Actions jobs plus
+GitGuardian, no extra statuses. All nine APT preparation steps succeeded with one
+real runner record each; merge-test parents and job/check-suite/run/head/base
+associations were verified. No unknown layout was newly admitted or rerun for luck.
 Actual hosted/admin receipt:
 https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847660001
-Raw hosted logs/associations: `local-evidence/CI-002/hosted-d252201`.
+Private raw data: `local-evidence/CI-002/hosted-d252201`.
 
-Reviewed payload applied ONCE to ruleset26170263 after full reviews/all21 success
-and fresh complete observations. Full response + independent full GET + effective-
-main GET verified at2026-11-13T08:09:41Z: active21 unique app-bound contexts, both
-policy booleansfalse, ALL prior rules/parameters/array order/empty bypass preserved,
-including extra-approvaltrue. Exact payload SHA256
-`680e0afc805d2c90e572c6726f3dc334f8cf0f332f359915337bdcbeb88912f7` unchanged.
-Private complete pre/post evidence: `local-evidence/CI-002/settings-apply-d252201`.
-No blind retry/revert/bypass/fake human approval/permission broadening. Do not PUT
-again; settings are APPLIED and verified. Future material drift requires review.
+All source and material-evidence reviews are now APPROVED. Current implementation
+packet `3584f08` binds exactly `tools/prepare_ubuntu_apt.py` and `docs/CI.md`.
+The dated guide was the only change after earlier full code/settings approval.
+Independent Codex follow-up and fresh Claude closing approved it with no blockers:
+https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847852210
+https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847967578
+PC-A1 spacing nit is accepted; preserve the exact approved packet. Reviewers
+recomputed saved hosted/admin data and independently read current full/effective
+rules. Capture freshness and the single PUT are coordinator-observed executions,
+not independently authenticated review claims. No denial experiment was claimed.
 
-Root dated CI-guide receipt correction `3584f08` changes ONLY docs/CI.md. Local,
-unpublished. New implementation packet3584f08 still owns TWO paths helper+CI guide;
-helper unchanged since22e4950. Prior source/settings approvals remain historical
-and valid for unchanged material. Per material-evidence rules, narrow native Codex follow-up APPROVED/no new findings.
-Report https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847852210
-Reviewer independently compared raw hosted/application evidence and current full /
-effective-main GETs (08:18:44 UTC), preserving all prior protections. Initial sandbox
-connection failed; one authorized read-only escalation succeeded. No CI rerun/mutation.
-Next fresh Claude closing `ci002-closing-publication-review-v1` on dated receipt and
-actual evidence. No new initial review or redundant helper/test suite replay needed.
-Then final metadata candidate push/link, actual all21 current-head CI under active
-required checks, readiness/actual protections/reviews/resolved threads and normal
-protected merge. Keep PR draft until final publication readiness. No new watch/list
-on ordinary wakes. Existing watch persists across pushes.
+Next: commit/push the final metadata candidate, immediately link after push, then
+let the existing watch wake on actual new-head CI. Do not rewatch/list/relink on
+ordinary wakes. Require all 21 current-head checks, fresh actual protections/main/
+head/producer inventory, reviews and resolved threads; mark ready and use normal
+protected merge only. Task stays in_review until publication. Do not resume PR126
+before CI-002 actually merges. Record actual merge publication/done during the next
+authorized integration; no status-only completion PR is needed.
+
+## Applied settings — do not apply again
+
+The exact reviewed payload was applied once to ruleset 26170263 after complete
+fresh observations and all 21 successes. At 08:09:41 UTC, PUT response, separate
+full GET and effective-main GET matched: active default-branch enforcement of
+21 unique app-bound pairs (20 Actions 15368, GitGuardian 46505), both booleans false;
+all prior rules, parameters and array order preserved, empty bypass list and
+extra-approval true retained. Independent Codex and Claude later live GETs found
+no drift. Private evidence: `local-evidence/CI-002/settings-apply-d252201`.
+Payload SHA256 `680e0afc805d2c90e572c6726f3dc334f8cf0f332f359915337bdcbeb88912f7`.
+No blind retry/revert/bypass/fake human approval/permission broadening. Future
+material drift needs reviewed reconciliation. Readback proves configuration;
+actual final-head checks and normal merge remain the publication evidence.
 
 ## Retained scope and evidence
 
-Contract/brief67c5506 and tests221a749 full cycles approved. Historical exact2 intended
-assertion reds atcbc54d8, zeroERRORs/skips (receipt6846752039). Fresh helper22e4950
-fast-forwarded unchanged, guidance13990d4 full initialClaude/Codex/freshClaudeclosing
-approved (6847107097/6847241282/6847372194). Closing docs-fetch partial/background
-page-helper disclosure retained; root+separateCodex directly confirmed official update
-parameter. Current dated receipt is the only substantive post-approval change.
-
-Local author19diagnostics/8legacy/91tooling/scaffold3pass, initialClaude27+91pass,
-Codex/closingClaude27pass; zero skips. Hosted proof above is separate actual evidence.
-Frozen tests/contract/brief/workflows/CMake/pins/eightlegacyAPTmethods64assertions
-intact. No new identity/cloud/network/PythonDNS lookup, process retry/capture or
-admission change; seven diagnostics/two writes/nativeAcquireRetries1/singlechecked
-inherited-output update300s preserved. TC-A1 oldlookupfixturegap coveredbysourceaudit.
-TC-A2 C-A1 precision retained in future changed implementation/review packets:
+Contract/brief `67c5506`, tests `221a749` and prior helper/guidance `13990d4` full
+cycles remain valid for unchanged material. Exact two intended assertion reds at
+`cbc54d8`, zero errors/skips, preceded fresh helper implementation `22e4950`.
+Local author 19 diagnostics/8 legacy/91 tooling/scaffold 3 pass, initial Claude
+27+91 pass, Codex/closing reviewers 27 pass; zero skips. The dated receipt reviewers
+ran project/progress/render/diff only. No redundant suite or red replay needed.
+Helper/tests/contract/workflows/CMake/pins remain frozen; all eight legacy APT
+methods/64 assertions preserved. No new identity/cloud/network/Python DNS lookup,
+process retry/capture or admission change. Seven diagnostics, two writes, native
+Acquire::Retries 1 and one checked inherited-output update300s remain unchanged.
+TC-A1 old-lookup fixture gap is accepted and covered by source audit. C-A1 precision
+must remain in future changed implementation/review packets:
 https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6845562002
-Any future refused layout requires actual diagnostic/private source evidence and
-reviewed refinement insideCI002 before admission change; split substantial prereq.
-Raw logs stay ignored/private; safe public receipts only.
+Former incident layout remains unidentified. A future refusal needs actual records
+and private source evidence, reviewed refinement inside CI-002 and any substantial
+prerequisite split first. Raw logs stay ignored/private; safe public receipts only.
 
 ## Parked program
 

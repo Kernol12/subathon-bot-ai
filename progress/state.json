@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T08:21:40Z",
+  "updated_at": "2026-11-13T08:29:18Z",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18663,7 +18663,7 @@
       "title": "Actionable acquisition diagnostics and enforced merge checks",
       "module": "Quality and tooling",
       "kind": "implementation",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "codex:coordinator-97333d35",
       "depends_on": [
         "CI-001"
@@ -18673,9 +18673,9 @@
         "§18"
       ],
       "brief": "docs/tasks/CI-002.md",
-      "summary": "Diagnose refused runner layouts, bound attributable infrastructure retries and enforce existing required-check merge policy.",
+      "summary": "Report bounded runner/source-refusal evidence and enforce all 21 checks with source-app bindings.",
       "notes": [
-        "At d252201 all21 producers/all9 real APT steps passed, attempt1. Reviewed payload applied once; full/effective-main readback preserves21 app-bound checks/all prior protections. Dated guide3584f08 independently Codex approved, fresh own live GET confirmed. Fresh Claude receipt closing then final-head CI/protected merge pending. Local new doc remains unpublished; helper/tests and earlier approvals retained. Product stopped."
+        "All contract/test/code/settings/dated-receipt cycles approved; packet3584f08 frozen. At d252201 all21 checks/all9 APT steps passed, attempt1. Exact reviewed rule applied once; full/effective-main readback and independent live GETs verify21 app-bound checks/all prior protections. Final metadata-head CI and normal protected merge pending; no variant admission/retry or product work."
       ],
       "verification": {
         "contract_review": "passed",
@@ -18694,7 +18694,7 @@
         "test_correction_review": "passed",
         "local_mocked_tooling": "passed",
         "scaffold": "passed",
-        "code_review": "partial",
+        "code_review": "passed",
         "settings_review": "passed",
         "settings_enforcement": "passed",
         "current_source_ci": "partial",
@@ -18703,7 +18703,7 @@
         "settings_verification": "passed",
         "hosted_d252201": "passed",
         "settings_readback": "passed",
-        "application_receipt_review": "partial",
+        "application_receipt_review": "passed",
         "application_receipt_verification": "passed"
       },
       "evidence": [
@@ -18724,7 +18724,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847241282",
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847372194",
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847660001",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847852210"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847852210",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847967578"
       ],
       "review": null,
       "workflow": {
@@ -18931,6 +18932,21 @@
                 "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847852210",
                 "findings": [],
                 "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci002-closing-publication-review-v1",
+                "revision": "3584f086f242b9d2c7797f013ecab8767b563c62",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847967578",
+                "findings": [
+                  "CI002-PC-A1"
+                ],
+                "blocking_findings": [],
+                "started_at": "2026-11-13T08:22:46.355Z",
+                "finished_at": "2026-11-13T08:25:36.010Z"
               }
             ]
           }
