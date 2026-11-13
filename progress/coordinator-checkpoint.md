@@ -67,3 +67,12 @@ https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6860221977
 Next: fresh Claude test closing before any bodies run. Then classify meaningful
 named NI / actual reject-all schema red separately from imports/setup failures.
 Recheck final observation 2026-11-13T17:29:39Z; actual start unknown.
+
+Claude test closing requested two coverage fixes, retained at
+https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6860403071
+Fixed source 8aa9596 adds shared issue/policy format refusals to both validators
+and isolates unknown stage-name rejection without breaking minima/subset first.
+Next: independent Codex verification, then fresh Claude closing. All prior assertions
+preserved; schema cases moved into shared literals, not removed. Bodies still unrun.
+Carry closing notes: lstat before opening FIFO; red traceback classification; remaining
+nonblocking fake-root/overlap cases supplementary, no stronger claims. No new scope.

@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T17:31:29.138158+00:00",
+  "updated_at": "2026-11-13T17:39:50.736821+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -19754,7 +19754,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-002.md",
       "summary": "Separate review evidence from task tracking. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Independent Codex recheck approved test source 0e6200d: all initial blockers and duplicate-row verification finding resolved. Rejected history retained. Static/project checks pass; no new bodies run. Claude closing pending before actual NI red and fresh implementation. State sole authority; product/WF006/007 stopped."
+        "Closing review requested 2 narrow Python-side coverage fixes; shared issue/policy format cases and isolated required-stage enum now authored. All prior resolutions and assertions retained. No bodies executed. Fresh Codex verification then Claude closing pending before red/implementation; state authority unchanged."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -19870,7 +19870,7 @@
               "codex:test-author:01a1d5de-93a6-7f72-a732-52f576b6a33f",
               "codex:coordinator-59095155"
             ],
-            "revision": "0e6200da91432ce1f6632b615c53baa3e21cd2dc",
+            "revision": "8aa9596917355ac70efe3b2132fffa0b227a2562",
             "paths": [
               "tests/tooling/test_proofs.py",
               "tests/support/frozen_proof_policy.py",
@@ -19950,6 +19950,33 @@
                 "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6860221977",
                 "findings": [],
                 "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:198cff1b-b164-4a70-80ff-af181b9716d2",
+                "revision": "0e6200da91432ce1f6632b615c53baa3e21cd2dc",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6860403071",
+                "findings": [
+                  "M002-TC-001",
+                  "M002-TC-002",
+                  "M002-TC-N01",
+                  "M002-TC-N02",
+                  "M002-TC-N03",
+                  "M002-TC-N04",
+                  "M002-TC-N05",
+                  "M002-TC-N06",
+                  "M002-TC-N07",
+                  "M002-TC-N08"
+                ],
+                "blocking_findings": [
+                  "M002-TC-001",
+                  "M002-TC-002"
+                ],
+                "started_at": "2026-11-13T17:31:43Z",
+                "finished_at": "2026-11-13T17:37:12Z"
               }
             ]
           }
