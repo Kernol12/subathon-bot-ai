@@ -38,8 +38,20 @@ record through the existing bounded emitter, so actual hosted use is observable.
 No tests/code authored or executed, no new PR/push yet. Plan to keep stage work
 local and post review receipts on parentPR126 until a reviewed implementation is
 ready for a focused CI-003 prerequisite PR (avoid unnecessary docs-only CI runs).
-Next independent Claude initial ci003-initial-contract-review-v1, Codex fixes /
-separate verification, fresh Claude closing. Then additive authored tests
+Initial Claude contract CHANGES_REQUESTED2B/6A, all corrected in6c77393. Report /
+explicit dispositions https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850212583
+Current contract packet6c77393 still3paths, no producer/test/workflow change.
+B1 decoded-string grammar acknowledges existing text-read newline translation;
+optional final LF/mixed LF+CRLF/comments/blank blocks/P2 positive explicit.
+B2 exact ONE named direct-script red command/import path/method outcome inventory /
+literal P1 old stderr and prerequisites. All advisories handled; archive Enabled
+insertion correctly shifts second URI toline9 (not line8). Five legacy DNS entry
+points patched only in new futuretestfile; static code audit mandatory. Direct
+security-host outage fails strict update; docsCI guidance owed before code review.
+Green with no new admission event maymerge only as profile not platform-observed;
+any continued refusal staysblocked for reviewed refinement, no rerun/relaxation.
+Next separate native Codex ci003_contract_verification, then fresh Claude closing.
+No new tests/probes/authored code/own PR yet. Then additive authored tests
 unrun until full review, true intended red, fresh isolated implementation/full code
 cycle. Separate focused prerequisite PR/main merge with all21, then resume PR126,
 integrate that substantive prerequisite once, fresh CI/normal merge and PAUSE.

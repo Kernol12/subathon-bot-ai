@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T10:04:18Z",
+  "updated_at": "2026-11-13T10:25:03Z",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18988,20 +18988,22 @@
       "brief": "docs/tasks/CI-003.md",
       "summary": "Admit only a fully checked Noble archive/security source profile while retaining all existing refusal assertions.",
       "notes": [
-        "Proposed contractcaa3e3d defines only a fully checked two-stanza Noble security profile and fixed admission event; preserves all27 old test methods/assertions. Actual records identify only the URI class, not full host values. No tests/red/implementation yet. Independent contract review next; PR126 stays parked, then finish it and pause."
+        "Initial Claude contract review2B/6A corrected at6c77393: decoded-string grammar/newline limits, exact single-test red/import/outcome inventory, literal P1 records, complete fallback/availability/source-audit/examples/order. No tests/red/implementation yet; separate Codex verification then fresh Claude closing. PR126 parked; finish it then pause."
       ],
       "verification": {
         "claim": "passed",
-        "contract_review": "not_run",
+        "contract_review": "partial",
         "test_review": "not_run",
         "baseline": "not_run",
         "implementation": "not_run",
         "acceptance": "not_run",
-        "contract_authored": "passed"
+        "contract_authored": "passed",
+        "contract_correction_authored": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6849584005",
-        "https://github.com/canonical/cloud-init/blob/30b3ea21ec86269a2e31ae0028fbb4a7cc5b41a1/templates/sources.list.ubuntu.deb822.tmpl"
+        "https://github.com/canonical/cloud-init/blob/30b3ea21ec86269a2e31ae0028fbb4a7cc5b41a1/templates/sources.list.ubuntu.deb822.tmpl",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850212583"
       ],
       "review": null,
       "workflow": {
@@ -19015,13 +19017,39 @@
             "authors": [
               "codex:coordinator-97333d35"
             ],
-            "revision": "caa3e3d5f3a3a8f7b40afcf160b654f88e7c3d2d",
+            "revision": "6c77393b90fe484fdaa402294a66fd9775d70c7e",
             "paths": [
               "docs/contracts/ci-noble-security-source-v1.md",
               "docs/tasks/CI-003.md",
               "docs/contracts/ci-setup-gates-v1.md"
             ],
-            "reviews": []
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci003-initial-contract-review-v1",
+                "revision": "caa3e3d5f3a3a8f7b40afcf160b654f88e7c3d2d",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850212583",
+                "findings": [
+                  "CI003-I-B1",
+                  "CI003-I-B2",
+                  "CI003-I-A1",
+                  "CI003-I-A2",
+                  "CI003-I-A3",
+                  "CI003-I-A4",
+                  "CI003-I-A5",
+                  "CI003-I-A6"
+                ],
+                "blocking_findings": [
+                  "CI003-I-B1",
+                  "CI003-I-B2"
+                ],
+                "started_at": "2026-11-13T10:06:29.252Z",
+                "finished_at": "2026-11-13T10:13:28.391Z"
+              }
+            ]
           }
         }
       }
