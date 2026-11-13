@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T07:47:25Z",
+  "updated_at": "2026-11-13T07:56:20Z",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18675,7 +18675,7 @@
       "brief": "docs/tasks/CI-002.md",
       "summary": "Diagnose refused runner layouts, bound attributable infrastructure retries and enforce existing required-check merge policy.",
       "notes": [
-        "Contract/tests fully approved; two intended reds retained. Fresh helper 22e4950 passes 91 tooling and scaffold 3/3. Packet 13990d4 and unchanged exact 21-check settings proposal approved by initial Claude and independent Codex, no blockers/new findings; reviewer27 APT pass. Fresh Claude closing next. All source unpushed, settings unapplied; actual current-head CI/readback/merge pending. Product stopped."
+        "Contract/tests/code-settings cycles approved; packet 13990d4 and exact 21-check payload unchanged. Two intended assertion reds retained; local 91 tooling/scaffold 3 pass, zero skips; closing reviewer27 APT pass. Publish candidate for current-head CI. Settings remain unapplied until all21 succeed and fresh complete observations/readback pass. Any layout refusal needs actual diagnostics/evidence and reviewed refinement. Product stopped."
       ],
       "verification": {
         "contract_review": "passed",
@@ -18694,8 +18694,8 @@
         "test_correction_review": "passed",
         "local_mocked_tooling": "passed",
         "scaffold": "passed",
-        "code_review": "partial",
-        "settings_review": "partial",
+        "code_review": "passed",
+        "settings_review": "passed",
         "settings_enforcement": "not_run",
         "current_source_ci": "not_run",
         "code_guidance_correction": "passed",
@@ -18717,7 +18717,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846752039",
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846948587",
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847107097",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847241282"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847241282",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847372194"
       ],
       "review": null,
       "workflow": {
@@ -18900,6 +18901,19 @@
                 "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847241282",
                 "findings": [],
                 "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci002-closing-code-review-v1",
+                "revision": "13990d440e7f23c79b218e23f1ccff6edec74e93",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847372194",
+                "findings": [],
+                "blocking_findings": [],
+                "started_at": "2026-11-13T07:48:34.167Z",
+                "finished_at": "2026-11-13T07:52:59.827Z"
               }
             ]
           }
@@ -18911,7 +18925,7 @@
         "head": "a9d2464caca8ac36ece97b254a2ae78a27ebb9b0",
         "merge_commit": null,
         "merged_at": null,
-        "observed_at": "2026-11-13T07:39:19Z"
+        "observed_at": "2026-11-13T07:56:20Z"
       }
     }
   ],

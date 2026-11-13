@@ -4,70 +4,68 @@ Owner authorized WORKFLOW-004–007 and CI-002 through full reviews and protecte
 publication, then STOP. Product/API-001/API-016 remain stopped. Root branch
 `task/CI-002-setup-diagnostics`, base/main `3c74966`.
 
-## CI-002 active
+## CI-002 publication and hosted gate
 
-PR622 is watched, open draft. Remote `a9d2464` has docs/metadata only and 19 success /
-2 unchanged-helper layout failures. Do not push local tests before intended red and
-appropriate passing implementation. Contract `67c5506` full review cycle closed.
-Test author `fed07cc` integrated byte-identically at `57ee2bc`; root corrected two
-blockers and three advisories at `221a749`. Independent Codex approved, then fresh
-Claude closing review approved with no blockers (session `4787cfc5`). Receipt:
-https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846728971
-All test/source changes remain unpublished. Observed red at `cbc54d8`: exactly two
-intended missing-runner/refusal-record assertion FAILs, zero ERRORs/skips. Private
-logs: `local-evidence/CI-002/red-baseline`; public actual receipt:
-https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846752039
+PR622 is watched and open draft. Before this candidate's push, remote `a9d2464` was
+docs/metadata only with 19 success / 2 unchanged-helper layout failures. Fresh remote
+head and main were verified unchanged before publication. State publication.head is
+the last observed remote, not a claim that an unpushed candidate ran hosted checks.
+Push this reviewed candidate normally, immediately link the PR, then inspect actual
+current-head CI on wakes. Do not rewatch/list/relink on ordinary wakes. All 21 source-
+bound producers must actually succeed before settings application or protected merge.
 
-Fresh isolated Codex implementation `ci002-implementation-v1` completed at `22e4950`,
-parent `df48163`, sole helper change. Root fast-forwarded the exact commit. Author
-observed 19 diagnostics, 8 legacy APT, 91 full tooling methods and scaffold 3/3 pass,
-zero skips; project/progress/diff checks pass. Root retained/inspected private logs.
-No new identity/cloud/network/Python DNS lookup, retry or admission change.
-Root added CI guidance at `9862e63`, then guidance-only clarification `13990d4`;
-implementation packet is `13990d4` and TWO
-paths: `tools/prepare_ubuntu_apt.py`, `docs/CI.md`. Both authors declared in state.
-Public author evidence/scope:
-https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846948587
+All review cycles are CLOSED with approval:
+- Contract/brief source `67c5506`; exact tests `221a749` (19 methods).
+- Actual intended red at `cbc54d8`: two named missing-record assertion FAILs,
+  zero ERRORs/skips. Private raw logs `local-evidence/CI-002/red-baseline`.
+  https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846752039
+- Fresh helper author `22e4950`, parent `df48163`, integrated by exact fast-forward.
+  Coordinator guidance `9862e63`/`13990d4`. Implementation packet `13990d4` owns TWO
+  paths: `tools/prepare_ubuntu_apt.py`, `docs/CI.md`; both authors declared.
+- Claude initial APPROVED, independent Codex APPROVED/no new findings, fresh Claude
+  closing APPROVED/no new blockers/advisories on code and exact settings payload:
+  https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847107097
+  https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847241282
+  https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847372194
+  Closing documentation-fetch confirmation was partial and used a background page-
+  reading helper; root and independent Codex directly confirmed official update docs.
+  The disclosure is retained; exact actual readback remains mandatory.
 
-Independent Claude initial CODE/SETTINGS review APPROVED/no blockers, five advisories.
-Report/dispositions:
-https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847107097
-CI-A1 actual hosted/layout gate retained; CI-A2 field is documented by current official
-update API, preserve and explicitly verify readback; CI-A3 guide clarifies inventory
-changes/blocked merges, dated actual application receipt still pending; CI-A4 complete
-fresh pre-application observations mandatory; CI-A5 informational/no change.
-Separate native Codex verification `ci002_code_verification` APPROVED/no new findings.
-Reviewer observed 27 APT tests/project/validate/render/diff pass, zero skips. Report:
-https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847241282
-Next fresh Claude closing `ci002-closing-code-review-v1` on packet `13990d4` and exact
-unapplied settings proposal. Helper/tests unchanged; initial findings all dispositioned.
-Root inspected all 20 outgoing commit trees: no temporary/evidence/build components;
-final diff exactly eight authorized paths. No new current-source hosted run yet.
-Exact private settings proposal: `local-evidence/CI-002/settings-proposal-v1`.
-Payload SHA256 `680e0afc805d2c90e572c6726f3dc334f8cf0f332f359915337bdcbeb88912f7`.
-Fresh read matches approved writable before; admin permission true, NOT APPLIED.
-Reviewer covers exact before/after/inventory, not just the contract procedure.
-Require actual all-current-head success and fresh complete observations/unchanged
-before immediately before applying; exact full/effective readback then normal merge.
-Material drift invalidates proposal. Root owns all administration and publication.
+Local author observed 19 diagnostics/8 legacy/91 tooling methods and scaffold 3/3,
+zero skips, project/progress/diff pass. Initial Claude independently 27+91 pass;
+Codex and closing Claude each 27 APT/project/progress/diff pass. Preserve these
+observations without redundant broad reruns absent a new concern. Hosted results
+at the candidate remain a separate unobserved gate until actual CI completes.
 
-Tests frozen at `221a749`; contract/brief frozen at `67c5506`.
-
-TC-A1 accepted test limit: four legacy Python socket lookup APIs are not blocked.
-Keep tests unchanged; implementation/code review must check no new identity/cloud
-metadata/Python name lookup. Seven legacy diagnostic commands stay unchanged.
-TC-A2: implementation AND code-review packets must cite C-A1 precision:
+Frozen tests/contract/brief/workflows/CMake/pins and all eight legacy APT methods /
+64 assertions are intact. No new identity/cloud/network/Python DNS lookup, process
+retry/capture or admission change. Seven diagnostics, two writes, native
+Acquire::Retries 1 and one checked inherited-output update300s remain unchanged.
+TC-A1 old Python lookup APIs are an accepted fixture limit covered by source audit.
+TC-A2 C-A1 precision must remain in any future implementation/review packet:
 https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6845562002
-It covers exact integer write count, validate_sources emitting refusal before raise,
-and diagnostic-unavailable only when refusal emission fails. Private reports and
-notes: `local-evidence/CI-002/test-reviews` and `test-author-notes.md`.
 
-Preserve all eight legacy APT methods/64 assertions, command/config bytes and pins.
-Zero new process retries or capture; one checked update inherits output, native
-Acquire::Retries 1 unchanged. C-A3: actual new diagnostics/private hosted source
-evidence must drive any reviewed layout refinement inside CI-002 before admission
-changes/all nine lanes pass/admin/merge. Split substantial prerequisites first.
-No guessed normalization, lucky-host rerun, baseline weakening or protection bypass.
+## Settings and incident refinement
+
+Exact private reviewed proposal: `local-evidence/CI-002/settings-proposal-v1`.
+Payload SHA256 `680e0afc805d2c90e572c6726f3dc334f8cf0f332f359915337bdcbeb88912f7`.
+UNAPPLIED. Complete observed writable before is unchanged; admin permission observed
+true. Preserve ALL old fields/rules/parameters/array order, including extra-approval,
+and empty bypass; append only21 app-bound pairs with both booleans false.
+After full reviews and actual all21 current-head success, capture complete fresh
+head/main/inventory/check-run/job/attempt/app associations, effective/applicable/
+parent/full/classic rules and permissions immediately before PUT. Before must still
+match exact reviewed before. Material drift invalidates payload/readiness. Single
+update, exact full/effective-main readback, explicit extra-approval preservation,
+normal protected merge only. No blind retry/revert/bypass/fake human approval.
+Dated applied/readback CI-guide update waits for actual verified enforcement and
+applicable review (CI-A3). Root owns administration, integration and publication.
+
+If new hosted source_refused records occur, retain actual records and private actual
+source evidence and perform reviewed refinement INSIDE CI-002 before admission
+changes/all nine lanes pass/admin/merge; split substantial prerequisites first.
+No guessed normalization, lucky-host rerun, weakening frozen assertions or pretending
+diagnostics prove recovery. Raw logs stay ignored/private; safe receipts only in PR.
 
 ## Parked program
 
