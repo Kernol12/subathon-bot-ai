@@ -1,33 +1,30 @@
 # Coordinator checkpoint
 
-Authorized WORKFLOW004-007/CI002 through fullreviews/protectedpublication, thenSTOP.
-Product/API001/API016 stopped. Current task/CI-002-setup-diagnostics from main3c74966.
-PR622 watched OPEN DRAFT remotea9d2464 docs/metadata ONLY; NO furtherpush until new
-local testsource fullreview closes and intendedred/implementation appropriate.
-Contract2paths67c5506 FULLcycle CLOSED (closing6845562002).
+Owner authorized WORKFLOW004-007/CI002 through fullreviews/protectedpublication,
+thenSTOP; product/API001/API016 stopped. Root task/CI-002-setup-diagnostics mainbase3c74966.
+PR622 watched OPEN DRAFT remotea9d2464 docs/metadata ONLY; NO PUSH of local testsource
+before testcycleclosed/red/appropriateimplementation. Current19tests allUNRUN/UNPUBLISHED.
+Contract67c5506 FULLcycleclosed. Testauthorfed07cc integratedbyteidentically57ee2bc,
+originalhandback/private local-evidence/CI-002/test-author-v1/handback.txt retained.
 
-Fresh T3 Codex ci002-test-author-v1 completedlocalfed07ccefff4d110fe4d69b5b54e2f4a2b32a59c
-fromparent8eb6159, only newtests/tooling/test_apt_diagnostics.py (634lines/19methods).
-Integrated byte-identically as57ee2bcf3e8d9028f0a04e6d956d61146af4e969; authorhandback
-6845944013 onPR622/private local-evidence/CI-002/test-author-v1/handback.txt.
-All tests UNIMPORTED/UNDISCOVERED/UNRUN/UNPUBLISHED; syntax/data/whitespace/Git only.
-No NI needed; legacy8APTmethods/64assertions/helper/workflows/pins/settings unchanged.
-Test packet includes actualworker and coordinator C-A1 oracleprecision authors.
-Next initial Claude TEST review ci002-initial-test-review-v1, Codex fixes/separate
-verification, fresh Claude closing BEFORE two exact selected missing-record reds.
-C-A2 predicted BASE outcomes percase listed; decode/setup ERROR neverred. No new
-processretry/updatecapture/extraAPI; existingmain/validate_sources throughmainonly.
+Initial Claude TEST review CHANGES_REQUESTED2B/3A on57ee2bc; report/dispositions
+https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846296248
+Root correctedonepath tests/tooling/test_apt_diagnostics.py at
+221a7496e8ec292e198c8b60cff8ec252aa064fe. validate_end ordering inclwritefaults,
+socket/DNS barriers, expanded NamedEnvironment guards, normalRuntimeError-family
+observation, admittedinput dump checks.19methods unchanged; AST/Git/whitespace only.
+Allcontract/brief/helper/8legacyAPTmethods64assertions/workflows/pins/settings intact.
+Next nativeindependent ci002_test_verification; thenfreshClaudeclosingTEST before
+ONLY2namedmissing-runner/refusal assertion reds. Basepredictions needverification;
+no fixture/barrier/setup/UnicodeError is red. Testsneverimported/discovered/executed.
+Private fullinitialreport/corrections local-evidence/CI-002/test-reviews.
 
-C-A3: future actualPR622diagnostic/privatehosted evidence drives any needed layout
-contract/tests refinement INSIDECI002 with applicable fullreview before changes;
-substantial prerequisite split explicitly. No all9success/admin/mergeclaim until real
-currentheadgreen; no lucky-host rerun, guessednormalization or baseline weakening.
-Currenta9d milestone/WebSocket oldguardfailed beforewrites/build, fieldsunknownforeach,
-19pass/2fail; triage6845432303/private local-evidence/CI-002/ci-a9d2464.
-
-PR126 parked/unwatched OPEN DRAFT42462d1; local005branch05e204d/source+allreviews
-447aa06/77b1522/3720c42 intact. Main005recordplanned dueunmergedbranch; preserveclaim/
-reviews oncurrentmainintegrationONCE afterCI002lands. PR121parked;125merged. Then
-finish005/006/007,STOP. Historical120exemptions unchanged,006recordpolicyinactive.
-App-boundadminsettings fullpayloadreview/currentheadsuccess/fullbefore-after/effective
-readback required, no settings changed. Coordinator owns sharedmetadata/publication.
+C-A3 futureactual diagnostic/privatehostedevidence drives reviewed layoutrefinement
+INSIDECI002 beforeadmissionchange/all9pass/admin/merge; split substantialprereqfirst.
+No guessednormalization, lucky-hostretry or baselineweakening. CI002v1ZEROnewprocess
+retry/capture; singlecheckedupdate/inheritedAPToutput/nativeAcquireRetries1 preserved.
+Currenta9d622CI19pass/2oldlayoutguardfailures, triage6845432303; notfeatureproof.
+PR126parked/unwatched OPEN DRAFT42462d1; local005branch05e204d/source+allreviews
+447aa06/77b1522/3720c42 intact. Main005recordplanned dueunmergedbranch, preservehistory
+oncurrentmainintegrationONCE afterCI002lands. PR121parked;125merged; then005/006/007,
+STOP. Historical120exemptions/006inactivepolicy unchanged. Coordinatorownsmetadata/admin.

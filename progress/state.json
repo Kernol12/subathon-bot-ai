@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T06:32:14Z",
+  "updated_at": "2026-11-13T06:50:56Z",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18675,11 +18675,11 @@
       "brief": "docs/tasks/CI-002.md",
       "summary": "Diagnose refused runner layouts, bound attributable infrastructure retries and enforce existing required-check merge policy.",
       "notes": [
-        "Contract67c5506 closed.19 additive tests authored atfed07cc/integrated57ee2bc; syntax/data/Git only, all unrun/unpublished. Initial independent test review next. Legacy8tests/helper/workflows unchanged; no NI/implementation/settings. Currenta9d draftCI2layoutfailures preserved; product stopped."
+        "Contract67c5506 closed. Initial test review2blockers/3advisories corrected at221a749: validator-exit ordering, network/environment barriers, RuntimeError family and no source dump.19methods unrun/unpublished. Separate Codex/fresh Claude closing before red. No producer/admin change; product stopped."
       ],
       "verification": {
         "contract_review": "passed",
-        "test_review": "not_run",
+        "test_review": "blocked",
         "baseline": "not_run",
         "implementation": "not_run",
         "acceptance": "not_run",
@@ -18689,7 +18689,8 @@
         "contract_correction_review": "passed",
         "test_authored": "passed",
         "current_draft_ci": "failed",
-        "static_inventory": "passed"
+        "static_inventory": "passed",
+        "test_correction_authored": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6840078428",
@@ -18699,7 +18700,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6845366296",
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6845562002",
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6845432303",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6845944013"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6845944013",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846296248"
       ],
       "review": null,
       "workflow": {
@@ -18786,11 +18788,34 @@
               "codex:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci002-test-author-v1",
               "codex:coordinator-97333d35"
             ],
-            "revision": "57ee2bcf3e8d9028f0a04e6d956d61146af4e969",
+            "revision": "221a7496e8ec292e198c8b60cff8ec252aa064fe",
             "paths": [
               "tests/tooling/test_apt_diagnostics.py"
             ],
-            "reviews": []
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci002-initial-test-review-v1",
+                "revision": "57ee2bcf3e8d9028f0a04e6d956d61146af4e969",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846296248",
+                "findings": [
+                  "CI002-TI-B1",
+                  "CI002-TI-B2",
+                  "CI002-TI-A1",
+                  "CI002-TI-A2",
+                  "CI002-TI-A3"
+                ],
+                "blocking_findings": [
+                  "CI002-TI-B1",
+                  "CI002-TI-B2"
+                ],
+                "started_at": "2026-11-13T06:33:58.352Z",
+                "finished_at": "2026-11-13T06:44:13.178Z"
+              }
+            ]
           }
         }
       },
