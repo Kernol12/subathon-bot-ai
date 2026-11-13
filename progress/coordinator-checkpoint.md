@@ -1,24 +1,60 @@
-# Coordinator checkpoint
+# Coordinator checkpoint — finish PR126, then PAUSE
 
-Owner authorizes WORKFLOW004-007/CI002 through reviewed implementation/protected
-publication, then STOP. Product/API001/API016 stopped; fullv0.45 preserved.
-Main/base3c74966; PR125 merged/reconciled/unwatched, PR121 parked.
-WORKFLOW005 branch task/WORKFLOW-005-context-publication is now PARKED. RemotePR126
-head42462d165a5aa90f92eb3625941bcda163f178c4 failed milestone APT layout guard,
-job131593351306/run43336339986 before configuration writes/build/acceptance.
-ImageUbuntu24.04.5/20261111.127.1/AWS; rejected field unknown (not logged).
-https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6840078428
-No rerun/relaxed guard. Current schema lanes passed; no all-checks success claimed.
-Contract447aa06/tests77b1522/code3720c42 full cycles closed and unchanged. Full logs
-private local-evidence/WORKFLOW-005/ci-42462d1. This blocked receipt stays local;
-no status-only push/CI reset. PR126 watch suspended while prerequisite proceeds.
+Latest owner instruction: "Paus after finishing pr126". Resume and finish ONLY
+WORKFLOW-005 / PR126 through relevant checks and normal protected merge, then pause.
+Do not start WORKFLOW-006/007 before a later owner resume. Product/API-001/API-016
+remain stopped. This supersedes the earlier pause after CI-002.
 
-Next claim already-authorized dependency-readyCI002 on dedicated current-main branch,
-read its brief/CI001 baseline and author exact standalone diagnostics/retry/required
-check contract before tests/fullreviews. Preserve all8legacyAPT assertions, especially
-unknown URI/layout no-writes/no-commands. Actual bad source fields remain unknown;
-never infer them from the cloud label. Unknown/unclassified/integrity/build failures
-are not retryable. Observed21check appIDs Actions15368/GitGuardian46505; main ruleset
-26170263 has deletion/nonFF/PR rules, no required-check rule. Capture/review full
-settings and inventory before any later admin change; no changes made now.
-Once prerequisite reviewed/merged, integrate main once into005 and resume freshCI.
+## Current integration
+
+Checkout `task/WORKFLOW-005-context-publication`, parked head `05e204d` (remote
+PR126 `42462d1`, open draft/unwatched). Integrating current main `e0816de` ONCE
+with a merge, not a rebase. Only state/checkpoint/generated HTML conflicted;
+code/contracts/tests/workflows merged unchanged. Reconstructed JSON preserves all
+495 task IDs/order and both branches' activity; retain WORKFLOW-005's full claim/
+reviews and WORKFLOW-004's later publication observation from its branch, CI-002's
+complete record from current main plus actual completion receipt. No old history
+or workflow_policy/120 historical exemptions were changed.
+
+WORKFLOW-005 contract447aa06, tests77b1522 and implementation3720c42 retain full
+Claude initial / separate Codex / fresh Claude closing approvals. Five frozen test/
+support/CMake paths match tests77b1522; the two NI producer stubs in that old tests
+packet were intentionally superseded by reviewed implementation. Verify publication
+currency for contract+implementation, not the historical NI producer bytes. Preserve
+all existing assertions and source byte identities. No new behavior/tests are planned.
+
+Next resolve/commit this single main merge, run integrated tooling/schema/scaffold
+checks and actual publication checker with explicit base e0816de/current clean HEAD,
+existing admitted schema interpreter. Record actual results. Obtain independent
+routine integration/metadata verification; unchanged substantive source approvals
+remain valid. Publish PR126, immediately link after push, then watch and require all
+21 current-head app-bound checks, current protections/permissions/review readiness
+and normal protected merge. No lucky-host retry or bypass. Pause at that merge,
+record exact completion/restart state locally, unwatch, then hand back.
+
+## Completed prerequisite and active protections
+
+CI-002 / PR622 merged normally as `e0816de503a88f94726a774be1932fbf4eea4984`
+at2026-11-13T08:43:25Z after all21 required checks passed at finalbd060a0. Exact
+normal merge/main/parents and active rules verified; final receipt:
+https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6848369574
+Root's local pause commit e128f02 saved its done/publication record, now carried
+into this authorized integration rather than a status-only PR. PR622 is unwatched.
+Ruleset26170263 requires21 app-bound pairs (20 Actions15368+GitGuardian46505),
+both policy booleansfalse, all prior rules/parameters/order/empty bypass/extra-
+approvaltrue preserved. Applied ONCE and independently read back; do not PUT again.
+Private CI-002 proof lives under `local-evidence/CI-002`.
+
+The prior PR126 milestone failure at42462d1 happened before writes/build on an
+unknown source layout. Preserve its failed observation; no rerun/normalization.
+Current main adds bounded JSON evidence but does not expand source admission.
+Future refusal needs actual records/private source evidence and reviewed refinement.
+No new identity/cloud lookup, process retry/capture, trust/pin or baseline change.
+
+## Remaining limits and parked work
+
+WF005-TC-A1 positive detached-HEAD test is absent; source review confirms support.
+WF005-CC-A1 maintained-index assumption accepted; inspect current index flags before
+publication. Raw evidence stays ignored/private; safe receipts only in PR. Existing
+review/authentication/secret-scanning/resource limits remain as recorded.
+PR121 parked; PR125 and PR622 merged. After PR126 merges: PAUSE, do not start006/007.
