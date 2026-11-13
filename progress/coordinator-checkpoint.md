@@ -1,11 +1,11 @@
-# EPIC-029 authorized — MIGRATE-003 test authorship next
+# EPIC-029 authorized — MIGRATE-003 corrected tests awaiting verification
 
 Owner authorizes migration only:001→002→003→004→006→005 without renewed confirmation.
 State remains sole task/proof authority until004 reviewed cutover. Product/API and
 WORKFLOW-006/007 execution stopped; WF006 storage/dependency rescope only is migration
 scope. Fullv0.45 and all mandatory independent/protected gates remain.
 
-Checkout task/MIGRATE-003-publication-proof from maina277c5d. Test author codex:migrate003-test-author-20261113:/root authored source 9db694c5fe2ae81be9accc3188e096df72ec884f. No active worker after handoff. Tests binding contains only current oracles/fixtures; NI source modes/blobs pinned at this revision in local-evidence/EPIC-029/migrate003-tests. Coordinator delegated tests metadata only. Independent full test cycle pending; no new test import/execution or intended red. Fresh implementation later.
+Checkout task/MIGRATE-003-publication-proof from main a277c5d. Test corrections 5c89947c8cf4056f4463cf496fe099bb777c6967 by codex:coordinator-59095155 follow author source 9db694c. Initial Claude test review rejected (B1–B8; N1–N13), retained at issue628#issuecomment-6863285521. No active worker. Twelve oracle/fixture paths now bind existing publication owners consistently; NI paths remain excluded and byte-identical to 9db694c. No new tests imported/executed, no intended red or implementation. Separate Codex verification then fresh Claude closing required.
 Coordinator owns shared metadata/integration/CI/publication. Brief003 and exact approved
 contract docs/contracts/proof-publication-v1.md source7f0b876; parent clarifications
 approved in same5pathpacket. Initial/rejected closing/current approvals retained.
@@ -40,3 +40,5 @@ watchesstopped. Actualreviewer identities use uniqueT3dispatches; report-local l
 are aliases, not invented auth. All120exemptions/history preserved. Private receipts
 local-evidence/EPIC-029. Selected SDK build/workflow005-schema-venv/bin/python literal
 spelling; no install/globalSDK. Board/archive/freshretiredcheckout/platform audits pending.
+
+Implementation handoff notes from test review: register real proof publication SDK integration in selected CI as well as schema.proofs; preserve useful actual validator diagnostics. Record fixture-suite duration and classify every red traceback; SDK/admission/setup must pass independently first. CPython 3.14 reviewer observed depth100000 refusal; admitted 3.10/3.12 verification remains target execution work. No approval or red inferred from static checks.
