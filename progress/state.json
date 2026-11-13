@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T19:52:43.928768+00:00",
+  "updated_at": "2026-11-13T19:57:24.292670+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20145,7 +20145,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-003.md",
       "summary": "Prepare publication checks and CI for evidence records. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Contract approved at 7f0b876. Test corrections at 5c89947 address initial review B1–B8 and strengthen related oracles; rejected receipt preserved. Only static AST/project/progress/whitespace checks run. Separate Codex verification and fresh Claude closing remain before any new test execution or red. NI paths unchanged and pinned separately; state authoritative, product/WF006/007 stopped."
+        "Contract approved at 7f0b876. Corrected tests at 5c89947 independently Codex-verified: all eight initial blockers resolved, no new findings. Rejected initial receipt retained. Static checks only; fresh Claude closing required before test execution or intended red. State authoritative, product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -20346,6 +20346,19 @@
                 ],
                 "started_at": "2026-11-13T19:33:53Z",
                 "finished_at": "2026-11-13T19:43:59Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:2133dce1-25d3-4bc5-91f7-1726b83db149",
+                "revision": "5c89947c8cf4056f4463cf496fe099bb777c6967",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6863395981",
+                "findings": [],
+                "blocking_findings": [],
+                "started_at": "2026-11-13T19:54:03Z",
+                "finished_at": "2026-11-13T19:56:38Z"
               }
             ]
           }

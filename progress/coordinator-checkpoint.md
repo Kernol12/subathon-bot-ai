@@ -1,4 +1,4 @@
-# EPIC-029 authorized — MIGRATE-003 corrected tests awaiting verification
+# EPIC-029 authorized — MIGRATE-003 tests awaiting Claude closing
 
 Owner authorizes migration only:001→002→003→004→006→005 without renewed confirmation.
 State remains sole task/proof authority until004 reviewed cutover. Product/API and
@@ -42,3 +42,5 @@ local-evidence/EPIC-029. Selected SDK build/workflow005-schema-venv/bin/python l
 spelling; no install/globalSDK. Board/archive/freshretiredcheckout/platform audits pending.
 
 Implementation handoff notes from test review: register real proof publication SDK integration in selected CI as well as schema.proofs; preserve useful actual validator diagnostics. Record fixture-suite duration and classify every red traceback; SDK/admission/setup must pass independently first. CPython 3.14 reviewer observed depth100000 refusal; admitted 3.10/3.12 verification remains target execution work. No approval or red inferred from static checks.
+
+Codex test verification approved source5c89947 (dispatch2133dce1, local report alias codex:migrate003-tests-verification-20261113:/root), observed19:54:03Z–19:56:38Z, issue628#issuecomment-6863395981. All eight blockers resolved; no new findings. Actual dispatch identity retained independently of self-reported report alias. Fresh Claude closing next, no new test execution or red yet.
