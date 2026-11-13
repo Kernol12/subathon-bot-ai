@@ -10,6 +10,13 @@ import subprocess
 import sys
 
 MIRROR_URI = "mirror+file:/etc/apt/apt-mirrors.txt"
+# Admission is independent of the diagnostic-only URI labels below.
+_SECURITY_URIS = {
+    "http://security.ubuntu.com/ubuntu",
+    "http://security.ubuntu.com/ubuntu/",
+    "https://security.ubuntu.com/ubuntu",
+    "https://security.ubuntu.com/ubuntu/",
+}
 MIRRORS = ("https://mirrors.edge.kernel.org/ubuntu/\tpriority:1\n"
            "https://archive.ubuntu.com/ubuntu/\tpriority:2\n"
            "https://security.ubuntu.com/ubuntu/\tpriority:3\n")
@@ -80,6 +87,38 @@ def _runner_record(release: dict[str, str]) -> None:
     _emit_record(record)
 
 
+def _matches_split_security_profile(source: str, parsed: list[dict]) -> bool:
+    """Check the decoded raw grammar before using structurally checked fields."""
+    # Only LF/CRLF delimiters are eligible, including within UTF-8 comments.
+    # The unchanged text read cannot reveal the original on-disk newline form.
+    if re.search(r"\r(?!\n)|[\v\f\x1c-\x1e\x85\u2028\u2029]", source):
+        return False
+    for line in re.split(r"\r?\n", source):
+        if line == "" or line.startswith("#"):
+            continue
+        # No indented comments, whitespace-only separators or hidden field bytes.
+        if not re.fullmatch(r"[!-~][\t -~]*", line):
+            return False
+
+    required = {"Types", "URIs", "Suites", "Components", "Signed-By"}
+    if len(parsed) != 2 or any(fields.keys() != required for fields in parsed):
+        return False
+    if parsed[0]["URIs"][1] != MIRROR_URI or parsed[1]["URIs"][1] not in _SECURITY_URIS:
+        return False
+
+    components = {"main", "universe", "restricted", "multiverse"}
+    suites = ({"noble", "noble-updates", "noble-backports"}, {"noble-security"})
+    for fields, expected_suites in zip(parsed, suites):
+        if (fields["Types"][1] != "deb" or fields["Signed-By"][1] !=
+                "/usr/share/keyrings/ubuntu-archive-keyring.gpg"):
+            return False
+        for key, expected in (("Suites", expected_suites), ("Components", components)):
+            tokens = fields[key][1].split()
+            if len(tokens) != len(expected) or set(tokens) != expected:
+                return False
+    return True
+
+
 def validate_sources(source: str) -> None:
     """Refuse unfamiliar deb822 layouts before touching the runner configuration."""
     # Count complete evidence stanzas before selecting the first refusal. Comments
@@ -126,6 +165,10 @@ def validate_sources(source: str) -> None:
                 refuse("duplicate_field", stanza, position, key)
             fields[key] = (position, value.strip())
         parsed.append(fields)
+
+    if _matches_split_security_profile(source, parsed):
+        _emit_record({"event": "source_admitted", "profile": "noble_split_security_v1", "v": 1})
+        return
 
     for stanza, fields in enumerate(parsed, start=1):
         if "URIs" not in fields:
