@@ -15,6 +15,12 @@ New detailed commands, results and review discussion belong in the focused PR.
 
 ## Foundation and coordination
 
+The [migration contract #632](https://github.com/Kernol12/subathon-bot-ai/pull/632)
+completed independent Claude initial, Codex verification and Claude closing review
+at source `b506434` and merged normally. It defines proof separation, archive/cutover
+and cleanup gates; production state remains authoritative. This is reviewed document
+evidence only: no proof loader, cutover, board audit or product behavior is established.
+
 Tooling validates the task graph, offline progress page, specification mapping and
 local links. Historical local scaffold and Qt 6.12 probe checks passed; dashboard
 interaction has bounded browser evidence. These establish development infrastructure,
