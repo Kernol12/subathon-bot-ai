@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T22:44:36.688403+00:00",
+  "updated_at": "2026-11-13T22:50:18.410083+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20500,7 +20500,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
       "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Closing found short-SHA history gap (CC2-01); correctedcontractd082c49 inventories abbreviations/prose/fragments and explicitper-rowrole/disposition/audit-or-block obligations. State200/trackedtext218non-maincommitcandidates privatelyGC-protected; all22,787localGitobjects privatelypacked/fullverified, no publication/roleapproval. Codexverification/freshClaudeclosing and separatecleanup/fullavailabilityaudit pending. Stateauthoritative, no runtime/deletions/switch."
+        "Primary contractd082c49 independently Codex-approved; CC2-01 resolved, no new findings. Short/free-text citations receive explicit row-levelrole/availability audits; private218ref targets/all22,787objectpack integrity verified, not historicalrole/remoteapproval. Fresh Claudeclosing then separateADR0012/fullavailabilityaudit remain mandatory beforepin. No runtime/tests/deletions/switch; state authoritative, product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -20639,6 +20639,17 @@
                 "blocking_findings": [
                   "M004-CC2-01"
                 ]
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:5dce3ac0-87f6-4a07-8a91-a76a602442cb",
+                "revision": "d082c4932c1668891621a3c50af7d07f7bcdaa6b",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6866879792",
+                "findings": [],
+                "blocking_findings": []
               }
             ]
           }
