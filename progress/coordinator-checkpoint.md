@@ -1,4 +1,4 @@
-# EPIC-029 authorized — MIGRATE-002 implementation next
+# EPIC-029 authorized — MIGRATE-002 implementation review next
 
 Owner authorizes migration only: 001 → 002 → 003 → 004 → 006 → 005 without renewed
 confirmation. State remains sole task/proof authority until reviewed 004 cutover.
@@ -6,9 +6,7 @@ Product/API and WORKFLOW-006/007 execution remain stopped; WF006 storage/depende
 rescope only is migration scope. Full v0.45 release scope and review gates unchanged.
 
 Actual checkout task/MIGRATE-002-proof-records, based on merged main cfd6da9.
-Coordinator owns shared state/HTML/checkpoint and publication. No active writer;
-next fresh implementer owns proof loader/schemas/converter and shared workflow
-factoring only, with tests frozen. Brief docs/tasks/EPIC-029/MIGRATE-002.md.
+Coordinator owns publication; implementation session has delegated stage state/HTML/checkpoint binding. Implementation session `codex:migrate002-implementation-20261113:/root` has finished assigned source; tests frozen. No active writer. Brief docs/tasks/EPIC-029/MIGRATE-002.md.
 Approved exact contract 8920909; parent migration contract b506434.
 
 001 complete: normal PR632 merge cfd6da9, reviewed head57a252c, all21 app-bound
@@ -27,8 +25,13 @@ admitted-schema aggregate:24 reject-all subtest errors. No import/setup/skips; e
 Private logs local-evidence/EPIC-029/migrate002-red. Existing admitted interpreter
 build/workflow005-schema-venv/bin/python; preserve spelling, no install/global SDK.
 
-Next: fresh implementation, relevant green checks, full independent implementation
-cycle, current-head publication/CI and protected merge before002 closure/003 dispatch.
+Implementation source c28ac3bc63fbac39870fa62e4a3a4a79cc6c1926 (six packet paths; reviews []).
+Actual green: proof tooling18; full tooling154; admitted proof schema1, existing schema8
+and SDK publication3; scaffold configure/build and all3 nodes (consistency rerun after
+regenerating owner-claim HTML); validate/render/project. Private actual logs:
+local-evidence/EPIC-029/migrate002-implementation. Tooling proof only, no live/platform/CI.
+Next: full independent implementation cycle, current-head publication/CI and protected
+merge before002 closure/003 dispatch. No push/PR/issue action by implementation session.
 Do not change tests to make green. lstat before opening FIFO; enforce closed shapes,
 one review grammar, exact legacy/supplemental preservation, no dual production proof.
 

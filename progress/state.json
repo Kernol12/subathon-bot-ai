@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T17:49:20.463308+00:00",
+  "updated_at": "2026-11-13T17:56:05.279046+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -19743,7 +19743,7 @@
       "module": "Quality and tooling",
       "kind": "implementation",
       "status": "in_progress",
-      "owner": "codex:test-author:01a1d5de-93a6-7f72-a732-52f576b6a33f",
+      "owner": "codex:migrate002-implementation-20261113:/root",
       "depends_on": [
         "MIGRATE-001"
       ],
@@ -19754,20 +19754,25 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-002.md",
       "summary": "Separate review evidence from task tracking. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Reviewed red observed: 18 tooling methods hit named NI (26 error sections, 2 CLI assertion failures); one admitted-schema aggregate has 24 reject-all subtest errors. No setup/import/skips. Existing real-schema 8 and publication SDK 3 pass. Fresh implementation next; state sole authority; product/WF006/007 stopped."
+        "Reviewed red observed: 18 tooling methods hit named NI (26 error sections, 2 CLI assertion failures); one admitted-schema aggregate has 24 reject-all subtest errors. No setup/import/skips. Existing real-schema 8 and publication SDK 3 pass. Fresh implementation next; state sole authority; product/WF006/007 stopped. Local stdlib implementation and tooling/schema/scaffold checks pass; independent implementation review pending."
       ],
       "verification": {
         "contract_authored": "passed",
         "contract_review": "passed",
         "test_review": "passed",
         "baseline": "observed_red",
-        "implementation": "not_run",
-        "acceptance": "not_run",
+        "implementation": "passed",
+        "acceptance": "passed",
         "contract_verification": "passed",
         "tests_authored": "passed",
         "test_verification": "passed",
         "existing_schema": "passed",
-        "existing_publication_sdk": "passed"
+        "existing_publication_sdk": "passed",
+        "implementation_review": "not_run",
+        "proof_schemas": "passed",
+        "tooling": "passed",
+        "scaffold": "passed",
+        "project": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/issues/627",
@@ -20004,6 +20009,21 @@
                 "blocking_findings": []
               }
             ]
+          },
+          "implementation": {
+            "authors": [
+              "codex:migrate002-implementation-20261113:/root"
+            ],
+            "revision": "c28ac3bc63fbac39870fa62e4a3a4a79cc6c1926",
+            "paths": [
+              "progress/proof-policy.schema.json",
+              "progress/proof.schema.json",
+              "tools/progress.py",
+              "tools/proof_shapes.py",
+              "tools/proofs.py",
+              "tools/workflow.py"
+            ],
+            "reviews": []
           }
         }
       }
