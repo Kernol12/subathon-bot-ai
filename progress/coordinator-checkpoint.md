@@ -36,8 +36,13 @@ CI-A1 actual hosted/layout gate retained; CI-A2 field is documented by current o
 update API, preserve and explicitly verify readback; CI-A3 guide clarifies inventory
 changes/blocked merges, dated actual application receipt still pending; CI-A4 complete
 fresh pre-application observations mandatory; CI-A5 informational/no change.
-Next separate native Codex verification `ci002_code_verification`, then fresh Claude
-closing on code/guidance and the exact settings proposal. Helper/tests unchanged.
+Separate native Codex verification `ci002_code_verification` APPROVED/no new findings.
+Reviewer observed 27 APT tests/project/validate/render/diff pass, zero skips. Report:
+https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847241282
+Next fresh Claude closing `ci002-closing-code-review-v1` on packet `13990d4` and exact
+unapplied settings proposal. Helper/tests unchanged; initial findings all dispositioned.
+Root inspected all 20 outgoing commit trees: no temporary/evidence/build components;
+final diff exactly eight authorized paths. No new current-source hosted run yet.
 Exact private settings proposal: `local-evidence/CI-002/settings-proposal-v1`.
 Payload SHA256 `680e0afc805d2c90e572c6726f3dc334f8cf0f332f359915337bdcbeb88912f7`.
 Fresh read matches approved writable before; admin permission true, NOT APPLIED.

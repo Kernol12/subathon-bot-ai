@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T07:39:19Z",
+  "updated_at": "2026-11-13T07:47:25Z",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18675,7 +18675,7 @@
       "brief": "docs/tasks/CI-002.md",
       "summary": "Diagnose refused runner layouts, bound attributable infrastructure retries and enforce existing required-check merge policy.",
       "notes": [
-        "Contract/tests fully approved; two intended reds retained. Fresh helper 22e4950 passes 91 tooling and scaffold 3/3. Initial Claude code/settings review approved, no blockers; five advisories dispositioned. Guidance-only correction binds packet 13990d4; exact 21-check settings payload unchanged/unapplied. Separate Codex verification and fresh Claude closing next. No current-source CI, admin readback or merge proof; product stopped."
+        "Contract/tests fully approved; two intended reds retained. Fresh helper 22e4950 passes 91 tooling and scaffold 3/3. Packet 13990d4 and unchanged exact 21-check settings proposal approved by initial Claude and independent Codex, no blockers/new findings; reviewer27 APT pass. Fresh Claude closing next. All source unpushed, settings unapplied; actual current-head CI/readback/merge pending. Product stopped."
       ],
       "verification": {
         "contract_review": "passed",
@@ -18698,7 +18698,9 @@
         "settings_review": "partial",
         "settings_enforcement": "not_run",
         "current_source_ci": "not_run",
-        "code_guidance_correction": "passed"
+        "code_guidance_correction": "passed",
+        "code_correction_review": "passed",
+        "settings_verification": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6840078428",
@@ -18714,7 +18716,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846728971",
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846752039",
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846948587",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847107097"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847107097",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847241282"
       ],
       "review": null,
       "workflow": {
@@ -18886,6 +18889,17 @@
                 "blocking_findings": [],
                 "started_at": "2026-11-13T07:31:13.217Z",
                 "finished_at": "2026-11-13T07:36:26.390Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:/root/ci002_code_verification",
+                "revision": "13990d440e7f23c79b218e23f1ccff6edec74e93",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847241282",
+                "findings": [],
+                "blocking_findings": []
               }
             ]
           }
