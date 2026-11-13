@@ -1,35 +1,28 @@
-# Coordinator checkpoint
+# PAUSED — owner stop instruction
 
-Owner authorizes WORKFLOW004-007/CI002 through reviewed implementation/protected
-publication, then STOP. Product/API001/API016 stopped; fullv0.45 preserved.
-Current checkout task/CI-002-setup-diagnostics from currentmain3c74966; CI001done,
-CI002explicitlyauthorized/dependency-ready/claimed. No active child yet. Next fresh
-Codex contract author ci002-contract-author-v1 via isolated T3 worktree owns ONLY
-new docs/contracts/ci-setup-gates-v1.md and docs/tasks/CI-002.md. Coordinator owns
-shared state/HTML/checkpoint/workflows/settings/publication. No executable/test/NI
-or admin change allowed at contract stage. Full three-stage cycles remain required.
+Owner explicitly requested stop for token budget. Resume ONLY on explicit continue;
+automatic CI/delegate notifications do not revoke this pause. No active child now:
+ci002-contract-author-v1 cancelled, thread interrupted/activeRunId=null; native
+reviewers completed. PR126/121 watches suspended; PR125 merged/unwatched.
 
-PR126 is PARKED/unwatched, remote42462d165a5aa90f92eb3625941bcda163f178c4;
-local005blocked receipt05e204d8a358931a339036fc9eed9768e4016147 preserved on
-branch task/WORKFLOW-005-context-publication (not pushed; no CI reset).
+Durable PRIVATE continuation: local-evidence/CONTINUE.md (full branches/SHAs,
+review receipts, exact blocker, constraints and next steps). Saved unreviewed draft
+and hash manifest: local-evidence/CI-002/paused-contract-draft/.
+
+Current root branch task/CI-002-setup-diagnostics, from main3c74966. Claim48a0896
+followed by local pause metadata; no push/CI002PR. CI002 stays in_progress only
+because schema has no paused state; this directive stops all work.
+Child branch t3/ci-002-setup-contract at48a0896 holds ONLY2uncommitted docs:
+docs/contracts/ci-setup-gates-v1.md and docs/tasks/CI-002.md. They are unfinished,
+unreviewed, not integrated. Actual worktree location is in private continuation.
+
+PR126 parked/unwatched at published42462d1; local005branch retains05e204d blocked
+receipt. Contract447aa06/tests77b1522/code3720c42 fullcycles CLOSED/source preserved.
+Milestone APT guard refused unknown layout before writes/build; no retry/relaxation.
 https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6840078428
-All005source/reviews remain intact at contract447aa06/tests77b1522/code3720c42.
-CurrentCI milestone guard failed BEFORE writes/build, imageUbuntu24.04.5/
-20261111.127.1/AWS; offending field unlogged/UNKNOWN. No unclassified retry.
-Main005record stillplanned because feature branch is unmerged; do not erase its
-claim/reviews when later integrating currentmain once afterCI002 lands. PR121parked.
+Main005record remainsplanned until its branch integration; preserve separatehistory.
 
-CI002 must preserve8legacyAPT methods/allassertions, including directAzure URI
-refusal and no commands/writes for invalid layout. Source guard remains strict;
-new known variants require actual evidence/review, never cloud-label guesses.
-Bounded actionable diagnostics/imageidentity before refusal, explicit transient
-allowlist/atmost1processretry preserving firstfailure, unknown/mixed/integrity/
-layout/build/test failures neverretry. No caching/selectiveCI/failure suppression.
-Existing Acquire::Retries1 bytes are frozen; contract must distinguish internalAPT
-request behavior from any new processretry, not claim false totalattempt bounds.
-Observed21current checks:20Actions app15368 +GitGuardian app46505. Main ruleset
-26170263 has deletion/nonFF/PR rules and no required-check rule; preserve full live
-settings, conditions, bypass/enforcement and unrelated protections. Only apply app-
-bound reviewed inventory after fresh currenthead success and fullreview. Raw facts
-private local-evidence/CI-002/initial-observations; no admin mutations yet.
-OnceCI002reviewed/merged, integrate main once into005 and resume protected publication.
+When explicitly resumed: finish/review CI002contract before tests, fulltest/red/fresh
+implementation/code/CI/app-boundrules/protectedmerge; then integrate main ONCE into005
+and resume publication, then006/007. Original authorized workflow program only,
+thenSTOP; product/API001/API016 remains stopped. No new scope or approval waiver.
