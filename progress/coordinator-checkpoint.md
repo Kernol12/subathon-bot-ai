@@ -31,9 +31,13 @@ again; settings are APPLIED and verified. Future material drift requires review.
 Root dated CI-guide receipt correction `3584f08` changes ONLY docs/CI.md. Local,
 unpublished. New implementation packet3584f08 still owns TWO paths helper+CI guide;
 helper unchanged since22e4950. Prior source/settings approvals remain historical
-and valid for unchanged material. Per material-evidence rules, next narrow native
-Codex verification of dated doc/actual administration evidence, then fresh Claude
-closing. No new initial review or redundant helper/test suite replay needed.
+and valid for unchanged material. Per material-evidence rules, narrow native Codex follow-up APPROVED/no new findings.
+Report https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847852210
+Reviewer independently compared raw hosted/application evidence and current full /
+effective-main GETs (08:18:44 UTC), preserving all prior protections. Initial sandbox
+connection failed; one authorized read-only escalation succeeded. No CI rerun/mutation.
+Next fresh Claude closing `ci002-closing-publication-review-v1` on dated receipt and
+actual evidence. No new initial review or redundant helper/test suite replay needed.
 Then final metadata candidate push/link, actual all21 current-head CI under active
 required checks, readiness/actual protections/reviews/resolved threads and normal
 protected merge. Keep PR draft until final publication readiness. No new watch/list
