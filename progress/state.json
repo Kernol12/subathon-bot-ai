@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T18:22:46.487403+00:00",
+  "updated_at": "2026-11-13T18:25:46.582286+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -19742,7 +19742,7 @@
       "title": "Separate review evidence from task tracking",
       "module": "Quality and tooling",
       "kind": "implementation",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "codex:migrate002-implementation-20261113:/root",
       "depends_on": [
         "MIGRATE-001"
@@ -19754,7 +19754,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-002.md",
       "summary": "Separate review evidence from task tracking. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Independent Codex recheck approved final archive schema fix at 2009aa7. Focused 18 and actual proof aggregate pass; 2,800 archive and 84 local path probes agree. Prior 154 tooling/schema 1+8+3/scaffold 3/3 receipts retained. Fresh Claude closing then current publication/CI/protected merge pending; state authority unchanged."
+        "Prepared explicit-path proof loader/schema/context/completion and disposable conversion, full independent contract/test/code cycles with observed NI red retained. Local 154 tooling, schema 1+8+3 and later fresh scaffold 3 pass; prior stale-HTML failure retained. Current publication/CI/protected merge pending. State authority unchanged; 003 guard conflict retained."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -19773,14 +19773,18 @@
         "tooling": "passed",
         "scaffold": "passed",
         "project": "passed",
-        "code_review": "blocked",
+        "code_review": "passed",
         "code_verification": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/issues/627",
         "https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6860598870"
       ],
-      "review": null,
+      "review": {
+        "author": "codex:migrate002-implementation-20261113:/root; codex:coordinator-59095155",
+        "reviewer": "claude:2b96b870-ce70-4866-9501-dcbeb9acdad2",
+        "outcome": "approved"
+      },
       "workflow": {
         "required_stages": [
           "contract",
@@ -20093,6 +20097,19 @@
                 "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6861401070",
                 "findings": [],
                 "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:2b96b870-ce70-4866-9501-dcbeb9acdad2",
+                "revision": "2009aa701bbcf6bc1c28b78ecdf4721124f50095",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6861469387",
+                "findings": [],
+                "blocking_findings": [],
+                "started_at": "2026-11-13T18:23:10Z",
+                "finished_at": "2026-11-13T18:23:51Z"
               }
             ]
           }
