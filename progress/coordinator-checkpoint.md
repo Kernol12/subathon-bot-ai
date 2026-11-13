@@ -55,3 +55,9 @@ Next gate is independent Codex test verification, then Claude closing before any
 new bodies execute. Static syntax only; no tooling discovery/scaffold/schema run.
 Source changes isolated negative causes and extended focused shape/parity/report
 and nonaliasing assertions; NI stubs remain, no passing implementation authored.
+
+Codex verification requested one correction M002-TV-001, retained at
+https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6860146317
+Fixed at source 0e6200d: sorted complete comparison rows preserve duplicates and all
+values in API/CLI report oracles, without imposing non-normative ordering. Next:
+fresh independent Codex recheck, then Claude closing. No new bodies executed.
