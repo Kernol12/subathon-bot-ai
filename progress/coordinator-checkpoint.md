@@ -62,3 +62,23 @@ Codexclosing-fixverification APPROVED35e3752, dispatch973a1ae3-908f-47a2-ae90-3e
 ClaudeclosingrecheckrejectedCC2-01(shortreferences), session8344edbf-deee-4ffe-a327-da5cafb908ab, issue629#issuecomment-6866770801, samples22:23:04–22:29:37(notexactduration). Correctedsource d082c49 extendsfull+abbrev+shortfragment carriers/roleaudit rules and real~190rowworkbeforepin; unresolvedrequiredrole/outgoingguardconflictblocks/ownercheckpoint, no blanketlegacywaiver. Actualimmediatesafety:200state/218trackedtextnon-maincommitcandidates protectednewlocal-onlyrefs/privateverifiedbundles; all22,787availableGitobjects privatesafety pack23,389,835bytes strictindex/fullverify passed; no objectpublication/identityroleapproval. Privatepreservationdir700/files600, rawreceipts local-evidence/EPIC-029/migrate004-preservation. Matrix/tmp/migrate004-short-citation-fix.md. SeparateCodexverificationthenfreshClaudeclosingprimarycontractnext, ownADRcycle/fullavailabilityauditremain.
 
 Codexshort-historyverification APPROVEDd082c49, dispatch5dce3ac0-87f6-4a07-8a91-a76a602442cb, issue629#issuecomment-6866879792; CC2-01resolved/noCV4findings. Activitysamples22:46:16–22:48:11notexactsessions, nostructuredtimepair. Independentstate200/tracked770UTF8files218commitcandidates/ref targets reproduced; private22,787objects packfullverified/hashmatchesreceipt. TheseareGCsafetyonly; fullcarriers/role/privacy/availability audit andactualremote mode/blobreadbackNOTdone. FreshClaudeclosingprimarycontractnext, ownADRcycleandalltest/code/archivegatesremain.
+
+Primary closing at d082c49 rejected M004-CC3-01 (glued-prose/full-SHA segmentation),
+session cdd2dae3-9626-413a-ae5b-3b5d43c6b6bb, issue629#issuecomment-6867166329.
+Activity samples 22:55:20–22:59:28 are not exact endpoints; structured timing omitted.
+Original citations retained; all 275 tracked-text candidate commits now have private
+local-only refs and verified bundle. Complete local-object safety pack remains private.
+This is GC protection, not source-role approval or remote availability.
+
+Separate ADR-0012 initial scope rejected CL-I-01 through07, Claude session
+6ca00db3-2cb9-418e-9b39-68cc17651ecf, issue629#issuecomment-6867322844.
+Its source is the exact unchanged scope blob d37eae6 at d082c49; full report preserves
+all findings and observed bounds. It is supplemental evidence, not a second primary
+initial receipt. Fixes must receive separate Codex verification and fresh Claude closing
+before test authorship/removal; primary packet also needs renewed approval after drift.
+
+Availability research candidate /tmp/migrate004-availability-candidate is PARTIAL:
+4,185 carrier entries and 799 non-main candidates, roles unresolved; prefix-document
+closure and durable remote readback incomplete. Exact six receipt blob matches are
+local facts only. No archive/pin/role/availability approval. Continue documentary review
+and independent migration work only; no forbidden ancestry publication or blanket waiver.
