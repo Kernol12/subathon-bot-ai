@@ -107,7 +107,8 @@ A required gate discovered after freeze returns to authoritative state, appends 
 rejected/new receipts, and creates a new freeze; no receipt may be dropped.
 
 After the last such receipt, create an actual commit **P** that still contains the final
-pre-deletion state and full one-time transition report. The report names archive A,
+pre-deletion state and full one-time transition report at
+`docs/migrations/EPIC-029/archive/pre-deletion-transition.json`. The report names archive A,
 input digests and exact ordered per-field append/advance delta, but does not predict P's
 own SHA. The static bounded summary says only where the factual P pin is recorded;
 it contains neither P nor P-derived URLs. The durable record is the checkpoint blob at
@@ -136,8 +137,8 @@ rewritten, reordered or unexplained entries refuse cutover. Compare complete ext
 objects, not counts/hashes alone. This is one-time reconciliation, not a permanent sync.
 The post-P finalization tree diff is inspected exactly: remove progress/state.json,
 PROGRESS.html if still present, and full one-time files identities.json,
-conversion-report.json, reconciliation.json and the P transition report at the declared
-archive directory. Before P's review/freeze name any additional raw-state/history payload
+conversion-report.json, reconciliation.json and pre-deletion-transition.json at
+docs/migrations/EPIC-029/archive/. Before P's review/freeze name any additional raw-state/history payload
 paths there by exact path; no directory-wide deletion permission. Old tool/schema/UI/test
 and instruction changes belong to the already reviewed implementation before P, not a
 new finalization edit. Other permitted finalization changes are the exact P conversion
