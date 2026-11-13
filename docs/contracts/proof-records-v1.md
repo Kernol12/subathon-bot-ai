@@ -483,3 +483,12 @@ current packet or rewrite its source bindings to follow this edit.
 This packet is authored only. Independent full contract review precedes test
 authorship; test review precedes loadable NI-seam assertion red and fresh implementation.
 No runtime, baseline red, review approval, publication or live/platform result is claimed.
+
+## MIGRATE-003 authored amendment notice
+
+[Prepared proof publication v1](proof-publication-v1.md) §1 explicitly refines
+the current mode/blob clause in “One workflow grammar, two path boundaries” for the closed NI-baseline supersession table only.
+Its remaining sections specify the 003 opt-in integration and bootstrap boundaries.
+This amendment is authored pending its own independent contract cycle; original
+approved bytes/receipts remain at the revisions identified in that contract.
+No historical packet, approval or oracle binding is rewritten.

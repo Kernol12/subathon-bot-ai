@@ -1,7 +1,8 @@
 # MIGRATE-003 — Prepare publication checks and CI for evidence records
 
 Source: [issue #628](https://github.com/Kernol12/subathon-bot-ai/issues/628), snapshot 2026-11-13.
-Contract: `docs/contracts/github-task-migration-v1.md`.
+Contract: [prepared proof publication v1](../../contracts/proof-publication-v1.md),
+refining `docs/contracts/github-task-migration-v1.md` and `proof-records-v1.md`.
 
 Owner authorization now permits migration sequence 001 → 002 → 003 → 004 → 006 → 005.
 This brief registers scope; only 001 is claimed in this session. Until 004, state remains

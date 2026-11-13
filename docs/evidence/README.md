@@ -21,6 +21,16 @@ final Codex verification and Claude closing approved source `b506434` before its
 and cleanup gates; production state remains authoritative. This is reviewed document
 evidence only: no proof loader, cutover, board audit or product behavior is established.
 
+[MIGRATE-002 / PR633](https://github.com/Kernol12/subathon-bot-ai/pull/633)
+adds explicit-path proof loading, schemas, context/completion and disposable conversion.
+Full independent contract/test/code cycles retain rejected history and reviewed NI red.
+Normal merge `a277c5dedd45eb53e98dca6218e5164daed985b6` at 2026-11-13T18:33:51Z
+followed 21 successful app-bound checks on `eb2d991a020bb581b8841d0a846a656677e5c164`.
+Recorded local 154 tooling, schema 1+8+3 and later scaffold3 pass; an earlier stale-HTML
+failure remains historical. State is still authoritative. Source-binding/guard integration,
+cutover, board/archive audits and product/live verification remain open; no live provider
+operation or new WORKFLOW-006/007 execution is established.
+
 Tooling validates the task graph, offline progress page, specification mapping and
 local links. Historical local scaffold and Qt 6.12 probe checks passed; dashboard
 interaction has bounded browser evidence. These establish development infrastructure,

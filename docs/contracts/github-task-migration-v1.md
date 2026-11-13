@@ -459,3 +459,12 @@ and, if 006 has merged, full removed briefs plus repaired links from the archive
 reconciles intervening task/proof/PR changes and preserves full receipts. Switch back
 only at that rollback merge; resume no product work automatically. Unavailable archive,
 unexplained intervening facts or failing review/CI blocks rollback just as cutover.
+
+## MIGRATE-003 authored amendment notice
+
+[Prepared proof publication v1](proof-publication-v1.md) §1 explicitly refines
+§3 current source binding for the closed NI-baseline supersession table only.
+Its remaining sections specify the 003 opt-in integration and bootstrap boundaries.
+This amendment is authored pending its own independent contract cycle; original
+approved bytes/receipts remain at the revisions identified in that contract.
+No historical packet, approval or oracle binding is rewritten.
