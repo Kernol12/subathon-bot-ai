@@ -42,14 +42,7 @@ def local_path(value: str, root: Path = ROOT) -> Path:
 def evidence_path(value: str, root: Path = ROOT) -> Path | None:
     """Return a local evidence file, or None for a valid HTTPS reference."""
     if isinstance(value, str) and value.startswith("https://"):
-        parsed = urlsplit(value)
-        try:
-            parsed.port
-        except ValueError as error:
-            raise ValueError(f"Invalid HTTPS evidence URL: {value!r}") from error
-        if (parsed.scheme != "https" or not parsed.hostname or parsed.username is not None
-                or parsed.password is not None or any(char.isspace() for char in value)):
-            raise ValueError(f"Invalid HTTPS evidence URL: {value!r}")
+        workflow.evidence_reference(value)
         return None
     return local_path(value, root)
 
@@ -230,21 +223,7 @@ def context(data: dict, task_id: str, *, compact: bool = False) -> dict:
 
 
 def compact_stage_context(stage: dict) -> dict:
-    """Project an already derived stage without repeating its packet or finding prose."""
-    packet = stage["packet"]
-    ref_fields = ("phase", "provider", "model", "reviewer", "revision", "outcome", "evidence")
-    return {
-        "name": stage["name"],
-        "complete": stage["complete"],
-        "next_gate": stage["next_gate"],
-        "packet": ({key: packet[key] for key in ("authors", "revision", "paths")}
-                   if packet is not None else None),
-        "review_refs": [{key: review[key] for key in ref_fields}
-                        for review in packet["reviews"]] if packet is not None else [],
-        "historical_blocking_findings": stage["metrics"]["blocking_findings"],
-        "metrics": {key: stage["metrics"][key]
-                    for key in ("review_count", "elapsed_seconds", "timed_reviews")},
-    }
+    return workflow.compact_stage_context(stage)
 
 
 def render(data: dict) -> str:
