@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T17:28:07.833557+00:00",
+  "updated_at": "2026-11-13T17:31:29.138158+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -19754,7 +19754,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-002.md",
       "summary": "Separate review evidence from task tracking. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Test verification found duplicate comparison rows could collapse in API/CLI oracles. Corrected by comparing full sorted row lists, preserving multiplicity and every field. Initial blockers otherwise resolved. No test bodies run; fresh independent verification then Claude closing pending before red/implementation."
+        "Independent Codex recheck approved test source 0e6200d: all initial blockers and duplicate-row verification finding resolved. Rejected history retained. Static/project checks pass; no new bodies run. Claude closing pending before actual NI red and fresh implementation. State sole authority; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -19764,7 +19764,8 @@
         "implementation": "not_run",
         "acceptance": "not_run",
         "contract_verification": "passed",
-        "tests_authored": "passed"
+        "tests_authored": "passed",
+        "test_verification": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/issues/627"
@@ -19938,6 +19939,17 @@
                 "blocking_findings": [
                   "M002-TV-001"
                 ]
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:thread:delegated-task:command%3Amcp%3Ab2757b58-6822-48d2-85a7-be32319084c6%3Adelegate-task%3A3e0f8352-1782-4480-829d-0d5b471d7a11",
+                "revision": "0e6200da91432ce1f6632b615c53baa3e21cd2dc",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6860221977",
+                "findings": [],
+                "blocking_findings": []
               }
             ]
           }

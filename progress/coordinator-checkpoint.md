@@ -61,3 +61,9 @@ https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6860146317
 Fixed at source 0e6200d: sorted complete comparison rows preserve duplicates and all
 values in API/CLI report oracles, without imposing non-normative ordering. Next:
 fresh independent Codex recheck, then Claude closing. No new bodies executed.
+
+Codex recheck approved test source 0e6200d, no new findings:
+https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6860221977
+Next: fresh Claude test closing before any bodies run. Then classify meaningful
+named NI / actual reject-all schema red separately from imports/setup failures.
+Recheck final observation 2026-11-13T17:29:39Z; actual start unknown.
