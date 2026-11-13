@@ -1,33 +1,35 @@
 # Coordinator checkpoint
 
-Latest owner authorizes WORKFLOW-004–007 and CI-002 through reviewed implementation,
-focused PRs, protected merges and matching CI settings, then STOP. Product/API001/API016
-stay stopped. Preserve fullv0.45, old assertions, historical receipts and private evidence.
+Owner authorizes WORKFLOW004-007/CI002 through reviewed implementation/protected
+publication, then STOP. Product/API001/API016 stopped; fullv0.45 preserved.
+Current checkout task/CI-002-setup-diagnostics from currentmain3c74966; CI001done,
+CI002explicitlyauthorized/dependency-ready/claimed. No active child yet. Next fresh
+Codex contract author ci002-contract-author-v1 via isolated T3 worktree owns ONLY
+new docs/contracts/ci-setup-gates-v1.md and docs/tasks/CI-002.md. Coordinator owns
+shared state/HTML/checkpoint/workflows/settings/publication. No executable/test/NI
+or admin change allowed at contract stage. Full three-stage cycles remain required.
 
-Checkout task/WORKFLOW-004-bounded-coordination-policy, base main240e750.
-Coordinator codex:97333d35 owns shared integration/state/CI/guidance/publication.
-PR125 draft: https://github.com/Kernol12/subathon-bot-ai/pull/125 (watched).
+PR126 is PARKED/unwatched, remote42462d165a5aa90f92eb3625941bcda163f178c4;
+local005blocked receipt05e204d8a358931a339036fc9eed9768e4016147 preserved on
+branch task/WORKFLOW-005-context-publication (not pushed; no CI reset).
+https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6840078428
+All005source/reviews remain intact at contract447aa06/tests77b1522/code3720c42.
+CurrentCI milestone guard failed BEFORE writes/build, imageUbuntu24.04.5/
+20261111.127.1/AWS; offending field unlogged/UNKNOWN. No unclassified retry.
+Main005record stillplanned because feature branch is unmerged; do not erase its
+claim/reviews when later integrating currentmain once afterCI002 lands. PR121parked.
 
-WORKFLOW004 contract artifact DONE at source7a34855; eight paths unchanged.
-Initial Claude workflow004-initial-contract-review-v1 (nativea15aa9d9), independent
-Codex /root/workflow004_contract_verification and NEW Claude closing workflow004-
-closing-contract-review-v1 (native8073513d) complete the current full cycle.
-T3 reports actual Claude provider/model/completed sessions; native Codex collaboration
-was observed separately. Closing report:
-https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6837139865
-No blockers; C-A1 seed standalone CI002 brief/record identically if needed, C-A2 clarify
-README activation at next reviewed WORKFLOW005 edit. Follow-ups live in those records.
-
-Actual tooling72/project495/render/whitespace pass; all21CI pass at e74a451.
-Earlier ea38065 layout refusal remains preserved, exact field unknown, no blind retry
-or guard relaxation. Final receipt/evidence-summary commit still needs its own CI.
-Rules observed require PR/discussion resolution, forbid deletion/non-fast-forward;
-no required-status rule configured yet. Zero unresolved PR125 review threads observed.
-
-Next: publish batched factual completion records, verify ALL final-head checks and
-live protections/discussions, then normal protected merge. Refresh main, unwatch125,
-reconcile its actual merge while claiming WORKFLOW005 on its dedicated current-main
-branch. Author/review precise compact/publication contract before tests, then fresh
-implementation. CI002 may independently proceed under its own full gates if needed.
-New record/results policy activates only with WORKFLOW006; practices/private-evidence
-rules activate with reviewed WORKFLOW004 merge. PR121 stays parked. No new product work.
+CI002 must preserve8legacyAPT methods/allassertions, including directAzure URI
+refusal and no commands/writes for invalid layout. Source guard remains strict;
+new known variants require actual evidence/review, never cloud-label guesses.
+Bounded actionable diagnostics/imageidentity before refusal, explicit transient
+allowlist/atmost1processretry preserving firstfailure, unknown/mixed/integrity/
+layout/build/test failures neverretry. No caching/selectiveCI/failure suppression.
+Existing Acquire::Retries1 bytes are frozen; contract must distinguish internalAPT
+request behavior from any new processretry, not claim false totalattempt bounds.
+Observed21current checks:20Actions app15368 +GitGuardian app46505. Main ruleset
+26170263 has deletion/nonFF/PR rules and no required-check rule; preserve full live
+settings, conditions, bypass/enforcement and unrelated protections. Only apply app-
+bound reviewed inventory after fresh currenthead success and fullreview. Raw facts
+private local-evidence/CI-002/initial-observations; no admin mutations yet.
+OnceCI002reviewed/merged, integrate main once into005 and resume protected publication.
