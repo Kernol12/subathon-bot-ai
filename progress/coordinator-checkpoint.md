@@ -1,37 +1,40 @@
-# EPIC-029 authorized — MIGRATE-002 publication
+# EPIC-029 authorized — MIGRATE-003 contract next
 
-Owner authorizes migration only: 001 → 002 → 003 → 004 → 006 → 005, no renewed
-confirmation needed. State remains sole task/proof authority until004 cutover.
+Owner authorizes migration only: 001 → 002 → 003 → 004 → 006 → 005 without renewed
+confirmation. State remains sole task/proof authority until004 reviewed cutover.
 Product/API and WORKFLOW-006/007 execution remain stopped; WF006 storage/dependency
-rescope only is migration scope. Full v0.45 and all independent/protected gates remain.
+rescope only is migration scope. Full v0.45 and all mandatory review/merge gates remain.
 
-Checkout task/MIGRATE-002-proof-records based current origin/main cfd6da9. No active
-worker. Coordinator owns final metadata/publication/current CI/protected merge.
-001 completed by normal PR632 merge cfd6da9 after all21 app-bound checks; issue626
-closed after readback and watch stopped. Prior PR126 completion/history preserved.
+Checkout task/MIGRATE-003-publication-proof from current origin/main a277c5d. No active
+worker yet. Coordinator owns shared metadata/integration/CI/protected publication.
+Brief docs/tasks/EPIC-029/MIGRATE-003.md. Parent migration contract b506434; exact proof
+contract8920909; prepared implementation2009aa7. Fresh003 contract author next, no
+runtime edits before contract/tests review and actual meaningful red/fresh implementation.
 
-002 contract8920909, tests8aa9596 and implementation2009aa7 approved through full
-independent cycles, all rejected reports/actual identities retained. Final code closing:
-https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6861469387
-Reviewed NI/red baseline retained with no setup/import/skips, tests unchanged during
-implementation. Local154tooling +proofaggregate1 +existing schemas8 +SDKpublication3
-pass; later fresh scaffold3 passed. Original author staleHTMLfailure/rerun is historical.
-Only prepared schemas/tools, no canonical real proofs/policy or authority switch.
+001 complete PR632 normal merge cfd6da9. 002 complete final PR633 normal merge
+ a277c5dedd45eb53e98dca6218e5164daed985b6 at2026-11-13T18:33:51Z, exact head
+ eb2d991a020bb581b8841d0a846a656677e5c164, all21 app-bound checks SUCCESS, no unresolved
+threads/bypass. Issue627 closed only after readback; PR633 watch stopped.
+https://github.com/Kernol12/subathon-bot-ai/pull/633
+All contract/test/code cycles/rejections/actual identities and reviewed NI-red retained.
+Local154tooling/schema1+8+3/later scaffold3 pass; author earlier staleHTMLfailure/rerun
+stays historical. Current metadata carried in next authorized task, no completion-onlyPR.
 
-Next current selected contract/implementation publication preflight, focused final002
-PR, latest app-bound CI/discussion/rules inspection and normal protected merge. Close
-issue627 only after actual final merge; then claim003 in next authorized metadata.
-Private receipts local-evidence/EPIC-029. Actual admitted interpreter spelling remains
-build/workflow005-schema-venv/bin/python; no install or global dependencies.
+003 contract must explicitly resolve this conflict before activating --complete:
+approved test packet8aa9596 includes NI tools/proofs.py, tools/workflow.py and reject-all
+schemas, intentionally replaced by approved implementation2009aa7. Parent all-stage
+current-blob check would refuse forever. Preserve exact original baseline revisions,
+paths and ordered approvals; do not relabel old blobs current or silently drop required
+source checks. Choose/review the smallest truthful stage-ownership/supersession remedy,
+without a second review engine, results policy, artifact-manifest/digest or backlog.
+Any necessary format refinement/amendment must be explicit and independently reviewed
+before tests. Apply consistently to historical NI baseline examples, no blanket exemption.
 
-003 must resolve all-stage current binding versus intentional test baseline NI files
-through reviewed stage ownership/supersession before activating its guard. Preserve
-all historical baseline paths/reviews; don't relabel NI blobs current or silently skip
-required proof. Current002 checker only binds explicitly selected stages; no future
---complete or source-guard capability is claimed by002. This remains a concrete003 gate.
-
-Retained nonblocking limits: trusted stable filesystem/no race guarantee; source
-identity path-only (hardlink advisory); surrogate escapes can load but fail UTF8 output
-with cleanup; supplied parent traversal conservatively refused; strict stage paths now
-canonical. Schema whitespace-only local acceptance is safe-direction only; Python
-refuses it. No live/provider/platform/board/archive verification claimed.120exemptions intact.
+Also specify selected proof publication with current checkout/outgoingprivacy/history/
+actual schema witness, target-tip base guard and one-time archive bootstrap, immutable
+eligibility/history checks, completed exemptions vs forward work, independent project
+checks, prepared opt-in mode only until004, actual proof-schema CMake/CI registration.
+No assertion removal before004. New source tests must retain existing meaningful cases.
+No production canonical extraction/authority switch before004; no permanent sync.
+Admitted interpreter build/workflow005-schema-venv/bin/python; preserve spelling/noinstall.
+Private receipts local-evidence/EPIC-029. Board/archive/fresh-retired-tree audits pending.
