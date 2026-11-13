@@ -13,18 +13,31 @@ Test author `fed07cc` integrated byte-identically at `57ee2bc`; root corrected t
 blockers and three advisories at `221a749`. Independent Codex approved, then fresh
 Claude closing review approved with no blockers (session `4787cfc5`). Receipt:
 https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846728971
-All 19 tests remain unpublished. Only the two selected red methods have now run;
-the other 17 methods remain unrun.
-
-Observed red at `cbc54d8`: exactly two intended missing-runner/refusal-record
-assertion FAILs, zero ERRORs/skips. Prerequisites passed; raw logs are private in
-`local-evidence/CI-002/red-baseline`. Public actual receipt:
+All test/source changes remain unpublished. Observed red at `cbc54d8`: exactly two
+intended missing-runner/refusal-record assertion FAILs, zero ERRORs/skips. Private
+logs: `local-evidence/CI-002/red-baseline`; public actual receipt:
 https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846752039
-Next fresh isolated Codex implementation `ci002-implementation-v1` owns ONLY
-`tools/prepare_ubuntu_apt.py`; root owns metadata, integration, settings and publication.
-The fresh worker must not replay red, edit frozen tests or publish. Full independent
-code/settings cycle, current-head hosted success, actual administration/readback and
-protected merge remain pending.
+
+Fresh isolated Codex implementation `ci002-implementation-v1` completed at `22e4950`,
+parent `df48163`, sole helper change. Root fast-forwarded the exact commit. Author
+observed 19 diagnostics, 8 legacy APT, 91 full tooling methods and scaffold 3/3 pass,
+zero skips; project/progress/diff checks pass. Root retained/inspected private logs.
+No new identity/cloud/network/Python DNS lookup, retry or admission change.
+Root added CI guidance at `9862e63`; implementation packet is that revision and TWO
+paths: `tools/prepare_ubuntu_apt.py`, `docs/CI.md`. Both authors declared in state.
+Public author evidence/scope:
+https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846948587
+
+Next independent Claude initial CODE/SETTINGS review `ci002-initial-code-review-v1`.
+Full Codex fixes/separate verification then fresh Claude closing remain required.
+Exact private settings proposal: `local-evidence/CI-002/settings-proposal-v1`.
+Payload SHA256 `680e0afc805d2c90e572c6726f3dc334f8cf0f332f359915337bdcbeb88912f7`.
+Fresh read matches approved writable before; admin permission true, NOT APPLIED.
+Reviewer covers exact before/after/inventory, not just the contract procedure.
+Require actual all-current-head success and fresh complete observations/unchanged
+before immediately before applying; exact full/effective readback then normal merge.
+Material drift invalidates proposal. Root owns all administration and publication.
+
 Tests frozen at `221a749`; contract/brief frozen at `67c5506`.
 
 TC-A1 accepted test limit: four legacy Python socket lookup APIs are not blocked.

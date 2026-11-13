@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T07:18:14Z",
+  "updated_at": "2026-11-13T07:30:05Z",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18675,13 +18675,13 @@
       "brief": "docs/tasks/CI-002.md",
       "summary": "Diagnose refused runner layouts, bound attributable infrastructure retries and enforce existing required-check merge policy.",
       "notes": [
-        "Contract 67c5506 and tests 221a749 fully approved. Exactly two named cases observed intended missing-record assertion red at cbc54d8: 2 FAILs, 0 ERRORs/skips. Other 17 tests unrun; none published. Fresh implementation next, helper only; C-A1 precision and TC-A1 DNS-barrier limit bound in packet. Remote a9d2464 has two unchanged layout failures; no settings or product change."
+        "Contract/tests fully approved; exact two intended reds retained. Fresh implementation 22e4950 integrated unchanged; author observed diagnostics 19, legacy 8, tooling 91 and scaffold 3/3 passing with zero skips. Code/CI guidance packet 9862e63 and exact unapplied 21-check settings proposal await full review. Frozen tests intact; no new lookup/retry/admission change. Remote a9d2464 still has two old layout failures. Product stopped."
       ],
       "verification": {
         "contract_review": "passed",
         "test_review": "passed",
         "baseline": "observed_red",
-        "implementation": "not_run",
+        "implementation": "passed",
         "acceptance": "not_run",
         "claim": "passed",
         "contract_authored": "passed",
@@ -18691,7 +18691,13 @@
         "current_draft_ci": "failed",
         "static_inventory": "passed",
         "test_correction_authored": "passed",
-        "test_correction_review": "passed"
+        "test_correction_review": "passed",
+        "local_mocked_tooling": "passed",
+        "scaffold": "passed",
+        "code_review": "not_run",
+        "settings_review": "not_run",
+        "settings_enforcement": "not_run",
+        "current_source_ci": "not_run"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6840078428",
@@ -18705,7 +18711,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846296248",
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846453343",
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846728971",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846752039"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846752039",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6846948587"
       ],
       "review": null,
       "workflow": {
@@ -18847,6 +18854,18 @@
                 "finished_at": "2026-11-13T07:12:30.431Z"
               }
             ]
+          },
+          "implementation": {
+            "authors": [
+              "codex:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci002-implementation-v1",
+              "codex:coordinator-97333d35"
+            ],
+            "revision": "9862e63e7e32032a9f0d994f5156ff6e0e45f80b",
+            "paths": [
+              "tools/prepare_ubuntu_apt.py",
+              "docs/CI.md"
+            ],
+            "reviews": []
           }
         }
       },
