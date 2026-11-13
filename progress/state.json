@@ -19743,7 +19743,7 @@
       "module": "Quality and tooling",
       "kind": "implementation",
       "status": "in_progress",
-      "owner": "codex:migrate002-contract-author-20261113:/root",
+      "owner": "codex:test-author:01a1d5de-93a6-7f72-a732-52f576b6a33f",
       "depends_on": [
         "MIGRATE-001"
       ],
@@ -19754,7 +19754,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-002.md",
       "summary": "Separate review evidence from task tracking. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Exact proof contract approved through full independent cycle at 8920909; rejected initial history retained. Tests not authored/reviewed/run; no intended red or implementation yet. Fresh test author receives closing notes and isolated admitted SDK path. State sole authority; product/WF006/007 stopped."
+        "Contract approved at 8920909; 17 tooling methods + 1 real-schema aggregate authored at 7d5bcdd with frozen policy/history and NI seams. Full independent test review pending; no new tests/schema tests executed, no intended red or implementation. Static/project/progress checks passed. State sole authority; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -19763,7 +19763,8 @@
         "baseline": "not_run",
         "implementation": "not_run",
         "acceptance": "not_run",
-        "contract_verification": "passed"
+        "contract_verification": "passed",
+        "tests_authored": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/issues/627"
@@ -19862,6 +19863,23 @@
                 "finished_at": "2026-11-13T17:01:58Z"
               }
             ]
+          },
+          "tests": {
+            "authors": [
+              "codex:test-author:01a1d5de-93a6-7f72-a732-52f576b6a33f"
+            ],
+            "revision": "7d5bcdd6d4100bdd4c86bd2af780f86deb51a880",
+            "paths": [
+              "tests/tooling/test_proofs.py",
+              "tests/support/frozen_proof_policy.py",
+              "tests/support/apitest016-supplemental-b506434.json",
+              "tests/schema_validation/test_proof_schemas.py",
+              "tools/proofs.py",
+              "tools/workflow.py",
+              "progress/proof.schema.json",
+              "progress/proof-policy.schema.json"
+            ],
+            "reviews": []
           }
         }
       }
