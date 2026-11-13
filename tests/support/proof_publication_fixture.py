@@ -33,10 +33,11 @@ def packet(revision, paths, complete=True):
                 reviews=[receipt(p, revision) for p in ('initial', 'verification', 'closing')] if complete else [])
 
 
-def observation(head, state='open', at='2026-11-12T12:00:00Z'):
+def observation(head, state='open', at='2026-11-12T12:00:00Z',
+                merged_at='2026-11-12T11:00:00Z'):
     return dict(state=state, pr='https://github.com/Kernol12/subathon-bot-ai/pull/9901',
                 head=head, merge_commit=head if state == 'merged' else None,
-                merged_at='2026-11-12T11:00:00Z' if state == 'merged' else None, observed_at=at)
+                merged_at=merged_at if state == 'merged' else None, observed_at=at)
 
 
 class ProofPublicationFixture(PublicationFixture):
@@ -105,18 +106,31 @@ class ProofPublicationFixture(PublicationFixture):
                 kind=True, brief=True, evidence=True, limitations=True, workflow=True, publication=True,
                 verification=True, review=True, supplemental_workflow_evidence=True)
                 for i in (SELECTED, historical_id, 'ACCESS-002')], discrepancies=[])
+        self.prepare_archive()
+
+    def prepare_archive(self, edit=None):
+        """Rebuild disposable archive before the first canonical proof introduction.
+
+        reset is confined to this fixture's temporary repository. Candidate records
+        remain the independent literal extraction, even when archive inputs change.
+        """
+        self.git('reset', '--hard', self.source_revision)
         self.json('progress/state.json', self.source)
         self.json(IDENTITIES, self.identities)
         self.json(REPORT, self.report)
+        if edit is not None:
+            edit(self)
         self.archive = self.commit('Synthetic complete pinned archive')
         self.policy = dict(version=1, legacy_done=list(LEGACY_DONE), legacy_done_sha256=LEGACY_DONE_SHA256,
-                           archive_commit=self.archive, required_records=['ACCESS-002', historical_id, SELECTED])
+                           archive_commit=self.archive, required_records=sorted(self.records))
         # Target is an observed ancestor, never a guessed future hash.
         self.target = self.archive
         self.git('update-ref', 'refs/remotes/origin/main', self.target)
         self.save()  # Restore the original small production tracker/render positive.
         for name in (IDENTITIES, REPORT, 'docs/retired-publication.md'):
-            (self.root/name).unlink()
+            path = self.root/name
+            if path.exists() or path.is_symlink():
+                path.unlink()
         self.persist()
 
     @property

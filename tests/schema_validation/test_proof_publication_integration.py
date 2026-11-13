@@ -64,18 +64,19 @@ class ProofPublicationSDKTests(unittest.TestCase):
         self.assertTrue(result.stderr.strip())
         self.assertNotIn(NI,result.stderr)
 
-    def test_aggregate_and_actual_selected_canonical_inputs_both_required(self):
-        with tempfile.TemporaryDirectory() as directory:
-            f=ProofPublicationFixture(Path(directory)/'candidate'); self.positive(f)
-            path=f.root/'progress/proof.schema.json'; schema=json.loads(path.read_text())
-            # All literal aggregate IDs still pass. Only this actual selected ID fails.
-            schema.setdefault('allOf',[]).append({'not':{'properties':{'task_id':{'const':SELECTED}},'required':['task_id']}})
-            path.write_text(json.dumps(schema)); f.head=f.commit('Synthetic selected-only schema refusal')
-            probe=self.probe(f)
-            self.assertEqual((probe.returncode,probe.stdout),(0,WITNESS),probe.stderr)
-            result=self.checker(f); self.refuse(result)
-            self.assertIn(b'ValidationError',result.stderr)
-            self.assertIn(SELECTED.encode(),result.stderr)
+    def test_aggregate_and_every_actual_canonical_record_both_required(self):
+        for identity in (SELECTED,'OLD-902'):
+            with self.subTest(identity=identity), tempfile.TemporaryDirectory() as directory:
+                f=ProofPublicationFixture(Path(directory)/'candidate'); self.positive(f)
+                path=f.root/'progress/proof.schema.json'; schema=json.loads(path.read_text())
+                # Aggregate fixtures stay valid; only one actual record fails.
+                schema.setdefault('allOf',[]).append({'not':{'properties':{'task_id':{'const':identity}},'required':['task_id']}})
+                path.write_text(json.dumps(schema)); f.head=f.commit('Synthetic actual-record-only schema refusal')
+                probe=self.probe(f)
+                self.assertEqual((probe.returncode,probe.stdout),(0,WITNESS),probe.stderr)
+                result=self.checker(f); self.refuse(result)
+                self.assertIn(b'ValidationError',result.stderr)
+                self.assertIn(identity.encode(),result.stderr)
 
     def test_real_aggregate_skip_or_failure_never_counts_as_witness(self):
         for mutation in ('skip','assertion','extra-output','offline-ref'):

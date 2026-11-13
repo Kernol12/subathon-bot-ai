@@ -119,7 +119,9 @@ class PreparedPublicationTests(unittest.TestCase):
 
     def test_complete_all_required_and_prospective_ni_replacement(self):
         with self.fixture() as f:
-            self.success(self.invoke(f, f.arguments(stages=('tests', 'contract', 'implementation'), complete=True)))
+            summary=self.success(self.invoke(f, f.arguments(stages=('tests', 'contract', 'implementation'), complete=True)))
+            self.assertEqual([stage['name'] for stage in summary['stages']],
+                             ['tests','contract','implementation'])
             tests = deepcopy(f.selected['workflow']['stages']['tests'])
             ni_mode_blob = f.git('ls-tree', f.source_revision, '--', RUNTIME).stdout
             f.write(RUNTIME, b'Implemented synthetic source\n')
@@ -171,7 +173,8 @@ class PreparedPublicationTests(unittest.TestCase):
     def test_history_single_mutations_against_base_and_archive_origin(self):
         # Same edits are rejected both at first bootstrap and against an existing base.
         mutations = ('enrollment','record','kind','issue','pin','exempt','required','workflow','packet',
-                     'reviews','limitations','evidence','verification','review','paths','authors','brief')
+                     'reviews','limitations','evidence','drop-review','drop-limitation','drop-evidence',
+                     'verification','review','paths','authors','brief')
         for existing in (False, True):
             with self.fixture() as f:
                 if existing: f.existing()
@@ -192,6 +195,9 @@ class PreparedPublicationTests(unittest.TestCase):
                         elif mutation=='workflow': del r['workflow']
                         elif mutation=='packet': del w['stages']['contract']
                         elif mutation=='reviews': p['reviews'][0]['evidence']='https://example.test/rewritten'
+                        elif mutation=='drop-review': p['reviews'].pop()
+                        elif mutation=='drop-limitation': r['limitations'].pop()
+                        elif mutation=='drop-evidence': r['evidence'].pop()
                         elif mutation=='limitations': r['limitations'].reverse()
                         elif mutation=='evidence': r['evidence'].reverse()
                         elif mutation=='verification': r['verification']['baseline']='passed'
@@ -217,32 +223,45 @@ class PreparedPublicationTests(unittest.TestCase):
         with self.fixture() as f:
             self.guard(f)
             self.assertFalse((f.root/'docs/retired-publication.md').exists())
+            f.write('docs/retired-publication.md',b'Historical acceptance\n')
+            f.head=f.commit('Synthetic restore historical current binding')
+            self.success(self.invoke(f, f.arguments(task_id='OLD-902')))
+            (f.root/'docs/retired-publication.md').unlink()
+            f.head=f.commit('Synthetic retire only historical bound path')
             self.refusal(self.invoke(f, f.arguments(task_id='OLD-902')))
             value=self.guard(f, task_id='ACCESS-002')
             self.assertTrue(value['legacy_exempt'])
+            f.existing()
+            self.assertEqual(self.guard(f,bootstrap=False,task_id='ACCESS-002'),
+                             dict(mode='existing',record_count=3,archive_record_count=3,legacy_exempt=True))
             # Supplied exempt workflow validates but cannot authorize forward completion.
             f.records['ACCESS-002']['workflow']=dict(required_stages=['contract'], stages={
                 'contract':packet(f.source_revision,[CONTRACT])})
-            f.persist(); self.guard(f, task_id='ACCESS-002')
-            self.refusal(self.invoke(f, f.arguments(task_id='ACCESS-002', complete=True)))
+            f.persist(); self.guard(f, bootstrap=False, task_id='ACCESS-002')
+            self.refusal(self.invoke(f, f.arguments(bootstrap=False, task_id='ACCESS-002', complete=True)))
             f.records['ACCESS-002']['kind']='epic'; f.persist()
-            self.guard_refusal(f, task_id='ACCESS-002')
+            self.guard_refusal(f, bootstrap=False, task_id='ACCESS-002')
 
     def test_same_pr_head_advance_time_and_merged_immutability(self):
         with self.fixture(publication=True) as f:
             self.guard(f); f.existing()
             first=deepcopy(f.selected['publication'])
             for state in ('open','merged'):
-                f.selected['publication']=observation(f.head,state,at='2026-11-12T13:00:00Z')
+                at='2026-11-12T13:00:00Z' if state=='open' else '2026-11-12T14:00:00Z'
+                f.selected['publication']=observation(f.head,state,at=at,
+                                                       merged_at='2026-11-12T13:30:00Z')
                 f.persist(); self.guard(f,bootstrap=False)
             f.existing()
+            self.guard(f,bootstrap=False)
             merged=deepcopy(f.selected['publication'])
             for mutation in ('time','head','pr','remove'):
                 f.selected['publication']=deepcopy(merged)
                 if mutation=='remove': del f.selected['publication']
-                elif mutation=='time': f.selected['publication']['observed_at']='2026-11-12T14:00:00Z'
+                elif mutation=='time': f.selected['publication']['observed_at']='2026-11-12T15:00:00Z'
                 elif mutation=='head': f.selected['publication']['head']=f.archive
-                else: f.selected['publication']['pr']='https://github.com/Kernol12/subathon-bot-ai/pull/9999'
+                else:
+                    new='https://github.com/Kernol12/subathon-bot-ai/pull/9999'
+                    f.selected['publication']['pr']=new; f.selected['evidence'].append(new)
                 f.persist(); self.guard_refusal(f,bootstrap=False)
         for mutation in ('backwards','remove','reassociate'):
             with self.subTest(mutation=mutation), self.fixture(publication=True) as f:
@@ -263,7 +282,16 @@ class PreparedPublicationTests(unittest.TestCase):
             self.refusal(self.invoke(f))
             f.git('update-ref','refs/remotes/origin/main',f.target)
             f.existing()
-            self.success(self.invoke(f,f.arguments(bootstrap=False)))
+            result=self.invoke(f,f.arguments(bootstrap=False))
+            summary=self.success(result)
+            expected_guard=dict(mode='existing',record_count=3,archive_record_count=3,legacy_exempt=False)
+            self.assertEqual(self.guard(f,bootstrap=False),expected_guard)
+            expected=dict(task=SELECTED,base=f.target,head=f.head,commit_count=0,
+                stages=[dict(name='contract',revision=f.source_revision,path_count=1,complete=True)],
+                guard=expected_guard,checks={k:'passed' for k in ('recorded_paths','outgoing_paths','proofs',
+                'policy_history','progress','render','project','schema','proof_schema')},limitations=LIMITATIONS)
+            self.assertEqual(summary,expected)
+            self.assertEqual(result[1],json.dumps(expected,indent=2,ensure_ascii=False)+'\n')
             self.refusal(self.invoke(f))
             for extra in (['--policy','alternate.json'], ['--records-dir','other']):
                 result=self.invoke(f,f.arguments()+extra)
@@ -277,11 +305,17 @@ class PreparedPublicationTests(unittest.TestCase):
         for location in (POLICY, RECORDS):
             with self.subTest(location=location), self.fixture() as f:
                 self.guard(f)
+                f.git('reset','--hard',f.archive)
+                if location==POLICY:
+                    f.json(POLICY,f.policy)
+                else:
+                    for identity,record in f.records.items():
+                        f.json(f'{RECORDS}/{identity}.json',record)
+                f.head=f.commit('Synthetic first introduction of only one canonical input')
                 f.existing()
-                p=f.root/location
-                shutil.rmtree(p) if p.is_dir() else p.unlink()
-                f.head=f.commit('Synthetic corrupt target with one canonical input'); f.existing()
-                f.persist(); self.guard_refusal(f)
+                f.save(); f.persist()
+                self.guard_refusal(f)
+                self.guard_refusal(f,bootstrap=False)
         with self.fixture() as f:
             self.guard(f)
             f.policy['archive_commit']='e'*40; f.persist(); self.guard_refusal(f)
@@ -289,47 +323,56 @@ class PreparedPublicationTests(unittest.TestCase):
     def test_canonical_discovery_and_strict_git_bytes(self):
         for name, content, symlink in (
                 (POLICY,b'{"version":1,"version":1}',False),
-                (f'{RECORDS}/{SELECTED}.json',b'\xef\xbb\xbf{}',False),
+                (f'{RECORDS}/{SELECTED}.json','bom',False),
                 (f'{RECORDS}/.hidden',b'{}',False),
                 (f'{RECORDS}/nested/OTHER-901.json',b'{}',False),
-                (f'{RECORDS}/{SELECTED}.json',b'../proof-policy.json',True)):
+                (f'{RECORDS}/ACCESS-002.json','valid-record',True),
+                (f'{RECORDS}/OLD-902.json','filename-mismatch',False)):
             with self.subTest(path=name), self.fixture() as f:
                 self.guard(f)
                 path=f.root/name
+                if content=='bom': content=b'\xef\xbb\xbf'+path.read_bytes()
+                elif content=='valid-record': content=path.read_bytes()
+                elif content=='filename-mismatch': content=(f.root/f'{RECORDS}/{SELECTED}.json').read_bytes()
                 if symlink:
                     path.unlink(); path.symlink_to(content.decode())
                 else: f.write(name,content)
                 f.head=f.commit('Synthetic single malformed Git input')
                 self.guard_refusal(f)
+        with self.fixture() as f:
+            self.guard(f); f.existing(); self.guard(f,bootstrap=False)
+            f.write(POLICY,b'{"version":1,"version":1}')
+            f.head=f.commit('Synthetic malformed base-only transport'); f.existing()
+            f.persist()  # Candidate is valid; only the target base has invalid bytes.
+            self.guard_refusal(f,bootstrap=False)
 
     def test_archive_report_and_full_extraction_not_just_hashes(self):
-        for mutation in ('report-count','report-mapping','report-comparison','report-only-true',
+        for mutation in (None,'report-count','report-mapping','report-comparison','report-only-true',
                          'missing-map','missing-report','missing-source','duplicate-map','source-omission','source-limit','archive-symlink'):
             with self.subTest(mutation=mutation), self.fixture() as f:
                 self.guard(f)
-                # Build another real archive from the same literal universe; no implementation oracle.
-                source, ids, report=deepcopy(f.source),deepcopy(f.identities),deepcopy(f.report)
-                if mutation=='report-count': report['record_count']=2
-                elif mutation=='report-mapping': report['mappings'][0]['issue']['number']=9999
-                elif mutation=='report-comparison': report['field_comparisons'][0]['brief']=False
-                elif mutation=='report-only-true': report={'all_fields_preserved':True}
-                elif mutation=='source-omission': source['tasks'].pop()
-                elif mutation=='source-limit': source['tasks'][0]['notes'][0]='Different archived limitation'
-                f.json('progress/state.json',source); f.json(IDENTITIES,ids); f.json(REPORT,report)
-                if mutation=='missing-map': (f.root/IDENTITIES).unlink()
-                elif mutation=='missing-report': (f.root/REPORT).unlink()
-                elif mutation=='missing-source': (f.root/'progress/state.json').unlink()
-                elif mutation=='duplicate-map': f.write(IDENTITIES,b'{"version":1,"version":1,"entries":[]}')
-                elif mutation=='archive-symlink':
-                    (f.root/REPORT).unlink(); (f.root/REPORT).symlink_to('identities.json')
-                f.archive=f.commit('Synthetic mutated archive input')
-                f.target=f.archive; f.git('update-ref','refs/remotes/origin/main',f.target)
-                f.policy['archive_commit']=f.archive
-                f.save()
-                for name in (IDENTITIES,REPORT):
-                    p=f.root/name
-                    if p.exists() or p.is_symlink(): p.unlink()
-                f.persist(); self.guard_refusal(f)
+                def edit(archive):
+                    source, ids, report=deepcopy(f.source),deepcopy(f.identities),deepcopy(f.report)
+                    if mutation=='report-count': report['record_count']=2
+                    elif mutation=='report-mapping': report['mappings'][0]['issue']['number']=9999
+                    elif mutation=='report-comparison': report['field_comparisons'][0]['brief']=False
+                    elif mutation=='report-only-true': report={'all_fields_preserved':True}
+                    elif mutation=='source-omission': source['tasks'].pop()
+                    elif mutation=='source-limit': source['tasks'][0]['notes'][0]='Different archived limitation'
+                    archive.json('progress/state.json',source); archive.json(IDENTITIES,ids); archive.json(REPORT,report)
+                    if mutation=='missing-map': (archive.root/IDENTITIES).unlink()
+                    elif mutation=='missing-report': (archive.root/REPORT).unlink()
+                    elif mutation=='missing-source': (archive.root/'progress/state.json').unlink()
+                    elif mutation=='duplicate-map': archive.write(IDENTITIES,b'{"version":1,"version":1,"entries":[]}')
+                    elif mutation=='archive-symlink':
+                        (archive.root/REPORT).unlink()
+                        # A valid report as link bytes isolates the Git mode check.
+                        (archive.root/REPORT).symlink_to(json.dumps(report))
+                f.prepare_archive(edit)
+                if mutation is None:
+                    self.guard(f)
+                else:
+                    self.guard_refusal(f)
 
     def test_brief_relocation_requires_exact_archive_path_mode_and_bytes(self):
         with self.fixture() as f:
@@ -349,7 +392,9 @@ class PreparedPublicationTests(unittest.TestCase):
 
     def test_new_id_exact_stanzas_and_selected_complete_packet_in_both_modes(self):
         for complete in (False,True):
-            for mutation in (None,'id','kind','issue','duplicate','unreviewed','unselected'):
+            mutations=(None,'id','kind','issue','duplicate','unbound')
+            if not complete: mutations+=('unreviewed','unselected')
+            for mutation in mutations:
                 with self.subTest(complete=complete,mutation=mutation), self.fixture() as f:
                     self.guard(f); f.existing()
                     brief='docs/new-publication.md'
@@ -367,6 +412,7 @@ class PreparedPublicationTests(unittest.TestCase):
                     elif mutation=='kind': text=text.replace('contract','Contract')
                     elif mutation=='issue': text=text.replace('/9905','/9906')
                     elif mutation=='duplicate': text+='Task ID: NEW-903\n'
+                    elif mutation=='unbound': new['workflow']['stages']['contract']['paths']=[CONTRACT]
                     elif mutation=='unreviewed': new['workflow']['stages']['contract']['reviews']=[]
                     elif mutation=='unselected':
                         new['workflow']['required_stages'].append('tests')
@@ -392,7 +438,7 @@ class PreparedPublicationTests(unittest.TestCase):
             f.git('update-ref','refs/remotes/origin/main',f.target)
             self.guard_refusal(f)
 
-    def test_absent_workflow_and_extra_required_stage_can_be_added_without_fake_completion(self):
+    def test_exempt_historical_workflow_can_gain_pending_and_reviewed_packets(self):
         with self.fixture() as f:
             self.guard(f); f.existing()
             r=f.records['ACCESS-002']
@@ -404,6 +450,12 @@ class PreparedPublicationTests(unittest.TestCase):
             f.persist(); self.guard(f,bootstrap=False)
             r['workflow']['stages']['tests']=packet(f.source_revision,[ORACLE])
             f.persist(); self.guard(f,bootstrap=False)
+            with patch.object(publication,'ROOT',f.root):
+                stages=publication.check_proof_bindings(dict(policy=f.policy,records=f.records),
+                    'ACCESS-002',['contract','tests'],head=f.head)
+            self.assertEqual([stage['complete'] for stage in stages],[False,True])
+            self.refusal(self.invoke(f,f.arguments(bootstrap=False,task_id='ACCESS-002',
+                                                  stages=('contract','tests'),complete=True)))
 
     def test_supplemental_historical_map_is_neither_upgraded_nor_removed(self):
         with self.fixture(supplemental=True) as f:
@@ -443,7 +495,7 @@ class PreparedPublicationTests(unittest.TestCase):
                 self.success(self.invoke(f))
                 args=f.arguments()
                 if mutation=='dirty': f.write(CONTRACT,b'Uncommitted\n')
-                elif mutation=='head': args=f.arguments(head=f.source_revision)
+                elif mutation=='head': args=f.arguments(head=f.target)
                 elif mutation=='private-history':
                     f.write('local-secrets/transient.txt')
                     f.git('add','--force','local-secrets/transient.txt'); f.commit('Synthetic private intermediate')
@@ -468,12 +520,23 @@ class PreparedPublicationTests(unittest.TestCase):
                     with self.subTest(index=index,stdout=stdout):
                         self.refusal(self.invoke(f,responses={index:(0,stdout,b'')}))
 
+    def test_prepared_only_flags_require_proofs_mode(self):
+        with self.fixture() as f:
+            self.success(self.invoke(f))
+            for flag in ('--complete','--bootstrap'):
+                args=f.arguments(bootstrap=False)
+                args.remove('--proofs'); args.append(flag)
+                result=self.invoke(f,args)
+                self.assertEqual(result[:2],(2,''))
+                self.assertIn('--proofs',result[2])
+                self.assertNotIn(NI,result[2])
+
 
 class StrictGitJsonTests(unittest.TestCase):
     def test_bytes_parser_matches_strict_filesystem_transport(self):
         self.assertEqual(proofs.read_json_bytes(b'{"a":[1,"seven"]}', 'synthetic Git blob'), {'a':[1,'seven']})
         for payload in (b'\xef\xbb\xbf{}',b'\xff',b'{"a":1,"a":2}',b'{"a":NaN}',
-                        b'{"a":1e999}',b'{',b'['*2000+b']'*2000):
+                        b'{"a":1e999}',b'{',b'['*100000+b']'*100000):
             with self.subTest(payload=payload[:40]):
                 self.assertEqual(proofs.read_json_bytes(b'{}','positive'),{})
                 with self.assertRaises(ValueError) as error:

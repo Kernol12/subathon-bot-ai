@@ -12,6 +12,7 @@ ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'tools'))
 sys.path.insert(0,str(ROOT/'tests/support'))
 import check_project
+import progress
 from publication_fixture import PublicationFixture, ENV
 
 NI=b'PROOF_PUBLICATION_NOT_IMPLEMENTED'
@@ -71,8 +72,14 @@ class RepositoryChecks(unittest.TestCase):
                 f=PublicationFixture(Path(directory)/'candidate')
                 self.assertEqual(check_project.check_tracker(f.data,f.root),dict(tasks=1))
                 data=deepcopy(f.data)
-                if mutation=='reference': data['tasks'][0]['spec_refs']=['MISSING-01']
-                elif mutation=='version': data['specification_version']='0.44'
+                messages={'reference':'unknown specification reference',
+                          'version':'Progress/specification version mismatch',
+                          'render':'Stale progress snapshot', 'asset':'must not need external assets',
+                          'anchor':'Missing HTML anchor', 'link':'Missing HTML link'}
+                if mutation in ('reference','version'):
+                    if mutation=='reference': data['tasks'][0]['spec_refs']=['MISSING-01']
+                    else: data['specification_version']='0.44'
+                    f.write('PROGRESS.html',progress.render(data).encode())
                 elif mutation=='render': f.write('PROGRESS.html',b'stale\n')
                 else:
                     # Keep currency exact so malformed generated HTML reaches its own checks.
@@ -81,13 +88,16 @@ class RepositoryChecks(unittest.TestCase):
                           'anchor':'<a href="#missing">x</a>',
                           'link':'<a href="missing-target.md">x</a>'}[mutation]
                     f.write('PROGRESS.html',html.encode())
-                    with patch.object(check_project,'render',return_value=html):
+                    with patch.object(check_project,'render',return_value=html), \
+                         patch.object(progress,'render',return_value=html):
                         with self.assertRaises(ValueError) as error:
                             check_project.check_tracker(data,f.root)
-                    self.assertNotIn(NI.decode(),str(error.exception)); continue
+                    self.assertNotIn(NI.decode(),str(error.exception))
+                    self.assertIn(messages[mutation],str(error.exception)); continue
                 with self.assertRaises(ValueError) as error:
                     check_project.check_tracker(data,f.root)
                 self.assertNotIn(NI.decode(),str(error.exception))
+                self.assertIn(messages[mutation],str(error.exception))
 
 
 if __name__=='__main__':
