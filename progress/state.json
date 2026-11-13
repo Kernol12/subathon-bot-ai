@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T20:54:15.477350+00:00",
+  "updated_at": "2026-11-13T20:56:07+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20145,7 +20145,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-003.md",
       "summary": "Prepare publication checks and CI for evidence records. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Prepared proof publication implemented and all stages independently approved at fcf205a. Local181tooling/schema4/scaffold3 pass; precise durable-counterexample advisory and archive1MiB readiness retained for004. Current-head preflight/hostedCI/protectedmerge pending; task stays in progress until merge verification. State authoritative; product/WF006/007 stopped."
+        "Prepared publication independently approved; local181tooling/schema4/scaffold3 pass. PR634 open, current hostedCI/protected merge pending; issue stays open until verified merge. Precise guard-counterexample advisory and production archive-size/readback obligations retained for004. State authoritative; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -20167,7 +20167,8 @@
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/issues/628",
         "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6863680260",
-        "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6863906280"
+        "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6863906280",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/634"
       ],
       "review": null,
       "workflow": {
@@ -20466,6 +20467,14 @@
             ]
           }
         }
+      },
+      "publication": {
+        "state": "open",
+        "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/634",
+        "head": "9fa49fbf76e28075d88a49547cf2116ecdf28d33",
+        "merge_commit": null,
+        "merged_at": null,
+        "observed_at": "2026-11-13T20:56:07+00:00"
       }
     },
     {

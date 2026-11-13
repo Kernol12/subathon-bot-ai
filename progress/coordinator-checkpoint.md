@@ -14,8 +14,11 @@ identity. Observed20:46:34Z to approximately20:52Z; omit structured timing rathe
 invent precision. Code source/contract/test blobs unchanged since their reviewed pins.
 
 Local181tooling/schemaCTest4/scaffold3 pass; actual source-bound NI baseline retained.
-Current-head preflight, PR publication, required CI, normal protected merge and actual
-merge readback/issue closure next.003 remains in progress until merged verification.
+PR634 open: https://github.com/Kernol12/subathon-bot-ai/pull/634
+Preflight passed allthreepackets/currentpaths at9fa49fb (basea277c5d), then PRopened.
+Open publication observation is actual9fa49fb, not a guessed futurehead. Receipt-only
+publication metadata follows; rerun preflight and currentCI at final pushedhead.
+Normal protected merge and actualmerge readback/issueclosure next;003 remainsinprogress.
 001/PR632 mergedcfd6da9,002/PR633 mergeda277c5d verified21checks; issues closed after
 readback. Preserve newer completion evidence in next authorized metadata, not stale main.
 003 evidence README is held stable as part of contract packet; completion summary goes004.
