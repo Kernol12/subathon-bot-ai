@@ -191,7 +191,7 @@ def is_available(task: dict, by_id: dict[str, dict], policy: dict | None = None)
             and all(workflow.dependency_complete(by_id[d], policy) for d in task["depends_on"]))
 
 
-def context(data: dict, task_id: str) -> dict:
+def context(data: dict, task_id: str, *, compact: bool = False) -> dict:
     """Derive a read-only task view from validated state."""
     tasks = data["tasks"]
     by_id = {t["id"]: t for t in tasks}
@@ -199,7 +199,7 @@ def context(data: dict, task_id: str) -> dict:
         raise ValueError(f"Unknown task: {task_id}")
     task = by_id[task_id]
     dependency_fields = ("id", "status", "owner", "brief", "evidence", "verification", "review")
-    return {
+    view = {
         "specification_version": data["specification_version"],
         "state_updated_at": data["updated_at"],
         "task": task,
@@ -212,6 +212,38 @@ def context(data: dict, task_id: str) -> dict:
         "limitations": ("Recorded information only; live GitHub/CI, session liveness and "
                         "checkout revisions are not verified. Availability grants no permission "
                         "to resume stopped work."),
+    }
+    if compact:
+        task_fields = ("id", "title", "module", "kind", "status", "owner", "brief", "summary",
+                       "depends_on", "spec_refs", "notes", "verification")
+        view["task"] = {key: task[key] for key in task_fields}
+        if "publication" in task:
+            view["task"]["publication"] = task["publication"]
+        view["task"]["required_stages"] = task.get("workflow", {}).get("required_stages", [])
+        dependency_fields = ("id", "status", "owner", "brief", "publication")
+        view["dependencies"] = [{key: by_id[d].get(key) for key in dependency_fields}
+                                for d in task["depends_on"]]
+        view["limitations"] += (
+            " Compact view omits non-blocking finding details and closing-only finding metrics; "
+            "use full mode or review links.")
+    return view
+
+
+def compact_stage_context(stage: dict) -> dict:
+    """Project an already derived stage without repeating its packet or finding prose."""
+    packet = stage["packet"]
+    ref_fields = ("phase", "provider", "model", "reviewer", "revision", "outcome", "evidence")
+    return {
+        "name": stage["name"],
+        "complete": stage["complete"],
+        "next_gate": stage["next_gate"],
+        "packet": ({key: packet[key] for key in ("authors", "revision", "paths")}
+                   if packet is not None else None),
+        "review_refs": [{key: review[key] for key in ref_fields}
+                        for review in packet["reviews"]] if packet is not None else [],
+        "historical_blocking_findings": stage["metrics"]["blocking_findings"],
+        "metrics": {key: stage["metrics"][key]
+                    for key in ("review_count", "elapsed_seconds", "timed_reviews")},
     }
 
 
@@ -274,6 +306,7 @@ def main() -> int:
     contextual = sub.add_parser("context")
     contextual.add_argument("task_id")
     contextual.add_argument("--stage", help="Derive one required stage's packet, gates and metrics")
+    contextual.add_argument("--compact", action="store_true", help="Select a compact task handoff")
     reconciling = sub.add_parser("reconcile")
     reconciling.add_argument("task_id")
     reconciling.add_argument("--pr-json", type=Path, required=True, help="Saved gh pr view observation")
@@ -292,6 +325,11 @@ def main() -> int:
             view = context(data, args.task_id)
             if args.stage is not None:
                 view["stage_context"] = workflow.stage_context(view["task"], args.stage)
+            if args.compact:
+                stage = view.get("stage_context")
+                view = context(data, args.task_id, compact=True)
+                if stage is not None:
+                    view["stage_context"] = compact_stage_context(stage)
             print(json.dumps(view, indent=2, ensure_ascii=False))
             return 0
         if args.command == "reconcile":

@@ -110,6 +110,10 @@ stage; keep contract, tests-before-red and implementation approvals distinct.
 Use `python3 tools/progress.py context TASK-ID --stage tests` (or contract /
 implementation) for the derived packet, next gate and observed review metrics.
 Read linked affected context, not global activity history at every handoff.
+Append `--compact` for a smaller handoff with the selected packet, all review links,
+historical blocker IDs and gate metrics. Full mode retains detailed findings and
+closing-only metrics; compact output states those omissions explicitly. Neither
+view authenticates reviews or authorizes stopped work.
 
 Record each review's actual phase/provider/model/session/revision/verdict, HTTPS
 report and finding IDs. Prefix new findings by review identity, and reuse an ID only
@@ -217,6 +221,24 @@ and next action in plain language. Checkpoints contain current authorization, ac
 checkout, live assignments, blockers and next action with links, not copied receipts.
 
 ## Publication reconciliation and resumption
+
+Before publishing a candidate, run the local publication check with explicit refs,
+current recorded stages and an admitted interpreter prepared using the
+[isolated schema setup](schema-validation.md):
+
+```sh
+python3 tools/check_publication.py --base origin/main --head HEAD \
+  --task TASK-ID --stage implementation --schema-python .venv/bin/python
+```
+
+Select only the stages whose recorded revision/paths should match the candidate;
+repeat `--stage` for additional bindings. The checker verifies clean checkout and
+commit identity, those bindings, every outgoing commit's forbidden paths, existing
+repository checks and actual progress-schema validation. It neither installs the SDK
+nor authenticates reviews or grants publication/merge authority. Keep diagnostic
+stderr private. Review untracked/ignored inputs and the public payload separately;
+path checking is not complete secret scanning. Current-head CI and owner/repository
+gates still apply.
 
 Before handoff or resumption, inspect actual branch/worktree, PR head/state, checks,
 reviews and repository rules. Save the bounded GitHub observation, for example:

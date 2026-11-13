@@ -1,60 +1,57 @@
-# Coordinator checkpoint — publish CI-003, finish PR126, pause
+# WORKFLOW-005 / PR126 resumed after CI-003; pause after merge
 
-Latest owner instruction: finish PR126 then PAUSE. CI-003 is its necessary explicit
-prerequisite. No WORKFLOW-006/007 or product/API001/API016 work is authorized.
-Branch task/CI-003-noble-security-source; base main e0816de503a88f94726a774be1932fbf4eea4984.
-CI-002/PR622 already merged there; its done record is reconciled, no settings PUT.
+Latest owner directive: finish PR126 then PAUSE. No WORKFLOW-006/007 or product/API
+work. Active existing branch task/WORKFLOW-005-context-publication; parked118425c
+(remote1fdedfb) integrates substantive mainf6dad07 ONCE. Only shared state/HTML/
+checkpoint conflicted; all source merged without conflict. Preserve all old task
+order/history/policy/120exemptions and full005 record, not main's planned placeholder.
+WF004 actual merged125publication and CI002done remain; CI003done/merged receipt
+carried from validated local closure. Old entries remain unchanged and in order.
 
-ALL CI-003 substantive cycles CLOSED:
-contract e41a830d7e35aeab0bb03cbd7812709876498b23 (3paths), closing receipt
-https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850904348
-tests8a3b9f65f3fbd0e9d1dbaec3f033a66a23b8fe40 (1file/21methods), closing
-https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851831236
-code1acf18d9eea7f451148733f83e4568ccd39ac1cf (producer+docsCI), closing0B/0A
-https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6852698060
-Full histories/actual identities/verdicts remain in state and public PR receipts.
-Private reports: local-evidence/CI-003/{contract-reviews,test-reviews,code-reviews}.
-Actual named intended red at0950c82:1test/1assertFAIL/0ERROR/0skip AFTER all
-fixture/read/runner/refusal/zerochild prerequisites. No missingAPI/stub. Receipt
-https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851874359
-Raw proof local-evidence/CI-003/red-v1. Never replay as red after implementation.
+CI003 PR623 merged normallyf6dad07 at2026-11-13T12:43:31Z, head d16a4a2, all21
+app-bound checks/19firstattempt runs/20jobs, all9prep steps pass;1nativeWebSocket
+lane emitted newprofile event. No oldfailedhost full-source/match/recovery claim.
+Protections unchanged, no bypass/settingsmutation/rerun. PR623 unwatched.
+https://github.com/Kernol12/subathon-bot-ai/pull/623#issuecomment-6853350232
+Proof local-evidence/CI-003/hosted-d16a4a2; transport snapshot under continuations.
 
-Source FROZEN: producer4b38809e851a94b2f37d0c90eeb060180af90564,
-guide016b88e1ee124ba4b14f5c16d6a6b307a8e4d3ae, newtest4b40acb2b83547ec644539876c77dab7b8414dfd,
-legacy919f15a8efc755b611dd18ce25d6394ba1c494d8, diagnosticfd3f1ec2d254b66004bd23b184e966a6b99597d1.
-Independent source audits confirmed literal immutable4URI allowlist, original decoded
-raw eligibility before strippedvalues, full structural scan/profile/fallback order,
-C-A1 emission failures, no new I/O/lookup/env/process/read/rewrite/retry/capture/trust/
-pin/dependency. All27 old methods/assertions stay unchanged;496tasks/120exemptions.
+Retain005 full stage histories and source revisions contract447aa06/tests77b1522/
+implementation3720c42. All contract3paths/implementation8paths must stay byte/mode
+identical. Tests packet's two NI producer placeholders were intentionally superseded
+by reviewed implementation; compare its5frozen test/support/CMake paths, not current
+producer bytes to historical NI. Publisher selects only contract+implementation.
+CI003 source packets e41a830/8a3b9f6/1acf18d also frozen, including new21APT methods
+and original8+19 baseline assertions. No unreviewed test/probe/oracle or red replay.
 
-Actual corrected-code112tooling (includes48APT) passed0skips; independent Codex and
-Claude closing each ran48APT/metadata successfully. Earlier author8real-schema/
-3scaffold at priorproducer9022609 passed. NEXT final committed-head local preflight
-(schema8/scaffold3/project/progress and artifact binding) before own focused PR;
-all logs private under local-evidence/CI-003. Existing admitted schema interpreter:
-build/workflow005-schema-venv/bin/python; preserve lexicalvenvpath, fixedenv/-I-S-B,
-no installs. Source reviews are complete; routine publication records do not revise
-source packets. PR body draft/snapshots in publication-prep-v1, copy to /tmp as needed.
-Root read-only12:10Z fullruleset snapshot matched reviewedpayload/alloldparameters/
-21appboundpairs, main e0816de; NOT futuremerge/currentheadCI proof. No settings changes.
+Integration committed0145e5bad0abdaeb891668fc4957bdf4a55f0a4b, exactparents
+118425c/f6dad07. Actual local checks passed0skips: scaffold configure/build/CTest3,
+unfiltered schema configure/build/CTest5 including136tooling,8real-schema and
+3real-SDK publication methods (counts overlap). Existing admittedvenv reused; no
+install/pinchange. Metadata/project/render/diff and source-binding checks pass.
+Public receipt https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6853647742
+Logs/snapshots local-evidence/WORKFLOW-005/resume-f6dad07. WF005workflow/review
+objects remain EXACTLY equal to parked118425c; only resume status/verification/
+notes/evidence/publication observation changed. All old records retained, including
+actual WF004merged125 and CI002done, CI003done/merged receipt. State remains sole
+canonical authority. Earlier local CI3 import-order error was corrected before carry;
+its private metadata commits were not merged/pushed into this branch.
 
-Own CI-003 PR/push not created yet at this checkpoint. Publish exact checked clean
-candidate, link as next call, then watch and wait for current-head all21success.
-Inspect all9actual hosted package-preparation logs, record whether source_admitted
-ran. Greenwithout event allows ONLY profile not platform-observed; anyfailedrequired
-lane blocksmerge, continued refusal needs reviewedrefinement. No luckrerun/relaxation/
-hiddenvalueguess. No fullfailedhostsource/match/recovery/platformrelease claim.
-Merge normally only with exactcurrenthead checks/reviews/rules and resolvedthreads;
-never --admin/bypass. Save actualCI003closure locally for parent resume.
+Independent routine Codex integration-metadata/source-currency review APPROVED,
+no new findings: https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6853824553
+Private metadata-review.md in resume-f6dad07; no native timings asserted. No new
+substantive source change; all valid approvals retained. NEXT on final clean HEAD,
+run actual publicationchecker with exact fullbasef6dad07/headHEAD,
+WORKFLOW-005 contract+implementation stages, existing admitted lexical
+build/workflow005-schema-venv/bin/python. Do not select historical tests-NI stage.
+No new test/probe/oracle or oldred replay. Then push exact checked candidate, link
+as next call, preserve existingwatch and wait for actual currenthead all21checks.
 
-PR126 stays linked/watched and parked remotely at1fdedfb363e79f134975dc7b796fec85034fea9d;
-local118425c4aee6cc8e3a1e9c0c55bb9dfd6e95aa31 on task/WORKFLOW-005-context-publication.
-Approved contract447aa06/tests77b1522/code3720c42 remain. Its6check publisher passed;
-API-host/exact-numeric hosted refusals: stanza2/line52 ubuntu_security,4fields/1otherstanza.
-Rawlogs local-evidence/WORKFLOW-005/ci-1fdedfb, boundedtriage
-https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6849584005
-After CI003protectedmerge, resume PR126, integrate substantiveprerequisite ONCE and
-retain its rich WORKFLOW005record (main still planned). Carry actualCI003done/merged
-receipt, rerun relevant local/tooling/scaffold/schema and actualpublicationchecker
-with admittedvenv, freshall21/normalprotectedmerge. Then save final localpause state,
-unwatch allwatched PRs, PAUSE. Start no newtask after PR126.
+PR126 remains linked/watched at remote1fdedfb until checked candidate is pushed;
+link immediately after push as required, do not rewatch. Update PR body with exact
+candidate/current evidence, require fresh21app-bound checks/normal protected merge.
+Prior42462d1 and1fdedfb failures stay historical; no rerun-for-luck. After merge save
+actualpublication/localpause state, unwatch, PAUSE; start no nexttask.
+
+Store actual final publisher stdout/stderr/observation in resume-f6dad07 and public
+receipt/PR body. Do not make a new commit solely to chase that read-only observation;
+current-head CI and final merged publication are recorded when actually known.
