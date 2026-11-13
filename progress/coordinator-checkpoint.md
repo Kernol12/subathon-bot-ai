@@ -25,15 +25,21 @@ facts and120 exemptions remain; historical failures remain historical.
 original author session finished. No active writer or runtime/test author assigned.
 Initial Claude changes requested retained with all 17 findings at
 https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6859346979
-Next: fresh independent Claude closing before any test authorship. Codex verification
-approved all 7 blockers and 10 notes at source 8920909, no new findings:
-https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6859453533
-Existing 136 tooling tests and project checks passed; no implementation/red claims.
-Observed Codex finish 2026-11-13T16:55:40Z; start unknown, no invented duration. Tests get their own full review cycle,
-meaningful NI assertion red, then fresh implementation. No successor work.
-Corrections separate bounded core examples from one disposable strict-CLI scenario,
-name require_complete, define schema/semantic responsibilities, current-target-base
-guard/operational freshness, compact historical verification, and isolated NI/schema
-placement without breaking production one-test witness. No authority activation.
-Original 001 history/completion, all other task objects and 120 exemptions preserved.
-Private receipts local-evidence/EPIC-029; full v0.45/provider/platform limits remain.
+Next: fresh test author under approved exact contract 8920909; no runtime implementer
+assigned. Contract closing approved with no blockers:
+https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6859593613
+All initial/correction reviews retained in state. Tests get independent Claude initial,
+Codex corrections/separate verification and Claude closing before any execution.
+Then meaningful intended assertion red through admitted NI seams; fresh implementation.
+No successor work or production authority activation.
+
+Carry all closing notes M002-CC-N01..N09 to test review: stdlib explicit frozen
+supplemental shape with Python mutation tests; Python-only aware-time syntax, safe
+schema patterns; 003 exempt reporting versus strict require_complete; structured
+receipt self-review only; non-vacuous negative tests; resolved temp paths and symlink
+checks; temporary real-tracker converter coupling retired under 004 approved scope.
+Existing selected schema interpreter: build/workflow005-schema-venv/bin/python.
+Coordinator verified all 20 admitted SDK metadata identities through -I -S -B.
+Do not resolve the venv executable symlink or install dependencies. Real new-schema
+checks still not run until test-review gate; metadata admission is not test proof.
+Private receipts local-evidence/EPIC-029; full v0.45/live/platform limits remain.
