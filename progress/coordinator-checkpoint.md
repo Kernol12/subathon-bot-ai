@@ -67,3 +67,8 @@ Fixed source2009aa7 changes one regex and restores projector wrapper docstring;
 no test/contract changes. Next independent Codex verification then Claude closing.
 Prior closing independently passed154tooling, actualschema1+8+3 and fresh scaffold3/3
 at a28f68e; earlier author staleHTMLfailure/rerun still historical, not overwritten.
+
+Codex approved source2009aa7, no blockers; focused18/proofaggregate/pathprobes passed:
+https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6861401070
+Next fresh Claude implementation closing, then current selected-stage publication and
+normal protected PR. No current all-stage NI-binding capability is claimed or waived.
