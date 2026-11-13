@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T05:18:29+00:00",
+  "updated_at": "2026-11-13T05:23:24Z",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18675,7 +18675,7 @@
       "brief": "docs/tasks/CI-002.md",
       "summary": "Diagnose refused runner layouts, bound attributable infrastructure retries and enforce existing required-check merge policy.",
       "notes": [
-        "Resumed on explicit owner continue. Saved two-document CI002 contract draft integrated for coordinator completion; unreviewed. No tests, implementation or settings changed. PR126 remains parked/unwatched on unknown APT layout;005approvals preserved. Product stopped."
+        "Resumed by owner; two-path CI002 contract authored at77a2177 from preserved draft plus coordinator corrections. Independent initial contract review next. No tests/implementation/settings changed; PR126 remains parked/unwatched and005approvals preserved. Product stopped."
       ],
       "verification": {
         "contract_review": "not_run",
@@ -18684,7 +18684,7 @@
         "implementation": "not_run",
         "acceptance": "not_run",
         "claim": "passed",
-        "contract_authored": "partial"
+        "contract_authored": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6840078428"
@@ -18696,7 +18696,20 @@
           "tests",
           "implementation"
         ],
-        "stages": {}
+        "stages": {
+          "contract": {
+            "authors": [
+              "codex:thread:delegated-task:command%3Amcp%3A2344958a-02df-49a8-bd3e-16c17ddd9453%3Adelegate-task%3Aci002-contract-author-v1",
+              "codex:coordinator-97333d35"
+            ],
+            "revision": "77a2177c2bf2ecd37ef01cb58ab33926a7472869",
+            "paths": [
+              "docs/contracts/ci-setup-gates-v1.md",
+              "docs/tasks/CI-002.md"
+            ],
+            "reviews": []
+          }
+        }
       }
     }
   ],

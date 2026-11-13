@@ -9,7 +9,8 @@ local-evidence/CI-002/paused-contract-draft. Root resumed authorship from exact 
 bytes, correcting image-version recognition and independent literal byte counts.
 Own ONLY docs/contracts/ci-setup-gates-v1.md and docs/tasks/CI-002.md at this stage;
 no producer/test/NI/admin changes. Coordinator owns shared metadata/publication.
-Next finish contract packet, independent Claude initial, Codex fixes/separate review,
+Contract packet77a2177 (two docs) authored/bound. Next fresh Claude initial contract
+review ci002-initial-contract-review-v1, Codex fixes/separate review,
 fresh Claude closing before tests. Detailed archived continuation local-evidence/CONTINUE.md.
 
 PR126 remains parked/unwatched: remote42462d1; local005branch05e204d retains blocked
