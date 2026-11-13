@@ -169,3 +169,16 @@ The forward record/results policy activates with reviewed WORKFLOW-006 tooling;
 non-record practices/private-evidence guidance applies at WORKFLOW-004 merge.
 Existing product work stays stopped. Consult state and the latest checkpoint for
 actual gates and authorization.
+
+## GitHub task migration
+
+[EPIC-029](EPIC-029.md) preserves the complete migration scope. The explicitly
+owner-authorized sequence is [MIGRATE-001](EPIC-029/MIGRATE-001.md) →
+[MIGRATE-002](EPIC-029/MIGRATE-002.md) → [MIGRATE-003](EPIC-029/MIGRATE-003.md) →
+[MIGRATE-004](EPIC-029/MIGRATE-004.md) → [MIGRATE-006](EPIC-029/MIGRATE-006.md) →
+[MIGRATE-005](EPIC-029/MIGRATE-005.md). Read the
+[migration contract](../contracts/github-task-migration-v1.md) and its
+[consumer inventory](../contracts/github-task-migration-inventory-v1.md).
+Only 001 is claimed here; independent contract review is pending. Until 004's
+reviewed cutover merge, state remains authoritative. WORKFLOW-006/007 and product
+work remain stopped; migration permits only WF006 storage/dependency rescope.
