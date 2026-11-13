@@ -2,7 +2,9 @@
 
 Authored contract and independent examples; specification v0.45 §§17–18.
 Author: `codex:migrate003-contract-author-20261113:/root` (gpt-6.1-sol).
-Inspection HEAD: `4daa305fb0f205bc62d1d5430df1575b026770ae`.
+Original author inspection base: `4daa305fb0f205bc62d1d5430df1575b026770ae`.
+Correction author: `codex:coordinator-59095155`; corrections inspected against
+`3e22edd` and the existing source at that checkout.
 Parents: [migration v1](github-task-migration-v1.md), approved source `b506434`,
 and [proof records v1](proof-records-v1.md), approved source `8920909`.
 This packet is authored, not approved or implemented. Required independent contract,
@@ -142,10 +144,17 @@ and presence; limitations and evidence retain their original ordered arrays as p
 Existing workflow and every existing packet cannot disappear. Required-stage arrays
 retain the base order as a prefix; added stages/packets may start pending and do not
 invent completion. If archived workflow/publication was absent it may be added under
-normal validation, while existing observed publication may advance only from open to
-merged for the same PR/head with valid observed times; an already merged observation
-is immutable. Stage authors/revision/paths may honestly advance without removing any
-prior review. No historical verification/review/supplemental field may be invented,
+normal validation. An open publication is a replaceable observation of the same PR:
+it may advance to a later open or merged observation with any valid head, provided
+observed_at does not go backwards and all ordinary publication semantics pass.
+Changing the PR identity requires a separately reviewed correction; merged publication
+objects are immutable. No old head is fabricated to satisfy a transition.
+
+For every existing packet, if revision is unchanged, authors and paths must be exactly
+unchanged too. A paths shrink/swap or authorship change requires a new revision;
+stage_complete then remains false until current verification and closing are appended.
+A new revision must be an available commit under selected binding checks; no arbitrary
+string or copied old approval supplies currency. Every prior review remains a prefix. No historical verification/review/supplemental field may be invented,
 removed or changed as a forward update. Metadata-only observations grant no approval.
 A source-changed current packet must obtain fresh applicable verification/closing;
 only selected work claims current binding, and the coordinator reviews all changed
@@ -153,7 +162,10 @@ record scope. No mutable GitHub issue content can silently replace acceptance.
 
 Freeze brief references too, with one relocation: a local archived path P may become
 `https://github.com/Kernol12/subathon-bot-ai/blob/<policy.archive_commit>/P` only when
-that exact regular path exists in the pinned archive. No branch URL, changed path,
+that exact regular path exists in the pinned archive, and its mode/blob matches P
+at the comparison baseline (target base or archive-origin comparison). This prevents
+a changed brief from silently reverting to an older archived acceptance version.
+No branch URL, changed path,
 different SHA or arbitrary active-brief swap is allowed. Active compaction keeps stable
 per-ID entry paths; shared consolidations can retain those entry briefs with versioned
 links to common requirements. Any different pointer move needs a separately reviewed
@@ -167,7 +179,9 @@ stanzas (literal ASCII labels, case-sensitive): `Task ID: NEW-001`,
 `Work type: implementation`, `Issue: https://github.com/Kernol12/subathon-bot-ai/issues/123`.
 Values must equal the record's canonical ID/kind/derived URL. Duplicate/conflicting
 stanzas refuse; no inference from display labels or a mutable issue body. The brief
-must be in a selected complete reviewed packet. Existing archived IDs use the archive
+must be in a selected complete reviewed packet in BOTH ordinary prepared mode and
+--complete mode; this conservative new-ID admission requirement is independent of
+whether the whole task is ready to close. Existing archived IDs use the archive
 mapping and do not need retroactive stanza edits.
 No normal-policy edits can authorize exemption changes or forward work on exempt IDs.
 
@@ -190,7 +204,13 @@ HEAD, retaining only the bounded summary. It cannot close 004 before the final c
 merge. There is no hash cycle: conversion-report contains no archive_commit field, so
 its independently derived content can be committed before the pin is known; final
 proof policy pins the actually observed archive commit. No guessed future SHA.
-Coordinator publishes and independently fetches/readbacks archive objects before use;
+Freeze source historical notes, verification maps and brief bytes when preparing the
+archive; only the specified append-only forward continuations may occur afterward.
+If a non-preservable edit is necessary before cutover, publish/read back a replacement
+archive before the policy pin becomes immutable. Verify the merged archive source and
+report agree, not merely the archive PR head: an integration change requires re-archive.
+Historical verification maps remain labelled historical after cutover, never promoted
+to new results. Coordinator publishes and independently fetches/readbacks archive objects before use;
 003 uses synthetic local pins and does not claim remote availability. The guard does
 not fetch or authenticate that coordinator evidence. No future commit is predicted.
 
@@ -211,8 +231,11 @@ may append evidence/limitations/reviews and honestly update packet authors/revis
 without shrinking stages. Compare baseline packets to the full pinned source, not just
 hash/count/booleans; reject fabricated or reordered history. Additions follow the same
 archived-ID/new-ID admission as normal mode. Normal mode also checks archive-origin
-history against this baseline, preventing a forged already-corrupt base from replacing
-provenance. The report is existing one-time conversion output, not a new results engine.
+history against this baseline with the SAME forward-continuation rules as bootstrap:
+ordered prefixes, unchanged-revision authors/paths, permitted new workflow/packets,
+monotonic open observations and guarded same-path brief relocation. It is not exact
+whole-record equality. This prevents a forged already-corrupt base from replacing
+provenance while permitting honest subsequent work. The report is existing one-time conversion output, not a new results engine.
 
 All unrelated archived records load tree-free. Do not require their retired paths to
 match today's HEAD. Current bindings apply to selected task/stages only (without retroactive historical current-tree checking); all-record grammar/set/history checks still run. Supplied exempt
@@ -321,8 +344,8 @@ frozen 120-ID list, APITEST-016 sample and reviewed schema oracles, with focused
 | B2: B1 with changed oracle, missing required stage/closing, missing/nonregular current source or stale implementation | Refuse; implementation overlap cannot rescue a changed tests binding |
 | B3: completed002/WF005/APITEST016 packets retained with retired/changed source | Load/history checks pass; selecting stale historical packets as current refuses normally, no historical approval rewrite |
 | B4:003 reviewed NI seams before implementation | Imports/CLI load; intended positive assertions fail named NI; default production stays passing. NI paths are review/red provenance, not current tests paths |
-| H1: delete record/shrink enrollment/stages; alter identity/kind/exemption/archive; edit/reorder/drop old review or historical object; drop/reorder limitations/evidence; swap brief arbitrarily | Refuse each single mutation, even unrelated to selection |
-| H2: additive archived ID matches full mapping/kind/history; new ID has exact reviewed canonical stanzas; same archived local brief becomes pinned same-path URL | Pass; wrong mapping/kind/stanza/unreviewed brief/different brief path or SHA fails |
+| H1: delete record/shrink enrollment/stages; alter identity/kind/exemption/archive; edit/reorder/drop old review or historical object; drop/reorder limitations/evidence; swap brief arbitrarily; change paths/authors at unchanged revision | Refuse each single mutation, even unrelated to selection; advancing revision alone is pending until new verification/closing |
+| H2: additive archived ID matches full mapping/kind/history; new ID has exact reviewed canonical stanzas; same archived local brief becomes pinned same-path URL | Pass; wrong mapping/kind/stanza/unreviewed brief/different brief path or SHA or changed archived bytes fails. Same-PR open H1→open/merged H2 with monotonic observation passes; backwards time or changed merged observation refuses |
 | H3: unrelated archived completed task has retired paths and full preserved history | Load/guard pass; selecting it as current fails missing/current binding, never retroactive full-tree validation |
 | H4: frozen exempt ID without workflow | Historical load/report allowed; require_complete and forward --complete refuse; malformed supplied exempt record still fails |
 | A1: base lacks both inputs, explicit bootstrap, complete pinned source/mapping/report and exact extraction | Bootstrap success/counts; no existing-policy claim |
