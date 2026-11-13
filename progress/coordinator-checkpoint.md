@@ -45,34 +45,32 @@ Raw stdout/stderr/observation: local-evidence/CI-003/red-v1. Only this1 method r
 remaining20 methods stay UNRUN before implementation. Synthetic fixture evidence,
 no hosted/full-source/recovery claim. No missing API/setup red or NI stub.
 
-Fresh isolated implementation COMPLETED at9fd6138f2a12f84abe10b3a7251015c5412c6a91,
-parent4807c29; producer only43additions, integrated byte-for-byte by fastforward.
-Producer blob902260938b4391541ed7d58f67fa6f458251caf1. Coordinator updated docs/CI.md
-at CODE packetaf6881f9acbbbc1ad155f7cefab4e82fffb61115; two owned paths are
-producer and CI guidance. All contracts/tests remain FROZEN (test4b40acb2,legacy919f15a8,
-diagnosticfd3f1ec2). Guides now cover exact conditional profile/admission event,
-direct security pocket outside mirror list/outage failure, hosted-evidence limits.
+Fresh isolated implementation9fd6138 (parent4807c29) integrated byte-for-byte;
+coordinator guideaf6881f formed initial2path code packet. Initial independent Claude
+CODE review APPROVED0B/2A with own48APT/metadata checks. Both advisories corrected:
+CURRENT CODE packet1acf18d9eea7f451148733f83e4568ccd39ac1cf owns only producer
+and docs/CI.md. CI-A1 guide says any failed required lane blocks merge and green/
+local cannot establish the originally refused host matched. CI-A2 immutable
+frozenset of same4 literal URIs and validator event docstring. Current producer
+blob4b38809e851a94b2f37d0c90eeb060180af90564; guide016b88e1ee124ba4b14f5c16d6a6b307a8e4d3ae.
+All contracts/tests remain frozen; no new tests/probes or red replay.
+Review/corrections https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6852360847
+Private initial report/dispositions/current112tooling logs/observation:
+local-evidence/CI-003/code-reviews. Actual current1acf18d full112tooling includes
+48APT,0failure/error/skip; metadata/link/diff checks pass. Prior real-schema8 and
+scaffold3 are author observations at producer9022609, not rerun for immutable
+constant/docstring-only correction; actual logs preserved in implementation-v1.
+No hosted source/recovery claim. Profile not platform-observed.
 
-Actual author local observations:21new+8legacy+19diagnostic methods,112fulltooling,
-8REAL schema methods and3scaffold nodes passed,0testskips; totals overlap. Twelve
-recorded commands exited0. Coordinator inspected saved raw logs and matching
-source/test hashes; initial receipt parser expected older CTest wording, corrected
-against actual3Passed nodes/100% tests passed outof3, with no suite rerun.
-Public handback https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6852148111
-Durable private logs/handback/audits/inspection:
-local-evidence/CI-003/implementation-v1. Author used existing admitted schema venv
-with fixedenv/-I-S-B, no installs. No hosted source/runtime recovery is claimed.
-
-NEXT independent Claude INITIAL CODE review via client ci003-initial-code-review-v1,
-then separate Codex verification/fixes and fresh Claude closing. Stage has two
-coauthors (isolated producer author/root guide author); neither may approve it.
-Required independent STATIC audits: TI-A2 separate LITERAL4URI admission allowlist,
-never derived from diagnostic table even at import; no new I/O/lookup/envkeys/
-source rewrite/read/process/command/retry/capture/trust/pin/dependency. Preserve
-7diagnostics,2exactwritebytes,1update and unchanged v1 nonmatch outcomes. No new
-probe/test/oracle authoring or red replay; reviewed passing suites may verify code.
-No push/ownPR yet; only after full code cycle and relevant checks, focused prerequisite
-PR/main protected merge with all21/currenthead and actual9hosted log observations.
+NEXT separate independent native Codex CODE correction verification, then fresh
+Claude closing via client ci003-closing-code-review-v1. Both declared coauthors
+(isolated producer/root guide+correction) must not approve their own material.
+Independent STATIC audits remain required: TI-A2 separate LITERAL4URI allowlist
+not diagnostic-derived even at import; no new I/O/lookup/envkeys/source rewrite/
+read/process/command/retry/capture/trust/pin/dependency. Preserve7diagnostics,
+2writebytes/1update and all v1 nonmatch outcomes. No new probe/test/oracle authoring
+or historical-red replay. No push/ownPR before full code cycle/local gates; then
+focused prerequisite PR/currenthead21/actual9hosted log inspection/protected merge.
 
 All496 tasks/120 exemptions and all21 app-bound checks/workflows stay intact. Inspect
 all9 actual hosted preparation lanes and report whether new admission was exercised.
