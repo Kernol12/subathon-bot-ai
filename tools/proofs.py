@@ -48,7 +48,11 @@ def version(value):
 
 
 def safe_path(path: Path, *, directory=False) -> Path:
-    """lstat each component before opening anything, including canonical FIFO names."""
+    """Preflight regular paths; later opens assume a trusted, stable filesystem.
+
+    Reject parent traversal rather than normalizing away a symlink/.. component.
+    This is intentionally conservative and does not claim race-free opening.
+    """
     if ".." in path.parts:
         raise ValueError(f"Parent traversal in supplied path: {path}")
     path = Path(os.path.abspath(path))
@@ -64,6 +68,7 @@ def safe_path(path: Path, *, directory=False) -> Path:
 
 
 def read_json(path: Path) -> object:
+    """Read a regular UTF-8 JSON input with duplicate and nonfinite values refused."""
     def pairs(items):
         result = {}
         for key, value in items:
@@ -80,11 +85,12 @@ def read_json(path: Path) -> object:
         return number
     try:
         return json.loads(safe_path(path).read_text(encoding='utf-8'), object_pairs_hook=pairs, parse_constant=constant, parse_float=floating)
-    except (ValueError, UnicodeError) as error:
+    except (ValueError, UnicodeError, RecursionError) as error:
         raise ValueError(f'{path}: {error}') from error
 
 
 def discover_records(directory: Path) -> list[Path]:
+    """Preflight every immediate record before callers open any record contents."""
     safe_path(directory, directory=True)
     result = sorted(directory.iterdir(), key=lambda p: p.name)
     for path in result:
@@ -95,6 +101,7 @@ def discover_records(directory: Path) -> list[Path]:
 
 
 def validate_policy(policy: object) -> None:
+    """Check explicit enrollment against the unchanged historical exemption boundary."""
     closed(policy, ('version', 'legacy_done', 'legacy_done_sha256', 'archive_commit', 'required_records'), field='policy')
     version(policy['version'])
     workflow.commit(policy['archive_commit'], 'policy.archive_commit')
@@ -147,6 +154,7 @@ def supplemental_shape(value, shape=SUPPLEMENTAL_SHAPE, field='supplemental_work
 
 
 def validate_record(record: object) -> None:
+    """Validate one proof structurally and semantically, without current-tree access."""
     _validate_record_fields(record, KINDS)
 
 
@@ -190,6 +198,7 @@ def _validate_record_fields(record: object, kinds: set[str]) -> None:
 
 
 def validate(policy: object, records: list[dict]) -> None:
+    """Validate all supplied proofs and exact enrollment/identity agreement."""
     validate_policy(policy)
     if not isinstance(records, list):
         raise ValueError('records must be a list')
@@ -217,6 +226,7 @@ def checked_bundle(bundle):
 
 
 def selected(bundle, task_id):
+    workflow.text(task_id, 'task_id')
     checked_bundle(bundle)
     if task_id not in bundle['records']:
         raise ValueError(f'{task_id}: unknown proof task')
@@ -224,6 +234,7 @@ def selected(bundle, task_id):
 
 
 def require_complete(bundle: dict, task_id: str) -> None:
+    """Refuse missing or stale required approvals; actual source/merge checks are separate."""
     record = selected(bundle, task_id)
     if 'workflow' not in record:
         raise ValueError(f'{task_id}: missing workflow')
@@ -234,12 +245,17 @@ def require_complete(bundle: dict, task_id: str) -> None:
 
 
 def load(policy_path: Path, records_dir: Path) -> dict:
+    """Load a complete explicit proof bundle, retaining file identity in diagnostics."""
     policy = read_json(policy_path)
     paths = discover_records(records_dir)  # preflight every child before opening any
     records = []
     for path in paths:
         record = read_json(path)
-        validate_record(record)
+        try:
+            validate_record(record)
+        except ValueError as error:
+            identity = record.get('task_id', path.stem) if isinstance(record, dict) else path.stem
+            raise ValueError(f'{path}: {identity}: {error}') from error
         if record['task_id'] != path.stem:
             raise ValueError(f'{path}: filename differs from task_id')
         records.append(record)
@@ -248,6 +264,7 @@ def load(policy_path: Path, records_dir: Path) -> dict:
 
 
 def context(bundle: dict, task_id: str, *, stage: str | None = None, compact: bool = False) -> dict:
+    """Return an independent full or compact handoff from a validated bundle."""
     record = selected(bundle, task_id)
     names = record.get('workflow', {}).get('required_stages', [])
     value = record
@@ -261,6 +278,7 @@ def context(bundle: dict, task_id: str, *, stage: str | None = None, compact: bo
 
 
 def convert(source: dict, identities: dict, archive_commit: str) -> dict:
+    """Prepare owned proof/report values from supplied source and explicit identity mapping."""
     workflow.commit(archive_commit, 'archive_commit')
     if not isinstance(source, dict) or not isinstance(source.get('tasks'), list) or 'workflow_policy' not in source:
         raise ValueError('source requires tasks and workflow_policy')

@@ -226,7 +226,10 @@ def validate_task(task: dict, policy: dict | None, root: Path, local_path, evide
     if is_tracked and task["status"] in {"in_progress", "in_review", "done"} and "workflow" not in task:
         raise ValueError(f"{task['id']}: claimed task requires workflow records")
     if "workflow" in task:
-        validate_workflow(task["workflow"], task["kind"], root, local_path, evidence_path, tree_free=tree_free)
+        try:
+            validate_workflow(task["workflow"], task["kind"], root, local_path, evidence_path, tree_free=tree_free)
+        except ValueError as error:
+            raise ValueError(f"{task['id']}: {error}") from error
         names = task["workflow"]["required_stages"]
         stages = task["workflow"]["stages"]
         if is_tracked and task["status"] == "done" and not all(stage_complete(stages.get(name)) for name in names):
