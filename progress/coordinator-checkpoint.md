@@ -53,3 +53,9 @@ Codex report's locally declared label codex:migrate003-contract-verification-202
 and receipt's unique T3 dispatch9d972c3a refer to the same independent invocation; the
 receipt uses actual dispatch identity to distinguish sessions. No identity authentication
 is claimed and the original report/receipt is preserved, not relabelled retroactively.
+
+Codex recheck approved7f0b876, bothclosingblockers6notes resolved:
+https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6862556506
+Next fresh Claude closing before tests. Report-local label and actual dispatchc469c336
+refer to this same independent invocation; receipt uses actual unique dispatch identity.
+No authentication or estimated times claimed. No active writer/runtime change.
