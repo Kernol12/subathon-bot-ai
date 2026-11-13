@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T13:07:46Z",
+  "updated_at": "2026-11-13T15:46:55.573084+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18576,7 +18576,7 @@
       "title": "Compact context and publication preflight",
       "module": "Quality and tooling",
       "kind": "implementation",
-      "status": "in_review",
+      "status": "done",
       "owner": "codex:coordinator-97333d35",
       "depends_on": [
         "WORKFLOW-004"
@@ -18588,7 +18588,7 @@
       "brief": "docs/tasks/WORKFLOW-005.md",
       "summary": "Select bounded stage handoffs and check actual schemas, reviewed paths and outgoing private-path history before publication.",
       "notes": [
-        "Approved447aa06/77b1522/3720c42 source and all reviews preserved. CI003 mergedf6dad07/integrated once. Current136tooling/schema8+3SDK/scaffold3/schema5nodes passed0skips; independent integration-metadata review approved. Final clean-head publisher/current-head21CI/normal merge pending. Historical failures retained. Finish PR126 then pause; product stopped."
+        "Compact handoffs preserve default context; publication preflight checks reviewed paths/outgoing history and real schemas. Full review cycles/red retained. Local/hosted136tooling,8schema+3SDK passed0skips;21required checks and normal PR126merge4153a7a verified. Git/index/review/secret/process limits remain. Paused; no next task."
       ],
       "verification": {
         "contract_review": "passed",
@@ -18614,14 +18614,18 @@
         "code_correction_authored": "passed",
         "code_correction_review": "passed",
         "schema_registration": "passed",
-        "hosted_ci": "not_run",
+        "hosted_ci": "passed",
         "publication_metadata": "passed",
         "resume_integration": "passed",
         "prior_42462d1_ci": "failed",
         "resume_metadata_review": "passed",
         "prior_1fdedfb_ci": "failed",
         "ci003_prerequisite": "passed",
-        "resume_local_checks": "passed"
+        "resume_local_checks": "passed",
+        "current_head_ci": "passed",
+        "publication_preflight": "passed",
+        "protected_merge": "passed",
+        "publication": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837666194",
@@ -18648,7 +18652,9 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/623",
         "https://github.com/Kernol12/subathon-bot-ai/pull/623#issuecomment-6853350232",
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6853647742",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6853824553"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6853824553",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6854241858",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6854315551"
       ],
       "review": {
         "author": "Codex test author, coordinator and fresh implementer (structured stage authors)",
@@ -18856,12 +18862,12 @@
         }
       },
       "publication": {
-        "state": "open",
+        "state": "merged",
         "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/126",
-        "head": "1fdedfb363e79f134975dc7b796fec85034fea9d",
-        "merge_commit": null,
-        "merged_at": null,
-        "observed_at": "2026-11-13T12:59:38+00:00"
+        "head": "afc46d64458889e346b3756599361da92dcb47a1",
+        "merge_commit": "4153a7ab2b3245e36fd5450b8897d2df659a53ee",
+        "merged_at": "2026-11-13T13:27:08Z",
+        "observed_at": "2026-11-13T13:30:10+00:00"
       }
     },
     {
@@ -19527,6 +19533,205 @@
         "merged_at": "2026-11-13T12:43:31Z",
         "observed_at": "2026-11-13T12:48:48+00:00"
       }
+    },
+    {
+      "id": "EPIC-029",
+      "title": "Move task management to GitHub",
+      "module": "Quality and tooling",
+      "kind": "epic",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "MIGRATE-001",
+        "MIGRATE-002",
+        "MIGRATE-003",
+        "MIGRATE-004",
+        "MIGRATE-005",
+        "MIGRATE-006"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/EPIC-029.md",
+      "summary": "Move task management to GitHub. See versioned issue-derived acceptance brief.",
+      "notes": [],
+      "verification": {},
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/issues/625"
+      ],
+      "review": null
+    },
+    {
+      "id": "MIGRATE-001",
+      "title": "Define the task-tracking migration contract",
+      "module": "Quality and tooling",
+      "kind": "contract",
+      "status": "in_progress",
+      "owner": "codex:migrate001-author-20261113:/root",
+      "depends_on": [],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/EPIC-029/MIGRATE-001.md",
+      "summary": "Define the task-tracking migration contract. See versioned issue-derived acceptance brief.",
+      "notes": [
+        "Authored migration contract/inventory and seven issue-derived briefs; only 001 claimed. Existing tooling136 pass; project/render/validation pass; original task objects/history/frozen policy preserved. Independent contract cycle and protected publication pending; no production cutover or successor implementation."
+      ],
+      "verification": {
+        "contract_authored": "passed",
+        "independent_review": "not_run",
+        "tooling": "passed",
+        "project": "passed",
+        "preservation": "passed",
+        "scaffold": "passed"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/issues/626"
+      ],
+      "review": null,
+      "workflow": {
+        "required_stages": [
+          "contract"
+        ],
+        "stages": {
+          "contract": {
+            "authors": [
+              "codex:migrate001-author-20261113:/root"
+            ],
+            "revision": "155521fba3bf004ed8cb64e3244c24c83943e23b",
+            "paths": [
+              "docs/contracts/github-task-migration-inventory-v1.md",
+              "docs/contracts/github-task-migration-v1.md",
+              "docs/tasks/EPIC-029.md",
+              "docs/tasks/EPIC-029/MIGRATE-001.md",
+              "docs/tasks/EPIC-029/MIGRATE-002.md",
+              "docs/tasks/EPIC-029/MIGRATE-003.md",
+              "docs/tasks/EPIC-029/MIGRATE-004.md",
+              "docs/tasks/EPIC-029/MIGRATE-005.md",
+              "docs/tasks/EPIC-029/MIGRATE-006.md",
+              "docs/tasks/README.md"
+            ],
+            "reviews": []
+          }
+        }
+      }
+    },
+    {
+      "id": "MIGRATE-002",
+      "title": "Separate review evidence from task tracking",
+      "module": "Quality and tooling",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "MIGRATE-001"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/EPIC-029/MIGRATE-002.md",
+      "summary": "Separate review evidence from task tracking. See versioned issue-derived acceptance brief.",
+      "notes": [],
+      "verification": {},
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/issues/627"
+      ],
+      "review": null
+    },
+    {
+      "id": "MIGRATE-003",
+      "title": "Prepare publication checks and CI for evidence records",
+      "module": "Quality and tooling",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "MIGRATE-002"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/EPIC-029/MIGRATE-003.md",
+      "summary": "Prepare publication checks and CI for evidence records. See versioned issue-derived acceptance brief.",
+      "notes": [],
+      "verification": {},
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/issues/628"
+      ],
+      "review": null
+    },
+    {
+      "id": "MIGRATE-004",
+      "title": "Switch task authority to GitHub and retire the tracker",
+      "module": "Quality and tooling",
+      "kind": "implementation",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "MIGRATE-003"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
+      "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
+      "notes": [],
+      "verification": {},
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629"
+      ],
+      "review": null
+    },
+    {
+      "id": "MIGRATE-005",
+      "title": "Verify and close the task-tracking migration",
+      "module": "Quality and tooling",
+      "kind": "environment",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "MIGRATE-006"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/EPIC-029/MIGRATE-005.md",
+      "summary": "Verify and close the task-tracking migration. See versioned issue-derived acceptance brief.",
+      "notes": [],
+      "verification": {},
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/issues/630"
+      ],
+      "review": null
+    },
+    {
+      "id": "MIGRATE-006",
+      "title": "Compact active task briefs and archive completed briefs",
+      "module": "Quality and tooling",
+      "kind": "cleanup",
+      "status": "planned",
+      "owner": "Unassigned",
+      "depends_on": [
+        "MIGRATE-004"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/EPIC-029/MIGRATE-006.md",
+      "summary": "Compact active task briefs and archive completed briefs. See versioned issue-derived acceptance brief.",
+      "notes": [],
+      "verification": {},
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/issues/631"
+      ],
+      "review": null
     }
   ],
   "activity": [
@@ -21724,6 +21929,16 @@
       "date": "2026-11-13T12:53:53Z",
       "task": "WORKFLOW-005",
       "note": "Resume only PR126 after CI003 normal merge f6dad07. Integrate the substantive prerequisite once, preserve all approved005 source packets and prior failure evidence, carry actualCI003done/publication, then current checks/protectedmerge and PAUSE."
+    },
+    {
+      "date": "2026-11-13T13:27:08Z",
+      "task": "WORKFLOW-005",
+      "note": "PR126 afc46d6 passed21 exact app-bound checks/19first-attempt runs, both schema jobs136tooling+8schema+3SDK and9prep lanes,0skips. Normal exact-head merge4153a7a verified. Owner pause after126 fulfilled; no next task authorized."
+    },
+    {
+      "date": "2026-11-13",
+      "task": "MIGRATE-001",
+      "note": "Registered EPIC-029 and six issue-derived migration tasks; claimed only MIGRATE-001 contract stage under explicit owner authorization."
     }
   ],
   "workflow_policy": {
