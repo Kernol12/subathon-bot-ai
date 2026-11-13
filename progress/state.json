@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T22:16:01.294049+00:00",
+  "updated_at": "2026-11-13T22:21:54.971577+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20500,7 +20500,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
       "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Closing rejected P-pin contradiction and incomplete free-text history inventory; receipt retained. Corrections35e3752 pin durable checkpoint at actual merge, require normal merge/P ancestry, inventory everyhex token and row-specific unavailable-object decisions. Seven historical local objects now privately GC-protected; no remote-availability claim or exemption. Codex verification/fresh closing pending; separate cleanup gate remains. State authoritative, no runtime/deletions/switch."
+        "Primary contract35e3752 independently Codex-approved: closing CC01/CC02 resolved, no new findings. Durable cutover pin retrieval and exhaustive token/object inventory specified; seven local-only historical objects privately protected, role/remote availability approvals still pending. Fresh Claude closing then separate ADR0012 cycle and full audit remain mandatory. No runtime/tests/deletions/switch; state authoritative, product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -20611,6 +20611,17 @@
                   "M004-CC-01",
                   "M004-CC-02"
                 ]
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:973a1ae3-908f-47a2-ae90-3e734f1654e7",
+                "revision": "35e3752ac9222dfb464137a8d1be7ddc7f55a174",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6866361239",
+                "findings": [],
+                "blocking_findings": []
               }
             ]
           }
