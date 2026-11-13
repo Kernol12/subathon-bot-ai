@@ -109,16 +109,17 @@ workflow gates still require every applicable latest-head check; adding a workfl
 does not configure GitHub enforcement. Recheck live rules/reviews before each merge.
 
 CI-002's [reviewed inventory and settings procedure](contracts/ci-setup-gates-v1.md#4-reviewed-required-check-inventory-and-settings-procedure)
-bind all 21 current check contexts to their source apps. Applying that rule remains a
-separate coordinator gate after full reviews and actual current-head success, with
-fresh complete before/after and effective-main observations. The proposed rule is
-not evidence that enforcement has been applied; preserve every unrelated setting
-and use the normal protected merge requirements.
+bind all 21 current check contexts to their source apps. On 2026-11-13, after full
+reviews and 21 successful current-head checks at `d252201`, ruleset26170263 was
+updated to require those contexts. Separate full and effective-main readbacks
+verified all 21 context/app pairs and preserved every prior rule and parameter,
+including the empty bypass list. The [hosted and administration receipt](https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847660001)
+records the exact reviewed payload and observations. Fresh current-head checks,
+reviews and normal protected merge requirements still apply.
 Adding, renaming or removing a job, matrix row or security context needs a reviewed
-inventory and settings update in the same change. Once the rule is enforced,
+inventory and settings update in the same change. With the rule enforced,
 renaming or removing a required context without that update leaves PRs waiting for
-the old context and blocks their merge. Record the dated application/readback
-receipt here after enforcement is actually verified.
+the old context and blocks their merge.
 
 CORE-005 promotes the original32 reviewed time-debt cases to unconditional
 ordinary acceptance while retaining the time-debt-build check name. Built-in
