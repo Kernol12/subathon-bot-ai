@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T20:39:30.017563+00:00",
+  "updated_at": "2026-11-13T20:45:33.091316+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20145,7 +20145,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-003.md",
       "summary": "Prepare publication checks and CI for evidence records. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Initial code review rejected B1/B2; receipt preserved. Corrections fcf205a restrict new-ID enrollment to selected task and bind new brief relocation to target bytes; report types/head/path diagnostics/offline clone guard tightened. Final181tooling/fourschemanodes passed. Earlier exact-environment failure repaired runtime, no test edits. Separate Codex verification/fresh Claude closing pending. State authoritative; product/WF006/007 stopped."
+        "Corrections fcf205a independently Codex-verified: B1/B2 resolved, no new blockers; 48 targeted tests pass. Durable precise-counterexample gap retained as M003-IV-N1, not a mandatory test-packet reopening for this existing-contract correction. Initial rejected receipt kept; fresh Claude closing, current CI/protected merge pending. State authoritative; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -20161,7 +20161,8 @@
         "implementation_review": "failed",
         "local_tooling": "passed",
         "local_schemas": "passed",
-        "scaffold": "passed"
+        "scaffold": "passed",
+        "implementation_verification": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/issues/628",
@@ -20431,6 +20432,19 @@
                 ],
                 "started_at": "2026-11-13T20:22:45Z",
                 "finished_at": "2026-11-13T20:32:35Z"
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:01a1d6a3-dc3a-77e2-b2d4-9ef1a5e66eac",
+                "revision": "fcf205a86398004b5c2863eee4d8c85e2af2d023",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6864492856",
+                "findings": [
+                  "M003-IV-N1"
+                ],
+                "blocking_findings": []
               }
             ]
           }
