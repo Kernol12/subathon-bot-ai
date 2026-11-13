@@ -10,16 +10,25 @@ The nine APT lanes first run `tools/prepare_ubuntu_apt.py`. It requires Ubuntu 2
 runners; local and self-hosted invocation is refused. The SQL fixture reproduction
 check remains immediately after checkout, before this preparation.
 
+After the existing host guards and single source read, preparation emits a bounded
+`CI_APT_V1` runner record using the already-read OS data and the two named image
+environment values. A refused layout emits a fixed-label `source_refused` record
+before raising, without printing the source or starting any command. Unknown values
+stay unknown. Record-emission or source-decoding failure stops preparation; a
+diagnostic record does not admit an unfamiliar layout. The exact format, failure
+semantics and evidence limits are in the [CI-002 contract](contracts/ci-setup-gates-v1.md).
+
 Best-effort resolver status, the original mirror list and four IPv4 hostname lookups
 are logged with command status and captured output, each with a ten-second deadline.
 These are diagnostics only. Preparation prefers the kernel.org Ubuntu mirror with
 canonical archive/security fallbacks, preserving Ubuntu signing trust, exact package
 versions and SDK admission checks. It changes no resolver, proxy or other source file.
 
-Checked writes set that mirror list, one acquisition retry, 15-second HTTP/HTTPS
+Checked writes set that mirror list, APT's native `Acquire::Retries "1"`, 15-second HTTP/HTTPS
 timeouts and strict update errors. A checked `apt-get update` has a 300-second process
 deadline; write/update failures stop the job. Other configured repositories remain
-enabled and their update failures also fail preparation. Existing job timeouts bound
+enabled and their update failures also fail preparation. No additional process retry
+or update-output capture is added. Existing job timeouts bound
 the whole run. Mocked tooling tests establish control flow; authenticated acquisition
 and all nine selected-host jobs still require actual current-head CI.
 
@@ -98,6 +107,13 @@ Ruleset26170263 was inspected on2026-11-01: main requires PRs and resolved threa
 zero GitHub approvals, no bypass actors, and no required-status-check rule. Written
 workflow gates still require every applicable latest-head check; adding a workflow
 does not configure GitHub enforcement. Recheck live rules/reviews before each merge.
+
+CI-002's [reviewed inventory and settings procedure](contracts/ci-setup-gates-v1.md#4-reviewed-required-check-inventory-and-settings-procedure)
+bind all 21 current check contexts to their source apps. Applying that rule remains a
+separate coordinator gate after full reviews and actual current-head success, with
+fresh complete before/after and effective-main observations. The proposed rule is
+not evidence that enforcement has been applied; preserve every unrelated setting
+and use the normal protected merge requirements.
 
 CORE-005 promotes the original32 reviewed time-debt cases to unconditional
 ordinary acceptance while retaining the time-debt-build check name. Built-in
