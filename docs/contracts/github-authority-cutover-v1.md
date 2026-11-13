@@ -89,7 +89,9 @@ After A, allow only existing003 forward continuations in historical task proof f
 ordered evidence/notes-to-limitations/review prefixes, required-stage prefixes, honest
 packet source/authorship advances with fresh approvals, valid open publication advances,
 and previously absent workflow/publication additions. Verification/review/supplemental
-historical maps and original brief bytes remain frozen. Track ordinary task status/owner
+historical maps and archived/archive-origin brief bytes remain frozen. Forward active
+brief edits, including WF006/007 storage rescope, are separately implementation-reviewed;
+a changed active brief cannot silently relocate to the older archived copy. Track ordinary task status/owner
 only as the permitted004 preparation transitions in state, never in candidate proofs.
 No unrelated dispatch. Any non-preservable source edit requires re-archive/readback
 before the policy pin becomes immutable.
@@ -107,7 +109,10 @@ rejected/new receipts, and creates a new freeze; no receipt may be dropped.
 After the last such receipt, create an actual commit **P** that still contains the final
 pre-deletion state and full one-time transition report. The report names archive A,
 input digests and exact ordered per-field append/advance delta, but does not predict P's
-own SHA. Final bounded summary pins observed full P and immutable report/state URLs.
+own SHA. The static bounded summary says only where the factual P pin is recorded;
+it contains neither P nor P-derived URLs. The durable record is the checkpoint blob at
+the **actual final cutover merge commit**, plus the final PR receipt. Record that actual
+merge commit in the issue/PR readback, so a later checkpoint rewrite cannot hide P.
 P must be an ancestor of the actual final PR head and become remotely reachable through
 that protected merge; finalization deletes state/full report from HEAD, never history.
 Put the observed full P pin and final factual recapture/readback in the existing
@@ -116,7 +121,11 @@ authority checkpoint and immutable report. Its static contract/content is review
 before freeze. Do not bind final factual receipt data as a changed current source packet
 or create a new bookkeeping allowlist: this prevents a self-referential P/review loop.
 The final independent preservation receipt verifies the actual checkpoint pin against
-Git ancestry and objects; a checkpoint assertion alone is not proof.
+Git ancestry and objects; a checkpoint assertion alone is not proof. Use a normal
+merge commit for final cutover, never squash/rebase: after merge independently verify
+P is an ancestor of the actual merge commit and fetch/read its checkpoint/P state/report
+objects. Failure blocks closure and audit. The static index tells005/rollback to obtain
+that merge commit from the final PR and inspect its immutable checkpoint blob.
 Independent preservation check requires semantic, ordered and type-strict equality:
 
 `convert(P.state, identities, A) == convert(A.state, identities, A) + exact permitted delta(A,P)`
@@ -125,6 +134,17 @@ Candidate policy/records must equal that P conversion, including **every** post-
 rejected/approved receipt, evidence and original limitation, before finalization. Missing,
 rewritten, reordered or unexplained entries refuse cutover. Compare complete extracted
 objects, not counts/hashes alone. This is one-time reconciliation, not a permanent sync.
+The post-P finalization tree diff is inspected exactly: remove progress/state.json,
+PROGRESS.html if still present, and full one-time files identities.json,
+conversion-report.json, reconciliation.json and the P transition report at the declared
+archive directory. Before P's review/freeze name any additional raw-state/history payload
+paths there by exact path; no directory-wide deletion permission. Old tool/schema/UI/test
+and instruction changes belong to the already reviewed implementation before P, not a
+new finalization edit. Other permitted finalization changes are the exact P conversion
+of canonical proof/policy files and enumerated receipt-only appends/checkpoint facts.
+No unlisted deletion, runtime/oracle/acceptance edit, brief removal or data loss may ride
+this finalization; it reopens review and requires a new P instead.
+
 After P, only explicitly enumerated receipt-only evidence/limitations and truthful final
 PR observations may append to candidate proofs, with an exact field delta inspected in
 the final PR receipt; no dual write to state, new claim, changed stage approval or new
@@ -236,8 +256,9 @@ readback. Do not waive bounds, truncate history or compress away validation obli
 If actual retained input cannot fit, stop for a separately reviewed bounded design
 amendment before implementation/publication; no silent cap increase.
 
-Freeze historical notes/verification/review/supplemental fields and brief bytes at
-archive. Later evidence/limitations/reviews may only append under approved003 forward
+Freeze historical notes/verification/review/supplemental fields and the archived
+brief bytes at archive. Active forward brief edits remain implementation-owned/current
+and cannot claim unchanged archive bytes. Later evidence/limitations/reviews may only append under approved003 forward
 rules; packets may advance revisions honestly, and publication observations obey the
 existing immutable-merged/monotonic-open rule. New observations never upgrade historical
 not_run maps. Preserve003's newer actual merge and observations. A required
@@ -247,13 +268,29 @@ re-archive. No stale-main overwrite.
 
 ### Historical object reachability and original bytes
 
-Inventory every commit-valued state/proof/supplemental field, source revision in evidence
-links, and recorded NI mode/blob reference; retain exact field paths and strings. Classify
-object type, local availability, required stage/NI binding versus supplemental observation,
-and reachability from the eventual archive tag. A mere successful local cat-file or
-remote ref-name search is insufficient: traverse remote-reachable history/trees and
-independently fetch/read back the objects. Include every row in archive reconciliation.
-Missing required packet/NI objects block pinning; never synthesize an exemption.
+Inventory **every 40-hex token in every archived string**, including JSON keys, free
+legacy review/notes/activity prose, supplemental values, evidence URLs and recorded
+mode/blob references, not merely fields named revision/commit. Match tokens bounded by
+non-hex characters rather than word boundaries (adjacent prose can otherwise hide them);
+retain original case/string, field path and span. Classify each as project commit/tree/
+blob, qualified external-repository reference, or missing/unresolved. Preserve external
+namespace evidence; do not call an external URL's token a missing project object or
+silently infer a project commit. Record required source/NI/approval role separately from
+receipt-publication/observational role. Unknown role is an unresolved blocker.
+
+For **every** unavailable project object provide its own row-specific independent,
+source-bound disposition and exact availability limitation, or block pinning. Required
+objects block with no exemption. A successful local cat-file or remote ref-name search
+is insufficient: traverse archive-tag-reachable history/trees and independently fetch/
+read objects. Include every row in archive reconciliation and re-run against final P;
+newly discovered values cannot inherit another row's disposition. Counts are observations,
+never acceptance constants. Full raw strings/ordered history remain preserved.
+
+Before archive capture, protect every local-only/unreferenced historical object against
+gc using verified local-only refs and ignored private safety copies; never push these
+refs/copies, tunnel forbidden ancestry, rewrite originals or delete existing refs. Verify
+backup integrity privately and record a private preservation receipt. No object-availability
+claim follows from private preservation. Unavailable required objects still block.
 
 Historical discovery and proposed disposition (requires independent source-aware
 approval before pinning): supplemental APITEST-016 post-closing status observation
@@ -294,6 +331,36 @@ historical evidence is preserved; only its unavailable public-object claim is na
 The separate availability approval is a source-bound documentary audit receipt in
 contract evidence/PR, not a new stage or automatic legacy inference. Final005 must
 report and recheck this limitation explicitly.
+
+Further initial token scan found six local-only **receipt-publication commits** in
+legacy review fields, including free text. Each changed only the listed review document;
+each exact receipt blob is already reachable from origin/main at a different published
+commit. Neither blob equality nor frozen120 membership automatically approves a missing
+commit disposition. Known rows needing independent full source/approval-role resolution:
+
+| Task / original commit (retain exact string) | Exact receipt blob / published content commit |
+| --- | --- |
+| CORE-008 / b16144e9378c2bc5aa003a55dfd7cd36ea02453c | b4c84851766fdc5d1bf95331db22ae37de7ef907 / 94252eadb9916cc957be7230ed12294331ec47a6 |
+| STORAGE-015 / d15450bef3c1ed8025d3a5caf2bf3e689c27eb3a | ffe30a89a20e84f674e99c70f63355716969c303 / 61926175b97878d6dbed1cf454e92c1c19ba4ea9 |
+| STORAGECONTRACT-001 / 270a1d9175713334ee243b0bf53c6cafe7633b15 | 60ad2225931a3abe48c4703be29fbe37aa6693ca / 7da0c7a7ff03731b9918d69f0c307a23b90adeb6 |
+| STORAGETEST-002 / 917092155253912b6dad18d281fd5fddd852872d | 782c73237577499f381001aef12433e2a8ef5b3b / 306f1345ef01bc07ed3d37042d8c537ff48e2295 |
+| STORAGETEST-002 / a32ac35a1395de9fae455512bab24b6d3e1c94bb | 6be0d3d76adc4aaf77c05916d6a0a468aebb8a14 / a8d6654a16d7fe6e3c3e57ac33b4d87a94970af4 |
+| CONTRACT-014 / 811611e8d4ca523f34e3495331e1943c4d4f8f61 | 71a105428b8e74bc4f81cd24aabc0a2aef5d85b7 / 0ef9c9fdb0ea35af9e7d65cede0577d57a4c1fed |
+
+Their proposed row-specific limitation format is literal substitution of each table row:
+`Historical TASK review-receipt commit ORIGINAL-COMMIT is retained locally, not remotely reachable; exact receipt blob RECEIPT-BLOB is preserved at PUBLISHED-COMMIT; no required source or approval binding is waived.`
+Use actual full task ID and hashes, no placeholder in resulting proof/STATUS/audit.
+This does not decide that a commit is non-required: independent audit must trace the
+original review text, source/config/artifact references and approvals; a required-role
+finding blocks rather than taking this availability route. Preserve original review
+objects/strings and link the exact public receipt blob separately, never replace its
+original revision. d15450b's current source is STORAGE-015 review.baseline prose; the
+others are their recorded review revision/baseline strings. Recheck exact published
+blob/path at actual remote commit before pinning. No original-commit availability claim.
+All seven known local-only objects, including da0fe1c, are privately protected; this is
+local preservation only, not audit approval. d15450b's forbidden historical evidence
+trees cannot be integrated merely because the latest head is clean. Every other newly
+found unavailable object gets its own independently approved row or blocks cutover.
 
 Compacting the fixed progress/state.json archive transport is the **last state write**
 for that archive head; ordinary old rendering/reconcile commands would reformat it.
@@ -386,7 +453,8 @@ scenarios/version/test/evidence paths, Markdown containment/links, readable evid
 layout, presets and source declaration counts. docs/STATUS.md preserves old top summary
 and verification with source pin, explicit historical/current distinctions and full
 v0.45 scope/limits; no readiness percentages. STATUS has exactly one whole line `Specification version: 0.45` for the current
-specification (use the actual sole `Version: VALUE` declaration in docs/specification.md).
+specification (VALUE is the sole capture of existing `^Version: (\S+)` in
+docs/specification.md; trailing specification-line prose is not part of VALUE).
 Collect STATUS lines starting with literal `Specification version:`; require exactly
 one and exact equality to `Specification version: VALUE`. Missing, duplicate or different
 values refuse. No inferred version from headings, percentages or mutable board text.
