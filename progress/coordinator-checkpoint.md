@@ -36,20 +36,36 @@ no new findings. Full test cycle CLOSED for8a3b9f65f3fbd0e9d1dbaec3f033a66a23b8f
 https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851831236
 Private reports local-evidence/CI-003/test-reviews/{codex-verification-v1,closing-v1}.md.
 The new21-method file is now FROZEN blob4b40acb2b83547ec644539876c77dab7b8414dfd.
-All tests are still UNRUN at this checkpoint. NEXT run ONLY:
-python3 -B tests/tooling/test_apt_security_profile.py AptSecurityProfileTests.test_reviewed_split_profile_is_admitted -v
-Require exactly1test/1assertFAIL/0ERROR/0skip with the named intended-red marker
-AFTER exact fixture/read/runner/refusal prerequisites. No missingAPI/setup red,
-no NI stub. Save actual stdout/stderr/revision/counts; do not run other methods
-before fresh implementation. Then fresh isolated implementer owns ONLY producer.
-Coordinator owns docs/state/HTML/checkpoint/publication. docs/CI.md must explain
-conditional profile/event/direct-security outage BEFORE full code review. Carry
-TI-A2 literal-allowlist and no-new-I/O audits into implementation/review packets.
+Observed intended RED at clean0950c828cb93e3d4b8970bff3b8c2e7c78c166db:
+EXACT named direct-script method ran once,1test/1assertFAIL/0ERROR/0skip, exit1,
+stdout empty. Decisive marker CI_SECURITY_SPLIT_PROFILE_NOT_ADMITTED after all
+one-read/runner/normal-result/exact-old-refusal/zero-child prerequisites passed.
+Receipt https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851874359
+Raw stdout/stderr/observation: local-evidence/CI-003/red-v1. Only this1 method ran;
+remaining20 methods stay UNRUN before implementation. Synthetic fixture evidence,
+no hosted/full-source/recovery claim. No missing API/setup red or NI stub.
 
-Freeze all bytes/assertions in test_prepare_ubuntu_apt.py and test_apt_diagnostics.py
-(8+19 methods) and current producer until implementation. No source rewrite/additional
-read/process/retry/capture/dependency/pin/trust/lookup. Runtime checks ALL exact profile
-conditions; structural scan first, fixed event on match, original v1 on nonmatch.
+NEXT fresh isolated implementation via client ci003-implementation-v1, only owned
+source tools/prepare_ubuntu_apt.py, prepared from this metadata commit. No child
+subagents or source publication. All3 reviewed contract paths and all3 test files
+are FROZEN: new security-profile4b40acb2b83547ec644539876c77dab7b8414dfd,
+legacy919f15a8efc755b611dd18ce25d6394ba1c494d8 and diagnosticfd3f1ec2d254b66004bd23b184e966a6b99597d1.
+Producer begins at3be9444bc9edc492314211a8ee854d8c767254d2. Implement the
+EXACT complete conditional profile, structural scan first, emit/flush admission
+inside validate_sources on match, original v1 semantics/refusals on nonmatch.
+TI-A2: separate LITERAL4URI admission allowlist, never derived from diagnostic
+labels even at import. No new I/O/lookup/env keys/source rewrite/read/process/
+command/retry/capture/trust/pin/dependency. Preserve7diagnostics,2writebytes,1update.
+Run reviewed21new+27legacy APT methods/full tooling, metadata checks, scaffold
+configure/build/CTest; relevant REAL schema check may reuse existing admitted
+build/workflow005-schema-venv/bin/python with -I -S -B and fixed env from docs.
+Do not resolve the venv executable symlink or install anything. Report actual
+commands/results/counts/skips/limits; no fresh test/probe/oracle authoring.
+Coordinator owns docs/state/HTML/checkpoint/publication. After producer handback,
+update docs/CI.md for conditional profile/event/direct-security outage BEFORE full
+independent code cycle. Include TI-A2 and no-new-I/O static audits. No push before
+all required local/review gates; own focused prerequisite PR then protected merge.
+
 All496 tasks/120 exemptions and all21 app-bound checks/workflows stay intact. Inspect
 all9 actual hosted preparation lanes and report whether new admission was exercised.
 Green without event permits only profile not platform-observed; any failure remains
