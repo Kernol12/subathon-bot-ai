@@ -31,15 +31,20 @@ Private initial report/corrections/static21-method outcomes:
 local-evidence/CI-003/test-reviews/{initial-v1,corrections-v1}.md; original author
 handback: local-evidence/CI-003/test-author-v1/handback.txt. Predictions11PASS/
 10behavioralFAIL/0ERROR are static, never observed results.
-Separate native Codex correction verification APPROVED, no new findings:
-https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851630248
-Private report local-evidence/CI-003/test-reviews/codex-verification-v1.md. No
-review timings asserted. NEXT fresh Claude closing via client ci003-closing-test-review-v1. No candidate tests/fixtures/producer may run
-before closing; contract permits EXACT one named red afterward (1assertFAIL/fixed
-marker,0ERROR/skips), then fresh isolated implementer owns only the producer.
-No NI stub. Coordinator owns docs/state/HTML/checkpoint/publication. docs/CI.md must
-explain conditional profile/event/direct-security outage BEFORE full code review;
-carry TI-A2 literal-allowlist source audit into implementation and review packets.
+Separate native Codex verification and fresh Claude closing TEST review APPROVED,
+no new findings. Full test cycle CLOSED for8a3b9f65f3fbd0e9d1dbaec3f033a66a23b8fe40:
+https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851831236
+Private reports local-evidence/CI-003/test-reviews/{codex-verification-v1,closing-v1}.md.
+The new21-method file is now FROZEN blob4b40acb2b83547ec644539876c77dab7b8414dfd.
+All tests are still UNRUN at this checkpoint. NEXT run ONLY:
+python3 -B tests/tooling/test_apt_security_profile.py AptSecurityProfileTests.test_reviewed_split_profile_is_admitted -v
+Require exactly1test/1assertFAIL/0ERROR/0skip with the named intended-red marker
+AFTER exact fixture/read/runner/refusal prerequisites. No missingAPI/setup red,
+no NI stub. Save actual stdout/stderr/revision/counts; do not run other methods
+before fresh implementation. Then fresh isolated implementer owns ONLY producer.
+Coordinator owns docs/state/HTML/checkpoint/publication. docs/CI.md must explain
+conditional profile/event/direct-security outage BEFORE full code review. Carry
+TI-A2 literal-allowlist and no-new-I/O audits into implementation/review packets.
 
 Freeze all bytes/assertions in test_prepare_ubuntu_apt.py and test_apt_diagnostics.py
 (8+19 methods) and current producer until implementation. No source rewrite/additional
