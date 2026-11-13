@@ -42,3 +42,15 @@ baseline approval; do not pretend those NI blobs remain current or silently weak
 --complete. Define/review stage source ownership or explicit supersession before
 activating final-completion publication. This does not block independent002 loader work.
 All live/provider/platform gates and actual board/archive audits remain unverified.
+
+Implementation initial changes requested retained:
+https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6861017043
+Coordinator fixes source02966ad: exact schema end-of-string lookahead parity; file/task
+load diagnostics; task-labelled production minima; deep JSON nesting becomes ValueError;
+typed task selection and concise public docstrings. Tests unchanged; focused18 and actual
+proof-schema aggregate pass. Next independent Codex verification, then Claude closing.
+Retained disclosed limits: supplied .. paths conservatively refused; strict stage paths
+now canonical in both modes (tightening, not weakening); lone surrogate serialization
+fails with cleanup; production source identity path-only, hardlink advisory remains.
+Author first scaffold project node failed staleHTML then rerun passed, never first-run green.
+No live/platform/product capability or new proof authority. No active writer.

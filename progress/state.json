@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T17:56:05.279046+00:00",
+  "updated_at": "2026-11-13T18:08:46.847865+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -19754,7 +19754,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-002.md",
       "summary": "Separate review evidence from task tracking. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Reviewed red observed: 18 tooling methods hit named NI (26 error sections, 2 CLI assertion failures); one admitted-schema aggregate has 24 reject-all subtest errors. No setup/import/skips. Existing real-schema 8 and publication SDK 3 pass. Fresh implementation next; state sole authority; product/WF006/007 stopped. Local stdlib implementation and tooling/schema/scaffold checks pass; independent implementation review pending."
+        "Implementation initial review found schema newline-path parity and load diagnostic identity blockers; fixed at 02966ad with nearby diagnostic improvements. Frozen tests unchanged; 18 focused tests and actual proof-schema aggregate pass. Independent Codex verification then Claude closing pending; state sole authority."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -19772,7 +19772,8 @@
         "proof_schemas": "passed",
         "tooling": "passed",
         "scaffold": "passed",
-        "project": "passed"
+        "project": "passed",
+        "code_review": "blocked"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/issues/627",
@@ -20012,9 +20013,10 @@
           },
           "implementation": {
             "authors": [
-              "codex:migrate002-implementation-20261113:/root"
+              "codex:migrate002-implementation-20261113:/root",
+              "codex:coordinator-59095155"
             ],
-            "revision": "c28ac3bc63fbac39870fa62e4a3a4a79cc6c1926",
+            "revision": "02966ad67e12e229da60a5ae5716fdaeec9ed3de",
             "paths": [
               "progress/proof-policy.schema.json",
               "progress/proof.schema.json",
@@ -20023,7 +20025,33 @@
               "tools/proofs.py",
               "tools/workflow.py"
             ],
-            "reviews": []
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:thread:delegated-task:command%3Amcp%3Ab2757b58-6822-48d2-85a7-be32319084c6%3Adelegate-task%3A2f8840c2-dfbb-4cfd-9ec8-960813b02976",
+                "revision": "c28ac3bc63fbac39870fa62e4a3a4a79cc6c1926",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6861017043",
+                "findings": [
+                  "M002-II-01",
+                  "M002-II-02",
+                  "M002-II-03",
+                  "M002-II-04",
+                  "M002-II-05",
+                  "M002-II-06",
+                  "M002-II-07",
+                  "M002-II-08",
+                  "M002-II-09",
+                  "M002-II-10"
+                ],
+                "blocking_findings": [
+                  "M002-II-01",
+                  "M002-II-02"
+                ]
+              }
+            ]
           }
         }
       }
