@@ -50,7 +50,12 @@ points patched only in new futuretestfile; static code audit mandatory. Direct
 security-host outage fails strict update; docsCI guidance owed before code review.
 Green with no new admission event maymerge only as profile not platform-observed;
 any continued refusal staysblocked for reviewed refinement, no rerun/relaxation.
-Next separate native Codex ci003_contract_verification, then fresh Claude closing.
+Separate native Codex ci003_contract_verification APPROVED with no new findings;
+receipt https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850397768
+Recorded against corrected packet6c77393; no reviewer timings asserted.
+Next fresh Claude closing contract review, client ci003-closing-contract-review-v1.
+Initial report/corrections/Codex report: local-evidence/CI-003/contract-reviews.
+Contract remains partial until closing approval; tests remain gated.
 No new tests/probes/authored code/own PR yet. Then additive authored tests
 unrun until full review, true intended red, fresh isolated implementation/full code
 cycle. Separate focused prerequisite PR/main merge with all21, then resume PR126,
