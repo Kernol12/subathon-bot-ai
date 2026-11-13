@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T08:29:18Z",
+  "updated_at": "2026-11-13T09:53:56Z",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18663,7 +18663,7 @@
       "title": "Actionable acquisition diagnostics and enforced merge checks",
       "module": "Quality and tooling",
       "kind": "implementation",
-      "status": "in_review",
+      "status": "done",
       "owner": "codex:coordinator-97333d35",
       "depends_on": [
         "CI-001"
@@ -18675,7 +18675,7 @@
       "brief": "docs/tasks/CI-002.md",
       "summary": "Report bounded runner/source-refusal evidence and enforce all 21 checks with source-app bindings.",
       "notes": [
-        "All contract/test/code/settings/dated-receipt cycles approved; packet3584f08 frozen. At d252201 all21 checks/all9 APT steps passed, attempt1. Exact reviewed rule applied once; full/effective-main readback and independent live GETs verify21 app-bound checks/all prior protections. Final metadata-head CI and normal protected merge pending; no variant admission/retry or product work."
+        "Bounded runner/refusal diagnostics and 21 app-bound checks implemented and enforced; all prior protections preserved. Full independent review cycles approved. Two intended reds; local 91 tooling/scaffold 3/3 and final bd060a0 all 21 required checks passed. PR622 merged normally e0816de without bypass. Unknown incident layout remains unsupported; product work stopped."
       ],
       "verification": {
         "contract_review": "passed",
@@ -18697,14 +18697,17 @@
         "code_review": "passed",
         "settings_review": "passed",
         "settings_enforcement": "passed",
-        "current_source_ci": "partial",
+        "current_source_ci": "passed",
         "code_guidance_correction": "passed",
         "code_correction_review": "passed",
         "settings_verification": "passed",
         "hosted_d252201": "passed",
         "settings_readback": "passed",
         "application_receipt_review": "passed",
-        "application_receipt_verification": "passed"
+        "application_receipt_verification": "passed",
+        "current_head_ci": "passed",
+        "protected_merge": "passed",
+        "publication": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6840078428",
@@ -18725,9 +18728,16 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847372194",
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847660001",
         "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847852210",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847967578"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847967578",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6848369574"
       ],
-      "review": null,
+      "review": {
+        "author": "Fresh Codex implementer and coordinator; exact identities in structured stages",
+        "reviewer": "Independent Claude initial/closing and separate Codex verification for all required stages and dated receipt",
+        "outcome": "approved",
+        "revision": "3584f086f242b9d2c7797f013ecab8767b563c62",
+        "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/622#issuecomment-6847967578"
+      },
       "workflow": {
         "required_stages": [
           "contract",
@@ -18953,12 +18963,53 @@
         }
       },
       "publication": {
-        "state": "open",
+        "state": "merged",
         "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/622",
-        "head": "d252201ad24c039aed5724833fa08d744b757391",
-        "merge_commit": null,
-        "merged_at": null,
-        "observed_at": "2026-11-13T08:13:00Z"
+        "head": "bd060a0a2e45485a389650959fbd51db248695d0",
+        "merge_commit": "e0816de503a88f94726a774be1932fbf4eea4984",
+        "merged_at": "2026-11-13T08:43:25Z",
+        "observed_at": "2026-11-13T08:44:34.169109+00:00"
+      }
+    },
+    {
+      "id": "CI-003",
+      "title": "Validate the Noble split security source profile",
+      "module": "Quality and tooling",
+      "kind": "implementation",
+      "status": "in_progress",
+      "owner": "codex:coordinator-97333d35",
+      "depends_on": [
+        "CI-002"
+      ],
+      "spec_refs": [
+        "§17",
+        "§18"
+      ],
+      "brief": "docs/tasks/CI-003.md",
+      "summary": "Admit only a fully checked Noble archive/security source profile while retaining all existing refusal assertions.",
+      "notes": [
+        "Claimed necessary prerequisite for PR126 after two real URI-class ubuntu_security refusals. Contract/examples first; no tests, red or implementation authored or run. Owner boundary remains finish PR126 then pause; product work stopped."
+      ],
+      "verification": {
+        "claim": "passed",
+        "contract_review": "not_run",
+        "test_review": "not_run",
+        "baseline": "not_run",
+        "implementation": "not_run",
+        "acceptance": "not_run"
+      },
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6849584005",
+        "https://github.com/canonical/cloud-init/blob/30b3ea21ec86269a2e31ae0028fbb4a7cc5b41a1/templates/sources.list.ubuntu.deb822.tmpl"
+      ],
+      "review": null,
+      "workflow": {
+        "required_stages": [
+          "contract",
+          "tests",
+          "implementation"
+        ],
+        "stages": {}
       }
     }
   ],
@@ -21087,6 +21138,16 @@
       "date": "2026-11-13",
       "task": "CI-002",
       "note": "Claimed authorized independentCI002 from currentmain3c74966; PR126 parked on unclassified APT-layout refusal. Contract first, no retry/guard bypass or product resumption."
+    },
+    {
+      "date": "2026-11-13T08:43:25Z",
+      "task": "CI-002",
+      "note": "PR622 final bd060a0 passed all21 required checks and merged normally as e0816de. Live app-bound enforcement/readback preserves prior protections. Local completion record; owner paused before resuming parked WORKFLOW-005."
+    },
+    {
+      "date": "2026-11-13T09:53:56Z",
+      "task": "CI-003",
+      "note": "Claimed explicit necessary PR126 prerequisite from current main e0816de. Two hosted records identify canonical security URI class in stanza2; full host source values remain unknown. Contract/tests/full reviews before any narrow runtime-validated admission."
     }
   ],
   "workflow_policy": {
