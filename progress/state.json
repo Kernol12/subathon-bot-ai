@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T08:59:54Z",
+  "updated_at": "2026-11-13T09:09:53Z",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18576,7 +18576,7 @@
       "title": "Compact context and publication preflight",
       "module": "Quality and tooling",
       "kind": "implementation",
-      "status": "in_progress",
+      "status": "in_review",
       "owner": "codex:coordinator-97333d35",
       "depends_on": [
         "WORKFLOW-004"
@@ -18588,7 +18588,7 @@
       "brief": "docs/tasks/WORKFLOW-005.md",
       "summary": "Select bounded stage handoffs and check actual schemas, reviewed paths and outgoing private-path history before publication.",
       "notes": [
-        "All three review cycles and source bindings remain approved at447aa06/77b1522/3720c42. Resumed after CI-002 protected merge e0816de; integrating current main once, preserving the parked claim/history. Earlier42462d1 layout failure retained; fresh integrated checks/publication/current-head CI pending. Owner requests pause immediately after PR126 merges; product work remains stopped."
+        "Approved contract447aa06/tests77b1522/code3720c42 remain unchanged. CI-002 merged e0816de; current main integrated once at8e9e996. Integrated115 tooling, scaffold3/3 and schema preset5/5 (8+3 schema methods, overlapping infrastructure) pass, zero skips. Routine metadata review/final publication/current-head CI pending; old42462d1 failure retained. Pause after PR126 merge; product stopped."
       ],
       "verification": {
         "contract_review": "passed",
@@ -18615,8 +18615,10 @@
         "code_correction_review": "passed",
         "schema_registration": "passed",
         "hosted_ci": "not_run",
-        "publication_metadata": "passed",
-        "resume_integration": "partial"
+        "publication_metadata": "partial",
+        "resume_integration": "passed",
+        "prior_42462d1_ci": "failed",
+        "resume_metadata_review": "not_run"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6837666194",
@@ -18636,7 +18638,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6839717745",
         "https://github.com/Kernol12/subathon-bot-ai/pull/126",
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6839885237",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6840078428"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6840078428",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6848769823"
       ],
       "review": {
         "author": "Codex test author, coordinator and fresh implementer (structured stage authors)",
@@ -18846,10 +18849,10 @@
       "publication": {
         "state": "open",
         "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/126",
-        "head": "8a0c867d3987438297acc1def7344772af6087fb",
+        "head": "42462d165a5aa90f92eb3625941bcda163f178c4",
         "merge_commit": null,
         "merged_at": null,
-        "observed_at": "2026-11-13T00:11:13+00:00"
+        "observed_at": "2026-11-13T09:04:44.531374+00:00"
       }
     },
     {

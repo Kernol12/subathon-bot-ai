@@ -23,11 +23,20 @@ packet were intentionally superseded by reviewed implementation. Verify publicat
 currency for contract+implementation, not the historical NI producer bytes. Preserve
 all existing assertions and source byte identities. No new behavior/tests are planned.
 
-Next resolve/commit this single main merge, run integrated tooling/schema/scaffold
-checks and actual publication checker with explicit base e0816de/current clean HEAD,
-existing admitted schema interpreter. Record actual results. Obtain independent
-routine integration/metadata verification; unchanged substantive source approvals
-remain valid. Publish PR126, immediately link after push, then watch and require all
+Single main merge committed as8e9e996, parents parked05e204d and main e0816de.
+Local configure/build/CTest passed: scaffold3/3 includes115 tooling methods; schema
+preset5/5 includes the repeated infrastructure115 plus actual schema8/publication3.
+No skips. The post-command evidence observer expected older CTest summary text and
+label-filtered counts; corrected it without rerun. Commands themselves all exited0.
+Existing admitted `build/workflow005-schema-venv/bin/python` reused, no installation.
+Project/progress/render/diff pass. Raw results in
+`local-evidence/WORKFLOW-005/resume-e0816de`; public local receipt:
+https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6848769823
+
+Next independent routine integration/metadata verification; unchanged substantive
+source approvals remain valid. Then actual publication checker on final clean HEAD
+with explicit base e0816de, stages contract+implementation, existing admitted schema
+interpreter. Publish PR126, immediately link after push, then watch and require all
 21 current-head app-bound checks, current protections/permissions/review readiness
 and normal protected merge. No lucky-host retry or bypass. Pause at that merge,
 record exact completion/restart state locally, unwatch, then hand back.
