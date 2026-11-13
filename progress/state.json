@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T16:26:09.738471+00:00",
+  "updated_at": "2026-11-13T16:35:10.282754+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -19568,7 +19568,7 @@
       "title": "Define the task-tracking migration contract",
       "module": "Quality and tooling",
       "kind": "contract",
-      "status": "in_review",
+      "status": "done",
       "owner": "codex:migrate001-author-20261113:/root",
       "depends_on": [],
       "spec_refs": [
@@ -19578,7 +19578,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-001.md",
       "summary": "Define the task-tracking migration contract. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Migration contract/inventory approved through full independent cycle at b506434; rejected initial/closing history retained. Existing 136 tooling tests and 3 scaffold checks pass. Latest-head publication, CI and protected merge pending. Authority remains state; successors and product work not started."
+        "Reviewed migration contract/inventory and seven acceptance briefs merged normally in PR632 at cfd6da9 after 21 app-bound checks. Full independent contract cycle, rejected history, 136 tooling tests, 3 scaffold checks and real schema publication retained. State authority unchanged; 002 next; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -19588,10 +19588,14 @@
         "preservation": "passed",
         "scaffold": "passed",
         "codex_verification": "passed",
-        "contract_review": "passed"
+        "contract_review": "passed",
+        "hosted_ci": "passed",
+        "publication_preflight": "passed",
+        "protected_merge": "passed"
       },
       "evidence": [
-        "https://github.com/Kernol12/subathon-bot-ai/issues/626"
+        "https://github.com/Kernol12/subathon-bot-ai/issues/626",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/632"
       ],
       "review": {
         "author": "codex:migrate001-author-20261113:/root; codex:coordinator-59095155",
@@ -19723,6 +19727,14 @@
             ]
           }
         }
+      },
+      "publication": {
+        "state": "merged",
+        "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/632",
+        "head": "57a252c09d729f3543c5b76a0fa66e901829ace1",
+        "merge_commit": "cfd6da97259d4ab7712f4df59a7ee3daddc14969",
+        "merged_at": "2026-11-13T16:33:50Z",
+        "observed_at": "2026-11-13T16:35:10.282754+00:00"
       }
     },
     {
@@ -19730,8 +19742,8 @@
       "title": "Separate review evidence from task tracking",
       "module": "Quality and tooling",
       "kind": "implementation",
-      "status": "planned",
-      "owner": "Unassigned",
+      "status": "in_progress",
+      "owner": "codex:coordinator-59095155 (dispatch; fresh author pending)",
       "depends_on": [
         "MIGRATE-001"
       ],
@@ -19741,12 +19753,29 @@
       ],
       "brief": "docs/tasks/EPIC-029/MIGRATE-002.md",
       "summary": "Separate review evidence from task tracking. See versioned issue-derived acceptance brief.",
-      "notes": [],
-      "verification": {},
+      "notes": [
+        "Claimed after verified MIGRATE-001 protected merge. Fresh author to define precise loader/schema/converter and bounded oracle examples before tests; independent contract/test cycles and intended red precede fresh implementation. Production state authority unchanged."
+      ],
+      "verification": {
+        "contract_authored": "not_run",
+        "contract_review": "not_run",
+        "test_review": "not_run",
+        "baseline": "not_run",
+        "implementation": "not_run",
+        "acceptance": "not_run"
+      },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/issues/627"
       ],
-      "review": null
+      "review": null,
+      "workflow": {
+        "required_stages": [
+          "contract",
+          "tests",
+          "implementation"
+        ],
+        "stages": {}
+      }
     },
     {
       "id": "MIGRATE-003",
@@ -22051,6 +22080,16 @@
       "date": "2026-11-13",
       "task": "MIGRATE-001",
       "note": "Recorded initial independent Claude findings and contract corrections; aligned stopped WORKFLOW-006 ordering with MIGRATE-005. No successor execution."
+    },
+    {
+      "date": "2026-11-13",
+      "task": "MIGRATE-001",
+      "note": "Verified normal PR632 merge cfd6da9 at reviewed57a252c after21 app-bound required checks and independent approvals; closed issue626. Claims reflect actual observed facts."
+    },
+    {
+      "date": "2026-11-13",
+      "task": "MIGRATE-002",
+      "note": "Coordinator claimed authorized successor on branch from current main; fresh contract authorship before reviewed tests/intended red/implementation. No cutover."
     }
   ],
   "workflow_policy": {
