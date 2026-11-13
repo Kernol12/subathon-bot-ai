@@ -1,11 +1,17 @@
 # MIGRATE-004 — Switch task authority to GitHub and retire the tracker
 
 Source: [issue #629](https://github.com/Kernol12/subathon-bot-ai/issues/629), snapshot 2026-11-13.
-Contract: `docs/contracts/github-task-migration-v1.md`.
+Contracts: [approved migration](../../contracts/github-task-migration-v1.md),
+[proof records](../../contracts/proof-records-v1.md),
+[publication](../../contracts/proof-publication-v1.md),
+[authored cutover proposal](../../contracts/github-authority-cutover-v1.md) and
+[separate exact ADR-0012 scope proposal](../../contracts/github-tracker-retirement-scope-v1.md).
+The two004 proposals require independent review; links do not claim approval.
 
 Owner authorization now permits migration sequence 001 → 002 → 003 → 004 → 006 → 005.
-This brief registers scope; only 001 is claimed in this session. Until 004, state remains
-authoritative. WORKFLOW-006/007 and product work remain stopped; only WF006 storage/
+MIGRATE-001/002/003 have merged; only004 is currently claimed, for contract authorship.
+State remains the sole planning/proof authority until the final protected004 cutover
+merge, including across the required intermediate protected archive-preparation PR. WORKFLOW-006/007 and product work remain stopped; only WF006 storage/
 dependency rescope is permitted. Successors require fresh sessions and all current gates.
 Coordinator owns shared metadata/integration; executable authors own only assigned paths.
 
@@ -43,3 +49,21 @@ Owner authorization supersedes the issue snapshot’s instruction to remain Plan
 unassigned; it does not waive registration, fresh sessions, review or protected merges.
 Dependency readiness never grants owner authorization. Until cutover, preserve GitHub
 planning items during mirror synchronization. No product or WORKFLOW-006/007 execution.
+
+### Cutover packet and separate cleanup gate
+
+The authored cutover proposal defines one-time full identity/title/root/relationship/
+consumer reconciliation, protected archive-preparation merge/readback before the actual
+immutable pin, final source-bound publication and coordinated consumer retirement.
+The intermediate PR leaves004 open/in progress. No canonical extraction, remote writes,
+assertion removal or authority switch is authorized by this contract authoring packet.
+The separate ADR-0012 proposal pins exact methods/assertion groups and replacements;
+obtain its own independent review cycle and reviewed changed tests before any removal.
+The full code review cycle still applies to cleanup source. Preserve all current and
+historical gates, including rejected reviews and actual newer completion observations.
+
+All brief paths remain accessible through004.006 must then perform actual lossless
+compaction/consolidation, full remote archival, link repair, justified removal and
+explicit shared/unfinished retention before005 audits. WF006 receives storage/dependency
+rescope only; neither it nor007 nor product/API execution resumes. Scope and Acceptance
+above retain the issue snapshot wording; latest owner authorization governs execution.
