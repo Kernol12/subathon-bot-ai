@@ -281,8 +281,15 @@ Record exact path/revision/digest for each carrier. Nontext artifacts are retain
 exact bytes/digest and inspected for their declared identity format, not decoded as
 invented UTF-8. Outside-repository references retain their explicit namespace.
 
-Scan full40 and7–39-hex runs with non-hex boundaries, original case/string/path/span
-retained. Also identify3–6-hex fragments when used as revision-like shorthand (including
+Scan maximal hexadecimal runs of **any length**, retaining original case/string/path/span.
+Within each run consider every contiguous substring of length7 through40, including
+all leading/trailing trims and runs longer than40. This discovers citations glued to
+prose (`approved7df446e`, `source40bdb600`) without mistaking the neighbouring hex letters
+for part of the identity. Retain every possible matching object/prefix and its span;
+do not choose the first or longest match. An implementation may compress equivalent
+prefix-length ranges losslessly, but must preserve all candidates. Classify unmatched
+runs and false-positive substrings from their carrier context, not from spelling alone.
+Also identify3–6-hex fragments when used as revision-like shorthand (including
 prose prefixes such as source9b0/configc801); record their exact citation and limitation.
 Use the complete local object database, including unreferenced objects, for possible
 prefix matches. Classify unique project object, ambiguous prefix (retain candidates),
@@ -324,21 +331,23 @@ references; identify the separately available gate basis and any narrower availa
 limitation. If the old approval itself is essential and unavailable, it remains a blocker.
 No blanket legacy waiver, role inferred from age, new exemption or revised original SHA.
 
-The initial closing probe resolved roughly190 non-main commits from abbreviated state
-citations (191 at that source;107 in legacy review fields), of which142 had no ref/reflog.
+The initial closing probe resolved191 non-main commits from abbreviated state citations
+at that source (107 in legacy review fields), of which142 had no ref/reflog. A later
+segmentation probe found additional candidates missed by boundary-only scanning.
 This is substantial real audit work, not a count-based waiver or a promise already met.
 Deduplicate object rows but retain every citation/role and require independent row-level
 source-aware decisions in one finite, source-bound documentary audit cycle before A is
-pinned. This does not create190 tasks/review cycles or a permanent ledger/synchronizer.
+pinned. This does not create one task/review cycle per object or a permanent ledger/synchronizer.
 If any required role cannot be satisfied under the preserved outgoing guard, checkpoint
 the exact object/claim/gate conflict to the owner and block archive pin/cutover; continue
 only independent authorized migration work. Do not label that failure an approved legacy
 limitation. Availability audit approval is distinct from this proposed contract.
 
-Private GC safety has been extended promptly: the coordinator protected200 non-main
-commit candidates found in state and218 across tracked UTF-8 text at the inspected
-snapshot, including ambiguous prefix candidates, with local-only refs/private verified
-copies. Counts include candidates, not approved roles, and will change on recapture.
+Private GC safety has been extended promptly: at the latest inspected snapshot the
+coordinator protected275 non-main commit candidates across770 tracked UTF-8 carriers,
+including all218 earlier candidates, with local-only refs/private verified copies.
+Counts include candidates, not approved roles, and will change on recapture. Broader
+followed-document research remains partial; no candidate count establishes role approval.
 A private complete local-object safety pack also protects currently available objects
 while the full carrier/role inventory proceeds; it is never an archive publication,
 fixture, tunnel or availability claim. Before A and P re-run discovery, protect new
@@ -357,9 +366,11 @@ head cannot make exact-ancestry publication pass. Preserve that failed audit and
 **not** integrate/push this history, tunnel it through a bundle, rewrite its SHA or
 weaken the outgoing rule. Original local refs and objects remain untouched.
 
-The sole current-state reference to da0fe1c is the supplemental
+The sole full-SHA current-state field reference to da0fe1c is the supplemental
 `complete_workflow.stages.implementation.results_stages.identity.post_closing_status_observation.closing_time_commit`.
-It is not a packet revision, NI source pin or approval revision. The observation itself
+The APITEST-016 advisory-disposition BCA1 prose also cites its short form `da0fe1c`;
+both carriers must be traced by the role audit. The full-SHA field is not a packet
+revision, NI source pin or approval revision. The observation itself
 says the flags are truthful post-closing observations, not content approved by the
 identity closing, and points at the existing public receipt
 https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6834806589 .
@@ -455,8 +466,27 @@ array is exactly, in this order:
 6. `Frozen exemptions preserve history and do not authorize forward completion.`
 7. `Acceptance execution is a coordinator gate; proof completion does not validate result values.`
 8. `Per-task specification references are archived; active brief references require coordinator review.`
+9. `Intended-red execution is a coordinator gate; proof completion does not validate baseline execution.`
+10. `Concise completion notes are a coordinator rule; proof limitations have no aggregate character cap.`
 
 OpenAPI/component/examples remain ordinary schema.repository coverage.
+
+Ordinary CI must validate the **actual canonical HEAD bundle**, without publication
+preflight, GitHub/Projects credentials or network access. Retain the existing
+`scaffold.python_tools` registration and add its named oracle
+`tests/tooling/test_proofs.py::ProofCliTests.test_actual_canonical_bundle_is_valid`:
+invoke default `proofs.py validate` against ROOT, require successful all-record admission
+and the independently counted canonical inventory. Missing policy/directory/required
+record is failure, never empty success or legacy fallback. In the existing `schema.proofs`
+node, extend `ProofSchemas.test_proof_and_policy_contract` to validate the actual policy
+and **every** canonical record with the admitted real SDK, in addition to all its
+independent synthetic positives/negatives. Preserve its exact single-test witness.
+Keep `schema.repository` OpenAPI coverage and `schema.proof_publication` integration;
+consolidate only `schema.publication` as specifically approved in the cleanup map.
+New focused synthetic cases must establish that both ordinary-CI oracles reject a
+malformed/unavailable actual input, after a passing control; do not import live state
+or add a hundreds-record fixture. Ordinary CI need not resolve historical revisions;
+current Git/source binding and archive availability remain publication/coordinator gates.
 
 Retire tools/progress.py, template/controller/UI checker, state/current state schema,
 PROGRESS.html, CMake progress target, old status/set/available/reconcile/render CLI,
@@ -587,6 +617,13 @@ is a concrete closure blocker even if --complete succeeds. Independent code clos
 reviews and actual required CI remain mandatory. STATUS and workflow state this limitation
 explicitly;005 audits actual receipts against task acceptance, not the historical map.
 Do not implement WF006 results policy/fields or invent a results service to hide the loss.
+
+Two further state automation losses must be explicit in STATUS and workflow: the
+dependency/status check that implementation starts after observed red retires, and the
+500-character completed-note validator retires. The coordinator still verifies actual
+reviewed intended red before dispatch and concise completion notes before closure;
+independent reviewers check those receipts. A reviewed tests packet does not prove
+execution. Proof limitations retain original notes without truncation or a character cap.
 
 Board reconciliation includes these roles and full post-write readback:
 
