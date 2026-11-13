@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T11:00:11Z",
+  "updated_at": "2026-11-13T11:14:12Z",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -18988,18 +18988,19 @@
       "brief": "docs/tasks/CI-003.md",
       "summary": "Admit only a fully checked Noble archive/security source profile while retaining all existing refusal assertions.",
       "notes": [
-        "Contract e41a830 full cycle closed: fresh Claude closing approved with no new findings. Next fresh isolated author owns only additive security-profile tests, authored/unrun until full review; then one named intended red and fresh implementation. All27 old methods remain frozen. Finish prerequisite and PR126, then pause."
+        "Contract e41a830 full cycle closed. Fresh isolated author added20 test methods at087f465; integrated byte-identically, syntax/static/diff checks only. Tests AUTHORED UNRUN UNIMPORTED UNPUBLISHED; initial Claude test review next, then Codex/closing before single named red. Preserve27 old methods. Finish prerequisite and PR126, then pause."
       ],
       "verification": {
         "claim": "passed",
         "contract_review": "passed",
-        "test_review": "not_run",
+        "test_review": "partial",
         "baseline": "not_run",
         "implementation": "not_run",
         "acceptance": "not_run",
         "contract_authored": "passed",
         "contract_correction_authored": "passed",
-        "contract_correction_review": "passed"
+        "contract_correction_review": "passed",
+        "test_authored": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6849584005",
@@ -19008,7 +19009,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850397768",
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850649333",
         "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850777867",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850904348"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850904348",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851174086"
       ],
       "review": null,
       "workflow": {
@@ -19108,6 +19110,16 @@
                 "finished_at": "2026-11-13T10:58:24.275Z"
               }
             ]
+          },
+          "tests": {
+            "authors": [
+              "codex:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci003-test-author-v1"
+            ],
+            "revision": "087f4657570e71b7a5190f793712a25c91493390",
+            "paths": [
+              "tests/tooling/test_apt_security_profile.py"
+            ],
+            "reviews": []
           }
         }
       }

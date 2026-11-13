@@ -16,14 +16,20 @@ Private reports/dispositions: local-evidence/CI-003/contract-reviews. Primary so
 local-evidence/CI-003/sources, pinned Canonical30b3ea2 and Noble manual observations.
 No full failed-host source or recovery is claimed; hidden values remain unknown.
 
-NEXT: fresh isolated test author via client ci003-test-author-v1, only owned source
-path tests/tooling/test_apt_security_profile.py. Prepare from this committed metadata
-head; report actual provider/model/session, commit, method inventory/oracles and every
-method's statically expected current-main PASS/behavioral FAIL. Tests remain AUTHORED
-UNRUN through full independent test review. No test/probe/fixture/producer import,
-discovery/execution or NI stubs. Contract names the exact one-method red after full
-test closing: one assertion FAIL with fixed marker, zero ERRORs/skips. Then fresh
-isolated implementer owns only tools/prepare_ubuntu_apt.py. Coordinator owns docs,
+Tests AUTHORED at087f4657570e71b7a5190f793712a25c91493390, parentf8bd796,
+by fresh isolated Codex ci003-test-author-v1; integrated byte-for-byte with fast-
+forward. Only tests/tooling/test_apt_security_profile.py added,20 methods viaAST.
+Producer/both old test files remain frozen. Syntax/static/diff checks passed; NO
+candidate test/fixture/producer import, discovery, red or implementation execution.
+Handback/oracles/every-method static PASS or behavioral FAIL inventory:
+local-evidence/CI-003/test-author-v1/handback.txt. Public receipt:
+https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851174086
+NEXT initial independent Claude test review via client ci003-initial-test-review-v1;
+then Codex fixes/separate verification and fresh Claude closing. Tests stay authored
+UNRUN UNIMPORTED UNPUBLISHED until that cycle closes. Contract specifies EXACT one-
+method intended red afterward: one assertion FAIL/fixed marker, zero ERRORs/skips.
+No NI stub is authorized. Then fresh isolated implementer owns only the producer.
+Coordinator owns docs,
 state/HTML/checkpoint and publication. docs/CI.md must be updated for the conditional
 profile/event/direct-security outage before code review. Full code cycle follows.
 
