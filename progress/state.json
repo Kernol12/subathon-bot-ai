@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T16:40:57.843430+00:00",
+  "updated_at": "2026-11-13T16:52:47.102124+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -19754,11 +19754,11 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-002.md",
       "summary": "Separate review evidence from task tracking. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Exact proof API/schema/converter contract and bounded examples authored at dffef11. Existing validate/render/project checks passed; no runtime/test edits or intended red. Independent contract cycle is pending before test authorship. State remains sole production authority; product and WF006/007 execution stopped."
+        "Exact proof contract corrected after initial Claude findings: bounded API versus strict CLI oracles, explicit completion refusal, schema/semantic responsibilities, target-tip guard base, compact verification, and isolated NI/schema test seams. Independent Codex verification then Claude closing pending. State sole authority; no runtime/test edits."
       ],
       "verification": {
         "contract_authored": "passed",
-        "contract_review": "not_run",
+        "contract_review": "blocked",
         "test_review": "not_run",
         "baseline": "not_run",
         "implementation": "not_run",
@@ -19777,15 +19777,56 @@
         "stages": {
           "contract": {
             "authors": [
-              "codex:migrate002-contract-author-20261113:/root"
+              "codex:migrate002-contract-author-20261113:/root",
+              "codex:coordinator-59095155"
             ],
-            "revision": "dffef1153160715339247bb338893f82e23c1fe5",
+            "revision": "89209094e58bc6b7308e7cdc57b74db5a4cb4d0f",
             "paths": [
               "docs/contracts/proof-records-v1.md",
               "docs/tasks/EPIC-029/MIGRATE-002.md",
               "docs/evidence/README.md"
             ],
-            "reviews": []
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:7fd0fdbb-fa86-40a2-9ab1-6da4d87d1d42",
+                "revision": "dffef1153160715339247bb338893f82e23c1fe5",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6859346979",
+                "findings": [
+                  "M002-CI-001",
+                  "M002-CI-002",
+                  "M002-CI-003",
+                  "M002-CI-004",
+                  "M002-CI-005",
+                  "M002-CI-006",
+                  "M002-CI-007",
+                  "M002-CI-N01",
+                  "M002-CI-N02",
+                  "M002-CI-N03",
+                  "M002-CI-N04",
+                  "M002-CI-N05",
+                  "M002-CI-N06",
+                  "M002-CI-N07",
+                  "M002-CI-N08",
+                  "M002-CI-N09",
+                  "M002-CI-N10"
+                ],
+                "blocking_findings": [
+                  "M002-CI-001",
+                  "M002-CI-002",
+                  "M002-CI-003",
+                  "M002-CI-004",
+                  "M002-CI-005",
+                  "M002-CI-006",
+                  "M002-CI-007"
+                ],
+                "started_at": "2026-11-13T16:42:13Z",
+                "finished_at": "2026-11-13T16:49:30Z"
+              }
+            ]
           }
         }
       }

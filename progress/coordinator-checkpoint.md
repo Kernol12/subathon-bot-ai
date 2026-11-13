@@ -21,12 +21,16 @@ Issue626 closed only after readback; PR632 watch stopped. Record carried in next
 already-authorized metadata, avoiding a completion-only PR. Prior PR126 completion
 facts and120 exemptions remain; historical failures remain historical.
 
-002 authored packet: `docs/contracts/proof-records-v1.md` at `dffef1153160715339247bb338893f82e23c1fe5`;
-paths/authors registered in state, no reviews claimed. Existing validate/render/project
-checks passed. Next: coordinator assigns independent Claude initial, Codex fixes/
-separate verification and Claude closing before test authorship. Tests
-receive their own full cycle, meaningful assertion red then fresh implementation.
-Closing note N1: explicitly specify first-cutover/base-absent policy semantics for
-002/003 tests; no silent success or blanket fail on the one legitimate bootstrap.
-Policy enrollment is excluded from stage currency; no dual production proof copies.
-No live/provider/platform/product proof added. Private receipts local-evidence/EPIC-029.
+002 contract corrected at source 8920909 by codex:coordinator-59095155;
+original author session finished. No active writer or runtime/test author assigned.
+Initial Claude changes requested retained with all 17 findings at
+https://github.com/Kernol12/subathon-bot-ai/issues/627#issuecomment-6859346979
+Next: independent Codex verification of corrections/related requirements, then fresh
+Claude closing before any test authorship. Tests get their own full review cycle,
+meaningful NI assertion red, then fresh implementation. No successor work.
+Corrections separate bounded core examples from one disposable strict-CLI scenario,
+name require_complete, define schema/semantic responsibilities, current-target-base
+guard/operational freshness, compact historical verification, and isolated NI/schema
+placement without breaking production one-test witness. No authority activation.
+Original 001 history/completion, all other task objects and 120 exemptions preserved.
+Private receipts local-evidence/EPIC-029; full v0.45/provider/platform limits remain.
