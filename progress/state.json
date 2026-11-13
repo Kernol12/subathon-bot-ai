@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T21:24:43.267123+00:00",
+  "updated_at": "2026-11-13T21:45:34.613756+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20489,7 +20489,7 @@
       "module": "Quality and tooling",
       "kind": "implementation",
       "status": "in_progress",
-      "owner": "codex:migrate004-contract-author-20261113:/root",
+      "owner": "codex:coordinator-59095155",
       "depends_on": [
         "MIGRATE-003"
       ],
@@ -20500,11 +20500,11 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
       "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Authored exact cutover and ADR0012 method/assertion disposition proposals at cdbfed0; three docs only, no production change. Read-only current503-task/issue/item inventories show ten containment/prerequisite discrepancies needing reviewed reconciliation. Independent contract and separate cleanup-scope cycles pending; no tests/red/deletions/authority switch. State authoritative; product/WF006/007 stopped."
+        "Initial contract review rejected eight gaps; receipt retained. Corrections a262845 define exact archive-to-final state preservation, final-PR publication, historical-object/privacy gates, new-ID claim order, stage/evidence ownership, explicit retired acceptance/spec automation and board field roles. Separate Codex verification/fresh Claude closing and own cleanup-scope cycle pending. No runtime/tests/deletion/switch; state authoritative, product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
-        "contract_review": "not_run",
+        "contract_review": "failed",
         "test_review": "not_run",
         "baseline": "not_run",
         "implementation": "not_run",
@@ -20523,15 +20523,52 @@
         "stages": {
           "contract": {
             "authors": [
-              "codex:migrate004-contract-author-20261113:/root"
+              "codex:migrate004-contract-author-20261113:/root",
+              "codex:coordinator-59095155"
             ],
-            "revision": "cdbfed03dd84333a00a79438ffaea2c87028af03",
+            "revision": "a262845d2dba9058787e3aac89f4dd57741450ce",
             "paths": [
               "docs/contracts/github-authority-cutover-v1.md",
               "docs/contracts/github-tracker-retirement-scope-v1.md",
               "docs/tasks/EPIC-029/MIGRATE-004.md"
             ],
-            "reviews": []
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:ea49159b-ed4e-4ecb-a77f-9e0426ebcc97",
+                "revision": "cdbfed03dd84333a00a79438ffaea2c87028af03",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6865641797",
+                "findings": [
+                  "M004-CI-01",
+                  "M004-CI-02",
+                  "M004-CI-03",
+                  "M004-CI-04",
+                  "M004-CI-05",
+                  "M004-CI-06",
+                  "M004-CI-07",
+                  "M004-CI-08",
+                  "M004-CI-N1",
+                  "M004-CI-N2",
+                  "M004-CI-N3",
+                  "M004-CI-N4",
+                  "M004-CI-N5",
+                  "M004-CI-N6"
+                ],
+                "blocking_findings": [
+                  "M004-CI-01",
+                  "M004-CI-02",
+                  "M004-CI-03",
+                  "M004-CI-04",
+                  "M004-CI-05",
+                  "M004-CI-06",
+                  "M004-CI-07",
+                  "M004-CI-08"
+                ]
+              }
+            ]
           }
         }
       }
