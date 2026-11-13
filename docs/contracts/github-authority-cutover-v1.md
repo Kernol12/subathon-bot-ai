@@ -255,22 +255,45 @@ remote ref-name search is insufficient: traverse remote-reachable history/trees 
 independently fetch/read back the objects. Include every row in archive reconciliation.
 Missing required packet/NI objects block pinning; never synthesize an exemption.
 
-Initial read-only discovery: supplemental APITEST-016 post-closing status observation
-names da0fe1cb2df6fb25195a9c63cf10d20167a6ca6b, not currently remote-reachable. It and17
-unpublished ancestors are locally present; a path-only scan found no forbidden trees
-and top-level changes only in progress/HTML/docs. This is **not privacy approval**.
-Require an independent full outgoing-content/privacy and historical-evidence review
-before publication. If approved, preserve exact objects through a separately reviewed
-archive-PR history integration whose current tree retains current main, with those
-historical objects as reachable ancestry; normal protection/current CI and full outgoing
-checks still apply. No blind private-branch push, rewrite of original SHA or product
-implementation is authorized. Read back reachability from the actual archive tag.
-If content is unsafe or unavailable, stop pinning and obtain a reviewed disposition.
-Only a demonstrably non-required supplemental observation may remain an explicit
-historical availability limitation with its exact original string; all required source
-bindings still fail closed. Such a decision must be explicit in the source-bound audit,
-proof limitations/evidence and STATUS; it never adds to frozen120 exemptions. No missing
-object is silently called legacy. Existing local refs/evidence remain preserved.
+Historical discovery and proposed disposition (requires independent source-aware
+approval before pinning): supplemental APITEST-016 post-closing status observation
+names `da0fe1cb2df6fb25195a9c63cf10d20167a6ca6b`. The outgoing range has17 commits
+including it (16 other commits), not17 additional ancestors. The first coordinator
+scan incorrectly omitted the retained docs/evidence restriction. The full predicate
+finds commit `049d998d059c54132d26b3810d1f3cc1d889e201` with forbidden path
+`docs/evidence/APITEST-016-admission.md`, mode100644/blob
+`58f90e628a85e90d80e759746b7c9568c7eb8de9`. Its later deletion or a clean integration
+head cannot make exact-ancestry publication pass. Preserve that failed audit and do
+**not** integrate/push this history, tunnel it through a bundle, rewrite its SHA or
+weaken the outgoing rule. Original local refs and objects remain untouched.
+
+The sole current-state reference to da0fe1c is the supplemental
+`complete_workflow.stages.implementation.results_stages.identity.post_closing_status_observation.closing_time_commit`.
+It is not a packet revision, NI source pin or approval revision. The observation itself
+says the flags are truthful post-closing observations, not content approved by the
+identity closing, and points at the existing public receipt
+https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6834806589 .
+A read-only current scan found all39 APITEST-016 primary/supplemental revision fields
+reachable from origin/main, with da0fe1c the sole unavailable commit-valued field for
+that task. These are initial findings, not a full object-inventory approval.
+
+Proposed availability disposition is therefore limited to this **non-required status
+observation**, subject to independent confirmation against the complete source/NI/
+review inventory. Preserve its exact original SHA, complete supplemental data, public
+receipt, reviewer identities and rejected history in archive and canonical proof.
+Append this exact task-specific limitation, with the reviewed disposition receipt:
+`Historical APITEST-016 status-observation commit da0fe1cb2df6fb25195a9c63cf10d20167a6ca6b is retained locally, not remotely reachable; it is not a required source or approval revision.`
+Retain this in the proof limitations, bounded summary/STATUS and final audit; do not
+claim remote availability of that Git object. All39 required revision references still
+need actual remote object/mode/blob verification, as does every other task's inventory.
+If any required dependency uses this SHA, or the independent classification fails,
+block cutover and require a parent-compatible reviewed remedy; this proposal supplies
+no fallback. It does not create a workflow exemption, change the frozen120, excuse
+missing proof, invent an approved revision or replace the original string. Local
+historical evidence is preserved; only its unavailable public-object claim is narrowed.
+The separate availability approval is a source-bound documentary audit receipt in
+contract evidence/PR, not a new stage or automatic legacy inference. Final005 must
+report and recheck this limitation explicitly.
 
 Compacting the fixed progress/state.json archive transport is the **last state write**
 for that archive head; ordinary old rendering/reconcile commands would reformat it.
