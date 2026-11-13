@@ -59,8 +59,10 @@ reusing v1 stripped values/stanzas; P2/negative fallback examples corrected. Onl
 contract changed; all prior scope/gates and27 frozen test methods remain unchanged.
 Primary Noble manual observations saved under sources/comment-grammar-primary-review.json.
 Reports/dispositions: local-evidence/CI-003/contract-reviews/closing-v1.md and
-corrections-v2.md. Next separate native Codex correction verification, then fresh
-Claude closing via client ci003-closing-contract-review-v2. Contract remains partial;
+corrections-v2.md. Separate native Codex correction verification APPROVED, no new
+findings: https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850777867
+Report codex-verification-v2.md; no reviewer timings asserted. Next fresh Claude
+closing via client ci003-closing-contract-review-v2. Contract remains partial;
 no test authoring until closing approval. Runtime/session provenance is observational.
 No new tests/probes/authored code/own PR yet. Then additive authored tests
 unrun until full review, true intended red, fresh isolated implementation/full code
