@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-13T19:22:21.992715+00:00",
+  "updated_at": "2026-11-13T19:30:43.523906+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20134,7 +20134,7 @@
       "module": "Quality and tooling",
       "kind": "implementation",
       "status": "in_progress",
-      "owner": "codex:migrate003-contract-author-20261113:/root",
+      "owner": "codex:migrate003-test-author-20261113:/root",
       "depends_on": [
         "MIGRATE-002"
       ],
@@ -20145,7 +20145,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-003.md",
       "summary": "Prepare publication checks and CI for evidence records. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Publication contract approved through full independent cycle at 7f0b876. Historical packets preserved; prospective oracle-only tests bindings, canonical guards and archive Git transport defined. Fresh test author next; no runtime/schema/test changes or red yet. State sole authority; product/WF006/007 stopped."
+        "Contract approved at 7f0b876; additive tests and authorized NI seams authored at 9db694c. Oracle-only bindings; NI modes/blobs pinned separately in private review packet. Static AST/whitespace and project/progress checks passed; no new test import/execution, red or implementation. Full independent test cycle pending. State sole authority; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -20154,7 +20154,8 @@
         "baseline": "not_run",
         "implementation": "not_run",
         "acceptance": "not_run",
-        "contract_verification": "passed"
+        "contract_verification": "passed",
+        "tests_authored": "passed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/issues/628"
@@ -20280,6 +20281,25 @@
                 "finished_at": "2026-11-13T19:19:27Z"
               }
             ]
+          },
+          "tests": {
+            "authors": [
+              "codex:migrate003-test-author-20261113:/root"
+            ],
+            "revision": "9db694c5fe2ae81be9accc3188e096df72ec884f",
+            "paths": [
+              "tests/tooling/test_proof_publication.py",
+              "tests/tooling/test_repository_checks.py",
+              "tests/schema_validation/test_proof_publication_integration.py",
+              "tests/support/publication_fixture.py",
+              "tests/support/proof_publication_fixture.py",
+              "tests/support/frozen_proof_policy.py",
+              "tests/support/apitest016-supplemental-b506434.json",
+              "tests/tooling/test_proofs.py",
+              "tests/tooling/test_workflow.py",
+              "tests/schema_validation/test_proof_schemas.py"
+            ],
+            "reviews": []
           }
         }
       }

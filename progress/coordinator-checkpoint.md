@@ -5,13 +5,13 @@ State remains sole task/proof authority until004 reviewed cutover. Product/API a
 WORKFLOW-006/007 execution stopped; WF006 storage/dependency rescope only is migration
 scope. Fullv0.45 and all mandatory independent/protected gates remain.
 
-Checkout task/MIGRATE-003-publication-proof from maina277c5d. No active worker yet.
+Checkout task/MIGRATE-003-publication-proof from maina277c5d. Test author codex:migrate003-test-author-20261113:/root authored source 9db694c5fe2ae81be9accc3188e096df72ec884f. No active worker after handoff. Tests binding contains only current oracles/fixtures; NI source modes/blobs pinned at this revision in local-evidence/EPIC-029/migrate003-tests. Coordinator delegated tests metadata only. Independent full test cycle pending; no new test import/execution or intended red. Fresh implementation later.
 Coordinator owns shared metadata/integration/CI/publication. Brief003 and exact approved
 contract docs/contracts/proof-publication-v1.md source7f0b876; parent clarifications
 approved in same5pathpacket. Initial/rejected closing/current approvals retained.
 Final contract closing: https://github.com/Kernol12/subathon-bot-ai/issues/628#issuecomment-6862658166
 
-Next fresh test author, independent full test cycle, actual meaningfulNIred, then fresh
+Next independent full test cycle on authored source, actual meaningfulNIred, then fresh
 implementation/full independent code cycle/currentCI/protectedmerge. No test bodies
 before test closing; no runtime implementation while authoring tests. Production default
 and existing154tooling/proofschema1/schema8/SDKpub3 remain current reviewed baseline.
