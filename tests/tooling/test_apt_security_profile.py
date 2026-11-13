@@ -83,8 +83,8 @@ class AptSecurityProfileTests(unittest.TestCase):
         self.assertEqual(result, 0, "complete reviewed split profile must reach update")
         self.assert_source_read(sandbox, source)
         self.assertEqual(sandbox.stderr.getvalue(), runner_line + ADMITTED)
-        self.assertEqual(len(ADMITTED.encode("ascii")), 80)
         self.assertEqual(sandbox.stderr.attempts, [runner_line, ADMITTED])
+        self.assertEqual(len(sandbox.stderr.attempts[1].encode("ascii")), 80)
         self.assertIsNone(sandbox.validation_error)
         # Assert the entire prefix before indexing any trace or child call.
         self.assertEqual(sandbox.trace[:9], [
@@ -149,6 +149,8 @@ class AptSecurityProfileTests(unittest.TestCase):
     def test_admission_allowlist_is_independent_of_diagnostic_labels(self):
         # Removing a label must not revoke exact profile admission; adding a
         # label must not turn an unreviewed address into a supported source.
+        # Code review also checks a separate literal allowlist: runtime patches
+        # cannot detect a set derived from diagnostic labels at import time.
         with patch.dict(apt._PUBLIC_URI_LABELS, {}, clear=True):
             with security_sandbox(self, P1) as sandbox:
                 self.assert_admitted(sandbox, P1, apt.main())
@@ -159,11 +161,11 @@ class AptSecurityProfileTests(unittest.TestCase):
 
     def test_field_order_token_order_and_ascii_value_whitespace(self):
         source = ("Signed-By:\t/usr/share/keyrings/ubuntu-archive-keyring.gpg \t\n"
-                  "Components: multiverse\trestricted universe main\n"
-                  "Suites:\tnoble-backports noble-updates\tnoble \t\n"
+                  "Components: multiverse\t restricted  universe \t\tmain\n"
+                  "Suites:\tnoble-backports  \t noble-updates\t\tnoble \t\n"
                   "URIs: \tmirror+file:/etc/apt/apt-mirrors.txt\t \n"
                   "Types:\tdeb \t\n\n"
-                  "Components: restricted main\tmultiverse universe\n"
+                  "Components: restricted \t main\t\tmultiverse  universe\n"
                   "Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg\t\n"
                   "URIs:\thttps://security.ubuntu.com/ubuntu/ \n"
                   "Types: deb\t\n"
@@ -183,8 +185,9 @@ class AptSecurityProfileTests(unittest.TestCase):
     def test_p2_comments_empty_blocks_and_decoded_line_endings(self):
         # These strings test validate_sources' decoded boundary. read_text's
         # unchanged universal-newline translation hides on-disk CR/CRLF spelling.
-        for base in (P1, P2, P1.replace("\n\n", "\n\n# between\n\n\n"),
-                     "# Grüße\n\n\n" + P2 + "\n# 尾\n\n"):
+        for case_index, base in enumerate((
+                P1, P2, P1.replace("\n\n", "\n\n# between\n\n\n"),
+                "# Grüße\n\n\n" + P2 + "\n# 尾\n\n")):
             for ending in ("lf", "crlf", "mixed"):
                 lines = base.rstrip("\n").split("\n")
                 if ending == "lf":
@@ -195,7 +198,7 @@ class AptSecurityProfileTests(unittest.TestCase):
                     source = "".join(line + ("\r\n" if i % 2 else "\n")
                                      for i, line in enumerate(lines[:-1])) + lines[-1]
                 for final in ("", "\n", "\r\n"):
-                    with self.subTest(base=base[:10], ending=ending, final=repr(final)):
+                    with self.subTest(layout=case_index, ending=ending, final=repr(final)):
                         text = source + final
                         with security_sandbox(self, text) as sandbox:
                             self.assert_admitted(sandbox, text, apt.main())
@@ -359,6 +362,29 @@ class AptSecurityProfileTests(unittest.TestCase):
                     lines[index] = replacement
                     self.assert_refused("\n".join(lines), SECURITY_REFUSAL)
 
+    def test_raw_types_and_uri_prefixes_are_ineligible(self):
+        # v1 strips NBSP/U+001F, while the other literal prefixes remain in
+        # URI values. Types is not checked by v1; each case must still refuse.
+        for prefix in ("\u00a0", "\x1f", "\x00", "\x1b", "\x7f", "é"):
+            archive_refusal = SECURITY_REFUSAL
+            security_refusal = SECURITY_REFUSAL
+            if prefix not in ("\u00a0", "\x1f"):
+                archive_refusal = ("uri_not_admitted", 1, 2, "URIs", "other", 4, 1)
+                security_refusal = ("uri_not_admitted", 2, 8, "URIs", "other", 4, 1)
+            cases = (
+                (0, "Types: " + prefix + "deb", SECURITY_REFUSAL),
+                (6, "Types: " + prefix + "deb", SECURITY_REFUSAL),
+                (1, "URIs: " + prefix + "mirror+file:/etc/apt/apt-mirrors.txt",
+                 archive_refusal),
+                (7, "URIs: " + prefix + "http://security.ubuntu.com/ubuntu/",
+                 security_refusal),
+            )
+            for index, replacement, expected in cases:
+                with self.subTest(prefix=repr(prefix), line=index + 1):
+                    lines = P1.split("\n")
+                    lines[index] = replacement
+                    self.assert_refused("\n".join(lines), expected)
+
     def test_only_column_zero_comments_and_truly_empty_separators_match(self):
         for indentation in (" ", "\t", "\u00a0", "\x1f"):
             with self.subTest(prefix=repr(indentation)):
@@ -399,11 +425,12 @@ class AptSecurityProfileTests(unittest.TestCase):
     def test_mirror_only_legacy_ignored_lines_and_fields_stay_accepted(self):
         mirror_source = P1.replace("http://security.ubuntu.com/ubuntu/",
                                    "mirror+file:/etc/apt/apt-mirrors.txt")
-        for source in (mirror_source, P1.split("\n\n")[0] + "\n",
-                       mirror_source.replace("\n\n", "\n\u00a0\n\t# ignored\n"),
-                       mirror_source + "Enabled: yes\nArchitectures: amd64\n",
-                       "URIs: mirror+file:/etc/apt/apt-mirrors.txt\nSuites: unknown\n"):
-            with self.subTest(source=source[:30]), security_sandbox(self, source) as sandbox:
+        for case_index, source in enumerate((
+                mirror_source, P1.split("\n\n")[0] + "\n",
+                mirror_source.replace("\n\n", "\n\u00a0\n\t# ignored\n"),
+                mirror_source + "Enabled: yes\nArchitectures: amd64\n",
+                "URIs: mirror+file:/etc/apt/apt-mirrors.txt\nSuites: unknown\n")):
+            with self.subTest(layout=case_index), security_sandbox(self, source) as sandbox:
                 self.assertEqual(apt.main(), 0)
                 self.assert_source_read(sandbox, source)
                 self.assertEqual(sandbox.stderr.getvalue(), diagnostics.RUNNER_LINE)
