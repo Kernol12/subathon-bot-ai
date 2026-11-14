@@ -161,3 +161,19 @@ contract complete only; separate ADR closing must approve before any changed-tes
 authorship/removal. Historical role initial review remains active;850 candidates/
 12 rows are partial, pin/cutover remain blocked pending full reviewed availability.
 No archive, runtime/tests/deletions or authority switch. State/stops unchanged.
+
+One-time native corrections applied after exact primary-contract approval; report
+issue629#issuecomment-6868038467. All ten reviewed shared-task parent links became
+prerequisites (add/read blockedBy before remove/read parent). Full fresh six-page
+native inventory503 IDs exactly equals current state identity set; all nested counts
+complete. Full edge-set equality422parents/1549blockers/81roots, not count-only proof.
+No state dependency/title/identity/history changes. Ten stale Epic projections cleared;
+Migrate001/002/003 Done based on verified merges,004 In progress based on state claim;
+all14 projection writes independently read back. No successor started or issue closed.
+By epic native view actually groups Parent issue; other five view filters/layouts read
+via API, no visual UI claim. Board README no fixed counts, explicit conditional cutover,
+native/display roles/gates/stops. One read-only configuration query failed selection,
+corrected query succeeded; not test/red. Private receipts live in
+local-evidence/EPIC-029/migrate004-native-reclassification. Re-inventory at A/P/005;
+no permanent sync/tool/ledger. Separate ADR closing and historical review remain active;
+pin/cutover blocked by unresolved availability. No repository source/test/deletion.
