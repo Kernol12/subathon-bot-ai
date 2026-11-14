@@ -527,8 +527,9 @@ jobs:
         run: ctest --preset translation-catalog-debug -L '^translation-catalog$' --no-tests=error --verbose
       - name: Run existing infrastructure checks
         run: ctest --preset translation-catalog-debug -L '^scaffold$' --verbose
-  # Corrected Drogon SDK suites: native WebSocket profile acceptance, then the
-  # host lifecycle baseline build and registration check (intentional red, not run).
+  # Corrected Drogon SDK suites, built once: native WebSocket profile acceptance, then
+  # the host lifecycle baseline build against the same sealed SDK and its registration
+  # check (intentional red, not run).
   native:
     runs-on: ubuntu-24.04
     timeout-minutes: 80
@@ -661,17 +662,32 @@ jobs:
           CC=gcc CFLAGS=-O2 /usr/bin/bash "$RUNNER_TEMP/sodium-source/libsodium-1.0.22/configure" --prefix="$SUBATHON_SODIUM_ROOT" --libdir="$SUBATHON_SODIUM_ROOT/lib" --disable-shared --enable-static
           make -j2
           make -j2 install
-      - name: Prepare the existing exact corrected SDK
-        # Same reviewed source/patch/seal recipe as the native-profile lane.
-        run: python3 tools/native_websocket_ci.py prepare --root "$RUNNER_TEMP/api-host-sdk"
       - name: Configure and compile both enabled host baselines
         run: |
           cmake --preset api-host-native-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX" \
-            -DSUBATHON_DROGON_ROOT="$RUNNER_TEMP/api-host-sdk/sdk" \
+            -DSUBATHON_DROGON_ROOT="$RUNNER_TEMP/native-ws-candidate4/sdk" \
             -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT" \
             -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0 \
             -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
           cmake --build --preset api-host-native-debug --parallel 2
+      - name: Verify the shared SDK seal is unchanged after the host baseline build
+        # The host baselines reuse the SDK that the native profile prepared, sealed
+        # and gated above. A consumer build must only read it.
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          import os
+          from pathlib import Path
+          import sys
+          sys.path.insert(0, "tools")
+          import native_websocket_ci
+          root = Path(os.environ["RUNNER_TEMP"]) / "native-ws-candidate4"
+          sealed = json.loads((root / "receipts/sdk-seal.json").read_text(encoding="utf-8"))
+          # checked_seal rehashes every SDK file against the sealed inventory.
+          if native_websocket_ci.checked_seal(root / "sdk") != sealed["identity"]:
+              raise SystemExit("The shared SDK identity changed after it was sealed")
+          print("Shared SDK seal unchanged")
+          PYTHON
       - name: Inspect registration without loading either new consumer
         run: |
           python3 - <<'PYTHON'
@@ -690,7 +706,7 @@ jobs:
                       if test["name"].startswith(("api-host.", "api-host-native."))}
           if set(selected) != expected:
               raise SystemExit("All isolated Qt invocations and the native suite must be registered")
-          loader = "LD_LIBRARY_PATH=" + os.environ["RUNNER_TEMP"] + "/api-host-sdk/sdk/lib"
+          loader = "LD_LIBRARY_PATH=" + os.environ["RUNNER_TEMP"] + "/native-ws-candidate4/sdk/lib"
           for name, test in selected.items():
               props = {item["name"]: item["value"] for item in test["properties"]}
               native = name == "api-host-native.suite"
