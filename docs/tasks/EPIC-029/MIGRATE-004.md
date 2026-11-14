@@ -67,3 +67,13 @@ compaction/consolidation, full remote archival, link repair, justified removal a
 explicit shared/unfinished retention before005 audits. WF006 receives storage/dependency
 rescope only; neither it nor007 nor product/API execution resumes. Scope and Acceptance
 above retain the issue snapshot wording; latest owner authorization governs execution.
+
+
+### Owner-authorized historical evidence amendment
+
+The owner accepted preparation and independent review of the narrow
+[historical evidence dispositions](../../contracts/historical-evidence-dispositions-v1.md).
+Apply no disposition until approved. Preserve all original claims, rejected history,
+available safe evidence and explicit missing-content limitations; inventory unfinished
+reliance and record actual affected-task holds. This does not waive current proof,
+outgoing guards, archive/readback, finalization, CI or protected merge requirements.

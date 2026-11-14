@@ -241,6 +241,20 @@ Unknown/uninspectable configuration is a stated blocking audit gap, not assumed 
 
 ## Archive freeze and availability
 
+
+### Owner-authorized historical disposition amendment (proposed)
+
+The [historical evidence dispositions proposal](historical-evidence-dispositions-v1.md)
+records the owner's subsequent authorization for individually reviewed historical
+limitations. Once independently approved and applied through its acceptance gates,
+ONLY its seven named HE-01..07 items override this contract's unconditional historical
+required-object availability blocker. Their original required roles and recorded
+claims remain; availability or reproducibility is not inferred. All other required
+object, unknown-role, preservation, audit and current proof gates below remain binding.
+No outgoing guard, schema/policy, current review, archive/finalization or protected
+merge exception is introduced. This proposal cannot be applied before review.
+
+
 Archive contains final full state, state schema, rendered HTML, old tools/consumers,
 all prior briefs, original names/native identities, report/appendix and reachable
 historical packet objects. Preserve existing evidence archive. Independently fetch
