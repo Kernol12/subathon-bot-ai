@@ -1,5 +1,16 @@
 # EPIC-029 authorized — MIGRATE-004 contract and inventory
 
+## Current execution — approved historical amendment, finite reconciliation
+
+The owner-authorized amendment at2df00c5a completed independent initial/correction/
+Codex verification/freshClaudeclosing. Approval public629#6873623482 admits no row.
+Proceed authoring finite A/B/root/carrier/reliance dispositions, then their documentary
+review before applying any evidence link or issue hold. State remains authoritative;
+prospective code0041 stays isolated/unintegrated, and actualarchiveSTATUSpin/newHE
+instruction/source reviews, canonicalHEADchecks/currentCI/protectedmerge remain pending.
+No owner decision is needed for routine authorized amendments already approved. Prior
+blocker checkpoints remain historical; no broad missing-proof exemption follows.
+
 ## Owner-authorized historical amendment — preparation resumed
 
 Latest owner instruction, “These sounds good continue the migration,” accepts the
@@ -927,3 +938,26 @@ Currentcode0041notintegrated; priorcodeapprovalqualifiedtopriorcontracts. NewSTA
 instructionlimitsandactualarchivepin/readback/equality/applicablereviews BEFOREPstill
 required. NextfreshClaudeclosingonresulting5pathprimarypacket, no additionalinitial.
 Stateauthority/noarchive/pin/canonicalactivation/currentCIgreen/merge/successorclaim.
+
+FreshClaude amendment closing dispatch24f70505-6e4b-43e0-a566-a3286e41bd71,
+session9c8e56a4-9716-4753-a316-7ad673a4ecb8 APPROVED2df00c5a, exact5pathpacket;
+public6873623482/reportSHA2574b21282927e24e36b6b694605341c01da60c827373e25a64d35b084b6458adf.
+HAI01..08resolved; newN01..05nonblockingapplicationrequirements. No dispositions,
+inheritors, holds, archive, code, pin or merge admitted. Oldreviews/sourcefactsretained.
+N01carrierwritten95fa152/ba2e90f alongsidefullresolvedrootIDs inreport. N02holdcomment
+linksapprovedamendment+closingreceipt, NOTreportthatmustlaterlistitsURL; reportthen
+linkscomments, avoidingcycle. N03storage-routeclarification forda0/receiptcontainers
+remainsinapprovedamendment; addone-line crosspointeronlywithapplicablereviewedcurrent
+instructions/STATUSworkbeforeP, notunreviewedfinalization. N04exactproposedone-time
+archivepaths forpayloadreview: docs/migrations/EPIC-029/archive/historical-dispositions.md,
+docs/migrations/EPIC-029/archive/historical-object-dispositions.json,
+docs/migrations/EPIC-029/archive/historical-reliance.json,
+docs/migrations/EPIC-029/archive/historical-carriers.json. No files created yet; payload
+reviewmustapproveactualbytes/privacy/modes beforeA. These fullfinite report/maps are
+archived remotely and removedfromcurrentmain onlybyexactenumeratedreviewedfinalization
+afterP (alongsideexistingnamedarchivepayloads), notpermanentledger. Safe reportcommit
+URLaddedtoaffectedstate.evidenceBEFOREA; report/actualcomments/roledecisionsindependently
+reviewedbeforeapplication, no syntheticmissingcontent/privateavailabilityclaim. N05
+cosmetics notsourcechangealone. Allcurrentgates/productWFstops retained. Next3bounded
+authorship lanes: A419rows, B419rows, root12+fullHEcarrier/reliance/reportcomposition
+proposal. No independent reviewer approvesownauthorship; actualreviews follow.
