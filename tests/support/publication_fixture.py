@@ -39,6 +39,8 @@ class PublicationFixture:
                                  check=True, capture_output=True, timeout=120).stdout
         paths = set(listing.decode("utf-8").split("\0")) - {""}
         paths.update(LOCAL_SOURCES)
+        paths = {name for name in paths if name != 'progress/proof-policy.json'
+                 and not name.startswith('progress/proofs/')}
         for name in sorted(paths - {"progress/state.json", "PROGRESS.html"}):
             source = SOURCE / name
             if not source.is_file():
@@ -46,6 +48,12 @@ class PublicationFixture:
             target = self.root / name
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target, follow_symlinks=False)
+        # A valid repository control must precede every STATUS mutation. Never copy
+        # the real canonical bundle into a synthetic Git/source fixture.
+        status = self.root/'docs/STATUS.md'
+        lines = [line for line in status.read_text(encoding='utf-8').splitlines()
+                 if not line.startswith('Specification version:')]
+        status.write_text('\n'.join(lines)+'\nSpecification version: 0.45\n', encoding='utf-8')
         self.git("init", "--initial-branch=fixture-main")
         self.git("config", "user.name", "Synthetic fixture")
         self.git("config", "user.email", "fixture@example.test")

@@ -21,7 +21,7 @@ import proofs
 import progress
 import workflow
 from frozen_proof_policy import LEGACY_DONE, LEGACY_DONE_SHA256
-from test_workflow import task, state, stage, receipt, publication
+from archive_state_fixture import task, state, stage, receipt, publication
 
 REV = 'b' * 40
 ARCHIVE = 'c' * 40
@@ -641,6 +641,148 @@ class ProofCliTests(unittest.TestCase):
         if code == 1:
             self.assertTrue(result.stderr.startswith('Proof error: '))
             self.assertNotIn(NI, result.stderr)
+            self.assertNotIn('CUTOVER_', result.stderr, 'NI is not an input-safety refusal')
+
+    def test_actual_canonical_bundle_is_valid(self):
+        """Ordinary CI duty; pending setup until the real cutover candidate exists.
+
+        Never treat absent production inputs as intended red or use an archive
+        fallback. This remains in ordinary tooling discovery without a skip.
+        """
+        policy_path = ROOT/'progress/proof-policy.json'
+        directory = ROOT/'progress/proofs'
+        declared = json.loads(policy_path.read_text(encoding='utf-8'))
+        inventory = sorted(p.stem for p in directory.iterdir() if p.suffix == '.json')
+        self.assertEqual(inventory, sorted(declared['required_records']))
+        result = self.invoke('validate')
+        self.assertEqual((result.returncode, result.stdout, result.stderr),
+                         (0, json.dumps(dict(version=1, record_count=len(inventory)), indent=2)+'\n', ''))
+
+    def test_canonical_defaults_preserve_literal_full_compact_context_and_refusals(self):
+        """Tiny disposable defaults, never real current state or candidate output."""
+        import shutil
+        from test_compact_context import REFS, BRIEF, CURRENT, literal_state
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            shutil.copytree(ROOT/'tools', root/'tools', ignore=shutil.ignore_patterns('__pycache__'))
+            directory = root/'progress/proofs'; directory.mkdir(parents=True)
+            selected = record('CTX-003'); selected['kind'] = 'implementation'
+            selected['brief'] = BRIEF; selected['limitations'] = ['Grüße; selected only']
+            selected['workflow'] = copy.deepcopy(literal_state()['tasks'][1]['workflow'])
+            unrelated = record('CTX-999', 9902); unrelated['limitations'] = ['unrelated sentinel']
+            (root/'progress/proof-policy.json').write_text(json.dumps(policy('CTX-003','CTX-999')))
+            for value in (selected, unrelated):
+                (directory/(value['task_id']+'.json')).write_text(json.dumps(value, ensure_ascii=False))
+            def invoke(*args):
+                before = {p.relative_to(root): p.read_bytes() for p in root.rglob('*') if p.is_file()}
+                result = subprocess.run([sys.executable, '-B', str(root/'tools/proofs.py'), *args],
+                                        capture_output=True, text=True, timeout=60)
+                self.assertEqual({p.relative_to(root): p.read_bytes() for p in root.rglob('*') if p.is_file()}, before)
+                return result
+            valid = invoke('validate')
+            self.assertEqual((valid.returncode, valid.stdout, valid.stderr),
+                             (0, '{\n  "version": 1,\n  "record_count": 2\n}\n', ''),
+                             'Only CUTOVER_DEFAULTS_NOT_IMPLEMENTED is an NI candidate; setup is not red')
+            full = dict(proof=selected, required_stages=['tests','implementation'], limitations=WARNING)
+            result = invoke('context','CTX-003')
+            self.assertEqual((result.returncode, result.stdout, result.stderr),
+                             (0, json.dumps(full, indent=2, ensure_ascii=False)+'\n', ''))
+            detailed = copy.deepcopy(full)
+            detailed['stage_context'] = dict(name='tests',
+                packet=copy.deepcopy(selected['workflow']['stages']['tests']),
+                complete=True, next_gate='complete',
+                metrics=dict(review_count=5,blocking_findings=['B2','B1','B3'],
+                    closing_only_findings=['B3','closing-advisory'],elapsed_seconds=3.75,timed_reviews=3))
+            result = invoke('context','CTX-003','--stage','tests')
+            self.assertEqual((result.returncode,result.stdout,result.stderr),
+                             (0,json.dumps(detailed,indent=2,ensure_ascii=False)+'\n',''))
+            compact = dict(proof={k:v for k,v in selected.items() if k != 'workflow'},
+                           required_stages=['tests','implementation'], limitations=WARNING+OMISSIONS)
+            compact['stage_context'] = dict(name='tests', complete=True, next_gate='complete',
+                packet=dict(authors=['fixture-author'], revision=CURRENT, paths=[BRIEF]),
+                review_refs=REFS, historical_blocking_findings=['B2','B1','B3'],
+                metrics=dict(review_count=5, elapsed_seconds=3.75, timed_reviews=3))
+            result = invoke('context','CTX-003','--compact','--stage','tests')
+            self.assertEqual((result.returncode, result.stdout, result.stderr),
+                             (0, json.dumps(compact, indent=2, ensure_ascii=False)+'\n', ''))
+            self.assertNotIn('unrelated sentinel', result.stdout)
+            self.assert_error(invoke('context','CTX-404'))
+            self.assert_error(invoke('context','CTX-003','--stage','unknown'))
+            for mutation in ('malformed','missing'):
+                path = directory/'CTX-999.json'
+                if mutation == 'malformed': path.write_text('{broken')
+                else: path.unlink()
+                result = invoke('context','CTX-404','--compact')
+                self.assert_error(result)
+                self.assertNotIn('Unknown task', result.stderr, 'Full bundle admission precedes lookup')
+
+    def test_pinned_git_archive_conversion_preserves_exact_extraction_and_owned_outputs(self):
+        from proof_publication_fixture import ProofPublicationFixture, POLICY, RECORDS, REPORT
+        from publication_fixture import ENV
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            f = ProofPublicationFixture(root/'candidate')
+            output = root/'converted'
+            def invoke(pin=None, destination=output, *extra):
+                before = f.snapshot()
+                result = subprocess.run([sys.executable, '-B', 'tools/proofs.py', 'convert',
+                    '--archive-commit', f.archive if pin is None else pin,
+                    '--output-dir', str(destination), *extra], cwd=f.root, env=ENV,
+                    capture_output=True, text=True, timeout=60)
+                self.assertEqual(f.snapshot(), before)
+                return result
+            result = invoke()
+            self.assertEqual((result.returncode, result.stdout, result.stderr),
+                             (0, '{\n  "version": 1,\n  "record_count": 3\n}\n', ''),
+                             'CUTOVER_ARCHIVE_NOT_IMPLEMENTED is NI; unavailable objects are setup')
+            self.assertEqual(json.loads((output/'proof-policy.json').read_text()), f.policy)
+            self.assertEqual(json.loads((output/'report.json').read_text()), f.report)
+            self.assertEqual({p.stem:json.loads(p.read_text()) for p in (output/'proofs').iterdir()}, f.records)
+            self.assertEqual({p.relative_to(output).as_posix() for p in output.rglob('*') if p.is_file()},
+                             {'proof-policy.json','report.json'} | {'proofs/'+i+'.json' for i in f.records})
+            self.assertEqual(output.stat().st_mode & 0o777, 0o700)
+            for path in output.rglob('*.json'):
+                self.assertEqual(path.stat().st_mode & 0o777, 0o600)
+                self.assertEqual(path.read_text(), json.dumps(json.loads(path.read_text()), indent=2, ensure_ascii=False)+'\n')
+            saved = {p.relative_to(output):p.read_bytes() for p in output.rglob('*') if p.is_file()}
+            self.assert_error(invoke())
+            self.assertEqual({p.relative_to(output):p.read_bytes() for p in output.rglob('*') if p.is_file()}, saved)
+            for pin in (f.archive[:7], 'f'*40, 'HEAD', '--all'):
+                self.assert_error(invoke(pin, root/'refused'))
+                self.assertFalse((root/'refused').exists())
+            self.assert_error(invoke(destination=f.root/'inside'))
+            self.assertFalse((f.root/'inside').exists())
+            alias = root/'alias'; alias.symlink_to(root, target_is_directory=True)
+            self.assert_error(invoke(destination=alias/'refused'))
+            self.assertFalse((root/'refused').exists())
+            # Current working bytes cannot replace the pinned Git transport.
+            f.write('progress/state.json', b'not archive JSON\n')
+            again = root/'again'
+            result = invoke(destination=again)
+            self.assertEqual((result.returncode, result.stderr), (0, ''))
+            self.assertEqual(json.loads((again/'report.json').read_text()), f.report)
+            # Each invalid archive starts from the exact independently authored
+            # source/report, after the successful complete-extraction control.
+            for mutation in ('report','identity','unknown-source-field','nonregular'):
+                def edit(archive_fixture):
+                    if mutation == 'report':
+                        changed = copy.deepcopy(f.report); changed['record_count'] = 2
+                        archive_fixture.json(REPORT, changed)
+                    elif mutation == 'identity':
+                        changed = copy.deepcopy(f.identities)
+                        changed['entries'][0]['issue']['number'] = 12345
+                        archive_fixture.json('docs/migrations/EPIC-029/archive/identities.json', changed)
+                    elif mutation == 'unknown-source-field':
+                        changed = copy.deepcopy(f.source); changed['unknown'] = 'cannot infer a new source version'
+                        archive_fixture.json('progress/state.json', changed)
+                    else:
+                        path = archive_fixture.root/REPORT; path.unlink()
+                        path.symlink_to('identities.json')
+                with self.subTest(archive_mutation=mutation):
+                    f.prepare_archive(edit)
+                    refused = root/('refused-'+mutation)
+                    self.assert_error(invoke(destination=refused))
+                    self.assertFalse(refused.exists())
 
     def test_explicit_inputs_usage_and_read_only_json_serialization(self):
         for args in ([], ['validate'], ['context', 'CONVERT-901'], ['convert', '--source', 'x'],

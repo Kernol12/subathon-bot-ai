@@ -449,7 +449,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--bootstrap", action="store_true")
     args = parser.parse_args(argv)
     if (args.complete or args.bootstrap) and not args.proofs:
-        parser.error("--complete and --bootstrap require --proofs")
+        # MIGRATE-004 parsing-only NI exception. Existing legacy/proof execution
+        # remains unchanged; no default cutover runtime is implemented here.
+        print('Publication error: CUTOVER_PUBLICATION_NOT_IMPLEMENTED', file=sys.stderr)
+        return 1
     try:
         # abspath preserves the selected venv symlink and uses the original caller cwd.
         schema_python = os.path.abspath(args.schema_python)

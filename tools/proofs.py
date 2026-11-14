@@ -397,24 +397,42 @@ def prepare_conversion(args):
     return dict(version=1, record_count=len(result['records']))
 
 
-def main() -> int:
+def load_archive(archive_commit: str) -> dict:
+    """MIGRATE-004 NI seam for one pinned Git archive input adapter.
+
+    No archive reads or conversion are implemented here. Publication and conversion
+    must eventually share this adapter; review and intended red precede that work.
+    """
+    raise ValueError('CUTOVER_ARCHIVE_NOT_IMPLEMENTED')
+
+
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
     for command in ('validate', 'context'):
         sub = commands.add_parser(command)
         if command == 'context':
             sub.add_argument('task_id'); sub.add_argument('--stage'); sub.add_argument('--compact', action='store_true')
-        sub.add_argument('--policy', type=Path, required=True)
-        sub.add_argument('--records-dir', type=Path, required=True)
+        sub.add_argument('--policy', type=Path)
+        sub.add_argument('--records-dir', type=Path)
     sub = commands.add_parser('convert')
     for name in ('source', 'source-root', 'identities', 'output-dir'):
-        sub.add_argument('--'+name, type=Path, required=True)
+        sub.add_argument('--'+name, type=Path, required=name == 'output-dir')
     sub.add_argument('--archive-commit', required=True)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     try:
         if args.command == 'convert':
+            if args.source is None and args.source_root is None and args.identities is None:
+                load_archive(args.archive_commit)
+                raise ValueError('CUTOVER_ARCHIVE_NOT_IMPLEMENTED')
+            if any(value is None for value in (args.source, args.source_root, args.identities)):
+                parser.error('legacy conversion requires all explicit source inputs')
             result = prepare_conversion(args)
         else:
+            # Explicit reviewed pre-cutover input behavior remains unchanged.
+            # Canonical default admission is deliberately not implemented here.
+            if args.policy is None or args.records_dir is None:
+                raise ValueError('CUTOVER_DEFAULTS_NOT_IMPLEMENTED')
             bundle = load(args.policy, args.records_dir)
             result = (context(bundle, args.task_id, stage=args.stage, compact=args.compact) if args.command == 'context'
                       else dict(version=1, record_count=len(bundle['records'])))

@@ -74,6 +74,7 @@ class PreparedPublicationTests(unittest.TestCase):
         self.assertEqual(result[:2], (1, ''), result[2])
         self.assertIn('Publication error:', result[2])
         self.assertNotIn(NI, result[2], 'NI is not a safety refusal')
+        self.assertNotIn('CUTOVER_', result[2], 'Cutover NI is not a safety refusal')
 
     def guard(self, f, *, bootstrap=True, task_id=SELECTED, base=None):
         before = f.snapshot()
@@ -92,6 +93,86 @@ class PreparedPublicationTests(unittest.TestCase):
         with patch.object(publication, 'ROOT', f.root):
             return publication.check_proof_bindings(bundle or dict(policy=f.policy, records=f.records),
                 SELECTED, stages or ['contract'], head=f.head, complete=complete)
+
+    def test_cutover_default_summary_children_failures_and_retired_flag(self):
+        limitations = LIMITATIONS + [
+            'Acceptance execution is a coordinator gate; proof completion does not validate result values.',
+            'Per-task specification references are archived; active brief references require coordinator review.',
+            'Intended-red execution is a coordinator gate; proof completion does not validate baseline execution.',
+            'Concise completion notes are a coordinator rule; proof limitations have no aggregate character cap.',
+        ]
+        with self.fixture() as f:
+            args = [a for a in f.arguments(complete=True, stages=('contract','tests','implementation')) if a != '--proofs']
+            result = self.invoke(f, args, responses={2:(0,WITNESS,b'')})
+            summary = self.success(result)
+            self.assertEqual(summary, dict(task=SELECTED, base=f.target, head=f.head, commit_count=1,
+                stages=[dict(name=n,revision=f.source_revision,path_count=1,complete=True)
+                        for n in ('contract','tests','implementation')],
+                guard=dict(mode='bootstrap',record_count=3,archive_record_count=3,legacy_exempt=False),
+                checks=dict.fromkeys(('recorded_paths','outgoing_paths','proofs','policy_history','project','proof_schema'),'passed'),
+                limitations=limitations))
+            children = result[3]
+            self.assertEqual(len(children), 3)
+            self.assertEqual(children[0][4:], ['tools/proofs.py','validate'])
+            self.assertEqual(children[1][4:], ['tools/check_project.py'])
+            self.assertEqual(children[2][:5], ['/fixture/schema-python','-I','-S','-B','-c'])
+            self.assertEqual(children[2][-1], 'tests/schema_validation/test_proof_schemas.py')
+            for index in range(3):
+                for response in ((1,b'',b'failure'), (1,b'partial',b'failure')):
+                    with self.subTest(index=index,response=response):
+                        failed = self.invoke(f,args,responses={2:(0,WITNESS,b''),index:response})
+                        self.refusal(failed)
+                        self.assertEqual(len(failed[3]),index+1)
+            for witness in (b'',WITNESS+b' ',b'{"tests":1,"failures":0,"errors":0,"skipped":1}\n'):
+                self.refusal(self.invoke(f,args,responses={2:(0,witness,b'')}))
+            code, out, err, children = self.invoke(f,[*args,'--proofs'])
+            self.assertEqual((code,out,children),(2,'',[]))
+            self.assertIn('usage:',err)
+
+    def test_unselected_new_id_cannot_borrow_old_approval_in_bootstrap_or_normal_mode(self):
+        for bootstrap in (True,False):
+            for complete in (False,True):
+                with self.subTest(bootstrap=bootstrap,complete=complete), self.fixture() as f:
+                    if not bootstrap: f.existing()
+                    args = f.arguments(bootstrap=bootstrap,complete=complete,
+                                       stages=('contract','tests','implementation'))
+                    self.success(self.invoke(f,args))
+                    brief='docs/unselected-new.md'
+                    f.write(brief,b'Task ID: NEW-903\nWork type: contract\nIssue: https://github.com/Kernol12/subathon-bot-ai/issues/9905\n')
+                    revision=f.commit('Synthetic unselected new brief')
+                    f.records['NEW-903']=dict(version=1,task_id='NEW-903',kind='contract',brief=brief,
+                        issue=dict(repository='Kernol12/subathon-bot-ai',number=9905),evidence=[],limitations=[],
+                        workflow=dict(required_stages=['contract'],stages={'contract':packet(revision,[brief],complete=False)}))
+                    f.policy['required_records']=sorted(f.records); f.persist()
+                    self.refusal(self.invoke(f,args))
+                    # The same identity is admissible when its own selected packet
+                    # has complete reviews and binds the exact whole-line stanzas.
+                    f.records['NEW-903']['workflow']['stages']['contract']=packet(revision,[brief])
+                    f.persist()
+                    self.success(self.invoke(f,f.arguments(bootstrap=bootstrap,task_id='NEW-903',complete=complete)))
+
+    def test_bootstrap_newer_target_brief_cannot_revert_to_archive_and_equal_bytes_pass(self):
+        for changed in (False,True):
+            with self.subTest(changed=changed), self.fixture() as f:
+                f.git('reset','--hard',f.archive)
+                if changed: f.write(BRIEF,b'Newer reviewed target acceptance B\n')
+                f.target=f.commit('Synthetic target before first proof introduction')
+                f.git('update-ref','refs/remotes/origin/main',f.target)
+                f.persist()
+                self.guard(f)
+                f.selected['brief']=f'https://github.com/Kernol12/subathon-bot-ai/blob/{f.archive}/{BRIEF}'
+                f.persist()
+                if changed: self.guard_refusal(f)
+                else: self.guard(f)
+
+    def test_published_archive_url_survives_later_local_brief_removal(self):
+        with self.fixture() as f:
+            self.guard(f)
+            f.selected['brief']=f'https://github.com/Kernol12/subathon-bot-ai/blob/{f.archive}/{BRIEF}'
+            f.persist(); self.guard(f)
+            f.existing()
+            (f.root/BRIEF).unlink(); f.persist()
+            self.guard(f,bootstrap=False)
 
     def test_bootstrap_summary_exact_and_pending_selected_source(self):
         with self.fixture() as f:
