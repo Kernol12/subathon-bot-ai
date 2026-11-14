@@ -2,53 +2,71 @@
 
 Owner: Kernol12. Full specification v0.45 stays in release scope.
 
-## Owner decision, 2026-11-14 (revised after the SLICE-001 feasibility stop)
+## Owner decision, 2026-11-14 (revised after ACCESS-003 prerequisite inspection)
 
-1. Build a running vertical slice next: the server starts, runs one timer and accepts
-   one fake contribution.
-2. Authorized task path, in order:
-   ACCESS-003 (#249) → RULES-006 (#558) → API-011 (#562) → SLICE-001 (#642) →
+1. Build a running vertical slice: server starts, runs one timer and accepts one
+   fake contribution.
+2. Authorized immediate task path, in order:
+   ACCESS-009 (#645) → RULES-006 (#558) → API-011 (#562) → SLICE-001 (#642) →
    API-016 (#616) → APITEST-015 (#613) → API-001 (#278).
-   Nothing else is authorized for execution.
-3. Process and tooling work is frozen until the slice runs. WORKFLOW-006 (#619) and
-   WORKFLOW-007 (#620) stay stopped.
-4. Review tiers follow docs/AGENT_WORKFLOW.md. ACCESS-003 (permissions) and API-011
-   (accounting and clock) are tier A. The coordinator sets the tier for RULES-006 and
-   API-016 from the tier table, using the higher tier when unclear. SLICE-001 is
-   tier B (owner decision). API-001 and APITEST-015 are tier A.
-5. At most two fix rounds per review; ask the owner before a third.
+   The owner approved separating the pure delegation component from authoritative
+   integration. ACCESS-003 (#249) remains open; completing #645 does not complete it.
+3. ACCESS-010 (#646) records the missing authoritative permission-graph storage/CAS
+   prerequisite. It and #249's authoritative service implementation remain planned
+   outside the immediate path. Identity linking #251, action planning/delivery
+   #208/#232 and client preview rendering #424/#473 keep their ownership and full
+   release requirements. Do not create a dependency cycle through these consumers.
+4. RULES-006 and API-011 still require actual current supported reference authority
+   producers under CONTRACT-014. Verify feasibility before authoring their tests.
+   Pure calculations establish no authority or currentness. If a missing producer
+   requires #646 or other new work, stop and report; this ordering grants no fake
+   allow-all policy, fabricated clock or unknown-as-known fact.
+5. Process/tooling work stays frozen until the slice runs. WORKFLOW-006 (#619) and
+   WORKFLOW-007 (#620) remain stopped.
+6. ACCESS-009 and ACCESS-003 are tier A (permissions); ACCESS-010 is tier A
+   (permissions/migrations/writer). API-011, API-001 and APITEST-015 are tier A.
+   SLICE-001 remains tier B. Set RULES-006/API-016 tiers from the workflow table,
+   using the higher tier when unclear.
+7. Preserve all review rejections and authored history. Two ACCESS-003 test fix
+   rounds were used. Task-path revision alone does not authorize a third code/test
+   fix round. Verify the revised component candidate independently, then obtain
+   fresh Claude closing review before intended red. Ask before a third fix round.
 
-Why the path changed: SLICE-001 was first scoped as wiring existing components
-together. Its feasibility step showed that is not possible (report in #642): the
-application service needs clock, actions and reference producers, an initial state
-and a clock startup path that exist only as test fixtures. The already planned
-reference path builds exactly those pieces under CONTRACT-014, with no HTTP and no
-Drogon SDK change, so it now comes first. SLICE-001 is re-scoped to a small
-executable around what API-011 delivers.
+## Settled delegation policy
 
-## State at this decision
+Owner decisions are recorded in #249, comment 6879902355:
 
-- GitHub owns task status and prerequisites. Each feature is one issue with a tests
-  stage and an implementation stage. No tests exist yet for ACCESS-003, RULES-006 or
-  API-011.
-- SLICE-001 (#642): claimed on 2026-11-14, stopped at its feasibility step, claim
-  released. No tests, builds or product edits were made. Local branch
-  `task/SLICE-001-development-server` has no commits.
-- Draft PR #121 (API-001, branch `task/API-001-host-lifecycle`) has been parked since
-  2026-11-12. Check it against the current API-001 brief before reusing any of it.
-- EPIC-029 is closed (PR #638). Follow-ups from the cutover review are in #636.
-  Old tracker tag: `epic-029-old-tracker-2026-11-14`. Removed documents:
-  `docs-archive-2026-11-14`.
-- Pre-cutover history is historical, as recorded, not re-verified. Known limits: the
-  d717 identity conflict, six missing dirty-run sources and the unrecovered seal.
-  Ignored historical outputs stay private.
+- Restrictive edits require management USE and GRANT scope.
+- Untouched grants outside scope may remain; check every changed capability,
+  newly exposed right and all shared-role affected accounts.
+- Automation requires the original author's USE and GRANT for every whole action,
+  with separate selected-sender checks. Recheck current authority at execution;
+  hold unauthorized actions after revocation.
 
-## Live assignments
+## Current state and assignments
 
-None. No session or worktree is assigned.
+- No live author/reviewer is assigned. GitHub owns claims, stages and prerequisites.
+- ACCESS-009 inherits the local candidate on `task/ACCESS-003-delegation`, head
+  `d3d5ccb682d8f59cc980d5c142ca65fed53895dc`: 53 authored tests and five NI APIs.
+  Compile/link/format checks passed; no test bodies, intended red or implementation.
+  Initial Claude and Codex verification requested changes. New F4 tests and the
+  revised component boundary await independent verification/closing approval.
+  Preserve receipts in `/tmp/access-003-review-claude-initial.md` and
+  `/tmp/access-003-review-codex-verification.md` for eventual PR comments.
+- ACCESS-003's authoritative integration blocker remains: missing policy graph
+  persistence/current revision, original-author/hold lifecycle and linked identity
+  resolution. The staged proposal is recorded in #249, comment 6880208046.
+- SLICE-001's first composition-only attempt stopped at feasibility; no product
+  edits/tests/builds. It now hosts the reviewed API-011 startup/reference path.
+- Draft PR #121 remains parked; inspect its current brief/head before reuse.
+- EPIC-029 is closed (PR #638); cutover follow-ups #636. Pre-cutover history stays
+  as recorded, not re-verified. Historical private outputs stay private.
 
 ## Next action
 
-Claim ACCESS-003 (#249) on a branch from current `main`. Its only prerequisite,
-ACCESS-002, is closed. Start with the tests stage: examples, authored tests,
-tier A review, observed intended red.
+Publish the owner-approved checkpoint revision through protected PR gates. Then
+claim #645, preserve/reuse its existing local candidate history, and obtain fresh
+independent Codex verification of the F4 additions and explicit component scope,
+followed by fresh Claude closing test review. No unreviewed test source is pushed.
+Keep #249 open and all deferred integration gates visible. Implementation still
+requires completed test review and observed intended behavioral red.
