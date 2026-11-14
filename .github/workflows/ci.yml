@@ -1,0 +1,723 @@
+name: CI
+# One workflow for every required check. Job names are the required status
+# contexts in the main-branch ruleset: renaming or removing a job needs the
+# ruleset updated in the same change (see docs/CI.md).
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+jobs:
+  # Infrastructure build, Python tooling and repository checks. Not product acceptance.
+  scaffold:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Configure the infrastructure-only preset
+        run: cmake --preset scaffold-debug
+      - name: Build
+        run: cmake --build --preset scaffold-debug
+      - name: Scaffold checks
+        run: ctest --preset scaffold-debug
+  # Real repository schemas and examples on both admitted CPython versions.
+  schema-validation:
+    name: schema-validation (${{ matrix.runner }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-22.04
+            python_minor: '3.10'
+          - runner: ubuntu-24.04
+            python_minor: '3.12'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Record selected host tools and verify distribution Python
+        run: |
+          uname -a
+          cmake --version
+          ctest --version
+          ninja --version
+          /usr/bin/python3 - <<'PYTHON'
+          import sys
+          expected = tuple(map(int, '${{ matrix.python_minor }}'.split('.')))
+          if sys.version_info[:2] != expected:
+              raise SystemExit('Runner did not select the admitted Python minor')
+          print(sys.version)
+          PYTHON
+      - name: Install the unchanged isolated hash-locked validators
+        run: |
+          schema_validation_env="$RUNNER_TEMP/schema-validation-venv"
+          /usr/bin/python3 -m venv "$schema_validation_env"
+          "$schema_validation_env/bin/python" -I -m pip --isolated --disable-pip-version-check --no-cache-dir install --index-url https://pypi.org/simple --require-hashes --only-binary=:all: --requirement tools/schema_validation/requirements.lock
+          if "$schema_validation_env/bin/python" -I -c 'import importlib.metadata, sys; sys.exit(not any(d.metadata["Name"].lower() == "setuptools" for d in importlib.metadata.distributions()))'; then
+            "$schema_validation_env/bin/python" -I -m pip --isolated --disable-pip-version-check --no-cache-dir uninstall --yes setuptools
+          fi
+          "$schema_validation_env/bin/python" -I -m pip --isolated --disable-pip-version-check --no-cache-dir check
+      - name: Configure the Python schema and example checks
+        run: >-
+          cmake --preset schema-validation-debug
+          -DPython3_EXECUTABLE="$RUNNER_TEMP/schema-validation-venv/bin/python"
+      - name: Build ordinary infrastructure
+        run: cmake --build --preset schema-validation-debug
+      - name: Validate every actual schema and positive/negative example
+        run: ctest --preset schema-validation-debug -L '^schema-validation$' --no-tests=error --verbose
+      - name: Check ordinary repository infrastructure
+        run: ctest --preset schema-validation-debug -L '^scaffold$' --no-tests=error --verbose
+  # All pure GoogleTest suites in one build: credit, numeric, timer, pause, debt,
+  # editorial, milestones, permissions, rates, receipts, evidence and plans.
+  core:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Prepare authenticated Ubuntu package acquisition
+        run: python3 tools/prepare_ubuntu_apt.py
+      - name: Install the pinned selected Boost headers
+        run: |
+          sudo apt-get install --yes --no-install-recommends libboost1.83-dev=1.83.0-2.1ubuntu3
+          dpkg-query -W libboost1.83-dev
+      - name: Verify the compiler's selected Boost header version
+        run: |
+          python3 - <<'PYTHON'
+          import subprocess
+          macros = subprocess.check_output(
+              ["c++", "-dM", "-E", "-x", "c++", "-include", "boost/version.hpp", "/dev/null"],
+              text=True,
+          )
+          expected = "#define BOOST_VERSION 108300"
+          if expected not in macros.splitlines():
+              raise SystemExit("Compiler did not select pinned Boost 1.83.0 headers")
+          print(expected)
+          PYTHON
+      - name: Configure all pure core suites with pinned Boost and GoogleTest sources
+        run: >-
+          cmake --preset core-acceptance-debug -DSUBATHON_FETCH_GOOGLETEST=ON
+          -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
+          -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
+          -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
+      - name: Build all pure core suites once
+        run: cmake --build --preset core-acceptance-debug
+      - name: Verify independent permission fixture integrity
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          from pathlib import Path
+          inventory = json.loads(Path("tests/fixtures/effective-permissions-v1.json").read_text())
+          names = [case["name"] for case in inventory["cases"]]
+          if not names or len(set(names)) != len(names):
+              raise SystemExit("Empty or duplicated permission fixture names")
+          PYTHON
+      - name: Verify the independent milestone literal vectors
+        run: |
+          python3 - <<'PYTHON'
+          import pathlib
+          import re
+
+          source = pathlib.Path("tests/acceptance/milestone_progression_tests.cpp").read_text()
+          fixture = pathlib.Path("tests/fixtures/milestone_progression_vectors.hpp").read_text()
+          rows = re.findall(r'\bRow\{"(\w+)"', fixture)
+          parameterized = re.findall(r"\bTEST_P\(\s*(\w+)\s*,\s*(\w+)\s*\)", source)
+          if len(rows) != 20 or len(set(rows)) != 20:
+              raise SystemExit("The independent milestone fixture must retain its frozen 20 literal rows")
+          if parameterized != [("MilestoneVectors", "MatchesIndependentLiteral")]:
+              raise SystemExit("Parameterized feature boundary differs from the reviewed inventory")
+          PYTHON
+      - name: Verify the editorial requirement map and independent oracles
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          from pathlib import Path
+          import re
+
+          source = Path("tests/acceptance/timer_editorial_commands_tests.cpp").read_text(encoding="utf-8")
+          definitions = re.findall(r"\bTEST\s*\(\s*(\w+)\s*,\s*(\w+)\s*\)", source)
+          authored = {suite + "." + name for suite, name in definitions}
+          inventory = json.loads(Path("tests/fixtures/timer-editorial-commands-v1.json").read_text(encoding="utf-8"))
+          rows = inventory["cases"]
+          names = [row["name"] for row in rows]
+          if not names or len(set(names)) != len(names) or set(names) != authored:
+              raise SystemExit("The editorial requirement map differs from the authored methods")
+          if any(suite != "TimerEditorial" or name.startswith("DISABLED_") for suite, name in definitions):
+              raise SystemExit("An editorial case has an unexpected suite or is disabled")
+          if any(set(row) != {"name", "logical_examples", "api_sections"} for row in rows):
+              raise SystemExit("The case inventory must remain a name/map document")
+          if {example for row in rows for example in row["logical_examples"]} != {f"ED{i:02}" for i in range(1, 45)}:
+              raise SystemExit("The case map must preserve all 44 reviewed logical examples")
+          if re.search(r"\b(?:GTEST_SKIP|DISABLED_|EXPECT_ANY_THROW|ASSERT_ANY_THROW)\b", source):
+              raise SystemExit("The baseline contains a skip, disabled case or generic throw oracle")
+          PYTHON
+      - name: Verify the complete enabled rate acceptance inventory
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          import subprocess
+          import pathlib
+          import re
+          discovery = json.loads(subprocess.check_output(
+              ["ctest", "--preset", "core-acceptance-debug", "--show-only=json-v1"], text=True))
+          found = set()
+          for item in discovery["tests"]:
+              props = {value["name"]: value["value"] for value in item["properties"]}
+              labels = set(props.get("LABELS", []))
+              if "rate-snapshot" not in labels:
+                  continue
+              if props.get("DISABLED", False) or props.get("WILL_FAIL", False):
+                  raise SystemExit("A reviewed rate method is disabled or failure-inverted")
+              if not {"rate-snapshot", "acceptance", "core"}.issubset(labels) or "intentional-red" in labels:
+                  raise SystemExit("A reviewed rate method lost its passing acceptance labels")
+              found.add(item["name"])
+          source = pathlib.Path("tests/acceptance/rate_snapshot_tests.cpp").read_text()
+          expected = {f"{suite}.{case}" for suite, case in
+                      re.findall(r"^TEST\((\w+),\s*(\w+)\)", source, re.MULTILINE)}
+          if len(expected) != 53 or found != expected:
+              raise SystemExit("Rate acceptance discovery differs from the 53 reviewed methods")
+          print(f"Discovered all {len(found)} enabled rate acceptance methods")
+          PYTHON
+      - name: Verify every suite is discovered with ordinary result semantics
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          import subprocess
+          # Owner label -> (labels every case must carry, required per-case timeout).
+          # None keeps the default timeout. Time-credit cases carry no owner label.
+          suites = {
+              "exact-numeric": ({"acceptance", "core"}, None),
+              "timer-lifecycle": ({"acceptance", "core"}, None),
+              "pause-policy": ({"acceptance", "core"}, None),
+              "application-plan": ({"acceptance", "core"}, None),
+              "receipt-intake": ({"acceptance"}, None),
+              "contribution-evidence": ({"acceptance"}, None),
+              "time-debt": ({"acceptance", "core"}, 5),
+              "effective-permissions": ({"acceptance", "core"}, 10),
+              "milestone-progression": ({"acceptance", "core"}, 30),
+              "timer-editorial": ({"acceptance", "core"}, 30),
+              "rate-snapshot": ({"acceptance", "core"}, None),
+          }
+          discovery = json.loads(subprocess.check_output(
+              ["ctest", "--preset", "core-acceptance-debug", "--show-only=json-v1"], text=True))
+          found = {name: 0 for name in suites}
+          credit = 0
+          for test in discovery["tests"]:
+              props = {p["name"]: p["value"] for p in test["properties"]}
+              labels = set(props.get("LABELS", []))
+              if props.get("DISABLED") or props.get("WILL_FAIL"):
+                  raise SystemExit(f"{test['name']} is disabled or failure-inverted")
+              if "intentional-red" in labels:
+                  raise SystemExit(f"{test['name']} was put in the red lane")
+              if labels == {"scaffold"}:
+                  continue
+              if props.get("SKIP_REGULAR_EXPRESSION", [r"\[  SKIPPED \]"]) != [r"\[  SKIPPED \]"]:
+                  raise SystemExit(f"{test['name']} has custom skip matching")
+              if any(key in props for key in ("SKIP_RETURN_CODE", "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION")):
+                  raise SystemExit(f"{test['name']} rewrites native results")
+              owners = labels & set(suites)
+              if not owners:
+                  if labels != {"acceptance", "core"}:
+                      raise SystemExit(f"{test['name']} has no owning suite label")
+                  credit += 1
+                  continue
+              if len(owners) != 1:
+                  raise SystemExit(f"{test['name']} has several owning suite labels")
+              owner = owners.pop()
+              required, timeout = suites[owner]
+              if not required.issubset(labels):
+                  raise SystemExit(f"{test['name']} lost its required labels")
+              if timeout is not None and props.get("TIMEOUT") != timeout:
+                  raise SystemExit(f"{test['name']} timeout changed")
+              found[owner] += 1
+          empty = [name for name, count in found.items() if not count]
+          if empty or not credit:
+              raise SystemExit(f"No enabled cases discovered for: {empty or 'time-credit'}")
+          print(json.dumps({"time-credit": credit, **found}, indent=2))
+          PYTHON
+      - name: Run every pure core acceptance case and the infrastructure checks
+        run: |
+          ulimit -c 0
+          ctest --preset core-acceptance-debug --no-tests=error
+  # Qt 6.12 suites sharing one toolchain setup: real-SQLite storage and application
+  # service, password hashing and session resolution, translation catalogs.
+  qt:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check independent fixture reproduction
+        run: python3 tools/generate_fixtures.py --check
+      - name: Prepare authenticated Ubuntu package acquisition
+        run: python3 tools/prepare_ubuntu_apt.py
+      - name: Install archive, Qt runtime and pinned Boost headers
+        run: |
+          echo "QT_PREFIX=$RUNNER_TEMP/qt-6.12.0" >> "$GITHUB_ENV"
+          sudo apt-get install --yes --no-install-recommends libarchive-tools libglib2.0-0t64 libzstd1 zlib1g libgssapi-krb5-2 libbrotli1 libboost1.83-dev=1.83.0-2.1ubuntu3
+          dpkg-query -W libboost1.83-dev
+      - name: Verify the compiler's selected Boost header version
+        run: |
+          python3 - <<'PYTHON'
+          import subprocess
+          macros = subprocess.check_output(
+              ["c++", "-dM", "-E", "-x", "c++", "-include", "boost/version.hpp", "/dev/null"],
+              text=True,
+          )
+          expected = "#define BOOST_VERSION 108300"
+          if expected not in macros.splitlines():
+              raise SystemExit("Compiler did not select pinned Boost 1.83.0 headers")
+          print(expected)
+          PYTHON
+      - name: Fetch and verify the selected official Qt 6.12.0 toolchain
+        working-directory: ${{ runner.temp }}
+        run: |
+          base=https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt6_6120/qt6_6120/qt.qt6.6120.linux_gcc_64
+          curl --fail --location --retry 3 "$base/6.12.0-0-202609280346qtbase-Linux-RHEL_9_6-GCC-Linux-RHEL_9_6-X86_64.7z" --output qtbase.7z
+          curl --fail --location --retry 3 "$base/6.12.0-0-202609280346icu-linux-Rhel8.6-x86_64.7z" --output icu.7z
+          curl --fail --location --retry 3 "$base/6.12.0-0-202609280346qttools-Linux-RHEL_9_6-GCC-Linux-RHEL_9_6-X86_64.7z" --output qttools.7z
+          curl --fail --location --retry 3 "$base/6.12.0-0-202609280346qtdeclarative-Linux-RHEL_9_6-GCC-Linux-RHEL_9_6-X86_64.7z" --output qtdeclarative.7z
+          echo '943023b929d0c08eafe7341700b5ed7601284410b7afd6093f950be291d1d7cd  qtbase.7z' | sha256sum --check --strict
+          echo '1fdbcd67b1760f3a3f031c64637a9f19992aed2f35aa615e12a468f8c655d4da  icu.7z' | sha256sum --check --strict
+          echo '5d6f90961df3a1e5a57fac69bbbe6983860bad11c419a49736b84914588b4334  qttools.7z' | sha256sum --check --strict
+          echo '0c719e17ea9fbd37aa615595149dca2578985656433f27bf2846cffe4b687d3e  qtdeclarative.7z' | sha256sum --check --strict
+          mkdir -p "$QT_PREFIX/lib"
+          bsdtar -xf qtbase.7z -C "$QT_PREFIX"
+          bsdtar -xf icu.7z -C "$QT_PREFIX/lib"
+          bsdtar -xf qttools.7z -C "$QT_PREFIX"
+          bsdtar -xf qtdeclarative.7z -C "$QT_PREFIX"
+          test "$("$QT_PREFIX/bin/qtpaths" --qt-version)" = 6.12.0
+          test -f "$QT_PREFIX/plugins/sqldrivers/libqsqlite.so"
+      - name: Verify existing Linguist tool version and selected runtime closure
+        run: |
+          python3 - <<'PYTHON'
+          import os, subprocess
+          from pathlib import Path
+          prefix = Path(os.environ["QT_PREFIX"]).resolve()
+          executable = prefix / "bin/lrelease"
+          result = subprocess.run([str(executable), "-version"], check=True, capture_output=True, text=True)
+          if result.stdout.strip() != "lrelease version 6.12.0":
+              raise SystemExit("Selected lrelease is not Qt 6.12.0")
+          print(result.stdout.strip())
+          libraries = subprocess.check_output(["ldd", str(executable)], text=True)
+          if "not found" in libraries:
+              raise SystemExit("Selected lrelease has unresolved runtime libraries")
+          selected = [line for line in libraries.splitlines() if "libQt6" in line or "libicu" in line]
+          if not selected:
+              raise SystemExit("No selected Qt/ICU runtime found")
+          for line in selected:
+              location = line.split("=>", 1)[1].split(" (", 1)[0].strip()
+              if not Path(location).resolve().is_relative_to(prefix):
+                  raise SystemExit("Linguist tool borrowed host Qt/ICU")
+              print(line.strip())
+          PYTHON
+      - name: Prepare the exact authenticated libsodium source
+        working-directory: ${{ runner.temp }}
+        run: |
+          curl --fail --location --retry 3 https://download.libsodium.org/libsodium/releases/libsodium-1.0.22.tar.gz --output libsodium-1.0.22.tar.gz
+          echo 'adbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349  libsodium-1.0.22.tar.gz' | sha256sum --check --strict
+          test "$(wc -c < libsodium-1.0.22.tar.gz)" -eq 2008529
+          mkdir sodium-source sodium-build
+          tar -xzf libsodium-1.0.22.tar.gz --directory sodium-source
+          echo "SUBATHON_SODIUM_ROOT=$RUNNER_TEMP/sodium-prefix" >> "$GITHUB_ENV"
+      - name: Build and install the selected static SDK into the disposable prefix
+        working-directory: ${{ runner.temp }}/sodium-build
+        # Configure has native compiler probes. No vendor test or project feature runs here.
+        run: |
+          ulimit -c 0
+          CC=gcc CFLAGS=-O2 /usr/bin/bash "$RUNNER_TEMP/sodium-source/libsodium-1.0.22/configure" --prefix="$SUBATHON_SODIUM_ROOT" --libdir="$SUBATHON_SODIUM_ROOT/lib" --disable-shared --enable-static
+          make -j2
+          make -j2 install
+      - name: Configure reviewed SQL suites
+        run: >-
+          cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions"
+          -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
+          -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
+          -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
+      - name: Build reviewed SQL suites
+        run: cmake --build --preset sqlite-reference-capture-debug
+      - name: Verify both initial-capture marker libraries and the link-only interface harness
+        run: |
+          test -f build/sqlite-reference-capture-debug/server/libsubathon_reference_capture_values.a
+          test -f build/sqlite-reference-capture-debug/server/libsubathon_sqlite_reference_capture.a
+          test -x build/sqlite-reference-capture-debug/tests/reference_capture_interface_link
+          # The interface executable is deliberately never launched or registered.
+      - name: Run reviewed writer acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L sqlite-writer --no-tests=error
+      - name: Run reviewed transaction-work acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L sqlite-work --no-tests=error
+      - name: Run reviewed migration catalog acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L sqlite-migrations --no-tests=error
+      - name: Run reviewed retained-context acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L sqlite-retained --no-tests=error
+      - name: Run reviewed identified-receipt acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L sqlite-receipt --no-tests=error
+      - name: Run reviewed contribution acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L sqlite-contribution --no-tests=error
+      - name: Run reviewed captured-plan acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L sqlite-plan --no-tests=error
+      - name: Run reviewed application-bundle acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-bundle$' --no-tests=error
+      - name: Run reviewed original-claim acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-original-claim$' --no-tests=error
+      - name: Run reviewed durable hold acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-hold$' --no-tests=error
+      - name: Run reviewed application-service acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^application-service$' --no-tests=error
+      - name: Run reviewed initial-capture codec acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^reference-capture-values$' --no-tests=error
+      - name: Run reviewed initial-capture SQL acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-reference-capture$' --no-tests=error
+      - name: Run reviewed account/session storage acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-account-sessions$' --no-tests=error --verbose
+      - name: Verify enabled Qt suites and account acceptance
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          import subprocess
+          data = json.loads(subprocess.check_output(
+              ["ctest", "--preset", "sqlite-reference-capture-debug", "--show-only=json-v1"], text=True))
+          account = []
+          for test in data["tests"]:
+              props = {entry["name"]: entry["value"] for entry in test["properties"]}
+              labels = set(props.get("LABELS", []))
+              if "qt" not in labels:
+                  continue
+              if len(test["command"]) != 1:
+                  raise SystemExit("A Qt suite no longer invokes the complete native runner")
+              if props.get("DISABLED") or props.get("WILL_FAIL"):
+                  raise SystemExit("A Qt suite is disabled or failure-inverted")
+              if any(key in props for key in ("SKIP_RETURN_CODE", "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION", "SKIP_REGULAR_EXPRESSION")):
+                  raise SystemExit("A Qt suite rewrites native results")
+              if "sqlite-account-sessions" in labels:
+                  if "intentional-red" in labels or "acceptance" not in labels:
+                      raise SystemExit("Account/session storage must run as ordinary acceptance")
+                  account.append(test)
+          if not account:
+              raise SystemExit("No enabled account/session acceptance suite")
+          for test in account:
+              # -functions inspects the real Qt metaobject without invoking a test body.
+              if not subprocess.check_output([test["command"][0], "-functions"], text=True).strip():
+                  raise SystemExit("Account/session runner has no actual test methods")
+          PYTHON
+      - name: Configure explicit SDK and GoogleTest sources
+        run: >-
+          cmake --preset password-hashing-debug -DSUBATHON_FETCH_GOOGLETEST=ON
+          -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
+      - name: Build reviewed password acceptance
+        run: |
+          cmake --build --preset password-hashing-debug
+          cmake --build --preset password-hashing-debug --target password_hashing_fixture_generator
+      - name: Keep synthetic input preparation outside CTest
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          import subprocess
+          discovery = json.loads(subprocess.check_output(
+              ["ctest", "--preset", "password-hashing-debug", "--show-only=json-v1"], text=True))
+          if any("fixture_generator" in item["name"] for item in discovery["tests"]):
+              raise SystemExit("Synthetic input generation must not run as a CTest test")
+          PYTHON
+      - name: Verify enabled password-hashing labels and native result semantics
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          import subprocess
+          discovery = json.loads(subprocess.check_output(
+              ["ctest", "--preset", "password-hashing-debug", "--show-only=json-v1"], text=True))
+          selected = [test for test in discovery["tests"]
+                      if "password-hashing" in next((p["value"] for p in test["properties"] if p["name"] == "LABELS"), [])]
+          if not selected:
+              raise SystemExit("No enabled password-hashing tests were discovered")
+          for test in selected:
+              props = {p["name"]: p["value"] for p in test["properties"]}
+              if not {'acceptance', 'password-hashing', 'server'}.issubset(props.get("LABELS", [])):
+                  raise SystemExit("A password-hashing test lost its required labels")
+              if "intentional-red" in props.get("LABELS", []):
+                  raise SystemExit("Implemented behavior was put in the red lane")
+              if props.get("DISABLED") or props.get("WILL_FAIL"):
+                  raise SystemExit("A password-hashing test is disabled or failure-inverted")
+              if props.get("SKIP_REGULAR_EXPRESSION", [r"\[  SKIPPED \]"]) != [r"\[  SKIPPED \]"]:
+                  raise SystemExit("A password-hashing test has custom skip matching")
+              if any(key in props for key in ("SKIP_RETURN_CODE", "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION")):
+                  raise SystemExit("A password-hashing test rewrites native results")
+              if props.get("TIMEOUT") != 60:
+                  raise SystemExit("A password-hashing test timeout changed")
+          PYTHON
+      - name: Run every reviewed password acceptance method
+        run: |
+          ulimit -c 0
+          ctest --preset password-hashing-debug -L '^password-hashing$' --no-tests=error --verbose
+      - name: Run existing infrastructure checks
+        run: ctest --preset password-hashing-debug -L '^scaffold$' --no-tests=error --verbose
+      - name: Build the reviewed session supplier acceptance
+        run: |
+          cmake --preset session-resolution-debug -DSUBATHON_FETCH_GOOGLETEST=ON \
+            -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
+          cmake --build --preset session-resolution-debug
+      - name: Verify enabled session-resolution labels and native result semantics
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          import subprocess
+          discovery = json.loads(subprocess.check_output(
+              ["ctest", "--preset", "session-resolution-debug", "--show-only=json-v1"], text=True))
+          selected = [test for test in discovery["tests"]
+                      if "session-resolution" in next((p["value"] for p in test["properties"] if p["name"] == "LABELS"), [])]
+          if not selected:
+              raise SystemExit("No enabled session-resolution tests were discovered")
+          for test in selected:
+              props = {p["name"]: p["value"] for p in test["properties"]}
+              if not {'session-resolution', 'acceptance', 'server'}.issubset(props.get("LABELS", [])):
+                  raise SystemExit("A session-resolution test lost its required labels")
+              if "intentional-red" in props.get("LABELS", []):
+                  raise SystemExit("Implemented behavior was put in the red lane")
+              if props.get("DISABLED") or props.get("WILL_FAIL"):
+                  raise SystemExit("A session-resolution test is disabled or failure-inverted")
+              if props.get("SKIP_REGULAR_EXPRESSION", [r"\[  SKIPPED \]"]) != [r"\[  SKIPPED \]"]:
+                  raise SystemExit("A session-resolution test has custom skip matching")
+              if any(key in props for key in ("SKIP_RETURN_CODE", "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION")):
+                  raise SystemExit("A session-resolution test rewrites native results")
+              if props.get("TIMEOUT") != 10:
+                  raise SystemExit("A session-resolution test timeout changed")
+          PYTHON
+      - name: Run every reviewed session supplier acceptance method
+        run: |
+          ulimit -c 0
+          ctest --preset session-resolution-debug -L '^session-resolution$' --no-tests=error --verbose
+      - name: Configure catalog generation and generated-QM verifier
+        run: cmake --preset translation-catalog-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
+      - name: Build catalogs and verify generated source consistency
+        run: cmake --build --preset translation-catalog-debug
+      - name: Verify the enabled ordinary translation suite
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          import subprocess
+          discovery = json.loads(subprocess.check_output(
+              ["ctest", "--preset", "translation-catalog-debug", "--show-only=json-v1"], text=True))
+          selected = [test for test in discovery["tests"]
+                      if test["name"].startswith("translation-catalog.")]
+          if not selected:
+              raise SystemExit("No translation suite was discovered")
+          for test in selected:
+              props = {p["name"]: p["value"] for p in test["properties"]}
+              if props.get("DISABLED") or props.get("WILL_FAIL"):
+                  raise SystemExit("A translation suite is disabled or failure-inverted")
+              labels = set(props.get("LABELS", []))
+              if not {"translation-catalog", "acceptance"}.issubset(labels):
+                  raise SystemExit("A translation suite lost its required labels")
+              if "intentional-red" in labels:
+                  raise SystemExit("Implemented translation behavior was put in the red lane")
+          PYTHON
+      - name: Run all reviewed generator API and CLI acceptance cases
+        run: ctest --preset translation-catalog-debug -L '^translation-catalog$' --no-tests=error --verbose
+      - name: Run existing infrastructure checks
+        run: ctest --preset translation-catalog-debug -L '^scaffold$' --verbose
+  # Corrected Drogon SDK suites: native WebSocket profile acceptance, then the
+  # host lifecycle baseline build and registration check (intentional red, not run).
+  native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Prepare authenticated Ubuntu package acquisition
+        run: python3 tools/prepare_ubuntu_apt.py
+      - name: Download and verify exact Ubuntu SDK inputs before installation
+        run: |
+          python3 - <<'PYTHON'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import subprocess
+          import tempfile
+          manifest = json.loads(Path("tools/native_websocket_ubuntu.json").read_text())
+          if subprocess.check_output(["dpkg", "--print-architecture"], text=True).strip() != "amd64":
+              raise SystemExit("The admitted baseline packages require Ubuntu amd64")
+          expected = {p["name"]: p for p in manifest["packages"]}
+          directory = Path(tempfile.mkdtemp(prefix="native-ws-packages-", dir=os.environ["RUNNER_TEMP"]))
+          subprocess.run(["apt-get", "download", *[f'{p["name"]}={p["version"]}' for p in expected.values()]],
+                         cwd=directory, check=True)
+          archives = []
+          seen = set()
+          for path in sorted(directory.glob("*.deb")):
+              fields = subprocess.check_output(["dpkg-deb", "--show", "--showformat=${Package}\n${Version}\n${Architecture}",
+                                                str(path)], text=True).splitlines()
+              if len(fields) != 3 or fields[0] not in expected or fields[0] in seen:
+                  raise SystemExit("Unexpected or duplicate SDK package")
+              item = expected[fields[0]]
+              if fields[1:] != [item["version"], item["architecture"]]:
+                  raise SystemExit("Unexpected SDK package version/architecture")
+              data = path.read_bytes()
+              if len(data) != item["bytes"] or hashlib.sha256(data).hexdigest() != item["sha256"]:
+                  raise SystemExit("SDK archive hash/size mismatch")
+              seen.add(fields[0])
+              archives.append(str(path))
+              print(fields, item["sha256"])
+          if seen != set(expected):
+              raise SystemExit("The complete pinned SDK package set was not downloaded")
+          # Direct installation cannot resolve/download any unreviewed extra archive.
+          # A missing host dependency is a setup failure; never force or repair it here.
+          subprocess.run(["sudo", "dpkg", "--install", *archives], check=True)
+          for item in expected.values():
+              installed = subprocess.check_output(
+                  ["dpkg-query", "--show", "--showformat=${Status}\n${Version}\n${Architecture}",
+                   item["name"]], text=True).splitlines()
+              if installed != ["install ok installed", item["version"], item["architecture"]]:
+                  raise SystemExit("Installed SDK package state/version/architecture mismatch")
+              notice = Path(item["copyright_path"])
+              if hashlib.sha256(notice.read_bytes()).hexdigest() != item["copyright_sha256"]:
+                  raise SystemExit("Installed package copyright differs from admitted bytes")
+              print(item["copyright_path"], item["copyright_sha256"])
+          PYTHON
+      - name: Record the selected host toolchain and runtime package identities
+        run: |
+          uname -srmo
+          c++ --version
+          cmake --version
+          python3 --version
+          dpkg-query -W libc6 libc6-dev libgcc-s1 libstdc++6 libjsoncpp-dev libjsoncpp25 libssl-dev libssl3t64 uuid-dev libuuid1 zlib1g-dev zlib1g
+      - name: Prepare and seal the exact corrected SDK in a fresh disposable prefix
+        # This recipe must receive independent review before its first hosted execution.
+        run: python3 tools/native_websocket_ci.py prepare --root "$RUNNER_TEMP/native-ws-candidate4"
+      - name: Configure the corrected native profile and build the observer
+        run: |
+          cmake --preset native-websocket-profile-debug -DSUBATHON_DROGON_ROOT="$RUNNER_TEMP/native-ws-candidate4/sdk"
+          cmake --build --preset native-websocket-profile-debug --parallel 2
+      - name: Record consumer commands without loading the observer
+        run: ninja -C build/native-websocket-profile-debug -t commands native_websocket_probe
+      - name: Check passive native44 inventory and ELF closure, then gate controlled identity
+        # --identity is read-only. No native test body runs unless the complete map matches.
+        run: python3 tools/native_websocket_ci.py gate --root "$RUNNER_TEMP/native-ws-candidate4"
+      - name: Run required-success native44 synthetic loopback acceptance
+        run: |
+          ctest_command="$(cat "$RUNNER_TEMP/native-ws-candidate4/receipts/ctest-command.txt")"
+          env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 \
+            LD_LIBRARY_PATH="$RUNNER_TEMP/native-ws-candidate4/sdk/lib" \
+            "$ctest_command" --preset native-websocket-profile-debug -L '^native-websocket-profile$' --no-tests=error --verbose
+      - name: Run existing infrastructure and tooling
+        run: ctest --preset native-websocket-profile-debug -L '^scaffold$' --no-tests=error --verbose
+      - name: Install archive, Qt runtime and pinned Boost headers
+        run: |
+          echo "QT_PREFIX=$RUNNER_TEMP/qt-6.12.0" >> "$GITHUB_ENV"
+          sudo apt-get install --yes --no-upgrade --no-install-recommends libarchive-tools libglib2.0-0t64 libzstd1 zlib1g libboost1.83-dev=1.83.0-2.1ubuntu3
+          dpkg-query -W libboost1.83-dev
+      - name: Verify the compiler's selected Boost header version
+        run: |
+          python3 - <<'PYTHON'
+          import subprocess
+          macros = subprocess.check_output(
+              ["c++", "-dM", "-E", "-x", "c++", "-include", "boost/version.hpp", "/dev/null"],
+              text=True,
+          )
+          expected = "#define BOOST_VERSION 108300"
+          if expected not in macros.splitlines():
+              raise SystemExit("Compiler did not select pinned Boost 1.83.0 headers")
+          print(expected)
+          PYTHON
+      - name: Fetch and verify the selected official Qt 6.12.0 archives
+        working-directory: ${{ runner.temp }}
+        run: |
+          base=https://download.qt.io/online/qtsdkrepository/linux_x64/desktop/qt6_6120/qt6_6120/qt.qt6.6120.linux_gcc_64
+          curl --fail --location --retry 3 "$base/6.12.0-0-202609280346qtbase-Linux-RHEL_9_6-GCC-Linux-RHEL_9_6-X86_64.7z" --output qtbase.7z
+          curl --fail --location --retry 3 "$base/6.12.0-0-202609280346icu-linux-Rhel8.6-x86_64.7z" --output icu.7z
+          echo '943023b929d0c08eafe7341700b5ed7601284410b7afd6093f950be291d1d7cd  qtbase.7z' | sha256sum --check --strict
+          echo '1fdbcd67b1760f3a3f031c64637a9f19992aed2f35aa615e12a468f8c655d4da  icu.7z' | sha256sum --check --strict
+          mkdir -p "$QT_PREFIX/lib"
+          bsdtar -xf qtbase.7z -C "$QT_PREFIX"
+          bsdtar -xf icu.7z -C "$QT_PREFIX/lib"
+          test "$("$QT_PREFIX/bin/qtpaths" --qt-version)" = 6.12.0
+          test -f "$QT_PREFIX/plugins/sqldrivers/libqsqlite.so"
+      - name: Prepare the exact authenticated libsodium source
+        working-directory: ${{ runner.temp }}
+        run: |
+          curl --fail --location --retry 3 https://download.libsodium.org/libsodium/releases/libsodium-1.0.22.tar.gz --output libsodium-1.0.22.tar.gz
+          echo 'adbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349  libsodium-1.0.22.tar.gz' | sha256sum --check --strict
+          test "$(wc -c < libsodium-1.0.22.tar.gz)" -eq 2008529
+          mkdir sodium-source sodium-build
+          tar -xzf libsodium-1.0.22.tar.gz --directory sodium-source
+          echo "SUBATHON_SODIUM_ROOT=$RUNNER_TEMP/sodium-prefix" >> "$GITHUB_ENV"
+      - name: Build and install the selected static SDK into the disposable prefix
+        working-directory: ${{ runner.temp }}/sodium-build
+        # Configure has native compiler probes. No vendor test or project feature runs here.
+        run: |
+          ulimit -c 0
+          CC=gcc CFLAGS=-O2 /usr/bin/bash "$RUNNER_TEMP/sodium-source/libsodium-1.0.22/configure" --prefix="$SUBATHON_SODIUM_ROOT" --libdir="$SUBATHON_SODIUM_ROOT/lib" --disable-shared --enable-static
+          make -j2
+          make -j2 install
+      - name: Prepare the existing exact corrected SDK
+        # Same reviewed source/patch/seal recipe as the native-profile lane.
+        run: python3 tools/native_websocket_ci.py prepare --root "$RUNNER_TEMP/api-host-sdk"
+      - name: Configure and compile both enabled host baselines
+        run: |
+          cmake --preset api-host-native-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX" \
+            -DSUBATHON_DROGON_ROOT="$RUNNER_TEMP/api-host-sdk/sdk" \
+            -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT" \
+            -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0 \
+            -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
+          cmake --build --preset api-host-native-debug --parallel 2
+      - name: Inspect registration without loading either new consumer
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          import os
+          from pathlib import Path
+          import subprocess
+          data = json.loads(subprocess.check_output(
+              ["ctest", "--preset", "api-host-native-debug", "--show-only=json-v1"], text=True))
+          inventory = Path("tests/qt/api_host_cases.cmake").read_text().splitlines()
+          cases = [line.strip() for line in inventory if line.startswith("    ")]
+          if len(cases) != 75 or len(set(cases)) != 75:
+              raise SystemExit("Complete unique host invocation inventory required")
+          expected = {"api-host." + case for case in cases} | {"api-host-native.suite"}
+          selected = {test["name"]: test for test in data["tests"]
+                      if test["name"].startswith(("api-host.", "api-host-native."))}
+          if set(selected) != expected:
+              raise SystemExit("All isolated Qt invocations and the native suite must be registered")
+          loader = "LD_LIBRARY_PATH=" + os.environ["RUNNER_TEMP"] + "/api-host-sdk/sdk/lib"
+          for name, test in selected.items():
+              props = {item["name"]: item["value"] for item in test["properties"]}
+              native = name == "api-host-native.suite"
+              owner = "api-host-native" if native else "api-host"
+              labels = {owner, "intentional-red", "acceptance", "server", "loopback" if native else "qt"}
+              if set(props.get("LABELS", [])) != labels or props.get("TIMEOUT") != (660 if native else 180):
+                  raise SystemExit("Host baseline labels or watchdog changed")
+              command = test["command"]
+              if native:
+                  if (len(command) != 11 or command[1:4] != ["-E", "env", loader]
+                          or command[6] != "--probe" or command[8] != "--admission"
+                          or command[10] != "-v" or Path(command[7]).name != "api_host_probe"
+                          or Path(command[9]).name != "api-host-admission.json"):
+                      raise SystemExit("Native admission/loader command changed")
+              elif (len(command) != 2 or command[1] != name.removeprefix("api-host.")
+                    or Path(command[0]).name != "server_api_host_acceptance"
+                    or props.get("ENVIRONMENT") != [loader]):
+                  raise SystemExit("Each Qt invocation must use one fresh process with the selected loader")
+              if props.get("DISABLED") or props.get("WILL_FAIL"):
+                  raise SystemExit("Host baselines must remain enabled with ordinary failure semantics")
+              if any(key in props for key in ("SKIP_RETURN_CODE", "PASS_REGULAR_EXPRESSION",
+                                             "FAIL_REGULAR_EXPRESSION", "SKIP_REGULAR_EXPRESSION")):
+                  raise SystemExit("Host baseline results must not be rewritten")
+          print(json.dumps(selected, indent=2))
+          PYTHON
+      - name: Check existing infrastructure and tooling
+        run: ctest --preset api-host-native-debug -L '^scaffold$' --no-tests=error --verbose
+      # No new consumer is launched here. Local separately reviewed native
+      # admission precedes intended red; this lane proves compilation/registration.
+      # Existing green product suites retain their own ordinary acceptance jobs.

@@ -1,81 +1,37 @@
-# EPIC-029 current coordinator checkpoint
+# Coordinator checkpoint
 
-Owner: Kernol12. Coordinator: codex:coordinator-59095155.
-Current scope: MIGRATE-005 final audit only; then stop.
-Full v0.45 retained; product/API and WORKFLOW-006/007 execution remain stopped.
+Owner: Kernol12. Full specification v0.45 stays in release scope.
 
-## Owner decision
+## Owner decision, 2026-11-14
 
-Pre-cutover history is “historical, as recorded, not re-verified”.
-Earlier narrow amendment/per-row audits are superseded. Historical A/B/reliance/seal/
-privacy work stays stopped; private artifacts stay private, hash references only.
-Known history: d717 identity, six missing dirty-run sources, unrecovered seal.
-New execution on unfinished tasks requires its own current proof when executed.
-One final audit report from a fresh checkout; no new contracts/test suites/audit packets.
-Only wrong/unsafe migration findings block; other follow-ups go to issue636.
-At most two fix rounds per review cycle, ask owner before a third.
+1. Build a running vertical slice next: the server starts, runs one timer and accepts
+   one fake contribution.
+2. Authorized task path, in order: API-016 (#616) → APITEST-015 (#613) → API-001
+   (#278). Nothing else is authorized for execution.
+3. Process and tooling work is frozen until the slice runs. WORKFLOW-006 (#619) and
+   WORKFLOW-007 (#620) stay stopped.
+4. Review depth follows the three tiers in docs/AGENT_WORKFLOW.md. API-001 and
+   APITEST-015 (host lifecycle, thread ownership) are tier A; the coordinator sets
+   the tier for API-016.
+5. At most two fix rounds per review; ask the owner before a third.
 
-## Verified merged work
+## State at this decision
 
-001 PR632 cfd6da9; 002 PR633 a277c5d; 003 PR634 b80e94f.
-004 PR635 f674131464b5907be0ec390b40bd1d1436e36c7e, 2026-11-14T09:24:23Z.
-004 final head31a7311b:21/21 CI; initial/Codex/fresh closing approved; normal protected merge.
-005 predecessor006 PR637 c75254119c73abb51cf75ac512d813579f98618a, 2026-11-14T10:02:26Z.
-006 final headb7bdc140:21/21 CI; initial/Codex/fresh closing approved; zero fix rounds.
-Normal two-parent006merge and f674/da8 ancestry verified; issue631 closed after readback.
-Ruleset26170263 active with no bypass; no unresolved review threads at either merge.
-GitHub owns planning/lifecycle/native relationships; canonical progress/proofs owns proof.
-Old tracker tag epic-029-old-tracker-2026-11-14 at355ffdfe, remotely available.
-Proof archive da8db0dc3984f55aaff12297947a6bd8083d5315, unchanged old tracker JSON values.
-Full brief tag epic-029-task-briefs-2026-11-14 atf6741314, remotely available.
+- EPIC-029 is closed: MIGRATE-005 merged as PR #638 (merge 831f7a76); issues #630 and
+  #625 are closed. Follow-ups from the cutover review are in #636.
+- GitHub owns task status and prerequisites. Old tracker tag:
+  `epic-029-old-tracker-2026-11-14`. Full brief tag: `epic-029-task-briefs-2026-11-14`.
+- Draft PR #121 (API-001, branch `task/API-001-host-lifecycle`) has been parked since
+  2026-11-12. Check it against the current API-001 brief before reusing any of it.
+- Pre-cutover history is historical, as recorded, not re-verified. Known limits: the
+  d717 identity conflict, six missing dirty-run sources and the unrecovered seal.
+  Ignored historical outputs stay private.
 
-## Cleanup results
+## Live assignments
 
-One inventory table: docs/migrations/EPIC-029/brief-inventory.md.
-327 original Markdown files:71 archived/removed,238 compacted,18 unchanged;256 remain.
-149 shared unfinished briefs and30 completed technical/current-gate briefs retained.
-94 GitHub issue bodies repaired/read back;96 canonical brief pointers pinned at matching archives.
-Acceptance/domain constraints and task identities preserved; no product/test behavior changed.
-Current review receipts live in PR637; cosmetic/historical-link follow-ups are in issue636.
+None. No session or worktree is assigned.
 
-## Current task
+## Next action
 
-MIGRATE-005 issue630 claimed/assigned/In progress; claim6875618244.
-Branch task/MIGRATE-005-final-audit from merged main c7525411; pending workflow set before audit.
-One factual report authored from an independently fetched fresh clone of c7525411:
-docs/migrations/EPIC-029/final-audit.md, source172f9ec0 (custody path redacted).
-Audit found no blocking migration defects;503 task IDs/native views/archives/cleanup verified.
-Fresh-clone checks passed:155 tooling,scaffold3/3,real-SDK3/3 plusproof/refusal checks.
-No runtime/contract/test changes. Claude initial approved PR638#issuecomment-6875809539; zero blockers/fix rounds.
-Codex verification approved PR638#issuecomment-6875857979; no blockers.
-Fresh Claude closing approved PR638#issuecomment-6875905609; no blockers.
-Only final-head CI, protected normal merge/readback and GitHub closure remain.
-Audit IDs/titles/parents/prerequisites/native views, archives/cleanup/links/old names,
-required-proof refusals and offline existing repository/tooling/SDK/scaffold checks.
-No historical re-verification, new fixture suite, or manufactured red.
-Coordinator owns proof/checkpoint/GitHub closure; auditor owns only the one report.
-Report must state actual checked revision/commands, limits and follow-ups.
-Do not make a status-only completion PR; any report change must carry the actual audit.
-Closure only after applicable independent review, required checks and merge/readback.
-Then close MIGRATE-005/EPIC-029 and stop. Do not start the next workflow/product task.
-
-## Privacy
-
-Ignored historical outputs remain private. Earlier private proposal post was auto-rejected;
-no payload/retry. Prior detailed checkpoint/history remain under the old-tracker tag.
-
-Single final audit report PR: https://github.com/Kernol12/subathon-bot-ai/pull/638 (draft).
-Initial/Codex/fresh-closing report reviews approved; zero fix rounds.
-Final publication completion check and current-head CI precede merge/closure.
-
-005 initial report SHA-256: 1bb6eaa86a5cc4eacfa02a971d89e5ddbeb92f7a29493b48cf962583537a4ddc.
-
-005 verification SHA-256: 15636c659d1831b6d17a4ff3dd308ceb95afb220390f7154df560f3ec900ace8.
-
-005 closing SHA-256: ff2d5860a1328fdd1433c5ce1a52048e3fdcb913cb431ff8e3a4ab8f4f104a3f.
-
-## Final authorization boundary
-
-After PR638 is normally merged/read back and issues630/625 are closed, EPIC-029
-migration authorization is exhausted: STOP. GitHub PR/issue facts own actual closure.
-Do not create a completion-only PR or start WORKFLOW-006/007 or product/API work.
+Claim API-016 on a branch from current `main`, confirm its reviewed APITEST-016
+baseline and intended red, then implement.

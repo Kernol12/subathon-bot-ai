@@ -5,24 +5,9 @@ This archive is a development starting point, **not a working subathon bot**.
 The full product baseline is [specification v0.45](docs/specification.md).
 
 [![License: GPL-3.0-or-later](https://badgen.net/static/license/GPL-3.0-or-later/blue)](LICENSE.md)
-[![Scaffold checks (infrastructure only)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/scaffold.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/scaffold.yml)
+[![CI](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/ci.yml)
 
-<details>
-<summary>Product acceptance CI on main</summary>
-
-[![Time-credit acceptance and regression](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/acceptance.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/acceptance.yml)
-[![Exact numeric acceptance](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/exact-numeric.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/exact-numeric.yml)
-[![Timer lifecycle acceptance](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/timer-lifecycle.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/timer-lifecycle.yml)
-[![Pause policy acceptance](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/pause-policy.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/pause-policy.yml)
-[![Time debt acceptance](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/time-debt.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/time-debt.yml)
-[![Receipt intake simulation acceptance](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/receipt-intake.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/receipt-intake.yml)
-[![Contribution evidence simulation acceptance](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/contribution-evidence.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/contribution-evidence.yml)
-[![Captured application-plan acceptance](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/application-plan.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/application-plan.yml)
-[![Qt SQL SQLite writer acceptance](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/sqlite-writer.yml/badge.svg?branch=main)](https://github.com/Kernol12/subathon-bot-ai/actions/workflows/sqlite-writer.yml)
-
-These checks cover bounded components and simulations, not full product or live-provider readiness.
-
-</details>
+CI covers bounded components and simulations, not full product or live-provider readiness.
 
 ## Repository statistics
 
@@ -60,9 +45,10 @@ For ongoing development with subagents, use the
 The coordinator selects from current task evidence and preserves a durable checkpoint
 for resuming after an interruption.
 
-The [epic and child-task index](docs/tasks/README.md) lists the bounded release backlog
-and separate test-first gates. The current priority is EPIC-028 test cleanup; planned
-child records do not mean tests or product behavior have been completed.
+The [epic and child-task index](docs/tasks/README.md) lists the bounded release backlog.
+The current priority is a running vertical slice (see the
+[checkpoint](progress/coordinator-checkpoint.md)); planned child records do not mean
+tests or product behavior have been completed.
 
 The scaffold preset needs CMake >=3.25, Ninja, a C++20 compiler and Python >=3.10.
 It does not need Qt or GoogleTest. Product code will require the agreed Qt >=6.12.
@@ -130,9 +116,9 @@ See [test strategy](docs/TEST_STRATEGY.md) and [first contract](docs/contracts/t
 ## Progress updates
 
 [GitHub Issues/Projects](https://github.com/users/Kernol12/projects/1) own task status,
-assignments, containment and prerequisites; canonical proof records own recorded review
-and source evidence. Read [STATUS](docs/STATUS.md) for source-bound capability limits
-and [workflow](docs/AGENT_WORKFLOW.md) for closure gates. Task counts are not product
+assignments, containment and prerequisites; pull requests hold review receipts.
+Read [STATUS](docs/STATUS.md) for capability limits
+and [workflow](docs/AGENT_WORKFLOW.md) for review tiers and merge rules. Task counts are not product
 completion percentages. See [task navigation](docs/PROGRESS.md).
 
 ## Repository map
@@ -142,8 +128,8 @@ completion percentages. See [task navigation](docs/PROGRESS.md).
 - `tests/`: reviewed GoogleTest credit acceptance/regression cases, scaffold checks, optional Qt probe, tooling tests, fixtures.
 - `docs/`: full specification, architecture, decisions, test strategy, task/handoff templates and evidence.
 - `tools/`: dependency-free Python proof and repository consistency tools.
-- `.github/workflows/`: scaffold checks and automatic credit acceptance/regression
-  on PRs to main and pushes to main, with manual dispatch retained.
+- `.github/workflows/ci.yml`: scaffold, schema, core, Qt and native jobs on PRs to
+  main and pushes to main, with manual dispatch.
 
 The GitHub repository is `git@github.com:Kernol12/subathon-bot-ai.git`; the main
 branch is `main`. No live credentials are needed, and no service is contacted by

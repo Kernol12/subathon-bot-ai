@@ -31,6 +31,7 @@ still using synthetic data and supplied policy/authority facts.
 | Preset | Focused CTest selection | Current behavior/proof |
 | --- | --- | --- |
 | `acceptance-debug` | `-L '^acceptance$'` | 23 cap-limited credit cases in the owning suite: pure numeric planning, not full product proof |
+| `core-acceptance-debug` | whole preset | Every pure GoogleTest suite below in one build (through `rate-snapshot`); used by the CI `core` job |
 | `exact-numeric-debug` | `-L '^exact-numeric$'` | 33 exact decimal/half-even conversion cases |
 | `timer-lifecycle-debug` | `-L '^timer-lifecycle$'` | 39 Main/Grace transition proposals |
 | `pause-policy-debug` | `-L '^pause-policy$'` | 37 independent pause-reason/delay proposals |
@@ -229,10 +230,8 @@ and repository merge rules, and retain separate independent review before mergin
 
 ## Test design and remaining coverage
 
-Follow [the agent workflow](AGENT_WORKFLOW.md): contract/examples → authored tests →
-independent test review → observed intended red → implementation → independent code
-review and relevant checks. Derive expected values independently from the specification;
-compilation errors, missing dependencies and skips are not valid red evidence.
+Follow the task sequence and review tiers in [the agent workflow](AGENT_WORKFLOW.md).
+Derive expected values independently from the specification.
 
 Prefer small named behavior scenarios, synthetic/redacted fixtures, fake adapters and
 controllable clocks. Keep one primary home for shared mechanics. Avoid duplicate writer

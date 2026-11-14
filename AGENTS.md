@@ -1,9 +1,7 @@
 # Agent instructions — read before editing
 
-> GitHub owns task planning since the final protected MIGRATE-004 cutover.
-> Canonical proof records own current review/source evidence. Pre-cutover history is
-> historical, as recorded, not re-verified, under the owner decision in the cutover contract.
-
+> GitHub Issues own task status and prerequisites. Pull requests own review receipts.
+> History before the MIGRATE-004 cutover is kept as recorded and is not re-verified.
 
 I'm Kernol12. You're my agent. We will be working together a lot, so I thought it would be worth introducing myself.
 
@@ -41,14 +39,19 @@ Build the agreed product in `docs/specification.md` (v0.45); preserve the comple
 release scope and identify requirement conflicts instead of silently changing behavior.
 Routine implementation choices are allowed within scope. Unknown provider behavior is
 not a supported capability; never turn unknown source fields into known values.
-Start with `docs/ARCHITECTURE.md`, `docs/AGENT_WORKFLOW.md`, `docs/TEST_STRATEGY.md`,
-the selected task brief and a bounded `python3 tools/proofs.py context TASK-ID`.
+Start with `docs/ARCHITECTURE.md`, `docs/AGENT_WORKFLOW.md` and the selected task
+brief; read `docs/TEST_STRATEGY.md` when adding or changing tests.
 Read scoped `AGENTS.md` files in every module being edited. Current owner scope,
 stop/resume directive and temporary assignments belong in
 `progress/coordinator-checkpoint.md`; the latest owner instruction takes precedence.
 Dependency readiness never authorizes a new task or resumes stopped product work.
-Keep permanent rules here, task status/assignment/native prerequisites on GitHub,
-canonical review proof in progress/proofs and detailed receipts in the PR.
+Keep permanent rules here, task status and prerequisites on GitHub and review
+receipts in the PR.
+
+Current priority: a running vertical slice. The server must start, run one timer and
+accept one fake contribution before more storage, contract or workflow work begins.
+The checkpoint names the authorized task path. Do not start new process or tooling
+tasks until the slice runs.
 
 ## Test-first and review gates
 
@@ -60,11 +63,14 @@ Do not delete, skip or weaken baseline assertions to make code pass. Test cleanu
 remove assertions only under ADR-0012, an explicit task brief and a separate approved
 review; preserve historical evidence and record any revised baseline.
 
-Each substantive review stage follows the cycle in `docs/AGENT_WORKFLOW.md`:
-independent Claude initial review, Codex fixes and separate Codex review until no
-blockers remain, then independent Claude closing review. The coordinator chooses
-reviewer models. Codex readiness cannot waive closing approval; blockers repeat
-the cycle.
+Review depth follows the three tiers in `docs/AGENT_WORKFLOW.md`: the full
+Claude → Codex → Claude cycle for accounting, authentication, migrations and
+concurrency; one independent review for other code, tests and contracts; CI only for
+documentation. An author never approves their own work. At most two fix rounds per
+review; ask the owner before a third.
+
+Keep contracts small: a public header or schema plus an examples table, under 300
+lines for a new contract. Edge-case detail belongs in tests.
 
 ## Boundaries
 
@@ -81,16 +87,15 @@ the cycle.
 
 ## Work protocol
 
-Choose a dependency-ready task, read its brief, create a dedicated branch from current
-`main`, and claim it on GitHub before editing. Enroll its pending canonical proof on the task
-branch before executable authoring. Record scope, contract
-revision, acceptance criteria and shared-file ownership. Split substantial prerequisites
-into explicit tasks before expanding scope; use separate worktrees for concurrent writers.
-Use a fresh implementation session per executable task and keep a coordinator checkpoint
-at `progress/coordinator-checkpoint.md`. Run relevant checks and record actual results.
-Update the canonical proof and GitHub task activity; open a focused PR to `main` and
-merge only after current CI, reviews and repository merge requirements pass. Never
-bypass branch protection. See `docs/AGENT_WORKFLOW.md` for the full sequence.
+Choose a dependency-ready task inside the owner scope, read its brief, create a
+dedicated branch from current `main`, and claim it on GitHub before editing. State the
+review tier, contract revision, acceptance criteria and shared-file ownership in the
+PR. Split substantial prerequisites into explicit tasks before expanding scope; use
+separate worktrees for concurrent writers and a fresh implementation session per task.
+Run relevant checks and record actual results in the PR. Merge only after current CI,
+the tier's reviews and repository merge requirements pass. Never bypass branch
+protection. Review receipts are PR comments; only tier A tasks get a proof record,
+written in one commit before merge. See `docs/AGENT_WORKFLOW.md` for the full sequence.
 
 ## Commands
 
@@ -108,8 +113,9 @@ ctest --preset acceptance-debug -L acceptance
 ```
 
 `scaffold-debug` checks infrastructure only. `acceptance-debug` selects the 23 passing
-time-credit component cases under owning acceptance labels. Full product verification
-remains a separate release gate.
+time-credit component cases under owning acceptance labels. `core-acceptance-debug`
+builds every pure core suite at once, as the CI `core` job does. Full product
+verification remains a separate release gate.
 Native/translation presets use `SUBATHON_BUILD_ACCEPTANCE_TESTS` and the
 `SUBATHON_ACCEPTANCE_SUITES` list; see `docs/TEST_STRATEGY.md` for selection and
 retired-cache migration. Rate snapshots use ordinary passing pure acceptance;
@@ -124,8 +130,8 @@ Use `CMakeUserPresets.json` for personal paths; never commit machine-specific ID
 
 Distinguish planned, authored, reviewed, observed red, implemented, simulated and
 live/platform-verified. Never claim unrun checks or invent verification percentages.
-For completed tasks, keep completion notes concise (normally 500 characters or fewer; coordinator-reviewed) and follow
-the readable-summary rule in `docs/AGENT_WORKFLOW.md`. Historical receipts are available
+For completed tasks, keep completion notes concise (normally 500 characters or fewer).
+Historical receipts are available
 under git tag `evidence-archive-2026-11`; `docs/evidence/README.md`
 is the readable record.
 Use synthetic/redacted fixtures, fake adapters and disposable state by default. Keep
@@ -139,7 +145,3 @@ explicit interfaces, RAII and owned dependencies. Keep implementation details ou
 product UI. Keep UI labels translatable; English/German and Light/Dark/System remain
 required. Preserve GPL-3.0-or-later and dependency notices. Avoid new dependencies
 where existing selected tools suffice; record justified additions and version pins.
-
-For the remainder of EPIC-029, the latest owner-directed cutover review scope and
-two-fix-round limit in `docs/contracts/github-authority-cutover-v1.md` take precedence.
-Historical records do not authorize future execution on unfinished tasks.

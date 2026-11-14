@@ -2,9 +2,12 @@
 
 Specification version: 0.45
 
-GitHub owns planning and canonical proof records own review/source evidence since
-the final protected MIGRATE-004 cutover merge. The old tracker is retained under
-the owner-authorized historical disposition, without re-verification.
+GitHub owns planning; pull requests own review receipts. The old tracker is retained
+under the owner-authorized historical disposition, without re-verification.
+
+There is no runnable server yet: the only executable is the scaffold. The current
+priority is a vertical slice that starts the server, runs one timer and accepts one
+fake contribution (see the [checkpoint](../progress/coordinator-checkpoint.md)).
 
 ## Historical source-bound summary
 
@@ -20,7 +23,7 @@ IMPL-001 numeric credit helper implemented; independent code review approved. Lo
 
 **Progress tooling — passed**
 
-71 Python tooling methods, project consistency and current HTML pass. Current offline-controller DOM simulation passes; no new real-browser or OBS proof. Existing assertions remain intact; structured records distinguish historical exemptions, reviewed artifacts and publication observations.
+As recorded in the old tracker: 71 Python tooling methods, project consistency and the retired progress page passed. The tooling suite has grown since; run `python3 -m unittest discover -s tests/tooling` for the current count.
 
 **CMake / CLion / Qt — passed**
 
@@ -59,30 +62,18 @@ Component/synthetic/loopback/real SQLite observations do not establish a product
 host, real session clock/authority, live provider, UI/browser/OBS/platform, deployment,
 restore, security, performance or release capability. See the specification and test strategy.
 
-Retired automation has no equivalent automatic guarantee:
-- Acceptance result values: coordinator reads source/head-bound passing execution
-  receipts and required suites before protected merge/closure; proof completion does
-  not validate acceptance execution or results.
-- Per-task specification references: complete arrays and successful pre-freeze admission
-  stay archived; active brief references require coordinator review. Spec ID uniqueness,
-  acceptance-map version/completeness and local link/containment checks remain.
-- Intended-red ordering: coordinator verifies actual reviewed baseline execution before
-  implementation dispatch. Approved tests alone do not prove execution.
-- Completed-note cap: coordinator checks concise completion notes; preserved proof
-  limitations have no aggregate character cap and are never truncated.
-- State done/publication check: --complete may admit absent/open publication before
-  publication, never closure. Actual final merged PR, current required gates and truthful
-  issue/PR readback (PR URL, head, merge_commit, merged_at and observed_at) are
-  mandatory closure carriers. Missing publication blocks closure.
-  No completion-only own-proof PR loop is required.
+The retired tracker checked a few things automatically that the coordinator now
+checks by hand before closing a task:
+- Passing acceptance results are read from the PR's latest-head CI, not from a
+  completion flag.
+- The brief's specification references are reviewed at dispatch and closure. Spec ID
+  uniqueness and acceptance-map completeness remain automated.
+- Intended red is observed on the reviewed tests before implementation starts.
+- Closure needs the actual merged PR; a board status or a proof record is not a merge.
 
-Independent Claude initial → Codex fixes plus separate Codex verification → fresh
-Claude closing, test-first and protected merge gates remain. Manual board Done is
-neither evidence nor permission. Historical availability, full source admission,
-archive pin/readback and final reconciliation remain coordinator cutover gates.
-Ordinary Python and real-SDK actual-HEAD checks require the canonical bundle and
-fail clearly when required inputs are missing; no legacy or synthetic fallback applies. WORKFLOW-006/007
-and product work remain stopped. This page records capabilities and limitations, not a backlog.
+Review depth follows the three tiers in the [workflow](AGENT_WORKFLOW.md).
+WORKFLOW-006/007 stay stopped. This page records capabilities and limitations, not a
+backlog.
 
 Historical disposition: historical, as recorded, not re-verified. Known limitations
 are the d717 clean-FIRST identity conflict, six missing dirty-run sources and the
