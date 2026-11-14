@@ -476,3 +476,36 @@ parser scratchprobes corrected bullet/headingshandling, no testfailure/red. No t
 imports/bodies/discovery/SDK/native execution. Fresh independent Claude TEST closing
 mandatory next; availability/code/archive/merge gates untouched. Historical A/B
 verifications independent; confirmed d717requiredunsafeactualrun conflict stillblockspin.
+
+A-specific independent Codex APPROVED48 bounded role/remaining-fact corrections plus
+rootcrossrefs, NOT availability. Reviewer codex:migrate004-availability-a-specific-
+verification-20261114:/root, dispatched18a47e-6d5b-41bf-9146-d405e968c509. Public
+issue629#issuecomment-6869953956 reportbf25a1f1347bd534078919eb8b8f29d43417fa902e4f42145f7db111669e942f,
+all419verdictrows2b23ae7cfb3b0035988894bd5d1fdd84761197fce37bd232e4f1766001ed3160.
+371priorindividualverdictsretainedwithoutbroaderapproval. FixedCV-A01..04; AV-A2-01..06
+remain exact run068/2cf8/9281/c85, oldlocal-logincontent, missing49501documentreview,
+metadata4518/68d7/d133necessity, helper/dirtysource/rawartifactlimits and global
+requiredoriginal/privacy/dependency/nontext/A-Preadback gates. No dispositionadmitted.
+Actualsamples02:01:28/02:03:09/02:03:40/02:05:08/02:07:37/02:08:42notduration.
+Root read-only ignoredlocal-evidence filename search for the named missing artifacts
+found no match; not universal absence and not a test result. FreshClaudeclosing next.
+
+B independentrecheck verifies13 factualcorrections, sustainsoverallavailabilityblock
+CV-B05/M004-AV-B2-001 (exactrequiredunsafeactualrun) and002(content/safeoriginals/
+readback). Reviewer codex:migrate004-availability-b-recheck-20261114:/root,
+dispatchb644bd66-240c-4d92-98d7-fa490a2d1cca; issue629#issuecomment-6869978536,
+reportd48fdc3d141b6a7b400b35566c7500d645a06c49e3f4b8e2198b40ac5f7bb7d1,
+all419rows8c178c8a6602b960dc0642f5dcc7931774c4bf8bf58b517e3bb3d1bb7aa5bc39.
+406otheroldfields/rangesretained; no contradictorycurrentT1wholefileequalityafter
+correction. Actualrawfoundation/feature18sourceentriesmatchd717. FreshClaude
+closingrequired before any bounded dispositionadmission; noavailabilityapproval.
+02:09:46reportwriteisactivitysample,notexactduration.
+
+Coordinator actualremoteexactobjectreadback: GitHub git/commits/d7174d63 returns
+HTTP404/exit1; disposableauditclone exactSHAfetch returns upload-pack:notourref/exit128.
+No originalpush/rootrefchanges/publication/guardexception. Raw readbacksummary
+/tmp/migrate004-d717-exact-readback.json hashd8baeb15b1cdcc34b0d6c70bd8cc0a438cf814d305df945bd61df303023aeecd;
+publicissue629#issuecomment-6869989445. These actualfailuresareaccount/capturebounded,
+notuniversalGitHubabsence or intendedred. Requiredoriginalavailabilityversusunchanged
+outgoingguardstillconcreteblockingconflict. State authoritative; onlyindependent
+migration reviews/preparation continue, product/WF006/007/successorstopped.
