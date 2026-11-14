@@ -9,7 +9,7 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| [SLICE-001](https://github.com/Kernol12/subathon-bot-ai/issues/642) | Development server executable running the first contribution path in-process; not the production host |
+| [SLICE-001](https://github.com/Kernol12/subathon-bot-ai/issues/642) | Small development server executable around the API-011 reference path; not the production host |
 | [APICONTRACT-001](EPIC-008/APICONTRACT-001.md) | Actual host lifecycle/current scope and native persistent WS profile contract |
 | `APITEST-012` → [API-012](EPIC-008/API-012.md) | Admitted native control/fragment/Close lifecycle prerequisite |
 | [APICONTRACT-005](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-008/APICONTRACT-005.md) → `APITEST-016` → [API-016](EPIC-008/API-016.md) | Generic bounded HTTP SDK foundation, separate from account capture and host authority |
