@@ -725,3 +725,20 @@ whitespace pass, no amendedtestimports/bodies/discovery/SDK/candidateexecution.
 Fresh independent Claude TEST closing next. Code II01/II02 corrections/codeverification/
 closing and actualarchiveSTATUSpin beforeP remain distinct. All historicalavailability/
 canonical/hostedCI/protectedmerge/finalbriefcleanup/auditgates continue to blockcutover.
+
+Fresh amended TEST closing APPROVED7da9561f44224ae725d1921256542a745fda7bc5,
+session54d6d61b-8218-4e9a-83a0-43f84737163f, dispatch4a6ca3fc-f11f-40ce-8b71-202bb88ddc85.
+Public6870865710, reporte97fa564a501705c4d3366b1e5d38bbf927b8a8f664f04223ae5ba240822b508.
+No blocking source findings; prior receipts retained. Samples03:16:58/03:17:49 not
+endpoints/duration. TC2-001 optional extra report pins do not justify reopening alone.
+TC2-002 requires deliberately assembled, quiet disposable pairing: unfixed f6 runtime
+(proofs4ab1d14c) with amended6ca89f61/8b1ff971 oracles and12 unchangedpacketfiles.
+Record exact runtime/oracle identities/subtest failures. Predicted claimed3statuses
+red/plannedpass is NOT observation; rootlegacyconvertmaypassall, neverfabricatered.
+TC2-003 mandates remaining converterarms and publicationpositives actuallyrun after
+recordingclosing. TwoactualHEADcanonicalsetupgates and zerowitnesslimits retained.
+Now schedule observation-only worker to assemble immutable approved inputs in its
+T3-prepared isolatedcheckout, no root integration/guardchange/II01fix before red.
+Historical9710baseline preserved. CodeII01/II02fixes/codeverification/closing andII03
+actualarchivepin remainseparate; all historicalavailability/pin/merge/successorgates
+remainblocked. No code or authority switch approved by test closing.
