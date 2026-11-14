@@ -479,7 +479,7 @@ verifications independent; confirmed d717requiredunsafeactualrun conflict stillb
 
 A-specific independent Codex APPROVED48 bounded role/remaining-fact corrections plus
 rootcrossrefs, NOT availability. Reviewer codex:migrate004-availability-a-specific-
-verification-20261114:/root, dispatched18a47e-6d5b-41bf-9146-d405e968c509. Public
+verification-20261114:/root, dispatch ed18a47e-6d5b-41bf-9146-d405e968c509. Public
 issue629#issuecomment-6869953956 reportbf25a1f1347bd534078919eb8b8f29d43417fa902e4f42145f7db111669e942f,
 all419verdictrows2b23ae7cfb3b0035988894bd5d1fdd84761197fce37bd232e4f1766001ed3160.
 371priorindividualverdictsretainedwithoutbroaderapproval. FixedCV-A01..04; AV-A2-01..06
@@ -509,3 +509,26 @@ publicissue629#issuecomment-6869989445. These actualfailuresareaccount/capturebo
 notuniversalGitHubabsence or intendedred. Requiredoriginalavailabilityversusunchanged
 outgoingguardstillconcreteblockingconflict. State authoritative; onlyindependent
 migration reviews/preparation continue, product/WF006/007/successorstopped.
+
+Fresh Claude TEST source closing APPROVED 9710c7136aaf4485153771cdc56a043c388921f1,
+session62c63f16-87dd-4ceb-a752-c375302d8a9a, dispatch2ce7aa36-ea56-4a5a-8ceb-b141d1393655.
+Public issue629#issuecomment-6870035466, report SHA256
+83adcc11d3f7db4ab9511da7a6a89f0db9a1c008e7d156116ac1bdaf1fe12f33.
+All ten initial blockers resolved. Exact14 oracles/three authors/two NI blobs unchanged;
+initial rejection and independent Codex approval retained. Activity samples02:12:04,
+02:12:05,02:12:59 are not exact endpoints/duration; no timing pair.
+TC-N01 success helper label cannot match actual prefixed NI output and defaults may
+fail through legacy paths. Observer must classify real traceback/stderr, never label;
+conservative label is not an oracle failure waiver. TV001 special notGit narrower
+exclusion likewise cannot certify unrelated NI. TC-N02 run in quiet isolated checkout
+because canonical checkpoint/policy/proof-entry byte guards detect concurrent edits.
+TC-N03 actual-HEAD Python and SDK arms remain SETUP/PENDING until real canonical
+inputs exist; zero-test schema.publication and note-only modules are neither pass nor
+red. Never skip/mask actual HEAD or make synthetic data production authority.
+Now schedule fresh Codex worker for actual reviewed intended-red observation only:
+verify source/modes/NI, setup/admitted SDK controls, classify each real failure,
+preserve raw logs and mixed results. Missing input/dependency/import/compile/setup
+errors are never intended red. No implementation until meaningful red is recorded;
+new test fixes would reopen review. No historical replay, canonical production write,
+archive pin or source publication. Historical A/B closing remains separately pending;
+required d717 original versus unchanged outgoing guard continues to block cutover.

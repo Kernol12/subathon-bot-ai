@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-14T02:12:53.245639+00:00",
+  "updated_at": "2026-11-14T02:16:07.525899+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20500,12 +20500,12 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
       "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
       "notes": [
-        "A48 and B13 factual corrections independently verified for Claude closing, availability still blocked. Exact d717 API404/fetch not-our-ref; required actual-run original conflicts preserved outgoing guard. Test9710c713 closing pending; no tests executed. State authoritative; product/WF006/007 stopped."
+        "Test source9710c713 approved by fresh Claude closing; actual intended-red observation next in quiet isolated checkout. No tests executed yet. Historical d7174d63 source availability/guard conflict blocks archive pin/cutover; audit closings pending. State authoritative; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
         "contract_review": "passed",
-        "test_review": "failed",
+        "test_review": "passed",
         "baseline": "not_run",
         "implementation": "not_run",
         "acceptance": "not_run",
@@ -20859,6 +20859,21 @@
                 "findings": [
                   "M004-TV-001",
                   "M004-TV-002"
+                ],
+                "blocking_findings": []
+              },
+              {
+                "phase": "closing",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:62c63f16-87dd-4ceb-a752-c375302d8a9a",
+                "revision": "9710c7136aaf4485153771cdc56a043c388921f1",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6870035466",
+                "findings": [
+                  "M004-TC-N01",
+                  "M004-TC-N02",
+                  "M004-TC-N03"
                 ],
                 "blocking_findings": []
               }
