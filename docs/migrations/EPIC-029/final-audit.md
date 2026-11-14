@@ -169,11 +169,13 @@ were supplied. Network audit readbacks were separate from these runs.
 | `cmake --preset scaffold-debug` | configured with standard system Python |
 | `cmake --build --preset scaffold-debug` | six build steps passed |
 | `ctest --preset scaffold-debug --output-on-failure` | 3/3 passed, 71.88 s; includes tooling rerun |
-| `cmake --preset schema-validation-debug -DPython3_EXECUTABLE=/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/workflow005-schema-venv/bin/python` | configured with literal admitted interpreter |
+| `cmake --preset schema-validation-debug -DPython3_EXECUTABLE=<admitted-schema-python>` | configured with literal admitted interpreter |
 | `cmake --build --preset schema-validation-debug` | passed |
 | `ctest --preset schema-validation-debug -L schema-validation --no-tests=error --verbose` | 3/3 passed, 20.33 s |
 
-Schema CTest commands invoked that literal interpreter with `-I -S -B`, clean
+The placeholder above denotes the existing admitted schema venv; its absolute local
+custody path is omitted from this public report. Schema CTest commands invoked its
+actual literal spelling with `-I -S -B`, clean
 PATH/locale, without resolving its spelling, fallback or installation. These
 exercise actual OpenAPI/components/examples, all current canonical proofs/policy
 and real-SDK publication integration. Fake tooling fixtures are tooling evidence,
