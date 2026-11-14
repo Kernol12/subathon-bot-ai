@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "task_id": "SESSIONCONTRACT-003",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 576
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/EPIC-007/SESSIONCONTRACT-003.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-003-handoff.md",
+    "docs/contracts/session-lifecycle-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-003-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-003-review.md"
+  ],
+  "limitations": [
+    "Lifecycle mutation/inspection document and 32 literal examples independently reviewed with tooling audits. Accepted-attempt lineage, caller-writer outcome/private publication and full-width expiry are obligations, not implementation. Next: real storage/current source/accepted login, reviewed lifecycle tests and transport/security/platform integration."
+  ],
+  "verification": {
+    "authored": "passed",
+    "document_review": "passed",
+    "literal_audit": "passed",
+    "tooling": "passed",
+    "runtime": "not_run"
+  },
+  "review": {
+    "author": "/root/session_lifecycle_contract_author",
+    "reviewer": "/root/session_lifecycle_contract_review",
+    "outcome": "approved",
+    "revision": "Actual authored72a80198/importe0973fb lifecycleblob2f30ac72/author01000940 approved independently8b0212d5/import5d1e26c; unchanged accepted imports andLC01–32 audited.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-003-review.md"
+  }
+}

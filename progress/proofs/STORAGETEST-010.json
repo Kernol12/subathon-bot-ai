@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "task_id": "STORAGETEST-010",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 298
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-009/STORAGE-010.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-010-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-010-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-010-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-010-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-010-red-ctest.txt"
+  ],
+  "limitations": [
+    "Synchronous writer work/session baseline has 24 independently reviewed real-SQL cases and intended stub-red after selected setup. Caller commit, capability revocation and uncertainty boundaries retained. Next: preserve original writer behavior while composing domain repositories/migrations and real application/recovery operations."
+  ],
+  "verification": {
+    "authored_tests": "passed",
+    "native_build": "passed",
+    "test_review": "passed",
+    "baseline": "observed_red",
+    "product_acceptance": "observed_red",
+    "github_ci": "passed",
+    "platform_release": "not_run"
+  },
+  "review": {
+    "author": "/root/storage_decomposition (tests/API); /root (shared harness)",
+    "reviewer": "/root/writer_transaction_reviewer",
+    "outcome": "approved",
+    "baseline": "actual d09d330; tests eb9e3b600788f9473c5be7abdda86440cd73a3f4/header afc9f483/hook a2cd7b89/stub b47f131a; review96c1481 integrated75c07fc before actual24 stub-red(exit8)",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-010-review.md"
+  }
+}

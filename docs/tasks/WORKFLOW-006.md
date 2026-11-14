@@ -1,12 +1,14 @@
 # WORKFLOW-006 — Artifact-aware workflow and results-only records
 
-Kind: implementation. Specification v0.45 §§17–18. Depends on WORKFLOW-005.
+Kind: implementation. Specification v0.45 §§17–18.
+Prerequisites/status/assignment: [GitHub issue](https://github.com/Kernol12/subathon-bot-ai/issues?q=WORKFLOW-006).
+Retain WORKFLOW-005 and MIGRATE-005 prerequisites; storage rescope only, work remains stopped.
 Contract: bounded-coordination-v2 §§1–2,4–5. Before tests, author/review the exact
 record schema, completion/invalidation rules, compact projection and migration.
 
-Coordinator owns schema, guidance/AGENTS/PR template, task/progress/publication and
+Coordinator owns schema, guidance/AGENTS/PR template, proof/policy/publication and
 shared integration. Test author owns focused additive workflow/schema cases; fresh
-implementer owns tools/workflow.py and tools/progress.py integration. Existing
+implementer owns tools/workflow.py, tools/proofs.py and tools/check_publication.py canonical proof/policy integration. Existing
 schema dependencies/pins and historical exemption/evidence records remain unchanged.
 
 Add optional first-class required admission/results gates and artifact-manifest

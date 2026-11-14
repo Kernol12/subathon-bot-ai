@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "task_id": "CONTRACTPLAN-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 156
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/CONTRACTPLAN-002.md",
+  "evidence": [
+    "docs/decisions/0005-scene-contract-prerequisites.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-002-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-002-state-integration.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-002-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-002-handoff.md"
+  ],
+  "limitations": [
+    "Reviewed scene prerequisite split and selected CI integrated; full parent/schema/renderer/release scope retained. This is planning, not scene behavior. Next: complete remaining bindings/timeline, complete-schema and consumer gates before renderer/editor implementation."
+  ],
+  "verification": {
+    "planning_review": "passed",
+    "consistency": "passed",
+    "selected_ci": "passed"
+  },
+  "review": {
+    "author": "service_reviewer + coordinator /root state mapping",
+    "reviewer": "codec_author",
+    "outcome": "approved",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-002-review.md",
+    "revision": "84a80bd actual scene documents/state"
+  }
+}

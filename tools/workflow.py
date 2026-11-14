@@ -2,11 +2,7 @@
 """Recorded review/publication invariants; no remote or source-identity verification."""
 from __future__ import annotations
 
-import hashlib
-import os
 import re
-import stat
-import tempfile
 from datetime import datetime
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -99,7 +95,7 @@ def kind_minimum(kind: str) -> set[str]:
     return {"tests", "implementation"} if kind == "implementation" else {"implementation"}
 
 
-def validate_workflow(value: object, kind: str, root: Path, local_path, evidence_path, *, tree_free=False) -> None:
+def validate_workflow(value: object, kind: str, root: Path, local_path, evidence_path, *, tree_free=True) -> None:
     value = required(value, {"required_stages", "stages"}, "workflow")
     names = strings(value["required_stages"], "workflow.required_stages", nonempty=True)
     if not set(names).issubset(STAGES):
@@ -112,45 +108,16 @@ def validate_workflow(value: object, kind: str, root: Path, local_path, evidence
         validate_stage(stage, root, local_path, evidence_path, tree_free=tree_free)
 
 
-def legacy_done(policy: object) -> set[str]:
-    """Check the recorded exception list's integrity, not its historical authenticity."""
-    if policy is None:
-        return set()
-    policy = required(policy, {"version", "legacy_done", "legacy_done_sha256"}, "workflow_policy")
-    if type(policy["version"]) is not int or policy["version"] != 1:
-        raise ValueError("Unsupported workflow_policy version")
-    ids = strings(policy["legacy_done"], "workflow_policy.legacy_done")
-    raw = ("\n".join(sorted(ids)) + "\n").encode("utf-8") if ids else b""
-    if policy["legacy_done_sha256"] != hashlib.sha256(raw).hexdigest():
-        raise ValueError("workflow_policy legacy_done checksum does not match")
-    return set(ids)
-
-
-def tracked(task: dict, policy: dict | None) -> bool:
-    return (policy is not None and task["kind"] != "epic"
-            and task["id"] not in policy["legacy_done"])
-
-
-def dependency_complete(task: dict, policy: dict | None = None) -> bool:
-    return (task["status"] == "done" and
-            (not tracked(task, policy) or task.get("publication", {}).get("state") == "merged"))
-
-
 def validate_stage(stage: object, root: Path, local_path, evidence_path, *,
-                   tree_free: bool = False) -> None:
+                   tree_free: bool = True) -> None:
     """Check packet ownership and ordered review claims without authenticating them."""
     stage = required(stage, {"authors", "revision", "paths", "reviews"}, "workflow stage")
     authors = strings(stage["authors"], "stage.authors", nonempty=True)
     commit(stage["revision"], "stage.revision")
-    excluded = {(root / path).resolve() for path in BOOKKEEPING} if not tree_free else set()
     for value in strings(stage["paths"], "stage.paths", nonempty=True):
         lexical_path(value, "stage.paths")
         if bookkeeping(value):
             raise ValueError(f"Stage path is bookkeeping: {value}")
-        if not tree_free:
-            path = local_path(value, root)
-            if not path.is_file() or path in excluded or bookkeeping(path.relative_to(root.resolve()).as_posix()):
-                raise ValueError(f"Stage path must be an existing non-bookkeeping file: {value}")
     if not isinstance(stage["reviews"], list):
         raise ValueError("stage.reviews must be an array")
     previous = None
@@ -219,27 +186,6 @@ def validate_publication(publication: object, task: dict, root: Path, evidence_p
         raise ValueError("Unknown publication state")
 
 
-def validate_task(task: dict, policy: dict | None, root: Path, local_path, evidence_path, *,
-                  tree_free: bool = False) -> None:
-    """Validate supplied records and enforce forward claim/completion gates."""
-    is_tracked = tracked(task, policy)
-    if is_tracked and task["status"] in {"in_progress", "in_review", "done"} and "workflow" not in task:
-        raise ValueError(f"{task['id']}: claimed task requires workflow records")
-    if "workflow" in task:
-        try:
-            validate_workflow(task["workflow"], task["kind"], root, local_path, evidence_path, tree_free=tree_free)
-        except ValueError as error:
-            raise ValueError(f"{task['id']}: {error}") from error
-        names = task["workflow"]["required_stages"]
-        stages = task["workflow"]["stages"]
-        if is_tracked and task["status"] == "done" and not all(stage_complete(stages.get(name)) for name in names):
-            raise ValueError(f"{task['id']}: done requires every stage's current closing approval")
-    if "publication" in task:
-        validate_publication(task["publication"], task, root, evidence_path)
-    elif is_tracked and task["status"] == "done":
-        raise ValueError(f"{task['id']}: done requires a publication observation")
-
-
 def stage_context(task: dict, name: str) -> dict:
     """Derive one handoff and observed metrics from validated receipt order."""
     workflow = task.get("workflow")
@@ -271,61 +217,6 @@ def stage_context(task: dict, name: str) -> dict:
                         "timed_reviews": timed}}
 
 
-def reconcile(data: dict, task_id: str, snapshot: object, observed_at: str,
-              root: Path, evidence_path) -> None:
-    """Import an operator-supplied observation without changing work or review claims."""
-    task = next((task for task in data["tasks"] if task["id"] == task_id), None)
-    if task is None:
-        raise ValueError(f"Unknown task: {task_id}")
-    snapshot = required(snapshot, {"url", "state", "headRefOid", "mergedAt", "mergeCommit"}, "PR snapshot")
-    if not isinstance(snapshot["state"], str) or snapshot["state"] not in {"OPEN", "MERGED"}:
-        raise ValueError("PR snapshot must be OPEN or MERGED")
-    merge_commit = snapshot["mergeCommit"]
-    if snapshot["state"] == "MERGED":
-        merge_commit = required(merge_commit, {"oid"}, "mergeCommit")["oid"]
-    publication = {"state": snapshot["state"].lower(), "pr": snapshot["url"], "head": snapshot["headRefOid"],
-                   "merge_commit": merge_commit, "merged_at": snapshot["mergedAt"], "observed_at": observed_at}
-    validate_publication(publication, task, root, evidence_path)
-    old = task.get("publication")
-    if old is not None:
-        if old["pr"] != publication["pr"]:
-            raise ValueError("Publication PR reassociation requires a reviewed metadata correction")
-        if old["state"] == "merged":
-            if (publication["state"] != "merged"
-                    or any(old[key] != publication[key] for key in ("head", "merge_commit"))
-                    or instant(old["merged_at"], "merged_at") != instant(publication["merged_at"], "merged_at")):
-                raise ValueError("Merged publication fields are immutable")
-            publication["merged_at"] = old["merged_at"]
-    task["publication"] = publication
-    data["updated_at"] = observed_at
-
-
-def replace_outputs(state: Path, state_text: str, output: Path, html_text: str) -> None:
-    """Preserve existing modes; prepare both files before non-pairwise-atomic replacement.
-
-    Newly created outputs retain the temporary file's private mode.
-    """
-    prepared = []
-    try:
-        for destination, content in ((state, state_text), (output, html_text)):
-            try:
-                mode = stat.S_IMODE(destination.stat().st_mode)
-            except FileNotFoundError:
-                mode = None
-            with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", newline="\n", delete=False,
-                                             dir=destination.parent, prefix=f".{destination.name}.") as stream:
-                temporary = Path(stream.name)
-                prepared.append((temporary, destination))
-                stream.write(content)
-            if mode is not None:
-                temporary.chmod(mode)
-        for temporary, destination in prepared:
-            os.replace(temporary, destination)
-    finally:
-        for temporary, _ in prepared:
-            temporary.unlink(missing_ok=True)
-
-
 def compact_stage_context(stage: dict) -> dict:
     """Project an already derived stage without repeating its packet or finding prose."""
     packet = stage["packet"]
@@ -342,3 +233,22 @@ def compact_stage_context(stage: dict) -> dict:
         "metrics": {key: stage["metrics"][key]
                     for key in ("review_count", "elapsed_seconds", "timed_reviews")},
     }
+
+
+def local_path(value: str, root: Path) -> Path:
+    if not isinstance(value, str) or not value or "\\" in value or ":" in value:
+        raise ValueError(f"Expected a project-relative path: {value!r}")
+    path = Path(value)
+    if path.is_absolute() or ".." in path.parts:
+        raise ValueError(f"Path escapes the project: {value!r}")
+    resolved = (root / path).resolve()
+    if not resolved.is_relative_to(root.resolve()):
+        raise ValueError(f"Path escapes the project: {value!r}")
+    return resolved
+
+
+def evidence_path(value: str, root: Path) -> Path | None:
+    if isinstance(value, str) and value.startswith("https://"):
+        evidence_reference(value)
+        return None
+    return local_path(value, root)

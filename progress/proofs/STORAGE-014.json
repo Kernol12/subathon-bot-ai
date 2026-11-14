@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "task_id": "STORAGE-014",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 307
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-009/STORAGE-014.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-014-implementation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-014-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-014-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-014-handoff.md"
+  ],
+  "limitations": [
+    "Contribution SQL adapter passes 24 preserved cases, separate source/config review and selected Qt CI. Full uint64/NULL distinction, immutable original provenance and independent current state retained. Next: caller commit plus app bundle/effects/jobs, plan/rate policy, permission/recovery/provider/platform integration."
+  ],
+  "verification": {
+    "native_build": "passed",
+    "acceptance": "passed",
+    "regression": "passed",
+    "code_review": "passed",
+    "github_ci": "passed",
+    "official_qt_environment": "passed",
+    "platform_release": "not_run",
+    "application_bundle": "not_run",
+    "product_acceptance": "passed",
+    "live_provider": "not_run"
+  },
+  "review": {
+    "author": "/root/contribution_implementer (source); /root (shared CI/build integration)",
+    "reviewer": "/root/contribution_reviewer",
+    "outcome": "approved",
+    "baseline": "Actual source61569bd13e34f515802271da1c2ea9c89b23c473 +root CMake17ca259/preset35e0c15/QtCMake2da4c8e/workflow1fe3544 approveda751d54 integrated5ed4194. Reviewer fresh70build0warnings/exact143+24+green3/24PASS0.73s/full143PASS3.18s; frozen baseline/old producers unchanged. Actual selected official CI and final evidence/latest-head merge gates remain. Actual automatic selectedQt41477399818 atd0ce5c8 passed pins/GNU13.3/Qt6.12SQLite3.53.4/old111+requiredgreen/exact24/UNCONDITIONAL24; all11 sourcehead checks SUCCESS. Final evidence/latest-head merge gates remain.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-014-code-review.md"
+  }
+}

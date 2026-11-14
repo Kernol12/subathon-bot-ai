@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "task_id": "MILESTONETEST-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 227
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-005/MILESTONE-001.md",
+  "evidence": [
+    "docs/contracts/milestone-progression-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-contract-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-contract-review.md",
+    "docs/contracts/milestone-progression-api-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-api-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-api-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-stub-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-interface-harness.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-minimal-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-test-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-foundation-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-test-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-selected183-host.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-selected183-host.json",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-current-harness.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-current-harness-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-first-red.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-first-red.json",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-first-red.xml",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-first-red-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-handoff.md"
+  ],
+  "limitations": [
+    "Sequential progression baseline has 53 independently reviewed cases/literal fixtures and actual intended missing-behavior red after selected Boost foundation. No authoritative score, action or UI behavior supplied. Next: preserve history/score/deficit oracles through real queue/edit/permission/platform integration."
+  ],
+  "verification": {
+    "document_review": "passed",
+    "test_baseline": "observed_red",
+    "implementation": "not_run",
+    "api_document_review": "passed",
+    "minimal_source_review": "passed",
+    "tests": "observed_red",
+    "independent_foundation": "passed",
+    "test_review": "passed",
+    "selected_ci": "passed",
+    "test_authoring": "passed",
+    "selected_host_foundation": "passed",
+    "current_harness_review": "passed",
+    "baseline": "observed_red",
+    "red_attribution": "passed"
+  },
+  "review": {
+    "author": "service_author",
+    "reviewer": "service_reviewer",
+    "outcome": "approved",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-test-review.md",
+    "revision": "fa098e2 full53 tests208d0580; currenta15 config75e62c2; cleanc2bcb08 FIRST53red separatelyattributede030a0e7"
+  }
+}

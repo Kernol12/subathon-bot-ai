@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "task_id": "CORE-005",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 179
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-001/CORE-005.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-005-implementation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-005-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-005-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-005-code-review.md"
+  ],
+  "limitations": [
+    "Debt-first additions and signed reversal policies pass 32 preserved cases, separate source review and selected CI. Exact requests and Main/debt/unapplied/cap effects retained. No financial entitlement, global review status or persistence authority; next: compose lifecycle/application/reversal policy with real writer and release gates."
+  ],
+  "verification": {
+    "native_build": "passed",
+    "acceptance": "passed",
+    "regression": "passed",
+    "code_review": "passed",
+    "github_ci": "passed",
+    "application_entitlement_persistence_provider": "not_run",
+    "platform_release": "not_run"
+  },
+  "review": {
+    "author": "/root/debt_implementer",
+    "reviewer": "/root/debt_code_reviewer",
+    "outcome": "approved",
+    "baseline": "source6394cab/68141b15a4578cc85b4537a9b1403638c6e445f2; actualf0c888f; workflow792b14b6; review98f3f04",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-005-code-review.md"
+  }
+}

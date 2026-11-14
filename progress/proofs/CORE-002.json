@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "task_id": "CORE-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 173
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-001/CORE-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-002-implementation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-002-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-002-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-002-handoff.md"
+  ],
+  "limitations": [
+    "Main/Grace lifecycle proposals pass 39 preserved cases, independent code review and selected CI. Supplied observations and actual credit remain caller-owned; no Qt timer, durable state or recovery. Next: compose pause/start/deadline/state boundaries under authoritative writer and retain release/platform gates."
+  ],
+  "verification": {
+    "test_review": "passed",
+    "native_build": "passed",
+    "acceptance": "passed",
+    "regression": "passed",
+    "code_review": "passed",
+    "github_ci": "passed",
+    "platform_release": "not_run"
+  },
+  "review": {
+    "author": "/root/timer_implementer",
+    "reviewer": "/root/timer_final_reviewer",
+    "outcome": "approved",
+    "baseline": "authorc40eea2; source61384a59309767a8d2cb86ad08667b09e32086c7; testsbf8c1f46; CI1a35587; reviewe64439b",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-002-code-review.md"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "task_id": "BOOT-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 141
+  },
+  "kind": "scaffold",
+  "brief": "docs/tasks/BOOT-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/baseline-validation.md"
+  ],
+  "limitations": [
+    "Created foundation and 41 task records. Direct GCC scaffold check and 12 tooling tests pass; full native/acceptance/platform gates remain open.",
+    "The six credit cases are authored drafts; a separate test review and observed red GoogleTest run are still required."
+  ],
+  "verification": {
+    "native_build": "partial",
+    "product_acceptance": "not_run",
+    "live_provider": "not_run",
+    "tooling": "passed"
+  },
+  "review": null
+}

@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "task_id": "STORAGE-013",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 305
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-009/STORAGE-013.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-013-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-013-implementation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-013-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-013-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-013-handoff.md"
+  ],
+  "limitations": [
+    "Receipt SQL adapter/full-width codec/manifest passes 22 real-SQL cases with source/config review and selected Qt CI. Unchanged service owns classification; one caller session owns actual commit/uncertainty. Next: contribution/application/effect/job composition, actual provider identity and operational/platform release acceptance."
+  ],
+  "verification": {
+    "native_build": "passed",
+    "existing_writer_acceptance": "passed",
+    "diagnostic_environment": "passed",
+    "github_ci": "passed",
+    "official_qt_environment": "passed",
+    "code_review": "passed",
+    "ci_harness": "passed",
+    "acceptance": "passed",
+    "regression": "passed",
+    "platform_release": "not_run",
+    "domain_semantics_bundle_recovery_provider": "not_run"
+  },
+  "review": {
+    "author": "/root/debt_code_reviewer (source); /root (approved schema integration/shared build/CI)",
+    "reviewer": "/root/storage_work_code_reviewer",
+    "outcome": "approved",
+    "baseline": "Sourceaf095d97 author d815/root458/evidence130/rootf8 +9098(a52/612/559/fa26) approved84e2045/root39e3177, unchanged API/testdab/green818/JSONa79/contracts/prefix/oldsource. Author/root/reviewer22/full118PASS; actualautomaticofficialQt41337727868 ataf65401 pinhashes/GNU13.3/Qt6.12SQLite3.53.4/old89/green7+3+3/exact22/UNCONDITIONAL22PASS0.61s/all11checks. Component only; finalmetadata/latestheadmergegates remain.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-013-code-review.md"
+  }
+}

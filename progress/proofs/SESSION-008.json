@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "task_id": "SESSION-008",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 575
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-007/SESSION-008.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/session-008-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/session-008-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/session-008-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/session-008-hosted-ci.json"
+  ],
+  "limitations": [
+    "Bounded token preparation/supplied-current-fact resolution passes 39 preserved cases/full 43 with separate source/resource/secret review and selected CI. Invalid discovery/execution-race evidence discarded. Next: real SQL source/current clock/login/permissions/issuance/lifecycle/transport and supported-platform security gates."
+  ],
+  "verification": {
+    "implementation": "passed",
+    "acceptance": "passed",
+    "source_review": "passed",
+    "selected_ci": "passed",
+    "runtime_host": "not_run"
+  },
+  "review": {
+    "author": "/root/session_supplier_implementer; /root (ordinary CI promotion/integration)",
+    "reviewer": "/root/session_supplier_code_review",
+    "outcome": "approved",
+    "revision": "Actual author26f275fa/import028f83b source0525d755 +root ordinary CI2cf5ba5 independently approved28beefea/importd201b97. Sequential independent39/full43 pass; actual hosted42364733237 at3749299 ordinary39PASS.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/session-008-review.md"
+  }
+}

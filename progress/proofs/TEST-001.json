@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "task_id": "TEST-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 147
+  },
+  "kind": "test_draft",
+  "brief": "docs/tasks/TEST-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/time-credit-tests.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/time-credit-independent-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/time-credit-baseline-handoff.md"
+  ],
+  "limitations": [
+    "Credit tests were independently derived and later separately approved with observed intended stub-red. This completes a test baseline, not credit behavior. Implementation and regression evidence are separate; next: retain the reviewed oracles when composing authoritative accounting/timer behavior."
+  ],
+  "verification": {
+    "authoring": "passed",
+    "test_review": "passed",
+    "baseline": "observed_red"
+  },
+  "review": null
+}

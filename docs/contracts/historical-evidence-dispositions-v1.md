@@ -1,3 +1,6 @@
+> WITHDRAWN by the owner on 2026-11-14. Retained as historical text only.
+> The [cutover owner decision](github-authority-cutover-v1.md) replaces this narrow amendment.
+
 # Historical evidence dispositions v1 — MIGRATE-004 amendment
 
 Author: `codex:coordinator-59095155`.

@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "task_id": "IMPL-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 150
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/IMPL-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/impl-001-implementation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/impl-001-regression-red-ctest.txt",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/impl-001-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/impl-001-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/impl-001-progress-fixture-correction.md"
+  ],
+  "limitations": [
+    "Reviewed cap-credit primitive passes original 19 cases plus four independently reviewed/red regressions, with separate source/integration review. Exact numeric helper only: no contribution commit, timer service, reversal entitlement or UI. Next: compose under authoritative application boundaries and retain platform/release gates."
+  ],
+  "verification": {
+    "test_review": "passed",
+    "regression_baseline": "observed_red",
+    "native_build": "passed",
+    "acceptance": "passed",
+    "regression": "passed",
+    "code_review": "passed",
+    "integration": "passed"
+  },
+  "review": {
+    "author": "/root/credit_implementer",
+    "reviewer": "/root/credit_reviewer",
+    "outcome": "approved",
+    "baseline": "author 29325b5; source d87cc073ce470fe6b864ef16c75d1ca6aa8d0145; acceptance 055dec680f6ded7c457d14daf088115a0d73fa9f; regression 86a5c2a716204af292a8c72600a3ce6b27629097",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/impl-001-code-review.md"
+  }
+}

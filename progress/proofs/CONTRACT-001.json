@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "task_id": "CONTRACT-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 146
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/CONTRACT-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/time-credit-contract.md"
+  ],
+  "limitations": [
+    "Credit contract revision 1 defines valid-input credit, negative/above-cap rejection and overflow. Document accepted for test authoring; independent baseline review/red were separate stages. Lowered-cap interaction and full timer/accounting remain outside this helper. Next: preserve the accepted contract in composed behavior."
+  ],
+  "verification": {
+    "contract": "passed"
+  },
+  "review": null
+}

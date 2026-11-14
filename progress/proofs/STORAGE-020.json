@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "task_id": "STORAGE-020",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 579
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-009/STORAGE-020.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/106"
+  ],
+  "limitations": [
+    "Physical account/session store and migration 8 pass 44 preserved real SQLite methods. Local 18 CTest nodes/tooling38 and all 19 final CI checks pass with zero skips. Separate source/resource/fix/runtime/CI/final reviews approved; normal PR106 merge1dcf2b6 after exactb187. Prior869 Qt results and653 runtime source hashes match. Build failure/JUnit limits preserved. No login, authority or platform claim. Next: real lifecycle/profile prerequisites before clock."
+  ],
+  "verification": {
+    "inherited_test_review": "passed",
+    "inherited_baseline": "observed_red",
+    "implementation_plan_review": "passed",
+    "selector_contract_review": "passed",
+    "selector_test_review": "passed",
+    "selector_baseline": "observed_red",
+    "source_review": "passed",
+    "real_sql_acceptance": "passed",
+    "github_ci": "passed",
+    "product_acceptance": "not_run",
+    "selector_source_review": "passed",
+    "selector_tests": "passed",
+    "selector_runtime_review": "passed",
+    "source_authored": "passed",
+    "resource_review": "passed",
+    "schema_config_review": "passed",
+    "native_configure": "passed",
+    "native_build": "passed",
+    "passive_discovery": "passed",
+    "discovery_audit": "passed",
+    "regression": "passed",
+    "tooling": "passed",
+    "runtime_review": "passed",
+    "ci_promotion_review": "passed",
+    "current_status_review": "passed",
+    "hosted_ci_review": "passed",
+    "final_packet_review": "passed",
+    "final_head_ci": "passed",
+    "acceptance": "passed"
+  },
+  "review": {
+    "author": "/root/account_store_author; coordinator shared wiring/status",
+    "reviewer": "/root/account_store_review; independent resource /root/account_resource_audit",
+    "outcome": "approved",
+    "revision": "Source81263/fix05aad87/wiree565, source/resource/fix/runtime reviews preserved. Exact finalb187 packetc6a314fb/current19CI9c1af92c/zero threads/current rules approved before normal PR106 merge1dcf2b6 at2026-11-08T15:43:49Z.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/106"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "task_id": "BOOT-006",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 145
+  },
+  "kind": "scaffold",
+  "brief": "docs/tasks/BOOT-006.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/execution-order.md"
+  ],
+  "limitations": [
+    "Offline progress dashboard supports dependency order, epic grouping, retained filters and computed readiness. Tooling/native checks and bounded browser interaction passed; task states and product proof were not inferred. Next: maintain truthful state and regenerate HTML after integrations."
+  ],
+  "verification": {
+    "tooling": "passed",
+    "native_build": "passed",
+    "dashboard_browser": "passed"
+  },
+  "review": null
+}

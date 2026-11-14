@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "task_id": "CORETEST-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 172
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-001/CORE-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-002-authoring.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-002-independent-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/timer-confirmation-credit-decision.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-002-final-independent-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-002-baseline-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-002-red-ctest.txt"
+  ],
+  "limitations": [
+    "Main/Grace/ending-mode baseline contains 39 separately reviewed cases with actual intended missing-behavior red after compilation. No timer service supplied by the baseline. Next: preserve ordered lifecycle/credit/clock oracles in authoritative pause/deadline/state/recovery composition; implementation evidence remains separate."
+  ],
+  "verification": {
+    "authored_tests": "passed",
+    "native_build": "passed",
+    "test_review": "passed",
+    "baseline": "observed_red",
+    "product_acceptance": "not_run"
+  },
+  "review": {
+    "author": "/root/numeric_test_author; additive /root/timer_test_fixes and /root/timer_policy_author",
+    "reviewer": "/root/timer_final_reviewer",
+    "outcome": "approved",
+    "baseline": "author160c7e6; testsbf8c1f46d2fe8e6fdbd1ce2ed5841e679dc4a1a7; contract09c7c77d; review2fb544f; actualredcd59601",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-002-final-independent-review.md"
+  }
+}

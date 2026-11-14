@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "task_id": "TEST-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 149
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/TEST-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/time-credit-baseline-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/time-credit-red-ctest.txt",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/time-credit-independent-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/progress-fixture-correction.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/time-credit-integration-review.md"
+  ],
+  "limitations": [
+    "Credit baseline compiled and failed on the intended FeatureNotImplemented marker after independent review. Dependency/build failure was not counted as red. No product implementation is supplied by this task; next: use separate implementation evidence and retain composed timer/accounting/platform gates."
+  ],
+  "verification": {
+    "native_build": "passed",
+    "baseline": "observed_red"
+  },
+  "review": {
+    "author": "/root/test_author",
+    "reviewer": "/root/reviewer",
+    "outcome": "approved",
+    "baseline": "test blob 055dec680f6ded7c457d14daf088115a0d73fa9f",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/time-credit-independent-review.md"
+  }
+}

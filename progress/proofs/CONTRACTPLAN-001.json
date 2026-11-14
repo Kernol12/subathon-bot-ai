@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "task_id": "CONTRACTPLAN-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 155
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/CONTRACTPLAN-001.md",
+  "evidence": [
+    "docs/decisions/0004-wire-contract-prerequisites.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-001-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-001-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-001-handoff.md"
+  ],
+  "limitations": [
+    "Reviewed document-only wire prerequisite split integrated with selected CI; full common/HTTP/WebSocket/scene scope and all prior acceptance gates retained. No runtime or child-contract completion inferred. Next: accept each child independently before consumer tests and production transport."
+  ],
+  "verification": {
+    "planning_review": "passed",
+    "consistency": "passed",
+    "selected_ci": "passed"
+  },
+  "review": {
+    "author": "coordinator /root",
+    "reviewer": "codec_author",
+    "outcome": "approved",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-001-review.md",
+    "revision": "76c7b6e plus69ccc21 metadata correction"
+  }
+}

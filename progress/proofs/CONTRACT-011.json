@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "task_id": "CONTRACT-011",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 163
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/CONTRACT-011.md",
+  "evidence": [
+    "docs/contracts/scene-assets-packages-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-011-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-011-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-011-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-011-resumed-review.md"
+  ],
+  "limitations": [
+    "Asset/font/portable-package document and literal cases independently reviewed with tooling checks. No loader, renderer, archive runtime, packaging or platform capability supplied. Next: implement only after concrete reviewed/red consumer baselines; retain full scene/editor/native/browser and release gates."
+  ],
+  "verification": {
+    "authored": "passed",
+    "document_review": "passed",
+    "literal_audit": "passed",
+    "tooling": "passed",
+    "runtime": "not_run"
+  },
+  "review": {
+    "author": "Historical service_reviewer; fresh /root/asset_contract_correction (resumed R1/R2 correction)",
+    "reviewer": "Historical service_author; fresh /root/asset_contract_review (actual corrected full packet and SVG delta)",
+    "outcome": "approved",
+    "revision": "Originaldeb0d066/import72a00a7 preserved; actual f9d062ca/import36a8750 +corrected7b47fb3/importb2f6636 contract56807729/author08c0d300 approved437ab56/importfa4c6fa.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-011-resumed-review.md"
+  }
+}

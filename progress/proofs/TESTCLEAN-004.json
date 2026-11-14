@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "task_id": "TESTCLEAN-004",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 133
+  },
+  "kind": "cleanup",
+  "brief": "docs/tasks/EPIC-028/TESTCLEAN-004.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/97"
+  ],
+  "limitations": [
+    "Shared throwing assertions/completion waits retain typed errors/timeouts. Independent proposal/source/runtime/integration review approved exact writer consolidation with rollback work refusal relocated. All methods/unique adapter/physical/budget checks remain. Qt14/361methods/869results and infra3/tooling34 pass without warnings/skips. Same13 policies run per test; account44 stays passive red. All19 checks passed before normal PR97 merge. Next: TESTCLEAN-005."
+  ],
+  "verification": {
+    "cleanup_proposal_review": "passed",
+    "source_review": "passed",
+    "native_build": "passed",
+    "discovery": "passed",
+    "stable_qt_acceptance": "passed",
+    "tooling": "passed",
+    "scaffold": "passed",
+    "runtime_review": "passed",
+    "github_ci": "passed",
+    "product_acceptance": "not_run"
+  },
+  "review": {
+    "author": "/root/qt_support_author; read-only inventory helper /root/qt_support_author/writer_inventory",
+    "reviewer": "/root/qt_support_review",
+    "outcome": "approved",
+    "revision": "Proposal7c94a664/inventory5b32bfd5, source/runtime017083ce and complete0d41cc5 independently approved; all19latesthead checks passed before normal PR97 mergee48f231.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/97"
+  }
+}

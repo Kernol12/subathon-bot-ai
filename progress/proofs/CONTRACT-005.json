@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "task_id": "CONTRACT-005",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 157
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/CONTRACT-005.md",
+  "evidence": [
+    "docs/contracts/wire-primitives-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-005-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-005-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-005-handoff.md"
+  ],
+  "limitations": [
+    "Common wire primitives/compatibility document independently reviewed with consistency checks and selected CI. No running API, provider capability or authentication authority follows. Next: retain concrete HTTP/WebSocket/scene contracts and reviewed consumer tests before runtime integration."
+  ],
+  "verification": {
+    "document_review": "passed",
+    "consistency": "passed",
+    "selected_ci": "passed"
+  },
+  "review": {
+    "author": "codec_author",
+    "reviewer": "service_reviewer",
+    "outcome": "approved",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-005-review.md",
+    "revision": "378da1b contract11eeb5f4/author7cebb719"
+  }
+}

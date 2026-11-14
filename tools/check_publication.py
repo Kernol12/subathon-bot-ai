@@ -11,7 +11,6 @@ import re
 import subprocess
 import sys
 
-import progress
 import proofs
 import workflow
 
@@ -25,28 +24,6 @@ LIMITATIONS = [
     "Current-head hosted, repository and owner gates are separate.",
     "Filesystem checks can observe ignored local files.",
 ]
-# Load the shipped suite without __main__ discovery. Its setUpClass owns SDK
-# metadata admission and all standards-library imports; this driver is stdlib only.
-SCHEMA_DRIVER = r'''
-import importlib.util
-import sys
-import unittest
-
-spec = importlib.util.spec_from_file_location("publication_schema", sys.argv[1])
-module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(module)
-suite = unittest.TestLoader().loadTestsFromName(
-    "RepositorySchemas.test_progress_schema_and_actual_state", module)
-if suite.countTestCases() != 1:
-    raise SystemExit(1)
-result = unittest.TextTestRunner(verbosity=2, stream=sys.stderr).run(suite)
-if (result.testsRun != 1 or result.failures or result.errors or result.skipped
-        or result.expectedFailures or result.unexpectedSuccesses):
-    raise SystemExit(1)
-sys.stdout.write('{"tests":1,"failures":0,"errors":0,"skipped":0}\n')
-'''
-
-
 # Run the unchanged aggregate, then validate all canonical inputs using the same
 # admitted class and offline registry. No SDK imports occur in this parent tool.
 PROOF_SCHEMA_DRIVER = r'''
@@ -146,7 +123,7 @@ def path_components(raw: bytes) -> list[str]:
 def recorded_file(revision: str, name: str) -> tuple[bytes, bytes]:
     # Existing validation checks filesystem containment too. Git must independently
     # compare the literal tracked name, its regular-file mode and its object ID.
-    progress.local_path(name, ROOT)
+    workflow.local_path(name, ROOT)
     literal = Path(name).as_posix()
     entries = nul_records(git_output("ls-tree", "-z", "--full-tree", revision, "--", literal))
     if len(entries) != 1:
@@ -199,6 +176,10 @@ ARCHIVE = 'docs/migrations/EPIC-029/archive/'
 PREPARED_LIMITATIONS = LIMITATIONS + [
     'Remote target-tip freshness and archive availability require coordinator readback.',
     'Frozen exemptions preserve history and do not authorize forward completion.',
+    'Acceptance execution is a coordinator gate; proof completion does not validate result values.',
+    'Per-task specification references are archived; active brief references require coordinator review.',
+    'Intended-red execution is a coordinator gate; proof completion does not validate baseline execution.',
+    'Concise completion notes are a coordinator rule; proof limitations have no aggregate character cap.',
 ]
 
 
@@ -310,6 +291,20 @@ def check_local_objects() -> None:
         raise ValueError('Cannot inspect partial/promisor clone configuration')
 
 
+def historical_disposition(archive: str) -> bool:
+    """Recognize the owner's explicit, immutable pre-cutover boundary.
+
+    Synthetic archives and archives without this decision keep the strict rules.
+    This never exempts a later packet revision or a missing enrolled record.
+    """
+    name = ARCHIVE + 'owner-disposition.json'
+    if tree_entry(archive, name) is None:
+        return False
+    decision = git_json(archive, name)
+    return (decision.get('version') == 1 and
+            decision.get('disposition') == 'historical, as recorded, not re-verified')
+
+
 def check_proof_policy(base: str, head: str, *, task_id: str,
                        bootstrap: bool = False) -> dict:
     """Check canonical Git inputs against target history and pinned archive origin."""
@@ -349,14 +344,12 @@ def check_proof_policy(base: str, head: str, *, task_id: str,
     archive = resolve_commit(policy['archive_commit'])
     if archive != policy['archive_commit']:
         raise ValueError('Archive must name its full commit')
-    git_output('merge-base', '--is-ancestor', archive, base)
-    source = git_json(archive, 'progress/state.json')
-    identities = git_json(archive, ARCHIVE+'identities.json')
-    extracted = proofs.convert(source, identities, archive)
-    report = git_json(archive, ARCHIVE+'conversion-report.json')
-    if (json.dumps(report, sort_keys=True, ensure_ascii=False)
-            != json.dumps(extracted['report'], sort_keys=True, ensure_ascii=False)):
-        raise ValueError('Archive conversion report differs from full reconciliation')
+    # The owner's single cutover PR contains its archive snapshot as an ancestor;
+    # ordinary publication still requires an archive already on the target branch.
+    archive_target = head if previous is None and historical_disposition(archive) else base
+    git_output('merge-base', '--is-ancestor', archive, archive_target)
+    archived = proofs.load_archive(archive)
+    source, identities, extracted = archived['source'], archived['identities'], archived['converted']
     origin = dict(policy=extracted['policy'], records={r['task_id']: r for r in extracted['records']})
     archived_ids = {entry['task_id'] for entry in identities['entries']}
     previous_records = previous['records'] if previous else {}
@@ -402,10 +395,20 @@ def check_proof_bindings(bundle: dict, task_id: str, stages: list[str], *,
     check_local_objects()
     head = resolve_commit(head)
     record = proofs.selected(bundle, task_id)
+    archive = bundle['policy']['archive_commit']
+    historical = None
+    if historical_disposition(archive):
+        historical = proofs.load_archive(archive)['converted']
+        historical = next((r for r in historical['records'] if r['task_id'] == task_id), None)
     if len(stages) != len(set(stages)):
         raise ValueError('Duplicate selected stages')
     if complete:
         proofs.require_complete(bundle, task_id)
+        if historical is not None and all(
+                record.get('workflow', {}).get('stages', {}).get(name) ==
+                historical.get('workflow', {}).get('stages', {}).get(name)
+                for name in stages):
+            raise ValueError('Historical records cannot supply current execution proof')
         if task_id in bundle['policy']['legacy_done']:
             raise ValueError('Frozen exemption does not authorize forward completion')
         if set(stages) != set(record['workflow']['required_stages']):
@@ -416,12 +419,18 @@ def check_proof_bindings(bundle: dict, task_id: str, stages: list[str], *,
         packet = selected['packet']
         if packet is None:
             raise ValueError(f'Selected stage has not started: {name}')
+        original = (historical or {}).get('workflow', {}).get('stages', {}).get(name)
+        if packet == original:
+            # Retain the recorded observation without resolving unavailable source
+            # or asserting that this old approval proves today's checkout.
+            result.append(dict(name=name, revision=packet['revision'],
+                               path_count=len(packet['paths']), complete=selected['complete']))
+            continue
         revision = resolve_commit(packet['revision'])
         for path in packet['paths']:
             if recorded_file(revision, path) != recorded_file(head, path):
                 raise ValueError(f'Stale recorded path binding: {name}: {path!r}')
         result.append(dict(name=name, revision=revision, path_count=len(packet['paths']), complete=selected['complete']))
-    archive = bundle['policy']['archive_commit']
     identities = git_json(archive, ARCHIVE+'identities.json')
     archived_ids = {i['task_id'] for i in identities['entries']}
     if task_id not in archived_ids:
@@ -444,71 +453,33 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--task", required=True)
     parser.add_argument("--stage", action="append", required=True)
     parser.add_argument("--schema-python", required=True)
-    parser.add_argument("--proofs", action="store_true")
     parser.add_argument("--complete", action="store_true")
     parser.add_argument("--bootstrap", action="store_true")
     args = parser.parse_args(argv)
-    if (args.complete or args.bootstrap) and not args.proofs:
-        # MIGRATE-004 parsing-only NI exception. Existing legacy/proof execution
-        # remains unchanged; no default cutover runtime is implemented here.
-        print('Publication error: CUTOVER_PUBLICATION_NOT_IMPLEMENTED', file=sys.stderr)
-        return 1
     try:
         # abspath preserves the selected venv symlink and uses the original caller cwd.
         schema_python = os.path.abspath(args.schema_python)
         if len(args.stage) != len(set(args.stage)):
             raise ValueError("Duplicate selected stages")
-        if args.proofs:
-            check_local_objects()
+        check_local_objects()
         base, head = resolve_commit(args.base), resolve_commit(args.head)
         check_checkout(base, head)
-        if args.proofs:
-            guard = check_proof_policy(base, head, task_id=args.task, bootstrap=args.bootstrap)
-            bundle = proofs.load(ROOT/POLICY, ROOT/RECORDS)
-            stages = check_proof_bindings(bundle, args.task, args.stage, head=head, complete=args.complete)
-        else:
-            data = json.loads((ROOT / "progress/state.json").read_text(encoding="utf-8"))
-            progress.validate(data, root=ROOT)
-            task = progress.context(data, args.task)["task"]
-            stages = []
-            for name in args.stage:
-                selected = workflow.stage_context(task, name)
-                packet = selected["packet"]
-                if packet is None:
-                    raise ValueError(f"Selected stage has not started: {name}")
-                revision = resolve_commit(packet["revision"])
-                for path in packet["paths"]:
-                    if recorded_file(revision, path) != recorded_file(head, path):
-                        raise ValueError(f"Stale recorded path binding: {name}: {path!r}")
-                stages.append({"name": name, "revision": revision, "path_count": len(packet["paths"]),
-                               "complete": selected["complete"]})
+        guard = check_proof_policy(base, head, task_id=args.task, bootstrap=args.bootstrap)
+        bundle = proofs.load(ROOT/POLICY, ROOT/RECORDS)
+        stages = check_proof_bindings(bundle, args.task, args.stage, head=head, complete=args.complete)
         commit_count = check_outgoing(base, head)
         host = [os.path.abspath(sys.executable), "-E", "-s", "-B"]
-        checked_step([*host, "tools/progress.py", "validate"])
-        checked_step([*host, "tools/progress.py", "render", "--check"])
+        checked_step([*host, "tools/proofs.py", "validate"])
         checked_step([*host, "tools/check_project.py"])
-        witness = checked_step([schema_python, "-I", "-S", "-B", "-c", SCHEMA_DRIVER,
-                                "tests/schema_validation/test_project_schemas.py"])
+        witness = checked_step([schema_python, "-I", "-S", "-B", "-c", PROOF_SCHEMA_DRIVER,
+                                "tests/schema_validation/test_proof_schemas.py"])
         if witness != SCHEMA_WITNESS:
-            raise ValueError("Actual schema driver did not emit the exact one-test success witness")
-        if args.proofs:
-            witness = checked_step([schema_python, "-I", "-S", "-B", "-c", PROOF_SCHEMA_DRIVER,
-                                    "tests/schema_validation/test_proof_schemas.py"])
-            if witness != SCHEMA_WITNESS:
-                raise ValueError("Actual proof schema driver did not emit the exact one-test success witness")
-        summary = {
-            "task": args.task, "base": base, "head": head, "commit_count": commit_count,
-            "stages": stages,
-            "checks": {key: "passed" for key in
-                       ("recorded_paths", "outgoing_paths", "progress", "render", "project", "schema")},
-            "limitations": LIMITATIONS,
-        }
-        if args.proofs:
-            summary = dict(task=args.task, base=base, head=head, commit_count=commit_count,
-                           stages=stages, guard=guard,
-                           checks={key: "passed" for key in ("recorded_paths", "outgoing_paths", "proofs",
-                               "policy_history", "progress", "render", "project", "schema", "proof_schema")},
-                           limitations=PREPARED_LIMITATIONS)
+            raise ValueError("Actual proof schema driver did not emit the exact one-test success witness")
+        summary = dict(task=args.task, base=base, head=head, commit_count=commit_count,
+                       stages=stages, guard=guard,
+                       checks={key: "passed" for key in ("recorded_paths", "outgoing_paths", "proofs",
+                           "policy_history", "project", "proof_schema")},
+                       limitations=PREPARED_LIMITATIONS)
         print(json.dumps(summary, indent=2, ensure_ascii=False))
         return 0
     except (OSError, ValueError, TypeError, KeyError) as error:

@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "task_id": "CONTRACTPLAN-005",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 569
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/CONTRACTPLAN-005.md",
+  "evidence": [
+    "docs/tasks/CONTRACTPLAN-005.md",
+    "docs/tasks/SCHEMATOOL-001.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/decisions/0008-schema-validation-foundation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-005-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-005-handoff.md"
+  ],
+  "limitations": [
+    "Historical schema-tool prerequisite split and graph were independently reviewed. The generic/native design was later retired under TESTCLEAN-001; old contract evidence remains archive-bound. Real source-controlled schemas, complete references/examples and admitted dependencies remain required. Next: actual API/WS/scene/runtime/platform gates."
+  ],
+  "verification": {
+    "document_review": "passed",
+    "graph_consistency": "passed",
+    "tooling": "passed",
+    "implementation": "not_run"
+  },
+  "review": {
+    "author": "coordinator /root",
+    "reviewer": "session_supplier_review",
+    "outcome": "approved",
+    "revision": "Actual author47879e9 independently approved291f70b/importcda4076: all old423/1624 preserved, new426/1629/3IDs5edges, no selected validator/schema/executable behavior; finalmetadata/latestpublicationCI/normalmerge remain.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-005-review.md"
+  }
+}

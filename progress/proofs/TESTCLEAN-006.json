@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "task_id": "TESTCLEAN-006",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 138
+  },
+  "kind": "cleanup",
+  "brief": "docs/tasks/EPIC-028/TESTCLEAN-006.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/99",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/103"
+  ],
+  "limitations": [
+    "All six fixtures reproduce frozen bytes/typed oracles; recipes and assertions unchanged. Existing SQL job checks all six before SDK/native use; provenance/coverage docs added. Independent proposal/source/runtime/packet reviews passed; CLI no-write snapshots, tooling 37 and project checks pass. Prior native proof reused; later tooling caches recorded. All 19 checks/new step passed before normal PR103 merge 22d4c2e. Next: TESTCLEAN-007."
+  ],
+  "verification": {
+    "decomposition_plan_review": "passed",
+    "decomposition_packet_review": "passed",
+    "decomposition_ci": "passed",
+    "adoption_proposal_review": "passed",
+    "source_ci_review": "passed",
+    "all_six_generation": "passed",
+    "check_no_write": "passed",
+    "tooling": "passed",
+    "project_consistency": "passed",
+    "native_identity": "passed",
+    "runtime_review": "passed",
+    "github_ci": "passed",
+    "sql_fixture_check_ci": "passed",
+    "product_acceptance": "not_run"
+  },
+  "review": {
+    "author": "/root/fixture_adoption_author",
+    "reviewer": "/root/fixture_adoption_review",
+    "outcome": "approved",
+    "revision": "Exact proposal,39b62bb source/runtime and final10cdd06 independently approved. All19 current checks SUCCESS; actual early all-six step/full SQL/passive-account audit passed. Normal PR103 merge22d4c2e at2026-11-08T11:51:12Z.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/103"
+  }
+}

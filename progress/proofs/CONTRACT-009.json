@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "task_id": "CONTRACT-009",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 161
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/CONTRACT-009.md",
+  "evidence": [
+    "docs/contracts/scene-document-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-009-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-009-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-009-handoff.md"
+  ],
+  "limitations": [
+    "Protocol-neutral scene document and literal examples independently reviewed; bindings/timeline semantics and complete schemas remain separate. Selected CI is recorded not_run for this task; no API/test/renderer behavior. Next: finish remaining scene contracts, full parent integration and native/browser consumer acceptance."
+  ],
+  "verification": {
+    "document_review": "passed",
+    "consistency": "passed",
+    "selected_ci": "not_run"
+  },
+  "review": {
+    "author": "codec_author",
+    "reviewer": "service_reviewer",
+    "outcome": "approved",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-009-review.md",
+    "revision": "0ace3ae document9a350733/author8f9f619b; actual revised approval7f782640/import50915bd"
+  }
+}

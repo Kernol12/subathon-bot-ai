@@ -1,5 +1,8 @@
 # ADR-0001 — Agent development foundation
 
+Historical decision text below retains its original tracker references.
+See its [pre-cutover source](https://github.com/Kernol12/subathon-bot-ai/blob/b80e94f514caf33cad8abde8d00fa744b565768a/docs/decisions/0001-baseline.md) and current [workflow](../AGENT_WORKFLOW.md).
+
 Date: 29 October 2026. Status: accepted planning baseline.
 
 The product specification v0.45 is copied unmodified into docs/specification.md. This

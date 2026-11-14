@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "task_id": "STORAGECONTRACT-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 310
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/STORAGECONTRACT-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagecontract-001-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagecontract-001-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagecontract-001-handoff.md"
+  ],
+  "limitations": [
+    "Logical application-bundle rows/ports and 21 examples independently reviewed; provisional same-unit reads/claims and known rollback versus uncertainty remain explicit. No concrete API/schema/test implementation. Next: physical/API baseline, exact cap/debt/refund provenance, actual writer commit/publication and application/recovery gates."
+  ],
+  "verification": {
+    "contract_authoring": "passed",
+    "contract_review": "passed",
+    "documentation_checks": "passed",
+    "github_ci": "passed",
+    "product_acceptance": "not_run",
+    "platform_release": "not_run"
+  },
+  "review": {
+    "author": "/root/contribution_implementer (logical contract/examples); /root (shared coordination metadata)",
+    "reviewer": "/root/contribution_reviewer",
+    "outcome": "approved",
+    "baseline": "Actual logical DOCUMENT approval270a1d9175713334ee243b0bf53c6cafe7633b15/root7da0c7a accepts final3c8cbd869800f6aa4cd117016ef568f789d3ace9/evidence10b0864d after actual02e7/d8 findings/revisions.21 independentoracles/unchangedoriginal20numerics; provisional lookup/duplicates/claims/priorcommitpreconditions/AT21 and AT18 timing resolved. Actualdoc/tooling/arithmeticcheckspass. No C++/DDL/API/testbaseline/feature-red/runtime/implementation/futureCI/merge/fullrelease approval.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagecontract-001-review.md"
+  }
+}

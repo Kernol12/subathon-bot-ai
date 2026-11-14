@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "task_id": "CONTRACTPLAN-003",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 554
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/CONTRACTPLAN-003.md",
+  "evidence": [
+    "docs/decisions/0006-reference-path-prerequisites.md",
+    "docs/contracts/reference-path-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-003-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-003-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-003-handoff.md"
+  ],
+  "limitations": [
+    "Document-only early reference-path realignment independently reviewed with local consistency/tooling/scaffold; selected CI recorded not_run. Original deferred WS/connector/planner/recovery scope retained in API-009. Next: real HTTP/schema, synthetic intake/evaluation/current adapters and operation-time atomic state baselines before API-008."
+  ],
+  "verification": {
+    "planning_review": "passed",
+    "logical_contract_review": "passed",
+    "consistency": "passed",
+    "tooling": "passed",
+    "scaffold": "passed",
+    "selected_ci": "not_run"
+  },
+  "review": {
+    "author": "/root",
+    "reviewer": "/root/reference_review",
+    "outcome": "approved",
+    "revision": "Actual2c00a1d planning/profile/state candidate, independent approval544c6b9",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-003-review.md"
+  }
+}

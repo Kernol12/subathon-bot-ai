@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "task_id": "WORKFLOW-004",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 617
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/WORKFLOW-004.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6836944207",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6837062788",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6837139865",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/125",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6837098850"
+  ],
+  "limitations": [
+    "Contract7a34855 independently closed; documentation/planning proof only. Tooling72/project495 and all21 hosted checks at e74a451 pass. Final-head CI/protected publication pending. Follow-ups C-A1/C-A2 retained in CI002/WORKFLOW005. Results policy waits for WORKFLOW006; product work stopped."
+  ],
+  "workflow": {
+    "required_stages": [
+      "contract"
+    ],
+    "stages": {
+      "contract": {
+        "authors": [
+          "codex:coordinator-97333d35"
+        ],
+        "revision": "7a34855240ba3f5583068abe6b7e1d75a5b0b6d2",
+        "paths": [
+          "docs/contracts/bounded-coordination-v2.md",
+          "docs/tasks/WORKFLOW-004.md",
+          "docs/tasks/WORKFLOW-005.md",
+          "docs/tasks/WORKFLOW-006.md",
+          "docs/tasks/WORKFLOW-007.md",
+          "docs/tasks/CI-002.md",
+          "docs/tasks/README.md",
+          "docs/AGENT_WORKFLOW.md"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:thread:delegated-task:command%3Amcp%3A2344958a-02df-49a8-bd3e-16c17ddd9453%3Adelegate-task%3Aworkflow004-initial-contract-review-v1",
+            "revision": "ed6cd801369b455b50e2cd8b6417b3cebf278100",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6836944207",
+            "findings": [
+              "WF004-I-B1",
+              "WF004-I-A1",
+              "WF004-I-A2",
+              "WF004-I-A3",
+              "WF004-I-A4"
+            ],
+            "blocking_findings": [
+              "WF004-I-B1"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:/root/workflow004_contract_verification",
+            "revision": "7a34855240ba3f5583068abe6b7e1d75a5b0b6d2",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6837062788",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:thread:delegated-task:command%3Amcp%3A2344958a-02df-49a8-bd3e-16c17ddd9453%3Adelegate-task%3Aworkflow004-closing-contract-review-v1",
+            "revision": "7a34855240ba3f5583068abe6b7e1d75a5b0b6d2",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6837139865",
+            "findings": [
+              "WF004-C-A1",
+              "WF004-C-A2"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  },
+  "publication": {
+    "state": "merged",
+    "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/125",
+    "head": "f7c3b59a8b597922f5ec35272d31ec700ccbd05b",
+    "merge_commit": "3c74966f243b3628a12eb760e2a96ff455717d50",
+    "merged_at": "2026-11-12T22:10:34Z",
+    "observed_at": "2026-11-12T22:11:19+00:00"
+  },
+  "verification": {
+    "claim": "passed",
+    "contract_authored": "passed",
+    "contract_review": "passed",
+    "tooling": "passed",
+    "project": "passed",
+    "correction_authored": "passed",
+    "correction_review": "passed",
+    "github_ci": "passed",
+    "final_head_ci": "not_run"
+  },
+  "review": {
+    "author": "codex:coordinator-97333d35",
+    "reviewer": "Initial Claude workflow004-initial-contract-review-v1; independent Codex /root/workflow004_contract_verification; fresh Claude workflow004-closing-contract-review-v1",
+    "outcome": "approved",
+    "revision": "7a34855240ba3f5583068abe6b7e1d75a5b0b6d2",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/125#issuecomment-6837139865"
+  }
+}

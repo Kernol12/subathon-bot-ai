@@ -107,9 +107,6 @@ if(SUBATHON_BUILD_QT_PROBE OR SUBATHON_BUILD_SQLITE_WRITER_TESTS OR SUBATHON_BUI
     endif()
     add_subdirectory(tests/qt)
 endif()
-add_custom_target(progress
-    COMMAND "${Python3_EXECUTABLE}" "${PROJECT_SOURCE_DIR}/tools/progress.py" render
-    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}" VERBATIM)
 add_custom_target(check-project
     COMMAND "${Python3_EXECUTABLE}" "${PROJECT_SOURCE_DIR}/tools/check_project.py"
     WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}" VERBATIM)

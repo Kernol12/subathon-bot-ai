@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "task_id": "BOOT-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 142
+  },
+  "kind": "environment",
+  "brief": "docs/tasks/BOOT-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/initial-publication.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coordinator-environment.md"
+  ],
+  "limitations": [
+    "Local Arch/KDE CLion GCC/C++20 scaffold and Qt 6.12 probe passed, with tooling checks. This establishes a development environment, not product/platform support. Next: use selected presets for bounded behavior work; keep Windows, QML/OBS and release checks separate."
+  ],
+  "verification": {
+    "native_build": "passed",
+    "qt_probe": "passed",
+    "tooling": "passed",
+    "clion": "passed",
+    "product_acceptance": "not_run"
+  },
+  "review": null
+}

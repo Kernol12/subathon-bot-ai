@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "task_id": "STORAGE-019",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 565
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-009/STORAGE-019.md",
+  "evidence": [
+    "docs/tasks/EPIC-009/STORAGE-019.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-019-codec-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-019-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-019-native.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-019-priority-regression.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-019-priority-red-ctest.txt",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-019-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-019-ci.md"
+  ],
+  "limitations": [
+    "Bounded SRC1/SRA1/SRX1/SRI1 codecs pass 28 pure cases with source/resource/config review and selected CI; reviewed priority regression reached red first. Original oracles retained. Next: real durable-capture/current-source authority and application/permission/recovery integration; no provider/UI/platform capability."
+  ],
+  "verification": {
+    "inherited_baseline": "observed_red",
+    "native_build": "passed",
+    "codec_acceptance": "passed",
+    "stable_regression": "passed",
+    "priority_regression": "observed_red",
+    "source_review": "passed",
+    "selected_ci": "passed",
+    "platform_release": "not_run",
+    "tests": "passed",
+    "implementation": "passed",
+    "acceptance": "passed"
+  },
+  "review": {
+    "author": "capture_codec_tests (source), capture_fixture_author (additive regression), /root (configuration)",
+    "reviewer": "capture_reviewer",
+    "outcome": "approved",
+    "baseline": "Final CPPfa3fc6d/private9fc608d approved09a3e56 after fullc2audit and actual8row wrong-error red56911fd7 before421 correction. Original27/literals preserved plus additive0deb. Author/root337PASS/independent28PASS; actualordinary42098018635 at8d28unconditionalPASS0.10s/oldlanes/newfoundation/all17 acceptedfea65b8. Latest completion CI/merge remain separate.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-019-review.md"
+  }
+}

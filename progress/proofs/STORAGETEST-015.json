@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "task_id": "STORAGETEST-015",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 308
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-009/STORAGE-015.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-015-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-015-probe.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-015-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-015-interface.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-015-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-015-fixtures.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-015-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-015-red-ctest.txt"
+  ],
+  "limitations": [
+    "Captured-plan SQL baseline has 29 independently reviewed cases and genuine intended stub-red after selected diagnostics/build/discovery. It is not persistence implementation. Next: preserve literal manifest/codec/scoped-history/session oracles, then separate source/resource review and actual application/authority/platform integration."
+  ],
+  "verification": {
+    "contract_authoring": "passed",
+    "contract_review": "passed",
+    "interface_authoring": "passed",
+    "interface_review": "passed",
+    "authored_tests": "passed",
+    "baseline": "observed_red",
+    "product_acceptance": "observed_red",
+    "platform_release": "not_run",
+    "official_interface_build": "passed",
+    "fixture_authoring": "passed",
+    "fixture_host_diagnostic": "passed",
+    "fixture_review": "passed",
+    "harness_build": "passed",
+    "test_review": "passed",
+    "native_build": "passed",
+    "diagnostic_environment": "passed",
+    "ci_harness": "passed",
+    "official_qt_environment": "passed",
+    "github_ci": "passed",
+    "existing_writer_acceptance": "passed"
+  },
+  "review": {
+    "author": "/root/contribution_implementer (logical/API/feature tests); /root/plan_fixture_author (independent literal fixtures/old-writer green); /root (physical schema/shared build/CI)",
+    "reviewer": "/root/contribution_reviewer",
+    "outcome": "approved",
+    "baseline": "Actual full8b537cdb/rootbcd08e6 approved frozen feature0f8/JSON64eb/helpera8d/header4634/stube989/logical3af/physical99bf/Qt1ef/workflow4d8 BEFORE official41494786280 at clean aa6907b (newgreen4→6PASS0skip39ms/exact29/build82/old135/pins/all11SUCCESS), THEN root FIRST29 explicit-stub red at SAME aa6907b,2026-11-02T17:52:55.646037Z, exit8/all29 init+cleanupPASS/0skip/crash/setup failure/0.57s. No production approval; final metadata/CI/red attribution and latest-head merge gates remain.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-015-review.md"
+  }
+}

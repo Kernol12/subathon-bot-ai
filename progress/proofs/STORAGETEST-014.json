@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "task_id": "STORAGETEST-014",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 306
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-009/STORAGE-014.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-014-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-014-probe.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-014-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-014-fixtures.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-014-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-014-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-014-red-ctest.txt"
+  ],
+  "limitations": [
+    "Contribution SQLite baseline has 24 independently reviewed cases with real selected Qt fixture green before intended marker-red. Original receipt/observation provenance and full-width ID/NULL oracles retained. Next: preserve baseline in actual repository/source review and application/permission/recovery/provider/platform composition."
+  ],
+  "verification": {
+    "contract_authoring": "passed",
+    "contract_review": "passed",
+    "interface_authoring": "passed",
+    "interface_review": "passed",
+    "authored_tests": "passed",
+    "native_build": "passed",
+    "diagnostic_environment": "passed",
+    "official_qt_environment": "passed",
+    "test_review": "passed",
+    "baseline": "observed_red",
+    "product_acceptance": "observed_red",
+    "platform_release": "not_run",
+    "existing_writer_acceptance": "passed",
+    "ci_harness": "passed",
+    "github_ci": "passed"
+  },
+  "review": {
+    "author": "/root/writer_transaction_reviewer (contract/API/feature tests); /root/debt_code_reviewer (independent literal fixtures/green); /root (physical schema/shared build/CI)",
+    "reviewer": "/root/storage_work_code_reviewer",
+    "outcome": "approved",
+    "baseline": "Actual full81e0d5a/root1b4c48c approved final46c/577/44df/0abee/0ad/f503/eeb/CMakef308/workflow48ece BEFORE selected officialQt41347563063 at399fc44 (currentgreen3/exact24/old111/pins/all11SUCCESS), then root FIRST24 explicitstub-red at SAME399fc44,2026-11-01T20:37:06.321566Z exit8/24init+24cleanupPASS/0skip/crash/setup failure/0.33s. No production approval; final metadata/CI-attribution and latest-head merge gates remain.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-014-review.md"
+  }
+}

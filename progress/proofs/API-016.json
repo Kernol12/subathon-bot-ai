@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "task_id": "API-016",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 616
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-008/API-016.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196"
+  ],
+  "limitations": [
+    "Planned additive successor; historical API012 artifact/patch/pins/native44 unchanged. Reviewed tests/red/source/artifact/ABI/load/CI gates remain.",
+    "Closing a8d495e8 A1–A4/A6: bound facade calls off IO0/after close; declare disposal-callback thread/Transport lifetime and terminal-registry peer context; foundation-only read_observed/throw-before-parse. Pure-helper/thread/editorial clarifications enter the owning reviewed stage; sourcecee1845 stays frozen."
+  ],
+  "verification": {},
+  "review": null
+}

@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "task_id": "ACCT-004",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 195
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-002/ACCT-004.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-004-codec-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-004-service-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-004-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-004-service-codec-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-004-regressions.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-004-retained-codec-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-004-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-004-ci.md"
+  ],
+  "limitations": [
+    "Original application service passes 43 methods/233 real-SQL component scenarios with separate source/resource review and selected CI. Caller-writer commit/unknown outcomes preserve atomic bundles/holds. Next: actual permission/policy/clock/action/reference producers, financial refunds, review continuation, API/recovery/delivery and release gates."
+  ],
+  "verification": {
+    "baseline": "observed_red",
+    "command_codec": "passed",
+    "implementation": "passed",
+    "code_review": "passed",
+    "acceptance": "passed",
+    "official_qt": "passed",
+    "platform_release": "not_run",
+    "regression_baseline": "observed_red",
+    "native_build": "passed",
+    "github_ci": "passed",
+    "completion_ci": "not_run"
+  },
+  "review": {
+    "author": "/root/service_author (service); /root/codec_author (command/private retained codec); /root (additive tests/shared integration)",
+    "reviewer": "/root/service_reviewer",
+    "outcome": "approved",
+    "baseline": "Actualsource/configc791e72/import2ab1037 atce28ff3: runtimef20187a7/privatevalues162373ed/command05091e25/privateheader7d9171cd/public84f09f21/test7329b24f/Qt8e9d85ee/CIc63ee177. Original baseline/red preserved,8 additive slots separately reviewed/reached behavior red before fixes.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-004-code-review.md"
+  }
+}

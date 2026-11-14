@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "task_id": "ACCESSTEST-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 246
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-006/ACCESS-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-open-decisions.md",
+    "docs/contracts/effective-permissions-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-contract-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-contract-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-owner-decision.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-environment-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-environment-harness.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-environment-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-environment-first.md",
+    "docs/contracts/effective-permissions-api-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-api-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-api-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-source-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-source-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-ci.md",
+    "tests/acceptance/effective_permissions_tests.cpp",
+    "tests/fixtures/effective-permissions-v1.json",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-tests-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-tests-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-tests-harness-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-labels-correction.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-labels-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-red.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-red.json",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-red-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-handoff.md"
+  ],
+  "limitations": [
+    "Effective-permission cases independently reviewed and observed intended red before implementation; resource/full-grant and finite allocation/arithmetic boundaries retained. Test baseline is not access enforcement. Next: preserve evaluator evidence separately from actual current authority, delegated automation, transport/recovery/platform gates."
+  ],
+  "verification": {
+    "document_review": "passed",
+    "test_baseline": "observed_red",
+    "implementation": "not_run",
+    "consistency": "passed",
+    "partial_document_review": "passed",
+    "owner_decision": "passed",
+    "environment": "passed",
+    "api_review": "passed",
+    "source_review": "passed",
+    "tests_review": "passed",
+    "harness_review": "passed",
+    "ci": "passed",
+    "baseline": "observed_red",
+    "red_attribution": "passed"
+  },
+  "review": {
+    "author": "service_author",
+    "reviewer": "codec_author",
+    "outcome": "approved",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-tests-review.md",
+    "revision": "Actual tests25001158/importd1d36ee sourcefc82d17e/inventoryd0c25108 approved1d8e9335; FIRST8acc9b9 red attribution3f40238f. Separate root-harness7d7f651 and label-fixebe17a9e approvals retained."
+  }
+}

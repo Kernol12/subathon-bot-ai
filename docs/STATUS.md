@@ -2,13 +2,13 @@
 
 Specification version: 0.45
 
-Prospective source preparation for MIGRATE-004. GitHub planning and canonical proof
-authority take effect only at the final protected cutover merge. Production state
-remains authoritative until then; the intermediate archive PR does not switch it.
+GitHub owns planning and canonical proof records own review/source evidence since
+the final protected MIGRATE-004 cutover merge. The old tracker is retained under
+the owner-authorized historical disposition, without re-verification.
 
 ## Historical source-bound summary
 
-Source: [94dea97e](https://github.com/Kernol12/subathon-bot-ai/blob/94dea97efb336a088d0610877b8e41b61dc90e36/progress/state.json). This is a historical snapshot, not current execution or CI.
+Source: [old tracker](https://github.com/Kernol12/subathon-bot-ai/blob/355ffdfe/progress/state.json). This is a historical snapshot, not current execution or CI.
 
 Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.
 
@@ -80,6 +80,10 @@ Independent Claude initial → Codex fixes plus separate Codex verification → 
 Claude closing, test-first and protected merge gates remain. Manual board Done is
 neither evidence nor permission. Historical availability, full source admission,
 archive pin/readback and final reconciliation remain coordinator cutover gates.
-No actual canonical HEAD bundle or archive pin is supplied by this source preparation;
-ordinary Python and real-SDK actual-HEAD checks must fail missing inputs. WORKFLOW-006/007
+Ordinary Python and real-SDK actual-HEAD checks require the canonical bundle and
+fail clearly when required inputs are missing; no legacy or synthetic fallback applies. WORKFLOW-006/007
 and product work remain stopped. This page records capabilities and limitations, not a backlog.
+
+Historical disposition: historical, as recorded, not re-verified. Known limitations
+are the d717 clean-FIRST identity conflict, six missing dirty-run sources and the
+unrecovered seal. They do not block migration and do not supply new execution proof.

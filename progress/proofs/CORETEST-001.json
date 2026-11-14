@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "task_id": "CORETEST-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 170
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-001/CORE-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-001-authoring.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-001-independent-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-001-baseline-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-001-red-ctest.txt"
+  ],
+  "limitations": [
+    "Exact-decimal/final-rounding contract and 32 independently derived cases were separately reviewed, compiled and reached intended explicit missing-behavior red. Credit regression checks stayed green. Baseline only; next: preserve these oracles in exact aggregate/application/refund composition and retain supported-platform/live gates."
+  ],
+  "verification": {
+    "test_review": "passed",
+    "native_build": "passed",
+    "baseline": "observed_red",
+    "credit_regression": "passed",
+    "product_acceptance": "not_run"
+  },
+  "review": {
+    "author": "/root/numeric_test_author",
+    "reviewer": "/root/numeric_reviewer",
+    "outcome": "approved",
+    "baseline": "authorb3b7ab9; tests6cf83aeba79bfc4c50e3e11787147dd6bf342c10; contract59d334d68970d1b1dd81fddcfbb2a8118437ce13; review79e0f0d",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-001-independent-review.md"
+  }
+}

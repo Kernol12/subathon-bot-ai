@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "task_id": "CONTRACTPLAN-006",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 573
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/CONTRACTPLAN-006.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-006-handoff.md",
+    "docs/decisions/0010-session-executable-prerequisites.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-006-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-006-review.md"
+  ],
+  "limitations": [
+    "Session/lifecycle architecture prerequisites independently reviewed with preserved graph and tooling checks. No runtime/API/clock heuristic or security capability chosen by planning. Next: concrete current supplier/store/local-login/clock/ingress baselines, full session transport/lifecycle and provider/platform/recovery scope."
+  ],
+  "verification": {
+    "authored": "passed",
+    "plan_review": "passed",
+    "graph_preservation": "passed",
+    "tooling": "passed",
+    "runtime": "not_run"
+  },
+  "review": {
+    "author": "/root/session_slice_plan_author (documents); /root (actual graph/shared integration)",
+    "reviewer": "/root/session_slice_plan_review",
+    "outcome": "approved",
+    "revision": "Actual author2e5fde9c/import987d475 +root graph16b071b against mained73270; independentea27001e approves entire written packet and actualgraph.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-006-review.md"
+  }
+}

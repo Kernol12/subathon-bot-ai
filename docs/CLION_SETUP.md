@@ -24,7 +24,7 @@ version alone establishes Ubuntu/package compatibility.
 4. Build/run `subathon_scaffold_info`; this identifies the scaffold, not a running server.
 5. Run CTest preset commands below in CLion's terminal. CLion supports configure/build
    preset import; its test UI is additional, not a replacement for the documented commands.
-6. Select a dependency-ready task in `PROGRESS.html`, read its brief, and ask the agent
+6. Select a dependency-ready task in GitHub Issues/Projects, read its brief, and ask the agent
    to follow `AGENTS.md` and `docs/AGENT_WORKFLOW.md` explicitly.
 
 ```sh
@@ -91,7 +91,7 @@ OBS and live-provider validation remain unperformed. Windows app distribution re
 IDE, compiler and dependency versions should be recorded by BOOT-002 and pinned for
 release only after the first relevant builds. No host-specific .idea files are bundled.
 
-After opening the package, manually open PROGRESS.html in your normal browser and
+After opening the package, read docs/PROGRESS.md and open GitHub Issues/Projects and
 check filters, expanded notes and Light/Dark. The preparation environment checked its
 controller in a DOM simulation, not a real browser. If CMake is temporarily unavailable,
 `python3 tools/verify_scaffold.py` performs a limited direct GCC/Clang smoke check; this

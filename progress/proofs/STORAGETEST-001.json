@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "task_id": "STORAGETEST-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 296
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-009/STORAGE-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-001-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-001-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-001-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-001-red-ctest.txt",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-001-handoff.md"
+  ],
+  "limitations": [
+    "Controlled Qt SQL writer baseline independently reviewed and observed genuine unimplemented-operation failures after real selected Qt setup. Connection/thread ownership and real writer/read behavior remain oracles, not full application proof. Next: preserve these assertions across repository/atomic application, crash/recovery and platform operations."
+  ],
+  "verification": {
+    "authored_tests": "passed",
+    "native_build": "passed",
+    "test_review": "passed",
+    "baseline": "observed_red",
+    "product_acceptance": "not_run",
+    "github_ci": "passed",
+    "platform_release": "not_run"
+  },
+  "review": {
+    "author": "/root/storage_test_author",
+    "reviewer": "/root/storage_test_reviewer",
+    "outcome": "approved",
+    "baseline": "candidate48db98c; contract4d280461/header11d204aa/stubf0edd7e6/testsf8418e83; review3e7c8c7 integrated6647490",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-001-review.md"
+  }
+}

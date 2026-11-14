@@ -1,5 +1,8 @@
 # ADR-0010 — Separate executable session prerequisites from full integration
 
+Historical decision text below retains its original tracker references.
+See its [pre-cutover source](https://github.com/Kernol12/subathon-bot-ai/blob/b80e94f514caf33cad8abde8d00fa744b565768a/docs/decisions/0010-session-executable-prerequisites.md) and current [workflow](../AGENT_WORKFLOW.md).
+
 Status: accepted planning decomposition after independent reviewea27001e;
 [review and publication gates](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-006-handoff.md).
 Authority: specification v0.45 §§10/16/17, AUTH-01/05/11/12/15, DB-01,

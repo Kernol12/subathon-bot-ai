@@ -18,8 +18,9 @@ New execution on unfinished tasks still requires its own current proof.
 001 merged PR632; 002 merged PR633; 003 merged PR634.
 004 is in progress on task/MIGRATE-004-github-authority; state remains authority until merge.
 Old tracker tag: epic-029-old-tracker-2026-11-14, target 355ffdfe (unchanged source).
-Archive snapshot preserves tracker values; JSON formatting is compact for bounded reads.
-Reviewed cutover source to integrate: 0041d000317d7806b304b711f95ab9fcbe64310b.
+Archive snapshot da8db0dc preserves tracker values; formatting is compact for bounded reads.
+The old-tracker tag is pushed. A/B audit jobs cancelled; late privacy result not acted on.
+Integrated reviewed cutover source: 0041d000317d7806b304b711f95ab9fcbe64310b.
 Authored/reviewed oracle revision: 7da9561f44224ae725d1921256542a745fda7bc5.
 Historical audit workers were cancelled; late results are retained without action.
 Private audit proposals remain ignored/local; do not publish or continue them.
@@ -27,9 +28,10 @@ Prior checkpoint and detailed receipts remain in Git history at the old-tracker 
 
 ## Next actions
 
-Integrate cutover code, instructions and templates; preserve unrelated work/worktrees.
-Reconcile IDs/titles/parents/prerequisites against current GitHub in one report.
-Run existing tooling, repository, SDK and scaffold checks; report actual results.
+Cutover code/instructions/templates integrated; unrelated work/worktrees preserved.
+Reconciliation: 503 task IDs/issues; zero parent/prerequisite mismatches; 496 readable title changes.
+Repository and canonical validation pass; SDK aggregate passes. Tooling/scaffold first run
+failed setup because the index still listed deleted files; stage deletions before retry.
 One cutover PR: Claude initial → Codex fix/independent verification → Claude closing.
 Only wrong/unsafe cutover findings block; others go into one follow-up issue.
 At most two fix rounds; ask owner with a short list before a third.

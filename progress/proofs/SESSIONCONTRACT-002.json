@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "task_id": "SESSIONCONTRACT-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 568
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/EPIC-007/SESSIONCONTRACT-002.md",
+  "evidence": [
+    "docs/contracts/session-transport-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-002-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-002-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-002-handoff.md"
+  ],
+  "limitations": [
+    "Browser cookie/Origin/CSRF and desktop header transport document independently reviewed with tooling/literal audits. Framework multiplicity/raw-Cookie/TRACE and stale-policy refusal remain implementation gates. Next: actual lossless secret-safe ingress, default and alternative proxy admission, session/HTTP/WS and security/platform tests."
+  ],
+  "verification": {
+    "document_review": "passed",
+    "literal_audit": "passed",
+    "tooling": "passed",
+    "runtime": "not_run"
+  },
+  "review": {
+    "author": "session_supplier_review (transport author)",
+    "reviewer": "session_plan_review (different transport reviewer)",
+    "outcome": "approved",
+    "revision": "Actual corrected6cd4a15/import6f2b825/document2c33c2bbe9052455107c3056783d6bb605a5fef2 approvedcdbf8e8/import4d57195. Supplierc5 unchanged; stale-policy fresh-request and separateWSgate findings resolved. Documentonly, finalmetadata/latestpublicationCI/normalmerge remain.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-002-review.md"
+  }
+}

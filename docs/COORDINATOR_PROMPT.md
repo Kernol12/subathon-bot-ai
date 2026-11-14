@@ -1,5 +1,10 @@
 # Continuous project coordinator
 
+> GitHub owns task planning since the final protected MIGRATE-004 cutover.
+> Canonical proof records own current review/source evidence. Pre-cutover history is
+> historical, as recorded, not re-verified, under the owner decision in the cutover contract.
+
+
 These prompts operate within [AGENTS.md](../AGENTS.md), the
 [agent workflow](AGENT_WORKFLOW.md) and the full v0.45 specification. They never
 waive owner scope, review, test-first, safety or repository-protection gates.
@@ -25,10 +30,10 @@ worktrees, active claims and PR/check/review/rules state before acting. Never in
 session liveness or a pending merge from a historical assignment or checkpoint.
 
 Read AGENTS.md, architecture, workflow and test strategy once per coordinator session.
-Use `python3 tools/progress.py context TASK-ID`, the selected brief and scoped
-instructions for task context. Inspect state selectively for task selection and claims;
+Use `python3 tools/proofs.py context TASK-ID`, the selected brief and scoped
+instructions for task context. Inspect GitHub issues/native prerequisites selectively for selection and claims;
 do not dump unrelated tasks/activity into workers. Permanent policy lives in AGENTS.md
-and workflow, task status in state, temporary assignments and owner scope in checkpoint,
+and workflow, task status on GitHub, temporary assignments and owner scope in checkpoint,
 and detailed receipts in PR/git. Architecture describes boundaries, not task history.
 
 ## Authorized task loop
@@ -48,7 +53,7 @@ and detailed receipts in PR/git. Architecture describes boundaries, not task his
    and skips are not intended red. A draft PR still runs CI; keep unreviewed test
    source local and do not publish test-only failing tooling into passing gates.
 5. Assemble coherent per-stage review packets. Derive the selected packet with
-   `python3 tools/progress.py context TASK-ID --stage tests` (or contract/implementation).
+   `python3 tools/proofs.py context TASK-ID --stage tests` (or contract/implementation).
    Follow the workflow's full Claude initial/Codex correction and independent
    verification/Claude closing cycle, independently for each substantive stage.
    Retain unchanged valid approvals and review corrections with their affected context.
@@ -57,9 +62,9 @@ and detailed receipts in PR/git. Architecture describes boundaries, not task his
    in structured stages. Never invent missing history. Record commands/results and
    proof level, assess relevant CI and run required checks. Metrics inform later
    review-policy decisions; they never waive a gate.
-7. Update state and generated HTML, concise evidence summary and checkpoint. Artifact
-   completion and publication are separate. Reconcile saved PR observations with the
-   existing CLI after checking live head/check/review/rules state; inspect the diff.
+7. Update canonical proof, GitHub activity, concise evidence summary and checkpoint.
+   Artifact completion and publication are separate. Read back actual final merged PR
+   head/time and current gates before closing the issue; inspect truthful observations.
    Update stale checkpoint prose, leaving historical unrun evidence unchanged.
 8. Publish one focused PR. Merge only within owner scope and after all
    repository/workflow gates pass. Never bypass protections or manufacture approval.
@@ -96,3 +101,7 @@ context. Preserve valid work/approvals and reconcile stale handoffs. Finish pend
 stages with fresh sessions as required and publish focused PRs. Continue useful authorized
 tasks when the standing loop applies; explicit owner stops take precedence. Resume now.
 ```
+
+For the remainder of EPIC-029, the latest owner-directed cutover review scope and
+two-fix-round limit in `contracts/github-authority-cutover-v1.md` take precedence.
+Historical records do not authorize future execution on unfinished tasks.

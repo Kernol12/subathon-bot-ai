@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "task_id": "STORAGETEST-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 311
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-009/STORAGE-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-002-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-002-api-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-002-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-002-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-002-fixture-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-002-test-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-002-red-ctest.txt"
+  ],
+  "limitations": [
+    "Application-bundle real-SQL baseline independently reviewed and observed intended missing-behavior red after selected fixtures/setup. Invalid earlier attempts remain preserved, not valid red. Next: preserve transaction/claim/snapshot/effect/job/reversal oracles and actual caller-commit/uncertainty boundaries through orchestrator/recovery/platform integration."
+  ],
+  "verification": {
+    "concrete_contract": "passed",
+    "api_review": "passed",
+    "fixture_review": "passed",
+    "test_review": "passed",
+    "intended_red": "observed_red",
+    "github_ci": "passed",
+    "product_acceptance": "observed_red",
+    "platform_release": "not_run",
+    "contract_review": "passed",
+    "api_contract_extension": "passed",
+    "minimal_api": "passed",
+    "native_build": "passed",
+    "existing_regressions": "passed",
+    "minimal_api_ci": "passed",
+    "fixture_authoring": "passed",
+    "fixture_native_build": "passed",
+    "fixture_driver": "passed",
+    "fixture_selected_qt": "passed",
+    "clock_before_category_review": "passed",
+    "feature_authoring": "passed",
+    "feature_native_build": "passed",
+    "authored_tests": "passed",
+    "feature_registration": "passed",
+    "existing_registration_preserved": "passed",
+    "baseline": "observed_red",
+    "official_pre_red_gate": "passed",
+    "ci_harness": "passed",
+    "official_qt_environment": "passed",
+    "final_scope_review": "passed"
+  },
+  "review": {
+    "author": "/root/plan_fixture_author (independent fixtures and feature tests); /root/contribution_implementer (contract/API); /root (shared schema/build/CI and focused compiler rename)",
+    "reviewer": "/root/contribution_reviewer",
+    "outcome": "approved",
+    "baseline": "Actual full test/harness approval917092155253912b6dad18d281fd5fddd852872d/root306f134 accepts CPP4b60/authorcaac/CMake91035/WF453f at60a. Six preliminary/four full findings resolved; root/reviewer zero-warning builds and exact32/206 discovery. Official41542900598 at CLEAN90faea02ce0bdbff204d5eda4b9ea41b2e74d5c8 then passes fresh92/pins/Qt6.12SQLite3.53.4/requirednewfive7PASS0skip/exact32/all11. ONLY THEN FIRST32 actual named-stub red at SAME clean90fa,2026-11-02T23:10:27.403781+00:00, exit8/CTest0.71s/all32 init+cleanupPASS/0skip/crash/setup failure; rawSHA1e677e4f73fae3a091d7a301192dd401acd23e93901925c257a8ff8e5e196f7f. Baseline task done ONLY; final attribution/latest-publication CI/merge remain pending. No implementation approval. Actual final attribution/completion approvala32ac35a1395de9fae455512bab24b6d3e1c94bb/roota8d6654 independently verifies official-before-FIRSTred chronology, exact raw hash/all32 markers/setup/cleanup, baseline-only status and unchanged source/harness. Latest final publication CI/rules/discussions/normal merge remain coordinator gates.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-002-review.md"
+  }
+}

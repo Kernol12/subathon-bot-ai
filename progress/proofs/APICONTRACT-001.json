@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "task_id": "APICONTRACT-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 274
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/EPIC-008/APICONTRACT-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/107",
+    "docs/contracts/api-host-lifecycle-v1.md",
+    "docs/contracts/native-websocket-profile-v1.md"
+  ],
+  "limitations": [
+    "Host lifecycle/native WS documents and17/22 literal examples independently approved; four findings corrected. Project/render/whitespace and all19 final65c CI pass, with exact tested tree and separate final packet/CI reviews. Normal PR107 mergeb27ff138. Document proof only; no new native/profile capability or actual readiness producer. Next: APITEST-012 reviewed baseline/intended red, corrected profile and actual host; readiness producer design precedes API-001 code."
+  ],
+  "verification": {
+    "claim": "passed",
+    "document_review": "passed",
+    "independent_examples": "passed",
+    "implementation": "not_run",
+    "planning_review": "passed",
+    "tooling": "passed",
+    "github_ci": "passed",
+    "final_packet_review": "passed",
+    "hosted_ci_review": "passed",
+    "final_head_ci": "passed"
+  },
+  "review": {
+    "author": "/root/api_lifecycle_contract_author; coordinator shared planning/status",
+    "reviewer": "/root/api_lifecycle_contract_review",
+    "outcome": "approved",
+    "revision": "Author35712423/import398410d documents14dd487e; final65c packet89564b9b/current19CIb95ff8e2 approved. Normal PR107 mergeb27ff138 at2026-11-08T16:59:32Z after ready/exacthead/rules/zero threads. No native profile/readiness implementation approval.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/107"
+  }
+}

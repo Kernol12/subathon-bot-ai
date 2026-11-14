@@ -1,0 +1,180 @@
+{
+  "version": 1,
+  "task_id": "APICONTRACT-005",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 614
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/EPIC-008/APICONTRACT-005.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/123",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6818185255",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6819640064",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6820607309",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6820052366",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821007931",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821098602",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821304153",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821742252"
+  ],
+  "limitations": [
+    "Bounded HTTP contract/examples independently closed at sourcecee1845 through Claude initial, separate Codex verification/recheck and fresh Claude closing; no blockers. Document/source-feasibility proof only, no header/test/SDK/runtime behavior. Six closing advisories tracked for APITEST016/API016. Publication/latest-head CI/protected merge separate; next APITEST016 after normal merge. All artifact/ABI/load/native44/host/SQL/platform/release gates remain."
+  ],
+  "workflow": {
+    "required_stages": [
+      "contract"
+    ],
+    "stages": {
+      "contract": {
+        "authors": [
+          "codex:coordinator-45e6fb8d",
+          "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A465fb408-3760-44f5-9a8f-74337571f4e2"
+        ],
+        "revision": "cee1845c847389697bea0097e94685d721d213e5",
+        "paths": [
+          "docs/contracts/bounded-http-foundation-v1.md",
+          "docs/contracts/api-host-listeners-v1.md",
+          "docs/contracts/account-ingress-v1.md",
+          "docs/tasks/EPIC-008/APICONTRACT-005.md",
+          "docs/tasks/EPIC-008/API-016.md",
+          "docs/tasks/EPIC-007/SESSION-011.md"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A80994274-1214-4048-9262-83f3124ce52d",
+            "revision": "275f48a8c1b391772a5153165bb6289cc95dd9eb",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6819640064",
+            "findings": [
+              "80994274:CI005-B1",
+              "80994274:CI005-B2",
+              "80994274:CI005-B3",
+              "80994274:CI005-B4",
+              "80994274:CI005-B5",
+              "80994274:CI005-B6",
+              "80994274:A1",
+              "80994274:A2",
+              "80994274:A3",
+              "80994274:A4",
+              "80994274:A5",
+              "80994274:A6",
+              "80994274:A7",
+              "80994274:A8"
+            ],
+            "blocking_findings": [
+              "80994274:CI005-B1",
+              "80994274:CI005-B2",
+              "80994274:CI005-B3",
+              "80994274:CI005-B4",
+              "80994274:CI005-B5",
+              "80994274:CI005-B6"
+            ],
+            "started_at": "2026-11-12T08:55:43.607Z",
+            "finished_at": "2026-11-12T09:15:31.364Z"
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:01a1cf39-e8fb-7e01-a2f1-2c61ed6cbc6e",
+            "revision": "464caad09ad9af6223738aa0c0fa60b6680d1e8c",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821007931",
+            "findings": [
+              "80994274:CI005-B1",
+              "80994274:CI005-B2",
+              "80994274:CI005-B3",
+              "80994274:CI005-B4",
+              "80994274:CI005-B5",
+              "80994274:CI005-B6",
+              "80994274:A1",
+              "80994274:A2",
+              "80994274:A3",
+              "80994274:A4",
+              "80994274:A5",
+              "80994274:A6",
+              "80994274:A7",
+              "80994274:A8",
+              "apicontract005_correction_verify:A1",
+              "apicontract005_correction_verify:A2"
+            ],
+            "blocking_findings": [
+              "80994274:CI005-B1",
+              "80994274:CI005-B6"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:01a1cf4e-6865-7f92-b1e2-046869a9fe34",
+            "revision": "cee1845c847389697bea0097e94685d721d213e5",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821304153",
+            "findings": [
+              "80994274:CI005-B1",
+              "80994274:CI005-B6",
+              "apicontract005_correction_verify:A1",
+              "apicontract005_correction_verify:A2"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Ac8790736-eafd-416c-9e65-e4d0ac47bce2",
+            "revision": "cee1845c847389697bea0097e94685d721d213e5",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196",
+            "findings": [
+              "a8d495e8:CC005-A1",
+              "a8d495e8:CC005-A2",
+              "a8d495e8:CC005-A3",
+              "a8d495e8:CC005-A4",
+              "a8d495e8:CC005-A5",
+              "a8d495e8:CC005-A6"
+            ],
+            "blocking_findings": [],
+            "started_at": "2026-11-12T10:39:52.775Z",
+            "finished_at": "2026-11-12T10:52:49.914Z"
+          }
+        ]
+      }
+    }
+  },
+  "publication": {
+    "state": "merged",
+    "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/123",
+    "head": "1c882a3619caf4ce172e40708a4024bb79a72cee",
+    "merge_commit": "3d3be7a999cabe6668ef051b8bd392cfda38ae4c",
+    "merged_at": "2026-11-12T11:07:26Z",
+    "observed_at": "2026-11-12T11:13:06+00:00"
+  },
+  "verification": {
+    "claim": "passed",
+    "contract_authored": "passed",
+    "contract_review": "passed",
+    "runtime": "not_run",
+    "correction_authored": "passed",
+    "correction_review": "passed",
+    "project": "passed",
+    "progress": "passed",
+    "render": "passed",
+    "implementation": "not_run",
+    "completion_metadata_review": "passed",
+    "github_ci": "passed"
+  },
+  "review": {
+    "author": "Codex465fb408 and coordinator45e6fb8d",
+    "reviewer": "Independent Claude80994274 initial; Codex01a1cf39 verification; Codex01a1cf4e recheck; Claude T3c8790736/nativea8d495e8 closing",
+    "outcome": "approved",
+    "revision": "Contract sourcecee1845 six-document packet closed at HEAD1a6b351, no blockers. T3c8790736 and native Claude Code a8d495e8 identify different orchestration/provider layers. Completion/publication receipts follow only; no header/test/SDK/runtime capability.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196"
+  }
+}

@@ -1,5 +1,9 @@
 # Proof records v1 — MIGRATE-002
 
+> For EPIC-029 cutover history, the latest [owner decision](github-authority-cutover-v1.md)
+> supersedes earlier per-record audit, intermediate-PR and historical guard requirements.
+> Forward proof requirements remain mandatory.
+
 Authored contract/examples, specification v0.45 §§17–18.
 Author: `codex:migrate002-contract-author-20261113:/root` (gpt-6.1-sol).
 Correction author: `codex:coordinator-59095155`.

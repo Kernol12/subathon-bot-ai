@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "task_id": "TESTCLEAN-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 131
+  },
+  "kind": "cleanup",
+  "brief": "docs/tasks/EPIC-028/TESTCLEAN-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/94"
+  ],
+  "limitations": [
+    "Removed 17 environment programs and translation foundation mode under independent cleanup/source review. Product assertions/fixtures/pins/verifier unchanged; rate53/account44 remain red. Real Qt/SQLite 361 cases, focused suites, tooling29/scaffold3 and all21 hosted checks passed before normal PR94 merge. Next: TESTCLEAN-001."
+  ],
+  "verification": {
+    "cleanup_baseline_review": "passed",
+    "source_review": "passed",
+    "native_acceptance": "passed",
+    "tooling": "passed",
+    "scaffold": "passed",
+    "github_ci": "passed",
+    "product_acceptance": "not_run"
+  },
+  "review": {
+    "author": "/root/environment_cleanup_author",
+    "reviewer": "/root/environment_cleanup_review",
+    "outcome": "approved",
+    "revision": "Exact pre-deletion proposal a1053859 approved; source b014fcf/importfe483fe and reference fixcef3146b approved; complete head61b5b20 independently approved, all21CI and normalPR94 mergeb8bd0d3.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/94"
+  }
+}

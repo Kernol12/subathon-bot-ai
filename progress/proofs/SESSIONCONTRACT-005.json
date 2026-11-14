@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "task_id": "SESSIONCONTRACT-005",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 586
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/EPIC-007/SESSIONCONTRACT-005.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-005-handoff.md",
+    "docs/contracts/account-ingress-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-005-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-005-review.md"
+  ],
+  "limitations": [
+    "Lossless/secret-safe ingress proposal and 24 examples independently source/lifetime/policy reviewed. Private capture lease, pre-map/pre-log/native windows and bounded secret ownership are obligations; no actual patch/ABI/proxy/TLS admission. Next: native011, default/alternative proxy007/008, real source010 and API/session test-first/security/platform gates."
+  ],
+  "verification": {
+    "authored": "passed",
+    "document_review": "passed",
+    "literal_audit": "passed",
+    "source_byte_audit": "passed",
+    "tooling": "passed",
+    "runtime": "not_run"
+  },
+  "review": {
+    "author": "/root/account_ingress_contract_author (preserved partial and resumed R2)",
+    "reviewer": "/root/account_ingress_solution_review",
+    "outcome": "approved",
+    "revision": "Actual resumed bbacc5e/import08b6f01 documentblob00a4fa46b93af3e71cfeaf8ddf000dc4acf98f42 approved independently82cd57c6 complete-source/lifetime/policy/bounds/oracle review; original4bpartial/source8/history preserved, no runtime admission.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-005-review.md"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "task_id": "STORAGETEST-013",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 304
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-009/STORAGE-013.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-013-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-013-probe.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-013-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-013-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-013-fixtures.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-013-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-013-red-ctest.txt"
+  ],
+  "limitations": [
+    "Receipt SQLite baseline has 22 independently reviewed cases/literal fixtures, real selected Qt foundation green, then genuine intended missing-behavior red. It supplies no receipt implementation or actual provider proof. Next: preserve full-width codec, immutable receipt/attempt and caller-commit oracles through source review/application/release gates."
+  ],
+  "verification": {
+    "contract_authoring": "passed",
+    "contract_review": "passed",
+    "interface_authoring": "passed",
+    "interface_review": "passed",
+    "authored_tests": "passed",
+    "native_build": "passed",
+    "diagnostic_environment": "passed",
+    "official_qt_environment": "passed",
+    "test_review": "passed",
+    "baseline": "observed_red",
+    "product_acceptance": "observed_red",
+    "platform_release": "not_run",
+    "existing_writer_acceptance": "passed",
+    "ci_harness": "passed",
+    "github_ci": "passed"
+  },
+  "review": {
+    "author": "/root/writer_transaction_reviewer (contract/API/feature tests); /root/debt_code_reviewer (literal fixtures/green environment); /root (physical schema/shared build/CI)",
+    "reviewer": "/root/storage_work_code_reviewer",
+    "outcome": "approved",
+    "baseline": "Actual finaldab/818/a79/b43/faf/e1/2ef/ff3/feb approved7df446e integratedb1c77e1 BEFORE first feature run. Selected officialQt41334070282 at5ffe2e4 passed currentgreen3+22discovery/oldlanes; onlythen root22 explicitstub-red atsame5ffe exit8/22init+22cleanup pass/0skip/crash/setup failure/0.22s. No production approval.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-013-review.md"
+  }
+}

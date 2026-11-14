@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "task_id": "APICONTRACT-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 598
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/EPIC-008/APICONTRACT-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/114",
+    "docs/contracts/host-auth-continuations-v1.md"
+  ],
+  "limitations": [
+    "Reviewed document-only host-auth continuation revision1 with HC01–45, actual-outcome settlement, shared permit and per-owner secret cleanup. Explicit planned setup/reset and AUTH edge-budget prerequisites preserve full scope. Project/graph/render checks and 51 tooling tests pass; no runtime proof. PR114 holds final CI/normal merge gates. Stop after merge; API-001/actual clock binding unauthorized."
+  ],
+  "verification": {
+    "authored": "passed",
+    "document_review": "passed",
+    "literal_audit": "passed",
+    "source_audit": "passed",
+    "graph_preservation": "passed",
+    "tooling": "passed",
+    "runtime": "not_run"
+  },
+  "review": {
+    "author": "Codex fresh author a4d9a282/import8c14fcd; coordinator f507d7d6 corrections28e8b40/3cf93d5/c76bd3f/67e2a1f",
+    "reviewer": "Independent Claude Opus5.5 abccd7da initial,364d296b closing findings,f4cb7018 closing APPROVE; Codex /root/host_auth_codex_review",
+    "outcome": "approved",
+    "revision": "Initial B1–3/N1–6, Codex B4/N7–8 and closing B5/N9–11 resolved; separate Codex and focused Claude closing approved67e2a1f, contract blob30891e7404fc240f63cf9d18afedf46e817b38f1. Only completion/publication metadata follows; final CI/normal merge evidence in PR114.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/114"
+  }
+}

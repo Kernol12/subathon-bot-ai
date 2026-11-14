@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "task_id": "STORAGETEST-018",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 563
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-009/STORAGE-018.md",
+  "evidence": [
+    "docs/contracts/sqlite-initial-captures-v1.md",
+    "docs/contracts/sqlite-initial-captures-schema-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-contract-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-contract-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-minimal-release.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-minimal-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-minimal-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-interface-harness.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-interface-ci-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-codec-test-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-codec-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-fixture-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-fixture-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-native-baseline.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-sql-test-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-sql-test-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-sql-harness-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-codec-red-ctest.txt",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-sql-initial-invalid-ctest.txt",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-sql-red-ctest.txt",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-red-review.md"
+  ],
+  "limitations": [
+    "Reference codecs/initial-capture SQL tests independently reviewed and observed intended marker-red after their selected foundations; first invalid setup-error attempt retained. This is a baseline, not storage behavior. Next: preserve independent fixtures/oracles and actual source/resource reviews when composing authenticated current-state producers."
+  ],
+  "verification": {
+    "document_authoring": "passed",
+    "document_review": "passed",
+    "api_source": "passed",
+    "test_authoring": "passed",
+    "baseline": "observed_red",
+    "implementation": "not_run",
+    "physical_document_review": "passed",
+    "native_schema_projection": "passed",
+    "minimal_review": "passed",
+    "old_regression": "passed",
+    "selected_interface_ci": "passed",
+    "codec_test_authoring": "passed",
+    "codec_test_review": "passed",
+    "foundation_native": "passed",
+    "fixture_selected_ci": "passed",
+    "codec_baseline": "observed_red",
+    "sql_initial_baseline": "failed",
+    "test_review": "passed",
+    "native_build": "passed",
+    "feature_registration": "passed",
+    "sql_baseline": "observed_red",
+    "selected_baseline_ci": "passed",
+    "red_attribution": "passed"
+  },
+  "review": {
+    "author": "capture_codec_tests (codec/SQL), capture_fixture_author (fixture), /root (harness)",
+    "reviewer": "capture_reviewer (fixture/codec/harness), capture_fixture_author (SQL ONLY)",
+    "outcome": "approved",
+    "baseline": "Codec367/CPPc207e423 reviewed11e07c9 then FIRSTclean55027markers/54initcleanupPASS. SQLfinalCPP58b22366 reviewed4247210+ce2cc6b then ownselected633CI42092102634SUCCESS before SAMEclean633FIRSTvalid31cases51markers/62initcleanupPASS. Initial550SQL50+1setup INVALID preserved; no codec replay. Distinct per-artifact independent roles in handoff; actual final attribution corroborated, publication/latestCI/merge remain.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-handoff.md"
+  }
+}

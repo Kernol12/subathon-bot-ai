@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "task_id": "CONTRACT-004",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 154
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/CONTRACT-004.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-004-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-004-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-004-review.md"
+  ],
+  "limitations": [
+    "Writer-owned synchronous work/session contract and dependency split received independent document/graph review and observed CI. No C++ behavior, domain migration or feature-red supplied. Next: use separate writer-work and repository baselines; retain caller commit/publication and full storage/recovery obligations."
+  ],
+  "verification": {
+    "documentation_checks": "passed",
+    "independent_review": "passed",
+    "github_ci": "passed",
+    "runtime_behavior": "not_run",
+    "new_test_baseline": "not_run",
+    "provider_platform": "not_run"
+  },
+  "review": {
+    "author": "/root/storage_decomposition (contract); /root (ADR/backlog)",
+    "reviewer": "/root/writer_transaction_reviewer",
+    "outcome": "approved",
+    "baseline": "actual8acbc0a; contract4ba20506db9a858450099b82888a22c8f6dbd761; rootgraph40fbddf; review27ac83b/42dbfa73",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-004-review.md"
+  }
+}

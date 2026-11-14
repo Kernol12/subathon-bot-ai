@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "task_id": "APITEST-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 277
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-008/API-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/112"
+  ],
+  "limitations": [
+    "Reviewed baseline on working Linux dependencies: 75 Qt selectors fail at explicit NI; all 18 native methods report 24 NI plus 24 secondary exit-42 cleanup failures. No skips/setup/timeouts; no host behavior proved. Independent result/final reviews approved. PR112 records latest-head CI and normal merge gates. API-001/clock binding remain unauthorized; stop after merge."
+  ],
+  "verification": {
+    "contract_review": "passed",
+    "tooling": "passed",
+    "selector_test_review": "passed",
+    "selector_baseline": "observed_red",
+    "source_authored": "passed",
+    "test_review": "passed",
+    "build_review": "passed",
+    "source_review": "passed",
+    "native_configure": "passed",
+    "native_build": "passed",
+    "passive_discovery": "passed",
+    "passive_abi": "passed",
+    "controlled_identity": "passed",
+    "compiled_inventory": "passed",
+    "baseline": "observed_red",
+    "runtime_review": "passed",
+    "acceptance": "observed_red"
+  },
+  "review": {
+    "author": "Codex isolated authors 276d017/6c85e528/72e30a1; coordinator fd2a5aa3 shared integration",
+    "reviewer": "Independent Claude Opus5.5/Sonnet5.5 stage sessions; Codex /root/authored_baseline_codex_review and /root/boundary_codex_review",
+    "outcome": "approved",
+    "revision": "Contract7bfcca0, authored packet8fa8810 and build/CI366930b+f0a5637 approved. Actual first-red dd0f625/seal41803714 approved by initial Sonnet7a0206, separate Codex and closing Sonnetfd10579d. Only approved completion metadata follows; latest-head CI/normal merge recorded in PR112.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/112"
+  }
+}

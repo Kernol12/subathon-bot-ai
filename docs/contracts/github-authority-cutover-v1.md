@@ -1,5 +1,32 @@
 # GitHub authority cutover v1 — MIGRATE-004
 
+> Owner decision, 2026-11-14 (supersedes earlier historical amendments):
+> All pre-cutover records are **historical, as recorded, not re-verified**.
+> Earlier per-row acceptance and “no blanket exemption” requirements are withdrawn.
+> Source, checkout-identity, outgoing-path and missing-source guards apply to new proof;
+> retained historical packets do not block the archive, preflight or this cutover.
+> Private artifacts stay private, referenced by hash only. Unfinished work requires
+> its own current proof when executed. No historical audit or seal recovery continues.
+>
+> One cutover PR and one Claude initial → Codex fix/verify → Claude closing cycle.
+> Only defects making the cutover wrong or unsafe block; other findings go to one
+> follow-up issue. At most two fix rounds; ask the owner before a third.
+> Current-head CI and normal protected merge remain required. This decision is
+> reviewed with the cutover PR, without a separate contract or audit cycle.
+
+Known historical limitations: d717 clean-FIRST identity; six unavailable dirty-run
+source versions; unrecovered original seal bytes. These are closed for migration
+by the disposition above, without upgrading their recorded proof.
+
+Old tracker: [`epic-029-old-tracker-2026-11-14`](https://github.com/Kernol12/subathon-bot-ai/tree/epic-029-old-tracker-2026-11-14),
+commit `355ffdfe`. Archive extraction snapshot: `da8db0dc3984f55aaff12297947a6bd8083d5315`.
+The immutable archive decision identifies the boundary; a later changed packet must
+pass normal proof guards. Missing enrolled records still fail. The single cutover
+PR may contain its archive snapshot in its own ancestry; no intermediate PR is required.
+
+The earlier design below is historical where it conflicts with this owner decision.
+
+
 Authored proposal, specification v0.45 §§17–18. Author:
 `codex:migrate004-contract-author-20261113:/root` (Codex gpt-6.1-sol).
 Inspection revision: `820544f1093f1649b0a7b03b5e7fcd12ed9cfcab`, branch

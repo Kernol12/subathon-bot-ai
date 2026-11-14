@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "task_id": "STORAGE-017",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 316
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-009/STORAGE-017.md",
+  "evidence": [
+    "docs/contracts/sqlite-original-claims-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-final-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-red-ctest.txt",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-017-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-017-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-017-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-017-validation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-017-handoff.md"
+  ],
+  "limitations": [
+    "Typed early ORIGINAL claim query passes 18 preserved real-SQL cases with separate source/config review and selected CI. Full/selected readers preserve declared materialization closure. Next: actual current policy/authority/application composition and recovery/provider/UI/platform release gates; no entitlement or login authority supplied."
+  ],
+  "verification": {
+    "baseline": "observed_red",
+    "implementation": "passed",
+    "native_build": "passed",
+    "product_acceptance": "passed",
+    "code_review": "passed",
+    "official_qt": "passed",
+    "platform_release": "not_run",
+    "feature_registration": "passed",
+    "existing_regressions": "passed",
+    "independent_validation": "passed",
+    "github_ci": "passed",
+    "ci_harness": "passed",
+    "acceptance": "passed"
+  },
+  "review": {
+    "author": "/root/bundle_implementer (runtime); /root (shared configuration/comment promotion)",
+    "reviewer": "/root/bundle_reviewer; independent native validator /root/bundle_validation",
+    "outcome": "approved",
+    "baseline": "Source/config11012da accepts CPP834336d3/header8614/rootCMakea713/preset0acd/Qt687/WFc5d on680; own18/full228PASS0skip, independentvalidation93b+945 samepins. Baselinefeature0e4/raw90f preserved. Ownpromotedofficial41605888462 exact680 success/new3green/exact18/mandatory18PASS1.29/oldstable/all11. Component done, latestcompletion-head CI/normal merge pending.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-017-code-review.md"
+  }
+}

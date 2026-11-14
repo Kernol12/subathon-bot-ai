@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "task_id": "CONTRACT-014",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 556
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/CONTRACT-014.md",
+  "evidence": [
+    "docs/contracts/reference-application-adapters-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-014-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-014-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-014-handoff.md"
+  ],
+  "limitations": [
+    "Single-rule reference intake/evaluation/current-adapter boundaries independently reviewed as documents. No production source, native feature baseline or runtime capability supplied. Next: concrete rule/intake/current policy/clock/action adapters and real end-to-end reference HTTP/application tests; retain full planner/connector/recovery scope."
+  ],
+  "verification": {
+    "contract_review": "passed",
+    "planning_review": "passed",
+    "implementation": "not_run"
+  },
+  "review": {
+    "author": "selected_boost",
+    "reviewer": "access_implementer",
+    "outcome": "approved",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-014-review.md",
+    "revision": "corrected doc5a12ebea/author82359174 and rootplan4018afd; actual811611e8d4ca523f34e3495331e1943c4d4f8f61"
+  }
+}

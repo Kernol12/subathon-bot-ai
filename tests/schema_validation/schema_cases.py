@@ -176,17 +176,3 @@ _STATE = {
 
 # These structural cases make no DAG, review-authority or combined-note-limit claim.
 # Each tuple is (name, JSON value, expected validity).
-PROGRESS_CASES = (
-    ("progress.minimum", _STATE, True),
-    ("progress.recorded_check", _STATE | {"tasks": [_TASK | {"verification": {"native_build": "passed"}}]}, True),
-    ("progress.wrong_schema_version", _STATE | {"schema_version": 2}, False),
-    ("progress.no_tasks", _STATE | {"tasks": []}, False),
-    ("progress.invalid_task_id", _STATE | {"tasks": [_TASK | {"id": "case-1"}]}, False),
-    ("progress.unknown_status", _STATE | {"tasks": [_TASK | {"status": "complete"}]}, False),
-    ("progress.unknown_kind", _STATE | {"tasks": [_TASK | {"kind": "behavior"}]}, False),
-    ("progress.invalid_task_check", _STATE | {"tasks": [_TASK | {"verification": {"native_build": "green"}}]}, False),
-    ("progress.invalid_overall_check", _STATE | {
-        "verification": [{"label": "Synthetic", "status": "green", "detail": "Structural example"}]}, False),
-    ("progress.missing_required_title", _STATE | {"tasks": [_TASK_WITHOUT_TITLE]}, False),
-    ("progress.nontext_note", _STATE | {"tasks": [_TASK | {"notes": [0]}]}, False),
-)

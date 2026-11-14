@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "task_id": "MILESTONE-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 228
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-005/MILESTONE-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestone-001-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestone-001-native.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestone-001-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestone-001-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestone-001-ci.md"
+  ],
+  "limitations": [
+    "Pure sequential progression passes 53 reviewed cases/full 90 checks with separate source/resource audit and selected Boost CI. Preserves immutable captured definitions and deficits; supplied score/history confer no authority. Next: real score/history, manual/reset/edit commands, action/presentation queue, permissions/UI/platform integration."
+  ],
+  "verification": {
+    "acceptance": "passed",
+    "source_review": "passed",
+    "configuration_review": "passed",
+    "selected_ci": "passed",
+    "platform_release": "not_run",
+    "tooling": "passed"
+  },
+  "review": {
+    "author": "session_plan_review (milestone_author)",
+    "reviewer": "session_supplier_author (milestone source reviewer)",
+    "outcome": "approved",
+    "revision": "Sourcea5/d79 independently approvedb1/importb945; ordinaryconfig279 approved276/import96; actualselected42168586251 at549 independently verified013af3de/importb3637bc (GNU13.3/Boost108300/old37PASS1.28s/unconditional53PASS0.16s/0skip-warning). Initialmetadata33 approved722/import549. Finalcompletionmetadata/latestpublicationCI/normalmerge remain.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestone-001-code-review.md"
+  }
+}

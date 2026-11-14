@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "task_id": "CORETEST-003",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 174
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-001/CORE-003.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/pause-signal-policy-questions.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-003-authoring.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-003-independent-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-003-baseline-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-003-red-ctest.txt"
+  ],
+  "limitations": [
+    "Pause policy baseline independently reviewed and observed 37 genuine missing-behavior failures after successful native setup. No provider/state/timer integration inferred. Next: preserve independent-reason/delay semantics and caller interval-segmentation obligations in composed countdown and platform/release acceptance."
+  ],
+  "verification": {
+    "authored_tests": "passed",
+    "native_build": "passed",
+    "test_review": "passed",
+    "baseline": "observed_red",
+    "product_acceptance": "not_run"
+  },
+  "review": {
+    "author": "/root/pause_test_author; additive /root/pause_owner_case_author",
+    "reviewer": "/root/pause_resume_reviewer",
+    "outcome": "approved",
+    "baseline": "author3c6d242; tests646d83f4e38722239bb8b590a9f368141bed4246; contracta8174be7; review86c0bbd; actualredf39ccc8",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-003-independent-review.md"
+  }
+}

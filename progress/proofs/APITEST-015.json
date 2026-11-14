@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "task_id": "APITEST-015",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 613
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-008/APITEST-015.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6818185255"
+  ],
+  "limitations": [
+    "Explicit prerequisite exposed by API-001 initial review B1. Two internal listeners preserve HTTP/WS in one process; no implementation or revised baseline approval yet.",
+    "Closing CC71487-A1: test a same-user SO_REUSEPORT listener for each role, or record the explicit proof limit; preserve plain occupied-port oracles. A3: own host second-coalesced-request-after-release case."
+  ],
+  "verification": {},
+  "review": null
+}

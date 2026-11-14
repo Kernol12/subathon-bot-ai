@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "task_id": "ACCESS-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 247
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-006/ACCESS-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/access-002-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/access-002-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/access-002-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/access-002-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/access-002-environment.md"
+  ],
+  "limitations": [
+    "Pure permission evaluator passes 32 cases including separately reviewed regressions, with source/resource review and selected CI. DTO facts/explanations convey no execution authority. Next: real current account/session/owner/catalog/policy producers, delegated automation and execution/disclosure/recovery/transport enforcement."
+  ],
+  "verification": {
+    "tests": "passed",
+    "implementation": "passed",
+    "independent_review": "passed",
+    "regression_tests": "passed",
+    "selected_ci": "passed",
+    "acceptance": "passed"
+  },
+  "review": {
+    "author": "access_implementer",
+    "reviewer": "access_reviewer",
+    "outcome": "approved",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/access-002-review.md",
+    "revision": "source b7b81e9327ef8840effecb8319425b1a397bf8af / regression63666438 and exact harness, actual code7894cc23/testb2ab5c8/independent69b4e5fba"
+  }
+}

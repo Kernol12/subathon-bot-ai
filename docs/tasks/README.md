@@ -8,12 +8,12 @@ it neither finalizes contracts nor claims a reviewed test or supported provider 
 ## Read and claim a child
 
 Read [the agent workflow](../AGENT_WORKFLOW.md), select a dependency-ready child from
-`progress/state.json`, and follow its brief plus scoped `AGENTS.md`. The workflow covers
+[GitHub Issues](https://github.com/Kernol12/subathon-bot-ai/issues), and follow its brief plus scoped `AGENTS.md`. The workflow covers
 task branches, test-first gates, independent review, evidence, PRs and completion.
 Follow the current priority in [AGENTS.md](../../AGENTS.md); the completed EPIC-028
 cleanup preserves reviewed-baseline and full-release-scope rules.
 
-New decomposition records are planned, not authored/reviewed; consult state/evidence
+New decomposition records are planned, not authored/reviewed; consult GitHub/proof evidence
 for slices completed since the original decomposition. Their
 specific acceptance/failure examples are in the linked brief. Contract ambiguities must
 be resolved in that baseline before code, with explicit versioned examples and separate
@@ -22,12 +22,12 @@ split it further before claiming production work; preserve its original requirem
 
 ## Dependency and completion model
 
-The progress schema/tooling validates task kinds, local or HTTPS evidence, and separate
-approved reviews for completed cleanup tasks. Epic `depends_on` lists aggregate required
-child completion, including test, implementation and live/platform gates.
-A child never depends on its own epic. Each child's notes identify its parent for
-searching in PROGRESS.html. All statuses/dependencies live in progress/state.json;
-the tables here are navigation, not a second status database.
+Since the final protected MIGRATE-004 cutover merge, GitHub owns status, assignment,
+native containment and prerequisite links. Canonical proof records preserve review
+and source facts. The intermediate archive PR did not switch authority.
+The tables here are navigation only.
+All brief paths stay accessible through004; bulk compaction/removal belongs to006.
+Coordinator checks actual prerequisite merges and owner stops before dispatch.
 
 Existing foundation/contract/spike IDs and the six draft credit cases are preserved.
 CONTRACT-002/003 remain foundation checkpoints; child baselines refine only their
@@ -152,7 +152,7 @@ Existing writer PRAGMA admission and plan CHECK/FK constraints require explicit
 reviewed migration support; the planning split supplies no runtime capability.
 
 [CI-001 — Reliable Ubuntu package acquisition](CI-001.md) is an owner-authorized
-CI-only repair; publication receipts are recorded in state and PR119. Product work
+CI-only repair; historical publication receipts are recorded in PR119. Product work
 remains bounded by the current owner instruction.
 
 [WORKFLOW-003 — Structured coordination and publication](WORKFLOW-003.md) adds
@@ -167,7 +167,7 @@ The owner-authorized bounded coordination program starts with
 [CI-002 — Setup diagnostics/merge enforcement](CI-002.md).
 The forward record/results policy activates with reviewed WORKFLOW-006 tooling;
 non-record practices/private-evidence guidance applies at WORKFLOW-004 merge.
-Existing product work stays stopped. Consult state and the latest checkpoint for
+Existing product work stays stopped. Consult GitHub/proof and the latest checkpoint for
 actual gates and authorization.
 
 ## GitHub task migration
@@ -179,6 +179,6 @@ owner-authorized sequence is [MIGRATE-001](EPIC-029/MIGRATE-001.md) →
 [MIGRATE-005](EPIC-029/MIGRATE-005.md). Read the
 [migration contract](../contracts/github-task-migration-v1.md) and its
 [consumer inventory](../contracts/github-task-migration-inventory-v1.md).
-Only 001 is claimed here; independent contract review is pending. Until 004's
-reviewed cutover merge, state remains authoritative. WORKFLOW-006/007 and product
-work remain stopped; migration permits only WF006 storage/dependency rescope.
+GitHub and canonical proof authority began at the final protected004 cutover merge.
+WORKFLOW-006/007 and product work remain stopped; migration permits only WF006
+storage/dependency rescope.

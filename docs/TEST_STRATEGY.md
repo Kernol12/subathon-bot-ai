@@ -1,7 +1,7 @@
 # Current test strategy
 
 Tests establish bounded component behavior. They do not establish full v0.45 product
-or release readiness. [Progress state](../progress/state.json) records task status;
+or release readiness. [GitHub tasks](https://github.com/Kernol12/subathon-bot-ai/issues) records task status;
 [the evidence summary](evidence/README.md) records proof levels and remaining gates.
 Detailed commands, reviewed revisions and historical red runs belong in PRs and the
 [published archive](https://github.com/Kernol12/subathon-bot-ai/tree/evidence-archive-2026-11/docs/evidence).
@@ -15,7 +15,7 @@ This document describes current coverage and how to extend it, without a task le
 | GoogleMock | Meaningful adapter/service interactions; dedicated coverage remains planned |
 | Qt Test | Event-loop/thread ownership and disposable real SQLite stores/application composition; selected Qt build/catalog checks |
 | Qt Quick Test | QML component behavior; planned |
-| Python unittest | Development dashboard/consistency, independent fixture reproduction and translation-generator behavior; tooling checks do not count as server/product acceptance |
+| Python unittest | Proof/repository consistency, independent fixture reproduction and translation-generator behavior; tooling checks do not count as server/product acceptance |
 | CTest | Runs native, Qt and explicitly registered Python suites; runner success says only which selected checks passed |
 | Vitest | Browser unit/component behavior; planned |
 | Playwright | Browser workflows; planned, with actual OBS/compositor checks still separate |
@@ -60,7 +60,7 @@ still using synthetic data and supplied policy/authority facts.
 | `native-websocket-profile-debug` | `-L '^native-websocket-profile$'` | 44 reviewed methods passing locally and in selected Ubuntu CI against the corrected Drogon/Trantor SDK: real Linux loopback framing/control/Close, listener isolation, ownership and resource/deadline observations with supplied elapsed time; actual host/TLS/clock/auth/platform gates remain separate |
 | `bounded-http-foundation-debug` | `-L '^bounded-http-foundation$'` | NI-only bounded HTTP baseline; see APITEST-016 for actual review/admission/red status. Compiles the existing native transport dependency without Qt/SQL/host scope. |
 | `rate-snapshot-debug` | `-L '^rate-snapshot$'` | 53 preserved cases for owned lossless observations, exact effective-table validation and inverse/cross queries; no provider/cache/valuation integration |
-| `schema-validation-debug` | `-L '^schema-validation$'` | 2 nodes / 11 Python methods: 8 schema methods for actual OpenAPI/17 components, 23 positive examples, 77 component cases and 11 progress cases plus actual state; 3 real-SDK publication methods for valid/schema-invalid state and unavailable/empty-success interpreters |
+| `schema-validation-debug` | `-L '^schema-validation$'` | 3 nodes: repository OpenAPI/components/examples, canonical proof/policy aggregate and real-SDK proof publication integration; actual HEAD inputs are required |
 
 Source/resource review remains necessary for allocation bounds, owned capabilities,
 secret handling, process cleanup and SQL projection/ownership; output assertions alone
@@ -83,16 +83,15 @@ separate reviewer.
 
 The [current contract](contracts/schema-validation-tool-v1.md) requires the actual
 OpenAPI 3.1.1 document, all 17 component targets with independent valid/invalid cases,
-all 23 existing manifest-bound positive examples, and the separate Draft 2020-12
-progress editor schema. The `schema-validation-debug` Python suite runs real selected standards validators;
+all 23 existing manifest-bound positive examples, and Draft 2020-12 canonical proof/policy schemas. The `schema-validation-debug` Python suite runs real selected standards validators;
 its local passing checks do not replace selected-host CI or source review. The retired generic API/process harness remains historical
 evidence. No runtime authority, raw ingress or provider/platform support follows
-from schema shape, and editor hints do not replace runtime progress invariants.
+from schema shape, and schema shape does not replace runtime proof invariants.
 
 ## Reviewed baselines still awaiting implementation
 
 `api-host-debug` and `api-host-native-debug` select authored host lifecycle baselines;
-their current review/execution status is recorded in progress. Both need the complete
+their current review/execution status is recorded in canonical proof and GitHub. Both need the complete
 physical account/session SQLite closure and the corrected native WebSocket SDK;
 the native profile also selects the Qt host cases. These bodies remain enabled with
 `intentional-red` and ordinary failure semantics. The `api-host-baseline-build` job
@@ -216,8 +215,7 @@ records source/output coverage, provenance, modes and selector roles.
 Infrastructure checks remain distinct from component acceptance:
 
 ```sh
-python3 tools/progress.py validate
-python3 tools/progress.py render --check
+python3 tools/proofs.py validate
 python3 tools/check_project.py
 python3 -m unittest discover -s tests/tooling -v
 cmake --preset scaffold-debug

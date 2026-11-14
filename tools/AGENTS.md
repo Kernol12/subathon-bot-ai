@@ -2,15 +2,14 @@
 
 Read the root AGENTS.md first.
 
-Python >=3.10 standard-library developer tools. Keep HTML offline/self-contained,
-escape editable text, validate local relative links and task dependency DAGs.
-Progress data must remain truthful. Tooling checks are not product acceptance or
+Python >=3.10 standard-library developer tools. Validate local relative links and canonical proof inputs.
+GitHub owns planning after the final protected MIGRATE-004 merge; proof records must remain truthful. Tooling checks are not product acceptance or
 live-provider verification.
 
 The repository-schema checks have the isolated developer-tool exception in
 [ADR-0008](../docs/decisions/0008-schema-validation-foundation.md): use the existing
 fully pinned real standards libraries and admitted artifact/license metadata.
-Keep ordinary progress/repository tools standard-library-only. Any changed dependency
+Keep ordinary proof/repository tools standard-library-only. Any changed dependency
 or version still requires direct/transitive pins, hashes, license and offline foundation
 review before execution. Do not install globally or add server/client dependencies.
 

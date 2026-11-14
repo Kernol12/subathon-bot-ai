@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "task_id": "STORAGE-018",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 564
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-009/STORAGE-018.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-018-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-018-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-018-native.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-018-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-018-canonical-regression.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-018-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-018-ci.md"
+  ],
+  "limitations": [
+    "Initial source/capture SQLite store passes 38 methods/67 real-SQL scenarios with separate source/resource/config review and selected CI. Original tests preserved; seven reviewed regression methods reached red before fixes. Next: authenticated/current-state producers, permission/recovery/provider/UI/platform and full application gates."
+  ],
+  "verification": {
+    "acceptance": "passed",
+    "source_review": "passed",
+    "configuration_review": "passed",
+    "selected_ci": "passed",
+    "tooling": "passed"
+  },
+  "review": {
+    "author": "capture_fixture_author",
+    "reviewer": "capture_reviewer",
+    "outcome": "approved",
+    "revision": "Actual final source90eeca7/importc0ff1ec CPPccdc4f616529aedc310ffc75259a79f7690239b5 and CIb4a33e1 approved2beedaf/importfe440ac; actualselected42110989863 atfe440ac independently verified successful, original31 preserved, native375 and ordinarySQL38 pass. Final completion metadata/publication/latest-head merge gates remain separate.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-018-code-review.md"
+  }
+}

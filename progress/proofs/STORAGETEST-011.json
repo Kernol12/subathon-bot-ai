@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "task_id": "STORAGETEST-011",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 300
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-009/STORAGE-011.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-011-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-011-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-011-probe.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-011-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-011-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-011-red-ctest.txt"
+  ],
+  "limitations": [
+    "Migration catalog baseline has 22 independently reviewed real-SQL cases/ten literal vectors and genuine stub-red after selected Qt diagnostics. No domain schema or update authority provided. Next: retain exact history/prefix/transaction oracles plus separate implementation review; populated upgrade/crash/backup/platform gates remain."
+  ],
+  "verification": {
+    "contract_authoring": "passed",
+    "contract_review": "passed",
+    "authored_tests": "passed",
+    "baseline": "observed_red",
+    "github_ci": "passed",
+    "native_build": "passed",
+    "diagnostic_environment": "passed",
+    "interface_review": "passed",
+    "ci_harness": "passed",
+    "official_qt_environment": "passed",
+    "test_review": "passed",
+    "existing_writer_acceptance": "passed",
+    "product_acceptance": "observed_red",
+    "platform_release": "not_run"
+  },
+  "review": {
+    "author": "/root/writer_transaction_reviewer (contract/API/tests/fixtures); /root (shared harness)",
+    "reviewer": "/root/storage_work_code_reviewer",
+    "outcome": "approved",
+    "baseline": "actual4fa008f tests a85a6c05/header02f83ce/stub6c507/greenenv832fe616/JSON12280c8f/contractcbdea1a/harness3df; fullapproval01f0975 integratedcb3c1b2 BEFOREactual22stubred(exit8), officialQt41307014192 green7 prerequisite satisfied first",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-011-review.md"
+  }
+}

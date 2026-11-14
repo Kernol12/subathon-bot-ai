@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "task_id": "STORAGE-010",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 299
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-009/STORAGE-010.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-010-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-010-implementation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-010-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-010-code-review.md"
+  ],
+  "limitations": [
+    "Revocable synchronous work/session capabilities pass 24 preserved real-SQL cases plus writer regressions, separate code/config review and selected CI. Actual commit precedes service success; cumulative SQL bounds retained. Next: concrete repositories/migrations and application/recovery composition; no running server or platform claim."
+  ],
+  "verification": {
+    "native_build": "passed",
+    "acceptance": "passed",
+    "regression": "passed",
+    "code_review": "passed",
+    "github_ci": "passed",
+    "application_schema_recovery_provider": "not_run",
+    "platform_release": "not_run"
+  },
+  "review": {
+    "author": "/root/debt_code_reviewer (source); /root (shared configuration)",
+    "reviewer": "/root/storage_work_code_reviewer",
+    "outcome": "approved",
+    "baseline": "source ad66ded/blob023451987e40a9330fef91c6c0955f0e527f14e6 integrated2aa14cd; sharedce0a325; approval9216d8d integrated17adb35; unchangednew24/old25/header/hook/contracts; prior reviewed/red baseline retained",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-010-code-review.md"
+  }
+}

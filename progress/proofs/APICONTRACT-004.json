@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "task_id": "APICONTRACT-004",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 612
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/EPIC-008/APICONTRACT-004.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/122"
+  ],
+  "limitations": [
+    "Two-listener/foundation contract and examples independently closed at38bf7dc through Claude initial, Codex verification and Claude closing; no blockers. Document proof only; historical API012 artifacts/all44 retained. Foundation APICONTRACT005→APITEST016→API016, revised host baseline and all runtime/ABI/load/platform gates remain. PR122 publication/current-head CI are separate; next APICONTRACT005 after normal merge."
+  ],
+  "workflow": {
+    "required_stages": [
+      "contract"
+    ],
+    "stages": {
+      "contract": {
+        "authors": [
+          "codex:coordinator-45e6fb8d",
+          "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A620e9ec1-5851-47a5-9cde-5b36dd7d89c7"
+        ],
+        "revision": "38bf7dcf65fdb6126c3107eebb22eac961bcc157",
+        "paths": [
+          "docs/contracts/api-host-listeners-v1.md",
+          "docs/contracts/api-host-lifecycle-boundary-v1.md",
+          "docs/contracts/api-host-lifecycle-v1.md",
+          "docs/tasks/EPIC-008/API-001.md",
+          "docs/tasks/EPIC-008/APITEST-015.md",
+          "docs/tasks/EPIC-008/APICONTRACT-004.md",
+          "docs/tasks/EPIC-008.md",
+          "docs/contracts/account-ingress-v1.md",
+          "docs/tasks/EPIC-007/SESSION-011.md",
+          "docs/tasks/EPIC-008/APICONTRACT-005.md",
+          "docs/tasks/EPIC-008/API-016.md"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A586e44ed-cb9e-465f-bd9c-d0e283098701",
+            "revision": "0ad69034909d02215e5c5f9910fe96d0a167c3ac",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6817347262",
+            "findings": [
+              "586e44ed:B1",
+              "586e44ed:B2",
+              "586e44ed:B3",
+              "586e44ed:B4",
+              "586e44ed:B5",
+              "586e44ed:B6",
+              "586e44ed:A1",
+              "586e44ed:A2",
+              "586e44ed:A3",
+              "586e44ed:A4",
+              "586e44ed:A5",
+              "586e44ed:A6",
+              "586e44ed:A7",
+              "586e44ed:A8",
+              "586e44ed:A9",
+              "586e44ed:A10",
+              "586e44ed:A11",
+              "586e44ed:A12"
+            ],
+            "blocking_findings": [
+              "586e44ed:B1",
+              "586e44ed:B2",
+              "586e44ed:B3",
+              "586e44ed:B4",
+              "586e44ed:B5",
+              "586e44ed:B6"
+            ],
+            "started_at": "2026-11-12T06:54:43.024Z",
+            "finished_at": "2026-11-12T07:15:05.991Z"
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A0b08f13a-ba43-4fab-acfe-fcf48a8e95a4",
+            "revision": "38bf7dcf65fdb6126c3107eebb22eac961bcc157",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6817932703",
+            "findings": [
+              "586e44ed:B1",
+              "586e44ed:B2",
+              "586e44ed:B3",
+              "586e44ed:B4",
+              "586e44ed:B5",
+              "586e44ed:B6",
+              "CV7412-A1"
+            ],
+            "blocking_findings": [],
+            "started_at": "2026-11-12T07:44:14.042Z",
+            "finished_at": "2026-11-12T07:49:41.198Z"
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3A23f3a73d-62b9-4ae1-bad0-7158756c772b",
+            "revision": "38bf7dcf65fdb6126c3107eebb22eac961bcc157",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6818185255",
+            "findings": [
+              "CC71487-A1",
+              "CC71487-A2",
+              "CC71487-A3",
+              "CC71487-A4",
+              "CC71487-A5",
+              "CC71487-A6"
+            ],
+            "blocking_findings": [],
+            "started_at": "2026-11-12T07:51:59.759Z",
+            "finished_at": "2026-11-12T08:01:37.302Z"
+          }
+        ]
+      }
+    }
+  },
+  "publication": {
+    "state": "merged",
+    "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/122",
+    "head": "06ac3cd40bdc5396dfb549efb948fe64eaf540d1",
+    "merge_commit": "c9fd6370e5ca994b1d4453803ec237a3d5d542ee",
+    "merged_at": "2026-11-12T08:14:24Z",
+    "observed_at": "2026-11-12T08:14:37+00:00"
+  },
+  "verification": {
+    "contract_authored": "passed",
+    "contract_review": "passed",
+    "correction_review": "passed",
+    "correction_authored": "passed",
+    "project": "passed",
+    "progress": "passed",
+    "render": "passed",
+    "implementation": "not_run",
+    "runtime": "not_run"
+  },
+  "review": {
+    "author": "Codex620e9ec1 and coordinator45e6fb8d",
+    "reviewer": "Independent Claude586e44ed initial, Codex0b08f13a verification and Claude23f3a73d closing",
+    "outcome": "approved",
+    "revision": "Source38bf7dc eleven-document packet closed independently at HEAD71487e0; only actual completion/publication receipts and summaries follow. No header/test/SDK/runtime capability.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6818185255"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "task_id": "TESTCLEAN-008",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 140
+  },
+  "kind": "cleanup",
+  "brief": "docs/tasks/EPIC-028/TESTCLEAN-008.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/105"
+  ],
+  "limitations": [
+    "Seven regressions run in owners (23/33/32); all 52 assertion sites/helpers/source paths remain. Independently approved proposal/source/allocator/comments and one 91-node run/tooling37 passed, zero skips. Exact930c558 final packet/current19 CI approved; normal PR105 merge344c1e2. Hosted credit is nonverbose; SQL proves runner results, account stays passive red. Temporary-generator addendum/provenance correction retained. Next: STORAGE-020; full product gates remain."
+  ],
+  "verification": {
+    "cleanup_proposal_review": "passed",
+    "source_config_allocator_review": "passed",
+    "shared_status_review": "passed",
+    "discovery_audit": "passed",
+    "native_acceptance": "passed",
+    "tooling": "passed",
+    "scaffold": "passed",
+    "runtime_review": "passed",
+    "github_ci": "passed",
+    "product_acceptance": "not_run",
+    "final_packet_review": "passed"
+  },
+  "review": {
+    "author": "/root/regression_merge_author; coordinator shared factual/status edits",
+    "reviewer": "/root/regression_merge_review",
+    "outcome": "approved",
+    "revision": "Exact revised proposal/source/runtime/shared/final packets independently approved, corrected930c558 and current19 CI/rules/zero threads approved before normal PR105 merge344c1e2. Earlier valid reviews/receipts retained.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/105"
+  }
+}

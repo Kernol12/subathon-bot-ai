@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "task_id": "STORAGE-016",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 314
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-009/STORAGE-016.md",
+  "evidence": [
+    "docs/contracts/sqlite-application-holds-v1.md",
+    "docs/contracts/sqlite-application-holds-schema-v1.md",
+    "docs/contracts/sqlite-application-holds-api-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-016-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-016-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-016-setup-correction-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-016-final-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-016-red-ctest.txt",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-016-red-last-test.txt",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-review-prep.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-values-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-values-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-baseline-revision.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-baseline-revision-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-regression-red.txt",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-validation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-token-regression-red.txt",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-retained-regression-red.txt",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-code-review.md"
+  ],
+  "limitations": [
+    "Durable review-hold store passes 35 methods/270 real-SQL scenarios with source/resource/config review and selected CI. Reviewed baseline corrections/additive regressions and invalid initial-red history retained. Next: actual review authority, mixed timer/score policy, continuation orchestration, recovery/provider/UI/platform acceptance."
+  ],
+  "verification": {
+    "baseline": "observed_red",
+    "implementation": "passed",
+    "native_build": "passed",
+    "acceptance": "passed",
+    "code_review": "passed",
+    "independent_validation": "passed",
+    "official_qt": "passed",
+    "platform_release": "not_run",
+    "native_environment": "passed",
+    "regression_review": "passed",
+    "regression_baseline": "observed_red",
+    "github_ci": "passed",
+    "completion_ci": "passed",
+    "post_merge_ci": "passed"
+  },
+  "review": {
+    "author": "/root/bundle_implementer (runtime); /root/bundle_validation (pure values); /root (revised tests/shared CI)",
+    "reviewer": "/root/bundle_reviewer",
+    "outcome": "approved",
+    "baseline": "Actual full source/config approval8c8ad3a at297ca74 (imported40ccc74) accepts runtime44376762/helper13828/test0e172a16/privateAccess7107/oldbundle2475/oldvaluesb0ca/publicheaderb904/root5configs, finalauthor99343a8c/744d0dd9. Original baseline265 markers598 retained; genuine two history-input corrections and five additive regressions separately reviewed/reached-red before fixes; no fixture/assertion weakening. Root final270/full26419.94s/1060QtPASS0skip/0warnings; actual OWN corrected official41662457471 fresh110/new3green/exact35/UNCONDITIONAL35PASS26.61/all11SUCCESS and APIcheckouttreeequal inspected independently. Component done, finalmetadata/latestCI/rules/discussions/normalmerge remain separate.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-016-code-review.md"
+  }
+}

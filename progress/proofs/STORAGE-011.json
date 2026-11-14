@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "task_id": "STORAGE-011",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 301
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-009/STORAGE-011.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-011-implementation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-011-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-011-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-011-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-011-unicode-regression.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-011-unicode-red-ctest.txt"
+  ],
+  "limitations": [
+    "Migration catalog/codec/whole-prefix runner passes 24 reviewed cases with source/config review and selected CI. Explicit caller update owns advancement; opening writer never migrates. Next: domain catalogs plus actual backup/maintenance/update authority, crash/corruption/disk-full and platform/release operations."
+  ],
+  "verification": {
+    "native_build": "passed",
+    "original_acceptance": "passed",
+    "regression": "passed",
+    "code_review": "passed",
+    "github_ci": "passed",
+    "platform_release": "not_run",
+    "acceptance": "passed",
+    "unicode_test_review": "passed",
+    "unicode_regression_baseline": "observed_red",
+    "application_schema_recovery_provider": "not_run"
+  },
+  "review": {
+    "author": "/root/debt_code_reviewer (source); /root (shared configuration)",
+    "reviewer": "/root/storage_work_code_reviewer",
+    "outcome": "approved",
+    "baseline": "corrected071af3b/source4ee2365f8dc6f1189d0f7bf02a090596a9ad3c6f integrated2cb0d1b; actualsource/configapproval854cace integrated790afc0; additive teste94befdc approvedad4f54d/root8c70e6e BEFORE rootselected2red1482636; unchanged original22/old49/header/contract/10vectors/greenprobe",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-011-code-review.md"
+  }
+}

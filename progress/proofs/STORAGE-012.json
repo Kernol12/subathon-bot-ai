@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "task_id": "STORAGE-012",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 303
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-009/STORAGE-012.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-012-implementation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-012-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-012-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-012-handoff.md"
+  ],
+  "limitations": [
+    "Immutable retained configuration/context storage passes 16 real-SQL cases, independent source/config review and selected CI. Opaque document retention is not semantic evaluation or typed domain-codec proof. Next: caller commit/publication, current-settings authority, real application and update/backup/recovery/platform gates."
+  ],
+  "verification": {
+    "native_build": "passed",
+    "acceptance": "passed",
+    "regression": "passed",
+    "code_review": "passed",
+    "github_ci": "passed",
+    "domain_semantics_bundle_recovery_provider": "not_run",
+    "platform_release": "not_run"
+  },
+  "review": {
+    "author": "/root/debt_code_reviewer (source); /root (shared CI/config)",
+    "reviewer": "/root/storage_work_code_reviewer",
+    "outcome": "approved",
+    "baseline": "actuala114225/sourcec96dae927f652088d2326e427740975d18ba4df2 integrated41ffb5a; evidenceb8f2577 integrated4b3d116; sharedcaeb60d; actualcode/configapproval8c4261d integratedefdb987. Frozen55/5b/c0/AAA/0f andold023+4ee unchanged; originalreviewed16stubred retained, not repeated.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-012-code-review.md"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "task_id": "SESSIONTEST-008",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 574
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-007/SESSION-008.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-008-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-008-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-008-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-008-first-runs.tar.gz",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-008-hosted-ci.json"
+  ],
+  "limitations": [
+    "Supplier prepare/resolve baseline has 39 separately reviewed cases and intended marker-red after selected SDK green; independent attribution checked identity/chronology. Historical receipt omitted PATH/locale fields; no invented values. Next: preserve real source/clock/login/lifecycle/transport/provider/platform owners; setup CI is not behavior proof."
+  ],
+  "verification": {
+    "authored": "passed",
+    "compilation": "passed",
+    "test_review": "passed",
+    "native_fixed_profile_review": "passed",
+    "sdk_readiness": "passed",
+    "baseline": "observed_red",
+    "red_attribution": "passed",
+    "selected_ci": "passed"
+  },
+  "review": {
+    "author": "/root/session_supplier_baseline_author; /root (CI/integration)",
+    "reviewer": "/root/session_supplier_baseline_review",
+    "outcome": "approved",
+    "revision": "Fullpacketf9ca39a approved2014c0c/import2a98e29 before execution; exact firstSDKgreen1/direct0 then ordinary39stubred/direct8 at clean2014c0c independently attributed6bef738/import6cbcec5. Actual selectedhost42363172584 at840ed5f builds/closed39discovery+SDK1PASS; finaldocsheadCI/normalmerge separate.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-008-review.md"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "task_id": "WORKFLOW-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 596
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/WORKFLOW-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/109"
+  ],
+  "limitations": [
+    "Read-only context CLI and T3 roles implemented; 5 new/44 total tooling tests and scaffold3 pass. Claude reviewed tests before actual missing-command red and approved final source/docs; no product behavior or release proof added. PR109 current-head CI/normal merge remain final gates. Stop after merge; API-012 stays planned."
+  ],
+  "verification": {
+    "test_review": "passed",
+    "baseline": "observed_red",
+    "implementation": "passed",
+    "acceptance": "passed",
+    "tooling": "passed",
+    "code_review": "passed",
+    "scaffold": "passed",
+    "github_ci": "not_run"
+  },
+  "review": {
+    "author": "codex:test-126a85aa; codex:implementation-d14610c7; codex:coordinator-026ae7fd",
+    "reviewer": "claude:test-71cfed34/3ecceb1c; claude:code-faf904d5",
+    "outcome": "approved",
+    "revision": "Tests6b7c398 corrected7b6b690 independently approved before intended argparse red; fresh implementation4d973057/importfcde3fd and complete docs independently approved at fcde3fd. Current-head CI and normal merge remain PR109 gates.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/109"
+  }
+}

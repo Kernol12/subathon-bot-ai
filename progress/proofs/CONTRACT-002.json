@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "task_id": "CONTRACT-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 152
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/CONTRACT-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-002-authoring.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-002-independent-review.md"
+  ],
+  "limitations": [
+    "Internal receipt/contribution/plan/effect/job, clock and controlled-writer boundaries received separate document review and tooling checks. No schema, feature tests or runtime behavior was delivered. Next: author each bounded concrete contract and reviewed/red baseline before its implementation."
+  ],
+  "verification": {
+    "contract": "passed",
+    "independent_review": "passed",
+    "tooling": "passed",
+    "product_acceptance": "not_run"
+  },
+  "review": {
+    "author": "/root/domain_contract",
+    "reviewer": "/root/independent_reviewer",
+    "outcome": "approved",
+    "baseline": "author1904ccb; contract blob8b60da43f1362c46c54730e8ca029b858964ea59; review4364149",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-002-independent-review.md"
+  }
+}

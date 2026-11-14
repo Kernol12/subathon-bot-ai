@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "task_id": "ACCT-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 190
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-002/ACCT-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-002-implementation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-002-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-002-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-002-handoff.md"
+  ],
+  "limitations": [
+    "Independent eligibility holds and receipt linkage pass 21 reviewed simulations with separate code review and CI. Arrival context remains anchored; confirmation cannot bypass missing evidence/valuation. Next: compose actual SQL/application transaction, jobs/refunds and provider proof without treating fake facts as authority."
+  ],
+  "verification": {
+    "native_build": "passed",
+    "acceptance": "passed",
+    "regression": "passed",
+    "code_review": "passed",
+    "github_ci": "passed",
+    "sql_qt_provider": "not_run",
+    "platform_release": "not_run"
+  },
+  "review": {
+    "author": "/root/contribution_implementer",
+    "reviewer": "/root/baseline_reviewer",
+    "outcome": "approved",
+    "baseline": "author3e76ce9; corec3b2ea0d8449fd3752512b35eac052b2f300ece7; server975067bb952383e08c015d87139d6a806240ecb0; tests702a7bf1; CI1beb71f; review6e917c7",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-002-code-review.md"
+  }
+}
