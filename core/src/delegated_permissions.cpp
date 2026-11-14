@@ -3,6 +3,7 @@
 #include "permission_scratch.hpp"
 #include <new>
 #include <subathon/core/delegated_permissions.hpp>
+#include <subathon/core/permission_graph_validation.hpp>
 #include <utility>
 
 namespace subathon::core {
@@ -1219,4 +1220,64 @@ PermissionAutomationDecision revalidate_permission_automation(const PermissionAu
                                                               const EffectivePermissionLimits &l) {
     return allocation_guard([&] { return automation_impl(in, l); });
 }
+namespace internal {
+void validate_permission_graph_catalog(const PermissionCatalog &cat) {
+    validate_catalog_tags(cat);
+    if (cat.state != PermissionFactsState::complete)
+        fail(Error::facts_unavailable);
+    validate_catalog_shape(cat);
+    const std::string empty;
+    const PermissionOwnerFacts owner{PermissionOwnerState::absent, std::nullopt};
+    const auto in =
+        borrowed(empty, empty, cat, owner, {PermissionFactsState::complete, no_roles, Rows{}});
+    numeric(in);
+    domains(in);
+}
+void validate_permission_graph(const PermissionCatalog &cat, const PermissionEditableState &s) {
+    validate_permission_graph_catalog(cat);
+    graph_tags(s);
+    if (s.state != PermissionFactsState::complete)
+        fail(Error::facts_unavailable);
+    graph_shape(s, cat);
+    const std::string empty;
+    const PermissionOwnerFacts owner{PermissionOwnerState::absent, std::nullopt};
+    auto rows_valid = [&](const std::vector<PermissionPolicyEntry> &rows) {
+        validate_rows_shape(cat, Rows{rows});
+        const auto in = borrowed(empty, empty, cat, owner,
+                                 {PermissionFactsState::complete, no_roles, Rows{rows}});
+        numeric(in);
+        domains(in);
+    };
+    for (const auto &r : s.roles)
+        rows_valid(r.entries);
+    for (const auto &a : s.accounts) {
+        rows_valid(a.individual_entries);
+        validate_individual_scopes(
+            {PermissionFactsState::complete, no_roles, Rows{a.individual_entries}});
+        // Check provenance across the complete bound policy without expanding
+        // memberships into owned policy rows. Unassigned roles were checked above.
+        auto each = [&](auto f) {
+            for (const auto &e : a.individual_entries)
+                f(e);
+            for (const auto &r : s.roles)
+                if (find(a.assigned_roles, r.role, name))
+                    for (const auto &e : r.entries)
+                        f(e);
+        };
+        each([&](const auto &x) {
+            each([&](const auto &y) {
+                if (&x == &y || x.source != y.source)
+                    return;
+                if (x.origin != y.origin || x.role != y.role || x.operation != y.operation ||
+                    x.effect != y.effect || x.effect == PermissionEffect::deny ||
+                    x.grant == y.grant)
+                    fail(Error::invalid_policy);
+            });
+        });
+    }
+}
+bool permission_graph_entry_equal(const PermissionPolicyEntry &a, const PermissionPolicyEntry &b) {
+    return row_equal(a, b);
+}
+} // namespace internal
 } // namespace subathon::core
