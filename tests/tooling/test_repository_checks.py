@@ -33,6 +33,46 @@ class RepositoryChecks(unittest.TestCase):
         self.assertIn(b'Project check failed:',result.stderr)
         self.assertNotIn(NI,result.stderr)
 
+    def test_status_version_declaration(self):
+        for declaration in (None, 'Specification version: 0.44\n',
+                            'Specification version: 0.45\nSpecification version: 0.45\n',
+                            'Specification version: 0.45 trailing prose\n'):
+            with self.subTest(declaration=declaration), tempfile.TemporaryDirectory() as directory:
+                f=PublicationFixture(Path(directory)/'candidate')
+                status=f.root/'docs/STATUS.md'
+                original=status.read_text()
+                lines=[line for line in original.splitlines() if not line.startswith('Specification version:')]
+                status.write_text('\n'.join(lines)+'\nSpecification version: 0.45\n')
+                good=self.cli(f)
+                self.assertEqual(good.returncode,0,good.stderr)
+                # Version capture excludes trailing specification prose.
+                spec=f.root/'docs/specification.md'
+                spec.write_text(spec.read_text().replace('Version: 0.45','Version: 0.45 explanatory prose',1))
+                good=self.cli(f); self.assertEqual(good.returncode,0,good.stderr)
+                status.write_text('\n'.join(lines)+'\n'+(declaration or ''))
+                before=f.snapshot()
+                self.refusal(self.cli(f))
+                self.assertEqual(f.snapshot(),before)
+
+    def test_default_repository_is_independent_of_tracker_and_retired_flag_is_usage(self):
+        with tempfile.TemporaryDirectory() as directory:
+            f=PublicationFixture(Path(directory)/'candidate')
+            status=f.root/'docs/STATUS.md'
+            self.assertEqual([line for line in status.read_text().splitlines()
+                              if line.startswith('Specification version:')],
+                             ['Specification version: 0.45'])
+            good=self.cli(f); self.assertEqual(good.returncode,0,good.stderr)
+            # Unreadable obsolete inputs are sentinels for accidental fallback, not
+            # assertions about whether deleted source files or buttons exist.
+            f.write('progress/state.json',b'not JSON\n'); f.write('PROGRESS.html',b'not HTML\n')
+            before=f.snapshot()
+            good=self.cli(f)
+            self.assertEqual(good.returncode,0,good.stderr)
+            self.assertEqual(f.snapshot(),before)
+            usage=self.cli(f,'--repository-only')
+            self.assertEqual((usage.returncode,usage.stdout),(2,b''))
+            self.assertIn(b'usage:',usage.stderr)
+
     def test_repository_only_never_reads_tracker_or_render(self):
         with tempfile.TemporaryDirectory() as directory:
             f=PublicationFixture(Path(directory)/'candidate')

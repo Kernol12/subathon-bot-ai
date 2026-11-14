@@ -117,6 +117,20 @@ class ProofSchemas(unittest.TestCase):
         self_review = examples.reviewed_record()
         self_review['workflow']['stages']['contract']['reviews'][0]['reviewer'] = 'codex:synthetic-author'
         proof_validator.validate(self_review)
+        # Ordinary CI admits actual HEAD inputs as well as the independent examples.
+        # Before the real candidate bundle exists this is SETUP/PENDING, never red.
+        # No skip, legacy fallback, publication preflight or production-data fixture.
+        actual_policy = examples.proofs.read_json(ROOT/'progress/proof-policy.json')
+        policy_validator.validate(actual_policy)
+        directory = ROOT/'progress/proofs'
+        paths = sorted(directory.iterdir())
+        self.assertEqual([p.name for p in paths],
+                         [identity+'.json' for identity in sorted(actual_policy['required_records'])])
+        for path in paths:
+            with self.subTest(actual_record=path.stem):
+                value = examples.proofs.read_json(path)
+                self.assertEqual(value['task_id'], path.stem)
+                proof_validator.validate(value)  # Surface real ValidationError and identity.
 
 
 if __name__ == '__main__':
