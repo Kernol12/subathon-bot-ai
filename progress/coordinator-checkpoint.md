@@ -1,5 +1,20 @@
 # EPIC-029 authorized — MIGRATE-004 contract and inventory
 
+## Current blocker — reviewed draft, no cutover
+
+Latest bounded draft CODE source `0041d000317d7806b304b711f95ab9fcbe64310b` completed
+independent Codex verification and fresh Claude closing. Runtime remains isolated and
+UNINTEGRATED; production state remains authoritative. No active worker/reviewer, PR,
+archive A/tag/P or canonical bundle exists. Do not retry the archive/pin or start006/005.
+Concrete blocker receipt: issue629#issuecomment-6871278937. Required d717 clean-FIRST
+checkout identity/time conflicts with unchanged outgoing-path guard; six original
+dirty-run source contents are missing. Owner decision on the requirement conflict and
+applicable independent review are needed before a different disposition. A/B content,
+privacy/dependency/availability, II03 actual STATUS archive pin/readback/equality/review,
+canonical actual-HEAD Python/SDK, current CI/protected merge/readback remain gates.
+No guard exception, unsafe original publication, history tunnel or replacement run.
+No WORKFLOW-006/007 or product execution. Full v0.45 and unrelated work preserved.
+
 Owner authorizes exact migration001→002→003→004→006→005 without renewed permission.
 Work only migration. Product/API and WORKFLOW-006/007 execution stopped; WF006 storage/
 dependency rescope permitted, not new review/results policy. Fullv0.45 preserved.
@@ -817,3 +832,26 @@ STATUS pin/protectedreadback/full equality/applicable renewed review remains man
 before P. All history availability conflicts, missing six source fragments, canonical
 actual-HEAD checks, archive/freeze/CI/protectedmerge and successor gates still block.
 Root runtime unintegrated and state authoritative; no pin/PR/cutover/product/WF006007.
+
+Fresh independent Claude CODE closing dispatch83591bb3-bf60-4ed0-a1e0-401ea316d283,
+session4635f2bb-e414-4885-96ce-5cceaee21318, APPROVED bounded draft0041d000.
+Public6871272977; report SHA256420269d718a9e97a02de47119e9f5d828907149786b5caff343e962e0cd5ecb7.
+II01/II02/IV001 resolved; prior rejects retained, no new blocking CODE finding.
+IC01:006 inventory must include legacy state authority headers (observed248 files,
+299references, recapture current inventory; no bulk edits in004). IC02 actual boardURL
+live readback remains final board gate. These are carried forward, not claimed fixed.
+Actual closing runs at0041:155tooling154pass/0fail/1missingcanonicalSETUP/0skip;
+SDKrepository6/integration4pass,proofaggregate1SETUP. Repository/whitespace/packet/
+oracle/ancestry checks pass. No actualHEAD green, scaffold/hostedCI or archive claim.
+Observed clock samples03:47:13/03:48:53/03:50:25 not exact review duration. Identity
+is self-reported dispatch attribution, not authenticated reviewer ownership.
+II03 actual archive pin/equality/protectedreadback and applicable renewed review still
+mandatory beforeP; no sourcefreeze. Blocker report public6871278937 explains required
+d717identity/time versus outgoing4trees958paths, sixmissingdirtyrunsourcefragments,
+A/B gates and restart sequence. No completion-only proofPR or historicproofwaiver.
+All finalcode packet/review reports copied privately into ignored local-evidence/EPIC-029/
+migrate004-code-closing with restrictive permissions; public reports remote on issue629.
+Root original runtime and actual authority untouched, all unrelatedworktrees preserved.
+Stop at concrete gate conflict; owner decision must not be inferred from elapsedtime,
+boardstatus or general migration authorization. Resume only applicable authorized work
+under resolved requirements/reviewed dispositions; no next workflow/product task.
