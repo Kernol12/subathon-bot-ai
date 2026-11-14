@@ -619,48 +619,18 @@ capability binding maps to ApplicationAccessUnknown; actual refusal maps denied.
 A malformed known stored document follows existing known-semantic whole rollback,
 not a convenient denial that hides corrupt state. No cached permit or caller bool.
 
-Proposed consumer DATA and one synchronous read-only producer seam:
-
-```cpp
-enum class ReferenceAuthorityUse : std::uint8_t {
-    execute_time_add, disclose_application, disclose_holds
-};
-struct ReferenceAuthorityRequest {
-    ReferenceAuthorityUse use;
-    ApplicationPrincipalBinding principal;
-    ReferenceExecutionBinding captured;
-    ApplicationOperationKey requested_operation;
-    std::optional<ApplicationOperationKey> historical_operation;
-};
-struct ReferenceAuthorityFacts {
-    ReferenceAuthorityRequest binding;
-    std::string permission_revision_ref;
-    std::string automation_revision_ref;
-    core::EffectivePermissionInput permission_input;
-};
-using ReferenceAuthorityResolution = std::variant<
-    ReferenceAuthorityFacts, ApplicationAccessDenied, ApplicationAccessUnknown>;
-class ReferenceAuthoritySource {
-  public:
-    virtual ~ReferenceAuthoritySource() = default;
-    virtual ReferenceAuthorityResolution resolve(
-        const ApplicationReferenceReadView &, const ReferenceAuthorityRequest &) = 0;
-};
-```
-
-The producer must load CURRENT authenticated automation ownership, explicit
-capability authorization, owner-configured delegation bounds, actual installation,
-rule/action/version/captured source scope and current permission/catalog/owner facts
-from the same serialized authority. An automation capability being configured is
-not a permit; rule editing/use permissions cannot manufacture its grant. Denied,
-revoked, unknown, stale or unbound authority never produces a usable facts result.
-A facts result is still raw DATA: the consumer verifies every binding and evaluates
-its actual core::EffectivePermissionInput using the reviewed ACCESS-002 evaluator.
-Only a permit plus all current bound provenance becomes ApplicationAccessAllowed
-with the returned actual permission_revision_ref. No authority result is cached
-across attempts or disclosure. Actual ACCESS-003 producer contract/storage and
-implementation remain absent; this seam is its consumer requirement, not a
-replacement authorization algorithm or invented completed ACCESS-003 capability.
+The precise producer DATA, registry lifecycle and finite read extension are
+[reference-authority-v1](reference-authority-v1.md), with public declarations in
+sqlite_reference_authority.hpp. ReferenceAuthorityFacts retains ORIGINAL author
+PermissionAutomationInput (separate current USE and GRANT) alongside the actual
+execution subject's EffectivePermissionInput. The consumer verifies bindings,
+shared combined revision/current catalog/owner and revalidates BOTH inputs;
+there is no intersected policy or transferable permit DTO. The producer itself
+also refuses failed current revalidation. Registry ownership/authenticated
+bootstrap/enrollment/owner authorization/revocation belong to ACCESS-011, using
+ACCESS-010's actual complete graph and the owning account-session/writer scope.
+They remain proposed contract/test surfaces until their independent gates pass.
+No source or consumer caches authorization across execution or disclosure.
 
 The composite source resource has length16+len(provider)+len(source_account)+
 len(identifier_namespace); require that full length within the actual selected
@@ -697,10 +667,10 @@ changed automation authorization. An empty/noncurrent revision is unavailable.
 Disclosure loads/validates the historical record's own SRF1/SRX1/capture, asks the
 producer anew for that actual record, and then checks that decision; prior execute
 permit or a matching new-key candidate cannot expose another result. Actual hold
-subjects require the same current per-subject disclosure logic. The missing durable
-account/catalog/capability read producer cannot be replaced by arbitrary SQL from
-these callbacks; if finite retained reads cannot supply it, a focused read-view
-extension must be specified/reviewed under ACCESS-003/API-011 before implementation.
+subjects require the same current per-subject disclosure logic. The finite
+SAME-session resolve_reference_authority extension is now specified by
+reference-authority-v1 under ACCESS-011; its review precedes implementation.
+It cannot be replaced by arbitrary SQL from these callbacks.
 No callback opens a connection, writes, commits, queues nested work or calls network.
 
 ## 5. Actual adapters for the existing ACCT-004 ports

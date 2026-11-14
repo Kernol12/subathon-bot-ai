@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include <subathon/server/sqlite_reference_authority.hpp>
 #include "application_service_command_internal.hpp"
 #include "sqlite_application_bundle_access.hpp"
 #include "sqlite_application_hold_values.hpp"
@@ -1892,5 +1893,12 @@ OriginalApplicationService::enqueue(const OriginalApplicationCommand &command,
         return {StorageError::invalid_work};
     auto p = make_work(command, std::move(completion));
     return {writer_.enqueue_work(std::move(p.body), std::move(p.completion))};
+}
+} // namespace subathon::server
+
+namespace subathon::server {
+ReferenceAuthorityResolution ApplicationReferenceReadView::resolve_reference_authority(
+    const ReferenceAuthorityRequest &, const ReferenceAuthorityLimits &) const {
+    throw ReferenceAuthorityNotImplemented();
 }
 } // namespace subathon::server

@@ -196,7 +196,7 @@ derived from the grammar, not an application codec or storage helper.
 ApplicationServicePorts groups references to the following interfaces; all methods
 run synchronously on the work's actual owner thread. They receive a finite
 ApplicationReferenceReadView, NOT SqliteWorkContext/SqliteWorkSession, raw SQL,
-a whole mutable store or writer. Its only method is
+a whole mutable store or writer. Its retained-document method is
 find_retained(const RetainedKey&) -> optional<RetainedDocument>, backed privately
 by the actual SAME session's SqliteRetainedContextStore::find. Its options are
 reference_bytes=min(service.reference_bytes,bundles.reference_bytes) and
@@ -211,10 +211,12 @@ using the selected read limits: invalid kind/ref throws existing RetentionFailur
 invalid_kind/invalid_reference before view/thread checks, with no SQL/cleanup.
 Valid view then delegates find; real underlying WorkFailure capability/protocol/
 terminal/unknown remains original. No result/capability extends callback lifetime.
-Inputs/selected capture/current state are supplied as owned DATA; no additional
-current-source/state read or mutable repository capability is exposed.
-Actual future authority adapters needing other persistence reads require a focused
-finite read-view extension/review, not an arbitrary SQL escape. They MUST NOT write SQL,
+Inputs/selected capture/current state are supplied as owned DATA. ACCESS-011
+adds the finite resolve_reference_authority(request,limits) method specified in
+[reference-authority-v1](reference-authority-v1.md), section Finite callback capability.
+It resolves complete current registry/graph facts on this SAME revocable session;
+review precedes implementation. No mutable repository capability is exposed.
+Adapters MUST NOT write SQL,
 commit/adopt/rollback, open another reader/connection, enqueue work, pump events,
 call network/provider services or publish. Healthy refusal therefore stays read-only.
 Authority/configuration mutation is serialized by this same queue. An adapter unable
