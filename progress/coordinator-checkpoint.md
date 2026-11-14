@@ -79,6 +79,19 @@ Owner decisions are recorded in #249, comment 6879902355:
   schema contract and focused Qt tests. No other live task writer assigned.
 - ACCESS-011 (#649) is authorized after #646 merges. RULES-006's claim is parked;
   its source-inspected producer gap is recorded in #558, comment 6881646486.
+- ACCESS-010 implementation candidate `f1a5c104` is local and unreviewed:
+  138/139 closure nodes and93/94 graph invocations pass, zero skips/warnings.
+  One approved test wrongly expects two installation rows in the shipped singleton
+  store. Tests remain unchanged. Concrete unapplied separate-database correction
+  is at `/tmp/access010-proposed-baseline-correction.patch`; third tests fix round
+  needs owner authorization and independent baseline review. Implementation source
+  review may proceed read-only, but acceptance/merge remain blocked.
+  Initial Claude source review confirms PG-B01 and finds no source blockers.
+  Source-only notes PG-I01–I04 now addressed: actual byte metadata, stable decoder
+  views, enum-width assertions and one shared provenance index instead of repeated
+  per-account quadratic scans. Core120/120 passes; graph still93/94 with only the
+  untouched singleton fixture failure. PG-I05 unused marker left in fixed header.
+  Owner authorization for the extra baseline correction round is still pending.
 - Draft PR #121 stays parked. SLICE-001 waits for API-011's reviewed startup path.
 - EPIC-029 is closed (PR #638); follow-ups #636. Pre-cutover evidence remains
   historical; private outputs stay private.

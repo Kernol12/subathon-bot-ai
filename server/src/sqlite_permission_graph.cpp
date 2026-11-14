@@ -233,13 +233,13 @@ class SqlitePermissionGraphUnit::Impl {
             if (meta[i].table == 1) {
                 out.elements(1);
                 out(view(r, 2));
-                Decoder scan{r[3].toByteArray(), out, false};
+                Decoder scan{view(r, 3), out, false};
                 (void)scan.read<std::vector<PermissionPolicyEntry>>();
             }
             if (meta[i].table == 2) {
-                Decoder memberships{r[3].toByteArray(), out, false};
+                Decoder memberships{view(r, 3), out, false};
                 (void)memberships.read<std::vector<std::string>>();
-                Decoder entries{r[4].toByteArray(), out, false};
+                Decoder entries{view(r, 4), out, false};
                 (void)entries.read<std::vector<PermissionPolicyEntry>>();
             }
         }
@@ -247,7 +247,7 @@ class SqlitePermissionGraphUnit::Impl {
         // catalog is part of StoredPermissionGraph's complete result projection.
         if (head) {
             Projection p{limits, limits.selected_bytes};
-            Decoder scan{(*head)[3].toByteArray(), p, false};
+            Decoder scan{view(*head, 3), p, false};
             PermissionGraphTrust value;
             scan.one(value.catalog);
             out.fixed(p.bytes);

@@ -54,6 +54,11 @@ inline QString type_code(const QString &n) {
            ") WHEN 'blob' THEN 1 WHEN 'integer' THEN 2 WHEN 'null' THEN 3 WHEN 'text' THEN 4 ELSE "
            "5 END";
 }
+// CAST counts encoded bytes even for malformed TEXT (including embedded NUL),
+// unlike length(TEXT), which counts characters. No newer SQLite function needed.
+inline QString byte_length(const QString &name) {
+    return "coalesce(length(CAST(" + name + " AS BLOB)),0)";
+}
 inline bool scalar(K k) { return k == K::channel || k == K::flag || k == K::singleton; }
 // All tables/channels share one physical row and byte budget. No policy payload
 // is selected until the COMPLETE metadata bounds pass has succeeded.
@@ -67,7 +72,7 @@ inline std::vector<Metadata> metadata(const SqliteWorkSession &s, std::string_vi
         QStringList columns{"rowid"};
         for (const auto &c : table.columns) {
             const auto n = QString::fromLatin1(c.name);
-            columns << type_code(n) << ("coalesce(length(" + n + "),0)")
+            columns << type_code(n) << byte_length(n)
                     << ("CASE WHEN typeof(" + n + ")='integer' THEN " + n + " ELSE 0 END");
         }
         const auto rows = s.execute({"SELECT " + columns.join(',') + " FROM main." + table.name +
@@ -121,7 +126,7 @@ inline std::vector<SqlRow> payload(const SqliteWorkSession &s, const std::vector
         for (std::size_t i = 0; i < table.columns.size(); ++i) {
             const auto n = QString::fromLatin1(table.columns[i].name);
             names << n;
-            guards << (type_code(n) + "=?") << ("coalesce(length(" + n + "),0)=?");
+            guards << (type_code(n) + "=?") << (byte_length(n) + "=?");
             bindings << m.fields[i].type << m.fields[i].length;
             if (scalar(table.columns[i].kind)) {
                 guards << (n + "=?");

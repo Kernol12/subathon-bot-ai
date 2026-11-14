@@ -1254,26 +1254,50 @@ void validate_permission_graph(const PermissionCatalog &cat, const PermissionEdi
         rows_valid(a.individual_entries);
         validate_individual_scopes(
             {PermissionFactsState::complete, no_roles, Rows{a.individual_entries}});
-        // Check provenance across the complete bound policy without expanding
-        // memberships into owned policy rows. Unassigned roles were checked above.
-        auto each = [&](auto f) {
-            for (const auto &e : a.individual_entries)
-                f(e);
-            for (const auto &r : s.roles)
-                if (find(a.assigned_roles, r.role, name))
-                    for (const auto &e : r.entries)
-                        f(e);
-        };
-        each([&](const auto &x) {
-            each([&](const auto &y) {
-                if (&x == &y || x.source != y.source)
-                    return;
-                if (x.origin != y.origin || x.role != y.role || x.operation != y.operation ||
-                    x.effect != y.effect || x.effect == PermissionEffect::deny ||
-                    x.grant == y.grant)
-                    fail(Error::invalid_policy);
-            });
-        });
+    }
+    // Sort borrowed provenance once for the entire graph. Checking each account's
+    // selected subsequence then compares adjacent same-source rows, rather than
+    // repeating a quadratic row-pair scan for every account sharing a large role.
+    struct ProvenanceRow {
+        const PermissionPolicyEntry *entry;
+        const PermissionEditableAccount *account; // null for a reusable role row
+    };
+    std::vector<ProvenanceRow> rows;
+    std::size_t count = 0;
+    const auto charge_rows = [&](std::size_t n) {
+        if (n > rows.max_size() - count)
+            fail(Error::input_limit);
+        count += n;
+    };
+    for (const auto &r : s.roles)
+        charge_rows(r.entries.size());
+    for (const auto &a : s.accounts)
+        charge_rows(a.individual_entries.size());
+    rows.reserve(count);
+    for (const auto &r : s.roles)
+        for (const auto &e : r.entries)
+            rows.push_back({&e, nullptr});
+    for (const auto &a : s.accounts)
+        for (const auto &e : a.individual_entries)
+            rows.push_back({&e, &a});
+    std::sort(rows.begin(), rows.end(), [](const auto &a, const auto &b) {
+        if (a.entry->source != b.entry->source)
+            return byte_less(a.entry->source, b.entry->source);
+        return optional_less(a.entry->grant, b.entry->grant);
+    });
+    for (const auto &a : s.accounts) {
+        const PermissionPolicyEntry *previous = nullptr;
+        for (const auto &row : rows) {
+            if (row.account ? row.account != &a : !find(a.assigned_roles, *row.entry->role, name))
+                continue;
+            const auto &e = *row.entry;
+            if (previous && previous->source == e.source &&
+                (previous->origin != e.origin || previous->role != e.role ||
+                 previous->operation != e.operation || previous->effect != e.effect ||
+                 e.effect == PermissionEffect::deny || previous->grant == e.grant))
+                fail(Error::invalid_policy);
+            previous = &e;
+        }
     }
 }
 bool permission_graph_entry_equal(const PermissionPolicyEntry &a, const PermissionPolicyEntry &b) {

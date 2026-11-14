@@ -85,6 +85,8 @@ struct Projection {
     template <class T>
         requires(std::is_enum_v<T> || std::is_integral_v<T>)
     void one(T) {
+        static_assert(!std::is_enum_v<T> || sizeof(T) == 1,
+                      "Permission graph enums have one-byte persisted and semantic width");
         fixed(sizeof(T));
     }
     template <class T> void one(const std::optional<T> &v) {
@@ -139,13 +141,18 @@ class Decoder {
     }
 
   public:
-    Decoder(const QByteArray &b, Projection &p, bool own)
-        : input_(b.constData(), static_cast<std::size_t>(b.size())), projection_(p), own_(own) {}
+    Decoder(std::string_view bytes, Projection &p, bool own)
+        : input_(bytes), projection_(p), own_(own) {}
+    Decoder(const QByteArray &bytes, Projection &p, bool own)
+        : Decoder(std::string_view(bytes.constData(), static_cast<std::size_t>(bytes.size())), p,
+                  own) {}
     void component(std::string &v) { text(v, true); }
     void one(std::string &v) { text(v, false); }
     template <class T>
         requires(std::is_enum_v<T> || std::is_integral_v<T>)
     void one(T &v) {
+        static_assert(!std::is_enum_v<T> || sizeof(T) == 1,
+                      "Permission graph enums have one-byte persisted and semantic width");
         v = static_cast<T>(integer(sizeof(T)));
         projection_.fixed(sizeof(T));
     }
@@ -222,6 +229,8 @@ class Encoder {
     template <class T>
         requires(std::is_enum_v<T> || std::is_integral_v<T>)
     void one(T v) {
+        static_assert(!std::is_enum_v<T> || sizeof(T) == 1,
+                      "Permission graph enums have one-byte persisted and semantic width");
         integer(static_cast<std::uint64_t>(v), sizeof(T));
     }
     template <class T> void one(const std::optional<T> &v) {
