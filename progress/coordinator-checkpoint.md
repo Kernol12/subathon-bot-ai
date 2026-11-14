@@ -678,3 +678,29 @@ Initial independent Claude implementation review must assess full35path/6deletio
 scope and classify actual code defects versus oracle conflicts against approved parent
 contracts; test edits would reopen their own cycle before execution. Historical d717/
 missing-six-content/archive/canonical/liveCI/protected-merge gates remain blocking.
+
+Initial Claude implementation review CHANGES_REQUESTED f6c4bb65, session42f73a3e-
+341d-418e-9a90-ebe1918d7be0, dispatchf00d4904-f171-4dec-9a15-afea73b03cc9.
+Public6870730456, report32f32f131f3ed20c040f89d5f081f5f0636a2e2e379353c6dc06f449ed62ab0a.
+II01 blocks non-exempt epic claim/done conversion incorrectly requiring stages; preserve
+pinned non-epic predicate and supplied grammar. II02 blocks stale prospective authority/
+missing-input statements from shipping after cutover; timeless final implementation
+wording must be reviewed before P, no finalization edits. II03 actual archived STATUS
+summary/verification pin is required before P; do not guess A or claim local source
+available. II04–07 layering/dead remnants/docs precision/full-history bound retained.
+Reviewer independently reproduced149/4/1 tooling,10SDKpasses and actualHEADsetup;
+scaffold results author-only. Four failing methods independently classified ORACLE
+contradictions O1targettipfixture/O2literalkeyorder/O3argparseform; no guard or parser
+weakening. No code approval or historical gate waiver.
+Test source7da9561f now corrects those exact expectations: move synthetic origin/main
+before empty-range/private-boundary positives, guard-before-checks literal order,
+separate '--archive-commit --all' usage2 versus joined '--archive-commit=--all' semantic1.
+All negative/refusal/output/serialization/source assertions retained, no ADR removal.
+Add focused independent epic statuses planned/in_progress/in_review/done regression:
+no invented stages/publication or enrollment; supplied malformed grammar still refuses,
+input unchanged. Derived from pinned tracked predicate and II01, not implementation.
+Both changed files syntax-checked ONLY; no amended test import/body/discovery/SDK run.
+All old approved/rejected receipts and genuine prior9710 red remain as historical
+source-qualified evidence; amended test cycle reopens to separate Codex verification
+then fresh Claude closing before execution. Code corrections/integration still pending;
+actual A/P/canonical/history/hostedCI/protected merge and successors remain blocked.
