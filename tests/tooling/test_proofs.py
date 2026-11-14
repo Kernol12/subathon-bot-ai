@@ -757,7 +757,10 @@ class ProofCliTests(unittest.TestCase):
             self.assertEqual(json.loads((again/'report.json').read_text()), f.report)
             # Each invalid archive starts from the exact independently authored
             # source/report, after the successful complete-extraction control.
-            for mutation in ('report','identity','unknown-source-field','nonregular-report','nonregular-state','nonregular-identities','missing-brief','bounded-source'):
+            # ADR-0012 scope retires baseline 749–755 live brief-existence and
+            # 756–761 full live-inventory admission. Full archive admission and
+            # protected readback own those duties; this adapter reads three blobs.
+            for mutation in ('report','identity','unknown-source-field','nonregular-report','nonregular-state','nonregular-identities'):
                 def edit(archive_fixture):
                     if mutation == 'report':
                         changed = copy.deepcopy(f.report); changed['record_count'] = 2
@@ -773,13 +776,6 @@ class ProofCliTests(unittest.TestCase):
                         name={'nonregular-report':REPORT,'nonregular-state':'progress/state.json',
                               'nonregular-identities':'docs/migrations/EPIC-029/archive/identities.json'}[mutation]
                         path=archive_fixture.root/name; path.unlink(); path.symlink_to('absent-synthetic-target')
-                    elif mutation=='missing-brief':
-                        changed=copy.deepcopy(f.source); changed['tasks'][0]['brief']='docs/missing-synthetic-migrate002.md'
-                        archive_fixture.json('progress/state.json',changed)
-                    else:
-                        bounded=source(task('CONVERT-901'))
-                        archive_fixture.json('progress/state.json',bounded)
-                        archive_fixture.json('docs/migrations/EPIC-029/archive/identities.json',mapping(*bounded['tasks']))
                 with self.subTest(archive_mutation=mutation):
                     f.prepare_archive(edit)
                     refused = root/('refused-'+mutation)

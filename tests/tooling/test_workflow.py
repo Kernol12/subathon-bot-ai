@@ -225,6 +225,7 @@ class WorkflowRecordTests(unittest.TestCase):
         proofs.validate_record(candidate)
 
     def test_done_requires_complete_current_stages_and_publication(self):
+        # Baseline 288–296: incomplete/stale cycles still refuse completion.
         for reviews in ([],[receipt('initial')],[receipt('initial'),receipt('verification')],
                 [receipt('initial'),receipt('verification',OLD_REV),receipt('closing',OLD_REV)],
                 [receipt('initial'),receipt('verification'),receipt('closing'),receipt('verification')]):
@@ -232,8 +233,13 @@ class WorkflowRecordTests(unittest.TestCase):
                 candidate=task(); candidate['publication']=publication()
                 candidate['workflow']['stages']['contract']=stage(reviews)
                 with self.assertRaises(ValueError): proofs.require_complete(bundle(candidate),'WFLOW-999')
-        missing=task(); del missing['workflow']
-        with self.assertRaises(ValueError): proofs.require_complete(bundle(missing),'WFLOW-999')
+        # ADR-0012 scope explicitly retires the old status/publication check
+        # at 297–298. This NEW positive checks pre-publication completion only;
+        # actual final merge and its readback remain coordinator closure gates.
+        unpublished=task()
+        self.assertNotIn('publication',unpublished)
+        self.assertIsNone(proofs.require_complete(bundle(unpublished),'WFLOW-999'))
+        # Baseline 299–301: an open observation never implies an actual merge.
         done=task(); done['publication']=publication('open')
         self.assertIsNone(proofs.require_complete(bundle(done),'WFLOW-999'))
         self.assertEqual(done['publication']['state'],'open')
@@ -241,8 +247,10 @@ class WorkflowRecordTests(unittest.TestCase):
         implementation=task(kind='implementation')
         self.assertEqual(proofs.context(bundle(implementation),'WFLOW-999')['proof']['verification']['acceptance'],'passed')
         self.assertIsNone(proofs.require_complete(bundle(implementation),'WFLOW-999'))
+        # Baseline 302–306: a pending required implementation stage refuses.
         implementation['workflow']['stages']['implementation']=stage([])
         with self.assertRaises(ValueError): proofs.require_complete(bundle(implementation),'WFLOW-999')
+        # Baseline 307–309: deleting that required stage also refuses.
         del implementation['workflow']['stages']['implementation']
         with self.assertRaises(ValueError): proofs.require_complete(bundle(implementation),'WFLOW-999')
 
