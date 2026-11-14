@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-14T01:45:03.291222+00:00",
+  "updated_at": "2026-11-14T01:51:34.725412+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20500,7 +20500,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
       "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Confirmed test-review fixes at5ec192b9; TI006/008 held pending explicit primary/ADR amendment2ee131f5 and fresh approvals. No tests executed. Historical A/B dispositions remain unadmitted; exact run/content availability gates pending. State remains authoritative; product/WF006/007 stopped."
+        "Primary and separate ADR boundary proposals2ee131f5 passed independent Codex verification; fresh Claude closings pending. Confirmed test fixes5ec192b9 remain unexecuted; TI006/008 held pending approvals. Historical source/run/content dispositions unadmitted. State authoritative; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -20509,7 +20509,7 @@
         "baseline": "not_run",
         "implementation": "not_run",
         "acceptance": "not_run",
-        "contract_verification": "not_run",
+        "contract_verification": "passed",
         "native_readback": "passed",
         "cleanup_scope_review": "not_run",
         "availability_review": "failed"
@@ -20530,7 +20530,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868756085",
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868852763",
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6869093320",
-        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6869523653"
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6869523653",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6869700512"
       ],
       "review": null,
       "workflow": {
@@ -20743,6 +20744,20 @@
                 "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868570671",
                 "findings": [
                   "M004-CC5-N1"
+                ],
+                "blocking_findings": []
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:migrate004-publication-boundary-verification",
+                "revision": "2ee131f5c68783b551fa1e8fc3a6d8d860ffa39d",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6869699717",
+                "findings": [
+                  "M004-CV6-N01",
+                  "M004-CV6-N02"
                 ],
                 "blocking_findings": []
               }

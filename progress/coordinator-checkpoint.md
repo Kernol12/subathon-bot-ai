@@ -367,3 +367,16 @@ Root bounded A corrections retain all old reasons plus verifier directions;45 so
 run/content traces and3 metadata-only necessity questions still need actual evidence.
 B419 proposals require separate independent verification, especially11 unsafe alleged
 required originals. No role admitted, unsafe conflict confirmed, archive pin or switch.
+
+Primary Codex boundary verification APPROVED2ee131f5, separate ADR scope verification
+APPROVED exactblobdbcfe9685ef2b79091f336dc548e3b755ca1fb11, reviewer
+codex:migrate004-publication-boundary-verification, dispatchba2d6b83-7eac-4081-875b-42abdb51c8ae.
+Distinct public reports issue629#issuecomment-6869699717 and6869700512; no blockers,
+N01/N02 each preserve actual merged closure and full archive admission/readback duties.
+Report hashes80835e631c181433b8283e38349d0c01311276598643ef44f7c0e199d2a7214b and
+973c627f5fdcb04810f7e41ca7a64fd2cde6f8cb3bff87df67c0220f2046ff70. Activity
+01:46:32/01:48:08 are samples, not session endpoints; no structured duration.
+Fresh independent Claude primary and separate ADR closings remain required before
+TI006/008 adaptations. No tests/code/availability/pin/cutover approval inferred.
+Audit B independent verification and A-specific source/run/content traces continue
+in isolated sessions; no new source writer or test execution authorized by these reports.
