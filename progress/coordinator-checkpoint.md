@@ -45,7 +45,17 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Current state and assignments
 
-- No live author/reviewer is assigned. GitHub owns claims, stages and prerequisites.
+- ACCESS-009 (#645) claimed on `task/ACCESS-009-pure-delegation` from current
+  `main` `85341ec4` after PR #647's protected merge. Preserved candidate history
+  integrated at `bd3cb983d4ae276a7d6afd612aeb2243715d9038`; no test source pushed.
+  Independent Codex verification approved F4 and the revised pure scope at that
+  exact commit; receipt `/tmp/access-009-review-codex-verification.md` is retained
+  for the PR. Fresh Claude closing review approved the full pure tests stage.
+  Separate opt-in baseline registered: configure/build passed, 53 discovered and
+  53 observed intended NI failures, zero skips. Initial discovery failed because
+  other selected targets were unbuilt; it is not red evidence. Fresh implementation
+  session is next; approved assertions remain fixed. Closing receipt retained at
+  `/tmp/access-009-review-claude-closing.md` for the PR.
 - ACCESS-009 inherits the local candidate on `task/ACCESS-003-delegation`, head
   `d3d5ccb682d8f59cc980d5c142ca65fed53895dc`: 53 authored tests and five NI APIs.
   Compile/link/format checks passed; no test bodies, intended red or implementation.
@@ -64,9 +74,6 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Publish the owner-approved checkpoint revision through protected PR gates. Then
-claim #645, preserve/reuse its existing local candidate history, and obtain fresh
-independent Codex verification of the F4 additions and explicit component scope,
-followed by fresh Claude closing test review. No unreviewed test source is pushed.
-Keep #249 open and all deferred integration gates visible. Implementation still
-requires completed test review and observed intended behavioral red.
+Publish the reviewed baseline/receipts and implement ACCESS-009 in a fresh session.
+Then complete the tier A implementation cycle, relevant checks and current
+protected CI/proof gates. Keep #249 open and deferred integration gates visible.
