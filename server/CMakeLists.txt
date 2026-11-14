@@ -135,3 +135,14 @@ if(SUBATHON_BUILD_SQLITE_PERMISSION_GRAPH_TESTS)
     target_link_libraries(subathon_sqlite_permission_graph PUBLIC subathon_sqlite_account_sessions subathon_effective_permissions)
     subathon_target_options(subathon_sqlite_permission_graph)
 endif()
+
+# ACCESS-011 tests-author gate: all new entrypoints remain unconditional NI.
+if(SUBATHON_BUILD_SQLITE_REFERENCE_AUTHORITY_TESTS)
+    add_library(subathon_sqlite_reference_authority STATIC src/sqlite_reference_authority.cpp)
+    target_include_directories(subathon_sqlite_reference_authority PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_sqlite_reference_authority PUBLIC
+        subathon_sqlite_permission_graph subathon_session_resolution
+        subathon_sqlite_reference_capture subathon_sqlite_application_bundle
+        subathon_sqlite_application_holds subathon_original_application_service)
+    subathon_target_options(subathon_sqlite_reference_authority)
+endif()

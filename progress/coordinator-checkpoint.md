@@ -57,12 +57,14 @@ Owner decisions are recorded in #249, comment 6879902355:
   and historical rejections remain recorded in the PR and proof.
 - ACCESS-011 (#649), branch `task/ACCESS-011-reference-authority`, claimed after
   #646 merge. Contract/schema/API/NI and42 test methods authored at22c7753b.
-  Initial Claude tests review requested changes (RA-T01–T05). Coordinator fix
-  round1 adds the capability-history index, typed-failure checks, complete
-  channel/binding/current-revision oracles and callback limit/order cases.
-  Proposed contract revision2 is272 lines;47 methods compile/link and list cleanly.
-  No bodies/red have run; independent Codex verification and fresh Claude closing
-  remain before integration/red. All new behavior stays unconditional NI.
+  Initial Claude tests review requested changes (RA-T01–T05). Fix round1 at4ed77298
+  completed independent Codex verification and fresh Claude closing approval of
+  the full contract/tests stage. All verdicts remain recorded; no reviewed header,
+  contract or test changed during integration. Opt-in registration discovers47
+  methods/145 invocations with ordinary intentional-red semantics and no skips or
+  inverted results. Integrated build132/132 passes without warnings. Private
+  callback state now carries existing enclosing ceilings; all new reads/units and
+  the step10 factory remain NI. First behavioral red is next; no bodies run yet.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 is reserved for this registry after compiled permission step9;
   preserve all shipped prefix bytes. Full #249 integration remains open. RULES-006
@@ -73,12 +75,12 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Obtain ACCESS-011 independent Codex tests verification and fresh Claude closing
-after fix round1 (of2). Preserve the initial rejection. Reuse actual account/session
-and complete graph sources; a principal ref, resolved-session DTO or retained
-document is not authentication. Only after test approval integrate the opt-in red
-target and observe every method/data row at its own NI call. Then use a DIFFERENT
-fresh implementation session and full tier A code review. Unapplied build/private
-state proposals still need integration, service ceilings and actual source audit.
+Observe ACCESS-011 intended red for all47 methods/145 invocations after posting
+the three test receipts. Classify every failure and its NI call site; old setup or
+wrapper errors do not establish red. Preserve the initial rejection. Then use a
+DIFFERENT fresh implementation session with frozen reviewed tests/header/contract.
+Actual current authentication/graph/capture production, finite indexed reads,
+service-ceiling enforcement and nested-facade failure truth need implementation
+and the full tier A source/resource audit. Provisional facts are not permits.
 Preserve current original-author, scope, revision and full release requirements;
 stop if an additional substantial prerequisite falls outside #649's bounded scope.

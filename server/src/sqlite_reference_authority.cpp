@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "application_reference_read_state.hpp"
 #include <subathon/server/sqlite_reference_authority.hpp>
 namespace subathon::server {
 class SqliteReferenceAuthorityUnit::Impl {};
@@ -39,6 +40,14 @@ SqliteReferenceAuthoritySource::SqliteReferenceAuthoritySource(ReferenceAuthorit
 ReferenceAuthorityResolution
 SqliteReferenceAuthoritySource::resolve(const ApplicationReferenceReadView &,
                                         const ReferenceAuthorityRequest &) {
+    throw ReferenceAuthorityNotImplemented();
+}
+} // namespace subathon::server
+
+namespace subathon::server {
+ReferenceAuthorityResolution
+ApplicationReferenceReadView::resolve_reference_authority(const ReferenceAuthorityRequest &,
+                                                          const ReferenceAuthorityLimits &) const {
     throw ReferenceAuthorityNotImplemented();
 }
 } // namespace subathon::server

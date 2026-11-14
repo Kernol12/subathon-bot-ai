@@ -93,6 +93,12 @@ from schema shape, and schema shape does not replace runtime proof invariants.
 
 ## Reviewed baselines still awaiting implementation
 
+`sqlite-reference-authority-debug` selects the reviewed ACCESS-011 registry and
+finite callback baseline (47 Qt methods). New entrypoints remain NI and the opt-in
+suite has ordinary `intentional-red` failure semantics outside passing CI. Compiled
+dependencies and independent test review do not establish runtime setup or authority;
+the owning PR records intended red before a fresh implementation session.
+
 `api-host-debug` and `api-host-native-debug` select authored host lifecycle baselines;
 their current review/execution status is recorded in canonical proof and GitHub. Both need the complete
 physical account/session SQLite closure and the corrected native WebSocket SDK;

@@ -133,3 +133,10 @@ if(SUBATHON_BUILD_SQLITE_PERMISSION_GRAPH_TESTS)
         LIBRARIES subathon_sqlite_permission_graph
         LABELS "sqlite-permission-graph;acceptance;qt;server")
 endif()
+
+if(SUBATHON_BUILD_SQLITE_REFERENCE_AUTHORITY_TESTS)
+    subathon_add_qt_suite(server_sqlite_reference_authority_acceptance
+        NAME sqlite-reference-authority SOURCES sqlite_reference_authority_tests.cpp
+        LIBRARIES subathon_sqlite_reference_authority
+        LABELS "sqlite-reference-authority;acceptance;qt;server;intentional-red")
+endif()
