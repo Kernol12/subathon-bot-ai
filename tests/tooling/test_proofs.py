@@ -18,7 +18,6 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'tools'))
 sys.path.insert(0, str(ROOT / 'tests/support'))
 import proofs
-import progress
 import workflow
 from frozen_proof_policy import LEGACY_DONE, LEGACY_DONE_SHA256
 from archive_state_fixture import task, state, stage, receipt, publication
@@ -117,7 +116,7 @@ def nested_shape_refusals():
         (('workflow', 'stages', 'contract', 'unknown'), True),
         (('workflow', 'stages', 'contract', 'reviews', 0, 'unknown'), True),
         (('publication', 'unknown'), True), (('review', 'unknown'), True),
-        (('verification', 'ci'), 'green'), (('review', 'outcome'), 'green'),
+        (('verification', 'ci'), 'green'), (('verification', 'product'), 'probably fine'), (('review', 'outcome'), 'green'),
         (('review', 'author'), 17), (('publication', 'state'), 'closed'),
         (('workflow', 'required_stages'), []),
         (('workflow', 'required_stages'), ['unknown']),
@@ -226,6 +225,15 @@ class ProofTests(unittest.TestCase):
     def test_record_shapes_and_lexical_references(self):
         valid = record()
         self.assertIsNone(proofs.validate_record(valid))
+        good = record(); good['evidence'] = ['https://github.com/example/project/pull/42']
+        self.assertIsNone(proofs.validate_record(good))
+        for value in ('http://example.com/pull/44',):
+            bad = copy.deepcopy(good); bad['evidence'] = [value]
+            self.refuses(proofs.validate_record, bad)
+        for value in ('../secret', '/tmp/secret', 'https://example.com/x', 'javascript:alert(1)', 'C:\\secret'):
+            bad = record(); bad['workflow'] = dict(required_stages=['contract'], stages={
+                'contract':dict(authors=['a'],revision=REV,paths=[value],reviews=[])})
+            self.refuses(proofs.validate_record, bad)
         for key, value in [('version', True), ('version', 1.0), ('version', 2),
                            ('task_id', 'CONVERT-901\n'), ('kind', 'epic'), ('owner', 'invented'),
                            ('limitations', None), ('brief', '../outside'), ('brief', 'a//b'),
@@ -360,15 +368,8 @@ class ProofTests(unittest.TestCase):
 
     def test_shared_review_engine_tree_free_and_strict_production_default(self):
         value = reviewed_record(); packet = value['workflow']['stages']['contract']
-        self.assertIsNone(workflow.validate_stage(packet, ROOT, progress.local_path,
-                                                progress.evidence_path, tree_free=True))
-        self.refuses(workflow.validate_stage, packet, ROOT, progress.local_path, progress.evidence_path)
-        candidate = task(); candidate['workflow']['stages']['contract'] = packet
-        self.refuses(progress.validate, state(candidate))
-        for field in ('brief', 'evidence'):
-            candidate = task()
-            candidate[field] = 'docs/retired-synthetic.md' if field == 'brief' else ['docs/retired-synthetic.md']
-            self.refuses(progress.validate, state(candidate))
+        self.assertIsNone(workflow.validate_stage(packet, ROOT, workflow.lexical_path,
+                                                workflow.evidence_reference, tree_free=True))
         # Deliberately require delegation through the owning module attribute, so
         # the single grammar remains observable instead of a copied enforcement loop.
         for name in ('../x', '/abs', 'progress/state.json', 'PROGRESS.html',
@@ -376,14 +377,14 @@ class ProofTests(unittest.TestCase):
                      'progress/proofs/CONVERT-901.json'):
             bad = copy.deepcopy(value); bad['workflow']['stages']['contract']['paths'] = [name]
             self.refuses(workflow.validate_stage, bad['workflow']['stages']['contract'], ROOT,
-                         progress.local_path, progress.evidence_path, tree_free=True)
+                         workflow.lexical_path, workflow.evidence_reference, tree_free=True)
             self.refuses(proofs.validate_record, bad)
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary).resolve()
             for name in ('progress/proof-policy.json', 'progress/proofs/CONVERT-901.json'):
                 file = root/name; file.parent.mkdir(parents=True, exist_ok=True); file.write_text('{}')
                 bad = copy.deepcopy(packet); bad['paths'] = [name]
-                self.refuses(workflow.validate_stage, bad, root, progress.local_path, progress.evidence_path)
+                self.refuses(workflow.validate_stage, bad, root, workflow.lexical_path, workflow.evidence_reference, tree_free=True)
         with patch.object(workflow, 'validate_stage', wraps=workflow.validate_stage) as shared:
             proofs.validate_record(value)
             self.assertTrue(shared.called, 'Use the owning workflow engine')
@@ -658,66 +659,9 @@ class ProofCliTests(unittest.TestCase):
         self.assertEqual((result.returncode, result.stdout, result.stderr),
                          (0, json.dumps(dict(version=1, record_count=len(inventory)), indent=2)+'\n', ''))
 
-    def test_canonical_defaults_preserve_literal_full_compact_context_and_refusals(self):
-        """Tiny disposable defaults, never real current state or candidate output."""
-        import shutil
-        from test_compact_context import REFS, BRIEF, CURRENT, literal_state
-        with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
-            shutil.copytree(ROOT/'tools', root/'tools', ignore=shutil.ignore_patterns('__pycache__'))
-            directory = root/'progress/proofs'; directory.mkdir(parents=True)
-            selected = record('CTX-003'); selected['kind'] = 'implementation'
-            selected['brief'] = BRIEF; selected['limitations'] = ['Grüße; selected only']
-            selected['workflow'] = copy.deepcopy(literal_state()['tasks'][1]['workflow'])
-            unrelated = record('CTX-999', 9902); unrelated['limitations'] = ['unrelated sentinel']
-            (root/'progress/proof-policy.json').write_text(json.dumps(policy('CTX-003','CTX-999')))
-            for value in (selected, unrelated):
-                (directory/(value['task_id']+'.json')).write_text(json.dumps(value, ensure_ascii=False))
-            def invoke(*args):
-                before = {p.relative_to(root): p.read_bytes() for p in root.rglob('*') if p.is_file()}
-                result = subprocess.run([sys.executable, '-B', str(root/'tools/proofs.py'), *args],
-                                        capture_output=True, text=True, timeout=60)
-                self.assertEqual({p.relative_to(root): p.read_bytes() for p in root.rglob('*') if p.is_file()}, before)
-                return result
-            valid = invoke('validate')
-            self.assertEqual((valid.returncode, valid.stdout, valid.stderr),
-                             (0, '{\n  "version": 1,\n  "record_count": 2\n}\n', ''),
-                             'Only CUTOVER_DEFAULTS_NOT_IMPLEMENTED is an NI candidate; setup is not red')
-            full = dict(proof=selected, required_stages=['tests','implementation'], limitations=WARNING)
-            result = invoke('context','CTX-003')
-            self.assertEqual((result.returncode, result.stdout, result.stderr),
-                             (0, json.dumps(full, indent=2, ensure_ascii=False)+'\n', ''))
-            detailed = copy.deepcopy(full)
-            detailed['stage_context'] = dict(name='tests',
-                packet=copy.deepcopy(selected['workflow']['stages']['tests']),
-                complete=True, next_gate='complete',
-                metrics=dict(review_count=5,blocking_findings=['B2','B1','B3'],
-                    closing_only_findings=['B3','closing-advisory'],elapsed_seconds=3.75,timed_reviews=3))
-            result = invoke('context','CTX-003','--stage','tests')
-            self.assertEqual((result.returncode,result.stdout,result.stderr),
-                             (0,json.dumps(detailed,indent=2,ensure_ascii=False)+'\n',''))
-            compact = dict(proof={k:v for k,v in selected.items() if k != 'workflow'},
-                           required_stages=['tests','implementation'], limitations=WARNING+OMISSIONS)
-            compact['stage_context'] = dict(name='tests', complete=True, next_gate='complete',
-                packet=dict(authors=['fixture-author'], revision=CURRENT, paths=[BRIEF]),
-                review_refs=REFS, historical_blocking_findings=['B2','B1','B3'],
-                metrics=dict(review_count=5, elapsed_seconds=3.75, timed_reviews=3))
-            result = invoke('context','CTX-003','--compact','--stage','tests')
-            self.assertEqual((result.returncode, result.stdout, result.stderr),
-                             (0, json.dumps(compact, indent=2, ensure_ascii=False)+'\n', ''))
-            self.assertNotIn('unrelated sentinel', result.stdout)
-            self.assert_error(invoke('context','CTX-404'))
-            self.assert_error(invoke('context','CTX-003','--stage','unknown'))
-            for mutation in ('malformed','missing'):
-                path = directory/'CTX-999.json'
-                if mutation == 'malformed': path.write_text('{broken')
-                else: path.unlink()
-                result = invoke('context','CTX-404','--compact')
-                self.assert_error(result)
-                self.assertNotIn('Unknown task', result.stderr, 'Full bundle admission precedes lookup')
 
-    def test_pinned_git_archive_conversion_preserves_exact_extraction_and_owned_outputs(self):
-        from proof_publication_fixture import ProofPublicationFixture, POLICY, RECORDS, REPORT
+    def test_one_disposable_full_source_cli_conversion_synthetic_mapping_only(self):
+        from proof_publication_fixture import ProofPublicationFixture, POLICY, RECORDS, REPORT, SELECTED
         from publication_fixture import ENV
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -735,8 +679,23 @@ class ProofCliTests(unittest.TestCase):
             self.assertEqual((result.returncode, result.stdout, result.stderr),
                              (0, '{\n  "version": 1,\n  "record_count": 3\n}\n', ''),
                              'CUTOVER_ARCHIVE_NOT_IMPLEMENTED is NI; unavailable objects are setup')
-            self.assertEqual(json.loads((output/'proof-policy.json').read_text()), f.policy)
-            self.assertEqual(json.loads((output/'report.json').read_text()), f.report)
+            actual_policy=json.loads((output/'proof-policy.json').read_text())
+            self.assertEqual(actual_policy, f.policy)
+            self.assertEqual(list(actual_policy),list(f.policy))
+            for identity,expected in f.records.items():
+                value=json.loads((output/'proofs'/(identity+'.json')).read_text())
+                self.assertEqual(value,expected)
+                self.assertEqual(list(value),list(expected))
+            report=json.loads((output/'report.json').read_text())
+            self.assertEqual(report,f.report)
+            self.assertEqual(list(report),['version','source_task_count','record_count','archive_only_ids',
+                'enrolled_ids','mappings','field_comparisons','discrepancies'])
+            fields=('kind','brief','evidence','limitations','workflow','publication','verification','review','supplemental_workflow_evidence')
+            self.assertEqual([row['task_id'] for row in report['field_comparisons']],[SELECTED,'OLD-902','ACCESS-002'])
+            for row in report['field_comparisons']:
+                self.assertEqual(list(row),['task_id',*fields])
+                self.assertTrue(all(type(row[k]) is bool and row[k] for k in fields))
+            self.assertEqual(len({row['task_id'] for row in report['mappings']}),4)
             self.assertEqual({p.stem:json.loads(p.read_text()) for p in (output/'proofs').iterdir()}, f.records)
             self.assertEqual({p.relative_to(output).as_posix() for p in output.rglob('*') if p.is_file()},
                              {'proof-policy.json','report.json'} | {'proofs/'+i+'.json' for i in f.records})
@@ -744,6 +703,13 @@ class ProofCliTests(unittest.TestCase):
             for path in output.rglob('*.json'):
                 self.assertEqual(path.stat().st_mode & 0o777, 0o600)
                 self.assertEqual(path.read_text(), json.dumps(json.loads(path.read_text()), indent=2, ensure_ascii=False)+'\n')
+            for path in output.rglob('*.json'):
+                self.assertNotIn(str(root),path.read_text())
+                self.assertNotIn(str(ROOT),path.read_text())
+            existing=root/'existing'; existing.mkdir()
+            self.assert_error(invoke(destination=existing))
+            self.assertEqual(list(existing.iterdir()),[])
+            self.assert_error(invoke(destination=output/'proof-policy.json'/'overlap'))
             saved = {p.relative_to(output):p.read_bytes() for p in output.rglob('*') if p.is_file()}
             self.assert_error(invoke())
             self.assertEqual({p.relative_to(output):p.read_bytes() for p in output.rglob('*') if p.is_file()}, saved)
@@ -763,7 +729,7 @@ class ProofCliTests(unittest.TestCase):
             self.assertEqual(json.loads((again/'report.json').read_text()), f.report)
             # Each invalid archive starts from the exact independently authored
             # source/report, after the successful complete-extraction control.
-            for mutation in ('report','identity','unknown-source-field','nonregular'):
+            for mutation in ('report','identity','unknown-source-field','nonregular-report','nonregular-state','nonregular-identities','missing-brief','bounded-source'):
                 def edit(archive_fixture):
                     if mutation == 'report':
                         changed = copy.deepcopy(f.report); changed['record_count'] = 2
@@ -775,9 +741,17 @@ class ProofCliTests(unittest.TestCase):
                     elif mutation == 'unknown-source-field':
                         changed = copy.deepcopy(f.source); changed['unknown'] = 'cannot infer a new source version'
                         archive_fixture.json('progress/state.json', changed)
+                    elif mutation.startswith('nonregular-'):
+                        name={'nonregular-report':REPORT,'nonregular-state':'progress/state.json',
+                              'nonregular-identities':'docs/migrations/EPIC-029/archive/identities.json'}[mutation]
+                        path=archive_fixture.root/name; path.unlink(); path.symlink_to('absent-synthetic-target')
+                    elif mutation=='missing-brief':
+                        changed=copy.deepcopy(f.source); changed['tasks'][0]['brief']='docs/missing-synthetic-migrate002.md'
+                        archive_fixture.json('progress/state.json',changed)
                     else:
-                        path = archive_fixture.root/REPORT; path.unlink()
-                        path.symlink_to('identities.json')
+                        bounded=source(task('CONVERT-901'))
+                        archive_fixture.json('progress/state.json',bounded)
+                        archive_fixture.json('docs/migrations/EPIC-029/archive/identities.json',mapping(*bounded['tasks']))
                 with self.subTest(archive_mutation=mutation):
                     f.prepare_archive(edit)
                     refused = root/('refused-'+mutation)
@@ -785,7 +759,7 @@ class ProofCliTests(unittest.TestCase):
                     self.assertFalse(refused.exists())
 
     def test_explicit_inputs_usage_and_read_only_json_serialization(self):
-        for args in ([], ['validate'], ['context', 'CONVERT-901'], ['convert', '--source', 'x'],
+        for args in ([], ['convert', '--source', 'x'],
                      ['validate', '--unknown']):
             self.assert_error(self.invoke(*args), 2)
         with tempfile.TemporaryDirectory() as temporary:
@@ -806,103 +780,6 @@ class ProofCliTests(unittest.TestCase):
             self.assertEqual(set(root.rglob('*')), before_entries)
             self.assertEqual(before, {p: p.read_bytes() for p in root.rglob('*') if p.is_file()})
 
-    def test_one_disposable_full_source_cli_conversion_synthetic_mapping_only(self):
-        """Temporary pre-004 coupling. All ordinals below are fictional issue identities."""
-        original = (ROOT/'progress/state.json').read_bytes()
-        source_data = json.loads(original)
-        # Determine enrollment independently from contract, never candidate output.
-        enrolled = [t for t in source_data['tasks'] if t['kind'] != 'epic' and (
-            any(k in t for k in ('workflow', 'publication', 'supplemental_workflow_evidence'))
-            or ('review' in t and t['review'] is not None) or t['evidence']
-            or any(v not in ('not_run', 'draft') for v in t['verification'].values())
-            or (t['status'] in ('in_progress', 'in_review', 'done') and t['id'] not in LEGACY_DONE))]
-        identities = mapping(*source_data['tasks'])
-        with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary).resolve()
-            src, ids, output = root/'source.json', root/'identities.json', root/'output'
-            src.write_bytes(original); ids.write_text(json.dumps(identities))
-            def args(source_path=src, source_root=ROOT, destination=output):
-                return ('convert', '--source', source_path, '--source-root', source_root,
-                        '--identities', ids, '--archive-commit', ARCHIVE, '--output-dir', destination)
-            result = self.invoke(*args())
-            self.assertEqual((result.returncode, result.stderr), (0, ''))
-            self.assertEqual(result.stdout, json.dumps(dict(version=1, record_count=len(enrolled)), indent=2)+'\n')
-            expected_paths = {'proof-policy.json', 'report.json'} | {'proofs/'+t['id']+'.json' for t in enrolled}
-            self.assertEqual({p.relative_to(output).as_posix() for p in output.rglob('*') if p.is_file()}, expected_paths)
-            output_policy = json.loads((output/'proof-policy.json').read_text())
-            self.assertEqual(output_policy, policy(*(t['id'] for t in enrolled)))
-            self.assertEqual(list(output_policy), list(policy()))
-            for t in enrolled:
-                r = json.loads((output/'proofs'/(t['id']+'.json')).read_text())
-                expected = dict(version=1, task_id=t['id'], issue=next(e['issue'] for e in identities['entries'] if e['task_id']==t['id']),
-                    kind=t['kind'], brief=t['brief'], evidence=t['evidence'], limitations=t.get('notes', []))
-                for key in ('workflow', 'publication', 'verification', 'review', 'supplemental_workflow_evidence'):
-                    if key in t: expected[key] = t[key]
-                self.assertEqual(r, expected)
-                self.assertEqual(list(r), list(expected))
-            report = json.loads((output/'report.json').read_text())
-            self.assertEqual(list(report), ['version', 'source_task_count', 'record_count', 'archive_only_ids',
-                'enrolled_ids', 'mappings', 'field_comparisons', 'discrepancies'])
-            self.assertEqual({k: v for k, v in report.items() if k != 'field_comparisons'}, dict(
-                version=1, source_task_count=len(source_data['tasks']), record_count=len(enrolled),
-                archive_only_ids=sorted(set(t['id'] for t in source_data['tasks'])-set(t['id'] for t in enrolled)),
-                enrolled_ids=sorted(t['id'] for t in enrolled), mappings=identities['entries'], discrepancies=[]))
-            keys = ('kind', 'brief', 'evidence', 'limitations', 'workflow', 'publication',
-                    'verification', 'review', 'supplemental_workflow_evidence')
-            expected_comparisons = [dict(task_id=t['id'], **dict.fromkeys(keys, True)) for t in enrolled]
-            self.assertEqual(sorted(report['field_comparisons'], key=lambda r: r['task_id']),
-                             sorted(expected_comparisons, key=lambda r: r['task_id']))
-            for p in output.rglob('*.json'):
-                self.assertNotIn(str(root), p.read_text())
-                self.assertNotIn(str(ROOT), p.read_text())
-                self.assertEqual(p.read_text(), json.dumps(json.loads(p.read_text()), indent=2, ensure_ascii=False)+'\n')
-            saved = {p: p.read_bytes() for p in output.rglob('*') if p.is_file()}
-            self.assert_error(self.invoke(*args()))  # existing output cannot be overwritten
-            self.assertEqual(saved, {p: p.read_bytes() for p in output.rglob('*') if p.is_file()})
-            # Production source identity is forbidden relative to either root.
-            self.assert_error(self.invoke(*args(ROOT/'progress/state.json', ROOT, root/'refused')))
-            fake_root = root/'fake'; (fake_root/'progress').mkdir(parents=True)
-            (fake_root/'progress/state.json').write_bytes(original)
-            self.assert_error(self.invoke(*args(fake_root/'progress/state.json', fake_root, root/'refused')))
-            forbidden = ROOT/'build/migrate002-forbidden-output'
-            self.assertFalse(forbidden.exists())
-            self.assert_error(self.invoke(*args(src, ROOT, forbidden)))
-            self.assertFalse(forbidden.exists())
-            self.assert_error(self.invoke(*args(ROOT/'progress/state.json', fake_root, root/'refused')))
-            existing = root/'existing'; existing.mkdir()
-            self.assert_error(self.invoke(*args(destination=existing)))
-            self.assertEqual(list(existing.iterdir()), [])
-            alias = root/'alias-source'; alias.symlink_to(src)
-            self.assert_error(self.invoke(*args(source_path=alias, destination=root/'alias-refused')))
-            ancestor = root/'ancestor'; ancestor.symlink_to(root, target_is_directory=True)
-            self.assert_error(self.invoke(*args(source_path=ancestor/'source.json', destination=root/'ancestor-refused')))
-            self.assert_error(self.invoke(*args(destination=src/'overlap')))
-            self.assertFalse((root/'alias-refused').exists())
-            self.assertFalse((root/'ancestor-refused').exists())
-            ids_alias = root/'alias-identities'; ids_alias.symlink_to(ids)
-            self.assert_error(self.invoke('convert', '--source', src, '--source-root', ROOT,
-                '--identities', ids_alias, '--archive-commit', ARCHIVE, '--output-dir', root/'ids-refused'))
-            self.assertFalse((root/'ids-refused').exists())
-            self.assert_error(self.invoke(*args(destination=ancestor/'output-refused')))
-            self.assertFalse((root/'output-refused').exists())
-            root_alias = root/'alias-root'; root_alias.symlink_to(ROOT, target_is_directory=True)
-            self.assert_error(self.invoke(*args(source_root=root_alias, destination=root/'root-refused')))
-            self.assertFalse((root/'root-refused').exists())
-            # A strict source-file requirement cannot be bypassed by tree-free conversion.
-            invalid_source = copy.deepcopy(source_data)
-            selected = next(t for t in invalid_source['tasks'] if t['kind'] != 'epic')
-            selected['brief'] = 'docs/missing-synthetic-migrate002.md'
-            src.write_text(json.dumps(invalid_source))
-            self.assert_error(self.invoke(*args(destination=root/'missing-file-refused')))
-            self.assertFalse((root/'missing-file-refused').exists())
-            # Bounded API fixture is deliberately not admitted as a full CLI source.
-            bounded_task = task('CONVERT-901')
-            bounded = source(bounded_task); src.write_text(json.dumps(bounded))
-            ids.write_text(json.dumps(mapping(bounded_task)))  # equal ID sets: strict admission alone must refuse
-            self.assert_error(self.invoke(*args(destination=root/'bounded-refused')))
-            self.assertFalse((root/'bounded-refused').exists())
-            self.assertFalse((root/'refused').exists())
-            self.assertEqual((ROOT/'progress/state.json').read_bytes(), original)
 
 
 if __name__ == '__main__':

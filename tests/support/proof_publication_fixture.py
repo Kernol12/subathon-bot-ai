@@ -42,7 +42,7 @@ def observation(head, state='open', at='2026-11-12T12:00:00Z',
 
 class ProofPublicationFixture(PublicationFixture):
     def __init__(self, root, *, publication=False, supplemental=False, dormant=False):
-        super().__init__(root)
+        super().__init__(root, prepare_current=False)
         self.write(CONTRACT, b'Synthetic contract\n')
         self.write(ORACLE, b'Independent expected result: seven\n')
         self.write(RUNTIME, b'NI synthetic runtime\n')
@@ -81,7 +81,10 @@ class ProofPublicationFixture(PublicationFixture):
             unstarted=task('WAIT-903', 'contract', 9905)
             unstarted.update(evidence=[], verification={'acceptance':'not_run'}, notes=[])
             tasks.append(unstarted)
-        self.source = deepcopy(self.data)
+        self.source = dict(schema_version=1, project='Synthetic publication fixture',
+            baseline_version='0.1.0', specification_version='0.45',
+            updated_at='2026-11-12T12:00:00Z', summary='Disposable archive',
+            verification=[], activity=[])
         self.source['workflow_policy'] = dict(version=1, legacy_done=list(LEGACY_DONE),
                                                legacy_done_sha256=LEGACY_DONE_SHA256)
         self.source['tasks'] = tasks
@@ -115,6 +118,9 @@ class ProofPublicationFixture(PublicationFixture):
         remain the independent literal extraction, even when archive inputs change.
         """
         self.git('reset', '--hard', self.source_revision)
+        for path in (self.root/'progress/proofs').glob('*.json'):
+            path.unlink()
+        (self.root/'progress/proof-policy.json').unlink(missing_ok=True)
         self.json('progress/state.json', self.source)
         self.json(IDENTITIES, self.identities)
         self.json(REPORT, self.report)
@@ -126,7 +132,7 @@ class ProofPublicationFixture(PublicationFixture):
         # Target is an observed ancestor, never a guessed future hash.
         self.target = self.archive
         self.git('update-ref', 'refs/remotes/origin/main', self.target)
-        self.save()  # Restore the original small production tracker/render positive.
+        # Archive bytes are historical inputs only; current tests use canonical records.
         for name in (IDENTITIES, REPORT, 'docs/retired-publication.md'):
             path = self.root/name
             if path.exists() or path.is_symlink():
@@ -159,7 +165,7 @@ class ProofPublicationFixture(PublicationFixture):
     def arguments(self, *, bootstrap=True, stages=('contract',), complete=False,
                   schema_python='/fixture/schema-python', base=None, head='HEAD', task_id=SELECTED):
         result = ['--base', self.target if base is None else base, '--head', head,
-                  '--task', task_id, '--schema-python', str(schema_python), '--proofs']
+                  '--task', task_id, '--schema-python', str(schema_python)]
         result += [arg for stage in stages for arg in ('--stage', stage)]
         if bootstrap:
             result.append('--bootstrap')
