@@ -1,6 +1,20 @@
 # EPIC-029 authorized — MIGRATE-004 contract and inventory
 
-## Current blocker — reviewed draft, no cutover
+## Owner-authorized historical amendment — preparation resumed
+
+Latest owner instruction, “These sounds good continue the migration,” accepts the
+proposed narrowly reviewed historical-evidence amendment. Authorize proposal and
+independent review of individually named original-identity/unrecoverable-source
+limitations, preserving original claims and available safe receipts privately/remotely
+as appropriate. This is no blanket exemption, no factual proof upgrade and no current
+gate waiver. Check unfinished-task reliance explicitly; unresolved required current
+proof still blocks that task. Coordinator authors amendment/contract/brief links and
+shared metadata; no active delegated writer. Mandatory independent review precedes use.
+Continue exact004→006→005, with product/API/WF006/007 execution stopped and fullv0.45
+preserved. State remains authoritative until final protected004merge. Prior blocker
+receipt and rejected history remain evidence; no archive/pin/unsafe object publication.
+
+## Prior blocker checkpoint — reviewed draft, no cutover
 
 Latest bounded draft CODE source `0041d000317d7806b304b711f95ab9fcbe64310b` completed
 independent Codex verification and fresh Claude closing. Runtime remains isolated and
