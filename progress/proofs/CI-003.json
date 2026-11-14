@@ -6,7 +6,7 @@
     "number": 624
   },
   "kind": "implementation",
-  "brief": "docs/tasks/CI-003.md",
+  "brief": "https://github.com/Kernol12/subathon-bot-ai/blob/da8db0dc3984f55aaff12297947a6bd8083d5315/docs/tasks/CI-003.md",
   "evidence": [
     "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6849584005",
     "https://github.com/canonical/cloud-init/blob/30b3ea21ec86269a2e31ae0028fbb4a7cc5b41a1/templates/sources.list.ubuntu.deb822.tmpl",

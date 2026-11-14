@@ -6,7 +6,7 @@
     "number": 193
   },
   "kind": "contract",
-  "brief": "docs/tasks/ACCTCONTRACT-001.md",
+  "brief": "https://github.com/Kernol12/subathon-bot-ai/blob/da8db0dc3984f55aaff12297947a6bd8083d5315/docs/tasks/ACCTCONTRACT-001.md",
   "evidence": [
     "docs/contracts/application-service-v1.md",
     "docs/decisions/0003-application-service-prerequisites.md",

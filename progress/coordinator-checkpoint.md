@@ -42,7 +42,11 @@ Compact tracking duplication; remove eligible completed copies only after archiv
 Keep proof brief relocation within the existing pinned-archive rule; do not change tool behavior.
 Use one PR and one Claude initial → Codex verify → Claude closing cycle.
 No new tests or manufactured red for documentation cleanup. Existing relevant checks apply.
-Current fix rounds:0 of2. No cleanup PR yet; no006 review or completion claimed.
+Current fix rounds:0 of2. Authored source ddc39a53; independent review pending.
+Actual cleanup:327 files inventoried;71 archived/removed,238 compacted,18 unchanged.
+149 shared unfinished briefs and30 completed technical/current-gate briefs retained.
+96 canonical brief pointers relocated to matching immutable proof-archive bytes.
+GitHub link repair in progress; no cleanup PR or completion claimed.
 
 ## Next
 

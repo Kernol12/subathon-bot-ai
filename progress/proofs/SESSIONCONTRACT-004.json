@@ -6,7 +6,7 @@
     "number": 580
   },
   "kind": "contract",
-  "brief": "docs/tasks/EPIC-007/SESSIONCONTRACT-004.md",
+  "brief": "https://github.com/Kernol12/subathon-bot-ai/blob/da8db0dc3984f55aaff12297947a6bd8083d5315/docs/tasks/EPIC-007/SESSIONCONTRACT-004.md",
   "evidence": [
     "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-004-handoff.md",
     "docs/contracts/session-clock-v1.md",
