@@ -327,6 +327,15 @@
         "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
         "SUBATHON_ACCEPTANCE_SUITES": "bounded-http-foundation"
       }
+    },
+    {
+      "name": "core-acceptance-debug",
+      "displayName": "35 \u00b7 All pure core acceptance suites (CI core job)",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
+        "SUBATHON_ACCEPTANCE_SUITES": "time-credit;exact-numeric;timer-lifecycle;receipt-intake;contribution-evidence;pause-policy;application-plan;time-debt;timer-editorial;milestone-progression;effective-permissions;rate-snapshot"
+      }
     }
   ],
   "buildPresets": [
@@ -469,6 +478,10 @@
     {
       "name": "bounded-http-foundation-debug",
       "configurePreset": "bounded-http-foundation-debug"
+    },
+    {
+      "name": "core-acceptance-debug",
+      "configurePreset": "core-acceptance-debug"
     }
   ],
   "testPresets": [
@@ -822,6 +835,16 @@
         "include": {
           "label": "^bounded-http-foundation$"
         }
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "core-acceptance-debug",
+      "configurePreset": "core-acceptance-debug",
+      "output": {
+        "outputOnFailure": true
       },
       "execution": {
         "noTestsAction": "error"

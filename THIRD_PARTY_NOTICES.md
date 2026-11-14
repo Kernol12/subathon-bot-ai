@@ -50,7 +50,7 @@ future distribution.
 
 Qt writer baseline CI selects official Qtbase 6.12.0 Linux x86-64 and its ICU73
 runtime archives, with SHA-256 verification in
-[the workflow](.github/workflows/sqlite-writer.yml). No Qt/ICU binary is committed or
+[the CI workflow](.github/workflows/ci.yml). No Qt/ICU binary is committed or
 redistributed by this repository. The downloaded archives retain their license
 material; release packaging must provide the complete applicable Qt/ICU/SQLite
 license and source/offer obligations before any distribution. The baseline uses
