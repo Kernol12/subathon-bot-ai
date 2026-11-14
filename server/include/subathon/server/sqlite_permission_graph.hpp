@@ -104,11 +104,15 @@ class PermissionGraphNotImplemented final : public std::logic_error {
 // SqliteWorkFailure is preserved (including wrong_thread/stale_session/sticky errors).
 // Read variants distinguish absence, invalid data and bounded refusal. Mutations
 // throw PermissionGraphStorageFailure for those source failures; never call them stale.
+// Actual SQL and cumulative writer failures always throw original SqliteWorkFailure.
+// Missing installation/owner in current storage is invalid_data, never known-empty.
 // Constructor/input errors precede SQL; no borrowed mutation is copied before bounds.
 class SqlitePermissionGraphUnit final {
   public:
     SqlitePermissionGraphUnit(const SqliteWorkSession &, std::string_view installation,
                               const PermissionGraphTrust &, PermissionGraphLimits = {});
+    SqlitePermissionGraphUnit(const SqliteWorkSession &, std::string_view, PermissionGraphTrust &&,
+                              PermissionGraphLimits = {}) = delete;
     ~SqlitePermissionGraphUnit();
     SqlitePermissionGraphUnit(const SqlitePermissionGraphUnit &) = delete;
     SqlitePermissionGraphUnit &operator=(const SqlitePermissionGraphUnit &) = delete;

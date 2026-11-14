@@ -19,6 +19,54 @@ SqlRows physical(Observer &o) {
     }
     return result;
 }
+void exact_rows(Observer &o, std::uint64_t revision, const PermissionEditableState &use,
+                const PermissionEditableState &grant, const PermissionGraphTrust &trusted) {
+    require(
+        o.rows(
+            "SELECT installation_ref,revision,owner_ref,catalog FROM subathon_permission_head") ==
+            SqlRows{{QByteArray("I"), encoded(revision), QByteArray("O"), encoded(trusted)}},
+        "Exact independent head row");
+    SqlRows roles, accounts;
+    int channel = 0;
+    for (const auto *g : {&use, &grant}) {
+        for (const auto &r : g->roles)
+            roles.append({QByteArray("I"), channel, blob(r.role), encoded(r.entries)});
+        for (const auto &a : g->accounts)
+            if (!a.assigned_roles.empty() || !a.individual_entries.empty())
+                accounts.append({QByteArray("I"), channel, blob(a.account),
+                                 encoded(a.assigned_roles), encoded(a.individual_entries)});
+        ++channel;
+    }
+    auto order = [](const SqlRow &a, const SqlRow &b) {
+        if (a[1].toInt() != b[1].toInt())
+            return a[1].toInt() < b[1].toInt();
+        return a[2].toByteArray() < b[2].toByteArray();
+    };
+    std::sort(roles.begin(), roles.end(), order);
+    std::sort(accounts.begin(), accounts.end(), order);
+    require(
+        o.rows("SELECT installation_ref,channel,role_ref,entries FROM subathon_permission_roles "
+               "ORDER BY channel,role_ref") == roles,
+        "Both channels' exact role payloads, independent encoder");
+    require(o.rows("SELECT installation_ref,channel,account_ref,memberships,entries FROM "
+                   "subathon_permission_accounts ORDER BY channel,account_ref") == accounts,
+            "Both channels' exact memberships/entries and canonical sparse omissions");
+}
+template <class F> void storage_error(F f, PermissionGraphFailure expected) {
+    bool reached = false;
+    try {
+        f();
+    } catch (const PermissionGraphStorageFailure &e) {
+        reached = true;
+        require(e.code() == expected, "Exact storage refusal");
+    }
+    require(reached, "Typed storage exception, never NI accepted");
+}
+QString set_blob(const QString &table, const QString &column, const QByteArray &bytes,
+                 const QString &where = {}) {
+    return "UPDATE " + table + " SET " + column + "=X'" + QString::fromLatin1(bytes.toHex()) + "'" +
+           where;
+}
 PermissionEditableState deny_management() {
     auto next = use_graph();
     auto e = allowance("management", "roles.edit");
@@ -35,6 +83,8 @@ void refusal_keeps_rows(Database &db, const PermissionEditableState &next,
     db.work([&](const auto &s) {
         SqlitePermissionGraphUnit unit(s, "I", db.trusted);
         input_error([&] { (void)unit.replace_use(1, next); }, error);
+        input_error([&] { (void)unit.replace_grant_from_owner(1, next); }, error);
+        input_error([&] { (void)unit.describe_use_edit(next); }, error);
     });
     require(physical(observer) == before, "Pure mutation refusal performs no writes");
 }
@@ -76,7 +126,7 @@ class SqlitePermissionGraphTests final : public QObject {
                                 canonical_migration_payload(expected),
                         "Preserve each shipped identity, SQL byte and full schema projection");
             }
-            const auto expected = step9(prefix);
+            const auto expected = step9(literal);
             require(actual.steps.back().version == 9 && actual.steps.back().id == expected.id &&
                         actual.steps.back().sql == expected.sql &&
                         actual.steps.back().expected_schema == expected.expected_schema,
@@ -158,6 +208,22 @@ class SqlitePermissionGraphTests final : public QObject {
                         "Existing owner/head never adopted or overwritten");
             });
             same(db.load(), 1, empty_graph(), empty_graph());
+            Observer observer(db.path);
+            exact_rows(observer, 1, empty_graph(), empty_graph(), db.trusted);
+        });
+    }
+    void bootstrapCompleteStateHasExactIndependentPhysicalRows() {
+        scenario([] {
+            Database db(false);
+            db.work([&](const auto &session) {
+                SqlitePermissionGraphUnit unit(session, "I", db.trusted);
+                require(unit.bootstrap("O", use_graph(), grant_graph()) ==
+                            PermissionGraphWrite::staged,
+                        "Nonempty bootstrap stages both complete channels");
+            });
+            Observer observer(db.path);
+            exact_rows(observer, 1, use_graph(), grant_graph(), db.trusted);
+            same(db.load(), 1);
         });
     }
     void completeCommittedGraphRetainsBothChannelsAndProtectedOwner() {
@@ -175,6 +241,7 @@ class SqlitePermissionGraphTests final : public QObject {
                 observer.rows("SELECT entries FROM subathon_permission_roles WHERE channel=0") ==
                     SqlRows{{encoded(use_graph().roles[0].entries)}},
                 "Independent physical entry codec");
+            exact_rows(observer, 1, use_graph(), grant_graph(), db.trusted);
             account_sessions_fixture::healthy(observer);
         });
     }
@@ -198,6 +265,7 @@ class SqlitePermissionGraphTests final : public QObject {
             });
             same(db.load(), 2, next);
             require(physical(observer) != old, "New committed reader sees replacement");
+            exact_rows(observer, 2, next, grant_graph(), db.trusted);
         });
     }
     void replayAndStaleRevisionNeverMutateAnyTable() {
@@ -250,6 +318,8 @@ class SqlitePermissionGraphTests final : public QObject {
                         "Current revocation changes shared head");
             });
             same(db.load(), 2, next, grant);
+            Observer exact_observer(db.path);
+            exact_rows(exact_observer, 2, next, grant, db.trusted);
             Observer observer(db.path);
             const auto revoked = physical(observer);
             db.work([&](const auto &s) {
@@ -416,16 +486,24 @@ class SqlitePermissionGraphTests final : public QObject {
                 require(std::holds_alternative<PermissionGraphEditFacts>(v),
                         "New empty roles still have management intents");
                 const auto &m = std::get<PermissionGraphEditFacts>(v).management;
-                require(m.size() == 2 && m[0].operation == "roles.edit" &&
-                            m[0].resources.size() == 1 && m[0].resources[0].resource == "R2" &&
-                            m[1].resources.size() == 1 && m[1].resources[0].resource == "R3",
-                        "Each created target is derived, not one caller-selected role");
+                auto exact_intents = [](const auto &intents) {
+                    require(intents.size() == 2, "Both created/deleted targets");
+                    for (std::size_t i = 0; i < 2; ++i)
+                        require(intents[i].operation == "roles.edit" &&
+                                    intents[i].resources.size() == 1 &&
+                                    intents[i].resources[0].slot == "role" &&
+                                    intents[i].resources[0].resource == (i == 0 ? "R2" : "R3") &&
+                                    intents[i].quantities.empty(),
+                                "Exact role-management operation/slot/target and no quantities");
+                };
+                exact_intents(m);
                 require(unit.replace_use(1, reordered) == PermissionGraphWrite::staged,
                         "Created roles stage");
                 const auto removed = unit.describe_use_edit(use_graph());
                 require(std::holds_alternative<PermissionGraphEditFacts>(removed) &&
                             std::get<PermissionGraphEditFacts>(removed).management.size() == 2,
                         "Deleting empty roles also requires management");
+                exact_intents(std::get<PermissionGraphEditFacts>(removed).management);
             });
         });
     }
@@ -455,6 +533,8 @@ class SqlitePermissionGraphTests final : public QObject {
                         "GRANT role/membership has its own channel");
             });
             same(db.load(), 3, use, grant);
+            Observer observer(db.path);
+            exact_rows(observer, 3, use, grant, db.trusted);
         });
     }
     void currentAccountRevocationFactsAreReloadedWithoutFabricatingGraphAuthority() {
@@ -486,7 +566,7 @@ class SqlitePermissionGraphTests final : public QObject {
     }
     void callerCannotSmuggleUnknownOperationOrMalformedGraph_data() {
         QTest::addColumn<int>("kind");
-        for (int i = 0; i < 9; ++i)
+        for (int i = 0; i < 10; ++i)
             QTest::newRow(qPrintable(QString::number(i))) << i;
     }
     void callerCannotSmuggleUnknownOperationOrMalformedGraph() {
@@ -522,6 +602,9 @@ class SqlitePermissionGraphTests final : public QObject {
                 break;
             case 8:
                 next.accounts.erase(next.accounts.begin());
+                break;
+            case 9:
+                next.accounts.push_back({"non-roster", {}, {}});
                 break;
             }
             refusal_keeps_rows(db, next, PermissionGraphInputError::invalid_input);
@@ -560,10 +643,19 @@ class SqlitePermissionGraphTests final : public QObject {
                 const auto bytes = encoded(forged).toHex();
                 corrupt(db.path, {"UPDATE subathon_permission_head SET catalog=X'" +
                                   QString::fromLatin1(bytes) + "'"});
+                Observer observer(db.path);
+                const auto before = physical(observer);
                 db.work([&](const auto &s) {
                     SqlitePermissionGraphUnit unit(s, "I", db.trusted);
                     failure(unit.load(), PermissionGraphFailure::invalid_data);
+                    storage_error([&] { (void)unit.synchronize_catalog(1); },
+                                  PermissionGraphFailure::invalid_data);
                 });
+                require(physical(observer) == before,
+                        "Whole physical snapshot unchanged on corrupt sync");
+                require(observer.rows("SELECT catalog FROM subathon_permission_head") ==
+                            SqlRows{{encoded(forged)}},
+                        "Synchronization never repairs tampering");
             }
         });
     }
@@ -575,6 +667,15 @@ class SqlitePermissionGraphTests final : public QObject {
             db.work([&](const auto &s) {
                 SqlitePermissionGraphUnit unit(s, "I", db.trusted);
                 failure(unit.load(), PermissionGraphFailure::unavailable);
+                storage_error([&] { (void)unit.replace_use(1, use_graph()); },
+                              PermissionGraphFailure::unavailable);
+                storage_error([&] { (void)unit.replace_grant_from_owner(1, grant_graph()); },
+                              PermissionGraphFailure::unavailable);
+                const auto edit = unit.describe_use_edit(use_graph());
+                require(std::holds_alternative<PermissionGraphFailure>(edit) &&
+                            std::get<PermissionGraphFailure>(edit) ==
+                                PermissionGraphFailure::unavailable,
+                        "Edit facts unavailable under mismatched catalog");
                 require(unit.synchronize_catalog(1) == PermissionGraphWrite::staged,
                         "Trusted catalog owner explicitly advances CAS head");
                 const auto v = unit.load();
@@ -585,6 +686,8 @@ class SqlitePermissionGraphTests final : public QObject {
                             encoded(g.grant) == encoded(grant_graph()),
                         "Catalog update preserves both policy channels");
             });
+            Observer observer(db.path);
+            exact_rows(observer, 2, use_graph(), grant_graph(), db.trusted);
             db.work([&](const auto &s) {
                 SqlitePermissionGraphUnit old_unit(s, "I", old);
                 failure(old_unit.load(), PermissionGraphFailure::unavailable);
@@ -614,6 +717,83 @@ class SqlitePermissionGraphTests final : public QObject {
             << "DELETE FROM subathon_permission_roles WHERE channel=0" << invalid;
         QTest::newRow("oversized-payload")
             << "UPDATE subathon_permission_roles SET entries=zeroblob(16777217)" << resource;
+        QTest::newRow("revision-integer")
+            << "UPDATE subathon_permission_head SET revision=1" << invalid;
+        QTest::newRow("revision-short")
+            << "UPDATE subathon_permission_head SET revision=X'01'" << invalid;
+        QTest::newRow("catalog-truncated")
+            << "UPDATE subathon_permission_head SET catalog=X'01'" << invalid;
+        QTest::newRow("catalog-count")
+            << "UPDATE subathon_permission_head SET "
+               "catalog=X'"
+               "0100000000000000177065726d697373696f6e2d7265666572656e63652d7631ffffffffffffffff'"
+            << resource;
+        QTest::newRow("grant-membership-count") << "UPDATE subathon_permission_accounts SET "
+                                                   "memberships=X'ffffffffffffffff' WHERE channel=1"
+                                                << resource;
+        QTest::newRow("grant-membership-truncated")
+            << "UPDATE subathon_permission_accounts SET memberships=X'0000000000000001' WHERE "
+               "channel=1"
+            << invalid;
+        QTest::newRow("grant-entry-truncated")
+            << "UPDATE subathon_permission_accounts SET entries=X'0000000000000001' WHERE channel=1"
+            << invalid;
+        QTest::newRow("grant-entry-count")
+            << "UPDATE subathon_permission_accounts SET entries=X'ffffffffffffffff' WHERE channel=1"
+            << resource;
+        QTest::newRow("orphan-account") << "UPDATE subathon_permission_accounts SET "
+                                           "account_ref=X'58' WHERE channel=1 AND account_ref=X'41'"
+                                        << invalid;
+        QTest::newRow("metadata-resource-before-codec")
+            << "UPDATE subathon_permission_roles SET entries=CASE WHEN channel=0 THEN "
+               "X'0000000000000001' ELSE zeroblob(16777217) END"
+            << resource;
+        QTest::newRow("metadata-resource-before-class")
+            << "UPDATE subathon_permission_roles SET entries=CASE WHEN channel=0 THEN 'bad class' "
+               "ELSE zeroblob(16777217) END"
+            << resource;
+        QTest::newRow("grant-membership-class")
+            << "UPDATE subathon_permission_accounts SET memberships='not a blob' WHERE channel=1"
+            << invalid;
+        QTest::newRow("grant-membership-trailing")
+            << "UPDATE subathon_permission_accounts SET memberships=CAST(memberships||X'00' AS "
+               "BLOB) WHERE channel=1"
+            << invalid;
+        QTest::newRow("revision-long")
+            << "UPDATE subathon_permission_head SET revision=X'000000000000000100'" << invalid;
+        for (int k = 0; k < 5; ++k) {
+            auto entries = use_graph().roles[0].entries;
+            if (k == 0)
+                entries[0].origin = static_cast<PermissionOrigin>(255);
+            if (k == 1)
+                entries[0].effect = static_cast<PermissionEffect>(255);
+            if (k == 2)
+                entries[0].resources[0].mode = static_cast<PermissionResourceMode>(255);
+            if (k == 3)
+                entries[0].quantities[0].mode = static_cast<PermissionQuantityMode>(255);
+            auto bytes = encoded(entries);
+            if (k == 4)
+                bytes[18] = char(2); // count8, origin1, source length8 + s1; role option
+            QTest::newRow(qPrintable(QString("entry-closed-tag-%1").arg(k)))
+                << set_blob("subathon_permission_roles", "entries", bytes, " WHERE channel=0")
+                << invalid;
+        }
+        for (int k = 0; k < 5; ++k) {
+            auto t = trust();
+            if (k == 0)
+                t.catalog.operations[0].classification = static_cast<PermissionOperationClass>(255);
+            if (k == 1)
+                t.catalog.operations[0].quantity_slots[0].kind =
+                    static_cast<PermissionNumberKind>(255);
+            if (k == 2)
+                t.catalog.operations[0].quantity_slots[0].allowed_modes = 16;
+            if (k == 3)
+                t.catalog.state = static_cast<PermissionFactsState>(255);
+            if (k == 4)
+                t.catalog.operations[0].quantity_slots[0].allowed_modes = 0;
+            QTest::newRow(qPrintable(QString("catalog-closed-tag-%1").arg(k)))
+                << set_blob("subathon_permission_head", "catalog", encoded(t)) << invalid;
+        }
     }
     void corruptOrOversizedPhysicalRowsNeverBecomeEmpty() {
         QFETCH(QString, sql);
@@ -635,6 +815,16 @@ class SqlitePermissionGraphTests final : public QObject {
                             "Corrupt current source is never stale/collision");
                 }
                 require(reached, "Mutation refuses incomplete current facts");
+                const auto expected = static_cast<PermissionGraphFailure>(code);
+                storage_error([&] { (void)unit.replace_grant_from_owner(1, empty_graph()); },
+                              expected);
+                storage_error([&] { (void)unit.bootstrap("O", empty_graph(), empty_graph()); },
+                              expected);
+                storage_error([&] { (void)unit.synchronize_catalog(1); }, expected);
+                const auto edit = unit.describe_use_edit(empty_graph());
+                require(std::holds_alternative<PermissionGraphFailure>(edit) &&
+                            std::get<PermissionGraphFailure>(edit) == expected,
+                        "Current source corruption precedes roster mismatch in edit facts too");
             });
             require(physical(observer) == before, "No repair, adoption or partial mutation");
         });
@@ -830,6 +1020,545 @@ class SqlitePermissionGraphTests final : public QObject {
                         terminal.error == WorkError::session_closed && !terminal.value,
                     "Terminal misuse keeps committed outcome and actual sticky error without "
                     "publication");
+        });
+    }
+    void bootstrapRejectsInvalidInputsAndMissingParents_data() {
+        QTest::addColumn<int>("kind");
+        for (int i = 0; i < 8; ++i)
+            QTest::newRow(qPrintable(QString::number(i))) << i;
+    }
+    void bootstrapRejectsInvalidInputsAndMissingParents() {
+        QFETCH(int, kind);
+        scenario([&] {
+            Database db(false);
+            auto use = empty_graph(), grant = empty_graph();
+            std::string owner = "O";
+            if (kind == 0)
+                owner.clear();
+            if (kind == 1)
+                owner = "nonexistent";
+            if (kind == 2)
+                use.accounts.pop_back();
+            if (kind == 3)
+                grant.accounts.push_back({"extra", {}, {}});
+            if (kind == 4)
+                grant.state = PermissionFactsState::unknown;
+            if (kind == 5)
+                grant.accounts[0].assigned_roles = {"unresolved"};
+            if (kind == 6)
+                corrupt(db.path, {"DELETE FROM subathon_account_installation"});
+            if (kind == 7)
+                corrupt(db.path, {"DELETE FROM subathon_accounts WHERE account_ref=X'4f'"});
+            Observer observer(db.path);
+            const auto before = physical(observer);
+            db.work([&](const auto &s) {
+                SqlitePermissionGraphUnit unit(s, "I", db.trusted);
+                if (kind == 1 || kind == 6 || kind == 7)
+                    storage_error([&] { (void)unit.bootstrap(owner, use, grant); },
+                                  PermissionGraphFailure::invalid_data);
+                else
+                    input_error([&] { (void)unit.bootstrap(owner, use, grant); },
+                                PermissionGraphInputError::invalid_input);
+                if (kind == 6)
+                    failure(unit.load(), PermissionGraphFailure::invalid_data);
+            });
+            require(physical(observer) == before, "Bootstrap refuses without head/child writes");
+        });
+    }
+    void bootstrapOverCorruptionNeverCollidesOrAdopts() {
+        scenario([] {
+            for (int k = 0; k < 3; ++k) {
+                Database db;
+                if (k == 0)
+                    corrupt(db.path, {"UPDATE subathon_permission_head SET catalog=X'01'"});
+                if (k == 1)
+                    corrupt(db.path, {"DELETE FROM subathon_permission_head"});
+                if (k == 2)
+                    corrupt(db.path, {"DELETE FROM subathon_accounts WHERE account_ref=X'4f'"});
+                Observer observer(db.path);
+                const auto before = physical(observer);
+                db.work([&](const auto &s) {
+                    SqlitePermissionGraphUnit unit(s, "I", db.trusted);
+                    storage_error([&] { (void)unit.bootstrap("O", use_graph(), grant_graph()); },
+                                  PermissionGraphFailure::invalid_data);
+                });
+                require(physical(observer) == before, "No corrupt bootstrap adoption/repair");
+            }
+        });
+    }
+    void installationInputsAndDistinctScopesAreExplicit() {
+        scenario([] {
+            Database db;
+            input_error([&] { SqlitePermissionGraphUnit unit({}, "", db.trusted); },
+                        PermissionGraphInputError::invalid_input);
+            input_error(
+                [&] { SqlitePermissionGraphUnit unit({}, std::string(4097, 'x'), db.trusted); },
+                PermissionGraphInputError::resource_limit);
+            db.work([&](const auto &s) {
+                SqliteAccountSessionUnit accounts(s, {{}});
+                require(accounts.insert_installation({{"other", "E"}, "J"}) ==
+                            LifecycleWriteResult::staged,
+                        "Separate existing installation");
+                SqlitePermissionGraphUnit other(s, "other", db.trusted);
+                failure(other.load(), PermissionGraphFailure::missing);
+                SqlitePermissionGraphUnit absent(s, "nonexistent", db.trusted);
+                failure(absent.load(), PermissionGraphFailure::invalid_data);
+            });
+            same(db.load(), 1);
+        });
+    }
+    void missingAndFutureExpectedHeadsAreStaleWithoutWrites() {
+        scenario([] {
+            for (bool populated : {false, true}) {
+                Database db(populated);
+                Observer observer(db.path);
+                const auto before = physical(observer);
+                db.work([&](const auto &s) {
+                    SqlitePermissionGraphUnit unit(s, "I", db.trusted);
+                    require(unit.replace_use(2, use_graph()) == PermissionGraphWrite::stale,
+                            "Proven missing or future expected head refuses");
+                    require(unit.replace_grant_from_owner(2, grant_graph()) ==
+                                PermissionGraphWrite::stale,
+                            "GRANT cannot adopt future/missing head");
+                });
+                require(physical(observer) == before, "Stale performs zero physical writes");
+            }
+        });
+    }
+    void catalogRemovalUsedInEitherChannelRefusesWithoutWrites() {
+        scenario([] {
+            for (int channel = 0; channel < 2; ++channel) {
+                Database db;
+                // Retain use of time-add only in the selected channel. Independent SQL setup.
+                if (channel == 0)
+                    corrupt(db.path, {"DELETE FROM subathon_permission_roles WHERE channel=1",
+                                      "DELETE FROM subathon_permission_accounts WHERE channel=1"});
+                else
+                    corrupt(db.path, {"DELETE FROM subathon_permission_roles WHERE channel=0",
+                                      "DELETE FROM subathon_permission_accounts WHERE channel=0"});
+                db.trusted.catalog.revision = "C2";
+                db.trusted.catalog.operations.erase(db.trusted.catalog.operations.begin());
+                Observer observer(db.path);
+                const auto before = physical(observer);
+                db.work([&](const auto &s) {
+                    SqlitePermissionGraphUnit unit(s, "I", db.trusted);
+                    storage_error([&] { (void)unit.synchronize_catalog(1); },
+                                  PermissionGraphFailure::invalid_data);
+                });
+                require(physical(observer) == before,
+                        "Neither channel silently discards obsolete grants");
+            }
+        });
+    }
+    void mismatchedCatalogRefusesAllOrdinaryWritesWithoutChanges() {
+        scenario([] {
+            Database db;
+            Observer observer(db.path);
+            const auto before = physical(observer);
+            db.trusted.catalog.revision = "C2";
+            db.work([&](const auto &s) {
+                SqlitePermissionGraphUnit unit(s, "I", db.trusted);
+                storage_error([&] { (void)unit.replace_use(1, use_graph()); },
+                              PermissionGraphFailure::unavailable);
+                storage_error([&] { (void)unit.replace_grant_from_owner(1, grant_graph()); },
+                              PermissionGraphFailure::unavailable);
+                storage_error([&] { (void)unit.bootstrap("O", use_graph(), grant_graph()); },
+                              PermissionGraphFailure::unavailable);
+                const auto edit = unit.describe_use_edit(use_graph());
+                require(std::holds_alternative<PermissionGraphFailure>(edit) &&
+                            std::get<PermissionGraphFailure>(edit) ==
+                                PermissionGraphFailure::unavailable,
+                        "No mismatched edit facts");
+            });
+            require(physical(observer) == before,
+                    "Mismatch is unavailable, never a repair/collision");
+        });
+    }
+    void sqlFailuresAndPriorStickyErrorsPropagateUnchanged() {
+        scenario([] {
+            for (int k = 0; k < 3; ++k) {
+                Database db;
+                Observer observer(db.path);
+                const auto before = physical(observer);
+                if (k == 2)
+                    corrupt(db.path, {"DROP TABLE subathon_permission_roles"});
+                bool reached = false;
+                const auto result = qt_test_support::run_work(
+                    db.writer,
+                    [&](auto context) -> QVariant {
+                        const auto s = context.begin();
+                        Cleanup cleanup{s};
+                        // Constructor has no SQL/ticket side effects; NI is still an explicit unit
+                        // call.
+                        SqlitePermissionGraphUnit unit(s, "I", db.trusted);
+                        if (k < 2)
+                            work_error(
+                                [&] {
+                                    (void)s.execute(
+                                        {"SELECT * FROM main.no_such_permission_table", {}});
+                                },
+                                WorkError::sql_failure);
+                        if (k == 1)
+                            work_error([&] { (void)unit.replace_use(1, use_graph()); },
+                                       WorkError::sql_failure);
+                        else
+                            work_error([&] { (void)unit.load(); }, WorkError::sql_failure);
+                        reached = true;
+                        return 1;
+                    },
+                    10000);
+                require(reached && result.error == WorkError::sql_failure &&
+                            result.transaction == TransactionOutcome::rolled_back && !result.value,
+                        "Original SQL failure preserved; NI cannot satisfy reached guard");
+                if (k < 2)
+                    require(physical(observer) == before, "Sticky failure writes nothing");
+                else {
+                    // The deliberately dropped table cannot be selected; remaining rows still match
+                    // literals.
+                    require(
+                        observer.rows(
+                            "SELECT revision,owner_ref,catalog FROM subathon_permission_head") ==
+                            SqlRows{
+                                {encoded(std::uint64_t(1)), QByteArray("O"), encoded(db.trusted)}},
+                        "Missing table never rewrites head");
+                    require(observer.rows(
+                                "SELECT channel,account_ref FROM subathon_permission_accounts "
+                                "ORDER BY channel,account_ref") == SqlRows{{0, QByteArray("A")},
+                                                                           {0, QByteArray("O")},
+                                                                           {1, QByteArray("A")},
+                                                                           {1, QByteArray("O")}},
+                            "Missing table never deletes account policies");
+                }
+            }
+        });
+    }
+    void cumulativeWriterRowBudgetIsNotTypedUnavailable() {
+        scenario([] {
+            Database db;
+            Observer observer(db.path);
+            const auto before = physical(observer);
+            // Setup writer is closed before opening the same disposable file with a tiny budget.
+            bool stopped = false;
+            require(db.writer.shutdown([&] { stopped = true; }) == StorageError::none,
+                    "Setup writer closes normally");
+            require(QTest::qWaitFor([&] { return stopped; }, 10000),
+                    "Setup writer actually closed");
+            auto budget = account_sessions_fixture::limits();
+            budget.result_rows = 1;
+            SqliteWriter tiny;
+            require(tiny.open(db.path, budget) == StorageError::none, "Constrained writer opens");
+            bool reached = false;
+            const auto result = qt_test_support::run_work(
+                tiny,
+                [&](auto context) -> QVariant {
+                    const auto s = context.begin();
+                    Cleanup cleanup{s};
+                    SqlitePermissionGraphUnit unit(s, "I", db.trusted);
+                    work_error([&] { (void)unit.load(); }, WorkError::result_limit);
+                    work_error([&] { (void)unit.replace_use(1, use_graph()); },
+                               WorkError::result_limit);
+                    reached = true;
+                    return 1;
+                },
+                10000);
+            require(reached && result.error == WorkError::result_limit &&
+                        result.transaction == TransactionOutcome::rolled_back && !result.value,
+                    "Cumulative writer budget retains actual sticky classification");
+            require(physical(observer) == before, "Writer budget refusal writes nothing");
+        });
+    }
+    void currentInstallationEpochAndRevisionAreReloaded() {
+        scenario([] {
+            Database db;
+            db.work([&](const auto &s) {
+                SqliteAccountSessionUnit accounts(s, {{}});
+                require(accounts.replace_installation_epoch({{"I", "E"}, "J"}, "H", "N") ==
+                            LifecycleWriteResult::staged,
+                        "Existing source changes installation fence");
+                SqlitePermissionGraphUnit unit(s, "I", db.trusted);
+                const auto value = unit.load();
+                require(std::holds_alternative<StoredPermissionGraph>(value),
+                        "Current facts available");
+                const auto &v = std::get<StoredPermissionGraph>(value);
+                require(v.current_installation.current.session_epoch_ref == "H" &&
+                            v.current_installation.revision_ref == "N" && v.revision == 1,
+                        "Fresh installation fence remains separate from graph revision");
+            });
+            const auto v = db.load();
+            require(v.current_installation.current.session_epoch_ref == "H" &&
+                        v.current_installation.revision_ref == "N",
+                    "No cached installation facts");
+        });
+    }
+    void unsignedIdentityOrderAndVectorReorderDoNotInventIntents() {
+        scenario([] {
+            Database db;
+            const std::string high(1, char(255));
+            auto expected = use_graph();
+            expected.roles.push_back({"Z", {}});
+            expected.roles.push_back({high, {}});
+            expected.accounts[0].assigned_roles = {"R", "Z", high};
+            auto entry = expected.roles[0].entries[0];
+            entry.source = "second";
+            expected.roles[0].entries.push_back(entry);
+            db.work([&](const auto &s) {
+                for (const auto &id : {std::string("Z"), high})
+                    (void)s.execute(
+                        {"INSERT INTO subathon_permission_roles VALUES(?,0,?,?)",
+                         {QByteArray("I"), blob(id), QByteArray::fromHex("0000000000000000")}});
+                (void)s.execute({"UPDATE subathon_permission_roles SET entries=? WHERE channel=0 "
+                                 "AND role_ref=X'52'",
+                                 {encoded(expected.roles[0].entries)}});
+                (void)s.execute({"UPDATE subathon_permission_accounts SET memberships=? WHERE "
+                                 "channel=0 AND account_ref=X'41'",
+                                 {encoded(expected.accounts[0].assigned_roles)}});
+            });
+            db.work([&](const auto &s) {
+                SqlitePermissionGraphUnit unit(s, "I", db.trusted);
+                const auto value = unit.load();
+                require(std::holds_alternative<StoredPermissionGraph>(value),
+                        "Complete ordered graph");
+                const auto &g = std::get<StoredPermissionGraph>(value);
+                require(g.use.roles.size() == 3 && g.use.roles[0].role == "R" &&
+                            g.use.roles[1].role == "Z" && g.use.roles[2].role == high,
+                        "Unsigned byte identity order: ASCII precedes FF");
+                std::reverse(expected.accounts[0].assigned_roles.begin(),
+                             expected.accounts[0].assigned_roles.end());
+                std::reverse(expected.roles[0].entries.begin(), expected.roles[0].entries.end());
+                const auto edit = unit.describe_use_edit(expected);
+                require(
+                    std::holds_alternative<PermissionGraphEditFacts>(edit) &&
+                        std::get<PermissionGraphEditFacts>(edit).management.empty(),
+                    "Membership/entry order alone does not change rights or management intents");
+            });
+        });
+    }
+    void explicitEmptySparseRowsAreAcceptedOnRead() {
+        scenario([] {
+            Database db(false);
+            db.work([&](const auto &s) {
+                (void)s.execute({"INSERT INTO subathon_permission_head VALUES(?,?,?,?)",
+                                 {QByteArray("I"), encoded(std::uint64_t(1)), QByteArray("O"),
+                                  encoded(db.trusted)}});
+                for (int channel : {0, 1})
+                    (void)s.execute({"INSERT INTO subathon_permission_accounts VALUES(?,?,?,?,?)",
+                                     {QByteArray("I"), channel, QByteArray("O"),
+                                      QByteArray::fromHex("0000000000000000"),
+                                      QByteArray::fromHex("0000000000000000")}});
+            });
+            same(db.load(), 1, empty_graph(), empty_graph());
+        });
+    }
+
+    void perMethodSemanticMutationBytesHaveExactFitAndOneBelow() {
+        scenario([] {
+            // Independent B: catalog351 + bindings(14+19+21)=405.
+            // constructor 1+405=406; long empty role graph 1+512+1+1=515.
+            // describe 1+515=516; replace 1+8+515=524;
+            // bootstrap 1+1+515+515=1032; sync 1+8+405=414.
+            const std::array<std::uint64_t, 6> fits{406, 516, 1032, 524, 524, 414};
+            for (std::size_t method = 0; method < fits.size(); ++method) {
+                for (bool fit : {true, false}) {
+                    Database db(method != 2);
+                    auto next = empty_graph();
+                    next.roles = {{std::string(512, 'r'), {}}};
+                    auto limits = PermissionGraphLimits{};
+                    limits.mutation_bytes = fits[method] - (fit ? 0U : 1U);
+                    Observer observer(db.path);
+                    const auto before = physical(observer);
+                    db.work([&](const auto &s) {
+                        auto action = [&] {
+                            SqlitePermissionGraphUnit unit(s, "I", db.trusted, limits);
+                            if (method == 0)
+                                return;
+                            if (method == 1) {
+                                const auto result = unit.describe_use_edit(next);
+                                require(std::holds_alternative<PermissionGraphEditFacts>(result),
+                                        "Exact describe mutation B fits");
+                                return;
+                            }
+                            const auto status = method == 2   ? unit.bootstrap("O", next, next)
+                                                : method == 3 ? unit.replace_use(1, next)
+                                                : method == 4
+                                                    ? unit.replace_grant_from_owner(1, next)
+                                                    : unit.synchronize_catalog(1);
+                            require(status == PermissionGraphWrite::staged,
+                                    "Exact method mutation B fits");
+                        };
+                        if (fit)
+                            action();
+                        else
+                            input_error(action, PermissionGraphInputError::resource_limit);
+                    });
+                    if (!fit || method < 2)
+                        require(physical(observer) == before, "Budget refusal/read writes nothing");
+                    else if (method == 2)
+                        exact_rows(observer, 1, next, next, db.trusted);
+                    else if (method == 3)
+                        exact_rows(observer, 2, next, grant_graph(), db.trusted);
+                    else if (method == 4)
+                        exact_rows(observer, 2, use_graph(), next, db.trusted);
+                    else
+                        exact_rows(observer, 2, use_graph(), grant_graph(), db.trusted);
+                }
+            }
+        });
+    }
+    void recursiveItemsHaveExactFitAndOneBelowForWholeProjections() {
+        scenario([] {
+            // Trust I=10 operations+14 resource slots+1 quantity definition=25.
+            // USE I=19; GRANT I=20; current account vector2 => load I=66.
+            // No-op describe adds after USE19, management0 => I=85.
+            // Long proposal: 100 empty roles + 2 accounts=102; bootstrap twice=204.
+            const std::array<std::uint64_t, 7> fits{25, 66, 85, 204, 102, 102, 66};
+            for (std::size_t method = 0; method < fits.size(); ++method) {
+                for (bool fit : {true, false}) {
+                    Database db(method != 3);
+                    auto next = empty_graph();
+                    for (int i = 0; i < 100; ++i)
+                        next.roles.push_back({"r" + std::to_string(i), {}});
+                    auto limits = PermissionGraphLimits{};
+                    limits.items = fits[method] - (fit ? 0U : 1U);
+                    Observer observer(db.path);
+                    const auto before = physical(observer);
+                    db.work([&](const auto &s) {
+                        if (method == 0) {
+                            auto ctor = [&] {
+                                SqlitePermissionGraphUnit unit(s, "I", db.trusted, limits);
+                            };
+                            if (fit)
+                                ctor();
+                            else
+                                input_error(ctor, PermissionGraphInputError::resource_limit);
+                            return;
+                        }
+                        SqlitePermissionGraphUnit unit(s, "I", db.trusted, limits);
+                        if (method == 1) {
+                            const auto result = unit.load();
+                            if (!fit)
+                                failure(result, PermissionGraphFailure::resource_limit);
+                            else
+                                require(std::holds_alternative<StoredPermissionGraph>(result),
+                                        "Load I66 fits");
+                        } else if (method == 2) {
+                            const auto result = unit.describe_use_edit(use_graph());
+                            if (fit)
+                                require(std::holds_alternative<PermissionGraphEditFacts>(result),
+                                        "Describe I85 fits");
+                            else
+                                require(std::holds_alternative<PermissionGraphFailure>(result) &&
+                                            std::get<PermissionGraphFailure>(result) ==
+                                                PermissionGraphFailure::resource_limit,
+                                        "Whole describe projection I84 refuses");
+                        } else if (method == 6) {
+                            auto sync = [&] {
+                                require(unit.synchronize_catalog(1) == PermissionGraphWrite::staged,
+                                        "Sync source I66 fits");
+                            };
+                            if (fit)
+                                sync();
+                            else
+                                storage_error(sync, PermissionGraphFailure::resource_limit);
+                        } else {
+                            auto mutate = [&] {
+                                const auto status = method == 3 ? unit.bootstrap("O", next, next)
+                                                    : method == 4
+                                                        ? unit.replace_use(1, next)
+                                                        : unit.replace_grant_from_owner(1, next);
+                                require(status == PermissionGraphWrite::staged,
+                                        "Recursive proposed items fit");
+                            };
+                            if (fit)
+                                mutate();
+                            else
+                                input_error(mutate, PermissionGraphInputError::resource_limit);
+                        }
+                    });
+                    if (!fit || method < 3)
+                        require(physical(observer) == before, "Item refusal/read writes nothing");
+                }
+            }
+        });
+    }
+    void physicalRowsHaveExactFitAndOneBelowForEverySourceMethod() {
+        scenario([] {
+            // Base rows=head1 + roles2 + policies4 + installation1 + accounts2=10.
+            // Proven missing graph selects only installation1 + accounts2=3.
+            for (int method = 0; method < 6; ++method) {
+                for (bool fit : {true, false}) {
+                    Database db(method != 2);
+                    auto limits = PermissionGraphLimits{};
+                    limits.rows = std::uint64_t((method == 2 ? 3 : 10) - (fit ? 0 : 1));
+                    Observer observer(db.path);
+                    const auto before = physical(observer);
+                    db.work([&](const auto &s) {
+                        SqlitePermissionGraphUnit unit(s, "I", db.trusted, limits);
+                        if (method == 0) {
+                            const auto result = unit.load();
+                            if (!fit)
+                                failure(result, PermissionGraphFailure::resource_limit);
+                            else
+                                require(std::holds_alternative<StoredPermissionGraph>(result),
+                                        "Exact row count fits");
+                        } else if (method == 1) {
+                            const auto result = unit.describe_use_edit(use_graph());
+                            if (fit)
+                                require(std::holds_alternative<PermissionGraphEditFacts>(result),
+                                        "Describe exact rows fits");
+                            else
+                                require(std::holds_alternative<PermissionGraphFailure>(result) &&
+                                            std::get<PermissionGraphFailure>(result) ==
+                                                PermissionGraphFailure::resource_limit,
+                                        "Describe rows one below refuses");
+                        } else {
+                            auto action = [&] {
+                                const auto status =
+                                    method == 2 ? unit.bootstrap("O", empty_graph(), empty_graph())
+                                    : method == 3 ? unit.replace_use(1, use_graph())
+                                    : method == 4 ? unit.replace_grant_from_owner(1, grant_graph())
+                                                  : unit.synchronize_catalog(1);
+                                require(status == PermissionGraphWrite::staged,
+                                        "Mutation source exact row count fits");
+                            };
+                            if (fit)
+                                action();
+                            else
+                                storage_error(action, PermissionGraphFailure::resource_limit);
+                        }
+                    });
+                    if (!fit || method < 2)
+                        require(physical(observer) == before, "Row refusal/read writes nothing");
+                }
+            }
+        });
+    }
+    void upperValidLimitsAreAcceptedWithoutOverflow() {
+        scenario([] {
+            Database db;
+            const auto maximum = std::uint64_t(std::numeric_limits<qint64>::max());
+            for (int field = 0; field < 6; ++field) {
+                auto l = PermissionGraphLimits{};
+                if (field == 0)
+                    l.rows = maximum - 1;
+                if (field == 1)
+                    l.items = maximum - 1;
+                // Largest representable field ceiling with terminator space.
+                if (field == 2)
+                    l.reference_bytes = maximum - 1;
+                if (field == 3)
+                    l.component_bytes = maximum - 1;
+                // Checked 3*S+M <= signed capacity; defaults in other field.
+                if (field == 4)
+                    l.selected_bytes = (maximum - l.mutation_bytes) / 3;
+                if (field == 5)
+                    l.mutation_bytes = maximum - 3 * l.selected_bytes;
+                db.work([&](const auto &s) {
+                    SqlitePermissionGraphUnit unit(s, "I", db.trusted, l);
+                    const auto result = unit.load();
+                    require(std::holds_alternative<StoredPermissionGraph>(result),
+                            "Upper valid limit accepted; no allocation of limit-sized buffer");
+                });
+            }
         });
     }
 };

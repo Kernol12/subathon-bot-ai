@@ -62,12 +62,6 @@ inline MigrationStep step9(const MigrationManifest &prefix) {
               });
     return step;
 }
-inline MigrationManifest proposed_manifest() {
-    auto m = account_session_repository_manifest();
-    m.steps.append(step9(m));
-    m.supported_starting_versions.append(9);
-    return m;
-}
 inline MigrationResult migrate(SqliteWriter &writer, MigrationManifest manifest,
                                MigrationMode mode = MigrationMode::advance) {
     struct State {
@@ -156,6 +150,11 @@ inline PermissionEditableState use_graph() {
 }
 inline PermissionEditableState grant_graph() {
     auto g = empty_graph();
+    auto row = allowance("grant-role");
+    row.origin = PermissionOrigin::role;
+    row.role = "G";
+    g.roles = {{"G", {row}}};
+    g.accounts[1].assigned_roles = {"G"};
     g.accounts[0].individual_entries = {allowance("delegation")};
     return g;
 }
@@ -266,15 +265,19 @@ struct Database {
         require(directory.isValid(), "Disposable permission database");
         require(writer.open(path, account_sessions_fixture::limits()) == StorageError::none,
                 "Real writer opens");
-        const auto migration = migrate(writer, proposed_manifest());
+        const auto migration = migrate(writer, account_session_repository_manifest());
         require(migration.reason == MigrationReason::none && migration.report &&
-                    migration.report->version == 9 &&
+                    migration.report->version == 8 &&
                     migration.work.transaction == TransactionOutcome::committed &&
                     migration.work.error == WorkError::none,
-                "Real migration runner installs compiled prefix plus independent proposed step9");
+                "Existing compiled prefix only; no new manifest in shared setup");
         (void)run(writer, [&](auto context) -> QVariant {
             const auto s = context.begin();
             Cleanup cleanup{s};
+            // Independent proposed DDL, through the controlled writer. Only
+            // migration-specific tests invoke the new manifest factory.
+            for (const auto &sql : step9(account_sessions_fixture::Data{}.manifest()).sql)
+                (void)s.execute({sql, {}});
             SqliteAccountSessionUnit accounts(s, {{}});
             require(accounts.insert_installation({{"I", "E"}, "J"}) == LifecycleWriteResult::staged,
                     "Existing installation API");
@@ -283,10 +286,32 @@ struct Database {
                             LifecycleWriteResult::staged,
                         "Existing account API, synthetic identities only");
             if (with_head) {
-                SqlitePermissionGraphUnit unit(s, "I", trusted);
-                require(unit.bootstrap("O", use_graph(), grant_graph()) ==
-                            PermissionGraphWrite::staged,
-                        "Initial graph staged");
+                // Exact test-side rows, never bootstrap/replace/load from the new unit.
+                (void)s.execute({"INSERT INTO subathon_permission_head VALUES(?,?,?,?)",
+                                 {QByteArray("I"), QByteArray::fromHex("0000000000000001"),
+                                  QByteArray("O"), encoded(trust())}});
+                const auto use = use_graph(), grant = grant_graph();
+                (void)s.execute(
+                    {"INSERT INTO subathon_permission_roles VALUES(?,0,?,?)",
+                     {QByteArray("I"), QByteArray("R"), encoded(use.roles[0].entries)}});
+                (void)s.execute(
+                    {"INSERT INTO subathon_permission_roles VALUES(?,1,?,?)",
+                     {QByteArray("I"), QByteArray("G"), encoded(grant.roles[0].entries)}});
+                const auto empty = QByteArray::fromHex("0000000000000000");
+                (void)s.execute(
+                    {"INSERT INTO subathon_permission_accounts VALUES(?,0,?,?,?)",
+                     {QByteArray("I"), QByteArray("A"),
+                      QByteArray::fromHex("0000000000000001000000000000000152"), empty}});
+                (void)s.execute({"INSERT INTO subathon_permission_accounts VALUES(?,0,?,?,?)",
+                                 {QByteArray("I"), QByteArray("O"), empty,
+                                  encoded(use.accounts[1].individual_entries)}});
+                (void)s.execute({"INSERT INTO subathon_permission_accounts VALUES(?,1,?,?,?)",
+                                 {QByteArray("I"), QByteArray("A"), empty,
+                                  encoded(grant.accounts[0].individual_entries)}});
+                (void)s.execute(
+                    {"INSERT INTO subathon_permission_accounts VALUES(?,1,?,?,?)",
+                     {QByteArray("I"), QByteArray("O"),
+                      QByteArray::fromHex("0000000000000001000000000000000147"), empty}});
             }
             s.commit();
             return 1;
@@ -301,6 +326,7 @@ struct Database {
             return 1;
         });
     }
+    // Assertion action, never setup. NI currently first fails at explicit constructor.
     StoredPermissionGraph load(PermissionGraphLimits limits = {}) {
         StoredPermissionGraph result;
         work([&](const auto &s) {

@@ -11,25 +11,41 @@ One existing `SqliteWriter`, real `SqliteWorkSession`, existing installation/acc
 and migration runner. No new connection, thread, BEGIN, COMMIT, ROLLBACK, savepoint,
 network or nested queue submission in this adapter. Borrow immutable trusted catalog
 and management mapping for the unit lifetime. No callback or Qt SQL handle escapes.
-Every public operation checks a live ticket even if its result could be cached.
+Every public method checks a live ticket even if its result could be cached;
+construction only preflights borrowed inputs and performs no SQL/ticket access.
 A foreign/expired/closed/sticky ticket preserves the original `SqliteWorkFailure`.
 
 The server composition root owns `PermissionGraphTrust`, never an edit payload.
 `reference_permission_graph_trust()` is the compiled producer for #649's bounded
 synthetic reference profile: catalog revision `permission-reference-v1`; exact
-ten-operation/domain/mapping inventory is independently fixed in test helper
-`trust()`. It includes CONTRACT-014 §4's exact `reference.time-add.v1`,
-`reference.application-read.v1`, `reference.hold-read.v1` operations, all with
-resource slots installation/timer/source; time-add uses adjustment/ms, integer
-domain0..INT64_MAX. It also includes CONTRACT-013 §2's `timer.snapshot.read`
-(timer only, no quantities), three graph management operations and protected
-access-management/recovery/helper operations. No aliases or wider quantity domain. Full product operation
-coverage remains release work; unlisted operations are unsupported, never Any.
+ten-operation/domain/mapping inventory follows in stored vector order (names are reference-profile
+identifiers, not the full product mapping of effective-permissions-v1 §5):
+
+| Operation | Class | Resource slots | Quantities / helper target |
+| --- | --- | --- | --- |
+| reference.time-add.v1 | ordinary | installation,timer,source | adjustment/ms integer0..INT64_MAX, modes15 |
+| reference.application-read.v1 | ordinary | installation,timer,source | none |
+| reference.hold-read.v1 | ordinary | installation,timer,source | none |
+| roles.edit | ordinary | role | none |
+| members.edit | ordinary | account | none |
+| overrides.edit | ordinary | account | none |
+| access.manage | protected_access_management | none | none |
+| owner.recover | protected_recovery | none | none |
+| helper.reset | helper_password_reset | target | helper target=target |
+| timer.snapshot.read | ordinary | timer | none |
+
+Bindings role/membership/override are respectively roles.edit/role,
+members.edit/account, overrides.edit/account. The three reference operations match
+CONTRACT-014 §4; timer.snapshot.read matches CONTRACT-013 §2. Domain endpoints
+are reduced rational spellings 0/1 and 9223372036854775807/1; modes15 permits all
+four quantity modes. No aliases. Full product coverage remains release work;
+unlisted operations stay unsupported, never Any.
 Catalog revision identifies its **entire** catalog and mapping. Reusing a revision
 with different classes, definitions or mappings is invalid_data. A valid persisted
 catalog with a different revision is unavailable to normal loads/writes until the
 trusted deployment owner explicitly synchronizes it by CAS. Synchronization validates
-both stored channels against the new catalog; it cannot silently discard rows.
+both stored channels against the new catalog; incompatibility is invalid_data,
+with no writes/discards. Same-revision corrupt catalog is never repaired by sync.
 The store contains raw facts, not a permit/authentication token.
 
 Trusted setup may bootstrap exactly once, with an existing installation, existing
@@ -93,7 +109,8 @@ Existing healthy head plus empty role/account tables is complete known-empty pol
 Load enumerates the bounded actual installation account roster, synthesizing an
 empty account record in each channel only when its exact sparse row is proven absent.
 A channel account row stores all memberships and individual entries; an omitted
-row means both lists empty. Writes may omit empty rows. All supplied accounts must
+row means both lists empty. Writes MUST omit rows with both lists empty; reads
+accept explicit empty rows. All supplied accounts must
 exactly equal the current roster, including empty ones, with no extras/duplicates.
 New accounts with no graph rows have known no rights, not an unknown policy. Account
 creation/deletion/access facts retain their owning source revisions; graph head
@@ -148,31 +165,47 @@ revision1=`0000000000000001`, MAX=`ffffffffffffffff`.
 
 ## 4. Complete reads, preownership and finite limits
 
-All limits positive, fit SIZE_MAX, PTRDIFF_MAX, qsizetype, destination max_size and
-SQL signed LIMIT. Check rows+1 and items+1, terminator space, and checked aggregate
+All limits positive and fit SIZE_MAX, PTRDIFF_MAX, qsizetype and SQL signed LIMIT;
+reference/component ceilings also leave one terminator byte. Actual destination
+projections fit their max_size; a ceiling does not allocate a limit-sized buffer. Check rows+1 and items+1, terminator space, and checked aggregate
 `3*selected_bytes+mutation_bytes`; impossible limits are invalid_limits. Priority:
 limits, complete borrowed input size/items, shape, ticket, SQL metadata bounds,
 complete class/codec/link/semantic validity, current-head CAS. Oversize input beats
 malformed input. Constructor borrows trust, validates it within mutation_bytes/items
 without copying; selected_bytes applies to reads, not this trusted input preflight.
-Expected0, empty installation/owner and unknown graphs are invalid_input.
+Expected0, empty installation/owner and unknown/malformed input graphs are invalid_input.
+Constructor installation >reference_bytes is resource_limit before copying.
+Absent installation or protected/requested bootstrap owner in storage is
+invalid_data (load or mutation), not a known-empty roster; a different existing installation is a distinct graph scope.
+After borrowed shape checks, complete current-source validation precedes comparison
+of supplied accounts to the actual roster; roster mismatch alone is invalid_input.
 
 Each graph/trust/input/result uses recursive semantic B: string=size, enum/bool1,
 U64=8, optional=1+present value, struct=sum fields, vector=sum elements. I counts
 EVERY vector element recursively. Include installation, revision, owner, catalog,
 BOTH graphs, current account/install facts and repeated management/after fields in
-complete returned values. Mutation tuple includes installation, expected/owner and
-all proposed fields. Each additional owned projection is checked independently.
+complete returned values. Per-method borrowed charges (B sums, I recursively):
+constructor=(installation,trust); load=0; describe_use_edit=(installation,after);
+bootstrap=(installation,owner,use,grant); replace_use/replace_grant=(installation,
+expected U64,after); synchronize_catalog=(installation,expected U64,trust).
+Trust is also independently preflighted on construction. I counts only vector
+members, never structs/strings/options. Returned-value budget failure is typed
+resource_limit; borrowed-size failure throws input resource_limit. No input/result cross-sum is required;
+each whole projection fits independently. Rows is the sum of head + both channels'
+role/account rows + actual installation/account closure, once per physical row;
+metadata/payload repeats do not multiply it. Sparse writes omit empty accounts.
 No overhead/RSS claim follows from semantic bytes. References/components get their
 separate field caps. Encoded row payloads AND their decoded complete output each
-independently fit selected_bytes/items; complete borrowed mutations/encoded bindings
-independently fit mutation_bytes/items before copying. Trust preflight is separate
+independently fit selected_bytes/items; complete borrowed mutations fit
+mutation_bytes/items before copying. Encoded write bindings independently fit
+selected_bytes/items (framing overhead is not semantic mutation B). Trust preflight is separate
 from method input; source review must count simultaneous ownership and scratch.
 
 Use explicit bounded column lists; never SELECT *. Metadata pass returns only
 rowids/fixed integers, typeof/NULL and BLOB lengths, no variable payload. Enumerate
 head, role/account rows in this installation and actual account/install closure,
-with total rows budget plus **one sentinel**. No unbounded COUNT/materialize/sort-all
+with total rows budget plus **one sentinel**. Check all metadata resource bounds
+before any class/codec invalid_data refusal, including across channels. No unbounded COUNT/materialize/sort-all
 in C++. Validate every metadata field and checked aggregate physical byte sum
 (including duplicate occurrences) before a driver-owned payload SELECT. Payload
 queries repeat admitted rowid/type/length guards and actual Qt types/lengths/keys
@@ -184,8 +217,10 @@ remain additional limits and their sticky errors propagate unchanged. A graph th
 fits store bounds need not fit arbitrary smaller writer budgets.
 
 A complete load never truncates/skips malformed or excess rows, never returns empty
-on failure. Refuse unavailable allocation/source failures without partial output;
-actual SQL errors retain SqliteWorkFailure. Source proof must show metadata BEFORE
+on failure. Allocation refusal is typed resource_limit; catalog revision mismatch
+is typed unavailable. Actual SQL errors (including missing tables), prior sticky
+errors and cumulative writer budget failures throw original SqliteWorkFailure from
+reads AND mutations; never relabel them unavailable or storage invalid_data. Source proof must show metadata BEFORE
 payload, decoded projection BEFORE ownership, borrowed preflight BEFORE copies,
 bounded row enumeration/codec loops and no cached current facts. Output tests cannot
 prove these obligations. No L^4/tight complexity or hard deadline is promised here.
