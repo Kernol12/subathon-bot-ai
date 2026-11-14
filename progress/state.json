@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-14T00:53:44.959678+00:00",
+  "updated_at": "2026-11-14T01:17:08.699931+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20500,12 +20500,12 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
       "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Complete authored-only test source2ab07bc integrated locally with original ancestry;14 oracle paths/two authors, no reviews or execution. Static130 disposition map and153 tooling/11 schema methods; two note-only legacy paths/CMake retirement pending implementation. Fresh Claude initial test review next. Historical audit/pin gates remain. State authoritative; product/WF006/007 stopped."
+        "Claude initial test review rejected TI001–010; confirmed setup/control/independence defects need fixes, TI006/008 need explicit contract/scope dispositions. No tests executed. Audit A verification rejected unsupported049 necessity and false missing-approval predicates; B proposes11 unsafe originals pending verification. State authoritative; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
         "contract_review": "passed",
-        "test_review": "not_run",
+        "test_review": "failed",
         "baseline": "not_run",
         "implementation": "not_run",
         "acceptance": "not_run",
@@ -20528,7 +20528,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868462418",
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868572200",
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868756085",
-        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868852763"
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868852763",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6869093320"
       ],
       "review": null,
       "workflow": {
@@ -20768,7 +20769,47 @@
               "tests/tooling/test_repository_checks.py",
               "tests/tooling/test_workflow.py"
             ],
-            "reviews": []
+            "reviews": [
+              {
+                "phase": "initial",
+                "provider": "claude",
+                "model": "claude-opus-5-5",
+                "reviewer": "claude:opus-5.5 initial test reviewer",
+                "revision": "2ab07bc38f75b067414b396664c9c50a477b0418",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6869201552",
+                "findings": [
+                  "M004-TI-001",
+                  "M004-TI-002",
+                  "M004-TI-003",
+                  "M004-TI-004",
+                  "M004-TI-005",
+                  "M004-TI-006",
+                  "M004-TI-007",
+                  "M004-TI-008",
+                  "M004-TI-009",
+                  "M004-TI-010",
+                  "M004-TI-011",
+                  "M004-TI-012",
+                  "M004-TI-013",
+                  "M004-TI-014",
+                  "M004-TI-015",
+                  "M004-TI-016"
+                ],
+                "blocking_findings": [
+                  "M004-TI-001",
+                  "M004-TI-002",
+                  "M004-TI-003",
+                  "M004-TI-004",
+                  "M004-TI-005",
+                  "M004-TI-006",
+                  "M004-TI-007",
+                  "M004-TI-008",
+                  "M004-TI-009",
+                  "M004-TI-010"
+                ]
+              }
+            ]
           }
         }
       }

@@ -320,3 +320,29 @@ note-onlylegacySDKnode aspassingwitness. No newtestimports/bodies/discovery/SDK/
 Currentcontract/scope419cd9approvalsunchanged. FreshClaudeinitialtestreviewnext before
 anyexecution, thencorrections/separateCodex/freshclosing. Fullauditrequired-original
 sourceconflict/proposals remainindependentblockingpin, no oldtrackingauthorityretired.
+
+Claude INITIAL TEST review CHANGES_REQUESTED2ab07bc, dispatch3ae2b71e-8d71-485c-b716-06ee321de4ab,
+reviewer self-report claude:opus-5.5 initial test reviewer (no exposedUUID),
+issue629#issuecomment-6869201552. BlockingTI001..010/nonblocking011..016 retained.
+Observed00:55:39–01:07:40 are samples, notexactduration; no structuredtimepair.
+No tests/imports/SDK/nativeexecuted. Coordinator fixes confirmed fixture/statussetup,
+canonicalrealrootguard,typeadapter,completeallstages,defaultvalidatecoverage,
+checksum/independence/rejection isolation,positivecontrols and NIsafety/diagnostics.
+TI006 missing-publication olddone guard and TI008 missing-archived-brief converter
+input needexplicit reviewed scope/contract resolution before those affected changes.
+No silentassertion retirement or fake red. Currenttestsource frozen2ab withrejection.
+
+Audit A independentCodexverification CHANGES_REQUESTED CV-A01..04, dispatchb63e70ba-
+7761-415c-83d2-a0280fa68c28, reviewer codex:historical-a-verifier-20261114,
+issue629#issuecomment-6869093320. Sustainscoordinator049objection: actualapproved
+source606 andcorrectedR4tuple supersedeinitialauthoreddoccontainer; exactinitial
+body/content/privacyavailability stillneedsroute. Rejectfalsemissingapprovalpredicates,
+addACCESSTESTcrossrefs3f402/7d7f651/ebe17/250011, narrow4518/68d7/d133necessity
+frommetadataHEADobservations. Boundedcorrectionsin/tmp/migrate004-availability-a-corrected
+retainoldinputs/reasons and per-verifier45actualtracequestions, not admitted.
+Audit B returned419proposals394non-required/24required(13safe11unsafe)/1unresolved
+a8ae7779. RowsSHA25685f22099bd510f04664bde28f0e03f607b4a879525ebed733fe3e9cf0dc6a4f8.
+These areunverified source/contentnecessityclaims, no concreteunsafeconflictconfirmed
+or waived; nextindependentverificationmustdistinguish documentcontentavailability
+from commitcontainernecessity, preserve actualFIRST-run/sourcebindings and original
+rejections. Pin/cutover blocked; independenttestcorrectionscontinue.
