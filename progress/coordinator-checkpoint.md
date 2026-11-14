@@ -782,3 +782,23 @@ limits remain disclosed, II06READMEprecisionfixed butWFissue-searchprecisionopen
 Next separateindependentCodexcodeverification thenfreshClaudeclosing; root source
 currency notclaimed while runtimeunintegrated. Allarchivehistory/canonical/P/CI/merge
 and successor gates remain blocking. No sourcepush, PR, pin or authorityswitch.
+
+Independent Codex CODE verification dispatch e4395c28-ac20-4ad0-ad1d-756309b5c0bc
+rejected source796d9c53: II01 resolved; IV-001 remaining README/dashboard authority
+prose blocks II02. Report public6871135643 retained in ordered reviews, actual role
+codex:MIGRATE-004-IV:/root, not authenticated identity. Independent tooling154pass/
+1canonical-inputSETUP/0fail/0skip at796 and repository pass are source-qualified.
+Coordinator corrected only README.md and docs/evidence/README.md in isolated source
+0041d000317d7806b304b711f95ab9fcbe64310b. Current navigation names GitHub/canonical
+proofs, no retired dashboard capability or pre-merge authority clause. PR632/633/634
+state-authority observations and PR109 old context capability are explicitly historical;
+original results, names, receipts and rejects preserved. Project/whitespace pass; no
+executable/oracle changes, broad rerun or manufactured red. Correction public6871137460;
+exact packet private migrate004-iv001-correction. All35 retainedpaths/6deletions and
+24protected bindings retained, updated two blobs only. Root runtime still unintegrated.
+Fresh separate Codex re-verification then independent Claude CODE closing required.
+II03 actual archived STATUS pin/equality/readback and applicable renewed reviews
+remain mandatory before P; no guessed pin/freeze. All historical availability conflicts,
+missing six dirty-run sources, canonical actual-HEAD checks, archive/P/CI/protectedmerge
+and successor gates remain blocking. State remains production authority; no product
+or WORKFLOW-006/007 work, publication or cutover is claimed.

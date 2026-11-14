@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-14T03:33:53.842939+00:00",
+  "updated_at": "2026-11-14T03:41:06.958363+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20500,7 +20500,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
       "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Code796d9c53 corrects epic predicate and timeless instructions after observed red;155 tooling gives154pass/1canonicalsetup, no assertion failures. Independent code verification/closing pending; actual archive STATUS pinII03 unresolved before P. Historical availability blocks cutover. State authoritative; product/WF006007 stopped."
+        "IV-001 rejected code796;0041d000 corrects current README navigation and dates historical receipts. Independent verification and Claude closing pending.154 tooling passes/1canonical setup at796; prose-only correction project/whitespace pass. II03 actual archive pin and historical evidence block cutover. State authoritative; product/WF006007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -20550,7 +20550,9 @@
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6870519989",
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6870979194",
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6870981001",
-        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6871042472"
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6871042472",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6871135643",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6871137460"
       ],
       "review": null,
       "workflow": {
@@ -20925,7 +20927,7 @@
               "codex:ee0ae2ff-bceb-4ced-8603-a0de62157702:/root",
               "codex:coordinator-59095155"
             ],
-            "revision": "796d9c5355e6304219bf3e99dccf43dadd60d6e0",
+            "revision": "0041d000317d7806b304b711f95ab9fcbe64310b",
             "paths": [
               ".github/pull_request_template.md",
               "AGENTS.md",
@@ -20987,6 +20989,21 @@
                 "blocking_findings": [
                   "M004-II-01",
                   "M004-II-02"
+                ]
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:MIGRATE-004-IV:/root",
+                "revision": "796d9c5355e6304219bf3e99dccf43dadd60d6e0",
+                "outcome": "changes_requested",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6871135643",
+                "findings": [
+                  "M004-IV-001"
+                ],
+                "blocking_findings": [
+                  "M004-IV-001"
                 ]
               }
             ]
