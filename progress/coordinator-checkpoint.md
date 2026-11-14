@@ -532,3 +532,66 @@ errors are never intended red. No implementation until meaningful red is recorde
 new test fixes would reopen review. No historical replay, canonical production write,
 archive pin or source publication. Historical A/B closing remains separately pending;
 required d717 original versus unchanged outgoing guard continues to block cutover.
+
+ACTUAL reviewed intended red recorded, worker bfb36d45-ccb6-4b8b-a658-f3e2f4dcf391,
+Codex gpt-6.1-sol/high agent/root, quiet isolated HEADff9fbfd0 with all14 reviewed
+oracle files and two NI blobs unchanged. Public receipt issue629#issuecomment-6870236962.
+165 unique methods:119 passes,41 intended behavior reds,3 blocked safety,2 canonical
+SETUP/PENDING,0 skips. Failure events/subtests are not method counts:95 behavior,
+14 blocked safety,2 setup errors. No unexpected fixture/import/SDK/compile failures.
+Actual default validate control failed literal exit/output against CUTOVER_DEFAULTS;
+archive control against CUTOVER_ARCHIVE; publication against prefixed NI or retired
+state path; repository controls against retired tracker coupling. No helper label
+used as red proof. Three safety owners didn't reach requested refusals/child-witness
+paths; retain those as required later green checks, not red. One justified child-
+diagnostic rerun captured zero children/legacy state error; excluded from unique totals.
+Two actual-HEAD input arms absent canonical policy/records/pin remain SETUP/PENDING;
+zero-test schema.publication not invoked/countedaswitness. No fake canonical input.
+Real SDK admitted literal approved venv with clean PATH/LANG/LC_ALL, -I -S -B,
+20 installed metadata/WHEEL hashes; repository6methods pass, proof synthetic examples
+reached before actualHEADsetup,11 SDK integration controls reached real aggregate
+witness/no-write then publication NI. No CMake/native/product/historical execution.
+Tooling154 ran once51.554531s; schema owners6/1/4 ran0.278437/0.244216/6.780803s,
+actual captured endpoints in full receipt; mixed baseline, no aggregate green.
+Coordinator recomputed every manifest-bound file digest,165 exclusive verdicts,
+mode700/600. Raw report595b854cdd6cc9fdbe83242e098de07048cafdad1148e64525958a86f1e71044,
+results84a3c5dd87489fdf0ba3ff02e255a4636b50b34995dc4e8c94272f0d96c95943,
+bindingsf96f7e6c5de3d4dba2a2b0731d75da30dccfd25eb726a6567ba088ca456f8c15.
+Unredacted rawlogs private; public excerpt omits long table with original hashes/counts.
+Fresh implementation session may now prepare prospective source changes in isolation;
+coordinator retains state/HTML/checkpoint/archive facts/integration, no production
+canonical bundle, guessed pin, authority switch, remote write or merge authorized by red.
+Owned prospective runtime/schema/CMake/source cleanup and all consumer instructions/
+STATUS/WF006007 storage rescope must follow exact approved scope and retain all oracles.
+No further executable task or product work; no tests/contract/oracle changes by implementer.
+Code will need full independent review and actual canonical/hosted/protected-merge gates.
+
+Historical Claude closing session1afe4f33-e24b-4320-a740-81db3db5798c, dispatchc03603c1-
+d8ee-4593-a2cd-bf318ba3295e, has separate verdicts, no dispositions admitted. A bounded
+corrections CHANGES_REQUESTED AC01c85/AC02fb9;46of48 approved and371unchangednotreapproved;
+public6870237716 hashe1210cb7550dbf77681211b4a3e077b4a751367e315f695782010590839c637f.
+B13 factualcorrections APPROVED, availability BLOCKED; public6870238452 hash
+18689a72b4d94de69300294fb5a9ad3943fe154a0946f013d97193f2a64af492.
+BC01 independentlyconfirmsd717 actualcleanFIRSTcheckout/time: import45cedcommittertime
+postdatesfoundationcompletionandfeaturestart;9sourcetuplesavailableonmain cannot
+replacewholecheckoutidentity/chronology. Each4outgoingtreehas958forbiddenevidence
+paths, access002onlyfirstwitness; alloldblobsalreadyinmainhistorydoesnotwaivepathguard.
+Mandatory originalavailabilityversusunchangedguard is OWNER CONFLICT, not approved
+legacy limitation. No proposed cure/unsafe push/guardexception/historytunnel/newrun.
+BC02 stillblockscontentgaps/twowholefiles/13safeoriginalpublication/readback/finalA-P.
+Actualsamples02:22:38/02:23:25/02:26:07notduration. Full source/runtimegates independent.
+
+Coordinator A closing corrections now in private migrate004-availability-a-closing-corrected,
+public6870257631, report19460930bddbbe7bc0b618086ba2c8314d0b51dc3681ff5afe15369183c7a996,
+rowsc573acf03f250bc373d041b792e30b99f3948a38975da2342930d9be3f71e6d4.
+AC01 c85authorcontainernecessitynotestablished: root7e033e9/import5cedmainreachable
+withsame84f09f21header, prior308checkpoint supersededfinalce28/2abreview; preserve
+ownc85authorrun/raw957/cleanrootobservations as narrowlimits, notfalseunsafeconflict.
+AC02 fb9 sixdeclared dirty-runfragments1b7d73ca/a4993752/cee1d8ab/8ab5dba0/f5f08ab1/
+0700f15e have no matchinglocalGitobject; literalfragmentlimits retained. Exactmissing
+content tiedtodeclaredregressionredblocks unlesssource-awaredecisionprovesnotneeded.
+Cannot substitutefinalbytes/newrun/fb9. Thisismissingcontent,notguardconflict.
+AC03 checkpointa13/778availabilityfromfetchedAPI001branchonly,notmain/archivepin.
+All419retained;oldreasons preserved; only2blockingrows+2precisionlocatorschanged.
+InitialprivateJSONupdateprobe expectedlisthistorywherepriorwasdict; retainedbothafter
+normalizingcontainer, nottestfailure/red. SeparateCodexverification/freshClaudeclosingnext.
