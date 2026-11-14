@@ -344,7 +344,8 @@ jobs:
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph"
+          -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
           -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
           -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
@@ -384,14 +385,16 @@ jobs:
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-reference-capture$' --no-tests=error
       - name: Run reviewed account/session storage acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-account-sessions$' --no-tests=error --verbose
-      - name: Verify enabled Qt suites and account acceptance
+      - name: Run reviewed permission-graph acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-permission-graph$' --no-tests=error --verbose
+      - name: Verify enabled Qt suites and current-fact storage acceptance
         run: |
           python3 - <<'PYTHON'
           import json
           import subprocess
           data = json.loads(subprocess.check_output(
               ["ctest", "--preset", "sqlite-reference-capture-debug", "--show-only=json-v1"], text=True))
-          account = []
+          stable = {"sqlite-account-sessions": [], "sqlite-permission-graph": []}
           for test in data["tests"]:
               props = {entry["name"]: entry["value"] for entry in test["properties"]}
               labels = set(props.get("LABELS", []))
@@ -403,16 +406,24 @@ jobs:
                   raise SystemExit("A Qt suite is disabled or failure-inverted")
               if any(key in props for key in ("SKIP_RETURN_CODE", "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION", "SKIP_REGULAR_EXPRESSION")):
                   raise SystemExit("A Qt suite rewrites native results")
-              if "sqlite-account-sessions" in labels:
+              for owner in labels & stable.keys():
                   if "intentional-red" in labels or "acceptance" not in labels:
-                      raise SystemExit("Account/session storage must run as ordinary acceptance")
-                  account.append(test)
-          if not account:
-              raise SystemExit("No enabled account/session acceptance suite")
-          for test in account:
-              # -functions inspects the real Qt metaobject without invoking a test body.
-              if not subprocess.check_output([test["command"][0], "-functions"], text=True).strip():
-                  raise SystemExit("Account/session runner has no actual test methods")
+                      raise SystemExit(f"{owner} must run as ordinary acceptance")
+                  stable[owner].append(test)
+          for owner, tests in stable.items():
+              if not tests:
+                  raise SystemExit(f"No enabled {owner} acceptance suite")
+              for test in tests:
+                  # Listing inspects Qt's real metaobject without executing bodies.
+                  functions = subprocess.check_output(
+                      [test["command"][0], "-functions"], text=True).strip().splitlines()
+                  if not functions:
+                      raise SystemExit(f"{owner} runner has no actual test methods")
+                  if owner == "sqlite-permission-graph":
+                      rows = subprocess.check_output(
+                          [test["command"][0], "-datatags"], text=True).strip().splitlines()
+                      if len(functions) != 44 or len(rows) != 94:
+                          raise SystemExit("Permission graph differs from 44 reviewed methods / 94 invocations")
           PYTHON
       - name: Configure explicit SDK and GoogleTest sources
         run: >-

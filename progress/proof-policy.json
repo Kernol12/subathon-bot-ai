@@ -127,6 +127,7 @@
   "required_records": [
     "ACCESS-002",
     "ACCESS-009",
+    "ACCESS-010",
     "ACCESSCONTRACT-001",
     "ACCESSTEST-002",
     "ACCT-001",

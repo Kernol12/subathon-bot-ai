@@ -336,6 +336,15 @@
         "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
         "SUBATHON_ACCEPTANCE_SUITES": "time-credit;exact-numeric;timer-lifecycle;receipt-intake;contribution-evidence;pause-policy;application-plan;time-debt;timer-editorial;milestone-progression;effective-permissions;rate-snapshot"
       }
+    },
+    {
+      "name": "sqlite-permission-graph-debug",
+      "displayName": "36 \u00b7 SQLite permission graph acceptance",
+      "inherits": "sqlite-account-sessions-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
+        "SUBATHON_ACCEPTANCE_SUITES": "sqlite-permission-graph"
+      }
     }
   ],
   "buildPresets": [
@@ -482,6 +491,10 @@
     {
       "name": "core-acceptance-debug",
       "configurePreset": "core-acceptance-debug"
+    },
+    {
+      "name": "sqlite-permission-graph-debug",
+      "configurePreset": "sqlite-permission-graph-debug"
     }
   ],
   "testPresets": [
@@ -843,6 +856,16 @@
     {
       "name": "core-acceptance-debug",
       "configurePreset": "core-acceptance-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "sqlite-permission-graph-debug",
+      "configurePreset": "sqlite-permission-graph-debug",
       "output": {
         "outputOnFailure": true
       },
