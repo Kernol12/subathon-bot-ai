@@ -650,3 +650,31 @@ blocker unless separately reviewed source-aware disposition establishes not need
 Other A/B content/required-original/dependency/nontext/privacy/newA-P/readback gates open.
 Prospective source author ee0ae2ff remains isolated; no handoff/source implementation
 approval, archive/pin/publication/protected merge/successor/product execution claimed.
+
+Prospective implementation source f6c4bb65adc56fce948919834973f4e0c406abdb returned by
+fresh Codex dispatch ee0ae2ff-bceb-4ced-8603-a0de62157702, agent/root. The structured
+author label records this actual dispatch, not authenticated identity. Exact35 retained/
+new paths bound, reviews empty;6 deletions separately pinned in packet against approved
+scope. All14 oracles/approvedcontracts/coordinatorfiles/BASELINE_MANIFEST unchanged.
+Source remains on isolated t3/migrate-004-source-cutover; NO runtime/instruction/
+retirement integration in coordinator checkout. Sole new docs/STATUS.md copied exact
+blob732f467984a741e7e935785b4bdc6e9511fced2b for current path-admission of the packet;
+it explicitly says prospective and retains production state authority. No current-head
+source currency/approval claimed. Handoff public issue629#issuecomment-6870519989;
+private packetdc7c00e92b01bdeac4d82c54863ac41608faf80e7b156c578989da87e5163652,
+checkrecord5e6a00a4765316293bdb744c24178a548b682174787b246608122c8081ebefcd.
+Executable suites ran at4ba43eb8; finalf6 changes five prose files only, repository/
+whitespace rechecked. Tooling154:149pass/4fail/1canonicalsetup/0skip; SDKrepository6+
+integration4pass,proofaggregateactualHEADsetup. All3 previous blocked safety owners
+nowpass. Scaffoldconfigure/buildpass; contract/projectnodespass,python_toolsfails.
+Schema consolidation3 owners done on prospective source; no zero-test witness used.
+Not aggregate green or code approval; all failures/earlier runs preserved.
+Four assertions need independent code/oracle adjudication before dependent fixes:
+publication target-tip positives choose newer base without moving origin/main (2);
+publication literal checks-before-guard conflicts parent fixed guard-before-checks (1);
+converter '--archive-commit --all' expects1 but argparse missing-value usage gives2(1).
+Implementer changed no oracle, target-tip safety or parser exception to hide failures.
+Initial independent Claude implementation review must assess full35path/6deletion
+scope and classify actual code defects versus oracle conflicts against approved parent
+contracts; test edits would reopen their own cycle before execution. Historical d717/
+missing-six-content/archive/canonical/liveCI/protected-merge gates remain blocking.
