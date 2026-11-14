@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// ACCESS-003 v1: literal oracles from specification v0.45 section 10 / AUTH-07.
+// ACCESS-003 v2: literal oracles from specification v0.45 section 10 / AUTH-07.
 #include <subathon/core/delegated_permissions.hpp>
 
 #include <gtest/gtest.h>
@@ -60,18 +60,18 @@ void check(const PermissionDelegationInput &in, Outcome expected,
     EXPECT_EQ(result.grants, grants);
 }
 
-void fails(const PermissionDelegationInput &in, EffectivePermissionError code) {
+void fails(const PermissionDelegationInput &in, EffectivePermissionError code,
+           const EffectivePermissionLimits &limits = {}) {
     try {
-        (void)evaluate_permission_delegation(in);
+        (void)evaluate_permission_delegation(in, limits);
         FAIL() << "Expected invalid/unavailable facts, not a decision";
     } catch (const EffectivePermissionFailure &failure) {
         EXPECT_EQ(failure.code(), code);
     }
 }
 
-TEST(DelegatedPermissions, InclusiveOwnerConfiguredBoundForEveryEditContextIncludingSelf) {
-    for (auto context : {Context::role_edit, Context::invitation, Context::individual_override,
-                         Context::automation_authorization}) {
+TEST(DelegatedPermissions, InclusiveBoundAndAuditFieldEcho) {
+    for (auto context : {Context::role_edit, Context::invitation, Context::individual_override}) {
         for (const auto *target : {"helper", "admin"}) {
             SCOPED_TRACE(static_cast<unsigned>(context));
             SCOPED_TRACE(target);
@@ -85,29 +85,15 @@ TEST(DelegatedPermissions, InclusiveOwnerConfiguredBoundForEveryEditContextInclu
     }
 }
 
-TEST(DelegatedPermissions, UsePermissionDoesNotBecomeGrantPermission) {
+TEST(DelegatedPermissions, KnownEmptyDelegationDenies) {
     auto in = input();
-    const PermissionRequest request{
-        "timer.adjust", {{"timer", "A"}}, {{"amount", "ms", {"300000", "1"}}}};
-    const auto use = evaluate_effective_permission(
-        {in.actor, in.snapshot, in.catalog, in.owner, in.delegation, request});
-    ASSERT_EQ(use.data().outcome, Outcome::permit);
-    // Same actor can use this operation, but no owner-configured delegation exists.
     in.delegation.entries.clear();
     check(in, Outcome::deny, {Outcome::deny});
 }
 
-TEST(DelegatedPermissions, GrantPermissionDoesNotBecomeUsePermission) {
-    const auto in = input();
-    check(in, Outcome::permit, {Outcome::permit});
-    const auto use = evaluate_effective_permission(
-        {in.actor,
-         in.snapshot,
-         in.catalog,
-         in.owner,
-         {PermissionFactsState::complete, {}, {}},
-         {"timer.adjust", {{"timer", "A"}}, {{"amount", "ms", {"1", "1"}}}}});
-    EXPECT_EQ(use.data().outcome, Outcome::deny);
+TEST(DelegatedPermissions, GrantContainmentDoesNotRequireUseFacts) {
+    // USE facts are deliberately absent from this API; management USE is separate.
+    check(input(), Outcome::permit, {Outcome::permit});
 }
 
 TEST(DelegatedPermissions, CompleteGrantsCannotLendAnotherTimersLargerLimit) {
@@ -197,18 +183,14 @@ TEST(DelegatedPermissions, InteriorRoleDenialCannotBeMissedByCheckingOnlyEndpoin
     check(in, Outcome::permit, {Outcome::permit});
 }
 
-TEST(DelegatedPermissions, SaveReevaluationUsesRevokedCurrentDelegationNotPreview) {
+TEST(DelegatedPermissions, EmptyDelegationAfterPopulatedDelegationDenies) {
     auto in = input();
-    const auto preview = evaluate_permission_delegation(in);
-    ASSERT_EQ(preview.outcome, Outcome::permit);
-    in.snapshot = "execution-2";
+    check(in, Outcome::permit, {Outcome::permit});
     in.delegation.entries.clear();
     check(in, Outcome::deny, {Outcome::deny});
-    EXPECT_EQ(preview.snapshot, "preview-1");
-    EXPECT_EQ(preview.outcome, Outcome::permit); // Historical calculation stays historical.
 }
 
-TEST(DelegatedPermissions, RoleRemovalAndRoleLimitChangeRequireFreshEvaluation) {
+TEST(DelegatedPermissions, AbsentRoleAndNarrowRoleAuthorityDeny) {
     auto in = input();
     auto role = authority(capability());
     role.origin = PermissionOrigin::role;
@@ -225,9 +207,11 @@ TEST(DelegatedPermissions, RoleRemovalAndRoleLimitChangeRequireFreshEvaluation) 
     check(in, Outcome::deny, {Outcome::deny});
 }
 
-TEST(DelegatedPermissions, AutomationRequiresEachExplicitActionIncludingSelectedChatSender) {
+TEST(DelegatedPermissions, ExplicitActionAndSenderContainmentForPendingAutomationBinding) {
     auto in = input();
-    in.context = Context::automation_authorization;
+    // Retains D14 action/sender oracles for the GRANT primitive only. Q3/Q4
+    // MUST bind the automation channel/lifetime before automation acceptance.
+    // This test does not authorize creating/enabling/executing an automation.
     in.catalog.operations.push_back(
         {"chat.send", PermissionOperationClass::ordinary, {"sender"}, {}, {}});
     const DelegatedPermissionGrant bot{
@@ -239,56 +223,6 @@ TEST(DelegatedPermissions, AutomationRequiresEachExplicitActionIncludingSelected
     check(in, Outcome::permit, {Outcome::permit, Outcome::permit});
     in.proposed.push_back(broadcaster);
     check(in, Outcome::deny, {Outcome::permit, Outcome::permit, Outcome::deny});
-}
-
-TEST(DelegatedPermissions, ConcreteEffectivePreviewExplainsTargetSourcesAndLimits) {
-    const auto in = input();
-    EffectivePermissionInput preview{
-        "helper",
-        "proposed-revision",
-        in.catalog,
-        in.owner,
-        {PermissionFactsState::complete, {}, {authority(capability(), "new-override")}},
-        {"timer.adjust", {{"timer", "A"}}, {{"amount", "ms", {"300000", "1"}}}}};
-    auto before = preview;
-    before.snapshot = "current-revision";
-    before.policy.entries.clear();
-    EXPECT_EQ(evaluate_effective_permission(before).data().outcome, Outcome::deny);
-    const auto within = evaluate_effective_permission(preview);
-    EXPECT_EQ(within.data().actor, "helper");
-    EXPECT_EQ(within.data().snapshot, "proposed-revision");
-    EXPECT_EQ(within.data().outcome, Outcome::permit);
-    ASSERT_EQ(within.data().sources.size(), 1U);
-    EXPECT_EQ(within.data().sources[0].source, "new-override");
-    EXPECT_EQ(within.data().reason, PermissionReason::individual_allow);
-    preview.request.quantities[0].value = {"300001", "1"};
-    const auto beyond = evaluate_effective_permission(preview);
-    EXPECT_EQ(beyond.data().outcome, Outcome::deny);
-    EXPECT_EQ(beyond.data().reason, PermissionReason::individual_limit);
-    EXPECT_EQ(within.data().request.quantities[0].value.numerator, "300000");
-}
-
-TEST(DelegatedPermissions, QueuedUseRechecksCurrentAccountPolicyAfterRevocation) {
-    const auto in = input();
-    EffectivePermissionInput use{
-        in.actor,      "queued-preview",
-        in.catalog,    in.owner,
-        in.delegation, {"timer.adjust", {{"timer", "A"}}, {{"amount", "ms", {"300000", "1"}}}}};
-    ASSERT_EQ(evaluate_effective_permission(use).data().outcome, Outcome::permit);
-    use.snapshot = "execute-revoked";
-    use.policy.entries.clear();
-    EXPECT_EQ(evaluate_effective_permission(use).data().outcome, Outcome::deny);
-}
-
-TEST(DelegatedPermissions, TwitchLinkCannotSupplyMissingApplicationAuthority) {
-    // Local and Twitch sign-in resolve the SAME account, owner and policy facts.
-    // Link/session storage and real identity resolution are separate integration gates.
-    auto local = input();
-    local.delegation.entries.clear();
-    auto twitch = local;
-    twitch.snapshot = "same-account-after-twitch-link";
-    check(local, Outcome::deny, {Outcome::deny});
-    check(twitch, Outcome::deny, {Outcome::deny});
 }
 
 TEST(DelegatedPermissions, UnknownDelegationOrOwnerIsNotKnownEmptyAuthority) {
@@ -330,5 +264,224 @@ TEST(DelegatedPermissions, ZeroLimitsAndOversizedReferencesAreFailuresNotDenials
     } catch (const EffectivePermissionFailure &failure) {
         EXPECT_EQ(failure.code(), EffectivePermissionError::input_limit);
     }
+}
+// AUTH-03: protected ownership is not editable delegation, including for owner actors.
+TEST(DelegatedPermissions, ProtectedCapabilitiesCannotBeGrantedEvenByOwner) {
+    for (auto classification : {PermissionOperationClass::protected_access_management,
+                                PermissionOperationClass::protected_recovery}) {
+        for (const auto *actor : {"admin", "owner"}) {
+            auto in = input();
+            in.actor = actor;
+            in.catalog.operations[0].classification = classification;
+            check(in, Outcome::deny, {Outcome::deny});
+        }
+    }
+}
+
+TEST(DelegatedPermissions, HelperResetOwnerTargetCannotBeDelegated) {
+    for (const auto *actor : {"admin", "owner"}) {
+        auto in = input();
+        in.actor = actor;
+        auto &operation = in.catalog.operations[0];
+        operation.classification = PermissionOperationClass::helper_password_reset;
+        operation.helper_target_slot = "timer"; // Catalog slot keys are opaque.
+        in.delegation.entries[0].resources[0] = {"timer", PermissionResourceMode::any, {}};
+        check(in, Outcome::permit, {Outcome::permit}); // Non-owner target A.
+        in.proposed[0].resources[0].allowed = {"A", "owner"};
+        check(in, Outcome::deny, {Outcome::deny});
+        in.proposed[0].resources[0] = {"timer", PermissionResourceMode::any, {}};
+        check(in, Outcome::deny, {Outcome::deny});
+    }
+}
+
+TEST(DelegatedPermissions, OwnerHasNoImplicitOrdinaryGrantAuthority) {
+    auto in = input();
+    in.actor = "owner";
+    check(in, Outcome::permit, {Outcome::permit}); // Explicit owner-configured grant.
+    in.delegation.entries.clear();
+    check(in, Outcome::deny, {Outcome::deny});
+    in.delegation.state = PermissionFactsState::unknown;
+    fails(in, EffectivePermissionError::facts_unavailable);
+}
+
+TEST(DelegatedPermissions, IntegerAdjacencyCoversButRationalGapDoesNot) {
+    auto in = input();
+    in.catalog.operations[0].quantity_slots[0] = {"count", "items", PermissionNumberKind::integer,
+                                                  {},      {},      15};
+    auto first = capability("A", "10");
+    first.quantities[0].slot = "count";
+    first.quantities[0].unit = "items";
+    auto second = first;
+    second.quantities[0].lower = PermissionRational{"11", "1"};
+    second.quantities[0].upper = PermissionRational{"20", "1"};
+    auto low = authority(first, "low");
+    auto high = authority(second, "high");
+    low.origin = high.origin = PermissionOrigin::role;
+    low.role = high.role = "R";
+    in.delegation = {PermissionFactsState::complete, {"R"}, {low, high}};
+    in.proposed = {first};
+    in.proposed[0].quantities[0].upper = PermissionRational{"20", "1"};
+    check(in, Outcome::permit, {Outcome::permit}); // No integer between 10 and 11.
+    in.catalog.operations[0].quantity_slots[0].kind = PermissionNumberKind::rational;
+    check(in, Outcome::deny, {Outcome::deny}); // 21/2 is an uncovered request.
+}
+
+TEST(DelegatedPermissions, AtMostUsesInclusiveUpperBoundWithoutImplicitLowerBound) {
+    auto in = input();
+    auto &bound = in.delegation.entries[0].quantities[0];
+    bound.mode = PermissionQuantityMode::at_most;
+    bound.lower.reset();
+    auto &proposal = in.proposed[0].quantities[0];
+    proposal = bound;
+    check(in, Outcome::permit, {Outcome::permit});
+    proposal.upper = PermissionRational{"300001", "1"};
+    check(in, Outcome::deny, {Outcome::deny});
+    proposal = {"amount", "ms", PermissionQuantityMode::closed_interval,
+                PermissionRational{"-300001", "1"}, PermissionRational{"300000", "1"}};
+    check(in, Outcome::permit, {Outcome::permit});
+    // In the reverse direction, a finite interval cannot cover an unbounded tail.
+    in.delegation.entries[0].quantities[0] = proposal;
+    proposal = {
+        "amount", "ms", PermissionQuantityMode::at_most, {}, PermissionRational{"300000", "1"}};
+    check(in, Outcome::deny, {Outcome::deny});
+}
+
+TEST(DelegatedPermissions, MagnitudeAndClosedIntervalCoverTheSameSignedRange) {
+    auto in = input();
+    auto &bound = in.delegation.entries[0].quantities[0];
+    bound = {"amount",
+             "ms",
+             PermissionQuantityMode::magnitude_at_most,
+             {},
+             PermissionRational{"300000", "1"}};
+    auto &proposal = in.proposed[0].quantities[0];
+    proposal.lower = PermissionRational{"-300000", "1"};
+    check(in, Outcome::permit, {Outcome::permit});
+    proposal.lower = PermissionRational{"-300001", "1"};
+    check(in, Outcome::deny, {Outcome::deny});
+    bound = {"amount", "ms", PermissionQuantityMode::closed_interval,
+             PermissionRational{"-300000", "1"}, PermissionRational{"300000", "1"}};
+    proposal = {"amount",
+                "ms",
+                PermissionQuantityMode::magnitude_at_most,
+                {},
+                PermissionRational{"300000", "1"}};
+    check(in, Outcome::permit, {Outcome::permit});
+    proposal.upper = PermissionRational{"300001", "1"};
+    check(in, Outcome::deny, {Outcome::deny});
+}
+
+TEST(DelegatedPermissions, AnyQuantityIsIntersectedWithCatalogDomain) {
+    auto in = input();
+    auto &domain = in.catalog.operations[0].quantity_slots[0];
+    domain.minimum = PermissionRational{"0", "1"};
+    domain.maximum = PermissionRational{"300000", "1"};
+    in.proposed[0].quantities[0] = {"amount", "ms", PermissionQuantityMode::any, {}, {}};
+    check(in, Outcome::permit, {Outcome::permit});
+    in.delegation.entries[0].quantities[0] = in.proposed[0].quantities[0];
+    check(in, Outcome::permit, {Outcome::permit});
+    in.delegation.entries[0].quantities[0] = capability("A", "299999").quantities[0];
+    check(in, Outcome::deny, {Outcome::deny});
+}
+
+TEST(DelegatedPermissions, ContradictoryIndividualScopesFailEvenWithDisjointQuantities) {
+    auto in = input();
+    auto deny = authority(capability("A", "600000"), "deny");
+    deny.effect = PermissionEffect::deny;
+    deny.grant.reset();
+    deny.quantities[0].lower = PermissionRational{"300001", "1"};
+    in.delegation.entries.push_back(deny);
+    in.proposed[0].resources[0].allowed = {"B"}; // Conflict is invalid off-scope too.
+    fails(in, EffectivePermissionError::contradictory_individual);
+}
+
+PermissionDelegationInput global_input() {
+    // Independently counted: input B=20/I=3, result B=6/I=1.
+    // A1+S1+catalog(1+1+operation(1+1+optional1)) + owner(1+optional1)
+    // + policy(1+entry(1+1+optional1+1+1+optional(1+1))) + context1+T1+proposal1.
+    return {"A",
+            "S",
+            {PermissionFactsState::complete,
+             "C",
+             {{"O", PermissionOperationClass::ordinary, {}, {}, {}}}},
+            {PermissionOwnerState::absent, {}},
+            {PermissionFactsState::complete,
+             {},
+             {{PermissionOrigin::individual, "I", {}, "O", PermissionEffect::allow, "G", {}, {}}}},
+            Context::role_edit,
+            "T",
+            {{"O", {}, {}}}};
+}
+
+TEST(DelegatedPermissions, ExactInputAndResultByteItemLimitsFit) {
+    const auto in = global_input();
+    auto limits = EffectivePermissionLimits{};
+    limits.input_owned_bytes = 20;
+    limits.input_items = 3;
+    limits.result_owned_bytes = 6;
+    limits.result_items = 1;
+    const auto result = evaluate_permission_delegation(in, limits);
+    EXPECT_EQ(result.outcome, Outcome::permit);
+    EXPECT_EQ(result.grants, std::vector<Outcome>{Outcome::permit});
+    --limits.input_owned_bytes;
+    fails(in, EffectivePermissionError::input_limit, limits);
+    ++limits.input_owned_bytes;
+    --limits.input_items;
+    fails(in, EffectivePermissionError::input_limit, limits);
+    ++limits.input_items;
+    --limits.result_owned_bytes;
+    fails(in, EffectivePermissionError::result_limit, limits);
+}
+
+TEST(DelegatedPermissions, ExtraProposalCountsInBothInputAndCompleteResult) {
+    auto in = global_input();
+    in.proposed.push_back({"O", {}, {}}); // Input B=21/I=4; result B=7/I=2.
+    auto limits = EffectivePermissionLimits{};
+    limits.input_owned_bytes = 21;
+    limits.input_items = 4;
+    limits.result_owned_bytes = 7;
+    limits.result_items = 2;
+    const auto result = evaluate_permission_delegation(in, limits);
+    EXPECT_EQ(result.outcome, Outcome::permit);
+    EXPECT_EQ(result.grants, (std::vector<Outcome>{Outcome::permit, Outcome::permit}));
+    --limits.input_items;
+    fails(in, EffectivePermissionError::input_limit, limits);
+    ++limits.input_items;
+    --limits.result_items;
+    fails(in, EffectivePermissionError::result_limit, limits);
+}
+
+TEST(DelegatedPermissions, SymbolicCellProductIsCheckedBeforeEnumeration) {
+    auto in = global_input();
+    for (unsigned i = 0; i < 14; ++i) {
+        const auto slot = "r" + std::to_string(i);
+        in.catalog.operations[0].resource_slots.push_back(slot);
+        const PermissionResourceConstraint constraint{
+            slot, PermissionResourceMode::allowed_set, {"A", "B"}};
+        in.delegation.entries[0].resources.push_back(constraint);
+        in.proposed[0].resources.push_back(constraint);
+    }
+    // I=3 + 14 catalog keys + 2*(14 constraints+28 members) =101.
+    // 2^14=16384 nonempty cells > L^2=10201, though input I fits exactly.
+    auto limits = EffectivePermissionLimits{};
+    limits.input_items = 101;
+    fails(in, EffectivePermissionError::input_limit, limits);
+}
+
+TEST(DelegatedPermissions, ExactNumericComponentLimitFitsAndOneBelowFails) {
+    auto limits = EffectivePermissionLimits{};
+    limits.component_bytes = 6; // 300000 has six bytes; denominator 1 has one.
+    const auto in = input();
+    const auto result = evaluate_permission_delegation(in, limits);
+    EXPECT_EQ(result.outcome, Outcome::permit);
+    EXPECT_EQ(result.grants, std::vector<Outcome>{Outcome::permit});
+    --limits.component_bytes;
+    fails(in, EffectivePermissionError::input_limit, limits);
+}
+
+TEST(DelegatedPermissions, UnrepresentableDerivedWorkBoundIsInvalidLimits) {
+    auto limits = EffectivePermissionLimits{};
+    limits.input_items = UINT64_MAX;
+    fails(global_input(), EffectivePermissionError::invalid_limits, limits);
 }
 } // namespace
