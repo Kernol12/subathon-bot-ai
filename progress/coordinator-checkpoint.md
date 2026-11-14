@@ -52,7 +52,8 @@ Author ran155 existing tooling tests successfully; no new tests or manufactured 
 Cleanup PR: https://github.com/Kernol12/subathon-bot-ai/pull/637 (draft).
 Initial report PR637#issuecomment-6875421916; all155 tooling tests independently passed.
 Codex verification approved: PR637#issuecomment-6875472515, no blockers.
-Next: fresh independent Claude closing. No completion claimed.
+Fresh Claude closing approved: PR637#issuecomment-6875515769, no blockers.
+Next: final-head CI and protected normal merge/readback. No completion claimed.
 
 ## Next
 
@@ -71,3 +72,5 @@ Prior detailed checkpoint and review history remain at the old-tracker tag and P
 006 initial report SHA-256: ac821be5923b78c953e1d719f1415b901e79c2dee62dd42ca600907a989d5158.
 
 006 Codex report SHA-256: c481e0d6a64923a455c72d1825ba21a433c1fa13c9c568b192be25ca48d1be66.
+
+006 closing report SHA-256: 612e84a1143a876783cbc8adce84211b1cb6a7eb897011f334ffb9841a68d29d.
