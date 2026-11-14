@@ -95,9 +95,9 @@ class ProofPublicationFixture(PublicationFixture):
         records = []
         for t, identity in zip(tasks[:3], self.identities['entries']):
             r = dict(version=1, task_id=t['id'], issue=deepcopy(identity['issue']), kind=t['kind'],
-                     brief=t['brief'], evidence=deepcopy(t['evidence']), limitations=deepcopy(t['notes']),
-                     verification=deepcopy(t['verification']), review=None)
-            for key in ('workflow', 'publication', 'supplemental_workflow_evidence'):
+                     brief=t['brief'], evidence=deepcopy(t['evidence']), limitations=deepcopy(t['notes']))
+            # Baseline converter oracle681–699 fixes optional field declaration order.
+            for key in ('workflow', 'publication', 'verification', 'review', 'supplemental_workflow_evidence'):
                 if key in t:
                     r[key] = deepcopy(t[key])
             records.append(r)
