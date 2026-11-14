@@ -45,6 +45,12 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Current state and assignments
 
+- ACCESS-009 implementation candidate `dacddfb5` implements all five APIs and
+  shared borrowed permission-engine internals. Header/tests unchanged; local
+  integrated acceptance passes 53 delegation +32 existing permission +33 numeric
+  cases, zero skips. Ordinary passing acceptance/CI discovery integration is
+  coordinator-owned. Independent Claude initial implementation review is next;
+  code is not independently approved. Prior incomplete session produced no code.
 - ACCESS-009 (#645) claimed on `task/ACCESS-009-pure-delegation` from current
   `main` `85341ec4` after PR #647's protected merge. Preserved candidate history
   integrated at `bd3cb983d4ae276a7d6afd612aeb2243715d9038`; no test source pushed.
@@ -54,7 +60,13 @@ Owner decisions are recorded in #249, comment 6879902355:
   Separate opt-in baseline registered: configure/build passed, 53 discovered and
   53 observed intended NI failures, zero skips. Initial discovery failed because
   other selected targets were unbuilt; it is not red evidence. Fresh implementation
-  session is next; approved assertions remain fixed. Closing receipt retained at
+  session found direct public evaluator reuse incompatible with borrowed graph
+  inputs/whole outer-result projection and stopped without code edits. Coordinator
+  authorizes a routine private shared-engine refactor within ACCESS-009, including
+  `core/src/effective_permissions.cpp` and private core helpers, preserving public
+  APIs/semantics and all existing tests. No contract relaxation or new task scope.
+  Fresh implementation session continues with this explicit source ownership.
+  Closing receipt retained at
   `/tmp/access-009-review-claude-closing.md` for the PR.
 - ACCESS-009 inherits the local candidate on `task/ACCESS-003-delegation`, head
   `d3d5ccb682d8f59cc980d5c142ca65fed53895dc`: 53 authored tests and five NI APIs.
@@ -74,6 +86,6 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Publish the reviewed baseline/receipts and implement ACCESS-009 in a fresh session.
-Then complete the tier A implementation cycle, relevant checks and current
+Complete ACCESS-009 tier A implementation review (Claude initial, independent
+Codex verification, fresh Claude closing), relevant checks and current
 protected CI/proof gates. Keep #249 open and deferred integration gates visible.

@@ -91,22 +91,14 @@ if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
         PREFIX "effective-permissions."
         LABELS "effective-permissions;acceptance;core" TIMEOUT 10)
 
-    # Local authored baseline only; enable after independent tests-stage approval.
-    option(SUBATHON_BUILD_DELEGATED_PERMISSION_BASELINE "Build ACCESS-009 intentional-red baseline" OFF)
-    if(SUBATHON_BUILD_DELEGATED_PERMISSION_BASELINE)
-        add_library(subathon_delegated_permissions_baseline STATIC
-            ../core/src/delegated_permissions.cpp)
-        target_link_libraries(subathon_delegated_permissions_baseline PUBLIC subathon_effective_permissions)
-        subathon_target_options(subathon_delegated_permissions_baseline)
-        add_executable(core_delegated_permissions_baseline
-            acceptance/delegated_permissions_tests.cpp)
-        target_link_libraries(core_delegated_permissions_baseline PRIVATE
-            subathon_delegated_permissions_baseline GTest::gtest_main)
-        subathon_target_options(core_delegated_permissions_baseline)
-        subathon_discover_gtests(core_delegated_permissions_baseline
-            PREFIX "delegated-permissions."
-            LABELS "delegated-permissions;intentional-red;core" TIMEOUT 60)
-    endif()
+    add_executable(core_delegated_permissions_acceptance
+        acceptance/delegated_permissions_tests.cpp)
+    target_link_libraries(core_delegated_permissions_acceptance PRIVATE
+        subathon_effective_permissions GTest::gtest_main)
+    subathon_target_options(core_delegated_permissions_acceptance)
+    subathon_discover_gtests(core_delegated_permissions_acceptance
+        PREFIX "delegated-permissions."
+        LABELS "delegated-permissions;acceptance;core" TIMEOUT 60)
 
 endif()
 
