@@ -911,3 +911,19 @@ orpolicy/runtime/test/schema/ADRscopechange,noexceptionapplication/no manufactur
 Next separateCodexverification then freshClaudeclosing onchanged5pathprimarypacket.
 Priorcode0041approvalremainspriorcontractqualified; actualSTATUSpin/newlimits/current
 sourceinstructionreviews and allarchive/canonical/CI/protectedmergegates remain.
+
+Independent historical amendment Codex verification dispatch042a17c9-7e72-42c9-984a-
+4024f5714e10 APPROVED2df00c5a6b61b01e68fa7e4d106210f1c6ea1ba8 for freshClaudeclosing;
+rolecodex:migrate004-historical-amendment-verification:/root notauthenticatedidentity.
+Public6873523520 reportSHA256921e5d63f0affdd4aeaec1ffc6e2a74d12a3f3247d0575fdfb78ceb30046d4ae.
+AllHAI01..08resolved,no newHAVfindings. Exact5pathpacket/15priorreviewprefix/policy/
+metadataisolationverified; carriersC1/C2/C3fullIDs/lines/rootroles independentlyread.
+Single pre-A evidenceURL route keepsnotes/limitations unchanged/cap500/convertA-Pprefix
+rules; exactnarrowprecedence and completedinheritance/unfinishedissuecommentholds
+implementable. Allpendingrowcarriers/inheritingclaims/finitereconciliation and existing
+A/Bprivacy/content/remoteproofgates remain, no dispositionadmitted. Readonlyproject/
+validate/render/diffpassed; no tests/SDK/native/historicalexecution/red/networkwrites.
+Currentcode0041notintegrated; priorcodeapprovalqualifiedtopriorcontracts. NewSTATUS/
+instructionlimitsandactualarchivepin/readback/equality/applicablereviews BEFOREPstill
+required. NextfreshClaudeclosingonresulting5pathprimarypacket, no additionalinitial.
+Stateauthority/noarchive/pin/canonicalactivation/currentCIgreen/merge/successorclaim.
