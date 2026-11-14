@@ -742,3 +742,23 @@ T3-prepared isolatedcheckout, no root integration/guardchange/II01fix before red
 Historical9710baseline preserved. CodeII01/II02fixes/codeverification/closing andII03
 actualarchivepin remainseparate; all historicalavailability/pin/merge/successorgates
 remainblocked. No code or authority switch approved by test closing.
+
+Actual amended regression observed before code fix, observation dispatch19e977b3:
+f6 runtime4ab1d14c +7da oracles6ca89f61/8b1ff971,12otherpacketfiles exact.
+Planned epic passes;in_progress/in_review/done fail valid convert with claimed-workflow
+ValueError. Public6870979194 preserves exact original result/subtest times and later
+SETUP failure: deleted schema still in unchanged index, fixture construction stopped;
+no CLI/safety result inferred. Original report432dcaa3f0a2c960a58ddf6f776a15c70841ab8a813f6de22a9a5c1b2dd77b7b,
+results9e6ae5d51f15fc46aa9db2dc94a1be724185947e75fc2fa3d677c3c190a1bd61.
+Coordinator repaired ONLY assembly index by committing exact approved input blobs,
+50db55b80037bc2313c70987e4064fae95a69c44/treeebf6d74446edb131b392d9295a00d571c26b91e5,
+in existing isolated t3-ca56771c. No runtime/oracle correction. All35source/protected
+files matched; original f6/root/runtime/source history unchanged. New private receipts
+migrate004-assembly-followup,public6870981001:4 focused methods allpass/no skips:
+converter fullCLI includingall6mutations/joinedpin/alias/insideoutput/workingbytes,
+literal summary,emptyrange receiptbinding,privatebase outgoingboundary. Allactual
+child/line/subtest/command/streamhashes recorded; clean assembly afterruns. No broad
+suite/SDK/canonicalHEAD claim; those two inputgates remain SETUP. No automaticretry:
+explicit known index-cause correction justified this targeted followup. II01 actualred
+now recorded; proceed small Codex code corrections then independent Codex verification
+and fresh Claude code closing, with all archive/history/P/CI/merge gates still blocking.
