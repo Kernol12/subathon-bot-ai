@@ -622,3 +622,31 @@ Author may prepare prospective legacy source cleanup in its own checkout; coordi
 alone integrates after preservation/review gates, retaining production authority and
 all authoritative metadata until reviewed final freeze. No canonical dummy bundle or
 future archive pin, no source push/PR/issue closure/successor/product/WF execution.
+
+Fresh Claude A closing APPROVED bounded AC01/02 fixes and AC03 locator precision at
+stated factual scope; overall availability remains BLOCKED. Session855b3512-f47d-4a7c-
+92a9-d041ae95f5a0, dispatchfa8ecabe-6d09-436d-82f1-adc1ddd49673. Public report
+issue629#issuecomment-6870472887, SHA256a7776961894be3e5b34348217eba3464a2437c3a76bc73c469e1ed77226bab8d.
+All419 order/claims/outgoing guards retained,4 changed records preserve old history;
+no dispositions admitted, no reapproval371 other rows or global850 clearance.
+Actualsamples02:42:56/02:46:13 are not endpoints/duration; no timing pair.
+Precision findings carried to final archive records, not silently treated complete:
+AR01 author run9fc6d2ef lines83–96 COMPOSES c85 service/header with privatecodec
+3ef4755cc1ec7e7dd84bdcaf0a8c957581a50fa1 plus db621/fb9 additive source; it is not
+c85 tree alone. Coordinator readback locates codec as existing B ordered row103,
+PROPOSE_NON_REQUIRED_SOURCE_AUTHOR_CONTAINER (not independently admitted by A).
+Codec is already GC-protected by its own private archive ref, not main-reachable;
+no new publication, role or inherited availability claim. Do not omit that dependency.
+AR02 'fetched branch only' means remote-tracking locators only: local heads/private
+preservation/T3 refs also reach a13/778 checkpoints but are NOT remote/archive routes.
+AR03 final one-time records must normalize row336/413 blocker objects and keep raw
+executable/environment plus dependency/privacy limitations ACTIVE alongside new missing-
+content blocker. Those limitations survive current trace/history; do not narrow them
+or declare final-record cleanup complete before performing it. Approved input hashes
+remain unchanged; final archive mapping/source review still required before pinning.
+Confirmed d717 required clean-FIRST identity/chronology versus unchanged guard remains
+OWNER CONFLICT. Six missing first-five/next-two dirty sources remain required-content
+blocker unless separately reviewed source-aware disposition establishes not needed.
+Other A/B content/required-original/dependency/nontext/privacy/newA-P/readback gates open.
+Prospective source author ee0ae2ff remains isolated; no handoff/source implementation
+approval, archive/pin/publication/protected merge/successor/product execution claimed.
