@@ -46,7 +46,10 @@ Current fix rounds:0 of2. Authored source ddc39a53; independent review pending.
 Actual cleanup:327 files inventoried;71 archived/removed,238 compacted,18 unchanged.
 149 shared unfinished briefs and30 completed technical/current-gate briefs retained.
 96 canonical brief pointers relocated to matching immutable proof-archive bytes.
-GitHub link repair in progress; no cleanup PR or completion claimed.
+94 affected GitHub issue bodies updated/read back; archive links repaired before publication.
+Repository/proof validation and six-check publication preflight passed.
+Author ran155 existing tooling tests successfully; no new tests or manufactured red.
+Next: one cleanup PR and independent initial review; no completion claimed.
 
 ## Next
 
