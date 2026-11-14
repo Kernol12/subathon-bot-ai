@@ -49,7 +49,8 @@ Actual cleanup:327 files inventoried;71 archived/removed,238 compacted,18 unchan
 94 affected GitHub issue bodies updated/read back; archive links repaired before publication.
 Repository/proof validation and six-check publication preflight passed.
 Author ran155 existing tooling tests successfully; no new tests or manufactured red.
-Next: one cleanup PR and independent initial review; no completion claimed.
+Cleanup PR: https://github.com/Kernol12/subathon-bot-ai/pull/637 (draft).
+Next: independent initial review; no completion claimed.
 
 ## Next
 
