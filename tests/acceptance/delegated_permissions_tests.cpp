@@ -904,6 +904,105 @@ TEST(DelegatedPermissions, CompleteEditGraphAndNestedManagementExactBudgets) {
         EXPECT_EQ(failure.code(), EffectivePermissionError::result_limit);
     }
 }
+TEST(DelegatedPermissions, NonemptyNestedPreviewExactAndOneBelowBudgets) {
+    const auto base = global_input();
+    PermissionEditInput in{
+        base.actor,
+        base.snapshot,
+        base.catalog,
+        base.owner,
+        {PermissionFactsState::complete, {}, {}},
+        {"O", {}, {}},
+        {PermissionFactsState::complete, {}, {{"A", {}, base.delegation.entries}}},
+        {},
+        {{"A", {"O", {}, {}}}}};
+    in.after = in.before;
+    // Input: existing graph B/I=29/5 plus probe account1+operation1, one item:31/6.
+    // Each full effective decision: refs3+owner2+request1+outcome1+reason1
+    // +present witness(1+8)+source9=26 bytes, one source item.
+    // Result: outer refs/outcome4+management26+two probe decisions52=82 bytes;
+    // management source1+preview1+before source1+after source1=4 items.
+    for (const auto evaluate : {preview_permission_edit, revalidate_permission_edit}) {
+        auto limits = EffectivePermissionLimits{};
+        limits.input_owned_bytes = 31;
+        limits.input_items = 6;
+        limits.result_owned_bytes = 82;
+        limits.result_items = 4;
+        const auto result = evaluate(in, limits);
+        EXPECT_EQ(result.outcome, Outcome::permit);
+        EXPECT_TRUE(result.changed.empty());
+        EXPECT_TRUE(result.affected.empty());
+        ASSERT_EQ(result.previews.size(), 1U);
+        for (const auto *decision :
+             {&result.management, &result.previews[0].before, &result.previews[0].after}) {
+            EXPECT_EQ(decision->actor, "A");
+            EXPECT_EQ(decision->snapshot, "S");
+            EXPECT_EQ(decision->catalog_revision, "C");
+            EXPECT_EQ(decision->request.operation, "O");
+            EXPECT_EQ(decision->outcome, Outcome::permit);
+            EXPECT_EQ(decision->reason, PermissionReason::individual_allow);
+            EXPECT_EQ(decision->witness_row, std::optional<std::uint64_t>{0});
+            ASSERT_EQ(decision->sources.size(), 1U);
+            EXPECT_EQ(decision->sources[0].source, "I");
+            EXPECT_EQ(decision->sources[0].grant, std::optional<std::string>{"G"});
+            EXPECT_EQ(decision->sources[0].disposition,
+                      PermissionSourceDisposition::permit_witness);
+        }
+        // Independent one-below cuts: no earlier failure may mask a result ceiling.
+        for (unsigned cut = 0; cut < 4; ++cut) {
+            auto below = limits;
+            if (cut == 0)
+                --below.input_owned_bytes;
+            else if (cut == 1)
+                --below.input_items;
+            else if (cut == 2)
+                --below.result_owned_bytes;
+            else
+                --below.result_items;
+            try {
+                (void)evaluate(in, below);
+                FAIL() << "Expected complete preflight/projection failure, cut " << cut;
+            } catch (const EffectivePermissionFailure &failure) {
+                EXPECT_EQ(failure.code(), cut < 2 ? EffectivePermissionError::input_limit
+                                                  : EffectivePermissionError::result_limit);
+            }
+        }
+    }
+}
+
+TEST(DelegatedPermissions, AutomationTraversalWorkIsSummedAcrossBothChannels) {
+    auto base = global_input();
+    for (unsigned i = 0; i < 14; ++i) {
+        const auto slot = "r" + std::to_string(i);
+        base.catalog.operations[0].resource_slots.push_back(slot);
+        const PermissionResourceConstraint constraint{
+            slot, PermissionResourceMode::allowed_set, {"A", "B"}};
+        base.delegation.entries[0].resources.push_back(constraint);
+        base.proposed[0].resources.push_back(constraint);
+    }
+    const PermissionAutomationInput in{base.actor,      base.snapshot,   base.catalog, base.owner,
+                                       base.delegation, base.delegation, base.proposed};
+    // Input I=4+14 catalog slots+3*(14 constraints+28 members)=144.
+    // Each channel has 2^14=16384 cells; other-resource classes are outside the
+    // action. Whole-call work is 32768 cells. 181^2=32761 <32768 <=182^2=33124.
+    // At L=144 each channel fits separately (16384<=20736), but their sum fails.
+    for (const auto evaluate :
+         {authorize_permission_automation, revalidate_permission_automation}) {
+        auto limits = EffectivePermissionLimits{};
+        limits.input_items = 182;
+        automation_action(evaluate(in, limits), 0, Outcome::permit, Outcome::permit);
+        for (const auto ceiling : {181U, 144U}) {
+            limits.input_items = ceiling;
+            try {
+                (void)evaluate(in, limits);
+                FAIL() << "Combined channel work exceeds L squared at L=" << ceiling;
+            } catch (const EffectivePermissionFailure &failure) {
+                EXPECT_EQ(failure.code(), EffectivePermissionError::input_limit);
+            }
+        }
+    }
+}
+
 TEST(DelegatedPermissions, ReorderingUntouchedOutsideScopeRowsDoesNotBecomeAnEdit) {
     auto in = edit_input();
     auto outside = in.before.roles[0].entries[0];
