@@ -802,3 +802,18 @@ remain mandatory before P; no guessed pin/freeze. All historical availability co
 missing six dirty-run sources, canonical actual-HEAD checks, archive/P/CI/protectedmerge
 and successor gates remain blocking. State remains production authority; no product
 or WORKFLOW-006/007 work, publication or cutover is claimed.
+
+Fresh independent Codex CODE re-verification dispatch bacbb8eb-7762-4747-84e7-91f7158ff3f2
+APPROVED bounded draft source0041d000317d7806b304b711f95ab9fcbe64310b, role
+codex:MIGRATE-004-IV2:/root. Public6871181273 report SHA256
+92781814c16c48f3cf0426079d5d5d2bfd56111daed4ced18d55c6119aef7d9c.
+IV001 resolved; II01/II02 remain resolved, no new IV2 findings. Both earlier rejected
+CODE receipts preserved in order. Exact35 retainedpaths/6approveddeletions/24protected/
+14oracles verified; repository/whitespace/static checks pass, source snapshot94 STATUS
+summary and9observations equal only that snapshot. No broad tooling/SDK/native rerun;
+154pass/1canonicalSETUP is inherited796 result, not new0041 execution. No red fabricated
+for prose. Next fresh independent Claude CODE closing required. II03 actual archived
+STATUS pin/protectedreadback/full equality/applicable renewed review remains mandatory
+before P. All history availability conflicts, missing six source fragments, canonical
+actual-HEAD checks, archive/freeze/CI/protectedmerge and successor gates still block.
+Root runtime unintegrated and state authoritative; no pin/PR/cutover/product/WF006007.
