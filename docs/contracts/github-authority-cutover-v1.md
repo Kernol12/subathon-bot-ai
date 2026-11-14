@@ -469,6 +469,16 @@ array is exactly, in this order:
 9. `Intended-red execution is a coordinator gate; proof completion does not validate baseline execution.`
 10. `Concise completion notes are a coordinator rule; proof limitations have no aggregate character cap.`
 
+`--complete` is a pre-publication packet/source gate. It can succeed before a PR
+exists and with an absent or open publication observation; it cannot certify task
+closure. Retiring state also retires its mechanical done-without-publication refusal.
+The coordinator must refuse closure unless the applicable final PR is actually merged,
+its current required gates were verified, and the truthful merged observation is
+recorded. Missing publication evidence is an explicit closure blocker, never an
+implicit exemption. Keep publication shape/history/source validation when an observation
+is present. STATUS and workflow must state this procedural boundary alongside the
+other separate owner gates; do not invent a GitHub results/closure service in this task.
+
 OpenAPI/component/examples remain ordinary schema.repository coverage.
 
 Ordinary CI must validate the **actual canonical HEAD bundle**, without publication
@@ -508,6 +518,12 @@ recomputed report, reject malformed/unknown consumed fields, identity/eligibilit
 mismatch and unavailable objects. No arbitrary HEAD state, source-root materialization,
 network lookup, writes to repository, or second workflow grammar. Output remains owned
 private new-directory reservation with cleanup on failure and existing002 summary.
+The three-blob adapter does not independently traverse archived task-brief paths.
+Full brief presence, regular-file modes and original bytes are checked by old source
+admission before capture and the one-time protected archive/readback audit before
+pinning. Missing archive briefs block that audit; they are not a converter rejection
+oracle. This retires the old live source-root brief-existence admission, without
+weakening selected current source binding or immutable brief-relocation checks.
 Publication provenance and the convert CLI use **one** archive-input adapter, shared
 strict JSON reader and workflow grammar, not two parsers/loaders. Resolve the repository
 root from the tool's actual checkout, verify Git's top-level equals it; resolve full
