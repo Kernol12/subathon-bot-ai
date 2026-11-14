@@ -380,3 +380,24 @@ Fresh independent Claude primary and separate ADR closings remain required befor
 TI006/008 adaptations. No tests/code/availability/pin/cutover approval inferred.
 Audit B independent verification and A-specific source/run/content traces continue
 in isolated sessions; no new source writer or test execution authorized by these reports.
+
+Fresh Claude primary and separate ADR boundary closings APPROVED2ee131f5, session
+487c317c-5e4a-40aa-beb7-17849375ef79, dispatch9fc56b7b-4cdc-4b91-a84a-89bfd6e16e0c.
+Distinct public reports issue629#issuecomment-6869793694 and6869794660; no blockers.
+Primary handoff N01 merged observation lives in actual issue/PR closure readback, no
+completion-only proof PR loop or prediction; N02 STATUS/closure receipts disclose
+prepublication-versus-closure outside frozen ten limitation strings; N03 actual strict
+source-admission tool/source/result receipt at capture and protected readback mandatory.
+Separate scope N01 names exact retained288–296/299–301/302–306/307–309 groups; whole-
+workflow-deletion is addition, not old297–298 replacement. N02 absent-publication
+positive is NEW oracle requiring test review; N03 STATUS/workflow enumerates this loss.
+Activity01:52:11/01:54:20/01:55:45/01:57:07 are samples, not duration; no timing pair.
+Now apply ONLY approved TI006/008 source adaptations then independent test verification
+and fresh Claude closing before imports/execution/red/fresh implementation. No source,
+availability, archive pin or cutover approval inferred from documentary verdicts.
+A specific-trace author a1086f0f returned all419 rows,48 substantive updates; private
+report41353d5b8796efbc8f994605d41eb0eac7ecafb46ebb13883bee9810622fde78,
+rows9242a773102cbd6c3b04bcdb95295d1926e6962fd9bda77984ba016d96cb826c,
+blockers041bd99f2bf19669f02fb2baeea1625d0c56d68ce2374b8e8c32dbe13843ac08.
+Exact historical FIRST/run/content questions remain; no disposition admitted or049
+required premise restored. New independent verification before availability closing.
