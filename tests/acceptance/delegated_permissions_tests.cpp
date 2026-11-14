@@ -1072,4 +1072,60 @@ TEST(DelegatedPermissions, AutomationCompleteActionResultItemsCannotBeTruncated)
         EXPECT_EQ(failure.code(), EffectivePermissionError::result_limit);
     }
 }
+// AUTH-03 guards classify the entire GRANT, even when its catalog intersection
+// is empty: protected authority cannot be delegated by vacuous containment.
+TEST(DelegatedPermissions, EmptyCatalogIntersectionStillDeniesProtectedGrantAndAutomation) {
+    for (auto classification : {PermissionOperationClass::protected_access_management,
+                                PermissionOperationClass::protected_recovery}) {
+        for (const auto *actor : {"admin", "owner"}) {
+            auto in = input();
+            in.actor = actor;
+            auto &operation = in.catalog.operations[0];
+            operation.classification = classification;
+            auto &quantity = operation.quantity_slots[0];
+            quantity.kind = PermissionNumberKind::integer;
+            quantity.minimum = PermissionRational{"0", "1"};
+            quantity.maximum = PermissionRational{"10", "1"};
+            in.proposed[0].quantities[0].lower = PermissionRational{"20", "1"};
+            in.proposed[0].quantities[0].upper = PermissionRational{"30", "1"};
+            check(in, Outcome::deny, {Outcome::deny});
+            const PermissionAutomationInput automation{in.actor,   in.snapshot,   in.catalog,
+                                                       in.owner,   in.delegation, in.delegation,
+                                                       in.proposed};
+            for (const auto evaluate :
+                 {authorize_permission_automation, revalidate_permission_automation}) {
+                const auto result = evaluate(automation, EffectivePermissionLimits{});
+                ASSERT_EQ(result.actions.size(), 1U);
+                EXPECT_EQ(result.actions[0].grant, Outcome::deny);
+                EXPECT_EQ(result.actions[0].disposition, PermissionAutomationDisposition::hold);
+            }
+        }
+    }
+}
+
+TEST(DelegatedPermissions, EmptyCatalogIntersectionStillDeniesProtectedChangedRow) {
+    for (auto classification : {PermissionOperationClass::protected_access_management,
+                                PermissionOperationClass::protected_recovery}) {
+        auto in = edit_input();
+        auto &operation = in.catalog.operations[0];
+        operation.classification = classification;
+        auto &quantity = operation.quantity_slots[0];
+        quantity.kind = PermissionNumberKind::integer;
+        quantity.minimum = PermissionRational{"0", "1"};
+        quantity.maximum = PermissionRational{"10", "1"};
+        auto added = in.before.roles[0].entries[0];
+        added.quantities[0].lower = PermissionRational{"20", "1"};
+        added.quantities[0].upper = PermissionRational{"30", "1"};
+        in.before.roles[0].entries.clear();
+        in.after = in.before;
+        in.after.roles[0].entries.push_back(added);
+        for (const auto evaluate : {preview_permission_edit, revalidate_permission_edit}) {
+            const auto result = evaluate(in, EffectivePermissionLimits{});
+            EXPECT_EQ(result.management.outcome, Outcome::permit);
+            ASSERT_EQ(result.changed.size(), 1U);
+            EXPECT_EQ(result.changed[0].outcome, Outcome::deny);
+            EXPECT_EQ(result.outcome, Outcome::deny);
+        }
+    }
+}
 } // namespace
