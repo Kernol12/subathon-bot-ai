@@ -12,7 +12,7 @@ latest PR head before merge.
 | `scaffold` | Infrastructure build, Python tooling tests and repository checks. Not product acceptance | `scaffold-debug` |
 | `schema-validation (ubuntu-22.04)`, `schema-validation (ubuntu-24.04)` | Real repository schemas and examples with the pinned validators on CPython 3.10 and 3.12 | `schema-validation-debug` |
 | `core` | Every pure GoogleTest suite in one build: time credit, exact numeric, timer lifecycle, pause policy, time debt, timer editorial, milestone progression, effective permissions, rate snapshots, receipt intake, contribution evidence and application plans. Pinned Boost 1.83 | `core-acceptance-debug` |
-| `qt` | Qt 6.12 suites with one shared toolchain setup: all real-SQLite storage suites and the application service, password hashing and session resolution against the selected libsodium, and translation catalogs | `sqlite-reference-capture-debug`, `password-hashing-debug`, `session-resolution-debug`, `translation-catalog-debug` |
+| `qt` | Qt 6.12 suites with one shared toolchain setup: all real-SQLite storage suites (including permission graphs) and the application service, password hashing and session resolution against the selected libsodium, and translation catalogs | `sqlite-reference-capture-debug`, `password-hashing-debug`, `session-resolution-debug`, `translation-catalog-debug` |
 | `native` | Corrected Drogon SDK: the 44-method native WebSocket loopback profile, then the host lifecycle baseline build and registration check | `native-websocket-profile-debug`, `api-host-native-debug` |
 
 The single-suite presets (`exact-numeric-debug`, `time-debt-debug` and so on) remain

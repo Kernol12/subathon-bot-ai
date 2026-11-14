@@ -128,7 +128,7 @@ if(SUBATHON_BUILD_API_HOST_NATIVE_TESTS)
     subathon_target_options(subathon_api_host_drogon)
 endif()
 
-# ACCESS-010 tests stage: source is an unconditional NI marker until review/red.
+# Authoritative graph storage reuses the account prefix and pure permission validation.
 if(SUBATHON_BUILD_SQLITE_PERMISSION_GRAPH_TESTS)
     add_library(subathon_sqlite_permission_graph STATIC src/sqlite_permission_graph.cpp)
     target_include_directories(subathon_sqlite_permission_graph PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")

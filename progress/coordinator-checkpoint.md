@@ -52,29 +52,26 @@ Owner decisions are recorded in #249, comment 6879902355:
 - ACCESS-009 (#645) completed by protected PR #648 merge `1fd11c3b`.
   Full core445/445, delegation55/55, zero skips; tier A/proof/required CI passed.
 - ACCESS-010 (#646), branch `task/ACCESS-010-permission-storage`, draft PR #650.
-  Original contract/tests approved at67084944; integrated baseline observed94 NI/
-  outcome-guard failures across44 methods, zero setup failures/skips/warnings.
-  Local implementation f1a5c104:138/139 closure nodes,93/94 graph invocations pass.
-  Initial Claude source review confirmed one baseline defect PG-B01 and no source
-  blockers. Source-only notes I01–I04 addressed at f9a34be0, awaiting verification;
-  core120/120 passes; I05 unused NI declaration retained in fixed public header.
-- Owner explicitly approved the bounded PG-B01 fixture correction and one extra
-  tests fix round (issue646 comment6883152604). Different installations are tested
-  in separate disposable databases; singleton collision, absent-scope refusal and
-  original graph isolation remain asserted. Shipped schema/account behavior stays
-  fixed. Compile/discovery44 methods/94 invocations passed; corrected bodies unrun.
-  Independent tier A review of this revised baseline is next; history preserved.
+  Original contract/tests approved at67084944; original94 NI/outcome-guard red
+  preserved. Implementation f1a5c104 plus source robustness fixes f9a34be0 authored.
+  Initial Claude source review found no source blockers; PG-B01 fixture defect was
+  owner-approved for an extra correction round (646 comment6883152604).
+  Revised baseline711e059d completed separate Claude/Codex/Claude approval.
+  Corrected runtime:139/139 closure nodes and94/94 graph invocations pass, zero
+  skips/warnings. Separate ordinary Qt CI execution/discovery now integrated;
+  local discovery mirror passes44 methods/94 invocations. Independent Codex
+  implementation verification and fresh Claude closing are next; no merge approval.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
-  proof. No live writer assigned; read-only test review next. Full #249 integration
-  remains open; ACCESS-011 (#649) is authorized after #646 merges. RULES-006 parked.
+  proof. Source and revised test history retained; no further test change authorized.
+  Full #249 integration remains open; ACCESS-011 (#649) follows #646 merge, then
+  RULES-006 resumes after real producer readiness. No other live writer assigned.
 - Draft PR #121 stays parked. Process/tooling work remains frozen until the slice.
   EPIC-029 closed, follow-ups #636; pre-cutover evidence remains historical.
 
 ## Next action
 
-Review the owner-approved bounded test correction independently before running it.
-Then run corrected graph/owning checks, promote passing Qt CI and finish ACCESS-010
-implementation verification/closing at the same exact final candidate, followed by
-one proof/policy commit and protected merge. Do not infer review approval from the
-owner's permission to correct the fixture. Continue ACCESS-011 in a fresh session
-only after #646 lands; preserve all currentness/original-author/release requirements.
+Finish ACCESS-010 independent implementation verification and fresh Claude closing
+at the same exact final candidate, then one proof/policy commit and protected merge
+on current CI. Do not treat corrected-test approval or runtime checks as code review.
+Continue ACCESS-011 in a fresh session only after #646 lands; preserve all current
+original-author, scope, revision and full release requirements.

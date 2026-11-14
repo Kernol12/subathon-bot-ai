@@ -131,5 +131,5 @@ if(SUBATHON_BUILD_SQLITE_PERMISSION_GRAPH_TESTS)
     subathon_add_qt_suite(server_sqlite_permission_graph_acceptance
         NAME sqlite-permission-graph SOURCES sqlite_permission_graph_tests.cpp
         LIBRARIES subathon_sqlite_permission_graph
-        LABELS "sqlite-permission-graph;acceptance;qt;server;intentional-red")
+        LABELS "sqlite-permission-graph;acceptance;qt;server")
 endif()
