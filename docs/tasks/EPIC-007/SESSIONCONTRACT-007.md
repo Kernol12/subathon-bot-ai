@@ -2,7 +2,7 @@
 
 Parent: [EPIC-007](../EPIC-007.md). Kind: contract, document only.
 Specification v0.45 §10/§16, AUTH-01/08/10/11/12, SERVER-01, DEP-04/05/06,
-TEST-04/05. Dependencies/status: progress/state.json. Planned prerequisite exposed
+TEST-04/05. Planned prerequisite exposed
 by APICONTRACT-002 closing review B5; no implementation authorized by this record.
 
 Define an additive AUTH-route remaining-transport-budget producer after actual

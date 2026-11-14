@@ -3,7 +3,7 @@
 Parent integration gate: [CONTRACT-008](CONTRACT-008.md). Kind: contract.
 Authority: specification v0.45 §§4/7/8/10/11/13, UI-04, MEDIA-01/02,
 MILE-01/08, MOD-02, TIMER-09, API-03 and source-respecting privacy.
-Status/owner/dependencies: progress/state.json. Proposed prerequisites:
+Proposed prerequisites:
 CONTRACTPLAN-002, CONTRACT-009, CORE-002, CORE-003, CORE-005, ACCT-002,
 ACCESSTEST-002, MILESTONETEST-001, MILESTONETEST-004, MODIFIERTEST-001 and
 MODIFIERTEST-002. [ADR-0005](../decisions/0005-scene-contract-prerequisites.md)

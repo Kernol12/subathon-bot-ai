@@ -2,7 +2,7 @@
 
 Parent: [EPIC-018](../EPIC-018.md). Kind: implementation.
 Specification: v0.45; §10.
-Status, owners and dependency IDs: progress/state.json (authoritative).
+
 Contract revision: use the current reviewed slice contract; none is finalized by this plan.
 
 ## Scope and ownership
@@ -29,8 +29,8 @@ No passwords/secrets in exported audit or UI persistence; revoked actions fail e
   specification, author independently derived tests, obtain a different reviewer's
   approval, then record a real intended red run from explicit missing behavior.
   Compilation failure, missing dependencies or skipping tests does not count.
-- `DESKTOP-007` (implementation): depends on that completed baseline and its other
-  recorded prerequisites. Preserve reviewed assertions, implement only this slice,
+- `DESKTOP-007` (implementation): requires that completed baseline.
+  Preserve reviewed assertions, implement only this slice,
   run its relevant acceptance/regression checks and obtain separate code review.
 
 Record baseline author/reviewer/revision and red command/output in evidence before

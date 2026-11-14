@@ -1,7 +1,7 @@
 # SESSIONCONTRACT-001 — Current-session supplier contract
 
 Parent: [EPIC-007](../EPIC-007.md). Kind: DOCUMENT contract.
-State/owner/dependencies: progress/state.json. Authority: specification v0.45
+Authority: specification v0.45
 §§10/17/18, AUTH-05/AUTH-12, API-01/02/03 and existing approved
 [wire primitives](../../contracts/wire-primitives-v1.md).
 

@@ -1,7 +1,7 @@
 # Contribution evidence SQL adapter — revision 1
 
 Task: STORAGETEST-014 / STORAGE-014. Authority: specification v0.45 §§3.2–3.5,
-§14, DB-01, [slice brief](../tasks/EPIC-009/STORAGE-014.md),
+§14, DB-01, [slice brief](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-009/STORAGE-014.md),
 [contribution eligibility/linkage](contribution-eligibility-v1.md),
 [event/state boundaries](event-state-boundaries-v1.md),
 [writer work](writer-transactions-v1.md),

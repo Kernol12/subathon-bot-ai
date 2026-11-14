@@ -2,7 +2,7 @@
 
 Parent: [EPIC-026](../EPIC-026.md). Kind: test_draft.
 Specification: v0.45; §19, DEV-04, TEST-05, TEST-01, TEST-02, TEST-04, DEV-01, DEV-03.
-Status, owners and dependency IDs: progress/state.json (authoritative).
+
 Contract revision: use the current reviewed slice contract; none is finalized by this plan.
 
 ## Scope and ownership

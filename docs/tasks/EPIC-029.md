@@ -3,11 +3,8 @@
 Source: [issue #625](https://github.com/Kernol12/subathon-bot-ai/issues/625), snapshot 2026-11-13.
 Contract: `docs/contracts/github-task-migration-v1.md`.
 
-Owner authorization now permits migration sequence 001 → 002 → 003 → 004 → 006 → 005.
-This brief registers scope; only 001 is claimed in this session. Until 004, state remains
-authoritative. WORKFLOW-006/007 and product work remain stopped; only WF006 storage/
-dependency rescope is permitted. Successors require fresh sessions and all current gates.
-Coordinator owns shared metadata/integration; executable authors own only assigned paths.
+Coordinator owns shared metadata/integration; executable authors own assigned paths.
+GitHub owns planning. Product and WORKFLOW-006/007 execution remain stopped.
 
 **Task ID:** `EPIC-029`
 **Work type:** Epic
@@ -27,13 +24,10 @@ The six tasks are linked as native sub-issues. Execute MIGRATE-001 → MIGRATE-0
 
 WORKFLOW-006 remains stopped and is sequenced after MIGRATE-005; its storage integration must be re-scoped without changing its intended artifact/results policy. WORKFLOW-007 retains its dependency on WORKFLOW-006. Product work stays paused.
 
-
 ### Mandatory task-brief cleanup
 MIGRATE-006 compacts active briefs, archives full completed briefs and removes obsolete active copies after cutover. Pin and repair links before removal; keep shared briefs needed by unfinished tasks. MIGRATE-005 must verify this cleanup before the epic closes.
 
 ### Authorized execution boundary
 
-Owner authorization supersedes the issue snapshot’s instruction to remain Planned/
-unassigned; it does not waive registration, fresh sessions, review or protected merges.
-Dependency readiness never grants owner authorization. Until cutover, preserve GitHub
-planning items during mirror synchronization. No product or WORKFLOW-006/007 execution.
+Registration, fresh sessions, independent review and protected merges remain required.
+Dependency readiness never grants owner authorization. No product or WORKFLOW-006/007 execution.

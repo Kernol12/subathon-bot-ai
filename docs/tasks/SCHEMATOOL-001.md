@@ -1,7 +1,7 @@
 # SCHEMATOOL-001 — Offline schema-package validation foundation
 
 Kind: bounded DEVELOPER tooling implementation, paired baseline SCHEMATEST-001.
-State/owner/dependencies: progress/state.json. Authority: specification v0.45
+Authority: specification v0.45
 §§17/18, API-01/02/03 and TEST-04; [plan](CONTRACTPLAN-005.md).
 This is not an HTTP server, client decoder or authentication capability.
 

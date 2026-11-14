@@ -6,7 +6,7 @@ Reconciled on main `40e06a8` (PR112), coordinator claim `3e4a2aa`.
 DOCUMENT ONLY: internal ownership, operations and independent examples for
 ACCESSTEST-008; no header, test, native call, login, HTTP route, schema or public
 proof. Review/check receipts are recorded in [PR113](https://github.com/Kernol12/subathon-bot-ai/pull/113)
-and the [task brief](../tasks/EPIC-006/ACCESSCONTRACT-001.md).
+and the [task brief](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-006/ACCESSCONTRACT-001.md).
 
 Import [password logical/API v1](password-hashing-api-v1.md), including the
 [logical byte/cost rules](password-hashing-v1.md), [supplier v1](session-resolution-v1.md)

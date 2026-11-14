@@ -3,7 +3,7 @@
 Parent: [EPIC-007](../EPIC-007.md). Paired baseline: SESSIONTEST-009.
 Kinds: test_baseline / implementation. Specification v0.45 §10/§16,
 AUTH-05/09/12, DB-01, SERVER-01, TEST-04/05.
-Dependencies/status: progress/state.json. Contract: independently accepted
+Contract: independently accepted
 SESSIONCONTRACT-004; no clock mechanism is finalized by ADR-0010.
 
 Own only the actual host session-clock producer and its reviewed continuity/trust
@@ -32,7 +32,6 @@ This producer does not implement timer countdown/checkpoint/downtime, accepted l
 recovery offers, staged restore or installation-epoch rotation protocols. ACCESS-005
 and STORAGE-007 must test their actual use of its refusal/fence boundary. Record
 exact revisions/commands/environment/results and those remaining gates in a handoff.
-
 
 The accepted clock contract §2 assigns actual host/queue lifecycle to API-001. Both
 SESSIONTEST-009 and SESSION-009 therefore require that real host explicitly. A

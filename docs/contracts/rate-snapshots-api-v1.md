@@ -4,7 +4,7 @@ RATESTEST-001 concrete API document stage. This refines the independently approv
 [logical model](rate-snapshots-v1.md), Git blob
 `76d2d9b3e542c56b7475e99defd717d9902885a5`, without changing its requirements or
 RS01–17 examples. Authority remains specification v0.45 §§3.5, 9, 15, NUM-04/FX-06,
-[RATES-001](../tasks/EPIC-017/RATES-001.md),
+[RATES-001](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-017/RATES-001.md),
 [exact decimal revision 1](exact-decimal-v1.md) and
 [record ownership](event-state-boundaries-v1.md).
 

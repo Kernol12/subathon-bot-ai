@@ -2,7 +2,7 @@
 
 Parent: [EPIC-007](../EPIC-007.md). Kind: implementation.
 Specification: v0.45; §10, AUTH-12.
-Status, owners and dependency IDs: progress/state.json (authoritative).
+
 Contract revision: use the current reviewed slice contract; none is finalized by this plan.
 
 ## Scope and ownership
@@ -29,8 +29,8 @@ Exercise cross-origin requests, missing/invalid CSRF, logout and stale open page
   specification, author independently derived tests, obtain a different reviewer's
   approval, then record a real intended red run from explicit missing behavior.
   Compilation failure, missing dependencies or skipping tests does not count.
-- `SESSION-003` (implementation): depends on that completed baseline and its other
-  recorded prerequisites. Preserve reviewed assertions, implement only this slice,
+- `SESSION-003` (implementation): requires that completed baseline.
+  Preserve reviewed assertions, implement only this slice,
   run its relevant acceptance/regression checks and obtain separate code review.
 
 Record baseline author/reviewer/revision and red command/output in evidence before
@@ -57,7 +57,6 @@ The original combined session document was split before authoring: both
 [SESSIONCONTRACT-001](SESSIONCONTRACT-001.md) supplier and
 [SESSIONCONTRACT-002](SESSIONCONTRACT-002.md) transport must be independently reviewed and integrated
 before this task; existing test-first/runtime gates remain.
-
 
 ## ADR-0010 additive session prerequisites
 

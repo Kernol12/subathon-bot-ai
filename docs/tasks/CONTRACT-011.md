@@ -2,7 +2,7 @@
 
 Parent integration gate: [CONTRACT-008](CONTRACT-008.md). Kind: contract.
 Authority: specification v0.45 §11, MEDIA-01/03/04/05/06, UI-04.
-Status/owner/dependencies: progress/state.json. Proposed prerequisites:
+Proposed prerequisites:
 CONTRACTPLAN-002 and CONTRACT-009. See [ADR-0005](../decisions/0005-scene-contract-prerequisites.md).
 
 ## Scope and acceptance

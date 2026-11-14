@@ -2,7 +2,7 @@
 
 Parent: [EPIC-017](../EPIC-017.md). Kind: contract, document only.
 Specification v0.45 §§3.5, 9, NUM-04, FX-03/06.
-Status, owner and dependencies: progress/state.json.
+
 
 ## Problem and scope
 

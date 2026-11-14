@@ -3,7 +3,7 @@
 ACCESSTEST-002 completed logical proposal, resumed from the partial document
 `5dfc6a1e` at owner-decision revision `4429cbb8`. Authority: specification v0.45
 §10/AUTH-03/AUTH-06 and
-[ACCESS-002](../tasks/EPIC-006/ACCESS-002.md), with the
+[ACCESS-002](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-006/ACCESS-002.md), with the
 [common value contract](wire-primitives-v1.md) and
 [application ownership boundary](event-state-boundaries-v1.md).
 This defines proposed values, invariants and independent examples, not an API,

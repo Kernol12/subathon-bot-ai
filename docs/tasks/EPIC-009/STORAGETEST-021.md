@@ -1,6 +1,6 @@
 # STORAGETEST-021 — Review and demonstrate red: controlled parent-table rebuild migration
 
-Parent: [EPIC-009](../EPIC-009.md). Status, owner and dependencies: progress/state.json.
+Parent: [EPIC-009](../EPIC-009.md).
 Specification v0.45 §16, OPS-02, NUM-04, FX-06. Planned and unassigned.
 
 The [concrete exact valuation proposal](../../contracts/exact-valuation-storage-v1.md)

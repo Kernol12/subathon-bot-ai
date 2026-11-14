@@ -1,6 +1,6 @@
 # CONTRACTPLAN-005 — Explicit schema-validation foundation
 
-Kind: DOCUMENT planning contract. State/owner/dependencies: progress/state.json.
+Kind: DOCUMENT planning contract.
 Authority: specification v0.45 §§17/18, API-01/02/03 and DEV-04/TEST-04.
 
 Record the actual absence of selected OpenAPI3.1/JSONSchema validation before

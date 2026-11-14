@@ -3,7 +3,7 @@
 Parent: [EPIC-007](../EPIC-007.md). Paired baseline: SESSIONTEST-010.
 Kinds: test_baseline / implementation. Specification v0.45 §2/§10/§17,
 SERVER-01, AUTH-12/15, API-01, TEST-04/05.
-Dependencies/status: progress/state.json. Contract: independently accepted
+Contract: independently accepted
 SESSIONCONTRACT-005 plus unchanged transport v1. No ingress solution selected here.
 
 Own only the reviewed actual framework/proxy ingress correction/source and secret

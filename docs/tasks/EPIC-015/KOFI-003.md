@@ -2,7 +2,7 @@
 
 Parent: [EPIC-015](../EPIC-015.md). Kind: feasibility.
 Specification: v0.45; §14, §19.
-Status, owners and dependency IDs: progress/state.json (authoritative).
+
 Contract revision: use the current reviewed slice contract; none is finalized by this plan.
 
 ## Scope and ownership

@@ -1,7 +1,7 @@
 # CONTRACT-003 — Define HTTP, WebSocket and scene contracts
 
 Module: Server/API. Kind: contract.
-Authoritative status/owner/dependencies: progress/state.json (do not duplicate mutable status here).
+
 Specification references: API-01, API-02, API-03, §11.
 
 ## Goal
@@ -22,7 +22,7 @@ file ownership. Link test cases to the required behavior and independently deriv
 - For scaffolding/environment, distinguish successful checks from feature correctness.
 - Use the applicable template, record exact evidence and leave a durable handoff.
 
-Run relevant checks, update progress/state.json, regenerate PROGRESS.html and validate before handoff.
+Run relevant checks and record actual results in the PR and canonical proof.
 
 ## Required child contracts and integration audit
 
@@ -33,7 +33,6 @@ All four remain required; this parent audits their consistent versions, imports,
 capabilities, complete packages and independent examples. Common documentation alone
 cannot finish this contract. Read current state/evidence for actual review status.
 The split changes helper sequencing only; original API-01/02/03 and §11 scope stays.
-
 
 The [reference HTTP contract](CONTRACT-013.md) is an additional required import
 under [ADR-0006](../decisions/0006-reference-path-prerequisites.md). It supplies no

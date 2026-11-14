@@ -2,7 +2,6 @@
 
 Parent: [EPIC-017](../EPIC-017.md). Kind: implementation.
 Specification: v0.45; §3.5, §9, NUM-04, FX-06.
-Status, owners and dependencies: progress/state.json.
 
 ## Scope and concrete gap
 

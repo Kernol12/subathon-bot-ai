@@ -26,7 +26,8 @@ Since the final protected MIGRATE-004 cutover merge, GitHub owns status, assignm
 native containment and prerequisite links. Canonical proof records preserve review
 and source facts. The intermediate archive PR did not switch authority.
 The tables here are navigation only.
-All brief paths stay accessible through004; bulk compaction/removal belongs to006.
+Active and retained gate briefs remain below; completed retired briefs use immutable
+archive links. See the [cleanup inventory](../migrations/EPIC-029/brief-inventory.md).
 Coordinator checks actual prerequisite merges and owner stops before dispatch.
 
 Existing foundation/contract/spike IDs and the six draft credit cases are preserved.
@@ -87,7 +88,7 @@ No existing verification result was upgraded by this planning change.
 | [EPIC-025 — Windows portable ZIP, Linux archives and Arch package](EPIC-025.md) | 6 | 10 |
 | [EPIC-026 — Target platform/browser/OBS matrix and performance evidence](EPIC-026.md) | 6 | 6 |
 | [EPIC-027 — Release license/source manifests, diagnostics and documentation](EPIC-027.md) | 4 | 6 |
-| [EPIC-028 — Simplify agent workflow and focus test coverage](EPIC-028.md) | 13 | 13 |
+| [EPIC-028 — Simplify agent workflow and focus test coverage](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-028.md) | 13 | 13 |
 
 Total: 208 work packages, 368 child records
 (test baselines, their paired implementations, and distinct feasibility,
@@ -105,7 +106,6 @@ adds a documentation-only logical contract plus separate durable-hold and early-
 claim baseline/store prerequisites
 before the original service baseline; no original release requirement is removed.
 
-
 The [reviewed wire-contract prerequisite split](../decisions/0004-wire-contract-prerequisites.md)
 separates common representations, HTTP, persistent WebSocket and scene contracts.
 CONTRACT-003 retains their complete integration gate; helper sequencing changes do
@@ -116,13 +116,12 @@ retains CONTRACT-008 as the full integration gate while separating the scene mod
 reviewed owning-domain bindings/timelines, assets/packages and complete schemas.
 No schema/renderer/provider/platform capability follows from these planning records.
 
-
-[CONTRACTPLAN-003](CONTRACTPLAN-003.md) / [ADR-0006](../decisions/0006-reference-path-prerequisites.md)
+[CONTRACTPLAN-003](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/CONTRACTPLAN-003.md) / [ADR-0006](../decisions/0006-reference-path-prerequisites.md)
 realigns §17's early reference path with bounded HTTP013, rule/adapter014 and
 separately baseline-gated API010/011/RULES006. Full scene, WS, connector lifecycle,
 planner, modifier/milestone and checkpoint/recovery/release gates remain required.
 
-[CONTRACTPLAN-004](CONTRACTPLAN-004.md) and
+[CONTRACTPLAN-004](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/CONTRACTPLAN-004.md) and
 [ADR-0007](../decisions/0007-session-contract-prerequisite.md) expose the missing
 [SESSIONCONTRACT-001](EPIC-007/SESSIONCONTRACT-001.md) supplier and
 [SESSIONCONTRACT-002](EPIC-007/SESSIONCONTRACT-002.md) transport documents before session
@@ -136,7 +135,7 @@ They are not extra epic work packages or evidence of a selected/working validato
 ## Coordination tooling
 
 - [WORKFLOW-001 — T3 coordination and derived task context](WORKFLOW-001.md).
-- [WORKFLOW-002 — Coordinator-selected reviews with Codex correction cycles](WORKFLOW-002.md).
+- [WORKFLOW-002 — Coordinator-selected reviews with Codex correction cycles](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/WORKFLOW-002.md).
 
 [Exact retained valuation prerequisite](EPIC-017/RATECONTRACT-001.md) separates
 the logical representation/provenance/compatibility contract before RATESTEST-009.
@@ -151,7 +150,7 @@ and [implementation](EPIC-009/STORAGE-021.md) before exact valuation storage tes
 Existing writer PRAGMA admission and plan CHECK/FK constraints require explicit
 reviewed migration support; the planning split supplies no runtime capability.
 
-[CI-001 — Reliable Ubuntu package acquisition](CI-001.md) is an owner-authorized
+[CI-001 — Reliable Ubuntu package acquisition](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/CI-001.md) is an owner-authorized
 CI-only repair; historical publication receipts are recorded in PR119. Product work
 remains bounded by the current owner instruction.
 
@@ -160,11 +159,11 @@ forward review records, derived stage handoffs/metrics and saved-PR reconciliati
 while preserving historical evidence and the existing review cycle.
 
 The owner-authorized bounded coordination program starts with
-[WORKFLOW-004 — Forward policy and task split](WORKFLOW-004.md), followed by
+[WORKFLOW-004 — Forward policy and task split](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/WORKFLOW-004.md), followed by
 [WORKFLOW-005 — Compact context/publication checks](WORKFLOW-005.md),
 [WORKFLOW-006 — Artifact-aware records](WORKFLOW-006.md),
 [WORKFLOW-007 — Reusable execution runner](WORKFLOW-007.md), and
-[CI-002 — Setup diagnostics/merge enforcement](CI-002.md).
+[CI-002 — Setup diagnostics/merge enforcement](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/CI-002.md).
 The forward record/results policy activates with reviewed WORKFLOW-006 tooling;
 non-record practices/private-evidence guidance applies at WORKFLOW-004 merge.
 Existing product work stays stopped. Consult GitHub/proof and the latest checkpoint for
@@ -173,8 +172,8 @@ actual gates and authorization.
 ## GitHub task migration
 
 [EPIC-029](EPIC-029.md) preserves the complete migration scope. The explicitly
-owner-authorized sequence is [MIGRATE-001](EPIC-029/MIGRATE-001.md) →
-[MIGRATE-002](EPIC-029/MIGRATE-002.md) → [MIGRATE-003](EPIC-029/MIGRATE-003.md) →
+owner-authorized sequence is [MIGRATE-001](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-029/MIGRATE-001.md) →
+[MIGRATE-002](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-029/MIGRATE-002.md) → [MIGRATE-003](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-029/MIGRATE-003.md) →
 [MIGRATE-004](EPIC-029/MIGRATE-004.md) → [MIGRATE-006](EPIC-029/MIGRATE-006.md) →
 [MIGRATE-005](EPIC-029/MIGRATE-005.md). Read the
 [migration contract](../contracts/github-task-migration-v1.md) and its

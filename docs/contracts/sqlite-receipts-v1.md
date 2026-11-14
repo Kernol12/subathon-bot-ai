@@ -1,7 +1,7 @@
 # Identified-receipt SQL adapter — revision 1
 
 Task: STORAGETEST-013 / STORAGE-013. Authority: specification v0.45 §§3.2–3.4,
-DB-01, [slice brief](../tasks/EPIC-009/STORAGE-013.md),
+DB-01, [slice brief](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-009/STORAGE-013.md),
 [receipt intake revision1](receipt-intake-v1.md),
 [event/state boundaries](event-state-boundaries-v1.md),
 [writer transactions](writer-transactions-v1.md) and

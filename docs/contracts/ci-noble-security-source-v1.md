@@ -1,6 +1,6 @@
 # Noble split security source — v1
 
-CI-003; specification v0.45 §§17–18; [task brief](../tasks/CI-003.md).
+CI-003; specification v0.45 §§17–18; [task brief](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/CI-003.md).
 This is proposed contract material, not review approval, observed red, implementation
 or hosted recovery. It narrowly extends [CI-002 v1](ci-setup-gates-v1.md), whose other
 requirements and completed historical evidence remain unchanged.

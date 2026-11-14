@@ -2,7 +2,6 @@
 
 Parent contract gate: [CONTRACT-003](CONTRACT-003.md). Kind: contract.
 Authority: specification v0.45 API-01/02/03, §§2/10/11.
-Status/owner/dependencies: progress/state.json.
 
 ## Scope and acceptance
 

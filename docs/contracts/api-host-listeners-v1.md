@@ -16,7 +16,7 @@ requires these corrections. Mechanisms below are prospective, never runtime proo
 methods are IMMUTABLE, including
 `test_marked_listener_refuses_complete_http_before_ordinary_dispatch`. Execution
 will require a NEW additive candidate4 successor from
-[APICONTRACT-005](../tasks/EPIC-008/APICONTRACT-005.md) →
+[APICONTRACT-005](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-008/APICONTRACT-005.md) →
 [APITEST-016 / API-016](../tasks/EPIC-008/API-016.md), with its own reviewed patch,
 pins, license/build/ABI/artifact identity, all44 unchanged compatibility methods
 and fresh new-consumer passive ELF/ABI/controlled identity/loaded-map admission.

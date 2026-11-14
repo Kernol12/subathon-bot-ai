@@ -3,7 +3,7 @@
 Parent: [EPIC-007](../EPIC-007.md). Paired baseline: SESSIONTEST-012.
 Kinds: test_baseline / implementation. Specification v0.45 §10/§16,
 AUTH-01/08/10/11/12, SERVER-01, DEP-04/05/06, TEST-04/05.
-Dependencies/status: progress/state.json. Contract prerequisite:
+Contract prerequisite:
 [SESSIONCONTRACT-007](SESSIONCONTRACT-007.md). Planned only; no executable work
 is authorized by this split. API-013 alone supplies no transport-budget producer.
 

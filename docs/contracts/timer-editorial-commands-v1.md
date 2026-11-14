@@ -3,7 +3,7 @@
 CORETEST-008, document stage only. Authority: specification v0.45
 [§3.5](../specification.md#35-numerical-precision-and-validation),
 [§4](../specification.md#4-main-timer-grace-pauses-and-finishing), TIMER-01,
-NUM-02/03/04 and the [CORE-008 brief](../tasks/EPIC-001/CORE-008.md).
+NUM-02/03/04 and the [CORE-008 brief](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-001/CORE-008.md).
 Original partial proposal: main0b631dc/claimc311f0b. This completed logical
 continuation starts at `5601a06b` after current-main integration and the
 [recorded owner decisions](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/timer-editorial-owner-decisions.md).

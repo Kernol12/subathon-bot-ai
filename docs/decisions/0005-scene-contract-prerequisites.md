@@ -1,7 +1,7 @@
 # ADR-0005 — Separate scene model, presentation, assets and schema contracts
 
 Date: 2026-11-04. Status: proposed; actual independent document and dependency-state
-review required. Task: [CONTRACTPLAN-002](../tasks/CONTRACTPLAN-002.md).
+review required. Task: [CONTRACTPLAN-002](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/CONTRACTPLAN-002.md).
 Authority: specification v0.45 §11, API-01/03, UI-01/02/03/04,
 MEDIA-01/02/03/04/05/06, and the scoped read-only boundary in VIEW-04.
 This refines [ADR-0004](0004-wire-contract-prerequisites.md), preserving its gates.

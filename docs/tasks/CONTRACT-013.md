@@ -1,6 +1,6 @@
 # CONTRACT-013 — Bounded reference HTTP contract and schema
 
-Kind: contract. State/owner/dependencies: progress/state.json.
+Kind: contract.
 Authority: specification v0.45 §17, API-01/02/03, §§2/3/10.
 Prerequisite logical proposal: [reference-path-v1](../contracts/reference-path-v1.md).
 
