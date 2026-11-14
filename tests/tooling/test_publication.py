@@ -2,7 +2,7 @@
 """Publication binding/history tests use real disposable Git, never mock Git proof.
 
 Host/schema orchestration is mocked here; actual admitted schema proof belongs only
-in test_publication_integration.py. Review must close before importing these tests.
+in test_proof_publication_integration.py. Review must close before importing these tests.
 """
 from contextlib import contextmanager, redirect_stderr, redirect_stdout
 from io import StringIO
@@ -19,16 +19,11 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 sys.path.insert(0, str(ROOT / "tests/support"))
 import check_publication as publication
-import progress
+import proofs
 from publication_fixture import PublicationFixture
 
 WITNESS = b'{"tests":1,"failures":0,"errors":0,"skipped":0}\n'
-LIMITATIONS = [
-    "Recorded bindings are not authenticated approvals.",
-    "Forbidden-path checks are not complete secret scanning.",
-    "Current-head hosted, repository and owner gates are separate.",
-    "Filesystem checks can observe ignored local files.",
-]
+from test_proof_publication import LIMITATIONS
 ENV = {"PATH": "/usr/bin:/bin", "LANG": "C.UTF-8", "LC_ALL": "C.UTF-8"}
 
 
@@ -57,7 +52,7 @@ class PublicationTests(unittest.TestCase):
                     raise response
                 code, stdout, stderr = response
                 return subprocess.CompletedProcess(argv, code, stdout, stderr)
-            return subprocess.CompletedProcess(argv, 0, WITNESS if index == 3 else b"local diagnostic\n", b"")
+            return subprocess.CompletedProcess(argv, 0, WITNESS if index == 2 else b"local diagnostic\n", b"")
 
         before = fixture.snapshot()
         stdout, stderr = StringIO(), StringIO()
@@ -78,7 +73,7 @@ class PublicationTests(unittest.TestCase):
                       else "unexpected setup/interface failure is NOT intended red: " + stderr)
         self.assertEqual(code, 0, diagnostic)
         self.assertTrue(git_calls, "A mock host witness cannot replace Git verification")
-        self.assertEqual(len(children), 4)
+        self.assertEqual(len(children), 3)
         return json.loads(stdout)
 
     def refusal(self, result, *, children=0):
@@ -94,10 +89,10 @@ class PublicationTests(unittest.TestCase):
             result = self.invoke(fixture)
             self.success(result)
             expected = {
-                "task": "WFIX-001", "base": fixture.base, "head": fixture.head, "commit_count": 1,
+                "task": "WFIX-001", "base": fixture.target, "head": fixture.head, "commit_count": 1,
                 "stages": [{"name": "contract", "revision": fixture.base, "path_count": 1, "complete": False}],
-                "checks": {"recorded_paths": "passed", "outgoing_paths": "passed", "progress": "passed",
-                           "render": "passed", "project": "passed", "schema": "passed"},
+                "checks": dict.fromkeys(("recorded_paths","outgoing_paths","proofs","policy_history","project","proof_schema"),"passed"),
+                "guard": dict(mode="existing",record_count=1,archive_record_count=1,legacy_exempt=False),
                 "limitations": LIMITATIONS,
             }
             self.assertEqual(result[1], json.dumps(expected, indent=2, ensure_ascii=False) + "\n")
@@ -110,8 +105,7 @@ class PublicationTests(unittest.TestCase):
 
     def test_receipt_only_change_and_empty_range_keep_source_binding(self):
         with self.fixture() as fixture:
-            fixture.data["activity"].append({"date": "2026-11-12", "task": "WFIX-001",
-                                            "note": "Synthetic observation only, no review claim"})
+            fixture.task["limitations"].append("Synthetic observation only, no review claim")
             fixture.save()
             fixture.head = fixture.commit("Synthetic receipt-only metadata observation")
             summary = self.success(self.invoke(fixture))
@@ -198,10 +192,10 @@ class PublicationTests(unittest.TestCase):
                     revision = fixture.git("rev-parse", "HEAD").stdout.decode().strip()
                 fixture.task["workflow"]["stages"]["contract"].update(revision=revision, paths=[name])
                 if mode == "gitlink":
-                    # A gitlink cannot satisfy the semantic regular-file precondition.
+                    # A gitlink cannot satisfy the selected Git regular-file precondition.
                     # Record the negative input directly, preserving its Git mode.
-                    (fixture.root / "progress/state.json").write_text(json.dumps(fixture.data), encoding="utf-8")
-                    fixture.git("add", "progress/state.json")
+                    fixture.save()
+                    fixture.git("add", "progress/proofs/WFIX-001.json")
                     fixture.git("commit", "--quiet", "-m", "Record synthetic gitlink binding")
                 else:
                     fixture.save()
@@ -229,8 +223,8 @@ class PublicationTests(unittest.TestCase):
                     fixture.task["workflow"]["stages"]["contract"]["paths"] = [path]
                 if revision is not None:
                     fixture.task["workflow"]["stages"]["contract"]["revision"] = revision
-                # Deliberately invalid state: do not run the existing renderer/validator to prepare it.
-                (fixture.root / "progress/state.json").write_text(json.dumps(fixture.data), encoding="utf-8")
+                # Write invalid canonical input directly, without validating fixture bytes.
+                fixture.save()
                 fixture.commit("Synthetic invalid recorded binding")
                 self.refusal(self.invoke(fixture))
 
@@ -354,7 +348,7 @@ class PublicationTests(unittest.TestCase):
 
     def test_refs_require_commits_ancestry_checkout_head_and_no_option_injection(self):
         with self.fixture() as fixture:
-            blob = fixture.git("rev-parse", "HEAD:tools/progress.py").stdout.decode().strip()
+            blob = fixture.git("rev-parse", "HEAD:tools/proofs.py").stdout.decode().strip()
             for base, head in (("missing-ref", "HEAD"), ("--all", "HEAD"), (blob, "HEAD"),
                                (fixture.head, fixture.base), (fixture.base, "missing-ref"),
                                (fixture.base, "--help"), (fixture.base, blob)):
@@ -396,8 +390,8 @@ class PublicationTests(unittest.TestCase):
             unknown = list(arguments)
             unknown[unknown.index("--task") + 1] = "WFIX-404"
             self.refusal(self.invoke(fixture, unknown))
-            fixture.task["depends_on"] = ["MISSING-999"]
-            (fixture.root / "progress/state.json").write_text(json.dumps(fixture.data), encoding="utf-8")
+            fixture.task["version"] = True
+            fixture.save()
             fixture.commit("Synthetic semantic-invalid state")
             self.refusal(self.invoke(fixture))
 
@@ -412,28 +406,28 @@ class PublicationTests(unittest.TestCase):
                 os.chdir(old_cwd)
             self.success(result)
             children = result[3]
-            for argv, script, tail in zip(children[:3],
-                    ("tools/progress.py", "tools/progress.py", "tools/check_project.py"),
-                    (["validate"], ["render", "--check"], [])):
+            for argv, script, tail in zip(children[:2],
+                    ("tools/proofs.py", "tools/check_project.py"),
+                    (["validate"], [])):
                 self.assertEqual(argv[:4], [os.path.abspath(sys.executable), "-E", "-s", "-B"])
                 self.assertEqual((fixture.root / argv[4]).resolve(), (fixture.root / script).resolve())
                 self.assertEqual(argv[5:], tail)
-            argv = children[3]
+            argv = children[2]
             self.assertEqual(argv[:5], [expected_interpreter, "-I", "-S", "-B", "-c"])
             self.assertEqual(len(argv), 7)
             self.assertTrue(argv[5].strip(), "The schema driver is an inline stdlib program")
-            self.assertEqual(argv[6], "tests/schema_validation/test_project_schemas.py")
+            self.assertEqual(argv[6], "tests/schema_validation/test_proof_schemas.py")
         with self.fixture() as fixture:
             link = fixture.root / "local-evidence/schema-python"
             link.parent.mkdir(exist_ok=True)
             link.symlink_to(sys.executable)
             result = self.invoke(fixture, fixture.arguments(schema_python=link))
             self.success(result)
-            self.assertEqual(result[3][3][0], str(link), "Do not resolve the selected venv executable symlink")
+            self.assertEqual(result[3][2][0], str(link), "Do not resolve the selected venv executable symlink")
 
     def test_each_host_failure_stops_later_checks_and_schema_witness_is_exact(self):
         with self.fixture() as fixture:
-            for index in range(4):
+            for index in range(3):
                 with self.subTest(failed_step=index):
                     self.refusal(self.invoke(fixture, responses={index: (1, b"", b"synthetic failure")}),
                                  children=index + 1)
@@ -443,19 +437,19 @@ class PublicationTests(unittest.TestCase):
                            b'{"tests":1,"failures":1,"errors":0,"skipped":0}\n',
                            b'{"tests":1,"failures":0,"errors":1,"skipped":0}\n'):
                 with self.subTest(witness=stdout):
-                    self.refusal(self.invoke(fixture, responses={3: (0, stdout, b"unittest diagnostics")}), children=4)
-            for index in (0, 3):
+                    self.refusal(self.invoke(fixture, responses={2: (0, stdout, b"unittest diagnostics")}), children=3)
+            for index in (0, 2):
                 self.refusal(self.invoke(fixture, responses={index: ValueError("synthetic unavailable/timeout/overflow")}),
                              children=index + 1)
 
     def test_patched_root_is_passed_to_semantic_validation(self):
         with self.fixture() as fixture:
-            with patch.object(progress, "validate", wraps=progress.validate) as validate:
+            with patch.object(proofs, "load", wraps=proofs.load) as validate:
                 self.success(self.invoke(fixture))
-            self.assertTrue(any((call.kwargs.get("root") if "root" in call.kwargs else
-                                 call.args[1] if len(call.args) > 1 else None) == fixture.root
-                                for call in validate.call_args_list),
-                            "Default import-time root must not validate fixture bindings")
+            self.assertTrue(validate.called)
+            self.assertTrue(all(call.args == (fixture.root/'progress/proof-policy.json',
+                fixture.root/'progress/proofs') for call in validate.call_args_list),
+                'Proof loading must use the isolated candidate root')
 
 
 class PublicationRunnerTests(unittest.TestCase):
@@ -467,7 +461,7 @@ class PublicationRunnerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, poison):
             root = Path(directory)
             for git, argv in ((True, ["git", "status", "--porcelain=v1", "-z"]),
-                              (False, [os.path.abspath(sys.executable), "-E", "-s", "-B", "tools/progress.py", "validate"]),
+                              (False, [os.path.abspath(sys.executable), "-E", "-s", "-B", "tools/proofs.py", "validate"]),
                               (False, ["/selected/venv/bin/python", "-I", "-S", "-B", "-c", "pass"])):
                 with self.subTest(argv=argv):
                     actual = subprocess.CompletedProcess(argv, 7, b"raw\xffstdout", b"raw\xfestderr")

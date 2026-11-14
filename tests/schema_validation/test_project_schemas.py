@@ -14,7 +14,6 @@ ROOT = Path(__file__).resolve().parents[2]
 SCHEMAS = ROOT / "schemas"
 PACKAGE = SCHEMAS / "http/reference-v1"
 API_URI = "https://schemas.subathon.invalid/reference-v1/api.json"
-PROGRESS_URI = "https://schemas.subathon.invalid/progress/state.schema.json"
 DRAFT_URI = "https://json-schema.org/draft/2020-12/schema"
 
 # Only structural OpenAPI children are visited. Example values and metadata stay data;
@@ -128,13 +127,11 @@ class RepositorySchemas(unittest.TestCase):
         cls.official = Registry(retrieve=deny).with_resources(
             (uri, official[uri]) for uri in official)
         cls.api = read_json(PACKAGE / "api.json")
-        cls.progress = read_json(ROOT / "progress/state.schema.json")
         cls.manifest = read_json(PACKAGE / "manifest.json")
         cls.component_pointers = {"/components/schemas/" + name
                                   for name in cls.api["components"]["schemas"]}
         cls.registry = cls.official.with_resources((
             (API_URI, DRAFT202012.create_resource(cls.api)),
-            (PROGRESS_URI, DRAFT202012.create_resource(cls.progress)),
         ))
         cls.schemas = [value for kind, value in openapi_nodes(cls.api) if kind == "schema"]
         cls.examples = []
@@ -145,7 +142,6 @@ class RepositorySchemas(unittest.TestCase):
             cls.examples.append((path, binding))
         fixtures = runpy.run_path(str(Path(__file__).with_name("schema_cases.py")))
         cls.openapi_cases = fixtures["OPENAPI_CASES"]
-        cls.progress_cases = fixtures["PROGRESS_CASES"]
 
         # Reuse the admitted real bundled metaschema instead of the SDK's lazy URL
         # wrapper. The semantic validator and all assertion evaluation stay genuine.
@@ -193,13 +189,12 @@ class RepositorySchemas(unittest.TestCase):
         has_inline_examples = any(kind == "inline_example" for kind, _value in openapi_nodes(self.api))
         has_inline_examples = has_inline_examples or any(
             "example" in node or "examples" in node
-            for schema in [*self.schemas, self.progress] for node in self.schema_nodes(schema)
+            for schema in self.schemas for node in self.schema_nodes(schema)
             if isinstance(node, dict))
         self.assertFalse(has_inline_examples,
                          "Add explicit bindings/cases for newly introduced inline examples")
         self.assertEqual(schema_files, example_files | {
             (PACKAGE / "api.json").resolve(), (PACKAGE / "manifest.json").resolve()})
-        self.assertEqual(self.progress["$schema"], DRAFT_URI)
         components = set(self.api["components"]["schemas"])
         for validity in (True, False):
             self.assertEqual({target for _name, target, _value, valid in self.openapi_cases
@@ -228,11 +223,6 @@ class RepositorySchemas(unittest.TestCase):
                 self.assertIsInstance(reference, str)
                 self.assertTrue(reference.startswith("#"), "Review a new external-resource policy")
                 self.registry.resolver(base_uri=API_URI).lookup(reference)
-        for reference in self.schema_references(self.progress):
-            with self.subTest(progress_reference=reference):
-                self.assertTrue(reference.startswith("#"), "Review a new external-resource policy")
-                self.registry.resolver(base_uri=PROGRESS_URI).lookup(reference)
-
     def test_all_declared_positive_examples(self):
         for path, binding in self.examples:
             with self.subTest(example=path.name):
@@ -249,19 +239,7 @@ class RepositorySchemas(unittest.TestCase):
                     with self.assertRaises(self.ValidationError):
                         validator.validate(value)
 
-    def test_progress_schema_and_actual_state(self):
-        self.Draft.check_schema(self.progress)
-        self.Draft(self.progress, registry=self.registry).validate(read_json(ROOT / "progress/state.json"))
 
-    def test_independent_progress_examples(self):
-        validator = self.Draft(self.progress, registry=self.registry)  # format is annotation-only.
-        for name, value, valid in self.progress_cases:
-            with self.subTest(case=name, expected_valid=valid):
-                if valid:
-                    validator.validate(value)
-                else:
-                    with self.assertRaises(self.ValidationError):
-                        validator.validate(value)
 
 
 if __name__ == "__main__":

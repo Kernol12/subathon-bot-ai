@@ -19,6 +19,9 @@ import tempfile
 import workflow
 from proof_shapes import LEGACY_DONE, LEGACY_DONE_SHA256, SUPPLEMENTAL_SHAPE
 
+# MIGRATE-004 default-input root seam; canonical defaults remain explicit NI below.
+ROOT = Path(__file__).resolve().parents[1]
+
 ID = r'[A-Z][A-Z0-9]*-[0-9]{3}'
 KINDS = {'code_review', 'cleanup', 'contract', 'environment', 'feasibility',
          'implementation', 'scaffold', 'test_baseline', 'test_draft', 'test_review'}

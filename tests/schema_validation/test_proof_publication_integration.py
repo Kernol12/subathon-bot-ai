@@ -58,6 +58,7 @@ class ProofPublicationSDKTests(unittest.TestCase):
         probe=self.probe(f)
         self.assertEqual((probe.returncode,probe.stdout),(0,WITNESS),
                          'SDK/admission/setup failure is NOT meaningful red: '+probe.stderr.decode(errors='replace'))
+        self.assertIn(b'test_proof_and_policy_contract',probe.stderr)
         result=self.checker(f)
         self.assertEqual(result.returncode,0,result.stderr.decode(errors='replace'))
         summary=json.loads(result.stdout)

@@ -35,6 +35,10 @@ LIMITATIONS = [
     'Filesystem checks can observe ignored local files.',
     'Remote target-tip freshness and archive availability require coordinator readback.',
     'Frozen exemptions preserve history and do not authorize forward completion.',
+    'Acceptance execution is a coordinator gate; proof completion does not validate result values.',
+    'Per-task specification references are archived; active brief references require coordinator review.',
+    'Intended-red execution is a coordinator gate; proof completion does not validate baseline execution.',
+    'Concise completion notes are a coordinator rule; proof limitations have no aggregate character cap.',
 ]
 
 
@@ -52,7 +56,7 @@ class PreparedPublicationTests(unittest.TestCase):
                 return real(argv, git=True)
             index = len(children)
             children.append(argv)
-            value = (responses or {}).get(index, (0, WITNESS if index >= 3 else b'', b''))
+            value = (responses or {}).get(index, (0, WITNESS if index == 2 else b'', b''))
             return subprocess.CompletedProcess(argv, *value)
         before = f.snapshot()
         out, err = StringIO(), StringIO()
@@ -93,41 +97,6 @@ class PreparedPublicationTests(unittest.TestCase):
         with patch.object(publication, 'ROOT', f.root):
             return publication.check_proof_bindings(bundle or dict(policy=f.policy, records=f.records),
                 SELECTED, stages or ['contract'], head=f.head, complete=complete)
-
-    def test_cutover_default_summary_children_failures_and_retired_flag(self):
-        limitations = LIMITATIONS + [
-            'Acceptance execution is a coordinator gate; proof completion does not validate result values.',
-            'Per-task specification references are archived; active brief references require coordinator review.',
-            'Intended-red execution is a coordinator gate; proof completion does not validate baseline execution.',
-            'Concise completion notes are a coordinator rule; proof limitations have no aggregate character cap.',
-        ]
-        with self.fixture() as f:
-            args = [a for a in f.arguments(complete=True, stages=('contract','tests','implementation')) if a != '--proofs']
-            result = self.invoke(f, args, responses={2:(0,WITNESS,b'')})
-            summary = self.success(result)
-            self.assertEqual(summary, dict(task=SELECTED, base=f.target, head=f.head, commit_count=1,
-                stages=[dict(name=n,revision=f.source_revision,path_count=1,complete=True)
-                        for n in ('contract','tests','implementation')],
-                guard=dict(mode='bootstrap',record_count=3,archive_record_count=3,legacy_exempt=False),
-                checks=dict.fromkeys(('recorded_paths','outgoing_paths','proofs','policy_history','project','proof_schema'),'passed'),
-                limitations=limitations))
-            children = result[3]
-            self.assertEqual(len(children), 3)
-            self.assertEqual(children[0][4:], ['tools/proofs.py','validate'])
-            self.assertEqual(children[1][4:], ['tools/check_project.py'])
-            self.assertEqual(children[2][:5], ['/fixture/schema-python','-I','-S','-B','-c'])
-            self.assertEqual(children[2][-1], 'tests/schema_validation/test_proof_schemas.py')
-            for index in range(3):
-                for response in ((1,b'',b'failure'), (1,b'partial',b'failure')):
-                    with self.subTest(index=index,response=response):
-                        failed = self.invoke(f,args,responses={2:(0,WITNESS,b''),index:response})
-                        self.refusal(failed)
-                        self.assertEqual(len(failed[3]),index+1)
-            for witness in (b'',WITNESS+b' ',b'{"tests":1,"failures":0,"errors":0,"skipped":1}\n'):
-                self.refusal(self.invoke(f,args,responses={2:(0,witness,b'')}))
-            code, out, err, children = self.invoke(f,[*args,'--proofs'])
-            self.assertEqual((code,out,children),(2,'',[]))
-            self.assertIn('usage:',err)
 
     def test_unselected_new_id_cannot_borrow_old_approval_in_bootstrap_or_normal_mode(self):
         for bootstrap in (True,False):
@@ -189,14 +158,17 @@ class PreparedPublicationTests(unittest.TestCase):
                              path_count=1, complete=False)],
                 guard=dict(mode='bootstrap', record_count=3, archive_record_count=3, legacy_exempt=False),
                 checks={k:'passed' for k in ('recorded_paths', 'outgoing_paths', 'proofs', 'policy_history',
-                                            'progress', 'render', 'project', 'schema', 'proof_schema')},
+                                            'project', 'proof_schema')},
                 limitations=LIMITATIONS)
             self.assertEqual(result[1], json.dumps(expected, indent=2, ensure_ascii=False)+'\n')
-            self.assertEqual(len(result[3]), 5)
-            self.assertEqual(result[3][2][5:], [], 'Prepared mode retains default tracker/project checks')
-            for child in result[3][3:]:
+            self.assertEqual(len(result[3]), 3)
+            self.assertEqual(result[3][1][5:], [], 'Default repository check uses no tracker flag')
+            for child in result[3][2:]:
                 self.assertEqual(child[:5], ['/fixture/schema-python', '-I', '-S', '-B', '-c'])
             self.assertNotIn('baseline_supersessions', summary)
+            self.assertEqual([Path(c[4]).name for c in result[3][:2]],['proofs.py','check_project.py'])
+            self.assertEqual(result[3][0][5:],['validate'])
+            self.assertEqual(result[3][2][6],'tests/schema_validation/test_proof_schemas.py')
 
     def test_complete_all_required_and_prospective_ni_replacement(self):
         with self.fixture() as f:
@@ -370,7 +342,7 @@ class PreparedPublicationTests(unittest.TestCase):
             expected=dict(task=SELECTED,base=f.target,head=f.head,commit_count=0,
                 stages=[dict(name='contract',revision=f.source_revision,path_count=1,complete=True)],
                 guard=expected_guard,checks={k:'passed' for k in ('recorded_paths','outgoing_paths','proofs',
-                'policy_history','progress','render','project','schema','proof_schema')},limitations=LIMITATIONS)
+                'policy_history','project','proof_schema')},limitations=LIMITATIONS)
             self.assertEqual(summary,expected)
             self.assertEqual(result[1],json.dumps(expected,indent=2,ensure_ascii=False)+'\n')
             self.refusal(self.invoke(f))
@@ -394,7 +366,7 @@ class PreparedPublicationTests(unittest.TestCase):
                         f.json(f'{RECORDS}/{identity}.json',record)
                 f.head=f.commit('Synthetic first introduction of only one canonical input')
                 f.existing()
-                f.save(); f.persist()
+                f.persist()
                 self.guard_refusal(f)
                 self.guard_refusal(f,bootstrap=False)
         with self.fixture() as f:
@@ -593,10 +565,13 @@ class PreparedPublicationTests(unittest.TestCase):
     def test_prepared_schema_witness_and_each_host_failure(self):
         with self.fixture() as f:
             self.success(self.invoke(f))
-            for index in range(5):
-                self.refusal(self.invoke(f,responses={index:(1,b'',b'synthetic child failure')}))
-            for index in (3,4):
-                for stdout in (b'',WITNESS+b'\n',WITNESS.rstrip(),
+            for index in range(3):
+                for response in ((1,b'',b'synthetic child failure'),(1,b'partial',b'synthetic child failure')):
+                    result=self.invoke(f,responses={index:response})
+                    self.refusal(result)
+                    self.assertEqual(len(result[3]),index+1)
+            for index in (2,):
+                for stdout in (b'',WITNESS+b'\n',WITNESS+b' ',WITNESS.rstrip(),
                                b'{"tests":1,"failures":0,"errors":0,"skipped":1}\n'):
                     with self.subTest(index=index,stdout=stdout):
                         self.refusal(self.invoke(f,responses={index:(0,stdout,b'')}))
@@ -605,11 +580,12 @@ class PreparedPublicationTests(unittest.TestCase):
         with self.fixture() as f:
             self.success(self.invoke(f))
             for flag in ('--complete','--bootstrap'):
-                args=f.arguments(bootstrap=False)
-                args.remove('--proofs'); args.append(flag)
-                result=self.invoke(f,args)
-                self.assertEqual(result[:2],(2,''))
-                self.assertIn('--proofs',result[2])
+                args=f.arguments(bootstrap=(flag=='--complete'))
+                args.append(flag)
+                self.success(self.invoke(f,args))
+            for extra in (['--proofs'],['--unknown'],['--stage']):
+                result=self.invoke(f,f.arguments()+extra)
+                self.assertEqual(result[:2],(2,'')); self.assertEqual(result[3],[]); self.assertIn('usage:',result[2])
                 self.assertNotIn(NI,result[2])
 
 
