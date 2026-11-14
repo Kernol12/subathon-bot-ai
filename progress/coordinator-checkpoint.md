@@ -33,10 +33,12 @@ Reconciliation: 503 task IDs/issues; zero parent/prerequisite mismatches; 496 re
 Existing checks pass: tooling 155/155; scaffold 3/3; SDK preset 6/6 nodes.
 Repository/canonical validation and bootstrap publication preflight pass.
 Earlier pre-staging runs failed fixture setup; preserved as setup failures, not red.
-Cutover PR: https://github.com/Kernol12/subathon-bot-ai/pull/635 (draft).
+Cutover PR: https://github.com/Kernol12/subathon-bot-ai/pull/635.
 Claude initial: no blockers, report PR635#issuecomment-6874949534.
 Codex verification: no blockers; 58 focused tests and six preflight checks passed.
-Receipt PR635#issuecomment-6875002793. Next: fresh independent Claude closing.
+Receipt PR635#issuecomment-6875002793.
+Claude closing approved: PR635#issuecomment-6875056250, no new blockers.
+Next: final-head CI, protected merge commit, actual merge/ancestry readback.
 Only wrong/unsafe cutover findings block; others go into one follow-up issue.
 At most two fix rounds; ask owner with a short list before a third.
 Current-head CI and protected MERGE COMMIT ONLY remain mandatory; no squash/rebase.
@@ -57,10 +59,12 @@ Private artifacts remain private. An earlier attempt to post a private privacy p
 was automatically rejected; no payload was posted and no retry is authorized or needed.
 Only hash references may describe those private audit artifacts.
 
-Current implementation packet: a911d8a5; initial and verification approved; closing pending.
+Current implementation packet: a911d8a5; current PR review cycle approved, old receipts retained.
 Fix rounds used in the new owner-directed cycle: 0 of 2.
 
 Single follow-up issue: https://github.com/Kernol12/subathon-bot-ai/issues/636 (F2–F4).
 Initial report SHA-256: c9a0d94877488553d7017a2f3662b94a7b88879b526ee7f1cf9972430c9c44d3.
 
 Codex report SHA-256: dc8c7bd2246239a052160670792fd5ea2897978288f7f5fc46dd67f2a48a0d7c.
+
+Closing report SHA-256: 5a57f798a0e8ae5aa3ce6a0897a84d649476ec3fa2fc16b816b9d7014e46a81e.
