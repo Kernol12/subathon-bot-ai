@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-14T00:49:11.828241+00:00",
+  "updated_at": "2026-11-14T00:53:44.959678+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20500,7 +20500,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
       "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Test adaptation active; no test execution. Audit A proposes363 non-required/11 required originals and45 unresolved; one contested required049d998 conflicts outgoing guard. Actual NI source606b956/current reviewed dependencies must decide necessity. Independent verification next; archive pin blocked, no waiver. State authoritative; product/WF006/007 stopped."
+        "Complete authored-only test source2ab07bc integrated locally with original ancestry;14 oracle paths/two authors, no reviews or execution. Static130 disposition map and153 tooling/11 schema methods; two note-only legacy paths/CMake retirement pending implementation. Fresh Claude initial test review next. Historical audit/pin gates remain. State authoritative; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -20527,7 +20527,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868370030",
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868462418",
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868572200",
-        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868756085"
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868756085",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868852763"
       ],
       "review": null,
       "workflow": {
@@ -20747,17 +20748,25 @@
           },
           "tests": {
             "authors": [
-              "codex:migrate004-tests-author-20261114:/root"
+              "codex:migrate004-tests-author-20261114:/root",
+              "codex:migrate004-tests-completion-20261114:/root"
             ],
-            "revision": "fa52905dfc3e505c66bfca48bca2f8144a3bf783",
+            "revision": "2ab07bc38f75b067414b396664c9c50a477b0418",
             "paths": [
+              "tests/schema_validation/test_project_schemas.py",
               "tests/schema_validation/test_proof_publication_integration.py",
               "tests/schema_validation/test_proof_schemas.py",
               "tests/support/archive_state_fixture.py",
+              "tests/support/context_fixture.py",
+              "tests/support/proof_publication_fixture.py",
               "tests/support/publication_fixture.py",
+              "tests/tooling/test_check_project.py",
+              "tests/tooling/test_compact_context.py",
               "tests/tooling/test_proof_publication.py",
               "tests/tooling/test_proofs.py",
-              "tests/tooling/test_repository_checks.py"
+              "tests/tooling/test_publication.py",
+              "tests/tooling/test_repository_checks.py",
+              "tests/tooling/test_workflow.py"
             ],
             "reviews": []
           }
