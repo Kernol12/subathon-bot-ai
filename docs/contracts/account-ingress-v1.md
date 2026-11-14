@@ -55,7 +55,7 @@ The installed binary was NOT invoked or authenticated by this document.
 | [TcpConnectionImpl.cc](https://github.com/an-tao/trantor/blob/78e480f5e138acdc05f76c55a2716718cd846364/trantor/net/inner/TcpConnectionImpl.cc) reads before its receive callback. [OpenSSLProvider.cc](https://github.com/an-tao/trantor/blob/78e480f5e138acdc05f76c55a2716718cd846364/trantor/net/inner/tlsprovider/OpenSSLProvider.cc) feeds a memory BIO and grows plaintext storage before event dispatch. | An `onMessage` size check alone is not a preallocation limit for either plain or TLS ingress. The TLS single-read constant is not a total bound. |
 
 Execution now requires the separately reviewed/admitted additive candidate4
-successor from [APICONTRACT-005](../tasks/EPIC-008/APICONTRACT-005.md) →
+successor from [APICONTRACT-005](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-008/APICONTRACT-005.md) →
 [APITEST-016 / API-016](../tasks/EPIC-008/API-016.md), preserving the historical
 API-012 artifact/patch/pins and all44 methods unchanged. The table above remains
 pristine-source history, NOT the future execution selection. Generic per-listener

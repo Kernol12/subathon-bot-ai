@@ -2,7 +2,7 @@
 
 Parent: [EPIC-002](../EPIC-002.md). Kind: implementation.
 Specification: v0.45; §4, §8, NUM-03, MILE-03.
-Status, owners and dependency IDs: progress/state.json (authoritative).
+
 Contract revision: use the current reviewed slice contract; none is finalized by this plan.
 
 ## Scope and ownership
@@ -29,8 +29,8 @@ Cover concurrent refunds, repeated delivery and interrupted transactions; defici
   specification, author independently derived tests, obtain a different reviewer's
   approval, then record a real intended red run from explicit missing behavior.
   Compilation failure, missing dependencies or skipping tests does not count.
-- `ACCT-007` (implementation): depends on that completed baseline and its other
-  recorded prerequisites. Preserve reviewed assertions, implement only this slice,
+- `ACCT-007` (implementation): requires that completed baseline.
+  Preserve reviewed assertions, implement only this slice,
   run its relevant acceptance/regression checks and obtain separate code review.
 
 Record baseline author/reviewer/revision and red command/output in evidence before

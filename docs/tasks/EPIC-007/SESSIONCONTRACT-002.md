@@ -1,7 +1,7 @@
 # SESSIONCONTRACT-002 — Browser and desktop credential transport contract
 
 Parent: [EPIC-007](../EPIC-007.md). Kind: DOCUMENT contract.
-State/owner/dependencies: progress/state.json. Authority: specification v0.45
+Authority: specification v0.45
 §§10/17/18, AUTH-05/AUTH-12, API-01/02/03, approved wire primitives and the integrated
 [current-session supplier](SESSIONCONTRACT-001.md). This is the transport portion
 split from the original combined document before authoring; no scope was removed.

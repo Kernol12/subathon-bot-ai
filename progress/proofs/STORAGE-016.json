@@ -6,7 +6,7 @@
     "number": 314
   },
   "kind": "implementation",
-  "brief": "docs/tasks/EPIC-009/STORAGE-016.md",
+  "brief": "https://github.com/Kernol12/subathon-bot-ai/blob/da8db0dc3984f55aaff12297947a6bd8083d5315/docs/tasks/EPIC-009/STORAGE-016.md",
   "evidence": [
     "docs/contracts/sqlite-application-holds-v1.md",
     "docs/contracts/sqlite-application-holds-schema-v1.md",

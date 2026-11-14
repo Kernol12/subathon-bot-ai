@@ -6,7 +6,7 @@
     "number": 178
   },
   "kind": "test_baseline",
-  "brief": "docs/tasks/EPIC-001/CORE-005.md",
+  "brief": "https://github.com/Kernol12/subathon-bot-ai/blob/da8db0dc3984f55aaff12297947a6bd8083d5315/docs/tasks/EPIC-001/CORE-005.md",
   "evidence": [
     "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-005-author.md",
     "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-005-ci.md",

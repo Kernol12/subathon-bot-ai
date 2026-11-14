@@ -1,8 +1,7 @@
 # WORKFLOW-006 — Artifact-aware workflow and results-only records
 
 Kind: implementation. Specification v0.45 §§17–18.
-Prerequisites/status/assignment: [GitHub issue](https://github.com/Kernol12/subathon-bot-ai/issues?q=WORKFLOW-006).
-Retain WORKFLOW-005 and MIGRATE-005 prerequisites; storage rescope only, work remains stopped.
+Storage rescope only; work remains stopped.
 Contract: bounded-coordination-v2 §§1–2,4–5. Before tests, author/review the exact
 record schema, completion/invalidation rules, compact projection and migration.
 

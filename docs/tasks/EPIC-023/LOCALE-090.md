@@ -2,7 +2,7 @@
 
 Parent: [EPIC-023](../EPIC-023.md). Kind: environment.
 Specification: v0.45; §12, I18N-01, I18N-02.
-Status, owners and dependency IDs: progress/state.json (authoritative).
+
 Contract revision: use the current reviewed slice contract; none is finalized by this plan.
 
 ## Scope and ownership

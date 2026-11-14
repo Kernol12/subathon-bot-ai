@@ -3,7 +3,7 @@
 Parent: [EPIC-006](../EPIC-006.md). Paired baseline: ACCESSTEST-008.
 Kinds: test_baseline / implementation. Specification v0.45 §10,
 AUTH-01/05/08/11/12/15, SERVER-01, TEST-04/05.
-Dependencies/status: progress/state.json. Contract: independently accepted
+Contract: independently accepted
 ACCESSCONTRACT-001; this brief finalizes no acceptance API/proof format.
 
 Own the actual local-login acceptance owner, source-bound accepted-attempt lifetime,

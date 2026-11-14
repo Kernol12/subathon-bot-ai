@@ -6,7 +6,7 @@
     "number": 621
   },
   "kind": "implementation",
-  "brief": "docs/tasks/CI-002.md",
+  "brief": "https://github.com/Kernol12/subathon-bot-ai/blob/da8db0dc3984f55aaff12297947a6bd8083d5315/docs/tasks/CI-002.md",
   "evidence": [
     "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6840078428",
     "https://github.com/Kernol12/subathon-bot-ai/pull/622",

@@ -1,7 +1,7 @@
 # Captured application-plan SQL persistence — revision 1 proposal
 
 STORAGETEST-015 / STORAGE-015. Authority: specification v0.45 §§3.2–3.5/6/7,
-NUM-01/DB-01, [slice brief](../tasks/EPIC-009/STORAGE-015.md),
+NUM-01/DB-01, [slice brief](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-009/STORAGE-015.md),
 [owned core plan contract](application-plans-v1.md),
 [event/state boundary](event-state-boundaries-v1.md),
 [writer work](writer-transactions-v1.md),

@@ -1,7 +1,7 @@
 # Internal migration catalog and runner — revision 1
 
 Task: STORAGETEST-011 / STORAGE-011. Authority: specification v0.45 §16,
-DB-01/OPS-02, [slice brief](../tasks/EPIC-009/STORAGE-011.md) and
+DB-01/OPS-02, [slice brief](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-009/STORAGE-011.md) and
 [storage decomposition](../decisions/0002-storage-executable-slices.md).
 This proposes the bounded catalog mechanism before interfaces, tests or production
 implementation. It retains [writer revision 1](sqlite-writer-v1.md),

@@ -2,7 +2,7 @@
 
 SESSIONTEST-001 FIRST logical document stage, from main dd6a141 and claim a7b0d4f.
 Authority: specification v0.45 section 10/AUTH-11/S62,
-[SESSION-001](../tasks/EPIC-007/SESSION-001.md) and the
+[SESSION-001](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-007/SESSION-001.md) and the
 [record/application ownership boundary](event-state-boundaries-v1.md).
 This proposes behavior and independent examples only. It creates no C++ API,
 header, schema, fixture, test, hash, executable foundation or implemented login.

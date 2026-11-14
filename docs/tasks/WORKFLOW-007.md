@@ -1,8 +1,7 @@
 # WORKFLOW-007 — Reusable bounded execution runner
 
 Kind: implementation. Specification v0.45 §§17–18.
-Prerequisites/status/assignment: [GitHub issue](https://github.com/Kernol12/subathon-bot-ai/issues?q=WORKFLOW-007).
-Retain WORKFLOW-006 prerequisite; work remains stopped.
+Work remains stopped.
 Contract: bounded-coordination-v2 §§2–3. Author and independently review a precise
 bounded Linux command/manifest/process contract before tests; no generic workflow
 engine, loader emulator or new dependencies. New substantial prerequisites split first.

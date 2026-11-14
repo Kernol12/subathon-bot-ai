@@ -1,7 +1,7 @@
 # APITEST-015 — Correct and extend the host listener baseline
 
 Kind: test_baseline. Parent: EPIC-008. Specification v0.45 §2, SERVER-01,
-API-01 and §17–18. Status/owner/dependencies: progress/state.json.
+API-01 and §17–18.
 
 Prerequisite: APICONTRACT-004 approved isolated-listener contract, APITEST-001
 reviewed original baseline and API-012 corrected native profile. API-001 remains

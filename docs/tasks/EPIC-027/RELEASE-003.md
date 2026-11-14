@@ -2,7 +2,7 @@
 
 Parent: [EPIC-027](../EPIC-027.md). Kind: scaffold.
 Specification: v0.45; §16, DEV-02.
-Status, owners and dependency IDs: progress/state.json (authoritative).
+
 Contract revision: use the current reviewed slice contract; none is finalized by this plan.
 
 ## Scope and ownership

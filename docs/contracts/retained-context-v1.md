@@ -1,7 +1,7 @@
 # Immutable configuration and arrival-context retention — revision 1
 
 Task: STORAGETEST-012 / STORAGE-012. Authority: specification v0.45 §§3, 6, 7,
-DB-01, [slice brief](../tasks/EPIC-009/STORAGE-012.md) and
+DB-01, [slice brief](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-009/STORAGE-012.md) and
 [event/state boundaries](event-state-boundaries-v1.md). This is an internal
 retention contract for later interfaces/tests, not implemented storage or a
 configuration/HTTP/wire schema. Preserve the existing core/receipt/plan ports,

@@ -1,7 +1,7 @@
 # APICONTRACT-001 — Actual host lifecycle and native WebSocket profile
 
 Parent: [EPIC-008](../EPIC-008.md). Kind: contract. Specification v0.45 §§2/10/16/17/18,
-SERVER-01, API-01/02/03, AUTH-05/12, TEST-04/05. Status/dependencies: progress/state.json.
+SERVER-01, API-01/02/03, AUTH-05/12, TEST-04/05.
 Inputs: accepted common wire v1, session clock v1 §2, physical account/session v1,
 writer/work contracts and actual pinned SPIKE-001 source/evidence. This claim accepts
 no new concrete mechanism before a different contract/example review.

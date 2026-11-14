@@ -2,7 +2,7 @@
 
 RATESTEST-001 document stage, from integrated main 0b631dc and claim 6338966.
 Authority: specification v0.45 §§3.5,9,15, NUM-01/02/04 and FX-06;
-[RATES-001](../tasks/EPIC-017/RATES-001.md),
+[RATES-001](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-017/RATES-001.md),
 [record boundaries](event-state-boundaries-v1.md) and
 [exact numeric revision 1](exact-decimal-v1.md).
 This defines a small pure value-model contract and independent examples, not a

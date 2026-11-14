@@ -2,7 +2,7 @@
 
 Parent: [EPIC-008](../EPIC-008.md). Kind: contract, document only.
 Specification v0.45 §10, AUTH-01/08/10/11/12, SERVER-01, TEST-04/05.
-Dependencies/status: progress/state.json. This is a planned prerequisite identified
+This is a planned prerequisite identified
 by [local-login authority v1](../../contracts/local-login-authority-v1.md), not
 an authorization to implement or extend the frozen API-001/APITEST-001 surface.
 

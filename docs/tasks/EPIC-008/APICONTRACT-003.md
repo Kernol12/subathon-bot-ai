@@ -2,7 +2,7 @@
 
 Parent: [EPIC-008](../EPIC-008.md). Kind: contract, document only.
 Specification v0.45 §10, AUTH-01/02/08/10, SERVER-01, TEST-04/05.
-Dependencies/status: progress/state.json. Planned prerequisite exposed by
+Planned prerequisite exposed by
 [host-auth continuations](../../contracts/host-auth-continuations-v1.md) B3 review;
 no contract, test or implementation approval is supplied by this brief.
 
@@ -39,4 +39,4 @@ provider call, physical schema change or runtime capability is part of this task
 
 [Guarded enrollment and recovery host revision1](../../contracts/guarded-enrollment-recovery-v1.md)
 defines the additive proposal and ER01–33 examples. Review/status evidence lives
-in progress/state.json and the focused PR; authored examples are not executed tests.
+in canonical proof and the focused PR; authored examples are not executed tests.

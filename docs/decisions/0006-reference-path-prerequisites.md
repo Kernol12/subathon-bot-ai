@@ -4,7 +4,7 @@ Historical decision text below retains its original tracker references.
 See its [pre-cutover source](https://github.com/Kernol12/subathon-bot-ai/blob/b80e94f514caf33cad8abde8d00fa744b565768a/docs/decisions/0006-reference-path-prerequisites.md) and current [workflow](../AGENT_WORKFLOW.md).
 
 Date: 2026-11-05. Status: proposed; actual approval is recorded in progress/state.json
-and the independent review evidence. Task: [CONTRACTPLAN-003](../tasks/CONTRACTPLAN-003.md).
+and the independent review evidence. Task: [CONTRACTPLAN-003](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/CONTRACTPLAN-003.md).
 Authority: specification v0.45 §17 and §§2–4/6/10/18, API-01/02/03, NUM-04.
 
 ## Problem and decision

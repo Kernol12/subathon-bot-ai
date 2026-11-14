@@ -6,7 +6,7 @@
     "number": 138
   },
   "kind": "cleanup",
-  "brief": "docs/tasks/EPIC-028/TESTCLEAN-006.md",
+  "brief": "https://github.com/Kernol12/subathon-bot-ai/blob/da8db0dc3984f55aaff12297947a6bd8083d5315/docs/tasks/EPIC-028/TESTCLEAN-006.md",
   "evidence": [
     "https://github.com/Kernol12/subathon-bot-ai/pull/99",
     "https://github.com/Kernol12/subathon-bot-ai/pull/103"

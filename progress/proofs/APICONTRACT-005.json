@@ -6,7 +6,7 @@
     "number": 614
   },
   "kind": "contract",
-  "brief": "docs/tasks/EPIC-008/APICONTRACT-005.md",
+  "brief": "https://github.com/Kernol12/subathon-bot-ai/blob/da8db0dc3984f55aaff12297947a6bd8083d5315/docs/tasks/EPIC-008/APICONTRACT-005.md",
   "evidence": [
     "https://github.com/Kernol12/subathon-bot-ai/pull/123",
     "https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6818185255",

@@ -3,11 +3,8 @@
 Source: [issue #630](https://github.com/Kernol12/subathon-bot-ai/issues/630), snapshot 2026-11-13.
 Contract: `docs/contracts/github-task-migration-v1.md`.
 
-Owner authorization now permits migration sequence 001 → 002 → 003 → 004 → 006 → 005.
-This brief registers scope; only 001 is claimed in this session. Until 004, state remains
-authoritative. WORKFLOW-006/007 and product work remain stopped; only WF006 storage/
-dependency rescope is permitted. Successors require fresh sessions and all current gates.
-Coordinator owns shared metadata/integration; executable authors own only assigned paths.
+Coordinator owns shared metadata/integration; executable authors own assigned paths.
+GitHub owns planning. Product and WORKFLOW-006/007 execution remain stopped.
 
 **Task ID:** `MIGRATE-005`
 **Work type:** Environment verification
@@ -32,13 +29,10 @@ Independently audit the actual merged cutover and close the migration only when 
 ### Verification approach
 This is an operational audit, not new product behavior. Use a one-time reconciliation report and relevant existing checks; do not author a large migration fixture suite or manufacture an intended-red run for read-only verification. Obtain the applicable independent review before closure.
 
-
 ### Required brief-cleanup prerequisite
 Complete [MIGRATE-006](https://github.com/Kernol12/subathon-bot-ai/issues/631) after cutover before this audit. Verify compact active briefs, retained shared requirements, the durable archive of completed briefs, obsolete-file removal and all replacement/pinned GitHub/documentation/evidence links. Native prerequisites now place MIGRATE-006 immediately before this task.
 
 ### Authorized execution boundary
 
-Owner authorization supersedes the issue snapshot’s instruction to remain Planned/
-unassigned; it does not waive registration, fresh sessions, review or protected merges.
-Dependency readiness never grants owner authorization. Until cutover, preserve GitHub
-planning items during mirror synchronization. No product or WORKFLOW-006/007 execution.
+Registration, fresh sessions, independent review and protected merges remain required.
+Dependency readiness never grants owner authorization. No product or WORKFLOW-006/007 execution.

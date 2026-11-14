@@ -1,7 +1,7 @@
 # SPIKE-002 — Validate independent Twitch authorization
 
 Module: Integrations. Kind: feasibility.
-Authoritative status/owner/dependencies: progress/state.json (do not duplicate mutable status here).
+
 Specification references: AUTH-15, INTEGRATION-01.
 
 ## Goal
@@ -22,4 +22,4 @@ file ownership. Link test cases to the required behavior and independently deriv
 - For scaffolding/environment, distinguish successful checks from feature correctness.
 - Use the applicable template, record exact evidence and leave a durable handoff.
 
-Run relevant checks, update progress/state.json, regenerate PROGRESS.html and validate before handoff.
+Run relevant checks and record actual results in the PR and canonical proof.

@@ -1,7 +1,7 @@
 # RULES-006 — Single-rule reference evaluator
 
 Parent: EPIC-003. Baseline: RULESTEST-006; implementation: RULES-006.
-State/owner/dependencies: progress/state.json. Authority: specification v0.45 §17,
+Authority: specification v0.45 §17,
 §6/§10/NUM-04 and [reference-path-v1](../../contracts/reference-path-v1.md).
 Concrete prerequisite: independently reviewed CONTRACT-014.
 

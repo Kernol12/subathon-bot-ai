@@ -98,7 +98,7 @@ markers; those failures are intended-red evidence, not implementation capability
 ## Independent expected content
 
 Fingerprints were frozen before candidate authoring in the independently reviewed
-[parent task](../tasks/EPIC-028/TESTCLEAN-006.md). Canonical typed JSON uses
+[parent task](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-028/TESTCLEAN-006.md). Canonical typed JSON uses
 `sort_keys=True`, `separators=(',', ':')`, `ensure_ascii=False`, `allow_nan=False`,
 UTF-8 and no trailing newline. That comparison ignores only file whitespace/key
 order. Candidate output never supplies its own expected fingerprint.

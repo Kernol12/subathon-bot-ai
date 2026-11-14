@@ -63,7 +63,7 @@ test-before-red and final source/docs reviews are recorded in
 [PR109](https://github.com/Kernol12/subathon-bot-ai/pull/109), which records final CI
 and merge outcomes. This is workflow/tooling proof only; API-012 is not resumed.
 
-The [review-cycle guidance](../tasks/WORKFLOW-002.md) keeps independent Claude initial
+The [review-cycle guidance](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/WORKFLOW-002.md) keeps independent Claude initial
 and closing reviews for each substantive stage, with Codex fixes and separate Codex
 verification between them. Concise handoffs retain earlier findings and valid approvals;
 test-first and task-specific gates remain separate. This documentation changes no
@@ -74,7 +74,7 @@ model selection; separate Codex and closing Claude Sonnet5.5 reviews approved th
 revision at ce55cbf. Project/progress checks and the unchanged tooling50 suite pass;
 latest-head CI and the normal merge remain publication gates.
 
-[CI-001](../tasks/CI-001.md) adds guarded Ubuntu package setup with an independent
+[CI-001](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/CI-001.md) adds guarded Ubuntu package setup with an independent
 kernel.org mirror, bounded DNS diagnostics and strict authenticated updates in nine
 existing lanes. Eight mocked examples, 59 tooling tests and scaffold3 pass, with
 separate initial/closing Claude and Codex verification. All nine affected hosted
@@ -88,7 +88,7 @@ successful final-head checks. These publication observations were read from GitH
 for WORKFLOW-003; historical unrun checks remain unchanged. Host lifecycle CI still
 compiles its intentional-red baseline; no new host or product behavior is claimed.
 
-[CI-002](../tasks/CI-002.md) adds bounded runner/source-refusal records and enforces
+[CI-002](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/CI-002.md) adds bounded runner/source-refusal records and enforces
 21 required contexts bound to their source apps. Existing source admission, package
 trust, command bytes, assertions and repository protections are preserved. All nine
 APT preparation steps and all 21 final required checks pass at `bd060a0`; the normal
@@ -109,7 +109,7 @@ concurrency/trigger edits. PR118/119 publication is reconciled without inventing
 reviews or promoting historical unrun checks. Implementation review and current-head
 hosted outcomes are recorded in PR120; this is development tooling, not product proof.
 
-[WORKFLOW-004](../tasks/WORKFLOW-004.md) defines the reviewed forward coordination
+[WORKFLOW-004](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/WORKFLOW-004.md) defines the reviewed forward coordination
 contract and focused implementation scopes. Claude initial/closing and separate Codex
 verification approve source `7a34855`; 72 existing tooling tests and project checks
 pass, and all 21 hosted checks pass at `e74a451`. Capability/branch/report and private

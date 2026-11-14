@@ -6,7 +6,7 @@
     "number": 308
   },
   "kind": "test_baseline",
-  "brief": "docs/tasks/EPIC-009/STORAGE-015.md",
+  "brief": "https://github.com/Kernol12/subathon-bot-ai/blob/da8db0dc3984f55aaff12297947a6bd8083d5315/docs/tasks/EPIC-009/STORAGE-015.md",
   "evidence": [
     "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-015-author.md",
     "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-015-probe.md",

@@ -2,7 +2,7 @@
 
 Parent: [EPIC-027](../EPIC-027.md). Kind: implementation.
 Specification: v0.45; §16, OPS-03.
-Status, owners and dependency IDs: progress/state.json (authoritative).
+
 Contract revision: use the current reviewed slice contract; none is finalized by this plan.
 
 ## Scope and ownership
@@ -29,8 +29,8 @@ Test raw tokens/headers, user-controlled messages, identifiers and revoked expor
   specification, author independently derived tests, obtain a different reviewer's
   approval, then record a real intended red run from explicit missing behavior.
   Compilation failure, missing dependencies or skipping tests does not count.
-- `RELEASE-002` (implementation): depends on that completed baseline and its other
-  recorded prerequisites. Preserve reviewed assertions, implement only this slice,
+- `RELEASE-002` (implementation): requires that completed baseline.
+  Preserve reviewed assertions, implement only this slice,
   run its relevant acceptance/regression checks and obtain separate code review.
 
 Record baseline author/reviewer/revision and red command/output in evidence before

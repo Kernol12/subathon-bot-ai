@@ -6,7 +6,7 @@
     "number": 583
   },
   "kind": "contract",
-  "brief": "docs/tasks/EPIC-006/ACCESSCONTRACT-001.md",
+  "brief": "https://github.com/Kernol12/subathon-bot-ai/blob/da8db0dc3984f55aaff12297947a6bd8083d5315/docs/tasks/EPIC-006/ACCESSCONTRACT-001.md",
   "evidence": [
     "https://github.com/Kernol12/subathon-bot-ai/pull/113",
     "docs/contracts/local-login-authority-v1.md"

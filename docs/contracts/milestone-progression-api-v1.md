@@ -4,7 +4,7 @@ MILESTONETEST-001 concrete API document stage. This refines the independently
 approved [logical model](milestone-progression-v1.md), Git blob
 `0115a5cc3cdc4fb1ebb8c9739716a27cb3379933`, without changing its MP01–22 examples.
 Authority remains specification v0.45 §8/MILE-01/NUM-04,
-[MILESTONE-001](../tasks/EPIC-005/MILESTONE-001.md),
+[MILESTONE-001](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-005/MILESTONE-001.md),
 [record boundaries](event-state-boundaries-v1.md) and
 [exact decimal revision 1](exact-decimal-v1.md).
 

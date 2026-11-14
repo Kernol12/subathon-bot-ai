@@ -50,7 +50,7 @@ are never recipe inputs; check mode reads them only after independent generation
 Other files in this directory retain their owning suites and are outside this
 six-family generator.
 
-The [independent pre-generator baseline](../../docs/tasks/EPIC-028/TESTCLEAN-006.md#independent-pre-generator-baseline)
+The [independent pre-generator baseline](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-028/TESTCLEAN-006.md#independent-pre-generator-baseline)
 freezes the complete typed JSON for every family, preserving arrays, SQL, byte
 strings, values and types. Reference/account/bundle/holds retain original raw bytes.
 Claims adds only the two reviewed selector metadata fields described below; removing

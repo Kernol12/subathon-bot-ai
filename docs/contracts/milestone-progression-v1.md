@@ -3,7 +3,7 @@
 MILESTONETEST-001 logical contract/examples stage, from integrated main `3217c21`
 and explicit claim `f04e833`. Authority: specification v0.45
 [§8](../specification.md#8-score-milestones-and-reversals), MILE-01, NUM-04,
-[MILESTONE-001](../tasks/EPIC-005/MILESTONE-001.md),
+[MILESTONE-001](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-005/MILESTONE-001.md),
 [record boundaries](event-state-boundaries-v1.md) and
 [exact numeric revision 1](exact-decimal-v1.md).
 This proposes pure values, invariants and independent examples, not a C++ API,

@@ -1,7 +1,7 @@
 # STORAGE-018 — Durable initial source/capture binding
 
 Parent: [EPIC-009](../EPIC-009.md). Baseline STORAGETEST-018; implementation
-STORAGE-018. State/owners/dependencies: progress/state.json. Specification v0.45
+STORAGE-018. Specification v0.45
 §§3/5/17/18, DB-01/API-02/NUM-04. Consumer contract:
 [reference application adapters](../../contracts/reference-application-adapters-v1.md).
 

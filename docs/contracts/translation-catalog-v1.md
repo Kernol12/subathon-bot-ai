@@ -2,7 +2,7 @@
 
 LOCALETEST-001 contract/examples stage, from integrated main0b631dc and coordinator
 claim028c6f8. Authority: specification v0.45 §12/I18N-01/03/04 and
-[LOCALE-001](../tasks/EPIC-023/LOCALE-001.md). This document proposes the bounded
+[LOCALE-001](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-023/LOCALE-001.md). This document proposes the bounded
 source/generation contract. It supplies no catalog, generator, interface, tests,
 compiled translation, running UI or passing acceptance. Different actual document
 review precedes those artifacts; production LOCALE-001 remains planned.

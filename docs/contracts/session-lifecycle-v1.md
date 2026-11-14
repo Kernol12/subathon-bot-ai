@@ -271,7 +271,7 @@ policy returns unavailable, never stale. Successful monostate reads have no payl
 The unit is configured with the complete validated limits and actual per-call read
 scope; it must reject a source projection before allocating an oversized value.
 Selected reader and writer physical codecs, identities, revisions and indexes are
-[STORAGECONTRACT-002](../tasks/STORAGECONTRACT-002.md), not chosen here. No added
+[STORAGECONTRACT-002](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/STORAGECONTRACT-002.md), not chosen here. No added
 SQL permission, table, migration, proof serialization or revision-generation
 algorithm is implied. Fresh nonempty session/revision identities are supplied by
 that trusted store owner; session identity collision is unavailable. Identity
@@ -294,7 +294,7 @@ This boundary works with no preexisting account session. Password-helper success
 alone authenticates no account and cannot authorize credential persistence.
 
 Local accepted-attempt ownership/lifetime/revocation and the actual password source
-remain [ACCESSCONTRACT-001](../tasks/EPIC-006/ACCESSCONTRACT-001.md)/ACCESS-008.
+remain [ACCESSCONTRACT-001](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-006/ACCESSCONTRACT-001.md)/ACCESS-008.
 The local path depends on neither ACCESS-004 nor Twitch. The second method tag is
 reserved for actual verified Twitch evidence under ACCESS-004's separate reviewed
 baseline: stable linked user/account identity, verified current authentication,
