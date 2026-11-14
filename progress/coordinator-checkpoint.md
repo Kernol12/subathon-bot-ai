@@ -60,3 +60,6 @@ Then close MIGRATE-005/EPIC-029 and stop. Do not start the next workflow/product
 
 Ignored historical outputs remain private. Earlier private proposal post was auto-rejected;
 no payload/retry. Prior detailed checkpoint/history remain under the old-tracker tag.
+
+Single final audit report PR: https://github.com/Kernol12/subathon-bot-ai/pull/638 (draft).
+Six publication preflight checks passed; independent report review/CI pending.
