@@ -64,7 +64,11 @@ Owner decisions are recorded in #249, comment 6879902355:
   methods/145 invocations with ordinary intentional-red semantics and no skips or
   inverted results. Integrated build132/132 passes without warnings. Private
   callback state now carries existing enclosing ceilings; all new reads/units and
-  the step10 factory remain NI. First behavioral red is next; no bodies run yet.
+  the step10 factory remain NI. Draft PR #651 at62297124 owns all three receipts.
+  Observed red:145/145 invocations,141 direct NI and4 outcome guards separately
+  traced to the NI constructor as their first throw. Hooks2pass, zero skips or
+  warnings; no old setup failure before the first NI. Later assertions/setup after
+  NI remain unexecuted. Existing service/graph regression nodes2/2pass.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 is reserved for this registry after compiled permission step9;
   preserve all shipped prefix bytes. Full #249 integration remains open. RULES-006
@@ -75,10 +79,9 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Observe ACCESS-011 intended red for all47 methods/145 invocations after posting
-the three test receipts. Classify every failure and its NI call site; old setup or
-wrapper errors do not establish red. Preserve the initial rejection. Then use a
-DIFFERENT fresh implementation session with frozen reviewed tests/header/contract.
+Start ACCESS-011 in a DIFFERENT fresh implementation session with frozen reviewed
+tests/header/contract; preserve all review verdicts and red evidence from62297124.
+Coordinator owns shared build/CI/checkpoint/receipts/proof and eventual merge.
 Actual current authentication/graph/capture production, finite indexed reads,
 service-ceiling enforcement and nested-facade failure truth need implementation
 and the full tier A source/resource audit. Provisional facts are not permits.
