@@ -704,3 +704,24 @@ All old approved/rejected receipts and genuine prior9710 red remain as historica
 source-qualified evidence; amended test cycle reopens to separate Codex verification
 then fresh Claude closing before execution. Code corrections/integration still pending;
 actual A/P/canonical/history/hostedCI/protected merge and successors remain blocked.
+
+Amended TEST source7da9561f44224ae725d1921256542a745fda7bc5 independently APPROVED
+for Codex verification, reviewer codex:MIGRATE-004-TV2:/root, dispatchb7ae90cd-bee1-
+4566-a4b9-6ce46e70a500. Public issue629#issuecomment-6870794237, report
+37b300a943006cd67ab744194f08e67f91d39bbaaa3236a2e43c3bf794a59911.
+No blocking source findings. Exactlytwo amendedfiles,12unchangedoracles, all14packet
+paths/threeauthors retained; NI/runtime/contracts unchanged in coordinator checkout.
+O1 targettip fixtures/O2 orderedliteral/O3 separateusage2 plus joinedsemantic1 corrected
+withoutassertionremoval or guards/parserexceptions. Focused epic4status andsupplied
+malformedgrammar validcontrols derivedpinnedtrackedpredicate, no inventedexpectedvalues.
+CurrentASTtooling155/schema11, no runtime discovery or execution claimed.
+TV2-001 mandates actual regressionred at unfixedf6 with exact amendedoracle/runtime
+bindings after fresh Claude closing; rootoldconvertmayalreadypass, neverinventred.
+TV2-002 mandates real remaining converteralias/inside-output/workingbytes/6mutation
+arms and amendedpublicationpositives execute afterclosing; oldfirstassertionrednever
+provedthem. PriorTC/TVscope/setup/quiescence/zero-test-witnesslimitations retained.
+Actualsamples03:10:40/03:11:27notendpoints/duration. Existing oldvalidate/render/project/
+whitespace pass, no amendedtestimports/bodies/discovery/SDK/candidateexecution.
+Fresh independent Claude TEST closing next. Code II01/II02 corrections/codeverification/
+closing and actualarchiveSTATUSpin beforeP remain distinct. All historicalavailability/
+canonical/hostedCI/protectedmerge/finalbriefcleanup/auditgates continue to blockcutover.
