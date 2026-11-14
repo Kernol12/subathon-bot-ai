@@ -9,14 +9,14 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| [RENDER-001](EPIC-020/RENDER-001.md) | Author shared scene reference fixtures and conformance oracles |
-| `RENDERTEST-002` → [RENDER-002](EPIC-020/RENDER-002.md) | Native QML scene elements and synchronized bindings |
-| `RENDERTEST-003` → [RENDER-003](EPIC-020/RENDER-003.md) | Independent browser scene renderer and state projection |
-| `RENDERTEST-004` → [RENDER-004](EPIC-020/RENDER-004.md) | Elapsed-time animations media and font profiles |
-| `RENDERTEST-005` → [RENDER-005](EPIC-020/RENDER-005.md) | Revocable overlay credentials and live scene revisions |
-| [RENDER-090](EPIC-020/RENDER-090.md) | Verify native OBS capture on KDE Wayland |
-| [RENDER-091](EPIC-020/RENDER-091.md) | Verify native and browser OBS outputs on Windows |
-| [RENDER-092](EPIC-020/RENDER-092.md) | Verify Linux OBS browser-source output and media |
+| [RENDER-001](https://github.com/Kernol12/subathon-bot-ai/issues/447) | Author shared scene reference fixtures and conformance oracles |
+| `RENDERTEST-002` → [RENDER-002](https://github.com/Kernol12/subathon-bot-ai/issues/449) | Native QML scene elements and synchronized bindings |
+| `RENDERTEST-003` → [RENDER-003](https://github.com/Kernol12/subathon-bot-ai/issues/451) | Independent browser scene renderer and state projection |
+| `RENDERTEST-004` → [RENDER-004](https://github.com/Kernol12/subathon-bot-ai/issues/453) | Elapsed-time animations media and font profiles |
+| `RENDERTEST-005` → [RENDER-005](https://github.com/Kernol12/subathon-bot-ai/issues/455) | Revocable overlay credentials and live scene revisions |
+| [RENDER-090](https://github.com/Kernol12/subathon-bot-ai/issues/456) | Verify native OBS capture on KDE Wayland |
+| [RENDER-091](https://github.com/Kernol12/subathon-bot-ai/issues/457) | Verify native and browser OBS outputs on Windows |
+| [RENDER-092](https://github.com/Kernol12/subathon-bot-ai/issues/458) | Verify Linux OBS browser-source output and media |
 
 ## Completion and integration
 

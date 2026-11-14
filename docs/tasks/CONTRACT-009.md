@@ -1,6 +1,6 @@
 # CONTRACT-009 — Protocol-neutral scene document model
 
-Parent integration gate: [CONTRACT-008](CONTRACT-008.md). Kind: contract.
+Parent integration gate: [CONTRACT-008](https://github.com/Kernol12/subathon-bot-ai/issues/160). Kind: contract.
 Authority: specification v0.45 §11, API-01/03, UI-01/02/03/04, MEDIA-02.
 Proposed prerequisites:
 CONTRACTPLAN-002 and CONTRACT-005, as recorded in [ADR-0005](../decisions/0005-scene-contract-prerequisites.md).

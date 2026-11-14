@@ -21,9 +21,9 @@ Create four contract children, with one owner for shared representations:
 | Task | Dependencies | Contract responsibility |
 | --- | --- | --- |
 | [CONTRACT-005](../tasks/CONTRACT-005.md) | CONTRACT-002 | Common exact values, references, versions/capabilities and envelope primitives; document and independent examples first |
-| [CONTRACT-006](../tasks/CONTRACT-006.md) | CONTRACT-005, CONTRACT-008 | HTTP/OpenAPI 3.1 contract with referenced scene schemas and owning endpoint tasks |
-| [CONTRACT-007](../tasks/CONTRACT-007.md) | CONTRACT-005, CONTRACT-006, SPIKE-001 | Separately versioned persistent WebSocket synchronization/projection contract |
-| [CONTRACT-008](../tasks/CONTRACT-008.md) | CONTRACT-005 | Declarative scene/data/asset contract for separate renderers |
+| [CONTRACT-006](https://github.com/Kernol12/subathon-bot-ai/issues/158) | CONTRACT-005, CONTRACT-008 | HTTP/OpenAPI 3.1 contract with referenced scene schemas and owning endpoint tasks |
+| [CONTRACT-007](https://github.com/Kernol12/subathon-bot-ai/issues/159) | CONTRACT-005, CONTRACT-006, SPIKE-001 | Separately versioned persistent WebSocket synchronization/projection contract |
+| [CONTRACT-008](https://github.com/Kernol12/subathon-bot-ai/issues/160) | CONTRACT-005 | Declarative scene/data/asset contract for separate renderers |
 
 Each child also depends on this reviewed planning task, CONTRACTPLAN-001. No child
 or internal prerequisite depends on CONTRACT-003. The parent remains a required

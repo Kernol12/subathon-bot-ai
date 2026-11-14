@@ -1,6 +1,6 @@
 # CONTRACT-011 — Scene assets, fonts and portable package profiles
 
-Parent integration gate: [CONTRACT-008](CONTRACT-008.md). Kind: contract.
+Parent integration gate: [CONTRACT-008](https://github.com/Kernol12/subathon-bot-ai/issues/160). Kind: contract.
 Authority: specification v0.45 §11, MEDIA-01/03/04/05/06, UI-04.
 Proposed prerequisites:
 CONTRACTPLAN-002 and CONTRACT-009. See [ADR-0005](../decisions/0005-scene-contract-prerequisites.md).

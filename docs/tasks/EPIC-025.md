@@ -9,12 +9,12 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| `PACKAGETEST-001` → [PACKAGE-001](EPIC-025/PACKAGE-001.md) | Pinned native build and runtime dependency manifests |
-| `PACKAGETEST-002` → [PACKAGE-002](EPIC-025/PACKAGE-002.md) | Windows installation-free portable ZIP |
-| `PACKAGETEST-003` → [PACKAGE-003](EPIC-025/PACKAGE-003.md) | Bundled Linux desktop archive and relocation policy |
-| `PACKAGETEST-004` → [PACKAGE-004](EPIC-025/PACKAGE-004.md) | Arch PKGBUILD against system dependencies |
-| [PACKAGE-005](EPIC-025/PACKAGE-005.md) | Verify clean Windows portable startup media and moved login |
-| [PACKAGE-006](EPIC-025/PACKAGE-006.md) | Verify Linux archives Arch package and secure keyrings |
+| `PACKAGETEST-001` → [PACKAGE-001](https://github.com/Kernol12/subathon-bot-ai/issues/525) | Pinned native build and runtime dependency manifests |
+| `PACKAGETEST-002` → [PACKAGE-002](https://github.com/Kernol12/subathon-bot-ai/issues/527) | Windows installation-free portable ZIP |
+| `PACKAGETEST-003` → [PACKAGE-003](https://github.com/Kernol12/subathon-bot-ai/issues/529) | Bundled Linux desktop archive and relocation policy |
+| `PACKAGETEST-004` → [PACKAGE-004](https://github.com/Kernol12/subathon-bot-ai/issues/531) | Arch PKGBUILD against system dependencies |
+| [PACKAGE-005](https://github.com/Kernol12/subathon-bot-ai/issues/532) | Verify clean Windows portable startup media and moved login |
+| [PACKAGE-006](https://github.com/Kernol12/subathon-bot-ai/issues/533) | Verify Linux archives Arch package and secure keyrings |
 
 ## Completion and integration
 

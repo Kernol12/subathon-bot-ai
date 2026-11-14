@@ -7,7 +7,7 @@ reviewed CI-003 tooling; every other v1 requirement below remains unchanged.
 This is authored contract material awaiting independent review, not approval,
 implementation, an observed red run, hosted recovery or an applied settings change.
 It refines [CI-001 recovery revision 2](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/CI-001.md) and
-[bounded coordination v2 §5](bounded-coordination-v2.md#5-coordinator-practice-and-ci).
+[bounded coordination v2 §5](https://github.com/Kernol12/subathon-bot-ai/blob/docs-archive-2026-11-14/docs/contracts/bounded-coordination-v2.md#5-coordinator-practice-and-ci).
 WORKFLOW-006 policy remains inactive; the historical 120-task exemptions and all
 existing substantive review gates remain unchanged. WORKFLOW-007 is not a dependency.
 

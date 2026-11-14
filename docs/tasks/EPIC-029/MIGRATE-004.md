@@ -2,8 +2,8 @@
 
 Issue: https://github.com/Kernol12/subathon-bot-ai/issues/629
 Specification: v0.45 §§17–18.
-Contract: [cutover and latest owner decision](../../contracts/github-authority-cutover-v1.md).
-Test retirement: [separately approved ADR-0012 scope](../../contracts/github-tracker-retirement-scope-v1.md).
+Contract: [cutover and latest owner decision](https://github.com/Kernol12/subathon-bot-ai/blob/docs-archive-2026-11-14/docs/contracts/github-authority-cutover-v1.md).
+Test retirement: [separately approved ADR-0012 scope](https://github.com/Kernol12/subathon-bot-ai/blob/docs-archive-2026-11-14/docs/contracts/github-tracker-retirement-scope-v1.md).
 
 Tag the old tracker as recorded, integrate the reviewed cutover code and update
 AGENTS/workflow/templates. Produce one reconciliation report for task IDs, titles,

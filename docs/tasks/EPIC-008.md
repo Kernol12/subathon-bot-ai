@@ -15,28 +15,28 @@ See [backlog workflow and complete epic index](README.md).
 | [APICONTRACT-004](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-008/APICONTRACT-004.md) → [APITEST-015](EPIC-008/APITEST-015.md) | Resolve isolated native listener versus HTTP host baseline conflict before API-001 topology changes |
 | `APITEST-001` → [API-001](EPIC-008/API-001.md) | Production Qt and Drogon lifecycle bridge |
 | [APICONTRACT-002](EPIC-008/APICONTRACT-002.md) | Separate bounded authentication-continuation host extension contract |
-| `APITEST-013` → [API-013](EPIC-008/API-013.md) | Host continuation/lease, guarded auth storage, elapsed and password permit prerequisites |
+| `APITEST-013` → [API-013](https://github.com/Kernol12/subathon-bot-ai/issues/600) | Host continuation/lease, guarded auth storage, elapsed and password permit prerequisites |
 | [APICONTRACT-003](EPIC-008/APICONTRACT-003.md) | Guarded enrollment/recovery host-write and workflow contract prerequisite |
-| `APITEST-014` → [API-014](EPIC-008/API-014.md) | Guarded setup/reset writes and finite shared-permit profiles |
-| `APITEST-002` → [API-002](EPIC-008/API-002.md) | HTTP command schemas exact values and revision checks |
-| `APITEST-003` → [API-003](EPIC-008/API-003.md) | Authorized WebSocket snapshots and resynchronization |
-| `APITEST-004` → [API-004](EPIC-008/API-004.md) | Capability handshake and matching web assets |
-| `APITEST-005` → [API-005](EPIC-008/API-005.md) | Common connector lifecycle and capability contracts |
-| `APITEST-006` → [API-006](EPIC-008/API-006.md) | Shared catch-up baseline import and overlap policies |
-| `APITEST-007` → [API-007](EPIC-008/API-007.md) | Persisted resumable setup and isolated trial runs |
-| `APITEST-008` → [API-008](EPIC-008/API-008.md) | Early fake-event to committed timer and API vertical slice |
-| `APITEST-009` → [API-009](EPIC-008/API-009.md) | Integrate review modifiers reversals milestones and recovery |
+| `APITEST-014` → [API-014](https://github.com/Kernol12/subathon-bot-ai/issues/603) | Guarded setup/reset writes and finite shared-permit profiles |
+| `APITEST-002` → [API-002](https://github.com/Kernol12/subathon-bot-ai/issues/280) | HTTP command schemas exact values and revision checks |
+| `APITEST-003` → [API-003](https://github.com/Kernol12/subathon-bot-ai/issues/282) | Authorized WebSocket snapshots and resynchronization |
+| `APITEST-004` → [API-004](https://github.com/Kernol12/subathon-bot-ai/issues/284) | Capability handshake and matching web assets |
+| `APITEST-005` → [API-005](https://github.com/Kernol12/subathon-bot-ai/issues/286) | Common connector lifecycle and capability contracts |
+| `APITEST-006` → [API-006](https://github.com/Kernol12/subathon-bot-ai/issues/288) | Shared catch-up baseline import and overlap policies |
+| `APITEST-007` → [API-007](https://github.com/Kernol12/subathon-bot-ai/issues/290) | Persisted resumable setup and isolated trial runs |
+| `APITEST-008` → [API-008](https://github.com/Kernol12/subathon-bot-ai/issues/292) | Early fake-event to committed timer and API vertical slice |
+| `APITEST-009` → [API-009](https://github.com/Kernol12/subathon-bot-ai/issues/294) | Integrate review modifiers reversals milestones and recovery |
 
 | [CONTRACT-013](CONTRACT-013.md) | Bounded reference HTTP package; complete HTTP006/scene gates retained |
 | [CONTRACT-014](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/CONTRACT-014.md) | Single-rule/current-adapter contract before reference behavior |
-| `APITEST-010` → [API-010](EPIC-008/API-010.md) | Real reference HTTP negotiation and authorized committed snapshot |
-| `APITEST-011` → [API-011](EPIC-008/API-011.md) | Synthetic intake, actual current adapters and operation-time atomic timer state |
+| `APITEST-010` → [API-010](https://github.com/Kernol12/subathon-bot-ai/issues/560) | Real reference HTTP negotiation and authorized committed snapshot |
+| `APITEST-011` → [API-011](https://github.com/Kernol12/subathon-bot-ai/issues/562) | Synthetic intake, actual current adapters and operation-time atomic timer state |
 
 [ADR-0006](../decisions/0006-reference-path-prerequisites.md) separates the early
 §17 path from complete scene/milestone/modifier presentation, full transports and
 recovery. All replacement guarantees must actually finish; planning creates no
 runtime capability or ready implementation. See also
-[RULES-006](EPIC-003/RULES-006.md).
+[RULES-006](https://github.com/Kernol12/subathon-bot-ai/issues/558).
 
 ## Completion and integration
 

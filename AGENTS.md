@@ -39,8 +39,8 @@ Build the agreed product in `docs/specification.md` (v0.45); preserve the comple
 release scope and identify requirement conflicts instead of silently changing behavior.
 Routine implementation choices are allowed within scope. Unknown provider behavior is
 not a supported capability; never turn unknown source fields into known values.
-Start with `docs/ARCHITECTURE.md`, `docs/AGENT_WORKFLOW.md` and the selected task
-brief; read `docs/TEST_STRATEGY.md` when adding or changing tests.
+Start with `docs/ARCHITECTURE.md`, `docs/AGENT_WORKFLOW.md` and the selected task's
+GitHub issue; read `docs/TEST_STRATEGY.md` when adding or changing tests.
 Read scoped `AGENTS.md` files in every module being edited. Current owner scope,
 stop/resume directive and temporary assignments belong in
 `progress/coordinator-checkpoint.md`; the latest owner instruction takes precedence.
@@ -69,8 +69,10 @@ concurrency; one independent review for other code, tests and contracts; CI only
 documentation. An author never approves their own work. At most two fix rounds per
 review; ask the owner before a third.
 
-Keep contracts small: a public header or schema plus an examples table, under 300
-lines for a new contract. Edge-case detail belongs in tests.
+The issue body is the task brief. The default contract is the public header or
+schema plus an examples table in the issue or PR; write a contract file only for a
+cross-module boundary (wire protocol, database schema, scene format), under 300
+lines. Edge-case detail belongs in tests.
 
 ## Boundaries
 
@@ -87,7 +89,7 @@ lines for a new contract. Edge-case detail belongs in tests.
 
 ## Work protocol
 
-Choose a dependency-ready task inside the owner scope, read its brief, create a
+Choose a dependency-ready task inside the owner scope, read its issue, create a
 dedicated branch from current `main`, and claim it on GitHub before editing. State the
 review tier, contract revision, acceptance criteria and shared-file ownership in the
 PR. Split substantial prerequisites into explicit tasks before expanding scope; use

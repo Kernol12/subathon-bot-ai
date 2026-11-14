@@ -9,12 +9,12 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| `TWITCHTEST-001` → [TWITCH-001](EPIC-010/TWITCH-001.md) | Installation authorization broadcaster bot and user grants |
-| `TWITCHTEST-002` → [TWITCH-002](EPIC-010/TWITCH-002.md) | EventSub subscriptions gifts and Bits normalization |
-| `TWITCHTEST-003` → [TWITCH-003](EPIC-010/TWITCH-003.md) | Chat ingress and stream-state signals |
-| `TWITCHTEST-004` → [TWITCH-004](EPIC-010/TWITCH-004.md) | Explicit bot and broadcaster message delivery |
-| `TWITCHTEST-005` → [TWITCH-005](EPIC-010/TWITCH-005.md) | Connection loss capability health and unrecoverable gaps |
-| [TWITCH-090](EPIC-010/TWITCH-090.md) | Verify Twitch grants events senders and gap limitations live |
+| `TWITCHTEST-001` → [TWITCH-001](https://github.com/Kernol12/subathon-bot-ai/issues/333) | Installation authorization broadcaster bot and user grants |
+| `TWITCHTEST-002` → [TWITCH-002](https://github.com/Kernol12/subathon-bot-ai/issues/335) | EventSub subscriptions gifts and Bits normalization |
+| `TWITCHTEST-003` → [TWITCH-003](https://github.com/Kernol12/subathon-bot-ai/issues/337) | Chat ingress and stream-state signals |
+| `TWITCHTEST-004` → [TWITCH-004](https://github.com/Kernol12/subathon-bot-ai/issues/339) | Explicit bot and broadcaster message delivery |
+| `TWITCHTEST-005` → [TWITCH-005](https://github.com/Kernol12/subathon-bot-ai/issues/341) | Connection loss capability health and unrecoverable gaps |
+| [TWITCH-090](https://github.com/Kernol12/subathon-bot-ai/issues/342) | Verify Twitch grants events senders and gap limitations live |
 
 ## Completion and integration
 

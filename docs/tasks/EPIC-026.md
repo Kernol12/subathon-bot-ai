@@ -9,12 +9,12 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| [VALIDATE-001](EPIC-026/VALIDATE-001.md) | Maintain complete requirement and integration evidence matrix |
-| [VALIDATE-002](EPIC-026/VALIDATE-002.md) | Run combined core accounting recovery and security scenarios |
-| [VALIDATE-003](EPIC-026/VALIDATE-003.md) | Run supported browser and client compatibility matrix |
-| [VALIDATE-004](EPIC-026/VALIDATE-004.md) | Benchmark server eligible-input latency and viewer load |
-| [VALIDATE-005](EPIC-026/VALIDATE-005.md) | Benchmark both scene renderers and missed-frame timing |
-| [VALIDATE-006](EPIC-026/VALIDATE-006.md) | Consolidate platform package capture and restore release gates |
+| [VALIDATE-001](https://github.com/Kernol12/subathon-bot-ai/issues/535) | Maintain complete requirement and integration evidence matrix |
+| [VALIDATE-002](https://github.com/Kernol12/subathon-bot-ai/issues/536) | Run combined core accounting recovery and security scenarios |
+| [VALIDATE-003](https://github.com/Kernol12/subathon-bot-ai/issues/537) | Run supported browser and client compatibility matrix |
+| [VALIDATE-004](https://github.com/Kernol12/subathon-bot-ai/issues/538) | Benchmark server eligible-input latency and viewer load |
+| [VALIDATE-005](https://github.com/Kernol12/subathon-bot-ai/issues/539) | Benchmark both scene renderers and missed-frame timing |
+| [VALIDATE-006](https://github.com/Kernol12/subathon-bot-ai/issues/540) | Consolidate platform package capture and restore release gates |
 
 ## Completion and integration
 

@@ -1,13 +1,13 @@
 # Proof records v1 — MIGRATE-002
 
-> For EPIC-029 cutover history, the latest [owner decision](github-authority-cutover-v1.md)
+> For EPIC-029 cutover history, the latest [owner decision](https://github.com/Kernol12/subathon-bot-ai/blob/docs-archive-2026-11-14/docs/contracts/github-authority-cutover-v1.md)
 > supersedes earlier per-record audit, intermediate-PR and historical guard requirements.
 > Forward proof requirements remain mandatory.
 
 Authored contract/examples, specification v0.45 §§17–18.
 Author: `codex:migrate002-contract-author-20261113:/root` (gpt-6.1-sol).
 Correction author: `codex:coordinator-59095155`.
-Parent: [approved migration contract](github-task-migration-v1.md), source
+Parent: [approved migration contract](https://github.com/Kernol12/subathon-bot-ai/blob/docs-archive-2026-11-14/docs/contracts/github-task-migration-v1.md), source
 `b506434`; this refines its §9 without changing policy or claiming review.
 Inspection base: `fb324d23c20df24fad504e50f0046726de6cc61c`.
 

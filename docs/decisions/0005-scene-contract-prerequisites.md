@@ -23,9 +23,9 @@ application and independent review, not a claim that state was edited here.
 | Task | Other direct prerequisites | Bounded outcome |
 | --- | --- | --- |
 | [CONTRACT-009](../tasks/CONTRACT-009.md) | CONTRACT-005 | Protocol-neutral scene document model, seven element families, geometry, revisions and typed extension/reference seams |
-| [CONTRACT-010](../tasks/CONTRACT-010.md) | CONTRACT-009, CORE-002, CORE-003, CORE-005, ACCT-002, ACCESSTEST-002, MILESTONETEST-001, MILESTONETEST-004, MODIFIERTEST-001, MODIFIERTEST-002 | Typed disclosed data, conditions, exact progress, independent clocks and authoritative presentation semantics |
+| [CONTRACT-010](https://github.com/Kernol12/subathon-bot-ai/issues/162) | CONTRACT-009, CORE-002, CORE-003, CORE-005, ACCT-002, ACCESSTEST-002, MILESTONETEST-001, MILESTONETEST-004, MODIFIERTEST-001, MODIFIERTEST-002 | Typed disclosed data, conditions, exact progress, independent clocks and authoritative presentation semantics |
 | [CONTRACT-011](../tasks/CONTRACT-011.md) | CONTRACT-009 | Asset/font references, portable package closure, restricted SVG, budgets and required profile evidence |
-| [CONTRACT-012](../tasks/CONTRACT-012.md) | CONTRACT-009, CONTRACT-010, CONTRACT-011 | Complete versioned machine-schema package, resolved imports, independent examples and reviewed validation tooling |
+| [CONTRACT-012](https://github.com/Kernol12/subathon-bot-ai/issues/164) | CONTRACT-009, CONTRACT-010, CONTRACT-011 | Complete versioned machine-schema package, resolved imports, independent examples and reviewed validation tooling |
 
 CONTRACT-008 keeps its existing CONTRACT-005 and CONTRACTPLAN-001 dependencies and
 adds CONTRACTPLAN-002 and all four children. It remains the full scene integration

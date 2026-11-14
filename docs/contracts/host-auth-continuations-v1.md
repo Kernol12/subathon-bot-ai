@@ -110,7 +110,7 @@ A configured timeout alone is NOT a trustworthy remaining budget. The frozen
 SESSION-010 and DEPLOYMENT-007/008 contracts do NOT own or supply this producer.
 The gap is explicitly allocated to planned
 [SESSIONCONTRACT-007](../tasks/EPIC-007/SESSIONCONTRACT-007.md) →
-[SESSIONTEST-012/SESSION-012](../tasks/EPIC-007/SESSION-012.md), downstream of those
+[SESSIONTEST-012/SESSION-012](https://github.com/Kernol12/subathon-bot-ai/issues/606), downstream of those
 existing tasks without changing their edges. That new slice owns the AUTH-route
 earlier edge anchor, conservative host-elapsed conversion, transit/body/admission
 delay and uncertainty for BOTH bundled and alternative edges, and the additive
@@ -653,7 +653,7 @@ selected CI. No body is run or runtime capability established by this task.
 
 Setup/reset writes are deliberately a separate planned prerequisite:
 [APICONTRACT-003](../tasks/EPIC-008/APICONTRACT-003.md) →
-[APITEST-014/API-014](../tasks/EPIC-008/API-014.md). That host extension must define
+[APITEST-014/API-014](https://github.com/Kernol12/subathon-bot-ai/issues/603). That host extension must define
 named guarded account insertion/replacement/local-credential replacement (forward
 STORAGE-020 unchanged), bounded conditional directory-binding writes and the
 workflow-specific recovery/code ports needed for atomic setup/reset, plus explicit

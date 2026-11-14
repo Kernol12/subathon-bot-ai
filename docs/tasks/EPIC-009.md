@@ -22,14 +22,14 @@ See [backlog workflow and complete epic index](README.md).
 | `STORAGETEST-016` → [STORAGE-016](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-009/STORAGE-016.md) | Nonowning durable application-review holds and authorized active resolution |
 | `STORAGETEST-017` → [STORAGE-017](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-009/STORAGE-017.md) | Typed early operation/subject/source claim projection |
 | `STORAGETEST-018` → [STORAGE-019](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-009/STORAGE-019.md) → [STORAGE-018](EPIC-009/STORAGE-018.md) | Shared structural codecs, then durable initial source/capture/plan/execution binding |
-| [STORAGECONTRACT-003](EPIC-009/STORAGECONTRACT-003.md) → [STORAGETEST-021](EPIC-009/STORAGETEST-021.md) → [STORAGE-021](EPIC-009/STORAGE-021.md) | Controlled populated parent-table rebuild prerequisite for exact valuations |
-| `STORAGETEST-003` → [STORAGE-003](EPIC-009/STORAGE-003.md) | Durable clock checkpoints and restart integration |
-| `STORAGETEST-004` → [STORAGE-004](EPIC-009/STORAGE-004.md) | Consistent database configuration and asset snapshot |
-| `STORAGETEST-005` → [STORAGE-005](EPIC-009/STORAGE-005.md) | Versioned encrypted backup envelope and recovery keys |
-| `STORAGETEST-006` → [STORAGE-006](EPIC-009/STORAGE-006.md) | Automatic manual and pre-upgrade backup retention |
-| `STORAGETEST-007` → [STORAGE-007](EPIC-009/STORAGE-007.md) | Stopped-server staged restore and recovery holds |
-| `STORAGETEST-008` → [STORAGE-008](EPIC-009/STORAGE-008.md) | Explicit upgrade and matching-state rollback |
-| `STORAGETEST-009` → [STORAGE-009](EPIC-009/STORAGE-009.md) | Backup recipient-key rotation and old-archive recovery |
+| [STORAGECONTRACT-003](https://github.com/Kernol12/subathon-bot-ai/issues/607) → [STORAGETEST-021](EPIC-009/STORAGETEST-021.md) → [STORAGE-021](https://github.com/Kernol12/subathon-bot-ai/issues/609) | Controlled populated parent-table rebuild prerequisite for exact valuations |
+| `STORAGETEST-003` → [STORAGE-003](https://github.com/Kernol12/subathon-bot-ai/issues/318) | Durable clock checkpoints and restart integration |
+| `STORAGETEST-004` → [STORAGE-004](https://github.com/Kernol12/subathon-bot-ai/issues/320) | Consistent database configuration and asset snapshot |
+| `STORAGETEST-005` → [STORAGE-005](https://github.com/Kernol12/subathon-bot-ai/issues/322) | Versioned encrypted backup envelope and recovery keys |
+| `STORAGETEST-006` → [STORAGE-006](https://github.com/Kernol12/subathon-bot-ai/issues/324) | Automatic manual and pre-upgrade backup retention |
+| `STORAGETEST-007` → [STORAGE-007](https://github.com/Kernol12/subathon-bot-ai/issues/326) | Stopped-server staged restore and recovery holds |
+| `STORAGETEST-008` → [STORAGE-008](https://github.com/Kernol12/subathon-bot-ai/issues/328) | Explicit upgrade and matching-state rollback |
+| `STORAGETEST-009` → [STORAGE-009](https://github.com/Kernol12/subathon-bot-ai/issues/330) | Backup recipient-key rotation and old-archive recovery |
 
 ## Completion and integration
 

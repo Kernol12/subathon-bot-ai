@@ -10,10 +10,10 @@ See [backlog workflow and complete epic index](README.md).
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
 | `LOCALETEST-001` → [LOCALE-001](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-023/LOCALE-001.md) | Shared translation catalog schema and build generator |
-| `LOCALETEST-002` → [LOCALE-002](EPIC-023/LOCALE-002.md) | Native runtime language locale and saved preferences |
-| `LOCALETEST-003` → [LOCALE-003](EPIC-023/LOCALE-003.md) | Web management and viewer runtime translation |
-| `LOCALETEST-004` → [LOCALE-004](EPIC-023/LOCALE-004.md) | Independent Light Dark and System appearance |
-| [LOCALE-090](EPIC-023/LOCALE-090.md) | Verify English German and theme layouts on native and browser UIs |
+| `LOCALETEST-002` → [LOCALE-002](https://github.com/Kernol12/subathon-bot-ai/issues/501) | Native runtime language locale and saved preferences |
+| `LOCALETEST-003` → [LOCALE-003](https://github.com/Kernol12/subathon-bot-ai/issues/503) | Web management and viewer runtime translation |
+| `LOCALETEST-004` → [LOCALE-004](https://github.com/Kernol12/subathon-bot-ai/issues/505) | Independent Light Dark and System appearance |
+| [LOCALE-090](https://github.com/Kernol12/subathon-bot-ai/issues/506) | Verify English German and theme layouts on native and browser UIs |
 
 ## Completion and integration
 

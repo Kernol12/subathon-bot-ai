@@ -32,12 +32,12 @@ The target therefore keeps the existing table/key names and rebuilds this ONE
 parent table in a new migration, preserving every old row value and child/FK.
 This is additive versioned representation, not permission to edit migration4.
 
-**Explicit prerequisite:** [STORAGECONTRACT-003](../tasks/EPIC-009/STORAGECONTRACT-003.md)
+**Explicit prerequisite:** [STORAGECONTRACT-003](https://github.com/Kernol12/subathon-bot-ai/issues/607)
 must freeze the narrow controlled parent-table rebuild mechanism, exact final DDL,
 full catalog projection/framing and version/ID allocation, writer admission,
 foreign-key checking, backup/update authority and failure/cleanup sequence.
 [STORAGETEST-021](../tasks/EPIC-009/STORAGETEST-021.md) and
-[STORAGE-021](../tasks/EPIC-009/STORAGE-021.md) must separately review, observe
+[STORAGE-021](https://github.com/Kernol12/subathon-bot-ai/issues/609) must separately review, observe
 real behavioral red and implement that prerequisite before RATESTEST-009 uses it.
 STORAGE-021 owns and ships BOTH the controlled mechanism and the concrete new
 version-N MigrationStep, `exact_valuation_repository_manifest()` factory and full

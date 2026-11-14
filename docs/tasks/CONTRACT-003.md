@@ -27,8 +27,8 @@ Run relevant checks and record actual results in the PR and canonical proof.
 ## Required child contracts and integration audit
 
 [ADR-0004](../decisions/0004-wire-contract-prerequisites.md) records separate
-[common primitives](CONTRACT-005.md), [HTTP/OpenAPI](CONTRACT-006.md),
-[persistent WebSocket](CONTRACT-007.md) and [scene](CONTRACT-008.md) contract tasks.
+[common primitives](CONTRACT-005.md), [HTTP/OpenAPI](https://github.com/Kernol12/subathon-bot-ai/issues/158),
+[persistent WebSocket](https://github.com/Kernol12/subathon-bot-ai/issues/159) and [scene](https://github.com/Kernol12/subathon-bot-ai/issues/160) contract tasks.
 All four remain required; this parent audits their consistent versions, imports,
 capabilities, complete packages and independent examples. Common documentation alone
 cannot finish this contract. Read current state/evidence for actual review status.

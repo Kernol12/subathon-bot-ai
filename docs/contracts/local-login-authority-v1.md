@@ -26,7 +26,7 @@ restored and no accepted import is edited here.
 The multi-stage composition below is a consumer REQUIREMENT, not a capability of
 API-001's accepted single-dispatch boundary. Its explicit host-owned prerequisite
 is [APICONTRACT-002](../tasks/EPIC-008/APICONTRACT-002.md) →
-[APITEST-013 / API-013](../tasks/EPIC-008/API-013.md). That separate work must define,
+[APITEST-013 / API-013](https://github.com/Kernol12/subathon-bot-ai/issues/600). That separate work must define,
 review, test and implement bounded original-request continuations, response leases,
 per-stage queue deadlines, guarded repository/directory access, a consumer elapsed
 read and the installation password-work permit before these paths can execute.

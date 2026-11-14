@@ -9,11 +9,11 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| [TIPEEESTREAM-001](EPIC-016/TIPEEESTREAM-001.md) | Establish current protocol payload and payment semantics |
-| `TIPEEESTREAMTEST-002` → [TIPEEESTREAM-002](EPIC-016/TIPEEESTREAM-002.md) | Compatible socket authorization and live intake |
-| `TIPEEESTREAMTEST-003` → [TIPEEESTREAM-003](EPIC-016/TIPEEESTREAM-003.md) | Filtered event history and live correlation |
-| `TIPEEESTREAMTEST-004` → [TIPEEESTREAM-004](EPIC-016/TIPEEESTREAM-004.md) | Reconnection catch-up and capability health |
-| [TIPEEESTREAM-090](EPIC-016/TIPEEESTREAM-090.md) | Verify socket history identity and confirmation behavior live |
+| [TIPEEESTREAM-001](https://github.com/Kernol12/subathon-bot-ai/issues/384) | Establish current protocol payload and payment semantics |
+| `TIPEEESTREAMTEST-002` → [TIPEEESTREAM-002](https://github.com/Kernol12/subathon-bot-ai/issues/386) | Compatible socket authorization and live intake |
+| `TIPEEESTREAMTEST-003` → [TIPEEESTREAM-003](https://github.com/Kernol12/subathon-bot-ai/issues/388) | Filtered event history and live correlation |
+| `TIPEEESTREAMTEST-004` → [TIPEEESTREAM-004](https://github.com/Kernol12/subathon-bot-ai/issues/390) | Reconnection catch-up and capability health |
+| [TIPEEESTREAM-090](https://github.com/Kernol12/subathon-bot-ai/issues/391) | Verify socket history identity and confirmation behavior live |
 
 ## Completion and integration
 

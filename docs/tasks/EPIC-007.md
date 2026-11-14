@@ -12,14 +12,14 @@ See [backlog workflow and complete epic index](README.md).
 | [SESSIONCONTRACT-001](EPIC-007/SESSIONCONTRACT-001.md) | Reviewed current-session supplier and token lifecycle document |
 | [SESSIONCONTRACT-002](EPIC-007/SESSIONCONTRACT-002.md) | Reviewed browser/desktop credential transport document |
 | [SESSIONCONTRACT-007](EPIC-007/SESSIONCONTRACT-007.md) | Additive AUTH transport-budget producer and edge-anchor contract |
-| `SESSIONTEST-012` → [SESSION-012](EPIC-007/SESSION-012.md) | Actual AUTH remaining-budget producer and both proxy-edge admissions |
+| `SESSIONTEST-012` → [SESSION-012](https://github.com/Kernol12/subathon-bot-ai/issues/606) | Actual AUTH remaining-budget producer and both proxy-edge admissions |
 | `SESSIONTEST-001` → [SESSION-001](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-007/SESSION-001.md) | Password hashing and parameter upgrades |
-| `SESSIONTEST-002` → [SESSION-002](EPIC-007/SESSION-002.md) | Opaque sessions expiry revocation and freshness |
-| `SESSIONTEST-003` → [SESSION-003](EPIC-007/SESSION-003.md) | Browser cookie CSRF and desktop header transport |
-| `SESSIONTEST-004` → [SESSION-004](EPIC-007/SESSION-004.md) | Windows DPAPI remembered-login storage |
-| `SESSIONTEST-005` → [SESSION-005](EPIC-007/SESSION-005.md) | Linux QtKeychain remembered-login fallback |
-| `SESSIONTEST-006` → [SESSION-006](EPIC-007/SESSION-006.md) | Encrypted provider credentials and protected key provisioning |
-| `SESSIONTEST-007` → [SESSION-007](EPIC-007/SESSION-007.md) | Crash-safe credential encryption-key rotation |
+| `SESSIONTEST-002` → [SESSION-002](https://github.com/Kernol12/subathon-bot-ai/issues/262) | Opaque sessions expiry revocation and freshness |
+| `SESSIONTEST-003` → [SESSION-003](https://github.com/Kernol12/subathon-bot-ai/issues/264) | Browser cookie CSRF and desktop header transport |
+| `SESSIONTEST-004` → [SESSION-004](https://github.com/Kernol12/subathon-bot-ai/issues/266) | Windows DPAPI remembered-login storage |
+| `SESSIONTEST-005` → [SESSION-005](https://github.com/Kernol12/subathon-bot-ai/issues/268) | Linux QtKeychain remembered-login fallback |
+| `SESSIONTEST-006` → [SESSION-006](https://github.com/Kernol12/subathon-bot-ai/issues/270) | Encrypted provider credentials and protected key provisioning |
+| `SESSIONTEST-007` → [SESSION-007](https://github.com/Kernol12/subathon-bot-ai/issues/272) | Crash-safe credential encryption-key rotation |
 
 ## Completion and integration
 

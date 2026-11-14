@@ -8,8 +8,14 @@ it neither finalizes contracts nor claims a reviewed test or supported provider 
 ## Read and claim a child
 
 Read [the agent workflow](../AGENT_WORKFLOW.md), select a dependency-ready child from
-[GitHub Issues](https://github.com/Kernol12/subathon-bot-ai/issues), and follow its brief plus scoped `AGENTS.md`. The workflow covers
+[GitHub Issues](https://github.com/Kernol12/subathon-bot-ai/issues), and follow its issue body plus scoped `AGENTS.md`. The workflow covers
 task branches, test-first gates, independent review, evidence, PRs and completion.
+
+The issue body is the brief. On 2026-11-14, 181 brief files whose full text was
+already in their issue were removed; the epic tables below and in each epic file link
+to the issues instead. The files that remain here carry text that is not in an issue
+or are pinned by a proof record. Every removed file is kept at the
+[docs-archive-2026-11-14 tag](https://github.com/Kernol12/subathon-bot-ai/tree/docs-archive-2026-11-14/docs/tasks).
 Follow the current priority in [AGENTS.md](../../AGENTS.md).
 
 One feature is one issue with two stages: tests, then implementation. Briefs that
@@ -31,7 +37,7 @@ split it further before claiming production work; preserve its original requirem
 GitHub owns status, assignment, native containment and prerequisite links.
 The tables here are navigation only.
 Active and retained gate briefs remain below; completed retired briefs use immutable
-archive links. See the [cleanup inventory](../migrations/EPIC-029/brief-inventory.md).
+archive links. See the [cleanup inventory](https://github.com/Kernol12/subathon-bot-ai/blob/docs-archive-2026-11-14/docs/migrations/EPIC-029/brief-inventory.md).
 Coordinator checks actual prerequisite merges and owner stops before dispatch.
 
 Existing foundation/contract/spike IDs and the six draft credit cases are preserved.
@@ -149,9 +155,9 @@ API/codec/additive-storage contract. These are additional foundation records,
 not extra epic work packages. No existing
 release requirement, baseline assertion or shipped migration is removed.
 
-The [controlled parent rebuild prerequisite](EPIC-009/STORAGECONTRACT-003.md)
+The [controlled parent rebuild prerequisite](https://github.com/Kernol12/subathon-bot-ai/issues/607)
 separates migration mechanism contract, [real-SQL baseline](EPIC-009/STORAGETEST-021.md)
-and [implementation](EPIC-009/STORAGE-021.md) before exact valuation storage tests.
+and [implementation](https://github.com/Kernol12/subathon-bot-ai/issues/609) before exact valuation storage tests.
 Existing writer PRAGMA admission and plan CHECK/FK constraints require explicit
 reviewed migration support; the planning split supplies no runtime capability.
 
@@ -179,7 +185,7 @@ owner-authorized sequence is [MIGRATE-001](https://github.com/Kernol12/subathon-
 [MIGRATE-002](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-029/MIGRATE-002.md) → [MIGRATE-003](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-029/MIGRATE-003.md) →
 [MIGRATE-004](EPIC-029/MIGRATE-004.md) → [MIGRATE-006](EPIC-029/MIGRATE-006.md) →
 [MIGRATE-005](EPIC-029/MIGRATE-005.md). Read the
-[migration contract](../contracts/github-task-migration-v1.md) and its
-[consumer inventory](../contracts/github-task-migration-inventory-v1.md).
+[migration contract](https://github.com/Kernol12/subathon-bot-ai/blob/docs-archive-2026-11-14/docs/contracts/github-task-migration-v1.md) and its
+[consumer inventory](https://github.com/Kernol12/subathon-bot-ai/blob/docs-archive-2026-11-14/docs/contracts/github-task-migration-inventory-v1.md).
 GitHub authority began at the final protected MIGRATE-004 cutover merge. The
 migration is complete.

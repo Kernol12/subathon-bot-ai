@@ -9,11 +9,11 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| `STREAMELEMENTSTEST-001` → [STREAMELEMENTS-001](EPIC-014/STREAMELEMENTS-001.md) | Astro connection and completed-tip normalization |
-| `STREAMELEMENTSTEST-002` → [STREAMELEMENTS-002](EPIC-014/STREAMELEMENTS-002.md) | Payment identity source authority and eligibility |
-| [STREAMELEMENTS-003](EPIC-014/STREAMELEMENTS-003.md) | Establish refund and gap-recovery capability boundaries |
-| `STREAMELEMENTSTEST-004` → [STREAMELEMENTS-004](EPIC-014/STREAMELEMENTS-004.md) | Capability-aware reconnect and visible gap handling |
-| [STREAMELEMENTS-090](EPIC-014/STREAMELEMENTS-090.md) | Verify Astro events evidence and gap behavior live |
+| `STREAMELEMENTSTEST-001` → [STREAMELEMENTS-001](https://github.com/Kernol12/subathon-bot-ai/issues/369) | Astro connection and completed-tip normalization |
+| `STREAMELEMENTSTEST-002` → [STREAMELEMENTS-002](https://github.com/Kernol12/subathon-bot-ai/issues/371) | Payment identity source authority and eligibility |
+| [STREAMELEMENTS-003](https://github.com/Kernol12/subathon-bot-ai/issues/372) | Establish refund and gap-recovery capability boundaries |
+| `STREAMELEMENTSTEST-004` → [STREAMELEMENTS-004](https://github.com/Kernol12/subathon-bot-ai/issues/374) | Capability-aware reconnect and visible gap handling |
+| [STREAMELEMENTS-090](https://github.com/Kernol12/subathon-bot-ai/issues/375) | Verify Astro events evidence and gap behavior live |
 
 ## Completion and integration
 

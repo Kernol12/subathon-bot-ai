@@ -9,15 +9,15 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| `DEPLOYMENTTEST-001` → [DEPLOYMENT-001](EPIC-024/DEPLOYMENT-001.md) | Common application image storage and secret layout |
-| `DEPLOYMENTTEST-002` → [DEPLOYMENT-002](EPIC-024/DEPLOYMENT-002.md) | Caddy defaults and existing reverse proxy contract |
-| `DEPLOYMENTTEST-003` → [DEPLOYMENT-003](EPIC-024/DEPLOYMENT-003.md) | Docker Compose lifecycle and persistent services |
-| `DEPLOYMENTTEST-004` → [DEPLOYMENT-004](EPIC-024/DEPLOYMENT-004.md) | Rootless Podman Quadlet default deployment |
-| `DEPLOYMENTTEST-005` → [DEPLOYMENT-005](EPIC-024/DEPLOYMENT-005.md) | Rootful Podman with containerized Caddy alternative |
-| `DEPLOYMENTTEST-006` → [DEPLOYMENT-006](EPIC-024/DEPLOYMENT-006.md) | Native Linux server archive and systemd installation |
-| [DEPLOYMENT-090](EPIC-024/DEPLOYMENT-090.md) | Verify Docker persistence HTTPS upgrade and recovery |
-| [DEPLOYMENT-091](EPIC-024/DEPLOYMENT-091.md) | Verify both Podman Quadlet deployment variants |
-| [DEPLOYMENT-092](EPIC-024/DEPLOYMENT-092.md) | Verify native Ubuntu service install update and restore |
+| `DEPLOYMENTTEST-001` → [DEPLOYMENT-001](https://github.com/Kernol12/subathon-bot-ai/issues/509) | Common application image storage and secret layout |
+| `DEPLOYMENTTEST-002` → [DEPLOYMENT-002](https://github.com/Kernol12/subathon-bot-ai/issues/511) | Caddy defaults and existing reverse proxy contract |
+| `DEPLOYMENTTEST-003` → [DEPLOYMENT-003](https://github.com/Kernol12/subathon-bot-ai/issues/513) | Docker Compose lifecycle and persistent services |
+| `DEPLOYMENTTEST-004` → [DEPLOYMENT-004](https://github.com/Kernol12/subathon-bot-ai/issues/515) | Rootless Podman Quadlet default deployment |
+| `DEPLOYMENTTEST-005` → [DEPLOYMENT-005](https://github.com/Kernol12/subathon-bot-ai/issues/517) | Rootful Podman with containerized Caddy alternative |
+| `DEPLOYMENTTEST-006` → [DEPLOYMENT-006](https://github.com/Kernol12/subathon-bot-ai/issues/519) | Native Linux server archive and systemd installation |
+| [DEPLOYMENT-090](https://github.com/Kernol12/subathon-bot-ai/issues/520) | Verify Docker persistence HTTPS upgrade and recovery |
+| [DEPLOYMENT-091](https://github.com/Kernol12/subathon-bot-ai/issues/521) | Verify both Podman Quadlet deployment variants |
+| [DEPLOYMENT-092](https://github.com/Kernol12/subathon-bot-ai/issues/522) | Verify native Ubuntu service install update and restore |
 
 ## Completion and integration
 

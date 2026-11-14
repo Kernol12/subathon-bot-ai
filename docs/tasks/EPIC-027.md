@@ -9,10 +9,10 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| `RELEASETEST-001` → [RELEASE-001](EPIC-027/RELEASE-001.md) | Dependency font license and corresponding-source manifests |
-| `RELEASETEST-002` → [RELEASE-002](EPIC-027/RELEASE-002.md) | Operational log retention and redacted diagnostic export |
-| [RELEASE-003](EPIC-027/RELEASE-003.md) | Write operator setup recovery and client workflow guides |
-| [RELEASE-004](EPIC-027/RELEASE-004.md) | Review final artifacts notices diagnostics and release checklist |
+| `RELEASETEST-001` → [RELEASE-001](https://github.com/Kernol12/subathon-bot-ai/issues/543) | Dependency font license and corresponding-source manifests |
+| `RELEASETEST-002` → [RELEASE-002](https://github.com/Kernol12/subathon-bot-ai/issues/545) | Operational log retention and redacted diagnostic export |
+| [RELEASE-003](https://github.com/Kernol12/subathon-bot-ai/issues/546) | Write operator setup recovery and client workflow guides |
+| [RELEASE-004](https://github.com/Kernol12/subathon-bot-ai/issues/547) | Review final artifacts notices diagnostics and release checklist |
 
 ## Completion and integration
 

@@ -19,8 +19,8 @@ Import [password logical v1](password-hashing-v1.md),
 [effective permissions](effective-permissions-api-v1.md) unchanged; exact blobs
 are in the [author record](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-003-author.md).
 [ADR-0010](../decisions/0010-session-executable-prerequisites.md) preserves
-[full SESSION-002](../tasks/EPIC-007/SESSION-002.md) and
-[full ACCESS-004](../tasks/EPIC-006/ACCESS-004.md).
+[full SESSION-002](https://github.com/Kernol12/subathon-bot-ai/issues/262) and
+[full ACCESS-004](https://github.com/Kernol12/subathon-bot-ai/issues/251).
 
 ## 1. Proposed commands and nonsecret results
 

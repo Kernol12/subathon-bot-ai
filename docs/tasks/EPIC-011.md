@@ -9,10 +9,10 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| `BETTERPLACETEST-001` → [BETTERPLACE-001](EPIC-011/BETTERPLACE-001.md) | Public polling and new-support baseline |
-| `BETTERPLACETEST-002` → [BETTERPLACE-002](EPIC-011/BETTERPLACE-002.md) | Separate aggregate observations and private donation fields |
-| `BETTERPLACETEST-003` → [BETTERPLACE-003](EPIC-011/BETTERPLACE-003.md) | Polling gap reconciliation and capability descriptors |
-| [BETTERPLACE-090](EPIC-011/BETTERPLACE-090.md) | Verify public fields polling identities and visibility live |
+| `BETTERPLACETEST-001` → [BETTERPLACE-001](https://github.com/Kernol12/subathon-bot-ai/issues/345) | Public polling and new-support baseline |
+| `BETTERPLACETEST-002` → [BETTERPLACE-002](https://github.com/Kernol12/subathon-bot-ai/issues/347) | Separate aggregate observations and private donation fields |
+| `BETTERPLACETEST-003` → [BETTERPLACE-003](https://github.com/Kernol12/subathon-bot-ai/issues/349) | Polling gap reconciliation and capability descriptors |
+| [BETTERPLACE-090](https://github.com/Kernol12/subathon-bot-ai/issues/350) | Verify public fields polling identities and visibility live |
 
 ## Completion and integration
 

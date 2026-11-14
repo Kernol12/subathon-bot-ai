@@ -9,10 +9,10 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| `PATREONTEST-001` → [PATREON-001](EPIC-012/PATREON-001.md) | Server-side authorization and verified webhook intake |
-| `PATREONTEST-002` → [PATREON-002](EPIC-012/PATREON-002.md) | Payment evidence confirmation and refund mapping |
-| `PATREONTEST-003` → [PATREON-003](EPIC-012/PATREON-003.md) | History reconciliation and reconnect policy |
-| [PATREON-090](EPIC-012/PATREON-090.md) | Verify v2 payment identifiers charging refunds and history live |
+| `PATREONTEST-001` → [PATREON-001](https://github.com/Kernol12/subathon-bot-ai/issues/353) | Server-side authorization and verified webhook intake |
+| `PATREONTEST-002` → [PATREON-002](https://github.com/Kernol12/subathon-bot-ai/issues/355) | Payment evidence confirmation and refund mapping |
+| `PATREONTEST-003` → [PATREON-003](https://github.com/Kernol12/subathon-bot-ai/issues/357) | History reconciliation and reconnect policy |
+| [PATREON-090](https://github.com/Kernol12/subathon-bot-ai/issues/358) | Verify v2 payment identifiers charging refunds and history live |
 
 ## Completion and integration
 

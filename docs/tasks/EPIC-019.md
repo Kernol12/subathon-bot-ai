@@ -9,13 +9,13 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| `SCENETEST-001` → [SCENE-001](EPIC-019/SCENE-001.md) | Versioned scene document drafts and server asset references |
-| `SCENETEST-002` → [SCENE-002](EPIC-019/SCENE-002.md) | Native canvas selection geometry grouping and layers |
-| `SCENETEST-003` → [SCENE-003](EPIC-019/SCENE-003.md) | Binding visibility and lifecycle preview editors |
-| `SCENETEST-004` → [SCENE-004](EPIC-019/SCENE-004.md) | Undo redo and scene draft edit transactions |
-| `SCENETEST-005` → [SCENE-005](EPIC-019/SCENE-005.md) | Asset upload budgets restricted SVG and font validation |
-| `SCENETEST-006` → [SCENE-006](EPIC-019/SCENE-006.md) | Portable themes and asset font import export |
-| `SCENETEST-007` → [SCENE-007](EPIC-019/SCENE-007.md) | Permissioned live publishing restore and compatibility checks |
+| `SCENETEST-001` → [SCENE-001](https://github.com/Kernol12/subathon-bot-ai/issues/433) | Versioned scene document drafts and server asset references |
+| `SCENETEST-002` → [SCENE-002](https://github.com/Kernol12/subathon-bot-ai/issues/435) | Native canvas selection geometry grouping and layers |
+| `SCENETEST-003` → [SCENE-003](https://github.com/Kernol12/subathon-bot-ai/issues/437) | Binding visibility and lifecycle preview editors |
+| `SCENETEST-004` → [SCENE-004](https://github.com/Kernol12/subathon-bot-ai/issues/439) | Undo redo and scene draft edit transactions |
+| `SCENETEST-005` → [SCENE-005](https://github.com/Kernol12/subathon-bot-ai/issues/441) | Asset upload budgets restricted SVG and font validation |
+| `SCENETEST-006` → [SCENE-006](https://github.com/Kernol12/subathon-bot-ai/issues/443) | Portable themes and asset font import export |
+| `SCENETEST-007` → [SCENE-007](https://github.com/Kernol12/subathon-bot-ai/issues/445) | Permissioned live publishing restore and compatibility checks |
 
 ## Completion and integration
 
