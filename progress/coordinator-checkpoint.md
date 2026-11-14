@@ -69,6 +69,10 @@ Owner decisions are recorded in #249, comment 6879902355:
   traced to the NI constructor as their first throw. Hooks2pass, zero skips or
   warnings; no old setup failure before the first NI. Later assertions/setup after
   NI remain unexecuted. Existing service/graph regression nodes2/2pass.
+  Fresh implementation WIP bc1f4095 is local/unpushed:145/145 authority and140/140
+  closure pass, but the source audit reproduced a historical-reader blocker.
+  Legacy bundle/hold facades roll back/translate failures and scan hold history;
+  green output does not meet the selected-reader contract. No code review yet.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 is reserved for this registry after compiled permission step9;
   preserve all shipped prefix bytes. Full #249 integration remains open. RULES-006
@@ -79,9 +83,15 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Start ACCESS-011 in a DIFFERENT fresh implementation session with frozen reviewed
-tests/header/contract; preserve all review verdicts and red evidence from62297124.
-Coordinator owns shared build/CI/checkpoint/receipts/proof and eventual merge.
+Author supplemental ACCESS-011 regressions and a private selected-record read
+header, then independent tier A tests review and behavioral red against bc1f4095.
+Preserve existing assertions/public headers/contracts. This remains #649's existing
+historical-disclosure scope: private borrowed-session bundle/selected hold readers
+may be factored from bundle access/bundle.cpp/holds.cpp while retaining the old
+public facades' behavior. No new public capability, writer or transaction.
+Only after supplemental approval/red complete that extraction and the authority
+composition in a fresh session, then full tier A implementation review. Coordinator
+owns shared build/CI/checkpoint/receipts/proof and eventual merge.
 Actual current authentication/graph/capture production, finite indexed reads,
 service-ceiling enforcement and nested-facade failure truth need implementation
 and the full tier A source/resource audit. Provisional facts are not permits.
