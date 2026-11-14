@@ -3,6 +3,7 @@
 #include "application_service_command_internal.hpp"
 #include "reference_authority_values.hpp"
 #include "reference_capture_codec_p.hpp"
+#include "sqlite_selected_record_read.hpp"
 #include <QCryptographicHash>
 #include <array>
 #include <charconv>
@@ -163,7 +164,7 @@ struct Hash {
         return std::string(tag) + std::string(b.constData(), std::size_t(b.size()));
     }
 };
-std::string source(const ReferenceAuthorityBinding &b, const ReferenceAuthorityLimits &l) {
+std::uint64_t source_size(const ReferenceAuthorityBinding &b, const ReferenceAuthorityLimits &l) {
     std::uint64_t n = 16;
     for (const auto &s :
          {std::string_view(b.origin.provider), std::string_view(b.origin.source_account),
@@ -172,6 +173,10 @@ std::string source(const ReferenceAuthorityBinding &b, const ReferenceAuthorityL
         add(n, s.size(), std::min(l.reference_bytes, l.permissions.reference_bytes));
     }
     space(n <= std::string{}.max_size());
+    return n;
+}
+std::string source(const ReferenceAuthorityBinding &b, const ReferenceAuthorityLimits &l) {
+    const auto n = source_size(b, l);
     std::string out = "RSS1";
     out.reserve(std::size_t(n));
     for (const auto &s :
@@ -185,12 +190,21 @@ std::string source(const ReferenceAuthorityBinding &b, const ReferenceAuthorityL
 }
 PermissionRequest concrete(const ReferenceAuthorityBinding &b, unsigned use,
                            const ReferenceAuthorityLimits &l) {
+    Projection projected{l.permissions.input_owned_bytes, l.permissions.input_items,
+                         l.permissions.reference_bytes};
+    projected(std::string_view(operations[use]), std::string_view("installation"), b.installation,
+              std::string_view("timer"), b.timer, std::string_view("source"));
+    projected.elements(3);
+    projected.fixed(source_size(b, l));
     if (!use) {
         std::array<char, 20> spelling{};
         const auto end =
             std::to_chars(spelling.data(), spelling.data() + spelling.size(), b.requested_ms);
         space(end.ec == std::errc{} &&
               std::uint64_t(end.ptr - spelling.data()) <= l.permissions.component_bytes);
+        projected.elements(1);
+        projected(std::string_view("adjustment"), std::string_view("ms"));
+        projected.fixed(std::uint64_t(end.ptr - spelling.data()) + 1);
     }
     PermissionRequest r{
         operations[use],
@@ -200,7 +214,19 @@ PermissionRequest concrete(const ReferenceAuthorityBinding &b, unsigned use,
         r.quantities.push_back({"adjustment", "ms", {std::to_string(b.requested_ms), "1"}});
     return r;
 }
-DelegatedPermissionGrant singleton(const PermissionRequest &r) {
+DelegatedPermissionGrant singleton(const PermissionRequest &r, const ReferenceAuthorityLimits &l) {
+    Projection projected{l.permissions.input_owned_bytes, l.permissions.input_items,
+                         l.permissions.reference_bytes};
+    projected.component_bytes = l.permissions.component_bytes;
+    projected(r.operation);
+    projected.elements(r.resources.size());
+    for (const auto &x : r.resources) {
+        projected(x.slot, PermissionResourceMode::allowed_set, x.resource);
+        projected.elements(1);
+    }
+    projected.elements(r.quantities.size());
+    for (const auto &x : r.quantities)
+        projected(x.slot, x.unit, PermissionQuantityMode::closed_interval, x.value, x.value);
     DelegatedPermissionGrant a;
     a.operation = r.operation;
     for (const auto &x : r.resources)
@@ -341,7 +367,7 @@ class SqliteReferenceAuthorityUnit::Impl {
     void authority(const StoredPermissionGraph &g, const ReferenceAuthorityBinding &b,
                    std::string_view a, std::string_view e, unsigned use, bool author = true) {
         auto r = concrete(b, use, limits);
-        auto action = singleton(r);
+        auto action = singleton(r, limits);
         Projection projection{limits.permissions.input_owned_bytes, limits.permissions.input_items,
                               limits.permissions.reference_bytes};
         projection.component_bytes = limits.permissions.component_bytes;
@@ -1477,41 +1503,65 @@ void match_execution(const ReferenceExecutionBinding &a, const ReferenceExecutio
          a.plan.plan_ref == b.plan.plan_ref && a.plan.revision == b.plan.revision &&
          reference_authority_capture::same(a.rule, b.rule));
 }
-// Selected historical command first passes metadata and the owning SAC1 decoder.
-// It cannot turn a candidate command into another record's disclosure authority.
+// Admit and decode the complete selected historical closure before owning or
+// decoding its retained SAC1 command. Historical facts never grant authority.
 void historical(const SqliteWorkSession &s, const ReferenceAuthorityRequest &q,
                 const ReferenceAuthorityLimits &l) {
     if (q.use == ReferenceAuthorityUse::execute_time_add)
         return;
     const auto &key = *q.historical_operation;
-    std::uint64_t selected = 0;
-    auto bounded = l;
-    bounded.reference_bytes = std::uint64_t(l.captures.document_bytes);
-    bounded.registry_selected_bytes = std::uint64_t(l.captures.owned_bytes);
-    std::optional<SqlRow> row;
+    SqliteBundleLimits bl;
+    bl.reference_bytes =
+        qsizetype(std::min(l.reference_bytes, std::uint64_t(l.captures.reference_bytes)));
+    bl.value_bytes = l.captures.document_bytes;
+    bl.owned_bytes = l.captures.owned_bytes;
+    bl.component_bytes =
+        qsizetype(std::min(std::uint64_t(bl.component_bytes), l.permissions.component_bytes));
+    bl.result_items = qsizetype(std::min(std::uint64_t(bl.result_items), l.result_items));
+    auto check_failure = [](selected_record_read::Failure f) {
+        if (f == selected_record_read::Failure::missing)
+            fail(F::missing);
+        if (f == selected_record_read::Failure::resource_limit)
+            fail(F::resource_limit);
+        fail(F::invalid_data);
+    };
+    std::optional<RecordedApplicationBundle> application;
+    std::optional<ApplicationHoldView> hold;
+    const ApplicationEnvelope *retained_command;
     if (q.use == ReferenceAuthorityUse::disclose_application) {
-        const std::array columns{Column{"operation_scope"},    Column{"operation_ref"},
-                                 Column{"receipt_id", 1},      Column{"contribution_id", 1},
-                                 Column{"plan_ref"},           Column{"plan_revision", 1},
-                                 Column{"choices_format_ref"}, Column{"choices_document"}};
-        row = select(s, "subathon_app_operations", columns, "operation_scope=? AND operation_ref=?",
-                     {blob(key.operation_scope), blob(key.operation_ref)}, bounded, selected);
+        auto result = selected_record_read::read_application(s, key, bl);
+        if (auto f = std::get_if<selected_record_read::Failure>(&result))
+            check_failure(*f);
+        application = std::move(std::get<RecordedApplicationBundle>(result));
+        const auto &intent = application->intent;
+        data(intent.operation.operation_scope == key.operation_scope &&
+             intent.operation.operation_ref == key.operation_ref &&
+             intent.receipt_id == q.captured.receipt_id &&
+             intent.contribution_id == std::optional<ContributionId>{q.captured.contribution_id} &&
+             intent.plan.plan_ref == q.captured.plan.plan_ref &&
+             intent.plan.revision == q.captured.plan.revision);
+        retained_command = &intent.choices;
     } else {
-        const std::array columns{
-            Column{"command_scope"},      Column{"command_ref"},     Column{"source_receipt_id", 1},
-            Column{"contribution_id", 1}, Column{"plan_ref"},        Column{"plan_revision", 1},
-            Column{"command_format_ref"}, Column{"command_document"}};
-        row = select(s, "subathon_hold_causes", columns, "hold_ref=?", {blob(*q.historical_hold)},
-                     bounded, selected);
+        SqliteHoldLimits hl;
+        hl.references = bl;
+        hl.owned_bytes = l.captures.owned_bytes;
+        hl.result_items = qsizetype(std::min(std::uint64_t(hl.result_items), l.result_items));
+        auto result = selected_record_read::read_hold(s, *q.historical_hold, hl);
+        if (auto f = std::get_if<selected_record_read::Failure>(&result))
+            check_failure(*f);
+        hold = std::move(std::get<ApplicationHoldView>(result));
+        const auto &cause = hold->cause;
+        data(cause.command.operation.operation_scope == key.operation_scope &&
+             cause.command.operation.operation_ref == key.operation_ref &&
+             cause.source.receipt_id == q.captured.receipt_id &&
+             std::holds_alternative<ContributionId>(cause.source.subject.id) &&
+             std::get<ContributionId>(cause.source.subject.id) == q.captured.contribution_id &&
+             cause.plan_evidence.plan &&
+             cause.plan_evidence.plan->plan_ref == q.captured.plan.plan_ref &&
+             cause.plan_evidence.plan->revision == q.captured.plan.revision &&
+             cause.source.arrival_context_ref == q.captured.arrival_context_ref);
+        retained_command = &cause.command.intent;
     }
-    if (!row)
-        fail(F::missing);
-    const auto &r = *row;
-    data(view(r, 0) == key.operation_scope && view(r, 1) == key.operation_ref &&
-         unsigned_value(r, 2) == q.captured.receipt_id.value &&
-         unsigned_value(r, 3) == q.captured.contribution_id.value &&
-         view(r, 4) == q.captured.plan.plan_ref &&
-         unsigned_value(r, 5) == q.captured.plan.revision);
     ApplicationServiceLimits sl;
     sl.reference_bytes = qsizetype(l.reference_bytes);
     sl.storage_document_bytes = l.captures.document_bytes;
@@ -1519,7 +1569,7 @@ void historical(const SqliteWorkSession &s, const ReferenceAuthorityRequest &q,
     sl.intermediate_items = qsizetype(l.result_items);
     OriginalApplicationCommand command;
     try {
-        command = service_detail::decode_retained_command({text(r, 6), r[7].toByteArray()}, sl);
+        command = service_detail::decode_retained_command(*retained_command, sl);
     } catch (const ApplicationServiceInputFailure &e) {
         if (e.error() == ApplicationServiceInputError::result_limit)
             fail(F::resource_limit);
@@ -1541,24 +1591,6 @@ void historical(const SqliteWorkSession &s, const ReferenceAuthorityRequest &q,
     for (unsigned char v : b.substr(4, 4))
         len = (len << 8) | v;
     data(b.size() - 8 == len && b.substr(8) == q.captured.execution_context_ref);
-    // The full owning reader validates the actual record closure. No selected
-    // mutable current state is substituted for the historical source.
-    if (q.use == ReferenceAuthorityUse::disclose_application) {
-        SqliteBundleLimits bl;
-        bl.reference_bytes = qsizetype(l.reference_bytes);
-        bl.value_bytes = l.captures.document_bytes;
-        bl.owned_bytes = l.captures.owned_bytes;
-        auto stored = SqliteApplicationBundleStore(s, bl).lookup(key);
-        data(stored.has_value());
-    } else {
-        SqliteHoldLimits hl;
-        hl.references.reference_bytes = qsizetype(l.reference_bytes);
-        hl.references.value_bytes = l.captures.document_bytes;
-        hl.owned_bytes = l.captures.owned_bytes;
-        auto stored = SqliteApplicationHoldStore(s, hl).find(*q.historical_hold);
-        data(stored.has_value());
-        data(stored->cause.source.arrival_context_ref == q.captured.arrival_context_ref);
-    }
 }
 } // namespace
 ReferenceAuthorityFacts
@@ -1583,7 +1615,7 @@ SqliteReferenceAuthorityUnit::Impl::resolve(const ReferenceAuthorityRequest &q) 
         !enabled(g, rec.execution_account))
         fail(F::denied);
     auto request = concrete(rec.binding, unsigned(q.use), limits);
-    auto action = singleton(request);
+    auto action = singleton(request, limits);
     Hash ah("RAA1");
     ah.field(rec.binding.installation);
     ah.integer(rec.head_revision, 8);
