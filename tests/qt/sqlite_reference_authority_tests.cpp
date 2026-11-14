@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "support/sqlite_reference_authority_fixture.hpp"
+#include "support/sqlite_selected_record_fixture.hpp"
 #include <limits>
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
 
@@ -1712,6 +1713,279 @@ class SqliteReferenceAuthorityTests final : public QObject {
                 require(caught, "No actual historical key cannot become empty known disclosure");
             });
             require(registry_rows(o) == before, "Missing-key input refusal has zero writes");
+        });
+    }
+    // ACCESS-011 supplemental selected historical composition, revision 1.
+    // Authored only: the independent tier A review must precede body execution.
+    void selectedHistoricalPayloadPreflightKeepsCallerTicket_data() {
+        QTest::addColumn<bool>("hold");
+        QTest::addColumn<QStringList>("poison");
+        QTest::addColumn<QString>("truth");
+        QTest::addColumn<bool>("aggregate");
+        QTest::newRow("application-result-document")
+            << false << QStringList{"UPDATE subathon_app_results SET document=zeroblob(1048577)"}
+            << "SELECT length(document) FROM subathon_app_results" << false;
+        QTest::newRow("application-audit-document")
+            << false << QStringList{"UPDATE subathon_app_audit SET document=zeroblob(1048577)"}
+            << "SELECT length(document) FROM subathon_app_audit" << false;
+        QTest::newRow("hold-first-detection-audit")
+            << true
+            << QStringList{"UPDATE subathon_hold_detections SET audit_document=zeroblob(1048577)"}
+            << "SELECT length(audit_document) FROM subathon_hold_detections" << false;
+        QTest::newRow("hold-cause-observation")
+            << true
+            << QStringList{"UPDATE subathon_hold_cause_observations SET document=zeroblob(1048577)"}
+            << "SELECT length(document) FROM subathon_hold_cause_observations" << false;
+        QTest::newRow("application-aggregate-before-any-document")
+            << false
+            << QStringList{"UPDATE subathon_app_results SET document=zeroblob(200000)",
+                           "UPDATE subathon_app_audit SET document=zeroblob(200000)",
+                           "UPDATE subathon_app_states SET document=zeroblob(200000) WHERE "
+                           "token=X'5331'"}
+            << "SELECT (SELECT length(document) FROM subathon_app_results)+"
+               "(SELECT length(document) FROM subathon_app_audit)+"
+               "(SELECT length(document) FROM subathon_app_states WHERE token=X'5331')"
+            << true;
+        QTest::newRow("hold-aggregate-before-any-document")
+            << true
+            << QStringList{"UPDATE subathon_hold_cause_observations SET document=zeroblob(200000)",
+                           "UPDATE subathon_hold_detection_observations SET "
+                           "document=zeroblob(200000)",
+                           "UPDATE subathon_hold_detections SET audit_document=zeroblob(200000)"}
+            << "SELECT (SELECT length(document) FROM subathon_hold_cause_observations)+"
+               "(SELECT length(document) FROM subathon_hold_detection_observations)+"
+               "(SELECT length(audit_document) FROM subathon_hold_detections)"
+            << true;
+    }
+    void selectedHistoricalPayloadPreflightKeepsCallerTicket() {
+        QFETCH(bool, hold);
+        QFETCH(QStringList, poison);
+        QFETCH(QString, truth);
+        QFETCH(bool, aggregate);
+        scenario([&] {
+            Database d;
+            seed_history(d, hold);
+            SqliteWriter reader;
+            // 128 KiB is above the literal base's small scalar/command/capture/
+            // graph closure, but BELOW every poisoned payload. Base is checked
+            // separately on the same reopened writer; no measured failing-run
+            // size is used to derive either limit or expected result.
+            selected_record_fixture::reopen(d, reader, 131072);
+            ReferenceAuthorityLimits limits;
+            if (aggregate)
+                limits.captures.owned_bytes = 524288;
+            selected_record_fixture::healthy(reader, d.path, hold, limits, [&](const auto &r) {
+                selected_record_fixture::disclosure(r, hold);
+            });
+            corrupt(d.path, poison);
+            Observer observer(d.path);
+            const auto poisoned = observer.rows(truth);
+            require(poisoned.size() == 1 &&
+                        poisoned[0][0].toLongLong() == (aggregate ? 600000 : 1048577),
+                    "Real selected non-command payload mutation, literal bytes not decoder output");
+            // Single: 1048577 > document262144. Aggregate: three individually
+            // legal200000 documents total600000 > owned524288. Loading even
+            // ONE200000 document exceeds the writer's131072 cumulative budget.
+            selected_record_fixture::healthy(reader, d.path, hold, limits,
+                                             [](const auto &r) { failure(r, F::resource_limit); });
+            require(observer.rows(truth) == poisoned,
+                    "Healthy local refusal neither repairs nor erases selected stored data");
+        });
+    }
+    void selectedHistoricalCorruptionIsHealthyInvalidData_data() {
+        QTest::addColumn<bool>("hold");
+        QTest::addColumn<QString>("poison");
+        QTest::addColumn<QString>("restore");
+        QTest::addColumn<QString>("truth");
+        QTest::newRow("application-full-record-count")
+            << false << "UPDATE subathon_app_results SET component_count=2"
+            << "UPDATE subathon_app_results SET component_count=3"
+            << "SELECT component_count FROM subathon_app_results";
+        QTest::newRow("application-non-command-envelope-class")
+            << false << "UPDATE subathon_app_results SET format_ref='opaque.result'"
+            << "UPDATE subathon_app_results SET format_ref=X'6f70617175652e726573756c74'"
+            << "SELECT typeof(format_ref),hex(format_ref) FROM subathon_app_results";
+        QTest::newRow("application-nested-exact-denominator")
+            << false << "UPDATE subathon_app_effects SET exact_denominator=X'30'"
+            << "UPDATE subathon_app_effects SET exact_denominator=X'31'"
+            << "SELECT hex(exact_denominator) FROM subathon_app_effects";
+        QTest::newRow("hold-full-cause-occurrence-count")
+            << true << "UPDATE subathon_hold_causes SET occurrence_count=2"
+            << "UPDATE subathon_hold_causes SET occurrence_count=1"
+            << "SELECT occurrence_count FROM subathon_hold_causes";
+        QTest::newRow("hold-non-command-audit-envelope")
+            << true << "UPDATE subathon_hold_detections SET audit_format_ref=X''"
+            << "UPDATE subathon_hold_detections SET audit_format_ref=X'6f70617175652e6175646974'"
+            << "SELECT typeof(audit_format_ref),hex(audit_format_ref) FROM "
+               "subathon_hold_detections";
+    }
+    void selectedHistoricalCorruptionIsHealthyInvalidData() {
+        QFETCH(bool, hold);
+        QFETCH(QString, poison);
+        QFETCH(QString, restore);
+        QFETCH(QString, truth);
+        scenario([&] {
+            Database d;
+            seed_history(d, hold);
+            selected_record_fixture::healthy(d.writer, d.path, hold, {}, [&](const auto &r) {
+                selected_record_fixture::disclosure(r, hold);
+            });
+            Observer observer(d.path);
+            const auto original = observer.rows(truth);
+            corrupt(d.path, {poison});
+            const auto poisoned = observer.rows(truth);
+            require(poisoned != original, "Actual selected stored corruption exists");
+            selected_record_fixture::healthy(d.writer, d.path, hold, {},
+                                             [](const auto &r) { failure(r, F::invalid_data); });
+            require(observer.rows(truth) == poisoned,
+                    "Reader leaves original corruption untouched");
+            corrupt(d.path, {restore});
+            require(observer.rows(truth) == original,
+                    "Literal repair restores original stored value");
+            selected_record_fixture::healthy(d.writer, d.path, hold, {}, [&](const auto &r) {
+                selected_record_fixture::disclosure(r, hold);
+            });
+        });
+    }
+    void selectedHistoricalLateSqlFailurePreservesOriginalWriterTruth_data() {
+        QTest::addColumn<bool>("hold");
+        QTest::addColumn<QString>("table");
+        QTest::newRow("application-nested-components") << false << "subathon_app_components";
+        QTest::newRow("hold-nested-detection-observation")
+            << true << "subathon_hold_detection_observations";
+    }
+    void selectedHistoricalLateSqlFailurePreservesOriginalWriterTruth() {
+        QFETCH(bool, hold);
+        QFETCH(QString, table);
+        scenario([&] {
+            Database d;
+            seed_history(d, hold);
+            selected_record_fixture::disclosure(d.resolve(selected_record_fixture::query(hold)),
+                                                hold);
+            Observer observer(d.path);
+            const auto registry = registry_rows(observer);
+            const auto state =
+                observer.rows("SELECT document FROM subathon_app_states WHERE token=X'5330'");
+            corrupt(d.path, {"DROP TABLE " + table});
+            bool reached = false;
+            // Typed exception checks MUST happen inside actual work. d.work/run
+            // translate exceptions on the test thread and cannot prove this type.
+            const auto result =
+                account_sessions_fixture::outcome(d.writer, [&](auto c) -> QVariant {
+                    const auto s = c.begin();
+                    Cleanup cleanup{s};
+                    (void)s.execute({"UPDATE subathon_app_states SET document=X'63616c6c6572' "
+                                     "WHERE token=X'5330'",
+                                     {}});
+                    SqliteReferenceAuthorityUnit unit(s);
+                    work_failure([&] { (void)unit.resolve(selected_record_fixture::query(hold)); },
+                                 WorkError::sql_failure);
+                    work_failure([&] { (void)s.execute({"SELECT 1", {}}); },
+                                 WorkError::session_closed);
+                    work_failure([&] { (void)unit.read("I", "K"); }, WorkError::session_closed);
+                    reached = true;
+                    return 99;
+                });
+            require(
+                reached && result.error == WorkError::sql_failure &&
+                    result.transaction == TransactionOutcome::rolled_back && !result.value &&
+                    registry_rows(observer) == registry &&
+                    observer.rows("SELECT document FROM subathon_app_states WHERE token=X'5330'") ==
+                        state,
+                "First original SQL failure survives later session_closed; rollback, no completion "
+                "value");
+        });
+    }
+    void selectedHoldClosureIgnoresOnlyUnselectedHistory_data() {
+        QTest::addColumn<QString>("poison");
+        QTest::addColumn<bool>("selected");
+        QTest::newRow("unselected-v2-producer-reference")
+            << "UPDATE subathon_hold_versions SET mutation_ref=X'3f' WHERE version_ref=X'7632'"
+            << false;
+        QTest::newRow("unselected-d2-event-reference")
+            << "UPDATE subathon_hold_detections SET proposed_version_ref=X'3f' WHERE "
+               "mutation_ref=X'6432'"
+            << false;
+        QTest::newRow("selected-direct-parent-v3-state")
+            << "UPDATE subathon_hold_versions SET state=9 WHERE version_ref=X'7633'" << true;
+        QTest::newRow("selected-first-detection-audit")
+            << "UPDATE subathon_hold_detections SET audit_format_ref=X'' WHERE "
+               "mutation_ref=X'646574656374696f6e'"
+            << true;
+        QTest::newRow("selected-current-producer-audit")
+            << "UPDATE subathon_hold_detections SET audit_format_ref=X'' WHERE mutation_ref=X'6434'"
+            << true;
+    }
+    void selectedHoldClosureIgnoresOnlyUnselectedHistory() {
+        QFETCH(QString, poison);
+        QFETCH(bool, selected);
+        scenario([&] {
+            Database d;
+            selected_record_fixture::four_detections(d);
+            selected_record_fixture::healthy(d.writer, d.path, true, {}, [](const auto &r) {
+                selected_record_fixture::disclosure(r, true);
+            });
+            Observer observer(d.path);
+            const auto sql = "SELECT * FROM subathon_hold_versions ORDER BY position";
+            const auto events = "SELECT * FROM subathon_hold_detections ORDER BY mutation_ref";
+            const auto old_versions = observer.rows(sql), old_events = observer.rows(events);
+            corrupt(d.path, {poison});
+            const auto versions = observer.rows(sql), detections = observer.rows(events);
+            require(versions != old_versions || detections != old_events,
+                    "Real poisoned history row remains present in disposable database");
+            selected_record_fixture::healthy(d.writer, d.path, true, {}, [&](const auto &r) {
+                if (selected)
+                    failure(r, F::invalid_data);
+                else
+                    selected_record_fixture::disclosure(r, true);
+            });
+            require(observer.rows(sql) == versions && observer.rows(events) == detections,
+                    "Selected read validates its finite closure, never repairs unselected history");
+        });
+    }
+    void selectedHistoryStillRequiresFreshOwningReadAuthority_data() {
+        QTest::addColumn<bool>("hold");
+        QTest::addColumn<int>("gate");
+        for (bool hold : {false, true}) {
+            const QByteArray prefix = hold ? "hold-" : "application-";
+            QTest::newRow((prefix + "author-read-grant").constData()) << hold << 0;
+            QTest::newRow((prefix + "execution-read-use").constData()) << hold << 1;
+            QTest::newRow((prefix + "actual-capture").constData()) << hold << 2;
+        }
+    }
+    void selectedHistoryStillRequiresFreshOwningReadAuthority() {
+        QFETCH(bool, hold);
+        QFETCH(int, gate);
+        scenario([&] {
+            Database d;
+            seed_history(d, hold);
+            const auto q = selected_record_fixture::query(hold);
+            selected_record_fixture::disclosure(d.resolve(q), hold);
+            if (gate < 2) {
+                auto g = graph(gate == 0);
+                auto &entries = g.accounts[gate == 0 ? 0 : 1].individual_entries;
+                entries.erase(entries.begin() + (hold ? 2 : 1));
+                d.replace_graph(gate == 0 ? 1 : 0, g);
+                // Execute remains independently permitted on actual current facts.
+                permitted(facts(d.resolve()));
+                selected_record_fixture::healthy(d.writer, d.path, hold, {},
+                                                 [](const auto &r) { failure(r, F::denied); });
+                d.replace_graph(gate == 0 ? 1 : 0, graph(gate == 0));
+                selected_record_fixture::healthy(d.writer, d.path, hold, {}, [&](const auto &r) {
+                    selected_record_fixture::disclosure(r, hold, 3);
+                });
+            } else {
+                // Today's different candidate cannot stand in for actual history.
+                auto wrong = q;
+                wrong.captured.rule.timer_ref = "other";
+                failure(d.resolve(wrong), F::invalid_data);
+                // Corrupt the ACTUAL retained execution record, not a fake source.
+                corrupt(
+                    d.path,
+                    {"UPDATE subathon_retained_contexts SET document=X'00' WHERE reference=X'59'"});
+                selected_record_fixture::healthy(
+                    d.writer, d.path, hold, {}, [](const auto &r) { failure(r, F::invalid_data); });
+            }
         });
     }
 };
