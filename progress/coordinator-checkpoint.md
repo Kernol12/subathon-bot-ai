@@ -1085,3 +1085,25 @@ stillpending; no newruntime/testing/briefcleanup/productworkorautomaticHEexcepti
 Next boundedlarge Bexecutionresweep, rootreliance59tasksemanticcorrection, privacy/
 publication-compositionproposal; coordinator owns sharedmetadata/integration and small
 fixes. Independent verification andfreshclosing follow actualcorrectedpacketbytes.
+
+Independent A correctionverification dispatchca07d959-167a-4999-9049-046c7e5b1b31
+rejectedFA-V01omittedreview-base/supersededrecords andFA-V02fivealiasedold_blockers
+snapshots, plusV03activeHEscope/V04two0644files. Rolecodex:migrate004-finite-a-correction-
+verification:/root; report69579258e4aaeee3fc170956036a048c1a80aab420323724bd057c89b0853e8b,
+public6874288158. All419identity/hash/order/rawclaim/rangesandexplicitalreadyprojected
+fieldbindings verified; no rowadmitted. Priorcorrectionpacket65477164 preservedunchanged.
+Coordinatorfinite-a-rechecked fixes7omittedoriginalfields with exactoriginalJSONpointers/
+raw-valuehashes/safeactualcontent; all419old_blockers/old_limitations/old_HEsnapshots
+deepcopiedexactfromimmutablefiniteinput andcheckedalongsideboundoriginalrowhashes.
+Newfindingsstaycurrent; rejectedwrongbytes retainedseparatelybyhash+unchangedprivate
+packet, notsilentlyrewritten. ActiveA123/185/191limitations/blockersnowonlytracedHE02/
+05/06, all6oldtexts retainedhistory; A263/413unchanged. Allfiles0600/dirs0700, including
+priorcandidatecustodyfix. InitialhelperparsefailedonA001laneidbeforeoutputwrite; fixed
+explicitprefixparsing andcompleteddataassertions, nottest/red. NewrowsSHA256
+d5a21f8a0174cf7a067f770e6a1173fd1b04da7f505d717bf6f50473fcd8d741;
+report5726ad7a22a97f947a46d2c84d406ed2f1ad2bf9f45882fe5ee060533c264a9b,
+public6874291929; allnewpacket files ignoredlocalevidence copied. No privacy/publication/
+roleadmission/source/runtimechange. NextfreshindependentCodexrecheck thenfreshClaude
+closing. Large B originalexecutionreanalysis dispatch279e10b7 and rootreliance semantic
+correction dispatch77da9e2a continue; actualsourcebinding/privatefulltree/remoteavailability/
+STATUSII03/canonical/CI/protectedmergegates remain, no automaticnewHEexceptions.
