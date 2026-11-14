@@ -56,10 +56,13 @@ Owner decisions are recorded in #249, comment 6879902355:
   proof/publication and final-head7/7 CI passed. Owner-approved PG-B01 correction
   and historical rejections remain recorded in the PR and proof.
 - ACCESS-011 (#649), branch `task/ACCESS-011-reference-authority`, claimed after
-  #646 merge. First stage: concrete original-author/capability registry ownership,
-  bootstrap and finite callback read contract, examples and real-SQL tests.
-  A fresh author session will own the bounded public API/schema and tests; no
-  implementation or test-body execution before its tier A tests review.
+  #646 merge. Contract/schema/API/NI and42 test methods authored at22c7753b.
+  Initial Claude tests review requested changes (RA-T01–T05). Coordinator fix
+  round1 adds the capability-history index, typed-failure checks, complete
+  channel/binding/current-revision oracles and callback limit/order cases.
+  Proposed contract revision2 is272 lines;47 methods compile/link and list cleanly.
+  No bodies/red have run; independent Codex verification and fresh Claude closing
+  remain before integration/red. All new behavior stays unconditional NI.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 is reserved for this registry after compiled permission step9;
   preserve all shipped prefix bytes. Full #249 integration remains open. RULES-006
@@ -70,10 +73,12 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Author ACCESS-011's contract/examples and independent real-store tests in a fresh
-session. Reuse actual account/session and complete permission-graph sources; do not
-treat a principal ref, supplied ResolvedAccountSession or retained document as an
-authentication capability. Contract any finite read-view extension before behavior.
-Then full tier A tests review, intended red, fresh implementation and code review.
+Obtain ACCESS-011 independent Codex tests verification and fresh Claude closing
+after fix round1 (of2). Preserve the initial rejection. Reuse actual account/session
+and complete graph sources; a principal ref, resolved-session DTO or retained
+document is not authentication. Only after test approval integrate the opt-in red
+target and observe every method/data row at its own NI call. Then use a DIFFERENT
+fresh implementation session and full tier A code review. Unapplied build/private
+state proposals still need integration, service ceilings and actual source audit.
 Preserve current original-author, scope, revision and full release requirements;
 stop if an additional substantial prerequisite falls outside #649's bounded scope.

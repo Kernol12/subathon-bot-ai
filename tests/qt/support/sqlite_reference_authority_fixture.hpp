@@ -76,7 +76,9 @@ inline MigrationStep step10(const MigrationManifest &prefix) {
         "FOREIGN KEY(installation_ref,capability_ref) REFERENCES "
         "subathon_reference_authority_bindings(installation_ref,capability_ref), FOREIGN "
         "KEY(installation_ref,actor_ref) "
-        "REFERENCES subathon_accounts(installation_ref,account_ref))"};
+        "REFERENCES subathon_accounts(installation_ref,account_ref))",
+        "CREATE INDEX subathon_reference_authority_events_capability_idx ON "
+        "subathon_reference_authority_events(installation_ref,capability_ref,revision)"};
     s.expected_schema = prefix.steps.back().expected_schema;
     const QStringList names{"subathon_reference_authority_head",
                             "subathon_reference_authority_bindings",
@@ -86,6 +88,8 @@ inline MigrationStep step10(const MigrationManifest &prefix) {
         s.expected_schema.append(
             {"index", "sqlite_autoindex_" + names[i] + "_1", names[i], std::nullopt});
     }
+    s.expected_schema.append({"index", "subathon_reference_authority_events_capability_idx",
+                              "subathon_reference_authority_events", s.sql[3]});
     std::sort(s.expected_schema.begin(), s.expected_schema.end(), [](const auto &a, const auto &b) {
         return std::tie(a.type, a.name) < std::tie(b.type, b.name);
     });
@@ -502,7 +506,8 @@ automation_revision(std::uint64_t head = 3, std::uint64_t event = 3,
     return (QByteArray("RAA1") + QCryptographicHash::hash(b, QCryptographicHash::Sha256))
         .toStdString();
 }
-inline std::string permission_revision(std::uint64_t graph_head = 1, std::uint64_t head = 3) {
+inline std::string permission_revision(std::uint64_t graph_head = 1, std::uint64_t head = 3,
+                                       std::uint64_t event = 3) {
     QByteArray b = QByteArray::fromHex("524152310000000149"); // RAR1+B(I)
     b += encoded(graph_head);
     b += QByteArray::fromHex("000000177065726d697373696f6e2d7265666572656e63652d7631"
@@ -510,7 +515,7 @@ inline std::string permission_revision(std::uint64_t graph_head = 1, std::uint64
                              "00000001410000000165000000017601"
                              "00000001450000000165000000017601"
                              "000000014f0000000165000000017601");
-    const auto a = automation_revision(head, head);
+    const auto a = automation_revision(head, event);
     // B uses u32be (not graph codec's u64 lengths).
     auto n = static_cast<std::uint32_t>(a.size());
     for (int shift = 24; shift >= 0; shift -= 8)

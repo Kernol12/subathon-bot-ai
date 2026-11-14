@@ -304,6 +304,36 @@ class SqliteReferenceAuthorityTests final : public QObject {
                     QByteArray::fromHex(
                         "524152315be6a4fcf06d56d6bbea169f8f8f28388f9fffb3a9be782c6932135911136438"),
                 "Literal RAR1 complete graph/account/install and automation preimage");
+            require(
+                blob(automation_revision(4, 3)) ==
+                    QByteArray::fromHex(
+                        "5241413198ef827cd1e3afb0328a33188c1347fc82560c04b29881e6d9d4f9bf9cb917eb"),
+                "Independent literal automation fingerprint at head4/event3");
+            require(
+                blob(permission_revision(1, 4, 3)) ==
+                    QByteArray::fromHex(
+                        "524152319992cb2f50e5bb50ca58e180b5bc20018637428658b092df03a89d157efe6d28"),
+                "Independent literal permission fingerprint at head4/event3");
+            require(
+                blob(automation_revision(4, 4)) ==
+                    QByteArray::fromHex(
+                        "5241413108afbcd6689fcb39093f8d6c1949cab1992b633d4ac70ac29d87f5711ded3d3a"),
+                "Independent literal automation fingerprint at head4/event4");
+            require(
+                blob(permission_revision(1, 4, 4)) ==
+                    QByteArray::fromHex(
+                        "5241523174940df17a268017f0fc6235e36c1022356ed23ae2111ba50aee8674ee1bb108"),
+                "Independent literal permission fingerprint at head4/event4");
+            require(
+                blob(automation_revision(5, 5)) ==
+                    QByteArray::fromHex(
+                        "524141316df9d25cbfa69c568cbfa575c835d78d5730906210e5f5e64b626baf7e4c84dd"),
+                "Independent literal automation fingerprint at head5/event5");
+            require(
+                blob(permission_revision(1, 5, 5)) ==
+                    QByteArray::fromHex(
+                        "524152317d29109d1bd190e0355df41f2815c53d15891793e29542b518850449842e36ec"),
+                "Independent literal permission fingerprint at head5/event5");
             Database d;
             exact(facts(d.resolve()));
         });
@@ -402,44 +432,103 @@ class SqliteReferenceAuthorityTests final : public QObject {
     }
     void enrollmentRequiresManagementAndWholeAuthorUseAndGrant_data() {
         QTest::addColumn<int>("channel");
+        QTest::addColumn<int>("account_index");
         QTest::addColumn<int>("entry_index");
-        QTest::newRow("management") << 0 << 3;
-        QTest::newRow("use") << 0 << 0;
-        QTest::newRow("grant") << 1 << 0;
+        QTest::newRow("management") << 0 << 0 << 3;
+        for (int i = 0; i < 3; ++i) {
+            QTest::newRow(qPrintable(QString("author-use-%1").arg(i))) << 0 << 0 << i;
+            QTest::newRow(qPrintable(QString("author-grant-%1").arg(i))) << 1 << 0 << i;
+            QTest::newRow(qPrintable(QString("execution-use-%1").arg(i))) << 0 << 1 << i;
+        }
     }
     void enrollmentRequiresManagementAndWholeAuthorUseAndGrant() {
         QFETCH(int, channel);
+        QFETCH(int, account_index);
         QFETCH(int, entry_index);
         scenario([&] {
             Database d(false);
             auto g = graph(channel == 1);
-            g.accounts[0].individual_entries.erase(g.accounts[0].individual_entries.begin() +
-                                                   entry_index);
+            auto &entries = g.accounts[account_index].individual_entries;
+            entries.erase(entries.begin() + entry_index);
             d.replace_graph(channel, g);
-            d.work([&](const auto &s) {
-                SqliteReferenceAuthorityUnit u(s);
+            d.work([&](const auto &session) {
+                SqliteReferenceAuthorityUnit u(session);
                 staged(u.bootstrap(actor('O'), d.clock), 1);
-                failed(u.enroll(actor(), d.clock, 1, binding(), "E"), F::denied);
             });
             Observer o(d.path);
-            require(o.rows("SELECT * FROM subathon_reference_authority_bindings").isEmpty(),
-                    "No partial enrollment");
+            const auto before = registry_rows(o);
+            d.work([&](const auto &session) {
+                SqliteReferenceAuthorityUnit u(session);
+                failed(u.enroll(actor(), d.clock, 1, binding(), "E"), F::denied);
+            });
+            require(registry_rows(o) == before, "Every capability required; no enrollment writes");
         });
     }
+    void authorizationRevalidatesEveryAuthorAndExecutionCapability_data() {
+        QTest::addColumn<int>("channel");
+        QTest::addColumn<int>("account_index");
+        QTest::addColumn<int>("entry_index");
+        for (int i = 0; i < 3; ++i) {
+            QTest::newRow(qPrintable(QString("author-use-%1").arg(i))) << 0 << 0 << i;
+            QTest::newRow(qPrintable(QString("author-grant-%1").arg(i))) << 1 << 0 << i;
+            QTest::newRow(qPrintable(QString("execution-use-%1").arg(i))) << 0 << 1 << i;
+        }
+    }
+    void authorizationRevalidatesEveryAuthorAndExecutionCapability() {
+        QFETCH(int, channel);
+        QFETCH(int, account_index);
+        QFETCH(int, entry_index);
+        scenario([&] {
+            Database d;
+            // Independently return the registry to its original pending enrollment.
+            d.work([](const auto &session) {
+                (void)session.execute({"DELETE FROM subathon_reference_authority_events WHERE "
+                                       "revision=X'0000000000000003'",
+                                       {}});
+                (void)session.execute({"UPDATE subathon_reference_authority_head SET "
+                                       "revision=X'0000000000000002'",
+                                       {}});
+            });
+            auto g = graph(channel == 1);
+            auto &entries = g.accounts[account_index].individual_entries;
+            entries.erase(entries.begin() + entry_index);
+            d.replace_graph(channel, g);
+            Observer o(d.path);
+            const auto before = registry_rows(o);
+            d.work([&](const auto &session) {
+                SqliteReferenceAuthorityUnit u(session);
+                failed(u.set_state(actor('O'), d.clock, 2, "K", S::authorized), F::denied);
+            });
+            require(registry_rows(o) == before, "Authorization rechecks all three; zero writes");
+        });
+    }
+    void ownerCannotRevokeWithoutDelegationEvenForRestrictiveChange_data() {
+        QTest::addColumn<int>("entry_index");
+        QTest::addColumn<bool>("revoke");
+        for (int i = 0; i < 3; ++i) {
+            QTest::newRow(qPrintable(QString("authorize-missing-%1").arg(i))) << i << false;
+            QTest::newRow(qPrintable(QString("revoke-missing-%1").arg(i))) << i << true;
+        }
+    }
     void ownerCannotRevokeWithoutDelegationEvenForRestrictiveChange() {
-        scenario([] {
+        QFETCH(int, entry_index);
+        QFETCH(bool, revoke);
+        scenario([&] {
             Database d;
             auto g = graph(true);
-            g.accounts[2].individual_entries.clear();
+            auto &entries = g.accounts[2].individual_entries;
+            entries.erase(entries.begin() + entry_index);
             d.replace_graph(1, g);
             Observer o(d.path);
             const auto before = registry_rows(o);
-            d.work([&](const auto &s) {
-                SqliteReferenceAuthorityUnit u(s);
-                failed(u.set_state(actor('O'), d.clock, 3, "K", S::revoked), F::denied);
+            d.work([&](const auto &session) {
+                SqliteReferenceAuthorityUnit u(session);
+                failed(
+                    u.set_state(actor('O'), d.clock, 3, "K", revoke ? S::revoked : S::authorized),
+                    F::denied);
             });
             require(registry_rows(o) == before,
-                    "Restrictive change still requires current management+whole delegation");
+                    "Even one missing capability blocks authorization or restrictive revocation");
         });
     }
     void revokeReauthorizeAndCollisionPreserveImmutableHistoricalIdentity() {
@@ -447,6 +536,9 @@ class SqliteReferenceAuthorityTests final : public QObject {
             Database d;
             Observer o(d.path);
             const auto old = o.rows("SELECT * FROM subathon_reference_authority_bindings");
+            const auto initial = o.rows("SELECT * FROM subathon_reference_authority_events "
+                                        "WHERE revision=X'0000000000000002'");
+            const auto first = facts(d.resolve());
             d.work([&](const auto &s) {
                 SqliteReferenceAuthorityUnit u(s);
                 staged(u.set_state(actor('O'), d.clock, 3, "K", S::revoked), 4);
@@ -464,11 +556,119 @@ class SqliteReferenceAuthorityTests final : public QObject {
                             v.head_revision == 5,
                         "Owner reauthorization cannot become original author");
                 const auto resolved = u.resolve(request());
-                permitted(facts(resolved));
+                const auto &next = facts(resolved);
+                permitted(next);
+                require(next.automation_revision_ref == automation_revision(5, 5) &&
+                            next.permission_revision_ref == permission_revision(1, 5, 5) &&
+                            next.automation_revision_ref != first.automation_revision_ref &&
+                            next.permission_revision_ref != first.permission_revision_ref &&
+                            next.original_author_input.snapshot == next.permission_revision_ref &&
+                            next.permission_input.snapshot == next.permission_revision_ref,
+                        "Reauthorization fences include registry head and latest event, not policy "
+                        "alone");
             });
             require(o.rows("SELECT * FROM subathon_reference_authority_bindings") == old &&
+                        o.rows("SELECT * FROM subathon_reference_authority_events "
+                               "WHERE revision=X'0000000000000002'") == initial &&
                         o.rows("SELECT * FROM subathon_reference_authority_events").size() == 4,
                     "No overwritten original binding/events through lifecycle");
+        });
+    }
+    void unrelatedCapabilityEnrollmentChangesOnlyGlobalFingerprintFence() {
+        scenario([] {
+            Database d;
+            const auto first = facts(d.resolve());
+            Observer o(d.path);
+            const auto original_events = o.rows("SELECT * FROM subathon_reference_authority_events "
+                                                "WHERE capability_ref=X'4b' ORDER BY revision");
+            d.work([&](const auto &session) {
+                SqliteReferenceAuthorityUnit u(session);
+                auto other = binding();
+                other.capability = "L";
+                staged(u.enroll(actor(), d.clock, 3, other, "E"), 4);
+                const auto resolved = u.resolve(request());
+                const auto &next = facts(resolved);
+                permitted(next);
+                require(next.registry.head_revision == 4 && next.registry.state_revision == 3 &&
+                            next.automation_revision_ref == automation_revision(4, 3) &&
+                            next.permission_revision_ref == permission_revision(1, 4, 3) &&
+                            next.automation_revision_ref != first.automation_revision_ref &&
+                            next.permission_revision_ref != first.permission_revision_ref,
+                        "Unrelated enrollment changes global fence without changing K's event");
+            });
+            require(o.rows("SELECT * FROM subathon_reference_authority_events "
+                           "WHERE capability_ref=X'4b' ORDER BY revision") == original_events,
+                    "Original capability history is byte-unchanged");
+        });
+    }
+    void lifecycleInputMissingAndNoOpOutcomesAreExplicit() {
+        scenario([] {
+            Database d;
+            Observer o(d.path);
+            const auto before = registry_rows(o);
+            d.work([&](const auto &session) {
+                SqliteReferenceAuthorityUnit u(session);
+                bool caught = false;
+                try {
+                    (void)u.set_state(actor('O'), d.clock, 3, "K", S::pending);
+                } catch (const ReferenceAuthorityInputFailure &e) {
+                    caught = e.code() == F::invalid_data;
+                }
+                require(caught, "Pending is not a transition target");
+                failed(u.set_state(actor('O'), d.clock, 3, "absent", S::authorized), F::missing);
+                auto unsupported = binding();
+                unsupported.capability = "L";
+                unsupported.origin.provider = "unsupported.provider";
+                failed(u.enroll(actor(), d.clock, 3, unsupported, "E"), F::unavailable);
+            });
+            require(registry_rows(o) == before, "Invalid, absent and unsupported have zero writes");
+            d.work([&](const auto &session) {
+                SqliteReferenceAuthorityUnit u(session);
+                staged(u.set_state(actor('O'), d.clock, 3, "K", S::authorized), 4);
+                const auto resolved = u.resolve(request());
+                const auto &next = facts(resolved);
+                permitted(next);
+                require(next.registry.head_revision == 4 && next.registry.state_revision == 4 &&
+                            next.automation_revision_ref == automation_revision(4, 4) &&
+                            next.permission_revision_ref == permission_revision(1, 4, 4),
+                        "No-op authorization still appends an event and invalidates old results");
+            });
+        });
+    }
+    void bootstrapRequiresActualCurrentPermissionRoot_data() {
+        QTest::addColumn<int>("kind");
+        QTest::newRow("absent-complete-graph") << 0;
+        QTest::newRow("orphaned-graph-head") << 1;
+        QTest::newRow("corrupt-catalog") << 2;
+        QTest::newRow("unsupported-catalog") << 3;
+    }
+    void bootstrapRequiresActualCurrentPermissionRoot() {
+        QFETCH(int, kind);
+        scenario([&] {
+            Database d(false);
+            if (kind == 0) {
+                d.work([](const auto &session) {
+                    for (const auto *sql : {"DELETE FROM subathon_permission_accounts",
+                                            "DELETE FROM subathon_permission_roles",
+                                            "DELETE FROM subathon_permission_head"})
+                        (void)session.execute({sql, {}});
+                });
+            } else if (kind == 1)
+                corrupt(d.path, {"DELETE FROM subathon_permission_head"});
+            else if (kind == 2)
+                corrupt(d.path, {"UPDATE subathon_permission_head SET catalog=X'00'"});
+            else
+                corrupt(d.path, {"UPDATE subathon_permission_head SET catalog=CAST(replace(catalog,"
+                                 "X'7065726d697373696f6e2d7265666572656e63652d7631',"
+                                 "X'7065726d697373696f6e2d7265666572656e63652d7632') AS BLOB)"});
+            Observer o(d.path);
+            const auto before = registry_rows(o);
+            d.work([&](const auto &session) {
+                SqliteReferenceAuthorityUnit u(session);
+                failed(u.bootstrap(actor('O'), d.clock), kind == 0 ? F::missing : F::invalid_data);
+            });
+            require(registry_rows(o) == before,
+                    "Bootstrap never repairs or invents root authority");
         });
     }
     void staleCASHasZeroWritesAndRollbackCannotPublishProvisionalResults() {
@@ -572,7 +772,7 @@ class SqliteReferenceAuthorityTests final : public QObject {
             << "UPDATE subathon_permission_head SET owner_ref=X'3f'" << 1;
         QTest::newRow("catalog-corrupt")
             << "UPDATE subathon_permission_head SET catalog=X'00'" << 1;
-        QTest::newRow("graph-missing") << "DELETE FROM subathon_permission_head" << 2;
+        QTest::newRow("graph-head-orphaned") << "DELETE FROM subathon_permission_head" << 1;
         QTest::newRow("catalog-stale")
             << "UPDATE subathon_permission_head SET "
                "catalog=CAST(replace(catalog,X'7065726d697373696f6e2d7265666572656e63652d7631',X'"
@@ -655,11 +855,40 @@ class SqliteReferenceAuthorityTests final : public QObject {
     }
     void everyCapturedBindingMismatchRefuses_data() {
         QTest::addColumn<int>("field");
-        for (int i = 0; i < 19; ++i)
-            QTest::newRow(qPrintable(QString::number(i))) << i;
+        QTest::addColumn<int>("expected");
+        QTest::addColumn<bool>("input_failure");
+        const char *names[] = {"principal-installation",
+                               "principal",
+                               "capture-installation",
+                               "rule-principal",
+                               "capability",
+                               "rule",
+                               "rule-version",
+                               "action",
+                               "action-version",
+                               "timer",
+                               "provider",
+                               "source-account",
+                               "namespace",
+                               "opaque-event",
+                               "execution-ref",
+                               "arrival-ref",
+                               "plan",
+                               "amount",
+                               "plan-revision",
+                               "receipt",
+                               "contribution-zero",
+                               "principal-kind",
+                               "rule-automation-kind",
+                               "rule-installation"};
+        for (int i = 0; i < 24; ++i)
+            QTest::newRow(names[i]) << i << int(i == 4 || i == 13 ? F::missing : F::invalid_data)
+                                    << (i == 21 || i == 22);
     }
     void everyCapturedBindingMismatchRefuses() {
         QFETCH(int, field);
+        QFETCH(int, expected);
+        QFETCH(bool, input_failure);
         scenario([&] {
             Database d;
             auto r = request();
@@ -684,11 +913,34 @@ class SqliteReferenceAuthorityTests final : public QObject {
                 *fields[field] += "wrong";
             else if (field == 17)
                 ++r.captured.rule.add_ms;
-            else
+            else if (field == 18)
                 ++r.captured.plan.revision;
-            const auto v = d.resolve(r);
-            require(std::holds_alternative<F>(v.value),
-                    "No mismatched scope/source/amount/retained version becomes authority");
+            else if (field == 19)
+                ++r.captured.receipt_id.value;
+            else if (field == 20)
+                ++r.captured.contribution_id.value; // Actual present CID0 must not alias1.
+            else if (field == 21)
+                r.principal.kind = ApplicationPrincipalKind::account;
+            else if (field == 22)
+                r.captured.rule.automation.kind = ApplicationPrincipalKind::account;
+            else
+                r.captured.rule.automation.installation_ref += "wrong";
+            Observer o(d.path);
+            const auto before = registry_rows(o);
+            if (input_failure) {
+                d.work([&](const auto &session) {
+                    SqliteReferenceAuthorityUnit u(session);
+                    bool caught = false;
+                    try {
+                        (void)u.resolve(r);
+                    } catch (const ReferenceAuthorityInputFailure &e) {
+                        caught = e.code() == static_cast<F>(expected);
+                    }
+                    require(caught, "Non-automation inputs are exact shape failures");
+                });
+            } else
+                failure(d.resolve(r), static_cast<F>(expected));
+            require(registry_rows(o) == before, "Mismatched binding has zero writes");
         });
     }
     void retainedDocumentCannotSupplyMissingOriginalAuthorship() {
@@ -733,13 +985,19 @@ class SqliteReferenceAuthorityTests final : public QObject {
             l.result_items = out.items;
             exact(facts(d.resolve(request(), l)));
             --l.input_bytes;
-            bool caught = false;
-            try {
-                (void)d.resolve(request(), l);
-            } catch (const ReferenceAuthorityInputFailure &x) {
-                caught = x.code() == F::resource_limit;
-            }
-            require(caught, "Full input refused before SQL/copy");
+            Observer o(d.path);
+            const auto before = registry_rows(o);
+            d.work([&](const auto &session) {
+                SqliteReferenceAuthorityUnit u(session, l);
+                bool caught = false;
+                try {
+                    (void)u.resolve(request());
+                } catch (const ReferenceAuthorityInputFailure &x) {
+                    caught = x.code() == F::resource_limit;
+                }
+                require(caught, "Full input refused before SQL/copy");
+            });
+            require(registry_rows(o) == before, "Input refusal leaves the registry unchanged");
             l.input_bytes = in.bytes;
             --l.result_bytes;
             failure(d.resolve(request(), l), F::resource_limit);
@@ -880,11 +1138,15 @@ class SqliteReferenceAuthorityTests final : public QObject {
 
     void actualHistoricalApplicationAndHoldDisclosureAreSeparateAndFresh_data() {
         QTest::addColumn<bool>("hold");
-        QTest::newRow("application") << false;
-        QTest::newRow("hold") << true;
+        QTest::addColumn<bool>("execution");
+        QTest::newRow("application-author-grant") << false << false;
+        QTest::newRow("hold-author-grant") << true << false;
+        QTest::newRow("application-execution-use") << false << true;
+        QTest::newRow("hold-execution-use") << true << true;
     }
     void actualHistoricalApplicationAndHoldDisclosureAreSeparateAndFresh() {
         QFETCH(bool, hold);
+        QFETCH(bool, execution);
         scenario([&] {
             Database d;
             seed_history(d, hold);
@@ -904,12 +1166,11 @@ class SqliteReferenceAuthorityTests final : public QObject {
                     facts(first).original_author_input.actions.size() == 1 &&
                     facts(first).original_author_input.actions[0].quantities.empty(),
                 "Actual immutable historical record uses independent quantity-free read action");
-            // Execute still fits. Removing only the historical read grant must block
-            // disclosure even after a successful historical read and execute.
-            auto g = graph(true);
-            g.accounts[0].individual_entries.erase(g.accounts[0].individual_entries.begin() +
-                                                   (hold ? 2 : 1));
-            d.replace_graph(1, g);
+            // Execute still fits. Each read requires both author GRANT and subject USE.
+            auto g = graph(!execution);
+            auto &entries = g.accounts[execution ? 1 : 0].individual_entries;
+            entries.erase(entries.begin() + (hold ? 2 : 1));
+            d.replace_graph(execution ? 0 : 1, g);
             permitted(facts(d.resolve()));
             failure(d.resolve(r), F::denied);
             // Actual service callback resolves CURRENT registry and stored historical
@@ -1336,13 +1597,62 @@ class SqliteReferenceAuthorityTests final : public QObject {
                          ApplicationReferenceViewError::expired_callback);
         });
     }
+    void callbackCannotRaiseEnclosingServiceResultCeilings_data() {
+        QTest::addColumn<int>("ceiling");
+        QTest::newRow("reference") << 0;
+        QTest::newRow("storage-document") << 1;
+        QTest::newRow("intermediate-bytes") << 2;
+        QTest::newRow("intermediate-items") << 3;
+    }
     void callbackCannotRaiseEnclosingServiceResultCeilings() {
-        scenario([] {
+        QFETCH(int, ceiling);
+        scenario([&] {
             Database d;
             Probe p;
-            p.service_limits.intermediate_items = 1;
-            p.attempt(d);
+            if (ceiling == 0)
+                p.service_limits.reference_bytes = 39; // Full RSS1 needs40.
+            else if (ceiling == 1)
+                p.service_limits.storage_document_bytes = 1;
+            else if (ceiling == 2)
+                p.service_limits.intermediate_owned_bytes = 2439; // Facts need2440.
+            else
+                p.service_limits.intermediate_items = 130; // Facts need131.
+            p.attempt(d); // Probe supplies ordinary larger limits: it cannot raise these.
             failure(*p.result, F::resource_limit);
+        });
+    }
+    void callbackPreflightPrecedesDefaultAndExpiredViewChecks_data() {
+        QTest::addColumn<bool>("expired");
+        QTest::addColumn<bool>("bad_limits");
+        QTest::newRow("default-limits") << false << true;
+        QTest::newRow("default-input") << false << false;
+        QTest::newRow("expired-limits") << true << true;
+        QTest::newRow("expired-input") << true << false;
+    }
+    void callbackPreflightPrecedesDefaultAndExpiredViewChecks() {
+        QFETCH(bool, expired);
+        QFETCH(bool, bad_limits);
+        scenario([&] {
+            ApplicationReferenceReadView view;
+            Database d;
+            Probe p;
+            if (expired) {
+                p.attempt(d);
+                view = p.retained;
+            }
+            auto r = request();
+            ReferenceAuthorityLimits l;
+            if (bad_limits)
+                l.input_bytes = 0;
+            else
+                r.principal.principal_ref.clear();
+            bool caught = false;
+            try {
+                (void)view.resolve_reference_authority(r, l);
+            } catch (const ReferenceAuthorityInputFailure &e) {
+                caught = e.code() == F::invalid_data;
+            }
+            require(caught, "Complete limit/input preflight precedes expired callback checks");
         });
     }
 
@@ -1389,13 +1699,19 @@ class SqliteReferenceAuthorityTests final : public QObject {
             failure(d.resolve(r), F::missing);
             r = request();
             r.use = ReferenceAuthorityUse::disclose_application;
-            bool caught = false;
-            try {
-                (void)d.resolve(r);
-            } catch (const ReferenceAuthorityInputFailure &e) {
-                caught = e.code() == F::invalid_data;
-            }
-            require(caught, "No actual historical key cannot become empty known disclosure");
+            Observer o(d.path);
+            const auto before = registry_rows(o);
+            d.work([&](const auto &session) {
+                SqliteReferenceAuthorityUnit u(session);
+                bool caught = false;
+                try {
+                    (void)u.resolve(r);
+                } catch (const ReferenceAuthorityInputFailure &e) {
+                    caught = e.code() == F::invalid_data;
+                }
+                require(caught, "No actual historical key cannot become empty known disclosure");
+            });
+            require(registry_rows(o) == before, "Missing-key input refusal has zero writes");
         });
     }
 };

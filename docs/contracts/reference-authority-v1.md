@@ -1,11 +1,19 @@
 # Reference authority registry v1
 
-ACCESS-011, proposed contract/test stage; no runtime authority is implemented here.
+ACCESS-011, proposed contract/test revision2; no runtime authority is implemented here.
 Public API detail: `server/include/subathon/server/sqlite_reference_authority.hpp`.
 This is the bounded original-author producer required by CONTRACT-014 section4.
 It does not complete ACCESS-003, login, HTTP, linked identity, UI or delivery.
 
 ## Ownership and admission
+
+Restricted reference-profile choices, not additions to full ACCESS-003 policy:
+`overrides.edit(E)` gates enrollment; only the owner authorizes/revokes; an
+explicit authorization survives session revocation and owner transfer (current
+owner/author/subject facts are still rechecked); every registry mutation invalidates
+all capability fingerprints via the global head. Bootstrap provenance is deliberately
+omitted from the head; enrollment/transition provenance IS durable. This limited
+bootstrap audit omission is not a general audit guarantee or full #249 design.
 
 The authoritative command/state queue owns this registry on its existing controlled
 SQLite writer. No other connection or writer is a production mutation path.
@@ -51,7 +59,9 @@ author still to have USE/GRANT. No third party can change GRANT via this registr
 set_state admits authorized/revoked only; pending is not a transition target.
 Authorized-to-authorized and revoked-to-revoked deliberately advance the revision.
 Untouched bindings are not reauthorized, rewritten or pruned by any mutation.
-Only provider synthetic.reference.v1 is supported; no live provider registration.
+Only provider synthetic.reference.v1 is supported; other well-formed enrollment
+providers refuse unavailable after current authentication/graph/CAS checks and
+before capability checks. No live provider registration.
 These restricted paths do not authorize arbitrary graph edits; ACCESS-003 keeps
 its full management/delegation/impact rules and other edit flows.
 
@@ -75,7 +85,10 @@ resolve reads current registry head/binding/initial/latest event, actual immutab
 capture closure and COMPLETE SqlitePermissionGraphUnit graph on the same session.
 It verifies reference_permission_graph_trust(), current owner, catalog, all graph
 roles/memberships/overrides and actual current account/install fences. Missing
-installation/owner/account closure is invalid_data. No sparse graph omission is
+installation/owner/account closure is invalid_data. A wholly absent graph (no
+head or children) is missing; an absent head with orphaned children is invalid_data.
+A corrupt, stale or unsupported stored reference catalog is invalid_data, not an
+implicitly supported catalog. No sparse graph omission is
 interpreted as an unknown account with an empty policy; known existing accounts
 use ACCESS-010's complete, deterministically ordered sparse-row semantics.
 
@@ -86,8 +99,17 @@ transport connection. Each event still must resolve its actual retained initial
 capture/index, SRX1/SRA1/configuration and plan closure. All duplicated receipt,
 CID (including real0), plan/version/source/arrival/execution bindings must agree.
 An enrollment does not authenticate a historical retained document's creator.
-Wrong/malformed duplications refuse invalid_data; missing selected records refuse
-missing; known inactive binding/current policy failure denies. No fallback aliases.
+After shape preflight, check equal principal/captured/rule installation fields,
+then lookup the capability by installation and capability ref; absent registry or
+capability is missing. Known binding scope mismatches are invalid_data. Then select
+the capture index by the source's full event key: absent index/selected document
+is missing; an existing index/document whose execution/arrival/receipt/CID/plan or
+other duplicated field differs is invalid_data. Inactive/current-policy failure
+denies. Non-automation principal OR rule automation kind is an input-shape failure
+ReferenceAuthorityInputFailure(invalid_data), not an authorization refusal.
+Enrollment execution-account absence is missing; a binding/session installation
+mismatch denies. set_state on an unknown capability is missing; pending target
+throws input failure(invalid_data). No fallback aliases.
 Only the three ordinary reference operations from CONTRACT-014 are supported.
 
 For execute, build ONE concrete singleton complete capability using the FULL
@@ -164,6 +186,7 @@ prefix or a dynamically observed/normalized schema.
 | subathon_reference_authority_head | installation_ref PK, revision; installation FK to account_installation |
 | subathon_reference_authority_bindings | installation_ref, capability_ref PK pair; principal_ref, rule_ref, rule_version_ref, action_ref, action_version_ref, timer_ref, provider, source_account, identifier_namespace, requested_ms INTEGER>=0, original_author, execution_account, created_revision; installation FK to registry head; (installation,author) and (installation,execution) FKs to accounts |
 | subathon_reference_authority_events | installation_ref, capability_ref, revision, state INTEGER IN(0,1,2), actor_ref, session_ref, session_revision_ref, authenticated_utc_ms INTEGER; PK(installation_ref,revision); (installation,capability) FK to bindings; (installation,actor) FK to accounts |
+| subathon_reference_authority_events_capability_idx | CREATE INDEX on subathon_reference_authority_events(installation_ref,capability_ref,revision); required for finite latest-per-capability seek |
 
 Enums are frozen explicit bytes in the header: use execute0/application1/holds2;
 state pending0/authorized1/revoked2; failure denied0/missing1/invalid_data2/
@@ -212,7 +235,8 @@ input_bytes covers entire request/read keys or mutation arguments, including
 SessionLookupRequest's installation+32 digest bytes and expected_head. Clock and
 session/limits objects are borrowed dependencies, not input payloads.
 result_bytes/result_items cover the WHOLE Facts or Record, preprojected before
-materialization. Successful staged output is8 bytes/0 items, projected before writes. Source and both revision blobs are charged in EVERY occurrence,
+materialization. Successful staged output is8 bytes/0 items, projected before
+writes. Source and both revision blobs are charged in EVERY occurrence,
 including both snapshots. A failure enum is the bounded refusal, not partial facts.
 Nested producers/calculators retain their OWN limits in addition to these totals.
 

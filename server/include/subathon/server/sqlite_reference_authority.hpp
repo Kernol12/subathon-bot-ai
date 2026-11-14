@@ -61,7 +61,7 @@ struct ReferenceAuthorityResolution {
     std::variant<ReferenceAuthorityFacts, ReferenceAuthorityFailure> value;
 };
 struct ReferenceAuthorityStaged {
-    std::uint64_t revision;
+    std::uint64_t revision = 0;
 };
 using ReferenceAuthorityWrite = std::variant<ReferenceAuthorityStaged, ReferenceAuthorityFailure>;
 using ReferenceAuthorityRead = std::variant<ReferenceAuthorityRecord, ReferenceAuthorityFailure>;
