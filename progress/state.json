@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-14T00:06:52.972621+00:00",
+  "updated_at": "2026-11-14T00:21:36.600645+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20500,18 +20500,18 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
       "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Primary contract and separate ADR scope independently closing-approvedffdc38f. Test authorship may proceed, no execution before test reviews. Audit initial rejected nine findings;12-row correction proposed,838 candidates remain. Required40bdb600 archival publication pending; guard unchanged. Native full readback passed. State authoritative; product/WF006/007 stopped."
+        "Authored-only test candidatefa52905 found C004-CTX-01. Scope correction419cd9 explicitly replaces only selected-evidence exclusion with positive preservation. Renewed primary/scope verification and closings required before completing adaptation; no tests executed or root integration. Historical audits active, archive pin blocked. State authoritative; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
-        "contract_review": "passed",
+        "contract_review": "not_run",
         "test_review": "not_run",
         "baseline": "not_run",
         "implementation": "not_run",
         "acceptance": "not_run",
-        "contract_verification": "passed",
+        "contract_verification": "not_run",
         "native_readback": "passed",
-        "cleanup_scope_review": "passed",
+        "cleanup_scope_review": "not_run",
         "availability_review": "failed"
       },
       "evidence": [
@@ -20523,7 +20523,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6867699831",
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868038467",
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868095851",
-        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868097821"
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868097821",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868370030"
       ],
       "review": null,
       "workflow": {
@@ -20538,7 +20539,7 @@
               "codex:migrate004-contract-author-20261113:/root",
               "codex:coordinator-59095155"
             ],
-            "revision": "ffdc38fa91ae89ce3972d08765d7b3b53877fa11",
+            "revision": "419cd9ed312ec492588b31d70196abd6bfc5782e",
             "paths": [
               "docs/contracts/github-authority-cutover-v1.md",
               "docs/contracts/github-tracker-retirement-scope-v1.md",

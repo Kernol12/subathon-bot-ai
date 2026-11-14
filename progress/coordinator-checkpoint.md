@@ -212,3 +212,23 @@ partitioned419/419 in /tmp/migrate004-audit-partition-a.json and-b.json for inde
 source-aware authorship, not permanent data or count waiver. All850 private GC-protected.
 Fresh test author owns only scoped oracles/fixtures/minimal explicit NI seams in an
 isolated checkout; coordinator owns state/HTML/checkpoint. No SDK/tests imported/run.
+
+Fresh test author dispatch3a04d696-b122-4662-9b44-ab2602a39529 committed AUTHORED-ONLY
+candidatefa52905dfc3e505c66bfca48bca2f8144a3bf783, clean isolated author branch. No root
+integration, imports, execution, discovery, SDK/native, red or implementation. Static
+130 baseline methods/59 unchanged K bodies; tooling181→190/schema15→16, nodes4/3
+unchanged pending full consolidation. Full adaptation stopped C004-CTX-01: retained
+selected-evidence negative contradicts full/compact selected-proof evidence retention.
+Source419cd9ed312ec492588b31d70196abd6bfc5782e changes ONLY that exact scope row: retire
+only selected-evidence exclusion160–163; positive exact evidence equality and no mutation,
+all other sentinels/metrics retained. Owner resolves routine choice by parent proof
+contract, no permission question. Primary packet/source and separate ADR scope need
+current-source independent verification/closing again before affected adaptation.
+
+Automatic approval review rejected posting raw handoff because it contains private
+scratch paths. Raw report kept private; new path-free public summary manually checked
+then posted successfully issue629#issuecomment-6868370030. No blocked publication
+remains, no private-path waiver or unredacted workaround. Candidate seven oracle paths
+and two exact NI blobs pinned in public summary/private revision.json at author packet.
+Sourcefa52905 preserved as local source, not source-authority proof or final test packet.
+Audit partitions A/B remain active/read-only; no current source changes from them.
