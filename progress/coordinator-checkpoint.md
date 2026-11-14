@@ -79,7 +79,13 @@ Owner decisions are recorded in #249, comment 6879902355:
   explicitly accepts captures for whole selected historical source bytes, with
   owning component/item minima; authority contract revision3 remains290 lines.
   Private header revision2 clarifies selected parent/full closure validation;
-  caller marker is now outside selected records. Bodies remain unrun.
+  caller marker is now outside selected records. Bodies were unrun at that gate.
+  Supplemental cycle now fully approved at747e1d5f (Codex and fresh Claude closing).
+  Observed169-case run:original145PASS, supplemental6PASS/18FAIL, hooks2PASS,
+  zero skips/warnings. All18 first-throw diagnostic traces reach post-mutation
+  reads; no setup/base-control failure counted as red. Old facade rollback/
+  translation and lifetime history are reproduced. Corrective source is next;
+  tests/header/contract are frozen, including nonblocking SR-N07/N08 notes.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 is reserved for this registry after compiled permission step9;
   preserve all shipped prefix bytes. Full #249 integration remains open. RULES-006
@@ -90,8 +96,8 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Obtain supplemental ACCESS-011 Codex verification and fresh Claude closing after
-fix round1 (of2), then behavioral red against unchanged bc1f4095 source.
+Complete ACCESS-011 selected-reader extraction in a DIFFERENT fresh implementation
+session after the approved supplement and observed regression red at747e1d5f.
 Preserve existing assertions/public headers/contracts. This remains #649's existing
 historical-disclosure scope: private borrowed-session bundle/selected hold readers
 may be factored from bundle access/bundle.cpp/holds.cpp while retaining the old
