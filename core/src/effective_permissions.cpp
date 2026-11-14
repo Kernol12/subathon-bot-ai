@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#include <subathon/core/effective_permissions.hpp>
+#include "permission_engine.hpp"
 
 #include <algorithm>
 #include <boost/multiprecision/cpp_int.hpp>
@@ -10,8 +10,7 @@
 #include <utility>
 
 namespace subathon::core {
-namespace {
-using Error = EffectivePermissionError;
+namespace permission_engine {
 using Big = boost::multiprecision::number<boost::multiprecision::cpp_int_backend<>,
                                           boost::multiprecision::et_off>;
 
@@ -31,9 +30,10 @@ bool optional_less(const std::optional<std::string> &a, const std::optional<std:
 
 template <class Range, class Key>
 const typename Range::value_type *find_key(const Range &range, const std::string &key, Key get) {
-    const auto found = std::find_if(range.begin(), range.end(),
-                                    [&](const auto &value) { return get(value) == key; });
-    return found == range.end() ? nullptr : &*found;
+    for (const auto &value : range)
+        if (get(value) == key)
+            return &value;
+    return nullptr;
 }
 
 template <class Range, class Key> bool unique_keys(const Range &range, Key get) {
@@ -63,77 +63,7 @@ void validate_limits(const EffectivePermissionLimits &limits) {
 }
 
 // Only borrows caller containers. No indices, copied strings or output DTOs are allocated.
-struct Count {
-    std::uint64_t bytes = 0;
-    std::uint64_t items = 0;
-    std::uint64_t byte_limit;
-    std::uint64_t item_limit;
-    std::uint64_t reference_limit;
-    std::uint64_t component_limit;
-    Error error;
-    bool empty_reference = false;
-
-    void add_bytes(std::uint64_t n) {
-        if (n > byte_limit - bytes)
-            fail(error);
-        bytes += n;
-    }
-    void add_items(std::uint64_t n) {
-        if (n > item_limit - items)
-            fail(error);
-        items += n;
-    }
-    void ref(const std::string &value, bool required = true) {
-        if (value.size() > reference_limit || value.size() > std::string{}.max_size())
-            fail(error);
-        add_bytes(value.size());
-        empty_reference |= required && value.empty();
-    }
-    void component(const std::string &value) {
-        if (value.size() > component_limit || value.size() > std::string{}.max_size())
-            fail(error);
-        add_bytes(value.size());
-    }
-    void number(const PermissionRational &value) {
-        component(value.numerator);
-        component(value.denominator);
-    }
-    void optional_ref(const std::optional<std::string> &value) {
-        add_bytes(1);
-        if (value)
-            ref(*value);
-    }
-    void optional_number(const std::optional<PermissionRational> &value) {
-        add_bytes(1);
-        if (value)
-            number(*value);
-    }
-    template <class T> void vector_size(std::size_t n) {
-        if (n > std::vector<T>{}.max_size())
-            fail(error);
-        add_items(n);
-    }
-    void owner(const PermissionOwnerFacts &value) {
-        add_bytes(1);
-        optional_ref(value.account);
-    }
-    void request(const PermissionRequest &value) {
-        ref(value.operation);
-        vector_size<PermissionResourceBinding>(value.resources.size());
-        for (const auto &binding : value.resources) {
-            ref(binding.slot);
-            ref(binding.resource);
-        }
-        vector_size<PermissionQuantityBinding>(value.quantities.size());
-        for (const auto &binding : value.quantities) {
-            ref(binding.slot);
-            ref(binding.unit);
-            number(binding.value);
-        }
-    }
-};
-
-bool preflight_input(const EffectivePermissionInput &in, const EffectivePermissionLimits &limits) {
+bool preflight_input(const Input &in, const EffectivePermissionLimits &limits) {
     Count count{0,
                 0,
                 limits.input_owned_bytes,
@@ -200,26 +130,30 @@ template <class T> bool tag_valid(T value, T last) {
 }
 
 // Entire categories are checked before the next category, preserving global error priority.
-void validate_tags(const EffectivePermissionInput &in, bool empty_reference) {
-    if (!tag_valid(in.catalog.state, PermissionFactsState::complete) ||
-        (in.catalog.state == PermissionFactsState::unknown &&
-         (!in.catalog.revision.empty() || !in.catalog.operations.empty())))
+void validate_catalog_tags(const PermissionCatalog &catalog) {
+    if (!tag_valid(catalog.state, PermissionFactsState::complete) ||
+        (catalog.state == PermissionFactsState::unknown &&
+         (!catalog.revision.empty() || !catalog.operations.empty())))
         fail(Error::invalid_catalog);
-    for (const auto &operation : in.catalog.operations) {
+    for (const auto &operation : catalog.operations) {
         if (!tag_valid(operation.classification, PermissionOperationClass::helper_password_reset))
             fail(Error::invalid_catalog);
         for (const auto &quantity : operation.quantity_slots)
             if (!tag_valid(quantity.kind, PermissionNumberKind::integer))
                 fail(Error::invalid_catalog);
     }
-    if (!tag_valid(in.owner.state, PermissionOwnerState::present) ||
-        ((in.owner.state == PermissionOwnerState::present) != in.owner.account.has_value()))
+}
+void validate_owner_tags(const PermissionOwnerFacts &owner) {
+    if (!tag_valid(owner.state, PermissionOwnerState::present) ||
+        ((owner.state == PermissionOwnerState::present) != owner.account.has_value()))
         fail(Error::invalid_facts);
-    if (!tag_valid(in.policy.state, PermissionFactsState::complete) ||
-        (in.policy.state == PermissionFactsState::unknown &&
-         (!in.policy.assigned_roles.empty() || !in.policy.entries.empty())))
+}
+void validate_policy_tags(const Policy &policy) {
+    if (!tag_valid(policy.state, PermissionFactsState::complete) ||
+        (policy.state == PermissionFactsState::unknown &&
+         (!policy.assigned_roles.empty() || !policy.entries.empty())))
         fail(Error::invalid_policy);
-    for (const auto &entry : in.policy.entries) {
+    for (const auto &entry : policy.entries) {
         if (!tag_valid(entry.origin, PermissionOrigin::role) ||
             !tag_valid(entry.effect, PermissionEffect::deny))
             fail(Error::invalid_policy);
@@ -230,6 +164,11 @@ void validate_tags(const EffectivePermissionInput &in, bool empty_reference) {
             if (!tag_valid(constraint.mode, PermissionQuantityMode::magnitude_at_most))
                 fail(Error::invalid_policy);
     }
+}
+void validate_tags(const Input &in, bool empty_reference) {
+    validate_catalog_tags(in.catalog);
+    validate_owner_tags(in.owner);
+    validate_policy_tags(in.policy);
     if (empty_reference)
         fail(Error::invalid_reference);
 }
@@ -272,13 +211,10 @@ void validate_request_shape(const PermissionOperationDefinition *definition,
             fail(Error::invalid_request);
 }
 
-void validate_policy_shape(const EffectivePermissionInput &in) {
-    if (!unique_keys(in.policy.assigned_roles, string_key))
-        fail(Error::invalid_policy);
-    for (const auto &entry : in.policy.entries) {
-        const auto *operation = find_key(in.catalog.operations, entry.operation, operation_key);
+void validate_rows_shape(const PermissionCatalog &catalog, Rows entries) {
+    for (const auto &entry : entries) {
+        const auto *operation = find_key(catalog.operations, entry.operation, operation_key);
         if (!operation || (entry.origin == PermissionOrigin::role) != entry.role.has_value() ||
-            (entry.role && !find_key(in.policy.assigned_roles, *entry.role, string_key)) ||
             (entry.effect == PermissionEffect::allow) != entry.grant.has_value() ||
             !same_slots(operation->resource_slots, entry.resources, string_key) ||
             !same_slots(operation->quantity_slots, entry.quantities, slot_key))
@@ -301,10 +237,10 @@ void validate_policy_shape(const EffectivePermissionInput &in) {
                 fail(Error::invalid_policy);
         }
     }
-    for (std::size_t i = 0; i < in.policy.entries.size(); ++i)
+    for (std::size_t i = 0; i < entries.size(); ++i)
         for (std::size_t j = 0; j < i; ++j) {
-            const auto &a = in.policy.entries[i];
-            const auto &b = in.policy.entries[j];
+            const auto &a = entries[i];
+            const auto &b = entries[j];
             if (a.source != b.source)
                 continue;
             if (a.origin != b.origin || a.role != b.role || a.operation != b.operation ||
@@ -313,13 +249,22 @@ void validate_policy_shape(const EffectivePermissionInput &in) {
         }
 }
 
+void validate_policy_shape(const Input &in) {
+    if (!unique_keys(in.policy.assigned_roles, string_key))
+        fail(Error::invalid_policy);
+    for (const auto &entry : in.policy.entries)
+        if (entry.role && !find_key(in.policy.assigned_roles, *entry.role, string_key))
+            fail(Error::invalid_policy);
+    validate_rows_shape(in.catalog, in.policy.entries);
+}
+
 bool resource_contains(const PermissionResourceConstraint &constraint,
                        const std::string &resource) {
     return constraint.mode == PermissionResourceMode::any ||
            find_key(constraint.allowed, resource, string_key);
 }
 
-void validate_individual_scopes(const PermissionPolicyFacts &policy) {
+void validate_individual_scopes(const Policy &policy) {
     for (std::size_t i = 0; i < policy.entries.size(); ++i) {
         const auto &a = policy.entries[i];
         if (a.origin != PermissionOrigin::individual)
@@ -483,7 +428,7 @@ int sign(const PermissionRational &number) {
     return number.numerator == "0" ? 0 : (number.numerator.front() == '-' ? -1 : 1);
 }
 
-int compare(const PermissionRational &a, const PermissionRational &b, bool magnitude = false) {
+int compare(const PermissionRational &a, const PermissionRational &b, bool magnitude) {
     const int as = magnitude ? (sign(a) != 0) : sign(a);
     const int bs = magnitude ? (sign(b) != 0) : sign(b);
     if (as != bs)
@@ -519,7 +464,7 @@ int compare(const PermissionRational &a, const PermissionRational &b, bool magni
     return as < 0 ? -result : result;
 }
 
-template <class F> void every_number(const EffectivePermissionInput &in, F apply) {
+template <class F> void every_number(const Input &in, F apply) {
     for (const auto &operation : in.catalog.operations)
         for (const auto &quantity : operation.quantity_slots) {
             if (quantity.minimum)
@@ -542,8 +487,7 @@ bool kind_fits(const PermissionRational &value, PermissionNumberKind kind) {
     return kind != PermissionNumberKind::integer || value.denominator == "1";
 }
 
-void validate_domains(const EffectivePermissionInput &in,
-                      const PermissionOperationDefinition &requested) {
+void validate_domains(const Input &in, const PermissionOperationDefinition &requested) {
     for (const auto &operation : in.catalog.operations)
         for (const auto &quantity : operation.quantity_slots) {
             if ((quantity.minimum && !kind_fits(*quantity.minimum, quantity.kind)) ||
@@ -622,15 +566,7 @@ PermissionMatch match(const PermissionPolicyEntry &entry, const PermissionReques
     return match(entry, request, ignore, ignore);
 }
 
-struct Resolution {
-    PermissionOutcome outcome = PermissionOutcome::deny;
-    PermissionReason reason = PermissionReason::default_deny;
-    bool individual = false;
-    bool protected_source = false;
-};
-
-Resolution resolve(const EffectivePermissionInput &in,
-                   const PermissionOperationDefinition &operation) {
+Resolution resolve(const Input &in, const PermissionOperationDefinition &operation) {
     Resolution result;
     const bool owner = in.owner.account && *in.owner.account == in.actor;
     if (owner &&
@@ -683,15 +619,7 @@ Resolution resolve(const EffectivePermissionInput &in,
     return result;
 }
 
-void preflight_result(const EffectivePermissionInput &in, const EffectivePermissionLimits &limits,
-                      const Resolution &resolution) {
-    Count count{0,
-                0,
-                limits.result_owned_bytes,
-                limits.result_items,
-                limits.reference_bytes,
-                limits.component_bytes,
-                Error::result_limit};
+void project_result(const Input &in, const Resolution &resolution, Count &count) {
     count.ref(in.actor);
     count.ref(in.snapshot);
     count.ref(in.catalog.revision);
@@ -755,8 +683,7 @@ bool source_less(const PermissionSourceExplanation &a, const PermissionSourceExp
     return optional_less(a.role, b.role);
 }
 
-EffectivePermissionDecisionData materialize(const EffectivePermissionInput &in,
-                                            const Resolution &resolution) {
+EffectivePermissionDecisionData materialize(const Input &in, const Resolution &resolution) {
     // This first owning DTO is constructed only after the whole result projection.
     EffectivePermissionDecisionData out;
     out.actor = in.actor;
@@ -801,7 +728,8 @@ EffectivePermissionDecisionData materialize(const EffectivePermissionInput &in,
         std::sort(row.failed_quantities.begin(), row.failed_quantities.end(), byte_less);
         out.sources.push_back(std::move(row));
     }
-    std::sort(out.sources.begin(), out.sources.end(), source_less);
+    if (!std::is_sorted(out.sources.begin(), out.sources.end(), source_less))
+        std::sort(out.sources.begin(), out.sources.end(), source_less);
     if (resolution.outcome == PermissionOutcome::permit)
         for (std::size_t i = 0; i < out.sources.size(); ++i)
             if (out.sources[i].disposition == PermissionSourceDisposition::fitting_allow) {
@@ -811,7 +739,54 @@ EffectivePermissionDecisionData materialize(const EffectivePermissionInput &in,
             }
     return out;
 }
-} // namespace
+
+int compare_signed(const PermissionRational &a, bool negative_a, const PermissionRational &b,
+                   bool negative_b) {
+    const int sa = negative_a ? -sign(a) : sign(a), sb = negative_b ? -sign(b) : sign(b);
+    if (sa != sb)
+        return sa < sb ? -1 : 1;
+    const int c = compare(a, b, true);
+    return sa < 0 ? -c : c;
+}
+// Binary long division uses bounded shifts/subtracts, without backend division scratch.
+Big floor_endpoint(const PermissionRational &a, bool negative) {
+    Big remainder = parse_magnitude(a.numerator), divisor = parse_magnitude(a.denominator);
+    Big shifted = divisor, quotient = 0;
+    std::uint64_t shifts = 0;
+    const auto bound = magnitude_bound(a);
+    while (shifted <= remainder) {
+        if (shifts == bound)
+            fail(Error::allocation_failure);
+        shifted <<= 1;
+        ++shifts;
+    }
+    while (shifts) {
+        --shifts;
+        shifted >>= 1;
+        quotient <<= 1;
+        if (remainder >= shifted) {
+            remainder -= shifted;
+            quotient += 1;
+        }
+    }
+    if ((negative ? -sign(a) : sign(a)) < 0) {
+        if (remainder != 0)
+            quotient += 1;
+        quotient = -quotient;
+    }
+    return quotient;
+}
+bool integer_gap(const PermissionRational &a, bool na, const PermissionRational &b, bool nb) {
+    Big lower = floor_endpoint(a, na);
+    lower += 1;
+    Big upper = floor_endpoint(b, nb);
+    if (b.denominator == "1")
+        upper -= 1;
+    return lower <= upper;
+}
+} // namespace permission_engine
+
+using namespace permission_engine;
 
 EffectivePermissionDecision::EffectivePermissionDecision(EffectivePermissionDecisionData data)
     : data_(std::move(data)) {}
@@ -833,8 +808,14 @@ EffectivePermissionsNotImplemented::EffectivePermissionsNotImplemented()
     : std::logic_error(
           "Effective permission behavior is intentionally unimplemented; review tests first") {}
 
-EffectivePermissionDecision evaluate_effective_permission(const EffectivePermissionInput &in,
+EffectivePermissionDecision evaluate_effective_permission(const EffectivePermissionInput &owned,
                                                           const EffectivePermissionLimits &limits) {
+    const Input in{owned.actor,
+                   owned.snapshot,
+                   owned.catalog,
+                   owned.owner,
+                   {owned.policy.state, owned.policy.assigned_roles, owned.policy.entries},
+                   owned.request};
     try {
         validate_limits(limits);
         const bool empty_reference = preflight_input(in, limits);
@@ -857,7 +838,14 @@ EffectivePermissionDecision evaluate_effective_permission(const EffectivePermiss
         if (in.policy.state == PermissionFactsState::unknown && !protected_owner)
             fail(Error::facts_unavailable);
         const auto resolution = resolve(in, *operation);
-        preflight_result(in, limits, resolution);
+        Count count{0,
+                    0,
+                    limits.result_owned_bytes,
+                    limits.result_items,
+                    limits.reference_bytes,
+                    limits.component_bytes,
+                    Error::result_limit};
+        project_result(in, resolution, count);
         return EffectivePermissionDecision{materialize(in, resolution)};
     } catch (const std::bad_alloc &) {
         fail(Error::allocation_failure);

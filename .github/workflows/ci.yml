@@ -205,6 +205,7 @@ jobs:
               "contribution-evidence": ({"acceptance"}, None),
               "time-debt": ({"acceptance", "core"}, 5),
               "effective-permissions": ({"acceptance", "core"}, 10),
+              "delegated-permissions": ({"acceptance", "core"}, 60),
               "milestone-progression": ({"acceptance", "core"}, 30),
               "timer-editorial": ({"acceptance", "core"}, 30),
               "rate-snapshot": ({"acceptance", "core"}, None),

@@ -91,6 +91,15 @@ if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
         PREFIX "effective-permissions."
         LABELS "effective-permissions;acceptance;core" TIMEOUT 10)
 
+    add_executable(core_delegated_permissions_acceptance
+        acceptance/delegated_permissions_tests.cpp)
+    target_link_libraries(core_delegated_permissions_acceptance PRIVATE
+        subathon_effective_permissions GTest::gtest_main)
+    subathon_target_options(core_delegated_permissions_acceptance)
+    subathon_discover_gtests(core_delegated_permissions_acceptance
+        PREFIX "delegated-permissions."
+        LABELS "delegated-permissions;acceptance;core" TIMEOUT 60)
+
 endif()
 
 if(SUBATHON_BUILD_TIME_DEBT_TESTS)

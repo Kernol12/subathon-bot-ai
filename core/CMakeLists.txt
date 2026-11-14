@@ -3,7 +3,9 @@ target_include_directories(subathon_core PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/inc
 subathon_target_options(subathon_core)
 
 if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
-    add_library(subathon_effective_permissions STATIC src/effective_permissions.cpp)
+    add_library(subathon_effective_permissions STATIC
+        src/effective_permissions.cpp
+        src/delegated_permissions.cpp)
     target_include_directories(subathon_effective_permissions PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     subathon_target_options(subathon_effective_permissions)
 endif()
