@@ -474,7 +474,7 @@ This clarification and the003 opt-in integration contract await independent appr
 
 MIGRATE-004's [historical evidence amendment](historical-evidence-dispositions-v1.md)
 requires its own independent documentary approval. If approved, only its individually
-named HE-01..07 archival limitations take precedence over required historical-object
-availability rules. They preserve original claims and required roles without asserting
+named HE-01..07 archival limitations and individually reviewed inheriting claims take
+precedence over only the historical identity/content clauses enumerated by that amendment. They preserve original claims and required roles without asserting
 availability or reproducibility. All current proof/source/review/CI/protected merge
 and other historical-row gates remain unchanged. No automatic legacy exemption arises.
