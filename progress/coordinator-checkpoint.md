@@ -459,3 +459,20 @@ rowsd7229944ac0d4cb0f484c119c2e655d7a1322fc3ae0cd8adc5474fd836808320,
 blockersb6a4adb125c0a38a3bfe19e13654a1070760c4f42d50cdd6803a2ed8542a2d26.
 Fresh independent Codex correction verification then Claude closing, with actual
 unsafe conflict retained, before any role admission. A and test verifications independent.
+
+Independent Codex TEST source verification APPROVED9710c7136aaf4485153771cdc56a043c388921f1,
+dispatch331bb336-60c0-46d5-9cc7-9de7c43dbb1c, self-reported role MIGRATE-004
+independent tests verifier, agent/root, no exposedUUID. Public report issue629#issuecomment-
+6869916500, SHA256ba0fdd71659953f3f766f85f72fe4044b8d294d0efcb0fce3d807e6a0afbb575.
+AllTI001..010 resolved,11..16 accountedfor; original rejectedreview retained. Exact14
+oracles/twoNIblobs/source-modebindings verified.130row26pin scope preserves59Ksemantic
+assertions. CurrentASTtooling154/schema11, not historical2ab153. CMake still4schema
+registrations/3executableowners, legacy0node pendingimplementation, not passing/red.
+NonblockingTV001 special notGit arm excludes exactCUTOVER_PUBLICATION marker only;
+currentNI cannotpass it, neverclassify anotherNIfamilyerror as meaningfulrefusal.
+TV002 source-qualifiedcounts at handoff; no runtime discovery claimed. Activity
+02:01:34/02:03:08/02:04:47 are samples, notsessionendpoints; omitduration. Two scope-
+parser scratchprobes corrected bullet/headingshandling, no testfailure/red. No test
+imports/bodies/discovery/SDK/native execution. Fresh independent Claude TEST closing
+mandatory next; availability/code/archive/merge gates untouched. Historical A/B
+verifications independent; confirmed d717requiredunsafeactualrun conflict stillblockspin.

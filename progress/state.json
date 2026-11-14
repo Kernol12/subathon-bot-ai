@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-14T02:04:43.534627+00:00",
+  "updated_at": "2026-11-14T02:07:31.920614+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20500,7 +20500,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
       "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Historical B verifies actual FIRST source d7174d63 required but its four outgoing trees violate unchanged guard; pin/cutover blocked. Thirteen other proposals corrected, independent recheck pending. Test9710c713 and A48 traces under independent verification; no tests executed. State authoritative; product/WF006/007 stopped."
+        "Test9710c713 passes independent Codex source verification; fresh Claude closing pending, no tests executed. Historical d7174d63 actual-run original conflicts unchanged outgoing guard; pin/cutover blocked. A/B corrected proposals under independent review, none admitted. State authoritative; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -20844,6 +20844,20 @@
                   "M004-TI-009",
                   "M004-TI-010"
                 ]
+              },
+              {
+                "phase": "verification",
+                "provider": "codex",
+                "model": "gpt-6.1-sol",
+                "reviewer": "codex:MIGRATE-004 independent tests verifier:/root",
+                "revision": "9710c7136aaf4485153771cdc56a043c388921f1",
+                "outcome": "approved",
+                "evidence": "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6869916500",
+                "findings": [
+                  "M004-TV-001",
+                  "M004-TV-002"
+                ],
+                "blocking_findings": []
               }
             ]
           }
