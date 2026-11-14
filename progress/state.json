@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-14T07:12:43.316354+00:00",
+  "updated_at": "2026-11-14T07:22:14.815469+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20500,7 +20500,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
       "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Historical amendment2df00c5a independently approved, not applied. Next finite row/carrier/reliance proposals and independent audit review before pre-A evidence links/holds. Prior code0041 qualified to prior contracts. Archive pin/canonical/CI/protectedmerge still pending. State authoritative; product/WF006007 stopped."
+        "Amendment2df approved. Finite B419 author packet complete, no rows admitted;13 safe-required originals/27 outgoing commits and6 concrete content/application blockers. Independent B documentary review next; A/reliance authors running. State authoritative; archive/canonical/CI/merge gates pending; product/WF006007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -20558,7 +20558,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6871278937",
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6873473562",
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6873523520",
-        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6873623482"
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6873623482",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6873740406"
       ],
       "review": null,
       "workflow": {
