@@ -401,3 +401,20 @@ rows9242a773102cbd6c3b04bcdb95295d1926e6962fd9bda77984ba016d96cb826c,
 blockers041bd99f2bf19669f02fb2baeea1625d0c56d68ce2374b8e8c32dbe13843ac08.
 Exact historical FIRST/run/content questions remain; no disposition admitted or049
 required premise restored. New independent verification before availability closing.
+
+After recording both boundary closings, coordinator source9710c7136aaf4485153771cdc56a043c388921f1
+adapts ONLY two test files for TI006/008. Workflow baseline288–296/299–301/302–306/
+307–309 retained; old297–298 state-only refusal explicitly retired. NEW absent-observation
+prepublication positive requires test review; duplicate missing-workflow assertion removed
+here, its proper owner retains refusal. Converter only retires live-brief/full-live-
+inventory oracle premises749–761; full pre-capture strict admission and protectedreadback
+still gate pin. Public exact mapping issue629#issuecomment-6869813854.14oraclepaths,
+threeauthors, twoNIblobs unchanged; every initial rejection retained. Testsource
+AUTHOREDONLY, no import/body/discovery/SDK/native execution. Next independent Codex
+complete test verification then fresh Claude closing before actual red/fresh implementation.
+A specific trace research retained419/updated48;32 superseded/authored attemptcontainer
+proposals separated from4 actualrun gaps, content/source/context questions. Nothing
+admitted; independently verify actual carriers/scopedbindings and remaining exactblocks.
+Do not invent final approvals for rejected/unexecuted drafts or infer originalrequired
+from missing fetchedcontent. Historical run/source metadata and durable privacy-reviewed
+content requirements remain binding. B verification still independent; archive pin blocked.
