@@ -31,6 +31,7 @@ class RepositoryChecks(unittest.TestCase):
         self.assertEqual((result.returncode,result.stdout),(1,b''))
         self.assertIn(b'Project check failed:',result.stderr)
         self.assertNotIn(NI,result.stderr)
+        self.assertNotIn(b'CUTOVER_',result.stderr)
 
     def test_status_version_declaration(self):
         for declaration in (None, 'Specification version: 0.44\n',
@@ -86,7 +87,15 @@ class RepositoryChecks(unittest.TestCase):
                     path=f.root/'CMakePresets.json'; value=json.loads(path.read_text())
                     value['buildPresets'][0]['configurePreset']='missing-preset'; path.write_text(json.dumps(value))
                 else: f.write('docs/broken.md',b'[missing](missing-target.md)\n')
-                self.refusal(self.cli(f)); self.refusal(self.cli(f))
+                result=self.cli(f); self.refusal(result)
+                diagnostics={'decision':b'Duplicate specification decision IDs',
+                    'map':b'Acceptance map must track every current decision exactly once',
+                    'test-path':b'Missing acceptance-map test artifact:',
+                    'evidence-link':b'Missing acceptance-map evidence:',
+                    'evidence-layout':b'docs/evidence must contain only README.md',
+                    'preset':b'Preset references an unknown configuration',
+                    'markdown':b'Broken Markdown link'}
+                self.assertIn(diagnostics[mutation],result.stderr)
 
 
 

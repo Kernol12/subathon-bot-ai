@@ -25,7 +25,6 @@ class ProjectArtifactTests(unittest.TestCase):
             "tests/acceptance/example.cpp": "// Local authored test artifact.\n",
             "tests/acceptance/time_credit_tests.cpp": "// No compiled tests in this fixture.\n",
             "CMakePresets.json": '{"version":6,"configurePresets":[],"buildPresets":[],"testPresets":[]}',
-            "PROGRESS.html": "<html></html>",
             "README.md": "Project.\n",
         }.items():
             path = self.root / name
@@ -61,17 +60,21 @@ class ProjectArtifactTests(unittest.TestCase):
             ("evidence", "https:///receipt"),
         ):
             with self.subTest(field=field, value=value):
+                self.coverage["scenarios"] = []
+                control,detail=self.run_check(); self.assertEqual(control,0,detail)
                 self.coverage["scenarios"] = [{field: [value]}]
                 result, output = self.run_check()
                 self.assertEqual(result, 1, output)
 
     def test_requires_the_readable_summary(self):
+        control,detail=self.run_check(); self.assertEqual(control,0,detail)
         (self.root / "docs/evidence/README.md").unlink()
         self.coverage["decisions"][0]["evidence"] = []
         result, output = self.run_check()
         self.assertEqual(result, 1, output)
 
     def test_rejects_extra_evidence_receipts(self):
+        control,detail=self.run_check(); self.assertEqual(control,0,detail)
         (self.root / "docs/evidence/old-receipt.md").write_text("Archived receipt.\n", encoding="utf-8")
         result, output = self.run_check()
         self.assertEqual(result, 1, output)

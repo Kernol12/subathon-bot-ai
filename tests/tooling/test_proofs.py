@@ -230,6 +230,9 @@ class ProofTests(unittest.TestCase):
         for value in ('http://example.com/pull/44',):
             bad = copy.deepcopy(good); bad['evidence'] = [value]
             self.refuses(proofs.validate_record, bad)
+        path_control = record(); path_control['workflow'] = dict(required_stages=['contract'], stages={
+            'contract':dict(authors=['a'],revision=REV,paths=['docs/retired-synthetic.md'],reviews=[])})
+        self.assertIsNone(proofs.validate_record(path_control))
         for value in ('../secret', '/tmp/secret', 'https://example.com/x', 'javascript:alert(1)', 'C:\\secret'):
             bad = record(); bad['workflow'] = dict(required_stages=['contract'], stages={
                 'contract':dict(authors=['a'],revision=REV,paths=[value],reviews=[])})
@@ -369,7 +372,7 @@ class ProofTests(unittest.TestCase):
     def test_shared_review_engine_tree_free_and_strict_production_default(self):
         value = reviewed_record(); packet = value['workflow']['stages']['contract']
         self.assertIsNone(workflow.validate_stage(packet, ROOT, workflow.lexical_path,
-                                                workflow.evidence_reference, tree_free=True))
+                                                proofs.reference, tree_free=True))
         # Deliberately require delegation through the owning module attribute, so
         # the single grammar remains observable instead of a copied enforcement loop.
         for name in ('../x', '/abs', 'progress/state.json', 'PROGRESS.html',
@@ -377,14 +380,14 @@ class ProofTests(unittest.TestCase):
                      'progress/proofs/CONVERT-901.json'):
             bad = copy.deepcopy(value); bad['workflow']['stages']['contract']['paths'] = [name]
             self.refuses(workflow.validate_stage, bad['workflow']['stages']['contract'], ROOT,
-                         workflow.lexical_path, workflow.evidence_reference, tree_free=True)
+                         workflow.lexical_path, proofs.reference, tree_free=True)
             self.refuses(proofs.validate_record, bad)
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary).resolve()
             for name in ('progress/proof-policy.json', 'progress/proofs/CONVERT-901.json'):
                 file = root/name; file.parent.mkdir(parents=True, exist_ok=True); file.write_text('{}')
                 bad = copy.deepcopy(packet); bad['paths'] = [name]
-                self.refuses(workflow.validate_stage, bad, root, workflow.lexical_path, workflow.evidence_reference, tree_free=True)
+                self.refuses(workflow.validate_stage, bad, root, workflow.lexical_path, proofs.reference, tree_free=True)
         with patch.object(workflow, 'validate_stage', wraps=workflow.validate_stage) as shared:
             proofs.validate_record(value)
             self.assertTrue(shared.called, 'Use the owning workflow engine')
@@ -643,6 +646,31 @@ class ProofCliTests(unittest.TestCase):
             self.assertTrue(result.stderr.startswith('Proof error: '))
             self.assertNotIn(NI, result.stderr)
             self.assertNotIn('CUTOVER_', result.stderr, 'NI is not an input-safety refusal')
+
+    def test_default_validate_disposable_bundle_and_input_refusals(self):
+        from context_fixture import invoke_context
+        value = record()
+        data = bundle(value)
+        expected = '{\n  "version": 1,\n  "record_count": 1\n}\n'
+        def absent_policy(root):
+            (root/'progress/proof-policy.json').unlink()
+        def absent_directory(root):
+            directory=root/'progress/proofs'
+            for path in directory.iterdir(): path.unlink()
+            directory.rmdir()
+        def absent_record(root):
+            (root/'progress/proofs/CONVERT-901.json').unlink()
+        def malformed_record(root):
+            (root/'progress/proofs/CONVERT-901.json').write_text('{',encoding='utf-8')
+        for mutation in (absent_policy,absent_directory,absent_record,malformed_record):
+            with self.subTest(mutation=mutation.__name__):
+                good=invoke_context(self,data,['validate'])
+                self.assertEqual(good[:3],(0,expected,''),good[2])
+                bad=invoke_context(self,data,['validate'],prepare=mutation)
+                self.assertEqual(bad[:2],(1,''))
+                self.assertTrue(bad[2].startswith('Proof error: '),bad[2])
+                self.assertNotIn('CUTOVER_',bad[2])
+                self.assertNotIn(NI,bad[2])
 
     def test_actual_canonical_bundle_is_valid(self):
         """Ordinary CI duty; pending setup until the real cutover candidate exists.

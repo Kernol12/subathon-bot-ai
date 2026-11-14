@@ -7,6 +7,7 @@ manufactures approvals. Do not execute before the full independent test review.
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -51,9 +52,11 @@ class PublicationFixture:
         # A valid repository control must precede every STATUS mutation. Never copy
         # the real canonical bundle into a synthetic Git/source fixture.
         status = self.root/'docs/STATUS.md'
-        lines = [line for line in status.read_text(encoding='utf-8').splitlines()
-                 if not line.startswith('Specification version:')]
-        status.write_text('\n'.join(lines)+'\nSpecification version: 0.45\n', encoding='utf-8')
+        version = re.search(r'^Version: (\S+)',
+                            (self.root/'docs/specification.md').read_text(encoding='utf-8'), re.M)
+        if version is None:
+            raise ValueError('Synthetic repository specification has no version')
+        status.write_text('Specification version: '+version.group(1)+'\n', encoding='utf-8')
         self.git("init", "--initial-branch=fixture-main")
         self.git("config", "user.name", "Synthetic fixture")
         self.git("config", "user.email", "fixture@example.test")

@@ -580,8 +580,9 @@ class PreparedPublicationTests(unittest.TestCase):
         with self.fixture() as f:
             self.success(self.invoke(f))
             for flag in ('--complete','--bootstrap'):
-                args=f.arguments(bootstrap=(flag=='--complete'))
-                args.append(flag)
+                args=f.arguments(bootstrap=True,
+                    stages=('contract','tests','implementation') if flag=='--complete' else ('contract',),
+                    complete=(flag=='--complete'))
                 self.success(self.invoke(f,args))
             for extra in (['--proofs'],['--unknown'],['--stage']):
                 result=self.invoke(f,f.arguments()+extra)

@@ -67,9 +67,9 @@ class PublicationTests(unittest.TestCase):
 
     def success(self, result):
         code, stdout, stderr, children, git_calls = result
-        diagnostic = ("intended assertion red: PUBLICATION_CHECK_NOT_IMPLEMENTED"
+        diagnostic = ("intended assertion red: CUTOVER_PUBLICATION_NOT_IMPLEMENTED"
                       if (code, stdout, stderr) ==
-                         (1, "", "PUBLICATION_CHECK_NOT_IMPLEMENTED\n")
+                         (1, "", "CUTOVER_PUBLICATION_NOT_IMPLEMENTED\n")
                       else "unexpected setup/interface failure is NOT intended red: " + stderr)
         self.assertEqual(code, 0, diagnostic)
         self.assertTrue(git_calls, "A mock host witness cannot replace Git verification")
@@ -80,8 +80,9 @@ class PublicationTests(unittest.TestCase):
         code, stdout, stderr, calls, _ = result
         self.assertEqual((code, stdout), (1, ""))
         self.assertTrue(stderr.strip())
-        self.assertNotIn("PUBLICATION_CHECK_NOT_IMPLEMENTED", stderr,
+        self.assertNotIn("CUTOVER_PUBLICATION_NOT_IMPLEMENTED", stderr,
                          "NI is not evidence for a negative safety case")
+        self.assertNotIn("CUTOVER_",stderr,"NI is not a safety refusal")
         self.assertEqual(len(calls), children)
 
     def test_clean_range_cli_success_has_exact_public_summary(self):
@@ -338,7 +339,7 @@ class PublicationTests(unittest.TestCase):
                     self.assertEqual(fixture.snapshot(), before)
                     self.assertEqual((code, out.getvalue()), (1, ""))
                     self.assertTrue(err.getvalue())
-                    self.assertNotIn("PUBLICATION_CHECK_NOT_IMPLEMENTED", err.getvalue())
+                    self.assertNotIn("CUTOVER_PUBLICATION_NOT_IMPLEMENTED", err.getvalue())
                     continue
                 self.refusal(self.invoke(fixture))
         with self.fixture() as fixture:

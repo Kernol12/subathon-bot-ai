@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Literal WORKFLOW-003 record/CLI examples, independent of implementation helpers."""
 import copy
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -71,10 +72,15 @@ class WorkflowRecordTests(unittest.TestCase):
         missing=task(); del missing['workflow']
         with self.assertRaises(ValueError):
             proofs.require_complete(bundle(missing),'WFLOW-999')
-        for exemptions in (['ACCESS-002','ACCESS-002'],['ACCESS-002','UNKNOWN-999'],['ACCESS-002','WFLOW-999']):
-            bad=policy('ACCESS-002'); bad['legacy_done']=exemptions
-            with self.subTest(exemptions=exemptions),self.assertRaises(ValueError):
+        # Keep the full frozen boundary; a matched checksum cannot admit a duplicate
+        # or newly grandfather an unknown/current non-exempt task.
+        for addition,diagnostic in (('ACCESS-002','duplicates'),('UNKNOWN-999','frozen'),('WFLOW-999','frozen')):
+            bad=policy('ACCESS-002'); bad['legacy_done'].append(addition)
+            bad['legacy_done_sha256']=hashlib.sha256(
+                ('\n'.join(sorted(bad['legacy_done']))+'\n').encode('utf-8')).hexdigest()
+            with self.subTest(addition=addition),self.assertRaisesRegex(ValueError,diagnostic):
                 proofs.validate_policy(bad)
+        # Whole-list substitution is independently owned by ProofTests214–216.
         for key,value in (('version',2),('legacy_done_sha256','0'*64)):
             bad=policy(); bad[key]=value
             with self.assertRaises(ValueError): proofs.validate_policy(bad)
@@ -85,21 +91,24 @@ class WorkflowRecordTests(unittest.TestCase):
         self.assertEqual(workflow.kind_minimum('epic'),set())
 
     def test_nonexempt_contract_done_requires_separate_approved_review(self):
-        # Legacy review objects remain historical. Independence is enforced on stages.
+        # Historical legacy review objects do not replace current stage approval.
         for kind in ('contract','cleanup'):
             good=task(kind=kind)
             self.assertIsNone(proofs.require_complete(bundle(good),'WFLOW-999'))
-            for review in (None, {'author':'same','reviewer':'same','outcome':'approved'},
-                           {'author':'one','reviewer':'two','outcome':'changes_requested'}):
-                with self.subTest(kind=kind,review=review):
-                    candidate=task(kind=kind); candidate['review']=review
-                    name=candidate['workflow']['required_stages'][0]
-                    # Absent, self-approved and rejected current stage receipts cannot close.
-                    candidate['workflow']['stages'][name]['reviews'] = [] if review is None else [receipt('initial',
-                        reviewer='author-session' if review['author']==review['reviewer'] else 'independent-initial',
-                        outcome='changes_requested',findings=['B1'],blocking_findings=['B1'])]
-                    with self.assertRaises(ValueError):
-                        proofs.require_complete(bundle(candidate),'WFLOW-999')
+            name=good['workflow']['required_stages'][0]
+            missing=copy.deepcopy(good); missing['workflow']['stages'][name]['reviews']=[]
+            with self.assertRaises(ValueError):
+                proofs.require_complete(bundle(missing),'WFLOW-999')
+            self_review=copy.deepcopy(good)
+            self_review['workflow']['stages'][name]['reviews'][-1]['reviewer']='author-session'
+            with self.assertRaisesRegex(ValueError,'(?i)(author|independen)'):
+                proofs.require_complete(bundle(self_review),'WFLOW-999')
+            rejected=copy.deepcopy(good)
+            rejected['workflow']['stages'][name]['reviews'][-1].update(
+                outcome='changes_requested',findings=['B1'],blocking_findings=['B1'])
+            self.assertIsNone(proofs.validate_record(rejected))
+            with self.assertRaises(ValueError):
+                proofs.require_complete(bundle(rejected),'WFLOW-999')
 
     def test_kind_minimum_stages_and_packet_shape_are_enforced(self):
         for kind, names in (("contract", ["contract"]), ("test_draft", ["tests"]),
@@ -230,7 +239,7 @@ class WorkflowRecordTests(unittest.TestCase):
         self.assertEqual(done['publication']['state'],'open')
         # Moved ProgressTests152–161: passing acceptance recorded, independent approval closes.
         implementation=task(kind='implementation')
-        self.assertEqual(implementation['verification']['acceptance'],'passed')
+        self.assertEqual(proofs.context(bundle(implementation),'WFLOW-999')['proof']['verification']['acceptance'],'passed')
         self.assertIsNone(proofs.require_complete(bundle(implementation),'WFLOW-999'))
         implementation['workflow']['stages']['implementation']=stage([])
         with self.assertRaises(ValueError): proofs.require_complete(bundle(implementation),'WFLOW-999')
@@ -331,6 +340,7 @@ class WorkflowCliTests(unittest.TestCase):
         self.assertEqual(result, 1)
         self.assertEqual(stdout, "")
         self.assertTrue(stderr.strip())
+        self.assertNotIn("CUTOVER_",stderr,"NI is not an input refusal")
         self.assertEqual(before, after)
 
 

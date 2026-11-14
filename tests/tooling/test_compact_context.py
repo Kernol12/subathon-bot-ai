@@ -161,15 +161,17 @@ class CompactContextTests(unittest.TestCase):
         data=literal_bundle(); before=copy.deepcopy(data)
         expected=dict(proof=copy.deepcopy(data['records']['APITEST-016']),
                       required_stages=['tests','implementation'],limitations=FULL_LIMIT)
-        self.assertEqual(self.success(self.invoke(data,'APITEST-016')),json.dumps(expected,indent=2,ensure_ascii=False)+'\n')
+        observed=self.success(self.invoke(data,'APITEST-016'))
+        actual=json.loads(observed)
+        self.assertEqual(observed,json.dumps(expected,indent=2,ensure_ascii=False)+'\n')
         self.assertEqual(proofs.context(data,'APITEST-016'),expected)
         self.assertEqual(proofs.context(data,'APITEST-016',compact=False),expected)
         # Moved ContextCliTests372–396: exact selected record, bounded history, warning concepts.
         for concept in ('recorded','github','ci','not verified'):
-            self.assertIn(concept,expected['limitations'].lower())
+            self.assertIn(concept,actual['limitations'].lower())
         for sentinel in ('Unrelated full record sentinel','Unrelated historical note sentinel','Historical activity sentinel'):
             self.assertIn(sentinel,json.dumps(data))
-            self.assertNotIn(sentinel,json.dumps(expected))
+            self.assertNotIn(sentinel,observed)
         expected['stage_context']=dict(name='tests',packet=copy.deepcopy(data['records']['APITEST-016']['workflow']['stages']['tests']),
             complete=True,next_gate='complete',metrics=dict(review_count=5,blocking_findings=['B2','B1','B3'],
                 closing_only_findings=['B3','closing-advisory'],elapsed_seconds=3.75,timed_reviews=3))
