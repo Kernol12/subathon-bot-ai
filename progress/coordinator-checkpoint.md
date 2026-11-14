@@ -54,8 +54,22 @@ Owner decisions are recorded in #249, comment 6879902355:
   Full core 445/445 and delegation 55/55, zero skips. #249 integration remains open.
 - ACCESS-010 (#646) claimed on `task/ACCESS-010-permission-storage` from verified
   current `main` `1fd11c3b9a11c1340e7498aac2f8408cc6c41c83`. Tier A; fresh author
-  assigned contract/examples plus real-SQL tests stage only. Prerequisites
-  #645/#579/#297/#301 closed. No tests/red/implementation authored yet.
+  authored API, NI stubs, 215-line physical schema contract and 28 Qt test methods
+  at `f7c49ddbdccce13b831d84b5f1b3c4e2d4f8fdae`. Compile/link/format checks passed;
+  no test bodies or intended red. Initial Claude tier A review requested changes
+  PG-T01–T07 (independent seeding, exact physical/decoder/failure/limit coverage).
+  First of at most two fix rounds authored at `c2bbdaa4`: 44 Qt methods,
+  independent literal physical seed, canonical sparse rows and expanded negative/
+  exact-limit cases. Compile/link/discovery passed; no bodies executed.
+  Codex verification requested one correction, PG-T06: later calls on a failed
+  session return session_closed; completion retains the original first error.
+  Second/final fix round corrects only these authored expectations and explanatory
+  contract/header text. Compile/link and discovery still pass (44 methods), no
+  bodies run. Independent verification re-check and fresh Claude closing next.
+  Initial receipt retained at
+  `/tmp/access010-review-claude-initial.md`. All-intent composition PG-N03 recorded
+  on owning #249; no authenticated-save scope added to this store.
+  Prerequisites #645/#579/#297/#301 closed; no production implementation yet.
 - Coordinator owns shared CMake/CI, additive migration integration, checkpoint,
   canonical issue pointer and proof. Author owns new permission-store API/stub,
   schema contract and focused Qt tests. No other live task writer assigned.

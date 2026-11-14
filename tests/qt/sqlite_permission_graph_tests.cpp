@@ -1198,11 +1198,15 @@ class SqlitePermissionGraphTests final : public QObject {
                                         {"SELECT * FROM main.no_such_permission_table", {}});
                                 },
                                 WorkError::sql_failure);
+                        // The first SQL failure rolled back the active session.
+                        // Later calls report its closed ticket; completion below
+                        // still retains the original sql_failure.
                         if (k == 1)
                             work_error([&] { (void)unit.replace_use(1, use_graph()); },
-                                       WorkError::sql_failure);
+                                       WorkError::session_closed);
                         else
-                            work_error([&] { (void)unit.load(); }, WorkError::sql_failure);
+                            work_error([&] { (void)unit.load(); },
+                                       k == 0 ? WorkError::session_closed : WorkError::sql_failure);
                         reached = true;
                         return 1;
                     },
@@ -1255,8 +1259,10 @@ class SqlitePermissionGraphTests final : public QObject {
                     Cleanup cleanup{s};
                     SqlitePermissionGraphUnit unit(s, "I", db.trusted);
                     work_error([&] { (void)unit.load(); }, WorkError::result_limit);
+                    // The budget failure closes this session; its first error
+                    // remains result_limit in work completion, not this call.
                     work_error([&] { (void)unit.replace_use(1, use_graph()); },
-                               WorkError::result_limit);
+                               WorkError::session_closed);
                     reached = true;
                     return 1;
                 },

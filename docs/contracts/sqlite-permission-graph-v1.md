@@ -13,7 +13,9 @@ network or nested queue submission in this adapter. Borrow immutable trusted cat
 and management mapping for the unit lifetime. No callback or Qt SQL handle escapes.
 Every public method checks a live ticket even if its result could be cached;
 construction only preflights borrowed inputs and performs no SQL/ticket access.
-A foreign/expired/closed/sticky ticket preserves the original `SqliteWorkFailure`.
+Each call propagates its actual `SqliteWorkFailure` unchanged. A failure rolls back
+the active session, so later calls report `session_closed`; work completion
+separately retains the first error (or the writer's stronger uncertain outcome).
 
 The server composition root owns `PermissionGraphTrust`, never an edit payload.
 `reference_permission_graph_trust()` is the compiled producer for #649's bounded
@@ -213,14 +215,16 @@ must match. Metadata/driver payload/decoded result each independently fit select
 bounds; maximum three such payload projections coexist, with one preflighted
 mutation projection. Scalar/index scratch, SQL engine allocation and Qt overhead
 need source audit, not an invented exact heap bound. Cumulative writer budgets
-remain additional limits and their sticky errors propagate unchanged. A graph that
+remain additional limits; each actual session-call failure propagates unchanged. A graph that
 fits store bounds need not fit arbitrary smaller writer budgets.
 
 A complete load never truncates/skips malformed or excess rows, never returns empty
 on failure. Allocation refusal is typed resource_limit; catalog revision mismatch
-is typed unavailable. Actual SQL errors (including missing tables), prior sticky
-errors and cumulative writer budget failures throw original SqliteWorkFailure from
-reads AND mutations; never relabel them unavailable or storage invalid_data. Source proof must show metadata BEFORE
+is typed unavailable. Actual SQL errors (including missing tables) and cumulative
+writer budget failures propagate that call's original SqliteWorkFailure from reads
+AND mutations. Later calls on the failed session report session_closed, while work
+completion retains the first error; no adapter-side sticky-error cache or recovery.
+Never relabel these failures unavailable or storage invalid_data. Source proof must show metadata BEFORE
 payload, decoded projection BEFORE ownership, borrowed preflight BEFORE copies,
 bounded row enumeration/codec loops and no cached current facts. Output tests cannot
 prove these obligations. No L^4/tight complexity or hard deadline is promised here.

@@ -101,7 +101,9 @@ class PermissionGraphNotImplemented final : public std::logic_error {
 // Borrows the existing revocable session, owns no connection/thread/transaction.
 // Trust is borrowed immutable for the unit lifetime; installation is copied only
 // after complete preflight. Each operation rechecks the ticket and current SQL.
-// SqliteWorkFailure is preserved (including wrong_thread/stale_session/sticky errors).
+// Each actual SqliteWorkFailure propagates unchanged, including ticket failures.
+// After rollback, later calls report session_closed; completion retains the first
+// work error independently. No adapter-side sticky-error cache is supplied.
 // Read variants distinguish absence, invalid data and bounded refusal. Mutations
 // throw PermissionGraphStorageFailure for those source failures; never call them stale.
 // Actual SQL and cumulative writer failures always throw original SqliteWorkFailure.
