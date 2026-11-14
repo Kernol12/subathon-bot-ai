@@ -1,0 +1,239 @@
+{
+  "version": 1,
+  "task_id": "ACCESS-009",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 645
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/ACCESS-009.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/648",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6880647950",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6880648302",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6880648537",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6880648830",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6881291789",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6881292015",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6881143222",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6881330166",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6881427898",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6881440307",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6881291561",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6881377143",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6881292272"
+  ],
+  "limitations": [
+    "Pure supplied-fact calculations only; authoritative enforcement/storage/identity/hold/clients remain open under #249/#646 and owning tasks. Does not close ACCESS-003.",
+    "Original 53 tests were approved before 53/53 intended NI failures; two additive security tests separately approved and observed assertion-red before the fix. No skips or assertion weakening.",
+    "Tests workflow flattens original and supplemental verification/closing packets; the supplemental Claude initial approval is retained separately in evidence. Earlier rejections remain unchanged PR receipts.",
+    "Prior implementation closing at 03c7210b is retained separately in evidence; final verification and closing both actually bind 5e482d74. No revision was relabeled.",
+    "Latest reviewer full-core run passed 445/445, delegation 55/55; coordinator selected acceptance passed 120/120 (55+32+33), zero skips. Final proof-head CI is still a separate merge gate.",
+    "Local Boost 1.92; hosted pinned Boost 1.83 verification remains CI-owned. ASan/UBSan passed on the earlier implementation; leak checking unavailable under ptrace, no final-fix sanitizer rerun claimed.",
+    "Final closing reviewer supplied a clean worktree identity but no session ID; unknown timestamps/session IDs are not fabricated."
+  ],
+  "workflow": {
+    "required_stages": [
+      "tests",
+      "implementation"
+    ],
+    "stages": {
+      "tests": {
+        "authors": [
+          "Codex author task 81ef7efc-24cb-4636-baaa-342ec085582a",
+          "Codex fixer task 44642c58-f807-4a9d-b3a8-fe6b901c5426",
+          "Codex fixer task 4c8f7e5a-c87c-4eab-b848-7feae1e556da",
+          "Coordinator thread 813c2c7c-517d-4d60-848e-1acd8e8b3880"
+        ],
+        "revision": "501c5078852c46e0e0e68a6178258f4f06c74bba",
+        "paths": [
+          "core/include/subathon/core/delegated_permissions.hpp",
+          "tests/acceptance/delegated_permissions_tests.cpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "Claude session dc5944a8-9bc9-4c8b-9d3f-19f9f94834ed",
+            "revision": "446b3e4679a1cc4c387a37a1e92432be26826a82",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6880647950",
+            "findings": [
+              "ACCESS-003-TR1-F1",
+              "ACCESS-003-TR1-F2",
+              "ACCESS-003-TR1-F3",
+              "ACCESS-003-TR1-F4",
+              "ACCESS-003-TR1-F5",
+              "ACCESS-003-TR1-F6",
+              "ACCESS-003-TR1-F7",
+              "ACCESS-003-TR1-F8",
+              "ACCESS-003-TR1-F9"
+            ],
+            "blocking_findings": [
+              "ACCESS-003-TR1-F1",
+              "ACCESS-003-TR1-F2",
+              "ACCESS-003-TR1-F3",
+              "ACCESS-003-TR1-F4",
+              "ACCESS-003-TR1-F5",
+              "ACCESS-003-TR1-F6"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "Codex session 01a1dabe-e00e-77f0-bc2d-94708db1de15",
+            "revision": "3928fc1f3cd0ca0831f0d9ebd893dea831331c4f",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6880648302",
+            "findings": [
+              "ACCESS-003-TR1-F1",
+              "ACCESS-003-TR1-F4"
+            ],
+            "blocking_findings": [
+              "ACCESS-003-TR1-F1",
+              "ACCESS-003-TR1-F4"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "Codex session 01a1dad9-3c9a-7e42-a732-f239a719779d",
+            "revision": "bd3cb983d4ae276a7d6afd612aeb2243715d9038",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6880648537",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "Claude session 3251fcc5-4815-4fcc-8075-4d527a39bd91",
+            "revision": "bd3cb983d4ae276a7d6afd612aeb2243715d9038",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6880648830",
+            "findings": [
+              "ACCESS-009-CR-N1",
+              "ACCESS-009-CR-N2",
+              "ACCESS-009-CR-N3"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "Codex session 01a1db07-f738-7950-a5e4-ecd76c4df6b0",
+            "revision": "501c5078852c46e0e0e68a6178258f4f06c74bba",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6881291789",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "Claude session fef2618f-4087-4371-94d0-1379b5f019ca",
+            "revision": "501c5078852c46e0e0e68a6178258f4f06c74bba",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6881292015",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "implementation": {
+        "authors": [
+          "Codex author task ee880169-d341-4a81-ae36-d7d3189cbc78",
+          "Coordinator thread 813c2c7c-517d-4d60-848e-1acd8e8b3880"
+        ],
+        "revision": "5e482d74a1c8bd316c5b15d5f984d46ce2536154",
+        "paths": [
+          ".github/workflows/ci.yml",
+          "core/CMakeLists.txt",
+          "core/include/subathon/core/delegated_permissions.hpp",
+          "core/src/delegated_permissions.cpp",
+          "core/src/effective_permissions.cpp",
+          "core/src/permission_engine.hpp",
+          "core/src/permission_scratch.hpp",
+          "docs/TEST_STRATEGY.md",
+          "docs/tasks/ACCESS-009.md",
+          "tests/CMakeLists.txt",
+          "tests/acceptance/delegated_permissions_tests.cpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "Claude session ea9eb644-8737-4fd0-9c16-8eb88635aa5d",
+            "revision": "026690b1b2ea7568f018353705021c048c0d54b6",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6881143222",
+            "findings": [
+              "R0-B1",
+              "R0-B2",
+              "R0-N1",
+              "R0-N2",
+              "R0-N3",
+              "R0-N4"
+            ],
+            "blocking_findings": [
+              "R0-B1",
+              "R0-B2"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "Codex session 01a1db0e-d786-7db1-8fa2-92385ce5905f",
+            "revision": "3b627e00d7fb75ff69790dd7767f61d497fb6267",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6881330166",
+            "findings": [
+              "V1-N1"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "Codex session 01a1db16-c079-7be0-8091-6c1f281e5327",
+            "revision": "5e482d74a1c8bd316c5b15d5f984d46ce2536154",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6881427898",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "Claude fresh closing review worktree t3-ecdf3086 (session ID not supplied)",
+            "revision": "5e482d74a1c8bd316c5b15d5f984d46ce2536154",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/648#issuecomment-6881440307",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  },
+  "verification": {
+    "tests_review": "passed",
+    "intended_red": "observed_red",
+    "supplemental_intended_red": "observed_red",
+    "implementation_review": "passed",
+    "core_acceptance": "passed",
+    "project": "passed",
+    "github_ci": "not_run",
+    "product_acceptance": "not_run"
+  }
+}
