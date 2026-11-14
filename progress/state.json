@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-14T00:00:20.637941+00:00",
+  "updated_at": "2026-11-14T00:06:52.972621+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20500,7 +20500,7 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
       "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Primary contract approved; separate ADR closing pending before tests. Ten native reclassifications applied/read back; all503 identities/422 parents/1549 prerequisites match exact source sets. Board projections/views/README verified. Historical audit partial; pin/cutover blocked. No tests/runtime/deletions; state authoritative, product/WF006/007 stopped."
+        "Primary contract and separate ADR scope independently closing-approvedffdc38f. Test authorship may proceed, no execution before test reviews. Audit initial rejected nine findings;12-row correction proposed,838 candidates remain. Required40bdb600 archival publication pending; guard unchanged. Native full readback passed. State authoritative; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
@@ -20510,7 +20510,9 @@
         "implementation": "not_run",
         "acceptance": "not_run",
         "contract_verification": "passed",
-        "native_readback": "passed"
+        "native_readback": "passed",
+        "cleanup_scope_review": "passed",
+        "availability_review": "failed"
       },
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/issues/629",
@@ -20519,7 +20521,9 @@
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6867679272",
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6867680339",
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6867699831",
-        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868038467"
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868038467",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868095851",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868097821"
       ],
       "review": null,
       "workflow": {

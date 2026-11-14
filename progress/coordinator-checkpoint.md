@@ -177,3 +177,38 @@ corrected query succeeded; not test/red. Private receipts live in
 local-evidence/EPIC-029/migrate004-native-reclassification. Re-inventory at A/P/005;
 no permanent sync/tool/ledger. Separate ADR closing and historical review remain active;
 pin/cutover blocked by unresolved availability. No repository source/test/deletion.
+
+Separate ADR0012 Claude closing APPROVED scopeblobc300f363 atffdc38f, session
+f92e5197-18e1-4549-8739-7623efbc9241, dispatch228661b9-38b4-48eb-a053-6688c255b4ba,
+issue629#issuecomment-6868095851. No blockers; CL-C-N01..08 are mandatory inputs to
+authored-test review (completion positives must use completion, exact retained lenient/
+strict coverage, no-write line129, selected proof key rename only, fixture/save/import
+diff enumeration, SDK probe exit1/ValidationError/identity, retired status-positive137).
+Observed23:40:32–23:46:37 are samples, not exact duration. Primary already closing-approved.
+Literal scope final rule permits changed-test authorship only after recording approval;
+owner authorization plus both recorded approvals now permit a fresh focused author.
+No test execution/import before its own independent cycle; no deletion/implementation
+now. Full availability audit remains before A/pin, not an invented test-authoring gate.
+
+Historical initial CHANGES_REQUESTED AV-I-01..09, dispatch25fd1976-59f1-4b69-b06c-
+b257db7fc00d, issue629#issuecomment-6868097821. Initial report has no session UUID,
+so dispatch is retained as attribution; observed23:40:31–23:49:59 not structuredtime.
+ROLE-01 original1d8 is proposed non-required receipt container after concrete T1–T5
+chronology/content analysis, NOT admitted or rebound. All ten originals have outgoing
+guard witnesses. Full outgoing ranges/ancestor approvals and rejections, co-located
+identity rows, exactAPITEST57/9/39 labels and explicit receipt full-ID fragment bases
+need correction/review. TESTCLEAN00740bdb600 IS required original source (metadata-sensitive
+test run); sole outgoing tree has no forbidden path. Existing owner migration authority
+covers preparing its reviewed archival publication; no renewed permission needed, but
+independent privacy/review/currentCI/protected merge/readback still mandatory. No push
+or guard waiver yet. External old review-body artifacts remain an explicit limitation.
+
+Coordinator corrections private /tmp/migrate004-availability-role-correction retain old
+inputs unchanged, enumerate full ranges1/9/1/1/1/4/1/1/1/3/1/17 and049d998 witness,
+propose individual container/status roles, cross-reference each ancestor/co-located
+identity to OWN unresolved row, record actual receipt full-ID/line fragment bases.
+Not admitted; separate Codex verification/Claude closing required. Remaining838 rows
+partitioned419/419 in /tmp/migrate004-audit-partition-a.json and-b.json for independent
+source-aware authorship, not permanent data or count waiver. All850 private GC-protected.
+Fresh test author owns only scoped oracles/fixtures/minimal explicit NI seams in an
+isolated checkout; coordinator owns state/HTML/checkpoint. No SDK/tests imported/run.
