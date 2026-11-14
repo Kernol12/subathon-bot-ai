@@ -51,27 +51,29 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 - ACCESS-009 (#645) completed by protected PR #648 merge `1fd11c3b`.
   Full core445/445, delegation55/55, zero skips; tier A/proof/required CI passed.
-- ACCESS-010 (#646), branch `task/ACCESS-010-permission-storage`, draft PR #650.
-  Original contract/tests approved at67084944; original94 NI/outcome-guard red
-  preserved. Implementation f1a5c104 plus source robustness fixes f9a34be0 authored.
-  Initial Claude source review found no source blockers; PG-B01 fixture defect was
-  owner-approved for an extra correction round (646 comment6883152604).
-  Revised baseline711e059d completed separate Claude/Codex/Claude approval.
-  Corrected runtime:139/139 closure nodes and94/94 graph invocations pass, zero
-  skips/warnings. Separate ordinary Qt CI execution/discovery now integrated;
-  local discovery mirror passes44 methods/94 invocations. Independent Codex
-  implementation verification and fresh Claude closing are next; no merge approval.
+- ACCESS-010 (#646) completed by protected PR #650 merge `65936bcb`.
+  Corrected closure139/139 and graph94/94 passed, zero skips/warnings; tier A,
+  proof/publication and final-head7/7 CI passed. Owner-approved PG-B01 correction
+  and historical rejections remain recorded in the PR and proof.
+- ACCESS-011 (#649), branch `task/ACCESS-011-reference-authority`, claimed after
+  #646 merge. First stage: concrete original-author/capability registry ownership,
+  bootstrap and finite callback read contract, examples and real-SQL tests.
+  A fresh author session will own the bounded public API/schema and tests; no
+  implementation or test-body execution before its tier A tests review.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
-  proof. Source and revised test history retained; no further test change authorized.
-  Full #249 integration remains open; ACCESS-011 (#649) follows #646 merge, then
-  RULES-006 resumes after real producer readiness. No other live writer assigned.
+  proof. Step10 is reserved for this registry after compiled permission step9;
+  preserve all shipped prefix bytes. Full #249 integration remains open. RULES-006
+  resumes only after #649 supplies an actual current producer. No other writer is
+  assigned; completed review worktrees are historical, not live assignments.
 - Draft PR #121 stays parked. Process/tooling work remains frozen until the slice.
   EPIC-029 closed, follow-ups #636; pre-cutover evidence remains historical.
 
 ## Next action
 
-Finish ACCESS-010 independent implementation verification and fresh Claude closing
-at the same exact final candidate, then one proof/policy commit and protected merge
-on current CI. Do not treat corrected-test approval or runtime checks as code review.
-Continue ACCESS-011 in a fresh session only after #646 lands; preserve all current
-original-author, scope, revision and full release requirements.
+Author ACCESS-011's contract/examples and independent real-store tests in a fresh
+session. Reuse actual account/session and complete permission-graph sources; do not
+treat a principal ref, supplied ResolvedAccountSession or retained document as an
+authentication capability. Contract any finite read-view extension before behavior.
+Then full tier A tests review, intended red, fresh implementation and code review.
+Preserve current original-author, scope, revision and full release requirements;
+stop if an additional substantial prerequisite falls outside #649's bounded scope.
