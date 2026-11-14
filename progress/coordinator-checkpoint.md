@@ -65,7 +65,11 @@ Owner decisions are recorded in #249, comment 6879902355:
   session return session_closed; completion retains the original first error.
   Second/final fix round corrects only these authored expectations and explanatory
   contract/header text. Compile/link and discovery still pass (44 methods), no
-  bodies run. Independent verification re-check and fresh Claude closing next.
+  bodies ran at that review stage. Codex verification and fresh Claude closing
+  approved the full tests/contract at `67084944`. Coordinator integrated the
+  opt-in selector/preset and observed94 intended failures across all44 methods
+  after successful full build/discovery; zero setup failures, skips or warnings.
+  Fresh implementation session next; approved assertions/schema remain fixed.
   Initial receipt retained at
   `/tmp/access010-review-claude-initial.md`. All-intent composition PG-N03 recorded
   on owning #249; no authenticated-save scope added to this store.

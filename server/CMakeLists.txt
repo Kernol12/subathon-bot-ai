@@ -127,3 +127,11 @@ if(SUBATHON_BUILD_API_HOST_NATIVE_TESTS)
     target_compile_definitions(subathon_api_host_drogon PRIVATE QT_NO_KEYWORDS)
     subathon_target_options(subathon_api_host_drogon)
 endif()
+
+# ACCESS-010 tests stage: source is an unconditional NI marker until review/red.
+if(SUBATHON_BUILD_SQLITE_PERMISSION_GRAPH_TESTS)
+    add_library(subathon_sqlite_permission_graph STATIC src/sqlite_permission_graph.cpp)
+    target_include_directories(subathon_sqlite_permission_graph PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_sqlite_permission_graph PUBLIC subathon_sqlite_account_sessions subathon_effective_permissions)
+    subathon_target_options(subathon_sqlite_permission_graph)
+endif()

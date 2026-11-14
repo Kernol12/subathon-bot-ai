@@ -1,6 +1,7 @@
 # SQLite permission graph, physical boundary v1
 
-ACCESS-010 #646; tier A; **authored, not reviewed/implemented**. Public API:
+ACCESS-010 #646; tier A. Review receipts and current status belong in the issue/PR.
+Public API:
 `server/include/subathon/server/sqlite_permission_graph.hpp`. Core supplied-fact
 semantics remain in `effective_permissions.hpp` and `delegated_permissions.hpp`.
 This contract owns the physical cross-module schema/codec, not authenticated saves.

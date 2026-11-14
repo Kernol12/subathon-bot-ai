@@ -126,3 +126,10 @@ if(SUBATHON_BUILD_TRANSLATION_CATALOG_TESTS)
         WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/tests/localization"
         LABELS "translation-catalog;acceptance" TIMEOUT 120)
 endif()
+
+if(SUBATHON_BUILD_SQLITE_PERMISSION_GRAPH_TESTS)
+    subathon_add_qt_suite(server_sqlite_permission_graph_acceptance
+        NAME sqlite-permission-graph SOURCES sqlite_permission_graph_tests.cpp
+        LIBRARIES subathon_sqlite_permission_graph
+        LABELS "sqlite-permission-graph;acceptance;qt;server;intentional-red")
+endif()

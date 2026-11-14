@@ -58,6 +58,7 @@ still using synthetic data and supplied policy/authority facts.
 | `application-service-debug` | `-L '^application-service$'` | 43 methods/233 scenarios composing actual SQLite bundles/holds with supplied ports |
 | `sqlite-reference-capture-debug` | `-L '^reference-capture-values$'` / `-L '^sqlite-reference-capture$'` | 28 structural codec cases and 38 real-SQL methods/67 scenarios |
 | `sqlite-account-sessions-debug` | `-L '^sqlite-account-sessions$'` | 44 real-SQL methods for physical current facts, full conditional writes and compiled-prefix/frame equality; host login/authority remains separate |
+| `sqlite-permission-graph-debug` | `-L '^sqlite-permission-graph$'` | 44 reviewed Qt methods / 94 invocations; intentional-red NI baseline for graph storage; not implemented |
 | `translation-catalog-debug` | `-L '^translation-catalog$'` | 43 generator methods with literal goldens; build also produces/validates real Qt QM |
 | `native-websocket-profile-debug` | `-L '^native-websocket-profile$'` | 44 reviewed methods passing locally and in selected Ubuntu CI against the corrected Drogon/Trantor SDK: real Linux loopback framing/control/Close, listener isolation, ownership and resource/deadline observations with supplied elapsed time; actual host/TLS/clock/auth/platform gates remain separate |
 | `bounded-http-foundation-debug` | `-L '^bounded-http-foundation$'` | NI-only bounded HTTP baseline; see APITEST-016 for actual review/admission/red status. Compiles the existing native transport dependency without Qt/SQL/host scope. |
