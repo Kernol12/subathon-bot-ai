@@ -595,3 +595,30 @@ AC03 checkpointa13/778availabilityfromfetchedAPI001branchonly,notmain/archivepin
 All419retained;oldreasons preserved; only2blockingrows+2precisionlocatorschanged.
 InitialprivateJSONupdateprobe expectedlisthistorywherepriorwasdict; retainedbothafter
 normalizingcontainer, nottestfailure/red. SeparateCodexverification/freshClaudeclosingnext.
+
+A closing-fix Codex verification: bounded AC01/AC02 factual fixes verified, no new
+blocking correction findings. AC03 branch-only locators precise. Reviewer
+codex:migrate004-availability-a-closing-fixes-20261114, dispatch
+ d1748c57-e5c7-49e5-a8d8-70b5319d4a80; report issue629#issuecomment-6870376504,
+SHA256232ca765f75f254ca60c363a9e6477205127dfda2df161945800e283a347e9af;
+machine ae6086181ac03e1e40518a5cec69df73e3c38611b5f196a20caf73d325d242d5.
+All419 identities/order/claims/outgoing witnesses retained; exactly4 rows changed,
+415 identical. Prior46 bounded corrections retained;371 other rows not reapproved.
+Complete local ODB23123 objects has zero matches for all six missing dirty-run
+fragments; no full identities or available bytes inferred. c85 main-reachable run
+candidate and superseded-author role correctly distinguished. Old history dict
+retained within normalized list; no rejected evidence discarded. Only passive checks,
+no old project checks or test/historical code execution claimed. Samples02:37:37/
+02:39:07 not endpoints/duration. Fresh independent Claude closing remains required.
+Availability still blocked by missing required-content and confirmed d717 guard conflict;
+no disposition or archive/pin/cutover approval from factual verification.
+
+Actual fresh prospective implementation assignment is ee0ae2ff-bceb-4ced-8603-a0de62157702,
+T3-isolated Codex session after recorded reviewed red. Owned runtime/schema/CMake and
+coordinated instruction/STATUS/storage-rescope consumer source under exact approved
+scope; all14 oracle files/contracts/state/HTML/checkpoint/archive facts coordinator-
+reserved. Source handoff and code review pending, no claimed implementation result.
+Author may prepare prospective legacy source cleanup in its own checkout; coordinator
+alone integrates after preservation/review gates, retaining production authority and
+all authoritative metadata until reviewed final freeze. No canonical dummy bundle or
+future archive pin, no source push/PR/issue closure/successor/product/WF execution.
