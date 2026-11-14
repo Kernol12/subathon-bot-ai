@@ -1097,12 +1097,30 @@ class SqlitePermissionGraphTests final : public QObject {
             db.work([&](const auto &s) {
                 SqliteAccountSessionUnit accounts(s, {{}});
                 require(accounts.insert_installation({{"other", "E"}, "J"}) ==
-                            LifecycleWriteResult::staged,
-                        "Separate existing installation");
+                            LifecycleWriteResult::collision,
+                        "One installation per database; a second identity cannot be adopted");
                 SqlitePermissionGraphUnit other(s, "other", db.trusted);
-                failure(other.load(), PermissionGraphFailure::missing);
+                failure(other.load(), PermissionGraphFailure::invalid_data);
                 SqlitePermissionGraphUnit absent(s, "nonexistent", db.trusted);
                 failure(absent.load(), PermissionGraphFailure::invalid_data);
+            });
+            // A different existing installation belongs in its own disposable database.
+            account_sessions_fixture::Database other_db(false);
+            (void)run(other_db.writer, [&](auto context) -> QVariant {
+                const auto s = context.begin();
+                Cleanup cleanup{s};
+                for (const auto &sql : step9(account_sessions_fixture::Data{}.manifest()).sql)
+                    (void)s.execute({sql, {}});
+                SqliteAccountSessionUnit accounts(s, {{}});
+                require(accounts.insert_installation({{"other", "E"}, "J"}) ==
+                            LifecycleWriteResult::staged,
+                        "Different installation created in a separate empty database");
+                SqlitePermissionGraphUnit other(s, "other", db.trusted);
+                failure(other.load(), PermissionGraphFailure::missing);
+                SqlitePermissionGraphUnit original(s, "I", db.trusted);
+                failure(original.load(), PermissionGraphFailure::invalid_data);
+                s.commit();
+                return 1;
             });
             same(db.load(), 1);
         });

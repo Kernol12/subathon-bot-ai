@@ -50,56 +50,31 @@ Owner decisions are recorded in #249, comment 6879902355:
 ## Current state and assignments
 
 - ACCESS-009 (#645) completed by protected PR #648 merge `1fd11c3b`.
-  Tier A reviews/publication proof passed; final required CI 7/7 passed.
-  Full core 445/445 and delegation 55/55, zero skips. #249 integration remains open.
-- ACCESS-010 (#646) claimed on `task/ACCESS-010-permission-storage` from verified
-  current `main` `1fd11c3b9a11c1340e7498aac2f8408cc6c41c83`. Tier A; fresh author
-  authored API, NI stubs, 215-line physical schema contract and 28 Qt test methods
-  at `f7c49ddbdccce13b831d84b5f1b3c4e2d4f8fdae`. Compile/link/format checks passed;
-  no test bodies or intended red. Initial Claude tier A review requested changes
-  PG-T01–T07 (independent seeding, exact physical/decoder/failure/limit coverage).
-  First of at most two fix rounds authored at `c2bbdaa4`: 44 Qt methods,
-  independent literal physical seed, canonical sparse rows and expanded negative/
-  exact-limit cases. Compile/link/discovery passed; no bodies executed.
-  Codex verification requested one correction, PG-T06: later calls on a failed
-  session return session_closed; completion retains the original first error.
-  Second/final fix round corrects only these authored expectations and explanatory
-  contract/header text. Compile/link and discovery still pass (44 methods), no
-  bodies ran at that review stage. Codex verification and fresh Claude closing
-  approved the full tests/contract at `67084944`. Coordinator integrated the
-  opt-in selector/preset and observed94 intended failures across all44 methods
-  after successful full build/discovery; zero setup failures, skips or warnings.
-  Fresh implementation session next; approved assertions/schema remain fixed.
-  Initial receipt retained at
-  `/tmp/access010-review-claude-initial.md`. All-intent composition PG-N03 recorded
-  on owning #249; no authenticated-save scope added to this store.
-  Prerequisites #645/#579/#297/#301 closed; no production implementation yet.
-- Coordinator owns shared CMake/CI, additive migration integration, checkpoint,
-  canonical issue pointer and proof. Author owns new permission-store API/stub,
-  schema contract and focused Qt tests. No other live task writer assigned.
-- ACCESS-011 (#649) is authorized after #646 merges. RULES-006's claim is parked;
-  its source-inspected producer gap is recorded in #558, comment 6881646486.
-- ACCESS-010 implementation candidate `f1a5c104` is local and unreviewed:
-  138/139 closure nodes and93/94 graph invocations pass, zero skips/warnings.
-  One approved test wrongly expects two installation rows in the shipped singleton
-  store. Tests remain unchanged. Concrete unapplied separate-database correction
-  is at `/tmp/access010-proposed-baseline-correction.patch`; third tests fix round
-  needs owner authorization and independent baseline review. Implementation source
-  review may proceed read-only, but acceptance/merge remain blocked.
-  Initial Claude source review confirms PG-B01 and finds no source blockers.
-  Source-only notes PG-I01–I04 now addressed: actual byte metadata, stable decoder
-  views, enum-width assertions and one shared provenance index instead of repeated
-  per-account quadratic scans. Core120/120 passes; graph still93/94 with only the
-  untouched singleton fixture failure. PG-I05 unused marker left in fixed header.
-  Owner authorization for the extra baseline correction round is still pending.
-- Draft PR #121 stays parked. SLICE-001 waits for API-011's reviewed startup path.
-- EPIC-029 is closed (PR #638); follow-ups #636. Pre-cutover evidence remains
-  historical; private outputs stay private.
+  Full core445/445, delegation55/55, zero skips; tier A/proof/required CI passed.
+- ACCESS-010 (#646), branch `task/ACCESS-010-permission-storage`, draft PR #650.
+  Original contract/tests approved at67084944; integrated baseline observed94 NI/
+  outcome-guard failures across44 methods, zero setup failures/skips/warnings.
+  Local implementation f1a5c104:138/139 closure nodes,93/94 graph invocations pass.
+  Initial Claude source review confirmed one baseline defect PG-B01 and no source
+  blockers. Source-only notes I01–I04 addressed at f9a34be0, awaiting verification;
+  core120/120 passes; I05 unused NI declaration retained in fixed public header.
+- Owner explicitly approved the bounded PG-B01 fixture correction and one extra
+  tests fix round (issue646 comment6883152604). Different installations are tested
+  in separate disposable databases; singleton collision, absent-scope refusal and
+  original graph isolation remain asserted. Shipped schema/account behavior stays
+  fixed. Compile/discovery44 methods/94 invocations passed; corrected bodies unrun.
+  Independent tier A review of this revised baseline is next; history preserved.
+- Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
+  proof. No live writer assigned; read-only test review next. Full #249 integration
+  remains open; ACCESS-011 (#649) is authorized after #646 merges. RULES-006 parked.
+- Draft PR #121 stays parked. Process/tooling work remains frozen until the slice.
+  EPIC-029 closed, follow-ups #636; pre-cutover evidence remains historical.
 
 ## Next action
 
-Complete ACCESS-010 contract/examples and test authoring in a fresh session, then
-independent tier A tests review before intended red and implementation. Merge only
-through current protected gates. Continue with a fresh ACCESS-011 session after
-its dependencies land, then recheck RULES-006 producer readiness. Preserve the full
-release scope and original-author/currentness decisions.
+Review the owner-approved bounded test correction independently before running it.
+Then run corrected graph/owning checks, promote passing Qt CI and finish ACCESS-010
+implementation verification/closing at the same exact final candidate, followed by
+one proof/policy commit and protected merge. Do not infer review approval from the
+owner's permission to correct the fixture. Continue ACCESS-011 in a fresh session
+only after #646 lands; preserve all currentness/original-author/release requirements.
