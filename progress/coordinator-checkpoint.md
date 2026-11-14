@@ -33,7 +33,8 @@ Reconciliation: 503 task IDs/issues; zero parent/prerequisite mismatches; 496 re
 Existing checks pass: tooling 155/155; scaffold 3/3; SDK preset 6/6 nodes.
 Repository/canonical validation and bootstrap publication preflight pass.
 Earlier pre-staging runs failed fixture setup; preserved as setup failures, not red.
-Next: one cutover PR, then Claude initial → Codex fix/independent verification → Claude closing.
+Cutover PR: https://github.com/Kernol12/subathon-bot-ai/pull/635 (draft).
+Current review: Claude initial pending → Codex fix/verify → Claude closing.
 Only wrong/unsafe cutover findings block; others go into one follow-up issue.
 At most two fix rounds; ask owner with a short list before a third.
 Current-head CI and normal protected merge remain mandatory; never bypass protection.
