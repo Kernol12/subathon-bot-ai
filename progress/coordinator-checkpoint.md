@@ -1,76 +1,58 @@
 # EPIC-029 current coordinator checkpoint
 
 Owner: Kernol12. Coordinator: codex:coordinator-59095155.
-Scope: MIGRATE-006 → MIGRATE-005 only. No product/API or WORKFLOW-006/007 execution.
-Full v0.45 scope, unrelated changes, local main and existing worktrees are preserved.
+Current scope: MIGRATE-005 final audit only; then stop.
+Full v0.45 retained; product/API and WORKFLOW-006/007 execution remain stopped.
 
 ## Owner decision
 
 Pre-cutover history is “historical, as recorded, not re-verified”.
-This supersedes the withdrawn narrow historical amendment and per-row audit gates.
-Historical A/B/reliance/seal/privacy work is stopped. Private artifacts stay private.
-Unfinished tasks need current proof when later executed; historical-only completion fails.
-The d717 identity, six missing dirty sources and missing seal are historical limitations.
-One PR/review cycle per cleanup task; only wrong/unsafe migration findings block.
-Maximum two fix rounds per cycle; ask owner before a third. Follow-ups go to issue636.
+Earlier narrow amendment/per-row audits are superseded. Historical A/B/reliance/seal/
+privacy work stays stopped; private artifacts stay private, hash references only.
+Known history: d717 identity, six missing dirty-run sources, unrecovered seal.
+New execution on unfinished tasks requires its own current proof when executed.
+One final audit report from a fresh checkout; no new contracts/test suites/audit packets.
+Only wrong/unsafe migration findings block; other follow-ups go to issue636.
+At most two fix rounds per review cycle, ask owner before a third.
 
-## Verified completion
+## Verified merged work
 
-001 PR632 merged cfd6da9; 002 PR633 merged a277c5d; 003 PR634 merged b80e94f.
-004 PR635 merged f674131464b5907be0ec390b40bd1d1436e36c7e at 2026-11-14T09:24:23Z.
-Final004 head 31a7311b; 21/21 checks; Claude initial, Codex verification, Claude closing approved.
-Normal two-parent protected merge; archive da8db0dc ancestry verified; issue629 closed.
-Active ruleset26170263 had no bypass actors; no unresolved review threads.
-GitHub now owns planning/lifecycle/native relationships; progress/proofs owns current proof.
-Old tracker tag: epic-029-old-tracker-2026-11-14 at355ffdfe (pushed/read back).
-Archive proof pin: da8db0dc3984f55aaff12297947a6bd8083d5315, unchanged tracker values.
-004 reconciliation:503 task IDs/issues;496 readable title changes;zero relationship mismatches.
+001 PR632 cfd6da9; 002 PR633 a277c5d; 003 PR634 b80e94f.
+004 PR635 f674131464b5907be0ec390b40bd1d1436e36c7e, 2026-11-14T09:24:23Z.
+004 final head31a7311b:21/21 CI; initial/Codex/fresh closing approved; normal protected merge.
+005 predecessor006 PR637 c75254119c73abb51cf75ac512d813579f98618a, 2026-11-14T10:02:26Z.
+006 final headb7bdc140:21/21 CI; initial/Codex/fresh closing approved; zero fix rounds.
+Normal two-parent006merge and f674/da8 ancestry verified; issue631 closed after readback.
+Ruleset26170263 active with no bypass; no unresolved review threads at either merge.
+GitHub owns planning/lifecycle/native relationships; canonical progress/proofs owns proof.
+Old tracker tag epic-029-old-tracker-2026-11-14 at355ffdfe, remotely available.
+Proof archive da8db0dc3984f55aaff12297947a6bd8083d5315, unchanged old tracker JSON values.
+Full brief tag epic-029-task-briefs-2026-11-14 atf6741314, remotely available.
 
-## Current task: MIGRATE-006
+## Cleanup results
 
-Issue631 claimed/assigned on GitHub; claim comment6875183677. No duplicate task.
-Branch task/MIGRATE-006-brief-cleanup from current main f6741314.
-Existing canonical record set to pending workflow before authoring; cleanup requires implementation stage.
-Full brief archive tag: epic-029-task-briefs-2026-11-14 atf6741314.
-Tag pushed/read back; archived WORKFLOW-003 blob matches local Git object.
-Current GitHub inventory:504 issues,372 open/132 closed (includes follow-up636).
-Actual task Markdown inventory and consumers must determine cleanup, not old counts.
-Fresh isolated author owns task briefs/navigation, one inventory table and affected doc links.
-Coordinator owns canonical proof/policy, checkpoint, GitHub issue links, integration and merge.
-Retain shared briefs needed by unfinished tasks/current gates; preserve all acceptance/domain constraints.
-Compact tracking duplication; remove eligible completed copies only after archive/link repair.
-Keep proof brief relocation within the existing pinned-archive rule; do not change tool behavior.
-Use one PR and one Claude initial → Codex verify → Claude closing cycle.
-No new tests or manufactured red for documentation cleanup. Existing relevant checks apply.
-Current fix rounds:0 of2. Authored source ddc39a53; initial Claude review found no blockers.
-Actual cleanup:327 files inventoried;71 archived/removed,238 compacted,18 unchanged.
+One inventory table: docs/migrations/EPIC-029/brief-inventory.md.
+327 original Markdown files:71 archived/removed,238 compacted,18 unchanged;256 remain.
 149 shared unfinished briefs and30 completed technical/current-gate briefs retained.
-96 canonical brief pointers relocated to matching immutable proof-archive bytes.
-94 affected GitHub issue bodies updated/read back; archive links repaired before publication.
-Repository/proof validation and six-check publication preflight passed.
-Author ran155 existing tooling tests successfully; no new tests or manufactured red.
-Cleanup PR: https://github.com/Kernol12/subathon-bot-ai/pull/637 (draft).
-Initial report PR637#issuecomment-6875421916; all155 tooling tests independently passed.
-Codex verification approved: PR637#issuecomment-6875472515, no blockers.
-Fresh Claude closing approved: PR637#issuecomment-6875515769, no blockers.
-Next: final-head CI and protected normal merge/readback. No completion claimed.
+94 GitHub issue bodies repaired/read back;96 canonical brief pointers pinned at matching archives.
+Acceptance/domain constraints and task identities preserved; no product/test behavior changed.
+Current review receipts live in PR637; cosmetic/historical-link follow-ups are in issue636.
 
-## Next
+## Current task
 
-Complete actual inventory/compaction/retirement and GitHub/doc/evidence link repair.
-Verify current-head CI, independent approvals and normal protected merge/readback.
-Then MIGRATE-005: one audit report from fresh checkout, final relationships/board/history,
-archive/links/current-proof guards/offline reproducible checks, then task/epic closure.
-Do not start any next workflow/product task after migration.
+MIGRATE-005 issue630 claimed/assigned/In progress; claim6875618244.
+Branch task/MIGRATE-005-final-audit from merged main c7525411; pending workflow set before audit.
+Fresh independent session will produce one factual report against the actual merged repository.
+Audit IDs/titles/parents/prerequisites/native views, archives/cleanup/links/old names,
+required-proof refusals and offline existing repository/tooling/SDK/scaffold checks.
+No historical re-verification, new fixture suite, or manufactured red.
+Coordinator owns proof/checkpoint/GitHub closure; auditor owns only the one report.
+Report must state actual checked revision/commands, limits and follow-ups.
+Do not make a status-only completion PR; any report change must carry the actual audit.
+Closure only after applicable independent review, required checks and merge/readback.
+Then close MIGRATE-005/EPIC-029 and stop. Do not start the next workflow/product task.
 
 ## Privacy
 
-Private audit outputs remain ignored/local. An earlier private proposal post was auto-rejected;
-no public payload or retry. Historical artifact review is stopped under owner instruction.
-Prior detailed checkpoint and review history remain at the old-tracker tag and PR635.
-
-006 initial report SHA-256: ac821be5923b78c953e1d719f1415b901e79c2dee62dd42ca600907a989d5158.
-
-006 Codex report SHA-256: c481e0d6a64923a455c72d1825ba21a433c1fa13c9c568b192be25ca48d1be66.
-
-006 closing report SHA-256: 612e84a1143a876783cbc8adce84211b1cb6a7eb897011f334ffb9841a68d29d.
+Ignored historical outputs remain private. Earlier private proposal post was auto-rejected;
+no payload/retry. Prior detailed checkpoint/history remain under the old-tracker tag.

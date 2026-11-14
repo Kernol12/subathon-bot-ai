@@ -8,9 +8,16 @@
   "kind": "environment",
   "brief": "docs/tasks/EPIC-029/MIGRATE-005.md",
   "evidence": [
-    "https://github.com/Kernol12/subathon-bot-ai/issues/630"
+    "https://github.com/Kernol12/subathon-bot-ai/issues/630",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/630#issuecomment-6875618244"
   ],
   "limitations": [],
   "verification": {},
-  "review": null
+  "review": null,
+  "workflow": {
+    "required_stages": [
+      "implementation"
+    ],
+    "stages": {}
+  }
 }
