@@ -30,9 +30,10 @@ Prior checkpoint and detailed receipts remain in Git history at the old-tracker 
 
 Cutover code/instructions/templates integrated; unrelated work/worktrees preserved.
 Reconciliation: 503 task IDs/issues; zero parent/prerequisite mismatches; 496 readable title changes.
-Repository and canonical validation pass; SDK aggregate passes. Tooling/scaffold first run
-failed setup because the index still listed deleted files; stage deletions before retry.
-One cutover PR: Claude initial → Codex fix/independent verification → Claude closing.
+Existing checks pass: tooling 155/155; scaffold 3/3; SDK preset 6/6 nodes.
+Repository/canonical validation and bootstrap publication preflight pass.
+Earlier pre-staging runs failed fixture setup; preserved as setup failures, not red.
+Next: one cutover PR, then Claude initial → Codex fix/independent verification → Claude closing.
 Only wrong/unsafe cutover findings block; others go into one follow-up issue.
 At most two fix rounds; ask owner with a short list before a third.
 Current-head CI and normal protected merge remain mandatory; never bypass protection.
@@ -51,3 +52,6 @@ One proof authority after merge: progress/proofs plus proof-policy; no duplicate
 Private artifacts remain private. An earlier attempt to post a private privacy proposal
 was automatically rejected; no payload was posted and no retry is authorized or needed.
 Only hash references may describe those private audit artifacts.
+
+Current implementation packet: a911d8a5; new review pending, older receipts preserved.
+Fix rounds used in the new owner-directed cycle: 0 of 2.

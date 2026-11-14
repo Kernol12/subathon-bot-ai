@@ -65,7 +65,8 @@
     "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6874552437"
   ],
   "limitations": [
-    "Aclosing found2original FIRST roles (053/244); blockers/scope repairs authored, fullA sweep next. B419hash recheck clear; freshclosing next. Privacyreview private/running.0admitted; no holds posted. State authoritative; archive/canonical/CI/merge pending; product/WF006007 stopped."
+    "Aclosing found2original FIRST roles (053/244); blockers/scope repairs authored, fullA sweep next. B419hash recheck clear; freshclosing next. Privacyreview private/running.0admitted; no holds posted. State authoritative; archive/canonical/CI/merge pending; product/WF006007 stopped.",
+    "Owner decision 2026-11-14 supersedes the prior audit checkpoint: pre-cutover history is historical, as recorded, not re-verified. New cutover source and current PR review remain pending."
   ],
   "workflow": {
     "required_stages": [
@@ -469,7 +470,7 @@
           "codex:ee0ae2ff-bceb-4ced-8603-a0de62157702:/root",
           "codex:coordinator-59095155"
         ],
-        "revision": "0041d000317d7806b304b711f95ab9fcbe64310b",
+        "revision": "a911d8a5385aba96c89fa5d3afd826a278ee6dbf",
         "paths": [
           ".github/pull_request_template.md",
           "AGENTS.md",
@@ -486,11 +487,19 @@
           "docs/PROGRESS.md",
           "docs/STATUS.md",
           "docs/TEST_STRATEGY.md",
+          "docs/contracts/github-authority-cutover-v1.md",
+          "docs/contracts/github-task-migration-v1.md",
+          "docs/contracts/github-tracker-retirement-scope-v1.md",
+          "docs/contracts/historical-evidence-dispositions-v1.md",
+          "docs/contracts/proof-publication-v1.md",
+          "docs/contracts/proof-records-v1.md",
           "docs/decisions/0001-baseline.md",
           "docs/decisions/0006-reference-path-prerequisites.md",
           "docs/decisions/0010-session-executable-prerequisites.md",
           "docs/evidence/README.md",
+          "docs/migrations/EPIC-029/reconciliation.md",
           "docs/schema-validation.md",
+          "docs/tasks/EPIC-029/MIGRATE-004.md",
           "docs/tasks/README.md",
           "docs/tasks/WORKFLOW-006.md",
           "docs/tasks/WORKFLOW-007.md",
@@ -500,6 +509,20 @@
           "server/README.md",
           "tests/schema_validation/CMakeLists.txt",
           "tests/schema_validation/schema_cases.py",
+          "tests/schema_validation/test_project_schemas.py",
+          "tests/schema_validation/test_proof_publication_integration.py",
+          "tests/schema_validation/test_proof_schemas.py",
+          "tests/support/archive_state_fixture.py",
+          "tests/support/context_fixture.py",
+          "tests/support/proof_publication_fixture.py",
+          "tests/support/publication_fixture.py",
+          "tests/tooling/test_check_project.py",
+          "tests/tooling/test_compact_context.py",
+          "tests/tooling/test_proof_publication.py",
+          "tests/tooling/test_proofs.py",
+          "tests/tooling/test_publication.py",
+          "tests/tooling/test_repository_checks.py",
+          "tests/tooling/test_workflow.py",
           "tools/AGENTS.md",
           "tools/check_project.py",
           "tools/check_publication.py",
