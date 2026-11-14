@@ -25,8 +25,11 @@ for focused local runs; `core-acceptance-debug` selects the same suites together
   each of its twelve suites is discovered with its labels and timeouts intact.
 - Host lifecycle baselines stay enabled as intentional red: the `native` job compiles
   and inspects their registration but does not run them.
-- The `native` job runs the WebSocket profile first, so its package and loaded-map
-  gate sees the same host state as before the Qt and Boost packages are installed.
+- The `native` job builds the corrected SDK once. The WebSocket profile prepares,
+  seals and gates it and runs first, so its package and loaded-map gate sees the same
+  host state as before the Qt and Boost packages are installed. The host baseline
+  then builds against that same SDK, and a step afterwards rehashes every SDK file
+  against the seal to prove the build only read it.
 - Actions and dependencies stay pinned: the checkout action by commit, Qt 6.12.0, ICU
   and libsodium archives by SHA-256, Boost 1.83 headers by package version. Qt 6.12
   is required; Ubuntu's older system Qt is not substituted.
