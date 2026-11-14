@@ -1,0 +1,3526 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "task_id": "EPIC-028",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 127
+      }
+    },
+    {
+      "task_id": "EVIDENCE-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 128
+      }
+    },
+    {
+      "task_id": "EVIDENCE-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 129
+      }
+    },
+    {
+      "task_id": "TESTCLEAN-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 130
+      }
+    },
+    {
+      "task_id": "TESTCLEAN-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 131
+      }
+    },
+    {
+      "task_id": "TESTCLEAN-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 132
+      }
+    },
+    {
+      "task_id": "TESTCLEAN-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 133
+      }
+    },
+    {
+      "task_id": "TESTCLEAN-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 134
+      }
+    },
+    {
+      "task_id": "FIXTURE-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 135
+      }
+    },
+    {
+      "task_id": "FIXTURE-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 136
+      }
+    },
+    {
+      "task_id": "FIXTURE-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 137
+      }
+    },
+    {
+      "task_id": "TESTCLEAN-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 138
+      }
+    },
+    {
+      "task_id": "TESTCLEAN-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 139
+      }
+    },
+    {
+      "task_id": "TESTCLEAN-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 140
+      }
+    },
+    {
+      "task_id": "BOOT-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 141
+      }
+    },
+    {
+      "task_id": "BOOT-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 142
+      }
+    },
+    {
+      "task_id": "BOOT-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 143
+      }
+    },
+    {
+      "task_id": "BOOT-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 144
+      }
+    },
+    {
+      "task_id": "BOOT-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 145
+      }
+    },
+    {
+      "task_id": "CONTRACT-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 146
+      }
+    },
+    {
+      "task_id": "TEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 147
+      }
+    },
+    {
+      "task_id": "REVIEW-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 148
+      }
+    },
+    {
+      "task_id": "TEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 149
+      }
+    },
+    {
+      "task_id": "IMPL-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 150
+      }
+    },
+    {
+      "task_id": "BOOT-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 151
+      }
+    },
+    {
+      "task_id": "CONTRACT-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 152
+      }
+    },
+    {
+      "task_id": "CONTRACT-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 153
+      }
+    },
+    {
+      "task_id": "CONTRACT-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 154
+      }
+    },
+    {
+      "task_id": "CONTRACTPLAN-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 155
+      }
+    },
+    {
+      "task_id": "CONTRACTPLAN-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 156
+      }
+    },
+    {
+      "task_id": "CONTRACT-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 157
+      }
+    },
+    {
+      "task_id": "CONTRACT-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 158
+      }
+    },
+    {
+      "task_id": "CONTRACT-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 159
+      }
+    },
+    {
+      "task_id": "CONTRACT-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 160
+      }
+    },
+    {
+      "task_id": "CONTRACT-009",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 161
+      }
+    },
+    {
+      "task_id": "CONTRACT-010",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 162
+      }
+    },
+    {
+      "task_id": "CONTRACT-011",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 163
+      }
+    },
+    {
+      "task_id": "CONTRACT-012",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 164
+      }
+    },
+    {
+      "task_id": "SPIKE-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 165
+      }
+    },
+    {
+      "task_id": "SPIKE-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 166
+      }
+    },
+    {
+      "task_id": "SPIKE-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 167
+      }
+    },
+    {
+      "task_id": "SPIKE-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 168
+      }
+    },
+    {
+      "task_id": "EPIC-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 169
+      }
+    },
+    {
+      "task_id": "CORETEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 170
+      }
+    },
+    {
+      "task_id": "CORE-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 171
+      }
+    },
+    {
+      "task_id": "CORETEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 172
+      }
+    },
+    {
+      "task_id": "CORE-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 173
+      }
+    },
+    {
+      "task_id": "CORETEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 174
+      }
+    },
+    {
+      "task_id": "CORE-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 175
+      }
+    },
+    {
+      "task_id": "CORETEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 176
+      }
+    },
+    {
+      "task_id": "CORE-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 177
+      }
+    },
+    {
+      "task_id": "CORETEST-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 178
+      }
+    },
+    {
+      "task_id": "CORE-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 179
+      }
+    },
+    {
+      "task_id": "CORETEST-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 180
+      }
+    },
+    {
+      "task_id": "CORE-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 181
+      }
+    },
+    {
+      "task_id": "CORETEST-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 182
+      }
+    },
+    {
+      "task_id": "CORE-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 183
+      }
+    },
+    {
+      "task_id": "CORETEST-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 184
+      }
+    },
+    {
+      "task_id": "CORE-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 185
+      }
+    },
+    {
+      "task_id": "EPIC-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 186
+      }
+    },
+    {
+      "task_id": "ACCTTEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 187
+      }
+    },
+    {
+      "task_id": "ACCT-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 188
+      }
+    },
+    {
+      "task_id": "ACCTTEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 189
+      }
+    },
+    {
+      "task_id": "ACCT-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 190
+      }
+    },
+    {
+      "task_id": "ACCTTEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 191
+      }
+    },
+    {
+      "task_id": "ACCT-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 192
+      }
+    },
+    {
+      "task_id": "ACCTCONTRACT-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 193
+      }
+    },
+    {
+      "task_id": "ACCTTEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 194
+      }
+    },
+    {
+      "task_id": "ACCT-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 195
+      }
+    },
+    {
+      "task_id": "ACCTTEST-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 196
+      }
+    },
+    {
+      "task_id": "ACCT-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 197
+      }
+    },
+    {
+      "task_id": "ACCTTEST-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 198
+      }
+    },
+    {
+      "task_id": "ACCT-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 199
+      }
+    },
+    {
+      "task_id": "ACCTTEST-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 200
+      }
+    },
+    {
+      "task_id": "ACCT-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 201
+      }
+    },
+    {
+      "task_id": "EPIC-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 202
+      }
+    },
+    {
+      "task_id": "RULESTEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 203
+      }
+    },
+    {
+      "task_id": "RULES-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 204
+      }
+    },
+    {
+      "task_id": "RULESTEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 205
+      }
+    },
+    {
+      "task_id": "RULES-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 206
+      }
+    },
+    {
+      "task_id": "RULESTEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 207
+      }
+    },
+    {
+      "task_id": "RULES-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 208
+      }
+    },
+    {
+      "task_id": "RULESTEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 209
+      }
+    },
+    {
+      "task_id": "RULES-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 210
+      }
+    },
+    {
+      "task_id": "RULESTEST-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 211
+      }
+    },
+    {
+      "task_id": "RULES-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 212
+      }
+    },
+    {
+      "task_id": "EPIC-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 213
+      }
+    },
+    {
+      "task_id": "MODIFIERTEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 214
+      }
+    },
+    {
+      "task_id": "MODIFIER-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 215
+      }
+    },
+    {
+      "task_id": "MODIFIERTEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 216
+      }
+    },
+    {
+      "task_id": "MODIFIER-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 217
+      }
+    },
+    {
+      "task_id": "MODIFIERTEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 218
+      }
+    },
+    {
+      "task_id": "MODIFIER-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 219
+      }
+    },
+    {
+      "task_id": "MODIFIERTEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 220
+      }
+    },
+    {
+      "task_id": "MODIFIER-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 221
+      }
+    },
+    {
+      "task_id": "MODIFIERTEST-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 222
+      }
+    },
+    {
+      "task_id": "MODIFIER-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 223
+      }
+    },
+    {
+      "task_id": "MODIFIERTEST-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 224
+      }
+    },
+    {
+      "task_id": "MODIFIER-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 225
+      }
+    },
+    {
+      "task_id": "EPIC-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 226
+      }
+    },
+    {
+      "task_id": "MILESTONETEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 227
+      }
+    },
+    {
+      "task_id": "MILESTONE-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 228
+      }
+    },
+    {
+      "task_id": "MILESTONETEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 229
+      }
+    },
+    {
+      "task_id": "MILESTONE-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 230
+      }
+    },
+    {
+      "task_id": "MILESTONETEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 231
+      }
+    },
+    {
+      "task_id": "MILESTONE-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 232
+      }
+    },
+    {
+      "task_id": "MILESTONETEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 233
+      }
+    },
+    {
+      "task_id": "MILESTONE-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 234
+      }
+    },
+    {
+      "task_id": "MILESTONETEST-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 235
+      }
+    },
+    {
+      "task_id": "MILESTONE-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 236
+      }
+    },
+    {
+      "task_id": "MILESTONETEST-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 237
+      }
+    },
+    {
+      "task_id": "MILESTONE-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 238
+      }
+    },
+    {
+      "task_id": "MILESTONETEST-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 239
+      }
+    },
+    {
+      "task_id": "MILESTONE-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 240
+      }
+    },
+    {
+      "task_id": "MILESTONETEST-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 241
+      }
+    },
+    {
+      "task_id": "MILESTONE-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 242
+      }
+    },
+    {
+      "task_id": "EPIC-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 243
+      }
+    },
+    {
+      "task_id": "ACCESSTEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 244
+      }
+    },
+    {
+      "task_id": "ACCESS-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 245
+      }
+    },
+    {
+      "task_id": "ACCESSTEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 246
+      }
+    },
+    {
+      "task_id": "ACCESS-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 247
+      }
+    },
+    {
+      "task_id": "ACCESSTEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 248
+      }
+    },
+    {
+      "task_id": "ACCESS-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 249
+      }
+    },
+    {
+      "task_id": "ACCESSTEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 250
+      }
+    },
+    {
+      "task_id": "ACCESS-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 251
+      }
+    },
+    {
+      "task_id": "ACCESSTEST-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 252
+      }
+    },
+    {
+      "task_id": "ACCESS-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 253
+      }
+    },
+    {
+      "task_id": "ACCESSTEST-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 254
+      }
+    },
+    {
+      "task_id": "ACCESS-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 255
+      }
+    },
+    {
+      "task_id": "ACCESSTEST-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 256
+      }
+    },
+    {
+      "task_id": "ACCESS-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 257
+      }
+    },
+    {
+      "task_id": "EPIC-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 258
+      }
+    },
+    {
+      "task_id": "SESSIONTEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 259
+      }
+    },
+    {
+      "task_id": "SESSION-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 260
+      }
+    },
+    {
+      "task_id": "SESSIONTEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 261
+      }
+    },
+    {
+      "task_id": "SESSION-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 262
+      }
+    },
+    {
+      "task_id": "SESSIONTEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 263
+      }
+    },
+    {
+      "task_id": "SESSION-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 264
+      }
+    },
+    {
+      "task_id": "SESSIONTEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 265
+      }
+    },
+    {
+      "task_id": "SESSION-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 266
+      }
+    },
+    {
+      "task_id": "SESSIONTEST-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 267
+      }
+    },
+    {
+      "task_id": "SESSION-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 268
+      }
+    },
+    {
+      "task_id": "SESSIONTEST-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 269
+      }
+    },
+    {
+      "task_id": "SESSION-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 270
+      }
+    },
+    {
+      "task_id": "SESSIONTEST-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 271
+      }
+    },
+    {
+      "task_id": "SESSION-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 272
+      }
+    },
+    {
+      "task_id": "EPIC-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 273
+      }
+    },
+    {
+      "task_id": "APICONTRACT-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 274
+      }
+    },
+    {
+      "task_id": "APITEST-012",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 275
+      }
+    },
+    {
+      "task_id": "API-012",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 276
+      }
+    },
+    {
+      "task_id": "APITEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 277
+      }
+    },
+    {
+      "task_id": "API-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 278
+      }
+    },
+    {
+      "task_id": "APITEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 279
+      }
+    },
+    {
+      "task_id": "API-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 280
+      }
+    },
+    {
+      "task_id": "APITEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 281
+      }
+    },
+    {
+      "task_id": "API-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 282
+      }
+    },
+    {
+      "task_id": "APITEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 283
+      }
+    },
+    {
+      "task_id": "API-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 284
+      }
+    },
+    {
+      "task_id": "APITEST-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 285
+      }
+    },
+    {
+      "task_id": "API-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 286
+      }
+    },
+    {
+      "task_id": "APITEST-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 287
+      }
+    },
+    {
+      "task_id": "API-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 288
+      }
+    },
+    {
+      "task_id": "APITEST-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 289
+      }
+    },
+    {
+      "task_id": "API-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 290
+      }
+    },
+    {
+      "task_id": "APITEST-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 291
+      }
+    },
+    {
+      "task_id": "API-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 292
+      }
+    },
+    {
+      "task_id": "APITEST-009",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 293
+      }
+    },
+    {
+      "task_id": "API-009",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 294
+      }
+    },
+    {
+      "task_id": "EPIC-009",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 295
+      }
+    },
+    {
+      "task_id": "STORAGETEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 296
+      }
+    },
+    {
+      "task_id": "STORAGE-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 297
+      }
+    },
+    {
+      "task_id": "STORAGETEST-010",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 298
+      }
+    },
+    {
+      "task_id": "STORAGE-010",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 299
+      }
+    },
+    {
+      "task_id": "STORAGETEST-011",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 300
+      }
+    },
+    {
+      "task_id": "STORAGE-011",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 301
+      }
+    },
+    {
+      "task_id": "STORAGETEST-012",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 302
+      }
+    },
+    {
+      "task_id": "STORAGE-012",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 303
+      }
+    },
+    {
+      "task_id": "STORAGETEST-013",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 304
+      }
+    },
+    {
+      "task_id": "STORAGE-013",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 305
+      }
+    },
+    {
+      "task_id": "STORAGETEST-014",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 306
+      }
+    },
+    {
+      "task_id": "STORAGE-014",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 307
+      }
+    },
+    {
+      "task_id": "STORAGETEST-015",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 308
+      }
+    },
+    {
+      "task_id": "STORAGE-015",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 309
+      }
+    },
+    {
+      "task_id": "STORAGECONTRACT-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 310
+      }
+    },
+    {
+      "task_id": "STORAGETEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 311
+      }
+    },
+    {
+      "task_id": "STORAGE-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 312
+      }
+    },
+    {
+      "task_id": "STORAGETEST-016",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 313
+      }
+    },
+    {
+      "task_id": "STORAGE-016",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 314
+      }
+    },
+    {
+      "task_id": "STORAGETEST-017",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 315
+      }
+    },
+    {
+      "task_id": "STORAGE-017",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 316
+      }
+    },
+    {
+      "task_id": "STORAGETEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 317
+      }
+    },
+    {
+      "task_id": "STORAGE-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 318
+      }
+    },
+    {
+      "task_id": "STORAGETEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 319
+      }
+    },
+    {
+      "task_id": "STORAGE-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 320
+      }
+    },
+    {
+      "task_id": "STORAGETEST-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 321
+      }
+    },
+    {
+      "task_id": "STORAGE-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 322
+      }
+    },
+    {
+      "task_id": "STORAGETEST-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 323
+      }
+    },
+    {
+      "task_id": "STORAGE-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 324
+      }
+    },
+    {
+      "task_id": "STORAGETEST-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 325
+      }
+    },
+    {
+      "task_id": "STORAGE-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 326
+      }
+    },
+    {
+      "task_id": "STORAGETEST-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 327
+      }
+    },
+    {
+      "task_id": "STORAGE-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 328
+      }
+    },
+    {
+      "task_id": "STORAGETEST-009",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 329
+      }
+    },
+    {
+      "task_id": "STORAGE-009",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 330
+      }
+    },
+    {
+      "task_id": "EPIC-010",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 331
+      }
+    },
+    {
+      "task_id": "TWITCHTEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 332
+      }
+    },
+    {
+      "task_id": "TWITCH-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 333
+      }
+    },
+    {
+      "task_id": "TWITCHTEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 334
+      }
+    },
+    {
+      "task_id": "TWITCH-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 335
+      }
+    },
+    {
+      "task_id": "TWITCHTEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 336
+      }
+    },
+    {
+      "task_id": "TWITCH-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 337
+      }
+    },
+    {
+      "task_id": "TWITCHTEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 338
+      }
+    },
+    {
+      "task_id": "TWITCH-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 339
+      }
+    },
+    {
+      "task_id": "TWITCHTEST-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 340
+      }
+    },
+    {
+      "task_id": "TWITCH-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 341
+      }
+    },
+    {
+      "task_id": "TWITCH-090",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 342
+      }
+    },
+    {
+      "task_id": "EPIC-011",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 343
+      }
+    },
+    {
+      "task_id": "BETTERPLACETEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 344
+      }
+    },
+    {
+      "task_id": "BETTERPLACE-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 345
+      }
+    },
+    {
+      "task_id": "BETTERPLACETEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 346
+      }
+    },
+    {
+      "task_id": "BETTERPLACE-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 347
+      }
+    },
+    {
+      "task_id": "BETTERPLACETEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 348
+      }
+    },
+    {
+      "task_id": "BETTERPLACE-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 349
+      }
+    },
+    {
+      "task_id": "BETTERPLACE-090",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 350
+      }
+    },
+    {
+      "task_id": "EPIC-012",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 351
+      }
+    },
+    {
+      "task_id": "PATREONTEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 352
+      }
+    },
+    {
+      "task_id": "PATREON-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 353
+      }
+    },
+    {
+      "task_id": "PATREONTEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 354
+      }
+    },
+    {
+      "task_id": "PATREON-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 355
+      }
+    },
+    {
+      "task_id": "PATREONTEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 356
+      }
+    },
+    {
+      "task_id": "PATREON-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 357
+      }
+    },
+    {
+      "task_id": "PATREON-090",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 358
+      }
+    },
+    {
+      "task_id": "EPIC-013",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 359
+      }
+    },
+    {
+      "task_id": "STREAMLABSTEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 360
+      }
+    },
+    {
+      "task_id": "STREAMLABS-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 361
+      }
+    },
+    {
+      "task_id": "STREAMLABSTEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 362
+      }
+    },
+    {
+      "task_id": "STREAMLABS-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 363
+      }
+    },
+    {
+      "task_id": "STREAMLABSTEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 364
+      }
+    },
+    {
+      "task_id": "STREAMLABS-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 365
+      }
+    },
+    {
+      "task_id": "STREAMLABS-090",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 366
+      }
+    },
+    {
+      "task_id": "EPIC-014",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 367
+      }
+    },
+    {
+      "task_id": "STREAMELEMENTSTEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 368
+      }
+    },
+    {
+      "task_id": "STREAMELEMENTS-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 369
+      }
+    },
+    {
+      "task_id": "STREAMELEMENTSTEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 370
+      }
+    },
+    {
+      "task_id": "STREAMELEMENTS-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 371
+      }
+    },
+    {
+      "task_id": "STREAMELEMENTS-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 372
+      }
+    },
+    {
+      "task_id": "STREAMELEMENTSTEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 373
+      }
+    },
+    {
+      "task_id": "STREAMELEMENTS-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 374
+      }
+    },
+    {
+      "task_id": "STREAMELEMENTS-090",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 375
+      }
+    },
+    {
+      "task_id": "EPIC-015",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 376
+      }
+    },
+    {
+      "task_id": "KOFITEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 377
+      }
+    },
+    {
+      "task_id": "KOFI-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 378
+      }
+    },
+    {
+      "task_id": "KOFITEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 379
+      }
+    },
+    {
+      "task_id": "KOFI-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 380
+      }
+    },
+    {
+      "task_id": "KOFI-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 381
+      }
+    },
+    {
+      "task_id": "KOFI-090",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 382
+      }
+    },
+    {
+      "task_id": "EPIC-016",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 383
+      }
+    },
+    {
+      "task_id": "TIPEEESTREAM-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 384
+      }
+    },
+    {
+      "task_id": "TIPEEESTREAMTEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 385
+      }
+    },
+    {
+      "task_id": "TIPEEESTREAM-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 386
+      }
+    },
+    {
+      "task_id": "TIPEEESTREAMTEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 387
+      }
+    },
+    {
+      "task_id": "TIPEEESTREAM-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 388
+      }
+    },
+    {
+      "task_id": "TIPEEESTREAMTEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 389
+      }
+    },
+    {
+      "task_id": "TIPEEESTREAM-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 390
+      }
+    },
+    {
+      "task_id": "TIPEEESTREAM-090",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 391
+      }
+    },
+    {
+      "task_id": "EPIC-017",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 392
+      }
+    },
+    {
+      "task_id": "RATESTEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 393
+      }
+    },
+    {
+      "task_id": "RATES-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 394
+      }
+    },
+    {
+      "task_id": "RATESTEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 395
+      }
+    },
+    {
+      "task_id": "RATES-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 396
+      }
+    },
+    {
+      "task_id": "RATESTEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 397
+      }
+    },
+    {
+      "task_id": "RATES-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 398
+      }
+    },
+    {
+      "task_id": "RATESTEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 399
+      }
+    },
+    {
+      "task_id": "RATES-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 400
+      }
+    },
+    {
+      "task_id": "RATESTEST-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 401
+      }
+    },
+    {
+      "task_id": "RATES-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 402
+      }
+    },
+    {
+      "task_id": "RATESTEST-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 403
+      }
+    },
+    {
+      "task_id": "RATES-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 404
+      }
+    },
+    {
+      "task_id": "RATESTEST-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 405
+      }
+    },
+    {
+      "task_id": "RATES-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 406
+      }
+    },
+    {
+      "task_id": "RATESTEST-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 407
+      }
+    },
+    {
+      "task_id": "RATES-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 408
+      }
+    },
+    {
+      "task_id": "RATES-090",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 409
+      }
+    },
+    {
+      "task_id": "EPIC-018",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 410
+      }
+    },
+    {
+      "task_id": "DESKTOPTEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 411
+      }
+    },
+    {
+      "task_id": "DESKTOP-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 412
+      }
+    },
+    {
+      "task_id": "DESKTOPTEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 413
+      }
+    },
+    {
+      "task_id": "DESKTOP-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 414
+      }
+    },
+    {
+      "task_id": "DESKTOPTEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 415
+      }
+    },
+    {
+      "task_id": "DESKTOP-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 416
+      }
+    },
+    {
+      "task_id": "DESKTOPTEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 417
+      }
+    },
+    {
+      "task_id": "DESKTOP-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 418
+      }
+    },
+    {
+      "task_id": "DESKTOPTEST-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 419
+      }
+    },
+    {
+      "task_id": "DESKTOP-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 420
+      }
+    },
+    {
+      "task_id": "DESKTOPTEST-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 421
+      }
+    },
+    {
+      "task_id": "DESKTOP-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 422
+      }
+    },
+    {
+      "task_id": "DESKTOPTEST-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 423
+      }
+    },
+    {
+      "task_id": "DESKTOP-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 424
+      }
+    },
+    {
+      "task_id": "DESKTOPTEST-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 425
+      }
+    },
+    {
+      "task_id": "DESKTOP-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 426
+      }
+    },
+    {
+      "task_id": "DESKTOPTEST-009",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 427
+      }
+    },
+    {
+      "task_id": "DESKTOP-009",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 428
+      }
+    },
+    {
+      "task_id": "DESKTOPTEST-010",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 429
+      }
+    },
+    {
+      "task_id": "DESKTOP-010",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 430
+      }
+    },
+    {
+      "task_id": "EPIC-019",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 431
+      }
+    },
+    {
+      "task_id": "SCENETEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 432
+      }
+    },
+    {
+      "task_id": "SCENE-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 433
+      }
+    },
+    {
+      "task_id": "SCENETEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 434
+      }
+    },
+    {
+      "task_id": "SCENE-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 435
+      }
+    },
+    {
+      "task_id": "SCENETEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 436
+      }
+    },
+    {
+      "task_id": "SCENE-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 437
+      }
+    },
+    {
+      "task_id": "SCENETEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 438
+      }
+    },
+    {
+      "task_id": "SCENE-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 439
+      }
+    },
+    {
+      "task_id": "SCENETEST-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 440
+      }
+    },
+    {
+      "task_id": "SCENE-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 441
+      }
+    },
+    {
+      "task_id": "SCENETEST-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 442
+      }
+    },
+    {
+      "task_id": "SCENE-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 443
+      }
+    },
+    {
+      "task_id": "SCENETEST-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 444
+      }
+    },
+    {
+      "task_id": "SCENE-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 445
+      }
+    },
+    {
+      "task_id": "EPIC-020",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 446
+      }
+    },
+    {
+      "task_id": "RENDER-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 447
+      }
+    },
+    {
+      "task_id": "RENDERTEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 448
+      }
+    },
+    {
+      "task_id": "RENDER-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 449
+      }
+    },
+    {
+      "task_id": "RENDERTEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 450
+      }
+    },
+    {
+      "task_id": "RENDER-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 451
+      }
+    },
+    {
+      "task_id": "RENDERTEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 452
+      }
+    },
+    {
+      "task_id": "RENDER-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 453
+      }
+    },
+    {
+      "task_id": "RENDERTEST-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 454
+      }
+    },
+    {
+      "task_id": "RENDER-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 455
+      }
+    },
+    {
+      "task_id": "RENDER-090",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 456
+      }
+    },
+    {
+      "task_id": "RENDER-091",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 457
+      }
+    },
+    {
+      "task_id": "RENDER-092",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 458
+      }
+    },
+    {
+      "task_id": "EPIC-021",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 459
+      }
+    },
+    {
+      "task_id": "WEBAPPTEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 460
+      }
+    },
+    {
+      "task_id": "WEBAPP-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 461
+      }
+    },
+    {
+      "task_id": "WEBAPPTEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 462
+      }
+    },
+    {
+      "task_id": "WEBAPP-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 463
+      }
+    },
+    {
+      "task_id": "WEBAPPTEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 464
+      }
+    },
+    {
+      "task_id": "WEBAPP-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 465
+      }
+    },
+    {
+      "task_id": "WEBAPPTEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 466
+      }
+    },
+    {
+      "task_id": "WEBAPP-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 467
+      }
+    },
+    {
+      "task_id": "WEBAPPTEST-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 468
+      }
+    },
+    {
+      "task_id": "WEBAPP-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 469
+      }
+    },
+    {
+      "task_id": "WEBAPPTEST-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 470
+      }
+    },
+    {
+      "task_id": "WEBAPP-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 471
+      }
+    },
+    {
+      "task_id": "WEBAPPTEST-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 472
+      }
+    },
+    {
+      "task_id": "WEBAPP-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 473
+      }
+    },
+    {
+      "task_id": "WEBAPPTEST-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 474
+      }
+    },
+    {
+      "task_id": "WEBAPP-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 475
+      }
+    },
+    {
+      "task_id": "WEBAPPTEST-009",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 476
+      }
+    },
+    {
+      "task_id": "WEBAPP-009",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 477
+      }
+    },
+    {
+      "task_id": "WEBAPPTEST-010",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 478
+      }
+    },
+    {
+      "task_id": "WEBAPP-010",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 479
+      }
+    },
+    {
+      "task_id": "WEBAPPTEST-011",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 480
+      }
+    },
+    {
+      "task_id": "WEBAPP-011",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 481
+      }
+    },
+    {
+      "task_id": "EPIC-022",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 482
+      }
+    },
+    {
+      "task_id": "VIEWERTEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 483
+      }
+    },
+    {
+      "task_id": "VIEWER-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 484
+      }
+    },
+    {
+      "task_id": "VIEWERTEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 485
+      }
+    },
+    {
+      "task_id": "VIEWER-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 486
+      }
+    },
+    {
+      "task_id": "VIEWERTEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 487
+      }
+    },
+    {
+      "task_id": "VIEWER-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 488
+      }
+    },
+    {
+      "task_id": "VIEWERTEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 489
+      }
+    },
+    {
+      "task_id": "VIEWER-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 490
+      }
+    },
+    {
+      "task_id": "VIEWERTEST-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 491
+      }
+    },
+    {
+      "task_id": "VIEWER-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 492
+      }
+    },
+    {
+      "task_id": "VIEWERTEST-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 493
+      }
+    },
+    {
+      "task_id": "VIEWER-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 494
+      }
+    },
+    {
+      "task_id": "VIEWERTEST-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 495
+      }
+    },
+    {
+      "task_id": "VIEWER-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 496
+      }
+    },
+    {
+      "task_id": "EPIC-023",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 497
+      }
+    },
+    {
+      "task_id": "LOCALETEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 498
+      }
+    },
+    {
+      "task_id": "LOCALE-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 499
+      }
+    },
+    {
+      "task_id": "LOCALETEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 500
+      }
+    },
+    {
+      "task_id": "LOCALE-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 501
+      }
+    },
+    {
+      "task_id": "LOCALETEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 502
+      }
+    },
+    {
+      "task_id": "LOCALE-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 503
+      }
+    },
+    {
+      "task_id": "LOCALETEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 504
+      }
+    },
+    {
+      "task_id": "LOCALE-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 505
+      }
+    },
+    {
+      "task_id": "LOCALE-090",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 506
+      }
+    },
+    {
+      "task_id": "EPIC-024",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 507
+      }
+    },
+    {
+      "task_id": "DEPLOYMENTTEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 508
+      }
+    },
+    {
+      "task_id": "DEPLOYMENT-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 509
+      }
+    },
+    {
+      "task_id": "DEPLOYMENTTEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 510
+      }
+    },
+    {
+      "task_id": "DEPLOYMENT-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 511
+      }
+    },
+    {
+      "task_id": "DEPLOYMENTTEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 512
+      }
+    },
+    {
+      "task_id": "DEPLOYMENT-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 513
+      }
+    },
+    {
+      "task_id": "DEPLOYMENTTEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 514
+      }
+    },
+    {
+      "task_id": "DEPLOYMENT-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 515
+      }
+    },
+    {
+      "task_id": "DEPLOYMENTTEST-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 516
+      }
+    },
+    {
+      "task_id": "DEPLOYMENT-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 517
+      }
+    },
+    {
+      "task_id": "DEPLOYMENTTEST-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 518
+      }
+    },
+    {
+      "task_id": "DEPLOYMENT-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 519
+      }
+    },
+    {
+      "task_id": "DEPLOYMENT-090",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 520
+      }
+    },
+    {
+      "task_id": "DEPLOYMENT-091",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 521
+      }
+    },
+    {
+      "task_id": "DEPLOYMENT-092",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 522
+      }
+    },
+    {
+      "task_id": "EPIC-025",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 523
+      }
+    },
+    {
+      "task_id": "PACKAGETEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 524
+      }
+    },
+    {
+      "task_id": "PACKAGE-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 525
+      }
+    },
+    {
+      "task_id": "PACKAGETEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 526
+      }
+    },
+    {
+      "task_id": "PACKAGE-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 527
+      }
+    },
+    {
+      "task_id": "PACKAGETEST-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 528
+      }
+    },
+    {
+      "task_id": "PACKAGE-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 529
+      }
+    },
+    {
+      "task_id": "PACKAGETEST-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 530
+      }
+    },
+    {
+      "task_id": "PACKAGE-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 531
+      }
+    },
+    {
+      "task_id": "PACKAGE-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 532
+      }
+    },
+    {
+      "task_id": "PACKAGE-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 533
+      }
+    },
+    {
+      "task_id": "EPIC-026",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 534
+      }
+    },
+    {
+      "task_id": "VALIDATE-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 535
+      }
+    },
+    {
+      "task_id": "VALIDATE-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 536
+      }
+    },
+    {
+      "task_id": "VALIDATE-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 537
+      }
+    },
+    {
+      "task_id": "VALIDATE-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 538
+      }
+    },
+    {
+      "task_id": "VALIDATE-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 539
+      }
+    },
+    {
+      "task_id": "VALIDATE-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 540
+      }
+    },
+    {
+      "task_id": "EPIC-027",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 541
+      }
+    },
+    {
+      "task_id": "RELEASETEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 542
+      }
+    },
+    {
+      "task_id": "RELEASE-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 543
+      }
+    },
+    {
+      "task_id": "RELEASETEST-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 544
+      }
+    },
+    {
+      "task_id": "RELEASE-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 545
+      }
+    },
+    {
+      "task_id": "RELEASE-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 546
+      }
+    },
+    {
+      "task_id": "RELEASE-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 547
+      }
+    },
+    {
+      "task_id": "BOOT-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 548
+      }
+    },
+    {
+      "task_id": "BOOT-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 549
+      }
+    },
+    {
+      "task_id": "RATECONTRACT-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 550
+      }
+    },
+    {
+      "task_id": "RATECONTRACT-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 551
+      }
+    },
+    {
+      "task_id": "RATESTEST-009",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 552
+      }
+    },
+    {
+      "task_id": "RATES-009",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 553
+      }
+    },
+    {
+      "task_id": "CONTRACTPLAN-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 554
+      }
+    },
+    {
+      "task_id": "CONTRACT-013",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 555
+      }
+    },
+    {
+      "task_id": "CONTRACT-014",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 556
+      }
+    },
+    {
+      "task_id": "RULESTEST-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 557
+      }
+    },
+    {
+      "task_id": "RULES-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 558
+      }
+    },
+    {
+      "task_id": "APITEST-010",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 559
+      }
+    },
+    {
+      "task_id": "API-010",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 560
+      }
+    },
+    {
+      "task_id": "APITEST-011",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 561
+      }
+    },
+    {
+      "task_id": "API-011",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 562
+      }
+    },
+    {
+      "task_id": "STORAGETEST-018",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 563
+      }
+    },
+    {
+      "task_id": "STORAGE-018",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 564
+      }
+    },
+    {
+      "task_id": "STORAGE-019",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 565
+      }
+    },
+    {
+      "task_id": "CONTRACTPLAN-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 566
+      }
+    },
+    {
+      "task_id": "SESSIONCONTRACT-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 567
+      }
+    },
+    {
+      "task_id": "SESSIONCONTRACT-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 568
+      }
+    },
+    {
+      "task_id": "CONTRACTPLAN-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 569
+      }
+    },
+    {
+      "task_id": "SCHEMATEST-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 570
+      }
+    },
+    {
+      "task_id": "SCHEMATOOL-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 571
+      }
+    },
+    {
+      "task_id": "BOOT-009",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 572
+      }
+    },
+    {
+      "task_id": "CONTRACTPLAN-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 573
+      }
+    },
+    {
+      "task_id": "SESSIONTEST-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 574
+      }
+    },
+    {
+      "task_id": "SESSION-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 575
+      }
+    },
+    {
+      "task_id": "SESSIONCONTRACT-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 576
+      }
+    },
+    {
+      "task_id": "STORAGECONTRACT-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 577
+      }
+    },
+    {
+      "task_id": "STORAGETEST-020",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 578
+      }
+    },
+    {
+      "task_id": "STORAGE-020",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 579
+      }
+    },
+    {
+      "task_id": "SESSIONCONTRACT-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 580
+      }
+    },
+    {
+      "task_id": "SESSIONTEST-009",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 581
+      }
+    },
+    {
+      "task_id": "SESSION-009",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 582
+      }
+    },
+    {
+      "task_id": "ACCESSCONTRACT-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 583
+      }
+    },
+    {
+      "task_id": "ACCESSTEST-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 584
+      }
+    },
+    {
+      "task_id": "ACCESS-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 585
+      }
+    },
+    {
+      "task_id": "SESSIONCONTRACT-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 586
+      }
+    },
+    {
+      "task_id": "SESSIONTEST-010",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 587
+      }
+    },
+    {
+      "task_id": "SESSION-010",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 588
+      }
+    },
+    {
+      "task_id": "SESSIONCONTRACT-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 589
+      }
+    },
+    {
+      "task_id": "SESSIONTEST-011",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 590
+      }
+    },
+    {
+      "task_id": "SESSION-011",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 591
+      }
+    },
+    {
+      "task_id": "DEPLOYMENTTEST-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 592
+      }
+    },
+    {
+      "task_id": "DEPLOYMENT-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 593
+      }
+    },
+    {
+      "task_id": "DEPLOYMENTTEST-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 594
+      }
+    },
+    {
+      "task_id": "DEPLOYMENT-008",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 595
+      }
+    },
+    {
+      "task_id": "WORKFLOW-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 596
+      }
+    },
+    {
+      "task_id": "WORKFLOW-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 597
+      }
+    },
+    {
+      "task_id": "APICONTRACT-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 598
+      }
+    },
+    {
+      "task_id": "APITEST-013",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 599
+      }
+    },
+    {
+      "task_id": "API-013",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 600
+      }
+    },
+    {
+      "task_id": "APICONTRACT-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 601
+      }
+    },
+    {
+      "task_id": "APITEST-014",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 602
+      }
+    },
+    {
+      "task_id": "API-014",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 603
+      }
+    },
+    {
+      "task_id": "SESSIONCONTRACT-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 604
+      }
+    },
+    {
+      "task_id": "SESSIONTEST-012",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 605
+      }
+    },
+    {
+      "task_id": "SESSION-012",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 606
+      }
+    },
+    {
+      "task_id": "STORAGECONTRACT-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 607
+      }
+    },
+    {
+      "task_id": "STORAGETEST-021",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 608
+      }
+    },
+    {
+      "task_id": "STORAGE-021",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 609
+      }
+    },
+    {
+      "task_id": "CI-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 610
+      }
+    },
+    {
+      "task_id": "WORKFLOW-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 611
+      }
+    },
+    {
+      "task_id": "APICONTRACT-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 612
+      }
+    },
+    {
+      "task_id": "APITEST-015",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 613
+      }
+    },
+    {
+      "task_id": "APICONTRACT-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 614
+      }
+    },
+    {
+      "task_id": "APITEST-016",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 615
+      }
+    },
+    {
+      "task_id": "API-016",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 616
+      }
+    },
+    {
+      "task_id": "WORKFLOW-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 617
+      }
+    },
+    {
+      "task_id": "WORKFLOW-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 618
+      }
+    },
+    {
+      "task_id": "WORKFLOW-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 619
+      }
+    },
+    {
+      "task_id": "WORKFLOW-007",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 620
+      }
+    },
+    {
+      "task_id": "CI-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 621
+      }
+    },
+    {
+      "task_id": "CI-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 624
+      }
+    },
+    {
+      "task_id": "EPIC-029",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 625
+      }
+    },
+    {
+      "task_id": "MIGRATE-001",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 626
+      }
+    },
+    {
+      "task_id": "MIGRATE-002",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 627
+      }
+    },
+    {
+      "task_id": "MIGRATE-003",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 628
+      }
+    },
+    {
+      "task_id": "MIGRATE-004",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 629
+      }
+    },
+    {
+      "task_id": "MIGRATE-005",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 630
+      }
+    },
+    {
+      "task_id": "MIGRATE-006",
+      "issue": {
+        "repository": "Kernol12/subathon-bot-ai",
+        "number": 631
+      }
+    }
+  ]
+}
