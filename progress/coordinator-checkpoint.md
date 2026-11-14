@@ -1039,3 +1039,49 @@ packet, thenCodexfix/separateverification/Claudeclosing. Ainitial2267f8b0 andBin
 c4f26ac7 runningindependently; no reviewerowns authorship. Global850order/fullprivacy/
 requiredobjects/actualremoteavailability/reportcomposition/HEapplication/currentSTATUS
 II03/newlimits/canonicalHEAD/CI/protectedmerge/006/005 remainseparategates.0admitted.
+
+FiniteBinitialClaude dispatchc4f26ac7/session9a115fdc-8c3f-4f80-b69f-0ec663ac558b
+rejectedroles/content/routes; report7a03eddd42089d446990cd153689fd8d31f9b9c2e3b0db6ad14e49255f8e78aa
+public6873998980. All419integrity/ranges/720tuples/966objects/7907claims reproduced;
+388facts-supported/13changes/13requiredpublication/5contentblocked, no rowapproved.
+FB-I01originalexecution7rows+150templaterolesneedactualsource-aware re-sweep, not
+firstmaincommitheuristic. B222raw8460c85/B269rawa230265 cleanFIRSTidentities areoutside
+HE01; newnamedfacts/dispositionproposalrequiresapplicablereview, no automaticextension.
+FB-I02all8STORAGETEST020keys basis mapped in coordinatorroutinepacket; locald717SDK
+foundationlimitedbyHE01, priorreadinessnotreplayed, hostedfdcadfbcconfirmationseparate.
+FB-I03fiveomittedcontentrows addedblocked;FB-I04mutableAPIbranchcaptureexplicit;
+FB-I06changed-pathonlylimitationwordingcorrectedallrows. FB-I05safe27ancestry/fulltree
+privacy/protectedarchiveplanpending, cannotland stoppedAPI001producttree. Private
+migrate004-finite-b-routine-corrected/rows SHA256ff91a37f91e39081a29f374fdc93dbe6bbcc742960cf4ab5c6782fcbe729be2f.
+
+FiniteAinitialClaude dispatch2267f8b0/sessionb859b85b-f6a5-4eb8-897b-458887e925af
+rejectedFA-I01..03blocking/04..06nonblocking. Reportf045879fb946b208b80220b1aa13fc6005b89133d0fa4eabe6457ae6b3f8bd2a
+public6874024439. All419integrity/779bindings/1478ranges verified, no rowadmitted.
+Coordinatorcorrectedprivatefinite-a-corrected adds explicit safe reviewer/verdict,
+chronologylines/identities, supersededblockers/root/PRreceipts andoriginalclaims; private
+path spanshash+locator notpublished. HE01crossrefsA009/036/090/110/141/220/239/404 with
+exactsourcefields, A110directbaseline otherscontext notautomaticinheritorwaiver. New
+localonlyclaimcontentblocksA036/167/404. ActiveAR01composedsource+83–96+exec/environment/
+dependency/privacylimits andAR02scopedremote-branchlocatorcorrected; oldstringsretained
+ashistory. A174/326actualroutependingseparatearchiveancestryplan, nopublication. A123/
+185/191 HEattachmentslimited toHE02/05/06 actuallycitedbyownreviewanchors; oldbroad6
+historicalattachments preservedashistory. FinalcorrectedArowhash654771643312b285c8c7daec942eadc2c2e65bf4b3f90f94372da72568aeda04.
+StillpendingindependentCodexverification+freshClaudeclosing, noadmission.
+
+FiniteROOT/relianceinitialClaude dispatch2bc90db0/session8c139d0d-3e99-4fd2-bcc9-
+f9fa3ad964c1 rejectedFR-I01..14. Public6874118160; fullreport/privateverdictscopied
+localevidence. Integrity1677/274preserved/1403history/9230clauses/188carriers/ROOT12/
+28formats451members20111spans reproduced. 1300rolesacceptedproposals,369entries59tasks
+needsemanticcorrections,8HEtexts acceptedproposal only;0admitted. Smallfilterassertion
+flagged generic /home/,/tmp/ andpublichostedrunnerprefix examples in report, not any
+actualprivateworkstationpath; postedreportcontainsnogenuineprivatevalue. Originalhash
+unchanged. Remainingbaselineowners/1191unboundpositivephrasing/completed13contractroles/
+24epiccriteria/exactfinalholdtext/28owningproofrows needroutine+source-specificcorrection.
+Privacy1514hostedpaths/162scratchnames/14maskedAuthorizationlines needsemanticdecisions;
+rawprivateappendicesmustbehash+locatormetadataonlyinpublicpayload. 51candidateorigin
+binding/globalcompositionordermustbefixednotcalledoriginalif reconstructed. Fullsafe
+source/readback/STATUSII03/newHEsourceinstructionreview/canonical/CI/protectedmerge
+stillpending; no newruntime/testing/briefcleanup/productworkorautomaticHEexception.
+Next boundedlarge Bexecutionresweep, rootreliance59tasksemanticcorrection, privacy/
+publication-compositionproposal; coordinator owns sharedmetadata/integration and small
+fixes. Independent verification andfreshclosing follow actualcorrectedpacketbytes.
