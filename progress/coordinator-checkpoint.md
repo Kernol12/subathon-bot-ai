@@ -30,7 +30,7 @@ Archive proof pin: da8db0dc3984f55aaff12297947a6bd8083d5315, unchanged tracker v
 
 Issue631 claimed/assigned on GitHub; claim comment6875183677. No duplicate task.
 Branch task/MIGRATE-006-brief-cleanup from current main f6741314.
-Pending canonical record enrolled before authoring; cleanup requires implementation stage.
+Existing canonical record set to pending workflow before authoring; cleanup requires implementation stage.
 Full brief archive tag: epic-029-task-briefs-2026-11-14 atf6741314.
 Tag pushed/read back; archived WORKFLOW-003 blob matches local Git object.
 Current GitHub inventory:504 issues,372 open/132 closed (includes follow-up636).
