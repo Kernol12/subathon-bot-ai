@@ -283,3 +283,22 @@ Fresh author continuation will finish all approved A/R oracle/helper adaptations
 precise sentinel carriers, avoiding duplicateassertions/newfixturebloat. Currentroot
 source has newtests but no authoredtestbodyhasrun. Coordinator ownsmetadataonly;
 continuation author isolated, musthandoffsourcecommitforreview beforeexecution.
+
+Audit A disposition author dispatch71f2c11e-da48-4801-acbd-b66378ea1e6c returnedall419:
+363proposednon-required/11required(10safe,1unsafe)/45specificbindingunknowns. Private
+rows SHA2562e5ccda6e0249abe08ba77ec2723bb46f22da3fc76d4b130c0cddd40a824d698. No proposaladmitted.
+Publicpath-free checkpoint issue629#issuecomment-6868756085 records contested049d998:
+onlychangedfile docs/evidence/APITEST-016-admission.md, authoredpacket/operator, no
+execution/admission/redclaim; currentreview/source/result records bind606b956.
+Authorproposesrequiredoriginalfromoldactivity's authored14pathpacket declaration,
+withoutstructuredrevisionbinding to049d998 or actualreviewchronology. Coordinator
+objects that authored-document container necessity must be established against actual
+finalpacket/operator/artifact/result dependency, not inferred from no equivalentimport.
+Ifrequired, exact049d998/tree docs/evidence/APITEST-016-admission.md100644/blob
+58f90e628a85e90d80e759746b7c9568c7eb8de9 conflictsunchangedguard. Pendingindependent
+verification, not a confirmed mandatoryrequirementconflict or waiver. Pin staysblocked.
+45unknownsourcebindings similarlyneedactualclaim distinction: authored/rejected/
+superseded attempts aren't retroactively required approvalgates merelyforbeingcited;
+unknownactualresultbindingsmustremainconcreteblockers, no blanketlegacytreatment.
+Audit B dispositions and isolatedtestcompletionstillactive. No tests/SDK/native
+execution, sourcepublication, guardchange, archivepin or productwork.
