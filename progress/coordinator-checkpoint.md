@@ -762,3 +762,23 @@ suite/SDK/canonicalHEAD claim; those two inputgates remain SETUP. No automaticre
 explicit known index-cause correction justified this targeted followup. II01 actualred
 now recorded; proceed small Codex code corrections then independent Codex verification
 and fresh Claude code closing, with all archive/history/P/CI/merge gates still blocking.
+
+Coordinator small code corrections authored AFTER exact II01 regression was recorded:
+796d9c5355e6304219bf3e99dccf43dadd60d6e0 in isolated t3-ca56771c. Source ancestry f6
+preserved by normal local merge into committed50db assembly, no root integration.
+II01 claimed predicate excludesepics while validating allsuppliedgrammar before skip.
+II02 timeless instruction/STATUS ownership and missing-input rules replace stale future
+banners; no finalization instruction edits. II03 actual archived STATUS pin remains
+required beforeP and cannot be invented; source94 snapshot link not claimed available.
+Report public6871042472/hashb7bbeddf16ea52ed768557bab7e6c9c5ea34368a0f1f25efa6a480cadd487530.
+Afterfix focusedepic andprojectpass; fulltooling155 gives154pass/0fail/1actualHEAD
+canonicalsetup/0skip. No aggregate green. Commands/rawstreams/times hashes preserved
+private migrate004-correction-checks. No SDK/native/CMake/product/historical rerun;
+older10SDKpasses remain sourcequalified, actualcanonicalSDKgate stillsetup. Current
+35retainedpaths/6deletions same scope;14oraclesexact7da. Source packet private
+migrate004-code-corrections;base21d coordinatesmetadata, not falsely f6-onlycheckout.
+Sourceauthorship addscoordinator, allinitialfindings/receipts retained. II04/05/07
+limits remain disclosed, II06READMEprecisionfixed butWFissue-searchprecisionopen.
+Next separateindependentCodexcodeverification thenfreshClaudeclosing; root source
+currency notclaimed while runtimeunintegrated. Allarchivehistory/canonical/P/CI/merge
+and successor gates remain blocking. No sourcepush, PR, pin or authorityswitch.
