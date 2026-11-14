@@ -258,3 +258,16 @@ TAR special/link members only inventoried, never followed; original bytes/digest
 in Git. Private /tmp/migrate004-nontext-inspection/manifest.json; UTF-8 invalid bytes
 not declared known text. Semantic reference/namespace/privacy/dependency audit still
 pending; no auditcompletion or roleapproval. Raw reports/logs remain private, not posted.
+
+Current419cd9 PRIMARY and SEPARATE ADR closing each APPROVED in distinct reports,
+sessionclaude:cda9c2f1-55e7-40eb-bfe3-9c44014eec4b, dispatchd1f5f719-ea8d-4f39-b633-85beb8386bc3.
+Primary issue629#issuecomment-6868570671; scope#issuecomment-6868572200. No blockers.
+Observed00:31:13/00:31:58 are late tool samples, not endpoints/duration; no structuredpair.
+Scope CL-E-N01..04: exclusions compact-only, full positive evidence equality; concrete
+invoke129 no writes/directAPIdeepcopy guard; every retained sentinel must be present
+in ADMISSIBLE input (supplemental onlyAPITEST016; activity needs explicit carrier mapping);
+corroborating K ProofTests449–477 cited. Other eight prior scope notes remain.
+Owner authorization plus recorded gates permits remaining AUTHORED test adaptation,
+not execution/red/implementation. Preserve candidatefa52905 as original ancestor when
+integrating locally; no push/PR yet. Full adaptation/test review cycle must finish.
+Audit authors A/B source-aware disposition continuations remain independently active.
