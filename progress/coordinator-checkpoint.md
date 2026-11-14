@@ -6,13 +6,16 @@ Owner: Kernol12. Full specification v0.45 stays in release scope.
 
 1. Build a running vertical slice next: the server starts, runs one timer and accepts
    one fake contribution.
-2. Authorized task path, in order: API-016 (#616) → APITEST-015 (#613) → API-001
-   (#278). Nothing else is authorized for execution.
+2. Authorized task path, in order: SLICE-001 (#642) → API-016 (#616) → APITEST-015
+   (#613) → API-001 (#278). Nothing else is authorized for execution.
+   SLICE-001 comes first because API-016 needs a new patched Drogon SDK before any
+   server can start; the slice runs the first contribution path in-process, with no
+   HTTP, from components that already pass their tests.
 3. Process and tooling work is frozen until the slice runs. WORKFLOW-006 (#619) and
    WORKFLOW-007 (#620) stay stopped.
-4. Review depth follows the three tiers in docs/AGENT_WORKFLOW.md. API-001 and
-   APITEST-015 (host lifecycle, thread ownership) are tier A; the coordinator sets
-   the tier for API-016.
+4. Review depth follows the three tiers in docs/AGENT_WORKFLOW.md. SLICE-001 is
+   tier B (owner decision). API-001 and APITEST-015 (host lifecycle, thread
+   ownership) are tier A; the coordinator sets the tier for API-016.
 5. At most two fix rounds per review; ask the owner before a third.
 
 ## State at this decision
@@ -33,5 +36,5 @@ None. No session or worktree is assigned.
 
 ## Next action
 
-Claim API-016 on a branch from current `main`, confirm its reviewed APITEST-016
-baseline and intended red, then implement.
+Claim SLICE-001 (#642) on a branch from current `main`. Do its feasibility step
+first, then author and review the tests, observe intended red and implement.
