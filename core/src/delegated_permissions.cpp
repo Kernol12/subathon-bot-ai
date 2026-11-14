@@ -312,8 +312,9 @@ bool tuple_fit(const Tuple &t, std::span<const Dimension> dims, bool resources_o
 // supports <=80 bytes of simultaneous tuple/change/index/binding storage. Each
 // catalog dimension supports <=88 bytes of traversal state plus <=32 bytes of
 // domain endpoints; tuple constraints add <=32 endpoint bytes, explicit resource
-// members <=8 bytes, and concrete bindings <=16 bytes. Role/account lists use
-// <=8 bytes per respective input item. Helper-owner splitting adds one pointer
+// members <=8 bytes, and concrete bindings <=16 bytes. Simultaneous changed-role
+// and membership-role lists use <=16 bytes per role item; account lists use <=8
+// bytes per account item. Helper-owner splitting adds one pointer
 // per helper resource dimension (within that dimension's remaining allowance).
 // Exact reserves avoid replacement capacity; ScratchScope enforces 128*actual I
 // before every scratch allocation, including any unexpected transient capacity.

@@ -57,7 +57,9 @@ Owner decisions are recorded in #249, comment 6879902355:
   intended assertion red before the code change. Whole-proposal guard and unique
   per-side membership-role expansion now authored; 55 delegation +32 permission
   +33 numeric cases pass, zero skips. Supplemental receipts retained for PR #648.
-  Independent Codex implementation verification and fresh Claude closing pending.
+  Independent Codex implementation verification approved `3b627e00`, resolving
+  R0-B1/R0-B2. Non-blocking scratch audit comment clarified without behavior change.
+  Fresh Claude closing implementation review is next; proof/merge gates pending.
 - ACCESS-009 (#645) claimed on `task/ACCESS-009-pure-delegation` from current
   `main` `85341ec4` after PR #647's protected merge. Preserved candidate history
   integrated at `bd3cb983d4ae276a7d6afd612aeb2243715d9038`; no test source pushed.
