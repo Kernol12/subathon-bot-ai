@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-14T03:53:33.951358+00:00",
+  "updated_at": "2026-11-14T06:47:18.712482+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20500,16 +20500,16 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
       "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Draft0041d000 independently code-approved;154 tooling passes/1canonical setup and10 SDK methods pass, actualproof setup pending. No aggregate green. Cutover BLOCKED: d717 required identity conflicts outgoing guard;6 dirty-run source versions missing;A/B andII03 actual archive pin/readback open. State authoritative;006/005/product/WF006007 not started."
+        "Owner authorized narrow historical amendment; HE01..07 proposal authored, not approved/applied. Original claims/policy retained; unfinished reliance requires reviewed inventory/holds. Draft code0041 approved at prior contract. State authoritative; current archive/canonical/CI/merge gates remain. Product/WF006007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
-        "contract_review": "passed",
+        "contract_review": "not_run",
         "test_review": "passed",
         "baseline": "observed_red",
         "implementation": "failed",
         "acceptance": "not_run",
-        "contract_verification": "passed",
+        "contract_verification": "not_run",
         "native_readback": "passed",
         "cleanup_scope_review": "passed",
         "availability_review": "failed",
@@ -20570,11 +20570,13 @@
               "codex:migrate004-contract-author-20261113:/root",
               "codex:coordinator-59095155"
             ],
-            "revision": "2ee131f5c68783b551fa1e8fc3a6d8d860ffa39d",
+            "revision": "5af653ec443e1f08e28990221c8a8a3880a98da2",
             "paths": [
               "docs/contracts/github-authority-cutover-v1.md",
               "docs/contracts/github-tracker-retirement-scope-v1.md",
-              "docs/tasks/EPIC-029/MIGRATE-004.md"
+              "docs/tasks/EPIC-029/MIGRATE-004.md",
+              "docs/contracts/historical-evidence-dispositions-v1.md",
+              "docs/contracts/github-task-migration-v1.md"
             ],
             "reviews": [
               {
