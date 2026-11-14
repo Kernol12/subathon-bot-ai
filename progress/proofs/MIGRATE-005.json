@@ -18,6 +18,18 @@
     "required_stages": [
       "implementation"
     ],
-    "stages": {}
+    "stages": {
+      "implementation": {
+        "authors": [
+          "codex:migrate005-final-audit:/root",
+          "codex:coordinator-59095155"
+        ],
+        "revision": "172f9ec00d44a3f513c992b7aa834c4dbe524b0d",
+        "paths": [
+          "docs/migrations/EPIC-029/final-audit.md"
+        ],
+        "reviews": []
+      }
+    }
   }
 }
