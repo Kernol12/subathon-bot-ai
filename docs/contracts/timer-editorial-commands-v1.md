@@ -29,8 +29,8 @@ A time **delta** differs from setting an absolute Main value during first start 
 reopening. It also differs from an explicit debt correction. None can be encoded
 by overwriting the other, resetting Grace, turning debt into negative Grace or
 silently changing a lifecycle flag. First-start admission remains coordinated
-with [API-007](../tasks/EPIC-008/API-007.md); reopening with
-[CORE-007](../tasks/EPIC-001/CORE-007.md); debt corrections require the separate
+with [API-007](https://github.com/Kernol12/subathon-bot-ai/issues/290); reopening with
+[CORE-007](https://github.com/Kernol12/subathon-bot-ai/issues/183); debt corrections require the separate
 permission/audit in §4/TIMER-10. Those required behaviors remain in release scope.
 The lifecycle matrix below states exactly which obligations this projection owns
 and which require those separately reviewed owning command contracts.

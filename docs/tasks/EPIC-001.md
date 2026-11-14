@@ -12,10 +12,10 @@ See [backlog workflow and complete epic index](README.md).
 | `CORETEST-001` → [CORE-001](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-001/CORE-001.md) | Bounded exact decimal parsing and final-effect rounding |
 | `CORETEST-002` → [CORE-002](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-001/CORE-002.md) | Main countdown and ending-mode transitions |
 | `CORETEST-003` → [CORE-003](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-001/CORE-003.md) | Independent pause reasons and delayed status signals |
-| `CORETEST-004` → [CORE-004](EPIC-001/CORE-004.md) | Recurring schedules and timezone occurrence previews |
+| `CORETEST-004` → [CORE-004](https://github.com/Kernol12/subathon-bot-ai/issues/177) | Recurring schedules and timezone occurrence previews |
 | `CORETEST-005` → [CORE-005](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-001/CORE-005.md) | Refund deficit policies and separate time debt |
-| `CORETEST-006` → [CORE-006](EPIC-001/CORE-006.md) | Downtime reconstruction and recovery-review decisions |
-| `CORETEST-007` → [CORE-007](EPIC-001/CORE-007.md) | Finished-input and audited reopening policies |
+| `CORETEST-006` → [CORE-006](https://github.com/Kernol12/subathon-bot-ai/issues/181) | Downtime reconstruction and recovery-review decisions |
+| `CORETEST-007` → [CORE-007](https://github.com/Kernol12/subathon-bot-ai/issues/183) | Finished-input and audited reopening policies |
 | `CORETEST-008` → [CORE-008](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-001/CORE-008.md) | Manual adjustments cap edits and hard-deadline commands |
 
 The original CONTRACT-001 → TEST-001 → REVIEW-001 → TEST-002 → IMPL-001

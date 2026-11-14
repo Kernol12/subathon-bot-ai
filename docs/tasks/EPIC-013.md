@@ -9,10 +9,10 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| `STREAMLABSTEST-001` → [STREAMLABS-001](EPIC-013/STREAMLABS-001.md) | Socket.IO authentication and live receipt normalization |
-| `STREAMLABSTEST-002` → [STREAMLABS-002](EPIC-013/STREAMLABS-002.md) | Paginated verified payment history and reconciliation |
-| `STREAMLABSTEST-003` → [STREAMLABS-003](EPIC-013/STREAMLABS-003.md) | Gap catch-up first import and capability reporting |
-| [STREAMLABS-090](EPIC-013/STREAMLABS-090.md) | Verify Socket.IO live-to-REST payment evidence live |
+| `STREAMLABSTEST-001` → [STREAMLABS-001](https://github.com/Kernol12/subathon-bot-ai/issues/361) | Socket.IO authentication and live receipt normalization |
+| `STREAMLABSTEST-002` → [STREAMLABS-002](https://github.com/Kernol12/subathon-bot-ai/issues/363) | Paginated verified payment history and reconciliation |
+| `STREAMLABSTEST-003` → [STREAMLABS-003](https://github.com/Kernol12/subathon-bot-ai/issues/365) | Gap catch-up first import and capability reporting |
+| [STREAMLABS-090](https://github.com/Kernol12/subathon-bot-ai/issues/366) | Verify Socket.IO live-to-REST payment evidence live |
 
 ## Completion and integration
 

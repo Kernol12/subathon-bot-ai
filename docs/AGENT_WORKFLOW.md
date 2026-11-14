@@ -21,9 +21,11 @@ observed intended red → implementation → independent code review → relevan
   the reviewed tests pass, its review approves and the PR is merged.
 
 One feature is one GitHub issue with two stages: tests, then implementation. The
-issue's brief in `docs/tasks` defines scope and acceptance. Older briefs name a
-separate `…TEST-nnn` baseline task; read that as the tests stage of the same issue.
-Use one PR per stage when the stages are reviewed apart, otherwise one PR.
+issue body is the brief: it defines scope and acceptance. A file under `docs/tasks`
+exists only for a task whose brief is too long for an issue. Issue bodies imported
+from the old tracker name a separate `…TEST-nnn` baseline task; read that as the
+tests stage of the same issue. Use one PR per stage when the stages are reviewed
+apart, otherwise one PR.
 
 ## Roles
 
@@ -106,11 +108,15 @@ keep their frozen historical records and exemptions.
 
 ## Contracts
 
-A contract is the public header or schema plus a table of examples. Put edge-case
-detail in tests, where it is executed, rather than in prose.
+By default the contract for a task is its public header or schema plus a table of
+examples in the issue or PR. Put edge-case detail in tests, where it is executed,
+rather than in prose. The specification stays the single statement of what to build.
 
-- A new contract stays under 300 lines. Split it or move detail into tests if it grows.
-- Existing longer contracts stay as they are. Trim one when a task next revises it.
+- Write a file under `docs/contracts` only for a boundary that no single header
+  covers: the wire protocol, the database schema, the scene format. Keep it under
+  300 lines; split it or move detail into tests if it grows.
+- Existing contracts stay as they are. Trim one when a task next revises it, and
+  prefer the header and tests over the prose once the code exists.
 - Record each dependency capability a task relies on and whether it is contracted,
   observed or unknown. Unknown provider behavior is never a supported capability.
 - If a substantial prerequisite appears, split it into its own task before expanding

@@ -9,13 +9,13 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| `ACCESSTEST-001` → [ACCESS-001](EPIC-006/ACCESS-001.md) | Initial owner setup and invitation registration |
+| `ACCESSTEST-001` → [ACCESS-001](https://github.com/Kernol12/subathon-bot-ai/issues/245) | Initial owner setup and invitation registration |
 | `ACCESSTEST-002` → [ACCESS-002](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-006/ACCESS-002.md) | Effective permissions and complete-grant constraints |
-| `ACCESSTEST-003` → [ACCESS-003](EPIC-006/ACCESS-003.md) | Delegation and authorized automation capabilities |
-| `ACCESSTEST-004` → [ACCESS-004](EPIC-006/ACCESS-004.md) | Account login and optional Twitch identity linking |
-| `ACCESSTEST-005` → [ACCESS-005](EPIC-006/ACCESS-005.md) | Recovery codes and administrative recovery |
-| `ACCESSTEST-006` → [ACCESS-006](EPIC-006/ACCESS-006.md) | Two-party ownership transfer and fresh authentication |
-| `ACCESSTEST-007` → [ACCESS-007](EPIC-006/ACCESS-007.md) | Chat command categories arguments and cooldowns |
+| `ACCESSTEST-003` → [ACCESS-003](https://github.com/Kernol12/subathon-bot-ai/issues/249) | Delegation and authorized automation capabilities |
+| `ACCESSTEST-004` → [ACCESS-004](https://github.com/Kernol12/subathon-bot-ai/issues/251) | Account login and optional Twitch identity linking |
+| `ACCESSTEST-005` → [ACCESS-005](https://github.com/Kernol12/subathon-bot-ai/issues/253) | Recovery codes and administrative recovery |
+| `ACCESSTEST-006` → [ACCESS-006](https://github.com/Kernol12/subathon-bot-ai/issues/255) | Two-party ownership transfer and fresh authentication |
+| `ACCESSTEST-007` → [ACCESS-007](https://github.com/Kernol12/subathon-bot-ai/issues/257) | Chat command categories arguments and cooldowns |
 
 ## Completion and integration
 

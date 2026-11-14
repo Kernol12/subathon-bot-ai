@@ -264,7 +264,7 @@ temporary 16384 ceilings are fixed and do not enlarge any selected input limit.
 No amount conversion, finalizer, rounding, division to a finite decimal, or
 crediting is performed. CORE-001's 4096-bit finalizer remains separate. The exact
 inverse of 1.20 is 5/6; the current finite-decimal `HistoricalValuation` field cannot
-carry it. Required [RATES-009](../tasks/EPIC-017/RATES-009.md) owns that versioned
+carry it. Required [RATES-009](https://github.com/Kernol12/subathon-bot-ai/issues/553) owns that versioned
 valuation/command/codec/durable bridge and its independent test/red/migration gates.
 This API neither rounds it nor reports that valid available ratio as missing.
 

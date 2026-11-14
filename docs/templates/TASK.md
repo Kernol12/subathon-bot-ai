@@ -1,5 +1,8 @@
 # TASK-ID — Title
 
+Use this file only when a brief is too long for the issue body. Otherwise write
+these fields in the GitHub issue.
+
 Kind/module/owner:
 Specification decisions/scenarios:
 Dependencies and contract revision:

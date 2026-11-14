@@ -9,13 +9,13 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| `VIEWERTEST-001` → [VIEWER-001](EPIC-022/VIEWER-001.md) | Viewer access modes and separately scoped links |
-| `VIEWERTEST-002` → [VIEWER-002](EPIC-022/VIEWER-002.md) | Source-respecting supporter privacy projections |
-| `VIEWERTEST-003` → [VIEWER-003](EPIC-022/VIEWER-003.md) | Exact metrics and historical refund aggregation |
-| `VIEWERTEST-004` → [VIEWER-004](EPIC-022/VIEWER-004.md) | Graph bucketing archive corrections and export query contract |
-| `VIEWERTEST-005` → [VIEWER-005](EPIC-022/VIEWER-005.md) | React viewer page milestone sections and recent support |
-| `VIEWERTEST-006` → [VIEWER-006](EPIC-022/VIEWER-006.md) | Permissioned CSV and JSON export without secrets |
-| `VIEWERTEST-007` → [VIEWER-007](EPIC-022/VIEWER-007.md) | Retention deletion and archive access safeguards |
+| `VIEWERTEST-001` → [VIEWER-001](https://github.com/Kernol12/subathon-bot-ai/issues/484) | Viewer access modes and separately scoped links |
+| `VIEWERTEST-002` → [VIEWER-002](https://github.com/Kernol12/subathon-bot-ai/issues/486) | Source-respecting supporter privacy projections |
+| `VIEWERTEST-003` → [VIEWER-003](https://github.com/Kernol12/subathon-bot-ai/issues/488) | Exact metrics and historical refund aggregation |
+| `VIEWERTEST-004` → [VIEWER-004](https://github.com/Kernol12/subathon-bot-ai/issues/490) | Graph bucketing archive corrections and export query contract |
+| `VIEWERTEST-005` → [VIEWER-005](https://github.com/Kernol12/subathon-bot-ai/issues/492) | React viewer page milestone sections and recent support |
+| `VIEWERTEST-006` → [VIEWER-006](https://github.com/Kernol12/subathon-bot-ai/issues/494) | Permissioned CSV and JSON export without secrets |
+| `VIEWERTEST-007` → [VIEWER-007](https://github.com/Kernol12/subathon-bot-ai/issues/496) | Retention deletion and archive access safeguards |
 
 ## Completion and integration
 

@@ -10,13 +10,13 @@ See [backlog workflow and complete epic index](README.md).
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
 | `MILESTONETEST-001` → [MILESTONE-001](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-005/MILESTONE-001.md) | Sequential achievement and deficit calculation |
-| `MILESTONETEST-002` → [MILESTONE-002](EPIC-005/MILESTONE-002.md) | Previewed target edits and completed-target corrections |
-| `MILESTONETEST-003` → [MILESTONE-003](EPIC-005/MILESTONE-003.md) | Durable delivery-job states and uncertain outcomes |
-| `MILESTONETEST-004` → [MILESTONE-004](EPIC-005/MILESTONE-004.md) | Sequential action groups and server presentation timeline |
-| `MILESTONETEST-005` → [MILESTONE-005](EPIC-005/MILESTONE-005.md) | Deferred skipped and refund-held action groups |
-| `MILESTONETEST-006` → [MILESTONE-006](EPIC-005/MILESTONE-006.md) | Replace unstarted actions and interrupt groups |
-| `MILESTONETEST-007` → [MILESTONE-007](EPIC-005/MILESTONE-007.md) | Manual sequential completion without score changes |
-| `MILESTONETEST-008` → [MILESTONE-008](EPIC-005/MILESTONE-008.md) | Audited completion reset and replay safeguards |
+| `MILESTONETEST-002` → [MILESTONE-002](https://github.com/Kernol12/subathon-bot-ai/issues/230) | Previewed target edits and completed-target corrections |
+| `MILESTONETEST-003` → [MILESTONE-003](https://github.com/Kernol12/subathon-bot-ai/issues/232) | Durable delivery-job states and uncertain outcomes |
+| `MILESTONETEST-004` → [MILESTONE-004](https://github.com/Kernol12/subathon-bot-ai/issues/234) | Sequential action groups and server presentation timeline |
+| `MILESTONETEST-005` → [MILESTONE-005](https://github.com/Kernol12/subathon-bot-ai/issues/236) | Deferred skipped and refund-held action groups |
+| `MILESTONETEST-006` → [MILESTONE-006](https://github.com/Kernol12/subathon-bot-ai/issues/238) | Replace unstarted actions and interrupt groups |
+| `MILESTONETEST-007` → [MILESTONE-007](https://github.com/Kernol12/subathon-bot-ai/issues/240) | Manual sequential completion without score changes |
+| `MILESTONETEST-008` → [MILESTONE-008](https://github.com/Kernol12/subathon-bot-ai/issues/242) | Audited completion reset and replay safeguards |
 
 ## Completion and integration
 

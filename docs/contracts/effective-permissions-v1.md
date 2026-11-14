@@ -25,7 +25,7 @@ grant a session or attest that an action was executed.
 This slice owns precedence, complete-grant matching, protected ownership boundaries
 and explanations of the actual permission sources used. It consumes a coherent
 server-established account/policy snapshot and a fully typed operation intent.
-[ACCESS-003](../tasks/EPIC-006/ACCESS-003.md) owns use-versus-delegate authority,
+[ACCESS-003](https://github.com/Kernol12/subathon-bot-ai/issues/249) owns use-versus-delegate authority,
 editing/invitation/self-affecting-change bounds and authorized automation. SESSION
 and the account/setup/recovery tasks own identity, session validity, fresh sign-in,
 owner transfer and credential recovery. Chat eligibility/categories have their

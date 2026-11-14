@@ -9,11 +9,11 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| `RULESTEST-001` → [RULES-001](EPIC-003/RULES-001.md) | Versioned rule definitions and typed conditions |
-| `RULESTEST-002` → [RULES-002](EPIC-003/RULES-002.md) | Exclusive groups and directional exclusions |
-| `RULESTEST-003` → [RULES-003](EPIC-003/RULES-003.md) | Ordered action planning and delegated capabilities |
-| `RULESTEST-004` → [RULES-004](EPIC-003/RULES-004.md) | Bounded generated-event processing and parentage |
-| `RULESTEST-005` → [RULES-005](EPIC-003/RULES-005.md) | Reusable fake adapters and inspectable simulator |
+| `RULESTEST-001` → [RULES-001](https://github.com/Kernol12/subathon-bot-ai/issues/204) | Versioned rule definitions and typed conditions |
+| `RULESTEST-002` → [RULES-002](https://github.com/Kernol12/subathon-bot-ai/issues/206) | Exclusive groups and directional exclusions |
+| `RULESTEST-003` → [RULES-003](https://github.com/Kernol12/subathon-bot-ai/issues/208) | Ordered action planning and delegated capabilities |
+| `RULESTEST-004` → [RULES-004](https://github.com/Kernol12/subathon-bot-ai/issues/210) | Bounded generated-event processing and parentage |
+| `RULESTEST-005` → [RULES-005](https://github.com/Kernol12/subathon-bot-ai/issues/212) | Reusable fake adapters and inspectable simulator |
 
 ## Completion and integration
 
@@ -31,7 +31,7 @@ and record the handoff on GitHub with canonical proof references.
 
 ## Early reference prerequisite
 
-`RULESTEST-006` → [RULES-006](EPIC-003/RULES-006.md) supplies the bounded single-rule
+`RULESTEST-006` → [RULES-006](https://github.com/Kernol12/subathon-bot-ai/issues/558) supplies the bounded single-rule
 reference evaluator under CONTRACT014/ACCESS003. Both are required epic children.
 [ADR-0006](../decisions/0006-reference-path-prerequisites.md) retains complete rule
 conditions/order/exclusions/generated chains/action categories and their original

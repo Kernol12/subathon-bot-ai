@@ -10,7 +10,7 @@ RATES-001 supplies exact inverse/cross rates, including 5/6 for the inverse of
 1.20. Existing HistoricalValuation and STORAGE-015 retain a finite decimal;
 RATESTEST-009 cannot safely define its bridge baseline without a reviewed
 representation and compatibility contract. Split this prerequisite from
-[RATES-009](RATES-009.md) before authoring that baseline. Preserve all existing
+[RATES-009](https://github.com/Kernol12/subathon-bot-ai/issues/553) before authoring that baseline. Preserve all existing
 release tasks, edges, reviewed assertions and shipped migration bytes.
 
 ## Acceptance and ownership

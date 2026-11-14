@@ -9,17 +9,17 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| `WEBAPPTEST-001` → [WEBAPP-001](EPIC-021/WEBAPP-001.md) | React TypeScript Vite shell and static server delivery |
-| `WEBAPPTEST-002` → [WEBAPP-002](EPIC-021/WEBAPP-002.md) | Browser login sessions and permission-aware live state |
-| `WEBAPPTEST-003` → [WEBAPP-003](EPIC-021/WEBAPP-003.md) | Browser timer lifecycle and recovery operations |
-| `WEBAPPTEST-004` → [WEBAPP-004](EPIC-021/WEBAPP-004.md) | Browser contribution review reversals and silent processing |
-| `WEBAPPTEST-005` → [WEBAPP-005](EPIC-021/WEBAPP-005.md) | Browser rules and simulator workflows |
-| `WEBAPPTEST-006` → [WEBAPP-006](EPIC-021/WEBAPP-006.md) | Browser modifier definition and active-instance workflows |
-| `WEBAPPTEST-007` → [WEBAPP-007](EPIC-021/WEBAPP-007.md) | Browser accounts delegation and session management |
-| `WEBAPPTEST-008` → [WEBAPP-008](EPIC-021/WEBAPP-008.md) | Browser provider setup and capability health |
-| `WEBAPPTEST-009` → [WEBAPP-009](EPIC-021/WEBAPP-009.md) | Browser milestone editing completion and action queue |
-| `WEBAPPTEST-010` → [WEBAPP-010](EPIC-021/WEBAPP-010.md) | Browser rate configuration and historical conversion review |
-| `WEBAPPTEST-011` → [WEBAPP-011](EPIC-021/WEBAPP-011.md) | Browser resumable setup simulation and start |
+| `WEBAPPTEST-001` → [WEBAPP-001](https://github.com/Kernol12/subathon-bot-ai/issues/461) | React TypeScript Vite shell and static server delivery |
+| `WEBAPPTEST-002` → [WEBAPP-002](https://github.com/Kernol12/subathon-bot-ai/issues/463) | Browser login sessions and permission-aware live state |
+| `WEBAPPTEST-003` → [WEBAPP-003](https://github.com/Kernol12/subathon-bot-ai/issues/465) | Browser timer lifecycle and recovery operations |
+| `WEBAPPTEST-004` → [WEBAPP-004](https://github.com/Kernol12/subathon-bot-ai/issues/467) | Browser contribution review reversals and silent processing |
+| `WEBAPPTEST-005` → [WEBAPP-005](https://github.com/Kernol12/subathon-bot-ai/issues/469) | Browser rules and simulator workflows |
+| `WEBAPPTEST-006` → [WEBAPP-006](https://github.com/Kernol12/subathon-bot-ai/issues/471) | Browser modifier definition and active-instance workflows |
+| `WEBAPPTEST-007` → [WEBAPP-007](https://github.com/Kernol12/subathon-bot-ai/issues/473) | Browser accounts delegation and session management |
+| `WEBAPPTEST-008` → [WEBAPP-008](https://github.com/Kernol12/subathon-bot-ai/issues/475) | Browser provider setup and capability health |
+| `WEBAPPTEST-009` → [WEBAPP-009](https://github.com/Kernol12/subathon-bot-ai/issues/477) | Browser milestone editing completion and action queue |
+| `WEBAPPTEST-010` → [WEBAPP-010](https://github.com/Kernol12/subathon-bot-ai/issues/479) | Browser rate configuration and historical conversion review |
+| `WEBAPPTEST-011` → [WEBAPP-011](https://github.com/Kernol12/subathon-bot-ai/issues/481) | Browser resumable setup simulation and start |
 
 ## Completion and integration
 

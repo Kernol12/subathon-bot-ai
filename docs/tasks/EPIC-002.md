@@ -14,9 +14,9 @@ See [backlog workflow and complete epic index](README.md).
 | `ACCTTEST-003` → [ACCT-003](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-002/ACCT-003.md) | Captured application plans and calculation provenance |
 | [ACCTCONTRACT-001](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/ACCTCONTRACT-001.md) | Logical application-service/current-policy/commit and durable-hold semantics |
 | `ACCTTEST-004` → [ACCT-004](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-002/ACCT-004.md) | Atomic effect application and operation idempotency |
-| `ACCTTEST-005` → [ACCT-005](EPIC-002/ACCT-005.md) | Individual batch and silent contribution review |
-| `ACCTTEST-006` → [ACCT-006](EPIC-002/ACCT-006.md) | Cumulative partial and full reversal entitlements |
-| `ACCTTEST-007` → [ACCT-007](EPIC-002/ACCT-007.md) | Apply reversals with debt and preserved progression |
+| `ACCTTEST-005` → [ACCT-005](https://github.com/Kernol12/subathon-bot-ai/issues/197) | Individual batch and silent contribution review |
+| `ACCTTEST-006` → [ACCT-006](https://github.com/Kernol12/subathon-bot-ai/issues/199) | Cumulative partial and full reversal entitlements |
+| `ACCTTEST-007` → [ACCT-007](https://github.com/Kernol12/subathon-bot-ai/issues/201) | Apply reversals with debt and preserved progression |
 
 ## Completion and integration
 

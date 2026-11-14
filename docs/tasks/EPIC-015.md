@@ -9,10 +9,10 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| `KOFITEST-001` → [KOFI-001](EPIC-015/KOFI-001.md) | Authenticated payment webhook receipt and deduplication |
-| `KOFITEST-002` → [KOFI-002](EPIC-015/KOFI-002.md) | Tip membership and other payment eligibility mapping |
-| [KOFI-003](EPIC-015/KOFI-003.md) | Establish payment refund and history capability evidence |
-| [KOFI-090](EPIC-015/KOFI-090.md) | Verify installation webhook eligibility and duplicate handling live |
+| `KOFITEST-001` → [KOFI-001](https://github.com/Kernol12/subathon-bot-ai/issues/378) | Authenticated payment webhook receipt and deduplication |
+| `KOFITEST-002` → [KOFI-002](https://github.com/Kernol12/subathon-bot-ai/issues/380) | Tip membership and other payment eligibility mapping |
+| [KOFI-003](https://github.com/Kernol12/subathon-bot-ai/issues/381) | Establish payment refund and history capability evidence |
+| [KOFI-090](https://github.com/Kernol12/subathon-bot-ai/issues/382) | Verify installation webhook eligibility and duplicate handling live |
 
 ## Completion and integration
 

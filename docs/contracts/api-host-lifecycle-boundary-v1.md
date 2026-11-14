@@ -95,7 +95,7 @@ STORAGE-007 here would create the existing graph's cycle:
 STORAGE-007 depends on SESSION-009, which depends on API-001.
 
 **Binding forward obligation in the existing restore task:** the shared
-[STORAGE-007 / STORAGETEST-007 brief](../tasks/EPIC-009/STORAGE-007.md) requires
+[STORAGE-007 / STORAGETEST-007 brief](https://github.com/Kernol12/subathon-bot-ai/issues/326) requires
 that NO supported restore crash point leave the selected path acceptable as an
 ordinary store to a host lacking a restore consumer. Interrupted supported restore
 must either leave the original ordinary installation intact or require guarded

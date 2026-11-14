@@ -65,7 +65,7 @@ fixture; that foundation has NO API-001 dependency. Both SESSIONTEST-011 and
 SESSION-011 depend on API-016. Native pre-Upgrade effects must be explicitly
 reviewed per listener against unchanged44 compatibility, never assumed isolated.
 
-The account-specific correction belongs to [SESSION-011](../tasks/EPIC-007/SESSION-011.md),
+The account-specific correction belongs to [SESSION-011](https://github.com/Kernol12/subathon-bot-ai/issues/591),
 explicitly REBASED onto that admitted successor with reviewed narrow patches,
 preserved licenses and a distinct patch/build/capture-ABI identity. It still owns
 every occurrence capture, raw-secret erasure and pre-log removal obligation below;

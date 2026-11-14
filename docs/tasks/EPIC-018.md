@@ -9,16 +9,16 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| `DESKTOPTEST-001` → [DESKTOP-001](EPIC-018/DESKTOP-001.md) | Qt Quick shell login and capability-aware connection |
-| `DESKTOPTEST-002` → [DESKTOP-002](EPIC-018/DESKTOP-002.md) | Live timer grace pause and reopening controls |
-| `DESKTOPTEST-003` → [DESKTOP-003](EPIC-018/DESKTOP-003.md) | Contribution review and reversal management panels |
-| `DESKTOPTEST-004` → [DESKTOP-004](EPIC-018/DESKTOP-004.md) | Structured rule editor and simulation inspection |
-| `DESKTOPTEST-005` → [DESKTOP-005](EPIC-018/DESKTOP-005.md) | Modifier configuration and active-instance controls |
-| `DESKTOPTEST-006` → [DESKTOP-006](EPIC-018/DESKTOP-006.md) | Milestone editor and action queue controls |
-| `DESKTOPTEST-007` → [DESKTOP-007](EPIC-018/DESKTOP-007.md) | Accounts roles invitations sessions and audit management |
-| `DESKTOPTEST-008` → [DESKTOP-008](EPIC-018/DESKTOP-008.md) | Provider connection setup health and capability panels |
-| `DESKTOPTEST-009` → [DESKTOP-009](EPIC-018/DESKTOP-009.md) | Rate providers reporting currency and override panels |
-| `DESKTOPTEST-010` → [DESKTOP-010](EPIC-018/DESKTOP-010.md) | Resumable guided desktop setup and trial events |
+| `DESKTOPTEST-001` → [DESKTOP-001](https://github.com/Kernol12/subathon-bot-ai/issues/412) | Qt Quick shell login and capability-aware connection |
+| `DESKTOPTEST-002` → [DESKTOP-002](https://github.com/Kernol12/subathon-bot-ai/issues/414) | Live timer grace pause and reopening controls |
+| `DESKTOPTEST-003` → [DESKTOP-003](https://github.com/Kernol12/subathon-bot-ai/issues/416) | Contribution review and reversal management panels |
+| `DESKTOPTEST-004` → [DESKTOP-004](https://github.com/Kernol12/subathon-bot-ai/issues/418) | Structured rule editor and simulation inspection |
+| `DESKTOPTEST-005` → [DESKTOP-005](https://github.com/Kernol12/subathon-bot-ai/issues/420) | Modifier configuration and active-instance controls |
+| `DESKTOPTEST-006` → [DESKTOP-006](https://github.com/Kernol12/subathon-bot-ai/issues/422) | Milestone editor and action queue controls |
+| `DESKTOPTEST-007` → [DESKTOP-007](https://github.com/Kernol12/subathon-bot-ai/issues/424) | Accounts roles invitations sessions and audit management |
+| `DESKTOPTEST-008` → [DESKTOP-008](https://github.com/Kernol12/subathon-bot-ai/issues/426) | Provider connection setup health and capability panels |
+| `DESKTOPTEST-009` → [DESKTOP-009](https://github.com/Kernol12/subathon-bot-ai/issues/428) | Rate providers reporting currency and override panels |
+| `DESKTOPTEST-010` → [DESKTOP-010](https://github.com/Kernol12/subathon-bot-ai/issues/430) | Resumable guided desktop setup and trial events |
 
 ## Completion and integration
 

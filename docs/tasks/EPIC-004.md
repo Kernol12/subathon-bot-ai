@@ -9,12 +9,12 @@ See [backlog workflow and complete epic index](README.md).
 
 | Tasks (baseline → implementation where applicable) | Bounded outcome |
 | --- | --- |
-| `MODIFIERTEST-001` → [MODIFIER-001](EPIC-004/MODIFIER-001.md) | Persistent modifier definitions and activation instances |
-| `MODIFIERTEST-002` → [MODIFIER-002](EPIC-004/MODIFIER-002.md) | Independent modifier clocks and lifecycle behavior |
-| `MODIFIERTEST-003` → [MODIFIER-003](EPIC-004/MODIFIER-003.md) | Per-group and per-target stacking operators |
-| `MODIFIERTEST-004` → [MODIFIER-004](EPIC-004/MODIFIER-004.md) | Previewed edits to active instances |
-| `MODIFIERTEST-005` → [MODIFIER-005](EPIC-004/MODIFIER-005.md) | Captured modifier context in pending contribution plans |
-| `MODIFIERTEST-006` → [MODIFIER-006](EPIC-004/MODIFIER-006.md) | Persist and recover modifier clocks with input holds |
+| `MODIFIERTEST-001` → [MODIFIER-001](https://github.com/Kernol12/subathon-bot-ai/issues/215) | Persistent modifier definitions and activation instances |
+| `MODIFIERTEST-002` → [MODIFIER-002](https://github.com/Kernol12/subathon-bot-ai/issues/217) | Independent modifier clocks and lifecycle behavior |
+| `MODIFIERTEST-003` → [MODIFIER-003](https://github.com/Kernol12/subathon-bot-ai/issues/219) | Per-group and per-target stacking operators |
+| `MODIFIERTEST-004` → [MODIFIER-004](https://github.com/Kernol12/subathon-bot-ai/issues/221) | Previewed edits to active instances |
+| `MODIFIERTEST-005` → [MODIFIER-005](https://github.com/Kernol12/subathon-bot-ai/issues/223) | Captured modifier context in pending contribution plans |
+| `MODIFIERTEST-006` → [MODIFIER-006](https://github.com/Kernol12/subathon-bot-ai/issues/225) | Persist and recover modifier clocks with input holds |
 
 ## Completion and integration
 
