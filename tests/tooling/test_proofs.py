@@ -633,6 +633,23 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(proofs.convert(source(exempt), mapping(exempt), ARCHIVE)['records']), 1)
 
 
+    def test_epic_claims_do_not_invent_workflow_or_publication_gates(self):
+        # The pinned tracker predicate excludes epics; supplied grammar still applies.
+        for status in ('planned', 'in_progress', 'in_review', 'done'):
+            epic = task('EPIC-999', kind='epic', status=status)
+            epic.pop('workflow')
+            original = copy.deepcopy(epic)
+            with self.subTest(epic_status=status):
+                result = proofs.convert(source(epic), mapping(epic), ARCHIVE)
+                self.assertEqual(result['records'], [])
+                self.assertEqual(result['policy']['required_records'], [])
+                self.assertEqual(result['report']['archive_only_ids'], ['EPIC-999'])
+                self.assertEqual(epic, original)
+                malformed = copy.deepcopy(epic)
+                malformed['workflow'] = {'unknown': True}
+                self.refuses(proofs.convert, source(malformed), mapping(malformed), ARCHIVE)
+
+
 class ProofCliTests(unittest.TestCase):
     def invoke(self, *args):
         return subprocess.run([sys.executable, '-B', str(ROOT/'tools/proofs.py'), *map(str, args)],
@@ -695,10 +712,12 @@ class ProofCliTests(unittest.TestCase):
             root = Path(temporary)
             f = ProofPublicationFixture(root/'candidate')
             output = root/'converted'
-            def invoke(pin=None, destination=output, *extra):
+            def invoke(pin=None, destination=output, *extra, joined_pin=False):
                 before = f.snapshot()
+                selected = f.archive if pin is None else pin
+                pin_args = ['--archive-commit='+selected] if joined_pin else ['--archive-commit', selected]
                 result = subprocess.run([sys.executable, '-B', 'tools/proofs.py', 'convert',
-                    '--archive-commit', f.archive if pin is None else pin,
+                    *pin_args,
                     '--output-dir', str(destination), *extra], cwd=f.root, env=ENV,
                     capture_output=True, text=True, timeout=60)
                 self.assertEqual(f.snapshot(), before)
@@ -741,9 +760,13 @@ class ProofCliTests(unittest.TestCase):
             saved = {p.relative_to(output):p.read_bytes() for p in output.rglob('*') if p.is_file()}
             self.assert_error(invoke())
             self.assertEqual({p.relative_to(output):p.read_bytes() for p in output.rglob('*') if p.is_file()}, saved)
-            for pin in (f.archive[:7], 'f'*40, 'HEAD', '--all'):
+            for pin in (f.archive[:7], 'f'*40, 'HEAD'):
                 self.assert_error(invoke(pin, root/'refused'))
                 self.assertFalse((root/'refused').exists())
+            self.assert_error(invoke('--all', root/'refused'), 2)
+            self.assertFalse((root/'refused').exists())
+            self.assert_error(invoke('--all', root/'refused', joined_pin=True))
+            self.assertFalse((root/'refused').exists())
             self.assert_error(invoke(destination=f.root/'inside'))
             self.assertFalse((f.root/'inside').exists())
             alias = root/'alias'; alias.symlink_to(root, target_is_directory=True)

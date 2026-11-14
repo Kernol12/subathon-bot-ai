@@ -92,8 +92,8 @@ class PublicationTests(unittest.TestCase):
             expected = {
                 "task": "WFIX-001", "base": fixture.target, "head": fixture.head, "commit_count": 1,
                 "stages": [{"name": "contract", "revision": fixture.base, "path_count": 1, "complete": False}],
-                "checks": dict.fromkeys(("recorded_paths","outgoing_paths","proofs","policy_history","project","proof_schema"),"passed"),
                 "guard": dict(mode="existing",record_count=1,archive_record_count=1,legacy_exempt=False),
+                "checks": dict.fromkeys(("recorded_paths","outgoing_paths","proofs","policy_history","project","proof_schema"),"passed"),
                 "limitations": LIMITATIONS,
             }
             self.assertEqual(result[1], json.dumps(expected, indent=2, ensure_ascii=False) + "\n")
@@ -112,6 +112,7 @@ class PublicationTests(unittest.TestCase):
             summary = self.success(self.invoke(fixture))
             self.assertEqual(summary["commit_count"], 2)
             self.assertEqual(summary["stages"][0]["revision"], fixture.base)
+            fixture.git("update-ref", "refs/remotes/origin/main", fixture.head)
             summary = self.success(self.invoke(fixture, fixture.arguments(base="HEAD")))
             self.assertEqual((summary["base"], summary["head"], summary["commit_count"]),
                              (fixture.head, fixture.head, 0))
@@ -260,6 +261,7 @@ class PublicationTests(unittest.TestCase):
             fixture.git("rm", "--", "local-secrets/base-only.txt")
             fixture.head = fixture.commit("Remove before future outgoing work")
             # Removal commit's tree is clean; base itself must not be rescanned.
+            fixture.git("update-ref", "refs/remotes/origin/main", boundary)
             self.assertEqual(self.success(self.invoke(fixture, fixture.arguments(base=boundary)))["commit_count"], 1)
 
     def test_merge_side_history_is_scanned_even_when_final_merge_tree_is_clean(self):
