@@ -48,7 +48,8 @@ Audit found no blocking migration defects;503 task IDs/native views/archives/cle
 Fresh-clone checks passed:155 tooling,scaffold3/3,real-SDK3/3 plusproof/refusal checks.
 No runtime/contract/test changes. Claude initial approved PR638#issuecomment-6875809539; zero blockers/fix rounds.
 Codex verification approved PR638#issuecomment-6875857979; no blockers.
-Next: fresh Claude closing; current-head CI pending.
+Fresh Claude closing approved PR638#issuecomment-6875905609; no blockers.
+Only final-head CI, protected normal merge/readback and GitHub closure remain.
 Audit IDs/titles/parents/prerequisites/native views, archives/cleanup/links/old names,
 required-proof refusals and offline existing repository/tooling/SDK/scaffold checks.
 No historical re-verification, new fixture suite, or manufactured red.
@@ -64,8 +65,17 @@ Ignored historical outputs remain private. Earlier private proposal post was aut
 no payload/retry. Prior detailed checkpoint/history remain under the old-tracker tag.
 
 Single final audit report PR: https://github.com/Kernol12/subathon-bot-ai/pull/638 (draft).
-Six publication preflight checks passed; independent report review/CI pending.
+Initial/Codex/fresh-closing report reviews approved; zero fix rounds.
+Final publication completion check and current-head CI precede merge/closure.
 
 005 initial report SHA-256: 1bb6eaa86a5cc4eacfa02a971d89e5ddbeb92f7a29493b48cf962583537a4ddc.
 
 005 verification SHA-256: 15636c659d1831b6d17a4ff3dd308ceb95afb220390f7154df560f3ec900ace8.
+
+005 closing SHA-256: ff2d5860a1328fdd1433c5ce1a52048e3fdcb913cb431ff8e3a4ab8f4f104a3f.
+
+## Final authorization boundary
+
+After PR638 is normally merged/read back and issues630/625 are closed, EPIC-029
+migration authorization is exhausted: STOP. GitHub PR/issue facts own actual closure.
+Do not create a completion-only PR or start WORKFLOW-006/007 or product/API work.
