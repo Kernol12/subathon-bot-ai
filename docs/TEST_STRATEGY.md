@@ -42,7 +42,7 @@ still using synthetic data and supplied policy/authority facts.
 | `contribution-evidence-debug` | `-L '^contribution-evidence$'` | 21 eligibility/linkage cases using primitive-store simulation |
 | `application-plan-debug` | `-L '^application-plan$'` | 22 owned captured-plan transformations |
 | `effective-permissions-debug` | `-L '^effective-permissions$'` | 32 pure evaluator cases; supplied facts convey no execution authority |
-| `effective-permissions-debug` | `-L '^delegated-permissions$'` | 53 pure delegation/edit-impact/dual-channel cases; supplied facts convey no execution authority |
+| `effective-permissions-debug` | `-L '^delegated-permissions$'` | 55 pure delegation/edit-impact/dual-channel cases (53 original + 2 supplemental); supplied facts convey no execution authority |
 | `password-hashing-debug` | `-L '^password-hashing$'` | 37 methods against selected libsodium, including secret-lifetime/failure checks |
 | `session-resolution-debug` | `-L '^session-resolution$'` | 39 token preparation/current-fact resolution cases; no actual login/session issuance |
 | `sqlite-writer-debug` | `-L '^sqlite-writer$'` | 25 controlled writer/ownership cases using real Qt SQL |

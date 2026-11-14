@@ -49,8 +49,15 @@ Owner decisions are recorded in #249, comment 6879902355:
   shared borrowed permission-engine internals. Header/tests unchanged; local
   integrated acceptance passes 53 delegation +32 existing permission +33 numeric
   cases, zero skips. Ordinary passing acceptance/CI discovery integration is
-  coordinator-owned. Independent Claude initial implementation review is next;
+  coordinator-owned. Independent Claude initial implementation review requested changes;
   code is not independently approved. Prior incomplete session produced no code.
+- Initial implementation review at `026690b1` requested changes: R0-B1 empty-domain
+  protected GRANT bypass and R0-B2 cubic membership-row expansion. Fix round 1
+  adds two independently approved supplemental tests at `501c5078`; both observed
+  intended assertion red before the code change. Whole-proposal guard and unique
+  per-side membership-role expansion now authored; 55 delegation +32 permission
+  +33 numeric cases pass, zero skips. Supplemental receipts retained for PR #648.
+  Independent Codex implementation verification and fresh Claude closing pending.
 - ACCESS-009 (#645) claimed on `task/ACCESS-009-pure-delegation` from current
   `main` `85341ec4` after PR #647's protected merge. Preserved candidate history
   integrated at `bd3cb983d4ae276a7d6afd612aeb2243715d9038`; no test source pushed.

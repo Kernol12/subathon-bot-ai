@@ -494,6 +494,8 @@ struct Kernel {
         }
         if (!product)
             return;
+        // Odometer wraps rescan skipped dimension cells. Across admitted products
+        // this adds at most L^2 * O(I) cell selections, still within L^4 work.
         auto advance = [&](Dimension &d) {
             while (d.cursor < d.count() && (!valid_cell(d) || !select(d)))
                 ++d.cursor;
@@ -515,7 +517,11 @@ struct Kernel {
     }
     Outcome containment(const Tuple &t, const Policy &p, bool grant, bool counting) {
         const auto &op = *find(pool.catalog.operations, t.operation, opkey);
-        bool ok = true;
+        // Protected GRANTs are refused as whole proposals, even when catalog
+        // intersection leaves no cells. Traversal still charges the same work.
+        bool ok = !(grant &&
+                    (op.classification == PermissionOperationClass::protected_access_management ||
+                     op.classification == PermissionOperationClass::protected_recovery));
         // Owner-target proposals are refused in FULL even when only part intersects owner.
         if (grant && op.classification == PermissionOperationClass::helper_password_reset &&
             owner.account &&
@@ -1043,6 +1049,10 @@ PermissionEditDecision edit_impl(const PermissionEditInput &in,
                     changed_roles.push_back(&r.role);
             }
         }
+        // Collect changed memberships before expanding rows: many accounts may
+        // gain the same role, but its row/side closure is identical for all of them.
+        ScratchVector<const PermissionEditableRole *> membership_roles;
+        membership_roles.reserve(s.roles.size());
         for (const auto &a : s.accounts) {
             const auto *o = account(other, a.account);
             for (const auto &e : a.individual_entries) {
@@ -1054,10 +1064,16 @@ PermissionEditDecision edit_impl(const PermissionEditInput &in,
                     add(e, side);
             }
             for (const auto &r : a.assigned_roles)
-                if (!o || !find(o->assigned_roles, r, name))
-                    for (const auto &e : find(s.roles, r, role_key)->entries)
-                        add(e, side);
+                if (!o || !find(o->assigned_roles, r, name)) {
+                    const auto *role = find(s.roles, r, role_key);
+                    if (std::find(membership_roles.begin(), membership_roles.end(), role) ==
+                        membership_roles.end())
+                        membership_roles.push_back(role);
+                }
         }
+        for (const auto *role : membership_roles)
+            for (const auto &e : role->entries)
+                add(e, side);
     }
     std::sort(changed.begin(), changed.end(), [](const auto &a, const auto &b) {
         const auto &x = *a.row, &y = *b.row;
