@@ -889,3 +889,25 @@ andapplicablepacketsmustbereviewedbeforeP. No manufacturedredfordocumentarypropo
 Existingproject/validate/whitespacepass. Next independentdocumentaryamendmentreview,
 Codexcorrections/separateverification and freshClaudeclosing beforeuse. Stateauthority,
 actualarchiveSTATUSpin/canonicalchecks/hostedCI/protectedmerge/successorgates unchanged.
+
+Independent historical amendment INITIAL documentary assessment dispatch6fd466d4-aabe-
+43b0-a816-983e4ddd3947/sessionf46f9647-c8a1-4152-a4c1-5d36105b633e rejected5af653ec:
+HAI01fullblobidentities/carrierroles,HAI02notes500/A-Proute,HAI03exactprecedence,
+HAI04holdartifact/timing,HAI05completedinheritance. Public6873473562, reportSHA256
+3600f1b07076465cb1edbb584c52cb7c756eeba9512f306aa135bbfb152c2460. This is separate
+newamendmentdocumentaryinitial, not secondprimaryinitial/schemafield. Preservedas
+actualsourceboundtask evidence; primary15priorreviewsunchanged. Ownerneednotdecide
+routineclarifications. Coordinator corrections source2df00c5a6b61b01e68fa7e4d106210f1c6ea1ba8: HE02/05fullrecorded
+CPPblobIDs+abbreviations, Qt/CIroles/groups/fullcarrierbloblineids; literal precedence
+clauses table; ONEpre-Aappendstate.evidence immutable reviewedreportURL route, notes
+and limitations unchanged/caprespected includingexistingda0receiptstorageclarification;
+actualsafe remote readback beforepin, exactA/Pconversion/prefixrulesunchanged. Holds
+specificissuecomment/readbackBEFOREA, nostate/status/note/label/edgechanges;future
+coordinatorreadsatdispatch. Completedinheritingclaims includingSTORAGE020baseline
+musthaveindividuallyreviewedtask×HE×claim/evidencelink, no automatictransitivewaiver.
+Fullcarrierandrelianceinventory/remainingA/Bauditstillpendingbeforeadmission. HAI06..08
+keys/groupcoverage/fullIDs/rowconversionprecisionalsoaddressed. No originalmaps/notes
+orpolicy/runtime/test/schema/ADRscopechange,noexceptionapplication/no manufacturedred.
+Next separateCodexverification then freshClaudeclosing onchanged5pathprimarypacket.
+Priorcode0041approvalremainspriorcontractqualified; actualSTATUSpin/newlimits/current
+sourceinstructionreviews and allarchive/canonical/CI/protectedmergegates remain.
