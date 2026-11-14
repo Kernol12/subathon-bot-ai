@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "task_id": "STORAGE-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 312
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-009/STORAGE-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-002-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-002-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-validation-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-terminal-baseline-correction.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-terminal-baseline-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-contribution-byte-regression.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-regression-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-metadata-regression.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-metadata-regression-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-final-review.md"
+  ],
+  "limitations": [
+    "Application-bundle store passes 35 real-SQL cases with separate source/config review and selected CI. Immutable snapshots/effects/claims/jobs/audit/reversal history stage atomically on caller session; results provisional until commit. Next: authoritative orchestrator, real permission/clock/cap/refund policy, delivery/recovery and platform release."
+  ],
+  "verification": {
+    "reviewed_red_baseline": "passed",
+    "implementation": "passed",
+    "acceptance": "passed",
+    "code_review": "passed",
+    "official_qt_acceptance": "passed",
+    "platform_release": "not_run",
+    "github_ci": "passed"
+  },
+  "review": {
+    "author": "/root/bundle_implementer (SQL runtime); /root/bundle_validation (pure helpers); /root (integration/configuration/terminal oracle correction)",
+    "reviewer": "/root/bundle_reviewer",
+    "outcome": "approved",
+    "baseline": "Actual5b71576a approval of final sourcea905/helperb0ca/test8bf/Cmake0e0/WF783/presetsb9 at root6a6a200. Independent fresh build0warnings,35/full209PASS0Qt skips. Original32 preserved except separately approveda241 terminal oracle;3newslots have separate test reviews/reached-red. Actual automatic official41585131851 at6133afe SUCCESS fresh92/0warnings/GNU13.3/Boostmacro108300/Qt6.12SQLite3.53.4/old164+mandatorygreens/exact35guard/UNCONDITIONAL35PASS5.26s/all11. Completion-metadata latestCI/normal merge gates remain separate. Actual final attribution876cd975 independently verified source6133officialCI and completion metadata; no future completion-head CI approval.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-002-code-review.md"
+  }
+}

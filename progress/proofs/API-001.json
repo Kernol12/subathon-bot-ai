@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "task_id": "API-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 278
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-008/API-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/121"
+  ],
+  "limitations": [
+    "Draft PR121 source70ea261 integratedfea1378/headd1334d3, all21 CI pass (host compile-only). CV1/CV2/direct B2–B6 have scoped source approvals; full stage remains blocked by B1/foundation/API016 and revised baseline. No host bodies/admission/runtime/UTC/provider/whole-stage proof. Exact source-stage records and all historical baseline receipts remain in PR121."
+  ],
+  "verification": {
+    "implementation": "draft",
+    "code_review": "failed",
+    "acceptance": "not_run",
+    "correction_review": "partial"
+  },
+  "review": null
+}

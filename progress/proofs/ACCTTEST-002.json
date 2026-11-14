@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "task_id": "ACCTTEST-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 189
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-002/ACCT-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-002-authoring.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-002-checkpoint.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-002-independent-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-002-baseline-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-002-red-ctest.txt"
+  ],
+  "limitations": [
+    "Eligibility/linkage baseline has 21 independently reviewed simulation cases with actual intended missing-behavior red. Independent unresolved conditions and anchored original context remain required. Next: preserve oracles while composing real SQL/application transactions, jobs/refunds and provider/platform checks."
+  ],
+  "verification": {
+    "authored_tests": "passed",
+    "native_build": "passed",
+    "test_review": "passed",
+    "baseline": "observed_red",
+    "product_acceptance": "not_run"
+  },
+  "review": {
+    "author": "/root/receipt_test_author",
+    "reviewer": "/root/baseline_reviewer",
+    "outcome": "approved",
+    "baseline": "authorb0fd97e +929152c; tests702a7bf1d8162ba748ee9477ea48ffa73047ef65; contract5eec5921; reviewa561508; actualred4d1400f",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-002-independent-review.md"
+  }
+}

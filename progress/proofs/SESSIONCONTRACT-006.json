@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "task_id": "SESSIONCONTRACT-006",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 589
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/EPIC-007/SESSIONCONTRACT-006.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-006-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-006-author.md",
+    "docs/contracts/session-transport-v1.md",
+    "docs/contracts/reference-http-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-006-review.md"
+  ],
+  "limitations": [
+    "Source-backed ingress R2 contracts/examples independently reviewed; original findings and security guarantees preserved, C++/payload/security/example assertions unchanged. Selected schema CI covers documents, not parser/proxy artifacts. Next: actual native parser and both default/alternative proxy admission baselines; preserve full transport/security/release scope."
+  ],
+  "verification": {
+    "authored": "passed",
+    "document_review": "passed",
+    "literal_audit": "passed",
+    "source_audit": "passed",
+    "tooling": "passed",
+    "runtime": "not_run"
+  },
+  "review": {
+    "author": "/root/ingress_boundary_revision_author",
+    "reviewer": "/root/ingress_boundary_revision_review",
+    "outcome": "approved",
+    "revision": "Actual cf8d736/importf4b0fb8 fullpacket/graph reviewed83bb1ca3; corrected2f8087fb/import4cdebbc transport0d0cbde9450abc5d7f99b7a97b03cfe41f385890/referencefe69e3c3b06fbe63d1d2beaea458cbacf905032f approved0990c608/importbecf310, preservingoriginalfindings.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-006-review.md"
+  }
+}

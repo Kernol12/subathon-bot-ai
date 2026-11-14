@@ -9,16 +9,29 @@ Historical receipts, including original failed runs and independent reviews, are
 preserved at the annotated [evidence-archive-2026-11 tag](https://github.com/Kernol12/subathon-bot-ai/tree/evidence-archive-2026-11/docs/evidence),
 which targets main commit `01cf40082224b752f47bb69bb70ccf2842a2a054` before cleanup.
 The archive contains 969 detailed receipts plus the former index. Existing task and
-acceptance-map links address those files at the tag. [Progress state](../../progress/state.json)
+acceptance-map links address those files at the tag. [GitHub tasks](https://github.com/Kernol12/subathon-bot-ai/issues)
 records task status; task counts are not percentages of product verification.
 New detailed commands, results and review discussion belong in the focused PR.
 
 ## Foundation and coordination
 
+
+[MIGRATE-003 / PR634](https://github.com/Kernol12/subathon-bot-ai/pull/634)
+adds prepared guarded proof publication, independent repository checks and actual proof
+schema/publication CI nodes. Normal merge `b80e94f514caf33cad8abde8d00fa744b565768a`
+at 2026-11-13T21:04:31Z followed all21 app-bound checks on `e8b5be9` and the full
+independent contract/test/code cycles. Local181tooling/schema4/scaffold3 pass; hosted
+Python3.10/3.12 ran both added nodes successfully. Rejected reviews and failures remain
+historical. At the PR634 merge, state remained authoritative and the cutover/archive/
+board/brief/final audits remained pending.
+The unchanged1MiB archive input bound requires actual lossless archive preparation and
+remote readback in004; no product or WORKFLOW-006/007 execution is established.
+
+
 The [migration contract #632](https://github.com/Kernol12/subathon-bot-ai/pull/632)
 completed the full independent cycle, retaining rejected initial/closing reports;
 final Codex verification and Claude closing approved source `b506434` before its normal merge. It defines proof separation, archive/cutover
-and cleanup gates; production state remains authoritative. This is reviewed document
+and cleanup gates; production state remained authoritative at the PR632 merge. This is reviewed document
 evidence only: no proof loader, cutover, board audit or product behavior is established.
 
 [MIGRATE-002 / PR633](https://github.com/Kernol12/subathon-bot-ai/pull/633)
@@ -27,13 +40,14 @@ Full independent contract/test/code cycles retain rejected history and reviewed 
 Normal merge `a277c5dedd45eb53e98dca6218e5164daed985b6` at 2026-11-13T18:33:51Z
 followed 21 successful app-bound checks on `eb2d991a020bb581b8841d0a846a656677e5c164`.
 Recorded local 154 tooling, schema 1+8+3 and later scaffold3 pass; an earlier stale-HTML
-failure remains historical. State is still authoritative. Source-binding/guard integration,
-cutover, board/archive audits and product/live verification remain open; no live provider
+failure remains historical. At the PR633 merge, state remained authoritative and
+source-binding/guard integration, cutover, board/archive audits and product/live
+verification remained open; no live provider
 operation or new WORKFLOW-006/007 execution is established.
 
-Tooling validates the task graph, offline progress page, specification mapping and
-local links. Historical local scaffold and Qt 6.12 probe checks passed; dashboard
-interaction has bounded browser evidence. These establish development infrastructure,
+The historical tooling checked the task graph, offline progress page, specification
+mapping and local links at the PRs cited below. Historical local scaffold and Qt 6.12
+probe checks passed; the retired dashboard had bounded browser evidence. These establish development infrastructure,
 not complete application behavior. Task branching, independent review and growing
 component CI are established; repository protections must still be inspected for each
 merge. See [PR #6](https://github.com/Kernol12/subathon-bot-ai/pull/6),
@@ -41,9 +55,9 @@ merge. See [PR #6](https://github.com/Kernol12/subathon-bot-ai/pull/6),
 [CI #9](https://github.com/Kernol12/subathon-bot-ai/pull/9), and
 [workflow planning #90–91](https://github.com/Kernol12/subathon-bot-ai/pull/91).
 
-T3 coordination now uses bounded Codex author/fresh implementation and independent
-Claude review stages. The read-only progress context CLI derives task/dependency facts
-from the same state as the offline HTML, explicitly excluding live-state guarantees.
+PR109 introduced bounded Codex author/fresh implementation and independent Claude
+review stages. Its historical read-only progress context CLI derived task/dependency
+facts from the same state as the offline HTML, explicitly excluding live-state guarantees.
 Five new context tests, all44 tooling methods and scaffold3 pass locally; separate
 test-before-red and final source/docs reviews are recorded in
 [PR109](https://github.com/Kernol12/subathon-bot-ai/pull/109), which records final CI

@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "task_id": "ACCESSCONTRACT-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 583
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/EPIC-006/ACCESSCONTRACT-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/113",
+    "docs/contracts/local-login-authority-v1.md"
+  ],
+  "limitations": [
+    "Reviewed document-only local-login authority with LA01–32; explicit host-continuation/permit, ingress-policy and directory prerequisites. Project/graph/render checks and 51 tooling tests pass. No runtime/crypto/login proof. PR113 records final CI/normal merge gates; downstream baselines and implementation remain. Stop after merge; API-001/actual clock binding unauthorized."
+  ],
+  "verification": {
+    "authored": "passed",
+    "document_review": "passed",
+    "literal_audit": "passed",
+    "source_audit": "passed",
+    "graph_preservation": "passed",
+    "tooling": "passed",
+    "runtime": "not_run"
+  },
+  "review": {
+    "author": "Codex fresh author e76812b (integrated cb0ed60); coordinator18a4df20 corrections46f569d",
+    "reviewer": "Independent Claude Opus5.5 b05d59ac initial / a1ad0c20 closing; Codex /root/local_authority_codex_review",
+    "outcome": "approved",
+    "revision": "Initial96e3b19 B1–4/N1–4 corrected46f569d, contract blobd478f0c73e36c151b8654f6d7724c795203dc6a4. Separate Codex and closing Claude approved full corrected packet/DAG. Only publication links/completion metadata follow; final CI/merge evidence in PR113.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/113"
+  }
+}

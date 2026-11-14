@@ -35,6 +35,10 @@ LIMITATIONS = [
     'Filesystem checks can observe ignored local files.',
     'Remote target-tip freshness and archive availability require coordinator readback.',
     'Frozen exemptions preserve history and do not authorize forward completion.',
+    'Acceptance execution is a coordinator gate; proof completion does not validate result values.',
+    'Per-task specification references are archived; active brief references require coordinator review.',
+    'Intended-red execution is a coordinator gate; proof completion does not validate baseline execution.',
+    'Concise completion notes are a coordinator rule; proof limitations have no aggregate character cap.',
 ]
 
 
@@ -52,7 +56,7 @@ class PreparedPublicationTests(unittest.TestCase):
                 return real(argv, git=True)
             index = len(children)
             children.append(argv)
-            value = (responses or {}).get(index, (0, WITNESS if index >= 3 else b'', b''))
+            value = (responses or {}).get(index, (0, WITNESS if index == 2 else b'', b''))
             return subprocess.CompletedProcess(argv, *value)
         before = f.snapshot()
         out, err = StringIO(), StringIO()
@@ -74,6 +78,7 @@ class PreparedPublicationTests(unittest.TestCase):
         self.assertEqual(result[:2], (1, ''), result[2])
         self.assertIn('Publication error:', result[2])
         self.assertNotIn(NI, result[2], 'NI is not a safety refusal')
+        self.assertNotIn('CUTOVER_', result[2], 'Cutover NI is not a safety refusal')
 
     def guard(self, f, *, bootstrap=True, task_id=SELECTED, base=None):
         before = f.snapshot()
@@ -93,6 +98,51 @@ class PreparedPublicationTests(unittest.TestCase):
             return publication.check_proof_bindings(bundle or dict(policy=f.policy, records=f.records),
                 SELECTED, stages or ['contract'], head=f.head, complete=complete)
 
+    def test_unselected_new_id_cannot_borrow_old_approval_in_bootstrap_or_normal_mode(self):
+        for bootstrap in (True,False):
+            for complete in (False,True):
+                with self.subTest(bootstrap=bootstrap,complete=complete), self.fixture() as f:
+                    if not bootstrap: f.existing()
+                    args = f.arguments(bootstrap=bootstrap,complete=complete,
+                                       stages=('contract','tests','implementation'))
+                    self.success(self.invoke(f,args))
+                    brief='docs/unselected-new.md'
+                    f.write(brief,b'Task ID: NEW-903\nWork type: contract\nIssue: https://github.com/Kernol12/subathon-bot-ai/issues/9905\n')
+                    revision=f.commit('Synthetic unselected new brief')
+                    f.records['NEW-903']=dict(version=1,task_id='NEW-903',kind='contract',brief=brief,
+                        issue=dict(repository='Kernol12/subathon-bot-ai',number=9905),evidence=[],limitations=[],
+                        workflow=dict(required_stages=['contract'],stages={'contract':packet(revision,[brief],complete=False)}))
+                    f.policy['required_records']=sorted(f.records); f.persist()
+                    self.refusal(self.invoke(f,args))
+                    # The same identity is admissible when its own selected packet
+                    # has complete reviews and binds the exact whole-line stanzas.
+                    f.records['NEW-903']['workflow']['stages']['contract']=packet(revision,[brief])
+                    f.persist()
+                    self.success(self.invoke(f,f.arguments(bootstrap=bootstrap,task_id='NEW-903',complete=complete)))
+
+    def test_bootstrap_newer_target_brief_cannot_revert_to_archive_and_equal_bytes_pass(self):
+        for changed in (False,True):
+            with self.subTest(changed=changed), self.fixture() as f:
+                f.git('reset','--hard',f.archive)
+                if changed: f.write(BRIEF,b'Newer reviewed target acceptance B\n')
+                f.target=f.commit('Synthetic target before first proof introduction')
+                f.git('update-ref','refs/remotes/origin/main',f.target)
+                f.persist()
+                self.guard(f)
+                f.selected['brief']=f'https://github.com/Kernol12/subathon-bot-ai/blob/{f.archive}/{BRIEF}'
+                f.persist()
+                if changed: self.guard_refusal(f)
+                else: self.guard(f)
+
+    def test_published_archive_url_survives_later_local_brief_removal(self):
+        with self.fixture() as f:
+            self.guard(f)
+            f.selected['brief']=f'https://github.com/Kernol12/subathon-bot-ai/blob/{f.archive}/{BRIEF}'
+            f.persist(); self.guard(f)
+            f.existing()
+            (f.root/BRIEF).unlink(); f.persist()
+            self.guard(f,bootstrap=False)
+
     def test_bootstrap_summary_exact_and_pending_selected_source(self):
         with self.fixture() as f:
             # This source had reviews at archive: use a new revision, preserving history.
@@ -108,14 +158,17 @@ class PreparedPublicationTests(unittest.TestCase):
                              path_count=1, complete=False)],
                 guard=dict(mode='bootstrap', record_count=3, archive_record_count=3, legacy_exempt=False),
                 checks={k:'passed' for k in ('recorded_paths', 'outgoing_paths', 'proofs', 'policy_history',
-                                            'progress', 'render', 'project', 'schema', 'proof_schema')},
+                                            'project', 'proof_schema')},
                 limitations=LIMITATIONS)
             self.assertEqual(result[1], json.dumps(expected, indent=2, ensure_ascii=False)+'\n')
-            self.assertEqual(len(result[3]), 5)
-            self.assertEqual(result[3][2][5:], [], 'Prepared mode retains default tracker/project checks')
-            for child in result[3][3:]:
+            self.assertEqual(len(result[3]), 3)
+            self.assertEqual(result[3][1][5:], [], 'Default repository check uses no tracker flag')
+            for child in result[3][2:]:
                 self.assertEqual(child[:5], ['/fixture/schema-python', '-I', '-S', '-B', '-c'])
             self.assertNotIn('baseline_supersessions', summary)
+            self.assertEqual([Path(c[4]).name for c in result[3][:2]],['proofs.py','check_project.py'])
+            self.assertEqual(result[3][0][5:],['validate'])
+            self.assertEqual(result[3][2][6],'tests/schema_validation/test_proof_schemas.py')
 
     def test_complete_all_required_and_prospective_ni_replacement(self):
         with self.fixture() as f:
@@ -289,7 +342,7 @@ class PreparedPublicationTests(unittest.TestCase):
             expected=dict(task=SELECTED,base=f.target,head=f.head,commit_count=0,
                 stages=[dict(name='contract',revision=f.source_revision,path_count=1,complete=True)],
                 guard=expected_guard,checks={k:'passed' for k in ('recorded_paths','outgoing_paths','proofs',
-                'policy_history','progress','render','project','schema','proof_schema')},limitations=LIMITATIONS)
+                'policy_history','project','proof_schema')},limitations=LIMITATIONS)
             self.assertEqual(summary,expected)
             self.assertEqual(result[1],json.dumps(expected,indent=2,ensure_ascii=False)+'\n')
             self.refusal(self.invoke(f))
@@ -313,7 +366,7 @@ class PreparedPublicationTests(unittest.TestCase):
                         f.json(f'{RECORDS}/{identity}.json',record)
                 f.head=f.commit('Synthetic first introduction of only one canonical input')
                 f.existing()
-                f.save(); f.persist()
+                f.persist()
                 self.guard_refusal(f)
                 self.guard_refusal(f,bootstrap=False)
         with self.fixture() as f:
@@ -512,10 +565,13 @@ class PreparedPublicationTests(unittest.TestCase):
     def test_prepared_schema_witness_and_each_host_failure(self):
         with self.fixture() as f:
             self.success(self.invoke(f))
-            for index in range(5):
-                self.refusal(self.invoke(f,responses={index:(1,b'',b'synthetic child failure')}))
-            for index in (3,4):
-                for stdout in (b'',WITNESS+b'\n',WITNESS.rstrip(),
+            for index in range(3):
+                for response in ((1,b'',b'synthetic child failure'),(1,b'partial',b'synthetic child failure')):
+                    result=self.invoke(f,responses={index:response})
+                    self.refusal(result)
+                    self.assertEqual(len(result[3]),index+1)
+            for index in (2,):
+                for stdout in (b'',WITNESS+b'\n',WITNESS+b' ',WITNESS.rstrip(),
                                b'{"tests":1,"failures":0,"errors":0,"skipped":1}\n'):
                     with self.subTest(index=index,stdout=stdout):
                         self.refusal(self.invoke(f,responses={index:(0,stdout,b'')}))
@@ -524,11 +580,13 @@ class PreparedPublicationTests(unittest.TestCase):
         with self.fixture() as f:
             self.success(self.invoke(f))
             for flag in ('--complete','--bootstrap'):
-                args=f.arguments(bootstrap=False)
-                args.remove('--proofs'); args.append(flag)
-                result=self.invoke(f,args)
-                self.assertEqual(result[:2],(2,''))
-                self.assertIn('--proofs',result[2])
+                args=f.arguments(bootstrap=True,
+                    stages=('contract','tests','implementation') if flag=='--complete' else ('contract',),
+                    complete=(flag=='--complete'))
+                self.success(self.invoke(f,args))
+            for extra in (['--proofs'],['--unknown'],['--stage']):
+                result=self.invoke(f,f.arguments()+extra)
+                self.assertEqual(result[:2],(2,'')); self.assertEqual(result[3],[]); self.assertIn('usage:',result[2])
                 self.assertNotIn(NI,result[2])
 
 

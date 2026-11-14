@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "task_id": "WORKFLOW-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 597
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/WORKFLOW-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/111"
+  ],
+  "limitations": [
+    "Guidance lets the coordinator choose reviewer models while retaining initial/closing Claude reviews and independent Codex correction cycles. Revised ce55cbf approved by separate Codex and Claude Sonnet5.5 reviewers. Project/progress checks and tooling50 pass; PR111 records final CI and normal merge gates. Product work remains stopped."
+  ],
+  "verification": {
+    "implementation": "passed",
+    "acceptance": "passed",
+    "code_review": "passed",
+    "tooling": "passed",
+    "codex_review": "passed",
+    "github_ci": "not_run"
+  },
+  "review": {
+    "author": "codex:/root/guidance_author; codex:coordinator-9bae765e",
+    "reviewer": "codex:/root/model_choice_codex_review; claude-sonnet-5-5:closing-9464edef",
+    "outcome": "approved",
+    "revision": "Earlier initial/closing Opus and Codex reviews cover4452648. Owner changed model selection; independent Codex and Claude Sonnet5.5 closing reviews approved cleance55cbf32045576d4d7ee7bb8416ba50faabf7c9. Only factual completion records follow; latest-head CI/normal merge remain PR111 gates.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/111"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "task_id": "ACCT-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 188
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-002/ACCT-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-001-implementation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-001-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-001-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-001-handoff.md"
+  ],
+  "limitations": [
+    "Receipt identity/retry/conflict decisions pass 15 reviewed cases with separate source review and simulation CI. Primitive disposable store is not SQL durability, Qt writer ownership or actual provider identity. Next: retain real repository, connector admission, contribution/application and platform/live acceptance gates."
+  ],
+  "verification": {
+    "native_build": "passed",
+    "acceptance": "passed",
+    "simulation": "passed",
+    "regression": "passed",
+    "code_review": "passed",
+    "github_ci": "passed",
+    "sql_durability": "not_run",
+    "qt_writer": "not_run",
+    "live_provider": "not_run"
+  },
+  "review": {
+    "author": "/root/receipt_implementer",
+    "reviewer": "/root/baseline_reviewer",
+    "outcome": "approved",
+    "baseline": "author875c1c9; source7a0986bdd3e4b5e38d8b7ac18d76dd56ff002ee8; confige1b47f1; reviewab28d70",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-001-code-review.md"
+  }
+}

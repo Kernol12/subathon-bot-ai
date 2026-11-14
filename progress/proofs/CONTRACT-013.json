@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "task_id": "CONTRACT-013",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 555
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/CONTRACT-013.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-013-handoff.md",
+    "docs/contracts/reference-http-v1.md",
+    "schemas/http/reference-v1/manifest.json",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-013-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-013-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-013-package-ci.json"
+  ],
+  "limitations": [
+    "Bounded reference HTTP/OpenAPI/example package independently reviewed and validated with selected schema tool/CI. Public negotiation and protected committed timer snapshot are contracts, not running auth/API. Next: real transport/current session/permission adapters and API tests; full release HTTP scope remains separate."
+  ],
+  "verification": {
+    "authored": "passed",
+    "document_review": "passed",
+    "schema_validation": "passed",
+    "ci_coverage": "passed",
+    "tooling": "passed",
+    "runtime": "not_run"
+  },
+  "review": {
+    "author": "/root/reference_contract_author (package/document); /root (dialect correction/CI integration)",
+    "reviewer": "/root/reference_contract_review",
+    "outcome": "approved",
+    "revision": "Authored5819a297/importcebf164 plus correctedc929109 (review tree5c67366); independent8f995e63/importf694e05 approves actual doc/package/CI.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contract-013-review.md"
+  }
+}

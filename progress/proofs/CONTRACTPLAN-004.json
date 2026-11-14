@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "task_id": "CONTRACTPLAN-004",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 566
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/CONTRACTPLAN-004.md",
+  "evidence": [
+    "docs/tasks/CONTRACTPLAN-004.md",
+    "docs/decisions/0007-session-contract-prerequisite.md",
+    "docs/tasks/EPIC-007/SESSIONCONTRACT-001.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-004-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-004-review.md"
+  ],
+  "limitations": [
+    "Document-only session prerequisite repair independently reviewed and graph/tooling checked. Supplier and transport documents became explicit gates; no auth choice, API, tests or runtime selected by the plan. Next: retain actual supplier/transport/lifecycle/current-source and full runtime/release acceptance before consumers."
+  ],
+  "verification": {
+    "document_authoring": "passed",
+    "graph_consistency": "passed",
+    "implementation": "not_run",
+    "document_review": "passed",
+    "tooling": "passed"
+  },
+  "review": {
+    "author": "coordinator /root",
+    "reviewer": "capture_codec_tests",
+    "outcome": "approved",
+    "revision": "Actualddadc20 document/graph accepted477d43f: exact422/1619/11additiveedges/oldstatuses andruntimegates preserved; summaryfindingresolved. No futureauthcontract/schema/test/runtime approved.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/contractplan-004-review.md"
+  }
+}

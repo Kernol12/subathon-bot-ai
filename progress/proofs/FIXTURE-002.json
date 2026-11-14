@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "task_id": "FIXTURE-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 136
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-028/FIXTURE-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/101"
+  ],
+  "limitations": [
+    "Bundle and holds reproduce original bytes; claims adds six names/roles with old typed content intact. Independent test-first/source/fix/runtime/packet reviews passed. Focused 3, tooling 37, infrastructure 3 and Qt 14 suites/361 methods/869 results pass. The layout failure and reviewed fix remain recorded. All 19 final checks passed before normal PR101 merge 7cbfb10. Account bodies remain unrun. Next: FIXTURE-003."
+  ],
+  "verification": {
+    "scope_contract_review": "passed",
+    "test_oracle_review": "passed",
+    "baseline": "observed_red",
+    "baseline_review": "passed",
+    "source_oracle_review": "passed",
+    "initial_implementation_run": "failed",
+    "source_fix_review": "passed",
+    "acceptance": "passed",
+    "usage_identity": "passed",
+    "runtime_review": "passed",
+    "native_acceptance": "passed",
+    "tooling": "passed",
+    "github_ci": "passed",
+    "product_acceptance": "not_run",
+    "native_crosswalk_review": "passed",
+    "scaffold": "passed"
+  },
+  "review": {
+    "author": "/root/fixture_storage_author; holds-only helper /root/fixture_holds_author",
+    "reviewer": "/root/fixture_storage_review",
+    "outcome": "approved",
+    "revision": "Contract/test/red/source/fix/runtime454833d/root33f5239/nativecrosswalk and final8f6801e independently approved. All19currentchecksSUCCESS; SQLaccountbuild/passivenonempty-metaobject audited; normalPR101merge7cbfb10 at2026-11-08T10:36:55Z.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/101"
+  }
+}

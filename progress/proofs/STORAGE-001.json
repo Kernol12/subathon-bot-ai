@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "task_id": "STORAGE-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 297
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-009/STORAGE-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-001-implementation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-001-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-001-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-001-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-001-ownership-tests.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-001-ownership-red.txt"
+  ],
+  "limitations": [
+    "Controlled Qt SQL writer/readers pass 25 reviewed real-SQL cases with separate source/ownership review and selected Ubuntu CI. Connections remain privately thread-owned. No running server or domain repository supplied; next: actual transaction/schema/atomic application, backup/recovery and supported-platform operations."
+  ],
+  "verification": {
+    "native_build": "passed",
+    "acceptance": "passed",
+    "regression": "passed",
+    "code_review": "passed",
+    "github_ci": "passed",
+    "application_crash_backup_provider": "not_run",
+    "platform_release": "not_run",
+    "ownership_regression": "passed"
+  },
+  "review": {
+    "author": "/root/storage_implementer",
+    "reviewer": "/root/storage_code_reviewer",
+    "outcome": "approved",
+    "baseline": "initialf2a6379/a8e5c8e reviewd6f9c49; ownershipfinding9623943; regression34c25c27 reviewed94820fa thenactualred1499d57; correctedsourcebe533bd/829d9c66e47168384510e8ed2ff436e272686414; freshapprovalc029a53; CIguardd99df8ad",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-001-code-review.md"
+  }
+}

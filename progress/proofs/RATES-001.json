@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "task_id": "RATES-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 394
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-017/RATES-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/116"
+  ],
+  "limitations": [
+    "Implemented pure lossless rate snapshots and exact inverse/cross queries;53 preserved cases/full89 pass locally and pinnedBoost1.83 CI. Initial Claude, separate Codex verification and Claude closing approve source33e60d8. No provider/cache/store/valuation proof; durable ownership refinement and adjacent FX gates remain. PR116 records final CI/normal merge; then stop."
+  ],
+  "verification": {
+    "inherited_test_review": "passed",
+    "inherited_baseline": "observed_red",
+    "implementation": "passed",
+    "local_acceptance": "passed",
+    "hosted_component_acceptance": "passed",
+    "source_review": "passed",
+    "tooling": "passed",
+    "product_release": "not_run",
+    "resource_review": "passed",
+    "ci_recipe_review": "passed",
+    "document_review": "passed",
+    "acceptance": "passed"
+  },
+  "review": {
+    "author": "Codex gpt-6.1-sol /root/rates_snapshot_implementer source33e60d8; coordinator e3bf670c CI/docs",
+    "reviewer": "Claude Opus5.5 initial913493b1/closing1d31975a; Codex gpt-6.1-sol /root/rates_snapshot_codex_verify",
+    "outcome": "approved",
+    "revision": "Source SHA2568d4178ea0e98d351b01b548694494d95b4a68266552ddf1dcc320fdfa68a26f8 unchanged. Initial no source blockers; stale-doc B1 fixed38c610f/030c2eb, separate Codex approved030c2eb, independent Claude closing approved30bde01. Final routine metadata/current CI/normal merge receipts in PR116.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/116"
+  }
+}

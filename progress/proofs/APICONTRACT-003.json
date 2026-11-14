@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "task_id": "APICONTRACT-003",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 601
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/EPIC-008/APICONTRACT-003.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/115",
+    "docs/contracts/guarded-enrollment-recovery-v1.md"
+  ],
+  "limitations": [
+    "Reviewed document-only guarded enrollment/recovery revision1 and33 literal examples; no runtime proof. Initial Claude, separate Codex corrections/verification and full/focused Claude closing approve f4c1584. Project/graph/render and51 tooling tests pass. Actual producers, API014 baseline/implementation and edge/console/platform gates remain. PR115 records final CI/normal merge; then stop."
+  ],
+  "verification": {
+    "authored": "passed",
+    "document_review": "passed",
+    "source_audit": "passed",
+    "literal_audit": "passed",
+    "graph_preservation": "passed",
+    "tooling": "passed",
+    "runtime": "not_run",
+    "github_ci": "not_run"
+  },
+  "review": {
+    "author": "Codex /root/enrollment_contract_author; coordinator6e24c10f corrections",
+    "reviewer": "Claude Opus5.5 initial8212196d/full closing8f3a8945; Codex /root/enrollment_codex_review, /root/enrollment_codex_verify, /root/enrollment_token_review; Claude Sonnet5.5 focused closing422de370",
+    "outcome": "approved",
+    "revision": "Initial B1–3 and separate Codex B4–6 resolved. Codex approved025d261; full closing Claude approved1e45f66. Narrow token/counter/ER18 clarification f4c1584 independently Codex/Claude approved; contract SHA256d51cebdda1c3a579a9828b2adb19c031f1c1e84bd1c9a1293007480dc8a1a6cd. Completion metadata/CI/normal merge receipts in PR115.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/115"
+  }
+}

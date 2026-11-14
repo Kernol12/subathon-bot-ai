@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "task_id": "BOOT-007",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 548
+  },
+  "kind": "scaffold",
+  "brief": "docs/tasks/BOOT-007.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coordinator-prompt.md"
+  ],
+  "limitations": [
+    "Resumable coordinator instructions, root workflow and prompts documented and checked against task/spec consistency; scaffold passed. No runtime/product progress inferred. Next: verify real branches/claims/PRs, preserve valid reviews, assign bounded fresh sessions and maintain checkpoint at meaningful boundaries."
+  ],
+  "verification": {
+    "documentation_consistency": "passed",
+    "tooling": "passed",
+    "native_build": "passed"
+  },
+  "review": null
+}

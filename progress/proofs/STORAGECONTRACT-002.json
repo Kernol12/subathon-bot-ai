@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "task_id": "STORAGECONTRACT-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 577
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/STORAGECONTRACT-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagecontract-002-handoff.md",
+    "docs/contracts/sqlite-account-sessions-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagecontract-002-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagecontract-002-review.md"
+  ],
+  "limitations": [
+    "Account/credential/session physical/internal API document and 24 examples independently reviewed; prefix1–7 retained. Proposed additive v8, indexed current readers/CAS/snapshot/accepted-attempt semantics are not runtime storage. Next: physical baseline and STORAGE-020 source/selected-driver/CI, then actual source/login/clock/lifecycle integration."
+  ],
+  "verification": {
+    "authored": "passed",
+    "document_review": "passed",
+    "literal_audit": "passed",
+    "tooling": "passed",
+    "runtime": "not_run"
+  },
+  "review": {
+    "author": "/root/session_storage_contract_author",
+    "reviewer": "/root/session_storage_contract_review",
+    "outcome": "approved",
+    "revision": "Author5c3acde0/importb01cc18, physicalcontractblob8dc7ba9fce0e40bcfa02897c6d88946849cbd1b1 independentlyapproved393015e5/importb996848;24examples and oldprefix audited.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagecontract-002-review.md"
+  }
+}

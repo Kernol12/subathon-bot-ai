@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "task_id": "FIXTURE-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 135
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-028/FIXTURE-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/100"
+  ],
+  "limitations": [
+    "Reference/account reproduce original bytes from four pinned seeds; account8 remains proposed. Independent test-first/oracle/source/fix/runtime and final-record reviews approved. Focused2/tooling36/infra3 and all19 final-head CI checks passed before normal PR100 merge dd03e1d. Fixtures/native sources unchanged; failure history retained. Next: FIXTURE-002 under renewed standing instruction."
+  ],
+  "verification": {
+    "scope_contract_review": "passed",
+    "test_oracle_review": "passed",
+    "baseline": "observed_red",
+    "baseline_review": "passed",
+    "source_oracle_review": "passed",
+    "acceptance": "passed",
+    "first_green": "passed",
+    "source_fix_review": "passed",
+    "usage_identity": "passed",
+    "tooling": "passed",
+    "scaffold": "passed",
+    "native_identity": "passed",
+    "runtime_review": "passed",
+    "github_ci": "passed",
+    "product_acceptance": "not_run"
+  },
+  "review": {
+    "author": "/root/fixture_catalog_author",
+    "reviewer": "/root/fixture_catalog_review",
+    "outcome": "approved",
+    "revision": "Scope/test-red/source/fix/runtime39c5529, packetd6ef10c and final metadatafde53d8 independently reviewed; final19checks SUCCESS before normal PR100 merge dd03e1d at2026-11-07T20:17:42Z.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/100"
+  }
+}

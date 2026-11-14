@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "task_id": "RATECONTRACT-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 550
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/EPIC-017/RATECONTRACT-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/117"
+  ],
+  "limitations": [
+    "Defined logical exact retained valuations with19 examples, owned/opaque provenance, one-off manual rates and legacy compatibility. Initial Claude, Codex fixes/separate verification and Claude closing approve08fcfe1. Document proof; project480/122 and51 tooling pass. RATECONTRACT-002 concrete API/codec/SQL, baselines/runtime/provider gates remain. PR117 records final CI/normal merge; then STOP."
+  ],
+  "verification": {
+    "contract": "passed",
+    "independent_review": "passed",
+    "resource_contract_review": "passed",
+    "tooling": "passed",
+    "runtime_acceptance": "not_run",
+    "product_release": "not_run"
+  },
+  "review": {
+    "author": "Codex gpt-6.1-sol /root/exact_valuation_contract_author; coordinator-a26ec071 corrections/graph",
+    "reviewer": "Claude Opus5.5/high initial33443fb5 and closingedfa9ce4; Codex gpt-6.1-sol /root/exact_valuation_codex_verify and /root/exact_valuation_codex_recheck",
+    "outcome": "approved",
+    "revision": "Initial1b0f9d3 B1/B2 fixeded27321; separate Codex B3 corrected1e8c894 and fresh recheck approved1e8c894. Independent Claude closing approved08fcfe1, no blockers. Document-only; final packet/current CI/normal merge in PR117.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/117"
+  }
+}

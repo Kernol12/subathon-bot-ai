@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "task_id": "LOCALE-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 499
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-023/LOCALE-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/locale-001-implementation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/locale-001-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/locale-001-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/locale-001-handoff.md"
+  ],
+  "limitations": [
+    "Catalog generator passes 43 preserved Python methods and real selected Qt QM checks, with separate source/process/ownership review and CI. One English/German source generates tracked Qt/browser text without build overwrite. Next: runtime formatting/preferences/live switching/layout/renderers and Linux/Windows package/platform acceptance."
+  ],
+  "verification": {
+    "baseline": "observed_red",
+    "implementation": "passed",
+    "code_review": "passed",
+    "acceptance": "passed",
+    "github_ci": "passed",
+    "native_build": "passed",
+    "completion_ci": "not_run",
+    "platform_release": "not_run"
+  },
+  "review": {
+    "author": "/root/service_author (module/catalog); /root (generated outputs/build/CI)",
+    "reviewer": "/root/service_reviewer",
+    "outcome": "approved",
+    "baseline": "Actuald7d6328 module d7985160/catalogcb392400/rootCMake9c14c2e8/CIde3cc3f1/Qtregf31aadf6 +fourproducttext blobs approvedacaeb41/importbc47188. Reviewedtests6a/7fixtures/probef033 unchanged. Wording-only CMake descriptions/comment cleanup follows without behavior change.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/locale-001-code-review.md"
+  }
+}

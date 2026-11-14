@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "task_id": "CI-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 610
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/CI-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/119"
+  ],
+  "limitations": [
+    "Guarded APT acquisition and independent mirror implemented;8 mocked/59 tooling/scaffold3 pass and all9 affected hosted lanes/22 final checks succeeded. Independent source/metadata reviews retained. PR119 merged5c6121d at17:28:38Z; PR118 then mergedf2a134e at17:46:41Z. Pins/trust/SDK/native baselines preserved. DNS had recovered on the observed runner; no outage-time causal proof or new product behavior."
+  ],
+  "publication": {
+    "state": "merged",
+    "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/119",
+    "head": "8c666e8f83b36d6faefe202b8edf753dd4a6fd1f",
+    "merge_commit": "5c6121de16d124c705fbe8545973ba8900fe8637",
+    "merged_at": "2026-11-11T17:28:38Z",
+    "observed_at": "2026-11-11T19:20:08+00:00"
+  },
+  "verification": {
+    "test_review": "passed",
+    "baseline": "observed_red",
+    "implementation": "passed",
+    "acceptance": "passed",
+    "code_review": "passed",
+    "github_ci": "passed",
+    "tooling": "passed",
+    "scaffold": "passed"
+  },
+  "review": {
+    "author": "Codex /root/ci_001_implementation aebaafb; coordinator narrow M1/L1 fixes",
+    "reviewer": "Claude Sonnet5.5 initial e4995994/closing f311a859; independent Codex /root/ci_001_code_verification",
+    "outcome": "approved",
+    "revision": "Initial aebaafb M1/L1 fixed1d686a6; separate Codex and independent Claude closing f311a859 approved cb5f8fc, no blockers. Test closing30806b2a approved dafa370 before actual8method/33assertion stub-red. All9 affected hosted lanes/22 checks passed cb5f8fc. Final metadata/current-head CI/merge remain separate.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/119#issuecomment-6802212350"
+  }
+}

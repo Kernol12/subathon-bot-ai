@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "task_id": "TESTCLEAN-005",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 134
+  },
+  "kind": "cleanup",
+  "brief": "docs/tasks/EPIC-028/TESTCLEAN-005.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/98"
+  ],
+  "limitations": [
+    "Six manifest methods keep canonical framing/hash at independent owners1–7; every factory keeps full frozen prefixes. Public format/error/order/budget contracts, methods/rows/fixtures remain. Independent proposal/source/runtime/integration review approved; real Qt14/361methods/869results and infra3/tooling34 pass without warnings/skips, account44 passive. All19 checks passed before normal PR98 merge. Next: TESTCLEAN-006."
+  ],
+  "verification": {
+    "cleanup_proposal_review": "passed",
+    "source_review": "passed",
+    "native_build": "passed",
+    "discovery_equivalence": "passed",
+    "stable_qt_acceptance": "passed",
+    "tooling": "passed",
+    "scaffold": "passed",
+    "runtime_review": "passed",
+    "github_ci": "passed",
+    "product_acceptance": "not_run"
+  },
+  "review": {
+    "author": "/root/behavior_assertions_author",
+    "reviewer": "/root/behavior_assertions_review",
+    "outcome": "approved",
+    "revision": "Proposal8990b6e2/source+runtime4db2401 and corrected completee2c7344 independently approved; all19latesthead checks passed before normal PR98 mergef250357.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/98"
+  }
+}

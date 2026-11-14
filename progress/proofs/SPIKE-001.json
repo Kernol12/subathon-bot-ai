@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "task_id": "SPIKE-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 165
+  },
+  "kind": "feasibility",
+  "brief": "docs/tasks/SPIKE-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/spike-001-feasibility.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/spike-001-dependencies.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/spike-001-dependency-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/spike-001-bridge-tests.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/spike-001-bridge-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/spike-001-bridge-validation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/spike-001-bridge-code-review.md"
+  ],
+  "limitations": [
+    "Pinned Linux Drogon/Trantor/Qt loopback spike passed six real HTTP/WebSocket/SQLite cases with separate review. One-command server-close probe is not production reuse approval. Persistent/multi-message WS and received-Close limitation remain; next: API bridge/sync baselines with bounded startup/shutdown/backpressure/cancellation and platform checks."
+  ],
+  "verification": {
+    "local_dependency": "passed",
+    "test_baseline": "observed_red",
+    "synthetic_queue_writer": "passed",
+    "real_drogon": "passed",
+    "code_review": "passed",
+    "production_bridge": "not_run",
+    "persistent_websocket": "not_run"
+  },
+  "review": {
+    "author": "/root",
+    "reviewer": "/root/bridge_reviewer",
+    "outcome": "approved",
+    "scope": "bounded Linux loopback experiment; no production reuse approval",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/spike-001-bridge-code-review.md"
+  }
+}

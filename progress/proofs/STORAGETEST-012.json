@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "task_id": "STORAGETEST-012",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 302
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-009/STORAGE-012.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-012-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-012-probe.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-012-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-012-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-012-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-012-red-ctest.txt"
+  ],
+  "limitations": [
+    "Retained configuration/context baseline has 16 separately reviewed real-SQL cases and actual intended stub-red after selected setup. Opaque byte preservation is not typed-codec or semantic evaluation proof. Next: preserve immutable-reference/session oracles and require actual current settings/application/recovery/platform integration."
+  ],
+  "verification": {
+    "contract_authoring": "passed",
+    "contract_review": "passed",
+    "authored_tests": "passed",
+    "baseline": "observed_red",
+    "product_acceptance": "observed_red",
+    "platform_release": "not_run",
+    "interface_authoring": "passed",
+    "interface_review": "passed",
+    "native_build": "passed",
+    "ci_harness": "passed",
+    "github_ci": "passed",
+    "diagnostic_environment": "passed",
+    "test_review": "passed",
+    "official_qt_environment": "passed",
+    "existing_writer_acceptance": "passed"
+  },
+  "review": {
+    "author": "/root/writer_transaction_reviewer (contract/API/tests/fixtures); /root (migration/briefs/shared build/CI)",
+    "reviewer": "/root/storage_work_code_reviewer",
+    "outcome": "approved",
+    "baseline": "actual27fea1d artifacts testc0e54003/envAAA164/JSON0f76/header55c828/stubb27eb488/contract5b0ee84; fullapproval672f93c integrated8d561a6 BEFORE root16stubred(exit8/allinitcleanup pass/0skip) atcb7db2d, AFTER selectedofficialQt41318070740 atsamehead passedcurrentgreen3/build/discovery16/old73+green7",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-012-review.md"
+  }
+}

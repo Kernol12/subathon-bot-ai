@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "task_id": "BOOT-008",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 549
+  },
+  "kind": "scaffold",
+  "brief": "docs/tasks/BOOT-008.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ci-maintenance.md"
+  ],
+  "limitations": [
+    "CI grew with implemented numeric/credit/scaffold behavior; dependency actions/pins reviewed and hosted checks observed. Green scaffold is infrastructure proof only. Next: add reviewed stable module suites as behavior lands, keep intentional reds/live credential checks separate and inspect actual branch requirements before merge."
+  ],
+  "verification": {
+    "tooling": "passed",
+    "native_build": "passed",
+    "credit_suite": "passed",
+    "github_ci": "passed"
+  },
+  "review": null
+}

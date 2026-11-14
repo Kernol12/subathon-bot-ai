@@ -83,7 +83,7 @@ fake-store services, real SQLite components and configured SDK discovery establi
 different proof levels. None alone establishes a running host, TLS, live provider,
 authoritative clock, delivery, recovery or supported-platform release.
 
-Current outcomes and remaining gates belong in [progress](../progress/state.json)
+Current outcomes and remaining gates belong in [GitHub tasks](https://github.com/Kernol12/subathon-bot-ai/issues)
 and the [evidence summary](evidence/README.md). Detailed original component receipts
 remain in the [published archive](https://github.com/Kernol12/subathon-bot-ai/tree/evidence-archive-2026-11/docs/evidence).
 The [previous architecture ledger](https://github.com/Kernol12/subathon-bot-ai/blob/f2a134e57b9e25d4033b56720b72c08d0ef4df52/docs/ARCHITECTURE.md)

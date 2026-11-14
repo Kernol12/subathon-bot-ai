@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "task_id": "ACCTCONTRACT-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 193
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/ACCTCONTRACT-001.md",
+  "evidence": [
+    "docs/contracts/application-service-v1.md",
+    "docs/decisions/0003-application-service-prerequisites.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-004-contract-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-004-contract-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acctcontract-001-handoff.md"
+  ],
+  "limitations": [
+    "Application-service/hold/claim logical contract and 21 examples independently reviewed with documentation CI. No concrete API, SQL schema, feature baseline or runtime supplied. Next: retain physical/API baselines, actual policy/authority producers, mixed-review/post-finish and financial-reversal owners."
+  ],
+  "verification": {
+    "documentation": "passed",
+    "analytical_examples": "passed",
+    "independent_review": "passed",
+    "github_ci": "passed",
+    "native_feature": "not_run",
+    "platform_release": "not_run"
+  },
+  "review": {
+    "author": "/root/bundle_implementer (logical document/examples); /root (planning/dependency ownership)",
+    "reviewer": "/root/bundle_reviewer",
+    "outcome": "approved",
+    "baseline": "Actual925deab1 approval finaldoc6d0/author8f87/ADR303/taskb762/holdbrief377/claimbrief385 atroot e0affbd. Full412lines/21AS, independent7Fraction partitions+AS06+signedMIN/MAX,396acyclicgraph/followupbriefs reviewed. All3material findings resolved17+c605; no inferredglobaltimerpolicy/Readyadvance/fakepostfinishcomponent/privateclockpublication. Actuale0 all11CI SUCCESS inclunchangedstableSQL41588383068; no newnative/API/testred/feature proof. Completionhead ownCI/normalmerge stillpending.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-004-contract-review.md"
+  }
+}

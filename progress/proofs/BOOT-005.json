@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "task_id": "BOOT-005",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 144
+  },
+  "kind": "scaffold",
+  "brief": "docs/tasks/BOOT-005.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/epic-decomposition.md"
+  ],
+  "limitations": [
+    "Release epics decomposed into bounded dependency-linked briefs; planning consistency, tooling and scaffold passed. No product implementation or acceptance follows from the graph. Next: claim dependency-ready executable tasks with fresh sessions and independent test/code review."
+  ],
+  "verification": {
+    "planning_consistency": "passed",
+    "tooling": "passed",
+    "native_build": "passed"
+  },
+  "review": null
+}

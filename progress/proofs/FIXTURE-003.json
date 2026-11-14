@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "task_id": "FIXTURE-003",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 137
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-028/FIXTURE-003.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/102"
+  ],
+  "limitations": [
+    "The service recipe preserves the full typed baseline; other five fixtures and native sources stay identical. Independent test-first/source/fix/runtime/packet reviews passed. Focused 3, tooling 37, infra 3 and 43 service methods/233 scenarios pass, with 235 unchanged raw IDs. First failure/key-order correction retained. All 19 final checks passed before normal PR102 merge b538fa5. Account bodies unrun. Next: final TESTCLEAN-006 adoption."
+  ],
+  "verification": {
+    "scope_contract_review": "passed",
+    "test_oracle_review": "passed",
+    "baseline": "observed_red",
+    "baseline_review": "passed",
+    "source_oracle_review": "passed",
+    "initial_implementation_run": "failed",
+    "canonical_generation": "passed",
+    "acceptance": "passed",
+    "source_fix_review": "passed",
+    "runtime_review": "passed",
+    "usage_identity": "passed",
+    "native_acceptance": "passed",
+    "tooling": "passed",
+    "github_ci": "passed",
+    "product_acceptance": "not_run",
+    "native_identity_review": "passed",
+    "scaffold": "passed"
+  },
+  "review": {
+    "author": "/root/fixture_service_author",
+    "reviewer": "/root/fixture_service_review",
+    "outcome": "approved",
+    "revision": "All contract/test/red/source/fix/adoption/root identity gates and exact packet 7ca932b independently approved. All19 current checks SUCCESS; hosted SQL/passive account audit passed. Normal PR102 merge b538fa5 at 2026-11-08T11:23:59Z.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/102"
+  }
+}

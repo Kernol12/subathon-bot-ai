@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "task_id": "SESSION-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 260
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-007/SESSION-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/session-001-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/session-001-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/session-001-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/session-001-environment.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/session-001-ci.md"
+  ],
+  "limitations": [
+    "Selected-libsodium Argon2id primitive passes 37 methods/native 41 checks, separate source/secret-lifetime review and CI. No credential storage writes, login/session authority or full hardware/platform proof. Next: current accepted-login/conditional upgrade integration, benchmarking, Linux/Windows packages and security/release acceptance."
+  ],
+  "verification": {
+    "acceptance": "passed",
+    "code_review": "passed",
+    "selected_ci": "passed",
+    "account_integration": "not_run",
+    "benchmark": "not_run",
+    "platforms": "not_run"
+  },
+  "review": {
+    "author": "access_reviewer",
+    "reviewer": "selected_boost",
+    "outcome": "approved",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/session-001-review.md",
+    "revision": "actual sourcee56442511cf51ec4329f7d4a3cf94a3a093f1bb6/root config faef49f/comment-only header0a167d5; approval0817f48"
+  }
+}

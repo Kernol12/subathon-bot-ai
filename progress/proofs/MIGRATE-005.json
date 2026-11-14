@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "task_id": "MIGRATE-005",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 630
+  },
+  "kind": "environment",
+  "brief": "docs/tasks/EPIC-029/MIGRATE-005.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/issues/630"
+  ],
+  "limitations": [],
+  "verification": {},
+  "review": null
+}

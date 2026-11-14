@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "task_id": "APITEST-012",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 275
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-008/API-012.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/108"
+  ],
+  "limitations": [
+    "38 reviewed methods run on real stock Drogon loopback: WS02 wrong-Pong red; WS01/10/12 pass. Final 35 failures/59 errors are 34 missing-profile cases, one wire assertion, 45 EOFs and 14 receive timeouts; zero cleanup/JSON faults. Three infrastructure nodes/39 tooling methods pass. Resource/deadline behavior, corrected SDK and host remain open for API-012. CI and merge evidence: PR108. Stop after this baseline."
+  ],
+  "verification": {
+    "claim": "passed",
+    "boundary_review": "passed",
+    "test_review": "passed",
+    "foundation_admission": "passed",
+    "native_build": "passed",
+    "passive_discovery": "passed",
+    "baseline": "observed_red",
+    "planning_review": "passed",
+    "static_foundation_review": "passed",
+    "interface_stub_authored": "passed",
+    "interface_stub_review": "passed",
+    "selector_test_review": "passed",
+    "selector_baseline": "observed_red",
+    "selector_source_review": "passed",
+    "selector_acceptance": "passed",
+    "selector_runtime_review": "passed",
+    "build_wiring_review": "passed",
+    "tests_authored": "passed",
+    "static_build_wiring_review": "passed",
+    "fixture_resource_review": "passed",
+    "ws22_plan_review": "passed",
+    "runtime_review": "passed",
+    "fixture_runtime_cleanup": "passed",
+    "ci_artifact_review": "passed",
+    "ci_install_fix_review": "passed"
+  },
+  "review": {
+    "author": "/root/native_ws_baseline_author; coordinator shared boundary/build/CI/status",
+    "reviewer": "/root/native_ws_baseline_review; independent resource /root/api_lifecycle_contract_review",
+    "outcome": "approved",
+    "revision": "CPP0ecf72e4/PYc6171014; boundary, tests/resources/build, logging delta and actual runtime separately approved. Final92a1 reproduces WS02 wire red with zero capture/cleanup faults. Final packet/current CI/normal protected merge evidence is in PR108.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/108"
+  }
+}

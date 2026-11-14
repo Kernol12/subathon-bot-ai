@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "task_id": "TESTCLEAN-003",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 132
+  },
+  "kind": "cleanup",
+  "brief": "docs/tasks/EPIC-028/TESTCLEAN-003.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/96"
+  ],
+  "limitations": [
+    "Unified acceptance selection and suite registration after independent proposal/test/source/runtime review. Selector intended red then five green; 31 presets/cache migration verified. Stable428 CTest nodes pass:410 GTest,361 Qt methods and43 translation methods; tooling34/scaffold3 pass. Rate53/account44 remain passive red; warning fix belongs to TESTCLEAN-004. All19 checks passed before normal PR96 merge. Next: shared Qt helpers."
+  ],
+  "verification": {
+    "cleanup_proposal_review": "passed",
+    "selector_test_review": "passed",
+    "selector_baseline": "observed_red",
+    "selector_acceptance": "passed",
+    "registration_source_review": "passed",
+    "tooling": "passed",
+    "scaffold": "passed",
+    "preset_cache_migration": "passed",
+    "native_build": "passed",
+    "discovery_equivalence": "passed",
+    "stable_acceptance": "passed",
+    "runtime_review": "passed",
+    "github_ci": "passed",
+    "product_acceptance": "not_run"
+  },
+  "review": {
+    "author": "/root/test_registration_author; coordinator integrates shared records",
+    "reviewer": "/root/test_registration_review",
+    "outcome": "approved",
+    "revision": "Proposal132096a6, selector af6497b2 red/green, source/runtime8034ead and complete de68ae4 independently approved. All19 latest-head checks passed before normal PR96 merge7179680.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/96"
+  }
+}

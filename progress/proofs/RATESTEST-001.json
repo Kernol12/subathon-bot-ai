@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "task_id": "RATESTEST-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 393
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-017/RATES-001.md",
+  "evidence": [
+    "docs/contracts/rate-snapshots-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-contract-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-contract-review.md",
+    "docs/contracts/rate-snapshots-api-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-api-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-api-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-stub-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-stub-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-test-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-test-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-selected183-host.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-selected183-host.json",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-main-integration.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-main-integration-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-first-red.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-first-red.json",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-first-red-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-handoff.md"
+  ],
+  "limitations": [
+    "Rate-snapshot baseline has 53 independently reviewed tests and observed intended red after selected Boost foundation/CI. RATES-001 remains unimplemented; setup is not passing rate behavior. Next: implement against frozen exact fetched/effective/current-history oracles; retain all three providers and live/platform gates."
+  ],
+  "verification": {
+    "document_review": "passed",
+    "test_baseline": "observed_red",
+    "implementation": "not_run",
+    "api_review": "passed",
+    "interface_build": "passed",
+    "interface_review": "passed",
+    "test_authorship": "passed",
+    "test_review": "passed",
+    "selected_foundation": "passed",
+    "interface_ci": "passed",
+    "selected_foundation_ci": "passed",
+    "selected_host_foundation": "passed",
+    "baseline": "observed_red",
+    "current_harness_review": "passed",
+    "red_attribution": "passed",
+    "consistency": "passed",
+    "current_ci": "passed"
+  },
+  "review": {
+    "author": "codec_author",
+    "reviewer": "service_reviewer",
+    "outcome": "approved",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/ratestest-001-test-review.md",
+    "revision": "Actualed27c82 test64fd60b2/fixture8936f4fa fullapprovaldcf5dcaa. FIRSTnative050e566 attributedd6c06b42/import481cadf withCTestexitunknown explicit; rootbf598configapproved7ae17c55/import050e566."
+  }
+}

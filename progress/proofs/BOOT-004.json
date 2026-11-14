@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "task_id": "BOOT-004",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 143
+  },
+  "kind": "scaffold",
+  "brief": "docs/tasks/BOOT-004.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/task-pr-workflow.md"
+  ],
+  "limitations": [
+    "Task branch/PR/review workflow documented and initial scaffold CI observed; recorded GitHub CI proof remains partial. Repository protection was not configured by this task. Next: inspect actual current rules, latest-head CI and independent reviews before every normal merge; no product proof."
+  ],
+  "verification": {
+    "tooling": "passed",
+    "native_build": "passed",
+    "github_ci": "partial"
+  },
+  "review": null
+}

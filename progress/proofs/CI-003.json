@@ -1,0 +1,286 @@
+{
+  "version": 1,
+  "task_id": "CI-003",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 624
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/CI-003.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6849584005",
+    "https://github.com/canonical/cloud-init/blob/30b3ea21ec86269a2e31ae0028fbb4a7cc5b41a1/templates/sources.list.ubuntu.deb822.tmpl",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850212583",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850397768",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850649333",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850777867",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850904348",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851174086",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851435561",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851630248",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851831236",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851874359",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6852148111",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6852360847",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6852557669",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6852698060",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/623",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/623#issuecomment-6853234410",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/623#issuecomment-6853350232"
+  ],
+  "limitations": [
+    "Exact Noble profile and fixed admission event implemented with all48 APT methods preserved. Contract/tests/code cycles and local112tooling/schema8/scaffold3 passed. PR623:21required checks,9prep lanes,1new-profile observation; normal merge f6dad07. Old failed-host match/recovery unproven. Resume PR126, then pause."
+  ],
+  "workflow": {
+    "required_stages": [
+      "contract",
+      "tests",
+      "implementation"
+    ],
+    "stages": {
+      "contract": {
+        "authors": [
+          "codex:coordinator-97333d35"
+        ],
+        "revision": "e41a830d7e35aeab0bb03cbd7812709876498b23",
+        "paths": [
+          "docs/contracts/ci-noble-security-source-v1.md",
+          "docs/tasks/CI-003.md",
+          "docs/contracts/ci-setup-gates-v1.md"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci003-initial-contract-review-v1",
+            "revision": "caa3e3d5f3a3a8f7b40afcf160b654f88e7c3d2d",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850212583",
+            "findings": [
+              "CI003-I-B1",
+              "CI003-I-B2",
+              "CI003-I-A1",
+              "CI003-I-A2",
+              "CI003-I-A3",
+              "CI003-I-A4",
+              "CI003-I-A5",
+              "CI003-I-A6"
+            ],
+            "blocking_findings": [
+              "CI003-I-B1",
+              "CI003-I-B2"
+            ],
+            "started_at": "2026-11-13T10:06:29.252Z",
+            "finished_at": "2026-11-13T10:13:28.391Z"
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:/root/ci003_contract_verification",
+            "revision": "6c77393b90fe484fdaa402294a66fd9775d70c7e",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850397768",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci003-closing-contract-review-v1",
+            "revision": "6c77393b90fe484fdaa402294a66fd9775d70c7e",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850649333",
+            "findings": [
+              "CI003-C-B1",
+              "CI003-C-A1"
+            ],
+            "blocking_findings": [
+              "CI003-C-B1"
+            ],
+            "started_at": "2026-11-13T10:37:51.004Z",
+            "finished_at": "2026-11-13T10:44:24.113Z"
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:/root/ci003_contract_correction_verification",
+            "revision": "e41a830d7e35aeab0bb03cbd7812709876498b23",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850777867",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci003-closing-contract-review-v2",
+            "revision": "e41a830d7e35aeab0bb03cbd7812709876498b23",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6850904348",
+            "findings": [],
+            "blocking_findings": [],
+            "started_at": "2026-11-13T10:54:36.097Z",
+            "finished_at": "2026-11-13T10:58:24.275Z"
+          }
+        ]
+      },
+      "tests": {
+        "authors": [
+          "codex:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci003-test-author-v1",
+          "codex:coordinator-97333d35"
+        ],
+        "revision": "8a3b9f65f3fbd0e9d1dbaec3f033a66a23b8fe40",
+        "paths": [
+          "tests/tooling/test_apt_security_profile.py"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci003-initial-test-review-v1",
+            "revision": "087f4657570e71b7a5190f793712a25c91493390",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851435561",
+            "findings": [
+              "CI003-TI-B1",
+              "CI003-TI-A1",
+              "CI003-TI-A2",
+              "CI003-TI-A3",
+              "CI003-TI-A4"
+            ],
+            "blocking_findings": [
+              "CI003-TI-B1"
+            ],
+            "started_at": "2026-11-13T11:15:07.647Z",
+            "finished_at": "2026-11-13T11:21:47.638Z"
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:/root/ci003_test_verification",
+            "revision": "8a3b9f65f3fbd0e9d1dbaec3f033a66a23b8fe40",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851630248",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci003-closing-test-review-v1",
+            "revision": "8a3b9f65f3fbd0e9d1dbaec3f033a66a23b8fe40",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6851831236",
+            "findings": [],
+            "blocking_findings": [],
+            "started_at": "2026-11-13T11:35:00.286Z",
+            "finished_at": "2026-11-13T11:41:16.459Z"
+          }
+        ]
+      },
+      "implementation": {
+        "authors": [
+          "codex:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci003-implementation-v1",
+          "codex:coordinator-97333d35"
+        ],
+        "revision": "1acf18d9eea7f451148733f83e4568ccd39ac1cf",
+        "paths": [
+          "tools/prepare_ubuntu_apt.py",
+          "docs/CI.md"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci003-initial-code-review-v1",
+            "revision": "af6881f9acbbbc1ad155f7cefab4e82fffb61115",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6852360847",
+            "findings": [
+              "CI003-CI-A1",
+              "CI003-CI-A2"
+            ],
+            "blocking_findings": [],
+            "started_at": "2026-11-13T11:59:16.871Z",
+            "finished_at": "2026-11-13T12:02:53.366Z"
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:/root/ci003_code_verification",
+            "revision": "1acf18d9eea7f451148733f83e4568ccd39ac1cf",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6852557669",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:thread:delegated-task:command%3Amcp%3Ab36ec66d-9f1d-4b0f-932c-4abaf17a6da6%3Adelegate-task%3Aci003-closing-code-review-v1",
+            "revision": "1acf18d9eea7f451148733f83e4568ccd39ac1cf",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6852698060",
+            "findings": [],
+            "blocking_findings": [],
+            "started_at": "2026-11-13T12:15:30.002Z",
+            "finished_at": "2026-11-13T12:18:32.287Z"
+          }
+        ]
+      }
+    }
+  },
+  "publication": {
+    "state": "merged",
+    "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/623",
+    "head": "d16a4a2b3fcab0d281ce892b1e741cea1ff2364a",
+    "merge_commit": "f6dad07d33585c62357f210e4975e23f0d4bd6de",
+    "merged_at": "2026-11-13T12:43:31Z",
+    "observed_at": "2026-11-13T12:48:48+00:00"
+  },
+  "verification": {
+    "claim": "passed",
+    "contract_review": "passed",
+    "test_review": "passed",
+    "baseline": "observed_red",
+    "implementation": "passed",
+    "acceptance": "passed",
+    "contract_authored": "passed",
+    "contract_correction_authored": "passed",
+    "contract_correction_review": "passed",
+    "test_authored": "passed",
+    "test_correction_authored": "passed",
+    "test_correction_review": "passed",
+    "code_review": "passed",
+    "local_tooling": "passed",
+    "real_schema": "passed",
+    "scaffold": "passed",
+    "current_head_ci": "passed",
+    "hosted_profile": "passed",
+    "code_correction_authored": "passed",
+    "code_correction_review": "passed",
+    "literal_allowlist_audit": "passed",
+    "io_surface_audit": "passed",
+    "hosted_preparation": "passed",
+    "protected_merge": "passed",
+    "publication": "passed"
+  },
+  "review": {
+    "author": "Fresh isolated Codex producer author and coordinator guidance/corrections; identities in structured stages",
+    "reviewer": "Independent Claude initial, separate Codex verification and fresh Claude closing",
+    "outcome": "approved",
+    "revision": "1acf18d9eea7f451148733f83e4568ccd39ac1cf",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/126#issuecomment-6852698060"
+  }
+}

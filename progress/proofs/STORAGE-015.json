@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "task_id": "STORAGE-015",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 309
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-009/STORAGE-015.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-015-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-015-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-015-red-ctest.txt",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-015-implementation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-015-null-baseline-correction.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-015-null-baseline-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-015-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-015-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-015-code-review.md"
+  ],
+  "limitations": [
+    "Captured-plan SQLite persistence passes 29 reviewed cases with source/config review and selected Qt CI. Full uint64/exact rational codecs and immutable scoped histories remain provisional until caller commit. Next: semantic authority/rule evaluation, effects/jobs/application orchestration and operational/platform release checks."
+  ],
+  "verification": {
+    "reviewed_red_baseline": "passed",
+    "implementation": "passed",
+    "acceptance": "passed",
+    "code_review": "passed",
+    "official_qt_acceptance": "passed",
+    "platform_release": "not_run",
+    "github_ci": "passed"
+  },
+  "review": {
+    "author": "/root/contribution_implementer (production source); /root/plan_fixture_author (narrow SQL NULL oracle correction); /root (shared CI/configuration/completion metadata)",
+    "reviewer": "/root/contribution_reviewer",
+    "outcome": "approved",
+    "baseline": "Actual source/config d15450bef3c1ed8025d3a5caf2bf3e689c27eb3a/root6192617 approves source9b0/revisedtesta805/configce4b and actual82-step0-warning/29/full173 pass. Separate correction90eceb0c preserves all original history/audit assertions and strengthens SQLNULL/type oracle. Actual automatic official41503096872 at reviewed1bf passes pins/GNU13.3/Boost1.83/Qt6.12SQLite3.53.4/old135/newgreen4/UNCONDITIONAL29PASS1.70s/all11. No full-release or future-head merge approval; final metadata/CI attribution/latest-head gates remain.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storage-015-code-review.md"
+  }
+}

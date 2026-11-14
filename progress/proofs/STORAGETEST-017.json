@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "task_id": "STORAGETEST-017",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 315
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-009/STORAGE-017.md",
+  "evidence": [
+    "docs/contracts/sqlite-original-claims-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-contract-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-contract-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-api-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-api-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-fixture-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-fixture-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-test-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-red-ctest.txt",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-final-review.md"
+  ],
+  "limitations": [
+    "Typed ORIGINAL claim-query baseline has 18 methods/35 scenarios independently reviewed with genuine named-marker red after selected Qt fixture foundation. No durable hold or service policy authority supplied. Next: preserve bounded metadata/closure/commit oracles, separate source review and actual application/recovery/provider/platform integration."
+  ],
+  "verification": {
+    "concrete_contract": "passed",
+    "native_build": "passed",
+    "api_review": "passed",
+    "feature_tests": "observed_red",
+    "observed_red": "observed_red",
+    "api_official_qt": "passed",
+    "fixture_review": "passed",
+    "fixture_host_diagnostic": "passed",
+    "fixture_official_qt": "passed",
+    "feature_build": "passed",
+    "feature_registration": "passed",
+    "test_review": "passed",
+    "baseline": "observed_red",
+    "product_acceptance": "observed_red",
+    "official_pre_red_gate": "passed",
+    "github_ci": "passed",
+    "platform_release": "not_run",
+    "final_attribution_review": "passed"
+  },
+  "review": {
+    "author": "/root/bundle_implementer; independent fixtures /root/bundle_validation; shared harness /root",
+    "reviewer": "/root/bundle_reviewer",
+    "outcome": "approved",
+    "baseline": "Full f5c6dc1/root478a1f8 accepts CPP0e4f4f00/headercf721/source130/fixturesbea127+67d4/QtCMakec35/WF7fec. Complete approved clean c24 gets own selected official41602589680 SUCCESS/new3green5PASS/exact18/oldstable/all11, THEN FIRST sameclean c24 red08:24:35.551Z, exit8/all18fail/35exact markers/36initcleanupPASS/0skip/crash/setupfailure/rawSHA90f3c739. Test baseline only; final attribution/latestCI/merge pending. Actual final attribution a72992c+eb5639a verifies completion6757/f856/f679 and rawCI/red without replay; future latest-headCI/normalmerge remain actual coordinator gates.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-017-review.md"
+  }
+}

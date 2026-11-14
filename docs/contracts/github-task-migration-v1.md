@@ -1,5 +1,9 @@
 # GitHub task migration v1
 
+> For EPIC-029 cutover history, the latest [owner decision](github-authority-cutover-v1.md)
+> supersedes earlier per-record audit, intermediate-PR and historical guard requirements.
+> Forward proof requirements remain mandatory.
+
 Authored contract for EPIC-029 / MIGRATE-001, specification v0.45 §§17–18.
 Author: `codex:migrate001-author-20261113:/root` (Codex gpt-6.1-sol).
 Correction author: `codex:coordinator-59095155`. Review status and source receipts are recorded in the current proof authority, not here.
@@ -468,3 +472,13 @@ bytes remain pinned by their original tests revision and review/red receipts whi
 implementation owns current runtime source. Completed historical packets are unchanged
 and never gain a supersession bypass. No JSON-format or review-grammar amendment.
 This clarification and the003 opt-in integration contract await independent approval.
+
+
+## Subsequent narrowly scoped historical disposition proposal
+
+MIGRATE-004's [historical evidence amendment](historical-evidence-dispositions-v1.md)
+requires its own independent documentary approval. If approved, only its individually
+named HE-01..07 archival limitations and individually reviewed inheriting claims take
+precedence over only the historical identity/content clauses enumerated by that amendment. They preserve original claims and required roles without asserting
+availability or reproducibility. All current proof/source/review/CI/protected merge
+and other historical-row gates remain unchanged. No automatic legacy exemption arises.

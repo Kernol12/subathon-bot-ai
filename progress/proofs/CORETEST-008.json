@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "task_id": "CORETEST-008",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 184
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-001/CORE-008.md",
+  "evidence": [
+    "docs/contracts/timer-editorial-commands-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-contract-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-contract-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/timer-editorial-owner-decisions.md",
+    "docs/contracts/timer-editorial-commands-api-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-api-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-api-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-source-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-source-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-tests-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-tests-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-harness-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-current-integration.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-current-harness-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-first-red.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-first-red.json",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-first-red.xml",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-first-red-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-final-integration.md"
+  ],
+  "limitations": [
+    "Editorial command baseline has 27 methods/44 reviewed examples and observed intended stub-red after actual dependency/foundation checks; separate attribution preserved. No host state/clock/permission authority. Next: preserve cap/deadline/manual-request oracles through actual application/transport and platform/security gates."
+  ],
+  "verification": {
+    "document_stage": "passed",
+    "document_review": "passed",
+    "partial_document_review": "passed",
+    "owner_decision": "passed",
+    "test_baseline": "observed_red",
+    "implementation": "not_run",
+    "api_review": "passed",
+    "source_review": "passed",
+    "dependency_acceptance": "passed",
+    "test_authoring": "passed",
+    "test_review": "passed",
+    "baseline": "observed_red",
+    "tests": "observed_red",
+    "current_harness_review": "passed",
+    "selected_ci": "passed",
+    "red_attribution": "passed"
+  },
+  "review": {
+    "author": "service_author",
+    "reviewer": "service_reviewer",
+    "outcome": "approved",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-008-tests-review.md",
+    "revision": "78a7936 tests3b0/JSON1a4 approvedbd7f5e3e; actual732 harness166c3a7; FIRSTclean2dce71d native27red attributed54f75d2e"
+  }
+}

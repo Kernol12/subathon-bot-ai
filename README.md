@@ -41,7 +41,7 @@ for the default branch (`main`) and may be cached. Language badges count code
 lines excluding comments and blanks; Markdown counts nonblank documentation
 lines. C++ sources and headers are shown separately. The overall count includes
 comments, blanks and other recognized text, including generated files such as
-`PROGRESS.html`. The hosted counter does not currently report YAML workflow files;
+`docs/STATUS.md`. The hosted counter does not currently report YAML workflow files;
 QML, TypeScript and CSS badges can be added when those source files exist.
 These are size statistics, not product completion. See
 [development progress](#progress-updates) for task status and verification evidence.
@@ -50,8 +50,8 @@ These are size statistics, not product completion. See
 
 1. Extract the complete folder and open its root `CMakeLists.txt` in CLion.
 2. Follow [CLion setup](docs/CLION_SETUP.md). Enable the `scaffold-debug` profile.
-3. Open **[PROGRESS.html](PROGRESS.html)** in any browser; no web server is needed.
-4. Choose a dependency-ready task in [PROGRESS.html](PROGRESS.html) and read its brief.
+3. Read **[task navigation](docs/PROGRESS.md)** in a Markdown viewer.
+4. Check native GitHub prerequisites and coordinator authorization, then read the versioned task brief.
 5. Ask your CLion agent to follow [AGENTS.md](AGENTS.md) and the
    [workflow](docs/AGENT_WORKFLOW.md).
 
@@ -79,7 +79,7 @@ cmake --preset scaffold-debug
 cmake --build --preset scaffold-debug
 ctest --preset scaffold-debug
 python3 tools/check_project.py
-python3 tools/progress.py render
+python3 tools/proofs.py validate
 ```
 
 Use `python` instead of `python3` on Windows when appropriate. See setup instructions.
@@ -129,11 +129,11 @@ See [test strategy](docs/TEST_STRATEGY.md) and [first contract](docs/contracts/t
 
 ## Progress updates
 
-`progress/state.json` is the source of task status. Agents update it and run
-`python3 tools/progress.py render`; reopen or reload `PROGRESS.html` to see changes.
-The HTML makes no network requests. It has search, status/module filters, detailed
-notes, dependencies and verification labels. Task counts are not product completion percentages.
-See [progress instructions](docs/PROGRESS.md).
+[GitHub Issues/Projects](https://github.com/users/Kernol12/projects/1) own task status,
+assignments, containment and prerequisites; canonical proof records own recorded review
+and source evidence. Read [STATUS](docs/STATUS.md) for source-bound capability limits
+and [workflow](docs/AGENT_WORKFLOW.md) for closure gates. Task counts are not product
+completion percentages. See [task navigation](docs/PROGRESS.md).
 
 ## Repository map
 
@@ -141,7 +141,7 @@ See [progress instructions](docs/PROGRESS.md).
 - `server/`, `desktop/`, `web/`, `integrations/`, `schemas/`, `deploy/`: scoped agent instructions and implementation boundaries.
 - `tests/`: reviewed GoogleTest credit acceptance/regression cases, scaffold checks, optional Qt probe, tooling tests, fixtures.
 - `docs/`: full specification, architecture, decisions, test strategy, task/handoff templates and evidence.
-- `tools/`: dependency-free Python progress and consistency tools.
+- `tools/`: dependency-free Python proof and repository consistency tools.
 - `.github/workflows/`: scaffold checks and automatic credit acceptance/regression
   on PRs to main and pushes to main, with manual dispatch retained.
 

@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "task_id": "SESSIONTEST-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 259
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-007/SESSION-001.md",
+  "evidence": [
+    "docs/contracts/password-hashing-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-contract-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-contract-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-dependency-preparation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-source-authentication.json",
+    "docs/contracts/password-hashing-api-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-api-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-api-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-stub-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-sdk-build.json",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-interface-harness.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-minimal-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-test-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-native-harness.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-native-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-native-results.json",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-native-results.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-fixture-inputs.json",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-ci-preparation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-test-harness.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-test-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-local-red-sequencing.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-environment-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-red-results.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-red-results.json",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-red-attribution.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-main-integration.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-main-integration-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-ci.md"
+  ],
+  "limitations": [
+    "Password primitive contract/API/37 methods independently reviewed with intended red after real selected libsodium/native setup. Guarded secret lifetime, cost refusal and cleanup obligations retained. Next: preserve baseline plus separate actual source/resource audit; login/conditional-store/session, hardware and platform gates remain."
+  ],
+  "verification": {
+    "document_review": "passed",
+    "test_baseline": "observed_red",
+    "implementation": "not_run",
+    "api_document_review": "passed",
+    "source_authentication": "passed",
+    "selected_sdk": "passed",
+    "minimal_source_review": "passed",
+    "tests": "observed_red",
+    "sdk_build": "passed",
+    "host_sdk_foundation": "passed",
+    "fixture_input_preparation": "passed",
+    "selected_ci": "passed",
+    "local_environment_review": "passed",
+    "full_test_review": "passed",
+    "red_attribution": "passed",
+    "baseline": "observed_red",
+    "integration_review": "passed",
+    "consistency": "passed"
+  },
+  "review": {
+    "author": "service_author",
+    "reviewer": "codec_author",
+    "outcome": "approved",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessiontest-001-test-review.md",
+    "revision": "Actual correctedfulltestapproval093b528e/importd560 source1d0d3775/fixture025d4de9; FIRSTd560red independentlyattributedc5b10c59/importf053. Newmain/labelharness9f6 actuallyapproved524cde88/importa34f728."
+  }
+}

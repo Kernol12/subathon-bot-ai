@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "task_id": "TESTCLEAN-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 130
+  },
+  "kind": "cleanup",
+  "brief": "docs/tasks/EPIC-028/TESTCLEAN-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/95"
+  ],
+  "limitations": [
+    "Replaced generic/native machinery with actual schema checks under independent contract/oracle/source review. All17 targets,23 positives,77 OAS/11 progress cases passed locally and selected3.10/3.12 CI; tooling29/scaffold3 passed. Schemas/examples/20 pins/licenses unchanged. All19 checks passed before normal PR95 merge. No runtime/provider proof. Next: TESTCLEAN-003."
+  ],
+  "verification": {
+    "boundary_proposal_review": "passed",
+    "contract_review": "passed",
+    "test_review": "passed",
+    "source_review": "passed",
+    "schema_validation": "passed",
+    "tooling": "passed",
+    "scaffold": "passed",
+    "github_ci": "passed",
+    "product_acceptance": "not_run"
+  },
+  "review": {
+    "author": "/root/schema_cleanup_author; literal helper /root/schema_cleanup_author/schema_inventory",
+    "reviewer": "/root/schema_cleanup_review",
+    "outcome": "approved",
+    "revision": "Proposal fc7c25cc/doc40e8/exec9281/final2454 and complete6666fe5 independently approved; selected3.10.12/3.12.3 each8methods+infra3 passed; all19headchecks before normalPR95 merge2d5488f.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/95"
+  }
+}

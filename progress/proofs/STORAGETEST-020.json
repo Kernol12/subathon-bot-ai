@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "task_id": "STORAGETEST-020",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 578
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-009/STORAGE-020.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-020-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-020-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-020-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-020-first-runs.tar.gz",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-020-hosted-ci.json"
+  ],
+  "limitations": [
+    "Account/session store baseline has 44 independently reviewed compiled cases with intended constructor-marker red, after real Qt SQL foundation green and independent attribution. Selected CI checks discovery/foundation; all44 features remain unimplemented. Next: fresh STORAGE-020 implementation, source/resource review and promoted acceptance; no current-source/login authority."
+  ],
+  "verification": {
+    "authored": "passed",
+    "compilation": "passed",
+    "passive_discovery": "passed",
+    "test_review": "passed",
+    "sdk_readiness": "passed",
+    "baseline": "observed_red",
+    "red_attribution": "passed",
+    "selected_ci": "passed"
+  },
+  "review": {
+    "author": "/root/account_session_storage_test_author; /root (CI/integration/first receipts)",
+    "reviewer": "/root/account_session_storage_test_review",
+    "outcome": "approved",
+    "revision": "Actual whole777407a reviewed39c95d58; corrected11e864d6 approvedd7174d63/import45cedfb BEFORE firstfoundation+44ordinarymarkerred atcleand7174d63, actual13rawfiles independentlyattributed743a70b4. LatestselectedCI/publication/normalmerge separate.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-020-review.md"
+  }
+}

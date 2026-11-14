@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "task_id": "RATECONTRACT-002",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 551
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/EPIC-017/RATECONTRACT-002.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/118"
+  ],
+  "limitations": [
+    "Defined exact valuation API/equality/codecs/resource/storage contract with18 examples; independent reviews approve9509176. Document proof; original483/122 and51 tooling preserved. PR118 merged normally f2a134e at17:46:41Z after22 final-head checks. Planned STORAGECONTRACT003/STORAGETEST021/STORAGE021 precede RATESTEST009/RATES009. No runtime/provider/release proof or valuation implementation; product work remains stopped."
+  ],
+  "publication": {
+    "state": "merged",
+    "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/118",
+    "head": "1d3ef296a459ede9e3238f812cae803222ca1c34",
+    "merge_commit": "f2a134e57b9e25d4033b56720b72c08d0ef4df52",
+    "merged_at": "2026-11-11T17:46:41Z",
+    "observed_at": "2026-11-11T19:20:08+00:00"
+  },
+  "verification": {
+    "contract": "passed",
+    "independent_review": "passed",
+    "resource_contract_review": "passed",
+    "tooling": "passed",
+    "runtime_acceptance": "not_run",
+    "product_release": "not_run"
+  },
+  "review": {
+    "author": "Codex gpt-6.1-sol /root/exact_valuation_storage_author; coordinator9dd14702 corrections/graph",
+    "reviewer": "Claude Opus5.5/high initial4f8d827b/closing44907a68; Codex gpt-6.1-sol /root/exact_valuation_storage_codex_verify and /root/exact_valuation_storage_codex_recheck",
+    "outcome": "approved",
+    "revision": "Initial88f920a B1–5/N1–8 fixed d7298a2; separate Codex C1/C2 fixed09c5276 and fresh recheck approved09c5276. Independent Claude closing approved9509176, no blockers; contract SHA256c3e9e21cd0b624f9f15b8244f070462d8e5bf654dfeba72fc0a6781ded9439fe. Final packet/current CI/normal merge in PR118.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/118"
+  }
+}

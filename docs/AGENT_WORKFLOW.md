@@ -1,5 +1,10 @@
 # Agent workflow
 
+> GitHub owns task planning since the final protected MIGRATE-004 cutover.
+> Canonical proof records own current review/source evidence. Pre-cutover history is
+> historical, as recorded, not re-verified, under the owner decision in the cutover contract.
+
+
 ## Task sequence and roles
 
 For new behavior use: contract/examples → authored tests → independent test review →
@@ -8,10 +13,10 @@ Missing dependencies, compilation failures and skipped tests are not valid red e
 An independent reviewer is a different agent/session/person from the author; authors
 never approve their own work.
 
-The coordinator selects and decomposes tasks, assigns shared paths and integrates state.
+The coordinator selects and decomposes tasks, assigns shared paths and integrates canonical proof/GitHub facts.
 Authors produce bounded work and factual evidence; reviewers assess requirements, oracles,
-implementation and gaps. Status lives only in `progress/state.json`; use
-`python3 tools/progress.py context TASK-ID` for a read-only task view. Task briefs define
+implementation and gaps. GitHub owns status, assignment, native containment and prerequisites; use
+`python3 tools/proofs.py context TASK-ID` for a read-only task view. Task briefs define
 acceptance, and `docs/tasks/README.md` is navigation. Read the brief and scoped
 `AGENTS.md` before editing. Production tasks require dependencies, specification refs,
 contract revision, acceptance criteria and shared-file ownership.
@@ -19,7 +24,7 @@ contract revision, acceptance criteria and shared-file ownership.
 ## T3 roles and handoffs
 
 Sol is the Codex coordinator: it selects tasks, assigns paths, integrates shared
-files and owns state, evidence, CI inspection and protected merges. A Codex worker
+files and owns shared proof integration, evidence, CI inspection and protected merges. A Codex worker
 authors contract examples/tests and captures reviewed intended red. A fresh Codex
 implementation session receives that approved baseline. Separate Claude sessions
 review the test stage against the specification and the finished implementation,
@@ -31,7 +36,7 @@ and reviews posted through the owner's GitHub account do not prove independence 
 constitute a second human GitHub approval.
 
 Use stable provider/session identities and durable T3 thread links in handoffs and
-review evidence. Record task owner/status in state; record temporary session/worktree
+review evidence. Record task owner/status on GitHub; record temporary session/worktree
 assignments in the checkpoint. Never assume an old assignment is a live process.
 Keep handoffs concise: identify task/brief, base/head SHA, actual checkout and owned
 paths; link the relevant specification/contracts, acceptance criteria, required gates
@@ -95,7 +100,7 @@ it to the Claude gate.
 ## Structured packets and bounded handoffs
 
 The [workflow-records v1 contract](tasks/WORKFLOW-003.md) defines the forward review
-policy and developer schema. `workflow_policy` freezes the 120 tasks done at the
+policy and developer schema. The canonical proof policy freezes the 120 tasks done at the
 migration base; their receipts and limitations remain historical. New non-epic
 claims require structured `workflow` stages. Planned stages may be absent until
 authoring starts. Never invent authors, revisions, reviews or results to fill fields.
@@ -107,7 +112,7 @@ specification/contract revision, authors, exact source revision and owned paths,
 acceptance/oracles, resource/ownership constraints, affected build/dependency/license
 changes, actual evidence and unresolved findings. Batch related concerns within the
 stage; keep contract, tests-before-red and implementation approvals distinct.
-Use `python3 tools/progress.py context TASK-ID --stage tests` (or contract /
+Use `python3 tools/proofs.py context TASK-ID --stage tests` (or contract /
 implementation) for the derived packet, next gate and observed review metrics.
 Read linked affected context, not global activity history at every handoff.
 Append `--compact` for a smaller handoff with the selected packet, all review links,
@@ -126,7 +131,7 @@ Reviewers stay read-only. If a reviewer authors a correction, preserve their old
 reports and findings in PR/git history; the packet must declare all actual authors
 and obtain a fresh independent cycle. Superseded reports must not be presented as
 current approvals or deleted from history. Keeping corrections with the author avoids
-this recovery path. Progress JSON, HTML and checkpoint bookkeeping are excluded from
+this recovery path. Canonical proof/policy and checkpoint bookkeeping are excluded from
 stage paths; recording a receipt does not revise its reviewed packet. Material
 requirements/evidence changes still need their applicable independent review.
 
@@ -147,8 +152,8 @@ needed. Use durable links rather than relying on chat history, and never invent 
 ## Branches and pull requests
 
 Before edits, start from current `main`, create one branch per executable task and claim
-the task in state. Use separate branches/worktrees for concurrent writers; the integrator
-coordinates `state.json`, shared schemas, migrations, dependencies and root CMake.
+the task on GitHub and enroll its pending proof before executable authoring. Use separate branches/worktrees for concurrent writers; the integrator
+coordinates canonical proof/policy, shared schemas, migrations, dependencies and root CMake.
 Open a focused PR to `main` using `.github/pull_request_template.md`; use a draft while
 required work or review remains. Include task IDs, specification scope, exact checks,
 reviews and remaining gates. A draft still triggers CI: keep unreviewed test source
@@ -165,8 +170,8 @@ record the concrete blocker. Instructions alone do not configure branch protecti
 
 Park a blocked draft branch until its prerequisites are ready, suspend unnecessary
 watches, and integrate current main once before resuming. Urgent authorized security
-or correctness maintenance still proceeds. Shared progress remains coordinator-owned;
-avoid repeated branch refreshes solely to reconcile generated progress files.
+or correctness maintenance still proceeds. Shared proof integration remains coordinator-owned;
+avoid repeated branch refreshes solely for proof bookkeeping.
 
 Assess CI coverage for each change and add workflows as executable modules, suites,
 builds or packaging land. Keep actions/dependencies pinned and permissions limited;
@@ -187,23 +192,34 @@ a separate reviewer.
 
 Test-authoring done means reviewed tests and intended red, not implemented behavior.
 Implementation done requires relevant passing acceptance/regression checks and separate
-code review. Under structured tracking, every required stage must have current closing
-approval. Artifact `done` and publication are separate: an open PR is not merged, and
-a tracked prerequisite satisfies dependencies only after its recorded publication is
-merged. Legacy dependency semantics remain intact. Distinguish simulation from live
-service, hardware, browser and package
-evidence; a green scaffold is not product proof.
+code review. Every required stage must have current closing approval and current
+source mode/blob bindings. An open PR is not merged. Before closure the coordinator
+reads back the actual final PR head/merge/time, latest required CI, protection and
+resolved discussions, and records truthful issue/PR completion receipts (PR URL, head, merge_commit,
+merged_at and observed_at). Missing
+publication evidence blocks closure. `--complete` is a pre-publication gate: absent
+or open publication is allowed there and proves no closure. Record merged observations
+in the next authorized change; never create a completion-only proof PR loop.
 
-For a completed task, put its PR URL in `evidence`, keep all of the task's `notes`
-together to 500 characters or fewer, and record separate review in the state `review`
-field and PR. The note states outcome, proof level (simulated, real SQLite, CI or live),
-open gates and next step. Update the matching area entry in `docs/evidence/README.md`;
-add no files under `docs/evidence/` and no per-task history to `docs/TEST_STRATEGY.md`.
-Put commands, results and details in the PR. Historical receipts are available in git
-history under tag `evidence-archive-2026-11`; the summary is the
-readable record. Update state and regenerate `PROGRESS.html`. The coordinator checkpoint
-is `progress/coordinator-checkpoint.md`. Do not rerun completed checks just to improve
-receipts, and do not put credentials or personal data in evidence.
+State retirement loses these automated checks; preserve their procedural duties:
+- Acceptance result values: coordinator verifies source/head-bound passing execution
+  receipts and required suites without disguised setup failures or skips before closure.
+- Per-task spec_refs: immutable arrays and successful pre-freeze admission are archived;
+  coordinator reviews active brief specification/contract references at dispatch/closure.
+  Repository spec ID uniqueness and complete acceptance-map checks remain automated.
+- Implementation-after-observed-red ordering: coordinator verifies actual independently
+  reviewed intended-red receipts before dispatch; test packet approval proves no run.
+- Completed-note aggregate cap: coordinator checks concise completion notes (normally
+  500 characters or fewer); proof limitations preserve original notes without truncation
+  or an aggregate cap.
+- State done-without-publication refusal: actual final merged PR/current gates/truthful
+  issue/PR readback is the closure carrier; pre-publication completion cannot replace it.
+
+Put detailed commands, results, proof level, open gates and next step in the PR.
+Update the matching area in docs/evidence/README.md; add no per-task receipt files there.
+The checkpoint remains progress/coordinator-checkpoint.md and records owner scope,
+assignments and blockers, never a planning ledger. Preserve historical receipts and
+all rejected reviews. Do not rerun completed checks merely to improve receipts.
 
 Default to fake connectors and disposable databases; automated tests must not trigger
 real chat/payment side effects. Keep live checks separate. Resolve routine issues within
@@ -233,34 +249,37 @@ python3 tools/check_publication.py --base origin/main --head HEAD \
 
 Select only the stages whose recorded revision/paths should match the candidate;
 repeat `--stage` for additional bindings. The checker verifies clean checkout and
-commit identity, those bindings, every outgoing commit's forbidden paths, existing
-repository checks and actual progress-schema validation. It neither installs the SDK
+commit identity, those bindings, every outgoing commit's forbidden paths, independent
+repository checks and actual canonical proof/policy schema aggregate. It neither installs the SDK
 nor authenticates reviews or grants publication/merge authority. Keep diagnostic
 stderr private. Review untracked/ignored inputs and the public payload separately;
 path checking is not complete secret scanning. Current-head CI and owner/repository
 gates still apply.
 
-Before handoff or resumption, inspect actual branch/worktree, PR head/state, checks,
-reviews and repository rules. Save the bounded GitHub observation, for example:
+Before handoff or resumption inspect actual checkout/branch, PR head/state, required
+checks, reviews, rules and the latest owner stop. GitHub native prerequisites require
+actual applicable merged PR readback; dependency readiness grants no authorization.
+No reconcile/import command, permanent synchronizer, claim/lease or results service
+is introduced. Optional publication observations remain strict source-linked facts,
+never predictions. Keep historical not_run checks historical.
 
-```sh
-gh pr view PR-NUMBER --json url,state,headRefOid,mergedAt,mergeCommit > /tmp/task-pr.json
-python3 tools/progress.py reconcile TASK-ID --pr-json /tmp/task-pr.json
-```
+At dispatch read issue identity, assignment and native prerequisites, then the versioned
+brief/spec/contracts and canonical proof context if enrolled. Unenrolled historical
+kind/identity comes from the pinned full archive appendix. New IDs require exact
+Task ID / Work type / Issue stanzas and their own complete reviewed brief-binding
+packet before publication. Declare that packet at claim: contract for contract kinds,
+tests for implementation/test kinds, otherwise implementation. Preserve kind minima
+and explicit extra stages. Missing records never imply exemption. The frozen 120
+historical exemptions do not authorize forward completion. Board Kind and Epic selects
+are display-only; proof kind and native containment govern. Manual Done movement is
+neither proof nor permission. MIGRATE-005 audits preservation and closure receipts;
+WORKFLOW-006/007 remain stopped and their future policy is not activated here.
 
-The import records publication and its UTC import time, updates state/HTML and leaves
-artifact status, notes, reviews, verification and activity unchanged. It authenticates
-nothing and performs no network/git/merge operation. Check actual latest-head gates
-separately. Review the resulting diff and reconcile checkpoint prose yourself; the
-command cannot decide authorization or whether a stale instruction is safe to execute.
-Reject a changed immutable merged record or automatic reassociation with another PR.
-Validation/render/serialization failures preserve both outputs; OS failure between two
-file replacements requires reconciliation, not a claim of pairwise atomicity.
+Archive pin, full brief/source inventory admission, protected remote readback and
+historical availability are coordinator gates. Missing history blocks cutover. Rollback
+requires paused dispatch, capture of intervening facts and a protected reviewed restore
+PR; GitHub stays authority until that rollback merge. No automatic product resume.
 
-The same PR cannot commit knowledge of its own future merge. Record open publication
-as an observation while preparing it; finalize the observed merge in the next already
-authorized metadata change. Do not create an endless series of completion PRs or start
-a product task to update bookkeeping. Historical `not_run` checks remain historical;
-a merge alone never rewrites them to passed. Keep the checkpoint short: current owner
-scope, observed checkout, roles, pending gates, concrete blockers and next action, with
-links to state/brief/PR. Preserve old handoffs in Git rather than copying them forward.
+For the remainder of EPIC-029, the latest owner-directed cutover review scope and
+two-fix-round limit in `contracts/github-authority-cutover-v1.md` take precedence.
+Historical records do not authorize future execution on unfinished tasks.

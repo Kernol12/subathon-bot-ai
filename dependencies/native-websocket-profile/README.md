@@ -8,7 +8,7 @@ on real Linux loopback, with an exact complete loaded map and unchanged input ha
 The independently approved CI recipe also passes all 44 methods on Ubuntu through
 CTest with its host-specific loaded-map gate. Independent hosted-results and native
 runtime/code review at `d554934` is approved. [PR110](https://github.com/Kernol12/subathon-bot-ai/pull/110)
-records the final packet, latest-head checks and protected merge; current status lives in [state](../../progress/state.json).
+records the final packet, latest-head checks and protected merge; current status lives in [GitHub tasks](https://github.com/Kernol12/subathon-bot-ai/issues).
 The manifest's retained `implementation_candidate_not_admitted` value records the
 source author's original handoff stage. It is not a current admission verdict or a
 runtime capability claim. Its bytes remain unchanged to preserve the admitted SDK

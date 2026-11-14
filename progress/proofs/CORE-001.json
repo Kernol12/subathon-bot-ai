@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "task_id": "CORE-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 171
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-001/CORE-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-001-implementation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-001-zero-regression.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-001-zero-red-ctest.txt",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-001-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-001-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-001-handoff.md"
+  ],
+  "limitations": [
+    "Exact decimal/final half-even conversion passes 32 original plus one reviewed zero regression with separate source review and selected Boost CI. Pure bounded numeric component only. Next: retain exact aggregate/application/refund/provenance contracts and separately verify supported platforms/live services."
+  ],
+  "verification": {
+    "test_review": "passed",
+    "regression_baseline": "observed_red",
+    "native_build": "passed",
+    "acceptance": "passed",
+    "regression": "passed",
+    "code_review": "passed",
+    "github_ci": "passed",
+    "platform_release": "not_run"
+  },
+  "review": {
+    "author": "/root/numeric_implementer",
+    "reviewer": "/root/numeric_reviewer",
+    "outcome": "approved",
+    "baseline": "author74f3594; sourcea1ddb4283292a5da0a81a0f4e8255fffc19cafd7; originaltests6cf83ae; regression347a810b; reviewdb26514",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-001-code-review.md"
+  }
+}

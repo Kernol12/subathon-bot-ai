@@ -19,6 +19,9 @@ import tempfile
 import workflow
 from proof_shapes import LEGACY_DONE, LEGACY_DONE_SHA256, SUPPLEMENTAL_SHAPE
 
+# Canonical inputs belong to this checkout; explicit paths support offline fixtures.
+ROOT = Path(__file__).resolve().parents[1]
+
 ID = r'[A-Z][A-Z0-9]*-[0-9]{3}'
 KINDS = {'code_review', 'cleanup', 'contract', 'environment', 'feasibility',
          'implementation', 'scaffold', 'test_baseline', 'test_draft', 'test_review'}
@@ -234,7 +237,7 @@ def selected(bundle, task_id):
     workflow.text(task_id, 'task_id')
     checked_bundle(bundle)
     if task_id not in bundle['records']:
-        raise ValueError(f'{task_id}: unknown proof task')
+        raise ValueError(f'Unknown task: {task_id}')
     return bundle['records'][task_id]
 
 
@@ -297,6 +300,7 @@ def convert(source: dict, identities: dict, archive_commit: str) -> dict:
         if entry['task_id'] in mapped or key in pairs:
             raise ValueError('Duplicate identity mapping')
         mapped[entry['task_id']] = entry['issue']; pairs.add(key)
+    validate_archive_source(source)
     tasks = source['tasks']; ids = []
     for task in tasks:
         if not isinstance(task, dict):
@@ -313,7 +317,8 @@ def convert(source: dict, identities: dict, archive_commit: str) -> dict:
     for task in tasks:
         if not isinstance(task.get('kind'), str) or task['kind'] not in KINDS | {'epic'} or not isinstance(task.get('status'), str) or task['status'] not in {'planned', 'ready', 'in_progress', 'in_review', 'blocked', 'done'}:
             raise ValueError(f"{task['id']}: invalid source kind/status")
-        claimed = task['status'] in {'in_progress', 'in_review', 'done'} and task['id'] not in LEGACY_DONE
+        claimed = (task['kind'] != 'epic' and task['status'] in {'in_progress', 'in_review', 'done'}
+                   and task['id'] not in LEGACY_DONE)
         if not isinstance(task.get('verification'), dict):
             raise ValueError(f"{task['id']}: source verification must be an object")
         record = dict(version=1, task_id=task['id'], issue=deepcopy(mapped[task['id']]),
@@ -324,7 +329,14 @@ def convert(source: dict, identities: dict, archive_commit: str) -> dict:
                 record[key] = deepcopy(task[key])
         # Epics are validated as source inputs but never emitted as proof records.
         _validate_record_fields(record, KINDS | {'epic'})
-        workflow.validate_task(task, source['workflow_policy'], Path(), None, reference, tree_free=True)
+        if claimed and 'workflow' not in task:
+            raise ValueError(f"{task['id']}: claimed task requires workflow records")
+        if claimed and task['status'] == 'done':
+            if not all(workflow.stage_complete(task['workflow']['stages'].get(name))
+                       for name in task['workflow']['required_stages']):
+                raise ValueError(f"{task['id']}: done requires current closing approvals")
+            if 'publication' not in task:
+                raise ValueError(f"{task['id']}: done requires publication observation")
         if task['kind'] == 'epic':
             continue
         enrolled = (claimed or any(k in task for k in ('workflow', 'publication', 'supplemental_workflow_evidence'))
@@ -352,28 +364,15 @@ def serialized(value):
 
 
 def prepare_conversion(args):
-    """Admit a full disposable source strictly, then publish only owned private output."""
-    import progress
-    root = safe_path(args.source_root, directory=True)
-    src, ids = safe_path(args.source), safe_path(args.identities)
+    """Read the pinned archive, then publish only owned private output."""
     repo = Path(__file__).resolve().parents[1]
-    if src in {root/'progress/state.json', repo/'progress/state.json'}:
-        raise ValueError('Production state cannot be conversion source')
     output = Path(os.path.abspath(args.output_dir))
     safe_path(output.parent, directory=True)
-    if output.is_relative_to(repo) or output.is_relative_to(root):
-        raise ValueError('Output must be outside repository/source root')
-    if any(output == p or output.is_relative_to(p) or p.is_relative_to(output) for p in (src, ids)):
-        raise ValueError('Overlapping conversion inputs/output')
+    if output.is_relative_to(repo):
+        raise ValueError('Output must be outside repository')
     if output.exists() or output.is_symlink():
         raise ValueError('Output already exists')
-    source = read_json(src)
-    admission = deepcopy(source)
-    if isinstance(admission, dict) and isinstance(admission.get('tasks'), list):
-        for task in admission['tasks']:
-            task.setdefault('notes', [])
-    progress.validate(admission, root)
-    result = convert(source, read_json(ids), args.archive_commit)
+    result = load_archive(args.archive_commit)['converted']
     owned = False
     try:
         with tempfile.TemporaryDirectory(prefix='.proof-prepare-', dir=output.parent) as temporary:
@@ -397,24 +396,95 @@ def prepare_conversion(args):
     return dict(version=1, record_count=len(result['records']))
 
 
-def main() -> int:
+def validate_archive_source(source: dict) -> None:
+    """Admit only the frozen v1 archive language, without current planning or paths.
+
+    Historical schema/consumed semantics: inspection revision
+    820544f1093f1649b0a7b03b5e7fcd12ed9cfcab, progress/state.schema.json.
+    Original notes absence is retained by the converter as an empty limitations list.
+    Full brief and inventory admission is the coordinator's pre-capture gate.
+    """
+    closed(source, ('schema_version', 'project', 'baseline_version', 'specification_version',
+                    'updated_at', 'summary', 'verification', 'tasks', 'activity', 'workflow_policy'),
+           ('$schema',), 'archive source')
+    version(source['schema_version'])
+    for key in ('project', 'baseline_version', 'specification_version', 'updated_at', 'summary', '$schema'):
+        if key in source and not isinstance(source[key], str):
+            raise ValueError(f'archive {key}: expected string')
+    if not isinstance(source['tasks'], list) or not source['tasks']:
+        raise ValueError('archive tasks: expected nonempty array')
+    for key, fields in [('verification', ('label', 'status', 'detail')),
+                        ('activity', ('date', 'task', 'note'))]:
+        if not isinstance(source[key], list):
+            raise ValueError(f'archive {key}: expected array')
+        for item in source[key]:
+            closed(item, fields, field='archive '+key)
+            if any(not isinstance(item[k], str) for k in fields):
+                raise ValueError(f'archive {key}: expected string fields')
+            if key == 'verification' and item['status'] not in CHECKS:
+                raise ValueError('archive verification: unknown status')
+    for task in source['tasks']:
+        closed(task, ('id', 'title', 'module', 'kind', 'status', 'owner', 'depends_on',
+                      'spec_refs', 'brief', 'summary', 'verification', 'evidence', 'review'),
+               ('notes', 'workflow', 'publication', 'supplemental_workflow_evidence'), 'archive task')
+        for key in ('id', 'title', 'module', 'kind', 'status', 'owner', 'brief', 'summary'):
+            if not isinstance(task[key], str):
+                raise ValueError(f'archive task {key}: expected string')
+        if not task['title']:
+            raise ValueError('archive task title: expected nonempty string')
+        workflow.strings(task['depends_on'], 'archive depends_on')
+        for key in ('spec_refs', 'notes'):
+            if key in task and (not isinstance(task[key], list) or
+                                any(not isinstance(v, str) for v in task[key])):
+                raise ValueError(f'archive {key}: expected string array')
+
+
+def load_archive(archive_commit: str) -> dict:
+    """Read three immutable regular Git blobs through the publication transport.
+
+    The CLI and publication provenance share this adapter and the strict parser.
+    No working state, materialization, arbitrary source root or network is used.
+    """
+    import check_publication as git
+    workflow.commit(archive_commit, 'archive_commit')
+    git.check_local_objects()
+    top = git.git_output('rev-parse', '--show-toplevel').decode('utf-8').removesuffix('\n')
+    if Path(top).resolve() != git.ROOT.resolve():
+        raise ValueError('Archive ROOT is not the Git working-tree root')
+    if git.git_output('rev-parse', '--is-shallow-repository') != b'false\n':
+        raise ValueError('Full history is required for archive conversion')
+    if git.resolve_commit(archive_commit) != archive_commit:
+        raise ValueError('Archive must name its full immutable commit')
+    git.git_output('rev-list', archive_commit)
+    source = git.git_json(archive_commit, 'progress/state.json')
+    identities = git.git_json(archive_commit, git.ARCHIVE+'identities.json')
+    report = git.git_json(archive_commit, git.ARCHIVE+'conversion-report.json')
+    converted = convert(source, identities, archive_commit)
+    # JSON equality preserves scalar types too (True must not equal integer 1).
+    if json.dumps(report, sort_keys=True, ensure_ascii=False) != json.dumps(converted['report'], sort_keys=True, ensure_ascii=False):
+        raise ValueError('Archive conversion report differs from full reconciliation')
+    return dict(source=source, identities=identities, converted=converted)
+
+
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
     for command in ('validate', 'context'):
         sub = commands.add_parser(command)
         if command == 'context':
             sub.add_argument('task_id'); sub.add_argument('--stage'); sub.add_argument('--compact', action='store_true')
-        sub.add_argument('--policy', type=Path, required=True)
-        sub.add_argument('--records-dir', type=Path, required=True)
+        sub.add_argument('--policy', type=Path)
+        sub.add_argument('--records-dir', type=Path)
     sub = commands.add_parser('convert')
-    for name in ('source', 'source-root', 'identities', 'output-dir'):
-        sub.add_argument('--'+name, type=Path, required=True)
+    sub.add_argument('--output-dir', type=Path, required=True)
     sub.add_argument('--archive-commit', required=True)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     try:
         if args.command == 'convert':
             result = prepare_conversion(args)
         else:
+            args.policy = args.policy if args.policy is not None else ROOT/'progress/proof-policy.json'
+            args.records_dir = args.records_dir if args.records_dir is not None else ROOT/'progress/proofs'
             bundle = load(args.policy, args.records_dir)
             result = (context(bundle, args.task_id, stage=args.stage, compact=args.compact) if args.command == 'context'
                       else dict(version=1, record_count=len(bundle['records'])))

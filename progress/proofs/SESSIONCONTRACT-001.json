@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "task_id": "SESSIONCONTRACT-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 567
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/EPIC-007/SESSIONCONTRACT-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-001-plan-review.md",
+    "docs/contracts/session-resolution-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-001-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-001-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-001-handoff.md"
+  ],
+  "limitations": [
+    "Current-session supplier document/literal hash/time cases independently reviewed with tooling checks. Owned facts and bounded token preparation/resolution specify a component, not login/clock/SQL authority. Next: concrete supplier tests plus real current source, transport, lifecycle and supported-platform/security acceptance."
+  ],
+  "verification": {
+    "document_review": "passed",
+    "literal_audit": "passed",
+    "tooling": "passed",
+    "runtime": "not_run"
+  },
+  "review": {
+    "author": "session_supplier_author",
+    "reviewer": "session_supplier_review",
+    "outcome": "approved",
+    "revision": "Actual corrected authorc7e6e68/import14228ec, documentblobc5f5a6e71664042e18475068d3caf577b0c8d009 independently approved46f1ad2/importfdab76b; separate plan8846a1c/importc3ee594. Document only; final metadata/latest-headCI/normalmerge remain.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-001-review.md"
+  }
+}

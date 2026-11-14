@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "task_id": "CORE-003",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 175
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-001/CORE-003.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-003-implementation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-003-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-003-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-003-handoff.md"
+  ],
+  "limitations": [
+    "Independent pause reasons and normalized delayed signals pass 37 reviewed cases, separate code review and CI. Final proposals do not reconstruct within-interval history. Next: caller segments countdown at signal boundaries; actual provider/state/timer integration, delay reconfiguration and platforms remain separate."
+  ],
+  "verification": {
+    "native_build": "passed",
+    "acceptance": "passed",
+    "regression": "passed",
+    "code_review": "passed",
+    "github_ci": "passed",
+    "timer_writer_provider_integration": "not_run",
+    "platform_release": "not_run"
+  },
+  "review": {
+    "author": "/root/pause_policy_implementer",
+    "reviewer": "/root/pause_resume_reviewer",
+    "outcome": "approved",
+    "baseline": "authorc428c45; sourced080ac757bedb1e621420c31aca691a6d25b4052; tests646d83f4; CIe5ee766; review8197844",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-003-code-review.md"
+  }
+}

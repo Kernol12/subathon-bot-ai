@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "task_id": "API-012",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 276
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-008/API-012.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/110"
+  ],
+  "limitations": [
+    "Implements the bounded native WebSocket profile. All 44 real loopback methods pass locally and in Ubuntu CI, with reviewed source, SDK/ABI, fixture and loaded-map evidence. Original red and the first-run fixture failure are retained. PR110 records final review, latest-head checks and protected merge. Host/TLS, actual clock, auth/sync and platform/release proof remain separate. Stop after this merge."
+  ],
+  "verification": {
+    "implementation": "passed",
+    "source_review": "passed",
+    "supplemental_test_review": "passed",
+    "supplemental_stock_build": "passed",
+    "supplemental_baseline": "observed_red",
+    "corrected_sdk_configure": "passed",
+    "corrected_sdk_build": "passed",
+    "corrected_sdk_artifact_review": "passed",
+    "sdk_admission_test_review": "passed",
+    "sdk_admission_baseline": "observed_red",
+    "sdk_admission_implementation": "passed",
+    "consumer_build": "passed",
+    "tooling": "passed",
+    "actual_loaded_identity": "passed",
+    "native_acceptance": "passed",
+    "runtime_fixture_review": "passed",
+    "ci_recipe": "passed",
+    "native_runtime_review": "passed",
+    "ci_recipe_review": "passed",
+    "native_results_review": "passed",
+    "prepush_tooling": "passed",
+    "github_ci": "passed",
+    "hosted_native_acceptance": "passed",
+    "hosted_ci_review": "passed",
+    "acceptance": "passed"
+  },
+  "review": {
+    "author": "Codex native profile, fixture and CI authors; coordinator integration",
+    "reviewer": "Independent Claude Opus 5.5 source/resource, SDK/ABI, fixture, CI and hosted/native sessions",
+    "outcome": "approved",
+    "revision": "Source 2cc999c, admission 82bf92c, fixture 150c280 and CI a28dc4f approved. Hosted native44 at 6f719a7 and native runtime/code at d554934 approved. Final packet, latest-head checks and protected merge are recorded in PR110.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/110"
+  }
+}

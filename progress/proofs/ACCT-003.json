@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "task_id": "ACCT-003",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 192
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-002/ACCT-003.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-003-implementation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-003-code-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-003-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-003-handoff.md"
+  ],
+  "limitations": [
+    "Owned captured-plan/provenance/override proposals pass 22 preserved pure-transform cases with source review and CI. Inputs are already resolved; helper does not evaluate rules, validate permissions, apply caps/effects or persist. Next: compose actual planner, current authority and atomic application/storage gates."
+  ],
+  "verification": {
+    "native_build": "passed",
+    "acceptance": "passed",
+    "regression": "passed",
+    "code_review": "passed",
+    "github_ci": "passed",
+    "writer_permission_application_provider": "not_run",
+    "platform_release": "not_run"
+  },
+  "review": {
+    "author": "/root/application_plan_implementer",
+    "reviewer": "/root/application_plan_reviewer",
+    "outcome": "approved",
+    "baseline": "authordcf0990; source42b47e4ae4c733ba8e0d8f743c32faa15376d425; interface501112d6/testsf93287fa; CI0e8ebbf; review4425064",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-003-code-review.md"
+  }
+}

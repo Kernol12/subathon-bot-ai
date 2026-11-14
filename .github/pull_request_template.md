@@ -12,7 +12,7 @@ Independent Claude initial report:
 Codex fixes and separate verification report:
 Independent Claude closing report:
 Open findings and retained valid approvals:
-Structured receipts in progress/state.json (actual identities, revisions, verdicts and reports):
+Structured receipts in progress/proofs/TASK-ID.json (actual identities, revisions, verdicts and reports):
 
 ## Verification and publication
 
@@ -21,9 +21,13 @@ Commands actually run, environment, results and proof level:
 Current-head CI and remaining live/provider/platform gates:
 Contract/developer schema/migration changes:
 Artifact completion versus observed PR publication:
-Task note (all notes together max500 characters; outcome, proof level, open gates and next step):
-State and generated HTML updated; stale checkpoint reconciled:
+Concise completion note (coordinator checks outcome, proof level, open gates and next step):
+Canonical proof and GitHub activity updated; stale checkpoint reconciled:
 
 Do not treat draft status as a CI barrier, a recorded review as authenticated identity,
 or a saved publication observation as live merge/CI verification. Historical receipts
 remain in PR/git; routine bookkeeping does not revise its source packet.
+
+`--complete` may admit absent/open publication before publication; closure requires
+actual final merged PR, current gates and truthful issue/PR readback. GitHub task
+planning and canonical proof evidence are the post-cutover authorities.

@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "task_id": "EVIDENCE-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 128
+  },
+  "kind": "cleanup",
+  "brief": "docs/tasks/EPIC-028/EVIDENCE-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/92"
+  ],
+  "limitations": [
+    "Archived 969 receipts at published evidence-archive-2026-11; all remain accessible after normal PR92 merge. Independent test/source/summary review, tooling26, scaffold3 and all21 hosted checks passed. This is evidence maintenance, not product proof. Next: EVIDENCE-002/readiness cleanup."
+  ],
+  "verification": {
+    "archive": "passed",
+    "tooling": "passed",
+    "scaffold": "passed",
+    "independent_review": "passed",
+    "github_ci": "passed",
+    "product_acceptance": "not_run"
+  },
+  "review": {
+    "author": "/root/evidence_archive_author",
+    "reviewer": "/root/evidence_archive_review",
+    "outcome": "approved",
+    "revision": "Complete committed f88c628 independently approved; normal PR92 merge dc0a544 after all21latest-head checks; published archive fetched post-merge/all969 paths verified.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/92"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "task_id": "ACCTTEST-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 187
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-002/ACCT-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-001-authoring.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-001-independent-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-001-baseline-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-001-red-ctest.txt"
+  ],
+  "limitations": [
+    "Receipt intake identity/retry/conflict baseline has 15 separately reviewed simulation cases with actual intended stub-red. Primitive-store setup is not Qt SQL durability or provider identity proof. Next: preserve unchanged service oracles and require actual repository/connector/application/platform acceptance separately."
+  ],
+  "verification": {
+    "test_review": "passed",
+    "native_build": "passed",
+    "baseline": "observed_red",
+    "stable_regression": "passed",
+    "product_acceptance": "not_run"
+  },
+  "review": {
+    "author": "/root/receipt_test_author",
+    "reviewer": "/root/baseline_reviewer",
+    "outcome": "approved",
+    "baseline": "author28729c7 + harnessaccb064; tests94317dc4dde4553c8888f78a433e3003c471de1a; contract149d65b5aa0864c6323e4d5ff6d9580cdbcf2886; review54cff97",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-001-independent-review.md"
+  }
+}

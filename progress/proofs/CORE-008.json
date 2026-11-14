@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "task_id": "CORE-008",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 185
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-001/CORE-008.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-008-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-008-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-008-ci.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-008-review.md"
+  ],
+  "limitations": [
+    "Timer editorial proposal helper passes 27 methods/44 examples with separate source/resource review and selected CI. Signed corrections, cap/deadline edits and first-Start remain proposals. Next: actual permission/clock/state producer, atomic application, UI/platform and full timer integration; no persisted authority supplied."
+  ],
+  "verification": {
+    "acceptance": "passed",
+    "code_review": "passed",
+    "selected_ci": "passed",
+    "host_integration": "not_run",
+    "platforms": "not_run"
+  },
+  "review": {
+    "author": "access_reviewer",
+    "reviewer": "access_implementer",
+    "outcome": "approved",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-008-review.md",
+    "revision": "source45e817d55aab8fcba59bb9b04a63b94615f91bd0/configc801; actualb16144e9378c2bc5aa003a55dfd7cd36ea02453c"
+  }
+}

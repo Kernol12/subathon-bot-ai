@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "task_id": "ACCTTEST-003",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 191
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-002/ACCT-003.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-003-authoring.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-003-independent-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-003-baseline-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-003-red-ctest.txt"
+  ],
+  "limitations": [
+    "Captured-plan/provenance baseline has 22 independently reviewed pure-transform cases with intended stub-red. It supplies no evaluator, current permission, effect application or persistence. Next: preserve owned arrival-context/override/freshness oracles through actual planner/storage/application and platform gates."
+  ],
+  "verification": {
+    "authored_tests": "passed",
+    "native_build": "passed",
+    "test_review": "passed",
+    "baseline": "observed_red",
+    "product_acceptance": "not_run"
+  },
+  "review": {
+    "author": "/root/application_plan_test_author",
+    "reviewer": "/root/application_plan_reviewer",
+    "outcome": "approved",
+    "baseline": "authore864ff4; testsf93287fa2c7c3ef4753e6bbbedd1d2a54f4529b9; contract5bb9a914; review36ac654; actualreda524447",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accttest-003-independent-review.md"
+  }
+}

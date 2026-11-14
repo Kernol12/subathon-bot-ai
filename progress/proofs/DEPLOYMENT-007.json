@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "task_id": "DEPLOYMENT-007",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 593
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-024/DEPLOYMENT-007.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6818185255"
+  ],
+  "limitations": [
+    "ADR-0011 explicit prerequisite split only. Preserve original release scope and per-behavior review/red/implementation/selected CI gates. No new proxy/parser/artifact/protocol/pin/config capability is supplied by a task record.",
+    "Closing CC71487-A4: when claimed, document two internal upstreams and owned scratch-parent/PrivateTmp cleanup before restart; terminal default-temp residue is not bounded across restarts."
+  ],
+  "verification": {},
+  "review": null
+}

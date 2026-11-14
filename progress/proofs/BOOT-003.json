@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "task_id": "BOOT-003",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 151
+  },
+  "kind": "environment",
+  "brief": "docs/tasks/BOOT-003.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/boot-003-qt-probe.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/boot-003-independent-review.md"
+  ],
+  "limitations": [
+    "Local Qt 6.12 probe configure/build/CTest passed and was independently repeated. Remote Qt CI was not run for this task; no Windows, QML, OBS or product/platform claim. Next: preserve distinct native, hosted and supported-platform evidence when executable modules land."
+  ],
+  "verification": {
+    "native_build": "passed",
+    "qt_probe": "passed",
+    "independent_review": "passed",
+    "remote_qt_ci": "not_run",
+    "product_acceptance": "not_run"
+  },
+  "review": {
+    "author": "/root/qt_validator",
+    "reviewer": "/root/independent_reviewer",
+    "outcome": "approved",
+    "baseline": "author b6863e9; reviewed by 27fe6b9; Qt probe blob 008c5907224d08e5a3697d91f282c2fea5b5bec4",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/boot-003-independent-review.md"
+  }
+}

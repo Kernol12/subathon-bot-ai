@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "task_id": "SESSIONCONTRACT-004",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 580
+  },
+  "kind": "contract",
+  "brief": "docs/tasks/EPIC-007/SESSIONCONTRACT-004.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-004-handoff.md",
+    "docs/contracts/session-clock-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-004-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-004-review.md"
+  ],
+  "limitations": [
+    "Current-clock producer document and 30 examples independently source/trust reviewed. No native clock execution, durable fact, absolute UTC or cross-process VM rollback guarantee. Next: actual OS/native guard/continuity/publication/readiness tests including ktime_set saturation preflight, then runtime/platform security proof."
+  ],
+  "verification": {
+    "authored": "passed",
+    "document_review": "passed",
+    "literal_audit": "passed",
+    "tooling": "passed",
+    "runtime": "not_run"
+  },
+  "review": {
+    "author": "/root/current_session_clock_contract_author",
+    "reviewer": "/root/current_session_clock_contract_review",
+    "outcome": "approved",
+    "revision": "Actual authored da9d741/import78e78f3 clockblob946bd12b94d3a83dcd4c86c787bb257d9472e022+author0bc14b54 approved independentlydb874a0e/importd39d25b; SC01–30/source/trust/nativeABI/resources audited.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/sessioncontract-004-review.md"
+  }
+}

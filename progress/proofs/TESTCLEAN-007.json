@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "task_id": "TESTCLEAN-007",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 139
+  },
+  "kind": "cleanup",
+  "brief": "docs/tasks/EPIC-028/TESTCLEAN-007.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/pull/104"
+  ],
+  "limitations": [
+    "Private positive sodium totals use nonvacuous evidence; zero-work/security/gate ordering and all 76 methods remain. Only the password forwarding memzero wrap was removed. Independent proposal/source/runtime/packet reviews passed; one 79-node run/full tooling 37 passed without skips. Audit errors/premature launch retained; no rerun. All 19 checks, including hosted 37+39 cases, passed before normal PR104 merge 7bb1e21. Next: TESTCLEAN-008."
+  ],
+  "verification": {
+    "cleanup_proposal_review": "passed",
+    "source_assertion_config_review": "passed",
+    "sdk_preparation": "passed",
+    "old_baseline_review": "passed",
+    "initial_metadata_audit": "failed",
+    "metadata_review": "passed",
+    "native_acceptance": "passed",
+    "discovery": "passed",
+    "tooling": "passed",
+    "scaffold": "passed",
+    "runtime_review": "passed",
+    "github_ci": "passed",
+    "product_acceptance": "not_run"
+  },
+  "review": {
+    "author": "/root/sodium_cleanup_author",
+    "reviewer": "/root/sodium_cleanup_review",
+    "outcome": "approved",
+    "revision": "Exact proposal/source40bdb600/runtime and packet9b256f2 independently approved with caveats. All19 current checks SUCCESS; actual hosted37+39/no skips, SQL/all-six/passive-account audited. Normal PR104 merge7bb1e21 at2026-11-08T12:34:36Z.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/104"
+  }
+}

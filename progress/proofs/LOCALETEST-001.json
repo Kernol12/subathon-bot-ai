@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "task_id": "LOCALETEST-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 498
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-023/LOCALE-001.md",
+  "evidence": [
+    "docs/contracts/translation-catalog-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-contract-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-contract-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-tool-preflight.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-qt-feasibility.md",
+    "docs/contracts/translation-catalog-api-v1.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-api-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-api-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-stub-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-stub-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-test-author.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-test-review.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-foundation.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-handoff.md",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-red-ctest.txt",
+    "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-red-review.md"
+  ],
+  "limitations": [
+    "Translation-catalog baseline has 43 independently reviewed Python methods, literal goldens and observed intended red after real selected Qt foundation. Build generator evidence is separate from runtime localization. Next: retain formatter/preferences/live-switch/layout/Windows/package/platform baselines; English/German and all themes remain required."
+  ],
+  "verification": {
+    "tool_environment": "passed",
+    "document_review": "passed",
+    "test_baseline": "observed_red",
+    "implementation": "not_run",
+    "api_review": "passed",
+    "interface_build": "passed",
+    "interface_ci": "passed",
+    "interface_review": "passed",
+    "test_authorship": "passed",
+    "selected_qt_foundation": "passed",
+    "selected_foundation_ci": "passed",
+    "test_review": "passed",
+    "baseline": "observed_red",
+    "github_ci": "passed",
+    "completion_ci": "passed"
+  },
+  "review": {
+    "author": "/root/codec_author (independent fixtures/tests); /root/service_author (contract/API/stubs); /root (shared harness)",
+    "reviewer": "/root/service_reviewer",
+    "outcome": "approved",
+    "baseline": "Final tests6a7da928/author7f794b74/inventory3c5b8830/probef033074d/Qt9ff75621/CI d90ce3cc approvedeee87e1/import9765647; FIRST clean976 markerred independently attributeda66e66a/import2ef381a.43 methods/109directmarkererrors+14CLIsentinel assertions,0setup/disabled/skipped; raw0f238e59. All145 old assertion/failure calls preserved.",
+    "evidence": "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/localetest-001-test-review.md"
+  }
+}

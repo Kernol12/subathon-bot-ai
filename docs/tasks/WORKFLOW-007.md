@@ -1,11 +1,13 @@
 # WORKFLOW-007 — Reusable bounded execution runner
 
-Kind: implementation. Specification v0.45 §§17–18. Depends on WORKFLOW-006.
+Kind: implementation. Specification v0.45 §§17–18.
+Prerequisites/status/assignment: [GitHub issue](https://github.com/Kernol12/subathon-bot-ai/issues?q=WORKFLOW-007).
+Retain WORKFLOW-006 prerequisite; work remains stopped.
 Contract: bounded-coordination-v2 §§2–3. Author and independently review a precise
 bounded Linux command/manifest/process contract before tests; no generic workflow
 engine, loader emulator or new dependencies. New substantial prerequisites split first.
 
-Coordinator owns brief/contract, integration/docs/CI/progress. Test author owns focused
+Coordinator owns brief/contract, integration/docs/CI/proof. Test author owns focused
 synthetic process and manifest tests; fresh implementer owns maintained stdlib execution
 support under tools/. Source/resource/passive/native admission remains consumer-specific.
 Reuse selected existing seal/ELF primitives only after reviewing their boundary.
