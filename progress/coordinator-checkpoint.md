@@ -47,7 +47,8 @@ docs/migrations/EPIC-029/final-audit.md, source172f9ec0 (custody path redacted).
 Audit found no blocking migration defects;503 task IDs/native views/archives/cleanup verified.
 Fresh-clone checks passed:155 tooling,scaffold3/3,real-SDK3/3 plusproof/refusal checks.
 No runtime/contract/test changes. Claude initial approved PR638#issuecomment-6875809539; zero blockers/fix rounds.
-Next: independent Codex verification and fresh Claude closing; current-head CI pending.
+Codex verification approved PR638#issuecomment-6875857979; no blockers.
+Next: fresh Claude closing; current-head CI pending.
 Audit IDs/titles/parents/prerequisites/native views, archives/cleanup/links/old names,
 required-proof refusals and offline existing repository/tooling/SDK/scaffold checks.
 No historical re-verification, new fixture suite, or manufactured red.
@@ -66,3 +67,5 @@ Single final audit report PR: https://github.com/Kernol12/subathon-bot-ai/pull/6
 Six publication preflight checks passed; independent report review/CI pending.
 
 005 initial report SHA-256: 1bb6eaa86a5cc4eacfa02a971d89e5ddbeb92f7a29493b48cf962583537a4ddc.
+
+005 verification SHA-256: 15636c659d1831b6d17a4ff3dd308ceb95afb220390f7154df560f3ec900ace8.
