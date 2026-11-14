@@ -91,9 +91,8 @@ OBS and live-provider validation remain unperformed. Windows app distribution re
 IDE, compiler and dependency versions should be recorded by BOOT-002 and pinned for
 release only after the first relevant builds. No host-specific .idea files are bundled.
 
-After opening the package, read docs/PROGRESS.md and open GitHub Issues/Projects and
-check filters, expanded notes and Light/Dark. The preparation environment checked its
-controller in a DOM simulation, not a real browser. If CMake is temporarily unavailable,
+After opening the package, read docs/PROGRESS.md and open GitHub Issues/Projects for
+task status. If CMake is temporarily unavailable,
 `python3 tools/verify_scaffold.py` performs a limited direct GCC/Clang smoke check; this
 does not replace BOOT-002 or a real GoogleTest acceptance run.
 

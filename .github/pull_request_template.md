@@ -1,33 +1,22 @@
-## Behavior and task
+## Task
 
-Task ID / specification decisions:
-Concrete trigger and resulting behavior:
-Contract revision and acceptance:
+Task ID and issue:
+Review tier (A full cycle / B single review / C checks only) and why:
+Stage (tests / implementation / contract):
+Behavior changed and specification or contract sections:
 
-## Stage review packet
+## Verification
 
-Stage / authors / exact source revision / owned paths:
-Affected requirements, oracles, resource/ownership and build/dependency/license context:
-Independent Claude initial report:
-Codex fixes and separate verification report:
-Independent Claude closing report:
-Open findings and retained valid approvals:
-Structured receipts in progress/proofs/TASK-ID.json (actual identities, revisions, verdicts and reports):
+Reviewed test baseline and intended-red evidence (implementation stage):
+Commands actually run, environment and results:
+Proof level (authored / observed red / implemented / simulated / live-verified):
+Remaining live, provider or platform gates:
 
-## Verification and publication
+## Review
 
-Reviewed baseline revision and actual intended-red evidence:
-Commands actually run, environment, results and proof level:
-Current-head CI and remaining live/provider/platform gates:
-Contract/developer schema/migration changes:
-Artifact completion versus observed PR publication:
-Concise completion note (coordinator checks outcome, proof level, open gates and next step):
-Canonical proof and GitHub activity updated; stale checkpoint reconciled:
+Reviews are PR comments in the format of `docs/templates/REVIEW.md`.
+Tier A only: `progress/proofs/TASK-ID.json` is added in one commit after the closing
+approval, immediately before merge.
 
-Do not treat draft status as a CI barrier, a recorded review as authenticated identity,
-or a saved publication observation as live merge/CI verification. Historical receipts
-remain in PR/git; routine bookkeeping does not revise its source packet.
-
-`--complete` may admit absent/open publication before publication; closure requires
-actual final merged PR, current gates and truthful issue/PR readback. GitHub task
-planning and canonical proof evidence are the post-cutover authorities.
+A draft PR still runs CI. A recorded review is not an authenticated identity, and an
+open PR is not a merged change.

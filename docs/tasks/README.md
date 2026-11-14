@@ -10,8 +10,14 @@ it neither finalizes contracts nor claims a reviewed test or supported provider 
 Read [the agent workflow](../AGENT_WORKFLOW.md), select a dependency-ready child from
 [GitHub Issues](https://github.com/Kernol12/subathon-bot-ai/issues), and follow its brief plus scoped `AGENTS.md`. The workflow covers
 task branches, test-first gates, independent review, evidence, PRs and completion.
-Follow the current priority in [AGENTS.md](../../AGENTS.md); the completed EPIC-028
-cleanup preserves reviewed-baseline and full-release-scope rules.
+Follow the current priority in [AGENTS.md](../../AGENTS.md).
+
+One feature is one issue with two stages: tests, then implementation. Briefs that
+name a separate `…TEST-nnn` baseline describe the tests stage of the same issue. On
+2026-11-14, 143 open baseline issues were closed into their implementation issues.
+Five stay separate: DEPLOYMENTTEST-007/008 (bound to proof records) and
+MILESTONETEST-004, MODIFIERTEST-001/002 (each also blocks CONTRACT-010). APITEST-015
+has no paired implementation issue.
 
 New decomposition records are planned, not authored/reviewed; consult GitHub/proof evidence
 for slices completed since the original decomposition. Their
@@ -22,9 +28,7 @@ split it further before claiming production work; preserve its original requirem
 
 ## Dependency and completion model
 
-Since the final protected MIGRATE-004 cutover merge, GitHub owns status, assignment,
-native containment and prerequisite links. Canonical proof records preserve review
-and source facts. The intermediate archive PR did not switch authority.
+GitHub owns status, assignment, native containment and prerequisite links.
 The tables here are navigation only.
 Active and retained gate briefs remain below; completed retired briefs use immutable
 archive links. See the [cleanup inventory](../migrations/EPIC-029/brief-inventory.md).
@@ -90,9 +94,10 @@ No existing verification result was upgraded by this planning change.
 | [EPIC-027 — Release license/source manifests, diagnostics and documentation](EPIC-027.md) | 4 | 6 |
 | [EPIC-028 — Simplify agent workflow and focus test coverage](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/EPIC-028.md) | 13 | 13 |
 
-Total: 208 work packages, 368 child records
+Total: 208 work packages, 368 child records as originally decomposed
 (test baselines, their paired implementations, and distinct feasibility,
-verification and documentation tasks).
+verification and documentation tasks). A baseline and its implementation now share
+one issue.
 The legacy cap-credit task IMPL-001 remains required under EPIC-001 in addition to these.
 Task counts are not completion percentages.
 
@@ -164,10 +169,8 @@ The owner-authorized bounded coordination program starts with
 [WORKFLOW-006 — Artifact-aware records](WORKFLOW-006.md),
 [WORKFLOW-007 — Reusable execution runner](WORKFLOW-007.md), and
 [CI-002 — Setup diagnostics/merge enforcement](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/CI-002.md).
-The forward record/results policy activates with reviewed WORKFLOW-006 tooling;
-non-record practices/private-evidence guidance applies at WORKFLOW-004 merge.
-Existing product work stays stopped. Consult GitHub/proof and the latest checkpoint for
-actual gates and authorization.
+WORKFLOW-006/007 are stopped by the owner until the vertical slice runs. Consult
+GitHub and the latest checkpoint for actual gates and authorization.
 
 ## GitHub task migration
 
@@ -178,6 +181,5 @@ owner-authorized sequence is [MIGRATE-001](https://github.com/Kernol12/subathon-
 [MIGRATE-005](EPIC-029/MIGRATE-005.md). Read the
 [migration contract](../contracts/github-task-migration-v1.md) and its
 [consumer inventory](../contracts/github-task-migration-inventory-v1.md).
-GitHub and canonical proof authority began at the final protected004 cutover merge.
-WORKFLOW-006/007 and product work remain stopped; migration permits only WF006
-storage/dependency rescope.
+GitHub authority began at the final protected MIGRATE-004 cutover merge. The
+migration is complete.

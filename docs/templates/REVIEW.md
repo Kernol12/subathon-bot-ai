@@ -1,11 +1,14 @@
 # PR review comment — TASK-ID
 
-Use this format in the pull request review. The reviewer must be independent from the
-author; preserve prior verdicts when reviewing a later revision.
+Post this as one comment on the pull request. The reviewer must be independent from
+the author; keep earlier verdicts when reviewing a later commit.
 
-Revision and changed paths:
-Requirements / contract / test oracle reviewed:
-Findings and required changes:
+Verdict: changes requested / approved
+Tier and stage (tests / implementation / contract):
+Phase (tier A only: initial / verification / closing):
+Reviewed commit and paths:
+Reviewer provider / model / session:
+Requirements, contract sections and oracles reviewed:
+Findings (stable IDs; mark blockers):
 Checks actually run:
 Remaining gates:
-Verdict: changes requested / approved
