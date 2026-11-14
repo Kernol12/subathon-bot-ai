@@ -232,3 +232,29 @@ remains, no private-path waiver or unredacted workaround. Candidate seven oracle
 and two exact NI blobs pinned in public summary/private revision.json at author packet.
 Sourcefa52905 preserved as local source, not source-authority proof or final test packet.
 Audit partitions A/B remain active/read-only; no current source changes from them.
+
+Current419cd9 primary and SEPARATE ADR scope verification each APPROVED, explicit
+separate reports by fresh independent codex:migrate004-evidence-verification:/root,
+dispatch7e3a8872-a428-4fff-bf7d-96ceacbc1b66. Primary issue629#issuecomment-6868460782,
+scope#issuecomment-6868462418. No blockers; all130rows/26pins/59K and sourcecandidate
+identity checked statically. Activity00:23:38–00:24:17 samples, no structuredduration.
+Fresh Claude closing required for each explicit gate at419cd9 before affectedtest
+adaptation. No execution/red/code/deletion/authority approval.
+
+Audit A/B author results each account419 objects but do NOT complete their necessity
+and chronology decisions: A417 missing-original rows retain specific original-necessity/
+T2/T4/T5 gates; B9 proposes exact required bindings, ALL have guard-compatible outgoing
+ranges (including currentM004source and blocked historicalAPI source, not newproductwork).
+All remaining rows need actual source-aware proposals, not blanket non-required or
+flat potential-required defaults. Existing self-reported reviewer limitations are
+preserved; no new cryptographic or retroactive branch-policy attestation requirement
+is inferred. Documentary container decisions still require exact content/base/run/
+integration evidence per row and independent approval. Original objects/strings remain.
+Private author outputs /tmp/migrate004-audit-partition-a-results and-b-results.
+
+Coordinator inspected declared formats/integrity of all28 nontext carriers:440 TAR
+members,451 private raw/escaped log displays, no extraction to source tree or execution.
+TAR special/link members only inventoried, never followed; original bytes/digests remain
+in Git. Private /tmp/migrate004-nontext-inspection/manifest.json; UTF-8 invalid bytes
+not declared known text. Semantic reference/namespace/privacy/dependency audit still
+pending; no auditcompletion or roleapproval. Raw reports/logs remain private, not posted.
