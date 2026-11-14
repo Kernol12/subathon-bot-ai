@@ -418,3 +418,44 @@ admitted; independently verify actual carriers/scopedbindings and remaining exac
 Do not invent final approvals for rejected/unexecuted drafts or infer originalrequired
 from missing fetchedcontent. Historical run/source metadata and durable privacy-reviewed
 content requirements remain binding. B verification still independent; archive pin blocked.
+
+Historical B independentCodex CHANGES_REQUESTED CV-B01..05, reviewer
+codex:historical-b-verifier-20261114, dispatch2734bccf-f357-4b6c-983c-2f645f7e3f35.
+Public report issue629#issuecomment-6869874816 (SHA2563c3366478b26f73edfed3aebac692af05740cf5d9eed10719c9fa6858b6c87dd),
+all419 individual verdicts:392 supported own non-required proposals,13 guard-safe
+required originals pending publication/readback,13 corrections,one concrete unsafe
+required actual execution source. Nothing admitted. Observed01:50:07/01:54:24/
+01:56:50 samples are not session endpoints; no duration or authenticated identity.
+
+CONCRETE MANDATORY CONFLICT CV-B05: actual historical FIRST foundation and feature
+receipts bind clean d7174d63a7617ec6621992164215ef5b52a529f0. Rawcarrier
+09b6c50b42ac8af9dc3042b023c440e678bfa457, member hashes
+c72790b498e73f2a6c7662a645b31fe7c692092deae5f381482e352c691bf714 (foundationexit0) and
+27792ae652e7f79445bb45fe6cf29fa6f8144f44807e7c5bb77469cd04bd3012 (featureexit8,
+foundationdigestlinked). Coordinator passively reread both actual JSON members,
+confirmed revision/source/time/exit attribution; no historical code executed.
+Review-content import45cedfb2 is not the recorded execution checkout. Original
+absent from inspected fetched heads/tags closure, not claimed universally absent.
+Full outgoing range d7174d63/11e864d6/70bf1b90/39c95d58 against mainb80e94f:
+EACH tree contains forbidden docs/evidence/access-002-author.md100644/blob
+21ce2d3f568b734a8e3109283a8c96d19fd55472. Coordinator reproduced fullrange and
+exactwitnesses; unchangedcheck_outgoing refuses every suchtree. Required-original
+remote availability and unchanged publication guard conflict. Pin/cutover BLOCKED;
+no guardweakening, originalpush, bundle/historytunnel, relabelled run or newrun substitute.
+Independent closing/conflict adjudication remains required; continue only independent
+migration review/test preparation within authorization. No successor/product task.
+
+Coordinator CV-B01..04 corrections in new private migrate004-availability-b-corrected,
+public proposal issue629#issuecomment-6869875801: seven source-only/superseded original
+container necessity overclaims narrowed; three exact documentary content gaps remain;
+two whole-file mismatches now explicit (291 originalfadaed vs actualFIRST8a15,
+96 CMakef6cf vs7417 unrelatedrateappend); actual a8ae failed regression attributed
+root78e3e3b/sourceb06e under rejection5f932 and receipt8a1e275, no invented final approval.
+All419 retained,13 changed; oldreasons preserved, source modes/blobs/linehashes directly
+reproduced. Initial passive comparison lacked a nullable import locator; corrected as
+explicitabsence, no testfailure/red. No correction admitted. Corrected report
+2f208bdcb689b0f2f975c4d3fd56281c43f8d23820b717d0ed85fb9d15ddcc65,
+rowsd7229944ac0d4cb0f484c119c2e655d7a1322fc3ae0cd8adc5474fd836808320,
+blockersb6a4adb125c0a38a3bfe19e13654a1070760c4f42d50cdd6803a2ed8542a2d26.
+Fresh independent Codex correction verification then Claude closing, with actual
+unsafe conflict retained, before any role admission. A and test verifications independent.
