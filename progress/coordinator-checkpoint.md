@@ -346,3 +346,24 @@ These areunverified source/contentnecessityclaims, no concreteunsafeconflictconf
 or waived; nextindependentverificationmustdistinguish documentcontentavailability
 from commitcontainernecessity, preserve actualFIRST-run/sourcebindings and original
 rejections. Pin/cutover blocked; independenttestcorrectionscontinue.
+
+Confirmed test corrections source5ec192b90a92f5b2bb02f30ca2d58c3f895a9430 addresses
+TI001/002/003/004/005/007/009/010 and diagnostic/control notes; coordinator added as
+third actual author, old rejected2ab review retained. Exact14 oracle paths unchanged,
+both NI blobs unchanged. Syntax/old validate/render/project/whitespace pass only;
+NO new test import/body/discovery/SDK/native execution. TI006/008 assertions unchanged
+pending documentary proposal2ee131f5c68783b551fa1e8fc3a6d8d860ffa39d: explicit old
+mechanical done-without-publication retirement, pre-publication completion versus
+mandatory actual merged closure; three-blob converter versus mandatory one-time full
+archive brief admission/readback. Both primary and separate ADR scope reopen for
+independent Codex verification and fresh Claude closing. Prior approvals preserved as
+history, not current-source approval. Public matrix issue629#issuecomment-6869523653.
+Automatic approval review rejected the proposed unused PROGRESS_CASES deletion;
+restored byte-for-byte before the unaffected correction commit. That deletion remains
+pending reviewed implementation, with legacy note-only modules/CMake retirement.
+No approval requested or bypass made. Actual-HEAD canonical checks remain setup/pending,
+not intended red; zero-test legacy SDK registration cannot be passing evidence.
+Root bounded A corrections retain all old reasons plus verifier directions;45 source/
+run/content traces and3 metadata-only necessity questions still need actual evidence.
+B419 proposals require separate independent verification, especially11 unsafe alleged
+required originals. No role admitted, unsafe conflict confirmed, archive pin or switch.

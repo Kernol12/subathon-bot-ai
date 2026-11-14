@@ -4,7 +4,7 @@
   "project": "Twitch Subathon Bot",
   "baseline_version": "0.1.0",
   "specification_version": "0.45",
-  "updated_at": "2026-11-14T01:17:08.699931+00:00",
+  "updated_at": "2026-11-14T01:45:03.291222+00:00",
   "summary": "Bounded core/accounting, SQLite, account/session and corrected native WebSocket components have synthetic/component evidence. Full v0.45 product and release readiness remain unverified, including production-host/session-clock integration, live providers, UI/platform and operations gates. Task completion describes bounded artifacts; publication and current hosted CI are separate PR observations. Use the checkpoint and latest owner instruction for authorization, and task/PR evidence for reviews and next actions.",
   "verification": [
     {
@@ -20500,18 +20500,18 @@
       "brief": "docs/tasks/EPIC-029/MIGRATE-004.md",
       "summary": "Switch task authority to GitHub and retire the tracker. See versioned issue-derived acceptance brief.",
       "notes": [
-        "Claude initial test review rejected TI001–010; confirmed setup/control/independence defects need fixes, TI006/008 need explicit contract/scope dispositions. No tests executed. Audit A verification rejected unsupported049 necessity and false missing-approval predicates; B proposes11 unsafe originals pending verification. State authoritative; product/WF006/007 stopped."
+        "Confirmed test-review fixes at5ec192b9; TI006/008 held pending explicit primary/ADR amendment2ee131f5 and fresh approvals. No tests executed. Historical A/B dispositions remain unadmitted; exact run/content availability gates pending. State remains authoritative; product/WF006/007 stopped."
       ],
       "verification": {
         "contract_authored": "passed",
-        "contract_review": "passed",
+        "contract_review": "not_run",
         "test_review": "failed",
         "baseline": "not_run",
         "implementation": "not_run",
         "acceptance": "not_run",
-        "contract_verification": "passed",
+        "contract_verification": "not_run",
         "native_readback": "passed",
-        "cleanup_scope_review": "passed",
+        "cleanup_scope_review": "not_run",
         "availability_review": "failed"
       },
       "evidence": [
@@ -20529,7 +20529,8 @@
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868572200",
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868756085",
         "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6868852763",
-        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6869093320"
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6869093320",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/629#issuecomment-6869523653"
       ],
       "review": null,
       "workflow": {
@@ -20544,7 +20545,7 @@
               "codex:migrate004-contract-author-20261113:/root",
               "codex:coordinator-59095155"
             ],
-            "revision": "419cd9ed312ec492588b31d70196abd6bfc5782e",
+            "revision": "2ee131f5c68783b551fa1e8fc3a6d8d860ffa39d",
             "paths": [
               "docs/contracts/github-authority-cutover-v1.md",
               "docs/contracts/github-tracker-retirement-scope-v1.md",
@@ -20750,9 +20751,10 @@
           "tests": {
             "authors": [
               "codex:migrate004-tests-author-20261114:/root",
-              "codex:migrate004-tests-completion-20261114:/root"
+              "codex:migrate004-tests-completion-20261114:/root",
+              "codex:coordinator-59095155"
             ],
-            "revision": "2ab07bc38f75b067414b396664c9c50a477b0418",
+            "revision": "5ec192b90a92f5b2bb02f30ca2d58c3f895a9430",
             "paths": [
               "tests/schema_validation/test_project_schemas.py",
               "tests/schema_validation/test_proof_publication_integration.py",
