@@ -5,7 +5,7 @@
 #include <variant>
 
 namespace subathon::server::selected_record_read {
-// Private borrowed-session contract, revision 1 (ACCESS-011 supplemental examples).
+// Private borrowed-session contract, revision 2 (ACCESS-011 supplemental examples).
 // Independent of reference authority. These are selected structural reads, not
 // authorization, current policy, execution permits or acknowledged durability.
 enum class Failure { missing, invalid_data, resource_limit };
@@ -26,6 +26,8 @@ using HoldResult = std::variant<ApplicationHoldView, Failure>;
 // existing limits and container capacities. Wrong-class TEXT is counted in BYTES.
 // Decode admitted fields with the owning strict decoders and preserve all selected
 // record invariants. Metadata planning is itself bounded by those same limits.
+// The authority caller derives these limits by reference-authority-v1's explicit
+// captures-to-historical-source profile; the readers never infer larger defaults.
 //
 // Borrow exactly this caller's revocable session. No rollback/cleanup, BEGIN,
 // commit, writes, new connection, nested work, retry or sticky error cache. A local
@@ -35,8 +37,11 @@ using HoldResult = std::variant<ApplicationHoldView, Failure>;
 
 // Exact key lookup, complete RecordedApplicationBundle including selected state,
 // contribution, effects/components, jobs, transitions, reversal provenance,
-// result/audit and owning immutable source/plan/configuration closure. Do not
-// substitute today's candidate/current head for recorded historical snapshots.
+// result/audit. The owning immutable source/plan/configuration closure is fully
+// VALIDATED, with only fields present in RecordedApplicationBundle returned; no
+// extra source DTO is implied. Do not substitute today's candidate/current head
+// for recorded historical snapshots. Shared decoders must separate their local
+// decode-failure signal from the old public facade's rollback/error policy.
 [[nodiscard]] ApplicationResult read_application(const SqliteWorkSession &session,
                                                  const ApplicationOperationKey &operation,
                                                  const SqliteBundleLimits &limits);
@@ -44,7 +49,9 @@ using HoldResult = std::variant<ApplicationHoldView, Failure>;
 // Exact hold lookup: complete cause + source/plan/state evidence, first detection
 // and first version, current version and its finite directly referenced producer
 // event (including bounded resolution batch/replacements if applicable). Validate
-// the directly referenced current parent version's scalar linkage. Initial/current
+// the directly referenced current parent's locator, position, parent ref, state,
+// producer ref and optional replacement pair (types/enums and scalar linkage),
+// without expanding that parent's producer or replacement records. Initial/current
 // and direct-parent/producer locators use indexed finite seeks, not lifetime
 // version scans or supersession-lineage traversal. Supersedes is retained as a
 // reference, not recursively expanded. Deduplicate repeated selected locators in

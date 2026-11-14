@@ -1862,10 +1862,10 @@ class SqliteReferenceAuthorityTests final : public QObject {
             seed_history(d, hold);
             selected_record_fixture::disclosure(d.resolve(selected_record_fixture::query(hold)),
                                                 hold);
+            selected_record_fixture::ensure_marker(d.writer);
             Observer observer(d.path);
             const auto registry = registry_rows(observer);
-            const auto state =
-                observer.rows("SELECT document FROM subathon_app_states WHERE token=X'5330'");
+            const auto state = observer.rows(selected_record_fixture::marker_query());
             corrupt(d.path, {"DROP TABLE " + table});
             bool reached = false;
             // Typed exception checks MUST happen inside actual work. d.work/run
@@ -1874,9 +1874,10 @@ class SqliteReferenceAuthorityTests final : public QObject {
                 account_sessions_fixture::outcome(d.writer, [&](auto c) -> QVariant {
                     const auto s = c.begin();
                     Cleanup cleanup{s};
-                    (void)s.execute({"UPDATE subathon_app_states SET document=X'63616c6c6572' "
-                                     "WHERE token=X'5330'",
-                                     {}});
+                    (void)s.execute(
+                        {"UPDATE subathon_retained_configurations SET document=X'63616c6c6572' "
+                         "WHERE reference=X'63616c6c65722e6d61726b6572'",
+                         {}});
                     SqliteReferenceAuthorityUnit unit(s);
                     work_failure([&] { (void)unit.resolve(selected_record_fixture::query(hold)); },
                                  WorkError::sql_failure);
@@ -1890,8 +1891,7 @@ class SqliteReferenceAuthorityTests final : public QObject {
                 reached && result.error == WorkError::sql_failure &&
                     result.transaction == TransactionOutcome::rolled_back && !result.value &&
                     registry_rows(observer) == registry &&
-                    observer.rows("SELECT document FROM subathon_app_states WHERE token=X'5330'") ==
-                        state,
+                    observer.rows(selected_record_fixture::marker_query()) == state,
                 "First original SQL failure survives later session_closed; rollback, no completion "
                 "value");
         });
@@ -1975,7 +1975,8 @@ class SqliteReferenceAuthorityTests final : public QObject {
                     selected_record_fixture::disclosure(r, hold, 3);
                 });
             } else {
-                // Today's different candidate cannot stand in for actual history.
+                // Upstream binding/capture controls can refuse before historical reading.
+                // The new check here is SAME-ticket health, not reader reachability.
                 auto wrong = q;
                 wrong.captured.rule.timer_ref = "other";
                 failure(d.resolve(wrong), F::invalid_data);

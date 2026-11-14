@@ -1,6 +1,6 @@
 # Reference authority registry v1
 
-ACCESS-011, proposed contract/test revision2; no runtime authority is implemented here.
+ACCESS-011, contract revision3 (supplemental selected historical-reader limits).
 Public API detail: `server/include/subathon/server/sqlite_reference_authority.hpp`.
 This is the bounded original-author producer required by CONTRACT-014 section4.
 It does not complete ACCESS-003, login, HTTP, linked identity, UI or delivery.
@@ -239,6 +239,24 @@ materialization. Successful staged output is8 bytes/0 items, projected before
 writes. Source and both revision blobs are charged in EVERY occurrence,
 including both snapshots. A failure enum is the bounded refusal, not partial facts.
 Nested producers/calculators retain their OWN limits in addition to these totals.
+
+For authority historical disclosure, `captures` bounds the COMPLETE selected
+historical source record as well as the capture closure; these are separate
+bounded materializations, not charges against registry_selected_bytes. Let L be
+ReferenceAuthorityLimits after callback minima. Derive SqliteBundleLimits from
+defaults with reference_bytes=min(L.reference_bytes,L.captures.reference_bytes),
+value_bytes=L.captures.document_bytes, owned_bytes=L.captures.owned_bytes,
+component_bytes=min(default,L.permissions.component_bytes) and
+result_items=min(default,L.result_items). Derive SqliteHoldLimits from defaults:
+references=that bundle profile, owned_bytes=L.captures.owned_bytes and
+result_items=min(default,L.result_items). All other owning ceilings remain defaults.
+The owning decoded-record byte/item charging rules apply, including repeated
+returned ownership. Checked positive/range conversion precedes use. This mapping
+is normative for private selected readers; it grants no permission or larger SQL
+budget. Returned authority Facts/Record ALSO retain result_bytes/result_items;
+these do not replace the historical source profile. Enclosing callback minima
+still apply BEFORE deriving it. This reference-profile mapping is coordinator
+accepted; broader public storage defaults and failure policies are unchanged.
 
 registry_selected_bytes counts raw projected head/binding/initial/latest rows,
 all reference/blob bytes, each SQL INTEGER8 except state1; repeated identical

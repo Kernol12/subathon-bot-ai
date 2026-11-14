@@ -54,22 +54,39 @@ inline void reopen(Database &d, SqliteWriter &reader, qsizetype result_bytes) {
     require(reader.open(d.path, budget) == StorageError::none,
             "Reopen real writer with selected cumulative value budget");
 }
+// A configuration row outside every selected capture/plan/state/hold closure.
+// No new schema or production selected record is changed by the caller marker.
+inline QString marker_query() {
+    return "SELECT document FROM subathon_retained_configurations WHERE "
+           "reference=X'63616c6c65722e6d61726b6572'";
+}
+inline void ensure_marker(SqliteWriter &writer) {
+    (void)run(writer, [](auto c) -> QVariant {
+        const auto s = c.begin();
+        Cleanup cleanup{s};
+        (void)s.execute({"INSERT OR IGNORE INTO subathon_retained_configurations VALUES("
+                         "X'63616c6c65722e6d61726b6572',X'')",
+                         {}});
+        s.commit();
+        return 1;
+    });
+}
 // Observe caller transaction ownership as well as local refusal. The caller's
-// otherwise valid opaque S0 document is provisional during resolve, visible only
-// after its own commit; total_changes detects any reader write in that interval.
+// marker is provisional during resolve, visible only after its own commit;
+// total_changes detects any reader write in that interval.
 // Assertion exceptions are replayed by run(), never counted as an expected error.
 template <class Check>
 void healthy(SqliteWriter &writer, const QString &path, bool hold,
              const ReferenceAuthorityLimits &limits, Check check) {
+    ensure_marker(writer);
     Observer observer(path);
     const auto registry = registry_rows(observer);
-    const auto before =
-        observer.rows("SELECT document FROM subathon_app_states WHERE token=X'5330'");
+    const auto before = observer.rows(marker_query());
     const auto result = run(writer, [&](auto c) -> QVariant {
         const auto s = c.begin();
         Cleanup cleanup{s};
-        (void)s.execute({"UPDATE subathon_app_states SET document=X'63616c6c6572' "
-                         "WHERE token=X'5330'",
+        (void)s.execute({"UPDATE subathon_retained_configurations SET document=X'63616c6c6572' "
+                         "WHERE reference=X'63616c6c65722e6d61726b6572'",
                          {}});
         const auto changes = s.execute({"SELECT total_changes()", {}});
         SqliteReferenceAuthorityUnit unit(s, limits);
@@ -78,9 +95,7 @@ void healthy(SqliteWriter &writer, const QString &path, bool hold,
                 "Selected reader performs no writes");
         require(s.execute({"SELECT 1", {}})[0][0].toInt() == 1,
                 "Same actual ticket remains active after local result");
-        require(observer.rows("SELECT document FROM subathon_app_states WHERE token=X'5330'") ==
-                        before &&
-                    registry_rows(observer) == registry,
+        require(observer.rows(marker_query()) == before && registry_rows(observer) == registry,
                 "Reader did not commit caller's provisional write or change registry");
         s.commit();
         return 17;
@@ -88,15 +103,16 @@ void healthy(SqliteWriter &writer, const QString &path, bool hold,
     require(result.error == WorkError::none &&
                 result.transaction == TransactionOutcome::committed && result.value &&
                 result.value->toInt() == 17 &&
-                observer.rows("SELECT document FROM subathon_app_states WHERE token=X'5330'")[0][0]
-                        .toByteArray() == QByteArray("caller") &&
+                observer.rows(marker_query())[0][0].toByteArray() == QByteArray("caller") &&
                 registry_rows(observer) == registry,
             "Actual caller commit AND normal completion, unchanged authority registry");
-    // Restore the independent initial opaque document for the next caller check.
+    // Restore only the unrelated marker for the next caller check.
     (void)run(writer, [&](auto c) -> QVariant {
         const auto s = c.begin();
         Cleanup cleanup{s};
-        (void)s.execute({"UPDATE subathon_app_states SET document=X'' WHERE token=X'5330'", {}});
+        (void)s.execute({"UPDATE subathon_retained_configurations SET document=X'' "
+                         "WHERE reference=X'63616c6c65722e6d61726b6572'",
+                         {}});
         s.commit();
         return 1;
     });

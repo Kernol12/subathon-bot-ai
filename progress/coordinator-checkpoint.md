@@ -73,6 +73,13 @@ Owner decisions are recorded in #249, comment 6879902355:
   closure pass, but the source audit reproduced a historical-reader blocker.
   Legacy bundle/hold facades roll back/translate failures and scan hold history;
   green output does not meet the selected-reader contract. No code review yet.
+  Supplemental tests/header authored032f91b1:5 families/24 static rows,52 methods
+  compile/list; main47 bodies/data/hooks byte-exact. Initial Claude supplemental
+  review requested SR-T01 (unstated aggregate-limit mapping). Coordinator fix1
+  explicitly accepts captures for whole selected historical source bytes, with
+  owning component/item minima; authority contract revision3 remains290 lines.
+  Private header revision2 clarifies selected parent/full closure validation;
+  caller marker is now outside selected records. Bodies remain unrun.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 is reserved for this registry after compiled permission step9;
   preserve all shipped prefix bytes. Full #249 integration remains open. RULES-006
@@ -83,8 +90,8 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Author supplemental ACCESS-011 regressions and a private selected-record read
-header, then independent tier A tests review and behavioral red against bc1f4095.
+Obtain supplemental ACCESS-011 Codex verification and fresh Claude closing after
+fix round1 (of2), then behavioral red against unchanged bc1f4095 source.
 Preserve existing assertions/public headers/contracts. This remains #649's existing
 historical-disclosure scope: private borrowed-session bundle/selected hold readers
 may be factored from bundle access/bundle.cpp/holds.cpp while retaining the old

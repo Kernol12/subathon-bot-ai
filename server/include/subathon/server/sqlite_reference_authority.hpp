@@ -75,6 +75,8 @@ struct ReferenceAuthorityLimits {
     PermissionGraphLimits graph{};
     AccountSessionStoreLimits accounts{};
     SessionLimits sessions{};
+    // Capture closure AND complete selected historical source records; exact
+    // bundle/hold byte, component and item mapping: reference-authority-v1.
     ReferenceCaptureLimits captures{};
     core::EffectivePermissionLimits permissions{};
 };
