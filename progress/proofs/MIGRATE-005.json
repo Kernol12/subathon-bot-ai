@@ -8,9 +8,68 @@
   "kind": "environment",
   "brief": "docs/tasks/EPIC-029/MIGRATE-005.md",
   "evidence": [
-    "https://github.com/Kernol12/subathon-bot-ai/issues/630"
+    "https://github.com/Kernol12/subathon-bot-ai/issues/630",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/630#issuecomment-6875618244",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/638#issuecomment-6875809539",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/638#issuecomment-6875857979",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/638#issuecomment-6875905609",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/638"
   ],
   "limitations": [],
   "verification": {},
-  "review": null
+  "review": null,
+  "workflow": {
+    "required_stages": [
+      "implementation"
+    ],
+    "stages": {
+      "implementation": {
+        "authors": [
+          "codex:migrate005-final-audit:/root",
+          "codex:coordinator-59095155"
+        ],
+        "revision": "172f9ec00d44a3f513c992b7aa834c4dbe524b0d",
+        "paths": [
+          "docs/migrations/EPIC-029/final-audit.md"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:1e18ea6c-0af0-424d-9f2f-a827a9c70a62",
+            "revision": "172f9ec00d44a3f513c992b7aa834c4dbe524b0d",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/638#issuecomment-6875809539",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:migrate005-codex-verification:/root",
+            "revision": "172f9ec00d44a3f513c992b7aa834c4dbe524b0d",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/638#issuecomment-6875857979",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:d89d5ab2-a05e-4019-8922-2867a7d505cd",
+            "revision": "172f9ec00d44a3f513c992b7aa834c4dbe524b0d",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/638#issuecomment-6875905609",
+            "findings": [],
+            "blocking_findings": [],
+            "started_at": "2026-11-14T10:24:41Z",
+            "finished_at": "2026-11-14T10:26:53Z"
+          }
+        ]
+      }
+    }
+  }
 }
