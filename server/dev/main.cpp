@@ -68,19 +68,6 @@ std::optional<Options> parse(int argc, char **argv) {
     return o;
 }
 
-// PENDING OWNER DECISION (#642): replace with the public encoder or keep.
-ApplicationEnvelope provisional_execution_ref_choice(const std::string &ref) {
-    if (ref.empty() || ref.size() > ReferenceAdapterLimits{}.reference_bytes ||
-        ref.size() > std::numeric_limits<std::uint32_t>::max())
-        throw std::invalid_argument("Execution reference out of range");
-    QByteArray bytes("SRF1");
-    const auto size = static_cast<std::uint32_t>(ref.size());
-    for (int shift = 24; shift >= 0; shift -= 8)
-        bytes.append(static_cast<char>((size >> shift) & 255));
-    bytes.append(ref.data(), static_cast<qsizetype>(ref.size()));
-    return {"subathon.reference.execution-ref.v1", std::move(bytes)};
-}
-
 bool normal(const SqliteWorkResult &r) {
     if (r.transaction == TransactionOutcome::committed && r.error == WorkError::none && r.value)
         return true;
@@ -283,7 +270,7 @@ class Run final {
         command.contribution_id = capture.contribution_id;
         command.plan = capture.plan;
         command.principal = facts_.projection.rule.automation;
-        command.choices = {provisional_execution_ref_choice(capture.execution_context_ref)};
+        command.choices = {encode_reference_execution_ref(capture.execution_context_ref)};
         auto p = service_->make_work(
             command, guarded([this](ApplicationServiceCompletion r) {
                 if (reservation_refused_) {
