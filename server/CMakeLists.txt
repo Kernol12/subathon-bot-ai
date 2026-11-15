@@ -6,7 +6,7 @@ if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS OR SUBATHON_BUILD_SQLITE_ACCOUNT_SESS
     subathon_target_options(subathon_session_resolution)
 endif()
 
-if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS)
+if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS OR SUBATHON_BUILD_DEV_SERVER_TESTS)
     add_library(subathon_password_hashing STATIC src/password_hashing.cpp)
     target_include_directories(subathon_password_hashing PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_password_hashing PRIVATE Sodium::Sodium)
@@ -169,7 +169,7 @@ endif()
 # Development executable stays separate from all server libraries.
 if(SUBATHON_BUILD_DEV_SERVER_TESTS)
     add_executable(subathon_dev_server dev/main.cpp dev/development_setup.cpp)
-    target_link_libraries(subathon_dev_server PRIVATE subathon_reference_intake)
+    target_link_libraries(subathon_dev_server PRIVATE subathon_reference_intake subathon_password_hashing)
     set_target_properties(subathon_dev_server PROPERTIES OUTPUT_NAME subathon-dev-server)
     subathon_target_options(subathon_dev_server)
 endif()

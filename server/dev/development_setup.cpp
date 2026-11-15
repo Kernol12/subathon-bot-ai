@@ -2,6 +2,7 @@
 #include "development_setup.hpp"
 #include <QDateTime>
 #include <limits>
+#include <span>
 #include <stdexcept>
 
 namespace subathon::dev {
@@ -103,12 +104,21 @@ void provision(const SqliteWorkSession &s, CurrentSessionClock &clock,
     AccountSessionReadScope scope{};
     scope.read_scope_ref.fill(0x53);
     SqliteAccountSessionUnit accounts(s, scope);
-    staged(
-        accounts.insert_installation({{lookup.installation_ref, "development-installation-epoch"},
-                                      "development-installation-v1"}));
-    staged(accounts.insert_account(
-        {{lookup.installation_ref, "development-owner", "development-account-epoch", true},
-         "development-account-v1"}));
+    const StoredInstallationFacts installation{
+        {lookup.installation_ref, "development-installation-epoch"}, "development-installation-v1"};
+    const StoredAccountFacts account{
+        {lookup.installation_ref, "development-owner", "development-account-epoch", true},
+        "development-account-v1"};
+    staged(accounts.insert_installation(installation));
+    staged(accounts.insert_account(account));
+    // Public synthetic password: only a development verifier, never a real credential.
+    constexpr std::string_view password = "subathon-development-only";
+    const auto verifier = create_password_hash(std::as_bytes(std::span(password)));
+    staged(accounts.replace_local_credential(
+        {},
+        {lookup.installation_ref,
+         {"development-owner", "development-synthetic-authenticator", verifier}},
+        account, installation));
     const AcceptedSessionAuthentication accepted{lookup.installation_ref,
                                                  "development-owner",
                                                  "development-attempt",
@@ -117,9 +127,9 @@ void provision(const SqliteWorkSession &s, CurrentSessionClock &clock,
                                                  "development-account-v1",
                                                  "development-synthetic-authenticator",
                                                  "development-synthetic-acceptance",
-                                                 AcceptedSignInMethod::verified_twitch,
+                                                 AcceptedSignInMethod::local_password,
                                                  now};
-    // verified_twitch is synthetic accepted DATA here; no Twitch verification is claimed.
+    // Synthetic local-password acceptance facts; this executable performs no login.
     staged(accounts.insert_session(
         {lookup.installation_ref, "development-owner", "development-session",
          "development-installation-epoch", "development-account-epoch", "development-session-v1",
