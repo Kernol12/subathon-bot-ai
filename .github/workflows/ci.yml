@@ -344,7 +344,7 @@ jobs:
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority"
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
           -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
@@ -387,14 +387,21 @@ jobs:
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-account-sessions$' --no-tests=error --verbose
       - name: Run reviewed permission-graph acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-permission-graph$' --no-tests=error --verbose
+      - name: Run reviewed reference-authority acceptance
+        run: >-
+          ctest --preset sqlite-reference-capture-debug -L '^sqlite-reference-authority$'
+          --no-tests=error --verbose --test-output-size-passed 1048576
+          --output-junit "$GITHUB_WORKSPACE/build/sqlite-reference-capture-debug/reference-authority-results.xml"
       - name: Verify enabled Qt suites and current-fact storage acceptance
         run: |
           python3 - <<'PYTHON'
           import json
+          import re
           import subprocess
+          import xml.etree.ElementTree as ET
           data = json.loads(subprocess.check_output(
               ["ctest", "--preset", "sqlite-reference-capture-debug", "--show-only=json-v1"], text=True))
-          stable = {"sqlite-account-sessions": [], "sqlite-permission-graph": []}
+          stable = {"sqlite-account-sessions": [], "sqlite-permission-graph": [], "sqlite-reference-authority": []}
           for test in data["tests"]:
               props = {entry["name"]: entry["value"] for entry in test["properties"]}
               labels = set(props.get("LABELS", []))
@@ -424,6 +431,20 @@ jobs:
                           [test["command"][0], "-datatags"], text=True).strip().splitlines()
                       if len(functions) != 44 or len(rows) != 94:
                           raise SystemExit("Permission graph differs from 44 reviewed methods / 94 invocations")
+                  if owner == "sqlite-reference-authority":
+                      rows = subprocess.check_output(
+                          [test["command"][0], "-datatags"], text=True).strip().splitlines()
+                      if len(functions) != 52 or len(rows) != 169:
+                          raise SystemExit("Reference authority differs from 52 reviewed methods / 169 invocations")
+          results = ET.parse("build/sqlite-reference-capture-debug/reference-authority-results.xml").getroot()
+          cases = results.findall("testcase")
+          if len(cases) != 1 or cases[0].get("name") != "sqlite-reference-authority.suite":
+              raise SystemExit("Missing unfiltered reference-authority runtime result")
+          if cases[0].find("failure") is not None or cases[0].find("skipped") is not None:
+              raise SystemExit("Reference authority failed or skipped")
+          totals = re.findall(r"^Totals:\s+(\d+) passed, (\d+) failed, (\d+) skipped, (\d+) blacklisted,", cases[0].findtext("system-out", ""), re.MULTILINE)
+          if totals != [("171", "0", "0", "0")]:
+              raise SystemExit("Reference authority must pass 169 invocations and both hooks, with zero skips")
           PYTHON
       - name: Configure explicit SDK and GoogleTest sources
         run: >-

@@ -55,37 +55,18 @@ Owner decisions are recorded in #249, comment 6879902355:
   Corrected closure139/139 and graph94/94 passed, zero skips/warnings; tier A,
   proof/publication and final-head7/7 CI passed. Owner-approved PG-B01 correction
   and historical rejections remain recorded in the PR and proof.
-- ACCESS-011 (#649), branch `task/ACCESS-011-reference-authority`, claimed after
-  #646 merge. Contract/schema/API/NI and42 test methods authored at22c7753b.
-  Initial Claude tests review requested changes (RA-T01–T05). Fix round1 at4ed77298
-  completed independent Codex verification and fresh Claude closing approval of
-  the full contract/tests stage. All verdicts remain recorded; no reviewed header,
-  contract or test changed during integration. Opt-in registration discovers47
-  methods/145 invocations with ordinary intentional-red semantics and no skips or
-  inverted results. Integrated build132/132 passes without warnings. Private
-  callback state now carries existing enclosing ceilings; all new reads/units and
-  the step10 factory remain NI. Draft PR #651 at62297124 owns all three receipts.
-  Observed red:145/145 invocations,141 direct NI and4 outcome guards separately
-  traced to the NI constructor as their first throw. Hooks2pass, zero skips or
-  warnings; no old setup failure before the first NI. Later assertions/setup after
-  NI remain unexecuted. Existing service/graph regression nodes2/2pass.
-  Fresh implementation WIP bc1f4095 is local/unpushed:145/145 authority and140/140
-  closure pass, but the source audit reproduced a historical-reader blocker.
-  Legacy bundle/hold facades roll back/translate failures and scan hold history;
-  green output does not meet the selected-reader contract. No code review yet.
-  Supplemental tests/header authored032f91b1:5 families/24 static rows,52 methods
-  compile/list; main47 bodies/data/hooks byte-exact. Initial Claude supplemental
-  review requested SR-T01 (unstated aggregate-limit mapping). Coordinator fix1
-  explicitly accepts captures for whole selected historical source bytes, with
-  owning component/item minima; authority contract revision3 remains290 lines.
-  Private header revision2 clarifies selected parent/full closure validation;
-  caller marker is now outside selected records. Bodies were unrun at that gate.
-  Supplemental cycle now fully approved at747e1d5f (Codex and fresh Claude closing).
-  Observed169-case run:original145PASS, supplemental6PASS/18FAIL, hooks2PASS,
-  zero skips/warnings. All18 first-throw diagnostic traces reach post-mutation
-  reads; no setup/base-control failure counted as red. Old facade rollback/
-  translation and lifetime history are reproduced. Corrective source is next;
-  tests/header/contract are frozen, including nonblocking SR-N07/N08 notes.
+- ACCESS-011 (#649), branch `task/ACCESS-011-reference-authority`, draft PR #651.
+  Main tests approved4ed77298, supplemental contract/tests approved747e1d5f;
+  all earlier rejections and original145-case NI red remain in PR receipts.
+  Supplemental red:145 originalPASS +6 supplementalPASS/18FAIL; all18 traced
+  after their intended mutations, no setup failure counted as red.
+  Fresh correction a8e61c34 implements private borrowed-session selected readers
+  and full contract3 limit mapping. Author reports169/169+2hooks and140/140 closure
+  PASS, zero skips/warnings; partial three-TU ASan/UBSan passes, leaks unavailable.
+  Public headers/contracts/tests and647 frozen paths were preserved by the author.
+  Whole producer (including first bc1 WIP) has NO independent code approval yet.
+  Coordinator is promoting the suite into existing Qt CI with52/169 discovery and
+  actual171-pass/zero-skip runtime gates; current-head hosted CI remains unverified.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 is reserved for this registry after compiled permission step9;
   preserve all shipped prefix bytes. Full #249 integration remains open. RULES-006
@@ -96,17 +77,13 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Complete ACCESS-011 selected-reader extraction in a DIFFERENT fresh implementation
-session after the approved supplement and observed regression red at747e1d5f.
-Preserve existing assertions/public headers/contracts. This remains #649's existing
-historical-disclosure scope: private borrowed-session bundle/selected hold readers
-may be factored from bundle access/bundle.cpp/holds.cpp while retaining the old
-public facades' behavior. No new public capability, writer or transaction.
-Only after supplemental approval/red complete that extraction and the authority
-composition in a fresh session, then full tier A implementation review. Coordinator
-owns shared build/CI/checkpoint/receipts/proof and eventual merge.
-Actual current authentication/graph/capture production, finite indexed reads,
-service-ceiling enforcement and nested-facade failure truth need implementation
-and the full tier A source/resource audit. Provisional facts are not permits.
-Preserve current original-author, scope, revision and full release requirements;
-stop if an additional substantial prerequisite falls outside #649's bounded scope.
+Review the WHOLE ACCESS-011 implementation and its CI integration through tier A
+Claude initial, independent Codex verification and fresh Claude closing. Preserve
+all source/test history and failures; at most two implementation fix rounds.
+The private selected path must preserve old public facades, original writer truth,
+metadata-before-ownership bounds, finite indexed selection and current authority.
+Only after exact-head reviews, current required CI and one proof/policy commit with
+both-stage publication validation may the coordinator perform a protected merge.
+Then continue the authorized path with actual producer feasibility for RULES-006.
+Full #249 and identity/UI/public auth/delivery remain with their owning issues;
+process/tooling stays frozen until the vertical slice runs. No live effects.

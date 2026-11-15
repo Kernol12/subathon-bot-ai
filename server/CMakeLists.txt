@@ -136,7 +136,7 @@ if(SUBATHON_BUILD_SQLITE_PERMISSION_GRAPH_TESTS)
     subathon_target_options(subathon_sqlite_permission_graph)
 endif()
 
-# ACCESS-011 tests-author gate: all new entrypoints remain unconditional NI.
+# Current reference authority and finite selected historical reads.
 if(SUBATHON_BUILD_SQLITE_REFERENCE_AUTHORITY_TESTS)
     add_library(subathon_sqlite_reference_authority STATIC src/sqlite_reference_authority.cpp)
     target_include_directories(subathon_sqlite_reference_authority PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")

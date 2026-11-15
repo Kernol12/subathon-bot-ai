@@ -348,7 +348,7 @@
     },
     {
       "name": "sqlite-reference-authority-debug",
-      "displayName": "37 \u00b7 SQLite reference authority tests-author baseline",
+      "displayName": "37 \u00b7 SQLite current reference authority acceptance",
       "inherits": "sqlite-permission-graph-debug",
       "cacheVariables": {
         "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
