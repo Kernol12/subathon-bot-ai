@@ -24,8 +24,8 @@ merge rules. This page adds only what is specific to coordinating.
    review. Require the author's fixture check, where it applies, in the tests
    handoff before the first review. Give each reviewer one packet per stage.
 4. Merge within owner scope after latest-head CI and the tier's reviews pass, read
-   back the merge and close the issue. Then delete the task's temporary directory
-   and worktrees.
+   back the merge and close the issue. Then delete the task's temporary directory,
+   worktrees and branches.
 5. Update the checkpoint when scope, assignments or blockers change. Continue with the
    next authorized task or stop at the owner's boundary.
 

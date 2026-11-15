@@ -162,6 +162,9 @@ subdirectory per session.
   worktrees it assigned to the task's sessions. It removes a worktree only when no
   session or pending stage uses it and it holds no uncommitted or unpushed work.
   Otherwise it keeps the worktree and reports it; it never forces a removal.
+- After the merge read-back the coordinator also deletes the task's local and remote
+  branches. A branch that holds commits which are neither merged nor pushed is kept
+  and reported, never force-deleted.
 - When a task stops without a merge, the coordinator applies the same checks and
   deletes only what no pending stage needs.
 - Delete only the task's own directory and worktrees. Never clear a shared temporary
