@@ -62,26 +62,29 @@ Owner decisions are recorded in #249, comment 6879902355:
 - RULES-006 (#558), branch `task/RULES-006-reference-evaluator`, resumed from
   current main `d7d64f258294a9795bacbf0404bcfc9cfa5180f1`; parked unchanged branch
   fast-forwarded once. Claim6888000850. Prerequisites #171/#556/#645/#646/#649 closed.
-  Fresh read-only producer-feasibility session is assigned before any contract/test
-  authoring. Verify actual merged source and bounded consumer composition; old
-  Step0 stop at1fd11c3b remains historical. No tests/builds or implementation for
-  this task have run. Tier A for both stages; no product writer assigned yet.
+  Fresh Step0 source recheck at27588533 is feasible; coordinator accepts bounded
+  contract/examples and tests authoring. Old stop at1fd11c3b remains historical.
+  New core/server evaluator/admission/authority-consumer headers, unconditional
+  NI stubs and focused pure/real-store tests are assigned to one fresh author.
+  Production full-configuration loading/concrete ports stay #562; fixtures supply
+  complete configuration DATA but must use actual current authority. No bodies,
+  intended red or implementation run yet. Tier A for both stages.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 shipped under #649; all compiled prefix bytes remain frozen.
-  Full #249 integration remains open. No new migration or other writer is assigned;
+  Full #249 integration remains open. No new migration or other product writer is assigned;
   completed review worktrees are historical, not live assignments.
 - Draft PR #121 stays parked. Process/tooling work remains frozen until the slice.
   EPIC-029 closed, follow-ups #636; pre-cutover evidence remains historical.
 
 ## Next action
 
-Review the fresh RULES-006 feasibility report at the merged producer base before
-contract/examples or test authoring. Reuse the actual current authority source,
-original-author dual channels and separate execution-subject facts/revisions;
-no allow flag, guessed identity, stale permit or policy shortcut. If a substantial
-producer gap remains outside the bounded task, stop and report at the owner's
-boundary. Otherwise assign bounded tests, complete tier A tests review and actual
-red, then a fresh implementation session and its own tier A review/protected gates.
-API-011 follows only after #558; full #249 and identity/UI/public auth/delivery stay
-with their owning issues. Process/tooling stays frozen until the vertical slice
-runs. No live effects.
+Author public-header contract revision1 and independent examples before focused
+tests. Author may compile/link and list test names only, with unconditional NI
+surfaces; no bodies/data-provider execution or push until full tier A tests review.
+Coordinator integrates shared build/CTest/CI and observes valid red after approval;
+a different fresh session implements, then full tier A code review/proof/protected
+merge. Reuse actual authority and separate author/subject channels; no pure-only
+completion or supplied-permit shortcut. Full configuration producer/concrete
+adapters remain #562, not an implemented capability claimed here. No existing
+producer/migration/assertion changes or process/tooling expansion. API-011 follows
+after #558; no live effects.
