@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "reference_state_internal.hpp"
 #include <chrono>
+#include <type_traits>
+#include <utility>
 #ifdef __linux__
 #include <sys/random.h>
 #endif
@@ -10,11 +12,19 @@ ReferenceClockSampleResult SystemReferenceClockSampler::sample() {
     const auto steady = std::chrono::steady_clock::now().time_since_epoch();
     const auto utc = std::chrono::system_clock::now().time_since_epoch();
     auto convert = [](auto d) -> std::optional<std::int64_t> {
-        using Millis = std::chrono::duration<long double, std::milli>;
-        auto n = Millis(d).count();
-        if (n < static_cast<long double>(INT64_MIN) || n > static_cast<long double>(INT64_MAX))
+        using Duration = decltype(d);
+        using Ratio = std::ratio_divide<typename Duration::period, std::milli>;
+        // The supported clocks use integral submillisecond ticks. Division is
+        // overflow-free and duration_cast truncates negative values toward zero.
+        if constexpr (!std::is_integral_v<typename Duration::rep> || Ratio::num != 1) {
             return {};
-        return static_cast<std::int64_t>(n);
+        } else {
+            if (!std::in_range<std::int64_t>(d.count()))
+                return {};
+            using Checked = std::chrono::duration<std::int64_t, typename Duration::period>;
+            using Millis = std::chrono::duration<std::int64_t, std::milli>;
+            return std::chrono::duration_cast<Millis>(Checked(d.count())).count();
+        }
     };
     auto a = convert(steady), b = convert(utc);
     if (!a || !b)
@@ -239,6 +249,8 @@ ReferenceApplicationAdapters::reserve(const ReferenceCommittedState &head,
               head.policy_revision_ref, head.snapshot.token);
     candidate.p.fixed(36 + 8 + 17);
     require(candidate.p.items < candidate.p.item_cap, Error::result_limit);
+    if (limits_.values.reference_bytes < 36)
+        return runtime_refusal();
     if (initial_observation_.empty())
         initial_observation_ = anchor_->committed.observation.observation_ref;
     auto sampled = borrow([&] { return clock_.sample(); });
@@ -253,8 +265,6 @@ ReferenceApplicationAdapters::reserve(const ReferenceCommittedState &head,
         return runtime_refusal();
     auto elapsed = sample.monotonic_ms - anchor_->sample.monotonic_ms;
     if (elapsed >= head.snapshot.timer.main_remaining_ms)
-        return runtime_refusal();
-    if (limits_.values.reference_bytes < 36)
         return runtime_refusal();
     auto e = borrow([&] { return entropy_.read32(); });
     require(unsigned(e.error) <= 2, Error::invalid_tag);
@@ -531,20 +541,25 @@ ClockResolution ReferenceApplicationAdapters::observe(const ApplicationReference
     input(c, i, p);
     Tags{}(c, i, p);
     service_input(limits_, i, p);
-    auto complete = config_source.load(view, i.current_state.configuration_ref);
-    auto admitted =
-        admit_reference_configuration(i.current_state.configuration_ref, complete, limits_.values);
-    if (std::holds_alternative<ReferenceUnavailable>(admitted))
-        return port_refusal();
     require(bundle_detail::same_key(p.operation, c.operation) &&
+                p.source.subject_kind == c.subject_kind && p.source.receipt_id == c.receipt_id &&
+                p.source.contribution_id == c.contribution_id &&
                 p.checked_state_token == i.current_state.token &&
                 p.configuration_ref == i.current_state.configuration_ref &&
                 p.plan.plan_ref == c.plan.plan_ref && p.plan.revision == c.plan.revision,
             Error::invalid_binding);
     thread(owner_);
+    auto complete = config_source.load(view, i.current_state.configuration_ref);
+    auto admitted =
+        admit_reference_configuration(i.current_state.configuration_ref, complete, limits_.values);
+    if (std::holds_alternative<ReferenceUnavailable>(admitted))
+        return port_refusal();
     for (const auto &r : pending_)
         if (bundle_detail::same_key(r.command.operation, c.operation) &&
             r.head.snapshot.token == i.current_state.token) {
+            require(equal(r.command, c) &&
+                        bundle_detail::same_state(r.head.snapshot, i.current_state),
+                    Error::invalid_binding);
             auto out = measure(limits_.values, Error::result_limit);
             out(r.observation);
             return r.observation;
@@ -574,6 +589,7 @@ ActionResolution ReferenceApplicationAdapters::prepare(const ApplicationReferenc
     auto cfg = resolve(v, c, i, ApplicationAccessAllowed{p.permission_revision_ref});
     if (!std::holds_alternative<BoundApplicationPolicy>(cfg))
         return port_refusal();
+    require(equal(std::get<BoundApplicationPolicy>(cfg), p), Error::invalid_binding);
     require(q.debt_after >= 0 && q.timer_after.main_remaining_ms >= 0 &&
                 q.timer_after.grace_remaining_ms >= 0,
             Error::invalid_value);

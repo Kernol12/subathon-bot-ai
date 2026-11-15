@@ -36,6 +36,16 @@ Owner: Kernol12. Full specification v0.45 stays in release scope.
    fix round. Verify the revised component candidate independently, then obtain
    fresh Claude closing review before intended red. Ask before a third fix round.
 
+## Owner instruction, next tests stage only (2026-11-15)
+
+Before the next tests candidate's first review, author runs only cases that call
+NI stubs as a fixture/setup check up to that call; repair setup defects and report
+the result in the handoff. This is NEVER red evidence; reviewed intended red still
+comes after approval. Exclude no-stub cases and any TEST_STRATEGY review/admission-
+before-execution exception (including bounded HTTP/schema); handoff says so.
+API-011 is explicitly unchanged. Permanent wording is owned separately in PR#656
+(owner reports independent approval7acad387); no review/merge assignment here.
+
 ## Settled delegation policy
 
 Owner decisions are recorded in #249, comment 6879902355:
@@ -139,7 +149,23 @@ Owner decisions are recorded in #249, comment 6879902355:
   verified inventory/scope and raw results, integrated the exact authored commit,
   and adds ordinary CI admission with exact83method/137invocation guards to the
   existing Qt job. This is an unreviewed implementation candidate, not approval.
-  Initial full Tier A Claude source/resource review is next, fix round0of2.
+  Initial WHOLE Claude implementation review atd69f2617 requested changes:
+  API11-I01 snapshot head/configuration lookup preceded stored-session auth.
+  Receipt6894462643 is preserved. Hosted7/7 CI and fresh reviewer154/154 pass;
+  neither is source approval. Root authors implementation fix round1of2:
+  stored-session resolution before any snapshot head/configuration query, then
+  timer-scope USE authorization; no duplicate clock/session lookup. Also proposes
+  integer clock conversion, early reference-profile refusal before sampling,
+  pure observe binding/affinity priority and full reservation match, full prepared
+  policy comparison via shared structural equality, dangling-head invalid_data,
+  and no synthetic application reconciliation for known committed intake/read
+  body errors (unknown still stops). Tests/public contracts remain unchanged.
+  Exact approved issuer36-byte profile refusal is retained; only its sampling
+  concern is changed. I08/I09 remain informational. Final root full154/154 and
+  direct137invocations+4hooks pass,0 skips/warnings; scratch4 authentication/head
+  combinations plus read-only body-error/journal control pass; strict2TU/static
+  checks pass. Independent Codex WHOLE implementation verification and fresh
+  Claude closing are next; root does not approve its own fix.
   No implementation approval, proof or merge exists. Full #249/API010/recovery/
   host/live/process boundaries stay.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
@@ -151,9 +177,8 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Publish the authored implementation and ordinary CI admission on draft PR#653;
-obtain fresh initial WHOLE Claude source/resource review, independent Codex
-verification and fresh Claude closing. Keep all tests/public contracts fixed and
-preserve all8 tests receipts/red history. Then final-head CI/proof/protected merge.
-No fifth test round, scope expansion, downstream task or premature proof. Root owns
-shared publication. Existing7/7 CI on5eb2076c covers the prior tests-only head.
+Finish and publish implementation fix round1 on draft PR#653, independently
+verify the WHOLE producer with Codex, then obtain fresh Claude closing. Preserve
+all tests/public contracts and every review rejection/red. Then final-head CI,
+single proof/publication and protected merge. No fifth test round or downstream
+work; the new fixture-check instruction starts only at the NEXT tests stage.

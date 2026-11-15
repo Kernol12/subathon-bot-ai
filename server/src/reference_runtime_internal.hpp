@@ -151,6 +151,11 @@ RF(ApplicationNotReadyPayload, v.reason_ref)
 RF(std::monostate)
 RF(ApplicationServiceResponse, v.disposition, v.payload)
 RF(ApplicationServiceCompletion, v.transaction, v.work_error, v.failure, v.response)
+RF(core::ReceiptIntakeResult, v.receipt_id.value, v.disposition)
+RF(ContributionLinkResult, v.contribution_id, v.disposition)
+RF(ReferenceCaptureKey, v.installation_ref, v.source)
+RF(ReferenceInitialCapture, v.key, v.receipt_id.value, v.contribution_id.value, v.configuration_ref,
+   v.arrival_context_ref, v.event_ref, v.plan, v.execution_context_ref)
 #undef RF
 // Preserve allocator exceptions raised by a borrowed dependency; only our own
 // allocations acquire the adapter's allocation_failure tag.
@@ -360,6 +365,37 @@ template <class... T> void service_input(const ReferenceRuntimeLimits &l, const 
     p.p.component_bytes = std::min(std::uint64_t(l.service.bundles.component_bytes),
                                    std::uint64_t(l.service.holds.references.component_bytes));
     p(v...);
+}
+// Full structural equality, including all duplicates, without re-encoding.
+template <class T> bool equal(const T &a, const T &b);
+template <class T> bool equal(const std::optional<T> &a, const std::optional<T> &b) {
+    return bool(a) == bool(b) && (!a || equal(*a, *b));
+}
+template <class T> bool equal(const std::vector<T> &a, const std::vector<T> &b) {
+    return a.size() == b.size() &&
+           std::equal(a.begin(), a.end(), b.begin(),
+                      [](const auto &x, const auto &y) { return equal(x, y); });
+}
+template <class T> bool equal(const T &a, const T &b) {
+    if constexpr (std::is_integral_v<T> || std::is_enum_v<T> || std::is_same_v<T, std::string> ||
+                  std::is_same_v<T, core::Exact>)
+        return a == b;
+    else if constexpr (std::is_same_v<T, QByteArray>)
+        return a == b && a.isNull() == b.isNull();
+    else {
+        bool eq = true;
+        auto left = [&](const auto &...x) {
+            auto right = [&](const auto &...y) {
+                auto tx = std::tie(x...), ty = std::tie(y...);
+                [&]<std::size_t... I>(std::index_sequence<I...>) {
+                    eq = (equal(std::get<I>(tx), std::get<I>(ty)) && ...);
+                }(std::index_sequence_for<decltype(x)...>{});
+            };
+            fields(right, b);
+        };
+        fields(left, a);
+        return eq;
+    }
 }
 inline bool active(const ApplicationStateSnapshot &s) {
     return s.timer.lifecycle == core::TimerLifecycle::Active &&

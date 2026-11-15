@@ -29,10 +29,10 @@ struct SessionBridge final : CurrentSessionSource, CurrentSessionClock {
     }
 };
 std::string head_configuration(const SqliteWorkSession &s, const ReferenceRuntimeLimits &l) {
-    auto meta =
-        s.execute({"SELECT typeof(s.configuration_ref),length(CAST(s.configuration_ref AS BLOB)) "
-                   "FROM subathon_app_head h JOIN subathon_app_states s ON s.token=h.token LIMIT 1",
-                   {}});
+    auto meta = s.execute(
+        {"SELECT typeof(s.configuration_ref),length(CAST(s.configuration_ref AS BLOB)) "
+         "FROM subathon_app_head h LEFT JOIN subathon_app_states s ON s.token=h.token LIMIT 1",
+         {}});
     if (meta.empty())
         refuse(ReferenceGate::not_ready, "reference.runtime-unavailable.v1");
     data(meta.size() == 1 && meta[0][0].toString() == "blob");
@@ -43,9 +43,10 @@ std::string head_configuration(const SqliteWorkSession &s, const ReferenceRuntim
     data(row.size() == 1);
     return row[0][0].toByteArray().toStdString();
 }
-void authenticate(const SqliteWorkSession &s, const SessionLookupRequest &r, bool initial,
-                  CurrentSessionClock &clock, const std::string &timer,
-                  const ReferenceRuntimeLimits &l) {
+ResolvedAccountSession authenticate_session(const SqliteWorkSession &s,
+                                            const SessionLookupRequest &r, bool initial,
+                                            CurrentSessionClock &clock,
+                                            const ReferenceRuntimeLimits &l) {
     SqliteAccountSessionUnit accounts(s, {{}}, l.authority.accounts);
     SessionBridge bridge(accounts, clock);
     auto resolved =
@@ -54,7 +55,11 @@ void authenticate(const SqliteWorkSession &s, const SessionLookupRequest &r, boo
         std::rethrow_exception(bridge.failure);
     if (!std::holds_alternative<ResolvedAccountSession>(resolved))
         refuse(ReferenceGate::denied, "reference.access-denied.v1");
-    const auto &actor = std::get<ResolvedAccountSession>(resolved);
+    return std::get<ResolvedAccountSession>(std::move(resolved));
+}
+void authorize(const SqliteWorkSession &s, const SessionLookupRequest &r, bool initial,
+               const ResolvedAccountSession &actor, const std::string &timer,
+               const ReferenceRuntimeLimits &l) {
     auto trust = reference_permission_graph_trust();
     auto graph_limits = l.authority.graph;
     graph_limits.selected_bytes = std::min(graph_limits.selected_bytes, l.values.value_owned_bytes);
@@ -91,6 +96,12 @@ void authenticate(const SqliteWorkSession &s, const SessionLookupRequest &r, boo
     if (core::evaluate_effective_permission(input, l.authority.permissions).data().outcome !=
         core::PermissionOutcome::permit)
         refuse(ReferenceGate::denied, "reference.access-denied.v1");
+}
+void authenticate(const SqliteWorkSession &s, const SessionLookupRequest &r, bool initial,
+                  CurrentSessionClock &clock, const std::string &timer,
+                  const ReferenceRuntimeLimits &l) {
+    const auto actor = authenticate_session(s, r, initial, clock, l);
+    authorize(s, r, initial, actor, timer, l);
 }
 void preflight(const ReferenceRuntimeLimits &l, const ReferenceConnectorRegistration &connector) {
     runtime_limits(l);
@@ -449,9 +460,10 @@ ReferenceIntake::make_snapshot_work(const SessionLookupRequest &r,
         limits_, pending_, std::move(callback),
         [this, r](const SqliteWorkSession &s, auto project, Cleanup &cleanup) -> QVariant {
             (void)cleanup;
+            const auto actor = authenticate_session(s, r, false, sessions_, limits_);
             auto ref = head_configuration(s, limits_);
             auto cfg = admitted_config(configuration_, ref, limits_);
-            authenticate(s, r, false, sessions_, cfg.rule.timer_ref, limits_);
+            authorize(s, r, false, actor, cfg.rule.timer_ref, limits_);
             auto head = SqliteApplicationBundleStore(s, bundle_limits(limits_)).read_state();
             data(bool(head) && head->configuration_ref == ref);
             (void)retained_config(s, configuration_, ref, limits_);

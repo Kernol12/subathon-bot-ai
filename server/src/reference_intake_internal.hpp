@@ -149,44 +149,8 @@ struct ReceiptValue {
 };
 #define IF(T, ...)                                                                                 \
     template <class P> void fields(P &p, const T &v) { p(__VA_ARGS__); }
-IF(ReferenceCaptureKey, v.installation_ref, v.source)
-IF(ReferenceInitialCapture, v.key, v.receipt_id.value, v.contribution_id.value, v.configuration_ref,
-   v.arrival_context_ref, v.event_ref, v.plan, v.execution_context_ref)
-IF(core::ReceiptIntakeResult, v.receipt_id.value, v.disposition)
-IF(ContributionLinkResult, v.contribution_id, v.disposition)
 IF(ReceiptValue, v.receipt, v.original)
 #undef IF
-// Full structural equality, including all duplicates, without re-encoding.
-template <class T> bool equal(const T &a, const T &b);
-template <class T> bool equal(const std::optional<T> &a, const std::optional<T> &b) {
-    return bool(a) == bool(b) && (!a || equal(*a, *b));
-}
-template <class T> bool equal(const std::vector<T> &a, const std::vector<T> &b) {
-    return a.size() == b.size() &&
-           std::equal(a.begin(), a.end(), b.begin(),
-                      [](const auto &x, const auto &y) { return equal(x, y); });
-}
-template <class T> bool equal(const T &a, const T &b) {
-    if constexpr (std::is_integral_v<T> || std::is_enum_v<T> || std::is_same_v<T, std::string> ||
-                  std::is_same_v<T, core::Exact>)
-        return a == b;
-    else if constexpr (std::is_same_v<T, QByteArray>)
-        return a == b && a.isNull() == b.isNull();
-    else {
-        bool eq = true;
-        auto left = [&](const auto &...x) {
-            auto right = [&](const auto &...y) {
-                auto tx = std::tie(x...), ty = std::tie(y...);
-                [&]<std::size_t... I>(std::index_sequence<I...>) {
-                    eq = (equal(std::get<I>(tx), std::get<I>(ty)) && ...);
-                }(std::index_sequence_for<decltype(x)...>{});
-            };
-            fields(right, b);
-        };
-        fields(left, a);
-        return eq;
-    }
-}
 struct OutputMeasure : Measure {
     using Measure::one;
     void one(const ReceiptValue &v) {
@@ -287,9 +251,10 @@ pair(const ReferenceRuntimeLimits &l, std::shared_ptr<std::atomic<std::uint64_t>
                 require(!state->completed.exchange(true), Error::invalid_binding);
                 C out{};
                 out.work = work;
-                if (runtime && (work.transaction == TransactionOutcome::outcome_unknown ||
-                                (work.transaction == TransactionOutcome::committed &&
-                                 work.error != WorkError::none))) {
+                // Intake cannot advance an existing application anchor. A known
+                // commit with a body error suppresses output, but creates no
+                // application reservation to reconcile. Unknown still stops it.
+                if (runtime && work.transaction == TransactionOutcome::outcome_unknown) {
                     ApplicationServiceCompletion halted;
                     halted.transaction = work.transaction;
                     halted.work_error = work.error;
