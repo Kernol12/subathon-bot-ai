@@ -198,6 +198,19 @@ class ReferenceApplicationAdapters final : public ExecutionAccess,
                               const ApplicationReferenceBinding &) override;
 
   private:
+    void validate_limits() const;
+    struct Reservation {
+        OriginalApplicationCommand command;
+        ReferenceCommittedState head;
+        ApplicationClockObservation observation;
+        ReferenceClockSample sample;
+    };
+    std::thread::id owner_ = std::this_thread::get_id();
+    std::vector<Reservation> pending_;
+    std::vector<std::string> observations_, spent_;
+    std::string initial_observation_;
+    std::vector<ApplicationReferenceBinding> issued_;
+    bool stopped_ = false, reconciliation_ = false;
     ReferenceConfigurationSource &configuration_;
     ReferenceAuthoritySource &authority_;
     ReferenceClockSampler &clock_;

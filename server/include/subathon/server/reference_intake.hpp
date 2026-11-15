@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
+#include <atomic>
+#include <memory>
 #include <subathon/server/reference_runtime.hpp>
 
 namespace subathon::server {
@@ -172,6 +174,9 @@ class ReferenceIntake final {
                        std::function<void(ReferenceSnapshotCompletion)>) const;
 
   private:
+    std::thread::id owner_ = std::this_thread::get_id();
+    std::shared_ptr<std::atomic<std::uint64_t>> pending_ =
+        std::make_shared<std::atomic<std::uint64_t>>(0);
     ReferenceConfigurationSource &configuration_;
     ReferenceClockSampler &clock_;
     ReferenceEntropy &entropy_;

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "application_reference_read_state.hpp"
 #include "application_service_command_internal.hpp"
+#include "application_state_codec_internal.hpp"
 #include "sqlite_application_bundle_access.hpp"
 #include "sqlite_application_hold_values.hpp"
 #include <QThread>
@@ -149,20 +150,6 @@ ApplicationEnvelope encoded(const char *format, const ApplicationServiceLimits &
     auto bytes = document(remaining, write);
     return {format, std::move(bytes)};
 }
-void put_timer(Bytes &w, const core::TimerState &t) {
-    w.u8(unsigned(t.lifecycle));
-    w.u8(unsigned(t.phase));
-    w.i64(t.main_remaining_ms);
-    w.i64(t.grace_remaining_ms);
-    w.u8(t.awaiting_confirmation);
-}
-void put_balances(Bytes &w, const std::vector<ApplicationBalance> &v) {
-    w.vec(v, [&](const auto &b) {
-        w.u8(unsigned(b.kind));
-        w.b(b.target_ref);
-        w.i64(b.units);
-    });
-}
 void put_clock(Bytes &w, const ApplicationClockObservation &c) {
     w.b(c.clock_lineage_ref);
     w.b(c.observation_ref);
@@ -227,15 +214,7 @@ ApplicationEnvelope encode_state(const ApplicationStateSnapshot &s, const std::s
                                  const BoundApplicationPolicy &p,
                                  const ApplicationServiceLimits &l) {
     return encoded(state_format, l, [&](Bytes &w) {
-        w.raw("SAS1");
-        w.b(s.configuration_ref);
-        w.u8(1);
-        w.b(basis);
-        put_clock(w, c);
-        w.b(p.policy_revision_ref);
-        put_timer(w, s.timer);
-        w.i64(s.time_debt_ms);
-        put_balances(w, s.balances);
+        state_codec::write(w, s, std::string_view(basis), c, p.policy_revision_ref);
     });
 }
 ApplicationEnvelope encode_result(
@@ -589,30 +568,17 @@ BoundApplicationPolicy read_policy(Read &r) {
           R::invalid_known_document, S::retained_semantics);
     return p;
 }
-struct StateMeaning {
-    std::string configuration;
-    core::TimerState timer;
-    std::int64_t debt{0};
-    std::vector<ApplicationBalance> balances;
-    std::optional<std::string> basis;
-    ApplicationClockObservation clock;
-    std::string policy;
-};
+using StateMeaning = state_codec::Meaning;
 StateMeaning check_state(const ApplicationStateSnapshot &s, const ApplicationServiceLimits &l) {
     scan_state(s, l);
     Read r(s.envelope, state_format, "SAS1", l);
-    auto config = r.reference();
-    StateMeaning m;
-    m.basis = r.opt([&] { return r.reference(); });
-    m.clock = read_clock(r);
-    m.policy = r.reference();
-    auto t = read_timer(r);
-    auto debt = r.i64();
-    auto n = r.count(size_t(std::min(l.bundles.balances_per_state, l.intermediate_items)));
-    std::vector<ApplicationBalance> balances;
-    for (size_t i = 0; i < n; ++i)
-        balances.push_back({ApplicationBalanceKind(r.u8(3)), r.reference(), r.i64()});
-    r.end();
+    auto m =
+        state_codec::read(r, read_clock, read_timer,
+                          size_t(std::min(l.bundles.balances_per_state, l.intermediate_items)));
+    const auto &config = m.configuration;
+    const auto &t = m.timer;
+    const auto debt = m.debt;
+    const auto &balances = m.balances;
     check(config == s.configuration_ref && debt == s.time_debt_ms &&
               std::tie(t.lifecycle, t.phase, t.main_remaining_ms, t.grace_remaining_ms,
                        t.awaiting_confirmation) ==
@@ -625,7 +591,6 @@ StateMeaning check_state(const ApplicationStateSnapshot &s, const ApplicationSer
     m.configuration = config;
     m.timer = t;
     m.debt = debt;
-    m.balances = std::move(balances);
     m.clock.configuration_ref = config;
     m.clock.policy_revision_ref = m.policy;
     m.clock.checked_head_token = s.token;

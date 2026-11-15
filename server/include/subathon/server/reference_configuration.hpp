@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 #include <subathon/server/reference_application.hpp>
+#include <thread>
 
 namespace subathon::server {
 // API-011 public contract revision 2. DATA supplied by the trusted configuration
@@ -61,6 +62,7 @@ class ReferenceConfigurationArchive final : public ReferenceConfigurationSource 
                                           const std::string &) override;
 
   private:
+    std::thread::id owner_ = std::this_thread::get_id();
     std::vector<ReferenceConfigurationVersion> versions_;
     ReferenceAdapterLimits limits_;
 };
