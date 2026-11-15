@@ -476,7 +476,7 @@ struct Measure {
             }
             // log10(2) > 3/10: reject clearly oversized components from metadata.
             // The remaining base-2^32 scratch is independently bounded BEFORE
-            // allocation. Count decimal chunks in place; no integer/text clone.
+            // allocation. Count chunks in place; no Boost-number/text clone.
             require(bits - 1 <= UINT64_MAX / 3, p.error);
             require((bits - 1) * 3 / 10 + 1 + sign <= cap, p.error);
             const auto count = bits / 32 + std::uint64_t(bits % 32 != 0);
@@ -557,10 +557,8 @@ inline void runtime_limits(const ReferenceRuntimeLimits &l) {
 inline Measure owning_measure(const ReferenceRuntimeLimits &l, const ReferenceAdapterLimits &values,
                               Error error) {
     auto p = measure(values, error);
-    p.bundle_document = std::min(std::uint64_t(l.service.storage_document_bytes),
-                                 std::uint64_t(l.service.bundles.value_bytes));
-    p.hold_document = std::min(std::uint64_t(l.service.storage_document_bytes),
-                               std::uint64_t(l.service.holds.references.value_bytes));
+    p.bundle_document = std::uint64_t(l.service.bundles.value_bytes);
+    p.hold_document = std::uint64_t(l.service.holds.references.value_bytes);
     p.exact_component = std::min(std::uint64_t(l.service.bundles.component_bytes),
                                  std::uint64_t(l.service.holds.references.component_bytes));
     return p;

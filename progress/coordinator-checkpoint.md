@@ -90,7 +90,9 @@ and hosted7/7 at261d8003 pass but do not waive either blocker.
 accepting the [published proposal](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6896984370).
 At this publication it corrects20 imported DATA fields across15 DTOs, including
 hold/resolution/override reasons, with unchanged field order, charges, optional
-semantics and equality. Hold/bundle document ceilings stay separate. Exact size
+semantics and equality. Hold/bundle document ceilings stay separate.
+Unused application-codec limits do not narrow read-only store snapshots; port
+DTOs still enforce that codec's limits at their actual boundary. Exact size
 measurement borrows the existing backends; metadata rejects clearly oversized
 components before ownership. A separately bounded base-2^32 working buffer counts
 decimal digits without an Exact/text clone. First traversals use owning Exact
