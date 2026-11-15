@@ -9,7 +9,7 @@ set(subathon_acceptance_suites
     translation-catalog rate-snapshot milestone-progression session-resolution
     password-hashing effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
-    bounded-http-foundation sqlite-permission-graph sqlite-reference-authority reference-rule)
+    bounded-http-foundation sqlite-permission-graph sqlite-reference-authority reference-rule dev-server)
 
 # Existing library/test guards stay private derived variables; callers select the
 # logical suites above instead of maintaining another set of cache switches.

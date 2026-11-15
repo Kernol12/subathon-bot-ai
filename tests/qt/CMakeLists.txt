@@ -147,3 +147,12 @@ if(SUBATHON_BUILD_REFERENCE_RULE_TESTS)
         LIBRARIES subathon_reference_application
         LABELS "reference-rule;acceptance;qt;server" TIMEOUT 180)
 endif()
+
+if(SUBATHON_BUILD_DEV_SERVER_TESTS)
+    subathon_add_qt_suite(server_dev_server_acceptance
+        NAME dev-server SOURCES dev_server_tests.cpp
+        LABELS "dev-server;acceptance;qt;server")
+    target_compile_definitions(server_dev_server_acceptance PRIVATE
+        SUBATHON_DEV_SERVER_PATH="$<TARGET_FILE:subathon_dev_server>")
+    add_dependencies(server_dev_server_acceptance subathon_dev_server)
+endif()

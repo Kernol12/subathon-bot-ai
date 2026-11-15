@@ -165,3 +165,10 @@ if(SUBATHON_BUILD_REFERENCE_INTAKE_BASELINE)
     target_link_libraries(subathon_reference_intake PUBLIC subathon_reference_application)
     subathon_target_options(subathon_reference_intake)
 endif()
+
+# Development executable stays separate from all server libraries.
+if(SUBATHON_BUILD_DEV_SERVER_TESTS)
+    add_executable(subathon_dev_server dev/main.cpp)
+    set_target_properties(subathon_dev_server PROPERTIES OUTPUT_NAME subathon-dev-server)
+    subathon_target_options(subathon_dev_server)
+endif()
