@@ -3,6 +3,7 @@
 #include "application_service_command_internal.hpp"
 #include "reference_authority_values.hpp"
 #include "reference_capture_codec_p.hpp"
+#include "sqlite_application_hold_values.hpp"
 #include "sqlite_selected_record_read.hpp"
 #include <QCryptographicHash>
 #include <array>
@@ -100,6 +101,38 @@ const char *binding_table = "subathon_reference_authority_bindings";
 const char *event_table = "subathon_reference_authority_events";
 const std::array<const char *, 3> operations{
     "reference.time-add.v1", "reference.application-read.v1", "reference.hold-read.v1"};
+// One profile for admission and the later selected read, after callback minima.
+SqliteHoldLimits historical_limits(const ReferenceAuthorityLimits &l) {
+    SqliteHoldLimits hl;
+    auto &bl = hl.references;
+    bl.reference_bytes =
+        qsizetype(std::min(l.reference_bytes, std::uint64_t(l.captures.reference_bytes)));
+    bl.value_bytes = l.captures.document_bytes;
+    bl.owned_bytes = l.captures.owned_bytes;
+    bl.component_bytes =
+        qsizetype(std::min(std::uint64_t(bl.component_bytes), l.permissions.component_bytes));
+    bl.result_items = qsizetype(std::min(std::uint64_t(bl.result_items), l.result_items));
+    hl.owned_bytes = l.captures.owned_bytes;
+    hl.result_items = qsizetype(std::min(std::uint64_t(hl.result_items), l.result_items));
+    return hl;
+}
+void preflight_request(const ReferenceAuthorityRequest &r, const ReferenceAuthorityLimits &l) {
+    preflight(l, r);
+    request_shape(r);
+    if (r.use == ReferenceAuthorityUse::execute_time_add)
+        return;
+    const auto hl = historical_limits(l);
+    try {
+        hold_detail::validate_options(hl); // Also validates the nested bundle profile.
+    } catch (const SqliteHoldInputFailure &) {
+        throw ReferenceAuthorityInputFailure(F::invalid_data);
+    }
+    const auto ceiling = std::uint64_t(hl.references.reference_bytes);
+    if (r.historical_operation->operation_scope.size() > ceiling ||
+        r.historical_operation->operation_ref.size() > ceiling ||
+        (r.historical_hold && r.historical_hold->size() > ceiling))
+        throw ReferenceAuthorityInputFailure(F::resource_limit);
+}
 // Policy expansion is traversed before ownership. The authoritative graph already
 // validated every membership and every current account, including sparse rows.
 template <class Emit>
@@ -315,6 +348,7 @@ class SqliteReferenceAuthorityUnit::Impl {
         for (const auto *r : {&*initial, &*latest})
             data(view(*r, 0) == i && view(*r, 1) == k);
         data((*initial)[3].toLongLong() == 0 && view(*initial, 4) == view(*b, 12));
+        data(revision == created || (*latest)[3].toLongLong() != 0);
         if (output) {
             Projection p{limits.result_bytes, limits.result_items, limits.reference_bytes};
             for (int j = 0; j < 14; ++j) {
@@ -1510,14 +1544,8 @@ void historical(const SqliteWorkSession &s, const ReferenceAuthorityRequest &q,
     if (q.use == ReferenceAuthorityUse::execute_time_add)
         return;
     const auto &key = *q.historical_operation;
-    SqliteBundleLimits bl;
-    bl.reference_bytes =
-        qsizetype(std::min(l.reference_bytes, std::uint64_t(l.captures.reference_bytes)));
-    bl.value_bytes = l.captures.document_bytes;
-    bl.owned_bytes = l.captures.owned_bytes;
-    bl.component_bytes =
-        qsizetype(std::min(std::uint64_t(bl.component_bytes), l.permissions.component_bytes));
-    bl.result_items = qsizetype(std::min(std::uint64_t(bl.result_items), l.result_items));
+    const auto hl = historical_limits(l); // Validated before any SQL by preflight_request.
+    const auto &bl = hl.references;
     auto check_failure = [](selected_record_read::Failure f) {
         if (f == selected_record_read::Failure::missing)
             fail(F::missing);
@@ -1542,10 +1570,6 @@ void historical(const SqliteWorkSession &s, const ReferenceAuthorityRequest &q,
              intent.plan.revision == q.captured.plan.revision);
         retained_command = &intent.choices;
     } else {
-        SqliteHoldLimits hl;
-        hl.references = bl;
-        hl.owned_bytes = l.captures.owned_bytes;
-        hl.result_items = qsizetype(std::min(std::uint64_t(hl.result_items), l.result_items));
         auto result = selected_record_read::read_hold(s, *q.historical_hold, hl);
         if (auto f = std::get_if<selected_record_read::Failure>(&result))
             check_failure(*f);
@@ -1698,8 +1722,7 @@ SqliteReferenceAuthorityUnit::Impl::resolve(const ReferenceAuthorityRequest &q) 
 }
 ReferenceAuthorityResolution
 SqliteReferenceAuthorityUnit::resolve(const ReferenceAuthorityRequest &r) {
-    preflight(impl_->limits, r);
-    request_shape(r);
+    preflight_request(r, impl_->limits);
     return {guarded<std::variant<ReferenceAuthorityFacts, F>>(
         [&]() -> std::variant<ReferenceAuthorityFacts, F> { return impl_->resolve(r); })};
 }
@@ -1716,8 +1739,7 @@ ReferenceAuthorityResolution
 ApplicationReferenceReadView::resolve_reference_authority(const ReferenceAuthorityRequest &r,
                                                           const ReferenceAuthorityLimits &l) const {
     valid_limits(l);
-    preflight(l, r);
-    request_shape(r);
+    preflight_request(r, l);
     auto state = state_.lock();
     if (!state || !state->active)
         throw ApplicationReferenceViewFailure(ApplicationReferenceViewError::expired_callback);

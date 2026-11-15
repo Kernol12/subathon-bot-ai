@@ -69,10 +69,14 @@ Owner decisions are recorded in #249, comment 6879902355:
   capture reference ceiling is smaller. A11-N01 also identifies a noninitial pending
   event being classified as denied instead of invalid_data. All7 hosted checks at
   707fd680 pass; this is not implementation approval.
-  First implementation fix round: coordinator authored additive admission/event
-  regressions, leaving production and all52 existing methods byte-exact. Compile,
-  formatting and discovery56 pass;18 additional rows are source-counted only.
-  Supplemental tier A tests review and intended red are pending; no new bodies ran.
+  Additive admission/event regressions approved through all three tier A test
+  reviews at eaf1cb51. Observed red matches the reviewed prediction:169 original
+  PASS +4 new controls PASS/14 FAIL, with all9 boundary-positive halves traced.
+  First implementation fix round adds pre-SQL derived-key/profile admission and
+  rejects noninitial pending events. Actual187 cases+2hooks PASS, zero skips;
+  strict authority compile, project/format/diff and updated CI gate PASS. Full
+  current140/140 closure PASS, zero skips; implementation verification/closing and
+  current-head hosted CI remain pending. No proof or merge approval yet.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 is reserved for this registry after compiled permission step9;
   preserve all shipped prefix bytes. Full #249 integration remains open. RULES-006
@@ -83,10 +87,10 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Review the additive A11-I01/A11-N01 regression tests through tier A before execution,
-observe their behavioral red, then fix the input admission/event validation in the
-first of at most two implementation fix rounds. Obtain independent Codex verification
-and fresh Claude closing on the WHOLE final producer, including CI count updates.
+Obtain independent Codex verification and fresh Claude closing on the WHOLE final
+producer, including the first-round
+A11-I01/A11-N01 fixes and56/187/189 CI count updates. At most two implementation
+fix rounds; the supplemental regression tests gate is complete at eaf1cb51.
 Preserve all source/test history, rejected receipts and failures.
 The private selected path must preserve old public facades, original writer truth,
 metadata-before-ownership bounds, finite indexed selection and current authority.
