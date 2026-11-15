@@ -74,7 +74,13 @@ Owner decisions are recorded in #249, comment 6879902355:
   focused12/12 pass; Qt36passes/0skips/warnings. Fresh ASan/UBSan11pure+34Qt invocations
   pass, no diagnostics; LSan disabled (ptrace limitation). Strict/static/actual CI
   guard pass. Existing Qt CI inventory updated24methods/34invocations/36results.
-  Whole code re-verification and fresh Claude closing/current-headCI/proof pending.
+  Exact source/review head3dc5334a has all7 required CI checks SUCCESS
+  (run43684469444); hosted Qt36/0/0/0 and updated24/34 inventory gate verified.
+  Fresh whole Codex re-verification approved3dc5334a (6890361648); R6-I01/I02
+  corrected, no remaining blockers; independent152/152, ASan/UBSan and192 framing
+  diagnostics pass. Fresh Claude whole closing approved3dc5334a (6890500290),
+  independently152/152, focused12/12 and ASan/UBSan; no new findings.
+  Single final proof/policy record assembled; final-head CI/publication/merge pending.
   No new baseline correction, producer/migration/dependency change or merge approval.
   R6-I03/I04,C01/C02 remain nonblocking; #562 retains full configuration/ports/submission.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
@@ -86,10 +92,9 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Publish the reviewed supplement, actual red and passing code fix round1 to draft
-PR #652; obtain fresh independent whole-implementation Codex re-verification and
-fresh Claude whole closing, especially R6-S03 before-allocation/caller-error audit.
-Keep all approved assertions/header3 frozen. Then current required CI, one proof/
-policy commit, both-stage publication and protected merge. Root owns CI/checkpoint/
-proof; no advance past #558 before these gates. Owner #562/fullports and frozen
-process/tooling/live boundaries remain unchanged.
+Publish the single final proof/policy commit after both-stage validation, then
+require final-head protected CI and merge requirements. Both final reviews bind
+3dc5334a and all approved assertions/header3 remain frozen. Root owns CI/checkpoint/
+proof; no advance past #558 before these gates. After protected merge/readback,
+continue authorized #562 feasibility. Fullports and frozen process/tooling/live
+boundaries remain unchanged.
