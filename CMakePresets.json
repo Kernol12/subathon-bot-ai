@@ -345,6 +345,15 @@
         "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
         "SUBATHON_ACCEPTANCE_SUITES": "sqlite-permission-graph"
       }
+    },
+    {
+      "name": "sqlite-reference-authority-debug",
+      "displayName": "37 \u00b7 SQLite current reference authority acceptance",
+      "inherits": "sqlite-permission-graph-debug",
+      "cacheVariables": {
+        "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
+        "SUBATHON_ACCEPTANCE_SUITES": "sqlite-reference-authority"
+      }
     }
   ],
   "buildPresets": [
@@ -495,6 +504,10 @@
     {
       "name": "sqlite-permission-graph-debug",
       "configurePreset": "sqlite-permission-graph-debug"
+    },
+    {
+      "name": "sqlite-reference-authority-debug",
+      "configurePreset": "sqlite-reference-authority-debug"
     }
   ],
   "testPresets": [
@@ -866,6 +879,16 @@
     {
       "name": "sqlite-permission-graph-debug",
       "configurePreset": "sqlite-permission-graph-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "sqlite-reference-authority-debug",
+      "configurePreset": "sqlite-reference-authority-debug",
       "output": {
         "outputOnFailure": true
       },

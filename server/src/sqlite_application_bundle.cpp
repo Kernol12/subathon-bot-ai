@@ -65,3 +65,25 @@ SqliteApplicationBundleStore::stage(const PreparedApplicationBundle &b) const {
     return a.guarded([&] { return a.stage(b); });
 }
 } // namespace subathon::server
+
+#include "sqlite_selected_metadata.hpp"
+namespace subathon::server::selected_record_read {
+ApplicationResult read_application(const SqliteWorkSession &session,
+                                   const ApplicationOperationKey &operation,
+                                   const SqliteBundleLimits &limits) {
+    bundle_detail::validate_options(limits);
+    bundle_detail::validate_key(operation, limits);
+    try {
+        SelectedMetadata metadata(session, limits);
+        if (!metadata.application(operation))
+            return Failure::missing;
+        Access decoder(session, limits, Access::ReadPolicy::selected);
+        auto record = decoder.lookup(operation);
+        if (!record)
+            return Failure::missing;
+        return std::move(*record);
+    } catch (Failure f) {
+        return f;
+    }
+}
+} // namespace subathon::server::selected_record_read

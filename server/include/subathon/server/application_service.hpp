@@ -142,12 +142,18 @@ class OriginalApplicationServiceNotImplemented final : public std::logic_error {
 namespace detail {
 class ApplicationReferenceReadState;
 }
-// Inert default/copy/destruction. Only a callback-scoped finite retained read is
+struct ReferenceAuthorityRequest;
+struct ReferenceAuthorityResolution;
+struct ReferenceAuthorityLimits;
+// Inert default/copy/destruction. Only callback-scoped finite reads are
 // exposed; no Session, SQL, writer, adoption or public capability constructor.
 class ApplicationReferenceReadView final {
   public:
     ApplicationReferenceReadView() = default;
     [[nodiscard]] std::optional<RetainedDocument> find_retained(const RetainedKey &key) const;
+    // ACCESS-011 finite SAME-session resolution; no generic persistence escape.
+    [[nodiscard]] ReferenceAuthorityResolution resolve_reference_authority(
+        const ReferenceAuthorityRequest &, const ReferenceAuthorityLimits &) const;
 
   private:
     std::weak_ptr<detail::ApplicationReferenceReadState> state_;

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "sqlite_application_bundle_access.hpp"
 #include "sqlite_application_hold_values.hpp"
+#include "sqlite_selected_metadata.hpp"
 #include <subathon/server/sqlite_application_holds.hpp>
 
 namespace subathon::server {
@@ -115,9 +116,14 @@ const QStringList hold_resolution_entries_columns{
 class HoldAccess : public Access {
   public:
     SqliteHoldLimits holds;
-    explicit HoldAccess(SqliteWorkSession s, SqliteHoldLimits l)
-        : Access(std::move(s), l.references), holds(l) {}
+    explicit HoldAccess(SqliteWorkSession s, SqliteHoldLimits l,
+                        ReadPolicy policy = ReadPolicy::legacy)
+        : Access(std::move(s), l.references, policy), holds(l) {}
     [[noreturn]] void fail(HR r) {
+        if (selected())
+            throw r == HR::result_limit || r == HR::resource_limit
+                ? selected_record_read::Failure::resource_limit
+                : selected_record_read::Failure::invalid_data;
         session_.rollback();
         wrote_ = false;
         throw SqliteHoldStorageFailure(r);
@@ -638,6 +644,8 @@ class HoldAccess : public Access {
             fail(HR::invalid_stored_data);
     }
     std::optional<Metadata> metadata(const std::string &h) {
+        if (selected())
+            return selected_metadata(h);
         auto m = metadata_core(h);
         if (!m)
             return {};
@@ -646,11 +654,49 @@ class HoldAccess : public Access {
             lineage(*m->anchor.supersedes, m->anchor.subject);
         return m;
     }
+    std::optional<Metadata> selected_metadata(const std::string &h) {
+        auto a = anchor(h);
+        if (!a)
+            return {};
+        auto head = required("subathon_hold_heads", hold_heads_columns, "hold_ref=?", {bytes(h)});
+        if (ref(head, 0) != h || integer(head, 2) < 1)
+            fail(HR::invalid_stored_data);
+        auto first_row = required("subathon_hold_versions", hold_versions_columns,
+                                  "hold_ref=? AND position=1", {bytes(h)});
+        auto first = read_version(first_row, h);
+        auto current = version(h, ref(head, 1));
+        if (first.position != 1 || first.producer_mutation_ref != a->first ||
+            current.position != integer(head, 2))
+            fail(HR::invalid_stored_data);
+        if (current.parent_version_ref) {
+            auto parent = version(h, *current.parent_version_ref);
+            if (parent.position == std::numeric_limits<qint64>::max() ||
+                parent.position + 1 != current.position || parent.state != HS::active)
+                fail(HR::invalid_stored_data);
+        } else if (!hold_detail::same(first, current))
+            fail(HR::invalid_stored_data);
+        owner(first, a->subject);
+        if (first.locator.version_ref != current.locator.version_ref)
+            owner(current, a->subject);
+        return Metadata{std::move(*a), std::move(first), std::move(current), integer(head, 2)};
+    }
+    std::optional<Metadata> selected_detection_metadata(const std::string &h, const std::string &d,
+                                                        const std::string &v) {
+        auto a = anchor(h);
+        if (!a || a->first != d)
+            fail(HR::invalid_stored_data);
+        auto first = version(h, v);
+        if (first.position != 1 || first.producer_mutation_ref != d)
+            fail(HR::invalid_stored_data);
+        return Metadata{std::move(*a), first, first, 1};
+    }
     [[noreturn]] void reference_failure(bool incoming, bool missing = false) {
         fail(incoming ? (missing ? HR::missing_reference : HR::source_mismatch)
                       : HR::invalid_stored_data);
     }
     std::optional<RetainedDocument> retained(const RetainedKey &k) {
+        if (selected())
+            return selected_retained(k);
         try {
             return SqliteRetainedContextStore(session_,
                                               {limits_.reference_bytes, limits_.value_bytes})
@@ -936,7 +982,9 @@ class HoldAccess : public Access {
         auto r = required("subathon_hold_detections", {"hold_ref", "proposed_version_ref"},
                           "mutation_ref=?", {bytes(d)});
         const auto h = ref(r, 0);
-        const auto meta = checked ? std::optional<Metadata>{} : metadata(h);
+        const auto meta = checked      ? std::optional<Metadata>{}
+                          : selected() ? selected_detection_metadata(h, d, ref(r, 1))
+                                       : metadata(h);
         const auto *actual = checked ? checked : (meta ? &*meta : nullptr);
         if (!actual || actual->current.locator.hold_ref != h ||
             !hold_detail::same(actual->anchor.subject, m->subject))
@@ -1044,8 +1092,11 @@ class HoldAccess : public Access {
                   if (ref(v, 0) != key)
                       fail(HR::invalid_stored_data);
                   const auto h = ref(v, 1), token = ref(v, 2);
-                  auto a = metadata(h);
-                  if (!a || !hold_detail::same(a->anchor.subject, b.subject))
+                  auto a = selected() ? std::optional<Metadata>{} : metadata(h);
+                  auto selected_anchor = selected() ? anchor(h) : std::optional<Anchor>{};
+                  if (selected() ? !selected_anchor ||
+                                       !hold_detail::same(selected_anchor->subject, b.subject)
+                                 : !a || !hold_detail::same(a->anchor.subject, b.subject))
                       fail(HR::invalid_stored_data);
                   auto version_ = version(h, token);
                   if (version_.state != HS::active)
@@ -1081,8 +1132,11 @@ class HoldAccess : public Access {
                       ref(v, 1), ref(v, 2), ref(v, 3), envelope(v, 4), {}};
                   if (ref(v, 0) != key || null(v, 6) != null(v, 7))
                       fail(HR::invalid_stored_data);
-                  auto a = metadata(e.hold_ref);
-                  if (!a || !hold_detail::same(a->anchor.subject, b.subject))
+                  auto a = selected() ? std::optional<Metadata>{} : metadata(e.hold_ref);
+                  auto selected_anchor = selected() ? anchor(e.hold_ref) : std::optional<Anchor>{};
+                  if (selected() ? !selected_anchor ||
+                                       !hold_detail::same(selected_anchor->subject, b.subject)
+                                 : !a || !hold_detail::same(a->anchor.subject, b.subject))
                       fail(HR::invalid_stored_data);
                   const auto old = version(e.hold_ref, e.expected_version_ref),
                              produced = version(e.hold_ref, e.proposed_version_ref);
@@ -1747,6 +1801,239 @@ class HoldAccess : public Access {
         return result;
     }
 };
+class SelectedHoldMetadata : public SelectedMetadata {
+  public:
+    SqliteHoldLimits holds;
+    explicit SelectedHoldMetadata(const SqliteWorkSession &s, SqliteHoldLimits l)
+        : SelectedMetadata(s, l.references), holds(l) {}
+    // Hold output has its own independent byte/item ceilings. The source/profile
+    // budgets in SelectedMetadata remain the complete supplied bundle profile.
+    void hold_charge(Budget &b, size_t bytes_, size_t items = 0) {
+        add(b.bytes, bytes_, size_t(holds.owned_bytes));
+        add(b.items, items, size_t(holds.result_items));
+    }
+    void hold_row(Budget &b, const SqlRow &r, std::initializer_list<int> fields, size_t fixed = 0) {
+        hold_charge(b, fixed);
+        hold_charge(b, sum(r, fields));
+    }
+    std::map<std::pair<std::string, std::string>, SqlRow> version_plans;
+    SqlRow version_meta(const std::string &h, const std::string &v) {
+        const auto key = std::pair{h, v};
+        if (auto it = version_plans.find(key); it != version_plans.end())
+            return it->second;
+        auto row = required_meta("subathon_hold_versions", hold_versions_columns, "rriRirRR",
+                                 "hold_ref=? AND version_ref=?", {bytes(h), bytes(v)});
+        version_plans.emplace(key, row);
+        return row;
+    }
+    void version_output(Budget &out, const SqlRow &r) {
+        hold_row(out, r, {0, 1, 2, 3, 5, 6, 7}, 1);
+    }
+    void observation_meta(Budget &out, const QString &t, const QString &key,
+                          const std::string &ref) {
+        const auto &cols = t == "subathon_hold_cause_observations"
+                               ? hold_cause_observations_columns
+                               : hold_detection_observations_columns;
+        auto r = required_meta(t, cols, "rRrvRRRRII", key + "=?", {bytes(ref)});
+        hold_row(out, r, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+        if (!null(r, 1)) {
+            auto route_ = route(t, {"persisted_state_token"}, key + "=?", {bytes(ref)});
+            state_source(string(route_, 0, limits_.reference_bytes, true));
+        }
+    }
+    std::map<std::string, Budget> detection_plans, cause_plans;
+    void detection(Budget &result, const std::string &h, const std::string &d) {
+        if (auto it = detection_plans.find(d); it != detection_plans.end()) {
+            hold_charge(result, it->second.bytes, it->second.items);
+            return;
+        }
+        Budget out;
+        auto r = required_meta("subathon_hold_detections", hold_detections_columns, "rrRrrv",
+                               "mutation_ref=?", {bytes(d)});
+        hold_row(out, r, {0, 2, 3, 4, 5});
+        required_meta("subathon_hold_mutations", hold_mutations_columns, "riiuiiRRVRVIRRURURRIII",
+                      "mutation_ref=?", {bytes(d)});
+        observation_meta(out, "subathon_hold_detection_observations", "mutation_ref", d);
+        auto v = route("subathon_hold_detections", {"hold_ref", "proposed_version_ref"},
+                       "mutation_ref=?", {bytes(d)});
+        if (string(v, 0, limits_.reference_bytes, true) != h)
+            throw Failure::invalid_data;
+        version_meta(h, string(v, 1, limits_.reference_bytes, true));
+        detection_plans.emplace(d, out);
+        hold_charge(result, out.bytes, out.items);
+    }
+    void cause(Budget &result, const std::string &h) {
+        if (auto it = cause_plans.find(h); it != cause_plans.end()) {
+            hold_charge(result, it->second.bytes, it->second.items);
+            return;
+        }
+        Budget out;
+        auto r = required_meta("subathon_hold_causes", hold_causes_columns,
+                               "riuUuRRRrrrrrviRriRUiIRViIIRCCRVIIIIIIIRVVRRI", "hold_ref=?",
+                               {bytes(h)});
+        // Source subject includes its one-byte variant tag. Stored first-detection
+        // locator and occurrence_count are validation metadata, not returned fields.
+        hold_row(out, r, {0,  2,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 15, 18, 19, 22,
+                          23, 26, 27, 28, 29, 30, 31, 32, 34, 37, 39, 40, 41, 42, 43, 44},
+                 1);
+        for (int i : {14, 17, 20, 21, 25, 33, 35, 36, 38})
+            if (!null(r, i))
+                hold_charge(out, 1);
+        auto n = integer(r, 24);
+        if (n < 0)
+            throw Failure::invalid_data;
+        auto occurrences =
+            rows("subathon_hold_occurrences", hold_occurrences_columns, "riRRRRICCIV", "hold_ref=?",
+                 {bytes(h)}, holds.known_occurrences_per_cause);
+        if (n != occurrences.size())
+            throw Failure::invalid_data;
+        hold_charge(out, 0, size_t(n));
+        for (const auto &o : occurrences) {
+            hold_row(out, o, {1, 2, 3, 4, 5, 7, 8, 9, 10});
+            if (!null(o, 6))
+                hold_charge(out, 1);
+        }
+        observation_meta(out, "subathon_hold_cause_observations", "hold_ref", h);
+        auto links =
+            route("subathon_hold_causes",
+                  {"configuration_ref", "arrival_context_ref", "source_receipt_id", "subject_kind",
+                   "subject_id", "plan_ref", "plan_revision", "associated_scope", "associated_ref"},
+                  "hold_ref=?", {bytes(h)});
+        retained(string(links, 0, limits_.reference_bytes, true));
+        retained(string(links, 1, limits_.reference_bytes, true), true);
+        receipt(ReceiptId{id(links, 2, true)});
+        if (integer(links, 3) == 0) {
+            contribution(ContributionId{id(links, 4)}, true);
+            observation_source(ReceiptId{id(links, 2, true)});
+        }
+        if (!null(links, 5))
+            plan_source({string(links, 5, limits_.reference_bytes, true), id(links, 6, true)});
+        if (!null(links, 7))
+            application({string(links, 7, limits_.reference_bytes, true),
+                         string(links, 8, limits_.reference_bytes, true)});
+        cause_plans.emplace(h, out);
+        hold_charge(result, out.bytes, out.items);
+    }
+    void anchor_meta(const std::string &h) {
+        required_meta("subathon_hold_causes",
+                      {"hold_ref", "subject_kind", "subject_id", "contribution_id",
+                       "first_detection_ref", "supersedes_hold_ref"},
+                      "riuUrR", "hold_ref=?", {bytes(h)});
+    }
+    void resolution(Budget &out, const std::string &d) {
+        auto r = required_meta("subathon_hold_mutations", hold_mutations_columns,
+                               "riiuiiRRVRVIRRURURRIII", "mutation_ref=?", {bytes(d)});
+        const auto expected = integer(r, 4), entries = integer(r, 5);
+        if (expected < 0 || entries < 1)
+            throw Failure::invalid_data;
+        auto es = rows("subathon_hold_resolution_expected", hold_resolution_expected_columns, "rrr",
+                       "mutation_ref=?", {bytes(d)}, holds.active_holds_per_result);
+        auto ns = rows("subathon_hold_resolution_entries", hold_resolution_entries_columns,
+                       "rrrrrvRR", "mutation_ref=?", {bytes(d)}, holds.resolution_entries);
+        if (es.size() != expected || ns.size() != entries)
+            throw Failure::invalid_data;
+        hold_row(out, r, {0, 3, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17, 18, 19, 21}, 1);
+        if (!null(r, 11))
+            hold_charge(out, 1);
+        if (!null(r, 20))
+            hold_charge(out, 1);
+        hold_charge(out, 0, size_t(expected) + size_t(entries));
+        for (const auto &e : es)
+            hold_row(out, e, {1, 2});
+        for (const auto &e : ns)
+            hold_row(out, e, {1, 2, 3, 4, 5});
+        // All routing columns have been type/byte admitted above. Read only those
+        // bounded keys; documents remain unowned until the whole plan completes.
+        auto er = execute({"SELECT " + projection(hold_resolution_expected_columns) +
+                               " FROM main.subathon_hold_resolution_expected WHERE mutation_ref=? "
+                               "ORDER BY hold_ref LIMIT ?",
+                           {bytes(d), qint64(holds.active_holds_per_result + 1)}});
+        for (const auto &e : er) {
+            const auto h = string(e, 1, limits_.reference_bytes, true);
+            anchor_meta(h);
+            version_meta(h, string(e, 2, limits_.reference_bytes, true));
+        }
+        const QStringList route_cols{"hold_ref", "expected_version_ref", "proposed_version_ref",
+                                     "replacement_hold_ref", "replacement_detection_ref"};
+        auto nr = execute({"SELECT " + projection(route_cols) +
+                               " FROM main.subathon_hold_resolution_entries WHERE mutation_ref=? "
+                               "ORDER BY hold_ref LIMIT ?",
+                           {bytes(d), qint64(holds.resolution_entries + 1)}});
+        for (const auto &e : nr) {
+            const auto h = string(e, 0, limits_.reference_bytes, true);
+            anchor_meta(h);
+            version_meta(h, string(e, 1, limits_.reference_bytes, true));
+            auto produced = version_meta(h, string(e, 2, limits_.reference_bytes, true));
+            version_output(out, produced);
+            hold_charge(out, 0, 1);
+            if (!null(e, 3)) {
+                const auto next = string(e, 3, limits_.reference_bytes, true),
+                           det = string(e, 4, limits_.reference_bytes, true);
+                cause(out, next);
+                detection(out, next, det);
+                auto dr = route("subathon_hold_detections", {"proposed_version_ref"},
+                                "mutation_ref=?", {bytes(det)});
+                version_output(out,
+                               version_meta(next, string(dr, 0, limits_.reference_bytes, true)));
+                hold_charge(out, 0, 1);
+            }
+        }
+        if (!null(r, 12)) {
+            auto app = route("subathon_hold_mutations", {"application_scope", "application_ref"},
+                             "mutation_ref=?", {bytes(d)});
+            application({string(app, 0, limits_.reference_bytes, true),
+                         string(app, 1, limits_.reference_bytes, true)});
+            // Owning application-link invariants inspect each directly selected cause.
+            for (const auto &e : nr) {
+                Budget local;
+                cause(local, string(e, 0, limits_.reference_bytes, true));
+            }
+        }
+    }
+    bool view(const std::string &h) {
+        auto root = rows("subathon_hold_causes", {"hold_ref"}, "r", "hold_ref=?", {bytes(h)});
+        if (root.isEmpty())
+            return false;
+        Budget out;
+        cause(out, h);
+        auto head = required_meta("subathon_hold_heads", hold_heads_columns, "rri", "hold_ref=?",
+                                  {bytes(h)});
+        auto first = required_meta("subathon_hold_versions", hold_versions_columns, "rriRirRR",
+                                   "hold_ref=? AND position=1", {bytes(h)});
+        auto firstkey = route("subathon_hold_versions", {"version_ref"},
+                              "hold_ref=? AND position=1", {bytes(h)});
+        version_plans.emplace(std::pair{h, string(firstkey, 0, limits_.reference_bytes, true)},
+                              first);
+        auto hr = route("subathon_hold_heads", {"version_ref"}, "hold_ref=?", {bytes(h)});
+        auto cr = version_meta(h, string(hr, 0, limits_.reference_bytes, true));
+        version_output(out, first);
+        version_output(out, cr);
+        auto keys =
+            route("subathon_hold_causes", {"first_detection_ref"}, "hold_ref=?", {bytes(h)});
+        const auto d = string(keys, 0, limits_.reference_bytes, true);
+        detection(out, h, d);
+        auto current =
+            route("subathon_hold_versions", {"parent_version_ref", "mutation_ref", "version_ref"},
+                  "hold_ref=? AND version_ref=?",
+                  {bytes(h), bytes(string(hr, 0, limits_.reference_bytes, true))});
+        if (!null(current, 0))
+            version_meta(h, string(current, 0, limits_.reference_bytes, true));
+
+        if (string(firstkey, 0, limits_.reference_bytes, true) !=
+            string(current, 2, limits_.reference_bytes, true)) {
+            hold_charge(out, 1); // current_event variant discriminator
+            const auto producer = string(current, 1, limits_.reference_bytes, true);
+            auto m = required_meta("subathon_hold_mutations", {"mutation_kind"}, "i",
+                                   "mutation_ref=?", {bytes(producer)});
+            if (integer(m, 0) == 0)
+                detection(out, h, producer);
+            else
+                resolution(out, producer);
+        }
+        (void)head;
+        return true;
+    }
+};
 } // namespace
 MigrationManifest application_hold_repository_manifest() { return hold_detail::make_manifest(); }
 SqliteApplicationHoldStore::SqliteApplicationHoldStore(SqliteWorkSession s, SqliteHoldLimits l)
@@ -1800,3 +2087,23 @@ SqliteApplicationHoldStore::stage_resolution(const ApplicationHoldResolutionBatc
     });
 }
 } // namespace subathon::server
+
+namespace subathon::server::selected_record_read {
+HoldResult read_hold(const SqliteWorkSession &session, const std::string &hold_ref,
+                     const SqliteHoldLimits &limits) {
+    hold_detail::validate_find(hold_ref, limits);
+    try {
+        SelectedHoldMetadata metadata(session, limits);
+        if (!metadata.view(hold_ref))
+            return Failure::missing;
+        HoldAccess decoder(session, limits, Access::ReadPolicy::selected);
+        auto view = decoder.find(hold_ref);
+        decoder.returned(view);
+        if (!view)
+            return Failure::missing;
+        return std::move(*view);
+    } catch (Failure f) {
+        return f;
+    }
+}
+} // namespace subathon::server::selected_record_read

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "application_reference_read_state.hpp"
 #include "application_service_command_internal.hpp"
 #include "sqlite_application_bundle_access.hpp"
 #include "sqlite_application_hold_values.hpp"
@@ -691,15 +692,6 @@ void final_bounds(const ApplicationServiceResponse &r, const ApplicationServiceL
     bound(bytes, items, l, true);
 }
 } // namespace
-namespace detail {
-class ApplicationReferenceReadState {
-  public:
-    SqliteWorkSession session;
-    RetainedLimits limits;
-    QThread *owner{nullptr};
-    std::atomic_bool active{true};
-};
-} // namespace detail
 std::optional<RetainedDocument>
 ApplicationReferenceReadView::find_retained(const RetainedKey &key) const {
     auto state = state_.lock();
@@ -1215,6 +1207,8 @@ class Execute {
         state->session = session_;
         state->limits = {std::min(l_.reference_bytes, l_.bundles.reference_bytes),
                          std::min(l_.storage_document_bytes, l_.bundles.value_bytes)};
+        state->intermediate_owned_bytes = l_.intermediate_owned_bytes;
+        state->intermediate_items = l_.intermediate_items;
         state->owner = QThread::currentThread();
         auto view = factory_(state);
         struct Revoke {

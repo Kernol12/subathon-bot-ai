@@ -2,6 +2,7 @@
 #pragma once
 // Private same-session strict decoders shared by bundle and hold persistence.
 #include "sqlite_application_bundle_values.hpp"
+#include "sqlite_selected_record_read.hpp"
 #include <algorithm>
 #include <array>
 #include <limits>
@@ -274,13 +275,18 @@ const QStringList app_reversal_heads_columns{"original_scope",
                                              "last_operation",
                                              "last_request_ordinal"};
 // One ephemeral decoder borrows the active caller unit. It never commits/adopts
-// or provides destructor cleanup. All known failures establish actual rollback.
+// or provides destructor cleanup. Legacy failures roll back; selected reads leave
+// local failure and transaction fate with the caller.
 class Access {
   public:
     SqliteWorkSession session_;
     SqliteBundleLimits limits_;
     bool wrote_{false};
-    Access(SqliteWorkSession s, SqliteBundleLimits l) : session_(std::move(s)), limits_(l) {}
+    enum class ReadPolicy { legacy, selected };
+    ReadPolicy policy_;
+    Access(SqliteWorkSession s, SqliteBundleLimits l, ReadPolicy policy = ReadPolicy::legacy)
+        : session_(std::move(s)), limits_(l), policy_(policy) {}
+    bool selected() const { return policy_ == ReadPolicy::selected; }
     template <class F> auto guarded(F &&f) -> decltype(f()) {
         try {
             return f();
@@ -295,6 +301,8 @@ class Access {
         }
     }
     SqlRows execute(const SqlStatement &s) {
+        if (selected())
+            return session_.execute(s);
         try {
             return session_.execute(s);
         } catch (const SqliteWorkFailure &e) {
@@ -312,6 +320,10 @@ class Access {
         }
     }
     [[noreturn]] void fail(Reason reason) {
+        if (selected())
+            throw reason == Reason::result_limit || reason == Reason::resource_limit
+                ? selected_record_read::Failure::resource_limit
+                : selected_record_read::Failure::invalid_data;
         session_.rollback();
         wrote_ = false;
         throw SqliteBundleStorageFailure(reason);
@@ -411,6 +423,12 @@ class Access {
         return c;
     }
     void resolve(const core::ReceiptArrival &arrival) {
+        if (selected()) {
+            if (!selected_retained({RetainedKind::configuration, arrival.configuration_ref}) ||
+                !selected_retained({RetainedKind::arrival_context, arrival.modifier_context_ref}))
+                fail(Reason::invalid_stored_data);
+            return;
+        }
         try {
             const SqliteRetainedContextStore retained(
                 session_, {limits_.reference_bytes, limits_.value_bytes});
@@ -909,7 +927,35 @@ class Access {
             string(row, 1, limits_.reference_bytes, true) != key_.operation_ref)
             fail(Reason::invalid_stored_data);
     }
+    // Selected reads use the same strict scalar decoder with caller-owned failure
+    // policy instead of entering the rollback-owning public retained facade.
+    std::optional<RetainedDocument> selected_retained(const RetainedKey &k) {
+        const bool configuration = k.kind == RetainedKind::configuration;
+        QStringList cols{"reference", "document"};
+        if (!configuration)
+            cols.append("configuration_ref");
+        auto r =
+            one(configuration ? "subathon_retained_configurations" : "subathon_retained_contexts",
+                cols, "reference=?", {bytes(k.reference)});
+        if (!r)
+            return {};
+        if (string(*r, 0, limits_.reference_bytes, true) != k.reference)
+            fail(Reason::invalid_stored_data);
+        auto doc = bytes(string(*r, 1, limits_.value_bytes));
+        std::optional<ConfigurationReference> link;
+        if (!configuration && !null(*r, 2)) {
+            link = ConfigurationReference{string(*r, 2, limits_.reference_bytes, true)};
+            if (!selected_retained({RetainedKind::configuration, link->reference}))
+                fail(Reason::invalid_stored_data);
+        }
+        return RetainedDocument{k, std::move(doc), std::move(link)};
+    }
     void config(const std::string &ref) {
+        if (selected()) {
+            if (!selected_retained({RetainedKind::configuration, ref}))
+                fail(Reason::invalid_stored_data);
+            return;
+        }
         try {
             if (!SqliteRetainedContextStore(session_,
                                             {limits_.reference_bytes, limits_.value_bytes})
@@ -978,12 +1024,20 @@ class Access {
         auto h = header(key_.plan_ref);
         if (!h)
             return std::nullopt;
-        audit(key_.plan_ref, *h);
+        if (selected()) {
+            selected_max(key_.plan_ref, *h);
+        } else
+            audit(key_.plan_ref, *h);
         if (current_only && h->head != key_.revision)
             return Plan{{}, h->head};
         auto r = selected_scalar(key_.plan_ref, key_.revision, *h);
         if (!r)
             return std::nullopt;
+        if (selected()) {
+            if (r->revision > h->head)
+                fail(Reason::invalid_stored_data);
+            parent_target(key_.plan_ref, *r);
+        }
         body(key_.plan_ref, *r);
         return Plan{std::move(*r), h->head};
     }
@@ -1027,14 +1081,17 @@ class Access {
         std::string previous;
         for (;;) {
             auto rows_ = execute(
-                {"SELECT " + projection(app_balances_columns) +
+                {"SELECT " +
+                     projection(selected() && metadata
+                                    ? QStringList{"token", "balance_kind", "target_ref"}
+                                    : app_balances_columns) +
                      " FROM main.subathon_app_balances WHERE token=? AND (balance_kind>? OR "
                      "(balance_kind=? AND target_ref>?)) ORDER BY balance_kind,target_ref LIMIT 65",
                  {bytes(token), previous_kind, previous_kind, bytes(previous)}});
             const auto n = std::min<qsizetype>(64, rows_.size());
             for (qsizetype i = 0; i < n; ++i) {
                 const auto &v = rows_[i];
-                shape(v, 4);
+                shape(v, selected() && metadata ? 3 : 4);
                 if (string(v, 0, limits_.reference_bytes, true) != token)
                     fail(Reason::invalid_stored_data);
                 const auto kind = enumeration(v, 1, 3);
@@ -1349,9 +1406,12 @@ class Access {
                 (c.target_ref && c.target_ref->empty()))
                 fail(Reason::invalid_stored_data);
             if (c.target_ref) {
-                auto target = one("subathon_app_balances", app_balances_columns,
-                                  "token=? AND balance_kind=? AND target_ref=?",
-                                  {bytes(before), int(c.kind), bytes(*c.target_ref)}, true);
+                auto target =
+                    one("subathon_app_balances",
+                        selected() && !full ? QStringList{"token", "balance_kind", "target_ref"}
+                                            : app_balances_columns,
+                        "token=? AND balance_kind=? AND target_ref=?",
+                        {bytes(before), int(c.kind), bytes(*c.target_ref)}, true);
                 if (string(*target, 0, limits_.reference_bytes, true) != before ||
                     enumeration(*target, 1, 3) != int(c.kind) ||
                     string(*target, 2, limits_.reference_bytes, true) != *c.target_ref)
@@ -1529,8 +1589,63 @@ class Access {
             (o.full_refund && (o.cumulative_fraction != 1 || o.cumulative != actual)))
             fail(Reason::invalid_stored_data);
     }
+    // The private selected closure validates the current head and its direct
+    // terminal occurrence. Public basis/history reads retain their lifetime audit.
+    ApplicationReversalProgress selected_progress(const ApplicationOriginalComponent &o,
+                                                  std::int64_t actual) {
+        auto head = one("subathon_app_reversal_heads", app_reversal_heads_columns, basis_where(),
+                        basis_values(o), true);
+        if (string(*head, 0, limits_.reference_bytes, true) != o.operation.operation_scope ||
+            string(*head, 1, limits_.reference_bytes, true) != o.operation.operation_ref ||
+            integer(*head, 2) != o.request_ordinal ||
+            enumeration(*head, 3, 3) != int(o.component_kind) || integer(*head, 4) < 1 ||
+            integer(*head, 5) < 0 || integer(*head, 5) > actual)
+            fail(Reason::invalid_stored_data);
+        ApplicationOperationKey key_{string(*head, 6, limits_.reference_bytes, true),
+                                     string(*head, 7, limits_.reference_bytes, true)};
+        auto bindings = operation_values(key_);
+        bindings.append(integer(*head, 8));
+        bindings.append(basis_values(o));
+        auto row =
+            one("subathon_app_reversals", app_reversals_columns,
+                operation_where() + " AND request_ordinal=? AND " + basis_where(), bindings, true);
+        auto terminal = occurrence(*row, key_);
+        if (terminal.basis_position != integer(*head, 4) ||
+            terminal.cumulative != integer(*head, 5))
+            fail(Reason::invalid_stored_data);
+        reversal_algebra(terminal, actual);
+        return {terminal.basis_position, terminal.cumulative, terminal.cumulative_fraction,
+                terminal.full_refund, ApplicationReversalOccurrenceKey{key_, integer(*head, 8), o}};
+    }
+    void selected_reversal_parent(const ApplicationReversalOccurrence &o, std::int64_t actual,
+                                  const ApplicationReversalProgress &head) {
+        if (o.basis_position > head.position || o.cumulative > head.cumulative ||
+            (o.basis_position == head.position &&
+             (o.cumulative != head.cumulative ||
+              o.cumulative_fraction != head.cumulative_fraction ||
+              o.full_refund != head.full_refund)))
+            fail(Reason::invalid_stored_data);
+        if (o.basis_position == 1) {
+            if (o.previous_cumulative != 0)
+                fail(Reason::invalid_stored_data);
+            return;
+        }
+        auto bindings = basis_values(o.original);
+        bindings.append(qint64(o.basis_position - 1));
+        auto row = one("subathon_app_reversals", app_reversals_columns,
+                       basis_where() + " AND basis_position=?", bindings, true);
+        ApplicationOperationKey key_{string(*row, 0, limits_.reference_bytes, true),
+                                     string(*row, 1, limits_.reference_bytes, true)};
+        auto previous = occurrence(*row, key_);
+        if (previous.basis_position != o.basis_position - 1 ||
+            previous.cumulative != o.previous_cumulative)
+            fail(Reason::invalid_stored_data);
+        reversal_algebra(previous, actual);
+    }
     ApplicationReversalProgress progress(const ApplicationOriginalComponent &o,
                                          std::int64_t actual) {
+        if (selected())
+            return selected_progress(o, actual);
         auto h = one("subathon_app_reversal_heads", app_reversal_heads_columns, basis_where(),
                      basis_values(o));
         qint64 position = 0, cumulative = 0;
@@ -1721,6 +1836,9 @@ class Access {
             if (!source_.basis)
                 fail(Reason::invalid_stored_data);
             reversal_algebra(o, source_.basis->actual_credit_units);
+            if (selected())
+                selected_reversal_parent(o, source_.basis->actual_credit_units,
+                                         source_.basis->progress);
             v.reversals.push_back(std::move(o));
         }
         if (qint64(v.reversals.size()) != f->counts[4])
