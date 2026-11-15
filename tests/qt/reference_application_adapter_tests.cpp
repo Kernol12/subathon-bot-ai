@@ -445,14 +445,16 @@ class ReferenceApplicationAdapterTests final : public QObject {
                                               : ReferenceZeroStep::reuse_unchanged),
                     "Live reservation admitted");
             const auto sampled = r.sampler.calls;
+            require(r.entropy.calls == 1,
+                    "EVERY successful reservation draws one RCO1, even reuse");
             r.probe([&](const auto &v, const auto &c) {
                 auto p = policy(r, v, c, input);
                 const auto got = r.adapters.observe(v, c, input, p);
                 const auto *o = std::get_if<ApplicationClockObservation>(&got);
                 require(o && o->observed_utc_ms == utc && r.sampler.calls == sampled &&
                             o->checked_head_token == "a" && o->configuration_ref == "D" &&
-                            o->policy_revision_ref == "W",
-                        "Consume exact reserved candidate, never resample");
+                            o->policy_revision_ref == "W" && r.entropy.calls == 1,
+                        "Consume exact reserved candidate, never resample or redraw");
                 const bool reuse = elapsed == 0 && utc == 1000 && !fresh;
                 require(o->segments.size() == (reuse ? 0u : 1u) &&
                             (reuse ? o->observation_ref == "O"
@@ -918,16 +920,19 @@ class ReferenceApplicationAdapterTests final : public QObject {
                             .toLongLong() == 3480000,
                 "Earlier intake/capture durable and original head unchanged");
             const auto rolled_back_draws = r.entropy.calls;
-            require(rolled_back_draws == 2, "Reservation and after-state each drew once");
-            const auto spent_after = std::string("RRF1\1", 5) + std::string(32, char(2));
+            require(rolled_back_draws == 3,
+                    "RCO1 reservation, advanced_state and after_state each drew once");
+            const auto spent_after = std::string("RRF1\1", 5) + std::string(32, char(3));
             r.adapters.settle(got, {});
             r.file.db.work(
                 [](const auto &s) { (void)s.execute({"DROP TRIGGER api011_audit_fault", {}}); });
             const auto retried = r.attempt();
             accounting(applied(retried), 600000, 120000, 480000, 3600000);
-            require(r.entropy.calls == rolled_back_draws + 2 &&
+            require(r.entropy.calls == rolled_back_draws + 3 &&
+                        applied(retried).advanced_before.token ==
+                            std::string("RRF1\0", 5) + std::string(32, char(5)) &&
                         applied(retried).after.token ==
-                            std::string("RRF1\1", 5) + std::string(32, char(4)) &&
+                            std::string("RRF1\1", 5) + std::string(32, char(6)) &&
                         applied(retried).after.token != spent_after,
                     "Explicit retry has new entropy and new after-token; spent value never reused");
         });
@@ -975,7 +980,7 @@ class ReferenceApplicationAdapterTests final : public QObject {
                     "Separately authorized real read resolves durable head once");
             auto recovered = out.result->snapshot->committed;
             require(recovered.snapshot.token ==
-                            std::string("RRF1\1", 5) + std::string(32, char(2)) &&
+                            std::string("RRF1\1", 5) + std::string(32, char(3)) &&
                         recovered.basis == "a" && recovered.observation.checked_head_token == "a" &&
                         recovered.observation.observation_ref == "O" &&
                         recovered.observation.segments.empty(),
@@ -1453,7 +1458,7 @@ class ReferenceApplicationAdapterTests final : public QObject {
             require(got.response &&
                         got.response->disposition ==
                             ApplicationServiceDisposition::state_token_conflict &&
-                        r.entropy.calls == 2 && r.file.count("subathon_app_states") == 2 &&
+                        r.entropy.calls == 3 && r.file.count("subathon_app_states") == 2 &&
                         r.file.count("subathon_app_claims") == 0,
                     "Actual occupied SQL state namespace refuses, no regeneration/second award");
         });

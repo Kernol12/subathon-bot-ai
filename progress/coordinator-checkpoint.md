@@ -82,7 +82,18 @@ Owner decisions are recorded in #249, comment 6879902355:
   local diagnosis from ORIGINAL rolled_back/not_committed, and independently seeds
   a3072-byte token:completion12607 fit/12606 refusal exceeds auth intermediates.
   Exact CID-conflict outcome/reason asserted. Strict compile/link/static and83 name
-  listings pass; fresh independent re-verification and whole closing still required.
+  listings pass. Fresh Codex re-verification approved8ab29748:B16/B17/N02 resolved,
+  prior whole-stage assessment carried forward. N11 duplicate-copy assertion precision
+  stays nonblocking. Fresh WHOLE Claude closing at8ab29748 requested changes for
+  NEW API11-B18:entropy/token oracles omit mandatory advanced_state issuance.
+  B01 RP05 evidence remained blocked; B02-B17 otherwise resolved. Closing rejection
+  preserved. Owner explicitly approved ONE bounded third round (record6892536806).
+  Root applied exactly the prepared B18 correction:runtime header3 pins ONE RCO1
+  even for reuse, full domain/purpose reference identity,3draws per attempt and
+  after03/retry advanced05+after06. No N11 optional change or production behavior.
+  Fresh strict compile/link66steps/static and83 name-only listings pass. Examples4
+  and NEW independent Codex verification/WHOLE Claude closing are next. Fourth round
+  is NOT authorized. All earlier review/example artifacts remain preserved.
   No bodies/providers/hooks/red ran; all22 APIs remain NI. Existing
   upstream assertions/files stay frozen.
   No outside prerequisite or owner product decision was identified. Service/SAS1 extraction, consumer
@@ -98,9 +109,8 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Publish corrected API-011 examples3 and obtain fresh independent Codex re-verification
-of root fix round2 (API11-B16/B17/N02), retaining prior whole-stage dispositions.
-Then fresh WHOLE Claude closing before integration/red. Both allowed test fix rounds
-are used; ask owner before any third. Preserve both rejections and all upstream
-assertions. Root owns shared codec/build/checkpoint/publication; no implementation,
-authority shortcut, public mutation/live or process/tooling work.
+Publish API-011 examples4 for the owner-approved bounded B18 third-round correction,
+then NEW independent Codex verification and NEW fresh WHOLE Claude closing. No
+test body/provider/hook/red until complete tests approval, then fresh implementation.
+Preserve every verdict/example/upstream assertion. Only ONE extra round was approved;
+no fourth round, authority/live/process scope expansion or premature publication.

@@ -4,7 +4,7 @@
 #include <subathon/server/reference_configuration.hpp>
 
 namespace subathon::server {
-// API-011 public contract revision 2. Borrowed ports outlive all prepared pairs;
+// API-011 public contract revision 3. Borrowed ports outlive all prepared pairs;
 // drain writer before destruction. No callback opens SQL, writes, commits, pumps
 // events, resamples time, queues work or caches authority. All DATA is bounded.
 struct ReferenceClockSample {
@@ -97,8 +97,10 @@ struct ReferenceRuntimeLimits {
 // capacity refusal is not_ready/reference.journal-capacity.v1 BEFORE sampling or
 // entropy; capacity includes anchor, reservations and spent observations. Released
 // reservations remain tombstoned until lineage ends; capacity is a process bound.
-// zero/unchanged bindings+UTC: reuse mode releases unused fresh reservation and
-// returns old observation/segments{}; fresh mode emits one {0,UTC,false}. Changed
+// After successful profile/sample checks, EVERY reserve draws ONE fresh RCO1,
+// including reuse_unchanged. On zero/unchanged bindings+UTC, reuse mode tombstones
+// that unused RCO1 (ONE journal entry) and returns old observation/segments{};
+// fresh mode emits one {0,UTC,false}. Changed
 // UTC ALWAYS explicit zero/fresh. Nonzero emits ONE {elapsed,UTC,false}. Callbacks
 // consume reserved sample unchanged, never sample after permission/policy work.
 // settle only accepts matching pending work: committed/none/present response may
@@ -129,8 +131,11 @@ struct ReferenceRuntimeLimits {
 // issue purpose/binding is one-shot within the live outstanding reservation
 // scope (including a direct-issue scope before reserve). Known rollback settlement
 // closes that scope, permitting an explicit authorized attempt with new entropy
-// and new after-token. Issued bytes remain spent across scopes; never reuse or
-// regenerate automatically. Unknown outcome never opens a retry scope. State/hold/version tokens
+// and new after-token. Spent/collision identity is the COMPLETE opaque reference:
+// domain prefix, purpose byte when present, and suffix. Equal32-byte entropy under
+// DIFFERENT domains/purposes is not the same reference; repeated COMPLETE values
+// remain spent across scopes. Never reuse/regenerate automatically. Unknown
+// outcome never opens a retry scope. State/hold/version tokens
 // use ACTUAL store uniqueness/conflict, never an in-memory probability assertion.
 // Clock annotations remain reserved/tombstoned across known rollback; no nonreuse
 // claim from SQL, since observations aren't independently unique SQL keys.
