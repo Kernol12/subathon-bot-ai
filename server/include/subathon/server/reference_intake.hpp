@@ -3,7 +3,7 @@
 #include <subathon/server/reference_runtime.hpp>
 
 namespace subathon::server {
-// API-011 public contract revision 2. Trusted internal queue composition only.
+// API-011 public contract revision 3. Trusted internal queue composition only.
 // No public HTTP mutation, amount/current facts/server-arrival input or owner flag.
 struct ReferenceConnectorRegistration {
     std::string connection_ref;
@@ -139,8 +139,15 @@ struct ReferencePreparedWork {
 // missing/unknown config reference.configuration-unavailable.v1; known unsupported
 // config reference.configuration-unsupported.v1. Malformed source facts remain
 // typed failures; retained SRC1 contradiction is ReferenceExecutionFailure(invalid_data).
-// Post-BEGIN whole completion overage: rolled_back/result_limit, no value/payload;
-// no exception laundering or partially published output.
+// Project the COMPLETE prospective success completion BEFORE COMMIT. On a local
+// adapter completion overage, explicitly roll back: the ORIGINAL writer result is
+// rolled_back/not_committed, NOT a fabricated sticky WorkError::result_limit.
+// No work value or normal typed output survives. The matching pair may retain ONLY
+// bounded ReferenceUnavailable{not_ready,"reference.result-limit.v1"} diagnosis,
+// subject to the SAME complete diagnostic-completion and field ceilings. If it
+// cannot fit, omit the diagnosis, never the original work outcome/error. Unknown
+// cleanup/body error suppresses diagnosis as above. Actual writer SQL-result-limit
+// failures keep their original tag; never issue dummy SQL to manufacture that tag.
 // SQL source audit must prove selected bounded queries, cumulative budgets/no
 // reset, old error truth and original transaction ownership. No partial publication.
 class ReferenceIntake final {

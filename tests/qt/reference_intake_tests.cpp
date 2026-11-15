@@ -671,32 +671,68 @@ class ReferenceIntakeTests final : public QObject {
                     "Exact event_id reference ceiling4096 fits same field as4097 invalid input");
         });
     }
-    void snapshotWholeCompletionExact323ThenPostBegin322RollsBack() {
+    void snapshotWholeCompletionExact12607ThenPostBegin12606RollsBack() {
         scenario([] {
-            // Snapshot135 + own basis1 + imported observation13 + policy1 =150;
-            // cap presence1+8 =>159. Work2 + optional(1+159) + output(1+159)
-            // + absent refusal1 =323. No ABI/QVariant capacity accounting.
-            ReferenceRuntimeLimits limits;
-            limits.values.value_owned_bytes = 323;
-            {
-                IntakeRig exact(true, limits);
+            // Initial SAS1 does NOT encode its head token. A literal 3072-byte
+            // token occurs in snapshot and derived observation, then both copies
+            // occur in work.value and the output: 323 + 4*(3072-1) =12607.
+            // Snapshot3206 + basis1 + observation3084 + policy1 =6292;
+            // cap presence1+8 =>6301. Work2+(1+6301)+(1+6301)+1 =12607.
+            // The complete graph/catalog/authorization inputs remain well below
+            // 12606; a tiny general profile323 would refuse before this boundary.
+            const std::string token(3072, 'a');
+            auto expected = committed();
+            expected.snapshot.token = token;
+            expected.observation.checked_head_token = token; // absent initial basis
+            auto check = [&](std::uint64_t bytes, bool fits) {
+                ReferenceRuntimeLimits limits;
+                limits.values.value_owned_bytes = bytes;
+                IntakeRig r(false, limits);
+                // Independent OLD stores/literals seed the head. No new loader,
+                // initializer or encoder creates the completion's own oracle.
+                r.file.db.work([&](const auto &s) {
+                    const auto config = literals()["configurations"]
+                                            .toObject()["standard"]
+                                            .toObject()["document_hex"]
+                                            .toString();
+                    require(SqliteRetainedContextStore(s).retain(
+                                {{RetainedKind::configuration, "D"},
+                                 QByteArray::fromHex(config.toLatin1()),
+                                 {}}) == RetainDisposition::inserted,
+                            "SETUP: independent current SRC1 D");
+                    require(SqliteApplicationBundleStore(s).retain_initial_state(
+                                expected.snapshot) == SqliteBundleInitialDisposition::inserted,
+                            "SETUP: independent initial SAS1 and long head token");
+                });
                 Completion<ReferenceSnapshotCompletion> out;
-                out.run(exact.file.db.writer,
-                        exact.intake.make_snapshot_work(actor('O'), out.callback()));
-                normal(out.result->work);
-                require(out.result->snapshot.has_value(),
-                        "Exact complete snapshot completion323 fits");
-            }
-            --limits.values.value_owned_bytes;
-            IntakeRig r(true, limits);
-            Completion<ReferenceSnapshotCompletion> out;
-            out.run(r.file.db.writer, r.intake.make_snapshot_work(actor('O'), out.callback()));
-            require(out.result->work.transaction == TransactionOutcome::rolled_back &&
-                        out.result->work.error == WorkError::result_limit &&
-                        !out.result->work.value && !out.result->snapshot && !out.result->refusal &&
-                        r.file.count("subathon_app_states") == 1 &&
-                        r.file.count("subathon_app_operations") == 0,
-                    "Post-BEGIN complete output323 exceeds322; actual rollback/no partial payload");
+                out.run(r.file.db.writer, r.intake.make_snapshot_work(actor('O'), out.callback()));
+                if (fits) {
+                    normal(out.result->work);
+                    require(out.result->snapshot &&
+                                out.result->snapshot->committed.snapshot.token == token &&
+                                out.result->snapshot->committed.observation.checked_head_token ==
+                                    token &&
+                                out.result->snapshot->committed.snapshot.envelope.document ==
+                                    expected.snapshot.envelope.document &&
+                                out.result->snapshot->maximum_main_ms == 3600000 &&
+                                out.result->work.value->canConvert<ReferenceSnapshot>() &&
+                                out.result->work.value->value<ReferenceSnapshot>()
+                                        .committed.snapshot.token == token,
+                            "Exact12607 fits the COMPLETE completion, including both owned copies");
+                } else {
+                    clean_refusal(*out.result, ReferenceGate::not_ready,
+                                  "reference.result-limit.v1");
+                    require(!out.result->snapshot, "Local completion overage preserves original "
+                                                   "writer truth, no partial snapshot");
+                }
+                require(r.file.count("subathon_app_states") == 1 &&
+                            r.file.count("subathon_app_operations") == 0 && r.sampler.calls == 0 &&
+                            r.entropy.calls == 0,
+                        "Authorized committed read neither mutates accounting nor fabricates an "
+                        "anchor");
+            };
+            check(12607, true);
+            check(12606, false);
         });
     }
     void captureLateIndexSqlFaultRollsBackAllStagingButPreservesIntake() {
@@ -741,6 +777,7 @@ class ReferenceIntakeTests final : public QObject {
             IntakeRig r;
             Completion<ReferenceCaptureCompletion> out;
             out.run(r.file.db.writer, r.intake.make_capture_work({7}, {1}, out.callback()));
+            clean_refusal(*out.result, ReferenceGate::conflict, "reference.collision.v1");
             require(
                 !out.result->capture && out.result->refusal &&
                     out.result->refusal->gate == ReferenceGate::conflict && r.entropy.calls == 0 &&

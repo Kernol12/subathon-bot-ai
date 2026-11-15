@@ -74,9 +74,17 @@ Owner decisions are recorded in #249, comment 6879902355:
   NI behavioral methods; compile/link/static and66 name-only listings pass. No test
   body/hook/provider/red ran. Examples posted6891350560; initial whole Claude tests
   review requested changes (15blockers API11-B01..B15,10notes N01..N10). Receipt and
-  proposed examples1 stay preserved. Fix round1 of2 is the next fresh assignment:
-  header/examples2, independent corrected oracles and missing behavior coverage;
-  all22 APIs remain unconditional NI. Existing upstream assertions/files stay frozen.
+  proposed examples1 stay preserved. Fix round1 of2 authored d3dbfb9b:header/examples2,
+  12 owned paths,83 name-only Qt methods; strict compile/link/static pass. Author's
+  proposed25 dispositions were independently checked; Codex requested changes for
+  API11-B16/B17 (writer truth and unreachable completion boundary), plus residual
+  N02. Both rejection receipts stay preserved. Root fix round2 of2 separates bounded
+  local diagnosis from ORIGINAL rolled_back/not_committed, and independently seeds
+  a3072-byte token:completion12607 fit/12606 refusal exceeds auth intermediates.
+  Exact CID-conflict outcome/reason asserted. Strict compile/link/static and83 name
+  listings pass; fresh independent re-verification and whole closing still required.
+  No bodies/providers/hooks/red ran; all22 APIs remain NI. Existing
+  upstream assertions/files stay frozen.
   No outside prerequisite or owner product decision was identified. Service/SAS1 extraction, consumer
   refactoring and shared build proposal remain unapplied coordinator-owned work.
   Both stages tier A; no test body before full tests review, no implementation before
@@ -90,9 +98,9 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Execute API-011 contract/tests fix round1 after initial rejection at e85848d1.
-Address all15 blockers and disposition all10 notes, publish corrected examples2,
-then independent WHOLE Codex verification and fresh WHOLE Claude closing before
-integration or behavioral red. Preserve original review/history and all upstream
-assertions. Root retains shared codec/build/checkpoint/publication; no production
-behavior, authority shortcut, public mutation/live or process/tooling work.
+Publish corrected API-011 examples3 and obtain fresh independent Codex re-verification
+of root fix round2 (API11-B16/B17/N02), retaining prior whole-stage dispositions.
+Then fresh WHOLE Claude closing before integration/red. Both allowed test fix rounds
+are used; ask owner before any third. Preserve both rejections and all upstream
+assertions. Root owns shared codec/build/checkpoint/publication; no implementation,
+authority shortcut, public mutation/live or process/tooling work.
