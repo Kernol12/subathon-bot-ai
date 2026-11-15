@@ -4,26 +4,24 @@ Owner: Kernol12. Issues own brief/status/prerequisites; PR comments own reviews.
 Complete specification v0.45, all seven integrations and all three FX providers
 remain release scope. This checkpoint grants no new authorization.
 
-## Owner scope (resume of 2026-11-15)
+## Owner scope: waiting for the owner on #278
 
-The stop after API-011 is lifted. API-011 (#562) is merged as PR653, f7921b95, and
-its issue is closed. The authorized path, in this order and nothing else:
+The path authorized on 2026-11-15, in this order and nothing else:
 
-1. **SLICE-001 [#642](https://github.com/Kernol12/subathon-bot-ai/issues/642)**, tier B, two stages (tests, then implementation).
-2. **Owner checkpoint** described in [#278](https://github.com/Kernol12/subathon-bot-ai/issues/278), before anything else after the
-   SLICE-001 merge: compare what the running slice shows with the API-001 brief, the
-   existing host baseline and its contracts, and post the finding on #278. A major
-   impact (a baseline or contract to redesign, reduce or replace) waits for the
-   owner; API-016, APITEST-015 and API-001 are not claimed until the owner answers.
-   No major impact is one comment there, then continue.
-3. **API-016 [#616](https://github.com/Kernol12/subathon-bot-ai/issues/616)** → **APITEST-015 [#613](https://github.com/Kernol12/subathon-bot-ai/issues/613)** → **API-001 [#278](https://github.com/Kernol12/subathon-bot-ai/issues/278)**.
+1. **SLICE-001 [#642](https://github.com/Kernol12/subathon-bot-ai/issues/642)**: done. Merged as PR660, 579afcb3; issue closed.
+2. **Owner checkpoint** on [#278](https://github.com/Kernol12/subathon-bot-ai/issues/278): done, and the finding is a
+   [major impact](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6903537625). The host baseline pins activation to catalog
+   version 8 while the running path needs version 10, and its execution boundary
+   cannot run the contribution path. Three options are posted there.
+3. **API-016 [#616](https://github.com/Kernol12/subathon-bot-ai/issues/616)** → **APITEST-015 [#613](https://github.com/Kernol12/subathon-bot-ai/issues/613)** → **API-001 [#278](https://github.com/Kernol12/subathon-bot-ai/issues/278)**: NOT claimed.
+   None of the three starts until the owner has answered on #278.
 
 PR #121 is closed, not parked. API-001 restarts from its rewritten issue on current
 `main` in a fresh session; the PR #121 code is reference material only and none of
 its reviews, approvals or CI results carries over.
 
-Process/tooling #619/#620 stays frozen until a server starts, runs a timer and
-accepts a fake contribution. Dependency readiness authorizes nothing beyond the path
+Process/tooling #619/#620 stays frozen; the slice now runs, and lifting that freeze
+is the owner's decision. Dependency readiness authorizes nothing beyond the path
 above. No live chat or payment side effects are authorized.
 
 ## Working rules from the owner (2026-11-15)
@@ -39,25 +37,23 @@ above. No live chat or payment side effects are authorized.
   not-implemented stub and reports the fixture check in the handoff; it is never red
   evidence.
 
-## SLICE-001 owner decision (2026-11-15)
+## What SLICE-001 delivered
 
-The step 0 read found three gaps, reported in
-[#642](https://github.com/Kernol12/subathon-bot-ai/issues/642#issuecomment-6902219552): no production `CurrentSessionClock`,
-no setup or login producer for the stored owner, session and graph, and examples
-that assume zero elapsed time. The owner chose option B and kept tier B:
+`subathon-dev-server` (`server/dev/`, suite `dev-server` in the `qt` job) starts the
+Qt loop, opens the single writer, advances the catalog to version 10, initializes one
+timer and applies synthetic contributions through API-011's reference path. The
+contract is on #642 (revisions 1 to 4). Owner decisions of 2026-11-15: development
+session clock, development provisioning and `--controlled-clock` live only in that
+executable; `encode_reference_execution_ref` (SRF1) is public in the server library.
 
-- Inside the slice executable only, never in the server library: a development
-  session clock, a one-time development provisioning through the existing public
-  store primitives with synthetic facts, and a controlled clock option so the
-  examples hold exactly. The real `SystemReferenceClockSampler` stays the default.
-- The reviewer checks that none of it is reachable from the server library and that
-  it is marked development-only. SESSION-009, API-010 and setup keep their ownership
-  and release requirements.
+It is a development walking skeleton. Limits: no login or session renewal (the
+development session lasts 24 hours), no restart of a live clock anchor (an existing
+database is read-only), no HTTP, no production host. SESSION-009, API-010, setup and
+API-001 keep their ownership and release requirements.
 
 ## Live assignments
 
-SLICE-001 is claimed on #642, branch `task/SLICE-001-development-server`, tests
-stage first; its PR owns head, CI and review state once it exists. Verify the actual
+None. No worktree, branch or delegate of SLICE-001 remains. Verify the actual
 checkout, worktrees and PR state before acting; never infer a live session from
 this file.
 
