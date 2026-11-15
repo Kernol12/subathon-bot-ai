@@ -11,6 +11,20 @@ namespace {
 constexpr std::int64_t controlled_utc_ms = 1'800'000'000'000;
 constexpr std::int64_t session_lifetime_ms = 86'400'000;
 
+// Discard the random password on success and on exceptions; retain only its verifier.
+std::string random_verifier() {
+    struct Password {
+        ReferenceEntropyRead sample = OsReferenceEntropy{}.read32();
+        ~Password() {
+            for (volatile std::uint8_t &byte : sample.bytes)
+                byte = 0;
+        }
+    } password;
+    if (password.sample.error != ReferenceEntropyError::none || password.sample.received != 32)
+        throw std::runtime_error("Development credential entropy unavailable");
+    return create_password_hash(std::as_bytes(std::span(password.sample.bytes)));
+}
+
 void staged(LifecycleWriteResult r) {
     if (r != LifecycleWriteResult::staged)
         throw std::runtime_error("Development account/session provisioning refused");
@@ -111,9 +125,7 @@ void provision(const SqliteWorkSession &s, CurrentSessionClock &clock,
         "development-account-v1"};
     staged(accounts.insert_installation(installation));
     staged(accounts.insert_account(account));
-    // Public synthetic password: only a development verifier, never a real credential.
-    constexpr std::string_view password = "subathon-development-only";
-    const auto verifier = create_password_hash(std::as_bytes(std::span(password)));
+    const auto verifier = random_verifier();
     staged(accounts.replace_local_credential(
         {},
         {lookup.installation_ref,

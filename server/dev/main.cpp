@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Development walking skeleton only; this is not the production server host.
 #include "development_setup.hpp"
+#include <QByteArrayView>
 #include <QCoreApplication>
 #include <QFileInfo>
 #include <QJsonArray>
@@ -38,7 +39,8 @@ std::optional<Options> parse(int argc, char **argv) {
             return {};
         const std::string_view value(argv[i]);
         if (key == "--event") {
-            if (value.empty() || value.size() > ReferenceAdapterLimits{}.reference_bytes)
+            if (value.empty() || value.size() > ReferenceAdapterLimits{}.reference_bytes ||
+                !QByteArrayView(value.data(), static_cast<qsizetype>(value.size())).isValidUtf8())
                 return {};
             o.events.emplace_back(value);
             continue;
@@ -63,7 +65,7 @@ std::optional<Options> parse(int argc, char **argv) {
                                 : true)
             return {};
     }
-    if (!database || !start || !cap || !add || o.cap_ms < o.start_ms)
+    if (!database || !start || !cap || !add || o.start_ms == 0 || o.cap_ms < o.start_ms)
         return {};
     return o;
 }
@@ -106,12 +108,6 @@ class Run final {
 
     void start() {
         const bool existing = QFileInfo::exists(options_.database);
-        // Active/Main-positive is the reference runtime's supported startup profile.
-        // On reopen start_ms is ignored, including zero.
-        if (!existing && options_.start_ms == 0) {
-            finish(3);
-            return;
-        }
         if (existing && !options_.events.empty()) {
             finish(3);
             return;
@@ -148,15 +144,19 @@ class Run final {
             finish(1);
     }
 
-    void finish(int code) {
+    void finish(int code, std::string_view reason = "reference.runtime-unavailable.v1") {
         if (finishing_)
             return;
         finishing_ = true;
-        if (code)
+        if (code == 3)
+            std::fprintf(stderr, "Refused: %.*s\n", int(reason.size()), reason.data());
+        else if (code)
             std::fprintf(stderr, "Development server failed (exit %d)\n", code);
         auto done = [this, code] {
-            if (code == 0 && std::fwrite(output_.constData(), 1, std::size_t(output_.size()),
-                                         stdout) != std::size_t(output_.size())) {
+            if (code == 0 && (std::fwrite(output_.constData(), 1, std::size_t(output_.size()),
+                                          stdout) != std::size_t(output_.size()) ||
+                              std::fflush(stdout) != 0)) {
+                std::fputs("Failed to write development server result\n", stderr);
                 QCoreApplication::exit(1);
                 return;
             }
@@ -169,6 +169,12 @@ class Run final {
     }
 
   private:
+    void failed(const std::optional<ReferenceUnavailable> &refusal) {
+        if (refusal)
+            finish(3, refusal->reason_ref);
+        else
+            finish(1);
+    }
     void enqueue(ReferencePreparedWork p) {
         if (writer_.enqueue_work(std::move(p.body), std::move(p.completion)) != StorageError::none)
             finish(1);
@@ -216,8 +222,8 @@ class Run final {
                                          facts_.projection.timer_config.grace_duration_ms, false}};
         enqueue(startup_intake_->make_initial_work(
             request, guarded([this](ReferenceInitialCompletion r) {
-                if (!normal(r.work) || !r.anchor) {
-                    finish(r.refusal ? 3 : 1);
+                if (r.refusal || !normal(r.work) || !r.anchor) {
+                    failed(r.refusal);
                     return;
                 }
                 current_ = r.anchor->committed;
@@ -239,8 +245,8 @@ class Run final {
             facts_.configuration_ref,
             {"development-connection", options_.events[event_], {}, QByteArray("", 0)},
             guarded([this](ReferenceReceiptCompletion r) {
-                if (!normal(r.work) || !r.receipt) {
-                    finish(r.refusal ? 3 : 1);
+                if (r.refusal || !normal(r.work) || !r.receipt) {
+                    failed(r.refusal);
                     return;
                 }
                 evidence(r.receipt->receipt_id);
@@ -249,14 +255,15 @@ class Run final {
     void evidence(core::ReceiptId receipt) {
         enqueue(intake_->make_evidence_work(
             receipt, guarded([this, receipt](ReferenceEvidenceCompletion r) {
-                if (!normal(r.work) || !r.evidence || !r.evidence->contribution_id) {
-                    finish(r.refusal ? 3 : 1);
+                if (r.refusal || !normal(r.work) || !r.evidence || !r.evidence->contribution_id) {
+                    failed(r.refusal);
                     return;
                 }
                 enqueue(intake_->make_capture_work(receipt, *r.evidence->contribution_id,
                                                    guarded([this](ReferenceCaptureCompletion c) {
-                                                       if (!normal(c.work) || !c.capture) {
-                                                           finish(c.refusal ? 3 : 1);
+                                                       if (c.refusal || !normal(c.work) ||
+                                                           !c.capture) {
+                                                           failed(c.refusal);
                                                            return;
                                                        }
                                                        apply(*c.capture);
@@ -274,7 +281,7 @@ class Run final {
         auto p = service_->make_work(
             command, guarded([this](ApplicationServiceCompletion r) {
                 if (reservation_refused_) {
-                    finish(3);
+                    finish(3, reservation_refused_->reason_ref);
                     return;
                 }
                 if (r.transaction != TransactionOutcome::committed ||
@@ -288,7 +295,9 @@ class Run final {
                     disposition != ApplicationServiceDisposition::subject_claimed &&
                     disposition != ApplicationServiceDisposition::source_claimed) {
                     runtime_->settle(r, {});
-                    finish(3);
+                    const auto *reason =
+                        std::get_if<ApplicationNotReadyPayload>(&r.response->payload);
+                    finish(3, reason ? reason->reason_ref : "reference.runtime-unavailable.v1");
                     return;
                 }
                 record(r);
@@ -339,8 +348,8 @@ class Run final {
     template <class F> void snapshot(F f) {
         enqueue(intake_->make_snapshot_work(
             dev::owner_session(), guarded([this, f = std::move(f)](ReferenceSnapshotCompletion r) {
-                if (!normal(r.work) || !r.snapshot) {
-                    finish(r.refusal ? 3 : 1);
+                if (r.refusal || !normal(r.work) || !r.snapshot) {
+                    failed(r.refusal);
                     return;
                 }
                 f(std::move(*r.snapshot));
@@ -372,6 +381,7 @@ class Run final {
     std::unique_ptr<ReferenceApplicationAdapters> runtime_;
     std::unique_ptr<ApplicationServicePorts> ports_;
     std::unique_ptr<OriginalApplicationService> service_;
+    // Keep startup's owner alive while its completion creates the runtime-bound intake.
     std::unique_ptr<ReferenceIntake> startup_intake_, intake_;
     ReferenceCommittedState current_;
     std::optional<ReferenceUnavailable> reservation_refused_;
@@ -388,7 +398,9 @@ int main(int argc, char **argv) {
     try {
         const auto options = parse(argc, argv);
         if (!options) {
-            std::fputs("Invalid development server arguments\n", stderr);
+            std::fputs("Usage: subathon-dev-server --database PATH --start-ms N --cap-ms N "
+                       "--add-ms N [--event ID]... [--controlled-clock]\n",
+                       stderr);
             return 2;
         }
         QCoreApplication app(argc, argv);
