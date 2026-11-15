@@ -19,35 +19,51 @@ actually starts, runs a timer and accepts a fake contribution. Draft121 stays
 parked. Separately owned PR656 was merged by its owner atc3445c91; integrating
 that documentation-only main update grants no new process/task assignment.
 
-## Current boundary: I14 requires owner resolution before further source work
+## Current round: I14-only sixth correction approved
 
-Source63fffbaa's [NEW fifth-round WHOLE rejection](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6899914593)
-resolves I13 and confirms I10/I11/I12, but NEW I14 blocks C05: encode_reference_state
-returns a135-byte ApplicationStateSnapshot yet its final shared scanner requires
-a hypothetical150-byte decoded ReferenceCommittedState. Actual input82/document68/
-envelope106/I0 all fit135;134 correctly refuses,135/149 wrongly refuse,150 succeeds
-with the same independent literal. Root freshly reproduced using its own library.
-No authority bypass, but INCORRECT refusal: the owner's same-class follow-up
-exception does NOT qualify. Do not waive it or start another material source round.
+[Owner approved ONE bounded sixth correction](https://github.com/Kernol12/subathon-bot-ai/issues/562#issuecomment-6900143851)
+for I14 only, as [proposed](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6899963288),
+with contracts/tests unchanged. Verification must be a CHANGED-PART re-check: send
+ONLY the sixth commit, finding I14 and its resolution. Do NOT order another whole
+implementation verification. Then obtain a fresh WHOLE Claude closing as tier A
+requires. Same-class/no-bypass/CORRECT-refusal follow-up rule remains; any other
+blocker still goes to the owner. No seventh correction or baseline change implied.
 
-[Concrete UNAPPLIED proposal](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6899963288):
-separate encoded syntax/binding validation from decoder-result admission. Keep
-encoder's own135-byte output guard, decoder's actual150-byte guard BEFORE ownership,
-startup's full committed-state/anchor guards, every format/header/test unchanged.
-The private two-path patch passes apply-check only; no fix is applied or tested.
-Owner approval is required for further material source work; no sixth source round
-or fifth baseline correction is authorized. All prior receipts stay recorded.
+[Prior fifth WHOLE rejection](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6899914593)
+resolves I13 and confirms I10/I11/I12, but blocks C05 for I14. Actual input82B/
+document68/envelope106/I0 fit the encoder's135-byte snapshot result; the old final
+scanner incorrectly required an unproduced150-byte decoder result. Root reproduced
+134-correct-refusal/135-and149-wrong-refusal/150-success. That INCORRECT refusal
+could not qualify for the owner's earlier non-blocking exception. This record and
+all earlier author/rejection receipts remain intact.
 
-Verifier completed without child work. No owned delegate remains active; unwatch
-653 before owner handback. Source63fffbaa has actual hosted7/7 and independent
-154/154+137invocations/4hooks normal/sanitized PASS, but review is REJECTED. The
-checkpoint-only update has separate pending CI and changes no runtime behavior.
-After owner resolution, NEW independent WHOLE verification and NEW fresh WHOLE
-Claude closing, proof/publication/final-head CI/protected merge/read-back/close562
-remain. Finish only API-011 then STOP; next candidate642 still needs owner resume.
-Essential reproduction/proposal/source audit/review is public via these links and
-[the fifth-round handoff](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6899622439);
-no decision depends only on thread or /tmp. Raw logs/build products may expire.
+Sixth correction separates the shared scanner's full structural/binding validation
+from optional decoder-result admission. Encoder skips ONLY that last hypothetical
+decoded-result charge after its existing input/exact snapshot/document checks;
+decoder keeps its unchanged150-byte prospective result guard BEFORE ownership.
+No syntax/binding/format/public header/test/producer policy change. Startup retains
+its own complete encoded committed-state/anchor checks. Root fresh154/154 and
+135-fit/134-refuse encoder,150-fit/149-refuse decoder, exact68-byte literal and
+malformed/truncated/trailing/binding/unsorted-balance diagnostics pass. Root checks
+are author evidence, not independent approval. Recheck/closing/proof/CI pending.
+
+Main2271a4ba's PR657 temporary-file rules were integrated before the sixth fix,
+without runtime changes. Task scratch now lives under ignored `build/API-011/`,
+one subdirectory per session (root-sixth uses workspace TMPDIR to avoid old quota).
+Every NEW delegate deletes its OWN build/scratch subdirectory before reporting,
+after publishing commands/results/receipt. Keep necessary raw evidence only in
+ignored private storage outside that task directory and identify it in the receipt.
+
+AFTER API-011 protected merge read-back and BEFORE stopping: delete `/tmp/api011*`
+entries and the task scratch directory; remove worktrees assigned for API-011,
+ACCESS-009/010/011 and RULES-006 ONLY if no active/pending session uses them and
+there is NO uncommitted or unpushed work. Never force removal. Retain/list unsafe
+worktrees in final report. Do not delete other `/tmp` data, especially not shared
+`/tmp/claude-1000`. Older task-owned generated outputs may be removed only after
+checking ownership/no pending need. No unrelated cleanup or new task is authorized.
+All essential earlier evidence/proposals are public via the linked PR receipts;
+raw task logs/build products may expire. Final owner report must include merge SHA,
+next candidate642 requiring explicit resume, and any retained/uncarried work.
 
 ## Task, checkout and authoritative evidence
 

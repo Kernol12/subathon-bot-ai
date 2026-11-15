@@ -68,7 +68,8 @@ inline void snapshot_input(const ApplicationStateSnapshot &s, const ReferenceAda
                 s.time_debt_ms >= 0,
             Error::invalid_value);
 }
-inline void scan_state(const ApplicationStateSnapshot &s, const ReferenceAdapterLimits &l) {
+inline void scan_state(const ApplicationStateSnapshot &s, const ReferenceAdapterLimits &l,
+                       bool admit_decoded_result = true) {
     require(s.envelope.format_ref == state_format, Error::unsupported_format);
     StateReader r{{s.envelope.document.constData(), std::size_t(s.envelope.document.size())}, l};
     require(r.take(4) == "SAS1", Error::invalid_document);
@@ -115,6 +116,8 @@ inline void scan_state(const ApplicationStateSnapshot &s, const ReferenceAdapter
                     Error::invalid_document);
     }
     r.end();
+    if (!admit_decoded_result)
+        return; // Encoding returns the separately admitted snapshot, not a decoded wrapper.
     auto out = measure(l, Error::result_limit);
     out(s);
     out.p.fixed(1);

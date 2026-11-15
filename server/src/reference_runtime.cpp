@@ -114,7 +114,7 @@ ApplicationStateSnapshot encode_reference_state(const ReferenceCommittedState &v
         s.envelope.document.reserve(qsizetype(size.size));
         StateWriter w{size.cap, 0, &s.envelope.document};
         state_codec::write(w, s, basis, v.observation, v.policy_revision_ref);
-        scan_state(s, l);
+        scan_state(s, l, false);
         return s;
     });
 }
