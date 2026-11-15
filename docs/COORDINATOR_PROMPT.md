@@ -20,8 +20,8 @@ merge rules. This page adds only what is specific to coordinating.
 2. Branch from current `main`, claim the issue and assign bounded authoring with the
    exact commit, owned paths and links to the brief and contract sections that apply.
 3. Run the stages in order: tests, test review, observed red, implementation, code
-   review. Require the author's fixture check in the tests handoff before the first
-   review. Give each reviewer one packet per stage.
+   review. Require the author's fixture check, where it applies, in the tests
+   handoff before the first review. Give each reviewer one packet per stage.
 4. Merge within owner scope after latest-head CI and the tier's reviews pass, read
    back the merge and close the issue.
 5. Update the checkpoint when scope, assignments or blockers change. Continue with the

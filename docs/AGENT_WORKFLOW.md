@@ -13,10 +13,13 @@ For new behavior: contract/examples → authored tests → independent test revi
 observed intended red → implementation → independent code review → relevant checks.
 
 - Compile failures, missing dependencies and skipped tests are not red evidence.
-- Before the first tests review, the author runs the new suite once against the
-  not-implemented stubs. Every case must reach its intended not-implemented call; a
-  case that fails earlier, in setup or fixtures, is fixed before the review packet is
-  sent. The handoff reports the result. This fixture check is never red evidence.
+- Before the first tests review, the author runs the new cases once against the
+  not-implemented stubs and reports the result in the handoff. A case that calls a
+  stub must reach that call; a failure before it, in setup or fixtures, is fixed
+  before the review packet is sent. The check covers setup up to the stub only and is
+  never red evidence. It does not apply to cases that call no stub, or where
+  [the test strategy](TEST_STRATEGY.md) requires review or admission before any
+  execution; the handoff then says so.
 - Expected values come from the specification, never from the implementation.
 - Do not delete, skip or weaken reviewed assertions to make code pass. Correct a
   genuine test defect only with specification-based reasoning and a separate reviewer
