@@ -2164,6 +2164,192 @@ class SqliteReferenceAuthorityTests final : public QObject {
             require(registry_rows(observer) == before, "Reader never repairs impossible history");
         });
     }
+    // A11-I02 additive regression contract: authenticated mutations preserve
+    // actual writer failures, while genuine producer refusals stay typed values.
+    void mutationAuthenticationPreservesTicketFailures_data() {
+        QTest::addColumn<int>("method");
+        QTest::addColumn<int>("ticket");
+        const char *methods[]{"bootstrap", "enroll", "set-state"};
+        const char *tickets[]{"default", "foreign-thread", "closed-after-sql"};
+        for (int method = 0; method < 3; ++method)
+            for (int ticket = 0; ticket < 3; ++ticket)
+                QTest::newRow(qPrintable(QString("%1/%2").arg(methods[method], tickets[ticket])))
+                    << method << ticket;
+    }
+    void mutationAuthenticationPreservesTicketFailures() {
+        QFETCH(int, method);
+        QFETCH(int, ticket);
+        scenario([&] {
+            Database d;
+            Observer observer(d.path);
+            const auto before = registry_rows(observer);
+            const auto invoke = [&](SqliteReferenceAuthorityUnit &u) -> ReferenceAuthorityWrite {
+                if (method == 0)
+                    return u.bootstrap(actor('O'), d.clock);
+                if (method == 1) {
+                    auto b = binding();
+                    b.capability = "new";
+                    return u.enroll(actor(), d.clock, 3, b, "E");
+                }
+                return u.set_state(actor('O'), d.clock, 3, "K", S::revoked);
+            };
+            if (ticket == 0) {
+                SqliteWorkSession absent;
+                SqliteReferenceAuthorityUnit unit(absent);
+                work_failure([&] { (void)invoke(unit); }, WorkError::stale_session);
+            } else if (ticket == 1) {
+                d.work([&](const auto &session) {
+                    SqliteReferenceAuthorityUnit unit(session);
+                    auto worker = std::async(std::launch::async, [&] {
+                        work_failure([&] { (void)invoke(unit); }, WorkError::wrong_thread);
+                    });
+                    worker.get();
+                    require(session.execute({"SELECT 1", {}})[0][0].toInt() == 1,
+                            "Wrong-thread refusal leaves the owner's ticket healthy");
+                });
+            } else {
+                bool reached = false;
+                const auto result =
+                    account_sessions_fixture::outcome(d.writer, [&](auto context) -> QVariant {
+                        const auto session = context.begin();
+                        Cleanup cleanup{session};
+                        work_failure(
+                            [&] {
+                                (void)session.execute(
+                                    {"SELECT * FROM intentionally_missing_authority_auth", {}});
+                            },
+                            WorkError::sql_failure);
+                        SqliteReferenceAuthorityUnit unit(session);
+                        work_failure([&] { (void)invoke(unit); }, WorkError::session_closed);
+                        reached = true;
+                        return 1;
+                    });
+                require(
+                    reached && result.error == WorkError::sql_failure &&
+                        result.transaction == TransactionOutcome::rolled_back && !result.value,
+                    "Closed-ticket call throws while completion retains the ORIGINAL SQL error");
+            }
+            require(registry_rows(observer) == before, "Ticket failures never mutate registry");
+        });
+    }
+    void mutationAuthenticationPreservesFirstSqlAndBudgetFailure_data() {
+        QTest::addColumn<int>("method");
+        QTest::addColumn<int>("fault");
+        const char *methods[]{"bootstrap", "enroll", "set-state"};
+        const char *faults[]{"missing-auth-table", "statement-budget", "row-budget"};
+        for (int method = 0; method < 3; ++method)
+            for (int fault = 0; fault < 3; ++fault)
+                QTest::newRow(qPrintable(QString("%1/%2").arg(methods[method], faults[fault])))
+                    << method << fault;
+    }
+    void mutationAuthenticationPreservesFirstSqlAndBudgetFailure() {
+        QFETCH(int, method);
+        QFETCH(int, fault);
+        scenario([&] {
+            Database d;
+            Observer observer(d.path);
+            const auto before = registry_rows(observer);
+            bool stopped = false;
+            require(d.writer.shutdown([&] { stopped = true; }) == StorageError::none,
+                    "Stop unconstrained setup writer");
+            require(QTest::qWaitFor([&] { return stopped; }, 10000), "Setup writer stopped");
+            auto budget = account_sessions_fixture::limits();
+            if (fault == 1)
+                budget.statements_per_batch = 1;
+            else if (fault == 2)
+                budget.result_rows = 1;
+            SqliteWriter writer;
+            require(writer.open(d.path, budget) == StorageError::none,
+                    "Real writer with selected fault boundary");
+            const auto expected = fault == 0   ? WorkError::sql_failure
+                                  : fault == 1 ? WorkError::resource_limit
+                                               : WorkError::result_limit;
+            bool reached = false;
+            const auto result =
+                account_sessions_fixture::outcome(writer, [&](auto context) -> QVariant {
+                    const auto session = context.begin();
+                    Cleanup cleanup{session};
+                    if (fault == 0)
+                        (void)session.execute({"DROP TABLE main.subathon_account_sessions", {}});
+                    SqliteReferenceAuthorityUnit unit(session);
+                    const auto invoke = [&]() -> ReferenceAuthorityWrite {
+                        if (method == 0)
+                            return unit.bootstrap(actor('O'), d.clock);
+                        if (method == 1) {
+                            auto b = binding();
+                            b.capability = "new";
+                            return unit.enroll(actor(), d.clock, 3, b, "E");
+                        }
+                        return unit.set_state(actor('O'), d.clock, 3, "K", S::revoked);
+                    };
+                    work_failure([&] { (void)invoke(); }, expected);
+                    work_failure([&] { (void)invoke(); }, WorkError::session_closed);
+                    reached = true;
+                    return 1;
+                });
+            require(reached && result.error == expected &&
+                        result.transaction == TransactionOutcome::rolled_back && !result.value,
+                    "Authentication throws FIRST SQL/budget error, then session_closed; completion "
+                    "unchanged");
+            require(
+                registry_rows(observer) == before &&
+                    observer.rows("SELECT count(*) FROM subathon_account_sessions")[0][0].toInt() ==
+                        3,
+                "Real rollback restores the authentication table and leaves registry unchanged");
+        });
+    }
+    void mutationAuthenticationDistinguishesHealthyProducerRefusals_data() {
+        QTest::addColumn<int>("method");
+        QTest::addColumn<int>("refusal");
+        const char *methods[]{"bootstrap", "enroll", "set-state"};
+        const char *refusals[]{"clock-unavailable", "clock-exception", "account-selected-budget"};
+        for (int method = 0; method < 3; ++method)
+            for (int refusal = 0; refusal < 3; ++refusal)
+                QTest::newRow(qPrintable(QString("%1/%2").arg(methods[method], refusals[refusal])))
+                    << method << refusal;
+    }
+    void mutationAuthenticationDistinguishesHealthyProducerRefusals() {
+        QFETCH(int, method);
+        QFETCH(int, refusal);
+        scenario([&] {
+            struct ControlledClock final : CurrentSessionClock {
+                int mode, calls = 0;
+                explicit ControlledClock(int selected) : mode(selected) {}
+                SessionClockResolution sample_current() override {
+                    ++calls;
+                    if (mode == 0)
+                        return SessionSourceUnavailable{};
+                    if (mode == 1)
+                        throw std::logic_error("Synthetic unavailable clock producer");
+                    return SessionClockSample{1000};
+                }
+            } clock(refusal);
+            Database d;
+            Observer observer(d.path);
+            const auto before = registry_rows(observer);
+            d.work([&](const auto &session) {
+                ReferenceAuthorityLimits limits;
+                if (refusal == 2)
+                    limits.accounts.selected_bytes = 1;
+                SqliteReferenceAuthorityUnit unit(session, limits);
+                ReferenceAuthorityWrite result;
+                if (method == 0)
+                    result = unit.bootstrap(actor('O'), clock);
+                else if (method == 1) {
+                    auto b = binding();
+                    b.capability = "new";
+                    result = unit.enroll(actor(), clock, 3, b, "E");
+                } else
+                    result = unit.set_state(actor('O'), clock, 3, "K", S::revoked);
+                failed(result, refusal == 2 ? F::resource_limit : F::unavailable);
+                require(clock.calls == (refusal == 2 ? 0 : 1),
+                        "Genuine source refusal precedes clock; clock refusal is sampled once");
+                require(session.execute({"SELECT 1", {}})[0][0].toInt() == 1,
+                        "Semantic source/clock refusal leaves SAME caller ticket healthy");
+            });
+            require(registry_rows(observer) == before, "Healthy refusals never mutate registry");
+        });
+    }
 };
 QTEST_GUILESS_MAIN(SqliteReferenceAuthorityTests)
 #include "sqlite_reference_authority_tests.moc"

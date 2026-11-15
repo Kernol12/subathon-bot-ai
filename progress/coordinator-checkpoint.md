@@ -75,8 +75,14 @@ Owner decisions are recorded in #249, comment 6879902355:
   First implementation fix round adds pre-SQL derived-key/profile admission and
   rejects noninitial pending events. Actual187 cases+2hooks PASS, zero skips;
   strict authority compile, project/format/diff and updated CI gate PASS. Full
-  current140/140 closure PASS, zero skips; implementation verification/closing and
-  current-head hosted CI remain pending. No proof or merge approval yet.
+  current140/140 closure PASS, zero skips. Codex whole-producer verification at
+  bce94db7 confirms A11-I01/N01 fixed, but requests changes for A11-I02: mutation
+  authentication swallows original writer exceptions across generic session sources.
+  Second implementation fix round is authorized by the two-round limit. Coordinator
+  authored27 additive ticket/SQL/budget/refusal regression rows; all56 existing
+  methods remain byte-exact. Compile/static checks and59-method discovery PASS;
+  new bodies/data providers remain unrun, awaiting supplemental tier A tests review.
+  No proof, closing or merge approval yet; #558 remains stopped.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 is reserved for this registry after compiled permission step9;
   preserve all shipped prefix bytes. Full #249 integration remains open. RULES-006
@@ -87,10 +93,12 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Obtain independent Codex verification and fresh Claude closing on the WHOLE final
-producer, including the first-round
-A11-I01/A11-N01 fixes and56/187/189 CI count updates. At most two implementation
-fix rounds; the supplemental regression tests gate is complete at eaf1cb51.
+Complete the A11-I02 supplemental test cycle, then observe intended red before the
+second implementation fix round. Preserve public session-facade defaults, actual
+writer exceptions and genuine source/clock refusal semantics. Reuse reviewed source
+capabilities where possible; no liveness SELECT can replace the first real failure.
+Then independent Codex re-verification and fresh Claude closing of the WHOLE final
+producer. A third implementation fix round requires owner approval.
 Preserve all source/test history, rejected receipts and failures.
 The private selected path must preserve old public facades, original writer truth,
 metadata-before-ownership bounds, finite indexed selection and current authority.
