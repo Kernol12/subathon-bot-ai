@@ -110,13 +110,38 @@ sanitizer compilation hit scratch quota; obsolete generated root products were
 cleaned, sources/receipts/logs preserved, and a -g1 rebuild/check succeeded.
 These are author checks, not independent approval or a general allocator proof.
 
-Next: NEW independent WHOLE Codex verification, NEW fresh WHOLE Claude closing,
-one final proof/policy commit, both-stage publication validation, final-head CI,
-protected merge/read-back, close562 and STOP. Preserve every rejection. No fifth
-implementation round or fifth baseline correction is authorized; stop/ask if
-needed. PR653 remains draft/unmerged and562 open. No other product-policy decision
-is known. Verify actual delegate/watch state before handback and unwatch653;
-start no downstream task while waiting for an owner decision.
+[NEW WHOLE rejectione1e0a0ed](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6898478039)
+resolves I11/I12 and identifies NEW I13: shared startup/snapshot `authorize` copies
+policy/expanded roles/catalog/owner/actor BEFORE its prospective calculator input
+is checked against the independent permission limits. With only permission
+input_owned_bytes1, the graph read is admitted but an observed1280-byte catalog
+clone atauthorize:93 precedes original EffectivePermissionFailure(input_limit),
+actual rollback/work_exception/no snapshot. The semantic catalog exceeds B1;
+this is not comparing ABI allocation bytes with the semantic charging formula.
+The receipt includes the minimal real-SQL reproduction and stack attribution.
+
+**STOP: owner authorization needed for ONE bounded fifth source round.** No fifth
+implementation round or fifth baseline correction is authorized or applied.
+[Unapplied proposal](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6898635596): complete borrowed projection of that expanded prospective input
+under calculator AND adapter ceilings before ANY input copies, with unchanged
+fresh authorization, separate graph budget, exception/writer truth and baselines.
+PR653 is draft/unmerged;562 remains open. No other product-policy decision is known.
+The latest verifier is complete without child work; no owned delegate is active.
+Unwatch653 before owner handback and start no downstream task.
+
+Current independent final154/154, exact137invocations+4hooks ordinary/sanitized and
+hosted7/7 pass but do not waive I13. Reviewer's initial /tmp-backed full151/154 and
+direct49pass/12fail were quota/setup failures, preserved, never intended red or
+passing evidence. Unchanged code passed with build AND TMPDIR on the workspace
+filesystem. Continuation should use an ignored workspace build path and absolute
+workspace TMPDIR for compiler/test databases; -g1 alone did not cure that quota.
+Keep failed logs/receipts/source; generated products may expire.
+
+After any authorized correction: NEW independent WHOLE Codex verification, NEW
+fresh WHOLE Claude closing, one final proof/policy commit, both-stage publication
+validation, final-head CI, protected merge/read-back, close562 and STOP. Preserve
+every rejection. This checkpoint-only amendment changes no source/test/contract/CI;
+its own pending CI is separate from the reviewed green source above.
 
 ## Capability map and constraints for a later coordinator
 
