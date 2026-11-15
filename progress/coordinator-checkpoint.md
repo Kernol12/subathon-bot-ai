@@ -120,28 +120,52 @@ actual rollback/work_exception/no snapshot. The semantic catalog exceeds B1;
 this is not comparing ABI allocation bytes with the semantic charging formula.
 The receipt includes the minimal real-SQL reproduction and stack attribution.
 
-**STOP: owner authorization needed for ONE bounded fifth source round.** No fifth
-implementation round or fifth baseline correction is authorized or applied.
-[Unapplied proposal](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6898635596): complete borrowed projection of that expanded prospective input
-under calculator AND adapter ceilings before ANY input copies, with unchanged
-fresh authorization, separate graph budget, exception/writer truth and baselines.
-PR653 is draft/unmerged;562 remains open. No other product-policy decision is known.
-The latest verifier is complete without child work; no owned delegate is active.
-Unwatch653 before owner handback and start no downstream task.
+[Owner approved ONE bounded fifth source round](https://github.com/Kernol12/subathon-bot-ai/issues/562#issuecomment-6898949641),
+accepting the [published proposal](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6898635596).
+That round adds a complete borrowed prospective permission-input projection BEFORE
+any assigned-role, flattened-entry, catalog, owner, actor or request copy. It uses
+the existing reviewed authority/graph declaration-order traversal, now shared in a
+private server header, with a prospective flattened-vector max_size guard. All
+nested rows, catalog operations (including unrequested ones), optional-presence,
+reference and numerator/denominator component charges are included. Adapter B/I/ref
+and calculator B/I/ref/component budgets stay separate; adapter refusal retains its
+priority and calculator refusal remains original EffectivePermissionFailure(input_limit).
+Graph/account/session reads retain their independent producer budgets and fresh
+checks. Existing materialization/evaluation follows only after both projections fit.
+The shared extraction changes no SQL, public interface, schema, policy or test.
 
-Current independent final154/154, exact137invocations+4hooks ordinary/sanitized and
-hosted7/7 pass but do not waive I13. Reviewer's initial /tmp-backed full151/154 and
+Root fresh154/154 nodes, all137invocations+4hooks with exact discovery equality in
+ordinary AND separate ASan/UBSan builds, strict six-TU/format/project/diff checks,
+16 independently hand-counted individual/role/deny/quantity fit-and-one-less cases,
+8 actual startup/snapshot nested-field refusals, role/scope/owner-deny controls and
+adapter-first error controls pass. Allocation traces have sensitive fitting controls:
+8 direct authorize allocations each on startup/snapshot, ZERO such >=128-byte traces
+on all8 narrowed profiles; the previously observed1280-byte catalog clone is absent
+before refusal. Legitimate graph producer allocations remain. These are author
+checks, not independent approval or a general heap/work proof. Sanitizer leaks are
+disabled and external libraries uninstrumented. Public contracts and all approved
+137 cases/fixtures remain byte-exact. The two existing private authority paths add
+to the whole PR review scope (29 paths from current main), not a new task.
+
+PR653 stays draft/unmerged and562 open. NEW independent WHOLE Codex verification
+and NEW fresh WHOLE Claude closing must bind the final fifth-round revision before
+proof/merge. Fifth source approval is USED; no sixth source round or fifth baseline
+correction is authorized. If another material blocker remains, stop and ask the
+owner. No other product-policy decision is known. Do not start another task.
+
+Preserved fourth-round independent final154/154, exact137invocations+4hooks ordinary/sanitized
+and hosted7/7 passed but did not waive I13. Reviewer's initial /tmp-backed full151/154 and
 direct49pass/12fail were quota/setup failures, preserved, never intended red or
 passing evidence. Unchanged code passed with build AND TMPDIR on the workspace
 filesystem. Continuation should use an ignored workspace build path and absolute
 workspace TMPDIR for compiler/test databases; -g1 alone did not cure that quota.
 Keep failed logs/receipts/source; generated products may expire.
 
-After any authorized correction: NEW independent WHOLE Codex verification, NEW
+Remaining gates: NEW independent WHOLE Codex verification, NEW
 fresh WHOLE Claude closing, one final proof/policy commit, both-stage publication
 validation, final-head CI, protected merge/read-back, close562 and STOP. Preserve
-every rejection. This checkpoint-only amendment changes no source/test/contract/CI;
-its own pending CI is separate from the reviewed green source above.
+every rejection. The current fifth-round author checks do not replace either required review;
+current-head hosted CI must be read back independently before merge.
 
 ## Capability map and constraints for a later coordinator
 

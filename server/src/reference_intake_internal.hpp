@@ -6,6 +6,47 @@
 #include <subathon/server/sqlite_receipts.hpp>
 namespace subathon::server::reference_intake_detail {
 using namespace reference_runtime_detail;
+// Traverse the exact prospective calculator value using only borrowed facts.
+// Its policy entries are flattened in the same order as later materialization.
+inline void project_authorization_input(reference_authority::Projection &p,
+                                        const StoredPermissionGraph &graph,
+                                        const ResolvedAccountSession &actor, bool initial,
+                                        std::string_view timer) {
+    p(actor.account_ref, actor.snapshot_ref, graph.catalog, graph.owner);
+    reference_authority::project_policy(p, graph.use, actor.account_ref);
+    p(initial ? std::string_view("access.manage") : std::string_view("timer.snapshot.read"));
+    if (!initial) {
+        p.elements(1); // one resource binding; both quantity-free requests have I0 quantities
+        p(std::string_view("timer"), timer);
+    }
+}
+inline void preflight_permission_input(const StoredPermissionGraph &graph,
+                                       const ResolvedAccountSession &actor, bool initial,
+                                       std::string_view timer, const ReferenceRuntimeLimits &l) {
+    // Preserve the old adapter-before-calculator error priority. Each input has
+    // its OWN budget; neither projection narrows the graph producer's read.
+    reference_authority::Projection adapter{
+        l.values.value_owned_bytes, l.values.value_items,
+        std::min(l.values.reference_bytes, std::uint64_t(UINT32_MAX))};
+    try {
+        project_authorization_input(adapter, graph, actor, initial, timer);
+    } catch (const reference_authority::Refusal &e) {
+        if (e.code == ReferenceAuthorityFailure::resource_limit)
+            fail(Error::result_limit);
+        throw ReferenceExecutionFailure(e.code);
+    }
+    const auto &limits = l.authority.permissions;
+    reference_authority::Projection calculator{limits.input_owned_bytes, limits.input_items,
+                                               limits.reference_bytes};
+    calculator.component_bytes = limits.component_bytes;
+    try {
+        project_authorization_input(calculator, graph, actor, initial, timer);
+    } catch (const reference_authority::Refusal &e) {
+        if (e.code == ReferenceAuthorityFailure::resource_limit)
+            throw core::EffectivePermissionFailure(core::EffectivePermissionError::input_limit);
+        throw ReferenceExecutionFailure(e.code);
+    }
+}
 struct Refuse {
     std::optional<ReferenceUnavailable> value;
 };

@@ -76,6 +76,7 @@ void authorize(const SqliteWorkSession &s, const SessionLookupRequest &r, bool i
     auto found = std::find_if(g.use.accounts.begin(), g.use.accounts.end(),
                               [&](const auto &a) { return a.account == actor.account_ref; });
     data(found != g.use.accounts.end());
+    preflight_permission_input(g, actor, initial, timer, l);
     core::PermissionPolicyFacts policy{core::PermissionFactsState::complete, found->assigned_roles,
                                        found->individual_entries};
     for (const auto &role : found->assigned_roles) {

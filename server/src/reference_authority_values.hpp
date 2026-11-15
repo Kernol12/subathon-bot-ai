@@ -94,6 +94,37 @@ struct Projection {
     }
     template <class... T> void operator()(const T &...v) { (one(v), ...); }
 };
+// Policy expansion is traversed before ownership. The authoritative graph already
+// validated every membership and every current account, including sparse rows.
+template <class Emit>
+inline void policy_entries(const PermissionEditableState &g, std::string_view account, Emit visit) {
+    auto a = std::find_if(g.accounts.begin(), g.accounts.end(),
+                          [&](const auto &v) { return v.account == account; });
+    data(a != g.accounts.end());
+    for (const auto &e : a->individual_entries)
+        visit(e);
+    for (const auto &role : a->assigned_roles) {
+        auto r = std::find_if(g.roles.begin(), g.roles.end(),
+                              [&](const auto &v) { return v.role == role; });
+        data(r != g.roles.end());
+        for (const auto &e : r->entries)
+            visit(e);
+    }
+}
+inline void project_policy(Projection &p, const PermissionEditableState &g,
+                           std::string_view account) {
+    auto a = std::find_if(g.accounts.begin(), g.accounts.end(),
+                          [&](const auto &v) { return v.account == account; });
+    data(a != g.accounts.end());
+    p(PermissionFactsState::complete, a->assigned_roles);
+    std::size_t entries = 0;
+    policy_entries(g, account, [&](const auto &e) {
+        space(entries < std::vector<PermissionPolicyEntry>{}.max_size());
+        ++entries;
+        p.elements(1);
+        p(e);
+    });
+}
 inline void valid_limits(const ReferenceAuthorityLimits &l) {
     const auto max =
         std::min({std::uint64_t(PTRDIFF_MAX), std::uint64_t(SIZE_MAX),
