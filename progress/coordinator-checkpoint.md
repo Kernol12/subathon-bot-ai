@@ -1,246 +1,106 @@
 # Coordinator checkpoint
 
-Owner: Kernol12. Full specification v0.45, all seven integrations and all three
-FX providers remain release scope. Issues own status/prerequisites; PRs own reviews.
+Owner: Kernol12. Issues own brief/status/prerequisites; PR comments own reviews.
+Complete specification v0.45, all seven integrations and all three FX providers
+remain release scope. This checkpoint grants no new authorization.
 
-## Latest owner boundary: finish API-011, then STOP
+## Owner boundary: finish ONLY API-011, then STOP
 
-Owner instruction2026-11-15 overrides the old standing loop. Finish ONLY API-011
-(#562/PR#653) through reviews, proof, final-head CI, protected merge, merge read-back
-and closing562. Then stop. Do not claim/start SLICE-001 or any other task even if
-ready. Before handback verify this coordinator's delegates finished/cancelled and
-unwatch its PRs; report merge SHA, next candidate and anything not carried over.
-If merging needs an owner decision, stop there and ask; never waive a gate.
+Finish API-011#562/PR653 through proof/publication validation, final-head required
+CI, protected merge, merge read-back, close562 and safe cleanup. Then STOP. Do not
+claim/start SLICE-001 or any other task even when dependency-ready. Before handback
+verify no owned delegate/pending child work remains and clear all PR watches.
+Final owner message: merge SHA, next candidate, retained/uncarried work.
 
-Next candidate is **SLICE-001 #642 (tier B)**, requiring explicit owner resume/new
-assignment. Historical remaining path is642→API-016#616→APITEST-015#613→API-001#278;
-all is suspended by this stop. Process/tooling619/620 stays frozen until a server
-actually starts, runs a timer and accepts a fake contribution. Draft121 stays
-parked. Separately owned PR656 was merged by its owner atc3445c91; integrating
-that documentation-only main update grants no new process/task assignment.
+Next candidate is **SLICE-001 #642, tier B**, requiring explicit owner resume or
+new assignment. Historical remaining path642→API-016#616→APITEST-015#613→API-001#278
+is suspended. Process/tooling619/620 stays frozen until a server starts, runs a
+timer and accepts a fake contribution. Draft121 remains parked. PR656/657 were
+separately owned and merged; their workflow integration authorizes no new task.
 
-## Current round: I14-only sixth correction approved
+## Current task and merge gate
 
-[Owner approved ONE bounded sixth correction](https://github.com/Kernol12/subathon-bot-ai/issues/562#issuecomment-6900143851)
-for I14 only, as [proposed](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6899963288),
-with contracts/tests unchanged. Verification must be a CHANGED-PART re-check: send
-ONLY the sixth commit, finding I14 and its resolution. Do NOT order another whole
-implementation verification. Then obtain a fresh WHOLE Claude closing as tier A
-requires. Same-class/no-bypass/CORRECT-refusal follow-up rule remains; any other
-blocker still goes to the owner. No seventh correction or baseline change implied.
+- [API-011 #562](https://github.com/Kernol12/subathon-bot-ai/issues/562) owns acceptance and prerequisites.
+- [PR653](https://github.com/Kernol12/subathon-bot-ai/pull/653) owns live head/CI/merge. Branch `task/API-011-reference-intake`.
+- Reviewed source **2b609a17d0ab83041ac8097ca2889ec65a5e24d9**, main/base2271a4ba,
+  original base03e52e70. Recheck actual checkout/remote/main/rules; no stale CI.
+- Both stages are tier A and reviews are now approved. The ONE final proof/policy
+  commit includes this checkpoint, `progress/proofs/API-011.json` and policy entry;
+  it changes no reviewed source/test/build/contract. Required final-head CI and
+  protected merge/read-back/close562 remain external gates until actually observed.
+- If PR653 is unmerged, finish ONLY these gates. If merged and562 closed, this
+  assignment is over; do not resume the standing loop. No merge SHA can be written
+  into this pre-merge checkpoint; the PR merge record/final report supplies it.
+- No owner/product-policy decision remains open for API-011. No seventh source
+  round or baseline change is implied. A new blocker goes to owner resolution,
+  subject only to the explicit scoped exception below; never bypass protection.
 
-[Prior fifth WHOLE rejection](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6899914593)
-resolves I13 and confirms I10/I11/I12, but blocks C05 for I14. Actual input82B/
-document68/envelope106/I0 fit the encoder's135-byte snapshot result; the old final
-scanner incorrectly required an unproduced150-byte decoder result. Root reproduced
-134-correct-refusal/135-and149-wrong-refusal/150-success. That INCORRECT refusal
-could not qualify for the owner's earlier non-blocking exception. This record and
-all earlier author/rejection receipts remain intact.
+## Evidence and decisions a fresh coordinator needs
 
-Sixth correction separates the shared scanner's full structural/binding validation
-from optional decoder-result admission. Encoder skips ONLY that last hypothetical
-decoded-result charge after its existing input/exact snapshot/document checks;
-decoder keeps its unchanged150-byte prospective result guard BEFORE ownership.
-No syntax/binding/format/public header/test/producer policy change. Startup retains
-its own complete encoded committed-state/anchor checks. Root fresh154/154 and
-135-fit/134-refuse encoder,150-fit/149-refuse decoder, exact68-byte literal and
-malformed/truncated/trailing/binding/unsorted-balance diagnostics pass. Root checks
-are author evidence, not independent approval. Recheck/closing/proof/CI pending.
+- [Durable evidence index](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6895564949)
+  preserves all8 tests receipts/hashes, complete137-case NI classifications,
+  original135NI+2SETUP failures, source probes and limitations. Tests closed at
+  d7155b42; then137 exact first-NI failures+4hooks,0setup/skips/warnings and152
+  dependency nodes. Earlier setup failures remain invalid red where setup failed.
+- Public contracts configuration2/intake3/runtime3 and [examples4](https://github.com/Kernol12/subathon-bot-ai/issues/562#issuecomment-6892590521).
+  Five test/fixture files remain byte-exact; implementation-private header changes
+  are covered by whole implementation review. No baseline assertion weakened.
+- [Fifth class-wide handoff](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6899622439)
+  publishes all C01–C38 sites/dispositions, original transaction/resource audit and
+  reproducible diagnostics. [Independent fifth WHOLE rejection](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6899914593)
+  accepted I10/I11/I12/I13 and all sites except C05/I14. Every older rejection
+  remains recorded in the proof and PR; none was retroactively made approved.
+- [Owner's widened fifth rule](https://github.com/Kernol12/subathon-bot-ai/issues/562#issuecomment-6899304385):
+  if verification still finds the SAME preownership-limit class with NO authority
+  bypass AND a CORRECT refusal result, record a follow-up issue, ask for nonblocking
+  disposition and continue to closing; other blockers require owner resolution.
+  No remaining qualifying finding/follow-up was identified by the final reviewers.
+- I14 incorrectly required a150-byte future decoder wrapper for a135-byte encoder
+  result. [Owner approved ONLY sixth I14 correction](https://github.com/Kernol12/subathon-bot-ai/issues/562#issuecomment-6900143851),
+  with CHANGED-PART Codex re-check, then fresh WHOLE Claude closing. Do not order
+  another whole Codex verification or reinterpret the narrow receipt as one.
+- [Sixth source/handoff](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6900254824):
+  full SAS1 scan remains unconditional; encoder skips only hypothetical decoder
+  output admission, decoder keeps its150-byte preownership guard. Encoder134
+  refuses/135 fits; decoder149 refuses/150 fits, exact68-byte literal preserved.
+  Startup separately bounds complete encoded committed state and anchor.
+- [Changed-part Codex APPROVED](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6900387974)
+  at2b609a17:221 diagnostics+seven selected methods ordinary/ASan/UBSan. Own session
+  directory deleted and clean checkout confirmed; no whole verification claimed.
+- [Fresh WHOLE Claude CLOSING APPROVED](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6900536055)
+  at SAME2b609a17: no blockers/new findings,29-path inventory matches. Its direct
+  traces and justified reliance on unchanged fifth independent evidence are
+  explicitly distinguished. Own full154/154,137invocations+4hooks ordinary and
+  sanitized, strict/static pass. Own1.2GB session directory deleted before reporting.
+- [Actual source-head hosted CI](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6900376199):
+  7/7 at2b609a17, run43754335035/Qt132935003631, pinned Boost1.83, actual61/80passes.
+  This is NOT evidence that the later proof head has passed; read that separately.
+- Proof serializes actual8tests+8implementation receipts and binding scopes. Tests
+  paths bind immutable baseline files; whole implementation binds28 nonbookkeeping
+  paths. Final closing/verification are source2b609a17; proof-only head is separate.
+  Validate BOTH stages with tools/check_publication.py using isolated schema SDK.
 
-Main2271a4ba's PR657 temporary-file rules were integrated before the sixth fix,
-without runtime changes. Task scratch now lives under ignored `build/API-011/`,
-one subdirectory per session (root-sixth uses workspace TMPDIR to avoid old quota).
-Every NEW delegate deletes its OWN build/scratch subdirectory before reporting,
-after publishing commands/results/receipt. Keep necessary raw evidence only in
-ignored private storage outside that task directory and identify it in the receipt.
+## Cleanup and private artifacts
 
-AFTER API-011 protected merge read-back and BEFORE stopping: delete `/tmp/api011*`
-entries and the task scratch directory; remove worktrees assigned for API-011,
-ACCESS-009/010/011 and RULES-006 ONLY if no active/pending session uses them and
-there is NO uncommitted or unpushed work. Never force removal. Retain/list unsafe
-worktrees in final report. Do not delete other `/tmp` data, especially not shared
-`/tmp/claude-1000`. Older task-owned generated outputs may be removed only after
-checking ownership/no pending need. No unrelated cleanup or new task is authorized.
-All essential earlier evidence/proposals are public via the linked PR receipts;
-raw task logs/build products may expire. Final owner report must include merge SHA,
-next candidate642 requiring explicit resume, and any retained/uncarried work.
+Latest owner cleanup instruction and main PR657 Temporary files rule apply:
+`build/API-011/<session>/` contains new per-session scratch; root-sixth uses an
+absolute workspace TMPDIR to avoid documented /tmp quota. All new delegates delete
+OWN session directory after publishing commands/results and BEFORE reporting.
+No active owned delegate remains at this proof checkpoint; verify again at stop.
 
-## Task, checkout and authoritative evidence
+AFTER protected merge read-back, delete `/tmp/api011*` entries and task scratch.
+Remove worktrees assigned for API-011 and already merged ACCESS-009/010/011 and
+RULES-006 ONLY if no active/pending session uses them and no uncommitted or unpushed
+work exists. Never force removal. Keep unsafe worktrees and list paths/reasons in
+final report. Do not delete unrelated `/tmp` data, especially not shared
+`/tmp/claude-1000` as a whole. Selected external SDK/dependency caches are not this
+task's disposable scratch. Legacy root task build products may be removed only
+when ownership and no pending need are established. Do not remove arbitrary builds.
 
-- [API-011 #562](https://github.com/Kernol12/subathon-bot-ai/issues/562) owns the full brief and acceptance.
-- [PR653](https://github.com/Kernol12/subathon-bot-ai/pull/653) owns current head, reviews, CI and eventual protected merge.
-- Branch `task/API-011-reference-intake`, original base03e52e70. Recheck actual
-  checkout/main/PR/rules before acting; no stale-head CI or inferred live sessions.
-- If653 is unmerged, finish only this task. If merged and562 closed, the assignment
-  is over. A future merge SHA cannot be embedded in this pre-merge checkpoint;
-  the PR merge record/final owner report supply it. No follow-up task is authorized.
-- Final source/review bindings live in `progress/proofs/API-011.json` and
-  `progress/proof-policy.json` once the one final proof commit exists. Until then
-  PR receipts/status are authoritative. Never infer approval from the notes below.
-- [Durable handoff](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6895564949)
-  publishes all8 tests receipts/hashes, full137-case red classifications, the old
-  setup failures, diagnostic sources, artifact reading order and limitations.
-  Essential knowledge no longer depends on this thread or `/tmp`. Raw local logs,
-  auxiliary audit scripts and build products may expire; outcomes/source bindings
-  are public. Historical worktrees/assignments are not running sessions.
-
-## API-011 stage evidence and gates
-
-Both stages are tier A. Public contracts: configuration2, intake/runtime3;
-[examples4](https://github.com/Kernol12/subathon-bot-ai/issues/562#issuecomment-6892590521).
-Tests review closed atd7155b42, then actual137/137 exact first-NI failures,
-4passing hooks,0setup/skips/Qt warnings and152/152 dependency nodes. Original
-fe14d2bb135NI+2SETUP failures remain historical and invalid where setup failed.
-Bounded third/fourth test corrections were owner-approved; no fifth authorized.
-
-- [Author implementation/audit7e9f648b](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6894300934).
-- [WHOLE Claude rejectiond69f2617](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6894462643): I01 snapshot session must precede head/config query.
-- [Fix1 bf0c4ab1](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6894871585): auth ordering, integer clock, complete binding/policy, dangling-head and scoped body-error handling.
-- [WHOLE Codex rejectionbf0c4ab1](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6895075222): I01–I07 accepted; I10 losing-result reference ceiling and I11 command-reason document ceiling are blockers.
-- [Fix2 a135f48f](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6896077228)
-  repairs runtime refusal projection and command-reason measurement, but is NOT
-  approved. Tests/public contracts remain fixed.
-- [NEW WHOLE Codex rejectiona135f48f](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6896259943):
-  I11 still treats `ApplicationAudit::reason` as a reference. A valid4097-byte
-  reason commits in the real service, then `settle` rejects it before journal
-  promotion; historical disclosure has the same walker. I10 intake `refuse` and
-  result-limit fallback still construct owned reasons before checking limits.
-  At reference ceiling31, the32-byte runtime refusal is built before omission.
-  The receipt includes minimal reproductions independent of local scratch files.
-  Fresh154/154,137directinvocations+4hooks, ASan/UBSan (leaks off) and hosted7/7
-  pass at that source; none waives the rejection.
-
-[Owner approved ONE bounded third source round](https://github.com/Kernol12/subathon-bot-ai/issues/562#issuecomment-6896696424),
-accepting the [published proposal](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6896336588).
-That round applied audit-reason document measurement to both
-command and persisted audit, preserving every field/charge/optional/equality rule.
-All intake literal/forwarded refusals and result-limit fallback are projected before
-owning their reasons. An over-limit refusal carries no owned diagnosis and retains
-the same real rollback/error; the complete wrapper remains separately bounded.
-Tests/public contracts are unchanged. Root full154/154, exact137directinvocations
-plus4hooks, real4096/4097 commit/settle/journal/disclosure and refusal-limit controls,
-strict compilation, format/project/diff checks pass. New independent reviews and
-hosted CI must bind to the actual new source; old green checks grant no approval.
-
-[NEW WHOLE rejection261d8003](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6896940946)
-resolves I10 but keeps I11 open: valid persisted4097-byte hold reasons are still
-treated as references, so actual whole-hold disclosure and the real service fail.
-The same field-role error affects resolution/plan-override reasons structurally.
-NEW I12: free Boost numerator/denominator accessors clone before checking limits;
-the reviewer observed1048584bytes allocated before refusal, including public
-prepare's losing proposal path. Minimal reproductions and source mechanisms are
-public in the receipt. Fresh154/154,137invocations+4hooks, ASan/UBSan (leaks off)
-and hosted7/7 at261d8003 pass but do not waive either blocker.
-
-[Owner approved ONE bounded fourth source round](https://github.com/Kernol12/subathon-bot-ai/issues/562#issuecomment-6897511532),
-accepting the [published proposal](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6896984370).
-At this publication it corrects20 imported DATA fields across15 DTOs, including
-hold/resolution/override reasons, with unchanged field order, charges, optional
-semantics and equality. Hold/bundle document ceilings stay separate.
-Unused application-codec limits do not narrow read-only store snapshots; port
-DTOs still enforce that codec's limits at their actual boundary. Exact size
-measurement borrows the existing backends; metadata rejects clearly oversized
-components before ownership. A separately bounded base-2^32 working buffer counts
-decimal digits without an Exact/text clone. First traversals use owning Exact
-component caps, independently of raw permission-source component budgets.
-No public header/test/fixture, schema, build, CI or numeric format changed.
-
-Root final154/154, exact137invocations+4hooks in ordinary AND fresh ASan/UBSan,
-actual4096/4097 persisted-hold/service disclosure, prior commit/reconcile controls,
-20 text-role pairs,72 large-number boundaries, zero/sign and original/fallback
-diagnostic controls pass. Huge numerator/denominator/sign probes observe0-byte
-new allocations in64-byte private preflight and largest56bytes in public prepare,
-not the former1048584-byte clone. Separate producer budget controls pass.
-Sanitizers have leaks disabled/external libraries uninstrumented. An initial
-sanitizer compilation hit scratch quota; obsolete generated root products were
-cleaned, sources/receipts/logs preserved, and a -g1 rebuild/check succeeded.
-These are author checks, not independent approval or a general allocator proof.
-
-[NEW WHOLE rejectione1e0a0ed](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6898478039)
-resolves I11/I12 and identifies NEW I13: shared startup/snapshot `authorize` copies
-policy/expanded roles/catalog/owner/actor BEFORE its prospective calculator input
-is checked against the independent permission limits. With only permission
-input_owned_bytes1, the graph read is admitted but an observed1280-byte catalog
-clone atauthorize:93 precedes original EffectivePermissionFailure(input_limit),
-actual rollback/work_exception/no snapshot. The semantic catalog exceeds B1;
-this is not comparing ABI allocation bytes with the semantic charging formula.
-The receipt includes the minimal real-SQL reproduction and stack attribution.
-
-[Owner approved ONE bounded fifth source round](https://github.com/Kernol12/subathon-bot-ai/issues/562#issuecomment-6898949641),
-accepting the [published proposal](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6898635596).
-That round adds a complete borrowed prospective permission-input projection BEFORE
-any assigned-role, flattened-entry, catalog, owner, actor or request copy. It uses
-the existing reviewed authority/graph declaration-order traversal, now shared in a
-private server header, with a prospective flattened-vector max_size guard. All
-nested rows, catalog operations (including unrequested ones), optional-presence,
-reference and numerator/denominator component charges are included. Adapter B/I/ref
-and calculator B/I/ref/component budgets stay separate; adapter refusal retains its
-priority and calculator refusal remains original EffectivePermissionFailure(input_limit).
-Graph/account/session reads retain their independent producer budgets and fresh
-checks. Existing materialization/evaluation follows only after both projections fit.
-The shared extraction changes no SQL, public interface, schema, policy or test.
-
-Root fresh154/154 nodes, all137invocations+4hooks with exact discovery equality in
-ordinary AND separate ASan/UBSan builds, strict six-TU/format/project/diff checks,
-16 independently hand-counted individual/role/deny/quantity fit-and-one-less cases,
-8 actual startup/snapshot nested-field refusals, role/scope/owner-deny controls and
-adapter-first error controls pass. Allocation traces have sensitive fitting controls:
-8 direct authorize allocations each on startup/snapshot, ZERO such >=128-byte traces
-on all8 narrowed profiles; the previously observed1280-byte catalog clone is absent
-before refusal. Legitimate graph producer allocations remain. These are author
-checks, not independent approval or a general heap/work proof. Sanitizer leaks are
-disabled and external libraries uninstrumented. Public contracts and all approved
-137 cases/fixtures remain byte-exact. The two existing private authority paths add
-to the whole PR review scope (29 paths from current main), not a new task.
-
-[Owner widened this SAME fifth round](https://github.com/Kernol12/subathon-bot-ai/issues/562#issuecomment-6899304385):
-search the WHOLE API-011 producer for borrowed data copied before its own limit,
-fix all found sites and give the verifier each site/disposition. The author audited
-all intake/configuration/runtime/reference-application functions and private helpers.
-In addition to I13, the round now projects configuration read keys, complete
-startup/encoded state+anchor, normalized receipts, conditions/evidence observations,
-capture keys/bindings/index values and retained envelopes/rows before copying.
-Reservation observations and complete pending values are projected before entropy
-or cloning; added journal elements are charged before insertion. Settlement and
-reconciliation use complete borrowed comparisons and preflight replacement anchors.
-Snapshot/receipt wrappers move admitted values. Historical authority keys stay
-borrowed until their complete OWN request budget fits; Allowed revision output is
-checked before copying. Prospective explanation DATA roles match owning DTOs.
-Head configuration metadata admits both reference and whole-value bytes before
-payload read. No reviewed test/public contract, schema, format or policy changed.
-The PR handoff publishes the complete C01–C38 site inventory and dispositions;
-remaining independently bounded transfers/dependency returns are distinguished.
-
-Normal154/154 and exact137invocations+4hooks, fresh ASan/UBSan inventories and
-focused probes pass on the final widened source; builds reuse only this session's
-own fresh fifth-round outputs and selected external SDK. Scratch build/harness
-failures are preserved as failures, not red. New independent literal controls pin
-retained-key65/64, retained-row5/4 and pending318/317 or2311/2310 boundaries before
-view/session access or entropy. All original I13 controls/source-order checks stay.
-These are author observations; no independent fifth-round approval is inferred.
-
-PR653 stays draft/unmerged and562 open. NEW independent WHOLE Codex verification
-must check this class across the whole producer using the site inventory, then NEW
-fresh WHOLE Claude closing. If verification still finds a site of THIS SAME class
-with NO authority bypass and a CORRECT refusal result, create a follow-up issue,
-ask the reviewer for a non-blocking disposition and continue through closing and
-normal merge gates WITHOUT asking for a sixth round. ANY OTHER blocker stops for
-owner resolution. This is the owner's explicit scoped exception, not a blanket
-review waiver. No fifth baseline correction or downstream task is authorized.
-
-Preserved fourth-round independent final154/154, exact137invocations+4hooks ordinary/sanitized
-and hosted7/7 passed but did not waive I13. Reviewer's initial /tmp-backed full151/154 and
-direct49pass/12fail were quota/setup failures, preserved, never intended red or
-passing evidence. Unchanged code passed with build AND TMPDIR on the workspace
-filesystem. Continuation should use an ignored workspace build path and absolute
-workspace TMPDIR for compiler/test databases; -g1 alone did not cure that quota.
-Keep failed logs/receipts/source; generated products may expire.
-
-Remaining gates: NEW independent WHOLE Codex verification, NEW
-fresh WHOLE Claude closing, one final proof/policy commit, both-stage publication
-validation, final-head CI, protected merge/read-back, close562 and STOP. Preserve
-every rejection. The current fifth-round author checks do not replace either required review;
-current-head hosted CI must be read back independently before merge.
+All essential scope/decisions/evidence/diagnostic sources are public in the linked
+receipts/proof. Raw local XML/logs/auxiliary scripts/build products are disposable,
+not unrecorded approvals. If cleanup retains unpublished work, report it explicitly;
+no essential decision should depend on this conversation or /tmp alone.
 
 ## Capability map and constraints for a later coordinator
 
