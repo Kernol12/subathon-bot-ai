@@ -92,8 +92,13 @@ Owner decisions are recorded in #249, comment 6879902355:
   even for reuse, full domain/purpose reference identity,3draws per attempt and
   after03/retry advanced05+after06. No N11 optional change or production behavior.
   Fresh strict compile/link66steps/static and83 name-only listings pass. Examples4
-  and NEW independent Codex verification/WHOLE Claude closing are next. Fourth round
-  is NOT authorized. All earlier review/example artifacts remain preserved.
+  posted6892590521. NEW independent Codex verification and fresh WHOLE Claude
+  closing APPROVED2154964a:B18/B01 RP05 authored-oracle objections resolved, no
+  blockers. N11 duplicate consistency and N12 bounded direct-issue spent set remain
+  mandatory implementation-audit notes, not test edits. Fourth round NOT authorized.
+  Root opt-in CMake integration built154steps/no warnings; approved12hashes unchanged.
+  Tests review is closed, but behavioral red and implementation are NOT established.
+  All earlier review/example artifacts remain preserved.
   No bodies/providers/hooks/red ran; all22 APIs remain NI. Existing
   upstream assertions/files stay frozen.
   No outside prerequisite or owner product decision was identified. Service/SAS1 extraction, consumer
@@ -109,8 +114,9 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Publish API-011 examples4 for the owner-approved bounded B18 third-round correction,
-then NEW independent Codex verification and NEW fresh WHOLE Claude closing. No
-test body/provider/hook/red until complete tests approval, then fresh implementation.
-Preserve every verdict/example/upstream assertion. Only ONE extra round was approved;
-no fourth round, authority/live/process scope expansion or premature publication.
+Observe actual per-method/data-row API-011 NI red from the reviewed opt-in runners,
+classifying setup/wrong-NI/timeouts separately, and verify dependency regressions.
+Only then assign DIFFERENT fresh implementation with full Tier A/source audits,
+including N11/N12 and B04 dual SAS1 echoes. Preserve all rejected/approved receipts
+and frozen assertions. No fourth test fix, live/process scope expansion or premature
+proof. Root owns shared codec/build/checkpoint/publication.
