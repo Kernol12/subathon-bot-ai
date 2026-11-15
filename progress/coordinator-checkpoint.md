@@ -64,9 +64,15 @@ Owner decisions are recorded in #249, comment 6879902355:
   and full contract3 limit mapping. Author reports169/169+2hooks and140/140 closure
   PASS, zero skips/warnings; partial three-TU ASan/UBSan passes, leaks unavailable.
   Public headers/contracts/tests and647 frozen paths were preserved by the author.
-  Whole producer (including first bc1 WIP) has NO independent code approval yet.
-  Coordinator is promoting the suite into existing Qt CI with52/169 discovery and
-  actual171-pass/zero-skip runtime gates; current-head hosted CI remains unverified.
+  Claude initial whole-producer review at707fd680 requests changes: A11-I01,
+  historical keys can escape as foreign input exceptions after SQL when the nested
+  capture reference ceiling is smaller. A11-N01 also identifies a noninitial pending
+  event being classified as denied instead of invalid_data. All7 hosted checks at
+  707fd680 pass; this is not implementation approval.
+  First implementation fix round: coordinator authored additive admission/event
+  regressions, leaving production and all52 existing methods byte-exact. Compile,
+  formatting and discovery56 pass;18 additional rows are source-counted only.
+  Supplemental tier A tests review and intended red are pending; no new bodies ran.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 is reserved for this registry after compiled permission step9;
   preserve all shipped prefix bytes. Full #249 integration remains open. RULES-006
@@ -77,9 +83,11 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Review the WHOLE ACCESS-011 implementation and its CI integration through tier A
-Claude initial, independent Codex verification and fresh Claude closing. Preserve
-all source/test history and failures; at most two implementation fix rounds.
+Review the additive A11-I01/A11-N01 regression tests through tier A before execution,
+observe their behavioral red, then fix the input admission/event validation in the
+first of at most two implementation fix rounds. Obtain independent Codex verification
+and fresh Claude closing on the WHOLE final producer, including CI count updates.
+Preserve all source/test history, rejected receipts and failures.
 The private selected path must preserve old public facades, original writer truth,
 metadata-before-ownership bounds, finite indexed selection and current authority.
 Only after exact-head reviews, current required CI and one proof/policy commit with

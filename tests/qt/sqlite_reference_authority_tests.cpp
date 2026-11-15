@@ -1989,6 +1989,181 @@ class SqliteReferenceAuthorityTests final : public QObject {
             }
         });
     }
+    // A11-I01/A11-N01 additive regression contract: input admission precedes SQL;
+    // a pending state is valid only at the immutable initial event.
+    void historicalKeyCeilingPrecedesDefaultCapabilities_data() {
+        QTest::addColumn<int>("field");
+        QTest::addColumn<int>("caller");
+        for (int field = 0; field < 3; ++field)
+            for (int caller = 0; caller < 3; ++caller)
+                QTest::newRow(qPrintable(QString("key-%1-caller-%2").arg(field).arg(caller)))
+                    << field << caller;
+    }
+    void historicalKeyCeilingPrecedesDefaultCapabilities() {
+        QFETCH(int, field);
+        QFETCH(int, caller);
+        scenario([&] {
+            ReferenceAuthorityLimits limits;
+            limits.reference_bytes = 128;
+            limits.captures.reference_bytes = 64;
+            auto q = selected_record_fixture::query(field == 2);
+            auto &key = field == 0   ? q.historical_operation->operation_scope
+                        : field == 1 ? q.historical_operation->operation_ref
+                                     : *q.historical_hold;
+            key.assign(64, 'k'); // Exact derived ceiling fits; broad ceiling is128.
+            SqliteWorkSession absent;
+            ApplicationReferenceReadView view;
+            SqliteReferenceAuthorityUnit unit(absent, limits);
+            SqliteReferenceAuthoritySource source(limits);
+            const auto attempt = [&] {
+                if (caller == 0)
+                    (void)unit.resolve(q);
+                else if (caller == 1)
+                    (void)view.resolve_reference_authority(q, limits);
+                else
+                    (void)source.resolve(view, q);
+            };
+            if (caller == 0)
+                work_failure(attempt, WorkError::stale_session);
+            else
+                view_failure(attempt, ApplicationReferenceViewError::expired_callback);
+            key.push_back('k'); // 65<=128 but65>min(128,64); no SQL/callback access.
+            bool caught = false;
+            try {
+                attempt();
+            } catch (const ReferenceAuthorityInputFailure &e) {
+                caught = e.code() == F::resource_limit;
+            }
+            require(
+                caught,
+                "Historical nested key overage is typed input failure BEFORE capability checks");
+        });
+    }
+    void historicalKeyOverageConsumesNoWriterStatements_data() {
+        QTest::addColumn<int>("field");
+        QTest::newRow("application-scope") << 0;
+        QTest::newRow("application-reference") << 1;
+        QTest::newRow("hold-reference") << 2;
+    }
+    void historicalKeyOverageConsumesNoWriterStatements() {
+        QFETCH(int, field);
+        scenario([&] {
+            Database d;
+            seed_history(d, field == 2);
+            bool stopped = false;
+            require(d.writer.shutdown([&] { stopped = true; }) == StorageError::none,
+                    "Close setup writer before constrained admission check");
+            require(QTest::qWaitFor([&] { return stopped; }, 10000), "Setup writer closed");
+            auto budget = account_sessions_fixture::limits();
+            budget.statements_per_batch = 1;
+            SqliteWriter tiny;
+            require(tiny.open(d.path, budget) == StorageError::none, "One-statement real writer");
+            Observer observer(d.path);
+            const auto before = registry_rows(observer);
+            ReferenceAuthorityLimits limits;
+            limits.reference_bytes = 128;
+            limits.captures.reference_bytes = 64;
+            auto q = selected_record_fixture::query(field == 2);
+            auto &key = field == 0   ? q.historical_operation->operation_scope
+                        : field == 1 ? q.historical_operation->operation_ref
+                                     : *q.historical_hold;
+            key.assign(65, 'k');
+            bool caught = false;
+            const auto result = account_sessions_fixture::outcome(tiny, [&](auto c) -> QVariant {
+                const auto session = c.begin();
+                Cleanup cleanup{session};
+                SqliteReferenceAuthorityUnit unit(session, limits);
+                try {
+                    (void)unit.resolve(q);
+                } catch (const ReferenceAuthorityInputFailure &e) {
+                    caught = e.code() == F::resource_limit;
+                }
+                require(caught, "Derived historical-key refusal is pre-SQL input admission");
+                require(session.execute({"SELECT 1", {}})[0][0].toInt() == 1,
+                        "The caller's ONLY statement remains available after input refusal");
+                session.commit();
+                return 23;
+            });
+            require(caught && result.error == WorkError::none &&
+                        result.transaction == TransactionOutcome::committed && result.value &&
+                        result.value->toInt() == 23 && registry_rows(observer) == before,
+                    "No preflight SQL, rollback, write or disguised foreign failure");
+        });
+    }
+    void historicalProfileDoesNotNarrowUnrelatedRequestKeys_data() {
+        QTest::addColumn<bool>("hold");
+        QTest::newRow("application") << false;
+        QTest::newRow("hold") << true;
+    }
+    void historicalProfileDoesNotNarrowUnrelatedRequestKeys() {
+        QFETCH(bool, hold);
+        scenario([&] {
+            Database d;
+            seed_history(d, hold);
+            ReferenceAuthorityLimits limits;
+            limits.reference_bytes = 128;
+            limits.captures.reference_bytes = 64;
+            auto q = selected_record_fixture::query(hold);
+            q.requested_operation.operation_ref.assign(100, 'r');
+            // This is today's request identity, not an argument to the historical
+            // reader. Its own128 ceiling applies; the historical keys still fit64.
+            const auto resolved = d.resolve(q, limits);
+            selected_record_fixture::disclosure(resolved, hold);
+            require(facts(resolved).binding.requested_operation.operation_ref ==
+                        std::string(100, 'r'),
+                    "Nested profile does not silently narrow the whole authority request");
+        });
+    }
+    void onlyInitialRegistryEventMayBePending_data() {
+        QTest::addColumn<bool>("initial");
+        QTest::addColumn<bool>("read_only");
+        QTest::newRow("initial-read") << true << true;
+        QTest::newRow("initial-resolve") << true << false;
+        QTest::newRow("noninitial-read") << false << true;
+        QTest::newRow("noninitial-resolve") << false << false;
+    }
+    void onlyInitialRegistryEventMayBePending() {
+        QFETCH(bool, initial);
+        QFETCH(bool, read_only);
+        scenario([&] {
+            Database d;
+            if (initial)
+                d.work([](const auto &session) {
+                    (void)session.execute({"DELETE FROM subathon_reference_authority_events WHERE "
+                                           "revision=X'0000000000000003'",
+                                           {}});
+                    (void)session.execute({"UPDATE subathon_reference_authority_head SET "
+                                           "revision=X'0000000000000002'",
+                                           {}});
+                });
+            else
+                corrupt(d.path, {"UPDATE subathon_reference_authority_events SET state=0 WHERE "
+                                 "revision=X'0000000000000003'"});
+            Observer observer(d.path);
+            const auto before = registry_rows(observer);
+            d.work([&](const auto &session) {
+                SqliteReferenceAuthorityUnit unit(session);
+                if (read_only) {
+                    const auto r = unit.read("I", "K");
+                    if (initial) {
+                        require(std::holds_alternative<ReferenceAuthorityRecord>(r),
+                                "Legitimate initial pending record remains readable");
+                        const auto &v = std::get<ReferenceAuthorityRecord>(r);
+                        require(v.state == S::pending && v.created_revision == 2 &&
+                                    v.state_revision == 2 && v.head_revision == 2 &&
+                                    v.original_author == "A" && v.actor == "A",
+                                "Pending initial event preserves its own provenance");
+                    } else
+                        require(std::holds_alternative<F>(r) && std::get<F>(r) == F::invalid_data,
+                                "Noninitial pending event is impossible stored data, not policy");
+                } else
+                    failure(unit.resolve(request()), initial ? F::denied : F::invalid_data);
+                require(session.execute({"SELECT 1", {}})[0][0].toInt() == 1,
+                        "Structural refusal does not terminate caller transaction");
+            });
+            require(registry_rows(observer) == before, "Reader never repairs impossible history");
+        });
+    }
 };
 QTEST_GUILESS_MAIN(SqliteReferenceAuthorityTests)
 #include "sqlite_reference_authority_tests.moc"
