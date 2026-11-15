@@ -279,7 +279,8 @@ class ReferenceRuleAuthorityTests final : public QObject {
     }
     void retainedArrivalRequiresWholeConfigEqualityIncludingUnselectedFields() {
         scenario([] {
-            for (int field = 0; field < 18; ++field) {
+            // Sixteen distinct value changes plus the five category tags below.
+            for (int field = 0; field < 16; ++field) {
                 auto f = configuration_facts();
                 auto &c = f.projection;
                 switch (field) {
@@ -331,12 +332,6 @@ class ReferenceRuleAuthorityTests final : public QObject {
                     break;
                 case 15:
                     c.rule.automation.principal_ref = "U2";
-                    break;
-                case 16:
-                    c.rule.rule_version_ref = "r2";
-                    break;
-                case 17:
-                    c.rule.action_version_ref = "b3";
                     break;
                 }
                 f.enabled_rules[0].rule = c.rule;
@@ -411,7 +406,7 @@ class ReferenceRuleAuthorityTests final : public QObject {
                     "Captured version loaded through callback");
             d.state(3, ReferenceAuthorityState::revoked);
             p.attempt(d);
-            require(std::holds_alternative<ApplicationAccessDenied>(*p.decision),
+            require(p.decision && std::holds_alternative<ApplicationAccessDenied>(*p.decision),
                     "Fresh revoke denies previous allow");
             d.state(4, ReferenceAuthorityState::authorized);
             p.attempt(d);
@@ -421,8 +416,8 @@ class ReferenceRuleAuthorityTests final : public QObject {
                         std::get<ApplicationAccessAllowed>(*p.decision).permission_revision_ref !=
                             first,
                     "Fresh restored exact revision5");
-            require(p.source.calls == 3 && captures(o) == before,
-                    "No permit cache or capture rewrite");
+            require(p.source.calls == 1 && captures(o) == before,
+                    "Each attempt resolves anew without a capture rewrite");
         });
     }
     void fullQuantityUsesAuthorBothChannelsAndSeparateExecutionSubject() {
@@ -435,17 +430,15 @@ class ReferenceRuleAuthorityTests final : public QObject {
                 const auto old =
                     std::get<ApplicationAccessAllowed>(*p.decision).permission_revision_ref;
                 d.narrow(channel == 1 ? 1 : 0, channel == 2 ? "E" : "A", 120000);
-                for (const auto cap : {INT64_C(3600000), INT64_C(3480000)}) {
-                    p.cap = cap;
-                    p.full_accounting = true;
-                    const auto c = p.attempt(d);
-                    require(std::holds_alternative<ApplicationAccessDenied>(*p.decision) &&
-                                c.response &&
-                                c.response->disposition == ApplicationServiceDisposition::denied,
-                            "Full600000 denied though cap credit would be120000 or0");
-                    require(p.policies == 0 && p.clocks == 0 && p.disclosures == 0,
-                            "Nonallow precedes protected inputs/policy/clock");
-                }
+                p.full_accounting = true;
+                const auto c = p.attempt(d);
+                require(p.decision &&
+                            std::holds_alternative<ApplicationAccessDenied>(*p.decision) &&
+                            c.response &&
+                            c.response->disposition == ApplicationServiceDisposition::denied,
+                        "Full600000 exceeds120000 authority before any policy/cap lookup");
+                require(p.policies == 0 && p.clocks == 0 && p.disclosures == 0,
+                        "Nonallow precedes protected inputs/policy/clock");
                 d.narrow(channel == 1 ? 1 : 0, channel == 2 ? "E" : "A", 600000);
                 p.full_accounting = false;
                 p.attempt(d);
@@ -471,6 +464,18 @@ class ReferenceRuleAuthorityTests final : public QObject {
                 [](auto &f) { f.binding.captured.source.identifier_namespace = "other"; },
                 [](auto &f) { f.binding.captured.rule.add_ms = 120000; },
                 [](auto &f) { f.binding.captured.rule.automation_capability_ref = "other"; },
+                [](auto &f) { f.binding.captured.rule.rule_ref = "other"; },
+                [](auto &f) { f.binding.captured.rule.action_ref = "other"; },
+                [](auto &f) { f.binding.captured.rule.timer_ref = "other"; },
+                [](auto &f) { f.binding.captured.source.origin.source_account = "other"; },
+                [](auto &f) { f.binding.principal.kind = ApplicationPrincipalKind::account; },
+                [](auto &f) { f.binding.historical_operation = ApplicationOperationKey{"s", "a"}; },
+                [](auto &f) { f.binding.historical_hold = "h"; },
+                [](auto &f) { f.automation_revision_ref.clear(); },
+                [](auto &f) { f.automation_revision_ref.back() ^= 1; },
+                [](auto &f) { f.registry.created_revision = f.registry.state_revision + 1; },
+                [](auto &f) { f.registry.state = static_cast<ReferenceAuthorityState>(255); },
+                [](auto &f) { f.permission_input.owner.state = PermissionOwnerState::unknown; },
                 [](auto &f) { f.registry.binding.rule_version = "other"; },
                 [](auto &f) { f.registry.binding.action_version = "other"; },
                 [](auto &f) { f.registry.binding.origin.provider = "other"; },
@@ -531,6 +536,32 @@ class ReferenceRuleAuthorityTests final : public QObject {
             }
         });
     }
+    void sharedAuthorAndExecutionAccountUsesRealCurrentAuthority() {
+        scenario([] {
+            Store d(600000, "A");
+            Ports p;
+            p.attempt(d);
+            allowed(p, "A");
+            require(p.source.calls == 1 && p.source.observed->registry.original_author == "A" &&
+                        p.source.observed->registry.execution_account == "A",
+                    "Real enrollment and consumer allow author=subject; principal stays U");
+        });
+    }
+    void inactiveRegistryCannotUseNominalFactsSuccess() {
+        scenario([] {
+            for (const auto state :
+                 {ReferenceAuthorityState::pending, ReferenceAuthorityState::revoked}) {
+                Store d;
+                Ports p;
+                p.source.corrupt_facts = [state](auto &f) { f.registry.state = state; };
+                p.attempt(d);
+                require(p.decision &&
+                            std::holds_alternative<ApplicationAccessDenied>(*p.decision) &&
+                            !p.witness && p.policies == 0 && p.clocks == 0 && p.disclosures == 0,
+                        "Known inactive state denies before fingerprint/policy re-evaluation");
+            }
+        });
+    }
     void independentlyReevaluatesRawAuthorUseGrantAndSubjectUse() {
         scenario([] {
             for (int channel = 0; channel < 3; ++channel) {
@@ -552,8 +583,8 @@ class ReferenceRuleAuthorityTests final : public QObject {
         scenario([] {
             for (const auto f :
                  {ReferenceAuthorityFailure::denied, ReferenceAuthorityFailure::missing,
-                  ReferenceAuthorityFailure::unavailable, ReferenceAuthorityFailure::resource_limit,
-                  ReferenceAuthorityFailure::stale}) {
+                  ReferenceAuthorityFailure::unavailable,
+                  ReferenceAuthorityFailure::resource_limit}) {
                 Store d;
                 Ports p;
                 p.source.refuse = f;
@@ -570,8 +601,13 @@ class ReferenceRuleAuthorityTests final : public QObject {
             Observer o(d.path);
             const auto before = captures(o);
             Ports p;
-            p.source.refuse = ReferenceAuthorityFailure::invalid_data;
-            semantic_failure(p, d);
+            for (const auto f :
+                 {ReferenceAuthorityFailure::invalid_data, ReferenceAuthorityFailure::stale,
+                  ReferenceAuthorityFailure::collision,
+                  static_cast<ReferenceAuthorityFailure>(255)}) {
+                p.source.refuse = f;
+                semantic_failure(p, d);
+            }
             require(captures(o) == before &&
                         o.rows("SELECT * FROM subathon_app_operations").isEmpty(),
                     "Actual whole rollback, no completion/claim");
@@ -621,21 +657,19 @@ class ReferenceRuleAuthorityTests final : public QObject {
             require(p.source.calls == 0, "Known malformed SRX1 is semantic corruption");
         });
     }
-    void emptyRevisionIsUnknownAndOversizedFactsAreNotClonedOrEvaluated() {
+    void emptyRevisionIsMalformedAndOversizedFactsAreNotClonedOrEvaluated() {
         scenario([] {
             Store d;
             Ports p;
             p.source.corrupt_facts = [](auto &f) { f.permission_revision_ref.clear(); };
-            p.attempt(d);
-            require(std::holds_alternative<ApplicationAccessUnknown>(*p.decision),
-                    "No revision no permit");
+            semantic_failure(p, d);
             p.source.corrupt_facts = [](auto &f) {
                 f.permission_input.policy.entries[0].source = std::string(4097, 'x');
             };
             // Complete raw authority result per-field preflight is a semantic resource
             // refusal (Unknown), not a tiny requested tuple bypass or allocation clone.
             p.attempt(d);
-            require(std::holds_alternative<ApplicationAccessUnknown>(*p.decision),
+            require(p.decision && std::holds_alternative<ApplicationAccessUnknown>(*p.decision),
                     "Oversized source result fails closed");
         });
     }
@@ -653,12 +687,12 @@ class ReferenceRuleAuthorityTests final : public QObject {
             allowed(p);
             p.authority_limits.result_bytes = 2439;
             p.attempt(d);
-            require(std::holds_alternative<ApplicationAccessUnknown>(*p.decision),
+            require(p.decision && std::holds_alternative<ApplicationAccessUnknown>(*p.decision),
                     "One-less whole result byte limit");
             p.authority_limits.result_bytes = 2440;
             p.authority_limits.result_items = 130;
             p.attempt(d);
-            require(std::holds_alternative<ApplicationAccessUnknown>(*p.decision),
+            require(p.decision && std::holds_alternative<ApplicationAccessUnknown>(*p.decision),
                     "One-less whole result item limit");
             p.authority_limits = {};
             auto r2 = configuration_facts();
@@ -666,9 +700,8 @@ class ReferenceRuleAuthorityTests final : public QObject {
             r2.projection.rule.rule_version_ref = r2.enabled_rules[0].rule.rule_version_ref = "r2";
             r2.projection.rule.add_ms = r2.enabled_rules[0].rule.add_ms = 900000;
             p.config.data = r2;
-            const auto calls = p.source.calls;
             semantic_failure(p, d);
-            require(p.source.calls == calls && p.config.loaded.back() == "C" &&
+            require(p.source.calls == 0 && p.config.loaded == std::vector<std::string>{"C"} &&
                         captures(o) == before,
                     "Request capturedC, never silently substitute currentC2/r2");
         });
@@ -736,17 +769,19 @@ class ReferenceRuleAuthorityTests final : public QObject {
                 const auto original =
                     std::get<ApplicationAccessAllowed>(*p.decision).permission_revision_ref;
                 d.work([&](const auto &s) {
-                    (void)s.execute({"UPDATE subathon_accounts SET "
-                                     "enabled=0,account_revision=X'7632' WHERE account_ref=?",
-                                     {QByteArray(account)}});
+                    (void)s.execute(
+                        {"UPDATE subathon_accounts SET "
+                         "application_access_enabled=0,revision_ref=X'7632' WHERE account_ref=?",
+                         {QByteArray(account)}});
                 });
                 p.attempt(d);
-                require(std::holds_alternative<ApplicationAccessDenied>(*p.decision),
+                require(p.decision && std::holds_alternative<ApplicationAccessDenied>(*p.decision),
                         "Current disabled author/subject cannot fall back to owner");
                 d.work([&](const auto &s) {
-                    (void)s.execute({"UPDATE subathon_accounts SET "
-                                     "enabled=1,account_revision=X'7633' WHERE account_ref=?",
-                                     {QByteArray(account)}});
+                    (void)s.execute(
+                        {"UPDATE subathon_accounts SET "
+                         "application_access_enabled=1,revision_ref=X'7633' WHERE account_ref=?",
+                         {QByteArray(account)}});
                 });
                 p.attempt(d);
                 allowed(p);
@@ -788,7 +823,7 @@ class ReferenceRuleAuthorityTests final : public QObject {
                     {"UPDATE subathon_permission_head SET revision=X'0000000000000003'", {}});
             });
             p.attempt(d);
-            require(std::holds_alternative<ApplicationAccessDenied>(*p.decision),
+            require(p.decision && std::holds_alternative<ApplicationAccessDenied>(*p.decision),
                     "Actual author membership revocation removes GRANT");
         });
     }

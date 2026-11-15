@@ -64,10 +64,13 @@ Owner decisions are recorded in #249, comment 6879902355:
   fast-forwarded once. Claim6888000850. Prerequisites #171/#556/#645/#646/#649 closed.
   Fresh Step0 source recheck at27588533 is feasible; coordinator accepts bounded
   contract/examples and tests authoring. Old stop at1fd11c3b remains historical.
-  Authored candidatebde1f064 adds exactly7 new files: public contract revision1,
-  four unconditional NI APIs,11 GoogleTest cases and20 Qt slots. Compile/link,
-  name-only listing, format/project/diff and ownership hashes pass. No bodies,
-  providers, intended red or implementation run. Full tier A tests review pending;
+  Authored candidatebde1f064/reviewa32eee57 adds exactly7 new files. Claude initial
+  CONTRACT/TESTS review requested changes (R6-T01–T05); rejection preserved.
+  Coordinator fix round1 of2 revises server header/examples to2, corrects fixture
+  SQL/refusal oracles and adds distrust/shared-identity coverage. Four unconditional
+  NI APIs remain;11 GoogleTest cases/22 Qt slots. Fresh compile/link60/60 and
+  name-only listing/static checks pass. No bodies, providers, intended red or
+  implementation run. Separate Codex verification and fresh Claude closing pending;
   shared integration patch remains unapplied and all test source local/unpushed.
   Production full-configuration loading/concrete ports stay #562; supplied complete
   config DATA is a fixture, while current-authority composition uses real stores.
@@ -80,8 +83,9 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Obtain Claude initial, independent Codex verification and fresh Claude closing for
-the WHOLE RULES-006 revision1 header/examples and11 pure/20 Qt tests, including
+Obtain independent Codex verification and fresh Claude closing after initial
+changes requested and coordinator fix round1 for the WHOLE RULES-006 revision2
+server header/examples (pure header1) and11 pure/22 Qt tests, including
 actual setup/oracles, full admission, current-authority distrust/revocation,
 resource/error priority and overflow composition. No bodies/data providers, CTest,
 red or push before tests review. Coordinator integrates opt-in red build only after

@@ -65,7 +65,7 @@ struct Store {
     QString path{directory.filePath("rules006.sqlite")};
     SqliteWriter writer;
     Clock clock;
-    explicit Store(std::int64_t amount = 600000) {
+    explicit Store(std::int64_t amount = 600000, std::string execution_account = "E") {
         require(directory.isValid(), "Disposable rules006 database");
         require(writer.open(path, account_sessions_fixture::limits()) == StorageError::none,
                 "Writer opens");
@@ -87,6 +87,16 @@ struct Store {
                      {QByteArray("I"), QByteArray(a), QByteArray("s") + a, QByteArray(32, a[0])}});
             }
             seed_graph(s);
+            if (execution_account != "E") {
+                // Independent initial policy DATA: enrollment management targets
+                // the selected execution account, including the author's own A.
+                auto entries = graph(false).accounts[0].individual_entries;
+                entries.back().resources[0].allowed = {execution_account};
+                (void)s.execute(
+                    {"UPDATE subathon_permission_accounts SET entries=? WHERE channel=0 "
+                     "AND account_ref=X'41'",
+                     {encoded(entries)}});
+            }
             const reference_capture_fixture::Data d;
             d.intake(s, "A");
             d.stage_capture(s, "A");
@@ -143,7 +153,7 @@ struct Store {
             staged(u.bootstrap(actor('O'), clock), 1);
             auto b = binding();
             b.requested_ms = amount;
-            staged(u.enroll(actor(), clock, 1, b, "E"), 2);
+            staged(u.enroll(actor(), clock, 1, b, execution_account), 2);
             staged(u.set_state(actor('O'), clock, 2, "K", ReferenceAuthorityState::authorized), 3);
         });
     }
@@ -268,6 +278,10 @@ class Ports final : public ExecutionAccess,
                                          bool rethrow = true) {
         witness = {};
         decision.reset();
+        source.observed.reset();
+        source.calls = 0;
+        config.loaded.clear();
+        policies = clocks = disclosures = actions = references = 0;
         ApplicationServicePorts ports{*this, *this, *this, *this, *this};
         OriginalApplicationService service(d.writer, ports);
         bool done = false;
@@ -331,7 +345,7 @@ inline std::vector<SqlRows> captures(Observer &o) {
             o.rows("SELECT * FROM subathon_reference_initial_captures ORDER BY "
                    "installation_ref,receipt_id")};
 }
-inline void allowed(const Ports &p) {
+inline void allowed(const Ports &p, const std::string &execution_account = "E") {
     require(p.decision && std::holds_alternative<ApplicationAccessAllowed>(*p.decision) &&
                 p.source.observed,
             "New helper permits actual complete current authority");
@@ -339,8 +353,8 @@ inline void allowed(const Ports &p) {
                 p.source.observed->permission_revision_ref,
             "Exact fresh producer revision, no locally fabricated permit");
     require(p.source.observed->original_author_input.author == "A" &&
-                p.source.observed->permission_input.actor == "E" &&
+                p.source.observed->permission_input.actor == execution_account &&
                 p.source.observed->binding.principal.principal_ref == "U",
-            "A != U != E");
+            "Original author A and principal U retain the exact execution account");
 }
 } // namespace reference_rule_fixture

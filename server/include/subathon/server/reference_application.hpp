@@ -4,7 +4,7 @@
 #include <subathon/server/sqlite_reference_authority.hpp>
 
 namespace subathon::server {
-// RULES-006 public-header contract revision 1, CONTRACT-014 sections1/4.
+// RULES-006 public-header contract revision 2, CONTRACT-014 sections1/4.
 // Imported capture/authority types and their limits are not redefined here.
 enum class ReferenceGate : std::uint8_t { not_ready, unsupported_configuration, denied, conflict };
 struct ReferenceUnavailable {
@@ -72,7 +72,11 @@ class ReferenceExecutionFailure final : public std::exception {
 // i64/u64=8, optional1+payload; vector size contributes I recursively, structs sum
 // EVERY field/copy). All input, intermediate and output values independently fit
 // value_owned_bytes/value_items. Per-field reference/payload/document limits also
-// apply, including every losing or unsupported member and source result BEFORE
+// apply. Variants charge only the held alternative, with no wrapper/tag bytes.
+// Admission charges expected_configuration_ref PLUS resolution; evaluation charges
+// arrival PLUS resolution. Authority result charges the held Facts/failure only.
+// Limits and borrowed dependency objects are excluded from value argument charges.
+// Check every losing or unsupported member and source result BEFORE
 // cloning. Limits must fit SIZE_MAX/PTRDIFF_MAX/qsizetype/qint64/container max_size;
 // framed lengths fit U32. Capacity is separately bounded by relevant max_size;
 // never reserve caller capacity or expand count*size unchecked. Imported authority,
@@ -115,17 +119,20 @@ evaluate_reference_rule(const ReferenceArrivalCapture &, const ReferenceConfigur
 // Validate all command/principal/installation/source/receipt/CID(including0)/plan/
 // rule/action/both versions/timer/capability/amount duplications before authority.
 // Ask source anew for execute_time_add and THIS operation, then validate returned
-// echo, authorized registry, immutable binding, distinct author/subject mapping,
+// echo, authorized registry, immutable binding, exact author/subject mapping,
 // nonzero ordered created<=state<=head revisions, nonempty revision provenance,
 // matching snapshots/catalog/owner. Distinct identities are allowed, not required.
+// For authorized facts, automation_revision_ref must match the registry's canonical
+// RAA1 fingerprint (reference-authority-v1); both snapshots equal permission revision.
+// Known pending/revoked registry states deny before fingerprint/policy re-evaluation.
 // Exact compiled reference catalog and whole concrete RSS1 scope/amount/1 required;
 // never trust source success, union/intersect policies or use cap-limited credit.
 // Re-run revalidate_permission_automation (author USE AND GRANT) and independent
 // evaluate_effective_permission (execution subject USE), using authority.permissions.
-// All missing/unavailable/resource_limit/stale -> Unknown; denied/revoked -> Denied;
-// known contradictory/malformed facts (including collision) ->
-// ReferenceExecutionFailure(invalid_data), never a fake RetentionFailure. Empty
-// revision -> Unknown; nonempty disagreeing snapshots -> invalid_data. Valid raw
+// All missing/unavailable/resource_limit -> Unknown; denied/inactive -> Denied;
+// known contradictory/malformed facts, empty/disagreeing revisions and impossible
+// resolve failures (stale, collision, out-of-range) ->
+// ReferenceExecutionFailure(invalid_data), never a fake RetentionFailure. Valid raw
 // policy non-permit -> Denied; unknown policy -> Unknown; invalid policy -> invalid_data.
 // Allowed returns EXACT freshly supplied permission_revision_ref. No old permit input.
 // Oversized source facts or nested resource refusal -> Unknown, before copies.
