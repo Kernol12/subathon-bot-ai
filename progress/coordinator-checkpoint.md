@@ -78,10 +78,13 @@ Owner decisions are recorded in #249, comment 6879902355:
   current140/140 closure PASS, zero skips. Codex whole-producer verification at
   bce94db7 confirms A11-I01/N01 fixed, but requests changes for A11-I02: mutation
   authentication swallows original writer exceptions across generic session sources.
-  Second implementation fix round is authorized by the two-round limit. Coordinator
+  Second implementation fix round remains within the existing #649 assignment. Coordinator
   authored27 additive ticket/SQL/budget/refusal regression rows; all56 existing
   methods remain byte-exact. Compile/static checks and59-method discovery PASS;
-  new bodies/data providers remain unrun, awaiting supplemental tier A tests review.
+  Initial supplemental tests review requests changes for A11-T01: the1-byte account
+  control stopped at input admission. Tests fix round1 uses33 bytes: lookup input
+  fits, selected metadata does not. Counts unchanged; bodies/data providers remain
+  unrun pending independent Codex verification and fresh Claude closing.
   No proof, closing or merge approval yet; #558 remains stopped.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 is reserved for this registry after compiled permission step9;

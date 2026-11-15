@@ -2329,8 +2329,11 @@ class SqliteReferenceAuthorityTests final : public QObject {
             const auto before = registry_rows(observer);
             d.work([&](const auto &session) {
                 ReferenceAuthorityLimits limits;
-                if (refusal == 2)
-                    limits.accounts.selected_bytes = 1;
+                if (refusal == 2) {
+                    // Lookup input I + 32-byte digest fits33. Stored session
+                    // references + format + digest alone cost40, after metadata SQL.
+                    limits.accounts.selected_bytes = 33;
+                }
                 SqliteReferenceAuthorityUnit unit(session, limits);
                 ReferenceAuthorityWrite result;
                 if (method == 0)
