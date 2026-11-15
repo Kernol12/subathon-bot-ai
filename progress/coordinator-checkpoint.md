@@ -70,11 +70,15 @@ Owner decisions are recorded in #249, comment 6879902355:
   startup, genuine UTC/elapsed journal and current policy/action/reference producers
   remain explicit in-scope work, not outside blockers. No runtime/build proof from
   feasibility. Actual stored-session authority is required; no owner boolean.
-  Next assignment is fresh header/examples/tests authoring with NI-only behavior.
-  New reference_intake/runtime/configuration header/source pairs and new Qt test/
-  support fixtures are author-owned. Existing service/SAS1 extraction and reference
-  consumer refactoring are coordinator-controlled future implementation paths;
-  tests author proposes patches only and preserves all existing assertions/bytes.
+  Header/examples1 and tests authored locally at e85848d1:11 new files,22 unconditional
+  NI behavioral methods; compile/link/static and66 name-only listings pass. No test
+  body/hook/provider/red ran. Examples posted6891350560; initial whole Claude tests
+  review requested changes (15blockers API11-B01..B15,10notes N01..N10). Receipt and
+  proposed examples1 stay preserved. Fix round1 of2 is the next fresh assignment:
+  header/examples2, independent corrected oracles and missing behavior coverage;
+  all22 APIs remain unconditional NI. Existing upstream assertions/files stay frozen.
+  No outside prerequisite or owner product decision was identified. Service/SAS1 extraction, consumer
+  refactoring and shared build proposal remain unapplied coordinator-owned work.
   Both stages tier A; no test body before full tests review, no implementation before
   observed intended red. Full #249/API010/recovery/host/live/process boundaries stay.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
@@ -86,9 +90,9 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Assign fresh API-011 header/examples and independent real-SQL tests authoring after
-accepted source feasibility. Pin startup/configuration/clock/entropy/acknowledgement
-and RP01-12/14 semantics before assertions, then full Tier A tests review. Keep NI
-stubs unconditional and all existing tests unchanged. Root retains shared files/
-checkpoint/publication; propose shared extraction/build changes without applying.
-No fake allow, fabricated clock, public mutation/live side effects or process work.
+Execute API-011 contract/tests fix round1 after initial rejection at e85848d1.
+Address all15 blockers and disposition all10 notes, publish corrected examples2,
+then independent WHOLE Codex verification and fresh WHOLE Claude closing before
+integration or behavioral red. Preserve original review/history and all upstream
+assertions. Root retains shared codec/build/checkpoint/publication; no production
+behavior, authority shortcut, public mutation/live or process/tooling work.
