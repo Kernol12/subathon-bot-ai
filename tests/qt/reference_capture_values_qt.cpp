@@ -211,6 +211,68 @@ class ReferenceCaptureValuesTest : public QObject {
         scenario([] { sameInitial(decode_reference_initial_capture(literal(3)), initial()); });
     }
 
+    // SLICE-001 public SRF1 encoder contract, examples E1–E6 from issue #642.
+    void executionRefEncodeLiteral() {
+        scenario([] {
+            const auto encoded = encode_reference_execution_ref("x");
+            QCOMPARE(encoded.format_ref, "subathon.reference.execution-ref.v1");
+            QCOMPARE(encoded.document, QByteArray::fromHex("535246310000000178"));
+        });
+    }
+    void executionRef4096BytesFit() {
+        scenario([] {
+            const std::string reference(4096, 'a');
+            const auto encoded = encode_reference_execution_ref(reference);
+            QCOMPARE(encoded.format_ref, "subathon.reference.execution-ref.v1");
+            const auto expected = QByteArray::fromHex("5352463100001000") + QByteArray(4096, 'a');
+            QCOMPARE(encoded.document, expected);
+        });
+    }
+    void executionRef4097BytesExceedLimit() {
+        scenario([] {
+            const std::string reference(4097, 'a');
+            failure([&] { (void)encode_reference_execution_ref(reference); }, Error::input_limit);
+        });
+    }
+    void executionRefEmptyIsInvalid() {
+        scenario([] {
+            failure([] { (void)encode_reference_execution_ref(""); }, Error::invalid_reference);
+        });
+    }
+    void executionRefZeroLimitsAreInvalid_data() {
+        QTest::addColumn<int>("member");
+        QTest::newRow("reference-bytes") << 0;
+        QTest::newRow("payload-bytes") << 1;
+        QTest::newRow("document-bytes") << 2;
+        QTest::newRow("value-owned-bytes") << 3;
+        QTest::newRow("value-items") << 4;
+        QTest::newRow("clock-journal-entries") << 5;
+    }
+    void executionRefZeroLimitsAreInvalid() {
+        scenario([] {
+            QFETCH(int, member);
+            using Member = std::uint64_t ReferenceAdapterLimits::*;
+            const std::array<Member, 6> members{&ReferenceAdapterLimits::reference_bytes,
+                                                &ReferenceAdapterLimits::payload_bytes,
+                                                &ReferenceAdapterLimits::document_bytes,
+                                                &ReferenceAdapterLimits::value_owned_bytes,
+                                                &ReferenceAdapterLimits::value_items,
+                                                &ReferenceAdapterLimits::clock_journal_entries};
+            ReferenceAdapterLimits limits;
+            limits.*members.at(static_cast<std::size_t>(member)) = 0;
+            failure([&] { (void)encode_reference_execution_ref("x", limits); },
+                    Error::invalid_limits);
+        });
+    }
+    void executionRefOpaqueBytesEncodeLiteral() {
+        scenario([] {
+            const auto encoded =
+                encode_reference_execution_ref(std::string_view("\x00\xff\x0a", 3));
+            QCOMPARE(encoded.format_ref, "subathon.reference.execution-ref.v1");
+            QCOMPARE(encoded.document, QByteArray::fromHex("535246310000000300ff0a"));
+        });
+    }
+
     void allLimitsValidateBeforeInput() {
         scenario([] {
             using Member = std::uint64_t ReferenceAdapterLimits::*;

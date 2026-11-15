@@ -700,4 +700,8 @@ ReferenceInitialCapture decode_reference_initial_capture(const ApplicationEnvelo
             outer(v, l, initial_format), l, reference_capture_detail::BodyBounds::public_input);
     });
 }
+ApplicationEnvelope encode_reference_execution_ref(std::string_view,
+                                                   const ReferenceAdapterLimits &) {
+    throw ReferenceCaptureValuesNotImplemented{};
+}
 } // namespace subathon::server
