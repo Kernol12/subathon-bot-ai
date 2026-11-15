@@ -39,11 +39,27 @@ above. No live chat or payment side effects are authorized.
   not-implemented stub and reports the fixture check in the handoff; it is never red
   evidence.
 
+## SLICE-001 owner decision (2026-11-15)
+
+The step 0 read found three gaps, reported in
+[#642](https://github.com/Kernol12/subathon-bot-ai/issues/642#issuecomment-6902219552): no production `CurrentSessionClock`,
+no setup or login producer for the stored owner, session and graph, and examples
+that assume zero elapsed time. The owner chose option B and kept tier B:
+
+- Inside the slice executable only, never in the server library: a development
+  session clock, a one-time development provisioning through the existing public
+  store primitives with synthetic facts, and a controlled clock option so the
+  examples hold exactly. The real `SystemReferenceClockSampler` stays the default.
+- The reviewer checks that none of it is reachable from the server library and that
+  it is marked development-only. SESSION-009, API-010 and setup keep their ownership
+  and release requirements.
+
 ## Live assignments
 
-None at this checkpoint. SLICE-001 is the next claim; its PR owns head, CI and
-review state once it exists. Verify the actual checkout, worktrees and PR state
-before acting; never infer a live session from this file.
+SLICE-001 is claimed on #642, branch `task/SLICE-001-development-server`, tests
+stage first; its PR owns head, CI and review state once it exists. Verify the actual
+checkout, worktrees and PR state before acting; never infer a live session from
+this file.
 
 ## API-011 capability map (the reference path SLICE-001 hosts)
 
