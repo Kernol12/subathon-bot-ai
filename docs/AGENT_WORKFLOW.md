@@ -13,6 +13,10 @@ For new behavior: contract/examples → authored tests → independent test revi
 observed intended red → implementation → independent code review → relevant checks.
 
 - Compile failures, missing dependencies and skipped tests are not red evidence.
+- Before the first tests review, the author runs the new suite once against the
+  not-implemented stubs. Every case must reach its intended not-implemented call; a
+  case that fails earlier, in setup or fixtures, is fixed before the review packet is
+  sent. The handoff reports the result. This fixture check is never red evidence.
 - Expected values come from the specification, never from the implementation.
 - Do not delete, skip or weaken reviewed assertions to make code pass. Correct a
   genuine test defect only with specification-based reasoning and a separate reviewer
@@ -56,7 +60,8 @@ The coordinator states the tier in the PR description when the task is claimed.
 
 - When the tier is unclear, use the higher one. Any reviewer may escalate a change.
 - Each stage (tests, implementation) gets its own review at the task's tier. Complete
-  the tests review before observing intended red.
+  the tests review before observing intended red; the author's fixture check above
+  does not replace it.
 - At most two fix rounds per review. Ask the owner before a third.
 - A material change after approval needs a re-review of the changed part. In tier A
   that means Codex verification plus a new closing review, not a new initial review.
