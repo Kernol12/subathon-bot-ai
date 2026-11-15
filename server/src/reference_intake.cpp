@@ -69,7 +69,7 @@ void authorize(const SqliteWorkSession &s, const SessionLookupRequest &r, bool i
     if (!std::holds_alternative<StoredPermissionGraph>(result))
         refuse(l, ReferenceGate::denied, "reference.access-denied.v1");
     const auto &g = std::get<StoredPermissionGraph>(result);
-    auto m = measure(l.values, Error::result_limit);
+    auto m = runtime_measure(l, Error::result_limit);
     m(g);
     if (initial && (!g.owner.account || *g.owner.account != actor.account_ref))
         refuse(l, ReferenceGate::denied, "reference.access-denied.v1");
@@ -91,7 +91,7 @@ void authorize(const SqliteWorkSession &s, const SessionLookupRequest &r, bool i
         request.resources = {{"timer", timer}};
     core::EffectivePermissionInput input{actor.account_ref, actor.snapshot_ref, g.catalog,
                                          g.owner,           std::move(policy),  std::move(request)};
-    auto p = measure(l.values, Error::result_limit);
+    auto p = runtime_measure(l, Error::result_limit);
     p(input);
     if (core::evaluate_effective_permission(input, l.authority.permissions).data().outcome !=
         core::PermissionOutcome::permit)
@@ -105,7 +105,7 @@ void authenticate(const SqliteWorkSession &s, const SessionLookupRequest &r, boo
 }
 void preflight(const ReferenceRuntimeLimits &l, const ReferenceConnectorRegistration &connector) {
     runtime_limits(l);
-    auto p = measure(l.values);
+    auto p = runtime_measure(l);
     p(connector);
     require(!connector.connection_ref.empty() && !connector.origin.provider.empty() &&
                 !connector.origin.source_account.empty() && !connector.identifier_namespace.empty(),
@@ -136,7 +136,7 @@ ReferenceIntake::make_initial_work(const ReferenceInitialRequest &r,
                                    std::function<void(ReferenceInitialCompletion)> callback) const
     try {
     preflight(limits_, connector_);
-    auto p = measure(limits_.values);
+    auto p = runtime_measure(limits_);
     p(r, connector_);
     require(unsigned(r.timer.lifecycle) <= 2 && unsigned(r.timer.phase) <= 1, Error::invalid_tag);
     session_input(r.owner_session);
@@ -164,7 +164,7 @@ ReferenceIntake::make_initial_work(const ReferenceInitialRequest &r,
             if (store.read_state())
                 refuse(limits_, ReferenceGate::conflict, "reference.initial-conflict.v1");
             auto sample = borrow([&] { return clock_.sample(); });
-            auto m = measure(limits_.values, Error::result_limit);
+            auto m = runtime_measure(limits_, Error::result_limit);
             m(sample);
             if (auto u = std::get_if<ReferenceUnavailable>(&sample))
                 refuse(limits_, *u);
@@ -212,7 +212,7 @@ ReferenceIntake::make_receipt_work(const std::string &ref, const ReferenceSynthe
                                    std::function<void(ReferenceReceiptCompletion)> callback) const
     try {
     preflight(limits_, connector_);
-    auto p = measure(limits_.values);
+    auto p = runtime_measure(limits_);
     p(ref, input, connector_);
     require(!ref.empty() && !input.connection_ref.empty() && !input.event_id.empty(),
             Error::invalid_reference);
@@ -230,7 +230,7 @@ ReferenceIntake::make_receipt_work(const std::string &ref, const ReferenceSynthe
             data(cfg.synthetic_origin == connector_.origin &&
                  cfg.receipt_namespace == connector_.identifier_namespace);
             auto sampled = borrow([&] { return clock_.sample(); });
-            auto m = measure(limits_.values, Error::result_limit);
+            auto m = runtime_measure(limits_, Error::result_limit);
             m(sampled);
             if (auto u = std::get_if<ReferenceUnavailable>(&sampled))
                 refuse(limits_, *u);
@@ -238,7 +238,7 @@ ReferenceIntake::make_receipt_work(const std::string &ref, const ReferenceSynthe
             auto context = draw(entropy_, "RCT1", limits_);
             auto event = context;
             event.replace(0, 4, "REV1");
-            auto projected = measure(limits_.values, Error::result_limit);
+            auto projected = runtime_measure(limits_, Error::result_limit);
             projected(context, event, time.utc_ms, cfg, input);
             ReferenceArrivalCapture a{context, event, time.utc_ms, cfg, input};
             auto config_doc = encode_reference_configuration(cfg, limits_.values),
@@ -315,7 +315,7 @@ ReferencePreparedWork ReferenceIntake::make_evidence_work(
                                                 core::PaymentEvidence::not_applicable,
                                                 {},
                                                 conditions(original.arrival.configuration_ref)};
-            auto input = measure(limits_.values);
+            auto input = runtime_measure(limits_);
             input(observation);
             SqliteContributionLimits nested{
                 qsizetype(std::min(limits_.values.reference_bytes, std::uint64_t{4096})),
@@ -383,7 +383,7 @@ ReferenceIntake::make_capture_work(core::ReceiptId id, core::ContributionId cid,
             if (auto u = std::get_if<ReferenceUnavailable>(&evaluated))
                 refuse(limits_, *u);
             auto rule = std::get<ReferenceRuleEvaluation>(evaluated);
-            auto bound = measure(limits_.values, Error::result_limit);
+            auto bound = runtime_measure(limits_, Error::result_limit);
             bound(plan, a.event_ref, a.event_ref, id, original.identity, original.facts,
                   original.arrival, cid, contribution->state, rule.request, rule.selection);
             bound.p.fixed(8 + 1);
@@ -451,7 +451,7 @@ ReferenceIntake::make_snapshot_work(const SessionLookupRequest &r,
                                     std::function<void(ReferenceSnapshotCompletion)> callback) const
     try {
     preflight(limits_, connector_);
-    auto p = measure(limits_.values);
+    auto p = runtime_measure(limits_);
     p(r);
     session_input(r);
     thread(owner_);

@@ -137,7 +137,7 @@ ReferenceUnavailable runtime_refusal(const ReferenceRuntimeLimits &limits,
                                      std::string_view reason = "reference.runtime-unavailable.v1",
                                      ReferenceGate gate = ReferenceGate::not_ready,
                                      bool optional = false) {
-    auto out = measure(limits.values, Error::result_limit);
+    auto out = runtime_measure(limits, Error::result_limit);
     if (optional)
         out.p.fixed(1);
     out(gate, reason);
@@ -151,7 +151,7 @@ ApplicationUnavailable port_refusal(const ReferenceRuntimeLimits &limits,
 }
 void command_input(const OriginalApplicationCommand &c, const ReferenceRuntimeLimits &l) {
     runtime_limits(l);
-    auto p = measure(l.values);
+    auto p = runtime_measure(l);
     p(c);
     Tags{}(c);
     require(c.choices.size() <= std::uint64_t(l.service.choices_per_command), Error::input_limit);
@@ -219,7 +219,7 @@ ReferenceApplicationAdapters::current(const ApplicationStateSnapshot &s) const t
         return runtime_refusal(limits_, u->reason_ref, u->gate);
     if (!active(s) || !bundle_detail::same_state(s, anchor_->committed.snapshot))
         return runtime_refusal(limits_);
-    auto p = measure(limits_.values, Error::result_limit);
+    auto p = runtime_measure(limits_, Error::result_limit);
     p(anchor_->committed);
     return anchor_->committed;
 } catch (const DependencyAllocation &e) {
@@ -237,7 +237,7 @@ ReferenceApplicationAdapters::reserve(const ReferenceCommittedState &head,
 
     validate_limits();
     command_input(c, limits_);
-    auto p = measure(limits_.values);
+    auto p = runtime_measure(limits_);
     p(head, c, mode);
     Tags{}(head, c, mode);
     require(unsigned(mode) <= 1, Error::invalid_tag);
@@ -254,10 +254,10 @@ ReferenceApplicationAdapters::reserve(const ReferenceCommittedState &head,
         observations_.size() + 1 >= limits_.values.clock_journal_entries)
         return runtime_refusal(limits_, "reference.journal-capacity.v1", ReferenceGate::not_ready,
                                true);
-    auto journal = measure(limits_.values, Error::result_limit);
+    auto journal = runtime_measure(limits_, Error::result_limit);
     journal(observations_);
     journal.p.fixed(36);
-    auto candidate = measure(limits_.values, Error::result_limit);
+    auto candidate = runtime_measure(limits_, Error::result_limit);
     candidate(head.observation.clock_lineage_ref, head.snapshot.configuration_ref,
               head.policy_revision_ref, head.snapshot.token);
     candidate.p.fixed(36 + 8 + 17);
@@ -268,7 +268,7 @@ ReferenceApplicationAdapters::reserve(const ReferenceCommittedState &head,
     if (initial_observation_.empty())
         initial_observation_ = anchor_->committed.observation.observation_ref;
     auto sampled = borrow([&] { return clock_.sample(); });
-    auto result = measure(limits_.values, Error::result_limit);
+    auto result = runtime_measure(limits_, Error::result_limit);
     result(sampled);
     if (auto u = std::get_if<ReferenceUnavailable>(&sampled))
         return runtime_refusal(limits_, u->reason_ref, u->gate, true);
@@ -299,7 +299,7 @@ ReferenceApplicationAdapters::reserve(const ReferenceCommittedState &head,
         observation.observation_ref = ref;
         observation.segments = {{elapsed, sample.utc_ms, false}};
     }
-    auto out = measure(limits_.values, Error::result_limit);
+    auto out = runtime_measure(limits_, Error::result_limit);
     out(observation, head, c, sample);
     observations_.push_back(std::move(ref));
     pending_.push_back({c, head, std::move(observation), sample});
@@ -314,7 +314,7 @@ ReferenceApplicationAdapters::reserve(const ReferenceCommittedState &head,
 void ReferenceApplicationAdapters::settle(const ApplicationServiceCompletion &c,
                                           const std::optional<ReferenceCommittedState> &state) try {
     validate_limits();
-    auto input = measure(limits_.values);
+    auto input = runtime_measure(limits_);
     input(c);
     Tags{}(c);
     input.p.fixed(1);
@@ -370,7 +370,7 @@ void ReferenceApplicationAdapters::settle(const ApplicationServiceCompletion &c,
 }
 void ReferenceApplicationAdapters::reconcile(const ReferenceCommittedState &s) try {
     validate_limits();
-    auto p = measure(limits_.values);
+    auto p = runtime_measure(limits_);
     p(s);
     auto decoded = decode_reference_state(s.snapshot, limits_.values);
     require(same_committed(s, decoded), Error::invalid_binding);
@@ -423,7 +423,7 @@ bool ReferenceApplicationAdapters::disclose_application(const ApplicationReferen
 
     validate_limits();
     command_input(c, limits_);
-    auto input = measure(limits_.values);
+    auto input = runtime_measure(limits_);
     input(c, r);
     Tags{}(c, r);
     service_input(limits_, r);
@@ -445,7 +445,7 @@ bool ReferenceApplicationAdapters::disclose_holds(const ApplicationReferenceRead
 
     validate_limits();
     command_input(c, limits_);
-    auto input = measure(limits_.values);
+    auto input = runtime_measure(limits_);
     input(c, holds);
     Tags{}(c, holds);
     service_input(limits_, holds);
@@ -473,7 +473,7 @@ PolicyResolution ReferenceApplicationAdapters::resolve(const ApplicationReferenc
 
     validate_limits();
     command_input(c, limits_);
-    auto input = measure(limits_.values);
+    auto input = runtime_measure(limits_);
     input(c, i, access);
     Tags{}(c, i, access);
     service_input(limits_, i, access);
@@ -553,7 +553,7 @@ ClockResolution ReferenceApplicationAdapters::observe(const ApplicationReference
 
     validate_limits();
     command_input(c, limits_);
-    auto input = measure(limits_.values);
+    auto input = runtime_measure(limits_);
     input(c, i, p);
     Tags{}(c, i, p);
     service_input(limits_, i, p);
@@ -597,7 +597,7 @@ ActionResolution ReferenceApplicationAdapters::prepare(const ApplicationReferenc
 
     validate_limits();
     command_input(c, limits_);
-    auto input = measure(limits_.values);
+    auto input = runtime_measure(limits_);
     input(c, i, p, q);
     Tags{}(c, i, p, q);
     service_input(limits_, i, p, q);
@@ -649,7 +649,7 @@ ActionResolution ReferenceApplicationAdapters::prepare(const ApplicationReferenc
 ReferenceResolution ReferenceApplicationAdapters::issue(ApplicationReferencePurpose purpose,
                                                         const ApplicationReferenceBinding &b) try {
     validate_limits();
-    auto p = measure(limits_.values);
+    auto p = runtime_measure(limits_);
     p(purpose, b);
     service_input(limits_, purpose, b);
     Tags{}(purpose, b);
@@ -687,7 +687,7 @@ ReferenceResolution ReferenceApplicationAdapters::issue(ApplicationReferencePurp
     auto out = service_measure(limits_, Error::result_limit);
     out(b);
     out.p.fixed(37);
-    auto journal = measure(limits_.values, Error::result_limit);
+    auto journal = runtime_measure(limits_, Error::result_limit);
     journal(issued_, b);
     auto e = borrow([&] { return entropy_.read32(); });
     require(unsigned(e.error) <= 2, Error::invalid_tag);

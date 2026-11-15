@@ -12,7 +12,7 @@ struct Refuse {
 inline ReferenceUnavailable bounded_refusal(const ReferenceRuntimeLimits &l, ReferenceGate gate,
                                             std::string_view reason,
                                             std::uint64_t wrapper_bytes = 0) {
-    auto p = measure(l.values, Error::result_limit);
+    auto p = runtime_measure(l, Error::result_limit);
     p.p.fixed(wrapper_bytes);
     p(gate, reason);
     return {gate, std::string(reason)};
@@ -158,7 +158,7 @@ inline std::string draw(ReferenceEntropy &entropy, std::string_view domain,
                         const ReferenceRuntimeLimits &l) {
     require(l.values.reference_bytes >= 36, Error::result_limit);
     auto e = borrow([&] { return entropy.read32(); });
-    auto p = measure(l.values, Error::result_limit);
+    auto p = runtime_measure(l, Error::result_limit);
     p.p.fixed(41);
     if (e.error != ReferenceEntropyError::none || e.received != 32)
         refuse(l, ReferenceGate::not_ready, "reference.entropy.v1");
@@ -196,7 +196,7 @@ struct OutputMeasure : Measure {
     template <class... T> void operator()(const T &...v) { (one(v), ...); }
 };
 inline OutputMeasure output_measure(const ReferenceRuntimeLimits &l) {
-    return {measure(l.values, Error::result_limit)};
+    return {runtime_measure(l, Error::result_limit)};
 }
 struct Lease {
     std::shared_ptr<std::atomic<std::uint64_t>> count;
@@ -241,7 +241,7 @@ pair(const ReferenceRuntimeLimits &l, std::shared_ptr<std::atomic<std::uint64_t>
                     if (!cleanup.owned)
                         throw;
                     session.rollback();
-                    auto p = measure(l.values, Error::result_limit);
+                    auto p = runtime_measure(l, Error::result_limit);
                     try {
                         p.p.fixed(3 + presences);
                         if (!r.value)

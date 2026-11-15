@@ -218,6 +218,8 @@ struct Tags {
 struct Measure {
     Projection p;
     std::uint64_t document;
+    std::uint64_t bundle_document = UINT64_MAX, hold_document = UINT64_MAX;
+    std::uint64_t exact_component = UINT64_MAX;
     template <class T> void one(const T &v) {
         if constexpr (std::is_integral_v<T> || std::is_enum_v<T>)
             p.one(v);
@@ -230,16 +232,27 @@ struct Measure {
         require(std::uint64_t(s.size()) <= document, p.error);
         p.fixed(std::uint64_t(s.size()));
     }
-    // Reasons remain document DATA in both commands and their persisted audits.
-    // Imported service optionals charge absent0/present bytes, with no item.
-    void document_text(const std::optional<std::string> &text) {
-        if (text) {
-            require(text->size() <= document && text->size() <= UINT32_MAX &&
-                        text->size() < std::string{}.max_size(),
-                    p.error);
-            p.fixed(text->size());
-        }
+    // Imported text uses its owning DATA role; reference fields still use p.
+    // Service optionals retain absent0/present bytes and no item charge.
+    void document_text(std::string_view text) {
+        require(text.size() <= document && text.size() <= UINT32_MAX &&
+                    text.size() < std::string{}.max_size(),
+                p.error);
+        p.fixed(text.size());
     }
+    void document_text(const std::string &text) { document_text(std::string_view(text)); }
+    void document_text(const std::optional<std::string> &text) {
+        if (text)
+            document_text(std::string_view(*text));
+    }
+    struct DocumentLimit {
+        std::uint64_t &current;
+        std::uint64_t previous;
+        DocumentLimit(std::uint64_t &value, std::uint64_t cap) : current(value), previous(value) {
+            current = std::min(value, cap);
+        }
+        ~DocumentLimit() { current = previous; }
+    };
     void one(const OriginalApplicationCommand &v) {
         (*this)(v.operation, v.subject_kind, v.receipt_id.value, v.contribution_id, v.plan,
                 v.principal, v.purpose, v.preview_mode, v.preview_state_token, v.actor_ref,
@@ -248,9 +261,142 @@ struct Measure {
         one(v.choices);
     }
     void one(const ApplicationAudit &v) {
+        DocumentLimit bound(document, bundle_document);
         (*this)(v.actor_ref, v.decision_ref);
         document_text(v.reason);
-        one(v.envelope);
+        (*this)(v.envelope);
+    }
+    void one(const ApplicationBundleInputs &v) {
+        DocumentLimit bound(document, bundle_document);
+        fields(*this, v);
+    }
+    void one(const ApplicationContributionSnapshot &v) {
+        DocumentLimit bound(document, bundle_document);
+        fields(*this, v);
+    }
+    void one(const ApplicationEffect &v) {
+        DocumentLimit bound(document, bundle_document);
+        (*this)(v.request_ordinal, v.arithmetic_role, v.unit, v.exact_requested_units,
+                v.requested_units, v.rounding_residual, v.maximum_main_ms, v.deficit_policy,
+                v.deficit_disposition);
+        document_text(v.application_explanation);
+        (*this)(v.components);
+    }
+    void one(const ApplicationHoldActiveSet &v) {
+        DocumentLimit bound(document, hold_document);
+        fields(*this, v);
+    }
+    void one(const ApplicationHoldCause &v) {
+        DocumentLimit bound(document, hold_document);
+        (*this)(v.hold_ref, v.source, v.command, v.first_observation, v.plan_evidence, v.kind,
+                v.failure, v.timer);
+        document_text(v.missing_policy_reason);
+        (*this)(v.supersedes_hold_ref);
+    }
+    void one(const ApplicationHoldDetection &v) {
+        DocumentLimit bound(document, hold_document);
+        fields(*this, v);
+    }
+    void one(const ApplicationHoldDetectionData &v) {
+        DocumentLimit bound(document, hold_document);
+        fields(*this, v);
+    }
+    void one(const ApplicationHoldObservation &v) {
+        DocumentLimit bound(document, hold_document);
+        fields(*this, v);
+    }
+    void one(const ApplicationHoldPlanEvidence &v) {
+        DocumentLimit bound(document, hold_document);
+        fields(*this, v);
+    }
+    void one(const ApplicationHoldProposedOccurrence &v) {
+        DocumentLimit bound(document, hold_document);
+        (*this)(v.ordinal, v.action_ref, v.action_version_ref, v.rule_ref, v.target_ref, v.unit,
+                v.attempted_units, v.finalized_units);
+        document_text(v.explanation);
+    }
+    void one(const ApplicationHoldRecordedResolution &v) {
+        DocumentLimit bound(document, hold_document);
+        fields(*this, v);
+    }
+    void one(const ApplicationHoldResolutionBatch &v) {
+        DocumentLimit bound(document, hold_document);
+        (*this)(v.mutation_ref, v.subject, v.expected_active, v.entries, v.actor_ref,
+                v.decision_ref);
+        document_text(v.reason);
+        (*this)(v.options, v.application);
+    }
+    void one(const ApplicationHoldTimerEvidence &v) {
+        DocumentLimit bound(document, hold_document);
+        fields(*this, v);
+    }
+    void one(const ApplicationHoldView &v) {
+        DocumentLimit bound(document, hold_document);
+        fields(*this, v);
+    }
+    void one(const ApplicationJobIntent &v) {
+        DocumentLimit bound(document, bundle_document);
+        fields(*this, v);
+    }
+    void one(const ApplicationStateSnapshot &v) {
+        DocumentLimit bound(document, bundle_document);
+        fields(*this, v);
+    }
+    void one(const BoundApplicationPolicy &v) {
+        (*this)(v.operation, v.source, v.plan, v.checked_state_token, v.configuration_ref,
+                v.permission_revision_ref, v.policy_revision_ref, v.maximum_main_ms, v.timer_config,
+                v.paused, v.recovery_pending, v.pause_recovery_revision);
+        document_text(v.explanation);
+        (*this)(v.admission, v.correction_policies);
+    }
+    void one(const PreparedApplicationActions &v) {
+        (*this)(v.jobs);
+        document_text(v.explanation);
+    }
+    void one(const RecordedApplicationBundle &v) {
+        DocumentLimit bound(document, bundle_document);
+        (*this)(v.intent, v.persisted_head, v.advanced_before, v.after);
+        document_text(v.advance_explanation);
+        (*this)(v.contribution, v.effects, v.jobs, v.transitions, v.reversals, v.result, v.audit);
+    }
+    void one(const core::HistoricalValuation &v) {
+        (*this)(v.resolution_ref, v.original_money);
+        document_text(v.comparison_currency);
+        document_text(v.effective_rate_decimal);
+        document_text(v.fetched_rate_decimal);
+        (*this)(v.snapshot_ref, v.source_ref, v.rate_timestamp_utc_ms, v.fetch_timestamp_utc_ms,
+                v.manual_decision_ref);
+    }
+    void one(const core::ModifierSelection &v) {
+        (*this)(v.definition_version_ref, v.instance_revision_ref, v.target_ref, v.group_ref,
+                v.group_operator, v.target_operator);
+        document_text(v.original_factor_decimal);
+    }
+    void one(const core::PlanOverrideDecision &v) {
+        (*this)(v.authority, v.actor_ref);
+        document_text(v.reason);
+        (*this)(v.decision_ref);
+    }
+    void one(const core::ReceiptFacts &v) {
+        document_text(v.event_type);
+        (*this)(v.schema_version, v.source_timestamp_utc_ms);
+        document_text(v.actor_id);
+        document_text(v.actor_display_name);
+        (*this)(v.money, v.payment_reference, v.activity_reference);
+    }
+    void one(const core::ReceiptMoney &v) {
+        document_text(v.original_decimal);
+        document_text(v.currency);
+    }
+    void one(const core::RequestedEffect &v) {
+        (*this)(v.action_ref, v.action_version_ref, v.rule_ref, v.target_ref, v.unit,
+                v.requires_historical_valuation, v.exact_requested_units, v.requested_units);
+        document_text(v.calculation_explanation);
+        (*this)(v.reversal_behavior_ref);
+    }
+    void one(const core::RuleSelection &v) {
+        (*this)(v.rule_ref, v.version_ref, v.selected);
+        document_text(v.explanation);
     }
     // ACCESS-011 and graph DTOs keep their owning structural optional charges.
     void one(const StoredPermissionGraph &v) { p(v); }
@@ -294,46 +440,80 @@ struct Measure {
     }
     void one(const std::monostate &) {}
     void one(const core::Exact &v) {
+        // Borrow Boost's backends: its free numerator/denominator accessors copy.
         auto digits = [&](const auto &x) -> std::uint64_t {
-            const auto limbs = std::uint64_t(x.backend().size());
-            const auto width = std::uint64_t(sizeof(*x.backend().limbs()) * 8);
-            require(limbs <= UINT64_MAX / width, p.error);
+            using Limb = std::remove_cvref_t<decltype(*x.limbs())>;
+            constexpr auto width = std::uint64_t(std::numeric_limits<Limb>::digits);
+            static_assert(width == 32 || width == 64);
+            const auto limbs = std::uint64_t(x.size());
+            require(limbs <= UINT64_MAX / width && p.bytes <= p.cap, p.error);
             auto bits = limbs ? (limbs - 1) * width : 0;
             if (limbs) {
-                auto top = x.backend().limbs()[limbs - 1];
+                auto top = x.limbs()[limbs - 1];
                 while (top) {
                     ++bits;
                     top >>= 1;
                 }
             }
-            // Every supported configured integer and signed64-overflow hold fits
-            // this branch. Count its canonical decimal bytes without allocation,
-            // including zero, sign and exact narrow component boundaries.
+            const auto cap =
+                std::min({p.component_bytes, exact_component, document, p.cap - p.bytes});
+            const auto sign = std::uint64_t(x.sign());
             if (bits <= 64) {
                 std::uint64_t magnitude = 0;
                 for (std::uint64_t i = 0; i < limbs; ++i) {
-                    if constexpr (sizeof(*x.backend().limbs()) < 8)
-                        magnitude |= std::uint64_t(x.backend().limbs()[i]) << (i * width);
+                    if constexpr (width == 32)
+                        magnitude |= std::uint64_t(x.limbs()[i]) << (i * width);
                     else
-                        magnitude = std::uint64_t(x.backend().limbs()[i]);
+                        magnitude = std::uint64_t(x.limbs()[i]);
                 }
-                std::uint64_t count = 1 + std::uint64_t(x.backend().sign());
+                std::uint64_t count = 1 + sign;
                 while (magnitude >= 10) {
                     magnitude /= 10;
                     ++count;
                 }
-                require(count <= p.component_bytes, p.error);
+                require(count <= cap, p.error);
                 return count;
             }
-            require(bits <= UINT64_MAX / 30103, p.error);
-            const auto scratch = bits * 30103 / 100000 + 2;
-            require(scratch <= p.cap && scratch <= document, p.error);
-            const auto text = x.str();
-            require(text.size() <= p.component_bytes, p.error);
-            return text.size();
+            // log10(2) > 3/10: reject clearly oversized components from metadata.
+            // The remaining base-2^32 scratch is independently bounded BEFORE
+            // allocation. Count decimal chunks in place; no integer/text clone.
+            require(bits - 1 <= UINT64_MAX / 3, p.error);
+            require((bits - 1) * 3 / 10 + 1 + sign <= cap, p.error);
+            const auto count = bits / 32 + std::uint64_t(bits % 32 != 0);
+            require(count < std::vector<std::uint32_t>{}.max_size() &&
+                        count <= cap / sizeof(std::uint32_t),
+                    p.error);
+            std::vector<std::uint32_t> words(static_cast<std::size_t>(count));
+            for (std::size_t i = 0; i < words.size(); ++i) {
+                const auto offset = std::uint64_t(i) * 32;
+                words[i] =
+                    static_cast<std::uint32_t>(x.limbs()[offset / width] >> (offset % width));
+            }
+            std::uint64_t result = sign;
+            while (!words.empty()) {
+                std::uint64_t remainder = 0;
+                for (auto i = words.size(); i-- > 0;) {
+                    const auto value = (remainder << 32) | words[i];
+                    words[i] = static_cast<std::uint32_t>(value / 1000000000);
+                    remainder = value % 1000000000;
+                }
+                while (!words.empty() && words.back() == 0)
+                    words.pop_back();
+                std::uint64_t chunk = 9;
+                if (words.empty()) {
+                    chunk = 1;
+                    while (remainder >= 10) {
+                        remainder /= 10;
+                        ++chunk;
+                    }
+                }
+                require(chunk <= cap - result, p.error);
+                result += chunk;
+            }
+            return result;
         };
-        p.fixed(digits(boost::multiprecision::numerator(v)));
-        p.fixed(digits(boost::multiprecision::denominator(v)));
+        p.fixed(digits(v.backend().num()));
+        p.fixed(digits(v.backend().denom()));
     }
     void component(const std::string &s) { p.component(s); }
     template <class... T> void operator()(const T &...v) { (one(v), ...); }
@@ -374,6 +554,20 @@ inline void runtime_limits(const ReferenceRuntimeLimits &l) {
                 l.pending_reservations < std::vector<std::string>{}.max_size(),
             Error::invalid_limits);
 }
+inline Measure owning_measure(const ReferenceRuntimeLimits &l, const ReferenceAdapterLimits &values,
+                              Error error) {
+    auto p = measure(values, error);
+    p.bundle_document = std::min(std::uint64_t(l.service.storage_document_bytes),
+                                 std::uint64_t(l.service.bundles.value_bytes));
+    p.hold_document = std::min(std::uint64_t(l.service.storage_document_bytes),
+                               std::uint64_t(l.service.holds.references.value_bytes));
+    p.exact_component = std::min(std::uint64_t(l.service.bundles.component_bytes),
+                                 std::uint64_t(l.service.holds.references.component_bytes));
+    return p;
+}
+inline Measure runtime_measure(const ReferenceRuntimeLimits &l, Error error = Error::input_limit) {
+    return owning_measure(l, l.values, error);
+}
 inline Measure service_measure(const ReferenceRuntimeLimits &l, Error error) {
     auto limits = l.values;
     limits.reference_bytes =
@@ -383,9 +577,8 @@ inline Measure service_measure(const ReferenceRuntimeLimits &l, Error error) {
     limits.value_owned_bytes =
         std::min(limits.value_owned_bytes, std::uint64_t(l.service.intermediate_owned_bytes));
     limits.value_items = std::min(limits.value_items, std::uint64_t(l.service.intermediate_items));
-    auto p = measure(limits, error);
-    p.p.component_bytes = std::min(std::uint64_t(l.service.bundles.component_bytes),
-                                   std::uint64_t(l.service.holds.references.component_bytes));
+    auto p = owning_measure(l, limits, error);
+    p.p.component_bytes = p.exact_component;
     return p;
 }
 template <class... T> void service_input(const ReferenceRuntimeLimits &l, const T &...v) {

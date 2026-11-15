@@ -16,7 +16,8 @@ Next candidate is **SLICE-001 #642 (tier B)**, requiring explicit owner resume/n
 assignment. Historical remaining path is642→API-016#616→APITEST-015#613→API-001#278;
 all is suspended by this stop. Process/tooling619/620 stays frozen until a server
 actually starts, runs a timer and accepts a fake contribution. Draft121 stays
-parked. PR656 is separately owned, not ours to review/merge without assignment.
+parked. Separately owned PR656 was merged by its owner atc3445c91; integrating
+that documentation-only main update grants no new process/task assignment.
 
 ## Task, checkout and authoritative evidence
 
@@ -65,7 +66,7 @@ Bounded third/fourth test corrections were owner-approved; no fifth authorized.
 
 [Owner approved ONE bounded third source round](https://github.com/Kernol12/subathon-bot-ai/issues/562#issuecomment-6896696424),
 accepting the [published proposal](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6896336588).
-At this publication that round applies audit-reason document measurement to both
+That round applied audit-reason document measurement to both
 command and persisted audit, preserving every field/charge/optional/equality rule.
 All intake literal/forwarded refusals and result-limit fallback are projected before
 owning their reasons. An over-limit refusal carries no owned diagnosis and retains
@@ -85,21 +86,35 @@ prepare's losing proposal path. Minimal reproductions and source mechanisms are
 public in the receipt. Fresh154/154,137invocations+4hooks, ASan/UBSan (leaks off)
 and hosted7/7 at261d8003 pass but do not waive either blocker.
 
-**STOP: owner approval required for ONE bounded fourth source round.** No fourth
-implementation round or fifth baseline correction is authorized or applied.
-[Unapplied proposal](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6896984370): complete the API-011 walker DATA/reference field-role audit for
-hold/resolution/override reasons with unchanged complete charges/equality, and
-borrow Exact component backends for metadata preflight before any size-dependent
-copy/conversion. Preserve the working I10/command-audit fixes and all baselines.
-No other product-policy decision has been identified. PR653 is draft/unmerged;
-562 remains open. The last verifier is complete with no child work; no owned
-delegate is active. Unwatch653 before owner handback; start no downstream task.
+[Owner approved ONE bounded fourth source round](https://github.com/Kernol12/subathon-bot-ai/issues/562#issuecomment-6897511532),
+accepting the [published proposal](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6896984370).
+At this publication it corrects20 imported DATA fields across15 DTOs, including
+hold/resolution/override reasons, with unchanged field order, charges, optional
+semantics and equality. Hold/bundle document ceilings stay separate. Exact size
+measurement borrows the existing backends; metadata rejects clearly oversized
+components before ownership. A separately bounded base-2^32 working buffer counts
+decimal digits without an Exact/text clone. First traversals use owning Exact
+component caps, independently of raw permission-source component budgets.
+No public header/test/fixture, schema, build, CI or numeric format changed.
 
-Only after owner approval and corrections: NEW independent WHOLE Codex verification,
-NEW fresh WHOLE Claude closing, one final proof/policy commit, both-stage publication
-validation, current required CI, protected merge/read-back, close562 and STOP.
-Preserve every rejection. This checkpoint-only amendment changes no source, test,
-contract or CI; its pending CI is separate from the reviewed green source above.
+Root final154/154, exact137invocations+4hooks in ordinary AND fresh ASan/UBSan,
+actual4096/4097 persisted-hold/service disclosure, prior commit/reconcile controls,
+20 text-role pairs,72 large-number boundaries, zero/sign and original/fallback
+diagnostic controls pass. Huge numerator/denominator/sign probes observe0-byte
+new allocations in64-byte private preflight and largest56bytes in public prepare,
+not the former1048584-byte clone. Separate producer budget controls pass.
+Sanitizers have leaks disabled/external libraries uninstrumented. An initial
+sanitizer compilation hit scratch quota; obsolete generated root products were
+cleaned, sources/receipts/logs preserved, and a -g1 rebuild/check succeeded.
+These are author checks, not independent approval or a general allocator proof.
+
+Next: NEW independent WHOLE Codex verification, NEW fresh WHOLE Claude closing,
+one final proof/policy commit, both-stage publication validation, final-head CI,
+protected merge/read-back, close562 and STOP. Preserve every rejection. No fifth
+implementation round or fifth baseline correction is authorized; stop/ask if
+needed. PR653 remains draft/unmerged and562 open. No other product-policy decision
+is known. Verify actual delegate/watch state before handback and unwatch653;
+start no downstream task while waiting for an owner decision.
 
 ## Capability map and constraints for a later coordinator
 
@@ -170,5 +185,6 @@ stubs, checking setup up to that call; fix setup defects and report the fixture
 check in the handoff. It is NEVER red evidence: observe red after approval. Exclude
 no-stub cases and TEST_STRATEGY review/admission-before-execution exceptions
 (including bounded HTTP/schema), with explanation in handoff. Permanent wording
-is separately owned in PR656 (owner reports approval7acad387). This grants no656
-merge assignment and no permission to start a new task after API-011.
+is now merged from separately owned PR656 (c3445c91) in AGENT_WORKFLOW.md and
+COORDINATOR_PROMPT.md. This changes no current API-011 stage and grants no permission
+to start a new task after API-011.
