@@ -147,11 +147,40 @@ disabled and external libraries uninstrumented. Public contracts and all approve
 137 cases/fixtures remain byte-exact. The two existing private authority paths add
 to the whole PR review scope (29 paths from current main), not a new task.
 
+[Owner widened this SAME fifth round](https://github.com/Kernol12/subathon-bot-ai/issues/562#issuecomment-6899304385):
+search the WHOLE API-011 producer for borrowed data copied before its own limit,
+fix all found sites and give the verifier each site/disposition. The author audited
+all intake/configuration/runtime/reference-application functions and private helpers.
+In addition to I13, the round now projects configuration read keys, complete
+startup/encoded state+anchor, normalized receipts, conditions/evidence observations,
+capture keys/bindings/index values and retained envelopes/rows before copying.
+Reservation observations and complete pending values are projected before entropy
+or cloning; added journal elements are charged before insertion. Settlement and
+reconciliation use complete borrowed comparisons and preflight replacement anchors.
+Snapshot/receipt wrappers move admitted values. Historical authority keys stay
+borrowed until their complete OWN request budget fits; Allowed revision output is
+checked before copying. Prospective explanation DATA roles match owning DTOs.
+Head configuration metadata admits both reference and whole-value bytes before
+payload read. No reviewed test/public contract, schema, format or policy changed.
+The PR handoff publishes the complete C01–C38 site inventory and dispositions;
+remaining independently bounded transfers/dependency returns are distinguished.
+
+Normal154/154 and exact137invocations+4hooks, fresh ASan/UBSan inventories and
+focused probes pass on the final widened source; builds reuse only this session's
+own fresh fifth-round outputs and selected external SDK. Scratch build/harness
+failures are preserved as failures, not red. New independent literal controls pin
+retained-key65/64, retained-row5/4 and pending318/317 or2311/2310 boundaries before
+view/session access or entropy. All original I13 controls/source-order checks stay.
+These are author observations; no independent fifth-round approval is inferred.
+
 PR653 stays draft/unmerged and562 open. NEW independent WHOLE Codex verification
-and NEW fresh WHOLE Claude closing must bind the final fifth-round revision before
-proof/merge. Fifth source approval is USED; no sixth source round or fifth baseline
-correction is authorized. If another material blocker remains, stop and ask the
-owner. No other product-policy decision is known. Do not start another task.
+must check this class across the whole producer using the site inventory, then NEW
+fresh WHOLE Claude closing. If verification still finds a site of THIS SAME class
+with NO authority bypass and a CORRECT refusal result, create a follow-up issue,
+ask the reviewer for a non-blocking disposition and continue through closing and
+normal merge gates WITHOUT asking for a sixth round. ANY OTHER blocker stops for
+owner resolution. This is the owner's explicit scoped exception, not a blanket
+review waiver. No fifth baseline correction or downstream task is authorized.
 
 Preserved fourth-round independent final154/154, exact137invocations+4hooks ordinary/sanitized
 and hosted7/7 passed but did not waive I13. Reviewer's initial /tmp-backed full151/154 and

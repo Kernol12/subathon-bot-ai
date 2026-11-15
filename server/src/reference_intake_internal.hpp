@@ -96,6 +96,28 @@ inline SqliteBundleLimits bundle_limits(const ReferenceRuntimeLimits &l) {
 inline RetainedLimits retained_limits(const ReferenceRuntimeLimits &l) {
     return {qsizetype(l.values.reference_bytes), qsizetype(l.values.document_bytes)};
 }
+inline ApplicationEnvelope retained_envelope(std::string_view format, const QByteArray &document,
+                                             const ReferenceRuntimeLimits &l) {
+    auto size = runtime_measure(l, Error::result_limit);
+    size(format, document);
+    return {std::string(format), document};
+}
+inline RetainDisposition retain_document(const SqliteWorkSession &s, RetainedKind kind,
+                                         const std::string &reference, const QByteArray &document,
+                                         std::optional<std::string_view> configuration,
+                                         const ReferenceRuntimeLimits &l) {
+    auto size = runtime_measure(l, Error::result_limit);
+    size(kind, reference, document);
+    size.p.fixed(1); // retained document's owning optional-configuration presence
+    if (configuration)
+        size(*configuration);
+    return SqliteRetainedContextStore(s, retained_limits(l))
+        .retain({{kind, reference},
+                 document,
+                 configuration ? std::optional<ConfigurationReference>(
+                                     ConfigurationReference{std::string(*configuration)})
+                               : std::nullopt});
+}
 inline ReferenceConfiguration admitted_config(ReferenceConfigurationSource &source,
                                               const std::string &ref,
                                               const ReferenceRuntimeLimits &l) {
@@ -115,7 +137,7 @@ inline ReferenceConfiguration retained_config(const SqliteWorkSession &s,
     if (!row)
         refuse(l, ReferenceGate::not_ready, "reference.configuration-unavailable.v1");
     auto decoded = decode_reference_configuration(
-        {"subathon.reference.configuration.v1", row->document}, l.values);
+        retained_envelope("subathon.reference.configuration.v1", row->document, l), l.values);
     data(!row->configuration && reference_detail::same(decoded, cfg));
     return cfg;
 }
@@ -126,7 +148,8 @@ inline ReferenceArrivalCapture arrival(const SqliteWorkSession &s, const Contrib
                    .find({RetainedKind::arrival_context, r.arrival.modifier_context_ref});
     data(bool(row) && row->configuration &&
          row->configuration->reference == r.arrival.configuration_ref);
-    auto a = decode_reference_arrival({"subathon.reference.arrival.v1", row->document}, l.values);
+    auto a = decode_reference_arrival(
+        retained_envelope("subathon.reference.arrival.v1", row->document, l), l.values);
     auto cfg = retained_config(s, source, r.arrival.configuration_ref, l);
     data(reference_detail::same(a.configuration, cfg) &&
          a.arrival_context_ref == r.arrival.modifier_context_ref &&

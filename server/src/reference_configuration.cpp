@@ -59,6 +59,8 @@ ReferenceConfigurationArchive::load(const ApplicationReferenceReadView &view,
                                     const std::string &ref) {
     validate(ref, versions_, limits_);
     // This actual finite operation checks the view BEFORE archive affinity.
+    auto key_size = projection(limits_, Error::result_limit);
+    key_size(RetainedKind::configuration, ref);
     const auto key = allocate([&] { return RetainedKey{RetainedKind::configuration, ref}; });
     const auto row = view.find_retained(key);
     affinity(owner_);

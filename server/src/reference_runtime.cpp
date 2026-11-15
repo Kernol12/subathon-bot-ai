@@ -256,6 +256,7 @@ ReferenceApplicationAdapters::reserve(const ReferenceCommittedState &head,
                                true);
     auto journal = runtime_measure(limits_, Error::result_limit);
     journal(observations_);
+    journal.p.elements(1);
     journal.p.fixed(36);
     auto candidate = runtime_measure(limits_, Error::result_limit);
     candidate(head.observation.clock_lineage_ref, head.snapshot.configuration_ref,
@@ -282,6 +283,23 @@ ReferenceApplicationAdapters::reserve(const ReferenceCommittedState &head,
     if (elapsed >= head.snapshot.timer.main_remaining_ms)
         return runtime_refusal(limits_, "reference.runtime-unavailable.v1",
                                ReferenceGate::not_ready, true);
+    const bool fresh =
+        elapsed || sample.utc_ms != anchor_->sample.utc_ms || mode == ReferenceZeroStep::fresh;
+    // Project the entire pending value, including the NEW observation, before
+    // cloning head strings or building its segment vector.
+    auto pending_size = runtime_measure(limits_, Error::result_limit);
+    pending_size(head.observation.clock_lineage_ref);
+    if (fresh)
+        pending_size.p.fixed(36); // generated RCO1; reference ceiling checked above
+    else
+        pending_size(head.observation.observation_ref);
+    pending_size(head.observation.configuration_ref, head.observation.policy_revision_ref,
+                 head.snapshot.token, sample.utc_ms);
+    if (fresh) {
+        pending_size.p.elements(1);
+        pending_size(elapsed, sample.utc_ms, false);
+    }
+    pending_size(head, c, sample);
     auto e = borrow([&] { return entropy_.read32(); });
     require(unsigned(e.error) <= 2, Error::invalid_tag);
     if (e.error != ReferenceEntropyError::none || e.received != 32)
@@ -295,7 +313,7 @@ ReferenceApplicationAdapters::reserve(const ReferenceCommittedState &head,
     observation.checked_head_token = head.snapshot.token;
     observation.segments.clear();
     observation.observed_utc_ms = sample.utc_ms;
-    if (elapsed || sample.utc_ms != anchor_->sample.utc_ms || mode == ReferenceZeroStep::fresh) {
+    if (fresh) {
         observation.observation_ref = ref;
         observation.segments = {{elapsed, sample.utc_ms, false}};
     }
@@ -341,10 +359,10 @@ void ReferenceApplicationAdapters::settle(const ApplicationServiceCompletion &c,
                     Error::invalid_binding);
             auto decoded = decode_reference_state(state->snapshot, limits_.values);
             const auto &pending = pending_.front();
-            ReferenceCommittedState expected{r->after, pending.head.snapshot.token,
-                                             pending.observation,
-                                             pending.observation.policy_revision_ref};
-            require(same_committed(*state, decoded) && same_committed(*state, expected) &&
+            require(same_committed(*state, decoded) && state->basis &&
+                        *state->basis == pending.head.snapshot.token &&
+                        equal(state->observation, pending.observation) &&
+                        state->policy_revision_ref == pending.observation.policy_revision_ref &&
                         bundle_detail::same_key(r->intent.operation, pending.command.operation) &&
                         r->intent.plan.plan_ref == pending.command.plan.plan_ref &&
                         r->intent.plan.revision == pending.command.plan.revision &&
@@ -353,6 +371,8 @@ void ReferenceApplicationAdapters::settle(const ApplicationServiceCompletion &c,
                         bundle_detail::same_state(r->persisted_head, pending.head.snapshot) &&
                         r->intent.expected_state_token == pending.head.snapshot.token,
                     Error::invalid_binding);
+            auto anchor_size = runtime_measure(limits_, Error::result_limit);
+            anchor_size(*state, pending.sample);
             anchor_ = ReferenceClockAnchor{*state, pending_.front().sample};
         }
     } else if (c.transaction != TransactionOutcome::rolled_back) {
@@ -378,13 +398,13 @@ void ReferenceApplicationAdapters::reconcile(const ReferenceCommittedState &s) t
     require(!stopped_ && reconciliation_ && anchor_ && !pending_.empty() &&
                 s.observation.clock_lineage_ref ==
                     anchor_->committed.observation.clock_lineage_ref &&
-                s.basis == std::optional<std::string>(pending_.front().head.snapshot.token) &&
+                s.basis && *s.basis == pending_.front().head.snapshot.token &&
                 s.observation.observation_ref == pending_.front().observation.observation_ref &&
-                same_committed(
-                    s, ReferenceCommittedState{s.snapshot, pending_.front().head.snapshot.token,
-                                               pending_.front().observation,
-                                               pending_.front().observation.policy_revision_ref}),
+                equal(s.observation, pending_.front().observation) &&
+                s.policy_revision_ref == pending_.front().observation.policy_revision_ref,
             Error::invalid_binding);
+    auto anchor_size = runtime_measure(limits_, Error::result_limit);
+    anchor_size(s, pending_.front().sample);
     anchor_ = ReferenceClockAnchor{s, pending_.front().sample};
     pending_.erase(pending_.begin());
     issued_.clear();
@@ -517,9 +537,9 @@ PolicyResolution ReferenceApplicationAdapters::resolve(const ApplicationReferenc
     projected(c.operation, c.subject_kind, c.receipt_id, c.contribution_id, c.plan,
               i.current_state.token, cfg.configuration_ref, a->permission_revision_ref,
               cfg.policy_revision_ref, cfg.maximum_main_ms, cfg.timer_config, false, false,
-              std::string_view("reference.fresh-runtime.v1"),
-              std::string_view("reference.current-policy.v1"),
-              ApplicationPolicyAdmission::allow_active);
+              std::string_view("reference.fresh-runtime.v1"));
+    projected.document_text(std::string_view("reference.current-policy.v1"));
+    projected(ApplicationPolicyAdmission::allow_active);
     BoundApplicationPolicy p{c.operation,
                              {c.subject_kind, c.receipt_id, c.contribution_id},
                              c.plan,
@@ -634,7 +654,7 @@ ActionResolution ReferenceApplicationAdapters::prepare(const ApplicationReferenc
                 q.clock_advanced_timer.main_remaining_ms + effect.components[0].units,
         Error::invalid_binding);
     auto projected = service_measure(limits_, Error::result_limit);
-    projected(std::string_view("reference.no-external-actions.v1"));
+    projected.document_text(std::string_view("reference.no-external-actions.v1"));
     PreparedApplicationActions out{{}, "reference.no-external-actions.v1"};
     auto result = service_measure(limits_, Error::result_limit);
     result(out);
@@ -689,6 +709,7 @@ ReferenceResolution ReferenceApplicationAdapters::issue(ApplicationReferencePurp
     out.p.fixed(37);
     auto journal = runtime_measure(limits_, Error::result_limit);
     journal(issued_, b);
+    journal.p.elements(1);
     auto e = borrow([&] { return entropy_.read32(); });
     require(unsigned(e.error) <= 2, Error::invalid_tag);
     if (e.error != ReferenceEntropyError::none || e.received != 32)

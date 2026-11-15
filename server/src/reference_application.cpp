@@ -446,7 +446,7 @@ void authority_preflight(const ReferenceAuthorityResolution &r, const ReferenceA
     }
 }
 AccessDecision consume(const ReferenceAuthorityResolution &r, const ReferenceAuthorityRequest &q,
-                       const ReferenceAuthorityLimits &l) {
+                       const ReferenceAuthorityLimits &l, const Limits &output_limits) {
     authority_preflight(r, l);
     if (const auto *f = std::get_if<AuthorityFailure>(&r.value))
         return authority_failure(*f);
@@ -477,6 +477,8 @@ AccessDecision consume(const ReferenceAuthorityResolution &r, const ReferenceAut
         if (author.actions[0].disposition != PermissionAutomationDisposition::authorized ||
             subject.data().outcome != PermissionOutcome::permit)
             return ApplicationAccessDenied{};
+        auto output = projection(output_limits, Error::result_limit);
+        output(f.permission_revision_ref);
         return ApplicationAccessAllowed{f.permission_revision_ref};
     });
 }
@@ -543,7 +545,7 @@ AccessDecision execute(const ApplicationReferenceReadView &view,
     });
     reference_authority::request_shape(q);
     auto fresh = authority.resolve(view, q); // a NEW full request on EVERY attempt
-    return consume(fresh, q, al);
+    return consume(fresh, q, al, l);
 }
 } // namespace
 AccessDecision check_reference_execution(const ApplicationReferenceReadView &view,
@@ -621,7 +623,7 @@ AccessDecision disclose(const ApplicationReferenceReadView &view,
                         const OriginalApplicationCommand &c, ReferenceConfigurationSource &configs,
                         ReferenceAuthoritySource &authority, ReferenceAuthorityUse use,
                         const ApplicationOperationKey &operation,
-                        const std::optional<std::string> &hold, const Limits &l,
+                        const std::optional<std::string_view> &hold, const Limits &l,
                         const ReferenceAuthorityLimits &al, const ApplicationEnvelope &history) {
     valid_limits(l);
     authority_limits(al);
@@ -637,13 +639,19 @@ AccessDecision disclose(const ApplicationReferenceReadView &view,
     auto historical = service_detail::decode_retained_command(history, sl);
     data(same(historical.operation, operation) && same(historical.principal, c.principal));
     auto x = captured_binding(view, historical, configs, l);
-    auto p = projection(l);
-    p(c.principal, x, c.operation, operation, hold);
-    ReferenceAuthorityRequest q{use, c.principal, std::move(x), c.operation, operation, hold};
+    // Authority requests retain their OWN input budget, just like execution.
+    // Historical keys are borrowed through the call until this complete pass fits.
+    Projection p{al.input_bytes, UINT64_MAX, al.reference_bytes, 0};
+    p(use, c.principal, x, c.operation);
+    p.fixed(1); // present historical operation
+    p(operation, hold);
+    ReferenceAuthorityRequest q{
+        use,         c.principal, std::move(x),
+        c.operation, operation,   hold ? std::optional<std::string>(*hold) : std::nullopt};
     auto r = authority.resolve(view, q);
     auto result = projection(l, Error::result_limit);
     result(r.value);
-    return consume(r, q, al);
+    return consume(r, q, al, l);
 }
 } // namespace reference_detail
 } // namespace subathon::server

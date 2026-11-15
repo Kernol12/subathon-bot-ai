@@ -36,7 +36,9 @@ std::string head_configuration(const SqliteWorkSession &s, const ReferenceRuntim
     if (meta.empty())
         refuse(l, ReferenceGate::not_ready, "reference.runtime-unavailable.v1");
     data(meta.size() == 1 && meta[0][0].toString() == "blob");
-    require(meta[0][1].toULongLong() <= l.values.reference_bytes, Error::result_limit);
+    require(meta[0][1].toULongLong() <=
+                std::min(l.values.reference_bytes, l.values.value_owned_bytes),
+            Error::result_limit);
     auto row = s.execute({"SELECT s.configuration_ref FROM subathon_app_head h JOIN "
                           "subathon_app_states s ON s.token=h.token LIMIT 1",
                           {}});
@@ -115,12 +117,16 @@ void preflight(const ReferenceRuntimeLimits &l, const ReferenceConnectorRegistra
 void session_input(const SessionLookupRequest &r) {
     require(!r.installation_ref.empty(), Error::invalid_reference);
 }
-core::ContributionConditions conditions(const std::string &configuration) {
+core::ContributionConditions conditions(const std::string &configuration,
+                                        const ReferenceRuntimeLimits &l) {
     core::ContributionConditions c;
     c.valuation = {false, {}, {}, false};
     c.review = core::ContributionReview::not_required;
-    c.evidence_admission = {core::EvidencePolicy::require_evidence_review, configuration, {}};
+    c.evidence_admission.policy = core::EvidencePolicy::require_evidence_review;
     c.settlement = core::SettlementGate::clear;
+    auto projected = runtime_measure(l, Error::result_limit);
+    projected(c, configuration); // the empty policy_ref is replaced by configuration
+    c.evidence_admission.policy_ref = configuration;
     return c;
 }
 } // namespace
@@ -170,6 +176,14 @@ ReferenceIntake::make_initial_work(const ReferenceInitialRequest &r,
             if (auto u = std::get_if<ReferenceUnavailable>(&sample))
                 refuse(limits_, *u);
             auto time = std::get<ReferenceClockSample>(sample);
+            // Complete empty-document state before any duplicate request/config strings.
+            auto initial_size = runtime_measure(limits_, Error::result_limit);
+            initial_size(r.state_token, state_format, r.configuration_ref, r.timer,
+                         std::int64_t{0});
+            initial_size.p.fixed(1); // absent basis; empty balances/document/segments cost0
+            initial_size(r.clock_lineage_ref, r.observation_ref, r.configuration_ref,
+                         cfg.policy_revision_ref, r.state_token, time.utc_ms,
+                         cfg.policy_revision_ref);
             ReferenceCommittedState state{{r.state_token,
                                            {std::string(state_format), QByteArray("", 0)},
                                            r.configuration_ref,
@@ -185,18 +199,25 @@ ReferenceIntake::make_initial_work(const ReferenceInitialRequest &r,
                                            time.utc_ms,
                                            {}},
                                           cfg.policy_revision_ref};
+            StateWriter encoded_size{
+                std::min(limits_.values.document_bytes, std::uint64_t(UINT32_MAX))};
+            state_codec::write(encoded_size, state.snapshot, std::optional<std::string_view>{},
+                               state.observation, state.policy_revision_ref);
+            auto encoded_state_size = runtime_measure(limits_, Error::result_limit);
+            encoded_state_size(state); // current document is empty
+            encoded_state_size.p.fixed(encoded_size.size);
             state.snapshot = encode_reference_state(state, limits_.values);
-            ReferenceClockAnchor anchor{state, time};
+            auto anchor_size = runtime_measure(limits_, Error::result_limit);
+            anchor_size(state, time);
+            ReferenceClockAnchor anchor{std::move(state), time};
             project(anchor);
             auto document = encode_reference_configuration(cfg, limits_.values);
-            auto retained = SqliteRetainedContextStore(s, retained_limits(limits_))
-                                .retain({{RetainedKind::configuration, r.configuration_ref},
-                                         document.document,
-                                         {}});
+            auto retained = retain_document(s, RetainedKind::configuration, r.configuration_ref,
+                                            document.document, {}, limits_);
             if (retained == RetainDisposition::conflict ||
                 retained == RetainDisposition::missing_reference)
                 refuse(limits_, ReferenceGate::conflict, "reference.collision.v1");
-            if (store.retain_initial_state(state.snapshot) !=
+            if (store.retain_initial_state(anchor.committed.snapshot) !=
                 SqliteBundleInitialDisposition::inserted)
                 refuse(limits_, ReferenceGate::conflict, "reference.initial-conflict.v1");
             s.commit();
@@ -244,15 +265,18 @@ ReferenceIntake::make_receipt_work(const std::string &ref, const ReferenceSynthe
             ReferenceArrivalCapture a{context, event, time.utc_ms, cfg, input};
             auto config_doc = encode_reference_configuration(cfg, limits_.values),
                  arrival_doc = encode_reference_arrival(a, limits_.values);
-            SqliteRetainedContextStore retained(s, retained_limits(limits_));
-            auto rc =
-                retained.retain({{RetainedKind::configuration, ref}, config_doc.document, {}});
+            auto rc = retain_document(s, RetainedKind::configuration, ref, config_doc.document, {},
+                                      limits_);
             if (rc != RetainDisposition::inserted && rc != RetainDisposition::already_present)
                 refuse(limits_, ReferenceGate::conflict, "reference.collision.v1");
-            if (retained.retain({{RetainedKind::arrival_context, context},
-                                 arrival_doc.document,
-                                 ConfigurationReference{ref}}) != RetainDisposition::inserted)
+            if (retain_document(s, RetainedKind::arrival_context, context, arrival_doc.document,
+                                ref, limits_) != RetainDisposition::inserted)
                 refuse(limits_, ReferenceGate::conflict, "reference.collision.v1");
+            auto receipt_size = runtime_measure(limits_, Error::result_limit);
+            receipt_size(connector_.origin, connector_.identifier_namespace, input.event_id);
+            receipt_size.document_text(std::string_view("synthetic.reference.support.v1"));
+            receipt_size(std::uint32_t{1}, input.source_utc_ms, time.utc_ms, input.connection_ref,
+                         ref, context);
             core::ReceiptInput in{
                 {connector_.origin, connector_.identifier_namespace, input.event_id},
                 {"synthetic.reference.support.v1", 1, input.source_utc_ms, {}, {}, {}, {}, {}},
@@ -279,7 +303,7 @@ ReferenceIntake::make_receipt_work(const std::string &ref, const ReferenceSynthe
                                 old ? (old->facts == in.facts ? core::ReceiptDisposition::retry
                                                               : core::ReceiptDisposition::conflict)
                                     : core::ReceiptDisposition::created},
-                               a};
+                               std::move(a)};
             project(value);
             SqliteReceiptRepository repository(adopt_active_receipt_session, s, rl);
             ReceiptOwnerRepository adopted(repository, cleanup);
@@ -311,13 +335,15 @@ ReferencePreparedWork ReferenceIntake::make_evidence_work(
             auto original = receipt(s, id, limits_);
             auto a = arrival(s, original, configuration_, limits_);
             (void)a;
-            ContributionObservation observation{original,
+            auto support = conditions(original.arrival.configuration_ref, limits_);
+            auto input = runtime_measure(limits_, Error::result_limit);
+            input(original, ContributionObservationKind::support,
+                  core::PaymentEvidence::not_applicable, support);
+            ContributionObservation observation{std::move(original),
                                                 ContributionObservationKind::support,
                                                 core::PaymentEvidence::not_applicable,
                                                 {},
-                                                conditions(original.arrival.configuration_ref)};
-            auto input = runtime_measure(limits_);
-            input(observation);
+                                                std::move(support)};
             SqliteContributionLimits nested{
                 qsizetype(std::min(limits_.values.reference_bytes, std::uint64_t{4096})),
                 qsizetype(std::min(limits_.values.document_bytes, std::uint64_t{262144})),
@@ -356,6 +382,8 @@ ReferenceIntake::make_capture_work(core::ReceiptId id, core::ContributionId cid,
                                       qsizetype(limits_.values.document_bytes),
                                       qsizetype(limits_.values.value_owned_bytes)};
             SqliteReferenceCaptureStore captures(s, cl);
+            auto key_size = runtime_measure(limits_, Error::result_limit);
+            key_size(a.configuration.rule.automation.installation_ref, original.identity);
             ReferenceCaptureKey key{a.configuration.rule.automation.installation_ref,
                                     original.identity};
             if (auto old = captures.find(key)) {
@@ -383,12 +411,12 @@ ReferenceIntake::make_capture_work(core::ReceiptId id, core::ContributionId cid,
             auto evaluated = evaluate_reference_rule(a, complete, limits_.values);
             if (auto u = std::get_if<ReferenceUnavailable>(&evaluated))
                 refuse(limits_, *u);
-            auto rule = std::get<ReferenceRuleEvaluation>(evaluated);
+            auto rule = std::get<ReferenceRuleEvaluation>(std::move(evaluated));
             auto bound = runtime_measure(limits_, Error::result_limit);
             bound(plan, a.event_ref, a.event_ref, id, original.identity, original.facts,
                   original.arrival, cid, contribution->state, rule.request, rule.selection);
             bound.p.fixed(8 + 1);
-            require(bound.p.items <= bound.p.item_cap - 3, Error::result_limit);
+            bound.p.elements(3); // initial revision, request and selected rule
             struct Rules final : core::RulePlanSource {
                 core::RuleSelection selection;
                 explicit Rules(core::RuleSelection s) : selection(std::move(s)) {}
@@ -414,27 +442,26 @@ ReferenceIntake::make_capture_work(core::ReceiptId id, core::ContributionId cid,
                                        {rule.request}};
             auto application = core::capture_application_plan(plan, captured, rules, modifiers);
             const auto &revision = application.revisions.front();
+            auto binding_size = runtime_measure(limits_, Error::result_limit);
+            binding_size(execution, a.arrival_context_ref, key.installation_ref, original.identity,
+                         id, cid, plan, std::uint64_t{1}, a.configuration.rule);
             ReferenceExecutionBinding binding{
                 execution, a.arrival_context_ref, key.installation_ref, original.identity, id, cid,
                 {plan, 1}, a.configuration.rule};
-            ReferenceInitialCapture value{key,
-                                          id,
-                                          cid,
-                                          a.configuration.configuration_ref,
-                                          a.arrival_context_ref,
-                                          a.event_ref,
-                                          {plan, 1},
-                                          execution};
+            auto capture_size = runtime_measure(limits_, Error::result_limit);
+            capture_size(key, id, cid, a.configuration.configuration_ref, a.arrival_context_ref,
+                         a.event_ref, plan, std::uint64_t{1}, execution);
+            ReferenceInitialCapture value{
+                std::move(key),        id,          cid,       a.configuration.configuration_ref,
+                a.arrival_context_ref, a.event_ref, {plan, 1}, execution};
             project(value);
             if (SqliteApplicationPlanStore(s).retain_initial(plan, revision) !=
                 SqlitePlanInitialDisposition::inserted)
                 refuse(limits_, ReferenceGate::conflict, "reference.collision.v1");
             auto doc = encode_reference_execution(binding, limits_.values);
-            if (SqliteRetainedContextStore(s, retained_limits(limits_))
-                    .retain({{RetainedKind::arrival_context, execution},
-                             doc.document,
-                             ConfigurationReference{a.configuration.configuration_ref}}) !=
-                RetainDisposition::inserted)
+            if (retain_document(s, RetainedKind::arrival_context, execution, doc.document,
+                                a.configuration.configuration_ref,
+                                limits_) != RetainDisposition::inserted)
                 refuse(limits_, ReferenceGate::conflict, "reference.collision.v1");
             if (captures.retain_initial(value) != ReferenceCaptureRetainDisposition::inserted)
                 refuse(limits_, ReferenceGate::conflict, "reference.collision.v1");
@@ -471,7 +498,7 @@ ReferenceIntake::make_snapshot_work(const SessionLookupRequest &r,
             auto decoded = decode_reference_state(*head, limits_.values);
             if (!active(*head))
                 refuse(limits_, ReferenceGate::not_ready, "reference.runtime-unavailable.v1");
-            ReferenceSnapshot snapshot{decoded, cfg.maximum_main_ms};
+            ReferenceSnapshot snapshot{std::move(decoded), cfg.maximum_main_ms};
             project(snapshot);
             s.commit();
             return QVariant::fromValue(snapshot);

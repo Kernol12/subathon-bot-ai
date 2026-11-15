@@ -50,6 +50,10 @@ struct Projection {
         require(bytes <= cap && n <= cap - bytes, error);
         bytes += n;
     }
+    void elements(std::uint64_t n) {
+        require(items <= item_cap && n <= item_cap - items, error);
+        items += n;
+    }
     void component(const std::string &s) {
         require(s.size() <= component_bytes && s.size() < std::string{}.max_size(), error);
         fixed(s.size());
@@ -323,6 +327,6 @@ ReferenceExecutionBinding captured_binding(const ApplicationReferenceReadView &,
 AccessDecision disclose(const ApplicationReferenceReadView &, const OriginalApplicationCommand &,
                         ReferenceConfigurationSource &, ReferenceAuthoritySource &,
                         ReferenceAuthorityUse, const ApplicationOperationKey &,
-                        const std::optional<std::string> &, const ReferenceAdapterLimits &,
+                        const std::optional<std::string_view> &, const ReferenceAdapterLimits &,
                         const ReferenceAuthorityLimits &, const ApplicationEnvelope &);
 } // namespace subathon::server::reference_detail
