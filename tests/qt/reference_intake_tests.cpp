@@ -745,15 +745,22 @@ class ReferenceIntakeTests final : public QObject {
                       "DELETE FROM subathon_plan_revisions", "DELETE FROM subathon_plan_headers",
                       "DELETE FROM subathon_retained_contexts WHERE reference=X'59'"})
                     (void)s.execute({sql, {}});
-                (void)s.execute(
-                    {"CREATE TRIGGER api011_capture_fault BEFORE INSERT ON "
-                     "subathon_reference_initial_captures "
-                     "WHEN EXISTS(SELECT 1 FROM subathon_plan_requests) "
-                     "AND EXISTS(SELECT 1 FROM subathon_retained_contexts WHERE "
-                     "substr(document,1,4)=X'53525831') "
-                     "BEGIN SELECT RAISE(ABORT,'late capture index staging fault'); END",
-                     {}});
             });
+            (void)r.file.observer->rows(
+                "CREATE TRIGGER api011_capture_fault BEFORE INSERT ON "
+                "subathon_reference_initial_captures "
+                "WHEN EXISTS(SELECT 1 FROM subathon_plan_requests) "
+                "AND EXISTS(SELECT 1 FROM subathon_retained_contexts WHERE "
+                "substr(document,1,4)=X'53525831') "
+                "BEGIN SELECT RAISE(ABORT,'late capture index staging fault'); END");
+            require(
+                r.file.observer
+                        ->rows(
+                            "SELECT count(*) FROM sqlite_schema WHERE name='api011_capture_fault'")
+                            [0][0]
+                        .toInt() == 1,
+                "SETUP: idle observer installs the genuine SQLite trigger");
+
             Completion<ReferenceCaptureCompletion> out;
             out.run(r.file.db.writer, r.intake.make_capture_work({7}, {0}, out.callback()));
             require(!out.result->capture &&

@@ -891,16 +891,21 @@ class ReferenceApplicationAdapterTests final : public QObject {
     void actualSqlLateAuditFailureRollsBackAndExplicitRetryAppliesOnce() {
         scenario([] {
             Rig r;
-            r.file.db.work([](const auto &s) {
-                (void)s.execute(
-                    {"CREATE TRIGGER api011_audit_fault BEFORE INSERT ON subathon_app_audit "
-                     "WHEN EXISTS(SELECT 1 FROM subathon_app_effects) "
-                     "AND EXISTS(SELECT 1 FROM subathon_app_states WHERE "
-                     "main_remaining_ms=3600000) "
-                     "AND EXISTS(SELECT 1 FROM subathon_app_head WHERE token=X'61') "
-                     "BEGIN SELECT RAISE(ABORT,'API011 after state/effect before head'); END",
-                     {}});
-            });
+            (void)r.file.observer->rows(
+                "CREATE TRIGGER api011_audit_fault BEFORE INSERT ON subathon_app_audit "
+                "WHEN EXISTS(SELECT 1 FROM subathon_app_effects) "
+                "AND EXISTS(SELECT 1 FROM subathon_app_states WHERE "
+                "main_remaining_ms=3600000) "
+                "AND EXISTS(SELECT 1 FROM subathon_app_head WHERE token=X'61') "
+                "BEGIN SELECT RAISE(ABORT,'API011 after state/effect before head'); END");
+            require(
+                r.file.observer
+                        ->rows(
+                            "SELECT count(*) FROM sqlite_schema WHERE name='api011_audit_fault'")[0]
+                                                                                                 [0]
+                        .toInt() == 1,
+                "SETUP: idle observer installs the genuine SQLite trigger");
+
             const auto got = r.attempt();
             require(got.transaction == TransactionOutcome::rolled_back &&
                         got.work_error == WorkError::sql_failure && got.failure &&

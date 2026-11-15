@@ -97,9 +97,20 @@ Owner decisions are recorded in #249, comment 6879902355:
   blockers. N11 duplicate consistency and N12 bounded direct-issue spent set remain
   mandatory implementation-audit notes, not test edits. Fourth round NOT authorized.
   Root opt-in CMake integration built154steps/no warnings; approved12hashes unchanged.
-  Tests review is closed, but behavioral red and implementation are NOT established.
+  Tests review closed2154964a. Integrated sourcefe14d2bb actually ran137 new rows:
+  135 exact first-NI failures,2 pre-NI SQL SETUP failures,4 passing hooks,0 skips/
+  warnings. Both trigger installs hit the old writer's semicolon rejection; neither
+  is valid red. Five preparation rows are explicitly mapped by tag in classification.
+  Existing dependency CTest152/152 passes. Complete behavioral red/implementation
+  remain unestablished. Owner explicitly approved ONE fourth fixture-only round,
+  record6893032140. Root applied the prepared two-function patch:identical trigger
+  DDL now installed through idle Observer with schema checks, as old service tests.
+  All following assertions/fault predicates unchanged. Incremental6step compile/link,
+  strict syntax/static and83 name-only listings pass; no corrected bodies/hooks/data
+  providers reran. NEW independent Codex verification/WHOLE Claude closing are next
+  before complete classified red. A fifth round is NOT authorized.
   All earlier review/example artifacts remain preserved.
-  No bodies/providers/hooks/red ran; all22 APIs remain NI. Existing
+  All22 APIs remain NI; later assertions after each first NI remain unobserved. Existing
   upstream assertions/files stay frozen.
   No outside prerequisite or owner product decision was identified. Service/SAS1 extraction, consumer
   refactoring and shared build proposal remain unapplied coordinator-owned work.
@@ -114,9 +125,8 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Observe actual per-method/data-row API-011 NI red from the reviewed opt-in runners,
-classifying setup/wrong-NI/timeouts separately, and verify dependency regressions.
-Only then assign DIFFERENT fresh implementation with full Tier A/source audits,
-including N11/N12 and B04 dual SAS1 echoes. Preserve all rejected/approved receipts
-and frozen assertions. No fourth test fix, live/process scope expansion or premature
-proof. Root owns shared codec/build/checkpoint/publication.
+Obtain NEW independent Codex verification of the explicitly approved fourth fixture-
+only correction, then NEW fresh WHOLE Claude closing before rerunning classified
+red. Preserve prior135validNI+2setup failures,152/152 regression pass and every
+review/approval/source artifact. No implementation/downstream work before full red;
+no fifth round, scope expansion or premature proof. Root owns shared publication.
