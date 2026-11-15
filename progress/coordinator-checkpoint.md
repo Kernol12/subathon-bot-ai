@@ -64,11 +64,13 @@ Owner decisions are recorded in #249, comment 6879902355:
   fast-forwarded once. Claim6888000850. Prerequisites #171/#556/#645/#646/#649 closed.
   Fresh Step0 source recheck at27588533 is feasible; coordinator accepts bounded
   contract/examples and tests authoring. Old stop at1fd11c3b remains historical.
-  New core/server evaluator/admission/authority-consumer headers, unconditional
-  NI stubs and focused pure/real-store tests are assigned to one fresh author.
-  Production full-configuration loading/concrete ports stay #562; fixtures supply
-  complete configuration DATA but must use actual current authority. No bodies,
-  intended red or implementation run yet. Tier A for both stages.
+  Authored candidatebde1f064 adds exactly7 new files: public contract revision1,
+  four unconditional NI APIs,11 GoogleTest cases and20 Qt slots. Compile/link,
+  name-only listing, format/project/diff and ownership hashes pass. No bodies,
+  providers, intended red or implementation run. Full tier A tests review pending;
+  shared integration patch remains unapplied and all test source local/unpushed.
+  Production full-configuration loading/concrete ports stay #562; supplied complete
+  config DATA is a fixture, while current-authority composition uses real stores.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 shipped under #649; all compiled prefix bytes remain frozen.
   Full #249 integration remains open. No new migration or other product writer is assigned;
@@ -78,13 +80,12 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Author public-header contract revision1 and independent examples before focused
-tests. Author may compile/link and list test names only, with unconditional NI
-surfaces; no bodies/data-provider execution or push until full tier A tests review.
-Coordinator integrates shared build/CTest/CI and observes valid red after approval;
-a different fresh session implements, then full tier A code review/proof/protected
-merge. Reuse actual authority and separate author/subject channels; no pure-only
-completion or supplied-permit shortcut. Full configuration producer/concrete
-adapters remain #562, not an implemented capability claimed here. No existing
-producer/migration/assertion changes or process/tooling expansion. API-011 follows
-after #558; no live effects.
+Obtain Claude initial, independent Codex verification and fresh Claude closing for
+the WHOLE RULES-006 revision1 header/examples and11 pure/20 Qt tests, including
+actual setup/oracles, full admission, current-authority distrust/revocation,
+resource/error priority and overflow composition. No bodies/data providers, CTest,
+red or push before tests review. Coordinator integrates opt-in red build only after
+approval, observes valid red, then assigns a different fresh implementation session
+and separate full tier A source review/proof/protected merge. Existing producers,
+migrations/approved tests remain frozen; full configuration loader/full adapters
+remain #562. No pure-only completion, permission shortcut, tooling or live effects.
