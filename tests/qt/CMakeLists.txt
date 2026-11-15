@@ -140,3 +140,10 @@ if(SUBATHON_BUILD_SQLITE_REFERENCE_AUTHORITY_TESTS)
         LIBRARIES subathon_sqlite_reference_authority
         LABELS "sqlite-reference-authority;acceptance;qt;server")
 endif()
+
+if(SUBATHON_BUILD_REFERENCE_RULE_TESTS)
+    subathon_add_qt_suite(server_reference_rule_authority_acceptance
+        NAME reference-rule-authority SOURCES reference_rule_authority_tests.cpp
+        LIBRARIES subathon_reference_application
+        LABELS "reference-rule;acceptance;qt;server" TIMEOUT 180)
+endif()

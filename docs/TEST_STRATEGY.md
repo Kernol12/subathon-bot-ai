@@ -66,6 +66,13 @@ still using synthetic data and supplied policy/authority facts.
 | `rate-snapshot-debug` | `-L '^rate-snapshot$'` | 53 preserved cases for owned lossless observations, exact effective-table validation and inverse/cross queries; no provider/cache/valuation integration |
 | `schema-validation-debug` | `-L '^schema-validation$'` | 3 nodes: repository OpenAPI/components/examples, canonical proof/policy aggregate and real-SDK proof publication integration; actual HEAD inputs are required |
 
+Selecting `reference-rule` with `SUBATHON_ACCEPTANCE_SUITES` builds 11 pure configured-
+integer cases and 24 Qt current-authority consumer methods (34 invocations).
+Both run under the `reference-rule` label in the existing Qt CI job, with pinned
+dependencies and no skips. The configuration source is supplied complete synthetic DATA; the authority
+source uses actual SQLite stores. Full configuration loading and concrete ports
+remain separate from this bounded composition.
+
 Source/resource review remains necessary for allocation bounds, owned capabilities,
 secret handling, process cleanup and SQL projection/ownership; output assertions alone
 do not measure those properties. Security wrappers retain nonvacuous positive observations,

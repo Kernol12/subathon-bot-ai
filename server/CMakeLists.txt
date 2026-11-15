@@ -146,3 +146,11 @@ if(SUBATHON_BUILD_SQLITE_REFERENCE_AUTHORITY_TESTS)
         subathon_sqlite_application_holds subathon_original_application_service)
     subathon_target_options(subathon_sqlite_reference_authority)
 endif()
+
+if(SUBATHON_BUILD_REFERENCE_RULE_TESTS)
+    add_library(subathon_reference_application STATIC src/reference_application.cpp)
+    target_include_directories(subathon_reference_application PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_reference_application PUBLIC
+        subathon_reference_rule subathon_sqlite_reference_authority)
+    subathon_target_options(subathon_reference_application)
+endif()

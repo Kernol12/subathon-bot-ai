@@ -55,43 +55,46 @@ Owner decisions are recorded in #249, comment 6879902355:
   Corrected closure139/139 and graph94/94 passed, zero skips/warnings; tier A,
   proof/publication and final-head7/7 CI passed. Owner-approved PG-B01 correction
   and historical rejections remain recorded in the PR and proof.
-- ACCESS-011 (#649), branch `task/ACCESS-011-reference-authority`, draft PR #651.
-  Main tests approved4ed77298, selected-reader supplement747e1d5f and admission
-  supplementeaf1cb51. All earlier rejections and observed reds remain in PR receipts.
-  Initial whole-source review at707fd680 rejected A11-I01; first fixbce94db7 is
-  verified for A11-I01/N01. Codex whole-producer review instead found A11-I02:
-  generic mutation authentication swallows original writer exceptions.
-  Authentication supplement approved through all3 tests reviews at2881fb1b after
-  A11-T01 correction. Observed red:187 originals PASS,9 controls PASS/18 FAIL,
-  hooks2 PASS; all12 aggregated failure paths traced past setup into authentication.
-  Second implementation fix round uses the existing strict lifecycle reader and a
-  per-call adapter to rethrow original source/clock writer errors after generic
-  resolution. Public session facades and all214 reviewed assertions remain frozen.
-  Actual214cases+2hooks, strict compile, format/project/diff and updated59/214/216
-  CI gate PASS, zero skips/warnings. Full current140/140 closure PASS. Independent
-  Codex re-verification/fresh Claude closing, current-head CI/proof/merge pending.
-  Any third implementation fix round requires owner approval; #558 remains stopped.
+- ACCESS-011 (#649) completed by protected PR #651 merge `d7d64f25`.
+  Authority214 cases+2hooks and140/140 closure pass, zero skips/Qt warnings.
+  Both tier A stages, single proof/publication and final-head7/7 CI passed;
+  historical rejections/reds stay in PR receipts and proof. #249 remains separate.
+- RULES-006 (#558), draft PR #652, branch task/RULES-006-reference-evaluator.
+  Base/main d7d64f25; claim6888000850, source feasibility6888185517. Owner path unchanged.
+  Original tests approved4202917a/reda4775776; all receipts and two baseline fix
+  rounds preserved. Fresh implementation7030bfeb/root8ee had152/152 and CI7/7, but
+  independent Codex verification rejected R6-I01/I02 (6889616240); initial Claude
+  approval is preserved, never substituted for verification.
+  Additive header3/12row supplement144bb0f3 now has all3 Tier A tests approvals.
+  Actual old-source red:7failing rows+5passing controls,2setup/cleanup,0skips/warnings;
+  24methods/34invocations observed. Original22methods and fixtures remain byte-exact.
+  Root code fix round1 preserves caller authority input errors outside translation
+  and projects complete SAC1 envelope/value/document/reference limits before encoder
+  allocation. Independent authority DTO budgets remain unchanged. Full152/152 and
+  focused12/12 pass; Qt36passes/0skips/warnings. Fresh ASan/UBSan11pure+34Qt invocations
+  pass, no diagnostics; LSan disabled (ptrace limitation). Strict/static/actual CI
+  guard pass. Existing Qt CI inventory updated24methods/34invocations/36results.
+  Exact source/review head3dc5334a has all7 required CI checks SUCCESS
+  (run43684469444); hosted Qt36/0/0/0 and updated24/34 inventory gate verified.
+  Fresh whole Codex re-verification approved3dc5334a (6890361648); R6-I01/I02
+  corrected, no remaining blockers; independent152/152, ASan/UBSan and192 framing
+  diagnostics pass. Fresh Claude whole closing approved3dc5334a (6890500290),
+  independently152/152, focused12/12 and ASan/UBSan; no new findings.
+  Single final proof/policy record assembled; final-head CI/publication/merge pending.
+  No new baseline correction, producer/migration/dependency change or merge approval.
+  R6-I03/I04,C01/C02 remain nonblocking; #562 retains full configuration/ports/submission.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
-  proof. Step10 is reserved for this registry after compiled permission step9;
-  preserve all shipped prefix bytes. Full #249 integration remains open. RULES-006
-  resumes only after #649 supplies an actual current producer. No other writer is
-  assigned; completed review worktrees are historical, not live assignments.
+  proof. Step10 shipped under #649; all compiled prefix bytes remain frozen.
+  Full #249 integration remains open. No new migration or other product writer is assigned;
+  completed review worktrees are historical, not live assignments.
 - Draft PR #121 stays parked. Process/tooling work remains frozen until the slice.
   EPIC-029 closed, follow-ups #636; pre-cutover evidence remains historical.
 
 ## Next action
 
-Obtain independent Codex re-verification, then fresh Claude whole-producer closing
-at the same final candidate. This is the second
-implementation fix round: preserve original writer errors through authentication,
-public session defaults and genuine source/clock refusals. No liveness SELECT or
-caller-owned transaction cleanup is introduced. Third implementation fix round
-requires owner approval.
-Preserve all source/test history, rejected receipts and failures.
-The private selected path must preserve old public facades, original writer truth,
-metadata-before-ownership bounds, finite indexed selection and current authority.
-Only after exact-head reviews, current required CI and one proof/policy commit with
-both-stage publication validation may the coordinator perform a protected merge.
-Then continue the authorized path with actual producer feasibility for RULES-006.
-Full #249 and identity/UI/public auth/delivery remain with their owning issues;
-process/tooling stays frozen until the vertical slice runs. No live effects.
+Publish the single final proof/policy commit after both-stage validation, then
+require final-head protected CI and merge requirements. Both final reviews bind
+3dc5334a and all approved assertions/header3 remain frozen. Root owns CI/checkpoint/
+proof; no advance past #558 before these gates. After protected merge/readback,
+continue authorized #562 feasibility. Fullports and frozen process/tooling/live
+boundaries remain unchanged.
