@@ -75,13 +75,31 @@ plus4hooks, real4096/4097 commit/settle/journal/disclosure and refusal-limit con
 strict compilation, format/project/diff checks pass. New independent reviews and
 hosted CI must bind to the actual new source; old green checks grant no approval.
 
-Next: NEW independent WHOLE Codex verification, NEW fresh WHOLE Claude closing,
-one final proof/policy commit, both-stage publication validation, current required
-CI, protected merge/read-back, close562 and STOP. Preserve every rejection. No
-fourth implementation round or fifth baseline correction is authorized; stop and
-ask if needed. PR653 remains draft/unmerged;562 stays open. No other product-policy
-decision has been identified. Verify actual delegate/watch state before handback;
-unwatch653 and start no downstream task while waiting for an owner decision.
+[NEW WHOLE rejection261d8003](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6896940946)
+resolves I10 but keeps I11 open: valid persisted4097-byte hold reasons are still
+treated as references, so actual whole-hold disclosure and the real service fail.
+The same field-role error affects resolution/plan-override reasons structurally.
+NEW I12: free Boost numerator/denominator accessors clone before checking limits;
+the reviewer observed1048584bytes allocated before refusal, including public
+prepare's losing proposal path. Minimal reproductions and source mechanisms are
+public in the receipt. Fresh154/154,137invocations+4hooks, ASan/UBSan (leaks off)
+and hosted7/7 at261d8003 pass but do not waive either blocker.
+
+**STOP: owner approval required for ONE bounded fourth source round.** No fourth
+implementation round or fifth baseline correction is authorized or applied.
+[Unapplied proposal](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6896984370): complete the API-011 walker DATA/reference field-role audit for
+hold/resolution/override reasons with unchanged complete charges/equality, and
+borrow Exact component backends for metadata preflight before any size-dependent
+copy/conversion. Preserve the working I10/command-audit fixes and all baselines.
+No other product-policy decision has been identified. PR653 is draft/unmerged;
+562 remains open. The last verifier is complete with no child work; no owned
+delegate is active. Unwatch653 before owner handback; start no downstream task.
+
+Only after owner approval and corrections: NEW independent WHOLE Codex verification,
+NEW fresh WHOLE Claude closing, one final proof/policy commit, both-stage publication
+validation, current required CI, protected merge/read-back, close562 and STOP.
+Preserve every rejection. This checkpoint-only amendment changes no source, test,
+contract or CI; its pending CI is separate from the reviewed green source above.
 
 ## Capability map and constraints for a later coordinator
 
