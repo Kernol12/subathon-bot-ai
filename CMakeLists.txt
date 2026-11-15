@@ -7,8 +7,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(CTest)
 find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)
 option(SUBATHON_BUILD_ACCEPTANCE_TESTS "Build selected component acceptance suites" OFF)
-# Local reviewed API-011 baseline only; never default/passing CI before implementation.
-option(SUBATHON_BUILD_REFERENCE_INTAKE_BASELINE "Build opt-in API-011 intentional-red Qt baseline" OFF)
+# Retain the reviewed baseline selector for ordinary API-011 acceptance.
+option(SUBATHON_BUILD_REFERENCE_INTAKE_BASELINE "Build reviewed API-011 Qt acceptance" OFF)
 set(SUBATHON_ACCEPTANCE_SUITES "time-credit" CACHE STRING "Acceptance suite/profile names, or all")
 option(SUBATHON_BUILD_SCHEMA_VALIDATION_TESTS "Check repository schemas and examples with the pinned Python validators" OFF)
 option(SUBATHON_BUILD_QT_PROBE "Configure Qt 6.12 Core/Test dependency discovery" OFF)

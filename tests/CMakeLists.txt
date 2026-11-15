@@ -214,16 +214,16 @@ if(SUBATHON_BUILD_REFERENCE_RULE_TESTS)
         PREFIX "reference-rule." LABELS "reference-rule;acceptance;core" TIMEOUT 30)
 endif()
 
-# Apply ONLY after independent Tier A tests review. Ordinary failure, no WILL_FAIL.
+# API-011 retains every reviewed assertion and uses ordinary passing acceptance.
 if(SUBATHON_BUILD_REFERENCE_INTAKE_BASELINE)
     subathon_add_qt_suite(server_reference_intake_acceptance
         NAME reference-intake
         SOURCES qt/reference_intake_tests.cpp
         LIBRARIES subathon_reference_intake
-        LABELS "reference-intake;intentional-red" TIMEOUT 180)
+        LABELS "reference-intake;acceptance;qt;server" TIMEOUT 180)
     subathon_add_qt_suite(server_reference_application_adapter_acceptance
         NAME reference-application-adapters
         SOURCES qt/reference_application_adapter_tests.cpp
         LIBRARIES subathon_reference_intake
-        LABELS "reference-intake;intentional-red" TIMEOUT 180)
+        LABELS "reference-intake;acceptance;qt;server" TIMEOUT 180)
 endif()

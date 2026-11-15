@@ -132,6 +132,14 @@ Owner decisions are recorded in #249, comment 6879902355:
   Mandatory audits include B04 dual SAS1 echoes, N11 full duplicate-completion
   consistency, N12 bounded spent sets, preallocation/nested limits/selected SQL,
   original writer ownership/errors, current whole authority and journal lifetimes.
+  Fresh implementation authored7e9f648b:all22 APIs implemented in14 assigned paths,
+  tests/fixtures/public contract unchanged except private header state/includes.
+  Author's full154/154 CTest and137invocations+4hooks pass,0 skips/Qt warnings;
+  focused ASan/UBSan passes with leak checking unavailable under ptrace. Root
+  verified inventory/scope and raw results, integrated the exact authored commit,
+  and adds ordinary CI admission with exact83method/137invocation guards to the
+  existing Qt job. This is an unreviewed implementation candidate, not approval.
+  Initial full Tier A Claude source/resource review is next, fix round0of2.
   No implementation approval, proof or merge exists. Full #249/API010/recovery/
   host/live/process boundaries stay.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
@@ -143,9 +151,9 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Publish the closed tests stage and classified137NI/152-regression evidence in a
-focused draft PR, preserving all8 review receipts and original135NI+2setup history.
-Assign ONE DIFFERENT fresh API-011 implementation session with the temporary file
-ownership above. Keep tests and public contracts fixed, obtain full Tier A source
-reviews/checks, then final-head CI/proof/protected merge. No fifth test round, scope
-expansion, downstream task or premature proof. Root owns shared publication.
+Publish the authored implementation and ordinary CI admission on draft PR#653;
+obtain fresh initial WHOLE Claude source/resource review, independent Codex
+verification and fresh Claude closing. Keep all tests/public contracts fixed and
+preserve all8 tests receipts/red history. Then final-head CI/proof/protected merge.
+No fifth test round, scope expansion, downstream task or premature proof. Root owns
+shared publication. Existing7/7 CI on5eb2076c covers the prior tests-only head.
