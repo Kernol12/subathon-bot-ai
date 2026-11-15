@@ -421,8 +421,9 @@ jobs:
           if len(selected) != 12 or len(pure) != 11 or len(qt) != 1:
               raise SystemExit("Reference rule inventory differs from 11 pure cases and one Qt suite")
           functions = subprocess.check_output([qt[0]["command"][0], "-functions"], text=True).splitlines()
-          if len(functions) != 22:
-              raise SystemExit("Reference consumer differs from 22 reviewed methods")
+          rows = subprocess.check_output([qt[0]["command"][0], "-datatags"], text=True).splitlines()
+          if len(functions) != 24 or len(rows) != 34:
+              raise SystemExit("Reference consumer differs from 24 reviewed methods / 34 invocations")
           cases = ET.parse(Path("build/sqlite-reference-capture-debug/reference-rule-results.xml")).getroot().findall("testcase")
           if len(cases) != 12 or {c.get("name") for c in cases} != {t["name"] for t in selected}:
               raise SystemExit("Missing unfiltered reference rule runtime results")
@@ -430,8 +431,8 @@ jobs:
               raise SystemExit("Reference rule case failed or skipped")
           output = next(c for c in cases if c.get("name") == "reference-rule-authority.suite").findtext("system-out", "")
           totals = re.findall(r"^Totals:\s+(\d+) passed, (\d+) failed, (\d+) skipped, (\d+) blacklisted,", output, re.MULTILINE)
-          if totals != [("24", "0", "0", "0")]:
-              raise SystemExit("Reference consumer must pass 22 methods and setup/cleanup, with zero skips")
+          if totals != [("36", "0", "0", "0")]:
+              raise SystemExit("Reference consumer must pass 34 invocations and setup/cleanup, with zero skips")
           PYTHON
       - name: Verify enabled Qt suites and current-fact storage acceptance
         run: |

@@ -461,6 +461,47 @@ void command_preflight(const OriginalApplicationCommand &c, const Limits &l) {
         p.fixed(std::uint64_t(v.document.size()));
     }
 }
+void command_envelope_preflight(const OriginalApplicationCommand &c, const Limits &l) {
+    // Size the service's SAC1 intermediate without building a command or buffer.
+    // The imported codec still validates meanings and its own defaults afterward.
+    auto value = projection(l, Error::result_limit);
+    value(std::string_view("subathon.internal.application-command.v1"));
+    const auto body_cap = std::min(l.document_bytes, std::uint64_t{UINT32_MAX});
+    std::uint64_t body = 0;
+    const auto fixed = [&](std::uint64_t n) {
+        require(body <= body_cap && n <= body_cap - body, Error::result_limit);
+        body += n;
+        value.fixed(n);
+    };
+    const auto blob = [&](std::uint64_t n) {
+        require(n <= UINT32_MAX, Error::result_limit);
+        fixed(4);
+        fixed(n);
+    };
+    fixed(4); // SAC1
+    blob(c.operation.operation_scope.size());
+    blob(c.operation.operation_ref.size());
+    fixed(1 + 8 + 1); // subject, receipt, contribution presence
+    if (c.contribution_id)
+        fixed(8);
+    blob(c.plan.plan_ref.size());
+    fixed(8 + 1); // plan revision, principal kind
+    blob(c.principal.installation_ref.size());
+    blob(c.principal.principal_ref.size());
+    fixed(1 + 1); // purpose, preview mode
+    for (const auto *v : {&c.preview_state_token, &c.actor_ref, &c.decision_ref, &c.reason}) {
+        fixed(1);
+        if (*v)
+            blob((*v)->size());
+    }
+    require(c.choices.size() <= UINT32_MAX, Error::result_limit);
+    fixed(4);
+    for (const auto &v : c.choices) {
+        blob(v.format_ref.size());
+        blob(std::uint64_t(v.document.size()));
+    }
+    // The complete envelope has no vector items: choices are framed body bytes.
+}
 std::optional<RetainedDocument> read(const ApplicationReferenceReadView &v, RetainedKind kind,
                                      const std::string &ref, const Limits &l) {
     auto p = projection(l);
@@ -738,8 +779,8 @@ AccessDecision execute(const ApplicationReferenceReadView &view,
                        const OriginalApplicationCommand &c, ReferenceConfigurationSource &configs,
                        ReferenceAuthoritySource &authority, const Limits &l,
                        const ReferenceAuthorityLimits &al) {
-    authority_limits(al);
     command_preflight(c, l);
+    command_envelope_preflight(c, l);
     auto ref = allocate([&] {
         (void)encode_original_application_command(c); // imported complete service validation
         return execution_ref(c, l);
@@ -805,7 +846,8 @@ AccessDecision check_reference_execution(const ApplicationReferenceReadView &vie
                                          ReferenceConfigurationSource &configs,
                                          ReferenceAuthoritySource &authority, const Limits &l,
                                          const ReferenceAuthorityLimits &al) {
-    valid_limits(l); // Caller options retain the declared input-error boundary.
+    valid_limits(l);      // Caller options retain the declared input-error boundary.
+    authority_limits(al); // Preserve caller errors; only source failures translate below.
     try {
         return execute(view, c, configs, authority, l, al);
     } catch (const ReferenceInputFailure &e) {

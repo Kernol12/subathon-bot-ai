@@ -60,30 +60,23 @@ Owner decisions are recorded in #249, comment 6879902355:
   Both tier A stages, single proof/publication and final-head7/7 CI passed;
   historical rejections/reds stay in PR receipts and proof. #249 remains separate.
 - RULES-006 (#558), draft PR #652, branch task/RULES-006-reference-evaluator.
-  Base/main d7d64f25; claim6888000850. Prerequisites #171/#556/#645/#646/#649 closed;
-  source feasibility accepted in6888185517. Full specification and owner path unchanged.
-  Tests approved4202917a (pure header1/server header+examples2); initial rejection,
-  two test fix rounds and all approvals preserved as PR comments. Valid red ata4775776:
-  11 pure cases+22 Qt methods fail at NI; dependency140/140 passes, no skips/warnings.
-  Fresh implementation7030bfeb changes only new core/src/reference_rule.cpp and
-  server/src/reference_application.cpp. Author full closure152/152 and ASan/UBSan12/12
-  pass, zero skips/warnings; LSan unavailable under ptrace. Frozen5 header/test/fixture
-  hashes unchanged. Coordinator integrated two sources; focused12/12 and exact new
-  CI gate pass locally. Promoted new labels to ordinary acceptance and selected the
-  suite in existing Qt CI; job names/dependency pins remain. Fresh Claude whole-stage
-  initial implementation review approved8ee6d22e, no blockers; receipt6889484208.
-  Codex whole implementation verification at8ee6d22e requested changes;
-  R6-I01 caller-option error truth and R6-I02 transient envelope budget are BLOCKERS,
-  receipt6889616240. Initial approval remains preserved; code fix round0 of2.
-  Root authored supplemental server header3 clarification and2 additive Qt families,
-  12 new rows, preserving all original22 methods and production source bytes.
-  Compile/link and name-only24method listing/static arithmetic pass; no providers,
-  bodies, -datatags, CTest/red or production fix run for this supplement. Source-counted
-  total34 invocations+2hooks is unobserved. Supplemental Tier A tests review next.
-  Existing baseline two test fix rounds stay exhausted; no assertion correction.
-  R6-I03/I04 and R6-C01/C02 remain nonblocking; #562 retains submission/full ports.
-  Remote8ee required CI7/7 SUCCESS remains historical current-remote evidence only;
-  local supplement stays unpushed. No proof or merge while blockers remain.
+  Base/main d7d64f25; claim6888000850, source feasibility6888185517. Owner path unchanged.
+  Original tests approved4202917a/reda4775776; all receipts and two baseline fix
+  rounds preserved. Fresh implementation7030bfeb/root8ee had152/152 and CI7/7, but
+  independent Codex verification rejected R6-I01/I02 (6889616240); initial Claude
+  approval is preserved, never substituted for verification.
+  Additive header3/12row supplement144bb0f3 now has all3 Tier A tests approvals.
+  Actual old-source red:7failing rows+5passing controls,2setup/cleanup,0skips/warnings;
+  24methods/34invocations observed. Original22methods and fixtures remain byte-exact.
+  Root code fix round1 preserves caller authority input errors outside translation
+  and projects complete SAC1 envelope/value/document/reference limits before encoder
+  allocation. Independent authority DTO budgets remain unchanged. Full152/152 and
+  focused12/12 pass; Qt36passes/0skips/warnings. Fresh ASan/UBSan11pure+34Qt invocations
+  pass, no diagnostics; LSan disabled (ptrace limitation). Strict/static/actual CI
+  guard pass. Existing Qt CI inventory updated24methods/34invocations/36results.
+  Whole code re-verification and fresh Claude closing/current-headCI/proof pending.
+  No new baseline correction, producer/migration/dependency change or merge approval.
+  R6-I03/I04,C01/C02 remain nonblocking; #562 retains full configuration/ports/submission.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 shipped under #649; all compiled prefix bytes remain frozen.
   Full #249 integration remains open. No new migration or other product writer is assigned;
@@ -93,10 +86,10 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Obtain supplemental Tier A contract/tests Claude initial, separate Codex verification
-and fresh Claude closing before executing the12 new rows. Then observe valid red
-against unchanged8ee production and fix both blockers (implementation round1 of2),
-followed by whole Codex re-verification and fresh Claude closing. Keep supplement
-local until reviewed/red; root owns CI inventory updates after approval. All original
-assertions, producers/migrations, owner scope and full#562 boundaries remain.
-Current CI, single proof/publication commit and protected merge are still required.
+Publish the reviewed supplement, actual red and passing code fix round1 to draft
+PR #652; obtain fresh independent whole-implementation Codex re-verification and
+fresh Claude whole closing, especially R6-S03 before-allocation/caller-error audit.
+Keep all approved assertions/header3 frozen. Then current required CI, one proof/
+policy commit, both-stage publication and protected merge. Root owns CI/checkpoint/
+proof; no advance past #558 before these gates. Owner #562/fullports and frozen
+process/tooling/live boundaries remain unchanged.
