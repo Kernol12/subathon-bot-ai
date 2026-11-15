@@ -59,30 +59,20 @@ Owner decisions are recorded in #249, comment 6879902355:
   Authority214 cases+2hooks and140/140 closure pass, zero skips/Qt warnings.
   Both tier A stages, single proof/publication and final-head7/7 CI passed;
   historical rejections/reds stay in PR receipts and proof. #249 remains separate.
-- RULES-006 (#558), draft PR #652, branch task/RULES-006-reference-evaluator.
-  Base/main d7d64f25; claim6888000850, source feasibility6888185517. Owner path unchanged.
-  Original tests approved4202917a/reda4775776; all receipts and two baseline fix
-  rounds preserved. Fresh implementation7030bfeb/root8ee had152/152 and CI7/7, but
-  independent Codex verification rejected R6-I01/I02 (6889616240); initial Claude
-  approval is preserved, never substituted for verification.
-  Additive header3/12row supplement144bb0f3 now has all3 Tier A tests approvals.
-  Actual old-source red:7failing rows+5passing controls,2setup/cleanup,0skips/warnings;
-  24methods/34invocations observed. Original22methods and fixtures remain byte-exact.
-  Root code fix round1 preserves caller authority input errors outside translation
-  and projects complete SAC1 envelope/value/document/reference limits before encoder
-  allocation. Independent authority DTO budgets remain unchanged. Full152/152 and
-  focused12/12 pass; Qt36passes/0skips/warnings. Fresh ASan/UBSan11pure+34Qt invocations
-  pass, no diagnostics; LSan disabled (ptrace limitation). Strict/static/actual CI
-  guard pass. Existing Qt CI inventory updated24methods/34invocations/36results.
-  Exact source/review head3dc5334a has all7 required CI checks SUCCESS
-  (run43684469444); hosted Qt36/0/0/0 and updated24/34 inventory gate verified.
-  Fresh whole Codex re-verification approved3dc5334a (6890361648); R6-I01/I02
-  corrected, no remaining blockers; independent152/152, ASan/UBSan and192 framing
-  diagnostics pass. Fresh Claude whole closing approved3dc5334a (6890500290),
-  independently152/152, focused12/12 and ASan/UBSan; no new findings.
-  Single final proof/policy record assembled; final-head CI/publication/merge pending.
-  No new baseline correction, producer/migration/dependency change or merge approval.
-  R6-I03/I04,C01/C02 remain nonblocking; #562 retains full configuration/ports/submission.
+- RULES-006 (#558) completed by protected PR #652 merge `03e52e70`.
+  Full152/152 and focused12/12 pass; Qt34cases+2hooks, zero skips/warnings.
+  Both Tier A stages, single proof/publication and final-head7/7 CI passed.
+  Historical rejections/reds remain in PR/proof; #562 retains configuration/ports.
+- API-011 (#562), branch task/API-011-reference-intake, base/main03e52e70.
+  Claimed6890787150 after #558 protected merge/readback; both stages tier A.
+  Step0 source feasibility only before tests: actual current access/policy/segmented
+  clock/required-action/fresh-reference and initial startup/configuration ownership
+  under CONTRACT-014. No behavior, tests or runtime evidence authored for this task.
+  Existing component declarations are not actual composed runtime capability.
+  Distinguish producers this task explicitly owns from missing outside prerequisites;
+  stop/report any substantial outside work. Full #249/API010/recovery/host/live and
+  process/tooling boundaries remain unchanged. No test/implementation author assigned
+  before feasible bounded ownership is established.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 shipped under #649; all compiled prefix bytes remain frozen.
   Full #249 integration remains open. No new migration or other product writer is assigned;
@@ -92,9 +82,11 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Publish the single final proof/policy commit after both-stage validation, then
-require final-head protected CI and merge requirements. Both final reviews bind
-3dc5334a and all approved assertions/header3 remain frozen. Root owns CI/checkpoint/
-proof; no advance past #558 before these gates. After protected merge/readback,
-continue authorized #562 feasibility. Fullports and frozen process/tooling/live
-boundaries remain unchanged.
+Obtain a fresh isolated source feasibility report for API-011 at the exact claimed
+branch head. Pin current interfaces and remaining production work, existing receipt/
+evidence/capture/application transaction boundaries, genuine clock/startup ownership,
+complete configuration/current authority and independent RP01-12/14 coverage.
+Proceed to contract/tests authoring only inside #562 after accepted feasibility;
+otherwise stop at the owning prerequisite. Root retains shared files/checkpoint/
+publication. No fake allow, fabricated clock, public mutation/live side effects or
+process/tooling work is authorized.
