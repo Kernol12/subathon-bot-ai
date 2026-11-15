@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// Oracles: SLICE-001 #642 owner decision, contract revision 1, examples 1–7;
+// Oracles: SLICE-001 #642 owner decision, contract revision 2, examples 1–8;
 // CONTRACT-014 §6 RP14-B supplies the 4096-byte reference limit.
 #include <QDir>
 #include <QElapsedTimer>
@@ -67,10 +67,11 @@ void summary(const Run &run, qint64 timer, qint64 applications, qsizetype events
     QCOMPARE(run.json.value("events").toArray().size(), events);
 }
 
-void checkEvent(const QJsonValue &value, qint64 requested, qint64 actual, bool duplicate) {
+void checkEvent(const QJsonValue &value, qint64 requested, qint64 actual, bool duplicate,
+                const QString &id = "e1") {
     QVERIFY(value.isObject());
     const auto object = value.toObject();
-    QCOMPARE(object.value("event_id").toString(), QString("e1"));
+    QCOMPARE(object.value("event_id").toString(), id);
     QVERIFY(object.contains("receipt_id"));
     QVERIFY(!object.value("receipt_id").isNull());
     QVERIFY(object.value("duplicate").isBool());
@@ -198,6 +199,23 @@ class DevelopmentServerTests : public QObject {
         checkEvent(events.at(0), 300000, 300000, false);
     }
 
+    void example8_twoEvents() {
+        QTemporaryDir directory;
+        QVERIFY(directory.isValid());
+        Run run;
+        invoke(arguments(directory.filePath("state.sqlite")) << "--event" << "e1" << "--event"
+                                                             << "e2",
+               0, run, directory.path());
+        if (QTest::currentTestFailed())
+            return;
+        summary(run, 1200000, 2, 2);
+        const auto events = run.json.value("events").toArray();
+        checkEvent(events.at(0), 300000, 300000, false);
+        checkEvent(events.at(1), 300000, 300000, false, "e2");
+        QVERIFY(events.at(0).toObject().value("receipt_id") !=
+                events.at(1).toObject().value("receipt_id"));
+    }
+
     void invalidArguments_data() {
         QTest::addColumn<QString>("option");
         QTest::addColumn<QString>("kind");
@@ -214,6 +232,8 @@ class DevelopmentServerTests : public QObject {
             QTest::newRow(qPrintable(QString("non-numeric-") + option))
                 << QString(option) << QString("replace") << QString("abc");
         }
+        QTest::newRow("fractional---add-ms")
+            << QString("--add-ms") << QString("replace") << QString("300000.5");
         QTest::newRow("cap-below-start")
             << QString("--cap-ms") << QString("replace") << QString("599999");
         QTest::newRow("event-4097-bytes")

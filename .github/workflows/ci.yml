@@ -252,7 +252,8 @@ jobs:
           ulimit -c 0
           ctest --preset core-acceptance-debug --no-tests=error
   # Qt 6.12 suites sharing one toolchain setup: real-SQLite storage and application
-  # service, password hashing and session resolution, translation catalogs.
+  # service, password hashing and session resolution, translation catalogs, and last
+  # the development server executable.
   qt:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -341,30 +342,6 @@ jobs:
           CC=gcc CFLAGS=-O2 /usr/bin/bash "$RUNNER_TEMP/sodium-source/libsodium-1.0.22/configure" --prefix="$SUBATHON_SODIUM_ROOT" --libdir="$SUBATHON_SODIUM_ROOT/lib" --disable-shared --enable-static
           make -j2
           make -j2 install
-      - name: Configure and build development executable acceptance
-        run: |
-          cmake --preset dev-server-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          cmake --build --preset dev-server-debug
-      - name: Verify development executable suite registration
-        run: |
-          python3 - <<'PYTHON'
-          import json
-          import subprocess
-          discovery = json.loads(subprocess.check_output(
-              ["ctest", "--preset", "dev-server-debug", "--show-only=json-v1"], text=True))
-          selected = [t for t in discovery["tests"] if t["name"].startswith("dev-server.")]
-          if [t["name"] for t in selected] != ["dev-server.suite"]:
-              raise SystemExit("The development executable suite must be discovered")
-          props = {p["name"]: p["value"] for p in selected[0]["properties"]}
-          if set(props.get("LABELS", [])) != {"dev-server", "acceptance", "qt", "server"} or props.get("TIMEOUT") != 120:
-              raise SystemExit("Development executable labels or timeout changed")
-          if props.get("DISABLED") or props.get("WILL_FAIL") or any(
-              key in props for key in ("SKIP_RETURN_CODE", "SKIP_REGULAR_EXPRESSION",
-                                       "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION")):
-              raise SystemExit("Development executable results must retain ordinary semantics")
-          PYTHON
-      - name: Run development executable acceptance
-        run: ctest --preset dev-server-debug -L '^dev-server$' --no-tests=error --verbose
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
@@ -659,6 +636,30 @@ jobs:
         run: ctest --preset translation-catalog-debug -L '^translation-catalog$' --no-tests=error --verbose
       - name: Run existing infrastructure checks
         run: ctest --preset translation-catalog-debug -L '^scaffold$' --verbose
+      - name: Configure and build development executable acceptance
+        run: |
+          cmake --preset dev-server-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
+          cmake --build --preset dev-server-debug
+      - name: Verify development executable suite registration
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          import subprocess
+          discovery = json.loads(subprocess.check_output(
+              ["ctest", "--preset", "dev-server-debug", "--show-only=json-v1"], text=True))
+          selected = [t for t in discovery["tests"] if t["name"].startswith("dev-server.")]
+          if [t["name"] for t in selected] != ["dev-server.suite"]:
+              raise SystemExit("The development executable suite must be discovered")
+          props = {p["name"]: p["value"] for p in selected[0]["properties"]}
+          if set(props.get("LABELS", [])) != {"dev-server", "acceptance", "qt", "server"} or props.get("TIMEOUT") != 120:
+              raise SystemExit("Development executable labels or timeout changed")
+          if props.get("DISABLED") or props.get("WILL_FAIL") or any(
+              key in props for key in ("SKIP_RETURN_CODE", "SKIP_REGULAR_EXPRESSION",
+                                       "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION")):
+              raise SystemExit("Development executable results must retain ordinary semantics")
+          PYTHON
+      - name: Run development executable acceptance
+        run: ctest --preset dev-server-debug -L '^dev-server$' --no-tests=error --verbose
   # Corrected Drogon SDK suites, built once: native WebSocket profile acceptance, then
   # the host lifecycle baseline build against the same sealed SDK and its registration
   # check (intentional red, not run).
