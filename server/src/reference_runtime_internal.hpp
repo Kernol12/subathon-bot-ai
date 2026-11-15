@@ -230,19 +230,27 @@ struct Measure {
         require(std::uint64_t(s.size()) <= document, p.error);
         p.fixed(std::uint64_t(s.size()));
     }
-    // Imported command reason is document DATA, not an opaque reference. Keep
-    // service optional accounting (absent0/present bytes) and whole B/I unchanged.
+    // Reasons remain document DATA in both commands and their persisted audits.
+    // Imported service optionals charge absent0/present bytes, with no item.
+    void document_text(const std::optional<std::string> &text) {
+        if (text) {
+            require(text->size() <= document && text->size() <= UINT32_MAX &&
+                        text->size() < std::string{}.max_size(),
+                    p.error);
+            p.fixed(text->size());
+        }
+    }
     void one(const OriginalApplicationCommand &v) {
         (*this)(v.operation, v.subject_kind, v.receipt_id.value, v.contribution_id, v.plan,
                 v.principal, v.purpose, v.preview_mode, v.preview_state_token, v.actor_ref,
                 v.decision_ref);
-        if (v.reason) {
-            require(v.reason->size() <= document && v.reason->size() <= UINT32_MAX &&
-                        v.reason->size() < std::string{}.max_size(),
-                    p.error);
-            p.fixed(v.reason->size());
-        }
+        document_text(v.reason);
         one(v.choices);
+    }
+    void one(const ApplicationAudit &v) {
+        (*this)(v.actor_ref, v.decision_ref);
+        document_text(v.reason);
+        one(v.envelope);
     }
     // ACCESS-011 and graph DTOs keep their owning structural optional charges.
     void one(const StoredPermissionGraph &v) { p(v); }

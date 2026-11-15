@@ -34,7 +34,7 @@ std::string head_configuration(const SqliteWorkSession &s, const ReferenceRuntim
          "FROM subathon_app_head h LEFT JOIN subathon_app_states s ON s.token=h.token LIMIT 1",
          {}});
     if (meta.empty())
-        refuse(ReferenceGate::not_ready, "reference.runtime-unavailable.v1");
+        refuse(l, ReferenceGate::not_ready, "reference.runtime-unavailable.v1");
     data(meta.size() == 1 && meta[0][0].toString() == "blob");
     require(meta[0][1].toULongLong() <= l.values.reference_bytes, Error::result_limit);
     auto row = s.execute({"SELECT s.configuration_ref FROM subathon_app_head h JOIN "
@@ -54,7 +54,7 @@ ResolvedAccountSession authenticate_session(const SqliteWorkSession &s,
     if (bridge.failure)
         std::rethrow_exception(bridge.failure);
     if (!std::holds_alternative<ResolvedAccountSession>(resolved))
-        refuse(ReferenceGate::denied, "reference.access-denied.v1");
+        refuse(l, ReferenceGate::denied, "reference.access-denied.v1");
     return std::get<ResolvedAccountSession>(std::move(resolved));
 }
 void authorize(const SqliteWorkSession &s, const SessionLookupRequest &r, bool initial,
@@ -67,12 +67,12 @@ void authorize(const SqliteWorkSession &s, const SessionLookupRequest &r, bool i
     SqlitePermissionGraphUnit graph(s, r.installation_ref, trust, graph_limits);
     auto result = graph.load();
     if (!std::holds_alternative<StoredPermissionGraph>(result))
-        refuse(ReferenceGate::denied, "reference.access-denied.v1");
+        refuse(l, ReferenceGate::denied, "reference.access-denied.v1");
     const auto &g = std::get<StoredPermissionGraph>(result);
     auto m = measure(l.values, Error::result_limit);
     m(g);
     if (initial && (!g.owner.account || *g.owner.account != actor.account_ref))
-        refuse(ReferenceGate::denied, "reference.access-denied.v1");
+        refuse(l, ReferenceGate::denied, "reference.access-denied.v1");
     auto found = std::find_if(g.use.accounts.begin(), g.use.accounts.end(),
                               [&](const auto &a) { return a.account == actor.account_ref; });
     data(found != g.use.accounts.end());
@@ -95,7 +95,7 @@ void authorize(const SqliteWorkSession &s, const SessionLookupRequest &r, bool i
     p(input);
     if (core::evaluate_effective_permission(input, l.authority.permissions).data().outcome !=
         core::PermissionOutcome::permit)
-        refuse(ReferenceGate::denied, "reference.access-denied.v1");
+        refuse(l, ReferenceGate::denied, "reference.access-denied.v1");
 }
 void authenticate(const SqliteWorkSession &s, const SessionLookupRequest &r, bool initial,
                   CurrentSessionClock &clock, const std::string &timer,
@@ -159,15 +159,15 @@ ReferenceIntake::make_initial_work(const ReferenceInitialRequest &r,
             if (r.timer.lifecycle != core::TimerLifecycle::Active ||
                 r.timer.phase != core::CountdownPhase::Main || r.timer.main_remaining_ms <= 0 ||
                 r.timer.awaiting_confirmation)
-                refuse(ReferenceGate::not_ready, "reference.runtime-unavailable.v1");
+                refuse(limits_, ReferenceGate::not_ready, "reference.runtime-unavailable.v1");
             SqliteApplicationBundleStore store(s, bundle_limits(limits_));
             if (store.read_state())
-                refuse(ReferenceGate::conflict, "reference.initial-conflict.v1");
+                refuse(limits_, ReferenceGate::conflict, "reference.initial-conflict.v1");
             auto sample = borrow([&] { return clock_.sample(); });
             auto m = measure(limits_.values, Error::result_limit);
             m(sample);
             if (auto u = std::get_if<ReferenceUnavailable>(&sample))
-                throw Refuse{*u};
+                refuse(limits_, *u);
             auto time = std::get<ReferenceClockSample>(sample);
             ReferenceCommittedState state{{r.state_token,
                                            {std::string(state_format), QByteArray("", 0)},
@@ -194,10 +194,10 @@ ReferenceIntake::make_initial_work(const ReferenceInitialRequest &r,
                                          {}});
             if (retained == RetainDisposition::conflict ||
                 retained == RetainDisposition::missing_reference)
-                refuse(ReferenceGate::conflict, "reference.collision.v1");
+                refuse(limits_, ReferenceGate::conflict, "reference.collision.v1");
             if (store.retain_initial_state(state.snapshot) !=
                 SqliteBundleInitialDisposition::inserted)
-                refuse(ReferenceGate::conflict, "reference.initial-conflict.v1");
+                refuse(limits_, ReferenceGate::conflict, "reference.initial-conflict.v1");
             s.commit();
             return QVariant::fromValue(anchor);
         },
@@ -226,14 +226,14 @@ ReferenceIntake::make_receipt_work(const std::string &ref, const ReferenceSynthe
             auto cfg = admitted_config(configuration_, ref, limits_);
             live(s, runtime_, limits_);
             if (head_configuration(s, limits_) != ref)
-                refuse(ReferenceGate::not_ready, "reference.runtime-unavailable.v1");
+                refuse(limits_, ReferenceGate::not_ready, "reference.runtime-unavailable.v1");
             data(cfg.synthetic_origin == connector_.origin &&
                  cfg.receipt_namespace == connector_.identifier_namespace);
             auto sampled = borrow([&] { return clock_.sample(); });
             auto m = measure(limits_.values, Error::result_limit);
             m(sampled);
             if (auto u = std::get_if<ReferenceUnavailable>(&sampled))
-                throw Refuse{*u};
+                refuse(limits_, *u);
             auto time = std::get<ReferenceClockSample>(sampled);
             auto context = draw(entropy_, "RCT1", limits_);
             auto event = context;
@@ -247,11 +247,11 @@ ReferenceIntake::make_receipt_work(const std::string &ref, const ReferenceSynthe
             auto rc =
                 retained.retain({{RetainedKind::configuration, ref}, config_doc.document, {}});
             if (rc != RetainDisposition::inserted && rc != RetainDisposition::already_present)
-                refuse(ReferenceGate::conflict, "reference.collision.v1");
+                refuse(limits_, ReferenceGate::conflict, "reference.collision.v1");
             if (retained.retain({{RetainedKind::arrival_context, context},
                                  arrival_doc.document,
                                  ConfigurationReference{ref}}) != RetainDisposition::inserted)
-                refuse(ReferenceGate::conflict, "reference.collision.v1");
+                refuse(limits_, ReferenceGate::conflict, "reference.collision.v1");
             core::ReceiptInput in{
                 {connector_.origin, connector_.identifier_namespace, input.event_id},
                 {"synthetic.reference.support.v1", 1, input.source_utc_ms, {}, {}, {}, {}, {}},
@@ -359,7 +359,7 @@ ReferenceIntake::make_capture_work(core::ReceiptId id, core::ContributionId cid,
                                     original.identity};
             if (auto old = captures.find(key)) {
                 if (old->receipt_id != id || old->contribution_id != cid)
-                    refuse(ReferenceGate::conflict, "reference.collision.v1");
+                    refuse(limits_, ReferenceGate::conflict, "reference.collision.v1");
                 project(*old);
                 s.commit();
                 return QVariant::fromValue(*old);
@@ -381,7 +381,7 @@ ReferenceIntake::make_capture_work(core::ReceiptId id, core::ContributionId cid,
                 borrow([&] { return configuration_.snapshot(a.configuration.configuration_ref); });
             auto evaluated = evaluate_reference_rule(a, complete, limits_.values);
             if (auto u = std::get_if<ReferenceUnavailable>(&evaluated))
-                throw Refuse{*u};
+                refuse(limits_, *u);
             auto rule = std::get<ReferenceRuleEvaluation>(evaluated);
             auto bound = measure(limits_.values, Error::result_limit);
             bound(plan, a.event_ref, a.event_ref, id, original.identity, original.facts,
@@ -427,16 +427,16 @@ ReferenceIntake::make_capture_work(core::ReceiptId id, core::ContributionId cid,
             project(value);
             if (SqliteApplicationPlanStore(s).retain_initial(plan, revision) !=
                 SqlitePlanInitialDisposition::inserted)
-                refuse(ReferenceGate::conflict, "reference.collision.v1");
+                refuse(limits_, ReferenceGate::conflict, "reference.collision.v1");
             auto doc = encode_reference_execution(binding, limits_.values);
             if (SqliteRetainedContextStore(s, retained_limits(limits_))
                     .retain({{RetainedKind::arrival_context, execution},
                              doc.document,
                              ConfigurationReference{a.configuration.configuration_ref}}) !=
                 RetainDisposition::inserted)
-                refuse(ReferenceGate::conflict, "reference.collision.v1");
+                refuse(limits_, ReferenceGate::conflict, "reference.collision.v1");
             if (captures.retain_initial(value) != ReferenceCaptureRetainDisposition::inserted)
-                refuse(ReferenceGate::conflict, "reference.collision.v1");
+                refuse(limits_, ReferenceGate::conflict, "reference.collision.v1");
             s.commit();
             return QVariant::fromValue(value);
         },
@@ -469,7 +469,7 @@ ReferenceIntake::make_snapshot_work(const SessionLookupRequest &r,
             (void)retained_config(s, configuration_, ref, limits_);
             auto decoded = decode_reference_state(*head, limits_.values);
             if (!active(*head))
-                refuse(ReferenceGate::not_ready, "reference.runtime-unavailable.v1");
+                refuse(limits_, ReferenceGate::not_ready, "reference.runtime-unavailable.v1");
             ReferenceSnapshot snapshot{decoded, cfg.maximum_main_ms};
             project(snapshot);
             s.commit();

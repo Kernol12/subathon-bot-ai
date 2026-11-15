@@ -63,21 +63,25 @@ Bounded third/fourth test corrections were owner-approved; no fifth authorized.
   Fresh154/154,137directinvocations+4hooks, ASan/UBSan (leaks off) and hosted7/7
   pass at that source; none waives the rejection.
 
-**STOP: owner decision required before implementation round3.** Both authorized
-source fix rounds are used; no third source round or fifth baseline correction is
-authorized. [Unapplied bounded proposal](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6896336588): measure every audit-reason occurrence as
-document DATA with complete owning charges, and preflight all intake refusal
-construction/copies/fallbacks while preserving actual writer truth and diagnostic
-omission. No source change for that round has been applied. No product-policy
-decision has otherwise been identified. PR653 is draft/unmerged;562 stays open.
+[Owner approved ONE bounded third source round](https://github.com/Kernol12/subathon-bot-ai/issues/562#issuecomment-6896696424),
+accepting the [published proposal](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6896336588).
+At this publication that round applies audit-reason document measurement to both
+command and persisted audit, preserving every field/charge/optional/equality rule.
+All intake literal/forwarded refusals and result-limit fallback are projected before
+owning their reasons. An over-limit refusal carries no owned diagnosis and retains
+the same real rollback/error; the complete wrapper remains separately bounded.
+Tests/public contracts are unchanged. Root full154/154, exact137directinvocations
+plus4hooks, real4096/4097 commit/settle/journal/disclosure and refusal-limit controls,
+strict compilation, format/project/diff checks pass. New independent reviews and
+hosted CI must bind to the actual new source; old green checks grant no approval.
 
-Only after approval and fixes: NEW independent WHOLE Codex verification, NEW fresh
-WHOLE Claude closing, one final proof/policy commit, both-stage publication
-validation, current required CI, protected merge/read-back, close562 and STOP.
-Preserve all rejections. This checkpoint-only amendment changes no source, test,
-contract or CI; its own CI is separate from the green reviewed source above.
-The latest verifier is complete without child work; no owned delegate is running.
-Unwatch653 before owner handback; do not start a downstream task while waiting.
+Next: NEW independent WHOLE Codex verification, NEW fresh WHOLE Claude closing,
+one final proof/policy commit, both-stage publication validation, current required
+CI, protected merge/read-back, close562 and STOP. Preserve every rejection. No
+fourth implementation round or fifth baseline correction is authorized; stop and
+ask if needed. PR653 remains draft/unmerged;562 stays open. No other product-policy
+decision has been identified. Verify actual delegate/watch state before handback;
+unwatch653 and start no downstream task while waiting for an owner decision.
 
 ## Capability map and constraints for a later coordinator
 

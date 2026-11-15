@@ -7,9 +7,33 @@
 namespace subathon::server::reference_intake_detail {
 using namespace reference_runtime_detail;
 struct Refuse {
-    ReferenceUnavailable value;
+    std::optional<ReferenceUnavailable> value;
 };
-[[noreturn]] inline void refuse(ReferenceGate g, const char *reason) { throw Refuse{{g, reason}}; }
+inline ReferenceUnavailable bounded_refusal(const ReferenceRuntimeLimits &l, ReferenceGate gate,
+                                            std::string_view reason,
+                                            std::uint64_t wrapper_bytes = 0) {
+    auto p = measure(l.values, Error::result_limit);
+    p.p.fixed(wrapper_bytes);
+    p(gate, reason);
+    return {gate, std::string(reason)};
+}
+[[noreturn]] inline void refuse(const ReferenceRuntimeLimits &l, ReferenceGate gate,
+                                std::string_view reason) {
+    // A refusal remains a known rollback even when its diagnostic cannot fit.
+    // Never create the oversized reason or substitute a different diagnosis.
+    std::optional<ReferenceUnavailable> value;
+    try {
+        value = bounded_refusal(l, gate, reason);
+    } catch (const ReferenceInputFailure &e) {
+        if (e.code() != Error::result_limit)
+            throw;
+    }
+    throw Refuse{std::move(value)};
+}
+[[noreturn]] inline void refuse(const ReferenceRuntimeLimits &l,
+                                const ReferenceUnavailable &value) {
+    refuse(l, value.gate, value.reason_ref);
+}
 struct Cleanup {
     SqliteWorkSession session;
     bool owned = true;
@@ -37,7 +61,7 @@ inline ReferenceConfiguration admitted_config(ReferenceConfigurationSource &sour
     auto r = borrow([&] { return source.snapshot(ref); });
     auto a = admit_reference_configuration(ref, r, l.values);
     if (auto u = std::get_if<ReferenceUnavailable>(&a))
-        throw Refuse{*u};
+        refuse(l, *u);
     return std::get<ReferenceAdmittedConfiguration>(std::move(a)).configuration;
 }
 inline ReferenceConfiguration retained_config(const SqliteWorkSession &s,
@@ -48,7 +72,7 @@ inline ReferenceConfiguration retained_config(const SqliteWorkSession &s,
     auto row =
         SqliteRetainedContextStore(s, retained_limits(l)).find({RetainedKind::configuration, ref});
     if (!row)
-        refuse(ReferenceGate::not_ready, "reference.configuration-unavailable.v1");
+        refuse(l, ReferenceGate::not_ready, "reference.configuration-unavailable.v1");
     auto decoded = decode_reference_configuration(
         {"subathon.reference.configuration.v1", row->document}, l.values);
     data(!row->configuration && reference_detail::same(decoded, cfg));
@@ -122,13 +146,13 @@ inline ContributionReceipt receipt(const SqliteWorkSession &s, core::ReceiptId i
 inline void live(const SqliteWorkSession &s, ReferenceApplicationAdapters *runtime,
                  const ReferenceRuntimeLimits &l) {
     if (!runtime)
-        refuse(ReferenceGate::not_ready, "reference.runtime-unavailable.v1");
+        refuse(l, ReferenceGate::not_ready, "reference.runtime-unavailable.v1");
     auto head = SqliteApplicationBundleStore(s, bundle_limits(l)).read_state();
     if (!head)
-        refuse(ReferenceGate::not_ready, "reference.runtime-unavailable.v1");
+        refuse(l, ReferenceGate::not_ready, "reference.runtime-unavailable.v1");
     auto r = runtime->current(*head);
     if (auto u = std::get_if<ReferenceUnavailable>(&r))
-        throw Refuse{*u};
+        refuse(l, *u);
 }
 inline std::string draw(ReferenceEntropy &entropy, std::string_view domain,
                         const ReferenceRuntimeLimits &l) {
@@ -137,7 +161,7 @@ inline std::string draw(ReferenceEntropy &entropy, std::string_view domain,
     auto p = measure(l.values, Error::result_limit);
     p.p.fixed(41);
     if (e.error != ReferenceEntropyError::none || e.received != 32)
-        refuse(ReferenceGate::not_ready, "reference.entropy.v1");
+        refuse(l, ReferenceGate::not_ready, "reference.entropy.v1");
     std::string out(domain);
     out.append(reinterpret_cast<const char *>(e.bytes.data()), 32);
     return out;
@@ -220,7 +244,9 @@ pair(const ReferenceRuntimeLimits &l, std::shared_ptr<std::atomic<std::uint64_t>
                     auto p = measure(l.values, Error::result_limit);
                     try {
                         p.p.fixed(3 + presences);
-                        p(r.value);
+                        if (!r.value)
+                            return {};
+                        p(*r.value);
                         state->diagnosis = r.value;
                     } catch (const ReferenceInputFailure &) {
                     }
@@ -230,12 +256,9 @@ pair(const ReferenceRuntimeLimits &l, std::shared_ptr<std::atomic<std::uint64_t>
                         throw;
                     session.rollback();
                     try {
-                        auto p = measure(l.values, Error::result_limit);
-                        p.p.fixed(3 + presences);
-                        ReferenceUnavailable u{ReferenceGate::not_ready,
-                                               "reference.result-limit.v1"};
-                        p(u);
-                        state->diagnosis = std::move(u);
+                        state->diagnosis =
+                            bounded_refusal(l, ReferenceGate::not_ready,
+                                            "reference.result-limit.v1", 3 + presences);
                     } catch (const ReferenceInputFailure &) {
                     }
                     return {};
