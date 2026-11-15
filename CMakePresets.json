@@ -354,6 +354,15 @@
         "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
         "SUBATHON_ACCEPTANCE_SUITES": "sqlite-reference-authority"
       }
+    },
+    {
+      "name": "dev-server-debug",
+      "displayName": "Development server executable acceptance",
+      "inherits": "base",
+      "cacheVariables": {
+        "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
+        "SUBATHON_ACCEPTANCE_SUITES": "dev-server"
+      }
     }
   ],
   "buildPresets": [
@@ -508,6 +517,10 @@
     {
       "name": "sqlite-reference-authority-debug",
       "configurePreset": "sqlite-reference-authority-debug"
+    },
+    {
+      "name": "dev-server-debug",
+      "configurePreset": "dev-server-debug"
     }
   ],
   "testPresets": [
@@ -891,6 +904,21 @@
       "configurePreset": "sqlite-reference-authority-debug",
       "output": {
         "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error"
+      }
+    },
+    {
+      "name": "dev-server-debug",
+      "configurePreset": "dev-server-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "filter": {
+        "include": {
+          "label": "^dev-server$"
+        }
       },
       "execution": {
         "noTestsAction": "error"

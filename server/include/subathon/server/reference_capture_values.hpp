@@ -6,6 +6,7 @@
 #include <optional>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <subathon/core/receipt.hpp>
 #include <subathon/core/timer_lifecycle.hpp>
 #include <subathon/server/application_service.hpp>
@@ -135,4 +136,9 @@ encode_reference_initial_capture(const ReferenceInitialCapture &,
                                  const ReferenceAdapterLimits & = {});
 [[nodiscard]] ReferenceInitialCapture
 decode_reference_initial_capture(const ApplicationEnvelope &, const ReferenceAdapterLimits & = {});
+// SRF1 command choice naming an acknowledged capture's execution context
+// (CONTRACT-014 "command choice"). Structural framing only: no admission or authority.
+[[nodiscard]] ApplicationEnvelope
+encode_reference_execution_ref(std::string_view execution_context_ref,
+                               const ReferenceAdapterLimits & = {});
 } // namespace subathon::server

@@ -5,7 +5,8 @@ Specification version: 0.45
 GitHub owns planning; pull requests own review receipts. The old tracker is retained
 under the owner-authorized historical disposition, without re-verification.
 
-There is no runnable server yet: the only executable is the scaffold. The current
+The development walking skeleton runs one timer and synthetic contributions through
+the reference path; the production server host remains unimplemented. The current
 priority is a vertical slice that starts the server, runs one timer and accepts one
 fake contribution (see the [checkpoint](../progress/coordinator-checkpoint.md)).
 

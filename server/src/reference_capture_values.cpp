@@ -700,4 +700,33 @@ ReferenceInitialCapture decode_reference_initial_capture(const ApplicationEnvelo
             outer(v, l, initial_format), l, reference_capture_detail::BodyBounds::public_input);
     });
 }
+ApplicationEnvelope encode_reference_execution_ref(std::string_view ref,
+                                                   const ReferenceAdapterLimits &l) {
+    return allocation_boundary([&] {
+        validate_limits(l);
+        if (ref.size() > l.reference_bytes || ref.size() > maximum_frame ||
+            ref.size() >= std::string{}.max_size())
+            fail(Error::input_limit);
+        Size input(l.value_owned_bytes, Error::input_limit);
+        input.add(ref.size());
+        if (ref.empty())
+            fail(Error::invalid_reference);
+        constexpr std::string_view format = "subathon.reference.execution-ref.v1";
+        const auto write = [&](auto &sink) {
+            sink.bytes("SRF1");
+            blob(sink, ref);
+        };
+        Sizing projected(l.document_bytes);
+        write(projected);
+        if (format.size() > l.reference_bytes || format.size() >= std::string{}.max_size() ||
+            projected.get() >= std::uintmax_t(QByteArray::maxSize()))
+            fail(Error::result_limit);
+        Size complete(l.value_owned_bytes, Error::result_limit);
+        complete.add(format.size());
+        complete.add(projected.get());
+        Writer writer(projected.get());
+        write(writer);
+        return ApplicationEnvelope{std::string(format), std::move(writer).finish()};
+    });
+}
 } // namespace subathon::server
