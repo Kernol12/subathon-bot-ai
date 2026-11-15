@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "support/reference_rule_fixture.hpp"
+#include "support/sqlite_test_support.hpp"
 #include <limits>
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
 using namespace reference_rule_fixture;
@@ -59,6 +60,8 @@ void initial_state(Store &d) {
 class ReferenceRuleAuthorityTests final : public QObject {
     Q_OBJECT
   private slots:
+    void initTestCase() { qt_test_support::fail_on_sql_warnings(); }
+    void init() { qt_test_support::fail_on_sql_warnings(); }
     void admissionRequiresCompleteOwningFactsAndReturnsDerivedSubset() {
         scenario([] {
             const auto r = admit_reference_configuration("C", configuration_facts());

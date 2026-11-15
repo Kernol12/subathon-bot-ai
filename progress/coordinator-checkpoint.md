@@ -70,7 +70,10 @@ Owner decisions are recorded in #249, comment 6879902355:
   SQL/refusal oracles and adds distrust/shared-identity coverage. Four unconditional
   NI APIs remain;11 GoogleTest cases/22 Qt slots. Fresh compile/link60/60 and
   name-only listing/static checks pass. No bodies, providers, intended red or
-  implementation run. Separate Codex verification and fresh Claude closing pending;
+  implementation run. Whole-stage Codex verification approvedd24598ac, no blockers;
+  R6-V01 noted missing shared SQL-warning hooks. Coordinator fix round2 of2 adds
+  only the direct helper include/initTestCase/init hooks; assertions unchanged.
+  Changed-part Codex verification and fresh whole-stage Claude closing pending;
   shared integration patch remains unapplied and all test source local/unpushed.
   Production full-configuration loading/concrete ports stay #562; supplied complete
   config DATA is a fixture, while current-authority composition uses real stores.
@@ -83,8 +86,8 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Obtain independent Codex verification and fresh Claude closing after initial
-changes requested and coordinator fix round1 for the WHOLE RULES-006 revision2
+Obtain changed-part Codex verification for warning-policy fix round2, then fresh
+whole-stage Claude closing after whole-stage Codex approval atd24598ac. RULES-006 revision2
 server header/examples (pure header1) and11 pure/22 Qt tests, including
 actual setup/oracles, full admission, current-authority distrust/revocation,
 resource/error priority and overflow composition. No bodies/data providers, CTest,
