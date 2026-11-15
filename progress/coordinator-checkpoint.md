@@ -95,7 +95,8 @@ Owner decisions are recorded in #249, comment 6879902355:
   posted6892590521. NEW independent Codex verification and fresh WHOLE Claude
   closing APPROVED2154964a:B18/B01 RP05 authored-oracle objections resolved, no
   blockers. N11 duplicate consistency and N12 bounded direct-issue spent set remain
-  mandatory implementation-audit notes, not test edits. Fourth round NOT authorized.
+  mandatory implementation-audit notes, not test edits. At that stage no fourth
+  round had been authorized.
   Root opt-in CMake integration built154steps/no warnings; approved12hashes unchanged.
   Tests review closed2154964a. Integrated sourcefe14d2bb actually ran137 new rows:
   135 exact first-NI failures,2 pre-NI SQL SETUP failures,4 passing hooks,0 skips/
@@ -106,16 +107,33 @@ Owner decisions are recorded in #249, comment 6879902355:
   record6893032140. Root applied the prepared two-function patch:identical trigger
   DDL now installed through idle Observer with schema checks, as old service tests.
   All following assertions/fault predicates unchanged. Incremental6step compile/link,
-  strict syntax/static and83 name-only listings pass; no corrected bodies/hooks/data
-  providers reran. NEW independent Codex verification/WHOLE Claude closing are next
-  before complete classified red. A fifth round is NOT authorized.
-  All earlier review/example artifacts remain preserved.
-  All22 APIs remain NI; later assertions after each first NI remain unobserved. Existing
-  upstream assertions/files stay frozen.
-  No outside prerequisite or owner product decision was identified. Service/SAS1 extraction, consumer
-  refactoring and shared build proposal remain unapplied coordinator-owned work.
-  Both stages tier A; no test body before full tests review, no implementation before
-  observed intended red. Full #249/API010/recovery/host/live/process boundaries stay.
+  strict syntax/static and83 name-only listings pass. NEW independent Codex
+  verification and fresh WHOLE Claude closing APPROVED exactd7155b42, including
+  opt-in CMake registration. All8 review receipts and historical rejections remain
+  preserved. A fifth test-correction round is NOT authorized.
+  Root then actually reran both corrected suites atd7155b42:137/137 exact expected
+  first-NI failures,4 passing hooks,0 setup failures/skips/Qt warnings; all83 methods
+  and69 parameter rows discovered, all22 distinct APIs witnessed. Both repaired
+  setups reached their intended NI. Original135NI+2setup evidence is unchanged.
+  Dependency CTest rerun152/152 passes,0 skips. Complete intended-red gate is met;
+  later assertions after each first NI remain unobserved and all22 APIs remain NI.
+  No outside prerequisite or owner product decision was identified. Next is ONE
+  DIFFERENT fresh implementation session, then its full Tier A review cycle.
+  Temporary implementation ownership: three new reference_configuration/intake/
+  runtime.cpp sources; necessary private representation/includes only in their
+  three headers; new private server/src/reference_*_internal or
+  application_state_codec_internal helpers; existing application_service.cpp ONLY
+  for bounded shared SAS1 extraction with old wrappers/bytes/error behavior intact;
+  reference_application.cpp ONLY for sharing unchanged authority validation through
+  private helpers. No existing public API/contract or test/fixture/oracle changes.
+  Small server/CMakeLists.txt source-list additions for those existing libraries
+  are temporarily assigned if required; root retains options/registration/CI/pins,
+  migrations/checkpoint/publication/proof. No competing writer is assigned.
+  Mandatory audits include B04 dual SAS1 echoes, N11 full duplicate-completion
+  consistency, N12 bounded spent sets, preallocation/nested limits/selected SQL,
+  original writer ownership/errors, current whole authority and journal lifetimes.
+  No implementation approval, proof or merge exists. Full #249/API010/recovery/
+  host/live/process boundaries stay.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 shipped under #649; all compiled prefix bytes remain frozen.
   Full #249 integration remains open. No new migration or other product writer is assigned;
@@ -125,8 +143,9 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Obtain NEW independent Codex verification of the explicitly approved fourth fixture-
-only correction, then NEW fresh WHOLE Claude closing before rerunning classified
-red. Preserve prior135validNI+2setup failures,152/152 regression pass and every
-review/approval/source artifact. No implementation/downstream work before full red;
-no fifth round, scope expansion or premature proof. Root owns shared publication.
+Publish the closed tests stage and classified137NI/152-regression evidence in a
+focused draft PR, preserving all8 review receipts and original135NI+2setup history.
+Assign ONE DIFFERENT fresh API-011 implementation session with the temporary file
+ownership above. Keep tests and public contracts fixed, obtain full Tier A source
+reviews/checks, then final-head CI/proof/protected merge. No fifth test round, scope
+expansion, downstream task or premature proof. Root owns shared publication.
