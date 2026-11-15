@@ -899,6 +899,111 @@ class ReferenceRuleAuthorityTests final : public QObject {
                     "One durable whole-input hold");
         });
     }
+    // Supplemental R6-I01/I02 regressions; original 22 methods remain unchanged.
+    void callerAuthorityLimitsKeepInputErrorsBeforeCallbackAndSources_data() {
+        QTest::addColumn<int>("profile");
+        QTest::newRow("authority-result-bytes-zero") << 0;
+        QTest::newRow("permission-input-items-zero") << 1;
+        QTest::newRow("graph-rows-zero") << 2;
+        QTest::newRow("invalid-adapter-control") << 3;
+        QTest::newRow("valid-limits-expired-view-control") << 4;
+    }
+    void callerAuthorityLimitsKeepInputErrorsBeforeCallbackAndSources() {
+        QFETCH(int, profile);
+        scenario([&] {
+            ReferenceAdapterLimits adapter;
+            ReferenceAuthorityLimits authority;
+            if (profile == 0)
+                authority.result_bytes = 0;
+            else if (profile == 1)
+                authority.permissions.input_items = 0;
+            else if (profile == 2)
+                authority.graph.rows = 0;
+            else if (profile == 3)
+                adapter.value_items = 0;
+            ConfigData config;
+            Source source;
+            bool caught = false;
+            try {
+                (void)check_reference_execution({}, command(), config, source, adapter, authority);
+            } catch (const ReferenceAuthorityInputFailure &e) {
+                require(profile < 3 && e.code() == ReferenceAuthorityFailure::invalid_data,
+                        "Caller authority limits preserve their imported input-error type/code");
+                caught = true;
+            } catch (const ReferenceInputFailure &e) {
+                require(profile == 3 && e.code() == ReferenceInputError::invalid_limits,
+                        "Invalid adapter limits retain their own input boundary");
+                caught = true;
+            } catch (const ApplicationReferenceViewFailure &e) {
+                require(profile == 4 &&
+                            e.error() == ApplicationReferenceViewError::expired_callback,
+                        "Valid limits reach the original default-view lifetime failure");
+                caught = true;
+            }
+            require(
+                caught && config.loaded.empty() && source.calls == 0 && !source.observed,
+                "Exact failure before configuration or authority callbacks; no DATA corruption");
+        });
+    }
+    void temporaryCommandEnvelopeFitsEverySelectedBudgetBeforeSources_data() {
+        QTest::addColumn<quint64>("value_bytes");
+        QTest::addColumn<quint64>("document_bytes");
+        QTest::addColumn<quint64>("reference_bytes");
+        QTest::addColumn<bool>("long_operation");
+        QTest::addColumn<bool>("permit");
+        const ReferenceAdapterLimits defaults;
+        // SAC1 grammar: long command semantic B2085/I1, body2121, format40,
+        // complete envelope B2161/I0. No encoder output supplies these oracles.
+        QTest::newRow("complete-value-exact") << quint64{2161} << quint64{defaults.document_bytes}
+                                              << quint64{defaults.reference_bytes} << true << true;
+        QTest::newRow("complete-value-one-less")
+            << quint64{2160} << quint64{defaults.document_bytes}
+            << quint64{defaults.reference_bytes} << true << false;
+        QTest::newRow("semantic-input-only-budget")
+            << quint64{2085} << quint64{defaults.document_bytes}
+            << quint64{defaults.reference_bytes} << true << false;
+        QTest::newRow("document-exact") << quint64{defaults.value_owned_bytes} << quint64{2121}
+                                        << quint64{defaults.reference_bytes} << true << true;
+        QTest::newRow("document-one-less") << quint64{defaults.value_owned_bytes} << quint64{2120}
+                                           << quint64{defaults.reference_bytes} << true << false;
+        QTest::newRow("format-reference-exact")
+            << quint64{defaults.value_owned_bytes} << quint64{defaults.document_bytes}
+            << quint64{40} << false << true;
+        QTest::newRow("format-reference-one-less")
+            << quint64{defaults.value_owned_bytes} << quint64{defaults.document_bytes}
+            << quint64{39} << false << false;
+    }
+    void temporaryCommandEnvelopeFitsEverySelectedBudgetBeforeSources() {
+        QFETCH(quint64, value_bytes);
+        QFETCH(quint64, document_bytes);
+        QFETCH(quint64, reference_bytes);
+        QFETCH(bool, long_operation);
+        QFETCH(bool, permit);
+        scenario([&] {
+            Store d;
+            Ports p;
+            auto c = command();
+            if (long_operation)
+                c.operation.operation_ref.assign(2000, 'p');
+            p.adapter_limits.value_owned_bytes = value_bytes;
+            p.adapter_limits.document_bytes = document_bytes;
+            p.adapter_limits.reference_bytes = reference_bytes;
+            p.attempt(d, c);
+            if (permit) {
+                allowed(p);
+                require(p.source.calls == 1 && p.config.loaded == std::vector<std::string>{"C"},
+                        "Exact-fit envelope reaches actual fresh current authority");
+            } else {
+                require(p.decision &&
+                            std::holds_alternative<ApplicationAccessUnknown>(*p.decision) &&
+                            !p.witness && p.config.loaded.empty() && p.source.calls == 0 &&
+                            !p.source.observed,
+                        "Temporary envelope overage refuses Unknown before source callbacks");
+            }
+            require(p.policies == 0 && p.clocks == 0 && p.disclosures == 0,
+                    "No protected continuation in this consumer-only fixture");
+        });
+    }
 };
 QTEST_GUILESS_MAIN(ReferenceRuleAuthorityTests)
 #include "reference_rule_authority_tests.moc"

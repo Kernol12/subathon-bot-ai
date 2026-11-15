@@ -70,11 +70,20 @@ Owner decisions are recorded in #249, comment 6879902355:
   pass, zero skips/warnings; LSan unavailable under ptrace. Frozen5 header/test/fixture
   hashes unchanged. Coordinator integrated two sources; focused12/12 and exact new
   CI gate pass locally. Promoted new labels to ordinary acceptance and selected the
-  suite in existing Qt CI; job names/dependency pins remain. Full independent tier A
-  implementation review/R6-T10 source audit pending, round0. R6-C01/C02 nonblocking.
-  Prior baseline hosted core/native failed APT setup before compilation; no green
-  or bypass claimed. New-head CI is required. Public contracts/tests/producers/
-  migrations remain frozen; actual full configuration loader/ports stay #562.
+  suite in existing Qt CI; job names/dependency pins remain. Fresh Claude whole-stage
+  initial implementation review approved8ee6d22e, no blockers; receipt6889484208.
+  Codex whole implementation verification at8ee6d22e requested changes;
+  R6-I01 caller-option error truth and R6-I02 transient envelope budget are BLOCKERS,
+  receipt6889616240. Initial approval remains preserved; code fix round0 of2.
+  Root authored supplemental server header3 clarification and2 additive Qt families,
+  12 new rows, preserving all original22 methods and production source bytes.
+  Compile/link and name-only24method listing/static arithmetic pass; no providers,
+  bodies, -datatags, CTest/red or production fix run for this supplement. Source-counted
+  total34 invocations+2hooks is unobserved. Supplemental Tier A tests review next.
+  Existing baseline two test fix rounds stay exhausted; no assertion correction.
+  R6-I03/I04 and R6-C01/C02 remain nonblocking; #562 retains submission/full ports.
+  Remote8ee required CI7/7 SUCCESS remains historical current-remote evidence only;
+  local supplement stays unpushed. No proof or merge while blockers remain.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 shipped under #649; all compiled prefix bytes remain frozen.
   Full #249 integration remains open. No new migration or other product writer is assigned;
@@ -84,10 +93,10 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Publish the integrated RULES-006 implementation/CI candidate to draft PR #652,
-then obtain fresh Claude initial whole-implementation review, separate Codex
-verification and fresh Claude closing, including R6-T10 resource/error audit and
-coordinator build/CI changes. No merge before those gates, current required CI and
-single proof/publication commit. Preserve all test history and assertions. Root
-owns shared CMake/CI/checkpoint/proof; full configuration loader/adapters remain
-#562. No pure-only completion, authority shortcut, tooling or live effects.
+Obtain supplemental Tier A contract/tests Claude initial, separate Codex verification
+and fresh Claude closing before executing the12 new rows. Then observe valid red
+against unchanged8ee production and fix both blockers (implementation round1 of2),
+followed by whole Codex re-verification and fresh Claude closing. Keep supplement
+local until reviewed/red; root owns CI inventory updates after approval. All original
+assertions, producers/migrations, owner scope and full#562 boundaries remain.
+Current CI, single proof/publication commit and protected merge are still required.

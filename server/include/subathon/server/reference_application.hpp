@@ -4,7 +4,7 @@
 #include <subathon/server/sqlite_reference_authority.hpp>
 
 namespace subathon::server {
-// RULES-006 public-header contract revision 2, CONTRACT-014 sections1/4.
+// RULES-006 public-header contract revision 3, CONTRACT-014 sections1/4.
 // Imported capture/authority types and their limits are not redefined here.
 enum class ReferenceGate : std::uint8_t { not_ready, unsupported_configuration, denied, conflict };
 struct ReferenceUnavailable {
@@ -114,6 +114,12 @@ evaluate_reference_rule(const ReferenceArrivalCapture &, const ReferenceConfigur
 // clock/actions/entropy adapters remain #562. Borrow dependencies synchronously,
 // no caching, writes, nested work, connection/session/SQL/network or public permits.
 // Command service preflight uses ApplicationServiceLimits defaults additionally.
+// Caller authority/nested limits are validated before source-error translation or
+// callback access; their ReferenceAuthorityInputFailure is preserved unchanged.
+// The temporary validating ApplicationEnvelope counts format_ref + document bytes
+// against value_owned_bytes (I=0), format_ref against reference_bytes and document
+// against document_bytes. Project all three BEFORE encoder allocation; service
+// defaults apply additionally. An overage returns Unknown before source callbacks.
 // Decode exactly one SRF1, read SRX1/SRA1/SRC1 with exact key/link/format bindings,
 // load complete captured config through trusted source, admit and derive full amount.
 // Validate all command/principal/installation/source/receipt/CID(including0)/plan/
