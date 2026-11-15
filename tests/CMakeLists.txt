@@ -204,3 +204,12 @@ if(SUBATHON_BUILD_SQLITE_ACCOUNT_SESSION_TESTS)
         LIBRARIES subathon_sqlite_account_sessions subathon_sqlite_migrations subathon_session_resolution
         LABELS "sqlite-account-sessions;acceptance;qt;server")
 endif()
+
+if(SUBATHON_BUILD_REFERENCE_RULE_TESTS)
+    add_executable(core_reference_rule_acceptance acceptance/reference_rule_tests.cpp)
+    target_link_libraries(core_reference_rule_acceptance PRIVATE
+        subathon_reference_rule GTest::gtest_main)
+    subathon_target_options(core_reference_rule_acceptance)
+    subathon_discover_gtests(core_reference_rule_acceptance
+        PREFIX "reference-rule." LABELS "reference-rule;acceptance;core;intentional-red" TIMEOUT 30)
+endif()

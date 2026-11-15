@@ -80,3 +80,11 @@ if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
     target_link_libraries(subathon_rate_snapshots PUBLIC subathon_exact_numeric)
     subathon_target_options(subathon_rate_snapshots)
 endif()
+
+# RULES-006 reviewed tests-stage NI surface, opt-in only.
+if(SUBATHON_BUILD_REFERENCE_RULE_TESTS)
+    add_library(subathon_reference_rule STATIC src/reference_rule.cpp)
+    target_include_directories(subathon_reference_rule PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_reference_rule PUBLIC Boost::headers)
+    subathon_target_options(subathon_reference_rule)
+endif()

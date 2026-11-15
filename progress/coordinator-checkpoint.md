@@ -73,8 +73,12 @@ Owner decisions are recorded in #249, comment 6879902355:
   implementation run. Whole-stage Codex verification approvedd24598ac, no blockers;
   R6-V01 noted missing shared SQL-warning hooks. Coordinator fix round2 of2 adds
   only the direct helper include/initTestCase/init hooks; assertions unchanged.
-  Changed-part Codex verification and fresh whole-stage Claude closing pending;
-  shared integration patch remains unapplied and all test source local/unpushed.
+  Changed-part Codex verification and fresh whole-stage Claude closing approved
+  at4202917a, no blockers; R6-V01 resolved. Two tests fix rounds used.
+  Coordinator integrated opt-in reference-rule targets, preserving all7 approved
+  hashes. Target build60/60 passes; full dependency build/registration then actual
+  intended red pending. First CTest discovery required unbuilt dependency targets;
+  that setup failure is not red. All source remains local/unpushed, no PR yet.
   Production full-configuration loading/concrete ports stay #562; supplied complete
   config DATA is a fixture, while current-authority composition uses real stores.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
@@ -86,13 +90,11 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Obtain changed-part Codex verification for warning-policy fix round2, then fresh
-whole-stage Claude closing after whole-stage Codex approval atd24598ac. RULES-006 revision2
-server header/examples (pure header1) and11 pure/22 Qt tests, including
-actual setup/oracles, full admission, current-authority distrust/revocation,
-resource/error priority and overflow composition. No bodies/data providers, CTest,
-red or push before tests review. Coordinator integrates opt-in red build only after
-approval, observes valid red, then assigns a different fresh implementation session
+Complete selected dependency build and registration, then observe valid intended red
+for approved RULES-006 revision2 server header/examples (pure header1),11 pure/22 Qt
+tests. Classify every failure at the actual new NI call; setup/compile failures are
+not red. Preserve R6-C01/C02 as nonblocking notes and R6-T10 source audit for later.
+After valid red, publish the draft PR/receipts and assign a different fresh implementation session
 and separate full tier A source review/proof/protected merge. Existing producers,
 migrations/approved tests remain frozen; full configuration loader/full adapters
 remain #562. No pure-only completion, permission shortcut, tooling or live effects.

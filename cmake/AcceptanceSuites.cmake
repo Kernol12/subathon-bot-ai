@@ -9,7 +9,7 @@ set(subathon_acceptance_suites
     translation-catalog rate-snapshot milestone-progression session-resolution
     password-hashing effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
-    bounded-http-foundation sqlite-permission-graph sqlite-reference-authority)
+    bounded-http-foundation sqlite-permission-graph sqlite-reference-authority reference-rule)
 
 # Existing library/test guards stay private derived variables; callers select the
 # logical suites above instead of maintaining another set of cache switches.
@@ -81,6 +81,8 @@ function(subathon_resolve_acceptance_suites output)
             # Host headers/fixtures need the real store prefix and corrected
             # transport even in the Qt/fake lane. Native retains the Qt baseline.
             list(APPEND selected ${sqlite_chain} native-websocket-profile api-host "${suite}")
+        elseif(suite STREQUAL "reference-rule")
+            list(APPEND selected ${sqlite_chain} exact-numeric effective-permissions sqlite-permission-graph sqlite-reference-authority reference-rule)
         elseif(suite STREQUAL "sqlite-reference-authority")
             list(APPEND selected ${sqlite_chain} exact-numeric effective-permissions sqlite-permission-graph sqlite-reference-authority)
         elseif(suite STREQUAL "sqlite-permission-graph")
