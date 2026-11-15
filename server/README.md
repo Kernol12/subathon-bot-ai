@@ -1,6 +1,6 @@
 # Server module
 
-Qt application services, authoritative command queue, identity/permissions and Qt SQL persistence. Drogon threads bridge to the Qt queue; they never become independent state writers. Version interfaces and migrations before dependent agents. No server application is implemented yet.
+Qt application services, authoritative command queue, identity/permissions and Qt SQL persistence. Drogon threads bridge to the Qt queue; they never become independent state writers. Version interfaces and migrations before dependent agents. The development walking skeleton in `dev/` hosts the reference path; the production server host remains unimplemented.
 
 ACCT-001 implements the framework-free identified-receipt service behind an atomic
 repository port. Its15 reviewed cases pass with a primitive disposable store and

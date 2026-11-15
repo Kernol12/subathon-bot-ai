@@ -345,7 +345,7 @@ jobs:
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server"
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
@@ -636,17 +636,13 @@ jobs:
         run: ctest --preset translation-catalog-debug -L '^translation-catalog$' --no-tests=error --verbose
       - name: Run existing infrastructure checks
         run: ctest --preset translation-catalog-debug -L '^scaffold$' --verbose
-      - name: Configure and build development executable acceptance
-        run: |
-          cmake --preset dev-server-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          cmake --build --preset dev-server-debug
       - name: Verify development executable suite registration
         run: |
           python3 - <<'PYTHON'
           import json
           import subprocess
           discovery = json.loads(subprocess.check_output(
-              ["ctest", "--preset", "dev-server-debug", "--show-only=json-v1"], text=True))
+              ["ctest", "--preset", "sqlite-reference-capture-debug", "--show-only=json-v1"], text=True))
           selected = [t for t in discovery["tests"] if t["name"].startswith("dev-server.")]
           if [t["name"] for t in selected] != ["dev-server.suite"]:
               raise SystemExit("The development executable suite must be discovered")
@@ -659,7 +655,7 @@ jobs:
               raise SystemExit("Development executable results must retain ordinary semantics")
           PYTHON
       - name: Run development executable acceptance
-        run: ctest --preset dev-server-debug -L '^dev-server$' --no-tests=error --verbose
+        run: ctest --preset sqlite-reference-capture-debug -L '^dev-server$' --no-tests=error --verbose
   # Corrected Drogon SDK suites, built once: native WebSocket profile acceptance, then
   # the host lifecycle baseline build against the same sealed SDK and its registration
   # check (intentional red, not run).
