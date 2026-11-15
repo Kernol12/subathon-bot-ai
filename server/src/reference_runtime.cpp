@@ -133,10 +133,22 @@ ReferenceApplicationAdapters::ReferenceApplicationAdapters(
     : configuration_(configuration), authority_(authority), clock_(clock), entropy_(entropy),
       anchor_(std::move(anchor)), limits_(limits) {}
 namespace {
-ReferenceUnavailable runtime_refusal() {
-    return {ReferenceGate::not_ready, "reference.runtime-unavailable.v1"};
+ReferenceUnavailable runtime_refusal(const ReferenceRuntimeLimits &limits,
+                                     std::string_view reason = "reference.runtime-unavailable.v1",
+                                     ReferenceGate gate = ReferenceGate::not_ready,
+                                     bool optional = false) {
+    auto out = measure(limits.values, Error::result_limit);
+    if (optional)
+        out.p.fixed(1);
+    out(gate, reason);
+    return {gate, std::string(reason)};
 }
-ApplicationUnavailable port_refusal() { return {"reference.runtime-unavailable.v1"}; }
+ApplicationUnavailable port_refusal(const ReferenceRuntimeLimits &limits,
+                                    std::string_view reason = "reference.runtime-unavailable.v1") {
+    auto out = service_measure(limits, Error::result_limit);
+    out(reason);
+    return {std::string(reason)};
+}
 void command_input(const OriginalApplicationCommand &c, const ReferenceRuntimeLimits &l) {
     runtime_limits(l);
     auto p = measure(l.values);
@@ -201,12 +213,12 @@ ReferenceApplicationAdapters::current(const ApplicationStateSnapshot &s) const t
     snapshot_input(s, limits_.values);
     thread(owner_);
     if (stopped_ || reconciliation_ || !anchor_)
-        return runtime_refusal();
+        return runtime_refusal(limits_);
     auto cfg = configuration(config_source, s.configuration_ref, limits_.values);
     if (auto u = std::get_if<ReferenceUnavailable>(&cfg))
-        return *u;
+        return runtime_refusal(limits_, u->reason_ref, u->gate);
     if (!active(s) || !bundle_detail::same_state(s, anchor_->committed.snapshot))
-        return runtime_refusal();
+        return runtime_refusal(limits_);
     auto p = measure(limits_.values, Error::result_limit);
     p(anchor_->committed);
     return anchor_->committed;
@@ -237,10 +249,11 @@ ReferenceApplicationAdapters::reserve(const ReferenceCommittedState &head,
         require(same_committed(head, anchor_->committed), Error::invalid_binding);
     auto live = current(head.snapshot);
     if (auto u = std::get_if<ReferenceUnavailable>(&live))
-        return *u;
+        return runtime_refusal(limits_, u->reason_ref, u->gate, true);
     if (pending_.size() >= limits_.pending_reservations ||
         observations_.size() + 1 >= limits_.values.clock_journal_entries)
-        return ReferenceUnavailable{ReferenceGate::not_ready, "reference.journal-capacity.v1"};
+        return runtime_refusal(limits_, "reference.journal-capacity.v1", ReferenceGate::not_ready,
+                               true);
     auto journal = measure(limits_.values, Error::result_limit);
     journal(observations_);
     journal.p.fixed(36);
@@ -250,31 +263,34 @@ ReferenceApplicationAdapters::reserve(const ReferenceCommittedState &head,
     candidate.p.fixed(36 + 8 + 17);
     require(candidate.p.items < candidate.p.item_cap, Error::result_limit);
     if (limits_.values.reference_bytes < 36)
-        return runtime_refusal();
+        return runtime_refusal(limits_, "reference.runtime-unavailable.v1",
+                               ReferenceGate::not_ready, true);
     if (initial_observation_.empty())
         initial_observation_ = anchor_->committed.observation.observation_ref;
     auto sampled = borrow([&] { return clock_.sample(); });
     auto result = measure(limits_.values, Error::result_limit);
     result(sampled);
     if (auto u = std::get_if<ReferenceUnavailable>(&sampled))
-        return *u;
+        return runtime_refusal(limits_, u->reason_ref, u->gate, true);
     const auto sample = std::get<ReferenceClockSample>(sampled);
     if (sample.monotonic_ms < anchor_->sample.monotonic_ms ||
         (anchor_->sample.monotonic_ms < 0 &&
          sample.monotonic_ms > INT64_MAX + anchor_->sample.monotonic_ms))
-        return runtime_refusal();
+        return runtime_refusal(limits_, "reference.runtime-unavailable.v1",
+                               ReferenceGate::not_ready, true);
     auto elapsed = sample.monotonic_ms - anchor_->sample.monotonic_ms;
     if (elapsed >= head.snapshot.timer.main_remaining_ms)
-        return runtime_refusal();
+        return runtime_refusal(limits_, "reference.runtime-unavailable.v1",
+                               ReferenceGate::not_ready, true);
     auto e = borrow([&] { return entropy_.read32(); });
     require(unsigned(e.error) <= 2, Error::invalid_tag);
     if (e.error != ReferenceEntropyError::none || e.received != 32)
-        return ReferenceUnavailable{ReferenceGate::not_ready, "reference.entropy.v1"};
+        return runtime_refusal(limits_, "reference.entropy.v1", ReferenceGate::not_ready, true);
     std::string ref = "RCO1";
     ref.append(reinterpret_cast<const char *>(e.bytes.data()), 32);
     if (ref == initial_observation_ ||
         std::find(observations_.begin(), observations_.end(), ref) != observations_.end())
-        return ReferenceUnavailable{ReferenceGate::conflict, "reference.collision.v1"};
+        return runtime_refusal(limits_, "reference.collision.v1", ReferenceGate::conflict, true);
     auto observation = head.observation;
     observation.checked_head_token = head.snapshot.token;
     observation.segments.clear();
@@ -390,7 +406,7 @@ AccessDecision ReferenceApplicationAdapters::check(const ApplicationReferenceRea
     BoundedAuthority authority(authority_, limits_.values);
     auto r = check_reference_execution(v, c, config_source, authority, limits_.values,
                                        limits_.authority);
-    auto p = measure(limits_.values, Error::result_limit);
+    auto p = service_measure(limits_, Error::result_limit);
     p(r);
     return r;
 } catch (const DependencyAllocation &e) {
@@ -464,7 +480,7 @@ PolicyResolution ReferenceApplicationAdapters::resolve(const ApplicationReferenc
     thread(owner_);
     const auto *a = std::get_if<ApplicationAccessAllowed>(&access);
     if (!a)
-        return port_refusal();
+        return port_refusal(limits_);
     auto x = reference_detail::captured_binding(v, c, config_source, limits_.values);
     auto captured = config_source.load(v, i.selected_plan.captured.event.arrival.configuration_ref);
     auto before = admit_reference_configuration(
@@ -474,7 +490,7 @@ PolicyResolution ReferenceApplicationAdapters::resolve(const ApplicationReferenc
         admit_reference_configuration(i.current_state.configuration_ref, now, limits_.values);
     if (std::holds_alternative<ReferenceUnavailable>(before) ||
         std::holds_alternative<ReferenceUnavailable>(current))
-        return port_refusal();
+        return port_refusal(limits_);
     const auto &old = std::get<ReferenceAdmittedConfiguration>(before).configuration;
     const auto &cfg = std::get<ReferenceAdmittedConfiguration>(current).configuration;
     data(reference_detail::same(x.rule, old.rule) && i.subject_kind == c.subject_kind &&
@@ -494,10 +510,10 @@ PolicyResolution ReferenceApplicationAdapters::resolve(const ApplicationReferenc
         old.rule.timer_ref != cfg.rule.timer_ref ||
         !reference_detail::same(old.rule.automation, cfg.rule.automation) ||
         !reference_detail::same(old.timer_config, cfg.timer_config) || !active(i.current_state))
-        return port_refusal();
+        return port_refusal(limits_);
     if (std::holds_alternative<ReferenceUnavailable>(this->current(i.current_state)))
-        return port_refusal();
-    auto projected = measure(limits_.values, Error::result_limit);
+        return port_refusal(limits_);
+    auto projected = service_measure(limits_, Error::result_limit);
     projected(c.operation, c.subject_kind, c.receipt_id, c.contribution_id, c.plan,
               i.current_state.token, cfg.configuration_ref, a->permission_revision_ref,
               cfg.policy_revision_ref, cfg.maximum_main_ms, cfg.timer_config, false, false,
@@ -519,7 +535,7 @@ PolicyResolution ReferenceApplicationAdapters::resolve(const ApplicationReferenc
                              "reference.current-policy.v1",
                              {ApplicationPolicyAdmission::allow_active, {}},
                              {}};
-    auto out = measure(limits_.values, Error::result_limit);
+    auto out = service_measure(limits_, Error::result_limit);
     out(p);
     return p;
 } catch (const DependencyAllocation &e) {
@@ -553,18 +569,18 @@ ClockResolution ReferenceApplicationAdapters::observe(const ApplicationReference
     auto admitted =
         admit_reference_configuration(i.current_state.configuration_ref, complete, limits_.values);
     if (std::holds_alternative<ReferenceUnavailable>(admitted))
-        return port_refusal();
+        return port_refusal(limits_);
     for (const auto &r : pending_)
         if (bundle_detail::same_key(r.command.operation, c.operation) &&
             r.head.snapshot.token == i.current_state.token) {
             require(equal(r.command, c) &&
                         bundle_detail::same_state(r.head.snapshot, i.current_state),
                     Error::invalid_binding);
-            auto out = measure(limits_.values, Error::result_limit);
+            auto out = service_measure(limits_, Error::result_limit);
             out(r.observation);
             return r.observation;
         }
-    return port_refusal();
+    return port_refusal(limits_);
 } catch (const DependencyAllocation &e) {
     std::rethrow_exception(e.original);
 } catch (const std::bad_alloc &) {
@@ -588,7 +604,7 @@ ActionResolution ReferenceApplicationAdapters::prepare(const ApplicationReferenc
     thread(owner_);
     auto cfg = resolve(v, c, i, ApplicationAccessAllowed{p.permission_revision_ref});
     if (!std::holds_alternative<BoundApplicationPolicy>(cfg))
-        return port_refusal();
+        return port_refusal(limits_);
     require(equal(std::get<BoundApplicationPolicy>(cfg), p), Error::invalid_binding);
     require(q.debt_after >= 0 && q.timer_after.main_remaining_ms >= 0 &&
                 q.timer_after.grace_remaining_ms >= 0,
@@ -617,10 +633,10 @@ ActionResolution ReferenceApplicationAdapters::prepare(const ApplicationReferenc
             q.timer_after.main_remaining_ms ==
                 q.clock_advanced_timer.main_remaining_ms + effect.components[0].units,
         Error::invalid_binding);
-    auto projected = measure(limits_.values, Error::result_limit);
+    auto projected = service_measure(limits_, Error::result_limit);
     projected(std::string_view("reference.no-external-actions.v1"));
     PreparedApplicationActions out{{}, "reference.no-external-actions.v1"};
-    auto result = measure(limits_.values, Error::result_limit);
+    auto result = service_measure(limits_, Error::result_limit);
     result(out);
     return out;
 } catch (const DependencyAllocation &e) {
@@ -635,6 +651,7 @@ ReferenceResolution ReferenceApplicationAdapters::issue(ApplicationReferencePurp
     validate_limits();
     auto p = measure(limits_.values);
     p(purpose, b);
+    service_input(limits_, purpose, b);
     Tags{}(purpose, b);
     require(unsigned(purpose) <= 4 && unsigned(b.purpose) <= 4 &&
                 unsigned(b.source.subject_kind) <= 1,
@@ -651,7 +668,7 @@ ReferenceResolution ReferenceApplicationAdapters::issue(ApplicationReferencePurp
     require(purpose == b.purpose, Error::invalid_binding);
     thread(owner_);
     if (stopped_ || reconciliation_)
-        return port_refusal();
+        return port_refusal(limits_);
     for (const auto &x : issued_)
         if (x.purpose == purpose && bundle_detail::same_key(x.operation, b.operation) &&
             x.persisted_head_token == b.persisted_head_token &&
@@ -659,27 +676,28 @@ ReferenceResolution ReferenceApplicationAdapters::issue(ApplicationReferencePurp
             x.plan.revision == b.plan.revision && x.source.subject_kind == b.source.subject_kind &&
             x.source.receipt_id == b.source.receipt_id &&
             x.source.contribution_id == b.source.contribution_id)
-            return ApplicationUnavailable{"reference.collision.v1"};
+            return port_refusal(limits_, "reference.collision.v1");
     // Both direct issue and reserved issue use this finite process spent budget.
     const auto cap = std::min(limits_.values.value_items, limits_.values.value_owned_bytes / 37);
     if (spent_.size() >= cap || issued_.size() >= cap)
-        return ApplicationUnavailable{"reference.journal-capacity.v1"};
-    auto out = measure(limits_.values, Error::result_limit);
+        return port_refusal(limits_, "reference.journal-capacity.v1");
+    if (std::min(limits_.values.reference_bytes, std::uint64_t(limits_.service.reference_bytes)) <
+        37)
+        return port_refusal(limits_);
+    auto out = service_measure(limits_, Error::result_limit);
     out(b);
     out.p.fixed(37);
-    if (limits_.values.reference_bytes < 37)
-        return port_refusal();
     auto journal = measure(limits_.values, Error::result_limit);
     journal(issued_, b);
     auto e = borrow([&] { return entropy_.read32(); });
     require(unsigned(e.error) <= 2, Error::invalid_tag);
     if (e.error != ReferenceEntropyError::none || e.received != 32)
-        return ApplicationUnavailable{"reference.entropy.v1"};
+        return port_refusal(limits_, "reference.entropy.v1");
     std::string ref = "RRF1";
     ref.push_back(char(purpose));
     ref.append(reinterpret_cast<const char *>(e.bytes.data()), 32);
     if (std::find(spent_.begin(), spent_.end(), ref) != spent_.end())
-        return ApplicationUnavailable{"reference.collision.v1"};
+        return port_refusal(limits_, "reference.collision.v1");
     spent_.push_back(ref);
     issued_.push_back(b);
     return IssuedApplicationReference{b, std::move(ref)};

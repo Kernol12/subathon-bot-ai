@@ -1,184 +1,138 @@
 # Coordinator checkpoint
 
-Owner: Kernol12. Full specification v0.45 stays in release scope.
+Owner: Kernol12. Full specification v0.45, all seven integrations and all three
+FX providers remain release scope. Issues own status/prerequisites; PRs own reviews.
 
-## Owner decision, 2026-11-14 (revised after RULES-006 producer inspection)
+## Latest owner boundary: finish API-011, then STOP
 
-1. Build a running vertical slice: server starts, runs one timer and accepts one
-   fake contribution.
-2. Authorized immediate task path, in order:
-   ACCESS-010 (#646) → ACCESS-011 (#649) → RULES-006 (#558) → API-011 (#562) →
-   SLICE-001 (#642) → API-016 (#616) → APITEST-015 (#613) → API-001 (#278).
-   ACCESS-009 (#645) is complete; owner explicitly authorized both new prerequisites.
-   The owner approved separating the pure delegation component from authoritative
-   integration. ACCESS-003 (#249) remains open; completing #645 does not complete it.
-3. ACCESS-010 owns authoritative permission-graph storage/CAS; ACCESS-011 owns
-   current reference original-author/capability/USE+GRANT/revision production.
-   Complete them in order. Full #249 service implementation remains outside the
-   immediate path. Identity linking #251, action planning/delivery
-   #208/#232 and client preview rendering #424/#473 keep their ownership and full
-   release requirements. Do not create a dependency cycle through these consumers.
-4. RULES-006 and API-011 still require actual current supported reference authority
-   producers under CONTRACT-014. Verify feasibility before authoring their tests.
-   Pure calculations establish no authority or currentness. If a missing producer
-   requires substantial work outside #646/#649's bounded scope, stop and report;
-   these prerequisites now have execution authorization. This grants no fake
-   allow-all policy, fabricated clock or unknown-as-known fact.
-5. Process/tooling work stays frozen until the slice runs. WORKFLOW-006 (#619) and
-   WORKFLOW-007 (#620) remain stopped.
-6. ACCESS-009 and ACCESS-003 are tier A (permissions); ACCESS-010 is tier A
-   (permissions/migrations/writer). ACCESS-011 and RULES-006 are tier A
-   (authority/exact quantities). API-011, API-001 and APITEST-015 are tier A.
-   SLICE-001 remains tier B. Set RULES-006/API-016 tiers from the workflow table,
-   using the higher tier when unclear.
-7. Preserve all review rejections and authored history. Two ACCESS-003 test fix
-   rounds were used. Task-path revision alone does not authorize a third code/test
-   fix round. Verify the revised component candidate independently, then obtain
-   fresh Claude closing review before intended red. Ask before a third fix round.
+Owner instruction2026-11-15 overrides the old standing loop. Finish ONLY API-011
+(#562/PR#653) through reviews, proof, final-head CI, protected merge, merge read-back
+and closing562. Then stop. Do not claim/start SLICE-001 or any other task even if
+ready. Before handback verify this coordinator's delegates finished/cancelled and
+unwatch its PRs; report merge SHA, next candidate and anything not carried over.
+If merging needs an owner decision, stop there and ask; never waive a gate.
 
-## Owner instruction, next tests stage only (2026-11-15)
+Next candidate is **SLICE-001 #642 (tier B)**, requiring explicit owner resume/new
+assignment. Historical remaining path is642→API-016#616→APITEST-015#613→API-001#278;
+all is suspended by this stop. Process/tooling619/620 stays frozen until a server
+actually starts, runs a timer and accepts a fake contribution. Draft121 stays
+parked. PR656 is separately owned, not ours to review/merge without assignment.
 
-Before the next tests candidate's first review, author runs only cases that call
-NI stubs as a fixture/setup check up to that call; repair setup defects and report
-the result in the handoff. This is NEVER red evidence; reviewed intended red still
-comes after approval. Exclude no-stub cases and any TEST_STRATEGY review/admission-
-before-execution exception (including bounded HTTP/schema); handoff says so.
-API-011 is explicitly unchanged. Permanent wording is owned separately in PR#656
-(owner reports independent approval7acad387); no review/merge assignment here.
+## Task, checkout and authoritative evidence
 
-## Settled delegation policy
+- [API-011 #562](https://github.com/Kernol12/subathon-bot-ai/issues/562) owns the full brief and acceptance.
+- [PR653](https://github.com/Kernol12/subathon-bot-ai/pull/653) owns current head, reviews, CI and eventual protected merge.
+- Branch `task/API-011-reference-intake`, original base03e52e70. Recheck actual
+  checkout/main/PR/rules before acting; no stale-head CI or inferred live sessions.
+- If653 is unmerged, finish only this task. If merged and562 closed, the assignment
+  is over. A future merge SHA cannot be embedded in this pre-merge checkpoint;
+  the PR merge record/final owner report supply it. No follow-up task is authorized.
+- Final source/review bindings live in `progress/proofs/API-011.json` and
+  `progress/proof-policy.json` once the one final proof commit exists. Until then
+  PR receipts/status are authoritative. Never infer approval from the notes below.
+- [Durable handoff](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6895564949)
+  publishes all8 tests receipts/hashes, full137-case red classifications, the old
+  setup failures, diagnostic sources, artifact reading order and limitations.
+  Essential knowledge no longer depends on this thread or `/tmp`. Raw local logs,
+  auxiliary audit scripts and build products may expire; outcomes/source bindings
+  are public. Historical worktrees/assignments are not running sessions.
 
-Owner decisions are recorded in #249, comment 6879902355:
+## API-011 stage evidence and gates
 
-- Restrictive edits require management USE and GRANT scope.
-- Untouched grants outside scope may remain; check every changed capability,
-  newly exposed right and all shared-role affected accounts.
-- Automation requires the original author's USE and GRANT for every whole action,
-  with separate selected-sender checks. Recheck current authority at execution;
-  hold unauthorized actions after revocation.
+Both stages are tier A. Public contracts: configuration2, intake/runtime3;
+[examples4](https://github.com/Kernol12/subathon-bot-ai/issues/562#issuecomment-6892590521).
+Tests review closed atd7155b42, then actual137/137 exact first-NI failures,
+4passing hooks,0setup/skips/Qt warnings and152/152 dependency nodes. Original
+fe14d2bb135NI+2SETUP failures remain historical and invalid where setup failed.
+Bounded third/fourth test corrections were owner-approved; no fifth authorized.
 
-## Current state and assignments
+- [Author implementation/audit7e9f648b](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6894300934).
+- [WHOLE Claude rejectiond69f2617](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6894462643): I01 snapshot session must precede head/config query.
+- [Fix1 bf0c4ab1](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6894871585): auth ordering, integer clock, complete binding/policy, dangling-head and scoped body-error handling.
+- [WHOLE Codex rejectionbf0c4ab1](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6895075222): I01–I07 accepted; I10 losing-result reference ceiling and I11 command-reason document ceiling are blockers.
+- At checkpoint publication, remaining authorized source fix round2of2 projects
+  refusals before construction (stopped/capacity/entropy/collision paths included),
+  preserves owning/nested service ceilings and optional wrapper charges, and treats
+  imported command reason as document/choice DATA with unchanged whole B/I,
+  presence/nullness/equality/U32/container checks. No tests/public contract change.
+  Full154/154 and focused controls pass; exact revision/results are in the PR's
+  fix2 report and subsequent receipts, not inferred from older green checks.
 
-- ACCESS-009 (#645) completed by protected PR #648 merge `1fd11c3b`.
-  Full core445/445, delegation55/55, zero skips; tier A/proof/required CI passed.
-- ACCESS-010 (#646) completed by protected PR #650 merge `65936bcb`.
-  Corrected closure139/139 and graph94/94 passed, zero skips/warnings; tier A,
-  proof/publication and final-head7/7 CI passed. Owner-approved PG-B01 correction
-  and historical rejections remain recorded in the PR and proof.
-- ACCESS-011 (#649) completed by protected PR #651 merge `d7d64f25`.
-  Authority214 cases+2hooks and140/140 closure pass, zero skips/Qt warnings.
-  Both tier A stages, single proof/publication and final-head7/7 CI passed;
-  historical rejections/reds stay in PR receipts and proof. #249 remains separate.
-- RULES-006 (#558) completed by protected PR #652 merge `03e52e70`.
-  Full152/152 and focused12/12 pass; Qt34cases+2hooks, zero skips/warnings.
-  Both Tier A stages, single proof/publication and final-head7/7 CI passed.
-  Historical rejections/reds remain in PR/proof; #562 retains configuration/ports.
-- API-011 (#562), branch task/API-011-reference-intake, base/main03e52e70.
-  Claimed6890787150 after #558 protected merge/readback; both stages tier A.
-  Source feasibility67d321bd accepted6890950491: bounded #562 is feasible; existing
-  components are not a running path. Complete configuration, owner-only fresh SAS1
-  startup, genuine UTC/elapsed journal and current policy/action/reference producers
-  remain explicit in-scope work, not outside blockers. No runtime/build proof from
-  feasibility. Actual stored-session authority is required; no owner boolean.
-  Header/examples1 and tests authored locally at e85848d1:11 new files,22 unconditional
-  NI behavioral methods; compile/link/static and66 name-only listings pass. No test
-  body/hook/provider/red ran. Examples posted6891350560; initial whole Claude tests
-  review requested changes (15blockers API11-B01..B15,10notes N01..N10). Receipt and
-  proposed examples1 stay preserved. Fix round1 of2 authored d3dbfb9b:header/examples2,
-  12 owned paths,83 name-only Qt methods; strict compile/link/static pass. Author's
-  proposed25 dispositions were independently checked; Codex requested changes for
-  API11-B16/B17 (writer truth and unreachable completion boundary), plus residual
-  N02. Both rejection receipts stay preserved. Root fix round2 of2 separates bounded
-  local diagnosis from ORIGINAL rolled_back/not_committed, and independently seeds
-  a3072-byte token:completion12607 fit/12606 refusal exceeds auth intermediates.
-  Exact CID-conflict outcome/reason asserted. Strict compile/link/static and83 name
-  listings pass. Fresh Codex re-verification approved8ab29748:B16/B17/N02 resolved,
-  prior whole-stage assessment carried forward. N11 duplicate-copy assertion precision
-  stays nonblocking. Fresh WHOLE Claude closing at8ab29748 requested changes for
-  NEW API11-B18:entropy/token oracles omit mandatory advanced_state issuance.
-  B01 RP05 evidence remained blocked; B02-B17 otherwise resolved. Closing rejection
-  preserved. Owner explicitly approved ONE bounded third round (record6892536806).
-  Root applied exactly the prepared B18 correction:runtime header3 pins ONE RCO1
-  even for reuse, full domain/purpose reference identity,3draws per attempt and
-  after03/retry advanced05+after06. No N11 optional change or production behavior.
-  Fresh strict compile/link66steps/static and83 name-only listings pass. Examples4
-  posted6892590521. NEW independent Codex verification and fresh WHOLE Claude
-  closing APPROVED2154964a:B18/B01 RP05 authored-oracle objections resolved, no
-  blockers. N11 duplicate consistency and N12 bounded direct-issue spent set remain
-  mandatory implementation-audit notes, not test edits. At that stage no fourth
-  round had been authorized.
-  Root opt-in CMake integration built154steps/no warnings; approved12hashes unchanged.
-  Tests review closed2154964a. Integrated sourcefe14d2bb actually ran137 new rows:
-  135 exact first-NI failures,2 pre-NI SQL SETUP failures,4 passing hooks,0 skips/
-  warnings. Both trigger installs hit the old writer's semicolon rejection; neither
-  is valid red. Five preparation rows are explicitly mapped by tag in classification.
-  Existing dependency CTest152/152 passes. Complete behavioral red/implementation
-  remain unestablished. Owner explicitly approved ONE fourth fixture-only round,
-  record6893032140. Root applied the prepared two-function patch:identical trigger
-  DDL now installed through idle Observer with schema checks, as old service tests.
-  All following assertions/fault predicates unchanged. Incremental6step compile/link,
-  strict syntax/static and83 name-only listings pass. NEW independent Codex
-  verification and fresh WHOLE Claude closing APPROVED exactd7155b42, including
-  opt-in CMake registration. All8 review receipts and historical rejections remain
-  preserved. A fifth test-correction round is NOT authorized.
-  Root then actually reran both corrected suites atd7155b42:137/137 exact expected
-  first-NI failures,4 passing hooks,0 setup failures/skips/Qt warnings; all83 methods
-  and69 parameter rows discovered, all22 distinct APIs witnessed. Both repaired
-  setups reached their intended NI. Original135NI+2setup evidence is unchanged.
-  Dependency CTest rerun152/152 passes,0 skips. Complete intended-red gate is met;
-  later assertions after each first NI remain unobserved and all22 APIs remain NI.
-  No outside prerequisite or owner product decision was identified. Next is ONE
-  DIFFERENT fresh implementation session, then its full Tier A review cycle.
-  Temporary implementation ownership: three new reference_configuration/intake/
-  runtime.cpp sources; necessary private representation/includes only in their
-  three headers; new private server/src/reference_*_internal or
-  application_state_codec_internal helpers; existing application_service.cpp ONLY
-  for bounded shared SAS1 extraction with old wrappers/bytes/error behavior intact;
-  reference_application.cpp ONLY for sharing unchanged authority validation through
-  private helpers. No existing public API/contract or test/fixture/oracle changes.
-  Small server/CMakeLists.txt source-list additions for those existing libraries
-  are temporarily assigned if required; root retains options/registration/CI/pins,
-  migrations/checkpoint/publication/proof. No competing writer is assigned.
-  Mandatory audits include B04 dual SAS1 echoes, N11 full duplicate-completion
-  consistency, N12 bounded spent sets, preallocation/nested limits/selected SQL,
-  original writer ownership/errors, current whole authority and journal lifetimes.
-  Fresh implementation authored7e9f648b:all22 APIs implemented in14 assigned paths,
-  tests/fixtures/public contract unchanged except private header state/includes.
-  Author's full154/154 CTest and137invocations+4hooks pass,0 skips/Qt warnings;
-  focused ASan/UBSan passes with leak checking unavailable under ptrace. Root
-  verified inventory/scope and raw results, integrated the exact authored commit,
-  and adds ordinary CI admission with exact83method/137invocation guards to the
-  existing Qt job. This is an unreviewed implementation candidate, not approval.
-  Initial WHOLE Claude implementation review atd69f2617 requested changes:
-  API11-I01 snapshot head/configuration lookup preceded stored-session auth.
-  Receipt6894462643 is preserved. Hosted7/7 CI and fresh reviewer154/154 pass;
-  neither is source approval. Root authors implementation fix round1of2:
-  stored-session resolution before any snapshot head/configuration query, then
-  timer-scope USE authorization; no duplicate clock/session lookup. Also proposes
-  integer clock conversion, early reference-profile refusal before sampling,
-  pure observe binding/affinity priority and full reservation match, full prepared
-  policy comparison via shared structural equality, dangling-head invalid_data,
-  and no synthetic application reconciliation for known committed intake/read
-  body errors (unknown still stops). Tests/public contracts remain unchanged.
-  Exact approved issuer36-byte profile refusal is retained; only its sampling
-  concern is changed. I08/I09 remain informational. Final root full154/154 and
-  direct137invocations+4hooks pass,0 skips/warnings; scratch4 authentication/head
-  combinations plus read-only body-error/journal control pass; strict2TU/static
-  checks pass. Independent Codex WHOLE implementation verification and fresh
-  Claude closing are next; root does not approve its own fix.
-  No implementation approval, proof or merge exists. Full #249/API010/recovery/
-  host/live/process boundaries stay.
-- Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
-  proof. Step10 shipped under #649; all compiled prefix bytes remain frozen.
-  Full #249 integration remains open. No new migration or other product writer is assigned;
-  completed review worktrees are historical, not live assignments.
-- Draft PR #121 stays parked. Process/tooling work remains frozen until the slice.
-  EPIC-029 closed, follow-ups #636; pre-cutover evidence remains historical.
+Next gates: NEW independent WHOLE Codex verification, NEW fresh WHOLE Claude
+closing, one final proof/policy commit, both-stage publication validation, current
+required CI, protected merge/read-back, close562 and STOP. Preserve all rejections.
+If any further material implementation fix is needed after round2, ask the owner
+before a third; ask separately for a fifth baseline correction. No open product
+policy decision has otherwise been identified for this bounded task.
 
-## Next action
+## Capability map and constraints for a later coordinator
 
-Finish and publish implementation fix round1 on draft PR#653, independently
-verify the WHOLE producer with Codex, then obtain fresh Claude closing. Preserve
-all tests/public contracts and every review rejection/red. Then final-head CI,
-single proof/publication and protected merge. No fifth test round or downstream
-work; the new fixture-check instruction starts only at the NEXT tests stage.
+Read `server/include/subathon/server/reference_configuration.hpp`,
+`reference_runtime.hpp`, `reference_intake.hpp` and the issue/PR links above.
+Entry points: complete immutable `ReferenceConfigurationArchive`; typed
+`encode_reference_state`/`decode_reference_state`; real `SystemReferenceClockSampler`
+and `OsReferenceEntropy`; five-port `ReferenceApplicationAdapters` with bounded
+reserve/settle/reconcile journal; `ReferenceIntake::make_initial_work`,
+`make_receipt_work`, `make_evidence_work`, `make_capture_work`, `make_snapshot_work`.
+
+This is component composition, NOT a running host/login/provisioning/recovery or
+public synthetic endpoint. Startup needs actual stored fresh owner/session/graph
+and complete configuration; no owner boolean or anchor reconstructed from raw SAS1.
+Only normal acknowledged startup publishes the live process anchor. Supported
+runtime is Active/Main-positive, no wait/debt/balances/deadline, with pause/recovery
+known false ONLY from the live journal. Unknown data never proves empty actions or
+provider/payment/activity knowledge. API010/login, recovery/restart, full249 and
+host/API001/SLICE001 keep their ownership and complete release requirements.
+
+Four DISTINCT transactions: adopted receipt commit; adopted evidence commit;
+caller-owned plan/SRX/index commit; actual application-service commit. No second
+writer/timer write or commit after adoption. Snapshot authenticates first, requires
+current ordinary timer read USE (no owner shortcut), then publishes coherent normal
+committed state. Automation rechecks original-author USE+GRANT and execution USE;
+historical disclosure checks EVERY actual hold. Unknown stops; real application
+postcommit error needs matching independent committed reconciliation, not replay.
+
+Preserve B04 dual SAS1 echoes: facade uses stored previous basis (or initial token),
+old service binds CURRENT head; no SAS1/SAR1/SAA1 byte changes. N11 compares complete
+duplicate output including optional/nullness. N12 bounds spent RRF1 even for direct
+issue; full domain/purpose/suffix identity, no probability/eviction/reuse shortcut.
+Every reserve draws one RCO1 including reuse; absent-basis examples use3draws and
+after03, known-rollback retry advanced05/after06. No entropy retry/fallback.
+
+Reviewed tests/fixtures/public semantics remain fixed. Existing Qt CI runs exact
+32+51methods/59+78invocations and61+80passes with hooks,0skips/warnings, ordinary
+acceptance (no WILL_FAIL/inversion). Existing selector name
+`SUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON` is retained with `reference-rule`
+selection. Use docs/TEST_STRATEGY.md, CI and local CMakeUserPresets for SDK paths;
+no personal paths are required here. Validate proof with tools/proofs.py and
+check_publication.py for BOTH tests/implementation, using the isolated interpreter
+from docs/schema-validation.md; never enroll a pending proof.
+
+Local Qt6.12/GCC16.2/Boost1.92 differs from hosted pinned Boost1.83. ASan/UBSan runs
+have leaks disabled; LSan fails under ptrace and external libraries are uninstrumented.
+No leak proof, allocator-fault/performance theorem, one aggregate process heap
+ceiling, live provider, host/HTTP, platform deployment or recovery verification.
+
+## Settled policy and prerequisites
+
+[Owner decisions249](https://github.com/Kernol12/subathon-bot-ai/issues/249#issuecomment-6879902355): restrictive edits need management USE+GRANT scope;
+untouched out-of-scope grants may remain, changed/newly exposed rights and every
+shared-role account are checked. Automation needs author USE+GRANT and separate
+sender checks; recheck at execution and hold after revocation. Full249 remains open;
+identity251, delivery208/232 and UI424/473 retain their scope. Prefix1–10 migration
+bytes are frozen; no new migration is assigned.
+
+Completed protected merges: ACCESS-009 (#645), PR648,1fd11c3b;
+ACCESS-010 (#646), PR650,65936bcb; ACCESS-011 (#649), PR651,d7d64f25;
+RULES-006 (#558), PR652,03e52e70. Their issues/PRs/proofs own
+evidence. Do not reverify pre-MIGRATE004 historical records.
+
+## Future tests-stage instruction (API-011 explicitly unchanged)
+
+From the NEXT tests stage, before first review author runs ONLY cases calling NI
+stubs, checking setup up to that call; fix setup defects and report the fixture
+check in the handoff. It is NEVER red evidence: observe red after approval. Exclude
+no-stub cases and TEST_STRATEGY review/admission-before-execution exceptions
+(including bounded HTTP/schema), with explanation in handoff. Permanent wording
+is separately owned in PR656 (owner reports approval7acad387). This grants no656
+merge assignment and no permission to start a new task after API-011.

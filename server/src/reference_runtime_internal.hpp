@@ -230,6 +230,20 @@ struct Measure {
         require(std::uint64_t(s.size()) <= document, p.error);
         p.fixed(std::uint64_t(s.size()));
     }
+    // Imported command reason is document DATA, not an opaque reference. Keep
+    // service optional accounting (absent0/present bytes) and whole B/I unchanged.
+    void one(const OriginalApplicationCommand &v) {
+        (*this)(v.operation, v.subject_kind, v.receipt_id.value, v.contribution_id, v.plan,
+                v.principal, v.purpose, v.preview_mode, v.preview_state_token, v.actor_ref,
+                v.decision_ref);
+        if (v.reason) {
+            require(v.reason->size() <= document && v.reason->size() <= UINT32_MAX &&
+                        v.reason->size() < std::string{}.max_size(),
+                    p.error);
+            p.fixed(v.reason->size());
+        }
+        one(v.choices);
+    }
     // ACCESS-011 and graph DTOs keep their owning structural optional charges.
     void one(const StoredPermissionGraph &v) { p(v); }
     void one(const core::EffectivePermissionInput &v) { p(v); }
@@ -352,7 +366,7 @@ inline void runtime_limits(const ReferenceRuntimeLimits &l) {
                 l.pending_reservations < std::vector<std::string>{}.max_size(),
             Error::invalid_limits);
 }
-template <class... T> void service_input(const ReferenceRuntimeLimits &l, const T &...v) {
+inline Measure service_measure(const ReferenceRuntimeLimits &l, Error error) {
     auto limits = l.values;
     limits.reference_bytes =
         std::min(limits.reference_bytes, std::uint64_t(l.service.reference_bytes));
@@ -361,9 +375,13 @@ template <class... T> void service_input(const ReferenceRuntimeLimits &l, const 
     limits.value_owned_bytes =
         std::min(limits.value_owned_bytes, std::uint64_t(l.service.intermediate_owned_bytes));
     limits.value_items = std::min(limits.value_items, std::uint64_t(l.service.intermediate_items));
-    auto p = measure(limits);
+    auto p = measure(limits, error);
     p.p.component_bytes = std::min(std::uint64_t(l.service.bundles.component_bytes),
                                    std::uint64_t(l.service.holds.references.component_bytes));
+    return p;
+}
+template <class... T> void service_input(const ReferenceRuntimeLimits &l, const T &...v) {
+    auto p = service_measure(l, Error::input_limit);
     p(v...);
 }
 // Full structural equality, including all duplicates, without re-encoding.
