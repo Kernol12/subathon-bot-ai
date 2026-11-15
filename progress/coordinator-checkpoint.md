@@ -76,9 +76,12 @@ Owner decisions are recorded in #249, comment 6879902355:
   Changed-part Codex verification and fresh whole-stage Claude closing approved
   at4202917a, no blockers; R6-V01 resolved. Two tests fix rounds used.
   Coordinator integrated opt-in reference-rule targets, preserving all7 approved
-  hashes. Target build60/60 passes; full dependency build/registration then actual
-  intended red pending. First CTest discovery required unbuilt dependency targets;
-  that setup failure is not red. All source remains local/unpushed, no PR yet.
+  hashes. At integrationa4775776, targets60/60 and remaining closure82/82 build;
+  discovery11 pure+1 unfiltered22-method Qt suite passes. Observed ordinary red:
+  all11 pure/all22 Qt methods fail at NI,2 Qt setup/cleanup pass, zero skips/warnings.
+  Existing dependency closure140/140 passes, zero skips. First discovery with
+  unbuilt dependency targets was setup failure, never red. Later subcases remain
+  unobserved after first NI. Draft publication/fresh implementation are next.
   Production full-configuration loading/concrete ports stay #562; supplied complete
   config DATA is a fixture, while current-authority composition uses real stores.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
@@ -90,11 +93,10 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Complete selected dependency build and registration, then observe valid intended red
-for approved RULES-006 revision2 server header/examples (pure header1),11 pure/22 Qt
-tests. Classify every failure at the actual new NI call; setup/compile failures are
-not red. Preserve R6-C01/C02 as nonblocking notes and R6-T10 source audit for later.
-After valid red, publish the draft PR/receipts and assign a different fresh implementation session
+Publish the draft PR and all preserved RULES-006 test receipts plus observed red,
+then assign a different fresh implementation session for the4 NI APIs (new core/
+server .cpp only). Public headers/approved assertions/fixtures stay frozen.
+Preserve R6-C01/C02 as nonblocking notes and mandatory R6-T10 source audit.
 and separate full tier A source review/proof/protected merge. Existing producers,
 migrations/approved tests remain frozen; full configuration loader/full adapters
 remain #562. No pure-only completion, permission shortcut, tooling or live effects.
