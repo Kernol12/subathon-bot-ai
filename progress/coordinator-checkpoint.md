@@ -50,20 +50,34 @@ Bounded third/fourth test corrections were owner-approved; no fifth authorized.
 - [WHOLE Claude rejectiond69f2617](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6894462643): I01 snapshot session must precede head/config query.
 - [Fix1 bf0c4ab1](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6894871585): auth ordering, integer clock, complete binding/policy, dangling-head and scoped body-error handling.
 - [WHOLE Codex rejectionbf0c4ab1](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6895075222): I01–I07 accepted; I10 losing-result reference ceiling and I11 command-reason document ceiling are blockers.
-- At checkpoint publication, remaining authorized source fix round2of2 projects
-  refusals before construction (stopped/capacity/entropy/collision paths included),
-  preserves owning/nested service ceilings and optional wrapper charges, and treats
-  imported command reason as document/choice DATA with unchanged whole B/I,
-  presence/nullness/equality/U32/container checks. No tests/public contract change.
-  Full154/154 and focused controls pass; exact revision/results are in the PR's
-  fix2 report and subsequent receipts, not inferred from older green checks.
+- [Fix2 a135f48f](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6896077228)
+  repairs runtime refusal projection and command-reason measurement, but is NOT
+  approved. Tests/public contracts remain fixed.
+- [NEW WHOLE Codex rejectiona135f48f](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6896259943):
+  I11 still treats `ApplicationAudit::reason` as a reference. A valid4097-byte
+  reason commits in the real service, then `settle` rejects it before journal
+  promotion; historical disclosure has the same walker. I10 intake `refuse` and
+  result-limit fallback still construct owned reasons before checking limits.
+  At reference ceiling31, the32-byte runtime refusal is built before omission.
+  The receipt includes minimal reproductions independent of local scratch files.
+  Fresh154/154,137directinvocations+4hooks, ASan/UBSan (leaks off) and hosted7/7
+  pass at that source; none waives the rejection.
 
-Next gates: NEW independent WHOLE Codex verification, NEW fresh WHOLE Claude
-closing, one final proof/policy commit, both-stage publication validation, current
-required CI, protected merge/read-back, close562 and STOP. Preserve all rejections.
-If any further material implementation fix is needed after round2, ask the owner
-before a third; ask separately for a fifth baseline correction. No open product
-policy decision has otherwise been identified for this bounded task.
+**STOP: owner decision required before implementation round3.** Both authorized
+source fix rounds are used; no third source round or fifth baseline correction is
+authorized. [Unapplied bounded proposal](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6896336588): measure every audit-reason occurrence as
+document DATA with complete owning charges, and preflight all intake refusal
+construction/copies/fallbacks while preserving actual writer truth and diagnostic
+omission. No source change for that round has been applied. No product-policy
+decision has otherwise been identified. PR653 is draft/unmerged;562 stays open.
+
+Only after approval and fixes: NEW independent WHOLE Codex verification, NEW fresh
+WHOLE Claude closing, one final proof/policy commit, both-stage publication
+validation, current required CI, protected merge/read-back, close562 and STOP.
+Preserve all rejections. This checkpoint-only amendment changes no source, test,
+contract or CI; its own CI is separate from the green reviewed source above.
+The latest verifier is complete without child work; no owned delegate is running.
+Unwatch653 before owner handback; do not start a downstream task while waiting.
 
 ## Capability map and constraints for a later coordinator
 
