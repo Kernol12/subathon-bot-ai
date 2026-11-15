@@ -8,6 +8,7 @@
 #include <QCryptographicHash>
 #include <array>
 #include <charconv>
+#include <exception>
 #include <tuple>
 namespace subathon::server {
 MigrationManifest reference_authority_repository_manifest() {
@@ -133,6 +134,59 @@ void preflight_request(const ReferenceAuthorityRequest &r, const ReferenceAuthor
         (r.historical_hold && r.historical_hold->size() > ceiling))
         throw ReferenceAuthorityInputFailure(F::resource_limit);
 }
+// The generic resolver contains producer exceptions. Preserve the original work
+// failure across that boundary, then rethrow it before publishing any refusal.
+// This adapter lives for one authentication call and owns no session or cache.
+class MutationSessionAuthentication final : public CurrentSessionSource,
+                                            public CurrentSessionClock {
+  public:
+    MutationSessionAuthentication(SqliteAccountSessionUnit &accounts, CurrentSessionClock &clock)
+        : accounts_(accounts), clock_(clock) {}
+    SessionLookup load_current(const SessionLookupRequest &request,
+                               const SessionLimits &limits) override {
+        try {
+            auto loaded = accounts_.read_lifecycle_actor(request, limits);
+            if (const auto *failure = std::get_if<AccountSessionReadFailure>(&loaded)) {
+                switch (*failure) {
+                case AccountSessionReadFailure::missing:
+                    return SessionMissing{};
+                case AccountSessionReadFailure::invalid_data:
+                    return SessionSourceInvalidData{};
+                case AccountSessionReadFailure::resource_limit:
+                    return SessionSourceResourceLimit{};
+                case AccountSessionReadFailure::unavailable:
+                    return SessionSourceUnavailable{};
+                }
+                return SessionSourceUnavailable{};
+            }
+            return std::move(std::get<LifecycleCurrentSession>(loaded).current);
+        } catch (const SqliteWorkFailure &) {
+            writer_failure_ = std::current_exception();
+            return SessionSourceUnavailable{};
+        } catch (const AccountSessionInputFailure &failure) {
+            return failure.code() == AccountSessionInputError::resource_limit
+                       ? SessionLookup{SessionSourceResourceLimit{}}
+                       : SessionLookup{SessionSourceUnavailable{}};
+        }
+    }
+    SessionClockResolution sample_current() override {
+        try {
+            return clock_.sample_current();
+        } catch (const SqliteWorkFailure &) {
+            writer_failure_ = std::current_exception();
+            return SessionSourceUnavailable{};
+        }
+    }
+    void rethrow_writer_failure() const {
+        if (writer_failure_)
+            std::rethrow_exception(writer_failure_);
+    }
+
+  private:
+    SqliteAccountSessionUnit &accounts_;
+    CurrentSessionClock &clock_;
+    std::exception_ptr writer_failure_;
+};
 // Policy expansion is traversed before ownership. The authoritative graph already
 // validated every membership and every current account, including sparse rows.
 template <class Emit>
@@ -278,7 +332,10 @@ class SqliteReferenceAuthorityUnit::Impl {
     Impl(const SqliteWorkSession &s, ReferenceAuthorityLimits l) : session(s), limits(l) {}
     ResolvedAccountSession authenticate(const SessionLookupRequest &r, CurrentSessionClock &clock) {
         SqliteAccountSessionUnit accounts(session, {{}}, limits.accounts);
-        auto result = resolve_current_account_session(r, true, accounts, clock, limits.sessions);
+        MutationSessionAuthentication authentication(accounts, clock);
+        auto result = resolve_current_account_session(r, true, authentication, authentication,
+                                                      limits.sessions);
+        authentication.rethrow_writer_failure();
         if (auto f = std::get_if<SessionFailure>(&result)) {
             switch (*f) {
             case SessionFailure::unavailable:

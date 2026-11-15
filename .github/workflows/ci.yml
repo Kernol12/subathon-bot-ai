@@ -434,8 +434,8 @@ jobs:
                   if owner == "sqlite-reference-authority":
                       rows = subprocess.check_output(
                           [test["command"][0], "-datatags"], text=True).strip().splitlines()
-                      if len(functions) != 56 or len(rows) != 187:
-                          raise SystemExit("Reference authority differs from 56 reviewed methods / 187 invocations")
+                      if len(functions) != 59 or len(rows) != 214:
+                          raise SystemExit("Reference authority differs from 59 reviewed methods / 214 invocations")
           results = ET.parse("build/sqlite-reference-capture-debug/reference-authority-results.xml").getroot()
           cases = results.findall("testcase")
           if len(cases) != 1 or cases[0].get("name") != "sqlite-reference-authority.suite":
@@ -443,8 +443,8 @@ jobs:
           if cases[0].find("failure") is not None or cases[0].find("skipped") is not None:
               raise SystemExit("Reference authority failed or skipped")
           totals = re.findall(r"^Totals:\s+(\d+) passed, (\d+) failed, (\d+) skipped, (\d+) blacklisted,", cases[0].findtext("system-out", ""), re.MULTILINE)
-          if totals != [("189", "0", "0", "0")]:
-              raise SystemExit("Reference authority must pass 187 invocations and both hooks, with zero skips")
+          if totals != [("216", "0", "0", "0")]:
+              raise SystemExit("Reference authority must pass 214 invocations and both hooks, with zero skips")
           PYTHON
       - name: Configure explicit SDK and GoogleTest sources
         run: >-

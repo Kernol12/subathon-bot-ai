@@ -56,36 +56,21 @@ Owner decisions are recorded in #249, comment 6879902355:
   proof/publication and final-head7/7 CI passed. Owner-approved PG-B01 correction
   and historical rejections remain recorded in the PR and proof.
 - ACCESS-011 (#649), branch `task/ACCESS-011-reference-authority`, draft PR #651.
-  Main tests approved4ed77298, supplemental contract/tests approved747e1d5f;
-  all earlier rejections and original145-case NI red remain in PR receipts.
-  Supplemental red:145 originalPASS +6 supplementalPASS/18FAIL; all18 traced
-  after their intended mutations, no setup failure counted as red.
-  Fresh correction a8e61c34 implements private borrowed-session selected readers
-  and full contract3 limit mapping. Author reports169/169+2hooks and140/140 closure
-  PASS, zero skips/warnings; partial three-TU ASan/UBSan passes, leaks unavailable.
-  Public headers/contracts/tests and647 frozen paths were preserved by the author.
-  Claude initial whole-producer review at707fd680 requests changes: A11-I01,
-  historical keys can escape as foreign input exceptions after SQL when the nested
-  capture reference ceiling is smaller. A11-N01 also identifies a noninitial pending
-  event being classified as denied instead of invalid_data. All7 hosted checks at
-  707fd680 pass; this is not implementation approval.
-  Additive admission/event regressions approved through all three tier A test
-  reviews at eaf1cb51. Observed red matches the reviewed prediction:169 original
-  PASS +4 new controls PASS/14 FAIL, with all9 boundary-positive halves traced.
-  First implementation fix round adds pre-SQL derived-key/profile admission and
-  rejects noninitial pending events. Actual187 cases+2hooks PASS, zero skips;
-  strict authority compile, project/format/diff and updated CI gate PASS. Full
-  current140/140 closure PASS, zero skips. Codex whole-producer verification at
-  bce94db7 confirms A11-I01/N01 fixed, but requests changes for A11-I02: mutation
-  authentication swallows original writer exceptions across generic session sources.
-  Second implementation fix round remains within the existing #649 assignment. Coordinator
-  authored27 additive ticket/SQL/budget/refusal regression rows; all56 existing
-  methods remain byte-exact. Compile/static checks and59-method discovery PASS;
-  Initial supplemental tests review requests changes for A11-T01: the1-byte account
-  control stopped at input admission. Tests fix round1 uses33 bytes: lookup input
-  fits, selected metadata does not. Counts unchanged; bodies/data providers remain
-  unrun pending independent Codex verification and fresh Claude closing.
-  No proof, closing or merge approval yet; #558 remains stopped.
+  Main tests approved4ed77298, selected-reader supplement747e1d5f and admission
+  supplementeaf1cb51. All earlier rejections and observed reds remain in PR receipts.
+  Initial whole-source review at707fd680 rejected A11-I01; first fixbce94db7 is
+  verified for A11-I01/N01. Codex whole-producer review instead found A11-I02:
+  generic mutation authentication swallows original writer exceptions.
+  Authentication supplement approved through all3 tests reviews at2881fb1b after
+  A11-T01 correction. Observed red:187 originals PASS,9 controls PASS/18 FAIL,
+  hooks2 PASS; all12 aggregated failure paths traced past setup into authentication.
+  Second implementation fix round uses the existing strict lifecycle reader and a
+  per-call adapter to rethrow original source/clock writer errors after generic
+  resolution. Public session facades and all214 reviewed assertions remain frozen.
+  Actual214cases+2hooks, strict compile, format/project/diff and updated59/214/216
+  CI gate PASS, zero skips/warnings. Full current140/140 closure PASS. Independent
+  Codex re-verification/fresh Claude closing, current-head CI/proof/merge pending.
+  Any third implementation fix round requires owner approval; #558 remains stopped.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 is reserved for this registry after compiled permission step9;
   preserve all shipped prefix bytes. Full #249 integration remains open. RULES-006
@@ -96,12 +81,12 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Complete the A11-I02 supplemental test cycle, then observe intended red before the
-second implementation fix round. Preserve public session-facade defaults, actual
-writer exceptions and genuine source/clock refusal semantics. Reuse reviewed source
-capabilities where possible; no liveness SELECT can replace the first real failure.
-Then independent Codex re-verification and fresh Claude closing of the WHOLE final
-producer. A third implementation fix round requires owner approval.
+Obtain independent Codex re-verification, then fresh Claude whole-producer closing
+at the same final candidate. This is the second
+implementation fix round: preserve original writer errors through authentication,
+public session defaults and genuine source/clock refusals. No liveness SELECT or
+caller-owned transaction cleanup is introduced. Third implementation fix round
+requires owner approval.
 Preserve all source/test history, rejected receipts and failures.
 The private selected path must preserve old public facades, original writer truth,
 metadata-before-ownership bounds, finite indexed selection and current authority.
