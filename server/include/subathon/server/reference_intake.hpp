@@ -3,7 +3,7 @@
 #include <subathon/server/reference_runtime.hpp>
 
 namespace subathon::server {
-// API-011 public contract revision 1. Trusted internal queue composition only.
+// API-011 public contract revision 2. Trusted internal queue composition only.
 // No public HTTP mutation, amount/current facts/server-arrival input or owner flag.
 struct ReferenceConnectorRegistration {
     std::string connection_ref;
@@ -62,12 +62,15 @@ struct ReferencePreparedWork {
 // atomicity: earlier acknowledged units remain durable on later failure.
 // initialize: actual same-session freshly resolved stored owner_session, trusted
 // CurrentSessionClock and complete current graph owner/access.manage USE required;
+// initialization forces require_fresh=true at actual session read (age<=300000ms);
+// snapshot forces require_fresh=false, still checking live session/expiry/revocation.
 // never trust raw account/owner boolean. Complete config/registry must be supported.
 // fresh empty state namespace ONLY, no existing-head reset even identical startup.
 // Actual fresh SAS1 absent basis, timer Active/Main positive/debt0/empty balances,
-// actual separately sampled live UTC+monotonic. Caller refs are bounded installation
-// startup allocations, not external authority. Real retain_initial_state commit and
-// normal completion BEFORE anchor/readiness. Not Start, reopen or recovery.
+// actual separately sampled live UTC+monotonic. Initial SAS1 has zero segments,
+// observed UTC equals that sample UTC; policy is admitted config.policy_revision_ref. Caller refs
+// are bounded installation startup allocations, not external authority. Real retain_initial_state
+// commit and normal completion BEFORE anchor/readiness. Not Start, reopen or recovery.
 // receipt/evidence/capture require this process's actual acknowledged live anchor
 // through borrowed live_runtime.current plus coherent current head, before new
 // durable work; absent/reopened journal is
@@ -106,9 +109,15 @@ struct ReferencePreparedWork {
 // registration B=connection+provider+account+namespace/I0; initialize input sums
 // all request fields/timer; receipt input=config_ref+synthetic input; evidence=
 // receipt ID8; capture=receipt ID8+CID8; snapshot=session lookup. make_* owns bounded
-// input before admission, pending queue <=writer.pending_batches AND runtime
-// pending_reservations; closures reserve admission slots until completion/abandon.
+// input before admission. Local prepared-pair slots <=pending_reservations;
+// overflow throws ReferenceInputFailure(input_limit) before copy/payload ownership,
+// sampling or entropy. Shared pair lease releases exactly once on completion or
+// abandonment of BOTH closures (copies retain lease). Writer queue admission is
+// exclusively SqliteWriter enqueue/error, not predicted by make_* with no writer
+// dependency; writer.pending_batches remains its independent limit.
 // Qt QVariant returned work values count HELD typed semantic payload, not ABI.
+// Successful snapshot body holds ReferenceSnapshot in work.value (no hidden
+// additional envelope); its duplicate output is charged AGAIN in completion.
 // Completion includes actual work (outcome1,error1,optional1+held value), optional
 // outputs/refusals (1+body each). Nested SQL/store/service profiles retain all
 // independent rows, bound bytes, component, document, vector and result ceilings.
@@ -119,6 +128,19 @@ struct ReferencePreparedWork {
 // profile -> output projection -> allocation; no copy/SQL/core work before pure
 // preflight. Own allocation -> ReferenceInputFailure(allocation_failure); ORIGINAL
 // SQL/capability/adopted-service failures preserved including lifetimes/cleanup.
+// Profile/auth/conflict refusals explicitly roll back: ORIGINAL work.error is
+// not_committed and work.value absent (writer-transactions-v1 finish rules).
+// Only the bounded refusal diagnostic may be retained by the matching pair and
+// released after KNOWN rollback; anchor/receipt/evidence/capture/snapshot stay absent.
+// Unknown cleanup or body exception suppresses this diagnostic as well; never
+// rewrite writer error/outcome or synthesize a normal result. Reasons:
+// denied reference.access-denied.v1; existing head reference.initial-conflict.v1;
+// context/CID conflict reference.collision.v1; runtime reference.runtime-unavailable.v1;
+// missing/unknown config reference.configuration-unavailable.v1; known unsupported
+// config reference.configuration-unsupported.v1. Malformed source facts remain
+// typed failures; retained SRC1 contradiction is ReferenceExecutionFailure(invalid_data).
+// Post-BEGIN whole completion overage: rolled_back/result_limit, no value/payload;
+// no exception laundering or partially published output.
 // SQL source audit must prove selected bounded queries, cumulative budgets/no
 // reset, old error truth and original transaction ownership. No partial publication.
 class ReferenceIntake final {

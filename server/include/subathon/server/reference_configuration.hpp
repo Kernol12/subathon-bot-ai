@@ -3,7 +3,7 @@
 #include <subathon/server/reference_application.hpp>
 
 namespace subathon::server {
-// API-011 public contract revision 1. DATA supplied by the trusted configuration
+// API-011 public contract revision 2. DATA supplied by the trusted configuration
 // owner at queue construction, not SRC1, connector input or an admission permit.
 // Every version contains the ENTIRE unprojected enabled configuration and its
 // immutable owner revision. Unknown categories remain unknown. Unrepresentable
@@ -12,13 +12,9 @@ struct ReferenceConfigurationVersion {
     std::string reference;
     ReferenceConfigurationResolution contents;
 };
-class ReferenceNotImplemented final : public std::logic_error {
-  public:
-    explicit ReferenceNotImplemented(const char *method) : std::logic_error(method) {}
-};
 // Inert constructor moves owned startup versions; no validation/admission occurs
 // until a method. No mutation/editor, pruning or current-version substitution API.
-// Owner thread = construction thread; all calls, including refusals, check affinity.
+// Owner thread = construction thread; affinity follows pure input and view checks.
 // snapshot/load validate the WHOLE archive (including later/losing versions) before
 // selecting. Duplicate version refs or mismatched ref/facts/projection are binding
 // failures; duplicate refs within facts are shape failures. Owner revisions nonempty.
@@ -31,6 +27,9 @@ class ReferenceNotImplemented final : public std::logic_error {
 // is unavailable, known contradictory data is ReferenceExecutionFailure(invalid_data).
 // A valid request on default/copied-expired/foreign view preserves the ORIGINAL
 // ApplicationReferenceViewFailure; invalid input/limits win BEFORE view access.
+// Order: pure input -> view lifetime/thread -> archive construction-thread affinity.
+// Thus a live foreign view throws ApplicationReferenceViewFailure(wrong_thread);
+// a same-thread valid view used on a foreign archive throws SqliteWorkFailure.
 // Original SQL/retention errors propagate; this source never cleans/commits work.
 // Resources: inherited ReferenceAdapterLimits apply independently to complete
 // (requested_ref + archive) input, selected output and every codec intermediate.
@@ -38,6 +37,12 @@ class ReferenceNotImplemented final : public std::logic_error {
 // B(struct)=sum ALL fields/copies; variant=held alternative only; vector I=size+
 // sum nested I, B=sum nested B. Version adds reference+held contents; versions
 // vector includes every version and every nested enabled rule/category member.
+// Approved RULES-006 Facts/projection structural accounting is unchanged, including
+// TimerConfig hard_end presence within that projection (absent charges1). Whole
+// imported service DTOs instead retain application-service §F: optional absent0,
+// present charges only value. New wrappers add only their OWN presence fields;
+// never recursively impose new presence bytes on a whole imported DTO. Imported
+// authority Facts retain ACCESS-011 B/I and independent nested limits.
 // Limits/dependency objects uncharged. Every ref/trigger/category/shape string uses
 // reference_bytes; payload/document uses its field ceiling. BEFORE any copy/hash/
 // numeric/codec allocation: limits positive, representable size_t/ptrdiff_t/

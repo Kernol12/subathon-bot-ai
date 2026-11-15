@@ -15,7 +15,11 @@ void denied(const AccessDecision &r) {
 }
 void unavailable(const ReferenceConfigurationResolution &r, ReferenceGate g) {
     const auto *u = std::get_if<ReferenceUnavailable>(&r);
-    require(u && u->gate == g, "Exact unknown/unsupported distinction");
+    require(u && u->gate == g &&
+                u->reason_ref == (g == ReferenceGate::not_ready
+                                      ? "reference.configuration-unavailable.v1"
+                                      : "reference.configuration-unsupported.v1"),
+            "Exact unknown/unsupported gate and reason");
 }
 } // namespace
 class ReferenceApplicationAdapterTests final : public QObject {
@@ -47,10 +51,14 @@ class ReferenceApplicationAdapterTests final : public QObject {
     void archiveUnknownUnsupportedAndLaterMalformedPriority_data() {
         QTest::addColumn<int>("kind");
         QTest::newRow("unknown-whole-category") << 0;
-        QTest::newRow("enabled-unsupported-action") << 1;
+        QTest::newRow("enabled-unsupported-modifier") << 1;
         QTest::newRow("later-malformed-after-unsupported") << 2;
         QTest::newRow("projection-complete-while-unknown") << 3;
         QTest::newRow("duplicate-owned-version") << 4;
+        QTest::newRow("enabled-outbound-action") << 5;
+        QTest::newRow("enabled-milestone") << 6;
+        QTest::newRow("second-rule") << 7;
+        QTest::newRow("negative-add-ms") << 8;
     }
     void archiveUnknownUnsupportedAndLaterMalformedPriority() {
         QFETCH(int, kind);
@@ -69,15 +77,29 @@ class ReferenceApplicationAdapterTests final : public QObject {
                 f.generated_events.state = ReferenceFactsState::unknown;
             if (kind == 4)
                 v.push_back(v[0]);
+            if (kind == 5)
+                f.outbound_actions.enabled_refs = {"action"};
+            if (kind == 6)
+                f.milestones.enabled_refs = {"milestone"};
+            if (kind == 7) {
+                auto second = f.enabled_rules[0];
+                second.rule.rule_ref = "second";
+                f.enabled_rules.push_back(second);
+            }
+            if (kind == 8) {
+                f.projection.rule.add_ms = -1;
+                f.enabled_rules[0].rule.add_ms = -1;
+            }
             ReferenceConfigurationArchive archive(std::move(v));
-            if (kind < 2)
+            if (kind < 2 || (kind >= 5 && kind <= 7))
                 unavailable(archive.snapshot("D"), kind == 0
                                                        ? ReferenceGate::not_ready
                                                        : ReferenceGate::unsupported_configuration);
             else
                 input_failure([&] { (void)archive.snapshot("C"); },
-                              kind == 2 ? ReferenceInputError::invalid_tag
-                                        : ReferenceInputError::invalid_binding);
+                              kind == 2   ? ReferenceInputError::invalid_tag
+                              : kind == 8 ? ReferenceInputError::invalid_value
+                                          : ReferenceInputError::invalid_binding);
         });
     }
     void archiveSnapshotInvalidLimitsBeforeMalformedInput() {
@@ -154,6 +176,84 @@ class ReferenceApplicationAdapterTests final : public QObject {
             }
         });
     }
+    void archiveMissingRetainedAndContradictoryFactsPreserveChannels_data() {
+        QTest::addColumn<bool>("contradictory");
+        QTest::newRow("missing-selected-retained") << false;
+        QTest::newRow("retained-SRC1-contradicts-facts") << true;
+    }
+    void archiveMissingRetainedAndContradictoryFactsPreserveChannels() {
+        QFETCH(bool, contradictory);
+        scenario([&] {
+            Rig r;
+            auto f = facts(contradictory ? "C" : "E");
+            if (contradictory) {
+                f.projection.rule.add_ms = 1;
+                f.enabled_rules[0].rule.add_ms = 1;
+            }
+            ReferenceConfigurationArchive archive({{f.configuration_ref, f}});
+            r.probe([&](const auto &v, const auto &) {
+                if (!contradictory) {
+                    const auto loaded = archive.load(v, "E");
+                    const auto *u = std::get_if<ReferenceUnavailable>(&loaded);
+                    require(u && u->gate == ReferenceGate::not_ready &&
+                                u->reason_ref == "reference.configuration-unavailable.v1",
+                            "Missing exact retained row, not a narrow facts permit");
+                } else {
+                    bool caught = false;
+                    try {
+                        (void)archive.load(v, "C");
+                    } catch (const ReferenceExecutionFailure &e) {
+                        caught = e.code() == ReferenceAuthorityFailure::invalid_data;
+                    }
+                    require(caught, "Contradictory retained semantics retain typed invalid_data");
+                }
+            });
+        });
+    }
+    void archivePureInputThenViewThenConstructionAffinity() {
+        scenario([] {
+            Rig r;
+            r.probe([&](const auto &v, const auto &) {
+                auto pure = std::async(std::launch::async, [&] {
+                    input_failure([&] { (void)r.configuration.load(v, ""); },
+                                  ReferenceInputError::invalid_reference);
+                });
+                // get also preserves the exact test failure rather than laundering it.
+                pure.get();
+                auto foreign =
+                    std::async(std::launch::async, [] {
+                        return std::make_unique<ReferenceConfigurationArchive>(versions());
+                    }).get();
+                bool caught = false;
+                try {
+                    (void)foreign->load(v, "C");
+                } catch (const SqliteWorkFailure &e) {
+                    caught = e.error() == WorkError::wrong_thread;
+                }
+                require(caught, "Valid owner-thread view then foreign archive affinity error");
+            });
+        });
+    }
+    void stateDecodeOwning90ByteBasisPresentAnchor() {
+        scenario([] {
+            const ApplicationStateSnapshot snapshot{
+                "b",
+                {"subathon.internal.application-state.v1",
+                 QByteArray::fromHex(
+                     "534153310000000163010000000161000000016c000000017400000000000003e8"
+                     "00000001000000000000000000000000000003e80000000001760100"
+                     "000000000000003a000000000000005a00000000000000000000000000")},
+                "c",
+                {TimerLifecycle::Active, CountdownPhase::Main, 58, 90, false},
+                0,
+                {}};
+            require(snapshot.envelope.document.size() == 90,
+                    "Owning §E independent literal length");
+            const ReferenceCommittedState expected{
+                snapshot, "a", {"l", "t", "c", "v", "a", 1000, {{0, 1000, false}}}, "v"};
+            same_state(decode_reference_state(snapshot), expected);
+        });
+    }
     void stateEncodeMatchesLiteralBytesWithAbsentInitialBasis() {
         scenario([] {
             const auto literal = committed("initial");
@@ -168,6 +268,7 @@ class ReferenceApplicationAdapterTests final : public QObject {
         scenario([] {
             const auto literal = committed("initial");
             const auto decoded = decode_reference_state(literal.snapshot);
+            same_state(decoded, literal);
             require(!decoded.basis && decoded.policy_revision_ref == "W" &&
                         decoded.observation.clock_lineage_ref == "L" &&
                         decoded.observation.observation_ref == "O" &&
@@ -236,7 +337,7 @@ class ReferenceApplicationAdapterTests final : public QObject {
                     "Actual Linux OS read, not random-statistics uniqueness proof");
         });
     }
-    void issuerUsesPurposeDomainAndWholeBindingExactlyOnce() {
+    void issuerUsesPurposeDomainAndWholeBindingOncePerOutstandingScope() {
         scenario([] {
             Rig r;
             r.entropy.advance = false;
@@ -253,7 +354,37 @@ class ReferenceApplicationAdapterTests final : public QObject {
             require(std::holds_alternative<ApplicationUnavailable>(
                         r.adapters.issue(ApplicationReferencePurpose::after_state, b)) &&
                         r.entropy.calls == 1,
-                    "Same binding/purpose cannot be consumed twice; no entropy retry");
+                    "Same outstanding reservation scope consumes binding/purpose once; no entropy "
+                    "retry");
+        });
+    }
+    void issuerRollbackClosesScopeButPreviouslyIssuedBytesRemainSpent() {
+        scenario([] {
+            Rig r;
+            r.entropy.advance = false;
+            r.entropy.next.bytes.fill(0x10);
+            require(!r.adapters.reserve(committed(), command(), ReferenceZeroStep::fresh),
+                    "First live outstanding reservation scope");
+            r.entropy.next.bytes.fill(0x11);
+            const auto first =
+                r.adapters.issue(ApplicationReferencePurpose::after_state, reference_binding());
+            require(std::holds_alternative<IssuedApplicationReference>(first),
+                    "First after-token issued once");
+            ApplicationServiceCompletion rollback;
+            rollback.transaction = TransactionOutcome::rolled_back;
+            rollback.work_error = WorkError::sql_failure;
+            r.adapters.settle(rollback, {});
+            r.entropy.next.bytes.fill(0x12);
+            require(!r.adapters.reserve(committed(), command(), ReferenceZeroStep::fresh),
+                    "Explicit same-command retry has new reservation bytes");
+            r.entropy.next.bytes.fill(0x11);
+            const auto before = r.entropy.calls;
+            const auto repeated =
+                r.adapters.issue(ApplicationReferencePurpose::after_state, reference_binding());
+            const auto *u = std::get_if<ApplicationUnavailable>(&repeated);
+            require(
+                u && u->reason_ref == "reference.collision.v1" && r.entropy.calls == before + 1,
+                "Spent after-token bytes refuse even after known rollback; no automatic redraw");
         });
     }
     void issuerShortErrorAndTooSmallProfileRefuseWithoutFallback_data() {
@@ -315,7 +446,7 @@ class ReferenceApplicationAdapterTests final : public QObject {
                     "Live reservation admitted");
             const auto sampled = r.sampler.calls;
             r.probe([&](const auto &v, const auto &c) {
-                auto p = policy(input);
+                auto p = policy(r, v, c, input);
                 const auto got = r.adapters.observe(v, c, input, p);
                 const auto *o = std::get_if<ApplicationClockObservation>(&got);
                 require(o && o->observed_utc_ms == utc && r.sampler.calls == sampled &&
@@ -340,7 +471,7 @@ class ReferenceApplicationAdapterTests final : public QObject {
             const auto i = r.file.inputs();
             r.probe([&](const auto &v, const auto &c) {
                 require(std::holds_alternative<ApplicationUnavailable>(
-                            r.adapters.observe(v, c, i, policy(i))) &&
+                            r.adapters.observe(v, c, i, policy(r, v, c, i))) &&
                             r.sampler.calls == 0,
                         "Missing candidate is not fabricated elapsed0; direct own NI witness");
             });
@@ -364,15 +495,18 @@ class ReferenceApplicationAdapterTests final : public QObject {
             if (kind == 1)
                 r.sampler.next = ReferenceClockSample{3480100, 1000};
             if (kind == 2)
-                r.sampler.next = ReferenceUnavailable{ReferenceGate::not_ready, "test.clock"};
+                r.sampler.next =
+                    ReferenceUnavailable{ReferenceGate::not_ready, "reference.clock.v1"};
             if (kind == 3)
                 c.snapshot.token = "other";
             if (kind == 4)
                 c.policy_revision_ref = "other";
             if (kind < 3) {
                 const auto refused = r.adapters.reserve(c, command());
-                require(refused && refused->gate == ReferenceGate::not_ready,
-                        "Unknown/discontinuity/expiry not ready");
+                require(refused && refused->gate == ReferenceGate::not_ready &&
+                            refused->reason_ref == (kind == 2 ? "reference.clock.v1"
+                                                              : "reference.runtime-unavailable.v1"),
+                        "Exact unknown/discontinuity/expiry gate and reason");
             } else
                 input_failure([&] { (void)r.adapters.reserve(c, command()); },
                               ReferenceInputError::invalid_binding);
@@ -382,16 +516,114 @@ class ReferenceApplicationAdapterTests final : public QObject {
         scenario([] {
             ReferenceRuntimeLimits l;
             l.values.clock_journal_entries = 2;
-            l.pending_reservations = 1;
+            l.pending_reservations = 2;
             Rig r("standard", l);
             require(!r.adapters.reserve(committed(), command(), ReferenceZeroStep::fresh),
                     "Anchor+one exact reservation fits2");
             const auto clocks = r.sampler.calls, entropy = r.entropy.calls;
             const auto refusal =
                 r.adapters.reserve(committed(), command(), ReferenceZeroStep::fresh);
-            require(refusal && refusal->reason_ref == "reference.journal-capacity.v1" &&
+            require(refusal && refusal->gate == ReferenceGate::not_ready &&
+                        refusal->reason_ref == "reference.journal-capacity.v1" &&
                         r.sampler.calls == clocks && r.entropy.calls == entropy,
                     "One over refuses BEFORE sampling, no eviction of anchor/outstanding work");
+        });
+    }
+    void journalPendingSlotsAreIndependentOfEntryCapacity() {
+        scenario([] {
+            ReferenceRuntimeLimits l;
+            l.values.clock_journal_entries = 3;
+            l.pending_reservations = 1;
+            Rig r("standard", l);
+            require(!r.adapters.reserve(committed(), command(), ReferenceZeroStep::fresh),
+                    "One pending slot fits with a spare journal entry");
+            const auto clocks = r.sampler.calls, entropy = r.entropy.calls;
+            const auto refused =
+                r.adapters.reserve(committed(), command("second"), ReferenceZeroStep::fresh);
+            require(refused && refused->gate == ReferenceGate::not_ready &&
+                        refused->reason_ref == "reference.journal-capacity.v1" &&
+                        r.sampler.calls == clocks && r.entropy.calls == entropy,
+                    "Pending1 bound alone rejects before work");
+        });
+    }
+    void journalKnownRollbackRetainsSpentTombstone() {
+        scenario([] {
+            ReferenceRuntimeLimits l;
+            l.values.clock_journal_entries = 2;
+            l.pending_reservations = 2;
+            Rig r("standard", l);
+            require(!r.adapters.reserve(committed(), command(), ReferenceZeroStep::fresh),
+                    "Anchor plus fresh reservation exact2");
+            ApplicationServiceCompletion rolled;
+            rolled.transaction = TransactionOutcome::rolled_back;
+            rolled.work_error = WorkError::sql_failure;
+            r.adapters.settle(rolled, {});
+            const auto live = r.adapters.current(committed().snapshot);
+            require(std::holds_alternative<ReferenceCommittedState>(live),
+                    "Known rollback retains old anchor");
+            const auto clocks = r.sampler.calls, entropy = r.entropy.calls;
+            const auto refused = r.adapters.reserve(committed(), command("explicit-retry"),
+                                                    ReferenceZeroStep::fresh);
+            require(refused && refused->reason_ref == "reference.journal-capacity.v1" &&
+                        r.sampler.calls == clocks && r.entropy.calls == entropy,
+                    "Spent observation still fills entry2 even though pending slot released");
+        });
+    }
+    void committedSettlementMismatchCannotMutateJournal() {
+        scenario([] {
+            Rig r;
+            const auto completion = r.attempt(command(), {}, false);
+            const auto &record = applied(completion);
+            const auto expected = checked_after(record, committed(), {100, 1000}, 1);
+            auto wrong = expected;
+            wrong.snapshot.token = "foreign";
+            input_failure([&] { r.adapters.settle(completion, wrong); },
+                          ReferenceInputError::invalid_binding);
+            const auto still_old = r.adapters.current(committed().snapshot);
+            require(std::holds_alternative<ReferenceCommittedState>(still_old),
+                    "Mismatched committed completion leaves live anchor unchanged");
+            same_state(std::get<ReferenceCommittedState>(still_old), committed());
+            r.adapters.settle(completion, expected);
+            same_state(std::get<ReferenceCommittedState>(r.adapters.current(expected.snapshot)),
+                       expected);
+        });
+    }
+    void runtimeProfilesRefuseCurrentAndReserve_data() {
+        QTest::addColumn<QString>("profile");
+        for (const auto *name :
+             {"debt", "grace", "wait", "balances", "ready", "finished", "deadline"})
+            QTest::newRow(name) << QString(name);
+    }
+    void runtimeProfilesRefuseCurrentAndReserve() {
+        QFETCH(QString, profile);
+        scenario([&] {
+            const bool deadline = profile == "deadline";
+            const auto state = committed(deadline ? "standard" : profile.toUtf8().constData());
+            auto v = versions();
+            if (deadline)
+                std::get<ReferenceConfigurationFacts>(v[1].contents)
+                    .projection.timer_config.hard_end_utc_ms = 999999;
+            if (profile == "wait")
+                std::get<ReferenceConfigurationFacts>(v[1].contents)
+                    .projection.timer_config.end_mode = TimerEndMode::Confirmation;
+            ReferenceConfigurationArchive config(std::move(v));
+            SqliteReferenceAuthoritySource authority;
+            Sampler sampler;
+            Entropy entropy;
+            ReferenceApplicationAdapters runtime(config, authority, sampler, entropy,
+                                                 ReferenceClockAnchor{state, {100, 1000}});
+            const auto current = runtime.current(state.snapshot);
+            const auto *u = std::get_if<ReferenceUnavailable>(&current);
+            const auto gate =
+                deadline ? ReferenceGate::unsupported_configuration : ReferenceGate::not_ready;
+            const auto reason = deadline ? "reference.configuration-unsupported.v1"
+                                         : "reference.runtime-unavailable.v1";
+            require(u && u->gate == gate && u->reason_ref == reason,
+                    "Exact current profile refusal");
+            const auto refused = runtime.reserve(state, command());
+            require(refused && refused->gate == gate && refused->reason_ref == reason &&
+                        sampler.calls == 0 && entropy.calls == 0,
+                    "No sampling/entropy for coherent unsupported runtime/configuration");
         });
     }
     void journalEntropyCollisionIsExplicitNoRetry() {
@@ -497,6 +729,7 @@ class ReferenceApplicationAdapterTests final : public QObject {
                 require(p && p->maximum_main_ms == 3540000 && p->configuration_ref == "D" &&
                             p->checked_state_token == "a" && p->policy_revision_ref == "W" &&
                             p->permission_revision_ref == f->permission_revision_ref &&
+                            p->pause_recovery_revision == "reference.fresh-runtime.v1" &&
                             p->admission.disposition == ApplicationPolicyAdmission::allow_active &&
                             !p->paused && !p->recovery_pending && p->correction_policies.empty(),
                         "Actual current config cap, immutable captured600000 remains separate");
@@ -525,7 +758,7 @@ class ReferenceApplicationAdapterTests final : public QObject {
                            {ApplicationComponentKind::debt_delta, 0, {}},
                            {ApplicationComponentKind::cap_limited_time, 480000, {}}}}};
             r.probe([&](const auto &v, const auto &c) {
-                const auto got = r.adapters.prepare(v, c, i, policy(i), q);
+                const auto got = r.adapters.prepare(v, c, i, policy(r, v, c, i), q);
                 const auto *a = std::get_if<PreparedApplicationActions>(&got);
                 require(a && a->jobs.empty() &&
                             a->explanation == "reference.no-external-actions.v1",
@@ -548,16 +781,10 @@ class ReferenceApplicationAdapterTests final : public QObject {
                 require(found.has_value(), "SETUP: literal historical complete bundle");
                 historical = *found;
             });
-            auto g = graph(false);
-            for (auto &a : g.accounts)
-                if (a.account == "E")
-                    std::erase_if(a.individual_entries, [](const auto &e) {
-                        return e.operation == "reference.application-read.v1";
-                    });
-            db.replace_graph(0, g);
             Probe probe;
+            bool expected = true;
             probe.f = [&](const auto &v, const auto &c) {
-                require(!adapters.disclose_application(v, c, historical),
+                require(adapters.disclose_application(v, c, historical) == expected,
                         "Actual record read permission separately revoked");
             };
             Ports ports(adapters);
@@ -568,7 +795,21 @@ class ReferenceApplicationAdapterTests final : public QObject {
                         StorageError::none,
                     "OLD service callback probe");
             require(QTest::qWaitFor([&] { return done; }, 10000), "Probe completion");
-            probe.witness.rethrow_ni();
+            probe.witness.rethrow();
+            auto g = graph(false);
+            for (auto &a : g.accounts)
+                if (a.account == "E")
+                    std::erase_if(a.individual_entries, [](const auto &e) {
+                        return e.operation == "reference.application-read.v1";
+                    });
+            db.replace_graph(0, g);
+            expected = false;
+            done = false;
+            require(service.enqueue(command(), [&](auto) { done = true; }).error ==
+                        StorageError::none,
+                    "Second OLD probe after actual read revocation");
+            require(QTest::qWaitFor([&] { return done; }, 10000), "Denied probe completes");
+            probe.witness.rethrow();
             if (probe.witness.error)
                 std::rethrow_exception(probe.witness.error);
         });
@@ -578,8 +819,8 @@ class ReferenceApplicationAdapterTests final : public QObject {
             Rig r;
             ApplicationHoldActiveSet malformed;
             r.probe([&](const auto &v, const auto &c) {
-                require(!r.adapters.disclose_holds(v, c, malformed),
-                        "No known-empty/disclosure permit from absent set bindings");
+                input_failure([&] { (void)r.adapters.disclose_holds(v, c, malformed); },
+                              ReferenceInputError::invalid_shape);
             });
         });
     }
@@ -599,6 +840,10 @@ class ReferenceApplicationAdapterTests final : public QObject {
             require(exact.response && exact.response->disposition ==
                                           ApplicationServiceDisposition::existing_operation,
                     "Exact retry historical application");
+            require(std::holds_alternative<RecordedApplicationBundle>(exact.response->payload),
+                    "Historical retry has whole record");
+            accounting(std::get<RecordedApplicationBundle>(exact.response->payload), 600000, 120000,
+                       480000, 3600000);
             const auto new_key = r.attempt(command("new-key"));
             require(new_key.response &&
                         new_key.response->disposition ==
@@ -672,10 +917,19 @@ class ReferenceApplicationAdapterTests final : public QObject {
                     r.file.observer->rows("SELECT main_remaining_ms FROM subathon_app_states")[0][0]
                             .toLongLong() == 3480000,
                 "Earlier intake/capture durable and original head unchanged");
+            const auto rolled_back_draws = r.entropy.calls;
+            require(rolled_back_draws == 2, "Reservation and after-state each drew once");
+            const auto spent_after = std::string("RRF1\1", 5) + std::string(32, char(2));
             r.adapters.settle(got, {});
             r.file.db.work(
                 [](const auto &s) { (void)s.execute({"DROP TRIGGER api011_audit_fault", {}}); });
-            accounting(applied(r.attempt()), 600000, 120000, 480000, 3600000);
+            const auto retried = r.attempt();
+            accounting(applied(retried), 600000, 120000, 480000, 3600000);
+            require(r.entropy.calls == rolled_back_draws + 2 &&
+                        applied(retried).after.token ==
+                            std::string("RRF1\1", 5) + std::string(32, char(4)) &&
+                        applied(retried).after.token != spent_after,
+                    "Explicit retry has new entropy and new after-token; spent value never reused");
         });
     }
     void actualCommitAckLossStopsWithoutNormalPublication() {
@@ -719,16 +973,48 @@ class ReferenceApplicationAdapterTests final : public QObject {
                             3600000 &&
                         r.file.count("subathon_app_claims") == 1,
                     "Separately authorized real read resolves durable head once");
+            auto recovered = out.result->snapshot->committed;
+            require(recovered.snapshot.token ==
+                            std::string("RRF1\1", 5) + std::string(32, char(2)) &&
+                        recovered.basis == "a" && recovered.observation.checked_head_token == "a" &&
+                        recovered.observation.observation_ref == "O" &&
+                        recovered.observation.segments.empty(),
+                    "Independent committed b binding");
+            r.adapters.reconcile(recovered);
+            const auto live = r.adapters.current(recovered.snapshot);
+            require(std::holds_alternative<ReferenceCommittedState>(live),
+                    "Authorized read promotes b and reopens journal");
+            same_state(std::get<ReferenceCommittedState>(live), recovered);
+            Completion<ReferenceReceiptCompletion> receipt;
+            receipt.run(r.file.db.writer, r.intake.make_receipt_work(
+                                              "D", {"Q", "after-reconcile", {}, QByteArray("", 0)},
+                                              receipt.callback()));
+            normal(receipt.result->work);
+            require(receipt.result->receipt.has_value() && r.file.count("subathon_receipts") == 2,
+                    "Borrowed live runtime admits receipt on advanced b");
+            ApplicationServiceCompletion unknown;
+            unknown.transaction = TransactionOutcome::outcome_unknown;
+            unknown.work_error = WorkError::uncertain_outcome;
+            r.adapters.settle(unknown, {});
+            Completion<ReferenceReceiptCompletion> blocked;
+            blocked.run(r.file.db.writer, r.intake.make_receipt_work(
+                                              "D", {"Q", "after-unknown", {}, QByteArray("", 0)},
+                                              blocked.callback()));
+            require(blocked.result->refusal && !blocked.result->receipt &&
+                        blocked.result->refusal->gate == ReferenceGate::not_ready &&
+                        blocked.result->refusal->reason_ref == "reference.runtime-unavailable.v1" &&
+                        r.file.count("subathon_receipts") == 2,
+                    "Same borrower observes stop after unknown; stale startup copy cannot pass");
         });
     }
-    void issuerWholeResultByteCeilingExact79AndOneLess() {
+    void issuerWholeImportedResultByteCeilingExact77AndOneLess() {
         scenario([] {
             ReferenceRuntimeLimits l;
-            l.values.value_owned_bytes = 79;
+            l.values.value_owned_bytes = 77;
             Rig exact("standard", l);
             require(std::holds_alternative<IssuedApplicationReference>(exact.adapters.issue(
                         ApplicationReferencePurpose::after_state, reference_binding())),
-                    "Binding42 + reference37 = result79 fits");
+                    "Owning service Binding40 + reference37 = result77 fits (absent optional0)");
             --l.values.value_owned_bytes;
             Rig short_profile("standard", l);
             input_failure(
@@ -759,6 +1045,65 @@ class ReferenceApplicationAdapterTests final : public QObject {
                         got.work_error == WorkError::none && got.response &&
                         got.response->disposition == ApplicationServiceDisposition::held_numeric,
                     "MAX valid exact request; Main1+MAX gives whole numeric hold");
+            const auto causes = r.file.observer->rows(
+                "SELECT cause_kind,failure_stage,failing_ordinal,failing_target_ref,"
+                "failure_numerator,failure_denominator,composition,missing_policy_reason "
+                "FROM subathon_hold_causes");
+            require(
+                causes.size() == 1 && causes[0][0].toInt() == 0 && causes[0][1].toInt() == 1 &&
+                    causes[0][2].toLongLong() == 1 && causes[0][3].toByteArray() == "T" &&
+                    causes[0][4].toByteArray() == "9223372036854775808" &&
+                    causes[0][5].toByteArray() == "1" && causes[0][6].isNull() &&
+                    causes[0][7].isNull(),
+                "Exact durable whole numeric_overflow/aggregate ordinal1 targetT attempted2^63/1");
+            const auto observations =
+                r.file.observer->rows("SELECT "
+                                      "persisted_state_token,format_ref,document,policy_revision_"
+                                      "ref,observed_utc_ms,elapsed_ms "
+                                      "FROM subathon_hold_cause_observations");
+            require(observations.size() == 1 && observations[0][0].toByteArray() == "a" &&
+                        observations[0][1].toByteArray() ==
+                            "subathon.internal.application-hold-observation.v1" &&
+                        observations[0][3].toByteArray() == "W" &&
+                        observations[0][4].toLongLong() == 1000 &&
+                        observations[0][5].toLongLong() == 0,
+                    "Durable retained-head/Policy/Clock evidence");
+            // Independent owning SAH1 grammar reader. Never derive an oracle from
+            // held result or candidate encoder; require every literal leaf and end.
+            const auto doc = observations[0][2].toByteArray();
+            qsizetype offset = 4;
+            auto number = [&](int width) {
+                require(offset <= doc.size() && width <= doc.size() - offset,
+                        "SAH1 complete frame");
+                std::uint64_t n = 0;
+                for (int k = 0; k < width; ++k)
+                    n = (n << 8) | static_cast<unsigned char>(doc[offset++]);
+                return n;
+            };
+            auto bytes = [&] {
+                const auto n = number(4);
+                require(n <= std::uint64_t(doc.size() - offset), "SAH1 bounded string");
+                const auto v = doc.mid(offset, qsizetype(n));
+                offset += qsizetype(n);
+                return v;
+            };
+            require(doc.startsWith("SAH1") && bytes().startsWith("SAC1") && bytes() == "a" &&
+                        number(1) == 1,
+                    "SAH1 command, actual head and PRESENT Policy, no SAH2 correction plans");
+            require(bytes() == "C" && bytes() == "W" && !bytes().isEmpty() && number(1) == 0 &&
+                        number(1) == 1 && number(8) == 120000 && number(1) == 0 && number(1) == 0 &&
+                        number(1) == 0 && number(1) == 0 &&
+                        bytes() == "reference.fresh-runtime.v1" &&
+                        bytes() == "reference.current-policy.v1",
+                    "Whole exact no-cap fresh Policy");
+            require(number(1) == 1 && bytes() == "L" && bytes() == "O" && number(8) == 1000 &&
+                        number(4) == 0,
+                    "PRESENT reused Clock, zero segments");
+            require(number(1) == 1 && number(1) == 1 && number(1) == 1 && number(8) == 1 &&
+                        number(1) == 1 && bytes() == "T" && number(1) == 1 &&
+                        bytes() == "9223372036854775808" && bytes() == "1" && number(1) == 0 &&
+                        bytes().isEmpty() && offset == doc.size(),
+                    "Exact Failure and no suffix/partial correction");
             for (const auto *table : {"subathon_app_claims", "subathon_app_operations",
                                       "subathon_app_effects", "subathon_app_jobs"})
                 require(r.file.count(table) == 0, "No partial MAX-1 award/claim/jobs");
@@ -879,7 +1224,23 @@ class ReferenceApplicationAdapterTests final : public QObject {
             ReferenceConfigurationArchive config({{"C", original}, {"D", current}});
             Sampler sampler;
             Entropy entropy;
-            SqliteReferenceAuthoritySource authority;
+            struct CapturedAuthority final : ReferenceAuthoritySource {
+                SqliteReferenceAuthoritySource actual;
+                std::vector<std::string> capabilities;
+                ReferenceAuthorityResolution resolve(const ApplicationReferenceReadView &v,
+                                                     const ReferenceAuthorityRequest &q) override {
+                    capabilities.push_back(q.captured.rule.automation_capability_ref);
+                    require((q.captured.rule.automation_capability_ref == "K" &&
+                             q.captured.rule.rule_version_ref == "r" &&
+                             q.captured.rule.add_ms == 600000) ||
+                                (q.captured.rule.automation_capability_ref == "J" &&
+                                 q.captured.rule.rule_version_ref == "s" &&
+                                 q.captured.rule.add_ms == 900000),
+                            "Fresh actual authority sees immutable K/r/600000 OR independent "
+                            "J/s/900000");
+                    return actual.resolve(v, q);
+                }
+            } authority;
             ReferenceApplicationAdapters runtime(config, authority, sampler, entropy,
                                                  ReferenceClockAnchor{committed(), {100, 1000}});
             ReferenceIntake intake(config, sampler, entropy, file.db.clock, connector(), &runtime);
@@ -938,11 +1299,53 @@ class ReferenceApplicationAdapterTests final : public QObject {
                 },
                 10000);
             prepared.completion(raw);
-            queue_witness.rethrow_ni();
-            ports.witness.rethrow_ni();
+            queue_witness.rethrow();
+            ports.witness.rethrow();
             require(applied_original.has_value(),
                     "Actual r1 service completion under coherent current r2");
             accounting(applied(*applied_original), 600000, 120000, 480000, 3600000);
+            require(std::find(authority.capabilities.begin(), authority.capabilities.end(), "K") !=
+                        authority.capabilities.end(),
+                    "RP11 actual current K authority validated for original capture");
+            auto second = command("second-capture-check");
+            second.receipt_id = receipt.result->receipt->receipt_id;
+            second.contribution_id = evidence.result->evidence->contribution_id;
+            second.plan = captured.result->capture->plan;
+            const auto ref = captured.result->capture->execution_context_ref;
+            QByteArray choice("SRF1");
+            for (int shift = 24; shift >= 0; shift -= 8)
+                choice += char((ref.size() >> shift) & 255);
+            choice += blob(ref);
+            second.choices[0].document = choice;
+            auto query = [&](const OriginalApplicationCommand &selected, bool allow) {
+                Probe probe;
+                probe.f = [&](const auto &view, const auto &) {
+                    const auto access = runtime.check(view, selected);
+                    require(allow ? std::holds_alternative<ApplicationAccessAllowed>(access)
+                                  : std::holds_alternative<ApplicationAccessDenied>(access),
+                            "Captured capability must STILL have current actual authority");
+                };
+                ApplicationServicePorts selected_ports{probe, ports, ports, ports, ports};
+                OriginalApplicationService selected_service(file.db.writer, selected_ports);
+                bool done = false;
+                require(
+                    selected_service.enqueue(command("probe"), [&](auto) { done = true; }).error ==
+                        StorageError::none,
+                    "OLD finite-view callback probe");
+                require(QTest::qWaitFor([&] { return done; }, 10000), "Actual probe completes");
+                probe.witness.rethrow();
+            };
+            query(second, true);
+            require(std::find(authority.capabilities.begin(), authority.capabilities.end(), "J") !=
+                        authority.capabilities.end(),
+                    "Independent r2 input resolves its separately enrolled J");
+            file.db.work([&](const auto &session) {
+                staged(SqliteReferenceAuthorityUnit(session).set_state(
+                           actor('O'), file.db.clock, 5, "K", ReferenceAuthorityState::revoked),
+                       6);
+            });
+            query(command(), false);
+            query(second, true); // Current J can never rescue revoked captured K.
         });
     }
     void wholeHoldDisclosureChecksEveryActualMemberAndCurrentReadRights() {
@@ -972,13 +1375,20 @@ class ReferenceApplicationAdapterTests final : public QObject {
             struct ObservedAuthority final : ReferenceAuthoritySource {
                 SqliteReferenceAuthoritySource actual;
                 std::vector<std::string> holds;
+                bool deny_second = false;
                 ReferenceAuthorityResolution resolve(const ApplicationReferenceReadView &v,
                                                      const ReferenceAuthorityRequest &r) override {
                     require(r.use == ReferenceAuthorityUse::disclose_holds &&
                                 r.historical_hold.has_value(),
                             "Separate actual quantity-free per-hold disclosure request");
                     holds.push_back(*r.historical_hold);
-                    return actual.resolve(v, r);
+                    auto result = actual.resolve(v, r);
+                    if (deny_second && *r.historical_hold == "hold2") {
+                        require(std::holds_alternative<ReferenceAuthorityFacts>(result.value),
+                                "Actual second record resolves before typed denial wrapper");
+                        result.value = ReferenceAuthorityFailure::denied;
+                    }
+                    return result;
                 }
             } authority;
             ReferenceConfigurationArchive config(versions());
@@ -1008,6 +1418,13 @@ class ReferenceApplicationAdapterTests final : public QObject {
             require(authority.holds == std::vector<std::string>{"hold", "hold2"},
                     "Each actual hold resolved independently, no execute permit or "
                     "representative-only check");
+            authority.deny_second = true;
+            authority.holds.clear();
+            query(false);
+            require(std::find(authority.holds.begin(), authority.holds.end(), "hold2") !=
+                        authority.holds.end(),
+                    "Mixed real allowed/denied pair rejects WHOLE set; no any-of permit");
+            authority.deny_second = false;
             auto grant = graph(true);
             for (auto &a : grant.accounts)
                 if (a.account == "A")
@@ -1048,21 +1465,35 @@ class ReferenceApplicationAdapterTests final : public QObject {
             std::vector<std::string> completion_order;
             auto enqueue = [&](std::string key) {
                 const auto c = command(key);
-                auto prepared = r.service.make_work(c, [&, key](auto completion) {
-                    if (completion.response)
-                        if (const auto *record = std::get_if<RecordedApplicationBundle>(
-                                &completion.response->payload)) {
-                            r.current = decode_reference_state(record->after);
-                            r.adapters.settle(completion, r.current);
+                auto reservation_draw = std::make_shared<unsigned>(0);
+                auto before = std::make_shared<ReferenceCommittedState>();
+                auto prepared =
+                    r.service.make_work(c, [&, key, before, reservation_draw](auto completion) {
+                        try {
+                            if (completion.response)
+                                if (const auto *record = std::get_if<RecordedApplicationBundle>(
+                                        &completion.response->payload)) {
+                                    if (completion.response->disposition ==
+                                        ApplicationServiceDisposition::applied) {
+                                        r.current = checked_after(*record, *before, {100, 1000},
+                                                                  *reservation_draw);
+                                        r.adapters.settle(completion, r.current);
+                                    } else
+                                        r.adapters.settle(completion, {});
+                                }
+                        } catch (...) {
+                            r.ports.witness.error = std::current_exception();
                         }
-                    completion_order.push_back(key);
-                    results.push_back(std::move(completion));
-                });
+                        completion_order.push_back(key);
+                        results.push_back(std::move(completion));
+                    });
                 auto body = std::move(prepared.body);
-                auto wrapper = [&, c, body](auto context) -> QVariant {
+                auto wrapper = [&, c, body, before, reservation_draw](auto context) -> QVariant {
                     r.ports.witness.call([&] {
+                        *before = r.current;
                         require(!r.adapters.reserve(r.current, c),
                                 "FIFO sample immediately before actual execution");
+                        *reservation_draw = r.entropy.calls;
                     });
                     return body(context);
                 };
@@ -1075,7 +1506,7 @@ class ReferenceApplicationAdapterTests final : public QObject {
             enqueue("second");
             require(QTest::qWaitFor([&] { return results.size() == 2; }, 10000),
                     "Both actual FIFO completions");
-            r.ports.witness.rethrow_ni();
+            r.ports.witness.rethrow();
             require(completion_order == std::vector<std::string>{"first", "second"},
                     "Writer FIFO completion order");
             accounting(applied(results[0]), 600000, 120000, 480000, 3600000);

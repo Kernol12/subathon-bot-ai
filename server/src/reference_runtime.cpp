@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include <subathon/server/reference_runtime.hpp>
+#include <subathon/server/testing/reference_not_implemented.hpp>
 namespace subathon::server {
 ReferenceClockSampleResult SystemReferenceClockSampler::sample() {
     throw ReferenceNotImplemented("API-011 NI: clock.sample");

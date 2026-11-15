@@ -4,6 +4,7 @@
 // API-011 initializer, loader, state codec, intake or runtime under test.
 #include "sqlite_reference_authority_fixture.hpp"
 #include <subathon/server/reference_intake.hpp>
+#include <subathon/server/testing/reference_not_implemented.hpp>
 
 namespace reference_intake_fixture {
 using namespace reference_authority_fixture;
@@ -49,6 +50,14 @@ inline ReferenceCommittedState committed(const char *name = "standard") {
                    120000, false},
                   0,
                   {}};
+    if (v.contains("lifecycle"))
+        r.snapshot.timer.lifecycle = static_cast<TimerLifecycle>(v["lifecycle"].toInt());
+    if (v.contains("phase"))
+        r.snapshot.timer.phase = static_cast<CountdownPhase>(v["phase"].toInt());
+    r.snapshot.timer.awaiting_confirmation = v["wait"].toBool();
+    r.snapshot.time_debt_ms = v["debt"].toString().toLongLong();
+    if (v["balance"].toBool())
+        r.snapshot.balances = {{ApplicationBalanceKind::score, "S", 1}};
     r.observation = {"L", "O", ref, "W", "a", 1000, {}};
     r.policy_revision_ref = "W";
     return r;
@@ -115,7 +124,8 @@ struct File {
             db.work([&](const auto &s) {
                 const auto c = committed(state);
                 if (c.snapshot.configuration_ref == "D") {
-                    const auto d = literals()["configurations"].toObject()[state].toObject();
+                    const auto configs = literals()["configurations"].toObject();
+                    const auto d = configs[configs.contains(state) ? state : "standard"].toObject();
                     auto document = QByteArray::fromHex(d["document_hex"].toString().toLatin1());
                     if (amount != 600000) {
                         QByteArray replacement;
@@ -204,6 +214,10 @@ struct Witness {
             error = std::current_exception();
             throw;
         }
+    }
+    void rethrow() const {
+        if (error)
+            std::rethrow_exception(error);
     }
     void rethrow_ni() const {
         if (!error)

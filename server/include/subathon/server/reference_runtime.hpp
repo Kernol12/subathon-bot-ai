@@ -4,7 +4,7 @@
 #include <subathon/server/reference_configuration.hpp>
 
 namespace subathon::server {
-// API-011 public contract revision 1. Borrowed ports outlive all prepared pairs;
+// API-011 public contract revision 2. Borrowed ports outlive all prepared pairs;
 // drain writer before destruction. No callback opens SQL, writes, commits, pumps
 // events, resamples time, queues work or caches authority. All DATA is bounded.
 struct ReferenceClockSample {
@@ -17,8 +17,8 @@ class ReferenceClockSampler {
     virtual ReferenceClockSampleResult sample() = 0;
 };
 // Actual production sampler independently reads steady_clock then system_clock;
-// checked conversion to integer milliseconds, no UTC-difference elapsed, no host
-// stub/fallback. Unsupported range/clock refuses not_ready/reference.clock.v1.
+// checked duration_cast<milliseconds> conversion (truncate toward zero), no UTC-difference elapsed,
+// no host stub/fallback. Unsupported range/clock refuses not_ready/reference.clock.v1.
 class SystemReferenceClockSampler final : public ReferenceClockSampler {
   public:
     ReferenceClockSampleResult sample() override;
@@ -49,7 +49,12 @@ struct ReferenceCommittedState {
     std::string policy_revision_ref;
 };
 // Typed bounded SAS1 facade, byte-identical to service grammar, NOT readiness.
-// Decode verifies ALL snapshot duplicates/config/clock/policy/timer/debt/balances;
+// Decode checks SAS1 config/Timer/debt/balances against enclosing snapshot. Clock wire has no
+// duplicated head/config/policy fields: decoded observation.configuration_ref and
+// policy_revision_ref derive from SAS1 config/policy; checked_head_token derives
+// from SAS1 basis if present, otherwise enclosing snapshot.token. Stored basis
+// refers to the PREVIOUS persisted input head; snapshot.token is CURRENT head.
+// Initial basis absent, segments empty, observedUTC=sampleUTC, policy=config policy.
 // optional basis absent is valid only for initial state. Known malformed ->
 // ReferenceInputFailure(invalid_document/binding); healthy unknown format ->
 // unsupported_format. Envelope B includes format AND document; exact codec scratch
@@ -78,7 +83,15 @@ struct ReferenceRuntimeLimits {
 // reserve occurs on owner queue immediately BEFORE service execution, after FIFO
 // wait; current head/config/policy must equal anchor. Whole supported runtime:
 // actual SAS1 Active/Main>0, !wait, debt0, balances empty, no deadline, known false
-// pause/recovery, same live lineage. Unknown/expiry/discontinuity -> not_ready.
+// pause/recovery, same live lineage. The acknowledged fresh-start journal owns
+// known-false pause/recovery with revision reference.fresh-runtime.v1; this literal
+// plus flags alone proves nothing without the live journal. resolve echoes that
+// exact provenance. No restart/recovery reconstruction.
+// Complete configuration admission precedes runtime profile: a valid hard deadline
+// returns unsupported_configuration/reference.configuration-unsupported.v1; malformed
+// numbers/tags remain pure input errors. Other coherent unsupported runtime states,
+// expiry/discontinuity return not_ready/reference.runtime-unavailable.v1; sampler
+// unavailable preserves its exact not_ready/reason (production reference.clock.v1).
 // Sample UTC and elapsed separately once; elapsed checked >=0 and <Main.
 // Keep current anchor + every outstanding reservation: no eviction, wrap or reuse.
 // capacity refusal is not_ready/reference.journal-capacity.v1 BEFORE sampling or
@@ -96,21 +109,35 @@ struct ReferenceRuntimeLimits {
 // is invalid_binding, no journal mutation. No guessed current UTC on any read.
 // check calls actual authority source EVERY attempt for original-author whole
 // USE+GRANT and separate execution USE, full captured request including actual0.
+// Empty/default active hold sets are invalid_shape, never known empty.
 // disclose_application re-resolves ACTUAL record; disclose_holds resolves EVERY
 // actual member, no partial output or prior execute-permit reuse. Preserve original
 // callback/view/writer/ReferenceExecutionFailure and service cleanup ownership.
 // resolve loads complete captured+CURRENT head config, echoes every binding and
 // exact current cap/TimerConfig/policy; captured amount/rule stay immutable.
+// Current rule version/amount/capability may differ ONLY when both complete
+// versions admit, rule_ref/action_ref/action_version_ref, source origin/namespace/
+// trigger, target timer, automation principal and elapsed TimerConfig semantics remain identical,
+// AND actual fresh authority still validates captured K/r/amount in full. New J/s/amount needs its
+// own enrollment; it never aliases K. Policy revision/current cap may change.
+// A TimerConfig change affecting elapsed semantics without retained interval
+// boundary evidence is unavailable, never applied retroactively.
 // prepare rechecks BOTH configurations and whole numeric proposal before returning
 // jobs{} / explanation reference.no-external-actions.v1. Missing source!=empty.
 // issue: ONE entropy read -> RRF1 + U8(purpose) +32 (37 bytes); echo whole binding.
 // reserve uses RCO1+32 (36). Repeated journal bytes refuse conflict/reference.collision.v1;
-// issue purpose/binding may be consumed once, no retry. State/hold/version tokens
+// issue purpose/binding is one-shot within the live outstanding reservation
+// scope (including a direct-issue scope before reserve). Known rollback settlement
+// closes that scope, permitting an explicit authorized attempt with new entropy
+// and new after-token. Issued bytes remain spent across scopes; never reuse or
+// regenerate automatically. Unknown outcome never opens a retry scope. State/hold/version tokens
 // use ACTUAL store uniqueness/conflict, never an in-memory probability assertion.
 // Clock annotations remain reserved/tombstoned across known rollback; no nonreuse
 // claim from SQL, since observations aren't independently unique SQL keys.
 // Resources ALL methods: structural B/I from configuration header applied to ALL
 // arguments and nested producer results, each whole result/intermediate separately.
+// Whole imported service DTOs retain §F optional absent0/present value-only;
+// approved R6 Facts/projection remain structural as pinned in configuration header.
 // Full imported command/input/policy/proposal/record/hold/authority DTOs charged in
 // every occurrence under their own limits too; no fields omitted on losing paths.
 // Scalars sample B16/I0; entropy B41/I0 (array32+received8+enum1); limits uncharged.

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "support/reference_intake_fixture.hpp"
+#include <subathon/server/sqlite_application_plans.hpp>
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
 using namespace reference_intake_fixture;
 namespace {
@@ -11,16 +12,23 @@ struct IntakeRig {
     SqliteReferenceAuthoritySource authority;
     ReferenceApplicationAdapters runtime;
     ReferenceIntake intake;
-    explicit IntakeRig(bool head = true)
+    explicit IntakeRig(bool head = true, ReferenceRuntimeLimits limits = {})
         : file("standard", head),
           runtime(configuration, authority, sampler, entropy,
                   head ? std::optional<ReferenceClockAnchor>{{committed(), {100, 1000}}}
-                       : std::nullopt),
-          intake(configuration, sampler, entropy, file.db.clock, connector(), &runtime) {}
+                       : std::nullopt,
+                  limits),
+          intake(configuration, sampler, entropy, file.db.clock, connector(), &runtime, limits) {}
 };
 template <class T> void no_data_on_error(const T &r) {
     require(r.work.error != WorkError::none && !r.work.value,
             "Actual writer error suppresses normal tentative value");
+}
+template <class T> void clean_refusal(const T &r, ReferenceGate gate, const char *reason) {
+    require(r.work.transaction == TransactionOutcome::rolled_back &&
+                r.work.error == WorkError::not_committed && !r.work.value && r.refusal &&
+                r.refusal->gate == gate && r.refusal->reason_ref == reason,
+            "Exact original not_committed rollback, diagnostic-only refusal, gate and reason");
 }
 void no_application(File &f) {
     for (const auto *t : {"subathon_app_operations", "subathon_app_claims", "subathon_app_effects",
@@ -45,7 +53,10 @@ class ReferenceIntakeTests final : public QObject {
             require(a.committed.snapshot.envelope.document ==
                             committed("initial").snapshot.envelope.document &&
                         !a.committed.basis && a.sample.monotonic_ms == 100 &&
-                        a.sample.utc_ms == 1000,
+                        a.sample.utc_ms == 1000 && a.committed.observation.segments.empty() &&
+                        a.committed.observation.observed_utc_ms == a.sample.utc_ms &&
+                        a.committed.policy_revision_ref == "W" &&
+                        a.committed.observation.policy_revision_ref == "W",
                     "Exact independent 68-byte SAS1 and separately sampled live anchor");
             const auto rows = r.file.observer->rows(
                 "SELECT token,configuration_ref,main_remaining_ms,grace_remaining_ms,document "
@@ -65,6 +76,7 @@ class ReferenceIntakeTests final : public QObject {
         QTest::newRow("disabled-owner-account") << 2;
         QTest::newRow("expired-owner-session") << 3;
         QTest::newRow("unknown-digest") << 4;
+        QTest::newRow("unexpired-but-not-fresh") << 5;
     }
     void initialRejectsNonOwnerStaleRevokedDisabledSession() {
         QFETCH(int, kind);
@@ -90,12 +102,65 @@ class ReferenceIntakeTests final : public QObject {
             if (kind == 4)
                 input.owner_session.digest.fill(0xff);
             Completion<ReferenceInitialCompletion> out;
-            out.run(r.file.db.writer, r.intake.make_initial_work(input, out.callback()));
+            auto prepared = r.intake.make_initial_work(input, out.callback());
+            if (kind == 5)
+                r.file.db.clock.now = 301001;
+            out.run(r.file.db.writer, std::move(prepared));
+            clean_refusal(*out.result, ReferenceGate::denied, "reference.access-denied.v1");
             require(!out.result->anchor && out.result->refusal &&
                         out.result->refusal->gate == ReferenceGate::denied,
                     "Fresh actual stored-session authority required; no owner boolean");
             require(r.file.count("subathon_app_states") == 0,
                     "Unauthorized startup writes no state");
+        });
+    }
+    void initialFreshAuthenticationBoundaryAtActualRead() {
+        scenario([] {
+            IntakeRig r(false);
+            auto input = initial_request();
+            Completion<ReferenceInitialCompletion> out;
+            auto prepared = r.intake.make_initial_work(input, out.callback());
+            r.file.db.clock.now = 301000; // age changes AFTER preparation, BEFORE session read
+            out.run(r.file.db.writer, std::move(prepared));
+            normal(out.result->work);
+            require(out.result->anchor.has_value(),
+                    "authenticated1000 age300000 inclusive is fresh");
+        });
+    }
+    void initialUnsupportedAndMalformedTimerProfiles_data() {
+        QTest::addColumn<int>("kind");
+        QTest::newRow("zero-main") << 0;
+        QTest::newRow("grace") << 1;
+        QTest::newRow("confirmation-wait") << 2;
+        QTest::newRow("negative-main-invalid") << 3;
+        QTest::newRow("invalid-lifecycle-tag") << 4;
+    }
+    void initialUnsupportedAndMalformedTimerProfiles() {
+        QFETCH(int, kind);
+        scenario([&] {
+            IntakeRig r(false);
+            auto input = initial_request();
+            input.timer.main_remaining_ms = kind == 3 ? -1 : 0;
+            if (kind == 1)
+                input.timer.phase = CountdownPhase::Grace;
+            if (kind == 2)
+                input.timer.awaiting_confirmation = true;
+            if (kind == 4)
+                input.timer.lifecycle = static_cast<TimerLifecycle>(255);
+            if (kind >= 3) {
+                input_failure([&] { (void)r.intake.make_initial_work(input, [](auto) {}); },
+                              kind == 3 ? ReferenceInputError::invalid_value
+                                        : ReferenceInputError::invalid_tag);
+            } else {
+                Completion<ReferenceInitialCompletion> out;
+                out.run(r.file.db.writer, r.intake.make_initial_work(input, out.callback()));
+                clean_refusal(*out.result, ReferenceGate::not_ready,
+                              "reference.runtime-unavailable.v1");
+                require(!out.result->anchor, "No fresh anchor for unsupported timer profile");
+            }
+            require(r.file.count("subathon_app_states") == 0 && r.sampler.calls == 0 &&
+                        r.entropy.calls == 0,
+                    "Invalid initial state is side-effect-free before clock/entropy");
         });
     }
     void initialNeverResetsExistingHead() {
@@ -107,6 +172,7 @@ class ReferenceIntakeTests final : public QObject {
             require(!out.result->anchor && out.result->refusal &&
                         out.result->refusal->gate == ReferenceGate::conflict,
                     "Even owner cannot reset/reanchor existing head");
+            clean_refusal(*out.result, ReferenceGate::conflict, "reference.initial-conflict.v1");
             require(r.file.count("subathon_app_states") == 1 &&
                         r.file.observer->rows("SELECT token FROM subathon_app_head")[0][0]
                                 .toByteArray() == "a",
@@ -116,13 +182,14 @@ class ReferenceIntakeTests final : public QObject {
     void initialUnavailableLiveClockIsNotZeroAnchor() {
         scenario([] {
             IntakeRig r(false);
-            r.sampler.next = ReferenceUnavailable{ReferenceGate::not_ready, "test.clock-missing"};
+            r.sampler.next = ReferenceUnavailable{ReferenceGate::not_ready, "reference.clock.v1"};
             Completion<ReferenceInitialCompletion> out;
             out.run(r.file.db.writer,
                     r.intake.make_initial_work(initial_request(), out.callback()));
             require(!out.result->anchor && out.result->refusal &&
                         r.file.count("subathon_app_states") == 0,
                     "No fabricated UTC/elapsed0 readiness");
+            clean_refusal(*out.result, ReferenceGate::not_ready, "reference.clock.v1");
         });
     }
     void receiptRetainsNormalizedSyntheticOriginalAndOwnsOneCommit() {
@@ -171,6 +238,21 @@ class ReferenceIntakeTests final : public QObject {
                         r.file.count("subathon_receipts") == 1 &&
                         r.file.count("subathon_receipt_attempts") == before + 1,
                     "Retry retained attempt does not replace original arrival/r1");
+            const auto attempts = r.file.observer->rows(
+                "SELECT modifier_context_ref,configuration_ref FROM subathon_receipt_attempts "
+                "WHERE receipt_id=X'0000000000000007' ORDER BY ordinal DESC LIMIT 1");
+            require(attempts.size() == 1 && attempts[0][1].toByteArray() == "D" &&
+                        attempts[0][0].toByteArray().startsWith("RCT1") &&
+                        attempts[0][0].toByteArray() != "X",
+                    "Retry's own new attempt retains current D, distinct from original C/X");
+            const auto retained = r.file.observer->rows(
+                "SELECT c.document,c.configuration_ref FROM subathon_retained_contexts c JOIN "
+                "subathon_receipt_attempts a "
+                "ON c.reference=a.modifier_context_ref WHERE a.receipt_id=X'0000000000000007' "
+                "ORDER BY a.ordinal DESC LIMIT 1");
+            require(retained.size() == 1 && retained[0][0].toByteArray().startsWith("SRA1") &&
+                        retained[0][1].toByteArray() == "D",
+                    "Attempt points to its actual retained new arrival");
             no_application(r.file);
         });
     }
@@ -259,6 +341,18 @@ class ReferenceIntakeTests final : public QObject {
     void captureDiscoversOriginalBeforeNewRefsAndCurrentConfig() {
         scenario([] {
             IntakeRig r;
+            r.file.db.work([](const auto &session) {
+                SqliteApplicationPlanStore store(session);
+                const auto old = store.find_revision("P", 1);
+                require(old.has_value(), "SETUP: old captured revision1 exists");
+                auto next = old->revision;
+                next.revision = 2;
+                next.parent_revision = 1;
+                next.override_decision = PlanOverrideDecision{OverrideAuthority::authorized, "A",
+                                                              "new history", "decision2"};
+                require(store.append("P", 1, next) == SqlitePlanAppendDisposition::appended,
+                        "SETUP: OLD plan store advances history to2");
+            });
             const auto plans = r.file.count("subathon_plan_headers");
             Completion<ReferenceCaptureCompletion> out;
             out.run(r.file.db.writer, r.intake.make_capture_work({7}, {0}, out.callback()));
@@ -285,9 +379,17 @@ class ReferenceIntakeTests final : public QObject {
             no_data_on_error(*out.result);
             require(!out.result->capture &&
                         out.result->work.transaction == TransactionOutcome::rolled_back &&
+                        out.result->work.error == WorkError::work_exception &&
                         r.file.count("subathon_reference_initial_captures") == 1 &&
                         r.entropy.calls == 0,
                     "Actual selected corruption rollback, never replacement/retry");
+            bool original = false;
+            try {
+                out.witness.rethrow();
+            } catch (const ReferenceCaptureStorageFailure &e) {
+                original = e.reason() == ReferenceCaptureStorageReason::invalid_stored_data;
+            }
+            require(original, "Exact original capture-storage invalid_stored_data, no relabel");
         });
     }
     void captureAbsentIndexStagesOneAtomicPlanSrxAndIndex() {
@@ -334,6 +436,45 @@ class ReferenceIntakeTests final : public QObject {
             require(!out.result->snapshot && out.result->refusal &&
                         out.result->refusal->gate == ReferenceGate::denied,
                     "Fresh actual snapshot authorization before protected lookup");
+            clean_refusal(*out.result, ReferenceGate::denied, "reference.access-denied.v1");
+        });
+    }
+    void snapshotOwnerNeedsOrdinaryUseAndLiveSession_data() {
+        QTest::addColumn<int>("kind");
+        QTest::newRow("owner-without-snapshot-USE") << 0;
+        QTest::newRow("revoked-owner-session") << 1;
+        QTest::newRow("expired-owner-session") << 2;
+    }
+    void snapshotOwnerNeedsOrdinaryUseAndLiveSession() {
+        QFETCH(int, kind);
+        scenario([&] {
+            IntakeRig r;
+            if (kind == 0)
+                r.file.db.replace_graph(0, graph(false));
+            if (kind == 1)
+                r.file.db.work([](const auto &session) {
+                    (void)session.execute(
+                        {"UPDATE subathon_account_sessions SET state=1 WHERE account_ref=X'4f'",
+                         {}});
+                });
+            if (kind == 2)
+                r.file.db.clock.now = 86401000;
+            Completion<ReferenceSnapshotCompletion> out;
+            out.run(r.file.db.writer, r.intake.make_snapshot_work(actor('O'), out.callback()));
+            clean_refusal(*out.result, ReferenceGate::denied, "reference.access-denied.v1");
+            require(!out.result->snapshot && r.sampler.calls == 0 && r.entropy.calls == 0,
+                    "Owner has no implicit ordinary snapshot grant or expired-session bypass");
+        });
+    }
+    void snapshotUnexpiredNonfreshSessionStillHasOrdinaryRead() {
+        scenario([] {
+            IntakeRig r;
+            r.file.db.clock.now = 301001;
+            Completion<ReferenceSnapshotCompletion> out;
+            out.run(r.file.db.writer, r.intake.make_snapshot_work(actor('O'), out.callback()));
+            normal(out.result->work);
+            require(out.result->snapshot.has_value(),
+                    "Snapshot require_fresh=false; initialization differs");
         });
     }
     void snapshotCommitAckLossCannotPublishTentativeRead() {
@@ -383,6 +524,179 @@ class ReferenceIntakeTests final : public QObject {
                         out.result->refusal->gate == ReferenceGate::not_ready &&
                         r.file.count("subathon_receipts") == 1 && r.entropy.calls == 0,
                     "Raw SAS1/current config cannot recreate this process's live clock evidence");
+            clean_refusal(*out.result, ReferenceGate::not_ready,
+                          "reference.runtime-unavailable.v1");
+        });
+    }
+    void receiptUnsupportedRuntimeRefusesBeforeNewDurableWork_data() {
+        QTest::addColumn<QString>("profile");
+        for (const auto *name :
+             {"debt", "grace", "wait", "balances", "ready", "finished", "deadline"})
+            QTest::newRow(name) << QString(name);
+    }
+    void receiptUnsupportedRuntimeRefusesBeforeNewDurableWork() {
+        QFETCH(QString, profile);
+        scenario([&] {
+            const bool deadline = profile == "deadline";
+            const auto name = deadline ? QByteArray("standard") : profile.toUtf8();
+            File file(name.constData());
+            auto v = versions();
+            if (deadline)
+                std::get<ReferenceConfigurationFacts>(v[1].contents)
+                    .projection.timer_config.hard_end_utc_ms = 999999;
+            if (profile == "wait")
+                std::get<ReferenceConfigurationFacts>(v[1].contents)
+                    .projection.timer_config.end_mode = TimerEndMode::Confirmation;
+            ReferenceConfigurationArchive configuration(std::move(v));
+            SqliteReferenceAuthoritySource authority;
+            Sampler sampler;
+            Entropy entropy;
+            ReferenceApplicationAdapters runtime(
+                configuration, authority, sampler, entropy,
+                ReferenceClockAnchor{committed(name.constData()), {100, 1000}});
+            ReferenceIntake intake(configuration, sampler, entropy, file.db.clock, connector(),
+                                   &runtime);
+            const auto attempts = file.count("subathon_receipt_attempts");
+            Completion<ReferenceReceiptCompletion> out;
+            out.run(file.db.writer,
+                    intake.make_receipt_work("D", {"Q", "profile", {}, QByteArray("", 0)},
+                                             out.callback()));
+            clean_refusal(*out.result,
+                          deadline ? ReferenceGate::unsupported_configuration
+                                   : ReferenceGate::not_ready,
+                          deadline ? "reference.configuration-unsupported.v1"
+                                   : "reference.runtime-unavailable.v1");
+            require(!out.result->receipt && !out.result->original &&
+                        file.count("subathon_receipts") == 1 &&
+                        file.count("subathon_receipt_attempts") == attempts && sampler.calls == 0 &&
+                        entropy.calls == 0,
+                    "Profile refuses before receipt/attempt/sample/entropy");
+        });
+    }
+    void receiptConfigurationUnknownUnsupportedOrHeadMismatch_data() {
+        QTest::addColumn<int>("kind");
+        QTest::newRow("unknown-source") << 0;
+        QTest::newRow("supported-shape-unsupported-profile") << 1;
+        QTest::newRow("head-config-mismatch") << 2;
+    }
+    void receiptConfigurationUnknownUnsupportedOrHeadMismatch() {
+        QFETCH(int, kind);
+        scenario([&] {
+            IntakeRig r;
+            auto v = versions();
+            auto &f = std::get<ReferenceConfigurationFacts>(v[1].contents);
+            if (kind == 0) {
+                f.generated_events.state = ReferenceFactsState::unknown;
+                f.projection.generated_events = ReferenceFactsState::unknown;
+            }
+            if (kind == 1)
+                f.outbound_actions.enabled_refs = {"enabled"};
+            ReferenceConfigurationArchive config(std::move(v));
+            ReferenceIntake intake(config, r.sampler, r.entropy, r.file.db.clock, connector(),
+                                   &r.runtime);
+            const auto attempts = r.file.count("subathon_receipt_attempts");
+            Completion<ReferenceReceiptCompletion> out;
+            out.run(r.file.db.writer,
+                    intake.make_receipt_work(kind == 2 ? "C" : "D",
+                                             {"Q", "config-refusal", {}, QByteArray("", 0)},
+                                             out.callback()));
+            clean_refusal(*out.result,
+                          kind == 1 ? ReferenceGate::unsupported_configuration
+                                    : ReferenceGate::not_ready,
+                          kind == 0   ? "reference.configuration-unavailable.v1"
+                          : kind == 1 ? "reference.configuration-unsupported.v1"
+                                      : "reference.runtime-unavailable.v1");
+            require(!out.result->receipt && !out.result->original &&
+                        r.file.count("subathon_receipts") == 1 &&
+                        r.file.count("subathon_receipt_attempts") == attempts &&
+                        r.entropy.calls == 0 && r.sampler.calls == 0,
+                    "Configuration profile/binding preflight before fresh receipt work");
+        });
+    }
+    void preparationCapacityIsLocalAndAbandonedPairReleasesSlot_data() {
+        QTest::addColumn<int>("kind");
+        QTest::newRow("initial") << 0;
+        QTest::newRow("receipt") << 1;
+        QTest::newRow("evidence") << 2;
+        QTest::newRow("capture") << 3;
+        QTest::newRow("snapshot") << 4;
+    }
+    void preparationCapacityIsLocalAndAbandonedPairReleasesSlot() {
+        QFETCH(int, kind);
+        scenario([&] {
+            ReferenceRuntimeLimits limits;
+            limits.pending_reservations = 1;
+            IntakeRig r(true, limits);
+            auto make = [&] {
+                switch (kind) {
+                case 0:
+                    return r.intake.make_initial_work(initial_request(), [](auto) {});
+                case 1:
+                    return r.intake.make_receipt_work("D", {"Q", "slot", {}, QByteArray("", 0)},
+                                                      [](auto) {});
+                case 2:
+                    return r.intake.make_evidence_work({7}, [](auto) {});
+                case 3:
+                    return r.intake.make_capture_work({7}, {0}, [](auto) {});
+                default:
+                    return r.intake.make_snapshot_work(actor('O'), [](auto) {});
+                }
+            };
+            auto first = make();
+            auto copy = first;
+            input_failure([&] { (void)make(); }, ReferenceInputError::input_limit);
+            first = {};
+            input_failure([&] { (void)make(); }, ReferenceInputError::input_limit);
+            copy.body = {};
+            input_failure([&] { (void)make(); }, ReferenceInputError::input_limit);
+            copy.completion = {};
+            auto next = make();
+            require(
+                bool(next.body) && bool(next.completion) && r.sampler.calls == 0 &&
+                    r.entropy.calls == 0,
+                "Only BOTH final closures release slot; make_* never predicts actual writer queue");
+        });
+    }
+    void receiptExactReference4096FitsMatching4097RefusalField() {
+        scenario([] {
+            IntakeRig r;
+            Completion<ReferenceReceiptCompletion> out;
+            const std::string event(4096, 'e');
+            out.run(r.file.db.writer,
+                    r.intake.make_receipt_work("D", {"Q", event, {}, QByteArray("", 0)},
+                                               out.callback()));
+            normal(out.result->work);
+            require(out.result->receipt && out.result->original &&
+                        out.result->original->observation.event_id == event,
+                    "Exact event_id reference ceiling4096 fits same field as4097 invalid input");
+        });
+    }
+    void snapshotWholeCompletionExact323ThenPostBegin322RollsBack() {
+        scenario([] {
+            // Snapshot135 + own basis1 + imported observation13 + policy1 =150;
+            // cap presence1+8 =>159. Work2 + optional(1+159) + output(1+159)
+            // + absent refusal1 =323. No ABI/QVariant capacity accounting.
+            ReferenceRuntimeLimits limits;
+            limits.values.value_owned_bytes = 323;
+            {
+                IntakeRig exact(true, limits);
+                Completion<ReferenceSnapshotCompletion> out;
+                out.run(exact.file.db.writer,
+                        exact.intake.make_snapshot_work(actor('O'), out.callback()));
+                normal(out.result->work);
+                require(out.result->snapshot.has_value(),
+                        "Exact complete snapshot completion323 fits");
+            }
+            --limits.values.value_owned_bytes;
+            IntakeRig r(true, limits);
+            Completion<ReferenceSnapshotCompletion> out;
+            out.run(r.file.db.writer, r.intake.make_snapshot_work(actor('O'), out.callback()));
+            require(out.result->work.transaction == TransactionOutcome::rolled_back &&
+                        out.result->work.error == WorkError::result_limit &&
+                        !out.result->work.value && !out.result->snapshot && !out.result->refusal &&
+                        r.file.count("subathon_app_states") == 1 &&
+                        r.file.count("subathon_app_operations") == 0,
+                    "Post-BEGIN complete output323 exceeds322; actual rollback/no partial payload");
         });
     }
     void captureLateIndexSqlFaultRollsBackAllStagingButPreservesIntake() {
@@ -456,6 +770,7 @@ class ReferenceIntakeTests final : public QObject {
                         out.result->refusal->gate == ReferenceGate::conflict &&
                         r.entropy.calls == 1 && r.file.count("subathon_receipts") == 1,
                     "Actual occupied context key, whole cleanup/no fallback or extra draw");
+            clean_refusal(*out.result, ReferenceGate::conflict, "reference.collision.v1");
         });
     }
     void snapshotAuthorizedNonOwnerUsesActualOrdinaryTimerReadPolicy() {

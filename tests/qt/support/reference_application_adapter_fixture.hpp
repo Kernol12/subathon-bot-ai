@@ -78,6 +78,60 @@ struct Ports final : ExecutionAccess,
         return witness.call([&] { return actual.issue(p, b); });
     }
 };
+// Independently derived observation compared BEFORE any decoder result can become
+// journal input. Typed snapshot duplicates are compared in full, not just Main.
+inline void same_state(const ReferenceCommittedState &a, const ReferenceCommittedState &b) {
+    const auto &x = a.snapshot;
+    const auto &y = b.snapshot;
+    require(x.token == y.token && x.configuration_ref == y.configuration_ref &&
+                x.envelope.format_ref == y.envelope.format_ref &&
+                x.envelope.document == y.envelope.document &&
+                x.timer.lifecycle == y.timer.lifecycle && x.timer.phase == y.timer.phase &&
+                x.timer.main_remaining_ms == y.timer.main_remaining_ms &&
+                x.timer.grace_remaining_ms == y.timer.grace_remaining_ms &&
+                x.timer.awaiting_confirmation == y.timer.awaiting_confirmation &&
+                x.time_debt_ms == y.time_debt_ms && x.balances.size() == y.balances.size() &&
+                a.basis == b.basis && a.policy_revision_ref == b.policy_revision_ref,
+            "Full independently expected snapshot/basis/policy");
+    for (std::size_t n = 0; n < x.balances.size(); ++n)
+        require(x.balances[n].kind == y.balances[n].kind &&
+                    x.balances[n].target_ref == y.balances[n].target_ref &&
+                    x.balances[n].units == y.balances[n].units,
+                "Every typed balance");
+    const auto &o = a.observation;
+    const auto &e = b.observation;
+    require(o.clock_lineage_ref == e.clock_lineage_ref && o.observation_ref == e.observation_ref &&
+                o.configuration_ref == e.configuration_ref &&
+                o.policy_revision_ref == e.policy_revision_ref &&
+                o.checked_head_token == e.checked_head_token &&
+                o.observed_utc_ms == e.observed_utc_ms && o.segments.size() == e.segments.size(),
+            "Derived clock bindings checked against independent expectation");
+    for (std::size_t n = 0; n < o.segments.size(); ++n)
+        require(o.segments[n].elapsed_ms == e.segments[n].elapsed_ms &&
+                    o.segments[n].utc_now_ms == e.segments[n].utc_now_ms &&
+                    o.segments[n].paused == e.segments[n].paused,
+                "Every clock segment");
+}
+inline ReferenceCommittedState checked_after(const RecordedApplicationBundle &record,
+                                             const ReferenceCommittedState &before,
+                                             ReferenceClockSample sample,
+                                             unsigned reservation_draw) {
+    auto observation = before.observation;
+    observation.checked_head_token = before.snapshot.token;
+    observation.configuration_ref = before.snapshot.configuration_ref;
+    observation.policy_revision_ref = "W";
+    observation.observed_utc_ms = sample.utc_ms;
+    observation.segments.clear();
+    const auto elapsed = sample.monotonic_ms - 100;
+    if (elapsed != 0 || sample.utc_ms != 1000) {
+        observation.observation_ref = "RCO1" + std::string(32, char(reservation_draw));
+        observation.segments = {{elapsed, sample.utc_ms, false}};
+    }
+    ReferenceCommittedState expected{record.after, before.snapshot.token, observation, "W"};
+    const auto decoded = decode_reference_state(record.after);
+    same_state(decoded, expected);
+    return expected; // Never feed decoder-owned output back into its own setup.
+}
 struct Rig {
     File file;
     ReferenceCommittedState current;
@@ -107,11 +161,13 @@ struct Rig {
           service(file.db.writer, service_ports, limits.service),
           intake(configuration, sampler, entropy, file.db.clock, connector(), &adapters, limits) {}
     ApplicationServiceCompletion attempt(OriginalApplicationCommand c = command(),
-                                         std::function<QVariant(QVariant)> tail = {}) {
+                                         std::function<QVariant(QVariant)> tail = {},
+                                         bool settle_normal = true) {
         std::optional<ApplicationServiceCompletion> result;
         auto prepared = service.make_work(c, [&](auto value) { result = std::move(value); });
         auto body = std::move(prepared.body);
         const auto head = current;
+        unsigned reservation_draw = 0;
         const auto raw = qt_test_support::run_work(
             file.db.writer,
             [&](auto context) -> QVariant {
@@ -119,20 +175,26 @@ struct Rig {
                 ports.witness.call([&] {
                     const auto refusal = adapters.reserve(head, c);
                     require(!refusal, "Live supported journal reservation");
+                    reservation_draw = entropy.calls;
                 });
                 auto v = body(context);
                 return tail ? tail(std::move(v)) : v;
             },
             10000);
         prepared.completion(raw);
-        ports.witness.rethrow_ni();
+        ports.witness.rethrow();
         require(result.has_value(), "Actual matching typed service completion");
         if (result->transaction == TransactionOutcome::committed &&
-            result->work_error == WorkError::none && result->response) {
+            result->work_error == WorkError::none && result->response && settle_normal) {
             if (const auto *record =
                     std::get_if<RecordedApplicationBundle>(&result->response->payload)) {
-                current = decode_reference_state(record->after);
-                adapters.settle(*result, current);
+                if (result->response->disposition == ApplicationServiceDisposition::applied) {
+                    current =
+                        checked_after(*record, head, std::get<ReferenceClockSample>(sampler.next),
+                                      reservation_draw);
+                    adapters.settle(*result, current);
+                } else
+                    adapters.settle(*result, {});
             } else
                 adapters.settle(*result, {});
         }
@@ -157,15 +219,23 @@ struct Rig {
                 "Probe denies after direct selected API; no synthetic allow");
     }
 };
-inline BoundApplicationPolicy policy(const ApplicationBundleInputs &i) {
+// Obtain actual current revision inside the SAME finite view; do not invoke the
+// new resolve API in isolated observe/prepare setup, preserving their own NI site.
+inline BoundApplicationPolicy policy(Rig &r, const ApplicationReferenceReadView &v,
+                                     const OriginalApplicationCommand &c,
+                                     const ApplicationBundleInputs &i) {
+    auto request_data = request();
+    request_data.requested_operation = c.operation;
+    const auto result = r.authority.resolve(v, request_data);
+    const auto *f = std::get_if<ReferenceAuthorityFacts>(&result.value);
+    require(f, "SETUP: OLD real current authority, not placeholder permission revision");
     BoundApplicationPolicy p;
-    const auto c = command();
     p.operation = c.operation;
     p.source = {c.subject_kind, c.receipt_id, c.contribution_id};
     p.plan = c.plan;
     p.checked_state_token = i.current_state.token;
     p.configuration_ref = i.current_state.configuration_ref;
-    p.permission_revision_ref = "independently-replaced-by-real-authority-in-probe";
+    p.permission_revision_ref = f->permission_revision_ref;
     p.policy_revision_ref = "W";
     p.maximum_main_ms = 3600000;
     p.timer_config = {TimerEndMode::Grace, 120000, GraceReuse::Fresh, std::nullopt};

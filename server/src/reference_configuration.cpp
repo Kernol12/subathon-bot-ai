@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include <subathon/server/reference_configuration.hpp>
+#include <subathon/server/testing/reference_not_implemented.hpp>
 namespace subathon::server {
 ReferenceConfigurationArchive::ReferenceConfigurationArchive(
     std::vector<ReferenceConfigurationVersion> versions, ReferenceAdapterLimits limits)
