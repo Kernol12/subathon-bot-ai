@@ -19,6 +19,36 @@ actually starts, runs a timer and accepts a fake contribution. Draft121 stays
 parked. Separately owned PR656 was merged by its owner atc3445c91; integrating
 that documentation-only main update grants no new process/task assignment.
 
+## Current boundary: I14 requires owner resolution before further source work
+
+Source63fffbaa's [NEW fifth-round WHOLE rejection](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6899914593)
+resolves I13 and confirms I10/I11/I12, but NEW I14 blocks C05: encode_reference_state
+returns a135-byte ApplicationStateSnapshot yet its final shared scanner requires
+a hypothetical150-byte decoded ReferenceCommittedState. Actual input82/document68/
+envelope106/I0 all fit135;134 correctly refuses,135/149 wrongly refuse,150 succeeds
+with the same independent literal. Root freshly reproduced using its own library.
+No authority bypass, but INCORRECT refusal: the owner's same-class follow-up
+exception does NOT qualify. Do not waive it or start another material source round.
+
+[Concrete UNAPPLIED proposal](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6899963288):
+separate encoded syntax/binding validation from decoder-result admission. Keep
+encoder's own135-byte output guard, decoder's actual150-byte guard BEFORE ownership,
+startup's full committed-state/anchor guards, every format/header/test unchanged.
+The private two-path patch passes apply-check only; no fix is applied or tested.
+Owner approval is required for further material source work; no sixth source round
+or fifth baseline correction is authorized. All prior receipts stay recorded.
+
+Verifier completed without child work. No owned delegate remains active; unwatch
+653 before owner handback. Source63fffbaa has actual hosted7/7 and independent
+154/154+137invocations/4hooks normal/sanitized PASS, but review is REJECTED. The
+checkpoint-only update has separate pending CI and changes no runtime behavior.
+After owner resolution, NEW independent WHOLE verification and NEW fresh WHOLE
+Claude closing, proof/publication/final-head CI/protected merge/read-back/close562
+remain. Finish only API-011 then STOP; next candidate642 still needs owner resume.
+Essential reproduction/proposal/source audit/review is public via these links and
+[the fifth-round handoff](https://github.com/Kernol12/subathon-bot-ai/pull/653#issuecomment-6899622439);
+no decision depends only on thread or /tmp. Raw logs/build products may expire.
+
 ## Task, checkout and authoritative evidence
 
 - [API-011 #562](https://github.com/Kernol12/subathon-bot-ai/issues/562) owns the full brief and acceptance.
