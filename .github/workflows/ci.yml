@@ -345,6 +345,7 @@ jobs:
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
           -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule"
+          -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
           -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
@@ -443,7 +444,8 @@ jobs:
           import xml.etree.ElementTree as ET
           data = json.loads(subprocess.check_output(
               ["ctest", "--preset", "sqlite-reference-capture-debug", "--show-only=json-v1"], text=True))
-          stable = {"sqlite-account-sessions": [], "sqlite-permission-graph": [], "sqlite-reference-authority": []}
+          stable = {"sqlite-account-sessions": [], "sqlite-permission-graph": [], "sqlite-reference-authority": [], "reference-intake": []}
+          intake_counts = {"reference-intake.suite": (32, 59), "reference-application-adapters.suite": (51, 78)}
           for test in data["tests"]:
               props = {entry["name"]: entry["value"] for entry in test["properties"]}
               labels = set(props.get("LABELS", []))
@@ -478,6 +480,13 @@ jobs:
                           [test["command"][0], "-datatags"], text=True).strip().splitlines()
                       if len(functions) != 59 or len(rows) != 214:
                           raise SystemExit("Reference authority differs from 59 reviewed methods / 214 invocations")
+                  if owner == "reference-intake":
+                      rows = subprocess.check_output(
+                          [test["command"][0], "-datatags"], text=True).strip().splitlines()
+                      if intake_counts.get(test["name"]) != (len(functions), len(rows)):
+                          raise SystemExit("Reference intake differs from its reviewed methods / invocations")
+          if {t["name"] for t in stable["reference-intake"]} != set(intake_counts):
+              raise SystemExit("Missing complete reference intake or application adapter runner")
           results = ET.parse("build/sqlite-reference-capture-debug/reference-authority-results.xml").getroot()
           cases = results.findall("testcase")
           if len(cases) != 1 or cases[0].get("name") != "sqlite-reference-authority.suite":
@@ -487,6 +496,30 @@ jobs:
           totals = re.findall(r"^Totals:\s+(\d+) passed, (\d+) failed, (\d+) skipped, (\d+) blacklisted,", cases[0].findtext("system-out", ""), re.MULTILINE)
           if totals != [("216", "0", "0", "0")]:
               raise SystemExit("Reference authority must pass 214 invocations and both hooks, with zero skips")
+          PYTHON
+      - name: Run reviewed reference intake and concrete application adapters
+        run: >-
+          ctest --preset sqlite-reference-capture-debug -L '^reference-intake$'
+          --no-tests=error --verbose --test-output-size-passed 1048576
+          --output-junit "$GITHUB_WORKSPACE/build/sqlite-reference-capture-debug/reference-intake-results.xml"
+      - name: Verify complete reference intake runtime results without skips or warnings
+        run: |
+          python3 - <<'PYTHON'
+          import re
+          import xml.etree.ElementTree as ET
+          expected = {"reference-intake.suite": 61, "reference-application-adapters.suite": 80}
+          cases = ET.parse("build/sqlite-reference-capture-debug/reference-intake-results.xml").getroot().findall("testcase")
+          if len(cases) != 2 or {c.get("name") for c in cases} != set(expected):
+              raise SystemExit("Missing unfiltered reference intake runtime results")
+          for case in cases:
+              if case.find("failure") is not None or case.find("skipped") is not None:
+                  raise SystemExit("Reference intake failed or skipped")
+              output = case.findtext("system-out", "")
+              totals = re.findall(r"^Totals:\s+(\d+) passed, (\d+) failed, (\d+) skipped, (\d+) blacklisted,", output, re.MULTILINE)
+              if totals != [(str(expected[case.get("name")]), "0", "0", "0")]:
+                  raise SystemExit("Reference intake must pass every reviewed invocation and both hooks")
+              if re.search(r"^(?:QWARN|QSYSTEM|QFATAL)", output, re.MULTILINE):
+                  raise SystemExit("Unexpected Qt warning in reference intake acceptance")
           PYTHON
       - name: Configure explicit SDK and GoogleTest sources
         run: >-

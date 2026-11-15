@@ -187,33 +187,6 @@ class MutationSessionAuthentication final : public CurrentSessionSource,
     CurrentSessionClock &clock_;
     std::exception_ptr writer_failure_;
 };
-// Policy expansion is traversed before ownership. The authoritative graph already
-// validated every membership and every current account, including sparse rows.
-template <class Emit>
-void policy_entries(const PermissionEditableState &g, std::string_view account, Emit visit) {
-    auto a = std::find_if(g.accounts.begin(), g.accounts.end(),
-                          [&](const auto &v) { return v.account == account; });
-    data(a != g.accounts.end());
-    for (const auto &e : a->individual_entries)
-        visit(e);
-    for (const auto &role : a->assigned_roles) {
-        auto r = std::find_if(g.roles.begin(), g.roles.end(),
-                              [&](const auto &v) { return v.role == role; });
-        data(r != g.roles.end());
-        for (const auto &e : r->entries)
-            visit(e);
-    }
-}
-void project_policy(Projection &p, const PermissionEditableState &g, std::string_view account) {
-    auto a = std::find_if(g.accounts.begin(), g.accounts.end(),
-                          [&](const auto &v) { return v.account == account; });
-    data(a != g.accounts.end());
-    p(PermissionFactsState::complete, a->assigned_roles);
-    policy_entries(g, account, [&](const auto &e) {
-        p.elements(1);
-        p(e);
-    });
-}
 PermissionPolicyFacts policy(const PermissionEditableState &g, std::string_view account,
                              const ReferenceAuthorityLimits &l) {
     Projection p{l.permissions.input_owned_bytes, l.permissions.input_items,

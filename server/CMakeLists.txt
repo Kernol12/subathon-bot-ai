@@ -154,3 +154,14 @@ if(SUBATHON_BUILD_REFERENCE_RULE_TESTS)
         subathon_reference_rule subathon_sqlite_reference_authority)
     subathon_target_options(subathon_reference_application)
 endif()
+
+# Requires existing reference-rule dependency selection, no new SDK or migration.
+if(SUBATHON_BUILD_REFERENCE_INTAKE_BASELINE)
+    if(NOT TARGET subathon_reference_application)
+        message(FATAL_ERROR "API-011 baseline requires reference-rule acceptance selection")
+    endif()
+    add_library(subathon_reference_intake STATIC
+        src/reference_configuration.cpp src/reference_runtime.cpp src/reference_intake.cpp)
+    target_link_libraries(subathon_reference_intake PUBLIC subathon_reference_application)
+    subathon_target_options(subathon_reference_intake)
+endif()

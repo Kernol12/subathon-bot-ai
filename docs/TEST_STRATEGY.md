@@ -71,7 +71,14 @@ integer cases and 24 Qt current-authority consumer methods (34 invocations).
 Both run under the `reference-rule` label in the existing Qt CI job, with pinned
 dependencies and no skips. The configuration source is supplied complete synthetic DATA; the authority
 source uses actual SQLite stores. Full configuration loading and concrete ports
-remain separate from this bounded composition.
+are supplied by API-011's reference intake composition.
+
+With that same selection, `SUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON` builds
+32 intake methods (59 invocations) and 51 concrete-adapter methods (78 invocations).
+The original selector name is retained; these run as ordinary passing acceptance
+under `reference-intake` in the existing Qt CI job. Real SQLite, independent UTC/
+elapsed sampling and controlled synthetic inputs cover the component composition;
+the production clock/entropy cases do not establish a running host or recovery.
 
 Source/resource review remains necessary for allocation bounds, owned capabilities,
 secret handling, process cleanup and SQL projection/ownership; output assertions alone

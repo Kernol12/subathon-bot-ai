@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#include "reference_authority_values.hpp"
+#include "application_service_command_internal.hpp"
 #include "reference_capture_codec_p.hpp"
+#include "reference_validation_internal.hpp"
 #include <QCryptographicHash>
 #include <array>
 #include <charconv>
@@ -9,314 +10,7 @@
 
 namespace subathon::server {
 namespace {
-using namespace core;
-using Error = ReferenceInputError;
-using Limits = ReferenceAdapterLimits;
-using reference_authority::fields;
-[[noreturn]] void fail(Error e) { throw ReferenceInputFailure(e); }
-[[noreturn]] void corrupt() {
-    throw ReferenceExecutionFailure(ReferenceAuthorityFailure::invalid_data);
-}
-void require(bool b, Error e) {
-    if (!b)
-        fail(e);
-}
-void data(bool b) {
-    if (!b)
-        corrupt();
-}
-#define FIELDS(Type, ...)                                                                          \
-    template <class P> void fields(P &p, const Type &v) { p(__VA_ARGS__); }
-FIELDS(TimerConfig, v.end_mode, v.grace_duration_ms, v.grace_reuse, v.hard_end_utc_ms)
-FIELDS(ReferenceConfiguration, v.configuration_ref, v.policy_revision_ref, v.synthetic_origin,
-       v.receipt_namespace, v.rule, v.maximum_main_ms, v.timer_config, v.other_rules, v.modifiers,
-       v.milestones, v.outbound_actions, v.generated_events)
-FIELDS(ReferenceSyntheticInput, v.connection_ref, v.event_id, v.source_utc_ms, v.original_payload)
-FIELDS(ReferenceArrivalCapture, v.arrival_context_ref, v.event_ref, v.server_arrival_utc_ms,
-       v.configuration, v.observation)
-FIELDS(ReferenceEnabledRuleFacts, v.rule, v.trigger_types, v.action_kinds, v.action_units,
-       v.conditions, v.exclusions, v.execution_limits)
-FIELDS(ReferenceCategoryFacts, v.state, v.enabled_refs)
-FIELDS(ReferenceConfigurationFacts, v.configuration_ref, v.configuration_owner_revision_ref,
-       v.projection, v.rules_state, v.enabled_rules, v.modifiers, v.milestones, v.outbound_actions,
-       v.generated_events)
-FIELDS(ReferenceUnavailable, v.gate, v.reason_ref)
-FIELDS(ReferenceAdmittedConfiguration, v.configuration, v.configuration_owner_revision_ref)
-#undef FIELDS
-
-// Fixed-depth declaration traversal; variants charge only their held alternative.
-// No dynamic indices, caller capacities, sorting or owned validation cache.
-struct Projection {
-    std::uint64_t cap, item_cap, reference, payload, bytes = 0, items = 0;
-    Error error = Error::input_limit;
-    std::uint64_t component_bytes = UINT64_MAX;
-    void fixed(std::uint64_t n) {
-        require(bytes <= cap && n <= cap - bytes, error);
-        bytes += n;
-    }
-    void component(const std::string &s) {
-        require(s.size() <= component_bytes && s.size() < std::string{}.max_size(), error);
-        fixed(s.size());
-    }
-    void one(std::string_view s) {
-        require(s.size() <= reference && s.size() <= UINT32_MAX &&
-                    s.size() < std::string{}.max_size(),
-                error);
-        fixed(s.size());
-    }
-    void one(const std::string &s) { one(std::string_view(s)); }
-    void one(const QByteArray &s) {
-        require(std::uint64_t(s.size()) <= payload && std::uint64_t(s.size()) <= UINT32_MAX &&
-                    s.size() < QByteArray::maxSize(),
-                error);
-        fixed(std::uint64_t(s.size()));
-    }
-    template <class T>
-        requires(std::is_enum_v<T> || std::is_integral_v<T>)
-    void one(T) {
-        fixed(std::is_enum_v<T> ? 1 : sizeof(T));
-    }
-    template <class T> void one(const std::optional<T> &v) {
-        fixed(1);
-        if (v)
-            one(*v);
-    }
-    template <class T> void one(const std::vector<T> &v) {
-        require(v.size() <= v.max_size() && v.capacity() <= v.max_size() && items <= item_cap &&
-                    v.size() <= item_cap - items,
-                error);
-        items += v.size();
-        for (const auto &x : v)
-            one(x);
-    }
-    template <class... T> void one(const std::variant<T...> &v) {
-        require(!v.valueless_by_exception(), Error::invalid_shape);
-        std::visit([&](const auto &x) { one(x); }, v);
-    }
-    template <class T>
-        requires(!std::is_enum_v<T> && !std::is_integral_v<T>)
-    void one(const T &v) {
-        fields(*this, v);
-    }
-    template <class... T> void operator()(const T &...v) { (one(v), ...); }
-};
-Projection projection(const Limits &l, Error e = Error::input_limit) {
-    return {l.value_owned_bytes, l.value_items, l.reference_bytes, l.payload_bytes, 0, 0, e};
-}
-void valid_limits(const Limits &l) {
-    const auto max = std::min({std::uint64_t(SIZE_MAX), std::uint64_t(PTRDIFF_MAX),
-                               std::uint64_t(QByteArray::maxSize()), std::uint64_t(INT64_MAX),
-                               std::uint64_t(std::string{}.max_size())});
-    for (auto n : {l.reference_bytes, l.payload_bytes, l.document_bytes, l.value_owned_bytes,
-                   l.value_items, l.clock_journal_entries})
-        require(n && n < max, Error::invalid_limits);
-    require(l.value_items < std::vector<ReferenceEnabledRuleFacts>{}.max_size() &&
-                l.clock_journal_entries < std::vector<TimerClockStep>{}.max_size(),
-            Error::invalid_limits);
-}
-// Separate whole-tree passes preserve tag -> required-reference priority globally.
-struct Semantics {
-    bool tag_pass;
-    void one(const std::string &s) {
-        if (!tag_pass)
-            require(!s.empty(), Error::invalid_reference);
-    }
-    void one(const QByteArray &) {}
-    template <class T>
-        requires std::is_integral_v<T>
-    void one(T) {}
-    template <class T>
-        requires std::is_enum_v<T>
-    void one(T v) {
-        if (!tag_pass)
-            return;
-        int maximum = 1;
-        if constexpr (std::is_same_v<T, TimerEndMode>)
-            maximum = 2;
-        if constexpr (std::is_same_v<T, ReferenceGate>)
-            maximum = 3;
-        require(static_cast<std::underlying_type_t<T>>(v) >= 0 &&
-                    static_cast<std::uint64_t>(v) <= std::uint64_t(maximum),
-                Error::invalid_tag);
-    }
-    template <class T> void one(const std::optional<T> &v) {
-        if (v)
-            one(*v);
-    }
-    template <class T> void one(const std::vector<T> &v) {
-        for (const auto &x : v)
-            one(x);
-    }
-    template <class... T> void one(const std::variant<T...> &v) {
-        std::visit([&](const auto &x) { one(x); }, v);
-    }
-    template <class T>
-        requires(!std::is_enum_v<T> && !std::is_integral_v<T>)
-    void one(const T &v) {
-        fields(*this, v);
-    }
-    template <class... T> void operator()(const T &...v) { (one(v), ...); }
-};
-// Compare declared fields without serializing or allocating either side.
-template <class T> bool same(const T &a, const T &b);
-template <class T> bool same(const std::optional<T> &a, const std::optional<T> &b) {
-    return bool(a) == bool(b) && (!a || same(*a, *b));
-}
-template <class T> bool same(const std::vector<T> &a, const std::vector<T> &b) {
-    if (a.size() != b.size())
-        return false;
-    for (std::size_t i = 0; i < a.size(); ++i)
-        if (!same(a[i], b[i]))
-            return false;
-    return true;
-}
-template <class T> bool same(const T &a, const T &b) {
-    if constexpr (std::is_enum_v<T> || std::is_integral_v<T> || std::is_same_v<T, std::string>) {
-        return a == b;
-    } else {
-        bool equal = true;
-        auto left = [&](const auto &...x) {
-            auto right = [&](const auto &...y) {
-                auto tx = std::tie(x...);
-                auto ty = std::tie(y...);
-                [&]<std::size_t... I>(std::index_sequence<I...>) {
-                    equal = (same(std::get<I>(tx), std::get<I>(ty)) && ...);
-                }(std::index_sequence_for<decltype(x)...>{});
-            };
-            fields(right, b);
-        };
-        fields(left, a);
-        return equal;
-    }
-}
-template <class T, class Key> void unique(const std::vector<T> &v, Key key) {
-    for (std::size_t i = 0; i < v.size(); ++i)
-        for (std::size_t j = 0; j < i; ++j)
-            require(key(v[i]) != key(v[j]), Error::invalid_shape);
-}
-void unique(const std::vector<std::string> &v) {
-    unique(v, [](const auto &x) -> const auto & { return x; });
-}
-void numeric(const ReferenceRule &r) { require(r.add_ms >= 0, Error::invalid_value); }
-void numeric(const ReferenceConfiguration &c) {
-    numeric(c.rule);
-    require((!c.maximum_main_ms || *c.maximum_main_ms >= 0) &&
-                c.timer_config.grace_duration_ms >= 0,
-            Error::invalid_value);
-}
-void binding(const ReferenceRule &r) {
-    require(r.automation.kind == ApplicationPrincipalKind::automation, Error::invalid_binding);
-}
-void arrival_shape(const ReferenceArrivalCapture &a) {
-    require(!a.observation.original_payload.isNull(), Error::invalid_shape);
-}
-void facts_shape(const ReferenceConfigurationResolution &r) {
-    if (const auto *u = std::get_if<ReferenceUnavailable>(&r)) {
-        require(u->gate == ReferenceGate::not_ready ||
-                    u->gate == ReferenceGate::unsupported_configuration,
-                Error::invalid_shape);
-        return;
-    }
-    const auto &f = std::get<ReferenceConfigurationFacts>(r);
-    require(f.rules_state != ReferenceFactsState::unknown || f.enabled_rules.empty(),
-            Error::invalid_shape);
-    unique(f.enabled_rules, [](const auto &v) -> const auto & { return v.rule.rule_ref; });
-    for (const auto &v : f.enabled_rules) {
-        unique(v.trigger_types);
-        unique(v.action_kinds);
-        unique(v.action_units);
-        unique(v.conditions);
-        unique(v.exclusions);
-        unique(v.execution_limits);
-    }
-    for (auto c : {&f.modifiers, &f.milestones, &f.outbound_actions, &f.generated_events}) {
-        require(c->state != ReferenceFactsState::unknown || c->enabled_refs.empty(),
-                Error::invalid_shape);
-        unique(c->enabled_refs);
-    }
-}
-void facts_numeric(const ReferenceConfigurationResolution &r) {
-    if (const auto *f = std::get_if<ReferenceConfigurationFacts>(&r)) {
-        numeric(f->projection);
-        for (const auto &v : f->enabled_rules)
-            numeric(v.rule);
-    }
-}
-void facts_binding(const std::string &expected, const ReferenceConfigurationResolution &r) {
-    if (const auto *f = std::get_if<ReferenceConfigurationFacts>(&r)) {
-        const auto &c = f->projection;
-        require(f->configuration_ref == expected && c.configuration_ref == expected,
-                Error::invalid_binding);
-        binding(c.rule);
-        for (const auto &v : f->enabled_rules)
-            binding(v.rule);
-        if (f->enabled_rules.size() == 1)
-            require(same(c.rule, f->enabled_rules[0].rule), Error::invalid_binding);
-        const std::array pairs{std::pair{c.other_rules, f->rules_state},
-                               std::pair{c.modifiers, f->modifiers.state},
-                               std::pair{c.milestones, f->milestones.state},
-                               std::pair{c.outbound_actions, f->outbound_actions.state},
-                               std::pair{c.generated_events, f->generated_events.state}};
-        for (auto [p, s] : pairs)
-            require(p != ReferenceFactsState::complete || s == ReferenceFactsState::complete,
-                    Error::invalid_binding);
-    }
-}
-const ReferenceConfigurationFacts *supported(const ReferenceConfigurationResolution &r) {
-    return std::get_if<ReferenceConfigurationFacts>(&r);
-}
-std::optional<ReferenceGate> refusal(const ReferenceConfigurationFacts &f) {
-    for (auto s : {f.rules_state, f.modifiers.state, f.milestones.state, f.outbound_actions.state,
-                   f.generated_events.state})
-        if (s == ReferenceFactsState::unknown)
-            return ReferenceGate::not_ready;
-    if (f.enabled_rules.size() != 1 || !f.modifiers.enabled_refs.empty() ||
-        !f.milestones.enabled_refs.empty() || !f.outbound_actions.enabled_refs.empty() ||
-        !f.generated_events.enabled_refs.empty() || f.projection.timer_config.hard_end_utc_ms ||
-        f.projection.synthetic_origin.provider != "synthetic.reference.v1")
-        return ReferenceGate::unsupported_configuration;
-    const auto &v = f.enabled_rules[0];
-    const auto singleton = [](const auto &x, std::string_view expected) {
-        return x.size() == 1 && x[0] == expected;
-    };
-    if (!singleton(v.trigger_types, "synthetic.reference.support.v1") ||
-        !singleton(v.action_kinds, "time_add") || !singleton(v.action_units, "ms") ||
-        !v.conditions.empty() || !v.exclusions.empty() || !v.execution_limits.empty())
-        return ReferenceGate::unsupported_configuration;
-    return std::nullopt;
-}
-ReferenceUnavailable unavailable(ReferenceGate g, const Limits &l) {
-    const std::string_view reason = g == ReferenceGate::not_ready
-                                        ? "reference.configuration-unavailable.v1"
-                                        : "reference.configuration-unsupported.v1";
-    auto p = projection(l, Error::result_limit);
-    p.fixed(1);
-    p(reason);
-    return {g, std::string(reason)};
-}
-template <class F> auto allocate(F f) {
-    try {
-        return f();
-    } catch (const std::bad_alloc &) {
-        fail(Error::allocation_failure);
-    } catch (const std::length_error &) {
-        fail(Error::allocation_failure);
-    }
-}
-ReferenceUnavailable copy_refusal(const ReferenceUnavailable &u, const Limits &l) {
-    auto p = projection(l, Error::result_limit);
-    p(u);
-    return u;
-}
-ReferenceAdmittedConfiguration admitted(const ReferenceConfigurationFacts &f, const Limits &l) {
-    auto p = projection(l, Error::result_limit);
-    p(f.projection, f.configuration_owner_revision_ref);
-    ReferenceAdmittedConfiguration out{f.projection, f.configuration_owner_revision_ref};
-    auto &c = out.configuration;
-    c.other_rules = c.modifiers = c.milestones = c.outbound_actions = c.generated_events =
-        ReferenceFactsState::complete;
-    return out;
-}
+using namespace reference_detail;
 ReferenceRuleEvaluation derive(const ReferenceRule &r, const Limits &l) {
     // Preproject the adapter's intermediate core input before its owned strings.
     auto p = projection(l);
@@ -671,7 +365,8 @@ bool source_scope(std::string_view actual, const ReferenceAuthorityBinding &b, s
     }
     return true;
 }
-void action_scope(const ReferenceAuthorityFacts &f, const ReferenceAuthorityLimits &l) {
+void action_scope(const ReferenceAuthorityFacts &f, const ReferenceAuthorityLimits &l,
+                  ReferenceAuthorityUse use) {
     const auto &b = f.registry.binding;
     const auto n = source_size(b, l); // checked RSS1 before any construction/numeric work
     std::array<char, 20> decimal{};
@@ -689,19 +384,27 @@ void action_scope(const ReferenceAuthorityFacts &f, const ReferenceAuthorityLimi
         return slot == "source" && source_scope(value, b, n);
     };
     const auto &request = f.permission_input.request;
-    data(request.operation == "reference.time-add.v1" && request.resources.size() == 3 &&
-         request.quantities.size() == 1);
+    const bool executing = use == ReferenceAuthorityUse::execute_time_add;
+    const auto operation = executing ? "reference.time-add.v1"
+                           : use == ReferenceAuthorityUse::disclose_application
+                               ? "reference.application-read.v1"
+                               : "reference.hold-read.v1";
+    data(request.operation == operation && request.resources.size() == 3 &&
+         request.quantities.size() == (executing ? 1u : 0u));
     for (std::size_t i = 0; i < request.resources.size(); ++i) {
         const auto &r = request.resources[i];
         data(resource(r.slot, r.resource));
         for (std::size_t j = 0; j < i; ++j)
             data(r.slot != request.resources[j].slot);
     }
-    const auto &q = request.quantities[0];
-    data(q.slot == "adjustment" && q.unit == "ms" && rational(q.value));
+    if (executing) {
+        const auto &q = request.quantities[0];
+        data(q.slot == "adjustment" && q.unit == "ms" && rational(q.value));
+    }
     data(f.original_author_input.actions.size() == 1);
     const auto &a = f.original_author_input.actions[0];
-    data(a.operation == request.operation && a.resources.size() == 3 && a.quantities.size() == 1);
+    data(a.operation == request.operation && a.resources.size() == 3 &&
+         a.quantities.size() == (executing ? 1u : 0u));
     for (std::size_t i = 0; i < a.resources.size(); ++i) {
         const auto &r = a.resources[i];
         data(r.mode == PermissionResourceMode::allowed_set && r.allowed.size() == 1 &&
@@ -709,10 +412,12 @@ void action_scope(const ReferenceAuthorityFacts &f, const ReferenceAuthorityLimi
         for (std::size_t j = 0; j < i; ++j)
             data(r.slot != a.resources[j].slot);
     }
-    const auto &quantity = a.quantities[0];
-    data(quantity.slot == "adjustment" && quantity.unit == "ms" &&
-         quantity.mode == PermissionQuantityMode::closed_interval && quantity.lower &&
-         quantity.upper && rational(*quantity.lower) && rational(*quantity.upper));
+    if (executing) {
+        const auto &quantity = a.quantities[0];
+        data(quantity.slot == "adjustment" && quantity.unit == "ms" &&
+             quantity.mode == PermissionQuantityMode::closed_interval && quantity.lower &&
+             quantity.upper && rational(*quantity.lower) && rational(*quantity.upper));
+    }
 }
 void authority_preflight(const ReferenceAuthorityResolution &r, const ReferenceAuthorityLimits &l) {
     Projection all{l.result_bytes,
@@ -741,7 +446,7 @@ void authority_preflight(const ReferenceAuthorityResolution &r, const ReferenceA
     }
 }
 AccessDecision consume(const ReferenceAuthorityResolution &r, const ReferenceAuthorityRequest &q,
-                       const ReferenceAuthorityLimits &l) {
+                       const ReferenceAuthorityLimits &l, const Limits &output_limits) {
     authority_preflight(r, l);
     if (const auto *f = std::get_if<AuthorityFailure>(&r.value))
         return authority_failure(*f);
@@ -761,7 +466,7 @@ AccessDecision consume(const ReferenceAuthorityResolution &r, const ReferenceAut
          !a.owner.account->empty() && same(a.owner, e.owner) && reference_catalog(a.catalog) &&
          reference_catalog(e.catalog));
     // Preflight the full RSS1/composite and complete singleton before hash or kernels.
-    action_scope(f, l);
+    action_scope(f, l, q.use);
     return allocate([&]() -> AccessDecision {
         fingerprint(f.registry, f.automation_revision_ref);
         const auto author = revalidate_permission_automation(a, l.permissions);
@@ -772,6 +477,8 @@ AccessDecision consume(const ReferenceAuthorityResolution &r, const ReferenceAut
         if (author.actions[0].disposition != PermissionAutomationDisposition::authorized ||
             subject.data().outcome != PermissionOutcome::permit)
             return ApplicationAccessDenied{};
+        auto output = projection(output_limits, Error::result_limit);
+        output(f.permission_revision_ref);
         return ApplicationAccessAllowed{f.permission_revision_ref};
     });
 }
@@ -838,7 +545,7 @@ AccessDecision execute(const ApplicationReferenceReadView &view,
     });
     reference_authority::request_shape(q);
     auto fresh = authority.resolve(view, q); // a NEW full request on EVERY attempt
-    return consume(fresh, q, al);
+    return consume(fresh, q, al, l);
 }
 } // namespace
 AccessDecision check_reference_execution(const ApplicationReferenceReadView &view,
@@ -885,4 +592,66 @@ AccessDecision check_reference_execution(const ApplicationReferenceReadView &vie
     // In particular: no SqliteWorkFailure, RetentionFailure or view exception catch.
     // The actual reader/service owns rollback and preserves its original outcome.
 }
+namespace reference_detail {
+ReferenceExecutionBinding captured_binding(const ApplicationReferenceReadView &view,
+                                           const OriginalApplicationCommand &c,
+                                           ReferenceConfigurationSource &configs, const Limits &l) {
+    command_preflight(c, l);
+    command_envelope_preflight(c, l);
+    (void)encode_original_application_command(c);
+    auto ref = execution_ref(c, l);
+    auto row = read(view, RetainedKind::arrival_context, ref, l);
+    data(bool(row) && bool(row->configuration));
+    auto x = reference_capture_detail::decode_execution_body(
+        bytes(row->document), l, reference_capture_detail::BodyBounds::retained);
+    match_command(c, x);
+    data(x.execution_context_ref == ref);
+    auto arrival = read(view, RetainedKind::arrival_context, x.arrival_context_ref, l);
+    data(bool(arrival) && arrival->configuration == row->configuration);
+    auto a = reference_capture_detail::decode_arrival_body(
+        bytes(arrival->document), l, reference_capture_detail::BodyBounds::retained);
+    auto cfg = configs.load(view, row->configuration->reference);
+    auto evaluated = evaluate_reference_rule(a, cfg, l);
+    data(!std::holds_alternative<ReferenceUnavailable>(evaluated) &&
+         same(x.rule, a.configuration.rule) && a.arrival_context_ref == x.arrival_context_ref &&
+         a.configuration.synthetic_origin == x.source.origin &&
+         a.configuration.receipt_namespace == x.source.identifier_namespace &&
+         a.observation.event_id == x.source.opaque_id);
+    return x;
+}
+AccessDecision disclose(const ApplicationReferenceReadView &view,
+                        const OriginalApplicationCommand &c, ReferenceConfigurationSource &configs,
+                        ReferenceAuthoritySource &authority, ReferenceAuthorityUse use,
+                        const ApplicationOperationKey &operation,
+                        const std::optional<std::string_view> &hold, const Limits &l,
+                        const ReferenceAuthorityLimits &al, const ApplicationEnvelope &history) {
+    valid_limits(l);
+    authority_limits(al);
+    auto p0 = projection(l);
+    p0(history.format_ref);
+    require(std::uint64_t(history.document.size()) <= l.document_bytes, Error::input_limit);
+    p0.fixed(std::uint64_t(history.document.size()));
+    ApplicationServiceLimits sl;
+    sl.reference_bytes = qsizetype(l.reference_bytes);
+    sl.storage_document_bytes = qsizetype(l.document_bytes);
+    sl.intermediate_owned_bytes = qsizetype(l.value_owned_bytes);
+    sl.intermediate_items = qsizetype(l.value_items);
+    auto historical = service_detail::decode_retained_command(history, sl);
+    data(same(historical.operation, operation) && same(historical.principal, c.principal));
+    auto x = captured_binding(view, historical, configs, l);
+    // Authority requests retain their OWN input budget, just like execution.
+    // Historical keys are borrowed through the call until this complete pass fits.
+    Projection p{al.input_bytes, UINT64_MAX, al.reference_bytes, 0};
+    p(use, c.principal, x, c.operation);
+    p.fixed(1); // present historical operation
+    p(operation, hold);
+    ReferenceAuthorityRequest q{
+        use,         c.principal, std::move(x),
+        c.operation, operation,   hold ? std::optional<std::string>(*hold) : std::nullopt};
+    auto r = authority.resolve(view, q);
+    auto result = projection(l, Error::result_limit);
+    result(r.value);
+    return consume(r, q, al, l);
+}
+} // namespace reference_detail
 } // namespace subathon::server
