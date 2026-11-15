@@ -65,14 +65,18 @@ Owner decisions are recorded in #249, comment 6879902355:
   Historical rejections/reds remain in PR/proof; #562 retains configuration/ports.
 - API-011 (#562), branch task/API-011-reference-intake, base/main03e52e70.
   Claimed6890787150 after #558 protected merge/readback; both stages tier A.
-  Step0 source feasibility only before tests: actual current access/policy/segmented
-  clock/required-action/fresh-reference and initial startup/configuration ownership
-  under CONTRACT-014. No behavior, tests or runtime evidence authored for this task.
-  Existing component declarations are not actual composed runtime capability.
-  Distinguish producers this task explicitly owns from missing outside prerequisites;
-  stop/report any substantial outside work. Full #249/API010/recovery/host/live and
-  process/tooling boundaries remain unchanged. No test/implementation author assigned
-  before feasible bounded ownership is established.
+  Source feasibility67d321bd accepted6890950491: bounded #562 is feasible; existing
+  components are not a running path. Complete configuration, owner-only fresh SAS1
+  startup, genuine UTC/elapsed journal and current policy/action/reference producers
+  remain explicit in-scope work, not outside blockers. No runtime/build proof from
+  feasibility. Actual stored-session authority is required; no owner boolean.
+  Next assignment is fresh header/examples/tests authoring with NI-only behavior.
+  New reference_intake/runtime/configuration header/source pairs and new Qt test/
+  support fixtures are author-owned. Existing service/SAS1 extraction and reference
+  consumer refactoring are coordinator-controlled future implementation paths;
+  tests author proposes patches only and preserves all existing assertions/bytes.
+  Both stages tier A; no test body before full tests review, no implementation before
+  observed intended red. Full #249/API010/recovery/host/live/process boundaries stay.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 shipped under #649; all compiled prefix bytes remain frozen.
   Full #249 integration remains open. No new migration or other product writer is assigned;
@@ -82,11 +86,9 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Obtain a fresh isolated source feasibility report for API-011 at the exact claimed
-branch head. Pin current interfaces and remaining production work, existing receipt/
-evidence/capture/application transaction boundaries, genuine clock/startup ownership,
-complete configuration/current authority and independent RP01-12/14 coverage.
-Proceed to contract/tests authoring only inside #562 after accepted feasibility;
-otherwise stop at the owning prerequisite. Root retains shared files/checkpoint/
-publication. No fake allow, fabricated clock, public mutation/live side effects or
-process/tooling work is authorized.
+Assign fresh API-011 header/examples and independent real-SQL tests authoring after
+accepted source feasibility. Pin startup/configuration/clock/entropy/acknowledgement
+and RP01-12/14 semantics before assertions, then full Tier A tests review. Keep NI
+stubs unconditional and all existing tests unchanged. Root retains shared files/
+checkpoint/publication; propose shared extraction/build changes without applying.
+No fake allow, fabricated clock, public mutation/live side effects or process work.
