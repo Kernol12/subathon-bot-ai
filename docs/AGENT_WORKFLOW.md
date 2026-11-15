@@ -149,15 +149,21 @@ checks and the latest owner instruction.
 
 ## Temporary files
 
-Build directories and scratch files of a task go under one directory named after the
-task, for example `${TMPDIR:-/tmp}/TASK-ID/`, with one subdirectory per session.
+Build directories and scratch files of a task are disposable. They go under one
+directory named after the task, for example `${TMPDIR:-/tmp}/TASK-ID/`, with one
+subdirectory per session.
 
-- A delegated author or reviewer deletes its own subdirectory before it reports.
-  Whatever a handoff or review comment relies on is written in that handoff or
-  comment first, not left behind a path.
+- A delegated author or reviewer deletes its own subdirectory before it reports. This
+  does not break a reviewer's read-only role, which covers repository content.
+- Before deleting, the session writes the commands and results it relies on into its
+  handoff or review comment. Raw evidence that must be kept moves to ignored private
+  storage outside the task directory, and the comment says where it is.
 - After the merge read-back the coordinator deletes the task directory and removes the
-  task's worktrees. When a task stops without a merge, it deletes what no pending
-  stage needs.
+  worktrees it assigned to the task's sessions. It removes a worktree only when no
+  session or pending stage uses it and it holds no uncommitted or unpushed work.
+  Otherwise it keeps the worktree and reports it; it never forces a removal.
+- When a task stops without a merge, the coordinator applies the same checks and
+  deletes only what no pending stage needs.
 - Delete only the task's own directory and worktrees. Never clear a shared temporary
   location or the files of another live session.
 
