@@ -211,5 +211,5 @@ if(SUBATHON_BUILD_REFERENCE_RULE_TESTS)
         subathon_reference_rule GTest::gtest_main)
     subathon_target_options(core_reference_rule_acceptance)
     subathon_discover_gtests(core_reference_rule_acceptance
-        PREFIX "reference-rule." LABELS "reference-rule;acceptance;core;intentional-red" TIMEOUT 30)
+        PREFIX "reference-rule." LABELS "reference-rule;acceptance;core" TIMEOUT 30)
 endif()

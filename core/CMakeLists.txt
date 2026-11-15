@@ -81,7 +81,7 @@ if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
     subathon_target_options(subathon_rate_snapshots)
 endif()
 
-# RULES-006 reviewed tests-stage NI surface, opt-in only.
+# Configured-integer reference derivation, selected with the reference-rule suite.
 if(SUBATHON_BUILD_REFERENCE_RULE_TESTS)
     add_library(subathon_reference_rule STATIC src/reference_rule.cpp)
     target_include_directories(subathon_reference_rule PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")

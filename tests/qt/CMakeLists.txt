@@ -145,5 +145,5 @@ if(SUBATHON_BUILD_REFERENCE_RULE_TESTS)
     subathon_add_qt_suite(server_reference_rule_authority_acceptance
         NAME reference-rule-authority SOURCES reference_rule_authority_tests.cpp
         LIBRARIES subathon_reference_application
-        LABELS "reference-rule;acceptance;qt;server;intentional-red" TIMEOUT 180)
+        LABELS "reference-rule;acceptance;qt;server" TIMEOUT 180)
 endif()

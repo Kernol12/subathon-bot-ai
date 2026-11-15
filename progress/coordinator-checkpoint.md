@@ -59,31 +59,22 @@ Owner decisions are recorded in #249, comment 6879902355:
   Authority214 cases+2hooks and140/140 closure pass, zero skips/Qt warnings.
   Both tier A stages, single proof/publication and final-head7/7 CI passed;
   historical rejections/reds stay in PR receipts and proof. #249 remains separate.
-- RULES-006 (#558), branch `task/RULES-006-reference-evaluator`, resumed from
-  current main `d7d64f258294a9795bacbf0404bcfc9cfa5180f1`; parked unchanged branch
-  fast-forwarded once. Claim6888000850. Prerequisites #171/#556/#645/#646/#649 closed.
-  Fresh Step0 source recheck at27588533 is feasible; coordinator accepts bounded
-  contract/examples and tests authoring. Old stop at1fd11c3b remains historical.
-  Authored candidatebde1f064/reviewa32eee57 adds exactly7 new files. Claude initial
-  CONTRACT/TESTS review requested changes (R6-T01–T05); rejection preserved.
-  Coordinator fix round1 of2 revises server header/examples to2, corrects fixture
-  SQL/refusal oracles and adds distrust/shared-identity coverage. Four unconditional
-  NI APIs remain;11 GoogleTest cases/22 Qt slots. Fresh compile/link60/60 and
-  name-only listing/static checks pass. No bodies, providers, intended red or
-  implementation run. Whole-stage Codex verification approvedd24598ac, no blockers;
-  R6-V01 noted missing shared SQL-warning hooks. Coordinator fix round2 of2 adds
-  only the direct helper include/initTestCase/init hooks; assertions unchanged.
-  Changed-part Codex verification and fresh whole-stage Claude closing approved
-  at4202917a, no blockers; R6-V01 resolved. Two tests fix rounds used.
-  Coordinator integrated opt-in reference-rule targets, preserving all7 approved
-  hashes. At integrationa4775776, targets60/60 and remaining closure82/82 build;
-  discovery11 pure+1 unfiltered22-method Qt suite passes. Observed ordinary red:
-  all11 pure/all22 Qt methods fail at NI,2 Qt setup/cleanup pass, zero skips/warnings.
-  Existing dependency closure140/140 passes, zero skips. First discovery with
-  unbuilt dependency targets was setup failure, never red. Later subcases remain
-  unobserved after first NI. Draft publication/fresh implementation are next.
-  Production full-configuration loading/concrete ports stay #562; supplied complete
-  config DATA is a fixture, while current-authority composition uses real stores.
+- RULES-006 (#558), draft PR #652, branch task/RULES-006-reference-evaluator.
+  Base/main d7d64f25; claim6888000850. Prerequisites #171/#556/#645/#646/#649 closed;
+  source feasibility accepted in6888185517. Full specification and owner path unchanged.
+  Tests approved4202917a (pure header1/server header+examples2); initial rejection,
+  two test fix rounds and all approvals preserved as PR comments. Valid red ata4775776:
+  11 pure cases+22 Qt methods fail at NI; dependency140/140 passes, no skips/warnings.
+  Fresh implementation7030bfeb changes only new core/src/reference_rule.cpp and
+  server/src/reference_application.cpp. Author full closure152/152 and ASan/UBSan12/12
+  pass, zero skips/warnings; LSan unavailable under ptrace. Frozen5 header/test/fixture
+  hashes unchanged. Coordinator integrated two sources; focused12/12 and exact new
+  CI gate pass locally. Promoted new labels to ordinary acceptance and selected the
+  suite in existing Qt CI; job names/dependency pins remain. Full independent tier A
+  implementation review/R6-T10 source audit pending, round0. R6-C01/C02 nonblocking.
+  Prior baseline hosted core/native failed APT setup before compilation; no green
+  or bypass claimed. New-head CI is required. Public contracts/tests/producers/
+  migrations remain frozen; actual full configuration loader/ports stay #562.
 - Coordinator owns shared CMake/CI, migration allocation, checkpoint, receipts and
   proof. Step10 shipped under #649; all compiled prefix bytes remain frozen.
   Full #249 integration remains open. No new migration or other product writer is assigned;
@@ -93,10 +84,10 @@ Owner decisions are recorded in #249, comment 6879902355:
 
 ## Next action
 
-Publish the draft PR and all preserved RULES-006 test receipts plus observed red,
-then assign a different fresh implementation session for the4 NI APIs (new core/
-server .cpp only). Public headers/approved assertions/fixtures stay frozen.
-Preserve R6-C01/C02 as nonblocking notes and mandatory R6-T10 source audit.
-and separate full tier A source review/proof/protected merge. Existing producers,
-migrations/approved tests remain frozen; full configuration loader/full adapters
-remain #562. No pure-only completion, permission shortcut, tooling or live effects.
+Publish the integrated RULES-006 implementation/CI candidate to draft PR #652,
+then obtain fresh Claude initial whole-implementation review, separate Codex
+verification and fresh Claude closing, including R6-T10 resource/error audit and
+coordinator build/CI changes. No merge before those gates, current required CI and
+single proof/publication commit. Preserve all test history and assertions. Root
+owns shared CMake/CI/checkpoint/proof; full configuration loader/adapters remain
+#562. No pure-only completion, authority shortcut, tooling or live effects.

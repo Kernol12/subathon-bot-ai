@@ -344,7 +344,7 @@ jobs:
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule"
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
           -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
@@ -392,6 +392,47 @@ jobs:
           ctest --preset sqlite-reference-capture-debug -L '^sqlite-reference-authority$'
           --no-tests=error --verbose --test-output-size-passed 1048576
           --output-junit "$GITHUB_WORKSPACE/build/sqlite-reference-capture-debug/reference-authority-results.xml"
+      - name: Run reviewed reference rule and current-authority consumer acceptance
+        run: >-
+          ctest --preset sqlite-reference-capture-debug -L '^reference-rule$'
+          --no-tests=error --verbose --test-output-size-passed 65536
+          --output-junit "$GITHUB_WORKSPACE/build/sqlite-reference-capture-debug/reference-rule-results.xml"
+      - name: Verify enabled reference cases and zero-skip runtime results
+        run: |
+          python3 - <<'PYTHON'
+          import json, re, subprocess
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          discovery = json.loads(subprocess.check_output(
+              ["ctest", "--preset", "sqlite-reference-capture-debug", "--show-only=json-v1"], text=True))
+          selected = []
+          for test in discovery["tests"]:
+              props = {p["name"]: p["value"] for p in test.get("properties", [])}
+              labels = set(props.get("LABELS", []))
+              if "reference-rule" not in labels:
+                  continue
+              if props.get("DISABLED") or props.get("WILL_FAIL") or "intentional-red" in labels:
+                  raise SystemExit("Implemented reference rule case was disabled, inverted or left red")
+              if "acceptance" not in labels or not test.get("command"):
+                  raise SystemExit("Reference rule case lost its normal acceptance command")
+              selected.append(test)
+          pure = [t for t in selected if t["name"].startswith("reference-rule.ReferenceRule.")]
+          qt = [t for t in selected if t["name"] == "reference-rule-authority.suite"]
+          if len(selected) != 12 or len(pure) != 11 or len(qt) != 1:
+              raise SystemExit("Reference rule inventory differs from 11 pure cases and one Qt suite")
+          functions = subprocess.check_output([qt[0]["command"][0], "-functions"], text=True).splitlines()
+          if len(functions) != 22:
+              raise SystemExit("Reference consumer differs from 22 reviewed methods")
+          cases = ET.parse(Path("build/sqlite-reference-capture-debug/reference-rule-results.xml")).getroot().findall("testcase")
+          if len(cases) != 12 or {c.get("name") for c in cases} != {t["name"] for t in selected}:
+              raise SystemExit("Missing unfiltered reference rule runtime results")
+          if any(c.find("failure") is not None or c.find("skipped") is not None for c in cases):
+              raise SystemExit("Reference rule case failed or skipped")
+          output = next(c for c in cases if c.get("name") == "reference-rule-authority.suite").findtext("system-out", "")
+          totals = re.findall(r"^Totals:\s+(\d+) passed, (\d+) failed, (\d+) skipped, (\d+) blacklisted,", output, re.MULTILINE)
+          if totals != [("24", "0", "0", "0")]:
+              raise SystemExit("Reference consumer must pass 22 methods and setup/cleanup, with zero skips")
+          PYTHON
       - name: Verify enabled Qt suites and current-fact storage acceptance
         run: |
           python3 - <<'PYTHON'
