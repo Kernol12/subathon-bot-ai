@@ -147,6 +147,20 @@ branch until its prerequisites merge, then integrate `main` once before resuming
 Before resuming any work, check the actual checkout, PR head and state, required
 checks and the latest owner instruction.
 
+## Temporary files
+
+Build directories and scratch files of a task go under one directory named after the
+task, for example `${TMPDIR:-/tmp}/TASK-ID/`, with one subdirectory per session.
+
+- A delegated author or reviewer deletes its own subdirectory before it reports.
+  Whatever a handoff or review comment relies on is written in that handoff or
+  comment first, not left behind a path.
+- After the merge read-back the coordinator deletes the task directory and removes the
+  task's worktrees. When a task stops without a merge, it deletes what no pending
+  stage needs.
+- Delete only the task's own directory and worktrees. Never clear a shared temporary
+  location or the files of another live session.
+
 ## Continuous integration
 
 Add a suite to [the CI workflow](CI.md) when its module lands. Keep actions and
