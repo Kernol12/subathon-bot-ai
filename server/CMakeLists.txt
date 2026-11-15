@@ -168,7 +168,8 @@ endif()
 
 # Development executable stays separate from all server libraries.
 if(SUBATHON_BUILD_DEV_SERVER_TESTS)
-    add_executable(subathon_dev_server dev/main.cpp)
+    add_executable(subathon_dev_server dev/main.cpp dev/development_setup.cpp)
+    target_link_libraries(subathon_dev_server PRIVATE subathon_reference_intake)
     set_target_properties(subathon_dev_server PROPERTIES OUTPUT_NAME subathon-dev-server)
     subathon_target_options(subathon_dev_server)
 endif()
