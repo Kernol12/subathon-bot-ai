@@ -560,6 +560,87 @@ class Child:
 class FoundationTests(unittest.TestCase):
     def child(self,**kw): return Child(self,mode="feature",**kw).start()
 
+    def established_native_admission(self, *, resume):
+        """R4 correction 18: HTTP admission cannot disable established native reads.
+
+        A warm frame on every real connection proves the native callback path
+        before changing admission. The post-change frame is sent only after the
+        command's Done acknowledgement; no packet coalescing or sleep is assumed.
+        A watchdog alone is inconclusive for historical intended-red evidence.
+        """
+        for count in (1, 9):
+            with self.subTest(peers=count, resume=resume):
+                p = self.child(profile="reference")
+                peers = []
+                for index in range(count):
+                    s = p.connect(True)
+                    p.wait("connected", peer=index)
+                    p.send(s, UPGRADE)
+                    self.assertEqual(p.read(s, len(SWITCH)), SWITCH)
+                    p.wait("opened", peer=index)
+                    p.send(s, BINARY_A)
+                    p.wait("message", peer=index)
+                    peers.append(s)
+                self.assertEqual(p.inspect()["native_peers"], count)
+                for index, s in enumerate(peers):
+                    p.command("suspend", peer=index)
+                    if resume:
+                        p.command("admit", peer=index)
+                    p.send(s, BINARY_A)
+                    p.wait("message", peer=index)
+                self.assertEqual(p.inspect()["native_peers"], count)
+                p.stop()
+
+    def test_established_native_suspend_is_noop(self):
+        self.established_native_admission(resume=False)
+
+    def test_established_native_suspend_admit_are_noops(self):
+        self.established_native_admission(resume=True)
+
+    def test_native_tenth_upgrade_with_witnessed_accept(self):
+        """R4 bounded native opportunities; require the overlap before asserting delivery."""
+        p = self.child(profile="reference", action="native-interleave")
+        peers = []
+        for index in range(9):
+            s = p.connect(True)
+            p.wait("connected", peer=index)
+            p.send(s, UPGRADE)
+            self.assertEqual(p.read(s, len(SWITCH)), SWITCH)
+            p.wait("opened", peer=index)
+            p.send(s, BINARY_A)
+            p.wait("message", peer=index)
+            peers.append(s)
+        p.barrier()
+        baseline = p.inspect()
+        require((baseline["native_peers"], baseline["http_peers"],
+                 baseline["control_capacity"], baseline["requests"]) == (9, 0, 0, 0),
+                "FIXTURE: nine warm native peers and no other control response")
+
+        tenth = p.connect(True)
+        p.wait("connected", peer=9)
+        p.send(tenth, UPGRADE)
+        p.wait("interleave_staged")
+        # IO0 is held before parsing the complete 153-byte Upgrade. Connect only:
+        # the ordinary peer cannot create an HTTP refusal or application response.
+        p.connect()
+        p.command("interleave-release")
+        witness = p.wait("interleave_accept", peer=10)
+        require((witness["native_peers"], witness["http_peers"],
+                 witness["control_capacity"], witness["tenth_opened"]) == (10, 1, 1024, True),
+                "FIXTURE: missed accept during tenth pending101; not historical red")
+        self.assertEqual(p.read(tenth, len(SWITCH)), SWITCH)
+        p.wait("opened", peer=9)
+        peers.append(tenth)
+        # Exercise the formerly hidden peer first, then every existing native peer.
+        for index in (9, *range(9)):
+            p.send(peers[index], BINARY_A)
+            p.wait("message", peer=index)
+        p.barrier()
+        final = p.inspect()
+        self.assertEqual((final["native_peers"], final["http_peers"],
+                          final["control_capacity"], final["requests"]), (10, 1, 0, 0))
+        p.stop()
+
     def retained_native(self, p, *, lease=False):
         # Native Context retirement and SDK disposal are independent. Real IO
         # progress may complete the former while the caller still pins the latter.

@@ -220,7 +220,34 @@ static_assert(!std::is_default_constructible_v<bh::Request> &&
               !std::is_copy_constructible_v<bh::Request>);
 static_assert(!std::is_default_constructible_v<bh::Reply> &&
               !std::is_copy_constructible_v<bh::Reply>);
+// One fixture-only rendezvous, before parsing the tenth native Upgrade. It does
+// not pump IO, hold a producer wire node, or supply a transport observation.
+struct InterleaveGate {
+    std::mutex mutex;
+    std::condition_variable changed;
+    bool waiting = false, released = false;
+    void stage() {
+        std::unique_lock lock(mutex);
+        if (waiting || released)
+            fixture("interleave gate must be one shot");
+        waiting = true;
+        emit(event("interleave_staged"));
+        if (!changed.wait_for(lock, 3s, [&] { return released; }))
+            fixture("interleave staging release timeout, not behavioral red");
+        waiting = false;
+    }
+    void release() {
+        std::lock_guard lock(mutex);
+        if (!waiting || released)
+            fixture("interleave release without staged read");
+        released = true;
+        changed.notify_one();
+    }
+};
+static_assert(sizeof(InterleaveGate) <= 128); // one fixed caller-owned coordination record
 struct Rig {
+    InterleaveGate interleave;
+    bool interleaveOpened = false;
     std::array<Peer, 128> peers{};
     std::shared_ptr<Clock> clock = std::make_shared<Clock>();
     std::unique_ptr<ws::Profile> profile;
@@ -252,6 +279,16 @@ struct Rig {
         auto &p = r.peers[r.connected];
         p.index = r.connected++;
         p.peer.emplace(std::move(handle));
+        if (r.action == "native-interleave" && p.index == 10) {
+            const auto current = required(r.foundation->inspect(), "interleave connected inspect").current;
+            auto e = event("interleave_accept");
+            e["peer"] = p.index;
+            e["native_peers"] = Json::UInt64(current.native_peers);
+            e["http_peers"] = Json::UInt64(current.http_peers);
+            e["control_capacity"] = Json::UInt64(current.control_capacity);
+            e["tenth_opened"] = r.interleaveOpened;
+            emit(e);
+        }
         if (!r.nullContext)
             required(p.peer->context(&p), "context");
         if (r.action != "no-wake")
@@ -561,10 +598,15 @@ struct Rig {
         }
         if (r.action == "throw-read")
             throw std::runtime_error("synthetic read observer");
+        if (r.action == "native-interleave" && p.index == 9 &&
+            s.returned > 0 && s.bytes_read == 153)
+            r.interleave.stage();
     }
     static void opened(void *o, void *c, const ws::Connection &conn) {
         auto &r = self(o);
         auto &p = r.context(c);
+        if (r.action == "native-interleave" && p.index == 9)
+            r.interleaveOpened = true;
         if (r.action == "strong" || r.action == "facade-negative")
             p.strong = conn;
         if (r.action == "weak")
@@ -1124,6 +1166,13 @@ int main(int argc, char **argv) {
                     emit(e);
                     drogon::app().quit();
                 });
+            } else if (r.action == "native-interleave" && v["op"] == "interleave-release") {
+                // IO0 is intentionally staged in read_observed. Only this
+                // fixture rendezvous is released here; producer commands stay IO0.
+                r.interleave.release();
+                auto e = event("ack");
+                e["op"] = "interleave-release";
+                emit(e);
             } else
                 r.io.load()->queueInLoop([&r, v] { r.command(v); });
         }
