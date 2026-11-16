@@ -37,6 +37,25 @@ Process/tooling #619/#620 stays frozen; lifting that freeze is the owner's decis
 Dependency readiness authorizes nothing beyond the path above. No live chat or
 payment side effects are authorized.
 
+## API-016 contract corrections (owner rules, 2026-11-16)
+
+The contract of API-016 is corrected in its own PR (#664), revision R4. The owner's
+rules, each recorded on #616:
+
+- Every correction is a numbered item in the PR description and is named explicitly
+  in the tier A review packet. It goes to the owner first if it adds more than one
+  SDK function or touches a first-party header ([rule](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6909553282)).
+  Coordinator rulings cover one case; they grant no class of future corrections.
+- Correction 1 (shutdown seam) is accepted. Corrections 2 to 8 are approved as
+  provisional, for those items only ([decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6910817117)):
+  no first-party header, frozen test, probe or inventory changes.
+- The author hands back when F01 passes (subtest `basic` of
+  `test_literal_wire_inventory`), before continuing, with the list of corrections
+  that changed since the decision.
+- When all 34 methods pass, the tier A packet names the final R4 interface as one
+  item to review as a whole, and the coordinator sends the owner a short summary of
+  the final list.
+
 ## Working rules from the owner (2026-11-15)
 
 - After a fix round the verification is a changed-part re-check, as
