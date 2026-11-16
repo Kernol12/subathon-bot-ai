@@ -105,6 +105,16 @@ class BoundedHttpSdkTests(unittest.TestCase):
             if cache.is_file():
                 self.assertEqual(receipt["files"][str(cache)], recipe.digest(cache))
 
+    def test_recipe_children_use_the_task_compiler_temporary_directory(self):
+        with tempfile.TemporaryDirectory() as temp:
+            scratch = Path(temp) / "compiler-tmp"
+            scratch.mkdir()
+            result = subprocess.CompletedProcess([], 0, "done\n", "")
+            with patch.object(recipe, "BUILD_TEMP", scratch), \
+                 patch.object(recipe.subprocess, "run", return_value=result) as child:
+                self.assertEqual(recipe.run("synthetic-compiler", echo=False), "done\n")
+            self.assertEqual(child.call_args.kwargs["env"]["TMPDIR"], str(scratch))
+
 
 if __name__ == "__main__":
     unittest.main()

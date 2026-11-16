@@ -29,6 +29,7 @@ PROFILE = REPO / "dependencies/native-websocket-profile"
 PRESET = "native-websocket-profile-debug"
 SYSTEM_LIB_DIRS = (Path("/lib/x86_64-linux-gnu"), Path("/usr/lib/x86_64-linux-gnu"))
 COMMANDS: list[list[str]] = []
+BUILD_TEMP: Path | None = None
 SUCCESSOR = False
 LOCAL_DEVELOPMENT = False
 BINARY_DIR: Path | None = None
@@ -68,6 +69,9 @@ def run(*args: object, env: dict | None = None, timeout: int = 1200, echo: bool 
     command = [str(arg) for arg in args]
     COMMANDS.append(command)
     print("+", shlex.join(command), flush=True)
+    if env is None and BUILD_TEMP is not None:
+        env = os.environ.copy()
+        env["TMPDIR"] = str(BUILD_TEMP)
     result = subprocess.run(command, cwd=REPO, env=env, capture_output=True,
                             text=True, encoding="utf-8", timeout=timeout)
     if echo:
@@ -297,9 +301,13 @@ def local_packages(sdk: Path, build: Path) -> dict:
 
 
 def prepare(root: Path) -> None:
+    global BUILD_TEMP
     manifest = profile()  # Verify first-party/patch bytes before downloading sources.
     require(not root.exists(), f"Fresh disposable root required: {root}")
     root.mkdir()
+    if SUCCESSOR:
+        BUILD_TEMP = root / "compiler-tmp"
+        BUILD_TEMP.mkdir(mode=0o700)
     source, build, sdk = (root / name for name in ("source", "build", "sdk"))
     receipts = root / "receipts"
     receipts.mkdir()
@@ -436,6 +444,7 @@ def prepare(root: Path) -> None:
                  "upstreams": manifest["upstreams"], "options": setup_drogon.OPTIONS,
                  "pristine_status_before_patches": pristine,
                  "compiler_path": str(compiler),
+                 "compiler_tmpdir": str(BUILD_TEMP) if BUILD_TEMP is not None else "inherited",
                  "compiler": run(compiler, "--version"), "cmake": run("cmake", "--version"),
                  "os": run("uname", "-srmo"), "packages": package_records}
     for name in ("libdrogon.so.1.9.14", "libtrantor.so.1.5.29"):
