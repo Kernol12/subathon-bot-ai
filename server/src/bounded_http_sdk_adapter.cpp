@@ -1089,7 +1089,7 @@ void Core::owner_turn() noexcept {
         if (intents & 2)
             terminate(p, End::cancelled);
         else {
-            if (desired >= 0)
+            if (desired >= 0 && !p.native_established)
                 p.wanted = desired != 0;
             if ((intents & 1) && !stop && !p.socket_gone && !p.close_requested && guard(p)) {
                 ++turn_work[p.native ? 1 : 0];
@@ -1114,8 +1114,9 @@ void Core::owner_turn() noexcept {
             }
             if (p.transport && !p.native_established && !p.delivered && (p.native || take_input(p)) && guard(p))
                 reading(p, true);
-        } else if (p.transport && !p.socket_gone)
-            reading(p, false);
+        } else if (p.transport && !p.socket_gone &&
+                   !(p.native_established && p.control))
+            reading(p, false); // Native owns reading while its 101 control drains.
     }
     cursor = (cursor + 1) % limits.peers;
     if (stop && acceptors_gone && !drained) {
@@ -1342,6 +1343,8 @@ Result<Done> Foundation::admission(const Peer &h, Pause pause) noexcept {
     auto &p = *Factory::state(h)->peer;
     if (p.removed || p.socket_gone)
         return Error::revoked;
+    if (p.native_established)
+        return Done{}; // Established native admission/backpressure belongs to its profile.
     p.wanted = pause == Pause::admitted;
     if (!p.wanted && p.transport && !p.socket_gone)
         c.reading(p, false);

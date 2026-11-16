@@ -1,6 +1,6 @@
 # Bounded selected HTTP foundation — v1, correction R4
 
-Revision R4 comprises corrections 1–17, implemented in API-016 and reviewed in
+Revision R4 comprises corrections 1–18, implemented in API-016 and reviewed in
 [PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664). That record covers
 the source/interface, allocation inventory, artifact/recipe/gate and selected Linux
 CI evidence. First-party declarations and the reviewed baseline remain unchanged.
@@ -1035,6 +1035,14 @@ After establishment HTTP accept/idle/request guards cease; the frozen native
 frame/message/Close/idle/lease producer continues. Native C/U owner and shared P
 slot stay charged until actual Context::retire plus socket/handle cleanup.
 
+Correction 18: Foundation::admission and admit/suspend intents govern HTTP requests
+and native peers before establishment only. For an established native peer,
+including while its 101 is pending, a valid admission call returns Done and changes
+nothing: delivery, deadlines and read/write interest stay unchanged. The intents
+keep their posting semantics and have no native effect. The native profile alone
+owns established read interest and backpressure. Close and stop keep their existing
+teardown behaviour; admission never reopens a closing or removed connection.
+
 Import, do not reopen, the parent numeric-address/data-endpoint observation,
 public enableReusePort(true) probe bypass plus pre-listen SO_REUSEPORT clear and
 readback 0/SO_REUSEADDR = 1, bounded private scratch parent/child/canaries, disabled
@@ -1187,7 +1195,7 @@ cleanup and unchanged seal throughout. No old loaded receipt admits a new binary
 API-016 implements this boundary. The frozen 34-method foundation suite and the
 44 unchanged native methods pass selected Linux CI behind technical consumer gates;
 native44 also passes against the original candidate4 SDK. PR #664 records the
-R4 corrections 1–17, tier A reviews and gated synthetic loopback evidence.
+R4 corrections 1–18, tier A reviews and gated synthetic loopback evidence.
 All SQL/CI/provider/platform/security/deployment/release gates, seven integrations,
 three FX providers, English/German, themes, separate renderers and full desktop
 editor remain in complete v 0.45 scope.
