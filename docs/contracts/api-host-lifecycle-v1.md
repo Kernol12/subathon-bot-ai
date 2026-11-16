@@ -28,9 +28,7 @@ ONE host lifetime and combined actual readiness. Its §6 supersession table also
 qualifies native-versus-ordinary buffer ownership and Linux listen/accept threads,
 adds role-aware HTTP refusals/private scratch, separately charged serialization,
 endpoint-observer failure and gated signal quiescence, and assigns the independent
-API-016 foundation/account rebase. Authority, source finalization, generation,
-clock, bridge charges and HL01–17 remain binding; these amendments and later
-baseline/implementation support need separate approval.
+API-016 foundation/account rebase. The [boundary revision 2](api-host-lifecycle-boundary-v1.md) implements the [2026-11-16 owner decision](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6908067929), groups A–E, and qualifies the host rules below. Bridge charges and all rules outside the approved list remain binding. This is a contract revision, not runtime support.
 
 ## 1. Owners, lifetime and state
 
@@ -64,57 +62,17 @@ the stop request. Repeated signals are idempotent stop requests, do not restart
 drain timers, and cannot admit new work. A process externally killed during startup
 has no graceful-cleanup or response-delivery guarantee.
 
-## 2. Actual execution and separate publication membership
+## 2. Actual execution and asynchronous completion
 
-An outer work association owns a correlation, command, installation-generation
-capture, cancellation state and response lease while queued/active/completing.
-It is bookkeeping, not a permit. Neither its address/identifier nor a client-supplied
-installation reference can enter a scope. Correlations follow wire v1 and identify
-transport requests only; operation identity/retry semantics remain domain-owned.
+An outer association owns correlation, command, cancellation and response lease while queued/active/completing. It is bookkeeping, not a permit. Client-supplied installation references and matching DTOs cannot grant authority; correlations identify transport requests, not domain retry authority.
 
-The host alone creates an execution binding when an admitted command actually
-enters its non-yielding authoritative execution callback. It binds this host,
-owner thread, unique live invocation, actual installation generation and current
-source lifetime. Foreign-thread, reentrant, stale-generation, expired or missing
-membership refuses without reading the native session clock. No public ready,
-trusted, current-invocation or installation setter is permitted. Implementations
-must not reconstruct membership by looking up a supplied ID or comparing DTOs.
+One command is active at a time. Before dispatch, the Qt owner checks stop (including pending signal), disconnect, original queue deadline, elapsed and activation gates. A command that does not enter submits no writer unit and has no writer completion. The dispatcher receives a move-only command handle, forwards prepared `SqliteWriter::Work` plus completion through it to the private writer, and finishes once with a reply or with none. One command may run several units in order and reply once; a second reply is refused. The next command enters only after the previous one finishes. Exact handle/forwarding/finish declarations remain open for the later header step.
 
-The binding and its borrowed facades are revoked before execution callback exit,
-including exception paths. No Qt event pumping, await, nested command dispatch,
-network wait or retained callback extends it. A queue wait has no execution
-binding. The existing `CurrentSessionClock::sample_current()` signature is
-unchanged; its host-owned facade uses this actual membership, not a new timestamp
-parameter or externally usable clock-service method.
+Unit bodies and completions run on the owner without event pumping, nested dispatch or network waits. Writer `finish()` revokes the ticket before completion. The host observes each real `SqliteWorkResult` and passes it unchanged to the dispatcher's completion. Units finalize their own actual transactions through existing writer/store APIs. There is no host `Transaction`/`AccountSessions` facade, precommit installation reread, `current_installation()`, private envelope or separate `Publication`/`complete()` stage.
 
-Writer work retains its own smaller ticket lifetime. Its `finish()` revokes the
-`SqliteWorkSession` before calling completion. Neither that ticket nor a
-`SqliteWorkResult`, `QVariant` envelope, committed result or source DTO is a
-publication binding. The host matches the actual once-only completion to the
-outstanding association, verifies the required actual commit/work/domain envelope,
-and only then may create a FRESH publication binding on its owner thread. It
-revalidates current generation, actual source lifetime and §3 readiness at that
-point. An earlier execution facade stays revoked.
+The host has no generation fence. The store's `current()`/`accepted()` epoch check inside the transaction is the fence; [boundary §1](api-host-lifecycle-boundary-v1.md#1-actual-sources-ordinary-activation-and-forward-restore-obligation) names it and SESSION-013 (#662)'s verification before the first installation-epoch rotation. Account recovery cannot clear independent global clock holds.
 
-Publication membership covers only the synchronous final gate and emitter call,
-with no yielding or later command interleaving. Sources used there must be valid
-current host-owned bindings at completion, not a dead repository unit or a copied
-previous permit. If the host cannot establish them, suppress publication. The
-owning operation decides whether trusted publication time is required. For bearer
-and session-credential emission, clock/lifecycle v1 REQUIRE a fresh clock sample
-immediately before the synchronous emitter; execution time is never reused.
-Ordinary nonsecret transport/error replies acquire no session-UTC requirement
-from this host contract. Secret emission remains at most once and follows the
-existing exact metadata/expiry/wipe contract. Local handoff is not confirmed
-network receipt. A post-commit refusal/exception leaves committed truth intact.
-
-Installation generation is an internal live-host identity, distinct from stored
-installation/account epochs, correlations and request references. An actual
-installation rebind revokes old queued work, facades and source borrows before a
-new generation can serve. Generations never wrap or get reused; exhaustion is
-terminal. Rebinding an old request reference cannot move its authority into the
-new installation. Account-specific recovery preserves the independent global
-clock boundaries in clock §4.
+The session clock is not part of this host boundary. SESSION-009 (#582) owns both removed guards: revocation, thread and reentrancy; wall-clock jumps do not move deadlines. Operation-owned bearer/session emission still requires fresh trusted time, at most once, with existing metadata/expiry/wipe rules. Ordinary nonsecret replies acquire no session-UTC requirement. Local handoff is not confirmed receipt; post-commit refusal/exception preserves actual truth.
 
 ## 3. Readiness comes from actual owning sources
 
@@ -138,22 +96,9 @@ Ownership is explicit:
 | Account recovery and account/session facts | ACCESS-005's actual account fence plus the current account/session source; account recovery cannot clear installation/clock holds. |
 | Current clock, accepted sign-in, policy and permissions | SESSION-009, actual local/provider authentication owners, owner-policy producer and current access owner respectively; their independent gates remain required. |
 
-Actual installation facts may be retained only in bounded host-owned source storage
-whose provenance, generation and invalidation are maintained by ALL actual owner
-mutations. Merely retaining the output of a store read does not implement that
-producer. Readiness is rechecked at execution/publication, not captured at ingress.
-An operational source cannot clear its own unknown outcome by accepting a request
-flag or rereading a plausible old epoch.
+Startup activation follows [boundary §1](api-host-lifecycle-boundary-v1.md#1-actual-sources-ordinary-activation-and-forward-restore-obligation): inspect the head of `reference_authority_repository_manifest()` (version10 today) and read the configured installation with acknowledged normal commits through the same private writer. A complete version8 store refuses as old, without advance. Readiness is checked at command entry, never captured at ingress. A request flag or plausible reread cannot clear an unknown outcome.
 
-The normal-startup producer and same-process current-source publication binding
-are mandatory API-001 acceptance gates, not capabilities delivered by this document.
-If implementing them needs a reusable issuer, durable replacement marker, recovery
-journal or a new operational protocol beyond the existing host composition, root
-must split that prerequisite and its contract/test/implementation before code.
-STORAGE-007/ACCESS-005 keep their full existing scope. Until a required actual
-producer exists, protected operations return unavailable. A real listener with
-diagnostic commands, simulated readiness or a native clock behind a fake host
-cannot close clock §2 or SESSION-009's actual ready-host binding acceptance.
+The normal-startup producer remains mandatory API-001 acceptance, not capability delivered here. Reusable issuers, durable replacement markers, recovery journals or new protocols beyond this composition require a split prerequisite. STORAGE-007/ACCESS-005 retain full scope. Missing actual sources refuse; diagnostic service or simulated readiness cannot complete SESSION-009's actual host-binding acceptance.
 
 ## 4. Finite admission, cancellation and reply ownership
 
@@ -228,20 +173,7 @@ the connection without inventing an application result.
 Full/expired/stopping admission refuses before execution. On disconnect or queue
 deadline, an association not yet executing is cancelled and must never invoke its
 command. Race resolution occurs on the owner queue: exactly one of cancellation
-or execution entry wins after the current deadline/fence check. This cancellation
-is of the bridge command/domain invocation, not deletion from the writer FIFO.
-If a `SqliteWriter::enqueue_work` wrapper has ALREADY been accepted, retain it,
-its dependencies/reservations and its once-only completion through normal FIFO
-drain. On dispatch the wrapper checks cancellation/deadline/stop BEFORE creating
-an execution binding, calling the domain body or attempting BEGIN. A cancelled
-wrapper returns without BEGIN; the unchanged writer then reports its actual
-`not_started/missing_transaction`, with no logical value. The host records its
-separate cancellation reason without relabeling that result as rollback, commit
-or success. A writer that fail-closed before wrapper invocation instead supplies
-its actual ordered `not_started/writer_unavailable`. Neither path retries the item.
-Ordinary already-admitted writer batches keep their existing execution/drain
-semantics; host cancellation cannot erase or rewrite them. No execution facade
-exists during any queued interval.
+or execution entry wins after the current deadline/fence check. A waiting command has no accepted writer item: it is cancelled by the host without execution or writer completion. Accepted units retain their dependencies/reservations and drain with real FIFO outcomes. A fail-closed writer supplies actual ordered `not_started/writer_unavailable`; the host never relabels outcomes, erases accepted units or retries them. Ingress reservation is not writer acceptance.
 
 Once actual non-yielding domain work starts, disconnect/timeouts only revoke the
 response lease; they cannot preempt SQL or imply rollback.
@@ -261,8 +193,7 @@ snapshot/sync; a transport connection grants no current account authority.
 
 The first consumed stop request closes application admission and increments the
 admission fence before draining. Already admitted queued commands are cancelled;
-already-accepted writer wrappers still dispatch/complete in FIFO under §4, with
-cancelled domain bodies never entered. Requesting writer shutdown drains ALL
+already-accepted prepared units drain/complete in FIFO under §4. Waiting commands never enter and produce no writer completion. Requesting writer shutdown drains ALL
 accepted items and completions under its unchanged contract. The one actual
 executing callback, if any, finishes under that contract. Its completion may
 record truth but cannot start new work or publish a new bearer after the stop
@@ -276,8 +207,7 @@ remaining peers on their network loops. Do not reset the deadline on traffic,
 Pong, repeated signals or another drain callback. Account for actual outstanding
 network callbacks, revoke their leases, and pass the network barrier before
 destroying callback dependencies. Request writer shutdown on its owner thread,
-observe its actual completion and connection removal, and destroy writer/source/
-clock owners there only after their work and facade revocations. Stop/join IO
+observe its actual completion and connection removal, and destroy writer and dispatcher owners there only after their work and cleanup. Stop/join IO
 loops after their socket/callback cleanup; retain the Qt dispatcher until its
 owner-thread cleanup acknowledgments complete. A late callback cannot touch a
 destroyed host, socket owner or SQL connection.
@@ -301,16 +231,16 @@ Synthetic literal examples below are contract oracles, not executed tests.
 | HL02 | One connection has 8 associations, global count 8 | Its ninth refuses; a different connection can still use remaining global capacity. |
 | HL03 | Queue deadline 5000; entry at 4999 versus 5000 after admission | First may execute if all current gates pass; second never enters execution. Scheduling must not silently extend the deadline. |
 | HL04 | Disconnect races execution entry | Cancel wins: no invocation. Entry wins: work outcome remains actual, response lease revoked. Neither path assumes rollback from disconnect. |
-| HL05 | Retained execution clock facade used while queued, in a later callback, from a foreign thread or reentrantly | Unavailable before native observation; no last-time fallback. |
-| HL06 | Real COMMIT and normal private envelope; completion receives revoked writer ticket | Ticket stays unusable. Only a freshly matched publication binding with CURRENT facts/readiness may sample/emit. |
-| HL07 | Same completion has wrong envelope, body exception, uncertain commit, stop fence or unavailable publication source | No bearer/reply publication; committed/unknown truth remains exactly as observed, no synthetic rollback/retry. |
+| HL05 | Host clock facade removed | Both clock guards are SESSION-009 (#582) acceptance criteria; boundary §1 names them. |
+| HL06 | Current-catalog activation, prepared unit commits normally | Committed/none/value completion, revoked ticket; startup order and I/E/J/session rows unchanged. One correlated nonsecret reply; downstream credential gates remain. |
+| HL07 | Body throws after commit; lost acknowledgment/fail-close; unit completion throws; stop | No handoff or replay; actual committed/unknown truth retained. Body exception reaches completion as committed/work_exception/no value. No envelope/publication stage. |
 | HL08 | Listener running, writer open and valid old installation DTO; operational source unknown | Diagnostic service may run; protected work and session clock sample are unavailable. This does not pass real-ready clock acceptance. |
-| HL09 | Queue work captured generation 7; actual restore fence/rebind establishes generation 8 | Old work/facades refuse, even if request says the new installation reference. No copy-and-relabel authority. |
+| HL09 | Host generation/rebind cases removed | Store epoch check fences old-session work; SESSION-013 (#662) must verify every session-bearing unit before first rotation. |
 | HL10 | Stop during startup, then three more signals | Never admit serving work; one deadline/cleanup sequence. A later start call in this process refuses. |
 | HL11 | Bound port unavailable in fresh child | Process-terminal bind failure; no same-process retry/destructor-success claim. A NEW child may retry after releasing the port. |
 | HL12 | Stop with idle socket, partial frame, queued request and already executing write | Cancel queue, let actual write finish, close/force-close peers by fixed network deadline, then require actual owner barriers. Unreturned write prevents a graceful-stopped claim. |
 | HL13 | Normal work commits; emitter locally hands off; peer disappears before receipt | Committed and local handoff only; no confirmed client delivery, no automatic operation replay. |
-| HL14 | Writer accepts W1,W2,W3 in order; W1 commits/completes, then owner consumes stop before W2 dispatch | W2/W3 wrappers still dispatch and complete once in FIFO, without BEGIN, domain call or execution facade. Actual results are `not_started/missing_transaction`, values absent; host separately records stop cancellation. Shutdown acknowledgment follows all three completions; no accepted item is erased and no retry is started. If writer instead fail-closes, its actual ordered unavailable results remain unchanged. |
+| HL14 | Admit W1–W3, W1 commits, stop before W2 entry | W2/W3 cancelled by host without entry/unit; one execution and writer_completed=1. W3 admission < stop < cancellation; W1 completion and stop precede writer acknowledgment. Accepted units retain true FIFO results, including fail-close. |
 | HL15 | Monotonic start 1000ms and queue budget 5000ms; wall UTC jumps forward or backward; elapsed entry 5999 versus 6000ms | Original elapsed deadline stays 6000ms. First may enter if current gates pass; equality refuses. A delayed wake at 6001 does not grant another 5000ms. |
 | HL16 | Valid configured duration would add beyond unsigned64 nanoseconds, or elapsed observation becomes unavailable | Refuse affected admission/entry/handoff and tear down affected peers as applicable; no wrapped/unlimited deadline or invented SQL result. Already executing work keeps its actual outcome. |
 | HL17 | Ordinary nonsecret diagnostic/error reply, session-clock producer unavailable | No implicit session-UTC dependency; current transport/lifecycle and elapsed lease gates still apply. Session credential emission under the same outage remains suppressed by its mandatory fresh trusted publication sample. |
