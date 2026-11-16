@@ -26,10 +26,20 @@ Groups A to E are approved exactly as [itemized](https://github.com/Kernol12/sub
 [recorded here](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6908067929). Nothing beyond that list may be removed or replaced.
 If the tier A review changes an item, bring only that item back to the owner.
 
+The tier A review of the APITEST-015 contract revision (PR #667) raised three items
+of the list; the owner decided them on 2026-11-16 ([record](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6913620654)): the fence is named
+in two parts (below); the host withholds the reply of a command with a unit that did
+not end as a normal commit; `local-login-authority-v1.md`, `session-lifecycle-v1.md`
+and `guarded-enrollment-recovery-v1.md` get pointer-only changes in step 1.
+
 Both owner conditions are met before any removal:
 
-- C: [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662) (SESSION-013) exists. The host has no generation fence; the store's
-  epoch check is the fence, and APITEST-015 names it in the boundary contract.
+- C: [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662) (SESSION-013) exists. The host has no generation fence. The fence is
+  the epoch check inside each session-bearing unit, and APITEST-015 names both parts
+  in the boundary contract: the comparison in `resolve_current_account_session`
+  (`server/src/session_resolution.cpp`) for units that authenticate, and `current()`
+  and `accepted()` in `server/src/sqlite_account_sessions.cpp` for units that insert
+  or replace a session.
 - E: both clock guards are acceptance criteria of SESSION-009 [#582](https://github.com/Kernol12/subathon-bot-ai/issues/582).
 
 The briefs of #613 and #278 are rewritten for this decision. SESSION-013 and
