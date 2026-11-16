@@ -63,8 +63,9 @@ kernel event, 8-byte active pointer and fixed debug pair, with per-array roundin
 covered by its 128-byte charge. Main 16 + IO infrastructure 8 are in G; P peer
 records are in peer metadata. Epoll never doubles these selected arrays on a full
 return. Every bounded active batch fits the preallocated pointer capacity. Debug
-registries use fixed cells rather than map insertion; legacy unselected IO loops
-retain their existing dynamic behavior.
+registries use fixed cells rather than map insertion. While a foundation is
+installed (Runtime::install through Runtime::discard), only the selected IO0
+EventLoop may be constructed; any further trantor::EventLoop terminates the process.
 
 `install_failure` (correction 10) distinguishes actual pre-run array allocation
 failure from invalid configuration/state; first-party create returns the matching

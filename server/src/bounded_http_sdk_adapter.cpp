@@ -1033,7 +1033,13 @@ void Core::owner_turn() noexcept {
         if (p.socket_gone && p.sdk_gone && !p.removed &&
             !p.deletes.load(std::memory_order_acquire) &&
             (!p.native || !p.attached_once || p.native_retired_seen)) {
-            p.removed = true;
+            {
+                std::lock_guard lock(mutex);
+                p.removed = true;
+                // A removed peer has no work to deliver, even while handles pin it.
+                p.mailbox = p.executing = 0;
+                p.desired = -1;
+            }
             if (p.retiring_charge) {
                 p.retiring_charge = false;
                 --observation.current.retiring_peers;
@@ -1055,6 +1061,8 @@ void Core::owner_turn() noexcept {
                 observation.current.metadata_charge -= 16384;
                 const auto index = p.index, incarnation = p.incarnation;
                 auto *data = p.payload, *meta = p.metadata;
+                // Any-thread post scans these records under the same mutex.
+                std::lock_guard lock(mutex);
                 p.~PeerRecord();
                 new (&p) PeerRecord;
                 p.core = this;

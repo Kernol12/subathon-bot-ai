@@ -1,17 +1,16 @@
 # Bounded selected HTTP foundation — v1, correction R4
 
-R4 adds the accepted shutdown seam. Corrections 2–8 are provisionally approved
-by the owner on 2026-11-16 for existing R3 behavior, with dispositions in PR #664.
-The final R4 interface remains subject to tier A review. First-party declarations
-and reviewed oracles are unchanged. R4 corrections 9–12 add the SDK-only bootstrap
-budget binding/constants, install-failure query, actual-write deadline guard and
-joined/cold installation cleanup; see PR #664 for their exact scope.
+Revision R4 comprises corrections 1–16, implemented in API-016 and reviewed in
+[PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664). That record covers
+the source/interface, allocation inventory, artifact/recipe/gate and selected Linux
+CI evidence. First-party declarations and the reviewed baseline remain unchanged.
+This evidence establishes no release, platform or security verification.
 
 APICONTRACT-005; identity `subathon.bounded-http-foundation.v1`. Normative
-boundary implemented in API-016, pending the tier A review cycle. R2 addressed initial-review findings
+boundary implemented in API-016. R2 addressed initial-review findings
 CI005-B1–B6 and A1–A8. Independent Codex verification retained B1's native-wrapper
 lifetime gap and B6's read-witness gap. R3 addresses those and its thread/backpressure
-advisories; separate re-verification and Claude closing remain required. Author base
+advisories; the revision review records are in PR #664. Author base
 `e0d81ead9fdba8d130fb8ad52269a9cb995be4e7`; original source was integrated as
 `275f48a8c1b391772a5153165bb6289cc95dd9eb`. Authority is specification v 0.45,
 §2, SERVER-01, API-01, AUTH-12 and §§17–18. Import the complete
@@ -69,7 +68,7 @@ by first-party code. Proposed SDK headers are
 and SDK headers; neither DSO includes or links first-party Foundation, Result,
 ElapsedSource or callback types. The following private ABI shapes are normative;
 SDK pointer cookies are usable only by their installed producer/connection.
-R4 operations are noexcept. Transport/PeerStorage/Sink operations and Runtime
+R4 operations are noexcept. Transport/PeerStorage/Producer/Sink operations and Runtime
 poll/stop_acceptors/bind_wake/render_reply/observe/release_wire/wire_held are IO0-only
 (except native_retired, which latches/wakes on any ordinary thread). Runtime
 install/install_failure/discard/native_registration/arm_first_wire run on the
@@ -204,6 +203,12 @@ G-share constants to the first-party boundary. First-party code must neither
 include that header nor reference these internal symbols. Ordinary selected SDK
 Channel/EventLoop APIs used for the two fixed wake channels remain implementation
 dependencies, not additional foundation authority.
+
+Correction 16 also classifies the bounded additions in installed Trantor headers
+as SDK-internal, not a first-party interface: TcpConnection::boundedSlot() and
+boundedTransport(), the TcpServer bounded methods/data members (including
+setBoundedProfile, boundedPoll and boundedStopAccepting), the MsgBuffer span
+constructor and fixedCompact/fixedHead/fixedTail, and EventLoop::boundedEpoch().
 
 Correction 15 adds one IO0-only nonallocating Runtime::observe(Producer&, Facts&)
 query, bound to the actual installed producer. It snapshots actual stock request
@@ -616,7 +621,10 @@ the notification itself), stop_drained fires once on IO0. Inert handles may stil
 remain; they do not grant network access. Only AFTER this notification may the
 owner initiate app().quit(), join framework-main/IO cleanup, dispose remaining
 inert handles/posters and call finish. Early quit force-closes in candidate4 and
-is NOT a drain proof. Startup failure before run uses the same cleanup gate unless
+is NOT a drain proof. In the successor, app().quit() before stop_drained terminates
+the process, including through Drogon's default SIGTERM/SIGINT handler. Consumers
+must disable or replace that handler and initiate quit only after stop_drained
+(correction 16). Startup failure before run uses the same cleanup gate unless
 the process took the parent's terminal bind/listen path.
 
 Before calling finish, the caller must join its framework-main thread and
@@ -1167,10 +1175,10 @@ DT_NEEDED/VERNEED/symbol/RTTI/ABI closure before loading, scrubbed controlled
 identity after release, complete actual loaded maps at initialization/serving/
 cleanup and unchanged seal throughout. No old loaded receipt admits a new binary.
 
-API-016 implementation, gated local synthetic loopback evidence and required CI
-are recorded in PR #664. Its initial tier A review requested changes; fix round 1
-is in progress. Independent verification and fresh closing review remain required.
-No implementation or passing fixture result is an owner review approval.
+API-016 implements this boundary. The frozen 34-method foundation suite and the
+44 unchanged native methods pass selected Linux CI behind technical consumer gates;
+native44 also passes against the original candidate4 SDK. PR #664 records the
+R4 corrections 1–16, tier A reviews and gated synthetic loopback evidence.
 All SQL/CI/provider/platform/security/deployment/release gates, seven integrations,
 three FX providers, English/German, themes, separate renderers and full desktop
 editor remain in complete v 0.45 scope.

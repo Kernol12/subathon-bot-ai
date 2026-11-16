@@ -1,6 +1,6 @@
 {
   "format": 1,
-  "status": "implemented_pending_tier_a_review",
+  "status": "implemented",
   "profile": "subathon.bounded-http-foundation.v1",
   "abi_marker": "DROGON_SUBATHON_BOUNDED_HTTP_V1",
   "parent_manifest_sha256": "fa947feb11f2a00efad810c73af0c8e32d5f43d9a7c5ee88645112e28a1bf67e",
@@ -50,6 +50,6 @@
   },
   "allocation_inventory": {
     "file": "RESOURCE_ACCOUNTING.md",
-    "sha256": "6118a9f0c9d6ce17922b7ef5bbdfb23403aa7c4678db04229980b3f44edecab1"
+    "sha256": "72c87d5307cc4e5a4e6b7d43066c6ce1134f811ca4fe634cee6421985ccc5499"
   }
 }

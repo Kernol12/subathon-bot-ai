@@ -2,17 +2,16 @@
 # Bounded HTTP successor (API-016)
 
 This additive artifact implements the bounded HTTP foundation over byte-identical
-API-012 inputs. The local gated development suite passes all 34 foundation methods
-and all 44 unchanged native methods against one successor. The recipe, source,
-allocation inventory, final R4 interface and CI evidence still require tier A
-review; the artifact is not admitted by its ABI marker or by an author review.
+API-012 inputs. All 34 frozen foundation methods and 44 unchanged native methods
+pass selected Linux CI against one successor behind technical consumer gates;
+native44 also passes against the original candidate4 SDK. The source, allocation
+inventory, R4 interface, recipe/gate and CI review record is in
+[PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664).
 
-Corrections 2–8 were provisionally approved by the owner on 2026-11-16; correction 1
-(shutdown) is accepted. Author-added corrections 9–12 bind the pre-main/fixed-poller
-budget, preserve install allocation-failure classification, guard actual writes
-and release joined/cold installations. The numbered
-**Contract corrections** and **Final R4 interface** sections of PR #664 identify
-all additions for review. No first-party public header or reviewed oracle changed.
+Revision R4 comprises corrections 1–16, reviewed in PR #664. Its numbered
+**Contract corrections** and **Final R4 interface** sections identify their scope.
+No first-party public header or reviewed oracle changed. These results establish
+no release, platform or security verification; the ABI marker alone admits no binary.
 
 The [source allocation inventory](RESOURCE_ACCOUNTING.md) records the physical
 storage, metadata guards, selected standard-library assumptions and exclusions.

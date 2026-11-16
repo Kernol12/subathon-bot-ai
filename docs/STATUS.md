@@ -11,12 +11,13 @@ priority is a vertical slice that starts the server, runs one timer and accepts 
 fake contribution (see the [checkpoint](../progress/coordinator-checkpoint.md)).
 
 API-016's bounded HTTP successor passes all 34 foundation methods and 44 unchanged
-native methods locally behind technical consumer gates. Both suites now run as
-ordinary passing suites in the existing `native` CI job. API-012 inputs and frozen
-oracles/public headers remain unchanged. The final R4 interface, source/allocation
-inventory, artifact/recipe/gate and reviewed-head CI still require the tier A cycle;
-see [PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664). Local runs are
-development evidence, never individual binaries admitted by review.
+native methods behind technical consumer gates in selected Linux CI. The existing
+`native` job also passes native44 against the original candidate4 SDK. API-012
+inputs and frozen oracles/public headers remain unchanged. Revision R4 comprises
+corrections 1–16; its source/interface, allocation inventory, artifact/recipe/gate
+review record and synthetic loopback evidence are in
+[PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664). Local runs remain
+development evidence. No release, platform or security verification is established.
 
 ## Historical source-bound summary
 
