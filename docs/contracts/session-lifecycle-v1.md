@@ -535,6 +535,14 @@ the number of valid sessions. No account-wide admin directory is added by this A
 
 ## 7. One real work, commit and outcome truth
 
+Host reference update: [consumer boundary revision 2 §2](api-host-lifecycle-boundary-v1.md#2-minimal-proposed-c-consumer-boundary)
+has prepared units and a host normal-commit reply gate, without a host private
+envelope or Publication/clock facade. The private envelope below, including
+the wrong/missing-envelope row, is this lifecycle service's own typed value,
+not the removed host envelope. Its execution/publication binding references
+in §§2/8 require rebase in SESSION-002 and the clock's SESSION-009 task; no
+lifecycle rule, outcome row or secret-publication criterion changes here.
+
 One admitted pair → one real writer work → at most one real BEGIN IMMEDIATE and
 one actual synchronous commit attempt. Unit reads, acceptance reservation, current
 permission checks, CAS and hash-only persistence compose on that SAME session.
@@ -562,7 +570,7 @@ completion receives the real SqliteWorkResult; the host cannot synthesize it.
 | COMMIT failed but no commit plus rollback established | rolled_back, actual commit/work error; never claim that an arbitrary COMMIT error proves rollback. |
 | Rollback/commit/cleanup cannot establish outcome | outcome_unknown/uncertain_outcome, no reply/publication; writer fail-closes and queued work fails not_started in order. Attempt/secret not replayed. |
 | Confirmed COMMIT, then body throws or protocol fails | committed plus actual work error, no reply/publication; no rollback/retry claim; candidate erased. |
-| Confirmed COMMIT and normal body result, wrong/missing private envelope | committed, bridge unavailable, no reply/publication; orphan handling required. |
+| Confirmed COMMIT and normal body result, wrong/missing private envelope ([service envelope](#7-one-real-work-commit-and-outcome-truth)) | committed, bridge unavailable, no reply/publication; orphan handling required. |
 | Confirmed COMMIT, normal exact envelope, publication gate fails | committed; no credential reply or bearer publication; failure unavailable and publication suppressed. State remains committed. |
 | Confirmed COMMIT, normal exact envelope and successful required publication gate | Exact reply; credential emission at most once, otherwise not_requested. |
 

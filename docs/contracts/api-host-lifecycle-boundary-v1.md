@@ -4,9 +4,12 @@ Revision 2, 2026-11-16: APITEST-015 step 1, [owner
 decision](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6908067929),
 groups A–E of the [approved itemized
 list](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6907983078).
-This revision specifies the future header for the later stub step; the
-existing header and tests still describe the historical baseline. No tests,
-stubs or headers change before API-016 merges.
+The [owner
+amendments](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6913620654)
+name the two-part epoch fence, host reply gate and additional downstream
+references. This revision specifies the future header for the later stub step;
+the existing header and tests still describe the historical baseline. No
+tests, stubs or headers change before API-016 merges.
 
 APITEST-001; proposed identity `subathon.api-host-lifecycle-boundary.v1`.
 Authority: specification v0.45 §§2/10/16/17/18, SERVER-01, DB-01,
@@ -129,17 +132,24 @@ activation. Prepared units own their repository access and transaction
 finalization; the host supplies no mutation facade or precommit reread. No raw
 writer escapes to the dispatcher.
 
-**Epoch fence (owner condition C):** The host has no generation fence. The
-store's epoch check is the fence against work from an old installation epoch:
-`current()` and `accepted()` in `server/src/sqlite_account_sessions.cpp`
-compare the session's installation and account epoch references with the
-current ones inside the transaction. [SESSION-013
+**Epoch fence:** The host has no generation fence. For units that
+authenticate, the fence is the comparison in `resolve_current_account_session`
+(`server/src/session_resolution.cpp`): it compares the session's account and
+installation epoch references with the facts read in the unit's own
+transaction and returns `SessionFailure::revoked` on either mismatch, before
+sampling the clock. The resolver consumes facts supplied by its
+current-session source; it does not itself open a transaction. In the
+reference path, that source reads them through `read_lifecycle_actor` on the
+unit's active session. For units that insert or replace a session, the fence
+is `current()` and `accepted()` in `server/src/sqlite_account_sessions.cpp`:
+they compare session epochs with the current account/installation facts (and,
+for accepted authentication, its bindings). [SESSION-013
 (#662)](https://github.com/Kernol12/subathon-bot-ai/issues/662) must verify
-every session-bearing unit against that check before the first
+every session-bearing unit against the applicable checks before the first
 installation-epoch rotation. This revision does not claim that every unit has
 been traced.
 
-**Clock ownership (owner condition E):** The session clock is not part of the
+**Clock ownership:** The session clock is not part of the
 host boundary. There is no host clock facade or synthetic session sampler
 hook. Both removed clock guards—revocation, thread and reentrancy; wall-clock
 jumps do not move deadlines—are acceptance criteria of [SESSION-009
@@ -311,71 +321,104 @@ work still has one begin attempt: a second attempt is a protocol error under
 the imported writer semantics. Absent SESSION-009 always means unavailable for
 trusted session time, not a substitute native clock.
 
+### Host reply eligibility after prepared units
+
+For each accepted unit, a normal commit is exactly
+`result.transaction == TransactionOutcome::committed && result.error == WorkError::none && result.value.has_value()`.
+The host records each actual `SqliteWorkResult` before calling the supplied
+completion. If any unit fails that condition, the command can only finish
+without a reply: a finish with a reply is refused, ends the command without
+reply and revokes later forward/finish. Already accepted units and their
+supplied completions still drain with actual results unchanged before final
+release or next-command entry. A later normal unit cannot clear this refusal.
+Normal commit is necessary, not sufficient: completion exceptions and all
+existing stop/disconnect/elapsed/authority/once-only gates still apply.
+
+A reply offered during execute or a supplied unit completion is retained
+within the existing response budget until that callback returns normally; no
+handoff occurs inside it. A later callback exception suppresses the retained
+reply and ends the command under rule (c). Accepted-unit drain and the other
+reply gates still apply before handoff.
+
+Known rollback (`rolled_back/not_committed` without value), busy BEGIN
+(`not_started/busy` without value), commit-then-throw
+(`committed/work_exception` without value), lost acknowledgment
+(`outcome_unknown/uncertain_outcome` without value), and writer unavailable
+(`not_started/writer_unavailable` without value) all withhold the reply at the
+host. A throwing supplied completion also withholds the reply and ends the
+command under rule (c), even if its unit committed normally. A refused unit
+admission has no result or completion and follows rule (d); premature finish
+follows rule (e). None fabricates SQL truth, retries or replays accepted work.
+For `known_rollback_preserves_source_and_generation`,
+`busy_begin_is_actual_failure` and `commit_then_throw_HL07`, the dispatcher
+asks to reply and the host hands nothing off.
+
+A domain failure returned normally as the unit's value after acknowledged
+commit with `WorkError::none` remains reply-eligible; the host does not inspect
+the value's domain success/failure or require the removed private envelope.
+Only presence of `SqliteWorkResult::value` is tested, not its QVariant shape.
+The dispatcher constructs its own bounded reply, subject to all other gates.
+
 ### Admitted-command handle rules outside the normal path
 
 These rules fix behaviour, not C++ names, signatures or refusal
-representation. The new choices marked below await owner checking before
-verification. None settles who withholds replies for rollback, busy or
-commit-then-throw (I2/O2).
+representation. The host reply-eligibility rule above applies to every unit of
+the command.
 
 (a) Forward and finish are owner-thread operations. A foreign-thread call
 refuses before accessing the host/writer or mutating command state; it cannot
 end or poison a different owner's command. Reentrant forward/finish during a
 handle operation refuses. No event pumping or nested command dispatch is
-permitted. This preserves old §2 owner/nonreentrancy guards and writer thread
-ownership.
+permitted.
 
 (b) A finished, cancelled or expired handle is inert: further forward/finish
 refuses and cannot revive reply authority. Stop is consumed before forward and
 finish; after its fence, forward refuses and finish cannot hand off a reply.
-Accepted units still drain. **New:** destruction without finish ends the
-command without reply; a handle outliving the host is inert without
-dereferencing it. Destruction on another thread only records cancellation in
-bounded lifetime-safe state; owner cleanup ends the association. No new work
-is submitted by cleanup.
+Accepted units still drain. Destruction without finish ends the command
+without reply; a handle outliving the host is inert without dereferencing it.
+Destruction on another thread only records cancellation in bounded
+lifetime-safe state; owner cleanup ends the association. No new work is
+submitted by cleanup.
 
-(c) **New:** an escaping execute or supplied-unit-completion exception ends
-the command without reply, revokes further forwarding/finish and never
-replays. Already accepted units retain actual outcomes and once-only supplied
-completions; a throwing completion is not invoked again. All accepted
-completions must return before the next command enters or the association's
-final release. A stopped or unavailable host admits no next command. Writer
-exceptions/outcomes remain unchanged; in particular no SQL rollback is
-inferred from a callback exception.
+(c) An escaping execute or supplied-unit-completion exception ends the command
+without reply, revokes further forwarding/finish and never replays. Already
+accepted units retain actual outcomes and once-only supplied completions; a
+throwing completion is not invoked again. All accepted completions must return
+before the next command enters or the association's final release. A stopped
+or unavailable host admits no next command. Writer exceptions/outcomes remain
+unchanged; in particular no SQL rollback is inferred from a callback
+exception.
 
 (d) Writer admission is the actual `enqueue_work` result. Rejection (including
 queue_full, shutting_down or not_open) invokes neither body nor completion and
 creates no `writer_completed`. No fabricated SqliteWorkResult or implicit
 retry is allowed. Active plus queued units are bounded by `pending_batches`;
 all host captures/records also stay within the declared fixed/copy/association
-budgets, with no secondary pending list. **New:** a forwarding refusal ends
-that command without reply; already accepted units drain and their real
-results still pass unchanged to their supplied completions, which cannot
-submit further work.
+budgets, with no secondary pending list. A forwarding refusal ends that
+command without reply; already accepted units drain and their real results
+still pass unchanged to their supplied completions, which cannot submit
+further work.
 
-(e) **New:** finish with any accepted unit still pending, or from its
-still-running body, is refused and ends the command without reply. Drain
-accepted bodies and completions before release or next entry. The supplied
-completion of the last unit may finish after that unit leaves the writer
-pending count, but the next command cannot enter until that completion has
-returned. There is no early reply/next-command path around accepted unit
-drain.
+(e) Finish with any accepted unit still pending, or from its still-running
+body, is refused and ends the command without reply. Drain accepted bodies and
+completions before release or next entry. The supplied completion of the last
+unit may finish after that unit leaves the writer pending count, but the next
+command cannot enter until that completion has returned. There is no early
+reply/next-command path around accepted unit drain.
 
-(f) **New:** no open-ended continuation wait is supported. On return from
-execute or a unit completion, an unfinished command must have an accepted unit
-pending; otherwise it ends without reply on that owner turn, with later
-forward/finish refused. Each callback is non-yielding; a nonreturning callback
-still prevents the graceful owner barrier and requires honest
-incomplete-shutdown reporting. No new timeout, scheduling service or
-continuation callback is introduced.
+(f) No open-ended continuation wait is supported. On return from execute or a
+unit completion, an unfinished command must have an accepted unit pending;
+otherwise it ends without reply on that owner turn, with later forward/finish
+refused. Each callback is non-yielding; a nonreturning callback still prevents
+the graceful owner barrier and requires honest incomplete-shutdown reporting.
+No new timeout, scheduling service or continuation callback is introduced.
 
 (g) Consumed stop cancels waiting commands, cuts an active multi-unit command
 between units and revokes further forward/reply authority. Accepted units and
 all their completions drain unchanged, even after stop. The stop barrier waits
 for those completions and owner cleanup, not an external handle holder calling
 finish. Once drained, cancellation ends the command and releases reservations;
-a nonreturning body/completion prevents graceful stopped. This applies old
-lifecycle §§4–5 and boundary §2 signal/stop rules to accepted units.
+a nonreturning body/completion prevents graceful stopped.
 
 (h) The host retains admitted input storage and its capacity/copy/association
 charges through execute, all accepted units and their completions, then
@@ -384,27 +427,26 @@ The dispatch call's CommandView borrow ends at return; a unit must use owned
 charged captures or a borrow whose host-owned lifetime covers that unit.
 Finish alone cannot release storage still used by accepted work. Reply leases
 retain their own charges until their transport barrier. A retained inert
-handle cannot pin payloads after terminal cleanup. This preserves old
-lifecycle §4 and boundary §2 ownership/retention rules.
+handle cannot pin payloads after terminal cleanup.
 
-(i) **New:** another command, including a diagnostic, does not enter between
-units of the active command; the same serialization gate applies to both
-routes. Bounded ingress, disconnect handling and stop consumption may progress
-between units. They do not execute domain work, pump events within a callback
-or start a second writer. A disconnect revokes reply authority without
-preempting accepted SQL; actual outcomes and drain remain unchanged.
+(i) Another command, including a diagnostic, does not enter between units of
+the active command; the same serialization gate applies to both routes.
+Bounded ingress, disconnect handling and stop consumption may progress between
+units. They do not execute domain work, pump events within a callback or start
+a second writer. A disconnect revokes reply authority without preempting
+accepted SQL; actual outcomes and drain remain unchanged.
 
 (j) Each accepted unit emits `writer_completed` with its actual result after
 ticket revocation and before invoking its supplied completion. Thus a
 disconnect triggered by observation of a committed result precedes a
-completion's reply. **New:** observations distinguish admission, command
-entry, unit body entry, unit completion, host cancellation and refused second
-reply, without fixing enum names. Refused-entry commands have
-cancellation/refusal only, no unit event. A second reply refusal cannot alter
-the first reply or invent a writer result. For queued W2/W3, admission of W3
-precedes stop, which precedes cancellation; all accepted completions precede
-writer acknowledgment. Observers remain bounded, synchronous and subject to
-the no-reentry rule above.
+completion's reply. Observations distinguish admission, command entry, unit
+body entry, unit completion, host cancellation and refused second reply,
+without fixing enum names. Refused-entry commands have cancellation/refusal
+only, no unit event. A second reply refusal cannot alter the first reply or
+invent a writer result. For queued W2/W3, admission of W3 precedes stop, which
+precedes cancellation; all accepted completions precede writer acknowledgment.
+Observers remain bounded, synchronous and subject to the no-reentry rule
+above.
 
 ### Shipped transport, signal and elapsed composition
 
@@ -618,7 +660,7 @@ required independently asserted cases.
 | HL06 / Q, N | Actual §1 current-catalog activation, then a prepared unit reads I/E/J and commits | Normal committed/none/value completion, ticket revoked; startup chain order and I/E/J/session rows unchanged. One correlated nonsecret reply. |
 | HL07 / Q | Commit then body exception; lost acknowledgment/fail-close; completion exception; stop | Actual unit results unchanged, no handoff/replay; see §2 prepared units. No envelope or publication stage. |
 | HL08 / Q, N | Listener/writer without activation; separately current catalog inspection + configured read on same writer | First diagnostics only; second storage-ready execution/reply eligible with I/E/J/session facts preserved. Credentials still need downstream clock/login owners; no restore prerequisite. |
-| HL09 / downstream | Host generation/mutation/rebind cases removed | Store epoch check is the fence; SESSION-013 (#662) verifies every session-bearing unit before first rotation (§1). |
+| HL09 / downstream | Host generation/mutation/rebind cases removed | Authenticating units use resolve_current_account_session; session insertion/replacement uses current()/accepted(). No host generation fence; SESSION-013 (#662) verifies every session-bearing unit before first rotation (§1). |
 | HL10 / Q, N | Stop before serving during startup, then three signals; attempt start again | No serving admission; one fence/deadline/cleanup; restart refuses. Handler only records/wakes. Fixture barriers synchronize events, never set host state. |
 | HL11 / N | Parent holds loopback listening port; child starts there. Release port; NEW child starts | First exits1 on selected bind failure; no destructor/graceful-stop claim. New child may start; no in-process framework retry. Reap both. |
 | HL12 / Q, N | Stop with idle TCP, partial HTTP/Upgrade, partial WS frame, queued command and finishing executing write | Queue cancelled; executing actual outcome retained; Close once; peers close/force-close by original network bound. Actual writer/network barriers precede stopped/destruction. Separate nonreturning-body child never proves stopped; watchdog kill is process-terminal only. |

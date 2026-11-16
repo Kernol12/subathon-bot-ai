@@ -93,8 +93,7 @@ handle
 rules](api-host-lifecycle-boundary-v1.md#admitted-command-handle-rules-outside-the-normal-path),
 including owner-only calls, abandonment/exception/refusal cleanup,
 accepted-unit drain before release/next entry, no idle continuation wait,
-input retention and observation ordering. New choices there await owner
-checking; I2/O2 remains undecided. Consume a pending native signal before
+input retention and observation ordering. Consume a pending native signal before
 reply handoff even if it arrived inside a non-yielding body.
 
 Unit bodies and completions run on the owner without event pumping, nested
@@ -106,12 +105,25 @@ transactions through existing writer/store APIs. There is no host
 `current_installation()`, private envelope or separate
 `Publication`/`complete()` stage.
 
-The host has no generation fence. The store's `current()`/`accepted()` epoch
-check inside the transaction is the fence; [boundary
+The host has no generation fence. For authenticating units the fence is
+`resolve_current_account_session` in `server/src/session_resolution.cpp`: it
+compares session account/installation epochs with facts read in the unit's
+transaction and returns `SessionFailure::revoked` on mismatch. For session
+insertion/replacement the fence is `current()` and `accepted()` in
+`server/src/sqlite_account_sessions.cpp`. [Boundary
 §1](api-host-lifecycle-boundary-v1.md#1-actual-sources-ordinary-activation-and-forward-restore-obligation)
-names it and SESSION-013 (#662)'s verification before the first
-installation-epoch rotation. Account recovery cannot clear independent global
-clock holds.
+describes the source binding; SESSION-013 (#662) must verify every
+session-bearing unit before the first installation-epoch rotation. Account
+recovery cannot clear independent global clock holds.
+
+The host withholds replies unless every accepted unit has `transaction ==
+TransactionOutcome::committed`, `error == WorkError::none` and
+`value.has_value()`. Any failed condition limits the command to finishing
+without a reply; finish with a reply refuses and ends without reply, while
+accepted units drain unchanged. A throwing completion also ends without reply.
+Normal domain-failure values remain eligible. [Boundary §2, Host reply
+eligibility](api-host-lifecycle-boundary-v1.md#host-reply-eligibility-after-prepared-units)
+states the exact outcome set and its relation to handle rules (c)–(e).
 
 The session clock is not part of this host boundary. SESSION-009 (#582) owns
 both removed guards: revocation, thread and reentrancy; wall-clock jumps do
@@ -308,7 +320,7 @@ Synthetic literal examples below are contract oracles, not executed tests.
 | HL06 | Current-catalog activation, prepared unit commits normally | Committed/none/value completion, revoked ticket; startup order and I/E/J/session rows unchanged. One correlated nonsecret reply; downstream credential gates remain. |
 | HL07 | Body throws after commit; lost acknowledgment/fail-close; unit completion throws; stop | No handoff or replay; actual committed/unknown truth retained. Body exception reaches completion as committed/work_exception/no value. No envelope/publication stage. |
 | HL08 | Listener running, writer open and valid old installation DTO; operational source unknown | Diagnostic service may run; protected work and session clock sample are unavailable. This does not pass real-ready clock acceptance. |
-| HL09 | Host generation/rebind cases removed | Store epoch check fences old-session work; SESSION-013 (#662) must verify every session-bearing unit before first rotation. |
+| HL09 | Host generation/rebind cases removed | Authenticating units use resolve_current_account_session; session insertion/replacement uses current()/accepted(). No host generation fence; SESSION-013 (#662) must verify every session-bearing unit before first rotation. |
 | HL10 | Stop during startup, then three more signals | Never admit serving work; one deadline/cleanup sequence. A later start call in this process refuses. |
 | HL11 | Bound port unavailable in fresh child | Process-terminal bind failure; no same-process retry/destructor-success claim. A NEW child may retry after releasing the port. |
 | HL12 | Stop with idle socket, partial frame, queued request and already executing write | Cancel queue, let actual write finish, close/force-close peers by fixed network deadline, then require actual owner barriers. Unreturned write prevents a graceful-stopped claim. |
