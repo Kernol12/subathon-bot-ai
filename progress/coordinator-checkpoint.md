@@ -117,8 +117,20 @@ native methods. Any further regression: no new author pass; bring the owner opti
 task). The verification and closing re-check cover everything since `c9a82e50`; their
 packets name the three defects and that no frozen test covers them.
 
+The list showed two unintended rows and no governing contract sentence. The owner
+approved **correction 18** ([decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6927169472)): `Foundation::admission` and the admit/suspend intents
+govern HTTP requests and native peers before establishment only; for an established
+native peer, including while its 101 is pending, a valid call returns `Done` and changes
+nothing. Recorded reason: the native profile owns an established peer's read interest
+and backpressure. "Matches earlier behaviour" is not the reason: at `8fbc0ee8`
+`admission(suspended)` reached the SDK directly, and the cached flag exists only since
+`eea82258`. The investigator checks this with reproduction 1 on `8fbc0ee8` and the
+result is noted on #616. The re-check packets name correction 18.
+
 APITEST-017 ([#672](https://github.com/Kernol12/subathon-bot-ai/issues/672)) is the planned task for reviewed tests of the two uncovered
-cases. It is a prerequisite of API-001 (#278) and is not authorized.
+cases, including: suspend and admit on an established native peer return `Done` and
+change nothing, and the next frame is delivered. It is a prerequisite of API-001 (#278)
+and is not authorized.
 
 ## Owner rule for this path: failed CI runs (2026-11-16)
 
