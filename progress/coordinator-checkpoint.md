@@ -4,152 +4,149 @@ Owner: Kernol12. Issues own brief/status/prerequisites; PR comments own reviews.
 Complete specification v0.45, all seven integrations and all three FX providers
 remain release scope. This checkpoint grants no new authorization.
 
-## Owner scope: API-016 → APITEST-015 → API-001
+## Handover (2026-11-16)
+
+API-016 is merged (PR #664, `4184c9fc`). The coordinator thread that ran it stopped
+there by owner instruction. The handover comment lists open owner decisions, PR
+states, the next step with its gates, deferred items, planned issues and leftovers:
+[#278 handover](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6930279142). A new coordinator starts nothing until the owner gives
+the go-ahead named there.
+
+## Authorized path
 
 Authorized on 2026-11-16, in this order and nothing else:
 
-1. **API-016 [#616](https://github.com/Kernol12/subathon-bot-ai/issues/616)**: bounded HTTP transport foundation. Claimed, tier A.
+1. **API-016 [#616](https://github.com/Kernol12/subathon-bot-ai/issues/616)**: bounded HTTP transport foundation. **Done** (PR #664,
+   `4184c9fc`, proof `progress/proofs/API-016.json`).
 2. **APITEST-015 [#613](https://github.com/Kernol12/subathon-bot-ai/issues/613)**: revised host baseline (tests stage of API-001), tier A.
-3. **API-001 [#278](https://github.com/Kernol12/subathon-bot-ai/issues/278)**: the production host, tier A.
+   Step 1 (contract revision for groups A to E) is reviewed: PR #667 at `bc9b33c4`,
+   draft, not merged. The next step (scope items 1 to 4: test-suite baseline revision,
+   additions, listeners, header and stubs) waits for the owner's go-ahead.
+3. **API-001 [#278](https://github.com/Kernol12/subathon-bot-ai/issues/278)**: the production host, tier A. Prerequisites: APITEST-015 and
+   APITEST-017 (#672, not authorized).
 
-SLICE-001 (PR660, 579afcb3) and the owner checkpoint on #278 are done.
+SLICE-001 (PR660, 579afcb3) and the owner checkpoint on #278 are done. PR #121 is
+closed; API-001 restarts from its rewritten issue on current `main` in a fresh
+session, and none of PR #121's reviews, approvals or CI results carries over.
 
-**Owner instruction of 2026-11-16 for APITEST-015:** its first step runs now, in its
-own worktree, next to API-016: the contract revision for groups A to E and its tier A
-review ([claim](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6912622167)). No authored tests, stubs or header changes until API-016 is
-merged. If the review changes an item of the approved list, bring only that item to
-the owner. Step 1 is reviewed (PR #667 at `bc9b33c4`, draft, not merged); the record
-and the gates for the next step are on [#613](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6917314751), with the widened API-010 criterion
-in [this comment](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6919654379).
+## Planned, not authorized
 
-**Owner decision under ADR-0012 (2026-11-16): option 1.** The host baseline is
-revised so that the host runs the path that already runs in `subathon-dev-server`.
-Groups A to E are approved exactly as [itemized](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6907983078); the decision is
-[recorded here](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6908067929). Nothing beyond that list may be removed or replaced.
-If the tier A review changes an item, bring only that item back to the owner.
+- APITEST-017 [#672](https://github.com/Kernol12/subathon-bot-ai/issues/672): reviewed tests for the defects of API-016 that no frozen test
+  covers (large input with more than 8 connections; established native peers after
+  suspend/admit and beyond 8 peers). Prerequisite of API-001.
+- SESSION-013 [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662), SESSION-009 [#582](https://github.com/Kernol12/subathon-bot-ai/issues/582), API-010 [#560](https://github.com/Kernol12/subathon-bot-ai/issues/560).
+- API-016 follow-ups (not filed): V2, C2, C4, C6, I14, I15, I16, I19, I20, O5; see
+  the handover comment.
+- Process/tooling #619/#620 is frozen; lifting the freeze is the owner's decision.
 
-The tier A review of the APITEST-015 contract revision (PR #667) raised three items
-of the list; the owner decided them on 2026-11-16 ([record](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6913620654)): the fence is named
-in two parts (below); `local-login-authority-v1.md`, `session-lifecycle-v1.md` and
-`guarded-enrollment-recovery-v1.md` get pointer-only changes in step 1.
-
-The reply rule in its [final form](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6916926039): the host withholds a reply whenever a
-unit's outcome is unknown or something was committed without ending normally;
-otherwise the dispatcher may reply. The reference units report refusals as rollbacks,
-and those must be answered. Two list terms [changed](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6914837587) with it (`known_rollback_…` and
-`busy_begin_…`). Owner condition: API-010 (#560), the first replying dispatcher,
-carries the criterion that a command with a rolled-back unit never yields a success
-reply. §5 of the listener contract gets a pointer-only change as well.
-
-Both owner conditions are met before any removal:
-
-- C: [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662) (SESSION-013) exists. The host has no generation fence. The fence is
-  the epoch check inside each session-bearing unit, and APITEST-015 names both parts
-  in the boundary contract: the comparison in `resolve_current_account_session`
-  (`server/src/session_resolution.cpp`) for units that authenticate, and `current()`
-  and `accepted()` in `server/src/sqlite_account_sessions.cpp` for units that insert
-  or replace a session.
-- E: both clock guards are acceptance criteria of SESSION-009 [#582](https://github.com/Kernol12/subathon-bot-ai/issues/582).
-
-The briefs of #613 and #278 are rewritten for this decision. SESSION-013 and
-SESSION-009 are planned, not authorized.
-
-PR #121 is closed, not parked. API-001 restarts from its rewritten issue on current
-`main` in a fresh session; the PR #121 code is reference material only and none of
-its reviews, approvals or CI results carries over.
-
-Process/tooling #619/#620 stays frozen; lifting that freeze is the owner's decision.
 Dependency readiness authorizes nothing beyond the path above. No live chat or
-payment side effects are authorized.
+payment side effects are authorized. Keep credentials and supporter data out of
+source, fixtures, reports and HTML; synthetic or redacted fixtures only.
 
-## API-016 contract corrections (owner rules, 2026-11-16)
+## ADR-0012 decision for APITEST-015 (2026-11-16)
 
-The contract of API-016 is corrected in its own PR (#664), revision R4. The owner's
-rules, each recorded on #616:
+**Option 1.** The host baseline is revised so that the host runs the path that
+already runs in `subathon-dev-server`. Groups A to E are approved exactly as
+[itemized](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6907983078) ([decision](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6908067929)). Nothing beyond that list may be removed or replaced.
+If a review changes an item of the list, bring only that item to the owner.
 
-- Every correction is a numbered item in the PR description and is named explicitly
-  in the tier A review packet. It goes to the owner first if it adds more than one
-  SDK function or touches a first-party header ([rule](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6909553282)).
-  Coordinator rulings cover one case; they grant no class of future corrections.
-- Correction 1 (shutdown seam) is accepted. Corrections 2 to 8 are approved as
-  provisional, for those items only ([decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6910817117)):
-  no first-party header, frozen test, probe or inventory changes.
-- The author hands back when F01 passes (subtest `basic` of
-  `test_literal_wire_inventory`), before continuing, with the list of corrections
-  that changed since the decision.
-- When all 34 methods pass, the tier A packet names the final R4 interface as one
-  item to review as a whole, and the coordinator sends the owner a short summary of
-  the final list.
-- Corrections 9 to 12 (one SDK function each; the enum and constants in 9 and 10 do
-  not cross the threshold) stay provisional until the tier A review ([decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6914843937)).
-- Tier A review of API-016 ([rule](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6912622673)): when a finding is one case of a class of
-  defect, the author audits the whole change for that class in the same fix round and
-  reports the sites checked. A later finding of the same class is a non-blocking
-  follow-up, not a new round. Put this into the review packets and the fix assignment.
+Owner amendments, all recorded on #278:
 
-API-016 fix round 1 ([owner decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6916925617)): the Codex author's provider flagged one
-run. The same session is retried once with a plain continue, without the duty to
-reproduce each defect with crafted traffic. If it is flagged again, do not retry: a
-Claude session takes over the fix round from the saved patch
-(`build/API-016/coordinator-backup/` in the author's worktree). If the Codex
-verification is flagged, stop and bring that to the owner. Correction 14 is
-provisional.
+- [O1/O3](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6913620654): the epoch fence is named in two parts: the comparison in
+  `resolve_current_account_session` (`server/src/session_resolution.cpp`) for units
+  that authenticate, and `current()`/`accepted()` in
+  `server/src/sqlite_account_sessions.cpp` for units that insert or replace a session.
+  The host has no generation fence. `local-login-authority-v1.md`,
+  `session-lifecycle-v1.md` and `guarded-enrollment-recovery-v1.md` get pointer-only
+  changes.
+- [Two changed list terms and the §5 pointer](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6914837587) (`known_rollback_preserves_source_and_generation`,
+  `busy_begin_is_actual_failure`; pointer-only change in §5 of the listener contract).
+- [Reply rule, final form](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6916926039): the host withholds a reply whenever a unit's outcome is
+  unknown or something was committed without ending normally; otherwise the
+  dispatcher may reply. A rollback the writer performs after an error counts as a
+  known rollback. A unit body that throws before anything is committed may be
+  answered. Reference units report refusals as rollbacks, and those must be answered.
+- API-010 (#560), the first replying dispatcher, carries the criterion "a command with
+  a unit that ended without a commit never yields a success reply" ([widened](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6919654379)).
+  #560 and the one boundary-contract sentence that quotes it are updated at the next
+  step of APITEST-015; until then both carry the narrower "rolled-back unit" wording.
+- #278 acceptance criterion: SIGTERM leads to an orderly stop; the host installs its
+  own handler, because Drogon's default one terminates the process.
 
-API-016 fix round 2 ([owner decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6921048499)): the `native` check failed intermittently
-in `test_split_priority_and_line_envelopes`. The cause is tick-paced parsing in the
-server, present before fix round 1 ([investigation](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6920628343)). The server is fixed (wake on
-an exhausted 8192-byte parse budget; the bound of 8192 bytes per turn stays; existing
-wake channel, no new SDK function). Before the re-check the fixed build is measured
-like the investigation and the unmodified frozen test runs at least 20 times; if the
-failure rate is not zero, stop and bring the frozen-test change back to the owner. Do
-not merge on a green re-run.
+Owner conditions met before any removal: C, #662 (SESSION-013) exists; E, both clock
+guards are acceptance criteria of SESSION-009 (#582).
 
-The measurement found two further defects that no frozen test covers: a lost
-continuation with more than 8 connections (`f8be1aec`, corrected in `0e774a51`) and an
-established native peer that stops reading (`0e774a51`). The owner approved one more
-correction as the **third and last author pass** ([decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6924951572)): the author first lists
-every reading on/off call the removed cached flag used to swallow, per kind of peer; the
-correction is limited to that list; a missing contract sentence for suspending an
-established native peer goes to the owner as a numbered correction before the fix. Then
-the investigator repeats the whole measurement, both native reproductions and the 44
-native methods. Any further regression: no new author pass; bring the owner options 2
-(back to `f8be1aec`) and 3 (back to `59c29305`, frozen-test change, speed fix as its own
-task). The verification and closing re-check cover everything since `c9a82e50`; their
-packets name the three defects and that no frozen test covers them.
+APITEST-015 step-1 instruction (still binding for the rest of the task): no authored
+tests, stubs or header changes until API-016 is merged (now met). The gates for the
+next step are on [#613](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6917314751) and in the handover comment.
 
-The list showed two unintended rows and no governing contract sentence. The owner
-approved **correction 18** ([decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6927169472)): `Foundation::admission` and the admit/suspend intents
-govern HTTP requests and native peers before establishment only; for an established
-native peer, including while its 101 is pending, a valid call returns `Done` and changes
-nothing. Recorded reason: the native profile owns an established peer's read interest
-and backpressure. "Matches earlier behaviour" is not the reason: at `8fbc0ee8`
-`admission(suspended)` reached the SDK directly, and the cached flag exists only since
-`eea82258`. The investigator checks this with reproduction 1 on `8fbc0ee8` and the
-result is noted on #616. The re-check packets name correction 18.
+## Standing owner rules for this path
 
-APITEST-017 ([#672](https://github.com/Kernol12/subathon-bot-ai/issues/672)) is the planned task for reviewed tests of the two uncovered
-cases, including: suspend and admit on an established native peer return `Done` and
-change nothing, and the next frame is delivered. It is a prerequisite of API-001 (#278)
-and is not authorized.
+**Contract corrections.** Every correction to a task's contract is a numbered item in
+the PR description and is named explicitly in each tier A review packet. It goes to
+the owner first if it adds more than one SDK function or touches a first-party header
+([rule](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6909553282)). Where no contract sentence governs a behaviour that a fix must decide,
+bring the owner a numbered correction before the fix. A recorded reason for a
+correction states the design reason; do not claim "matches earlier behaviour" without
+measuring it.
 
-## Owner rule for this path: failed CI runs (2026-11-16)
+**Rulings cover one case.** A coordinator or owner ruling applies to the case at
+hand; it grants no class of future corrections or permissions.
 
-For API-016 → APITEST-015 → API-001: an author's handback lists every failed CI run on
-its branch with the cause. No author re-runs a failed required check without the
-coordinator's say. The review packets name those runs.
+**Class audit** ([rule](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6912622673)). When a review finding is one case of a class of defect,
+the author audits the whole change for that class in the same fix round and reports
+the sites checked. A later finding of the same class is a non-blocking follow-up, not
+a new round. Put this rule into every review packet and fix assignment.
+
+**Failed CI runs and re-runs** ([rule](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6921048499)). An author's handback lists every failed
+CI run on its branch with the cause. No author re-runs a failed required check
+without the coordinator's say. The review packets name those runs. Never merge on a
+green re-run of a failed check; find the cause first. A change to a frozen test is
+the owner's decision. (Coordinator practice, not an owner rule: a setup failure whose
+cause lies outside the change, such as an apt mirror timeout on the checkpoint PR
+#674, was re-run by the coordinator after recording the cause on the PR.)
+
+**Fix rounds.** At most two fix rounds per review; ask the owner before a third. After
+a fix round the verification is a changed-part re-check: the changed commit, the
+findings and their resolutions; no new whole verification per round. (Coordinator
+commitment to the owner: a new defect found after a fix round goes to the owner; it
+is not folded into the running round.)
+
+**Stop rule of a last pass** (API-016 third pass, [decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6924951572)). When the owner
+grants a third and last author pass: the author first lists what the fix must cover
+and the correction is limited to that list; an independent investigator then repeats
+the whole measurement; any further regression means no new author pass, and the
+coordinator brings the owner the fallback options instead. The verification and
+closing re-check cover everything since the last approved head and name every defect
+the measurement found that no frozen test covers.
+
+**Measurement before merge** (API-016 fix round 2, [decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6921048499)). A defect that appears only intermittently in CI is
+investigated, not re-run away. After a transport fix the investigator measures the
+fixed build with the same method and sample size as the investigation, and the
+unmodified frozen test runs at least 20 times locally; a non-zero failure rate stops
+the task and goes to the owner.
+
+**Provider flags.** If a Codex author run is flagged for cybersecurity risk, save the
+uncommitted work as a patch and ask the owner; do not retry or switch providers on
+your own. If a Codex verification is flagged, stop and bring it to the owner.
+
+**Roles and providers.** Default split: Codex authors, Claude reviewers (initial and
+closing), Codex verification. A provider switch needs the owner. An author never
+approves its own work.
 
 ## Working rules from the owner (2026-11-15)
 
-- After a fix round the verification is a changed-part re-check, as
-  `docs/AGENT_WORKFLOW.md` describes: the changed commit, the findings and their
-  resolutions. Do not order a new whole verification per round.
 - `/tmp` is RAM-backed on this machine. Sessions put build directories on disk, in an
-  ignored directory of their worktree (`build/TASK-ID/<session>/`), and follow the
-  "Temporary files" section of the workflow. Name that directory in every assignment
-  and review packet.
+  ignored directory of their worktree (`build/TASK-ID/<session>/`) with `TMPDIR` set
+  there, and follow the "Temporary files" section of the workflow. Name that
+  directory in every assignment and review packet.
 - Before the first tests review the author runs only the cases that call a
   not-implemented stub and reports the fixture check in the handoff; it is never red
-  evidence.
+  evidence. Unreviewed test source stays local.
+- Tier A proof record: `progress/proofs/TASK-ID.json` (and its policy entry if the task
+  is not enrolled yet), in one commit after the final closing approval, immediately
+  before merge. `tools/check_publication.py` requires `origin/main` as an ancestor of
+  the head, so merge `main` into the branch before the proof commit.
 
 ## What SLICE-001 delivered
 
@@ -167,11 +164,10 @@ API-001 keep their ownership and release requirements.
 
 ## Live assignments
 
-API-016 (#616) is claimed by the coordinator on branch
-`task/API-016-bounded-http-foundation` (PR #664). APITEST-015 (#613) is claimed for
-step 1 only, on branch `task/APITEST-015-host-baseline-revision`. Sessions and stages
-are recorded on the issues and their PRs. Verify the actual checkout, worktrees and PR state before acting;
-never infer a live session from this file.
+None. API-016 is merged. APITEST-015 (#613) is claimed for step 1 only; its branch
+`task/APITEST-015-host-baseline-revision` (PR #667) has no running session. Verify
+the actual checkout, worktrees and PR state before acting; never infer a live session
+from this file.
 
 ## API-011 capability map (the reference path SLICE-001 hosts)
 
