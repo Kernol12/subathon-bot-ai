@@ -28,9 +28,16 @@ If the tier A review changes an item, bring only that item back to the owner.
 
 The tier A review of the APITEST-015 contract revision (PR #667) raised three items
 of the list; the owner decided them on 2026-11-16 ([record](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6913620654)): the fence is named
-in two parts (below); the host withholds the reply of a command with a unit that did
-not end as a normal commit; `local-login-authority-v1.md`, `session-lifecycle-v1.md`
-and `guarded-enrollment-recovery-v1.md` get pointer-only changes in step 1.
+in two parts (below); `local-login-authority-v1.md`, `session-lifecycle-v1.md` and
+`guarded-enrollment-recovery-v1.md` get pointer-only changes in step 1.
+
+The reply rule was decided twice; the [second decision](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6914837587) holds: the host withholds a
+reply only where the storage outcome is uncertain or a callback threw. After a known
+rollback or a busy begin the dispatcher may reply, because the reference units report
+refusals as rollbacks. Two list terms changed with it (`known_rollback_…` and
+`busy_begin_…`). Owner condition: API-010 (#560), the first replying dispatcher,
+carries the criterion that a command with a rolled-back unit never yields a success
+reply. §5 of the listener contract gets a pointer-only change as well.
 
 Both owner conditions are met before any removal:
 
@@ -71,6 +78,8 @@ rules, each recorded on #616:
 - When all 34 methods pass, the tier A packet names the final R4 interface as one
   item to review as a whole, and the coordinator sends the owner a short summary of
   the final list.
+- Corrections 9 to 12 (one SDK function each; the enum and constants in 9 and 10 do
+  not cross the threshold) stay provisional until the tier A review ([decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6914843937)).
 - Tier A review of API-016 ([rule](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6912622673)): when a finding is one case of a class of
   defect, the author audits the whole change for that class in the same fix round and
   reports the sites checked. A later finding of the same class is a non-blocking
