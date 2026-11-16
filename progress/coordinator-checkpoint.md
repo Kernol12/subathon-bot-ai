@@ -14,6 +14,12 @@ Authorized on 2026-11-16, in this order and nothing else:
 
 SLICE-001 (PR660, 579afcb3) and the owner checkpoint on #278 are done.
 
+**Owner instruction of 2026-11-16 for APITEST-015:** its first step runs now, in its
+own worktree, next to API-016: the contract revision for groups A to E and its tier A
+review ([claim](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6912622167)). No authored tests, stubs or header changes until API-016 is
+merged. If the review changes an item of the approved list, bring only that item to
+the owner.
+
 **Owner decision under ADR-0012 (2026-11-16): option 1.** The host baseline is
 revised so that the host runs the path that already runs in `subathon-dev-server`.
 Groups A to E are approved exactly as [itemized](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6907983078); the decision is
@@ -55,6 +61,10 @@ rules, each recorded on #616:
 - When all 34 methods pass, the tier A packet names the final R4 interface as one
   item to review as a whole, and the coordinator sends the owner a short summary of
   the final list.
+- Tier A review of API-016 ([rule](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6912622673)): when a finding is one case of a class of
+  defect, the author audits the whole change for that class in the same fix round and
+  reports the sites checked. A later finding of the same class is a non-blocking
+  follow-up, not a new round. Put this into the review packets and the fix assignment.
 
 ## Working rules from the owner (2026-11-15)
 
@@ -86,8 +96,9 @@ API-001 keep their ownership and release requirements.
 ## Live assignments
 
 API-016 (#616) is claimed by the coordinator on branch
-`task/API-016-bounded-http-foundation`. Its sessions and stage are recorded on the
-issue and its PR. Verify the actual checkout, worktrees and PR state before acting;
+`task/API-016-bounded-http-foundation` (PR #664). APITEST-015 (#613) is claimed for
+step 1 only, on branch `task/APITEST-015-host-baseline-revision`. Sessions and stages
+are recorded on the issues and their PRs. Verify the actual checkout, worktrees and PR state before acting;
 never infer a live session from this file.
 
 ## API-011 capability map (the reference path SLICE-001 hosts)
