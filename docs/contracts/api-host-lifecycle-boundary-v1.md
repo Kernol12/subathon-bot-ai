@@ -6,9 +6,12 @@ groups A–E of the [approved itemized
 list](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6907983078).
 The [owner
 amendments](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6913620654)
-name the two-part epoch fence, host reply gate and additional downstream
-references. This revision specifies the future header for the later stub step;
-the existing header and tests still describe the historical baseline. No
+name the two-part epoch fence and additional downstream references. The
+[later amendment](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6914837587)
+and [final reply rule](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6916926039)
+replace the earlier host reply gate. This revision specifies the future
+header for the later stub step; the existing header and tests still describe
+the historical baseline. No
 tests, stubs or headers change before API-016 merges.
 
 APITEST-001; proposed identity `subathon.api-host-lifecycle-boundary.v1`.
@@ -286,7 +289,8 @@ enter submits no unit: no execution and `writer_completed == 0`, with host
 cancellation/refusal only. Stop is consumed ahead of previously posted entry
 callbacks; the signal handler only records/wakes. Before any reply handoff,
 the owner also consumes/forwards a pending native signal as a stop, even when
-it arrived inside a non-yielding body. Stop prevents the reply. It does not preempt an active body.
+it arrived inside a non-yielding body. Stop prevents the reply. It does not
+preempt an active body.
 
 Each admitted command receives a move-only handle. Through it the dispatcher
 forwards prepared units (`SqliteWriter::Work` plus completion) to the host's
@@ -367,8 +371,8 @@ SQL truth, no implicit retry and no replay remain unchanged.
 The host does not judge reply content or require the removed private envelope.
 A domain failure returned normally as a value after acknowledged commit remains
 eligible. API-010 (#560), which adds the first replying dispatcher, owns the
-acceptance criterion that a command with a rolled-back unit never yields a
-success reply; that is not a host content check.
+acceptance criterion that a command with a unit that ended without a commit
+never yields a success reply; that is not a host content check.
 
 The table illustrates the unit-outcome rule in the writer's vocabulary; its
 five rows are disjoint and exhaustive over `TransactionOutcome` and the

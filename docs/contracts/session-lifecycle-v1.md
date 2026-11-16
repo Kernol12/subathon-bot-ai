@@ -536,9 +536,9 @@ the number of valid sessions. No account-wide admin directory is added by this A
 ## 7. One real work, commit and outcome truth
 
 Host reference update: [consumer boundary revision 2 §2](api-host-lifecycle-boundary-v1.md#2-minimal-proposed-c-consumer-boundary)
-has prepared units and a host normal-commit reply gate, without a host private
-envelope or Publication/clock facade. The private envelope below, including
-the wrong/missing-envelope row, is this lifecycle service's own typed value,
+has prepared units and host reply eligibility under its unit-outcome rule,
+without a host private envelope or Publication/clock facade. The private
+envelope below, including the wrong/missing-envelope row, is this lifecycle service's own typed value,
 not the removed host envelope. Its execution/publication binding references
 in §§2/8 require rebase in SESSION-002 and the clock's SESSION-009 task; no
 lifecycle rule, outcome row or secret-publication criterion changes here.
