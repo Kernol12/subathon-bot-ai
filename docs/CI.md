@@ -13,7 +13,7 @@ latest PR head before merge.
 | `schema-validation (ubuntu-22.04)`, `schema-validation (ubuntu-24.04)` | Real repository schemas and examples with the pinned validators on CPython 3.10 and 3.12 | `schema-validation-debug` |
 | `core` | Every pure GoogleTest suite in one build: time credit, exact numeric, timer lifecycle, pause policy, time debt, timer editorial, milestone progression, effective permissions, rate snapshots, receipt intake, contribution evidence and application plans. Pinned Boost 1.83 | `core-acceptance-debug` |
 | `qt` | Qt 6.12 suites with one shared toolchain setup: all real-SQLite storage suites (including permission graphs and current reference authority) and the application service, password hashing and session resolution against the selected libsodium, translation catalogs, and the development walking skeleton (not the production host) | `sqlite-reference-capture-debug` (including `dev-server`), `password-hashing-debug`, `session-resolution-debug`, `translation-catalog-debug` |
-| `native` | Corrected Drogon SDK: the 44-method native WebSocket loopback profile, then the host lifecycle baseline build and registration check | `native-websocket-profile-debug`, `api-host-native-debug` |
+| `native` | Successor Drogon SDK: all 34 bounded HTTP foundation methods and 44 unchanged native WebSocket methods behind separate consumer gates, then the host lifecycle baseline build/registration check | `bounded-http-foundation-debug`, `api-host-native-debug` |
 
 The single-suite presets (`exact-numeric-debug`, `time-debt-debug` and so on) remain
 for focused local runs; `core-acceptance-debug` selects the same suites together.
@@ -25,11 +25,14 @@ for focused local runs; `core-acceptance-debug` selects the same suites together
   each of its twelve suites is discovered with its labels and timeouts intact.
 - Host lifecycle baselines stay enabled as intentional red: the `native` job compiles
   and inspects their registration but does not run them.
-- The `native` job builds the corrected SDK once. The WebSocket profile prepares,
-  seals and gates it and runs first, so its package and loaded-map gate sees the same
-  host state as before the Qt and Boost packages are installed. The host baseline
-  then builds against that same SDK, and a step afterwards rehashes every SDK file
-  against the seal to prove the build only read it.
+- The `native` job first gates and executes candidate4/native44 with the original
+  native source and unchanged main command shape. It builds the bounded HTTP
+  successor SDK once. It independently
+  gates native44 and foundation consumers and runs both with ordinary success
+  semantics before Qt/Boost installation changes the host package state. The host baseline
+  retains its separately prepared API-012 candidate4 SDK and unchanged loader. A
+  step afterwards rehashes that candidate4 SDK against its seal to prove the host
+  build only read it.
 - Actions and dependencies stay pinned: the checkout action by commit, Qt 6.12.0, ICU
   and libsodium archives by SHA-256, Boost 1.83 headers by package version. Qt 6.12
   is required; Ubuntu's older system Qt is not substituted.
@@ -40,6 +43,24 @@ for focused local runs; `core-acceptance-debug` selects the same suites together
   cannot substitute live provider, actual OBS or compositor evidence.
 
 ## Required checks
+
+The API-016 successor is prepared/sealed by `tools/native_websocket_ci.py`
+(`--profile bounded-http-foundation`). Both consumers use the same SDK, each with
+its own passive ELF/ABI closure before loading, controlled identity and loaded-map
+comparison, with unchanged seals. Foundation also binds loader-cache data when
+present. The `native` job verifies both ordinary suite registrations and the
+34-method foundation inventory, then runs native44 and foundation independently.
+No required job is renamed or removed; foundation's intentional-red label is gone.
+The subsequent host baseline build uses its separately sealed candidate4 prefix
+(`native-ws-candidate4/sdk`), with the same registration/loader as main, then
+rechecks the candidate4 seal. Neither host preset is migrated to the successor.
+
+Local `--local-development` records actual Arch packages and is development
+evidence, not the pinned Ubuntu lane. Local runs are never binaries admitted by
+review. Acceptance remains gated CI on the reviewed head and tier A review of the
+source, artifact, allocation inventory, recipe/gate and final R4 interface. The
+frozen receipt's `review_receipt` field links the execution ruling, not a review
+approving an individual binary.
 
 Ruleset 26170263 protects `main`: PRs with resolved threads, no bypass actors and
 required status checks. The required contexts are the job names above plus

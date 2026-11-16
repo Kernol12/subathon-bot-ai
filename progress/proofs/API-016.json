@@ -8,12 +8,311 @@
   "kind": "implementation",
   "brief": "docs/tasks/EPIC-008/API-016.md",
   "evidence": [
-    "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196"
+    "https://github.com/Kernol12/subathon-bot-ai/pull/123#issuecomment-6821632196",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/664",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/616",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/664#issuecomment-6915778135",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/664#issuecomment-6915778605",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/664#issuecomment-6918499501",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/664#issuecomment-6919034243",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/664#issuecomment-6929389369",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/664#issuecomment-6929726283",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6920628343",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6922910239",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6924829964",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6924951572",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6927169472",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6927835667",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6929231415",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/43943376942",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6827449351"
   ],
   "limitations": [
     "Planned additive successor; historical API012 artifact/patch/pins/native44 unchanged. Reviewed tests/red/source/artifact/ABI/load/CI gates remain.",
-    "Closing a8d495e8 A1–A4/A6: bound facade calls off IO0/after close; declare disposal-callback thread/Transport lifetime and terminal-registry peer context; foundation-only read_observed/throw-before-parse. Pure-helper/thread/editorial clarifications enter the owning reviewed stage; sourcecee1845 stays frozen."
+    "Closing a8d495e8 A1\u2013A4/A6: bound facade calls off IO0/after close; declare disposal-callback thread/Transport lifetime and terminal-registry peer context; foundation-only read_observed/throw-before-parse. Pure-helper/thread/editorial clarifications enter the owning reviewed stage; sourcecee1845 stays frozen.",
+    "Tests stage is the reviewed APITEST-016 foundation baseline (PR #124), not new API-016 tests: its actual authors, revision 606b956a and receipts are copied from progress/proofs/APITEST-016.json. Paths are limited to the eight files byte-identical between 606b956a and the API-016 head; the frozen driver/probe/inventory/RESOURCE_REVIEW, first-party headers, 44 native methods, API-012 inputs and host baseline stay identical to 4e4ca67d.",
+    "Implementation cycle: initial Claude review at 8fbc0ee8 requested changes (blockers I1-I10, non-blocking I11-I21, the two-comment receipt 6915778135/6915778605); fix round 1 to c9a82e50, Codex verification and Claude closing approved there (V1, C1-C6 non-blocking). After that approval: pre-merge commit 59c29305 (correction 16, V1 mutex), owner-ordered fix round 2 f8be1aec (correction 17), 0e774a51 and the owner-approved third and last author pass 98944306 (correction 18). Codex verification and fresh Claude closing re-check of everything since c9a82e50 both approved 98944306; V2 non-blocking.",
+    "Three defects found only by independent measurement, not by any frozen test or earlier review: tick-paced parsing (present from the start), lost continuation with more than 8 connections (f8be1aec) and established native peers that stop reading (suspend/admit at 8fbc0ee8 and 0e774a51; more than 8 native peers at 0e774a51). Final-head measurement 6929231415 found no regression. Lasting tests are APITEST-017 (#672), planned and not authorized.",
+    "Failed CI runs on the branch: 43849854281 (4f9a3259, host baseline loader), 43871964329 (603d1d34) and 43885544057 attempt 1 (59c29305), both the tick-paced split defect; attempt 2 of 43885544057 was an unauthorized re-run and is not evidence; 43875943527 (f54297e0) cancelled as superseded. Reviewed head 98944306 passed all seven required checks in run 43943376942, attempt 1.",
+    "Development evidence only: synthetic loopback behind technical consumer gates, selected Linux CI. No product host, public HTTP, live provider, platform, deployment or release verification. Deferred follow-ups (C2, C4-C6, I14-I16, I19-I20, V2 stale 'corrections 1-17' in README/STATUS/TEST_STRATEGY, O5) are not solved by this record. Final proof-head CI, protected merge, read-back and closing #616 are external gates after this commit."
   ],
   "verification": {},
-  "review": null
+  "review": null,
+  "workflow": {
+    "required_stages": [
+      "tests",
+      "implementation"
+    ],
+    "stages": {
+      "tests": {
+        "authors": [
+          "codex:coordinator-45e6fb8d",
+          "codex:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-baseline-author-20261112-v1"
+        ],
+        "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+        "paths": [
+          "server/include/subathon/server/bounded_http.hpp",
+          "server/include/subathon/server/testing/bounded_http_observers.hpp",
+          "server/src/bounded_http.cpp",
+          "tests/bounded_http_foundation/RESOURCE_REVIEW.md",
+          "tests/bounded_http_foundation/bounded_http_probe.cpp",
+          "tests/bounded_http_foundation/inventory.json",
+          "tests/bounded_http_foundation/test_bounded_http.py",
+          "tests/tooling/test_acceptance_selection.py"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-initial-review-20261112-v1",
+            "revision": "e2d24280231c0fb49a27d18037cdc9495d01a566",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6823972291",
+            "findings": [
+              "f25c690c:AT016-B1",
+              "f25c690c:AT016-B2",
+              "f25c690c:AT016-B3",
+              "f25c690c:AT016-B4",
+              "f25c690c:AT016-B5",
+              "f25c690c:AT016-B6",
+              "f25c690c:AT016-B7",
+              "f25c690c:AT016-B8",
+              "f25c690c:AT016-A1",
+              "f25c690c:AT016-A2",
+              "f25c690c:AT016-A3",
+              "f25c690c:AT016-A4",
+              "f25c690c:AT016-A5",
+              "f25c690c:AT016-A6",
+              "f25c690c:AT016-A7",
+              "f25c690c:AT016-A8",
+              "f25c690c:AT016-A9",
+              "f25c690c:AT016-A10",
+              "f25c690c:AT016-A11",
+              "f25c690c:AT016-A12",
+              "f25c690c:AT016-A13",
+              "f25c690c:AT016-A14"
+            ],
+            "blocking_findings": [
+              "f25c690c:AT016-B1",
+              "f25c690c:AT016-B2",
+              "f25c690c:AT016-B3",
+              "f25c690c:AT016-B4",
+              "f25c690c:AT016-B5",
+              "f25c690c:AT016-B6",
+              "f25c690c:AT016-B7",
+              "f25c690c:AT016-B8"
+            ],
+            "started_at": "2026-11-12T12:12:31.697Z",
+            "finished_at": "2026-11-12T12:40:32.017Z"
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:01a1cffc-c997-7f02-9c5f-bcc9f3420365",
+            "revision": "d2b28b298535c2b24e33f6c1354b139cf75c8d87",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825498368",
+            "findings": [
+              "01a1cffc:AT016-V1",
+              "f25c690c:AT016-A2",
+              "01a1cffc:AT016-A1"
+            ],
+            "blocking_findings": [
+              "01a1cffc:AT016-V1",
+              "f25c690c:AT016-A2"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:01a1d00e-68d8-7163-8d8f-2acb26478e88",
+            "revision": "e07e8827b9c913e7445eecb9b3d505b5b10e78ea",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6825879370",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-closing-20261112-v1",
+            "revision": "e07e8827b9c913e7445eecb9b3d505b5b10e78ea",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6826496413",
+            "findings": [
+              "f1a7beb9:AT016-C1",
+              "f1a7beb9:AT016-CA1",
+              "f1a7beb9:AT016-CA2",
+              "f1a7beb9:AT016-CA3",
+              "f1a7beb9:AT016-CA4"
+            ],
+            "blocking_findings": [
+              "f1a7beb9:AT016-C1"
+            ],
+            "started_at": "2026-11-12T14:12:15.903Z",
+            "finished_at": "2026-11-12T14:30:17.647Z"
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:01a1d033-8f30-79d1-815a-489e88e66f43",
+            "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6826904669",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:thread:delegated-task:command%3Amcp%3A7db6478f-296f-4f24-ba00-0e60aed07a2b%3Adelegate-task%3Aapitest016-closing-20261112-v2",
+            "revision": "606b956aa944b8f232e8e5ca6e0bb9424aa320bc",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/124#issuecomment-6827449351",
+            "findings": [],
+            "blocking_findings": [],
+            "started_at": "2026-11-12T14:54:39.901Z",
+            "finished_at": "2026-11-12T15:06:23.318Z"
+          }
+        ]
+      },
+      "implementation": {
+        "authors": [
+          "codex:thread:delegated-task:command%3Amcp%3A17fbfae2-e533-4720-ad44-06974b1e44b4%3Adelegate-task%3Ac4cb3f04-32d2-476b-8f3b-d1e9628a5134"
+        ],
+        "revision": "98944306a392d55e3afd24ba25aadaf8caeeb8f1",
+        "paths": [
+          ".github/workflows/ci.yml",
+          "CMakePresets.json",
+          "cmake/DrogonDependency.cmake",
+          "dependencies/bounded-http-foundation/0003-trantor-bounded-http.patch",
+          "dependencies/bounded-http-foundation/0004-drogon-bounded-http.patch",
+          "dependencies/bounded-http-foundation/0005-native-source-binding.patch",
+          "dependencies/bounded-http-foundation/README.md",
+          "dependencies/bounded-http-foundation/RESOURCE_ACCOUNTING.md",
+          "dependencies/bounded-http-foundation/manifest.json",
+          "docs/CI.md",
+          "docs/STATUS.md",
+          "docs/TEST_STRATEGY.md",
+          "docs/contracts/bounded-http-foundation-v1.md",
+          "server/CMakeLists.txt",
+          "server/src/bounded_http_sdk_adapter.cpp",
+          "server/src/bounded_http_storage.cpp",
+          "tests/bounded_http_foundation/CMakeLists.txt",
+          "tests/tooling/test_bounded_http_sdk.py",
+          "tools/native_websocket_ci.py",
+          "docs/tasks/EPIC-008/API-016.md"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-fable-5-2",
+            "reviewer": "claude:subagent af3a50b1ec63a1360 of coordinator session 3c9a3568-2c8b-4e54-bb77-0b763366451f",
+            "revision": "8fbc0ee8e405d7085fe5ec5e61b7b99b17bd26d7",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/664#issuecomment-6915778135",
+            "findings": [
+              "API16-I1",
+              "API16-I2",
+              "API16-I3",
+              "API16-I4",
+              "API16-I5",
+              "API16-I6",
+              "API16-I7",
+              "API16-I8",
+              "API16-I9",
+              "API16-I10",
+              "API16-I11",
+              "API16-I12",
+              "API16-I13",
+              "API16-I14",
+              "API16-I15",
+              "API16-I16",
+              "API16-I17",
+              "API16-I18",
+              "API16-I19",
+              "API16-I20",
+              "API16-I21"
+            ],
+            "blocking_findings": [
+              "API16-I1",
+              "API16-I2",
+              "API16-I3",
+              "API16-I4",
+              "API16-I5",
+              "API16-I6",
+              "API16-I7",
+              "API16-I8",
+              "API16-I9",
+              "API16-I10"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:thread:delegated-task:command%3Amcp%3A17fbfae2-e533-4720-ad44-06974b1e44b4%3Adelegate-task%3A7740010a-f509-4086-878c-24c9b0e8c5f6",
+            "revision": "c9a82e50de01da92700b0dd70df01d6c1b162b3c",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/664#issuecomment-6918499501",
+            "findings": [
+              "API16-V1"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-fable-5-2",
+            "reviewer": "claude:subagent a5a0addb44ccd514e of coordinator session 3c9a3568-2c8b-4e54-bb77-0b763366451f",
+            "revision": "c9a82e50de01da92700b0dd70df01d6c1b162b3c",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/664#issuecomment-6919034243",
+            "findings": [
+              "API16-C1",
+              "API16-C2",
+              "API16-C3",
+              "API16-C4",
+              "API16-C5",
+              "API16-C6"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:thread:delegated-task:command%3Amcp%3A8e1d3f3c-36b4-4a17-9bee-7f92910b2940%3Adelegate-task%3A482b7816-1673-4968-a9dd-3c3977f01161",
+            "revision": "98944306a392d55e3afd24ba25aadaf8caeeb8f1",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/664#issuecomment-6929389369",
+            "findings": [
+              "API16-V2"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:subagent a7699f4fdb549405e of coordinator session 3c9a3568-2c8b-4e54-bb77-0b763366451f",
+            "revision": "98944306a392d55e3afd24ba25aadaf8caeeb8f1",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/664#issuecomment-6929726283",
+            "findings": [
+              "API16-V2"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  }
 }

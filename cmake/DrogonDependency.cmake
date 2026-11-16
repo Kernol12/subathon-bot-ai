@@ -17,6 +17,12 @@ file(REAL_PATH "${SUBATHON_DROGON_ROOT}" sbt_drogon_root)
 set(sbt_drogon_manifest "${sbt_drogon_root}/dependency-build.json")
 set(sbt_profile_manifest "${CMAKE_CURRENT_LIST_DIR}/../dependencies/native-websocket-profile/manifest.json")
 set(sbt_installed_profile "${sbt_drogon_root}/share/subathon-native-profile/manifest.json")
+set(sbt_bounded_http_successor OFF)
+if(EXISTS "${sbt_drogon_root}/share/subathon-bounded-http-foundation/manifest.json")
+    set(sbt_bounded_http_successor ON)
+    set(sbt_profile_manifest "${CMAKE_CURRENT_LIST_DIR}/../dependencies/bounded-http-foundation/manifest.json")
+    set(sbt_installed_profile "${sbt_drogon_root}/share/subathon-bounded-http-foundation/manifest.json")
+endif()
 set(sbt_drogon_required
     "include/drogon/HttpAppFramework.h"
     "include/drogon/WebSocketConnection.h"
@@ -28,6 +34,13 @@ set(sbt_drogon_required
     "share/licenses/drogon/orm_lib-COPYING"
     "share/licenses/trantor/License"
     "share/subathon-native-profile/manifest.json")
+if(sbt_bounded_http_successor)
+    list(REMOVE_ITEM sbt_drogon_required "share/subathon-native-profile/manifest.json")
+    list(APPEND sbt_drogon_required
+        "include/drogon/BoundedHttp.h" "include/trantor/net/BoundedIo.h"
+        "share/subathon-bounded-http-foundation/manifest.json"
+        "share/subathon-bounded-http-foundation/native_websocket_profile.cpp")
+endif()
 foreach(sbt_name IN LISTS sbt_drogon_required)
     if(NOT EXISTS "${sbt_drogon_root}/${sbt_name}" OR IS_DIRECTORY "${sbt_drogon_root}/${sbt_name}")
         message(FATAL_ERROR "The corrected SDK is missing required file: ${sbt_name}")

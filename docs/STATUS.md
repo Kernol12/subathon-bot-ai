@@ -10,6 +10,15 @@ the reference path; the production server host remains unimplemented. The curren
 priority is a vertical slice that starts the server, runs one timer and accepts one
 fake contribution (see the [checkpoint](../progress/coordinator-checkpoint.md)).
 
+API-016's bounded HTTP successor passes all 34 foundation methods and 44 unchanged
+native methods behind technical consumer gates in selected Linux CI. The existing
+`native` job also passes native44 against the original candidate4 SDK. API-012
+inputs and frozen oracles/public headers remain unchanged. Revision R4 comprises
+corrections 1–17; its source/interface, allocation inventory, artifact/recipe/gate
+review record and synthetic loopback evidence are in
+[PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664). Local runs remain
+development evidence. No release, platform or security verification is established.
+
 ## Historical source-bound summary
 
 Source: [old tracker](https://github.com/Kernol12/subathon-bot-ai/blob/355ffdfe/progress/state.json). This is a historical snapshot, not current execution or CI.

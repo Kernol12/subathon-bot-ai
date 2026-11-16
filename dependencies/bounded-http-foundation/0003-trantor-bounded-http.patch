@@ -1,0 +1,1574 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -112,6 +112,7 @@
+ endif(MINGW)
+
+ set(TRANTOR_SOURCES
++    trantor/net/BoundedIo.cc
+     trantor/utils/AsyncFileLogger.cc
+     trantor/utils/ConcurrentTaskQueue.cc
+     trantor/utils/Date.cc
+@@ -157,6 +158,7 @@
+
+ if(WIN32)
+   set(TRANTOR_SOURCES
++    trantor/net/BoundedIo.cc
+       ${TRANTOR_SOURCES}
+       third_party/wepoll/Wepoll.c
+       trantor/utils/WindowsSupport.cc
+@@ -220,6 +222,7 @@
+
+ if(TRANTOR_TLS_PROVIDER STREQUAL "None")
+   set(TRANTOR_SOURCES
++    trantor/net/BoundedIo.cc
+       ${TRANTOR_SOURCES}
+       trantor/utils/crypto/sha3.cc
+       trantor/utils/crypto/md5.cc
+@@ -298,7 +301,12 @@
+ endif()
+ file(REMOVE ${CMAKE_BINARY_DIR}/test_atomic.cpp)
+
+-set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 14)
++# GCC 16 diagnoses the inherited C++20-deprecated shared_ptr atomic free functions.
++# Keep other upstream warnings fatal; their replacement is separate from this ABI seam.
++if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 16)
++  target_compile_options(${PROJECT_NAME} PRIVATE -Wno-error=deprecated-declarations)
++endif()
++set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 20)
+ set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD_REQUIRED ON)
+ set_target_properties(${PROJECT_NAME} PROPERTIES CXX_EXTENSIONS OFF)
+ set_target_properties(${PROJECT_NAME} PROPERTIES EXPORT_NAME Trantor)
+@@ -313,6 +321,7 @@
+ endif()
+
+ set(public_net_headers
++    trantor/net/BoundedIo.h
+     trantor/net/EventLoop.h
+     trantor/net/EventLoopThread.h
+     trantor/net/EventLoopThreadPool.h
+--- /dev/null
++++ b/trantor/net/BoundedIo.cc
+@@ -0,0 +1,35 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++#include <trantor/net/BoundedIoInternal.h>
++#include <cerrno>
++#include <unistd.h>
++namespace trantor::bounded_io {
++namespace detail {
++std::atomic<U64> stock_output_appends{0}, constructed{0}, retained{0}, peak_retained{0};
++BootstrapBudget &bootstrap_budget() noexcept { static BootstrapBudget value; return value; }
++}
++
++namespace { std::atomic<int> wake_fd{-1}; bool gate_armed=false, gate_used=false; Slot *held=nullptr; }
++void bind_wake_fd(int fd) noexcept { wake_fd=fd; }
++// Coalesced nonblocking wake; the fixed scan also consumes deletion intents.
++void Slot::wake() noexcept {
++    const auto fd=wake_fd.load(std::memory_order_acquire);
++    if(fd<0) return;
++    const std::uint64_t one=1;
++    ssize_t result;
++    do { result=::write(fd,&one,sizeof(one)); } while(result<0 && errno==EINTR);
++    // EAGAIN means a wake is already pending; other errors retain the scan fallback.
++}
++void TcpDelete::operator()(TcpConnectionImpl*) const noexcept {
++    auto *s=slot;
++    s->inflight.fetch_add(1,std::memory_order_acq_rel);
++    s->destroy_tcp.store(true,std::memory_order_release); s->wake();
++    s->inflight.fetch_sub(1,std::memory_order_release);
++}
++bool arm_wire_gate() noexcept { if(gate_armed||gate_used) return false; gate_armed=true; return true; }
++bool take_wire_gate() noexcept { if(!gate_armed||gate_used) return false; gate_used=true; return true; }
++bool release_wire_gate() noexcept { if(!held) return false; held->gate=false; held=nullptr; return true; }
++// Called only with the real fixed application node, never a fabricated observer state.
++void hold_wire(Slot &s) noexcept { held=&s; }
++bool wire_held() noexcept {return held && held->gate;}
++void forget_wire(Slot &s) noexcept {if(held==&s)held=nullptr;s.gate=false;}
++}
+--- /dev/null
++++ b/trantor/net/BoundedIo.h
+@@ -0,0 +1,49 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++#pragma once
++#include <cstddef>
++#include <cstdint>
++#include <span>
++namespace trantor::bounded_io {
++using U64 = std::uint64_t;
++enum class Role : std::uint8_t { http, native };
++struct Sample { bool available; U64 ns; };
++struct ReadWitness {
++    U64 head, tail, writable, offered;
++    std::int64_t returned;
++    std::int32_t error;
++    std::uint8_t iovcnt;
++};
++class Transport {
++  public:
++    virtual ~Transport() = default;
++    virtual void reading(bool) noexcept = 0;
++    virtual bool wire(std::span<const std::byte>, void *release_cookie) noexcept = 0;
++    virtual void close() noexcept = 0;
++};
++class PeerStorage {
++  public:
++    virtual ~PeerStorage() = default;
++    virtual std::span<std::byte> receive_with_prefix() noexcept = 0;
++    virtual std::span<std::byte> sdk_storage() noexcept = 0;
++    virtual std::span<std::byte> control_storage() noexcept = 0;
++    virtual bool wipe_receive(std::span<std::byte>, bool pending) noexcept = 0;
++    virtual void attached(Transport &) noexcept = 0;
++    virtual void read_witness(ReadWitness) noexcept = 0;
++    virtual void wire_released(void *release_cookie) noexcept = 0;
++    virtual void socket_removed() noexcept = 0;
++    virtual void native_retired() noexcept = 0;
++    virtual void sdk_objects_released() noexcept = 0;
++};
++class Producer {
++  public:
++    virtual ~Producer() = default;
++    virtual Sample sample() noexcept = 0;
++    virtual bool accepting(Role) noexcept = 0;
++    virtual bool transient(bool acquire) noexcept = 0;
++    virtual PeerStorage *acquire(Role, Sample accepted) noexcept = 0;
++    virtual bool before_parse(PeerStorage &) noexcept = 0;
++    virtual bool before_read(PeerStorage &, ReadWitness) noexcept = 0;
++    virtual bool before_write(PeerStorage&) noexcept = 0;
++    virtual void owner_turn() noexcept = 0;
++};
++} // namespace trantor::bounded_io
+--- /dev/null
++++ b/trantor/net/BoundedIoInternal.h
+@@ -0,0 +1,98 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++#pragma once
++#include <trantor/net/BoundedIo.h>
++#include <trantor/exports.h>
++#include <atomic>
++#include <memory>
++#include <new>
++#include <utility>
++#include <vector>
++namespace trantor { class TcpConnection; class TcpConnectionImpl; class TcpServer; class MsgBuffer; class Channel; }
++namespace trantor::bounded_io {
++namespace detail {
++// One SDK-internal startup binding; no first-party setters or second G allowance.
++extern TRANTOR_EXPORT std::atomic<U64> stock_output_appends, constructed, retained, peak_retained;
++struct BootstrapBudget {
++    bool initializing_main{}, main_ready{}; U64 peers{}, parse_turn{};
++    std::vector<std::byte> io_events;
++    std::vector<Channel*> io_active;
++    std::vector<std::pair<int,Channel*>> io_debug;
++};
++TRANTOR_EXPORT BootstrapBudget &bootstrap_budget() noexcept;
++}
++
++// SDK-only per-peer owners live inside the producer's preclaimed metadata slice.
++struct TRANTOR_EXPORT Slot {
++    Producer *producer;
++    PeerStorage *storage;
++    TcpServer *server;
++    Slot *next{};
++    std::shared_ptr<TcpConnection> connection;
++    void *parser{};
++    void (*destroy_parser)(void *) noexcept{};
++    void (*resume_parser)(void *, MsgBuffer *) noexcept{};
++    std::span<std::byte> memory;
++    std::size_t used{};
++    std::span<const std::byte> output{};
++    void *cookie{};
++    std::size_t sent{};
++    std::atomic<unsigned> inflight{0};
++    std::atomic<bool> destroy_tcp{false}, control_returned{false}, close_intent{false};
++    void *tcp_object{}, *ws_object{};
++    void (*destroy_ws_object)(void *) noexcept{};
++    std::atomic<bool> destroy_ws{false}, ws_control_returned{true};
++    bool tcp_constructed{};
++    bool ws_created{}, ws_destroyed{}, native{}, native_established{};
++    bool pending_parse{}, continuing{};
++    bool removed{}, destroyed{}, closing{}, paused{true}, gate{}, control_busy{};
++    U64 removal_epoch{};
++    alignas(64) std::byte control_block[512];
++    alignas(64) std::byte ws_control_block[512];
++    Slot(Producer &p, PeerStorage &s, TcpServer &owner, std::span<std::byte> m) noexcept
++        : producer(&p), storage(&s), server(&owner), memory(m), used((sizeof(Slot)+63)&~std::size_t(63)) {}
++    void *reserve(std::size_t n, std::size_t align) noexcept {
++        if (align > 64 || n > memory.size() || used > memory.size()-n) return nullptr;
++        auto *p=memory.data()+used;
++        const auto rounded=(n+63)&~std::size_t(63);
++        if (rounded<n || rounded>memory.size()-used) return nullptr;
++        used+=rounded; return p;
++    }
++    void *require(std::size_t n, std::size_t a) {
++        auto *p=reserve(n,a); if(!p) throw std::bad_alloc(); return p;
++    }
++    void wake() noexcept;
++};
++TRANTOR_EXPORT void bind_wake_fd(int) noexcept;
++TRANTOR_EXPORT bool arm_wire_gate() noexcept;
++TRANTOR_EXPORT bool release_wire_gate() noexcept;
++TRANTOR_EXPORT bool take_wire_gate() noexcept;
++TRANTOR_EXPORT bool wire_held() noexcept;
++TRANTOR_EXPORT void forget_wire(Slot &) noexcept;
++TRANTOR_EXPORT void hold_wire(Slot &) noexcept;
++template<class T> struct PlacementDelete {
++    bool placement{};
++    void operator()(T *p) const noexcept { if(p) { if(placement) p->~T(); else delete p; } }
++};
++template<class T> struct ControlAllocator {
++    using value_type=T;
++    Slot *slot;
++    bool websocket{};
++    explicit ControlAllocator(Slot *s, bool ws=false) noexcept:slot(s),websocket(ws){}
++    template<class U> ControlAllocator(const ControlAllocator<U>&a) noexcept:slot(a.slot),websocket(a.websocket){}
++    T *allocate(std::size_t n) {
++        static_assert(sizeof(T)<=512 && alignof(T)<=64, "Selected SDK control block exceeds its slot");
++        if(n!=1) throw std::bad_alloc();
++        return reinterpret_cast<T*>(websocket ? slot->ws_control_block : slot->control_block);
++    }
++    void deallocate(T *,std::size_t) noexcept {
++        auto *s=slot;
++        s->inflight.fetch_add(1,std::memory_order_acq_rel);
++        if(websocket) s->ws_control_returned.store(true,std::memory_order_release);
++        else s->control_returned.store(true,std::memory_order_release);
++        s->wake();
++        s->inflight.fetch_sub(1,std::memory_order_release);
++    }
++    template<class U> bool operator==(const ControlAllocator<U>&a) const noexcept{return slot==a.slot && websocket==a.websocket;}
++};
++struct TcpDelete { Slot *slot; void operator()(TcpConnectionImpl*) const noexcept; };
++} // namespace trantor::bounded_io
+--- a/trantor/net/EventLoop.cc
++++ b/trantor/net/EventLoop.cc
+@@ -1,3 +1,4 @@
++#include <trantor/net/BoundedIoInternal.h>
+ // Copyright 2010, Shuo Chen.  All rights reserved.
+ // http://code.google.com/p/muduo/
+ //
+@@ -69,6 +70,9 @@
+     : looping_(false),
+       threadId_(std::this_thread::get_id()),
+       quit_(false),
++      boundedRecords_(bounded_io::detail::bootstrap_budget().initializing_main ? 16 :
++          bounded_io::detail::bootstrap_budget().peers ?
++              static_cast<std::size_t>(bounded_io::detail::bootstrap_budget().peers)+8 : 0),
+       poller_(Poller::newPoller(this)),
+       currentActiveChannel_(nullptr),
+       eventHandling_(false),
+@@ -79,6 +83,14 @@
+ #endif
+       threadLocalLoopPtr_(&t_loopInThisThread)
+ {
++    if (boundedRecords_) {
++        auto &budget=bounded_io::detail::bootstrap_budget();
++        if(budget.initializing_main) activeChannels_.reserve(boundedRecords_);
++        else activeChannels_=std::move(budget.io_active);
++        if(activeChannels_.capacity()<boundedRecords_) std::terminate();
++    }
++    static_assert(sizeof(EventLoop)<=2048 && sizeof(TimerQueue)<=256 && sizeof(Channel)<=256,
++        "Source/ABI bootstrap metadata bound");
+     if (t_loopInThisThread)
+     {
+         LOG_FATAL << "There is already an EventLoop in this thread";
+@@ -235,6 +247,7 @@
+             }
+             currentActiveChannel_ = nullptr;
+             eventHandling_ = false;
++            if (++boundedEpoch_ == 0) std::terminate();
+             // std::cout << "looping" << endl;
+             doRunInLoopFuncs();
+         }
+--- a/trantor/net/EventLoop.h
++++ b/trantor/net/EventLoop.h
+@@ -16,6 +16,7 @@
+ // Author: Tao An
+
+ #pragma once
++#include <cstdint>
+ #include <trantor/utils/NonCopyable.h>
+ #include <trantor/utils/Date.h>
+ #include <trantor/utils/LockFreeQueue.h>
+@@ -30,6 +31,7 @@
+ #include <limits>
+ #include <atomic>
+
++namespace drogon::bounded_http_sdk { class Runtime; }
+ namespace trantor
+ {
+ class Poller;
+@@ -55,6 +57,7 @@
+ class TRANTOR_EXPORT EventLoop : NonCopyable
+ {
+   public:
++    std::uint64_t boundedEpoch() const noexcept { return boundedEpoch_; }
+     EventLoop();
+     ~EventLoop();
+
+@@ -302,12 +305,16 @@
+     std::atomic<bool> looping_;
+     std::thread::id threadId_;
+     std::atomic<bool> quit_;
++    friend class EpollPoller;
++    friend class drogon::bounded_http_sdk::Runtime;
++    const std::size_t boundedRecords_;
+     std::unique_ptr<Poller> poller_;
+
+     ChannelList activeChannels_;
+     Channel *currentActiveChannel_;
+
+     bool eventHandling_;
++    std::uint64_t boundedEpoch_{};
+     MpscQueue<Func> funcs_;
+     std::unique_ptr<TimerQueue> timerQueue_;
+     MpscQueue<Func> funcsOnQuit_;
+--- a/trantor/net/TcpConnection.h
++++ b/trantor/net/TcpConnection.h
+@@ -13,6 +13,8 @@
+  */
+
+ #pragma once
++#include <trantor/net/BoundedIo.h>
++namespace trantor::bounded_io { struct Slot; }
+ #include <trantor/exports.h>
+ #include <trantor/net/EventLoop.h>
+ #include <trantor/net/InetAddress.h>
+@@ -54,6 +56,8 @@
+ class TRANTOR_EXPORT TcpConnection
+ {
+   public:
++    virtual bounded_io::Slot *boundedSlot() noexcept { return nullptr; }
++    virtual bounded_io::Transport *boundedTransport() noexcept { return nullptr; }
+     friend class TcpServer;
+     friend class TcpConnectionImpl;
+     friend class TcpClient;
+--- a/trantor/net/TcpServer.cc
++++ b/trantor/net/TcpServer.cc
+@@ -1,3 +1,4 @@
++#include <trantor/net/BoundedIoInternal.h>
+ /**
+  *
+  *  @file TcpServer.cc
+@@ -59,6 +60,37 @@
+
+ void TcpServer::newConnection(int sockfd, const InetAddress &peer)
+ {
++    if(boundedProducer_) {
++        bool transferred=false;
++        struct Accepted { int fd; bool &transferred; ~Accepted(){if(!transferred) ::close(fd);} } accepted{sockfd,transferred};
++        auto sample=boundedProducer_->sample();
++        auto *storage=sample.available ? boundedProducer_->acquire(boundedRole_,sample) : nullptr;
++        if(!storage) return;
++        auto memory=storage->sdk_storage();
++        if(memory.size()<sizeof(bounded_io::Slot) || reinterpret_cast<std::uintptr_t>(memory.data())%64) {
++            storage->socket_removed(); storage->sdk_objects_released(); return;
++        }
++        auto *slot=new(memory.data()) bounded_io::Slot(*boundedProducer_,*storage,*this,memory);
++        try {
++            auto *object=new(slot->require(sizeof(TcpConnectionImpl),alignof(TcpConnectionImpl)))
++                TcpConnectionImpl(loop_,sockfd,InetAddress(Socket::getLocalAddr(sockfd)),peer,
++                    nullptr,nullptr,slot,&transferred);
++            slot->tcp_object=object;
++            auto conn=std::shared_ptr<TcpConnectionImpl>(object,bounded_io::TcpDelete{slot},
++                bounded_io::ControlAllocator<TcpConnectionImpl>{slot});
++            slot->connection=conn;
++            slot->next=boundedHead_; boundedHead_=slot;
++            conn->setRecvMsgCallback(recvMessageCallback_);
++            conn->setConnectionCallback(connectionCallback_);
++            conn->connectEstablished();
++        } catch(...) {
++            // Construction failure cannot return an untracked live channel/FD owner.
++            // No heap fallback; owner teardown keeps the admitted metadata charged.
++            if(slot->connection) static_cast<TcpConnectionImpl*>(slot->connection.get())->close();
++            else { storage->socket_removed(); storage->sdk_objects_released(); }
++        }
++        return;
++    }
+     LOG_TRACE << "new connection:fd=" << sockfd
+               << " address=" << peer.toIpPort();
+     loop_->assertInLoopThread();
+@@ -129,11 +161,17 @@
+             }
+         }
+         LOG_TRACE << "map size=" << timingWheelMap_.size();
+-        acceptorPtr_->listen();
++        if(boundedProducer_) boundedProducer_->owner_turn();
++        if(acceptorPtr_ && !boundedStopping_) acceptorPtr_->listen();
+     });
+ }
+ void TcpServer::stop()
+ {
++    if(boundedProducer_) {
++        // A normal Foundation drain has already removed acceptors and SDK owners on IO0.
++        if(!boundedStopped_.load(std::memory_order_acquire)) std::terminate();
++        return;
++    }
+     if (loop_->isInLoopThread())
+     {
+         acceptorPtr_.reset();
+@@ -253,4 +291,69 @@
+             }
+         });
+     }
+-}
+\ No newline at end of file
++}
++void TcpServer::setBoundedProfile(bounded_io::Producer &p,bounded_io::Role role) noexcept {
++    boundedProducer_=&p; boundedRole_=role; idleTimeout_=0;
++    acceptorPtr_->boundedProfile(p,role);
++}
++bool TcpServer::boundedStopAccepting() noexcept {
++    loop_->assertInLoopThread();
++    if(!acceptorPtr_) return true;
++    if(!boundedStopping_) {
++        boundedStopping_=true; boundedStopEpoch_=loop_->boundedEpoch();
++        acceptorPtr_->boundedStop();
++    }
++    if(loop_->boundedEpoch()<=boundedStopEpoch_) return false;
++    acceptorPtr_.reset();
++    if(!boundedHead_) boundedStopped_.store(true,std::memory_order_release);
++    return true;
++}
++void TcpServer::boundedPoll() noexcept {
++    loop_->assertInLoopThread();
++    if(acceptorPtr_) acceptorPtr_->boundedRefresh();
++    auto **link=&boundedHead_;
++    unsigned turns=0;
++    while(*link && turns++<8) {
++        auto *s=*link;
++        if(s->connection) {
++            auto *c=static_cast<TcpConnectionImpl*>(s->connection.get());
++            if(s->close_intent.exchange(false,std::memory_order_acq_rel)) c->close();
++            if(s->closing && loop_->boundedEpoch()>s->removal_epoch) {
++                c->boundedRemove(); s->connection.reset();
++            } else {
++                c->boundedTurn();
++                if(s->pending_parse && s->resume_parser && s->parser) {
++                    s->pending_parse=false; s->continuing=true;
++                    s->resume_parser(s->parser,c->getRecvBuffer()); s->continuing=false;
++                }
++            }
++        }
++        if(s->destroy_ws.load(std::memory_order_acquire) && !s->ws_destroyed &&
++           s->inflight.load(std::memory_order_acquire)==0) {
++            s->destroy_ws_object(s->ws_object); s->ws_destroyed=true;
++        }
++        if(s->destroy_tcp.load(std::memory_order_acquire) && !s->destroyed &&
++           s->inflight.load(std::memory_order_acquire)==0) {
++            // The actual object is the first allocation following Slot, rounded to 64.
++            auto *object=static_cast<TcpConnectionImpl*>(s->tcp_object);
++            object->~TcpConnectionImpl(); s->destroyed=true;
++        }
++        if(s->destroyed && (!s->ws_created || s->ws_destroyed) &&
++           s->ws_control_returned.load(std::memory_order_acquire) &&
++           s->control_returned.load(std::memory_order_acquire) &&
++           s->inflight.load(std::memory_order_acquire)==0) {
++            *link=s->next;
++            auto *storage=s->storage;
++            const bool constructed=s->tcp_constructed;
++            s->~Slot();
++            storage->sdk_objects_released();
++            if(constructed) --bounded_io::detail::retained;
++        } else link=&s->next;
++    }
++    if(link!=&boundedHead_ && *link) {
++        auto *prefix=boundedHead_; auto *suffix=*link; *link=nullptr;
++        auto *tail=suffix; while(tail->next) tail=tail->next;
++        tail->next=prefix; boundedHead_=suffix;
++    }
++    if(!acceptorPtr_ && !boundedHead_) boundedStopped_.store(true,std::memory_order_release);
++}
+--- a/trantor/net/TcpServer.h
++++ b/trantor/net/TcpServer.h
+@@ -13,6 +13,9 @@
+  */
+
+ #pragma once
++#include <atomic>
++#include <trantor/net/BoundedIo.h>
++namespace trantor::bounded_io { struct Slot; }
+ #include <trantor/exports.h>
+ #include <trantor/net/EventLoopThreadPool.h>
+ #include <trantor/net/InetAddress.h>
+@@ -36,6 +39,15 @@
+ class TRANTOR_EXPORT TcpServer : NonCopyable
+ {
+   public:
++    void setBoundedProfile(bounded_io::Producer &, bounded_io::Role) noexcept;
++    void boundedPoll() noexcept;
++    bool boundedStopAccepting() noexcept;
++    bounded_io::Producer *boundedProducer_{};
++    bounded_io::Role boundedRole_{};
++    bounded_io::Slot *boundedHead_{};
++    bool boundedStopping_{};
++    std::atomic<bool> boundedStopped_{false};
++    std::uint64_t boundedStopEpoch_{};
+     /**
+      * @brief Construct a new TCP server instance.
+      *
+--- a/trantor/net/inner/Acceptor.cc
++++ b/trantor/net/inner/Acceptor.cc
+@@ -45,23 +45,43 @@
+ }
+ Acceptor::~Acceptor()
+ {
+-    acceptChannel_.disableAll();
+-    acceptChannel_.remove();
++    if (!boundedStopped_) { acceptChannel_.disableAll(); acceptChannel_.remove(); }
+ #ifndef _WIN32
+-    ::close(idleFd_);
++    if (idleFd_>=0) ::close(idleFd_);
+ #endif
+ }
+ void Acceptor::listen()
+ {
++    static_assert(sizeof(Acceptor)<=1024, "Global acceptor metadata bound");
+     loop_->assertInLoopThread();
+     if (beforeListenSetSockOptCallback_)
+         beforeListenSetSockOptCallback_(sock_.fd());
++    if(boundedProducer_) {
++        const int disabled=0;
++        int reuse=1, address=0; socklen_t bytes=sizeof(int);
++        if(::setsockopt(sock_.fd(),SOL_SOCKET,SO_REUSEPORT,&disabled,sizeof(disabled)) ||
++           ::getsockopt(sock_.fd(),SOL_SOCKET,SO_REUSEPORT,&reuse,&bytes) || reuse ||
++           ::getsockopt(sock_.fd(),SOL_SOCKET,SO_REUSEADDR,&address,&bytes) || address!=1)
++            std::terminate(); // No shared-port fallback on the selected listener.
++    }
+     sock_.listen();
+-    acceptChannel_.enableReading();
++    if(boundedProducer_) boundedRefresh(); else acceptChannel_.enableReading();
+ }
+
+ void Acceptor::readCallback()
+ {
++    if(boundedProducer_) {
++        if(boundedStopped_ || !boundedProducer_->accepting(boundedRole_)) { boundedRefresh(); return; }
++        if(!boundedProducer_->transient(true)) return;
++        struct Token { bounded_io::Producer *p; ~Token(){p->transient(false);} } token{boundedProducer_};
++        InetAddress peer;
++        const int fd=sock_.accept(&peer);
++        if(fd<0) return;
++        if(afterAcceptSetSockOptCallback_) afterAcceptSetSockOptCallback_(fd);
++        if(newConnectionCallback_) newConnectionCallback_(fd,peer); else ::close(fd);
++        boundedRefresh();
++        return;
++    }
+     InetAddress peer;
+     int newsock = sock_.accept(&peer);
+     if (newsock >= 0)
+@@ -99,3 +119,16 @@
+ #endif
+     }
+ }
++
++void trantor::Acceptor::boundedRefresh() noexcept {
++    if(!boundedProducer_ || boundedStopped_) return;
++    if(boundedProducer_->accepting(boundedRole_)) acceptChannel_.enableReading();
++    else acceptChannel_.disableReading();
++}
++void trantor::Acceptor::boundedStop() noexcept {
++    if(boundedStopped_) return;
++    boundedStopped_=true;
++    acceptChannel_.disableAll(); acceptChannel_.remove();
++    sock_.closeNativeProfile();
++    if(idleFd_>=0) { ::close(idleFd_); idleFd_=-1; }
++}
+--- a/trantor/net/inner/Acceptor.h
++++ b/trantor/net/inner/Acceptor.h
+@@ -13,6 +13,7 @@
+  */
+
+ #pragma once
++#include <trantor/net/BoundedIo.h>
+
+ #include <trantor/net/EventLoop.h>
+ #include <trantor/utils/NonCopyable.h>
+@@ -42,6 +43,14 @@
+         newConnectionCallback_ = cb;
+     };
+     void listen();
++    void boundedProfile(bounded_io::Producer &p, bounded_io::Role role) noexcept {
++        boundedProducer_=&p; boundedRole_=role;
++    }
++    void boundedRefresh() noexcept;
++    void boundedStop() noexcept;
++    bool boundedStopped_{};
++    bounded_io::Producer *boundedProducer_{};
++    bounded_io::Role boundedRole_{};
+
+     void setBeforeListenSockOptCallback(AcceptorSockOptCallback cb)
+     {
+--- a/trantor/net/inner/Socket.h
++++ b/trantor/net/inner/Socket.h
+@@ -82,8 +82,9 @@
+
+     static bool isSelfConnect(int sockfd);
+
+-    explicit Socket(int sockfd) : sockFd_(sockfd)
++    explicit Socket(int sockfd, bool *transferred = nullptr) : sockFd_(sockfd)
+     {
++        if (transferred) *transferred = true;
+     }
+     ~Socket();
+     /// abort if address in use
+--- a/trantor/net/inner/TcpConnectionImpl.cc
++++ b/trantor/net/inner/TcpConnectionImpl.cc
+@@ -69,21 +69,26 @@
+                                      const InetAddress &localAddr,
+                                      const InetAddress &peerAddr,
+                                      TLSPolicyPtr policy,
+-                                     SSLContextPtr ctx)
++                                     SSLContextPtr ctx, bounded_io::Slot *bounded, bool *transferred)
+     : loop_(loop),
+-      ioChannelPtr_(new Channel(loop, socketfd)),
+-      socketPtr_(new Socket(socketfd)),
++      bounded_(bounded),
++      ioChannelPtr_(bounded ? new (bounded->require(sizeof(Channel),alignof(Channel))) Channel(loop,socketfd) : new Channel(loop,socketfd), {bounded != nullptr}),
++      socketPtr_(bounded ? new (bounded->require(sizeof(Socket),alignof(Socket))) Socket(socketfd,transferred) : new Socket(socketfd), {bounded != nullptr}),
++      readBuffer_(bounded ? MsgBuffer(bounded->storage->receive_with_prefix()) : MsgBuffer()),
+       localAddr_(localAddr),
+       peerAddr_(peerAddr)
+ {
+-    LOG_TRACE << "new connection:" << peerAddr.toIpPort() << "->"
+-              << localAddr.toIpPort();
++    if (!bounded_)
++        LOG_TRACE << "new connection:" << peerAddr.toIpPort() << "->"
++                  << localAddr.toIpPort();
+     ioChannelPtr_->setReadCallback([this]() { readCallback(); });
+     ioChannelPtr_->setWriteCallback([this]() { writeCallback(); });
+     ioChannelPtr_->setCloseCallback([this]() { handleClose(); });
+     ioChannelPtr_->setErrorCallback([this]() { handleError(); });
+     socketPtr_->setKeepAlive(true);
+-    name_ = localAddr.toIpPort() + "--" + peerAddr.toIpPort();
++    static_assert(sizeof(TcpConnectionImpl)<=2048 && sizeof(Channel)<=256 && sizeof(Socket)<=128);
++    static_assert(sizeof(bounded_io::Slot)<=2048);
++    if (!bounded_) name_ = localAddr.toIpPort() + "--" + peerAddr.toIpPort();
+
+     if (policy != nullptr)
+     {
+@@ -97,6 +102,13 @@
+         // This is triggered when peer sends a close alert
+         tlsProviderPtr_->setCloseCallback(onSslCloseAlert);
+     }
++    if(bounded_) {
++        bounded_->tcp_constructed=true;
++        ++bounded_io::detail::constructed;
++        const auto held=++bounded_io::detail::retained;
++        bounded_io::detail::peak_retained.store(std::max(held,bounded_io::detail::peak_retained.load(std::memory_order_relaxed)),std::memory_order_relaxed);
++    }
++
+ }
+ TcpConnectionImpl::~TcpConnectionImpl()
+ {
+@@ -131,10 +143,26 @@
+ {
+     // LOG_TRACE<<"read Callback";
+     loop_->assertInLoopThread();
+-    if (nativeProfileChannelRemoved_) return;
++    if (nativeProfileChannelRemoved_ || (bounded_ && bounded_->closing)) return;
+     auto native = nativeProfileIo();
+     if (native && native->read(socketPtr_->fd()))
+         return;
++    if (bounded_)
++    {
++        if (bounded_->closing || bounded_->paused) return;
++        if (!readBuffer_.fixedCompact(*bounded_->storage)) { close(); return; }
++        bounded_io::ReadWitness w{readBuffer_.fixedHead(),readBuffer_.fixedTail(),
++            readBuffer_.writableBytes(),readBuffer_.writableBytes(),0,0,0};
++        if (!bounded_->producer->before_read(*bounded_->storage,w)) { reading(false); return; }
++        int error=0;
++        const auto n=readBuffer_.readFd(socketPtr_->fd(),&error);
++        w.returned=n; w.error=error; w.iovcnt=readBuffer_.lastIovcnt_;
++        bounded_->storage->read_witness(w);
++        if (bounded_->closing) return;
++        if (n==0 || (n<0 && error!=EAGAIN && error!=EWOULDBLOCK && error!=EINTR)) { close(); return; }
++        if (n>0 && recvMsgCallback_) recvMsgCallback_(shared_from_this(), &readBuffer_);
++        return;
++    }
+     int ret = 0;
+
+     ssize_t n = readBuffer_.readFd(socketPtr_->fd(), &ret);
+@@ -243,7 +271,7 @@
+ void TcpConnectionImpl::requestNativeProfileWrite()
+ {
+     loop_->assertInLoopThread();
+-    if (status_ != ConnStatus::Connected) return;
++    if (status_ != ConnStatus::Connected || (bounded_ && bounded_->closing)) return;
+     const bool wasWriting = ioChannelPtr_->isWriting();
+     if (!wasWriting) ioChannelPtr_->enableWriting();
+     if (!wasWriting && !nativeProfileWriting_ && writeBufferList_.empty())
+@@ -251,6 +279,12 @@
+ }
+ void TcpConnectionImpl::writeCallback()
+ {
++    if (bounded_) {
++        if (!bounded_->output.empty()) { boundedTurn(); return; }
++        // A fixed node may have drained earlier in this same active event batch.
++        if (!bounded_->native_established || bounded_->closing || bounded_->removed ||
++            !ioChannelPtr_->isWriting()) return;
++    }
+     loop_->assertInLoopThread();
+     if (nativeProfileChannelRemoved_) return;
+     auto native = nativeProfileIo();
+@@ -325,6 +359,12 @@
+ }
+ void TcpConnectionImpl::connectEstablished()
+ {
++    if (bounded_) {
++        status_=ConnStatus::Connected;
++        ioChannelPtr_->tie(shared_from_this());
++        if(connectionCallback_) connectionCallback_(shared_from_this());
++        return;
++    }
+     auto thisPtr = shared_from_this();
+     loop_->runInLoop([thisPtr]() {
+         LOG_TRACE << "connectEstablished";
+@@ -341,6 +381,7 @@
+ }
+ void TcpConnectionImpl::handleClose()
+ {
++    if (bounded_) { close(); return; }
+     if (nativeProfileChannelRemoved_) return;
+     LOG_TRACE << "connection closed, fd=" << socketPtr_->fd();
+     LOG_TRACE << "write buffer size: " << writeBufferList_.size();
+@@ -372,6 +413,7 @@
+ }
+ void TcpConnectionImpl::handleError()
+ {
++    if (bounded_) { close(); return; }
+     if (nativeProfileChannelRemoved_) return;
+     int err = socketPtr_->getSocketError();
+     if (err == 0)
+@@ -412,6 +454,16 @@
+ }
+ void TcpConnectionImpl::shutdown()
+ {
++    if (bounded_) {
++        if(loop_->isInLoopThread()) close();
++        else {
++            // A caller-owned strong reference pins the actual SDK record here.
++            bounded_->inflight.fetch_add(1,std::memory_order_acq_rel);
++            bounded_->close_intent.store(true,std::memory_order_release); bounded_->wake();
++            bounded_->inflight.fetch_sub(1,std::memory_order_release);
++        }
++        return;
++    }
+     auto thisPtr = shared_from_this();
+     loop_->runInLoop([thisPtr]() {
+         if (thisPtr->status_ == ConnStatus::Connected)
+@@ -447,6 +499,7 @@
+
+ void TcpConnectionImpl::forceClose()
+ {
++    if (bounded_) { shutdown(); return; }
+     auto thisPtr = shared_from_this();
+     loop_->runInLoop([thisPtr]() {
+         if (thisPtr->status_ == ConnStatus::Connected ||
+@@ -511,11 +564,17 @@
+         if (writeBufferList_.empty() || writeBufferList_.back()->isFile() ||
+             writeBufferList_.back()->isStream())
+         {
+-            writeBufferList_.push_back(BufferNode::newMemBufferNode());
+-        }
+-        writeBufferList_.back()->append(static_cast<const char *>(buffer) +
+-                                            sendLen,
+-                                        length);
++            {
++                if (bounded_) ++bounded_io::detail::stock_output_appends;
++                writeBufferList_.push_back(BufferNode::newMemBufferNode());
++            }
++        }
++        {
++            if (bounded_) ++bounded_io::detail::stock_output_appends;
++            writeBufferList_.back()->append(static_cast<const char *>(buffer) +
++                                                sendLen,
++                                            length);
++        }
+         if (highWaterMarkCallback_ &&
+             writeBufferList_.back()->remainingBytes() >
+                 static_cast<long long>(highWaterMarkLen_))
+@@ -536,6 +595,7 @@
+ // The order of data sending should be same as the order of calls of send()
+ void TcpConnectionImpl::send(const std::shared_ptr<std::string> &msgPtr)
+ {
++    if (bounded_) return;
+     if (loop_->isInLoopThread())
+     {
+         sendInLoop(msgPtr->data(), msgPtr->length());
+@@ -550,6 +610,7 @@
+ // The order of data sending should be same as the order of calls of send()
+ void TcpConnectionImpl::send(const std::shared_ptr<MsgBuffer> &msgPtr)
+ {
++    if (bounded_) return;
+     if (loop_->isInLoopThread())
+     {
+         sendInLoop(msgPtr->peek(), msgPtr->readableBytes());
+@@ -563,6 +624,7 @@
+ }
+ void TcpConnectionImpl::send(const char *msg, size_t len)
+ {
++    if (bounded_) return;
+     if (loop_->isInLoopThread())
+     {
+         sendInLoop(msg, len);
+@@ -578,6 +640,7 @@
+ }
+ void TcpConnectionImpl::send(const void *msg, size_t len)
+ {
++    if (bounded_) return;
+     if (loop_->isInLoopThread())
+     {
+ #ifndef _WIN32
+@@ -598,6 +661,7 @@
+ }
+ void TcpConnectionImpl::send(const std::string &msg)
+ {
++    if (bounded_) return;
+     if (loop_->isInLoopThread())
+     {
+         sendInLoop(msg.data(), msg.length());
+@@ -611,6 +675,7 @@
+ }
+ void TcpConnectionImpl::send(std::string &&msg)
+ {
++    if (bounded_) return;
+     if (loop_->isInLoopThread())
+     {
+         sendInLoop(msg.data(), msg.length());
+@@ -626,6 +691,7 @@
+
+ void TcpConnectionImpl::send(const MsgBuffer &buffer)
+ {
++    if (bounded_) return;
+     if (loop_->isInLoopThread())
+     {
+         sendInLoop(buffer.peek(), buffer.readableBytes());
+@@ -640,6 +706,7 @@
+
+ void TcpConnectionImpl::send(MsgBuffer &&buffer)
+ {
++    if (bounded_) return;
+     if (loop_->isInLoopThread())
+     {
+         sendInLoop(buffer.peek(), buffer.readableBytes());
+@@ -656,6 +723,7 @@
+                                  long long offset,
+                                  long long length)
+ {
++    if (bounded_) return;
+     assert(fileName);
+ #ifdef _WIN32
+     sendFile(utils::toWidePath(fileName).c_str(), offset, length);
+@@ -676,6 +744,7 @@
+                                  long long offset,
+                                  long long length)
+ {
++    if (bounded_) return;
+     assert(fileName);
+ #ifndef _WIN32
+     sendFile(utils::toNativePath(fileName).c_str(), offset, length);
+@@ -692,6 +761,7 @@
+
+ void TcpConnectionImpl::sendFile(BufferNodePtr &&fileNode)
+ {
++    if (bounded_) return;
+     assert(fileNode->isFile() && fileNode->remainingBytes() > 0);
+     if (loop_->isInLoopThread())
+     {
+@@ -704,12 +774,18 @@
+         {
+             auto n = sendNodeInLoop(fileNode);
+             if (fileNode->remainingBytes() > 0 && n >= 0)
++                {
++                    if (bounded_) ++bounded_io::detail::stock_output_appends;
++                    writeBufferList_.push_back(std::move(fileNode));
++                }
++            return;
++        }
++        else
++        {
++            {
++                if (bounded_) ++bounded_io::detail::stock_output_appends;
+                 writeBufferList_.push_back(std::move(fileNode));
+-            return;
+-        }
+-        else
+-        {
+-            writeBufferList_.push_back(std::move(fileNode));
++            }
+         }
+     }
+     else
+@@ -725,11 +801,17 @@
+             {
+                 auto n = thisPtr->sendNodeInLoop(node);
+                 if (node->remainingBytes() > 0 && n >= 0)
++                    {
++                        if (thisPtr->bounded_) ++bounded_io::detail::stock_output_appends;
++                        thisPtr->writeBufferList_.push_back(std::move(node));
++                    }
++            }
++            else
++            {
++                {
++                    if (thisPtr->bounded_) ++bounded_io::detail::stock_output_appends;
+                     thisPtr->writeBufferList_.push_back(std::move(node));
+-            }
+-            else
+-            {
+-                thisPtr->writeBufferList_.push_back(std::move(node));
++                }
+             }
+         });
+     }
+@@ -738,6 +820,7 @@
+ void TcpConnectionImpl::sendStream(
+     std::function<std::size_t(char *, std::size_t)> callback)
+ {
++    if (bounded_) return;
+     auto node = BufferNode::newStreamBufferNode(std::move(callback));
+     if (loop_->isInLoopThread())
+     {
+@@ -750,12 +833,18 @@
+         {
+             auto n = sendNodeInLoop(node);
+             if (node->remainingBytes() > 0 && n >= 0)
++                {
++                    if (bounded_) ++bounded_io::detail::stock_output_appends;
++                    writeBufferList_.push_back(std::move(node));
++                }
++            return;
++        }
++        else
++        {
++            {
++                if (bounded_) ++bounded_io::detail::stock_output_appends;
+                 writeBufferList_.push_back(std::move(node));
+-            return;
+-        }
+-        else
+-        {
+-            writeBufferList_.push_back(std::move(node));
++            }
+         }
+     }
+     else
+@@ -772,11 +861,17 @@
+             {
+                 auto n = thisPtr->sendNodeInLoop(node);
+                 if (node->remainingBytes() > 0 && n >= 0)
++                    {
++                        if (thisPtr->bounded_) ++bounded_io::detail::stock_output_appends;
++                        thisPtr->writeBufferList_.push_back(std::move(node));
++                    }
++            }
++            else
++            {
++                {
++                    if (thisPtr->bounded_) ++bounded_io::detail::stock_output_appends;
+                     thisPtr->writeBufferList_.push_back(std::move(node));
+-            }
+-            else
+-            {
+-                thisPtr->writeBufferList_.push_back(std::move(node));
++                }
+             }
+         });
+     }
+@@ -1076,6 +1171,7 @@
+ };
+ AsyncStreamPtr TcpConnectionImpl::sendAsyncStream(bool disableKickoff)
+ {
++    if (bounded_) return {};
+     auto asyncStreamNode = BufferNode::newAsyncStreamBufferNode();
+     std::weak_ptr<TcpConnectionImpl> weakPtr = shared_from_this();
+     auto asyncStream = std::make_unique<AsyncStreamImpl>(
+@@ -1137,7 +1233,10 @@
+         if (encryptionPending_ || tlsHandshakePending_)
+             pendingTlsWriteBufferList_.push_back(asyncStreamNode);
+         else
+-            writeBufferList_.push_back(asyncStreamNode);
++            {
++                if (bounded_) ++bounded_io::detail::stock_output_appends;
++                writeBufferList_.push_back(asyncStreamNode);
++            }
+     }
+     else
+     {
+@@ -1166,11 +1265,17 @@
+             {
+                 auto n = thisPtr->sendNodeInLoop(node);
+                 if (n >= 0 && (node->remainingBytes() > 0 || node->available()))
++                    {
++                        if (thisPtr->bounded_) ++bounded_io::detail::stock_output_appends;
++                        thisPtr->writeBufferList_.push_back(std::move(node));
++                    }
++            }
++            else
++            {
++                {
++                    if (thisPtr->bounded_) ++bounded_io::detail::stock_output_appends;
+                     thisPtr->writeBufferList_.push_back(std::move(node));
+-            }
+-            else
+-            {
+-                thisPtr->writeBufferList_.push_back(std::move(node));
++                }
+             }
+         });
+     }
+@@ -1180,6 +1285,7 @@
+                                             const char *data,
+                                             size_t len)
+ {
++    if (bounded_) return;
+     loop_->assertInLoopThread();
+     const bool isPendingTlsNode =
+         std::find(pendingTlsWriteBufferList_.begin(),
+@@ -1200,12 +1306,18 @@
+                 }
+                 if (static_cast<size_t>(nWritten) < len)
+                 {
+-                    node->append(data + nWritten, len - nWritten);
++                    {
++                        if (bounded_) ++bounded_io::detail::stock_output_appends;
++                        node->append(data + nWritten, len - nWritten);
++                    }
+                 }
+             }
+             else
+             {
+-                node->append(data, len);
++                {
++                    if (bounded_) ++bounded_io::detail::stock_output_appends;
++                    node->append(data, len);
++                }
+             }
+         }
+     }
+@@ -1231,3 +1343,70 @@
+         }
+     }
+ }
++
++// Fixed wire ownership and close records are consumed only by the SDK IO0 scan.
++void TcpConnectionImpl::reading(bool on) noexcept {
++    if (!bounded_ || !loop_->isInLoopThread() || bounded_->closing) return;
++    const bool was_paused=bounded_->paused;
++    if(was_paused==!on) return;
++    bounded_->paused=!on;
++    if (on) {
++        ioChannelPtr_->enableReading();
++        if (was_paused && !bounded_->native_established && bounded_->resume_parser && bounded_->parser) {
++            bounded_->continuing=true;
++            bounded_->resume_parser(bounded_->parser,&readBuffer_);
++            bounded_->continuing=false;
++        }
++    } else ioChannelPtr_->disableReading();
++}
++bool TcpConnectionImpl::wire(std::span<const std::byte> bytes,void *cookie) noexcept {
++    if (!bounded_ || !loop_->isInLoopThread() || bounded_->closing ||
++        !bounded_->output.empty() || bytes.empty()) return false;
++    bounded_->output=bytes; bounded_->cookie=cookie; bounded_->sent=0;
++    // Controls use the producer's actual fixed control slot as their cookie.
++    if (!bounded_->control_busy && bounded_io::take_wire_gate()) {
++        bounded_->gate=true; bounded_io::hold_wire(*bounded_);
++    }
++    if (!bounded_->gate) ioChannelPtr_->enableWriting();
++    return true;
++}
++void TcpConnectionImpl::close() noexcept {
++    if (!bounded_ || !loop_->isInLoopThread() || bounded_->closing) return;
++    bounded_->closing=true; bounded_->removal_epoch=loop_->boundedEpoch();
++    ioChannelPtr_->disableAll();
++}
++void TcpConnectionImpl::boundedTurn() noexcept {
++    if (!bounded_ || bounded_->removed || bounded_->closing || bounded_->gate) return;
++    if (bounded_->output.empty()) return;
++    if (!bounded_->producer->before_write(*bounded_->storage)) return;
++    const auto n=::send(socketPtr_->fd(),bounded_->output.data()+bounded_->sent,
++        std::min<std::size_t>(8192,bounded_->output.size()-bounded_->sent),MSG_NOSIGNAL);
++    if(n>0) bounded_->sent+=static_cast<std::size_t>(n);
++    else if(n<0 && errno!=EAGAIN && errno!=EWOULDBLOCK && errno!=EINTR) { close(); return; }
++    if(bounded_->sent==bounded_->output.size()) {
++        auto *cookie=bounded_->cookie; bounded_->output={}; bounded_->cookie=nullptr;
++        ioChannelPtr_->disableWriting(); bounded_->control_busy=false; bounded_->storage->wire_released(cookie);
++        if(bounded_->native_established && nativeProfileIo()) requestNativeProfileWrite();
++    } else ioChannelPtr_->enableWriting();
++}
++void TcpConnectionImpl::boundedRemove() noexcept {
++    if (!bounded_ || bounded_->removed) return;
++    status_=ConnStatus::Disconnected;
++    bounded_io::forget_wire(*bounded_);
++    ioChannelPtr_->disableAll(); ioChannelPtr_->remove();
++    socketPtr_->closeNativeProfile();
++    bounded_->storage->socket_removed();
++    if(!bounded_->output.empty()) {
++        auto *cookie=bounded_->cookie; bounded_->output={}; bounded_->cookie=nullptr;
++        bounded_->storage->wire_released(cookie);
++    }
++    auto native=std::atomic_exchange_explicit(&nativeProfileIo_,std::shared_ptr<NativeProfileIo>{},std::memory_order_acq_rel);
++    if(native) native->closed();
++    if(connectionCallback_) connectionCallback_(shared_from_this());
++    if(bounded_->destroy_parser && bounded_->parser) {
++        bounded_->destroy_parser(bounded_->parser); bounded_->parser=nullptr;
++    }
++    if(native) native->detached();
++    recvMsgCallback_={}; connectionCallback_={}; writeCompleteCallback_={}; closeCallback_={};
++    bounded_->removed=true;
++}
+--- a/trantor/net/inner/TcpConnectionImpl.h
++++ b/trantor/net/inner/TcpConnectionImpl.h
+@@ -1,3 +1,4 @@
++#include <trantor/net/BoundedIoInternal.h>
+ /**
+  *
+  *  @file TcpConnectionImpl.h
+@@ -33,7 +34,8 @@
+ class TcpServer;
+ class TcpConnectionImpl : public TcpConnection,
+                           public NonCopyable,
+-                          public std::enable_shared_from_this<TcpConnectionImpl>
++                          public std::enable_shared_from_this<TcpConnectionImpl>,
++                          public bounded_io::Transport
+ {
+     friend class TcpServer;
+     friend class TcpClient;
+@@ -44,6 +46,13 @@
+     bool nativeProfileChannelRemoved_{false};
+     void retireNativeProfileSocket();
+   public:
++    bounded_io::Slot *boundedSlot() noexcept override { return bounded_; }
++    bounded_io::Transport *boundedTransport() noexcept override { return bounded_ ? this : nullptr; }
++    void reading(bool) noexcept override;
++    bool wire(std::span<const std::byte>, void *) noexcept override;
++    void close() noexcept override;
++    void boundedTurn() noexcept;
++    void boundedRemove() noexcept;
+     void setNativeProfileIo(std::shared_ptr<NativeProfileIo> io) override
+     {
+         loop_->assertInLoopThread();
+@@ -84,7 +93,8 @@
+                       const InetAddress &localAddr,
+                       const InetAddress &peerAddr,
+                       TLSPolicyPtr policy = nullptr,
+-                      SSLContextPtr ctx = nullptr);
++                      SSLContextPtr ctx = nullptr,
++                      bounded_io::Slot *bounded = nullptr, bool *transferred = nullptr);
+     ~TcpConnectionImpl() override;
+     void send(const char *msg, size_t len) override;
+     void send(const void *msg, size_t len) override;
+@@ -252,8 +262,9 @@
+         Disconnecting
+     };
+     EventLoop *loop_;
+-    std::unique_ptr<Channel> ioChannelPtr_;
+-    std::unique_ptr<Socket> socketPtr_;
++    bounded_io::Slot *bounded_{};
++    std::unique_ptr<Channel, bounded_io::PlacementDelete<Channel>> ioChannelPtr_;
++    std::unique_ptr<Socket, bounded_io::PlacementDelete<Socket>> socketPtr_;
+     MsgBuffer readBuffer_;
+     std::list<BufferNodePtr> writeBufferList_;
+     void readCallback();
+--- a/trantor/net/inner/poller/EpollPoller.cc
++++ b/trantor/net/inner/poller/EpollPoller.cc
+@@ -1,3 +1,6 @@
++#include <trantor/net/BoundedIoInternal.h>
++#include <new>
++#include <algorithm>
+ /**
+  *
+  *  EpollPoller.cc
+@@ -66,8 +69,27 @@
+ #else
+       epollfd_(::epoll_create1(EPOLL_CLOEXEC)),
+ #endif
+-      events_(kInitEventListSize)
+-{
++      boundedRecords_(loop->boundedRecords_),
++      events_(boundedRecords_ ? 0 : kInitEventListSize),
++      boundedEvents_(boundedRecords_ ?
++          (bounded_io::detail::bootstrap_budget().initializing_main ?
++              std::vector<std::byte>(boundedRecords_*16) :
++              std::move(bounded_io::detail::bootstrap_budget().io_events)) : std::vector<std::byte>{})
++#ifndef NDEBUG
++      , boundedChannels_(boundedRecords_ ?
++          (bounded_io::detail::bootstrap_budget().initializing_main ?
++              std::vector<std::pair<int,Channel*>>(boundedRecords_) :
++              std::move(bounded_io::detail::bootstrap_budget().io_debug)) :
++          std::vector<std::pair<int,Channel*>>{})
++#endif
++{
++    static_assert(sizeof(epoll_event)<=16 && alignof(epoll_event)<=alignof(std::max_align_t));
++    static_assert(sizeof(EpollPoller)<=512, "Source/ABI poller metadata bound");
++    if(boundedRecords_) {
++        if(boundedEvents_.size()<boundedRecords_*16) std::terminate();
++        // The byte arena provides storage for the implicit-lifetime kernel cells.
++        ::new (static_cast<void*>(boundedEvents_.data())) epoll_event[boundedRecords_];
++    }
+ }
+ EpollPoller::~EpollPoller()
+ {
+@@ -85,9 +107,11 @@
+ #endif
+ void EpollPoller::poll(int timeoutMs, ChannelList *activeChannels)
+ {
+-    int numEvents = ::epoll_wait(epollfd_,
+-                                 &*events_.begin(),
+-                                 static_cast<int>(events_.size()),
++    static_assert(sizeof(epoll_event)+sizeof(Channel*)+sizeof(std::pair<int,Channel*>)<=128);
++    if(boundedRecords_ && activeChannels->capacity()<boundedRecords_) std::terminate();
++    auto *cells=boundedRecords_ ? reinterpret_cast<epoll_event*>(boundedEvents_.data()) : events_.data();
++    const auto capacity=boundedRecords_ ? boundedRecords_ : events_.size();
++    int numEvents = ::epoll_wait(epollfd_, cells, static_cast<int>(capacity),
+                                  timeoutMs);
+     int savedErrno = errno;
+     // Timestamp now(Timestamp::now());
+@@ -95,7 +119,7 @@
+     {
+         // LOG_TRACE << numEvents << " events happened";
+         fillActiveChannels(numEvents, activeChannels);
+-        if (static_cast<size_t>(numEvents) == events_.size())
++        if (!boundedRecords_ && static_cast<size_t>(numEvents) == events_.size())
+         {
+             events_.resize(events_.size() * 2);
+         }
+@@ -118,24 +142,31 @@
+ void EpollPoller::fillActiveChannels(int numEvents,
+                                      ChannelList *activeChannels) const
+ {
+-    assert(static_cast<size_t>(numEvents) <= events_.size());
++    const auto *cells=boundedRecords_ ? reinterpret_cast<const epoll_event*>(boundedEvents_.data()) : events_.data();
++    assert(static_cast<size_t>(numEvents) <= (boundedRecords_ ? boundedRecords_ : events_.size()));
+     for (int i = 0; i < numEvents; ++i)
+     {
+ #ifdef _WIN32
+-        if (events_[i].events == EPOLLEVENT)
+-        {
+-            eventCallback_(events_[i].data.u64);
++        if (cells[i].events == EPOLLEVENT)
++        {
++            eventCallback_(cells[i].data.u64);
+             continue;
+         }
+ #endif
+-        Channel *channel = static_cast<Channel *>(events_[i].data.ptr);
++        Channel *channel = static_cast<Channel *>(cells[i].data.ptr);
+ #ifndef NDEBUG
+         int fd = channel->fd();
+-        ChannelMap::const_iterator it = channels_.find(fd);
+-        assert(it != channels_.end());
+-        assert(it->second == channel);
+-#endif
+-        int revents = events_[i].events;
++        if (boundedRecords_) {
++            auto it=std::find_if(boundedChannels_.begin(),boundedChannels_.end(),
++                [fd](const auto &entry){return entry.second && entry.first==fd;});
++            assert(it!=boundedChannels_.end() && it->second==channel);
++        } else {
++            ChannelMap::const_iterator it = channels_.find(fd);
++            assert(it != channels_.end());
++            assert(it->second == channel);
++        }
++#endif
++        int revents = cells[i].events;
+ #if defined(__linux__) && (defined(__sparc__) || defined(__sparc))
+         if (revents & EPOLLRDHUP)
+         {
+@@ -161,13 +192,20 @@
+ // a new one, add with EPOLL_CTL_ADD
+ #ifndef NDEBUG
+         int fd = channel->fd();
+-        if (index == kNew)
+-        {
++        if (boundedRecords_) {
++            auto it=std::find_if(boundedChannels_.begin(),boundedChannels_.end(),
++                [fd](const auto &entry){return entry.second && entry.first==fd;});
++            if(index==kNew) {
++                assert(it==boundedChannels_.end());
++                auto free=std::find_if(boundedChannels_.begin(),boundedChannels_.end(),
++                    [](const auto &entry){return !entry.second;});
++                if(free==boundedChannels_.end()) std::terminate();
++                *free={fd,channel};
++            } else assert(it!=boundedChannels_.end() && it->second==channel);
++        } else if (index == kNew) {
+             assert(channels_.find(fd) == channels_.end());
+             channels_[fd] = channel;
+-        }
+-        else
+-        {  // index == kDeleted
++        } else {
+             assert(channels_.find(fd) != channels_.end());
+             assert(channels_[fd] == channel);
+         }
+@@ -181,31 +219,44 @@
+ #ifndef NDEBUG
+         int fd = channel->fd();
+         (void)fd;
++        if(boundedRecords_) {
++            auto it=std::find_if(boundedChannels_.begin(),boundedChannels_.end(),
++                [fd](const auto &entry){return entry.second && entry.first==fd;});
++            assert(it!=boundedChannels_.end() && it->second==channel);
++        } else {
++            assert(channels_.find(fd) != channels_.end());
++            assert(channels_[fd] == channel);
++        }
++#endif
++        assert(index == kAdded);
++        if (channel->isNoneEvent())
++        {
++            update(EPOLL_CTL_DEL, channel);
++            channel->setIndex(kDeleted);
++        }
++        else
++        {
++            update(EPOLL_CTL_MOD, channel);
++        }
++    }
++}
++void EpollPoller::removeChannel(Channel *channel)
++{
++    EpollPoller::assertInLoopThread();
++#ifndef NDEBUG
++    int fd = channel->fd();
++    if(boundedRecords_) {
++        auto it=std::find_if(boundedChannels_.begin(),boundedChannels_.end(),
++            [fd](const auto &entry){return entry.second && entry.first==fd;});
++        assert(it!=boundedChannels_.end() && it->second==channel);
++        *it={};
++    } else {
+         assert(channels_.find(fd) != channels_.end());
+         assert(channels_[fd] == channel);
+-#endif
+-        assert(index == kAdded);
+-        if (channel->isNoneEvent())
+-        {
+-            update(EPOLL_CTL_DEL, channel);
+-            channel->setIndex(kDeleted);
+-        }
+-        else
+-        {
+-            update(EPOLL_CTL_MOD, channel);
+-        }
+-    }
+-}
+-void EpollPoller::removeChannel(Channel *channel)
+-{
+-    EpollPoller::assertInLoopThread();
+-#ifndef NDEBUG
+-    int fd = channel->fd();
+-    assert(channels_.find(fd) != channels_.end());
+-    assert(channels_[fd] == channel);
+-    size_t n = channels_.erase(fd);
+-    (void)n;
+-    assert(n == 1);
++        size_t n = channels_.erase(fd);
++        (void)n;
++        assert(n == 1);
++    }
+ #endif
+     assert(channel->isNoneEvent());
+     int index = channel->index();
+--- a/trantor/net/inner/poller/EpollPoller.h
++++ b/trantor/net/inner/poller/EpollPoller.h
+@@ -52,7 +52,13 @@
+ #else
+     int epollfd_;
+ #endif
++    const std::size_t boundedRecords_;
+     EventList events_;
++    std::vector<std::byte> boundedEvents_;
++#ifndef NDEBUG
++    // The fixed registry covers disabled channels too, until actual removal.
++    std::vector<std::pair<int, Channel *>> boundedChannels_;
++#endif
+     void update(int operation, Channel *channel);
+ #ifndef NDEBUG
+     using ChannelMap = std::map<int, Channel *>;
+--- a/trantor/net/inner/tlsprovider/OpenSSLProvider.cc
++++ b/trantor/net/inner/tlsprovider/OpenSSLProvider.cc
+@@ -24,7 +24,7 @@
+ using namespace trantor;
+
+ // Force OpenSSL to initialize before main() is called
+-static bool sslInitFlag = []() {
++[[maybe_unused]] static bool sslInitFlag = []() {
+ #if OPENSSL_VERSION_NUMBER < 0x10100000L
+     SSL_library_init();
+     OpenSSL_add_all_algorithms();
+--- a/trantor/utils/MsgBuffer.cc
++++ b/trantor/utils/MsgBuffer.cc
+@@ -15,6 +15,8 @@
+ #include <trantor/utils/MsgBuffer.h>
+ #include <trantor/utils/Funcs.h>
+ #include <string.h>
++#include <cstring>
++#include <exception>
+ #ifndef _WIN32
+ #include <sys/uio.h>
+ #include <netinet/in.h>
+@@ -36,10 +38,29 @@
+ {
+ }
+
++MsgBuffer::MsgBuffer(std::span<std::byte> storage) noexcept
++    : head_(storage.empty() ? 0 : kBufferOffset), initCap_(0), buffer_(), tail_(head_),
++      fixed_(reinterpret_cast<char *>(storage.data())), fixedSize_(storage.size()), fixedMode_(true)
++{
++    if (!storage.empty() && storage.size() != 65544) std::terminate();
++}
++bool MsgBuffer::fixedCompact(bounded_io::PeerStorage &owner) noexcept
++{
++    if (!fixedMode_ || head_ <= kBufferOffset) return true;
++    const auto n=readableBytes();
++    std::memmove(begin()+kBufferOffset, begin()+head_, n);
++    const auto obsolete=std::max(head_, kBufferOffset+n);
++    if (tail_>obsolete && !owner.wipe_receive(
++            {reinterpret_cast<std::byte *>(begin()+obsolete), tail_-obsolete}, false)) return false;
++    head_=kBufferOffset; tail_=kBufferOffset+n;
++    return true;
++}
++
+ void MsgBuffer::ensureWritableBytes(size_t len)
+ {
+     if (writableBytes() >= len)
+         return;
++    if (fixedMode_) std::terminate();
+     if (head_ + writableBytes() >=
+         (len + kBufferOffset))  // move readable bytes
+     {
+@@ -61,6 +82,8 @@
+ void MsgBuffer::swap(MsgBuffer &buf) noexcept
+ {
+     buffer_.swap(buf.buffer_);
++    std::swap(fixed_,buf.fixed_); std::swap(fixedSize_,buf.fixedSize_);
++    std::swap(fixedMode_,buf.fixedMode_);
+     std::swap(head_, buf.head_);
+     std::swap(tail_, buf.tail_);
+     std::swap(initCap_, buf.initCap_);
+@@ -68,13 +91,13 @@
+ void MsgBuffer::append(const MsgBuffer &buf)
+ {
+     ensureWritableBytes(buf.readableBytes());
+-    memcpy(&buffer_[tail_], buf.peek(), buf.readableBytes());
++    memcpy(begin()+tail_, buf.peek(), buf.readableBytes());
+     tail_ += buf.readableBytes();
+ }
+ void MsgBuffer::append(const char *buf, size_t len)
+ {
+     ensureWritableBytes(len);
+-    memcpy(&buffer_[tail_], buf, len);
++    memcpy(begin()+tail_, buf, len);
+     tail_ += len;
+ }
+ void MsgBuffer::appendInt16(const uint16_t s)
+@@ -139,6 +162,7 @@
+ }
+ void MsgBuffer::retrieveAll()
+ {
++    if (fixedMode_) { head_=tail_=fixedSize_ ? kBufferOffset : 0; return; }
+     // releaseNativeProfileStorage() leaves no vector allocation. Repeated
+     // retrieve/retrieveAll must not restore offset 8 into a zero-sized vector.
+     if (buffer_.empty())
+@@ -154,6 +178,8 @@
+ }
+ ssize_t MsgBuffer::readFd(int fd, int *retErrno)
+ {
++    lastIovcnt_=0;
++    if (fixedMode_ && (writableBytes()<8192 || writableBytes()>65536)) { *retErrno=ENOBUFS; return -1; }
+     char extBuffer[8192];
+     struct iovec vec[2];
+     size_t writable = writableBytes();
+@@ -162,6 +188,7 @@
+     vec[1].iov_base = extBuffer;
+     vec[1].iov_len = sizeof(extBuffer);
+     const int iovcnt = (writable < sizeof extBuffer) ? 2 : 1;
++    lastIovcnt_=static_cast<std::uint8_t>(iovcnt);
+     ssize_t n = ::readv(fd, vec, iovcnt);
+     if (n < 0)
+     {
+@@ -227,6 +254,7 @@
+         tail_ += len;
+         return;
+     }
++    if (fixedMode_) std::terminate();
+     size_t newLen;
+     if (len + readableBytes() < initCap_)
+         newLen = initCap_;
+--- a/trantor/utils/MsgBuffer.h
++++ b/trantor/utils/MsgBuffer.h
+@@ -13,6 +13,10 @@
+  */
+
+ #pragma once
++#include <cstdint>
++#include <span>
++#include <cstddef>
++#include <trantor/net/BoundedIo.h>
+ #include <trantor/utils/NonCopyable.h>
+ #include <trantor/exports.h>
+ #include <vector>
+@@ -38,6 +42,8 @@
+  */
+ class TRANTOR_EXPORT MsgBuffer
+ {
++    friend class TcpConnectionImpl;
++    std::uint8_t lastIovcnt_{};
+   public:
+     /**
+      * @brief Construct a new message buffer instance.
+@@ -45,6 +51,10 @@
+      * @param len The initial size of the buffer.
+      */
+     explicit MsgBuffer(size_t len = TRANTOR_BUFFER_DEFAULT_LENGTH);
++    explicit MsgBuffer(std::span<std::byte> storage) noexcept;
++    bool fixedCompact(bounded_io::PeerStorage &) noexcept;
++    std::size_t fixedHead() const noexcept { return head_; }
++    std::size_t fixedTail() const noexcept { return tail_; }
+
+     /**
+      * @brief Get the beginning of the buffer.
+@@ -162,7 +172,7 @@
+      */
+     size_t writableBytes() const
+     {
+-        return buffer_.size() - tail_;
++        return (fixedMode_ ? fixedSize_ : buffer_.size()) - tail_;
+     }
+
+     /**
+@@ -257,9 +267,10 @@
+      *
+      */
+     void retrieveAll();
+-    std::size_t nativeProfileCapacity() const noexcept { return buffer_.capacity(); }
++    std::size_t nativeProfileCapacity() const noexcept { return fixedMode_ ? fixedSize_ : buffer_.capacity(); }
+     void releaseNativeProfileStorage()
+     {
++        fixed_ = nullptr; fixedSize_ = 0;
+         std::vector<char>().swap(buffer_);
+         head_ = tail_ = initCap_ = 0;
+     }
+@@ -358,6 +369,9 @@
+     size_t initCap_;
+     std::vector<char> buffer_;
+     size_t tail_;
++    char *fixed_{};
++    std::size_t fixedSize_{};
++    bool fixedMode_{};
+     static char *emptyStorage() noexcept
+     {
+         static char empty = 0;
+@@ -365,11 +379,11 @@
+     }
+     const char *begin() const
+     {
+-        return buffer_.empty() ? emptyStorage() : buffer_.data();
++        return fixedMode_ ? (fixed_ ? fixed_ : emptyStorage()) : (buffer_.empty() ? emptyStorage() : buffer_.data());
+     }
+     char *begin()
+     {
+-        return buffer_.empty() ? emptyStorage() : buffer_.data();
++        return fixedMode_ ? (fixed_ ? fixed_ : emptyStorage()) : (buffer_.empty() ? emptyStorage() : buffer_.data());
+     }
+ };
+
+# End of the additive correction.
