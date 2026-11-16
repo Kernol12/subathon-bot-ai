@@ -116,22 +116,27 @@ describes the source binding; SESSION-013 (#662) must verify every
 session-bearing unit before the first installation-epoch rotation. Account
 recovery cannot clear independent global clock holds.
 
-The host permits a dispatcher-supplied reply after a normal commit
-(committed/none with value), known rollback or busy BEGIN (not_started/busy
-without value), subject to exception/uncertainty withholding and the other
-gates. A command forwarding no unit may finish with a reply. work_exception
-(including a throw before BEGIN or after COMMIT),
-outcome_unknown/uncertain_outcome, not_started/writer_unavailable and escaping
-execute/completion exceptions withhold. A withholding outcome remains latched
-across later normal units; finish with a reply while withheld refuses and ends
-without reply while accepted units drain. The host does not judge reply
-content; normal domain-failure values remain eligible. [Boundary §2, Host
-reply
+The host withholds a reply whenever a unit's outcome is unknown or something
+was committed without ending normally; otherwise the dispatcher may reply.
+
+For committed work, normal is `WorkError::none` with a value; all
+`rolled_back` and `not_started` outcomes permit a dispatcher reply under this
+unit-outcome rule, including work_exception and writer_unavailable taken
+alone. A withholding outcome remains latched across later normal units; finish
+with a reply while withheld refuses and ends without reply while accepted
+units drain. A command forwarding no unit may finish with a reply. Hidden
+exceptions get no new observation: the host uses the reported result.
+[Boundary §2, Host reply
 eligibility](api-host-lifecycle-boundary-v1.md#host-reply-eligibility-after-prepared-units)
-partitions the result matrix and records unplaced outcome states. Known
-rollback and busy BEGIN now permit the dispatcher replies in the two amended
-cases; no-handoff for commit-then-throw, throwing completion, fail-close and
-consumed stop is unchanged.
+gives the exhaustive outcome table.
+
+Separately, exceptions escaping execute or supplied completions still end
+without reply under (c); rules (d)/(e), stop, disconnect, elapsed, authority
+and once-only gates are unchanged. The host does not judge reply content;
+normal domain-failure values remain eligible. The two amended rollback/busy
+terms and the four retained no-handoff host assertions remain as stated in
+boundary §2; the fail-closed multi-unit command withholds because its first
+unit is unknown, not because later units report writer_unavailable.
 
 The session clock is not part of this host boundary. SESSION-009 (#582) owns
 both removed guards: revocation, thread and reentrancy; wall-clock jumps do

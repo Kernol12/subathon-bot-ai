@@ -322,22 +322,30 @@ trusted session time, not a substitute native clock.
 
 ### Host reply eligibility after prepared units
 
-The host permits a dispatcher-supplied reply after a normal commit
-(`TransactionOutcome::committed`, `WorkError::none`, present `value`), a known
-rollback, or busy BEGIN (`not_started/busy`, absent `value`), subject to the
-withholding cases below and all existing stop/disconnect/elapsed/authority/
-once-only gates. A command that forwards no unit may finish with a reply.
+The host withholds a reply whenever a unit's outcome is unknown or something
+was committed without ending normally; otherwise the dispatcher may reply.
 
-The host withholds for `WorkError::work_exception` (a callback exception,
-including `not_started/work_exception`, `rolled_back/work_exception` and
-`committed/work_exception`), `outcome_unknown/uncertain_outcome` and
-`not_started/writer_unavailable`, all without value. An escaping execute or
-supplied-completion exception also withholds under rule (c), even if a unit
-committed normally. A withholding outcome is latched for the command; a later
-normal unit cannot clear it. Finish with a reply while withheld is refused,
-ends the command without reply and revokes later forward/finish. Already
-accepted units/completions drain with actual results unchanged before release
-or next entry. Refused admission still follows (d), and premature finish (e).
+For a committed unit, normal is exactly `WorkError::none` with a present
+`SqliteWorkResult::value`. Every known outcome with nothing committed
+(`rolled_back` or `not_started`, with any error) permits a dispatcher-supplied
+reply under this unit-outcome rule. A rollback established by the writer after
+an error counts as a known rollback. A command that forwards no unit may
+finish with a reply.
+
+A withholding outcome is latched for the command; a later normal unit cannot
+clear it. In `lost_ack_and_fail_closed_fifo_HL07_HL14`, the command hands
+nothing off because its first unit ends `outcome_unknown`, even though
+subsequent `not_started/writer_unavailable` results taken alone would permit
+replies. Finish with a reply while withheld is refused, ends the command
+without reply and revokes later forward/finish. Already accepted
+units/completions drain with actual results unchanged before release or next
+entry.
+
+Separate from the unit-outcome rule, an exception that escapes from execute or
+a supplied unit completion ends the command without a reply under (c), even
+when a unit result would permit a reply. The stop, disconnect, elapsed,
+authority and once-only gates remain in force; refused admission still follows
+(d), and premature finish (e).
 
 For `known_rollback_preserves_source_and_generation`, keep
 `rolled_back/not_committed` without value and I/E/J unchanged; hand off the
@@ -362,34 +370,21 @@ eligible. API-010 (#560), which adds the first replying dispatcher, owns the
 acceptance criterion that a command with a rolled-back unit never yields a
 success reply; that is not a host content check.
 
-The following partitions the writer's completion matrix; exception/uncertainty
-rows take precedence over known-rollback permission. “Open” identifies result
-states not placed by the reply decision, not a selected permitting rule.
+The table illustrates the unit-outcome rule in the writer's vocabulary; its
+five rows are disjoint and exhaustive over `TransactionOutcome` and the
+normal-result condition. It does not replace the separate callback and other
+gates above.
 
-| Actual result / callback status | Reply side | Vocabulary/source |
+| Reported unit result | Unit-outcome reply side | Writer examples / source |
 | --- | --- | --- |
-| committed/none, present value | Permitted under the other gates | Normal return after acknowledged commit; writer-transactions completion matrix |
-| rolled_back/not_committed, absent value | Permitted under the other gates | Explicit known rollback; amended known_rollback case |
-| rolled_back/uncommitted, absent value | Permitted under the other gates | Body returned with active transaction, writer established rollback |
-| rolled_back with busy/sql_failure/resource_limit/result_limit/invalid_statement/protocol_error/session_closed, absent value | Permitted as known rollback | Writer completion matrix: known statement/constraint/budget/COMMIT rollback; first-error precedence |
-| not_started/busy, absent value | Permitted under the other gates | Busy BEGIN; amended busy_begin case |
-| Any transaction with work_exception, absent value | Withheld: callback exception | Includes before-BEGIN, active-body known rollback and post-COMMIT exceptions; writer-transactions error precedence and matrix |
-| outcome_unknown/uncertain_outcome, absent value | Withheld: uncertain | Lost COMMIT/rollback acknowledgment or cleanup uncertainty |
-| not_started/writer_unavailable, absent value | Withheld | Fail-closed queued item; writer-transactions matrix |
-| Escaping execute or supplied-completion exception, whatever the unit result | Withheld: callback threw | Handle (c); actual writer result unchanged |
-| not_started/missing_transaction, absent value | Open | Normal body returned without BEGIN: neither a rollback nor busy BEGIN nor callback exception |
-| not_started with non-busy BEGIN error (sql_failure; result_limit if returned by control), absent value | Open | sqlite_writer.cpp begin/work_error; not a known rollback or busy BEGIN |
-| committed with protocol_error/session_closed (or another sticky work error other than work_exception), absent value | Open | Not a normal commit; typed protocol failure can be caught by body |
+| outcome_unknown, any WorkError, any value presence | Withheld | Lost acknowledgment/cleanup uncertainty; writer-transactions matrix: outcome_unknown/uncertain_outcome |
+| committed, WorkError::none, value present | Dispatcher may reply | Normal acknowledged commit and normal body return; SqliteWorkResult value contract |
+| committed, error other than WorkError::none or value absent | Withheld | committed/work_exception, protocol_error, session_closed or any other error; committed without value; writer matrix abnormal post-COMMIT outcomes |
+| rolled_back, any WorkError, any value presence | Dispatcher may reply | not_committed, uncommitted, work_exception, SQL/limit/COMMIT errors; writer-established rollback is known rollback |
+| not_started, any WorkError, any value presence | Dispatcher may reply | busy, missing_transaction, non-busy BEGIN errors, work_exception, writer_unavailable taken alone; writer matrix and begin/finish error mapping |
 
-Open outcome point: `SqliteWorkState::finish` preserves a first sticky error
-ahead of a later body exception. Thus rolled_back/SQL-error or not_started/busy
-alone cannot prove whether a later unexpected body exception was masked.
-The explicit known-rollback and busy-BEGIN field classifications above are
-kept; whether masked later exceptions need separate observation is open, not
-a silently added gate or observation API.
-The `work_exception` rows above are positive evidence; no other error is silently
-relabeled a callback exception. These unplaced states require clarification
-before tests select their reply behaviour; no new observation API is chosen.
+An exception hidden behind an earlier error by the writer's first-error rule
+gets no new observation; the host acts on the result the writer reports.
 
 ### Admitted-command handle rules outside the normal path
 
