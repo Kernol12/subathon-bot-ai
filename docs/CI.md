@@ -28,8 +28,9 @@ for focused local runs; `core-acceptance-debug` selects the same suites together
 - The `native` job builds the bounded HTTP successor SDK once. It independently
   gates native44 and foundation consumers and runs both with ordinary success
   semantics before Qt/Boost installation changes the host package state. The host baseline
-  then builds against that same SDK, and a step afterwards rehashes every SDK file
-  against the seal to prove the build only read it.
+  retains its separately prepared API-012 candidate4 SDK and unchanged loader. A
+  step afterwards rehashes that candidate4 SDK against its seal to prove the host
+  build only read it.
 - Actions and dependencies stay pinned: the checkout action by commit, Qt 6.12.0, ICU
   and libsodium archives by SHA-256, Boost 1.83 headers by package version. Qt 6.12
   is required; Ubuntu's older system Qt is not substituted.
@@ -48,7 +49,9 @@ comparison, with unchanged seals. Foundation also binds loader-cache data when
 present. The `native` job verifies both ordinary suite registrations and the
 34-method foundation inventory, then runs native44 and foundation independently.
 No required job is renamed or removed; foundation's intentional-red label is gone.
-The subsequent host baseline build reads that same successor and rechecks its seal.
+The subsequent host baseline build uses its separately sealed candidate4 prefix
+(`native-ws-candidate4/sdk`), with the same registration/loader as main, then
+rechecks the candidate4 seal. Neither host preset is migrated to the successor.
 
 Local `--local-development` records actual Arch packages and is development
 evidence, not the pinned Ubuntu lane. Local runs are never binaries admitted by

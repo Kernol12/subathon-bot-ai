@@ -656,9 +656,8 @@ jobs:
           PYTHON
       - name: Run development executable acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^dev-server$' --no-tests=error --verbose
-  # Corrected SDK built once: native44 and bounded HTTP foundation acceptance, then
-  # the host lifecycle baseline build against the same sealed SDK and its registration
-  # check (intentional red, not run).
+  # The successor serves native44/foundation; unchanged host baselines retain
+  # their separately sealed API-012 candidate4 SDK (intentional red, not run).
   native:
     runs-on: ubuntu-24.04
     timeout-minutes: 80
@@ -723,6 +722,8 @@ jobs:
           cmake --version
           python3 --version
           dpkg-query -W libc6 libc6-dev libgcc-s1 libstdc++6 libjsoncpp-dev libjsoncpp25 libssl-dev libssl3t64 uuid-dev libuuid1 zlib1g-dev zlib1g
+      - name: Prepare and seal candidate4 for the unchanged host baselines
+        run: python3 tools/native_websocket_ci.py prepare --root "$RUNNER_TEMP/native-ws-candidate4"
       - name: Prepare and seal the bounded HTTP successor SDK
         # The artifact/recipe/gate remain part of the tier A source review packet.
         run: python3 tools/native_websocket_ci.py prepare --profile bounded-http-foundation --root "$RUNNER_TEMP/bounded-http-foundation"
@@ -838,7 +839,7 @@ jobs:
       - name: Configure and compile both enabled host baselines
         run: |
           cmake --preset api-host-native-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX" \
-            -DSUBATHON_DROGON_ROOT="$RUNNER_TEMP/bounded-http-foundation/sdk" \
+            -DSUBATHON_DROGON_ROOT="$RUNNER_TEMP/native-ws-candidate4/sdk" \
             -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT" \
             -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0 \
             -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
@@ -854,11 +855,8 @@ jobs:
           import sys
           sys.path.insert(0, "tools")
           import native_websocket_ci
-          root = Path(os.environ["RUNNER_TEMP"]) / "bounded-http-foundation"
+          root = Path(os.environ["RUNNER_TEMP"]) / "native-ws-candidate4"
           sealed = json.loads((root / "receipts/sdk-seal.json").read_text(encoding="utf-8"))
-          native_websocket_ci.SUCCESSOR = True
-          native_websocket_ci.PROFILE = Path("dependencies/bounded-http-foundation").resolve()
-          native_websocket_ci.PROVENANCE = "share/subathon-bounded-http-foundation"
           # checked_seal rehashes every SDK file against the sealed inventory.
           if native_websocket_ci.checked_seal(root / "sdk") != sealed["identity"]:
               raise SystemExit("The shared SDK identity changed after it was sealed")
