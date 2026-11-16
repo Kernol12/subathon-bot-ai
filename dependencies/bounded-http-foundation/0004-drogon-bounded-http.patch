@@ -339,23 +339,21 @@
  });
 
  namespace drogon
-@@ -526,6 +543,7 @@
+@@ -526,6 +543,13 @@
 
  void HttpAppFrameworkImpl::run()
  {
++    // Declared first: publish only after all later automatic cleanup has run.
++    struct Completion {
++        ~Completion() noexcept {
++            bounded_http_sdk::run_cleaned.store(true,std::memory_order_release);
++        }
++    } completion;
 +    bounded_http_sdk::run_started.store(true,std::memory_order_release);
      native_profile::Runtime::started().store(true, std::memory_order_release);
      if (!getLoop()->isInLoopThread())
      {
-@@ -695,6 +713,7 @@
-     // However, we should consider other components.
-     ioLoopThreadPool_->start();
-     getLoop()->loop();
-+    bounded_http_sdk::run_cleaned.store(true,std::memory_order_release);
- }
-
- HttpAppFramework &HttpAppFrameworkImpl::setUploadPath(
-@@ -1077,6 +1096,7 @@
+@@ -1077,6 +1101,7 @@
                  loop->quit();
              }
              ioLoopThreadPool_->wait();
