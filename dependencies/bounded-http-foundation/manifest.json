@@ -30,12 +30,12 @@
     {
       "file": "0003-trantor-bounded-http.patch",
       "apply_at": "trantor",
-      "sha256": "a63fd887e7575b0082fd220521f43511e8f1cb25ce73c8ffe2723673e12bb429"
+      "sha256": "1789b4586b68eec0d7e4be1f0b60f5e86b7c2ee24a74d46d8f243a1c02650929"
     },
     {
       "file": "0004-drogon-bounded-http.patch",
       "apply_at": "drogon",
-      "sha256": "ae50bc41d1fbd8547fc657fe9af159463c47740d70b68a08c990cb5e265bcfe1"
+      "sha256": "aaf4fbed018a7f48fb8d8d7962c81d2d00100ed3629b9eb65047bf13ab1f1c5d"
     },
     {
       "file": "0005-native-source-binding.patch",

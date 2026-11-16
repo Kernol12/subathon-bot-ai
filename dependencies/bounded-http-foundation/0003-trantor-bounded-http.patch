@@ -1051,7 +1051,7 @@
 +    bounded_->paused=!on;
 +    if (on) {
 +        ioChannelPtr_->enableReading();
-+        if (was_paused && bounded_->resume_parser && bounded_->parser)
++        if (was_paused && !bounded_->native_established && bounded_->resume_parser && bounded_->parser)
 +            bounded_->resume_parser(bounded_->parser,&readBuffer_);
 +    } else ioChannelPtr_->disableReading();
 +}

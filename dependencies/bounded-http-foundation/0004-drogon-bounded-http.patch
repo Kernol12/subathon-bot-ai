@@ -531,7 +531,7 @@
              return i == 0;
          }
      }
-@@ -508,10 +523,191 @@
+@@ -508,10 +523,192 @@
  void HttpRequestParser::popReadyResponses(
      std::vector<std::pair<HttpResponsePtr, bool>> &buffer)
  {
@@ -705,8 +705,9 @@
 +                    sink->native_event(*peer,connection,bounded_http_sdk::NativeEvent::closed);
 +                });
 +                sink_->native_event(*bounded_,websockConnPtr_,bounded_http_sdk::NativeEvent::opened);
++                if(slot->closing) return 0;
 +                websockConnPtr_->consumeNativeProfileInitial();
-+                transport->reading(true);
++                if(!slot->closing) transport->reading(true);
 +            } catch(...) { transport->close(); }
 +            return 0;
 +        }
