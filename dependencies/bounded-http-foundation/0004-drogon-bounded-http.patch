@@ -113,7 +113,7 @@
  };
 --- /dev/null
 +++ b/lib/src/BoundedHttp.cc
-@@ -0,0 +1,168 @@
+@@ -0,0 +1,169 @@
 +// SPDX-License-Identifier: GPL-3.0-or-later
 +#include "BoundedHttpInternal.h"
 +#include "HttpAppFrameworkImpl.h"
@@ -247,6 +247,7 @@
 +void Runtime::poll() noexcept {
 +    auto *loop=bound_loop.load(std::memory_order_acquire);
 +    if(!loop || !loop->isInLoopThread()) return;
++    if(++trantor::bounded_io::detail::bootstrap_budget().parse_turn==0) std::terminate();
 +    for(unsigned step=0;step<2;++step) {
 +        auto *server=bound_servers[(next_role+step)%2].load(std::memory_order_acquire);
 +        if(server) server->boundedPoll();
@@ -529,7 +530,7 @@
              return i == 0;
          }
      }
-@@ -508,10 +523,192 @@
+@@ -508,10 +523,206 @@
  void HttpRequestParser::popReadyResponses(
      std::vector<std::pair<HttpResponsePtr, bool>> &buffer)
  {
@@ -558,11 +559,25 @@
 +    auto *slot=conn->boundedSlot();
 +    if(!slot || slot->closing) return 0;
 +    auto *transport=conn->boundedTransport();
++    // A fully scanned incomplete head only needs its socket re-armed.
++    if(!headDone_ && scan_==buf->readableBytes()) return 0;
++    const auto turn=trantor::bounded_io::detail::bootstrap_budget().parse_turn;
++    if(slot->continuing && owner_parse_turn_==turn) {
++        slot->pending_parse=true; transport->reading(false); return 0;
++    }
 +    if(!slot->producer->before_parse(*bounded_)) {
 +        if(!slot->closing) { slot->pending_parse=true; transport->reading(false); }
 +        return 0;
 +    }
++    if(slot->continuing) owner_parse_turn_=turn;
 +    std::size_t budget=8192;
++    // Only exhausted byte work gets an immediate, coalesced, normal-loop wake.
++    auto backlog=[&] {
++        slot->pending_parse=true; transport->reading(false);
++        if(!budget && !slot->closing &&
++           !slot->close_intent.load(std::memory_order_acquire) &&
++           slot->producer->before_parse(*bounded_)) slot->wake();
++    };
 +    auto refusal=[&](std::uint16_t status) {
 +        refused_=true; done_=true; slot->pending_parse=false; transport->reading(false);
 +        auto out=bounded_->control_storage();
@@ -624,7 +639,7 @@
 +            lineStart_=scan_;
 +        }
 +        if(!complete && scan_<40961) {
-+            if(scan_<buf->readableBytes()) { slot->pending_parse=true; transport->reading(false); }
++            if(scan_<buf->readableBytes()) backlog();
 +            return 0;
 +        }
 +        bounded_http_sdk::Head head{{reinterpret_cast<const std::byte*>(raw),scan_},{raw,methodSize_},{raw+targetOffset_,targetSize_},
@@ -718,13 +733,13 @@
 +        const auto bytes=std::span<const std::byte>(reinterpret_cast<const std::byte*>(buf->peek()),static_cast<std::size_t>(n));
 +        if(!sink_->body(*bounded_,bytes) || !bounded_->wipe_receive(
 +            {const_cast<std::byte*>(bytes.data()),bytes.size()},false)) { transport->close(); return 0; }
-+        buf->retrieve(static_cast<std::size_t>(n)); bodyRemaining_-=n;
++        buf->retrieve(static_cast<std::size_t>(n)); bodyRemaining_-=n; budget-=static_cast<std::size_t>(n);
 +    }
 +    if(!bodyRemaining_) {
 +        done_=true; slot->pending_parse=false; transport->reading(false);
 +        sink_->complete(*bounded_); return 1;
 +    }
-+    if(buf->readableBytes()) { slot->pending_parse=true; transport->reading(false); }
++    if(buf->readableBytes()) backlog();
 +    else { slot->pending_parse=false; transport->reading(true); }
 +    return 0;
 +}
@@ -775,7 +790,7 @@
          requestPipelining_;
      size_t requestsCounter_{0};
      std::weak_ptr<trantor::TcpConnection> conn_;
-@@ -144,6 +149,16 @@
+@@ -144,6 +149,18 @@
      std::vector<HttpRequestImplPtr> requestsPool_;
      size_t currentChunkLength_{0};
      size_t remainContentLength_{0};
@@ -785,6 +800,8 @@
 +    std::size_t scan_{}, lineStart_{}, fieldCount_{}, semantic_{2}, maxField_{}, lineBytes_{};
 +    std::size_t methodSize_{}, targetOffset_{}, targetSize_{};
 +    bool refused_{};
++    // IO0: one parse step across SDK poll and re-arm in the same owner turn.
++    std::uint64_t owner_parse_turn_{~std::uint64_t{0}};
 +    bool syntaxBad_{}, headDone_{}, done_{};
 +    std::uint64_t bodyRemaining_{};
 +    int parseBounded(trantor::MsgBuffer *) noexcept;

@@ -45,7 +45,7 @@ struct PeerRecord final : io::PeerStorage {
     std::atomic<bool> revoked{false};
     std::atomic<bool> committed{false}, retired_native{false};
     alignas(64) std::byte handles[4][128];
-    bool live{}, attached_once{}, in_connected{}, wanted{}, reading{}, delivered{}, raw_live{},
+    bool parse_permit{}, live{}, attached_once{}, in_connected{}, wanted{}, reading{}, delivered{}, raw_live{},
         raw_revoked{}, ended{}, socket_gone{}, sdk_gone{}, removed{}, context_set{}, wake_issued{},
         close_reply{}, reserved{}, filled{}, wire_done{}, close_requested{}, quarantined{},
         native{}, native_established{}, native_open_notified{}, terminal_wiped{}, native_retired_seen{}, retiring_charge{},
@@ -390,16 +390,18 @@ struct Core final : io::Producer, sdk::Sink {
     bool before_parse(io::PeerStorage &value) noexcept override {
         auto &p = static_cast<PeerRecord &>(value);
         p.reading = false; // Parsing/read guards can suspend the SDK channel.
-        if (p.socket_gone || p.control || !p.wanted || p.delivered || !guard(p))
+        if (stopping.load(std::memory_order_acquire) || p.socket_gone || p.control ||
+            !p.wanted || p.delivered || !guard(p))
             return false;
         request_started(p); // SDK invokes this only for actual buffered bytes.
         if (p.close_requested)
             return false;
         auto &work = turn_work[p.native ? 1 : 0];
-        if (turning && work >= 8)
-            return false;
-        if (turning)
+        if (turning && !p.parse_permit) {
+            if (work >= 8) return false;
             ++work;
+            p.parse_permit = true;
+        }
         return true;
     }
     bool before_read(io::PeerStorage &value, io::ReadWitness w) noexcept override {
@@ -930,6 +932,7 @@ void Core::owner_turn() noexcept {
         return;
     turning = true;
     turn_work[0] = turn_work[1] = 0;
+    for (U64 i=0; i<limits.peers; ++i) record(i).parse_permit=false;
     if (!loop) {
         loop = trantor::EventLoop::getEventLoopOfCurrentThread();
         io_live.store(true, std::memory_order_release);

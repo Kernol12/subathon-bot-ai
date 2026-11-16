@@ -154,7 +154,7 @@
 +// One SDK-internal startup binding; no first-party setters or second G allowance.
 +extern TRANTOR_EXPORT std::atomic<U64> stock_output_appends, constructed, retained, peak_retained;
 +struct BootstrapBudget {
-+    bool initializing_main{}, main_ready{}; U64 peers{};
++    bool initializing_main{}, main_ready{}; U64 peers{}, parse_turn{};
 +    std::vector<std::byte> io_events;
 +    std::vector<Channel*> io_active;
 +    std::vector<std::pair<int,Channel*>> io_debug;
@@ -184,7 +184,7 @@
 +    std::atomic<bool> destroy_ws{false}, ws_control_returned{true};
 +    bool tcp_constructed{};
 +    bool ws_created{}, ws_destroyed{}, native{}, native_established{};
-+    bool pending_parse{};
++    bool pending_parse{}, continuing{};
 +    bool removed{}, destroyed{}, closing{}, paused{true}, gate{}, control_busy{};
 +    U64 removal_epoch{};
 +    alignas(64) std::byte control_block[512];
@@ -404,7 +404,7 @@
      if (loop_->isInLoopThread())
      {
          acceptorPtr_.reset();
-@@ -253,4 +291,68 @@
+@@ -253,4 +291,69 @@
              }
          });
      }
@@ -442,7 +442,8 @@
 +            } else {
 +                c->boundedTurn();
 +                if(s->pending_parse && s->resume_parser && s->parser) {
-+                    s->pending_parse=false; s->resume_parser(s->parser,c->getRecvBuffer());
++                    s->pending_parse=false; s->continuing=true;
++                    s->resume_parser(s->parser,c->getRecvBuffer()); s->continuing=false;
 +                }
 +            }
 +        }
@@ -1043,7 +1044,7 @@
              }
          }
      }
-@@ -1231,3 +1343,67 @@
+@@ -1231,3 +1343,70 @@
          }
      }
  }
@@ -1056,8 +1057,11 @@
 +    bounded_->paused=!on;
 +    if (on) {
 +        ioChannelPtr_->enableReading();
-+        if (was_paused && !bounded_->native_established && bounded_->resume_parser && bounded_->parser)
++        if (was_paused && !bounded_->native_established && bounded_->resume_parser && bounded_->parser) {
++            bounded_->continuing=true;
 +            bounded_->resume_parser(bounded_->parser,&readBuffer_);
++            bounded_->continuing=false;
++        }
 +    } else ioChannelPtr_->disableReading();
 +}
 +bool TcpConnectionImpl::wire(std::span<const std::byte> bytes,void *cookie) noexcept {

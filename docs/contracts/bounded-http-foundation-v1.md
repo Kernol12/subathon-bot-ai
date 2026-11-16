@@ -1,6 +1,6 @@
 # Bounded selected HTTP foundation — v1, correction R4
 
-Revision R4 comprises corrections 1–16, implemented in API-016 and reviewed in
+Revision R4 comprises corrections 1–17, implemented in API-016 and reviewed in
 [PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664). That record covers
 the source/interface, allocation inventory, artifact/recipe/gate and selected Linux
 CI evidence. First-party declarations and the reviewed baseline remain unchanged.
@@ -884,7 +884,11 @@ when the role was already known full.
 Each owner wake processes at most 8 accepts per role and 8 peer continuations per
 role, alternating HTTP/native and advancing fixed round-robin cursors. Each
 HTTP/pre-Upgrade turn scans/copies ≤ 8192 bytes, issues at most one read, and each
-output turn sends ≤ 8192 bytes. Established native keeps its frozen frames/turn and
+output turn sends ≤ 8192 bytes. Correction 17 defines a peer turn as one socket-read
+dispatch or one owner-turn continuation; SDK poll and synchronous read re-arm
+share one continuation step for that peer. Only byte-budget exhaustion with
+unscanned buffered work and a successful fresh admission/time/stop guard wakes
+the existing eventfd for a normal loop dispatch; other refusals never self-wake. Established native keeps its frozen frames/turn and
 raw limits; it is offered bounded round-robin opportunities, not redefined byte
 limits. Reserved capacity and bounded opportunities hold when IO runs/callbacks
 return. Finite HTTP deadlines do not prove kernel fairness, service when all of
@@ -1178,7 +1182,7 @@ cleanup and unchanged seal throughout. No old loaded receipt admits a new binary
 API-016 implements this boundary. The frozen 34-method foundation suite and the
 44 unchanged native methods pass selected Linux CI behind technical consumer gates;
 native44 also passes against the original candidate4 SDK. PR #664 records the
-R4 corrections 1–16, tier A reviews and gated synthetic loopback evidence.
+R4 corrections 1–17, tier A reviews and gated synthetic loopback evidence.
 All SQL/CI/provider/platform/security/deployment/release gates, seven integrations,
 three FX providers, English/German, themes, separate renderers and full desktop
 editor remain in complete v 0.45 scope.
