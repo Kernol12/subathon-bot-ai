@@ -35,7 +35,10 @@ Read-only source audit at the source base:
 | `server/include/subathon/server/password_hashing.hpp`, `server/src/password_hashing.cpp` | Actual protected password copy/explicit lock/RAII wipe and synchronous source calls. `propose_password_upgrade` re-verifies and checks twice. Its input span remains caller-owned throughout. `admitted_memory_bytes` is a ceiling, not mutual exclusion. |
 | `server/` source inventory; SESSION-010 and ACCESS-001 briefs | No actual RequestIngressScope/policy-generation, LocalLoginOwner or indexed username producer is implemented. A similarly named contract value cannot supply one. |
 
-API-013 proposes an ADDITIVE auth-only host surface. Its historical synchronous-dispatcher reference is superseded by [consumer boundary revision 2 §2](api-host-lifecycle-boundary-v1.md#2-minimal-proposed-c-consumer-boundary); API-013 must rebase its own continuation rules there. Only the owner-approved APITEST-015 list revises the host baseline. API-013
+API-013 proposes an ADDITIVE auth-only host surface. API-001's dispatcher
+([consumer boundary revision 2 §2](api-host-lifecycle-boundary-v1.md#2-minimal-proposed-c-consumer-boundary),
+now asynchronous) never becomes a continuation callback, and no frozen assertion
+is relaxed. API-013
 can implement guarded ports with unavailable production bindings and simulated
 port tests; it must not depend on its future ACCESS-001/005/008 or SESSION-002/003
 consumers. Missing consumer-specific facts refuse. Real login/setup/reset/session
