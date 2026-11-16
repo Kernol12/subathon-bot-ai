@@ -397,16 +397,22 @@ representation. The host reply-eligibility rule above applies to every unit of
 the command.
 
 (a) Forward and finish are owner-thread operations. A foreign-thread call
-refuses before accessing the host/writer or mutating command state; it cannot
-end or poison a different owner's command. Reentrant forward/finish during a
-handle operation refuses. No event pumping or nested command dispatch is
-permitted.
+refuses before accessing the host/writer or mutating the command associated
+with that handle or any other command. A
+reentrant forward/finish during a handle operation refuses with
+`invalid_completion` and leaves command state unchanged. No event pumping or
+nested command dispatch is permitted.
 
-(b) A finished, cancelled or expired handle is inert: further forward/finish
-refuses and cannot revive reply authority. Stop is consumed before forward and
-finish; after its fence, forward refuses and finish cannot hand off a reply.
-Accepted units still drain. Destruction without finish ends the command
-without reply; a handle outliving the host is inert without dereferencing it.
+(b) A terminal command handle is inert: further forward/finish refuses and
+cannot revive work or reply authority. There is no separate timeout for an
+already-entered command: its queue deadline is checked at entry, while
+response deadlines, elapsed failure and disconnect revoke reply authority
+only. They do not themselves forbid later unit forwarding. Stop is consumed
+before forward and finish, including a pending native signal. After its fence,
+forward refuses with `stopping` and ends the command without reply; finish
+with a reply does the same. Finish without a reply accepts the no-reply end
+subject to accepted-unit rule (e). Accepted units still drain. Destruction
+without finish ends the command without reply; a handle outliving the host is inert without dereferencing it.
 Destruction on another thread only records cancellation in bounded
 lifetime-safe state; owner cleanup ends the association. No new work is
 submitted by cleanup.
@@ -425,14 +431,18 @@ queue_full, shutting_down or not_open) invokes neither body nor completion and
 creates no `writer_completed`. No fabricated SqliteWorkResult or implicit
 retry is allowed. Active plus queued units are bounded by `pending_batches`;
 all host captures/records also stay within the declared fixed/copy/association
-budgets, with no secondary pending list. A forwarding refusal ends that
-command without reply; already accepted units drain and their real results
+budgets, with no secondary pending list. A writer-admission refusal ends
+that command without reply; already accepted units drain and their real results
 still pass unchanged to their supplied completions, which cannot submit
 further work.
 
-(e) Finish with any accepted unit still pending, or from its still-running
-body, is refused and ends the command without reply. Drain accepted bodies and
-completions before release or next entry. The supplied completion of the last
+(e) Forward is permitted only from execute or a unit's supplied completion.
+Forward from a running unit body is refused and ends the command without
+reply, just as finish from a running body does. The dispatcher chooses the
+next unit using the previous unit's actual result, never by enqueuing it from
+inside that unit body. Finish with any accepted unit still pending, or from
+its still-running body, is refused and ends the command without reply. Drain
+accepted bodies and completions before release or next entry. The supplied completion of the last
 unit may finish after that unit leaves the writer pending count, but the next
 command cannot enter until that completion has returned. There is no early
 reply/next-command path around accepted unit drain.
@@ -456,6 +466,10 @@ charges through execute, all accepted units and their completions, then
 releases each input charge exactly once when no body/borrow can reference it.
 The dispatch call's CommandView borrow ends at return; a unit must use owned
 charged captures or a borrow whose host-owned lifetime covers that unit.
+Prepared-unit forwarding enforces a fixed maximum capture size at compile
+time and charges its retained storage before ownership. A dynamically
+type-erased entry must not bypass that bound; the size of a `std::function`
+object does not establish the size of the captures it retains.
 Finish alone cannot release storage still used by accepted work. Reply leases
 retain their own charges until their transport barrier. A retained inert
 handle cannot pin payloads after terminal cleanup.
@@ -473,7 +487,8 @@ disconnect triggered by observation of a committed result precedes a
 completion's reply. Observations distinguish admission, command entry, unit
 body entry, unit completion, host cancellation and refused second reply,
 without fixing enum names. Refused-entry commands have cancellation/refusal
-only, no unit event. A second reply refusal cannot alter the first reply or
+only, no unit event. A second finish, including after finish without reply, refuses with
+`invalid_completion` and cannot change the already chosen finish or reply or
 invent a writer result. For queued W2/W3, admission of W3 precedes stop, which
 precedes cancellation; all accepted completions precede writer acknowledgment.
 Observers remain bounded, synchronous and subject to the no-reentry rule
