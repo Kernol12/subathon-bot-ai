@@ -124,5 +124,5 @@ discard and finish require that evidence. Caller-owned framework-thread join is
 a caller precondition, not a report inferred from !isRunning or server absence.
 
 Fix round 2 private IO0 dispatch state (parser owner_parse_turn_, Slot continuing,
-bootstrap parse_turn and first-party parse_permit) fits the same compiled parser,
+bootstrap parse_turn) fits the same compiled parser,
 Slot, G and PeerRecord bounds; it adds no storage allowance or public interface.

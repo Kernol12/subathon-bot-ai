@@ -887,8 +887,13 @@ HTTP/pre-Upgrade turn scans/copies ≤ 8192 bytes, issues at most one read, and 
 output turn sends ≤ 8192 bytes. Correction 17 defines a peer turn as one socket-read
 dispatch or one owner-turn continuation; SDK poll and synchronous read re-arm
 share one continuation step for that peer. Only byte-budget exhaustion with
-unscanned buffered work and a successful fresh admission/time/stop guard wakes
-the existing eventfd for a normal loop dispatch; other refusals never self-wake. Established native keeps its frozen frames/turn and
+unscanned buffered work wakes the existing eventfd for a normal loop dispatch.
+One successful admission/time/stop guard covers the finite step and its single
+budget wake; no second admission or clock sample is taken for that step. A step
+that observed stop issues no wake. An already admitted IO0 step may issue its one
+in-flight wake before IO0 observes a concurrent stop; the next owner turn checks
+stop before parsing, performs no parse step and never reschedules that wake.
+Other refusals never self-wake. Established native keeps its frozen frames/turn and
 raw limits; it is offered bounded round-robin opportunities, not redefined byte
 limits. Reserved capacity and bounded opportunities hold when IO runs/callbacks
 return. Finite HTTP deadlines do not prove kernel fairness, service when all of

@@ -574,9 +574,9 @@
 +    // Only exhausted byte work gets an immediate, coalesced, normal-loop wake.
 +    auto backlog=[&] {
 +        slot->pending_parse=true; transport->reading(false);
++        // The successful admission covers this step and its one budget wake.
 +        if(!budget && !slot->closing &&
-+           !slot->close_intent.load(std::memory_order_acquire) &&
-+           slot->producer->before_parse(*bounded_)) slot->wake();
++           !slot->close_intent.load(std::memory_order_acquire)) slot->wake();
 +    };
 +    auto refusal=[&](std::uint16_t status) {
 +        refused_=true; done_=true; slot->pending_parse=false; transport->reading(false);
