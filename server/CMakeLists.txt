@@ -1,4 +1,12 @@
 # Framework-free services and the separately enabled Qt SQL writer boundary.
+if(SUBATHON_BUILD_BOUNDED_HTTP_FOUNDATION_TESTS)
+    # Successor component only: never link these definitions into the frozen NI target.
+    # The complete producer will consume this object library alongside its SDK adapter.
+    add_library(subathon_bounded_http_storage OBJECT src/bounded_http_storage.cpp)
+    target_include_directories(subathon_bounded_http_storage PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    subathon_target_options(subathon_bounded_http_storage)
+endif()
+
 if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS OR SUBATHON_BUILD_SQLITE_ACCOUNT_SESSION_TESTS)
     add_library(subathon_session_resolution STATIC src/session_resolution.cpp)
     target_include_directories(subathon_session_resolution PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
