@@ -308,8 +308,9 @@
              }
          }
          LOG_TRACE << "map size=" << timingWheelMap_.size();
+-        acceptorPtr_->listen();
 +        if(boundedProducer_) boundedProducer_->owner_turn();
-         acceptorPtr_->listen();
++        if(acceptorPtr_ && !boundedStopping_) acceptorPtr_->listen();
      });
  }
  void TcpServer::stop()
@@ -558,15 +559,20 @@
      int ret = 0;
 
      ssize_t n = readBuffer_.readFd(socketPtr_->fd(), &ret);
-@@ -251,6 +269,7 @@
+@@ -251,6 +269,12 @@
  }
  void TcpConnectionImpl::writeCallback()
  {
-+    if (bounded_ && !bounded_->output.empty()) { boundedTurn(); return; }
++    if (bounded_) {
++        if (!bounded_->output.empty()) { boundedTurn(); return; }
++        // A fixed node may have drained earlier in this same active event batch.
++        if (!bounded_->native_established || bounded_->closing || bounded_->removed ||
++            !ioChannelPtr_->isWriting()) return;
++    }
      loop_->assertInLoopThread();
      if (nativeProfileChannelRemoved_) return;
      auto native = nativeProfileIo();
-@@ -325,6 +344,12 @@
+@@ -325,6 +349,12 @@
  }
  void TcpConnectionImpl::connectEstablished()
  {
@@ -579,7 +585,7 @@
      auto thisPtr = shared_from_this();
      loop_->runInLoop([thisPtr]() {
          LOG_TRACE << "connectEstablished";
-@@ -341,6 +366,7 @@
+@@ -341,6 +371,7 @@
  }
  void TcpConnectionImpl::handleClose()
  {
@@ -587,7 +593,15 @@
      if (nativeProfileChannelRemoved_) return;
      LOG_TRACE << "connection closed, fd=" << socketPtr_->fd();
      LOG_TRACE << "write buffer size: " << writeBufferList_.size();
-@@ -412,6 +438,7 @@
+@@ -372,6 +403,7 @@
+ }
+ void TcpConnectionImpl::handleError()
+ {
++    if (bounded_) { close(); return; }
+     if (nativeProfileChannelRemoved_) return;
+     int err = socketPtr_->getSocketError();
+     if (err == 0)
+@@ -412,6 +444,7 @@
  }
  void TcpConnectionImpl::shutdown()
  {
@@ -595,7 +609,7 @@
      auto thisPtr = shared_from_this();
      loop_->runInLoop([thisPtr]() {
          if (thisPtr->status_ == ConnStatus::Connected)
-@@ -447,6 +474,7 @@
+@@ -447,6 +480,7 @@
 
  void TcpConnectionImpl::forceClose()
  {
@@ -603,7 +617,7 @@
      auto thisPtr = shared_from_this();
      loop_->runInLoop([thisPtr]() {
          if (thisPtr->status_ == ConnStatus::Connected ||
-@@ -536,6 +564,7 @@
+@@ -536,6 +570,7 @@
  // The order of data sending should be same as the order of calls of send()
  void TcpConnectionImpl::send(const std::shared_ptr<std::string> &msgPtr)
  {
@@ -611,7 +625,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(msgPtr->data(), msgPtr->length());
-@@ -550,6 +579,7 @@
+@@ -550,6 +585,7 @@
  // The order of data sending should be same as the order of calls of send()
  void TcpConnectionImpl::send(const std::shared_ptr<MsgBuffer> &msgPtr)
  {
@@ -619,7 +633,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(msgPtr->peek(), msgPtr->readableBytes());
-@@ -563,6 +593,7 @@
+@@ -563,6 +599,7 @@
  }
  void TcpConnectionImpl::send(const char *msg, size_t len)
  {
@@ -627,7 +641,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(msg, len);
-@@ -578,6 +609,7 @@
+@@ -578,6 +615,7 @@
  }
  void TcpConnectionImpl::send(const void *msg, size_t len)
  {
@@ -635,7 +649,7 @@
      if (loop_->isInLoopThread())
      {
  #ifndef _WIN32
-@@ -598,6 +630,7 @@
+@@ -598,6 +636,7 @@
  }
  void TcpConnectionImpl::send(const std::string &msg)
  {
@@ -643,7 +657,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(msg.data(), msg.length());
-@@ -611,6 +644,7 @@
+@@ -611,6 +650,7 @@
  }
  void TcpConnectionImpl::send(std::string &&msg)
  {
@@ -651,7 +665,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(msg.data(), msg.length());
-@@ -626,6 +660,7 @@
+@@ -626,6 +666,7 @@
 
  void TcpConnectionImpl::send(const MsgBuffer &buffer)
  {
@@ -659,7 +673,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(buffer.peek(), buffer.readableBytes());
-@@ -640,6 +675,7 @@
+@@ -640,6 +681,7 @@
 
  void TcpConnectionImpl::send(MsgBuffer &&buffer)
  {
@@ -667,7 +681,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(buffer.peek(), buffer.readableBytes());
-@@ -656,6 +692,7 @@
+@@ -656,6 +698,7 @@
                                   long long offset,
                                   long long length)
  {
@@ -675,7 +689,7 @@
      assert(fileName);
  #ifdef _WIN32
      sendFile(utils::toWidePath(fileName).c_str(), offset, length);
-@@ -676,6 +713,7 @@
+@@ -676,6 +719,7 @@
                                   long long offset,
                                   long long length)
  {
@@ -683,7 +697,7 @@
      assert(fileName);
  #ifndef _WIN32
      sendFile(utils::toNativePath(fileName).c_str(), offset, length);
-@@ -692,6 +730,7 @@
+@@ -692,6 +736,7 @@
 
  void TcpConnectionImpl::sendFile(BufferNodePtr &&fileNode)
  {
@@ -691,7 +705,7 @@
      assert(fileNode->isFile() && fileNode->remainingBytes() > 0);
      if (loop_->isInLoopThread())
      {
-@@ -738,6 +777,7 @@
+@@ -738,6 +783,7 @@
  void TcpConnectionImpl::sendStream(
      std::function<std::size_t(char *, std::size_t)> callback)
  {
@@ -699,7 +713,7 @@
      auto node = BufferNode::newStreamBufferNode(std::move(callback));
      if (loop_->isInLoopThread())
      {
-@@ -1076,6 +1116,7 @@
+@@ -1076,6 +1122,7 @@
  };
  AsyncStreamPtr TcpConnectionImpl::sendAsyncStream(bool disableKickoff)
  {
@@ -707,7 +721,7 @@
      auto asyncStreamNode = BufferNode::newAsyncStreamBufferNode();
      std::weak_ptr<TcpConnectionImpl> weakPtr = shared_from_this();
      auto asyncStream = std::make_unique<AsyncStreamImpl>(
-@@ -1180,6 +1221,7 @@
+@@ -1180,6 +1227,7 @@
                                              const char *data,
                                              size_t len)
  {
@@ -715,7 +729,7 @@
      loop_->assertInLoopThread();
      const bool isPendingTlsNode =
          std::find(pendingTlsWriteBufferList_.begin(),
-@@ -1231,3 +1273,66 @@
+@@ -1231,3 +1279,66 @@
          }
      }
  }

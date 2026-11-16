@@ -183,6 +183,14 @@ struct Core final : io::Producer, sdk::Sink {
         choose(p, end);
         p.close_requested = true;
         p.wanted = false;
+        // A reservation without an actual wire node has no SDK release callback.
+        if (!p.committed && p.output != none) {
+            output(p.output).owner = nullptr;
+            p.output = none;
+            --observation.current.output_slots;
+            observation.current.output_capacity -= limits.reply_bytes + 128;
+            observation.current.metadata_charge -= 128;
+        }
         if (p.transport && !p.socket_gone)
             p.transport->close();
     }
@@ -566,6 +574,8 @@ void PeerRecord::attached(io::Transport &t) noexcept {
         in_connected = false;
         core->terminate(*this, End::callback_failed);
     }
+    // connected has returned: claim the input slot and arm the actual channel now.
+    core->owner_turn();
 }
 void PeerRecord::read_witness(io::ReadWitness w) noexcept {
     auto &o = core->observation;
@@ -813,7 +823,8 @@ void Core::owner_turn() noexcept {
             else if (drops & request_bit)
                 release_raw(p);
         }
-        if (stopping.load(std::memory_order_acquire) && (!p.committed || now_ns >= stop_deadline))
+        if (stopping.load(std::memory_order_acquire) &&
+            (!p.committed || p.wire_done || now_ns >= stop_deadline))
             terminate(p, End::stopped);
         else if (elapsed_bad)
             terminate(p, End::elapsed_failed);
@@ -1131,6 +1142,8 @@ Result<Done> Foundation::admission(const Peer &h, Pause pause) noexcept {
     p.wanted = pause == Pause::admitted;
     if (!p.wanted && p.transport)
         p.transport->reading(false);
+    if (!c.callbacks_active && !c.visitors)
+        c.owner_turn();
     return Done{};
 }
 Result<Done> Foundation::close(const Peer &h) noexcept {

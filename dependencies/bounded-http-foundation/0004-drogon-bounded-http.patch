@@ -231,15 +231,22 @@
      {
 --- a/lib/src/HttpRequestImpl.h
 +++ b/lib/src/HttpRequestImpl.h
-@@ -62,6 +62,8 @@
+@@ -62,6 +62,7 @@
  {
    public:
      friend class HttpRequestParser;
 +    friend class HttpControllersRouter;
-+    bool boundedNative_{false};
      friend class ::HttpRequestImplCacheFileTestAccess;
 
      explicit HttpRequestImpl(trantor::EventLoop *loop)
+@@ -700,6 +701,7 @@
+     }
+
+   private:
++    bool boundedNative_{false};
+     void parseParameters() const;
+
+     void parseParametersOnce() const
 --- a/lib/src/HttpRequestParser.cc
 +++ b/lib/src/HttpRequestParser.cc
 @@ -13,6 +13,11 @@
