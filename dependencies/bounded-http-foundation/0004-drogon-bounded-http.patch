@@ -215,18 +215,46 @@
      void registerHttpController(const std::string &pathPattern,
                                  const internal::HttpBinderBasePtr &binder,
                                  const std::vector<HttpMethod> &validMethods,
+--- a/lib/src/HttpControllersRouter.cc
++++ b/lib/src/HttpControllersRouter.cc
+@@ -698,6 +698,11 @@
+
+ RouteResult HttpControllersRouter::routeWs(const HttpRequestImplPtr &req)
+ {
++    // Only the validated private projection selects the synchronous native binder.
++    // No user route/filter/regex lookup or retained request crosses this branch.
++    if(req->boundedNative_)
++        return {RouteResult::Success,std::make_shared<WebsocketControllerBinder>()};
++
+     std::string wsKey = req->getHeaderBy("sec-websocket-key");
+     if (!wsKey.empty())
+     {
+--- a/lib/src/HttpRequestImpl.h
++++ b/lib/src/HttpRequestImpl.h
+@@ -62,6 +62,8 @@
+ {
+   public:
+     friend class HttpRequestParser;
++    friend class HttpControllersRouter;
++    bool boundedNative_{false};
+     friend class ::HttpRequestImplCacheFileTestAccess;
+
+     explicit HttpRequestImpl(trantor::EventLoop *loop)
 --- a/lib/src/HttpRequestParser.cc
 +++ b/lib/src/HttpRequestParser.cc
-@@ -13,6 +13,8 @@
+@@ -13,6 +13,11 @@
   */
 
  #include "HttpRequestParser.h"
++#include "HttpControllerBinder.h"
++#include "HttpControllersRouter.h"
++#include "WebSocketConnectionImpl.h"
 +#include "BoundedHttpInternal.h"
 +#include <cstring>
  #include <drogon/HttpTypes.h>
  #include <trantor/utils/Logger.h>
  #include <trantor/utils/MsgBuffer.h>
-@@ -31,10 +33,13 @@
+@@ -31,10 +36,13 @@
  static constexpr size_t METHOD_MAX_LEN = 7;      // strlen("OPTIONS")
  static constexpr size_t TRUNK_LEN_MAX_LEN = 16;  // 0xFFFFFFFF,FFFFFFFF
 
@@ -242,7 +270,7 @@
  {
  }
 
-@@ -119,6 +124,10 @@
+@@ -119,6 +127,10 @@
  void HttpRequestParser::reset()
  {
      assert(loop_->isInLoopThread());
@@ -253,7 +281,7 @@
      remainContentLength_ = 0;
      status_ = HttpRequestParseStatus::kExpectMethod;
      if (requestsPool_.empty())
-@@ -144,6 +153,7 @@
+@@ -144,6 +156,7 @@
   */
  int HttpRequestParser::parseRequest(MsgBuffer *buf)
  {
@@ -261,7 +289,7 @@
      while (true)
      {
          switch (status_)
-@@ -483,7 +493,7 @@
+@@ -483,7 +496,7 @@
                                                  bool isHeadMethod)
  {
      assert(loop_->isInLoopThread());
@@ -270,7 +298,7 @@
  }
 
  /**
-@@ -493,11 +503,11 @@
+@@ -493,11 +506,11 @@
                                                   HttpResponsePtr resp)
  {
      assert(loop_->isInLoopThread());
@@ -285,7 +313,7 @@
              return i == 0;
          }
      }
-@@ -508,10 +518,96 @@
+@@ -508,10 +521,170 @@
  void HttpRequestParser::popReadyResponses(
      std::vector<std::pair<HttpResponsePtr, bool>> &buffer)
  {
@@ -369,6 +397,80 @@
 +            {fields_.data(),std::min(fieldCount_,fields_.size())},syntaxBad_,scan_,fieldCount_,semantic_,maxField_,lineBytes_};
 +        const auto decision=sink_->head(*bounded_,head);
 +        if(decision.status) { refusal(decision.status); return 0; }
++        if(slot->native) {
++            done_=true; slot->pending_parse=false; transport->reading(false);
++            auto out=bounded_->control_storage();
++            if(out.empty()) { transport->close(); return 0; }
++            try {
++                auto *object=new(slot->require(sizeof(WebSocketConnectionImpl),alignof(WebSocketConnectionImpl)))
++                    WebSocketConnectionImpl(conn);
++                slot->ws_object=object; slot->ws_created=true;
++                slot->destroy_ws_object=[](void *p) noexcept { static_cast<WebSocketConnectionImpl*>(p)->~WebSocketConnectionImpl(); };
++                slot->ws_control_returned.store(false,std::memory_order_release);
++                auto deleter=[slot](WebSocketConnectionImpl*) noexcept {
++                    slot->inflight.fetch_add(1,std::memory_order_acq_rel);
++                    slot->destroy_ws.store(true,std::memory_order_release); slot->wake();
++                    slot->inflight.fetch_sub(1,std::memory_order_release);
++                };
++                websockConnPtr_=std::shared_ptr<WebSocketConnectionImpl>(object,deleter,
++                    trantor::bounded_io::ControlAllocator<WebSocketConnectionImpl>{slot,true});
++                if(!websockConnPtr_->beginNativeProfileUpgrade()) { transport->close(); return 0; }
++                auto projected=std::make_shared<HttpRequestImpl>(loop_);
++                projected->boundedNative_=true;
++                projected->setMethod(Get); projected->setVersion(Version::kHttp11);
++                projected->setPath(std::string(target_));
++                auto view=[&](std::uint32_t offset,std::uint32_t size) {return std::string_view(raw+offset,size);};
++                std::string host,key;
++                for(const auto &f:head.fields) {
++                    auto name=view(f.name,f.name_size);
++                    auto equal=[&](std::string_view expected) {
++                        if(name.size()!=expected.size()) return false;
++                        for(std::size_t i=0;i<name.size();++i)
++                            if((name[i]>='A'&&name[i]<='Z' ? name[i]+32 : name[i])!=expected[i]) return false;
++                        return true;
++                    };
++                    if(equal("host")) host=view(f.value,f.value_size);
++                    if(equal("sec-websocket-key")) key=view(f.value,f.value_size);
++                }
++                projected->addHeader("host",host);
++                projected->addHeader("connection","Upgrade");
++                projected->addHeader("upgrade","websocket");
++                projected->addHeader("sec-websocket-key",key);
++                projected->addHeader("sec-websocket-version","13");
++                if(!bounded_->wipe_receive({reinterpret_cast<std::byte*>(const_cast<char*>(raw)),scan_},false)) { transport->close(); return 0; }
++                buf->retrieve(scan_);
++                const auto assigned=buf->readableBytes() ? buf->nativeProfileCapacity() : 0;
++                const auto bound=websockConnPtr_->bindNativeProfile();
++                sink_->native_handoff(*bounded_,assigned,bound);
++                if(!bound) { transport->close(); return 0; }
++                auto selected=HttpControllersRouter::instance().routeWs(projected);
++                if(selected.result!=RouteResult::Success || !selected.binderPtr) { transport->close(); return 0; }
++                bool queued=false;
++                selected.binderPtr->handleRequest(projected,[&](const HttpResponsePtr &response) {
++                    const auto &accept=response->getHeader("sec-websocket-accept");
++                    if(response->statusCode()!=k101SwitchingProtocols || accept.size()!=28) return;
++                    constexpr std::string_view prefix="HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: ";
++                    if(out.size()<prefix.size()+32) return;
++                    std::memcpy(out.data(),prefix.data(),prefix.size());
++                    std::memcpy(out.data()+prefix.size(),accept.data(),28);
++                    std::memcpy(out.data()+prefix.size()+28,"\r\n\r\n",4);
++                    slot->control_busy=true;
++                    queued=transport->wire(out.first(prefix.size()+32),out.data());
++                });
++                if(!queued) { transport->close(); return 0; }
++                slot->native_established=true;
++                websockConnPtr_->setMessageCallback([peer=bounded_,sink=sink_](std::string&&,const WebSocketConnectionImplPtr &connection,const WebSocketMessageType&) {
++                    sink->native_event(*peer,connection,bounded_http_sdk::NativeEvent::message);
++                });
++                websockConnPtr_->setCloseCallback([peer=bounded_,sink=sink_](const WebSocketConnectionImplPtr &connection) {
++                    sink->native_event(*peer,connection,bounded_http_sdk::NativeEvent::closed);
++                });
++                sink_->native_event(*bounded_,websockConnPtr_,bounded_http_sdk::NativeEvent::opened);
++                websockConnPtr_->consumeNativeProfileInitial();
++                transport->reading(true);
++            } catch(...) { transport->close(); }
++            return 0;
++        }
 +        bodyRemaining_=decision.body_bytes;
 +        if(!bounded_->wipe_receive({reinterpret_cast<std::byte*>(const_cast<char*>(raw)),scan_},false)) { transport->close(); return 0; }
 +        buf->retrieve(scan_); headDone_=true;
@@ -534,13 +636,27 @@
          server_.kickoffIdleConnections(
              HttpAppFrameworkImpl::instance().getIdleConnectionTimeout());
  }
-@@ -117,6 +119,18 @@
+@@ -117,6 +119,32 @@
 
  void HttpServer::onConnection(const TcpConnectionPtr &conn)
  {
 +    if(auto *slot=conn->boundedSlot()) {
-+        if(!conn->connected()) return;
++        if(!conn->connected()) {
++            auto *p=static_cast<HttpRequestParser*>(slot->parser);
++            if(p && p->webSocketConn()) p->webSocketConn()->onClose();
++            return;
++        }
 +        try {
++            slot->native=nativeProfile_;
++            if(nativeProfile_) {
++                auto session=native_profile::Runtime::factory()(conn);
++                if(!session) { conn->boundedTransport()->close(); return; }
++                conn->setNativeProfileIo(session);
++                auto *registration=native_profile::Runtime::registration();
++                if(!registration || !registration->attach_retirement(*session,*slot->storage)) {
++                    conn->boundedTransport()->close(); return;
++                }
++            }
 +            auto *p=new(slot->require(sizeof(HttpRequestParser),alignof(HttpRequestParser)))
 +                HttpRequestParser(conn,slot->storage,bounded_http_sdk::sink());
 +            slot->parser=p;
@@ -553,7 +669,7 @@
      if (conn->connected())
      {
          if (nativeProfile_)
-@@ -171,6 +185,10 @@
+@@ -171,6 +199,10 @@
 
  void HttpServer::onMessage(const TcpConnectionPtr &conn, MsgBuffer *buf)
  {
@@ -677,3 +793,4 @@
      };
 
      std::vector<ListenerInfo> listeners_;
+# End of the additive correction.

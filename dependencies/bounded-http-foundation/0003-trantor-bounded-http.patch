@@ -125,7 +125,7 @@
 +} // namespace trantor::bounded_io
 --- /dev/null
 +++ b/trantor/net/BoundedIoInternal.h
-@@ -0,0 +1,77 @@
+@@ -0,0 +1,83 @@
 +// SPDX-License-Identifier: GPL-3.0-or-later
 +#pragma once
 +#include <trantor/net/BoundedIo.h>
@@ -153,11 +153,15 @@
 +    std::size_t sent{};
 +    std::atomic<unsigned> inflight{0};
 +    std::atomic<bool> destroy_tcp{false}, control_returned{false};
-+    void *tcp_object{};
++    void *tcp_object{}, *ws_object{};
++    void (*destroy_ws_object)(void *) noexcept{};
++    std::atomic<bool> destroy_ws{false}, ws_control_returned{true};
++    bool ws_created{}, ws_destroyed{}, native{}, native_established{};
 +    bool pending_parse{};
 +    bool removed{}, destroyed{}, closing{}, paused{true}, gate{}, control_busy{};
 +    U64 removal_epoch{};
 +    alignas(64) std::byte control_block[512];
++    alignas(64) std::byte ws_control_block[512];
 +    Slot(Producer &p, PeerStorage &s, TcpServer &owner, std::span<std::byte> m) noexcept
 +        : producer(&p), storage(&s), server(&owner), memory(m), used((sizeof(Slot)+63)&~std::size_t(63)) {}
 +    void *reserve(std::size_t n, std::size_t align) noexcept {
@@ -186,16 +190,18 @@
 +template<class T> struct ControlAllocator {
 +    using value_type=T;
 +    Slot *slot;
-+    explicit ControlAllocator(Slot *s) noexcept:slot(s){}
-+    template<class U> ControlAllocator(const ControlAllocator<U>&a) noexcept:slot(a.slot){}
++    bool websocket{};
++    explicit ControlAllocator(Slot *s, bool ws=false) noexcept:slot(s),websocket(ws){}
++    template<class U> ControlAllocator(const ControlAllocator<U>&a) noexcept:slot(a.slot),websocket(a.websocket){}
 +    T *allocate(std::size_t n) {
 +        if(n!=1 || sizeof(T)>sizeof(slot->control_block) || alignof(T)>64) throw std::bad_alloc();
-+        return reinterpret_cast<T*>(slot->control_block);
++        return reinterpret_cast<T*>(websocket ? slot->ws_control_block : slot->control_block);
 +    }
 +    void deallocate(T *,std::size_t) noexcept {
 +        auto *s=slot;
 +        s->inflight.fetch_add(1,std::memory_order_acq_rel);
-+        s->control_returned.store(true,std::memory_order_release);
++        if(websocket) s->ws_control_returned.store(true,std::memory_order_release);
++        else s->control_returned.store(true,std::memory_order_release);
 +        s->wake();
 +        s->inflight.fetch_sub(1,std::memory_order_release);
 +    }
@@ -316,7 +322,7 @@
      if (loop_->isInLoopThread())
      {
          acceptorPtr_.reset();
-@@ -253,4 +290,57 @@
+@@ -253,4 +290,63 @@
              }
          });
      }
@@ -356,13 +362,19 @@
 +                }
 +            }
 +        }
++        if(s->destroy_ws.load(std::memory_order_acquire) && !s->ws_destroyed &&
++           s->inflight.load(std::memory_order_acquire)==0) {
++            s->destroy_ws_object(s->ws_object); s->ws_destroyed=true;
++        }
 +        if(s->destroy_tcp.load(std::memory_order_acquire) && !s->destroyed &&
 +           s->inflight.load(std::memory_order_acquire)==0) {
 +            // The actual object is the first allocation following Slot, rounded to 64.
 +            auto *object=static_cast<TcpConnectionImpl*>(s->tcp_object);
 +            object->~TcpConnectionImpl(); s->destroyed=true;
 +        }
-+        if(s->destroyed && s->control_returned.load(std::memory_order_acquire) &&
++        if(s->destroyed && (!s->ws_created || s->ws_destroyed) &&
++           s->ws_control_returned.load(std::memory_order_acquire) &&
++           s->control_returned.load(std::memory_order_acquire) &&
 +           s->inflight.load(std::memory_order_acquire)==0) {
 +            *link=s->next;
 +            auto *storage=s->storage;
@@ -703,7 +715,7 @@
      loop_->assertInLoopThread();
      const bool isPendingTlsNode =
          std::find(pendingTlsWriteBufferList_.begin(),
-@@ -1231,3 +1273,61 @@
+@@ -1231,3 +1273,66 @@
          }
      }
  }
@@ -746,6 +758,7 @@
 +    if(bounded_->sent==bounded_->output.size()) {
 +        auto *cookie=bounded_->cookie; bounded_->output={}; bounded_->cookie=nullptr;
 +        ioChannelPtr_->disableWriting(); bounded_->control_busy=false; bounded_->storage->wire_released(cookie);
++        if(bounded_->native_established && nativeProfileIo()) requestNativeProfileWrite();
 +    } else ioChannelPtr_->enableWriting();
 +}
 +void TcpConnectionImpl::boundedRemove() noexcept {
@@ -758,9 +771,13 @@
 +        auto *cookie=bounded_->cookie; bounded_->output={}; bounded_->cookie=nullptr;
 +        bounded_->storage->wire_released(cookie);
 +    }
++    auto native=std::atomic_exchange_explicit(&nativeProfileIo_,std::shared_ptr<NativeProfileIo>{},std::memory_order_acq_rel);
++    if(native) native->closed();
++    if(connectionCallback_) connectionCallback_(shared_from_this());
 +    if(bounded_->destroy_parser && bounded_->parser) {
 +        bounded_->destroy_parser(bounded_->parser); bounded_->parser=nullptr;
 +    }
++    if(native) native->detached();
 +    recvMsgCallback_={}; connectionCallback_={}; writeCompleteCallback_={}; closeCallback_={};
 +    bounded_->removed=true;
 +    bounded_->storage->socket_removed();
@@ -982,4 +999,4 @@
      }
  };
 
-# End of the additive Trantor correction.
+# End of the additive correction.

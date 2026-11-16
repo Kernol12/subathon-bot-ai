@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include <algorithm>
+#include <arpa/inet.h>
 #include <atomic>
 #include <climits>
 #include <cstring>
@@ -44,7 +45,7 @@ struct PeerRecord final : io::PeerStorage {
     bool live{}, attached_once{}, in_connected{}, wanted{}, reading{}, delivered{}, raw_live{},
         raw_revoked{}, ended{}, socket_gone{}, sdk_gone{}, removed{}, context_set{}, wake_issued{},
         close_reply{}, reserved{}, filled{}, wire_done{}, close_requested{}, quarantined{},
-        native{}, control{}, request_started{}, has_end{};
+        native{}, native_established{}, control{}, request_started{}, has_end{};
     End end{End::cancelled};
     unsigned mailbox{}, executing{};
     int desired{-1};
@@ -333,7 +334,7 @@ struct Core final : io::Producer, sdk::Sink {
     }
     void complete(io::PeerStorage &) noexcept override;
     void native_event(io::PeerStorage &, const std::shared_ptr<drogon::WebSocketConnection> &,
-                      sdk::NativeEvent) noexcept override {}
+                      sdk::NativeEvent) noexcept override;
     void native_handoff(io::PeerStorage &, U64 capacity, bool accepted) noexcept override {
         observation.native_handoff_capacity = capacity;
         observation.native_handoff_accepted = accepted;
@@ -412,6 +413,61 @@ bool ascii_equal(std::string_view a, std::string_view b) noexcept {
             return false;
     }
     return true;
+}
+// Validate authority syntax before any native projection or ordinary callback.
+bool valid_host(std::string_view value) noexcept {
+    if (value.empty() || value.find_first_of(" \t@%/?#") != value.npos)
+        return false;
+    std::string_view name = value, port;
+    if (value.front() == '[') {
+        const auto end = value.find(']');
+        if (end == value.npos || end == 1 || end - 1 >= INET6_ADDRSTRLEN)
+            return false;
+        std::array<char, INET6_ADDRSTRLEN> text{};
+        std::memcpy(text.data(), value.data() + 1, end - 1);
+        in6_addr address{};
+        if (::inet_pton(AF_INET6, text.data(), &address) != 1)
+            return false;
+        if (end + 1 == value.size())
+            return true;
+        if (value[end + 1] != ':')
+            return false;
+        port = value.substr(end + 2);
+    } else {
+        const auto colon = value.find(':');
+        if (colon != value.npos) {
+            name = value.substr(0, colon);
+            port = value.substr(colon + 1);
+        }
+        if (name.empty())
+            return false;
+        for (unsigned char c : name)
+            if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') ||
+                  c == '-' || c == '.'))
+                return false;
+        if (colon == value.npos)
+            return true;
+    }
+    if (port.empty())
+        return false;
+    U64 number = 0;
+    for (unsigned char c : port) {
+        if (c < '0' || c > '9' || number > (65535 - (c - '0')) / 10)
+            return false;
+        number = number * 10 + c - '0';
+    }
+    return true;
+}
+// Canonical base64 for exactly sixteen bytes has twenty-two digits and two '='.
+bool valid_key(std::string_view value) noexcept {
+    constexpr std::string_view alphabet =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    if (value.size() != 24 || value.substr(22) != "==")
+        return false;
+    for (std::size_t i = 0; i < 22; ++i)
+        if (alphabet.find(value[i]) == alphabet.npos)
+            return false;
+    return alphabet.find(value[21]) % 16 == 0;
 }
 bool token(std::string_view s) noexcept {
     if (s.empty())
@@ -541,7 +597,7 @@ void PeerRecord::wire_released(void *cookie) noexcept {
     if (cookie == control_data()) {
         control = false;
         o.current.control_capacity -= 1024;
-        close_requested = true;
+        close_requested = !native_established;
     } else if (output != none && cookie == core->output_data(output)) {
         core->output(output).owner = nullptr;
         output = none;
@@ -566,7 +622,8 @@ sdk::Decision Core::head(io::PeerStorage &value, sdk::Head h) noexcept {
         return {400, 0};
     U64 length = 0;
     bool seen_length = false, syntax = h.syntax_bad;
-    unsigned hosts = 0, correlations = 0;
+    unsigned hosts = 0, correlations = 0, keys = 0, versions = 0, upgrades = 0, connections = 0;
+    bool upgrade_token = false;
     bool close = false;
     for (auto f : h.fields) {
         auto str = [&](std::uint32_t off, std::uint32_t n) {
@@ -587,9 +644,21 @@ sdk::Decision Core::head(io::PeerStorage &value, sdk::Head h) noexcept {
             return {400, 0};
         if (ascii_equal(name, "transfer-encoding") || ascii_equal(name, "te") ||
             ascii_equal(name, "trailer") || ascii_equal(name, "expect") ||
-            ascii_equal(name, "upgrade") || ascii_equal(name, "proxy-connection"))
+            (!p.native && ascii_equal(name, "upgrade")) || ascii_equal(name, "proxy-connection"))
             return {400, 0};
+        if (p.native) {
+            if (ascii_equal(name, "sec-websocket-key") && (++keys != 1 || !valid_key(v)))
+                syntax = true;
+            if (ascii_equal(name, "sec-websocket-version") && (++versions != 1 || v != "13"))
+                syntax = true;
+            if (ascii_equal(name, "upgrade") && (++upgrades != 1 || !ascii_equal(v, "websocket")))
+                syntax = true;
+            if (ascii_equal(name, "sec-websocket-protocol") ||
+                ascii_equal(name, "sec-websocket-extensions"))
+                syntax = true;
+        }
         if (ascii_equal(name, "connection")) {
+            ++connections;
             std::size_t at = 0;
             while (at < v.size()) {
                 auto end = v.find(',', at);
@@ -602,6 +671,8 @@ sdk::Decision Core::head(io::PeerStorage &value, sdk::Head h) noexcept {
                     item.remove_suffix(1);
                 if (ascii_equal(item, "close"))
                     close = true;
+                else if (p.native && ascii_equal(item, "upgrade"))
+                    upgrade_token = true;
                 else if (!ascii_equal(item, "keep-alive"))
                     return {400, 0};
                 at = end + 1;
@@ -609,7 +680,9 @@ sdk::Decision Core::head(io::PeerStorage &value, sdk::Head h) noexcept {
         }
         if (ascii_equal(name, "host")) {
             ++hosts;
-            if (v.empty() || v.find_first_of(" \t@%") != v.npos)
+            if (p.native && v.size() > 256)
+                return {431, 0};
+            if (!valid_host(v))
                 syntax = true;
         }
         if (!token(name))
@@ -617,6 +690,13 @@ sdk::Decision Core::head(io::PeerStorage &value, sdk::Head h) noexcept {
         for (unsigned char c : v)
             if (c == 127 || (c < 32 && c != '\t'))
                 syntax = true;
+    }
+    if (p.native) {
+        if (syntax || hosts != 1 || keys != 1 || versions != 1 || upgrades != 1 ||
+            connections != 1 || !upgrade_token || close || length || h.method != "GET" ||
+            h.target != native.target)
+            return {400, 0};
+        return {0, 0};
     }
     U64 route_index = none;
     for (U64 i = 0; i < route_count; ++i)
@@ -662,6 +742,21 @@ sdk::Decision Core::head(io::PeerStorage &value, sdk::Head h) noexcept {
         p.arena_used += f.value_size;
     }
     return {0, length};
+}
+void Core::native_event(io::PeerStorage &value,
+                        const std::shared_ptr<drogon::WebSocketConnection> &connection,
+                        sdk::NativeEvent event) noexcept {
+    auto &p = static_cast<PeerRecord &>(value);
+    if (event == sdk::NativeEvent::opened) {
+        p.native_established = true;
+        observation.native_projected_fields = 5;
+        observation.native_projected_cookies = 0;
+    }
+    auto function = event == sdk::NativeEvent::opened    ? native.opened
+                    : event == sdk::NativeEvent::message ? native.message
+                                                         : native.closed;
+    if (function && !callback([&] { function(callbacks.owner, p.context, connection); }))
+        terminate(p, End::callback_failed);
 }
 void Core::complete(io::PeerStorage &value) noexcept {
     auto &p = static_cast<PeerRecord &>(value);
@@ -722,7 +817,7 @@ void Core::owner_turn() noexcept {
             terminate(p, End::stopped);
         else if (elapsed_bad)
             terminate(p, End::elapsed_failed);
-        else if (!p.close_requested && !p.ended)
+        else if (!p.close_requested && !p.ended && !p.native_established)
             (void)guard(p, true);
         if (p.close_requested && p.transport && !p.socket_gone)
             p.transport->close();
@@ -734,6 +829,8 @@ void Core::owner_turn() noexcept {
         auto &p = record((cursor + turn) % limits.peers);
         if (!p.live)
             continue;
+        if (p.retired_native.exchange(false, std::memory_order_acq_rel))
+            ++observation.native_retires;
         if (p.socket_gone) {
             if (!p.has_end)
                 choose(p, End::disconnected);
@@ -814,7 +911,7 @@ void Core::owner_turn() noexcept {
                 p.committed.store(false, std::memory_order_release);
                 p.request_deadline = p.output_deadline = 0;
             }
-            if (!p.delivered && (p.native || take_input(p)) && guard(p))
+            if (!p.native_established && !p.delivered && (p.native || take_input(p)) && guard(p))
                 p.transport->reading(true);
         } else if (p.transport && !p.socket_gone)
             p.transport->reading(false);
@@ -845,7 +942,8 @@ Error state_guard(const StateRecord *s, bool raw = false) noexcept {
     if (!s->core->is_io())
         return Error::wrong_thread;
     auto &p = *s->peer;
-    if (!p.live || p.incarnation != s->incarnation || ((s->kind & (request_bit | reply_bit)) && p.sequence != s->sequence) || p.removed ||
+    if (!p.live || p.incarnation != s->incarnation ||
+        ((s->kind & (request_bit | reply_bit)) && p.sequence != s->sequence) || p.removed ||
         (raw && !p.raw_live))
         return Error::revoked;
     return Error::unavailable;
