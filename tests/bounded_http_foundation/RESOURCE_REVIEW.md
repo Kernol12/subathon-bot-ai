@@ -346,3 +346,52 @@ readFd; Channel.cc:78–101 handles HUP/ERR/READ separately. Actual retained
 Connection/weak tests cannot prove guard-before-allocation or deletion-thread
 behavior. A14 requires explicit source-review ratification of the IO0 cleanup
 callback assumption before any implementation approval.
+
+## APITEST-017 native-only additions (authored, review pending)
+
+This additive source/resource packet is not independent approval or execution
+evidence. Authority is issue #672 as narrowed by the owner to native scope only;
+HTTP continuation tests and observations are deferred outside this task. Contract
+examples are in the draft PR: specification v0.45 §2, SERVER-01, API-01, §§17–18;
+bounded-http-foundation-v1.md R4 §5 native opportunities, §6 correction18 and §7
+literal Upgrade/101/binary41. No new contract or producer capability is introduced.
+
+Two authored methods exercise established-native suspend-only and suspend/admit,
+each with one and nine peers: four fresh children. Each peer first completes the
+literal129-byte101 and a warm binary41 callback; after Done admission commands it
+must deliver the next same-peer binary41. One additional method/child establishes
+nine warm native peers, stages the tenth153-byte Upgrade in existing read_observed
+before parsing, and connects an ordinary peer without sending application bytes.
+The ordinary peer's actual connected callback snapshots existing inspect().current
+before its post-connected owner turn. Only native10/http1/control_capacity1024,
+with the tenth actual opened callback latched and earlier controls drained, admits
+the frame-delivery assertions. The tenth and all nine old native peers must deliver
+binary41; final native10/http1/control0/requests0. Client ordering is not the witness.
+
+The new caller-owned one-shot mutex/condition-variable gate is bounded by128 bytes
+and the unchanged66560-byte Rig assertion. It adds no thread, payload buffer,
+producer operation, SDK wire hold or event pumping. Existing main command reader
+releases only that fixture gate; producer commands retain IO0 routing. Its3s wait
+is a fixture watchdog, not a transport deadline or historical failure oracle.
+N5 uses11 sockets, one staged event, one connected snapshot, <=16 commands and
+<=128 non-map events. Existing128-peer/256-command/2048-event/2MiB-log/30s-child/
+7s-step/2s-reap bounds, scratch canaries, source bindings and complete loaded-map
+and artifact seals remain. Static sizes and bounds are authored, not compiled.
+
+The gate cannot guarantee kernel ready ordering or prevent a pending SDK poll from
+draining101 first. One attempt only: missing staging/overlap or a predicate mismatch
+is fixture failure, never historical red, skip or silently retried sample. Stability
+requires independent review and admitted sampling. A missing-message timeout alone
+is inconclusive; historical evidence must establish the known native read-interest
+loss after valid setup/witnesses. Required sources: native cases fail0e774a51,
+suspend/admit also8fbc0ee8, all pass API016 merged foundation4184c9fc.
+
+All frozen foundation34/native44 assertions and existing inventory are preserved.
+Proposed extension yields37 foundation methods and five additional children:
+290 ->295; prospective CTest timeout295*(30+2*2)+60=10090 seconds. Coordinator owns
+integration/CMake/CI/presets and must reconcile these totals after review; none is
+edited here. Plan: each new method20 times unloaded and20 under recorded bounded
+CPU/IO contention, zero failures including missed witnesses; frozen suites20 times
+after integration. No compilation, import, test or CI execution has occurred.
+Tier A requires fresh Codex initial review, separate Codex verification and fresh
+Claude closing with actual model/session receipts. Author: Codex gpt-6.1-sol.
