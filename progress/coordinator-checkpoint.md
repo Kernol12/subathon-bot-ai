@@ -4,25 +4,38 @@ Owner: Kernol12. Issues own brief/status/prerequisites; PR comments own reviews.
 Complete specification v0.45, all seven integrations and all three FX providers
 remain release scope. This checkpoint grants no new authorization.
 
-## Owner scope: waiting for the owner on #278
+## Owner scope: API-016 → APITEST-015 → API-001
 
-The path authorized on 2026-11-15, in this order and nothing else:
+Authorized on 2026-11-16, in this order and nothing else:
 
-1. **SLICE-001 [#642](https://github.com/Kernol12/subathon-bot-ai/issues/642)**: done. Merged as PR660, 579afcb3; issue closed.
-2. **Owner checkpoint** on [#278](https://github.com/Kernol12/subathon-bot-ai/issues/278): done, and the finding is a
-   [major impact](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6903537625). The host baseline pins activation to catalog
-   version 8 while the running path needs version 10, and its execution boundary
-   cannot run the contribution path. Three options are posted there.
-3. **API-016 [#616](https://github.com/Kernol12/subathon-bot-ai/issues/616)** → **APITEST-015 [#613](https://github.com/Kernol12/subathon-bot-ai/issues/613)** → **API-001 [#278](https://github.com/Kernol12/subathon-bot-ai/issues/278)**: NOT claimed.
-   None of the three starts until the owner has answered on #278.
+1. **API-016 [#616](https://github.com/Kernol12/subathon-bot-ai/issues/616)**: bounded HTTP transport foundation. Claimed, tier A.
+2. **APITEST-015 [#613](https://github.com/Kernol12/subathon-bot-ai/issues/613)**: revised host baseline (tests stage of API-001), tier A.
+3. **API-001 [#278](https://github.com/Kernol12/subathon-bot-ai/issues/278)**: the production host, tier A.
+
+SLICE-001 (PR660, 579afcb3) and the owner checkpoint on #278 are done.
+
+**Owner decision under ADR-0012 (2026-11-16): option 1.** The host baseline is
+revised so that the host runs the path that already runs in `subathon-dev-server`.
+Groups A to E are approved exactly as [itemized](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6907983078); the decision is
+[recorded here](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6908067929). Nothing beyond that list may be removed or replaced.
+If the tier A review changes an item, bring only that item back to the owner.
+
+Both owner conditions are met before any removal:
+
+- C: [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662) (SESSION-013) exists. The host has no generation fence; the store's
+  epoch check is the fence, and APITEST-015 names it in the boundary contract.
+- E: both clock guards are acceptance criteria of SESSION-009 [#582](https://github.com/Kernol12/subathon-bot-ai/issues/582).
+
+The briefs of #613 and #278 are rewritten for this decision. SESSION-013 and
+SESSION-009 are planned, not authorized.
 
 PR #121 is closed, not parked. API-001 restarts from its rewritten issue on current
 `main` in a fresh session; the PR #121 code is reference material only and none of
 its reviews, approvals or CI results carries over.
 
-Process/tooling #619/#620 stays frozen; the slice now runs, and lifting that freeze
-is the owner's decision. Dependency readiness authorizes nothing beyond the path
-above. No live chat or payment side effects are authorized.
+Process/tooling #619/#620 stays frozen; lifting that freeze is the owner's decision.
+Dependency readiness authorizes nothing beyond the path above. No live chat or
+payment side effects are authorized.
 
 ## Working rules from the owner (2026-11-15)
 
@@ -53,9 +66,10 @@ API-001 keep their ownership and release requirements.
 
 ## Live assignments
 
-None. No worktree, branch or delegate of SLICE-001 remains. Verify the actual
-checkout, worktrees and PR state before acting; never infer a live session from
-this file.
+API-016 (#616) is claimed by the coordinator on branch
+`task/API-016-bounded-http-foundation`. Its sessions and stage are recorded on the
+issue and its PR. Verify the actual checkout, worktrees and PR state before acting;
+never infer a live session from this file.
 
 ## API-011 capability map (the reference path SLICE-001 hosts)
 
