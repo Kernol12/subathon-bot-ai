@@ -18,7 +18,9 @@ SLICE-001 (PR660, 579afcb3) and the owner checkpoint on #278 are done.
 own worktree, next to API-016: the contract revision for groups A to E and its tier A
 review ([claim](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6912622167)). No authored tests, stubs or header changes until API-016 is
 merged. If the review changes an item of the approved list, bring only that item to
-the owner.
+the owner. Step 1 is reviewed (PR #667 at `bc9b33c4`, draft, not merged); the record
+and the gates for the next step are on [#613](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6917314751), with the widened API-010 criterion
+in [this comment](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6919654379).
 
 **Owner decision under ADR-0012 (2026-11-16): option 1.** The host baseline is
 revised so that the host runs the path that already runs in `subathon-dev-server`.
@@ -92,6 +94,21 @@ Claude session takes over the fix round from the saved patch
 (`build/API-016/coordinator-backup/` in the author's worktree). If the Codex
 verification is flagged, stop and bring that to the owner. Correction 14 is
 provisional.
+
+API-016 fix round 2 ([owner decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6921048499)): the `native` check failed intermittently
+in `test_split_priority_and_line_envelopes`. The cause is tick-paced parsing in the
+server, present before fix round 1 ([investigation](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6920628343)). The server is fixed (wake on
+an exhausted 8192-byte parse budget; the bound of 8192 bytes per turn stays; existing
+wake channel, no new SDK function). Before the re-check the fixed build is measured
+like the investigation and the unmodified frozen test runs at least 20 times; if the
+failure rate is not zero, stop and bring the frozen-test change back to the owner. Do
+not merge on a green re-run.
+
+## Owner rule for this path: failed CI runs (2026-11-16)
+
+For API-016 → APITEST-015 → API-001: an author's handback lists every failed CI run on
+its branch with the cause. No author re-runs a failed required check without the
+coordinator's say. The review packets name those runs.
 
 ## Working rules from the owner (2026-11-15)
 
