@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""API-012 Ubuntu CI recipe. Review before execution; no local SDK reuse.
+"""Build/seal corrected SDKs and technically gate each new consumer before use.
 
-prepare: exact upstreams -> ordered corrections -> Release/shared SDK -> notices
-and provenance -> four-member seal. gate: passive inventory/ELF closure -> scrubbed
-read-only identity -> exact loaded-map comparison. Only the later workflow step
-runs the synthetic native suite. This is developer CI, not distribution admission.
+The default preserves API-012's Ubuntu recipe. The additive bounded-HTTP profile
+also supports explicitly labelled local development. The gate checks passive ELF/
+ABI closure before load, controlled identity, actual maps and unchanged seals.
+Local runs are development evidence; acceptance requires gated CI on reviewed head.
 """
 from __future__ import annotations
 
@@ -29,6 +29,15 @@ PROFILE = REPO / "dependencies/native-websocket-profile"
 PRESET = "native-websocket-profile-debug"
 SYSTEM_LIB_DIRS = (Path("/lib/x86_64-linux-gnu"), Path("/usr/lib/x86_64-linux-gnu"))
 COMMANDS: list[list[str]] = []
+BUILD_TEMP: Path | None = None
+SUCCESSOR = False
+LOCAL_DEVELOPMENT = False
+BINARY_DIR: Path | None = None
+SOURCE_SEED: Path | None = None
+PARENT_PROFILE = REPO / "dependencies/native-websocket-profile"
+PROVENANCE = "share/subathon-native-profile"
+CONSUMER = "native"
+RULING = "https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6908247970"
 
 
 def require(condition: bool, message: str) -> None:
@@ -60,6 +69,9 @@ def run(*args: object, env: dict | None = None, timeout: int = 1200, echo: bool 
     command = [str(arg) for arg in args]
     COMMANDS.append(command)
     print("+", shlex.join(command), flush=True)
+    if env is None and BUILD_TEMP is not None:
+        env = os.environ.copy()
+        env["TMPDIR"] = str(BUILD_TEMP)
     result = subprocess.run(command, cwd=REPO, env=env, capture_output=True,
                             text=True, encoding="utf-8", timeout=timeout)
     if echo:
@@ -87,8 +99,8 @@ def inventory(root: Path, *, omit_identity: bool = False) -> dict[str, str]:
     return result
 
 
-def profile() -> dict:
-    manifest = json.loads((PROFILE / "manifest.json").read_text(encoding="utf-8"))
+def native_profile() -> dict:
+    manifest = json.loads((PARENT_PROFILE / "manifest.json").read_text(encoding="utf-8"))
     require(manifest["format"] == 1 and manifest["profile"] ==
             "subathon.native-websocket-profile.v1.api012-candidate4", "Wrong profile")
     require(manifest["upstreams"] == {"drogon": setup_drogon.DROGON_COMMIT,
@@ -98,10 +110,37 @@ def profile() -> dict:
         ("0001-trantor-native-io.patch", "trantor"),
         ("0002-drogon-native-dispatch.patch", "drogon")], "Patch order/target drift")
     for patch in manifest["ordered_patches"]:
-        require(digest(PROFILE / patch["file"]) == patch["sha256"], "Patch digest mismatch")
+        require(digest(PARENT_PROFILE / patch["file"]) == patch["sha256"], "Patch digest mismatch")
     first = manifest["first_party"]
     require(first["file"] == "server/src/native_websocket_profile.cpp" and
             digest(REPO / first["file"]) == first["sha256"], "First-party digest mismatch")
+    return manifest
+
+
+def profile() -> dict:
+    parent = native_profile()
+    if not SUCCESSOR:
+        return parent
+    manifest = json.loads((PROFILE / "manifest.json").read_text(encoding="utf-8"))
+    require(manifest["format"] == 1 and manifest["profile"] ==
+            "subathon.bounded-http-foundation.v1" and manifest["abi_marker"] ==
+            "DROGON_SUBATHON_BOUNDED_HTTP_V1", "Wrong successor profile")
+    require(manifest["parent_manifest_sha256"] == digest(PARENT_PROFILE / "manifest.json") and
+            manifest["upstreams"] == parent["upstreams"] and
+            manifest["build_options"] == parent["build_options"], "Successor parent/recipe drift")
+    require([(p["file"], p["apply_at"]) for p in manifest["ordered_patches"]] == [
+        ("0003-trantor-bounded-http.patch", "trantor"),
+        ("0004-drogon-bounded-http.patch", "drogon"),
+        ("0005-native-source-binding.patch", "first_party")], "Successor patch order drift")
+    for patch in manifest["ordered_patches"]:
+        require(digest(PROFILE / patch["file"]) == patch["sha256"], "Successor patch digest drift")
+    allocation = manifest["allocation_inventory"]
+    require(allocation["file"] == "RESOURCE_ACCOUNTING.md" and
+            digest(PROFILE / allocation["file"]) == allocation["sha256"],
+            "Successor allocation inventory drift")
+    require(manifest["first_party"]["file"] == parent["first_party"]["file"] and
+            manifest["first_party"]["sha256"] == parent["first_party"]["sha256"],
+            "Successor original first-party source drift")
     return manifest
 
 
@@ -240,17 +279,55 @@ def copy_notice(source: Path, destination: Path, expected: str | None = None) ->
     return value
 
 
+def binary_directory() -> Path:
+    return BINARY_DIR if BINARY_DIR is not None else REPO / "build" / PRESET
+
+
+def local_packages(sdk: Path, build: Path) -> dict:
+    """Actual Arch package identities/notices for local development, never Ubuntu acceptance."""
+    require(SUCCESSOR, "Local development is successor-only")
+    packages = ("glibc", "libgcc", "libstdc++", "gcc", "openssl", "jsoncpp", "zlib", "util-linux-libs")
+    records = {}
+    for name in packages:
+        record = {"installed": run("pacman", "-Q", name), "notices": {}}
+        directory = Path("/usr/share/licenses") / name
+        if directory.is_dir():
+            for path in sorted(directory.rglob("*")):
+                if path.is_file():
+                    relative = path.relative_to(directory)
+                    record["notices"][str(relative)] = copy_notice(
+                        path, sdk / "share/licenses/local" / name / relative)
+        records[name] = record
+    # Arch uses SPDX common-license metadata for these packages. Record that fact;
+    # installed custom notices are copied above. This is not redistribution clearance.
+    records["metadata"] = run("pacman", "-Qi", *packages)
+    return records
+
+
 def prepare(root: Path) -> None:
+    global BUILD_TEMP
     manifest = profile()  # Verify first-party/patch bytes before downloading sources.
     require(not root.exists(), f"Fresh disposable root required: {root}")
     root.mkdir()
+    if SUCCESSOR:
+        BUILD_TEMP = root / "compiler-tmp"
+        BUILD_TEMP.mkdir(mode=0o700)
     source, build, sdk = (root / name for name in ("source", "build", "sdk"))
     receipts = root / "receipts"
     receipts.mkdir()
-    run("git", "clone", "--branch", f"v{setup_drogon.VERSION}", "--single-branch",
-        "--depth", "1", setup_drogon.REPOSITORY, source)
+    if SOURCE_SEED is None:
+        run("git", "clone", "--branch", f"v{setup_drogon.VERSION}", "--single-branch",
+            "--depth", "1", setup_drogon.REPOSITORY, source)
+    else:
+        # Clone objects, not the seed worktree's patched bytes; never hardlink or write there.
+        run("git", "clone", "--no-hardlinks", SOURCE_SEED, source)
+        run("git", "-C", source, "checkout", "--detach", setup_drogon.DROGON_COMMIT)
     setup_drogon.verify_source(source, setup_drogon.DROGON_COMMIT)
-    run("git", "-C", source, "submodule", "update", "--init", "--depth", "1", "--", "trantor")
+    if SOURCE_SEED is None:
+        run("git", "-C", source, "submodule", "update", "--init", "--depth", "1", "--", "trantor")
+    else:
+        run("git", "clone", "--no-hardlinks", SOURCE_SEED / "trantor", source / "trantor")
+        run("git", "-C", source / "trantor", "checkout", "--detach", setup_drogon.TRANTOR_COMMIT)
     trantor = source / "trantor"
     setup_drogon.verify_source(trantor, setup_drogon.TRANTOR_COMMIT)
     setup_drogon.verify_source(source, setup_drogon.DROGON_COMMIT)
@@ -260,14 +337,28 @@ def prepare(root: Path) -> None:
                           "--untracked-files=all", "--ignored")
                 for name, directory in (("drogon", source), ("trantor", trantor))}
     require(not any(pristine.values()), "Non-pristine input, including ignored files")
-    # Check both exact patch inputs first, then apply only those bytes in manifest order.
     directories = {"drogon": source, "trantor": trantor}
-    for patch in manifest["ordered_patches"]:
-        run("git", "-C", directories[patch["apply_at"]], "apply", "--check", PROFILE / patch["file"])
-    for patch in manifest["ordered_patches"]:
-        run("git", "-C", directories[patch["apply_at"]], "apply", PROFILE / patch["file"])
-    provenance = sdk / "share/subathon-native-profile"
-    provenance.mkdir(parents=True)
+    parent = native_profile()
+    for patch in parent["ordered_patches"]:
+        run("git", "-C", directories[patch["apply_at"]], "apply", "--check", PARENT_PROFILE / patch["file"])
+    for patch in parent["ordered_patches"]:
+        run("git", "-C", directories[patch["apply_at"]], "apply", PARENT_PROFILE / patch["file"])
+    if SUCCESSOR:
+        first = root / "first-party"
+        origin = parent["first_party"]["file"]
+        copy_notice(REPO / origin, first / origin, parent["first_party"]["sha256"])
+        directories["first_party"] = first
+        for patch in manifest["ordered_patches"]:
+            run("git", "-C", directories[patch["apply_at"]], "apply", "--check", PROFILE / patch["file"])
+            run("git", "-C", directories[patch["apply_at"]], "apply", PROFILE / patch["file"])
+        require(digest(first / origin) == manifest["first_party"]["derived_sha256"],
+                "Native build-copy digest mismatch")
+        # First-party source is compiled by the consumer, never inside either SDK DSO.
+        copy_notice(first / origin, sdk / PROVENANCE / "native_websocket_profile.cpp",
+                    manifest["first_party"]["derived_sha256"])
+        del directories["first_party"]
+    provenance = sdk / PROVENANCE
+    provenance.mkdir(parents=True, exist_ok=True)
     sources = {}
     for name, directory in directories.items():
         (receipts / f"{name}.diff").write_text(
@@ -276,6 +367,7 @@ def prepare(root: Path) -> None:
             run("git", "-C", directory, "status", "--porcelain=v1"), encoding="utf-8")
         # NUL-delimited names retain non-ASCII upstream files; never parse Git's quoted display.
         names = run("git", "-C", directory, "ls-files", "-z", echo=False).split("\0")
+        names += run("git", "-C", directory, "ls-files", "--others", "--exclude-standard", "-z", echo=False).split("\0")
         for relative in filter(None, names):
             path = directory / relative
             if path.is_file():  # The Trantor gitlink is walked separately.
@@ -297,7 +389,8 @@ def prepare(root: Path) -> None:
         require(unit.is_relative_to(source), f"Unexpected compilation unit: {unit}")
         owner = "trantor" if unit.is_relative_to(trantor) else "drogon"
         standards[owner].add(tuple(arg for arg in args if arg.startswith("-std=")))
-    require(standards == {"drogon": {("-std=c++20",)}, "trantor": {("-std=c++14",)}},
+    require(standards == {"drogon": {("-std=c++20",)},
+                          "trantor": {("-std=c++20" if SUCCESSOR else "-std=c++14",)}},
             f"Unexpected effective SDK language flags: {standards}")
     (provenance / "ninja-commands.txt").write_text(commands, encoding="utf-8")
     shutil.copyfile(build / "CMakeCache.txt", provenance / "CMakeCache.txt")
@@ -312,39 +405,52 @@ def prepare(root: Path) -> None:
         copy_notice(REPO / name, provenance / name)
     for name in ("manifest.json", *[p["file"] for p in manifest["ordered_patches"]]):
         copy_notice(PROFILE / name, provenance / name)
+    if SUCCESSOR:
+        for name in ("README.md", manifest["allocation_inventory"]["file"]):
+            copy_notice(PROFILE / name, provenance / name)
+        for name in ("manifest.json", *[p["file"] for p in parent["ordered_patches"]]):
+            copy_notice(PARENT_PROFILE / name, provenance / "parent" / name)
     for name in (manifest["first_party"]["file"], "server/include/subathon/server/native_websocket_profile.hpp"):
         copy_notice(REPO / name, provenance / name)
-    packages = json.loads((REPO / "tools/native_websocket_ubuntu.json").read_text())["packages"]
-    require(len(packages) == 8, "Expected eight admitted Ubuntu packages")
-    package_records = {}
-    for item in packages:
-        installed = run("dpkg-query", "--show", "--showformat=${Status}\n${Version}\n${Architecture}",
-                        item["name"]).splitlines()
-        require(installed == ["install ok installed", item["version"], item["architecture"]],
-                f"Changed package: {item['name']}")
-        copy_notice(Path(item["copyright_path"]), sdk / "share/licenses/ubuntu" / item["name"] / "copyright",
-                    item["copyright_sha256"])
-        package_records[item["name"]] = item
-    # Record host identities, not pins or a redistribution certification. Preserve complete notices.
-    compiler_paths = re.findall(r"^CMAKE_CXX_COMPILER:FILEPATH=(.+)$",
-                               (build / "CMakeCache.txt").read_text(encoding="utf-8"), re.MULTILINE)
-    require(len(compiler_paths) == 1, "Expected one actual CMake C++ compiler")
-    compiler = Path(compiler_paths[0]).resolve(strict=True)
-    compiler_owner = run("dpkg-query", "--search", compiler).strip().split(": ")
-    require(len(compiler_owner) == 2 and compiler_owner[1] == str(compiler),
-            "Actual compiler must have one installed Ubuntu package owner")
-    for name in dict.fromkeys(("libc6", "libc6-dev", "libgcc-s1", "libstdc++6", "gcc", "g++",
-                               compiler_owner[0])):
-        notice_name = name.split(":")[0]  # dpkg owner may include an architecture qualifier.
-        package_records[name] = {"installed": run(
-            "dpkg-query", "--show", "--showformat=${binary:Package}\n${Version}\n${Architecture}\n${Status}", name),
-            "copyright_sha256": copy_notice(Path("/usr/share/doc") / notice_name / "copyright",
-                                             sdk / "share/licenses/ubuntu" / name / "copyright")}
-    write_json(provenance / "ubuntu-packages.json", package_records)
-    toolchain = {"scope": "Ubuntu developer CI; not distribution, ABI or native acceptance certification",
+    if LOCAL_DEVELOPMENT:
+        package_records = local_packages(sdk, build)
+        compiler_paths = re.findall(r"^CMAKE_CXX_COMPILER:FILEPATH=(.+)$",
+                                   (build / "CMakeCache.txt").read_text(), re.MULTILINE)
+        require(len(compiler_paths) == 1, "Expected one actual CMake C++ compiler")
+        compiler = Path(compiler_paths[0]).resolve(strict=True)
+    else:
+        packages = json.loads((REPO / "tools/native_websocket_ubuntu.json").read_text())["packages"]
+        require(len(packages) == 8, "Expected eight admitted Ubuntu packages")
+        package_records = {}
+        for item in packages:
+            installed = run("dpkg-query", "--show", "--showformat=${Status}\n${Version}\n${Architecture}",
+                            item["name"]).splitlines()
+            require(installed == ["install ok installed", item["version"], item["architecture"]],
+                    f"Changed package: {item['name']}")
+            copy_notice(Path(item["copyright_path"]), sdk / "share/licenses/ubuntu" / item["name"] / "copyright",
+                        item["copyright_sha256"])
+            package_records[item["name"]] = item
+        # Record host identities, not pins or a redistribution certification. Preserve complete notices.
+        compiler_paths = re.findall(r"^CMAKE_CXX_COMPILER:FILEPATH=(.+)$",
+                                   (build / "CMakeCache.txt").read_text(encoding="utf-8"), re.MULTILINE)
+        require(len(compiler_paths) == 1, "Expected one actual CMake C++ compiler")
+        compiler = Path(compiler_paths[0]).resolve(strict=True)
+        compiler_owner = run("dpkg-query", "--search", compiler).strip().split(": ")
+        require(len(compiler_owner) == 2 and compiler_owner[1] == str(compiler),
+                "Actual compiler must have one installed Ubuntu package owner")
+        for name in dict.fromkeys(("libc6", "libc6-dev", "libgcc-s1", "libstdc++6", "gcc", "g++",
+                                   compiler_owner[0])):
+            notice_name = name.split(":")[0]  # dpkg owner may include an architecture qualifier.
+            package_records[name] = {"installed": run(
+                "dpkg-query", "--show", "--showformat=${binary:Package}\n${Version}\n${Architecture}\n${Status}", name),
+                "copyright_sha256": copy_notice(Path("/usr/share/doc") / notice_name / "copyright",
+                                                 sdk / "share/licenses/ubuntu" / name / "copyright")}
+        write_json(provenance / "ubuntu-packages.json", package_records)
+    toolchain = {"scope": "local development only" if LOCAL_DEVELOPMENT else "Ubuntu CI on reviewed head required for acceptance",
                  "upstreams": manifest["upstreams"], "options": setup_drogon.OPTIONS,
                  "pristine_status_before_patches": pristine,
                  "compiler_path": str(compiler),
+                 "compiler_tmpdir": str(BUILD_TEMP) if BUILD_TEMP is not None else "inherited",
                  "compiler": run(compiler, "--version"), "cmake": run("cmake", "--version"),
                  "os": run("uname", "-srmo"), "packages": package_records}
     for name in ("libdrogon.so.1.9.14", "libtrantor.so.1.5.29"):
@@ -363,19 +469,20 @@ def prepare(root: Path) -> None:
 
 
 def checked_seal(sdk: Path) -> dict:
+    sdk = sdk.resolve(strict=True)
     profile()
     identity = json.loads((sdk / "dependency-build.json").read_text(encoding="utf-8"))
     require(set(identity) == {"format", "profile_manifest_sha256", "artifacts", "toolchain"} and
             type(identity["format"]) is int and identity["format"] == 1 and
             isinstance(identity["toolchain"], dict), "Bad SDK seal schema")
     require(identity["profile_manifest_sha256"] == digest(PROFILE / "manifest.json") ==
-            digest(sdk / "share/subathon-native-profile/manifest.json"), "SDK profile drift")
+            digest(sdk / PROVENANCE / "manifest.json"), "SDK profile drift")
     require(identity["artifacts"] == inventory(sdk, omit_identity=True), "SDK changed after sealing")
     return file_identity(sdk / "dependency-build.json")
 
 
 def configured_ctest() -> Path:
-    cache = (REPO / "build" / PRESET / "CMakeCache.txt").read_text(encoding="utf-8")
+    cache = (binary_directory() / "CMakeCache.txt").read_text(encoding="utf-8")
     values = re.findall(r"^CMAKE_CTEST_COMMAND:[^=\n]+=(.+)$", cache, re.MULTILINE)
     require(len(values) == 1 and Path(values[0]).is_absolute() and "\n" not in values[0],
             "Expected one absolute configured CTest executable")
@@ -393,7 +500,7 @@ def passive_inventory(environment: dict, ctest: Path) -> dict:
     require(len(expected) == len(set(expected)) == 44, "Expected exactly 44 authored native methods")
     found = run("/usr/bin/python3", driver, "--list", env=environment).splitlines()
     require(sorted(found) == sorted(expected), "Passive inventory differs from authored 44 methods")
-    discovery = json.loads(run(ctest, "--preset", PRESET, "--show-only=json-v1", env=environment))
+    discovery = json.loads(run(ctest, "--test-dir", binary_directory(), "--show-only=json-v1", env=environment))
     native = [t for t in discovery["tests"] if t["name"].startswith("native-websocket-profile") or
               any(p["name"] == "LABELS" and "native-websocket-profile" in p["value"]
                   for p in t["properties"])]
@@ -406,15 +513,97 @@ def passive_inventory(environment: dict, ctest: Path) -> dict:
     return {"methods": sorted(found), "ctest": native[0]}
 
 
-def gate(root: Path) -> None:
+def require_successor_marker(closure: dict, sdk: Path) -> None:
+    """Refuse a stock/parent DSO before any controlled identity load."""
+    symbols = closure[str((sdk / "lib/libdrogon.so.1.9.14").resolve())]["symbols"]
+    require(any(s["name"] == "DROGON_SUBATHON_BOUNDED_HTTP_V1" and exported(s)
+                for s in symbols), "Missing successor ABI marker")
+
+
+def foundation_identity(root: Path, probe: Path, environment: dict, expected: dict,
+                        seal: dict, discovery: dict, ctest_identity: dict, abi: dict) -> None:
+    """Technical development gate; the coordinator ruling is not a binary review receipt."""
     sdk = root / "sdk"
+    # Some glibc versions retain the loader cache mapping. It is data, not ELF:
+    # bind its bytes before load and admit no other non-ELF file-backed mapping.
+    elf_expected = expected
+    expected = dict(expected)
+    loader_cache = Path("/etc/ld.so.cache")
+    if loader_cache.exists():
+        require(loader_cache.is_file() and not loader_cache.is_symlink(), "Unexpected loader cache type")
+        expected[str(loader_cache)] = file_identity(loader_cache)
+    receipts = root / "receipts/foundation"
+    receipts.mkdir(parents=True, exist_ok=True)
+    scratch = receipts / "identity-cwd"
+    require(not scratch.exists(), "Fresh foundation identity cwd required")
+    scratch.mkdir(mode=0o700)
+    try:
+        result = subprocess.run([str(probe), '{"mode":"identity"}'], cwd=scratch,
+                                env=environment, capture_output=True, text=True, timeout=15)
+        (receipts / "identity.stdout").write_text(result.stdout, encoding="utf-8")
+        (receipts / "identity.stderr").write_text(result.stderr, encoding="utf-8")
+        require(result.returncode == 0 and not result.stderr and
+                len(result.stdout.encode()) <= 2097152, "Foundation identity capture/exit fault")
+        events = [json.loads(line) for line in result.stdout.splitlines()]
+        identities = [e for e in events if e.get("event") == "identity"]
+        require(len(identities) == 1 and identities[0].get("cplusplus") == 202002 and
+                identities[0].get("native_backend") == "admitted_corrected" and
+                0 < identities[0].get("read_sample_size", 0) <= 64,
+                "Wrong foundation identity/ABI")
+        require(all(e.get("event") in ("map", "maps_end", "identity") for e in events),
+                "Unexpected foundation identity event")
+        for phase in ("initial", "cleanup"):
+            rows = [e["line"] for e in events if e.get("event") == "map" and e.get("phase") == phase]
+            ends = [e for e in events if e.get("event") == "maps_end" and e.get("phase") == phase]
+            require(len(ends) == 1 and 0 < len(rows) == ends[0]["count"] <= 256,
+                    "Incomplete foundation identity maps")
+            seen = set()
+            for row in rows:
+                fields = row.split(maxsplit=5)
+                require(len(fields) >= 5, "Malformed foundation map")
+                if len(fields) == 5 or fields[5].startswith("["):
+                    continue
+                path = fields[5]
+                require(Path(path).is_absolute() and " (deleted)" not in path and path in expected,
+                        "Unresolved/unexpected foundation mapping")
+                require(file_identity(Path(path)) == expected[path], "Changed foundation mapped file")
+                seen.add(path)
+            require(set(elf_expected) <= seen <= set(expected),
+                    "Foundation loaded map differs from passive ELF/data closure")
+        write_json(receipts / "identity.json", events)
+    finally:
+        require(not any(scratch.iterdir()), "Unexpected identity scratch output")
+        scratch.rmdir()
+    require(checked_seal(sdk) == seal and
+            all(file_identity(Path(p)) == value for p, value in expected.items()),
+            "Foundation inputs changed during identity")
+    tree = ast.parse((REPO / "tests/bounded_http_foundation/test_bounded_http.py").read_text())
+    source_paths, = [ast.literal_eval(n.value) for n in tree.body if isinstance(n, ast.Assign) and
+                    any(isinstance(t, ast.Name) and t.id == "SOURCE_PATHS" for t in n.targets)]
+    require(len(source_paths) == len(set(source_paths)) == 13, "Foundation source inventory drift")
+    document = {"source_commit": run("git", "rev-parse", "HEAD").strip(),
+                "review_receipt": RULING,
+                "files": {p: value["sha256"] for p, value in expected.items()},
+                "sources": {p: digest(REPO / p) for p in source_paths}, "environment": environment}
+    write_json(receipts / "development-admission.json", document)
+    write_json(receipts / "technical-gate.json", {
+        "scope": "development only; no binary admitted by review",
+        "coordinator_ruling": RULING, "sdk_seal": seal, "expected": expected,
+        "inventory": discovery, "ctest": ctest_identity, "passive_abi": abi,
+        "source_commit": document["source_commit"], "sources": document["sources"]})
+    print("Foundation technical gate passed; development execution permitted")
+
+
+def gate(root: Path) -> None:
+    sdk = (root / "sdk").resolve(strict=True)
     environment = clean_env(sdk)
-    receipts = root / "receipts"
+    receipts = root / "receipts" / CONSUMER if SUCCESSOR else root / "receipts"
     seal = checked_seal(sdk)
     ctest = configured_ctest()
     ctest_identity = {"path": str(ctest), **file_identity(ctest)}
     discovery = passive_inventory(environment, ctest)  # No probe/feature body.
-    probe = (REPO / "build" / PRESET / "tests/native_websocket_profile/native_websocket_probe").resolve(strict=True)
+    probe = (binary_directory() / ("tests/native_websocket_profile/native_websocket_probe"
+             if CONSUMER == "native" else "tests/bounded_http_foundation/bounded_http_probe")).resolve(strict=True)
     require(not Path("/etc/ld.so.preload").exists(), "Unadmitted system-wide preload configuration")
     allowed_dirs = {d.resolve(strict=True) for d in (sdk / "lib", *SYSTEM_LIB_DIRS)}
 
@@ -449,8 +638,11 @@ def gate(root: Path) -> None:
             require(metadata["interpreter"] == ["/lib64/ld-linux-x86-64.so.2"], "Wrong ELF interpreter")
         # libc may itself carry PT_INTERP; it must name the same admitted loader.
         if metadata["interpreter"]:
-            require(metadata["interpreter"] == ["/lib64/ld-linux-x86-64.so.2"],
-                    f"Unadmitted ELF interpreter: {path}")
+            selected_interpreter = metadata["interpreter"] == ["/lib64/ld-linux-x86-64.so.2"]
+            if LOCAL_DEVELOPMENT and len(metadata["interpreter"]) == 1:
+                selected_interpreter = (Path(metadata["interpreter"][0]).resolve(strict=True) ==
+                                        Path("/lib64/ld-linux-x86-64.so.2").resolve(strict=True))
+            require(selected_interpreter, f"Unadmitted ELF interpreter: {path}")
             interpreter = Path(metadata["interpreter"][0]).resolve(strict=True)
             require(interpreter.parent in allowed_dirs, "ELF interpreter alias escapes selected system directories")
             pending.append(interpreter)
@@ -467,7 +659,12 @@ def gate(root: Path) -> None:
     expected = {p: {key: item[key] for key in ("sha256", "bytes")} for p, item in closure.items()}
     require(checked_seal(sdk) == seal and all(file_identity(Path(p)) == item for p, item in expected.items()),
             "Inputs changed before identity")
-    # No listener: --identity emits only its read-only loader inventory. Any stderr is a fault.
+    if SUCCESSOR:
+        require_successor_marker(closure, sdk)
+    # Identity has no listener. Actual loaded maps must match the passive closure.
+    if CONSUMER == "foundation":
+        foundation_identity(root, probe, environment, expected, seal, discovery, ctest_identity, abi)
+        return
     result = subprocess.run([str(probe), "--identity"], cwd=REPO, env=environment,
                             capture_output=True, text=True, encoding="utf-8", timeout=15)
     (receipts / "identity.stdout").write_text(result.stdout, encoding="utf-8")
@@ -508,10 +705,30 @@ def gate(root: Path) -> None:
 
 
 def main() -> None:
+    global SUCCESSOR, PROFILE, PROVENANCE, BINARY_DIR, SOURCE_SEED, SYSTEM_LIB_DIRS
+    global LOCAL_DEVELOPMENT, CONSUMER
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("stage", choices=("prepare", "gate"))
     parser.add_argument("--root", required=True, type=Path)
+    parser.add_argument("--profile", choices=("native", "bounded-http-foundation"), default="native")
+    parser.add_argument("--build-dir", type=Path)
+    parser.add_argument("--source-seed", type=Path)
+    parser.add_argument("--local-development", action="store_true")
+    parser.add_argument("--consumer", choices=("native", "foundation"), default="native")
     args = parser.parse_args()
+    SUCCESSOR = args.profile == "bounded-http-foundation"
+    LOCAL_DEVELOPMENT = args.local_development
+    CONSUMER = args.consumer
+    require(SUCCESSOR or not (args.source_seed or CONSUMER != "native" or
+                             (LOCAL_DEVELOPMENT and args.stage == "prepare")),
+            "Parent preparation stays Ubuntu-only; source-seed/foundation options are successor-only")
+    if SUCCESSOR:
+        PROFILE = REPO / "dependencies/bounded-http-foundation"
+        PROVENANCE = "share/subathon-bounded-http-foundation"
+    if LOCAL_DEVELOPMENT:
+        SYSTEM_LIB_DIRS = (Path("/usr/lib"), Path("/lib"))
+    BINARY_DIR = args.build_dir.resolve() if args.build_dir else None
+    SOURCE_SEED = args.source_seed.resolve(strict=True) if args.source_seed else None
     root = args.root.resolve()
     require(root.is_relative_to(Path(os.environ["RUNNER_TEMP"]).resolve()) and
             root != Path(os.environ["RUNNER_TEMP"]).resolve(), "Use a disposable RUNNER_TEMP child")

@@ -1,0 +1,1153 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -63,6 +63,8 @@
+ endif ()
+
+ add_library(${PROJECT_NAME})
++target_sources(${PROJECT_NAME} PRIVATE lib/src/BoundedHttp.cc)
++install(FILES lib/inc/drogon/BoundedHttp.h DESTINATION ${INSTALL_INCLUDE_DIR}/drogon)
+ if (BUILD_SHARED_LIBS)
+     find_package(Threads)
+     # set(BUILD_EXAMPLES FALSE)
+--- /dev/null
++++ b/lib/inc/drogon/BoundedHttp.h
+@@ -0,0 +1,77 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++#pragma once
++#include <array>
++#include <memory>
++#include <string_view>
++#include <trantor/net/BoundedIo.h>
++#include <drogon/exports.h>
++namespace drogon { class HttpAppFramework; class WebSocketConnection; }
++namespace drogon::native_profile { class NativeRegistration; }
++namespace drogon::bounded_http_sdk {
++inline constexpr std::size_t first_party_global_metadata_bytes = 32768;
++inline constexpr std::size_t sdk_global_metadata_bytes = 32768;
++
++using U64 = std::uint64_t;
++struct Field { std::uint32_t name, name_size, value, value_size; };
++struct Head {
++    std::span<const std::byte> raw;
++    std::string_view method, target;
++    std::span<const Field> fields;
++    bool syntax_bad;
++    U64 raw_bytes, field_count, semantic_bytes, max_field_bytes, line_bytes;
++};
++struct Facts { U64 stock_maps{}, stock_batches{}, stock_output_appends{},
++    native_projected_fields{}, native_projected_cookies{}, constructed{},
++    sdk_retained_peers{}, peak_sdk_retained_peers{}; };
++struct Decision { std::uint16_t status; U64 body_bytes; };
++enum class NativeEvent : std::uint8_t { opened, message, closed };
++class Sink {
++  public:
++    virtual ~Sink() = default;
++    virtual Decision head(trantor::bounded_io::PeerStorage &, Head) noexcept = 0;
++    virtual bool body(trantor::bounded_io::PeerStorage &, std::span<const std::byte>) noexcept = 0;
++    virtual void complete(trantor::bounded_io::PeerStorage &) noexcept = 0;
++    virtual void native_event(trantor::bounded_io::PeerStorage &,
++        const std::shared_ptr<WebSocketConnection> &, NativeEvent) noexcept = 0;
++    virtual void native_handoff(trantor::bounded_io::PeerStorage &, U64, bool) noexcept = 0;
++};
++struct Endpoint { std::array<char,46> address; std::uint16_t port; };
++enum class InstallFailure : std::uint8_t { none, invalid_config, invalid_state, allocation_failure };
++class DROGON_EXPORT Runtime {
++  public:
++    static bool observe(trantor::bounded_io::Producer&, Facts&) noexcept;
++    static bool install(trantor::bounded_io::Producer &, Sink &, U64 peers) noexcept;
++    static InstallFailure install_failure() noexcept;
++    static bool discard(trantor::bounded_io::Producer&) noexcept;
++    static bool listener(HttpAppFramework &, Endpoint, trantor::bounded_io::Role) noexcept;
++    static bool stop_acceptors() noexcept;
++    static void poll() noexcept;
++    static bool bind_wake(trantor::bounded_io::Producer &, int fd) noexcept;
++    static std::size_t render_reply(std::span<std::byte>, std::uint16_t, U64, bool) noexcept;
++    // Existing R3 creating-thread native-coherence preflight; immutable registration.
++    static const native_profile::NativeRegistration *native_registration() noexcept;
++    static bool arm_first_wire() noexcept;
++    static bool release_wire() noexcept;
++    static bool wire_held() noexcept;
++};
++} // namespace drogon::bounded_http_sdk
++extern "C" DROGON_EXPORT const char DROGON_SUBATHON_BOUNDED_HTTP_V1[];
++
++namespace drogon::native_profile {
++class Session;
++struct NativeLimits {
++    std::uint64_t connections, incomplete_upgrades, frame_bytes, message_bytes,
++        frames_per_message, callback_leases_per_connection, callback_bytes_per_connection,
++        callback_bytes_global, raw_capacity_bytes, assembly_capacity_bytes,
++        application_output_bytes, control_output_bytes, frames_per_turn,
++        upgrade_ms, frame_ms, message_ms, close_ms;
++};
++class NativeRegistration {
++  public:
++    virtual ~NativeRegistration() = default;
++    virtual const NativeLimits &limits() const noexcept = 0;
++    virtual const void *source_identity() const noexcept = 0;
++    virtual trantor::bounded_io::Sample sample() const noexcept = 0;
++    virtual bool attach_retirement(Session &, trantor::bounded_io::PeerStorage &) noexcept = 0;
++};
++}
+--- a/lib/inc/drogon/WebSocketConnection.h
++++ b/lib/inc/drogon/WebSocketConnection.h
+@@ -243,8 +243,10 @@
+ #include <functional>
+ namespace subathon::server::native_ws { struct ProfileFactory; }
+ namespace drogon { class HttpServer; class HttpAppFrameworkImpl; class WebSocketConnectionImpl; }
++namespace drogon::bounded_http_sdk { class Runtime; }
+ namespace drogon::native_profile
+ {
++class NativeRegistration;
+ class DROGON_EXPORT Session : public trantor::NativeProfileIo
+ {
+   public:
+@@ -265,6 +267,8 @@
+     friend class drogon::HttpAppFrameworkImpl;
+     friend class drogon::WebSocketConnectionImpl;
+     friend struct subathon::server::native_ws::ProfileFactory;
++    friend class drogon::bounded_http_sdk::Runtime;
++    static NativeRegistration *&registration() noexcept;
+     static Factory &factory() noexcept;
+     static std::atomic<bool> &started() noexcept;
+ };
+--- /dev/null
++++ b/lib/src/BoundedHttp.cc
+@@ -0,0 +1,169 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++#include "BoundedHttpInternal.h"
++#include "HttpAppFrameworkImpl.h"
++#include "HttpServer.h"
++#include "ListenerManager.h"
++#include "HttpControllersRouter.h"
++#include <climits>
++#include <algorithm>
++#include <thread>
++#include <arpa/inet.h>
++#include "HttpResponseImpl.h"
++#include <drogon/WebSocketConnection.h>
++#include <trantor/net/EventLoop.h>
++#include <trantor/net/BoundedIoInternal.h>
++#include <cstring>
++extern "C" DROGON_EXPORT const char DROGON_SUBATHON_BOUNDED_HTTP_V1[] =
++    "subathon.bounded-http-foundation.v1";
++namespace drogon::native_profile {
++NativeRegistration *&Runtime::registration() noexcept { static NativeRegistration *value=nullptr; return value; }
++}
++namespace drogon::bounded_http_sdk {
++Facts facts;
++std::atomic<trantor::EventLoop*> bound_loop{nullptr};
++std::atomic<HttpServer*> bound_servers[2]{};
++std::atomic<bool> run_started{false}, io_joined{false}, run_cleaned{false};
++namespace {
++trantor::bounded_io::Producer *producer=nullptr;
++Sink *consumer=nullptr;
++bool listeners[2]{};
++bool install_attempted=false;
++std::thread::id installing_thread;
++unsigned next_role=0;
++InstallFailure install_error=InstallFailure::none;
++}
++Sink *sink() noexcept { return consumer; }
++void bind_server(HttpServer &s,trantor::bounded_io::Role role,trantor::EventLoop &loop) noexcept {
++    if(bound_loop && bound_loop!=&loop) std::terminate();
++    bound_loop=&loop; bound_servers[static_cast<unsigned>(role)]=&s;
++}
++bool Runtime::observe(trantor::bounded_io::Producer &p,Facts &out) noexcept {
++    auto *loop=bound_loop.load(std::memory_order_acquire);
++    if(producer!=&p || !loop || !loop->isInLoopThread()) return false;
++    out=facts;
++    out.stock_output_appends=trantor::bounded_io::detail::stock_output_appends.load(std::memory_order_relaxed);
++    out.constructed=trantor::bounded_io::detail::constructed.load(std::memory_order_relaxed);
++    out.sdk_retained_peers=trantor::bounded_io::detail::retained.load(std::memory_order_relaxed);
++    out.peak_sdk_retained_peers=trantor::bounded_io::detail::peak_retained.load(std::memory_order_relaxed);
++    return true;
++}
++bool Runtime::install(trantor::bounded_io::Producer &p,Sink &s,U64 peers) noexcept {
++    auto &budget=trantor::bounded_io::detail::bootstrap_budget();
++    auto &app=HttpAppFrameworkImpl::instance();
++    auto &routes=HttpControllersRouter::instance();
++    install_error=InstallFailure::invalid_state;
++    if(producer || install_attempted || run_started.load(std::memory_order_acquire) || app.isRunning() || !budget.main_ready || budget.peers) return false;
++    install_error=InstallFailure::invalid_config;
++    if(!peers || peers>static_cast<U64>(INT_MAX)-8 || app.getThreadNum()!=1 ||
++       app.getLoop()->boundedRecords_!=16 || !app.listenerManagerPtr_->listeners_.empty() ||
++       !routes.ctrlMap_.empty() || !routes.simpleCtrlMap_.empty() ||
++       !routes.ctrlVector_.empty() || !routes.wsCtrlMap_.empty() || !routes.wsCtrlVector_.empty() ||
++       !app.getLoop()->funcs_.empty()) return false;
++    // Query the selected standard-library bucket policy before any projection
++    // allocation, rather than accepting a post-construction capacity observation.
++    std::__detail::_Prime_rehash_policy request_policy, response_policy;
++    if(request_policy._M_next_bkt(5)>32 || response_policy._M_next_bkt(3)>32)
++        return false;
++    installing_thread=std::this_thread::get_id();
++    install_attempted=true;
++    try {
++        // Allocate once before run: future IO0 only adopts these actual arrays.
++        const auto records=static_cast<std::size_t>(peers)+8;
++        budget.io_events.resize(records*16);
++        budget.io_active.reserve(records);
++#ifndef NDEBUG
++        budget.io_debug.resize(records);
++#endif
++    } catch(...) {
++        std::vector<std::byte>{}.swap(budget.io_events);
++        std::vector<trantor::Channel*>{}.swap(budget.io_active);
++        std::vector<std::pair<int,trantor::Channel*>>{}.swap(budget.io_debug);
++        install_error=InstallFailure::allocation_failure;
++        return false;
++    }
++    budget.peers=peers;
++    producer=&p; consumer=&s; install_error=InstallFailure::none; return true;
++}
++InstallFailure Runtime::install_failure() noexcept { return install_error; }
++bool Runtime::discard(trantor::bounded_io::Producer &p) noexcept {
++    auto &app=HttpAppFrameworkImpl::instance();
++    if(run_started.load(std::memory_order_acquire) &&
++       (!io_joined.load(std::memory_order_acquire) || !run_cleaned.load(std::memory_order_acquire))) return false;
++    if(std::this_thread::get_id()!=installing_thread || producer!=&p || bound_servers[0] || bound_servers[1] || app.isRunning()) return false;
++    if(app.listenerManagerPtr_) {
++        auto &records=app.listenerManagerPtr_->listeners_;
++        records.erase(std::remove_if(records.begin(),records.end(),
++            [&p](const auto &entry){return entry.bounded_==&p;}),records.end());
++    }
++    trantor::bounded_io::bind_wake_fd(-1);
++    bound_loop.store(nullptr,std::memory_order_release);
++    producer=nullptr; consumer=nullptr; listeners[0]=listeners[1]=false;
++    auto &budget=trantor::bounded_io::detail::bootstrap_budget();
++    budget.peers=0;
++    std::vector<std::byte>{}.swap(budget.io_events);
++    std::vector<trantor::Channel*>{}.swap(budget.io_active);
++    std::vector<std::pair<int,trantor::Channel*>>{}.swap(budget.io_debug);
++    return true; // The attempted-install latch is deliberately not reset.
++}
++
++
++bool Runtime::listener(HttpAppFramework &app,Endpoint endpoint,trantor::bounded_io::Role role) noexcept {
++    const auto index=static_cast<unsigned>(role);
++    if(!producer || &app!=&drogon::app() || app.isRunning() || app.getThreadNum()!=1 ||
++       index>1 || listeners[index] || endpoint.address.back()!=0) return false;
++    in_addr ipv4{}; in6_addr ipv6{};
++    if(::inet_pton(AF_INET,endpoint.address.data(),&ipv4)!=1 &&
++       ::inet_pton(AF_INET6,endpoint.address.data(),&ipv6)!=1) return false;
++    try {
++        const auto address=std::string(endpoint.address.data());
++        static_cast<HttpAppFrameworkImpl&>(app).listenerManagerPtr_->addListener(
++            address,endpoint.port,false,"","",false,{},index==1,producer,role);
++        listeners[index]=true; return true;
++    } catch(...) { return false; }
++}
++bool Runtime::stop_acceptors() noexcept {
++    auto *loop=bound_loop.load(std::memory_order_acquire);
++    if(!loop || !loop->isInLoopThread()) return false;
++    bool complete=true;
++    for(auto &record:bound_servers) if(auto *server=record.load(std::memory_order_acquire); server && !server->boundedStopAccepting()) complete=false;
++    return complete;
++}
++void Runtime::poll() noexcept {
++    auto *loop=bound_loop.load(std::memory_order_acquire);
++    if(!loop || !loop->isInLoopThread()) return;
++    if(++trantor::bounded_io::detail::bootstrap_budget().parse_turn==0) std::terminate();
++    for(unsigned step=0;step<2;++step) {
++        auto *server=bound_servers[(next_role+step)%2].load(std::memory_order_acquire);
++        if(server) server->boundedPoll();
++    }
++    next_role^=1;
++}
++bool Runtime::bind_wake(trantor::bounded_io::Producer &p,int fd) noexcept {
++    auto *loop=bound_loop.load(std::memory_order_acquire);
++    if(!loop || !loop->isInLoopThread() || &p!=producer || fd<0) return false;
++    trantor::bounded_io::bind_wake_fd(fd); return true;
++}
++const native_profile::NativeRegistration *Runtime::native_registration() noexcept {
++    return native_profile::Runtime::registration();
++}
++std::size_t Runtime::render_reply(std::span<std::byte> out,std::uint16_t status,U64 n,bool close) noexcept {
++    auto *loop=bound_loop.load(std::memory_order_acquire);
++    if(!loop || !loop->isInLoopThread()) return 0;
++    return HttpResponseImpl::renderBounded(out,status,n,close);
++}
++std::size_t control(std::span<std::byte> out,std::uint16_t status) noexcept {
++    std::string_view wire;
++    switch(status) {
++    case 400: wire="HTTP/1.1 400 Bad Request\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"; break;
++    case 413: wire="HTTP/1.1 413 Payload Too Large\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"; break;
++    case 414: wire="HTTP/1.1 414 URI Too Long\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"; break;
++    case 431: wire="HTTP/1.1 431 Request Header Fields Too Large\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"; break;
++    default: return 0;
++    }
++    if(out.size()<wire.size()) return 0;
++    std::memcpy(out.data(),wire.data(),wire.size()); return wire.size();
++}
++bool Runtime::arm_first_wire() noexcept { return producer && !bound_loop && trantor::bounded_io::arm_wire_gate(); }
++bool Runtime::wire_held() noexcept { auto *loop=bound_loop.load(std::memory_order_acquire); return loop && loop->isInLoopThread() && trantor::bounded_io::wire_held(); }
++bool Runtime::release_wire() noexcept { auto *loop=bound_loop.load(std::memory_order_acquire); return loop && loop->isInLoopThread() && trantor::bounded_io::release_wire_gate(); }
++}
+--- /dev/null
++++ b/lib/src/BoundedHttpInternal.h
+@@ -0,0 +1,16 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++#pragma once
++#include <drogon/BoundedHttp.h>
++#include <atomic>
++namespace trantor { class EventLoop; }
++namespace drogon { class HttpServer; }
++namespace drogon::bounded_http_sdk {
++// Source-private binding records are cleared by their actual server destructors.
++extern DROGON_NO_EXPORT std::atomic<trantor::EventLoop*> bound_loop;
++extern DROGON_NO_EXPORT std::atomic<bool> run_started, io_joined, run_cleaned;
++extern DROGON_NO_EXPORT std::atomic<HttpServer*> bound_servers[2];
++extern DROGON_NO_EXPORT Facts facts;
++Sink *sink() noexcept;
++void bind_server(HttpServer &,trantor::bounded_io::Role,trantor::EventLoop &) noexcept;
++std::size_t control(std::span<std::byte>,std::uint16_t) noexcept;
++}
+--- a/lib/src/HttpAppFrameworkImpl.cc
++++ b/lib/src/HttpAppFrameworkImpl.cc
+@@ -1,3 +1,4 @@
++#include "BoundedHttpInternal.h"
+ /**
+  *
+  *  @file HttpAppFrameworkImpl.cc
+@@ -13,6 +14,8 @@
+  */
+
+ #include "HttpAppFrameworkImpl.h"
++#include <drogon/BoundedHttp.h>
++#include <trantor/net/BoundedIoInternal.h>
+ #include <drogon/WebSocketConnection.h>
+ #include <stdexcept>
+ #include <drogon/DrClassMap.h>
+@@ -95,7 +98,21 @@
+
+ /// Make sure that the main event loop is initialized in the main thread.
+ drogon::InitBeforeMainFunction drogon::HttpAppFrameworkImpl::initFirst_([]() {
++    // Reserve the same global quota before constructing the framework/main loop.
++    // Loop internals <=4096 each; fixed infrastructure records are charged once.
++    constexpr auto rounded=[](std::size_t n){return (n+63)&~std::size_t(63);};
++    constexpr auto bootstrap=rounded(sizeof(HttpAppFrameworkImpl))+
++        rounded(sizeof(ListenerManager))+rounded(sizeof(PluginsManager))+
++        rounded(sizeof(orm::DbClientManager))+rounded(sizeof(nosql::RedisClientManager))+
++        rounded(sizeof(HttpControllersRouter))+rounded(sizeof(StaticFileRouter))+
++        rounded(sizeof(AopAdvice))+2*rounded(sizeof(HttpServer))+
++        2*4096+24*128+2*1024+2048+4096;
++    static_assert(bootstrap<=bounded_http_sdk::sdk_global_metadata_bytes,
++        "Selected SDK bootstrap cannot fit its portion of G");
++    auto &budget=trantor::bounded_io::detail::bootstrap_budget();
++    budget.initializing_main=true;
+     HttpAppFrameworkImpl::instance().getLoop()->runInLoop(f);
++    budget.initializing_main=false; budget.main_ready=true;
+ });
+
+ namespace drogon
+@@ -526,6 +543,13 @@
+
+ void HttpAppFrameworkImpl::run()
+ {
++    // Declared first: publish only after all later automatic cleanup has run.
++    struct Completion {
++        ~Completion() noexcept {
++            bounded_http_sdk::run_cleaned.store(true,std::memory_order_release);
++        }
++    } completion;
++    bounded_http_sdk::run_started.store(true,std::memory_order_release);
+     native_profile::Runtime::started().store(true, std::memory_order_release);
+     if (!getLoop()->isInLoopThread())
+     {
+@@ -1077,6 +1101,7 @@
+                 loop->quit();
+             }
+             ioLoopThreadPool_->wait();
++            bounded_http_sdk::io_joined.store(true,std::memory_order_release);
+         });
+     }
+ }
+--- a/lib/src/HttpAppFrameworkImpl.h
++++ b/lib/src/HttpAppFrameworkImpl.h
+@@ -13,6 +13,7 @@
+  */
+
+ #pragma once
++#include <drogon/BoundedHttp.h>
+
+ #include <drogon/HttpAppFramework.h>
+ #include <drogon/config.h>
+@@ -677,6 +678,7 @@
+     bool isRequestStreamEnabled() const override;
+
+   private:
++    friend class bounded_http_sdk::Runtime;
+     void registerHttpController(const std::string &pathPattern,
+                                 const internal::HttpBinderBasePtr &binder,
+                                 const std::vector<HttpMethod> &validMethods,
+--- a/lib/src/HttpControllerBinder.cc
++++ b/lib/src/HttpControllerBinder.cc
+@@ -63,7 +63,12 @@
+     auto sha1 = trantor::utils::sha1(wsKey.c_str(), wsKey.length());
+     memcpy(accKey, &sha1, sizeof(sha1));
+     auto base64Key = utils::base64Encode(accKey, sizeof(accKey));
+-    auto resp = HttpResponse::newHttpResponse();
++    // The validated projection bypasses generic response-creation advice too.
++    auto resp = req->boundedNative_ ?
++        std::make_shared<HttpResponseImpl>(k101SwitchingProtocols,CT_NONE) :
++        HttpResponse::newHttpResponse();
++    if(req->boundedNative_)
++        static_cast<HttpResponseImpl*>(resp.get())->headers_.reserve(3);
+     resp->setStatusCode(k101SwitchingProtocols);
+     resp->addHeader("Upgrade", "websocket");
+     resp->addHeader("Connection", "Upgrade");
+--- a/lib/src/HttpControllersRouter.cc
++++ b/lib/src/HttpControllersRouter.cc
+@@ -698,6 +698,11 @@
+
+ RouteResult HttpControllersRouter::routeWs(const HttpRequestImplPtr &req)
+ {
++    // Only the validated private projection selects the synchronous native binder.
++    // No user route/filter/regex lookup or retained request crosses this branch.
++    if(req->boundedNative_)
++        return {RouteResult::Success,std::make_shared<WebsocketControllerBinder>()};
++
+     std::string wsKey = req->getHeaderBy("sec-websocket-key");
+     if (!wsKey.empty())
+     {
+--- a/lib/src/HttpControllersRouter.h
++++ b/lib/src/HttpControllersRouter.h
+@@ -23,6 +23,7 @@
+ #include <vector>
+ #include <unordered_map>
+
++namespace drogon::bounded_http_sdk { class Runtime; }
+ namespace drogon
+ {
+ class HttpControllerBinder;
+@@ -69,6 +70,7 @@
+     std::vector<HttpHandlerInfo> getHandlersInfo() const;
+
+   private:
++    friend class bounded_http_sdk::Runtime;
+     void addRegexCtrlBinder(
+         const std::shared_ptr<HttpControllerBinder> &binderPtr,
+         const std::string &pathPattern,
+--- a/lib/src/HttpRequestImpl.h
++++ b/lib/src/HttpRequestImpl.h
+@@ -62,6 +62,8 @@
+ {
+   public:
+     friend class HttpRequestParser;
++    friend struct WebsocketControllerBinder;
++    friend class HttpControllersRouter;
+     friend class ::HttpRequestImplCacheFileTestAccess;
+
+     explicit HttpRequestImpl(trantor::EventLoop *loop)
+@@ -700,6 +702,7 @@
+     }
+
+   private:
++    bool boundedNative_{false};
+     void parseParameters() const;
+
+     void parseParametersOnce() const
+--- a/lib/src/HttpRequestParser.cc
++++ b/lib/src/HttpRequestParser.cc
+@@ -1,3 +1,4 @@
++#include <trantor/net/BoundedIoInternal.h>
+ /**
+  *
+  *  HttpRequestParser.cc
+@@ -13,6 +14,11 @@
+  */
+
+ #include "HttpRequestParser.h"
++#include "HttpControllerBinder.h"
++#include "HttpControllersRouter.h"
++#include "WebSocketConnectionImpl.h"
++#include "BoundedHttpInternal.h"
++#include <cstring>
+ #include <drogon/HttpTypes.h>
+ #include <trantor/utils/Logger.h>
+ #include <trantor/utils/MsgBuffer.h>
+@@ -31,10 +37,13 @@
+ static constexpr size_t METHOD_MAX_LEN = 7;      // strlen("OPTIONS")
+ static constexpr size_t TRUNK_LEN_MAX_LEN = 16;  // 0xFFFFFFFF,FFFFFFFF
+
+-HttpRequestParser::HttpRequestParser(const trantor::TcpConnectionPtr &connPtr)
++HttpRequestParser::HttpRequestParser(const trantor::TcpConnectionPtr &connPtr,
++    trantor::bounded_io::PeerStorage *bounded,bounded_http_sdk::Sink *sink)
+     : status_(HttpRequestParseStatus::kExpectMethod),
+       loop_(connPtr->getLoop()),
+-      conn_(connPtr)
++      requestPipelining_(bounded ? std::nullopt : decltype(requestPipelining_)(std::in_place)),
++      conn_(connPtr), sendBuffer_(bounded ? MsgBuffer(std::span<std::byte>{}) : MsgBuffer()),
++      bounded_(bounded),sink_(sink)
+ {
+ }
+
+@@ -119,10 +128,15 @@
+ void HttpRequestParser::reset()
+ {
+     assert(loop_->isInLoopThread());
++    if(bounded_) {
++        scan_=lineStart_=fieldCount_=maxField_=lineBytes_=0; semantic_=2;
++        methodSize_=targetOffset_=targetSize_=0; syntaxBad_=headDone_=done_=false; bodyRemaining_=0; return;
++    }
+     remainContentLength_ = 0;
+     status_ = HttpRequestParseStatus::kExpectMethod;
+     if (requestsPool_.empty())
+     {
++        if(bounded_) ++bounded_http_sdk::facts.stock_maps;
+         request_ = makeRequestForPool(new HttpRequestImpl(loop_));
+     }
+     else
+@@ -144,6 +158,7 @@
+  */
+ int HttpRequestParser::parseRequest(MsgBuffer *buf)
+ {
++    if(bounded_) return parseBounded(buf);
+     while (true)
+     {
+         switch (status_)
+@@ -483,7 +498,7 @@
+                                                 bool isHeadMethod)
+ {
+     assert(loop_->isInLoopThread());
+-    requestPipelining_.push_back({req, {nullptr, isHeadMethod}});
++    requestPipelining_->push_back({req, {nullptr, isHeadMethod}});
+ }
+
+ /**
+@@ -493,11 +508,11 @@
+                                                  HttpResponsePtr resp)
+ {
+     assert(loop_->isInLoopThread());
+-    for (size_t i = 0; i != requestPipelining_.size(); ++i)
++    for (size_t i = 0; i != requestPipelining_->size(); ++i)
+     {
+-        if (requestPipelining_[i].first == req)
++        if ((*requestPipelining_)[i].first == req)
+         {
+-            requestPipelining_[i].second.first = std::move(resp);
++            (*requestPipelining_)[i].second.first = std::move(resp);
+             return i == 0;
+         }
+     }
+@@ -508,10 +523,206 @@
+ void HttpRequestParser::popReadyResponses(
+     std::vector<std::pair<HttpResponsePtr, bool>> &buffer)
+ {
+-    while (!requestPipelining_.empty() &&
+-           requestPipelining_.front().second.first)
++    while (!requestPipelining_->empty() &&
++           requestPipelining_->front().second.first)
+     {
+-        buffer.push_back(std::move(requestPipelining_.front().second));
+-        requestPipelining_.pop_front();
+-    }
+-}
++        buffer.push_back(std::move(requestPipelining_->front().second));
++        requestPipelining_->pop_front();
++    }
++}
++
++void HttpRequestParser::resumeBounded(MsgBuffer *buf) noexcept {
++    if(refused_) return;
++    if(done_) reset();
++    (void)parseBounded(buf);
++}
++int HttpRequestParser::parseBounded(MsgBuffer *buf) noexcept {
++    auto conn=conn_.lock();
++    if(!conn || done_ || !buf->readableBytes()) return 0;
++    auto *slot=conn->boundedSlot();
++    if(!slot || slot->closing) return 0;
++    auto *transport=conn->boundedTransport();
++    // A fully scanned incomplete head only needs its socket re-armed.
++    if(!headDone_ && scan_==buf->readableBytes()) return 0;
++    const auto turn=trantor::bounded_io::detail::bootstrap_budget().parse_turn;
++    if(slot->continuing && owner_parse_turn_==turn) {
++        slot->pending_parse=true; transport->reading(false); return 0;
++    }
++    if(!slot->producer->before_parse(*bounded_)) {
++        if(!slot->closing) { slot->pending_parse=true; transport->reading(false); }
++        return 0;
++    }
++    if(slot->continuing) owner_parse_turn_=turn;
++    std::size_t budget=8192;
++    // Only exhausted byte work gets an immediate, coalesced, normal-loop wake.
++    auto backlog=[&] {
++        slot->pending_parse=true; transport->reading(false);
++        // The successful admission covers this step and its one budget wake.
++        if(!budget && !slot->closing &&
++           !slot->close_intent.load(std::memory_order_acquire)) slot->wake();
++    };
++    auto refusal=[&](std::uint16_t status) {
++        refused_=true; done_=true; slot->pending_parse=false; transport->reading(false);
++        auto out=bounded_->control_storage();
++        const auto n=bounded_http_sdk::control(out,status);
++        slot->control_busy=true;
++        if(!n || !transport->wire(out.first(n),out.data())) transport->close();
++    };
++    static_assert(sizeof(HttpRequestParser)<=2048 && sizeof(WebSocketConnectionImpl)<=512);
++    // The 8192-byte typed SDK slice covers 2048+2048+256+128+2048+512.
++    constexpr auto round=[](std::size_t n){return (n+63)&~std::size_t(63);};
++    // Three shared objects/control blocks, eight nodes, <=64 buckets and IO cache.
++    // This is reserved independently of the typed backing, before projection.
++    using RequestControl=std::_Sp_counted_ptr_inplace<HttpRequestImpl,std::allocator<void>,__gnu_cxx::_S_atomic>;
++    using ResponseControl=std::_Sp_counted_ptr_inplace<HttpResponseImpl,std::allocator<void>,__gnu_cxx::_S_atomic>;
++    using BinderControl=std::_Sp_counted_ptr_inplace<WebsocketControllerBinder,std::allocator<void>,__gnu_cxx::_S_atomic>;
++    using Node=std::__detail::_Hash_node<std::pair<const std::string,std::string>,true>;
++    static_assert(sizeof(Node)<=128 && sizeof(void*)==8);
++    static_assert(round(sizeof(RequestControl))+round(sizeof(ResponseControl))+
++        round(sizeof(BinderControl))+8*128+64*8+2*64<=5120,
++        "Selected native projection metadata cannot fit its peer reservation");
++    if(!headDone_) {
++        const char *raw=buf->peek();
++        bool complete=false;
++        const auto available=std::min<std::size_t>(buf->readableBytes(),40961);
++        while(scan_<available && budget) {
++            const auto ch=raw[scan_++]; --budget;
++            if(ch!='\n') continue;
++            const auto end=scan_-1;
++            const bool cr=end>lineStart_ && raw[end-1]=='\r';
++            const auto lineEnd=cr ? end-1 : end;
++            if(!cr) syntaxBad_=true;
++            const std::string_view line(raw+lineStart_,lineEnd-lineStart_);
++            if(lineStart_==0) {
++                lineBytes_=scan_;
++                const auto a=line.find(' ');
++                const auto b=a==line.npos ? line.npos : line.find(' ',a+1);
++                if(a==line.npos || b==line.npos) syntaxBad_=true;
++                else {
++                    methodSize_=a; targetOffset_=a+1; targetSize_=b-a-1;
++                    if(line.substr(b+1)!="HTTP/1.1") syntaxBad_=true;
++                }
++            } else if(line.empty()) { complete=true; break; }
++            else {
++                auto colon=line.find(':');
++                if(colon==line.npos) syntaxBad_=true;
++                auto name=colon==line.npos ? line : line.substr(0,colon);
++                auto value=colon==line.npos ? std::string_view{} : line.substr(colon+1);
++                if(!name.empty() && (name.back()==' ' || name.back()=='\t')) syntaxBad_=true;
++                while(!value.empty() && (value.front()==' ' || value.front()=='\t')) value.remove_prefix(1);
++                while(!value.empty() && (value.back()==' ' || value.back()=='\t')) value.remove_suffix(1);
++                semantic_+=name.size()+value.size()+4;
++                maxField_=std::max(maxField_,name.size()+value.size());
++                if(fieldCount_<fields_.size()) fields_[fieldCount_]={
++                    static_cast<std::uint32_t>(name.data()-raw),static_cast<std::uint32_t>(name.size()),
++                    static_cast<std::uint32_t>(value.empty() ? lineEnd : static_cast<std::size_t>(value.data()-raw)),
++                    static_cast<std::uint32_t>(value.size())};
++                ++fieldCount_;
++            }
++            lineStart_=scan_;
++        }
++        if(!complete && scan_<40961) {
++            if(scan_<buf->readableBytes()) backlog();
++            return 0;
++        }
++        bounded_http_sdk::Head head{{reinterpret_cast<const std::byte*>(raw),scan_},{raw,methodSize_},{raw+targetOffset_,targetSize_},
++            {fields_.data(),std::min(fieldCount_,fields_.size())},syntaxBad_,scan_,fieldCount_,semantic_,maxField_,lineBytes_};
++        const auto decision=sink_->head(*bounded_,head);
++        if(decision.status) { refusal(decision.status); return 0; }
++        if(slot->native) {
++            done_=true; slot->pending_parse=false; transport->reading(false);
++            auto out=bounded_->control_storage();
++            if(out.empty()) { transport->close(); return 0; }
++            try {
++                auto *object=new(slot->require(sizeof(WebSocketConnectionImpl),alignof(WebSocketConnectionImpl)))
++                    WebSocketConnectionImpl(conn);
++                slot->ws_object=object; slot->ws_created=true;
++                slot->destroy_ws_object=[](void *p) noexcept { static_cast<WebSocketConnectionImpl*>(p)->~WebSocketConnectionImpl(); };
++                slot->ws_control_returned.store(false,std::memory_order_release);
++                auto deleter=[slot](WebSocketConnectionImpl*) noexcept {
++                    slot->inflight.fetch_add(1,std::memory_order_acq_rel);
++                    slot->destroy_ws.store(true,std::memory_order_release); slot->wake();
++                    slot->inflight.fetch_sub(1,std::memory_order_release);
++                };
++                websockConnPtr_=std::shared_ptr<WebSocketConnectionImpl>(object,deleter,
++                    trantor::bounded_io::ControlAllocator<WebSocketConnectionImpl>{slot,true});
++                if(!websockConnPtr_->beginNativeProfileUpgrade()) { transport->close(); return 0; }
++                auto projected=std::make_shared<HttpRequestImpl>(loop_);
++                projected->boundedNative_=true;
++                projected->headers_.reserve(5);
++                projected->setMethod(Get); projected->setVersion(Version::kHttp11);
++                projected->setPath(std::string(head.target));
++                auto view=[&](std::uint32_t offset,std::uint32_t size) {return std::string_view(raw+offset,size);};
++                std::string host,key;
++                for(const auto &f:head.fields) {
++                    auto name=view(f.name,f.name_size);
++                    auto equal=[&](std::string_view expected) {
++                        if(name.size()!=expected.size()) return false;
++                        for(std::size_t i=0;i<name.size();++i)
++                            if((name[i]>='A'&&name[i]<='Z' ? name[i]+32 : name[i])!=expected[i]) return false;
++                        return true;
++                    };
++                    if(equal("host")) host=view(f.value,f.value_size);
++                    if(equal("sec-websocket-key")) key=view(f.value,f.value_size);
++                }
++                projected->addHeader("host",host);
++                projected->addHeader("connection","Upgrade");
++                projected->addHeader("upgrade","websocket");
++                projected->addHeader("sec-websocket-key",key);
++                projected->addHeader("sec-websocket-version","13");
++                bounded_http_sdk::facts.native_projected_fields=projected->headers_.size();
++                bounded_http_sdk::facts.native_projected_cookies=projected->cookies_.size();
++                if(!bounded_->wipe_receive({reinterpret_cast<std::byte*>(const_cast<char*>(raw)),scan_},false)) { transport->close(); return 0; }
++                buf->retrieve(scan_);
++                const auto assigned=buf->readableBytes() ? buf->nativeProfileCapacity() : 0;
++                const auto bound=websockConnPtr_->bindNativeProfile();
++                sink_->native_handoff(*bounded_,assigned,bound);
++                if(!bound) { transport->close(); return 0; }
++                auto selected=HttpControllersRouter::instance().routeWs(projected);
++                if(selected.result!=RouteResult::Success || !selected.binderPtr) { transport->close(); return 0; }
++                bool queued=false;
++                selected.binderPtr->handleRequest(projected,[&](const HttpResponsePtr &response) {
++                    const auto &accept=response->getHeader("sec-websocket-accept");
++                    if(response->statusCode()!=k101SwitchingProtocols || accept.size()!=28) return;
++                    constexpr std::string_view prefix="HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: ";
++                    if(out.size()<prefix.size()+32) return;
++                    std::memcpy(out.data(),prefix.data(),prefix.size());
++                    std::memcpy(out.data()+prefix.size(),accept.data(),28);
++                    std::memcpy(out.data()+prefix.size()+28,"\r\n\r\n",4);
++                    slot->control_busy=true;
++                    queued=transport->wire(out.first(prefix.size()+32),out.data());
++                });
++                if(!queued) { transport->close(); return 0; }
++                slot->native_established=true;
++                websockConnPtr_->setMessageCallback([peer=bounded_,sink=sink_](std::string&&,const WebSocketConnectionImplPtr &connection,const WebSocketMessageType&) {
++                    sink->native_event(*peer,connection,bounded_http_sdk::NativeEvent::message);
++                });
++                websockConnPtr_->setCloseCallback([peer=bounded_,sink=sink_](const WebSocketConnectionImplPtr &connection) {
++                    sink->native_event(*peer,connection,bounded_http_sdk::NativeEvent::closed);
++                });
++                sink_->native_event(*bounded_,websockConnPtr_,bounded_http_sdk::NativeEvent::opened);
++                if(slot->closing) return 0;
++                websockConnPtr_->consumeNativeProfileInitial();
++                if(!slot->closing) transport->reading(true);
++            } catch(...) { transport->close(); }
++            return 0;
++        }
++        bodyRemaining_=decision.body_bytes;
++        if(!bounded_->wipe_receive({reinterpret_cast<std::byte*>(const_cast<char*>(raw)),scan_},false)) { transport->close(); return 0; }
++        buf->retrieve(scan_); headDone_=true;
++    }
++    if(bodyRemaining_ && budget && buf->readableBytes()) {
++        const auto n=std::min<std::uint64_t>({bodyRemaining_,budget,buf->readableBytes()});
++        const auto bytes=std::span<const std::byte>(reinterpret_cast<const std::byte*>(buf->peek()),static_cast<std::size_t>(n));
++        if(!sink_->body(*bounded_,bytes) || !bounded_->wipe_receive(
++            {const_cast<std::byte*>(bytes.data()),bytes.size()},false)) { transport->close(); return 0; }
++        buf->retrieve(static_cast<std::size_t>(n)); bodyRemaining_-=n; budget-=static_cast<std::size_t>(n);
++    }
++    if(!bodyRemaining_) {
++        done_=true; slot->pending_parse=false; transport->reading(false);
++        sink_->complete(*bounded_); return 1;
++    }
++    if(buf->readableBytes()) backlog();
++    else { slot->pending_parse=false; transport->reading(true); }
++    return 0;
++}
+--- a/lib/src/HttpRequestParser.h
++++ b/lib/src/HttpRequestParser.h
+@@ -13,6 +13,9 @@
+  */
+
+ #pragma once
++#include <drogon/BoundedHttp.h>
++#include <optional>
++#include <array>
+
+ #include <drogon/HttpTypes.h>
+ #include <trantor/net/TcpConnection.h>
+@@ -41,7 +44,9 @@
+         kGotAll,
+     };
+
+-    explicit HttpRequestParser(const trantor::TcpConnectionPtr &connPtr);
++    explicit HttpRequestParser(const trantor::TcpConnectionPtr &connPtr,
++        trantor::bounded_io::PeerStorage *bounded=nullptr, bounded_http_sdk::Sink *sink=nullptr);
++    void resumeBounded(trantor::MsgBuffer *) noexcept;
+
+     int parseRequest(trantor::MsgBuffer *buf);
+
+@@ -74,12 +79,12 @@
+
+     size_t numberOfRequestsInPipelining() const
+     {
+-        return requestPipelining_.size();
++        return requestPipelining_->size();
+     }
+
+     bool emptyPipelining()
+     {
+-        return requestPipelining_.empty();
++        return requestPipelining_->empty();
+     }
+
+     bool isStop() const
+@@ -132,7 +137,7 @@
+     trantor::EventLoop *loop_;
+     HttpRequestImplPtr request_;
+     WebSocketConnectionImplPtr websockConnPtr_;
+-    std::deque<std::pair<HttpRequestPtr, std::pair<HttpResponsePtr, bool>>>
++    std::optional<std::deque<std::pair<HttpRequestPtr, std::pair<HttpResponsePtr, bool>>>>
+         requestPipelining_;
+     size_t requestsCounter_{0};
+     std::weak_ptr<trantor::TcpConnection> conn_;
+@@ -144,6 +149,18 @@
+     std::vector<HttpRequestImplPtr> requestsPool_;
+     size_t currentChunkLength_{0};
+     size_t remainContentLength_{0};
++    trantor::bounded_io::PeerStorage *bounded_{};
++    bounded_http_sdk::Sink *sink_{};
++    std::array<bounded_http_sdk::Field,64> fields_{};
++    std::size_t scan_{}, lineStart_{}, fieldCount_{}, semantic_{2}, maxField_{}, lineBytes_{};
++    std::size_t methodSize_{}, targetOffset_{}, targetSize_{};
++    bool refused_{};
++    // IO0: one parse step across SDK poll and re-arm in the same owner turn.
++    std::uint64_t owner_parse_turn_{~std::uint64_t{0}};
++    bool syntaxBad_{}, headDone_{}, done_{};
++    std::uint64_t bodyRemaining_{};
++    int parseBounded(trantor::MsgBuffer *) noexcept;
++
+ };
+
+ }  // namespace drogon
+--- a/lib/src/HttpResponseImpl.cc
++++ b/lib/src/HttpResponseImpl.cc
+@@ -13,6 +13,8 @@
+  */
+
+ #include "HttpResponseImpl.h"
++#include <charconv>
++#include <cstring>
+ #include "AOPAdvice.h"
+ #include "HttpAppFrameworkImpl.h"
+ #include "HttpUtils.h"
+@@ -1224,3 +1226,16 @@
+     contentTypeString_ = std::string(sv);
+     flagForParsingContentType_ = true;
+ }
++
++std::size_t drogon::HttpResponseImpl::renderBounded(std::span<std::byte> out,
++    std::uint16_t status,std::uint64_t bytes,bool close) noexcept {
++    if(status!=200 || out.size()<128) return 0;
++    constexpr std::string_view prefix="HTTP/1.1 200 OK\r\nContent-Length: ";
++    const std::string_view suffix=close ? "\r\nConnection: close\r\n\r\n" : "\r\nConnection: keep-alive\r\n\r\n";
++    auto *p=reinterpret_cast<char*>(out.data());
++    std::memcpy(p,prefix.data(),prefix.size()); p+=prefix.size();
++    const auto result=std::to_chars(p,reinterpret_cast<char*>(out.data())+128,bytes);
++    if(result.ec!=std::errc{}) return 0;
++    p=result.ptr; std::memcpy(p,suffix.data(),suffix.size()); p+=suffix.size();
++    return static_cast<std::size_t>(p-reinterpret_cast<char*>(out.data()));
++}
+--- a/lib/src/HttpResponseImpl.h
++++ b/lib/src/HttpResponseImpl.h
+@@ -13,6 +13,9 @@
+  */
+
+ #pragma once
++#include <span>
++#include <cstddef>
++#include <cstdint>
+
+ #include "HttpUtils.h"
+ #include "HttpMessageBody.h"
+@@ -35,6 +38,7 @@
+     friend class HttpResponseParser;
+
+   public:
++    static std::size_t renderBounded(std::span<std::byte>,std::uint16_t,std::uint64_t,bool) noexcept;
+     HttpResponseImpl() : creationDate_(trantor::Date::now())
+     {
+     }
+@@ -564,6 +568,7 @@
+         httpStringDate_ = -1;
+     }
+
++    friend struct WebsocketControllerBinder;
+     SafeStringMap<std::string> headers_;
+     SafeStringMap<Cookie> cookies_;
+
+--- a/lib/src/HttpServer.cc
++++ b/lib/src/HttpServer.cc
+@@ -1,3 +1,4 @@
++#include <trantor/net/BoundedIoInternal.h>
+ /**
+  *
+  *  @file HttpServer.cc
+@@ -13,6 +14,7 @@
+  */
+
+ #include "HttpServer.h"
++#include "BoundedHttpInternal.h"
+ #include <drogon/HttpResponse.h>
+ #include <drogon/utils/Utilities.h>
+ #include <trantor/utils/Logger.h>
+@@ -72,28 +74,36 @@
+ HttpServer::HttpServer(EventLoop *loop,
+                        const InetAddress &listenAddr,
+                        std::string name,
+-                       bool nativeProfile)
++                       bool nativeProfile, trantor::bounded_io::Producer *bounded, trantor::bounded_io::Role role)
+ #ifdef __linux__
+     : nativeProfile_(nativeProfile), server_(loop, listenAddr, std::move(name))
+ #else
+     : nativeProfile_(nativeProfile), server_(loop, listenAddr, std::move(name), true, app().reusePort())
+ #endif
+ {
++    boundedProducer_=bounded; boundedRole_=role;
++    if(bounded) { server_.setBoundedProfile(*bounded,role); bounded_http_sdk::bind_server(*this,role,*loop); }
+     server_.setConnectionCallback(
+         [this](const trantor::TcpConnectionPtr &conn) {
+             onConnection(conn);
+-            if (connectionCallback_)
++            if (!conn->boundedSlot() && connectionCallback_)
+                 connectionCallback_(conn);
+         });
+     server_.setRecvMessageCallback(onMessage);
+     // Marked ingress has its own absolute Upgrade deadline from acceptance.
+     // Ordinary listeners keep the application's stock HTTP idle policy.
+-    if (!nativeProfile_)
++    if (!nativeProfile_ && !bounded)
+         server_.kickoffIdleConnections(
+             HttpAppFrameworkImpl::instance().getIdleConnectionTimeout());
+ }
+
+-HttpServer::~HttpServer() = default;
++HttpServer::~HttpServer() {
++    if(boundedProducer_) {
++        auto &record=bounded_http_sdk::bound_servers[static_cast<unsigned>(boundedRole_)];
++        auto *expected=this; record.compare_exchange_strong(expected,nullptr,std::memory_order_acq_rel);
++        // Keep the IO identity until joined cleanup; IO0 may still inspect.
++    }
++}
+
+ void HttpServer::start()
+ {
+@@ -117,6 +127,32 @@
+
+ void HttpServer::onConnection(const TcpConnectionPtr &conn)
+ {
++    if(auto *slot=conn->boundedSlot()) {
++        if(!conn->connected()) {
++            auto *p=static_cast<HttpRequestParser*>(slot->parser);
++            if(p && p->webSocketConn()) p->webSocketConn()->onClose();
++            return;
++        }
++        try {
++            slot->native=nativeProfile_;
++            if(nativeProfile_) {
++                auto session=native_profile::Runtime::factory()(conn);
++                if(!session) { conn->boundedTransport()->close(); return; }
++                conn->setNativeProfileIo(session);
++                auto *registration=native_profile::Runtime::registration();
++                if(!registration || !registration->attach_retirement(*session,*slot->storage)) {
++                    conn->boundedTransport()->close(); return;
++                }
++            }
++            auto *p=new(slot->require(sizeof(HttpRequestParser),alignof(HttpRequestParser)))
++                HttpRequestParser(conn,slot->storage,bounded_http_sdk::sink());
++            slot->parser=p;
++            slot->destroy_parser=[](void *v) noexcept { static_cast<HttpRequestParser*>(v)->~HttpRequestParser(); };
++            slot->resume_parser=[](void *v,MsgBuffer *b) noexcept { static_cast<HttpRequestParser*>(v)->resumeBounded(b); };
++            slot->storage->attached(*conn->boundedTransport());
++        } catch(...) { conn->boundedTransport()->close(); }
++        return;
++    }
+     if (conn->connected())
+     {
+         if (nativeProfile_)
+@@ -171,6 +207,10 @@
+
+ void HttpServer::onMessage(const TcpConnectionPtr &conn, MsgBuffer *buf)
+ {
++    if(auto *slot=conn->boundedSlot()) {
++        if(slot->parser) static_cast<HttpRequestParser*>(slot->parser)->parseRequest(buf);
++        return;
++    }
+     if (!conn->hasContext())
+         return;
+     auto requestParser = conn->getContext<HttpRequestParser>();
+@@ -292,6 +332,7 @@
+     const std::vector<HttpRequestImplPtr> &requests,
+     const std::shared_ptr<HttpRequestParser> &requestParser)
+ {
++    if(conn->boundedSlot()) ++bounded_http_sdk::facts.stock_batches;
+     assert(!requests.empty());
+
+     const bool native = bool(conn->nativeProfileIo());
+--- a/lib/src/HttpServer.h
++++ b/lib/src/HttpServer.h
+@@ -13,6 +13,7 @@
+  */
+
+ #pragma once
++#include <drogon/BoundedHttp.h>
+
+ #include <trantor/net/TcpServer.h>
+ #include <trantor/utils/NonCopyable.h>
+@@ -33,7 +34,9 @@
+     HttpServer(trantor::EventLoop *loop,
+                const trantor::InetAddress &listenAddr,
+                std::string name,
+-               bool nativeProfile = false);
++               bool nativeProfile = false,
++               trantor::bounded_io::Producer *bounded = nullptr,
++               trantor::bounded_io::Role role = trantor::bounded_io::Role::http);
+
+     ~HttpServer();
+
+@@ -43,6 +46,8 @@
+     }
+
+     void start();
++    bool boundedStopAccepting() noexcept { return server_.boundedStopAccepting(); }
++    void boundedPoll() noexcept { server_.boundedPoll(); }
+     void stop();
+
+     void enableSSL(trantor::TLSPolicyPtr policy)
+@@ -78,6 +83,8 @@
+
+   private:
+     friend class HttpInternalForwardHelper;
++    trantor::bounded_io::Producer *boundedProducer_{};
++    trantor::bounded_io::Role boundedRole_{};
+
+     void onConnection(const trantor::TcpConnectionPtr &conn);
+     static void onMessage(const trantor::TcpConnectionPtr &,
+--- a/lib/src/ListenerManager.cc
++++ b/lib/src/ListenerManager.cc
+@@ -1,3 +1,6 @@
++#include <trantor/net/BoundedIoInternal.h>
++#include <trantor/net/BoundedIoInternal.h>
++#include <stdexcept>
+ /**
+  *
+  *  @file ListenerManager.cc
+@@ -58,12 +61,15 @@
+     const std::string &keyFile,
+     bool useOldTLS,
+     const std::vector<std::pair<std::string, std::string>> &sslConfCmds,
+-    bool nativeProfile)
+-{
++    bool nativeProfile, trantor::bounded_io::Producer *bounded, trantor::bounded_io::Role role)
++{
++    if(trantor::bounded_io::detail::bootstrap_budget().peers &&
++       (!bounded || useSSL || nativeProfile!=(role==trantor::bounded_io::Role::native)))
++        throw std::invalid_argument("Bounded listener binding required");
+     if (useSSL && !utils::supportsTls())
+         LOG_ERROR << "Can't use SSL without OpenSSL found in your system";
+     listeners_.emplace_back(
+-        ip, port, useSSL, certFile, keyFile, useOldTLS, sslConfCmds, nativeProfile);
++        ip, port, useSSL, certFile, keyFile, useOldTLS, sslConfCmds, nativeProfile, bounded, role);
+ }
+
+ std::vector<trantor::InetAddress> ListenerManager::getListeners() const
+@@ -82,6 +88,18 @@
+     const std::vector<std::pair<std::string, std::string>> &sslConfCmds,
+     const std::vector<trantor::EventLoop *> &ioLoops)
+ {
++    if(trantor::bounded_io::detail::bootstrap_budget().peers) {
++        if(ioLoops.size()!=1 || listeners_.size()!=2)
++            throw std::invalid_argument("Exactly two bounded listeners and IO0 required");
++        unsigned roles=0;
++        for(const auto &entry:listeners_) {
++            const auto role=static_cast<unsigned>(entry.role_);
++            if(!entry.bounded_ || entry.useSSL_ || role>1 ||
++               entry.nativeProfile_!=(role==1) || (roles&(1u<<role)))
++                throw std::invalid_argument("Invalid bounded role binding");
++            roles|=1u<<role;
++        }
++    }
+     LOG_TRACE << "thread num=" << ioLoops.size();
+ #ifdef __linux__
+     for (size_t i = 0; i < ioLoops.size(); ++i)
+@@ -98,7 +116,7 @@
+                              "supported. Including 'localhost')";
+                 abort();
+             }
+-            if (i == 0 && !app().reusePort())
++            if (i == 0 && !app().reusePort() && !listener.bounded_)
+             {
+                 DrogonFileLocker lock;
+                 // Check whether the port is in use.
+@@ -112,7 +130,7 @@
+                 std::make_shared<HttpServer>(ioLoops[i],
+                                              listenAddress,
+                                              "drogon",
+-                                             listener.nativeProfile_);
++                                             listener.nativeProfile_, listener.bounded_, listener.role_);
+             if (beforeListenSetSockOptCallback_)
+             {
+                 serverPtr->setBeforeListenSockOptCallback(
+@@ -170,7 +188,7 @@
+                 listeningThread_->getLoop(),
+                 InetAddress(ip, listener.port_, isIpv6),
+                 "drogon",
+-                listener.nativeProfile_);
++                listener.nativeProfile_, listener.bounded_, listener.role_);
+             if (listener.useSSL_ && utils::supportsTls())
+             {
+                 auto cert = listener.certFile_;
+--- a/lib/src/ListenerManager.h
++++ b/lib/src/ListenerManager.h
+@@ -13,6 +13,7 @@
+  */
+
+ #pragma once
++#include <trantor/net/BoundedIo.h>
+
+ #include <trantor/net/EventLoopThreadPool.h>
+ #include <trantor/net/callbacks.h>
+@@ -28,6 +29,7 @@
+ class InetAddress;
+ }
+
++namespace drogon::bounded_http_sdk { class Runtime; }
+ namespace drogon
+ {
+ class ListenerManager : public trantor::NonCopyable
+@@ -42,7 +44,9 @@
+                      bool useOldTLS = false,
+                      const std::vector<std::pair<std::string, std::string>>
+                          &sslConfCmds = {},
+-                     bool nativeProfile = false);
++                     bool nativeProfile = false,
++                     trantor::bounded_io::Producer *bounded = nullptr,
++                     trantor::bounded_io::Role role = trantor::bounded_io::Role::http);
+     std::vector<trantor::InetAddress> getListeners() const;
+     void createListeners(
+         const std::string &globalCertFile,
+@@ -71,6 +75,7 @@
+     void reloadSSLFiles();
+
+   private:
++    friend class bounded_http_sdk::Runtime;
+     struct ListenerInfo
+     {
+         ListenerInfo(
+@@ -81,7 +86,7 @@
+             std::string keyFile,
+             bool useOldTLS,
+             std::vector<std::pair<std::string, std::string>> sslConfCmds,
+-            bool nativeProfile)
++            bool nativeProfile, trantor::bounded_io::Producer *bounded, trantor::bounded_io::Role role)
+             : ip_(std::move(ip)),
+               port_(port),
+               useSSL_(useSSL),
+@@ -89,7 +94,7 @@
+               keyFile_(std::move(keyFile)),
+               useOldTLS_(useOldTLS),
+               sslConfCmds_(std::move(sslConfCmds)),
+-              nativeProfile_(nativeProfile)
++              nativeProfile_(nativeProfile), bounded_(bounded), role_(role)
+         {
+         }
+
+@@ -101,6 +106,8 @@
+         bool useOldTLS_;
+         std::vector<std::pair<std::string, std::string>> sslConfCmds_;
+         bool nativeProfile_;
++        trantor::bounded_io::Producer *bounded_;
++        trantor::bounded_io::Role role_;
+     };
+
+     std::vector<ListenerInfo> listeners_;
+# End of the additive correction.

@@ -1,10 +1,16 @@
-# Bounded selected HTTP foundation — v1, correction R3
+# Bounded selected HTTP foundation — v1, correction R4
+
+Revision R4 comprises corrections 1–18, implemented in API-016 and reviewed in
+[PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664). That record covers
+the source/interface, allocation inventory, artifact/recipe/gate and selected Linux
+CI evidence. First-party declarations and the reviewed baseline remain unchanged.
+This evidence establishes no release, platform or security verification.
 
 APICONTRACT-005; identity `subathon.bounded-http-foundation.v1`. Normative
-**proposal**, not implemented or admitted. R2 addressed initial-review findings
+boundary implemented in API-016. R2 addressed initial-review findings
 CI005-B1–B6 and A1–A8. Independent Codex verification retained B1's native-wrapper
 lifetime gap and B6's read-witness gap. R3 addresses those and its thread/backpressure
-advisories; separate re-verification and Claude closing remain required. Author base
+advisories; the revision review records are in PR #664. Author base
 `e0d81ead9fdba8d130fb8ad52269a9cb995be4e7`; original source was integrated as
 `275f48a8c1b391772a5153165bb6289cc95dd9eb`. Authority is specification v 0.45,
 §2, SERVER-01, API-01, AUTH-12 and §§17–18. Import the complete
@@ -30,9 +36,8 @@ methods remain byte-identical. A separately admitted additive successor is neede
 Legacy unselected listeners retain candidate4 behavior; the same 44 methods must
 pass unchanged against the successor with fresh consumer admission.
 
-Source observations below use the parent's read-only
-`/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/deps/`
-`drogon-1.9.14-api012-candidate4-source` and matching `-sdk/include`.
+Source observations use the read-only candidate4 source and matching SDK supplied
+for this task, identified by the pins below.
 Drogon is `3aae769cc405cf5abb9d477675c6430924f02c7c`, Trantor is
 `78e480f5e138acdc05f76c55a2716718cd846364`, followed by the exact
 [historical patches](../../dependencies/native-websocket-profile/manifest.json).
@@ -63,6 +68,18 @@ by first-party code. Proposed SDK headers are
 and SDK headers; neither DSO includes or links first-party Foundation, Result,
 ElapsedSource or callback types. The following private ABI shapes are normative;
 SDK pointer cookies are usable only by their installed producer/connection.
+R4 operations are noexcept. Transport/PeerStorage/Producer/Sink operations and Runtime
+poll/stop_acceptors/bind_wake/render_reply/observe/release_wire/wire_held are IO0-only
+(except native_retired, which latches/wakes on any ordinary thread). Runtime
+install/install_failure/discard/native_registration/arm_first_wire run on the
+creating thread; listener runs on framework-main before run. Lifecycle removal is idempotent; operational guards are nonallocating and
+have the admission/clock/budget side effects described below;
+`native_registration` is the immutable creating-thread preflight already required
+below. Storage access returns only the actual peer's precharged SDK metadata or
+reserved control slot; receive wiping forwards actual mapped subranges to the
+existing raw hooks. Capacity/parse queries convey existing admission/deadline
+checks; native events/handoff and wire-held queries report actual SDK operations.
+The installed eventfd is the same fixed mailbox/cleanup wake, never a payload queue.
 
 ```cpp
 namespace trantor::bounded_io {
@@ -83,6 +100,9 @@ class PeerStorage { // first-party implementation; SDK holds through removal
 public:
     virtual ~PeerStorage() = default;
     virtual std::span<std::byte> receive_with_prefix() noexcept = 0;
+    virtual std::span<std::byte> sdk_storage() noexcept = 0;
+    virtual std::span<std::byte> control_storage() noexcept = 0;
+    virtual bool wipe_receive(std::span<std::byte>, bool pending) noexcept = 0;
     virtual void attached(Transport&) noexcept = 0;
     virtual void read_witness(ReadWitness) noexcept = 0;
     virtual void wire_released(void* release_cookie) noexcept = 0;
@@ -94,20 +114,29 @@ class Producer { // first-party implementation, installed before run
 public:
     virtual ~Producer() = default;
     virtual Sample sample() noexcept = 0;
+    virtual bool accepting(Role) noexcept = 0;
     virtual bool transient(bool acquire) noexcept = 0;
     virtual PeerStorage* acquire(Role, Sample accepted) noexcept = 0;
+    virtual bool before_parse(PeerStorage&) noexcept = 0;
     virtual bool before_read(PeerStorage&, ReadWitness) noexcept = 0;
+    virtual bool before_write(PeerStorage&) noexcept = 0; // R4 correction 11
     virtual void owner_turn() noexcept = 0;
 };
 }
 namespace drogon::bounded_http_sdk {
 using U64 = std::uint64_t;
+inline constexpr std::size_t first_party_global_metadata_bytes = 32768; // R4 correction 9
+inline constexpr std::size_t sdk_global_metadata_bytes = 32768; // same G, not additional
 struct Field { std::uint32_t name, name_size, value, value_size; };
 struct Head { std::span<const std::byte> raw;
               std::string_view method, target;
               std::span<const Field> fields; bool syntax_bad;
               U64 raw_bytes, field_count, semantic_bytes, max_field_bytes, line_bytes; };
+struct Facts { U64 stock_maps, stock_batches, stock_output_appends,
+               native_projected_fields, native_projected_cookies, constructed,
+               sdk_retained_peers, peak_sdk_retained_peers; }; // correction 15
 struct Decision { std::uint16_t status; U64 body_bytes; }; // status=0 admits
+enum class NativeEvent : std::uint8_t { opened, message, closed };
 class Sink { // first-party implementation; existing parser invokes on IO0
 public:
     virtual ~Sink() = default;
@@ -115,19 +144,80 @@ public:
     virtual bool body(trantor::bounded_io::PeerStorage&,
                       std::span<const std::byte>) noexcept = 0;
     virtual void complete(trantor::bounded_io::PeerStorage&) noexcept = 0;
+    virtual void native_event(trantor::bounded_io::PeerStorage&,
+        const std::shared_ptr<WebSocketConnection>&, NativeEvent) noexcept = 0;
+    virtual void native_handoff(trantor::bounded_io::PeerStorage&, U64, bool) noexcept = 0;
 };
 struct Endpoint { std::array<char,46> address; std::uint16_t port; };
+enum class InstallFailure : std::uint8_t { none, invalid_config, invalid_state, allocation_failure };
 class Runtime { // SDK implementation, private installation, one per process
 public:
+    static bool observe(trantor::bounded_io::Producer&, Facts&) noexcept; // correction 15
     static bool install(trantor::bounded_io::Producer&, Sink&, U64 peers) noexcept;
+    static InstallFailure install_failure() noexcept; // R4 correction 10, creating-thread query
+    static bool discard(trantor::bounded_io::Producer&) noexcept; // R4 correction 12
     static bool listener(HttpAppFramework&, Endpoint,
                          trantor::bounded_io::Role) noexcept;
+    static bool stop_acceptors() noexcept; // R4: actual removal, polled on IO0
+    static void poll() noexcept; // R4: fixed SDK cleanup/continuations on IO0
+    static bool bind_wake(trantor::bounded_io::Producer&, int eventfd) noexcept;
+    static std::size_t render_reply(std::span<std::byte>, std::uint16_t, U64, bool) noexcept;
+    static const native_profile::NativeRegistration* native_registration() noexcept;
     // Private fixture instrumentation; absent from the NI target's dependencies.
     static bool arm_first_wire() noexcept;
     static bool release_wire() noexcept;
+    static bool wire_held() noexcept;
 };
 }
 ```
+
+Correction 11 samples the existing producer deadline guard immediately before
+each actual borrowed-node write, including writable-channel callbacks. A false
+result performs no write. Correction 12 releases only the matching installation
+on its creating thread after the same published SDK IO-join and final
+framework-run cleanup evidence required by finish, or before any loop/listener was
+started. It removes unstarted listener bindings and releases unused pre-run arrays,
+never resets the one-attempt latch, quits a loop or allocates.
+
+
+The Transport reference supplied to attached is callable only on IO0 and only
+until socket_removed. That notification revokes transport authority before any
+abandoned wire-node return; a surviving SDK control block does not extend it.
+wire_released returns storage ownership once; it means successful local wire drain
+only when socket_removed has not occurred and no earlier terminal reason applies.
+A release during removal is not success. A refused head is terminal for that
+request and may never be reparsed or re-armed while its control node is pending.
+control_storage reserves/charges the actual fixed control slot and anchors/guards
+its output deadline; an unqueued reservation is returned on actual socket removal.
+accepting checks live role/peer capacity and stop/source-failure state, and
+before_parse samples/guards time, anchors the first buffered request and consumes
+the current role's bounded continuation budget. They are admission operations,
+not side-effect-free accessors. A native closed callback is delivered only if that
+peer's opened callback was admitted; internal native cleanup still always runs.
+
+BoundedIoInternal.h, Slot, bind_wake_fd, the wire-gate functions, sink(),
+bind_server(), control() and bootstrap_budget() are SDK-to-SDK plumbing, outside
+the first-party interface. That source-only header is not installed; public SDK
+headers expose no dependency on it. Correction 9 contributes only the two immutable
+G-share constants to the first-party boundary. First-party code must neither
+include that header nor reference these internal symbols. Ordinary selected SDK
+Channel/EventLoop APIs used for the two fixed wake channels remain implementation
+dependencies, not additional foundation authority.
+
+Correction 16 also classifies the bounded additions in installed Trantor headers
+as SDK-internal, not a first-party interface: TcpConnection::boundedSlot() and
+boundedTransport(), the TcpServer bounded methods/data members (including
+setBoundedProfile, boundedPoll and boundedStopAccepting), the MsgBuffer span
+constructor and fixedCompact/fixedHead/fixedTail, and EventLoop::boundedEpoch().
+
+Correction 15 adds one IO0-only nonallocating Runtime::observe(Producer&, Facts&)
+query, bound to the actual installed producer. It snapshots actual stock request
+map/batch/output append operations and actual sanitized projection map sizes, actual completed TCP constructors
+and retained SDK records through their final fence. pending_wakes counts peers
+with any pending or executing intent, including admission/suspension.
+The iovec witness comes from readv's argument, and first-party capacity/charge
+peaks and minimum writable values come from actual operations. No observation is
+supplied by a literal substituting for an event witness.
 
 Head.fields offsets refer to Head.raw (not a copied arena), after bounded scan;
 invalid records carry syntax_bad and never enter a request callback. The raw
@@ -147,7 +237,7 @@ all 17 immutable native Limits fields (connections, incomplete_upgrades, frame,
 message, frames/message, callback leases, per-peer/global callback bytes, raw,
 assembly, application/control output, frames/turn and four durations). Its private
 NativeRegistration interface supplies `const NativeLimits& limits() const`,
-`const void* source_identity() const`, `Sample sample() noexcept` and
+`const void* source_identity() const`, `Sample sample() const noexcept` and
 `bool attach_retirement(Session&, PeerStorage&) noexcept`. The installed real ProfileFactory implements
 and privately registers this once alongside its actual Session factory; no public DTO setter
 installs facts. Foundation's adapter compares source_identity to its retained
@@ -311,7 +401,12 @@ that constructor. The successor therefore reserves the SDK-only global metadata
 quota G=65536 before this initializer constructs its fixed framework bootstrap
 objects; first-party global allocations later use the remaining SAME quota.
 This is the G in §4, counted once, not an extra mapped array or a post-allocation
-claim. The correction adds a nonallocating bootstrap quota guard before the
+claim. R4 correction 9 partitions this same G into 32768 SDK and 32768
+first-party bytes, guarded by source/ABI layout bounds before the initializer and
+first-party allocations. Its private bootstrap binding reserves the future IO0
+arrays during install; IO0 moves those actual arrays instead of allocating again.
+Correction 10 reports the actual install failure so create preserves
+allocation_failure rather than confusing allocation and configuration failures. The correction adds a nonallocating bootstrap quota guard before the
 existing initializer's allocations and inventories its managers, main EventLoop,
 MpscQueue sentinel, timer/poller/channel and standard-object requests. If those
 source-proven rounded requests cannot fit G, SDK admission fails. Keep the
@@ -513,7 +608,12 @@ the owner closes or waits under the original request deadline, with no reply que
 stop first records and preserves ONE absolute deadline, closes admission for all
 later posts, and wakes IO0. Later stop calls (earlier or later arguments) coalesce
 without changing it. Already committed nonsecret output may drain until the
-original output/stop bound; uncommitted requests/replies cancel. IO0 removes both
+original output/stop bound; uncommitted requests/replies cancel.
+R4 `Runtime::stop_acceptors()` starts removal once and returns true only after both
+channels leave the poller, both listening descriptors close and both acceptor
+objects pass the active event batch; owner_turn/fixed scan polls it without
+allocation or quitting a loop.
+IO0 removes both
 acceptors, then actual peers/nodes/callbacks, and awaits native retirement AND the
 SDK-object/control-block deletion fences. When
 there is no network owner, executing/pending callback or removal work (apart from
@@ -521,12 +621,20 @@ the notification itself), stop_drained fires once on IO0. Inert handles may stil
 remain; they do not grant network access. Only AFTER this notification may the
 owner initiate app().quit(), join framework-main/IO cleanup, dispose remaining
 inert handles/posters and call finish. Early quit force-closes in candidate4 and
-is NOT a drain proof. Startup failure before run uses the same cleanup gate unless
+is NOT a drain proof. In the successor, app().quit() before stop_drained terminates
+the process, including through Drogon's default SIGTERM/SIGINT handler. Consumers
+must disable or replace that handler and initiate quit only after stop_drained
+(correction 16). Startup failure before run uses the same cleanup gate unless
 the process took the parent's terminal bind/listen path.
 
-finish acknowledges only actual joins, zero issued handles/post calls and no
-quarantined storage; otherwise incomplete_shutdown/wipe_failed. Cold/NI Foundation
-can destruct inertly. A live production Foundation destructor without successful
+Before calling finish, the caller must join its framework-main thread and
+stop/join external posters. finish verifies acquire/release-published completion
+of all SDK-owned IO joins and the final framework-run cleanup, zero issued
+handles/post calls and no quarantined storage; otherwise it reports
+incomplete_shutdown/wipe_failed. The caller-owned framework-thread join is a
+caller precondition; this API does not certify that externally performed
+std::thread::join. Cold/NI Foundation destruction and the live-destructor terminal
+policy are unchanged. Cold/NI Foundation can destruct inertly. A live production Foundation destructor without successful
 finish calls std::terminate (process-terminal, no graceful cleanup claim), rather
 than free dependencies reachable by a stuck callback. A nonreturning trusted
 callback cannot be preempted; supervisors retain their separate terminal policy.
@@ -776,7 +884,16 @@ when the role was already known full.
 Each owner wake processes at most 8 accepts per role and 8 peer continuations per
 role, alternating HTTP/native and advancing fixed round-robin cursors. Each
 HTTP/pre-Upgrade turn scans/copies ≤ 8192 bytes, issues at most one read, and each
-output turn sends ≤ 8192 bytes. Established native keeps its frozen frames/turn and
+output turn sends ≤ 8192 bytes. Correction 17 defines a peer turn as one socket-read
+dispatch or one owner-turn continuation; SDK poll and synchronous read re-arm
+share one continuation step for that peer. Only byte-budget exhaustion with
+unscanned buffered work wakes the existing eventfd for a normal loop dispatch.
+One successful admission/time/stop guard covers the finite step and its single
+budget wake; no second admission or clock sample is taken for that step. A step
+that observed stop issues no wake. An already admitted IO0 step may issue its one
+in-flight wake before IO0 observes a concurrent stop; the next owner turn checks
+stop before parsing, performs no parse step and never reschedules that wake.
+Other refusals never self-wake. Established native keeps its frozen frames/turn and
 raw limits; it is offered bounded round-robin opportunities, not redefined byte
 limits. Reserved capacity and bounded opportunities hold when IO runs/callbacks
 return. Finite HTTP deadlines do not prove kernel fairness, service when all of
@@ -918,6 +1035,14 @@ After establishment HTTP accept/idle/request guards cease; the frozen native
 frame/message/Close/idle/lease producer continues. Native C/U owner and shared P
 slot stay charged until actual Context::retire plus socket/handle cleanup.
 
+Correction 18: Foundation::admission and admit/suspend intents govern HTTP requests
+and native peers before establishment only. For an established native peer,
+including while its 101 is pending, a valid admission call returns Done and changes
+nothing: delivery, deadlines and read/write interest stay unchanged. The intents
+keep their posting semantics and have no native effect. The native profile alone
+owns established read interest and backpressure. Close and stop keep their existing
+teardown behaviour; admission never reopens a closing or removed connection.
+
 Import, do not reopen, the parent numeric-address/data-endpoint observation,
 public enableReusePort(true) probe bypass plus pre-listen SO_REUSEPORT clear and
 readback 0/SO_REUSEADDR = 1, bounded private scratch parent/child/canaries, disabled
@@ -1031,7 +1156,7 @@ Future ownership remains bounded:
 | API-016 fresh implementation | Those first-party producers plus `server/src/bounded_http_sdk_adapter.cpp` and the exact §1 source seams, including the new native build copy. Preserve reviewed tests, source/resource and separate code/artifact/native review. |
 | Coordinator | New `dependencies/bounded-http-foundation/{manifest.json,0003-trantor-bounded-http.patch,0004-drogon-bounded-http.patch,0005-native-source-binding.patch,README.md}`, SDK prefix/provenance, build-copy recipe, dependency/CMake/CI/acceptance/license integration. Original native files/input hashes remain unchanged. Names are proposed, not actual artifact identity. |
 | SESSION-011 | Actual successor rebase, account-specific lossless capture ABI, secure erasure/pre-log suppression and accepted account priorities. SESSION010 retains later source/policy integration. No API001 dependency for generic/capture fixture proof. |
-| APITEST-015/API001 | Host dual-listener/current-source/bridge/shared-stop composition; all 75 Qt selectors,18 native methods, HL01–17/L01–13, actual SQL/authority/cleanup gates and original red history stay binding. |
+| APITEST-015/API001 | Host dual-listener/current-source/bridge/shared-stop composition and the host baseline as recorded by APITEST-015 (#613), including its SQL/authority/cleanup gates and original red history. |
 
 The baseline first-party header uses only unchanged candidate4/public native types.
 NI implementations of create/register_listeners/post/stop/hooks/project_storage/
@@ -1067,11 +1192,10 @@ DT_NEEDED/VERNEED/symbol/RTTI/ABI closure before loading, scrubbed controlled
 identity after release, complete actual loaded maps at initialization/serving/
 cleanup and unchanged seal throughout. No old loaded receipt admits a new binary.
 
-Only authored design/source reading/literal arithmetic and document validation
-are evidence here. No header/stub/test/source/patch/build/SDK/native execution is
-authored or run. Independent different Codex verification then fresh Claude closing
-must approve this correction before test authorship. API001 draftPR121 source70ea261
-has scoped partial approvals only; current main host stubs are unimplemented.
+API-016 implements this boundary. The frozen 34-method foundation suite and the
+44 unchanged native methods pass selected Linux CI behind technical consumer gates;
+native44 also passes against the original candidate4 SDK. PR #664 records the
+R4 corrections 1–18, tier A reviews and gated synthetic loopback evidence.
 All SQL/CI/provider/platform/security/deployment/release gates, seven integrations,
 three FX providers, English/German, themes, separate renderers and full desktop
 editor remain in complete v 0.45 scope.

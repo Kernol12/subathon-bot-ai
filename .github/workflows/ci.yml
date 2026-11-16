@@ -656,9 +656,8 @@ jobs:
           PYTHON
       - name: Run development executable acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^dev-server$' --no-tests=error --verbose
-  # Corrected Drogon SDK suites, built once: native WebSocket profile acceptance, then
-  # the host lifecycle baseline build against the same sealed SDK and its registration
-  # check (intentional red, not run).
+  # The successor serves native44/foundation; unchanged host baselines retain
+  # their separately sealed API-012 candidate4 SDK (intentional red, not run).
   native:
     runs-on: ubuntu-24.04
     timeout-minutes: 80
@@ -723,8 +722,7 @@ jobs:
           cmake --version
           python3 --version
           dpkg-query -W libc6 libc6-dev libgcc-s1 libstdc++6 libjsoncpp-dev libjsoncpp25 libssl-dev libssl3t64 uuid-dev libuuid1 zlib1g-dev zlib1g
-      - name: Prepare and seal the exact corrected SDK in a fresh disposable prefix
-        # This recipe must receive independent review before its first hosted execution.
+      - name: Prepare and seal candidate4 for the unchanged host baselines
         run: python3 tools/native_websocket_ci.py prepare --root "$RUNNER_TEMP/native-ws-candidate4"
       - name: Configure the corrected native profile and build the observer
         run: |
@@ -743,6 +741,70 @@ jobs:
             "$ctest_command" --preset native-websocket-profile-debug -L '^native-websocket-profile$' --no-tests=error --verbose
       - name: Run existing infrastructure and tooling
         run: ctest --preset native-websocket-profile-debug -L '^scaffold$' --no-tests=error --verbose
+      - name: Prepare and seal the bounded HTTP successor SDK
+        # The artifact/recipe/gate remain part of the tier A source review packet.
+        run: python3 tools/native_websocket_ci.py prepare --profile bounded-http-foundation --root "$RUNNER_TEMP/bounded-http-foundation"
+      - name: Configure the successor foundation and native consumers
+        run: |
+          cmake --preset bounded-http-foundation-debug \
+            -DSUBATHON_DROGON_ROOT="$RUNNER_TEMP/bounded-http-foundation/sdk" \
+            -DSUBATHON_BOUNDED_HTTP_ADMISSION="$RUNNER_TEMP/bounded-http-foundation/receipts/foundation/development-admission.json"
+          cmake --build --preset bounded-http-foundation-debug --parallel 2
+      - name: Record consumer commands without loading either observer
+        run: ninja -C build/bounded-http-foundation-debug -t commands native_websocket_probe bounded_http_probe
+      - name: Verify enabled ordinary foundation and native suite registration
+        run: |
+          python3 - <<'PYTHON'
+          import ast
+          import json
+          from pathlib import Path
+          import subprocess
+          data = json.loads(subprocess.check_output(
+              ["ctest", "--test-dir", "build/bounded-http-foundation-debug", "--show-only=json-v1"], text=True))
+          expected = {"native-websocket-profile.suite": ("native-websocket-profile", 3300),
+                      "bounded-http-foundation.suite": ("bounded-http-foundation", 9920)}
+          selected = {test["name"]: test for test in data["tests"] if test["name"] in expected}
+          if set(selected) != set(expected):
+              raise SystemExit("Both enabled owning suites must be discovered")
+          for name, (label, timeout) in expected.items():
+              props = {p["name"]: p["value"] for p in selected[name]["properties"]}
+              if set(props.get("LABELS", [])) != {label, "acceptance", "server", "loopback"} or props.get("TIMEOUT") != timeout:
+                  raise SystemExit(f"{name}: labels/timeout differ from ordinary acceptance")
+              if props.get("DISABLED") or props.get("WILL_FAIL") or any(
+                  key in props for key in ("SKIP_RETURN_CODE", "SKIP_REGULAR_EXPRESSION",
+                                           "PASS_REGULAR_EXPRESSION", "FAIL_REGULAR_EXPRESSION")):
+                  raise SystemExit(f"{name}: native results must not be rewritten")
+          tree = ast.parse(Path("tests/bounded_http_foundation/test_bounded_http.py").read_text())
+          owner, = [n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "FoundationTests"]
+          methods = [n.name for n in owner.body if isinstance(n, ast.FunctionDef) and n.name.startswith("test_")]
+          if len(methods) != len(set(methods)) or len(methods) != 34:
+              raise SystemExit("Expected all 34 reviewed foundation methods")
+          print("Enabled 34-method foundation and unchanged native44 owning suites")
+          PYTHON
+      - name: Gate the unchanged native44 consumer against the successor
+        run: >-
+          python3 tools/native_websocket_ci.py gate --profile bounded-http-foundation
+          --root "$RUNNER_TEMP/bounded-http-foundation"
+          --build-dir build/bounded-http-foundation-debug --consumer native
+      - name: Run required-success native44 synthetic loopback acceptance
+        run: |
+          ctest_command="$(cat "$RUNNER_TEMP/bounded-http-foundation/receipts/native/ctest-command.txt")"
+          env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TMPDIR="$RUNNER_TEMP" \
+            LD_LIBRARY_PATH="$RUNNER_TEMP/bounded-http-foundation/sdk/lib" \
+            "$ctest_command" --test-dir build/bounded-http-foundation-debug -L '^native-websocket-profile$' --no-tests=error --verbose
+      - name: Gate the foundation consumer against the same successor
+        run: >-
+          python3 tools/native_websocket_ci.py gate --profile bounded-http-foundation
+          --root "$RUNNER_TEMP/bounded-http-foundation"
+          --build-dir build/bounded-http-foundation-debug --consumer foundation
+      - name: Run required-success foundation synthetic loopback acceptance
+        run: |
+          ctest_command="$(cat "$RUNNER_TEMP/bounded-http-foundation/receipts/native/ctest-command.txt")"
+          env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TMPDIR="$RUNNER_TEMP" \
+            LD_LIBRARY_PATH="$RUNNER_TEMP/bounded-http-foundation/sdk/lib" \
+            "$ctest_command" --test-dir build/bounded-http-foundation-debug -L '^bounded-http-foundation$' --no-tests=error --verbose
+      - name: Run existing infrastructure and tooling
+        run: ctest --test-dir build/bounded-http-foundation-debug -L '^scaffold$' --no-tests=error --verbose
       - name: Install archive, Qt runtime and pinned Boost headers
         run: |
           echo "QT_PREFIX=$RUNNER_TEMP/qt-6.12.0" >> "$GITHUB_ENV"

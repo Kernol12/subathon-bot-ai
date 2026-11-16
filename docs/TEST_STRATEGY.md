@@ -62,8 +62,8 @@ still using synthetic data and supplied policy/authority facts.
 | `sqlite-permission-graph-debug` | `-L '^sqlite-permission-graph$'` | 44 reviewed Qt methods / 94 invocations; real-SQL graph/CAS acceptance; authenticated saves remain separate |
 | `sqlite-reference-authority-debug` | `-L '^sqlite-reference-authority$'` | 59 reviewed Qt methods / 214 invocations; real-SQL current original-author/capability/graph authority and selected historical reads; host/API consumers remain separate |
 | `translation-catalog-debug` | `-L '^translation-catalog$'` | 43 generator methods with literal goldens; build also produces/validates real Qt QM |
-| `native-websocket-profile-debug` | `-L '^native-websocket-profile$'` | 44 reviewed methods passing locally and in selected Ubuntu CI against the corrected Drogon/Trantor SDK: real Linux loopback framing/control/Close, listener isolation, ownership and resource/deadline observations with supplied elapsed time; actual host/TLS/clock/auth/platform gates remain separate |
-| `bounded-http-foundation-debug` | `-L '^bounded-http-foundation$'` | NI-only bounded HTTP baseline; see APITEST-016 for actual review/admission/red status. Compiles the existing native transport dependency without Qt/SQL/host scope. |
+| `native-websocket-profile-debug` | `-L '^native-websocket-profile$'` | 44 reviewed methods passing locally and in selected Ubuntu CI against the API-012 candidate4 SDK, with a separate unchanged native44 run against the successor: real Linux loopback framing/control/Close, listener isolation, ownership and resource/deadline observations with supplied elapsed time; actual host/TLS/clock/auth/platform gates remain separate |
+| `bounded-http-foundation-debug` | `-L '^bounded-http-foundation$'` | 34 reviewed methods passing locally against the bounded successor, with a mandatory real legacy positive, frozen 97-row wire inventory and actual read/retention/stop observations; native44 is separately gated against the same SDK. Ordinary passing CI, no Qt/SQL/host behavior claim. |
 | `rate-snapshot-debug` | `-L '^rate-snapshot$'` | 53 preserved cases for owned lossless observations, exact effective-table validation and inverse/cross queries; no provider/cache/valuation integration |
 | `schema-validation-debug` | `-L '^schema-validation$'` | 3 nodes: repository OpenAPI/components/examples, canonical proof/policy aggregate and real-SDK proof publication integration; actual HEAD inputs are required |
 
@@ -128,9 +128,24 @@ The `bounded-http-foundation-debug` test preset filters its own label; the nativ
 profile is a compiled dependency, with separate consumer-admission/regression gates.
 Its admission receipt defaults to `bounded-http-admission.json` under the binary
 directory and may be overridden with `SUBATHON_BOUNDED_HTTP_ADMISSION`. Configuration
-can precede the reviewed receipt contents; a missing runtime receipt is a setup
-failure, never intended red. Independent test/fixture review and new-consumer
-admission precede any execution; the preset name conveys no approval or capability.
+can precede the technical receipt contents; a missing runtime receipt is a setup
+failure, never intended red. The reviewed fixture remains frozen. Every new consumer
+must pass passive ELF/ABI closure before load, controlled identity, loaded-map checks
+and unchanged seals. The successor recipe's `--consumer foundation` gate writes a
+development receipt for this runner. Its frozen `review_receipt` key links the
+[coordinator ruling](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6908247970),
+not a review admitting that binary. Local gated runs are development evidence;
+acceptance requires gated CI on the reviewed head. The tier-A cycle reviews the
+recipe, gate, artifact and producer together. The preset name conveys no approval
+or capability. All 34 foundation methods and 44 unchanged native methods pass
+locally against one prepared successor. Both run as ordinary passing suites in the
+existing `native` job, behind separate gates. The preserved candidate4 NI target
+remains a historical compile/link baseline; it supplies no successor behavior.
+Revision R4 comprises corrections 1–17, reviewed in
+[PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664), which records the
+frozen baseline and passing selected Linux CI for foundation34 and both native44
+SDK lanes. No first-party public declaration or frozen test/oracle was changed;
+these results establish no release, platform or security verification.
 
 ## Running relevant checks
 
@@ -158,7 +173,8 @@ the initial-capture prefix for account/session storage; milestone,
 permissions and rate include numeric checks; editorial includes debt and lifecycle.
 Bare acceptance ON defaults to credit. An explicit empty/unknown selection fails;
 `all` explicitly includes every native/translation suite, all required SDKs and the
-host lifecycle and bounded HTTP foundation intentional-red baselines. Rate snapshots are ordinary passing
+host lifecycle intentional-red baselines and the ordinary passing bounded HTTP
+foundation suite. Rate snapshots are ordinary passing
 acceptance. The corrected native WebSocket
 profile itself remains ordinary passing acceptance. Schema validation and configure-only Qt probing remain separate
 controls. The account preset includes the complete compiled SQLite migration prefix:
