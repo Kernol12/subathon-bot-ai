@@ -48,7 +48,8 @@ containers do not allocate payload. Bounded lifecycle/scan/mailbox operations do
 not enqueue per-request MPSC closures. Native timer/lease/queue costs remain under
 the imported native profile; caller fixture barriers/serialization are separate.
 
-First-party Core, two eventfd/timerfd Channels, Foundation/State allocations and
+First-party Core (including the inline physical backing for its two
+eventfd/timerfd Channels), Foundation/State allocations and
 the native registration's <=256-byte global allowance have their own compiled
 rounded sum <=32768. The native build copy checks registration object/control
 storage before installation. Its retained original native Context/pools remain
@@ -91,3 +92,31 @@ All 34/44 loopback methods and selected compile/layout guards must be read toget
 with source review. Passing counters alone cannot prove this inventory. Tier A
 review must check its stdlib assumptions, every simultaneous temporary and the
 pre-main/static initialization order on the sealed selected toolchain.
+
+## Fix round 1 witness and lifetime accounting
+
+The two wake Channels are placement-constructed on IO0 in aligned storage already
+allocated with Core before run; their destructors run only after finish's cleanup
+fence. No first-turn Channel heap allocation remains. The existing conservative G
+compile guard still also allows two rounded Channel sizes, so this change cannot
+increase the admitted global bound. SDK Facts and its atomic append counter and
+completion publications fit the existing startup-bookkeeping allowance; they add
+no heap or payload queue. Physical peer/control/request pool sizes are unchanged.
+
+Runtime::observe (correction 15) returns actual map-carrier/batch/stock-output
+operations and actual projected headers/cookies map sizes. The private Trantor
+counter is incremented at the stock list-insert/append sites; selected ordinary
+paths are forbidden to reach them. ReadSample.iovcnt comes from readv's actual
+argument, and read_min_writable/peaks are updated from actual guards/acquisitions.
+These are event witnesses, not structural constants. BoundedIoInternal.h remains
+SDK-to-SDK source plumbing, is not installed, and is not included by public SDK
+headers or first-party sources.
+
+Socket removal revokes Transport before abandoned node returns. Such returns only
+release ownership; they cannot manufacture drained success. Reserved controls
+without nodes are reclaimed at the same socket-removal service turn. Receive
+teardown wipes once per peer incarnation before reuse; owner_teardown is emitted
+and pending successor storage is wiped even after a request was delivered.
+Framework-run completion and every SDK-owned IO join are acquire/release-published;
+discard and finish require that evidence. Caller-owned framework-thread join is
+a caller precondition, not a report inferred from !isRunning or server absence.

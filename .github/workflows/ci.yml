@@ -724,6 +724,23 @@ jobs:
           dpkg-query -W libc6 libc6-dev libgcc-s1 libstdc++6 libjsoncpp-dev libjsoncpp25 libssl-dev libssl3t64 uuid-dev libuuid1 zlib1g-dev zlib1g
       - name: Prepare and seal candidate4 for the unchanged host baselines
         run: python3 tools/native_websocket_ci.py prepare --root "$RUNNER_TEMP/native-ws-candidate4"
+      - name: Configure the corrected native profile and build the observer
+        run: |
+          cmake --preset native-websocket-profile-debug -DSUBATHON_DROGON_ROOT="$RUNNER_TEMP/native-ws-candidate4/sdk"
+          cmake --build --preset native-websocket-profile-debug --parallel 2
+      - name: Record consumer commands without loading the observer
+        run: ninja -C build/native-websocket-profile-debug -t commands native_websocket_probe
+      - name: Check passive native44 inventory and ELF closure, then gate controlled identity
+        # --identity is read-only. No native test body runs unless the complete map matches.
+        run: python3 tools/native_websocket_ci.py gate --root "$RUNNER_TEMP/native-ws-candidate4"
+      - name: Run required-success native44 synthetic loopback acceptance
+        run: |
+          ctest_command="$(cat "$RUNNER_TEMP/native-ws-candidate4/receipts/ctest-command.txt")"
+          env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 \
+            LD_LIBRARY_PATH="$RUNNER_TEMP/native-ws-candidate4/sdk/lib" \
+            "$ctest_command" --preset native-websocket-profile-debug -L '^native-websocket-profile$' --no-tests=error --verbose
+      - name: Run existing infrastructure and tooling
+        run: ctest --preset native-websocket-profile-debug -L '^scaffold$' --no-tests=error --verbose
       - name: Prepare and seal the bounded HTTP successor SDK
         # The artifact/recipe/gate remain part of the tier A source review packet.
         run: python3 tools/native_websocket_ci.py prepare --profile bounded-http-foundation --root "$RUNNER_TEMP/bounded-http-foundation"

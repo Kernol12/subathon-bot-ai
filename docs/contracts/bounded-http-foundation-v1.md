@@ -8,7 +8,7 @@ budget binding/constants, install-failure query, actual-write deadline guard and
 joined/cold installation cleanup; see PR #664 for their exact scope.
 
 APICONTRACT-005; identity `subathon.bounded-http-foundation.v1`. Normative
-**proposal**, not implemented or admitted. R2 addressed initial-review findings
+boundary implemented in API-016, pending the tier A review cycle. R2 addressed initial-review findings
 CI005-B1–B6 and A1–A8. Independent Codex verification retained B1's native-wrapper
 lifetime gap and B6's read-witness gap. R3 addresses those and its thread/backpressure
 advisories; separate re-verification and Claude closing remain required. Author base
@@ -37,9 +37,8 @@ methods remain byte-identical. A separately admitted additive successor is neede
 Legacy unselected listeners retain candidate4 behavior; the same 44 methods must
 pass unchanged against the successor with fresh consumer admission.
 
-Source observations below use the parent's read-only
-`/home/archnoob/ProgrammingProjects/SubathonProject/subathon-bot-ai/build/deps/`
-`drogon-1.9.14-api012-candidate4-source` and matching `-sdk/include`.
+Source observations use the read-only candidate4 source and matching SDK supplied
+for this task, identified by the pins below.
 Drogon is `3aae769cc405cf5abb9d477675c6430924f02c7c`, Trantor is
 `78e480f5e138acdc05f76c55a2716718cd846364`, followed by the exact
 [historical patches](../../dependencies/native-websocket-profile/manifest.json).
@@ -70,7 +69,12 @@ by first-party code. Proposed SDK headers are
 and SDK headers; neither DSO includes or links first-party Foundation, Result,
 ElapsedSource or callback types. The following private ABI shapes are normative;
 SDK pointer cookies are usable only by their installed producer/connection.
-R4 operational additions are IO0-only, noexcept, nonallocating and idempotent;
+R4 operations are noexcept. Transport/PeerStorage/Sink operations and Runtime
+poll/stop_acceptors/bind_wake/render_reply/observe/release_wire/wire_held are IO0-only
+(except native_retired, which latches/wakes on any ordinary thread). Runtime
+install/install_failure/discard/native_registration/arm_first_wire run on the
+creating thread; listener runs on framework-main before run. Operational cleanup
+and guards are nonallocating and idempotent;
 `native_registration` is the immutable creating-thread preflight already required
 below. Storage access returns only the actual peer's precharged SDK metadata or
 reserved control slot; receive wiping forwards actual mapped subranges to the
@@ -86,10 +90,6 @@ struct Sample { bool available; U64 ns; };
 struct ReadWitness { U64 head, tail, writable, offered;
                      std::int64_t returned; std::int32_t error;
                      std::uint8_t iovcnt; };
-namespace detail { // SDK-internal bootstrap/IO-array ownership, never a first-party setter
-struct BootstrapBudget;
-BootstrapBudget& bootstrap_budget() noexcept; // R4 correction 9
-}
 class Transport { // SDK implementation; IO0 only, actual accepted connection
 public:
     virtual ~Transport() = default;
@@ -133,6 +133,8 @@ struct Head { std::span<const std::byte> raw;
               std::string_view method, target;
               std::span<const Field> fields; bool syntax_bad;
               U64 raw_bytes, field_count, semantic_bytes, max_field_bytes, line_bytes; };
+struct Facts { U64 stock_maps, stock_batches, stock_output_appends,
+               native_projected_fields, native_projected_cookies; }; // correction 15
 struct Decision { std::uint16_t status; U64 body_bytes; }; // status=0 admits
 enum class NativeEvent : std::uint8_t { opened, message, closed };
 class Sink { // first-party implementation; existing parser invokes on IO0
@@ -150,6 +152,7 @@ struct Endpoint { std::array<char,46> address; std::uint16_t port; };
 enum class InstallFailure : std::uint8_t { none, invalid_config, invalid_state, allocation_failure };
 class Runtime { // SDK implementation, private installation, one per process
 public:
+    static bool observe(trantor::bounded_io::Producer&, Facts&) noexcept; // correction 15
     static bool install(trantor::bounded_io::Producer&, Sink&, U64 peers) noexcept;
     static InstallFailure install_failure() noexcept; // R4 correction 10, creating-thread query
     static bool discard(trantor::bounded_io::Producer&) noexcept; // R4 correction 12
@@ -171,9 +174,42 @@ public:
 Correction 11 samples the existing producer deadline guard immediately before
 each actual borrowed-node write, including writable-channel callbacks. A false
 result performs no write. Correction 12 releases only the matching installation
-on its creating thread after joined cleanup, or before any loop/listener was
+on its creating thread after the same published SDK IO-join and final
+framework-run cleanup evidence required by finish, or before any loop/listener was
 started. It removes unstarted listener bindings and releases unused pre-run arrays,
 never resets the one-attempt latch, quits a loop or allocates.
+
+
+The Transport reference supplied to attached is callable only on IO0 and only
+until socket_removed. That notification revokes transport authority before any
+abandoned wire-node return; a surviving SDK control block does not extend it.
+wire_released returns storage ownership once; it means successful local wire drain
+only when socket_removed has not occurred and no earlier terminal reason applies.
+A release during removal is not success. A refused head is terminal for that
+request and may never be reparsed or re-armed while its control node is pending.
+control_storage reserves/charges the actual fixed control slot and anchors/guards
+its output deadline; an unqueued reservation is returned on actual socket removal.
+accepting checks live role/peer capacity and stop/source-failure state, and
+before_parse samples/guards time, anchors the first buffered request and consumes
+the current role's bounded continuation budget. They are admission operations,
+not side-effect-free accessors. A native closed callback is delivered only if that
+peer's opened callback was admitted; internal native cleanup still always runs.
+
+BoundedIoInternal.h, Slot, bind_wake_fd, the wire-gate functions, sink(),
+bind_server(), control() and bootstrap_budget() are SDK-to-SDK plumbing, outside
+the first-party interface. That source-only header is not installed; public SDK
+headers expose no dependency on it. Correction 9 contributes only the two immutable
+G-share constants to the first-party boundary. First-party code must neither
+include that header nor reference these internal symbols. Ordinary selected SDK
+Channel/EventLoop APIs used for the two fixed wake channels remain implementation
+dependencies, not additional foundation authority.
+
+Correction 15 adds one IO0-only nonallocating Runtime::observe(Producer&, Facts&)
+query, bound to the actual installed producer. It snapshots actual stock request
+map/batch/output append operations and actual sanitized projection map sizes.
+The iovec witness comes from readv's argument, and first-party capacity/charge
+peaks and minimum writable values come from actual operations. No observation is
+supplied by a literal substituting for an event witness.
 
 Head.fields offsets refer to Head.raw (not a copied arena), after bounded scan;
 invalid records carry syntax_bad and never enter a request callback. The raw
@@ -193,7 +229,7 @@ all 17 immutable native Limits fields (connections, incomplete_upgrades, frame,
 message, frames/message, callback leases, per-peer/global callback bytes, raw,
 assembly, application/control output, frames/turn and four durations). Its private
 NativeRegistration interface supplies `const NativeLimits& limits() const`,
-`const void* source_identity() const`, `Sample sample() noexcept` and
+`const void* source_identity() const`, `Sample sample() const noexcept` and
 `bool attach_retirement(Session&, PeerStorage&) noexcept`. The installed real ProfileFactory implements
 and privately registers this once alongside its actual Session factory; no public DTO setter
 installs facts. Foundation's adapter compares source_identity to its retained
@@ -580,9 +616,14 @@ inert handles/posters and call finish. Early quit force-closes in candidate4 and
 is NOT a drain proof. Startup failure before run uses the same cleanup gate unless
 the process took the parent's terminal bind/listen path.
 
-finish acknowledges only actual joins, zero issued handles/post calls and no
-quarantined storage; otherwise incomplete_shutdown/wipe_failed. Cold/NI Foundation
-can destruct inertly. A live production Foundation destructor without successful
+Before calling finish, the caller must join its framework-main thread and
+stop/join external posters. finish verifies acquire/release-published completion
+of all SDK-owned IO joins and the final framework-run cleanup, zero issued
+handles/post calls and no quarantined storage; otherwise it reports
+incomplete_shutdown/wipe_failed. The caller-owned framework-thread join is a
+caller precondition; this API does not certify that externally performed
+std::thread::join. Cold/NI Foundation destruction and the live-destructor terminal
+policy are unchanged. Cold/NI Foundation can destruct inertly. A live production Foundation destructor without successful
 finish calls std::terminate (process-terminal, no graceful cleanup claim), rather
 than free dependencies reachable by a stuck callback. A nonreturning trusted
 callback cannot be preempted; supervisors retain their separate terminal policy.
@@ -1087,7 +1128,7 @@ Future ownership remains bounded:
 | API-016 fresh implementation | Those first-party producers plus `server/src/bounded_http_sdk_adapter.cpp` and the exact §1 source seams, including the new native build copy. Preserve reviewed tests, source/resource and separate code/artifact/native review. |
 | Coordinator | New `dependencies/bounded-http-foundation/{manifest.json,0003-trantor-bounded-http.patch,0004-drogon-bounded-http.patch,0005-native-source-binding.patch,README.md}`, SDK prefix/provenance, build-copy recipe, dependency/CMake/CI/acceptance/license integration. Original native files/input hashes remain unchanged. Names are proposed, not actual artifact identity. |
 | SESSION-011 | Actual successor rebase, account-specific lossless capture ABI, secure erasure/pre-log suppression and accepted account priorities. SESSION010 retains later source/policy integration. No API001 dependency for generic/capture fixture proof. |
-| APITEST-015/API001 | Host dual-listener/current-source/bridge/shared-stop composition; all 75 Qt selectors,18 native methods, HL01–17/L01–13, actual SQL/authority/cleanup gates and original red history stay binding. |
+| APITEST-015/API001 | Host dual-listener/current-source/bridge/shared-stop composition and the host baseline as recorded by APITEST-015 (#613), including its SQL/authority/cleanup gates and original red history. |
 
 The baseline first-party header uses only unchanged candidate4/public native types.
 NI implementations of create/register_listeners/post/stop/hooks/project_storage/
@@ -1123,11 +1164,10 @@ DT_NEEDED/VERNEED/symbol/RTTI/ABI closure before loading, scrubbed controlled
 identity after release, complete actual loaded maps at initialization/serving/
 cleanup and unchanged seal throughout. No old loaded receipt admits a new binary.
 
-Only authored design/source reading/literal arithmetic and document validation
-are evidence here. No header/stub/test/source/patch/build/SDK/native execution is
-authored or run. Independent different Codex verification then fresh Claude closing
-must approve this correction before test authorship. API001 draftPR121 source70ea261
-has scoped partial approvals only; current main host stubs are unimplemented.
+API-016 implementation, gated local synthetic loopback evidence and required CI
+are recorded in PR #664. Its initial tier A review requested changes; fix round 1
+is in progress. Independent verification and fresh closing review remain required.
+No implementation or passing fixture result is an owner review approval.
 All SQL/CI/provider/platform/security/deployment/release gates, seven integrations,
 three FX providers, English/German, themes, separate renderers and full desktop
 editor remain in complete v 0.45 scope.

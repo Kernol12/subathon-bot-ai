@@ -55,7 +55,7 @@ class BoundedHttpSdkTests(unittest.TestCase):
     def test_foundation_identity_faults_issue_no_execution_receipt(self):
         # The passive closure is already an input here. Identity mismatch must not
         # create the receipt subsequently consumed by the frozen foundation runner.
-        for fault in ("exit", "stderr", "backend", "missing-maps", "unknown-map"):
+        for fault in ("exit", "stderr", "backend", "missing-maps", "unknown-map", "wrong-probe"):
             with self.subTest(fault=fault), tempfile.TemporaryDirectory() as temp:
                 root = Path(temp)
                 probe = root / "probe"
@@ -64,6 +64,8 @@ class BoundedHttpSdkTests(unittest.TestCase):
                 event = {"event": "identity", "cplusplus": 202002,
                          "native_backend": "stock" if fault == "backend" else "admitted_corrected",
                          "read_sample_size": 64}
+                if fault == "wrong-probe":
+                    event = {"event": "identity", "consumer_cplusplus": 202002, "loaded_objects": []}
                 events = []
                 if fault != "missing-maps":
                     for phase in ("initial", "cleanup"):
@@ -106,6 +108,27 @@ class BoundedHttpSdkTests(unittest.TestCase):
             cache = Path("/etc/ld.so.cache")
             if cache.is_file():
                 self.assertEqual(receipt["files"][str(cache)], recipe.digest(cache))
+
+    def test_missing_successor_marker_refuses_before_any_load(self):
+        with tempfile.TemporaryDirectory() as temp:
+            sdk = Path(temp)
+            library = str((sdk / "lib/libdrogon.so.1.9.14").resolve())
+            for symbols in ([], [{"name": "DROGON_SUBATHON_NATIVE_V1"}]):
+                with self.subTest(symbols=symbols), patch.object(recipe.subprocess, "run") as child:
+                    with self.assertRaisesRegex(ValueError, "Missing successor ABI marker"):
+                        recipe.require_successor_marker({library: {"symbols": symbols}}, sdk)
+                    child.assert_not_called()
+
+    def test_parent_local_prepare_cannot_bypass_ubuntu_recipe(self):
+        with patch.object(sys, "argv", ["recipe", "prepare", "--root", "unused",
+                                      "--profile", "native", "--local-development"]), \
+             patch.object(recipe, "SUCCESSOR", False), \
+             patch.object(recipe, "LOCAL_DEVELOPMENT", False), \
+             patch.object(recipe, "CONSUMER", "native"), \
+             patch.object(recipe, "prepare") as child:
+            with self.assertRaisesRegex(ValueError, "Parent preparation stays Ubuntu-only"):
+                recipe.main()
+            child.assert_not_called()
 
     def test_recipe_children_use_the_task_compiler_temporary_directory(self):
         with tempfile.TemporaryDirectory() as temp:

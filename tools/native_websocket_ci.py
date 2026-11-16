@@ -469,6 +469,7 @@ def prepare(root: Path) -> None:
 
 
 def checked_seal(sdk: Path) -> dict:
+    sdk = sdk.resolve(strict=True)
     profile()
     identity = json.loads((sdk / "dependency-build.json").read_text(encoding="utf-8"))
     require(set(identity) == {"format", "profile_manifest_sha256", "artifacts", "toolchain"} and
@@ -510,6 +511,13 @@ def passive_inventory(environment: dict, ctest: Path) -> dict:
             and not props.get("DISABLED", False) and not props.get("WILL_FAIL", False)
             and props.get("TIMEOUT") == 3300, "Native suite must be enabled required-success with 3300s bound")
     return {"methods": sorted(found), "ctest": native[0]}
+
+
+def require_successor_marker(closure: dict, sdk: Path) -> None:
+    """Refuse a stock/parent DSO before any controlled identity load."""
+    symbols = closure[str((sdk / "lib/libdrogon.so.1.9.14").resolve())]["symbols"]
+    require(any(s["name"] == "DROGON_SUBATHON_BOUNDED_HTTP_V1" and exported(s)
+                for s in symbols), "Missing successor ABI marker")
 
 
 def foundation_identity(root: Path, probe: Path, environment: dict, expected: dict,
@@ -587,7 +595,7 @@ def foundation_identity(root: Path, probe: Path, environment: dict, expected: di
 
 
 def gate(root: Path) -> None:
-    sdk = root / "sdk"
+    sdk = (root / "sdk").resolve(strict=True)
     environment = clean_env(sdk)
     receipts = root / "receipts" / CONSUMER if SUCCESSOR else root / "receipts"
     seal = checked_seal(sdk)
@@ -652,9 +660,7 @@ def gate(root: Path) -> None:
     require(checked_seal(sdk) == seal and all(file_identity(Path(p)) == item for p, item in expected.items()),
             "Inputs changed before identity")
     if SUCCESSOR:
-        require(any(s["name"] == "DROGON_SUBATHON_BOUNDED_HTTP_V1" and exported(s)
-                    for s in closure[str((sdk / "lib/libdrogon.so.1.9.14").resolve())]["symbols"]),
-                "Missing successor ABI marker")
+        require_successor_marker(closure, sdk)
     # Identity has no listener. Actual loaded maps must match the passive closure.
     if CONSUMER == "foundation":
         foundation_identity(root, probe, environment, expected, seal, discovery, ctest_identity, abi)
@@ -713,8 +719,9 @@ def main() -> None:
     SUCCESSOR = args.profile == "bounded-http-foundation"
     LOCAL_DEVELOPMENT = args.local_development
     CONSUMER = args.consumer
-    require(SUCCESSOR or not (LOCAL_DEVELOPMENT or args.source_seed or CONSUMER != "native"),
-            "Development/source-seed/foundation options are successor-only")
+    require(SUCCESSOR or not (args.source_seed or CONSUMER != "native" or
+                             (LOCAL_DEVELOPMENT and args.stage == "prepare")),
+            "Parent preparation stays Ubuntu-only; source-seed/foundation options are successor-only")
     if SUCCESSOR:
         PROFILE = REPO / "dependencies/bounded-http-foundation"
         PROVENANCE = "share/subathon-bounded-http-foundation"

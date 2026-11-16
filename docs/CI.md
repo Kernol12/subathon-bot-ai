@@ -25,7 +25,9 @@ for focused local runs; `core-acceptance-debug` selects the same suites together
   each of its twelve suites is discovered with its labels and timeouts intact.
 - Host lifecycle baselines stay enabled as intentional red: the `native` job compiles
   and inspects their registration but does not run them.
-- The `native` job builds the bounded HTTP successor SDK once. It independently
+- The `native` job first gates and executes candidate4/native44 with the original
+  native source and unchanged main command shape. It builds the bounded HTTP
+  successor SDK once. It independently
   gates native44 and foundation consumers and runs both with ordinary success
   semantics before Qt/Boost installation changes the host package state. The host baseline
   retains its separately prepared API-012 candidate4 SDK and unchanged loader. A

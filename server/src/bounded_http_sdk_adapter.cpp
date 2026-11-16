@@ -48,7 +48,7 @@ struct PeerRecord final : io::PeerStorage {
     bool live{}, attached_once{}, in_connected{}, wanted{}, reading{}, delivered{}, raw_live{},
         raw_revoked{}, ended{}, socket_gone{}, sdk_gone{}, removed{}, context_set{}, wake_issued{},
         close_reply{}, reserved{}, filled{}, wire_done{}, close_requested{}, quarantined{},
-        native{}, native_established{}, native_retired_seen{}, retiring_charge{},
+        native{}, native_established{}, terminal_wiped{}, native_retired_seen{}, retiring_charge{},
         native_retiring_charge{}, control{}, request_started{}, has_end{};
     End end{End::cancelled};
     unsigned mailbox{}, executing{};
@@ -60,7 +60,7 @@ struct PeerRecord final : io::PeerStorage {
     void attached(io::Transport &) noexcept override;
     void read_witness(io::ReadWitness) noexcept override;
     void wire_released(void *) noexcept override;
-    void socket_removed() noexcept override { socket_gone = true; }
+    void socket_removed() noexcept override { socket_gone = true; transport = nullptr; reading = false; revoked.store(true, std::memory_order_release); }
     void native_retired() noexcept override;
     void sdk_objects_released() noexcept override { sdk_gone = true; }
     std::span<std::byte> arena() noexcept { return {payload + 65544, 32768}; }
@@ -76,6 +76,9 @@ struct PoolSlot {
 static_assert(sizeof(PoolSlot) <= 128);
 struct MetaDelete {
     void operator()(std::byte *p) const noexcept { ::operator delete(p, std::align_val_t(64)); }
+};
+struct ChannelDestroy {
+    void operator()(trantor::Channel *p) const noexcept { if(p) p->~Channel(); }
 };
 struct Core final : io::Producer, sdk::Sink {
     Limits limits;
@@ -94,14 +97,18 @@ struct Core final : io::Producer, sdk::Sink {
     std::byte *mapping{};
     U64 mapped{}, meta_bytes{};
     int event_fd{-1}, timer_fd{-1};
-    std::unique_ptr<trantor::Channel> event_channel, timer_channel;
-    trantor::EventLoop *loop{};
-    std::thread::id creator{std::this_thread::get_id()}, io_thread{};
+    // Physical wake-channel backing is allocated with Core before IO0 starts.
+    alignas(trantor::Channel) std::byte event_backing[sizeof(trantor::Channel)];
+    alignas(trantor::Channel) std::byte timer_backing[sizeof(trantor::Channel)];
+    std::unique_ptr<trantor::Channel, ChannelDestroy> event_channel, timer_channel;
+    std::atomic<trantor::EventLoop *> loop{nullptr};
+    std::thread::id creator{std::this_thread::get_id()};
     std::mutex mutex;
-    std::atomic<U64> handle_count{0}, delete_count{0}, posts{0};
+    std::atomic<U64> handle_count{0}, delete_count{0};
     std::atomic<bool> stopping{false}, io_live{false};
     U64 stop_deadline{}, now_ns{}, prior{}, cursor{}, native_upgrade_ms{};
-    bool prior_set{}, elapsed_bad{}, registered{}, drained{}, finished{}, quarantine{},
+    std::atomic<bool> drained{false}, quarantine{false};
+    bool prior_set{}, elapsed_bad{}, registered{}, finished{},
         hook_installed{}, turning{}, sdk_installed{};
     unsigned callbacks_active{}, visitors{}, turn_work[2]{};
     Core(Limits l, Storage s, std::shared_ptr<const native_ws::ElapsedSource> clock, Callbacks cb,
@@ -110,6 +117,7 @@ struct Core final : io::Producer, sdk::Sink {
         observation.reserved_storage = s.reserved;
         observation.mapped_storage = s.mapped;
         observation.current.metadata_charge = 65536;
+        peaks();
     }
     ~Core() {
         if (sdk_installed && !sdk::Runtime::discard(*this))
@@ -143,7 +151,28 @@ struct Core final : io::Producer, sdk::Sink {
         return mapping + limits.peers * peer_bytes + limits.input_slots * limits.body_bytes +
                i * (limits.reply_bytes + 128);
     }
-    bool is_io() const noexcept { return std::this_thread::get_id() == io_thread; }
+    U64 peak_pending{}; // Protected by the same mutex as pending/executing records.
+    void peaks() noexcept {
+        observation.peak.peers=std::max(observation.peak.peers,observation.current.peers);
+        observation.peak.http_peers=std::max(observation.peak.http_peers,observation.current.http_peers);
+        observation.peak.native_peers=std::max(observation.peak.native_peers,observation.current.native_peers);
+        observation.peak.retiring_peers=std::max(observation.peak.retiring_peers,observation.current.retiring_peers);
+        observation.peak.input_slots=std::max(observation.peak.input_slots,observation.current.input_slots);
+        observation.peak.output_slots=std::max(observation.peak.output_slots,observation.current.output_slots);
+        observation.peak.input_capacity=std::max(observation.peak.input_capacity,observation.current.input_capacity);
+        observation.peak.output_capacity=std::max(observation.peak.output_capacity,observation.current.output_capacity);
+        observation.peak.control_capacity=std::max(observation.peak.control_capacity,observation.current.control_capacity);
+        observation.peak.metadata_charge=std::max(observation.peak.metadata_charge,observation.current.metadata_charge);
+        observation.peak.transient_fds=std::max(observation.peak.transient_fds,observation.current.transient_fds);
+        observation.peak.constructed=std::max(observation.peak.constructed,observation.current.constructed);
+        observation.peak.native_retiring=std::max(observation.peak.native_retiring,observation.current.native_retiring);
+        observation.peak.sdk_retained_peers=std::max(observation.peak.sdk_retained_peers,observation.current.sdk_retained_peers);
+        observation.peak.handles=std::max(observation.peak.handles,handle_count.load(std::memory_order_acquire));
+    }
+    bool is_io() const noexcept {
+        auto *owner = loop.load(std::memory_order_acquire);
+        return owner && owner == trantor::EventLoop::getEventLoopOfCurrentThread();
+    }
     bool sample_now() noexcept {
         auto value = source->sample();
         auto *tick = std::get_if<Tick>(&value);
@@ -180,6 +209,11 @@ struct Core final : io::Producer, sdk::Sink {
             --callbacks_active;
             return false;
         }
+    }
+    void reading(PeerRecord &p, bool on) noexcept {
+        if (!p.transport || p.socket_gone || p.reading == on) return;
+        p.reading = on; // Set before a synchronous parser continuation can suspend it.
+        p.transport->reading(on);
     }
     void choose(PeerRecord &p, End end) noexcept {
         if (!p.has_end) {
@@ -311,7 +345,7 @@ struct Core final : io::Producer, sdk::Sink {
             if (observation.current.transient_fds)
                 return false;
             observation.current.transient_fds = 1;
-            observation.peak.transient_fds = 1;
+            peaks();
             ++observation.accept_attempts;
         } else
             observation.current.transient_fds = 0;
@@ -344,13 +378,15 @@ struct Core final : io::Producer, sdk::Sink {
             else
                 ++observation.current.http_peers;
             observation.current.metadata_charge += 16384;
+            peaks();
             return &p;
         }
         return nullptr;
     }
     bool before_parse(io::PeerStorage &value) noexcept override {
         auto &p = static_cast<PeerRecord &>(value);
-        if (!p.wanted || p.delivered || !guard(p))
+        p.reading = false; // Parsing/read guards can suspend the SDK channel.
+        if (p.socket_gone || p.control || !p.wanted || p.delivered || !guard(p))
             return false;
         request_started(p); // SDK invokes this only for actual buffered bytes.
         if (p.close_requested)
@@ -364,7 +400,8 @@ struct Core final : io::Producer, sdk::Sink {
     }
     bool before_read(io::PeerStorage &value, io::ReadWitness w) noexcept override {
         auto &p = static_cast<PeerRecord &>(value);
-        if (!p.wanted || p.delivered || !guard(p))
+        p.reading = false; // Parsing/read guards can suspend the SDK channel.
+        if (p.socket_gone || p.control || !p.wanted || p.delivered || !guard(p))
             return false;
         if (p.ordinal == none || observation.reads == none || w.offered > none - p.bytes_read ||
             w.offered > none - observation.bytes_read) {
@@ -434,6 +471,7 @@ struct Core final : io::Producer, sdk::Sink {
                 ++observation.current.input_slots;
                 observation.current.input_capacity += limits.body_bytes;
                 observation.current.metadata_charge += 128;
+                peaks();
                 return true;
             }
         return false;
@@ -596,6 +634,7 @@ struct Factory {
             std::unique_ptr<typename H::State> s(new typename H::State(c, p));
             allocation = nullptr;
             c.handle_count.fetch_add(1, std::memory_order_release);
+            c.peaks();
             return H(std::move(s));
         } catch (...) {
             allocation = nullptr;
@@ -627,6 +666,7 @@ std::span<std::byte> PeerRecord::control_storage() noexcept {
     }
     control = true;
     core->observation.current.control_capacity += 1024;
+    core->peaks();
     return {control_data(), 1024};
 }
 bool PeerRecord::wipe_receive(std::span<std::byte> bytes, bool pending) noexcept {
@@ -648,6 +688,7 @@ void PeerRecord::attached(io::Transport &t) noexcept {
     attached_once = true;
     ++core->observation.current.constructed;
     ++core->observation.current.sdk_retained_peers;
+    core->peaks();
     try {
         auto h = Factory::issue<Peer>(*core, *this, peer_bit, 0);
         in_connected = true;
@@ -680,6 +721,7 @@ void PeerRecord::read_witness(io::ReadWitness w) noexcept {
     if (w.iovcnt == 1)
         ++o.one_iovec_reads;
     o.max_iovcnt = std::max<U64>(o.max_iovcnt, w.iovcnt);
+    o.read_min_writable = o.reads == 1 ? w.writable : std::min(o.read_min_writable,w.writable);
     o.last_read_head = w.head;
     o.last_read_tail = w.tail;
     o.last_read_writable = w.writable;
@@ -707,7 +749,7 @@ void PeerRecord::wire_released(void *cookie) noexcept {
         o.current.metadata_charge -= 128;
         ++o.wire_releases;
         wire_done = true;
-        core->choose(*this, close_requested ? End::cancelled : End::drained);
+        core->choose(*this, socket_gone ? End::disconnected : close_requested ? End::cancelled : End::drained);
         core->anchor_idle(*this);
         if (close_reply)
             close_requested = true;
@@ -851,12 +893,13 @@ void Core::native_event(io::PeerStorage &value,
                         const std::shared_ptr<drogon::WebSocketConnection> &connection,
                         sdk::NativeEvent event) noexcept {
     auto &p = static_cast<PeerRecord &>(value);
+    if (event == sdk::NativeEvent::closed && !p.native_established)
+        return;
     if (event != sdk::NativeEvent::closed && !guard(p))
         return;
     if (event == sdk::NativeEvent::opened) {
         p.native_established = true;
-        observation.native_projected_fields = 5;
-        observation.native_projected_cookies = 0;
+
     }
     auto function = event == sdk::NativeEvent::opened    ? native.opened
                     : event == sdk::NativeEvent::message ? native.message
@@ -885,12 +928,11 @@ void Core::owner_turn() noexcept {
     turn_work[0] = turn_work[1] = 0;
     if (!loop) {
         loop = trantor::EventLoop::getEventLoopOfCurrentThread();
-        io_thread = std::this_thread::get_id();
         io_live.store(true, std::memory_order_release);
         if (!sdk::Runtime::bind_wake(*this, event_fd))
             std::terminate();
-        event_channel = std::make_unique<trantor::Channel>(loop, event_fd);
-        timer_channel = std::make_unique<trantor::Channel>(loop, timer_fd);
+        event_channel.reset(new(event_backing) trantor::Channel(loop, event_fd));
+        timer_channel.reset(new(timer_backing) trantor::Channel(loop, timer_fd));
         auto ready = [this] {
             U64 n;
             while (::read(event_fd, &n, sizeof(n)) > 0) {
@@ -919,7 +961,7 @@ void Core::owner_turn() noexcept {
         if ((current_request_drop || current_reply_drop) && p.delivered) {
             if (!p.committed)
                 terminate(p, End::cancelled);
-            else if (drops & request_bit)
+            else if (current_request_drop)
                 release_raw(p);
         }
         if (stopping.load(std::memory_order_acquire) &&
@@ -946,11 +988,13 @@ void Core::owner_turn() noexcept {
         if (p.socket_gone && !p.retiring_charge && !p.removed) {
             p.retiring_charge = true;
             ++observation.current.retiring_peers;
+            peaks();
         }
         if (p.socket_gone && p.native && p.attached_once && !p.native_retired_seen &&
             !p.native_retiring_charge) {
             p.native_retiring_charge = true;
             ++observation.current.native_retiring;
+            peaks();
         }
         if (p.native_retired_seen && p.native_retiring_charge) {
             p.native_retiring_charge = false;
@@ -960,8 +1004,18 @@ void Core::owner_turn() noexcept {
             if (!p.has_end)
                 choose(p, End::disconnected);
             release_raw(p);
-            if (!p.delivered)
-                p.wipe_receive(p.receive_with_prefix(), true);
+            // All SDK callbacks (including any wire-node return) completed in poll.
+            // A reserved control slot may never have acquired a node.
+            if (p.control) {
+                p.control = false;
+                observation.current.control_capacity -= 1024;
+            }
+            if (!p.terminal_wiped) {
+                p.terminal_wiped = true;
+                wipe(p, RawKind::receive, p.delivered ? RawUse::pending : RawUse::current,
+                     p.receive_with_prefix());
+                wipe(p, RawKind::receive, RawUse::owner_teardown, p.receive_with_prefix());
+            }
         }
         if (p.delivered && !p.ended && !p.raw_live && (p.wire_done || p.socket_gone)) {
             p.ended = true;
@@ -1026,14 +1080,14 @@ void Core::owner_turn() noexcept {
         else {
             if (desired >= 0)
                 p.wanted = desired != 0;
-            if ((intents & 1) && !stop && !p.close_requested && guard(p)) {
+            if ((intents & 1) && !stop && !p.socket_gone && !p.close_requested && guard(p)) {
                 ++turn_work[p.native ? 1 : 0];
                 if (!callback([&] { callbacks.ready(callbacks.owner, p.context); }))
                     terminate(p, End::callback_failed);
             }
         }
-        p.executing = 0;
-        if (!stop && !p.close_requested && p.wanted) {
+        { std::lock_guard lock(mutex); p.executing = 0; }
+        if (!stop && !p.socket_gone && !p.control && !p.close_requested && p.wanted) {
             if (p.ended &&
                 !(p.states.load(std::memory_order_acquire) & (request_bit | reply_bit))) {
                 if (p.sequence == none) {
@@ -1047,10 +1101,10 @@ void Core::owner_turn() noexcept {
                 p.committed.store(false, std::memory_order_release);
                 p.request_deadline = p.output_deadline = 0;
             }
-            if (!p.native_established && !p.delivered && (p.native || take_input(p)) && guard(p))
-                p.transport->reading(true);
+            if (p.transport && !p.native_established && !p.delivered && (p.native || take_input(p)) && guard(p))
+                reading(p, true);
         } else if (p.transport && !p.socket_gone)
-            p.transport->reading(false);
+            reading(p, false);
     }
     cursor = (cursor + 1) % limits.peers;
     if (stop && acceptors_gone && !drained) {
@@ -1079,7 +1133,7 @@ Error state_guard(const StateRecord *s, bool raw = false) noexcept {
         return Error::wrong_thread;
     auto &p = *s->peer;
     if (!p.live || p.incarnation != s->incarnation ||
-        ((s->kind & (request_bit | reply_bit)) && p.sequence != s->sequence) || p.removed ||
+        ((s->kind & (request_bit | reply_bit)) && p.sequence != s->sequence) || p.removed || p.socket_gone ||
         (raw && !p.raw_live))
         return Error::revoked;
     return Error::unavailable;
@@ -1161,6 +1215,7 @@ Result<Reply> Request::reserve_reply(ReplySize size) noexcept {
             ++c.observation.current.output_slots;
             c.observation.current.output_capacity += c.limits.reply_bytes + 128;
             c.observation.current.metadata_charge += 128;
+            c.peaks();
             p.header_size = sdk::Runtime::render_reply(
                 {c.output_data(i), static_cast<std::size_t>(c.limits.reply_bytes + 128)},
                 size.status, size.bytes, p.close_reply);
@@ -1223,6 +1278,8 @@ Result<Done> Reply::commit() noexcept {
         return p.end == End::expired ? Error::expired : Error::revoked;
     if (!c.anchor(p.output_deadline, c.limits.output_ms))
         return Error::elapsed_unavailable;
+    if (!p.transport || p.socket_gone)
+        return Error::revoked;
     if (!p.transport->wire(
             {c.output_data(p.output), static_cast<std::size_t>(p.header_size + p.reply_size)},
             c.output_data(p.output)))
@@ -1257,8 +1314,7 @@ Foundation::~Foundation() {
     auto &c = *state_->core;
     if (std::this_thread::get_id() != c.creator ||
         (!c.finished && (c.loop || c.handle_count.load(std::memory_order_acquire) ||
-                         c.delete_count.load(std::memory_order_acquire) ||
-                         c.posts.load(std::memory_order_acquire))))
+                         c.delete_count.load(std::memory_order_acquire))))
         std::terminate();
     if (c.sdk_installed) {
         if (!sdk::Runtime::discard(c))
@@ -1273,11 +1329,11 @@ Result<Done> Foundation::admission(const Peer &h, Pause pause) noexcept {
     if (!Factory::state(h) || Factory::state(h)->core != &c)
         return Error::revoked;
     auto &p = *Factory::state(h)->peer;
-    if (p.removed)
+    if (p.removed || p.socket_gone)
         return Error::revoked;
     p.wanted = pause == Pause::admitted;
-    if (!p.wanted && p.transport)
-        p.transport->reading(false);
+    if (!p.wanted && p.transport && !p.socket_gone)
+        c.reading(p, false);
     if (!c.callbacks_active && !c.visitors)
         c.owner_turn();
     return Done{};
@@ -1295,6 +1351,14 @@ Result<Observation> Foundation::inspect() const noexcept {
     auto &c = *state_->core;
     if (!c.is_io())
         return Error::wrong_thread;
+    c.peaks();
+    sdk::Facts facts{};
+    if (!sdk::Runtime::observe(c,facts)) return Error::unavailable;
+    c.observation.stock_maps=facts.stock_maps;
+    c.observation.stock_batches=facts.stock_batches;
+    c.observation.stock_output_appends=facts.stock_output_appends;
+    c.observation.native_projected_fields=facts.native_projected_fields;
+    c.observation.native_projected_cookies=facts.native_projected_cookies;
     auto o = c.observation;
     o.held_application_wire = sdk::Runtime::wire_held() ? 1 : 0;
     o.current.handles = c.handle_count.load(std::memory_order_acquire);
@@ -1304,6 +1368,7 @@ Result<Observation> Foundation::inspect() const noexcept {
         for (U64 i = 0; i < c.limits.peers; ++i)
             if (c.record(i).mailbox || c.record(i).executing)
                 ++o.current.pending_wakes;
+        o.peak.pending_wakes=c.peak_pending;
     }
     return o;
 }
@@ -1334,11 +1399,13 @@ Result<Post> Foundation::post(const Wake &h, Intent intent) noexcept {
         else
             p.desired = intent == Intent::admit ? 1 : 0;
     }
-    c.posts.fetch_add(1, std::memory_order_acq_rel);
+    U64 pending=0;
+    for (U64 i=0;i<c.limits.peers;++i)
+        if(c.record(i).mailbox || c.record(i).executing) ++pending;
+    c.peak_pending=std::max(c.peak_pending,pending);
     const U64 one = 1;
     const auto n = ::write(c.event_fd, &one, sizeof(one));
     const int e = errno;
-    c.posts.fetch_sub(1, std::memory_order_release);
     if (n != sizeof(one) && e != EAGAIN)
         return Post::wake_uncertain;
     return existing ? Post::coalesced : Post::queued;
@@ -1367,8 +1434,15 @@ Result<Done> Foundation::finish() noexcept {
     if (c.quarantine)
         return Error::wipe_failed;
     if (!c.drained || c.handle_count.load(std::memory_order_acquire) ||
-        c.delete_count.load(std::memory_order_acquire) || c.posts.load(std::memory_order_acquire))
+        c.delete_count.load(std::memory_order_acquire))
         return Error::incomplete_shutdown;
+    // The mutex excludes active posts; zero handles excludes future valid posts.
+    // discard uses acquire-published IO-join and final framework-cleanup evidence.
+    if (c.sdk_installed) {
+        if (!sdk::Runtime::discard(c))
+            return Error::incomplete_shutdown;
+        c.sdk_installed = false;
+    }
     c.finished = true;
     return Done{};
 }

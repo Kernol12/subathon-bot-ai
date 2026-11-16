@@ -1,5 +1,5 @@
 # Framework-free services and the separately enabled Qt SQL writer boundary.
-if(SUBATHON_BUILD_BOUNDED_HTTP_FOUNDATION_TESTS)
+if(SUBATHON_BUILD_BOUNDED_HTTP_FOUNDATION_TESTS AND sbt_bounded_http_successor)
     # Successor component only: never link these definitions into the frozen NI target.
     # Shared pure preflight also guards the successor SDK adapter.
     add_library(subathon_bounded_http_storage OBJECT src/bounded_http_storage.cpp)

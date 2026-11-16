@@ -11,7 +11,7 @@
      # set(BUILD_EXAMPLES FALSE)
 --- /dev/null
 +++ b/lib/inc/drogon/BoundedHttp.h
-@@ -0,0 +1,73 @@
+@@ -0,0 +1,76 @@
 +// SPDX-License-Identifier: GPL-3.0-or-later
 +#pragma once
 +#include <array>
@@ -34,6 +34,8 @@
 +    bool syntax_bad;
 +    U64 raw_bytes, field_count, semantic_bytes, max_field_bytes, line_bytes;
 +};
++struct Facts { U64 stock_maps{}, stock_batches{}, stock_output_appends{},
++    native_projected_fields{}, native_projected_cookies{}; };
 +struct Decision { std::uint16_t status; U64 body_bytes; };
 +enum class NativeEvent : std::uint8_t { opened, message, closed };
 +class Sink {
@@ -50,6 +52,7 @@
 +enum class InstallFailure : std::uint8_t { none, invalid_config, invalid_state, allocation_failure };
 +class DROGON_EXPORT Runtime {
 +  public:
++    static bool observe(trantor::bounded_io::Producer&, Facts&) noexcept;
 +    static bool install(trantor::bounded_io::Producer &, Sink &, U64 peers) noexcept;
 +    static InstallFailure install_failure() noexcept;
 +    static bool discard(trantor::bounded_io::Producer&) noexcept;
@@ -109,7 +112,7 @@
  };
 --- /dev/null
 +++ b/lib/src/BoundedHttp.cc
-@@ -0,0 +1,148 @@
+@@ -0,0 +1,165 @@
 +// SPDX-License-Identifier: GPL-3.0-or-later
 +#include "BoundedHttpInternal.h"
 +#include "HttpAppFrameworkImpl.h"
@@ -131,8 +134,10 @@
 +NativeRegistration *&Runtime::registration() noexcept { static NativeRegistration *value=nullptr; return value; }
 +}
 +namespace drogon::bounded_http_sdk {
-+trantor::EventLoop *bound_loop=nullptr;
-+HttpServer *bound_servers[2]{};
++Facts facts;
++std::atomic<trantor::EventLoop*> bound_loop{nullptr};
++std::atomic<HttpServer*> bound_servers[2]{};
++std::atomic<bool> run_started{false}, io_joined{false}, run_cleaned{false};
 +namespace {
 +trantor::bounded_io::Producer *producer=nullptr;
 +Sink *consumer=nullptr;
@@ -147,12 +152,19 @@
 +    if(bound_loop && bound_loop!=&loop) std::terminate();
 +    bound_loop=&loop; bound_servers[static_cast<unsigned>(role)]=&s;
 +}
++bool Runtime::observe(trantor::bounded_io::Producer &p,Facts &out) noexcept {
++    auto *loop=bound_loop.load(std::memory_order_acquire);
++    if(producer!=&p || !loop || !loop->isInLoopThread()) return false;
++    out=facts;
++    out.stock_output_appends=trantor::bounded_io::detail::stock_output_appends.load(std::memory_order_relaxed);
++    return true;
++}
 +bool Runtime::install(trantor::bounded_io::Producer &p,Sink &s,U64 peers) noexcept {
 +    auto &budget=trantor::bounded_io::detail::bootstrap_budget();
 +    auto &app=HttpAppFrameworkImpl::instance();
 +    auto &routes=HttpControllersRouter::instance();
 +    install_error=InstallFailure::invalid_state;
-+    if(producer || install_attempted || app.isRunning() || !budget.main_ready || budget.peers) return false;
++    if(producer || install_attempted || run_started.load(std::memory_order_acquire) || app.isRunning() || !budget.main_ready || budget.peers) return false;
 +    install_error=InstallFailure::invalid_config;
 +    if(!peers || peers>static_cast<U64>(INT_MAX)-8 || app.getThreadNum()!=1 ||
 +       app.getLoop()->boundedRecords_!=16 || !app.listenerManagerPtr_->listeners_.empty() ||
@@ -187,12 +199,16 @@
 +InstallFailure Runtime::install_failure() noexcept { return install_error; }
 +bool Runtime::discard(trantor::bounded_io::Producer &p) noexcept {
 +    auto &app=HttpAppFrameworkImpl::instance();
-+    if(std::this_thread::get_id()!=installing_thread || producer!=&p || bound_loop || bound_servers[0] || bound_servers[1] || app.isRunning()) return false;
++    if(run_started.load(std::memory_order_acquire) &&
++       (!io_joined.load(std::memory_order_acquire) || !run_cleaned.load(std::memory_order_acquire))) return false;
++    if(std::this_thread::get_id()!=installing_thread || producer!=&p || bound_servers[0] || bound_servers[1] || app.isRunning()) return false;
 +    if(app.listenerManagerPtr_) {
 +        auto &records=app.listenerManagerPtr_->listeners_;
 +        records.erase(std::remove_if(records.begin(),records.end(),
 +            [&p](const auto &entry){return entry.bounded_==&p;}),records.end());
 +    }
++    trantor::bounded_io::bind_wake_fd(-1);
++    bound_loop.store(nullptr,std::memory_order_release);
 +    producer=nullptr; consumer=nullptr; listeners[0]=listeners[1]=false;
 +    auto &budget=trantor::bounded_io::detail::bootstrap_budget();
 +    budget.peers=0;
@@ -218,28 +234,32 @@
 +    } catch(...) { return false; }
 +}
 +bool Runtime::stop_acceptors() noexcept {
-+    if(!bound_loop || !bound_loop->isInLoopThread()) return false;
++    auto *loop=bound_loop.load(std::memory_order_acquire);
++    if(!loop || !loop->isInLoopThread()) return false;
 +    bool complete=true;
-+    for(auto *server:bound_servers) if(server && !server->boundedStopAccepting()) complete=false;
++    for(auto &record:bound_servers) if(auto *server=record.load(std::memory_order_acquire); server && !server->boundedStopAccepting()) complete=false;
 +    return complete;
 +}
 +void Runtime::poll() noexcept {
-+    if(!bound_loop || !bound_loop->isInLoopThread()) return;
++    auto *loop=bound_loop.load(std::memory_order_acquire);
++    if(!loop || !loop->isInLoopThread()) return;
 +    for(unsigned step=0;step<2;++step) {
-+        auto *server=bound_servers[(next_role+step)%2];
++        auto *server=bound_servers[(next_role+step)%2].load(std::memory_order_acquire);
 +        if(server) server->boundedPoll();
 +    }
 +    next_role^=1;
 +}
 +bool Runtime::bind_wake(trantor::bounded_io::Producer &p,int fd) noexcept {
-+    if(!bound_loop || !bound_loop->isInLoopThread() || &p!=producer || fd<0) return false;
++    auto *loop=bound_loop.load(std::memory_order_acquire);
++    if(!loop || !loop->isInLoopThread() || &p!=producer || fd<0) return false;
 +    trantor::bounded_io::bind_wake_fd(fd); return true;
 +}
 +const native_profile::NativeRegistration *Runtime::native_registration() noexcept {
 +    return native_profile::Runtime::registration();
 +}
 +std::size_t Runtime::render_reply(std::span<std::byte> out,std::uint16_t status,U64 n,bool close) noexcept {
-+    if(!bound_loop || !bound_loop->isInLoopThread()) return 0;
++    auto *loop=bound_loop.load(std::memory_order_acquire);
++    if(!loop || !loop->isInLoopThread()) return 0;
 +    return HttpResponseImpl::renderBounded(out,status,n,close);
 +}
 +std::size_t control(std::span<std::byte> out,std::uint16_t status) noexcept {
@@ -255,28 +275,36 @@
 +    std::memcpy(out.data(),wire.data(),wire.size()); return wire.size();
 +}
 +bool Runtime::arm_first_wire() noexcept { return producer && !bound_loop && trantor::bounded_io::arm_wire_gate(); }
-+bool Runtime::wire_held() noexcept { return bound_loop && bound_loop->isInLoopThread() && trantor::bounded_io::wire_held(); }
-+bool Runtime::release_wire() noexcept { return bound_loop && bound_loop->isInLoopThread() && trantor::bounded_io::release_wire_gate(); }
++bool Runtime::wire_held() noexcept { auto *loop=bound_loop.load(std::memory_order_acquire); return loop && loop->isInLoopThread() && trantor::bounded_io::wire_held(); }
++bool Runtime::release_wire() noexcept { auto *loop=bound_loop.load(std::memory_order_acquire); return loop && loop->isInLoopThread() && trantor::bounded_io::release_wire_gate(); }
 +}
 --- /dev/null
 +++ b/lib/src/BoundedHttpInternal.h
-@@ -0,0 +1,13 @@
+@@ -0,0 +1,16 @@
 +// SPDX-License-Identifier: GPL-3.0-or-later
 +#pragma once
 +#include <drogon/BoundedHttp.h>
++#include <atomic>
 +namespace trantor { class EventLoop; }
 +namespace drogon { class HttpServer; }
 +namespace drogon::bounded_http_sdk {
 +// Source-private binding records are cleared by their actual server destructors.
-+extern DROGON_NO_EXPORT trantor::EventLoop *bound_loop;
-+extern DROGON_NO_EXPORT HttpServer *bound_servers[2];
++extern DROGON_NO_EXPORT std::atomic<trantor::EventLoop*> bound_loop;
++extern DROGON_NO_EXPORT std::atomic<bool> run_started, io_joined, run_cleaned;
++extern DROGON_NO_EXPORT std::atomic<HttpServer*> bound_servers[2];
++extern DROGON_NO_EXPORT Facts facts;
 +Sink *sink() noexcept;
 +void bind_server(HttpServer &,trantor::bounded_io::Role,trantor::EventLoop &) noexcept;
 +std::size_t control(std::span<std::byte>,std::uint16_t) noexcept;
 +}
 --- a/lib/src/HttpAppFrameworkImpl.cc
 +++ b/lib/src/HttpAppFrameworkImpl.cc
-@@ -13,6 +13,8 @@
+@@ -1,3 +1,4 @@
++#include "BoundedHttpInternal.h"
+ /**
+  *
+  *  @file HttpAppFrameworkImpl.cc
+@@ -13,6 +14,8 @@
   */
 
  #include "HttpAppFrameworkImpl.h"
@@ -285,7 +313,7 @@
  #include <drogon/WebSocketConnection.h>
  #include <stdexcept>
  #include <drogon/DrClassMap.h>
-@@ -95,7 +97,21 @@
+@@ -95,7 +98,21 @@
 
  /// Make sure that the main event loop is initialized in the main thread.
  drogon::InitBeforeMainFunction drogon::HttpAppFrameworkImpl::initFirst_([]() {
@@ -307,6 +335,30 @@
  });
 
  namespace drogon
+@@ -526,6 +543,7 @@
+
+ void HttpAppFrameworkImpl::run()
+ {
++    bounded_http_sdk::run_started.store(true,std::memory_order_release);
+     native_profile::Runtime::started().store(true, std::memory_order_release);
+     if (!getLoop()->isInLoopThread())
+     {
+@@ -695,6 +713,7 @@
+     // However, we should consider other components.
+     ioLoopThreadPool_->start();
+     getLoop()->loop();
++    bounded_http_sdk::run_cleaned.store(true,std::memory_order_release);
+ }
+
+ HttpAppFramework &HttpAppFrameworkImpl::setUploadPath(
+@@ -1077,6 +1096,7 @@
+                 loop->quit();
+             }
+             ioLoopThreadPool_->wait();
++            bounded_http_sdk::io_joined.store(true,std::memory_order_release);
+         });
+     }
+ }
 --- a/lib/src/HttpAppFrameworkImpl.h
 +++ b/lib/src/HttpAppFrameworkImpl.h
 @@ -13,6 +13,7 @@
@@ -394,7 +446,12 @@
      void parseParametersOnce() const
 --- a/lib/src/HttpRequestParser.cc
 +++ b/lib/src/HttpRequestParser.cc
-@@ -13,6 +13,11 @@
+@@ -1,3 +1,4 @@
++#include <trantor/net/BoundedIoInternal.h>
+ /**
+  *
+  *  HttpRequestParser.cc
+@@ -13,6 +14,11 @@
   */
 
  #include "HttpRequestParser.h"
@@ -406,7 +463,7 @@
  #include <drogon/HttpTypes.h>
  #include <trantor/utils/Logger.h>
  #include <trantor/utils/MsgBuffer.h>
-@@ -31,10 +36,13 @@
+@@ -31,10 +37,13 @@
  static constexpr size_t METHOD_MAX_LEN = 7;      // strlen("OPTIONS")
  static constexpr size_t TRUNK_LEN_MAX_LEN = 16;  // 0xFFFFFFFF,FFFFFFFF
 
@@ -422,18 +479,23 @@
  {
  }
 
-@@ -119,6 +127,10 @@
+@@ -119,10 +128,15 @@
  void HttpRequestParser::reset()
  {
      assert(loop_->isInLoopThread());
 +    if(bounded_) {
 +        scan_=lineStart_=fieldCount_=maxField_=lineBytes_=0; semantic_=2;
-+        method_={}; target_={}; syntaxBad_=headDone_=done_=false; bodyRemaining_=0; return;
++        methodSize_=targetOffset_=targetSize_=0; syntaxBad_=headDone_=done_=false; bodyRemaining_=0; return;
 +    }
      remainContentLength_ = 0;
      status_ = HttpRequestParseStatus::kExpectMethod;
      if (requestsPool_.empty())
-@@ -144,6 +156,7 @@
+     {
++        if(bounded_) ++bounded_http_sdk::facts.stock_maps;
+         request_ = makeRequestForPool(new HttpRequestImpl(loop_));
+     }
+     else
+@@ -144,6 +158,7 @@
   */
  int HttpRequestParser::parseRequest(MsgBuffer *buf)
  {
@@ -441,7 +503,7 @@
      while (true)
      {
          switch (status_)
-@@ -483,7 +496,7 @@
+@@ -483,7 +498,7 @@
                                                  bool isHeadMethod)
  {
      assert(loop_->isInLoopThread());
@@ -450,7 +512,7 @@
  }
 
  /**
-@@ -493,11 +506,11 @@
+@@ -493,11 +508,11 @@
                                                   HttpResponsePtr resp)
  {
      assert(loop_->isInLoopThread());
@@ -465,7 +527,7 @@
              return i == 0;
          }
      }
-@@ -508,10 +521,188 @@
+@@ -508,10 +523,191 @@
  void HttpRequestParser::popReadyResponses(
      std::vector<std::pair<HttpResponsePtr, bool>> &buffer)
  {
@@ -484,6 +546,7 @@
 +}
 +
 +void HttpRequestParser::resumeBounded(MsgBuffer *buf) noexcept {
++    if(refused_) return;
 +    if(done_) reset();
 +    (void)parseBounded(buf);
 +}
@@ -499,7 +562,7 @@
 +    }
 +    std::size_t budget=8192;
 +    auto refusal=[&](std::uint16_t status) {
-+        done_=true; slot->pending_parse=false; transport->reading(false);
++        refused_=true; done_=true; slot->pending_parse=false; transport->reading(false);
 +        auto out=bounded_->control_storage();
 +        const auto n=bounded_http_sdk::control(out,status);
 +        slot->control_busy=true;
@@ -536,7 +599,7 @@
 +                const auto b=a==line.npos ? line.npos : line.find(' ',a+1);
 +                if(a==line.npos || b==line.npos) syntaxBad_=true;
 +                else {
-+                    method_=line.substr(0,a); target_=line.substr(a+1,b-a-1);
++                    methodSize_=a; targetOffset_=a+1; targetSize_=b-a-1;
 +                    if(line.substr(b+1)!="HTTP/1.1") syntaxBad_=true;
 +                }
 +            } else if(line.empty()) { complete=true; break; }
@@ -562,7 +625,7 @@
 +            if(scan_<buf->readableBytes()) { slot->pending_parse=true; transport->reading(false); }
 +            return 0;
 +        }
-+        bounded_http_sdk::Head head{{reinterpret_cast<const std::byte*>(raw),scan_},method_,target_,
++        bounded_http_sdk::Head head{{reinterpret_cast<const std::byte*>(raw),scan_},{raw,methodSize_},{raw+targetOffset_,targetSize_},
 +            {fields_.data(),std::min(fieldCount_,fields_.size())},syntaxBad_,scan_,fieldCount_,semantic_,maxField_,lineBytes_};
 +        const auto decision=sink_->head(*bounded_,head);
 +        if(decision.status) { refusal(decision.status); return 0; }
@@ -588,7 +651,7 @@
 +                projected->boundedNative_=true;
 +                projected->headers_.reserve(5);
 +                projected->setMethod(Get); projected->setVersion(Version::kHttp11);
-+                projected->setPath(std::string(target_));
++                projected->setPath(std::string(head.target));
 +                auto view=[&](std::uint32_t offset,std::uint32_t size) {return std::string_view(raw+offset,size);};
 +                std::string host,key;
 +                for(const auto &f:head.fields) {
@@ -607,6 +670,8 @@
 +                projected->addHeader("upgrade","websocket");
 +                projected->addHeader("sec-websocket-key",key);
 +                projected->addHeader("sec-websocket-version","13");
++                bounded_http_sdk::facts.native_projected_fields=projected->headers_.size();
++                bounded_http_sdk::facts.native_projected_cookies=projected->cookies_.size();
 +                if(!bounded_->wipe_receive({reinterpret_cast<std::byte*>(const_cast<char*>(raw)),scan_},false)) { transport->close(); return 0; }
 +                buf->retrieve(scan_);
 +                const auto assigned=buf->readableBytes() ? buf->nativeProfileCapacity() : 0;
@@ -707,7 +772,7 @@
          requestPipelining_;
      size_t requestsCounter_{0};
      std::weak_ptr<trantor::TcpConnection> conn_;
-@@ -144,6 +149,15 @@
+@@ -144,6 +149,16 @@
      std::vector<HttpRequestImplPtr> requestsPool_;
      size_t currentChunkLength_{0};
      size_t remainContentLength_{0};
@@ -715,7 +780,8 @@
 +    bounded_http_sdk::Sink *sink_{};
 +    std::array<bounded_http_sdk::Field,64> fields_{};
 +    std::size_t scan_{}, lineStart_{}, fieldCount_{}, semantic_{2}, maxField_{}, lineBytes_{};
-+    std::string_view method_{}, target_{};
++    std::size_t methodSize_{}, targetOffset_{}, targetSize_{};
++    bool refused_{};
 +    bool syntaxBad_{}, headDone_{}, done_{};
 +    std::uint64_t bodyRemaining_{};
 +    int parseBounded(trantor::MsgBuffer *) noexcept;
@@ -781,7 +847,12 @@
 
 --- a/lib/src/HttpServer.cc
 +++ b/lib/src/HttpServer.cc
-@@ -13,6 +13,7 @@
+@@ -1,3 +1,4 @@
++#include <trantor/net/BoundedIoInternal.h>
+ /**
+  *
+  *  @file HttpServer.cc
+@@ -13,6 +14,7 @@
   */
 
  #include "HttpServer.h"
@@ -789,7 +860,7 @@
  #include <drogon/HttpResponse.h>
  #include <drogon/utils/Utilities.h>
  #include <trantor/utils/Logger.h>
-@@ -72,28 +73,37 @@
+@@ -72,28 +74,36 @@
  HttpServer::HttpServer(EventLoop *loop,
                         const InetAddress &listenAddr,
                         std::string name,
@@ -823,9 +894,8 @@
 +HttpServer::~HttpServer() {
 +    if(boundedProducer_) {
 +        auto &record=bounded_http_sdk::bound_servers[static_cast<unsigned>(boundedRole_)];
-+        if(record==this) record=nullptr;
-+        if(!bounded_http_sdk::bound_servers[0] && !bounded_http_sdk::bound_servers[1])
-+            bounded_http_sdk::bound_loop=nullptr;
++        auto *expected=this; record.compare_exchange_strong(expected,nullptr,std::memory_order_acq_rel);
++        // Keep the IO identity until joined cleanup; IO0 may still inspect.
 +    }
 +}
 
@@ -875,6 +945,14 @@
      if (!conn->hasContext())
          return;
      auto requestParser = conn->getContext<HttpRequestParser>();
+@@ -292,6 +332,7 @@
+     const std::vector<HttpRequestImplPtr> &requests,
+     const std::shared_ptr<HttpRequestParser> &requestParser)
+ {
++    if(conn->boundedSlot()) ++bounded_http_sdk::facts.stock_batches;
+     assert(!requests.empty());
+
+     const bool native = bool(conn->nativeProfileIo());
 --- a/lib/src/HttpServer.h
 +++ b/lib/src/HttpServer.h
 @@ -13,6 +13,7 @@
@@ -916,13 +994,14 @@
      static void onMessage(const trantor::TcpConnectionPtr &,
 --- a/lib/src/ListenerManager.cc
 +++ b/lib/src/ListenerManager.cc
-@@ -1,3 +1,5 @@
+@@ -1,3 +1,6 @@
++#include <trantor/net/BoundedIoInternal.h>
 +#include <trantor/net/BoundedIoInternal.h>
 +#include <stdexcept>
  /**
   *
   *  @file ListenerManager.cc
-@@ -58,12 +60,15 @@
+@@ -58,12 +61,15 @@
      const std::string &keyFile,
      bool useOldTLS,
      const std::vector<std::pair<std::string, std::string>> &sslConfCmds,
@@ -941,7 +1020,7 @@
  }
 
  std::vector<trantor::InetAddress> ListenerManager::getListeners() const
-@@ -82,6 +87,18 @@
+@@ -82,6 +88,18 @@
      const std::vector<std::pair<std::string, std::string>> &sslConfCmds,
      const std::vector<trantor::EventLoop *> &ioLoops)
  {
@@ -960,7 +1039,7 @@
      LOG_TRACE << "thread num=" << ioLoops.size();
  #ifdef __linux__
      for (size_t i = 0; i < ioLoops.size(); ++i)
-@@ -98,7 +115,7 @@
+@@ -98,7 +116,7 @@
                               "supported. Including 'localhost')";
                  abort();
              }
@@ -969,7 +1048,7 @@
              {
                  DrogonFileLocker lock;
                  // Check whether the port is in use.
-@@ -112,7 +129,7 @@
+@@ -112,7 +130,7 @@
                  std::make_shared<HttpServer>(ioLoops[i],
                                               listenAddress,
                                               "drogon",
@@ -978,7 +1057,7 @@
              if (beforeListenSetSockOptCallback_)
              {
                  serverPtr->setBeforeListenSockOptCallback(
-@@ -170,7 +187,7 @@
+@@ -170,7 +188,7 @@
                  listeningThread_->getLoop(),
                  InetAddress(ip, listener.port_, isIpv6),
                  "drogon",

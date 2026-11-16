@@ -52,3 +52,8 @@ Drogon remains MIT, Trantor BSD, and the correction patches/first-party code
 GPL-3.0-or-later. The recipe retains upstream LICENSE, Trantor License,
 orm_lib/COPYING, project COPYING/LICENSE.md/THIRD_PARTY_NOTICES.md, parent correction
 provenance and actual selected dependency notices under the installed SDK prefix.
+
+Patch 0003 selects C++20 for all Trantor compilation in this successor, including
+unselected listeners. CI receipts bind the actual checked-out merge-ref commit;
+PR descriptions also record the reviewed branch head. The private
+BoundedIoInternal.h is source-only and is never installed for first-party use.

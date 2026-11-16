@@ -39,10 +39,8 @@ Result<Observation> Foundation::inspect() const noexcept { return NI{}; }
 Result<Post> Foundation::post(const Wake &, Intent) noexcept { return NI{}; }
 Result<Post> Foundation::stop(Tick) noexcept { return NI{}; }
 Result<Done> Foundation::finish() noexcept { return NI{}; }
-#ifndef SUBATHON_BOUNDED_HTTP_STORAGE_PRODUCER
 Result<Storage> project_storage(Limits) noexcept { return NI{}; }
 Result<Done> check_read_window(U64) noexcept { return NI{}; }
-#endif
 Result<Done> register_listeners(Foundation &, drogon::HttpAppFramework &, Endpoints) noexcept {
     return NI{};
 }
