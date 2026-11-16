@@ -1,0 +1,51 @@
+{
+  "format": 1,
+  "status": "development_partial_no_transport_producer",
+  "profile": "subathon.bounded-http-foundation.v1",
+  "abi_marker": "DROGON_SUBATHON_BOUNDED_HTTP_V1",
+  "parent_manifest_sha256": "fa947feb11f2a00efad810c73af0c8e32d5f43d9a7c5ee88645112e28a1bf67e",
+  "upstreams": {
+    "drogon": "3aae769cc405cf5abb9d477675c6430924f02c7c",
+    "trantor": "78e480f5e138acdc05f76c55a2716718cd846364"
+  },
+  "build_options": {
+    "CMAKE_BUILD_TYPE": "Release",
+    "CMAKE_CXX_STANDARD": "20",
+    "CMAKE_CXX_STANDARD_REQUIRED": "ON",
+    "CMAKE_INSTALL_LIBDIR": "lib",
+    "BUILD_SHARED_LIBS": "ON",
+    "USE_SUBMODULE": "ON",
+    "BUILD_ORM": "OFF",
+    "BUILD_CTL": "OFF",
+    "BUILD_EXAMPLES": "OFF",
+    "BUILD_TESTING": "OFF",
+    "BUILD_DOC": "OFF",
+    "BUILD_BROTLI": "OFF",
+    "BUILD_YAML_CONFIG": "OFF",
+    "BUILD_C-ARES": "OFF",
+    "USE_SPDLOG": "OFF",
+    "TRANTOR_USE_TLS": "openssl"
+  },
+  "ordered_patches": [
+    {
+      "file": "0003-trantor-bounded-http.patch",
+      "apply_at": "trantor",
+      "sha256": "66b5fd73bcb8560e18042ec132f2be887ac116e89768d03a8ff95ef9685d2d21"
+    },
+    {
+      "file": "0004-drogon-bounded-http.patch",
+      "apply_at": "drogon",
+      "sha256": "ec19b7a945d27db876b60f39b7c593510677a4a95590521bf0cc2915165a9e01"
+    },
+    {
+      "file": "0005-native-source-binding.patch",
+      "apply_at": "first_party",
+      "sha256": "1eb12009c67d637ed79351e967fc09282c9d7b83d0c386781a574d8ba1f5e426"
+    }
+  ],
+  "first_party": {
+    "file": "server/src/native_websocket_profile.cpp",
+    "sha256": "a5c2dd0a0a4ec87a769b4509686d0a5457f253b59417706e6445b036a535d0ac",
+    "derived_sha256": "7c457732c19d2b1712ecf34bc6159c78b1a8f16f439b4f0122f21b44999ef459"
+  }
+}

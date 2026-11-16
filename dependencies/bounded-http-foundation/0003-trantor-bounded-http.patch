@@ -1,0 +1,90 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -298,7 +298,7 @@
+ endif()
+ file(REMOVE ${CMAKE_BINARY_DIR}/test_atomic.cpp)
+ 
+-set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 14)
++set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 20)
+ set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD_REQUIRED ON)
+ set_target_properties(${PROJECT_NAME} PROPERTIES CXX_EXTENSIONS OFF)
+ set_target_properties(${PROJECT_NAME} PROPERTIES EXPORT_NAME Trantor)
+@@ -313,6 +313,7 @@
+ endif()
+ 
+ set(public_net_headers
++    trantor/net/BoundedIo.h
+     trantor/net/EventLoop.h
+     trantor/net/EventLoopThread.h
+     trantor/net/EventLoopThreadPool.h
+--- /dev/null
++++ b/trantor/net/BoundedIo.h
+@@ -0,0 +1,43 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++#pragma once
++#include <cstddef>
++#include <cstdint>
++#include <span>
++namespace trantor::bounded_io {
++using U64 = std::uint64_t;
++enum class Role : std::uint8_t { http, native };
++struct Sample { bool available; U64 ns; };
++struct ReadWitness {
++    U64 head, tail, writable, offered;
++    std::int64_t returned;
++    std::int32_t error;
++    std::uint8_t iovcnt;
++};
++class Transport {
++  public:
++    virtual ~Transport() = default;
++    virtual void reading(bool) noexcept = 0;
++    virtual bool wire(std::span<const std::byte>, void *release_cookie) noexcept = 0;
++    virtual void close() noexcept = 0;
++};
++class PeerStorage {
++  public:
++    virtual ~PeerStorage() = default;
++    virtual std::span<std::byte> receive_with_prefix() noexcept = 0;
++    virtual void attached(Transport &) noexcept = 0;
++    virtual void read_witness(ReadWitness) noexcept = 0;
++    virtual void wire_released(void *release_cookie) noexcept = 0;
++    virtual void socket_removed() noexcept = 0;
++    virtual void native_retired() noexcept = 0;
++    virtual void sdk_objects_released() noexcept = 0;
++};
++class Producer {
++  public:
++    virtual ~Producer() = default;
++    virtual Sample sample() noexcept = 0;
++    virtual bool transient(bool acquire) noexcept = 0;
++    virtual PeerStorage *acquire(Role, Sample accepted) noexcept = 0;
++    virtual bool before_read(PeerStorage &, ReadWitness) noexcept = 0;
++    virtual void owner_turn() noexcept = 0;
++};
++} // namespace trantor::bounded_io
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -298,6 +298,11 @@
+ endif()
+ file(REMOVE ${CMAKE_BINARY_DIR}/test_atomic.cpp)
+ 
++# GCC 16 diagnoses the inherited C++20-deprecated shared_ptr atomic free functions.
++# Keep other upstream warnings fatal; their replacement is separate from this ABI seam.
++if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 16)
++  target_compile_options(${PROJECT_NAME} PRIVATE -Wno-error=deprecated-declarations)
++endif()
+ set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 20)
+ set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD_REQUIRED ON)
+ set_target_properties(${PROJECT_NAME} PROPERTIES CXX_EXTENSIONS OFF)
+--- a/trantor/net/inner/tlsprovider/OpenSSLProvider.cc
++++ b/trantor/net/inner/tlsprovider/OpenSSLProvider.cc
+@@ -24,7 +24,7 @@
+ using namespace trantor;
+ 
+ // Force OpenSSL to initialize before main() is called
+-static bool sslInitFlag = []() {
++[[maybe_unused]] static bool sslInitFlag = []() {
+ #if OPENSSL_VERSION_NUMBER < 0x10100000L
+     SSL_library_init();
+     OpenSSL_add_all_algorithms();

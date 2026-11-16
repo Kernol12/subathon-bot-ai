@@ -5,6 +5,16 @@ if(SUBATHON_BUILD_BOUNDED_HTTP_FOUNDATION_TESTS)
     add_library(subathon_bounded_http_storage OBJECT src/bounded_http_storage.cpp)
     target_include_directories(subathon_bounded_http_storage PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     subathon_target_options(subathon_bounded_http_storage)
+    if(sbt_bounded_http_successor)
+        # Development producer: storage is real; transport availability remains NI.
+        add_library(subathon_bounded_http_development STATIC src/bounded_http.cpp
+            $<TARGET_OBJECTS:subathon_bounded_http_storage>)
+        target_compile_definitions(subathon_bounded_http_development PRIVATE
+            SUBATHON_BOUNDED_HTTP_STORAGE_PRODUCER)
+        target_include_directories(subathon_bounded_http_development PUBLIC
+            "${CMAKE_CURRENT_SOURCE_DIR}/include")
+        subathon_target_options(subathon_bounded_http_development)
+    endif()
 endif()
 
 if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS OR SUBATHON_BUILD_SQLITE_ACCOUNT_SESSION_TESTS)
@@ -113,7 +123,18 @@ if(SUBATHON_BUILD_SQLITE_ACCOUNT_SESSION_TESTS)
 endif()
 
 if(SUBATHON_BUILD_NATIVE_WEBSOCKET_PROFILE_TESTS)
-    add_library(subathon_native_websocket_profile STATIC src/native_websocket_profile.cpp)
+    set(sbt_native_source "${CMAKE_CURRENT_SOURCE_DIR}/src/native_websocket_profile.cpp")
+    if(sbt_bounded_http_successor)
+        # The SDK seal owns this build copy; never compile it alongside the original.
+        set(sbt_native_source "${sbt_drogon_root}/share/subathon-bounded-http-foundation/native_websocket_profile.cpp")
+        file(READ "${sbt_profile_manifest}" sbt_successor_manifest)
+        string(JSON sbt_native_sha GET "${sbt_successor_manifest}" first_party derived_sha256)
+        file(SHA256 "${sbt_native_source}" sbt_actual_native_sha)
+        if(NOT sbt_native_sha STREQUAL sbt_actual_native_sha)
+            message(FATAL_ERROR "Successor native build-copy digest mismatch")
+        endif()
+    endif()
+    add_library(subathon_native_websocket_profile STATIC "${sbt_native_source}")
     target_include_directories(subathon_native_websocket_profile PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_native_websocket_profile PRIVATE Drogon::Drogon)
     subathon_target_options(subathon_native_websocket_profile)

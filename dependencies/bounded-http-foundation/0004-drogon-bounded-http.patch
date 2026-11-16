@@ -1,0 +1,62 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -63,6 +63,8 @@
+ endif ()
+ 
+ add_library(${PROJECT_NAME})
++target_sources(${PROJECT_NAME} PRIVATE lib/src/BoundedHttp.cc)
++install(FILES lib/inc/drogon/BoundedHttp.h DESTINATION ${INSTALL_INCLUDE_DIR}/drogon)
+ if (BUILD_SHARED_LIBS)
+     find_package(Threads)
+     # set(BUILD_EXAMPLES FALSE)
+--- /dev/null
++++ b/lib/inc/drogon/BoundedHttp.h
+@@ -0,0 +1,35 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++#pragma once
++#include <array>
++#include <string_view>
++#include <trantor/net/BoundedIo.h>
++#include <drogon/exports.h>
++namespace drogon { class HttpAppFramework; }
++namespace drogon::bounded_http_sdk {
++using U64 = std::uint64_t;
++struct Field { std::uint32_t name, name_size, value, value_size; };
++struct Head {
++    std::span<const std::byte> raw;
++    std::string_view method, target;
++    std::span<const Field> fields;
++    bool syntax_bad;
++    U64 raw_bytes, field_count, semantic_bytes, max_field_bytes, line_bytes;
++};
++struct Decision { std::uint16_t status; U64 body_bytes; };
++class Sink {
++  public:
++    virtual ~Sink() = default;
++    virtual Decision head(trantor::bounded_io::PeerStorage &, Head) noexcept = 0;
++    virtual bool body(trantor::bounded_io::PeerStorage &, std::span<const std::byte>) noexcept = 0;
++    virtual void complete(trantor::bounded_io::PeerStorage &) noexcept = 0;
++};
++struct Endpoint { std::array<char,46> address; std::uint16_t port; };
++class DROGON_EXPORT Runtime {
++  public:
++    static bool install(trantor::bounded_io::Producer &, Sink &, U64 peers) noexcept;
++    static bool listener(HttpAppFramework &, Endpoint, trantor::bounded_io::Role) noexcept;
++    static bool arm_first_wire() noexcept;
++    static bool release_wire() noexcept;
++};
++} // namespace drogon::bounded_http_sdk
++extern "C" DROGON_EXPORT const char DROGON_SUBATHON_BOUNDED_HTTP_V1[];
+--- /dev/null
++++ b/lib/src/BoundedHttp.cc
+@@ -0,0 +1,10 @@
++// SPDX-License-Identifier: GPL-3.0-or-later
++#include <drogon/BoundedHttp.h>
++extern "C" DROGON_EXPORT const char DROGON_SUBATHON_BOUNDED_HTTP_V1[] =
++    "subathon.bounded-http-foundation.v1";
++namespace drogon::bounded_http_sdk {
++bool Runtime::install(trantor::bounded_io::Producer &, Sink &, U64) noexcept { return false; }
++bool Runtime::listener(HttpAppFramework &, Endpoint, trantor::bounded_io::Role) noexcept { return false; }
++bool Runtime::arm_first_wire() noexcept { return false; }
++bool Runtime::release_wire() noexcept { return false; }
++}

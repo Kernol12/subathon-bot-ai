@@ -1,0 +1,10 @@
+--- a/server/src/native_websocket_profile.cpp
++++ b/server/src/native_websocket_profile.cpp
+@@ -7,6 +7,7 @@
+ #include <mutex>
+ #include <new>
+ #include <subathon/server/native_websocket_profile.hpp>
++#include <drogon/BoundedHttp.h>
+ #include <sys/mman.h>
+ #include <sys/socket.h>
+ #include <thread>

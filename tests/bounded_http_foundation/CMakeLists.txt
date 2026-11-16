@@ -8,7 +8,11 @@ target_include_directories(subathon_bounded_http_ni PUBLIC
 subathon_target_options(subathon_bounded_http_ni)
 
 add_executable(bounded_http_probe bounded_http_probe.cpp)
-target_link_libraries(bounded_http_probe PRIVATE subathon_bounded_http_ni
+set(sbt_bounded_http_producer subathon_bounded_http_ni)
+if(sbt_bounded_http_successor)
+    set(sbt_bounded_http_producer subathon_bounded_http_development)
+endif()
+target_link_libraries(bounded_http_probe PRIVATE ${sbt_bounded_http_producer}
     subathon_native_websocket_profile Drogon::Drogon Threads::Threads OpenSSL::Crypto)
 subathon_target_options(bounded_http_probe)
 set_target_properties(bounded_http_probe PROPERTIES BUILD_RPATH "${sbt_drogon_root}/lib")
