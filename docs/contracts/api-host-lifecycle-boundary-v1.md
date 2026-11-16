@@ -208,12 +208,17 @@ public:
   mutations.
   Host writer pending capacity/defaults remain as declared in `api_host.hpp`
   (`Options`:128; standalone `StorageLimits`:64), with `pending_batches >=
-  associations`. Open capability point: whether the default writer SQL/row
-  budgets admit head-10 inspection is UNKNOWN, not observed. `Options`
-  inherits 64 statements and 1024 result rows per work; the current fixture
-  and `server/dev/main.cpp` select 16384 statements and 65536 result rows.
-  This revision selects no budget change and claims no default-budget positive
-  activation.
+  associations`. `Options` inherits 64 statements and 1024 result rows per
+  work; the current fixture and `server/dev/main.cpp` select 16384 statements
+  and 65536 result rows. A fresh independent Codex
+  [measurement](https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6932486629)
+  observed two normal acknowledged inspections of separately provisioned,
+  empty-data current version-10 stores under the actual host defaults:
+  committed, no work or migration error, value/report present, current,
+  version10/target10/applied0. This is local component evidence only, not
+  default-budget advancement, populated-store scans, installation reads or
+  host activation. No budget change or default-budget positive activation is
+  claimed.
 - `RouteId` is a finite compiled trusted dispatch table, not a wire schema or
   client callback. It declares diagnostic/protected work and operation-
   specific authority requirements, including mandatory trusted publication UTC
