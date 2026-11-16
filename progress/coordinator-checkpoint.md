@@ -104,6 +104,22 @@ like the investigation and the unmodified frozen test runs at least 20 times; if
 failure rate is not zero, stop and bring the frozen-test change back to the owner. Do
 not merge on a green re-run.
 
+The measurement found two further defects that no frozen test covers: a lost
+continuation with more than 8 connections (`f8be1aec`, corrected in `0e774a51`) and an
+established native peer that stops reading (`0e774a51`). The owner approved one more
+correction as the **third and last author pass** ([decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6924951572)): the author first lists
+every reading on/off call the removed cached flag used to swallow, per kind of peer; the
+correction is limited to that list; a missing contract sentence for suspending an
+established native peer goes to the owner as a numbered correction before the fix. Then
+the investigator repeats the whole measurement, both native reproductions and the 44
+native methods. Any further regression: no new author pass; bring the owner options 2
+(back to `f8be1aec`) and 3 (back to `59c29305`, frozen-test change, speed fix as its own
+task). The verification and closing re-check cover everything since `c9a82e50`; their
+packets name the three defects and that no frozen test covers them.
+
+APITEST-017 ([#672](https://github.com/Kernol12/subathon-bot-ai/issues/672)) is the planned task for reviewed tests of the two uncovered
+cases. It is a prerequisite of API-001 (#278) and is not authorized.
+
 ## Owner rule for this path: failed CI runs (2026-11-16)
 
 For API-016 → APITEST-015 → API-001: an author's handback lists every failed CI run on
