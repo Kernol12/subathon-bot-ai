@@ -116,14 +116,22 @@ describes the source binding; SESSION-013 (#662) must verify every
 session-bearing unit before the first installation-epoch rotation. Account
 recovery cannot clear independent global clock holds.
 
-The host withholds replies unless every accepted unit has `transaction ==
-TransactionOutcome::committed`, `error == WorkError::none` and
-`value.has_value()`. Any failed condition limits the command to finishing
-without a reply; finish with a reply refuses and ends without reply, while
-accepted units drain unchanged. A throwing completion also ends without reply.
-Normal domain-failure values remain eligible. [Boundary §2, Host reply
+The host permits a dispatcher-supplied reply after a normal commit
+(committed/none with value), known rollback or busy BEGIN (not_started/busy
+without value), subject to exception/uncertainty withholding and the other
+gates. A command forwarding no unit may finish with a reply. work_exception
+(including a throw before BEGIN or after COMMIT),
+outcome_unknown/uncertain_outcome, not_started/writer_unavailable and escaping
+execute/completion exceptions withhold. A withholding outcome remains latched
+across later normal units; finish with a reply while withheld refuses and ends
+without reply while accepted units drain. The host does not judge reply
+content; normal domain-failure values remain eligible. [Boundary §2, Host
+reply
 eligibility](api-host-lifecycle-boundary-v1.md#host-reply-eligibility-after-prepared-units)
-states the exact outcome set and its relation to handle rules (c)–(e).
+partitions the result matrix and records unplaced outcome states. Known
+rollback and busy BEGIN now permit the dispatcher replies in the two amended
+cases; no-handoff for commit-then-throw, throwing completion, fail-close and
+consumed stop is unchanged.
 
 The session clock is not part of this host boundary. SESSION-009 (#582) owns
 both removed guards: revocation, thread and reentrancy; wall-clock jumps do

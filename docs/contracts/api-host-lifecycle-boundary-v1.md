@@ -203,6 +203,14 @@ public:
   composition stays internal, not an arbitrary injectable ready-result port.
   Host owns its writer, not a borrowed writer admitting unrelated source
   mutations.
+  Host writer pending capacity/defaults remain as declared in `api_host.hpp`
+  (`Options`:128; standalone `StorageLimits`:64), with `pending_batches >=
+  associations`. Open capability point: whether the default writer SQL/row
+  budgets admit head-10 inspection is UNKNOWN, not observed. `Options`
+  inherits 64 statements and 1024 result rows per work; the current fixture
+  and `server/dev/main.cpp` select 16384 statements and 65536 result rows.
+  This revision selects no budget change and claims no default-budget positive
+  activation.
 - `RouteId` is a finite compiled trusted dispatch table, not a wire schema or
   client callback. It declares diagnostic/protected work and operation-
   specific authority requirements, including mandatory trusted publication UTC
@@ -267,14 +275,7 @@ single-payload cap at most its aggregate pool, and checked millisecond
 conversion/addition. Reduced profiles preserve coherence. Disconnect before
 entry releases cancelled input copies exactly once, while no body or borrow
 can reference them. Ingress reservation is not writer acceptance. IO
-submission never synchronously waits for Qt. Host writer pending
-capacity/defaults remain as declared in `api_host.hpp` (`Options`:128;
-standalone `StorageLimits`:64), with `pending_batches >= associations`. Open
-capability point: whether the default writer SQL/row budgets admit head-10
-inspection is UNKNOWN, not observed. `Options` inherits 64 statements and 1024
-result rows per work; the current fixture and `server/dev/main.cpp` select
-16384 statements and 65536 result rows. This revision selects no budget change
-and claims no default-budget positive activation.
+submission never synchronously waits for Qt.
 
 ### Prepared units and asynchronous command completion
 
@@ -285,8 +286,7 @@ enter submits no unit: no execution and `writer_completed == 0`, with host
 cancellation/refusal only. Stop is consumed ahead of previously posted entry
 callbacks; the signal handler only records/wakes. Before any reply handoff,
 the owner also consumes/forwards a pending native signal as a stop, even when
-it arrived inside a non-yielding body. This is the successor of the old
-publication gate; stop prevents the reply. It does not preempt an active body.
+it arrived inside a non-yielding body. Stop prevents the reply. It does not preempt an active body.
 
 Each admitted command receives a move-only handle. Through it the dispatcher
 forwards prepared units (`SqliteWriter::Work` plus completion) to the host's
@@ -312,8 +312,7 @@ command may enqueue three units to observe fail-close:
 unknown/uncertain_outcome, then twice not_started/writer_unavailable without
 value, storage inactive, all completions before writer acknowledgment, no
 handoff. Stop/disconnect suppress response authority without relabeling SQL
-truth. Startup callback exceptions may finish in failed, but require the same
-actual cleanup/barriers as stopped.
+truth.
 
 Existing public writer/store APIs stay unchanged. Units compose real
 writer/store objects rather than subclassing or modifying those APIs. Each
@@ -323,41 +322,74 @@ trusted session time, not a substitute native clock.
 
 ### Host reply eligibility after prepared units
 
-For each accepted unit, a normal commit is exactly
-`result.transaction == TransactionOutcome::committed && result.error == WorkError::none && result.value.has_value()`.
-The host records each actual `SqliteWorkResult` before calling the supplied
-completion. If any unit fails that condition, the command can only finish
-without a reply: a finish with a reply is refused, ends the command without
-reply and revokes later forward/finish. Already accepted units and their
-supplied completions still drain with actual results unchanged before final
-release or next-command entry. A later normal unit cannot clear this refusal.
-Normal commit is necessary, not sufficient: completion exceptions and all
-existing stop/disconnect/elapsed/authority/once-only gates still apply.
+The host permits a dispatcher-supplied reply after a normal commit
+(`TransactionOutcome::committed`, `WorkError::none`, present `value`), a known
+rollback, or busy BEGIN (`not_started/busy`, absent `value`), subject to the
+withholding cases below and all existing stop/disconnect/elapsed/authority/
+once-only gates. A command that forwards no unit may finish with a reply.
+
+The host withholds for `WorkError::work_exception` (a callback exception,
+including `not_started/work_exception`, `rolled_back/work_exception` and
+`committed/work_exception`), `outcome_unknown/uncertain_outcome` and
+`not_started/writer_unavailable`, all without value. An escaping execute or
+supplied-completion exception also withholds under rule (c), even if a unit
+committed normally. A withholding outcome is latched for the command; a later
+normal unit cannot clear it. Finish with a reply while withheld is refused,
+ends the command without reply and revokes later forward/finish. Already
+accepted units/completions drain with actual results unchanged before release
+or next entry. Refused admission still follows (d), and premature finish (e).
+
+For `known_rollback_preserves_source_and_generation`, keep
+`rolled_back/not_committed` without value and I/E/J unchanged; hand off the
+reply the dispatcher gives after that known rollback once. For
+`busy_begin_is_actual_failure`, keep `not_started/busy` without value and no
+implicit replay; the host does not withhold a reply the dispatcher gives.
+No handoff remains a host assertion for `commit_then_throw_HL07`,
+`publication_throw_revokes_facade_without_replay_HL07`,
+`lost_ack_and_fail_closed_fifo_HL07_HL14`, and, by the stop rule,
+`body_stop_then_commit_retains_truth_HL07`.
 
 A reply offered during execute or a supplied unit completion is retained
 within the existing response budget until that callback returns normally; no
 handoff occurs inside it. A later callback exception suppresses the retained
-reply and ends the command under rule (c). Accepted-unit drain and the other
-reply gates still apply before handoff.
+reply under (c). Accepted-unit drain and the other reply gates still apply.
+The host records the actual result before calling the supplied completion;
+SQL truth, no implicit retry and no replay remain unchanged.
 
-Known rollback (`rolled_back/not_committed` without value), busy BEGIN
-(`not_started/busy` without value), commit-then-throw
-(`committed/work_exception` without value), lost acknowledgment
-(`outcome_unknown/uncertain_outcome` without value), and writer unavailable
-(`not_started/writer_unavailable` without value) all withhold the reply at the
-host. A throwing supplied completion also withholds the reply and ends the
-command under rule (c), even if its unit committed normally. A refused unit
-admission has no result or completion and follows rule (d); premature finish
-follows rule (e). None fabricates SQL truth, retries or replays accepted work.
-For `known_rollback_preserves_source_and_generation`,
-`busy_begin_is_actual_failure` and `commit_then_throw_HL07`, the dispatcher
-asks to reply and the host hands nothing off.
+The host does not judge reply content or require the removed private envelope.
+A domain failure returned normally as a value after acknowledged commit remains
+eligible. API-010 (#560), which adds the first replying dispatcher, owns the
+acceptance criterion that a command with a rolled-back unit never yields a
+success reply; that is not a host content check.
 
-A domain failure returned normally as the unit's value after acknowledged
-commit with `WorkError::none` remains reply-eligible; the host does not inspect
-the value's domain success/failure or require the removed private envelope.
-Only presence of `SqliteWorkResult::value` is tested, not its QVariant shape.
-The dispatcher constructs its own bounded reply, subject to all other gates.
+The following partitions the writer's completion matrix; exception/uncertainty
+rows take precedence over known-rollback permission. “Open” identifies result
+states not placed by the reply decision, not a selected permitting rule.
+
+| Actual result / callback status | Reply side | Vocabulary/source |
+| --- | --- | --- |
+| committed/none, present value | Permitted under the other gates | Normal return after acknowledged commit; writer-transactions completion matrix |
+| rolled_back/not_committed, absent value | Permitted under the other gates | Explicit known rollback; amended known_rollback case |
+| rolled_back/uncommitted, absent value | Permitted under the other gates | Body returned with active transaction, writer established rollback |
+| rolled_back with busy/sql_failure/resource_limit/result_limit/invalid_statement/protocol_error/session_closed, absent value | Permitted as known rollback | Writer completion matrix: known statement/constraint/budget/COMMIT rollback; first-error precedence |
+| not_started/busy, absent value | Permitted under the other gates | Busy BEGIN; amended busy_begin case |
+| Any transaction with work_exception, absent value | Withheld: callback exception | Includes before-BEGIN, active-body known rollback and post-COMMIT exceptions; writer-transactions error precedence and matrix |
+| outcome_unknown/uncertain_outcome, absent value | Withheld: uncertain | Lost COMMIT/rollback acknowledgment or cleanup uncertainty |
+| not_started/writer_unavailable, absent value | Withheld | Fail-closed queued item; writer-transactions matrix |
+| Escaping execute or supplied-completion exception, whatever the unit result | Withheld: callback threw | Handle (c); actual writer result unchanged |
+| not_started/missing_transaction, absent value | Open | Normal body returned without BEGIN: neither a rollback nor busy BEGIN nor callback exception |
+| not_started with non-busy BEGIN error (sql_failure; result_limit if returned by control), absent value | Open | sqlite_writer.cpp begin/work_error; not a known rollback or busy BEGIN |
+| committed with protocol_error/session_closed (or another sticky work error other than work_exception), absent value | Open | Not a normal commit; typed protocol failure can be caught by body |
+
+Open outcome point: `SqliteWorkState::finish` preserves a first sticky error
+ahead of a later body exception. Thus rolled_back/SQL-error or not_started/busy
+alone cannot prove whether a later unexpected body exception was masked.
+The explicit known-rollback and busy-BEGIN field classifications above are
+kept; whether masked later exceptions need separate observation is open, not
+a silently added gate or observation API.
+The `work_exception` rows above are positive evidence; no other error is silently
+relabeled a callback exception. These unplaced states require clarification
+before tests select their reply behaviour; no new observation API is chosen.
 
 ### Admitted-command handle rules outside the normal path
 
@@ -537,6 +569,8 @@ dispatcher alive through owner cleanup. The final stopped barrier requires
 BOTH real writer and network acknowledgments and joins. Network deadlines
 never certify a blocked writer body as stopped. Bind/listen exit(1) remains
 process-terminal without a destructor/barrier claim.
+Startup callback exceptions may finish in failed, but require the same
+actual cleanup/barriers as stopped.
 
 ### Acceptance-only hooks and concrete accounting
 
@@ -656,7 +690,7 @@ required independently asserted cases.
 | HL02 / Q | Global=4, per-peer=2; P owns2; submit P3 then Q1 | P3 refuses; Q1 eligible, total3. Disconnect P releases its terminal leases once, not Q's. Reference8/9 same oracle. |
 | HL03 / Q | Admission0; queue budget5000ms; separate dispatch4999/5000/5001ms | 4999 may enter once if current gates pass; equality/later zero execution/unit/writer completion. No callback-driven extension. |
 | HL04 / Q | Order disconnect before entry; separately after entry before handoff | First zero body/BEGIN. Second true commit/outcome retained with response revoked; no automatic replay. Owner ordering chooses one winner. |
-| HL05 / downstream | Host session-clock facade removed | Both guards belong to SESSION-009 (#582); see owner condition E in §1. |
+| HL05 / downstream | Host session-clock facade removed | Both guards belong to SESSION-009 (#582); see Clock ownership in §1. |
 | HL06 / Q, N | Actual §1 current-catalog activation, then a prepared unit reads I/E/J and commits | Normal committed/none/value completion, ticket revoked; startup chain order and I/E/J/session rows unchanged. One correlated nonsecret reply. |
 | HL07 / Q | Commit then body exception; lost acknowledgment/fail-close; completion exception; stop | Actual unit results unchanged, no handoff/replay; see §2 prepared units. No envelope or publication stage. |
 | HL08 / Q, N | Listener/writer without activation; separately current catalog inspection + configured read on same writer | First diagnostics only; second storage-ready execution/reply eligible with I/E/J/session facts preserved. Credentials still need downstream clock/login owners; no restore prerequisite. |

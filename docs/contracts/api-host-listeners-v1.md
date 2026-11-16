@@ -338,8 +338,12 @@ teardown thread is insufficient; source review must prove this quiescence.
 
 These are independent literal ORACLES, never executed results or new test counts.
 APITEST-015 must preserve all75 Qt selectors/18 native methods, all HL01–17 and
-their assertions/literals. Any added methods/rows/children require exact declared
-registrations and reviewed harness budgets; no removals/weakening are authorized.
+their assertions/literals except the exact owner-approved
+[itemized revision](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6907983078)
+and its [recorded amendments](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6914837587).
+Any added methods/rows/children require exact declared registrations and reviewed
+harness budgets; no removals/weakening outside that revision are authorized.
+This qualification is a host-baseline pointer; listener rules are unchanged.
 The revised endpoint selection is a disclosed baseline correction; historical
 PR112 source8fa8810/red dd0f625/reviews retain their original meaning.
 
