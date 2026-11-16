@@ -130,9 +130,18 @@ the task and goes to the owner.
 uncommitted work as a patch and ask the owner; do not retry or switch providers on
 your own. If a Codex verification is flagged, stop and bring it to the owner.
 
-**Roles and providers.** Default split: Codex authors, Claude reviewers (initial and
-closing), Codex verification. A provider switch needs the owner. An author never
-approves its own work.
+**Roles and providers — temporary owner rule (2026-11-16, until revoked).**
+Codex for authoring, tier A initial reviews, tier A verification, tier B reviews,
+and investigations or measurements. Every review or investigation is a fresh
+session that did not author or fix the work under review.
+Claude only for the tier A closing review, and for anything the owner asks for by
+name. If Claude is unavailable for a closing review, leave that gate pending and
+continue other authorized work; do not substitute Codex for it.
+If a Codex review or investigation is flagged by the provider, stop and bring it to
+the owner; do not move it to Claude independently.
+Record the actual provider and model in every review comment. An author never
+approves its own work. This temporary rule replaces the default provider split;
+all other standing owner rules remain unchanged.
 
 ## Working rules from the owner (2026-11-15)
 
