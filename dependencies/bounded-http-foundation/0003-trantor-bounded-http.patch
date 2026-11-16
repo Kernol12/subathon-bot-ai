@@ -49,12 +49,16 @@
      trantor/net/EventLoopThreadPool.h
 --- /dev/null
 +++ b/trantor/net/BoundedIo.cc
-@@ -0,0 +1,22 @@
+@@ -0,0 +1,26 @@
 +// SPDX-License-Identifier: GPL-3.0-or-later
 +#include <trantor/net/BoundedIoInternal.h>
 +#include <cerrno>
 +#include <unistd.h>
 +namespace trantor::bounded_io {
++namespace detail {
++BootstrapBudget &bootstrap_budget() noexcept { static BootstrapBudget value; return value; }
++}
++
 +namespace { int wake_fd=-1; bool gate_armed=false, gate_used=false; Slot *held=nullptr; }
 +void bind_wake_fd(int fd) noexcept { wake_fd=fd; }
 +void Slot::wake() noexcept { if(wake_fd>=0) { const std::uint64_t one=1; (void)::write(wake_fd,&one,sizeof(one)); } }
@@ -74,7 +78,7 @@
 +}
 --- /dev/null
 +++ b/trantor/net/BoundedIo.h
-@@ -0,0 +1,48 @@
+@@ -0,0 +1,49 @@
 +// SPDX-License-Identifier: GPL-3.0-or-later
 +#pragma once
 +#include <cstddef>
@@ -120,12 +124,13 @@
 +    virtual PeerStorage *acquire(Role, Sample accepted) noexcept = 0;
 +    virtual bool before_parse(PeerStorage &) noexcept = 0;
 +    virtual bool before_read(PeerStorage &, ReadWitness) noexcept = 0;
++    virtual bool before_write(PeerStorage&) noexcept = 0;
 +    virtual void owner_turn() noexcept = 0;
 +};
 +} // namespace trantor::bounded_io
 --- /dev/null
 +++ b/trantor/net/BoundedIoInternal.h
-@@ -0,0 +1,83 @@
+@@ -0,0 +1,96 @@
 +// SPDX-License-Identifier: GPL-3.0-or-later
 +#pragma once
 +#include <trantor/net/BoundedIo.h>
@@ -134,8 +139,20 @@
 +#include <memory>
 +#include <new>
 +#include <utility>
-+namespace trantor { class TcpConnection; class TcpConnectionImpl; class TcpServer; class MsgBuffer; }
++#include <vector>
++namespace trantor { class TcpConnection; class TcpConnectionImpl; class TcpServer; class MsgBuffer; class Channel; }
 +namespace trantor::bounded_io {
++namespace detail {
++// One SDK-internal startup binding; no first-party setters or second G allowance.
++struct BootstrapBudget {
++    bool initializing_main{}, main_ready{}; U64 peers{};
++    std::vector<std::byte> io_events;
++    std::vector<Channel*> io_active;
++    std::vector<std::pair<int,Channel*>> io_debug;
++};
++TRANTOR_EXPORT BootstrapBudget &bootstrap_budget() noexcept;
++}
++
 +// SDK-only per-peer owners live inside the producer's preclaimed metadata slice.
 +struct TRANTOR_EXPORT Slot {
 +    Producer *producer;
@@ -152,7 +169,7 @@
 +    void *cookie{};
 +    std::size_t sent{};
 +    std::atomic<unsigned> inflight{0};
-+    std::atomic<bool> destroy_tcp{false}, control_returned{false};
++    std::atomic<bool> destroy_tcp{false}, control_returned{false}, close_intent{false};
 +    void *tcp_object{}, *ws_object{};
 +    void (*destroy_ws_object)(void *) noexcept{};
 +    std::atomic<bool> destroy_ws{false}, ws_control_returned{true};
@@ -194,7 +211,8 @@
 +    explicit ControlAllocator(Slot *s, bool ws=false) noexcept:slot(s),websocket(ws){}
 +    template<class U> ControlAllocator(const ControlAllocator<U>&a) noexcept:slot(a.slot),websocket(a.websocket){}
 +    T *allocate(std::size_t n) {
-+        if(n!=1 || sizeof(T)>sizeof(slot->control_block) || alignof(T)>64) throw std::bad_alloc();
++        static_assert(sizeof(T)<=512 && alignof(T)<=64, "Selected SDK control block exceeds its slot");
++        if(n!=1) throw std::bad_alloc();
 +        return reinterpret_cast<T*>(websocket ? slot->ws_control_block : slot->control_block);
 +    }
 +    void deallocate(T *,std::size_t) noexcept {
@@ -205,13 +223,43 @@
 +        s->wake();
 +        s->inflight.fetch_sub(1,std::memory_order_release);
 +    }
-+    template<class U> bool operator==(const ControlAllocator<U>&a) const noexcept{return slot==a.slot;}
++    template<class U> bool operator==(const ControlAllocator<U>&a) const noexcept{return slot==a.slot && websocket==a.websocket;}
 +};
 +struct TcpDelete { Slot *slot; void operator()(TcpConnectionImpl*) const noexcept; };
 +} // namespace trantor::bounded_io
 --- a/trantor/net/EventLoop.cc
 +++ b/trantor/net/EventLoop.cc
-@@ -235,6 +235,7 @@
+@@ -1,3 +1,4 @@
++#include <trantor/net/BoundedIoInternal.h>
+ // Copyright 2010, Shuo Chen.  All rights reserved.
+ // http://code.google.com/p/muduo/
+ //
+@@ -69,6 +70,9 @@
+     : looping_(false),
+       threadId_(std::this_thread::get_id()),
+       quit_(false),
++      boundedRecords_(bounded_io::detail::bootstrap_budget().initializing_main ? 16 :
++          bounded_io::detail::bootstrap_budget().peers ?
++              static_cast<std::size_t>(bounded_io::detail::bootstrap_budget().peers)+8 : 0),
+       poller_(Poller::newPoller(this)),
+       currentActiveChannel_(nullptr),
+       eventHandling_(false),
+@@ -79,6 +83,14 @@
+ #endif
+       threadLocalLoopPtr_(&t_loopInThisThread)
+ {
++    if (boundedRecords_) {
++        auto &budget=bounded_io::detail::bootstrap_budget();
++        if(budget.initializing_main) activeChannels_.reserve(boundedRecords_);
++        else activeChannels_=std::move(budget.io_active);
++        if(activeChannels_.capacity()<boundedRecords_) std::terminate();
++    }
++    static_assert(sizeof(EventLoop)<=2048 && sizeof(TimerQueue)<=256 && sizeof(Channel)<=256,
++        "Source/ABI bootstrap metadata bound");
+     if (t_loopInThisThread)
+     {
+         LOG_FATAL << "There is already an EventLoop in this thread";
+@@ -235,6 +247,7 @@
              }
              currentActiveChannel_ = nullptr;
              eventHandling_ = false;
@@ -229,7 +277,15 @@
  #include <trantor/utils/NonCopyable.h>
  #include <trantor/utils/Date.h>
  #include <trantor/utils/LockFreeQueue.h>
-@@ -55,6 +56,7 @@
+@@ -30,6 +31,7 @@
+ #include <limits>
+ #include <atomic>
+
++namespace drogon::bounded_http_sdk { class Runtime; }
+ namespace trantor
+ {
+ class Poller;
+@@ -55,6 +57,7 @@
  class TRANTOR_EXPORT EventLoop : NonCopyable
  {
    public:
@@ -237,7 +293,16 @@
      EventLoop();
      ~EventLoop();
 
-@@ -308,6 +310,7 @@
+@@ -302,12 +305,16 @@
+     std::atomic<bool> looping_;
+     std::thread::id threadId_;
+     std::atomic<bool> quit_;
++    friend class EpollPoller;
++    friend class drogon::bounded_http_sdk::Runtime;
++    const std::size_t boundedRecords_;
+     std::unique_ptr<Poller> poller_;
+
+     ChannelList activeChannels_;
      Channel *currentActiveChannel_;
 
      bool eventHandling_;
@@ -323,7 +388,7 @@
      if (loop_->isInLoopThread())
      {
          acceptorPtr_.reset();
-@@ -253,4 +290,63 @@
+@@ -253,4 +290,64 @@
              }
          });
      }
@@ -354,6 +419,7 @@
 +        auto *s=*link;
 +        if(s->connection) {
 +            auto *c=static_cast<TcpConnectionImpl*>(s->connection.get());
++            if(s->close_intent.exchange(false,std::memory_order_acq_rel)) c->close();
 +            if(s->closing && loop_->boundedEpoch()>s->removal_epoch) {
 +                c->boundedRemove(); s->connection.reset();
 +            } else {
@@ -416,7 +482,7 @@
       *
 --- a/trantor/net/inner/Acceptor.cc
 +++ b/trantor/net/inner/Acceptor.cc
-@@ -45,10 +45,9 @@
+@@ -45,23 +45,43 @@
  }
  Acceptor::~Acceptor()
  {
@@ -429,9 +495,19 @@
  #endif
  }
  void Acceptor::listen()
-@@ -57,11 +56,23 @@
+ {
++    static_assert(sizeof(Acceptor)<=1024, "Global acceptor metadata bound");
+     loop_->assertInLoopThread();
      if (beforeListenSetSockOptCallback_)
          beforeListenSetSockOptCallback_(sock_.fd());
++    if(boundedProducer_) {
++        const int disabled=0;
++        int reuse=1, address=0; socklen_t bytes=sizeof(int);
++        if(::setsockopt(sock_.fd(),SOL_SOCKET,SO_REUSEPORT,&disabled,sizeof(disabled)) ||
++           ::getsockopt(sock_.fd(),SOL_SOCKET,SO_REUSEPORT,&reuse,&bytes) || reuse ||
++           ::getsockopt(sock_.fd(),SOL_SOCKET,SO_REUSEADDR,&address,&bytes) || address!=1)
++            std::terminate(); // No shared-port fallback on the selected listener.
++    }
      sock_.listen();
 -    acceptChannel_.enableReading();
 +    if(boundedProducer_) boundedRefresh(); else acceptChannel_.enableReading();
@@ -454,7 +530,7 @@
      InetAddress peer;
      int newsock = sock_.accept(&peer);
      if (newsock >= 0)
-@@ -99,3 +110,16 @@
+@@ -99,3 +119,16 @@
  #endif
      }
  }
@@ -511,7 +587,7 @@
      /// abort if address in use
 --- a/trantor/net/inner/TcpConnectionImpl.cc
 +++ b/trantor/net/inner/TcpConnectionImpl.cc
-@@ -69,10 +69,12 @@
+@@ -69,21 +69,26 @@
                                       const InetAddress &localAddr,
                                       const InetAddress &peerAddr,
                                       TLSPolicyPtr policy,
@@ -527,16 +603,24 @@
        localAddr_(localAddr),
        peerAddr_(peerAddr)
  {
-@@ -83,7 +85,7 @@
+-    LOG_TRACE << "new connection:" << peerAddr.toIpPort() << "->"
+-              << localAddr.toIpPort();
++    if (!bounded_)
++        LOG_TRACE << "new connection:" << peerAddr.toIpPort() << "->"
++                  << localAddr.toIpPort();
+     ioChannelPtr_->setReadCallback([this]() { readCallback(); });
+     ioChannelPtr_->setWriteCallback([this]() { writeCallback(); });
      ioChannelPtr_->setCloseCallback([this]() { handleClose(); });
      ioChannelPtr_->setErrorCallback([this]() { handleError(); });
      socketPtr_->setKeepAlive(true);
 -    name_ = localAddr.toIpPort() + "--" + peerAddr.toIpPort();
++    static_assert(sizeof(TcpConnectionImpl)<=2048 && sizeof(Channel)<=256 && sizeof(Socket)<=128);
++    static_assert(sizeof(bounded_io::Slot)<=2048);
 +    if (!bounded_) name_ = localAddr.toIpPort() + "--" + peerAddr.toIpPort();
 
      if (policy != nullptr)
      {
-@@ -135,6 +137,22 @@
+@@ -135,6 +140,22 @@
      auto native = nativeProfileIo();
      if (native && native->read(socketPtr_->fd()))
          return;
@@ -559,7 +643,7 @@
      int ret = 0;
 
      ssize_t n = readBuffer_.readFd(socketPtr_->fd(), &ret);
-@@ -251,6 +269,12 @@
+@@ -251,6 +272,12 @@
  }
  void TcpConnectionImpl::writeCallback()
  {
@@ -572,7 +656,7 @@
      loop_->assertInLoopThread();
      if (nativeProfileChannelRemoved_) return;
      auto native = nativeProfileIo();
-@@ -325,6 +349,12 @@
+@@ -325,6 +352,12 @@
  }
  void TcpConnectionImpl::connectEstablished()
  {
@@ -585,7 +669,7 @@
      auto thisPtr = shared_from_this();
      loop_->runInLoop([thisPtr]() {
          LOG_TRACE << "connectEstablished";
-@@ -341,6 +371,7 @@
+@@ -341,6 +374,7 @@
  }
  void TcpConnectionImpl::handleClose()
  {
@@ -593,7 +677,7 @@
      if (nativeProfileChannelRemoved_) return;
      LOG_TRACE << "connection closed, fd=" << socketPtr_->fd();
      LOG_TRACE << "write buffer size: " << writeBufferList_.size();
-@@ -372,6 +403,7 @@
+@@ -372,6 +406,7 @@
  }
  void TcpConnectionImpl::handleError()
  {
@@ -601,15 +685,24 @@
      if (nativeProfileChannelRemoved_) return;
      int err = socketPtr_->getSocketError();
      if (err == 0)
-@@ -412,6 +444,7 @@
+@@ -412,6 +447,16 @@
  }
  void TcpConnectionImpl::shutdown()
  {
-+    if (bounded_) { if (loop_->isInLoopThread()) close(); return; }
++    if (bounded_) {
++        if(loop_->isInLoopThread()) close();
++        else {
++            // A caller-owned strong reference pins the actual SDK record here.
++            bounded_->inflight.fetch_add(1,std::memory_order_acq_rel);
++            bounded_->close_intent.store(true,std::memory_order_release); bounded_->wake();
++            bounded_->inflight.fetch_sub(1,std::memory_order_release);
++        }
++        return;
++    }
      auto thisPtr = shared_from_this();
      loop_->runInLoop([thisPtr]() {
          if (thisPtr->status_ == ConnStatus::Connected)
-@@ -447,6 +480,7 @@
+@@ -447,6 +492,7 @@
 
  void TcpConnectionImpl::forceClose()
  {
@@ -617,7 +710,7 @@
      auto thisPtr = shared_from_this();
      loop_->runInLoop([thisPtr]() {
          if (thisPtr->status_ == ConnStatus::Connected ||
-@@ -536,6 +570,7 @@
+@@ -536,6 +582,7 @@
  // The order of data sending should be same as the order of calls of send()
  void TcpConnectionImpl::send(const std::shared_ptr<std::string> &msgPtr)
  {
@@ -625,7 +718,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(msgPtr->data(), msgPtr->length());
-@@ -550,6 +585,7 @@
+@@ -550,6 +597,7 @@
  // The order of data sending should be same as the order of calls of send()
  void TcpConnectionImpl::send(const std::shared_ptr<MsgBuffer> &msgPtr)
  {
@@ -633,7 +726,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(msgPtr->peek(), msgPtr->readableBytes());
-@@ -563,6 +599,7 @@
+@@ -563,6 +611,7 @@
  }
  void TcpConnectionImpl::send(const char *msg, size_t len)
  {
@@ -641,7 +734,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(msg, len);
-@@ -578,6 +615,7 @@
+@@ -578,6 +627,7 @@
  }
  void TcpConnectionImpl::send(const void *msg, size_t len)
  {
@@ -649,7 +742,7 @@
      if (loop_->isInLoopThread())
      {
  #ifndef _WIN32
-@@ -598,6 +636,7 @@
+@@ -598,6 +648,7 @@
  }
  void TcpConnectionImpl::send(const std::string &msg)
  {
@@ -657,7 +750,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(msg.data(), msg.length());
-@@ -611,6 +650,7 @@
+@@ -611,6 +662,7 @@
  }
  void TcpConnectionImpl::send(std::string &&msg)
  {
@@ -665,7 +758,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(msg.data(), msg.length());
-@@ -626,6 +666,7 @@
+@@ -626,6 +678,7 @@
 
  void TcpConnectionImpl::send(const MsgBuffer &buffer)
  {
@@ -673,7 +766,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(buffer.peek(), buffer.readableBytes());
-@@ -640,6 +681,7 @@
+@@ -640,6 +693,7 @@
 
  void TcpConnectionImpl::send(MsgBuffer &&buffer)
  {
@@ -681,7 +774,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(buffer.peek(), buffer.readableBytes());
-@@ -656,6 +698,7 @@
+@@ -656,6 +710,7 @@
                                   long long offset,
                                   long long length)
  {
@@ -689,7 +782,7 @@
      assert(fileName);
  #ifdef _WIN32
      sendFile(utils::toWidePath(fileName).c_str(), offset, length);
-@@ -676,6 +719,7 @@
+@@ -676,6 +731,7 @@
                                   long long offset,
                                   long long length)
  {
@@ -697,7 +790,7 @@
      assert(fileName);
  #ifndef _WIN32
      sendFile(utils::toNativePath(fileName).c_str(), offset, length);
-@@ -692,6 +736,7 @@
+@@ -692,6 +748,7 @@
 
  void TcpConnectionImpl::sendFile(BufferNodePtr &&fileNode)
  {
@@ -705,7 +798,7 @@
      assert(fileNode->isFile() && fileNode->remainingBytes() > 0);
      if (loop_->isInLoopThread())
      {
-@@ -738,6 +783,7 @@
+@@ -738,6 +795,7 @@
  void TcpConnectionImpl::sendStream(
      std::function<std::size_t(char *, std::size_t)> callback)
  {
@@ -713,7 +806,7 @@
      auto node = BufferNode::newStreamBufferNode(std::move(callback));
      if (loop_->isInLoopThread())
      {
-@@ -1076,6 +1122,7 @@
+@@ -1076,6 +1134,7 @@
  };
  AsyncStreamPtr TcpConnectionImpl::sendAsyncStream(bool disableKickoff)
  {
@@ -721,7 +814,7 @@
      auto asyncStreamNode = BufferNode::newAsyncStreamBufferNode();
      std::weak_ptr<TcpConnectionImpl> weakPtr = shared_from_this();
      auto asyncStream = std::make_unique<AsyncStreamImpl>(
-@@ -1180,6 +1227,7 @@
+@@ -1180,6 +1239,7 @@
                                              const char *data,
                                              size_t len)
  {
@@ -729,7 +822,7 @@
      loop_->assertInLoopThread();
      const bool isPendingTlsNode =
          std::find(pendingTlsWriteBufferList_.begin(),
-@@ -1231,3 +1279,66 @@
+@@ -1231,3 +1291,67 @@
          }
      }
  }
@@ -765,6 +858,7 @@
 +void TcpConnectionImpl::boundedTurn() noexcept {
 +    if (!bounded_ || bounded_->removed || bounded_->closing || bounded_->gate) return;
 +    if (bounded_->output.empty()) return;
++    if (!bounded_->producer->before_write(*bounded_->storage)) return;
 +    const auto n=::send(socketPtr_->fd(),bounded_->output.data()+bounded_->sent,
 +        std::min<std::size_t>(8192,bounded_->output.size()-bounded_->sent),MSG_NOSIGNAL);
 +    if(n>0) bounded_->sent+=static_cast<std::size_t>(n);
@@ -844,6 +938,221 @@
      MsgBuffer readBuffer_;
      std::list<BufferNodePtr> writeBufferList_;
      void readCallback();
+--- a/trantor/net/inner/poller/EpollPoller.cc
++++ b/trantor/net/inner/poller/EpollPoller.cc
+@@ -1,3 +1,6 @@
++#include <trantor/net/BoundedIoInternal.h>
++#include <new>
++#include <algorithm>
+ /**
+  *
+  *  EpollPoller.cc
+@@ -66,8 +69,27 @@
+ #else
+       epollfd_(::epoll_create1(EPOLL_CLOEXEC)),
+ #endif
+-      events_(kInitEventListSize)
+-{
++      boundedRecords_(loop->boundedRecords_),
++      events_(boundedRecords_ ? 0 : kInitEventListSize),
++      boundedEvents_(boundedRecords_ ?
++          (bounded_io::detail::bootstrap_budget().initializing_main ?
++              std::vector<std::byte>(boundedRecords_*16) :
++              std::move(bounded_io::detail::bootstrap_budget().io_events)) : std::vector<std::byte>{})
++#ifndef NDEBUG
++      , boundedChannels_(boundedRecords_ ?
++          (bounded_io::detail::bootstrap_budget().initializing_main ?
++              std::vector<std::pair<int,Channel*>>(boundedRecords_) :
++              std::move(bounded_io::detail::bootstrap_budget().io_debug)) :
++          std::vector<std::pair<int,Channel*>>{})
++#endif
++{
++    static_assert(sizeof(epoll_event)<=16 && alignof(epoll_event)<=alignof(std::max_align_t));
++    static_assert(sizeof(EpollPoller)<=512, "Source/ABI poller metadata bound");
++    if(boundedRecords_) {
++        if(boundedEvents_.size()<boundedRecords_*16) std::terminate();
++        // The byte arena provides storage for the implicit-lifetime kernel cells.
++        ::new (static_cast<void*>(boundedEvents_.data())) epoll_event[boundedRecords_];
++    }
+ }
+ EpollPoller::~EpollPoller()
+ {
+@@ -85,9 +107,11 @@
+ #endif
+ void EpollPoller::poll(int timeoutMs, ChannelList *activeChannels)
+ {
+-    int numEvents = ::epoll_wait(epollfd_,
+-                                 &*events_.begin(),
+-                                 static_cast<int>(events_.size()),
++    static_assert(sizeof(epoll_event)+sizeof(Channel*)+sizeof(std::pair<int,Channel*>)<=128);
++    if(boundedRecords_ && activeChannels->capacity()<boundedRecords_) std::terminate();
++    auto *cells=boundedRecords_ ? reinterpret_cast<epoll_event*>(boundedEvents_.data()) : events_.data();
++    const auto capacity=boundedRecords_ ? boundedRecords_ : events_.size();
++    int numEvents = ::epoll_wait(epollfd_, cells, static_cast<int>(capacity),
+                                  timeoutMs);
+     int savedErrno = errno;
+     // Timestamp now(Timestamp::now());
+@@ -95,7 +119,7 @@
+     {
+         // LOG_TRACE << numEvents << " events happened";
+         fillActiveChannels(numEvents, activeChannels);
+-        if (static_cast<size_t>(numEvents) == events_.size())
++        if (!boundedRecords_ && static_cast<size_t>(numEvents) == events_.size())
+         {
+             events_.resize(events_.size() * 2);
+         }
+@@ -118,24 +142,31 @@
+ void EpollPoller::fillActiveChannels(int numEvents,
+                                      ChannelList *activeChannels) const
+ {
+-    assert(static_cast<size_t>(numEvents) <= events_.size());
++    const auto *cells=boundedRecords_ ? reinterpret_cast<const epoll_event*>(boundedEvents_.data()) : events_.data();
++    assert(static_cast<size_t>(numEvents) <= (boundedRecords_ ? boundedRecords_ : events_.size()));
+     for (int i = 0; i < numEvents; ++i)
+     {
+ #ifdef _WIN32
+-        if (events_[i].events == EPOLLEVENT)
+-        {
+-            eventCallback_(events_[i].data.u64);
++        if (cells[i].events == EPOLLEVENT)
++        {
++            eventCallback_(cells[i].data.u64);
+             continue;
+         }
+ #endif
+-        Channel *channel = static_cast<Channel *>(events_[i].data.ptr);
++        Channel *channel = static_cast<Channel *>(cells[i].data.ptr);
+ #ifndef NDEBUG
+         int fd = channel->fd();
+-        ChannelMap::const_iterator it = channels_.find(fd);
+-        assert(it != channels_.end());
+-        assert(it->second == channel);
+-#endif
+-        int revents = events_[i].events;
++        if (boundedRecords_) {
++            auto it=std::find_if(boundedChannels_.begin(),boundedChannels_.end(),
++                [fd](const auto &entry){return entry.second && entry.first==fd;});
++            assert(it!=boundedChannels_.end() && it->second==channel);
++        } else {
++            ChannelMap::const_iterator it = channels_.find(fd);
++            assert(it != channels_.end());
++            assert(it->second == channel);
++        }
++#endif
++        int revents = cells[i].events;
+ #if defined(__linux__) && (defined(__sparc__) || defined(__sparc))
+         if (revents & EPOLLRDHUP)
+         {
+@@ -161,13 +192,20 @@
+ // a new one, add with EPOLL_CTL_ADD
+ #ifndef NDEBUG
+         int fd = channel->fd();
+-        if (index == kNew)
+-        {
++        if (boundedRecords_) {
++            auto it=std::find_if(boundedChannels_.begin(),boundedChannels_.end(),
++                [fd](const auto &entry){return entry.second && entry.first==fd;});
++            if(index==kNew) {
++                assert(it==boundedChannels_.end());
++                auto free=std::find_if(boundedChannels_.begin(),boundedChannels_.end(),
++                    [](const auto &entry){return !entry.second;});
++                if(free==boundedChannels_.end()) std::terminate();
++                *free={fd,channel};
++            } else assert(it!=boundedChannels_.end() && it->second==channel);
++        } else if (index == kNew) {
+             assert(channels_.find(fd) == channels_.end());
+             channels_[fd] = channel;
+-        }
+-        else
+-        {  // index == kDeleted
++        } else {
+             assert(channels_.find(fd) != channels_.end());
+             assert(channels_[fd] == channel);
+         }
+@@ -181,31 +219,44 @@
+ #ifndef NDEBUG
+         int fd = channel->fd();
+         (void)fd;
++        if(boundedRecords_) {
++            auto it=std::find_if(boundedChannels_.begin(),boundedChannels_.end(),
++                [fd](const auto &entry){return entry.second && entry.first==fd;});
++            assert(it!=boundedChannels_.end() && it->second==channel);
++        } else {
++            assert(channels_.find(fd) != channels_.end());
++            assert(channels_[fd] == channel);
++        }
++#endif
++        assert(index == kAdded);
++        if (channel->isNoneEvent())
++        {
++            update(EPOLL_CTL_DEL, channel);
++            channel->setIndex(kDeleted);
++        }
++        else
++        {
++            update(EPOLL_CTL_MOD, channel);
++        }
++    }
++}
++void EpollPoller::removeChannel(Channel *channel)
++{
++    EpollPoller::assertInLoopThread();
++#ifndef NDEBUG
++    int fd = channel->fd();
++    if(boundedRecords_) {
++        auto it=std::find_if(boundedChannels_.begin(),boundedChannels_.end(),
++            [fd](const auto &entry){return entry.second && entry.first==fd;});
++        assert(it!=boundedChannels_.end() && it->second==channel);
++        *it={};
++    } else {
+         assert(channels_.find(fd) != channels_.end());
+         assert(channels_[fd] == channel);
+-#endif
+-        assert(index == kAdded);
+-        if (channel->isNoneEvent())
+-        {
+-            update(EPOLL_CTL_DEL, channel);
+-            channel->setIndex(kDeleted);
+-        }
+-        else
+-        {
+-            update(EPOLL_CTL_MOD, channel);
+-        }
+-    }
+-}
+-void EpollPoller::removeChannel(Channel *channel)
+-{
+-    EpollPoller::assertInLoopThread();
+-#ifndef NDEBUG
+-    int fd = channel->fd();
+-    assert(channels_.find(fd) != channels_.end());
+-    assert(channels_[fd] == channel);
+-    size_t n = channels_.erase(fd);
+-    (void)n;
+-    assert(n == 1);
++        size_t n = channels_.erase(fd);
++        (void)n;
++        assert(n == 1);
++    }
+ #endif
+     assert(channel->isNoneEvent());
+     int index = channel->index();
+--- a/trantor/net/inner/poller/EpollPoller.h
++++ b/trantor/net/inner/poller/EpollPoller.h
+@@ -52,7 +52,13 @@
+ #else
+     int epollfd_;
+ #endif
++    const std::size_t boundedRecords_;
+     EventList events_;
++    std::vector<std::byte> boundedEvents_;
++#ifndef NDEBUG
++    // The fixed registry covers disabled channels too, until actual removal.
++    std::vector<std::pair<int, Channel *>> boundedChannels_;
++#endif
+     void update(int operation, Channel *channel);
+ #ifndef NDEBUG
+     using ChannelMap = std::map<int, Channel *>;
 --- a/trantor/net/inner/tlsprovider/OpenSSLProvider.cc
 +++ b/trantor/net/inner/tlsprovider/OpenSSLProvider.cc
 @@ -24,7 +24,7 @@

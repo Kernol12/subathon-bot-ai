@@ -25,14 +25,17 @@ namespace sdk = drogon::bounded_http_sdk;
 namespace io = trantor::bounded_io;
 namespace {
 constexpr U64 none = std::numeric_limits<U64>::max(), peer_bytes = 102424;
+constexpr U64 metadata_stride = 10240; // 2048 first-party + 8192 typed SDK bytes.
+// Native projection, poller cell and callback allowances share the same reservation.
+static_assert(metadata_stride + 5120 + 128 + 320 <= 16384);
 constexpr unsigned peer_bit = 1, request_bit = 2, reply_bit = 4, wake_bit = 8;
 struct Core;
 struct PeerRecord final : io::PeerStorage {
     Core *core{};
     U64 index{}, incarnation{}, sequence{1}, body_size{}, body_length{}, route{}, input{none},
         output{none};
-    U64 accept_deadline{}, request_deadline{}, idle_deadline{}, output_deadline{}, ordinal{},
-        bytes_read{};
+    U64 accept_deadline{}, request_deadline{}, idle_deadline{}, output_deadline{},
+        native_upgrade_deadline{}, ordinal{}, bytes_read{};
     U64 arena_used{}, field_count{}, method_size{}, target_size{}, header_size{}, reply_size{};
     std::byte *payload{}, *metadata{};
     io::Transport *transport{};
@@ -45,12 +48,13 @@ struct PeerRecord final : io::PeerStorage {
     bool live{}, attached_once{}, in_connected{}, wanted{}, reading{}, delivered{}, raw_live{},
         raw_revoked{}, ended{}, socket_gone{}, sdk_gone{}, removed{}, context_set{}, wake_issued{},
         close_reply{}, reserved{}, filled{}, wire_done{}, close_requested{}, quarantined{},
-        native{}, native_established{}, control{}, request_started{}, has_end{};
+        native{}, native_established{}, native_retired_seen{}, retiring_charge{},
+        native_retiring_charge{}, control{}, request_started{}, has_end{};
     End end{End::cancelled};
     unsigned mailbox{}, executing{};
     int desired{-1};
     std::span<std::byte> receive_with_prefix() noexcept override { return {payload, 65544}; }
-    std::span<std::byte> sdk_storage() noexcept override { return {metadata + 4096, 12288}; }
+    std::span<std::byte> sdk_storage() noexcept override { return {metadata + 2048, 8192}; }
     std::span<std::byte> control_storage() noexcept override;
     bool wipe_receive(std::span<std::byte>, bool) noexcept override;
     void attached(io::Transport &) noexcept override;
@@ -65,7 +69,7 @@ struct PeerRecord final : io::PeerStorage {
     Field *fields() noexcept { return reinterpret_cast<Field *>(payload + 100376); }
     std::byte *control_data() noexcept { return payload + 101400; }
 };
-static_assert(sizeof(PeerRecord) <= 4096);
+static_assert(sizeof(PeerRecord) <= 2048);
 struct PoolSlot {
     PeerRecord *owner{};
 };
@@ -96,10 +100,10 @@ struct Core final : io::Producer, sdk::Sink {
     std::mutex mutex;
     std::atomic<U64> handle_count{0}, delete_count{0}, posts{0};
     std::atomic<bool> stopping{false}, io_live{false};
-    U64 stop_deadline{}, now_ns{}, prior{}, cursor{};
+    U64 stop_deadline{}, now_ns{}, prior{}, cursor{}, native_upgrade_ms{};
     bool prior_set{}, elapsed_bad{}, registered{}, drained{}, finished{}, quarantine{},
-        hook_installed{}, turning{};
-    unsigned callbacks_active{}, visitors{};
+        hook_installed{}, turning{}, sdk_installed{};
+    unsigned callbacks_active{}, visitors{}, turn_work[2]{};
     Core(Limits l, Storage s, std::shared_ptr<const native_ws::ElapsedSource> clock, Callbacks cb,
          NativeBinding nb)
         : limits(l), storage(s), source(std::move(clock)), callbacks(cb), native(nb) {
@@ -108,6 +112,9 @@ struct Core final : io::Producer, sdk::Sink {
         observation.current.metadata_charge = 65536;
     }
     ~Core() {
+        if (sdk_installed && !sdk::Runtime::discard(*this))
+            std::terminate();
+        std::lock_guard lock(mutex);
         if (mapping)
             ::munmap(mapping, static_cast<std::size_t>(mapped));
         if (event_fd >= 0)
@@ -119,13 +126,14 @@ struct Core final : io::Producer, sdk::Sink {
                 record(i).~PeerRecord();
     }
     PeerRecord &record(U64 i) noexcept {
-        return *reinterpret_cast<PeerRecord *>(metadata.get() + i * 16384);
+        return *reinterpret_cast<PeerRecord *>(metadata.get() + i * metadata_stride);
     }
     PoolSlot &input(U64 i) noexcept {
-        return *reinterpret_cast<PoolSlot *>(metadata.get() + limits.peers * 16384 + i * 128);
+        return *reinterpret_cast<PoolSlot *>(metadata.get() + limits.peers * metadata_stride +
+                                             i * 128);
     }
     PoolSlot &output(U64 i) noexcept {
-        return *reinterpret_cast<PoolSlot *>(metadata.get() + limits.peers * 16384 +
+        return *reinterpret_cast<PoolSlot *>(metadata.get() + limits.peers * metadata_stride +
                                              (limits.input_slots + i) * 128);
     }
     std::byte *input_data(U64 i) noexcept {
@@ -210,6 +218,13 @@ struct Core final : io::Producer, sdk::Sink {
         }
         return ok;
     }
+    // Anchor at the actual later terminal operation, before deferred notification.
+    void anchor_idle(PeerRecord &p) noexcept {
+        if (p.raw_live || !p.wire_done || p.idle_deadline || p.quarantined)
+            return;
+        if (!sample_now() || !anchor(p.idle_deadline, limits.idle_ms))
+            terminate(p, End::elapsed_failed);
+    }
     void release_raw(PeerRecord &p) noexcept {
         if (!p.raw_live)
             return;
@@ -236,11 +251,16 @@ struct Core final : io::Producer, sdk::Sink {
             }
         }
         ++observation.raw_releases;
+        anchor_idle(p);
     }
     void request_started(PeerRecord &p) noexcept {
-        if (!p.request_started) {
+        if (!p.request_started && guard(p)) {
+            if (!anchor(p.request_deadline, limits.request_ms)) {
+                terminate(p, End::elapsed_failed);
+                return;
+            }
             p.request_started = true;
-            (void)anchor(p.request_deadline, limits.request_ms);
+            p.idle_deadline = 0;
         }
     }
     bool guard(PeerRecord &p, bool allow_committed = false) noexcept {
@@ -252,10 +272,19 @@ struct Core final : io::Producer, sdk::Sink {
             terminate(p, End::stopped);
             return false;
         }
-        const U64 deadline = p.committed         ? p.output_deadline
-                             : p.request_started ? p.request_deadline
-                             : p.idle_deadline   ? p.idle_deadline
-                                                 : p.accept_deadline;
+        if (p.native_established && !p.control)
+            return !p.close_requested;
+        if (p.native && !p.native_established && p.native_upgrade_deadline &&
+            now_ns >= p.native_upgrade_deadline) {
+            terminate(p, End::expired);
+            return false;
+        }
+        const bool complete = p.delivered && p.wire_done && !p.raw_live;
+        const U64 deadline = complete                     ? p.idle_deadline
+                             : (p.committed || p.control) ? p.output_deadline
+                             : p.request_started          ? p.request_deadline
+                             : p.idle_deadline            ? p.idle_deadline
+                                                          : p.accept_deadline;
         if (elapsed_bad || !deadline) {
             terminate(p, End::elapsed_failed);
             return false;
@@ -304,7 +333,8 @@ struct Core final : io::Producer, sdk::Sink {
             p.native = role == io::Role::native;
             p.sequence = 1;
             now_ns = accepted.ns;
-            if (!anchor(p.accept_deadline, limits.accept_ms)) {
+            if (!anchor(p.accept_deadline, limits.accept_ms) ||
+                (p.native && !anchor(p.native_upgrade_deadline, native_upgrade_ms))) {
                 p.live = false;
                 return nullptr;
             }
@@ -320,16 +350,47 @@ struct Core final : io::Producer, sdk::Sink {
     }
     bool before_parse(io::PeerStorage &value) noexcept override {
         auto &p = static_cast<PeerRecord &>(value);
-        return p.wanted && !p.delivered && guard(p);
+        if (!p.wanted || p.delivered || !guard(p))
+            return false;
+        request_started(p); // SDK invokes this only for actual buffered bytes.
+        if (p.close_requested)
+            return false;
+        auto &work = turn_work[p.native ? 1 : 0];
+        if (turning && work >= 8)
+            return false;
+        if (turning)
+            ++work;
+        return true;
     }
     bool before_read(io::PeerStorage &value, io::ReadWitness w) noexcept override {
-        if (!before_parse(value))
+        auto &p = static_cast<PeerRecord &>(value);
+        if (!p.wanted || p.delivered || !guard(p))
             return false;
+        if (p.ordinal == none || observation.reads == none || w.offered > none - p.bytes_read ||
+            w.offered > none - observation.bytes_read) {
+            terminate(p, End::cancelled);
+            return false;
+        }
         if (!std::holds_alternative<Done>(check_read_window(w.writable))) {
             ++observation.read_guard_pauses;
             return false;
         }
         return true;
+    }
+    bool before_write(io::PeerStorage &value) noexcept override {
+        auto &p = static_cast<PeerRecord &>(value);
+        if (!guard(p, true))
+            return false;
+        if (stopping.load(std::memory_order_acquire) && now_ns >= stop_deadline) {
+            terminate(p, End::stopped);
+            return false;
+        }
+        auto &work = turn_work[p.native ? 1 : 0];
+        if (turning && work >= 8)
+            return false;
+        if (turning)
+            ++work;
+        return !p.close_requested;
     }
     sdk::Decision head(io::PeerStorage &, sdk::Head) noexcept override;
     bool body(io::PeerStorage &value, std::span<const std::byte> bytes) noexcept override {
@@ -378,6 +439,10 @@ struct Core final : io::Producer, sdk::Sink {
         return false;
     }
 };
+static_assert(((sizeof(Core) + 63) & ~std::size_t(63)) +
+                      2 * ((sizeof(trantor::Channel) + 63) & ~std::size_t(63)) + 128 + 256 <=
+                  sdk::first_party_global_metadata_bytes,
+              "First-party globals exceed their share of the same G quota");
 thread_local struct Descriptor {
     Core *core;
     PeerRecord *peer;
@@ -466,6 +531,15 @@ bool valid_host(std::string_view value) noexcept {
     }
     return true;
 }
+// Validate trusted route targets before framework registration.
+bool valid_target(std::string_view value) noexcept {
+    if (value.empty() || value.front() != '/' || value.find_first_of("?#") != value.npos)
+        return false;
+    for (unsigned char c : value)
+        if (c <= 32 || c == 127)
+            return false;
+    return true;
+}
 // Canonical base64 for exactly sixteen bytes has twenty-two digits and two '='.
 bool valid_key(std::string_view value) noexcept {
     constexpr std::string_view alphabet =
@@ -545,6 +619,12 @@ namespace {
 std::span<std::byte> PeerRecord::control_storage() noexcept {
     if (control || close_requested)
         return {};
+    if (!core->guard(*this))
+        return {};
+    if (!core->anchor(output_deadline, core->limits.output_ms)) {
+        core->terminate(*this, End::elapsed_failed);
+        return {};
+    }
     control = true;
     core->observation.current.control_capacity += 1024;
     return {control_data(), 1024};
@@ -555,8 +635,13 @@ bool PeerRecord::wipe_receive(std::span<std::byte> bytes, bool pending) noexcept
     return core->wipe(*this, RawKind::receive, pending ? RawUse::pending : RawUse::current, bytes);
 }
 void PeerRecord::native_retired() noexcept {
+    auto *c = core;
+    c->delete_count.fetch_add(1, std::memory_order_acq_rel);
+    deletes.fetch_add(1, std::memory_order_acq_rel);
     retired_native.store(true, std::memory_order_release);
-    core->signal();
+    c->signal();
+    deletes.fetch_sub(1, std::memory_order_release);
+    c->delete_count.fetch_sub(1, std::memory_order_release); // Last core access.
 }
 void PeerRecord::attached(io::Transport &t) noexcept {
     transport = &t;
@@ -579,6 +664,12 @@ void PeerRecord::attached(io::Transport &t) noexcept {
 }
 void PeerRecord::read_witness(io::ReadWitness w) noexcept {
     auto &o = core->observation;
+    const auto positive = w.returned > 0 ? static_cast<U64>(w.returned) : 0;
+    if (ordinal == none || o.reads == none || positive > none - bytes_read ||
+        positive > none - o.bytes_read) {
+        core->terminate(*this, End::cancelled);
+        return;
+    }
     ++ordinal;
     ++o.reads;
     if (w.returned > 0) {
@@ -617,6 +708,7 @@ void PeerRecord::wire_released(void *cookie) noexcept {
         ++o.wire_releases;
         wire_done = true;
         core->choose(*this, close_requested ? End::cancelled : End::drained);
+        core->anchor_idle(*this);
         if (close_reply)
             close_requested = true;
     }
@@ -633,7 +725,7 @@ sdk::Decision Core::head(io::PeerStorage &value, sdk::Head h) noexcept {
     U64 length = 0;
     bool seen_length = false, syntax = h.syntax_bad;
     unsigned hosts = 0, correlations = 0, keys = 0, versions = 0, upgrades = 0, connections = 0;
-    bool upgrade_token = false;
+    bool upgrade_token = false, native_host_over = false;
     bool close = false;
     for (auto f : h.fields) {
         auto str = [&](std::uint32_t off, std::uint32_t n) {
@@ -691,7 +783,7 @@ sdk::Decision Core::head(io::PeerStorage &value, sdk::Head h) noexcept {
         if (ascii_equal(name, "host")) {
             ++hosts;
             if (p.native && v.size() > 256)
-                return {431, 0};
+                native_host_over = true;
             if (!valid_host(v))
                 syntax = true;
         }
@@ -702,6 +794,8 @@ sdk::Decision Core::head(io::PeerStorage &value, sdk::Head h) noexcept {
                 syntax = true;
     }
     if (p.native) {
+        if (native_host_over)
+            return {431, 0};
         if (syntax || hosts != 1 || keys != 1 || versions != 1 || upgrades != 1 ||
             connections != 1 || !upgrade_token || close || length || h.method != "GET" ||
             h.target != native.target)
@@ -757,6 +851,8 @@ void Core::native_event(io::PeerStorage &value,
                         const std::shared_ptr<drogon::WebSocketConnection> &connection,
                         sdk::NativeEvent event) noexcept {
     auto &p = static_cast<PeerRecord &>(value);
+    if (event != sdk::NativeEvent::closed && !guard(p))
+        return;
     if (event == sdk::NativeEvent::opened) {
         p.native_established = true;
         observation.native_projected_fields = 5;
@@ -770,6 +866,8 @@ void Core::native_event(io::PeerStorage &value,
 }
 void Core::complete(io::PeerStorage &value) noexcept {
     auto &p = static_cast<PeerRecord &>(value);
+    if (!guard(p))
+        return;
     p.delivered = true;
     ++observation.requests;
     try {
@@ -784,6 +882,7 @@ void Core::owner_turn() noexcept {
     if (turning)
         return;
     turning = true;
+    turn_work[0] = turn_work[1] = 0;
     if (!loop) {
         loop = trantor::EventLoop::getEventLoopOfCurrentThread();
         io_thread = std::this_thread::get_id();
@@ -828,7 +927,7 @@ void Core::owner_turn() noexcept {
             terminate(p, End::stopped);
         else if (elapsed_bad)
             terminate(p, End::elapsed_failed);
-        else if (!p.close_requested && !p.ended && !p.native_established)
+        else if (!p.close_requested && (!p.native_established || p.control))
             (void)guard(p, true);
         if (p.close_requested && p.transport && !p.socket_gone)
             p.transport->close();
@@ -840,8 +939,23 @@ void Core::owner_turn() noexcept {
         auto &p = record((cursor + turn) % limits.peers);
         if (!p.live)
             continue;
-        if (p.retired_native.exchange(false, std::memory_order_acq_rel))
+        if (p.retired_native.exchange(false, std::memory_order_acq_rel)) {
+            p.native_retired_seen = true;
             ++observation.native_retires;
+        }
+        if (p.socket_gone && !p.retiring_charge && !p.removed) {
+            p.retiring_charge = true;
+            ++observation.current.retiring_peers;
+        }
+        if (p.socket_gone && p.native && p.attached_once && !p.native_retired_seen &&
+            !p.native_retiring_charge) {
+            p.native_retiring_charge = true;
+            ++observation.current.native_retiring;
+        }
+        if (p.native_retired_seen && p.native_retiring_charge) {
+            p.native_retiring_charge = false;
+            --observation.current.native_retiring;
+        }
         if (p.socket_gone) {
             if (!p.has_end)
                 choose(p, End::disconnected);
@@ -855,11 +969,16 @@ void Core::owner_turn() noexcept {
                 choose(p, End::cancelled);
             if (!callback([&] { callbacks.ended(callbacks.owner, p.context, p.end); }))
                 terminate(p, End::callback_failed);
-            if (!anchor(p.idle_deadline, limits.idle_ms))
-                terminate(p, End::elapsed_failed);
+            anchor_idle(p);
         }
-        if (p.socket_gone && p.sdk_gone && !p.removed) {
+        if (p.socket_gone && p.sdk_gone && !p.removed &&
+            !p.deletes.load(std::memory_order_acquire) &&
+            (!p.native || !p.attached_once || p.native_retired_seen)) {
             p.removed = true;
+            if (p.retiring_charge) {
+                p.retiring_charge = false;
+                --observation.current.retiring_peers;
+            }
             p.revoked.store(true, std::memory_order_release);
             p.transport = nullptr;
             if (p.attached_once) {
@@ -893,7 +1012,11 @@ void Core::owner_turn() noexcept {
         {
             std::lock_guard lock(mutex);
             intents = p.mailbox;
-            p.mailbox = 0;
+            if (!(intents & 2) && turn_work[p.native ? 1 : 0] >= 8) {
+                intents &= ~1u; // Leave one coalesced ready record for the next turn.
+                p.mailbox &= 1u;
+            } else
+                p.mailbox = 0;
             desired = p.desired;
             p.desired = -1;
             p.executing = intents;
@@ -903,9 +1026,11 @@ void Core::owner_turn() noexcept {
         else {
             if (desired >= 0)
                 p.wanted = desired != 0;
-            if ((intents & 1) && !stop && !p.close_requested &&
-                !callback([&] { callbacks.ready(callbacks.owner, p.context); }))
-                terminate(p, End::callback_failed);
+            if ((intents & 1) && !stop && !p.close_requested && guard(p)) {
+                ++turn_work[p.native ? 1 : 0];
+                if (!callback([&] { callbacks.ready(callbacks.owner, p.context); }))
+                    terminate(p, End::callback_failed);
+            }
         }
         p.executing = 0;
         if (!stop && !p.close_requested && p.wanted) {
@@ -1127,8 +1252,19 @@ void Reply::cancel() noexcept {
 }
 Foundation::Foundation(std::unique_ptr<State> s) noexcept : state_(std::move(s)) {}
 Foundation::~Foundation() {
-    if (state_ && state_->core->registered && !state_->core->finished)
+    if (!state_)
+        return;
+    auto &c = *state_->core;
+    if (std::this_thread::get_id() != c.creator ||
+        (!c.finished && (c.loop || c.handle_count.load(std::memory_order_acquire) ||
+                         c.delete_count.load(std::memory_order_acquire) ||
+                         c.posts.load(std::memory_order_acquire))))
         std::terminate();
+    if (c.sdk_installed) {
+        if (!sdk::Runtime::discard(c))
+            std::terminate();
+        c.sdk_installed = false;
+    }
 }
 Result<Done> Foundation::admission(const Peer &h, Pause pause) noexcept {
     auto &c = *state_->core;
@@ -1175,7 +1311,12 @@ Result<Post> Foundation::post(const Wake &h, Intent intent) noexcept {
     auto &c = *state_->core;
     if (!Factory::state(h) || Factory::state(h)->core != &c)
         return Error::revoked;
-    std::lock_guard lock(c.mutex);
+    std::unique_lock lock(c.mutex, std::defer_lock);
+    try {
+        lock.lock();
+    } catch (...) {
+        return Error::unavailable;
+    }
     if (c.stopping.load(std::memory_order_acquire))
         return Error::stopping;
     if (!c.io_live.load(std::memory_order_acquire))
@@ -1204,7 +1345,12 @@ Result<Post> Foundation::post(const Wake &h, Intent intent) noexcept {
 }
 Result<Post> Foundation::stop(Tick deadline) noexcept {
     auto &c = *state_->core;
-    std::lock_guard lock(c.mutex);
+    std::unique_lock lock(c.mutex, std::defer_lock);
+    try {
+        lock.lock();
+    } catch (...) {
+        return Error::unavailable;
+    }
     if (c.stopping.load(std::memory_order_acquire))
         return Post::coalesced;
     c.stop_deadline = deadline.nanoseconds;
@@ -1229,7 +1375,9 @@ Result<Done> Foundation::finish() noexcept {
 Result<Done> register_listeners(Foundation &f, drogon::HttpAppFramework &app,
                                 Endpoints e) noexcept {
     auto &c = Factory::core(f);
-    if (c.registered || e.address.back() != 0)
+    if (!app.getLoop()->isInLoopThread())
+        return Error::wrong_thread;
+    if (c.registered || e.address.back() != 0 || (e.http_port && e.http_port == e.port))
         return Error::invalid_state;
     if (!sdk::Runtime::listener(app, {e.address, e.http_port}, io::Role::http) ||
         !sdk::Runtime::listener(app, {e.address, e.port}, io::Role::native))
@@ -1279,8 +1427,8 @@ Result<std::unique_ptr<Foundation>> create(Limits l, std::span<const Route> rout
         l.body_bytes > static_cast<U64>(SSIZE_MAX) || l.reply_bytes > static_cast<U64>(SSIZE_MAX))
         return Error::invalid_config;
     if (!source || routes.empty() || routes.size() > 8 || native.target.empty() ||
-        native.target.size() > 128 || !cb.connected || !cb.request || !cb.ready || !cb.ended ||
-        !cb.removed || !cb.stop_drained)
+        native.target.size() > 128 || !valid_target(native.target) || !cb.connected ||
+        !cb.request || !cb.ready || !cb.ended || !cb.removed || !cb.stop_drained)
         return Error::invalid_config;
     const auto *registration = sdk::Runtime::native_registration();
     if (!registration || registration->source_identity() != source.get())
@@ -1292,34 +1440,35 @@ Result<std::unique_ptr<Foundation>> create(Limits l, std::span<const Route> rout
     if (!std::holds_alternative<Tick>(source->sample()))
         return Error::elapsed_unavailable;
     for (auto r : routes)
-        if (r.method.empty() || r.method.size() > 16 || r.target.empty() ||
+        if (!token(r.method) || r.method.size() > 16 || !valid_target(r.target) ||
             r.target.size() > 2048 || r.body_ceiling > l.body_bytes)
             return Error::invalid_config;
     try {
         auto c = std::make_unique<Core>(l, plan, std::move(source), cb, native);
         c->mapped = plan.mapped;
+        c->native_upgrade_ms = nl.upgrade_ms;
         void *mapping = ::mmap(nullptr, static_cast<std::size_t>(plan.mapped),
                                PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
         if (mapping == MAP_FAILED)
             return Error::allocation_failure;
         ::new (mapping) std::byte[static_cast<std::size_t>(plan.payload)];
         c->mapping = static_cast<std::byte *>(mapping);
-        c->meta_bytes = l.peers * 16384 + (l.input_slots + l.output_slots) * 128;
+        c->meta_bytes = l.peers * metadata_stride + (l.input_slots + l.output_slots) * 128;
         auto *meta = static_cast<std::byte *>(::operator new(
             static_cast<std::size_t>(c->meta_bytes), std::align_val_t(64), std::nothrow));
         if (!meta)
             return Error::allocation_failure;
         c->metadata.reset(meta);
         for (U64 i = 0; i < l.peers; ++i) {
-            auto *p = new (meta + i * 16384) PeerRecord;
+            auto *p = new (meta + i * metadata_stride) PeerRecord;
             p->core = c.get();
             p->index = i;
-            p->metadata = meta + i * 16384;
+            p->metadata = meta + i * metadata_stride;
             p->payload = c->mapping + i * peer_bytes;
             ::new (p->fields()) Field[64];
         }
         for (U64 i = 0; i < l.input_slots + l.output_slots; ++i)
-            new (meta + l.peers * 16384 + i * 128) PoolSlot;
+            new (meta + l.peers * metadata_stride + i * 128) PoolSlot;
         c->route_count = routes.size();
         for (std::size_t i = 0; i < routes.size(); ++i) {
             auto r = routes[i];
@@ -1343,8 +1492,17 @@ Result<std::unique_ptr<Foundation>> create(Limits l, std::span<const Route> rout
         scan.it_value = scan.it_interval;
         if (::timerfd_settime(c->timer_fd, 0, &scan, nullptr))
             return Error::allocation_failure;
-        if (!sdk::Runtime::install(*c, *c, l.peers))
-            return Error::invalid_state;
+        if (!sdk::Runtime::install(*c, *c, l.peers)) {
+            switch (sdk::Runtime::install_failure()) {
+            case sdk::InstallFailure::allocation_failure:
+                return Error::allocation_failure;
+            case sdk::InstallFailure::invalid_config:
+                return Error::invalid_config;
+            default:
+                return Error::invalid_state;
+            }
+        }
+        c->sdk_installed = true;
         return Factory::make(std::move(c));
     } catch (...) {
         return Error::allocation_failure;

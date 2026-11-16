@@ -16,7 +16,7 @@
      std::weak_ptr<trantor::TcpConnection> tcp;
      std::weak_ptr<drogon::WebSocketConnection> connection;
      drogon::WebSocketConnection *connection_object{}; // Identity only; never dereferenced.
-@@ -924,6 +926,29 @@
+@@ -924,6 +926,32 @@
      }
  };
 
@@ -43,10 +43,13 @@
 +    }
 +};
 +
++static_assert(((sizeof(FoundationRegistration)+63)&~std::size_t(63))+64<=256,
++              "Native registration exceeds its global metadata reservation");
++
  void Context::retire(const std::shared_ptr<Owner> &owner) noexcept {
      // All callers hold mutex. No source object survives just for diagnostics.
      if (!owner->terminal || !owner->detached_native || owner->leases || owner->work)
-@@ -935,6 +960,10 @@
+@@ -935,6 +963,10 @@
                  regions[owner->region_slot] = 0;
              } else
                  --global.upgrade_owners;
@@ -57,7 +60,7 @@
              slot.reset();
              break;
          }
-@@ -1173,8 +1202,12 @@
+@@ -1173,8 +1205,12 @@
      static bool started() noexcept {
          return drogon::native_profile::Runtime::started().load(std::memory_order_acquire);
      }
@@ -72,7 +75,7 @@
      }
      static std::unique_ptr<Profile> make(std::shared_ptr<Context> c) {
          auto s = std::make_unique<Profile::State>();
-@@ -1323,7 +1356,7 @@
+@@ -1323,7 +1359,7 @@
              } catch (...) {
                  return {};
              }
@@ -81,3 +84,4 @@
          return profile;
      } catch (...) {
          return Unavailable{Failure::allocation_failure};
+# End of the native build-copy correction.

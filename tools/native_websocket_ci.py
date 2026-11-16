@@ -134,6 +134,10 @@ def profile() -> dict:
         ("0005-native-source-binding.patch", "first_party")], "Successor patch order drift")
     for patch in manifest["ordered_patches"]:
         require(digest(PROFILE / patch["file"]) == patch["sha256"], "Successor patch digest drift")
+    allocation = manifest["allocation_inventory"]
+    require(allocation["file"] == "RESOURCE_ACCOUNTING.md" and
+            digest(PROFILE / allocation["file"]) == allocation["sha256"],
+            "Successor allocation inventory drift")
     require(manifest["first_party"]["file"] == parent["first_party"]["file"] and
             manifest["first_party"]["sha256"] == parent["first_party"]["sha256"],
             "Successor original first-party source drift")
@@ -402,6 +406,8 @@ def prepare(root: Path) -> None:
     for name in ("manifest.json", *[p["file"] for p in manifest["ordered_patches"]]):
         copy_notice(PROFILE / name, provenance / name)
     if SUCCESSOR:
+        for name in ("README.md", manifest["allocation_inventory"]["file"]):
+            copy_notice(PROFILE / name, provenance / name)
         for name in ("manifest.json", *[p["file"] for p in parent["ordered_patches"]]):
             copy_notice(PARENT_PROFILE / name, provenance / "parent" / name)
     for name in (manifest["first_party"]["file"], "server/include/subathon/server/native_websocket_profile.hpp"):

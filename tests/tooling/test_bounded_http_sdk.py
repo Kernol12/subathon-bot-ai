@@ -22,7 +22,7 @@ class BoundedHttpSdkTests(unittest.TestCase):
 
     def test_successor_binds_parent_order_and_patch_bytes(self):
         # All mutations must fail before any build/consumer process can be invoked.
-        for mutation in ("parent", "order", "patch", "original"):
+        for mutation in ("parent", "order", "patch", "original", "inventory"):
             with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as temp:
                 profile = self.fixture(Path(temp))
                 manifest = json.loads((profile / "manifest.json").read_text())
@@ -33,6 +33,8 @@ class BoundedHttpSdkTests(unittest.TestCase):
                 elif mutation == "patch":
                     p = profile / "0003-trantor-bounded-http.patch"
                     p.write_text(p.read_text() + "changed\n")
+                elif mutation == "inventory":
+                    (profile / "RESOURCE_ACCOUNTING.md").write_text("synthetic drift\n")
                 else:
                     manifest["first_party"]["sha256"] = "0" * 64
                 (profile / "manifest.json").write_text(json.dumps(manifest))

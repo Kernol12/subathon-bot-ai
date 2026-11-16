@@ -3,7 +3,9 @@
 R4 adds the accepted shutdown seam. Corrections 2–8 are provisionally approved
 by the owner on 2026-11-16 for existing R3 behavior, with dispositions in PR #664.
 The final R4 interface remains subject to tier A review. First-party declarations
-and reviewed oracles are unchanged.
+and reviewed oracles are unchanged. R4 corrections 9–12 add the SDK-only bootstrap
+budget binding/constants, install-failure query, actual-write deadline guard and
+joined/cold installation cleanup; see PR #664 for their exact scope.
 
 APICONTRACT-005; identity `subathon.bounded-http-foundation.v1`. Normative
 **proposal**, not implemented or admitted. R2 addressed initial-review findings
@@ -84,6 +86,10 @@ struct Sample { bool available; U64 ns; };
 struct ReadWitness { U64 head, tail, writable, offered;
                      std::int64_t returned; std::int32_t error;
                      std::uint8_t iovcnt; };
+namespace detail { // SDK-internal bootstrap/IO-array ownership, never a first-party setter
+struct BootstrapBudget;
+BootstrapBudget& bootstrap_budget() noexcept; // R4 correction 9
+}
 class Transport { // SDK implementation; IO0 only, actual accepted connection
 public:
     virtual ~Transport() = default;
@@ -114,11 +120,14 @@ public:
     virtual PeerStorage* acquire(Role, Sample accepted) noexcept = 0;
     virtual bool before_parse(PeerStorage&) noexcept = 0;
     virtual bool before_read(PeerStorage&, ReadWitness) noexcept = 0;
+    virtual bool before_write(PeerStorage&) noexcept = 0; // R4 correction 11
     virtual void owner_turn() noexcept = 0;
 };
 }
 namespace drogon::bounded_http_sdk {
 using U64 = std::uint64_t;
+inline constexpr std::size_t first_party_global_metadata_bytes = 32768; // R4 correction 9
+inline constexpr std::size_t sdk_global_metadata_bytes = 32768; // same G, not additional
 struct Field { std::uint32_t name, name_size, value, value_size; };
 struct Head { std::span<const std::byte> raw;
               std::string_view method, target;
@@ -138,9 +147,12 @@ public:
     virtual void native_handoff(trantor::bounded_io::PeerStorage&, U64, bool) noexcept = 0;
 };
 struct Endpoint { std::array<char,46> address; std::uint16_t port; };
+enum class InstallFailure : std::uint8_t { none, invalid_config, invalid_state, allocation_failure };
 class Runtime { // SDK implementation, private installation, one per process
 public:
     static bool install(trantor::bounded_io::Producer&, Sink&, U64 peers) noexcept;
+    static InstallFailure install_failure() noexcept; // R4 correction 10, creating-thread query
+    static bool discard(trantor::bounded_io::Producer&) noexcept; // R4 correction 12
     static bool listener(HttpAppFramework&, Endpoint,
                          trantor::bounded_io::Role) noexcept;
     static bool stop_acceptors() noexcept; // R4: actual removal, polled on IO0
@@ -155,6 +167,13 @@ public:
 };
 }
 ```
+
+Correction 11 samples the existing producer deadline guard immediately before
+each actual borrowed-node write, including writable-channel callbacks. A false
+result performs no write. Correction 12 releases only the matching installation
+on its creating thread after joined cleanup, or before any loop/listener was
+started. It removes unstarted listener bindings and releases unused pre-run arrays,
+never resets the one-attempt latch, quits a loop or allocates.
 
 Head.fields offsets refer to Head.raw (not a copied arena), after bounded scan;
 invalid records carry syntax_bad and never enter a request callback. The raw
@@ -338,7 +357,12 @@ that constructor. The successor therefore reserves the SDK-only global metadata
 quota G=65536 before this initializer constructs its fixed framework bootstrap
 objects; first-party global allocations later use the remaining SAME quota.
 This is the G in §4, counted once, not an extra mapped array or a post-allocation
-claim. The correction adds a nonallocating bootstrap quota guard before the
+claim. R4 correction 9 partitions this same G into 32768 SDK and 32768
+first-party bytes, guarded by source/ABI layout bounds before the initializer and
+first-party allocations. Its private bootstrap binding reserves the future IO0
+arrays during install; IO0 moves those actual arrays instead of allocating again.
+Correction 10 reports the actual install failure so create preserves
+allocation_failure rather than confusing allocation and configuration failures. The correction adds a nonallocating bootstrap quota guard before the
 existing initializer's allocations and inventories its managers, main EventLoop,
 MpscQueue sentinel, timer/poller/channel and standard-object requests. If those
 source-proven rounded requests cannot fit G, SDK admission fails. Keep the
