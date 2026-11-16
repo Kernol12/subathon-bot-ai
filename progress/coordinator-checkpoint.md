@@ -25,8 +25,11 @@ Authorized on 2026-11-16, amended by the owner on 2026-11-17:
    additions, listeners, header and stubs) is authorized under the handover gates.
    Current main was merged into its branch first (`d005c23c`).
    **APITEST-017 [#672](https://github.com/Kernol12/subathon-bot-ai/issues/672)** is also authorized, tier A, in parallel in its own worktree and branch.
-   Scope-1 tests must fail on `f8be1aec`; scope-2 tests on `0e774a51` (the
-   suspend/admit case also on `8fbc0ee8`), and all pass on the merged foundation.
+   The owner narrowed it to native peers (former scope 2): suspend/admit and more
+   than eight peers, using existing observations. Tests must fail on `0e774a51`
+   (the suspend/admit case also on `8fbc0ee8`) and pass on the merged foundation.
+   Former HTTP scope 1 and its observation seam are deferred to #689, not an
+   API-001 prerequisite and not authorized.
    The tasks own separate files. If both need the same file, stop and ask the owner.
 3. **API-001 [#278](https://github.com/Kernol12/subathon-bot-ai/issues/278)**: the production host, tier A. Prerequisites: APITEST-015 and
    APITEST-017 (#672). The path remains both tests tasks, then API-001.
@@ -41,6 +44,9 @@ session, and none of PR #121's reviews, approvals or CI results carries over.
 ## Planned, not authorized
 
 - SESSION-013 [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662), SESSION-009 [#582](https://github.com/Kernol12/subathon-bot-ai/issues/582), API-010 [#560](https://github.com/Kernol12/subathon-bot-ai/issues/560).
+- APITEST-018 [#689](https://github.com/Kernol12/subathon-bot-ai/issues/689): large buffered HTTP input with more than eight connections and its
+  bounded observation seam, moved from APITEST-017 by the owner. Planned under
+  EPIC-008; not an API-001 prerequisite. Historical `f8be1aec` coverage is deferred here.
 - API-016 follow-ups: V2, C2, C4, C6, I14, I15, I16, I19, I20, O5; see the handover
   comment. Filed as [#678–#687](https://github.com/Kernol12/subathon-bot-ai/issues/273)
   (API-017 through API-026), planned under EPIC-008; none is authorized for work.
@@ -75,8 +81,8 @@ Owner amendments, all recorded on #278:
   answered. Reference units report refusals as rollbacks, and those must be answered.
 - API-010 (#560), the first replying dispatcher, carries the criterion "a command with
   a unit that ended without a commit never yields a success reply" ([widened](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6919654379)).
-  #560 and the one boundary-contract sentence that quotes it are updated at the next
-  step of APITEST-015; until then both carry the narrower "rolled-back unit" wording.
+  #560 is updated; the matching boundary sentence is authored locally in APITEST-015,
+  pending independent review and publication.
 - #278 acceptance criterion: SIGTERM leads to an orderly stop; the host installs its
   own handler, because Drogon's default one terminates the process.
 
@@ -198,25 +204,22 @@ API-001 keep their ownership and release requirements.
 - APITEST-015 (#613), tier A: fresh Codex author in the retained worktree
   `t3-0dc4e70e`, branch `task/APITEST-015-host-baseline-revision` (PR #667).
   Owns host baseline suites, host headers/stubs and the host contract updates.
-  Bounded reference/C2 corrections and budget citation authored locally through
-  `9206cc45`, not pushed or independently reviewed. The owner decided all six
-  numbered C2 corrections on
-  2026-11-17 ([record](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6932483280)); they are recorded in PR #667 and must be named in every tier A packet.
-  Forward-from-body ends without reply; forwarding is only from execute or supplied
-  unit completion. Captures remain owned-and-charged or covered host-storage borrows,
-  with a compile-time fixed maximum capture size and charge; no trusted uncharged
-  captures. Header work is Blocked on the bounded-producer prerequisite decision
-  and clarification of the existing three-preaccepted-unit fail-close oracle versus
-  actual-result-driven sequencing. Neither gap is silently waived; the oracle stays.
+  Local contract/reference work is unreviewed. The owner decided all six numbered
+  C2 corrections and then revised 1 and 6 ([latest record](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6932687162)); PR #667 and every tier A packet must name all six with these revisions.
+  Execute may prequeue units, preserving the three-accepted-unit fail-close oracle.
+  Forward-from-body still ends without reply; forwarding is only from execute or a
+  supplied unit completion. Payload is a borrowed, charged host-owned input view.
+  Unit captures follow existing intake resource rules unchanged; the compile-time
+  capture limit is dropped. No new producer prerequisite task. Header/examples
+  authorship resumes under these decisions, with independent review still required.
 - APITEST-017 (#672), tier A: fresh Codex author in separate worktree `t3-aa9893a6`,
   branch `task/APITEST-017-transport-regressions`. Owns foundation-test additions
   only. Partial native tests are authored locally, unreviewed and unexecuted;
   a fresh investigation found existing observations usable for native interleaving,
-  whose bounded fixture/examples work continues. HTTP per-turn/wake observations
-  need an owner decision on a separate observation-only prerequisite; no producer
-  instrumentation or watchdog-only historical red is authorized.
-- A separate fresh Codex investigator observes default writer-budget admission of
-  version-10 inspection for the APITEST-015 gate; it authors or fixes neither task.
+  whose bounded fixture/examples work continues. Owner narrowed the active task to
+  native scope only; HTTP continuation and its observation seam are deferred to #689.
+- Independent Codex default writer-budget measurement passed two current-v10
+  inspections ([receipt](https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6932486629)); it establishes no default-budget advancement, installation read or host activation.
 - Coordinator owns shared build/CI integration and checkpoint/proof records. Any
   file needed by both tests tasks stops for the owner, including shared integration.
 
