@@ -128,7 +128,7 @@ The `bounded-http-foundation-debug` test preset filters its own label; the nativ
 profile is a compiled dependency, with separate consumer-admission/regression gates.
 Its admission receipt defaults to `bounded-http-admission.json` under the binary
 directory and may be overridden with `SUBATHON_BOUNDED_HTTP_ADMISSION`. Configuration
-can precede the reviewed receipt contents; a missing runtime receipt is a setup
+can precede the technical receipt contents; a missing runtime receipt is a setup
 failure, never intended red. The reviewed fixture remains frozen. Every new consumer
 must pass passive ELF/ABI closure before load, controlled identity, loaded-map checks
 and unchanged seals. The successor recipe's `--consumer foundation` gate writes a
@@ -143,7 +143,7 @@ existing `native` job, behind separate gates. The preserved candidate4 NI target
 remains a historical compile/link baseline; it supplies no successor behavior.
 Corrections 2–8 are provisional under the
 [owner decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6910817117);
-corrections 9–10 and the complete final R4 interface are part of the tier A review
+corrections 9–12 and the complete final R4 interface are part of the tier A review
 packet. No first-party public declaration or frozen test/oracle was changed.
 
 ## Running relevant checks
