@@ -29,7 +29,7 @@ struct NotImplemented final : std::exception {
 enum class State { cold, starting, serving, stopping, stopped, failed };
 // start: invalid_options/wrong_thread/already_started; ingress: stopping,
 // unavailable/resource_limit/expired/disconnected/elapsed_unavailable/wrong_thread;
-// lease take/copy: those plus invalid_completion; current source: unavailable.
+// lease take/copy: those plus invalid_completion; handle calls: see CommandHandle.
 // cancelled is owner cancellation; incomplete_shutdown never certifies stopped.
 // Every unimplemented Result operation returns NotImplemented, never success.
 enum class Failure {
@@ -68,10 +68,6 @@ struct CommandView {
 struct OwnedReply {
     std::vector<std::byte> bytes;
 };
-using OwnedDomainResult = std::variant<OwnedReply, Failure>;
-struct CurrentInstallationView {
-    std::string_view installation, epoch, revision;
-};
 // Counts/capacities/durations are nonzero and fit the selected finite profile;
 // per_peer <= associations, envelope_bytes <= input_capacity,
 // response_bytes <= response_capacity, writer pending_batches >= associations.
@@ -104,19 +100,15 @@ struct Inspection {
     State state = State::cold;
     bool storage_active = false, writer_barrier = false, network_barrier = false;
     bool owner_cleanup = false;
-    // Cold=0, first activation=1; installation/epoch rebind adds one.
-    // Normal unchanged commits and revision-only rebind leave it unchanged.
-    std::uint64_t generation = 0, associations = 0, association_charge = 0;
+    std::uint64_t associations = 0, association_charge = 0;
     std::uint64_t control_charge = 0, stop_fences = 0;
-    std::uint64_t queued_diagnostics = 0, accepted_wrappers = 0;
+    std::uint64_t queued_diagnostics = 0, accepted_units = 0;
     PoolUsage input, response;
     std::optional<std::uint64_t> drain_deadline;
 };
 class Host;
 class Ingress;
-class Execution;
-class Publication;
-class Transaction;
+class CommandHandle;
 // Opaque, retainable, revocable association; no public constructor/identity setter.
 class PeerLease final {
   public:
@@ -151,12 +143,82 @@ class ResponseLease final {
     explicit ResponseLease(std::unique_ptr<Impl>);
     friend class Host;
 };
+// Host refusals have no writer completion. StorageError is only the actual
+// private writer's enqueue_work result (none means accepted); never predicted.
+using ForwardResult = std::variant<StorageError, Failure, NotImplemented>;
+
+// One host-issued move-only handle for one entered command. It grants no raw
+// writer, account/current-installation facade, generation or session clock.
+// The dispatcher retains it across asynchronous units; destruction without finish
+// abandons the command, draining all accepted bodies/completions before release.
+class CommandHandle final {
+  public:
+    CommandHandle(CommandHandle &&) noexcept;
+    CommandHandle &operator=(CommandHandle &&) noexcept;
+    ~CommandHandle();
+    CommandHandle(const CommandHandle &) = delete;
+    CommandHandle &operator=(const CommandHandle &) = delete;
+
+    // Owner-only checked borrow of the admitted, charged host-owned input.
+    // Use only during execute or accepted bodies/completions. Storage survives
+    // all accepted units through drain, including after forward/reply revocation;
+    // this borrow may be retained by a unit accepted before the current callback
+    // returns. No borrow escapes final cleanup and no uncharged payload copy is
+    // authorized. An accepted callback may reacquire input even after stop/end.
+    Result<CommandView> input() const;
+
+    // Only execute and supplied unit completions may forward. Execute may
+    // PREQUEUE multiple units (including the three-unit fail-close example).
+    // Forward from a running body refuses invalid_completion and ends without
+    // reply; accepted units still drain. No event pumping or nested dispatch.
+    // Work/completion captures retain the existing intake resource rules; there
+    // is no new capture-size limit, storage API or compile-time charging rule.
+    // Host bookkeeping is bounded by pending_batches, with no secondary queue.
+    // Results pass unchanged to completion on Qt, after ticket revocation and
+    // writer_completed observation. Callback exceptions end without reply/replay.
+    ForwardResult forward(SqliteWriter::Work, SqliteWriter::WorkCompletion);
+
+    // Once-only end: nullopt means no reply. Finish while any unit is pending,
+    // or from a running body, refuses invalid_completion and ends without reply.
+    // The last unit's supplied completion may finish; handoff/next entry waits
+    // until it returns normally. Finish never preempts accepted-unit drain.
+    // Unknown outcome or abnormal commit latches withholding; reply then refuses
+    // invalid_completion and ends without reply. Known noncommits may be replied
+    // to; the host does not inspect reply content. No-unit commands may reply.
+    Result<Admitted> finish(std::optional<OwnedReply> = std::nullopt);
+
+    // For input/forward/finish: wrong_thread refuses before host/writer access
+    // or command mutation. Reentrant forward/finish refuses invalid_completion
+    // without state change. Further forward/finish on a terminal handle or a
+    // second finish refuses likewise; input remains borrowed for accepted drain.
+    // No call changes a previous finish/reply or revives authority.
+    // There is no active-command timeout. Disconnect/elapsed failure revoke
+    // response authority only; later forward remains allowed until stop/end.
+    // Before forward/finish consume stop INCLUDING pending native signal.
+    // Stopped forward or finish(reply) refuses stopping and ends without reply;
+    // finish(nullopt) may end without reply, subject to the pending-unit rule.
+    // Finish(reply) after disconnect/elapsed failure refuses with that response
+    // failure and ends without reply. A refused writer admission ends without
+    // reply; no body/completion runs for it or fabricated result is emitted.
+    // Returning from execute/completion unfinished with no accepted unit pending
+    // ends without reply that turn. Retained inert handles cannot pin payloads.
+    // Foreign-thread destruction only records bounded lifetime-safe abandonment;
+    // owner cleanup drains/releases it. Handles outliving Host are inert.
+
+  private:
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
+    explicit CommandHandle(std::unique_ptr<Impl>);
+    friend class Host;
+};
 class CommandDispatcher {
   public:
     virtual ~CommandDispatcher() = default;
+    // Synchronous bounded data-only callback outside the writer FIFO.
     virtual OwnedReply diagnostic(CommandView) = 0;
-    virtual OwnedDomainResult execute(Execution &, CommandView) = 0;
-    virtual OwnedReply complete(Publication &, const OwnedDomainResult &) = 0;
+    // One command at a time, including diagnostics between protected commands.
+    // CommandView borrows only for this call; later units reacquire input().
+    virtual void execute(CommandHandle, CommandView) = 0;
 };
 class Transport {
   public:
@@ -179,66 +241,6 @@ class Ingress final {
     std::unique_ptr<Impl> impl_;
     explicit Ingress(std::unique_ptr<Impl>);
     ~Ingress();
-    friend class Host;
-};
-class AccountSessions final {
-  public:
-    ~AccountSessions();
-    AccountSessionRead<StoredInstallationFacts> read_installation(std::string_view);
-    LifecycleWriteResult replace_installation_epoch(const StoredInstallationFacts &,
-                                                    std::string_view, std::string_view);
-    AccountSessions(const AccountSessions &) = delete;
-    AccountSessions &operator=(const AccountSessions &) = delete;
-
-  private:
-    struct Impl;
-    std::unique_ptr<Impl> impl_;
-    AccountSessions();
-    friend class Transaction;
-};
-class Transaction final {
-  public:
-    ~Transaction();
-    AccountSessions &accounts();
-    // Final read through the same real store immediately precedes actual COMMIT.
-    void commit();
-    void rollback();
-    Transaction(const Transaction &) = delete;
-    Transaction &operator=(const Transaction &) = delete;
-
-  private:
-    struct Impl;
-    std::unique_ptr<Impl> impl_;
-    Transaction();
-    friend class Execution;
-};
-class Execution final {
-  public:
-    ~Execution();
-    Transaction &begin_transaction();
-    std::shared_ptr<CurrentSessionClock> clock() const;
-    Result<CurrentInstallationView> current_installation() const;
-    Execution(const Execution &) = delete;
-    Execution &operator=(const Execution &) = delete;
-
-  private:
-    struct Impl;
-    std::unique_ptr<Impl> impl_;
-    Execution();
-    friend class Host;
-};
-class Publication final {
-  public:
-    ~Publication();
-    std::shared_ptr<CurrentSessionClock> clock() const;
-    Result<CurrentInstallationView> current_installation() const;
-    Publication(const Publication &) = delete;
-    Publication &operator=(const Publication &) = delete;
-
-  private:
-    struct Impl;
-    std::unique_ptr<Impl> impl_;
-    Publication();
     friend class Host;
 };
 class Host final {

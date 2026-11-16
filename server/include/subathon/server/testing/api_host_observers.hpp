@@ -16,16 +16,14 @@ enum class EventKind {
     diagnostic_queued, // Qt owner: actual retained callback/data, before entry, no live scope
     diagnostic_cancelled,
     diagnostic_entered,
-    wrapper_accepted,
-    wrapper_dispatched,
-    execution_entered,
-    begin_attempted,
-    precommit_read,
-    actual_commit,
-    execution_revoked,
-    writer_completed, // accepted command wrappers only; excludes startup work
-    publication_entered,
-    publication_revoked,
+    command_admitted,
+    command_entered,
+    unit_entered,     // host emits immediately before calling an accepted unit body
+    writer_completed, // actual accepted command units only; excludes startup work
+    command_ended,
+    command_cancelled,
+    forward_refused,
+    finish_refused,
     local_handoff,
     stop_consumed,
     callbacks_revoked,
@@ -42,6 +40,20 @@ enum class EventKind {
     ingress_refused,
     operation_refused // actual owner terminal refusal after admission, no fabricated ingress phase
 };
+// A command ending is not a SqliteWorkResult or an invented writer completion.
+enum class CommandEnd {
+    finished,
+    abandoned,
+    idle,
+    callback_exception,
+    writer_refused,
+    premature_finish,
+    reply_withheld,
+    stopping,
+    disconnected,
+    elapsed_unavailable,
+    cancelled
+};
 struct WorkObservation {
     TransactionOutcome transaction;
     WorkError error;
@@ -49,12 +61,15 @@ struct WorkObservation {
 };
 struct Event {
     EventKind kind;
-    std::uint64_t ordinal = 0, generation = 0;
+    std::uint64_t ordinal = 0, command = 0, unit = 0;
     std::thread::id thread;
     // Present only for an ACTUAL writer completion (including inspection/read
     // completion events at startup); diagnostics/refusal-only events have none.
     std::optional<WorkObservation> work;
     std::optional<Failure> refusal;
+    // Only a real private-writer admission attempt may supply this result.
+    std::optional<StorageError> admission;
+    std::optional<CommandEnd> end;
 };
 // Observe synchronously on the emitting thread, with NO host lock held.
 // Bounded blocking is allowed. No event pumping or host re-entry on the
@@ -62,7 +77,6 @@ struct Event {
 // never wait for a turn on the thread currently emitting.
 struct Hooks {
     std::shared_ptr<const native_ws::ElapsedSource> elapsed;
-    std::shared_ptr<CurrentSessionClock> raw_session_sampler;
     std::function<void(const Event &)> observe;
 };
 struct ElapsedIdentity {
@@ -77,9 +91,6 @@ class HostAccess final {
     // Never assigns a work outcome. Startup completions expose actual work truth.
     static Result<Connected>
     inject_next_control_ack_loss(Host &, subathon::server::testing::WorkControlFault);
-    // Idle-only, one-shot: corrupt only the next actual wrapper's private
-    // envelope match. Never changes SQL/WorkResult truth or forges a match.
-    static Result<Connected> inject_next_envelope_mismatch(Host &);
     static ElapsedIdentity elapsed_identity(const Host &);
 };
 } // namespace subathon::server::api_host::testing

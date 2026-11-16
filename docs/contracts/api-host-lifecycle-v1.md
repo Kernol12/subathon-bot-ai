@@ -11,65 +11,41 @@ Import unchanged [wire primitives v1](wire-primitives-v1.md), [writer
 v1](sqlite-writer-v1.md), [writer work v1](writer-transactions-v1.md),
 [physical account/session v1](sqlite-account-sessions-v1.md), [session
 lifecycle v1](session-lifecycle-v1.md) and [clock v1](session-clock-v1.md),
-especially clock §§2/4/5. The corresponding base-main blobs are
-`11eeb5f422a174e042143df6b476ae1d717eeacf`,
-`4d280461966f3fd9fcb13ab6d054c88228ca05b8`,
-`4ba20506db9a858450099b82888a22c8f6dbd761`,
-`3b2b87ce4457046b762a04ca1ea99b868e52cbd3`,
-`636174bc76b14fa64c362e542817cd34a0184551` and
-`9b95f11fce95ca268399bcbae6eba89817665fb7` (historical clock base, not the
-current pointer revision). Clock policy remains unchanged; its §2 pointer now
-targets boundary revision 2. The paired [native WebSocket
+especially clock §§2/4/5. Clock policy remains unchanged. The paired [native WebSocket
 profile](native-websocket-profile-v1.md) owns frame/control behavior and
 native connection buffers. No new endpoint, JSON schema, permission, accepted
 login, recovery record or durable timer is defined here.
 
-The [isolated internal listeners proposal](api-host-listeners-v1.md)
-(APICONTRACT-004) specifies ordinary HTTP and native WS endpoints within this
-ONE host lifetime and combined actual readiness. Its §6 supersession table
-also qualifies native-versus-ordinary buffer ownership and Linux listen/accept
-threads, adds role-aware HTTP refusals/private scratch, separately charged
-serialization, endpoint-observer failure and gated signal quiescence, and
-assigns the independent API-016 foundation/account rebase. The [boundary
-revision 2](api-host-lifecycle-boundary-v1.md) implements the [2026-11-16
-owner
-decision](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6908067929),
-groups A–E, and qualifies the host rules below. Bridge charges and all rules
-outside the approved list remain binding. The listener amendments and later
-baseline/implementation support need separate approval. This is a contract
-revision, not runtime support.
+[Listeners](api-host-listeners-v1.md) §§1–6 specify isolated ordinary/native
+endpoints in ONE host lifetime, actual combined readiness, buffer/thread ownership,
+role refusals/private scratch, serialization, observer failure and signal quiescence.
+[Boundary revision2](api-host-lifecycle-boundary-v1.md) implements approved groups
+A–E and owner amendments, qualifying this lifecycle contract. Bridge charges and
+all rules outside the approved list remain binding. Neither contract nor header
+approval establishes runtime support.
 
 ## 1. Owners, lifetime and state
 
-One process has one Qt application, one authoritative command/state queue, one
-controlled SQL writer and one Drogon application lifetime. Construct, use and
-destroy the writer and its private connections on the authoritative Qt thread.
-Network IO loops own sockets, parsers and response callbacks. They submit owned,
-bounded command envelopes; they never execute a state command, query SQL or wait
-for its completion. State work never waits for a network callback. Separate actual
-readers retain their own connection/thread rules; they are not another state writer.
+One process has one Qt application/authoritative queue/controlled writer and
+Drogon lifetime. Qt owns writer/private SQL construction, use and destruction.
+IO owns sockets/parsers/replies and submits bounded owned commands, never state
+work, SQL or waiting for its result. State never waits for network callbacks.
+Independent real readers retain their own connection/thread rules.
 
-The host states are `cold -> starting -> serving -> stopping -> stopped`, with
-`failed` terminal. A stop requested during `cold/starting` prevents subsequent
-serving admission. Only `serving` admits new application work. `serving` means
-the bridge can receive work; protected operational readiness is a separate
-predicate in §3. Startup/stop transitions run on the owner queue; network loops
-observe synchronized admission state and cannot set it.
+States: cold→starting→serving→stopping→stopped, failed terminal. Stop in cold or
+starting prevents serving admission. Only serving admits; it is transport service,
+not protected readiness (§3). Owner-queue startup/stop transitions synchronize
+admission observed by IO; IO cannot set it.
 
-This profile permits ONE start attempt and ONE framework lifetime per process.
-Failed or stopped hosts cannot restart in that process; retry means a fresh
-process with fresh owners. Pinned Trantor calls `exit(1)` on bind/listen failure;
-that path is a process-terminal startup failure, not a recoverable host result or
-proof that C++ destructors ran. A repeated bind attempt is tested in a separate
-disposable process. Same-process recoverable binding would require an explicit
-source/contract prerequisite before implementation.
+ONE start attempt/framework lifetime per process: failure/stop cannot restart;
+retry needs a fresh process/owners. Pinned Trantor bind/listen exit1 is terminal,
+not recoverable or destructor proof; occupied-port retry uses another child.
+Recoverable in-process binding would need an explicit source/contract prerequisite.
 
-The signal bridge is installed before starting framework threads. Its asynchronous
-handler only records/wakes through an appropriate async-signal-safe mechanism;
-it cannot allocate, invoke Qt/Drogon/SQL or destroy owners. The owner queue consumes
-the stop request. Repeated signals are idempotent stop requests, do not restart
-drain timers, and cannot admit new work. A process externally killed during startup
-has no graceful-cleanup or response-delivery guarantee.
+Install signal bridge before framework threads; async handler only records/wakes,
+never allocates/calls Qt/Drogon/SQL/destroys owners. Qt consumes stop. Repeated
+signals are idempotent, cannot restart deadlines or admit work. External kill
+during startup proves neither graceful cleanup nor response delivery.
 
 ## 2. Actual execution and asynchronous completion
 
@@ -79,64 +55,36 @@ Client-supplied installation references and matching DTOs cannot grant
 authority; correlations follow wire v1 and identify transport requests, not
 domain retry authority.
 
-One command is active at a time. Before dispatch, the Qt owner checks stop
-(including pending signal), disconnect, original queue deadline, elapsed and
-activation gates. A command that does not enter submits no writer unit and has
-no writer completion. The dispatcher receives a move-only command handle,
-forwards prepared `SqliteWriter::Work` plus completion through it to the
-private writer, and finishes once with a reply or with none. One command may
-run several units in order and reply once; a second reply is refused. The next
-command enters only after the previous one finishes. Exact
-handle/forwarding/finish declarations remain open for the later header step.
-Behaviour outside the normal path follows [boundary §2, Admitted-command
-handle
-rules](api-host-lifecycle-boundary-v1.md#admitted-command-handle-rules-outside-the-normal-path),
-including owner-only calls, abandonment/exception/refusal cleanup,
-accepted-unit drain before release/next entry, no idle continuation wait,
-input retention and observation ordering. Consume a pending native signal before
-reply handoff even if it arrived inside a non-yielding body.
+One command is active at a time, including diagnostics. Before dispatch check stop
+(including native signal), disconnect, queue deadline, elapsed and activation;
+refused entry submits no unit or writer completion. `api_host.hpp` defines the
+move-only CommandHandle: execute may prequeue units; forward only from execute or
+supplied completion, never a running body; finish once with optional reply.
+[Boundary §2](api-host-lifecycle-boundary-v1.md#2-minimal-proposed-c-consumer-boundary)
+fixes the owner-approved handle rules, true writer results, drain and callback
+exception behavior. No next command enters before accepted-unit/completion drain.
+Writer/store APIs remain unchanged, with no host Transaction/AccountSessions,
+generation, precommit reread, current-installation, private envelope or Publication.
+Payload is borrowed charged host-owned input; existing intake capture resource
+rules remain unchanged. No compile-time capture restriction or new producer API.
 
-Unit bodies and completions run on the owner without event pumping, nested
-dispatch or network waits. Writer `finish()` revokes the ticket before
-completion. The host observes each real `SqliteWorkResult` and passes it
-unchanged to the dispatcher's completion. Units finalize their own actual
-transactions through existing writer/store APIs. There is no host
-`Transaction`/`AccountSessions` facade, precommit installation reread,
-`current_installation()`, private envelope or separate
-`Publication`/`complete()` stage.
-
-The host has no generation fence. For authenticating units the fence is
-`resolve_current_account_session` in `server/src/session_resolution.cpp`: it
-compares session account/installation epochs with facts read in the unit's
-transaction and returns `SessionFailure::revoked` on mismatch. For session
-insertion/replacement the fence is `current()` and `accepted()` in
-`server/src/sqlite_account_sessions.cpp`. [Boundary
-§1](api-host-lifecycle-boundary-v1.md#1-actual-sources-ordinary-activation-and-forward-restore-obligation)
-describes the source binding; SESSION-013 (#662) must verify every
-session-bearing unit before the first installation-epoch rotation. Account
-recovery cannot clear independent global clock holds.
+The host has no generation fence. Authenticating units use
+`resolve_current_account_session`'s same-transaction epoch comparison (revoked on
+mismatch); insertion/replacement uses current()/accepted() in sqlite_account_sessions.cpp.
+[Boundary §1](api-host-lifecycle-boundary-v1.md#1-actual-sources-ordinary-activation-and-forward-restore-obligation)
+binds those sources; SESSION-013 (#662) verifies every session-bearing unit before
+first rotation. Account recovery cannot clear independent global clock holds.
 
 The host withholds a reply whenever a unit's outcome is unknown or something
 was committed without ending normally; otherwise the dispatcher may reply.
 
-For committed work, normal is `WorkError::none` with a value; all
-`rolled_back` and `not_started` outcomes permit a dispatcher reply under this
-unit-outcome rule, including work_exception and writer_unavailable taken
-alone. A withholding outcome remains latched across later normal units; finish
-with a reply while withheld refuses and ends without reply while accepted
-units drain. A command forwarding no unit may finish with a reply. Hidden
-exceptions get no new observation: the host uses the reported result.
-[Boundary §2, Host reply
-eligibility](api-host-lifecycle-boundary-v1.md#host-reply-eligibility-after-prepared-units)
-gives the exhaustive outcome table.
-
-Separately, exceptions escaping execute or supplied completions still end
-without reply under (c); rules (d)/(e), stop, disconnect, elapsed, authority
-and once-only gates are unchanged. The host does not judge reply content;
-normal domain-failure values remain eligible. The two amended rollback/busy
-terms and the four retained no-handoff host assertions remain as stated in
-boundary §2; the fail-closed multi-unit command withholds because its first
-unit is unknown, not because later units report writer_unavailable.
+Normal committed work has no error and a value; unknown or abnormal commit
+withholds, latched across later units. Every known noncommit permits reply under
+this unit-outcome rule, as does no-unit work; hidden exceptions get no new result.
+The [boundary's exhaustive table and separate gates](api-host-lifecycle-boundary-v1.md#host-reply-eligibility-after-prepared-units)
+and `CommandHandle` comments govern callback exceptions, accepted drain, known
+rollback/busy replies, retained no-handoff cases, stop/lease/elapsed and once-only.
+The host never judges content or invents/relabels SQL truth, retry or replay.
 
 The session clock is not part of this host boundary. SESSION-009 (#582) owns
 both removed guards: revocation, thread and reentrancy; wall-clock jumps do
@@ -343,13 +291,9 @@ Synthetic literal examples below are contract oracles, not executed tests.
 | HL16 | Valid configured duration would add beyond unsigned64 nanoseconds, or elapsed observation becomes unavailable | Refuse affected admission/entry/handoff and tear down affected peers as applicable; no wrapped/unlimited deadline or invented SQL result. Already executing work keeps its actual outcome. |
 | HL17 | Ordinary nonsecret diagnostic/error reply, session-clock producer unavailable | No implicit session-UTC dependency; current transport/lifecycle and elapsed lease gates still apply. Session credential emission under the same outage remains suppressed by its mandatory fresh trusted publication sample. |
 
-Different document/example review precedes APITEST-012/API-012's real native
-profile baseline/correction, then APITEST-001's independent Qt/fake AND real
-framework lifecycle baseline and API-001 implementation. Missing libraries,
-compile errors and skipped tests are not intended red. Selected source/ABI/build/
-license admission, current CI, independent code review and normal merge rules
-remain required. SESSIONTEST-009/SESSION-009 must use the actual API-001 host and
-prove ready as well as refusal paths once its actual source gates exist. Restore,
-accepted login, permission/disclosure, delivery, native/container/platform and
-full product release verification remain separate. All seven integrations and
-all three FX providers remain in release scope.
+Contract/examples, independent baseline review and admitted actual intended red
+precede implementation. Missing libraries, compile failures/skips are not red;
+source/ABI/build/license admission, current CI, review and protected merge remain.
+SESSION-009 tests actual API-001 ready AND refusal paths. Restore/login/permissions/
+delivery/native/container/platform/full release remain separate; all7 integrations
+and all3 FX providers remain release scope.

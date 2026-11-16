@@ -1,646 +1,197 @@
 # API host consumer boundary and baseline examples — proposal v1, revision 2
 
-Revision 2, 2026-11-16: APITEST-015 step 1, [owner
-decision](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6908067929),
-groups A–E of the [approved itemized
-list](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6907983078).
-The [owner
-amendments](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6913620654)
-name the two-part epoch fence and additional downstream references. The
-[later amendment](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6914837587)
+APITEST-015; identity `subathon.api-host-lifecycle-boundary.v1`. Specification
+v0.45 §§2/10/16/17/18: SERVER-01, DB-01, API-01/02/03, AUTH-05/12,
+OPS-02/04, TEST-04/05. This is a reviewed-baseline proposal, not host support.
+The [approved groups A–E](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6907983078),
+[decision](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6908067929),
+[epoch amendments](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6913620654),
+[changed terms](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6914837587)
 and [final reply rule](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6916926039)
-replace the earlier host reply gate. This revision specifies the future
-header for the later stub step; the existing header and tests still describe
-the historical baseline. No
-tests, stubs or headers change before API-016 merges.
+govern the revised baseline; later owner handle decisions on #613 govern its header.
+All assertions outside that approved revision remain binding.
 
-APITEST-001; proposed identity `subathon.api-host-lifecycle-boundary.v1`.
-Authority: specification v0.45 §§2/10/16/17/18, SERVER-01, DB-01,
-API-01/02/03, AUTH-05/12, OPS-02/04 and TEST-04/05.
-Source base `654ac016268c6caa9efc0241872ca0b0f88aae60`; correction base
-`ce80bbafbb1b678826f596beae65e2f8c350f1b2`. Revised after initial contract
-review, independent Codex verification and closing Claude approval of revision
-`7bfcca0`. The subsequent testability refinements and authored test/stub/fixture
-packet completed separate Codex verification and Claude closing approval at
-`8fa8810`. Build/CI and controlled-admission stages were reviewed separately.
-The first full runs at `dd0f625` have attributable NI failures; independent
-actual-result/final reviews approved in [PR112](https://github.com/Kernol12/subathon-bot-ai/pull/112).
-Current stage/assignments live in progress state and the coordinator checkpoint.
-The host and production adapters remain explicit unimplemented stubs; this
-contract supplies no API-001 or session-clock capability.
-
-Import [host lifecycle v1](api-host-lifecycle-v1.md), with HL01–17 as revised
-below, [native profile v1](native-websocket-profile-v1.md), [wire primitives
-v1](wire-primitives-v1.md), [writer v1](sqlite-writer-v1.md), [work
-v1](writer-transactions-v1.md), [catalog v1](migration-catalog-v1.md),
-[physical account/session v1](sqlite-account-sessions-v1.md), [supplier
-v1](session-resolution-v1.md), [lifecycle v1](session-lifecycle-v1.md) and the
-downstream [clock v1](session-clock-v1.md). Only host lifecycle and clock
-references are qualified by this revision; all other imports remain unchanged.
-API-001 retains actual host composition, startup activation; downstream owners
-retain clock holds. APITEST-001 supplies only their independently reviewed
-executable baseline.
-
-APICONTRACT-004's [isolated internal listeners
-proposal](api-host-listeners-v1.md) enumerates its complete amendments in §6:
-dual endpoints/actual readiness, ordinary versus native buffer ownership,
-Linux IO0 listen/accept, role-aware HTTP refusals and bounded private scratch,
-separate serialization charge, Qt endpoint-observer failure and gated signal
-quiescence. API-016 supplies the independent generic foundation before
-APITEST-015's host baseline revision; SESSION-011 rebases its account layer
-onto it. Historical receipts remain; the approved list alone revises the
-baseline and HL rows. L01–L13 remain planned additions; document approval
-supplies no runtime.
+Import [lifecycle](api-host-lifecycle-v1.md), [listeners](api-host-listeners-v1.md)
+(including §6 amendments), [native profile](native-websocket-profile-v1.md),
+[wire](wire-primitives-v1.md), [writer](sqlite-writer-v1.md),
+[work](writer-transactions-v1.md), [catalog](migration-catalog-v1.md),
+[account/session storage](sqlite-account-sessions-v1.md),
+[resolution](session-resolution-v1.md), [session lifecycle](session-lifecycle-v1.md)
+and [clock](session-clock-v1.md). Their independent requirements remain binding.
+Historical receipts are in PR112, current work in #613/PR667; neither proves unrun tests.
 
 ## 1. Actual sources, ordinary activation and forward restore obligation
 
-Historical observations use the source/correction bases above; revision 2 uses
-main `3d38b3ed`. None are executed results.
+The Qt owner privately owns the actual writer/store/catalog and startup attempt.
+First submit `SqliteMigrationRunner::enqueue(MigrationMode::inspect)` with the
+actual compiled `reference_authority_repository_manifest()` through that writer.
+Require once-only acknowledged committed/none/value completion, migration reason
+none, report current/version10/target10/applied0 today (compiled head is authoritative).
+Fresh, old (including complete version8), future head11, wrong/foreign/malformed
+or uncertain catalogs refuse without setup, advance or operational approval.
+Then use the SAME writer for one actual work transaction reading the configured
+installation through `SqliteAccountSessionUnit::read_installation`; require its
+selected identity, valid current epoch/revision and acknowledged normal COMMIT.
+No unrelated writer access/mutation interleaves the chain. Match actual completions
+to this attempt/owner/store; DTO equality, request IDs, a fixture flag or listener
+readiness is insufficient. Stop/failure prevents activation. Activate storage only
+after both completions, before protected entry; preserve I/E/J and all session rows.
+No installation creation, epoch rotation, session-time change or auto-migration.
 
-| Actual source | Available mechanism / limit |
-| --- | --- |
-| `server/include/subathon/server/sqlite_writer.hpp`, `server/src/sqlite_writer.cpp` | Owner-thread `open`, `enqueue_work`, `shutdown`; `finish()` revokes tickets before completion; accepted work drains in FIFO. A wrapper returning without BEGIN yields `not_started/missing_transaction`; fail-closed dispatch yields `not_started/writer_unavailable`. No arbitrary work preemption or queue-removal API. |
-| `server/include/subathon/server/sqlite_migrations.hpp`, catalog contract | Explicit `SqliteMigrationRunner::enqueue` inspection/advancement. Only acknowledged committed, error-free, current-schema inspection supplies the schema condition. Open/fresh/upgrade-required/advancement alone is not operational approval. OPS-02 update/backup/quiescence remains caller-owned. |
-| `server/include/subathon/server/sqlite_reference_authority.hpp`, `reference_authority_repository_manifest()` | Complete reference authority catalog, head/version10 today; no installation replacement/startup journal, auto-migration or operational approval. |
-| `server/src/sqlite_account_sessions.cpp`, `read_installation`, `replace_installation_epoch` | Selected singleton facts through a real revocable caller session; CAS of expected installation/epoch/revision. Neither operation records replacement intent or acknowledges a restore. `AccountSessionReadScope` supplies snapshot provenance, not host membership. |
-| `server/include/subathon/server/session_resolution.hpp` | Unchanged `CurrentSessionClock::sample_current()`: sample or unavailable. No concrete trusted native clock/host binding. |
-| `server/include/subathon/server/native_websocket_profile.hpp` and source | API-012 `create_profile`, owned `ElapsedSource`, message leases, `start_close`, deadline rechecks and snapshots; install once before native startup. No UTC, host readiness or host shutdown barrier. |
-| `tests/native_websocket_profile/`, `cmake/DrogonDependency.cmake`, `tools/native_websocket_ci.py` | Corrected-SDK identity/import/load infrastructure and real Linux child/peer checks. Probe force-close/quit is fixture cleanup, not API-001. Keep all44 reviewed methods and admitted source/patch bytes unchanged. |
-| `server/`, `deploy/`, STORAGE-007 and ACCESS-005 briefs | No executable restore/replacement startup protocol or durable pending/acknowledged replacement producer found. Existing application-review holds and captured clock journals are not that protocol. |
+No supported restore/replacement producer or restore fence exists in versions9/10:
+Q/N invent no stimulus/cleared flag. Out-of-band copying/VM rollback is clock §1's
+trust limit; unknown CURRENT facts refuse. [STORAGE-007](https://github.com/Kernol12/subathon-bot-ai/issues/326)
+requires every restore crash point to retain the original installation or require
+guarded restart/refusal before restored credentials, extending startup for interrupted
+replacement/acknowledged epoch fencing, recovery/outbound holds, hard-end and no replay.
+No mechanism is selected; waiting would cycle through SESSION-009/API-001.
+No restore acceptance or prerequisite is waived.
 
-Also read the coordinator checkout's selected candidate4 source/installed headers
-under `build/deps/`, without loading/executing them. They expose
-`disableSigtermHandling`, `registerBeginningAdvice`, actual `getListeners`,
-`getIOLoop`, dedicated `addListener(..., nativeProfile)` and `quit`.
-Selected Trantor `Socket::bindAddress`/`listen` still call `exit(1)` on failure.
-These permit disposable-process tests; they do not prove owner barriers.
-No new framework dependency/correction is proposed.
+**Epoch fence:** no host generation/mutation facade/precommit reread. Authenticating
+units use `resolve_current_account_session`'s epoch comparison (revoked on mismatch);
+session insert/replace uses `current()`/`accepted()` in `sqlite_account_sessions.cpp`.
+SESSION-013 (#662) verifies every session-bearing unit before first rotation;
+scope/provenance tickets never imply host membership.
 
-**Ordinary activation is owned by API-001 and is not blocked by restore.** Use
-the head of the actual compiled `reference_authority_repository_manifest()`
-(version10 today). Open the selected writer on the Qt owner; submit
-`SqliteMigrationRunner::enqueue` in `MigrationMode::inspect` through that SAME
-live writer. Require its actual once-only completion: transaction committed,
-work error none, migration reason none and normal report `current`, version10,
-target10, applied0 (the compiled head is authoritative). Fresh/old schemas, a
-future head11, foreign/wrong/malformed catalogs or uncertain/failed inspection
-refuse without advance. Inspection is not itself readiness and never
-authorizes setup or an update.
-
-Then enqueue the configured installation read through that SAME writer, using
-one real work transaction and `SqliteAccountSessionUnit::read_installation`
-with bounded scope/limits. Require the selected identity and valid current
-epoch and revision, actual acknowledged COMMIT and normal error-free
-completion. The host privately matches both completions to this live startup
-attempt/owner/store; request IDs, matching DTOs and a fixture flag cannot
-supply this chain. No unrelated writer access or source mutation may
-interleave this startup chain. Stop/failure at either step prevents
-activation. Activate storage only after this chain and before protected entry.
-Do not create an installation, migrate/advance, rotate epochs or alter session
-times. Listener readiness/serving and each operation's other actual sources
-remain separate gates. Q AND N must prove this positive chain and preservation
-of I/E/J and session facts; absence of SESSION-009 still refuses trusted UTC
-and credentials.
-
-The baseline at current catalog has NO supported restore producer. An
-out-of-band database copy or coherent administrator/VM rollback is the
-explicit clock §1 host trust limit; ordinary startup does not invent detection
-of that history. Unknown or malformed CURRENT facts still refuse. The current
-catalog has no restore-fence producer or representation, so Q/N cannot inject
-a restore-fence stimulus. Host-owned startup stop fencing is tested
-separately; supported restore-fence tests remain in STORAGETEST-007 with its
-actual future producer. This is not a new `normal_startup` flag, reusable
-issuer or public restore-cleared input. No new prerequisite/task is allocated,
-no dependency graph is changed and no full restore acceptance is waived. In
-particular, waiting for STORAGE-007 here would create the existing graph's
-cycle: STORAGE-007 depends on SESSION-009, which depends on API-001.
-
-**Binding forward obligation in the existing restore task:** the shared
-[STORAGE-007 / STORAGETEST-007 brief](https://github.com/Kernol12/subathon-bot-ai/issues/326) requires
-that NO supported restore crash point leave the selected path acceptable as an
-ordinary store to a host lacking a restore consumer. Interrupted supported restore
-must either leave the original ordinary installation intact or require guarded
-restart/refusal before any restored credential acceptance/publication. For example,
-staging an epoch/Recovery/outbound-fenced state before atomic installation, or a
-durable intent plus a future catalog that older hosts refuse, may satisfy parts
-of that obligation; these are examples ONLY, not chosen mechanisms or proof of
-sufficiency. STORAGE-007 must choose/review its actual protocol and extend the real
-guarded restart startup, including interrupted replacement and acknowledged epoch
-fence, with its existing test-first gates. Recovery review, invalidated sessions,
-outbound holds, hard-end enforcement and no replay all remain mandatory. API-001
-need not implement that future restore consumer now.
-
-**Live source ownership:** API-001 owns writer/catalog lifetime and startup
-activation. Prepared units own their repository access and transaction
-finalization; the host supplies no mutation facade or precommit reread. No raw
-writer escapes to the dispatcher.
-
-**Epoch fence:** The host has no generation fence. For units that
-authenticate, the fence is the comparison in `resolve_current_account_session`
-(`server/src/session_resolution.cpp`): it compares the session's account and
-installation epoch references with the facts read in the unit's own
-transaction and returns `SessionFailure::revoked` on either mismatch, before
-sampling the clock. The resolver consumes facts supplied by its
-current-session source; it does not itself open a transaction. In the
-reference path, that source reads them through `read_lifecycle_actor` on the
-unit's active session. For units that insert or replace a session, the fence
-is `current()` and `accepted()` in `server/src/sqlite_account_sessions.cpp`:
-they compare session epochs with the current account/installation facts (and,
-for accepted authentication, its bindings). [SESSION-013
-(#662)](https://github.com/Kernol12/subathon-bot-ai/issues/662) must verify
-every session-bearing unit against the applicable checks before the first
-installation-epoch rotation. This revision does not claim that every unit has
-been traced.
-
-**Clock ownership:** The session clock is not part of the
-host boundary. There is no host clock facade or synthetic session sampler
-hook. Both removed clock guards—revocation, thread and reentrancy; wall-clock
-jumps do not move deadlines—are acceptance criteria of [SESSION-009
-(#582)](https://github.com/Kernol12/subathon-bot-ai/issues/582). Host elapsed
-deadlines and their shared source remain unchanged.
+**Clock ownership:** no host session clock/sampler/facade. SESSION-009 (#582) owns
+revocation/thread/reentrancy and wall-jump guards; absent clock means UTC unavailable.
+Credentials require a fresh operation-owned sample immediately before synchronous
+emission, never execution time; metadata/expiry/wipe/once-only/global holds remain.
 
 ## 2. Minimal proposed C++ consumer boundary
 
-Signature/ownership proposal for later headers, subject to independent contract
-approval; not a compilable stub. Namespace `subathon::server::api_host`,
-C++20/Qt and owned PIMPLs. Supporting types are bounded as described below.
+The public declarations and handle semantics are in
+`server/include/subathon/server/api_host.hpp`; these replace the historical
+Execution/Transaction/AccountSessions/Publication/complete surface. Handles are
+host-issued, move-only and cannot reconstruct membership from IDs. `Options`
+owns data/limits, never a ready/trusted/source port; Host owns its private writer.
+State/Failure/Result meanings and finite RouteId dispatch stay unchanged.
+`credential`/`account` require unavailable downstream owners, not a routing shortcut.
+`PeerLease` comes only from actual connect/close; ingress reserves complete
+association, capacity, copy and correlation costs BEFORE copy/ownership/queueing.
+No arbitrary ingress callback; IO never waits for Qt. Response leases remain
+move-only/IO-owned/correlated/once-only/budgeted; copy pays another reservation but
+shares authority. Recheck expiry/disconnect before borrow; no writer/source/secret
+crosses to IO. Handoff neither blocks Qt nor confirms receipt; inert records stay inert.
 
-```cpp
-// Supporting Host/Ingress/Transport/lease declarations remain in api_host.hpp.
-// execute is asynchronous: it receives one move-only admitted-command handle.
-// Handle name, forwarding/finish signatures and completion type are open for
-// the later header step and its tier A review; no extra API is fixed here.
-class CommandDispatcher {
-public:
-    virtual ~CommandDispatcher() = default;
-    virtual OwnedReply diagnostic(CommandView) = 0;
-    // execute: admitted-command handle + CommandView; no synchronous result.
-};
-class Transport {
-public:
-    virtual ~Transport() = default;
-    virtual Result<StartAccepted> start(Ingress&,
-        std::unique_ptr<native_ws::Profile>, StartupObserver) = 0;
-    virtual void handoff(ResponseLease) = 0;
-    virtual void stop(StopDeadline, NetworkBarrierObserver) = 0;
-};
-class Host { // owner-thread construction/use/destruction, except stop ingress
-public:
-    Host(Options, std::unique_ptr<Transport>,
-         std::unique_ptr<CommandDispatcher>);
-    Result<StartAccepted> start(StartupObserver);
-    void request_stop() noexcept;
-    Inspection inspect() const; // nonsecret owner-only observation, no permit
-};
-class Ingress { // synchronized network ingress, never domain execution
-public:
-    Result<Admitted> try_submit(const PeerLease&, CorrelationView,
-                               RouteId, std::span<const std::byte>);
-    void disconnected(const PeerLease&) noexcept;
-};
-```
-
-- `Options` owns selected store path/installation selector, existing
-  writer/store limits and host/native resource/deadline limits. Selection is
-  DATA, never ready/trusted/current invocation/restore-cleared input. Startup
-  composition stays internal, not an arbitrary injectable ready-result port.
-  Host owns its writer, not a borrowed writer admitting unrelated source
-  mutations.
-  Host writer pending capacity/defaults remain as declared in `api_host.hpp`
-  (`Options`:128; standalone `StorageLimits`:64), with `pending_batches >=
-  associations`. `Options` inherits 64 statements and 1024 result rows per
-  work; the current fixture and `server/dev/main.cpp` select 16384 statements
-  and 65536 result rows. A fresh independent Codex
-  [measurement](https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6932486629)
-  observed two normal acknowledged inspections of separately provisioned,
-  empty-data current version-10 stores under the actual host defaults:
-  committed, no work or migration error, value/report present, current,
-  version10/target10/applied0. This is local component evidence only, not
-  default-budget advancement, populated-store scans, installation reads or
-  host activation. No budget change or default-budget positive activation is
-  claimed.
-- `RouteId` is a finite compiled trusted dispatch table, not a wire schema or
-  client callback. It declares diagnostic/protected work and operation-
-  specific authority requirements, including mandatory trusted publication UTC
-  for routes that need it. Bounded bytes/correlation cannot select
-  authority/membership. `CommandView` borrows admitted owned bytes only during
-  the dispatcher call; retained inputs remain owned and charged.
-- `OwnedReply` holds bounded nonsecret bytes. The dispatcher constructs its
-  own reply; no private domain/diagnostic envelope or separate
-  `Publication`/`complete()` stage exists. Session candidates remain inside
-  their owning reviewed lifecycle boundary, never generic reply bytes. This
-  proposal does not implement issuance or accepted login.
-- `PeerLease` is opaque and issued/revoked only by transport connect/close
-  events; fake transport uses those same entry points. It grants
-  association/capacity, never protected readiness. `Ingress` reserves complete
-  lengths/slots/copy costs BEFORE ownership/copy/queueing; no arbitrary
-  captured lambda. Its borrows stay alive through the accounted transport
-  barrier.
-- `ResponseLease` is move-only, correlated, once-only, IO-owner-bound,
-  budgeted, with original elapsed expiry. Inert completion records may survive
-  disconnect; late callbacks cannot revive response authority. Handoff never
-  blocks Qt or confirms receipt. No writer ticket/source borrow crosses to IO.
-- Bounded observers/inspection expose actual state, separate host
-  cancellation, writer outcomes, reservations/peaks and cleanup
-  acknowledgments. They cannot change readiness. A nonreturning work body
-  cannot service owner inspection; the external child supervisor observes the
-  missing barrier, not fake stopped.
-
-The State/Failure/Result declarations in
-`server/include/subathon/server/api_host.hpp` retain their enum/variant
-meanings; this revision does not change them. Command handles are host-issued,
-not publicly constructible from identifiers. They cannot reconstruct
-membership from request IDs, correlations or matching DTOs. No public ready,
-trusted, current-invocation or installation setter is permitted.
+Writer defaults: pending128 (standalone64), statements64/rows1024; pending>=associations.
+[Observed](https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6932486629): two normal current-v10 inspections under actual host defaults, not advancement,
+populated scans, installation reads or activation. Fixture/dev explicit16384/65536 stays.
 
 ### Diagnostic route execution
 
-Choose the owner-queue path OUTSIDE writer work. A compiled diagnostic route
-calls `CommandDispatcher::diagnostic(CommandView)` synchronously on the Qt
-owner. It receives bounded nonsecret data only: no command handle, writer,
-installation source or session-clock facade. It never enters the writer FIFO,
-calls BEGIN or enters protected command execution. No diagnostic callback can
-issue credentials or perform domain state work. Protected routes use
-asynchronous `execute` and prepared units with actual writer completion.
-
-A normal diagnostic return belongs to its live admitted association. Only
-serving admission, current transport/response lease and elapsed gates permit
-its once-only local handoff; storage activation, installation facts and
-session UTC are not requirements. Exceptions suppress the reply or use the
-bounded nonsecret failure reserve; they cannot fabricate a domain result.
-
-Diagnostics share all association/input/response budgets and queue deadlines.
-The owner cancels queued diagnostics on disconnect/expiry or its consumed stop
-fence before their callback; an active callback is non-yielding and not
-preempted. Before accepting its normal reply the host rechecks the consumed
-stop fence and elapsed/lease gates; stop prevents new handoff, with already
-handed-off nonsecret responses following the existing bounded drain. Owner
-cleanup retains queued callback dependencies until callbacks are
-cancelled/drained; the stopped barrier includes them. No reply order across
-diagnostic and writer routes is promised. Valid limits require nonzero finite
-counts/capacities/durations, per-peer count at most total associations, each
-single-payload cap at most its aggregate pool, and checked millisecond
-conversion/addition. Reduced profiles preserve coherence. Disconnect before
-entry releases cancelled input copies exactly once, while no body or borrow
-can reference them. Ingress reservation is not writer acceptance. IO
-submission never synchronously waits for Qt.
+Diagnostics synchronously execute bounded nonsecret data on Qt OUTSIDE writer
+work: no handle/BEGIN/source/session clock/protected entry. No storage activation
+or session UTC is required; serving/transport/stop/elapsed/response gates still are.
+Exceptions suppress reply or use the bounded nonsecret reserve, never domain truth.
+Queued callbacks cancel before entry on disconnect/expiry/stop. Active callbacks
+are non-yielding; retain dependencies through drain/owner cleanup. No network wait
+or cross-route reply ordering is promised.
 
 ### Prepared units and asynchronous command completion
 
-Only one command is active at a time. Before calling the dispatcher, the owner
-checks stop (including a pending native signal), disconnect, original queue
-deadline, elapsed availability and activation gates. A command that does not
-enter submits no unit: no execution and `writer_completed == 0`, with host
-cancellation/refusal only. Stop is consumed ahead of previously posted entry
-callbacks; the signal handler only records/wakes. Before any reply handoff,
-the owner also consumes/forwards a pending native signal as a stop, even when
-it arrived inside a non-yielding body. Stop prevents the reply. It does not
-preempt an active body.
+One command is active at a time, including diagnostics between protected commands.
+Before execute, check stop INCLUDING pending native signal, disconnect, original
+queue deadline, elapsed and activation. Refused entry submits no unit and emits no
+writer completion. Consume pending signal before forward, finish and reply handoff,
+even if recorded inside a body. A signal handler only records/wakes; stop cannot
+preempt a running callback but prevents reply and further forwarding.
 
-Each admitted command receives a move-only handle. Through it the dispatcher
-forwards prepared units (`SqliteWriter::Work` plus completion) to the host's
-private writer and finishes once, with a reply or with none. One command can
-run several units in order and reply once; the next command enters only after
-the previous one has finished. A second reply for the same command is refused.
-No Qt event pumping, nested command dispatch or network wait is permitted in
-unit bodies/completions. The host observes every unit's real
-`SqliteWorkResult` and passes it unchanged to the supplied completion on the
-owner thread, after ticket revocation.
-
-There is no `Transaction`, `AccountSessions`, `current_installation()`,
-generation, precommit installation read, private envelope or separate
-publication stage. A unit owns actual BEGIN/COMMIT/rollback through existing
-writer/store APIs. Busy BEGIN and known rollback retain actual results and
-absent values; I/E/J stay unchanged on known rollback. Exceptions after COMMIT
-retain committed truth. A committed body exception yields exactly
-committed/`work_exception`/no value to the dispatcher completion and no
-handoff. A completion that throws after commit yields no handoff or replay;
-committed truth remains. Lost acknowledgment keeps
-outcome_unknown/uncertain_outcome; no retry/reread clears uncertainty. A
-command may enqueue three units to observe fail-close:
-unknown/uncertain_outcome, then twice not_started/writer_unavailable without
-value, storage inactive, all completions before writer acknowledgment, no
-handoff. Stop/disconnect suppress response authority without relabeling SQL
-truth.
-
-Existing public writer/store APIs stay unchanged. Units compose real
-writer/store objects rather than subclassing or modifying those APIs. Each
-work still has one begin attempt: a second attempt is a protocol error under
-the imported writer semantics. Absent SESSION-009 always means unavailable for
-trusted session time, not a substitute native clock.
+`CommandHandle` declares input(), forward(existing Work,WorkCompletion) and
+finish(optional reply); execute returns void and may prequeue multiple units.
+Only execute/completions forward; body forward ends without reply. Existing
+writer/store APIs, one-BEGIN, real results and Qt completion order remain unchanged.
+Units own BEGIN/COMMIT/rollback; the three-prequeued-unit fail-close oracle stays.
+Payload is a borrowed charged host input view; unit captures follow existing intake
+resource rules UNCHANGED. No new capture bound, charging requirement or producer API.
 
 ### Host reply eligibility after prepared units
 
 The host withholds a reply whenever a unit's outcome is unknown or something
 was committed without ending normally; otherwise the dispatcher may reply.
 
-For a committed unit, normal is exactly `WorkError::none` with a present
-`SqliteWorkResult::value`. Every known outcome with nothing committed
-(`rolled_back` or `not_started`, with any error) permits a dispatcher-supplied
-reply under this unit-outcome rule. A rollback established by the writer after
-an error counts as a known rollback. A command that forwards no unit may
-finish with a reply.
+| Actual unit outcome | Unit-outcome reply side |
+| --- | --- |
+| outcome_unknown, any error/value presence | Withheld |
+| committed, WorkError::none, value present | Dispatcher may reply |
+| committed, any other error or absent value | Withheld |
+| rolled_back, any error/value presence | Dispatcher may reply |
+| not_started, any error/value presence | Dispatcher may reply |
 
-A withholding outcome is latched for the command; a later normal unit cannot
-clear it. In `lost_ack_and_fail_closed_fifo_HL07_HL14`, the command hands
-nothing off because its first unit ends `outcome_unknown`, even though
-subsequent `not_started/writer_unavailable` results taken alone would permit
-replies. Finish with a reply while withheld is refused, ends the command
-without reply and revokes later forward/finish. Already accepted
-units/completions drain with actual results unchanged before release or next
-entry.
-
-Separate from the unit-outcome rule, an exception that escapes from execute or
-a supplied unit completion ends the command without a reply under (c), even
-when a unit result would permit a reply. The stop, disconnect, elapsed,
-authority and once-only gates remain in force; refused admission still follows
-(d), and premature finish (e).
-
-For `known_rollback_preserves_source_and_generation`, keep
-`rolled_back/not_committed` without value and I/E/J unchanged; hand off the
-reply the dispatcher gives after that known rollback once. For
-`busy_begin_is_actual_failure`, keep `not_started/busy` without value and no
-implicit replay; the host does not withhold a reply the dispatcher gives.
-No handoff remains a host assertion for `commit_then_throw_HL07`,
-`publication_throw_revokes_facade_without_replay_HL07`,
-`lost_ack_and_fail_closed_fifo_HL07_HL14`, and, by the stop rule,
-`body_stop_then_commit_retains_truth_HL07`.
-
-A reply offered during execute or a supplied unit completion is retained
-within the existing response budget until that callback returns normally; no
-handoff occurs inside it. A later callback exception suppresses the retained
-reply under (c). Accepted-unit drain and the other reply gates still apply.
-The host records the actual result before calling the supplied completion;
-SQL truth, no implicit retry and no replay remain unchanged.
-
-The host does not judge reply content or require the removed private envelope.
-A domain failure returned normally as a value after acknowledged commit remains
-eligible. API-010 (#560), which adds the first replying dispatcher, owns the
-acceptance criterion that a command with a unit that ended without a commit
-never yields a success reply; that is not a host content check.
-
-The table illustrates the unit-outcome rule in the writer's vocabulary; its
-five rows are disjoint and exhaustive over `TransactionOutcome` and the
-normal-result condition. It does not replace the separate callback and other
-gates above.
-
-| Reported unit result | Unit-outcome reply side | Writer examples / source |
-| --- | --- | --- |
-| outcome_unknown, any WorkError, any value presence | Withheld | Lost acknowledgment/cleanup uncertainty; writer-transactions matrix: outcome_unknown/uncertain_outcome |
-| committed, WorkError::none, value present | Dispatcher may reply | Normal acknowledged commit and normal body return; SqliteWorkResult value contract |
-| committed, error other than WorkError::none or value absent | Withheld | committed/work_exception, protocol_error, session_closed or any other error; committed without value; writer matrix abnormal post-COMMIT outcomes |
-| rolled_back, any WorkError, any value presence | Dispatcher may reply | not_committed, uncommitted, work_exception, SQL/limit/COMMIT errors; writer-established rollback is known rollback |
-| not_started, any WorkError, any value presence | Dispatcher may reply | busy, missing_transaction, non-busy BEGIN errors, work_exception, writer_unavailable taken alone; writer matrix and begin/finish error mapping |
-
-An exception hidden behind an earlier error by the writer's first-error rule
-gets no new observation; the host acts on the result the writer reports.
+This exhaustive partition includes writer-established rollback after error; hidden
+exceptions get no new observation under first-error priority. Withholding latches
+across later normal units. SQL truth is never relabelled, retried or replayed.
+The header fixes known rollback/busy replies, normal domain-failure values and
+zero-unit reply eligibility. API-010 (#560) owns content: a command with a unit
+ending without commit never yields success; host does not inspect content.
+Keep commit-then-throw committed/work_exception/no-value/no-handoff. Prequeue3:
+outcome_unknown/uncertain_outcome then two not_started/writer_unavailable, storage
+inactive, no handoff, all completions before writer ack; the FIRST result withholds.
+Callback exceptions/stop remain separate gates. Retain reply within budget until
+normal callback return, accepted drain and lease/elapsed/authority/once-only gates;
+never hand off inside that callback.
 
 ### Admitted-command handle rules outside the normal path
 
-These rules fix behaviour, not C++ names, signatures or refusal
-representation. The host reply-eligibility rule above applies to every unit of
-the command.
-
-(a) Forward and finish are owner-thread operations. A foreign-thread call
-refuses before accessing the host/writer or mutating the command associated
-with that handle or any other command. A
-reentrant forward/finish during a handle operation refuses with
-`invalid_completion` and leaves command state unchanged. No event pumping or
-nested command dispatch is permitted.
-
-(b) A terminal command handle is inert: further forward/finish refuses and
-cannot revive work or reply authority. There is no separate timeout for an
-already-entered command: its queue deadline is checked at entry, while
-response deadlines, elapsed failure and disconnect revoke reply authority
-only. They do not themselves forbid later unit forwarding. Stop is consumed
-before forward and finish, including a pending native signal. After its fence,
-forward refuses with `stopping` and ends the command without reply; finish
-with a reply does the same. Finish without a reply accepts the no-reply end
-subject to accepted-unit rule (e). Accepted units still drain. Destruction
-without finish ends the command without reply; a handle outliving the host is inert without dereferencing it.
-Destruction on another thread only records cancellation in bounded
-lifetime-safe state; owner cleanup ends the association. No new work is
-submitted by cleanup.
-
-(c) An escaping execute or supplied-unit-completion exception ends the command
-without reply, revokes further forwarding/finish and never replays. Already
-accepted units retain actual outcomes and once-only supplied completions; a
-throwing completion is not invoked again. All accepted completions must return
-before the next command enters or the association's final release. A stopped
-or unavailable host admits no next command. Writer exceptions/outcomes remain
-unchanged; in particular no SQL rollback is inferred from a callback
-exception.
-
-(d) Writer admission is the actual `enqueue_work` result. Rejection (including
-queue_full, shutting_down or not_open) invokes neither body nor completion and
-creates no `writer_completed`. No fabricated SqliteWorkResult or implicit
-retry is allowed. Active plus queued units are bounded by `pending_batches`;
-all host captures/records also stay within the declared fixed/copy/association
-budgets, with no secondary pending list. A writer-admission refusal ends
-that command without reply; already accepted units drain and their real results
-still pass unchanged to their supplied completions, which cannot submit
-further work.
-
-(e) Forward is permitted only from execute or a unit's supplied completion.
-Forward from a running unit body is refused and ends the command without
-reply, just as finish from a running body does. The dispatcher chooses the
-next unit using the previous unit's actual result, never by enqueuing it from
-inside that unit body. Finish with any accepted unit still pending, or from
-its still-running body, is refused and ends the command without reply. Drain
-accepted bodies and completions before release or next entry. The supplied completion of the last
-unit may finish after that unit leaves the writer pending count, but the next
-command cannot enter until that completion has returned. There is no early
-reply/next-command path around accepted unit drain.
-
-(f) No open-ended continuation wait is supported. On return from execute or a
-unit completion, an unfinished command must have an accepted unit pending;
-otherwise it ends without reply on that owner turn, with later forward/finish
-refused. Each callback is non-yielding; a nonreturning callback still prevents
-the graceful owner barrier and requires honest incomplete-shutdown reporting.
-No new timeout, scheduling service or continuation callback is introduced.
-
-(g) Consumed stop cancels waiting commands, cuts an active multi-unit command
-between units and revokes further forward/reply authority. Accepted units and
-all their completions drain unchanged, even after stop. The stop barrier waits
-for those completions and owner cleanup, not an external handle holder calling
-finish. Once drained, cancellation ends the command and releases reservations;
-a nonreturning body/completion prevents graceful stopped.
-
-(h) The host retains admitted input storage and its capacity/copy/association
-charges through execute, all accepted units and their completions, then
-releases each input charge exactly once when no body/borrow can reference it.
-The dispatch call's CommandView borrow ends at return; a unit must use owned
-charged captures or a borrow whose host-owned lifetime covers that unit.
-Prepared-unit forwarding enforces a fixed maximum capture size at compile
-time and charges its retained storage before ownership. A dynamically
-type-erased entry must not bypass that bound; the size of a `std::function`
-object does not establish the size of the captures it retains.
-Finish alone cannot release storage still used by accepted work. Reply leases
-retain their own charges until their transport barrier. A retained inert
-handle cannot pin payloads after terminal cleanup.
-
-(i) Another command, including a diagnostic, does not enter between units of
-the active command; the same serialization gate applies to both routes.
-Bounded ingress, disconnect handling and stop consumption may progress between
-units. They do not execute domain work, pump events within a callback or start
-a second writer. A disconnect revokes reply authority without preempting
-accepted SQL; actual outcomes and drain remain unchanged.
-
-(j) Each accepted unit emits `writer_completed` with its actual result after
-ticket revocation and before invoking its supplied completion. Thus a
-disconnect triggered by observation of a committed result precedes a
-completion's reply. Observations distinguish admission, command entry, unit
-body entry, unit completion, host cancellation and refused second reply,
-without fixing enum names. Refused-entry commands have cancellation/refusal
-only, no unit event. A second finish, including after finish without reply, refuses with
-`invalid_completion` and cannot change the already chosen finish or reply or
-invent a writer result. For queued W2/W3, admission of W3 precedes stop, which
-precedes cancellation; all accepted completions precede writer acknowledgment.
-Observers remain bounded, synchronous and subject to the no-reentry rule
-above.
+`CommandHandle` comments fix exact signatures, failures, ownership and C2 decisions.
+| Rule | Required behavior |
+| --- | --- |
+| (a) | Owner-only operations; foreign call rejects before host/writer access or any command mutation. Reentrant forward/finish refuses invalid_completion without state change. |
+| (b) | Terminal handle inert, no resurrection. No active-command timer; response elapsed/disconnect revokes reply only. Consumed stop includes pending signal; forward or finish(reply) returns stopping and ends without reply. Finish(no reply) may end subject to (e). Abandonment, including foreign-thread destruction, records bounded lifetime-safe cancellation for owner cleanup; an outliving handle never dereferences Host. |
+| (c) | Escaping execute/completion exception ends without reply/replay. All accepted bodies and once-only completions drain with actual truth; completion throw is not retried. No release/next entry before they return; stopped/unavailable admits no next command. |
+| (d) | Actual writer admission only. A refused admission invokes no body/completion or writer_completed and ends without reply. Pending units and host records stay bounded by pending_batches and declared host accounting; no secondary pending list. Accepted completions drain but cannot submit after terminal refusal. |
+| (e) | Body forward or finish, or finish while accepted units remain pending, refuses invalid_completion and ends without reply. Last unit completion may finish after pending count drops, but handoff/next entry awaits normal callback return. Execute prequeue remains allowed. |
+| (f) | Return from execute/completion unfinished with no accepted unit pending ends without reply on that owner turn. No idle continuation service, timeout or scheduling API. Nonreturning callbacks prevent graceful owner barrier. |
+| (g) | Stop cancels waiting commands and cuts active forwarding between units; accepted bodies/completions drain unchanged. Barrier waits for cleanup/drain, never external handle finish. |
+| (h) | Host input storage/capacity/copy/association charges survive execute and all accepted bodies/completions until no borrow can use them; release once. Payload remains a borrowed charged host input view. Unit captures follow existing intake resource rules unchanged. Inert handles cannot pin payloads; response charges survive their separate transport barrier. |
+| (i) | No other command, including diagnostic, enters between active command units. Ingress/disconnect/stop may progress between callbacks; no event pumping within them or second writer. |
+| (j) | Actual unit-entered is host-emitted before body, actual writer_completed after ticket revocation and before supplied completion. A disconnect there precedes reply. Distinguish admission/entry/unit/end/cancel/forward-refused/finish-refused; non-writer events carry no invented result. Second finish refuses invalid_completion without changing a chosen finish/reply. W3 admission < stop < cancellation; all accepted completions precede writer acknowledgment. |
 
 ### Shipped transport, signal and elapsed composition
 
-The production `make_drogon_transport` declaration/source are
-`server/include/subathon/server/api_host_drogon.hpp` and
-`server/src/api_host_drogon.cpp`. N links THESE pieces with the production host,
-signal bridge and elapsed adapter below. Its probe provides finite dispatch data,
-disposable paths and observation/synchronization only; it never implements an
-alternative listener, signal handler, readiness/transaction bridge or shutdown.
-Q may inject fake transport through the same `Transport` boundary.
+N links shipped Host/Drogon/signal/elapsed sources and matching public headers;
+Q injects fake transport only through the same boundary. Process-main Qt owns
+Host/dispatcher/queue/writer/SQL through destruction. One framework-main runs Drogon;
+exactly one IO0 listens/accepts and owns sockets/parsers/callbacks/handoff/Close on
+selected Linux; startup resources retain their loop owners. Dual readiness, scratch,
+endpoints/socket options follow listeners §§1–6, never a timer/bind-only observation.
+No further Trantor event loop is constructed while the foundation is installed.
 
-Exactly one process main thread constructs/runs `QCoreApplication`; that SAME
-Qt thread owns Host, dispatcher, authoritative queue, writer/SQL and
-command/unit lifetimes through destruction. A distinct owned framework main
-thread configures/runs the single `drogon::app().run()` lifetime, constructs
-bound sockets and coordinates startup; select exactly ONE Drogon IO thread. On
-selected Linux, that IO0 performs actual listen/accept and owns peer
-sockets/parsers, callbacks, handoff, Close and force-close. Any
-framework-main-loop startup resources retain their own loop ownership and
-network barrier. Qt never calls socket teardown directly. IO/main-loop
-callbacks enqueue bounded ingress/events; Qt never waits for a response or
-executes domain work on those threads. Actual listener readiness uses
-corrected beginning/listener observations, not a timer. Late readiness after
-stop cannot admit work. Disable Drogon's own SIGTERM handling with the
-selected `disableSigtermHandling` before framework startup.
+Signal implementation requirements (production StopSignalBridge):
 
-Production `StopSignalBridge` declaration/source are
-`server/include/subathon/server/api_host_signal.hpp` and
-`server/src/api_host_signal_linux.cpp`. Install it on the Qt main thread BEFORE
-creating framework/IO threads. Its SIGINT/SIGTERM handler only records a pending
-request in genuinely lock-free atomic state and wakes a preopened nonblocking
-close-on-exec pipe with async-signal-safe `write` (preserve errno; full pipe already
-supplies a wake).
-No Qt/Drogon/SQL, allocation, locking or `Host::request_stop()` runs in the handler.
-A Qt-owner notifier drains/consumes the pending request and calls `request_stop`.
-That method is thread-safe for ordinary callers, coalescing requests into at most
-one pending owner notification; it is NOT declared async-signal-safe. Keep handler
-state/descriptors valid through framework/IO exit; restore/block signal delivery
-and quiesce ALL in-flight handlers before closing/reusing descriptors. A volatile
-`sig_atomic_t` alone does not synchronize different threads; blocking signals only
-on the teardown thread does not quiesce a handler on another thread. Every atomic
-operation used by the handler must be async-signal-safe and proven lock-free on the
-selected target. Require a handler-entry gate and in-flight counter: entry counts
-before borrowing a wake descriptor, a closed gate prevents new borrows, and
-teardown waits for every permitted borrower to leave before closing/reusing it.
-Keep handler state valid through late entries. A separately reviewed equally safe
-mechanism may replace gate/counter; masking one thread or sampling zero once
-cannot establish quiescence. This clarifies the
-existing safety requirement exposed by API-001 review B5, not a new signal API.
-Repeated signals cannot reset first-stop/drain/Close deadlines. Stop before/during
-startup follows the same fence.
+| Phase | Required ownership/safety |
+| --- | --- |
+| Install | Qt before framework/IO; disable Drogon's SIGTERM handler. SIGINT/SIGTERM use proven lock-free atoms, preopened nonblocking CLOEXEC pipe and async-signal-safe write preserving errno; a full pipe already wakes. |
+| Handler | Record/wake only, never allocation, locks, Qt/Drogon/SQL or Host. Ordinary request_stop is thread-safe, coalescing at most one owner notification, NOT signal-safe. |
+| Teardown | Keep state/descriptors valid through framework/IO exit and late entries; gate entry plus in-flight count BEFORE descriptor borrow, close gate, wait every allowed borrower before close/reuse. Quiesce ALL threads. One-thread masking, volatile sig_atomic_t or zero sampled once is insufficient; only separately reviewed equally safe replacement is allowed. |
 
-Production `make_linux_monotonic_elapsed` declaration/source are
-`server/include/subathon/server/api_host_elapsed.hpp` and
-`server/src/api_host_elapsed_linux.cpp`: a read-only `native_ws::ElapsedSource`
-adapter using actual `clock_gettime(CLOCK_MONOTONIC)`, exact checked normalized
-sec/nsec→U64ns conversion and unavailable on syscall/malformed/range failure.
-The production header also declares the pure checked function
-`Result<std::uint64_t> convert_monotonic_observation(std::int64_t seconds,
-std::int64_t nanoseconds)`. It returns the exact U64 value or
-`Failure::elapsed_unavailable` for negative seconds, nonnormalized nanoseconds or
-overflow; no float, wrap or saturation. The production adapter MUST call this
-same function after its real syscall. Q tests this production function directly
-with the literal sec/nsec cases, never a fixture reimplementation. Baseline source
-stubs the converter as `NotImplemented`; source review checks adapter reuse when
-API-001 is implemented. The pure function supplies neither clock observations nor
-trusted UTC/membership and does not mutate per-owner nonregression state.
-The HOST constructs and retains ONE shared source instance from that factory,
-then calls `native_ws::create_profile(limits, shared_source)` itself before native
-startup and transfers the owned profile/configuration to transport. Host queue,
-response/drain deadlines AND native upgrade/frame/message/Close use that SAME
-shared instance; options/transport cannot inject an independently built profile
-or another clock. Per-owner nonregression state avoids ordering simultaneous
-cross-thread samples. There is no UTC/SESSION-009 or supervisor-time fallback.
-Q's counting-source seam checks shared identity and attributable host reads
-(queue admission/entry and response handoff/drain); its fake transport does not
-drive profile reads. N exercises actual production profile expiry/rechecks and
-continued service as specified by the elapsed coverage allocation below.
-N must exercise this real factory/host/transport wiring and teardown, supplemented
-by source review, never treating a fixture clock as production elapsed evidence.
+Host owns ONE read-only Linux CLOCK_MONOTONIC source and builds the native profile
+with it; options/transport inject no other profile/clock. The production pure
+converter handles exact nonnegative normalized sec/nsec→U64ns, unavailable for
+syscall/malformed/overflow; no float/wrap/saturation/UTC/supervisor fallback.
+Lifecycle §4 fixes same-domain deadlines, equality expiry, no extension and per-owner
+nonregression without ordering cross-thread reads. Q calls the real converter;
+N proves wiring, not syscall failure, trusted UTC, wall changes or scheduling bounds.
 
-Stop joins these concrete owners: revoke/drain all peer and
-framework-main-loop callbacks/leases on their owning loops before the network
-acknowledgment; request writer shutdown and observe every accepted completion
-plus connection removal on Qt; only then destroy dispatcher/writer there.
-Quit/join framework/IO after socket/callback cleanup and keep the Qt
-dispatcher alive through owner cleanup. The final stopped barrier requires
-BOTH real writer and network acknowledgments and joins. Network deadlines
-never certify a blocked writer body as stopped. Bind/listen exit(1) remains
-process-terminal without a destructor/barrier claim.
-Startup callback exceptions may finish in failed, but require the same
-actual cleanup/barriers as stopped.
+Lifecycle §5's stop barriers require owner-loop IO/framework callback/lease drain
+before network acknowledgment, Qt writer completion/connection removal before
+owner destruction, then framework/IO joins and Qt cleanup. BOTH acknowledgments
+are required; a blocked body means incomplete shutdown, never deadline-certified
+stopped. Bind/listen exit1 is process-terminal, not destructor proof; startup
+callback exceptions require the same cleanup even in failed state.
 
 ### Acceptance-only hooks and concrete accounting
 
-`testing::HostAccess` lives only in
-`server/include/subathon/server/testing/api_host_observers.hpp`; production
-has only forward declaration/friendship. Production never constructs this
-testing helper. Its shared test elapsed source remains behind ALL actual host
-activation and applicable command/authority guards; removal of the session
-sampler supplies no bypass. The bounded hooks/observers cannot set activation,
-membership, restore status, trusted results or work results. The stock host
-remains unimplemented even through the hook. There is no synthetic session
-sampler or envelope-mismatch seam. Empty hooks use production composition.
-
-Observers run synchronously on the emitting thread, with no host lock held.
-Bounded blocking is allowed; no event pumping or host re-entry on the emitting
-thread except `request_stop`. Independent IO ingress may progress. Observers
-must not wait for their own emitting thread's turn. `writer_completed`
-describes actual accepted command units only, never startup work or
-diagnostics. Refused reply gates emit bounded actual refusal events, not
-invented writer outcomes.
-
-The same testing header may forward one pending commit/rollback ack-loss
-request to the existing `SqliteWriterWorkAccess` seam while the private writer
-is idle. Cold arming is also allowed: retain only that one pending fault
-selection, forward it ONCE after actual writer open while idle and BEFORE
-inspection enqueue. No writer/ticket escapes, no SQL/work result is assigned,
-and no completion truth is bypassed. Inspection/installation completion
-observations may include ONLY their actual writer
-transaction/error/value-presence/ticket-revocation truth; `writer_completed`
-remains reserved for accepted COMMAND units. A lost startup inspection COMMIT
-acknowledgment therefore records actual `outcome_unknown/uncertain_outcome`,
-keeps storage inactive, and stops the chain BEFORE installation-read enqueue.
-Do not retry or reread to clear uncertainty. Diagnostics may still run without
-that writer; protected work/replies refuse. This is ack-loss simulation at
-actual successful SQL, not a power-loss proof. Observers contain bounded
-nonsecret events.
-
-`diagnostic_queued` is emitted on the Qt owner after retaining the actual
-queued callback/data dependency and before its entry, with no command/unit
-scope. A bounded observer gate may hold that owner there while a real signal
-records/wakes; the next owner entry consumes pending stop before the callback.
-Q/N assert actual cancellation and zero diagnostic entry/handoff/writer
-result. Q/N also cover diagnostic success before storage activation and with
-the clock unavailable; diagnostics have no session sample requirement.
-`ingress_refused` describes only an actual ingress refusal. An admitted
-operation that later refuses records an actual owner `operation_refused`
-terminal event with its real failure (no payload or authority); acceptance
-tests must not relabel that phase as ingress. Either phase can refuse absent
-credential/account sources.
-
-Before test AUTHORING, select these concrete accounting quantities:
+`testing/api_host_observers.hpp` has bounded synchronous nonsecret observations,
+no host lock held, no payload/authority setters. Only request_stop reentry is
+allowed; never pump/wait for the emitting thread. Empty hooks use production.
+No session sampler/envelope seam. writer_completed is COMMAND units only; actual
+startup inspection/read observations may separately contain real writer truth.
+One cold/idle ack-loss fault forwards ONCE to SqliteWriterWorkAccess after open,
+before inspection if cold; no tickets/results escape. Unknown inspection stops
+BEFORE installation enqueue; diagnostics may run, protected work cannot.
+Diagnostic queued is after actual dependency retention on Qt, before entry;
+refused ingress and later owner operation_refused are distinct actual phases.
 
 | Owned bridge storage | Reservation rule / reference bound |
 | --- | --- |
@@ -650,58 +201,25 @@ Before test AUTHORING, select these concrete accounting quantities:
 | Correlation / other variable data | One inline correlation in the association slot, borrowed by pinned execution/response records through their terminal barrier; any retained duplicate needs another charged slot. Other variable data uses the capacity/copy ledger; no uncharged string/lambda copy. |
 | Refusal/control fallback | One preallocated1024-byte bridge control slot per admitted peer, at most128 peers (131072), respecting the unchanged CommonFailure bound; otherwise close without allocating a reply. Native control/output buffers retain their separate native-profile budgets. |
 
-These reservations cover host-owned retention/copies. The dispatcher supplies
-an already allocated OwnedReply; its trusted bounded-result
-precondition/source review remains, without an allocator enforcement hook.
-Host admission cannot retroactively guarantee that caller's preallocation.
-Reserve slots, capacity AND metadata BEFORE host allocation/copying; capacity
-growth requires reservation of the full replacement while the old buffer
-remains alive. An allocator requiring extra usable capacity must secure that
-charge before retention or refuse. Bridge reference charges total `16777216 +
-32768 + 65536 + 131072 = 17006592` bytes across these pools; native buffers,
-startup installation-read storage (bounded by the existing selected store
-limits), preallocated owner/event tables and framework/allocator overhead are
-additional separately reviewed bounds, not hidden in the payload total.
-128/256/512/1024 are engineering accounting charges with fixed bounded slot
-representations, NOT exact platform allocator/RSS ceilings. Later header
-layout must fit each declared metadata slot (checked on selected targets); a
-larger representation requires a reviewed contract revision, not a silent
-undercharge. No per-copy heap metadata/closures outside those slots. Actual
-buffer capacities, slot counts, current/peak charges and one-time release are
-observable; source/resource review must account fixed tables and platform
-overhead before fixture approval. This proposal claims no exact process-memory
-ceiling.
-
-Reduced Q copy-pool example (association/correlation slots accounted separately):
-payload cap8, copy slots2, metadata256. Two capacity4 copies
-reserve8+256=264; a third capacity1 copy refuses on both payload and slot limits.
-A single5-byte input refuses the separate envelope4 cap. After releasing one
-copy once, usage is4+128=132 and another capacity4 copy is eligible; moving it
-adds0. With payload cap12 but the SAME two slots, a third copy still refuses at
-264. Response pools use the identical capacity/slot arithmetic independently.
-
-**Explicit stock stubs:** after contract approval only, new host, production
-Drogon transport, signal bridge and elapsed adapter sources remain explicitly
-unimplemented: construct/destruct without framework/writer/native clock;
-host/transport/signal start, elapsed factory and pure conversion return their
-explicit `NotImplemented` alternatives; submission does too; inspection stays
-cold with no successful readiness/barriers; stop inert. No fake serving, SQL
-or reply implementation. Tests assert required behavior, never accept
-`NotImplemented` as success. Q and corrected-framework child fixtures must
-compile/run to explicit production-piece-unimplemented assertion failures. N
-never fills a production stub with fixture logic. A working real framework
-foundation is setup, not a second production host.
-Dependency/ABI/build/fixture watchdog failures are not red.
+Reserve full usable capacity, slots and metadata BEFORE host allocation/copy;
+growth reserves full replacement while old lives. Moves transfer a charge; copies
+pay again. Bridge pool sum is 16777216+32768+65536+131072=17006592 bytes, excluding
+separate native buffers, bounded startup-store reads, fixed owner/event tables and
+allocator/framework overhead. Slots must fit selected-target representations;
+larger metadata needs reviewed revision, not hidden heap metadata. These are
+engineering charges, not exact allocator/RSS or one aggregate process ceiling.
+OwnedReply is already-allocated trusted bounded result, not retroactive allocation
+enforcement; capture rules remain the intake's. Inspect capacity/copies/current/peak
+charges and one-time release; source/resource review remains mandatory.
+Reduced input/response oracle: cap8/slots2, capacities4+4 charge264; third1 and
+envelope4/payload5 refuse. Release one→132; move+0. Cap12/slots2 still refuses third.
 
 ## 3. Independent literal examples
 
-Planned oracles derive from imported requirements, not proposed algorithms.
-`Q` = Qt Test, actual disposable writer/store, fake transport and controlled
-elapsed observations. `N` = actual corrected-framework Linux children/peers.
-Supplied time is simulation; N also needs real native elapsed wiring. Ordinary
-positive/source cases use the actual §1 chain, with no prerequisite-producer
-gate. No public setter creates membership/readiness. Each table row names
-required independently asserted cases.
+Independent planned oracles: Q=Qt, real disposable writer/store, fake transport and
+controlled elapsed; N=real corrected-framework Linux children/peers with native
+elapsed wiring. Supplied time is simulation. Ordinary positives use actual §1;
+no public setter creates readiness and no prerequisite producer is invented.
 
 | Mapping / home | Literal stimulus | Required result |
 | --- | --- | --- |
@@ -723,6 +241,15 @@ required independently asserted cases.
 | HL16 / Q | Now18446744073709551615ns plus1ms; separate sec=-1, nsec=1000000000, unavailable, per-owner100→99ns | Overflow/malformed/unavailable/regressing observation refuses affected entry/handoff and tears down affected peer on IO turn. No wrap/saturation/unlimited timeout/SQL invention; executing work retains truth. |
 | HL17 / Q, N | Clock unavailable; nonsecret diagnostic with valid elapsed lease; separately credential-requiring route | Diagnostic needs no session sample, but all transport/lifecycle/elapsed gates. Credential publication suppressed; no invented login or actual secret issuance. |
 
+Handle examples:
+
+| Given / call | Required result |
+| --- | --- |
+| Unit BODY calls forward; separately calls finish | invalid_completion, command ends without reply; accepted units drain. |
+| Reentrant operation or second finish | invalid_completion, no state change or change to chosen finish/reply. |
+| Pending native signal before forward; separately finish(reply) | stopping, command ends without reply; accepted truth/completions unchanged. |
+| Entered command disconnects between units | Later forward remains allowed, reply refuses disconnected; host input charges survive drain. |
+
 Additional required failure/resource/ownership families:
 
 | Family / home | Literal boundary/event | Required observation |
@@ -739,135 +266,34 @@ Additional required failure/resource/ownership families:
 
 ## 4. Harness gates and proposed next ownership
 
-Q uses Qt Test and existing real SQLite APIs. Runner may pump events BETWEEN
-callbacks, never within domain work. Explicit disposable migration/seeding BEFORE
-host acquisition is fixture setup, not setup entitlement/readiness. Protected
-positive fixtures exercise the actual §1 inspection/read/acknowledgment chain.
+Q real Qt/SQLite/writer/store seeds BEFORE acquisition, never host entitlement;
+pump BETWEEN callbacks only. Frozen profile installs once permanently: fresh process
+per literal method[:row], one Rig/host; no reset/replacement/multirow/bespoke runner.
+Compare `tests/qt/api_host_cases.cmake` to admitted data-tag discovery. Historical
+75Qt/18N map: remove9Qt/replace14/E-drop8/rename11/untouched33; native0/5/4/9.
+Declare additive final counts before tests review; static counts are not execution.
 
-**Per-invocation exception for THIS Qt suite only:** the frozen API-012
-`create_profile` rejects every second installation in a process; profile
-destruction does not unregister, and the runtime factory retains its
-context/source. Thus each Qt non-data slot invocation, INCLUDING EACH DATA
-ROW, runs in a fresh process, with at most one Rig/host lifetime. Even a
-destroyed first host is not permission for a second. Same-host restart-refusal
-assertions remain valid. Coordinator registers one CTest invocation per
-literal selector in `tests/qt/api_host_cases.cmake`, using standard Qt Test
-[`method[:row]` selection](https://doc.qt.io/qt-6/qtest-overview.html). The
-inventory is ONE declarative `set(subathon_api_host_cases ...)` with all
-current cases and individual real row tags; never select a whole multirow
-method. No bespoke Python runner, frozen-profile reset/replacement or fake
-profile is allowed. Other suites keep their runner arrangements. Static
-source/list coverage and counts precede review; actual `-datatags` comparison
-is a later separately admitted discovery gate, not performed during this
-correction. The historical source has 75 Qt selectors and 18 native methods.
-The approved mapping removes 9 Qt selectors, replaces assertions in 14, drops
-one E term in 8, renames observations in 11 and leaves 33 untouched. No native
-method is removed: 5 replaced, 4 observations renamed, 9 untouched. Additions
-need exact later registration counts; none are authored or executed by this
-revision. Each native child has at most one profile installation. These are
-STATIC inventory counts, not discovered/executed results. Existing
-pipe/log/event/peer/step/child/reap budgets below remain unchanged.
+Q proves shared-source identity/attributable host reads, not native reads through
+fake transport. Per-thread probe: Qt100 diagnostic→IO99 take→another IO99 take
+succeeds; same-owner100→99 refuses. N empty hooks uses actual monotonic factory and
+profile with200ms frame budget: complete frame succeeds; real partial masked frame
+closes by7s without stop/fixture close/domain entry; another peer still succeeds.
+Supervisor rejects premature close but is NEVER product time. Retained IO lease→
+disconnect→delayed take refuses, no local handoff; repeated reset releases all
+capacity/copy/metadata/association charges once; committed truth survives.
+Global-exhaustion recovery releases only A while B stays outstanding. Idle/partial
+HTTP/Upgrade stop may give bounded HTTP refusal/EOF; WS Close needs actual upgrade.
 
-**Elapsed coverage allocation:** Q proves the identity of the shared source passed
-to the real profile and attributable host owner/IO deadline/lease reads. The fake
-transport stores that profile but does NOT drive native profile reads; Q must not
-claim otherwise. Its per-thread100/99 probe must actually enter a diagnostic on
-Qt100, consume its response on IO99, observe both source reads, and then admit/
-consume another IO99; same-owner100→99 still refuses. N uses the host's actual
-production monotonic factory, source and profile (empty clock hooks) and a coherent
-200ms native frame budget. A complete frame succeeds, an actual partial masked
-payload closes by the unchanged7s step watchdog without host stop or fixture close,
-never enters domain work, and another peer still succeeds. Supervisor elapsed
-observation rejects premature closure; it is never a host clock input. Source
-review of host composition must confirm SAME source to host and profile; frozen
-profile `turn` anchors frame deadline, `tick/guard` samples/rechecks that context
-source and force-closes at expiry. Identity plus this native expiry and host-gate
-coverage exercise both paths; no test observes privileged UTC changes, injected
-native syscall failure, exact scheduling latency or trusted session time.
-
-Retained-response cancellation includes the distinct order: actual IO-held
-lease, then disconnect, then delayed IO `take` refused, zero local handoff,
-repeated reset and zero capacity/copy/metadata/association reservations.
-Committed truth survives. Global exhaustion is tested with a spare-capacity
-peer; only A is released while B stays outstanding, then D becomes eligible.
-Native stop on idle TCP/partial HTTP/Upgrade allows bounded HTTP refusal or
-EOF; Close framing applies only after an actual WebSocket upgrade. All
-positive/refusal/deadline/SQL/source/thread/destruction assertions outside the
-approved list and prior unrun evidence remain in scope.
-
-N is a NEW host child and Python unittest peer driver using corrected API-012
-and linking the SHIPPED production host/Drogon/signal/elapsed pieces in §2,
-not a fixture reimplementation or production reuse of the old probe. Test
-persistent independent correlations, idle/partial/uncooperative peers, early
-signal installation, startup races, occupied-port exit, fixed deadlines and
-actual teardown. Reply order beyond correlation is not promised. Control
-channels only observe/synchronize events; they cannot set
-readiness/invocation. Assign finite pipe/log/event/command/peer budgets,
-watchdogs and cleanup attempts before independent fixture review. The
-corrected authored N protocol uses an inherited FD, separate bounded
-stdout/stderr diagnostics, one serialized writer (1MiB immutable arena plus256
-descriptors), at most256 events of128KiB and64 commands of4096 bytes. Each
-step is 7s, each child20s, with at most two2s reap attempts. Its loaded-map
-cap is128, conservatively raised from64 to allow Qt Core/Sql/Test, ICU,
-QSQLITE and corrected Drogon dependencies; this is a candidate bound for
-review, not a measured count. Initial, post-QSQLITE, post-serving and stopped
-maps require independent admission; hash identities are cached only within a
-run using file size/mtime/ctime keys. The test seam's presence is disclosed,
-and empty hooks must equal production. Real CLOCK_MONOTONIC failure cannot be
-injected without an additional authority hook: HL16
-malformed/failure/entry/handoff/IO-teardown checks remain Q simulation with
-the actual production converter; N proves only real factory wiring and
-teardown, not native syscall failure or privileged wall-time changes. Fixture
-overflow/timeout is failure, not red or safe destruction. Supervisor wall time
-never becomes the product elapsed domain.
-
-Authoring ownership used after separate Codex verification and closing Claude
-contract approval (the owned sources remain explicit stubs):
-
-- Author: `server/include/subathon/server/api_host.hpp`,
-  `server/include/subathon/server/testing/api_host_observers.hpp`,
-  `server/include/subathon/server/api_host_drogon.hpp`,
-  `server/include/subathon/server/api_host_signal.hpp`,
-  `server/include/subathon/server/api_host_elapsed.hpp`,
-  `server/src/api_host.cpp`, `server/src/api_host_drogon.cpp`,
-  `server/src/api_host_signal_linux.cpp`,
-  `server/src/api_host_elapsed_linux.cpp` (ALL explicit unimplemented stubs
-  ONLY), `tests/qt/api_host_tests.cpp`,
-  `tests/qt/support/api_host_fixture.hpp`, `tests/qt/api_host_cases.cmake`
-  (declarative invocation inventory ONLY),
-  `tests/api_host_lifecycle/api_host_probe.cpp`,
-  `tests/api_host_lifecycle/test_api_host_lifecycle.py`.
-- Coordinator: `server/CMakeLists.txt`, `tests/CMakeLists.txt`,
-  `tests/qt/CMakeLists.txt`, new `tests/api_host_lifecycle/CMakeLists.txt`,
-  `cmake/AcceptanceSuites.cmake`, `CMakePresets.json`, `tests/acceptance-
-  map.json`, needed root CMake/tooling/CI/admission paths,
-  `progress/state.json`, `PROGRESS.html`, `progress/coordinator-
-  checkpoint.md`. Assertions outside the approved list and native profile
-  source/header/patch/manifest stay frozen. Additional shared/support paths
-  require explicit claim.
-
-Selectors/labels `api-host` and `api-host-native` are authored and enabled with
-`intentional-red` body labels while unimplemented. The coordinator assigned exact
-compile/discovery/body commands and dependency closure after the required reviews;
-[PR112](https://github.com/Kernol12/subathon-bot-ai/pull/112) records actual runs.
-Retain passive source/ABI/build/license admission and complete actual loaded-map
-gates for the NEW consumer; previous probe admission alone is insufficient.
-
-Authored test/oracle AND stub/fixture/resource/build/CI stages need their required
-independent review cycles before intended red. Selected bodies must execute on
-a working foundation; missing/skipped/disabled cases, `WILL_FAIL`, blanket
-continue-on-error or failed compilation do not count. Retain exact commands,
-environment and explicit unimplemented-host failures separately from setup
-failures. Baseline acceptance is reviewed intended red, not production success.
-API-001 needs a fresh implementation session, independent code review, passing
-acceptance/regression checks and normal protected merge under separate authority.
-
-The original contract authoring changed only this file, the API-001 brief and
-the STORAGE-007 brief. Later reviewed authoring used the paths above; the
-coordinator records assignments and gates in the checkpoint. This task authorizes
-no host implementation. Diagnostics or simulated guards cannot close real
-protected-ready/session-clock acceptance.
-SESSIONTEST-009/SESSION-009 retain ready/refusal/native-clock-hold gates; restore,
-login/permission/disclosure, API-003 sync, TLS/Caddy ingress, deployment/platform
-and full release remain separate. Preserve all seven integrations, three FX
-providers, English/German, appearance modes and both renderers.
+N fixture limits remain: inherited FD, separate stdout/stderr; serialized1MiB arena/
+256descriptors,256events×128KiB,64commands×4096bytes,8peers/4096byte-operation,
+1MiB total logs; step7s/child20s, TERM then KILL reap2s each. Loaded-map cap128,
+complete initial/post-QSQLITE/serving/stopped admission; hash-cache size/mtime/ctime.
+Watchdog/overflow/setup/ABI failure is not red or graceful cleanup proof. Before
+bodies require source/resource/fixture and passive ELF/ABI/identity/seal/map gates
+for THIS consumer, not old probe approval. Unreviewed tests stay local; independent
+tier A oracle/stub/fixture/resource/build/CI review precedes intended red. All pieces
+stay explicit NI (cold inspection, inert stop, no callbacks/writer/framework/clock);
+NI is never success, historical red never revised-feature evidence.
+API-001 needs fresh implementation/review, passing acceptance/regressions and protected
+merge. SESSION-009/login/restore/permission/sync/TLS/platform/release stay separate;
+all7 integrations,3FX providers, English/German, appearance and both renderers remain.
