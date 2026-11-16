@@ -140,8 +140,22 @@ continue other authorized work; do not substitute Codex for it.
 If a Codex review or investigation is flagged by the provider, stop and bring it to
 the owner; do not move it to Claude independently.
 Record the actual provider and model in every review comment. An author never
-approves its own work. This temporary rule replaces the default provider split;
+approves its own work. Any other provider or model switch needs the owner.
+This temporary rule replaces the default provider split;
 all other standing owner rules remain unchanged.
+
+## Project board maintenance (2026-11-16)
+
+The "Subathon bot ai development" board follows the issues' native "blocked by"
+links. The enabled "Item closed → Status Done" workflow sets Done on close for
+issues and pull requests. The coordinator archives board items closed as not
+planned without changing the issue, sets Status when claiming or blocking an issue,
+and moves issues to Ready when a close unblocks them.
+
+Open non-epic issues are Ready when every native blocker is closed, otherwise
+Planned; retain In progress for #613 and Blocked for #278, which waits for the owner.
+Epics keep their status. Board Ready shows dependency order; it does not authorize
+work. The checkpoint's authorized path does.
 
 ## Working rules from the owner (2026-11-15)
 
