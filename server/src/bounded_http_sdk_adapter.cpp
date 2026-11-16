@@ -48,7 +48,7 @@ struct PeerRecord final : io::PeerStorage {
     bool live{}, attached_once{}, in_connected{}, wanted{}, reading{}, delivered{}, raw_live{},
         raw_revoked{}, ended{}, socket_gone{}, sdk_gone{}, removed{}, context_set{}, wake_issued{},
         close_reply{}, reserved{}, filled{}, wire_done{}, close_requested{}, quarantined{},
-        native{}, native_established{}, terminal_wiped{}, native_retired_seen{}, retiring_charge{},
+        native{}, native_established{}, native_open_notified{}, terminal_wiped{}, native_retired_seen{}, retiring_charge{},
         native_retiring_charge{}, control{}, request_started{}, has_end{};
     End end{End::cancelled};
     unsigned mailbox{}, executing{};
@@ -196,7 +196,8 @@ struct Core final : io::Producer, sdk::Sink {
         std::lock_guard lock(mutex);
         if (io_live.load(std::memory_order_acquire) && event_fd >= 0) {
             const U64 one = 1;
-            (void)::write(event_fd, &one, sizeof(one));
+            ssize_t result;
+            do { result=::write(event_fd, &one, sizeof(one)); } while(result<0 && errno==EINTR);
         }
     }
     template <class F> bool callback(F &&f) noexcept {
@@ -893,14 +894,16 @@ void Core::native_event(io::PeerStorage &value,
                         const std::shared_ptr<drogon::WebSocketConnection> &connection,
                         sdk::NativeEvent event) noexcept {
     auto &p = static_cast<PeerRecord &>(value);
-    if (event == sdk::NativeEvent::closed && !p.native_established)
+    if (event == sdk::NativeEvent::closed && !p.native_open_notified)
         return;
     if (event != sdk::NativeEvent::closed && !guard(p))
         return;
     if (event == sdk::NativeEvent::opened) {
         p.native_established = true;
+        p.native_open_notified = native.opened != nullptr;
 
     }
+    if (event == sdk::NativeEvent::closed) p.native_open_notified = false;
     auto function = event == sdk::NativeEvent::opened    ? native.opened
                     : event == sdk::NativeEvent::message ? native.message
                                                          : native.closed;

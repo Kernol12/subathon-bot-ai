@@ -1442,15 +1442,16 @@
      // releaseNativeProfileStorage() leaves no vector allocation. Repeated
      // retrieve/retrieveAll must not restore offset 8 into a zero-sized vector.
      if (buffer_.empty())
-@@ -154,6 +178,7 @@
+@@ -154,6 +178,8 @@
  }
  ssize_t MsgBuffer::readFd(int fd, int *retErrno)
  {
++    lastIovcnt_=0;
 +    if (fixedMode_ && (writableBytes()<8192 || writableBytes()>65536)) { *retErrno=ENOBUFS; return -1; }
      char extBuffer[8192];
      struct iovec vec[2];
      size_t writable = writableBytes();
-@@ -162,6 +187,7 @@
+@@ -162,6 +188,7 @@
      vec[1].iov_base = extBuffer;
      vec[1].iov_len = sizeof(extBuffer);
      const int iovcnt = (writable < sizeof extBuffer) ? 2 : 1;
@@ -1458,7 +1459,7 @@
      ssize_t n = ::readv(fd, vec, iovcnt);
      if (n < 0)
      {
-@@ -227,6 +253,7 @@
+@@ -227,6 +254,7 @@
          tail_ += len;
          return;
      }
@@ -1468,17 +1469,18 @@
          newLen = initCap_;
 --- a/trantor/utils/MsgBuffer.h
 +++ b/trantor/utils/MsgBuffer.h
-@@ -13,6 +13,9 @@
+@@ -13,6 +13,10 @@
   */
 
  #pragma once
++#include <cstdint>
 +#include <span>
 +#include <cstddef>
 +#include <trantor/net/BoundedIo.h>
  #include <trantor/utils/NonCopyable.h>
  #include <trantor/exports.h>
  #include <vector>
-@@ -38,6 +41,8 @@
+@@ -38,6 +42,8 @@
   */
  class TRANTOR_EXPORT MsgBuffer
  {
@@ -1487,7 +1489,7 @@
    public:
      /**
       * @brief Construct a new message buffer instance.
-@@ -45,6 +50,10 @@
+@@ -45,6 +51,10 @@
       * @param len The initial size of the buffer.
       */
      explicit MsgBuffer(size_t len = TRANTOR_BUFFER_DEFAULT_LENGTH);
@@ -1498,7 +1500,7 @@
 
      /**
       * @brief Get the beginning of the buffer.
-@@ -162,7 +171,7 @@
+@@ -162,7 +172,7 @@
       */
      size_t writableBytes() const
      {
@@ -1507,7 +1509,7 @@
      }
 
      /**
-@@ -257,9 +266,10 @@
+@@ -257,9 +267,10 @@
       *
       */
      void retrieveAll();
@@ -1519,7 +1521,7 @@
          std::vector<char>().swap(buffer_);
          head_ = tail_ = initCap_ = 0;
      }
-@@ -358,6 +368,9 @@
+@@ -358,6 +369,9 @@
      size_t initCap_;
      std::vector<char> buffer_;
      size_t tail_;
@@ -1529,7 +1531,7 @@
      static char *emptyStorage() noexcept
      {
          static char empty = 0;
-@@ -365,11 +378,11 @@
+@@ -365,11 +379,11 @@
      }
      const char *begin() const
      {
