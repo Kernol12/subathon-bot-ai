@@ -41,6 +41,19 @@ for focused local runs; `core-acceptance-debug` selects the same suites together
 
 ## Required checks
 
+The additive API-016 SDK currently has a local development build/seal and consumer
+gate in `tools/native_websocket_ci.py` (`--profile bounded-http-foundation`). Each
+consumer gets a separate passive ELF/ABI closure, controlled identity and actual
+loaded-map comparison with unchanged SDK/binary seals. Foundation maps also bind
+the loader cache as data before load when present. The gate's local-development
+mode records actual Arch packages; it does not substitute for the pinned Ubuntu
+lane. These local runs are development evidence, never a binary admitted by review.
+Acceptance requires gated CI on the reviewed head and tier-A review of the recipe,
+gate, artifact and implementation. The `native` job still builds API-012; successor
+CI integration and the bounded HTTP producer remain unfinished in
+[PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664). No job is renamed or
+removed, and the required contexts below are unchanged.
+
 Ruleset 26170263 protects `main`: PRs with resolved threads, no bypass actors and
 required status checks. The required contexts are the job names above plus
 `GitGuardian Security Checks`:
