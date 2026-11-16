@@ -198,17 +198,23 @@ API-001 keep their ownership and release requirements.
 - APITEST-015 (#613), tier A: fresh Codex author in the retained worktree
   `t3-0dc4e70e`, branch `task/APITEST-015-host-baseline-revision` (PR #667).
   Owns host baseline suites, host headers/stubs and the host contract updates.
-  Bounded reference corrections authored locally at `f2aa6856`, not pushed or
-  independently reviewed. The owner decided all six numbered C2 corrections on
+  Bounded reference/C2 corrections and budget citation authored locally through
+  `9206cc45`, not pushed or independently reviewed. The owner decided all six
+  numbered C2 corrections on
   2026-11-17 ([record](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6932483280)); they are recorded in PR #667 and must be named in every tier A packet.
   Forward-from-body ends without reply; forwarding is only from execute or supplied
   unit completion. Captures remain owned-and-charged or covered host-storage borrows,
   with a compile-time fixed maximum capture size and charge; no trusted uncharged
-  captures. Authorship resumes under these decisions; independent review remains.
+  captures. Header work is Blocked on the bounded-producer prerequisite decision
+  and clarification of the existing three-preaccepted-unit fail-close oracle versus
+  actual-result-driven sequencing. Neither gap is silently waived; the oracle stays.
 - APITEST-017 (#672), tier A: fresh Codex author in separate worktree `t3-aa9893a6`,
   branch `task/APITEST-017-transport-regressions`. Owns foundation-test additions
   only. Partial native tests are authored locally, unreviewed and unexecuted;
-  a fresh investigation assesses existing observations for the remaining cases.
+  a fresh investigation found existing observations usable for native interleaving,
+  whose bounded fixture/examples work continues. HTTP per-turn/wake observations
+  need an owner decision on a separate observation-only prerequisite; no producer
+  instrumentation or watchdog-only historical red is authorized.
 - A separate fresh Codex investigator observes default writer-budget admission of
   version-10 inspection for the APITEST-015 gate; it authors or fixes neither task.
 - Coordinator owns shared build/CI integration and checkpoint/proof records. Any
