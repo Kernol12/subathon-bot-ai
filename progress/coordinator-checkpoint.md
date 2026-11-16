@@ -199,8 +199,12 @@ API-001 keep their ownership and release requirements.
   `t3-0dc4e70e`, branch `task/APITEST-015-host-baseline-revision` (PR #667).
   Owns host baseline suites, host headers/stubs and the host contract updates.
   Bounded reference corrections authored locally at `f2aa6856`, not pushed or
-  independently reviewed. Header/test work is Blocked on six numbered C2 owner
-  decisions; no new handle semantics, header, stub or test changes are implemented.
+  independently reviewed. The owner decided all six numbered C2 corrections on
+  2026-11-17 ([record](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6932483280)); they are recorded in PR #667 and must be named in every tier A packet.
+  Forward-from-body ends without reply; forwarding is only from execute or supplied
+  unit completion. Captures remain owned-and-charged or covered host-storage borrows,
+  with a compile-time fixed maximum capture size and charge; no trusted uncharged
+  captures. Authorship resumes under these decisions; independent review remains.
 - APITEST-017 (#672), tier A: fresh Codex author in separate worktree `t3-aa9893a6`,
   branch `task/APITEST-017-transport-regressions`. Owns foundation-test additions
   only. Partial native tests are authored locally, unreviewed and unexecuted;
