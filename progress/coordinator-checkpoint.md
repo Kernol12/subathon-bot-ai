@@ -10,20 +10,29 @@ API-016 is merged (PR #664, `4184c9fc`). The coordinator thread that ran it stop
 there by owner instruction. The handover comment lists open owner decisions, PR
 states, the next step with its gates, deferred items, planned issues and leftovers:
 [#278 handover](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6930279142). A new coordinator starts nothing until the owner gives
-the go-ahead named there.
+the go-ahead named there. The owner gave those decisions on 2026-11-17, as recorded
+below; the handover's technical gates remain binding.
 
 ## Authorized path
 
-Authorized on 2026-11-16, in this order and nothing else:
+Authorized on 2026-11-16, amended by the owner on 2026-11-17:
 
 1. **API-016 [#616](https://github.com/Kernol12/subathon-bot-ai/issues/616)**: bounded HTTP transport foundation. **Done** (PR #664,
    `4184c9fc`, proof `progress/proofs/API-016.json`).
 2. **APITEST-015 [#613](https://github.com/Kernol12/subathon-bot-ai/issues/613)**: revised host baseline (tests stage of API-001), tier A.
    Step 1 (contract revision for groups A to E) is reviewed: PR #667 at `bc9b33c4`,
    draft, not merged. The next step (scope items 1 to 4: test-suite baseline revision,
-   additions, listeners, header and stubs) waits for the owner's go-ahead.
+   additions, listeners, header and stubs) is authorized under the handover gates.
+   Current main was merged into its branch first (`d005c23c`).
+   **APITEST-017 [#672](https://github.com/Kernol12/subathon-bot-ai/issues/672)** is also authorized, tier A, in parallel in its own worktree and branch.
+   Scope-1 tests must fail on `f8be1aec`; scope-2 tests on `0e774a51` (the
+   suspend/admit case also on `8fbc0ee8`), and all pass on the merged foundation.
+   The tasks own separate files. If both need the same file, stop and ask the owner.
 3. **API-001 [#278](https://github.com/Kernol12/subathon-bot-ai/issues/278)**: the production host, tier A. Prerequisites: APITEST-015 and
-   APITEST-017 (#672, not authorized).
+   APITEST-017 (#672). The path remains both tests tasks, then API-001.
+
+Report each stage when it finishes or needs the owner. Filing the API-016
+follow-ups as planned epic-linked board issues is authorized; doing their work is not.
 
 SLICE-001 (PR660, 579afcb3) and the owner checkpoint on #278 are done. PR #121 is
 closed; API-001 restarts from its rewritten issue on current `main` in a fresh
@@ -31,12 +40,10 @@ session, and none of PR #121's reviews, approvals or CI results carries over.
 
 ## Planned, not authorized
 
-- APITEST-017 [#672](https://github.com/Kernol12/subathon-bot-ai/issues/672): reviewed tests for the defects of API-016 that no frozen test
-  covers (large input with more than 8 connections; established native peers after
-  suspend/admit and beyond 8 peers). Prerequisite of API-001.
 - SESSION-013 [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662), SESSION-009 [#582](https://github.com/Kernol12/subathon-bot-ai/issues/582), API-010 [#560](https://github.com/Kernol12/subathon-bot-ai/issues/560).
-- API-016 follow-ups (not filed): V2, C2, C4, C6, I14, I15, I16, I19, I20, O5; see
-  the handover comment.
+- API-016 follow-ups: V2, C2, C4, C6, I14, I15, I16, I19, I20, O5; see the handover
+  comment. Filed as [#678–#687](https://github.com/Kernol12/subathon-bot-ai/issues/273)
+  (API-017 through API-026), planned under EPIC-008; none is authorized for work.
 - Process/tooling #619/#620 is frozen; lifting the freeze is the owner's decision.
 
 Dependency readiness authorizes nothing beyond the path above. No live chat or
@@ -153,7 +160,8 @@ planned without changing the issue, sets Status when claiming or blocking an iss
 and moves issues to Ready when a close unblocks them.
 
 Open non-epic issues are Ready when every native blocker is closed, otherwise
-Planned; retain In progress for #613 and Blocked for #278, which waits for the owner.
+Planned; claimed issues are In progress and issues awaiting the owner are Blocked.
+The owner's API-016 follow-ups are explicitly Planned and not authorized for work.
 Epics keep their status. Board Ready shows dependency order; it does not authorize
 work. The checkpoint's authorized path does.
 
@@ -187,10 +195,24 @@ API-001 keep their ownership and release requirements.
 
 ## Live assignments
 
-None. API-016 is merged. APITEST-015 (#613) is claimed for step 1 only; its branch
-`task/APITEST-015-host-baseline-revision` (PR #667) has no running session. Verify
-the actual checkout, worktrees and PR state before acting; never infer a live session
-from this file.
+- APITEST-015 (#613), tier A: fresh Codex author in the retained worktree
+  `t3-0dc4e70e`, branch `task/APITEST-015-host-baseline-revision` (PR #667).
+  Owns host baseline suites, host headers/stubs and the host contract updates.
+  Bounded reference corrections authored locally at `f2aa6856`, not pushed or
+  independently reviewed. Header/test work is Blocked on six numbered C2 owner
+  decisions; no new handle semantics, header, stub or test changes are implemented.
+- APITEST-017 (#672), tier A: fresh Codex author in separate worktree `t3-aa9893a6`,
+  branch `task/APITEST-017-transport-regressions`. Owns foundation-test additions
+  only. Partial native tests are authored locally, unreviewed and unexecuted;
+  a fresh investigation assesses existing observations for the remaining cases.
+- A separate fresh Codex investigator observes default writer-budget admission of
+  version-10 inspection for the APITEST-015 gate; it authors or fixes neither task.
+- Coordinator owns shared build/CI integration and checkpoint/proof records. Any
+  file needed by both tests tasks stops for the owner, including shared integration.
+
+Builds and scratch use each worktree's ignored `build/TASK-ID/session/` on disk.
+Verify actual checkout, worktrees, PR heads and sessions before resuming; these
+assignments never substitute for that check.
 
 ## API-011 capability map (the reference path SLICE-001 hosts)
 
