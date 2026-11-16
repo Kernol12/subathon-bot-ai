@@ -50,7 +50,8 @@ mode records actual Arch packages; it does not substitute for the pinned Ubuntu
 lane. These local runs are development evidence, never a binary admitted by review.
 Acceptance requires gated CI on the reviewed head and tier-A review of the recipe,
 gate, artifact and implementation. The `native` job still builds API-012; successor
-CI integration and the bounded HTTP producer remain unfinished in
+CI integration remains unfinished, and the new transport prototype's multi-function
+ABI corrections await owner decision in
 [PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664). No job is renamed or
 removed, and the required contexts below are unchanged.
 

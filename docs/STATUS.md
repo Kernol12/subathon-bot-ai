@@ -10,16 +10,17 @@ the reference path; the production server host remains unimplemented. The curren
 priority is a vertical slice that starts the server, runs one timer and accepts one
 fake contribution (see the [checkpoint](../progress/coordinator-checkpoint.md)).
 
-API-016 has a partial additive SDK build/seal and technical consumer gate. Local
-development runs pass all 44 unchanged native methods, the foundation legacy
-positive and its storage/guard method; the other 33 foundation methods fail at the
-missing transport producer. This is not HTTP acceptance or review admission of a
-binary. The actual bounded transport, native retirement/deletion fences, complete
-resource proof and successor CI integration remain unfinished. The SDK shutdown
-control seam needs an
-[owner ruling](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6908588951).
-Current commands, hashes and method outcomes belong to
-[PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664).
+API-016 has an additive SDK build/seal, technical consumer gate and an authored
+transport prototype. The shutdown correction is accepted; the other multi-function
+ABI corrections already authored under the earlier ruling are now preserved as WIP
+and await owner decision in the numbered **Contract corrections** section of
+[PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664). Their dependent
+implementation/execution is paused under the
+[latest owner rule](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6909553282).
+At `7da91467`, local development passed 44 unchanged native methods, the foundation
+legacy positive and storage/guard method; 33 foundation methods stopped at NI.
+Those historical development results do not certify the new prototype, complete
+resource/retirement proof or successor CI integration. No binary is admitted by review.
 
 ## Historical source-bound summary
 

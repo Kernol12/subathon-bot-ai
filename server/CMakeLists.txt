@@ -6,11 +6,10 @@ if(SUBATHON_BUILD_BOUNDED_HTTP_FOUNDATION_TESTS)
     target_include_directories(subathon_bounded_http_storage PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     subathon_target_options(subathon_bounded_http_storage)
     if(sbt_bounded_http_successor)
-        # Development producer: storage is real; transport availability remains NI.
-        add_library(subathon_bounded_http_development STATIC src/bounded_http.cpp
+        # In-progress producer; multi-function SDK corrections await owner decision (PR #664).
+        add_library(subathon_bounded_http_development STATIC src/bounded_http_sdk_adapter.cpp
             $<TARGET_OBJECTS:subathon_bounded_http_storage>)
-        target_compile_definitions(subathon_bounded_http_development PRIVATE
-            SUBATHON_BOUNDED_HTTP_STORAGE_PRODUCER)
+        target_link_libraries(subathon_bounded_http_development PRIVATE Drogon::Drogon)
         target_include_directories(subathon_bounded_http_development PUBLIC
             "${CMAKE_CURRENT_SOURCE_DIR}/include")
         subathon_target_options(subathon_bounded_http_development)

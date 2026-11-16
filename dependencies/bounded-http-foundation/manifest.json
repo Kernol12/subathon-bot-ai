@@ -1,6 +1,6 @@
 {
   "format": 1,
-  "status": "development_partial_no_transport_producer",
+  "status": "development_transport_wip_pending_owner_abi_decisions",
   "profile": "subathon.bounded-http-foundation.v1",
   "abi_marker": "DROGON_SUBATHON_BOUNDED_HTTP_V1",
   "parent_manifest_sha256": "fa947feb11f2a00efad810c73af0c8e32d5f43d9a7c5ee88645112e28a1bf67e",
@@ -30,22 +30,22 @@
     {
       "file": "0003-trantor-bounded-http.patch",
       "apply_at": "trantor",
-      "sha256": "66b5fd73bcb8560e18042ec132f2be887ac116e89768d03a8ff95ef9685d2d21"
+      "sha256": "46e5e40bb8a60466fdb6e40118caf050353619b381f71fde85ef844c3d81e76b"
     },
     {
       "file": "0004-drogon-bounded-http.patch",
       "apply_at": "drogon",
-      "sha256": "ec19b7a945d27db876b60f39b7c593510677a4a95590521bf0cc2915165a9e01"
+      "sha256": "32a9feb354dce617946c9085aa8c44288df13c709fd121d9edcd0a8c1b2b81a2"
     },
     {
       "file": "0005-native-source-binding.patch",
       "apply_at": "first_party",
-      "sha256": "1eb12009c67d637ed79351e967fc09282c9d7b83d0c386781a574d8ba1f5e426"
+      "sha256": "98c9d74b8086601905143e5dea6a954e41bddb7895fc4d2bd3a77d42649b1c98"
     }
   ],
   "first_party": {
     "file": "server/src/native_websocket_profile.cpp",
     "sha256": "a5c2dd0a0a4ec87a769b4509686d0a5457f253b59417706e6445b036a535d0ac",
-    "derived_sha256": "7c457732c19d2b1712ecf34bc6159c78b1a8f16f439b4f0122f21b44999ef459"
+    "derived_sha256": "54d1626eb110cb0913d8627916d2825c9796ccd1ef243f011467cc4c053a184b"
   }
 }

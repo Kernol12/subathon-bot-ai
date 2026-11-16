@@ -8,3 +8,76 @@
  #include <sys/mman.h>
  #include <sys/socket.h>
  #include <thread>
+@@ -149,6 +150,7 @@
+
+ struct Owner final : drogon::native_profile::Session, std::enable_shared_from_this<Owner> {
+     std::shared_ptr<Context> context;
++    trantor::bounded_io::PeerStorage *foundation_peer{};
+     std::weak_ptr<trantor::TcpConnection> tcp;
+     std::weak_ptr<drogon::WebSocketConnection> connection;
+     drogon::WebSocketConnection *connection_object{}; // Identity only; never dereferenced.
+@@ -924,6 +926,29 @@
+     }
+ };
+
++class FoundationRegistration final : public drogon::native_profile::NativeRegistration {
++    const std::shared_ptr<Context> context_;
++    const drogon::native_profile::NativeLimits limits_;
++  public:
++    explicit FoundationRegistration(std::shared_ptr<Context> c)
++        : context_(std::move(c)), limits_{context_->limits.connections, context_->limits.incomplete_upgrades, context_->limits.frame_bytes, context_->limits.message_bytes, context_->limits.frames_per_message, context_->limits.callback_leases_per_connection, context_->limits.callback_bytes_per_connection, context_->limits.callback_bytes_global, context_->limits.raw_capacity_bytes, context_->limits.assembly_capacity_bytes, context_->limits.application_output_bytes, context_->limits.control_output_bytes, context_->limits.frames_per_turn, context_->limits.upgrade_ms, context_->limits.frame_ms, context_->limits.message_ms, context_->limits.close_ms} {}
++    const drogon::native_profile::NativeLimits &limits() const noexcept override { return limits_; }
++    const void *source_identity() const noexcept override { return context_->source.get(); }
++    trantor::bounded_io::Sample sample() const noexcept override {
++        auto value=context_->source->sample();
++        if(auto *p=std::get_if<ElapsedInstant>(&value)) return {true,p->nanoseconds};
++        return {false,0};
++    }
++    bool attach_retirement(drogon::native_profile::Session &session,
++                           trantor::bounded_io::PeerStorage &peer) noexcept override {
++        auto *owner=dynamic_cast<Owner*>(&session);
++        if(!owner || owner->context.get()!=context_.get()) return false;
++        std::lock_guard lock(context_->mutex);
++        if(owner->terminal || owner->foundation_peer) return false;
++        owner->foundation_peer=&peer; return true;
++    }
++};
++
+ void Context::retire(const std::shared_ptr<Owner> &owner) noexcept {
+     // All callers hold mutex. No source object survives just for diagnostics.
+     if (!owner->terminal || !owner->detached_native || owner->leases || owner->work)
+@@ -935,6 +960,10 @@
+                 regions[owner->region_slot] = 0;
+             } else
+                 --global.upgrade_owners;
++            if(auto *peer=owner->foundation_peer) {
++                peer->native_retired(); // Internal latch/wake only; no owner callback under mutex.
++                owner->foundation_peer=nullptr;
++            }
+             slot.reset();
+             break;
+         }
+@@ -1173,8 +1202,12 @@
+     static bool started() noexcept {
+         return drogon::native_profile::Runtime::started().load(std::memory_order_acquire);
+     }
+-    static void install(drogon::native_profile::Factory factory) {
+-        drogon::native_profile::Runtime::factory() = std::move(factory);
++    static void install(drogon::native_profile::Factory factory, std::shared_ptr<Context> c) {
++        auto registration=std::make_unique<FoundationRegistration>(std::move(c));
++        static std::unique_ptr<FoundationRegistration> retained;
++        drogon::native_profile::Runtime::factory()=std::move(factory);
++        retained=std::move(registration);
++        drogon::native_profile::Runtime::registration()=retained.get();
+     }
+     static std::unique_ptr<Profile> make(std::shared_ptr<Context> c) {
+         auto s = std::make_unique<Profile::State>();
+@@ -1323,7 +1356,7 @@
+             } catch (...) {
+                 return {};
+             }
+-        });
++        }, c);
+         return profile;
+     } catch (...) {
+         return Unavailable{Failure::allocation_failure};

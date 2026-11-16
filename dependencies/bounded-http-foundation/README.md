@@ -2,10 +2,12 @@
 # Bounded HTTP successor (API-016, work in progress)
 
 This is an additive development artifact over the byte-identical API-012 inputs.
-Its current patches provide the SDK interface shapes, C++20 Trantor compilation,
-ABI marker and an independently hash-bound native build copy. The Runtime remains
-unavailable: the actual bounded transport/lifetime producers are not implemented.
-The marker identifies this ABI generation; it is not proof of completed behavior.
+The transport patches and first-party adapter are work in progress. R4's shutdown
+seam is accepted; other already-authored multi-function ABI corrections await owner
+decision under the numbered **Contract corrections** section of PR #664. Their code
+is preserved visibly, but dependent development/execution has stopped. No complete
+HTTP transport, native binding/retirement integration or resource proof is claimed.
+The ABI marker identifies the generation, not completed behavior or owner approval.
 
 `manifest.json` binds the parent manifest, exact upstreams, all three ordered
 patches, original and derived native source and the unchanged sixteen build options.

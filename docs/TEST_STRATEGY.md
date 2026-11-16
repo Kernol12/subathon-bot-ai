@@ -63,7 +63,7 @@ still using synthetic data and supplied policy/authority facts.
 | `sqlite-reference-authority-debug` | `-L '^sqlite-reference-authority$'` | 59 reviewed Qt methods / 214 invocations; real-SQL current original-author/capability/graph authority and selected historical reads; host/API consumers remain separate |
 | `translation-catalog-debug` | `-L '^translation-catalog$'` | 43 generator methods with literal goldens; build also produces/validates real Qt QM |
 | `native-websocket-profile-debug` | `-L '^native-websocket-profile$'` | 44 reviewed methods passing locally and in selected Ubuntu CI against the corrected Drogon/Trantor SDK: real Linux loopback framing/control/Close, listener isolation, ownership and resource/deadline observations with supplied elapsed time; actual host/TLS/clock/auth/platform gates remain separate |
-| `bounded-http-foundation-debug` | `-L '^bounded-http-foundation$'` | Bounded HTTP transport remains NI. Candidate4 selects the NI target; the partial API-016 successor selects real storage preflight with NI transport. Compiles the native dependency without Qt/SQL/host scope; no passing HTTP acceptance claim. |
+| `bounded-http-foundation-debug` | `-L '^bounded-http-foundation$'` | Candidate4 retains the NI target. API-016 selects a transport prototype whose multi-function SDK corrections await owner decision; dependent transport execution is paused. No passing HTTP acceptance claim; native dependency only, without Qt/SQL/host scope. |
 | `rate-snapshot-debug` | `-L '^rate-snapshot$'` | 53 preserved cases for owned lossless observations, exact effective-table validation and inverse/cross queries; no provider/cache/valuation integration |
 | `schema-validation-debug` | `-L '^schema-validation$'` | 3 nodes: repository OpenAPI/components/examples, canonical proof/policy aggregate and real-SDK proof publication integration; actual HEAD inputs are required |
 
@@ -137,9 +137,13 @@ development receipt for this runner. Its frozen `review_receipt` key links the
 not a review admitting that binary. Local gated runs are development evidence;
 acceptance requires gated CI on the reviewed head. The tier-A cycle reviews the
 recipe, gate, artifact and producer together. The preset name conveys no approval
-or capability. API-016's partial successor currently passes the pure storage/guard
-method and the separate legacy positive control locally; transport families remain
-unavailable. All 44 unchanged native methods pass locally against that successor.
+or capability. At `7da91467` the earlier partial successor passed the pure storage/guard method,
+the separate legacy positive and all 44 unchanged native methods locally. The new
+transport prototype preserves already-authored multi-function ABI corrections as
+WIP pending owner decision under the
+[latest rule](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6909553282).
+Do not execute dependent transport paths until those decisions; historical results
+are not passes for new source.
 
 ## Running relevant checks
 

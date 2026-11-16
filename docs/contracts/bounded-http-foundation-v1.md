@@ -1,4 +1,9 @@
-# Bounded selected HTTP foundation — v1, correction R3
+# Bounded selected HTTP foundation — v1, correction R4
+
+R4 adds the accepted shutdown seam. Other SDK-only additions below are proposals
+for existing R3 behavior, with per-correction dispositions in PR #664; multi-function
+corrections await the owner decision required on 2026-11-16. First-party declarations
+and reviewed oracles are unchanged.
 
 APICONTRACT-005; identity `subathon.bounded-http-foundation.v1`. Normative
 **proposal**, not implemented or admitted. R2 addressed initial-review findings
@@ -63,6 +68,13 @@ by first-party code. Proposed SDK headers are
 and SDK headers; neither DSO includes or links first-party Foundation, Result,
 ElapsedSource or callback types. The following private ABI shapes are normative;
 SDK pointer cookies are usable only by their installed producer/connection.
+R4 operational additions are IO0-only, noexcept, nonallocating and idempotent;
+`native_registration` is the immutable creating-thread preflight already required
+below. Storage access returns only the actual peer's precharged SDK metadata or
+reserved control slot; receive wiping forwards actual mapped subranges to the
+existing raw hooks. Capacity/parse queries convey existing admission/deadline
+checks; native events/handoff and wire-held queries report actual SDK operations.
+The installed eventfd is the same fixed mailbox/cleanup wake, never a payload queue.
 
 ```cpp
 namespace trantor::bounded_io {
@@ -83,6 +95,9 @@ class PeerStorage { // first-party implementation; SDK holds through removal
 public:
     virtual ~PeerStorage() = default;
     virtual std::span<std::byte> receive_with_prefix() noexcept = 0;
+    virtual std::span<std::byte> sdk_storage() noexcept = 0;
+    virtual std::span<std::byte> control_storage() noexcept = 0;
+    virtual bool wipe_receive(std::span<std::byte>, bool pending) noexcept = 0;
     virtual void attached(Transport&) noexcept = 0;
     virtual void read_witness(ReadWitness) noexcept = 0;
     virtual void wire_released(void* release_cookie) noexcept = 0;
@@ -94,8 +109,10 @@ class Producer { // first-party implementation, installed before run
 public:
     virtual ~Producer() = default;
     virtual Sample sample() noexcept = 0;
+    virtual bool accepting(Role) noexcept = 0;
     virtual bool transient(bool acquire) noexcept = 0;
     virtual PeerStorage* acquire(Role, Sample accepted) noexcept = 0;
+    virtual bool before_parse(PeerStorage&) noexcept = 0;
     virtual bool before_read(PeerStorage&, ReadWitness) noexcept = 0;
     virtual void owner_turn() noexcept = 0;
 };
@@ -108,6 +125,7 @@ struct Head { std::span<const std::byte> raw;
               std::span<const Field> fields; bool syntax_bad;
               U64 raw_bytes, field_count, semantic_bytes, max_field_bytes, line_bytes; };
 struct Decision { std::uint16_t status; U64 body_bytes; }; // status=0 admits
+enum class NativeEvent : std::uint8_t { opened, message, closed };
 class Sink { // first-party implementation; existing parser invokes on IO0
 public:
     virtual ~Sink() = default;
@@ -115,6 +133,9 @@ public:
     virtual bool body(trantor::bounded_io::PeerStorage&,
                       std::span<const std::byte>) noexcept = 0;
     virtual void complete(trantor::bounded_io::PeerStorage&) noexcept = 0;
+    virtual void native_event(trantor::bounded_io::PeerStorage&,
+        const std::shared_ptr<WebSocketConnection>&, NativeEvent) noexcept = 0;
+    virtual void native_handoff(trantor::bounded_io::PeerStorage&, U64, bool) noexcept = 0;
 };
 struct Endpoint { std::array<char,46> address; std::uint16_t port; };
 class Runtime { // SDK implementation, private installation, one per process
@@ -122,9 +143,15 @@ public:
     static bool install(trantor::bounded_io::Producer&, Sink&, U64 peers) noexcept;
     static bool listener(HttpAppFramework&, Endpoint,
                          trantor::bounded_io::Role) noexcept;
+    static bool stop_acceptors() noexcept; // R4: actual removal, polled on IO0
+    static void poll() noexcept; // R4: fixed SDK cleanup/continuations on IO0
+    static bool bind_wake(trantor::bounded_io::Producer&, int eventfd) noexcept;
+    static std::size_t render_reply(std::span<std::byte>, std::uint16_t, U64, bool) noexcept;
+    static const native_profile::NativeRegistration* native_registration() noexcept;
     // Private fixture instrumentation; absent from the NI target's dependencies.
     static bool arm_first_wire() noexcept;
     static bool release_wire() noexcept;
+    static bool wire_held() noexcept;
 };
 }
 ```
@@ -513,7 +540,12 @@ the owner closes or waits under the original request deadline, with no reply que
 stop first records and preserves ONE absolute deadline, closes admission for all
 later posts, and wakes IO0. Later stop calls (earlier or later arguments) coalesce
 without changing it. Already committed nonsecret output may drain until the
-original output/stop bound; uncommitted requests/replies cancel. IO0 removes both
+original output/stop bound; uncommitted requests/replies cancel.
+R4 `Runtime::stop_acceptors()` starts removal once and returns true only after both
+channels leave the poller, both listening descriptors close and both acceptor
+objects pass the active event batch; owner_turn/fixed scan polls it without
+allocation or quitting a loop.
+IO0 removes both
 acceptors, then actual peers/nodes/callbacks, and awaits native retirement AND the
 SDK-object/control-block deletion fences. When
 there is no network owner, executing/pending callback or removal work (apart from
