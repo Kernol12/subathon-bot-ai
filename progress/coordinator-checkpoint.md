@@ -31,10 +31,10 @@ of the list; the owner decided them on 2026-11-16 ([record](https://github.com/K
 in two parts (below); `local-login-authority-v1.md`, `session-lifecycle-v1.md` and
 `guarded-enrollment-recovery-v1.md` get pointer-only changes in step 1.
 
-The reply rule was decided twice; the [second decision](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6914837587) holds: the host withholds a
-reply only where the storage outcome is uncertain or a callback threw. After a known
-rollback or a busy begin the dispatcher may reply, because the reference units report
-refusals as rollbacks. Two list terms changed with it (`known_rollback_…` and
+The reply rule in its [final form](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6916926039): the host withholds a reply whenever a
+unit's outcome is unknown or something was committed without ending normally;
+otherwise the dispatcher may reply. The reference units report refusals as rollbacks,
+and those must be answered. Two list terms [changed](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6914837587) with it (`known_rollback_…` and
 `busy_begin_…`). Owner condition: API-010 (#560), the first replying dispatcher,
 carries the criterion that a command with a rolled-back unit never yields a success
 reply. §5 of the listener contract gets a pointer-only change as well.
@@ -84,6 +84,14 @@ rules, each recorded on #616:
   defect, the author audits the whole change for that class in the same fix round and
   reports the sites checked. A later finding of the same class is a non-blocking
   follow-up, not a new round. Put this into the review packets and the fix assignment.
+
+API-016 fix round 1 ([owner decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6916925617)): the Codex author's provider flagged one
+run. The same session is retried once with a plain continue, without the duty to
+reproduce each defect with crafted traffic. If it is flagged again, do not retry: a
+Claude session takes over the fix round from the saved patch
+(`build/API-016/coordinator-backup/` in the author's worktree). If the Codex
+verification is flagged, stop and bring that to the owner. Correction 14 is
+provisional.
 
 ## Working rules from the owner (2026-11-15)
 
