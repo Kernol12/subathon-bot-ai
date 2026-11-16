@@ -3,11 +3,13 @@
 
 This is an additive development artifact over the byte-identical API-012 inputs.
 The transport patches and first-party adapter are work in progress. R4's shutdown
-seam is accepted; other already-authored multi-function ABI corrections await owner
-decision under the numbered **Contract corrections** section of PR #664. Their code
-is preserved visibly, but dependent development/execution has stopped. No complete
+seam is accepted; corrections 2–8 were provisionally approved by the owner on
+2026-11-16 under the numbered **Contract corrections** section of PR #664. The final
+R4 interface remains subject to tier A review. No complete
 HTTP transport, native binding/retirement integration or resource proof is claimed.
-The ABI marker identifies the generation, not completed behavior or owner approval.
+The frozen F01 basic subtest passed locally behind the technical gate; the full
+literal-wire method still fails. Transport work stops at that owner-defined milestone.
+The ABI marker identifies the generation, not completed behavior or review approval.
 
 `manifest.json` binds the parent manifest, exact upstreams, all three ordered
 patches, original and derived native source and the unchanged sixteen build options.

@@ -1,8 +1,8 @@
 # Bounded selected HTTP foundation — v1, correction R4
 
-R4 adds the accepted shutdown seam. Other SDK-only additions below are proposals
-for existing R3 behavior, with per-correction dispositions in PR #664; multi-function
-corrections await the owner decision required on 2026-11-16. First-party declarations
+R4 adds the accepted shutdown seam. Corrections 2–8 are provisionally approved
+by the owner on 2026-11-16 for existing R3 behavior, with dispositions in PR #664.
+The final R4 interface remains subject to tier A review. First-party declarations
 and reviewed oracles are unchanged.
 
 APICONTRACT-005; identity `subathon.bounded-http-foundation.v1`. Normative

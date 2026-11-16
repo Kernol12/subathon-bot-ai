@@ -11,16 +11,16 @@ priority is a vertical slice that starts the server, runs one timer and accepts 
 fake contribution (see the [checkpoint](../progress/coordinator-checkpoint.md)).
 
 API-016 has an additive SDK build/seal, technical consumer gate and an authored
-transport prototype. The shutdown correction is accepted; the other multi-function
-ABI corrections already authored under the earlier ruling are now preserved as WIP
-and await owner decision in the numbered **Contract corrections** section of
-[PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664). Their dependent
-implementation/execution is paused under the
-[latest owner rule](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6909553282).
-At `7da91467`, local development passed 44 unchanged native methods, the foundation
-legacy positive and storage/guard method; 33 foundation methods stopped at NI.
-Those historical development results do not certify the new prototype, complete
-resource/retirement proof or successor CI integration. No binary is admitted by review.
+transport prototype. Correction 1 (shutdown) is accepted; corrections 2–8 were
+provisionally approved by the owner on 2026-11-16 for continued development in
+[PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664). The final R4 interface
+still requires tier A review. The frozen F01 basic subtest passed locally against a
+freshly prepared and technically gated successor SDK: exact 52-byte request,
+66-byte reply and clean shutdown. The full literal-wire method ran unchanged:
+88/97 subtests passed and nine failed (native101/Host validation); the method fails.
+Transport work stops at this owner-defined milestone. Complete transport/resource
+bounds, native101 integration and successor CI integration remain unverified.
+No binary is admitted by review.
 
 ## Historical source-bound summary
 
