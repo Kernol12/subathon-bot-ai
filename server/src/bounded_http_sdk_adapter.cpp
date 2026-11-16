@@ -222,10 +222,7 @@ struct Core final : io::Producer, sdk::Sink {
             p.has_end = true;
         }
     }
-    void terminate(PeerRecord &p, End end) noexcept {
-        choose(p, end);
-        p.close_requested = true;
-        p.wanted = false;
+    void return_unqueued_output(PeerRecord &p) noexcept {
         // A reservation without an actual wire node has no SDK release callback.
         if (!p.committed && p.output != none) {
             output(p.output).owner = nullptr;
@@ -234,6 +231,12 @@ struct Core final : io::Producer, sdk::Sink {
             observation.current.output_capacity -= limits.reply_bytes + 128;
             observation.current.metadata_charge -= 128;
         }
+    }
+    void terminate(PeerRecord &p, End end) noexcept {
+        choose(p, end);
+        p.close_requested = true;
+        p.wanted = false;
+        return_unqueued_output(p);
         if (p.transport && !p.socket_gone)
             p.transport->close();
     }
@@ -657,7 +660,7 @@ struct Factory {
 };
 namespace {
 std::span<std::byte> PeerRecord::control_storage() noexcept {
-    if (control || close_requested)
+    if (control || socket_gone || close_requested)
         return {};
     if (!core->guard(*this))
         return {};
@@ -1002,6 +1005,7 @@ void Core::owner_turn() noexcept {
             --observation.current.native_retiring;
         }
         if (p.socket_gone) {
+            return_unqueued_output(p);
             if (!p.has_end)
                 choose(p, End::disconnected);
             release_raw(p);

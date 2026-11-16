@@ -657,7 +657,12 @@
  }
  TcpConnectionImpl::~TcpConnectionImpl()
  {
-@@ -135,6 +147,22 @@
+@@ -131,10 +143,26 @@
+ {
+     // LOG_TRACE<<"read Callback";
+     loop_->assertInLoopThread();
+-    if (nativeProfileChannelRemoved_) return;
++    if (nativeProfileChannelRemoved_ || (bounded_ && bounded_->closing)) return;
      auto native = nativeProfileIo();
      if (native && native->read(socketPtr_->fd()))
          return;
