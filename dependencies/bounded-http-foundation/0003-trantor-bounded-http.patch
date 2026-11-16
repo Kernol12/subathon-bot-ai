@@ -49,7 +49,7 @@
      trantor/net/EventLoopThreadPool.h
 --- /dev/null
 +++ b/trantor/net/BoundedIo.cc
-@@ -0,0 +1,26 @@
+@@ -0,0 +1,33 @@
 +// SPDX-License-Identifier: GPL-3.0-or-later
 +#include <trantor/net/BoundedIoInternal.h>
 +#include <cerrno>
@@ -61,7 +61,14 @@
 +
 +namespace { int wake_fd=-1; bool gate_armed=false, gate_used=false; Slot *held=nullptr; }
 +void bind_wake_fd(int fd) noexcept { wake_fd=fd; }
-+void Slot::wake() noexcept { if(wake_fd>=0) { const std::uint64_t one=1; (void)::write(wake_fd,&one,sizeof(one)); } }
++// Coalesced nonblocking wake; the fixed scan also consumes deletion intents.
++void Slot::wake() noexcept {
++    if(wake_fd<0) return;
++    const std::uint64_t one=1;
++    ssize_t result;
++    do { result=::write(wake_fd,&one,sizeof(one)); } while(result<0 && errno==EINTR);
++    // EAGAIN means a wake is already pending; other errors retain the scan fallback.
++}
 +void TcpDelete::operator()(TcpConnectionImpl*) const noexcept {
 +    auto *s=slot;
 +    s->inflight.fetch_add(1,std::memory_order_acq_rel);
