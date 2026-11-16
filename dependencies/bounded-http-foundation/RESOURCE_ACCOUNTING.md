@@ -104,7 +104,8 @@ completion publications fit the existing startup-bookkeeping allowance; they add
 no heap or payload queue. Physical peer/control/request pool sizes are unchanged.
 
 Runtime::observe (correction 15) returns actual map-carrier/batch/stock-output
-operations and actual projected headers/cookies map sizes. The private Trantor
+operations, actual completed TCP constructors/retained SDK records through their
+final fence, and actual projected headers/cookies map sizes. The private Trantor
 counter is incremented at the stock list-insert/append sites; selected ordinary
 paths are forbidden to reach them. ReadSample.iovcnt comes from readv's actual
 argument, and read_min_writable/peaks are updated from actual guards/acquisitions.

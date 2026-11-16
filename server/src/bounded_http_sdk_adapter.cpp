@@ -687,8 +687,6 @@ void PeerRecord::native_retired() noexcept {
 void PeerRecord::attached(io::Transport &t) noexcept {
     transport = &t;
     attached_once = true;
-    ++core->observation.current.constructed;
-    ++core->observation.current.sdk_retained_peers;
     core->peaks();
     try {
         auto h = Factory::issue<Peer>(*core, *this, peer_bit, 0);
@@ -1039,7 +1037,6 @@ void Core::owner_turn() noexcept {
             p.revoked.store(true, std::memory_order_release);
             p.transport = nullptr;
             if (p.attached_once) {
-                --observation.current.sdk_retained_peers;
                 (void)callback([&] { callbacks.removed(callbacks.owner, p.context); });
             }
         }
@@ -1076,7 +1073,7 @@ void Core::owner_turn() noexcept {
                 p.mailbox = 0;
             desired = p.desired;
             p.desired = -1;
-            p.executing = intents;
+            p.executing = intents | (desired >= 0 ? 4u : 0u);
         }
         if (intents & 2)
             terminate(p, End::cancelled);
@@ -1357,6 +1354,10 @@ Result<Observation> Foundation::inspect() const noexcept {
     c.peaks();
     sdk::Facts facts{};
     if (!sdk::Runtime::observe(c,facts)) return Error::unavailable;
+    c.observation.current.constructed=facts.constructed;
+    c.observation.current.sdk_retained_peers=facts.sdk_retained_peers;
+    c.observation.peak.constructed=facts.constructed;
+    c.observation.peak.sdk_retained_peers=facts.peak_sdk_retained_peers;
     c.observation.stock_maps=facts.stock_maps;
     c.observation.stock_batches=facts.stock_batches;
     c.observation.stock_output_appends=facts.stock_output_appends;
@@ -1369,7 +1370,7 @@ Result<Observation> Foundation::inspect() const noexcept {
     {
         std::lock_guard lock(c.mutex);
         for (U64 i = 0; i < c.limits.peers; ++i)
-            if (c.record(i).mailbox || c.record(i).executing)
+            if (c.record(i).mailbox || c.record(i).desired >= 0 || c.record(i).executing)
                 ++o.current.pending_wakes;
         o.peak.pending_wakes=c.peak_pending;
     }
@@ -1404,7 +1405,7 @@ Result<Post> Foundation::post(const Wake &h, Intent intent) noexcept {
     }
     U64 pending=0;
     for (U64 i=0;i<c.limits.peers;++i)
-        if(c.record(i).mailbox || c.record(i).executing) ++pending;
+        if(c.record(i).mailbox || c.record(i).desired>=0 || c.record(i).executing) ++pending;
     c.peak_pending=std::max(c.peak_pending,pending);
     const U64 one = 1;
     const auto n = ::write(c.event_fd, &one, sizeof(one));

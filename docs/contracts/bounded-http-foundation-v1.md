@@ -73,8 +73,8 @@ R4 operations are noexcept. Transport/PeerStorage/Sink operations and Runtime
 poll/stop_acceptors/bind_wake/render_reply/observe/release_wire/wire_held are IO0-only
 (except native_retired, which latches/wakes on any ordinary thread). Runtime
 install/install_failure/discard/native_registration/arm_first_wire run on the
-creating thread; listener runs on framework-main before run. Operational cleanup
-and guards are nonallocating and idempotent;
+creating thread; listener runs on framework-main before run. Lifecycle removal is idempotent; operational guards are nonallocating and
+have the admission/clock/budget side effects described below;
 `native_registration` is the immutable creating-thread preflight already required
 below. Storage access returns only the actual peer's precharged SDK metadata or
 reserved control slot; receive wiping forwards actual mapped subranges to the
@@ -134,7 +134,8 @@ struct Head { std::span<const std::byte> raw;
               std::span<const Field> fields; bool syntax_bad;
               U64 raw_bytes, field_count, semantic_bytes, max_field_bytes, line_bytes; };
 struct Facts { U64 stock_maps, stock_batches, stock_output_appends,
-               native_projected_fields, native_projected_cookies; }; // correction 15
+               native_projected_fields, native_projected_cookies, constructed,
+               sdk_retained_peers, peak_sdk_retained_peers; }; // correction 15
 struct Decision { std::uint16_t status; U64 body_bytes; }; // status=0 admits
 enum class NativeEvent : std::uint8_t { opened, message, closed };
 class Sink { // first-party implementation; existing parser invokes on IO0
@@ -206,7 +207,9 @@ dependencies, not additional foundation authority.
 
 Correction 15 adds one IO0-only nonallocating Runtime::observe(Producer&, Facts&)
 query, bound to the actual installed producer. It snapshots actual stock request
-map/batch/output append operations and actual sanitized projection map sizes.
+map/batch/output append operations and actual sanitized projection map sizes, actual completed TCP constructors
+and retained SDK records through their final fence. pending_wakes counts peers
+with any pending or executing intent, including admission/suspension.
 The iovec witness comes from readv's argument, and first-party capacity/charge
 peaks and minimum writable values come from actual operations. No observation is
 supplied by a literal substituting for an event witness.

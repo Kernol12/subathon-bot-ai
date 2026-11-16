@@ -11,7 +11,7 @@
      # set(BUILD_EXAMPLES FALSE)
 --- /dev/null
 +++ b/lib/inc/drogon/BoundedHttp.h
-@@ -0,0 +1,76 @@
+@@ -0,0 +1,77 @@
 +// SPDX-License-Identifier: GPL-3.0-or-later
 +#pragma once
 +#include <array>
@@ -35,7 +35,8 @@
 +    U64 raw_bytes, field_count, semantic_bytes, max_field_bytes, line_bytes;
 +};
 +struct Facts { U64 stock_maps{}, stock_batches{}, stock_output_appends{},
-+    native_projected_fields{}, native_projected_cookies{}; };
++    native_projected_fields{}, native_projected_cookies{}, constructed{},
++    sdk_retained_peers{}, peak_sdk_retained_peers{}; };
 +struct Decision { std::uint16_t status; U64 body_bytes; };
 +enum class NativeEvent : std::uint8_t { opened, message, closed };
 +class Sink {
@@ -112,7 +113,7 @@
  };
 --- /dev/null
 +++ b/lib/src/BoundedHttp.cc
-@@ -0,0 +1,165 @@
+@@ -0,0 +1,168 @@
 +// SPDX-License-Identifier: GPL-3.0-or-later
 +#include "BoundedHttpInternal.h"
 +#include "HttpAppFrameworkImpl.h"
@@ -157,6 +158,9 @@
 +    if(producer!=&p || !loop || !loop->isInLoopThread()) return false;
 +    out=facts;
 +    out.stock_output_appends=trantor::bounded_io::detail::stock_output_appends.load(std::memory_order_relaxed);
++    out.constructed=trantor::bounded_io::detail::constructed.load(std::memory_order_relaxed);
++    out.sdk_retained_peers=trantor::bounded_io::detail::retained.load(std::memory_order_relaxed);
++    out.peak_sdk_retained_peers=trantor::bounded_io::detail::peak_retained.load(std::memory_order_relaxed);
 +    return true;
 +}
 +bool Runtime::install(trantor::bounded_io::Producer &p,Sink &s,U64 peers) noexcept {
