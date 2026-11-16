@@ -501,6 +501,14 @@ def foundation_identity(root: Path, probe: Path, environment: dict, expected: di
                         seal: dict, discovery: dict, ctest_identity: dict, abi: dict) -> None:
     """Technical development gate; the coordinator ruling is not a binary review receipt."""
     sdk = root / "sdk"
+    # Some glibc versions retain the loader cache mapping. It is data, not ELF:
+    # bind its bytes before load and admit no other non-ELF file-backed mapping.
+    elf_expected = expected
+    expected = dict(expected)
+    loader_cache = Path("/etc/ld.so.cache")
+    if loader_cache.exists():
+        require(loader_cache.is_file() and not loader_cache.is_symlink(), "Unexpected loader cache type")
+        expected[str(loader_cache)] = file_identity(loader_cache)
     receipts = root / "receipts/foundation"
     receipts.mkdir(parents=True, exist_ok=True)
     scratch = receipts / "identity-cwd"
@@ -509,6 +517,8 @@ def foundation_identity(root: Path, probe: Path, environment: dict, expected: di
     try:
         result = subprocess.run([str(probe), '{"mode":"identity"}'], cwd=scratch,
                                 env=environment, capture_output=True, text=True, timeout=15)
+        (receipts / "identity.stdout").write_text(result.stdout, encoding="utf-8")
+        (receipts / "identity.stderr").write_text(result.stderr, encoding="utf-8")
         require(result.returncode == 0 and not result.stderr and
                 len(result.stdout.encode()) <= 2097152, "Foundation identity capture/exit fault")
         events = [json.loads(line) for line in result.stdout.splitlines()]
@@ -535,7 +545,8 @@ def foundation_identity(root: Path, probe: Path, environment: dict, expected: di
                         "Unresolved/unexpected foundation mapping")
                 require(file_identity(Path(path)) == expected[path], "Changed foundation mapped file")
                 seen.add(path)
-            require(seen == set(expected), "Foundation loaded map differs from complete passive closure")
+            require(set(elf_expected) <= seen <= set(expected),
+                    "Foundation loaded map differs from passive ELF/data closure")
         write_json(receipts / "identity.json", events)
     finally:
         require(not any(scratch.iterdir()), "Unexpected identity scratch output")
@@ -547,7 +558,7 @@ def foundation_identity(root: Path, probe: Path, environment: dict, expected: di
     source_paths, = [ast.literal_eval(n.value) for n in tree.body if isinstance(n, ast.Assign) and
                     any(isinstance(t, ast.Name) and t.id == "SOURCE_PATHS" for t in n.targets)]
     require(len(source_paths) == len(set(source_paths)) == 13, "Foundation source inventory drift")
-    document = {"source_commit": run("git", "rev-parse", "HEAD"),
+    document = {"source_commit": run("git", "rev-parse", "HEAD").strip(),
                 "review_receipt": RULING,
                 "files": {p: value["sha256"] for p, value in expected.items()},
                 "sources": {p: digest(REPO / p) for p in source_paths}, "environment": environment}
@@ -563,7 +574,7 @@ def foundation_identity(root: Path, probe: Path, environment: dict, expected: di
 def gate(root: Path) -> None:
     sdk = root / "sdk"
     environment = clean_env(sdk)
-    receipts = root / "receipts"
+    receipts = root / "receipts" / CONSUMER if SUCCESSOR else root / "receipts"
     seal = checked_seal(sdk)
     ctest = configured_ctest()
     ctest_identity = {"path": str(ctest), **file_identity(ctest)}
@@ -604,8 +615,11 @@ def gate(root: Path) -> None:
             require(metadata["interpreter"] == ["/lib64/ld-linux-x86-64.so.2"], "Wrong ELF interpreter")
         # libc may itself carry PT_INTERP; it must name the same admitted loader.
         if metadata["interpreter"]:
-            require(metadata["interpreter"] == ["/lib64/ld-linux-x86-64.so.2"],
-                    f"Unadmitted ELF interpreter: {path}")
+            selected_interpreter = metadata["interpreter"] == ["/lib64/ld-linux-x86-64.so.2"]
+            if LOCAL_DEVELOPMENT and len(metadata["interpreter"]) == 1:
+                selected_interpreter = (Path(metadata["interpreter"][0]).resolve(strict=True) ==
+                                        Path("/lib64/ld-linux-x86-64.so.2").resolve(strict=True))
+            require(selected_interpreter, f"Unadmitted ELF interpreter: {path}")
             interpreter = Path(metadata["interpreter"][0]).resolve(strict=True)
             require(interpreter.parent in allowed_dirs, "ELF interpreter alias escapes selected system directories")
             pending.append(interpreter)

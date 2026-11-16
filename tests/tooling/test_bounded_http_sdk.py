@@ -78,6 +78,33 @@ class BoundedHttpSdkTests(unittest.TestCase):
                 self.assertFalse((root / "receipts/foundation/development-admission.json").exists())
                 self.assertFalse((root / "receipts/foundation/identity-cwd").exists())
 
+    def test_successful_identity_receipt_has_canonical_commit_and_passive_data_seal(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            probe = root / "probe"
+            probe.write_bytes(b"synthetic non-executable stand-in")
+            expected = {str(probe): recipe.file_identity(probe)}
+            events = [{"event": "identity", "cplusplus": 202002,
+                       "native_backend": "admitted_corrected", "read_sample_size": 64}]
+            for phase in ("initial", "cleanup"):
+                events += [{"event": "map", "phase": phase,
+                            "line": "0-1 r-xp 00000000 00:00 1 " + str(probe)},
+                           {"event": "maps_end", "phase": phase, "count": 1}]
+            result = subprocess.CompletedProcess([], 0,
+                "\n".join(json.dumps(e) for e in events), "")
+            with patch.object(recipe.subprocess, "run", return_value=result), \
+                 patch.object(recipe, "checked_seal", return_value={}), \
+                 patch.object(recipe, "run", return_value="a" * 40 + "\n"):
+                recipe.foundation_identity(root, probe, {}, expected, {}, {}, {}, {})
+            receipt = json.loads((root / "receipts/foundation/development-admission.json").read_text())
+            self.assertEqual(receipt["source_commit"], "a" * 40)
+            self.assertEqual(receipt["review_receipt"], recipe.RULING)
+            self.assertEqual(receipt["files"][str(probe)], recipe.digest(probe))
+            self.assertEqual(len(receipt["sources"]), 13)
+            cache = Path("/etc/ld.so.cache")
+            if cache.is_file():
+                self.assertEqual(receipt["files"][str(cache)], recipe.digest(cache))
+
 
 if __name__ == "__main__":
     unittest.main()
