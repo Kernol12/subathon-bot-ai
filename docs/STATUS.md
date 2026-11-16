@@ -10,17 +10,13 @@ the reference path; the production server host remains unimplemented. The curren
 priority is a vertical slice that starts the server, runs one timer and accepts one
 fake contribution (see the [checkpoint](../progress/coordinator-checkpoint.md)).
 
-API-016 has an additive SDK build/seal, technical consumer gate and an authored
-transport prototype. Correction 1 (shutdown) is accepted; corrections 2–8 were
-provisionally approved by the owner on 2026-11-16 for continued development in
-[PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664). The final R4 interface
-still requires tier A review. The frozen F01 basic subtest passed locally against a
-freshly prepared and technically gated successor SDK: exact 52-byte request,
-66-byte reply and clean shutdown. The full literal-wire method ran unchanged:
-88/97 subtests passed and nine failed (native101/Host validation); the method fails.
-Transport work stops at this owner-defined milestone. Complete transport/resource
-bounds, native101 integration and successor CI integration remain unverified.
-No binary is admitted by review.
+API-016's bounded HTTP successor passes all 34 foundation methods and 44 unchanged
+native methods locally behind technical consumer gates. Both suites now run as
+ordinary passing suites in the existing `native` CI job. API-012 inputs and frozen
+oracles/public headers remain unchanged. The final R4 interface, source/allocation
+inventory, artifact/recipe/gate and reviewed-head CI still require the tier A cycle;
+see [PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664). Local runs are
+development evidence, never individual binaries admitted by review.
 
 ## Historical source-bound summary
 

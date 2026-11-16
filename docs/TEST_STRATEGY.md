@@ -63,7 +63,7 @@ still using synthetic data and supplied policy/authority facts.
 | `sqlite-reference-authority-debug` | `-L '^sqlite-reference-authority$'` | 59 reviewed Qt methods / 214 invocations; real-SQL current original-author/capability/graph authority and selected historical reads; host/API consumers remain separate |
 | `translation-catalog-debug` | `-L '^translation-catalog$'` | 43 generator methods with literal goldens; build also produces/validates real Qt QM |
 | `native-websocket-profile-debug` | `-L '^native-websocket-profile$'` | 44 reviewed methods passing locally and in selected Ubuntu CI against the corrected Drogon/Trantor SDK: real Linux loopback framing/control/Close, listener isolation, ownership and resource/deadline observations with supplied elapsed time; actual host/TLS/clock/auth/platform gates remain separate |
-| `bounded-http-foundation-debug` | `-L '^bounded-http-foundation$'` | Candidate4 retains the NI target. API-016 selects a transport prototype whose SDK corrections 2–8 are provisionally approved for F01 development; final R4 review remains. No passing HTTP acceptance claim; native dependency only, without Qt/SQL/host scope. |
+| `bounded-http-foundation-debug` | `-L '^bounded-http-foundation$'` | 34 reviewed methods passing locally against the bounded successor, with a mandatory real legacy positive, frozen 97-row wire inventory and actual read/retention/stop observations; native44 is separately gated against the same SDK. Ordinary passing CI, no Qt/SQL/host behavior claim. |
 | `rate-snapshot-debug` | `-L '^rate-snapshot$'` | 53 preserved cases for owned lossless observations, exact effective-table validation and inverse/cross queries; no provider/cache/valuation integration |
 | `schema-validation-debug` | `-L '^schema-validation$'` | 3 nodes: repository OpenAPI/components/examples, canonical proof/policy aggregate and real-SDK proof publication integration; actual HEAD inputs are required |
 
@@ -137,12 +137,14 @@ development receipt for this runner. Its frozen `review_receipt` key links the
 not a review admitting that binary. Local gated runs are development evidence;
 acceptance requires gated CI on the reviewed head. The tier-A cycle reviews the
 recipe, gate, artifact and producer together. The preset name conveys no approval
-or capability. At `7da91467` the earlier partial successor passed the pure storage/guard method,
-the separate legacy positive and all 44 unchanged native methods locally. The new
-transport prototype's corrections 2–8 are provisionally approved for continued
-F01 development by the [owner decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6910817117).
-The final R4 interface remains subject to tier A review; historical results are not
-passes for new source.
+or capability. All 34 foundation methods and 44 unchanged native methods pass
+locally against one prepared successor. Both run as ordinary passing suites in the
+existing `native` job, behind separate gates. The preserved candidate4 NI target
+remains a historical compile/link baseline; it supplies no successor behavior.
+Corrections 2–8 are provisional under the
+[owner decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6910817117);
+corrections 9–10 and the complete final R4 interface are part of the tier A review
+packet. No first-party public declaration or frozen test/oracle was changed.
 
 ## Running relevant checks
 
@@ -170,7 +172,8 @@ the initial-capture prefix for account/session storage; milestone,
 permissions and rate include numeric checks; editorial includes debt and lifecycle.
 Bare acceptance ON defaults to credit. An explicit empty/unknown selection fails;
 `all` explicitly includes every native/translation suite, all required SDKs and the
-host lifecycle and bounded HTTP foundation intentional-red baselines. Rate snapshots are ordinary passing
+host lifecycle intentional-red baselines and the ordinary passing bounded HTTP
+foundation suite. Rate snapshots are ordinary passing
 acceptance. The corrected native WebSocket
 profile itself remains ordinary passing acceptance. Schema validation and configure-only Qt probing remain separate
 controls. The account preset includes the complete compiled SQLite migration prefix:

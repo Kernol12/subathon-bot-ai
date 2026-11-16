@@ -1,12 +1,12 @@
 # Framework-free services and the separately enabled Qt SQL writer boundary.
 if(SUBATHON_BUILD_BOUNDED_HTTP_FOUNDATION_TESTS)
     # Successor component only: never link these definitions into the frozen NI target.
-    # The complete producer will consume this object library alongside its SDK adapter.
+    # Shared pure preflight also guards the successor SDK adapter.
     add_library(subathon_bounded_http_storage OBJECT src/bounded_http_storage.cpp)
     target_include_directories(subathon_bounded_http_storage PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
     subathon_target_options(subathon_bounded_http_storage)
     if(sbt_bounded_http_successor)
-        # In-progress producer; multi-function SDK corrections await owner decision (PR #664).
+        # Successor producer and SDK interfaces are reviewed together in the tier A cycle.
         add_library(subathon_bounded_http_development STATIC src/bounded_http_sdk_adapter.cpp
             $<TARGET_OBJECTS:subathon_bounded_http_storage>)
         target_link_libraries(subathon_bounded_http_development PRIVATE Drogon::Drogon)

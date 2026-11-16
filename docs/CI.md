@@ -13,7 +13,7 @@ latest PR head before merge.
 | `schema-validation (ubuntu-22.04)`, `schema-validation (ubuntu-24.04)` | Real repository schemas and examples with the pinned validators on CPython 3.10 and 3.12 | `schema-validation-debug` |
 | `core` | Every pure GoogleTest suite in one build: time credit, exact numeric, timer lifecycle, pause policy, time debt, timer editorial, milestone progression, effective permissions, rate snapshots, receipt intake, contribution evidence and application plans. Pinned Boost 1.83 | `core-acceptance-debug` |
 | `qt` | Qt 6.12 suites with one shared toolchain setup: all real-SQLite storage suites (including permission graphs and current reference authority) and the application service, password hashing and session resolution against the selected libsodium, translation catalogs, and the development walking skeleton (not the production host) | `sqlite-reference-capture-debug` (including `dev-server`), `password-hashing-debug`, `session-resolution-debug`, `translation-catalog-debug` |
-| `native` | Corrected Drogon SDK: the 44-method native WebSocket loopback profile, then the host lifecycle baseline build and registration check | `native-websocket-profile-debug`, `api-host-native-debug` |
+| `native` | Successor Drogon SDK: all 34 bounded HTTP foundation methods and 44 unchanged native WebSocket methods behind separate consumer gates, then the host lifecycle baseline build/registration check | `bounded-http-foundation-debug`, `api-host-native-debug` |
 
 The single-suite presets (`exact-numeric-debug`, `time-debt-debug` and so on) remain
 for focused local runs; `core-acceptance-debug` selects the same suites together.
@@ -25,9 +25,9 @@ for focused local runs; `core-acceptance-debug` selects the same suites together
   each of its twelve suites is discovered with its labels and timeouts intact.
 - Host lifecycle baselines stay enabled as intentional red: the `native` job compiles
   and inspects their registration but does not run them.
-- The `native` job builds the corrected SDK once. The WebSocket profile prepares,
-  seals and gates it and runs first, so its package and loaded-map gate sees the same
-  host state as before the Qt and Boost packages are installed. The host baseline
+- The `native` job builds the bounded HTTP successor SDK once. It independently
+  gates native44 and foundation consumers and runs both with ordinary success
+  semantics before Qt/Boost installation changes the host package state. The host baseline
   then builds against that same SDK, and a step afterwards rehashes every SDK file
   against the seal to prove the build only read it.
 - Actions and dependencies stay pinned: the checkout action by commit, Qt 6.12.0, ICU
@@ -41,19 +41,21 @@ for focused local runs; `core-acceptance-debug` selects the same suites together
 
 ## Required checks
 
-The additive API-016 SDK currently has a local development build/seal and consumer
-gate in `tools/native_websocket_ci.py` (`--profile bounded-http-foundation`). Each
-consumer gets a separate passive ELF/ABI closure, controlled identity and actual
-loaded-map comparison with unchanged SDK/binary seals. Foundation maps also bind
-the loader cache as data before load when present. The gate's local-development
-mode records actual Arch packages; it does not substitute for the pinned Ubuntu
-lane. These local runs are development evidence, never a binary admitted by review.
-Acceptance requires gated CI on the reviewed head and tier-A review of the recipe,
-gate, artifact and implementation. The `native` job still builds API-012; successor
-CI integration remains unfinished, and the new transport prototype's multi-function
-ABI corrections are provisionally approved for development in
-[PR #664](https://github.com/Kernol12/subathon-bot-ai/pull/664). No job is renamed or
-removed, and the required contexts below are unchanged.
+The API-016 successor is prepared/sealed by `tools/native_websocket_ci.py`
+(`--profile bounded-http-foundation`). Both consumers use the same SDK, each with
+its own passive ELF/ABI closure before loading, controlled identity and loaded-map
+comparison, with unchanged seals. Foundation also binds loader-cache data when
+present. The `native` job verifies both ordinary suite registrations and the
+34-method foundation inventory, then runs native44 and foundation independently.
+No required job is renamed or removed; foundation's intentional-red label is gone.
+The subsequent host baseline build reads that same successor and rechecks its seal.
+
+Local `--local-development` records actual Arch packages and is development
+evidence, not the pinned Ubuntu lane. Local runs are never binaries admitted by
+review. Acceptance remains gated CI on the reviewed head and tier A review of the
+source, artifact, allocation inventory, recipe/gate and final R4 interface. The
+frozen receipt's `review_receipt` field links the execution ruling, not a review
+approving an individual binary.
 
 Ruleset 26170263 protects `main`: PRs with resolved threads, no bypass actors and
 required status checks. The required contexts are the job names above plus
