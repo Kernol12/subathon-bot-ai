@@ -64,6 +64,7 @@ class DrogonTransport final : public Transport, public detail::TransportComposit
     };
     std::shared_ptr<Life> life_ = std::make_shared<Life>();
     std::string scratch_;
+    bool scratch_created_ = false, framework_launched_ = false;
     static DrogonTransport &self(void *p) { return *static_cast<DrogonTransport *>(p); }
     static ConnectionRecord &peer(void *p) { return *static_cast<ConnectionRecord *>(p); }
     void close(ConnectionRecord &p) {
@@ -213,6 +214,12 @@ class DrogonTransport final : public Transport, public detail::TransportComposit
         }
     }
     static void ended(void *, void *context, bh::End) { peer(context).request.reset(); }
+    void retire_native(ConnectionRecord &p) {
+        if (p.native) {
+            p.native.reset();
+            native_live_.fetch_sub(1, std::memory_order_release);
+        }
+    }
     static void removed(void *owner, void *context) {
         auto &s = self(owner);
         auto &p = peer(context);
@@ -220,7 +227,7 @@ class DrogonTransport final : public Transport, public detail::TransportComposit
             s.ingress_->disconnected(*p.host);
         p.host.reset();
         p.request.reset();
-        p.native.reset();
+        s.retire_native(p);
         p.peer.reset();
         {
             std::lock_guard lock(s.mutex_);
@@ -272,11 +279,7 @@ class DrogonTransport final : public Transport, public detail::TransportComposit
             s.close(p);
     }
     static void closed(void *owner, void *context, const native_ws::Connection &) {
-        auto &p = peer(context);
-        if (p.native) {
-            p.native.reset();
-            self(owner).native_live_.fetch_sub(1, std::memory_order_release);
-        }
+        self(owner).retire_native(peer(context));
     }
     // Established native peers keep their unchanged profile Close bound. The
     // foundation must not force-close them before that handshake can drain.
@@ -456,71 +459,99 @@ class DrogonTransport final : public Transport, public detail::TransportComposit
     }
     Result<StartAccepted> start(Ingress &ingress, std::unique_ptr<native_ws::Profile> profile,
                                 StartupObserver startup) override {
-        ingress_ = &ingress;
-        profile_ = std::move(profile);
-        startup_ = std::move(startup);
-        auto *registration = drogon::bounded_http_sdk::Runtime::native_registration();
-        if (!registration || !elapsed_)
+        try {
+            ingress_ = &ingress;
+            profile_ = std::move(profile);
+            startup_ = std::move(startup);
+            auto *registration = drogon::bounded_http_sdk::Runtime::native_registration();
+            if (!registration || !elapsed_)
+                return Failure::unavailable;
+            const auto &nl = registration->limits();
+            peer_count_ = std::size_t(limits_.peers + nl.connections + nl.incomplete_upgrades);
+            peers_ = std::make_unique<ConnectionRecord[]>(peer_count_);
+            for (std::size_t i = 0; i < peer_count_; ++i)
+                peers_[i].mail.resize(std::size_t(limits_.per_peer));
+            wire_.resize(std::size_t(limits_.response_bytes + 1));
+            bh::Limits limits{peer_count_,
+                              limits_.peers,
+                              nl.connections + nl.incomplete_upgrades,
+                              std::min<std::uint64_t>(limits_.input_slots, peer_count_),
+                              std::min<std::uint64_t>(limits_.response_slots, peer_count_),
+                              limits_.envelope_bytes,
+                              limits_.response_bytes,
+                              5000,
+                              5000,
+                              5000,
+                              5000,
+                              10};
+            const std::array<bh::Route, 4> routes{
+                {{"POST", "/api-host/diagnostic", limits_.envelope_bytes, 0, 0},
+                 {"POST", "/api-host/installation", limits_.envelope_bytes, 0, 0},
+                 {"POST", "/api-host/credential", limits_.envelope_bytes, 0, 0},
+                 {"POST", "/api-host/account", limits_.envelope_bytes, 0, 0}}};
+            auto foundation =
+                bh::create(limits, routes, {"/api-host/ws", opened, message, closed}, elapsed_,
+                           {this, connected, request, ready, ended, removed, drained, nullptr});
+            if (!std::holds_alternative<std::unique_ptr<bh::Foundation>>(foundation))
+                return Failure::unavailable;
+            foundation_ = std::move(std::get<std::unique_ptr<bh::Foundation>>(foundation));
+            scratch_ = options_.scratch_parent + "/subathon-host-XXXXXX";
+            if (!::mkdtemp(scratch_.data()))
+                return Failure::unavailable;
+            scratch_created_ = true;
+            fs::create_directory(scratch_ + "/empty");
+            fs::create_directory(scratch_ + "/upload");
+            std::copy(options_.address.begin(), options_.address.end(), endpoints_.address.begin());
+            std::copy(scratch_.begin(), scratch_.end(), endpoints_.scratch_root.begin());
+            configure_app();
+            framework_ = std::thread([this] {
+                bool returned_normally = true;
+                try {
+                    drogon::app().run();
+                } catch (...) {
+                    returned_normally = false;
+                }
+                QMetaObject::invokeMethod(
+                    &owner_,
+                    [this, returned_normally] {
+                        framework_.join();
+                        if (!returned_normally) {
+                            // A native-framework exception is a failed startup, never
+                            // evidence that its partially created owners joined/drained.
+                            startup_(Failure::unavailable);
+                            return;
+                        }
+                        if (!drained_.load() || !ok(foundation_->finish()))
+                            return;
+                        foundation_.reset();
+                        profile_.reset();
+                        elapsed_.reset();
+                        std::error_code error;
+                        fs::remove_all(scratch_, error);
+                        if (error)
+                            return;
+                        auto done = std::move(barrier_);
+                        if (done)
+                            done({true, true, true, true});
+                    },
+                    Qt::QueuedConnection);
+            });
+            framework_launched_ = true;
+            return StartAccepted{};
+        } catch (...) {
+            // The Host consumes failure and calls stop on this creating thread.
             return Failure::unavailable;
-        const auto &nl = registration->limits();
-        peer_count_ = std::size_t(limits_.peers + nl.connections + nl.incomplete_upgrades);
-        peers_ = std::make_unique<ConnectionRecord[]>(peer_count_);
-        for (std::size_t i = 0; i < peer_count_; ++i)
-            peers_[i].mail.resize(std::size_t(limits_.per_peer));
-        wire_.resize(std::size_t(limits_.response_bytes + 1));
-        bh::Limits limits{peer_count_,
-                          limits_.peers,
-                          nl.connections + nl.incomplete_upgrades,
-                          std::min<std::uint64_t>(limits_.input_slots, peer_count_),
-                          std::min<std::uint64_t>(limits_.response_slots, peer_count_),
-                          limits_.envelope_bytes,
-                          limits_.response_bytes,
-                          5000,
-                          5000,
-                          5000,
-                          5000,
-                          10};
-        const std::array<bh::Route, 4> routes{
-            {{"POST", "/api-host/diagnostic", limits_.envelope_bytes, 0, 0},
-             {"POST", "/api-host/installation", limits_.envelope_bytes, 0, 0},
-             {"POST", "/api-host/credential", limits_.envelope_bytes, 0, 0},
-             {"POST", "/api-host/account", limits_.envelope_bytes, 0, 0}}};
-        auto foundation =
-            bh::create(limits, routes, {"/api-host/ws", opened, message, closed}, elapsed_,
-                       {this, connected, request, ready, ended, removed, drained, nullptr});
-        if (!std::holds_alternative<std::unique_ptr<bh::Foundation>>(foundation))
-            return Failure::unavailable;
-        foundation_ = std::move(std::get<std::unique_ptr<bh::Foundation>>(foundation));
-        scratch_ = options_.scratch_parent + "/subathon-host-XXXXXX";
-        if (!::mkdtemp(scratch_.data()))
-            return Failure::unavailable;
-        fs::create_directory(scratch_ + "/empty");
-        fs::create_directory(scratch_ + "/upload");
-        std::copy(options_.address.begin(), options_.address.end(), endpoints_.address.begin());
-        std::copy(scratch_.begin(), scratch_.end(), endpoints_.scratch_root.begin());
-        configure_app();
-        framework_ = std::thread([this] {
-            drogon::app().run();
-            QMetaObject::invokeMethod(
-                &owner_,
-                [this] {
-                    framework_.join();
-                    if (!drained_.load() || !ok(foundation_->finish()))
-                        return;
-                    foundation_.reset();
-                    profile_.reset();
-                    elapsed_.reset();
-                    std::error_code error;
-                    fs::remove_all(scratch_, error);
-                    if (error)
-                        return;
-                    auto done = std::move(barrier_);
-                    if (done)
-                        done({true, true, true, true});
-                },
-                Qt::QueuedConnection);
-        });
-        return StartAccepted{};
+        }
+    }
+    void close_peer(const void *id) override {
+        std::lock_guard lock(mutex_);
+        for (std::size_t i = 0; i < peer_count_; ++i) {
+            auto &p = peers_[i];
+            if (p.live && p.identity == id && p.wake) {
+                (void)foundation_->post(*p.wake, bh::Intent::close);
+                return;
+            }
+        }
     }
     void handoff_peer(const void *id, ResponseLease response) override {
         std::lock_guard lock(mutex_);
@@ -542,6 +573,27 @@ class DrogonTransport final : public Transport, public detail::TransportComposit
         if (stopping_.exchange(true))
             return;
         barrier_ = std::move(barrier);
+        if (!framework_launched_) {
+            // No run() means no sockets, IO callbacks or joins were created.
+            // The existing foundation destructor verifies creator ownership and
+            // discards the unstarted SDK binding (including listener records).
+            foundation_.reset();
+            profile_.reset();
+            elapsed_.reset();
+            peers_.reset();
+            peer_count_ = 0;
+            if (scratch_created_) {
+                std::error_code error;
+                fs::remove_all(scratch_, error);
+                if (error)
+                    return; // An incomplete cleanup is not a barrier.
+                scratch_created_ = false;
+            }
+            life_->target.store(nullptr, std::memory_order_release);
+            auto done = std::move(barrier_);
+            done({true, true, true, true});
+            return;
+        }
         if (foundation_) {
             if (native_live_.load(std::memory_order_acquire)) {
                 auto *loop = native_loop_.load(std::memory_order_acquire);

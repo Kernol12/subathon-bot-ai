@@ -7,6 +7,7 @@ class TransportComposition {
   public:
     virtual ~TransportComposition() = default;
     virtual void peer_connected(const void *) = 0;
+    virtual void close_peer(const void *) = 0;
     virtual void handoff_peer(const void *, ResponseLease) = 0;
     virtual void configure(std::shared_ptr<const native_ws::ElapsedSource>, const Limits &) = 0;
 };

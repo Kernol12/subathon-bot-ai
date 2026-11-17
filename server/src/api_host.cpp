@@ -32,14 +32,18 @@ struct Record {
     RouteId route{};
     std::array<std::byte, 256> correlation{};
     std::size_t correlation_size = 0;
-    std::vector<std::byte> input;
+    std::unique_ptr<std::byte[]> input;
+    U64 input_size = 0, input_charge = 0, reply_charge = 0;
     std::optional<OwnedReply> reply;
     bool announced = false, entered = false, terminal = false, withheld = false;
     bool input_charged = true, reply_charged = false, responding = false;
     bool body = false, callback = false, operation = false, ended = false;
     std::atomic<bool> abandoned{false};
     End end = End::idle;
-    CommandView view() const { return {route, {correlation.data(), correlation_size}, input}; }
+    CommandView view() const {
+        return {
+            route, {correlation.data(), correlation_size}, {input.get(), std::size_t(input_size)}};
+    }
 };
 static_assert(sizeof(Record) <= 512);
 struct Response {
@@ -65,9 +69,11 @@ struct Engine : std::enable_shared_from_this<Engine> {
     std::atomic<U64> ordinal{0};
     U64 next_id = 0;
     std::optional<U64> owner_time, io_time;
+    std::optional<std::thread::id> io_owner;
+    const native_ws::ElapsedSource *profile_source = nullptr;
     std::optional<subathon::server::testing::WorkControlFault> cold_fault;
     bool started = false, transport_started = false, writer_stopping = false, failed = false;
-    bool dispatching = false;
+    bool dispatching = false, writer_open = false;
     std::function<void(std::shared_ptr<Record>)> execute, deliver;
     StartupObserver startup;
     Engine(Options o, std::unique_ptr<Transport> t, std::unique_ptr<CommandDispatcher> d)
@@ -86,6 +92,8 @@ struct Engine : std::enable_shared_from_this<Engine> {
                      refusal,
                      admission,
                      end};
+        // SqliteWriter revokes its ticket before invoking ANY completion. This
+        // flag describes that structural callback invariant, not a new SQL probe.
         if (work)
             e.work =
                 obs::WorkObservation{work->transaction, work->error, work->value.has_value(), true};
@@ -139,8 +147,9 @@ struct Engine : std::enable_shared_from_this<Engine> {
     void release_input_locked(const std::shared_ptr<Record> &r) {
         if (!r->input_charged)
             return;
-        release(snapshot.input, r->input.capacity());
-        std::vector<std::byte>().swap(r->input);
+        release(snapshot.input, r->input_charge);
+        r->input.reset();
+        r->input_size = r->input_charge = 0;
         r->input_charged = false;
     }
     void release_record_locked(const std::shared_ptr<Record> &r) {
@@ -160,7 +169,8 @@ struct Engine : std::enable_shared_from_this<Engine> {
         r->end = reason;
         if (r->reply_charged) {
             std::lock_guard lock(mutex);
-            release(snapshot.response, r->reply->bytes.capacity());
+            release(snapshot.response, r->reply_charge);
+            r->reply_charge = 0;
             r->reply_charged = false;
         }
         r->reply.reset();
@@ -180,6 +190,7 @@ struct Engine : std::enable_shared_from_this<Engine> {
         }
         if (!first)
             return;
+        started = true; // A consumed cold stop also consumes this process's attempt.
         const auto now = sample();
         const auto until = now ? deadline(*now, options.limits.drain_ms) : std::nullopt;
         {
@@ -187,8 +198,8 @@ struct Engine : std::enable_shared_from_this<Engine> {
             snapshot.drain_deadline = until;
         }
         event(K::stop_consumed);
-        if (active && !active->terminal)
-            end(active, End::stopping);
+        // A stop revokes forwarding/reply authority, not the handle's once-only
+        // end. Accepted completions may still finish(nullopt) after this turn.
         if (transport_started) {
             transport->stop({until.value_or(0)}, [weak = weak_from_this()](NetworkBarrier b) {
                 if (auto self = weak.lock())
@@ -216,9 +227,24 @@ struct Engine : std::enable_shared_from_this<Engine> {
             snapshot.network_barrier = true;
         }
     }
+    Failure fail_start(Failure failure = Failure::unavailable) {
+        failed = true;
+        stop_requested.store(true, std::memory_order_release);
+        consume_stop();
+        cleanup();
+        return failure;
+    }
     void cleanup() {
         if (!stopping() || active || dispatching)
             return;
+        {
+            std::lock_guard lock(mutex);
+            if (std::any_of(records.begin(), records.end(),
+                            [](const auto &r) { return r && !r->entered; }))
+                return;
+        }
+        if (writer && !writer_open)
+            writer.reset();
         if (writer && !writer_stopping) {
             writer_stopping = true;
             const auto accepted = writer->shutdown([this] {
@@ -240,12 +266,14 @@ struct Engine : std::enable_shared_from_this<Engine> {
         bool ready;
         {
             std::lock_guard lock(mutex);
-            ready = snapshot.network_barrier && snapshot.writer_barrier && !snapshot.owner_cleanup;
+            ready = snapshot.network_barrier && snapshot.writer_barrier &&
+                    !snapshot.owner_cleanup && snapshot.associations == 0;
         }
         if (!ready)
             return;
         dispatcher.reset();
         event(K::dispatcher_destroyed);
+        profile_source = nullptr;
         elapsed.reset();
         hooks.elapsed.reset();
         event(K::source_destroyed);
@@ -267,15 +295,20 @@ struct Engine : std::enable_shared_from_this<Engine> {
         if (r->abandoned.load() && !r->terminal)
             end(r, End::abandoned);
         if (!r->terminal && !r->pending)
-            end(r, End::idle);
+            end(r, stopping() ? End::stopping : End::idle);
         if (r->pending || r->callback || r->body)
             return;
         // A chosen reply becomes transport-owned only after normal callback return.
         if (r->reply) {
             if (stopping())
                 end(r, End::stopping);
-            else
-                deliver(r);
+            else {
+                try {
+                    deliver(r);
+                } catch (...) {
+                    end(r, End::callback_exception);
+                }
+            }
         }
         if (!r->ended) {
             r->ended = true;
@@ -293,7 +326,8 @@ struct Engine : std::enable_shared_from_this<Engine> {
     }
     void turn() {
         consume_stop();
-        // Announce all retained admissions on Qt, outside the lock, before entry.
+        // Announce retained admissions on Qt outside the lock, before entry.
+        // Slot traversal is not a FIFO-order promise; dispatch selects by id.
         for (auto &slot : records) {
             std::shared_ptr<Record> r;
             {
@@ -325,23 +359,35 @@ struct Engine : std::enable_shared_from_this<Engine> {
         }
         consume_stop();
         std::optional<Failure> denied;
-        if (stopping())
-            denied = Failure::stopping;
-        else if (!r->peer->live.load())
-            denied = Failure::disconnected;
-        else {
-            const auto now = sample();
-            if (!now) {
+        const auto now = stopping() ? std::nullopt : sample();
+        bool elapsed_failed = false;
+        {
+            // This is the entry linearization point, shared with IO disconnect.
+            // Sampling/callbacks happen outside this lock; all current gates are
+            // rechecked before committing entry and diagnostic counter transfer.
+            std::lock_guard lock(mutex);
+            const bool retained = std::find(records.begin(), records.end(), r) != records.end();
+            if (stopping())
+                denied = Failure::stopping;
+            else if (!retained || !r->peer->live.load())
+                denied = Failure::disconnected;
+            else if (!now) {
                 denied = Failure::elapsed_unavailable;
+                elapsed_failed = true;
                 r->peer->live.store(false);
             } else if (*now >= r->deadline)
                 denied = Failure::expired;
-            else if (r->route != RouteId::diagnostic) {
-                std::lock_guard lock(mutex);
-                if (!snapshot.storage_active || r->route != RouteId::installation)
-                    denied = Failure::unavailable;
+            else if (r->route != RouteId::diagnostic &&
+                     (!snapshot.storage_active || r->route != RouteId::installation))
+                denied = Failure::unavailable;
+            if (!denied) {
+                r->entered = true;
+                if (r->route == RouteId::diagnostic)
+                    --snapshot.queued_diagnostics;
             }
         }
+        if (elapsed_failed)
+            revoke_peer(r->peer);
         if (denied) {
             event(r->route == RouteId::diagnostic ? K::diagnostic_cancelled : K::command_cancelled,
                   r->id, 0, denied);
@@ -353,17 +399,9 @@ struct Engine : std::enable_shared_from_this<Engine> {
             return;
         }
         active = r;
-        {
-            std::lock_guard lock(mutex);
-            r->entered = true;
-        }
         r->callback = true;
         dispatching = true;
         if (r->route == RouteId::diagnostic) {
-            {
-                std::lock_guard lock(mutex);
-                --snapshot.queued_diagnostics;
-            }
             event(K::diagnostic_entered, r->id);
             try {
                 auto reply = dispatcher->diagnostic(r->view());
@@ -386,13 +424,21 @@ struct Engine : std::enable_shared_from_this<Engine> {
         after_callback(r);
         cleanup();
     }
+    void revoke_peer(const std::shared_ptr<Peer> &peer) {
+        {
+            std::lock_guard lock(mutex);
+            peer->live.store(false);
+        }
+        if (auto *composition = dynamic_cast<detail::TransportComposition *>(transport.get()))
+            composition->close_peer(peer.get());
+    }
     std::optional<Failure> response_gate(const std::shared_ptr<Record> &r) {
         if (stopping())
             return Failure::stopping;
         if (!r->peer->live.load())
             return Failure::disconnected;
         if (!sample()) {
-            r->peer->live.store(false);
+            revoke_peer(r->peer);
             return Failure::elapsed_unavailable;
         }
         return {};
@@ -404,12 +450,17 @@ struct Engine : std::enable_shared_from_this<Engine> {
             return Failure::invalid_completion;
         {
             std::lock_guard lock(mutex);
+            if (stopping())
+                return Failure::stopping;
+            if (!r->peer->live.load())
+                return Failure::disconnected;
             const auto size = reply.bytes.capacity();
             if (reply.bytes.size() > options.limits.response_bytes ||
                 size > options.limits.response_capacity - snapshot.response.capacity ||
                 snapshot.response.copies >= options.limits.response_slots)
                 return Failure::resource_limit;
             charge(snapshot.response, size);
+            r->reply_charge = size;
             r->reply_charged = true;
         }
         r->reply = std::move(reply);
@@ -419,8 +470,12 @@ struct Engine : std::enable_shared_from_this<Engine> {
     }
     ForwardResult forward(const std::shared_ptr<Record> &r, SqliteWriter::Work body,
                           SqliteWriter::WorkCompletion done) {
-        if (r->operation || r->terminal)
+        if (r->operation)
             return Failure::invalid_completion;
+        if (r->terminal) {
+            event(K::forward_refused, r->id, 0, Failure::invalid_completion);
+            return Failure::invalid_completion;
+        }
         if (r->body) {
             end(r, End::premature_finish);
             event(K::forward_refused, r->id, 0, Failure::invalid_completion);
@@ -536,13 +591,19 @@ struct ResponseLease::Impl {
     std::weak_ptr<Engine> engine;
     std::shared_ptr<Response> response;
     std::vector<std::byte> bytes;
-    bool charged = true;
+    std::unique_ptr<std::byte[]> copy;
+    U64 copy_size = 0, byte_charge = 0;
+    bool charged = false;
+    std::span<const std::byte> payload() const {
+        return copy ? std::span<const std::byte>(copy.get(), std::size_t(copy_size))
+                    : std::span<const std::byte>(bytes);
+    }
     ~Impl() {
         if (charged)
             if (auto e = engine.lock()) {
                 {
                     std::lock_guard lock(e->mutex);
-                    Engine::release(e->snapshot.response, bytes.capacity());
+                    Engine::release(e->snapshot.response, byte_charge);
                     if (response.use_count() == 1)
                         e->release_record_locked(response->record);
                 }
@@ -573,7 +634,7 @@ struct Host::Impl {
             auto now = e.sample();
             auto until = now ? Engine::deadline(*now, e.options.limits.handoff_ms) : std::nullopt;
             if (!until) {
-                r->peer->live.store(false);
+                e.revoke_peer(r->peer);
                 e.event(K::operation_refused, r->id, 0, Failure::elapsed_unavailable);
                 e.end(r, End::elapsed_unavailable);
                 return;
@@ -582,10 +643,13 @@ struct Host::Impl {
             lease->engine = engine;
             lease->response = std::make_shared<Response>(Response{r, *until});
             lease->bytes = std::move(r->reply->bytes);
+            lease->byte_charge = r->reply_charge;
+            lease->charged = true;
             {
                 std::lock_guard lock(e.mutex);
                 r->responding = true;
                 r->reply_charged = false;
+                r->reply_charge = 0;
             }
             r->reply.reset();
             if (auto *composition = dynamic_cast<detail::TransportComposition *>(e.transport.get()))
@@ -618,153 +682,158 @@ Result<StartAccepted> Host::start(StartupObserver observer) {
             U64(e.options.writer_limits.pending_batches) >= l.associations;
     if (!valid)
         return Failure::invalid_options;
-    e.elapsed = e.hooks.elapsed;
-    if (!e.elapsed) {
-        auto source = make_linux_monotonic_elapsed();
-        if (auto *p = std::get_if<std::shared_ptr<const native_ws::ElapsedSource>>(&source))
-            e.elapsed = *p;
-        else
-            return Failure::elapsed_unavailable;
-    }
-    auto profile = native_ws::create_profile(e.options.native, e.elapsed);
-    if (!std::holds_alternative<std::unique_ptr<native_ws::Profile>>(profile))
-        return Failure::invalid_options;
-    e.peers.resize(std::size_t(l.peers));
-    e.records.resize(std::size_t(l.associations));
-    e.startup = std::move(observer);
-    {
-        std::lock_guard lock(e.mutex);
-        e.snapshot.state = State::starting;
-    }
-    if (auto *composition = dynamic_cast<detail::TransportComposition *>(e.transport.get()))
-        composition->configure(e.elapsed, l);
-    if (e.stopping()) {
-        e.wake();
-        return StartAccepted{};
-    }
-    e.writer = std::make_unique<SqliteWriter>();
-    if (e.writer->open(QString::fromStdString(e.options.store_path), e.options.writer_limits) !=
-        StorageError::none) {
-        e.failed = true;
-        e.request_stop();
-        return Failure::unavailable;
-    }
-    if (e.cold_fault) {
-        (void)subathon::server::testing::SqliteWriterWorkAccess::inject_next_control_ack_loss(
-            *e.writer, *e.cold_fault);
-        e.cold_fault.reset();
-    }
-    e.transport_started = true;
-    auto accepted = e.transport->start(
-        impl_->ingress, std::move(std::get<std::unique_ptr<native_ws::Profile>>(profile)),
-        [weak = e.weak_from_this()](auto result) {
-            if (auto s = weak.lock())
-                QMetaObject::invokeMethod(
-                    &s->context,
-                    [s, result] {
-                        s->consume_stop();
-                        if (s->stopping())
-                            return;
-                        if (!std::holds_alternative<StartAccepted>(result)) {
+    try {
+        e.elapsed = e.hooks.elapsed;
+        if (!e.elapsed) {
+            auto source = make_linux_monotonic_elapsed();
+            if (auto *p = std::get_if<std::shared_ptr<const native_ws::ElapsedSource>>(&source))
+                e.elapsed = *p;
+            else
+                return e.fail_start(Failure::elapsed_unavailable);
+        }
+        auto profile = native_ws::create_profile(e.options.native, e.elapsed);
+        if (!std::holds_alternative<std::unique_ptr<native_ws::Profile>>(profile))
+            return e.fail_start(std::holds_alternative<native_ws::InvalidConfiguration>(profile)
+                                    ? Failure::invalid_options
+                                    : Failure::unavailable);
+        e.profile_source = e.elapsed.get();
+        e.peers.resize(std::size_t(l.peers));
+        e.records.resize(std::size_t(l.associations));
+        e.startup = std::move(observer);
+        {
+            std::lock_guard lock(e.mutex);
+            e.snapshot.state = State::starting;
+        }
+        if (auto *composition = dynamic_cast<detail::TransportComposition *>(e.transport.get()))
+            composition->configure(e.elapsed, l);
+        if (e.stopping()) {
+            e.wake();
+            return StartAccepted{};
+        }
+        e.writer = std::make_unique<SqliteWriter>();
+        if (e.writer->open(QString::fromStdString(e.options.store_path), e.options.writer_limits) !=
+            StorageError::none) {
+            return e.fail_start();
+        }
+        e.writer_open = true;
+        if (e.cold_fault) {
+            (void)subathon::server::testing::SqliteWriterWorkAccess::inject_next_control_ack_loss(
+                *e.writer, *e.cold_fault);
+            e.cold_fault.reset();
+        }
+        e.transport_started = true;
+        auto accepted = e.transport->start(
+            impl_->ingress, std::move(std::get<std::unique_ptr<native_ws::Profile>>(profile)),
+            [weak = e.weak_from_this()](auto result) {
+                if (auto s = weak.lock())
+                    QMetaObject::invokeMethod(
+                        &s->context,
+                        [s, result] {
+                            s->consume_stop();
+                            if (s->stopping())
+                                return;
+                            if (!std::holds_alternative<StartAccepted>(result)) {
+                                try {
+                                    if (s->startup)
+                                        s->startup(Failure::unavailable);
+                                } catch (...) {
+                                }
+                                s->failed = true;
+                                s->request_stop();
+                                return;
+                            }
+                            s->event(K::listener_ready);
                             try {
                                 if (s->startup)
-                                    s->startup(Failure::unavailable);
+                                    s->startup(StartAccepted{});
                             } catch (...) {
+                                s->failed = true;
+                                s->request_stop();
+                                return;
                             }
-                            s->failed = true;
-                            s->request_stop();
-                            return;
-                        }
-                        s->event(K::listener_ready);
+                            if (!s->stopping()) {
+                                std::lock_guard lock(s->mutex);
+                                s->snapshot.state = State::serving;
+                            }
+                        },
+                        Qt::QueuedConnection);
+            });
+        if (!std::holds_alternative<StartAccepted>(accepted))
+            return e.fail_start();
+        const auto manifest = reference_authority_repository_manifest();
+        const auto head = manifest.steps.back().version;
+        auto admission = SqliteMigrationRunner::enqueue(
+            *e.writer, {MigrationMode::inspect, manifest, {}, {}}, [&e, head](MigrationResult r) {
+                const bool current = r.work.transaction == TransactionOutcome::committed &&
+                                     r.work.error == WorkError::none && r.work.value &&
+                                     r.reason == MigrationReason::none && r.report &&
+                                     r.report->state == CatalogState::current &&
+                                     r.report->version == head &&
+                                     r.report->target_version == head && r.report->applied == 0;
+                e.event(K::inspection_completed, 0, 0,
+                        current ? std::nullopt : std::optional{Failure::unavailable}, r.work);
+                e.consume_stop();
+                if (e.stopping())
+                    return;
+                if (!current) {
+                    e.event(K::operation_refused, 0, 0, Failure::unavailable);
+                    return;
+                }
+                const auto a = e.writer->enqueue_work(
+                    [&e](auto context) -> QVariant {
+                        auto session = context.begin();
                         try {
-                            if (s->startup)
-                                s->startup(StartAccepted{});
+                            SqliteAccountSessionUnit unit(session, {}, e.options.store_limits);
+                            auto facts = unit.read_installation(e.options.installation);
+                            if (!std::holds_alternative<StoredInstallationFacts>(facts)) {
+                                session.rollback();
+                                return false;
+                            }
+                            const auto &f = std::get<StoredInstallationFacts>(facts);
+                            if (f.current.installation_ref != e.options.installation ||
+                                f.current.session_epoch_ref.empty() || f.revision_ref.empty()) {
+                                session.rollback();
+                                return false;
+                            }
+                            session.commit();
+                            return true;
                         } catch (...) {
-                            s->failed = true;
-                            s->request_stop();
-                            return;
-                        }
-                        if (!s->stopping()) {
-                            std::lock_guard lock(s->mutex);
-                            s->snapshot.state = State::serving;
+                            (void)session.cleanup();
+                            throw;
                         }
                     },
-                    Qt::QueuedConnection);
-        });
-    if (!std::holds_alternative<StartAccepted>(accepted)) {
-        e.failed = true;
-        e.request_stop();
-        return Failure::unavailable;
+                    [&e](SqliteWorkResult result) {
+                        const bool installation_ok =
+                            result.transaction == TransactionOutcome::committed &&
+                            result.error == WorkError::none && result.value &&
+                            result.value->toBool();
+                        e.event(K::installation_read_completed, 0, 0,
+                                installation_ok ? std::nullopt
+                                                : std::optional{Failure::unavailable},
+                                result);
+                        e.consume_stop();
+                        if (!e.stopping() && installation_ok) {
+                            {
+                                std::lock_guard lock(e.mutex);
+                                e.snapshot.storage_active = true;
+                            }
+                            e.event(K::activated);
+                        } else if (!e.stopping())
+                            e.event(K::operation_refused, 0, 0, Failure::unavailable);
+                    });
+                if (a == StorageError::none)
+                    e.event(K::installation_read_enqueued);
+                else
+                    e.event(K::operation_refused, 0, 0, Failure::unavailable);
+            });
+        if (admission.error == StorageError::none)
+            e.event(K::inspection_enqueued);
+        else
+            e.event(K::operation_refused, 0, 0, Failure::unavailable);
+        return StartAccepted{};
+    } catch (...) {
+        return e.fail_start();
     }
-    const auto manifest = reference_authority_repository_manifest();
-    const auto head = manifest.steps.back().version;
-    auto admission = SqliteMigrationRunner::enqueue(
-        *e.writer, {MigrationMode::inspect, manifest, {}, {}}, [&e, head](MigrationResult r) {
-            const bool current = r.work.transaction == TransactionOutcome::committed &&
-                                 r.work.error == WorkError::none && r.work.value &&
-                                 r.reason == MigrationReason::none && r.report &&
-                                 r.report->state == CatalogState::current &&
-                                 r.report->version == head && r.report->target_version == head &&
-                                 r.report->applied == 0;
-            e.event(K::inspection_completed, 0, 0,
-                    current ? std::nullopt : std::optional{Failure::unavailable}, r.work);
-            e.consume_stop();
-            if (e.stopping())
-                return;
-            if (!current) {
-                e.event(K::operation_refused, 0, 0, Failure::unavailable);
-                return;
-            }
-            const auto a = e.writer->enqueue_work(
-                [&e](auto context) -> QVariant {
-                    auto session = context.begin();
-                    try {
-                        SqliteAccountSessionUnit unit(session, {}, e.options.store_limits);
-                        auto facts = unit.read_installation(e.options.installation);
-                        if (!std::holds_alternative<StoredInstallationFacts>(facts)) {
-                            session.rollback();
-                            return false;
-                        }
-                        const auto &f = std::get<StoredInstallationFacts>(facts);
-                        if (f.current.installation_ref != e.options.installation ||
-                            f.current.session_epoch_ref.empty() || f.revision_ref.empty()) {
-                            session.rollback();
-                            return false;
-                        }
-                        session.commit();
-                        return true;
-                    } catch (...) {
-                        (void)session.cleanup();
-                        throw;
-                    }
-                },
-                [&e](SqliteWorkResult result) {
-                    const bool installation_ok =
-                        result.transaction == TransactionOutcome::committed &&
-                        result.error == WorkError::none && result.value && result.value->toBool();
-                    e.event(K::installation_read_completed, 0, 0,
-                            installation_ok ? std::nullopt : std::optional{Failure::unavailable},
-                            result);
-                    e.consume_stop();
-                    if (!e.stopping() && installation_ok) {
-                        {
-                            std::lock_guard lock(e.mutex);
-                            e.snapshot.storage_active = true;
-                        }
-                        e.event(K::activated);
-                    } else if (!e.stopping())
-                        e.event(K::operation_refused, 0, 0, Failure::unavailable);
-                });
-            if (a == StorageError::none)
-                e.event(K::installation_read_enqueued);
-            else
-                e.event(K::operation_refused, 0, 0, Failure::unavailable);
-        });
-    if (admission.error == StorageError::none)
-        e.event(K::inspection_enqueued);
-    else
-        e.event(K::operation_refused, 0, 0, Failure::unavailable);
-    return StartAccepted{};
 }
 void Host::request_stop() noexcept { impl_->engine->request_stop(); }
 Inspection Host::inspect() const {
@@ -779,22 +848,32 @@ Result<PeerLease> Ingress::connected() {
     if (e.stopping())
         return Failure::stopping;
     std::shared_ptr<Peer> peer;
+    std::unique_ptr<PeerLease::Impl> lease;
     {
         std::lock_guard lock(e.mutex);
+        if (e.io_owner && *e.io_owner != std::this_thread::get_id())
+            return Failure::wrong_thread;
+        if (e.stopping())
+            return Failure::stopping;
         if (e.snapshot.state != State::serving)
             return Failure::unavailable;
         auto it = std::find(e.peers.begin(), e.peers.end(), nullptr);
         if (it == e.peers.end())
             return Failure::resource_limit;
-        peer = std::make_shared<Peer>();
-        peer->owner = std::this_thread::get_id();
+        try {
+            peer = std::make_shared<Peer>();
+            peer->owner = std::this_thread::get_id();
+            lease = std::make_unique<PeerLease::Impl>(PeerLease::Impl{e.weak_from_this(), peer});
+        } catch (...) {
+            return Failure::resource_limit;
+        }
+        e.io_owner = peer->owner;
         *it = peer;
         e.snapshot.control_charge += 1024;
     }
     if (auto *composition = dynamic_cast<detail::TransportComposition *>(e.transport.get()))
         composition->peer_connected(peer.get());
-    return PeerLease(
-        std::make_unique<PeerLease::Impl>(PeerLease::Impl{e.weak_from_this(), std::move(peer)}));
+    return PeerLease(std::move(lease));
 }
 Result<Admitted> Ingress::try_submit(const PeerLease &p, std::span<const std::byte> correlation,
                                      RouteId route, std::span<const std::byte> bytes) {
@@ -815,15 +894,19 @@ Result<Admitted> Ingress::try_submit(const PeerLease &p, std::span<const std::by
         until = now ? Engine::deadline(*now, e.options.limits.queue_ms) : std::nullopt;
         if (!until) {
             refusal = Failure::elapsed_unavailable;
-            peer->live.store(false);
+            e.revoke_peer(peer);
         }
     }
     if (!refusal) {
         std::lock_guard lock(e.mutex);
         const auto &l = e.options.limits;
-        if (e.snapshot.state != State::serving ||
-            (route != RouteId::diagnostic &&
-             (!e.snapshot.storage_active || route != RouteId::installation)))
+        if (e.stopping())
+            refusal = Failure::stopping;
+        else if (!peer->live.load())
+            refusal = Failure::disconnected;
+        else if (e.snapshot.state != State::serving ||
+                 (route != RouteId::diagnostic &&
+                  (!e.snapshot.storage_active || route != RouteId::installation)))
             refusal = Failure::unavailable;
         else if (correlation.size() > 256 || bytes.size() > l.envelope_bytes ||
                  bytes.size() > l.input_capacity - e.snapshot.input.capacity ||
@@ -840,7 +923,9 @@ Result<Admitted> Ingress::try_submit(const PeerLease &p, std::span<const std::by
             std::copy(correlation.begin(), correlation.end(), r->correlation.begin());
             Engine::charge(e.snapshot.input, bytes.size());
             try {
-                r->input = std::vector<std::byte>(bytes.begin(), bytes.end());
+                r->input_charge = r->input_size = bytes.size();
+                r->input = std::make_unique<std::byte[]>(bytes.size());
+                std::copy(bytes.begin(), bytes.end(), r->input.get());
             } catch (...) {
                 Engine::release(e.snapshot.input, bytes.size());
                 return Failure::resource_limit;
@@ -866,9 +951,11 @@ void Ingress::disconnected(const PeerLease &p) noexcept {
         return;
     auto &e = *impl_->engine;
     const auto peer = p.impl_->peer;
-    peer->live.store(false);
+    if (p.impl_->engine.lock().get() != &e)
+        return;
     {
         std::lock_guard lock(e.mutex);
+        peer->live.store(false);
         for (auto &slot : e.records) {
             auto r = slot;
             if (r && r->peer == peer && !r->entered)
@@ -942,15 +1029,23 @@ Result<CommandView> ResponseLease::take() {
         return Failure::disconnected;
     auto now = e->sample(true);
     if (!now) {
-        r.record->peer->live.store(false);
+        e->revoke_peer(r.record->peer);
         return Failure::elapsed_unavailable;
     }
     if (*now >= r.deadline)
         return Failure::expired;
-    r.consumed = true;
+    {
+        std::lock_guard lock(e->mutex);
+        if (r.consumed)
+            return Failure::invalid_completion;
+        if (!r.record->peer->live.load())
+            return Failure::disconnected;
+        r.consumed = true;
+    }
     e->event(K::local_handoff, r.record->id);
-    return CommandView{
-        r.record->route, {r.record->correlation.data(), r.record->correlation_size}, impl_->bytes};
+    return CommandView{r.record->route,
+                       {r.record->correlation.data(), r.record->correlation_size},
+                       impl_->payload()};
 }
 Result<ResponseLease> ResponseLease::try_copy() const {
     if (!impl_)
@@ -965,25 +1060,41 @@ Result<ResponseLease> ResponseLease::try_copy() const {
         return Failure::disconnected;
     auto now = e->sample(true);
     if (!now) {
-        r.record->peer->live.store(false);
+        e->revoke_peer(r.record->peer);
         return Failure::elapsed_unavailable;
     }
     if (*now >= r.deadline)
         return Failure::expired;
-    auto p = std::make_unique<Impl>();
-    p->charged = false;
-    p->engine = e;
-    p->response = impl_->response;
+    const auto payload = impl_->payload();
+    const auto byte_charge = U64(payload.size());
     {
         std::lock_guard lock(e->mutex);
         auto &pool = e->snapshot.response;
-        if (impl_->bytes.size() > e->options.limits.response_capacity - pool.capacity ||
+        if (!r.record->peer->live.load())
+            return Failure::disconnected;
+        if (r.consumed)
+            return Failure::invalid_completion;
+        if (byte_charge > e->options.limits.response_capacity - pool.capacity ||
             pool.copies >= e->options.limits.response_slots)
             return Failure::resource_limit;
-        Engine::charge(pool, impl_->bytes.size());
-        p->charged = true;
+        Engine::charge(pool, byte_charge);
     }
-    p->bytes = impl_->bytes;
+    std::unique_ptr<Impl> p;
+    try {
+        p = std::make_unique<Impl>();
+        p->engine = e;
+        p->response = impl_->response;
+        p->byte_charge = p->copy_size = byte_charge;
+        p->charged = true;
+        p->copy = std::make_unique<std::byte[]>(std::size_t(byte_charge));
+        std::copy(payload.begin(), payload.end(), p->copy.get());
+    } catch (...) {
+        if (!p) {
+            std::lock_guard lock(e->mutex);
+            Engine::release(e->snapshot.response, byte_charge);
+        }
+        return Failure::resource_limit;
+    }
     return ResponseLease(std::move(p));
 }
 void ResponseLease::reset() noexcept { impl_.reset(); }
@@ -1014,6 +1125,8 @@ testing::HostAccess::inject_next_control_ack_loss(Host &h,
 }
 testing::ElapsedIdentity testing::HostAccess::elapsed_identity(const Host &h) {
     const auto *source = h.impl_->engine->elapsed.get();
-    return {source, source};
+    // Profile identity is the actual create_profile argument recorded at construction,
+    // not a sampled clock observation or a query of a fabricated profile facade.
+    return {source, h.impl_->engine->profile_source};
 }
 } // namespace subathon::server::api_host
