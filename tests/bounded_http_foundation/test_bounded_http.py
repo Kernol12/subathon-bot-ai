@@ -639,7 +639,8 @@ class FoundationTests(unittest.TestCase):
                 print(diagnostic, flush=True)
                 break
             print(f"N5 scenario not established {attempt + 1}/3: {rendered}", flush=True)
-            p.cleanup()
+            # Disposal alone can hide stderr/exit90; require the existing clean-stop gate.
+            p.stop()
         else:
             self.fail("FIXTURE: N5 scenario not established in three attempts; not red")
         # A valid witness admits product assertions exactly once; none is retried.

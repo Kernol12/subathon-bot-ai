@@ -381,7 +381,7 @@ and artifact seals remain. Static sizes and bounds are authored, not compiled.
 The gate cannot guarantee kernel ready ordering or prevent a pending SDK poll from
 draining101 first. Owner correction1 permits at most three fresh-child attempts
 only when the received overlap tuple misses its exact predicate. Each miss prints
-its bounded tuple as "scenario not established" and cleans up before another child.
+its bounded tuple as "scenario not established" and passes normal stop before another child.
 Missing staging/events, cleanup failures and product assertions are never retried.
 Three tuple misses are a FIXTURE failure, never historical red or a skip. Stability
 requires independent review and admitted sampling. A missing-message timeout alone
@@ -419,13 +419,18 @@ The original loaded12 tuple was not retained. The later loaded17 tuple was
 pending101 scenario was not established and no post-witness product assertion ran.
 Both remain recorded setup misses, not historical/product red or acceptance credit.
 The owner authorizes at most three total attempts with fresh children, following
-F13's cleanup pattern. Only a received tuple mismatch permits a discard. There is
+F13's fresh-child pattern. Only a received tuple mismatch permits a discard. There is
 no catch/retry around setup operations or product assertions, no scheduling change,
 new seam, skip or changed witness. All three misses fail the test as FIXTURE.
 
 At most one child is live at a time; each uses the existing11-socket/128-peer,
 256-command,2048-event,2MiB-log,30s-life,7s-step and2s-reap bounds. Cleanup clears
-sockets/events/maps/scratch and rechecks seals before the next attempt. Unittest
+sockets/events/maps/scratch and rechecks seals before the next attempt. Before that,
+the existing normal stop drains both pipes, requires exact exit0, empty stderr and
+complete reached-phase map admission. Terminal diagnostics, unexpected exits,
+missing stop events and any cleanup failure propagate; disposal cannot turn them
+into another attempt. This fixes review finding C017-V1 without changing Child,
+F13, probe or product assertions. Unittest
 may retain three cleaned Child objects, each with at most2MiB stderr (6MiB total),
 until this method ends; the existing suite-wide112-dormant-child ceiling still
 exceeds this case. No new tooling, producer, SDK/header or probe change is made.
