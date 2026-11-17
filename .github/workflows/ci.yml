@@ -656,8 +656,8 @@ jobs:
           PYTHON
       - name: Run development executable acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^dev-server$' --no-tests=error --verbose
-  # The successor serves native44/foundation; unchanged host baselines retain
-  # their separately sealed API-012 candidate4 SDK (intentional red, not run).
+  # The bounded successor serves native44/foundation and the host consumers.
+  # The separate API-012 candidate4 regression lane remains unchanged.
   native:
     runs-on: ubuntu-24.04
     timeout-minutes: 80
@@ -856,14 +856,14 @@ jobs:
       - name: Configure and compile both enabled host baselines
         run: |
           cmake --preset api-host-native-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX" \
-            -DSUBATHON_DROGON_ROOT="$RUNNER_TEMP/native-ws-candidate4/sdk" \
+            -DSUBATHON_DROGON_ROOT="$RUNNER_TEMP/bounded-http-foundation/sdk" \
             -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT" \
             -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0 \
             -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
           cmake --build --preset api-host-native-debug --parallel 2
       - name: Verify the shared SDK seal is unchanged after the host baseline build
-        # The host baselines reuse the SDK that the native profile prepared, sealed
-        # and gated above. A consumer build must only read it.
+        # The host consumers reuse the bounded successor prepared, sealed and
+        # gated above. A consumer build must only read it.
         run: |
           python3 - <<'PYTHON'
           import json
@@ -872,7 +872,10 @@ jobs:
           import sys
           sys.path.insert(0, "tools")
           import native_websocket_ci
-          root = Path(os.environ["RUNNER_TEMP"]) / "native-ws-candidate4"
+          native_websocket_ci.SUCCESSOR = True
+          native_websocket_ci.PROFILE = native_websocket_ci.REPO / "dependencies/bounded-http-foundation"
+          native_websocket_ci.PROVENANCE = "share/subathon-bounded-http-foundation"
+          root = Path(os.environ["RUNNER_TEMP"]) / "bounded-http-foundation"
           sealed = json.loads((root / "receipts/sdk-seal.json").read_text(encoding="utf-8"))
           # checked_seal rehashes every SDK file against the sealed inventory.
           if native_websocket_ci.checked_seal(root / "sdk") != sealed["identity"]:
@@ -897,7 +900,7 @@ jobs:
                       if test["name"].startswith(("api-host.", "api-host-native."))}
           if set(selected) != expected:
               raise SystemExit("All isolated Qt invocations and the native suite must be registered")
-          loader = "LD_LIBRARY_PATH=" + os.environ["RUNNER_TEMP"] + "/native-ws-candidate4/sdk/lib"
+          loader = "LD_LIBRARY_PATH=" + os.environ["RUNNER_TEMP"] + "/bounded-http-foundation/sdk/lib"
           for name, test in selected.items():
               props = {item["name"]: item["value"] for item in test["properties"]}
               native = name == "api-host-native.suite"

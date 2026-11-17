@@ -1,5 +1,5 @@
 # Framework-free services and the separately enabled Qt SQL writer boundary.
-if(SUBATHON_BUILD_BOUNDED_HTTP_FOUNDATION_TESTS AND sbt_bounded_http_successor)
+if((SUBATHON_BUILD_BOUNDED_HTTP_FOUNDATION_TESTS OR SUBATHON_BUILD_API_HOST_NATIVE_TESTS) AND sbt_bounded_http_successor)
     # Successor component only: never link these definitions into the frozen NI target.
     # Shared pure preflight also guards the successor SDK adapter.
     add_library(subathon_bounded_http_storage OBJECT src/bounded_http_storage.cpp)
@@ -151,16 +151,26 @@ if(SUBATHON_BUILD_API_HOST_TESTS)
 endif()
 if(SUBATHON_BUILD_API_HOST_NATIVE_TESTS)
     add_library(subathon_api_host_drogon STATIC src/api_host_drogon.cpp)
-    target_link_libraries(subathon_api_host_drogon PUBLIC subathon_api_host PRIVATE Drogon::Drogon)
+    target_link_libraries(subathon_api_host_drogon PUBLIC subathon_api_host PRIVATE Drogon::Drogon subathon_bounded_http_development)
     target_compile_definitions(subathon_api_host_drogon PRIVATE QT_NO_KEYWORDS)
     subathon_target_options(subathon_api_host_drogon)
+endif()
+
+# Catalog factories are shared by ordinary host inspection and repository owners.
+if(SUBATHON_BUILD_API_HOST_TESTS OR SUBATHON_BUILD_SQLITE_PERMISSION_GRAPH_TESTS OR SUBATHON_BUILD_SQLITE_REFERENCE_AUTHORITY_TESTS)
+    add_library(subathon_current_catalog STATIC src/sqlite_permission_catalog.cpp src/sqlite_reference_catalog.cpp)
+    target_link_libraries(subathon_current_catalog PUBLIC subathon_sqlite_account_sessions)
+    subathon_target_options(subathon_current_catalog)
+endif()
+if(SUBATHON_BUILD_API_HOST_TESTS)
+    target_link_libraries(subathon_api_host PRIVATE subathon_current_catalog)
 endif()
 
 # Authoritative graph storage reuses the account prefix and pure permission validation.
 if(SUBATHON_BUILD_SQLITE_PERMISSION_GRAPH_TESTS)
     add_library(subathon_sqlite_permission_graph STATIC src/sqlite_permission_graph.cpp)
     target_include_directories(subathon_sqlite_permission_graph PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
-    target_link_libraries(subathon_sqlite_permission_graph PUBLIC subathon_sqlite_account_sessions subathon_effective_permissions)
+    target_link_libraries(subathon_sqlite_permission_graph PUBLIC subathon_sqlite_account_sessions subathon_effective_permissions subathon_current_catalog)
     subathon_target_options(subathon_sqlite_permission_graph)
 endif()
 
@@ -169,7 +179,7 @@ if(SUBATHON_BUILD_SQLITE_REFERENCE_AUTHORITY_TESTS)
     add_library(subathon_sqlite_reference_authority STATIC src/sqlite_reference_authority.cpp)
     target_include_directories(subathon_sqlite_reference_authority PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_sqlite_reference_authority PUBLIC
-        subathon_sqlite_permission_graph subathon_session_resolution
+        subathon_sqlite_permission_graph subathon_current_catalog subathon_session_resolution
         subathon_sqlite_reference_capture subathon_sqlite_application_bundle
         subathon_sqlite_application_holds subathon_original_application_service)
     subathon_target_options(subathon_sqlite_reference_authority)

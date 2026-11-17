@@ -8,10 +8,63 @@
   "kind": "implementation",
   "brief": "docs/tasks/EPIC-008/API-001.md",
   "evidence": [
-    "https://github.com/Kernol12/subathon-bot-ai/pull/121"
+    "https://github.com/Kernol12/subathon-bot-ai/pull/121",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/700",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/278",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/690",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6963243918",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6963845337",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6964305515",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6964266940",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6963199510",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6960584143",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6962700781",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/44197864824",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/44197864824/job/134443927411",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/44191014354/job/134420097738",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/44182642448/job/134390736700",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/44178796155/job/134377238635",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/44175927515/job/134367117633",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6940578991",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6940932779",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6941114992",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6941482947",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6962217524",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6963388379",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6963524189",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6913125329",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6913917490",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6914270516",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6917103789",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6917295376",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6933089851",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6933202814",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6933549314",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6933660687",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6939526506",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6939609865",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6932486629",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6942566933",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6947713654",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6948883157",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6949622237"
   ],
   "limitations": [
-    "Draft PR121 source70ea261 integratedfea1378/headd1334d3, all21 CI pass (host compile-only). CV1/CV2/direct B2–B6 have scoped source approvals; full stage remains blocked by B1/foundation/API016 and revised baseline. No host bodies/admission/runtime/UTC/provider/whole-stage proof. Exact source-stage records and all historical baseline receipts remain in PR121."
+    "Draft PR121 source70ea261 integratedfea1378/headd1334d3, all21 CI pass (host compile-only). CV1/CV2/direct B2\u2013B6 have scoped source approvals; full stage remains blocked by B1/foundation/API016 and revised baseline. No host bodies/admission/runtime/UTC/provider/whole-stage proof. Exact source-stage records and all historical baseline receipts remain in PR121.",
+    "Current API-001 is the rewritten issue278 production host on main2cd29763, fresh author t3-a365ff53. Original brief/PR121 evidence, limitations, draft verification map and review=null are retained historical fields only; none supplies current source, approval, CI, red or runtime authority. No PR121 implementation carried over. Current workflow below records forward completion separately.",
+    "Specification v0.45 SERVER-01, complete product release scope and current public host/prepared-work/reference contracts govern. This composes acknowledged current catalog10 activation, one Qt writer, actual prepared-unit outcomes, bounded borrowed charged input/correlated replies, two internal listeners and real signal/monotonic lifecycle. It does not add session-clock, epoch-fence, provisioning/setup/migration, public feature endpoints or live-provider capabilities.",
+    "Tests stage reuses reviewed APITEST-015 b8df1ba1 receipts and six byte-identical test/build/inventory paths; old CI path is excluded only from this API-001 projection because new SDK wiring is independently reviewed in current implementation. Original AP15 proof/receipt arrays and authorizations unchanged. All87 Qt selectors and all30 native methods previously reached intended NI only under the explicit AP15 admissions; no missing dependency or compile failure is red. #690 supplies preserved passing transport regressions, not NI red.",
+    "Canonical implementation initial Claude a2ad receipt keeps B1-B3 changes-requested. First-party fix1of2 at5152 resolves stop/end, entry/disconnect/charge race and owned startup exceptions with N1-N5 whole-class dispositions; old-profile5152 Qt87/native18 results remain separate. Fresh combined Codex verification and fresh Claude closing bind final5544/all14paths. Source-only startup/race/allocator obligations are not newly fault-injected observations; arbitrary framework exception recovery is not claimed, and unestablished network barriers are withheld.",
+    "Owner separately approved bounded SDK/contract/CI addition2786962700781. Distinct fresh Claude SDK INITIAL6963243918 is explicit scoped evidence, not a fabricated second canonical initial or relabeled phase. It covers existing0004, manifest, one listener sentence and CI; final combined verification/closing cover that addition and host fix1 together. New SDK scope addition is not fix round2. At most2review rounds and all6owner stop conditions remain.",
+    "All final owner corrections1-11 are preserved and named in receipts: execute prequeue3 allowed, forward only execute/completion, body calls end without reply, stop refusal/nullopt end and accepted-unit drain, no entered timer, native signal consumption, foreign refusal before host access, move-only handle/actual writer result/borrowed charged input with existing capture rules and DROPPED compile-time cap, corrected reply/API010 wording, retained examples, real converter after syscall, observing-only N probe and synchronous Qt pre-entry command_admitted without host lock. Correction12 adds only before-bind no-sharing sentence, retaining late readback.",
+    "Fresh additive SDK c4d6782f3601c590c7c1071f6d59c644779f479857617e43cb49b48e86bc47b4 (50687bytes), unchanged recipe f99b3e87bfae0db19047a27ff2acaecb5d6c3eb9600747fe4ae374ef3aaa20fe, manifest d20c7728a6b6b78bd4bdb131338dabfe48a7bc79578fe11cfd379800b97937ea. Only actual producer difference from oldSDK is Linux HttpServer constructor true,bounded==nullptr before Acceptor bind; ordinary Linux/nonLinux and late readback/exit1 remain. New176artifact/733producer inventory sealed. Old0b489 SDK177files and733producer files independently unchanged; never admitted under new profile or overwritten.",
+    "Fresh both-host passive ELF/ABI/plugin complete33-object closures preceded first actual loads. Owner API1-only Qt exception: unchanged first HL06 with bounded loader/plugin logs independently reconciled33 objects including QSQLITE, then actual87data tags. Native existing normal initial31/runtime33/stopped33 emitter and unchanged scrubbed supervisor, no debug variables; serving33 actually compared in behavior. No invented /proc VMA or exact SQL-phase maps, new mode/harness/tool/launcher or assertion change.",
+    "Unchanged L07 standalone all3 subtests exactexit1: HTTP reuseFalse, HTTP reuseTrue, native reuseTrue, with no readiness/serving/lock side effect and fresh-child reuse positives. Then fullQt87/87 PASS andnative30/30 PASS. Successful subtest child histories are not separately exported; outcomes follow from unchanged enumerated assertions and method success. Original8213 occupied-port branch shared/served versus listen-failure/teardown remains UNKNOWN; no historical rerun or backfilled cause.",
+    "New foundation/native consumers each freshly admitted:17ELF/ABI closure, controlled identity, complete actual map/object checks; actual adapter/archive/direct-link/compiler inputs supplement generic inventory. Foundation37x20=740methods plus20actualLegacyControls (includesfrozen34x20=680 andnew3x20=60); native44x20=880methods. Zero failures/errors/skips/replacement/product retries. N5 20valid equal-epoch witnesses in20attempts,zero misses; current passes do not prove old faulty branch. No new loaded/historical experiment. Source699/producer733/compiled12/compilerdeps613/both17objectclosures/47admission files postseals match; raw reports/binaries retained mainroot build/API-001/successor-investigator.",
+    "Nonblocking follow-ups remain recorded: SDK-N1 stale frozen candidate4 step name; SDK-O1 false reuse setter has no error return, fresh-socket default plus late readback defense; API1-C-O1 simultaneous destruction of copied response leases can leave an association unreleased in source analysis, production adapter does not copy leases, no runtime witness or new stress/fix authorized. No actual product failure is waived by these source-only notes.",
+    "Failed CI history retained:5645 run44175927515 APT timeout before build/test;8213 run44178796155,a2ad run44182642448,5152 run44191014354 compile missingBoundedHttp.h because old host workflow selected candidate4, not infrastructure or test red. No failed-job rerun/header fake/skip. Reviewed5544 CI switches only host root/loader/successor seal context; separate candidate4 regression lane unchanged. All7source checks SUCCESS run44197864824. Proof-commit latest-head CI remains required after this one proof commit, no merge waiver.",
+    "Evidence is bounded synthetic local Linux loopback on GCC16.2/Qt6.12/Boost1.92 plus required hosted Ubuntu/pinnedBoost1.83 CI, not full deployment/release/live integrations/security/leak/global-heap/performance proof or coverage percentage. Own metadata/path mistakes before loads/results were corrected and preserved; no runtime failure retried. All owned heavy workers reaped, source/SDK/artifact evidence preserved. After protected merge coordinator makes one batched checkpoint PR and stops; no next task authorized."
   ],
   "verification": {
     "implementation": "draft",
@@ -19,5 +72,185 @@
     "acceptance": "not_run",
     "correction_review": "partial"
   },
-  "review": null
+  "review": null,
+  "workflow": {
+    "required_stages": [
+      "tests",
+      "implementation"
+    ],
+    "stages": {
+      "tests": {
+        "authors": [
+          "codex:APITEST-015-author:t3-0dc4e70e",
+          "codex:coordinator"
+        ],
+        "revision": "b8df1ba105f2df2867afd08b8b98d317cc233a8e",
+        "paths": [
+          "tests/api_host_lifecycle/CMakeLists.txt",
+          "tests/api_host_lifecycle/api_host_probe.cpp",
+          "tests/api_host_lifecycle/test_api_host_lifecycle.py",
+          "tests/qt/api_host_cases.cmake",
+          "tests/qt/api_host_tests.cpp",
+          "tests/qt/support/api_host_fixture.hpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:t3-319df916",
+            "revision": "a450ca036b1f2d7de675f418df322fc607cd069c",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6940578991",
+            "findings": [
+              "AP15-TI-01",
+              "AP15-TI-02",
+              "AP15-TI-03"
+            ],
+            "blocking_findings": [
+              "AP15-TI-01",
+              "AP15-TI-02",
+              "AP15-TI-03"
+            ],
+            "owner_authorization": "https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6930828560"
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:t3-466dc40d",
+            "revision": "415ab5d7f57c05976ce3a79302b6a8d3bd0f9536",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6940932779",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:t3-c8b0015c",
+            "revision": "b8df1ba105f2df2867afd08b8b98d317cc233a8e",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6941114992",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:17ee2551-901a-4473-b0eb-d3d74e8eb3d1",
+            "revision": "b8df1ba105f2df2867afd08b8b98d317cc233a8e",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6941482947",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "implementation": {
+        "authors": [
+          "codex:t3-a365ff53",
+          "codex:coordinator"
+        ],
+        "revision": "5544c436ed75eb24a2bc7bad2637845882e31f84",
+        "paths": [
+          ".github/workflows/ci.yml",
+          "dependencies/bounded-http-foundation/0004-drogon-bounded-http.patch",
+          "dependencies/bounded-http-foundation/manifest.json",
+          "docs/contracts/api-host-listeners-v1.md",
+          "server/CMakeLists.txt",
+          "server/src/api_host.cpp",
+          "server/src/api_host_drogon.cpp",
+          "server/src/api_host_elapsed_linux.cpp",
+          "server/src/api_host_internal.hpp",
+          "server/src/api_host_signal_linux.cpp",
+          "server/src/sqlite_permission_catalog.cpp",
+          "server/src/sqlite_permission_graph.cpp",
+          "server/src/sqlite_reference_authority.cpp",
+          "server/src/sqlite_reference_catalog.cpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:t3-e524886c",
+            "revision": "a2ad81e959f30355c983c1028d007adbf2bda724",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6962217524",
+            "findings": [
+              "API1-I-B1",
+              "API1-I-B2",
+              "API1-I-B3",
+              "API1-I-N1",
+              "API1-I-N2",
+              "API1-I-N3",
+              "API1-I-N4",
+              "API1-I-N5"
+            ],
+            "blocking_findings": [
+              "API1-I-B1",
+              "API1-I-B2",
+              "API1-I-B3"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:t3-227705da",
+            "revision": "5544c436ed75eb24a2bc7bad2637845882e31f84",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6963388379",
+            "findings": [
+              "API1-I-B1",
+              "API1-I-B2",
+              "API1-I-B3",
+              "API1-I-N1",
+              "API1-I-N2",
+              "API1-I-N3",
+              "API1-I-N4",
+              "API1-I-N5",
+              "SDK-N1",
+              "SDK-O1"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:t3-7fa9d203",
+            "revision": "5544c436ed75eb24a2bc7bad2637845882e31f84",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6963524189",
+            "findings": [
+              "API1-I-B1",
+              "API1-I-B2",
+              "API1-I-B3",
+              "API1-I-N1",
+              "API1-I-N2",
+              "API1-I-N3",
+              "API1-I-N4",
+              "API1-I-N5",
+              "SDK-N1",
+              "SDK-O1",
+              "API1-C-O1"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  },
+  "publication": {
+    "state": "open",
+    "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/700",
+    "head": "5544c436ed75eb24a2bc7bad2637845882e31f84",
+    "merge_commit": null,
+    "merged_at": null,
+    "observed_at": "2026-11-17T23:42:19.590816+00:00"
+  }
 }
