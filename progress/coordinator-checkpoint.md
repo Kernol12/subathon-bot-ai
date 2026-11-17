@@ -185,6 +185,29 @@ work. The checkpoint's authorized path does.
   before merge. `tools/check_publication.py` requires `origin/main` as an ancestor of
   the head, so merge `main` into the branch before the proof commit.
 
+## Bounded owner authorizations (2026-11-17)
+
+- The coordinator is the sole, serial writer of `.github/workflows/ci.yml` for
+  APITEST-017 and APITEST-015. Keep separate commits on their task branches and
+  independent review before publication. Foundation registration is 37 methods /
+  10090s; host registration waits for its actual reviewed final inventory, not a
+  guessed or padded count. Other shared-file conflicts still stop for the owner.
+- APITEST-015 correction 11 is the THIRD AND LAST contract pass: only the
+  phase/thread of `command_admitted` as approved on #613. It is synchronous on Qt
+  after retained admission, before entry checks/execution/writer scope, without a
+  host lock; a bounded pause leaves IO ingress independent. Any further contract
+  gap goes to the owner with fallback options, not a fourth pass. Fresh changed-part
+  Codex verification and Claude closing remain required; NI is not runtime proof.
+- APITEST-017's frozen foundation test failed once unloaded with cause UNKNOWN
+  (#672). Only a logging amendment is authorized: a fixed ≤512-byte nonblocking
+  record of original length/truncation and bounded prefix/suffix; preserve exit90,
+  level/severity behavior, assertions, budgets and producer/SDK/header code.
+  After review and fresh admission, run unloaded at least 20 times if no diagnostic,
+  stop at the FIRST diagnostic and report its message and observed failure rate.
+  Do not fix its cause, retry toward acceptance or resume N5 until the owner has
+  seen the report. Full-suite CI also includes N5, so publication/CI waits for that
+  hold to be lifted; do not skip N5 or hide its failure to get green CI.
+
 ## What SLICE-001 delivered
 
 `subathon-dev-server` (`server/dev/`, suite `dev-server` in the `qt` job) starts the
@@ -204,24 +227,31 @@ API-001 keep their ownership and release requirements.
 - APITEST-015 (#613), tier A: fresh Codex author in the retained worktree
   `t3-0dc4e70e`, branch `task/APITEST-015-host-baseline-revision` (PR #667).
   Owns host baseline suites, host headers/stubs and the host contract updates.
-  Local contract/reference work is unreviewed. The owner decided all six numbered
+  Local contract/header candidate `59a0db32` passed changed-part Codex verification
+  and fresh Claude closing. Tests authoring stopped before edits on the missing
+  pre-entry observation phase. Owner-authorized last correction 11 is local at
+  `9d9587e9`, pending changed-part reviews; tests resume only after those gates.
+  The owner decided all six numbered
   C2 corrections and then revised 1 and 6 ([latest record](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6932687162)); PR #667 and every tier A packet must name all six with these revisions.
   Execute may prequeue units, preserving the three-accepted-unit fail-close oracle.
   Forward-from-body still ends without reply; forwarding is only from execute or a
   supplied unit completion. Payload is a borrowed, charged host-owned input view.
   Unit captures follow existing intake resource rules unchanged; the compile-time
-  capture limit is dropped. No new producer prerequisite task. Header/examples
-  authorship resumes under these decisions, with independent review still required.
+  capture limit is dropped. No new producer prerequisite task. No host runtime
+  implementation or observed intended red is claimed.
 - APITEST-017 (#672), tier A: fresh Codex author in separate worktree `t3-aa9893a6`,
   branch `task/APITEST-017-transport-regressions`. Owns foundation-test additions
-  only. Partial native tests are authored locally, unreviewed and unexecuted;
-  a fresh investigation found existing observations usable for native interleaving,
-  whose bounded fixture/examples work continues. Owner narrowed the active task to
+  only. Source reviews approved `6d558798`; acceptance stopped at N5 loaded
+  repetition 12 (missing witness). A later admitted unloaded legacy control failed
+  exit90 before N5, cause unknown; one debugger attempt captured no diagnostic.
+  Logging-only source review, fresh admission and the bounded unloaded report come
+  next; N5 and cause fixes remain on hold. Owner narrowed the active task to
   native scope only; HTTP continuation and its observation seam are deferred to #689.
 - Independent Codex default writer-budget measurement passed two current-v10
   inspections ([receipt](https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6932486629)); it establishes no default-budget advancement, installation read or host activation.
 - Coordinator owns shared build/CI integration and checkpoint/proof records. Any
-  file needed by both tests tasks stops for the owner, including shared integration.
+  file needed by both tests tasks stops for the owner, except the expressly
+  authorized serial coordinator edits of `ci.yml` above.
 
 Builds and scratch use each worktree's ignored `build/TASK-ID/session/` on disk.
 Verify actual checkout, worktrees, PR heads and sessions before resuming; these
