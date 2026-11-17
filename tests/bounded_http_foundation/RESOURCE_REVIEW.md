@@ -395,3 +395,22 @@ CPU/IO contention, zero failures including missed witnesses; frozen suites20 tim
 after integration. No compilation, import, test or CI execution has occurred.
 Tier A requires fresh Codex initial review, separate Codex verification and fresh
 Claude closing with actual model/session receipts. Author: Codex gpt-6.1-sol.
+
+
+### N5 bounded tuple diagnostic amendment
+
+Retain the four existing witness values in the new N5 method, print one bounded
+parent-output line before the unchanged exact predicate, and repeat it in that
+predicate's existing fixture-failure message. Render only exact bool or U64-sized
+int values; other types/ranges use a fixed invalid-scalar label, never arbitrary
+repr. Four values of at most20 characters plus fixed labels, tuple punctuation,
+and the two output occurrences add less than512 parent-output bytes per N5 child.
+This does not change child MAX_LOG, events/commands/threads, scheduling, the witness,
+one-attempt/no-retry, cleanup, deadlines or any existing assertion. No dictionary,
+payload or growing history is copied. It is diagnostic retention, not a stability
+repair or recovery of the failed loaded12 sample. The supplied clock is fixed in
+N5, so elapsed wall delay cannot cause its HTTP no-request expiry; C017-A1's
+wall-time hypothesis is inapplicable to this path. Changed source seals require
+fresh review and applicable admission before a separately authorized diagnostic
+attempt; original evidence/artifacts are retained and no new runtime result is
+claimed here.

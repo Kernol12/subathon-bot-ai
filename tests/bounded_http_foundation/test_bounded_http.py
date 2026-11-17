@@ -625,9 +625,17 @@ class FoundationTests(unittest.TestCase):
         p.connect()
         p.command("interleave-release")
         witness = p.wait("interleave_accept", peer=10)
-        require((witness["native_peers"], witness["http_peers"],
-                 witness["control_capacity"], witness["tenth_opened"]) == (10, 1, 1024, True),
-                "FIXTURE: missed accept during tenth pending101; not historical red")
+        observed = (witness["native_peers"], witness["http_peers"],
+                    witness["control_capacity"], witness["tenth_opened"])
+        # Four bounded scalar renderings, never an unbounded event/dictionary repr.
+        rendered = tuple(value if type(value) is bool or
+                         (type(value) is int and 0 <= value <= 2**64 - 1)
+                         else "<invalid scalar>" for value in observed)
+        diagnostic = f"N5 witness peer10 (native,http,control,opened)={rendered}"
+        print(diagnostic, flush=True)
+        require(observed == (10, 1, 1024, True),
+                "FIXTURE: missed accept during tenth pending101; not historical red; " +
+                diagnostic)
         self.assertEqual(p.read(tenth, len(SWITCH)), SWITCH)
         p.wait("opened", peer=9)
         peers.append(tenth)
