@@ -22,6 +22,17 @@ and [local-login authority](local-login-authority-v1.md) unchanged. Their failur
 secret/resource, revocation, real-outcome and platform limits remain mandatory.
 API-014 extends API-013; it does not extend the lifetime of an API-001 execution.
 
+Host reference update: the COMPLETE host import above now points to
+[consumer boundary revision 2](api-host-lifecycle-boundary-v1.md), §1 for
+activation/epoch checks and §2 for prepared units and host reply eligibility.
+The host execution/generation/UTC facades in §§1–3/5, inherited installation
+finalization/precommit read in §§3–4, host source/publication settlement in §4,
+and accepted-wrapper/envelope references in ER20/ER22 target the historical
+host boundary used by this proposal, not surfaces present in revision 2.
+API-014 and its API-013 prerequisite own their rebase. These pointer changes
+leave this file's port rules, settlement rows, deadlines and ER examples unchanged;
+other imported contracts retain their own rules.
+
 The following observations are from actual source at the source base:
 
 | Source | Actual surface / missing capability |
@@ -159,6 +170,7 @@ port access. Abbreviations expand to exact names above: `a`=read_bound_account,
 `E`=compare_exchange_enrollment_control, `P`=install_enrollment_access,
 `R`=compare_exchange_recovery_control, `L`=append_security_audit.
 Host-only installation/finalization reads remain inherited, never consumer escapes.
+See the [host reference update](#1-imports-and-actual-operation-audit) for that historical import.
 
 | Compiled purpose | Selection reads (also reread at final stage) | Final-stage mutations ONLY |
 | --- | --- | --- |
@@ -270,6 +282,8 @@ The frozen host performs its final selected installation read AFTER all mutation
 and immediately before real COMMIT; reserve that SQL/read budget, block later facade
 calls and stage actual installation facts privately. Execution revokes BEFORE the
 writer completion. A transaction's outcome is actual writer truth, not domain intent.
+The inherited finalization reference above follows the
+[host reference update](#1-imports-and-actual-operation-audit); API-014 owns its rebase.
 
 | Actual outcome | Settlement and response |
 | --- | --- |

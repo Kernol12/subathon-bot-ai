@@ -15,13 +15,28 @@ Import [password logical/API v1](password-hashing-api-v1.md), including the
 [current clock v1](session-clock-v1.md), [writer work v1](writer-transactions-v1.md),
 [transport v1 R2](session-transport-v1.md), [account ingress v1 R2](account-ingress-v1.md)
 and [host lifecycle v1](api-host-lifecycle-v1.md), with its current
-[consumer boundary](api-host-lifecycle-boundary-v1.md), unchanged.
+[consumer boundary](api-host-lifecycle-boundary-v1.md), qualified by the
+[host reference update](#host-boundary-references) below; other imports are unchanged.
 Password logical, supplier, writer and transport blobs are unchanged since the
 old draft; password API, lifecycle, physical and clock changes only relocate
 historical evidence links. Ingress and host boundaries are now accepted documents,
 not implemented request/clock/host producers. Current import identities and actual
 read-only source audits accompany the author handoff/PR; no old evidence files are
 restored and no accepted import is edited here.
+
+### Host-boundary references
+
+The host import now points to [consumer boundary revision 2](api-host-lifecycle-boundary-v1.md),
+§1 for current-catalog activation/epoch checks and §2 for asynchronous prepared
+units and host reply eligibility. The host-surface references below to
+execution facades, installation/host generation, source/publication membership,
+finalization wrappers/precommit reads, accepted waiting wrappers and the host
+private envelope describe the historical boundary used by this proposal;
+they do not name APIs supplied by revision 2. Rebase of these references and
+their composition belongs to ACCESS-008 and its API-013 prerequisite. The
+rules and LA examples of this file are unchanged by this pointer update.
+Other imports and their own authority, secret, outcome and resource rules
+remain unchanged.
 
 The multi-stage composition below is a consumer REQUIREMENT, not a capability of
 API-001's accepted single-dispatch boundary. Its explicit host-owned prerequisite
@@ -47,8 +62,8 @@ can construct an owner-bound request, accepted attempt or password source.
 | --- | --- |
 | ACCESS-001 | Established account identity, current username-to-account directory and its revisions, invitation/bootstrap/local-credential creation and account policy. Initial owner requires the actual single-use 15-minute console code while no owner exists; replacement invalidation, local credentials/recovery codes and registration closure stay here. |
 | ACCESS-005 / STORAGE-007 | Actual helper/console recovery and stopped/staged restore; same-commit account-epoch or acknowledged installation-epoch fences, operational readiness and unknown-outcome holds. Recovery preserves permissions and existing protected owner identity. |
-| API-013 | Future bounded auth-continuation extension and installation password permit; implements the missing host surface named above after its own contract/test gates, without extending a live API-001 execution facade across a wait. |
-| API-001 | Actual host/startup activation, execution and fresh completion/publication membership, elapsed deadlines, stop fences and writer/source lifetime under its accepted host contracts. PR112 supplies a reviewed intended-red baseline, not this production host. |
+| API-013 | Future bounded auth-continuation extension and installation password permit; implements the missing host surface named above after its own contract/test gates, without extending a live API-001 execution facade across a wait. [Host reference](#host-boundary-references). |
+| API-001 | Actual host/startup activation, execution and fresh completion/publication membership, elapsed deadlines, stop fences and writer/source lifetime under its accepted host contracts. [Host reference](#host-boundary-references). PR112 supplies a reviewed intended-red baseline, not this production host. |
 | SESSIONCONTRACT-005 / SESSION-010 / SESSION-003 | Lossless bounded actual ingress, original source/route binding, prior browser sign-in/CSRF/Origin guards, native guards and complete transport integration. This contract supplies neither a fabricated admission flag nor route/schema selection. |
 | SESSION-009 | Actual scope-bound Linux clock and current installation/readiness binding under accepted clock v1, including refusal. |
 | STORAGE-020 | Bounded current physical facts, full-source/current-fence CAS on the existing writer. No attempt membership, request association or login decision. |
@@ -82,7 +97,8 @@ account/session identities retain their wider physical/supplier domain.
 ## 2. Concrete private operations and identity binding
 
 A `LocalLoginRequest` is one server-owned object registered by the actual host for
-one live original request/continuation and installation generation. Its constructor
+one live original request/continuation and installation generation.
+[Host reference](#host-boundary-references). Its constructor
 is private to host composition. It retains bounded actual ingress provenance and
 policy revision, original request identity, intended sign-in/reauthentication
 handoff and retention choice. No secret, caller `trusted` bit, old session resolution
@@ -226,6 +242,7 @@ while queued or survives a worker wait. Reads/conditional saves use that binding
 one real writer transaction and host finalization wrapper, including its precommit
 current-installation read and unknown-outcome invalidation. This is an auth-specific
 adapter to API-001, not raw writer access bypassing its current-source producer.
+[Host reference](#host-boundary-references).
 Before ANY directory/credential lookup or private reply in any stage, require the
 same live request/host generation, current ingress-policy revision/readiness and
 unexpired original pipeline deadline. The stage queue deadline is checked at actual
@@ -234,7 +251,8 @@ unavailable and requires a fresh actual client request, never rebinding an old g
 Full/closed/failed invocation or writer admission makes unavailable; no implicit
 resubmission.
 
-The host's current baseline facade exposes only installation operations. The separate
+The host's historical baseline facade exposes only installation operations.
+[Host reference](#host-boundary-references). The separate
 APICONTRACT-002 → APITEST-013 / API-013 prerequisite must supply the named guarded
 local-credential, conditional-upgrade and directory accessors needed here, as well
 as continuation/elapsed/permit surfaces. ACCESS-008 only consumes that reviewed
@@ -282,7 +300,8 @@ Network deadlines may force-close peers earlier; they cannot certify safe native
 termination, erasure or graceful stop. A stuck call leaves shutdown incomplete.
 A dropped queued event or dead worker is unavailable, never a successful absent
 credential. Abrupt process loss supplies no completion guarantee and destroys all
-in-memory acceptance; restart cannot reconstruct/replay it. No durable attempt
+in-memory acceptance; restart cannot reconstruct/replay it.
+[Host reference](#host-boundary-references). No durable attempt
 journal is needed for this model.
 
 ## 4. Initial verification and actual queue-time acceptance
@@ -341,6 +360,7 @@ Only real native verified0 schedules the acceptance work. On queue execution:
    binding/current bounded source storage, rechecking current generation/readiness
    and stop fence; a retained ticket, envelope or execution clock cannot supply it.
    No event/state command may interleave the final read and this installation.
+[Host reference](#host-boundary-references).
 
 The exact private completion carries matching job/phase/facts, not an externally
 constructible proof. Provisional accepted time/reference fields captured in a body
@@ -363,7 +383,8 @@ to the actual original request/continuation and matching writer work. A supplied
 attempt_ref is merely an equality check AFTER this binding. Verify actual registry
 membership, object generation, method local_password, request identity/liveness,
 current host generation/readiness, all captured fences and current full credential
-lineage. The `CurrentAcceptanceFacts` tuple is then projected under both owners'
+lineage.
+[Host reference](#host-boundary-references). The `CurrentAcceptanceFacts` tuple is then projected under both owners'
 limits, never fabricated from a DTO provided to physical storage.
 
 Sample the real current clock in the same work: now before accepted time is
@@ -451,7 +472,8 @@ changed source/binding/revision/epoch, retired stale generation or expired accep
 is stale; inability/unknown is unavailable. An explicitly cancelled request or abandoned cell is unavailable, consistently
 with §3 and LA25; it cannot return an accepted observation. No complete positive observation returns before normal committed
 readonly completion AND fresh matched host completion checks for the live request,
-original deadline, current generation/readiness and stop fence. Cancellation during
+original deadline, current generation/readiness and stop fence.
+[Host reference](#host-boundary-references). Cancellation during
 that work cannot return accepted just because the earlier body check succeeded.
 These decisions accept/issue no login, acquire no new mint
 reservation, persist no credential and extend no deadline/authenticated instant.
@@ -586,6 +608,7 @@ One normal pipeline has at most SIX writer works: initial read, acceptance, upgr
 first check, second check and conditional save. No-upgrade/no-replacement/refused
 paths use fewer. Host finalization's precommit installation reads occur inside
 those same works and count against writer budgets, not as extra transactions.
+[Host reference](#host-boundary-references).
 Downstream lifecycle work and explicit known-rollback resubmission
 have their own fresh admission/bounds. At most three sequential expensive calls
 are made; no input-dependent work loop or hard native CPU-time claim follows.
@@ -600,6 +623,9 @@ These literal examples do not use generated hashes as expected output.
 LA11/LA27 vary UTC independently of elapsed time to isolate the inclusive UTC rule.
 With ordinary equally advancing clocks the elapsed retention cutoff already
 refuses at equality, so UTC age300000 alone never guarantees eligibility.
+
+Host references in the outcome tables and LA13/LA20/LA25/LA31/LA32 also use the
+[historical host reference](#host-boundary-references); their rules are not rebased here.
 
 All examples below are synthetic proposed acceptance oracles, never executed tests.
 Base: real-source-simulated registered request Q for installation i/account a,
@@ -670,7 +696,7 @@ ACCESS-001's actual directory, SESSION-010's actual policy producer and
 SESSION-009's actual clock remain named prerequisites
 in the existing graph (the latter depends on API-001), not implemented mechanisms
 inherited from their DTOs. Ordinary startup uses the current host consumer boundary's
-actual schema8 inspection/read chain; no STORAGE-007 runtime prerequisite is added
+[current-catalog inspection/read chain](api-host-lifecycle-boundary-v1.md#1-actual-sources-ordinary-activation-and-forward-restore-obligation); no STORAGE-007 runtime prerequisite is added
 upstream. Supported restore must later satisfy that owner's guarded-restart/fence
 obligation. SESSION-009 binds the actual host, never a ready flag issued by this
 login owner; API-001 does not wait for ACCESS-008 or SESSION-009 to start serving.
@@ -685,6 +711,7 @@ stop/drain, per-copy secret erasure and every actual writer completion without
 extending an API-001 execution facade across crypto. Its full contract, independent
 reviews, intended red, implementation and selected CI remain future gates; this
 PR only records their scope and graph. No frozen host assertion is weakened.
+[Host reference](#host-boundary-references).
 
 SESSION-010 is a direct prerequisite of ACCESSTEST-008 and ACCESS-008: its actual
 policy-generation producer and request-scope provenance must be used at each stage.

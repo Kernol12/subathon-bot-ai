@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
-#include "sqlite_account_sessions_fixture.hpp"
+#include "sqlite_reference_authority_fixture.hpp"
 #include <QCoreApplication>
 #include <QDir>
 #include <QMetaObject>
@@ -95,19 +95,6 @@ class Elapsed final : public native_ws::ElapsedSource {
         (on_owner ? owner_last : foreign_last).store(value);
         (on_owner ? owner_reads : foreign_reads).fetch_add(1);
         return native_ws::ElapsedInstant{value};
-    }
-};
-class Sampler final : public CurrentSessionClock {
-  public:
-    std::atomic<unsigned> calls{0};
-    std::atomic<std::int64_t> utc{1000};
-    std::function<void()> during_sample;
-    CallbackFailure failures;
-    SessionClockResolution sample_current() override {
-        ++calls;
-        if (during_sample)
-            failures.call([&] { during_sample(); });
-        return SessionClockSample{utc.load()}; // guard connection only, not trusted UTC
     }
 };
 struct Log {
@@ -344,47 +331,81 @@ class FakeTransport final : public host::Transport {
     std::exception_ptr problem_;
     std::thread worker_;
 };
+// These are test dispatch units, not a replacement writer or host bridge. Every
+// transaction is run by the actual private writer through CommandHandle::forward.
+inline void admitted(host::ForwardResult result) {
+    require(!std::holds_alternative<host::NotImplemented>(result), "UNIMPLEMENTED forward");
+    require(std::holds_alternative<StorageError>(result) &&
+                std::get<StorageError>(result) == StorageError::none,
+            "Actual private writer admission");
+}
+inline QVariant read_installation(SqliteWorkContext context) {
+    const auto session = context.begin();
+    account_sessions_fixture::Cleanup cleanup{session};
+    SqliteAccountSessionUnit unit(session, {});
+    const auto facts = unit.read_installation("I");
+    require(std::holds_alternative<StoredInstallationFacts>(facts), "Actual I/E/J read");
+    const auto &f = std::get<StoredInstallationFacts>(facts);
+    require(f.current.installation_ref == "I" && f.current.session_epoch_ref == "E" &&
+                f.revision_ref == "J",
+            "Independent I/E/J literals");
+    session.commit();
+    return 1;
+}
 class Dispatcher final : public host::CommandDispatcher {
   public:
     std::function<host::OwnedReply(host::CommandView)> diagnostic_body;
-    std::function<host::OwnedDomainResult(host::Execution &, host::CommandView)> body;
-    std::function<host::OwnedReply(host::Publication &, const host::OwnedDomainResult &)>
-        completion;
+    SqliteWriter::Work body;
+    std::function<void(host::CommandHandle &, const SqliteWorkResult &)> completion;
+    std::function<void(host::CommandHandle &, host::CommandView)> execution;
+    std::optional<host::CommandHandle> command;
     CallbackFailure failures;
     unsigned diagnostics = 0, executions = 0, completions = 0;
-    std::shared_ptr<CurrentSessionClock> execution_clock, publication_clock;
+    std::thread::id body_thread, completion_thread;
     host::OwnedReply diagnostic(host::CommandView v) override {
         ++diagnostics;
         return failures.call([&] { return diagnostic_body ? diagnostic_body(v) : reply("diag"); });
     }
-    host::OwnedDomainResult execute(host::Execution &e, host::CommandView v) override {
+    void execute(host::CommandHandle handle, host::CommandView view) override {
         ++executions;
-        return failures.call([&]() -> host::OwnedDomainResult {
-            execution_clock = e.clock();
-            if (body)
-                return body(e, v);
-            auto &t = e.begin_transaction();
-            const auto facts = t.accounts().read_installation("I");
-            require(std::holds_alternative<StoredInstallationFacts>(facts),
-                    "Real selected installation read");
-            const auto &f = std::get<StoredInstallationFacts>(facts);
-            require(f.current.installation_ref == "I" && f.current.session_epoch_ref == "E" &&
-                        f.revision_ref == "J",
-                    "Independent I/E/J literal");
-            t.commit();
-            return reply("done");
-        });
-    }
-    host::OwnedReply complete(host::Publication &p, const host::OwnedDomainResult &v) override {
-        ++completions;
-        return failures.call([&] {
-            publication_clock = p.clock();
-            if (completion)
-                return completion(p, v);
-            const auto f = success(p.current_installation(), "Fresh publication current source");
-            require(f.installation == "I" && f.epoch == "E" && f.revision == "J",
-                    "Publication I/E/J");
-            return reply("done");
+        command.emplace(std::move(handle));
+        failures.call([&] {
+            if (execution) {
+                execution(*command, view);
+                return;
+            }
+            admitted(command->forward(
+                [this](auto context) {
+                    body_thread = std::this_thread::get_id();
+                    return failures.call(
+                        [&] { return body ? body(context) : read_installation(context); });
+                },
+                [this](auto result) {
+                    completion_thread = std::this_thread::get_id();
+                    ++completions;
+                    failures.call([&] {
+                        if (completion) {
+                            completion(*command, result);
+                            return;
+                        }
+                        // The fixture chooses no reply on known noncommits; separate
+                        // cases explicitly exercise the dispatcher's right to reply.
+                        if (result.transaction == TransactionOutcome::committed &&
+                            result.error == WorkError::none && result.value) {
+                            auto end = command->finish(reply("done"));
+                            if (std::holds_alternative<host::Failure>(end))
+                                require(std::get<host::Failure>(end) == host::Failure::stopping ||
+                                            std::get<host::Failure>(end) ==
+                                                host::Failure::disconnected ||
+                                            std::get<host::Failure>(end) ==
+                                                host::Failure::elapsed_unavailable,
+                                        "Only revoked reply authority may refuse normal finish");
+                            else
+                                success(std::move(end), "finish");
+                        } else
+                            success(command->finish(), "No-reply end");
+                    });
+                }));
         });
     }
 };
@@ -409,11 +430,8 @@ class DispatcherOwner final : public host::CommandDispatcher {
   public:
     explicit DispatcherOwner(std::shared_ptr<Dispatcher> state) : state_(std::move(state)) {}
     host::OwnedReply diagnostic(host::CommandView v) override { return state_->diagnostic(v); }
-    host::OwnedDomainResult execute(host::Execution &e, host::CommandView v) override {
-        return state_->execute(e, v);
-    }
-    host::OwnedReply complete(host::Publication &p, const host::OwnedDomainResult &v) override {
-        return state_->complete(p, v);
+    void execute(host::CommandHandle h, host::CommandView v) override {
+        state_->execute(std::move(h), v);
     }
 
   private:
@@ -433,7 +451,14 @@ struct Store {
         require(setup.open(path, account_sessions_fixture::limits()) == StorageError::none,
                 "Setup writer open");
         if (variant != "fresh") {
-            const auto m = data.migrate(setup, variant != "old");
+            auto manifest = data.manifest(variant != "old");
+            if (variant != "old" && variant != "previous_head") {
+                manifest.steps.append(permission_graph_fixture::step9(manifest));
+                manifest.supported_starting_versions.append(9);
+                manifest.steps.append(reference_authority_fixture::step10(manifest));
+                manifest.supported_starting_versions.append(10);
+            }
+            const auto m = permission_graph_fixture::migrate(setup, std::move(manifest));
             require(m.work.transaction == TransactionOutcome::committed &&
                         m.reason == MigrationReason::none,
                     "Existing literal schema foundation");
@@ -452,7 +477,8 @@ struct Store {
         require(QTest::qWaitFor([&] { return done; }, wait_ms), "Setup writer barrier");
         if (variant == "future")
             account_sessions_fixture::corrupt(
-                path, {"INSERT INTO subathon_migration_history VALUES(9,'future9',zeroblob(32))"});
+                path,
+                {"INSERT INTO subathon_migration_history VALUES(11,'future11',zeroblob(32))"});
         if (variant == "wrong")
             account_sessions_fixture::corrupt(
                 path, {"UPDATE subathon_catalog SET store_identity='foreign'"});
@@ -492,7 +518,6 @@ struct Store {
 struct Rig {
     Store store;
     std::shared_ptr<Elapsed> elapsed = std::make_shared<Elapsed>();
-    std::shared_ptr<Sampler> sampler = std::make_shared<Sampler>();
     std::shared_ptr<Log> log = std::make_shared<Log>();
     std::shared_ptr<FakeTransport> transport = std::make_shared<FakeTransport>();
     std::shared_ptr<Dispatcher> dispatch = std::make_shared<Dispatcher>();
@@ -510,16 +535,11 @@ struct Rig {
             o.installation = "X";
         if (configure)
             configure(o);
-        instance =
-            hooks::HostAccess::create(std::move(o), std::move(t), std::move(d),
-                                      {elapsed, sampler, [l = log](const auto &e) { l->add(e); }});
+        instance = hooks::HostAccess::create(std::move(o), std::move(t), std::move(d),
+                                             {elapsed, [l = log](const auto &e) { l->add(e); }});
     }
     ~Rig() {
         log->set_observer({}); // test locals may already have unwound
-        dispatch->body = {};
-        dispatch->completion = {};
-        dispatch->diagnostic_body = {};
-        sampler->during_sample = {};
         if (!instance)
             return;
         const auto state = instance->inspect().state;
@@ -573,8 +593,20 @@ struct Rig {
         transport->on_io([&] { transport->ingress->disconnected(p); });
     }
     void check_callbacks() const {
+        { // Bounded fixed event storage, no fabricated SQL or writer admission.
+            std::lock_guard lock(log->mutex);
+            for (std::size_t i = 0; i != log->used; ++i) {
+                const auto &e = log->events[i];
+                const bool writer = e.kind == hooks::EventKind::writer_completed ||
+                                    e.kind == hooks::EventKind::inspection_completed ||
+                                    e.kind == hooks::EventKind::installation_read_completed;
+                require(writer || !e.work, "Non-writer observation has no SQL result");
+                require(e.kind != hooks::EventKind::writer_completed ||
+                            (e.work && e.work->ticket_revoked),
+                        "Actual command result after ticket revocation");
+            }
+        }
         dispatch->failures.check();
-        sampler->failures.check();
         log->failures.check();
     }
     void refused_activation() {
@@ -589,9 +621,17 @@ struct Rig {
                         return dispatch->completions >= n;
                     },
                     wait_ms),
-                "Matched publications finish");
+                "Supplied unit completions finish");
         transport->check();
         check_callbacks();
+        const auto results = log->matching(hooks::EventKind::writer_completed);
+        require(results.size() >= n, "Actual writer completions, not dispatcher counters alone");
+        for (std::size_t i = 0; i != n; ++i)
+            require(results[i].work &&
+                        results[i].work->transaction == TransactionOutcome::committed &&
+                        results[i].work->error == WorkError::none && results[i].work->has_value &&
+                        results[i].work->ticket_revoked,
+                    "Normal component positive requires actual committed truth");
         require(!log->full(), "Bounded observer log");
     }
     void stop(bool allow_failed = false) {

@@ -245,7 +245,6 @@ QJsonObject snapshot(const h::Host &host) {
     return {{"elapsed_source_shared", identity.host && identity.host == identity.profile},
             {"state", int(s.state)},
             {"storage_active", s.storage_active},
-            {"generation", QString::number(s.generation)},
             {"associations", QString::number(s.associations)},
             {"queued_diagnostics", QString::number(s.queued_diagnostics)},
             {"input_capacity", QString::number(s.input.capacity)},
@@ -259,9 +258,9 @@ QJsonObject snapshot(const h::Host &host) {
 }
 class Dispatch final : public h::CommandDispatcher {
   public:
-    explicit Dispatch(bool block, bool gate, bool diagnostic_throw)
+    explicit Dispatch(bool block, bool gate, bool diagnostic_throw, bool forward_after_signal)
         : block_(block), gate_(gate), diagnostic_throw_(diagnostic_throw),
-          owner_(std::this_thread::get_id()) {}
+          forward_after_signal_(forward_after_signal), owner_(std::this_thread::get_id()) {}
     ~Dispatch() override {
         emit_event({{"event", "dispatch_destructor"},
                     {"owner_thread", std::this_thread::get_id() == owner_}});
@@ -275,59 +274,74 @@ class Dispatch final : public h::CommandDispatcher {
         }
         return api_host_fixture::reply("diag");
     }
-    h::OwnedDomainResult execute(h::Execution &e, h::CommandView) override try {
-        product_require(std::this_thread::get_id() == owner_, "Actual execution on Qt main");
-        auto &tx = e.begin_transaction();
-        const auto f = tx.accounts().read_installation("I");
-        product_require(std::holds_alternative<StoredInstallationFacts>(f),
-                        "Actual guarded store read");
-        const auto &facts = std::get<StoredInstallationFacts>(f);
-        product_require(facts.current.installation_ref == "I" &&
-                            facts.current.session_epoch_ref == "E" && facts.revision_ref == "J",
-                        "I/E/J literal");
-        if (block_) {
-            emit_event({{"event", "nonreturning_body"}});
-            // Process-terminal ONLY. Blocked trusted body cannot service Qt stop or
-            // certify stopped. External supervisor kills/reaps, no cleanup claim.
-            for (;;)
-                ::pause();
-        }
-        if (gate_) {
-            gate_ = false;
-            emit_event({{"event", "executing_gate"}});
-            release_gate();
-        }
-        tx.commit();
-        emit_event({{"event", "domain_committed"}});
-        return api_host_fixture::reply("done");
-    } catch (const h::NotImplemented &) {
-        emit_event({{"event", "unimplemented"}, {"piece", "production_facade"}});
-        output->flush();
-        ::_exit(42);
-    } catch (const std::exception &) {
-        terminal("assertion", "Unexpected production callback exception", 43);
-    }
-
-    h::OwnedReply complete(h::Publication &p, const h::OwnedDomainResult &) override try {
-        product_require(std::this_thread::get_id() == owner_, "Publication on Qt main");
-        const auto f = implemented(p.current_installation(), "publication_source");
-        product_require(f.installation == "I" && f.epoch == "E" && f.revision == "J",
-                        "Fresh publication I/E/J");
-        product_require(
-            std::holds_alternative<SessionSourceUnavailable>(p.clock()->sample_current()),
-            "No SESSION009 native UTC binding");
-        emit_event({{"event", "publication"}});
-        return api_host_fixture::reply("done");
-    } catch (const h::NotImplemented &) {
-        emit_event({{"event", "unimplemented"}, {"piece", "production_facade"}});
-        output->flush();
-        ::_exit(42);
-    } catch (const std::exception &) {
-        terminal("assertion", "Unexpected production callback exception", 43);
+    void execute(h::CommandHandle handle, h::CommandView) override {
+        product_require(std::this_thread::get_id() == owner_, "Execution on Qt main");
+        command_.emplace(std::move(handle));
+        api_host_fixture::admitted(command_->forward(
+            [this](auto context) -> QVariant {
+                product_require(std::this_thread::get_id() == owner_, "Unit body on Qt main");
+                const auto session = context.begin();
+                account_sessions_fixture::Cleanup cleanup{session};
+                SqliteAccountSessionUnit unit(session, {});
+                const auto f = unit.read_installation("I");
+                product_require(std::holds_alternative<StoredInstallationFacts>(f),
+                                "Actual store read");
+                const auto &facts = std::get<StoredInstallationFacts>(f);
+                product_require(facts.current.installation_ref == "I" &&
+                                    facts.current.session_epoch_ref == "E" &&
+                                    facts.revision_ref == "J",
+                                "I/E/J literal");
+                if (block_) {
+                    emit_event({{"event", "nonreturning_body"}});
+                    for (;;)
+                        ::pause(); // supervisor-only terminal path, no cleanup claim
+                }
+                if (gate_) {
+                    gate_ = false;
+                    emit_event({{"event", "executing_gate"}});
+                    release_gate();
+                }
+                session.commit();
+                return 1;
+            },
+            [this](auto result) {
+                product_require(std::this_thread::get_id() == owner_,
+                                "Supplied completion on Qt main");
+                emit_event({{"event", "unit_completion"},
+                            {"transaction", int(result.transaction)},
+                            {"error", int(result.error)},
+                            {"value", result.value.has_value()}});
+                if (forward_after_signal_) {
+                    const auto refusal =
+                        command_->forward(api_host_fixture::read_installation, [](auto) {
+                            product_require(false, "Refused unit cannot complete");
+                        });
+                    product_require(std::holds_alternative<h::Failure>(refusal) &&
+                                        std::get<h::Failure>(refusal) == h::Failure::stopping,
+                                    "Pending native signal cuts forwarding");
+                    emit_event({{"event", "signal_forward_refused"}});
+                    return;
+                }
+                if (result.transaction == TransactionOutcome::committed &&
+                    result.error == WorkError::none && result.value) {
+                    auto end = command_->finish(api_host_fixture::reply("done"));
+                    if (std::holds_alternative<h::Failure>(end))
+                        product_require(
+                            std::get<h::Failure>(end) == h::Failure::stopping ||
+                                std::get<h::Failure>(end) == h::Failure::disconnected ||
+                                std::get<h::Failure>(end) == h::Failure::resource_limit ||
+                                std::get<h::Failure>(end) == h::Failure::elapsed_unavailable,
+                            "Actual terminal reply gate");
+                    else
+                        implemented(std::move(end), "command_finish");
+                } else
+                    implemented(command_->finish(), "command_end");
+            }));
     }
 
   private:
-    bool block_, gate_, diagnostic_throw_;
+    std::optional<h::CommandHandle> command_;
+    bool block_, gate_, diagnostic_throw_, forward_after_signal_;
     std::thread::id owner_;
 };
 int child(int argc, char **argv, const QJsonObject &config) {
@@ -346,18 +360,59 @@ int child(int argc, char **argv, const QJsonObject &config) {
     options.limits.associations = 2;
     options.limits.per_peer = 2;
     options.installation = config.value("installation").toString("I").toStdString();
-    if (config.value("response_cap").toInt() == 3)
-        options.limits.response_bytes = 3;
+    const auto response_cap = config.value("response_cap").toInt();
+    fixture_require(response_cap == 0 || response_cap == 3 || response_cap == 4,
+                    "Finite response profile");
+    if (response_cap)
+        options.limits.response_bytes = response_cap;
+    if (response_cap == 4)
+        options.limits.response_capacity = 4;
+    const auto peer_cap = config.value("peer_cap").toInt();
+    fixture_require(peer_cap == 0 || peer_cap == 2, "Finite peer profile");
+    if (peer_cap)
+        options.limits.peers = peer_cap;
+    const auto body_cap = config.value("body_cap").toInt();
+    fixture_require(body_cap == 0 || body_cap == 4, "Finite body profile");
+    if (body_cap)
+        options.limits.envelope_bytes = body_cap;
     const auto frame_ms = config.value("frame_ms").toInt();
     fixture_require(frame_ms == 0 || frame_ms == 200, "Finite fixture frame duration selection");
     if (frame_ms)
         options.native.frame_ms = std::uint64_t(frame_ms);
+    const bool observer_throw = config.value("observer_throw").toBool();
+    const auto owner = std::this_thread::get_id();
+    bool endpoints_seen = false;
+    h::DrogonOptions network;
+    network.port = std::uint16_t(config.value("port").toInt());
+    network.http_port = std::uint16_t(config.value("http_port").toInt());
+    network.scratch_parent = config.value("fixture_root").toString().toStdString();
     auto transport = implemented(
-        h::make_drogon_transport({"127.0.0.1", std::uint16_t(config.value("port").toInt())}),
+        h::make_drogon_transport(
+            network,
+            [&](const auto &e) {
+                product_require(std::this_thread::get_id() == owner && !endpoints_seen,
+                                "Once-only Qt endpoint observer");
+                endpoints_seen = true;
+                const auto address_size = ::strnlen(e.address.data(), e.address.size());
+                const auto root_size = ::strnlen(e.scratch_root.data(), e.scratch_root.size());
+                product_require(address_size <= 45 && root_size <= 533 && e.port && e.http_port &&
+                                    e.port != e.http_port,
+                                "Actual complete distinct endpoints");
+                // Fixed fields bound this one serialized record below4096 before output.
+                emit_event({{"event", "listeners"},
+                            {"address", QString::fromUtf8(e.address.data(), address_size)},
+                            {"port", e.port},
+                            {"http_port", e.http_port},
+                            {"scratch_root", QString::fromUtf8(e.scratch_root.data(), root_size)},
+                            {"native_socket_options", e.native_socket_options},
+                            {"http_socket_options", e.http_socket_options}});
+                if (observer_throw)
+                    throw std::runtime_error("endpoint observer exception");
+            }),
         "drogon_factory");
-    auto dispatcher = std::make_unique<Dispatch>(config.value("block_body").toBool(),
-                                                 config.value("gate_body").toBool(),
-                                                 config.value("diagnostic_throw").toBool());
+    auto dispatcher = std::make_unique<Dispatch>(
+        config.value("block_body").toBool(), config.value("gate_body").toBool(),
+        config.value("diagnostic_throw").toBool(), config.value("forward_after_signal").toBool());
     // Native path uses NO elapsed/session testing injection. Host must invoke
     // the real monotonic factory itself; identity observation cannot establish it.
     const auto owner_thread = std::this_thread::get_id();
@@ -368,11 +423,12 @@ int child(int argc, char **argv, const QJsonObject &config) {
 
     auto host = t::HostAccess::create(
         std::move(options), std::move(transport), std::move(dispatcher),
-        {{}, {}, [&](const t::Event &e) {
+        {{}, [&](const t::Event &e) {
              QJsonObject event{{"event", "host_event"},
                                {"kind", int(e.kind)},
                                {"ordinal", QString::number(e.ordinal)},
-                               {"generation", QString::number(e.generation)},
+                               {"command", QString::number(e.command)},
+                               {"unit", QString::number(e.unit)},
                                {"owner_thread", e.thread == owner_thread},
                                {"thread_token", thread_token(e.thread)}};
              if (e.work)
@@ -380,19 +436,23 @@ int child(int argc, char **argv, const QJsonObject &config) {
                                              {"error", int(e.work->error)},
                                              {"value", e.work->has_value},
                                              {"ticket_revoked", e.work->ticket_revoked}};
+             if (e.admission)
+                 event["admission"] = int(*e.admission);
+             if (e.end)
+                 event["end"] = int(*e.end);
              if (e.refusal)
                  event["refusal"] = int(*e.refusal);
              emit_event(std::move(event));
              if (((hold_inspection && e.kind == t::EventKind::inspection_enqueued) ||
-                  (hold_wrapper && e.kind == t::EventKind::wrapper_accepted) ||
+                  (hold_wrapper && e.kind == t::EventKind::command_admitted) ||
                   (hold_diagnostic && e.kind == t::EventKind::diagnostic_queued)) &&
                  !startup_gate_used.exchange(true)) {
                  product_require(e.thread == owner_thread &&
                                      std::this_thread::get_id() == owner_thread,
                                  "Pre-entry observation gate on actual Qt owner");
-                 emit_event({{"event", hold_inspection ? "startup_gate"
-                                                      : hold_diagnostic ? "diagnostic_gate"
-                                                                        : "wrapper_gate"}});
+                 emit_event({{"event", hold_inspection   ? "startup_gate"
+                                       : hold_diagnostic ? "diagnostic_gate"
+                                                         : "wrapper_gate"}});
                  // No execution/publication/work scope exists at these stages.
                  // diagnostic_queued proves actual retained data before callback;
                  // signal during this gate must win at next owner entry.
@@ -405,7 +465,7 @@ int child(int argc, char **argv, const QJsonObject &config) {
     implemented(signal_bridge.install(), "signal_install");
     emit_event({{"event", "signal_installed"}}); // before start/framework threads
     // First command chooses when to start; stop/signal before start is observable,
-    // never a fixture state setter. Commands cannot select generation/readiness.
+    // never a fixture state setter. Commands cannot select readiness or invocation.
     QByteArray partial;
     bool started = false, stopped_reported = false, exit_requested = false;
     QSocketNotifier control(STDIN_FILENO, QSocketNotifier::Read);
@@ -440,9 +500,20 @@ int child(int argc, char **argv, const QJsonObject &config) {
         const auto op = cmd.value("op").toString();
         if (op == "start" && !started) {
             started = true;
-            implemented(
-                host->start([](auto r) { implemented(std::move(r), "startup_completion"); }),
-                "host_start");
+            implemented(host->start([&](auto r) {
+                if (observer_throw) {
+                    product_require(std::holds_alternative<h::Failure>(r) &&
+                                        std::get<h::Failure>(r) == h::Failure::unavailable,
+                                    "Observer exception startup refusal");
+                    emit_event(
+                        {{"event", "startup_refused"}, {"reason", int(h::Failure::unavailable)}});
+                } else {
+                    product_require(endpoints_seen,
+                                    "Actual endpoint pair precedes startup success");
+                    implemented(std::move(r), "startup_completion");
+                }
+            }),
+                        "host_start");
         } else if (op == "stop")
             host->request_stop();
         else if (op == "exit" && stopped_reported) {
@@ -466,7 +537,8 @@ int child(int argc, char **argv, const QJsonObject &config) {
                 emit_event(identity("serving_identity")); // after serving/lazy framework loads
                 emit_event({{"event", "serving"}, {"snapshot", snapshot(*host)}});
             }
-            if (s.state == h::State::stopped && !stopped_reported) {
+            if ((s.state == h::State::stopped || (observer_throw && s.state == h::State::failed)) &&
+                s.writer_barrier && s.network_barrier && s.owner_cleanup && !stopped_reported) {
                 stopped_reported = true;
                 emit_event(identity("stopped_identity")); // after lazy runtime/teardown paths
                 product_require(s.writer_barrier && s.network_barrier && s.owner_cleanup,
@@ -553,6 +625,26 @@ int main(int argc, char **argv) {
         const auto config = QJsonDocument::fromJson(argv[1], &error);
         fixture_require(error.error == QJsonParseError::NoError && config.isObject(),
                         "Configuration object");
+        if (config.object().contains("validate_options")) {
+            h::DrogonOptions network;
+            const auto c = config.object().value("validate_options").toObject();
+            network.address = c.value("address").toString("127.0.0.1").toStdString();
+            network.port = std::uint16_t(c.value("port").toInt());
+            network.http_port = std::uint16_t(c.value("http_port").toInt());
+            network.scratch_parent = c.value("scratch_parent").toString("/tmp").toStdString();
+            const auto result = h::make_drogon_transport(network);
+            if (std::holds_alternative<h::NotImplemented>(result)) {
+                emit_event({{"event", "unimplemented"}, {"piece", "drogon_factory"}});
+                output->flush();
+                ::_exit(42);
+            }
+            product_require(std::holds_alternative<h::Failure>(result) &&
+                                std::get<h::Failure>(result) == h::Failure::invalid_options,
+                            "Exact factory invalid_options");
+            emit_event({{"event", "factory_options_refused"}});
+            output->flush();
+            return 0;
+        }
         const auto result = child(argc, argv, config.object());
         output->flush();
         return result;

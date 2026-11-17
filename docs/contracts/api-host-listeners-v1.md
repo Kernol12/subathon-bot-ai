@@ -338,8 +338,12 @@ teardown thread is insufficient; source review must prove this quiescence.
 
 These are independent literal ORACLES, never executed results or new test counts.
 APITEST-015 must preserve all75 Qt selectors/18 native methods, all HL01–17 and
-their assertions/literals. Any added methods/rows/children require exact declared
-registrations and reviewed harness budgets; no removals/weakening are authorized.
+their assertions/literals except the exact owner-approved
+[itemized revision](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6907983078)
+and its [recorded amendments](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6914837587).
+Any added methods/rows/children require exact declared registrations and reviewed
+harness budgets; no removals/weakening outside that revision are authorized.
+This qualification is a host-baseline pointer; listener rules are unchanged.
 The revised endpoint selection is a disclosed baseline correction; historical
 PR112 source8fa8810/red dd0f625/reviews retain their original meaning.
 
@@ -370,7 +374,7 @@ oracles stay binding. Contract filenames below are under `docs/contracts`;
 
 | Original path / reference and wording | Replacement / qualification |
 | --- | --- |
-| `api-host-listeners-v1.md` at1bed699:7–15 and both lifecycle pointer paragraphs at1bed699:25–30 / boundary:28–34, “ONLY … single internal endpoint” / resources unchanged | This table is the complete amendment scope: topology, buffers, thread ownership, refusal/scratch, projection/observer and signal safety. Existing bridge counts/charges, source finalization, generation, clock, SQL outcomes and HL01–17 stay binding. |
+| `api-host-listeners-v1.md` at1bed699:7–15 and both lifecycle pointer paragraphs at1bed699:25–30 / boundary:28–34, “ONLY … single internal endpoint” / resources unchanged | This table is the complete amendment scope: topology, buffers, thread ownership, refusal/scratch, projection/observer and signal safety. Existing bridge counts/charges and SQL outcomes stay binding. Source finalization, generation, clock and HL rows now refer to [consumer boundary revision 2](api-host-lifecycle-boundary-v1.md) §§1–3 and the owner-approved A–E list; the historical at1bed699 references identify the original packet, not removed APIs to reinstate. Listener rules outside §6 require their owning task’s rebase. |
 | `server/include/subathon/server/api_host_drogon.hpp` at8fa8810:6–14, one port for HTTP/WS | §1 appends http_port and scratch_parent, adds bounded actual endpoint/scratch/socket-option observation; §2 requires both real listens. APITEST-015 later authors declarations; no header changes here. |
 | `api-host-lifecycle-v1.md` at1bed699:215–217, “Network receive/parser/output buffers use the separate native profile” | Native frame/control owners keep native bounds; ordinary HTTP needs API-016, and native pre-Upgrade changes require its explicit per-listener review (§4). Bridge pools alone cap neither. |
 | `api-host-lifecycle-boundary-v1.md` at1bed699:352–356, framework “main-loop accept/listen work” | Selected Linux framework main configures/binds/coordinates; its single IO0 performs real listen/accept and peer callbacks. §2's FIFO marker follows both actual listens; all owning-loop barriers remain. |
