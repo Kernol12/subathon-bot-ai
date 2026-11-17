@@ -127,7 +127,10 @@ def validate_stage(stage: object, root: Path, local_path, evidence_path, *,
         phase = review["phase"]
         if not isinstance(phase, str) or phase not in PHASE_PROVIDERS:
             raise ValueError("Unknown review phase")
-        if review["provider"] != PHASE_PROVIDERS[phase]:
+        if "owner_authorization" in review:
+            https(review["owner_authorization"], "review.owner_authorization", evidence_path, root)
+        if review["provider"] not in PHASE_PROVIDERS.values() or (
+                review["provider"] != PHASE_PROVIDERS[phase] and "owner_authorization" not in review):
             raise ValueError(f"Review {phase} requires provider {PHASE_PROVIDERS[phase]}")
         text(review["model"], "review.model")
         if text(review["reviewer"], "review.reviewer") in authors:
