@@ -644,9 +644,13 @@ class FoundationTests(unittest.TestCase):
         # Product assertions are evaluated once after a valid witness; never retried.
         self.assertEqual(p.read(seventeenth, len(SWITCH)), SWITCH)
         peers.append(seventeenth)
-        for index in (16, *range(16)):
+        for checks_passed, index in enumerate((16, *range(16))):
             p.send(peers[index], BINARY_A)
-            p.wait("message", peer=index)
+            try:
+                p.wait("message", peer=index)
+            except AssertionError as error:
+                raise AssertionError(
+                    f"{error}; N5 peer={index}, checks_passed={checks_passed}") from error
         p.barrier()
         final = p.inspect()
         self.assertEqual((final["native_peers"], final["http_peers"],
