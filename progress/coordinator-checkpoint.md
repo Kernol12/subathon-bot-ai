@@ -10,20 +10,32 @@ API-016 is merged (PR #664, `4184c9fc`). The coordinator thread that ran it stop
 there by owner instruction. The handover comment lists open owner decisions, PR
 states, the next step with its gates, deferred items, planned issues and leftovers:
 [#278 handover](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6930279142). A new coordinator starts nothing until the owner gives
-the go-ahead named there.
+the go-ahead named there. The owner gave those decisions on 2026-11-17, as recorded
+below; the handover's technical gates remain binding.
 
 ## Authorized path
 
-Authorized on 2026-11-16, in this order and nothing else:
+Authorized on 2026-11-16, amended by the owner on 2026-11-17:
 
 1. **API-016 [#616](https://github.com/Kernol12/subathon-bot-ai/issues/616)**: bounded HTTP transport foundation. **Done** (PR #664,
    `4184c9fc`, proof `progress/proofs/API-016.json`).
 2. **APITEST-015 [#613](https://github.com/Kernol12/subathon-bot-ai/issues/613)**: revised host baseline (tests stage of API-001), tier A.
    Step 1 (contract revision for groups A to E) is reviewed: PR #667 at `bc9b33c4`,
    draft, not merged. The next step (scope items 1 to 4: test-suite baseline revision,
-   additions, listeners, header and stubs) waits for the owner's go-ahead.
+   additions, listeners, header and stubs) is authorized under the handover gates.
+   Current main was merged into its branch first (`d005c23c`).
+   **APITEST-017 [#672](https://github.com/Kernol12/subathon-bot-ai/issues/672)** is also authorized, tier A, in parallel in its own worktree and branch.
+   The owner narrowed it to native peers (former scope 2): suspend/admit and more
+   than eight peers, using existing observations. Tests must fail on `0e774a51`
+   (the suspend/admit case also on `8fbc0ee8`) and pass on the merged foundation.
+   Former HTTP scope 1 and its observation seam are deferred to #689, not an
+   API-001 prerequisite and not authorized.
+   The tasks own separate files. If both need the same file, stop and ask the owner.
 3. **API-001 [#278](https://github.com/Kernol12/subathon-bot-ai/issues/278)**: the production host, tier A. Prerequisites: APITEST-015 and
-   APITEST-017 (#672, not authorized).
+   APITEST-017 (#672). The path remains both tests tasks, then API-001.
+
+Report each stage when it finishes or needs the owner. Filing the API-016
+follow-ups as planned epic-linked board issues is authorized; doing their work is not.
 
 SLICE-001 (PR660, 579afcb3) and the owner checkpoint on #278 are done. PR #121 is
 closed; API-001 restarts from its rewritten issue on current `main` in a fresh
@@ -31,12 +43,15 @@ session, and none of PR #121's reviews, approvals or CI results carries over.
 
 ## Planned, not authorized
 
-- APITEST-017 [#672](https://github.com/Kernol12/subathon-bot-ai/issues/672): reviewed tests for the defects of API-016 that no frozen test
-  covers (large input with more than 8 connections; established native peers after
-  suspend/admit and beyond 8 peers). Prerequisite of API-001.
 - SESSION-013 [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662), SESSION-009 [#582](https://github.com/Kernol12/subathon-bot-ai/issues/582), API-010 [#560](https://github.com/Kernol12/subathon-bot-ai/issues/560).
-- API-016 follow-ups (not filed): V2, C2, C4, C6, I14, I15, I16, I19, I20, O5; see
-  the handover comment.
+- APITEST-018 [#689](https://github.com/Kernol12/subathon-bot-ai/issues/689): large buffered HTTP input with more than eight connections and its
+  bounded observation seam, moved from APITEST-017 by the owner. Planned under
+  EPIC-008; not an API-001 prerequisite. Historical `f8be1aec` coverage is deferred here.
+- APITEST-019 [#692](https://github.com/Kernol12/subathon-bot-ai/issues/692): unexplained unloaded legacy-control exit90/SDK diagnostic. Planned under
+  EPIC-008, not authorized; not a prerequisite of APITEST-017 or API-001.
+- API-016 follow-ups: V2, C2, C4, C6, I14, I15, I16, I19, I20, O5; see the handover
+  comment. Filed as [#678–#687](https://github.com/Kernol12/subathon-bot-ai/issues/273)
+  (API-017 through API-026), planned under EPIC-008; none is authorized for work.
 - Process/tooling #619/#620 is frozen; lifting the freeze is the owner's decision.
 
 Dependency readiness authorizes nothing beyond the path above. No live chat or
@@ -68,8 +83,8 @@ Owner amendments, all recorded on #278:
   answered. Reference units report refusals as rollbacks, and those must be answered.
 - API-010 (#560), the first replying dispatcher, carries the criterion "a command with
   a unit that ended without a commit never yields a success reply" ([widened](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6919654379)).
-  #560 and the one boundary-contract sentence that quotes it are updated at the next
-  step of APITEST-015; until then both carry the narrower "rolled-back unit" wording.
+  #560 is updated; the matching boundary sentence is authored locally in APITEST-015,
+  pending independent review and publication.
 - #278 acceptance criterion: SIGTERM leads to an orderly stop; the host installs its
   own handler, because Drogon's default one terminates the process.
 
@@ -153,7 +168,8 @@ planned without changing the issue, sets Status when claiming or blocking an iss
 and moves issues to Ready when a close unblocks them.
 
 Open non-epic issues are Ready when every native blocker is closed, otherwise
-Planned; retain In progress for #613 and Blocked for #278, which waits for the owner.
+Planned; claimed issues are In progress and issues awaiting the owner are Blocked.
+The owner's API-016 follow-ups are explicitly Planned and not authorized for work.
 Epics keep their status. Board Ready shows dependency order; it does not authorize
 work. The checkpoint's authorized path does.
 
@@ -171,6 +187,37 @@ work. The checkpoint's authorized path does.
   before merge. `tools/check_publication.py` requires `origin/main` as an ancestor of
   the head, so merge `main` into the branch before the proof commit.
 
+## Bounded owner authorizations (2026-11-17)
+
+- The coordinator is the sole, serial writer of `.github/workflows/ci.yml` for
+  APITEST-017 and APITEST-015. Keep separate commits on their task branches and
+  independent review before publication. Foundation registration is 37 methods /
+  10090s; host registration waits for its actual reviewed final inventory, not a
+  guessed or padded count. Other shared-file conflicts still stop for the owner.
+- APITEST-015 correction 11 is the THIRD AND LAST contract pass: only the
+  phase/thread of `command_admitted` as approved on #613. It is synchronous on Qt
+  after retained admission, before entry checks/execution/writer scope, without a
+  host lock; a bounded pause leaves IO ingress independent. Any further contract
+  gap goes to the owner with fallback options, not a fourth pass. Fresh changed-part
+  Codex verification and Claude closing remain required; NI is not runtime proof.
+- The owner accepts the APITEST-017 unloaded sample (0/20) as bounded
+  non-reproduction. The earlier exit90/SDK diagnostic stays unexplained: one
+  failure in 21 unloaded runs across the original and amended consumers. Keep
+  the reviewed logging amendment permanently in the frozen foundation test.
+  Planned, unauthorized #692 owns that failure; it blocks neither #672 nor API-001.
+- The N5 hold is lifted for DIAGNOSIS ONLY: use the reviewed tuple retention for
+  at most 20 loaded attempts; stop at the first failure, report the retained tuple
+  and observed failure rate. Change no predicate, scheduling, fixture or retry
+  policy; none of these attempts counts toward acceptance. In parallel, a fresh
+  read-only Codex investigation answers whether existing observations/gates can
+  force the overlap deterministically without timing or load, with evidence and
+  the smallest change if yes. Bring BOTH results to the owner together. No cause
+  fix, fixture amendment, acceptance restart or full CI/publication is authorized.
+- The control-only launcher is ignored evidence, never committed and unused by
+  CI. Retain its hash-bound bytes outside #690 to preserve the completed sample's
+  evidence. From now on, ANY new tooling, launcher or harness goes to the owner
+  BEFORE authoring, even when it serves an approved step.
+
 ## What SLICE-001 delivered
 
 `subathon-dev-server` (`server/dev/`, suite `dev-server` in the `qt` job) starts the
@@ -187,10 +234,42 @@ API-001 keep their ownership and release requirements.
 
 ## Live assignments
 
-None. API-016 is merged. APITEST-015 (#613) is claimed for step 1 only; its branch
-`task/APITEST-015-host-baseline-revision` (PR #667) has no running session. Verify
-the actual checkout, worktrees and PR state before acting; never infer a live session
-from this file.
+- APITEST-015 (#613), tier A: fresh Codex author in the retained worktree
+  `t3-0dc4e70e`, branch `task/APITEST-015-host-baseline-revision` (PR #667).
+  Owns host baseline suites, host headers/stubs and the host contract updates.
+  Local contract/header candidate `59a0db32` passed changed-part Codex verification
+  and fresh Claude closing. Tests authoring stopped before edits on the missing
+  pre-entry observation phase. Owner-authorized last correction 11 is local at
+  `9d9587e9`, passed changed-part Codex and fresh Claude closing. Test authorship
+  is complete at local `a450ca03`, unreviewed/unexecuted: 47 Qt methods/87 selectors
+  and 30 native methods/72 children. Separate tests reviews and integration remain.
+  The owner decided all six numbered
+  C2 corrections and then revised 1 and 6 ([latest record](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6932687162)); PR #667 and every tier A packet must name all six with these revisions.
+  Execute may prequeue units, preserving the three-accepted-unit fail-close oracle.
+  Forward-from-body still ends without reply; forwarding is only from execute or a
+  supplied unit completion. Payload is a borrowed, charged host-owned input view.
+  Unit captures follow existing intake resource rules unchanged; the compile-time
+  capture limit is dropped. No new producer prerequisite task. No host runtime
+  implementation or observed intended red is claimed.
+- APITEST-017 (#672), tier A: fresh Codex author in separate worktree `t3-aa9893a6`,
+  branch `task/APITEST-017-transport-regressions`. Owns foundation-test additions
+  only. Source reviews approved `6d558798`; acceptance stopped at N5 loaded
+  repetition 12 (missing witness). A later admitted unloaded legacy control failed
+  exit90 before N5, cause unknown; one debugger attempt captured no diagnostic.
+  Logging-only source reviews and fresh admission passed at local `343414cb`;
+  the owner accepted 0/20 unloaded controls as bounded non-reproduction. The
+  loaded N5 diagnostic and separate read-only determinism answer come next under
+  the bounded authorization above; acceptance and full CI/publication stay held. Owner narrowed the active task to
+  native scope only; HTTP continuation and its observation seam are deferred to #689.
+- Independent Codex default writer-budget measurement passed two current-v10
+  inspections ([receipt](https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6932486629)); it establishes no default-budget advancement, installation read or host activation.
+- Coordinator owns shared build/CI integration and checkpoint/proof records. Any
+  file needed by both tests tasks stops for the owner, except the expressly
+  authorized serial coordinator edits of `ci.yml` above.
+
+Builds and scratch use each worktree's ignored `build/TASK-ID/session/` on disk.
+Verify actual checkout, worktrees, PR heads and sessions before resuming; these
+assignments never substitute for that check.
 
 ## API-011 capability map (the reference path SLICE-001 hosts)
 
