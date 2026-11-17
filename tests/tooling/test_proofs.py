@@ -393,6 +393,21 @@ class ProofTests(unittest.TestCase):
             self.assertTrue(shared.called, 'Use the owning workflow engine')
             self.assertTrue(all(c.kwargs.get('tree_free') is True for c in shared.call_args_list))
 
+    def test_review_provider_exception_with_owner_https_authorization_is_accepted(self):
+        value = reviewed_record()
+        value['workflow']['stages']['contract']['reviews'][0].update(
+            provider='codex', owner_authorization='https://example.test/owner/authorization')
+        try:
+            self.assertIsNone(proofs.validate_record(value))
+        except ValueError as error:
+            self.fail(f'Owner-authorized provider must be accepted: {error}')
+
+    def test_review_provider_exception_without_owner_authorization_is_rejected(self):
+        value = reviewed_record()
+        value['workflow']['stages']['contract']['reviews'][0]['provider'] = 'codex'
+        with self.assertRaisesRegex(ValueError, '^Review initial requires provider claude$'):
+            proofs.validate_record(value)
+
     def test_review_independence_order_outcomes_times_and_rejected_history(self):
         valid = reviewed_record()
         self.assertIsNone(proofs.validate_record(valid))
