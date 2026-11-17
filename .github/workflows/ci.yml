@@ -762,7 +762,7 @@ jobs:
           data = json.loads(subprocess.check_output(
               ["ctest", "--test-dir", "build/bounded-http-foundation-debug", "--show-only=json-v1"], text=True))
           expected = {"native-websocket-profile.suite": ("native-websocket-profile", 3300),
-                      "bounded-http-foundation.suite": ("bounded-http-foundation", 10090)}
+                      "bounded-http-foundation.suite": ("bounded-http-foundation", 10158)}
           selected = {test["name"]: test for test in data["tests"] if test["name"] in expected}
           if set(selected) != set(expected):
               raise SystemExit("Both enabled owning suites must be discovered")
