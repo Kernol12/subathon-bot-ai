@@ -6,15 +6,16 @@ target_link_libraries(api_host_probe PRIVATE subathon_api_host_drogon
 subathon_target_options(api_host_probe)
 set_target_properties(api_host_probe PROPERTIES BUILD_RPATH "${sbt_drogon_root}/lib")
 
-# Receipt production is a separate reviewed, passive-ELF then controlled-identity
-# gate. Compilation/discovery needs no receipt and never runs this red baseline.
+# Source/resource review precedes configure/build. Compilation and CTest registration
+# inspection do not load either consumer. Passive ELF/ABI admission precedes controlled
+# identity; reviewed maps/seals and a receipt precede consumer discovery or bodies.
 set(SUBATHON_API_HOST_ADMISSION "${CMAKE_BINARY_DIR}/api-host-admission.json"
     CACHE FILEPATH "New API host consumer's independently checked format-1 receipt")
 add_test(NAME api-host-native.suite
     COMMAND "${CMAKE_COMMAND}" -E env "LD_LIBRARY_PATH=${sbt_drogon_root}/lib"
         "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/test_api_host_lifecycle.py"
         --probe "$<TARGET_FILE:api_host_probe>" --admission "${SUBATHON_API_HOST_ADMISSION}" -v)
-# At most25 authored child lifetimes, each20s plus two2s reap attempts; 60s margin.
+# At most72 authored child lifetimes: 72 * (20s + 2s TERM + 2s KILL) + 60s = 1788s.
 # This watchdog is fixture supervision, not a graceful shutdown guarantee.
 set_tests_properties(api-host-native.suite PROPERTIES
-    LABELS "api-host-native;acceptance;server;loopback;intentional-red" TIMEOUT 660)
+    LABELS "api-host-native;acceptance;server;loopback;intentional-red" TIMEOUT 1788)
