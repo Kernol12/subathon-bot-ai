@@ -2,6 +2,7 @@
 #include "api_host_internal.hpp"
 #include <QMetaObject>
 #include <QObject>
+#include <algorithm>
 #include <arpa/inet.h>
 #include <atomic>
 #include <cstring>
@@ -50,6 +51,11 @@ class DrogonTransport final : public Transport, public detail::TransportComposit
     NetworkBarrierObserver barrier_;
     std::thread framework_;
     std::atomic<bool> stopping_{false}, drained_{false};
+    std::atomic<unsigned> native_live_{0};
+    std::atomic<trantor::EventLoop *> native_loop_{nullptr};
+    trantor::TimerId native_close_timer_ = trantor::InvalidTimerId; // IO0 only
+    StopDeadline native_drain_{};
+    std::optional<std::uint64_t> native_close_time_;
     ListenerEndpoints endpoints_{};
     std::atomic<unsigned> socket_count_{0};
     bool native_first_ = false;
@@ -230,8 +236,11 @@ class DrogonTransport final : public Transport, public detail::TransportComposit
         s.drained_.store(true, std::memory_order_release);
         drogon::app().quit(); // after actual socket/acceptor/callback drain, never signal handler
     }
-    static void opened(void *, void *context, const native_ws::Connection &c) {
+    static void opened(void *owner, void *context, const native_ws::Connection &c) {
+        auto &s = self(owner);
         peer(context).native = c;
+        s.native_loop_.store(drogon::app().getIOLoop(0), std::memory_order_release);
+        s.native_live_.fetch_add(1, std::memory_order_release);
     }
     static void message(void *owner, void *context, const native_ws::Connection &c) {
         auto &s = self(owner);
@@ -249,13 +258,54 @@ class DrogonTransport final : public Transport, public detail::TransportComposit
             return;
         }
         const auto route = std::to_integer<unsigned>(view->bytes[1]);
-        if (route > 3 || !std::holds_alternative<Admitted>(s.ingress_->try_submit(
-                             *p.host, view->bytes.first(1), static_cast<RouteId>(route),
-                             view->bytes.subspan(2))))
+        if (route > 3) {
+            s.close(p);
+            return;
+        }
+        const auto result = s.ingress_->try_submit(
+            *p.host, view->bytes.first(1), static_cast<RouteId>(route), view->bytes.subspan(2));
+        // Pressure refuses only this command. Closing the peer would revoke
+        // replies belonging to commands already accepted on this connection.
+        if (!std::holds_alternative<Admitted>(result) &&
+            !(std::get_if<Failure>(&result) &&
+              std::get<Failure>(result) == Failure::resource_limit))
             s.close(p);
     }
-    static void closed(void *, void *context, const native_ws::Connection &) {
-        peer(context).native.reset();
+    static void closed(void *owner, void *context, const native_ws::Connection &) {
+        auto &p = peer(context);
+        if (p.native) {
+            p.native.reset();
+            self(owner).native_live_.fetch_sub(1, std::memory_order_release);
+        }
+    }
+    // Established native peers keep their unchanged profile Close bound. The
+    // foundation must not force-close them before that handshake can drain.
+    // This IO-only hint checks the original host deadline; it never extends it.
+    void poll_native_close() {
+        const auto observation = elapsed_->sample();
+        const auto *now = std::get_if<native_ws::ElapsedInstant>(&observation);
+        const bool bad = !now || (native_close_time_ && now->nanoseconds < *native_close_time_);
+        if (!bad)
+            native_close_time_ = now->nanoseconds;
+        if (native_live_.load(std::memory_order_acquire) && !bad &&
+            now->nanoseconds < native_drain_.nanoseconds)
+            return;
+        if (native_close_timer_ != trantor::InvalidTimerId) {
+            native_loop_.load()->invalidateTimer(native_close_timer_);
+            native_close_timer_ = trantor::InvalidTimerId;
+        }
+        (void)foundation_->stop({native_drain_.nanoseconds});
+    }
+    void start_native_close(StopDeadline deadline) {
+        native_drain_ = deadline;
+        for (std::size_t i = 0; i < peer_count_; ++i) {
+            auto &p = peers_[i];
+            if (p.native && !std::holds_alternative<native_ws::CloseDisposition>(
+                                profile_->start_close(p.native, native_ws::CloseWithoutStatus{})))
+                close(p);
+        }
+        native_close_timer_ = native_loop_.load()->runEvery(0.005, [this] { poll_native_close(); });
+        poll_native_close();
     }
     void configure_app() {
         auto &app = drogon::app();
@@ -421,8 +471,8 @@ class DrogonTransport final : public Transport, public detail::TransportComposit
         bh::Limits limits{peer_count_,
                           limits_.peers,
                           nl.connections + nl.incomplete_upgrades,
-                          limits_.input_slots,
-                          limits_.response_slots,
+                          std::min<std::uint64_t>(limits_.input_slots, peer_count_),
+                          std::min<std::uint64_t>(limits_.response_slots, peer_count_),
                           limits_.envelope_bytes,
                           limits_.response_bytes,
                           5000,
@@ -492,9 +542,13 @@ class DrogonTransport final : public Transport, public detail::TransportComposit
         if (stopping_.exchange(true))
             return;
         barrier_ = std::move(barrier);
-        if (foundation_)
-            (void)foundation_->stop({deadline.nanoseconds});
-        else {
+        if (foundation_) {
+            if (native_live_.load(std::memory_order_acquire)) {
+                auto *loop = native_loop_.load(std::memory_order_acquire);
+                loop->queueInLoop([this, deadline] { start_native_close(deadline); });
+            } else
+                (void)foundation_->stop({deadline.nanoseconds});
+        } else {
             auto done = std::move(barrier_);
             done({true, true, true, true});
         }
