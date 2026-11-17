@@ -2,9 +2,10 @@
 # One fresh process per selector: API-012 profile installation is process-global.
 # Data methods enumerate individual Qt method:row selectors, never the full method.
 set(subathon_api_host_cases
-    ordinary_schema8_activation_and_fresh_publication_HL06
+    ordinary_current_catalog_activation_HL06
     activation_refusal:fresh
     activation_refusal:old
+    activation_refusal:previous_head
     activation_refusal:future
     activation_refusal:wrong
     activation_refusal:malformed_catalog
@@ -23,11 +24,8 @@ set(subathon_api_host_cases
     elapsed_queue_equality_HL03_HL15:6001
     disconnect_before_entry_HL04
     disconnect_after_commit_HL04_HL13
-    clock_revocation_thread_and_reentrancy_HL05
     commit_then_throw_HL07
-    wrong_private_envelope_HL07
     lost_ack_and_fail_closed_fifo_HL07_HL14
-    actual_epoch_mutations_reach_generation7_then8_HL09
     stop_fifo_truth_HL14
     busy_begin_is_actual_failure
     diagnostic_still_queued_at_stop_HL17_HL12
@@ -42,8 +40,6 @@ set(subathon_api_host_cases
     invalid_configuration:2
     invalid_configuration:3
     invalid_configuration:4
-    wall_utc_jumps_do_not_move_elapsed_deadline_HL15:UTCmin
-    wall_utc_jumps_do_not_move_elapsed_deadline_HL15:UTCmax
     reference_bookkeeping_control_and_correlation_budget
     elapsed_failure:addition_overflow
     elapsed_failure:unavailable
@@ -62,19 +58,35 @@ set(subathon_api_host_cases
     startup_stop:2
     startup_stop:3
     late_ready_after_stop_cannot_admit
-    precommit_selected_read_failure_rolls_back_actual_mutation
-    known_rollback_preserves_source_and_generation
-    changed_commit_then_throw_rebinds_but_never_publishes
+    known_rollback_preserves_source
     startup_lost_commit_ack_stops_activation_chain
     startup_inspection_budget_refusal_still_serves_diagnostics
-    publication_throw_revokes_facade_without_replay_HL07
-    domain_failure_is_normal_publishable_input
+    completion_throw_without_replay_HL07
     body_stop_then_commit_retains_truth_HL07
-    revision_only_rebind_keeps_generation
     oversized_response_uses_control_or_close
     first_io99_after_owner100_is_valid
     elapsed_failure_at_entry_and_io_handoff_HL16:entry
     elapsed_failure_at_entry_and_io_handoff_HL16:handoff
     exact_max_deadline_then_overflow_HL16
     owner_thread_and_destruction
+    prepared_units_serial_once_and_next_command
+    body_and_pending_finish_terminal:body_forward
+    body_and_pending_finish_terminal:body_finish
+    body_and_pending_finish_terminal:pending_finish
+    reply_revocation_allows_later_unit:disconnect
+    reply_revocation_allows_later_unit:elapsed_unavailable
+    foreign_handle_calls_preserve_owner_command
+    actual_writer_refusal_drains_accepted_unit
+    idle_and_abandoned_handles_release:idle_retained
+    idle_and_abandoned_handles_release:owner_abandon
+    idle_and_abandoned_handles_release:foreign_abandon
+    known_noncommits_and_zero_unit_may_reply:no_units
+    known_noncommits_and_zero_unit_may_reply:rollback
+    known_noncommits_and_zero_unit_may_reply:body_throw_before_commit
+    known_noncommits_and_zero_unit_may_reply:no_begin
+    entered_command_outlives_queue_deadline
+    callback_exception_drains_and_withholds:execute_after_accept
+    callback_exception_drains_and_withholds:completion_after_finish
+    actual_ticket_revoked_before_supplied_completion
+    abnormal_commit_withholding_latches_across_normal_unit
 )
