@@ -16,6 +16,8 @@ enum class EventKind {
     diagnostic_queued, // Qt owner: actual retained callback/data, before entry, no live scope
     diagnostic_cancelled,
     diagnostic_entered,
+    // Synchronous on Qt after actual retained admission, before entry checks.
+    // No execution/writer scope or host lock; a bounded pause leaves IO ingress live.
     command_admitted,
     command_entered,
     unit_entered,     // host emits immediately before calling an accepted unit body
