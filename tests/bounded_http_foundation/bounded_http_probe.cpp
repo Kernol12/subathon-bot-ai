@@ -4,6 +4,7 @@
 #include <array>
 #include <atomic>
 #include <cerrno>
+#include <charconv>
 #include <chrono>
 #include <condition_variable>
 #include <cstdio>
@@ -14,13 +15,17 @@
 #include <filesystem>
 #include <fstream>
 #include <json/json.h>
+#include <limits.h>
 #include <limits>
 #include <link.h>
 #include <mutex>
 #include <openssl/sha.h>
 #include <optional>
 #include <poll.h>
+#include <pthread.h>
+#include <signal.h>
 #include <stdexcept>
+#include <string_view>
 #include <subathon/server/bounded_http.hpp>
 #include <subathon/server/testing/bounded_http_observers.hpp>
 #include <sys/resource.h>
@@ -220,7 +225,37 @@ static_assert(!std::is_default_constructible_v<bh::Request> &&
               !std::is_copy_constructible_v<bh::Request>);
 static_assert(!std::is_default_constructible_v<bh::Reply> &&
               !std::is_copy_constructible_v<bh::Reply>);
+// One fixture rendezvous in a pending IO0 command, before the next poll.
+// Callback epochs are sampled only at the source-proven active-channel origins
+// described by APITEST-017 correction2 in RESOURCE_REVIEW.md.
+struct InterleaveGate {
+    std::mutex mutex;
+    std::condition_variable changed;
+    bool waiting = false, released = false;
+    // IO0-only observations; the main command reader touches only the gate above.
+    bool readSeen = false, acceptSeen = false;
+    bh::U64 readEpoch = 0, acceptEpoch = 0;
+    void stage() {
+        std::unique_lock lock(mutex);
+        if (waiting || released)
+            fixture("interleave gate must be one shot");
+        waiting = true;
+        emit(event("interleave_staged"));
+        if (!changed.wait_for(lock, 3s, [&] { return released; }))
+            fixture("interleave staging release timeout, not behavioral red");
+        waiting = false;
+    }
+    void release() {
+        std::lock_guard lock(mutex);
+        if (!waiting || released)
+            fixture("interleave release without staged read");
+        released = true;
+        changed.notify_one();
+    }
+};
+static_assert(sizeof(InterleaveGate) <= 128); // one fixed caller-owned coordination record
 struct Rig {
+    InterleaveGate interleave;
     std::array<Peer, 128> peers{};
     std::shared_ptr<Clock> clock = std::make_shared<Clock>();
     std::unique_ptr<ws::Profile> profile;
@@ -233,6 +268,14 @@ struct Rig {
     unsigned wipes = 0, revocations = 0;
     bh::U64 readCallbacks = 0;
     static Rig &self(void *p) { return *static_cast<Rig *>(p); }
+    bh::U64 interleaveEpoch() const {
+        auto *loop = io.load();
+        if (!loop || trantor::EventLoop::getEventLoopOfCurrentThread() != loop ||
+            !loop->isInLoopThread())
+            fixture("interleave callback requires actual IO0");
+        // Equality is meaningful only for the active callback origins in the packet.
+        return loop->boundedEpoch();
+    }
     Peer &context(void *c) {
         // Actual callback context only: never resolve a client/Connection/public token as
         // authority.
@@ -252,6 +295,12 @@ struct Rig {
         auto &p = r.peers[r.connected];
         p.index = r.connected++;
         p.peer.emplace(std::move(handle));
+        if (r.action == "native-interleave" && p.index == 17) {
+            if (r.interleave.acceptSeen)
+                fixture("interleave repeated ordinary acceptance");
+            r.interleave.acceptEpoch = r.interleaveEpoch();
+            r.interleave.acceptSeen = true;
+        }
         if (!r.nullContext)
             required(p.peer->context(&p), "context");
         if (r.action != "no-wake")
@@ -561,6 +610,14 @@ struct Rig {
         }
         if (r.action == "throw-read")
             throw std::runtime_error("synthetic read observer");
+        if (r.action == "native-interleave" && p.index == 16 &&
+            s.returned > 0 && s.bytes_read == 153) {
+            if (r.interleave.readSeen)
+                fixture("interleave repeated completing Upgrade read");
+            r.interleave.readEpoch = r.interleaveEpoch();
+            r.interleave.readSeen = true;
+            r.peerEvent("interleave_read", p);
+        }
     }
     static void opened(void *o, void *c, const ws::Connection &conn) {
         auto &r = self(o);
@@ -667,7 +724,24 @@ struct Rig {
             need(bool(p.reply));
         if (op == "post" || op == "post-pair" || op == "post-close" || op == "post-stopping")
             need(bool(p.wake));
-        if (op == "barrier") {
+        if (op == "interleave-stage") {
+            if (action != "native-interleave")
+                fixture("interleave stage action");
+            // Acknowledge this fixture rendezvous before waiting, so the parent can
+            // arrange both sockets while IO0 is between active batches. No IO pumping.
+            auto e = event("ack");
+            e["op"] = op;
+            emit(e);
+            interleave.stage();
+            return;
+        } else if (op == "interleave-observe") {
+            if (action != "native-interleave" || !interleave.readSeen || !interleave.acceptSeen)
+                fixture("interleave observations missing");
+            auto e = event("interleave_observed");
+            e["read_epoch"] = Json::UInt64(interleave.readEpoch);
+            e["accept_epoch"] = Json::UInt64(interleave.acceptEpoch);
+            emit(e);
+        } else if (op == "barrier") {
             // Actual future timer readiness, followed by the end of that whole IO0
             // active-channel batch (EventLoop::loop calls pending functions afterward).
             io.load()->runAfter(
@@ -770,7 +844,71 @@ static_assert(sizeof(Rig) <= 66560); // 128 caller records x512 +1024 global fix
 // SDK retains native registration globally. Keep the fixture and its callback targets alive until
 // process teardown, even if a child fails; do not pretend Profile destruction unregisters it.
 Rig *retained = nullptr; // One intentionally process-retained registration owner; see receipt.
-void diagnostics(const char *, const std::uint64_t) { fixture("unexpected SDK diagnostic"); }
+// Keep the fail-fast rule even when the bounded, nonblocking record cannot be written.
+[[noreturn]] void diagnostics(const char *bytes, const std::uint64_t length) {
+    constexpr std::size_t head_limit = 128, tail_limit = 64, record_limit = 512;
+    constexpr std::string_view prefix = "FIXTURE:unexpected SDK diagnostic; length=";
+    constexpr std::string_view truncated_label = "; truncated=", invalid_label = "; invalid=";
+    constexpr std::string_view head_label = "; head=", tail_label = "; tail=";
+    static_assert(prefix.size() + 20 + truncated_label.size() + 1 + invalid_label.size() + 1 +
+                      head_label.size() + head_limit * 2 + tail_label.size() + tail_limit * 2 + 1 <=
+                  record_limit);
+    static_assert(record_limit <= _POSIX_PIPE_BUF);
+    std::array<char, record_limit> record{};
+    std::size_t used = 0;
+    auto append = [&](std::string_view text) {
+        if (text.size() > record.size() - used)
+            std::_Exit(90);
+        std::memcpy(record.data() + used, text.data(), text.size());
+        used += text.size();
+    };
+    auto hex = [&](const char *data, std::size_t size) {
+        constexpr char digits[] = "0123456789abcdef";
+        if (size > (record.size() - used) / 2)
+            std::_Exit(90);
+        for (std::size_t i = 0; i < size; ++i) {
+            const auto value = static_cast<unsigned char>(data[i]);
+            record[used++] = digits[value >> 4];
+            record[used++] = digits[value & 15];
+        }
+    };
+    const auto address = reinterpret_cast<std::uintptr_t>(bytes);
+    const bool invalid =
+        length != 0 &&
+        (bytes == nullptr ||
+         length > static_cast<std::uint64_t>(std::numeric_limits<std::ptrdiff_t>::max()) ||
+         length > std::numeric_limits<std::uintptr_t>::max() - address);
+    const auto head = invalid ? 0 : std::min<std::uint64_t>(length, head_limit);
+    const auto tail = invalid ? 0 : std::min<std::uint64_t>(length - head, tail_limit);
+    append(prefix);
+    const auto number = std::to_chars(record.data() + used, record.data() + record.size(), length);
+    if (number.ec != std::errc{})
+        std::_Exit(90);
+    used = static_cast<std::size_t>(number.ptr - record.data());
+    append(truncated_label);
+    append(invalid || length > head + tail ? "1" : "0");
+    append(invalid_label);
+    append(invalid ? "1" : "0");
+    append(head_label);
+    if (head != 0)
+        hex(bytes, static_cast<std::size_t>(head));
+    append(tail_label);
+    if (tail != 0)
+        hex(bytes + static_cast<std::size_t>(length - tail), static_cast<std::size_t>(tail));
+    append("\n");
+
+    // Broken/full stderr must not turn diagnostic retention into a wait or SIGPIPE exit.
+    sigset_t blocked;
+    if (::sigemptyset(&blocked) != 0 || ::sigaddset(&blocked, SIGPIPE) != 0 ||
+        ::pthread_sigmask(SIG_BLOCK, &blocked, nullptr) != 0)
+        std::_Exit(90);
+    const int flags = ::fcntl(STDERR_FILENO, F_GETFL);
+    if (flags < 0 ||
+        ((flags & O_NONBLOCK) == 0 && ::fcntl(STDERR_FILENO, F_SETFL, flags | O_NONBLOCK) < 0))
+        std::_Exit(90);
+    (void)::write(STDERR_FILENO, record.data(), used);
+    std::_Exit(90);
+}
 void setup(drogon::HttpAppFramework &app) {
     app.disableSigtermHandling()
         .setThreadNum(1)
@@ -1124,6 +1262,13 @@ int main(int argc, char **argv) {
                     emit(e);
                     drogon::app().quit();
                 });
+            } else if (r.action == "native-interleave" && v["op"] == "interleave-release") {
+                // IO0 is staged in a pending fixture command before the next poll.
+                // Only the rendezvous is released here; producer commands stay IO0.
+                r.interleave.release();
+                auto e = event("ack");
+                e["op"] = "interleave-release";
+                emit(e);
             } else
                 r.io.load()->queueInLoop([&r, v] { r.command(v); });
         }

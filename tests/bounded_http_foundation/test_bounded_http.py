@@ -560,6 +560,103 @@ class Child:
 class FoundationTests(unittest.TestCase):
     def child(self,**kw): return Child(self,mode="feature",**kw).start()
 
+    def established_native_admission(self, *, resume):
+        """R4 correction 18: HTTP admission cannot disable established native reads.
+
+        A warm frame on every real connection proves the native callback path
+        before changing admission. The post-change frame is sent only after the
+        command's Done acknowledgement; no packet coalescing or sleep is assumed.
+        A watchdog alone is inconclusive for historical intended-red evidence.
+        """
+        for count in (1, 9):
+            with self.subTest(peers=count, resume=resume):
+                p = self.child(profile="reference")
+                peers = []
+                for index in range(count):
+                    s = p.connect(True)
+                    p.wait("connected", peer=index)
+                    p.send(s, UPGRADE)
+                    self.assertEqual(p.read(s, len(SWITCH)), SWITCH)
+                    p.wait("opened", peer=index)
+                    p.send(s, BINARY_A)
+                    p.wait("message", peer=index)
+                    peers.append(s)
+                self.assertEqual(p.inspect()["native_peers"], count)
+                for index, s in enumerate(peers):
+                    p.command("suspend", peer=index)
+                    if resume:
+                        p.command("admit", peer=index)
+                    p.send(s, BINARY_A)
+                    p.wait("message", peer=index)
+                self.assertEqual(p.inspect()["native_peers"], count)
+                p.stop()
+
+    def test_established_native_suspend_is_noop(self):
+        self.established_native_admission(resume=False)
+
+    def test_established_native_suspend_admit_are_noops(self):
+        self.established_native_admission(resume=True)
+
+    def test_native_seventeenth_upgrade_with_same_batch_accept(self):
+        """Correction2: actual IO0 callback epochs witness the completing Upgrade batch."""
+        # Correction1 permits only received setup mismatches to use a fresh child.
+        for attempt in range(3):
+            p = self.child(profile="reference", action="native-interleave")
+            peers = []
+            for index in range(16):
+                s = p.connect(True)
+                p.wait("connected", peer=index)
+                p.send(s, UPGRADE)
+                self.assertEqual(p.read(s, len(SWITCH)), SWITCH)
+                p.wait("opened", peer=index)
+                peers.append(s)
+            p.barrier()
+            baseline = p.inspect()
+            require((baseline["native_peers"], baseline["http_peers"],
+                     baseline["control_capacity"], baseline["requests"]) == (16, 0, 0, 0),
+                    "FIXTURE: sixteen established native peers, controls drained, no frames")
+
+            seventeenth = p.connect(True)
+            p.wait("connected", peer=16)
+            p.command("interleave-stage")
+            p.wait("interleave_staged")
+            # IO0 is in a pending command. Eligibility for the next poll is only
+            # setup; the two source-proven active callbacks supply the witness.
+            p.send(seventeenth, UPGRADE)
+            p.connect()
+            p.command("interleave-release")
+            p.wait("interleave_read", peer=16)
+            p.wait("connected", peer=17)
+            p.wait("opened", peer=16)
+            p.command("interleave-observe")
+            witness = p.wait("interleave_observed")
+            epochs = (witness.get("read_epoch"), witness.get("accept_epoch"))
+            require(all(type(value) is int and 0 <= value <= 2**64 - 1 for value in epochs),
+                    "FIXTURE: two exact U64 callback epochs required")
+            if epochs[0] == epochs[1]:
+                print(f"N5 same-batch read/accept epochs={epochs}", flush=True)
+                break
+            print(f"N5 scenario not established {attempt + 1}/3: epochs={epochs}", flush=True)
+            # Every missed setup must pass normal drain/maps/reap0/empty stderr/seals.
+            p.stop()
+        else:
+            self.fail("FIXTURE: N5 same-batch scenario not established in three attempts; not red")
+        # Product assertions are evaluated once after a valid witness; never retried.
+        self.assertEqual(p.read(seventeenth, len(SWITCH)), SWITCH)
+        peers.append(seventeenth)
+        for checks_passed, index in enumerate((16, *range(16))):
+            p.send(peers[index], BINARY_A)
+            try:
+                p.wait("message", peer=index)
+            except AssertionError as error:
+                raise AssertionError(
+                    f"{error}; N5 peer={index}, checks_passed={checks_passed}") from error
+        p.barrier()
+        final = p.inspect()
+        self.assertEqual((final["native_peers"], final["http_peers"],
+                          final["control_capacity"], final["requests"]), (17, 1, 0, 0))
+        p.stop()
+
     def retained_native(self, p, *, lease=False):
         # Native Context retirement and SDK disposal are independent. Real IO
         # progress may complete the former while the caller still pins the latter.

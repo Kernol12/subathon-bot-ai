@@ -762,7 +762,7 @@ jobs:
           data = json.loads(subprocess.check_output(
               ["ctest", "--test-dir", "build/bounded-http-foundation-debug", "--show-only=json-v1"], text=True))
           expected = {"native-websocket-profile.suite": ("native-websocket-profile", 3300),
-                      "bounded-http-foundation.suite": ("bounded-http-foundation", 9920)}
+                      "bounded-http-foundation.suite": ("bounded-http-foundation", 10158)}
           selected = {test["name"]: test for test in data["tests"] if test["name"] in expected}
           if set(selected) != set(expected):
               raise SystemExit("Both enabled owning suites must be discovered")
@@ -777,9 +777,9 @@ jobs:
           tree = ast.parse(Path("tests/bounded_http_foundation/test_bounded_http.py").read_text())
           owner, = [n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "FoundationTests"]
           methods = [n.name for n in owner.body if isinstance(n, ast.FunctionDef) and n.name.startswith("test_")]
-          if len(methods) != len(set(methods)) or len(methods) != 34:
-              raise SystemExit("Expected all 34 reviewed foundation methods")
-          print("Enabled 34-method foundation and unchanged native44 owning suites")
+          if len(methods) != len(set(methods)) or len(methods) != 37:
+              raise SystemExit("Expected all 37 reviewed foundation methods")
+          print("Enabled 37-method foundation and unchanged native44 owning suites")
           PYTHON
       - name: Gate the unchanged native44 consumer against the successor
         run: >-

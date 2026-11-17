@@ -1,4 +1,13 @@
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+
+Task ID: APITEST-017
+Work type: test_baseline
+Issue: https://github.com/Kernol12/subathon-bot-ai/issues/672
+
+These stanzas bind this existing resource packet to the new proof identity.
+The issue remains the task brief; the historical packet and APITEST-017 addenda below
+retain their original requirements and resource accounting.
+
 # APITEST-016 authored packet: review before execution
 
 This packet includes the ORIGINAL author's corrections and subsequent coordinator
@@ -346,3 +355,243 @@ readFd; Channel.cc:78–101 handles HUP/ERR/READ separately. Actual retained
 Connection/weak tests cannot prove guard-before-allocation or deletion-thread
 behavior. A14 requires explicit source-review ratification of the IO0 cleanup
 callback assumption before any implementation approval.
+
+## APITEST-017 correction2 — option A, authored contract before test edits
+
+Owner #672 comment6948320291 and complete optionA-full-selection/{OWNER,AP17}.md.
+Same author session01a1e963-dcf3-7910-8880-c89feda0d2bf, Codex gpt-6.1-sol/high.
+Baseline exact clean d98753414fb20f270381a5b764781c5f0d164eb5. SOURCE ONLY.
+
+N5 establishes16 native peers by literal129-byte101 and actual opened, NO binary
+prewarming. Baseline native16/http0/control0/requests0. Accept native peer16,
+then stage an existing IO0 pending fixture command BEFORE issuing its Upgrade.
+The fixture acknowledges stage submission before blocking its command callback;
+parent waits staged, sends153-byte Upgrade and connects one ordinary socket,
+then releases the fixture rendezvous from the existing main command reader.
+These operations can be eligible for the next poll; eligibility is not the witness.
+
+The actual completing Upgrade read_observed for peer16 records the existing
+IO0 boundedEpoch(); actual ordinary connected(peer17) records its IO0 epoch.
+Both directions/orderings are permitted. Observe only after completing-read event,
+ordinary connected and native opened have actually arrived. Both epoch latches
+must exist, be exact U64 integers and have the source-proven active origin below.
+Only unequal valid epochs constitute a received setup miss. Missing/malformed
+observations, wrong IO0, repeated latch, diagnostics, NI, admission, cleanup or
+product errors fail immediately. No phase flag or manufactured batch number.
+
+Equal epochs then admit exactly one masked binary41 on each of17 peers, new peer
+first then peers0..15; require17 same-peer messages. Require new literal SWITCH,
+opened, final native17/http1/control0/requests0 and normal stop. No pending101
+predicate: control capacity is not batch identity and doesn't force suppression.
+
+| Example | Setup evidence | Classification / expected result |
+| --- | --- | --- |
+| Same active IO0 epoch in completing read and ordinary connected | Two actual callback latches, matching epoch after source origin proof | Run product suffix once; all17 messages and final counts required |
+| Different valid epochs | Actual both callbacks, no missing diagnostics | Print bounded pair, normal stop/drain/maps/reap0/empty stderr/seals, fresh child allowed; maximum3 TOTAL |
+| Three received epoch mismatches | Each child cleanly stopped first | Ordinary FIXTURE failure, not red/skip |
+| Missing callback, wrong IO0, malformed epoch, diagnostic or NI | Not a setup mismatch | Immediate uncaught failure, no retry |
+| Missing message after matching epochs | Product suffix entered | Failure never retried; timeout alone is not attributable historical red |
+
+Correction1 max3/cleanstop/no-product-retry remains. Correction2 replaces K9/warm/
+pending101 with K16+17th+ordinary accept and actual SDK epoch observation. ONE
+review fix round TOTAL; after it any new different defect stops for owner.
+Historical gate AFTER fresh Codex verification/freshClaude closing/freshadmission:
+10 unchanged0e trials, >=1 independently attributable PRODUCT failure required.
+Current loaded/unloaded allpass and frozen34/native44 gates remain. No60samples.
+Foundation PASS CANNOT prove the faulty suppression branch/scenario occurred;
+even positive same-batch evidence does not prove101 survived SDK poll. Coordinator
+must explicitly record that limitation on #672. No historical acceptance credit
+from the preserved one+20 old N5 passes.
+
+## Static phase proof — required before equality has meaning
+
+Current S = retained author build/APITEST-017/acceptance-investigator/successor/source;
+historical S0 = root build/APITEST-017/historical-0e-investigator/successor/source.
+Text cmp returned0 for EventLoop.cc, inner/TcpConnectionImpl.cc, TcpServer.cc,
+inner/Acceptor.cc (all trantor/trantor/net/) and lib/src/HttpServer.cc in S/S0.
+No SDK mutation. Public EventLoop.h:60 is the existing boundedEpoch() accessor.
+
+EventLoop.cc:230-254 polls one selected list, calls Channel::handleEvent on ALL
+active channels, increments epoch (zero/wrap terminates), then pending functions.
+The pending phase shares an epoch with the NEXT active phase, so epoch equality
+alone cannot separate pending callbacks from active callbacks. Neither sampled
+callback is a pending-function callback, by these selected-source origins:
+
+* Read: TcpConnectionImpl.cc:84 installs its channel read callback; :142-163
+  performs actual readFd, calls storage.read_witness BEFORE parser dispatch.
+  The only readCallback() call site is that channel binding (readCallback is
+  protected); only selected Channel::handleEventSafely calls its read callback
+  on readiness, and the only selected Channel::handleEvent caller is EventLoop's
+  active dispatch. PeerRecord::read_witness in BOTH current and historical
+  server/src/bounded_http_sdk_adapter.cpp:708-737 synchronously invokes onRead.
+  No SDK continuation calls read_witness; parser resume consumes buffered bytes,
+  not new read observations. Probe does no nested loop pumping.
+* Accept: Acceptor.cc:40 binds acceptChannel to readCallback; :71-85 accepts and
+  synchronously calls TcpServer::newConnection (:42 binding, :61-89 bounded path).
+  TcpConnectionImpl::connectEstablished :360-367 takes bounded synchronous path,
+  not the stock runInLoop branch. HttpServer::onConnection :127-153 constructs
+  bounded parser and calls storage.attached. BOTH adapters:689-706 invoke
+  connected synchronously; owner_turn follows return. No pending callback hops.
+* Same loop: SDK BoundedHttp.cc:36-39 bind_server refuses a second loop identity;
+  actual fixture stores app.getIOLoop(0) before listeners notification. Both
+  sampling sites fail FIXTURE unless getEventLoopOfCurrentThread equals that
+  exact loop and isInLoopThread(). Runtime identity checks supplement the source
+  origin proof; they do not fabricate a phase getter. Epoch is sampled only in
+  the two origins above, never from the pending stage/observe commands.
+
+Therefore matching epochs at these two active callbacks on that same loop imply
+same selected active batch; intervening active-dispatch completion changes epoch.
+The complete153-byte cumulative read is before parsing; actual opened proves
+Upgrade completed. Earlier partial reads are allowed; the witness names the
+completing read/Upgrade processing batch, not every earlier fragment's batch.
+The pending-stage rendezvous never pumps IO and is released before next poll.
+Actual accept ordering/kernel scheduling is not guaranteed. Max3 mismatch policy
+bounds this uncertainty; no runtime feasibility check is authorized here.
+
+Fallback was evaluated but not selected: phase proof closes using existing SDK
+accessor and callback origins, no SDK/producer/header change. If independent
+review rejects that proof and resolution needs SDK/producer changes, owner already
+selected original K16 fallback without same-batch proof; do not implement B.
+
+## Planned finite resources / serial integration
+
+37 methods, <=297 suite children and10158s watchdog retained conservatively;
+N5 <=3 sequential children,18 sockets/child,17 one-frame sends/valid scenario,
+NO prewarm frames, <=8 commands/attempt, <=512 non-map events/child within2048,
+2MiB cumulative log,30s child/7s step/2s reap bounds unchanged. Two U64 latches
+and two bool flags in existing <=128-byte InterleaveGate; <=66560 Rig unchanged.
+Three lines <=128 bytes each gives <=384 diagnostic bytes/run. Missing/invalid
+scalar failures do not print arbitrary payloads. No new thread/timer/tool/header.
+Root coordinator owns CMake/CI; only selector rename/integration metadata may need
+update after review, no watchdog/count increase. All bounds are authored static
+ceilings, uncompiled/unexecuted; no assertion of ABI size or scheduling stability.
+
+## Historical APITEST-017 notes below
+
+The following N5 K9/pending101, diagnostic and correction1-specific tuple descriptions
+record prior source/evidence. Correction2 above supersedes their N5 setup, selector,
+commands, resource details and witness. Correction1 clean-stop/max3/no-product-retry
+policy and the permanent logger below remain binding. Earlier approvals apply only
+to their exact heads; revised source is unreviewed and unexecuted.
+
+## APITEST-017 native-only additions (authored, review pending)
+
+This additive source/resource packet is not independent approval or execution
+evidence. Authority is issue #672 as narrowed by the owner to native scope only;
+HTTP continuation tests and observations are deferred outside this task. Contract
+examples are in the draft PR: specification v0.45 §2, SERVER-01, API-01, §§17–18;
+bounded-http-foundation-v1.md R4 §5 native opportunities, §6 correction18 and §7
+literal Upgrade/101/binary41. No new contract or producer capability is introduced.
+
+Two authored methods exercise established-native suspend-only and suspend/admit,
+each with one and nine peers: four fresh children. Each peer first completes the
+literal129-byte101 and a warm binary41 callback; after Done admission commands it
+must deliver the next same-peer binary41. One additional method establishes
+nine warm native peers, stages the tenth153-byte Upgrade in existing read_observed
+before parsing, and connects an ordinary peer without sending application bytes.
+The ordinary peer's actual connected callback snapshots existing inspect().current
+before its post-connected owner turn. Only native10/http1/control_capacity1024,
+with the tenth actual opened callback latched and earlier controls drained, admits
+the frame-delivery assertions. The tenth and all nine old native peers must deliver
+binary41; final native10/http1/control0/requests0. Client ordering is not the witness.
+
+The new caller-owned one-shot mutex/condition-variable gate is bounded by128 bytes
+and the unchanged66560-byte Rig assertion. It adds no thread, payload buffer,
+producer operation, SDK wire hold or event pumping. Existing main command reader
+releases only that fixture gate; producer commands retain IO0 routing. Its3s wait
+is a fixture watchdog, not a transport deadline or historical failure oracle.
+N5 uses11 sockets, one staged event, one connected snapshot, <=16 commands and
+<=128 non-map events. Existing128-peer/256-command/2048-event/2MiB-log/30s-child/
+7s-step/2s-reap bounds, scratch canaries, source bindings and complete loaded-map
+and artifact seals remain. Static sizes and bounds are authored, not compiled.
+
+The gate cannot guarantee kernel ready ordering or prevent a pending SDK poll from
+draining101 first. Owner correction1 permits at most three fresh-child attempts
+only when the received overlap tuple misses its exact predicate. Each miss prints
+its bounded tuple as "scenario not established" and passes normal stop before another child.
+Missing staging/events, cleanup failures and product assertions are never retried.
+Three tuple misses are a FIXTURE failure, never historical red or a skip. Stability
+requires independent review and admitted sampling. A missing-message timeout alone
+is inconclusive; historical evidence must establish the known native read-interest
+loss after valid setup/witnesses. Required sources: native cases fail0e774a51,
+suspend/admit also8fbc0ee8, all pass API016 merged foundation4184c9fc.
+
+All frozen foundation34/native44 assertions and existing inventory are preserved.
+The extension yields37 foundation methods and at most seven additional children:
+290 ->297 (four suspend/admit children plus at most three N5 children); CTest timeout
+297*(30+2*2)+60=10158 seconds. Coordinator integration updates CMake and the matching
+CI timeout guard; method count stays37. These finite bounds are source-derived. Plan: each new method20 times unloaded and20 under recorded bounded
+CPU/IO contention, zero failures including missed witnesses; frozen suites20 times
+after integration. No compilation, import, test or CI execution has occurred.
+Tier A requires fresh Codex initial review, separate Codex verification and fresh
+Claude closing with actual model/session receipts. Author: Codex gpt-6.1-sol.
+
+
+### N5 bounded tuple diagnostic amendment
+
+Retain the four existing witness values with the unchanged exact predicate. Render
+only exact bool or U64-sized int values; other types/ranges use a fixed
+invalid-scalar label, never arbitrary repr. The tuple is at most88 characters.
+On a valid witness print the existing diagnostic (at most135 bytes plus newline).
+On each miss print "N5 scenario not established n/3: " plus the tuple and newline
+(at most122 bytes); no failure traceback duplicates the tuple. Three misses add at
+most366 bytes; two misses then success add at most380 bytes, below512 per N5 run.
+No dictionary, payload or growing history is copied. The supplied clock is fixed,
+so elapsed wall delay cannot cause this path's HTTP no-request expiry.
+
+### Owner correction1: bounded N5 scenario establishment (2026-11-17)
+
+The original loaded12 tuple was not retained. The later loaded17 tuple was
+(10,1,0,True): the101 slot had already been released at ordinary acceptance, so the
+pending101 scenario was not established and no post-witness product assertion ran.
+Both remain recorded setup misses, not historical/product red or acceptance credit.
+The owner authorizes at most three total attempts with fresh children, following
+F13's fresh-child pattern. Only a received tuple mismatch permits a discard. There is
+no catch/retry around setup operations or product assertions, no scheduling change,
+new seam, skip or changed witness. All three misses fail the test as FIXTURE.
+
+At most one child is live at a time; each uses the existing11-socket/128-peer,
+256-command,2048-event,2MiB-log,30s-life,7s-step and2s-reap bounds. Cleanup clears
+sockets/events/maps/scratch and rechecks seals before the next attempt. Before that,
+the existing normal stop drains both pipes, requires exact exit0, empty stderr and
+complete reached-phase map admission. Terminal diagnostics, unexpected exits,
+missing stop events and any cleanup failure propagate; disposal cannot turn them
+into another attempt. This fixes review finding C017-V1 without changing Child,
+F13, probe or product assertions. Unittest
+may retain three cleaned Child objects, each with at most2MiB stderr (6MiB total),
+until this method ends; the existing suite-wide112-dormant-child ceiling still
+exceeds this case. No new tooling, producer, SDK/header or probe change is made.
+
+Changed-part Codex verification and fresh Claude closing precede fresh admission.
+Restart loaded sampling from the beginning; no builds or other heavy machine work
+may run during it. Record scenario attempts/misses separately from product results.
+A product failure or three-miss FIXTURE failure stops acceptance for owner review;
+there is no outer-run replacement or acceptance credit for discarded attempts.
+
+
+### Owner-authorized frozen SDK diagnostic retention
+
+The owner authorized only the existing logger callback to retain a fixed <=512-byte
+nonblocking record and still exit90. The stack record holds original U64 length,
+truncated/invalid flags, at most128 leading and64 trailing bytes encoded as hex,
+and the original FIXTURE failure prefix. Compile-time arithmetic bounds the entire
+record and keeps it within the POSIX minimum atomic pipe-write bound. Null/nonzero
+or unrepresentable spans retain metadata only. Valid bytes use the existing SDK
+Logger output-span contract; this is not arbitrary-pointer validation.
+
+Each callback uses no allocation, lock, event or growing history. It blocks SIGPIPE
+on that terminating thread, sets stderr nonblocking, makes at most one write attempt
+and exits90 whether flags/write/recording succeeds or fails. Concurrent callbacks
+use separate records; pipe writes cannot interleave records, but which record wins
+is not a chronological-first guarantee. EAGAIN/EINTR/closed stderr can lose data;
+there is no retry, blocking fallback or alternate file. No callback returns to SDK.
+Global level/severity behavior, producer/SDK/header code, real legacy assertions,
+child output/event/command/watchdog budgets and N5 scheduling remain unchanged.
+
+This follows one unloaded unknown-cause frozen-test failure, not a diagnosed SDK
+cause. After changed-part independent reviews and fresh admission, sample unloaded
+at least20 times if no diagnostic, stop at the FIRST diagnostic, and report its
+captured record plus observed failures/attempts to the owner. No cause fix, retry
+into acceptance, stress or N5 resumption is authorized until that report is seen.
+A reviewed control-only measurement launcher selects the unchanged LegacyControl
+class with its same admission setup, avoiding the CLI's automatic foundation phase.
