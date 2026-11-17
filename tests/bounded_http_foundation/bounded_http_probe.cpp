@@ -4,6 +4,7 @@
 #include <array>
 #include <atomic>
 #include <cerrno>
+#include <charconv>
 #include <chrono>
 #include <condition_variable>
 #include <cstdio>
@@ -14,13 +15,17 @@
 #include <filesystem>
 #include <fstream>
 #include <json/json.h>
+#include <limits.h>
 #include <limits>
 #include <link.h>
 #include <mutex>
 #include <openssl/sha.h>
 #include <optional>
 #include <poll.h>
+#include <pthread.h>
+#include <signal.h>
 #include <stdexcept>
+#include <string_view>
 #include <subathon/server/bounded_http.hpp>
 #include <subathon/server/testing/bounded_http_observers.hpp>
 #include <sys/resource.h>
@@ -812,7 +817,71 @@ static_assert(sizeof(Rig) <= 66560); // 128 caller records x512 +1024 global fix
 // SDK retains native registration globally. Keep the fixture and its callback targets alive until
 // process teardown, even if a child fails; do not pretend Profile destruction unregisters it.
 Rig *retained = nullptr; // One intentionally process-retained registration owner; see receipt.
-void diagnostics(const char *, const std::uint64_t) { fixture("unexpected SDK diagnostic"); }
+// Keep the fail-fast rule even when the bounded, nonblocking record cannot be written.
+[[noreturn]] void diagnostics(const char *bytes, const std::uint64_t length) {
+    constexpr std::size_t head_limit = 128, tail_limit = 64, record_limit = 512;
+    constexpr std::string_view prefix = "FIXTURE:unexpected SDK diagnostic; length=";
+    constexpr std::string_view truncated_label = "; truncated=", invalid_label = "; invalid=";
+    constexpr std::string_view head_label = "; head=", tail_label = "; tail=";
+    static_assert(prefix.size() + 20 + truncated_label.size() + 1 + invalid_label.size() + 1 +
+                      head_label.size() + head_limit * 2 + tail_label.size() + tail_limit * 2 + 1 <=
+                  record_limit);
+    static_assert(record_limit <= _POSIX_PIPE_BUF);
+    std::array<char, record_limit> record{};
+    std::size_t used = 0;
+    auto append = [&](std::string_view text) {
+        if (text.size() > record.size() - used)
+            std::_Exit(90);
+        std::memcpy(record.data() + used, text.data(), text.size());
+        used += text.size();
+    };
+    auto hex = [&](const char *data, std::size_t size) {
+        constexpr char digits[] = "0123456789abcdef";
+        if (size > (record.size() - used) / 2)
+            std::_Exit(90);
+        for (std::size_t i = 0; i < size; ++i) {
+            const auto value = static_cast<unsigned char>(data[i]);
+            record[used++] = digits[value >> 4];
+            record[used++] = digits[value & 15];
+        }
+    };
+    const auto address = reinterpret_cast<std::uintptr_t>(bytes);
+    const bool invalid =
+        length != 0 &&
+        (bytes == nullptr ||
+         length > static_cast<std::uint64_t>(std::numeric_limits<std::ptrdiff_t>::max()) ||
+         length > std::numeric_limits<std::uintptr_t>::max() - address);
+    const auto head = invalid ? 0 : std::min<std::uint64_t>(length, head_limit);
+    const auto tail = invalid ? 0 : std::min<std::uint64_t>(length - head, tail_limit);
+    append(prefix);
+    const auto number = std::to_chars(record.data() + used, record.data() + record.size(), length);
+    if (number.ec != std::errc{})
+        std::_Exit(90);
+    used = static_cast<std::size_t>(number.ptr - record.data());
+    append(truncated_label);
+    append(invalid || length > head + tail ? "1" : "0");
+    append(invalid_label);
+    append(invalid ? "1" : "0");
+    append(head_label);
+    if (head != 0)
+        hex(bytes, static_cast<std::size_t>(head));
+    append(tail_label);
+    if (tail != 0)
+        hex(bytes + static_cast<std::size_t>(length - tail), static_cast<std::size_t>(tail));
+    append("\n");
+
+    // Broken/full stderr must not turn diagnostic retention into a wait or SIGPIPE exit.
+    sigset_t blocked;
+    if (::sigemptyset(&blocked) != 0 || ::sigaddset(&blocked, SIGPIPE) != 0 ||
+        ::pthread_sigmask(SIG_BLOCK, &blocked, nullptr) != 0)
+        std::_Exit(90);
+    const int flags = ::fcntl(STDERR_FILENO, F_GETFL);
+    if (flags < 0 ||
+        ((flags & O_NONBLOCK) == 0 && ::fcntl(STDERR_FILENO, F_SETFL, flags | O_NONBLOCK) < 0))
+        std::_Exit(90);
+    (void)::write(STDERR_FILENO, record.data(), used);
+    std::_Exit(90);
+}
 void setup(drogon::HttpAppFramework &app) {
     app.disableSigtermHandling()
         .setThreadNum(1)

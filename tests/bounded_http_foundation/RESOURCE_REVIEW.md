@@ -414,3 +414,31 @@ wall-time hypothesis is inapplicable to this path. Changed source seals require
 fresh review and applicable admission before a separately authorized diagnostic
 attempt; original evidence/artifacts are retained and no new runtime result is
 claimed here.
+
+
+### Owner-authorized frozen SDK diagnostic retention
+
+The owner authorized only the existing logger callback to retain a fixed <=512-byte
+nonblocking record and still exit90. The stack record holds original U64 length,
+truncated/invalid flags, at most128 leading and64 trailing bytes encoded as hex,
+and the original FIXTURE failure prefix. Compile-time arithmetic bounds the entire
+record and keeps it within the POSIX minimum atomic pipe-write bound. Null/nonzero
+or unrepresentable spans retain metadata only. Valid bytes use the existing SDK
+Logger output-span contract; this is not arbitrary-pointer validation.
+
+Each callback uses no allocation, lock, event or growing history. It blocks SIGPIPE
+on that terminating thread, sets stderr nonblocking, makes at most one write attempt
+and exits90 whether flags/write/recording succeeds or fails. Concurrent callbacks
+use separate records; pipe writes cannot interleave records, but which record wins
+is not a chronological-first guarantee. EAGAIN/EINTR/closed stderr can lose data;
+there is no retry, blocking fallback or alternate file. No callback returns to SDK.
+Global level/severity behavior, producer/SDK/header code, real legacy assertions,
+child output/event/command/watchdog budgets and N5 scheduling remain unchanged.
+
+This follows one unloaded unknown-cause frozen-test failure, not a diagnosed SDK
+cause. After changed-part independent reviews and fresh admission, sample unloaded
+at least20 times if no diagnostic, stop at the FIRST diagnostic, and report its
+captured record plus observed failures/attempts to the owner. No cause fix, retry
+into acceptance, stress or N5 resumption is authorized until that report is seen.
+A reviewed control-only measurement launcher selects the unchanged LegacyControl
+class with its same admission setup, avoiding the CLI's automatic foundation phase.
