@@ -14,7 +14,7 @@ resource, native, trust and release limitations, rather than just their DTOs:
 
 | Import | Responsibility retained |
 | --- | --- |
-| [Host lifecycle v1](api-host-lifecycle-v1.md) and [consumer boundary v1](api-host-lifecycle-boundary-v1.md) | API-001 owns actual startup, private writer, selected installation, execution/fresh completion scopes, finalization, one elapsed source and shutdown. APITEST-001 remains frozen. |
+| [Host lifecycle v1](api-host-lifecycle-v1.md) and [consumer boundary v1](api-host-lifecycle-boundary-v1.md) | API-001 owns actual startup, private writer, selected installation, asynchronous prepared-unit execution, one elapsed source and shutdown under consumer boundary revision 2 (§2). The API-013 rules below still target the historical boundary and require rebase in API-013; they do not restore removed host scopes/finalization/generation/clock facades. |
 | [Native profile v1](native-websocket-profile-v1.md) and [native boundary v1](native-websocket-boundary-v1.md) | Separate framing/IO/callback/output ownership, capacities and deadlines; no account Upgrade/auth authority. |
 | [Account ingress v1 R2](account-ingress-v1.md) and [transport v1 R2](session-transport-v1.md) | SESSION-010 actual policy producer/RequestIngressScope; SESSION-011 native capture; admitted external edge, prior browser/native guards, no raw-request replay. |
 | [Local-login authority v1](local-login-authority-v1.md) | ACCESS-008 owns request-bound attempts, six-work password pipeline, actual acceptance, two upgrade checks, lineage, reservation/consume/poison and its one worker/cell. |
@@ -35,8 +35,10 @@ Read-only source audit at the source base:
 | `server/include/subathon/server/password_hashing.hpp`, `server/src/password_hashing.cpp` | Actual protected password copy/explicit lock/RAII wipe and synchronous source calls. `propose_password_upgrade` re-verifies and checks twice. Its input span remains caller-owned throughout. `admitted_memory_bytes` is a ceiling, not mutual exclusion. |
 | `server/` source inventory; SESSION-010 and ACCESS-001 briefs | No actual RequestIngressScope/policy-generation, LocalLoginOwner or indexed username producer is implemented. A similarly named contract value cannot supply one. |
 
-API-013 proposes an ADDITIVE auth-only host surface. API-001's synchronous dispatcher
-never becomes a continuation callback, and no frozen assertion is relaxed. API-013
+API-013 proposes an ADDITIVE auth-only host surface. API-001's dispatcher
+([consumer boundary revision 2 §2](api-host-lifecycle-boundary-v1.md#2-minimal-proposed-c-consumer-boundary),
+now asynchronous) never becomes a continuation callback, and no frozen assertion
+is relaxed. API-013
 can implement guarded ports with unavailable production bindings and simulated
 port tests; it must not depend on its future ACCESS-001/005/008 or SESSION-002/003
 consumers. Missing consumer-specific facts refuse. Real login/setup/reset/session

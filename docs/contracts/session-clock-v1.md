@@ -67,6 +67,9 @@ reuse of the former anchor. [Linux time namespaces](https://man7.org/linux/man-p
 
 ## 2. Actual owner and unchanged consumer API
 
+Host reference update (APITEST-015 revision 2): [consumer boundary §1](api-host-lifecycle-boundary-v1.md#1-actual-sources-ordinary-activation-and-forward-restore-obligation) removes the host clock facade, session sampler hook and generation; its §2 now describes asynchronous prepared units, without a publication stage. Execution/publication scope and generation wording below belongs to this clock proposal's deferred rebase in SESSION-009 (#582), not a requirement to restore those host APIs. Both removed guards (revocation, thread and reentrancy; wall-clock jumps do not move deadlines) are acceptance criteria of that issue. This pointer update changes no clock policy or SC oracle.
+
+
 The ONE server installation host owns ONE clock service on the authoritative Qt
 queue. The service owns the native monitor descriptor, in-memory continuity state
 and nonsecret reason for refusal. Drogon/request threads, clients and integrations

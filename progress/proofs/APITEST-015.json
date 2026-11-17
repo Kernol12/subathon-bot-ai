@@ -8,12 +8,329 @@
   "kind": "test_baseline",
   "brief": "docs/tasks/EPIC-008/APITEST-015.md",
   "evidence": [
-    "https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6818185255"
+    "https://github.com/Kernol12/subathon-bot-ai/pull/122#issuecomment-6818185255",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/613",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6913125329",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6913917490",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6914270516",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6917103789",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6917295376",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6933089851",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6933202814",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6933549314",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6933660687",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6939526506",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6939609865",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6940578991",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6940932779",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6941114992",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6941482947",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6930828560",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/676",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6949143642",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6950914405",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/699",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6932486629",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6942566933",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6947713654",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6948883157",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6949622237",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6907983078",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6908067929",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6913620654",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6914837587",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6916926039",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6932687162",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6939227716",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6949143959"
   ],
   "limitations": [
     "Explicit prerequisite exposed by API-001 initial review B1. Two internal listeners preserve HTTP/WS in one process; no implementation or revised baseline approval yet.",
-    "Closing CC71487-A1: test a same-user SO_REUSEPORT listener for each role, or record the explicit proof limit; preserve plain occupied-port oracles. A3: own host second-coalesced-request-after-release case."
+    "Closing CC71487-A1: test a same-user SO_REUSEPORT listener for each role, or record the explicit proof limit; preserve plain occupied-port oracles. A3: own host second-coalesced-request-after-release case.",
+    "The preceding imported notes and verification/review fields are frozen historical observations, not current approval status. Current workflow receipts, current observations and owner-approved baseline revision are recorded below.",
+    "Current verification observations: contract_review=passed, tests_review=passed, build=passed, passive_elf_abi=passed, first_real_run_admission=passed, qt_baseline=observed_red, native_baseline=observed_red, native_admission_reuse=passed, default_v10_inspection=passed, host_implementation=not_run. These post-cutover observations do not replace the imported verification object.",
+    "Reviewed revised test baseline only, not a production host. The issue and explicit ADR-0012 A-E owner decisions supersede the historical task brief and qualify the older PR122 baseline reference. No baseline assertion outside the approved itemized revision was waived.",
+    "Contract source is 9d9587e9; complete tests/integration source is b8df1ba1. All 13 contract/header/stub paths and seven tests/build/CI paths match those approved Git blobs exactly after current-main integration. Subsequent main changes are checkpoint and bounded proof-tooling changes, not compiled host source, SDK or test-oracle changes.",
+    "The initial TESTS reviewer was Codex under the temporary 2026-11-16 owner rule; owner_authorization records that actual authority. Revocation preserves completed/running reviews. No provider/model relabeling or review redo. WORKFLOW-008/PR699 merged before this final proof; default Claude initial/closing and Codex verification otherwise remain.",
+    "Rejected initial and closing receipts are retained. Contract fix round2 restored both lost proof rules; correction11 was the owner-authorized THIRD AND LAST contract pass. Test fix round1 resolved AP15-TI-01/02/03 with class audit. Earlier nonblocking packet/mapping caveats are resolved or retained in their receipts, not waived.",
+    "Owner correction1: forward only from execute or supplied unit completion; forwarding/finishing from a running body ends without reply. Execute MAY prequeue three units, retaining actual unknown/unavailable/unavailable drain truth.",
+    "Owner correction2: harmless reentrant/second finish preserves state/first reply subject to body/stop rules; consumed-stop forward/finish(reply) refuses terminally, finish(no reply) accepts that end, and accepted work always drains.",
+    "Owner correction3: no entered-handle timeout; disconnect/response elapsed revokes reply authority only. An inert handle cannot revive work or retain the payload.",
+    "Owner correction4: forward and finish consume pending native signal state before acting.",
+    "Owner correction5: foreign-thread refusal precedes any host/writer/command access or mutation, including the command associated with its handle; foreign destruction is safe abandonment only.",
+    "Owner correction6 FINAL REVISION: retained move-only handle, actual writer admission or host refusal, optional owned reply, borrowed charged host input through drain and actual SQL results only. Existing intake capture rules unchanged; compile-time capture limit DROPPED; no prepared-producer prerequisite.",
+    "Corrections7-11: reply/session pointers, API010 no-success-without-commit criterion, literal-preserving 299-line contracts, mandatory production converter reuse AFTER real syscall and observation-only native probe, then synchronous Qt command_admitted after retained admission/before entry without execution/writer scope/host lock. No fourth contract pass.",
+    "Both programs built against the selected corrected SDK and passed passive ELF/ABI/plugin/closure/seal checks before first real runs. First real Qt/native runs were retrospectively admitted under explicit owner exception using loader/plugin logs and object hashes. This proves the observed loads and NI reachability, not future lazy-load closure or serving/stopped phases.",
+    "Qt: reviewed inventory is 47 methods/87 selectors; all 87 selectors ran once and failed only on intended NI: 79 Host::start, seven elapsed-conversion and one cold-arm acknowledgment-injection NI. Zero other/unclassified failures. One pre-execution boundary prediction for the cold-arm case was wrong; actual source/output classification was retained without changing a test/oracle or rerunning it.",
+    "Native: all 30 methods ran once, 44 labeled subtest rows and 68 actual children (72 maximum success-path lifetimes). 67 explicit drogon_factory NI and one elapsed_factory NI. Each child also produced an unchanged supervisor exit42 cleanup assertion attributable to the same explicit NI: 136 unittest failure records, not 136 independent causes. Four later success-path children were unreachable.",
+    "Owner explicitly authorized exact first-native admission reuse with unchanged binary/dependencies, no debug variables or supervisor change. All 1740 before/after seals matched; the 32-diagnostic limit hid no cause. 62 initial/nine runtime map comparisons completed; six initial/45 runtime comparisons were NI-preempted, not passed. No serving/stopped records or comparisons; diagnostics=[] is not an independently drained stderr theorem.",
+    "Native real SQL setup precedes transport NI on 54 ordinary Store paths; 13 transport-options and one elapsed-factory path require no SQL. NI preempts listener/signal/Host activation and later product assertions. No SQL outcome is fabricated for a refused command.",
+    "Historical default-v10 writer-budget measurement establishes only two current inspections, not default-budget advancement, installation read or host activation. Source-review obligations remain for implementation reentrancy, production post-syscall converter reuse, signal safety/quiescence and intermediate startup interleavings.",
+    "Raw private source/runtime/admission evidence is retained under ignored build/APITEST-015. Source reviews certify authored oracles; observed red certifies NI reachability only. No passing host implementation, Windows/live-provider/production deployment or full resource/performance theorem. Latest proof-head CI and protected merge are separate PR gates."
   ],
   "verification": {},
+  "workflow": {
+    "required_stages": [
+      "contract",
+      "tests"
+    ],
+    "stages": {
+      "contract": {
+        "authors": [
+          "codex:APITEST-015-author:t3-0dc4e70e",
+          "codex:coordinator"
+        ],
+        "revision": "9d9587e90d35ce4816083c5965ff74be444b0865",
+        "paths": [
+          "docs/contracts/api-host-lifecycle-boundary-v1.md",
+          "docs/contracts/api-host-lifecycle-v1.md",
+          "docs/contracts/api-host-listeners-v1.md",
+          "docs/contracts/guarded-enrollment-recovery-v1.md",
+          "docs/contracts/host-auth-continuations-v1.md",
+          "docs/contracts/local-login-authority-v1.md",
+          "docs/contracts/session-clock-v1.md",
+          "docs/contracts/session-lifecycle-v1.md",
+          "server/include/subathon/server/api_host.hpp",
+          "server/include/subathon/server/api_host_drogon.hpp",
+          "server/include/subathon/server/testing/api_host_observers.hpp",
+          "server/src/api_host.cpp",
+          "server/src/api_host_drogon.cpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-fable-5-2",
+            "reviewer": "claude:native-initial-review:6913125329",
+            "revision": "eb994be566deb7909ff1cac7123d6c4f9442b2e2",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6913125329",
+            "findings": [
+              "I1",
+              "I2",
+              "I3",
+              "I4",
+              "I5",
+              "I6",
+              "I7",
+              "O1",
+              "O2",
+              "O3"
+            ],
+            "blocking_findings": [
+              "I1",
+              "I2",
+              "I3",
+              "I4"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:independent-verification:6913917490",
+            "revision": "53e12151bd1ff03178f4cd21d07fcd57d043b566",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6913917490",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-fable-5-2",
+            "reviewer": "claude:fresh-native-closing:6914270516",
+            "revision": "53e12151bd1ff03178f4cd21d07fcd57d043b566",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6914270516",
+            "findings": [
+              "C1",
+              "C2",
+              "C3",
+              "C4",
+              "C5"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:independent-verification:6917103789",
+            "revision": "bc9b33c4762dcb4ee700fbc6ab07cb43806ab2ca",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6917103789",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-fable-5-2",
+            "reviewer": "claude:fresh-native-closing:6917295376",
+            "revision": "bc9b33c4762dcb4ee700fbc6ab07cb43806ab2ca",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6917295376",
+            "findings": [
+              "D1",
+              "D2"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:t3-59395dec",
+            "revision": "341bac63e69d38c7846ee9ad96e698ae70f581b0",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6933089851",
+            "findings": [
+              "AP15-CV-01"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:t3-ef90da8f",
+            "revision": "341bac63e69d38c7846ee9ad96e698ae70f581b0",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6933202814",
+            "findings": [
+              "AP15-CL-01",
+              "AP15-CL-02"
+            ],
+            "blocking_findings": [
+              "AP15-CL-01"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:t3-5dd34453",
+            "revision": "59a0db32c3807ac68d28075e42bc0d974654e251",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6933549314",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:t3-65d2a7c8",
+            "revision": "59a0db32c3807ac68d28075e42bc0d974654e251",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6933660687",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:t3-4e89c1d9",
+            "revision": "9d9587e90d35ce4816083c5965ff74be444b0865",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6939526506",
+            "findings": [
+              "AP15-C11-V01"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:8efe38a2-cc48-43c8-9337-1fba30a14c43",
+            "revision": "9d9587e90d35ce4816083c5965ff74be444b0865",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6939609865",
+            "findings": [
+              "AP15-C11-V01",
+              "AP15-C11-CL01",
+              "AP15-C11-CL02"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "tests": {
+        "authors": [
+          "codex:APITEST-015-author:t3-0dc4e70e",
+          "codex:coordinator"
+        ],
+        "revision": "b8df1ba105f2df2867afd08b8b98d317cc233a8e",
+        "paths": [
+          ".github/workflows/ci.yml",
+          "tests/api_host_lifecycle/CMakeLists.txt",
+          "tests/api_host_lifecycle/api_host_probe.cpp",
+          "tests/api_host_lifecycle/test_api_host_lifecycle.py",
+          "tests/qt/api_host_cases.cmake",
+          "tests/qt/api_host_tests.cpp",
+          "tests/qt/support/api_host_fixture.hpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:t3-319df916",
+            "revision": "a450ca036b1f2d7de675f418df322fc607cd069c",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6940578991",
+            "findings": [
+              "AP15-TI-01",
+              "AP15-TI-02",
+              "AP15-TI-03"
+            ],
+            "blocking_findings": [
+              "AP15-TI-01",
+              "AP15-TI-02",
+              "AP15-TI-03"
+            ],
+            "owner_authorization": "https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6930828560"
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:t3-466dc40d",
+            "revision": "415ab5d7f57c05976ce3a79302b6a8d3bd0f9536",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6940932779",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.1-sol",
+            "reviewer": "codex:t3-c8b0015c",
+            "revision": "b8df1ba105f2df2867afd08b8b98d317cc233a8e",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6941114992",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:17ee2551-901a-4473-b0eb-d3d74e8eb3d1",
+            "revision": "b8df1ba105f2df2867afd08b8b98d317cc233a8e",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6941482947",
+            "findings": [],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  },
   "review": null
 }
