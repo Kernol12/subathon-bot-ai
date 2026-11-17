@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#include <subathon/server/sqlite_permission_graph.hpp>
 #include <algorithm>
+#include <subathon/server/sqlite_permission_graph.hpp>
 #include <tuple>
 namespace subathon::server {
 MigrationManifest permission_graph_repository_manifest() {
@@ -50,4 +50,4 @@ MigrationManifest permission_graph_repository_manifest() {
     result.supported_starting_versions.append(9);
     return result;
 }
-}
+} // namespace subathon::server

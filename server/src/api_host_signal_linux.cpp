@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#include <subathon/server/api_host_signal.hpp>
 #include "api_host_internal.hpp"
 #include <QSocketNotifier>
 #include <atomic>
 #include <cerrno>
 #include <csignal>
 #include <fcntl.h>
+#include <subathon/server/api_host_signal.hpp>
 #include <thread>
 #include <unistd.h>
 
@@ -33,7 +33,7 @@ void record_signal(int) {
     }
     errno = saved;
 }
-}
+} // namespace
 bool detail::signal_pending() noexcept { return pending.load(std::memory_order_acquire); }
 struct StopSignalBridge::Impl {
     Host &host;
@@ -47,9 +47,11 @@ struct StopSignalBridge::Impl {
 StopSignalBridge::StopSignalBridge(Host &host) : impl_(std::make_unique<Impl>(host)) {}
 StopSignalBridge::~StopSignalBridge() {
     auto &s = *impl_;
-    if (!s.installed) return;
+    if (!s.installed)
+        return;
     gate.fetch_or(closed, std::memory_order_acq_rel);
-    while ((gate.load(std::memory_order_acquire) & ~closed) != 0) std::this_thread::yield();
+    while ((gate.load(std::memory_order_acquire) & ~closed) != 0)
+        std::this_thread::yield();
     ::sigaction(SIGTERM, &s.term, nullptr);
     ::sigaction(SIGINT, &s.interrupt, nullptr);
     s.notifier.reset();
@@ -59,28 +61,37 @@ StopSignalBridge::~StopSignalBridge() {
 }
 Result<StartAccepted> StopSignalBridge::install() {
     auto &s = *impl_;
-    if (s.owner != std::this_thread::get_id()) return Failure::wrong_thread;
-    if (s.installed || gate.load() != closed) return Failure::already_started;
-    if (::pipe2(s.pipe, O_NONBLOCK | O_CLOEXEC)) return Failure::unavailable;
+    if (s.owner != std::this_thread::get_id())
+        return Failure::wrong_thread;
+    if (s.installed || gate.load() != closed)
+        return Failure::already_started;
+    if (::pipe2(s.pipe, O_NONBLOCK | O_CLOEXEC))
+        return Failure::unavailable;
     pending.store(false);
     wake_fd = s.pipe[1];
     struct sigaction action{};
     action.sa_handler = record_signal;
     ::sigemptyset(&action.sa_mask);
     if (::sigaction(SIGTERM, &action, &s.term)) {
-        ::close(s.pipe[0]); ::close(s.pipe[1]); return Failure::unavailable;
+        ::close(s.pipe[0]);
+        ::close(s.pipe[1]);
+        return Failure::unavailable;
     }
     if (::sigaction(SIGINT, &action, &s.interrupt)) {
         ::sigaction(SIGTERM, &s.term, nullptr);
-        ::close(s.pipe[0]); ::close(s.pipe[1]); return Failure::unavailable;
+        ::close(s.pipe[0]);
+        ::close(s.pipe[1]);
+        return Failure::unavailable;
     }
     gate.store(0, std::memory_order_release);
     s.installed = true;
     s.notifier = std::make_unique<QSocketNotifier>(s.pipe[0], QSocketNotifier::Read);
     QObject::connect(s.notifier.get(), &QSocketNotifier::activated, [&s] {
         char bytes[64];
-        while (::read(s.pipe[0], bytes, sizeof(bytes)) > 0) {}
-        if (pending.load(std::memory_order_acquire)) s.host.request_stop();
+        while (::read(s.pipe[0], bytes, sizeof(bytes)) > 0) {
+        }
+        if (pending.load(std::memory_order_acquire))
+            s.host.request_stop();
     });
     return StartAccepted{};
 }

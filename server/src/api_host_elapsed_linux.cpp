@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#include <subathon/server/api_host_elapsed.hpp>
 #include <limits>
+#include <subathon/server/api_host_elapsed.hpp>
 #include <time.h>
 
 namespace subathon::server::api_host {
-Result<std::uint64_t> convert_monotonic_observation(std::int64_t seconds, std::int64_t nanoseconds) {
+Result<std::uint64_t> convert_monotonic_observation(std::int64_t seconds,
+                                                    std::int64_t nanoseconds) {
     constexpr std::uint64_t billion = 1000000000;
     if (seconds < 0 || nanoseconds < 0 || nanoseconds >= static_cast<std::int64_t>(billion))
         return Failure::elapsed_unavailable;
@@ -16,7 +17,8 @@ Result<std::uint64_t> convert_monotonic_observation(std::int64_t seconds, std::i
 }
 namespace {
 class Monotonic final : public native_ws::ElapsedSource {
-    std::variant<native_ws::ElapsedInstant, native_ws::ElapsedUnavailable> sample() const noexcept override {
+    std::variant<native_ws::ElapsedInstant, native_ws::ElapsedUnavailable>
+    sample() const noexcept override {
         timespec ts{};
         if (::clock_gettime(CLOCK_MONOTONIC, &ts) != 0)
             return native_ws::ElapsedUnavailable{};
@@ -26,7 +28,7 @@ class Monotonic final : public native_ws::ElapsedSource {
         return native_ws::ElapsedUnavailable{};
     }
 };
-}
+} // namespace
 Result<std::shared_ptr<const native_ws::ElapsedSource>> make_linux_monotonic_elapsed() {
     return std::shared_ptr<const native_ws::ElapsedSource>(std::make_shared<Monotonic>());
 }

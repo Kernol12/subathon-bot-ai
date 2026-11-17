@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#include <subathon/server/sqlite_reference_authority.hpp>
 #include <algorithm>
+#include <subathon/server/sqlite_reference_authority.hpp>
 #include <tuple>
 namespace subathon::server {
 MigrationManifest reference_authority_repository_manifest() {
@@ -83,4 +83,4 @@ MigrationManifest reference_authority_repository_manifest() {
     result.supported_starting_versions.append(10);
     return result;
 }
-}
+} // namespace subathon::server

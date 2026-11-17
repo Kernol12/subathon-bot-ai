@@ -11,4 +11,4 @@ class TransportComposition {
     virtual void configure(std::shared_ptr<const native_ws::ElapsedSource>, const Limits &) = 0;
 };
 bool signal_pending() noexcept;
-}
+} // namespace subathon::server::api_host::detail
