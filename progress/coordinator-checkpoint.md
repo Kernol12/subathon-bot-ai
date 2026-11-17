@@ -47,6 +47,8 @@ session, and none of PR #121's reviews, approvals or CI results carries over.
 - APITEST-018 [#689](https://github.com/Kernol12/subathon-bot-ai/issues/689): large buffered HTTP input with more than eight connections and its
   bounded observation seam, moved from APITEST-017 by the owner. Planned under
   EPIC-008; not an API-001 prerequisite. Historical `f8be1aec` coverage is deferred here.
+- APITEST-019 [#692](https://github.com/Kernol12/subathon-bot-ai/issues/692): unexplained unloaded legacy-control exit90/SDK diagnostic. Planned under
+  EPIC-008, not authorized; not a prerequisite of APITEST-017 or API-001.
 - API-016 follow-ups: V2, C2, C4, C6, I14, I15, I16, I19, I20, O5; see the handover
   comment. Filed as [#678–#687](https://github.com/Kernol12/subathon-bot-ai/issues/273)
   (API-017 through API-026), planned under EPIC-008; none is authorized for work.
@@ -198,15 +200,23 @@ work. The checkpoint's authorized path does.
   host lock; a bounded pause leaves IO ingress independent. Any further contract
   gap goes to the owner with fallback options, not a fourth pass. Fresh changed-part
   Codex verification and Claude closing remain required; NI is not runtime proof.
-- APITEST-017's frozen foundation test failed once unloaded with cause UNKNOWN
-  (#672). Only a logging amendment is authorized: a fixed ≤512-byte nonblocking
-  record of original length/truncation and bounded prefix/suffix; preserve exit90,
-  level/severity behavior, assertions, budgets and producer/SDK/header code.
-  After review and fresh admission, run unloaded at least 20 times if no diagnostic,
-  stop at the FIRST diagnostic and report its message and observed failure rate.
-  Do not fix its cause, retry toward acceptance or resume N5 until the owner has
-  seen the report. Full-suite CI also includes N5, so publication/CI waits for that
-  hold to be lifted; do not skip N5 or hide its failure to get green CI.
+- The owner accepts the APITEST-017 unloaded sample (0/20) as bounded
+  non-reproduction. The earlier exit90/SDK diagnostic stays unexplained: one
+  failure in 21 unloaded runs across the original and amended consumers. Keep
+  the reviewed logging amendment permanently in the frozen foundation test.
+  Planned, unauthorized #692 owns that failure; it blocks neither #672 nor API-001.
+- The N5 hold is lifted for DIAGNOSIS ONLY: use the reviewed tuple retention for
+  at most 20 loaded attempts; stop at the first failure, report the retained tuple
+  and observed failure rate. Change no predicate, scheduling, fixture or retry
+  policy; none of these attempts counts toward acceptance. In parallel, a fresh
+  read-only Codex investigation answers whether existing observations/gates can
+  force the overlap deterministically without timing or load, with evidence and
+  the smallest change if yes. Bring BOTH results to the owner together. No cause
+  fix, fixture amendment, acceptance restart or full CI/publication is authorized.
+- The control-only launcher is ignored evidence, never committed and unused by
+  CI. Retain its hash-bound bytes outside #690 to preserve the completed sample's
+  evidence. From now on, ANY new tooling, launcher or harness goes to the owner
+  BEFORE authoring, even when it serves an approved step.
 
 ## What SLICE-001 delivered
 
@@ -230,7 +240,9 @@ API-001 keep their ownership and release requirements.
   Local contract/header candidate `59a0db32` passed changed-part Codex verification
   and fresh Claude closing. Tests authoring stopped before edits on the missing
   pre-entry observation phase. Owner-authorized last correction 11 is local at
-  `9d9587e9`, pending changed-part reviews; tests resume only after those gates.
+  `9d9587e9`, passed changed-part Codex and fresh Claude closing. Test authorship
+  is complete at local `a450ca03`, unreviewed/unexecuted: 47 Qt methods/87 selectors
+  and 30 native methods/72 children. Separate tests reviews and integration remain.
   The owner decided all six numbered
   C2 corrections and then revised 1 and 6 ([latest record](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6932687162)); PR #667 and every tier A packet must name all six with these revisions.
   Execute may prequeue units, preserving the three-accepted-unit fail-close oracle.
@@ -244,8 +256,10 @@ API-001 keep their ownership and release requirements.
   only. Source reviews approved `6d558798`; acceptance stopped at N5 loaded
   repetition 12 (missing witness). A later admitted unloaded legacy control failed
   exit90 before N5, cause unknown; one debugger attempt captured no diagnostic.
-  Logging-only source review, fresh admission and the bounded unloaded report come
-  next; N5 and cause fixes remain on hold. Owner narrowed the active task to
+  Logging-only source reviews and fresh admission passed at local `343414cb`;
+  the owner accepted 0/20 unloaded controls as bounded non-reproduction. The
+  loaded N5 diagnostic and separate read-only determinism answer come next under
+  the bounded authorization above; acceptance and full CI/publication stay held. Owner narrowed the active task to
   native scope only; HTTP continuation and its observation seam are deferred to #689.
 - Independent Codex default writer-budget measurement passed two current-v10
   inspections ([receipt](https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6932486629)); it establishes no default-budget advancement, installation read or host activation.
