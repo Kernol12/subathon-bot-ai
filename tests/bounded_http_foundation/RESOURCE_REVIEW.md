@@ -359,7 +359,7 @@ literal Upgrade/101/binary41. No new contract or producer capability is introduc
 Two authored methods exercise established-native suspend-only and suspend/admit,
 each with one and nine peers: four fresh children. Each peer first completes the
 literal129-byte101 and a warm binary41 callback; after Done admission commands it
-must deliver the next same-peer binary41. One additional method/child establishes
+must deliver the next same-peer binary41. One additional method establishes
 nine warm native peers, stages the tenth153-byte Upgrade in existing read_observed
 before parsing, and connects an ordinary peer without sending application bytes.
 The ordinary peer's actual connected callback snapshots existing inspect().current
@@ -379,18 +379,21 @@ N5 uses11 sockets, one staged event, one connected snapshot, <=16 commands and
 and artifact seals remain. Static sizes and bounds are authored, not compiled.
 
 The gate cannot guarantee kernel ready ordering or prevent a pending SDK poll from
-draining101 first. One attempt only: missing staging/overlap or a predicate mismatch
-is fixture failure, never historical red, skip or silently retried sample. Stability
+draining101 first. Owner correction1 permits at most three fresh-child attempts
+only when the received overlap tuple misses its exact predicate. Each miss prints
+its bounded tuple as "scenario not established" and cleans up before another child.
+Missing staging/events, cleanup failures and product assertions are never retried.
+Three tuple misses are a FIXTURE failure, never historical red or a skip. Stability
 requires independent review and admitted sampling. A missing-message timeout alone
 is inconclusive; historical evidence must establish the known native read-interest
 loss after valid setup/witnesses. Required sources: native cases fail0e774a51,
 suspend/admit also8fbc0ee8, all pass API016 merged foundation4184c9fc.
 
 All frozen foundation34/native44 assertions and existing inventory are preserved.
-Proposed extension yields37 foundation methods and five additional children:
-290 ->295; prospective CTest timeout295*(30+2*2)+60=10090 seconds. Coordinator owns
-integration/CMake/CI/presets and must reconcile these totals after review; none is
-edited here. Plan: each new method20 times unloaded and20 under recorded bounded
+The extension yields37 foundation methods and at most seven additional children:
+290 ->297 (four suspend/admit children plus at most three N5 children); CTest timeout
+297*(30+2*2)+60=10158 seconds. Coordinator integration updates CMake and the matching
+CI timeout guard; method count stays37. These finite bounds are source-derived. Plan: each new method20 times unloaded and20 under recorded bounded
 CPU/IO contention, zero failures including missed witnesses; frozen suites20 times
 after integration. No compilation, import, test or CI execution has occurred.
 Tier A requires fresh Codex initial review, separate Codex verification and fresh
@@ -399,21 +402,39 @@ Claude closing with actual model/session receipts. Author: Codex gpt-6.1-sol.
 
 ### N5 bounded tuple diagnostic amendment
 
-Retain the four existing witness values in the new N5 method, print one bounded
-parent-output line before the unchanged exact predicate, and repeat it in that
-predicate's existing fixture-failure message. Render only exact bool or U64-sized
-int values; other types/ranges use a fixed invalid-scalar label, never arbitrary
-repr. Four values of at most20 characters plus fixed labels, tuple punctuation,
-and the two output occurrences add less than512 parent-output bytes per N5 child.
-This does not change child MAX_LOG, events/commands/threads, scheduling, the witness,
-one-attempt/no-retry, cleanup, deadlines or any existing assertion. No dictionary,
-payload or growing history is copied. It is diagnostic retention, not a stability
-repair or recovery of the failed loaded12 sample. The supplied clock is fixed in
-N5, so elapsed wall delay cannot cause its HTTP no-request expiry; C017-A1's
-wall-time hypothesis is inapplicable to this path. Changed source seals require
-fresh review and applicable admission before a separately authorized diagnostic
-attempt; original evidence/artifacts are retained and no new runtime result is
-claimed here.
+Retain the four existing witness values with the unchanged exact predicate. Render
+only exact bool or U64-sized int values; other types/ranges use a fixed
+invalid-scalar label, never arbitrary repr. The tuple is at most88 characters.
+On a valid witness print the existing diagnostic (at most135 bytes plus newline).
+On each miss print "N5 scenario not established n/3: " plus the tuple and newline
+(at most122 bytes); no failure traceback duplicates the tuple. Three misses add at
+most366 bytes; two misses then success add at most380 bytes, below512 per N5 run.
+No dictionary, payload or growing history is copied. The supplied clock is fixed,
+so elapsed wall delay cannot cause this path's HTTP no-request expiry.
+
+### Owner correction1: bounded N5 scenario establishment (2026-11-17)
+
+The original loaded12 tuple was not retained. The later loaded17 tuple was
+(10,1,0,True): the101 slot had already been released at ordinary acceptance, so the
+pending101 scenario was not established and no post-witness product assertion ran.
+Both remain recorded setup misses, not historical/product red or acceptance credit.
+The owner authorizes at most three total attempts with fresh children, following
+F13's cleanup pattern. Only a received tuple mismatch permits a discard. There is
+no catch/retry around setup operations or product assertions, no scheduling change,
+new seam, skip or changed witness. All three misses fail the test as FIXTURE.
+
+At most one child is live at a time; each uses the existing11-socket/128-peer,
+256-command,2048-event,2MiB-log,30s-life,7s-step and2s-reap bounds. Cleanup clears
+sockets/events/maps/scratch and rechecks seals before the next attempt. Unittest
+may retain three cleaned Child objects, each with at most2MiB stderr (6MiB total),
+until this method ends; the existing suite-wide112-dormant-child ceiling still
+exceeds this case. No new tooling, producer, SDK/header or probe change is made.
+
+Changed-part Codex verification and fresh Claude closing precede fresh admission.
+Restart loaded sampling from the beginning; no builds or other heavy machine work
+may run during it. Record scenario attempts/misses separately from product results.
+A product failure or three-miss FIXTURE failure stops acceptance for owner review;
+there is no outer-run replacement or acceptance credit for discarded attempts.
 
 
 ### Owner-authorized frozen SDK diagnostic retention

@@ -599,43 +599,50 @@ class FoundationTests(unittest.TestCase):
 
     def test_native_tenth_upgrade_with_witnessed_accept(self):
         """R4 bounded native opportunities; require the overlap before asserting delivery."""
-        p = self.child(profile="reference", action="native-interleave")
-        peers = []
-        for index in range(9):
-            s = p.connect(True)
-            p.wait("connected", peer=index)
-            p.send(s, UPGRADE)
-            self.assertEqual(p.read(s, len(SWITCH)), SWITCH)
-            p.wait("opened", peer=index)
-            p.send(s, BINARY_A)
-            p.wait("message", peer=index)
-            peers.append(s)
-        p.barrier()
-        baseline = p.inspect()
-        require((baseline["native_peers"], baseline["http_peers"],
-                 baseline["control_capacity"], baseline["requests"]) == (9, 0, 0, 0),
-                "FIXTURE: nine warm native peers and no other control response")
+        # Owner correction 1: at most three fresh-child scenario attempts.
+        # Only the received overlap tuple permits a discard, never an assertion failure.
+        for attempt in range(3):
+            p = self.child(profile="reference", action="native-interleave")
+            peers = []
+            for index in range(9):
+                s = p.connect(True)
+                p.wait("connected", peer=index)
+                p.send(s, UPGRADE)
+                self.assertEqual(p.read(s, len(SWITCH)), SWITCH)
+                p.wait("opened", peer=index)
+                p.send(s, BINARY_A)
+                p.wait("message", peer=index)
+                peers.append(s)
+            p.barrier()
+            baseline = p.inspect()
+            require((baseline["native_peers"], baseline["http_peers"],
+                     baseline["control_capacity"], baseline["requests"]) == (9, 0, 0, 0),
+                    "FIXTURE: nine warm native peers and no other control response")
 
-        tenth = p.connect(True)
-        p.wait("connected", peer=9)
-        p.send(tenth, UPGRADE)
-        p.wait("interleave_staged")
-        # IO0 is held before parsing the complete 153-byte Upgrade. Connect only:
-        # the ordinary peer cannot create an HTTP refusal or application response.
-        p.connect()
-        p.command("interleave-release")
-        witness = p.wait("interleave_accept", peer=10)
-        observed = (witness["native_peers"], witness["http_peers"],
-                    witness["control_capacity"], witness["tenth_opened"])
-        # Four bounded scalar renderings, never an unbounded event/dictionary repr.
-        rendered = tuple(value if type(value) is bool or
-                         (type(value) is int and 0 <= value <= 2**64 - 1)
-                         else "<invalid scalar>" for value in observed)
-        diagnostic = f"N5 witness peer10 (native,http,control,opened)={rendered}"
-        print(diagnostic, flush=True)
-        require(observed == (10, 1, 1024, True),
-                "FIXTURE: missed accept during tenth pending101; not historical red; " +
-                diagnostic)
+            tenth = p.connect(True)
+            p.wait("connected", peer=9)
+            p.send(tenth, UPGRADE)
+            p.wait("interleave_staged")
+            # IO0 is held before parsing the complete 153-byte Upgrade. Connect only:
+            # the ordinary peer cannot create an HTTP refusal or application response.
+            p.connect()
+            p.command("interleave-release")
+            witness = p.wait("interleave_accept", peer=10)
+            observed = (witness["native_peers"], witness["http_peers"],
+                        witness["control_capacity"], witness["tenth_opened"])
+            # Four bounded scalar renderings, never an unbounded event/dictionary repr.
+            rendered = tuple(value if type(value) is bool or
+                             (type(value) is int and 0 <= value <= 2**64 - 1)
+                             else "<invalid scalar>" for value in observed)
+            diagnostic = f"N5 witness peer10 (native,http,control,opened)={rendered}"
+            if observed == (10, 1, 1024, True):
+                print(diagnostic, flush=True)
+                break
+            print(f"N5 scenario not established {attempt + 1}/3: {rendered}", flush=True)
+            p.cleanup()
+        else:
+            self.fail("FIXTURE: N5 scenario not established in three attempts; not red")
+        # A valid witness admits product assertions exactly once; none is retried.
         self.assertEqual(p.read(tenth, len(SWITCH)), SWITCH)
         p.wait("opened", peer=9)
         peers.append(tenth)
