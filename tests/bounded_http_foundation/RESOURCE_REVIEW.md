@@ -1,4 +1,13 @@
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+
+Task ID: APITEST-017
+Work type: test_baseline
+Issue: https://github.com/Kernol12/subathon-bot-ai/issues/672
+
+These stanzas bind this existing resource packet to the new proof identity.
+The issue remains the task brief; the historical packet and APITEST-017 addenda below
+retain their original requirements and resource accounting.
+
 # APITEST-016 authored packet: review before execution
 
 This packet includes the ORIGINAL author's corrections and subsequent coordinator
