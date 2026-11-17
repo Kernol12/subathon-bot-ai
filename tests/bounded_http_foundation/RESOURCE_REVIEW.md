@@ -347,6 +347,124 @@ Connection/weak tests cannot prove guard-before-allocation or deletion-thread
 behavior. A14 requires explicit source-review ratification of the IO0 cleanup
 callback assumption before any implementation approval.
 
+## APITEST-017 correction2 — option A, authored contract before test edits
+
+Owner #672 comment6948320291 and complete optionA-full-selection/{OWNER,AP17}.md.
+Same author session01a1e963-dcf3-7910-8880-c89feda0d2bf, Codex gpt-6.1-sol/high.
+Baseline exact clean d98753414fb20f270381a5b764781c5f0d164eb5. SOURCE ONLY.
+
+N5 establishes16 native peers by literal129-byte101 and actual opened, NO binary
+prewarming. Baseline native16/http0/control0/requests0. Accept native peer16,
+then stage an existing IO0 pending fixture command BEFORE issuing its Upgrade.
+The fixture acknowledges stage submission before blocking its command callback;
+parent waits staged, sends153-byte Upgrade and connects one ordinary socket,
+then releases the fixture rendezvous from the existing main command reader.
+These operations can be eligible for the next poll; eligibility is not the witness.
+
+The actual completing Upgrade read_observed for peer16 records the existing
+IO0 boundedEpoch(); actual ordinary connected(peer17) records its IO0 epoch.
+Both directions/orderings are permitted. Observe only after completing-read event,
+ordinary connected and native opened have actually arrived. Both epoch latches
+must exist, be exact U64 integers and have the source-proven active origin below.
+Only unequal valid epochs constitute a received setup miss. Missing/malformed
+observations, wrong IO0, repeated latch, diagnostics, NI, admission, cleanup or
+product errors fail immediately. No phase flag or manufactured batch number.
+
+Equal epochs then admit exactly one masked binary41 on each of17 peers, new peer
+first then peers0..15; require17 same-peer messages. Require new literal SWITCH,
+opened, final native17/http1/control0/requests0 and normal stop. No pending101
+predicate: control capacity is not batch identity and doesn't force suppression.
+
+| Example | Setup evidence | Classification / expected result |
+| --- | --- | --- |
+| Same active IO0 epoch in completing read and ordinary connected | Two actual callback latches, matching epoch after source origin proof | Run product suffix once; all17 messages and final counts required |
+| Different valid epochs | Actual both callbacks, no missing diagnostics | Print bounded pair, normal stop/drain/maps/reap0/empty stderr/seals, fresh child allowed; maximum3 TOTAL |
+| Three received epoch mismatches | Each child cleanly stopped first | Ordinary FIXTURE failure, not red/skip |
+| Missing callback, wrong IO0, malformed epoch, diagnostic or NI | Not a setup mismatch | Immediate uncaught failure, no retry |
+| Missing message after matching epochs | Product suffix entered | Failure never retried; timeout alone is not attributable historical red |
+
+Correction1 max3/cleanstop/no-product-retry remains. Correction2 replaces K9/warm/
+pending101 with K16+17th+ordinary accept and actual SDK epoch observation. ONE
+review fix round TOTAL; after it any new different defect stops for owner.
+Historical gate AFTER fresh Codex verification/freshClaude closing/freshadmission:
+10 unchanged0e trials, >=1 independently attributable PRODUCT failure required.
+Current loaded/unloaded allpass and frozen34/native44 gates remain. No60samples.
+Foundation PASS CANNOT prove the faulty suppression branch/scenario occurred;
+even positive same-batch evidence does not prove101 survived SDK poll. Coordinator
+must explicitly record that limitation on #672. No historical acceptance credit
+from the preserved one+20 old N5 passes.
+
+## Static phase proof — required before equality has meaning
+
+Current S = retained author build/APITEST-017/acceptance-investigator/successor/source;
+historical S0 = root build/APITEST-017/historical-0e-investigator/successor/source.
+Text cmp returned0 for EventLoop.cc, inner/TcpConnectionImpl.cc, TcpServer.cc,
+inner/Acceptor.cc (all trantor/trantor/net/) and lib/src/HttpServer.cc in S/S0.
+No SDK mutation. Public EventLoop.h:60 is the existing boundedEpoch() accessor.
+
+EventLoop.cc:230-254 polls one selected list, calls Channel::handleEvent on ALL
+active channels, increments epoch (zero/wrap terminates), then pending functions.
+The pending phase shares an epoch with the NEXT active phase, so epoch equality
+alone cannot separate pending callbacks from active callbacks. Neither sampled
+callback is a pending-function callback, by these selected-source origins:
+
+* Read: TcpConnectionImpl.cc:84 installs its channel read callback; :142-163
+  performs actual readFd, calls storage.read_witness BEFORE parser dispatch.
+  The only readCallback() call site is that channel binding (readCallback is
+  protected); only selected Channel::handleEventSafely calls its read callback
+  on readiness, and the only selected Channel::handleEvent caller is EventLoop's
+  active dispatch. PeerRecord::read_witness in BOTH current and historical
+  server/src/bounded_http_sdk_adapter.cpp:708-737 synchronously invokes onRead.
+  No SDK continuation calls read_witness; parser resume consumes buffered bytes,
+  not new read observations. Probe does no nested loop pumping.
+* Accept: Acceptor.cc:40 binds acceptChannel to readCallback; :71-85 accepts and
+  synchronously calls TcpServer::newConnection (:42 binding, :61-89 bounded path).
+  TcpConnectionImpl::connectEstablished :360-367 takes bounded synchronous path,
+  not the stock runInLoop branch. HttpServer::onConnection :127-153 constructs
+  bounded parser and calls storage.attached. BOTH adapters:689-706 invoke
+  connected synchronously; owner_turn follows return. No pending callback hops.
+* Same loop: SDK BoundedHttp.cc:36-39 bind_server refuses a second loop identity;
+  actual fixture stores app.getIOLoop(0) before listeners notification. Both
+  sampling sites fail FIXTURE unless getEventLoopOfCurrentThread equals that
+  exact loop and isInLoopThread(). Runtime identity checks supplement the source
+  origin proof; they do not fabricate a phase getter. Epoch is sampled only in
+  the two origins above, never from the pending stage/observe commands.
+
+Therefore matching epochs at these two active callbacks on that same loop imply
+same selected active batch; intervening active-dispatch completion changes epoch.
+The complete153-byte cumulative read is before parsing; actual opened proves
+Upgrade completed. Earlier partial reads are allowed; the witness names the
+completing read/Upgrade processing batch, not every earlier fragment's batch.
+The pending-stage rendezvous never pumps IO and is released before next poll.
+Actual accept ordering/kernel scheduling is not guaranteed. Max3 mismatch policy
+bounds this uncertainty; no runtime feasibility check is authorized here.
+
+Fallback was evaluated but not selected: phase proof closes using existing SDK
+accessor and callback origins, no SDK/producer/header change. If independent
+review rejects that proof and resolution needs SDK/producer changes, owner already
+selected original K16 fallback without same-batch proof; do not implement B.
+
+## Planned finite resources / serial integration
+
+37 methods, <=297 suite children and10158s watchdog retained conservatively;
+N5 <=3 sequential children,18 sockets/child,17 one-frame sends/valid scenario,
+NO prewarm frames, <=8 commands/attempt, <=512 non-map events/child within2048,
+2MiB cumulative log,30s child/7s step/2s reap bounds unchanged. Two U64 latches
+and two bool flags in existing <=128-byte InterleaveGate; <=66560 Rig unchanged.
+Three lines <=128 bytes each gives <=384 diagnostic bytes/run. Missing/invalid
+scalar failures do not print arbitrary payloads. No new thread/timer/tool/header.
+Root coordinator owns CMake/CI; only selector rename/integration metadata may need
+update after review, no watchdog/count increase. All bounds are authored static
+ceilings, uncompiled/unexecuted; no assertion of ABI size or scheduling stability.
+
+## Historical APITEST-017 notes below
+
+The following N5 K9/pending101, diagnostic and correction1-specific tuple descriptions
+record prior source/evidence. Correction2 above supersedes their N5 setup, selector,
+commands, resource details and witness. Correction1 clean-stop/max3/no-product-retry
+policy and the permanent logger below remain binding. Earlier approvals apply only
+to their exact heads; revised source is unreviewed and unexecuted.
+
 ## APITEST-017 native-only additions (authored, review pending)
 
 This additive source/resource packet is not independent approval or execution

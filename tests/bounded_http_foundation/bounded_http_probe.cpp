@@ -225,12 +225,16 @@ static_assert(!std::is_default_constructible_v<bh::Request> &&
               !std::is_copy_constructible_v<bh::Request>);
 static_assert(!std::is_default_constructible_v<bh::Reply> &&
               !std::is_copy_constructible_v<bh::Reply>);
-// One fixture-only rendezvous, before parsing the tenth native Upgrade. It does
-// not pump IO, hold a producer wire node, or supply a transport observation.
+// One fixture rendezvous in a pending IO0 command, before the next poll.
+// Callback epochs are sampled only at the source-proven active-channel origins
+// described by APITEST-017 correction2 in RESOURCE_REVIEW.md.
 struct InterleaveGate {
     std::mutex mutex;
     std::condition_variable changed;
     bool waiting = false, released = false;
+    // IO0-only observations; the main command reader touches only the gate above.
+    bool readSeen = false, acceptSeen = false;
+    bh::U64 readEpoch = 0, acceptEpoch = 0;
     void stage() {
         std::unique_lock lock(mutex);
         if (waiting || released)
@@ -252,7 +256,6 @@ struct InterleaveGate {
 static_assert(sizeof(InterleaveGate) <= 128); // one fixed caller-owned coordination record
 struct Rig {
     InterleaveGate interleave;
-    bool interleaveOpened = false;
     std::array<Peer, 128> peers{};
     std::shared_ptr<Clock> clock = std::make_shared<Clock>();
     std::unique_ptr<ws::Profile> profile;
@@ -265,6 +268,14 @@ struct Rig {
     unsigned wipes = 0, revocations = 0;
     bh::U64 readCallbacks = 0;
     static Rig &self(void *p) { return *static_cast<Rig *>(p); }
+    bh::U64 interleaveEpoch() const {
+        auto *loop = io.load();
+        if (!loop || trantor::EventLoop::getEventLoopOfCurrentThread() != loop ||
+            !loop->isInLoopThread())
+            fixture("interleave callback requires actual IO0");
+        // Equality is meaningful only for the active callback origins in the packet.
+        return loop->boundedEpoch();
+    }
     Peer &context(void *c) {
         // Actual callback context only: never resolve a client/Connection/public token as
         // authority.
@@ -284,15 +295,11 @@ struct Rig {
         auto &p = r.peers[r.connected];
         p.index = r.connected++;
         p.peer.emplace(std::move(handle));
-        if (r.action == "native-interleave" && p.index == 10) {
-            const auto current = required(r.foundation->inspect(), "interleave connected inspect").current;
-            auto e = event("interleave_accept");
-            e["peer"] = p.index;
-            e["native_peers"] = Json::UInt64(current.native_peers);
-            e["http_peers"] = Json::UInt64(current.http_peers);
-            e["control_capacity"] = Json::UInt64(current.control_capacity);
-            e["tenth_opened"] = r.interleaveOpened;
-            emit(e);
+        if (r.action == "native-interleave" && p.index == 17) {
+            if (r.interleave.acceptSeen)
+                fixture("interleave repeated ordinary acceptance");
+            r.interleave.acceptEpoch = r.interleaveEpoch();
+            r.interleave.acceptSeen = true;
         }
         if (!r.nullContext)
             required(p.peer->context(&p), "context");
@@ -603,15 +610,18 @@ struct Rig {
         }
         if (r.action == "throw-read")
             throw std::runtime_error("synthetic read observer");
-        if (r.action == "native-interleave" && p.index == 9 &&
-            s.returned > 0 && s.bytes_read == 153)
-            r.interleave.stage();
+        if (r.action == "native-interleave" && p.index == 16 &&
+            s.returned > 0 && s.bytes_read == 153) {
+            if (r.interleave.readSeen)
+                fixture("interleave repeated completing Upgrade read");
+            r.interleave.readEpoch = r.interleaveEpoch();
+            r.interleave.readSeen = true;
+            r.peerEvent("interleave_read", p);
+        }
     }
     static void opened(void *o, void *c, const ws::Connection &conn) {
         auto &r = self(o);
         auto &p = r.context(c);
-        if (r.action == "native-interleave" && p.index == 9)
-            r.interleaveOpened = true;
         if (r.action == "strong" || r.action == "facade-negative")
             p.strong = conn;
         if (r.action == "weak")
@@ -714,7 +724,24 @@ struct Rig {
             need(bool(p.reply));
         if (op == "post" || op == "post-pair" || op == "post-close" || op == "post-stopping")
             need(bool(p.wake));
-        if (op == "barrier") {
+        if (op == "interleave-stage") {
+            if (action != "native-interleave")
+                fixture("interleave stage action");
+            // Acknowledge this fixture rendezvous before waiting, so the parent can
+            // arrange both sockets while IO0 is between active batches. No IO pumping.
+            auto e = event("ack");
+            e["op"] = op;
+            emit(e);
+            interleave.stage();
+            return;
+        } else if (op == "interleave-observe") {
+            if (action != "native-interleave" || !interleave.readSeen || !interleave.acceptSeen)
+                fixture("interleave observations missing");
+            auto e = event("interleave_observed");
+            e["read_epoch"] = Json::UInt64(interleave.readEpoch);
+            e["accept_epoch"] = Json::UInt64(interleave.acceptEpoch);
+            emit(e);
+        } else if (op == "barrier") {
             // Actual future timer readiness, followed by the end of that whole IO0
             // active-channel batch (EventLoop::loop calls pending functions afterward).
             io.load()->runAfter(
@@ -1236,8 +1263,8 @@ int main(int argc, char **argv) {
                     drogon::app().quit();
                 });
             } else if (r.action == "native-interleave" && v["op"] == "interleave-release") {
-                // IO0 is intentionally staged in read_observed. Only this
-                // fixture rendezvous is released here; producer commands stay IO0.
+                // IO0 is staged in a pending fixture command before the next poll.
+                // Only the rendezvous is released here; producer commands stay IO0.
                 r.interleave.release();
                 auto e = event("ack");
                 e["op"] = "interleave-release";

@@ -597,64 +597,60 @@ class FoundationTests(unittest.TestCase):
     def test_established_native_suspend_admit_are_noops(self):
         self.established_native_admission(resume=True)
 
-    def test_native_tenth_upgrade_with_witnessed_accept(self):
-        """R4 bounded native opportunities; require the overlap before asserting delivery."""
-        # Owner correction 1: at most three fresh-child scenario attempts.
-        # Only the received overlap tuple permits a discard, never an assertion failure.
+    def test_native_seventeenth_upgrade_with_same_batch_accept(self):
+        """Correction2: actual IO0 callback epochs witness the completing Upgrade batch."""
+        # Correction1 permits only received setup mismatches to use a fresh child.
         for attempt in range(3):
             p = self.child(profile="reference", action="native-interleave")
             peers = []
-            for index in range(9):
+            for index in range(16):
                 s = p.connect(True)
                 p.wait("connected", peer=index)
                 p.send(s, UPGRADE)
                 self.assertEqual(p.read(s, len(SWITCH)), SWITCH)
                 p.wait("opened", peer=index)
-                p.send(s, BINARY_A)
-                p.wait("message", peer=index)
                 peers.append(s)
             p.barrier()
             baseline = p.inspect()
             require((baseline["native_peers"], baseline["http_peers"],
-                     baseline["control_capacity"], baseline["requests"]) == (9, 0, 0, 0),
-                    "FIXTURE: nine warm native peers and no other control response")
+                     baseline["control_capacity"], baseline["requests"]) == (16, 0, 0, 0),
+                    "FIXTURE: sixteen established native peers, controls drained, no frames")
 
-            tenth = p.connect(True)
-            p.wait("connected", peer=9)
-            p.send(tenth, UPGRADE)
+            seventeenth = p.connect(True)
+            p.wait("connected", peer=16)
+            p.command("interleave-stage")
             p.wait("interleave_staged")
-            # IO0 is held before parsing the complete 153-byte Upgrade. Connect only:
-            # the ordinary peer cannot create an HTTP refusal or application response.
+            # IO0 is in a pending command. Eligibility for the next poll is only
+            # setup; the two source-proven active callbacks supply the witness.
+            p.send(seventeenth, UPGRADE)
             p.connect()
             p.command("interleave-release")
-            witness = p.wait("interleave_accept", peer=10)
-            observed = (witness["native_peers"], witness["http_peers"],
-                        witness["control_capacity"], witness["tenth_opened"])
-            # Four bounded scalar renderings, never an unbounded event/dictionary repr.
-            rendered = tuple(value if type(value) is bool or
-                             (type(value) is int and 0 <= value <= 2**64 - 1)
-                             else "<invalid scalar>" for value in observed)
-            diagnostic = f"N5 witness peer10 (native,http,control,opened)={rendered}"
-            if observed == (10, 1, 1024, True):
-                print(diagnostic, flush=True)
+            p.wait("interleave_read", peer=16)
+            p.wait("connected", peer=17)
+            p.wait("opened", peer=16)
+            p.command("interleave-observe")
+            witness = p.wait("interleave_observed")
+            epochs = (witness.get("read_epoch"), witness.get("accept_epoch"))
+            require(all(type(value) is int and 0 <= value <= 2**64 - 1 for value in epochs),
+                    "FIXTURE: two exact U64 callback epochs required")
+            if epochs[0] == epochs[1]:
+                print(f"N5 same-batch read/accept epochs={epochs}", flush=True)
                 break
-            print(f"N5 scenario not established {attempt + 1}/3: {rendered}", flush=True)
-            # Disposal alone can hide stderr/exit90; require the existing clean-stop gate.
+            print(f"N5 scenario not established {attempt + 1}/3: epochs={epochs}", flush=True)
+            # Every missed setup must pass normal drain/maps/reap0/empty stderr/seals.
             p.stop()
         else:
-            self.fail("FIXTURE: N5 scenario not established in three attempts; not red")
-        # A valid witness admits product assertions exactly once; none is retried.
-        self.assertEqual(p.read(tenth, len(SWITCH)), SWITCH)
-        p.wait("opened", peer=9)
-        peers.append(tenth)
-        # Exercise the formerly hidden peer first, then every existing native peer.
-        for index in (9, *range(9)):
+            self.fail("FIXTURE: N5 same-batch scenario not established in three attempts; not red")
+        # Product assertions are evaluated once after a valid witness; never retried.
+        self.assertEqual(p.read(seventeenth, len(SWITCH)), SWITCH)
+        peers.append(seventeenth)
+        for index in (16, *range(16)):
             p.send(peers[index], BINARY_A)
             p.wait("message", peer=index)
         p.barrier()
         final = p.inspect()
         self.assertEqual((final["native_peers"], final["http_peers"],
-                          final["control_capacity"], final["requests"]), (10, 1, 0, 0))
+                          final["control_capacity"], final["requests"]), (17, 1, 0, 0))
         p.stop()
 
     def retained_native(self, p, *, lease=False):
