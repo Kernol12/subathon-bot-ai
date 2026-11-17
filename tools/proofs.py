@@ -186,7 +186,7 @@ def _validate_record_fields(record: object, kinds: set[str]) -> None:
             if not isinstance(packet['reviews'], list):
                 raise ValueError('packet.reviews must be an array')
             for review in packet['reviews']:
-                closed(review, ('phase', 'provider', 'model', 'reviewer', 'revision', 'outcome', 'evidence', 'findings', 'blocking_findings'), ('started_at', 'finished_at'), 'receipt')
+                closed(review, ('phase', 'provider', 'model', 'reviewer', 'revision', 'outcome', 'evidence', 'findings', 'blocking_findings'), ('started_at', 'finished_at', 'owner_authorization'), 'receipt')
         workflow.validate_workflow(value, record['kind'], Path(), None, reference, tree_free=True)
     if 'publication' in record:
         closed(record['publication'], ('state', 'pr', 'head', 'merge_commit', 'merged_at', 'observed_at'), field='publication')

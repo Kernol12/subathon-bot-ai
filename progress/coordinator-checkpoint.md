@@ -10,20 +10,79 @@ API-016 is merged (PR #664, `4184c9fc`). The coordinator thread that ran it stop
 there by owner instruction. The handover comment lists open owner decisions, PR
 states, the next step with its gates, deferred items, planned issues and leftovers:
 [#278 handover](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6930279142). A new coordinator starts nothing until the owner gives
-the go-ahead named there.
+the go-ahead named there. The owner gave those decisions on 2026-11-17, as recorded
+below; the handover's technical gates remain binding.
 
 ## Authorized path
 
-Authorized on 2026-11-16, in this order and nothing else:
+Authorized on 2026-11-16, amended by the owner on 2026-11-17:
 
 1. **API-016 [#616](https://github.com/Kernol12/subathon-bot-ai/issues/616)**: bounded HTTP transport foundation. **Done** (PR #664,
    `4184c9fc`, proof `progress/proofs/API-016.json`).
 2. **APITEST-015 [#613](https://github.com/Kernol12/subathon-bot-ai/issues/613)**: revised host baseline (tests stage of API-001), tier A.
-   Step 1 (contract revision for groups A to E) is reviewed: PR #667 at `bc9b33c4`,
-   draft, not merged. The next step (scope items 1 to 4: test-suite baseline revision,
-   additions, listeners, header and stubs) waits for the owner's go-ahead.
+   Scope items 1 to 4 (baseline revision, additions, listeners, header and stubs)
+   are authorized under the handover gates. Source reviews are complete; PR #667
+   is public at `b5bc9340`, draft, not merged. Current main was merged first.
+   The owner-approved full selections reached intended NI only: 87 Qt selectors
+   and all 30 native methods. Final proof encoding is Blocked for owner below.
+   **APITEST-017 [#672](https://github.com/Kernol12/subathon-bot-ai/issues/672)** is also authorized, tier A, in parallel in its own worktree and branch.
+   The owner narrowed it to native peers (former scope 2): suspend/admit and more
+   than eight peers, using existing observations. Tests must fail on `0e774a51`
+   (the suspend/admit case also on `8fbc0ee8`) and pass on the merged foundation.
+   Former HTTP scope 1 and its observation seam are deferred to #689, not an
+   API-001 prerequisite and not authorized.
+   The tasks own separate files. If both need the same file, stop and ask the owner.
 3. **API-001 [#278](https://github.com/Kernol12/subathon-bot-ai/issues/278)**: the production host, tier A. Prerequisites: APITEST-015 and
-   APITEST-017 (#672, not authorized).
+   APITEST-017 (#672). The path remains both tests tasks, then API-001.
+
+Report each stage when it finishes or needs the owner. Filing the API-016
+follow-ups as planned epic-linked board issues is authorized; doing their work is not.
+
+## Current owner holds (2026-11-17)
+
+- **APITEST-015 full-selection NI stage is complete.** All 87 Qt selectors and 30
+  native methods ran once and reached only intended NI; no other/unclassified
+  failure. Native: 68 actual children/44 subtest rows, 67 `drogon_factory` and one
+  `elapsed_factory`. Exit 42 cleanup assertions were secondary to those same NI
+  exits. Exact first-native admission was reused under explicit owner authority;
+  all 1,740 source/dependency/artifact seals matched. Native initial 6/runtime 45 map
+  comparisons were NI-preempted; 62 initial/nine runtime comparisons completed.
+  Serving/stopped were never observed. Qt's disclosed pre-execution cold-arm NI
+  boundary prediction error remains recorded, without source/oracle change/rerun.
+  [Full native receipt](https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6949622237).
+- **APITEST-015 proof encoding is Blocked for owner.** The faithful TESTS initial
+  receipt is Codex under the valid temporary rule, but the unchanged validator
+  requires Claude. Earlier Claude contract review cannot substitute. No provider
+  relabeling or review redo. A narrow exception for completed Codex initials on
+  #667/#690 needs owner authorization before tooling/schema edits. No such code
+  authored. [Exact blocker](https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6949706095).
+  Source approvals and public `b5bc9340` seven green checks remain valid. Local
+  main merge `4d3ac056` changes only checkpoint documentation; no final proof commit,
+  push or merge. Final proof/current CI/protected merge remain. Cleanup only after
+  merge, preserving pending artifacts and active worktrees.
+- **APITEST-017 historical trial 01 is stopped for owner.** Option A source at
+  `fa9dc8e9` passed Codex and fresh Claude source closing; zero fix rounds used.
+  It uses existing `boundedEpoch()` and three test files only, with no SDK or
+  producer change. Active callbacks on IO0 with equal epochs witness one batch;
+  they do not force the faulty suppression branch. Foundation pass cannot prove
+  the faulty scenario occurred. One fix round is authorized. If phase proof needs
+  SDK/producer changes, take the owner-authorized fallback without the witness,
+  not option B.
+  Fresh historical `0e774a51` plus four exact reviewed overlays built and passed
+  independent admission. Trial 01 passed LegacyControl, established `(57,57)`,
+  then failed a native-message wait. The retained output does not identify the
+  selected peer or establish old-branch attribution. **No historical-red credit;
+  trials 02–10 NOTRUN.** No product retry or replacement. All seals match, jobs
+  reaped; further runtime/editing is held for owner
+  ([receipt](https://github.com/Kernol12/subathon-bot-ai/pull/690#issuecomment-6950026409)).
+  The failed source assembly/recovery evidence remains preserved. Ten historical
+  runs need at least one attributable PRODUCT failure; max three clean setup
+  attempts, no product retry. Current loaded/unloaded, `8fbc0ee8` suspend/admit,
+  frozen34/native44, final CI/proof/merge remain pending. Do not run the rejected
+  60-sample gate. Remote PR690 stays `6d558798`; local final-source CI is unrun.
+
+Board: #613 Blocked on owner proof-policy direction; #672 Blocked on historical
+failure attribution/disposition. API-001 remains behind both open prerequisites.
 
 SLICE-001 (PR660, 579afcb3) and the owner checkpoint on #278 are done. PR #121 is
 closed; API-001 restarts from its rewritten issue on current `main` in a fresh
@@ -31,12 +90,15 @@ session, and none of PR #121's reviews, approvals or CI results carries over.
 
 ## Planned, not authorized
 
-- APITEST-017 [#672](https://github.com/Kernol12/subathon-bot-ai/issues/672): reviewed tests for the defects of API-016 that no frozen test
-  covers (large input with more than 8 connections; established native peers after
-  suspend/admit and beyond 8 peers). Prerequisite of API-001.
 - SESSION-013 [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662), SESSION-009 [#582](https://github.com/Kernol12/subathon-bot-ai/issues/582), API-010 [#560](https://github.com/Kernol12/subathon-bot-ai/issues/560).
-- API-016 follow-ups (not filed): V2, C2, C4, C6, I14, I15, I16, I19, I20, O5; see
-  the handover comment.
+- APITEST-018 [#689](https://github.com/Kernol12/subathon-bot-ai/issues/689): large buffered HTTP input with more than eight connections and its
+  bounded observation seam, moved from APITEST-017 by the owner. Planned under
+  EPIC-008; not an API-001 prerequisite. Historical `f8be1aec` coverage is deferred here.
+- APITEST-019 [#692](https://github.com/Kernol12/subathon-bot-ai/issues/692): unexplained unloaded legacy-control exit90/SDK diagnostic. Planned under
+  EPIC-008, not authorized; not a prerequisite of APITEST-017 or API-001.
+- API-016 follow-ups: V2, C2, C4, C6, I14, I15, I16, I19, I20, O5; see the handover
+  comment. Filed as [#678–#687](https://github.com/Kernol12/subathon-bot-ai/issues/273)
+  (API-017 through API-026), planned under EPIC-008; none is authorized for work.
 - Process/tooling #619/#620 is frozen; lifting the freeze is the owner's decision.
 
 Dependency readiness authorizes nothing beyond the path above. No live chat or
@@ -68,8 +130,7 @@ Owner amendments, all recorded on #278:
   answered. Reference units report refusals as rollbacks, and those must be answered.
 - API-010 (#560), the first replying dispatcher, carries the criterion "a command with
   a unit that ended without a commit never yields a success reply" ([widened](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6919654379)).
-  #560 and the one boundary-contract sentence that quotes it are updated at the next
-  step of APITEST-015; until then both carry the narrower "rolled-back unit" wording.
+  #560 and the matching reviewed, published APITEST-015 boundary sentence are updated.
 - #278 acceptance criterion: SIGTERM leads to an orderly stop; the host installs its
   own handler, because Drogon's default one terminates the process.
 
@@ -130,19 +191,17 @@ the task and goes to the owner.
 uncommitted work as a patch and ask the owner; do not retry or switch providers on
 your own. If a Codex verification is flagged, stop and bring it to the owner.
 
-**Roles and providers — temporary owner rule (2026-11-16, until revoked).**
-Codex for authoring, tier A initial reviews, tier A verification, tier B reviews,
-and investigations or measurements. Every review or investigation is a fresh
-session that did not author or fix the work under review.
-Claude only for the tier A closing review, and for anything the owner asks for by
-name. If Claude is unavailable for a closing review, leave that gate pending and
-continue other authorized work; do not substitute Codex for it.
-If a Codex review or investigation is flagged by the provider, stop and bring it to
-the owner; do not move it to Claude independently.
-Record the actual provider and model in every review comment. An author never
-approves its own work. Any other provider or model switch needs the owner.
-This temporary rule replaces the default provider split;
-all other standing owner rules remain unchanged.
+**Roles and providers — default restored (2026-11-17).**
+The owner revoked the temporary 2026-11-16 split. Codex authors; Claude provides
+initial and closing reviews for tier A and reviews for tier B; Codex verifies.
+Investigations and measurements stay with Codex. Completed or running reviews
+under the temporary rule remain valid and are not redone. The next new review
+uses the default. Every review/investigation is a fresh session that did not
+author or fix the work under review. If the required reviewer is unavailable,
+leave the gate pending and continue other authorized work; do not substitute.
+A provider flag stops for owner. Record actual provider/model in every review
+comment; an author never approves its work. Any other provider or model switch
+needs the owner. Other standing rules remain unchanged.
 
 ## Project board maintenance (2026-11-16)
 
@@ -153,7 +212,8 @@ planned without changing the issue, sets Status when claiming or blocking an iss
 and moves issues to Ready when a close unblocks them.
 
 Open non-epic issues are Ready when every native blocker is closed, otherwise
-Planned; retain In progress for #613 and Blocked for #278, which waits for the owner.
+Planned; claimed issues are In progress and issues awaiting the owner are Blocked.
+The owner's API-016 follow-ups are explicitly Planned and not authorized for work.
 Epics keep their status. Board Ready shows dependency order; it does not authorize
 work. The checkpoint's authorized path does.
 
@@ -171,6 +231,69 @@ work. The checkpoint's authorized path does.
   before merge. `tools/check_publication.py` requires `origin/main` as an ancestor of
   the head, so merge `main` into the branch before the proof commit.
 
+## Bounded owner authorizations (2026-11-17)
+
+- The coordinator is the sole, serial writer of `.github/workflows/ci.yml` for
+  APITEST-017 and APITEST-015. Keep separate commits on their task branches and
+  independent review before publication. Reviewed foundation registration is
+  37 methods / 297 maximum children / 10158s after N5 correction 1; host registration
+  is 87 Qt selectors / 72 native children / 1788s. The workflow edits are separate
+  commits on their task branches. Other shared-file conflicts still stop for owner.
+- APITEST-015 correction 11 is the THIRD AND LAST contract pass: only the
+  phase/thread of `command_admitted` as approved on #613. It is synchronous on Qt
+  after retained admission, before entry checks/execution/writer scope, without a
+  host lock; a bounded pause leaves IO ingress independent. Any further contract
+  gap goes to the owner with fallback options, not a fourth pass. Fresh changed-part
+  Codex verification and Claude closing remain required; NI is not runtime proof.
+- The owner accepts the APITEST-017 unloaded sample (0/20) as bounded
+  non-reproduction. The earlier exit90/SDK diagnostic stays unexplained: one
+  failure in 21 unloaded runs across the original and amended consumers. Keep
+  the reviewed logging amendment permanently in the frozen foundation test.
+  Planned, unauthorized #692 owns that failure; it blocks neither #672 nor API-001.
+- The diagnosis-only stage is complete: 20 loaded N5 attempts passed, with no
+  acceptance credit; the separate fresh read-only answer was **no deterministic
+  overlap using existing gates without timing/load** ([combined report](https://github.com/Kernol12/subathon-bot-ai/pull/690#issuecomment-6940815717)). The owner then
+  resumed acceptance. The later `343414cb` loaded repetition 17 missed its witness
+  with `(10,1,0,True)`; the original loaded repetition 12 tuple remains unknown.
+  Both are recorded setup misses, not red; do not backfill the earlier tuple/cause.
+- **APITEST-017 numbered correction 1**, owner authorized: N5 may discard only a
+  received tuple that misses exact `(10,1,1024,True)`, print it as "scenario not
+  established", pass normal stop/reap/empty-stderr/maps/cleanup, then use a fresh
+  child. At most **three total attempts**; product assertions are never retried.
+  All three misses are a FIXTURE failure; diagnostic/event/admission/cleanup or
+  assertion failures propagate. No seam, scheduling, predicate or producer change.
+  Fresh Codex verification and Claude closing approved `d9875341` ([closing](https://github.com/Kernol12/subathon-bot-ai/pull/690#issuecomment-6943014022)); fresh admission
+  and restarted loaded sampling passed. This does not waive the historical gate.
+- Loaded sampling restarts from the beginning after an approved amendment and
+  fresh admission. **No builds or other heavy work anywhere on the machine during
+  loaded sampling**; earlier concurrent CPU2/3 build permission is superseded.
+  Keep inner setup attempts/misses separate from established product outcomes.
+  Any product assertion or exhausted-witness failure stops for owner; no outer retry.
+- Historical gates are `0e774a51` and, for suspend/admit, `8fbc0ee8`, as #672 states.
+  The owner's earlier `f8be1aec` wording was a copied mistake; it belongs to #689.
+  Existing Git/CMake construction is allowed. Anything beyond it (script, route or
+  new tooling) comes to owner with options **before authoring**.
+- The control-only launcher is ignored evidence, never committed and unused by
+  CI. Retain its hash-bound bytes outside #690 to preserve the completed sample's
+  evidence. From now on, ANY new tooling, launcher or harness goes to the owner
+  BEFORE authoring, even when it serves an approved step.
+- The owner authorized the completed fresh N5 scenario/sampling investigation
+  and unchanged 20-run historical diagnosis in parallel, with paired delivery.
+  These diagnostic results do not resume acceptance or authorize the proposed
+  sampled gate. The APITEST-015 existing-facility assessment was read-only; its
+  result does not authorize a new capture procedure or identity-only mode.
+- Latest owner APITEST-017 revision2 replaces N5's old9+1 pending101 case with
+  the16+1 same-batch target above. New observation/seam needs owner before edits;
+  candidate code and all old results remain preserved. Revised gate is10oldruns,
+  not60. Product assertions are never retried; setup max3 remains unchanged.
+- For APITEST-015, first-real-run retrospective admission was an explicit owner
+  exception to prior pre-run receipt/maps sequencing. The owner later authorized
+  full Qt selection with logs and full native selection with reused exact first
+  admission, unchanged supervisor, no debug variables and before/after seals.
+  Any object/hash mismatch would void that run as admission failure, never NI red.
+  No staged external capture or identity-only mode is authorized by that exception.
+- Batch checkpoint updates into one documentation PR per stage, not per decision.
+
 ## What SLICE-001 delivered
 
 `subathon-dev-server` (`server/dev/`, suite `dev-server` in the `qt` job) starts the
@@ -187,10 +310,40 @@ API-001 keep their ownership and release requirements.
 
 ## Live assignments
 
-None. API-016 is merged. APITEST-015 (#613) is claimed for step 1 only; its branch
-`task/APITEST-015-host-baseline-revision` (PR #667) has no running session. Verify
-the actual checkout, worktrees and PR state before acting; never infer a live session
-from this file.
+- APITEST-015 (#613), tier A: retained Codex author worktree `t3-0dc4e70e`,
+  branch `task/APITEST-015-host-baseline-revision`, PR #667. Public `b5bc9340`;
+  local checkpoint-only main merge `4d3ac056`. Contract/header last `9d9587e9`
+  and full tests/integration `b8df1ba1` have approved source review chains
+  ([closing](https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6941482947)). All six final corrections and corrections 7–11 remain unchanged;
+  correction 11 is THIRD/LAST. All 87 Qt selectors and 30 native methods reached
+  intended NI as above. No host runtime implementation. Final proof encoding
+  awaits owner; no proof commit or merge.
+  The owner decided all six numbered
+  C2 corrections and then revised 1 and 6 ([latest record](https://github.com/Kernol12/subathon-bot-ai/issues/613#issuecomment-6932687162)); PR #667 and every tier A packet must name all six with these revisions.
+  Execute may prequeue units, preserving the three-accepted-unit fail-close oracle.
+  Forward-from-body still ends without reply; forwarding is only from execute or a
+  supplied unit completion. Payload is a borrowed, charged host-owned input view.
+  Unit captures follow existing intake resource rules unchanged; the compile-time
+  capture limit is dropped. No new producer prerequisite task.
+- APITEST-017 (#672), tier A: retained Codex author worktree `t3-aa9893a6`,
+  branch `task/APITEST-017-transport-regressions`; reviewed local `fa9dc8e9`,
+  remote draft PR #690 still `6d558798`. Remote native failed the stale
+  registration guard; other six passed, no rerun. Option A source is approved
+  ([Claude closing](https://github.com/Kernol12/subathon-bot-ai/pull/690#issuecomment-6948896774)). Historical worktree `t3-e94838fb` has exact `0e774a51` plus four
+  reviewed overlays after preserved source provisioning stop/recovery.
+  Historical admission passed; trial 01 stopped as above. All older N5 misses
+  and old 9+1 historical passes remain separate evidence. HTTP scope/seam stays
+  deferred to #689. The logging amendment stays permanently; unexplained legacy
+  exit 90 remains planned #692, not a blocker or authorized work.
+- Independent Codex default writer-budget measurement passed two current-v10
+  inspections ([receipt](https://github.com/Kernol12/subathon-bot-ai/pull/667#issuecomment-6932486629)); it establishes no default-budget advancement, installation read or host activation.
+- Coordinator owns shared build/CI integration and checkpoint/proof records. Any
+  file needed by both tests tasks stops for the owner, except the expressly
+  authorized serial coordinator edits of `ci.yml` above.
+
+Builds and scratch use each worktree's ignored `build/TASK-ID/session/` on disk.
+Verify actual checkout, worktrees, PR heads and sessions before resuming; these
+assignments never substitute for that check.
 
 ## API-011 capability map (the reference path SLICE-001 hosts)
 
