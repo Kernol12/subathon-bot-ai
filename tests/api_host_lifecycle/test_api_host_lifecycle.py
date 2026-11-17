@@ -776,7 +776,9 @@ class ApiHostNative(unittest.TestCase):
         snap = child.stop()
         self.assertNotIn(b"Adone", drain_peer(peer))
         self.assertEqual(snap["response_capacity"], "0")
-        self.assertEqual(len(child.events("writer_completed")), 1)
+        outcomes = child.events("writer_completed")
+        self.assertEqual(len(outcomes), 1)
+        self.assertEqual(outcomes[0]["work"], dict(transaction=1, error=0, value=True, ticket_revoked=True))
 
     def test_native_credentials_refuse_and_diagnostic_exception(self):
         port = free_port()
@@ -813,9 +815,13 @@ class ApiHostNative(unittest.TestCase):
     def test_fixed_and_ephemeral_role_combinations_L03(self):
         for role in ("http", "native", "both"):
             with self.subTest(role=role):
-                first, second = free_port(), free_port()
-                while first == second:
+                first = free_port()
+                for _ in range(8):
                     second = free_port()
+                    if first != second:
+                        break
+                else:
+                    self.fail("SETUP: eight distinct-port candidate attempts exhausted")
                 child = Child(self, port=first if role != "http" else 0,
                               http_port=second if role != "native" else 0)
                 child.start()

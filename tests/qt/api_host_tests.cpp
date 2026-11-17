@@ -380,6 +380,9 @@ class ApiHostTests final : public QObject {
             account_sessions_fixture::Observer lock(r.store.path);
             (void)lock.rows("BEGIN IMMEDIATE");
             auto p = r.peer();
+            r.dispatch->completion = [](auto &command, const auto &) {
+                success(command.finish(reply("deny")), "Busy BEGIN permits a refusal reply");
+            };
             success(r.submit(p), "Admitted while external lock held");
             require(
                 QTest::qWaitFor([&] { return r.log->count(K::writer_completed) == 1; }, wait_ms),
@@ -388,9 +391,18 @@ class ApiHostTests final : public QObject {
             require(w && w->transaction == TransactionOutcome::not_started &&
                         w->error == WorkError::busy && !w->has_value,
                     "BEGIN throws SqliteWorkFailure(busy), not generic exception");
+            require(QTest::qWaitFor(
+                        [&] {
+                            r.check_callbacks();
+                            return r.transport->takes == 1;
+                        },
+                        wait_ms),
+                    "Supplied busy-BEGIN reply handed off while lock remains held");
             (void)lock.rows("ROLLBACK");
-            require(r.dispatch->executions == 1 && r.transport->handoffs == 0,
-                    "No implicit replay");
+            require(r.dispatch->executions == 1 && r.dispatch->completions == 1 &&
+                        r.log->count(K::writer_completed) == 1 &&
+                        r.log->count(K::local_handoff) == 1 && r.transport->handoffs == 1,
+                    "One actual refusal reply and no implicit replay");
             r.stop();
         });
     }
@@ -833,6 +845,9 @@ class ApiHostTests final : public QObject {
                 t.rollback();
                 return 1;
             };
+            r.dispatch->completion = [](auto &command, const auto &) {
+                success(command.finish(reply("deny")), "Known rollback permits a refusal reply");
+            };
             success(r.submit(p), "Admit rollback");
             require(
                 QTest::qWaitFor([&] { return r.log->count(K::writer_completed) == 1; }, wait_ms),
@@ -843,7 +858,17 @@ class ApiHostTests final : public QObject {
                     "Known rollback truth");
             require(r.store.facts() == SqlRows{{QString("49"), QString("45"), QString("4A")}},
                     "Previous committed source retained");
-            require(r.transport->handoffs == 0, "No rollback publication");
+            require(QTest::qWaitFor(
+                        [&] {
+                            r.check_callbacks();
+                            return r.transport->takes == 1;
+                        },
+                        wait_ms),
+                    "Supplied staged-rollback reply handed off");
+            require(r.dispatch->executions == 1 && r.dispatch->completions == 1 &&
+                        r.log->count(K::writer_completed) == 1 &&
+                        r.log->count(K::local_handoff) == 1 && r.transport->handoffs == 1,
+                    "One actual rollback refusal reply and no replay");
             r.stop();
         });
     }
