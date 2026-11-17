@@ -4370,6 +4370,10 @@
           "type": "string",
           "pattern": "^https://\\S+$(?![\\s\\S])"
         },
+        "owner_authorization": {
+          "type": "string",
+          "pattern": "^https://\\S+$(?![\\s\\S])"
+        },
         "findings": {
           "type": "array",
           "items": {
