@@ -86,6 +86,9 @@ the endpoints or retry a failed bind in process.
 
 On selected Linux, `HttpServer` uses `TcpServer` defaults SO_REUSEADDR=1 and
 SO_REUSEPORT=1; `app().reusePort()` controls the probe, not those socket defaults.
+For bounded Linux listeners, the selected successor overrides that default before
+Acceptor construction/bind with `reUseAddr=true` and `reUsePort=false`; the late
+clear/readback remains defense in depth.
 Call PUBLIC `enableReusePort(true)` separately (it returns void), skipping the
 probe and `/tmp/drogon.lock`. Install `setBeforeListenSockOptCallback` to clear
 SO_REUSEPORT on EACH actual socket; verify SO_REUSEPORT=0 and SO_REUSEADDR=1 before

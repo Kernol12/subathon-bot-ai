@@ -887,7 +887,8 @@
 -                       bool nativeProfile)
 +                       bool nativeProfile, trantor::bounded_io::Producer *bounded, trantor::bounded_io::Role role)
  #ifdef __linux__
-     : nativeProfile_(nativeProfile), server_(loop, listenAddr, std::move(name))
+-    : nativeProfile_(nativeProfile), server_(loop, listenAddr, std::move(name))
++    : nativeProfile_(nativeProfile), server_(loop, listenAddr, std::move(name), true, bounded == nullptr)
  #else
      : nativeProfile_(nativeProfile), server_(loop, listenAddr, std::move(name), true, app().reusePort())
  #endif
