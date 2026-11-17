@@ -22,21 +22,19 @@ Historical receipts are in PR112, current work in #613/PR667; neither proves unr
 
 ## 1. Actual sources, ordinary activation and forward restore obligation
 
-The Qt owner privately owns the actual writer/store/catalog and startup attempt.
-First submit `SqliteMigrationRunner::enqueue(MigrationMode::inspect)` with the
-actual compiled `reference_authority_repository_manifest()` through that writer.
-Require once-only acknowledged committed/none/value completion, migration reason
-none, report current/version10/target10/applied0 today (compiled head is authoritative).
-Fresh, old (including complete version8), future head11, wrong/foreign/malformed
-or uncertain catalogs refuse without setup, advance or operational approval.
-Then use the SAME writer for one actual work transaction reading the configured
-installation through `SqliteAccountSessionUnit::read_installation`; require its
-selected identity, valid current epoch/revision and acknowledged normal COMMIT.
-No unrelated writer access/mutation interleaves the chain. Match actual completions
-to this attempt/owner/store; DTO equality, request IDs, a fixture flag or listener
-readiness is insufficient. Stop/failure prevents activation. Activate storage only
-after both completions, before protected entry; preserve I/E/J and all session rows.
-No installation creation, epoch rotation, session-time change or auto-migration.
+The Qt owner privately owns the actual writer/store/catalog and startup attempt. First submit
+`SqliteMigrationRunner::enqueue(MigrationMode::inspect)` with the actual compiled
+`reference_authority_repository_manifest()` through that writer. Require once-only acknowledged
+committed/none/value completion, migration reason none, report current/version10/target10/applied0 today
+(compiled head is authoritative). Fresh, old (including complete version8), future head11,
+wrong/foreign/malformed or uncertain catalogs refuse without setup, advance or operational approval. Then
+use the SAME writer for one actual work transaction reading the configured installation through
+`SqliteAccountSessionUnit::read_installation`; require its selected identity, valid current
+epoch/revision and acknowledged normal COMMIT. No unrelated writer access/mutation interleaves the chain.
+Match actual completions to this attempt/owner/store; DTO equality, request IDs, a fixture flag or
+listener readiness is insufficient. Stop/failure prevents activation. Activate storage only after both
+completions, before protected entry; preserve I/E/J and all session rows. No installation creation, epoch
+rotation, session-time change or auto-migration. OPS-02 update/backup/quiescence remains caller-owned.
 
 No supported restore/replacement producer or restore fence exists in versions9/10:
 Q/N invent no stimulus/cleared flag. Out-of-band copying/VM rollback is clock §1's
@@ -47,11 +45,13 @@ replacement/acknowledged epoch fencing, recovery/outbound holds, hard-end and no
 No mechanism is selected; waiting would cycle through SESSION-009/API-001.
 No restore acceptance or prerequisite is waived.
 
-**Epoch fence:** no host generation/mutation facade/precommit reread. Authenticating
-units use `resolve_current_account_session`'s epoch comparison (revoked on mismatch);
-session insert/replace uses `current()`/`accepted()` in `sqlite_account_sessions.cpp`.
-SESSION-013 (#662) verifies every session-bearing unit before first rotation;
-scope/provenance tickets never imply host membership.
+**Epoch fence:** no host generation/mutation facade/precommit reread. Authenticating units use
+`resolve_current_account_session`'s epoch comparison (revoked on mismatch); session insert/replace uses
+`current()`/`accepted()` in `sqlite_account_sessions.cpp`. SESSION-013 (#662) verifies every
+session-bearing unit before first rotation; scope/provenance tickets never imply host membership. The
+resolver compares before sampling the clock; its reference current-session source uses
+`read_lifecycle_actor` on the active unit session, and `accepted()` checks authentication bindings. This
+does not claim every unit has been traced.
 
 **Clock ownership:** no host session clock/sampler/facade. SESSION-009 (#582) owns
 revocation/thread/reentrancy and wall-jump guards; absent clock means UTC unavailable.
@@ -137,7 +137,7 @@ never hand off inside that callback.
 | Rule | Required behavior |
 | --- | --- |
 | (a) | Owner-only operations; foreign call rejects before host/writer access or any command mutation. Reentrant forward/finish refuses invalid_completion without state change. |
-| (b) | Terminal handle inert, no resurrection. No active-command timer; response elapsed/disconnect revokes reply only. Consumed stop includes pending signal; forward or finish(reply) returns stopping and ends without reply. Finish(no reply) may end subject to (e). Abandonment, including foreign-thread destruction, records bounded lifetime-safe cancellation for owner cleanup; an outliving handle never dereferences Host. |
+| (b) | Terminal handle inert, no resurrection. No active-command timer; response elapsed/disconnect revokes reply only. Consumed stop includes pending signal; forward or finish(reply) returns stopping and ends without reply. Finish(no reply) may end subject to (e). Abandonment, including foreign-thread destruction, records bounded lifetime-safe cancellation for owner cleanup; cleanup submits no new work; an outliving handle never dereferences Host. |
 | (c) | Escaping execute/completion exception ends without reply/replay. All accepted bodies and once-only completions drain with actual truth; completion throw is not retried. No release/next entry before they return; stopped/unavailable admits no next command. |
 | (d) | Actual writer admission only. A refused admission invokes no body/completion or writer_completed and ends without reply. Pending units and host records stay bounded by pending_batches and declared host accounting; no secondary pending list. Accepted completions drain but cannot submit after terminal refusal. |
 | (e) | Body forward or finish, or finish while accepted units remain pending, refuses invalid_completion and ends without reply. Last unit completion may finish after pending count drops, but handoff/next entry awaits normal callback return. Execute prequeue remains allowed. |
@@ -149,13 +149,15 @@ never hand off inside that callback.
 
 ### Shipped transport, signal and elapsed composition
 
-N links shipped Host/Drogon/signal/elapsed sources and matching public headers;
-Q injects fake transport only through the same boundary. Process-main Qt owns
-Host/dispatcher/queue/writer/SQL through destruction. One framework-main runs Drogon;
-exactly one IO0 listens/accepts and owns sockets/parsers/callbacks/handoff/Close on
-selected Linux; startup resources retain their loop owners. Dual readiness, scratch,
-endpoints/socket options follow listeners §§1–6, never a timer/bind-only observation.
-No further Trantor event loop is constructed while the foundation is installed.
+N links shipped Host/Drogon/signal/elapsed sources and matching public headers; Q injects fake transport
+only through the same boundary. Process-main Qt owns Host/dispatcher/queue/writer/SQL through
+destruction. One framework-main runs Drogon; exactly one IO0 listens/accepts and owns
+sockets/parsers/callbacks/handoff/Close on selected Linux; startup resources retain their loop owners.
+Dual readiness, scratch, endpoints/socket options follow listeners §§1–6, never a timer/bind-only
+observation. No further Trantor event loop is constructed while the foundation is installed. The N probe
+supplies finite dispatch data, disposable paths and observation/synchronization only; it never implements
+an alternate listener, signal handler, readiness/transaction bridge or shutdown, fills production stubs
+with fixture logic, or sets readiness/invocation through control channels.
 
 Signal implementation requirements (production StopSignalBridge):
 
@@ -165,20 +167,20 @@ Signal implementation requirements (production StopSignalBridge):
 | Handler | Record/wake only, never allocation, locks, Qt/Drogon/SQL or Host. Ordinary request_stop is thread-safe, coalescing at most one owner notification, NOT signal-safe. |
 | Teardown | Keep state/descriptors valid through framework/IO exit and late entries; gate entry plus in-flight count BEFORE descriptor borrow, close gate, wait every allowed borrower before close/reuse. Quiesce ALL threads. One-thread masking, volatile sig_atomic_t or zero sampled once is insufficient; only separately reviewed equally safe replacement is allowed. |
 
-Host owns ONE read-only Linux CLOCK_MONOTONIC source and builds the native profile
-with it; options/transport inject no other profile/clock. The production pure
-converter handles exact nonnegative normalized sec/nsec→U64ns, unavailable for
-syscall/malformed/overflow; no float/wrap/saturation/UTC/supervisor fallback.
-Lifecycle §4 fixes same-domain deadlines, equality expiry, no extension and per-owner
-nonregression without ordering cross-thread reads. Q calls the real converter;
-N proves wiring, not syscall failure, trusted UTC, wall changes or scheduling bounds.
+Host owns ONE read-only Linux CLOCK_MONOTONIC source and builds the native profile with it;
+options/transport inject no other profile/clock. The production pure converter handles exact nonnegative
+normalized sec/nsec→U64ns, unavailable for syscall/malformed/overflow; no
+float/wrap/saturation/UTC/supervisor fallback. Lifecycle §4 fixes same-domain deadlines, equality expiry,
+no extension and per-owner nonregression without ordering cross-thread reads. Q calls the real converter;
+N proves wiring, not syscall failure, trusted UTC, wall changes or scheduling bounds. The production
+monotonic adapter MUST call `convert_monotonic_observation` after its real syscall; source review
+verifies that reuse.
 
-Lifecycle §5's stop barriers require owner-loop IO/framework callback/lease drain
-before network acknowledgment, Qt writer completion/connection removal before
-owner destruction, then framework/IO joins and Qt cleanup. BOTH acknowledgments
-are required; a blocked body means incomplete shutdown, never deadline-certified
-stopped. Bind/listen exit1 is process-terminal, not destructor proof; startup
-callback exceptions require the same cleanup even in failed state.
+Lifecycle §5's stop barriers require owner-loop IO/framework callback/lease drain before network
+acknowledgment, Qt writer completion/connection removal before owner destruction, then framework/IO joins
+and Qt cleanup. BOTH acknowledgments are required; a blocked body means incomplete shutdown, never
+deadline-certified stopped. Bind/listen exit1 is process-terminal, not destructor proof; startup callback
+exceptions require the same cleanup even in failed state.
 
 ### Acceptance-only hooks and concrete accounting
 
@@ -201,17 +203,15 @@ refused ingress and later owner operation_refused are distinct actual phases.
 | Correlation / other variable data | One inline correlation in the association slot, borrowed by pinned execution/response records through their terminal barrier; any retained duplicate needs another charged slot. Other variable data uses the capacity/copy ledger; no uncharged string/lambda copy. |
 | Refusal/control fallback | One preallocated1024-byte bridge control slot per admitted peer, at most128 peers (131072), respecting the unchanged CommonFailure bound; otherwise close without allocating a reply. Native control/output buffers retain their separate native-profile budgets. |
 
-Reserve full usable capacity, slots and metadata BEFORE host allocation/copy;
-growth reserves full replacement while old lives. Moves transfer a charge; copies
-pay again. Bridge pool sum is 16777216+32768+65536+131072=17006592 bytes, excluding
-separate native buffers, bounded startup-store reads, fixed owner/event tables and
-allocator/framework overhead. Slots must fit selected-target representations;
-larger metadata needs reviewed revision, not hidden heap metadata. These are
-engineering charges, not exact allocator/RSS or one aggregate process ceiling.
-OwnedReply is already-allocated trusted bounded result, not retroactive allocation
-enforcement; capture rules remain the intake's. Inspect capacity/copies/current/peak
-charges and one-time release; source/resource review remains mandatory.
-Reduced input/response oracle: cap8/slots2, capacities4+4 charge264; third1 and
+Reserve full usable capacity, slots and metadata BEFORE host allocation/copy; growth reserves full
+replacement while old lives. Moves transfer a charge; copies pay again. Bridge pool sum is
+16777216+32768+65536+131072=17006592 bytes, excluding separate native buffers, bounded startup-store
+reads, fixed owner/event tables and allocator/framework overhead. Slots must fit selected-target
+representations; larger metadata needs reviewed revision, not hidden heap metadata. These are engineering
+charges, not exact allocator/RSS or one aggregate process ceiling. OwnedReply is already-allocated
+trusted bounded result, not retroactive allocation enforcement; capture rules remain the intake's.
+Inspect capacity/copies/current/peak charges and one-time release; source/resource review remains
+mandatory. Reduced input/response oracle: cap8/slots2, capacities4+4 charge264; third1 and
 envelope4/payload5 refuse. Release one→132; move+0. Cap12/slots2 still refuses third.
 
 ## 3. Independent literal examples
@@ -285,9 +285,9 @@ Global-exhaustion recovery releases only A while B stays outstanding. Idle/parti
 HTTP/Upgrade stop may give bounded HTTP refusal/EOF; WS Close needs actual upgrade.
 
 N fixture limits remain: inherited FD, separate stdout/stderr; serialized1MiB arena/
-256descriptors,256events×128KiB,64commands×4096bytes,8peers/4096byte-operation,
-1MiB total logs; step7s/child20s, TERM then KILL reap2s each. Loaded-map cap128,
-complete initial/post-QSQLITE/serving/stopped admission; hash-cache size/mtime/ctime.
+256descriptors,256events×128KiB,64commands×4096bytes,8peers/4096byte-operation, 1MiB total logs;
+step7s/child20s, TERM then KILL reap2s each. Loaded-map cap128, a candidate bound, not measured; complete
+initial/post-QSQLITE/serving/stopped admission; hash-cache size/mtime/ctime.
 Watchdog/overflow/setup/ABI failure is not red or graceful cleanup proof. Before
 bodies require source/resource/fixture and passive ELF/ABI/identity/seal/map gates
 for THIS consumer, not old probe approval. Unreviewed tests stay local; independent
