@@ -28,7 +28,7 @@ if(SUBATHON_BUILD_API_HOST_TESTS)
         add_test(NAME "session-clock.${clock_case}"
             COMMAND server_session_clock_acceptance "${clock_case}")
         set_tests_properties("session-clock.${clock_case}" PROPERTIES
-            LABELS "session-clock;acceptance;qt;server;intentional-red" TIMEOUT 180
+            LABELS "session-clock;acceptance;qt;server" TIMEOUT 180
             ENVIRONMENT "LD_LIBRARY_PATH=${sbt_drogon_root}/lib")
     endforeach()
     foreach(clock_case IN LISTS subathon_session_clock_passing_cases)
@@ -41,7 +41,7 @@ if(SUBATHON_BUILD_API_HOST_TESTS)
     subathon_add_qt_suite(server_session_clock_linux_acceptance
         NAME session-clock-linux SOURCES session_clock_linux_tests.cpp
         LIBRARIES subathon_session_clock
-        LABELS "session-clock-linux;acceptance;qt;server;intentional-red" TIMEOUT 180)
+        LABELS "session-clock-linux;acceptance;qt;server" TIMEOUT 180)
     set_tests_properties(session-clock-linux.suite PROPERTIES
         ENVIRONMENT "LD_LIBRARY_PATH=${sbt_drogon_root}/lib")
 endif()
