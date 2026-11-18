@@ -44,13 +44,13 @@ checks, including imports, versions, SONAMEs, selected SDK identity and exports,
 the SDK's own Session RTTI and marker, hashes and loader reconciliation. External
 compiler and system-header pre-build hashes are outside this procedure.
 
-SESSION-009 #582 remains In progress. Stage 1 observed 31 Host and 59 Linux
-intended NI failures and both 6000 ms controls passed. Evidence spans the original
-admitted binaries and the reviewed four-callback repair. The original “A ended”
-failure remains unclassified and uncredited. Stage 2 owns implementation and its
-separate tier A cycle. SESSION-011 #591 continues its independent tests stage
-under the [bounded observation approvals](https://github.com/Kernol12/subathon-bot-ai/issues/591#issuecomment-6972826652).
-The coordinator owns checkpoint, proof and shared CI integration.
+SESSION-009 #582 is Done after [protected merge #703](https://github.com/Kernol12/subathon-bot-ai/pull/703)
+at `3f1d35b8`. SESSION-011 #591 continues its independent tests stage under the
+[bounded observation approvals](https://github.com/Kernol12/subathon-bot-ai/issues/591#issuecomment-6972826652).
+MILESTONE-003 #232 is [claimed](https://github.com/Kernol12/subathon-bot-ai/issues/232#issuecomment-6976382270)
+in a fresh tier A session on current main. Its durable delivery states are a
+prerequisite for restore and action delivery. The coordinator owns checkpoint,
+proof and shared migration, build and CI integration.
 
 ## Authorized path — complete
 
@@ -71,6 +71,26 @@ The coordinator owns checkpoint, proof and shared CI integration.
 API-001 and its checkpoint #701 (`199dc020`) are merged. The owner has now
 extended authorization to SESSION-009 and continuous dependency-ready product
 selection above. No baseline assertion or release requirement is waived.
+
+## Completed SESSION-009 gates
+
+- Tests recorded 31 Host and 59 Linux intended NI outcomes and two passing
+  6000 ms controls across admitted revisions. The original “A ended” result
+  stays unclassified and uncredited. The approved second fix changed only four
+  recorder wrappers in the test. The implementation used zero fix rounds.
+- Independent Stage 2 acceptance passed all 248 cases (33 Host clock, 59 Linux
+  clock, 87 Qt Host, 30 native Host, 39 session-resolution) with zero failures
+  or skips. Both ex-HL05 and ex-HL15 owner criteria passed. The five binaries
+  had independent admissions and matching postseals. The local Linux smoke
+  permits unavailable and did not report initialization or acquisition status.
+  Supported-platform clock trust, recovery, restore and deployment remain separate.
+- Proof `7db535c9` binds both stages. All seven checks passed at that head after
+  one unchanged-source Qt/native retry for pre-build APT HTTP 429. The existing
+  native job built the two clock consumers and ran its existing gated regressions.
+  The two label removals permit ordinary local acceptance. Hosted clock execution
+  remains outside the existing job. S9-IR-01 and S9-IR-02 remain non-blocking
+  source findings. Admission, commands, raw reports and proof readbacks are
+  retained under `build/SESSION-009/` and linked from PR #703.
 
 ## API-001 completed gates and limits
 
@@ -137,7 +157,9 @@ retain an open blocker. **Ready does not authorize work.** Epics keep their stat
 
 ## Product queue and frozen process work
 
-- SESSION-009 #582 and SESSION-011 #591 are in progress. SESSION-013 [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662) and API-010 [#560](https://github.com/Kernol12/subathon-bot-ai/issues/560) remain unclaimed queue items.
+- SESSION-011 #591 and MILESTONE-003 #232 are in progress. SESSION-013 [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662) and API-010 [#560](https://github.com/Kernol12/subathon-bot-ai/issues/560) remain unclaimed queue items.
+- SESSION-009 closure left #253, #262, #326 and #585 with open prerequisites.
+  SESSION-003 #264 still waits on #262, #588 and #593. SESSION-011 precedes #588.
 - APITEST-018 [#689](https://github.com/Kernol12/subathon-bot-ai/issues/689): large buffered HTTP input with more than eight connections and its
   bounded observation seam, moved from APITEST-017 by the owner. Planned under
   EPIC-008; not an API-001 prerequisite. Historical `f8be1aec` coverage is deferred here.
