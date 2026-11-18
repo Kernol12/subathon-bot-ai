@@ -441,6 +441,7 @@ struct Measure {
     void one(const std::monostate &) {}
     void one(const core::Exact &v) {
         // Borrow Boost's backends: its free numerator/denominator accessors copy.
+        const auto max_words = std::vector<std::uint32_t>{}.max_size();
         auto digits = [&](const auto &x) -> std::uint64_t {
             using Limb = std::remove_cvref_t<decltype(*x.limbs())>;
             constexpr auto width = std::uint64_t(std::numeric_limits<Limb>::digits);
@@ -480,9 +481,7 @@ struct Measure {
             require(bits - 1 <= UINT64_MAX / 3, p.error);
             require((bits - 1) * 3 / 10 + 1 + sign <= cap, p.error);
             const auto count = bits / 32 + std::uint64_t(bits % 32 != 0);
-            require(count < std::vector<std::uint32_t>{}.max_size() &&
-                        count <= cap / sizeof(std::uint32_t),
-                    p.error);
+            require(count < max_words && count <= cap / sizeof(std::uint32_t), p.error);
             std::vector<std::uint32_t> words(static_cast<std::size_t>(count));
             for (std::size_t i = 0; i < words.size(); ++i) {
                 const auto offset = std::uint64_t(i) * 32;

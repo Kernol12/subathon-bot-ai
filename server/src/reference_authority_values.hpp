@@ -118,8 +118,9 @@ inline void project_policy(Projection &p, const PermissionEditableState &g,
     data(a != g.accounts.end());
     p(PermissionFactsState::complete, a->assigned_roles);
     std::size_t entries = 0;
+    const auto max_entries = std::vector<PermissionPolicyEntry>{}.max_size();
     policy_entries(g, account, [&](const auto &e) {
-        space(entries < std::vector<PermissionPolicyEntry>{}.max_size());
+        space(entries < max_entries);
         ++entries;
         p.elements(1);
         p(e);
