@@ -509,7 +509,8 @@ class Live {
 
   public:
     Rig &r;
-    Socket client, native_client; // two clients maximum; no caller-owned client thread
+    bool foreign_inert_drop = false; // creator-only; used after all IO callbacks/join
+    Socket client, native_client;    // two clients maximum; no caller-owned client thread
     explicit Live(bool account, Expectation expected = {}, bool budget = false)
         : r(*([] {
               if (retained_rig)
@@ -644,7 +645,11 @@ class Live {
                 if (framework_.joinable())
                     framework_.join();
                 // IO is joined; only inert handle destruction is legal here.
-                r.retained.reset();
+                if (foreign_inert_drop) {
+                    std::thread foreign([&] { r.retained.reset(); });
+                    foreign.join(); // no IO/native access, only inert state destruction
+                } else
+                    r.retained.reset();
                 for (auto &c : r.contexts) {
                     c.reply.reset();
                     c.request.reset();

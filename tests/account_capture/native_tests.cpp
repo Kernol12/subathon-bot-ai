@@ -68,6 +68,18 @@ TEST(AccountCaptureNative, RetainedLeaseCannotVisitAfterCallback) {
     // inspect_reads triggers the real ready callback which probes the retained
     // lease only after capture returned. No stale byte/span is dereferenced.
 }
+TEST(AccountCaptureNative, InertRetainedLeaseDropsOffThreadAfterActualIoJoin) {
+    Live f(true, {fields_desktop, "GET", "/api/reference/v1/timer", {}, LeaseAction::retain});
+    f.connect();
+    f.client.send(desktop);
+    wire(f.client, diag);
+    f.r.wait([&] { return f.r.captures.load() == 1 && f.r.requests.load() == 1; });
+    inspect_reads(f); // retained UNVISITED lease is revoked after callback return
+    f.foreign_inert_drop = true;
+    f.cleanup(); // actual drain, quit, join, foreign inert drop, creator finish
+    EXPECT_FALSE(f.r.retained.has_value());
+    EXPECT_EQ(f.r.foundation, nullptr);
+}
 TEST(AccountCaptureNative, SplitBetweenCRAndLF) {
     capture(desktop, fields_desktop, LeaseAction::exact, desktop.find("\r\n") + 1);
 }
