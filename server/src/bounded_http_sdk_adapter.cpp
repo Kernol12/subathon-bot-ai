@@ -274,21 +274,27 @@ struct Core final : io::Producer, sdk::Sink {
             terminate(p, End::elapsed_failed);
     }
     void release_raw(PeerRecord &p) noexcept {
-        // An enclosing capture callback owns all borrowed views, even after visit.
-        if (!p.raw_live || p.capture_scope)
+        // Reservation alone is not a raw scope. A failed wipe retains quarantine.
+        // An enclosing capture callback still owns all borrowed views.
+        if (p.capture_scope || (!p.raw_live && (p.input == none || p.quarantined)))
             return;
+        const bool owned = p.raw_live;
         p.raw_live = false;
-        if (!p.raw_revoked) {
-            p.raw_revoked = true;
-            if (hook_installed)
-                hooks.revoked(hooks.owner, p.context, p.sequence, p.has_end ? p.end : End::drained);
+        if (owned) {
+            if (!p.raw_revoked) {
+                p.raw_revoked = true;
+                if (hook_installed)
+                    hooks.revoked(hooks.owner, p.context, p.sequence,
+                                  p.has_end ? p.end : End::drained);
+            }
+            wipe(p, RawKind::fields, RawUse::current,
+                 {reinterpret_cast<std::byte *>(p.fields()), 1024});
+            wipe(p, RawKind::fields, RawUse::current, p.arena());
+            wipe(p, RawKind::method, RawUse::current, {p.method(), 16});
+            wipe(p, RawKind::target, RawUse::current, {p.target(), 2048});
         }
-        wipe(p, RawKind::fields, RawUse::current,
-             {reinterpret_cast<std::byte *>(p.fields()), 1024});
-        wipe(p, RawKind::fields, RawUse::current, p.arena());
-        wipe(p, RawKind::method, RawUse::current, {p.method(), 16});
-        wipe(p, RawKind::target, RawUse::current, {p.target(), 2048});
         if (p.input != none) {
+            // Even an unused pre-reserved body capacity is erased before return.
             wipe(p, RawKind::body, RawUse::current,
                  {input_data(p.input), static_cast<std::size_t>(limits.body_bytes)});
             if (!p.quarantined) {
@@ -299,7 +305,8 @@ struct Core final : io::Producer, sdk::Sink {
                 p.input = none;
             }
         }
-        ++observation.raw_releases;
+        if (owned)
+            ++observation.raw_releases;
         anchor_idle(p);
     }
     void request_started(PeerRecord &p) noexcept {
@@ -413,7 +420,13 @@ struct Core final : io::Producer, sdk::Sink {
     bool before_parse(io::PeerStorage &value) noexcept override {
         auto &p = static_cast<PeerRecord &>(value);
         if (stopping.load(std::memory_order_acquire) || p.socket_gone || p.control ||
-            !p.wanted || p.delivered || !guard(p))
+            !p.wanted || p.delivered)
+            return false;
+        // SDK calls this only for actual buffered bytes admitted to parsing.
+        // A pipelined successor may have arrived in a prior read/sequence.
+        if (!p.native)
+            p.raw_live = true;
+        if (!guard(p))
             return false;
         request_started(p); // SDK invokes this only for actual buffered bytes.
         if (p.close_requested)
@@ -492,8 +505,7 @@ struct Core final : io::Producer, sdk::Sink {
         for (U64 i = 0; i < limits.input_slots; ++i)
             if (!input(i).owner) {
                 input(i).owner = &p;
-                p.input = i;
-                p.raw_live = true;
+                p.input = i; // capacity reserved before reads, not yet a raw scope
                 ++observation.current.input_slots;
                 observation.current.input_capacity += limits.body_bytes;
                 observation.current.metadata_charge += 128;
@@ -740,6 +752,8 @@ void PeerRecord::read_witness(io::ReadWitness w) noexcept {
     if (w.returned > 0) {
         bytes_read += static_cast<U64>(w.returned);
         o.bytes_read += static_cast<U64>(w.returned);
+        if (!native)
+            raw_live = true; // includes partial/malformed bytes before parser completion
         core->request_started(*this);
     }
     if (w.iovcnt == 1)

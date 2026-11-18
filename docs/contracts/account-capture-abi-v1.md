@@ -155,3 +155,15 @@ claim of unseen bytes is authorized. Whole-account log suppression still require
 source review of actual branches, not a Fatal filter or scanner absence alone.
 Standing unchanged admission now covers authorized Qt/GTest binaries and their
 OWN actual closure with Session-symbol applicability; no new helper/mode is added.
+
+## SESSION-011 owner corrections O3 and O4
+
+O3: while bounded ordinary payload reads are paused, keep close-only RDHUP with
+HUP/ERR interest on the existing channel. Peer send shutdown is disconnected, as
+with existing EOF; use the existing close/end/removal fences without reading or
+parsing paused payload. Native (including pre-Upgrade), stock and budgets stay unchanged.
+
+O4: unused input reservation is capacity, not a raw scope. Erase/return that empty
+capacity without a raw-release count or revoke callback. Actual received input,
+including partial/malformed input before completion and admitted buffered successors,
+retains its actual raw ownership, erasure/quarantine and once-only scope release.
