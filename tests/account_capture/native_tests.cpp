@@ -375,8 +375,8 @@ TEST(AccountCaptureNative, MalformedColonlessHeadRefusesWithoutLease) {
     EXPECT_EQ(f.r.captures, 0U);
     EXPECT_EQ(f.r.requests, 0U);
 }
-TEST(AccountCaptureNative, EmptyQueryMarkerIsRefusedWithoutRepair) {
-    Live f(true);
+TEST(AccountCaptureGeneric, EmptyQueryMarkerIsRefusedWithoutRepair) {
+    Live f(false);
     f.connect();
     f.client.send("GET /api/reference/v1/timer? HTTP/1.1\r\nHost: timer.example\r\n\r\n"sv);
     wire(f.client, bad, true);
@@ -399,15 +399,10 @@ TEST(AccountCaptureNative, ExpectCanaryRefusesWithoutContinueOrCapture) {
     wire(f.client, bad, true);
     EXPECT_EQ(f.r.captures, 0U);
 }
-TEST(AccountCaptureNative, ReferenceGetBodyIsNotAnAccountBodyPositive) {
-    Live f(true);
-    f.connect();
-    f.client.send(
-        "GET /api/reference/v1/timer HTTP/1.1\r\nHost: timer.example\r\nContent-Length: 4\r\n\r\nnull"sv);
-    wire(f.client, bad, true);
-    EXPECT_EQ(f.r.captures, 0U);
-    EXPECT_EQ(f.r.requests, 0U);
-}
+// GET/body representation400 is an owning HTTP integration oracle, not a
+// reason for this capture-only fixture to invent pre-capture route processing.
+// The accepted public-negotiate test supplies the actual body-positive profile.
+
 void raw_head(unsigned spaces, bool admitted, std::size_t split = 0) {
     Literal input;
     input.add("GET /api/reference/v1/timer HTTP/1.1\r\nHost: timer.example\r\nX: ");
