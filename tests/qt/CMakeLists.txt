@@ -64,6 +64,17 @@ if(SUBATHON_BUILD_APPLICATION_SERVICE_TESTS)
         LABELS "application-service;acceptance;qt;server")
 endif()
 
+if(SUBATHON_BUILD_SQLITE_DELIVERY_JOBS_TESTS)
+    subathon_add_qt_suite(server_sqlite_delivery_jobs_acceptance
+        NAME sqlite-delivery-jobs SOURCES sqlite_delivery_jobs_tests.cpp
+        LIBRARIES subathon_sqlite_delivery_jobs subathon_original_application_service
+        LABELS "sqlite-delivery-jobs;acceptance;qt;server;intentional-red")
+    subathon_add_qt_suite(server_sqlite_delivery_catalog_acceptance
+        NAME sqlite-delivery-catalog SOURCES sqlite_delivery_catalog_tests.cpp
+        LIBRARIES subathon_delivery_catalog subathon_original_application_service
+        LABELS "sqlite-delivery-catalog;acceptance;qt;server")
+endif()
+
 if(SUBATHON_BUILD_SQLITE_HOLD_TESTS)
     subathon_add_qt_suite(server_sqlite_application_hold_acceptance
         NAME sqlite-hold SOURCES sqlite_application_hold_tests.cpp
