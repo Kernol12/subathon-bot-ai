@@ -5,7 +5,7 @@ set(subathon_acceptance_suites
     time-credit exact-numeric timer-lifecycle receipt-intake contribution-evidence
     pause-policy application-plan sqlite-writer time-debt sqlite-work
     sqlite-migrations sqlite-retained sqlite-receipt sqlite-contribution sqlite-plan
-    sqlite-bundle sqlite-original-claim sqlite-hold application-service
+    sqlite-bundle sqlite-original-claim sqlite-hold application-service sqlite-delivery-jobs
     translation-catalog rate-snapshot milestone-progression session-resolution
     password-hashing effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
@@ -91,6 +91,8 @@ function(subathon_resolve_acceptance_suites output)
         elseif(suite STREQUAL "bounded-http-foundation" OR suite STREQUAL "account-capture")
             # Account capture selects the existing foundation and native profiles.
             list(APPEND selected native-websocket-profile bounded-http-foundation "${suite}")
+        elseif(suite STREQUAL "sqlite-delivery-jobs")
+            list(APPEND selected ${sqlite_chain} sqlite-delivery-jobs)
         elseif(NOT sqlite_index EQUAL -1)
             math(EXPR prefix_length "${sqlite_index} + 1")
             list(SUBLIST sqlite_chain 0 ${prefix_length} prefix)
