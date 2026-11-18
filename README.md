@@ -82,16 +82,22 @@ inputs or an unrepresentable final sum. The original 19 reviewed acceptance case
 and four additional reviewed regression cases pass. See the
 [implementation handoff](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/impl-001-handoff.md) for separate code review
 and exact checks, and the [original red baseline](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/time-credit-baseline-handoff.md)
-for the test-first history. Application transactions remain future work.
+for the test-first history.
 CORE-001 also supplies bounded lossless decimal parsing and signed half-even final
 conversion:32 reviewed acceptance cases plus one normalized-zero regression pass.
 Use the explicit `exact-numeric-debug` preset with installed Boost>=1.83/GoogleTest;
 [numeric implementation evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-001-handoff.md) records code
-review and automatic Ubuntu/Boost1.83 CI. Application accounting remains future work.
+review and automatic Ubuntu/Boost1.83 CI.
 ACCT-001 supplies identified-receipt retry/conflict decisions and attempt provenance
 through an atomic repository port. Its15 reviewed fake-backed simulation cases and
-[automatic CI/code review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-001-handoff.md) pass; SQL durability,
-Qt writer integration and contribution application remain unimplemented gates.
+[automatic CI/code review](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/acct-001-handoff.md) pass.
+
+The development server can apply a synthetic contribution through the reference
+accounting path, commit the application transaction through the Qt/SQLite writer,
+and print the committed timer snapshot. HTTP route integration and the shared
+contribution operation are tracked separately. See the [checkpoint](progress/coordinator-checkpoint.md)
+for the current integration status and verification evidence.
+
 CORE-002 supplies the pure Main/Grace reducer, including automatic resumption after
 positive actual credit during confirmation wait. Its39 reviewed cases pass with
 [separate code review/automatic CI](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-002-handoff.md); use
