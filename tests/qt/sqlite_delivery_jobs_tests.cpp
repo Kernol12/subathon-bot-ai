@@ -3,6 +3,7 @@
 
 #include <QTemporaryDir>
 #include <QTest>
+#include <exception>
 #include <subathon/server/delivery_jobs.hpp>
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
 
@@ -52,19 +53,29 @@ const DeliveryCapture capture{
 const QByteArray document = QByteArray::fromHex("6561726e656400ff");
 constexpr auto format = "subathon.internal.delivery-job.v1";
 const QString event_query =
-    "SELECT revision,state,attempt,evidence_ref FROM main.subathon_delivery_events WHERE "
+    "SELECT revision,state,typeof(attempt),coalesce(attempt,0),typeof(evidence_ref),"
+    "coalesce(evidence_ref,X'') FROM main.subathon_delivery_events WHERE "
     "operation_scope=X'737663' AND operation_ref=X'6164643130' AND job_ref=X'6a6f62' "
     "ORDER BY revision";
 constexpr int timeout = 10000;
 
-SqlRow event(qint64 revision, qint64 state, QVariant attempt = {}, QVariant evidence = {}) {
-    return {revision, state, std::move(attempt), std::move(evidence)};
+SqlRow event(qint64 revision, qint64 state, std::optional<qint64> attempt = {},
+             std::optional<QByteArray> evidence = {}) {
+    return {revision,
+            state,
+            QString(attempt ? "integer" : "null"),
+            attempt.value_or(0),
+            QString(evidence ? "blob" : "null"),
+            evidence.value_or(QByteArray("", 0))};
 }
 
 void normal(const SqliteWorkResult &work) {
     require(work.transaction == TransactionOutcome::committed && work.error == WorkError::none &&
                 work.value,
-            "Actual writer completion must be committed and normal");
+            QString("Expected normal COMMIT (transaction %1, error %2, value %3)")
+                .arg(int(work.transaction))
+                .arg(int(work.error))
+                .arg(int(work.value.has_value())));
 }
 
 void check_capture(const DeliveryJob &job) {
@@ -108,20 +119,20 @@ class File {
     }
 
     SqliteWorkResult work(SqliteWriter::Work body) {
-        const auto ni = std::make_shared<bool>(false);
+        const auto ni = std::make_shared<std::exception_ptr>();
         auto result = qt_test_support::run_work(
             *writer,
             [body = std::move(body), ni](auto context) {
                 try {
                     return body(context);
                 } catch (const DeliveryJobsNotImplemented &) {
-                    *ni = true;
+                    *ni = std::current_exception();
                     throw;
                 }
             },
             timeout);
         if (*ni)
-            throw DeliveryJobsNotImplemented();
+            std::rethrow_exception(*ni);
         return result;
     }
 
@@ -151,13 +162,14 @@ class File {
 
     // Seed independent durable inputs through the old bundle port and literal
     // SQL. An NI in enrollment must not mask NI in dispatch, finish or recovery.
-    void seed(int state = 0, bool marked = true) {
-        normal(work([b = bundle(marked), state, marked](auto context) -> QVariant {
+    enum class Seed { queued, sending, failed, legacy, bare_marker };
+    void seed(Seed state = Seed::queued) {
+        normal(work([b = bundle(state != Seed::legacy), state](auto context) -> QVariant {
             auto s = context.begin();
             require(SqliteApplicationBundleStore(s).stage(b).disposition ==
                         SqliteBundleStageDisposition::staged,
                     "Frozen application fixture stages using the existing port");
-            if (marked) {
+            if (state != Seed::legacy && state != Seed::bare_marker) {
                 (void)s.execute({"INSERT INTO main.subathon_delivery_captures VALUES "
                                  "(X'737663',X'6164643130',X'6a6f62',?,1,?,?,?)",
                                  {QByteArray("test/channel-A"), QByteArray("broadcaster-A"),
@@ -165,11 +177,11 @@ class File {
                 (void)s.execute({"INSERT INTO main.subathon_delivery_events VALUES "
                                  "(X'737663',X'6164643130',X'6a6f62',1,0,NULL,NULL)",
                                  {}});
-                if (state != 0)
+                if (state == Seed::sending || state == Seed::failed)
                     (void)s.execute({"INSERT INTO main.subathon_delivery_events VALUES "
                                      "(X'737663',X'6164643130',X'6a6f62',2,1,2,NULL)",
                                      {}});
-                if (state == 3)
+                if (state == Seed::failed)
                     (void)s.execute(
                         {"INSERT INTO main.subathon_delivery_events VALUES "
                          "(X'737663',X'6164643130',X'6a6f62',3,3,2,X'6e6f742d73656e74')",
@@ -178,6 +190,42 @@ class File {
             s.commit();
             return 1;
         }));
+    }
+
+    void seed_discovery() {
+        auto b = bundle();
+        for (const auto *ref : {"a-queued", "b-delivered", "z-sending", "zz-queued"}) {
+            auto job = b.jobs.front();
+            job.job_ref = ref;
+            b.jobs.push_back(std::move(job));
+        }
+        normal(work([b = std::move(b)](auto context) -> QVariant {
+            auto s = context.begin();
+            require(SqliteApplicationBundleStore(s).stage(b).disposition ==
+                        SqliteBundleStageDisposition::staged,
+                    "Old bundle port stages discovery parents");
+            for (const auto *ref : {"a-queued", "b-delivered", "job", "z-sending", "zz-queued"}) {
+                (void)s.execute({"INSERT INTO main.subathon_delivery_captures VALUES "
+                                 "(X'737663',X'6164643130',?,X'72',0,X'73',X'61',X'76')",
+                                 {QByteArray(ref)}});
+                (void)s.execute({"INSERT INTO main.subathon_delivery_events VALUES "
+                                 "(X'737663',X'6164643130',?,1,0,NULL,NULL)",
+                                 {QByteArray(ref)}});
+            }
+            (void)s.execute({"INSERT INTO main.subathon_delivery_events VALUES "
+                             "(X'737663',X'6164643130',X'622d64656c697665726564',2,1,2,NULL),"
+                             "(X'737663',X'6164643130',X'622d64656c697665726564',3,2,2,X'6f6b'),"
+                             "(X'737663',X'6164643130',X'6a6f62',2,1,2,NULL),"
+                             "(X'737663',X'6164643130',X'7a2d73656e64696e67',2,1,2,NULL)",
+                             {}});
+            s.commit();
+            return 1;
+        }));
+    }
+
+    std::vector<SqlRows> application_snapshot() const {
+        application_service_fixture::Observer observer(path);
+        return data.snapshot(observer);
     }
 
     SqlRows read(const QString &sql) const {
@@ -230,10 +278,13 @@ class Adapter final : public DeliveryAdapter {
         const auto result = reader.read({event_query, {}});
         require(result.error == StorageError::none, "Independent look inside fake adapter");
         observed = result.rows;
+        if (throw_after_observation)
+            throw std::runtime_error("fake adapter interrupted after start");
     }
 
     std::vector<DeliveryJob> claims;
     SqlRows observed;
+    bool throw_after_observation{false};
 
   private:
     QString path_;
@@ -247,8 +298,6 @@ DeliveryDispatchCompletion dispatch(File &f, std::int64_t revision,
     auto admission =
         dispatch_delivery_job(*f.writer, std::move(selected), revision, authority, adapter,
                               [response](auto result) { response->emplace(std::move(result)); });
-    if (admission == StorageError::feature_not_implemented)
-        throw DeliveryJobsNotImplemented();
     require(admission == StorageError::none, "Dispatch work admitted");
     require(QTest::qWaitFor([response] { return response->has_value(); }, timeout),
             "Dispatch completes");
@@ -267,11 +316,25 @@ void expect(const DeliveryDispatchCompletion &completion, DeliveryDisposition di
     expect(*completion.result, disposition);
 }
 
+void expect_key(const DeliveryJobKey &actual, const std::string &job_ref) {
+    require(actual.operation.operation_scope == "svc" &&
+                actual.operation.operation_ref == "add10" && actual.job_ref == job_ref,
+            "Exact operation-scoped discovery key");
+}
+
+void expect_attempt(const StrandedDeliveryAttempt &attempt, const std::string &job_ref) {
+    expect_key(attempt.key, job_ref);
+    require(attempt.sending_revision == 2, "Exact latest sending revision");
+}
+
 template <class Body> void scenario(Body body) {
     try {
         body();
-    } catch (const std::exception &error) {
+    } catch (const DeliveryJobsNotImplemented &error) {
         QFAIL(error.what());
+    } catch (const std::exception &error) {
+        QFAIL(qPrintable(
+            QString("Non-NI setup or assertion failure: %1").arg(QString::fromUtf8(error.what()))));
     }
 }
 } // namespace
@@ -326,7 +389,7 @@ class SqliteDeliveryJobsTests final : public QObject {
                             SqliteBundleStageDisposition::staged,
                         "Bundle and capture actually staged before abandonment");
                 require(s.execute({event_query, {}}) == SqlRows{event(1, 0)},
-                        "Sending is still ineligible while queue entry is provisional");
+                        "Active session sees one provisional queued row");
                 return 1;
             });
             require(result.transaction == TransactionOutcome::rolled_back &&
@@ -341,10 +404,75 @@ class SqliteDeliveryJobsTests final : public QObject {
         });
     }
 
+    void rejectsCaptureMismatches_data() {
+        QTest::addColumn<QString>("kind");
+        for (const auto *kind : {"missing", "unmarked", "unknown", "duplicate", "empty-ref",
+                                 "oversized-ref", "no-retrofit"})
+            QTest::newRow(kind) << QString(kind);
+    }
+    void rejectsCaptureMismatches() {
+        QFETCH(QString, kind);
+        scenario([&] {
+            File f;
+            if (kind == "no-retrofit")
+                f.seed(File::Seed::bare_marker);
+            auto b = f.bundle(kind != "unmarked");
+            const auto before = f.application_snapshot();
+            std::vector<DeliveryCapture> captures{capture};
+            if (kind == "missing")
+                captures.clear();
+            if (kind == "unknown")
+                captures.front().job_ref = "other";
+            if (kind == "duplicate") {
+                auto second = b.jobs.front();
+                second.job_ref = "other";
+                b.jobs.push_back(std::move(second));
+                captures.push_back(capture);
+            }
+            if (kind == "empty-ref")
+                captures.front().sender_ref.clear();
+            if (kind == "oversized-ref")
+                captures.front().action_version_ref = std::string(4097, 'x');
+
+            normal(f.work([b, captures, kind](auto context) -> QVariant {
+                auto s = context.begin();
+                SqliteDeliveryJobStore store(s);
+                if (kind == "no-retrofit") {
+                    const auto result = store.stage(b, captures);
+                    require(result.disposition ==
+                                    SqliteBundleStageDisposition::operation_conflict &&
+                                !result.existing,
+                            "Historical marker without capture cannot be enrolled on replay");
+                } else {
+                    bool refused = false;
+                    try {
+                        (void)store.stage(b, captures);
+                    } catch (const SqliteBundleInputFailure &error) {
+                        refused = error.error() == SqliteBundleInputError::invalid_job;
+                    }
+                    require(refused, "Capture mismatch is an invalid_job input error");
+                }
+                require(s.execute({"SELECT count(*) FROM main.subathon_delivery_captures", {}}) ==
+                                SqlRows{{qint64(0)}} &&
+                            s.execute({"SELECT count(*) FROM main.subathon_delivery_events", {}}) ==
+                                SqlRows{{qint64(0)}},
+                        "Caller session still active with no partial enrollment");
+                s.commit();
+                return 1;
+            }));
+            require(f.application_snapshot() == before &&
+                        f.read("SELECT count(*) FROM main.subathon_delivery_captures") ==
+                            SqlRows{{qint64(0)}} &&
+                        f.read("SELECT count(*) FROM main.subathon_delivery_events") ==
+                            SqlRows{{qint64(0)}},
+                    "No application or delivery mutation survives a committed refusal");
+        });
+    }
+
     void legacyIsIneligible() {
         scenario([] {
             File f;
-            f.seed(0, false);
+            f.seed(File::Seed::legacy);
             const auto authority = std::make_shared<Authority>();
             const auto adapter = std::make_shared<Adapter>(f.path);
             require(!f.committed([](auto &store) { return store.lookup(key); }),
@@ -353,6 +481,49 @@ class SqliteDeliveryJobsTests final : public QObject {
             require(adapter->claims.empty() && authority->calls == 0 &&
                         f.read(event_query).isEmpty(),
                     "Legacy yields no authority check, attempt or send");
+        });
+    }
+
+    void malformedSelectedHistory_data() {
+        QTest::addColumn<bool>("gap");
+        QTest::newRow("revision-gap") << true;
+        QTest::newRow("terminal-without-sending") << false;
+    }
+    void malformedSelectedHistory() {
+        QFETCH(bool, gap);
+        scenario([&] {
+            File f;
+            f.seed();
+            normal(f.work([gap](auto context) -> QVariant {
+                auto s = context.begin();
+                if (!gap)
+                    (void)s.execute({"INSERT INTO main.subathon_delivery_events VALUES "
+                                     "(X'737663',X'6164643130',X'6a6f62',2,0,NULL,X'706f6c')",
+                                     {}});
+                (void)s.execute({"INSERT INTO main.subathon_delivery_events VALUES "
+                                 "(X'737663',X'6164643130',X'6a6f62',3,2,2,X'7265706f7274')",
+                                 {}});
+                s.commit();
+                return 1;
+            }));
+            const auto before = f.read(event_query);
+            const auto failure = std::make_shared<std::optional<SqliteBundleStorageReason>>();
+            const auto result = f.work([failure](auto context) -> QVariant {
+                auto s = context.begin();
+                try {
+                    (void)SqliteDeliveryJobStore(s).lookup(key);
+                } catch (const SqliteBundleStorageFailure &error) {
+                    *failure = error.reason();
+                    throw;
+                }
+                s.commit();
+                return 1;
+            });
+            require(*failure == SqliteBundleStorageReason::invalid_stored_data &&
+                        result.transaction == TransactionOutcome::rolled_back &&
+                        result.error == WorkError::work_exception && !result.value &&
+                        f.read(event_query) == before,
+                    "Corrupt selected state fails closed with a known rollback");
         });
     }
 
@@ -441,7 +612,7 @@ class SqliteDeliveryJobsTests final : public QObject {
         QFETCH(int, state);
         scenario([&] {
             File f;
-            f.seed(1);
+            f.seed(File::Seed::sending);
             const auto before = f.read("SELECT * FROM main.subathon_app_effects");
             const auto finish = [&](auto &store, std::int64_t revision, std::int64_t attempt) {
                 return store.finish(key, revision, attempt, DeliveryEvidence(evidence), "report-A");
@@ -476,13 +647,20 @@ class SqliteDeliveryJobsTests final : public QObject {
             File f;
             const auto authority = std::make_shared<Authority>();
             const auto adapter = std::make_shared<Adapter>(f.path);
-            f.seed(started ? 0 : 1);
+            f.seed(started ? File::Seed::queued : File::Seed::sending);
             // For the before-send cut, the independent SQL fixture stops just
             // after the durable claim. For the other cut, the fake start runs.
             if (started)
                 expect(dispatch(f, 1, authority, adapter), DeliveryDisposition::changed);
             f.reopen();
-            const auto recovered = f.committed([](auto &store) { return store.recover(key, 2); });
+            const auto page =
+                f.committed([](auto &store) { return store.stranded(std::nullopt, 8); });
+            require(page.attempts.size() == 1 && !page.next_after,
+                    "Restart discovers exactly one interrupted send");
+            const auto &attempt = page.attempts.front();
+            expect_attempt(attempt, "job");
+            const auto recovered = f.committed(
+                [&](auto &store) { return store.recover(attempt.key, attempt.sending_revision); });
             expect(recovered, DeliveryDisposition::changed);
             require(recovered.job->state == DeliveryJobState::outcome_unknown &&
                         recovered.job->revision == 3 && recovered.job->attempt == 2 &&
@@ -500,8 +678,104 @@ class SqliteDeliveryJobsTests final : public QObject {
             require(f.read(event_query) ==
                             SqlRows{event(1, 0), event(2, 1, qint64(2)),
                                     event(3, 4, qint64(2), QByteArray("interrupted-sending"))} &&
-                        adapter->claims.size() == (started ? 1U : 0U) && policy.calls == 0,
+                        adapter->claims.size() == (started ? 1U : 0U) &&
+                        authority->calls == (started ? 1 : 0) && policy.calls == 0,
                     "Recovery commits one review state and no blind replay");
+        });
+    }
+
+    void discoveryPagesByExaminedKeys() {
+        scenario([] {
+            File f;
+            f.seed_discovery();
+            f.reopen();
+            const auto page = [&](const std::optional<DeliveryJobKey> &after, std::size_t size) {
+                return f.committed([&](auto &store) { return store.stranded(after, size); });
+            };
+            const auto initial = page(std::nullopt, 2);
+            require(initial.attempts.empty() && initial.next_after,
+                    "Queued and delivered keys consume traversal budget");
+            expect_key(*initial.next_after, "b-delivered");
+            const auto both = page(initial.next_after, 2);
+            require(both.attempts.size() == 2 && both.next_after,
+                    "Two latest sending attempts in one full page");
+            expect_attempt(both.attempts[0], "job");
+            expect_attempt(both.attempts[1], "z-sending");
+            expect_key(*both.next_after, "z-sending");
+            require(f.read("SELECT count(*) FROM main.subathon_delivery_events") ==
+                        SqlRows{{qint64(9)}},
+                    "Discovery does not write delivery events");
+            for (const auto &attempt : both.attempts) {
+                const auto recovered = f.committed([&](auto &store) {
+                    return store.recover(attempt.key, attempt.sending_revision);
+                });
+                expect(recovered, DeliveryDisposition::changed);
+                require(recovered.job->state == DeliveryJobState::outcome_unknown &&
+                            recovered.job->revision == 3 && recovered.job->attempt == 2,
+                        "Discovered attempt becomes durable review");
+            }
+            const auto last = page(both.next_after, 1);
+            require(last.attempts.empty() && last.next_after, "Full nonmatching page advances");
+            expect_key(*last.next_after, "zz-queued");
+            const auto end = page(last.next_after, 1);
+            require(end.attempts.empty() && !end.next_after,
+                    "Empty page terminates an exact-full traversal");
+            f.reopen();
+            require(f.read("SELECT job_ref,revision,state,attempt,evidence_ref "
+                           "FROM main.subathon_delivery_events WHERE state=4 ORDER BY job_ref") ==
+                        SqlRows{{QByteArray("job"), qint64(3), qint64(4), qint64(2),
+                                 QByteArray("interrupted-sending")},
+                                {QByteArray("z-sending"), qint64(3), qint64(4), qint64(2),
+                                 QByteArray("interrupted-sending")}},
+                    "Both recovered attempts survive reopen with exact review provenance");
+            const auto repeated = page(initial.next_after, 8);
+            require(repeated.attempts.empty() && !repeated.next_after,
+                    "Recovered keys no longer appear as stranded");
+        });
+    }
+
+    void recoverRechecksSelectedRevision() {
+        scenario([] {
+            File f;
+            f.seed(File::Seed::sending);
+            f.reopen();
+            expect(f.committed([](auto &store) { return store.recover(key, 1); }),
+                   DeliveryDisposition::stale);
+            require(f.read(event_query) == SqlRows{event(1, 0), event(2, 1, qint64(2))},
+                    "Stale recovery cannot rewrite the active interrupted attempt");
+        });
+    }
+
+    void throwingAdapterLeavesSendingForReview() {
+        scenario([] {
+            File f;
+            f.seed();
+            const auto authority = std::make_shared<Authority>();
+            const auto adapter = std::make_shared<Adapter>(f.path);
+            adapter->throw_after_observation = true;
+            const auto result = dispatch(f, 1, authority, adapter);
+            normal(result.work);
+            require(result.result && result.adapter_threw, "Dispatch reports the thrown start");
+            expect(*result.result, DeliveryDisposition::changed);
+            const SqlRows sending{event(1, 0), event(2, 1, qint64(2))};
+            require(adapter->observed == sending && f.read(event_query) == sending,
+                    "Thrown start leaves the durable claim intact");
+            f.reopen();
+            const auto page =
+                f.committed([](auto &store) { return store.stranded(std::nullopt, 8); });
+            require(page.attempts.size() == 1 && !page.next_after, "Find the thrown attempt");
+            const auto &attempt = page.attempts.front();
+            expect_attempt(attempt, "job");
+            expect(f.committed([&](auto &store) {
+                return store.recover(attempt.key, attempt.sending_revision);
+            }),
+                   DeliveryDisposition::changed);
+            expect(dispatch(f, 3, authority, adapter), DeliveryDisposition::refused);
+            require(authority->calls == 1 && adapter->claims.size() == 1 &&
+                        f.read(event_query) ==
+                            SqlRows{event(1, 0), event(2, 1, qint64(2)),
+                                    event(3, 4, qint64(2), QByteArray("interrupted-sending"))},
+                    "Thrown start is reviewable after reopen and is never repeated");
         });
     }
 
@@ -541,7 +815,7 @@ class SqliteDeliveryJobsTests final : public QObject {
     void retryRequiresKnownNonDeliveryAndPolicy() {
         scenario([] {
             File f;
-            f.seed(3);
+            f.seed(File::Seed::failed);
             RetryPolicy policy;
             const auto retry = [&policy](auto &store) { return store.retry(key, 3, policy); };
             expect(f.committed(retry), DeliveryDisposition::refused);
