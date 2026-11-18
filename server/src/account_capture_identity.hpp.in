@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+#pragma once
+// Production build binding to selected SDK bytes. No runtime setter/authority flag.
+// Coordinator hashes both actual files and checks the seal's profile agreement.
+#include <array>
+#include <cstddef>
+#include <string_view>
+namespace subathon::server::account_capture::detail::selected {
+consteval std::array<std::byte, 32> decode(std::string_view hex) {
+    if (hex.size() != 64)
+        throw "invalid selected capture identity";
+    const auto digit = [](char c) -> unsigned {
+        if (c >= '0' && c <= '9')
+            return c - '0';
+        if (c >= 'a' && c <= 'f')
+            return c - 'a' + 10;
+        throw "invalid selected capture identity";
+    };
+    std::array<std::byte, 32> bytes{};
+    for (unsigned i = 0; i != 32; ++i)
+        bytes[i] = std::byte(digit(hex[i * 2]) * 16 + digit(hex[i * 2 + 1]));
+    return bytes;
+}
+inline constexpr auto artifact = decode("@ACCOUNT_CAPTURE_ARTIFACT_SHA256@");
+inline constexpr auto profile = decode("@ACCOUNT_CAPTURE_PROFILE_SHA256@");
+} // namespace subathon::server::account_capture::detail::selected
