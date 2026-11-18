@@ -69,7 +69,8 @@ at `7ddcfc82`. On `052b40c4` the admitted baseline reached all nine intended NI
 failures and all 86 unchanged controls passed. The single unchanged-source Qt
 retry resolved APT setup timeout. All seven checks passed on proof `52493669`.
 MILESTONE-004 #234 is [claimed](https://github.com/Kernol12/subathon-bot-ai/issues/234#issuecomment-6990024042)
-at tier A on `06241738` for running-server timeline implementation. Owner revision 2
+at tier A on `06241738` for running-server timeline implementation. All nine
+frozen timeline cases and 86 controls passed on admitted `e7321be9`. Owner revision 2
 gates only new starts and releases during a pause. Active presentation and its
 gap keep time. Jobs and bonuses require release of their group. Unreleased jobs
 stay queued after restart until planned [MILESTONE-009 #709](https://github.com/Kernol12/subathon-bot-ai/issues/709)
@@ -83,22 +84,13 @@ while deferred. The coordinator owns checkpoint, proof and shared registration.
   Keep [#707](https://github.com/Kernol12/subathon-bot-ai/pull/707) out of the
   SESSION-011 and MILESTONE-003 review packets and proofs.
 - [BUILD-001 #706](https://github.com/Kernol12/subathon-bot-ai/issues/706) is
-  authorized at tier B. Create server product targets when their existing
-  dependencies are available. Acceptance suites select tests, and the
-  `dev-server` suite depends on `subathon_dev_server`. Keep every preset's
-  test selection and results and all CI jobs unchanged. Remove the obsolete
-  guards and closures. A clean build with `BUILD_TESTING=OFF` must build the
-  development server without GoogleTest or Qt Test, and scaffold builds without
-  Qt. Add the development-server example user preset and its existing Qt, Boost,
-  Sodium and network-host Drogon settings. The existing `qt` job gets one
-  `g++-14` build-only step with tests disabled and explicit Boost pins. Ask
-  before installing a compiler package on that runner. BUILD-001 is claimed
-  on `402056e0`, works independently, and rebases onto #708 registration and
-  overlapping changes before merging. Re-admit
-  each affected test binary under the standing procedure if its ELF or
-  dependency hashes change. Stop for test selection or result changes, a
-  needed test-source change, a new dependency or option, or a third fix round.
-  #619/#620 stay frozen.
+  Done after [protected merge #713](https://github.com/Kernol12/subathon-bot-ai/pull/713)
+  at `e295538f`. The 46 configuration comparisons preserved registrations and
+  build targets. All 505 measured cases matched the baseline after fresh
+  admission of ten binaries. The development server linked without test
+  dependencies, and scaffold linked without Qt. All seven checks passed on
+  `8ea780a3`. The existing Qt job linked the tests-disabled development server
+  with preinstalled GNU 14.2 and the existing Boost pins. #619/#620 stay frozen.
 - [BUILD-002 #710](https://github.com/Kernol12/subathon-bot-ai/issues/710) is
   Done after [protected merge #711](https://github.com/Kernol12/subathon-bot-ai/pull/711)
   at `06241738`. GCC 14.2 reproduced both errors in the isolated functions and
