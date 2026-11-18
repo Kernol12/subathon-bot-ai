@@ -11,7 +11,7 @@ set(subathon_acceptance_suites
     sqlite-account-sessions native-websocket-profile api-host api-host-native
     bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server)
 
-# Existing library/test guards stay private derived variables; callers select the
+# Test guards stay private derived variables; callers select the
 # logical suites above instead of maintaining another set of cache switches.
 function(_subathon_acceptance_flag suite output)
     string(REPLACE "-" "_" suffix "${suite}")
@@ -29,8 +29,8 @@ endfunction()
 # return sorted, unique canonical suite names through output. OFF selects none;
 # bare ON selects time-credit. Explicit empty/unknown selections and any enabled
 # retired per-feature cache option fail with an actionable diagnostic. The named
-# suite closures follow the current preset contracts: SQLite includes its compiled
-# prefix; host profiles also include corrected native transport and the Qt baseline.
+# suite closures preserve test registration: SQLite presets run the earlier
+# repository suites, and host profiles also select the native transport baseline.
 function(subathon_resolve_acceptance_suites output)
     # Refuse enabled retired requests before applying any new/default selection.
     # Cache provenance cannot reliably distinguish an old default from explicit -D.
@@ -60,10 +60,8 @@ function(subathon_resolve_acceptance_suites output)
         message(FATAL_ERROR "Acceptance suite selection must not be empty")
     endif()
 
-    # SQLite repositories reuse the preceding compiled migration factories;
-    # account/session storage therefore includes the initial-capture prefix.
-    # Other selected suites retain their small closures.
-    set(sqlite_chain sqlite-writer sqlite-work sqlite-migrations sqlite-retained
+    # Keep the earlier SQLite test suites in each existing preset's selection.
+    set(sqlite_test_prefix sqlite-writer sqlite-work sqlite-migrations sqlite-retained
         sqlite-receipt sqlite-contribution sqlite-plan sqlite-bundle
         sqlite-original-claim sqlite-hold application-service sqlite-reference-capture
         sqlite-account-sessions)
@@ -76,26 +74,25 @@ function(subathon_resolve_acceptance_suites output)
         if(NOT suite IN_LIST subathon_acceptance_suites)
             message(FATAL_ERROR "Unknown acceptance suite: ${suite}")
         endif()
-        list(FIND sqlite_chain "${suite}" sqlite_index)
+        list(FIND sqlite_test_prefix "${suite}" sqlite_index)
         if(suite STREQUAL "api-host" OR suite STREQUAL "api-host-native")
-            # Host headers/fixtures need the real store prefix and corrected
-            # transport even in the Qt/fake lane. Native retains the Qt baseline.
-            list(APPEND selected ${sqlite_chain} native-websocket-profile api-host "${suite}")
+            # Native retains the Qt host baseline's registrations.
+            list(APPEND selected ${sqlite_test_prefix} native-websocket-profile api-host "${suite}")
         elseif(suite STREQUAL "reference-rule" OR suite STREQUAL "dev-server")
-            list(APPEND selected ${sqlite_chain} exact-numeric effective-permissions sqlite-permission-graph sqlite-reference-authority reference-rule "${suite}")
+            list(APPEND selected ${sqlite_test_prefix} exact-numeric effective-permissions sqlite-permission-graph sqlite-reference-authority reference-rule "${suite}")
         elseif(suite STREQUAL "sqlite-reference-authority")
-            list(APPEND selected ${sqlite_chain} exact-numeric effective-permissions sqlite-permission-graph sqlite-reference-authority)
+            list(APPEND selected ${sqlite_test_prefix} exact-numeric effective-permissions sqlite-permission-graph sqlite-reference-authority)
         elseif(suite STREQUAL "sqlite-permission-graph")
             # Separate child; existing host/account selections keep their closure.
-            list(APPEND selected ${sqlite_chain} exact-numeric effective-permissions sqlite-permission-graph)
+            list(APPEND selected ${sqlite_test_prefix} exact-numeric effective-permissions sqlite-permission-graph)
         elseif(suite STREQUAL "bounded-http-foundation" OR suite STREQUAL "account-capture")
             # Account capture selects the existing foundation and native profiles.
             list(APPEND selected native-websocket-profile bounded-http-foundation "${suite}")
         elseif(suite STREQUAL "sqlite-delivery-jobs")
-            list(APPEND selected ${sqlite_chain} sqlite-delivery-jobs)
+            list(APPEND selected ${sqlite_test_prefix} sqlite-delivery-jobs)
         elseif(NOT sqlite_index EQUAL -1)
             math(EXPR prefix_length "${sqlite_index} + 1")
-            list(SUBLIST sqlite_chain 0 ${prefix_length} prefix)
+            list(SUBLIST sqlite_test_prefix 0 ${prefix_length} prefix)
             list(APPEND selected ${prefix})
         elseif(suite STREQUAL "milestone-timeline")
             list(APPEND selected exact-numeric milestone-progression milestone-timeline)

@@ -1,144 +1,84 @@
-# Framework-free services and the separately enabled Qt SQL writer boundary.
-if(SUBATHON_BUILD_MILESTONE_TIMELINE_TESTS)
+# Framework-free services and their optional Qt SQL and network consumers.
+add_library(subathon_receipt_intake STATIC src/receipt_intake.cpp)
+target_include_directories(subathon_receipt_intake PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_link_libraries(subathon_receipt_intake PUBLIC subathon_core)
+subathon_target_options(subathon_receipt_intake)
+
+add_library(subathon_contribution_evidence STATIC src/contribution_evidence.cpp)
+target_include_directories(subathon_contribution_evidence PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_link_libraries(subathon_contribution_evidence PUBLIC subathon_contribution)
+subathon_target_options(subathon_contribution_evidence)
+
+if(TARGET subathon_milestone_progression)
     add_library(subathon_milestone_timeline STATIC src/milestone_timeline.cpp)
     target_include_directories(subathon_milestone_timeline PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_milestone_timeline PUBLIC subathon_milestone_progression)
     subathon_target_options(subathon_milestone_timeline)
 endif()
 
-if((SUBATHON_BUILD_BOUNDED_HTTP_FOUNDATION_TESTS OR SUBATHON_BUILD_API_HOST_NATIVE_TESTS) AND sbt_bounded_http_successor)
-    # Successor component only: never link these definitions into the frozen NI target.
-    # Shared pure preflight also guards the successor SDK adapter.
-    add_library(subathon_bounded_http_storage OBJECT src/bounded_http_storage.cpp)
-    target_include_directories(subathon_bounded_http_storage PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
-    subathon_target_options(subathon_bounded_http_storage)
-    if(sbt_bounded_http_successor)
-        # Successor producer and SDK interfaces are reviewed together in the tier A cycle.
-        add_library(subathon_bounded_http_development STATIC src/bounded_http_sdk_adapter.cpp
-            src/account_capture_observer.cpp
-            $<TARGET_OBJECTS:subathon_bounded_http_storage>)
-        # The account eraser uses the same authenticated static SDK as the host.
-        if(NOT TARGET Sodium::Sodium)
-            include("${PROJECT_SOURCE_DIR}/cmake/SodiumDependency.cmake")
-        endif()
-        set(sbt_account_seal "${sbt_drogon_root}/dependency-build.json")
-        set(sbt_account_profile "${sbt_drogon_root}/share/subathon-bounded-http-foundation/manifest.json")
-        set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
-            "${sbt_account_seal}" "${sbt_account_profile}")
-        file(SHA256 "${sbt_account_seal}" ACCOUNT_CAPTURE_ARTIFACT_SHA256)
-        file(SHA256 "${sbt_account_profile}" ACCOUNT_CAPTURE_PROFILE_SHA256)
-        file(READ "${sbt_account_seal}" sbt_account_seal_json)
-        string(JSON sbt_account_seal_profile GET "${sbt_account_seal_json}" profile_manifest_sha256)
-        if(NOT sbt_account_seal_profile STREQUAL ACCOUNT_CAPTURE_PROFILE_SHA256)
-            message(FATAL_ERROR "Selected account producer seal/profile disagreement")
-        endif()
-        configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/account_capture_identity.hpp.in"
-            "${CMAKE_CURRENT_BINARY_DIR}/account-capture-producer-private/account_capture_identity.hpp" @ONLY)
-        target_include_directories(subathon_bounded_http_development PRIVATE
-            "${CMAKE_CURRENT_BINARY_DIR}/account-capture-producer-private")
-        target_link_libraries(subathon_bounded_http_development PRIVATE Drogon::Drogon Sodium::Sodium)
-        target_include_directories(subathon_bounded_http_development PUBLIC
-            "${CMAKE_CURRENT_SOURCE_DIR}/include")
-        subathon_target_options(subathon_bounded_http_development)
-    endif()
-endif()
-
-if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS OR SUBATHON_BUILD_SQLITE_ACCOUNT_SESSION_TESTS)
+if(TARGET Sodium::Sodium)
     add_library(subathon_session_resolution STATIC src/session_resolution.cpp)
     target_include_directories(subathon_session_resolution PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_session_resolution PRIVATE Sodium::Sodium)
     subathon_target_options(subathon_session_resolution)
-endif()
 
-if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS OR SUBATHON_BUILD_DEV_SERVER_TESTS)
     add_library(subathon_password_hashing STATIC src/password_hashing.cpp)
     target_include_directories(subathon_password_hashing PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_password_hashing PRIVATE Sodium::Sodium)
     subathon_target_options(subathon_password_hashing)
 endif()
 
-if(SUBATHON_BUILD_SQLITE_WRITER_TESTS OR SUBATHON_BUILD_SQLITE_WORK_TESTS OR SUBATHON_BUILD_SQLITE_MIGRATION_TESTS OR SUBATHON_BUILD_SQLITE_RETAINED_TESTS OR SUBATHON_BUILD_SQLITE_RECEIPT_TESTS OR SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
+if(TARGET Qt6::Core AND TARGET Qt6::Sql)
     add_library(subathon_sqlite_writer STATIC src/sqlite_writer.cpp)
     target_include_directories(subathon_sqlite_writer PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_sqlite_writer PUBLIC Qt6::Core Qt6::Sql)
     subathon_target_options(subathon_sqlite_writer)
-endif()
-if(SUBATHON_BUILD_SQLITE_MIGRATION_TESTS OR SUBATHON_BUILD_SQLITE_RETAINED_TESTS OR SUBATHON_BUILD_SQLITE_RECEIPT_TESTS OR SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
+
     add_library(subathon_sqlite_migrations STATIC src/sqlite_migrations.cpp)
     target_include_directories(subathon_sqlite_migrations PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_sqlite_migrations PUBLIC subathon_sqlite_writer Qt6::Core)
     subathon_target_options(subathon_sqlite_migrations)
-endif()
-if(SUBATHON_BUILD_SQLITE_RETAINED_TESTS OR SUBATHON_BUILD_SQLITE_RECEIPT_TESTS OR SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
+
     add_library(subathon_sqlite_retained_context STATIC src/sqlite_retained_context.cpp)
     target_include_directories(subathon_sqlite_retained_context PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_sqlite_retained_context PUBLIC subathon_sqlite_migrations Qt6::Core)
     subathon_target_options(subathon_sqlite_retained_context)
-endif()
-if(SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_SQLITE_WORK_TESTS OR SUBATHON_BUILD_SQLITE_RECEIPT_TESTS OR SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
-    add_library(subathon_receipt_intake STATIC src/receipt_intake.cpp)
-    target_include_directories(subathon_receipt_intake PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
-    target_link_libraries(subathon_receipt_intake PUBLIC subathon_core)
-    subathon_target_options(subathon_receipt_intake)
-endif()
-if(SUBATHON_BUILD_SQLITE_RECEIPT_TESTS OR SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
+
     add_library(subathon_sqlite_receipts STATIC src/sqlite_receipts.cpp)
     target_include_directories(subathon_sqlite_receipts PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_sqlite_receipts PUBLIC subathon_sqlite_retained_context subathon_receipt_intake Qt6::Core)
     subathon_target_options(subathon_sqlite_receipts)
-endif()
-if(SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS OR SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
-    add_library(subathon_contribution_evidence STATIC src/contribution_evidence.cpp)
-    target_include_directories(subathon_contribution_evidence PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
-    target_link_libraries(subathon_contribution_evidence PUBLIC subathon_contribution)
-    subathon_target_options(subathon_contribution_evidence)
-endif()
-if(SUBATHON_BUILD_SQLITE_CONTRIBUTION_TESTS OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
+
     add_library(subathon_sqlite_contributions STATIC src/sqlite_contributions.cpp)
     target_include_directories(subathon_sqlite_contributions PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_sqlite_contributions PUBLIC subathon_sqlite_receipts subathon_contribution_evidence Qt6::Core)
     subathon_target_options(subathon_sqlite_contributions)
 endif()
-if(SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
+
+if(TARGET subathon_sqlite_contributions AND TARGET subathon_application_plan)
     add_library(subathon_sqlite_application_plans STATIC src/sqlite_application_plans.cpp)
     target_include_directories(subathon_sqlite_application_plans PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_sqlite_application_plans PUBLIC subathon_sqlite_contributions subathon_application_plan Qt6::Core)
     subathon_target_options(subathon_sqlite_application_plans)
-endif()
-if(SUBATHON_BUILD_SQLITE_BUNDLE_TESTS)
+
     add_library(subathon_sqlite_application_bundle STATIC src/sqlite_application_bundle.cpp)
     target_include_directories(subathon_sqlite_application_bundle PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_sqlite_application_bundle PUBLIC subathon_sqlite_application_plans Qt6::Core)
     subathon_target_options(subathon_sqlite_application_bundle)
-endif()
-if(SUBATHON_BUILD_SQLITE_HOLD_TESTS)
+
     add_library(subathon_sqlite_application_holds STATIC src/sqlite_application_holds.cpp)
     target_include_directories(subathon_sqlite_application_holds PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_sqlite_application_holds PUBLIC subathon_sqlite_application_bundle Qt6::Core)
     subathon_target_options(subathon_sqlite_application_holds)
-endif()
-if(SUBATHON_BUILD_APPLICATION_SERVICE_TESTS)
+
     add_library(subathon_original_application_service STATIC
         src/application_service.cpp
         src/application_service_command.cpp)
     target_include_directories(subathon_original_application_service PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_original_application_service PUBLIC subathon_sqlite_application_holds subathon_exact_numeric subathon_time_debt subathon_timer_lifecycle Qt6::Core)
     subathon_target_options(subathon_original_application_service)
-endif()
 
-if(SUBATHON_BUILD_SQLITE_DELIVERY_JOBS_TESTS)
-    add_library(subathon_sqlite_delivery_jobs STATIC src/delivery_jobs.cpp)
-    target_include_directories(subathon_sqlite_delivery_jobs PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
-    target_link_libraries(subathon_sqlite_delivery_jobs PUBLIC subathon_sqlite_application_bundle)
-    subathon_target_options(subathon_sqlite_delivery_jobs)
-
-    add_library(subathon_delivery_catalog STATIC src/sqlite_delivery_catalog.cpp)
-    target_link_libraries(subathon_delivery_catalog PUBLIC subathon_current_catalog)
-    subathon_target_options(subathon_delivery_catalog)
-endif()
-
-# The initial-capture baseline supplies only reviewed inert declarations/markers.
-if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
+    # The initial-capture baseline supplies only reviewed inert declarations/markers.
     add_library(subathon_reference_capture_values STATIC src/reference_capture_values.cpp)
     target_include_directories(subathon_reference_capture_values PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_reference_capture_values PUBLIC subathon_original_application_service)
@@ -149,17 +89,56 @@ if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
     target_link_libraries(subathon_sqlite_reference_capture PUBLIC
         subathon_reference_capture_values subathon_sqlite_application_holds)
     subathon_target_options(subathon_sqlite_reference_capture)
-endif()
 
-# Physical account/session storage reuses the compiled additive migration prefix.
-if(SUBATHON_BUILD_SQLITE_ACCOUNT_SESSION_TESTS)
+    # Physical account/session storage reuses the compiled additive migration prefix.
     add_library(subathon_sqlite_account_sessions STATIC src/sqlite_account_sessions.cpp)
     target_include_directories(subathon_sqlite_account_sessions PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_sqlite_account_sessions PUBLIC subathon_sqlite_reference_capture)
     subathon_target_options(subathon_sqlite_account_sessions)
+
+    add_library(subathon_current_catalog STATIC src/sqlite_permission_catalog.cpp src/sqlite_reference_catalog.cpp)
+    target_link_libraries(subathon_current_catalog PUBLIC subathon_sqlite_account_sessions)
+    subathon_target_options(subathon_current_catalog)
+
+    add_library(subathon_sqlite_delivery_jobs STATIC src/delivery_jobs.cpp)
+    target_include_directories(subathon_sqlite_delivery_jobs PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_sqlite_delivery_jobs PUBLIC subathon_sqlite_application_bundle)
+    subathon_target_options(subathon_sqlite_delivery_jobs)
+
+    add_library(subathon_delivery_catalog STATIC src/sqlite_delivery_catalog.cpp)
+    target_link_libraries(subathon_delivery_catalog PUBLIC subathon_current_catalog)
+    subathon_target_options(subathon_delivery_catalog)
+
+    # Authoritative graph storage reuses the account prefix and pure permission validation.
+    add_library(subathon_sqlite_permission_graph STATIC src/sqlite_permission_graph.cpp)
+    target_include_directories(subathon_sqlite_permission_graph PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_sqlite_permission_graph PUBLIC subathon_sqlite_account_sessions subathon_effective_permissions subathon_current_catalog)
+    subathon_target_options(subathon_sqlite_permission_graph)
 endif()
 
-if(SUBATHON_BUILD_NATIVE_WEBSOCKET_PROFILE_TESTS)
+# Current reference authority and finite selected historical reads.
+if(TARGET subathon_sqlite_permission_graph AND TARGET subathon_session_resolution)
+    add_library(subathon_sqlite_reference_authority STATIC src/sqlite_reference_authority.cpp)
+    target_include_directories(subathon_sqlite_reference_authority PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_sqlite_reference_authority PUBLIC
+        subathon_sqlite_permission_graph subathon_current_catalog subathon_session_resolution
+        subathon_sqlite_reference_capture subathon_sqlite_application_bundle
+        subathon_sqlite_application_holds subathon_original_application_service)
+    subathon_target_options(subathon_sqlite_reference_authority)
+
+    add_library(subathon_reference_application STATIC src/reference_application.cpp)
+    target_include_directories(subathon_reference_application PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_reference_application PUBLIC
+        subathon_reference_rule subathon_sqlite_reference_authority)
+    subathon_target_options(subathon_reference_application)
+
+    add_library(subathon_reference_intake STATIC
+        src/reference_configuration.cpp src/reference_runtime.cpp src/reference_intake.cpp)
+    target_link_libraries(subathon_reference_intake PUBLIC subathon_reference_application)
+    subathon_target_options(subathon_reference_intake)
+endif()
+
+if(TARGET Drogon::Drogon)
     set(sbt_native_source "${CMAKE_CURRENT_SOURCE_DIR}/src/native_websocket_profile.cpp")
     if(sbt_bounded_http_successor)
         # The SDK seal owns this build copy; never compile it alongside the original.
@@ -177,76 +156,61 @@ if(SUBATHON_BUILD_NATIVE_WEBSOCKET_PROFILE_TESTS)
     subathon_target_options(subathon_native_websocket_profile)
 endif()
 
+if(TARGET Drogon::Drogon AND TARGET Sodium::Sodium AND sbt_bounded_http_successor)
+    # Successor component only: never link these definitions into the frozen NI target.
+    # Shared pure preflight also guards the successor SDK adapter.
+    add_library(subathon_bounded_http_storage OBJECT src/bounded_http_storage.cpp)
+    target_include_directories(subathon_bounded_http_storage PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    subathon_target_options(subathon_bounded_http_storage)
+
+    # Successor producer and SDK interfaces are reviewed together in the tier A cycle.
+    add_library(subathon_bounded_http_development STATIC src/bounded_http_sdk_adapter.cpp
+        src/account_capture_observer.cpp
+        $<TARGET_OBJECTS:subathon_bounded_http_storage>)
+    set(sbt_account_seal "${sbt_drogon_root}/dependency-build.json")
+    set(sbt_account_profile "${sbt_drogon_root}/share/subathon-bounded-http-foundation/manifest.json")
+    set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
+        "${sbt_account_seal}" "${sbt_account_profile}")
+    file(SHA256 "${sbt_account_seal}" ACCOUNT_CAPTURE_ARTIFACT_SHA256)
+    file(SHA256 "${sbt_account_profile}" ACCOUNT_CAPTURE_PROFILE_SHA256)
+    file(READ "${sbt_account_seal}" sbt_account_seal_json)
+    string(JSON sbt_account_seal_profile GET "${sbt_account_seal_json}" profile_manifest_sha256)
+    if(NOT sbt_account_seal_profile STREQUAL ACCOUNT_CAPTURE_PROFILE_SHA256)
+        message(FATAL_ERROR "Selected account producer seal/profile disagreement")
+    endif()
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/account_capture_identity.hpp.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/account-capture-producer-private/account_capture_identity.hpp" @ONLY)
+    target_include_directories(subathon_bounded_http_development PRIVATE
+        "${CMAKE_CURRENT_BINARY_DIR}/account-capture-producer-private")
+    target_link_libraries(subathon_bounded_http_development PRIVATE Drogon::Drogon Sodium::Sodium)
+    target_include_directories(subathon_bounded_http_development PUBLIC
+        "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    subathon_target_options(subathon_bounded_http_development)
+endif()
+
 # APITEST-001 contains explicit unimplemented production pieces. The Qt baseline
 # uses fake transport; the native child links the separate shipped Drogon adapter.
-if(SUBATHON_BUILD_API_HOST_TESTS)
+if(TARGET subathon_current_catalog AND TARGET subathon_native_websocket_profile)
     add_library(subathon_api_host STATIC
         src/api_host.cpp src/api_host_signal_linux.cpp src/api_host_elapsed_linux.cpp)
     target_include_directories(subathon_api_host PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_api_host PUBLIC
-        subathon_sqlite_account_sessions subathon_native_websocket_profile Qt6::Core Threads::Threads)
+        subathon_sqlite_account_sessions subathon_native_websocket_profile Qt6::Core Threads::Threads
+        PRIVATE subathon_current_catalog)
     subathon_target_options(subathon_api_host)
     add_library(subathon_session_clock STATIC src/session_clock.cpp src/session_clock_host.cpp)
     target_link_libraries(subathon_session_clock PUBLIC subathon_api_host)
     subathon_target_options(subathon_session_clock)
 endif()
-if(SUBATHON_BUILD_API_HOST_NATIVE_TESTS)
+
+if(TARGET subathon_api_host AND TARGET subathon_bounded_http_development)
     add_library(subathon_api_host_drogon STATIC src/api_host_drogon.cpp)
     target_link_libraries(subathon_api_host_drogon PUBLIC subathon_api_host PRIVATE Drogon::Drogon subathon_bounded_http_development)
     target_compile_definitions(subathon_api_host_drogon PRIVATE QT_NO_KEYWORDS)
     subathon_target_options(subathon_api_host_drogon)
 endif()
 
-# Catalog factories are shared by ordinary host inspection and repository owners.
-if(SUBATHON_BUILD_API_HOST_TESTS OR SUBATHON_BUILD_SQLITE_PERMISSION_GRAPH_TESTS OR SUBATHON_BUILD_SQLITE_REFERENCE_AUTHORITY_TESTS OR SUBATHON_BUILD_SQLITE_DELIVERY_JOBS_TESTS)
-    add_library(subathon_current_catalog STATIC src/sqlite_permission_catalog.cpp src/sqlite_reference_catalog.cpp)
-    target_link_libraries(subathon_current_catalog PUBLIC subathon_sqlite_account_sessions)
-    subathon_target_options(subathon_current_catalog)
-endif()
-if(SUBATHON_BUILD_API_HOST_TESTS)
-    target_link_libraries(subathon_api_host PRIVATE subathon_current_catalog)
-endif()
-
-# Authoritative graph storage reuses the account prefix and pure permission validation.
-if(SUBATHON_BUILD_SQLITE_PERMISSION_GRAPH_TESTS)
-    add_library(subathon_sqlite_permission_graph STATIC src/sqlite_permission_graph.cpp)
-    target_include_directories(subathon_sqlite_permission_graph PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
-    target_link_libraries(subathon_sqlite_permission_graph PUBLIC subathon_sqlite_account_sessions subathon_effective_permissions subathon_current_catalog)
-    subathon_target_options(subathon_sqlite_permission_graph)
-endif()
-
-# Current reference authority and finite selected historical reads.
-if(SUBATHON_BUILD_SQLITE_REFERENCE_AUTHORITY_TESTS)
-    add_library(subathon_sqlite_reference_authority STATIC src/sqlite_reference_authority.cpp)
-    target_include_directories(subathon_sqlite_reference_authority PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
-    target_link_libraries(subathon_sqlite_reference_authority PUBLIC
-        subathon_sqlite_permission_graph subathon_current_catalog subathon_session_resolution
-        subathon_sqlite_reference_capture subathon_sqlite_application_bundle
-        subathon_sqlite_application_holds subathon_original_application_service)
-    subathon_target_options(subathon_sqlite_reference_authority)
-endif()
-
-if(SUBATHON_BUILD_REFERENCE_RULE_TESTS)
-    add_library(subathon_reference_application STATIC src/reference_application.cpp)
-    target_include_directories(subathon_reference_application PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
-    target_link_libraries(subathon_reference_application PUBLIC
-        subathon_reference_rule subathon_sqlite_reference_authority)
-    subathon_target_options(subathon_reference_application)
-endif()
-
-# Requires existing reference-rule dependency selection, no new SDK or migration.
-if(SUBATHON_BUILD_REFERENCE_INTAKE_BASELINE)
-    if(NOT TARGET subathon_reference_application)
-        message(FATAL_ERROR "API-011 baseline requires reference-rule acceptance selection")
-    endif()
-    add_library(subathon_reference_intake STATIC
-        src/reference_configuration.cpp src/reference_runtime.cpp src/reference_intake.cpp)
-    target_link_libraries(subathon_reference_intake PUBLIC subathon_reference_application)
-    subathon_target_options(subathon_reference_intake)
-endif()
-
-# Development executable stays separate from all server libraries.
-if(SUBATHON_BUILD_DEV_SERVER_TESTS)
+if(TARGET subathon_reference_intake AND TARGET subathon_password_hashing)
     add_executable(subathon_dev_server dev/main.cpp dev/development_setup.cpp)
     target_link_libraries(subathon_dev_server PRIVATE subathon_reference_intake subathon_password_hashing)
     set_target_properties(subathon_dev_server PROPERTIES OUTPUT_NAME subathon-dev-server)

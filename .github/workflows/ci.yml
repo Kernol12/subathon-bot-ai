@@ -342,6 +342,19 @@ jobs:
           CC=gcc CFLAGS=-O2 /usr/bin/bash "$RUNNER_TEMP/sodium-source/libsodium-1.0.22/configure" --prefix="$SUBATHON_SODIUM_ROOT" --libdir="$SUBATHON_SODIUM_ROOT/lib" --disable-shared --enable-static
           make -j2
           make -j2 install
+      - name: Build the development server with GCC 14 and tests disabled
+        run: |
+          if ! compiler="$(command -v g++-14)"; then
+            echo "::error::g++-14 is unavailable on this runner. Stop for owner direction."
+            exit 1
+          fi
+          "$compiler" --version
+          cmake -S . -B build/product -G Ninja -DBUILD_TESTING=OFF \
+            -DCMAKE_CXX_COMPILER="$compiler" -DCMAKE_PREFIX_PATH="$QT_PREFIX" \
+            -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT" \
+            -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0 \
+            -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
+          cmake --build build/product --target subathon_dev_server --parallel 2
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
