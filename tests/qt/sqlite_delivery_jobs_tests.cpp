@@ -131,7 +131,9 @@ class File {
                 }
             },
             timeout);
-        if (*ni)
+        // Rollback acknowledgement loss can supersede the exception in the body.
+        if (*ni && result.transaction == TransactionOutcome::rolled_back &&
+            result.error == WorkError::work_exception && !result.value)
             std::rethrow_exception(*ni);
         return result;
     }
@@ -217,6 +219,22 @@ class File {
                              "(X'737663',X'6164643130',X'622d64656c697665726564',3,2,2,X'6f6b'),"
                              "(X'737663',X'6164643130',X'6a6f62',2,1,2,NULL),"
                              "(X'737663',X'6164643130',X'7a2d73656e64696e67',2,1,2,NULL)",
+                             {}});
+            s.commit();
+            return 1;
+        }));
+    }
+
+    void seed_malformed_history(bool gap) {
+        seed();
+        normal(work([gap](auto context) -> QVariant {
+            auto s = context.begin();
+            if (!gap)
+                (void)s.execute({"INSERT INTO main.subathon_delivery_events VALUES "
+                                 "(X'737663',X'6164643130',X'6a6f62',2,0,NULL,X'706f6c')",
+                                 {}});
+            (void)s.execute({"INSERT INTO main.subathon_delivery_events VALUES "
+                             "(X'737663',X'6164643130',X'6a6f62',3,2,2,X'7265706f7274')",
                              {}});
             s.commit();
             return 1;
@@ -493,19 +511,7 @@ class SqliteDeliveryJobsTests final : public QObject {
         QFETCH(bool, gap);
         scenario([&] {
             File f;
-            f.seed();
-            normal(f.work([gap](auto context) -> QVariant {
-                auto s = context.begin();
-                if (!gap)
-                    (void)s.execute({"INSERT INTO main.subathon_delivery_events VALUES "
-                                     "(X'737663',X'6164643130',X'6a6f62',2,0,NULL,X'706f6c')",
-                                     {}});
-                (void)s.execute({"INSERT INTO main.subathon_delivery_events VALUES "
-                                 "(X'737663',X'6164643130',X'6a6f62',3,2,2,X'7265706f7274')",
-                                 {}});
-                s.commit();
-                return 1;
-            }));
+            f.seed_malformed_history(gap);
             const auto before = f.read(event_query);
             const auto failure = std::make_shared<std::optional<SqliteBundleStorageReason>>();
             const auto result = f.work([failure](auto context) -> QVariant {
@@ -524,6 +530,79 @@ class SqliteDeliveryJobsTests final : public QObject {
                         result.error == WorkError::work_exception && !result.value &&
                         f.read(event_query) == before,
                     "Corrupt selected state fails closed with a known rollback");
+        });
+    }
+
+    void rollbackAckLossOutranksMalformedHistory() {
+        scenario([] {
+            File f;
+            f.seed_malformed_history(true);
+            const auto before_events = f.read(event_query);
+            require(before_events ==
+                        SqlRows{event(1, 0), event(3, 2, qint64(2), QByteArray("report"))},
+                    "Selected terminal event has a missing revision-2 predecessor");
+            const auto before_captures = f.read("SELECT * FROM main.subathon_delivery_captures");
+            const auto before_application = f.application_snapshot();
+            const QString prior_query =
+                "SELECT count(*) FROM main.subathon_retained_configurations "
+                "WHERE reference=X'64656c69766572792d726f6c6c6261636b2d7072696f72'";
+            require(f.read(prior_query) == SqlRows{{qint64(0)}}, "Provisional ref is unused");
+            require(SqliteWriterWorkAccess::inject_next_control_ack_loss(
+                        *f.writer, WorkControlFault::lose_next_rollback_ack) == StorageError::none,
+                    "Install existing ROLLBACK acknowledgment loss on the idle writer");
+
+            struct LookupObservation {
+                std::optional<WorkError> synchronous;
+                std::optional<SqliteBundleStorageReason> known_storage;
+                bool returned{false};
+                bool rollback_observed{false};
+            };
+            const auto observed = std::make_shared<LookupObservation>();
+            const auto result = f.work([path = f.path, prior_query,
+                                        observed](auto context) -> QVariant {
+                auto s = context.begin();
+                SqliteDeliveryJobStore store(s);
+                (void)s.execute({"INSERT INTO main.subathon_retained_configurations "
+                                 "VALUES(X'64656c69766572792d726f6c6c6261636b2d7072696f72',X'79')",
+                                 {}});
+                require(s.execute({prior_query, {}}) == SqlRows{{qint64(1)}},
+                        "Caller write is present before selecting malformed history");
+                try {
+                    (void)store.lookup(key);
+                    observed->returned = true;
+                } catch (const SqliteWorkFailure &error) {
+                    observed->synchronous = error.error();
+                    if (error.error() == WorkError::uncertain_outcome) {
+                        application_service_fixture::Observer observer(path);
+                        // Prove the physical rollback before writer finalization can do it.
+                        (void)observer.rows("BEGIN IMMEDIATE");
+                        const auto prior_rows = observer.rows(prior_query);
+                        (void)observer.rows("ROLLBACK");
+                        observed->rollback_observed = prior_rows == SqlRows{{qint64(0)}};
+                    }
+                    throw;
+                } catch (const SqliteBundleStorageFailure &error) {
+                    observed->known_storage = error.reason();
+                    throw;
+                }
+                return 1;
+            });
+            require(result.transaction == TransactionOutcome::outcome_unknown &&
+                        result.error == WorkError::uncertain_outcome && !result.value,
+                    "Actual writer completion retains uncertainty and has no value");
+            require(!observed->known_storage && !observed->returned,
+                    "Lookup returned neither a known storage classification nor a result");
+            f.reopen();
+            require(f.read(prior_query) == SqlRows{{qint64(0)}} &&
+                        f.read(event_query) == before_events &&
+                        f.read("SELECT * FROM main.subathon_delivery_captures") ==
+                            before_captures &&
+                        f.application_snapshot() == before_application,
+                    "Independent reads after reopen show rollback and unchanged durable rows");
+            require(observed->synchronous == WorkError::uncertain_outcome,
+                    "Missing synchronous uncertain_outcome from lookup before writer finalization");
+            require(observed->rollback_observed,
+                    "Independent lock probe confirms physical rollback inside the lookup catch");
         });
     }
 
