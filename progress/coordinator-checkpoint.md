@@ -37,6 +37,11 @@ loaded objects and their hashes before crediting the result, then check hashes
 again. Any mismatch voids the run. Changes to the procedure, tooling, modes or
 native-supervisor debug variables require the owner under rule 4(e).
 
+Bound the captured log files only. Test processes and their children run without
+a process file-size limit. The owner’s BUILD-002 diagnostic reproduced SIGXFSZ
+at a 1,048,576-byte SQLite WAL under the inherited cap. The original
+`example8_twoEvents` observation remains in the ledger as a harness fault.
+
 Record `readelf` checks of both `.dynsym` and `.symtab` for Drogon
 `native_profile` Session symbols. The consumer Session RTTI export check applies
 if either table contains a defined or imported Session symbol. Retain all other
@@ -59,17 +64,18 @@ selections on the admitted successor. The earlier 104/5 run and its unknown
 disconnect wait phase stay separate. All seven checks passed on proof head
 `4fd4647c`.
 
-MILESTONETEST-004 #233 is [claimed](https://github.com/Kernol12/subathon-bot-ai/issues/233#issuecomment-6985955064)
-on `5cc1da42` at tier A. The baseline covers sequential milestone action groups
-and server presentation timing under §8, MILE-01 and MILE-08. Contract, reviewed
-tests and observed intended red precede implementation in #234. Owner revision 2
+MILESTONETEST-004 #233 is Done after [protected merge #708](https://github.com/Kernol12/subathon-bot-ai/pull/708)
+at `7ddcfc82`. On `052b40c4` the admitted baseline reached all nine intended NI
+failures and all 86 unchanged controls passed. The single unchanged-source Qt
+retry resolved APT setup timeout. All seven checks passed on proof `52493669`.
+MILESTONE-004 #234 is [claimed](https://github.com/Kernol12/subathon-bot-ai/issues/234#issuecomment-6990024042)
+at tier A on `06241738` for running-server timeline implementation. All nine
+frozen timeline cases and 86 controls passed on admitted `e7321be9`. Owner revision 2
 gates only new starts and releases during a pause. Active presentation and its
 gap keep time. Jobs and bonuses require release of their group. Unreleased jobs
 stay queued after restart until planned [MILESTONE-009 #709](https://github.com/Kernol12/subathon-bot-ai/issues/709)
 reconstructs durable order after #234. #236 depends on #709 and owns restart
-while deferred. On `052b40c4` the admitted baseline reached all nine intended NI
-failures and all 86 unchanged controls passed. The coordinator owns checkpoint,
-proof and shared registration.
+while deferred. The coordinator owns checkpoint, proof and shared registration.
 
 ### Structure review of `199dc02` (owner decision 2026-11-18)
 
@@ -78,26 +84,19 @@ proof and shared registration.
   Keep [#707](https://github.com/Kernol12/subathon-bot-ai/pull/707) out of the
   SESSION-011 and MILESTONE-003 review packets and proofs.
 - [BUILD-001 #706](https://github.com/Kernol12/subathon-bot-ai/issues/706) is
-  authorized at tier B. Create server product targets when their existing
-  dependencies are available. Acceptance suites select tests, and the
-  `dev-server` suite depends on `subathon_dev_server`. Keep every preset's
-  test selection and results and all CI jobs unchanged. Remove the obsolete
-  guards and closures. A clean build with `BUILD_TESTING=OFF` must build the
-  development server without GoogleTest or Qt Test, and scaffold builds without
-  Qt. Add the development-server example user preset and its existing Qt, Boost,
-  Sodium and network-host Drogon settings. The existing `qt` job gets one
-  `g++-14` build-only step with tests disabled and explicit Boost pins. Ask
-  before installing a compiler package on that runner. BUILD-001 is claimed
-  on `402056e0`, works independently, and rebases onto #708 registration and
-  overlapping changes before merging. Re-admit
-  each affected test binary under the standing procedure if its ELF or
-  dependency hashes change. Stop for test selection or result changes, a
-  needed test-source change, a new dependency or option, or a third fix round.
-  #619/#620 stay frozen.
-- [BUILD-002 #710](https://github.com/Kernol12/subathon-bot-ai/issues/710) tracks
-  the two GCC 14.2 generic-lambda vector limit checks. Hoist each unchanged
-  limit into a local `const`. Tier B, no behavior or test edits, with build-only
-  GCC evidence and unchanged normal-compiler results. #704 has already merged.
+  Done after [protected merge #713](https://github.com/Kernol12/subathon-bot-ai/pull/713)
+  at `e295538f`. The 46 configuration comparisons preserved registrations and
+  build targets. All 505 measured cases matched the baseline after fresh
+  admission of ten binaries. The development server linked without test
+  dependencies, and scaffold linked without Qt. All seven checks passed on
+  `8ea780a3`. The existing Qt job linked the tests-disabled development server
+  with preinstalled GNU 14.2 and the existing Boost pins. #619/#620 stay frozen.
+- [BUILD-002 #710](https://github.com/Kernol12/subathon-bot-ai/issues/710) is
+  Done after [protected merge #711](https://github.com/Kernol12/subathon-bot-ai/pull/711)
+  at `06241738`. GCC 14.2 reproduced both errors in the isolated functions and
+  compiled both fixes. All 410 normal-compiler cases passed on six admitted
+  binaries after the owner-authorized harness correction. All seven checks passed
+  on `dfecefe9`. BUILD-001 includes this fix before its hosted GCC 14 build.
 - [API-008 #292](https://github.com/Kernol12/subathon-bot-ai/issues/292) remains
   planned. Its brief now calls for one contribution operation shared by the dev
   CLI and HTTP host, by default in `subathon_reference_intake`. Keep the existing

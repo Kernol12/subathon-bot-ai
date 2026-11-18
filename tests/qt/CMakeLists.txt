@@ -68,7 +68,7 @@ if(SUBATHON_BUILD_MILESTONE_TIMELINE_TESTS)
     subathon_add_qt_suite(server_milestone_timeline_acceptance
         NAME milestone-timeline SOURCES milestone_timeline_tests.cpp
         LIBRARIES subathon_milestone_timeline
-        LABELS "milestone-timeline;acceptance;qt;server;intentional-red")
+        LABELS "milestone-timeline;acceptance;qt;server")
 endif()
 
 if(SUBATHON_BUILD_SQLITE_DELIVERY_JOBS_TESTS)
