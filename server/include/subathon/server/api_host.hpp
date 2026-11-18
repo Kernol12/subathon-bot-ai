@@ -16,6 +16,9 @@
 #include <variant>
 #include <vector>
 
+namespace subathon::server::session_clock::detail {
+class HostBindingAccess;
+}
 namespace subathon::server::api_host {
 namespace testing {
 class HostAccess;
@@ -210,6 +213,7 @@ class CommandHandle final {
     std::unique_ptr<Impl> impl_;
     explicit CommandHandle(std::unique_ptr<Impl>);
     friend class Host;
+    friend class subathon::server::session_clock::detail::HostBindingAccess;
 };
 class CommandDispatcher {
   public:
@@ -257,5 +261,6 @@ class Host final {
     struct Impl;
     std::unique_ptr<Impl> impl_;
     friend class testing::HostAccess;
+    friend class subathon::server::session_clock::detail::HostBindingAccess;
 };
 } // namespace subathon::server::api_host
