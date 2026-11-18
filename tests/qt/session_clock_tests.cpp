@@ -15,6 +15,7 @@ struct Input final : clock9::Observations {
     clock9::Time q{0, 1};
     clock9::Frame next = frame(100, 1100, 102);
     unsigned starts = 0, reads = 0, closes = 0;
+    bool throw_acquire = false;
     bool unavailable = false, init_failure = false;
     std::variant<clock9::Time, SessionSourceUnavailable> initialize() override {
         ++starts;
@@ -24,6 +25,8 @@ struct Input final : clock9::Observations {
     }
     std::variant<clock9::Frame, SessionSourceUnavailable> acquire() override {
         ++reads;
+        if (throw_acquire)
+            throw std::runtime_error("Synthetic source exception");
         if (unavailable)
             return SessionSourceUnavailable{};
         return next;
@@ -47,14 +50,27 @@ void sample(CurrentSessionClock &c, std::int64_t expected) {
 struct Probe final : CurrentSessionClock {
     std::int64_t utc = 1000;
     unsigned reads = 0;
+    bool available = true;
     std::function<void()> during;
     SessionClockResolution sample_current() override {
         ++reads;
         if (during)
             during();
+        if (!available)
+            return SessionSourceUnavailable{};
         return SessionClockSample{utc};
     }
 };
+// Keep explicit NI visible through the existing real-host callback failure capture.
+template <class F> auto binding(F f) {
+    try {
+        auto handle = f();
+        require(bool(handle), "Non-null clock handle");
+        return handle;
+    } catch (const clock9::NotImplemented &) {
+        throw AssertionFailure("UNIMPLEMENTED SESSION-009 clock binding");
+    }
+}
 } // namespace
 class SessionClockTests final : public QObject {
     Q_OBJECT
@@ -65,11 +81,14 @@ class SessionClockTests final : public QObject {
             for (const auto realtime : {1010, 1210}) {
                 Policy p;
                 sample(p.monitor, 0); // K=[997,1001]ns
-                p.input->next = frame(110, 1110, 112);
-                sample(p.monitor, 0); // same K, no invented UTC extrapolation
                 p.input->next = frame(110, realtime, 112);
                 unavailable(p.monitor.sample_current()); // [897,901] or [1097,1101]
-                require(p.input->reads == 3, "One acquisition per invocation");
+                require(p.input->reads == 2, "One acquisition per invocation");
+                Policy continuous;
+                sample(continuous.monitor, 0);
+                continuous.input->next = frame(110, 1110, 112);
+                sample(continuous.monitor, 0); // SC02 overlapping K, ordered boot
+                require(continuous.input->reads == 2, "Independent healthy continuity control");
             }
         });
     }
@@ -78,7 +97,7 @@ class SessionClockTests final : public QObject {
             for (bool cancellation : {false, true}) {
                 Policy p;
                 sample(p.monitor, 0);
-                p.input->next = frame(100, cancellation ? 1100 : 1099, 102);
+                p.input->next = frame(102, cancellation ? 1100 : 1099, 104);
                 if (cancellation)
                     p.input->next.d0.result = clock9::Guard::cancelled;
                 unavailable(p.monitor.sample_current());
@@ -155,7 +174,13 @@ class SessionClockTests final : public QObject {
     }
     void restart_SC13_SC14() {
         scenario([] {
-            // Each cold monitor is independent; no persisted process anchor is supplied.
+            // Process-local floor deliberately disappears at orderly/process restart.
+            // This models monitor lifetime, not a supervised crash/reboot experiment.
+            {
+                Policy previous;
+                previous.input->next = frame(100, 7000000000LL, 102);
+                sample(previous.monitor, 7000);
+            }
             Policy cold;
             cold.input->next = frame(100, 2000000000, 102);
             sample(cold.monitor, 2000);
@@ -164,6 +189,80 @@ class SessionClockTests final : public QObject {
             unavailable(unavailable_start.monitor.sample_current());
             require(unavailable_start.input->reads == 0,
                     "Failed init never reads a frame/checkpoint");
+        });
+    }
+    void startup_stored_session_SC13_SC14_data() {
+        QTest::addColumn<bool>("healthy");
+        QTest::newRow("current-kernel") << true;
+        QTest::newRow("no-live-status") << false;
+    }
+    void startup_stored_session_SC13_SC14() {
+        QFETCH(bool, healthy);
+        scenario([&] {
+            Rig r;
+            const auto rows = r.store.sessions(), installation = r.store.facts();
+            auto input = std::make_unique<Input>();
+            auto raw = input.get();
+            raw->next = frame(100, 2000000000, 102);
+            raw->init_failure = !healthy;
+            auto monitor = std::make_shared<clock9::Monitor>(std::move(input));
+            clock9::HostClock service(*r.instance, monitor);
+            r.start(); // real current catalog + persisted I/E/J, no setup entitlement
+            bool resolved = false;
+            r.dispatch->body = [&](auto context) -> QVariant {
+                auto clock = binding([&] { return service.bind(context); });
+                const auto session = context.begin();
+                account_sessions_fixture::Cleanup cleanup{session};
+                SqliteAccountSessionUnit source(session, {});
+                auto result = resolve_current_account_session({"I", {}}, true, source, *clock);
+                if (healthy) {
+                    require(std::holds_alternative<ResolvedAccountSession>(result),
+                            "Old persisted session still valid");
+                    const auto &value = std::get<ResolvedAccountSession>(result);
+                    require(value.fresh && value.account_ref == "A" && value.session_ref == "S" &&
+                                value.authenticated_utc_ms == 1000 &&
+                                value.expires_utc_ms == 86401000,
+                            "SC13 unchanged session is unexpired/fresh at live2000");
+                } else
+                    require(std::get<SessionFailure>(result) == SessionFailure::unavailable,
+                            "SC14 persisted times cannot manufacture current UTC");
+                resolved = true;
+                session.commit();
+                return 1;
+            };
+            auto peer = r.peer();
+            success(r.submit(peer), "Cold-start host work");
+            r.completed();
+            require(resolved, "Real resolver executed against actual private store");
+            require(r.store.sessions() == rows && r.store.facts() == installation,
+                    "Startup preserves epochs/digests/maxima, healthy or unavailable");
+            require(raw->starts == 1 && raw->reads == unsigned(healthy),
+                    "Only fresh monitor establishes cold UTC");
+            r.stop();
+        });
+    }
+    void invalid_frames_and_source_exception() {
+        scenario([] {
+            for (unsigned variant = 0; variant < 8; ++variant) {
+                Policy p;
+                if (variant == 0)
+                    p.input->next.bs = {-1, 0};
+                if (variant == 1)
+                    p.input->next.b0 = {0, 1000000000};
+                if (variant == 2)
+                    p.input->next.realtime = {0, -1};
+                if (variant == 3)
+                    p.input->next.be = {0, 99};
+                if (variant == 4)
+                    p.input->next.b1 = {0, 99};
+                if (variant == 5)
+                    p.input->q = {0, 0};
+                if (variant == 6)
+                    p.input->q = {0, 1000001};
+                if (variant == 7)
+                    p.input->throw_acquire = true;
+                unavailable(p.monitor.sample_current());
+            }
         });
     }
     void full_domain_supplier_SC22_SC23() {
@@ -295,6 +394,8 @@ class SessionClockTests final : public QObject {
             r.completed(2);
             require(bodies == 2 && source->reads == count + 1, "Both real host units entered");
             r.stop();
+            unavailable(retained->sample_current());
+            require(source->reads == count + 1, "Stop revokes before underlying reads");
             r.instance.reset();
             unavailable(retained->sample_current());
             bool refused = false;
@@ -336,7 +437,16 @@ class SessionClockTests final : public QObject {
                     throw AssertionFailure("UNIMPLEMENTED SESSION-009 publication binding");
                 }
                 require(bool(publication), "Actual completion scope clock");
+                source->during = [&] { unavailable(publication->sample_current()); };
                 sample(*publication, 86400999); // remaining1 is downstream emitter oracle
+                source->during = {};
+                bool foreign_refused = false;
+                std::thread foreign([&] {
+                    foreign_refused = std::holds_alternative<SessionSourceUnavailable>(
+                        publication->sample_current());
+                });
+                foreign.join();
+                require(foreign_refused, "Publication foreign/reentrancy guards before read");
                 require(source->reads == 2, "Independent sample, never execution cache");
                 success(command.finish(), "No secret emitted by clock test");
             };
@@ -345,6 +455,182 @@ class SessionClockTests final : public QObject {
             r.completed();
             unavailable(publication->sample_current());
             require(source->reads == 2, "Completion handle revoked before later work");
+            r.stop();
+        });
+    }
+    void publication_refusal_SC26_data() {
+        QTest::addColumn<bool>("discontinuity");
+        QTest::newRow("outage") << false;
+        QTest::newRow("rollback") << true;
+    }
+    void publication_refusal_SC26() {
+        QFETCH(bool, discontinuity);
+        scenario([&] {
+            Rig r;
+            r.start();
+            const auto original = r.store.sessions();
+            auto input = std::make_unique<Input>();
+            auto raw = input.get();
+            raw->next = frame(100, 1000000000, 102);
+            auto monitor = std::make_shared<clock9::Monitor>(std::move(input));
+            clock9::HostClock service(*r.instance, monitor);
+            r.dispatch->body = [&](auto context) -> QVariant {
+                auto clock = binding([&] { return service.bind(context); });
+                sample(*clock, 1000);
+                return read_installation(context);
+            };
+            bool refused = false;
+            r.dispatch->completion = [&](auto &command, const auto &result) {
+                require(result.transaction == TransactionOutcome::committed &&
+                            result.error == WorkError::none && result.value,
+                        "Acknowledged committed truth");
+                raw->unavailable = !discontinuity;
+                if (discontinuity)
+                    raw->next = frame(110, 999999999, 112);
+                auto publication = binding([&] { return service.bind_completion(command); });
+                unavailable(publication->sample_current());
+                refused = true;
+                // Test dispatcher deliberately withholds its NONSECRET reply. Actual
+                // bearer/metadata suppression is SESSION-002's emitter composition.
+                success(command.finish(), "No-reply end after unavailable publication UTC");
+            };
+            auto peer = r.peer();
+            success(r.submit(peer), "Execute then publication");
+            r.completed();
+            require(refused && raw->reads == 2,
+                    "Publication performs new acquisition, no execution cache");
+            r.stop();
+            require(r.transport->handoffs == 0 && r.store.sessions() == original,
+                    "Clock refusal neither fabricates handoff nor revives/changes digest");
+        });
+    }
+    void abnormal_unit_has_no_publication_SC27_data() {
+        QTest::addColumn<bool>("committed");
+        QTest::newRow("commit-then-throw") << true;
+        QTest::newRow("known-rollback") << false;
+    }
+    void abnormal_unit_has_no_publication_SC27() {
+        QFETCH(bool, committed);
+        scenario([&] {
+            Rig r;
+            r.start();
+            const auto original = r.store.sessions();
+            auto source = std::make_shared<Probe>();
+            clock9::HostClock service(*r.instance, source);
+            std::shared_ptr<CurrentSessionClock> retained;
+            r.dispatch->body = [&](auto context) -> QVariant {
+                retained = binding([&] { return service.bind(context); });
+                sample(*retained, 1000);
+                if (committed) {
+                    (void)read_installation(context);
+                    throw std::runtime_error("Synthetic after commit");
+                }
+                auto session = context.begin();
+                session.rollback();
+                return 1;
+            };
+            bool checked = false;
+            r.dispatch->completion = [&](auto &command, const auto &result) {
+                require(result.transaction == (committed ? TransactionOutcome::committed
+                                                         : TransactionOutcome::rolled_back),
+                        "Actual transaction truth preserved");
+                if (committed)
+                    require(result.error == WorkError::work_exception && !result.value,
+                            "Committed throw cannot become normal completion");
+                unavailable(retained->sample_current());
+                auto denied = binding([&] { return service.bind_completion(command); });
+                unavailable(denied->sample_current());
+                require(source->reads == 1, "Abnormal outcome refuses BEFORE publication read");
+                checked = true;
+                success(command.finish(), "No secret reply");
+            };
+            auto peer = r.peer();
+            success(r.submit(peer), "Abnormal real unit");
+            require(QTest::qWaitFor(
+                        [&] {
+                            r.check_callbacks();
+                            return checked;
+                        },
+                        wait_ms),
+                    "Matching actual completion");
+            r.stop();
+            require(r.transport->handoffs == 0 && r.store.sessions() == original,
+                    "No handoff/digest revival; commit is never relabeled rollback");
+        });
+    }
+    void completion_throw_revokes_scope_SC27() {
+        scenario([] {
+            Rig r;
+            r.start();
+            auto source = std::make_shared<Probe>();
+            clock9::HostClock service(*r.instance, source);
+            std::shared_ptr<CurrentSessionClock> retained;
+            bool entered = false;
+            r.dispatch->completion = [&](auto &command, const auto &result) {
+                require(result.transaction == TransactionOutcome::committed &&
+                            result.error == WorkError::none,
+                        "Normal body before throwing supplied completion");
+                retained = binding([&] { return service.bind_completion(command); });
+                entered = true;
+                throw std::runtime_error(
+                    "Synthetic completion exception before publication sample");
+            };
+            auto peer = r.peer();
+            success(r.submit(peer), "Real work");
+            require(QTest::qWaitFor(
+                        [&] {
+                            r.check_callbacks();
+                            return entered && r.instance->inspect().associations == 0;
+                        },
+                        wait_ms),
+                    "Throw unwinds actual callback/command");
+            unavailable(retained->sample_current());
+            require(source->reads == 0, "After completion throw no publication read or cache");
+            r.stop();
+            require(r.transport->handoffs == 0, "Throw cannot publish host reply");
+        });
+    }
+    void denied_bindings_have_no_reads() {
+        scenario([] {
+            Rig r;
+            r.start();
+            auto source = std::make_shared<Probe>();
+            clock9::HostClock service(*r.instance, source);
+            auto denied = binding([&] { return service.bind(SqliteWorkContext{}); });
+            unavailable(denied->sample_current());
+            r.dispatch->execution = [&](auto &command, auto) {
+                auto denied_completion = binding([&] { return service.bind_completion(command); });
+                unavailable(denied_completion->sample_current());
+                success(command.finish(), "No-unit command ends without clock authority");
+            };
+            auto peer = r.peer();
+            success(r.submit(peer), "Execute is not a writer unit/completion");
+            require(QTest::qWaitFor(
+                        [&] {
+                            r.check_callbacks();
+                            return r.dispatch->executions == 1 &&
+                                   r.instance->inspect().associations == 0;
+                        },
+                        wait_ms),
+                    "Real no-unit command ends");
+            require(source->reads == 0, "No underlying read from default ticket/execute");
+            SqliteWriter other;
+            require(other.open(r.store.directory.filePath("other.sqlite")) == StorageError::none,
+                    "Independent fixture writer, never the authoritative Host writer");
+            (void)account_sessions_fixture::run(other, [&](auto context) -> QVariant {
+                auto foreign = binding([&] { return service.bind(context); });
+                unavailable(foreign->sample_current());
+                auto session = context.begin();
+                session.commit();
+                return 1;
+            });
+            bool closed = false;
+            require(other.shutdown([&] { closed = true; }) == StorageError::none,
+                    "Other fixture writer shutdown");
+            require(QTest::qWaitFor([&] { return closed; }, wait_ms),
+                    "Other fixture writer barrier");
+            require(source->reads == 0,
+                    "Live other-writer context cannot counterfeit Host membership");
             r.stop();
         });
     }
