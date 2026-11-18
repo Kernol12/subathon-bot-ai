@@ -45,12 +45,26 @@ the SDK's own Session RTTI and marker, hashes and loader reconciliation. Externa
 compiler and system-header pre-build hashes are outside this procedure.
 
 SESSION-009 #582 is Done after [protected merge #703](https://github.com/Kernol12/subathon-bot-ai/pull/703)
-at `3f1d35b8`. SESSION-011 #591 continues its independent tests stage under the
-[bounded observation approvals](https://github.com/Kernol12/subathon-bot-ai/issues/591#issuecomment-6972826652).
-MILESTONE-003 #232 is [claimed](https://github.com/Kernol12/subathon-bot-ai/issues/232#issuecomment-6976382270)
-in a fresh tier A session on current main. Its durable delivery states are a
-prerequisite for restore and action delivery. The coordinator owns checkpoint,
-proof and shared migration, build and CI integration.
+at `3f1d35b8`. MILESTONE-003 #232 is Done after
+[protected merge #705](https://github.com/Kernol12/subathon-bot-ai/pull/705)
+at `5cc1da42`. All seven checks passed on proof head `a7631860`. The final
+jobs binary passed 31 cases. The earlier admitted run passed both catalog
+controls and 343 affected regressions. The delivery catalog is available at
+v11. Host startup still selects v10.
+
+SESSION-011 #591 continues independently. Stage 1 observed 68 intended NI
+outcomes and 41 passing controls. The first Stage 2 run recorded 104 passes and
+five failures. The owner approved O3 (close-only interest for paused ordinary
+connections) and O4 (empty reservation cleanup separate from raw release).
+[Closing review](https://github.com/Kernol12/subathon-bot-ai/pull/704#issuecomment-6985730782)
+approved `ef205a6f`. Fresh sealed-SDK admission, the 109 unchanged cases and
+affected regressions are pending.
+
+MILESTONETEST-004 #233 is [claimed](https://github.com/Kernol12/subathon-bot-ai/issues/233#issuecomment-6985955064)
+on `5cc1da42` at tier A. The baseline covers sequential milestone action groups
+and server presentation timing under §8, MILE-01 and MILE-08. Contract, reviewed
+tests and observed intended red precede implementation in #234. The coordinator
+owns checkpoint, proof and shared registration.
 
 ### Structure review of `199dc02` (owner decision 2026-11-18)
 
