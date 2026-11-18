@@ -21,19 +21,41 @@ template <class F> void scenario(F f) {
 }
 enum class Call { real_res, boot_res, create, real_time, arm, boot_time, guard, sync, close_fd };
 // Fixed-storage ordinary QtTest fixture; no process/launcher/identity observation mode.
+struct Audit {
+    bool broken = false, descriptor_live = false;
+    const char *reason = "";
+};
+// Runs after adapter destruction, OUTSIDE any adapter exception-to-unavailable catch.
+struct AuditCheck {
+    std::shared_ptr<Audit> state;
+    ~AuditCheck() {
+        if (state->broken)
+            QTest::qFail(state->reason, __FILE__, __LINE__);
+        if (state->descriptor_live)
+            QTest::qFail("Fixture descriptor leaked at adapter destruction", __FILE__, __LINE__);
+    }
+};
 struct Calls final : c::testing::LinuxCalls {
+    std::shared_ptr<Audit> audit = std::make_shared<Audit>();
     std::array<Call, 64> log{};
     unsigned used = 0, fail_at = 99, closes = 0, fault_guard = 7, fault_sync = 8;
     std::shared_ptr<unsigned> released = std::make_shared<unsigned>(0);
     timespec realtime{10, 0}, boottime{1, 0}, real_resolution{0, 1}, boot_resolution{0, 1};
     ssize_t guard_bytes = 8;
     std::uint64_t count = 3;
-    int guard_errno = EAGAIN, sync_return = TIME_OK;
+    int guard_errno = EAGAIN, sync_return = TIME_OK, status = 0;
     bool use_guard_error = true;
-    int status = 0;
+    void validate(bool ok, const char *why) {
+        if (!ok) {
+            if (!audit->broken)
+                audit->reason = why;
+            audit->broken = true;
+            throw std::runtime_error(why);
+        }
+    }
     bool record(Call call) {
-        require(used < log.size(), "Fixed native call log capacity");
-        log[used++] = call;
+        validate(used < log.size(), "Fixed native log overflow");
+        log[used++] = call; // attempted operation recorded BEFORE argument validation
         if (used == fail_at) {
             errno = EIO;
             return false;
@@ -41,39 +63,50 @@ struct Calls final : c::testing::LinuxCalls {
         return true;
     }
     int resolution(clockid_t id, timespec *out) override {
-        require(id == CLOCK_REALTIME || id == CLOCK_BOOTTIME, "Only real/boot resolution");
-        if (!record(id == CLOCK_REALTIME ? Call::real_res : Call::boot_res))
+        bool ok = record(id == CLOCK_REALTIME ? Call::real_res : Call::boot_res);
+        validate((id == CLOCK_REALTIME || id == CLOCK_BOOTTIME) && out,
+                 "Only real/boot resolution");
+        if (!ok)
             return -1;
         *out = id == CLOCK_REALTIME ? real_resolution : boot_resolution;
         return 0;
     }
     int create(clockid_t id, int flags) override {
-        require(id == CLOCK_REALTIME && flags == (TFD_NONBLOCK | TFD_CLOEXEC),
-                "Exact guard creation");
-        return record(Call::create) ? 17 : -1;
+        bool ok = record(Call::create);
+        validate(id == CLOCK_REALTIME && flags == (TFD_NONBLOCK | TFD_CLOEXEC),
+                 "Exact guard creation flags");
+        if (ok) {
+            validate(!audit->descriptor_live, "Second simultaneous descriptor creation");
+            audit->descriptor_live = true;
+        }
+        return ok ? 17 : -1;
     }
     int time(clockid_t id, timespec *out) override {
-        require(id == CLOCK_REALTIME || id == CLOCK_BOOTTIME, "No fallback clock");
-        if (!record(id == CLOCK_REALTIME ? Call::real_time : Call::boot_time))
+        bool ok = record(id == CLOCK_REALTIME ? Call::real_time : Call::boot_time);
+        validate((id == CLOCK_REALTIME || id == CLOCK_BOOTTIME) && out,
+                 "No fallback clock/null output");
+        if (!ok)
             return -1;
         *out = id == CLOCK_REALTIME ? realtime : boottime;
         return 0;
     }
     int arm(int fd, int flags, const itimerspec *value) override {
-        require(fd == 17 && flags == (TFD_TIMER_ABSTIME | TFD_TIMER_CANCEL_ON_SET),
-                "Exact arm flags");
-        require(value->it_interval.tv_sec == 1 && value->it_interval.tv_nsec == 0,
-                "One second periodic witness, never Qt polling");
-        require(realtime.tv_sec < std::numeric_limits<time_t>::max(),
-                "No overflow in expected native expiry");
-        require(value->it_value.tv_sec == realtime.tv_sec + 1 &&
-                    value->it_value.tv_nsec == realtime.tv_nsec,
-                "Initial expiry R+1s");
-        return record(Call::arm) ? 0 : -1;
+        bool ok = record(Call::arm);
+        validate(fd == 17 && flags == (TFD_TIMER_ABSTIME | TFD_TIMER_CANCEL_ON_SET) && value,
+                 "Exact arm arguments");
+        validate(value->it_interval.tv_sec == 1 && value->it_interval.tv_nsec == 0,
+                 "Exactly one-second interval");
+        validate(realtime.tv_sec < std::numeric_limits<time_t>::max(),
+                 "Overflowing native expiry attempted arm");
+        validate(value->it_value.tv_sec == realtime.tv_sec + 1 &&
+                     value->it_value.tv_nsec == realtime.tv_nsec,
+                 "Initial expiry R+1s");
+        return ok ? 0 : -1;
     }
     ssize_t read(int fd, void *out, std::size_t size) override {
-        require(fd == 17 && size == 8, "One exclusive guard, exactly eight-byte buffer");
-        if (!record(Call::guard))
+        bool ok = record(Call::guard);
+        validate(fd == 17 && size == 8 && out, "Exclusive fd and exactly8byte buffer");
+        if (!ok)
             return -1;
         if (used != fault_guard) {
             errno = EAGAIN;
@@ -88,35 +121,56 @@ struct Calls final : c::testing::LinuxCalls {
         return guard_bytes;
     }
     int synchronization(timex *out) override {
-        require(out->modes == 0 && out->offset == 0 && out->freq == 0 && out->maxerror == 0 &&
-                    out->esterror == 0 && out->status == 0,
-                "Fresh zeroed read-only timex for BOTH status reads");
-        if (!record(Call::sync))
+        bool ok = record(Call::sync);
+        validate(out, "Null timex");
+        validate(out->modes == 0 && out->offset == 0 && out->freq == 0 && out->maxerror == 0 &&
+                     out->esterror == 0 && out->status == 0,
+                 "Fresh zeroed read-only timex for BOTH reads");
+        if (!ok)
             return -1;
         out->status = used == fault_sync ? status : 0;
-        out->offset = 123; // poisons reuse; A1 must start fresh
+        out->offset = 123;
         return used == fault_sync ? sync_return : TIME_OK;
     }
     int close(int fd) noexcept override {
-        if (fd != 17 || used == log.size())
-            std::terminate();
+        if (used == log.size()) {
+            audit->broken = true;
+            audit->reason = "Close log overflow";
+            return -1;
+        }
         log[used++] = Call::close_fd;
+        if (fd != 17 || !audit->descriptor_live) {
+            audit->broken = true;
+            audit->reason = "Invalid/double close";
+            return -1;
+        }
+        audit->descriptor_live = false;
         ++closes;
         ++*released;
         return 0;
     }
 };
 struct Adapter {
+    AuditCheck audit;
     Calls *calls;
     std::unique_ptr<c::Observations> adapter;
     Adapter() : Adapter(std::make_unique<Calls>()) {}
     explicit Adapter(std::unique_ptr<Calls> port)
-        : calls(port.get()), adapter(c::testing::linux_observations(std::move(port))) {}
+        : audit{port->audit}, calls(port.get()),
+          adapter(c::testing::linux_observations(std::move(port))) {}
 };
 constexpr std::array<Call, 14> healthy{
     Call::real_res,  Call::boot_res, Call::create, Call::real_time, Call::arm,
     Call::boot_time, Call::guard,    Call::sync,   Call::boot_time, Call::real_time,
     Call::boot_time, Call::sync,     Call::guard,  Call::boot_time};
+void prefix(const Calls &calls, unsigned count, bool closed = false) {
+    require(!calls.audit->broken, calls.audit->reason);
+    require(calls.used == count + unsigned(closed), "Exact attempted native prefix size");
+    for (unsigned i = 0; i < count; ++i)
+        require(calls.log[i] == healthy[i], "Exact native prefix order");
+    if (closed)
+        require(calls.log[count] == Call::close_fd, "Cleanup after prefix, before refusal returns");
+}
 void initialized(Adapter &a) {
     auto r = a.adapter->initialize();
     require(std::holds_alternative<c::Time>(r), "Healthy native init");
@@ -167,6 +221,9 @@ class SessionClockLinuxTests final : public QObject {
             unsigned expected = position + (position == 4 || position == 5 ? 1 : 0);
             require(a.calls->used == expected,
                     "Fail immediately; only partial-init cleanup permitted");
+            prefix(*a.calls, position, position == 4 || position == 5);
+            require(a.calls->closes == unsigned(position == 4 || position == 5),
+                    "Partial-init cleanup BEFORE ownerclose");
             a.adapter->close();
             require(a.calls->closes == unsigned(position >= 4),
                     "No lost or double closed descriptor");
@@ -200,10 +257,17 @@ class SessionClockLinuxTests final : public QObject {
             a.adapter->close();
         });
     }
+    void monitor_uses_adapter_hold_and_single_descriptor_data() {
+        QTest::addColumn<bool>("second");
+        QTest::newRow("D0") << false;
+        QTest::newRow("D1") << true;
+    }
     void monitor_uses_adapter_hold_and_single_descriptor() {
-        scenario([] {
+        QFETCH(bool, second);
+        scenario([&] {
             auto calls = std::make_unique<Calls>();
             auto raw = calls.get();
+            AuditCheck fixture_audit{calls->audit};
             auto released = raw->released;
             {
                 c::Monitor monitor(c::testing::linux_observations(std::move(calls)));
@@ -211,18 +275,29 @@ class SessionClockLinuxTests final : public QObject {
                 require(std::holds_alternative<SessionClockSample>(initial) &&
                             std::get<SessionClockSample>(initial).now_utc_ms == 10000,
                         "Native adapter through real policy");
-                raw->fault_guard = raw->used + 2;
+                raw->fault_guard = raw->used + (second ? 8 : 2);
                 raw->guard_errno = ECANCELED;
                 require(std::holds_alternative<SessionSourceUnavailable>(monitor.sample_current()),
                         "Cancellation detecting call latches hold, no same-call reopen");
-                require(raw->used == 16 && raw->closes == 0,
-                        "Exactly Bs/read; no discarded cancellation");
+                require(raw->used == unsigned(second ? 22 : 16) && raw->closes == 0,
+                        "Stop at D0/D1 cancellation; no reads of unused partial-frame fields");
+                for (unsigned i = 0; i < 14; ++i)
+                    require(raw->log[i] == healthy[i], "Initial composition exact native prefix");
+                const unsigned stopped = second ? 22 : 16;
+                for (unsigned i = 14; i < stopped; ++i)
+                    require(raw->log[i] == healthy[5 + i - 14],
+                            "Exact prefix through detecting guard");
                 raw->fault_guard = 99; // later healthy evidence, not a readiness setter
                 auto later = monitor.sample_current();
                 require(std::holds_alternative<SessionClockSample>(later),
                         "Later invocation may reestablish at same floor");
-                require(raw->closes == 1 && raw->used == 31,
+                require(raw->closes == 1 && raw->used == unsigned(second ? 37 : 31),
                         "Close+fresh14call path; no parallel guard");
+                require(raw->log[stopped] == Call::close_fd,
+                        "Old guard close precedes fresh initialization");
+                for (unsigned i = 0; i < 14; ++i)
+                    require(raw->log[stopped + 1 + i] == healthy[i],
+                            "Exact fresh establishment prefix");
             }
             require(*released == 2,
                     "Old and new guards each closed once including final destruction");
@@ -232,10 +307,17 @@ class SessionClockLinuxTests final : public QObject {
         scenario([] {
             auto calls = std::make_unique<Calls>();
             auto raw = calls.get();
+            AuditCheck fixture_audit{calls->audit};
+            raw->realtime = {9223372035LL, 854775807}; // R+1s exactly native MAX
             c::Monitor monitor(c::testing::linux_observations(std::move(calls)));
-            require(std::holds_alternative<SessionClockSample>(monitor.sample_current()),
-                    "Healthy native control");
-            raw->realtime = {9223372035LL, 854775808};
+            auto initial = monitor.sample_current();
+            require(std::holds_alternative<SessionClockSample>(initial),
+                    "Healthy near-limit native control");
+            require(std::get<SessionClockSample>(initial).now_utc_ms == 9223372035854LL,
+                    "Exact near-limit UTC conversion");
+            // B stays1s. I0=[9223372034854775806,9223372034854775808];
+            // I1=[9223372034854775807,9223372034854775809] overlaps.
+            raw->realtime = {9223372035LL, 854775808}; // +1ns => expiry MAX+1, not a discontinuity
             require(std::holds_alternative<SessionSourceUnavailable>(monitor.sample_current()),
                     "Live R+1s outside signed-nanosecond timer range refuses, no wrap/cache");
         });
@@ -292,9 +374,14 @@ class SessionClockLinuxTests final : public QObject {
             auto r = a.adapter->initialize();
             require(std::holds_alternative<SessionSourceUnavailable>(r),
                     "Native precision/expiry refuses");
-            for (unsigned i = 0; i < a.calls->used; ++i)
-                require(a.calls->log[i] != Call::arm, "Reject before native arm/saturation");
+            const auto count = variant < 4 ? 2u : 4u;
+            prefix(*a.calls, count, variant >= 4);
+            require(a.calls->closes == unsigned(variant >= 4),
+                    "Init owns cleanup before returning refusal");
             a.adapter->close();
+            prefix(*a.calls, count, variant >= 4); // ownerclose is idempotent, no delayed cleanup
+            require(a.calls->closes == unsigned(variant >= 4),
+                    "Exactly one close, no hidden descriptor");
         });
     }
     void guard_and_status_failures_data() {
@@ -341,8 +428,13 @@ class SessionClockLinuxTests final : public QObject {
                         "Cancellation propagated to hold owner");
             } else
                 refused(result);
-            require(a.calls->used == unsigned(variant <= 4 ? (second ? 13 : 7) : (second ? 12 : 8)),
-                    "No later native reads on refusal");
+            const unsigned count = variant <= 4 ? (second ? 13 : 7) : (second ? 12 : 8);
+            prefix(*a.calls, count);
+            require(a.calls->closes == 0,
+                    "Frame refusal retains exclusive guard until owner close");
+            a.adapter->close();
+            prefix(*a.calls, count, true);
+            require(a.calls->closes == 1, "Exactly once frame cleanup");
         });
     }
 };

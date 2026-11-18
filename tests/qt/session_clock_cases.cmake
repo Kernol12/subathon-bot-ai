@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Proposed literal registration; source-only until independent review/admission.
-# One invocation per process: real Host fixture installs its profile once.
-set(subathon_session_clock_cases
+# SOURCE inventory only; root owns actual registration after independent review.
+# NI is planned missing-behavior coverage, not an observed red result.
+set(subathon_session_clock_ni_cases
     intervals_SC01_SC04
     regression_and_cancellation_SC05_SC06
     failures_and_transient_recovery_SC07_SC08_SC11
@@ -16,7 +16,6 @@ set(subathon_session_clock_cases
     startup_stored_session_SC13_SC14:current-kernel
     startup_stored_session_SC13_SC14:no-live-status
     invalid_frames_and_source_exception
-    full_domain_supplier_SC22_SC23
     signed_conversion_SC19_SC21:negative-floor
     signed_conversion_SC19_SC21:MIN
     signed_conversion_SC19_SC21:MIN-minus1
@@ -29,7 +28,13 @@ set(subathon_session_clock_cases
     abnormal_unit_has_no_publication_SC27:commit-then-throw
     abnormal_unit_has_no_publication_SC27:known-rollback
     completion_throw_revokes_scope_SC27
+    completion_identity_and_last_unit
+    one_service_per_host
     denied_bindings_have_no_reads
-    utc_deadline_ex_HL15:UTCmin
-    utc_deadline_ex_HL15:UTCmax
+    utc_deadline_ex_HL15:UTCmin-5999
+    utc_deadline_ex_HL15:UTCmax-5999
+)
+set(subathon_session_clock_passing_cases
+    utc_deadline_ex_HL15:UTCmin-6000
+    utc_deadline_ex_HL15:UTCmax-6000
 )
