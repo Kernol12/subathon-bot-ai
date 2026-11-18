@@ -115,4 +115,3 @@ endif()
 add_custom_target(check-project
     COMMAND "${Python3_EXECUTABLE}" "${PROJECT_SOURCE_DIR}/tools/check_project.py"
     WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}" VERBATIM)
-message(STATUS "Foundation scaffold only: no server, desktop app or live integrations implemented")
