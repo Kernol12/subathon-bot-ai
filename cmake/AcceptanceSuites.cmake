@@ -6,7 +6,7 @@ set(subathon_acceptance_suites
     pause-policy application-plan sqlite-writer time-debt sqlite-work
     sqlite-migrations sqlite-retained sqlite-receipt sqlite-contribution sqlite-plan
     sqlite-bundle sqlite-original-claim sqlite-hold application-service sqlite-delivery-jobs
-    translation-catalog rate-snapshot milestone-progression session-resolution
+    translation-catalog rate-snapshot milestone-progression milestone-timeline session-resolution
     password-hashing effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
     bounded-http-foundation sqlite-permission-graph sqlite-reference-authority reference-rule dev-server)
@@ -97,6 +97,8 @@ function(subathon_resolve_acceptance_suites output)
             math(EXPR prefix_length "${sqlite_index} + 1")
             list(SUBLIST sqlite_chain 0 ${prefix_length} prefix)
             list(APPEND selected ${prefix})
+        elseif(suite STREQUAL "milestone-timeline")
+            list(APPEND selected exact-numeric milestone-progression milestone-timeline)
         elseif(suite STREQUAL "milestone-progression" OR suite STREQUAL "effective-permissions"
                OR suite STREQUAL "rate-snapshot")
             list(APPEND selected exact-numeric "${suite}")
