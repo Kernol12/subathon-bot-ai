@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "account_capture_erasure.hpp"
 #include <algorithm>
 #include <arpa/inet.h>
 #include <atomic>
@@ -87,6 +88,7 @@ struct Core final : io::Producer, sdk::Sink {
     Callbacks callbacks;
     NativeBinding native;
     RawHooks hooks{};
+    account_capture::detail::SecureErasure account_erasure;
     Observation observation{};
     std::array<Route, 8> routes{};
     std::array<std::array<char, 16>, 8> methods{};
@@ -1601,3 +1603,17 @@ Result<std::unique_ptr<Foundation>> create(Limits l, std::span<const Route> rout
     }
 }
 } // namespace subathon::server::bounded_http
+
+namespace subathon::server::account_capture::testing {
+Result<Done> install_erasure_observer(bounded_http::Foundation &foundation,
+                                      ErasureObserver observer) noexcept {
+    auto &core = bounded_http::Factory::core(foundation);
+    if (std::this_thread::get_id() != core.creator)
+        return Error::wrong_thread;
+    if (!observer.owner || !observer.visit)
+        return Error::invalid_config;
+    if (core.registered)
+        return Error::invalid_state;
+    return core.account_erasure.install(observer);
+}
+} // namespace subathon::server::account_capture::testing
