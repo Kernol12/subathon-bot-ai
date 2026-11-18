@@ -37,9 +37,10 @@ loaded objects and their hashes before crediting the result, then check hashes
 again. Any mismatch voids the run. Changes to the procedure, tooling, modes or
 native-supervisor debug variables require the owner under rule 4(e).
 
-Bound the captured log files only. Test processes and their children run without
-a process file-size limit. The owner’s BUILD-002 diagnostic reproduced SIGXFSZ
-at a 1,048,576-byte SQLite WAL under the inherited cap. The original
+Apply log size caps only to captured log files, including admission logs.
+Test processes and their children run without a process file-size limit.
+The owner’s BUILD-002 diagnostic reproduced SIGXFSZ at a 1,048,576-byte
+SQLite WAL under the inherited cap. The original
 `example8_twoEvents` observation remains in the ledger as a harness fault.
 
 Record `readelf` checks of both `.dynsym` and `.symtab` for Drogon
@@ -68,14 +69,13 @@ MILESTONETEST-004 #233 is Done after [protected merge #708](https://github.com/K
 at `7ddcfc82`. On `052b40c4` the admitted baseline reached all nine intended NI
 failures and all 86 unchanged controls passed. The single unchanged-source Qt
 retry resolved APT setup timeout. All seven checks passed on proof `52493669`.
-MILESTONE-004 #234 is [claimed](https://github.com/Kernol12/subathon-bot-ai/issues/234#issuecomment-6990024042)
-at tier A on `06241738` for running-server timeline implementation. All nine
-frozen timeline cases and 86 controls passed on admitted `e7321be9`. Owner revision 2
-gates only new starts and releases during a pause. Active presentation and its
-gap keep time. Jobs and bonuses require release of their group. Unreleased jobs
-stay queued after restart until planned [MILESTONE-009 #709](https://github.com/Kernol12/subathon-bot-ai/issues/709)
-reconstructs durable order after #234. #236 depends on #709 and owns restart
-while deferred. The coordinator owns checkpoint, proof and shared registration.
+MILESTONE-004 #234 is Done after [protected merge #712](https://github.com/Kernol12/subathon-bot-ai/pull/712)
+at `c92e042a`. On admitted `e7321be9`, all nine frozen timeline cases and
+86 controls passed on four binaries. The new hosted timeline step and all
+seven checks passed on proof head `a15f07b2`. Under owner revision 2, pause
+gates new starts and releases while the active presentation and gap keep
+time. Jobs and bonuses require release of their group. Unreleased jobs stay
+queued across restart.
 
 ### Structure review of `199dc02` (owner decision 2026-11-18)
 
@@ -107,6 +107,34 @@ while deferred. The coordinator owns checkpoint, proof and shared registration.
   `sqlite_application_bundle_access.hpp` only within an authorized task that
   already changes the respective file. Use a separate commit and name it in
   that task's review packet.
+
+## Handover (2026-11-18)
+
+The standing authorization continues for the successor session. This session
+leaves the next task unclaimed. Follow the board and issue prerequisites for
+current readiness.
+
+- Recommend [MILESTONE-009 #709](https://github.com/Kernol12/subathon-bot-ai/issues/709)
+  next. #234 satisfies its prerequisite. It owns durable group order and
+  ordinary restart recovery without blind replay. #236 still waits on #709,
+  and #294 owns running host integration.
+- Other dependency-ready product work on the board includes #177, #197, #199,
+  #204, #214, #230, #257, #270, #286 and #406. #286 is a prerequisite for #294.
+  #619/#620 remain frozen and #292 remains planned.
+- Keep the local evidence under `build/MILESTONE-004/`,
+  `build/MILESTONETEST-004/intended-red/`, `build/BUILD-001/coordinator/` and
+  `build/BUILD-002/`. Keep the SESSION-011 runtime and regression packets under
+  `build/SESSION-011/` and the sealed successor SDK and consumers in
+  `~/.t3/worktrees/subathon-bot-ai/t3-0d9c03aa`. Shared dependencies remain in
+  `build/deps/`, and the proof validator's schema environment is
+  `build/workflow005-schema-venv/`.
+- No worktree has active edits for this handover. The clean worktrees at
+  `build/BUILD-001/coordinator/worktree` and
+  `build/MILESTONETEST-004/coordinator/registration-worktree`, and the
+  MILESTONE-004 author worktree `t3-1b6d3578`, can be removed after checking
+  ignored files. Keep the baseline and BUILD-001 author worktrees
+  `t3-d7d4147d` and `t3-ea41127e` until their ignored build artifacts are
+  archived. No owner decision or test run remains pending on this handover.
 
 ## Authorized path — complete
 
