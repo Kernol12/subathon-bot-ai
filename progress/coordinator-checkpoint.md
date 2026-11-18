@@ -275,6 +275,11 @@ folding them into the round. Findings from the first review of a new revision us
 the new revision's fix rounds. Ask the owner before a third round. The other stop
 rules continue to apply.
 
+**C++ compile gate (owner decision, 2026-11-18).** Compile each C++ source or
+test revision before sending it for review. This gate is build-only, with no
+test or product execution. Report compile failures to the author as ordinary
+findings. They earn no intended-red credit and do not consume a fix round.
+
 **Stop rule of a last pass** (API-016 third pass, [decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6924951572)). When the owner
 grants a third and last author pass: the author first lists what the fix must cover
 and the correction is limited to that list; an independent investigator then repeats
