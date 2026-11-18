@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SOURCE ONLY. New exact consumer admission precedes even GoogleTest discovery.
 #include "capture_assertions.hpp"
+#include "log_observation.hpp"
 #include <memory>
 namespace {
 namespace bh = subathon::server::bounded_http;
@@ -14,19 +15,26 @@ class Clock final : public ws::ElapsedSource {
 // Every registered GoogleTest gets its own process: profile install is once/process.
 // These existing /f and /foundation/ws literals are cold declarations only;
 // no listener, account route, TLS or current-policy integration is installed.
+struct ColdRegistration {
+    account_capture_test::LogObservation logs;
+    std::unique_ptr<ws::Profile> native;
+};
+ColdRegistration *cold_registration = nullptr; // once/process, SDK global callback owner
 class ColdCapture : public testing::Test {
   protected:
     std::shared_ptr<Clock> clock = std::make_shared<Clock>();
-    std::unique_ptr<ws::Profile> native;
     std::unique_ptr<bh::Foundation> foundation;
     unsigned captures = 0;
     void SetUp() override {
+        ASSERT_EQ(cold_registration, nullptr);
+        cold_registration = new ColdRegistration;
+        account_capture_test::bind_checked_log(cold_registration->logs);
         ASSERT_EQ(ws::linked_backend(), ws::Backend::admitted_corrected);
         auto p = ws::create_profile(
             {1, 1, 64, 64, 16, 2, 128, 256, 256, 64, 256, 254, 8, 50, 50, 100, 50}, clock);
         ASSERT_TRUE(std::holds_alternative<std::unique_ptr<ws::Profile>>(p))
             << "FIXTURE: native profile";
-        native = std::move(std::get<std::unique_ptr<ws::Profile>>(p));
+        cold_registration->native = std::move(std::get<std::unique_ptr<ws::Profile>>(p));
         const std::array routes{bh::Route{"POST", "/f", 4, 0, 0}};
         auto f = bh::create({2, 1, 1, 1, 1, 4, 4, 50, 50, 50, 50, 1}, routes,
                             {"/foundation/ws", [](void *, void *, const ws::Connection &) {},
@@ -40,6 +48,12 @@ class ColdCapture : public testing::Test {
             << "FIXTURE: real foundation";
         foundation = std::move(std::get<std::unique_ptr<bh::Foundation>>(f));
         ASSERT_NE(foundation, nullptr);
+    }
+    void TearDown() override {
+        foundation.reset(); // actual cold discard; no fictitious network barrier
+        if (cold_registration)
+            EXPECT_TRUE(cold_registration->logs.clean());
+        // SDK profile/logger callback targets intentionally survive until process exit.
     }
     ac::Callbacks callbacks() {
         return {this, [](void *owner, ac::CaptureLease) {

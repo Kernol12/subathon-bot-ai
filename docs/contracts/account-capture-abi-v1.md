@@ -87,3 +87,47 @@ Review/source-only assertion code does not establish any row as observed red/pas
 The author packet identifies the exact fixture/log/erasure binding gaps and options.
 Independent tier A test review, admission, reviewed executable release and intended
 behavior red precede implementation. Existing frozen assertions remain untouched.
+
+## Stage-one continuation 02: exact identity and approved private observations
+
+The digest fields have these concrete meanings: artifact_sha256 is SHA-256 of
+exact selected SDK dependency-build.json bytes; profile_sha256 is SHA-256 of its
+installed share/subathon-bounded-http-foundation/manifest.json bytes and MUST equal
+that seal's profile_manifest_sha256 field. This identifies the actual native SDK
+profile, not a trusted proxy/current-policy generation or a credential. The native
+issuer must bind its actual installation/connection to those identities. Independent
+expected TEST DATA hashes those read-only selected files at root-owned configure,
+checks their agreement and configures selected_identity.hpp.in. No SUT output is
+used as an expected value. A changed selected successor gets newly bound expected
+data and fresh admission/review; retained c4d is not account support or a reusable
+receipt. Existing listener/route/limits/native thread bindings remain mandatory.
+
+The approved E2 declaration is PRIVATE server/src/account_capture_observer.hpp,
+not a public or installed SDK header. NI installs nothing. Future account erasure
+code calls it only around its OWN actual selected sodium_memzero invocation, with
+before_sodium and after_sodium notifications sharing one checked call ordinal1..8192
+and actual RawTag/region/length. Region distinguishes fields records from arena.
+Before may borrow nonzero bytes; after borrows the SAME region after real sodium
+returns. No retained payload/byte digest, pointer-to-payload, callback queue or
+user-supplied fact/zeroization setter. Callback is noexcept/IO0/synchronous and may
+not reenter. Registration is cold/creator/once; null invalid_config, late/repeated
+invalid_state, wrong thread wrong_thread. No install replacement/RawHooks chaining.
+Before overflow/false must NOT skip the actual secure wipe; false at either phase
+quarantines/closes with wipe_failed and never grants reuse/clean finish. Call ordinal
+overflow similarly fails closed, with actual erasure still attempted. Callbacks must
+not throw; violating noexcept is process-terminal, no fabricated successful cleanup.
+Uninstalled observer adds no payload scan/callback/allocation or changed erasure;
+only a disabled branch. Registration lifetime covers actual stop/drain/IO joins;
+no callbacks after finish. Exact placement/layout and all phase/exit tests require
+tier A review before any behavior implementation. Existing production quotas do
+not grow; metadata placement/pins must be proved before allocation in stage two.
+
+The ordinary fixture binds the EXISTING Trantor default output callback at TRACE
+before profile construction and scans with a <=2MiB stream ceiling, no raw payload
+retention. An actual Logger canary positive precedes the clean actual-case target;
+response wire is independently scanned. Indexed/file/plugin/direct fd/stdout/stderr
+and pre-main coverage require the written sink audit; no launcher/interceptor or
+claim of unseen bytes is authorized. Whole-account log suppression still requires
+source review of actual branches, not a Fatal filter or scanner absence alone.
+Standing unchanged admission now covers authorized Qt/GTest binaries and their
+OWN actual closure with Session-symbol applicability; no new helper/mode is added.

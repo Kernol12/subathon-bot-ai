@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+#pragma once
+// Configured TEST DATA from actual selected sdk/dependency-build.json and its
+// installed manifest. Never supplied by CaptureView/production producer output.
+#include <array>
+#include <cstddef>
+#include <string_view>
+namespace account_capture_test::selected_identity {
+consteval std::array<std::byte, 32> decode(std::string_view hex) {
+    if (hex.size() != 64)
+        throw "invalid configured identity length";
+    std::array<std::byte, 32> out{};
+    const auto digit = [](char c) -> unsigned {
+        if (c >= '0' && c <= '9')
+            return c - '0';
+        if (c >= 'a' && c <= 'f')
+            return c - 'a' + 10;
+        throw "invalid configured identity hex";
+    };
+    for (unsigned i = 0; i < 32; ++i)
+        out[i] = std::byte(digit(hex[2 * i]) * 16 + digit(hex[2 * i + 1]));
+    return out;
+}
+inline constexpr auto artifact = decode("@ACCOUNT_CAPTURE_ARTIFACT_SHA256@");
+inline constexpr auto profile = decode("@ACCOUNT_CAPTURE_PROFILE_SHA256@");
+} // namespace account_capture_test::selected_identity

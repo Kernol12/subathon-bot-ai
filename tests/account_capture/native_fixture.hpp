@@ -2,6 +2,9 @@
 #pragma once
 // Ordinary typed GoogleTest fixture. SOURCE ONLY: no registration/admission implied.
 #include "capture_assertions.hpp"
+#include "erasure_observation.hpp"
+#include "log_observation.hpp"
+#include "selected_identity.hpp" // configured independent expected DATA, never producer output
 #include <arpa/inet.h>
 #include <atomic>
 #include <cerrno>
@@ -57,6 +60,7 @@ class Deadline {
 };
 class Socket {
     int fd_ = -1;
+    SecretScanner wire_scanner_;
 
   public:
     Socket() = default;
@@ -125,6 +129,7 @@ class Socket {
             auto n = ::recv(fd_, output.data() + used,
                             std::min<std::size_t>(8192, output.size() - used), 0);
             if (n > 0) {
+                wire_scanner_.feed({output.data() + used, static_cast<std::size_t>(n)});
                 used += n;
                 if (!through_eof && used == output.size())
                     return used;
@@ -137,6 +142,16 @@ class Socket {
                 throw std::runtime_error("FIXTURE: receive status");
         }
         throw std::runtime_error("FIXTURE: receive deadline/turns");
+    }
+    bool finish_wire() {
+        if (fd_ < 0)
+            return wire_scanner_.clean(); // explicitly closed peer cannot be read back
+        std::array<char, 65664> remaining{};
+        auto bytes = read(remaining, true); // after actual server stop/join, require EOF
+        if (bytes == remaining.size())
+            throw std::runtime_error("FIXTURE: residual wire ceiling");
+        reset();
+        return wire_scanner_.clean();
     }
     void eof() {
         if (::shutdown(fd_, SHUT_WR))
@@ -185,6 +200,9 @@ struct Rig {
     std::array<Context, 2> contexts;
     std::optional<ac::CaptureLease> retained;
     Expectation expected{};
+    ErasureObservation erasures;
+    LogObservation logs;
+    bool require_erasure = false;
     std::atomic<unsigned> connected{0}, captures{0}, requests{0}, removed{0}, ends{0};
     std::atomic<unsigned> native_opened{0}, native_messages{0}, native_closed{0};
     std::atomic<bool> ready{false}, drained{false}, returned{false}, fault{false};
@@ -346,6 +364,14 @@ struct Rig {
     }
     static void drained_cb(void *o) {
         auto &r = self(o);
+        auto inspected = r.foundation->inspect();
+        if (auto actual = std::get_if<bh::Observation>(&inspected)) {
+            std::lock_guard lock(r.mutex);
+            r.observation = *actual;
+        } else {
+            ADD_FAILURE() << "FIXTURE: actual drained resource snapshot unavailable";
+            r.fault = true;
+        }
         r.drained = true;
         r.notify();
         drogon::app().quit();
@@ -455,13 +481,8 @@ struct Rig {
             r.last_sequence = view.native.request_sequence;
             r.connection_id = view.native.connection;
             r.listener_id = view.native.listener;
-            // Exact artifact/profile equality awaits independently bound inventory.
-            EXPECT_TRUE(std::any_of(view.native.artifact_sha256.begin(),
-                                    view.native.artifact_sha256.end(),
-                                    [](auto b) { return b != std::byte{}; }));
-            EXPECT_TRUE(std::any_of(view.native.profile_sha256.begin(),
-                                    view.native.profile_sha256.end(),
-                                    [](auto b) { return b != std::byte{}; }));
+            EXPECT_TRUE(view.native.artifact_sha256 == selected_identity::artifact);
+            EXPECT_TRUE(view.native.profile_sha256 == selected_identity::profile);
             if (r.expected.action == LeaseAction::nested)
                 nested_visit(*v.lease);
         });
@@ -480,6 +501,10 @@ struct Rig {
 static_assert(sizeof(Rig) <= 2048); // metadata only, caller fixture reservation
 inline Rig *retained_rig = nullptr; // one normal GTest body per process; no reinstall
 
+struct ObserverPolicy {
+    bool reject_before = false, reject_after = false;
+    unsigned limit = ErasureObservation::ceiling;
+};
 class Live {
     Deadline watchdog_; // destroyed AFTER socket shutdown, stop/drain/join and scratch cleanup
     std::thread framework_;
@@ -509,9 +534,11 @@ class Live {
 
   public:
     Rig &r;
-    bool foreign_inert_drop = false; // creator-only; used after all IO callbacks/join
-    Socket client, native_client;    // two clients maximum; no caller-owned client thread
-    explicit Live(bool account, Expectation expected = {}, bool budget = false)
+    bool expect_wipe_failure = false; // creator-only; failed finish retains quarantine to exit
+    bool foreign_inert_drop = false;  // creator-only; used after all IO callbacks/join
+    Socket client, native_client;     // two clients maximum; no caller-owned client thread
+    explicit Live(bool account, Expectation expected = {}, bool budget = false, bool observe = true,
+                  ObserverPolicy policy = {})
         : r(*([] {
               if (retained_rig)
                   throw std::runtime_error("FIXTURE: one fixture/process");
@@ -519,6 +546,12 @@ class Live {
           })()) {
         try {
             r.expected = expected;
+            if (!policy.limit || policy.limit > ErasureObservation::ceiling)
+                throw std::runtime_error("FIXTURE: observer capacity");
+            r.erasures.limit = policy.limit;
+            r.erasures.reject_before = policy.reject_before;
+            r.erasures.reject_after = policy.reject_after;
+            bind_checked_log(r.logs); // BEFORE profile, Foundation or framework/listener work
             scratch();
             auto p = ws::create_profile(
                 {1, 1, 64, 64, 16, 2, 128, 256, 256, 64, 256, 254, 8, 50, 50, 100, 50}, r.clock);
@@ -550,8 +583,17 @@ class Live {
                     throw std::runtime_error("account capture NI/refusal; no live-case evidence");
                 }
             }
+            if (account && observe) {
+                auto result = eo::install_erasure_observer(
+                    *r.foundation, {&r.erasures, ErasureObservation::callback});
+                if (!std::holds_alternative<ac::Done>(result)) {
+                    ADD_FAILURE()
+                        << "MISSING/private erasure observer binding; later phases unreached";
+                    throw std::runtime_error("observer NI/refusal; no erasure evidence");
+                }
+                r.require_erasure = true;
+            }
             auto &app = drogon::app();
-            // Deliberately no logger binding/sink redirection: owner decision pending.
             app.disableSigtermHandling()
                 .setThreadNum(1)
                 .setIdleConnectionTimeout(0)
@@ -631,8 +673,8 @@ class Live {
     }
     void cleanup() noexcept {
         try {
-            client.reset();
-            native_client.reset();
+            // Stop server admission/transport first; keep client FDs to scan any
+            // unread response tail after the actual drain/join, then close them.
             if (r.foundation && started_) {
                 (void)r.foundation->stop({r.clock->ns.load() + 5000000000ULL});
                 // No predicate ignores fixture faults during teardown; wait for the
@@ -656,10 +698,29 @@ class Live {
                     c.wake.reset();
                     c.peer.reset();
                 }
-                if (!std::holds_alternative<bh::Done>(r.foundation->finish()))
+                const auto finished = r.foundation->finish();
+                if (expect_wipe_failure) {
+                    EXPECT_TRUE(std::holds_alternative<bh::Error>(finished));
+                    if (auto error = std::get_if<bh::Error>(&finished))
+                        EXPECT_EQ(*error, bh::Error::wipe_failed);
+                    // Keep actual charged quarantined core in process-retained Rig.
+                    // No destructor/Runtime discard or successful memory cleanup claimed.
+                } else if (!std::holds_alternative<bh::Done>(finished))
                     terminal_fixture();
+                if (r.require_erasure && !expect_wipe_failure) {
+                    EXPECT_TRUE(r.erasures.clean());
+                    EXPECT_GT(r.erasures.calls, 0U); // no all-unavailable/all-zero observation pass
+                    EXPECT_TRUE(r.erasures.observed(eo::Region::receive, bh::RawUse::owner_teardown,
+                                                    false));
+                } else if (!r.require_erasure)
+                    EXPECT_EQ(r.erasures.calls, 0U);
             }
-            r.foundation.reset();
+            EXPECT_TRUE(client.finish_wire());
+            EXPECT_TRUE(native_client.finish_wire());
+            if (!expect_wipe_failure)
+                r.foundation.reset();
+            // Callback target and scanner stay alive through process teardown.
+            EXPECT_TRUE(r.logs.clean());
             r.expected = {}; // no dangling expected-byte borrow in retained native registration
             started_ = false;
             if (scratch_[0]) {

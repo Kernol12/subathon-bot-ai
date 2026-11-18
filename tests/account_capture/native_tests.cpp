@@ -132,6 +132,24 @@ TEST(AccountCaptureNative, AcceptedPublicNegotiateBodyIsCapturedExactly) {
     inspect_reads(f);
     // Private fixture diag is not the public negotiation response implementation.
 }
+TEST(AccountCaptureNative, AcceptedFinitePublicBodyCanaryNeverReachesBoundLoggerOrWire) {
+    constexpr auto body =
+        "{\"supported_versions\":[\"cny-s11-7q9\"],\"required_capabilities\":[]}"sv;
+    static_assert(body.size() == 65);
+    constexpr std::array fields{Field{"Host", "timer.example"},
+                                Field{"Content-Type", "application/json"},
+                                Field{"Content-Length", "65"}};
+    Live f(true, {fields, "POST", "/api/reference/v1/negotiate",
+                  std::as_bytes(std::span(body.data(), body.size()))});
+    f.connect();
+    f.client.send(
+        "POST /api/reference/v1/negotiate HTTP/1.1\r\nHost: timer.example\r\nContent-Type: application/json\r\nContent-Length: 65\r\n\r\n"sv);
+    f.client.send(body);
+    wire(f.client, diag);
+    f.r.wait([&] { return f.r.captures.load() == 1; });
+    // Unknown version's later409 negotiation result is not implemented by diag.
+    // The scanner's independent s11-7q9 fragment covers this syntactic body value.
+}
 TEST(AccountCaptureNative, TwoRequestsInOneSendHaveSeparateLeasesAndSequence) {
     Live f(true, {fields_desktop});
     f.connect();
