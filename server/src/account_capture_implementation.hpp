@@ -4,7 +4,7 @@
 namespace subathon::server::account_capture {
 namespace bh = bounded_http;
 struct CaptureLease::State : bh::StateRecord {
-    bool visited = false, visiting = false;
+    bool visited = false;
     State(bh::Core &core, bh::PeerRecord &peer) noexcept
         : StateRecord(core, peer, bh::capture_bit) {}
     static void *operator new(std::size_t size) {
@@ -31,13 +31,15 @@ Result<Done> CaptureLease::with_capture(void *owner,
     if (!p.live || p.incarnation != state_->incarnation || p.sequence != state_->sequence ||
         !p.capture_scope || !p.raw_live || p.removed || p.socket_gone)
         return Error::revoked;
-    if (state_->visiting || c.visitors)
+    if (c.visitors)
         return Error::reentrant;
     if (state_->visited)
         return Error::revoked;
     if (!visitor)
         return Error::invalid_config;
-    state_->visited = state_->visiting = true;
+    state_->visited = true;
+    // The visitor can move or drop the lease. The enclosing capture callback
+    // keeps the peer and raw owners alive through this visit's unwind.
     ++c.visitors;
     const bool ok = c.callback([&] {
         visitor(
@@ -51,7 +53,6 @@ Result<Done> CaptureLease::with_capture(void *owner,
              p.capture_facts});
     });
     --c.visitors;
-    state_->visiting = false;
     if (!ok) {
         p.capture_failed = true;
         c.terminate(p, bh::End::callback_failed);
