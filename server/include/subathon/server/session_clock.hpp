@@ -7,6 +7,9 @@
 #include <subathon/server/session_resolution.hpp>
 
 namespace subathon::server::session_clock {
+namespace testing {
+class HostClockAccess;
+}
 struct NotImplemented final : std::exception {
     const char *what() const noexcept override { return "SESSION-009 clock unimplemented"; }
 };
@@ -63,10 +66,14 @@ class Monitor final : public CurrentSessionClock {
 // callback/time/readiness supplied by ingress. Publication uses a distinct operation-owned scope at
 // normal matching completion; bind(context) never grants publication authority or extends a body
 // ticket.
+// Internal binding uses detail/session_clock_host.hpp. Stage2 touchpoints:
+// api_host.cpp Engine slot/forward scopes/stop/end/Host destruction; private friend
+// declarations in api_host.hpp and SqliteWorkContext in sqlite_writer.hpp. No writer
+// .cpp behavior change or public Host API change. A second service is permanently
+// inert; only the first lifetime claim may own the one lazy monitor/descriptor.
 class HostClock final {
   public:
     explicit HostClock(api_host::Host &);
-    HostClock(api_host::Host &, std::shared_ptr<CurrentSessionClock>); // internal test port
     ~HostClock();
     // Denied binding returns a nonnull inert unavailable handle, never throws a
     // source diagnostic. NI scaffolding remains an explicit exception until stage2.
@@ -78,6 +85,8 @@ class HostClock final {
     std::shared_ptr<CurrentSessionClock> bind_completion(const api_host::CommandHandle &);
 
   private:
+    HostClock(api_host::Host &, std::shared_ptr<CurrentSessionClock>);
+    friend class testing::HostClockAccess;
     struct Impl;
     std::unique_ptr<Impl> impl_;
 };

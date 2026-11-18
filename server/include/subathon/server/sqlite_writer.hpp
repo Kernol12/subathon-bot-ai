@@ -11,6 +11,9 @@
 #include <utility>
 
 namespace subathon::server {
+namespace session_clock::detail {
+class HostBindingAccess;
+}
 // Internal trusted-SQL boundary, revision 1: docs/contracts/sqlite-writer-v1.md.
 enum class StorageError {
     none,
@@ -141,6 +144,7 @@ class SqliteWorkContext final {
         : state_(std::move(state)) {}
     std::weak_ptr<detail::SqliteWorkState> state_;
     friend class SqliteWriter;
+    friend class session_clock::detail::HostBindingAccess;
 };
 
 // Construct, call and destroy on the authoritative Qt command/state thread. Admission

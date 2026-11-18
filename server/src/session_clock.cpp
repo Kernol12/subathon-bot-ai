@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include <subathon/server/session_clock.hpp>
+#include <subathon/server/testing/session_clock_host.hpp>
 #include <subathon/server/testing/session_clock_linux.hpp>
 namespace subathon::server::session_clock {
 struct Monitor::Impl {};
@@ -24,5 +25,13 @@ std::shared_ptr<CurrentSessionClock> HostClock::bind_completion(const api_host::
 namespace subathon::server::session_clock::testing {
 std::unique_ptr<Observations> linux_observations(std::unique_ptr<LinuxCalls>) {
     throw NotImplemented{};
+}
+} // namespace subathon::server::session_clock::testing
+
+namespace subathon::server::session_clock::testing {
+std::unique_ptr<HostClock> HostClockAccess::create(api_host::Host &host,
+                                                   std::shared_ptr<CurrentSessionClock> source) {
+    // Inert stage1 construction, matching the unchanged NI constructors above.
+    return std::unique_ptr<HostClock>(new HostClock(host, std::move(source)));
 }
 } // namespace subathon::server::session_clock::testing

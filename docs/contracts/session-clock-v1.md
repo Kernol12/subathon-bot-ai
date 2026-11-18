@@ -57,7 +57,7 @@ valid call makes exactly one underlying acquisition.
 Bind execution handles only to the current actual Host prepared-unit context, after its real catalog/installation activation. An arbitrary writer
 ticket, request installation, copied facts or supplied readiness boolean is insufficient. Revoke at body exit, including exceptions, before
 completion/other queued work; stop and host destruction also revoke. Retaining a handle cannot extend its scope. Borrow actual bounded host/source
-identity storage only while lifetime is guaranteed; no history, account/session scan or copied secret. No public set_time/set_trusted/reset endpoint.
+identity storage only while lifetime is guaranteed; no history, account/session scan or copied secret. There is no public `set_time`, `set_trusted`, reset-anchor flag or diagnostic-bearing failure.
 
 Publication remains the lifecycle owner's separately bound operation scope after matching acknowledged commit and normal completion, through
 synchronous emission; execution handles never gain publication authority. This does not add a host publication stage. Current epoch checks remain in
