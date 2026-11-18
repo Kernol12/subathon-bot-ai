@@ -267,11 +267,13 @@ the owner's decision. (Coordinator practice, not an owner rule: a setup failure 
 cause lies outside the change, such as an apt mirror timeout on the checkpoint PR
 #674, was re-run by the coordinator after recording the cause on the PR.)
 
-**Fix rounds.** At most two fix rounds per review; ask the owner before a third. After
-a fix round the verification is a changed-part re-check: the changed commit, the
-findings and their resolutions; no new whole verification per round. (Coordinator
-commitment to the owner: a new defect found after a fix round goes to the owner; it
-is not folded into the running round.)
+**Fix rounds (owner clarification, 2026-11-18).** Each separately reviewed revision,
+including a coordinator integration revision, has its own two fix rounds. After a
+fix round, verify the changed commit and the dispositions of the findings. Bring
+new defects found after a fix round on that same revision to the owner before
+folding them into the round. Findings from the first review of a new revision use
+the new revision's fix rounds. Ask the owner before a third round. The other stop
+rules continue to apply.
 
 **Stop rule of a last pass** (API-016 third pass, [decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6924951572)). When the owner
 grants a third and last author pass: the author first lists what the fix must cover
