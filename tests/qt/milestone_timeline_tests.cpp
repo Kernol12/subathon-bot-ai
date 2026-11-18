@@ -348,6 +348,91 @@ class MilestoneTimelineTests final : public QObject {
             QCOMPARE(release.starts, (Starts{"A", "B"}));
         });
     }
+
+    void laterCommittedBatchAppendsWithoutChangingExistingTiming() {
+        check([] {
+            ReleaseRecorder release;
+            MilestoneTimeline timeline({}, release);
+            timeline.accept_committed({group({"A", "definition-1", 100, 200, "apply-1"}),
+                                       group({"B", "definition-1", 200, 200, "apply-1"},
+                                             {.presentation = 3s, .gap = 400ms})},
+                                      0ms);
+            timeline.advance(0ms);
+            QCOMPARE(timeline.presentation(), active("A", 0ms));
+            QCOMPARE(release.starts, (Starts{"A"}));
+
+            timeline.accept_committed({group({"C", "definition-1", 300, 400, "apply-2"}),
+                                       group({"D", "definition-1", 400, 400, "apply-2"})},
+                                      3500ms);
+            timeline.advance(3500ms);
+            QCOMPARE(timeline.presentation(), active("A", 3500ms));
+            QCOMPARE(release.starts, (Starts{"A"}));
+            timeline.advance(9999ms);
+            QCOMPARE(timeline.presentation(), active("A", 9999ms));
+            timeline.advance(10000ms);
+            QVERIFY(!timeline.presentation());
+            timeline.advance(10999ms);
+            QVERIFY(!timeline.presentation());
+            QCOMPARE(release.starts, (Starts{"A"}));
+
+            timeline.advance(11000ms);
+            QCOMPARE(timeline.presentation(), active("B", 0ms, 3s));
+            QCOMPARE(release.starts, (Starts{"A", "B"}));
+            timeline.advance(13999ms);
+            QCOMPARE(timeline.presentation(), active("B", 2999ms, 3s));
+            timeline.advance(14000ms);
+            QVERIFY(!timeline.presentation());
+            timeline.advance(14399ms);
+            QVERIFY(!timeline.presentation());
+            QCOMPARE(release.starts, (Starts{"A", "B"}));
+
+            timeline.advance(14400ms);
+            QCOMPARE(timeline.presentation(), active("C", 0ms));
+            QCOMPARE(release.starts, (Starts{"A", "B", "C"}));
+            timeline.advance(24400ms);
+            QVERIFY(!timeline.presentation());
+            timeline.advance(25399ms);
+            QVERIFY(!timeline.presentation());
+            QCOMPARE(release.starts, (Starts{"A", "B", "C"}));
+            timeline.advance(25400ms);
+            QCOMPARE(timeline.presentation(), active("D", 0ms));
+            QCOMPARE(release.starts, (Starts{"A", "B", "C", "D"}));
+        });
+    }
+
+    void laterBatchStartsAtSubmissionAfterQueueHasDrained() {
+        check([] {
+            ReleaseRecorder release;
+            MilestoneTimeline timeline({}, release);
+            timeline.accept_committed({group({"A", "definition-1", 100, 100, "apply-1"})}, 0ms);
+            timeline.advance(0ms);
+            QCOMPARE(timeline.presentation(), active("A", 0ms));
+            timeline.advance(10000ms);
+            QVERIFY(!timeline.presentation());
+            timeline.advance(11000ms);
+            QVERIFY(!timeline.presentation());
+            timeline.advance(39999ms);
+            QVERIFY(!timeline.presentation());
+            QCOMPARE(release.starts, (Starts{"A"}));
+
+            timeline.accept_committed({group({"B", "definition-1", 200, 300, "apply-2"}),
+                                       group({"C", "definition-1", 300, 300, "apply-2"})},
+                                      40000ms);
+            timeline.advance(40000ms);
+            QCOMPARE(timeline.presentation(), active("B", 0ms));
+            QCOMPARE(release.starts, (Starts{"A", "B"}));
+            timeline.advance(49999ms);
+            QCOMPARE(timeline.presentation(), active("B", 9999ms));
+            timeline.advance(50000ms);
+            QVERIFY(!timeline.presentation());
+            timeline.advance(50999ms);
+            QVERIFY(!timeline.presentation());
+            QCOMPARE(release.starts, (Starts{"A", "B"}));
+            timeline.advance(51000ms);
+            QCOMPARE(timeline.presentation(), active("C", 0ms));
+            QCOMPARE(release.starts, (Starts{"A", "B", "C"}));
+        });
+    }
 };
 
 QTEST_GUILESS_MAIN(MilestoneTimelineTests)
