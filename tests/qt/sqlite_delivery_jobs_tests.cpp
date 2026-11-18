@@ -396,6 +396,41 @@ class SqliteDeliveryJobsTests final : public QObject {
         });
     }
 
+    void duplicateActionDocumentConflictPreservesOriginal() {
+        scenario([] {
+            File f;
+            f.seed(File::Seed::failed);
+            const auto check_original = [&] {
+                require(f.read("SELECT format_ref,document FROM main.subathon_app_jobs") ==
+                            SqlRows{{QByteArray("subathon.internal.delivery-job.v1"),
+                                     QByteArray::fromHex("6561726e656400ff")}},
+                        "Original action document retains every byte");
+                require(f.read("SELECT * FROM main.subathon_delivery_captures") ==
+                            SqlRows{{QByteArray("svc"), QByteArray("add10"), QByteArray("job"),
+                                     QByteArray("test/channel-A"), qint64(1),
+                                     QByteArray("broadcaster-A"), QByteArray("announce"),
+                                     QByteArray("v7")}},
+                        "Original sender, route and action capture remains exact");
+                require(f.read(event_query) ==
+                            SqlRows{event(1, 0), event(2, 1, qint64(2)),
+                                    event(3, 3, qint64(2), QByteArray("not-sent"))},
+                        "Original delivery history retains the recorded attempt and evidence");
+            };
+            check_original();
+
+            auto retry = f.bundle();
+            retry.jobs.front().envelope.document = QByteArray::fromHex("6561726e656400fe");
+            const auto conflict =
+                f.committed([&](auto &store) { return store.stage(retry, {capture}); });
+            require(conflict.disposition == SqliteBundleStageDisposition::operation_conflict &&
+                        !conflict.existing,
+                    "Changing only action document bytes conflicts without a payload");
+
+            f.reopen();
+            check_original();
+        });
+    }
+
     void abandonBundleAndCapture() {
         scenario([] {
             File f;

@@ -112,6 +112,9 @@ class SqliteDeliveryJobStore final {
     // Uses the existing bundle stage on this session. Only a newly staged bundle
     // inserts queued rows. An existing operation with differing or missing
     // capture returns operation_conflict with no existing payload or backfill.
+    // An otherwise-identical retry with different action document bytes also
+    // returns operation_conflict with no existing payload. The original
+    // document, capture and delivery history remain unchanged.
     // Unmarked jobs are never eligible.
     // All successes are provisional. A storage failure after writes unwinds the
     // whole caller unit through the existing session, including bundle writes.
