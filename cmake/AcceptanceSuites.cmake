@@ -9,7 +9,7 @@ set(subathon_acceptance_suites
     translation-catalog rate-snapshot milestone-progression session-resolution
     password-hashing effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
-    bounded-http-foundation sqlite-permission-graph sqlite-reference-authority reference-rule dev-server)
+    bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server)
 
 # Existing library/test guards stay private derived variables; callers select the
 # logical suites above instead of maintaining another set of cache switches.
@@ -88,9 +88,9 @@ function(subathon_resolve_acceptance_suites output)
         elseif(suite STREQUAL "sqlite-permission-graph")
             # Separate child; existing host/account selections keep their closure.
             list(APPEND selected ${sqlite_chain} exact-numeric effective-permissions sqlite-permission-graph)
-        elseif(suite STREQUAL "bounded-http-foundation")
-            # This fixture reuses the historical transport without Qt/SQL/host.
-            list(APPEND selected native-websocket-profile bounded-http-foundation)
+        elseif(suite STREQUAL "bounded-http-foundation" OR suite STREQUAL "account-capture")
+            # Account capture selects the existing foundation and native profiles.
+            list(APPEND selected native-websocket-profile bounded-http-foundation "${suite}")
         elseif(NOT sqlite_index EQUAL -1)
             math(EXPR prefix_length "${sqlite_index} + 1")
             list(SUBLIST sqlite_chain 0 ${prefix_length} prefix)
