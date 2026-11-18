@@ -29,20 +29,28 @@ while continuing independent work not blocked. Pre-build/test CI infrastructure
 allows one recorded rerun; routine in-scope choices, self-caught mistakes and
 filing planned issues are not stops. #619/#620 remain frozen.
 
-**Standing host-binary admission (owner decision 2026-11-18).** Extend the
-existing procedure to SESSION-009 and every later authorized task that runs
-host binaries, unchanged: fresh passive ELF/ABI/dependency hashes for each exact
-reviewed binary; first real run with bounded loader/plugin logs; full
-reconciliation before crediting any result; unchanged-hash checks afterward.
-Any mismatch voids the run as admission failure, never red or pass. No new
-tooling, mode or native-supervisor debug variables are authorized. A change to
-the procedure itself remains an owner-needed stop under rule4(e). The former
-API-001-only scope no longer blocks this unchanged procedure for these tasks;
-source review and actual per-binary admission gates remain separate.
+**Standing test-binary admission (owner decisions 2026-11-18).** The existing
+procedure applies to every authorized Qt or GoogleTest binary using its own
+closure. First record passive ELF/ABI and dependency hashes for the exact reviewed
+binary. Run the first real test with bounded loader and plugin logs, reconcile the
+loaded objects and their hashes before crediting the result, then check hashes
+again. Any mismatch voids the run. Changes to the procedure, tooling, modes or
+native-supervisor debug variables require the owner under rule 4(e).
 
-SESSION-009 is claimed In progress under this authorization. Coordinator owns
-checkpoint/proof and shared CI integration; fresh authors own bounded task source
-and tests. Default providers and independent review requirements below remain.
+Record `readelf` checks of both `.dynsym` and `.symtab` for Drogon
+`native_profile` Session symbols. The consumer Session RTTI export check applies
+if either table contains a defined or imported Session symbol. Retain all other
+checks, including imports, versions, SONAMEs, selected SDK identity and exports,
+the SDK's own Session RTTI and marker, hashes and loader reconciliation. External
+compiler and system-header pre-build hashes are outside this procedure.
+
+SESSION-009 #582 remains In progress. Stage 1 observed 31 Host and 59 Linux
+intended NI failures and both 6000 ms controls passed. Evidence spans the original
+admitted binaries and the reviewed four-callback repair. The original “A ended”
+failure remains unclassified and uncredited. Stage 2 owns implementation and its
+separate tier A cycle. SESSION-011 #591 continues its independent tests stage
+under the [bounded observation approvals](https://github.com/Kernol12/subathon-bot-ai/issues/591#issuecomment-6972826652).
+The coordinator owns checkpoint, proof and shared CI integration.
 
 ## Authorized path — complete
 
@@ -129,7 +137,7 @@ retain an open blocker. **Ready does not authorize work.** Epics keep their stat
 
 ## Product queue and frozen process work
 
-- SESSION-009 #582 is the current task. SESSION-013 [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662) and API-010 [#560](https://github.com/Kernol12/subathon-bot-ai/issues/560) remain unclaimed queue items.
+- SESSION-009 #582 and SESSION-011 #591 are in progress. SESSION-013 [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662) and API-010 [#560](https://github.com/Kernol12/subathon-bot-ai/issues/560) remain unclaimed queue items.
 - APITEST-018 [#689](https://github.com/Kernol12/subathon-bot-ai/issues/689): large buffered HTTP input with more than eight connections and its
   bounded observation seam, moved from APITEST-017 by the owner. Planned under
   EPIC-008; not an API-001 prerequisite. Historical `f8be1aec` coverage is deferred here.
@@ -243,6 +251,11 @@ leave the gate pending and continue other authorized work; do not substitute.
 A provider flag stops for owner. Record actual provider/model in every review
 comment; an author never approves its work. Any other provider or model switch
 needs the owner. Other standing rules remain unchanged.
+
+**Codex model — owner decision (2026-11-18).** The coordinator and every new
+Codex child use `gpt-6.2-sol`, including authors, investigators and verifiers.
+The provider stays Codex, so this is within the standing authorization. Existing
+running sessions, completed reviews and receipts retain their original models.
 
 ## Project board maintenance (2026-11-16)
 
@@ -389,8 +402,7 @@ API-001 keep their ownership and release requirements.
 
 ## Completed sessions and retained evidence
 
-The former API-001 sessions are finished. A fresh SESSION-009 stage1 author
-is being assigned under the standing authorization above. Six finished clean API-001 review/investigation worktrees and their
+The former API-001 sessions are finished. Six finished clean API-001 review/investigation worktrees and their
 merged-base branches were removed without force; two private investigator reports
 were hash-checked against their retained mainroot copies before removal.
 
