@@ -11,6 +11,8 @@
 
 namespace subathon::server {
 
+// Valid timing inputs: positive presentation durations and nonnegative gaps.
+// A zero gap adds no delay. This applies to overrides when present.
 struct MilestoneTimelineSettings {
     std::chrono::milliseconds presentation{10'000};
     std::chrono::milliseconds gap{1'000};
@@ -51,11 +53,13 @@ class MilestoneGroupRelease {
     virtual ~MilestoneGroupRelease() = default;
 
     // Read the existing decision for the head immediately before starting it.
-    // A held head and all groups behind it wait, regardless of elapsed time.
+    // An already held head neither presents nor releases and blocks later groups.
     [[nodiscard]] virtual bool review_held(const core::MilestoneCompletion &achievement) const = 0;
 
     // Schedule the complete captured group at presentation start, on the owner.
-    // Return promptly with no reentry. Delivery and effects use their own paths.
+    // Authorized release of this group is required before dispatching its jobs
+    // or applying its captured bonuses. Existing authority and transaction
+    // checks still apply. Return promptly with no reentry.
     virtual void release(CommittedMilestoneGroup group) = 0;
 };
 
@@ -64,8 +68,9 @@ class MilestoneTimelineNotImplemented final : public std::logic_error {
     explicit MilestoneTimelineNotImplemented(const char *entry);
 };
 
-// Revision 1. The caller serializes operations on the authoritative server
+// Revision 2. The caller serializes operations on the authoritative server
 // thread and supplies nondecreasing elapsed samples in one server lifetime.
+// Regressing samples and invalid timings are outside the valid caller contract.
 // The release port must outlive the timeline. Outputs consume owned snapshots
 // via the server read path and never register with or acknowledge the queue.
 class MilestoneTimeline final {
@@ -73,11 +78,16 @@ class MilestoneTimeline final {
     MilestoneTimeline(MilestoneTimelineSettings settings, MilestoneGroupRelease &release);
     ~MilestoneTimeline();
 
-    // Supply only new, committed groups in threshold order. This entry carries
-    // no commit authority and does not alter achievement, score or job history.
+    // Append new, committed groups in threshold order without moving existing
+    // presentation or gap boundaries. This entry carries no commit authority
+    // and does not alter achievement, score or job history.
     void accept_committed(std::vector<CommittedMilestoneGroup> groups,
                           std::chrono::milliseconds now);
     void advance(std::chrono::milliseconds now);
+
+    // Manual pause and an optionally linked countdown pause gate new starts.
+    // Active presentation and gap time keep running. Subject to holds, the
+    // head starts when both pause reasons permit it and the gap has elapsed.
     void set_queue_paused(bool paused, std::chrono::milliseconds now);
     void set_countdown_paused(bool paused, std::chrono::milliseconds now);
 
