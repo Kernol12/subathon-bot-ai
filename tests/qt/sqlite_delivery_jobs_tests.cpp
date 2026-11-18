@@ -59,7 +59,7 @@ const QString event_query =
     "ORDER BY revision";
 constexpr int timeout = 10000;
 
-SqlRow event(qint64 revision, qint64 state, std::optional<qint64> attempt = {},
+SqlRow delivery_event_row(qint64 revision, qint64 state, std::optional<qint64> attempt = {},
              std::optional<QByteArray> evidence = {}) {
     return {revision,
             state,
@@ -370,7 +370,7 @@ class SqliteDeliveryJobsTests final : public QObject {
             require(staged.disposition == SqliteBundleStageDisposition::staged && !staged.existing,
                     "First application stages one bundle");
             f.reopen();
-            require(f.read(event_query) == SqlRows{event(1, 0)}, "Queued is a stored state");
+            require(f.read(event_query) == SqlRows{delivery_event_row(1, 0)}, "Queued is a stored state");
             require(f.read("SELECT token FROM main.subathon_app_head") ==
                         SqlRows{{QByteArray("c")}},
                     "Actual application head advanced with enrollment");
@@ -381,7 +381,7 @@ class SqliteDeliveryJobsTests final : public QObject {
             check_capture(*retained);
             const auto repeat = f.committed([&](auto &store) { return store.stage(b, {capture}); });
             require(repeat.disposition == SqliteBundleStageDisposition::already_present &&
-                        repeat.existing && f.read(event_query) == SqlRows{event(1, 0)},
+                        repeat.existing && f.read(event_query) == SqlRows{delivery_event_row(1, 0)},
                     "Same application cannot add another enrollment or transition");
             auto edited = capture;
             edited.sender_ref = "bot-B";
@@ -412,8 +412,8 @@ class SqliteDeliveryJobsTests final : public QObject {
                                      QByteArray("v7")}},
                         "Original sender, route and action capture remains exact");
                 require(f.read(event_query) ==
-                            SqlRows{event(1, 0), event(2, 1, qint64(2)),
-                                    event(3, 3, qint64(2), QByteArray("not-sent"))},
+                            SqlRows{delivery_event_row(1, 0), delivery_event_row(2, 1, qint64(2)),
+                                    delivery_event_row(3, 3, qint64(2), QByteArray("not-sent"))},
                         "Original delivery history retains the recorded attempt and evidence");
             };
             check_original();
@@ -441,7 +441,7 @@ class SqliteDeliveryJobsTests final : public QObject {
                 require(SqliteDeliveryJobStore(s).stage(b, {capture}).disposition ==
                             SqliteBundleStageDisposition::staged,
                         "Bundle and capture actually staged before abandonment");
-                require(s.execute({event_query, {}}) == SqlRows{event(1, 0)},
+                require(s.execute({event_query, {}}) == SqlRows{delivery_event_row(1, 0)},
                         "Active session sees one provisional queued row");
                 return 1;
             });
@@ -574,7 +574,7 @@ class SqliteDeliveryJobsTests final : public QObject {
             f.seed_malformed_history(true);
             const auto before_events = f.read(event_query);
             require(before_events ==
-                        SqlRows{event(1, 0), event(3, 2, qint64(2), QByteArray("report"))},
+                        SqlRows{delivery_event_row(1, 0), delivery_event_row(3, 2, qint64(2), QByteArray("report"))},
                     "Selected terminal event has a missing revision-2 predecessor");
             const auto before_captures = f.read("SELECT * FROM main.subathon_delivery_captures");
             const auto before_application = f.application_snapshot();
@@ -648,7 +648,7 @@ class SqliteDeliveryJobsTests final : public QObject {
             f.reopen();
             const auto authority = std::make_shared<Authority>();
             const auto adapter = std::make_shared<Adapter>(f.path);
-            const SqlRows expected{event(1, 0), event(2, 1, qint64(2))};
+            const SqlRows expected{delivery_event_row(1, 0), delivery_event_row(2, 1, qint64(2))};
             auto other = key;
             other.operation.operation_scope = "svc-other";
             expect(dispatch(f, 1, authority, adapter, other), DeliveryDisposition::missing);
@@ -675,7 +675,7 @@ class SqliteDeliveryJobsTests final : public QObject {
             const auto adapter = std::make_shared<Adapter>(f.path);
             expect(dispatch(f, 1, authority, adapter), DeliveryDisposition::refused);
             require(authority->calls == 1 && adapter->claims.empty() &&
-                        f.read(event_query) == SqlRows{event(1, 0)},
+                        f.read(event_query) == SqlRows{delivery_event_row(1, 0)},
                     "Denied sender cannot be substituted or started");
         });
     }
@@ -690,7 +690,7 @@ class SqliteDeliveryJobsTests final : public QObject {
             require(result.work.transaction == TransactionOutcome::rolled_back &&
                         result.work.error == WorkError::sql_failure && !result.work.value &&
                         !result.result && !result.adapter_threw && adapter->claims.empty() &&
-                        authority->calls == 1 && f.read(event_query) == SqlRows{event(1, 0)},
+                        authority->calls == 1 && f.read(event_query) == SqlRows{delivery_event_row(1, 0)},
                     "Actual SQL failure rolls back the claim and cannot start the adapter");
         });
     }
@@ -709,7 +709,7 @@ class SqliteDeliveryJobsTests final : public QObject {
                         result.work.error == WorkError::uncertain_outcome && !result.work.value &&
                         !result.result && !result.adapter_threw && adapter->claims.empty(),
                     "Unknown claim COMMIT gives no normal result or send");
-            require(f.read(event_query) == SqlRows{event(1, 0), event(2, 1, qint64(2))},
+            require(f.read(event_query) == SqlRows{delivery_event_row(1, 0), delivery_event_row(2, 1, qint64(2))},
                     "Claim was physically committed by the existing fault seam");
         });
     }
@@ -743,8 +743,8 @@ class SqliteDeliveryJobsTests final : public QObject {
                    DeliveryDisposition::stale);
             f.reopen();
             require(f.read(event_query) ==
-                            SqlRows{event(1, 0), event(2, 1, qint64(2)),
-                                    event(3, state, qint64(2), QByteArray("report-A"))} &&
+                            SqlRows{delivery_event_row(1, 0), delivery_event_row(2, 1, qint64(2)),
+                                    delivery_event_row(3, state, qint64(2), QByteArray("report-A"))} &&
                         f.read("SELECT * FROM main.subathon_app_effects") == before,
                     "Exactly one terminal outcome survives without rewriting effects");
         });
@@ -790,8 +790,8 @@ class SqliteDeliveryJobsTests final : public QObject {
                    DeliveryDisposition::refused);
             expect(dispatch(f, 3, authority, adapter), DeliveryDisposition::refused);
             require(f.read(event_query) ==
-                            SqlRows{event(1, 0), event(2, 1, qint64(2)),
-                                    event(3, 4, qint64(2), QByteArray("interrupted-sending"))} &&
+                            SqlRows{delivery_event_row(1, 0), delivery_event_row(2, 1, qint64(2)),
+                                    delivery_event_row(3, 4, qint64(2), QByteArray("interrupted-sending"))} &&
                         adapter->claims.size() == (started ? 1U : 0U) &&
                         authority->calls == (started ? 1 : 0) && policy.calls == 0,
                     "Recovery commits one review state and no blind replay");
@@ -855,7 +855,7 @@ class SqliteDeliveryJobsTests final : public QObject {
             f.reopen();
             expect(f.committed([](auto &store) { return store.recover(key, 1); }),
                    DeliveryDisposition::stale);
-            require(f.read(event_query) == SqlRows{event(1, 0), event(2, 1, qint64(2))},
+            require(f.read(event_query) == SqlRows{delivery_event_row(1, 0), delivery_event_row(2, 1, qint64(2))},
                     "Stale recovery cannot rewrite the active interrupted attempt");
         });
     }
@@ -871,7 +871,7 @@ class SqliteDeliveryJobsTests final : public QObject {
             normal(result.work);
             require(result.result && result.adapter_threw, "Dispatch reports the thrown start");
             expect(*result.result, DeliveryDisposition::changed);
-            const SqlRows sending{event(1, 0), event(2, 1, qint64(2))};
+            const SqlRows sending{delivery_event_row(1, 0), delivery_event_row(2, 1, qint64(2))};
             require(adapter->observed == sending && f.read(event_query) == sending,
                     "Thrown start leaves the durable claim intact");
             f.reopen();
@@ -887,8 +887,8 @@ class SqliteDeliveryJobsTests final : public QObject {
             expect(dispatch(f, 3, authority, adapter), DeliveryDisposition::refused);
             require(authority->calls == 1 && adapter->claims.size() == 1 &&
                         f.read(event_query) ==
-                            SqlRows{event(1, 0), event(2, 1, qint64(2)),
-                                    event(3, 4, qint64(2), QByteArray("interrupted-sending"))},
+                            SqlRows{delivery_event_row(1, 0), delivery_event_row(2, 1, qint64(2)),
+                                    delivery_event_row(3, 4, qint64(2), QByteArray("interrupted-sending"))},
                     "Thrown start is reviewable after reopen and is never repeated");
         });
     }
@@ -920,8 +920,8 @@ class SqliteDeliveryJobsTests final : public QObject {
             expect(dispatch(f, 3, authority, adapter), DeliveryDisposition::refused);
             require(adapter->claims.size() == 1 && authority->calls == 1 &&
                         f.read(event_query) ==
-                            SqlRows{event(1, 0), event(2, 1, qint64(2)),
-                                    event(3, 2, qint64(2), QByteArray("sent-A"))},
+                            SqlRows{delivery_event_row(1, 0), delivery_event_row(2, 1, qint64(2)),
+                                    delivery_event_row(3, 2, qint64(2), QByteArray("sent-A"))},
                     "Durable delivered survives lost local acknowledgment and restart");
         });
     }
@@ -946,10 +946,10 @@ class SqliteDeliveryJobsTests final : public QObject {
             require(policy.calls == 2 && adapter->claims.size() == 1 &&
                         adapter->claims.front().attempt == 5 &&
                         f.read(event_query) ==
-                            SqlRows{event(1, 0), event(2, 1, qint64(2)),
-                                    event(3, 3, qint64(2), QByteArray("not-sent")),
-                                    event(4, 0, {}, QByteArray("synthetic-retry")),
-                                    event(5, 1, qint64(5))},
+                            SqlRows{delivery_event_row(1, 0), delivery_event_row(2, 1, qint64(2)),
+                                    delivery_event_row(3, 3, qint64(2), QByteArray("not-sent")),
+                                    delivery_event_row(4, 0, {}, QByteArray("synthetic-retry")),
+                                    delivery_event_row(5, 1, qint64(5))},
                     "Retry preserves attempt history and the original sender/action capture");
             check_capture(adapter->claims.front());
         });
