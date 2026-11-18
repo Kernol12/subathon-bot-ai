@@ -1,11 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "support/application_service_fixture.hpp"
+#include "support/sqlite_reference_authority_fixture.hpp"
 
 #include <QTemporaryDir>
 #include <QTest>
+#include <algorithm>
 #include <exception>
 #include <subathon/server/delivery_jobs.hpp>
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
+#include <tuple>
 
 namespace {
 using namespace subathon::server;
@@ -101,6 +104,56 @@ class File {
             if (reject_sending_insert)
                 ddl.insert(ddl.indexOf("CHECK(revision<>1"), "CHECK(state<>1), ");
             (void)s.execute({ddl, {}});
+            s.commit();
+            return 1;
+        }));
+    }
+
+    enum class Catalog { migrate };
+    explicit File(Catalog) {
+        require(directory.isValid(), "Disposable migration path");
+        writer = std::make_unique<SqliteWriter>();
+        require(writer->open(path, application_service_fixture::limits()) == StorageError::none,
+                "Open empty delivery migration fixture");
+        opened = true;
+
+        // Use the independent reviewed catalog literals and real migration
+        // runner. The separate catalog suite binds them to the compiled v11.
+        auto manifest = reference_authority_fixture::literal_prefix();
+        manifest.steps.append(reference_authority_fixture::step10(manifest));
+        manifest.supported_starting_versions.append(10);
+        const auto v10 = permission_graph_fixture::migrate(*writer, manifest);
+        normal(v10.work);
+        require(v10.reason == MigrationReason::none && v10.report &&
+                    v10.report->state == CatalogState::current && v10.report->version == 10,
+                "Real committed v10 prefix");
+
+        MigrationStep step{11, "delivery-jobs-v1", {capture_ddl, events_ddl},
+                           manifest.steps.back().expected_schema};
+        const QStringList tables{"subathon_delivery_captures", "subathon_delivery_events"};
+        for (qsizetype i = 0; i < tables.size(); ++i) {
+            const auto &name = tables[i];
+            step.expected_schema.append({"table", name, name, step.sql[i]});
+            step.expected_schema.append(
+                {"index", "sqlite_autoindex_" + name + "_1", name, std::nullopt});
+        }
+        std::sort(step.expected_schema.begin(), step.expected_schema.end(),
+                  [](const auto &a, const auto &b) {
+                      return std::tie(a.type, a.name) < std::tie(b.type, b.name);
+                  });
+        manifest.steps.append(std::move(step));
+        manifest.supported_starting_versions.append(11);
+        const auto v11 = permission_graph_fixture::migrate(*writer, std::move(manifest));
+        normal(v11.work);
+        require(v11.reason == MigrationReason::none && v11.report &&
+                    v11.report->state == CatalogState::current && v11.report->version == 11 &&
+                    v11.report->applied == 1,
+                "Advance the real catalog with just the reviewed delivery migration");
+
+        normal(work([fixture = data](auto context) -> QVariant {
+            auto s = context.begin();
+            fixture.retain_sources(s);
+            fixture.populate_case(s, "add10");
             s.commit();
             return 1;
         }));
@@ -361,6 +414,33 @@ class SqliteDeliveryJobsTests final : public QObject {
     Q_OBJECT
   private slots:
     void init() { qt_test_support::fail_on_sql_warnings(); }
+
+    void deliversOnMigratedCatalog() {
+        scenario([] {
+            File f(File::Catalog::migrate);
+            const auto b = f.bundle();
+            const auto staged = f.committed([&](auto &store) { return store.stage(b, {capture}); });
+            require(staged.disposition == SqliteBundleStageDisposition::staged && !staged.existing,
+                    "Enroll one application job on migrated v11");
+            const auto authority = std::make_shared<Authority>();
+            const auto adapter = std::make_shared<Adapter>(f.path);
+            expect(dispatch(f, 1, authority, adapter), DeliveryDisposition::changed);
+            require(authority->calls == 1 && adapter->claims.size() == 1 &&
+                        adapter->observed == SqlRows{delivery_event_row(1, 0),
+                                                     delivery_event_row(2, 1, qint64(2))},
+                    "Fake adapter observes the committed claim before sending");
+            check_capture(adapter->claims.front());
+            expect(f.committed([](auto &store) {
+                       return store.finish(key, 2, 2, DeliveryEvidence::delivered, "migrated-ack");
+                   }),
+                   DeliveryDisposition::changed);
+            f.reopen();
+            require(f.read(event_query) ==
+                        SqlRows{delivery_event_row(1, 0), delivery_event_row(2, 1, qint64(2)),
+                                delivery_event_row(3, 2, qint64(2), QByteArray("migrated-ack"))},
+                    "Migrated catalog retains the exact delivered history after reopen");
+        });
+    }
 
     void bundleAndCaptureCommitTogether() {
         scenario([] {
