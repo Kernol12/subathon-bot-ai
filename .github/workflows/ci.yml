@@ -744,10 +744,28 @@ jobs:
       - name: Prepare and seal the bounded HTTP successor SDK
         # The artifact/recipe/gate remain part of the tier A source review packet.
         run: python3 tools/native_websocket_ci.py prepare --profile bounded-http-foundation --root "$RUNNER_TEMP/bounded-http-foundation"
+      - name: Prepare the exact authenticated libsodium source
+        working-directory: ${{ runner.temp }}
+        run: |
+          curl --fail --location --retry 3 https://download.libsodium.org/libsodium/releases/libsodium-1.0.22.tar.gz --output libsodium-1.0.22.tar.gz
+          echo 'adbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349  libsodium-1.0.22.tar.gz' | sha256sum --check --strict
+          test "$(wc -c < libsodium-1.0.22.tar.gz)" -eq 2008529
+          mkdir sodium-source sodium-build
+          tar -xzf libsodium-1.0.22.tar.gz --directory sodium-source
+          echo "SUBATHON_SODIUM_ROOT=$RUNNER_TEMP/sodium-prefix" >> "$GITHUB_ENV"
+      - name: Build and install the selected static SDK into the disposable prefix
+        working-directory: ${{ runner.temp }}/sodium-build
+        # Configure has native compiler probes. No vendor test or project feature runs here.
+        run: |
+          ulimit -c 0
+          CC=gcc CFLAGS=-O2 /usr/bin/bash "$RUNNER_TEMP/sodium-source/libsodium-1.0.22/configure" --prefix="$SUBATHON_SODIUM_ROOT" --libdir="$SUBATHON_SODIUM_ROOT/lib" --disable-shared --enable-static
+          make -j2
+          make -j2 install
       - name: Configure the successor foundation and native consumers
         run: |
           cmake --preset bounded-http-foundation-debug \
             -DSUBATHON_DROGON_ROOT="$RUNNER_TEMP/bounded-http-foundation/sdk" \
+            -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT" \
             -DSUBATHON_BOUNDED_HTTP_ADMISSION="$RUNNER_TEMP/bounded-http-foundation/receipts/foundation/development-admission.json"
           cmake --build --preset bounded-http-foundation-debug --parallel 2
       - name: Record consumer commands without loading either observer
@@ -836,23 +854,6 @@ jobs:
           bsdtar -xf icu.7z -C "$QT_PREFIX/lib"
           test "$("$QT_PREFIX/bin/qtpaths" --qt-version)" = 6.12.0
           test -f "$QT_PREFIX/plugins/sqldrivers/libqsqlite.so"
-      - name: Prepare the exact authenticated libsodium source
-        working-directory: ${{ runner.temp }}
-        run: |
-          curl --fail --location --retry 3 https://download.libsodium.org/libsodium/releases/libsodium-1.0.22.tar.gz --output libsodium-1.0.22.tar.gz
-          echo 'adbdd8f16149e81ac6078a03aca6fc03b592b89ef7b5ed83841c086191be3349  libsodium-1.0.22.tar.gz' | sha256sum --check --strict
-          test "$(wc -c < libsodium-1.0.22.tar.gz)" -eq 2008529
-          mkdir sodium-source sodium-build
-          tar -xzf libsodium-1.0.22.tar.gz --directory sodium-source
-          echo "SUBATHON_SODIUM_ROOT=$RUNNER_TEMP/sodium-prefix" >> "$GITHUB_ENV"
-      - name: Build and install the selected static SDK into the disposable prefix
-        working-directory: ${{ runner.temp }}/sodium-build
-        # Configure has native compiler probes. No vendor test or project feature runs here.
-        run: |
-          ulimit -c 0
-          CC=gcc CFLAGS=-O2 /usr/bin/bash "$RUNNER_TEMP/sodium-source/libsodium-1.0.22/configure" --prefix="$SUBATHON_SODIUM_ROOT" --libdir="$SUBATHON_SODIUM_ROOT/lib" --disable-shared --enable-static
-          make -j2
-          make -j2 install
       - name: Configure and compile both enabled host baselines
         run: |
           cmake --preset api-host-native-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX" \

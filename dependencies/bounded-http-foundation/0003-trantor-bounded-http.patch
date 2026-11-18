@@ -86,9 +86,10 @@
 +}
 --- /dev/null
 +++ b/trantor/net/BoundedIo.h
-@@ -0,0 +1,49 @@
+@@ -0,0 +1,58 @@
 +// SPDX-License-Identifier: GPL-3.0-or-later
 +#pragma once
++#include <array>
 +#include <cstddef>
 +#include <cstdint>
 +#include <span>
@@ -96,6 +97,14 @@
 +using U64 = std::uint64_t;
 +enum class Role : std::uint8_t { http, native };
 +struct Sample { bool available; U64 ns; };
++// Accepted numeric endpoint: family 4/6, network-order address bytes, HOST-order port.
++// IPv4 uses the first four bytes, zero-filling the remainder. No string ownership.
++struct PeerEndpoint {
++    std::uint8_t family;
++    std::array<std::byte,16> address;
++    std::uint16_t port;
++};
++static_assert(sizeof(PeerEndpoint) <= 20);
 +struct ReadWitness {
 +    U64 head, tail, writable, offered;
 +    std::int64_t returned;
@@ -129,7 +138,7 @@
 +    virtual Sample sample() noexcept = 0;
 +    virtual bool accepting(Role) noexcept = 0;
 +    virtual bool transient(bool acquire) noexcept = 0;
-+    virtual PeerStorage *acquire(Role, Sample accepted) noexcept = 0;
++    virtual PeerStorage *acquire(Role, Sample accepted, PeerEndpoint) noexcept = 0;
 +    virtual bool before_parse(PeerStorage &) noexcept = 0;
 +    virtual bool before_read(PeerStorage &, ReadWitness) noexcept = 0;
 +    virtual bool before_write(PeerStorage&) noexcept = 0;
@@ -342,12 +351,14 @@
      friend class TcpClient;
 --- a/trantor/net/TcpServer.cc
 +++ b/trantor/net/TcpServer.cc
-@@ -1,3 +1,4 @@
+@@ -1,3 +1,6 @@
 +#include <trantor/net/BoundedIoInternal.h>
++#include <arpa/inet.h>
++#include <cstring>
  /**
   *
   *  @file TcpServer.cc
-@@ -59,6 +60,37 @@
+@@ -59,6 +62,50 @@
 
  void TcpServer::newConnection(int sockfd, const InetAddress &peer)
  {
@@ -355,7 +366,20 @@
 +        bool transferred=false;
 +        struct Accepted { int fd; bool &transferred; ~Accepted(){if(!transferred) ::close(fd);} } accepted{sockfd,transferred};
 +        auto sample=boundedProducer_->sample();
-+        auto *storage=sample.available ? boundedProducer_->acquire(boundedRole_,sample) : nullptr;
++        bounded_io::PeerEndpoint endpoint{};
++        const auto *address=peer.getSockAddr();
++        if(address->sa_family==AF_INET) {
++            const auto *v4=reinterpret_cast<const sockaddr_in*>(address);
++            endpoint.family=4;
++            std::memcpy(endpoint.address.data(),&v4->sin_addr,4);
++            endpoint.port=ntohs(v4->sin_port);
++        } else if(address->sa_family==AF_INET6) {
++            const auto *v6=reinterpret_cast<const sockaddr_in6*>(address);
++            endpoint.family=6;
++            std::memcpy(endpoint.address.data(),&v6->sin6_addr,16);
++            endpoint.port=ntohs(v6->sin6_port);
++        } else return; // stack Accepted closes the actual FD, no partial fact
++        auto *storage=sample.available ? boundedProducer_->acquire(boundedRole_,sample,endpoint) : nullptr;
 +        if(!storage) return;
 +        auto memory=storage->sdk_storage();
 +        if(memory.size()<sizeof(bounded_io::Slot) || reinterpret_cast<std::uintptr_t>(memory.data())%64) {
@@ -385,7 +409,7 @@
      LOG_TRACE << "new connection:fd=" << sockfd
                << " address=" << peer.toIpPort();
      loop_->assertInLoopThread();
-@@ -129,11 +161,17 @@
+@@ -129,11 +176,17 @@
              }
          }
          LOG_TRACE << "map size=" << timingWheelMap_.size();
@@ -404,7 +428,7 @@
      if (loop_->isInLoopThread())
      {
          acceptorPtr_.reset();
-@@ -253,4 +291,69 @@
+@@ -253,4 +306,69 @@
              }
          });
      }

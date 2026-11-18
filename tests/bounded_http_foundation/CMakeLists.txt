@@ -63,11 +63,7 @@ if(SUBATHON_BUILD_ACCOUNT_CAPTURE_TESTS)
     # Expose ONLY this private seam to this test target, never the whole server/src.
     configure_file("${PROJECT_SOURCE_DIR}/server/src/account_capture_observer.hpp"
         "${sbt_account_private}/account_capture_observer.hpp" COPYONLY)
-    add_library(subathon_account_capture_ni STATIC
-        "${PROJECT_SOURCE_DIR}/server/src/account_capture.cpp"
-        "${PROJECT_SOURCE_DIR}/server/src/account_capture_observer.cpp")
-    target_include_directories(subathon_account_capture_ni PUBLIC "${PROJECT_SOURCE_DIR}/server/include")
-    subathon_target_options(subathon_account_capture_ni)
+    # Actual account symbols share the one Foundation adapter owner; no NI duplicate.
     add_executable(account_capture_native
         "${PROJECT_SOURCE_DIR}/tests/account_capture/cold_tests.cpp"
         "${PROJECT_SOURCE_DIR}/tests/account_capture/native_tests.cpp"
@@ -75,8 +71,7 @@ if(SUBATHON_BUILD_ACCOUNT_CAPTURE_TESTS)
         "${PROJECT_SOURCE_DIR}/tests/account_capture/observer_tests.cpp"
         "${PROJECT_SOURCE_DIR}/tests/account_capture/scratch_tests.cpp")
     target_include_directories(account_capture_native PRIVATE "${sbt_account_private}")
-    target_link_libraries(account_capture_native PRIVATE subathon_account_capture_ni
-        ${sbt_bounded_http_producer} subathon_native_websocket_profile
+    target_link_libraries(account_capture_native PRIVATE ${sbt_bounded_http_producer} subathon_native_websocket_profile
         Drogon::Drogon Threads::Threads GTest::gtest_main)
     subathon_target_options(account_capture_native)
     set_target_properties(account_capture_native PROPERTIES BUILD_RPATH "${sbt_drogon_root}/lib")
