@@ -13,7 +13,7 @@ namespace {
 using namespace subathon::server;
 namespace app = application_service_fixture;
 namespace reference = reference_authority_fixture;
-using reference::migrate;
+using permission_graph_fixture::migrate;
 using reference::require;
 using reference::scenario;
 
@@ -21,8 +21,7 @@ constexpr auto history_query =
     "SELECT version,migration_id,content_sha256 FROM main.subathon_migration_history "
     "ORDER BY version";
 constexpr auto schema_query = "SELECT type,name,tbl_name,sql FROM main.sqlite_schema "
-                              "WHERE name NOT IN ('subathon_catalog','subathon_migration_history',"
-                              "'sqlite_autoindex_subathon_migration_history_1') ORDER BY type,name";
+                              "ORDER BY type,name";
 constexpr auto jobs_query =
     "SELECT * FROM main.subathon_app_jobs ORDER BY operation_scope,operation_ref,job_ref";
 
