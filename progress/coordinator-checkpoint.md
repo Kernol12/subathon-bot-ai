@@ -45,12 +45,31 @@ the SDK's own Session RTTI and marker, hashes and loader reconciliation. Externa
 compiler and system-header pre-build hashes are outside this procedure.
 
 SESSION-009 #582 is Done after [protected merge #703](https://github.com/Kernol12/subathon-bot-ai/pull/703)
-at `3f1d35b8`. SESSION-011 #591 continues its independent tests stage under the
-[bounded observation approvals](https://github.com/Kernol12/subathon-bot-ai/issues/591#issuecomment-6972826652).
-MILESTONE-003 #232 is [claimed](https://github.com/Kernol12/subathon-bot-ai/issues/232#issuecomment-6976382270)
-in a fresh tier A session on current main. Its durable delivery states are a
-prerequisite for restore and action delivery. The coordinator owns checkpoint,
-proof and shared migration, build and CI integration.
+at `3f1d35b8`. MILESTONE-003 #232 is Done after
+[protected merge #705](https://github.com/Kernol12/subathon-bot-ai/pull/705)
+at `5cc1da42`. All seven checks passed on proof head `a7631860`. The final
+jobs binary passed 31 cases. The earlier admitted run passed both catalog
+controls and 343 affected regressions. The delivery catalog is available at
+v11. Host startup still selects v10.
+
+SESSION-011 #591 is Done after [protected merge #704](https://github.com/Kernol12/subathon-bot-ai/pull/704)
+at `402056e0`. Stage 1 observed 68 intended NI outcomes and 41 passing
+controls. Stage 2 passed all 109 unchanged cases and all six affected regression
+selections on the admitted successor. The earlier 104/5 run and its unknown
+disconnect wait phase stay separate. All seven checks passed on proof head
+`4fd4647c`.
+
+MILESTONETEST-004 #233 is [claimed](https://github.com/Kernol12/subathon-bot-ai/issues/233#issuecomment-6985955064)
+on `5cc1da42` at tier A. The baseline covers sequential milestone action groups
+and server presentation timing under §8, MILE-01 and MILE-08. Contract, reviewed
+tests and observed intended red precede implementation in #234. Owner revision 2
+gates only new starts and releases during a pause. Active presentation and its
+gap keep time. Jobs and bonuses require release of their group. Unreleased jobs
+stay queued after restart until planned [MILESTONE-009 #709](https://github.com/Kernol12/subathon-bot-ai/issues/709)
+reconstructs durable order after #234. #236 depends on #709 and owns restart
+while deferred. On `052b40c4` the admitted baseline reached all nine intended NI
+failures and all 86 unchanged controls passed. The coordinator owns checkpoint,
+proof and shared registration.
 
 ### Structure review of `199dc02` (owner decision 2026-11-18)
 
@@ -63,13 +82,22 @@ proof and shared migration, build and CI integration.
   dependencies are available. Acceptance suites select tests, and the
   `dev-server` suite depends on `subathon_dev_server`. Keep every preset's
   test selection and results and all CI jobs unchanged. Remove the obsolete
-  guards and closures. SESSION-011 and MILESTONE-003 have priority on shared
-  CMake files and admitted binaries. BUILD-001 rebases onto overlapping work
-  and merges after it without making those tasks rebase or re-admit. Re-admit
+  guards and closures. A clean build with `BUILD_TESTING=OFF` must build the
+  development server without GoogleTest or Qt Test, and scaffold builds without
+  Qt. Add the development-server example user preset and its existing Qt, Boost,
+  Sodium and network-host Drogon settings. The existing `qt` job gets one
+  `g++-14` build-only step with tests disabled and explicit Boost pins. Ask
+  before installing a compiler package on that runner. BUILD-001 is claimed
+  on `402056e0`, works independently, and rebases onto #708 registration and
+  overlapping changes before merging. Re-admit
   each affected test binary under the standing procedure if its ELF or
   dependency hashes change. Stop for test selection or result changes, a
   needed test-source change, a new dependency or option, or a third fix round.
   #619/#620 stay frozen.
+- [BUILD-002 #710](https://github.com/Kernol12/subathon-bot-ai/issues/710) tracks
+  the two GCC 14.2 generic-lambda vector limit checks. Hoist each unchanged
+  limit into a local `const`. Tier B, no behavior or test edits, with build-only
+  GCC evidence and unchanged normal-compiler results. #704 has already merged.
 - [API-008 #292](https://github.com/Kernol12/subathon-bot-ai/issues/292) remains
   planned. Its brief now calls for one contribution operation shared by the dev
   CLI and HTTP host, by default in `subathon_reference_intake`. Keep the existing

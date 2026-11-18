@@ -1,4 +1,11 @@
 # Framework-free services and the separately enabled Qt SQL writer boundary.
+if(SUBATHON_BUILD_MILESTONE_TIMELINE_TESTS)
+    add_library(subathon_milestone_timeline STATIC src/milestone_timeline.cpp)
+    target_include_directories(subathon_milestone_timeline PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_milestone_timeline PUBLIC subathon_milestone_progression)
+    subathon_target_options(subathon_milestone_timeline)
+endif()
+
 if((SUBATHON_BUILD_BOUNDED_HTTP_FOUNDATION_TESTS OR SUBATHON_BUILD_API_HOST_NATIVE_TESTS) AND sbt_bounded_http_successor)
     # Successor component only: never link these definitions into the frozen NI target.
     # Shared pure preflight also guards the successor SDK adapter.
