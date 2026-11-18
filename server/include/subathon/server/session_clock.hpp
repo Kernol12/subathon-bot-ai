@@ -35,6 +35,9 @@ class Observations {
   public:
     virtual ~Observations() = default;
     virtual std::variant<Time, SessionSourceUnavailable> initialize() = 0; // q
+    // Cancellation stops immediately and returns a value-initialized partial Frame
+    // with d0/d1.cancelled; Monitor inspects cancellation BEFORE unused fields and
+    // latches hold. Other failed observations return unavailable, never partial UTC.
     virtual std::variant<Frame, SessionSourceUnavailable> acquire() = 0;
     virtual void close() noexcept = 0;
 };
@@ -65,6 +68,8 @@ class HostClock final {
     explicit HostClock(api_host::Host &);
     HostClock(api_host::Host &, std::shared_ptr<CurrentSessionClock>); // internal test port
     ~HostClock();
+    // Denied binding returns a nonnull inert unavailable handle, never throws a
+    // source diagnostic. NI scaffolding remains an explicit exception until stage2.
     std::shared_ptr<CurrentSessionClock> bind(const SqliteWorkContext &);
     // Only this command's real last-unit completion after committed/none/value,
     // normal body return and no intervening state work. Host's actual outcome is
