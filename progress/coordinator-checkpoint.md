@@ -44,13 +44,42 @@ checks, including imports, versions, SONAMEs, selected SDK identity and exports,
 the SDK's own Session RTTI and marker, hashes and loader reconciliation. External
 compiler and system-header pre-build hashes are outside this procedure.
 
-SESSION-009 #582 remains In progress. Stage 1 observed 31 Host and 59 Linux
-intended NI failures and both 6000 ms controls passed. Evidence spans the original
-admitted binaries and the reviewed four-callback repair. The original “A ended”
-failure remains unclassified and uncredited. Stage 2 owns implementation and its
-separate tier A cycle. SESSION-011 #591 continues its independent tests stage
-under the [bounded observation approvals](https://github.com/Kernol12/subathon-bot-ai/issues/591#issuecomment-6972826652).
-The coordinator owns checkpoint, proof and shared CI integration.
+SESSION-009 #582 is Done after [protected merge #703](https://github.com/Kernol12/subathon-bot-ai/pull/703)
+at `3f1d35b8`. SESSION-011 #591 continues its independent tests stage under the
+[bounded observation approvals](https://github.com/Kernol12/subathon-bot-ai/issues/591#issuecomment-6972826652).
+MILESTONE-003 #232 is [claimed](https://github.com/Kernol12/subathon-bot-ai/issues/232#issuecomment-6976382270)
+in a fresh tier A session on current main. Its durable delivery states are a
+prerequisite for restore and action delivery. The coordinator owns checkpoint,
+proof and shared migration, build and CI integration.
+
+### Structure review of `199dc02` (owner decision 2026-11-18)
+
+- Correct the obsolete CMake status banner and README description of application
+  accounting and SQL durability in a separate documentation-tier PR, CI only.
+  Keep [#707](https://github.com/Kernol12/subathon-bot-ai/pull/707) out of the
+  SESSION-011 and MILESTONE-003 review packets and proofs.
+- [BUILD-001 #706](https://github.com/Kernol12/subathon-bot-ai/issues/706) is
+  authorized at tier B. Create server product targets when their existing
+  dependencies are available. Acceptance suites select tests, and the
+  `dev-server` suite depends on `subathon_dev_server`. Keep every preset's
+  test selection and results and all CI jobs unchanged. Remove the obsolete
+  guards and closures. SESSION-011 and MILESTONE-003 have priority on shared
+  CMake files and admitted binaries. BUILD-001 rebases onto overlapping work
+  and merges after it without making those tasks rebase or re-admit. Re-admit
+  each affected test binary under the standing procedure if its ELF or
+  dependency hashes change. Stop for test selection or result changes, a
+  needed test-source change, a new dependency or option, or a third fix round.
+  #619/#620 stay frozen.
+- [API-008 #292](https://github.com/Kernol12/subathon-bot-ai/issues/292) remains
+  planned. Its brief now calls for one contribution operation shared by the dev
+  CLI and HTTP host, by default in `subathon_reference_intake`. Keep the existing
+  receipt-to-snapshot transaction boundaries, return a typed clock-reservation
+  refusal, and test both callers. The CLI builds a synthetic event, calls the
+  operation and prints its outcome.
+- Move encode/decode code out of `application_service.cpp` or
+  `sqlite_application_bundle_access.hpp` only within an authorized task that
+  already changes the respective file. Use a separate commit and name it in
+  that task's review packet.
 
 ## Authorized path — complete
 
@@ -71,6 +100,26 @@ The coordinator owns checkpoint, proof and shared CI integration.
 API-001 and its checkpoint #701 (`199dc020`) are merged. The owner has now
 extended authorization to SESSION-009 and continuous dependency-ready product
 selection above. No baseline assertion or release requirement is waived.
+
+## Completed SESSION-009 gates
+
+- Tests recorded 31 Host and 59 Linux intended NI outcomes and two passing
+  6000 ms controls across admitted revisions. The original “A ended” result
+  stays unclassified and uncredited. The approved second fix changed only four
+  recorder wrappers in the test. The implementation used zero fix rounds.
+- Independent Stage 2 acceptance passed all 248 cases (33 Host clock, 59 Linux
+  clock, 87 Qt Host, 30 native Host, 39 session-resolution) with zero failures
+  or skips. Both ex-HL05 and ex-HL15 owner criteria passed. The five binaries
+  had independent admissions and matching postseals. The local Linux smoke
+  permits unavailable and did not report initialization or acquisition status.
+  Supported-platform clock trust, recovery, restore and deployment remain separate.
+- Proof `7db535c9` binds both stages. All seven checks passed at that head after
+  one unchanged-source Qt/native retry for pre-build APT HTTP 429. The existing
+  native job built the two clock consumers and ran its existing gated regressions.
+  The two label removals permit ordinary local acceptance. Hosted clock execution
+  remains outside the existing job. S9-IR-01 and S9-IR-02 remain non-blocking
+  source findings. Admission, commands, raw reports and proof readbacks are
+  retained under `build/SESSION-009/` and linked from PR #703.
 
 ## API-001 completed gates and limits
 
@@ -137,7 +186,9 @@ retain an open blocker. **Ready does not authorize work.** Epics keep their stat
 
 ## Product queue and frozen process work
 
-- SESSION-009 #582 and SESSION-011 #591 are in progress. SESSION-013 [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662) and API-010 [#560](https://github.com/Kernol12/subathon-bot-ai/issues/560) remain unclaimed queue items.
+- SESSION-011 #591 and MILESTONE-003 #232 are in progress. SESSION-013 [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662) and API-010 [#560](https://github.com/Kernol12/subathon-bot-ai/issues/560) remain unclaimed queue items.
+- SESSION-009 closure left #253, #262, #326 and #585 with open prerequisites.
+  SESSION-003 #264 still waits on #262, #588 and #593. SESSION-011 precedes #588.
 - APITEST-018 [#689](https://github.com/Kernol12/subathon-bot-ai/issues/689): large buffered HTTP input with more than eight connections and its
   bounded observation seam, moved from APITEST-017 by the owner. Planned under
   EPIC-008; not an API-001 prerequisite. Historical `f8be1aec` coverage is deferred here.
@@ -216,11 +267,18 @@ the owner's decision. (Coordinator practice, not an owner rule: a setup failure 
 cause lies outside the change, such as an apt mirror timeout on the checkpoint PR
 #674, was re-run by the coordinator after recording the cause on the PR.)
 
-**Fix rounds.** At most two fix rounds per review; ask the owner before a third. After
-a fix round the verification is a changed-part re-check: the changed commit, the
-findings and their resolutions; no new whole verification per round. (Coordinator
-commitment to the owner: a new defect found after a fix round goes to the owner; it
-is not folded into the running round.)
+**Fix rounds (owner clarification, 2026-11-18).** Each separately reviewed revision,
+including a coordinator integration revision, has its own two fix rounds. After a
+fix round, verify the changed commit and the dispositions of the findings. Bring
+new defects found after a fix round on that same revision to the owner before
+folding them into the round. Findings from the first review of a new revision use
+the new revision's fix rounds. Ask the owner before a third round. The other stop
+rules continue to apply.
+
+**C++ compile gate (owner decision, 2026-11-18).** Compile each C++ source or
+test revision before sending it for review. This gate is build-only, with no
+test or product execution. Report compile failures to the author as ordinary
+findings. They earn no intended-red credit and do not consume a fix round.
 
 **Stop rule of a last pass** (API-016 third pass, [decision](https://github.com/Kernol12/subathon-bot-ai/issues/616#issuecomment-6924951572)). When the owner
 grants a third and last author pass: the author first lists what the fix must cover

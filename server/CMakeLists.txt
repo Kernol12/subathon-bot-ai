@@ -99,6 +99,17 @@ if(SUBATHON_BUILD_APPLICATION_SERVICE_TESTS)
     subathon_target_options(subathon_original_application_service)
 endif()
 
+if(SUBATHON_BUILD_SQLITE_DELIVERY_JOBS_TESTS)
+    add_library(subathon_sqlite_delivery_jobs STATIC src/delivery_jobs.cpp)
+    target_include_directories(subathon_sqlite_delivery_jobs PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_sqlite_delivery_jobs PUBLIC subathon_sqlite_application_bundle)
+    subathon_target_options(subathon_sqlite_delivery_jobs)
+
+    add_library(subathon_delivery_catalog STATIC src/sqlite_delivery_catalog.cpp)
+    target_link_libraries(subathon_delivery_catalog PUBLIC subathon_current_catalog)
+    subathon_target_options(subathon_delivery_catalog)
+endif()
+
 # The initial-capture baseline supplies only reviewed inert declarations/markers.
 if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
     add_library(subathon_reference_capture_values STATIC src/reference_capture_values.cpp)
@@ -160,7 +171,7 @@ if(SUBATHON_BUILD_API_HOST_NATIVE_TESTS)
 endif()
 
 # Catalog factories are shared by ordinary host inspection and repository owners.
-if(SUBATHON_BUILD_API_HOST_TESTS OR SUBATHON_BUILD_SQLITE_PERMISSION_GRAPH_TESTS OR SUBATHON_BUILD_SQLITE_REFERENCE_AUTHORITY_TESTS)
+if(SUBATHON_BUILD_API_HOST_TESTS OR SUBATHON_BUILD_SQLITE_PERMISSION_GRAPH_TESTS OR SUBATHON_BUILD_SQLITE_REFERENCE_AUTHORITY_TESTS OR SUBATHON_BUILD_SQLITE_DELIVERY_JOBS_TESTS)
     add_library(subathon_current_catalog STATIC src/sqlite_permission_catalog.cpp src/sqlite_reference_catalog.cpp)
     target_link_libraries(subathon_current_catalog PUBLIC subathon_sqlite_account_sessions)
     subathon_target_options(subathon_current_catalog)
