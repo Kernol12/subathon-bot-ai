@@ -44,9 +44,13 @@ it must never define competing first-party symbols in a vendor namespace.
    them. Public reference envelopes/routes are later owning integration, not supplied
    by this capability. Native Upgrade projection is NEVER a capture lease.
 6. Install selected libsodium secure erasure through the existing RawHooks seam;
-   never treat generic memset/clear/free as proof. Erase fields/consumed receive only
-   after both route scan and synchronous transport finish; method/target/body as soon
-   as their owner finishes and always before scope release. Error/EOF/timeout/stop,
+   never treat generic memset/clear/free as proof. O1 (owner correction, SESSION-011
+   only): wipe consumed receive bytes immediately after the parser copies them into
+   the first-party head/body owners; retain the selected SDK timing. This shortens
+   the staging copy's secret lifetime. Fields (records and arena), method, target
+   and body retain their existing erasure deadline after route scan, synchronous
+   transport completion and the end of capture scope, always before raw scope
+   release/reuse. Error/EOF/timeout/stop,
    cancellation/exception, compaction and owner teardown erase actual attributed
    regions before reuse. Preserve bounded later pipelined bytes until their own
    admission; erase them on close. Wipe failure quarantines/closes, never successful
