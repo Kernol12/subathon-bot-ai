@@ -4,6 +4,7 @@
 #include "capture_assertions.hpp"
 #include "erasure_observation.hpp"
 #include "log_observation.hpp"
+#include "owned_scratch.hpp"
 #include "runtime_config.hpp"
 #include "selected_identity.hpp" // configured independent expected DATA, never producer output
 #include <arpa/inet.h>
@@ -219,6 +220,23 @@ struct ForeignHook {
     bh::RawHooks binding() noexcept { return {this, wipe, revoked}; }
 };
 static_assert(sizeof(ForeignHook) <= 16);
+// Distinct refused observer target: bounded metadata only, no span/payload read
+// or retention. Any event after invalid_state is an externally visible failure.
+struct RejectedObserver {
+    unsigned calls = 0;
+    bool overflow = false;
+    static bool visit(void *owner, eo::ErasureEvent, std::span<const std::byte>) noexcept {
+        auto &self = *static_cast<RejectedObserver *>(owner);
+        if (self.calls == 16384) {
+            self.overflow = true;
+            return false;
+        }
+        ++self.calls;
+        return true;
+    }
+    eo::ErasureObserver binding() noexcept { return {this, visit}; }
+};
+static_assert(sizeof(RejectedObserver) <= 8);
 // Exactly one process-retained registration owner. No raw byte/history allocations.
 // Callback fields are IO0-only unless atomic or protected by mutex below.
 struct Rig {
@@ -229,6 +247,7 @@ struct Rig {
     std::optional<ac::CaptureLease> retained;
     Expectation expected{};
     ErasureObservation erasures;
+    RejectedObserver rejected_observer;
     ForeignHook foreign_hook;
     LogObservation logs;
     bool require_erasure = false;
@@ -546,12 +565,19 @@ struct ObserverPolicy {
     unsigned limit = ErasureObservation::ceiling;
 };
 // Private ordinary typed fixture setup expectations, never a CLI/SDK mode.
-enum class SetupExpectation { ordinary, late_account, late_observer, foreign_hook, observer_first };
+enum class SetupExpectation {
+    ordinary,
+    late_account,
+    late_observer,
+    foreign_hook,
+    observer_first,
+    late_observer_with_account
+};
 class Live {
     Deadline watchdog_; // destroyed AFTER socket shutdown, stop/drain/join and scratch cleanup
     std::thread framework_;
-    std::array<char, 534> scratch_{};
-    bool started_ = false, scratch_parent_created_ = false;
+    OwnedScratch scratch_;
+    bool started_ = false;
     static void refusal(ac::Result<ac::Done> result, ac::Error expected) {
         if (!std::holds_alternative<ac::Error>(result)) {
             ADD_FAILURE() << "Refusal boundary missing/incorrect result (NI is not success)";
@@ -562,32 +588,8 @@ class Live {
             throw std::runtime_error("wrong refusal result");
     }
     void scratch() {
-        const auto path = std::filesystem::path(runtime_config::scratch_parent);
-        if (!path.is_absolute() || path.lexically_normal() != path ||
-            path.filename() != "account-capture-runtime")
-            throw std::runtime_error("FIXTURE: configured scratch confinement");
-        struct stat parent{};
-        if (::lstat(path.parent_path().c_str(), &parent) || !S_ISDIR(parent.st_mode) ||
-            parent.st_uid != ::geteuid())
-            throw std::runtime_error("FIXTURE: caller build directory");
-        if (::mkdir(path.c_str(), 0700) == 0)
-            scratch_parent_created_ = true;
-        else if (errno != EEXIST)
-            throw std::runtime_error("FIXTURE: scratch parent");
-        struct stat info{};
-        if (::lstat(path.c_str(), &info) || !S_ISDIR(info.st_mode) || info.st_uid != ::geteuid())
-            throw std::runtime_error("FIXTURE: scratch ownership/symlink");
-        auto pattern = (path / "capture-XXXXXX").string();
-        if (pattern.size() >= scratch_.size())
-            throw std::runtime_error("FIXTURE: scratch length");
-        std::array<char, 534> candidate{};
-        std::memcpy(candidate.data(), pattern.c_str(), pattern.size() + 1);
-        if (!::mkdtemp(candidate.data()))
-            throw std::runtime_error("FIXTURE: scratch creation");
-        scratch_ = candidate; // cleanup owns a leaf only after successful creation
-        for (auto part : {"empty", "upload"})
-            if (::mkdir((std::filesystem::path(scratch_.data()) / part).c_str(), 0700))
-                throw std::runtime_error("FIXTURE: scratch subdirectory");
+        scratch_.acquire();
+        scratch_.initial_directories();
     }
 
   public:
@@ -672,6 +674,9 @@ class Live {
                     throw std::runtime_error("account capture NI/refusal; no live-case evidence");
                 }
             }
+            if (setup == SetupExpectation::late_observer_with_account && (!account || observe))
+                throw std::runtime_error(
+                    "FIXTURE: late observer needs installed account and no prior observer");
             if (account && observe && setup != SetupExpectation::observer_first) {
                 auto result = eo::install_erasure_observer(
                     *r.foundation, {&r.erasures, ErasureObservation::callback});
@@ -683,8 +688,7 @@ class Live {
                 r.require_erasure = true;
             }
             if (setup == SetupExpectation::observer_first)
-                refusal(eo::install_erasure_observer(*r.foundation,
-                                                     {&r.erasures, ErasureObservation::callback}),
+                refusal(eo::install_erasure_observer(*r.foundation, r.rejected_observer.binding()),
                         ac::Error::invalid_state);
             auto &app = drogon::app();
             app.disableSigtermHandling()
@@ -700,8 +704,8 @@ class Live {
                 .disableSession()
                 .enableRequestStream(false)
                 .enableCompressedRequest(false)
-                .setDocumentRoot((std::filesystem::path(scratch_.data()) / "empty").string())
-                .setUploadPath((std::filesystem::path(scratch_.data()) / "upload").string())
+                .setDocumentRoot((std::filesystem::path(scratch_.path()) / "empty").string())
+                .setUploadPath((std::filesystem::path(scratch_.path()) / "upload").string())
                 .setClientMaxBodySize(4096)
                 .setClientMaxMemoryBodySize(4096);
             app.enableReusePort(true);
@@ -723,6 +727,9 @@ class Live {
             if (setup == SetupExpectation::late_observer)
                 refusal(eo::install_erasure_observer(*r.foundation,
                                                      {&r.erasures, ErasureObservation::callback}),
+                        ac::Error::invalid_state);
+            if (setup == SetupExpectation::late_observer_with_account)
+                refusal(eo::install_erasure_observer(*r.foundation, r.rejected_observer.binding()),
                         ac::Error::invalid_state);
             app.registerBeginningAdvice([&] {
                 app.getLoop()->queueInLoop([&] {
@@ -823,23 +830,12 @@ class Live {
             EXPECT_TRUE(r.logs.clean());
             r.expected = {}; // no dangling expected-byte borrow in retained native registration
             started_ = false;
-            if (scratch_[0]) {
-                // No recursive traversal/deletion: only this owned fixed three-dir tree.
-                if (::rmdir((std::filesystem::path(scratch_.data()) / "upload").c_str()) &&
-                    errno != ENOENT)
-                    terminal_fixture();
-                if (::rmdir((std::filesystem::path(scratch_.data()) / "empty").c_str()) &&
-                    errno != ENOENT)
-                    terminal_fixture();
-                if (::rmdir(scratch_.data()) && errno != ENOENT)
-                    terminal_fixture();
-                scratch_[0] = 0;
-            }
-            if (scratch_parent_created_) {
-                if (::rmdir(std::filesystem::path(runtime_config::scratch_parent).c_str()) &&
-                    errno != ENOENT && errno != ENOTEMPTY)
-                    terminal_fixture();
-                scratch_parent_created_ = false;
+            // Full startup requires the exact SDK directory set; cold/partial
+            // startup allows only a known subset. Any unexpected tree is retained.
+            if (!scratch_.remove(r.ready.load())) {
+                ADD_FAILURE()
+                    << "FIXTURE: unexpected scratch tree or cleanup failure; leaf preserved";
+                terminal_fixture();
             }
         } catch (...) {
             terminal_fixture();

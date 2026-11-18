@@ -340,6 +340,50 @@ TEST(AccountCaptureRefusal, ForeignRawHookSurvivesAccountConflictWithoutPartialC
 TEST(AccountCaptureRefusal, LateObserverInstallRefusesAfterRealListenerRegistration) {
     refused_install_still_serves_generic(SetupExpectation::late_observer);
 }
+// Same reference-route table/limits/input as Desktop149 positive. The existing
+// /f controls remain separately intact; /f is never called account-eligible.
+void refused_install_receives_capture_eligible_input(SetupExpectation setup) {
+    Live f(false, {fields_desktop}, false, true, {}, setup);
+    EXPECT_EQ(f.r.captures, 0U);
+    f.connect();
+    f.client.send(desktop);
+    wire(f.client, diag);
+    f.r.wait([&] { return f.r.requests.load() == 1; });
+    f.cleanup();
+    EXPECT_EQ(f.r.captures, 0U); // partial account-only installation now has eligible input
+    EXPECT_EQ(f.r.erasures.calls, 0U);
+    EXPECT_EQ(f.r.observation.requests, 1U);
+    EXPECT_EQ(f.r.observation.raw_releases, 1U);
+    if (setup == SetupExpectation::foreign_hook) {
+        EXPECT_GT(f.r.foreign_hook.wipes, 0U);
+        EXPECT_EQ(f.r.foreign_hook.revocations, 1U);
+        EXPECT_FALSE(f.r.foreign_hook.failed);
+    }
+}
+TEST(AccountCaptureRefusal, LateAccountRefusalHasRealCaptureEligibleReferenceInput) {
+    refused_install_receives_capture_eligible_input(SetupExpectation::late_account);
+}
+TEST(AccountCaptureRefusal, ForeignHookConflictHasRealCaptureEligibleReferenceInput) {
+    refused_install_receives_capture_eligible_input(SetupExpectation::foreign_hook);
+}
+TEST(AccountCaptureRefusal, LateObserverRefusalCannotRetainBindingBehindLiveAccountEraser) {
+    Live f(true, {fields_desktop}, false, false, {}, SetupExpectation::late_observer_with_account);
+    f.connect();
+    f.client.send(desktop);
+    wire(f.client, diag);
+    f.r.wait([&] { return f.r.captures.load() == 1 && f.r.requests.load() == 1; });
+    f.cleanup();
+    EXPECT_EQ(f.r.captures, 1U);
+    EXPECT_EQ(f.r.observation.requests, 1U);
+    EXPECT_EQ(f.r.observation.raw_releases, 1U); // actual raw cleanup exercised, not idle zero-work
+    EXPECT_EQ(f.r.observation.current.input_slots, 0U);
+    EXPECT_EQ(f.r.rejected_observer.calls, 0U);
+    EXPECT_FALSE(f.r.rejected_observer.overflow);
+    EXPECT_EQ(f.r.erasures.calls, 0U); // NO observer was accepted, before or after registration
+    // Actual selected-sodium attribution is covered by the existing E2 positives /
+    // source review. This no-observer case observes the real account raw-release
+    // boundary + successful finish; it does not fabricate a new observation seam.
+}
 TEST(AccountCaptureErasure, ObserverBeforeAccountRetainsRegistrationAndObservesRealRequest) {
     Live f(true, {fields_desktop}, false, true, {}, SetupExpectation::observer_first);
     f.connect();
@@ -351,6 +395,8 @@ TEST(AccountCaptureErasure, ObserverBeforeAccountRetainsRegistrationAndObservesR
     EXPECT_GT(f.r.erasures.calls, 0U);
     EXPECT_TRUE(f.r.erasures.observed(eo::Region::field_records, bh::RawUse::current));
     EXPECT_TRUE(f.r.erasures.observed(eo::Region::field_arena, bh::RawUse::current));
+    EXPECT_EQ(f.r.rejected_observer.calls, 0U);
+    EXPECT_FALSE(f.r.rejected_observer.overflow);
 }
 // Generic positives deliberately omit account install; they prove transport setup
 // and literal body/framing/budget mechanics, never an account body/auth capability.
