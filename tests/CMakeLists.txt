@@ -216,6 +216,9 @@ endif()
 
 # API-011 retains every reviewed assertion and uses ordinary passing acceptance.
 if(SUBATHON_BUILD_REFERENCE_INTAKE_BASELINE)
+    if(NOT SUBATHON_BUILD_REFERENCE_RULE_TESTS)
+        message(FATAL_ERROR "API-011 baseline requires reference-rule acceptance selection")
+    endif()
     subathon_add_qt_suite(server_reference_intake_acceptance
         NAME reference-intake
         SOURCES qt/reference_intake_tests.cpp

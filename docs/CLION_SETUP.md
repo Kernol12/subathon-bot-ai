@@ -81,6 +81,20 @@ before its redundant executable was removed; that result remains recorded in
 [environment evidence](https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coordinator-environment.md). Windows, product QML,
 OBS and live-provider validation remain unperformed. Windows app distribution remains an installation-free ZIP.
 
+## Linux development server
+
+Copy `CMakeUserPresets.json.example` to `CMakeUserPresets.json` and fill in the Qt
+6.12 and Boost ≥1.83 prefixes in `CMAKE_PREFIX_PATH` and the prepared static
+libsodium 1.0.22 SDK in `SUBATHON_SODIUM_ROOT`. Qt SQL provides the SQLite driver.
+
+```sh
+cmake --preset local-dev-server
+cmake --build --preset local-dev-server
+```
+
+For the network Host target `subathon_api_host_drogon`, set
+`SUBATHON_DROGON_ROOT` to the independently prepared bounded HTTP successor SDK.
+
 ## Documentation sources checked during preparation
 
 - https://www.jetbrains.com/help/clion/opening-reopening-and-closing-projects.html

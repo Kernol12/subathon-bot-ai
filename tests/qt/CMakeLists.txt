@@ -194,6 +194,9 @@ if(SUBATHON_BUILD_REFERENCE_RULE_TESTS)
 endif()
 
 if(SUBATHON_BUILD_DEV_SERVER_TESTS)
+    if(NOT TARGET subathon_dev_server)
+        message(FATAL_ERROR "Development-server acceptance requires the subathon_dev_server target")
+    endif()
     subathon_add_qt_suite(server_dev_server_acceptance
         NAME dev-server SOURCES dev_server_tests.cpp
         LABELS "dev-server;acceptance;qt;server")

@@ -14,6 +14,22 @@
       "cacheVariables": {
         "SUBATHON_FETCH_GOOGLETEST": "ON"
       }
+    },
+    {
+      "name": "local-dev-server",
+      "inherits": "base",
+      "cacheVariables": {
+        "BUILD_TESTING": "OFF",
+        "CMAKE_PREFIX_PATH": "/replace/with/your/Qt/6.12/gcc_64;/replace/with/your/Boost/prefix",
+        "SUBATHON_SODIUM_ROOT": "/replace/with/your/libsodium-1.0.22/sdk"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "local-dev-server",
+      "configurePreset": "local-dev-server",
+      "targets": ["subathon_dev_server"]
     }
   ]
 }
