@@ -52,6 +52,35 @@ in a fresh tier A session on current main. Its durable delivery states are a
 prerequisite for restore and action delivery. The coordinator owns checkpoint,
 proof and shared migration, build and CI integration.
 
+### Structure review of `199dc02` (owner decision 2026-11-18)
+
+- Correct the obsolete CMake status banner and README description of application
+  accounting and SQL durability in a separate documentation-tier PR, CI only.
+  Keep [#707](https://github.com/Kernol12/subathon-bot-ai/pull/707) out of the
+  SESSION-011 and MILESTONE-003 review packets and proofs.
+- [BUILD-001 #706](https://github.com/Kernol12/subathon-bot-ai/issues/706) is
+  authorized at tier B. Create server product targets when their existing
+  dependencies are available. Acceptance suites select tests, and the
+  `dev-server` suite depends on `subathon_dev_server`. Keep every preset's
+  test selection and results and all CI jobs unchanged. Remove the obsolete
+  guards and closures. SESSION-011 and MILESTONE-003 have priority on shared
+  CMake files and admitted binaries. BUILD-001 rebases onto overlapping work
+  and merges after it without making those tasks rebase or re-admit. Re-admit
+  each affected test binary under the standing procedure if its ELF or
+  dependency hashes change. Stop for test selection or result changes, a
+  needed test-source change, a new dependency or option, or a third fix round.
+  #619/#620 stay frozen.
+- [API-008 #292](https://github.com/Kernol12/subathon-bot-ai/issues/292) remains
+  planned. Its brief now calls for one contribution operation shared by the dev
+  CLI and HTTP host, by default in `subathon_reference_intake`. Keep the existing
+  receipt-to-snapshot transaction boundaries, return a typed clock-reservation
+  refusal, and test both callers. The CLI builds a synthetic event, calls the
+  operation and prints its outcome.
+- Move encode/decode code out of `application_service.cpp` or
+  `sqlite_application_bundle_access.hpp` only within an authorized task that
+  already changes the respective file. Use a separate commit and name it in
+  that task's review packet.
+
 ## Authorized path — complete
 
 1. **API-016 [#616](https://github.com/Kernol12/subathon-bot-ai/issues/616)**:
