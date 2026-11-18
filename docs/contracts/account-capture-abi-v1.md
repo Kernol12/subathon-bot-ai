@@ -98,7 +98,10 @@ profile, not a trusted proxy/current-policy generation or a credential. The nati
 issuer must bind its actual installation/connection to those identities. Independent
 expected TEST DATA hashes those read-only selected files at root-owned configure,
 checks their agreement and configures selected_identity.hpp.in. No SUT output is
-used as an expected value. A changed selected successor gets newly bound expected
+used as an expected value. Equality establishes configured-data consistency, not
+which DSO loaded: independent actual-closure admission supplies that attribution.
+Both hash inputs are configure dependencies, not silently stale cached data.
+A changed selected successor gets newly bound expected
 data and fresh admission/review; retained c4d is not account support or a reusable
 receipt. Existing listener/route/limits/native thread bindings remain mandatory.
 
@@ -106,15 +109,27 @@ The approved E2 declaration is PRIVATE server/src/account_capture_observer.hpp,
 not a public or installed SDK header. NI installs nothing. Future account erasure
 code calls it only around its OWN actual selected sodium_memzero invocation, with
 before_sodium and after_sodium notifications sharing one checked call ordinal1..8192
-and actual RawTag/region/length. Region distinguishes fields records from arena.
+and actual RawTag/region/length. Ordinals are cumulative per successful observer
+registration / Foundation lifetime across ALL peers/requests/regions/uses, not
+reset per request or disconnect. They do not advance while uninstalled. RawTag
+only identifies fields: derive records vs arena from the Foundation guarantee of
+WHOLE1024-byte record /32768-byte arena spans (Core::release_raw); it is not an
+independent SDK site identifier. Other field span lengths must still be securely
+wiped then fail closed, never inferred as a known region. The oracle requires the
+exact full field spans; metadata/length observations remain source-contract dependent.
 Before may borrow nonzero bytes; after borrows the SAME region after real sodium
 returns. No retained payload/byte digest, pointer-to-payload, callback queue or
 user-supplied fact/zeroization setter. Callback is noexcept/IO0/synchronous and may
 not reenter. Registration is cold/creator/once; null invalid_config, late/repeated
 invalid_state, wrong thread wrong_thread. No install replacement/RawHooks chaining.
 Before overflow/false must NOT skip the actual secure wipe; false at either phase
-quarantines/closes with wipe_failed and never grants reuse/clean finish. Call ordinal
-overflow similarly fails closed, with actual erasure still attempted. Callbacks must
+quarantines/closes with wipe_failed and never grants reuse/clean finish. Beyond8192
+valid pairs, actual sodium still runs but no invalid/reused ordinal is emitted;
+the owned RawHooks returns false and quarantines/refuses clean finish. That exact
+production ordinal-exhaustion path is SOURCE-REVIEW-ONLY in this bounded fixture;
+its local8192-pair oracle and native caller-capacity1 failure do NOT demonstrate
+8193 real production erasures. No widening of fixture/process bounds is implied.
+Callbacks must
 not throw; violating noexcept is process-terminal, no fabricated successful cleanup.
 Uninstalled observer adds no payload scan/callback/allocation or changed erasure;
 only a disabled branch. Registration lifetime covers actual stop/drain/IO joins;
@@ -122,10 +137,15 @@ no callbacks after finish. Exact placement/layout and all phase/exit tests requi
 tier A review before any behavior implementation. Existing production quotas do
 not grow; metadata placement/pins must be proved before allocation in stage two.
 
-The ordinary fixture binds the EXISTING Trantor default output callback at TRACE
-before profile construction and scans with a <=2MiB stream ceiling, no raw payload
-retention. An actual Logger canary positive precedes the clean actual-case target;
-response wire is independently scanned. Indexed/file/plugin/direct fd/stdout/stderr
+The ordinary fixture binds the EXISTING Trantor default output callback before
+profile construction and requests TRACE, scanning with a <=2MiB stream ceiling,
+no raw payload retention. The selected sealed Release SDK defines LOG_TRACE as
+TRANTOR_IF_(0) under NDEBUG: its Cookie/path TRACE sites are build-type excluded,
+not exercised by setLogLevel. Compiled-in Debug first-party/test TRACE is separate.
+An actual active LOG_INFO default-channel canary positive precedes the clean case
+target; it proves that channel only, NOT reachability of SDK TRACE sites. Response
+wire is independently scanned and exact-completion cases require zero residual
+bytes at EOF. Already closed peers remain an explicit observation limit. Indexed/file/plugin/direct fd/stdout/stderr
 and pre-main coverage require the written sink audit; no launcher/interceptor or
 claim of unseen bytes is authorized. Whole-account log suppression still requires
 source review of actual branches, not a Fatal filter or scanner absence alone.

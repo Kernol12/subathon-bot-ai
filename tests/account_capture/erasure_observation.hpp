@@ -13,7 +13,7 @@ struct ErasureObservation {
     std::size_t size = 0;
     std::array<std::uint16_t, 18> complete{};
     std::array<bool, 18> nonzero{};
-    std::uint32_t calls = 0;
+    std::uint32_t calls = 0; // one registered observer / Foundation lifetime, all peers/regions
     bool in_call = false, failed = false;
     bool reject_before = false, reject_after = false;
     unsigned limit = 8192; // caller metadata capacity, never > ceiling
@@ -27,6 +27,7 @@ struct ErasureObservation {
         if (failed)
             return false;
         if (region >= 6 || use >= 3 || bytes.empty() || bytes.size() > caps[region] ||
+            ((region == 1 || region == 2) && bytes.size() != caps[region]) ||
             event.tag.kind != kinds[region] ||
             ((event.tag.use == bh::RawUse::pending) != (event.tag.sequence == 0))) {
             failed = true;

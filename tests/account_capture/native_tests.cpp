@@ -63,6 +63,9 @@ TEST(AccountCaptureNative, MovesTransferOnlyOneLease) {
 TEST(AccountCaptureNative, ExclusiveForeignThreadVisitRefused) {
     capture(desktop, fields_desktop, LeaseAction::foreign);
 }
+TEST(AccountCaptureNative, NullVisitorRefusesWithoutConsumingActualLeaseVisit) {
+    capture(desktop, fields_desktop, LeaseAction::null_visitor);
+}
 TEST(AccountCaptureNative, RetainedLeaseCannotVisitAfterCallback) {
     capture(desktop, fields_desktop, LeaseAction::retain);
     // inspect_reads triggers the real ready callback which probes the retained
@@ -308,6 +311,47 @@ TEST(AccountCaptureNative, CaptureExceptionClosesWithoutDispatch) {
     exception_case(LeaseAction::callback_throw);
 }
 
+// Actual registration/refusal tests use a generic typed route only to establish
+// unchanged transport/hook selection after refusal, never account/sodium support.
+void refused_install_still_serves_generic(SetupExpectation setup) {
+    Live f(false, {}, false, true, {}, setup);
+    EXPECT_EQ(f.r.captures, 0U);
+    EXPECT_EQ(f.r.erasures.calls, 0U);
+    f.r.generic_body_check = true;
+    f.connect();
+    f.client.send("POST /f HTTP/1.1\r\nHost: x\r\nContent-Length: 4\r\n\r\ndata"sv);
+    wire(f.client, diag);
+    f.r.wait([&] { return f.r.requests.load() == 1; });
+    f.cleanup();
+    EXPECT_EQ(f.r.captures, 0U); // no partially installed account callback
+    EXPECT_EQ(f.r.erasures.calls, 0U);
+    if (setup == SetupExpectation::foreign_hook) {
+        EXPECT_GT(f.r.foreign_hook.wipes, 0U); // actual mapped regions reached existing hook
+        EXPECT_EQ(f.r.foreign_hook.revocations, 1U);
+        EXPECT_FALSE(f.r.foreign_hook.failed);
+    }
+}
+TEST(AccountCaptureRefusal, LateAccountInstallRefusesAfterRealListenerRegistration) {
+    refused_install_still_serves_generic(SetupExpectation::late_account);
+}
+TEST(AccountCaptureRefusal, ForeignRawHookSurvivesAccountConflictWithoutPartialCapture) {
+    refused_install_still_serves_generic(SetupExpectation::foreign_hook);
+}
+TEST(AccountCaptureRefusal, LateObserverInstallRefusesAfterRealListenerRegistration) {
+    refused_install_still_serves_generic(SetupExpectation::late_observer);
+}
+TEST(AccountCaptureErasure, ObserverBeforeAccountRetainsRegistrationAndObservesRealRequest) {
+    Live f(true, {fields_desktop}, false, true, {}, SetupExpectation::observer_first);
+    f.connect();
+    f.client.send(desktop);
+    wire(f.client, diag);
+    f.r.wait([&] { return f.r.captures.load() == 1 && f.r.requests.load() == 1; });
+    f.cleanup();
+    EXPECT_TRUE(f.r.erasures.clean());
+    EXPECT_GT(f.r.erasures.calls, 0U);
+    EXPECT_TRUE(f.r.erasures.observed(eo::Region::field_records, bh::RawUse::current));
+    EXPECT_TRUE(f.r.erasures.observed(eo::Region::field_arena, bh::RawUse::current));
+}
 // Generic positives deliberately omit account install; they prove transport setup
 // and literal body/framing/budget mechanics, never an account body/auth capability.
 TEST(AccountCaptureGeneric, RealDispatchBodyAndReplyPositive) {

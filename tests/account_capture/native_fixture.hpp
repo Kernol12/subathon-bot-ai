@@ -4,6 +4,7 @@
 #include "capture_assertions.hpp"
 #include "erasure_observation.hpp"
 #include "log_observation.hpp"
+#include "runtime_config.hpp"
 #include "selected_identity.hpp" // configured independent expected DATA, never producer output
 #include <arpa/inet.h>
 #include <atomic>
@@ -150,6 +151,7 @@ class Socket {
         auto bytes = read(remaining, true); // after actual server stop/join, require EOF
         if (bytes == remaining.size())
             throw std::runtime_error("FIXTURE: residual wire ceiling");
+        EXPECT_EQ(bytes, 0U) << "Unexpected bytes after exact response completion";
         reset();
         return wire_scanner_.clean();
     }
@@ -171,6 +173,7 @@ enum class LeaseAction {
     nested,
     move,
     foreign,
+    null_visitor,
     retain,
     visitor_throw,
     callback_throw
@@ -191,6 +194,31 @@ struct Context {
     bh::End end{};
 };
 static_assert(sizeof(Context) <= 128);
+// Dedicated foreign-hook conflict oracle. This ordinary generic eraser is NOT
+// account/sodium evidence, and is installed ONLY before a refused account install.
+struct ForeignHook {
+    unsigned wipes = 0, revocations = 0;
+    bool failed = false;
+    static bool wipe(void *owner, bh::RawTag tag, std::span<std::byte> bytes) noexcept {
+        auto &self = *static_cast<ForeignHook *>(owner);
+        if (self.wipes == 8192 || ((tag.use == bh::RawUse::pending) != (tag.sequence == 0))) {
+            self.failed = true;
+            return false;
+        }
+        ++self.wipes;
+        std::fill(bytes.begin(), bytes.end(), std::byte{}); // generic test behavior only
+        return true;
+    }
+    static void revoked(void *owner, void *, bh::U64 sequence, bh::End) noexcept {
+        auto &self = *static_cast<ForeignHook *>(owner);
+        if (!sequence || self.revocations == 2)
+            self.failed = true;
+        else
+            ++self.revocations;
+    }
+    bh::RawHooks binding() noexcept { return {this, wipe, revoked}; }
+};
+static_assert(sizeof(ForeignHook) <= 16);
 // Exactly one process-retained registration owner. No raw byte/history allocations.
 // Callback fields are IO0-only unless atomic or protected by mutex below.
 struct Rig {
@@ -201,6 +229,7 @@ struct Rig {
     std::optional<ac::CaptureLease> retained;
     Expectation expected{};
     ErasureObservation erasures;
+    ForeignHook foreign_hook;
     LogObservation logs;
     bool require_erasure = false;
     std::atomic<unsigned> connected{0}, captures{0}, requests{0}, removed{0}, ends{0};
@@ -456,12 +485,22 @@ struct Rig {
             refused_visit(lease, ac::Error::revoked);
             lease = std::move(moved);
         }
+        if (action == LeaseAction::null_visitor) {
+            unsigned null_visits = 0;
+            const auto refused = lease.with_capture(&null_visits, nullptr);
+            EXPECT_TRUE(std::holds_alternative<ac::Error>(refused));
+            if (auto error = std::get_if<ac::Error>(&refused))
+                EXPECT_EQ(*error, ac::Error::invalid_config);
+            EXPECT_EQ(null_visits, 0U);
+        }
         struct Visit {
             Rig *r;
             ac::CaptureLease *lease;
+            unsigned calls = 0;
         } visit{&r, &lease};
         const auto result = lease.with_capture(&visit, [](void *p, ac::CaptureView view) {
             auto &v = *static_cast<Visit *>(p);
+            ++v.calls;
             auto &r = *v.r;
             if (r.expected.action == LeaseAction::visitor_throw)
                 throw std::runtime_error("synthetic visitor exception");
@@ -486,6 +525,7 @@ struct Rig {
             if (r.expected.action == LeaseAction::nested)
                 nested_visit(*v.lease);
         });
+        EXPECT_EQ(visit.calls, 1U); // includes positive reach after a refused null visitor
         if (action == LeaseAction::visitor_throw) {
             EXPECT_TRUE(std::holds_alternative<ac::Error>(result));
             if (auto error = std::get_if<ac::Error>(&result))
@@ -505,28 +545,46 @@ struct ObserverPolicy {
     bool reject_before = false, reject_after = false;
     unsigned limit = ErasureObservation::ceiling;
 };
+// Private ordinary typed fixture setup expectations, never a CLI/SDK mode.
+enum class SetupExpectation { ordinary, late_account, late_observer, foreign_hook, observer_first };
 class Live {
     Deadline watchdog_; // destroyed AFTER socket shutdown, stop/drain/join and scratch cleanup
     std::thread framework_;
     std::array<char, 534> scratch_{};
-    bool started_ = false;
-    void scratch() {
-        auto path = std::filesystem::current_path();
-        for (const auto part : {"build", "SESSION-011", "author", "continuation-01", "runtime"}) {
-            path /= part;
-            if (::mkdir(path.c_str(), 0700) && errno != EEXIST)
-                throw std::runtime_error("FIXTURE: scratch parent");
-            struct stat info{};
-            if (::lstat(path.c_str(), &info) || !S_ISDIR(info.st_mode) ||
-                info.st_uid != ::geteuid())
-                throw std::runtime_error("FIXTURE: scratch ownership/symlink");
+    bool started_ = false, scratch_parent_created_ = false;
+    static void refusal(ac::Result<ac::Done> result, ac::Error expected) {
+        if (!std::holds_alternative<ac::Error>(result)) {
+            ADD_FAILURE() << "Refusal boundary missing/incorrect result (NI is not success)";
+            throw std::runtime_error("refusal boundary unreached or wrong result");
         }
+        EXPECT_EQ(std::get<ac::Error>(result), expected);
+        if (std::get<ac::Error>(result) != expected)
+            throw std::runtime_error("wrong refusal result");
+    }
+    void scratch() {
+        const auto path = std::filesystem::path(runtime_config::scratch_parent);
+        if (!path.is_absolute() || path.lexically_normal() != path ||
+            path.filename() != "account-capture-runtime")
+            throw std::runtime_error("FIXTURE: configured scratch confinement");
+        struct stat parent{};
+        if (::lstat(path.parent_path().c_str(), &parent) || !S_ISDIR(parent.st_mode) ||
+            parent.st_uid != ::geteuid())
+            throw std::runtime_error("FIXTURE: caller build directory");
+        if (::mkdir(path.c_str(), 0700) == 0)
+            scratch_parent_created_ = true;
+        else if (errno != EEXIST)
+            throw std::runtime_error("FIXTURE: scratch parent");
+        struct stat info{};
+        if (::lstat(path.c_str(), &info) || !S_ISDIR(info.st_mode) || info.st_uid != ::geteuid())
+            throw std::runtime_error("FIXTURE: scratch ownership/symlink");
         auto pattern = (path / "capture-XXXXXX").string();
         if (pattern.size() >= scratch_.size())
             throw std::runtime_error("FIXTURE: scratch length");
-        std::memcpy(scratch_.data(), pattern.c_str(), pattern.size() + 1);
-        if (!::mkdtemp(scratch_.data()))
+        std::array<char, 534> candidate{};
+        std::memcpy(candidate.data(), pattern.c_str(), pattern.size() + 1);
+        if (!::mkdtemp(candidate.data()))
             throw std::runtime_error("FIXTURE: scratch creation");
+        scratch_ = candidate; // cleanup owns a leaf only after successful creation
         for (auto part : {"empty", "upload"})
             if (::mkdir((std::filesystem::path(scratch_.data()) / part).c_str(), 0700))
                 throw std::runtime_error("FIXTURE: scratch subdirectory");
@@ -538,7 +596,7 @@ class Live {
     bool foreign_inert_drop = false;  // creator-only; used after all IO callbacks/join
     Socket client, native_client;     // two clients maximum; no caller-owned client thread
     explicit Live(bool account, Expectation expected = {}, bool budget = false, bool observe = true,
-                  ObserverPolicy policy = {})
+                  ObserverPolicy policy = {}, SetupExpectation setup = SetupExpectation::ordinary)
         : r(*([] {
               if (retained_rig)
                   throw std::runtime_error("FIXTURE: one fixture/process");
@@ -553,6 +611,10 @@ class Live {
             r.erasures.reject_after = policy.reject_after;
             bind_checked_log(r.logs); // BEFORE profile, Foundation or framework/listener work
             scratch();
+            const auto backend = ws::linked_backend();
+            EXPECT_EQ(backend, ws::Backend::admitted_corrected);
+            if (backend != ws::Backend::admitted_corrected)
+                throw std::runtime_error("FIXTURE: corrected backend required");
             auto p = ws::create_profile(
                 {1, 1, 64, 64, 16, 2, 128, 256, 256, 64, 256, 254, 8, 50, 50, 100, 50}, r.clock);
             if (!std::holds_alternative<std::unique_ptr<ws::Profile>>(p))
@@ -571,6 +633,33 @@ class Live {
             if (!std::holds_alternative<std::unique_ptr<bh::Foundation>>(f))
                 throw std::runtime_error("FIXTURE: real foundation");
             r.foundation = std::move(std::get<std::unique_ptr<bh::Foundation>>(f));
+            if (setup == SetupExpectation::foreign_hook) {
+                if (account)
+                    throw std::runtime_error("FIXTURE: conflict requires generic fixture");
+                if (!r.done(bh::install_raw_hooks(*r.foundation, r.foreign_hook.binding())))
+                    throw std::runtime_error("FIXTURE: foreign hook setup");
+                refusal(ac::install(*r.foundation, {&r, Rig::capture_cb}),
+                        ac::Error::invalid_state);
+                // The one slot is still occupied; do not replace or chain it.
+                refusal(bh::install_raw_hooks(*r.foundation, r.foreign_hook.binding()),
+                        ac::Error::invalid_state);
+            }
+            if (setup == SetupExpectation::observer_first) {
+                if (!account || !observe)
+                    throw std::runtime_error("FIXTURE: observer order configuration");
+                auto result = eo::install_erasure_observer(
+                    *r.foundation, {&r.erasures, ErasureObservation::callback});
+                if (!std::holds_alternative<ac::Done>(result)) {
+                    ADD_FAILURE()
+                        << "Observer-before-account boundary NI/refusal; later phases unreached";
+                    throw std::runtime_error("private observer-before-account unavailable");
+                }
+                r.require_erasure = true;
+            }
+            if ((setup == SetupExpectation::late_account ||
+                 setup == SetupExpectation::late_observer) &&
+                account)
+                throw std::runtime_error("FIXTURE: late refusal needs no earlier account install");
             if (account) {
                 auto result = ac::install(*r.foundation, {&r, Rig::capture_cb});
                 if (!std::holds_alternative<ac::Done>(result)) {
@@ -583,7 +672,7 @@ class Live {
                     throw std::runtime_error("account capture NI/refusal; no live-case evidence");
                 }
             }
-            if (account && observe) {
+            if (account && observe && setup != SetupExpectation::observer_first) {
                 auto result = eo::install_erasure_observer(
                     *r.foundation, {&r.erasures, ErasureObservation::callback});
                 if (!std::holds_alternative<ac::Done>(result)) {
@@ -593,6 +682,10 @@ class Live {
                 }
                 r.require_erasure = true;
             }
+            if (setup == SetupExpectation::observer_first)
+                refusal(eo::install_erasure_observer(*r.foundation,
+                                                     {&r.erasures, ErasureObservation::callback}),
+                        ac::Error::invalid_state);
             auto &app = drogon::app();
             app.disableSigtermHandling()
                 .setThreadNum(1)
@@ -624,6 +717,13 @@ class Live {
             std::memcpy(endpoints.address.data(), "127.0.0.1", 10);
             if (!r.done(bh::register_listeners(*r.foundation, app, endpoints)))
                 throw std::runtime_error("FIXTURE: register listeners");
+            if (setup == SetupExpectation::late_account)
+                refusal(ac::install(*r.foundation, {&r, Rig::capture_cb}),
+                        ac::Error::invalid_state);
+            if (setup == SetupExpectation::late_observer)
+                refusal(eo::install_erasure_observer(*r.foundation,
+                                                     {&r.erasures, ErasureObservation::callback}),
+                        ac::Error::invalid_state);
             app.registerBeginningAdvice([&] {
                 app.getLoop()->queueInLoop([&] {
                     auto endpoints = app.getListeners();
@@ -734,6 +834,12 @@ class Live {
                 if (::rmdir(scratch_.data()) && errno != ENOENT)
                     terminal_fixture();
                 scratch_[0] = 0;
+            }
+            if (scratch_parent_created_) {
+                if (::rmdir(std::filesystem::path(runtime_config::scratch_parent).c_str()) &&
+                    errno != ENOENT && errno != ENOTEMPTY)
+                    terminal_fixture();
+                scratch_parent_created_ = false;
             }
         } catch (...) {
             terminal_fixture();

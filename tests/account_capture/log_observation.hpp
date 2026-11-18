@@ -34,7 +34,9 @@ inline void bind_log(LogObservation &state) {
     active_log = &state;
     trantor::Logger::setOutputFunction(
         [](const char *p, const std::uint64_t n) { active_log->feed(p, n); }, [] {});
-    trantor::Logger::setLogLevel(trantor::Logger::kTrace); // no Fatal-only suppression
+    // Enables only compiled-in sites. NDEBUG compiles SDK LOG_TRACE out in the
+    // selected Release build; Debug first-party/test TRACE sites remain separate.
+    trantor::Logger::setLogLevel(trantor::Logger::kTrace);
 }
 // One independent control target, then actual clean target, both process-retained.
 inline LogObservation *log_control = nullptr;
@@ -42,7 +44,7 @@ inline void bind_checked_log(LogObservation &actual) {
     if (!log_control)
         log_control = new LogObservation;
     bind_log(*log_control);
-    LOG_TRACE << "CNY-s11-7q9"; // actual existing Logger, not a simulated output event
+    LOG_INFO << "CNY-s11-7q9"; // actual active default channel, not SDK TRACE coverage
     if (!log_control->detected())
         throw std::runtime_error("FIXTURE: logger scanner positive missing");
     bind_log(actual);

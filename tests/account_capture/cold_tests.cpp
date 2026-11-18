@@ -2,6 +2,7 @@
 // SOURCE ONLY. New exact consumer admission precedes even GoogleTest discovery.
 #include "capture_assertions.hpp"
 #include "log_observation.hpp"
+#include "native_fixture.hpp"
 #include <memory>
 namespace {
 namespace bh = subathon::server::bounded_http;
@@ -22,6 +23,8 @@ struct ColdRegistration {
 static_assert(sizeof(ColdRegistration) <= 192);
 ColdRegistration *cold_registration = nullptr; // once/process, SDK global callback owner
 class ColdCapture : public testing::Test {
+    account_capture_test::Deadline watchdog;
+
   protected:
     std::shared_ptr<Clock> clock = std::make_shared<Clock>();
     std::unique_ptr<bh::Foundation> foundation;
@@ -89,5 +92,16 @@ TEST_F(ColdCapture, RefusesSecondInstallation) {
     const auto second = ac::install(*foundation, callbacks());
     ASSERT_TRUE(std::holds_alternative<ac::Error>(second));
     EXPECT_EQ(std::get<ac::Error>(second), ac::Error::invalid_state);
+}
+TEST_F(ColdCapture, WrongThreadInstallRefusesWithoutConsumingCreatorInstallation) {
+    std::optional<ac::Result<ac::Done>> result;
+    std::thread worker([&] { result.emplace(ac::install(*foundation, callbacks())); });
+    worker.join(); // exclusive cold Foundation access; Deadline bounds a stuck join
+    ASSERT_TRUE(result.has_value());
+    ASSERT_TRUE(std::holds_alternative<ac::Error>(*result));
+    EXPECT_EQ(std::get<ac::Error>(*result), ac::Error::wrong_thread);
+    EXPECT_EQ(captures, 0U);
+    ASSERT_TRUE(std::holds_alternative<ac::Done>(ac::install(*foundation, callbacks())));
+    EXPECT_EQ(captures, 0U);
 }
 } // namespace

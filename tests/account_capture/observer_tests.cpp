@@ -41,8 +41,8 @@ TEST(AccountCaptureErasureOracle, NonzeroAfterIsFailureNotAZeroizationClaim) {
 }
 TEST(AccountCaptureErasureOracle, RecordsAndArenaCannotSubstituteForEachOther) {
     ErasureObservation state;
-    constexpr std::array before{std::byte{0x71}};
-    constexpr std::array<std::byte, 1> after{};
+    constexpr std::array<std::byte, 1024> before{std::byte{0x71}};
+    constexpr std::array<std::byte, 1024> after{};
     auto event = eo::ErasureEvent{{nullptr, 1, bh::RawKind::fields, bh::RawUse::current},
                                   1,
                                   eo::Region::field_records,
@@ -51,6 +51,20 @@ TEST(AccountCaptureErasureOracle, RecordsAndArenaCannotSubstituteForEachOther) {
     event.phase = eo::Phase::after_sodium;
     event.region = eo::Region::field_arena;
     EXPECT_FALSE(state.visit(event, after));
+}
+TEST(AccountCaptureErasureOracle, FieldsRequireWholeKnownSlotRatherThanGuessingPartialSpan) {
+    constexpr std::array<std::byte, 32769> input{std::byte{0x71}};
+    for (const unsigned size : {1023U, 1025U, 32767U, 32769U}) {
+        ErasureObservation state;
+        const auto region = size < 2000 ? eo::Region::field_records : eo::Region::field_arena;
+        EXPECT_FALSE(state.visit({{nullptr, 1, bh::RawKind::fields, bh::RawUse::current},
+                                  1,
+                                  region,
+                                  eo::Phase::before_sodium},
+                                 std::span(input).first(size)));
+        EXPECT_EQ(state.calls, 0U);
+    }
+    // Local invalid-attribution control only; no native region/eraser is synthesized.
 }
 TEST(AccountCaptureErasureOracle, FixedMetadataEqualityThenOverflowFails) {
     ErasureObservation state;
@@ -186,7 +200,7 @@ TEST(AccountCaptureLogs, ExistingTrantorCallbackPositiveAndOverflowAreRealFailur
     static auto *state = new LogObservation; // callback target survives ALL global/DSO teardown
     bind_checked_log(*state);
     EXPECT_TRUE(state->clean());
-    LOG_TRACE << "CNY-s11-7q9";
+    LOG_INFO << "CNY-s11-7q9"; // active default-channel control, not SDK TRACE reach
     EXPECT_TRUE(state->detected());
     EXPECT_FALSE(state->clean());
     // Separate local stream-capacity control; no pointer/oversized span is read.
@@ -211,6 +225,7 @@ class ObserverCold : public testing::Test {
         ASSERT_EQ(retained_rig, nullptr);
         r = retained_rig = new Rig;
         bind_checked_log(r->logs);
+        ASSERT_EQ(ws::linked_backend(), ws::Backend::admitted_corrected);
         auto p = ws::create_profile(
             {1, 1, 64, 64, 16, 2, 128, 256, 256, 64, 256, 254, 8, 50, 50, 100, 50}, r->clock);
         ASSERT_TRUE(std::holds_alternative<std::unique_ptr<ws::Profile>>(p));
@@ -267,6 +282,9 @@ TEST_F(ObserverCold, ForeignInstallIsRefusedWithoutCallback) {
             EXPECT_EQ(*e, ac::Error::wrong_thread);
     });
     worker.join();
+    EXPECT_EQ(r->erasures.calls, 0U);
+    ASSERT_TRUE(
+        std::holds_alternative<ac::Done>(eo::install_erasure_observer(*r->foundation, observer())));
     EXPECT_EQ(r->erasures.calls, 0U);
 }
 } // namespace

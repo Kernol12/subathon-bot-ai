@@ -7,8 +7,12 @@ enum class Region : std::uint8_t { receive, field_records, field_arena, method, 
 enum class Phase : std::uint8_t { before_sodium, after_sodium };
 struct ErasureEvent {
     bounded_http::RawTag tag; // actual private owner; pending has sequence 0
-    U64 call;                 // 1..8192, same actual call on before/after
-    Region region;            // records vs arena distinguished at their actual site
+    // One successful observer registration / Foundation lifetime; cumulative over
+    // ALL peers, requests, regions and uses. No per-request reset or wrap.
+    U64 call; // 1..8192, same actual call on before/after
+    // RawTag alone says fields: derive records/arena from Foundation's guaranteed
+    // whole spans (1024/32768). Unknown lengths must wipe then fail, never guess.
+    Region region;
     Phase phase;
 };
 struct ErasureObserver {
@@ -22,5 +26,10 @@ struct ErasureObserver {
 // foreign thread => wrong_thread. No allocation or generic RawHooks replacement.
 // No callback/extra scan/storage when uninstalled; existing wipe behavior unchanged.
 // Observer lifetime extends through actual cleanup/join; no callbacks after finish.
+// No ordinal is maintained while uninstalled. Beyond 8192 admitted pairs, the
+// actual sodium wipe still runs, but no invalid/reused ordinal is emitted: return
+// false through the owned RawHooks boundary and quarantine/refuse clean finish.
+// This Foundation-lifetime exhaustion path requires source review; current native
+// tests exercise smaller caller capacity failure, not 8193 real ordinal pairs.
 Result<Done> install_erasure_observer(bounded_http::Foundation &, ErasureObserver) noexcept;
 } // namespace subathon::server::account_capture::testing
