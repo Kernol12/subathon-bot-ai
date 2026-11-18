@@ -148,7 +148,7 @@ if(SUBATHON_BUILD_API_HOST_TESTS)
     target_link_libraries(subathon_api_host PUBLIC
         subathon_sqlite_account_sessions subathon_native_websocket_profile Qt6::Core Threads::Threads)
     subathon_target_options(subathon_api_host)
-    add_library(subathon_session_clock STATIC src/session_clock.cpp)
+    add_library(subathon_session_clock STATIC src/session_clock.cpp src/session_clock_host.cpp)
     target_link_libraries(subathon_session_clock PUBLIC subathon_api_host)
     subathon_target_options(subathon_session_clock)
 endif()
