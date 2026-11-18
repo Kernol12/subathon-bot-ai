@@ -4,14 +4,53 @@ Owner: Kernol12. Issues own brief/status/prerequisites; PR comments own reviews.
 Complete specification v0.45, all seven integrations and all three FX providers
 remain release scope. This checkpoint grants no new authorization.
 
-## Handover and stop (2026-11-18)
+## Standing authorization — continuous coordination (2026-11-18)
 
-The [original #278 handover](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6930279142)
-records the API-016 technical gates and historical owner decisions. The owner
-subsequently authorized APITEST-015, APITEST-017 and the rewritten API-001 on
-current main. That path is now complete. The latest owner instruction is to merge
-this ONE batched checkpoint documentation PR, then **STOP**. No next task is
-authorized; dependency readiness and this checkpoint grant no new work.
+The owner replaced the former “merge, then STOP” instruction. Continue through
+both stages, reviews, observed intended red, implementation, checks, proof and
+protected merge without routine permission pauses. Start SESSION-009 #582 now
+on current main in a fresh session, tier A both stages. Stage1 includes both
+owner criteria against the real API-001 host: ex-HL05 revocation/thread/reentrancy
+and ex-HL15 UTCmin/UTCmax. Observed intended red precedes stage2.
+
+After every protected merge, close the issue, batch the checkpoint into the next
+task PR or one small docs PR, and claim the next dependency-ready product task
+on the board. Prefer release-unblocking work, such as SESSION-003 toward API-010.
+Apply the workflow tier; report each merge briefly and continue without awaiting
+a reply. The original [#278 handover](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6930279142)
+remains historical technical context, not a continuing stop directive.
+
+Only owner-needed stops are: third fix round; contract change beyond the issue
+or ADR-0012 assertion weakening; specification conflict or unclear requirement;
+unclassifiable failure or product failure persisting after allowed fix rounds;
+provider switch, new dependency, any process/tooling change; no dependency-ready
+product task; or explicit owner stop. Ask with options and a recommendation,
+while continuing independent work not blocked. Pre-build/test CI infrastructure
+allows one recorded rerun; routine in-scope choices, self-caught mistakes and
+filing planned issues are not stops. #619/#620 remain frozen.
+
+**Standing test-binary admission (owner decisions 2026-11-18).** The existing
+procedure applies to every authorized Qt or GoogleTest binary using its own
+closure. First record passive ELF/ABI and dependency hashes for the exact reviewed
+binary. Run the first real test with bounded loader and plugin logs, reconcile the
+loaded objects and their hashes before crediting the result, then check hashes
+again. Any mismatch voids the run. Changes to the procedure, tooling, modes or
+native-supervisor debug variables require the owner under rule 4(e).
+
+Record `readelf` checks of both `.dynsym` and `.symtab` for Drogon
+`native_profile` Session symbols. The consumer Session RTTI export check applies
+if either table contains a defined or imported Session symbol. Retain all other
+checks, including imports, versions, SONAMEs, selected SDK identity and exports,
+the SDK's own Session RTTI and marker, hashes and loader reconciliation. External
+compiler and system-header pre-build hashes are outside this procedure.
+
+SESSION-009 #582 remains In progress. Stage 1 observed 31 Host and 59 Linux
+intended NI failures and both 6000 ms controls passed. Evidence spans the original
+admitted binaries and the reviewed four-callback repair. The original “A ended”
+failure remains unclassified and uncredited. Stage 2 owns implementation and its
+separate tier A cycle. SESSION-011 #591 continues its independent tests stage
+under the [bounded observation approvals](https://github.com/Kernol12/subathon-bot-ai/issues/591#issuecomment-6972826652).
+The coordinator owns checkpoint, proof and shared CI integration.
 
 ## Authorized path — complete
 
@@ -29,9 +68,9 @@ authorized; dependency readiness and this checkpoint grant no new work.
    acceptance passed; all seven final proof-head checks passed before protected
    merge. The issue is closed as completed and the board is Done.
 
-API-001 merge read-back is complete. Only this batched checkpoint documentation
-PR remains in the owner's instruction. After it merges the coordinator stops,
-without starting SESSION-009, API-010, another product task or process/tooling work.
+API-001 and its checkpoint #701 (`199dc020`) are merged. The owner has now
+extended authorization to SESSION-009 and continuous dependency-ready product
+selection above. No baseline assertion or release requirement is waived.
 
 ## API-001 completed gates and limits
 
@@ -96,9 +135,9 @@ Board: #278, #613, #672 and #698 are Done. API-001 closure made SESSION-009 #582
 Ready because all its native blockers are closed; all other open native dependents
 retain an open blocker. **Ready does not authorize work.** Epics keep their status.
 
-## Planned, not authorized
+## Product queue and frozen process work
 
-- SESSION-013 [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662), SESSION-009 [#582](https://github.com/Kernol12/subathon-bot-ai/issues/582), API-010 [#560](https://github.com/Kernol12/subathon-bot-ai/issues/560).
+- SESSION-009 #582 and SESSION-011 #591 are in progress. SESSION-013 [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662) and API-010 [#560](https://github.com/Kernol12/subathon-bot-ai/issues/560) remain unclaimed queue items.
 - APITEST-018 [#689](https://github.com/Kernol12/subathon-bot-ai/issues/689): large buffered HTTP input with more than eight connections and its
   bounded observation seam, moved from APITEST-017 by the owner. Planned under
   EPIC-008; not an API-001 prerequisite. Historical `f8be1aec` coverage is deferred here.
@@ -107,9 +146,11 @@ retain an open blocker. **Ready does not authorize work.** Epics keep their stat
 - API-016 follow-ups: V2, C2, C4, C6, I14, I15, I16, I19, I20, O5; see the handover
   comment. Filed as [#678–#687](https://github.com/Kernol12/subathon-bot-ai/issues/273)
   (API-017 through API-026), planned under EPIC-008; none is authorized for work.
+- API-027 [#702](https://github.com/Kernol12/subathon-bot-ai/issues/702): planned under EPIC-008, native parent link recorded. Owns API1-C-O1 simultaneous copied-response-lease destruction from [the #700 closing receipt](https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6963524189); source-only finding, no runtime reproduction claimed. Schedule like other product tasks.
 - Process/tooling #619/#620 is frozen; lifting the freeze is the owner's decision.
 
-Dependency readiness authorizes nothing beyond the path above. No live chat or
+The standing authorization permits selection of dependency-ready product work;
+existing task-specific holds and the process/tooling freeze remain. No live chat or
 payment side effects are authorized. Keep credentials and supporter data out of
 source, fixtures, reports and HTML; synthetic or redacted fixtures only.
 
@@ -210,6 +251,11 @@ leave the gate pending and continue other authorized work; do not substitute.
 A provider flag stops for owner. Record actual provider/model in every review
 comment; an author never approves its work. Any other provider or model switch
 needs the owner. Other standing rules remain unchanged.
+
+**Codex model — owner decision (2026-11-18).** The coordinator and every new
+Codex child use `gpt-6.2-sol`, including authors, investigators and verifiers.
+The provider stays Codex, so this is within the standing authorization. Existing
+running sessions, completed reviews and receipts retain their original models.
 
 ## Project board maintenance (2026-11-16)
 
@@ -356,8 +402,7 @@ API-001 keep their ownership and release requirements.
 
 ## Completed sessions and retained evidence
 
-No live implementation, review, investigation, build, stress or test assignment
-remains. Six finished clean API-001 review/investigation worktrees and their
+The former API-001 sessions are finished. Six finished clean API-001 review/investigation worktrees and their
 merged-base branches were removed without force; two private investigator reports
 were hash-checked against their retained mainroot copies before removal.
 

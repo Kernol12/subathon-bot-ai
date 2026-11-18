@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "api_host_internal.hpp"
+#include "session_clock_host_internal.hpp"
 #include <QCoreApplication>
 #include <QThread>
 #include <algorithm>
@@ -65,6 +66,9 @@ struct Engine : std::enable_shared_from_this<Engine> {
     std::vector<std::shared_ptr<Peer>> peers;
     std::vector<std::shared_ptr<Record>> records;
     std::shared_ptr<Record> active;
+    std::shared_ptr<session_clock::detail::BindingState> clock_state;
+    bool clock_claimed = false;
+    U64 clock_unit = 0;
     std::atomic<bool> stop_requested{false}, wake_pending{false};
     std::atomic<U64> ordinal{0};
     U64 next_id = 0;
@@ -165,6 +169,8 @@ struct Engine : std::enable_shared_from_this<Engine> {
         it->reset();
     }
     void end(const std::shared_ptr<Record> &r, End reason) {
+        if (clock_state && active == r)
+            session_clock::detail::HostBindingAccess::leave_scope(*clock_state);
         r->terminal = true;
         r->end = reason;
         if (r->reply_charged) {
@@ -190,6 +196,8 @@ struct Engine : std::enable_shared_from_this<Engine> {
         }
         if (!first)
             return;
+        if (clock_state)
+            session_clock::detail::HostBindingAccess::revoke(*clock_state);
         started = true; // A consumed cold stop also consumes this process's attempt.
         const auto now = sample();
         const auto until = now ? deadline(*now, options.limits.drain_ms) : std::nullopt;
@@ -495,11 +503,21 @@ struct Engine : std::enable_shared_from_this<Engine> {
             [this, r, unit, body = std::move(body)](auto c) {
                 r->body = true;
                 event(K::unit_entered, r->id, unit);
+                clock_unit = unit;
+                if (clock_state)
+                    session_clock::detail::HostBindingAccess::enter_body(*clock_state, r.get(),
+                                                                         unit, c);
                 try {
                     auto value = body(c);
+                    if (clock_state)
+                        session_clock::detail::HostBindingAccess::leave_scope(*clock_state);
+                    clock_unit = 0;
                     r->body = false;
                     return value;
                 } catch (...) {
+                    if (clock_state)
+                        session_clock::detail::HostBindingAccess::leave_scope(*clock_state);
+                    clock_unit = 0;
                     r->body = false;
                     throw;
                 }
@@ -518,11 +536,18 @@ struct Engine : std::enable_shared_from_this<Engine> {
                     r->withheld = true;
                 r->callback = true;
                 event(K::writer_completed, r->id, unit, {}, result);
+                clock_unit = unit;
+                if (clock_state)
+                    session_clock::detail::HostBindingAccess::enter_completion(
+                        *clock_state, r.get(), unit, result);
                 try {
                     done(std::move(result));
                 } catch (...) {
                     end(r, End::callback_exception);
                 }
+                if (clock_state)
+                    session_clock::detail::HostBindingAccess::leave_scope(*clock_state);
+                clock_unit = 0;
                 r->callback = false;
                 consume_stop();
                 after_callback(r);
@@ -567,6 +592,8 @@ struct Engine : std::enable_shared_from_this<Engine> {
             r->terminal = true;
             r->end = End::finished;
         }
+        if (clock_state && active == r)
+            session_clock::detail::HostBindingAccess::leave_scope(*clock_state);
         return Admitted{};
     }
 };
@@ -661,7 +688,10 @@ struct Host::Impl {
 };
 Host::Host(Options o, std::unique_ptr<Transport> t, std::unique_ptr<CommandDispatcher> d)
     : impl_(std::make_unique<Impl>(std::move(o), std::move(t), std::move(d))) {}
-Host::~Host() = default;
+Host::~Host() {
+    if (impl_->engine->clock_state)
+        session_clock::detail::HostBindingAccess::revoke(*impl_->engine->clock_state);
+}
 Result<StartAccepted> Host::start(StartupObserver observer) {
     auto &e = *impl_->engine;
     if (e.owner != std::this_thread::get_id())
@@ -1130,3 +1160,95 @@ testing::ElapsedIdentity testing::HostAccess::elapsed_identity(const Host &h) {
     return {source, h.impl_->engine->profile_source};
 }
 } // namespace subathon::server::api_host
+
+namespace subathon::server::session_clock::detail {
+bool HostBindingAccess::attach(api_host::Host &host, const std::shared_ptr<BindingState> &state) {
+    auto engine = host.impl_->engine;
+    if (engine->owner != std::this_thread::get_id() || !state || state->owner != engine->owner ||
+        engine->clock_claimed || engine->stopping())
+        return false;
+    // No native factory/monitor is constructed here, including for a second service.
+    // The lambda borrows no Host and cannot keep Engine alive after destruction.
+    state->eligible = [weak = std::weak_ptr(engine)](const void *record, std::uint64_t unit,
+                                                     ScopeKind kind) {
+        auto e = weak.lock();
+        if (!e || e->owner != std::this_thread::get_id() || e->stopping() ||
+            !e->snapshot.storage_active || !e->active || e->active.get() != record ||
+            e->clock_unit != unit)
+            return false;
+        const auto &r = *e->active;
+        if (r.terminal || r.abandoned.load())
+            return false;
+        return kind == ScopeKind::body
+                   ? r.body && r.pending > 0
+                   : r.callback && !r.body && r.pending == 0 && unit == r.unit && !r.withheld;
+    };
+    engine->clock_claimed = true;
+    engine->clock_state = state;
+    return true;
+}
+void HostBindingAccess::leave_scope(BindingState &state) noexcept {
+    if (state.scope)
+        state.scope->live.store(false);
+    state.scope.reset();
+}
+void HostBindingAccess::revoke(BindingState &state) noexcept {
+    state.alive.store(false);
+    leave_scope(state);
+    state.source.reset();
+}
+void HostBindingAccess::enter_body(BindingState &state, const void *record, std::uint64_t unit,
+                                   const SqliteWorkContext &context) {
+    leave_scope(state);
+    try {
+        if (state.owner != std::this_thread::get_id() || !state.alive.load() ||
+            !state.eligible(record, unit, ScopeKind::body) || context.state_.expired())
+            return;
+        auto scope = std::make_shared<ScopeState>(ScopeKind::body, record, unit);
+        scope->work = context.state_;
+        state.scope = std::move(scope);
+    } catch (...) { /* Clock resource failure cannot change the writer's outcome. */
+    }
+}
+void HostBindingAccess::enter_completion(BindingState &state, const void *record,
+                                         std::uint64_t unit, const SqliteWorkResult &result) {
+    leave_scope(state);
+    try {
+        if (state.owner != std::this_thread::get_id() || !state.alive.load() ||
+            result.transaction != TransactionOutcome::committed ||
+            result.error != WorkError::none || !result.value ||
+            !state.eligible(record, unit, ScopeKind::completion))
+            return;
+        state.scope = std::make_shared<ScopeState>(ScopeKind::completion, record, unit);
+    } catch (...) { /* No publication authority on failed allocation. */
+    }
+}
+std::weak_ptr<ScopeState> HostBindingAccess::body(const BindingState &state,
+                                                  const SqliteWorkContext &context) {
+    if (state.owner != std::this_thread::get_id() || !state.alive.load() || state.sampling)
+        return {};
+    const auto &scope = state.scope;
+    if (!scope || !scope->live.load() || scope->kind != ScopeKind::body ||
+        context.state_.expired() || scope->work.expired() ||
+        context.state_.owner_before(scope->work) || scope->work.owner_before(context.state_) ||
+        !state.eligible(scope->record, scope->unit, scope->kind))
+        return {};
+    return scope;
+}
+std::weak_ptr<ScopeState> HostBindingAccess::completion(const BindingState &state,
+                                                        const api_host::CommandHandle &command) {
+    if (state.owner != std::this_thread::get_id() || !state.alive.load() || state.sampling)
+        return {};
+    const auto &scope = state.scope;
+    if (!scope || !scope->live.load() || scope->kind != ScopeKind::completion || !command.impl_ ||
+        command.impl_->owner != state.owner)
+        return {};
+    const auto record = command.impl_->record.lock();
+    const auto engine = command.impl_->engine.lock();
+    if (!record || !engine || record.get() != scope->record ||
+        engine->clock_state.get() != &state ||
+        !state.eligible(scope->record, scope->unit, scope->kind))
+        return {};
+    return scope;
+}
+} // namespace subathon::server::session_clock::detail
