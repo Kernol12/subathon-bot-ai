@@ -17,6 +17,33 @@ if(SUBATHON_BUILD_API_HOST_TESTS)
             LABELS "api-host;acceptance;qt;server;intentional-red" TIMEOUT 180
             ENVIRONMENT "LD_LIBRARY_PATH=${sbt_drogon_root}/lib")
     endforeach()
+
+    add_executable(server_session_clock_acceptance session_clock_tests.cpp)
+    set_target_properties(server_session_clock_acceptance PROPERTIES AUTOMOC ON)
+    target_link_libraries(server_session_clock_acceptance PRIVATE
+        subathon_session_clock subathon_session_resolution Qt6::Test subathon_test_fixtures)
+    subathon_target_options(server_session_clock_acceptance)
+    include(session_clock_cases.cmake)
+    foreach(clock_case IN LISTS subathon_session_clock_ni_cases)
+        add_test(NAME "session-clock.${clock_case}"
+            COMMAND server_session_clock_acceptance "${clock_case}")
+        set_tests_properties("session-clock.${clock_case}" PROPERTIES
+            LABELS "session-clock;acceptance;qt;server;intentional-red" TIMEOUT 180
+            ENVIRONMENT "LD_LIBRARY_PATH=${sbt_drogon_root}/lib")
+    endforeach()
+    foreach(clock_case IN LISTS subathon_session_clock_passing_cases)
+        add_test(NAME "session-clock-control.${clock_case}"
+            COMMAND server_session_clock_acceptance "${clock_case}")
+        set_tests_properties("session-clock-control.${clock_case}" PROPERTIES
+            LABELS "session-clock-control;acceptance;qt;server" TIMEOUT 180
+            ENVIRONMENT "LD_LIBRARY_PATH=${sbt_drogon_root}/lib")
+    endforeach()
+    subathon_add_qt_suite(server_session_clock_linux_acceptance
+        NAME session-clock-linux SOURCES session_clock_linux_tests.cpp
+        LIBRARIES subathon_session_clock
+        LABELS "session-clock-linux;acceptance;qt;server;intentional-red" TIMEOUT 180)
+    set_tests_properties(session-clock-linux.suite PROPERTIES
+        ENVIRONMENT "LD_LIBRARY_PATH=${sbt_drogon_root}/lib")
 endif()
 
 if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
