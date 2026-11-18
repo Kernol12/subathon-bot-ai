@@ -442,6 +442,60 @@ class SqliteDeliveryJobsTests final : public QObject {
         });
     }
 
+    void defaultWriterBudgetKeepsEnrollmentAtomic_data() {
+        QTest::addColumn<bool>("exhaust");
+        QTest::newRow("commit") << false;
+        QTest::newRow("exhaust-after-staging") << true;
+    }
+
+    void defaultWriterBudgetKeepsEnrollmentAtomic() {
+        QFETCH(bool, exhaust);
+        scenario([&] {
+            File f(File::Catalog::migrate);
+            f.writer = std::make_unique<SqliteWriter>();
+            require(f.writer->open(f.path) == StorageError::none,
+                    "Open with default writer limits");
+            const auto before = f.application_snapshot();
+            const auto staged = std::make_shared<bool>(false);
+            const auto padding = std::make_shared<qsizetype>(0);
+            const auto result = f.work([bundle = f.bundle(), staged, padding,
+                                        exhaust](auto context) -> QVariant {
+                auto session = context.begin();
+                const auto enrollment = SqliteDeliveryJobStore(session).stage(bundle, {capture});
+                require(enrollment.disposition == SqliteBundleStageDisposition::staged &&
+                            !enrollment.existing &&
+                            session.execute({event_query, {}}) == SqlRows{delivery_event_row(1, 0)},
+                        "Default budget stages both the bundle and queued delivery");
+                *staged = true;
+                if (exhaust)
+                    for (; *padding < StorageLimits{}.statements_per_batch; ++*padding)
+                        (void)session.execute({"SELECT 1", {}});
+                session.commit();
+                return 1;
+            });
+            require(*staged, "The real unit reaches provisional enrollment before any exhaustion");
+            if (!exhaust) {
+                normal(result);
+                f.reopen();
+                require(f.read(event_query) == SqlRows{delivery_event_row(1, 0)},
+                        "Default budget preserves queued delivery after reopen");
+                require(f.read("SELECT token FROM main.subathon_app_head") ==
+                            SqlRows{{QByteArray("c")}},
+                        "Default budget commits the application state");
+                return;
+            }
+            require(result.transaction == TransactionOutcome::rolled_back &&
+                        result.error == WorkError::resource_limit && !result.value &&
+                        *padding > 0 && *padding < StorageLimits{}.statements_per_batch,
+                    "Default budget exhaustion rolls back the unit");
+            f.reopen();
+            require(f.application_snapshot() == before &&
+                        f.read("SELECT * FROM main.subathon_delivery_captures").isEmpty() &&
+                        f.read("SELECT * FROM main.subathon_delivery_events").isEmpty(),
+                    "Reopen finds no provisional bundle, capture or event");
+        });
+    }
+
     void bundleAndCaptureCommitTogether() {
         scenario([] {
             File f;
