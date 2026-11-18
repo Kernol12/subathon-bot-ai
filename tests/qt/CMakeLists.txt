@@ -68,7 +68,7 @@ if(SUBATHON_BUILD_SQLITE_DELIVERY_JOBS_TESTS)
     subathon_add_qt_suite(server_sqlite_delivery_jobs_acceptance
         NAME sqlite-delivery-jobs SOURCES sqlite_delivery_jobs_tests.cpp
         LIBRARIES subathon_sqlite_delivery_jobs subathon_original_application_service
-        LABELS "sqlite-delivery-jobs;acceptance;qt;server;intentional-red")
+        LABELS "sqlite-delivery-jobs;acceptance;qt;server")
     subathon_add_qt_suite(server_sqlite_delivery_catalog_acceptance
         NAME sqlite-delivery-catalog SOURCES sqlite_delivery_catalog_tests.cpp
         LIBRARIES subathon_delivery_catalog subathon_original_application_service
