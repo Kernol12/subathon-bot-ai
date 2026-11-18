@@ -29,6 +29,17 @@ while continuing independent work not blocked. Pre-build/test CI infrastructure
 allows one recorded rerun; routine in-scope choices, self-caught mistakes and
 filing planned issues are not stops. #619/#620 remain frozen.
 
+**Standing host-binary admission (owner decision 2026-11-18).** Extend the
+existing procedure to SESSION-009 and every later authorized task that runs
+host binaries, unchanged: fresh passive ELF/ABI/dependency hashes for each exact
+reviewed binary; first real run with bounded loader/plugin logs; full
+reconciliation before crediting any result; unchanged-hash checks afterward.
+Any mismatch voids the run as admission failure, never red or pass. No new
+tooling, mode or native-supervisor debug variables are authorized. A change to
+the procedure itself remains an owner-needed stop under rule4(e). The former
+API-001-only scope no longer blocks this unchanged procedure for these tasks;
+source review and actual per-binary admission gates remain separate.
+
 SESSION-009 is claimed In progress under this authorization. Coordinator owns
 checkpoint/proof and shared CI integration; fresh authors own bounded task source
 and tests. Default providers and independent review requirements below remain.
