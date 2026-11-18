@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "account_capture_erasure.hpp"
+#include "account_capture_identity.hpp"
 #include <algorithm>
 #include <arpa/inet.h>
 #include <atomic>
@@ -28,7 +30,7 @@ constexpr U64 none = std::numeric_limits<U64>::max(), peer_bytes = 102424;
 constexpr U64 metadata_stride = 10240; // 2048 first-party + 8192 typed SDK bytes.
 // Native projection, poller cell and callback allowances share the same reservation.
 static_assert(metadata_stride + 5120 + 128 + 320 <= 16384);
-constexpr unsigned peer_bit = 1, request_bit = 2, reply_bit = 4, wake_bit = 8;
+constexpr unsigned peer_bit = 1, request_bit = 2, reply_bit = 4, wake_bit = 8, capture_bit = 16;
 struct Core;
 struct PeerRecord final : io::PeerStorage {
     Core *core{};
@@ -39,17 +41,20 @@ struct PeerRecord final : io::PeerStorage {
     U64 arena_used{}, field_count{}, method_size{}, target_size{}, header_size{}, reply_size{};
     std::byte *payload{}, *metadata{};
     io::Transport *transport{};
+    io::PeerEndpoint endpoint{};
+    account_capture::NativeConnectionFacts capture_facts{};
     void *context{};
     std::atomic<unsigned> states{0}, drops{0};
     std::atomic<U64> deletes{0}, request_drop{0}, reply_drop{0};
     std::atomic<bool> revoked{false};
     std::atomic<bool> committed{false}, retired_native{false};
-    alignas(64) std::byte handles[4][128];
+    alignas(64) std::byte handles[5][128];
     bool live{}, attached_once{}, in_connected{}, wanted{}, delivered{}, raw_live{},
         raw_revoked{}, ended{}, socket_gone{}, sdk_gone{}, removed{}, context_set{}, wake_issued{},
         close_reply{}, reserved{}, filled{}, wire_done{}, close_requested{}, quarantined{},
         native{}, native_established{}, native_open_notified{}, terminal_wiped{}, native_retired_seen{}, retiring_charge{},
         native_retiring_charge{}, control{}, request_started{}, has_end{};
+    bool capture_scope{}, capture_failed{};
     End end{End::cancelled};
     unsigned mailbox{}, executing{};
     int desired{-1};
@@ -70,6 +75,8 @@ struct PeerRecord final : io::PeerStorage {
     std::byte *control_data() noexcept { return payload + 101400; }
 };
 static_assert(sizeof(PeerRecord) <= 2048);
+static_assert(sizeof(io::PeerEndpoint) <= 20);
+bool capture_request(Core &, PeerRecord &) noexcept;
 struct PoolSlot {
     PeerRecord *owner{};
 };
@@ -87,6 +94,9 @@ struct Core final : io::Producer, sdk::Sink {
     Callbacks callbacks;
     NativeBinding native;
     RawHooks hooks{};
+    account_capture::detail::SecureErasure account_erasure;
+    account_capture::Callbacks account_callbacks{};
+    U64 connection_counter{}, http_listener_id{};
     Observation observation{};
     std::array<Route, 8> routes{};
     std::array<std::array<char, 16>, 8> methods{};
@@ -264,20 +274,27 @@ struct Core final : io::Producer, sdk::Sink {
             terminate(p, End::elapsed_failed);
     }
     void release_raw(PeerRecord &p) noexcept {
-        if (!p.raw_live)
+        // Reservation alone is not a raw scope. A failed wipe retains quarantine.
+        // An enclosing capture callback still owns all borrowed views.
+        if (p.capture_scope || (!p.raw_live && (p.input == none || p.quarantined)))
             return;
+        const bool owned = p.raw_live;
         p.raw_live = false;
-        if (!p.raw_revoked) {
-            p.raw_revoked = true;
-            if (hook_installed)
-                hooks.revoked(hooks.owner, p.context, p.sequence, p.has_end ? p.end : End::drained);
+        if (owned) {
+            if (!p.raw_revoked) {
+                p.raw_revoked = true;
+                if (hook_installed)
+                    hooks.revoked(hooks.owner, p.context, p.sequence,
+                                  p.has_end ? p.end : End::drained);
+            }
+            wipe(p, RawKind::fields, RawUse::current,
+                 {reinterpret_cast<std::byte *>(p.fields()), 1024});
+            wipe(p, RawKind::fields, RawUse::current, p.arena());
+            wipe(p, RawKind::method, RawUse::current, {p.method(), 16});
+            wipe(p, RawKind::target, RawUse::current, {p.target(), 2048});
         }
-        wipe(p, RawKind::fields, RawUse::current,
-             {reinterpret_cast<std::byte *>(p.fields()), 1024});
-        wipe(p, RawKind::fields, RawUse::current, p.arena());
-        wipe(p, RawKind::method, RawUse::current, {p.method(), 16});
-        wipe(p, RawKind::target, RawUse::current, {p.target(), 2048});
         if (p.input != none) {
+            // Even an unused pre-reserved body capacity is erased before return.
             wipe(p, RawKind::body, RawUse::current,
                  {input_data(p.input), static_cast<std::size_t>(limits.body_bytes)});
             if (!p.quarantined) {
@@ -288,7 +305,8 @@ struct Core final : io::Producer, sdk::Sink {
                 p.input = none;
             }
         }
-        ++observation.raw_releases;
+        if (owned)
+            ++observation.raw_releases;
         anchor_idle(p);
     }
     void request_started(PeerRecord &p) noexcept {
@@ -355,9 +373,19 @@ struct Core final : io::Producer, sdk::Sink {
             observation.current.transient_fds = 0;
         return true;
     }
-    io::PeerStorage *acquire(io::Role role, io::Sample accepted) noexcept override {
-        if (!accepted.available || !accepting(role))
+    io::PeerStorage *acquire(io::Role role, io::Sample accepted,
+                             io::PeerEndpoint endpoint) noexcept override {
+        if (!accepted.available || !accepting(role) ||
+            (endpoint.family != 4 && endpoint.family != 6) || !endpoint.port)
             return nullptr;
+        if (endpoint.family == 4 &&
+            !std::all_of(endpoint.address.begin() + 4, endpoint.address.end(),
+                         [](std::byte b) { return b == std::byte{}; }))
+            return nullptr;
+        if (connection_counter == none) {
+            ++observation.generation_exhaustions;
+            return nullptr;
+        }
         for (U64 i = 0; i < limits.peers; ++i) {
             auto &p = record(i);
             if (p.live)
@@ -367,6 +395,8 @@ struct Core final : io::Producer, sdk::Sink {
                 continue;
             }
             ++p.incarnation;
+            p.endpoint = endpoint;
+            p.capture_facts.connection = ++connection_counter;
             p.live = true;
             p.native = role == io::Role::native;
             p.sequence = 1;
@@ -390,7 +420,13 @@ struct Core final : io::Producer, sdk::Sink {
     bool before_parse(io::PeerStorage &value) noexcept override {
         auto &p = static_cast<PeerRecord &>(value);
         if (stopping.load(std::memory_order_acquire) || p.socket_gone || p.control ||
-            !p.wanted || p.delivered || !guard(p))
+            !p.wanted || p.delivered)
+            return false;
+        // SDK calls this only for actual buffered bytes admitted to parsing.
+        // A pipelined successor may have arrived in a prior read/sequence.
+        if (!p.native)
+            p.raw_live = true;
+        if (!guard(p))
             return false;
         request_started(p); // SDK invokes this only for actual buffered bytes.
         if (p.close_requested)
@@ -469,8 +505,7 @@ struct Core final : io::Producer, sdk::Sink {
         for (U64 i = 0; i < limits.input_slots; ++i)
             if (!input(i).owner) {
                 input(i).owner = &p;
-                p.input = i;
-                p.raw_live = true;
+                p.input = i; // capacity reserved before reads, not yet a raw scope
                 ++observation.current.input_slots;
                 observation.current.input_capacity += limits.body_bytes;
                 observation.current.metadata_charge += 128;
@@ -717,6 +752,8 @@ void PeerRecord::read_witness(io::ReadWitness w) noexcept {
     if (w.returned > 0) {
         bytes_read += static_cast<U64>(w.returned);
         o.bytes_read += static_cast<U64>(w.returned);
+        if (!native)
+            raw_live = true; // includes partial/malformed bytes before parser completion
         core->request_started(*this);
     }
     if (w.iovcnt == 1)
@@ -915,6 +952,8 @@ void Core::complete(io::PeerStorage &value) noexcept {
     if (!guard(p))
         return;
     p.delivered = true;
+    if (account_callbacks.capture && !capture_request(*this, p))
+        return;
     ++observation.requests;
     try {
         auto request = Factory::issue<Request>(*this, p, request_bit, 1);
@@ -1474,6 +1513,7 @@ Result<Done> register_listeners(Foundation &f, drogon::HttpAppFramework &app,
     if (!sdk::Runtime::listener(app, {e.address, e.http_port}, io::Role::http) ||
         !sdk::Runtime::listener(app, {e.address, e.port}, io::Role::native))
         return Error::invalid_config;
+    c.http_listener_id = 1; // identifier of this actual successful HTTP role registration
     c.registered = true;
     return Done{};
 }
@@ -1601,3 +1641,19 @@ Result<std::unique_ptr<Foundation>> create(Limits l, std::span<const Route> rout
     }
 }
 } // namespace subathon::server::bounded_http
+
+namespace subathon::server::account_capture::testing {
+Result<Done> install_erasure_observer(bounded_http::Foundation &foundation,
+                                      ErasureObserver observer) noexcept {
+    auto &core = bounded_http::Factory::core(foundation);
+    if (std::this_thread::get_id() != core.creator)
+        return Error::wrong_thread;
+    if (!observer.owner || !observer.visit)
+        return Error::invalid_config;
+    if (core.registered)
+        return Error::invalid_state;
+    return core.account_erasure.install(observer);
+}
+} // namespace subathon::server::account_capture::testing
+
+#include "account_capture_implementation.hpp"

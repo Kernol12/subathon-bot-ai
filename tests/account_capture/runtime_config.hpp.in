@@ -1,0 +1,8 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+#pragma once
+// Ordinary root-configured test DATA, never an author evidence destination.
+#include <string_view>
+namespace account_capture_test::runtime_config {
+inline constexpr std::string_view scratch_parent =
+    R"sbtfixture(@ACCOUNT_CAPTURE_RUNTIME_PARENT@)sbtfixture";
+} // namespace account_capture_test::runtime_config
