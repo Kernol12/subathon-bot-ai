@@ -642,43 +642,53 @@ class SessionClockTests final : public QObject {
             unsigned commands_done = 0, nonlast_checked = 0;
             r.dispatch->execution = [&](auto &command, auto) {
                 const auto sequence = r.dispatch->executions;
-                auto body = [](auto context) -> QVariant { return read_installation(context); };
+                auto body = [&](auto context) -> QVariant {
+                    return r.dispatch->failures.call([&] { return read_installation(context); });
+                };
                 if (sequence == 1) {
                     admitted(command.forward(body, [&](const auto &result) {
-                        require(result.transaction == TransactionOutcome::committed &&
-                                    result.error == WorkError::none && result.value,
-                                "A actual positive normal completion");
-                        auto positive = binding([&] { return service.bind_completion(command); });
-                        sample(*positive, 1000);
-                        success(command.finish(), "A finishes before retaining stale handle");
-                        stale.emplace(std::move(command));
-                        ++commands_done;
+                        r.dispatch->failures.call([&] {
+                            require(result.transaction == TransactionOutcome::committed &&
+                                        result.error == WorkError::none && result.value,
+                                    "A actual positive normal completion");
+                            auto positive =
+                                binding([&] { return service.bind_completion(command); });
+                            sample(*positive, 1000);
+                            success(command.finish(), "A finishes before retaining stale handle");
+                            stale.emplace(std::move(command));
+                            ++commands_done;
+                        });
                     }));
                     return;
                 }
                 admitted(command.forward(body, [&](const auto &result) {
-                    require(result.transaction == TransactionOutcome::committed &&
-                                result.error == WorkError::none && result.value,
-                            "B first unit normal, but next accepted unit pending");
-                    nonlast = binding([&] { return service.bind_completion(command); });
-                    unavailable(nonlast->sample_current());
-                    require(source->reads == 1, "Non-last completion refuses BEFORE read");
-                    ++nonlast_checked;
+                    r.dispatch->failures.call([&] {
+                        require(result.transaction == TransactionOutcome::committed &&
+                                    result.error == WorkError::none && result.value,
+                                "B first unit normal, but next accepted unit pending");
+                        nonlast = binding([&] { return service.bind_completion(command); });
+                        unavailable(nonlast->sample_current());
+                        require(source->reads == 1, "Non-last completion refuses BEFORE read");
+                        ++nonlast_checked;
+                    });
                 }));
                 admitted(command.forward(body, [&](const auto &result) {
-                    require(result.transaction == TransactionOutcome::committed &&
-                                result.error == WorkError::none && result.value,
-                            "B actual LAST normal completion");
-                    auto wrong = binding([&] { return service.bind_completion(*stale); });
-                    unavailable(wrong->sample_current());
-                    unavailable(nonlast->sample_current());
-                    require(source->reads == 1,
+                    r.dispatch->failures.call([&] {
+                        require(result.transaction == TransactionOutcome::committed &&
+                                    result.error == WorkError::none && result.value,
+                                "B actual LAST normal completion");
+                        auto wrong = binding([&] { return service.bind_completion(*stale); });
+                        unavailable(wrong->sample_current());
+                        unavailable(nonlast->sample_current());
+                        require(
+                            source->reads == 1,
                             "Stale/different A and prior-unit scope refuse in valid B completion");
-                    auto positive = binding([&] { return service.bind_completion(command); });
-                    sample(*positive, 1000);
-                    require(source->reads == 2, "Within-case current last completion positive");
-                    success(command.finish(), "B ends");
-                    ++commands_done;
+                        auto positive = binding([&] { return service.bind_completion(command); });
+                        sample(*positive, 1000);
+                        require(source->reads == 2, "Within-case current last completion positive");
+                        success(command.finish(), "B ends");
+                        ++commands_done;
+                    });
                 }));
             };
             auto peer = r.peer();
