@@ -183,12 +183,12 @@ TEST(AccountCaptureErasure, CallerObservationCapacityOverflowFailsClosed) {
     actual_observer_failure({false, false, 1}, true);
 }
 TEST(AccountCaptureLogs, ExistingTrantorCallbackPositiveAndOverflowAreRealFailures) {
-    static LogObservation state; // live through global logger teardown
-    bind_checked_log(state);
-    EXPECT_TRUE(state.clean());
+    static auto *state = new LogObservation; // callback target survives ALL global/DSO teardown
+    bind_checked_log(*state);
+    EXPECT_TRUE(state->clean());
     LOG_TRACE << "CNY-s11-7q9";
-    EXPECT_TRUE(state.detected());
-    EXPECT_FALSE(state.clean());
+    EXPECT_TRUE(state->detected());
+    EXPECT_FALSE(state->clean());
     // Separate local stream-capacity control; no pointer/oversized span is read.
     static LogObservation over;
     over.feed(nullptr, 1);

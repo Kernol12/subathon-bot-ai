@@ -19,6 +19,7 @@ struct ColdRegistration {
     account_capture_test::LogObservation logs;
     std::unique_ptr<ws::Profile> native;
 };
+static_assert(sizeof(ColdRegistration) <= 192);
 ColdRegistration *cold_registration = nullptr; // once/process, SDK global callback owner
 class ColdCapture : public testing::Test {
   protected:

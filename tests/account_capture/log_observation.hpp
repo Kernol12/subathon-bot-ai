@@ -37,11 +37,13 @@ inline void bind_log(LogObservation &state) {
     trantor::Logger::setLogLevel(trantor::Logger::kTrace); // no Fatal-only suppression
 }
 // One independent control target, then actual clean target, both process-retained.
-inline LogObservation log_control;
+inline LogObservation *log_control = nullptr;
 inline void bind_checked_log(LogObservation &actual) {
-    bind_log(log_control);
+    if (!log_control)
+        log_control = new LogObservation;
+    bind_log(*log_control);
     LOG_TRACE << "CNY-s11-7q9"; // actual existing Logger, not a simulated output event
-    if (!log_control.detected())
+    if (!log_control->detected())
         throw std::runtime_error("FIXTURE: logger scanner positive missing");
     bind_log(actual);
 }
