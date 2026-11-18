@@ -15,8 +15,28 @@ if((SUBATHON_BUILD_BOUNDED_HTTP_FOUNDATION_TESTS OR SUBATHON_BUILD_API_HOST_NATI
     if(sbt_bounded_http_successor)
         # Successor producer and SDK interfaces are reviewed together in the tier A cycle.
         add_library(subathon_bounded_http_development STATIC src/bounded_http_sdk_adapter.cpp
+            src/account_capture_observer.cpp
             $<TARGET_OBJECTS:subathon_bounded_http_storage>)
-        target_link_libraries(subathon_bounded_http_development PRIVATE Drogon::Drogon)
+        # The account eraser uses the same authenticated static SDK as the host.
+        if(NOT TARGET Sodium::Sodium)
+            include("${PROJECT_SOURCE_DIR}/cmake/SodiumDependency.cmake")
+        endif()
+        set(sbt_account_seal "${sbt_drogon_root}/dependency-build.json")
+        set(sbt_account_profile "${sbt_drogon_root}/share/subathon-bounded-http-foundation/manifest.json")
+        set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
+            "${sbt_account_seal}" "${sbt_account_profile}")
+        file(SHA256 "${sbt_account_seal}" ACCOUNT_CAPTURE_ARTIFACT_SHA256)
+        file(SHA256 "${sbt_account_profile}" ACCOUNT_CAPTURE_PROFILE_SHA256)
+        file(READ "${sbt_account_seal}" sbt_account_seal_json)
+        string(JSON sbt_account_seal_profile GET "${sbt_account_seal_json}" profile_manifest_sha256)
+        if(NOT sbt_account_seal_profile STREQUAL ACCOUNT_CAPTURE_PROFILE_SHA256)
+            message(FATAL_ERROR "Selected account producer seal/profile disagreement")
+        endif()
+        configure_file("${CMAKE_CURRENT_SOURCE_DIR}/src/account_capture_identity.hpp.in"
+            "${CMAKE_CURRENT_BINARY_DIR}/account-capture-producer-private/account_capture_identity.hpp" @ONLY)
+        target_include_directories(subathon_bounded_http_development PRIVATE
+            "${CMAKE_CURRENT_BINARY_DIR}/account-capture-producer-private")
+        target_link_libraries(subathon_bounded_http_development PRIVATE Drogon::Drogon Sodium::Sodium)
         target_include_directories(subathon_bounded_http_development PUBLIC
             "${CMAKE_CURRENT_SOURCE_DIR}/include")
         subathon_target_options(subathon_bounded_http_development)

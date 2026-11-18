@@ -86,9 +86,10 @@
 +}
 --- /dev/null
 +++ b/trantor/net/BoundedIo.h
-@@ -0,0 +1,49 @@
+@@ -0,0 +1,58 @@
 +// SPDX-License-Identifier: GPL-3.0-or-later
 +#pragma once
++#include <array>
 +#include <cstddef>
 +#include <cstdint>
 +#include <span>
@@ -96,6 +97,14 @@
 +using U64 = std::uint64_t;
 +enum class Role : std::uint8_t { http, native };
 +struct Sample { bool available; U64 ns; };
++// Accepted numeric endpoint: family 4/6, network-order address bytes, HOST-order port.
++// IPv4 uses the first four bytes, zero-filling the remainder. No string ownership.
++struct PeerEndpoint {
++    std::uint8_t family;
++    std::array<std::byte,16> address;
++    std::uint16_t port;
++};
++static_assert(sizeof(PeerEndpoint) <= 20);
 +struct ReadWitness {
 +    U64 head, tail, writable, offered;
 +    std::int64_t returned;
@@ -129,7 +138,7 @@
 +    virtual Sample sample() noexcept = 0;
 +    virtual bool accepting(Role) noexcept = 0;
 +    virtual bool transient(bool acquire) noexcept = 0;
-+    virtual PeerStorage *acquire(Role, Sample accepted) noexcept = 0;
++    virtual PeerStorage *acquire(Role, Sample accepted, PeerEndpoint) noexcept = 0;
 +    virtual bool before_parse(PeerStorage &) noexcept = 0;
 +    virtual bool before_read(PeerStorage &, ReadWitness) noexcept = 0;
 +    virtual bool before_write(PeerStorage&) noexcept = 0;
@@ -342,12 +351,14 @@
      friend class TcpClient;
 --- a/trantor/net/TcpServer.cc
 +++ b/trantor/net/TcpServer.cc
-@@ -1,3 +1,4 @@
+@@ -1,3 +1,6 @@
 +#include <trantor/net/BoundedIoInternal.h>
++#include <arpa/inet.h>
++#include <cstring>
  /**
   *
   *  @file TcpServer.cc
-@@ -59,6 +60,37 @@
+@@ -59,6 +62,50 @@
 
  void TcpServer::newConnection(int sockfd, const InetAddress &peer)
  {
@@ -355,7 +366,20 @@
 +        bool transferred=false;
 +        struct Accepted { int fd; bool &transferred; ~Accepted(){if(!transferred) ::close(fd);} } accepted{sockfd,transferred};
 +        auto sample=boundedProducer_->sample();
-+        auto *storage=sample.available ? boundedProducer_->acquire(boundedRole_,sample) : nullptr;
++        bounded_io::PeerEndpoint endpoint{};
++        const auto *address=peer.getSockAddr();
++        if(address->sa_family==AF_INET) {
++            const auto *v4=reinterpret_cast<const sockaddr_in*>(address);
++            endpoint.family=4;
++            std::memcpy(endpoint.address.data(),&v4->sin_addr,4);
++            endpoint.port=ntohs(v4->sin_port);
++        } else if(address->sa_family==AF_INET6) {
++            const auto *v6=reinterpret_cast<const sockaddr_in6*>(address);
++            endpoint.family=6;
++            std::memcpy(endpoint.address.data(),&v6->sin6_addr,16);
++            endpoint.port=ntohs(v6->sin6_port);
++        } else return; // stack Accepted closes the actual FD, no partial fact
++        auto *storage=sample.available ? boundedProducer_->acquire(boundedRole_,sample,endpoint) : nullptr;
 +        if(!storage) return;
 +        auto memory=storage->sdk_storage();
 +        if(memory.size()<sizeof(bounded_io::Slot) || reinterpret_cast<std::uintptr_t>(memory.data())%64) {
@@ -385,7 +409,7 @@
      LOG_TRACE << "new connection:fd=" << sockfd
                << " address=" << peer.toIpPort();
      loop_->assertInLoopThread();
-@@ -129,11 +161,17 @@
+@@ -129,11 +176,17 @@
              }
          }
          LOG_TRACE << "map size=" << timingWheelMap_.size();
@@ -404,7 +428,7 @@
      if (loop_->isInLoopThread())
      {
          acceptorPtr_.reset();
-@@ -253,4 +291,69 @@
+@@ -253,4 +306,69 @@
              }
          });
      }
@@ -658,7 +682,7 @@
  }
  TcpConnectionImpl::~TcpConnectionImpl()
  {
-@@ -131,10 +143,26 @@
+@@ -131,10 +143,36 @@
  {
      // LOG_TRACE<<"read Callback";
      loop_->assertInLoopThread();
@@ -669,7 +693,17 @@
          return;
 +    if (bounded_)
 +    {
-+        if (bounded_->closing || bounded_->paused) return;
++        if (bounded_->closing) return;
++        if (bounded_->paused) {
++#ifdef __linux__
++            if (!bounded_->native) {
++                const auto ready=ioChannelPtr_->revents();
++                if (ready & (POLLERR | POLLNVAL)) handleError();
++                else if (ready & (POLLRDHUP | POLLHUP)) handleClose();
++            }
++#endif
++            return; // close-only: no read, compaction, parser or witness
++        }
 +        if (!readBuffer_.fixedCompact(*bounded_->storage)) { close(); return; }
 +        bounded_io::ReadWitness w{readBuffer_.fixedHead(),readBuffer_.fixedTail(),
 +            readBuffer_.writableBytes(),readBuffer_.writableBytes(),0,0,0};
@@ -686,7 +720,7 @@
      int ret = 0;
 
      ssize_t n = readBuffer_.readFd(socketPtr_->fd(), &ret);
-@@ -243,7 +271,7 @@
+@@ -243,7 +281,7 @@
  void TcpConnectionImpl::requestNativeProfileWrite()
  {
      loop_->assertInLoopThread();
@@ -695,7 +729,7 @@
      const bool wasWriting = ioChannelPtr_->isWriting();
      if (!wasWriting) ioChannelPtr_->enableWriting();
      if (!wasWriting && !nativeProfileWriting_ && writeBufferList_.empty())
-@@ -251,6 +279,12 @@
+@@ -251,6 +289,12 @@
  }
  void TcpConnectionImpl::writeCallback()
  {
@@ -708,7 +742,7 @@
      loop_->assertInLoopThread();
      if (nativeProfileChannelRemoved_) return;
      auto native = nativeProfileIo();
-@@ -325,6 +359,12 @@
+@@ -325,6 +369,15 @@
  }
  void TcpConnectionImpl::connectEstablished()
  {
@@ -716,12 +750,15 @@
 +        status_=ConnStatus::Connected;
 +        ioChannelPtr_->tie(shared_from_this());
 +        if(connectionCallback_) connectionCallback_(shared_from_this());
++        // The connection callback has now supplied Slot::native. Even an initial
++        // no-capacity/suspended ordinary peer needs its existing close-only watch.
++        if (!bounded_->native && bounded_->paused && !bounded_->closing) reading(false);
 +        return;
 +    }
      auto thisPtr = shared_from_this();
      loop_->runInLoop([thisPtr]() {
          LOG_TRACE << "connectEstablished";
-@@ -341,6 +381,7 @@
+@@ -341,6 +394,7 @@
  }
  void TcpConnectionImpl::handleClose()
  {
@@ -729,7 +766,7 @@
      if (nativeProfileChannelRemoved_) return;
      LOG_TRACE << "connection closed, fd=" << socketPtr_->fd();
      LOG_TRACE << "write buffer size: " << writeBufferList_.size();
-@@ -372,6 +413,7 @@
+@@ -372,6 +426,7 @@
  }
  void TcpConnectionImpl::handleError()
  {
@@ -737,7 +774,7 @@
      if (nativeProfileChannelRemoved_) return;
      int err = socketPtr_->getSocketError();
      if (err == 0)
-@@ -412,6 +454,16 @@
+@@ -412,6 +467,16 @@
  }
  void TcpConnectionImpl::shutdown()
  {
@@ -754,7 +791,7 @@
      auto thisPtr = shared_from_this();
      loop_->runInLoop([thisPtr]() {
          if (thisPtr->status_ == ConnStatus::Connected)
-@@ -447,6 +499,7 @@
+@@ -447,6 +512,7 @@
 
  void TcpConnectionImpl::forceClose()
  {
@@ -762,7 +799,7 @@
      auto thisPtr = shared_from_this();
      loop_->runInLoop([thisPtr]() {
          if (thisPtr->status_ == ConnStatus::Connected ||
-@@ -511,11 +564,17 @@
+@@ -511,11 +577,17 @@
          if (writeBufferList_.empty() || writeBufferList_.back()->isFile() ||
              writeBufferList_.back()->isStream())
          {
@@ -785,7 +822,7 @@
          if (highWaterMarkCallback_ &&
              writeBufferList_.back()->remainingBytes() >
                  static_cast<long long>(highWaterMarkLen_))
-@@ -536,6 +595,7 @@
+@@ -536,6 +608,7 @@
  // The order of data sending should be same as the order of calls of send()
  void TcpConnectionImpl::send(const std::shared_ptr<std::string> &msgPtr)
  {
@@ -793,7 +830,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(msgPtr->data(), msgPtr->length());
-@@ -550,6 +610,7 @@
+@@ -550,6 +623,7 @@
  // The order of data sending should be same as the order of calls of send()
  void TcpConnectionImpl::send(const std::shared_ptr<MsgBuffer> &msgPtr)
  {
@@ -801,7 +838,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(msgPtr->peek(), msgPtr->readableBytes());
-@@ -563,6 +624,7 @@
+@@ -563,6 +637,7 @@
  }
  void TcpConnectionImpl::send(const char *msg, size_t len)
  {
@@ -809,7 +846,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(msg, len);
-@@ -578,6 +640,7 @@
+@@ -578,6 +653,7 @@
  }
  void TcpConnectionImpl::send(const void *msg, size_t len)
  {
@@ -817,7 +854,7 @@
      if (loop_->isInLoopThread())
      {
  #ifndef _WIN32
-@@ -598,6 +661,7 @@
+@@ -598,6 +674,7 @@
  }
  void TcpConnectionImpl::send(const std::string &msg)
  {
@@ -825,7 +862,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(msg.data(), msg.length());
-@@ -611,6 +675,7 @@
+@@ -611,6 +688,7 @@
  }
  void TcpConnectionImpl::send(std::string &&msg)
  {
@@ -833,7 +870,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(msg.data(), msg.length());
-@@ -626,6 +691,7 @@
+@@ -626,6 +704,7 @@
 
  void TcpConnectionImpl::send(const MsgBuffer &buffer)
  {
@@ -841,7 +878,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(buffer.peek(), buffer.readableBytes());
-@@ -640,6 +706,7 @@
+@@ -640,6 +719,7 @@
 
  void TcpConnectionImpl::send(MsgBuffer &&buffer)
  {
@@ -849,7 +886,7 @@
      if (loop_->isInLoopThread())
      {
          sendInLoop(buffer.peek(), buffer.readableBytes());
-@@ -656,6 +723,7 @@
+@@ -656,6 +736,7 @@
                                   long long offset,
                                   long long length)
  {
@@ -857,7 +894,7 @@
      assert(fileName);
  #ifdef _WIN32
      sendFile(utils::toWidePath(fileName).c_str(), offset, length);
-@@ -676,6 +744,7 @@
+@@ -676,6 +757,7 @@
                                   long long offset,
                                   long long length)
  {
@@ -865,7 +902,7 @@
      assert(fileName);
  #ifndef _WIN32
      sendFile(utils::toNativePath(fileName).c_str(), offset, length);
-@@ -692,6 +761,7 @@
+@@ -692,6 +774,7 @@
 
  void TcpConnectionImpl::sendFile(BufferNodePtr &&fileNode)
  {
@@ -873,7 +910,7 @@
      assert(fileNode->isFile() && fileNode->remainingBytes() > 0);
      if (loop_->isInLoopThread())
      {
-@@ -704,12 +774,18 @@
+@@ -704,12 +787,18 @@
          {
              auto n = sendNodeInLoop(fileNode);
              if (fileNode->remainingBytes() > 0 && n >= 0)
@@ -897,7 +934,7 @@
          }
      }
      else
-@@ -725,11 +801,17 @@
+@@ -725,11 +814,17 @@
              {
                  auto n = thisPtr->sendNodeInLoop(node);
                  if (node->remainingBytes() > 0 && n >= 0)
@@ -919,7 +956,7 @@
              }
          });
      }
-@@ -738,6 +820,7 @@
+@@ -738,6 +833,7 @@
  void TcpConnectionImpl::sendStream(
      std::function<std::size_t(char *, std::size_t)> callback)
  {
@@ -927,7 +964,7 @@
      auto node = BufferNode::newStreamBufferNode(std::move(callback));
      if (loop_->isInLoopThread())
      {
-@@ -750,12 +833,18 @@
+@@ -750,12 +846,18 @@
          {
              auto n = sendNodeInLoop(node);
              if (node->remainingBytes() > 0 && n >= 0)
@@ -951,7 +988,7 @@
          }
      }
      else
-@@ -772,11 +861,17 @@
+@@ -772,11 +874,17 @@
              {
                  auto n = thisPtr->sendNodeInLoop(node);
                  if (node->remainingBytes() > 0 && n >= 0)
@@ -973,7 +1010,7 @@
              }
          });
      }
-@@ -1076,6 +1171,7 @@
+@@ -1076,6 +1184,7 @@
  };
  AsyncStreamPtr TcpConnectionImpl::sendAsyncStream(bool disableKickoff)
  {
@@ -981,7 +1018,7 @@
      auto asyncStreamNode = BufferNode::newAsyncStreamBufferNode();
      std::weak_ptr<TcpConnectionImpl> weakPtr = shared_from_this();
      auto asyncStream = std::make_unique<AsyncStreamImpl>(
-@@ -1137,7 +1233,10 @@
+@@ -1137,7 +1246,10 @@
          if (encryptionPending_ || tlsHandshakePending_)
              pendingTlsWriteBufferList_.push_back(asyncStreamNode);
          else
@@ -993,7 +1030,7 @@
      }
      else
      {
-@@ -1166,11 +1265,17 @@
+@@ -1166,11 +1278,17 @@
              {
                  auto n = thisPtr->sendNodeInLoop(node);
                  if (n >= 0 && (node->remainingBytes() > 0 || node->available()))
@@ -1015,7 +1052,7 @@
              }
          });
      }
-@@ -1180,6 +1285,7 @@
+@@ -1180,6 +1298,7 @@
                                              const char *data,
                                              size_t len)
  {
@@ -1023,7 +1060,7 @@
      loop_->assertInLoopThread();
      const bool isPendingTlsNode =
          std::find(pendingTlsWriteBufferList_.begin(),
-@@ -1200,12 +1306,18 @@
+@@ -1200,12 +1319,18 @@
                  }
                  if (static_cast<size_t>(nWritten) < len)
                  {
@@ -1044,7 +1081,7 @@
              }
          }
      }
-@@ -1231,3 +1343,70 @@
+@@ -1231,3 +1356,90 @@
          }
      }
  }
@@ -1053,16 +1090,36 @@
 +void TcpConnectionImpl::reading(bool on) noexcept {
 +    if (!bounded_ || !loop_->isInLoopThread() || bounded_->closing) return;
 +    const bool was_paused=bounded_->paused;
++#ifdef __linux__
++    if (!bounded_->native) {
++        constexpr int close_only=POLLRDHUP | POLLHUP | POLLERR;
++        const auto prior=ioChannelPtr_->events();
++        const auto next=on ? ((prior & ~close_only) | Channel::kReadEvent)
++                          : ((prior & ~Channel::kReadEvent) | close_only);
++        // Also install on an already-paused peer. Preserve write interest.
++        if (next!=prior) ioChannelPtr_->updateEvents(next);
++    }
++#endif
 +    if(was_paused==!on) return;
 +    bounded_->paused=!on;
 +    if (on) {
++#ifdef __linux__
++        if (bounded_->native) ioChannelPtr_->enableReading();
++#else
 +        ioChannelPtr_->enableReading();
++#endif
 +        if (was_paused && !bounded_->native_established && bounded_->resume_parser && bounded_->parser) {
 +            bounded_->continuing=true;
 +            bounded_->resume_parser(bounded_->parser,&readBuffer_);
 +            bounded_->continuing=false;
 +        }
-+    } else ioChannelPtr_->disableReading();
++    } else {
++#ifdef __linux__
++        if (bounded_->native) ioChannelPtr_->disableReading();
++#else
++        ioChannelPtr_->disableReading();
++#endif
++    }
 +}
 +bool TcpConnectionImpl::wire(std::span<const std::byte> bytes,void *cookie) noexcept {
 +    if (!bounded_ || !loop_->isInLoopThread() || bounded_->closing ||

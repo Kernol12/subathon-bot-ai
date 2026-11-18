@@ -181,10 +181,13 @@ without an API-001 evidence dependency; no second I/O loop or blocking thread.
 The substantial generic foundation is already split; further expansion still
 requires integrator scope/review before code.
 
-When route header checks and the synchronous transport call have BOTH finished,
-wipe the token-bearing field arena and consumed receive ranges before release/reuse.
-Wipe method/target/body owners as soon as their owning route scan/parse has finished,
-and always before raw scope release; malformed input can carry secrets anywhere. Preserve any later pipelined bytes only inside
+O1 (owner correction, SESSION-011 only): wipe consumed receive bytes immediately
+after the parser copies them into the first-party head/body owners, keeping the
+selected SDK timing. This shortens the staging copy's secret lifetime. Fields
+(records and arena), method, target and body retain their existing erasure deadline
+after route scan, synchronous transport completion and the end of capture scope,
+always before raw scope release/reuse; malformed input can carry secrets anywhere.
+Preserve any later pipelined bytes only inside
 the same bounded native owner until independently admitted; wipe them on closure.
 Use selected libsodium erasure for project-owned regions/scratch, including error,
 timeout/cancellation and request-pool destruction. Ordinary clear/resize/free and

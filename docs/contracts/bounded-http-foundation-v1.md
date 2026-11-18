@@ -86,6 +86,12 @@ namespace trantor::bounded_io {
 using U64 = std::uint64_t;
 enum class Role : std::uint8_t { http, native };
 struct Sample { bool available; U64 ns; };
+// SESSION-011 owner correction O2: only installed BoundedIo.h/acquire changes.
+struct PeerEndpoint {
+    std::uint8_t family; // 4 or 6
+    std::array<std::byte,16> address; // network-order, IPv4 zero tail
+    std::uint16_t port; // host order
+};
 struct ReadWitness { U64 head, tail, writable, offered;
                      std::int64_t returned; std::int32_t error;
                      std::uint8_t iovcnt; };
@@ -116,7 +122,7 @@ public:
     virtual Sample sample() noexcept = 0;
     virtual bool accepting(Role) noexcept = 0;
     virtual bool transient(bool acquire) noexcept = 0;
-    virtual PeerStorage* acquire(Role, Sample accepted) noexcept = 0;
+    virtual PeerStorage* acquire(Role, Sample accepted, PeerEndpoint) noexcept = 0;
     virtual bool before_parse(PeerStorage&) noexcept = 0;
     virtual bool before_read(PeerStorage&, ReadWitness) noexcept = 0;
     virtual bool before_write(PeerStorage&) noexcept = 0; // R4 correction 11
