@@ -136,7 +136,7 @@ if(SUBATHON_BUILD_REFUND_ENTITLEMENT_TESTS)
         subathon_refund_entitlement GTest::gtest_main)
     subathon_target_options(core_refund_entitlement_acceptance)
     subathon_discover_gtests(core_refund_entitlement_acceptance
-        LABELS "refund-entitlement;acceptance;core;intentional-red" TIMEOUT 30)
+        LABELS "refund-entitlement;acceptance;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_MILESTONE_PROGRESSION_TESTS)
