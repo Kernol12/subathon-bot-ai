@@ -3,7 +3,7 @@ include_guard(GLOBAL)
 
 set(subathon_acceptance_suites
     time-credit exact-numeric timer-lifecycle receipt-intake contribution-evidence
-    pause-policy recurring-schedule application-plan sqlite-writer time-debt sqlite-work
+    pause-policy recurring-schedule application-plan modifier-activation sqlite-writer time-debt sqlite-work
     sqlite-migrations sqlite-retained sqlite-receipt sqlite-contribution sqlite-plan
     sqlite-bundle sqlite-original-claim sqlite-hold application-service sqlite-delivery-jobs
     translation-catalog rate-snapshot milestone-progression milestone-timeline milestone-group-restart session-resolution
@@ -99,6 +99,8 @@ function(subathon_resolve_acceptance_suites output)
             list(APPEND selected ${prefix})
         elseif(suite STREQUAL "milestone-timeline")
             list(APPEND selected exact-numeric milestone-progression milestone-timeline)
+        elseif(suite STREQUAL "modifier-activation")
+            list(APPEND selected exact-numeric application-plan modifier-activation)
         elseif(suite STREQUAL "milestone-progression" OR suite STREQUAL "effective-permissions"
                OR suite STREQUAL "rate-snapshot")
             list(APPEND selected exact-numeric "${suite}")
