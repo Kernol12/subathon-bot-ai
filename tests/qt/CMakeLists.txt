@@ -106,6 +106,34 @@ if(SUBATHON_BUILD_SQLITE_FINANCIAL_REFUNDS_TESTS)
         LABELS "sqlite-financial-refunds;acceptance;qt;server" TIMEOUT 180)
 endif()
 
+if(SUBATHON_BUILD_SQLITE_CREDENTIAL_CATALOG_TESTS)
+    subathon_add_qt_suite(server_sqlite_credential_catalog_acceptance
+        NAME sqlite-credential-catalog SOURCES sqlite_credential_catalog_tests.cpp
+        LIBRARIES subathon_sqlite_credential_catalog subathon_credential_storage
+            subathon_sqlite_financial_refunds subathon_sqlite_milestone_groups
+            subathon_sqlite_modifier_activations
+        LABELS "sqlite-credential-catalog;acceptance;qt;server" TIMEOUT 180)
+endif()
+
+if(SUBATHON_BUILD_SQLITE_CREDENTIALS_TESTS)
+    subathon_add_qt_suite(server_sqlite_credentials_acceptance
+        NAME sqlite-credentials
+        SOURCES sqlite_credentials_tests.cpp ../support/credential_native_controls.cpp
+        LIBRARIES subathon_credential_storage subathon_sqlite_modifier_activations Sodium::Sodium
+        LABELS "sqlite-credentials;acceptance;qt;server" TIMEOUT 120)
+    # A failed cold readiness probe must never affect the main process.
+    subathon_add_qt_suite(server_credential_readiness_acceptance
+        NAME credential-readiness
+        SOURCES credential_readiness_tests.cpp ../support/credential_native_controls.cpp
+        LIBRARIES subathon_credential_storage Sodium::Sodium
+        LABELS "sqlite-credentials;acceptance;qt;server" TIMEOUT 30)
+    foreach(target IN ITEMS server_sqlite_credentials_acceptance server_credential_readiness_acceptance)
+        foreach(symbol IN ITEMS sodium_init randombytes_buf sodium_malloc sodium_mlock sodium_free)
+            target_link_options(${target} PRIVATE "LINKER:--wrap=${symbol}")
+        endforeach()
+    endforeach()
+endif()
+
 if(SUBATHON_BUILD_SQLITE_DELIVERY_JOBS_TESTS)
     subathon_add_qt_suite(server_sqlite_delivery_jobs_acceptance
         NAME sqlite-delivery-jobs SOURCES sqlite_delivery_jobs_tests.cpp
