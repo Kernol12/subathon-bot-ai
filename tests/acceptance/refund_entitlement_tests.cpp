@@ -6,10 +6,20 @@
 #include <span>
 #include <subathon/core/refund_entitlement.hpp>
 #include <subathon/core/time_debt.hpp>
+#include <utility>
 
 namespace {
 using namespace subathon::core;
 using Unit = RequestedUnit;
+
+const std::array invalid_refund_amounts{
+    std::pair{"exceeds original amount", RefundAmounts{20, 19, Exact(101) / 100}},
+    std::pair{"already fully refunded", RefundAmounts{20, 20, 1}},
+    std::pair{"zero incoming amount", RefundAmounts{20, 0, 0}},
+    std::pair{"negative incoming amount", RefundAmounts{20, 0, -1}},
+    std::pair{"zero original amount", RefundAmounts{0, 0, 1}},
+    std::pair{"negative prior amount", RefundAmounts{20, -1, 1}},
+};
 
 void expect_entitlement(const RefundEntitlement &proposal, const Exact &fraction,
                         const Exact &exact, std::int64_t cumulative, std::int64_t increment,
@@ -110,10 +120,8 @@ TEST(RefundEntitlement, A07_UsesOriginalActualMainCreditAfterTheCap) {
 }
 
 TEST(RefundEntitlement, A08_RejectsExcessAndNonpositiveRefundAmounts) {
-    for (const RefundAmounts &amounts :
-         {RefundAmounts{20, 19, Exact(101) / 100}, RefundAmounts{20, 20, 1},
-          RefundAmounts{20, 0, 0}, RefundAmounts{20, 0, -1}, RefundAmounts{0, 0, 1},
-          RefundAmounts{20, -1, 1}}) {
+    for (const auto &[name, amounts] : invalid_refund_amounts) {
+        SCOPED_TRACE(name);
         EXPECT_THROW((void)calculate_refund_entitlement(amounts, Unit::milliseconds, 300000, 0),
                      std::invalid_argument);
     }
@@ -204,6 +212,11 @@ TEST(RefundEntitlement, A14_FullRefundClearsBothOriginalTimeRemainders) {
 }
 
 TEST(RefundEntitlement, A15_RejectsImpossibleTimeAllocationsAndOutOfRangeTotal) {
+    for (const auto &[name, amounts] : invalid_refund_amounts) {
+        SCOPED_TRACE(name);
+        EXPECT_THROW((void)calculate_refund_time_entitlement(amounts, {6, 4}, {0, 0}),
+                     std::invalid_argument);
+    }
     EXPECT_THROW((void)calculate_refund_time_entitlement({20, 10, 10}, {6, 4}, {4, 1}),
                  std::invalid_argument); // Debt already allocated before Main was exhausted.
     EXPECT_THROW((void)calculate_refund_time_entitlement({20, 5, 5}, {6, 4}, {6, 0}),
