@@ -225,7 +225,8 @@
       "id": "MOD-03",
       "status": "planned",
       "tests": [
-        "tests/acceptance/modifier_activation_tests.cpp"
+        "tests/acceptance/modifier_activation_tests.cpp",
+        "tests/qt/sqlite_modifier_activations_tests.cpp"
       ],
       "evidence": []
     },
@@ -1152,7 +1153,7 @@
     {
       "id": "MOD-04",
       "status": "planned",
-      "tests": [],
+      "tests": ["tests/qt/sqlite_modifier_activations_tests.cpp"],
       "evidence": []
     },
     {
