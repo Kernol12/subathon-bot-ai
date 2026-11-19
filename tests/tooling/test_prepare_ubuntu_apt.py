@@ -37,11 +37,10 @@ DIAGNOSTICS = [
         "azure.archive.ubuntu.com", "archive.ubuntu.com", "security.ubuntu.com",
         "mirrors.edge.kernel.org")],
 ]
-PRIVILEGED = [
-    ["sudo", "tee", "/etc/apt/apt-mirrors.txt"],
-    ["sudo", "tee", "/etc/apt/apt.conf.d/99-subathon-network"],
-    ["sudo", "apt-get", "update"],
-]
+NETWORK_WRITE = ["sudo", "tee", "/etc/apt/apt.conf.d/99-subathon-network"]
+PRIVILEGED = [NETWORK_WRITE, ["sudo", "apt-get", "update"]]
+# Record the old command in the mock so the assertions can detect the extra write.
+LEGACY_MIRROR_WRITE = ["sudo", "tee", "/etc/apt/apt-mirrors.txt"]
 
 
 class PrepareUbuntuAptTests(unittest.TestCase):
@@ -84,7 +83,8 @@ class PrepareUbuntuAptTests(unittest.TestCase):
         return self.source
 
     def run_command(self, command, **options):
-        self.assertIn(command, DIAGNOSTICS + PRIVILEGED, "unexpected system command")
+        self.assertIn(command, DIAGNOSTICS + PRIVILEGED + [LEGACY_MIRROR_WRITE],
+                      "unexpected system command")
         self.assertFalse(options.get("shell", False))
         self.calls.append((command, options))
         if options.get("capture_output") and any(options.get(k) is not None for k in ("stdout", "stderr")):
@@ -103,26 +103,24 @@ class PrepareUbuntuAptTests(unittest.TestCase):
             stdout=f"stdout for {' '.join(command)}\n" if captured else None,
             stderr=f"stderr for {' '.join(command)}\n" if captured else None)
 
-    def test_success_has_exact_command_set_trusted_mirror_bytes_and_deadlines(self):
+    def test_success_has_exact_command_set_network_write_and_deadlines(self):
         self.assertEqual(apt.main(), 0)
         commands = [c for c, _ in self.calls]
         self.assertCountEqual(commands[:len(DIAGNOSTICS)], DIAGNOSTICS)
+        writes = [(command, options) for command, options in self.calls
+                  if command[:2] == ["sudo", "tee"]]
+        self.assertEqual([command for command, _ in writes], [NETWORK_WRITE])
         self.assertEqual(commands[len(DIAGNOSTICS):], PRIVILEGED)
         self.read_source.assert_called_once_with(SOURCE_PATH, encoding="utf-8")
-        writes = self.calls[len(DIAGNOSTICS):len(DIAGNOSTICS) + 2]
-        self.assertEqual(writes[0][1]["input"],
-                         "https://mirrors.edge.kernel.org/ubuntu/\tpriority:1\n"
-                         "https://archive.ubuntu.com/ubuntu/\tpriority:2\n"
-                         "https://security.ubuntu.com/ubuntu/\tpriority:3\n")
-        self.assertEqual(writes[1][1]["input"],
+        write_options = writes[0][1]
+        self.assertEqual(write_options["input"],
                          'Acquire::Retries "1";\nAcquire::http::Timeout "15";\n'
                          'Acquire::https::Timeout "15";\nAPT::Update::Error-Mode "any";\n')
-        for _, options in writes:
-            self.assertTrue(options["check"])
-            self.assertTrue(options["text"])
-            self.assertEqual(options["stdout"], subprocess.DEVNULL)
-            self.assertNotIn("stderr", options)
-            self.assertEqual(options["timeout"], 10)
+        self.assertTrue(write_options["check"])
+        self.assertTrue(write_options["text"])
+        self.assertEqual(write_options["stdout"], subprocess.DEVNULL)
+        self.assertNotIn("stderr", write_options)
+        self.assertEqual(write_options["timeout"], 10)
         self.assertTrue(self.calls[-1][1]["check"])
         self.assertEqual(self.calls[-1][1]["timeout"], 300)
         self.assertIn("Diagnostic only; not dependency admission", self.stdout.getvalue())
@@ -155,8 +153,6 @@ class PrepareUbuntuAptTests(unittest.TestCase):
             self.assertIn(f"{' '.join(command)}: exit 2", self.stdout.getvalue())
         self.assertIn("getent ahostsv4 mirrors.edge.kernel.org: exit 0", self.stdout.getvalue())
         self.assertEqual([c for c, _ in self.calls if c[0] == "sudo"], PRIVILEGED)
-        self.assertTrue(self.calls[len(DIAGNOSTICS)][1]["input"].startswith(
-            "https://mirrors.edge.kernel.org/ubuntu/\tpriority:1\n"))
 
     def test_host_refusals_have_specific_reasons_and_no_commands(self):
         cases = [
@@ -228,7 +224,8 @@ class PrepareUbuntuAptTests(unittest.TestCase):
 
     def test_each_critical_failure_or_timeout_returns_nonzero_and_stops(self):
         for index, command in enumerate(PRIVILEGED):
-            for failure in (1, subprocess.TimeoutExpired(command, 10 if index < 2 else 300),
+            timeout = 10 if command == NETWORK_WRITE else 300
+            for failure in (1, subprocess.TimeoutExpired(command, timeout),
                             FileNotFoundError("sudo missing")):
                 with self.subTest(command=command, failure=failure):
                     self.responses = {tuple(command): failure}
