@@ -4,7 +4,7 @@ RATES-010 [#727](https://github.com/Kernol12/subathon-bot-ai/issues/727), Tier A
 Specification v0.45 §9 / FX-06. Owner decisions
 [42A–46B](https://github.com/Kernol12/subathon-bot-ai/issues/727#issuecomment-7020229285)
 and the retained [#406 rules](https://github.com/Kernol12/subathon-bot-ai/pull/724#issuecomment-7008906120)
-govern this boundary. This is a draft for independent contract review.
+govern this boundary. Review receipts and freeze status are recorded in the PR.
 
 ## Scope and entry points
 
