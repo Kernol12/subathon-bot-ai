@@ -53,6 +53,11 @@ add_library(subathon_pause_policy STATIC EXCLUDE_FROM_ALL src/pause_policy.cpp)
 target_include_directories(subathon_pause_policy PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 subathon_target_options(subathon_pause_policy)
 
+add_library(subathon_recurring_schedule STATIC EXCLUDE_FROM_ALL src/recurring_schedule.cpp)
+target_include_directories(subathon_recurring_schedule PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_link_libraries(subathon_recurring_schedule PUBLIC subathon_pause_policy)
+subathon_target_options(subathon_recurring_schedule)
+
 add_library(subathon_timer_editorial_commands STATIC EXCLUDE_FROM_ALL src/timer_editorial_commands.cpp)
 target_include_directories(subathon_timer_editorial_commands PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_link_libraries(subathon_timer_editorial_commands PUBLIC subathon_timer_lifecycle subathon_time_debt)
