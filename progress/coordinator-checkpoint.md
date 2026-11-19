@@ -205,9 +205,14 @@ current readiness.
   [#201 owns the live wiring](https://github.com/Kernol12/subathon-bot-ai/issues/201#issuecomment-7012411967).
   The [registered core red](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7011613636)
   remains frozen at `06dbc980` with 15 intended failures and 33 passing controls.
-  Writer contract review precedes the independent v13 writer baseline.
+  The independent v13 writer red remains on `757d5529`. #199 is Done at
+  protected `e8517afd` after all seven checks passed on proof head `f91e82c0`.
+  The additive v15 catalog preserves the shipped startup selection.
 - SESSION-006 #270 is active in [#729](https://github.com/Kernol12/subathon-bot-ai/pull/729).
-  #727 follows, then #294 when its prerequisites are complete.
+  The component has independent closing approval and passing required CI.
+  Additive v16 catalog integration follows protected v15.
+- [#731](https://github.com/Kernol12/subathon-bot-ai/issues/731) takes the
+  slot freed by #199, ahead of #727, under owner decision 41B.
 
 ### Parallel work and standing CI rerun rule
 

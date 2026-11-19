@@ -227,7 +227,8 @@ class ModifierRows {
         const auto marker =
             one("SELECT CASE WHEN typeof(version)='integer' AND "
                 "((version=14 AND migration_id COLLATE BINARY='modifier-activations-v1') OR "
-                "(version=15 AND migration_id COLLATE BINARY='financial-refunds-v1')) "
+                "(version=15 AND migration_id COLLATE BINARY='financial-refunds-v1') OR "
+                "(version=16 AND migration_id COLLATE BINARY='provider-credentials-v1')) "
                 "AND EXISTS(SELECT 1 FROM main.subathon_catalog WHERE singleton=1 "
                 "AND typeof(catalog_format)='integer' AND catalog_format=1 "
                 "AND store_identity='subathon.sqlite-store') THEN 1 ELSE 0 END "

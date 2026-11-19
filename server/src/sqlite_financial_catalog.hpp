@@ -9,7 +9,8 @@ inline bool selected(const SqliteWorkSession &session) {
     const auto rows = session.execute(
         {"SELECT CASE WHEN typeof(version)!='integer' THEN NULL WHEN version BETWEEN 1 AND 14 THEN "
          "0 "
-         "WHEN version=15 AND migration_id COLLATE BINARY='financial-refunds-v1' THEN 1 END "
+         "WHEN version=15 AND migration_id COLLATE BINARY='financial-refunds-v1' THEN 1 "
+         "WHEN version=16 AND migration_id COLLATE BINARY='provider-credentials-v1' THEN 1 END "
          "FROM main.subathon_migration_history WHERE EXISTS(SELECT 1 FROM main.subathon_catalog "
          "WHERE singleton=1 AND typeof(catalog_format)='integer' AND catalog_format=1 "
          "AND store_identity='subathon.sqlite-store') ORDER BY version DESC LIMIT 1",
