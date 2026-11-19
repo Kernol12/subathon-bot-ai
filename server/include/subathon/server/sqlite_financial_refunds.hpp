@@ -212,6 +212,9 @@ class SqliteFinancialRefundNotImplemented final : public std::logic_error {
         : std::logic_error(std::string("ACCT-006 writer/service NI: ") + entry) {}
 };
 
+// Pure shipped v14 prefix plus the additive financial repository step.
+[[nodiscard]] MigrationManifest financial_refunds_repository_manifest();
+
 // Provisional selected committed/transaction-visible records; no global scan
 // or migration authority. The owner controls whether a selected result may be disclosed.
 class SqliteFinancialRefundStore final {

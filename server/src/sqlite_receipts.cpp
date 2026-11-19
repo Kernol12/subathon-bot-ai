@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#include <subathon/server/sqlite_receipts.hpp>
+#include "sqlite_receipt_read.hpp"
 #include <subathon/server/sqlite_retained_context.hpp>
 
 #include <QStringList>
@@ -218,6 +218,16 @@ class SqliteReceiptTransaction final : public ReceiptTransaction {
             return std::nullopt;
         if (record->identity != identity)
             fail(SqliteReceiptStorageReason::invalid_stored_data);
+        return with_attempts(std::move(record));
+    }
+    std::optional<core::ReceiptRecord> read_selected(SqliteWorkSession session,
+                                                     core::ReceiptId key) {
+        session_ = std::move(session);
+        return with_attempts(original("receipt_id=?", {encode_receipt_uint64(key.value)}));
+    }
+    std::optional<core::ReceiptRecord> with_attempts(std::optional<core::ReceiptRecord> record) {
+        if (!record)
+            return {};
         const auto rows = execute(
             {"SELECT " + projection(attempt_columns()) +
                  " FROM main.subathon_receipt_attempts WHERE receipt_id=? ORDER BY ordinal LIMIT ?",
@@ -649,5 +659,10 @@ std::unique_ptr<ReceiptTransaction> SqliteReceiptRepository::begin() {
         begun_ = true;
     }
     return transaction;
+}
+std::optional<core::ReceiptRecord> read_receipt(const SqliteWorkSession &session,
+                                                core::ReceiptId id) {
+    SqliteReceiptTransaction reader({}, QThread::currentThread());
+    return reader.read_selected(session, id);
 }
 } // namespace subathon::server

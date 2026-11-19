@@ -2,6 +2,7 @@
 #pragma once
 // Private same-session strict decoders shared by bundle and hold persistence.
 #include "sqlite_application_bundle_values.hpp"
+#include "sqlite_financial_catalog.hpp"
 #include "sqlite_selected_record_read.hpp"
 #include <algorithm>
 #include <array>
@@ -1809,6 +1810,22 @@ class Access {
                          });
         return {SqliteBundleBasisDisposition::ready, std::move(out)};
     }
+    std::optional<bundle_detail::GroupedTimeEffect> grouped_time(const ApplicationOperationKey &k) {
+        if (!financial_sql::selected(session_))
+            return {};
+        auto row = one("subathon_financial_refunds", {"time_ordinal", "restored"},
+                       operation_where(), operation_values(k));
+        if (!row || null(*row, 0))
+            return {};
+        return bundle_detail::GroupedTimeEffect{integer(*row, 0), integer(*row, 1)};
+    }
+    bool financial_basis(const ApplicationOriginalComponent &original) {
+        return bool(
+            one("subathon_financial_bases", {"kind"},
+                "original_scope=? AND original_operation=? AND original_ordinal=? AND kind=?",
+                {bytes(original.operation.operation_scope), bytes(original.operation.operation_ref),
+                 qint64(original.request_ordinal), int(original.component_kind)}));
+    }
     std::optional<RecordedApplicationBundle> lookup(const ApplicationOperationKey &k) {
         auto f = fixed(k, false);
         if (!f)
@@ -1857,7 +1874,10 @@ class Access {
             auto stored_limits = limits_;
             stored_limits.input_items = std::numeric_limits<qsizetype>::max() - 1;
             stored_limits.owned_bytes = std::numeric_limits<qsizetype>::max();
-            bundle_detail::validate_bundle(prepared, stored_limits);
+            bundle_detail::validate_bundle(prepared, stored_limits,
+                                           v.intent.kind == ApplicationOperationKind::reversal
+                                               ? grouped_time(k)
+                                               : std::nullopt);
         } catch (const SqliteBundleInputFailure &e) {
             if (e.error() == SqliteBundleInputError::collection_limit ||
                 e.error() == SqliteBundleInputError::exact_component_limit ||
@@ -1949,8 +1969,14 @@ class Access {
         }
         return true;
     }
-    ApplicationBundleStageResult stage(const PreparedApplicationBundle &b) {
+    ApplicationBundleStageResult stage(const PreparedApplicationBundle &b, bool financial = false) {
         const auto &i = b.intent;
+        const auto typed_catalog = !financial && financial_sql::selected(session_);
+        if (typed_catalog && (one("subathon_financial_resolutions", {"operation_ref"},
+                                  operation_where(), operation_values(i.operation)) ||
+                              one("subathon_financial_refunds", {"operation_ref"},
+                                  operation_where(), operation_values(i.operation))))
+            return {SD::operation_conflict, {}};
         if (auto old = lookup(i.operation)) {
             if (bundle_detail::same_intent(old->intent, i))
                 return {SD::already_present, std::move(old)};
@@ -1988,6 +2014,10 @@ class Access {
                 return {SD::reversal_identity_conflict, {}};
             }
         }
+        if (typed_catalog &&
+            std::any_of(b.reversals.begin(), b.reversals.end(),
+                        [&](const auto &link) { return financial_basis(link.original); }))
+            return {SD::reversal_conflict, {}};
         auto head = current();
         if (!head)
             fail(Reason::missing_state);

@@ -180,7 +180,8 @@ inline void validate_bundle_counts(const PreparedApplicationBundle &b,
     add(b.reversals.size());
 }
 inline void validate_effect(const ApplicationEffect &e, size_t position,
-                            const ApplicationStateSnapshot &before, const SqliteBundleLimits &l) {
+                            const ApplicationStateSnapshot &before, const SqliteBundleLimits &l,
+                            std::optional<std::int64_t> original_debt_restored = {}) {
     using CK = ApplicationComponentKind;
     using Role = ApplicationArithmeticRole;
     if (e.request_ordinal != std::int64_t(position) || !enum_in(e.arithmetic_role, 2) ||
@@ -233,7 +234,8 @@ inline void validate_effect(const ApplicationEffect &e, size_t position,
         const auto tail = e.components[2].units;
         if ((e.arithmetic_role == Role::time_addition && (main < 0 || debt > 0 || tail < 0)) ||
             (e.arithmetic_role == Role::time_reversal && (main > 0 || debt < 0 || tail > 0)) ||
-            Exact(main) - Exact(debt) + Exact(tail) != Exact(e.requested_units))
+            Exact(main) - Exact(debt) + Exact(tail) + original_debt_restored.value_or(0) !=
+                Exact(e.requested_units))
             invalid(Input::invalid_component);
     }
 }
@@ -306,7 +308,13 @@ inline bool original_less(const ApplicationOriginalComponent &a,
     return std::tie(a.request_ordinal, a.component_kind) <
            std::tie(b.request_ordinal, b.component_kind);
 }
-inline void validate_reversals(const PreparedApplicationBundle &b, const SqliteBundleLimits &l) {
+// Only a typed financial time occurrence replaces the legacy link at its ordinal.
+struct GroupedTimeEffect {
+    std::int64_t ordinal;
+    std::int64_t restored;
+};
+inline void validate_reversals(const PreparedApplicationBundle &b, const SqliteBundleLimits &l,
+                               std::optional<GroupedTimeEffect> grouped) {
     if (b.intent.kind == ApplicationOperationKind::original && !b.reversals.empty())
         invalid(Input::invalid_reversal);
     const ApplicationReversalLink *previous = nullptr;
@@ -317,9 +325,10 @@ inline void validate_reversals(const PreparedApplicationBundle &b, const SqliteB
             (r.original.component_kind != ApplicationComponentKind::main_delta &&
              r.original.component_kind != ApplicationComponentKind::score &&
              r.original.component_kind != ApplicationComponentKind::whole_count) ||
-            r.request_ordinal < 1 || std::uintmax_t(r.request_ordinal) > b.effects.size() ||
-            r.expected_prior_position < 0 || r.expected_prior_cumulative < 0 ||
-            r.cumulative < r.expected_prior_cumulative || r.requested_increment > 0 ||
+            (grouped && r.request_ordinal == grouped->ordinal) || r.request_ordinal < 1 ||
+            std::uintmax_t(r.request_ordinal) > b.effects.size() || r.expected_prior_position < 0 ||
+            r.expected_prior_cumulative < 0 || r.cumulative < r.expected_prior_cumulative ||
+            r.requested_increment > 0 ||
             (previous && (r.request_ordinal < previous->request_ordinal ||
                           (r.request_ordinal == previous->request_ordinal &&
                            !original_less(previous->original, r.original)))))
@@ -337,6 +346,8 @@ inline void validate_reversals(const PreparedApplicationBundle &b, const SqliteB
     }
     if (b.intent.kind == ApplicationOperationKind::reversal)
         for (const auto &e : b.effects) {
+            if (grouped && grouped->ordinal == e.request_ordinal)
+                continue;
             Exact sum = 0;
             bool present = false;
             for (const auto &r : b.reversals)
@@ -480,7 +491,8 @@ inline void validate_initial(const ApplicationStateSnapshot &s, const SqliteBund
     ByteCount bytes(size_t(l.owned_bytes));
     count_bytes(bytes, s);
 }
-inline void validate_bundle(const PreparedApplicationBundle &b, const SqliteBundleLimits &l) {
+inline void validate_bundle(const PreparedApplicationBundle &b, const SqliteBundleLimits &l,
+                            std::optional<GroupedTimeEffect> grouped = {}) {
     validate_key(b.intent.operation, l);
     validate_plan_key(b.intent.plan, l);
     const auto &i = b.intent;
@@ -504,8 +516,20 @@ inline void validate_bundle(const PreparedApplicationBundle &b, const SqliteBund
         validate_contribution(*i.expected_contribution_state, l);
     if (!valid_envelope(i.choices, l))
         invalid(Input::invalid_contribution);
-    for (size_t index = 0; index < b.effects.size(); ++index)
-        validate_effect(b.effects[index], index + 1, b.advanced_before, l);
+    if (grouped && (i.kind != ApplicationOperationKind::reversal || grouped->ordinal < 1 ||
+                    std::uintmax_t(grouped->ordinal) > b.effects.size() || grouped->restored < 0 ||
+                    b.effects[size_t(grouped->ordinal - 1)].arithmetic_role !=
+                        ApplicationArithmeticRole::time_reversal))
+        invalid(Input::invalid_effect);
+    for (size_t index = 0; index < b.effects.size(); ++index) {
+        const auto &effect = b.effects[index];
+        const auto restoration = grouped && grouped->ordinal == effect.request_ordinal
+                                     ? std::optional{grouped->restored}
+                                     : std::nullopt;
+        validate_effect(effect, index + 1, b.advanced_before, l, restoration);
+        if (restoration && *restoration > effect.components[1].units)
+            invalid(Input::invalid_effect);
+    }
     validate_deltas(b);
     validate_jobs(b, l);
     for (auto transition : b.transitions)
@@ -518,7 +542,7 @@ inline void validate_bundle(const PreparedApplicationBundle &b, const SqliteBund
         (b.audit.decision_ref && !bounded(*b.audit.decision_ref, l.reference_bytes)) ||
         (b.audit.reason && !bounded(*b.audit.reason, l.value_bytes)))
         invalid(Input::invalid_audit);
-    validate_reversals(b, l);
+    validate_reversals(b, l, grouped);
     ByteCount bytes(size_t(l.owned_bytes));
     count_bytes(bytes, i);
     count_bytes(bytes, b.advanced_before);
