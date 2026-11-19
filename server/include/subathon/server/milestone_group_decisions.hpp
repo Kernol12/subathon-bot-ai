@@ -14,6 +14,17 @@ enum class MilestoneRefundPolicy { continue_actions, review, skip };
 enum class MilestoneHoldResolution { continue_actions, skip };
 enum class MilestoneHoldCause { deferred_acceptance, refund_review };
 enum class MilestonePendingDisposition { ready, held, skipped, absent_or_released };
+enum class MilestoneSkipOrigin { deferred_resolution, refund_resolution, refund_policy };
+
+// Identifies the decision row on the same occurrence that made Skip terminal.
+// Use the acceptance decision ref for deferred_resolution and the refund ref
+// for either refund origin.
+struct MilestoneSkipProvenance {
+    MilestoneSkipOrigin origin;
+    std::string source_ref;
+
+    bool operator==(const MilestoneSkipProvenance &) const = default;
+};
 
 struct MilestoneDecisionEvidence {
     std::string actor_ref;
@@ -62,6 +73,7 @@ struct MilestoneRefundAudit {
     std::uint64_t deficit_micro_points;
     std::optional<MilestoneHoldResolution> resolution;
     std::optional<MilestoneDecisionEvidence> resolution_evidence;
+    std::optional<MilestoneSkipProvenance> ended_by_skip;
 };
 
 struct MilestoneAcceptanceAudit {
@@ -70,6 +82,7 @@ struct MilestoneAcceptanceAudit {
     MilestoneDecisionEvidence evidence;
     std::optional<MilestoneHoldResolution> resolution;
     std::optional<MilestoneDecisionEvidence> resolution_evidence;
+    std::optional<MilestoneSkipProvenance> ended_by_skip;
 };
 
 class MilestoneGroupDecisionsNotImplemented final : public std::logic_error {
@@ -108,13 +121,15 @@ class SqliteMilestoneGroupDecisions final {
     }
 
     // Stage in the work that applies the refund. Use the supplied current
-    // target and the exact occurrence's persisted release status.
+    // target and the exact occurrence's persisted release status. Policy
+    // applies only on an unreleased occurrence's new downward crossing.
     void observe_refund(const MilestoneRefundObservation &) const {
         throw MilestoneGroupDecisionsNotImplemented("observe_refund");
     }
 
     // Select one exact active cause on one occurrence. An authorized Continue
-    // clears that cause. Skip of a sole active cause bars pending actions.
+    // clears that cause. Skip also ends every other active cause on the same
+    // occurrence, recording the terminal decision that ended each hold.
     [[nodiscard]] bool resolve(const MilestoneOccurrenceKey &, const MilestoneHoldKey &,
                                MilestoneHoldResolution, const MilestoneDecisionEvidence &) const {
         throw MilestoneGroupDecisionsNotImplemented("resolve");

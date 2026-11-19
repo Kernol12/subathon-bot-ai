@@ -8,6 +8,9 @@ Specification v0.45 §5, §8 and MILE-03. The owner ruled on the start boundary,
 target, independent holds, presentation and catalog order in [PR #721](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7002464326).
 This draft extends the [ordinary group contract](sqlite-milestone-groups-v1.md).
 The C++ boundary is `milestone_group_decisions.hpp`.
+[#721 numbered correction 1](https://github.com/Kernol12/subathon-bot-ai/pull/721)
+and the [owner's 17A/18A/19A decision](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7003511184)
+authorize the timeline boundary and policy below.
 
 ## Writer and decisions
 
@@ -26,10 +29,13 @@ The C++ boundary is `milestone_group_decisions.hpp`.
 - Apply refund policy in the work that applies the refund, using exact signed
   before/after scores and the current authoritative target supplied by the
   caller. A downward crossing (before ≥ current target and after < current
-  target) qualifies when the exact group is unreleased. Equality after the
-  refund leaves the group eligible. The exact unsigned deficit is current
-  target less score after, using the full unsigned 64-bit range. The captured
-  v12 target stays in the immutable occurrence. A committed release starts
+  target) qualifies while the exact group is pending and unreleased. Equality after the
+  refund leaves the group eligible. Further decreases starting below the
+  current target create no policy audit or hold. A fresh crossing can qualify
+  again if the score recovered and the group is still pending. The exact
+  unsigned deficit is current target less score after, using the full unsigned
+  64-bit range. The captured v12 target stays in the immutable occurrence.
+  A committed release starts
   the group, including a release with all actions still queued. Refunds after
   release leave its pending jobs, bonus eligibility and performed history
   intact. Only an applied pre-start policy is entered in the refund policy audit.
@@ -42,10 +48,14 @@ The C++ boundary is `milestone_group_decisions.hpp`.
   decision. No matching active record means false and no change. Continue clears
   only the selected cause. Hold enumeration for an occurrence returns deferral
   first and then refund reviews in bytewise refund-ref order. No resolved
-  cause is reported as active. Skip for a sole active cause records the
-  resolution and skips the occurrence. Retries of an identical refund policy
-  observation leave its prior state intact, including its resolution. A
-  conflicting reuse of the same occurrence/ref fails the refund work.
+  cause is reported as active. Committed Skip is terminal for the occurrence.
+  Record the selected resolution or configured policy and end every other
+  still-active hold on the same occurrence in that work. Preserve the other
+  holds' original decisions and record which Skip ended them, separately
+  from a selected resolution. Earlier resolved holds retain their resolutions.
+  Retries of an identical refund policy observation leave its prior state
+  intact, including its resolution. A conflicting reuse of the same
+  occurrence/ref fails the refund work.
 - SQL writes and reads are provisional within the caller's session. Known
   rollback discards both the originating changes and their decision records.
   Publish only on normally acknowledged commit. For ambiguous completion the
@@ -70,16 +80,14 @@ path must recognize the exact catalog identity and preserve v12 occurrence
 membership, including the independent-job path. A recognized v13 store with
 missing required schema fails the affected work.
 
-The current #234 hold port takes a completion and returns a boolean. A warm
-timeline exact gate and Skip traversal await owner approval of correction 17.
-#294 owns live composition, including writer acknowledgements and timeline
-publication. Acceptance here covers the durable handoff and recovered input.
-
-Two behavior edges await a ruling: a refund starting and ending below the
-current target, and Skip when another cause remains active on the same
-occurrence. The Stage 1 examples use downward crossings and resolve multiple
-causes independently with Continue. Skip examples select a sole cause or
-an explicit original Skip.
+On an eligible owner turn the warm timeline consults the exact port for a
+keyed head. Ready starts that head. Held or unavailable stops the walk.
+AbsentOrReleased, stale or missing decision facts supply no disposition.
+Skipped discards that exact head and continues on the same turn, subject to
+the next head's decision. The legacy completion lookup applies to keyless
+heads. Queue pauses, active presentations and running gaps keep their #234
+boundaries. #294 owns live composition, including writer acknowledgements and
+timeline publication.
 
 ## Additive catalog
 
@@ -96,10 +104,17 @@ values are normal=0/silent=1, Run=0/Defer=1/Skip=2, policy
 Continue=0/Review=1/Skip=2 and resolution Continue=0/Skip=1. A NULL resolution
 has NULL actor and decision refs. A non-NULL resolution has both refs and
 belongs to a Defer or Review row. A skipped occurrence retains `released=0`.
+An indirectly ended hold has a NULL resolution triple and a non-NULL
+`ended_by_skip_kind` and `ended_by_skip_ref`. The kind identifies a deferral
+resolution (0), refund Review resolution (1), or configured refund policy (2).
+Together with the occurrence, the ref selects the acceptance decision ref for
+kind 0 or the refund ref for kinds 1 and 2. The writer verifies that the source
+is the actual terminal Skip and updates the affected rows atomically. Only
+Defer and Review rows can carry this provenance.
 Policy audit stores exact operands. Derive the unsigned deficit from those
 operands without SQLite numeric coercion.
 
 ```sql
-CREATE TABLE subathon_milestone_acceptance_decisions(occurrence_ref BLOB NOT NULL, mode INTEGER NOT NULL CHECK(typeof(mode)='integer' AND mode IN (0,1)), choice INTEGER NOT NULL CHECK(typeof(choice)='integer' AND choice IN (0,1,2)), actor_ref BLOB NOT NULL CHECK(typeof(actor_ref)='blob' AND length(actor_ref) BETWEEN 1 AND 4096), decision_ref BLOB NOT NULL CHECK(typeof(decision_ref)='blob' AND length(decision_ref) BETWEEN 1 AND 4096), resolution INTEGER, resolution_actor_ref BLOB, resolution_ref BLOB, CHECK((resolution IS NULL AND resolution_actor_ref IS NULL AND resolution_ref IS NULL) OR (choice=1 AND typeof(resolution)='integer' AND resolution IN (0,1) AND typeof(resolution_actor_ref)='blob' AND length(resolution_actor_ref) BETWEEN 1 AND 4096 AND typeof(resolution_ref)='blob' AND length(resolution_ref) BETWEEN 1 AND 4096)), PRIMARY KEY(occurrence_ref), FOREIGN KEY(occurrence_ref) REFERENCES subathon_milestone_groups(occurrence_ref))
-CREATE TABLE subathon_milestone_refund_decisions(occurrence_ref BLOB NOT NULL, refund_ref BLOB NOT NULL CHECK(typeof(refund_ref)='blob' AND length(refund_ref) BETWEEN 1 AND 4096), score_before_micro_points INTEGER NOT NULL CHECK(typeof(score_before_micro_points)='integer'), score_after_micro_points INTEGER NOT NULL CHECK(typeof(score_after_micro_points)='integer'), current_target_micro_points INTEGER NOT NULL CHECK(typeof(current_target_micro_points)='integer'), policy INTEGER NOT NULL CHECK(typeof(policy)='integer' AND policy IN (0,1,2)), resolution INTEGER, resolution_actor_ref BLOB, resolution_ref BLOB, CHECK((resolution IS NULL AND resolution_actor_ref IS NULL AND resolution_ref IS NULL) OR (policy=1 AND typeof(resolution)='integer' AND resolution IN (0,1) AND typeof(resolution_actor_ref)='blob' AND length(resolution_actor_ref) BETWEEN 1 AND 4096 AND typeof(resolution_ref)='blob' AND length(resolution_ref) BETWEEN 1 AND 4096)), PRIMARY KEY(occurrence_ref,refund_ref), FOREIGN KEY(occurrence_ref) REFERENCES subathon_milestone_groups(occurrence_ref))
+CREATE TABLE subathon_milestone_acceptance_decisions(occurrence_ref BLOB NOT NULL, mode INTEGER NOT NULL CHECK(typeof(mode)='integer' AND mode IN (0,1)), choice INTEGER NOT NULL CHECK(typeof(choice)='integer' AND choice IN (0,1,2)), actor_ref BLOB NOT NULL CHECK(typeof(actor_ref)='blob' AND length(actor_ref) BETWEEN 1 AND 4096), decision_ref BLOB NOT NULL CHECK(typeof(decision_ref)='blob' AND length(decision_ref) BETWEEN 1 AND 4096), resolution INTEGER, resolution_actor_ref BLOB, resolution_ref BLOB, ended_by_skip_kind INTEGER, ended_by_skip_ref BLOB, CHECK((resolution IS NULL AND resolution_actor_ref IS NULL AND resolution_ref IS NULL) OR (choice=1 AND typeof(resolution)='integer' AND resolution IN (0,1) AND typeof(resolution_actor_ref)='blob' AND length(resolution_actor_ref) BETWEEN 1 AND 4096 AND typeof(resolution_ref)='blob' AND length(resolution_ref) BETWEEN 1 AND 4096)), CHECK((ended_by_skip_kind IS NULL AND ended_by_skip_ref IS NULL) OR (choice=1 AND resolution IS NULL AND typeof(ended_by_skip_kind)='integer' AND ended_by_skip_kind IN (0,1,2) AND typeof(ended_by_skip_ref)='blob' AND length(ended_by_skip_ref) BETWEEN 1 AND 4096)), PRIMARY KEY(occurrence_ref), FOREIGN KEY(occurrence_ref) REFERENCES subathon_milestone_groups(occurrence_ref))
+CREATE TABLE subathon_milestone_refund_decisions(occurrence_ref BLOB NOT NULL, refund_ref BLOB NOT NULL CHECK(typeof(refund_ref)='blob' AND length(refund_ref) BETWEEN 1 AND 4096), score_before_micro_points INTEGER NOT NULL CHECK(typeof(score_before_micro_points)='integer'), score_after_micro_points INTEGER NOT NULL CHECK(typeof(score_after_micro_points)='integer'), current_target_micro_points INTEGER NOT NULL CHECK(typeof(current_target_micro_points)='integer'), policy INTEGER NOT NULL CHECK(typeof(policy)='integer' AND policy IN (0,1,2)), resolution INTEGER, resolution_actor_ref BLOB, resolution_ref BLOB, ended_by_skip_kind INTEGER, ended_by_skip_ref BLOB, CHECK((resolution IS NULL AND resolution_actor_ref IS NULL AND resolution_ref IS NULL) OR (policy=1 AND typeof(resolution)='integer' AND resolution IN (0,1) AND typeof(resolution_actor_ref)='blob' AND length(resolution_actor_ref) BETWEEN 1 AND 4096 AND typeof(resolution_ref)='blob' AND length(resolution_ref) BETWEEN 1 AND 4096)), CHECK((ended_by_skip_kind IS NULL AND ended_by_skip_ref IS NULL) OR (policy=1 AND resolution IS NULL AND typeof(ended_by_skip_kind)='integer' AND ended_by_skip_kind IN (0,1,2) AND typeof(ended_by_skip_ref)='blob' AND length(ended_by_skip_ref) BETWEEN 1 AND 4096)), PRIMARY KEY(occurrence_ref,refund_ref), FOREIGN KEY(occurrence_ref) REFERENCES subathon_milestone_groups(occurrence_ref))
 ```

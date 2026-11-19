@@ -3,6 +3,7 @@
 
 #include <QTest>
 #include <limits>
+#include <map>
 #include <subathon/server/milestone_group_decisions.hpp>
 
 namespace {
@@ -13,8 +14,10 @@ using Policy = MilestoneRefundPolicy;
 using Resolution = MilestoneHoldResolution;
 using Release = MilestoneReleaseDisposition;
 using Gate = MilestonePendingDisposition;
+using Head = MilestoneHeadDisposition;
+using SkipOrigin = MilestoneSkipOrigin;
 
-const MilestoneOccurrenceKey first{"z-first"}, second{"a-second"};
+const MilestoneOccurrenceKey first{"z-first"}, second{"a-second"}, third{"m-third"};
 const DeliveryJobKey first_job{origin, "job"}, delivered_job{origin, "done"},
     second_job{following_origin, "job"};
 const MilestoneBonusKey first_bonus{first, 2}, second_bonus{second, 1};
@@ -166,14 +169,16 @@ void record_acceptance(const SqliteWorkSession &s, const ApplicationOperationKey
 }
 
 void require_acceptance(File &file, const MilestoneOccurrenceKey &key, Choice expected,
-                        std::optional<Resolution> resolution = std::nullopt) {
+                        std::optional<Resolution> resolution = std::nullopt,
+                        std::optional<MilestoneSkipProvenance> ended_by = std::nullopt) {
     const auto result = committed(*file.writer, [&](const auto &s) {
         return SqliteMilestoneGroupDecisions(s).acceptance_audit(key);
     });
     require(result && result->mode == Mode::silent && result->choice == expected &&
                 result->evidence == input_review && result->resolution == resolution &&
                 result->resolution_evidence ==
-                    (resolution ? std::optional{action_review} : std::nullopt),
+                    (resolution ? std::optional{action_review} : std::nullopt) &&
+                result->ended_by_skip == ended_by,
             "Acceptance audit retains the original choice and any separate resolution");
 }
 
@@ -183,21 +188,25 @@ std::vector<MilestoneHoldKey> holds(File &file, const MilestoneOccurrenceKey &ke
     });
 }
 
-std::optional<MilestoneRefundAudit> refund_audit(File &file, const MilestoneOccurrenceKey &key) {
+std::optional<MilestoneRefundAudit> refund_audit(File &file, const MilestoneOccurrenceKey &key,
+                                                 const std::string &ref = "refund-17") {
     return committed(*file.writer, [&](const auto &s) {
-        return SqliteMilestoneGroupDecisions(s).refund_audit(key, "refund-17");
+        return SqliteMilestoneGroupDecisions(s).refund_audit(key, ref);
     });
 }
 
 void expect_refund(File &file, const MilestoneOccurrenceKey &key, Policy policy,
                    std::uint64_t deficit, std::int64_t current_target,
-                   std::optional<Resolution> resolution = std::nullopt) {
-    const auto audit = refund_audit(file, key);
+                   std::optional<Resolution> resolution = std::nullopt,
+                   const std::string &ref = "refund-17",
+                   std::optional<MilestoneSkipProvenance> ended_by = std::nullopt) {
+    const auto audit = refund_audit(file, key, ref);
     require(audit && audit->policy == policy && audit->deficit_micro_points == deficit &&
                 audit->current_target_micro_points == current_target &&
                 audit->resolution == resolution &&
                 audit->resolution_evidence ==
-                    (resolution ? std::optional{action_review} : std::nullopt),
+                    (resolution ? std::optional{action_review} : std::nullopt) &&
+                audit->ended_by_skip == ended_by,
             "Exact refund deficit, selected policy and any authorized resolution are audited");
 }
 
@@ -230,9 +239,15 @@ void require_order(File &file, const std::vector<MilestoneOccurrenceKey> &expect
     require(actual == expected, "Recovered groups retain durable queue order");
 }
 
-class PresentationProbe final : public MilestoneGroupRelease {
+class PresentationProbe : public MilestoneGroupRelease {
   public:
     bool review_held(const subathon::core::MilestoneCompletion &) const override { return false; }
+
+    std::optional<Head> occurrence_disposition(const MilestoneOccurrenceKey &) const override {
+        // These tests supply the ready v12 group or exercise cold queue selection
+        // independently of the warm gate.
+        return Head::ready;
+    }
 
     void release(CommittedMilestoneGroup group) override {
         require(group.occurrence.has_value(), "Each offered presentation carries an occurrence");
@@ -240,6 +255,26 @@ class PresentationProbe final : public MilestoneGroupRelease {
     }
 
     std::vector<MilestoneOccurrenceKey> offers;
+};
+
+class WarmPresentationProbe final : public PresentationProbe {
+  public:
+    bool review_held(const subathon::core::MilestoneCompletion &) const override {
+        ++legacy_lookups;
+        return false;
+    }
+
+    std::optional<Head> occurrence_disposition(const MilestoneOccurrenceKey &key) const override {
+        lookups.push_back(key);
+        const auto found = decisions.find(key.ref);
+        if (found == decisions.end())
+            return std::nullopt;
+        return found->second;
+    }
+
+    std::map<std::string, Head> decisions;
+    mutable std::vector<MilestoneOccurrenceKey> lookups;
+    mutable int legacy_lookups{0};
 };
 
 std::vector<CommittedMilestoneGroup> recovered_groups(File &file) {
@@ -258,6 +293,23 @@ void seed_first_acceptance(const SqliteWorkSession &s, int choice) {
         {"INSERT INTO main.subathon_milestone_acceptance_decisions "
          "(occurrence_ref,mode,choice,actor_ref,decision_ref) VALUES (?,1,?,?,?)",
          {QByteArray("z-first"), choice, QByteArray("operator-a"), QByteArray("accept-31")}});
+}
+
+void seed_overlapping_refund_reviews(const SqliteWorkSession &s) {
+    (void)s.execute(
+        {"INSERT INTO main.subathon_milestone_refund_decisions "
+         "(occurrence_ref,refund_ref,score_before_micro_points,score_after_micro_points,"
+         "current_target_micro_points,policy) VALUES (?, ?, 150, 99, 100, 1),"
+         "(?, ?, 120, 117, 120, 1)",
+         {QByteArray("z-first"), QByteArray("refund-17"), QByteArray("z-first"),
+          QByteArray("refund-25")}});
+    (void)s.execute(
+        {"INSERT INTO main.subathon_milestone_refund_decisions "
+         "(occurrence_ref,refund_ref,score_before_micro_points,score_after_micro_points,"
+         "current_target_micro_points,policy,resolution,resolution_actor_ref,resolution_ref) "
+         "VALUES (?, ?, 100, 98, 100, 1, 0, ?, ?)",
+         {QByteArray("z-first"), QByteArray("refund-09"), QByteArray("operator-c"),
+          QByteArray("review-12")}});
 }
 } // namespace
 
@@ -548,6 +600,42 @@ class MilestoneGroupDecisionsTests final : public QObject {
         });
     }
 
+    void furtherDecreaseDoesNotRepeatPolicyButFreshCrossingDoes() {
+        check([] {
+            DecisionFile file;
+            file.record();
+            const auto before = recorded(file);
+            (void)committed(*file.writer, [](const auto &s) {
+                seed_first_acceptance(s, 1);
+                return true;
+            });
+            (void)committed(*file.writer, [](const auto &s) {
+                SqliteMilestoneGroupDecisions decisions(s);
+                // The current target is 120 while the captured target is 100.
+                decisions.observe_refund({first, "refund-17", 120, 110, 120});
+                decisions.observe_refund({first, "refund-20", 110, 99, 120, Policy::skip});
+                // Score later recovered to 120 without releasing the deferred head.
+                decisions.observe_refund({first, "refund-25", 120, 117, 120});
+                return true;
+            });
+            file.reopen();
+            expect_refund(file, first, Policy::review, 10, 120);
+            require(!refund_audit(file, first, "refund-20"),
+                    "A further decrease does not apply even configured Skip");
+            expect_refund(file, first, Policy::review, 3, 120, std::nullopt, "refund-25");
+            require(
+                holds(file, first) ==
+                    std::vector{deferred, refund_hold,
+                                MilestoneHoldKey{MilestoneHoldCause::refund_review, "refund-25"}},
+                "Defer and both distinct crossings remain open across a cold reopen");
+            require_gate(file, first, Gate::held);
+            require_order(file, {first, second, third, {"b-empty"}});
+            release(file, first, Release::refused);
+            release(file, second, Release::refused);
+            require(recorded(file) == before, "Refund decisions preserve the captured target");
+        });
+    }
+
     void releasedButUnclaimedGroupRetainsEligibilityAndPresentation() {
         check([] {
             File file;
@@ -642,6 +730,173 @@ class MilestoneGroupDecisionsTests final : public QObject {
             release(file, second, Release::refused);
             release(file, first, Release::released);
             release(file, second, Release::released);
+        });
+    }
+
+    void terminalSkipEndsAllRemainingHolds_data() {
+        QTest::addColumn<int>("skipSource");
+        QTest::newRow("deferral-resolution") << 0;
+        QTest::newRow("refund-resolution") << 1;
+        QTest::newRow("configured-refund") << 2;
+    }
+
+    void terminalSkipEndsAllRemainingHolds() {
+        QFETCH(int, skipSource);
+        check([&] {
+            DecisionFile file;
+            file.record();
+            (void)committed(*file.writer, [](const auto &s) {
+                seed_first_acceptance(s, 1);
+                seed_overlapping_refund_reviews(s);
+                return true;
+            });
+            const auto before = recorded(file);
+            const auto events = delivery_history(file);
+            const auto release_before = file.reads(release_rows);
+
+            MilestoneSkipProvenance terminal{SkipOrigin::deferred_resolution, "accept-31"};
+            if (skipSource == 0) {
+                resolve(file, first, deferred, Resolution::skip);
+            } else if (skipSource == 1) {
+                resolve(file, first, refund_hold, Resolution::skip);
+                terminal = {SkipOrigin::refund_resolution, "refund-17"};
+            } else {
+                (void)committed(*file.writer, [](const auto &s) {
+                    SqliteMilestoneGroupDecisions(s).observe_refund(
+                        {first, "refund-31", 125, 119, 120, Policy::skip});
+                    return true;
+                });
+                terminal = {SkipOrigin::refund_policy, "refund-31"};
+            }
+
+            file.reopen();
+            if (skipSource == 0)
+                require_acceptance(file, first, Choice::defer, Resolution::skip);
+            else
+                require_acceptance(file, first, Choice::defer, std::nullopt, terminal);
+            if (skipSource == 1)
+                expect_refund(file, first, Policy::review, 1, 100, Resolution::skip);
+            else
+                expect_refund(file, first, Policy::review, 1, 100, std::nullopt, "refund-17",
+                              terminal);
+            expect_refund(file, first, Policy::review, 3, 120, std::nullopt, "refund-25", terminal);
+            if (skipSource == 2)
+                expect_refund(file, first, Policy::skip, 1, 120, std::nullopt, "refund-31");
+            const auto earlier = refund_audit(file, first, "refund-09");
+            require(earlier && earlier->policy == Policy::review &&
+                        earlier->deficit_micro_points == 2 &&
+                        earlier->current_target_micro_points == 100 &&
+                        earlier->resolution == Resolution::continue_actions &&
+                        earlier->resolution_evidence ==
+                            MilestoneDecisionEvidence{"operator-c", "review-12"} &&
+                        !earlier->ended_by_skip,
+                    "A previously resolved review keeps its own committed decision");
+            require(holds(file, first).empty(), "No hold on the skipped occurrence stays open");
+            require_gate(file, first, Gate::skipped);
+            const auto acceptance_before_retry = file.reads(acceptance_rows);
+            const auto refunds_before_retry = file.reads(refund_rows);
+            const MilestoneHoldKey other_review{MilestoneHoldCause::refund_review, "refund-25"};
+            require(!committed(*file.writer,
+                               [&](const auto &s) {
+                                   return SqliteMilestoneGroupDecisions(s).resolve(
+                                       first, other_review, Resolution::continue_actions,
+                                       action_review);
+                               }),
+                    "An ended hold cannot be resolved after terminal Skip");
+            require(file.reads(acceptance_rows) == acceptance_before_retry &&
+                        file.reads(refund_rows) == refunds_before_retry,
+                    "Refusing an ended hold leaves both decision tables intact");
+            require_order(file, {second, third, {"b-empty"}});
+            release(file, first, Release::refused);
+            refused_actions(file, first_job, first_bonus);
+            require(file.reads(release_rows) == release_before,
+                    "Skip omits the head without marking it released");
+            release(file, second, Release::released);
+            require(recorded(file) == before && delivery_history(file) == events &&
+                        bonus_receipts(file).empty(),
+                    "Terminal Skip preserves captures and delivery history");
+        });
+    }
+
+    void warmExactHeadStopsUntilReady_data() {
+        QTest::addColumn<bool>("unavailable");
+        QTest::newRow("held") << false;
+        QTest::newRow("unavailable") << true;
+    }
+
+    void warmExactHeadStopsUntilReady() {
+        QFETCH(bool, unavailable);
+        check([&] {
+            const auto groups = captures();
+            auto following = groups[1].group;
+            following.achievement = groups[0].group.achievement;
+            WarmPresentationProbe port;
+            if (!unavailable)
+                port.decisions.emplace(first.ref, Head::held);
+            port.decisions.emplace(second.ref, Head::ready);
+            MilestoneTimeline timeline({}, port);
+            timeline.accept_committed({groups[0].group, following}, 10ms);
+            require(port.offers.empty() && !timeline.presentation(),
+                    "Held or unavailable exact head stops a ready alias of the same achievement");
+            require(port.lookups == std::vector{first} && port.legacy_lookups == 0,
+                    "Only the exact keyed head is consulted");
+
+            port.decisions[first.ref] = Head::ready;
+            timeline.advance(11ms);
+            require(port.lookups == std::vector{first, first} &&
+                        port.offers == std::vector{first} && port.legacy_lookups == 0 &&
+                        timeline.presentation() ==
+                            ActiveMilestonePresentation{"peak-z", 0ms, 2500ms},
+                    "Ready starts the exact head on the next eligible turn");
+        });
+    }
+
+    void warmSkipWaitsForCurrentWindowAndGap_data() {
+        QTest::addColumn<bool>("duringGap");
+        QTest::newRow("during-presentation") << false;
+        QTest::newRow("during-gap") << true;
+    }
+
+    void warmSkipWaitsForCurrentWindowAndGap() {
+        QFETCH(bool, duringGap);
+        check([&] {
+            const auto groups = captures();
+            auto alias = groups[2].group;
+            alias.achievement = groups[1].group.achievement;
+            auto skipped = groups[1].group;
+            skipped.timing = {3000ms, 500ms};
+            WarmPresentationProbe port;
+            port.decisions = {
+                {first.ref, Head::ready}, {second.ref, Head::held}, {third.ref, Head::ready}};
+            MilestoneTimeline timeline({}, port);
+            timeline.accept_committed({groups[0].group, skipped, alias}, 10ms);
+
+            if (!duringGap)
+                port.decisions[second.ref] = Head::skipped;
+            timeline.advance(2509ms);
+            require(port.offers == std::vector{first} &&
+                        timeline.presentation() ==
+                            ActiveMilestonePresentation{"peak-z", 2499ms, 2500ms},
+                    "A pending Skip leaves the active presentation at its original last sample");
+            timeline.advance(2510ms);
+            require(!timeline.presentation() && port.offers == std::vector{first},
+                    "The original presentation expires into its captured gap");
+            if (duringGap)
+                port.decisions[second.ref] = Head::skipped;
+            timeline.advance(2909ms);
+            require(!timeline.presentation() && port.offers == std::vector{first},
+                    "The original gap still gates the next start");
+            timeline.advance(2910ms);
+            require(port.offers == std::vector{first, third} &&
+                        timeline.presentation() ==
+                            ActiveMilestonePresentation{"peak-a", 0ms, 10000ms},
+                    "Skip advances to the ready alias on the same turn without its own window");
+            require(port.lookups == std::vector{first, second, third} && port.legacy_lookups == 0,
+                    "The window and gap defer consultation, then only exact keys are used");
+            timeline.advance(13910ms);
+            require(!timeline.presentation() && port.offers == std::vector{first, third} &&
+                        port.lookups == std::vector{first, second, third},
+                    "The skipped head was removed and never offered again");
         });
     }
 
