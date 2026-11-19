@@ -432,6 +432,13 @@ TEST(RuleConditionAcceptance, DoesNotInferSubscriptionDetailsChatFlagsOrPaymentE
     matches(payment, capture(Kind::payment_received), {Truth::unknown});
     matches(payment, capture(Kind::payment_received, not_applicable), {Truth::match});
 
+    const auto not_confirmed = configuration(
+        Kind::payment_received, {RulePredicate{RuleEnumComparison<PaymentEvidence>{
+                                    PaymentEvidence::confirmed, RuleEquality::not_equal}}});
+    const RuleCapturedFact unknown_payment[] = {PaymentEvidence::unknown};
+    rejects_evaluation(not_confirmed, capture(Kind::payment_received, unknown_payment),
+                       Error::invalid_capture);
+
     const auto unknown_operand =
         configuration(Kind::payment_received, {RulePredicate{RuleEnumComparison<PaymentEvidence>{
                                                   PaymentEvidence::unknown, RuleEquality::equal}}});
