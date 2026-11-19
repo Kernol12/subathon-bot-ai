@@ -194,7 +194,9 @@
     {
       "id": "RULE-01",
       "status": "planned",
-      "tests": [],
+      "tests": [
+        "tests/acceptance/rule_definition_tests.cpp"
+      ],
       "evidence": []
     },
     {
@@ -206,7 +208,9 @@
     {
       "id": "RULE-03",
       "status": "planned",
-      "tests": [],
+      "tests": [
+        "tests/acceptance/rule_definition_tests.cpp"
+      ],
       "evidence": []
     },
     {
