@@ -193,9 +193,15 @@
     },
     {
       "id": "RULE-01",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/rule_definition_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/735#issuecomment-7024035880",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/735#issuecomment-7024214931"
+      ],
+      "scope": "RULES-001 validates and preserves typed, ordered, versioned definitions including priorities and exclusive-group references. Rule selection, exclusions and precedence remain #206."
     },
     {
       "id": "RULE-02",
@@ -205,9 +211,15 @@
     },
     {
       "id": "RULE-03",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/rule_definition_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/735#issuecomment-7024035880",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/735#issuecomment-7024214931"
+      ],
+      "scope": "RULES-001 validates and retains the configured depth and count limits, with defaults of 32 and 256. Per-root enforcement, stopping, audit and notice remain #210."
     },
     {
       "id": "MOD-01",

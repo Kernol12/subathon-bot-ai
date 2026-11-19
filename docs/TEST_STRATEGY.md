@@ -31,7 +31,7 @@ still using synthetic data and supplied policy/authority facts.
 | Preset | Focused CTest selection | Current behavior/proof |
 | --- | --- | --- |
 | `acceptance-debug` | `-L '^acceptance$'` | 23 cap-limited credit cases in the owning suite: pure numeric planning, not full product proof |
-| `core-acceptance-debug` | whole preset | Every pure GoogleTest suite below in one build (through `rate-snapshot`); used by the CI `core` job |
+| `core-acceptance-debug` | whole preset | Ordinary passing pure GoogleTest suites in one build, also used by the CI `core` job |
 | `exact-numeric-debug` | `-L '^exact-numeric$'` | 33 exact decimal/half-even conversion cases |
 | `timer-lifecycle-debug` | `-L '^timer-lifecycle$'` | 39 Main/Grace transition proposals |
 | `pause-policy-debug` | `-L '^pause-policy$'` | 37 independent pause-reason/delay proposals |
@@ -66,6 +66,7 @@ still using synthetic data and supplied policy/authority facts.
 | `bounded-http-foundation-debug` | `-L '^bounded-http-foundation$'` | 34 reviewed methods passing locally against the bounded successor, with a mandatory real legacy positive, frozen 97-row wire inventory and actual read/retention/stop observations; native44 is separately gated against the same SDK. Ordinary passing CI, no Qt/SQL/host behavior claim. |
 | `rate-snapshot-debug` | `-L '^rate-snapshot$'` | 53 preserved cases for owned lossless observations, exact effective-table validation and inverse/cross queries; no provider/cache/valuation integration |
 | `core-acceptance-debug` | `-L '^valuation-snapshot-codec$'` | 25 shared RSV1 codec cases for exact bytes, canonical retained evidence, and bounded decoding and encoding. Valuation integration remains #553. |
+| `core-acceptance-debug` | `-L '^rule-definition$'` | 26 cases for owned versioned rules, typed actions and predicates, and exact captured monetary comparisons. #206, #208 and #210 cover selection, planning and generated-event enforcement. |
 | `schema-validation-debug` | `-L '^schema-validation$'` | 3 nodes: repository OpenAPI/components/examples, canonical proof/policy aggregate and real-SDK proof publication integration; actual HEAD inputs are required |
 
 Selecting `reference-rule` with `SUBATHON_ACCEPTANCE_SUITES` builds 11 pure configured-

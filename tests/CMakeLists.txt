@@ -239,6 +239,14 @@ if(SUBATHON_BUILD_VALUATION_SNAPSHOT_CODEC_TESTS)
         LABELS "valuation-snapshot-codec;acceptance;core" TIMEOUT 30)
 endif()
 
+if(SUBATHON_BUILD_RULE_DEFINITION_TESTS)
+    add_executable(core_rule_definition_acceptance acceptance/rule_definition_tests.cpp)
+    target_link_libraries(core_rule_definition_acceptance PRIVATE subathon_rule_definition GTest::gtest_main)
+    subathon_target_options(core_rule_definition_acceptance)
+    subathon_discover_gtests(core_rule_definition_acceptance
+        LABELS "rule-definition;acceptance;core" TIMEOUT 30)
+endif()
+
 if(SUBATHON_BUILD_RATE_OVERRIDE_TESTS)
     add_executable(core_rate_override_acceptance acceptance/rate_override_tests.cpp)
     target_link_libraries(core_rate_override_acceptance PRIVATE subathon_rate_overrides GTest::gtest_main)

@@ -6,7 +6,7 @@ set(subathon_acceptance_suites
     pause-policy recurring-schedule application-plan modifier-activation sqlite-writer time-debt sqlite-work
     sqlite-migrations sqlite-retained sqlite-receipt sqlite-contribution sqlite-plan
     sqlite-bundle sqlite-original-claim sqlite-hold application-service sqlite-delivery-jobs
-    translation-catalog rate-snapshot rate-override valuation-snapshot-codec milestone-progression milestone-timeline milestone-group-restart
+    translation-catalog rate-snapshot rate-override valuation-snapshot-codec rule-definition milestone-progression milestone-timeline milestone-group-restart
     milestone-group-decisions sqlite-modifier-activations sqlite-financial-refunds sqlite-credential-catalog connector-lifecycle session-resolution
     password-hashing credential-record sqlite-credentials effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
@@ -116,7 +116,8 @@ function(subathon_resolve_acceptance_suites output)
             list(APPEND selected exact-numeric milestone-progression milestone-timeline)
         elseif(suite STREQUAL "modifier-activation")
             list(APPEND selected exact-numeric application-plan modifier-activation)
-        elseif(suite STREQUAL "rate-override" OR suite STREQUAL "valuation-snapshot-codec")
+        elseif(suite STREQUAL "rate-override" OR suite STREQUAL "valuation-snapshot-codec"
+               OR suite STREQUAL "rule-definition")
             list(APPEND selected exact-numeric rate-snapshot "${suite}")
         elseif(suite STREQUAL "milestone-progression" OR suite STREQUAL "effective-permissions"
                OR suite STREQUAL "rate-snapshot" OR suite STREQUAL "refund-entitlement")

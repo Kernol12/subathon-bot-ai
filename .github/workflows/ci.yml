@@ -214,6 +214,7 @@ jobs:
               "valuation-snapshot-codec": ({"acceptance", "core"}, 30),
               "modifier-activation": ({"acceptance", "core"}, 30),
               "refund-entitlement": ({"acceptance", "core"}, 30),
+              "rule-definition": ({"acceptance", "core"}, 30),
           }
           discovery = json.loads(subprocess.check_output(
               ["ctest", "--preset", "core-acceptance-debug", "--show-only=json-v1"], text=True))
@@ -260,6 +261,8 @@ jobs:
               raise SystemExit(f"Expected 48 modifier activation cases, got {found['modifier-activation']}")
           if found["refund-entitlement"] != 15:
               raise SystemExit(f"Expected 15 refund entitlement cases, got {found['refund-entitlement']}")
+          if found["rule-definition"] != 26:
+              raise SystemExit(f"Expected 26 rule definition cases, got {found['rule-definition']}")
           print(json.dumps({"time-credit": credit, **found}, indent=2))
           PYTHON
       - name: Run every pure core acceptance case and the infrastructure checks
