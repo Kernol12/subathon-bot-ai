@@ -92,6 +92,14 @@ if(SUBATHON_BUILD_MILESTONE_GROUP_DECISIONS_TESTS)
         LABELS "milestone-group-decisions;acceptance;qt;server")
 endif()
 
+if(SUBATHON_BUILD_SQLITE_MODIFIER_ACTIVATIONS_TESTS)
+    subathon_add_qt_suite(server_sqlite_modifier_activations_acceptance
+        NAME sqlite-modifier-activations SOURCES sqlite_modifier_activations_tests.cpp
+            "${PROJECT_SOURCE_DIR}/server/src/sqlite_modifier_activations.cpp"
+        LIBRARIES subathon_sqlite_milestone_groups subathon_original_application_service
+        LABELS "sqlite-modifier-activations;acceptance;qt;server;intentional-red" TIMEOUT 180)
+endif()
+
 if(SUBATHON_BUILD_SQLITE_DELIVERY_JOBS_TESTS)
     subathon_add_qt_suite(server_sqlite_delivery_jobs_acceptance
         NAME sqlite-delivery-jobs SOURCES sqlite_delivery_jobs_tests.cpp
