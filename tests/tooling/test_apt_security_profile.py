@@ -91,7 +91,7 @@ class AptSecurityProfileTests(unittest.TestCase):
             ("os_release",), ("source_read",), ("write", runner_line),
             ("flush",), ("validate",), ("write", ADMITTED), ("flush",),
             ("validate_end",), ("command",)])
-        self.assertEqual(len(sandbox.calls), 10, "seven diagnostics, two writes, one update")
+        self.assertEqual([command for command, _ in sandbox.calls], diagnostics.SETUP_COMMANDS)
         self.assertEqual(sandbox.calls[-1],
                          (diagnostics.UPDATE, {"check": True, "timeout": 300}))
 
@@ -435,14 +435,11 @@ class AptSecurityProfileTests(unittest.TestCase):
                 self.assert_source_read(sandbox, source)
                 self.assertEqual(sandbox.stderr.getvalue(), diagnostics.RUNNER_LINE)
                 self.assertEqual(sandbox.stderr.attempts, [diagnostics.RUNNER_LINE])
-                self.assertEqual(len(sandbox.calls), 10)
+                self.assertEqual([command for command, _ in sandbox.calls], diagnostics.SETUP_COMMANDS)
                 self.assertEqual(sandbox.calls[-1],
                                  (diagnostics.UPDATE, {"check": True, "timeout": 300}))
 
     def test_admitted_setup_preserves_exact_commands_options_and_write_bytes(self):
-        expected_mirrors = ("https://mirrors.edge.kernel.org/ubuntu/\tpriority:1\n"
-                            "https://archive.ubuntu.com/ubuntu/\tpriority:2\n"
-                            "https://security.ubuntu.com/ubuntu/\tpriority:3\n")
         expected_config = ('Acquire::Retries "1";\nAcquire::http::Timeout "15";\n'
                            'Acquire::https::Timeout "15";\nAPT::Update::Error-Mode "any";\n')
         with security_sandbox(self, P1) as sandbox:
@@ -451,9 +448,7 @@ class AptSecurityProfileTests(unittest.TestCase):
                                    "text": True, "timeout": 10})
                         for command in diagnostics.DIAGNOSTICS]
             expected += [
-                (diagnostics.WRITES[0], {"input": expected_mirrors, "check": True,
-                                        "text": True, "stdout": subprocess.DEVNULL, "timeout": 10}),
-                (diagnostics.WRITES[1], {"input": expected_config, "check": True,
+                (diagnostics.NETWORK_WRITE, {"input": expected_config, "check": True,
                                         "text": True, "stdout": subprocess.DEVNULL, "timeout": 10}),
                 (diagnostics.UPDATE, {"check": True, "timeout": 300}),
             ]
@@ -517,7 +512,7 @@ class AptSecurityProfileTests(unittest.TestCase):
                            if line.startswith("CI_APT_V1 ")]
                 self.assertEqual(records, [diagnostics.RUNNER_LINE, ADMITTED],
                                  "admission must precede later update failure")
-                self.assertEqual(len(sandbox.calls), 10, "no repeated sequence or extra child")
+                self.assertEqual([command for command, _ in sandbox.calls], diagnostics.SETUP_COMMANDS)
                 self.assertEqual(sandbox.calls[-1],
                                  (diagnostics.UPDATE, {"check": True, "timeout": 300}))
                 self.assertEqual(sum(command == diagnostics.UPDATE for command, _ in sandbox.calls), 1)

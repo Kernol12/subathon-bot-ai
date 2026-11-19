@@ -53,8 +53,10 @@ DIAGNOSTICS = [
     ["getent", "ahostsv4", "security.ubuntu.com"],
     ["getent", "ahostsv4", "mirrors.edge.kernel.org"],
 ]
-WRITES = [["sudo", "tee", "/etc/apt/apt-mirrors.txt"],
-          ["sudo", "tee", "/etc/apt/apt.conf.d/99-subathon-network"]]
+NETWORK_WRITE = ["sudo", "tee", "/etc/apt/apt.conf.d/99-subathon-network"]
+SETUP_COMMANDS = DIAGNOSTICS + [NETWORK_WRITE, UPDATE]
+# Let inventory assertions report the obsolete write if the script still issues it.
+LEGACY_MIRROR_WRITE = ["sudo", "tee", "/etc/apt/apt-mirrors.txt"]
 DIAGNOSTIC_FIELDS = (
     "Architectures-Add", "Architectures-Remove", "Languages", "Targets", "PDiffs",
     "By-Hash", "Allow-Insecure", "Allow-Weak", "Allow-Downgrade-To-Insecure",
@@ -268,7 +270,7 @@ class AptSandbox:
         return self.source
 
     def run_command(self, command, **options):
-        self.case.assertIn(command, DIAGNOSTICS + WRITES + [UPDATE], "unexpected command")
+        self.case.assertIn(command, SETUP_COMMANDS + [LEGACY_MIRROR_WRITE], "unexpected command")
         self.case.assertFalse(options.get("shell", False))
         self.calls.append((command, options))
         self.trace.append(("command",))
@@ -663,7 +665,7 @@ class AptDiagnosticsTests(unittest.TestCase):
                     self.assert_read_once(sandbox)
 
     def test_checked_update_keeps_inherited_output_and_never_retries(self):
-        # Existing behavior, NOT intended red: no new protocol is required by this case.
+        # Output and retry handling stay fixed when the mirror-list write is removed.
         responses = (0, 100, subprocess.TimeoutExpired(UPDATE, 300),
                      FileNotFoundError("synthetic sudo unavailable"))
         for response in responses:
@@ -673,7 +675,7 @@ class AptDiagnosticsTests(unittest.TestCase):
                 updates = [(command, options) for command, options in sandbox.calls if command == UPDATE]
                 self.assertEqual(updates, [(UPDATE, {"check": True, "timeout": 300})])
                 self.assertEqual(sandbox.calls[-1], updates[0])
-                self.assertEqual(len(sandbox.calls), 10, "no repeated diagnostic/write/update sequence")
+                self.assertEqual([command for command, _ in sandbox.calls], SETUP_COMMANDS)
                 if response != 0:
                     self.assertIn("Ubuntu APT setup failed:", sandbox.stderr.getvalue())
                 self.assertNotIn("update_attempt", sandbox.stderr.getvalue())
