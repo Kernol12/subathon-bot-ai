@@ -31,6 +31,11 @@ if(TARGET Sodium::Sodium)
     target_include_directories(subathon_password_hashing PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_password_hashing PRIVATE Sodium::Sodium)
     subathon_target_options(subathon_password_hashing)
+
+    add_library(subathon_credential_record STATIC src/credential_record.cpp)
+    target_include_directories(subathon_credential_record PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_credential_record PUBLIC subathon_connector_lifecycle PRIVATE Sodium::Sodium)
+    subathon_target_options(subathon_credential_record)
 endif()
 
 if(TARGET Qt6::Core AND TARGET Qt6::Sql)
@@ -38,6 +43,13 @@ if(TARGET Qt6::Core AND TARGET Qt6::Sql)
     target_include_directories(subathon_sqlite_writer PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_sqlite_writer PUBLIC Qt6::Core Qt6::Sql)
     subathon_target_options(subathon_sqlite_writer)
+
+    if(TARGET subathon_credential_record)
+        add_library(subathon_credential_storage STATIC src/credential_storage.cpp)
+        target_link_libraries(subathon_credential_storage PUBLIC
+            subathon_credential_record subathon_sqlite_writer PRIVATE Sodium::Sodium)
+        subathon_target_options(subathon_credential_storage)
+    endif()
 
     add_library(subathon_sqlite_migrations STATIC src/sqlite_migrations.cpp)
     target_include_directories(subathon_sqlite_migrations PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")

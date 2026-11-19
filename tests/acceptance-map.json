@@ -998,7 +998,11 @@
     {
       "id": "CRYPTO-01",
       "status": "planned",
-      "tests": [],
+      "tests": [
+        "tests/acceptance/credential_record_tests.cpp",
+        "tests/qt/sqlite_credentials_tests.cpp",
+        "tests/qt/credential_readiness_tests.cpp"
+      ],
       "evidence": []
     },
     {
