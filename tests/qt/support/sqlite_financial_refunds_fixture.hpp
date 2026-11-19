@@ -219,10 +219,10 @@ class File final {
     explicit File(OriginalCredit credit = {}) {
         require(dir.isValid(), "Disposable database directory");
         open();
-        auto manifest = milestone_group_decisions_repository_manifest();
-        require(manifest.steps.size() == 13 && manifest.steps.back().version == 13 &&
-                    manifest.steps.back().id == "milestone-group-decisions-v1",
-                "Select the shipped v13 prefix explicitly");
+        auto manifest = financial_refunds_repository_manifest();
+        require(manifest.steps.size() == 15 && manifest.steps.back().version == 15 &&
+                    manifest.steps.back().id == "financial-refunds-v1",
+                "Select the additive v15 financial catalog explicitly");
         const auto migration = completed<MigrationResult>([&](auto done) {
             return SqliteMigrationRunner::enqueue(
                        *writer, {MigrationMode::advance, manifest, {}, {}}, std::move(done))
@@ -231,8 +231,8 @@ class File final {
         normal(migration.work);
         require(migration.reason == MigrationReason::none && migration.report &&
                     migration.report->state == CatalogState::current &&
-                    migration.report->version == 13 && migration.report->applied == 13,
-                "Real v13 catalog selected on a fresh database");
+                    migration.report->version == 15 && migration.report->applied == 15,
+                "Real v15 catalog selected on a fresh database");
         write([](const auto &s) {
             SqliteRetainedContextStore retained(s);
             require(retained.retain({{RetainedKind::configuration, "cfg"}, "configuration", {}}) ==
