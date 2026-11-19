@@ -25,13 +25,16 @@ enum class RuleTruth { no_match, match, unknown };
 enum class RuleEquality { equal, not_equal };
 enum class RuleOrder { equal, not_equal, less, at_most, greater, at_least };
 
-// Common fields: provider, source account, connection, scoped actor identity,
-// actor display name, source/arrival time and captured timer/score context.
-// Missing common facts are valid for any kind.
+// Common fields: provider, source account, connection, scoped actor identity
+// (including explicit user selection), display name, source/arrival time, and
+// captured timer/score context. Missing common facts are valid for any kind.
 // Branch-local fields:
-// subscription -> subscription_tier/classification;
-// gift_bundle -> subscription_tier, gift_count; cheer -> bits;
-// payment_received/confirmed -> payment_kind, payment_evidence; refund -> payment_evidence;
+// subscription -> tier/classification and subscription_valuation;
+// gift_bundle -> tier, gift_count and subscription_valuation; cheer -> bits;
+// payment_received/confirmed -> payment_kind, payment_evidence and source_amount;
+// refund -> payment_evidence and captured source_amount with its original sign;
+// support_aggregate_change -> aggregate_amount. Aggregate and subscription
+// values carry no individual payment or cash evidence.
 // chat_command -> command_ref and the five independent chat category flags;
 // manual_adjustment -> adjustment_ms; schedule -> schedule_ref;
 // timer_expiry -> timer_transition; milestone_completion -> milestone_ref;
@@ -49,9 +52,6 @@ enum class RuleIntegerField {
 enum class RuleFlagField {
     paused, chat_broadcaster, chat_moderator, chat_vip, chat_subscriber, chat_unsubscribed
 };
-// source_amount: payments, confirmations and refunds; aggregate_amount: aggregate
-// changes only; subscription_valuation: subscriptions and gifts only. Values in
-// the latter two fields convey neither individual payment nor cash evidence.
 enum class RuleMoneyField { source_amount, aggregate_amount, subscription_valuation };
 
 template <typename Field, typename Value> struct RuleFact {
@@ -115,8 +115,11 @@ struct RuleTrigger {
 // versions. A ref never means "latest". Planning verifies resolution, category,
 // capability and current authorization before any effect, job or generated event.
 enum class RuleDeltaUnit { milliseconds, micro_points, whole_count };
+// Signed bounded JSON-number spelling (parse_decimal), including zero. Fractions
+// are valid for milliseconds and micro_points. whole_count requires an exact
+// integer value. Rounding and credited range checks belong to final effects.
 struct RuleFixedDelta {
-    std::string original_decimal; // Exact requested units; whole_count requires an integer.
+    std::string original_decimal;
 };
 struct RuleCalculation {
     std::string calculation_version_ref;
@@ -186,6 +189,7 @@ struct RuleDefinition {
     std::vector<RuleActionDefinition> actions; // User order, preserved exactly.
 };
 
+// #210 enforces these per-root limits.
 struct RuleGenerationLimits {
     std::uint32_t maximum_depth = 32;
     std::uint32_t maximum_generated_events = 256;
@@ -211,8 +215,8 @@ class RuleConfiguration final {
 // zero, empty, false, or confirmed. Present not_applicable is distinct. Keep
 // actor identifiers scoped to their captured origin. A repeated field is invalid.
 // Chat category flags are independent; unsubscribed is never inferred.
-// Rate data is the captured arrival snapshot only. Ref and data must agree; a
-// known snapshot ref without its data is invalid, rather than a missing pair.
+// The captured snapshot ref and data are both absent or both present and equal.
+// A partially supplied snapshot is invalid_capture.
 struct RuleCapturedInput {
     std::string event_ref;
     std::string configuration_ref;
@@ -237,7 +241,7 @@ struct RuleExplicitValuation {
 
 enum class RuleDefinitionError {
     resource_limit, invalid_generation_limits, invalid_definition, invalid_condition,
-    invalid_field, invalid_action, invalid_capture, invalid_valuation, allocation_failure
+    invalid_field, invalid_action, invalid_capture, invalid_valuation
 };
 class RuleDefinitionFailure final : public std::exception {
   public:
@@ -249,8 +253,8 @@ class RuleDefinitionFailure final : public std::exception {
     RuleDefinitionError code_;
 };
 
-// Draft acceptance pending owner gaps in the handoff. Reject zero generation
-// limits, empty identity/name, duplicate rule refs and duplicate action refs
+// Draft revision and examples: https://github.com/Kernol12/subathon-bot-ai/pull/735
+// Reject zero limits, empty identity/name, duplicate rule refs and action refs
 // within each rule, and rules without triggers. Reject undeclared enum values,
 // valueless variants and unknown as a payment-evidence operand. Validate
 // disabled definitions, every branch and every action. Required reference
@@ -258,6 +262,9 @@ class RuleDefinitionFailure final : public std::exception {
 // exactly, and preserve signed deltas, exact spellings and order.
 // Exclusion graph checks and precedence belong to #206. Empty configuration,
 // action list and description are representable.
+// Across rules, the same (action_ref, version_ref) must have identical typed
+// payloads, or validation gives invalid_action. Different immutable versions
+// of the same action_ref may be selected by different rules.
 //
 // Engineering ceilings (separate from generation): 4096 bytes per text field,
 // 262144 aggregate string bytes and 4096 aggregate list entries per configuration
@@ -265,11 +272,17 @@ class RuleDefinitionFailure final : public std::exception {
 // Count every represented list entry, including edges. Snapshot validation has
 // its own existing limits. Reuse rate currency grammar and exact decimal bounds.
 // Check total input sizes and structure before owning a result or evaluating.
+// Both entry points signal refusals through RuleDefinitionFailure. Translate
+// helper bounds to resource_limit, grammar errors in money and thresholds to
+// invalid_field, an invalid fixed delta to invalid_action, malformed snapshot
+// evidence to invalid_capture, and invalid explicit evidence to invalid_valuation.
+// std::bad_alloc propagates.
 [[nodiscard]] RuleConfiguration validate_rule_configuration(const RuleConfigurationInput &input);
 
 // Same validation as above, with complete captured input and pair evidence
 // validation before predicate evaluation. Return one result per rule in input
-// order; disabled rules yield nullopt. Same-kind alternatives are ORed, then AND
+// order; disabled rules yield nullopt. A mismatched configuration_ref gives
+// invalid_capture. Same-kind alternatives are ORed, then AND
 // with the common condition; absent kind yields no_match. In all, false dominates;
 // in any, true dominates; not preserves unknown. Only definite match qualifies.
 //
@@ -277,8 +290,9 @@ class RuleDefinitionFailure final : public std::exception {
 // destination weight divided by source weight in the same snapshot component)
 // is compared with the exact threshold in its explicit currency. A missing
 // foreign pair stays unknown except for an explicit valuation of that exact input
-// and pair. Existing pairs take precedence. Never round or consult display
-// currency/current rates. Invalid evidence and resource refusal are errors.
+// and pair. Validate all supplied valuations. Refuse a same-currency valuation
+// as invalid_valuation. An otherwise valid valuation for a pair already present
+// in the snapshot is unused. Never round or consult display currency/current rates.
 [[nodiscard]] std::vector<std::optional<RuleTruth>>
 evaluate_rule_conditions(const RuleConfigurationInput &configuration,
                          const RuleCapturedInput &input,
