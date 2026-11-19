@@ -154,7 +154,7 @@ current readiness.
   [#718](https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7003577969).
   All 48 frozen cases reached intended NI with zero skips. The exact admitted
   runner and receipts were retained, and all seven checks passed on `63ec75e4`.
-  This is baseline evidence. #215 remains blocked by #719.
+  The frozen core baseline and #719 SQLite baseline are implemented by #215.
 - MILESTONE-005 #236 is Done after protected merge `400a5c51` in
   [#721](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7006091072).
   All seven checks passed on proof head `189ab104`. SQLite v13 preserves the
@@ -182,27 +182,25 @@ current readiness.
   frozen synthetic cases after implementation. All seven checks passed on
   proof head `00f73263`. AUTH-15 and INTEGRATION-01 remain partial. Actual
   provider authorization, credentials and client onboarding remain separate.
-- RATES-007 [#406](https://github.com/Kernol12/subathon-bot-ai/issues/406)
-  is claimed on `80a0bee1` after the board confirmed its closed prerequisites.
-  Tier A Stage 1 starts with exact-rate contract examples and independent
-  tests. The coordinator retains shared registration and CI ownership.
-  The owner [resolved questions 24–28](https://github.com/Kernol12/subathon-bot-ai/pull/724#issuecomment-7008906120).
-  #406 closes on its pure core rules. Permissioned save and durable revisions
-  are [#727](https://github.com/Kernol12/subathon-bot-ai/issues/727), queued
-  after #719 and dependent on #406.
-- #719 resumed in the SQLite slot after the [owner's lifetime and duration rulings](https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7008906515).
-  The contract covers caller-supplied remaining checkpoints, terminal expiry,
-  and positive configured durations. Independent contract review precedes tests.
-- #199 is Ready for the core slot after #406. Its [owner rulings](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7008905863)
-  cover active mixed-refund timer holds, the explicit Finished disposition,
-  and Main-first reversal allocation after rounding cumulative entitlement.
+- #406 is Done after protected merge `5cfe1959` in
+  [#724](https://github.com/Kernol12/subathon-bot-ai/pull/724). Its pure rate
+  rules passed 24 override cases and 86 controls. #727 retains authorized save
+  and durable revisions.
+- #719 is Done after protected merge `a15fca82` in
+  [#725](https://github.com/Kernol12/subathon-bot-ai/pull/725). Its combined
+  contract and SQLite baseline retain 25 admitted outcomes.
+- #215 is Done after protected merge `3ae76b95` in
+  [#728](https://github.com/Kernol12/subathon-bot-ai/pull/728). All seven checks
+  passed on proof head `72f9fdfe`. The 48 core and 25 SQLite cases passed.
+  The additive v14 catalog preserves the v13 prefix and startup selection.
+- #199's writer contract is parked after the owner-authorized third round.
+  FW-14 still needs an owner decision on [34B](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7013586541).
+  The 15-case admitted core baseline remains retained.
+- SESSION-006 #270 starts on protected `3ae76b95` with a Tier A credential
+  record, external key provisioning and restart contract and synthetic examples.
+  #727 follows, then #294 when its prerequisites close.
 
 ### Parallel work and standing CI rerun rule
-
-- Owner 36A starts MODIFIER-001 #215 in the second slot on `a15fca82`.
-  Its Tier A implementation uses the frozen #214 core and #719 SQLite
-  baselines and preserves v13. #199's durable writer follows this catalog.
-  The next queue is #270, #727, then #294 when its prerequisites close.
 
 - At most two active tasks in different modules and three parked tasks. When
   three are parked, finish the active tasks, then stop. Answered parked tasks
