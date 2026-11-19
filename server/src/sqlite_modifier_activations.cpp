@@ -490,7 +490,7 @@ class ModifierRows {
 
         auto capture = definition_for(revision.capture, owner);
         if (revision.applied && *revision.applied != revision.capture)
-            (void)definition_for(*revision.applied, owner);
+            (void)with_targets(definition_for(*revision.applied, owner));
         return capture;
     }
 
@@ -504,7 +504,7 @@ class ModifierRows {
                 read_revision("instance_ref=? AND position=1 LIMIT 2", successor->instance_ref);
             if (!initial)
                 corrupt();
-            (void)validate_revision(*initial, *successor);
+            (void)with_targets(validate_revision(*initial, *successor));
         }
 
         auto head =
