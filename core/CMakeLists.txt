@@ -39,6 +39,10 @@ if(TARGET Boost::headers)
     target_link_libraries(subathon_rate_snapshots PUBLIC subathon_exact_numeric)
     subathon_target_options(subathon_rate_snapshots)
 
+    add_library(subathon_valuation_snapshot_codec STATIC EXCLUDE_FROM_ALL src/valuation_snapshot_codec.cpp)
+    target_link_libraries(subathon_valuation_snapshot_codec PUBLIC subathon_rate_snapshots)
+    subathon_target_options(subathon_valuation_snapshot_codec)
+
     add_library(subathon_rate_overrides STATIC EXCLUDE_FROM_ALL src/rate_override.cpp)
     target_link_libraries(subathon_rate_overrides PUBLIC subathon_rate_snapshots)
     subathon_target_options(subathon_rate_overrides)

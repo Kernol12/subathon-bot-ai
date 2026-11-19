@@ -312,6 +312,7 @@
       "id": "FX-06",
       "status": "partial",
       "tests": [
+        "tests/acceptance/valuation_snapshot_codec_tests.cpp",
         "tests/acceptance/rate_snapshot_tests.cpp",
         "tests/fixtures/rate_snapshots_vectors.hpp",
         "tests/acceptance/rate_override_tests.cpp"
@@ -1065,6 +1066,7 @@
       "id": "NUM-04",
       "status": "partial",
       "tests": [
+        "tests/acceptance/valuation_snapshot_codec_tests.cpp",
         "tests/acceptance/exact_decimal_tests.cpp",
         "tests/acceptance/exact_decimal_regression_tests.cpp",
         "tests/qt/sqlite_original_claim_tests.cpp",

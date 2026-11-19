@@ -231,6 +231,14 @@ if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
         LABELS "rate-snapshot;acceptance;core" TIMEOUT 30)
 endif()
 
+if(SUBATHON_BUILD_VALUATION_SNAPSHOT_CODEC_TESTS)
+    add_executable(core_valuation_snapshot_codec_acceptance acceptance/valuation_snapshot_codec_tests.cpp)
+    target_link_libraries(core_valuation_snapshot_codec_acceptance PRIVATE subathon_valuation_snapshot_codec GTest::gtest_main)
+    subathon_target_options(core_valuation_snapshot_codec_acceptance)
+    subathon_discover_gtests(core_valuation_snapshot_codec_acceptance
+        LABELS "valuation-snapshot-codec;acceptance;core;intentional-red" TIMEOUT 30)
+endif()
+
 if(SUBATHON_BUILD_RATE_OVERRIDE_TESTS)
     add_executable(core_rate_override_acceptance acceptance/rate_override_tests.cpp)
     target_link_libraries(core_rate_override_acceptance PRIVATE subathon_rate_overrides GTest::gtest_main)
