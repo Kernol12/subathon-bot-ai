@@ -1122,6 +1122,12 @@ class MilestoneGroupDecisionsTests final : public QObject {
                             .finish(delivered_job, 2, 2, DeliveryEvidence::delivered, "delivered-1")
                             .disposition == DeliveryDisposition::changed,
                     "Second action has a real delivered record");
+                return true;
+            });
+
+            // Migrate the intact v12 catalog before adding the synthetic effect table.
+            advance_to_literal_decisions(file);
+            (void)committed(*file.writer, [](const auto &s) {
                 (void)s.execute({"CREATE TABLE synthetic_bonus_effects(ref BLOB PRIMARY KEY,"
                                  "units INTEGER)",
                                  {}});
@@ -1136,7 +1142,6 @@ class MilestoneGroupDecisionsTests final : public QObject {
                         SqlRows{{QByteArray("z-first"), 2, QByteArray("performed-37")}},
                     "One exact bonus receipt precedes the refund");
 
-            advance_to_literal_decisions(file);
             (void)committed(*file.writer, [](const auto &s) {
                 SqliteMilestoneGroupDecisions(s).observe_refund({first, "refund-17", 150, 99, 100});
                 return true;
