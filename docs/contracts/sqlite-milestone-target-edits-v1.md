@@ -1,7 +1,7 @@
 # SQLite milestone target edits, draft revision 2
 
 MILESTONE-002 [#230](https://github.com/Kernol12/subathon-bot-ai/issues/230), Tier A,
-contract correction round 1. Authority is specification v0.45
+contract correction round 2. Authority is specification v0.45
 [§8 and MILE-02](../specification.md#8-score-milestones-and-reversals),
 [51A/52A](https://github.com/Kernol12/subathon-bot-ai/issues/230#issuecomment-7020230963)
 and [70A/71A/72A/73B](https://github.com/Kernol12/subathon-bot-ai/issues/230#issuecomment-7021743068).
@@ -12,8 +12,8 @@ review precede the acceptance freeze.
 
 ## Edit and preview
 
-The milestone target-edit command service owns preview and confirmation for one
-configured track in the current installation. One atomic patch replaces one or
+The milestone target-edit command service owns preview and confirmation for the
+single configured track in the current installation. One atomic patch replaces one or
 more targets by exact milestone identity. Validate the full result in configured
 identity order. Refuse duplicate or unknown identities, additions/removals,
 out-of-range values, ties and crossings. A request with no actual changes has no
@@ -74,7 +74,7 @@ Dispatch checks its own current authority.
 | --- | --- |
 | Installation and authorization | Authoritative command context binds actor, account/session and effective scoped grants to the installation, exact track and edited identities. Current action/route authority supplies resolved route and sender facts. Unknown, expired, revoked, disabled or mismatched facts refuse. Disclosure also requires current authority. |
 | Definition and action/timing selection | Durable milestone definition head and immutable versions below supply ordered targets. Retained configuration supplies the exact selected action, capability and timing revisions and values. Historical groups retain their own captures. |
-| Score and application head | Read the selected committed application-state head and the actual signed balance for the track in its ApplicationStateSnapshot. A requested delta, refund basis, displayed score or unspecified absence supplies no score. |
+| Score and application head | Read the selected committed application-state head and derive the installation's one track score as #199 does: exactly sum all `ApplicationBalanceKind::score` units in the complete selected snapshot, with a signed-64 range check after summing. A missing snapshot is unavailable. Ignore all other kinds, requested amounts and displayed values. |
 | Completion and queue | Durable active completion-prefix head and ordered memberships below, plus exact occurrence, release, choice and hold facts where relevant. Completion is independent of pending membership. |
 | Lifecycle and readiness | Authoritative lifecycle snapshot, progression/automation policies and revisions, installation/lifecycle generation and availability. SQLite startup/inspection establishes schema readiness. Client flags, previews, catalog factories and wall time cannot establish those facts. |
 
@@ -157,13 +157,15 @@ delivery captures/events retain their existing application parents and meaning.
 | Target edit operation | Typed scoped key with FKs to prior and resulting same-track definition versions, unique resulting revision, exact confirmed intent and stable result. An identical authorized retry returns that result. Different intent with the same key conflicts. |
 | Edit occurrence | Unique occurrence key with FK to its edit and unique positive suffix ordinal within the edit. Immutable completion capture and timing, durable queue position and release state. The new prefix membership links to this occurrence and agrees with its edit, track and captured completion fields. |
 | Edit action | FK to the occurrence, with contiguous positive action ordinals and exact action kind/ref/version. Each automation position has exactly one edit job. A bonus has no job. |
-| Edit job, capture and events | The typed edit job key selects the exact edit, occurrence and action position. Job FK references that edit action by occurrence/ordinal and verifies its edit parent. Capture FK references that job and retains matching action/version plus resolved route, selection and sender. Event FK references that capture, with unique revision per job and the existing queued, attempt, outcome and evidence semantics, starting at queued revision 1. |
+| Edit job, capture and events | The typed edit job key selects the exact edit, occurrence and action position. Job FK references that edit action by occurrence/ordinal and verifies its edit parent. The job retains the exact `subathon.internal.delivery-job.v1` format BLOB and immutable action document BLOB (0–262144 bytes, no NULL). Capture FK references that job and retains matching action/version plus resolved route, selection and sender. Event FK references that capture, with unique revision per job and the existing queued, attempt, outcome and evidence semantics, starting at queued revision 1. |
 | Edit bonus receipt | PK/FK on the exact edit action position, which must be a bonus, with one stable effect reference. |
 | Edit initial decision | PK/FK on the edit occurrence, with Run/Defer/Skip and the confirming actor/decision linked to and checked against its edit. Preserve resolution and hold-ending provenance under #236. This origin has no paused input Normal/Silent disposition. |
 | Edit refund decision | PK on occurrence/refund reference and FK to the edit occurrence. Preserve exact before/after/current-target operands, policy, resolution and hold-ending provenance under #236. Each resolution or ending reference selects the exact cause on that occurrence. |
 
 Never use an application key or synthetic receipt, plan, state or application
 job as a surrogate edit parent. Generic delivery metadata cannot prove membership.
+Compare the confirmed immutable job format, document and capture byte for byte
+on exact retry. Check physical types and bounds before selecting the job body.
 Application enrollment selects only the exact application and its staged
 occurrences. Edit enrollment and initial decisions select only the staged edit
 and its complete occurrence set. #197 owns individual/batch/silent input review.
@@ -182,13 +184,17 @@ refuses the work without a partial snapshot, decision set or dispatch fallback.
 
 ## Existing readers, release and recovery
 
-- **#232 delivery dispatch, claim, outcome and stranded sweep.** Resolve the
+- **#232 delivery lookup, claim, outcome, stranded paging, recovery and retry.** Resolve the
   exact typed job and membership. For edit jobs, require matching edit
   provenance, committed group release and current dispatch authority inside
   queued-to-sending work. Missing or inconsistent links refuse. Genuine
   independent application jobs keep their existing path. Outcome uses the
-  exact claimed job and attempt. The exclusive stranded sweep may mark a
-  sending attempt outcome-unknown without starting an adapter. No delivery replay.
+  exact claimed job and attempt. Carry the origin discriminator through every
+  identifier, attempt and bounded stranded cursor. Order application before edit,
+  preserving byte-key order within each origin. Exclusive recovery may mark a
+  sending attempt outcome-unknown without starting an adapter. Preserve explicit
+  current-policy retry of known-undelivered failure on the exact revision.
+  No automatic or unknown-outcome replay.
 - **#234/#236 order, disposition, release, restart and decisions.** Use one
   ordered stream and one exact typed occurrence per key for pending/head,
   disposition, hold reads and resolution. On acknowledged edit commit,
@@ -204,7 +210,9 @@ refuses the work without a partial snapshot, decision set or dispatch fallback.
   committed release and current authority and commit the effect and receipt
   together. A receipt prevents reapplication.
 - **#199 refund observation and review.** In the genuine refund writer unit,
-  `FinancialRefundEffectPort::milestones` selects eligible pending occurrences
+  derive before/after score with the same exact aggregate from the recorded
+  advanced-before and actual after snapshots. Refuse overflow before staging.
+  Select eligible pending occurrences
   across both origins and reads each current target from the authoritative
   definition head on the same session. Keep each captured target intact.
   Use exact actual scores and a downward crossing of the current target
@@ -212,6 +220,13 @@ refuses the work without a partial snapshot, decision set or dispatch fallback.
   record audit, Review/Continue/Skip and later resolution via #236 on the exact
   typed occurrence. Preserve the existing refund accounting and independent
   deferrals. Target edits themselves never invoke this path.
+  Keep the v15 refund document encoding. Occurrence refs are globally unique
+  across origins, immutable and retained. On immediate and later refund readback,
+  resolve each exact ref by bounded keyed selection to exactly one typed occurrence.
+  Select that origin's decision, group/action and job capture closure. Compare the
+  saved decision and retained snapshots against the recorded scores, target and
+  policy. Do not use the live definition to reinterpret history. Missing, duplicate
+  or conflicting origin evidence refuses the selected refund.
 
 Known rollback retains the prior heads, prefix, audit, captures, decisions and
 release history, including after a reached late failure. Keep writer errors and
@@ -232,11 +247,13 @@ Follow the existing main schema projection, exact SQL, INTEGER storage/enum
 checks, bounded BLOB references and implicit index conventions. No v11 metadata
 backfill or synthesized decisions.
 
-Recognize exact supported version/ID pairs with required schema on dispatch
+Extend `milestone_sql::catalog`, `financial_sql::selected` (including bundle
+and hold consumers), and `ModifierRows` for the exact new version/ID pair.
+Recognize supported pairs and required schema on dispatch
 (including claims, outcomes and stranded recovery), group order/disposition/
 release/restart, bonus, decision and #199 refund paths. Preserve v11 independent
-delivery, v12 ordinary release, v13 decisions, reviewed v14/v15 and later
-approved prefixes. The new exact pair must select compatible earlier behavior
+delivery, v12 ordinary release, v13 decisions, v14 modifiers, v15 financial
+refunds and the v16 credential prefix. The new exact pair must select earlier behavior
 plus the applicable edit-origin rows, even when no edit row matches. An unknown
 or mismatched marker or incomplete required schema fails closed. Review the
 complete frozen prefix and exact new SQL/projection before runner work. Use
@@ -267,7 +284,9 @@ current grants and an eligible Active lifecycle unless stated otherwise.
 | Finished already-reachable target | Finished with progression disabled, A=100 complete, B=180, C=300, score=190. A→150 leaves B as the only reachable unfinished target. A's correction is eligible, B stays suppressed and no group is staged. |
 | Finished automation gate | With progression enabled and automation disabled while Finished, use the single-target equality case. Record B and retain its Run with the automation gate shown. The countdown stays Finished. |
 | Exhaustion | With sole target A=INT64_MAX−1 already complete at that target and current score INT64_MIN, correct A→INT64_MAX. Deficit increases from 18446744073709551614 to 18446744073709551615 with no next or interval. Separately run the ordered patch input with a durable tail at INT64_MAX−1. Only position INT64_MAX remains for two new occurrences. Refuse with both heads, audit, queue and decisions intact. |
-| Genuine refund after correction | A=100 and B=175 are complete, C=300, score=190. B completed by an edit at 175 and its group remains deferred. Correct B→185. A later genuine refund moving actual score 190→180 crosses current target 185 and under Review records deficit 5. Using captured target 175 would miss the crossing. B stays complete, retains captured target 175 and has independent Defer and refund Review holds. |
+| Genuine refund after correction | A=100 and edit-origin B=175 are complete, C=300. Complete score balances 120 and 70 give 190. B is deferred. Correct B→185. A refund changes the first balance to 110, making actual score 180. It crosses 185 and records deficit 5 and independent Review while retaining B's captured 175 and Defer. Correct B later to 165. Exact refund readback still returns the typed edit occurrence and original 190/180/185 operands. |
+| Edit delivery identity | Confirm a Run producing an edit job with exact payload `00 81`. Same-intent retry returns the same capture. A changed payload conflicts. After committed release, a known-undelivered attempt can be explicitly requeued by current policy. Recover a separate stranded sending attempt as unknown without retry or dispatch. |
+| Catalog compatibility | Advance a populated predecessor, before any edit. Earlier readers select their original application, financial and modifier rows. Each rejects a wrong version or case-changed new ID. In separate fixtures, an exact newest marker with missing required schema refuses. |
 | Rollback and retry | For the ordered patch, fail a reached choice insertion after the definition, audit, both completions and groups are staged. A fresh read sees B=200, C=300, D=400, only A complete and order still 7. Committing the same valid intent once yields 8/9. A lost acknowledgement and authorized read/retry recover that pair once with its original choices and no release replay. |
 
 Later acceptance uses synthetic captures and observable fake effects for
