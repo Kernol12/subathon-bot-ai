@@ -27,6 +27,10 @@ first order and each first action position are 1.
 contiguous action order, same originating operation for member jobs, and
 matching captured action reference and version). Missing or contradictory
 positively identified membership cannot authorize execution.
+Invalid enrollment fails the originating writer work. With known rollback,
+completion reports `rolled_back` with an existing writer error and no work
+value. The application bundle, delivery captures and events, and the entire
+group batch from that work are absent on reopen.
 
 ## Origin, release and recovery
 
@@ -55,11 +59,14 @@ persisted hold recovery.
 
 The existing #232 dispatch entry checks exact membership and committed group
 release inside the queued-to-sending work, in addition to current authority.
-Independent v11 jobs remain independent after upgrade. Release and ordinary
-queue recovery claim no job. The exclusive #232 stranded-attempt sweep remains
-separate. A sending attempt can become outcome-unknown through that sweep,
-without starting an adapter. Completed or uncertain delivery is never replayed
-through the ordinary queue.
+A genuine v11 store retains the existing #232 dispatch behavior. Recorded
+catalog identity distinguishes that case from a v12 store with
+missing milestone tables, where a failed membership query remains a writer
+SQL failure. Independent v11 jobs remain independent after upgrade. Release
+and ordinary queue recovery claim no job. The exclusive #232 stranded-attempt
+sweep remains separate. A sending attempt can become outcome-unknown through
+that sweep without starting an adapter. Completed or uncertain delivery is
+never replayed through the ordinary queue.
 
 A bonus is selected by exact occurrence and captured action position. The
 writer checks group release and current authority before invoking the trusted

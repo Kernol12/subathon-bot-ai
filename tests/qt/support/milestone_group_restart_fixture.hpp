@@ -162,6 +162,11 @@ inline std::vector<CapturedMilestoneGroup> captures() {
           {},
           MilestoneOccurrenceKey{"m-third"}},
          {}},
+        {{{"peak-b", "track-v4", 350, 350, "crossing-10"},
+          {},
+          {},
+          MilestoneOccurrenceKey{"b-empty"}},
+         {}},
     };
 }
 
@@ -186,10 +191,13 @@ inline void seed_head(const SqliteWorkSession &s, int released) {
 inline void seed_suffix(const SqliteWorkSession &s) {
     (void)s.execute({"INSERT INTO main.subathon_milestone_groups VALUES "
                      "(?,X'737663',?,2,?,?,200,350,?,NULL,0,0),"
-                     "(?,X'737663',?,3,?,?,300,350,?,NULL,NULL,0)",
+                     "(?,X'737663',?,3,?,?,300,350,?,NULL,NULL,0),"
+                     "(?,X'737663',?,4,?,?,350,350,?,NULL,NULL,0)",
                      {QByteArray("a-second"), QByteArray("negative_stop"), QByteArray("peak-a"),
                       QByteArray("track-v4"), QByteArray("crossing-10"), QByteArray("m-third"),
                       QByteArray("negative_stop"), QByteArray("peak-m"), QByteArray("track-v4"),
+                      QByteArray("crossing-10"), QByteArray("b-empty"),
+                      QByteArray("negative_stop"), QByteArray("peak-b"), QByteArray("track-v4"),
                       QByteArray("crossing-10")}});
     (void)s.execute(
         {"INSERT INTO main.subathon_milestone_actions VALUES "
@@ -297,10 +305,10 @@ class File {
 
     void seed_origin(const SqliteWorkSession &s) const { stage_origin(s, bundle); }
 
-    void seed_following(const SqliteWorkSession &s) const {
+    void seed_following(const SqliteWorkSession &s, std::string action_version = "v8") const {
         const std::vector<DeliveryCapture> delivery{
             {"job", "synthetic/channel", DeliverySenderSelection::explicit_identity, "sender",
-             "announce", "v8"},
+             "announce", std::move(action_version)},
         };
         require(SqliteDeliveryJobStore(s).stage(following, delivery).disposition ==
                     SqliteBundleStageDisposition::staged,

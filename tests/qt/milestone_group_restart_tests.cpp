@@ -2,6 +2,7 @@
 #include "support/milestone_group_restart_fixture.hpp"
 
 #include <QTest>
+#include <exception>
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
 
 namespace {
@@ -11,7 +12,8 @@ using testing::WorkControlFault;
 using Release = MilestoneReleaseDisposition;
 using Bonus = MilestoneBonusDisposition;
 
-const MilestoneOccurrenceKey first{"z-first"}, second{"a-second"};
+const MilestoneOccurrenceKey first{"z-first"}, second{"a-second"}, third{"m-third"},
+    empty{"b-empty"};
 const MilestoneBonusKey first_bonus{first, 2}, second_bonus{second, 1};
 constexpr auto releases_query =
     "SELECT CAST(occurrence_ref AS TEXT),queue_order,released FROM main.subathon_milestone_groups "
@@ -23,11 +25,19 @@ constexpr auto effects_query =
     "SELECT CAST(ref AS TEXT),units FROM main.synthetic_bonus_effects ORDER BY ref";
 constexpr auto prefix_history =
     "SELECT * FROM main.subathon_migration_history WHERE version<=11 ORDER BY version";
+constexpr auto delivery_captures_query =
+    "SELECT * FROM main.subathon_delivery_captures ORDER BY operation_scope,operation_ref,job_ref";
+constexpr auto delivery_events_query = "SELECT * FROM main.subathon_delivery_events "
+                                       "ORDER BY operation_scope,operation_ref,job_ref,revision";
 
-const SqlRows pending_rows{
-    {QString("z-first"), 1, 0}, {QString("a-second"), 2, 0}, {QString("m-third"), 3, 0}};
-const SqlRows first_released_rows{
-    {QString("z-first"), 1, 1}, {QString("a-second"), 2, 0}, {QString("m-third"), 3, 0}};
+const SqlRows pending_rows{{QString("z-first"), 1, 0},
+                           {QString("a-second"), 2, 0},
+                           {QString("m-third"), 3, 0},
+                           {QString("b-empty"), 4, 0}};
+const SqlRows first_released_rows{{QString("z-first"), 1, 1},
+                                  {QString("a-second"), 2, 0},
+                                  {QString("m-third"), 3, 0},
+                                  {QString("b-empty"), 4, 0}};
 const SqlRows first_bonus_receipt{{QString("z-first"), 2, QString("effect-first")}};
 const SqlRows first_effect{{QString("effect-first"), 37}};
 
@@ -62,6 +72,15 @@ bool same_key(const DeliveryJobKey &a, const DeliveryJobKey &b) {
 std::vector<CapturedMilestoneGroup> pending(File &file) {
     return committed(*file.writer,
                      [](const auto &s) { return SqliteMilestoneGroupStore(s).pending(); });
+}
+
+std::vector<CommittedMilestoneGroup>
+timeline_groups(const std::vector<CapturedMilestoneGroup> &captures) {
+    std::vector<CommittedMilestoneGroup> groups;
+    groups.reserve(captures.size());
+    for (const auto &capture : captures)
+        groups.push_back(capture.group);
+    return groups;
 }
 
 void check_pending(const std::vector<CapturedMilestoneGroup> &actual, std::size_t offset) {
@@ -192,8 +211,15 @@ class ObserveTimeline final : public MilestoneGroupRelease {
 class BonusPorts final : public MilestoneBonusAuthority, public MilestoneBonusEffect {
   public:
     bool allows(const MilestoneBonusKey &key, const MilestoneAction &action) override {
-        check_capture(key, action);
+        consulted.emplace(key, action);
         return permitted;
+    }
+
+    void check_authority(const MilestoneBonusKey &selected) const {
+        require(consulted && consulted->first.occurrence == selected.occurrence &&
+                    consulted->first.action_ordinal == selected.action_ordinal,
+                "Current authority sees the exact selected bonus");
+        check_capture(consulted->first, consulted->second);
     }
 
     std::string apply(const SqliteWorkSession &s, const MilestoneBonusKey &key,
@@ -209,13 +235,14 @@ class BonusPorts final : public MilestoneBonusAuthority, public MilestoneBonusEf
 
     bool permitted{true};
     int effects{0};
+    std::optional<std::pair<MilestoneBonusKey, MilestoneAction>> consulted;
 
   private:
     static void check_capture(const MilestoneBonusKey &key, const MilestoneAction &action) {
         require(((key.occurrence == first && key.action_ordinal == 2) ||
                  (key.occurrence == second && key.action_ordinal == 1)) &&
                     action == MilestoneAction{MilestoneActionKind::bonus, "award", "v4"},
-                "Bonus ports receive the exact selected key and captured definition");
+                "Selected bonus carries its exact key and captured definition");
     }
 };
 
@@ -263,10 +290,8 @@ class MilestoneGroupRestartTests final : public QObject {
             require(before.size() == 11, "Populated v11 has the complete history");
             constexpr auto jobs_query = "SELECT * FROM main.subathon_app_jobs ORDER BY "
                                         "operation_scope,operation_ref,ordinal";
-            constexpr auto events_query = "SELECT * FROM main.subathon_delivery_events ORDER BY "
-                                          "operation_scope,operation_ref,job_ref,revision";
             const auto jobs = existing.reads(jobs_query);
-            const auto events = existing.reads(events_query);
+            const auto events = existing.reads(delivery_events_query);
             require(jobs.size() == 5 && events.size() == 5, "V11 has generic grouped queued jobs");
 
             const auto prefix = delivery_jobs_repository_manifest();
@@ -295,7 +320,7 @@ class MilestoneGroupRestartTests final : public QObject {
             existing.reopen();
             require(existing.reads(prefix_history) == before &&
                         existing.reads(jobs_query) == jobs &&
-                        existing.reads(events_query) == events,
+                        existing.reads(delivery_events_query) == events,
                     "Upgrade preserves actual prefix history and generic job records");
 
             File fresh(File::Schema::empty);
@@ -307,6 +332,15 @@ class MilestoneGroupRestartTests final : public QObject {
                             file->reads(receipts_query).empty(),
                         "Fresh and upgraded databases have empty milestone tables");
             }
+            const auto authority = std::make_shared<AllowDispatch>();
+            const auto adapter = std::make_shared<ObserveDispatch>(existing.path);
+            const DeliveryJobKey legacy{origin, "legacy"};
+            dispatch(existing, legacy, 1, authority, adapter, Dispatch::changed);
+            require(adapter->starts.size() == 1 && same_key(adapter->starts.front().key, legacy),
+                    "A captured independent v11 job remains selectable after actual upgrade");
+            check_events(existing, legacy, sending);
+            require(existing.reads(releases_query).empty(),
+                    "Legacy selection creates no milestone occurrence");
         });
     }
 
@@ -338,7 +372,8 @@ class MilestoneGroupRestartTests final : public QObject {
             });
             (void)committed(*file.writer, [&](const auto &s) {
                 file.seed_following(s);
-                SqliteMilestoneGroupStore(s).stage(following_origin, {groups[1], groups[2]});
+                SqliteMilestoneGroupStore(s).stage(following_origin,
+                                                  {groups[1], groups[2], groups[3]});
                 return true;
             });
             file.reopen();
@@ -372,6 +407,87 @@ class MilestoneGroupRestartTests final : public QObject {
         });
     }
 
+    void invalidMembershipRollsBackOriginatingUnit_data() {
+        QTest::addColumn<bool>("foreign");
+        QTest::addColumn<QString>("action_ref");
+        QTest::addColumn<QString>("version_ref");
+        QTest::addColumn<int>("ordinal");
+        QTest::newRow("foreign-operation") << true << QString("announce") << QString("v7") << 2;
+        QTest::newRow("capture-ref") << false << QString("other") << QString("v7") << 2;
+        QTest::newRow("capture-version") << false << QString("announce") << QString("other") << 2;
+        QTest::newRow("noncontiguous-ordinal")
+            << false << QString("announce") << QString("v7") << 3;
+    }
+
+    void invalidMembershipRollsBackOriginatingUnit() {
+        QFETCH(bool, foreign);
+        QFETCH(QString, action_ref);
+        QFETCH(QString, version_ref);
+        QFETCH(int, ordinal);
+        check([&] {
+            File file;
+            (void)committed(*file.writer, [&](const auto &s) {
+                file.seed_origin(s);
+                return true;
+            });
+            const app::Data data;
+            app::Observer before(file.path);
+            const auto application = data.snapshot(before);
+            const auto jobs = file.reads(delivery_captures_query);
+            const auto events = file.reads(delivery_events_query);
+            constexpr auto actions_query = "SELECT * FROM main.subathon_milestone_actions";
+
+            auto batch = captures();
+            auto &valid_prefix = batch[2];
+            valid_prefix.group.achievement.target_micro_points = 175;
+            auto &invalid = batch[1];
+            invalid.group.actions[1].action_ref = action_ref.toStdString();
+            invalid.group.actions[1].version_ref = version_ref.toStdString();
+            invalid.jobs.front().action_ordinal = ordinal;
+            if (foreign)
+                invalid.jobs.front().job = {origin, "job"};
+
+            bool reached_stage = false;
+            std::exception_ptr ni;
+            const auto failed = qt_test_support::run_work(
+                *file.writer,
+                [&](auto context) -> QVariant {
+                    const auto s = context.begin();
+                    // Both candidate jobs capture announce/v7, isolating the operation mismatch.
+                    file.seed_following(s, "v7");
+                    reached_stage = true;
+                    try {
+                        SqliteMilestoneGroupStore(s).stage(following_origin,
+                                                          {valid_prefix, invalid});
+                    } catch (const MilestoneGroupsNotImplemented &) {
+                        // Stage 1 must report the named NI instead of accepting it as rejection.
+                        ni = std::current_exception();
+                        throw;
+                    }
+                    s.commit();
+                    return 1;
+                },
+                timeout);
+            if (ni)
+                std::rethrow_exception(ni);
+            require(reached_stage, "Application and delivery staging succeeded before enrollment");
+            require(failed.error == WorkError::work_exception ||
+                        failed.error == WorkError::sql_failure,
+                    "Invalid membership surfaces through an existing writer failure");
+            require(failed.transaction == TransactionOutcome::rolled_back && !failed.value,
+                    "Invalid membership rolls back the unit and publishes no work value");
+
+            file.reopen();
+            app::Observer after(file.path);
+            require(data.snapshot(after) == application &&
+                        file.reads(delivery_captures_query) == jobs &&
+                        file.reads(delivery_events_query) == events &&
+                        file.reads(releases_query).empty() && file.reads(actions_query).empty() &&
+                        file.reads(receipts_query).empty(),
+                    "Reopen preserves only preexisting application, delivery and group rows");
+        });
+    }
+
     void coldQueueReadsRecordedOrderAndImmutableDefinitions() {
         check([] {
             File file;
@@ -388,7 +504,7 @@ class MilestoneGroupRestartTests final : public QObject {
             check_events(file, second_job, queued);
             ObserveTimeline outputs;
             MilestoneTimeline timeline({}, outputs);
-            timeline.restore_committed({restored[0].group, restored[1].group, restored[2].group});
+            timeline.restore_committed(timeline_groups(restored));
             require(
                 !timeline.presentation() && outputs.starts.empty(),
                 "Installing actual recovered captures does not start any group during recovery");
@@ -404,7 +520,7 @@ class MilestoneGroupRestartTests final : public QObject {
             const auto literal = captures();
             ObserveTimeline outputs;
             MilestoneTimeline timeline({}, outputs);
-            timeline.restore_committed({literal[0].group, literal[1].group, literal[2].group});
+            timeline.restore_committed(timeline_groups(literal));
             require(!timeline.presentation() && outputs.starts.empty(),
                     "Restoration itself schedules no presentation or release");
             timeline.set_queue_paused(true, 200ms);
@@ -429,6 +545,41 @@ class MilestoneGroupRestartTests final : public QObject {
                      (ActiveMilestonePresentation{"peak-a", 0ms, 10000ms}));
             QCOMPARE(outputs.starts.size(), 2U);
             check_captured(outputs.starts.back(), literal[1].group);
+        });
+    }
+
+    void emptyGroupReleasesAndRemainsRecordedOnReopen() {
+        check([] {
+            File file;
+            file.record();
+            acknowledged(release(file, empty), Release::refused);
+            for (const auto &key : {first, second, third})
+                acknowledged(release(file, key), Release::released);
+            file.reopen();
+            check_pending(pending(file), 3);
+            acknowledged(release(file, empty), Release::released);
+            file.reopen();
+            check_pending(pending(file), 4);
+            require(file.reads(releases_query) == SqlRows{{QString("z-first"), 1, 1},
+                                                          {QString("a-second"), 2, 1},
+                                                          {QString("m-third"), 3, 1},
+                                                          {QString("b-empty"), 4, 1}},
+                    "The released empty occurrence stays at its recorded order");
+            require(
+                file.reads(
+                    "SELECT operation_scope,operation_ref,milestone_ref,definition_revision_ref,"
+                    "target_micro_points,score_micro_points,completion_context_ref,"
+                    "presentation_ms IS NULL,gap_ms IS NULL FROM main.subathon_milestone_groups "
+                    "WHERE occurrence_ref=?",
+                    {QByteArray("b-empty")}) ==
+                        SqlRows{{QByteArray("svc"), QByteArray("negative_stop"),
+                                 QByteArray("peak-b"), QByteArray("track-v4"), 350, 350,
+                                 QByteArray("crossing-10"), 1, 1}} &&
+                    file.reads("SELECT * FROM main.subathon_milestone_actions "
+                               "WHERE occurrence_ref=?",
+                               {QByteArray("b-empty")})
+                        .empty(),
+                "Empty occurrence retains its captured definition and has no action rows");
         });
     }
 
@@ -609,20 +760,26 @@ class MilestoneGroupRestartTests final : public QObject {
             QCOMPARE(bonus(file, second_bonus, ports), Bonus::refused);
             QCOMPARE(bonus(file, {first, 1}, ports), Bonus::refused);
             ports->permitted = false;
+            ports->consulted.reset();
             QCOMPARE(bonus(file, first_bonus, ports), Bonus::refused);
+            ports->check_authority(first_bonus);
             require(ports->effects == 0 && file.reads(effects_query).empty() &&
                         file.reads(receipts_query).empty(),
                     "Sibling bonus, automation position and authority denial leave no effect or "
                     "receipt");
             ports->permitted = true;
+            ports->consulted.reset();
             QCOMPARE(bonus(file, first_bonus, ports), Bonus::applied);
+            ports->check_authority(first_bonus);
             file.reopen();
             QCOMPARE(bonus(file, first_bonus, ports), Bonus::already_applied);
             require(ports->effects == 1 && file.reads(effects_query) == first_effect &&
                         file.reads(receipts_query) == first_bonus_receipt,
                     "Exactly one actual effect and stable receipt survive reopen");
             acknowledged(release(file, second), Release::released);
+            ports->consulted.reset();
             QCOMPARE(bonus(file, second_bonus, ports), Bonus::applied);
+            ports->check_authority(second_bonus);
             file.reopen();
             require(ports->effects == 2 &&
                         file.reads(effects_query) == SqlRows{{QString("effect-first"), 37},
