@@ -63,8 +63,12 @@ inline void expect_schema(const SqlRows &rows, const MigrationStep &step) {
 
 inline MigrationResult migrate(SqliteWriter &writer, MigrationMode mode,
                                MigrationManifest manifest) {
+    MigrationLimits limits;
+    // The cumulative v16 manifest is 1,065,558 UTF-8 bytes with the protected prefix.
+    if (manifest.steps.size() == 16)
+        limits.manifest_utf8_bytes = 2 * 1024 * 1024;
     return financial_refund_fixture::completed<MigrationResult>([&](auto done) {
-        return SqliteMigrationRunner::enqueue(writer, {mode, std::move(manifest), {}, {}},
+        return SqliteMigrationRunner::enqueue(writer, {mode, std::move(manifest), limits, {}},
                                               std::move(done))
             .error;
     });
