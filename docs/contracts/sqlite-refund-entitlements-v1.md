@@ -2,7 +2,7 @@
 
 Tier A, ACCT-006 [#199](https://github.com/Kernol12/subathon-bot-ai/issues/199),
 [draft PR #726](https://github.com/Kernol12/subathon-bot-ai/pull/726). Fix rounds
-2/2. Specification v0.45 §§3, 4, 8 and NUM-03. Draft for independent review.
+3 (owner 37A). Specification v0.45 §§3, 4, 8 and NUM-03. Draft for review.
 
 The registered A01–A15 core source and assertions at `06dbc980` stand as reviewed. Their
 [observed red](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7011613636)
@@ -218,24 +218,25 @@ Never blindly replay or treat a staged value as proof.
 ## Deferred refunds, Finished continuation and catalog order
 
 **34A.** An open financial timer hold or pending queue defers new verified
-refunds for that payment. The typed deferral record binds the submission key in a
-separate namespace to its immutable intent, exact receipt and economic identity,
-subject and arrival order. It creates no financial operation or acceptance
-claims, money/entitlement advance or effects. An exact authorized submission
-retry returns the immutable `deferred` outcome, with a separate acceptance
-reference if acceptance later committed. Deduplicate by receipt and economic
-identity within the payment. Refuse changed intent or conflicting identity.
-Numeric overflow retains its separate review disposition.
+refunds for that payment. The deferral binds the separate key, immutable intent,
+receipt, economic identity, subject and arrival order without financial claims
+or effects. Enforce one durable deferral per receipt across all payments and
+operation scopes. Deferral checks existing financial claims. All reversal
+claim paths check the binding, including after reopen. Only the matching
+pending head may claim the receipt once the hold is closed. Conflicts refuse.
+An exact authorized retry returns the immutable `deferred` outcome and any
+committed terminal outcome by reference. Numeric overflow retains its review disposition.
 
-After acknowledged closure, [#201 starts the live drain](https://github.com/Kernol12/subathon-bot-ai/issues/201#issuecomment-7012411967)
-automatically in original arrival order. #199 admits only the exact pending
-head while the queue is nonempty. Each turn binds a stable acceptance intent
-to the deferral and fresh expected payment, basis and state positions. Recheck
-authority and evidence, claim the financial identities, and mark that head
-accepted with the committed acceptance reference in one unit. Resolve uncertain
-results by the attempted intent and deferral before any new attempt. Recovery
-preserves order, identities and accepted links across reopen. A new hold
-defers the remaining suffix. No manual resubmission is required.
+After acknowledged closure, [#201 drains automatically](https://github.com/Kernol12/subathon-bot-ai/issues/201#issuecomment-7012411967)
+in original arrival order. The exact pending head uses a stable intent bound to
+the deferral and fresh payment, basis and state positions. Revalidate authority,
+identity and evidence. Commit acceptance, financial claims and head advancement
+together. A definitive ineligibility such as verified over-original money
+commits an audited refusal and advances the head without claims, money or
+entitlement advance, or effects. Stale or unavailable inputs leave it pending.
+Reconcile uncertain results by exact intent and deferral before proceeding.
+Retain order and terminal history across reopen. A new hold defers the suffix.
+No manual resubmission is required.
 
 **35A.** If an authorized continuation observes Finished for any reason, close
 the exact hold with an audited `finished` disposition and zero timer adjustment.
@@ -281,14 +282,13 @@ separate evidence from A01–A15.
 | W06 — Finished and Ready authority | Same 5-of-20 mixed refund with performed actions. In already Finished, actual timer/debt changes zero, requested Main −75000 explicitly non-applied as `finished`, score 30000000, no timer hold/debt/reopen. Repeat with paused Active at exact hard end and verify committed HardEndReached then Finished and identical refund disposition. Ready gives prerequisite refusal with raw retention only and no started reduction, money or effect. |
 | W07 — 33A restoration | Original 8 and actual time addition (Main +3, debt −3). Independent credit leaves live Main 10/debt 0. Refunds 2, 4, 2 give accepted totals 2, 6, 8 and exact cumulative time 1.5, 4.5, 6, rounded 2, 4, 6 and residuals −0.5, +0.5, 0. Cumulative splits (2,0), (3,1), (3,3) give requests (−2,0), (−1,+1), (0,+2) and live (8,0), (7,1), (7,3). New deficit debt remains zero. The third, restoration-only request applies under RequireReview. An independent second-request fixture at Main 1/debt 0 with RequireReview ends at (0,1) without a hold. Tie control (3,2) at half gives 2 and (−2,0). Full clearing control (6,4), prior (5,0), gives (−1,+4). Read linked histories, including original negative debt delta and distinct actual restoration. |
 
-W05 deferred control: after accepting 5, retain 2 then 3 without acceptance
-claims. Reopen, verify order and refuse promotion of 3 first. With Main 200000,
-closing the 75000 hold leaves 125000. An authorized drain driver accepts
-both at fresh heads. Cumulative money is 7 then 10, Main 95000 then 50000,
-score 26000000 then 20000000. Retry the original deferred command before and
-after acceptance. Both retries return `deferred`, with the later acceptance
-link only after commit. A drain retry returns that same acceptance, with no
-new claim or effect. #201 tests automatic dispatch from the live trigger.
+W05 deferred control: retain 2 then 3 after accepting 5. Reopen and verify the
+receipt binding against a different payment. Close the 75000 hold from Main
+200000. With fresh positions and no hold, refuse promotion of 3 before 2.
+The drain accepts them in order: cumulative money 7 then 10, Main 95000 then
+50000 and score 26000000 then 20000000. Verify both retry outcomes. An
+independent queue of 12, 4, 1 from accepted 5 of 20 ends at 18, with the 4
+refused in full. An uncertain head stays pending for reconciliation.
 
 W06 continuation control: finish a timer with W05's hold active, once through
 hard end and once through ordinary Main expiry. Authorized continuation closes
