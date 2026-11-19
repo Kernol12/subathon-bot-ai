@@ -41,6 +41,17 @@ struct MilestoneTimeline::State {
             throw std::invalid_argument("Regressing milestone timeline sample");
     }
 
+    void append(std::vector<CommittedMilestoneGroup> groups) {
+        for (const auto &group : groups)
+            check_timing(group.timing.presentation.value_or(settings.presentation),
+                         group.timing.gap.value_or(settings.gap));
+
+        // Build the complete batch before appending any of it.
+        std::list<CommittedMilestoneGroup> batch(std::make_move_iterator(groups.begin()),
+                                                 std::make_move_iterator(groups.end()));
+        pending.splice(pending.end(), batch);
+    }
+
     void advance_to(Milliseconds now) {
         last_sample = now;
         if (window) {
@@ -97,15 +108,14 @@ MilestoneTimeline::~MilestoneTimeline() = default;
 void MilestoneTimeline::accept_committed(std::vector<CommittedMilestoneGroup> groups,
                                          Milliseconds now) {
     state_->check_sample(now);
-    for (const auto &group : groups)
-        check_timing(group.timing.presentation.value_or(state_->settings.presentation),
-                     group.timing.gap.value_or(state_->settings.gap));
-
-    // Build the complete batch before appending any of it to the running queue.
-    std::list<CommittedMilestoneGroup> batch(std::make_move_iterator(groups.begin()),
-                                             std::make_move_iterator(groups.end()));
-    state_->pending.splice(state_->pending.end(), batch);
+    state_->append(std::move(groups));
     state_->advance_to(now);
+}
+
+void MilestoneTimeline::restore_committed(std::vector<CommittedMilestoneGroup> groups) {
+    if (state_->last_sample || !state_->pending.empty())
+        throw std::logic_error("Milestone queue restoration requires a fresh timeline");
+    state_->append(std::move(groups));
 }
 
 void MilestoneTimeline::advance(Milliseconds now) {

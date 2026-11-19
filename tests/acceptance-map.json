@@ -233,7 +233,8 @@
       "tests": [
         "tests/acceptance/milestone_progression_tests.cpp",
         "tests/fixtures/milestone_progression_vectors.hpp",
-        "tests/qt/milestone_timeline_tests.cpp"
+        "tests/qt/milestone_timeline_tests.cpp",
+        "tests/qt/milestone_group_restart_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-test-review.md",
@@ -245,7 +246,9 @@
         "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestone-001-code-review.md",
         "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestone-001-handoff.md",
         "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestone-001-ci.md",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/712#issuecomment-6990659915"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/712#issuecomment-6990659915",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/716#issuecomment-7001111222",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/716#issuecomment-7001301326"
       ],
       "scope": "Pure sequential progression implementation preserves all53 reviewed cases and original FIRST-red: immutable captured prefix, every crossed current target, current deficits/remaining/exact interval, fullU64 distances and owned complete resource bounds. Root/author/different reviewer full90 pass with separate source/config audit; ordinary53CI selected42168586251 at549 passed (old37/unconditional53), independently verified; finalpublication gates remain. Authoritative score/history/transaction, manual/reset/edit/action/presentation/queue/UI/platform/live and full-release requirements remain."
     },
@@ -468,9 +471,16 @@
     },
     {
       "id": "TIMER-07",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/recurring_schedule_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7000644777",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7000676542",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7000792562"
+      ],
+      "scope": "Independent baseline review, 25 admitted intended failures and 25 admitted local passing core cases with synthetic offset facts. Configured-timezone acquisition and authoritative wiring are tracked by #720."
     },
     {
       "id": "TIMER-08",
@@ -518,11 +528,15 @@
       "id": "MILE-08",
       "status": "partial",
       "tests": [
-        "tests/qt/milestone_timeline_tests.cpp"
+        "tests/qt/milestone_timeline_tests.cpp",
+        "tests/qt/milestone_group_restart_tests.cpp"
       ],
       "evidence": [
-        "https://github.com/Kernol12/subathon-bot-ai/pull/712#issuecomment-6990659915"
-      ]
+        "https://github.com/Kernol12/subathon-bot-ai/pull/712#issuecomment-6990659915",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/716#issuecomment-7001111222",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/716#issuecomment-7001301326"
+      ],
+      "scope": "Ordinary durable group order, exact release gating and passive restart recovery were exercised with synthetic real SQLite fixtures. Deferred hold recovery is #236 and running host composition is #294."
     },
     {
       "id": "AUTH-06",
