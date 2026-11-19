@@ -111,7 +111,8 @@ unchanged. Here `B` is U32 length and exact bytes, `O` has tags 0/1,
 `V` is U32 element count, and integers are big-endian (I64 two's complement).
 `Override` and `Observation` below are their exact RSV1 bodies. Each row-carried
 format ID is an exact BLOB of 1–128 bytes, paired with the literal four ASCII
-magic bytes. The bridge is a format contract; codec availability is a dependency.
+magic bytes. The bridge defines the format. The shared RSV1 codec is still open
+in [#553](https://github.com/Kernol12/subathon-bot-ai/issues/553).
 
 | Envelope | Format ID |
 | --- | --- |
@@ -134,7 +135,8 @@ Witness = U8(0) B(source) B(grant)                           # individual allow
 ROB1 Observation
 ```
 
-- Required refs and present optional refs are nonempty. Installation, session,
+- Both envelopes bind the same decision ref through `Override` and `RDC1`.
+  Required refs and present optional refs are nonempty. Installation, session,
   session record revision, session snapshot and witness source/grant/role refs
   are at most 4,096 bytes each. Other envelope refs are at most 256 bytes each.
   Nested fields follow the bridge (currency 64, decimal/time text 512, reason
@@ -261,9 +263,9 @@ grant confers no authority to certify a successful fetch or invoke that path.
 | Case | Inputs and expected evidence |
 | --- | --- |
 | R01 — Root and first addition | Reopen verified root E before a successful fetch. RSV1 has length 27 (4 magic + 5 ref + 2 absent tags + 4 empty vector counts). EUR/USD missing, EUR/EUR 1. Add EUR→USD pinned `1.20` with no source. New revision parent E, EUR/USD 6/5, USD/EUR 5/6, exactly two ordered availability changes, one decision and one override. Reopen exactly; no implied fetch or timestamp. |
-| R02 — Scope and denial | The EUR/USD grant covers USD→EUR, both kinds, but not EUR/GBP. No grant, an applicable deny, unrelated/incomplete grants, revoked session, or unknown current graph yields no access to protected results or writes. Change graph after preview, then independently revoke it after commit and retry. |
-| R03 — Named replacement and exact graph | Base has EUR/USD pin 6/5 and source rows EUR→GBP `0.90`, EUR→USD `1.20` in that policy order. Replace the named pin with USD→EUR `0.80` using the same source. EUR/USD becomes 5/4, USD/EUR 4/5, USD/GBP becomes (9/10)/(5/4)=18/25, inverse 25/18. Old USD/GBP is 3/4, inverse 4/3. The EUR/GBP pair stays 9/10 and 10/9. Preserve both original source rows and their ordinals; EUR→USD is excluded as a constraint. Reject absent, wrong or another pair's replacement, zero/negative rate, and a manual USD→GBP `0.72000000000000000001` when the other two legs are pinned. |
-| R04 — Facts, replay and collision | Save K from E; a named same-value replacement advances the head with an empty affected-rate list. Authorized K returns the first receipt. New K2 from E is stale. Changed K (e.g. `1.20` → `1.200`, changed actor or replacement) conflicts. A new operation using a retained override, decision or snapshot ref conflicts. Even with unchanged head and values, a changed current source-policy basis/edge trace needs fresh preview; no overwrite or double publication. |
+| R02 — Scope and denial | The EUR/USD grant covers either direction and both kinds. EUR/GBP needs its own pair scope. Deny on no complete grant, applicable deny, revoked session, unavailable graph, or unsynchronized catalog, without protected lookup or writes. Independently revoke the grant after preview and between a committed save and exact retry. |
+| R03 — Named replacement and exact graph | Base has EUR/USD pin 6/5 and source rows EUR→GBP `0.90`, EUR→USD `1.20` in that policy order. Replace the named pin with USD→EUR `0.80` using the same source. EUR/USD becomes 5/4, USD/EUR 4/5, USD/GBP becomes (9/10)/(5/4)=18/25, inverse 25/18. Old USD/GBP is 3/4, inverse 4/3. The EUR/GBP pair stays 9/10 and 10/9. Preserve both full source rows and their ordinals. Exclude EUR→USD as a constraint. Reject absent, wrong or other-pair replacement refs and zero/negative rates. In a separate base with EUR/USD pinned at 5/4 and EUR/GBP pinned at 9/10, USD→GBP `0.72000000000000000001` contradicts the exact cross rate 18/25. |
+| R04 — Facts, replay and collision | K adds EUR/USD `1.20` from E to S. K2 from S explicitly replaces K's override at the same rate and advances to T with zero rate changes. An authorized K retry returns S and its two original changes, with T still active. Fresh K3 from E is stale. A changed K lexeme, actor, decision or replacement conflicts. On the current base, any new operation reusing an existing override, decision or successor ref conflicts. A changed current source-policy basis or edge trace on a fresh operation needs a new preview even when the head and rates agree. |
 | R05 — Observation fidelity | Selected F has a conflicting second row and unselected G has no accepted edge. Reopen both full facts from the decision basis, with F's source time original-only, fetch UTC0 and present-empty publication text distinct from absence. Same F identity with a changed lexeme or time presence conflicts before any durable changes. |
 | R06 — Smaller successor | Temporary USD→EUR 7/5, pinned EUR→GBP 1/2, unrelated temporary JPY→CAD 3/250. Successful supplied USD→CHF `0.70`, CHF→EUR `2.0` imply USD→EUR 7/5, so only the first override expires. Use compatible fetched edges and derive USD→GBP 7/10. Repeat with direct same-value fetched USD→EUR, unrelated-only quotes, and no accepted observation. Reopen both override counts and original provenance. |
 | R07 — Race and late failure | Two fresh commands share E. First commits, second is stale, and two identical K submissions yield one commit and one retained receipt. Force a reached late write/CAS failure after staging and verify from an independent committed view and reopen that the old head and every prior row survive and all staged rows are absent. |
