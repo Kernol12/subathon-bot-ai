@@ -176,11 +176,16 @@ current readiness.
   The root canary survived the direct `sudo` timeout. The draft #722 was
   closed and #715 returned to Planned, the board's backlog status. It uses
   no parking slot. The retry change was never enabled.
-- #286 has [approved correction 1](https://github.com/Kernol12/subathon-bot-ai/pull/723#issuecomment-7003511878)
-  and [19 admitted standalone NI outcomes](https://github.com/Kernol12/subathon-bot-ai/pull/723#issuecomment-7004639361).
-  Resumed after #236 in the server slot. The shared suite registration needs
-  its own review and admitted red run before integrating the authored Stage 2
-  implementation.
+- API-005 #286 is Done after protected merge `80a0bee1` in
+  [#723](https://github.com/Kernol12/subathon-bot-ai/pull/723#issuecomment-7007029408).
+  The registered suite reached 19 intended NI outcomes and passed all 19
+  frozen synthetic cases after implementation. All seven checks passed on
+  proof head `00f73263`. AUTH-15 and INTEGRATION-01 remain partial. Actual
+  provider authorization, credentials and client onboarding remain separate.
+- RATES-007 [#406](https://github.com/Kernol12/subathon-bot-ai/issues/406)
+  is claimed on `80a0bee1` after the board confirmed its closed prerequisites.
+  Tier A Stage 1 starts with exact-rate contract examples and independent
+  tests. The coordinator retains shared registration and CI ownership.
 
 ### Parallel work and standing CI rerun rule
 
