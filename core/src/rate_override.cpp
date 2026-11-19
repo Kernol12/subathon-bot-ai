@@ -4,7 +4,9 @@
 namespace subathon::core {
 
 RateOverridePreview preview_rate_override(const EffectiveRateSnapshot &,
-                                          const ManualRateOverrideInput &, std::string_view) {
+                                          const ManualRateOverrideInput &,
+                                          std::span<const RateOverrideFetchedEdge>,
+                                          std::string_view, std::optional<std::string_view>) {
     throw RateOverrideNotImplemented();
 }
 
@@ -12,9 +14,9 @@ RatePreviewBaseStatus check_rate_preview_base(const EffectiveRateSnapshot &, std
     throw RateOverrideNotImplemented();
 }
 
-std::optional<EffectiveRateSnapshotInput> propose_rate_update(const EffectiveRateSnapshot &,
-                                                              const FetchedRateObservation *,
-                                                              std::string_view) {
+std::optional<EffectiveRateSnapshotInput>
+propose_rate_update(const EffectiveRateSnapshot &, const FetchedRateObservation *,
+                    std::span<const RateOverrideFetchedEdge>, std::string_view) {
     throw RateOverrideNotImplemented();
 }
 

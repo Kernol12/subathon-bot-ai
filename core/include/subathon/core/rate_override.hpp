@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 
+#include <cstdint>
+#include <functional>
 #include <optional>
+#include <span>
 #include <stdexcept>
 #include <string>
 #include <string_view>
@@ -21,6 +24,14 @@ struct RateOverridePreview {
     // An owned proposal for the existing snapshot factory.
     EffectiveRateSnapshotInput candidate;
     std::vector<RatePairChange> affected_rates;
+    // A successful substitution names the removed override. The candidate owns the new one.
+    std::optional<std::string> replaced_override_ref;
+};
+
+// A policy-supplied fetched edge refers to the original one-based quote ordinal.
+struct RateOverrideFetchedEdge {
+    std::reference_wrapper<const FetchedRateObservation> observation;
+    std::uint64_t quote_ordinal;
 };
 
 class RateOverrideNotImplemented final : public std::logic_error {
@@ -28,28 +39,42 @@ class RateOverrideNotImplemented final : public std::logic_error {
     RateOverrideNotImplemented() : std::logic_error("RATES-007 rate override is not implemented") {}
 };
 
-// Propose an owned successor with current as its parent. Report each ordered pair whose
-// exact value or availability changes. Nonpositive rates and contradictory pins
-// refuse with the corresponding RateSnapshotFailure before returning a candidate.
-// The application owns authorization, identity allocation, and committing the change.
-[[nodiscard]] RateOverridePreview preview_rate_override(const EffectiveRateSnapshot &current,
-                                                        const ManualRateOverrideInput &edit,
-                                                        std::string_view candidate_ref);
+// Both proposals apply the retained manual constraints first, then keep compatible
+// fetched edges in the order supplied by the cache/source policy. Keep full source
+// observations for selected edges, including their unselected quote rows. The caller
+// retains observations without selected edges. Snapshot bounds and validation apply
+// to the candidate. Inputs are borrowed for the call and left intact.
+//
+// Preview an owned successor with current as its parent, reporting every ordered
+// pair whose exact value or availability changes. Editing an active unordered pair
+// requires replace_override_ref to name that pair's active override, in either
+// orientation. A missing or mismatched target refuses with invalid_override.
+// A replacement removes that override, adds the proposed edit and names the removal
+// in the preview. Nonpositive rates and contradictory manual constraints refuse
+// with the corresponding RateSnapshotFailure before returning a candidate.
+[[nodiscard]] RateOverridePreview
+preview_rate_override(const EffectiveRateSnapshot &current, const ManualRateOverrideInput &edit,
+                      std::span<const RateOverrideFetchedEdge> fetched_edges,
+                      std::string_view candidate_ref,
+                      std::optional<std::string_view> replace_override_ref = std::nullopt);
 
 enum class RatePreviewBaseStatus { current, stale };
 
-// Check the snapshot basis recorded for a preview against the current rate head.
-// The owning command checks authorization and revisions and commits through the writer.
+// The preview base must equal the current rate-head identity. Any change requires
+// a fresh preview, even if recomputing would give the same affected rates.
+// RATES-010 (#727) owns the authoritative save, permission check and durable revisions.
 [[nodiscard]] RatePreviewBaseStatus check_rate_preview_base(const EffectiveRateSnapshot &current,
                                                             std::string_view preview_base_ref);
 
-// Propose a successor using an accepted fetched update, preserving active pins and
-// expiring temporary overrides only on relevant successful updates. Null means no
-// observation was accepted, so there is no proposal. The application owns deciding
-// sync success and retaining original observations separately from effective snapshots.
-[[nodiscard]] std::optional<EffectiveRateSnapshotInput>
-propose_rate_update(const EffectiveRateSnapshot &current,
-                    const FetchedRateObservation *accepted_observation,
-                    std::string_view candidate_ref);
+// Propose a successor using an accepted fetched update, preserving active pins.
+// Expire a temporary override when the update supplies a rate for its unordered
+// pair through its fetched quotes, directly or via a fetched path, even if the
+// value is unchanged. Determine relevance from the update's fetched quotes before
+// applying manual constraints. An update with no rate for the pair preserves the
+// override. Null means no observation was accepted and yields no proposal. The
+// application owns sync acceptance and supplies the fetched edge order.
+[[nodiscard]] std::optional<EffectiveRateSnapshotInput> propose_rate_update(
+    const EffectiveRateSnapshot &current, const FetchedRateObservation *accepted_observation,
+    std::span<const RateOverrideFetchedEdge> fetched_edges, std::string_view candidate_ref);
 
 } // namespace subathon::core
