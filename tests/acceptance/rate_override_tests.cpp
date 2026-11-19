@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include <algorithm>
 #include <array>
+#include <cstddef>
 #include <cstdint>
 #include <gtest/gtest.h>
 #include <initializer_list>
-#include <iterator>
+#include <span>
 #include <string>
 #include <string_view>
 #include <subathon/core/rate_override.hpp>
@@ -110,11 +111,8 @@ void expect_original_observation(const FetchedRateObservationData &actual,
     }
 }
 
-void expect_original_override(const EffectiveRateSnapshotData &snapshot,
-                              const ManualRateOverrideInput &expected,
-                              const Exact &rate = Exact(5) / 4) {
-    ASSERT_EQ(snapshot.overrides.size(), 1U);
-    const auto &manual = snapshot.overrides.front();
+void expect_override(const ManualRateOverrideData &manual, const ManualRateOverrideInput &expected,
+                     const Exact &rate) {
     EXPECT_EQ(manual.override_ref, expected.override_ref);
     EXPECT_EQ(manual.kind, expected.kind);
     EXPECT_EQ(manual.from_currency, expected.from_currency);
@@ -125,6 +123,13 @@ void expect_original_override(const EffectiveRateSnapshotData &snapshot,
     EXPECT_EQ(manual.actor_ref, expected.actor_ref);
     EXPECT_EQ(manual.reason, expected.reason);
     EXPECT_EQ(manual.recorded_at_utc_ms, expected.recorded_at_utc_ms);
+}
+
+void expect_original_override(const EffectiveRateSnapshotData &snapshot,
+                              const ManualRateOverrideInput &expected,
+                              const Exact &rate = Exact(5) / 4) {
+    ASSERT_EQ(snapshot.overrides.size(), 1U);
+    expect_override(snapshot.overrides.front(), expected, rate);
 }
 
 void expect_nonpositive_preview(std::string_view decimal) {
@@ -157,14 +162,9 @@ TEST(RateOverrideAcceptance, ManualPairDeterminesExactInverseAndCrossRates) {
     expect_original_override(candidate.data(), usd_eur_override());
 }
 
-void expect_usd_eur_preview_changes(const RateOverridePreview &preview) {
-    const RatePairChange expected[] = {
-        {"USD", "EUR", Exact(6) / 5, Exact(5) / 4},
-        {"EUR", "USD", Exact(5) / 6, Exact(4) / 5},
-        {"USD", "GBP", Exact(3) / 5, Exact(5) / 8},
-        {"GBP", "USD", Exact(5) / 3, Exact(8) / 5},
-    };
-    ASSERT_EQ(preview.affected_rates.size(), std::size(expected));
+void expect_preview_changes(const RateOverridePreview &preview,
+                            std::span<const RatePairChange> expected) {
+    ASSERT_EQ(preview.affected_rates.size(), expected.size());
     for (const auto &pair : expected) {
         SCOPED_TRACE(testing::Message() << pair.from_currency << " -> " << pair.to_currency);
         const auto found = std::ranges::find_if(preview.affected_rates, [&](const auto &change) {
@@ -175,6 +175,16 @@ void expect_usd_eur_preview_changes(const RateOverridePreview &preview) {
         EXPECT_EQ(found->before, pair.before);
         EXPECT_EQ(found->after, pair.after);
     }
+}
+
+void expect_usd_eur_preview_changes(const RateOverridePreview &preview) {
+    const RatePairChange expected[] = {
+        {"USD", "EUR", Exact(6) / 5, Exact(5) / 4},
+        {"EUR", "USD", Exact(5) / 6, Exact(4) / 5},
+        {"USD", "GBP", Exact(3) / 5, Exact(5) / 8},
+        {"GBP", "USD", Exact(5) / 3, Exact(8) / 5},
+    };
+    expect_preview_changes(preview, expected);
 }
 
 TEST(RateOverrideAcceptance, PreviewShowsExactAffectedPairsAndKeepsFetchedEvidence) {
@@ -208,6 +218,24 @@ TEST(RateOverrideAcceptance, PreviewUsesSuppliedOrderForCompetingFetchedEdges) {
     const auto candidate = make_effective_rate_snapshot(preview.candidate);
     ASSERT_EQ(candidate.data().sources.size(), 1U);
     expect_original_observation(candidate.data().sources.front().data(), basis.sources.front());
+}
+
+TEST(RateOverrideAcceptance, PreviewReportsNewlyAvailableRatesInBothDirections) {
+    const auto current = make_effective_rate_snapshot(fetched_head());
+    auto edit = usd_eur_override();
+    edit.to_currency = "CHF";
+    edit.original_decimal = "0.9000";
+    const auto preview = preview_rate_override(
+        current, edit, two_fetched_edges(current.data().sources.front()), "S2");
+
+    // Before the edit EUR->USD is 5/6 and GBP->USD is 5/3.
+    // Multiplying by 9/10 gives EUR->CHF = 3/4 and GBP->CHF = 3/2.
+    const RatePairChange expected[] = {
+        {"USD", "CHF", std::nullopt, Exact(9) / 10}, {"CHF", "USD", std::nullopt, Exact(10) / 9},
+        {"EUR", "CHF", std::nullopt, Exact(3) / 4},  {"CHF", "EUR", std::nullopt, Exact(4) / 3},
+        {"GBP", "CHF", std::nullopt, Exact(3) / 2},  {"CHF", "GBP", std::nullopt, Exact(2) / 3},
+    };
+    expect_preview_changes(preview, expected);
 }
 
 TEST(RateOverrideAcceptance, RefusesContradictoryPinCycleBeforeProducingCandidate) {
@@ -301,6 +329,19 @@ TEST(RateOverrideAcceptance, RefusesImplicitReverseDirectionReplacementAtSameRat
     expect_implicit_replacement_refused(replacement_edit("EUR", "USD", "0.8000"));
 }
 
+TEST(RateOverrideAcceptance, RefusesReplacementWithMismatchedOverrideRef) {
+    const auto current = make_effective_rate_snapshot(manual_head(RateOverrideKind::pinned));
+    const auto edit = replacement_edit("USD", "EUR", "2.0000");
+    try {
+        static_cast<void>(preview_rate_override(
+            current, edit, two_fetched_edges(current.data().sources.front()), "S2", "M9"));
+        ADD_FAILURE() << "wrong override ref produced a replacement preview";
+    } catch (const RateSnapshotFailure &failure) {
+        EXPECT_EQ(failure.code(), RateSnapshotError::invalid_override);
+    }
+    expect_original_override(current.data(), usd_eur_override());
+}
+
 TEST(RateOverrideAcceptance, DetectsStalePreviewAfterAffectedRateChanges) {
     const auto base = make_effective_rate_snapshot(fetched_head());
     auto newer_input = fetched_head();
@@ -361,6 +402,42 @@ TEST(RateOverrideAcceptance, TemporaryExpiresOnRelevantAcceptedUpdate) {
     expect_rate(*proposed, "USD", "GBP", Exact(7) / 10);
     expect_original_override(current.data(), usd_eur_override(RateOverrideKind::temporary));
     expect_rate(basis, "USD", "EUR", Exact(5) / 4);
+}
+
+TEST(RateOverrideAcceptance, ExpiryPreservesPinsAndUnrelatedTemporaryOverrides) {
+    auto basis = manual_head(RateOverrideKind::temporary);
+    const ManualRateOverrideInput pin{"M2",         RateOverrideKind::pinned,
+                                      "EUR",        "GBP",
+                                      "0.5000",     "decision-2",
+                                      std::nullopt, "Second pin",
+                                      std::nullopt};
+    const ManualRateOverrideInput unrelated{
+        "M3",         RateOverrideKind::temporary, "JPY",       "CAD", "0.0120", "decision-3",
+        std::nullopt, "Unrelated temporary",       std::nullopt};
+    basis.sources.clear();
+    basis.overrides.push_back(pin);
+    basis.overrides.push_back(unrelated);
+    basis.constraints.back() = ManualRateConstraint{"M2"};
+    basis.constraints.push_back(ManualRateConstraint{"M3"});
+    basis.components.insert(basis.components.begin(),
+                            RateComponentInput{{{"CAD", "1", "1"}, {"JPY", "250", "3"}}});
+    const auto current = make_effective_rate_snapshot(basis);
+    const auto update = accepted_update({{"USD", "EUR", "1.4000"}, {"EUR", "GBP", "0.4000"}});
+    const auto observed = make_fetched_rate_observation(update);
+
+    const auto proposed =
+        propose_rate_update(current, &observed, two_fetched_edges(observed), "S2");
+    ASSERT_TRUE(proposed);
+    expect_rate(*proposed, "USD", "EUR", Exact(7) / 5);
+    expect_rate(*proposed, "EUR", "GBP", Exact(1) / 2);
+    expect_rate(*proposed, "USD", "GBP", Exact(7) / 10);
+    expect_rate(*proposed, "JPY", "CAD", Exact(3) / 250);
+    const auto candidate = make_effective_rate_snapshot(*proposed);
+    ASSERT_EQ(candidate.data().overrides.size(), 2U);
+    expect_override(candidate.data().overrides[0], pin, Exact(1) / 2);
+    expect_override(candidate.data().overrides[1], unrelated, Exact(3) / 250);
+    ASSERT_EQ(candidate.data().sources.size(), 1U);
+    expect_original_observation(candidate.data().sources.front().data(), update);
 }
 
 TEST(RateOverrideAcceptance, TemporaryExpiresWhenFetchedAndEffectiveRatesStayUnchanged) {
