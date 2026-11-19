@@ -1,4 +1,4 @@
-# SQLite rate overrides and effective revisions — revision 1
+# SQLite rate overrides and effective revisions — revision 2
 
 RATES-010 [#727](https://github.com/Kernol12/subathon-bot-ai/issues/727), Tier A.
 Specification v0.45 §9 / FX-06. Owner decisions
@@ -28,31 +28,27 @@ govern this boundary. This is a draft for independent contract review.
 
 ## Preview, permission and intent
 
-1. The request names two nonempty distinct currency byte strings. Resolve the
-   existing current session and effective USE graph in the writer unit. Request
-   one ordinary override-edit operation with one pair resource and no quantity
-   or kind dimension. The resource is the injective encoding of the two currency
-   byte strings sorted in unsigned byte order. Encode the bridge's length-framed
-   pair `B(low) B(high)` as lowercase hexadecimal for the permission resource.
-   Preserve entered direction for the rate.
-   The existing evaluator must find one complete covering grant under its
-   ordinary precedence. A grant covering only a different pair, combined
-   currency fragments, delegation authority, and owner identity alone give no
-   permit. Temporary and pinned use the same grant. Refuse unavailable,
-   inconsistent, or stale authority facts. Recheck on every save and retry
-   before protected operation, head or evidence lookup.
-2. Bind the preview to the exact committed base identity, a distinct proposed
-   successor identity, authenticated installation/account, entered pair and
-   spelling, kind, reason, override/decision identities and the optional named
-   replacement. Bind the current source-policy basis identity and its ordered
-   (observation identity, one-based quote ordinal) input and the observation
-   identities in the basis. Within a basis all
-   observation identities denote immutable complete observations. Retain the
-   exact candidate and all ordered before/after exact pair changes, including
-   availability changes and the replaced override identity. The command owner
-   must bind the operator's submitted intent to this preview; a supplied candidate
-   is only an equality operand. Server-generated IDs and any preview metadata
-   remain stable in that binding across retries.
+1. Resolve the current installation/account/session and effective USE graph on
+   the authoritative path, again in the writer unit on every save or retry before
+   protected lookup. Evaluate ordinary `rates.override.edit.v1`, exactly one
+   resource slot `pair`, zero quantity slots, absent helper target. For two
+   distinct nonempty currency byte strings of at most 64 bytes, the typed scope
+   is `lower_hex(B(low) B(high))` (maximum 272 bytes), sorted by unsigned bytes.
+   Decode the entire scope, require canonical lowercase hex and strict low < high.
+   EUR/USD in either direction is `0000000345555200000003555344`.
+   Use this codec for every rate `allowed_set` value in USE and GRANT. Rate allows
+   must enumerate pair scopes. An ordinary Any deny is still valid. Apply the
+   existing precedence and require one whole USE witness for the requested pair.
+   No delegation or owner shortcut. Both override kinds use this same operation.
+2. Bind the preview to installation, authenticated account, committed base,
+   proposed successor, new decision and override, the entered direction, rate
+   spelling, kind, reason, and optional named replacement. The new override's
+   actor is the authenticated account, and its `recorded_at_utc_ms` is absent.
+   The #406 candidate has absent construction time. Preserve the exact candidate,
+   replacement and ordered directed changes in the preview binding. Bind current
+   source input as `Basis` below plus its complete ordered observations. The
+   command owner binds the submitted edit to that preview. IDs and provenance
+   remain stable across retries. A supplied candidate is an equality operand.
 3. Recompute a new intent in the write unit from the actual base and current
    supplied authoritative inputs using `preview_rate_override`. Check the
    identity of the base with `check_rate_preview_base`. Changed base or changed
@@ -68,13 +64,25 @@ govern this boundary. This is a draft for independent contract review.
    follow the pure rules. The durable active set also enforces one override per
    unordered pair, including when reading back otherwise valid legacy-model DTOs.
 
-The request carries a stable operation key scoped to the installation. Its
-canonical intent includes the authenticated account and complete preview binding,
-including the proposed identities, exact model content and replacement
-optionality. Compare complete byte/typed identity, not just number equality or a
-digest. The live permission revision/session/time is rechecked separately from
-stable intent. Record its original accepted evidence once. No credentials,
-token digest, or unverified actor/time can enter the retained decision.
+The complete trusted rate catalog is `permission-rates-v1`. It retains the
+[reference trust](sqlite-permission-graph-v1.md#1-ownership-and-bootstrap)
+inventory in order and its three management bindings, then appends the rate
+operation above. The composition root supplies this separate exact trust value.
+For an existing installation the trusted deployment owner uses
+`synchronize_catalog(expected_graph_revision)` on that trust, validating both
+stored channels, including the typed pair scopes, before the existing CAS. No
+auto-sync at save or retry. Missing, unsynchronized or inconsistent authority
+refuses under the existing graph rules. Rate policy admission validates typed
+scopes before they can authorize. Shared integration owns these profile producers
+and adoption. The fixed `permission-reference-v1` producer and consumers retain
+their exact-match behavior. An installation advanced to the rate profile requires
+compatible composition for consumers sharing that graph.
+
+The operation key is stable and installation-scoped. Compare complete canonical
+intent (defined below), including immutable content, spelling and optionality.
+Session and graph revision can change between attempts. Store the first accepted
+audit once, with acceptance time exclusively in the decision. Credentials and
+token digests are outside all retained envelopes.
 
 For a structurally fitting and authorized request, use this order.
 
@@ -90,77 +98,134 @@ storage refusal, not absence. Never let current facts repair the old result.
 A refreshed session of the same account may authorize an exact retry; its
 metadata never replaces the original audit. Keep distinct authorization,
 stale, intent/identity conflict, proposal/resource, invalid/unsupported
-retained data and writer outcomes. Protected details are returned only through
-the applicable authorized operation.
+retained data and writer outcomes. Under current authority the receipt returns
+decision, base, successor, introduced override and optional replaced refs, plus
+ordered directed changes.
+A denied retry discloses neither operation existence nor receipt and writes zero
+rows. Session, graph, witness and source-basis evidence stay internal.
 
-## Retained values and SQLite boundary
+## Canonical envelopes and bounds
 
-Use one additive migration placeholder **RATES-010 step** after the actual
-protected prefix in the posted night order. Version, migration ID and literal
-DDL/projection are for the reviewed catalog assignment. Copy all shipped
-catalog SQL, IDs, projections and digests exactly. Migration creates and seeds
-the new relations in the controlled catalog transaction. Opening the store
-does not advance it. Apply the existing [migration rules](migration-catalog-v1.md),
-including populated-prefix and older-manifest refusal coverage.
+Use the [bridge RSV1 grammar and profile](exact-valuation-storage-v1.md#5-complete-canonical-byte-grammars)
+unchanged. Here `B` is U32 length and exact bytes, `O` has tags 0/1,
+`V` is U32 element count, and integers are big-endian (I64 two's complement).
+`Override` and `Observation` below are their exact RSV1 bodies. Each row-carried
+format ID is an exact BLOB of 1–128 bytes, paired with the literal four ASCII
+magic bytes. The bridge is a format contract; codec availability is a dependency.
 
-| Logical relation | Durable identity and invariants |
+| Envelope | Format ID |
 | --- | --- |
-| Fetched observation | Immutable observation ref to complete context and ordered quotes; store original spelling, provider/config/request/evidence refs and both independent optional time evidences, fetch time and snapshot ref. Identical exact bytes reuse an observation; a changed byte under the same ref conflicts. Retain admitted current observations in the accepted input basis even when no edge survives. |
-| Effective revision | Immutable snapshot ref to optional parent and complete canonical RSV1 known-format document, with an owned whole collection of active overrides, selected sources, constraints and rational components. Parent is a real earlier revision in this store. Require one successor at most per parent. Check key/parent against the body. A complete collection may shrink, including to zero. |
-| Override occurrence | Permanent unique override ref bound to the revision/decision that introduced it and the exact manual data in that revision. Later references keep that same occurrence unchanged. The first revision, replaced/expired occurrences and redeemed identities remain readable. Never reuse an old ref for a new occurrence. |
-| Override acceptance | Immutable operation key, exact canonical intent, unique decision ref and successor, base, introduced override and optional replaced occurrence, ordered source input basis, plus original actor/session provenance, current graph/witness and acceptance time if known. Receipt references this original closure. No in-place update or deletion. |
-| Active pointer | Exactly one checked singleton for this server, referencing a real effective revision with no successor. Seed it to reserved revision `E` with absent parent/time and all collections empty. No fetched observation, last-success time, or decision is implied. All subsequent revisions have a parent. A missing or malformed singleton/root in a verified current store is invalid data. |
+| RIN1 | `subathon.internal.rate-override-intent.v1` |
+| RDC1 | `subathon.internal.rate-override-decision.v1` |
+| ROB1 | `subathon.internal.rate-observation.v1` |
 
-Use byte-exact keys and envelope payloads (SQLite BLOB), explicit type/length
-checks, typed local foreign keys and unique constraints. Audit links that can
-outlive live identity/session rows are retained immutable evidence. Provider refs,
-external source evidence and metadata stay opaque; do not claim verification of
-their external targets. The effective revision retains #406's complete selected
-observation closure, including quote rows rejected as constraints. Separate
-observation evidence also retains the unselected sources named by accepted
-input facts. Validate cross-references and complete canonical bytes before
-admitting or returning a selected result. One selected operation read uses its
-base, successor, decision, introduced/replaced occurrences and retained supplied
-observations in a coherent committed view. Check ordered edges against their
-original quote ordinals. Do not read unrelated histories or use the latest head
-as part of the old receipt. Render the receipt and its exact changes from the
-retained accepted values (retain exact deltas or reconstruct them from the
-two selected immutable revisions with the same ordering). Use bounded selected
-reads and reject incomplete or conflicting closure.
+```text
+RIN1 B(installation) B(operation_key) B(base) B(successor)
+     Override O(B(replaced_override)) Basis
+Basis = B(source_policy_basis) V(B(observation_ref)) V(Edge)
+Edge = U32(observation_index) U64(quote_ordinal)
+RDC1 B(installation) B(operation_key) B(decision) B(base) B(successor)
+     B(introduced_override) O(B(replaced_override)) B(account)
+     B(session) B(session_record_revision) B(session_snapshot)
+     B(permission_catalog_revision) U64(permission_graph_revision)
+     Witness O(I64(accepted_at_utc_ms))
+Witness = U8(0) B(source) B(grant)                           # individual allow
+        | U8(1) B(source) B(grant) B(role)                   # role allow
+ROB1 Observation
+```
 
-Use the [bridge RSV1 grammar and profile](exact-valuation-storage-v1.md#5-complete-canonical-byte-grammars),
-including original decimals, rational potentials, distinct optional absence,
-canonical collection order, type tags, limits and known/unknown format handling.
-The standalone observation record uses the same Observation body with an
-independently identified envelope. New decision/intent envelopes must have
-explicit internal format identity, byte-exact length framing and bounded
-fields. Compare or validate full values, not just hashes or SQL affinity. Use
-no SQL REAL, currency normalization, rounded quotes, invented timestamp, or
-reporting-currency-relative interpretation. An equal-currency query remains
-arithmetic identity; an unavailable foreign pair remains missing.
+- Required refs and present optional refs are nonempty. Installation, session,
+  session record revision, session snapshot and witness source/grant/role refs
+  are at most 4,096 bytes each. Other envelope refs are at most 256 bytes each.
+  Nested fields follow the bridge (currency 64, decimal/time text 512, reason
+  4,096 bytes). Preserve original text, including present-empty time text.
+  Graph revision is positive. Session fields come from current session resolution.
+  Copy the original evaluator permit witness, including role only for a role
+  allow. Its operation/pair are implicit from the fixed catalog and bound edit.
+  The witness is audit evidence, with no retained live authorization. Decision
+  time is the authoritative acceptance sample if known, otherwise absent.
+- The source port supplies one basis identity, at most 16 observations in
+  supplied order with unique refs, and at most 16,384 edges in supplied order.
+  Both vectors may be empty. The index is zero-based in that observation
+  vector, and the ordinal is one-based in its full quote vector. Bounds and
+  membership are checked even for edges unused by #406. Preserve edge order
+  and multiplicity. Identity binds the complete facts, including unused rows.
+- RIN1 is at most 229,376 bytes and RDC1 at most 32,768 bytes, including magic
+  and framing. RSV1 and ROB1 are each at most 32,768 encoded bytes. Each raw
+  and parsed revision and each raw and parsed standalone observation separately
+  fits 24,576 logical bytes and the bridge count/field/bit limits. With at most
+  16 ROB1 documents, the input basis has at most 524,288 encoded bytes total.
+  Copies embedded in RSV1 are charged again against that document's limits.
+- Scan declared counts and sizes before copying or allocating, with checked
+  arithmetic and the bridge's framing/value admission sequence. Limit overflow
+  is a resource refusal. Bad physical types, magic, tags, truncation, trailing
+  bytes and noncanonical known contents are invalid data. Unknown well-bounded
+  format IDs are unsupported, with no fallback.
+  #406's combined raw proposal/replacement/affected output budget of 8,388,608
+  logical bytes and 32,768 items still applies. Preflight the selected closure
+  and actual cumulative writer statements, rows and bound/result bytes as well
+  as enclosing owned-value limits. Refuse the entire input on overflow. Keep
+  original evidence and existing writer/bridge defaults.
 
-Each complete raw snapshot and parsed snapshot separately fits 24,576 logical
-bytes and the bridge count/field/bit limits. Each complete canonical RSV1 document
-separately fits 32,768 actual bytes. Apply the same local byte ceilings to
-standalone observation values/envelopes; bill selected observation copies in
-the snapshot again. Preflight collection counts, logical sizes and measured
-framed sizes before copying/materialization at the storage boundary. Reuse
-#406's fixed proposal/affected-pair budgets as a separate bound; give decision
-metadata and ordered input edges bounded framing and enforce actual cumulative
-writer statement, row, bound/result byte limits plus enclosing owned-value
-limits before staging. Select at most 16 input observations and 16,384 edges
-and use checked arithmetic before allocation. Refuse over-budget inputs whole.
-Never discard evidence, select a smaller provider table, or enlarge a bridge or
-writer default to make a save fit. The linked bridge supplies the format
-contract; a codec is a later implementation dependency, not assumed shipped.
-Historical plan layouts, captures and migrations remain with their own owners.
+## Logical rows and selected receipt
+
+Use one additive **RATES-010 step** after the protected prefix in the posted
+night order. Version, ID, DDL and projection follow the reviewed assignment.
+Preserve shipped bytes and digests. Seed in the controlled catalog transaction.
+Opening the store cannot advance it. Apply [migration rules](migration-catalog-v1.md)
+including populated-prefix and old-manifest refusal.
+
+| Relation | Key in this server's rate store | Other logical columns and constraints |
+| --- | --- | --- |
+| Observation | observation ref | Format + ROB1. Complete immutable context and ordered quotes. Reuse only identical canonical bytes. Retain every admitted basis observation, including those with no selected edges. |
+| Revision | snapshot ref | Nullable parent FK to Revision, unique among non-null parents. Format + complete RSV1. All nonroot revisions have a real earlier parent. |
+| Decision | decision ref | Installation ref and operation key form a unique composite. Successor is separately unique. Base and successor are Revision FKs. RIN1 format + bytes, RDC1 format + bytes. All envelope refs agree with their columns and each other. |
+| Occurrence | override ref | Introducing decision FK (unique), introducing revision FK and complete canonical RSV1 Override body (no envelope). The body matches the introduced override in that revision and the bound edit. Later active references keep those same bytes. Retain replaced and expired occurrences permanently. |
+| Head | one-byte `H` (0x48) | Active revision FK. Exactly one head, at a terminal revision. Seed with reserved one-byte ref `E` (0x45), absent parent/time and empty vectors. Reserve E from successor generation. A missing or malformed head or root is invalid data. |
+
+Keys and payloads are byte-exact BLOBs. Rate rows share the single-server
+namespace. Only operation lookup is installation-scoped. Seed E and H without
+requiring a preexisting account installation. Use explicit physical type/length
+checks and local FKs on relational references.
+All rows except Head are immutable and retained. An Occurrence body is at most
+5,535 bytes under the new-override field and provenance rules.
+Validate envelope-only links explicitly. The Decision's introduced occurrence is
+selected by its unique introducing decision and must match the RDC1 ref. A
+replacement names an existing occurrence present in the base and absent from
+the successor, on the same unordered pair. Its stored body must equal the base's
+override. Keep the revision store separate from valuation snapshot identities.
+Audit refs can outlive live account/session/graph rows. Source refs stay opaque
+outside this store. Neither SQL affinity nor hashes establish exact identity.
+
+The canonical intent is RIN1 plus the exact successor RSV1 and complete ROB1
+documents in Basis order, resolved by those exact typed keys. RIN1 refers to
+those documents by key. Compare submitted preview material to the whole
+intent, including unused observations. Matching reference bytes alone cannot
+prove a match. A changed same-ref body conflicts with a new submission; an
+internally inconsistent retained closure is invalid data. Check the retained
+candidate against the captured edit and ordered source input under #406, using
+only those retained facts. Check selected observations byte-for-byte with the
+basis documents, including original quote rows excluded as constraints.
+
+Read the decision, its two immutable revisions, introduced/replaced occurrence
+rows and basis observations in one coherent selected view. Check keys, bodies,
+parent and typed links before returning anything. Do not walk ancestry, scan
+unrelated history or consult the current rate head or source policy for the old
+receipt. Use bounded row/length preflight before fetching BLOB payloads. With
+#406's order, iterate distinct directed pairs over the unsigned-byte-sorted union
+of member currencies, from then to. On each side, return reduced exact
+`weight(to)/weight(from)` when both endpoints share a component and absence
+otherwise. Emit only changes in exact value or availability. Equal-currency
+identity is omitted. Rebuild the list under the same proposal budget and compare
+any supplied preview changes. No persisted delta list or reporting-currency
+interpretation is needed.
 
 ## Write, commit and reopen
 
 The command owner starts one real writer transaction. Validate the complete
 selected current data, operation identity and candidate before staging.
-Stage needed observations, new effective revision/override occurrence, exact
-decision and receipt binding, then conditionally update the singleton from the
+Stage needed observations, the new effective revision, then its exact decision
+and introduced occurrence. Conditionally update the singleton from the
 exact preview base to the candidate. Check exactly one row changed. A late
 zero-row CAS or failed write after staging rolls back the entire unit; invalid
 cardinality/closure is a storage failure. A healthy refusal stages nothing.
