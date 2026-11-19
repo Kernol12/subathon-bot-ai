@@ -83,13 +83,16 @@ After identity checks, revalidate payment position, each selected basis
 position, actual plan/source and authoritative state/contribution independently.
 Each incoming amount is positive and in the verified original currency. Original
 amount is positive, prior accepted total is nonnegative and the sum cannot exceed
-original. Exact equality is full. An accepted refund with zero rounded request
-still consumes its identity, exact money and a position. Never infer payment-wide
+original. An over-original refund is refused in full. Exact equality is full.
+An accepted refund with zero rounded request still consumes its identity, exact
+money and a position. Never infer payment-wide
 money from requested or actual effects, fractions in a legacy effect link, CID
 alone or the number of receipts.
 
-Let F be new accepted money divided by original money. For each eligible actual
-credit X, keep C = X × F, rounded cumulative magnitude R and residual C − R.
+Let F be cumulative accepted money after this refund divided by original money.
+Every selected time, score and count link in this refund uses that same F.
+For each eligible actual credit X, keep C = X × F, rounded cumulative
+magnitude R and residual C − R.
 Time and score use half-even at ms and micro-point precision. A count holds R
 at zero until exactly full. The signed increment is previous R − new R. At full
 R equals X. Time uses one X = actual Main added + actual debt repaid. Repayment
@@ -105,10 +108,16 @@ inspectable. Time records actual Main subtraction, original debt restored,
 new deficit debt and unapplied request by leg. With nonnegative magnitudes,
 Main requested = Main removed + new deficit debt + unapplied Main, and
 restoration requested = original debt restored + unapplied restoration.
-The debt balance increases by restored debt plus new deficit debt. Under 31B
-hold both legs and leave both actual timer deltas zero. Under 32B keep both
-requests as unapplied with reason `finished`; the clock's own transitions are
-represented separately. Preserve independent holds, completed milestones and
+The debt balance increases by restored debt plus new deficit debt. The grouped
+outcome distinguishes `applied`, `held` and `finished`. An applied outcome
+records any policy-limited unapplied Main. Both unapplied amounts are
+nonnegative magnitudes. The Main request is signed and nonpositive. The original
+debt restoration request is nonnegative. Under RequireReview, 31B holds both
+legs with zero actual timer deltas only if the Main request's magnitude exceeds
+live Main at the fresh observation. A restoration-only request and exact
+exhaustion of Main apply without a deficit hold. Under 32B keep both requests
+unapplied with reason `finished` and represent the clock's own transitions
+separately. Preserve independent holds, completed milestones and
 performed actions. Any effect on unreleased action policy is driven by actual
 score before/after on first application, with the stable refund ref. Continuation
 must not submit a second score change or policy observation.
@@ -149,16 +158,21 @@ immutable current request ordinal. It has three distinct pieces:
    selected component by F and cannot validate the Main-first split. Even
    Main-only financial time can use the grouped shape with zero original debt.
    Its typed validation replaces the legacy per-effect link requirement only
-   for that ordinal and checks both legs and balance identities above. Guard
-   against legacy and financial requests independently spending the same time
-   basis. Finished and held are distinct dispositions with typed evidence.
+   for that ordinal and checks both legs and balance identities above. Finished
+   and held are distinct dispositions with typed evidence.
    Do not encode either as cap limitation. Score/count links keep ordinary basis
-   checks; no fabricated ordinals, targets or effect records.
-3. **Financial timer continuation.** Add a typed association from the financial
-   hold to the reversal and selected time occurrence, and a distinct resolution
-   outcome keyed by resolution intent and exact hold/version. Reuse current
-   [hold](sqlite-application-holds-api-v1.md) versioning, active-set checks and
-   audit shape where compatible. Existing
+   checks and must match the journal fraction. Refuse financial acceptance when
+   any selected time, score or count basis already has non-financial reversal
+   history. Refuse non-financial reversal links to any basis with financial
+   history. The guard uses exact original operation and effect occurrence
+   identity and covers the whole unit. Keep the real ordinals and effect records.
+3. **Financial timer continuation.** Add a `FinancialTimerAdjustmentDeficit`
+   cause on the original contribution's CID as `HoldSubject`. The cause retains
+   the exact signed Main and debt restoration requests, prior and next basis
+   allocations, selected time occurrence and financial refund operation. A
+   distinct resolution outcome binds resolution intent and exact hold/version.
+   Reuse current [hold](sqlite-application-holds-api-v1.md) versioning,
+   active-set checks and audit shape where compatible. Existing
    associated-hold and resolution-application guards require original-kind
    bundles. A second same-receipt reversal would also violate source uniqueness
    and require a new entitlement link. The continuation advances the same
@@ -168,12 +182,22 @@ immutable current request ordinal. It has three distinct pieces:
    of original or manual correction kind to bypass a guard.
 
 Resolution needs current authority, the actual active origin/version, current
-active set and fresh observation. Successful application closes only the
-selected financial timer hold atomically with the entire retained adjustment.
-An exact retry reports the recorded resolution; a competing or stale resolution
-cannot consume it again. The conservative draft guard refuses application if
-another active prerequisite would require clearing or bypassing an independent
-hold. No side effect on another hold follows from resolving this one.
+active set and fresh observation. A deficient continuation without an override
+refuses and retains the exact hold and its version. An explicit case override
+may select `StopAtZero` or `CarryTimeDebt` under current override authority.
+Bind that choice into the immutable resolution intent and audit. Pass the whole
+retained time adjustment to the owning deficit policy once, restoring original
+debt as a separate checked leg. Record actual, unapplied and deficit-debt
+components. #199 validates and records the resolution. #201 supplies live
+deficit composition. The typed outcome supplies the disposition and effects
+needed for per-case closure without repeating score, money or milestone policy.
+
+Successfully applying the retained adjustment closes its exact financial timer
+hold in the same unit. A separate active application hold on the same CID
+blocks application-linked resolution. Preserve it and the financial hold.
+Milestone Review is a decision in its own store and does not block timer
+resolution. An exact retry reports the recorded resolution. A competing or stale
+resolution cannot consume it again.
 
 ## Transaction and acknowledgement
 
@@ -202,14 +226,17 @@ Never blindly replay or treat a staged value as proof.
 
 | Decision | Recommended rule and alternative |
 | --- | --- |
-| Later refund while an earlier timer request is pending | Retain later intake and defer acceptance for that payment until the exact hold resolves. Payment position stays fixed meanwhile. This avoids a later debt restoration overtaking held Main. Alternatively accept later proven money and consume the next allocations, with distinct ordered holds and an explicit rule for when each time effect can apply. Later score would apply sooner. 31B decides the first mixed result, not ordering between receipts. |
-| Older payment history with unknown money | Mark the payment history unavailable for new entitlement until independently verified reconciliation binds money, requested positions and prior identities. Pristine checked history may start at zero. Alternative is an owner-approved, audited import/reconciliation workflow. Old requests, even full effect consumption, cannot reconstruct money or certify missing identities. Existing records remain readable. |
-| Verified identity collision and aliases | Refuse financial mutation and route conflicting evidence for authorized review. Keep raw intake and prior immutable history. To coalesce known mirror receipts, require an explicit verified alias/source-selection authority and define whether callers may receive the old result after current disclosure checks. Neither equal fields nor a second operation key establish aliasing. |
-| Held continuation observes hard end | Recommend explicit authorized terminal closure with `finished` reason and zero timer effects, preserving prior score and recording the live finish once. Alternative keeps the hold active for a later separately authorized decision after explicit reopening. 32B settles first application in Finished; it does not settle the fate of an existing hold. |
-| Held continuation is still deficient | Recommend keep exact hold/version active and return a prerequisite refusal, so no partial time effect, debt or reauthorization is implicit. Alternative is an explicit authorized override policy defining and recording actual/unapplied time and whether debt may be incurred. It may not shrink the retained request or replay score. |
-| Mixed Main deficit and debt restoration under StopAtZero/Carry | Recommend apply the configured deficit rule to the Main leg and restore original repayment as a separate checked leg in the same unit. Example Main 1, request Main −3 and restore +2: Stop yields Main 0, debt +2, unapplied Main 2; Carry yields Main 0, debt +4, of which only 2 is new deficit debt. 31B holds both legs for RequireReview and 32B applies neither in Finished. A different rule withholding restoration changes actual accounting and needs owner approval with #201. |
-| Contribution reversal projection | Recommend expose financial fraction separately while the existing effect/review summaries keep their meaning. If public None/partial/full follows accepted money, a full refund may report Full while time remains held or was non-applied. Expose actual/held disposition alongside it. |
-| Independent blocking hold | Keep the current conservative active-set guard. Alternatively authorize a selected continuation to apply while another named cause remains active, with an explicit exemption and active-set recheck. This could subtract time sooner without resolving the other cause. |
+| 34. Later refund while an earlier timer request is held | 34A retains later intake and refuses financial acceptance as a prerequisite until the hold resolves. Explicit authorized resubmission revalidates the input. Accepted money and requested progress stay fixed and the receipt stays available for resubmission. 34B accepts later proven money and consumes the next allocations with ordered timer effects, permitting later score sooner. Numeric overflow without accepted progress is outside 34. |
+| 35. Held continuation observes Finished for any reason | 35A closes the hold with audited `finished` and zero timer effects, recording a newly observed finish with the closure. 35B retains it for a later authorized disposition. Both preserve prior score and avoid implicit reopening. This covers Main expiry, grace or confirmation completion, hard end and authorized deadline edits. 32B already covers first application in Finished. 34A with 35B can delay later score reversals until authorized disposition. |
+| 36. Additive catalog sequence | 36A gives #215's reviewed v14 implementation priority before #199's durable writer integration. 36B keeps the queue and leaves #199's integration pending catalog assignment. Both preserve #719's reviewed v14 boundary. |
+
+Unknown older payment history stays unavailable pending verified reconciliation.
+Only pristine checked history starts at zero. Conflicting economic identities
+refuse financial mutation and preserve raw intake and prior history. Verified
+alias selection belongs to its source authority. The financial journal exposes
+accepted money and fraction separately from existing effect and review summaries.
+In #201's live Stop/Carry composition the Main deficit rule applies only to the
+Main leg. Restore original repayment separately in the same checked unit.
 
 Storage layout, canonical codec reuse, bounded paging and one-unit capture are
 implementation choices within these semantics. Any broader lifecycle or post-finish
@@ -234,10 +261,10 @@ separate evidence from A01–A15.
 
 | Case | Inputs and independent expected outcome |
 | --- | --- |
-| W01 — Immutable basis | Original `20.0000`, historical rate spelling `0.972500`, requested 600000 time, actual Main 300000, score 40000000, count 7. Change current cap, rate and rules. With sufficient live balances, refund 5, 5, 10. Accepted totals 5, 10, 20. Requests and actual deltas are (−75000,−10000000,0), then the same, then (−150000,−20000000,−7). Full only at 20. Read each immutable receipt/capture/effect link, rule/action version, historical spelling, cap tail, audit and committed state. |
+| W01 — Immutable basis | Original `20.0000`, opaque historical rate spelling `0.972500`, requested 600000 time, actual Main 300000, score 40000000, count 7. Change current cap, rate and rules. With sufficient live balances, refund 5, 5, 10. Accepted totals 5, 10, 20. Requests and actual deltas are (−75000,−10000000,0), then the same, then (−150000,−20000000,−7). Full only at 20. Every link carries F = 1/4, 1/2, then 1 for the corresponding journal entry. Read immutable receipt/capture/effect links, rule/action versions, historical spelling, cap tail, audit and committed state. |
 | W02 — Retry and conflict | Commit W01's first refund under K, scoped r1. Advance state with another command. Exact authorized retry returns K's immutable prior result. Changed intent under K, receipt reuse under K2, or another receipt claiming r1 refuses with no financial writes or new publication. Test revoked execution and denied disclosure independently. Prior intake remains. |
-| W03 — Exact admission and stale positions | From accepted 19 of 20, two 0.75 proposals share a payment position. One commits at 19.75. The other is stale; freshly evaluated it exceeds original by 0.50. Both raw receipts remain. Exercise stale component and state guards separately with payment position matched. Wrong currency, unknown amount or unverified correlation advances nothing. A separate 0.01 of 1 against actual 1 ms records F = 1/100, C = 1/100, request and actual zero, and advances the accepted-money position. |
+| W03 — Exact admission and stale positions | From accepted 19 of 20, two 0.75 proposals share a payment position. One commits at 19.75. The other is stale. Freshly evaluated, the entire 0.75 is refused because it exceeds the remaining 0.25. Both raw receipts remain. Exercise stale component and state guards separately with payment position matched. Wrong currency, unknown amount or unverified correlation advances nothing. A separate 0.01 of 1 against actual 1 ms records F = 1/100, C = 1/100, request and actual zero, and advances the accepted-money position. Refuse a score/count link with a fraction other than the journal's F, even with internally consistent amount fields. Reject cross-path reuse for each basis kind in either order with no partial financial advance. |
 | W04 — Atomic closure | Use W05 first application with prior committed intake. Witness staged writes and previous committed state on a separate read connection. Force a reached late SQL write failure. Known rollback leaves accepted money, score, timer, hold, milestone audit/job closure, refund audit and head at prior values. Inject lost acknowledgement of a successful real COMMIT in a fresh unit: unknown, no success publication, then fresh read finds the whole new unit and stable intent once. Separate acknowledged COMMIT followed by body failure: committed/no response, same durable closure. Also force failure after staging resolution effects to check that the active hold and prior committed mixed outcome survive with no partial resolution. |
-| W05 — Active 31B | Original 20, Main credit 300000, score credit 40000000. Live Main 50000/debt 0/score 40000000. Refund 5 with RequireReview: score 30000000 once, Main/debt unchanged, hold v1 for all −75000, accepted money 5, requested magnitudes 75000/10000000. Existing unreleased achieved target 35000000 under Review retains achievement, exact deficit 5000000 and one refund review. Separate authorized credit gives Main 100000. Resolve v1: Main 25000, debt 0 and unchanged score, money, basis and milestone decisions. Denied/stale/competing resolutions do nothing; exact retry reads closure. A separate blocking hold survives a refused resolution. Mixed-leg control: W07's second request with Main 0 and RequireReview holds both −1 and +1 while scoring once. |
+| W05 — Active 31B | Original 20, Main credit 300000, score credit 40000000. Live Main 50000/debt 0/score 40000000. Refund 5 with RequireReview: score 30000000 once, Main/debt unchanged, financial hold v1 on the original CID for all −75000, accepted money 5, requested magnitudes 75000/10000000. Existing unreleased achieved target 35000000 under milestone Review retains achievement, deficit 5000000 and one refund review. This decision does not block timer resolution. After authorized credit raises Main to 100000, resolve v1 to Main 25000 and debt 0. In separate controls from Main 50000, plain continuation refuses and keeps v1. Authorized Carry closes v1 with Main 0 and 25000 new deficit debt. Authorized Stop closes v1 with Main 0, debt 0 and 25000 unapplied Main. Score, accepted money, requested allocations and milestone observations stay fixed across successful resolutions. Denied, stale or competing resolutions do nothing. Exact retry reads closure. A separate application hold on the same CID blocks application-linked resolution, preserving both holds. With W07's second request at Main 0, RequireReview holds both −1 and +1 while scoring once. |
 | W06 — Finished and Ready authority | Same 5-of-20 mixed refund with performed actions. In already Finished, actual timer/debt changes zero, requested Main −75000 explicitly non-applied as `finished`, score 30000000, no timer hold/debt/reopen. Repeat with paused Active at exact hard end and verify committed HardEndReached then Finished and identical refund disposition. Ready gives prerequisite refusal with raw retention only and no started reduction, money or effect. |
-| W07 — 33A restoration | Original 8 and actual time addition (Main +3, debt −3). Independent credit leaves live Main 10/debt 0. Refunds 2, 4, 2 yield exact totals 1.5, 4.5, 6, rounded 2, 4, 6 and residuals −0.5, +0.5, 0. Cumulative splits (2,0), (3,1), (3,3) give requests (−2,0), (−1,+1), (0,+2) and live (8,0), (7,1), (7,3). New deficit debt remains zero. Tie control (3,2) at half gives 2 and (−2,0). Full clearing control (6,4), prior (5,0), gives (−1,+4). Read linked histories, including original negative debt delta and distinct actual restoration. |
+| W07 — 33A restoration | Original 8 and actual time addition (Main +3, debt −3). Independent credit leaves live Main 10/debt 0. Refunds 2, 4, 2 yield exact totals 1.5, 4.5, 6, rounded 2, 4, 6 and residuals −0.5, +0.5, 0. Cumulative splits (2,0), (3,1), (3,3) give requests (−2,0), (−1,+1), (0,+2) and live (8,0), (7,1), (7,3). New deficit debt remains zero. The third, restoration-only request applies under RequireReview. An independent second-request fixture at Main 1/debt 0 with RequireReview ends at (0,1) without a hold. Tie control (3,2) at half gives 2 and (−2,0). Full clearing control (6,4), prior (5,0), gives (−1,+4). Read linked histories, including original negative debt delta and distinct actual restoration. |
