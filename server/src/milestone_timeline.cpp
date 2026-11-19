@@ -108,6 +108,10 @@ void MilestoneTimeline::accept_committed(std::vector<CommittedMilestoneGroup> gr
     state_->advance_to(now);
 }
 
+void MilestoneTimeline::restore_committed(std::vector<CommittedMilestoneGroup>) {
+    throw MilestoneTimelineNotImplemented("restore_committed");
+}
+
 void MilestoneTimeline::advance(Milliseconds now) {
     state_->check_sample(now);
     state_->advance_to(now);
