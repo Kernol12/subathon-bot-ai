@@ -45,7 +45,8 @@ authorize the timeline boundary and policy below.
   omits that occurrence's pending presentation and actions.
 - A resolution selects one exact occurrence, cause and source ref. It succeeds
   once for an active record and audits the selected resolution, actor and
-  decision. No matching active record means false and no change. Continue clears
+  decision. A deferral's source ref is the original acceptance decision ref.
+  No matching active record means false and no change. Continue clears
   only the selected cause. Hold enumeration for an occurrence returns deferral
   first and then refund reviews in bytewise refund-ref order. No resolved
   cause is reported as active. Committed Skip is terminal for the occurrence.

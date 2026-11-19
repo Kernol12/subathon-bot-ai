@@ -41,6 +41,38 @@ template <class Scenario> void check(Scenario scenario) {
     }
 }
 
+template <class Stage, class Decide>
+void require_refused_work(File &file, Stage stage, Decide decide) {
+    struct RefusalProbe {
+        bool reached_decision{false};
+        std::exception_ptr ni;
+    };
+    const auto probe = std::make_shared<RefusalProbe>();
+    const auto result = qt_test_support::run_work(
+        *file.writer,
+        [probe, stage = std::move(stage), decide = std::move(decide)](auto context) -> QVariant {
+            const auto s = context.begin();
+            stage(s);
+            probe->reached_decision = true;
+            try {
+                decide(s);
+            } catch (const MilestoneGroupDecisionsNotImplemented &) {
+                // Keep a Stage 1 stub distinguishable from a product refusal.
+                probe->ni = std::current_exception();
+                throw;
+            }
+            s.commit();
+            return 1;
+        },
+        timeout);
+    if (probe->ni)
+        std::rethrow_exception(probe->ni);
+    require(probe->reached_decision, "The originating changes were staged before the decision");
+    require(result.transaction == TransactionOutcome::rolled_back &&
+                result.error != WorkError::none && !result.value,
+            "Decision refusal rolls back the originating work and publishes no value");
+}
+
 struct RecordedCaptures {
     SqlRows achievements, actions, jobs, catalog_history;
 
@@ -295,6 +327,16 @@ void seed_first_acceptance(const SqliteWorkSession &s, int choice) {
          {QByteArray("z-first"), choice, QByteArray("operator-a"), QByteArray("accept-31")}});
 }
 
+void seed_resolved_first_refund_review(const SqliteWorkSession &s, int resolution) {
+    (void)s.execute(
+        {"INSERT INTO main.subathon_milestone_refund_decisions "
+         "(occurrence_ref,refund_ref,score_before_micro_points,score_after_micro_points,"
+         "current_target_micro_points,policy,resolution,resolution_actor_ref,resolution_ref) "
+         "VALUES (?, ?, 150, 99, 100, 1, ?, ?, ?)",
+         {QByteArray("z-first"), QByteArray("refund-17"), resolution, QByteArray("operator-b"),
+          QByteArray("review-42")}});
+}
+
 void seed_overlapping_refund_reviews(const SqliteWorkSession &s) {
     (void)s.execute(
         {"INSERT INTO main.subathon_milestone_refund_decisions "
@@ -415,6 +457,15 @@ class MilestoneGroupDecisionsTests final : public QObject {
                     {Mode::normal, input_review, {{first, Choice::run}, {second, Choice::skip}}},
                     {first}, ordinary),
                 "Stale choices for an unaffected occurrence refuse the whole plan");
+        });
+    }
+
+    void contradictoryChoicesForTheOnlyAffectedOccurrenceRefusePlan() {
+        check([] {
+            require(!plan_paused_milestone_actions(
+                        {Mode::normal, input_review, {{first, Choice::run}, {first, Choice::skip}}},
+                        {first}, ordinary),
+                    "Contradictory choices refuse the plan even when no occurrence lacks a choice");
         });
     }
 
@@ -633,6 +684,87 @@ class MilestoneGroupDecisionsTests final : public QObject {
             release(file, first, Release::refused);
             release(file, second, Release::refused);
             require(recorded(file) == before, "Refund decisions preserve the captured target");
+        });
+    }
+
+    void identicalRefundRetryRetainsThePriorResolution() {
+        check([] {
+            DecisionFile file;
+            file.record();
+            (void)committed(*file.writer, [](const auto &s) {
+                seed_resolved_first_refund_review(s, 0);
+                return true;
+            });
+            const auto before = file.reads(refund_rows);
+
+            (void)committed(*file.writer, [](const auto &s) {
+                SqliteMilestoneGroupDecisions(s).observe_refund(
+                    {first, "refund-17", 150, 99, 100, Policy::review});
+                return true;
+            });
+
+            file.reopen();
+            require(file.reads(refund_rows) == before,
+                    "An identical retry preserves the single Review and its Continue evidence");
+            expect_refund(file, first, Policy::review, 1, 100, Resolution::continue_actions);
+            require(holds(file, first).empty(), "The resolved Review does not reopen on retry");
+            require_gate(file, first, Gate::ready);
+        });
+    }
+
+    void conflictingRefundRefRollsBackTheRefundWork() {
+        check([] {
+            DecisionFile file;
+            file.record();
+            (void)committed(*file.writer, [](const auto &s) {
+                seed_resolved_first_refund_review(s, 0);
+                (void)s.execute(
+                    {"CREATE TABLE synthetic_refund_score(score INTEGER NOT NULL)", {}});
+                (void)s.execute({"INSERT INTO synthetic_refund_score VALUES (99)", {}});
+                return true;
+            });
+            const auto before = file.reads(refund_rows);
+
+            require_refused_work(
+                file,
+                [](const auto &s) {
+                    (void)s.execute({"UPDATE synthetic_refund_score SET score=98", {}});
+                },
+                [](const auto &s) {
+                    SqliteMilestoneGroupDecisions(s).observe_refund(
+                        {first, "refund-17", 150, 98, 100, Policy::review});
+                });
+
+            file.reopen();
+            require(file.reads("SELECT score FROM synthetic_refund_score") == SqlRows{{99}} &&
+                        file.reads(refund_rows) == before,
+                    "Conflicting reuse preserves the committed score and exact prior audit");
+        });
+    }
+
+    void crossingAfterTerminalSkipCreatesNoNewHold() {
+        check([] {
+            DecisionFile file;
+            file.record();
+            (void)committed(*file.writer, [](const auto &s) {
+                seed_resolved_first_refund_review(s, 1);
+                return true;
+            });
+            const auto before = file.reads(refund_rows);
+            const auto releases = file.reads(release_rows);
+
+            (void)committed(*file.writer, [](const auto &s) {
+                // The score recovered before a new refund crossed the target again.
+                SqliteMilestoneGroupDecisions(s).observe_refund({first, "refund-25", 120, 98, 100});
+                return true;
+            });
+
+            file.reopen();
+            require(file.reads(refund_rows) == before && file.reads(release_rows) == releases,
+                    "The new crossing leaves the terminal audit and release state intact");
+            require(holds(file, first).empty() && !refund_audit(file, first, "refund-25"),
+                    "A fresh crossing on the skipped occurrence creates no Review");
+            require_gate(file, first, Gate::skipped);
         });
     }
 
@@ -1133,6 +1265,48 @@ class MilestoneGroupDecisionsTests final : public QObject {
                                "main.subathon_app_operations")
                         .empty(),
                     "The originating application bundle rolls back with the decision");
+        });
+    }
+
+    void foreignOccurrenceChoiceRollsBackTheOriginatingAcceptance() {
+        check([] {
+            DecisionFile file;
+            (void)committed(*file.writer, [&](const auto &s) {
+                file.seed_origin(s);
+                seed_head(s, 0);
+                return true;
+            });
+            const app::Data data;
+            app::Observer observer(file.path);
+            const auto application = data.snapshot(observer);
+            const auto before = recorded(file);
+            const auto deliveries = delivery_history(file);
+            const auto releases = file.reads(release_rows);
+
+            require_refused_work(
+                file,
+                [&](const auto &s) {
+                    file.seed_following(s);
+                    seed_suffix(s);
+                },
+                [](const auto &s) {
+                    // Three distinct choices for a three-occurrence batch. The last points
+                    // to an existing occurrence of add10 in the same operation scope.
+                    SqliteMilestoneGroupDecisions(s).record_acceptance(
+                        following_origin,
+                        {Mode::silent,
+                         input_review,
+                         {{second, Choice::defer}, {third, Choice::run}, {first, Choice::skip}}});
+                });
+
+            file.reopen();
+            app::Observer reopened(file.path);
+            require(data.snapshot(reopened) == application && recorded(file) == before &&
+                        delivery_history(file) == deliveries &&
+                        file.reads(release_rows) == releases &&
+                        file.reads(acceptance_rows).empty() && file.reads(refund_rows).empty(),
+                    "Refusal preserves the committed foreign operation and publishes none "
+                    "of the attempted application, captures or decisions");
         });
     }
 };
