@@ -262,11 +262,15 @@
     },
     {
       "id": "MILE-03",
-      "status": "planned",
+      "status": "partial",
       "tests": [
         "tests/qt/milestone_group_decisions_tests.cpp"
       ],
-      "evidence": []
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7005001088",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7005414927"
+      ],
+      "scope": "Local SQLite v13 paused acceptance, refund policy, independent holds, terminal Skip and keyed timeline verified with synthetic inputs. Running-host composition, caller-owned application and refund transactions, and presentation and delivery integration remain #294."
     },
     {
       "id": "FX-01",
