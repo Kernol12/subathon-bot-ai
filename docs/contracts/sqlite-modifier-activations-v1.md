@@ -1,10 +1,14 @@
-# SQLite modifier definitions and activations, agreement draft 1
+# SQLite modifier definitions and activations, revision 1 draft
 
-[MODIFIERTEST-007 #719](https://github.com/Kernol12/subathon-bot-ai/issues/719),
+Task ID: MODIFIERTEST-007
+Work type: test_baseline
+Issue: https://github.com/Kernol12/subathon-bot-ai/issues/719
+
 Tier A, [draft PR #725](https://github.com/Kernol12/subathon-bot-ai/pull/725).
 Specification v0.45 §7, MOD-03 and MOD-04. The catalog follows the
 [v13 milestone decisions](sqlite-milestone-group-decisions-v1.md) from #236.
-Sections below describe the recommended choices for agreement before test authoring.
+The [owner's lifetime and duration rulings](https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7008906515)
+are included. Independent contract review precedes test authoring.
 
 ## Boundary and ownership
 
@@ -68,11 +72,13 @@ Reject corruption without repair.
 Checked elapsed input and policy remain owned by the caller. For Extend, resolve
 the live head after any caller-staged checkpoint, use the incoming duration and
 policy, and validate the signed-64 sum before appending. Overflow is typed
-`duration_overflow`, preserving the frozen core error. The owning work lets
-this failure escape or explicitly rolls back before reporting it. For the
-escaping path completion is `rolled_back/work_exception` with no success value.
-If needed the owner carries the typed cause in separate failure evidence. A
-caught domain refusal cannot be used to commit an originating unit. A statement
+`duration_overflow`, preserving the frozen core error. A mutating operation
+that refuses the originating unit cleans up the active session through the
+existing writer before propagating the refusal. After known rollback the
+typed cause remains available, and an escaping exception completes as
+`rolled_back/work_exception` with no success value. If cleanup cannot establish
+known rollback, preserve its writer failure classification. The session is
+terminal after cleanup, including if the caller catches the refusal. A statement
 failure retains the writer's sticky error and rollback behavior.
 
 ## Identity, lifetime and retained values
@@ -100,7 +106,7 @@ failure retains the writer's sticky error and rollback behavior.
   The live index keys on definition ref, so revisions of one definition cannot
   create parallel live lanes.
 - Remaining duration is exact signed-64 milliseconds. Definition duration must
-  be positive in this draft. Live remaining is positive. An authoritative
+  be positive. Live remaining is positive. An authoritative
   checkpoint may only reduce remaining or leave it equal. It retains capture
   and source/trigger; its applied-definition revision is absent. A checkpoint
   at zero stores a terminal revision and expires the lifetime in that work.
@@ -193,7 +199,8 @@ selection against the current definition. The names below are opaque bytes.
    for `D` with a fresh instance ref and must fail; another definition may
    have its own live instance. Expire `J` in a separate control with checkpoint
    `k1` (parent `k0`, remaining 0); reopen and read no live row for `D`, with
-   both terminal histories still readable.
+   both terminal histories still readable. An attempted definition revision
+   with duration 0 refuses and leaves the current definition untouched.
 2. **Immutable original request and credit.** Before the edit, record synthetic
    receipt 7/CID 0, `event-A`, `arrival-A`, `plan-A` revision 1 and operation
    (`synthetic`, `apply-A`), using the existing stores. Request ordinal 1
@@ -223,6 +230,9 @@ selection against the current definition. The names below are opaque bytes.
    plan, effect and audit are unchanged. A separate boundary work using
    duration 9223372036854175807 gives exactly 9223372036854775807 on
    `J`, parent `k0`, capture `a-new`, applied definition the incoming revision.
+   In a separate overflow control, catch the typed refusal inside the work.
+   The session is terminal, so a subsequent commit attempt cannot publish the
+   definition, plan or activation from that work.
 4. **Later SQL failure rolls back a staged Replace.** Use a separate disposable
    copy of the committed state from example 3's start. Stage a new Replace
    definition and replacement `K/m0`, then observe `K/m0` and `J`'s staged
@@ -247,28 +257,3 @@ selection against the current definition. The names below are opaque bytes.
    verify an unrecognized head fails dispatch and missing required v14 schema
    fails a selected modifier read. Opening either writer alone performs no
    migration.
-
-## Decisions for agreement
-
-1. **Identity and layout.** **A (recommended)** uses global raw revision refs
-   per namespace and normalized immutable capture, as drafted. Existing
-   plan selection carries bare revision refs. **B** scopes revision refs by
-   parent identity and needs an additional durable globally unique alias
-   mapping for plan resolution. Under B revise keys, FKs, selected reads and
-   migration examples before freezing v14.
-2. **Lifetime and clocks.** **A (recommended)** stores caller-supplied remaining
-   checkpoints and terminal expiry without sampling time. **B** reserves v14
-   for activation/supersession only. Under B omit checkpoint/expiry and the
-   operation column, seed the prior live remaining as a literal fixture, and
-   agree a later clock checkpoint boundary. A restart policy that recomputes
-   elapsed time requires its own reviewed facts and composition.
-3. **Zero configured duration.** **A (recommended)** rejects it at the
-   persistence boundary, with zero reserved for a terminal checkpoint under
-   2A. **B** allows an immediately expired activation. Under B relax the
-   duration/activation checks, specify Include-trigger selection for that
-   revision and add a literal example before freezing. Neither choice
-   revises the frozen pure assertions.
-4. **Domain refusal ownership.** **A (recommended)** uses a typed repository
-   refusal and caller-owned rollback, as drafted. **B** makes a caught domain
-   refusal sticky in the session itself. Under B agree a separate additive
-   writer capability and its error matrix before changing this contract.
