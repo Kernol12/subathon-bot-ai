@@ -122,17 +122,18 @@ if(TARGET subathon_sqlite_contributions AND TARGET subathon_application_plan)
             subathon_milestone_timeline subathon_sqlite_delivery_jobs subathon_delivery_catalog)
         subathon_target_options(subathon_sqlite_milestone_groups)
 
-        add_library(subathon_sqlite_financial_refunds STATIC src/sqlite_financial_refunds.cpp)
-        target_link_libraries(subathon_sqlite_financial_refunds PUBLIC
-            subathon_sqlite_milestone_groups subathon_original_application_service)
-        subathon_target_options(subathon_sqlite_financial_refunds)
-
         if(TARGET subathon_modifier_activation)
             add_library(subathon_sqlite_modifier_activations STATIC EXCLUDE_FROM_ALL
                 src/sqlite_modifier_activations.cpp)
             target_link_libraries(subathon_sqlite_modifier_activations PUBLIC
                 subathon_sqlite_milestone_groups subathon_modifier_activation)
             subathon_target_options(subathon_sqlite_modifier_activations)
+
+            add_library(subathon_sqlite_financial_refunds STATIC src/sqlite_financial_refunds.cpp)
+            target_link_libraries(subathon_sqlite_financial_refunds
+                PUBLIC subathon_sqlite_milestone_groups subathon_original_application_service
+                PRIVATE subathon_refund_entitlement subathon_sqlite_modifier_activations)
+            subathon_target_options(subathon_sqlite_financial_refunds)
         endif()
     endif()
 
