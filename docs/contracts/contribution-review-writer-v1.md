@@ -246,6 +246,9 @@ and complete selected keys, count and links on read. At integration, extend
 catalog dispatch only for recognized successors with the expected v15 financial
 prefix and the new step where required. A later version number alone proves
 neither boundary. Unknown or missing applicable schema fails closed.
+From first authorship, catalog fixtures set an explicit bounded manifest
+request above the measured cumulative UTF-8 SQL and repeated projection size
+of the complete selected manifest. Keep the server default unchanged.
 
 ## Batch bound and completion
 
