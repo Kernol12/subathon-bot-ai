@@ -435,6 +435,10 @@ class SqliteFinancialRefundsTests final : public QObject {
             stale_basis.components.front().expected_prior_position = 0;
             refusal(f.refund_reply(winner, stale_basis, e), D::stale_basis);
             absent(f, winner);
+            auto stale_time = p;
+            stale_time.time->expected_basis_position = 0;
+            refusal(f.refund_reply(winner, stale_time, e), D::stale_basis);
+            absent(f, winner);
             auto stale_state = winner;
             stale_state.expected_state_token = "awarded";
             refusal(f.refund_reply(stale_state, p, e), D::stale_state);
@@ -442,6 +446,7 @@ class SqliteFinancialRefundsTests final : public QObject {
 
             e.apply(-11250, 0, {11250});
             same_position(f.accept(winner, p, e), 2, p);
+            // The previously matched payment position precedes basis revalidation.
             refusal(f.refund_reply(loser, p, e), D::stale_payment);
             const auto fresh = f.command(loser.operation.operation_ref, loser.receipt, 2);
             // The new entire 0.75 would reach 20.50, so no eligible entitlement exists.
@@ -525,6 +530,35 @@ class SqliteFinancialRefundsTests final : public QObject {
         });
     }
 
+    void w03GroupedTimeMustMatchJournalAndAllocateMainFirst_data() {
+        QTest::addColumn<bool>("wrong_split");
+        QTest::newRow("main-first") << true;
+        QTest::newRow("exact-product") << false;
+    }
+
+    void w03GroupedTimeMustMatchJournalAndAllocateMainFirst() {
+        QFETCH(bool, wrong_split);
+        check([&] {
+            File f(OriginalCredit{.amount = "8",
+                                  .requested = 6,
+                                  .main = 3,
+                                  .repayment = 3,
+                                  .cap_tail = 0,
+                                  .score = 0,
+                                  .count = 0});
+            Effects effects;
+            const auto c = refund(f, "invalid-time", "2", 0);
+            const auto p = wrong_split
+                               ? entitlement(fraction(0), fraction(2), fraction(1, 4), false, 0, {},
+                                             {1, 1}, fraction(3, 2), fraction(-1, 2), -1, 1)
+                               : entitlement(fraction(0), fraction(2), fraction(1, 4), false, 0, {},
+                                             {2, 0}, fraction(2), fraction(0), -2, 0);
+            refusal(f.refund_reply(c, p, effects), D::invalid_financial_input);
+            absent(f, c);
+            f.check_head(3, 0, 0, 0);
+        });
+    }
+
     void w03CrossPathHistory_data() {
         QTest::addColumn<int>("basis");
         QTest::addColumn<bool>("financial_first");
@@ -549,7 +583,7 @@ class SqliteFinancialRefundsTests final : public QObject {
             if (financial_first) {
                 e.apply(-75000, 0, {75000});
                 (void)f.accept(attempt, p, e);
-                const auto legacy = f.legacy_reversal("legacy", kind);
+                const auto legacy = f.legacy_reversal("legacy", kind, true);
                 const auto result = f.run_reply([&](const auto &s) {
                     return stage_financial_aware_nonfinancial_reversal(s, legacy);
                 });
@@ -561,17 +595,34 @@ class SqliteFinancialRefundsTests final : public QObject {
                 history_progress(f, 1, fraction(5));
                 f.check_head(525000, 0, 30000000, 7);
             } else {
-                const auto legacy = f.legacy_reversal("legacy", kind);
+                // A real zero-effect link advances its position without competing for
+                // any cumulative quantity or implying accepted financial money.
+                const auto legacy = f.legacy_reversal("legacy", kind, false);
                 f.write([&](const auto &s) {
                     require(SqliteApplicationBundleStore(s).stage(legacy).disposition ==
                                 SqliteBundleStageDisposition::staged,
                             "Shipped nonfinancial historical reversal is real and committed");
                 });
+                auto fresh = p;
+                f.write([&](const auto &s) {
+                    const auto selected = SqliteApplicationBundleStore(s).read_reversal_basis(
+                        legacy.reversals.front().original);
+                    require(selected.basis && selected.basis->progress.position == 1 &&
+                                selected.basis->progress.cumulative == 0 &&
+                                selected.basis->progress.cumulative_fraction == fraction(0),
+                            "The legacy link advances only its real basis position");
+                    if (kind == CK::main_delta) {
+                        fresh.time->expected_basis_position = selected.basis->progress.position;
+                    } else {
+                        auto &component = fresh.components[kind == CK::score ? 0 : 1];
+                        component.expected_prior_position = selected.basis->progress.position;
+                    }
+                });
                 const auto current = f.command(attempt.operation.operation_ref, attempt.receipt, 0);
-                refusal(f.refund_reply(current, p, e), D::basis_conflict);
+                e.apply(-75000, 0, {75000});
+                refusal(f.refund_reply(current, fresh, e), D::basis_conflict);
                 absent(f, current);
-                f.check_head(kind == CK::main_delta ? 300000 : 600000, 0,
-                             kind == CK::score ? 0 : 40000000, kind == CK::whole_count ? 0 : 7);
+                f.check_head(600000, 0, 40000000, 7);
             }
         });
     }

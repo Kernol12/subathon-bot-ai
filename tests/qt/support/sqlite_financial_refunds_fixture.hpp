@@ -270,6 +270,11 @@ class File final {
             10000);
         normal(evidence);
 
+        std::vector requested{request(Unit::milliseconds, credit.requested, "main")};
+        if (credit.score != 0)
+            requested.push_back(request(Unit::micro_points, credit.score, "score"));
+        if (credit.count != 0)
+            requested.push_back(request(Unit::whole_count, credit.count, "count"));
         support_capture = {
             1,
             {},
@@ -285,9 +290,7 @@ class File final {
                                                                             40,
                                                                             41,
                                                                             {}}},
-             {request(Unit::milliseconds, credit.requested, "main"),
-              request(Unit::micro_points, credit.score, "score"),
-              request(Unit::whole_count, credit.count, "count")}},
+             std::move(requested)},
             {{"historical-rule", "historical-rule-v1", true, "selected"}},
             {},
             {}};
@@ -324,9 +327,14 @@ class File final {
             b.after.time_debt_ms = 0;
             b.after.balances[0].units = credit.score;
             b.after.balances[1].units = credit.count;
-            b.effects = {addition(credit.requested, credit.main, credit.repayment, credit.cap_tail),
-                         direct(2, support_capture.captured.requested_effects[1], CK::score),
-                         direct(3, support_capture.captured.requested_effects[2], CK::whole_count)};
+            b.effects = {
+                addition(credit.requested, credit.main, credit.repayment, credit.cap_tail)};
+            const auto &captured = support_capture.captured.requested_effects;
+            for (std::size_t index = 1; index < captured.size(); ++index) {
+                const auto &effect = captured[index];
+                const auto kind = effect.unit == Unit::micro_points ? CK::score : CK::whole_count;
+                b.effects.push_back(direct(static_cast<Number>(index + 1), effect, kind));
+            }
             b.result = document();
             b.audit = audit("original");
             if (credit.milestone) {
@@ -645,7 +653,7 @@ class File final {
                 ApplicationHoldHeldOrigin{origin, 1, CK::unapplied_time, -75000}};
     }
 
-    PreparedApplicationBundle legacy_reversal(const std::string &ref, CK kind) {
+    PreparedApplicationBundle legacy_reversal(const std::string &ref, CK kind, bool full) {
         const auto receipt = intake(ref, {}, "nonfinancial-correction");
         PreparedApplicationBundle result;
         write([&](const auto &s) {
@@ -656,31 +664,28 @@ class File final {
             const auto target = kind == CK::main_delta ? "main"
                                 : kind == CK::score    ? "score"
                                                        : "count";
-            const Number cumulative = kind == CK::main_delta ? 300000
-                                      : kind == CK::score    ? 40000000
-                                                             : 7;
-            const auto q = request(unit, -cumulative, target);
+            const ApplicationOriginalComponent occurrence{original, ordinal, kind};
+            const auto selected = SqliteApplicationBundleStore(s).read_reversal_basis(occurrence);
+            require(selected.disposition == SqliteBundleBasisDisposition::ready && selected.basis,
+                    "Read the shipped path's fresh exact basis position");
+            const auto &basis = *selected.basis;
+            const auto cumulative = full ? basis.actual_credit_units : Number{0};
+            const auto increment = basis.progress.cumulative - cumulative;
+            const auto q = request(unit, increment, target);
             result = receipt_application(s, receipt, ref);
             retain_plan(s, result.intent.plan, plain_capture(receipt, {}, {q}));
             result.intent.kind = ApplicationOperationKind::reversal;
             result.intent.reversal_ref = ref;
             if (kind == CK::main_delta) {
-                result.effects.push_back(manual_subtraction(-300000));
-                result.after.timer.main_remaining_ms -= 300000;
+                result.effects.push_back(manual_subtraction(increment));
+                result.after.timer.main_remaining_ms += increment;
             } else {
                 result.effects.push_back(direct(1, q, kind));
-                result.after.balances[kind == CK::score ? 0 : 1].units -= cumulative;
+                result.after.balances[kind == CK::score ? 0 : 1].units += increment;
             }
-            result.reversals.push_back({1,
-                                        {original, ordinal, kind},
-                                        0,
-                                        0,
-                                        cumulative,
-                                        -cumulative,
-                                        fraction(1),
-                                        fraction(cumulative),
-                                        fraction(0),
-                                        true});
+            result.reversals.push_back(
+                {1, occurrence, basis.progress.position, basis.progress.cumulative, cumulative,
+                 increment, fraction(full ? 1 : 0), fraction(cumulative), fraction(0), full});
         });
         return result;
     }
