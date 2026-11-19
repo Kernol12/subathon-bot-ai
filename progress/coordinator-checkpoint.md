@@ -186,6 +186,8 @@ current readiness.
   is claimed on `80a0bee1` after the board confirmed its closed prerequisites.
   Tier A Stage 1 starts with exact-rate contract examples and independent
   tests. The coordinator retains shared registration and CI ownership.
+  The compile-checked draft stays local pending owner questions 24–28 in
+  [PR #724](https://github.com/Kernol12/subathon-bot-ai/pull/724).
 
 ### Parallel work and standing CI rerun rule
 
