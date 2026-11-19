@@ -110,16 +110,17 @@ column-zero comments and empty separators.
 
 Best-effort resolver status, the original mirror list and four IPv4 hostname lookups
 are logged with command status and captured output, each with a ten-second deadline.
-These are diagnostics only. Preparation prefers the kernel.org Ubuntu mirror with
-canonical archive/security fallbacks, preserving Ubuntu signing trust, exact package
-versions and SDK admission checks. It changes no resolver, proxy or other source file.
+These are diagnostics only. Preparation uses GitHub's runner-provided mirror list as
+supplied. The Azure entry uses plain HTTP, and package trust continues to rest on the
+Ubuntu archive signing key. Exact package versions and SDK admission checks still apply.
+The helper treats resolver, proxy and source configuration as read-only.
 For the split profile, the security pocket is fetched directly from its validated
 `security.ubuntu.com` URI, outside that mirror list. An outage there fails the strict
 update; preparation adds no fallback rewrite or process retry.
 
-Checked writes set that mirror list, APT's native `Acquire::Retries "1"`, 15-second HTTP/HTTPS
-timeouts and strict update errors. A checked `apt-get update` has a 300-second process
-deadline; write/update failures stop the job. Other configured repositories remain
+One checked network-settings write sets APT's native `Acquire::Retries "1"`, 15-second
+HTTP/HTTPS timeouts and strict update errors. A checked `apt-get update` has a 300-second
+process deadline. Write/update failures stop the job. Other configured repositories remain
 enabled and their update failures also fail preparation. No additional process retry
 or update-output capture is added. Existing job timeouts bound
 the whole run. Mocked tooling tests establish control flow; authenticated acquisition
