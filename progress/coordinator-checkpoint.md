@@ -150,17 +150,22 @@ current readiness.
   25 frozen tests plus 37 regressions passed on separately admitted binaries.
   Owner 10A retained the forward compound-gap fallback. Configured timezone
   integration and data applicability remain #720.
-- MODIFIERTEST-001 #214 resumed Tier A Stage 1 fix round 1 after owner 11A
-  [approved the header correction](https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7002464079).
-  The first activation creates an instance under any reactivation policy.
-  #715 is active in the CI slot, ahead of other new claims.
-- MILESTONE-005 #236 is parked before Tier A Stage 1 review, with 26 linked
-  invocations and no execution or fix rounds. Owner 12B/13A/14A/15A/16A are
-  [recorded on #721](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7002464326).
-  [Questions 17–19](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7002745553)
-  remain open, including approval of the #234 hold port correction.
-  Its additive catalog extension follows v12 and precedes #719, which remains
-  Planned until #236 closes.
+- MODIFIERTEST-001 #214 is Done after protected merge `51d4c5d7` in
+  [#718](https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7003577969).
+  All 48 frozen cases reached intended NI with zero skips. The exact admitted
+  runner and receipts were retained, and all seven checks passed on `63ec75e4`.
+  This is baseline evidence. #215 remains blocked by #719.
+- MILESTONE-005 #236 resumed Tier A Stage 1 first. Owner 12B–16A remain
+  [recorded](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7002464326).
+  Owner [17A/18A/19A](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7003511184)
+  approved numbered timeline correction 1, refund policy on a new downward
+  crossing, and terminal Skip with each remaining hold recorded as ended by
+  that Skip. Its additive catalog follows v12 and precedes #719.
+- #715 is active beside #236 for [one hosted experiment](https://github.com/Kernol12/subathon-bot-ai/pull/722#issuecomment-7003511500)
+  on its task branch. If a privileged descendant survives the timeout, report
+  the result to the owner before designing a fix. #286 has
+  [approved correction 1](https://github.com/Kernol12/subathon-bot-ai/pull/723#issuecomment-7003511878)
+  and waits Ready for the server slot.
 
 ### Parallel work and temporary CI rules
 
