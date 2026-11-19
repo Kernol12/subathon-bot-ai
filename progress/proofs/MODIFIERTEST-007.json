@@ -1,0 +1,192 @@
+{
+  "version": 1,
+  "task_id": "MODIFIERTEST-007",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 719
+  },
+  "kind": "test_baseline",
+  "brief": "docs/contracts/sqlite-modifier-activations-v1.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/issues/719",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/725",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7008906515",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7009352001",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7009990686",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7010237386",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7010490021",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7009083963",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7009441357",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7009533441",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7010155199",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7010348687",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7010423796",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/215"
+  ],
+  "limitations": [
+    "Specification v0.45 §7, MOD-03 and MOD-04. The reviewed additive v14 contract and synthetic SQLite baseline cover exact revision history, whole-unit rollback, original credit, expiry, and preservation of the v13 prefix.",
+    "The contract and tests each used one Tier A fix round. The exact admitted runner produced 19 named not-implemented failures, three expected v14 compatibility assertion failures, and three passing controls across 25 invocations, with zero skips.",
+    "The literal-v14 compatibility cases yielded rolled_back/work_exception before the expected normal completion. The exit code was 22. The two Qt lifecycle passes are outside the 25 behavioral invocations.",
+    "The intentional-red suite stays outside passing CI. #215 implements the frozen baselines. #223 owns first-party intake and historical application. No live host or provider behavior was exercised."
+  ],
+  "workflow": {
+    "required_stages": [
+      "contract",
+      "tests"
+    ],
+    "stages": {
+      "contract": {
+        "authors": [
+          "codex:t3-74fef209",
+          "codex:t3-2bc626ee",
+          "codex:coordinator"
+        ],
+        "revision": "e2462c4e2c0e0c95aaabe84ed6f010241797c5ba",
+        "paths": [
+          "docs/contracts/sqlite-modifier-activations-v1.md"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:c263e905-5223-4772-a65d-f93edab7a064",
+            "revision": "33acdae3fd33388c5e214b3c619b2abf9d569cf0",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7009083963",
+            "findings": [
+              "MOD7-C1",
+              "MOD7-C2",
+              "MOD7-C3",
+              "MOD7-C4",
+              "MOD7-C5",
+              "MOD7-C6",
+              "MOD7-C7",
+              "MOD7-C8"
+            ],
+            "blocking_findings": [
+              "MOD7-C1",
+              "MOD7-C2",
+              "MOD7-C3"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:01a1f3d1-8572-7011-ab88-a3880c59e747",
+            "revision": "e2462c4e2c0e0c95aaabe84ed6f010241797c5ba",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7009441357",
+            "findings": [
+              "MOD7-C1",
+              "MOD7-C2",
+              "MOD7-C3",
+              "MOD7-C4",
+              "MOD7-C5",
+              "MOD7-C6",
+              "MOD7-C7",
+              "MOD7-C8"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:a3ae06db-51ab-4c3c-8a24-8331b26a9e2c",
+            "revision": "e2462c4e2c0e0c95aaabe84ed6f010241797c5ba",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7009533441",
+            "findings": [
+              "MOD7-C1",
+              "MOD7-C2",
+              "MOD7-C3",
+              "MOD7-C4",
+              "MOD7-C5",
+              "MOD7-C6",
+              "MOD7-C7",
+              "MOD7-C8",
+              "MOD7-N1",
+              "MOD7-N2",
+              "MOD7-N3"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "tests": {
+        "authors": [
+          "codex:t3-2f312dc1",
+          "codex:coordinator"
+        ],
+        "revision": "f3697a7b9879dba25cad45e5a6cf6f122c91a460",
+        "paths": [
+          "cmake/AcceptanceSuites.cmake",
+          "server/include/subathon/server/sqlite_modifier_activations.hpp",
+          "server/src/sqlite_modifier_activations.cpp",
+          "tests/acceptance-map.json",
+          "tests/qt/CMakeLists.txt",
+          "tests/qt/sqlite_modifier_activations_tests.cpp",
+          "tests/qt/support/sqlite_modifier_activations_fixture.hpp",
+          "tests/qt/support/sqlite_modifier_history_fixture.hpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:0656141f-ac80-4d36-8047-94106debf548",
+            "revision": "fae293fa809a8217dfbbd431aebcd8ab047f642b",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7010155199",
+            "findings": [
+              "MODIFIERTEST-007-S1-T1",
+              "MODIFIERTEST-007-S1-A1"
+            ],
+            "blocking_findings": [
+              "MODIFIERTEST-007-S1-T1"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:01a1f3f5-ea65-7f41-a54b-a18229d0d62e",
+            "revision": "f3697a7b9879dba25cad45e5a6cf6f122c91a460",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7010348687",
+            "findings": [
+              "MODIFIERTEST-007-S1-T1",
+              "MODIFIERTEST-007-S1-A1"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:delegated-review-34fc2de3-2eae-42b4-aad5-88516d8c4926",
+            "revision": "f3697a7b9879dba25cad45e5a6cf6f122c91a460",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7010423796",
+            "findings": [
+              "MODIFIERTEST-007-S1-T1",
+              "MODIFIERTEST-007-S1-A1",
+              "N-1"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  },
+  "publication": {
+    "state": "open",
+    "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/725",
+    "head": "f3697a7b9879dba25cad45e5a6cf6f122c91a460",
+    "merge_commit": null,
+    "merged_at": null,
+    "observed_at": "2026-11-19T13:27:34Z"
+  }
+}
