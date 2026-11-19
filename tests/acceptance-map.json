@@ -1011,9 +1011,11 @@
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/729#issuecomment-7017165084",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/729#issuecomment-7017591815"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/729#issuecomment-7017591815",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/729#issuecomment-7021276387",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/729#issuecomment-7021496845"
       ],
-      "scope": "Synthetic component cases cover exact credential encryption and scope, provisioned-key restart, SQLite lookup and replacement, bounded refusals and acknowledged plaintext delivery. Production catalog integration, provider wiring, deployment verification, key rotation and backup/restore remain separate."
+      "scope": "Synthetic cases cover exact credential encryption and scope, bounded refusals, commit-gated plaintext delivery, explicit v16 catalog upgrade, physical BLOB constraints, and credential put, replacement and reprovisioning after writer reopen. Startup catalog selection, provider wiring, deployment verification, key rotation and backup/restore remain separate."
     },
     {
       "id": "CRYPTO-02",
