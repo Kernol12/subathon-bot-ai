@@ -1226,15 +1226,23 @@
     },
     {
       "id": "AUTH-15",
-      "status": "planned",
+      "status": "partial",
       "tests": ["tests/qt/connector_lifecycle_tests.cpp"],
-      "evidence": []
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/723#issuecomment-7006329998",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/723#issuecomment-7006425713"
+      ],
+      "scope": "Synthetic connector status covers installation-owned setup, account consent, exact configured callback, supported link guidance and a projection without credential values. Actual authorization flows and credential storage remain separate."
     },
     {
       "id": "INTEGRATION-01",
-      "status": "planned",
+      "status": "partial",
       "tests": ["tests/qt/connector_lifecycle_tests.cpp"],
-      "evidence": []
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/723#issuecomment-7006329998",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/723#issuecomment-7006425713"
+      ],
+      "scope": "Synthetic connector status distinguishes installation setup, account consent, link capability and reconnect gaps for guided onboarding. Client onboarding and provider checks, including public Twitch client feasibility, remain separate."
     },
     {
       "id": "DEV-01",
