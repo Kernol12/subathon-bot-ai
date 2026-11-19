@@ -1,216 +1,275 @@
-# SQLite milestone target edits, draft revision 1
+# SQLite milestone target edits, draft revision 2
 
-MILESTONE-002, Tier A, evening contract preparation. Authority is specification
-v0.45 [§8 and MILE-02](../specification.md#8-score-milestones-and-reversals),
-[issue #230](https://github.com/Kernol12/subathon-bot-ai/issues/230), and
-[owner decisions 51A and 52A](https://github.com/Kernol12/subathon-bot-ai/issues/230#issuecomment-7020230963).
+MILESTONE-002 [#230](https://github.com/Kernol12/subathon-bot-ai/issues/230), Tier A,
+contract correction round 1. Authority is specification v0.45
+[§8 and MILE-02](../specification.md#8-score-milestones-and-reversals),
+[51A/52A](https://github.com/Kernol12/subathon-bot-ai/issues/230#issuecomment-7020230963)
+and [70A/71A/72A/73B](https://github.com/Kernol12/subathon-bot-ai/issues/230#issuecomment-7021743068).
 Use the existing [progression API](milestone-progression-api-v1.md),
 [group store](sqlite-milestone-groups-v1.md), [decision store](sqlite-milestone-group-decisions-v1.md)
-and [controlled writer](sqlite-writer-v1.md). Resolve the proposed choices before
-freezing the acceptance baseline.
+and [controlled writer](sqlite-writer-v1.md). Independent verification and closing
+review precede the acceptance freeze.
 
 ## Edit and preview
 
-An edit addresses one configured track in the current installation. The proposed
-editor accepts a nonempty set of changed targets as one command. Apply the entire
-patch by exact milestone identity and validate the resulting list in configured
-identity order. Refuse duplicate and unknown identities, additions/removals,
+The milestone target-edit command service owns preview and confirmation for one
+configured track in the current installation. One atomic patch replaces one or
+more targets by exact milestone identity. Validate the full result in configured
+identity order. Refuse duplicate or unknown identities, additions/removals,
 out-of-range values, ties and crossings. A request with no actual changes has no
-edit result. Targets and actual score use the full signed 64-bit micro-point
-domain. Distances use exact unsigned 64-bit arithmetic. Preserve the progression
-and writer budgets. Refuse exhaustion before partial output or sequence reuse.
-
-Read the actual active completed prefix. A changed identity in that prefix
-requires distinct current completed-target correction authority. Preserve every
-historic completion and its captured definition revision, target, actual score
-and context byte for byte. Preserve its occurrence, captured action versions,
-timeline state, holds, decisions and delivery/bonus history. Project the deficit
-against the current proposed target, with zero interval progress when below the
-last completed target. A correction changes a threshold at unchanged score.
-It never calls refund policy or releases, skips, cancels or reinstates a prior
-group. A later genuine refund uses its owning policy and then-current target.
+edit result. Classify changed identities against the actual active completed
+prefix. Unfinished edits and completed corrections require separate current
+grants. A mixed patch requires both. Targets and actual score use signed
+64-bit micro-points. Distances use exact unsigned 64-bit arithmetic. Preserve
+progression and writer budgets and preflight order capacity for the whole suffix.
 
 From the same actual score and prefix, compare the old and proposed consecutive
-reachable suffixes (next target through the last target at or below score).
-Report the old and new targets, score, revision, completed deficits, next
-identity/remaining and exact interval where defined, and the ordered new
-achievements with their action and timing consequences. The active completed
-prefix records actual achievement. For a policy-suppressed reachable suffix,
-show that progression is held and retain the actual prefix. A currently
-authorized reader may see a refused edit's consequences without a confirmable
-preview.
+reachable suffixes, starting at the first unfinished target and stopping at the
+first target above score. Preview the old and new targets, revisions, unchanged
+score, deficits against current targets, next identity/remaining, exact interval
+where defined, and ordered new achievements with action and timing consequences.
+If policy suppresses progression, retain the actual prefix and flag the
+reachable suffix as suppressed. A reachable next target in that view has zero
+remaining and no progression interval fraction. A reader with current disclosure
+authority may see the consequences of a refusal without a confirmable preview.
 
-- Finished with post-finish progression disabled refuses the whole edit if
-  it newly reaches a milestone. The proposed comparison uses reachable
-  identities relative to the old definition when an unrecorded reachable
-  suffix already exists. An authorized correction with no additional
-  reachable identity remains eligible. No achievements are staged while
-  post-finish progression is disabled.
-- With progression enabled, an eligible edit advances the existing prefix
-  through the proposed reachable suffix, in order. The proposed attribution
-  rule refuses advancement if the old definition already has an unrecorded
-  reachable suffix, until the lifecycle owner supplies a consistent baseline.
-- Ready, active, paused and reopened use actual lifecycle eligibility and
-  selected policies. A finish or reopen invalidates an earlier preview even
-  at the same score. Editing targets does not start or reopen the countdown.
-  It preserves phase, time, grace, debt, deadline, pause reasons, and any
-  pending-action choices from a reopen. #183 owns lifecycle policy, catch-up
-  and explicit reopening.
+- Finished with post-finish progression disabled refuses the whole edit if the
+  proposed reachable suffix adds any identity relative to the old one. Stage no
+  achievements while that policy disables progression. A completed correction
+  that adds no reachable identity can still be eligible.
+- With progression enabled, refuse with the distinct typed reason
+  `old_reachable_backlog` if any unfinished target is already reachable in the
+  old definition. Create no hold. Otherwise append the entire reachable suffix
+  under the proposed definition in configured order. Exercise the backlog with
+  synthetic authoritative facts. #230 can proceed independently of #183.
+- Ready, Active (including pause) and a reopened run use the observed lifecycle
+  and selected policies. Finish or reopen invalidates a prior preview even at
+  identical score. Editing targets preserves the countdown state, including
+  phase, time, grace, debt, deadline, pause reasons and pending-action choices
+  from reopening. It cannot start or reopen the timer. #183 owns lifecycle
+  policy, catch-up and explicit reopening.
 
-The owner supplies stable candidate revision and occurrence identities for
-confirmation. Preview allocates no durable order or storage. Require exactly
-one explicit Run, Defer or Skip for each proposed new occurrence,
-including empty and bonus-only groups. Refuse missing, duplicate, invalid or
-extra choices, including choices for historic completions. A first preview may
-show consequences with choices unset. Confirmation uses a preview binding the
-final exact choices. Capture resolved ordered action definitions/versions,
-authorized route and sender selection where applicable, and timing overrides.
-Use existing timeline inheritance. Bind relevant settings and capture revisions
-even if a change leaves the achievement count unchanged.
-Run gives ordinary eligibility subject to current gates. The proposed interaction
-with disabled post-finish automation retains Run behind the lifecycle gate and
-shows that disposition in preview. Defer adds an explicit hold. Skip is terminal
-for that occurrence and retains achievement and capture.
+The command service supplies stable candidate definition and occurrence identities.
+Preview reserves no durable order and writes no storage. Require exactly one
+explicit Run, Defer or Skip per new occurrence, including empty and bonus-only
+groups. Refuse missing, duplicate, invalid or extra choices, including choices
+for historical occurrences. A first preview may leave choices unset. Confirmation
+binds the final choices. The confirming unfinished-edit and/or completed-correction
+grants cover these initial choices. Capture ordered action definitions/versions,
+authorized route and sender selection where applicable, and timing overrides with
+existing inheritance. Bind relevant settings and capture revisions even when
+achievement count stays the same.
 
-## Authority and consistency
+Run gives ordinary eligibility subject to current gates. Post-finish progression
+and post-finish automation are independent. With progression enabled and automation
+disabled, record the permitted achievements and retain Run behind the automation
+gate, exposed in preview. Release, dispatch claims and bonus work must respect
+that gate. Run creates no explicit hold. Defer adds an explicit
+hold. Skip is terminal for that occurrence and retains achievement and capture.
+Dispatch checks its own current authority.
 
-| Selected fact | Authority at preview and confirmation |
+## Authoritative facts and confirmation
+
+| Selected fact | Source |
 | --- | --- |
-| Installation and authorization | The authoritative command context binds the authenticated actor to the current account/session and effective permissions for the exact track, edited identities and affected actions. Unknown, expired, revoked, disabled or mismatched facts refuse. Preview disclosure also requires current authority. |
-| Definition and action/timing selection | Retained current configuration supplies the exact definition revision, ordered identities and selected action/capability/timing revisions and values. Current action/route authority supplies resolved sender and route facts. Historic groups preserve their own captures. |
-| Score and application head | The selected committed application-state head and the actual signed score balance for the configured track. On the existing SQLite application path read the exact selected balance in ApplicationStateSnapshot. A requested delta, refund basis, displayed score, or unspecified absence supplies no score. |
-| Completion and queue | The authoritative active completed prefix with its revision, plus the exact durable occurrence, release, choice and hold facts where relevant. Absence from a pending suffix does not cancel a completion. |
-| Lifecycle and readiness | The authoritative lifecycle snapshot and selected progression/action policies with revisions, lifecycle/installation generation and availability. The owning SQLite startup/inspection boundary establishes schema readiness. A client flag, preview, catalog factory or wall time alone supplies none of these facts. |
+| Installation and authorization | Authoritative command context binds actor, account/session and effective scoped grants to the installation, exact track and edited identities. Current action/route authority supplies resolved route and sender facts. Unknown, expired, revoked, disabled or mismatched facts refuse. Disclosure also requires current authority. |
+| Definition and action/timing selection | Durable milestone definition head and immutable versions below supply ordered targets. Retained configuration supplies the exact selected action, capability and timing revisions and values. Historical groups retain their own captures. |
+| Score and application head | Read the selected committed application-state head and the actual signed balance for the track in its ApplicationStateSnapshot. A requested delta, refund basis, displayed score or unspecified absence supplies no score. |
+| Completion and queue | Durable active completion-prefix head and ordered memberships below, plus exact occurrence, release, choice and hold facts where relevant. Completion is independent of pending membership. |
+| Lifecycle and readiness | Authoritative lifecycle snapshot, progression/automation policies and revisions, installation/lifecycle generation and availability. SQLite startup/inspection establishes schema readiness. Client flags, previews, catalog factories and wall time cannot establish those facts. |
 
-Read writer-held facts on the same active session. Bind any owner-held facts to
-that exact unit under the same serialization and revision/conditional-write
-boundary. Prevent invalidation between revalidation and commit. Missing or
-contradictory sources are unavailable. Later component acceptance may supply
-these facts through bounded synthetic ports. #294 owns the real running
-producers and publication.
+The **milestone track initializer**, called by the owning configuration and
+progression composition, is the only bootstrap of the definition and active
+prefix heads. In one writer unit it checks the exact selected retained track
+configuration and an explicit ordered active completion snapshot from the
+authoritative progression owner, including scoped origin evidence for every
+member. An explicitly known empty prefix is valid. An absent source, queue scan
+or score-derived reconstruction cannot prove a prefix. Do not infer track
+membership or current activity by scanning v12 history. Fresh and populated
+catalog upgrades install empty additions. With uninitialized or contradictory
+facts the edit service is unavailable. Component acceptance supplies explicit
+synthetic configuration, completion and lifecycle facts to this boundary.
+#294 owns live producers, wiring and publication.
 
-Bind an owned opaque preview to installation/track, actor and session lineage,
-exact original configuration and revision, exact patch and proposed definition,
-score/head token, exact active completion revision/prefix, lifecycle and
-policy facts, ordered affected occurrences, captured actions/timing and final
-choices. Include the decision/operation identity in confirmable intent. Use
-revisions or lineage that detect intervening changes even if values return
-to their prior values. Bind eligibility facts shown for affected occurrences.
-Allocate queue order at commit. Compare exact owned facts or a canonical
-binding that preserves the same distinctions. Recheck current session and
-permissions, including completed-target correction and applicable choice
-authority, at confirmation. Recompute and require an exact match. Denied,
-unavailable, invalid, stale and operation-key conflict results have no effects.
-Protected detail requires current disclosure authority.
+The **milestone definition head** is keyed by installation/track and selects
+one **immutable milestone definition version** of that track. Each version owns
+the full ordered identity/target list, with a unique scoped revision and a
+same-track predecessor for successors. Head and predecessor links reference
+those version records. Initialize from the exact retained configuration,
+then compare-and-advance the head from the exact bound revision when editing.
+The operation retains both versions and the changed values. Never reuse a
+revision after a value returns to its earlier setting.
+
+The **active completion-prefix head** is keyed by installation/track and selects
+an immutable scoped prefix revision containing ordered memberships from ordinal
+1 through its recorded length. The head references the scoped revision and
+each ordinal is unique in that revision. Each membership links to that revision
+and carries the exact completion (milestone, captured definition revision,
+target, actual score and context) and a typed origin. Application origin names
+the real application operation and exact v12 occurrence. Edit origin names the
+exact edit operation and edit occurrence. Each type has its corresponding
+FK-backed occurrence link. Check scoped track
+identity against the initializer or originating writer facts and exact capture
+agreement, including the application parent for v12. Captured revisions remain
+historical even when the current definition changes. Compare prefix identities
+against the selected definition's first k positions. When adding achievements,
+advance the prefix head to a new revision in the same writer unit and preserve
+all earlier member facts. Other progression owners must maintain this source
+under the same writer serialization before live use. MILE-07 later owns
+authorized reset by changing active membership in a new revision while retaining
+old revisions, occurrences and effects. It also owns unstarted group
+cancellation and any replay authorization on re-earning.
+
+Read writer-held facts on the same active session. Bind owner-held facts to
+that unit under the same serialization and revision/conditional-write boundary
+through commit. Bind an owned opaque preview to installation/track, actor and
+session lineage, original configuration/revision, exact patch and proposed
+definition, score/head token, exact active prefix revision and membership,
+lifecycle and policies, ordered affected occurrences, captured actions/timing,
+eligibility facts shown and final choices. Include the operation and decision
+identity. Use revisions or lineage that detect intermediary changes even when
+values return. Recheck current grants and compare bound source revisions before
+recomputing the plan at confirmation. A changed lifecycle anchor makes the
+old intent stale even if a fresh request would give a policy refusal. Require
+an exact binding match. Denied, unavailable, invalid, stale and key-conflict outcomes
+have no effects. Protected detail requires current disclosure authority.
 
 ## Single writer unit and typed origin
 
-On the existing caller-owned SQLite writer session, revalidate the preview,
-conditionally advance the definition, append the audit and ordered active
-completion suffix, stage corresponding group/action captures and record the
-complete initial choice set before one commit. Audit original/revised values
-and revisions, actor and decision identity, completed/unfinished classification,
-actual score/head, and enough owned evidence for the confirmed projection
-and stable committed result. New completions capture the revised definition,
-new target, same actual score and edit context. Each gets one durable occurrence
-including when skipped. Allocate positions from the same global order across
-past, pending and skipped occurrences. Preserve any existing queue prefix,
-active window and gap. A correction with no newly achieved suffix stages no
-new group or action decision.
+On the caller-owned SQLite writer session, revalidate the preview, append the
+immutable version and audit, advance the definition head, append the active
+completion suffix and stage its captures and full choice set before one commit.
+Stage parents before dependent rows, including occurrences before prefix links.
+Audit old/new revisions and targets, actor and decision, completed/unfinished
+classification, exact score/head, and owned evidence for the confirmed projection
+and stable result. For each achievement record the new revision and target at
+the same actual score with the edit context, and one durable occurrence even
+if skipped. A correction with no new suffix preserves every existing completion,
+group, hold, decision and action history. It neither observes a refund nor
+changes any prior group's eligibility.
 
-The proposed physical boundary adds typed records behind the existing milestone
-group/decision and delivery interfaces. The frozen group FK requires a real
-application operation. That operation requires receipt, plan and state
-provenance. Delivery captures require application jobs, while decisions and
-bonus receipts require legacy group/action parents. An edit needs its own
-origin. Reusing an application's key, fabricating intake, bypassing a FK or
-interpreting generic delivery group metadata cannot establish that origin.
+Use additive edit-origin rows with these keys and parent links. The frozen
+application-owned v12 group/action/bonus rows, v13 decision rows and v11
+delivery captures/events retain their existing application parents and meaning.
 
-| Selected record | Guard shape for the proposed additive step |
+| Selected row | Required key and link |
 | --- | --- |
-| Target edit operation | Typed edit identity and immutable audit, with unique resulting revision per installation/track. Store exact confirmed intent and stable result. An existing key with identical intent may return the committed result after current disclosure authorization. Different intent under the same key is conflict. Neither path enrolls again. |
-| Edit occurrence link | FK to the exact edit and link to its completion, with unique occurrence key and positive suffix ordinal unique within the edit. Check track, milestone, result revision, target, score and context against the staged edit/completion. Original occurrences retain their existing application FK. Reject occurrence-key or queue-order collisions across origins. |
-| Edit actions and jobs | One contiguous action order per occurrence. Each automation action has exactly one typed delivery key linked to the same edit, occurrence, ordinal, action and version. All edit jobs are milestone members. A missing or inconsistent link refuses dispatch even when the lookup returns no member. Bonus positions have no delivery key and use one durable receipt for the exact occurrence/position. |
-| Edit choices and holds | Exactly one initial choice per edit occurrence, linked to its edit actor/decision. Edit origin is distinct from paused normal/silent acceptance. Reuse Run/Defer/Skip and later independent refund Review semantics and resolution provenance. Verify the exact typed parent before consulting or changing a hold. |
+| Target edit operation | Typed scoped key with FKs to prior and resulting same-track definition versions, unique resulting revision, exact confirmed intent and stable result. An identical authorized retry returns that result. Different intent with the same key conflicts. |
+| Edit occurrence | Unique occurrence key with FK to its edit and unique positive suffix ordinal within the edit. Immutable completion capture and timing, durable queue position and release state. The new prefix membership links to this occurrence and agrees with its edit, track and captured completion fields. |
+| Edit action | FK to the occurrence, with contiguous positive action ordinals and exact action kind/ref/version. Each automation position has exactly one edit job. A bonus has no job. |
+| Edit job, capture and events | The typed edit job key selects the exact edit, occurrence and action position. Job FK references that edit action by occurrence/ordinal and verifies its edit parent. Capture FK references that job and retains matching action/version plus resolved route, selection and sender. Event FK references that capture, with unique revision per job and the existing queued, attempt, outcome and evidence semantics, starting at queued revision 1. |
+| Edit bonus receipt | PK/FK on the exact edit action position, which must be a bonus, with one stable effect reference. |
+| Edit initial decision | PK/FK on the edit occurrence, with Run/Defer/Skip and the confirming actor/decision linked to and checked against its edit. Preserve resolution and hold-ending provenance under #236. This origin has no paused input Normal/Silent disposition. |
+| Edit refund decision | PK on occurrence/refund reference and FK to the edit occurrence. Preserve exact before/after/current-target operands, policy, resolution and hold-ending provenance under #236. Each resolution or ending reference selects the exact cause on that occurrence. |
 
-Use additive origin-specific parents where frozen FKs require them. Keep a
-durable current definition revision link and immutable edit/occurrence history.
-Check same-track predecessor and result revisions and guard the definition
-advance against the exact previous head. Same-session validation covers
-cross-origin uniqueness and detects inconsistent persisted links on read.
-The existing
-group store reads one ordered stream across origins. The existing decision store
-resolves a single typed occurrence per key. Original enrollment/acceptance
-selects only the exact application and its staged occurrences. Edit enrollment
-and choice recording select only the staged edit and its full occurrence set.
-Require typed keys at lookup and claim. Genuine independent application jobs
-retain their current behavior. Positive membership with malformed provenance
-fails closed. Edit delivery reuses the queued/claim/outcome lifecycle and
-requires committed group release plus current dispatch authority in the claim
-work. Bonus application checks eligibility and commits effect and receipt
-together. #197 owns individual/batch/silent input review. An edit has no
-application-review disposition.
+Never use an application key or synthetic receipt, plan, state or application
+job as a surrogate edit parent. Generic delivery metadata cannot prove membership.
+Application enrollment selects only the exact application and its staged
+occurrences. Edit enrollment and initial decisions select only the staged edit
+and its complete occurrence set. #197 owns individual/batch/silent input review.
 
-## Release, failure and recovery
+Allocate one strictly increasing positive signed-64 order across the two
+origins, after the maximum committed position including released and skipped
+rows, or start at 1 when neither origin has a row. The writer checks capacity
+for the entire batch before allocation and
+rejects key or position collisions across origins. There is one pending head:
+the least unreleased, non-skipped position across both origins. A held head
+remains pending. Check exact typed keys, parent/capture agreement, contiguous
+ordinals, cross-origin uniqueness and head selection under the writer session.
+Use bounded keyed and ordered reads, checking the selected closure against
+existing writer, collection and reference limits. Malformed or excess data
+refuses the work without a partial snapshot, decision set or dispatch fallback.
 
-After acknowledged commit, publish one committed result and the ordered captures
-to the existing timeline owner. Actual release is separate work on the exact
-committed pending head under current gates. A held head blocks the suffix.
-Skip consumes no presentation or gap. Preserve queue pause and optional countdown
-linkage, active windows and delays. Defer and refund Review are independent.
-Continuing one leaves the other active. Terminal Skip and hold-ending provenance
-follow the existing decision contract. Preserve application, financial, recovery,
-and reopen holds. Cold recovery restores the committed pending suffix in durable
-order without starting presentation, release, claim or bonus work.
+## Existing readers, release and recovery
 
-Known rollback preserves the previous definition, active prefix, audit, captures,
-decisions and release history, even after a reached late failure. Preserve the
-writer's failure categories and provisional-result rules. After ambiguous
-completion or commit followed by work/acknowledgement failure, publish neither
-success nor refusal for that failed attempt. Read actual durable state by edit
-identity in a fresh writer unit before deciding whether to reattempt. A committed
-edit's exact authorized retry reads the same result without additional effect or
-release. A competing change to a bound fact makes the old preview stale even
-with a different operation key.
+- **#232 delivery dispatch, claim, outcome and stranded sweep.** Resolve the
+  exact typed job and membership. For edit jobs, require matching edit
+  provenance, committed group release and current dispatch authority inside
+  queued-to-sending work. Missing or inconsistent links refuse. Genuine
+  independent application jobs keep their existing path. Outcome uses the
+  exact claimed job and attempt. The exclusive stranded sweep may mark a
+  sending attempt outcome-unknown without starting an adapter. No delivery replay.
+- **#234/#236 order, disposition, release, restart and decisions.** Use one
+  ordered stream and one exact typed occurrence per key for pending/head,
+  disposition, hold reads and resolution. On acknowledged edit commit,
+  publish the result and ordered captures to the timeline owner. On a separate
+  writer unit release rechecks the exact committed pending head under current
+  gates. Preserve queue pauses, optional countdown linkage, active windows and
+  gaps. Skip consumes neither a presentation nor a gap. Defer and each refund
+  Review are independent. Continue clears only its selected cause and terminal
+  Skip ends other active causes with provenance. Preserve application,
+  financial, recovery and reopen holds. Cold restart restores the committed
+  pending suffix in order without starting presentation, release, claim or bonus.
+- **Bonus.** Resolve the exact typed occurrence and bonus position. Check
+  committed release and current authority and commit the effect and receipt
+  together. A receipt prevents reapplication.
+- **#199 refund observation and review.** In the genuine refund writer unit,
+  `FinancialRefundEffectPort::milestones` selects eligible pending occurrences
+  across both origins and reads each current target from the authoritative
+  definition head on the same session. Keep each captured target intact.
+  Use exact actual scores and a downward crossing of the current target
+  (before ≥ target, after < target) while pending and unreleased. Consult and
+  record audit, Review/Continue/Skip and later resolution via #236 on the exact
+  typed occurrence. Preserve the existing refund accounting and independent
+  deferrals. Target edits themselves never invoke this path.
+
+Known rollback retains the prior heads, prefix, audit, captures, decisions and
+release history, including after a reached late failure. Keep writer errors and
+provisional-result rules. Ambiguous completion or a failed acknowledgement
+after commit publishes neither success nor refusal for that attempt. Re-read
+durable state by edit identity in fresh writer work before reattempting.
+An authorized exact committed retry returns the original result without a second
+effect or release. A competing change to a bound fact makes an unused preview
+stale even with a different operation key.
 
 ## Catalog boundary
 
-One additive step with proposed ID milestone-target-edits-v1 and version
-<owner-assigned> in the published night order. Use the immediately preceding
-compiled, reviewed manifest. Append one step and its supported starting version.
-Preserve earlier ordered SQL, schema projections, versions, IDs and history
-digests. Follow existing milestone DDL conventions for exact ordered SQL strings,
-main schema projection, INTEGER storage/enum checks, bounded BLOB references
-and the canonical projection of implicit PK/unique indexes. Fresh and populated
-upgrades install the same empty additions. Existing origins, queue positions and
-action history retain their meaning without v11 metadata backfill or synthesized
-decisions.
+Append one additive step with proposed ID `milestone-target-edits-v1` and
+its supported starting version to the immediately preceding compiled, reviewed
+manifest. Assign the number only in the published night order. Preserve all
+earlier ordered SQL, schema projections, versions, IDs and history digests.
+Follow the existing main schema projection, exact SQL, INTEGER storage/enum
+checks, bounded BLOB references and implicit index conventions. No v11 metadata
+backfill or synthesized decisions.
 
-Dispatch, pending/head, bonus and decision paths recognize exact supported
-version/ID pairs and verify required schema, including the new tables/columns
-on recognized later paths even where no row matches. Preserve v12 ordinary
-release and v13+ decision behavior, including reviewed v14 and v15 and later
-approved prefixes. An unknown/mismatched marker or incomplete required schema
-fails closed without fallback to independent dispatch or earlier behavior.
-Review the complete frozen prefix and exact new frame/schema before runner work.
-Use existing operator maintenance and startup inspection readiness.
+Recognize exact supported version/ID pairs with required schema on dispatch
+(including claims, outcomes and stranded recovery), group order/disposition/
+release/restart, bonus, decision and #199 refund paths. Preserve v11 independent
+delivery, v12 ordinary release, v13 decisions, reviewed v14/v15 and later
+approved prefixes. The new exact pair must select compatible earlier behavior
+plus the applicable edit-origin rows, even when no edit row matches. An unknown
+or mismatched marker or incomplete required schema fails closed. Review the
+complete frozen prefix and exact new SQL/projection before runner work. Use
+existing operator maintenance and startup inspection readiness.
+
+From the start, each further catalog fixture supplies a positive explicit
+`MigrationRequest.limits.manifest_utf8_bytes` based on the measured cumulative
+UTF-8 payload of its exact manifest. Count the SQL at each step and every
+projected type, name, table name and present SQL at each step, with repetitions.
+Keep the default unchanged. The exact published prefix and new frame are needed
+before the fixture budget can be measured.
 
 ## Independent examples
 
-All numeric examples use integer micro-points. A, B, C and D are configured
-identities in order. Each row is a separate starting state unless stated otherwise.
+All numbers are integer micro-points. Each row starts independently with
+current grants and an eligible Active lifecycle unless stated otherwise.
 
 | Case | Input and expected result |
 | --- | --- |
-| Progress only | A=100 complete, B=200, score=160. B→180 gives remaining 40→20 and progress 60/100→60/80, or 3/5→3/4. No new group. |
-| Tie and crossing | A=100, B=200, C=300. B→100 ties A. B→301 crosses C. Both refuse with order, revision and audit intact. |
-| Ordered achievement | A=100 complete, B=200, C=300, D=400, score=175. B→150, C→175, D→250. B and C complete at actual score 175, C by equality. Remaining 75 and progress 0/75. With preceding pending order 7, B Defer is 8 and C Run is 9. After 7's window and gap, every active cause on 8 must resolve before it starts. Then 9 waits for 8's window and gap. If 8 becomes Skip, 9 may start after 7's gap with no window or gap for 8. |
-| Completed correction | A completed at target 100/score 120, B=200, current score=130. A→150 gives deficit 20, next remaining 70 and progress 0/50. Retain original completion and its queued or performed group. A missing correction grant refuses. A current grant allows the correction even while finished with progression disabled. No refund audit or release. |
-| Finished and reopened | Use the ordered-achievement input while finished with progression disabled. Refuse the entire edit. Reopen separately. The old preview is stale. With a current eligible observation and fresh preview, staging leaves the reopened countdown as observed. |
-| Exhaustion | With completed target INT64_MAX and current score INT64_MIN, deficit is 18446744073709551615. An all-completed track has no next or interval. Separately, prior queue order INT64_MAX−1 leaves only one position. A two-occurrence edit refuses atomically. |
-| Rollback and retry | For the ordered-achievement edit, fail a reached choice insertion after definition, audit, both completions and groups are staged. A fresh read sees B=200, C=300, D=400, only A complete and order still 7. Committing the same valid intent once yields 8/9. Lost acknowledgement followed by authorized read/retry finds that pair once with its original choices and no release replay. |
+| Single target, progress | A=100 complete, B=200, score=160. B→180 gives remaining 40→20 and progress 60/100→60/80 (3/5→3/4). No new group. |
+| Single target, equality | A=100 complete, B=200, C=300, score=175, tail order 7. B→175 with Run completes only B at score 175, order 8. C remains next, remaining 125, progress 0/125. |
+| Tie and crossing | Active and eligible, A=100 complete, B=200, C=300, score=160, unfinished grant current. B→100 ties A. B→301 crosses C. Each refuses with targets, revision, prefix, queue and audit intact. |
+| Ordered patch (70A) | A=100 complete, B=200, C=300, D=400, score=175. B→150, C→175, D→250. B and C complete at actual score 175, C by equality. D remains next, remaining 75 and progress 0/75. With pending predecessor 7, B Defer is 8 and C Run is 9. After 7's window and gap, each cause on 8 must clear before 8 starts. Then 9 waits for 8's window and gap. If 8 becomes Skip, 9 can start after 7's gap. |
+| Completed correction | A completed at target 100/score 120, B=200, current score=130. A→150 gives deficit 20, next remaining 70 and progress 0/50. Preserve the original completion and group with no refund audit or release. Only the completed-correction grant is needed, including while Finished with progression disabled. |
+| Mixed grants (72A/73B) | A=100 complete, B=200, score=175. A→110 and B→175 with Skip needs both grants. Either grant alone refuses both changes. Both grants record A's correction and one skipped B occurrence at score 175. There is no next target or interval. |
+| Old backlog (71A) | Progression enabled, A=100 complete, B=180, C=300, score=190. B→170 with B already reachable in the old definition refuses with `old_reachable_backlog`. Preserve both heads and the queue and create no hold. |
+| Finished and reopened | While Active, obtain a confirmable preview for the ordered patch with B Defer and C Run. Before confirming, finish independently with post-finish progression disabled and the same score. The Active preview is stale. A fresh Finished preview refuses the patch. Reopen independently, keeping score and prefix. The pre-Finished preview stays stale. A fresh eligible preview can confirm, preserving the reopened countdown as observed. |
+| Finished already-reachable target | Finished with progression disabled, A=100 complete, B=180, C=300, score=190. A→150 leaves B as the only reachable unfinished target. A's correction is eligible, B stays suppressed and no group is staged. |
+| Finished automation gate | With progression enabled and automation disabled while Finished, use the single-target equality case. Record B and retain its Run with the automation gate shown. The countdown stays Finished. |
+| Exhaustion | With sole target A=INT64_MAX−1 already complete at that target and current score INT64_MIN, correct A→INT64_MAX. Deficit increases from 18446744073709551614 to 18446744073709551615 with no next or interval. Separately run the ordered patch input with a durable tail at INT64_MAX−1. Only position INT64_MAX remains for two new occurrences. Refuse with both heads, audit, queue and decisions intact. |
+| Genuine refund after correction | A=100 and B=175 are complete, C=300, score=190. B completed by an edit at 175 and its group remains deferred. Correct B→185. A later genuine refund moving actual score 190→180 crosses current target 185 and under Review records deficit 5. Using captured target 175 would miss the crossing. B stays complete, retains captured target 175 and has independent Defer and refund Review holds. |
+| Rollback and retry | For the ordered patch, fail a reached choice insertion after the definition, audit, both completions and groups are staged. A fresh read sees B=200, C=300, D=400, only A complete and order still 7. Committing the same valid intent once yields 8/9. A lost acknowledgement and authorized read/retry recover that pair once with its original choices and no release replay. |
 
-Later acceptance covers populated prefix upgrades, exact head selection across
-origins, missing links and wrong-origin choices, concurrent invalidation,
-bounded input, rollback and ambiguous durability. Use synthetic captures and
-observable fake effects.
+Later acceptance uses synthetic captures and observable fake effects for
+populated upgrades, cross-origin head and refund selection, missing or
+wrong-origin links, concurrent invalidation, limits and ambiguous durability.
