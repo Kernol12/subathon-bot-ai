@@ -17,9 +17,6 @@ _SECURITY_URIS = frozenset({
     "https://security.ubuntu.com/ubuntu",
     "https://security.ubuntu.com/ubuntu/",
 })
-MIRRORS = ("https://mirrors.edge.kernel.org/ubuntu/\tpriority:1\n"
-           "https://archive.ubuntu.com/ubuntu/\tpriority:2\n"
-           "https://security.ubuntu.com/ubuntu/\tpriority:3\n")
 NETWORK_CONFIG = ('Acquire::Retries "1";\nAcquire::http::Timeout "15";\n'
                   'Acquire::https::Timeout "15";\nAPT::Update::Error-Mode "any";\n')
 _ALLOWED_SOURCE_FIELDS = {"Types", "URIs", "Suites", "Components", "Signed-By",
@@ -227,10 +224,9 @@ def prepare_apt() -> None:
                  "mirrors.edge.kernel.org"):
         diagnostic(["getent", "ahostsv4", host])
 
-    for path, content in (("/etc/apt/apt-mirrors.txt", MIRRORS),
-                          ("/etc/apt/apt.conf.d/99-subathon-network", NETWORK_CONFIG)):
-        subprocess.run(["sudo", "tee", path], input=content, check=True, text=True,
-                       stdout=subprocess.DEVNULL, timeout=10)
+    subprocess.run(["sudo", "tee", "/etc/apt/apt.conf.d/99-subathon-network"],
+                   input=NETWORK_CONFIG, check=True, text=True,
+                   stdout=subprocess.DEVNULL, timeout=10)
     subprocess.run(["sudo", "apt-get", "update"], check=True, timeout=300)
 
 
