@@ -210,6 +210,7 @@ jobs:
               "milestone-progression": ({"acceptance", "core"}, 30),
               "timer-editorial": ({"acceptance", "core"}, 30),
               "rate-snapshot": ({"acceptance", "core"}, None),
+              "rate-override": ({"acceptance", "core"}, 30),
           }
           discovery = json.loads(subprocess.check_output(
               ["ctest", "--preset", "core-acceptance-debug", "--show-only=json-v1"], text=True))
@@ -248,6 +249,8 @@ jobs:
               raise SystemExit(f"No enabled cases discovered for: {empty or 'time-credit'}")
           if found["recurring-schedule"] != 25:
               raise SystemExit(f"Expected 25 recurring schedule cases, got {found['recurring-schedule']}")
+          if found["rate-override"] != 24:
+              raise SystemExit(f"Expected 24 rate override cases, got {found['rate-override']}")
           print(json.dumps({"time-credit": credit, **found}, indent=2))
           PYTHON
       - name: Run every pure core acceptance case and the infrastructure checks

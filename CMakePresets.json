@@ -334,7 +334,7 @@
       "inherits": "base",
       "cacheVariables": {
         "SUBATHON_BUILD_ACCEPTANCE_TESTS": "ON",
-        "SUBATHON_ACCEPTANCE_SUITES": "time-credit;exact-numeric;timer-lifecycle;receipt-intake;contribution-evidence;pause-policy;recurring-schedule;application-plan;time-debt;timer-editorial;milestone-progression;effective-permissions;rate-snapshot"
+        "SUBATHON_ACCEPTANCE_SUITES": "time-credit;exact-numeric;timer-lifecycle;receipt-intake;contribution-evidence;pause-policy;recurring-schedule;application-plan;time-debt;timer-editorial;milestone-progression;effective-permissions;rate-snapshot;rate-override"
       }
     },
     {
