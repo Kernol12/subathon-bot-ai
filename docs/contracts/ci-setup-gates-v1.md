@@ -1,4 +1,4 @@
-# CI setup and merge gates — v1
+# CI setup and merge gates — v1, revision 2
 
 CI-002; specification v0.45 §§17–18; [task brief](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/CI-002.md).
 The later [CI-003 profile contract](ci-noble-security-source-v1.md) proposes one
@@ -6,6 +6,8 @@ strict split-security admission and fixed event extension. It applies only with
 reviewed CI-003 tooling; every other v1 requirement below remains unchanged.
 This is authored contract material awaiting independent review, not approval,
 implementation, an observed red run, hosted recovery or an applied settings change.
+Revision 2 proposes the bounded workflow repetition in §3 for
+[#715](https://github.com/Kernol12/subathon-bot-ai/issues/715).
 It refines [CI-001 recovery revision 2](https://github.com/Kernol12/subathon-bot-ai/blob/f674131464b5907be0ec390b40bd1d1436e36c7e/docs/tasks/CI-001.md) and
 [bounded coordination v2 §5](https://github.com/Kernol12/subathon-bot-ai/blob/docs-archive-2026-11-14/docs/contracts/bounded-coordination-v2.md#5-coordinator-practice-and-ci).
 WORKFLOW-006 policy remains inactive; the historical 120-task exemptions and all
@@ -19,7 +21,8 @@ source `42462d165a5aa90f92eb3625941bcda163f178c4`, refused with
 `unsupported Ubuntu APT source layout` before configuration writes, update, build or
 acceptance. Public runner facts: Ubuntu24.04.5, image20261111.127.1, cloud AWS.
 **The offending field is unknown.** Cloud/image classification does not establish a
-source variant or justify normalizing a source. No unclassified retry is authorized.
+source variant or justify normalizing a source. Only the workflow repetition in §3
+applies to a failed setup invocation.
 PR126 remains parked; CI-002 neither changes its approved source nor resumes product work.
 
 Preserve all eight methods and EVERY assertion in
@@ -40,16 +43,18 @@ trust, pins, diagnostics, successful command set and order. In particular:
   `check=False, capture_output=True, text=True, timeout=10`, labels and output behavior.
   Two checked `sudo tee` calls retain their bytes, `text=True`, `stdout=DEVNULL`,
   inherited stderr and 10-second deadlines. The update retains its original inherited output and one-call behavior.
-  Each setup keeps the original one-call sequence; no additional command or shell is permitted.
+  Each helper invocation keeps the original one-call sequence and starts no
+  additional command or shell.
 - No retry around installs, downloads, SDK admission, schema/configure/build/tests or
   a workflow/job rerun. Existing vendor download retry flags remain unchanged and
   are outside this helper's process-call bound. No cache, selective CI, hidden retry,
   continue-on-error, failure inversion, source relaxation or new dependency.
 
-This contract adds bounded evidence and required-check enforcement. It adds no process
-retry and does not promise that the incident layout will become accepted. Any layout expansion needs
-actual source evidence, a separately reviewed contract refinement and independent
-baseline review; do not guess the unlogged field or weaken the frozen assertions.
+This contract adds bounded evidence and required-check enforcement. The helper adds no
+internal retry. Workflow repetition does not make the incident layout admissible.
+Any layout expansion needs actual source evidence, a separately reviewed contract
+refinement and independent baseline review. Do not guess the unlogged field or
+weaken the frozen assertions.
 
 ## 2. Callable surface and diagnostic wire format
 
@@ -70,7 +75,9 @@ Each record is one complete stderr.write followed by flush; a short write is fai
 On emission failure, attempt the fixed legacy-prefix message
 `Ubuntu APT setup failed: CI APT diagnostic unavailable` once, best-effort; if stderr
 is also unavailable, return1 without recursively logging. Other existing errors and
-prefixes remain unchanged. No error path becomes permission to continue or retry.
+prefixes remain unchanged. These errors end the invocation. A later invocation
+under §3 must pass the same guard, source, logging and acquisition requirements
+from the beginning.
 
 Every NEW record is one stderr line: literal `CI_APT_V1 `, followed by JSON serialized
 with `sort_keys=True, separators=(',', ':'), ensure_ascii=True, allow_nan=False`,
@@ -182,29 +189,47 @@ Enabled remains accepted; other known fields retain CI-001 treatment. This is a 
 for one reviewed runner layout, not a general deb822 parser or a new validator of
 suite/keyring semantics. APT's own authenticated update remains mandatory.
 
-## 3. Preserve update visibility; no new process retry
+## 3. One update per invocation and bounded workflow repetition
 
 Keep exactly the CI-001 update invocation:
 `subprocess.run(["sudo", "apt-get", "update"], check=True, timeout=300)`.
 Do not capture, buffer, replay, classify, replace or hide its inherited stdout/stderr;
 APT's own failure text stays visible in the ordinary job log. There is no new
-`update_attempt` record, transcript grammar, classification API, retry receipt or wrapper.
-Each admitted setup invokes update at most ONCE, with no additional delay or repeat
-writes/diagnostics. Any nonzero exit, timeout or unavailable command fails main1 as
-before; unknown/mixed/layout/integrity/signing/schema/build/test failures never retry.
-No workflow/job rerun is introduced. Successful updates still require exit0.
+`update_attempt` record, transcript grammar or classification API.
 
-Zero new process retries complies with the parent policy's AT MOST one. A future
-retry needs an actual captured hosted failure transcript, safe ownership/deadline
-analysis and a separately reviewed contract/test/code refinement before execution.
-No synthetic transcript is evidence that a retry matches or recovers hosted failures.
+1. Each invocation runs the admitted sequence at most once. A failed checked write
+   stops before any later command. A nonzero update exit, timeout or unavailable
+   command fails that invocation. A successful invocation requires an update exit0.
+   The helper, mirror list and existing tests remain byte-identical.
+2. In `.github/workflows/ci.yml`, only **Prepare authenticated Ubuntu package
+   acquisition** in `core`, `qt` and `native` may invoke the helper up to three
+   times total per step. Start a fresh `python3 tools/prepare_ubuntu_apt.py` only
+   after the previous invocation returns nonzero. Stop immediately on zero.
+   If all three fail, fail the step. No other step or job is repeated by this
+   change. This exact-step exception to the earlier acquisition retry policy
+   uses the helper's exit status. It neither classifies failures from text nor
+   bypasses any denial. A persistent denial exhausts the step.
+3. Print a fixed attempt number out of three and its success or failure in the
+   ordinary step log. Preserve the helper's existing output on every attempt.
+   Establish safe re-entry after failed writes and timeout before enabling
+   repetition. A returned helper process alone does not establish that its
+   privileged descendants have exited. Do not bypass APT locking or signing,
+   or launch a separate recovery command.
+
+The [original hosted timeout](https://github.com/Kernol12/subathon-bot-ai/actions/runs/44403237041/job/135151541105)
+motivates this revision. The later successful job rerun used a different runner.
+Shell checks with synthetic statuses cover the step's control flow. Observing
+in-step recovery requires a hosted log showing a failed invocation and a later
+successful invocation in the same step.
 Existing `Acquire::Retries "1"` remains byte-identical: its internal file/request
 retries and mirror fallback are not a promise of one network attempt. No broader
 network-attempt guarantee is made.
 
 Requested child waits remain seven diagnostics at10s, two writes at10s and one update
-at300s:390s total, excluding launch/cleanup/Python/logging overhead, within the unchanged
-15/80-minute job limits. This is not a tight wall-clock or descendant guarantee.
+at300s:390s per invocation and up to 1170s across three, excluding
+launch/cleanup/Python/logging overhead. The existing 20/30/80-minute job limits
+for Core/Qt/Native still apply and may interrupt a step or leave less time for
+later steps. The child wait sum is not a wall-clock or descendant guarantee.
 The existing full source read and legacy diagnostic captures remain in memory; only
 the NEW JSON records have the4096-byte output bound. Do not claim capture-memory,
 process-tree, host-attestation or general credential-redaction guarantees. No new
@@ -522,7 +547,8 @@ reviews, complete the authorized workflow program and STOP; product/API work sta
   network attempts or authorize a new helper-level retry.
 - [Ubuntu noble apt-get](https://manpages.ubuntu.com/manpages/noble/man8/apt-get.8.html)
   documents exit0/100. v1 preserves inherited APT output rather than parsing a claimed
-  stable machine-readable error protocol. No new process retry is supported.
+  stable machine-readable error protocol. The helper still performs at most one
+  update per invocation.
 - [GitHub rules REST API](https://docs.github.com/en/rest/repos/rules)
   defines required_status_checks context/integration_id and strict policy, full ruleset
   inspection/update and Administration(write). It warns bypass_actors can be hidden
