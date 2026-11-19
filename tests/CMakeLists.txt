@@ -236,7 +236,7 @@ if(SUBATHON_BUILD_RULE_DEFINITION_TESTS)
     target_link_libraries(core_rule_definition_acceptance PRIVATE subathon_rule_definition GTest::gtest_main)
     subathon_target_options(core_rule_definition_acceptance)
     subathon_discover_gtests(core_rule_definition_acceptance
-        LABELS "rule-definition;acceptance;core;intentional-red" TIMEOUT 30)
+        LABELS "rule-definition;acceptance;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_RATE_OVERRIDE_TESTS)
