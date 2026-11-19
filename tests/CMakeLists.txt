@@ -189,6 +189,16 @@ if(SUBATHON_BUILD_APPLICATION_PLAN_TESTS)
         LABELS "application-plan;acceptance;core")
 endif()
 
+if(SUBATHON_BUILD_MODIFIER_ACTIVATION_TESTS)
+    add_executable(core_modifier_activation_acceptance acceptance/modifier_activation_tests.cpp)
+    target_link_libraries(core_modifier_activation_acceptance PRIVATE
+        subathon_modifier_activation subathon_application_plan GTest::gtest_main)
+    subathon_target_options(core_modifier_activation_acceptance)
+    subathon_discover_gtests(core_modifier_activation_acceptance
+        NO_PRETTY_VALUES PREFIX "modifier-activation." TIMEOUT 30
+        LABELS "modifier-activation;acceptance;core;intentional-red")
+endif()
+
 if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
     find_package(Boost 1.83 CONFIG REQUIRED)
 
