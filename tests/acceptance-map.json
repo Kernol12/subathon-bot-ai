@@ -474,7 +474,9 @@
       "id": "NUM-03",
       "status": "partial",
       "tests": [
-        "tests/acceptance/time_debt_tests.cpp"
+        "tests/acceptance/time_debt_tests.cpp",
+        "tests/acceptance/refund_entitlement_tests.cpp",
+        "tests/qt/sqlite_financial_refunds_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-005-review.md",
@@ -483,9 +485,12 @@
         "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-005-implementation.md",
         "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-005-code-review.md",
         "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-005-ci.md",
-        "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-005-handoff.md"
+        "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-005-handoff.md",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7011613636",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7016873770",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7018150456"
       ],
-      "scope": "32 unchanged independently reviewed cases pass pure signed refund-deficit/debt-first proposals and existing lifecycle composition, with separate code/config review and actual automatic Ubuntu acceptance. Original32stub-red retained. No proportional entitlement/reversal accounting, actual ledger allocation, authoritative effects/audit/permissions/persistence or full release proof."
+      "scope": "The 32 reviewed signed refund-deficit and debt-first cases retain their original red and passing evidence. ACCT-006 adds 15 passing exact cumulative entitlement cases and 37 passing v15 SQLite financial-writer invocations with a modeled effect port. The distinct core red and v13 writer red remain attributed to their admitted runners. Live timer, deficit and progression composition remains with #201. Provider verification and release validation remain downstream."
     },
     {
       "id": "TIMER-07",

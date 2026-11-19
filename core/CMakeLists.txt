@@ -15,6 +15,10 @@ if(TARGET Boost::headers)
     target_link_libraries(subathon_exact_numeric PUBLIC Boost::headers)
     subathon_target_options(subathon_exact_numeric)
 
+    add_library(subathon_refund_entitlement STATIC EXCLUDE_FROM_ALL src/refund_entitlement.cpp)
+    target_link_libraries(subathon_refund_entitlement PUBLIC subathon_exact_numeric)
+    subathon_target_options(subathon_refund_entitlement)
+
     add_library(subathon_modifier_activation STATIC EXCLUDE_FROM_ALL src/modifier_activation.cpp)
     target_include_directories(subathon_modifier_activation PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_modifier_activation PUBLIC subathon_exact_numeric)

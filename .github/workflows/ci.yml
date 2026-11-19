@@ -212,6 +212,7 @@ jobs:
               "rate-snapshot": ({"acceptance", "core"}, None),
               "rate-override": ({"acceptance", "core"}, 30),
               "modifier-activation": ({"acceptance", "core"}, 30),
+              "refund-entitlement": ({"acceptance", "core"}, 30),
           }
           discovery = json.loads(subprocess.check_output(
               ["ctest", "--preset", "core-acceptance-debug", "--show-only=json-v1"], text=True))
@@ -254,6 +255,8 @@ jobs:
               raise SystemExit(f"Expected 24 rate override cases, got {found['rate-override']}")
           if found["modifier-activation"] != 48:
               raise SystemExit(f"Expected 48 modifier activation cases, got {found['modifier-activation']}")
+          if found["refund-entitlement"] != 15:
+              raise SystemExit(f"Expected 15 refund entitlement cases, got {found['refund-entitlement']}")
           print(json.dumps({"time-credit": credit, **found}, indent=2))
           PYTHON
       - name: Run every pure core acceptance case and the infrastructure checks
@@ -367,7 +370,7 @@ jobs:
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;credential-record;sqlite-credentials"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials"
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
@@ -415,6 +418,8 @@ jobs:
         run: ctest --preset sqlite-reference-capture-debug -L '^milestone-group-decisions$' --no-tests=error
       - name: Run durable modifier activation acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-modifier-activations$' --no-tests=error
+      - name: Run financial refund writer acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-financial-refunds$' --no-tests=error
       - name: Run credential record acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^credential-record$' --no-tests=error
       - name: Run credential storage and readiness acceptance

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "sqlite_application_bundle_access.hpp"
 #include "sqlite_application_hold_values.hpp"
+#include "sqlite_financial_hold_access.hpp"
 #include "sqlite_selected_metadata.hpp"
 #include <subathon/server/sqlite_application_holds.hpp>
 
@@ -1599,9 +1600,15 @@ class HoldAccess : public Access {
         source_references(d.cause, true);
         known_state(d.request.observation.persisted_state_token, true);
     }
+    bool reserved_financial_hold(const std::string &hold_ref) {
+        return financial_sql::selected(session_) &&
+               one("subathon_financial_refunds", {"hold_ref"}, "hold_ref=?", {bytes(hold_ref)});
+    }
     ApplicationHoldMutationResult record(const ApplicationHoldDetection &d) {
         if (auto r = replay(d.request.mutation_ref, HM::detection, d))
             return *r;
+        if (reserved_financial_hold(d.cause.hold_ref))
+            return normal(HD::hold_conflict);
         auto old = metadata(d.cause.hold_ref);
         if (old) {
             auto selected = find(d.cause.hold_ref);
@@ -1684,9 +1691,20 @@ class HoldAccess : public Access {
                 v.append(QVariant{});
         append(out, "subathon_hold_mutations", hold_mutations_columns, std::move(v));
     }
-    ApplicationHoldMutationResult resolve(const ApplicationHoldResolutionBatch &b) {
+    ApplicationHoldMutationResult resolve(const ApplicationHoldResolutionBatch &b,
+                                          bool mixed_set_checked = false) {
         if (auto r = replay(b.mutation_ref, HM::resolution, b))
             return *r;
+        if (!mixed_set_checked && b.application &&
+            std::holds_alternative<core::ContributionId>(b.subject.id) &&
+            financial_sql::selected(session_) &&
+            !execute({"SELECT hold_ref FROM main.subathon_financial_refunds AS f "
+                      "WHERE subject=? AND hold_ref IS NOT NULL AND NOT EXISTS "
+                      "(SELECT 1 FROM main.subathon_financial_resolutions AS r "
+                      "WHERE r.hold_ref=f.hold_ref) LIMIT 1",
+                      {encode_plan_revision_uint64(subject_id(b.subject))}})
+                 .empty())
+            return normal(HD::stale_active_set);
         auto active = active_locators(b.subject);
         if (active.size() != b.expected_active.size() ||
             !std::equal(active.begin(), active.end(), b.expected_active.begin(),
@@ -1736,6 +1754,8 @@ class HoldAccess : public Access {
         for (const auto &e : b.entries)
             if (e.replacement) {
                 const auto &d = *e.replacement;
+                if (reserved_financial_hold(d.cause.hold_ref))
+                    return normal(HD::replacement_conflict);
                 if (auto old = mutation_meta(d.request.mutation_ref)) {
                     if (old->kind == HM::detection)
                         (void)full_detection(old->ref);
@@ -2084,6 +2104,18 @@ SqliteApplicationHoldStore::stage_resolution(const ApplicationHoldResolutionBatc
         auto v = a.resolve(b);
         a.returned(v);
         return v;
+    });
+}
+ApplicationHoldMutationResult
+stage_checked_ordinary_resolution(const SqliteWorkSession &session,
+                                  const ApplicationHoldResolutionBatch &batch) {
+    const SqliteHoldLimits limits;
+    hold_detail::validate_resolution(batch, limits);
+    HoldAccess access(session, limits);
+    return access.guarded([&] {
+        auto result = access.resolve(batch, true);
+        access.returned(result);
+        return result;
     });
 }
 } // namespace subathon::server
