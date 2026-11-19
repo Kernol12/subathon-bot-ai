@@ -1,6 +1,10 @@
 # Ordinary milestone group storage, revision 1
 
-MILESTONE-009 (#709), specification v0.45 §8, MILE-01 and MILE-08.
+Task ID: MILESTONE-009
+Work type: implementation
+Issue: https://github.com/Kernol12/subathon-bot-ai/issues/709
+
+Specification v0.45 §8, MILE-01 and MILE-08.
 The owner approved this boundary on [PR #716](https://github.com/Kernol12/subathon-bot-ai/pull/716#issuecomment-7000427007).
 The C++ entry points are in `sqlite_milestone_groups.hpp` and `milestone_timeline.hpp`.
 
