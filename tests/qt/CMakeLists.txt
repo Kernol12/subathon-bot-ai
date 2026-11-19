@@ -96,7 +96,7 @@ if(SUBATHON_BUILD_SQLITE_MODIFIER_ACTIVATIONS_TESTS)
     subathon_add_qt_suite(server_sqlite_modifier_activations_acceptance
         NAME sqlite-modifier-activations SOURCES sqlite_modifier_activations_tests.cpp
         LIBRARIES subathon_sqlite_modifier_activations subathon_original_application_service
-        LABELS "sqlite-modifier-activations;acceptance;qt;server;intentional-red" TIMEOUT 180)
+        LABELS "sqlite-modifier-activations;acceptance;qt;server" TIMEOUT 180)
 endif()
 
 if(SUBATHON_BUILD_SQLITE_DELIVERY_JOBS_TESTS)
