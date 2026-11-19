@@ -11,7 +11,7 @@ set_tests_properties(scaffold.python_tools PROPERTIES WORKING_DIRECTORY "${PROJE
 add_test(NAME scaffold.project_consistency
     COMMAND "${Python3_EXECUTABLE}" "${PROJECT_SOURCE_DIR}/tools/check_project.py")
 set_tests_properties(scaffold.project_consistency PROPERTIES LABELS "scaffold")
-if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS OR SUBATHON_BUILD_TIMER_EDITORIAL_TESTS OR SUBATHON_BUILD_PASSWORD_HASHING_TESTS OR SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_PAUSE_POLICY_TESTS OR SUBATHON_BUILD_RECURRING_SCHEDULE_TESTS OR SUBATHON_BUILD_TIME_CREDIT_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
+if(SUBATHON_BUILD_CREDENTIAL_RECORD_TESTS OR SUBATHON_BUILD_SESSION_RESOLUTION_TESTS OR SUBATHON_BUILD_TIMER_EDITORIAL_TESTS OR SUBATHON_BUILD_PASSWORD_HASHING_TESTS OR SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_PAUSE_POLICY_TESTS OR SUBATHON_BUILD_RECURRING_SCHEDULE_TESTS OR SUBATHON_BUILD_TIME_CREDIT_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
     include("${PROJECT_SOURCE_DIR}/cmake/GoogleTestDependency.cmake")
     include(GoogleTest)
 endif()
@@ -43,6 +43,19 @@ if(SUBATHON_BUILD_SESSION_RESOLUTION_TESTS)
     endforeach()
     subathon_discover_gtests(server_session_resolution_acceptance
         LABELS "session-resolution;acceptance;server" TIMEOUT 10)
+endif()
+
+if(SUBATHON_BUILD_CREDENTIAL_RECORD_TESTS)
+    add_executable(server_credential_record_acceptance
+        acceptance/credential_record_tests.cpp support/credential_native_controls.cpp)
+    target_link_libraries(server_credential_record_acceptance PRIVATE
+        subathon_credential_record Sodium::Sodium GTest::gtest_main)
+    subathon_target_options(server_credential_record_acceptance)
+    foreach(symbol IN ITEMS sodium_init randombytes_buf sodium_malloc sodium_mlock sodium_free)
+        target_link_options(server_credential_record_acceptance PRIVATE "LINKER:--wrap=${symbol}")
+    endforeach()
+    subathon_discover_gtests(server_credential_record_acceptance
+        LABELS "credential-record;acceptance;server" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_TIMER_EDITORIAL_TESTS)
@@ -216,6 +229,22 @@ if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
     subathon_target_options(core_rate_snapshot_acceptance)
     subathon_discover_gtests(core_rate_snapshot_acceptance
         LABELS "rate-snapshot;acceptance;core" TIMEOUT 30)
+endif()
+
+if(SUBATHON_BUILD_VALUATION_SNAPSHOT_CODEC_TESTS)
+    add_executable(core_valuation_snapshot_codec_acceptance acceptance/valuation_snapshot_codec_tests.cpp)
+    target_link_libraries(core_valuation_snapshot_codec_acceptance PRIVATE subathon_valuation_snapshot_codec GTest::gtest_main)
+    subathon_target_options(core_valuation_snapshot_codec_acceptance)
+    subathon_discover_gtests(core_valuation_snapshot_codec_acceptance
+        LABELS "valuation-snapshot-codec;acceptance;core" TIMEOUT 30)
+endif()
+
+if(SUBATHON_BUILD_RULE_DEFINITION_TESTS)
+    add_executable(core_rule_definition_acceptance acceptance/rule_definition_tests.cpp)
+    target_link_libraries(core_rule_definition_acceptance PRIVATE subathon_rule_definition GTest::gtest_main)
+    subathon_target_options(core_rule_definition_acceptance)
+    subathon_discover_gtests(core_rule_definition_acceptance
+        LABELS "rule-definition;acceptance;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_RATE_OVERRIDE_TESTS)

@@ -1,0 +1,272 @@
+{
+  "version": 1,
+  "task_id": "RATES-011",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 740
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/RATES-011.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/issues/740",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/741",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/740#issuecomment-7021828607",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7022294432",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7022367136",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7022494662",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7023775003",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7023894575",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7023984986",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7024078239",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7024103944",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7024374549",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7024409129",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7024537624",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7024640896",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7024735313",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7025101782",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7025230357",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7025277190",
+    "https://github.com/Kernol12/subathon-bot-ai/actions/runs/44632107341"
+  ],
+  "limitations": [
+    "Shared transport-free RSV1 codec only. Frozen byte grammar, canonical stored order, exact snapshots and independent raw/parsed and framed limits. #553 owns valuation integration and #727 owns durable rate revisions.",
+    "Independently reviewed red reached 22 explicit unimplemented methods and 144 sentinel stops, with three codec controls plus 33 exact-numeric and 53 rate-snapshot passes. The admitted product passed all 25 codec and 86 compatibility cases with zero skips.",
+    "Allocation-free borrowed scanning, prepared failure translation, pre-growth arithmetic, and the simultaneous scratch and index bounds are source-reviewed properties. Runtime observations cover the frozen synthetic bytes and exact numerical cases without allocator fault injection.",
+    "The protected #204 integration preserves both approved source and test sets and combines the shared registration. Four admitted runners passed 25 codec, 26 rule, 33 exact-numeric and 53 rate-snapshot methods. Joint registered CTest passed all 51 owning cases at 30 seconds. FX-06 and NUM-04 remain partial. Final proof-head CI and protected merge are separate."
+  ],
+  "workflow": {
+    "required_stages": [
+      "contract",
+      "tests",
+      "implementation"
+    ],
+    "stages": {
+      "contract": {
+        "authors": [
+          "codex:t3-885936ce",
+          "codex:coordinator"
+        ],
+        "revision": "b4b05d57c0adcf7a5372c19b8cdf69c79adbd8f8",
+        "paths": [
+          "core/include/subathon/core/valuation_snapshot_codec.hpp",
+          "docs/tasks/RATES-011.md"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:c76e85e3-5130-4c8a-8702-8c19d6c88dff",
+            "revision": "b4b05d57c0adcf7a5372c19b8cdf69c79adbd8f8",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7022294432",
+            "findings": [
+              "R11-F1",
+              "R11-F2",
+              "R11-F3",
+              "R11-F4"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:01a1f5a4-d106-7742-9c63-9dbe10766ae6",
+            "revision": "b4b05d57c0adcf7a5372c19b8cdf69c79adbd8f8",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7022367136",
+            "findings": [
+              "R11-F1",
+              "R11-F2",
+              "R11-F3",
+              "R11-F4"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:aad26d53-111f-4176-b97e-c010f738513a",
+            "revision": "b4b05d57c0adcf7a5372c19b8cdf69c79adbd8f8",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7022494662",
+            "findings": [
+              "R11-C1",
+              "R11-C2"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "tests": {
+        "authors": [
+          "codex:t3-56433a16",
+          "codex:coordinator"
+        ],
+        "revision": "ce22ce6f9f91fa3058194d1efab2214a46f4945c",
+        "paths": [
+          "tests/acceptance/valuation_snapshot_codec_tests.cpp",
+          "tests/fixtures/valuation_snapshot_codec_vectors.hpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:0d7997e6-0ac3-4e2a-97a4-074afb0a3314",
+            "revision": "ce22ce6f9f91fa3058194d1efab2214a46f4945c",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7023894575",
+            "findings": [
+              "R11-T1",
+              "R11-T2",
+              "R11-T3",
+              "R11-T4"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:01a1f5e9-3e1a-72d0-bc62-65ca176d4a9e",
+            "revision": "ce22ce6f9f91fa3058194d1efab2214a46f4945c",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7023984986",
+            "findings": [
+              "R11-T5"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:3e0e617e-6de2-4d0b-b80d-ce90f5f62abf",
+            "revision": "ce22ce6f9f91fa3058194d1efab2214a46f4945c",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7024078239",
+            "findings": [
+              "R11-T1",
+              "R11-T2",
+              "R11-T3",
+              "R11-T4",
+              "R11-T5"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "implementation": {
+        "authors": [
+          "codex:t3-e721d72c",
+          "codex:coordinator"
+        ],
+        "revision": "d6adca9f436b9b86108323ec60986b796ad029d0",
+        "paths": [
+          ".github/workflows/ci.yml",
+          "CMakePresets.json",
+          "cmake/AcceptanceSuites.cmake",
+          "core/CMakeLists.txt",
+          "core/src/rate_snapshot.cpp",
+          "core/src/rate_snapshot_storage.hpp",
+          "core/src/valuation_snapshot_codec.cpp",
+          "docs/TEST_STRATEGY.md",
+          "tests/CMakeLists.txt",
+          "tests/acceptance-map.json"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:dc4e7dc9-b8cd-4301-83a5-c1dca350e8b2",
+            "revision": "69ec0c48d15ae492361c5b5707c3f1539af65558",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7024537624",
+            "findings": [
+              "R11-I1",
+              "R11-I2",
+              "R11-I3",
+              "R11-I4"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:01a1f606-861a-79b0-a729-472beaadebaf",
+            "revision": "69ec0c48d15ae492361c5b5707c3f1539af65558",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7024640896",
+            "findings": [
+              "R11-I1",
+              "R11-I2",
+              "R11-I3",
+              "R11-I4"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:859e4364-269a-46de-837b-b4c33c49171b",
+            "revision": "69ec0c48d15ae492361c5b5707c3f1539af65558",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7024735313",
+            "findings": [
+              "R11-I1",
+              "R11-I2",
+              "R11-I3",
+              "R11-I4"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:01a1f622-6c58-70f1-ae74-7fb190e5cf8d",
+            "revision": "d6adca9f436b9b86108323ec60986b796ad029d0",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7025230357",
+            "findings": [],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:df2fde80-35b7-47e9-9319-4262654d6450",
+            "revision": "d6adca9f436b9b86108323ec60986b796ad029d0",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7025277190",
+            "findings": [
+              "R11-I1",
+              "R11-I2",
+              "R11-I3",
+              "R11-I4",
+              "R11-C1"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  },
+  "publication": {
+    "state": "open",
+    "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/741",
+    "head": "d6adca9f436b9b86108323ec60986b796ad029d0",
+    "merge_commit": null,
+    "merged_at": null,
+    "observed_at": "2026-11-19T23:36:12Z"
+  },
+  "review": null,
+  "verification": {}
+}
