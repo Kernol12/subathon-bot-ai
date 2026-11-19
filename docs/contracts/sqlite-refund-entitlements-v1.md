@@ -2,8 +2,7 @@
 
 Tier A, ACCT-006 [#199](https://github.com/Kernol12/subathon-bot-ai/issues/199),
 [draft PR #726](https://github.com/Kernol12/subathon-bot-ai/pull/726). Fix rounds
-0/2. Specification v0.45 §§3, 4, 8 and NUM-03. Draft for review. Items marked
-open need a disposition before their behavior can be frozen.
+1/2. Specification v0.45 §§3, 4, 8 and NUM-03. Draft for independent review.
 
 The base is `06dbc9806cb89468f6e7470a80bfb4a7a29d13f3` /
 `51a80a76d1759fef9bd7cab7842b4da84991b07e`. The registered A01–A15 core
@@ -85,15 +84,14 @@ Each incoming amount is positive and in the verified original currency. Original
 amount is positive, prior accepted total is nonnegative and the sum cannot exceed
 original. An over-original refund is refused in full. Exact equality is full.
 An accepted refund with zero rounded request still consumes its identity, exact
-money and a position. Never infer payment-wide
-money from requested or actual effects, fractions in a legacy effect link, CID
-alone or the number of receipts.
+money and a position. Never infer payment totals from effects, legacy link
+fractions, CID alone or receipt counts.
 
 Let F be cumulative accepted money after this refund divided by original money.
 Every selected time, score and count link in this refund uses that same F.
-For each eligible actual credit X, keep C = X × F, rounded cumulative
-magnitude R and residual C − R.
-Time and score use half-even at ms and micro-point precision. A count holds R
+For each eligible actual credit X, retain C = X × F, rounded cumulative
+magnitude R and residual C − R. Time and score use half-even at ms and
+micro-point precision. A count holds R
 at zero until exactly full. The signed increment is previous R − new R. At full
 R equals X. Time uses one X = actual Main added + actual debt repaid. Repayment
 is the magnitude of the original negative debt delta. Split R at original Main
@@ -222,13 +220,32 @@ attempt only when rollback or absence of the entire unit is established.
 Partial/conflicting closure or unavailable evidence keeps the outcome unresolved.
 Never blindly replay or treat a staged value as proof.
 
-## Open owner decisions and recommendations
+## Deferred refunds, Finished continuation and catalog order
 
-| Decision | Recommended rule and alternative |
-| --- | --- |
-| 34. Later refund while an earlier timer request is held | 34A retains later intake and refuses financial acceptance as a prerequisite until the hold resolves. Explicit authorized resubmission revalidates the input. Accepted money and requested progress stay fixed and the receipt stays available for resubmission. 34B accepts later proven money and consumes the next allocations with ordered timer effects, permitting later score sooner. Numeric overflow without accepted progress is outside 34. |
-| 35. Held continuation observes Finished for any reason | 35A closes the hold with audited `finished` and zero timer effects, recording a newly observed finish with the closure. 35B retains it for a later authorized disposition. Both preserve prior score and avoid implicit reopening. This covers Main expiry, grace or confirmation completion, hard end and authorized deadline edits. 32B already covers first application in Finished. 34A with 35B can delay later score reversals until authorized disposition. |
-| 36. Additive catalog sequence | 36A gives #215's reviewed v14 implementation priority before #199's durable writer integration. 36B keeps the queue and leaves #199's integration pending catalog assignment. Both preserve #719's reviewed v14 boundary. |
+**34A.** An open financial timer hold defers later verified refunds for the same
+payment. Persist the deferred exact receipt identities and their original
+arrival order. Until closure, leave accepted money, entitlement progress and
+effects unchanged for those receipts. Numeric overflow without acceptance
+retains its separate review disposition.
+
+After acknowledged closure, [#201 owns the live drain](https://github.com/Kernol12/subathon-bot-ai/issues/201#issuecomment-7012411967).
+It automatically submits deferred receipts in their original arrival order
+through #199's ordinary financial acceptance entry point. Revalidate current
+authority, verified identity and payment head on each turn. A new hold defers
+the remaining suffix. Recover an uncertain result by committed identity before
+continuing. Preserve the stable receipt identity, subject and exact order across
+reopen. No manual resubmission is required.
+
+**35A.** If an authorized continuation observes Finished for any reason, close
+the exact hold with an audited `finished` disposition and zero timer adjustment.
+Where the same observation first detects finish, record the transition with
+closure. This applies after Main, grace, confirmation, hard end or an authorized
+deadline edit. Preserve prior score, money and requested progress. This closure
+also enables the automatic drain in 34A. A retry returns the immutable closure.
+
+**36A.** #215 implements the reviewed v14 boundary first. Assign #199's
+additive catalog version against protected main after #215 merges. The
+independent v13 writer-only red precedes durable integration.
 
 Unknown older payment history stays unavailable pending verified reconciliation.
 Only pristine checked history starts at zero. Conflicting economic identities
@@ -237,12 +254,6 @@ alias selection belongs to its source authority. The financial journal exposes
 accepted money and fraction separately from existing effect and review summaries.
 In #201's live Stop/Carry composition the Main deficit rule applies only to the
 Main leg. Restore original repayment separately in the same checked unit.
-
-Storage layout, canonical codec reuse, bounded paging and one-unit capture are
-implementation choices within these semantics. Any broader lifecycle or post-finish
-configuration mapping belongs to its owning policy work. Active main catalog is
-v13. #719 froze the v14 design and #215 owns its implementation. This draft
-makes no catalog assignment or sequencing decision.
 
 ## Independent writer/service examples
 
@@ -268,3 +279,17 @@ separate evidence from A01–A15.
 | W05 — Active 31B | Original 20, Main credit 300000, score credit 40000000. Live Main 50000/debt 0/score 40000000. Refund 5 with RequireReview: score 30000000 once, Main/debt unchanged, financial hold v1 on the original CID for all −75000, accepted money 5, requested magnitudes 75000/10000000. Existing unreleased achieved target 35000000 under milestone Review retains achievement, deficit 5000000 and one refund review. This decision does not block timer resolution. After authorized credit raises Main to 100000, resolve v1 to Main 25000 and debt 0. In separate controls from Main 50000, plain continuation refuses and keeps v1. Authorized Carry closes v1 with Main 0 and 25000 new deficit debt. Authorized Stop closes v1 with Main 0, debt 0 and 25000 unapplied Main. Score, accepted money, requested allocations and milestone observations stay fixed across successful resolutions. Denied, stale or competing resolutions do nothing. Exact retry reads closure. A separate application hold on the same CID blocks application-linked resolution, preserving both holds. With W07's second request at Main 0, RequireReview holds both −1 and +1 while scoring once. |
 | W06 — Finished and Ready authority | Same 5-of-20 mixed refund with performed actions. In already Finished, actual timer/debt changes zero, requested Main −75000 explicitly non-applied as `finished`, score 30000000, no timer hold/debt/reopen. Repeat with paused Active at exact hard end and verify committed HardEndReached then Finished and identical refund disposition. Ready gives prerequisite refusal with raw retention only and no started reduction, money or effect. |
 | W07 — 33A restoration | Original 8 and actual time addition (Main +3, debt −3). Independent credit leaves live Main 10/debt 0. Refunds 2, 4, 2 yield exact totals 1.5, 4.5, 6, rounded 2, 4, 6 and residuals −0.5, +0.5, 0. Cumulative splits (2,0), (3,1), (3,3) give requests (−2,0), (−1,+1), (0,+2) and live (8,0), (7,1), (7,3). New deficit debt remains zero. The third, restoration-only request applies under RequireReview. An independent second-request fixture at Main 1/debt 0 with RequireReview ends at (0,1) without a hold. Tie control (3,2) at half gives 2 and (−2,0). Full clearing control (6,4), prior (5,0), gives (−1,+4). Read linked histories, including original negative debt delta and distinct actual restoration. |
+
+W05 deferred control: following the first accepted 5, retain later 2 then 3
+on that payment with no financial changes until hold closure. Reopen and read
+their exact order. With Main 200000 before resolution, closing the 75000 hold
+leaves Main 125000. The #201 drain uses the two receipts in order. Cumulative
+money goes to 7 and 10, Main to 95000 and 50000, and score to 26000000 and
+20000000. #199 tests the retained order and acceptance/closure boundary with
+an explicit test driver. #201 tests automatic dispatch from the live trigger.
+
+W06 continuation control: finish a timer with W05's hold active, once through
+hard end and once through ordinary Main expiry. Authorized continuation closes
+v1 with `finished` and zero timer effect, leaving score 30000000 and accepted
+money 5. Retry preserves the same closure. The deferred receipts remain
+readable in arrival order for the #201 drain.
