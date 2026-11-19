@@ -178,7 +178,7 @@ if(SUBATHON_BUILD_RECURRING_SCHEDULE_TESTS)
     target_link_libraries(core_recurring_schedule_acceptance PRIVATE subathon_recurring_schedule GTest::gtest_main)
     subathon_target_options(core_recurring_schedule_acceptance)
     subathon_discover_gtests(core_recurring_schedule_acceptance
-        LABELS "recurring-schedule;acceptance;core;intentional-red")
+        LABELS "recurring-schedule;acceptance;core")
 endif()
 
 if(SUBATHON_BUILD_APPLICATION_PLAN_TESTS)
