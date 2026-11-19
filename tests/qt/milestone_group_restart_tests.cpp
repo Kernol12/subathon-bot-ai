@@ -204,6 +204,11 @@ void dispatch(File &file, DeliveryJobKey key, std::int64_t revision,
 class ObserveTimeline final : public MilestoneGroupRelease {
   public:
     bool review_held(const subathon::core::MilestoneCompletion &) const override { return false; }
+    std::optional<MilestoneHeadDisposition>
+    occurrence_disposition(const MilestoneOccurrenceKey &) const override {
+        // These recovered v12 fixtures contain only ordinary pending groups.
+        return MilestoneHeadDisposition::ready;
+    }
     void release(CommittedMilestoneGroup group) override { starts.push_back(std::move(group)); }
     std::vector<CommittedMilestoneGroup> starts;
 };
