@@ -16,6 +16,18 @@ constexpr std::int64_t utc_ms(year_month_day date, milliseconds time = 0ms) {
     return duration_cast<milliseconds>(sys_days{date}.time_since_epoch()).count() + time.count();
 }
 
+constexpr ScheduleLocalTime local_ms(year_month_day date, milliseconds time) {
+    return local_days{date} + time;
+}
+
+std::vector<std::int64_t> start_times(const std::vector<ScheduleOccurrence> &occurrences) {
+    std::vector<std::int64_t> starts;
+    for (const auto &occurrence : occurrences) {
+        starts.push_back(occurrence.start_utc_ms);
+    }
+    return starts;
+}
+
 constexpr auto year_start = utc_ms(2024y / January / 1);
 constexpr auto year_end = utc_ms(2025y / January / 1);
 constexpr auto spring_day = 2024y / March / 31;
@@ -34,7 +46,14 @@ TEST(RecurringScheduleAcceptance, DefaultGapShiftsByAnHourWithoutChangingNextDay
                                                       {utc_ms(spring_day), utc_ms(next_day, 3h)});
 
     // 02:20 shifts to 03:20 at +02:00. The following day's 02:20 is ordinary.
-    const std::vector expected{utc_ms(spring_day, 1h + 20min), utc_ms(next_day, 20min)};
+    const std::vector<ScheduleOccurrence> expected{
+        {{local_ms(spring_day, 2h + 20min), ScheduleFoldRun::First},
+         utc_ms(spring_day, 1h + 20min),
+         local_ms(spring_day, 3h + 20min)},
+        {{local_ms(next_day, 2h + 20min), ScheduleFoldRun::First},
+         utc_ms(next_day, 20min),
+         local_ms(next_day, 2h + 20min)},
+    };
     EXPECT_EQ(preview, expected);
 }
 
@@ -46,7 +65,12 @@ TEST(RecurringScheduleAcceptance, GapShiftUsesActualOffsetDelta) {
         schedule, half_hour_zone, {utc_ms(spring_day, 2h), utc_ms(spring_day, 4h)});
 
     // 02:10:00.125 becomes 02:40:00.125 at +00:30.
-    EXPECT_EQ(preview, std::vector{utc_ms(spring_day, 2h + 10min + 125ms)});
+    const std::vector<ScheduleOccurrence> expected{
+        {{local_ms(spring_day, 2h + 10min + 125ms), ScheduleFoldRun::First},
+         utc_ms(spring_day, 2h + 10min + 125ms),
+         local_ms(spring_day, 2h + 40min + 125ms)},
+    };
+    EXPECT_EQ(preview, expected);
 }
 
 TEST(RecurringScheduleAcceptance, SkipOmitsOnlyTheMissingLocalOccurrence) {
@@ -58,7 +82,7 @@ TEST(RecurringScheduleAcceptance, SkipOmitsOnlyTheMissingLocalOccurrence) {
                                                       {utc_ms(day_before), utc_ms(day_after, 3h)});
 
     const std::vector expected{utc_ms(day_before, 1h + 20min), utc_ms(day_after, 20min)};
-    EXPECT_EQ(preview, expected);
+    EXPECT_EQ(start_times(preview), expected);
 }
 
 TEST(RecurringScheduleAcceptance, DefaultFoldRunsOnceAcrossSeparatePreviewRanges) {
@@ -68,16 +92,15 @@ TEST(RecurringScheduleAcceptance, DefaultFoldRunsOnceAcrossSeparatePreviewRanges
     const auto end = utc_ms(autumn_day, 3h);
     const auto whole_day = preview_schedule_occurrences(schedule, seasonal_zone, {start, end});
 
-    // 02:20 is 00:20Z at +02:00 or 01:20Z at +01:00. TIMER-07 requires one.
-    ASSERT_EQ(whole_day.size(), 1U);
-    const auto early = utc_ms(autumn_day, 20min);
-    const auto late = utc_ms(autumn_day, 1h + 20min);
-    EXPECT_TRUE(whole_day.front() == early || whole_day.front() == late);
+    // 02:20 is 00:20Z at +02:00 or 01:20Z at +01:00. RunOnce selects 00:20Z.
+    const auto nominal = local_ms(autumn_day, 2h + 20min);
+    const std::vector<ScheduleOccurrence> expected{
+        {{nominal, ScheduleFoldRun::First}, utc_ms(autumn_day, 20min), nominal},
+    };
+    EXPECT_EQ(whole_day, expected);
 
-    auto first = preview_schedule_occurrences(schedule, seasonal_zone, {start, split});
-    const auto second = preview_schedule_occurrences(schedule, seasonal_zone, {split, end});
-    first.insert(first.end(), second.begin(), second.end());
-    EXPECT_EQ(first, whole_day);
+    EXPECT_EQ(preview_schedule_occurrences(schedule, seasonal_zone, {start, split}), expected);
+    EXPECT_TRUE(preview_schedule_occurrences(schedule, seasonal_zone, {split, end}).empty());
 }
 
 TEST(RecurringScheduleAcceptance, RunTwiceReturnsBothInstantsInUtcOrder) {
@@ -85,12 +108,15 @@ TEST(RecurringScheduleAcceptance, RunTwiceReturnsBothInstantsInUtcOrder) {
                                      .fold_policy = ScheduleFoldPolicy::RunTwice};
     const auto early = utc_ms(autumn_day, 20min);
     const auto late = utc_ms(autumn_day, 1h + 20min);
-    const std::vector expected{early, late};
+    const auto nominal = local_ms(autumn_day, 2h + 20min);
+    const ScheduleOccurrence first{{nominal, ScheduleFoldRun::First}, early, nominal};
+    const ScheduleOccurrence second{{nominal, ScheduleFoldRun::Second}, late, nominal};
+    const std::vector expected{first, second};
     EXPECT_EQ(preview_schedule_occurrences(schedule, seasonal_zone, {early - 1, late}), expected);
 
     // The lower bound excludes an instant that is already due; the upper bound includes it.
     EXPECT_EQ(preview_schedule_occurrences(schedule, seasonal_zone, {early, late}),
-              std::vector{late});
+              std::vector{second});
 }
 
 TEST(RecurringScheduleAcceptance, WeeklyRecurrenceUsesTheLocalWeekdayAcrossUtcMidnight) {
@@ -103,7 +129,10 @@ TEST(RecurringScheduleAcceptance, WeeklyRecurrenceUsesTheLocalWeekdayAcrossUtcMi
         mondays, east, {utc_ms(first_sunday), utc_ms(2024y / January / 16)});
 
     const std::vector expected{utc_ms(first_sunday, 22h + 15min), utc_ms(next_sunday, 22h + 15min)};
-    EXPECT_EQ(preview, expected);
+    EXPECT_EQ(start_times(preview), expected);
+    ASSERT_EQ(preview.size(), 2U);
+    EXPECT_EQ(preview[0].local_start, local_ms(2024y / January / 8, 15min));
+    EXPECT_EQ(preview[1].local_start, local_ms(2024y / January / 15, 15min));
 }
 
 TEST(RecurringScheduleAcceptance, TimezoneEditPreviewsFutureInstantsWithoutReplayingPastUtc) {
@@ -114,13 +143,87 @@ TEST(RecurringScheduleAcceptance, TimezoneEditPreviewsFutureInstantsWithoutRepla
     const auto tomorrow = 2024y / January / 9;
     const SchedulePreviewRange range{utc_ms(today, 12h), utc_ms(tomorrow, 12h)};
 
-    EXPECT_EQ(preview_schedule_occurrences(schedule, old_zone, range),
+    EXPECT_EQ(start_times(preview_schedule_occurrences(schedule, old_zone, range)),
               std::vector{utc_ms(today, 13h)});
     // The edit would move today's slot to 09:00Z, before the 12:00Z observation.
-    EXPECT_EQ(preview_schedule_occurrences(schedule, proposed_zone, range),
+    EXPECT_EQ(start_times(preview_schedule_occurrences(schedule, proposed_zone, range)),
               std::vector{utc_ms(tomorrow, 9h)});
-    EXPECT_EQ(preview_schedule_occurrences(schedule, old_zone, range),
+    EXPECT_EQ(start_times(preview_schedule_occurrences(schedule, old_zone, range)),
               std::vector{utc_ms(today, 13h)});
+}
+
+TEST(RecurringScheduleAcceptance, TimezoneEditSuppressesDeliveredSlotShiftedByGap) {
+    const RecurringSchedule schedule{.local_time = 2h + 20min};
+    const ScheduleZoneRules proposed_zone{year_start, year_end, -7'200};
+    const auto next_day = 2024y / April / 1;
+    const auto nominal = local_ms(spring_day, 2h + 20min);
+    const auto observation = utc_ms(spring_day, 2h);
+    const auto old_preview =
+        preview_schedule_occurrences(schedule, seasonal_zone, {utc_ms(spring_day), observation});
+
+    // The previously delivered 03:20 local start still belongs to the nominal 02:20 slot.
+    const std::vector<ScheduleOccurrence> delivered_occurrences{
+        {{nominal, ScheduleFoldRun::First},
+         utc_ms(spring_day, 1h + 20min),
+         local_ms(spring_day, 3h + 20min)},
+    };
+    ASSERT_EQ(old_preview, delivered_occurrences);
+
+    const SchedulePreviewRange range{observation, utc_ms(next_day, 5h)};
+    const ScheduleOccurrence same_slot{
+        {nominal, ScheduleFoldRun::First}, utc_ms(spring_day, 4h + 20min), nominal};
+    const ScheduleOccurrence next_slot{{local_ms(next_day, 2h + 20min), ScheduleFoldRun::First},
+                                       utc_ms(next_day, 4h + 20min),
+                                       local_ms(next_day, 2h + 20min)};
+    const std::vector both_slots{same_slot, next_slot};
+    EXPECT_EQ(preview_schedule_occurrences(schedule, proposed_zone, range), both_slots);
+
+    const std::array delivered{old_preview.front().id};
+    EXPECT_EQ(preview_schedule_occurrences(schedule, proposed_zone, range, delivered),
+              std::vector{next_slot});
+}
+
+TEST(RecurringScheduleAcceptance, TimezoneEditSuppressesOnlyTheDeliveredFoldRunWhenTwoRemain) {
+    const RecurringSchedule schedule{.local_time = 2h + 20min,
+                                     .fold_policy = ScheduleFoldPolicy::RunTwice};
+    constexpr std::array transitions{
+        ScheduleZoneTransition{utc_ms(autumn_day, 4h), -7'200},
+    };
+    const ScheduleZoneRules proposed_zone{year_start, year_end, -3'600, transitions};
+    const SchedulePreviewRange range{utc_ms(autumn_day, 2h), utc_ms(autumn_day, 5h)};
+    const auto nominal = local_ms(autumn_day, 2h + 20min);
+    const ScheduleOccurrenceId first_id{nominal, ScheduleFoldRun::First};
+    const ScheduleOccurrenceId second_id{nominal, ScheduleFoldRun::Second};
+    const ScheduleOccurrence first{first_id, utc_ms(autumn_day, 3h + 20min), nominal};
+    const ScheduleOccurrence second{second_id, utc_ms(autumn_day, 4h + 20min), nominal};
+
+    // Delivery records from the earlier fold at 00:20Z and 01:20Z use the same keys.
+    const std::vector both_runs{first, second};
+    EXPECT_EQ(preview_schedule_occurrences(schedule, proposed_zone, range), both_runs);
+    const std::array first_delivered{first_id};
+    EXPECT_EQ(preview_schedule_occurrences(schedule, proposed_zone, range, first_delivered),
+              std::vector{second});
+    const std::array second_delivered{second_id};
+    EXPECT_EQ(preview_schedule_occurrences(schedule, proposed_zone, range, second_delivered),
+              std::vector{first});
+    const std::array both_delivered{first_id, second_id};
+    EXPECT_TRUE(
+        preview_schedule_occurrences(schedule, proposed_zone, range, both_delivered).empty());
+}
+
+TEST(RecurringScheduleAcceptance, TimezoneEditDoesNotReplayASecondFoldRunAsASingleRun) {
+    const RecurringSchedule schedule{.local_time = 2h + 20min,
+                                     .fold_policy = ScheduleFoldPolicy::RunTwice};
+    const ScheduleZoneRules proposed_zone{year_start, year_end, -7'200};
+    const SchedulePreviewRange range{utc_ms(autumn_day, 2h), utc_ms(autumn_day, 5h)};
+    const auto nominal = local_ms(autumn_day, 2h + 20min);
+    const std::vector<ScheduleOccurrence> expected{
+        {{nominal, ScheduleFoldRun::First}, utc_ms(autumn_day, 4h + 20min), nominal},
+    };
+    EXPECT_EQ(preview_schedule_occurrences(schedule, proposed_zone, range), expected);
+
+    const std::array delivered{ScheduleOccurrenceId{nominal, ScheduleFoldRun::Second}};
+    EXPECT_TRUE(preview_schedule_occurrences(schedule, proposed_zone, range, delivered).empty());
 }
 
 TEST(RecurringScheduleAcceptance, RejectsIncompleteZoneFactsAtPreviewBoundary) {
@@ -156,17 +259,119 @@ TEST(RecurringScheduleAcceptance, RejectsOversizedTransitionSnapshot) {
                  std::invalid_argument);
 }
 
+TEST(RecurringScheduleAcceptance, ElapsedPauseCrossingGapPreviewsActualLocalEnd) {
+    const RecurringSchedule schedule{.local_time = 1h + 50min};
+    const SchedulePreviewRange range{utc_ms(spring_day), utc_ms(spring_day, 1h)};
+    const auto nominal = local_ms(spring_day, 1h + 50min);
+    // 01:50 at +01:00 starts at 00:50Z. Thirty minutes later, 01:20Z is 03:20 at +02:00.
+    const std::vector<ScheduledPauseOccurrence> expected{
+        {{{nominal, ScheduleFoldRun::First}, utc_ms(spring_day, 50min), nominal},
+         utc_ms(spring_day, 1h + 20min),
+         local_ms(spring_day, 3h + 20min)},
+    };
+    EXPECT_EQ(preview_scheduled_pauses(schedule, seasonal_zone, range, 30min), expected);
+}
+
+TEST(RecurringScheduleAcceptance, PauseStartingInGapUsesResolvedStartOrSkips) {
+    const RecurringSchedule schedule{.local_time = 2h + 20min};
+    const RecurringSchedule skip{.local_time = 2h + 20min, .gap_policy = ScheduleGapPolicy::Skip};
+    const SchedulePreviewRange range{utc_ms(spring_day), utc_ms(spring_day, 3h)};
+    const auto nominal = local_ms(spring_day, 2h + 20min);
+    // 02:20 moves to 03:20 at +02:00. After 30 minutes, the clock reads 03:50.
+    const std::vector<ScheduledPauseOccurrence> expected{
+        {{{nominal, ScheduleFoldRun::First},
+          utc_ms(spring_day, 1h + 20min),
+          local_ms(spring_day, 3h + 20min)},
+         utc_ms(spring_day, 1h + 50min),
+         local_ms(spring_day, 3h + 50min)},
+    };
+    EXPECT_EQ(preview_scheduled_pauses(schedule, seasonal_zone, range, 30min), expected);
+    EXPECT_TRUE(preview_scheduled_pauses(skip, seasonal_zone, range, 30min).empty());
+}
+
+TEST(RecurringScheduleAcceptance, ElapsedPausesCrossingFoldPreviewEachActualLocalEnd) {
+    const RecurringSchedule schedule{.local_time = 2h + 40min,
+                                     .fold_policy = ScheduleFoldPolicy::RunTwice};
+    const SchedulePreviewRange range{utc_ms(autumn_day), utc_ms(autumn_day, 2h)};
+    const auto nominal = local_ms(autumn_day, 2h + 40min);
+    const ScheduleOccurrenceId first_id{nominal, ScheduleFoldRun::First};
+    // Both ends are at +01:00. The first pause ends at an earlier displayed local time.
+    const ScheduledPauseOccurrence first{{first_id, utc_ms(autumn_day, 40min), nominal},
+                                         utc_ms(autumn_day, 1h + 10min),
+                                         local_ms(autumn_day, 2h + 10min)};
+    const ScheduledPauseOccurrence second{
+        {{nominal, ScheduleFoldRun::Second}, utc_ms(autumn_day, 1h + 40min), nominal},
+        utc_ms(autumn_day, 2h + 10min),
+        local_ms(autumn_day, 3h + 10min)};
+    const std::vector both{first, second};
+    EXPECT_EQ(preview_scheduled_pauses(schedule, seasonal_zone, range, 30min), both);
+    const std::array delivered{first_id};
+    EXPECT_EQ(preview_scheduled_pauses(schedule, seasonal_zone, range, 30min, delivered),
+              std::vector{second});
+}
+
+TEST(RecurringScheduleAcceptance, RejectsNonpositiveElapsedPauseDuration) {
+    const auto day = 2024y / January / 8;
+    const SchedulePreviewRange range{utc_ms(day, 8h), utc_ms(day, 10h)};
+    const RecurringSchedule schedule{.local_time = 9h};
+    EXPECT_THROW(static_cast<void>(preview_scheduled_pauses(schedule, utc_zone, range, 0ms)),
+                 std::invalid_argument);
+    EXPECT_THROW(static_cast<void>(preview_scheduled_pauses(schedule, utc_zone, range, -1ms)),
+                 std::invalid_argument);
+}
+
+TEST(RecurringScheduleAcceptance, RejectsUnrepresentableElapsedPauseEnd) {
+    const auto day = 2024y / January / 8;
+    const SchedulePreviewRange range{utc_ms(day, 8h), utc_ms(day, 10h)};
+    const RecurringSchedule schedule{.local_time = 9h};
+    EXPECT_THROW(
+        static_cast<void>(preview_scheduled_pauses(schedule, utc_zone, range, milliseconds::max())),
+        std::invalid_argument);
+}
+
+TEST(RecurringScheduleAcceptance, PausePreviewIncludesEndAtZoneCoverageBoundary) {
+    const auto day = 2024y / January / 8;
+    const auto end_day = 2024y / January / 11;
+    const SchedulePreviewRange range{utc_ms(day, 8h), utc_ms(day, 9h)};
+    const RecurringSchedule schedule{.local_time = 9h};
+    const ScheduleZoneRules complete{year_start, utc_ms(end_day, 9h), 0};
+    const auto nominal = local_ms(day, 9h);
+    const std::vector<ScheduledPauseOccurrence> expected{
+        {{{nominal, ScheduleFoldRun::First}, utc_ms(day, 9h), nominal},
+         utc_ms(end_day, 9h),
+         local_ms(end_day, 9h)},
+    };
+
+    EXPECT_EQ(preview_scheduled_pauses(schedule, complete, range, 72h), expected);
+}
+
+TEST(RecurringScheduleAcceptance, RejectsZoneCoverageEndingBeforePauseEnd) {
+    const auto day = 2024y / January / 8;
+    const auto end_day = 2024y / January / 11;
+    const SchedulePreviewRange range{utc_ms(day, 8h), utc_ms(day, 9h)};
+    const RecurringSchedule schedule{.local_time = 9h};
+    // The snapshot covers the 48-hour start padding but misses the last millisecond.
+    const ScheduleZoneRules incomplete{year_start, utc_ms(end_day, 9h) - 1, 0};
+    EXPECT_THROW(static_cast<void>(preview_scheduled_pauses(schedule, incomplete, range, 72h)),
+                 std::invalid_argument);
+}
+
 TEST(RecurringScheduleAcceptance, PreviewedStartCanPauseAcrossUtcMidnight) {
     const RecurringSchedule schedule{.local_time = 23h + 45min};
     const auto day = 2024y / January / 8;
     const auto next_day = 2024y / January / 9;
     const auto start = utc_ms(day, 23h + 45min);
     const auto end = utc_ms(next_day, 15min);
-    const auto preview =
-        preview_schedule_occurrences(schedule, utc_zone, {utc_ms(day, 23h), utc_ms(next_day, 1h)});
-    ASSERT_EQ(preview, std::vector{start});
+    const auto preview = preview_scheduled_pauses(schedule, utc_zone,
+                                                  {utc_ms(day, 23h), utc_ms(next_day, 1h)}, 30min);
+    const auto nominal = local_ms(day, 23h + 45min);
+    const std::vector<ScheduledPauseOccurrence> expected{
+        {{{nominal, ScheduleFoldRun::First}, start, nominal}, end, local_ms(next_day, 15min)},
+    };
+    ASSERT_EQ(preview, expected);
 
-    const std::array windows{ScheduledPauseWindow{preview.front(), end}};
+    const std::array windows{
+        ScheduledPauseWindow{preview.front().start.start_utc_ms, preview.front().end_utc_ms}};
     const auto before = reconcile_scheduled_pause({}, windows, start - 1);
     EXPECT_TRUE(before.reasons.empty());
     const auto at_start = reconcile_scheduled_pause(before, windows, start);

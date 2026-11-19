@@ -3,9 +3,15 @@
 
 namespace subathon::core {
 
-std::vector<std::int64_t> preview_schedule_occurrences(const RecurringSchedule &,
-                                                       const ScheduleZoneRules &,
-                                                       SchedulePreviewRange) {
+std::vector<ScheduleOccurrence>
+preview_schedule_occurrences(const RecurringSchedule &, const ScheduleZoneRules &,
+                             SchedulePreviewRange, std::span<const ScheduleOccurrenceId>) {
+    throw RecurringScheduleNotImplemented{};
+}
+
+std::vector<ScheduledPauseOccurrence>
+preview_scheduled_pauses(const RecurringSchedule &, const ScheduleZoneRules &, SchedulePreviewRange,
+                         std::chrono::milliseconds, std::span<const ScheduleOccurrenceId>) {
     throw RecurringScheduleNotImplemented{};
 }
 
