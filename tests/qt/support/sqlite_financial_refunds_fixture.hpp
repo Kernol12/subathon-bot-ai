@@ -384,8 +384,8 @@ class File final {
         observer.reset();
         writer.reset();
         open();
-        require(rows("SELECT max(version) FROM subathon_migration_history") == SqlRows{{13}},
-                "Reopened database keeps the v13 catalog");
+        require(rows("SELECT max(version) FROM subathon_migration_history") == SqlRows{{15}},
+                "Reopened database keeps the v15 financial catalog");
     }
 
     template <class Body> void write(Body body) {
