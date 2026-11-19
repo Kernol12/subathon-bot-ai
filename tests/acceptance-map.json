@@ -1006,7 +1006,8 @@
       "tests": [
         "tests/acceptance/credential_record_tests.cpp",
         "tests/qt/sqlite_credentials_tests.cpp",
-        "tests/qt/credential_readiness_tests.cpp"
+        "tests/qt/credential_readiness_tests.cpp",
+        "tests/qt/sqlite_credential_catalog_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/729#issuecomment-7017165084",

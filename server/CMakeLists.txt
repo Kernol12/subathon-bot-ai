@@ -146,6 +146,10 @@ if(TARGET subathon_sqlite_contributions AND TARGET subathon_application_plan)
                 PUBLIC subathon_sqlite_milestone_groups subathon_original_application_service
                 PRIVATE subathon_refund_entitlement subathon_sqlite_modifier_activations)
             subathon_target_options(subathon_sqlite_financial_refunds)
+
+            add_library(subathon_sqlite_credential_catalog STATIC src/sqlite_credential_catalog.cpp)
+            target_link_libraries(subathon_sqlite_credential_catalog PUBLIC subathon_sqlite_financial_refunds)
+            subathon_target_options(subathon_sqlite_credential_catalog)
         endif()
     endif()
 
