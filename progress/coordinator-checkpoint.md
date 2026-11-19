@@ -182,20 +182,20 @@ current readiness.
   frozen synthetic cases after implementation. All seven checks passed on
   proof head `00f73263`. AUTH-15 and INTEGRATION-01 remain partial. Actual
   provider authorization, credentials and client onboarding remain separate.
-- RATES-007 [#406](https://github.com/Kernol12/subathon-bot-ai/issues/406)
-  is claimed on `80a0bee1` after the board confirmed its closed prerequisites.
-  Tier A Stage 1 starts with exact-rate contract examples and independent
-  tests. The coordinator retains shared registration and CI ownership.
-  The owner [resolved questions 24–28](https://github.com/Kernol12/subathon-bot-ai/pull/724#issuecomment-7008906120).
-  #406 closes on its pure core rules. Permissioned save and durable revisions
-  are [#727](https://github.com/Kernol12/subathon-bot-ai/issues/727), queued
+- RATES-007 #406 is Done after protected merge `5cfe1959` in
+  [#724](https://github.com/Kernol12/subathon-bot-ai/pull/724). All seven
+  required checks passed on proof head `9821f48e`. The admitted core run passed
+  24 override and 86 companion cases. Permissioned save and durable revisions
+  remain [#727](https://github.com/Kernol12/subathon-bot-ai/issues/727), queued
   after #719 and dependent on #406.
 - #719 resumed in the SQLite slot after the [owner's lifetime and duration rulings](https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7008906515).
   The contract covers caller-supplied remaining checkpoints, terminal expiry,
   and positive configured durations. Independent contract review precedes tests.
-- #199 is Ready for the core slot after #406. Its [owner rulings](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7008905863)
+- #199 resumed in the core slot on protected `5cfe1959`. Its [owner rulings](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7008905863)
   cover active mixed-refund timer holds, the explicit Finished disposition,
   and Main-first reversal allocation after rounding cumulative entitlement.
+  The core entitlement packet goes first. Writer and service changes wait
+  for #719 to release the SQLite slot.
 
 ### Parallel work and standing CI rerun rule
 
