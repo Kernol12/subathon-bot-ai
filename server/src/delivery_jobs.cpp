@@ -227,6 +227,43 @@ std::optional<DeliveryJob> selected_job(const SqliteWorkSession &session,
     return job;
 }
 
+bool milestone_release_allows(const SqliteWorkSession &session, const DeliveryJob &job) {
+    const auto catalog = session.execute(
+        {"SELECT version,migration_id='delivery-jobs-v1',migration_id='milestone-groups-v1' "
+         "FROM main.subathon_migration_history "
+         "WHERE EXISTS(SELECT 1 FROM main.subathon_catalog WHERE singleton=1 "
+         "AND typeof(catalog_format)='integer' AND catalog_format=1 "
+         "AND store_identity='subathon.sqlite-store') ORDER BY version DESC LIMIT 1",
+         {}});
+    if (catalog.size() != 1)
+        corrupt();
+    const auto &head = catalog.front();
+    const auto version = integer(head[0]);
+    // The earlier recorded prefixes also support the original independently
+    // staged delivery tables. None of those prefixes carries typed membership.
+    if ((version >= 1 && version < 11) || (version == 11 && integer(head[1]) == 1))
+        return true;
+    if (version != 12 || integer(head[2]) != 1)
+        corrupt();
+
+    QList<QVariant> args{blob(job.capture.action_ref), blob(job.capture.action_version_ref)};
+    args.append(bindings(job.key));
+    // Preserve the membership row even when its group is missing. SQL failures
+    // here roll back the claim and cannot select the older-catalog path.
+    const auto members = session.execute(
+        {"SELECT CASE WHEN typeof(a.action_ordinal)='integer' AND a.action_ordinal>=1 "
+         "AND typeof(a.kind)='integer' AND a.kind=0 AND a.action_ref=? AND a.version_ref=? "
+         "AND typeof(g.released)='integer' AND g.released=1 "
+         "AND g.operation_scope=a.operation_scope AND g.operation_ref=a.operation_ref "
+         "THEN 1 ELSE 0 END FROM main.subathon_milestone_actions AS a "
+         "LEFT JOIN main.subathon_milestone_groups AS g ON g.occurrence_ref=a.occurrence_ref "
+         "WHERE a.operation_scope=? AND a.operation_ref=? AND a.job_ref=?",
+         std::move(args)});
+    if (members.empty())
+        return true; // No typed membership for this exact job.
+    return members.size() == 1 && integer(members.front().front()) == 1;
+}
+
 void append_event(const SqliteWorkSession &session, const DeliveryJobKey &key, const Event &event) {
     auto args = bindings(key);
     args.append({qint64(event.revision), int(event.state),
@@ -491,7 +528,7 @@ StorageError dispatch_delivery_job(SqliteWriter &writer, DeliveryJobKey key, std
             const auto session = context.begin();
             auto result =
                 change_selected(session, key, revision, State::queued, [&](DeliveryJob job) {
-                    if (!authority->allows(job))
+                    if (!milestone_release_allows(session, job) || !authority->allows(job))
                         return DeliveryJobResult{Disposition::refused, {}};
                     return transition(session, std::move(job), State::sending, {});
                 });
