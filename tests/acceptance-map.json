@@ -1227,13 +1227,13 @@
     {
       "id": "AUTH-15",
       "status": "planned",
-      "tests": [],
+      "tests": ["tests/qt/connector_lifecycle_tests.cpp"],
       "evidence": []
     },
     {
       "id": "INTEGRATION-01",
       "status": "planned",
-      "tests": [],
+      "tests": ["tests/qt/connector_lifecycle_tests.cpp"],
       "evidence": []
     },
     {

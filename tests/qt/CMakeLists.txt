@@ -1,5 +1,12 @@
 include("${PROJECT_SOURCE_DIR}/cmake/AcceptanceRegistration.cmake")
 
+if(SUBATHON_BUILD_CONNECTOR_LIFECYCLE_TESTS)
+    subathon_add_qt_suite(server_connector_lifecycle_acceptance
+        NAME connector-lifecycle SOURCES connector_lifecycle_tests.cpp
+        LIBRARIES subathon_connector_lifecycle
+        LABELS "connector-lifecycle;acceptance;qt;server;intentional-red")
+endif()
+
 if(SUBATHON_BUILD_API_HOST_TESTS)
     # Exception to the usual whole-runner registration: the frozen native
     # profile installs once per process. Preserve every individual data row.

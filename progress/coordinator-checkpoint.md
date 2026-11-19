@@ -155,26 +155,32 @@ current readiness.
   All 48 frozen cases reached intended NI with zero skips. The exact admitted
   runner and receipts were retained, and all seven checks passed on `63ec75e4`.
   This is baseline evidence. #215 remains blocked by #719.
-- MILESTONE-005 #236 resumed Tier A Stage 1 first. Owner 12B–16A remain
+- MILESTONE-005 #236 is Done after protected merge `400a5c51` in
+  [#721](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7006091072).
+  All seven checks passed on proof head `189ab104`. SQLite v13 preserves the
+  v12 prefix and adds exact paused choices, refund holds and terminal Skip.
+  All 39 decisions and 378 regressions passed across nine admitted runners.
+  Running-host composition remains #294. #719 now has its catalog prerequisite.
+  Owner 12B–16A remain
   [recorded](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7002464326).
   Owner [17A/18A/19A](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7003511184)
   approved numbered timeline correction 1, refund policy on a new downward
   crossing, and terminal Skip with each remaining hold recorded as ended by
   that Skip. Its additive catalog follows v12 and precedes #719.
-- #236 resumed after owner decision 23A for Stage 1 fix round 2. The
+- #236 corrected one fixture under owner decision 23A. The
   [first run](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7004391307)
-  had one unexpected fixture stop. In the repaired case, the literal v13
-  migration precedes creation of the synthetic bonus-effect table. The case
-  must reach the named `observe_refund` NI. If setup fails again, park and
-  report it.
+  had one unexpected fixture stop. The [reviewed rerun](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7005001088)
+  reached the repaired case's named `observe_refund` NI and all 39 intended
+  stops, with zero setup failures or skips.
 - The owner stopped #715 after its [one hosted experiment](https://github.com/Kernol12/subathon-bot-ai/issues/715#issuecomment-7004781214).
   The root canary survived the direct `sudo` timeout. The draft #722 was
   closed and #715 returned to Planned, the board's backlog status. It uses
   no parking slot. The retry change was never enabled.
 - #286 has [approved correction 1](https://github.com/Kernol12/subathon-bot-ai/pull/723#issuecomment-7003511878)
   and [19 admitted standalone NI outcomes](https://github.com/Kernol12/subathon-bot-ai/pull/723#issuecomment-7004639361).
-  Stage 2 source is authored and awaits independent review. #236 has the
-  server slot and the shared test registration paths.
+  Resumed after #236 in the server slot. The shared suite registration needs
+  its own review and admitted red run before integrating the authored Stage 2
+  implementation.
 
 ### Parallel work and standing CI rerun rule
 

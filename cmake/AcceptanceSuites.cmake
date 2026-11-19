@@ -7,7 +7,7 @@ set(subathon_acceptance_suites
     sqlite-migrations sqlite-retained sqlite-receipt sqlite-contribution sqlite-plan
     sqlite-bundle sqlite-original-claim sqlite-hold application-service sqlite-delivery-jobs
     translation-catalog rate-snapshot milestone-progression milestone-timeline milestone-group-restart
-    milestone-group-decisions session-resolution
+    milestone-group-decisions connector-lifecycle session-resolution
     password-hashing effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
     bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server)
