@@ -11,10 +11,11 @@
 #include <vector>
 
 #include <subathon/core/recurring_schedule.hpp>
+#include <subathon/core/timer_lifecycle.hpp>
 
 namespace subathon::server {
 
-// SCHEDULE-001 #720, contract revision 1. Application boundary for configured-zone
+// SCHEDULE-001 #720, contract revision 2. Application boundary for configured-zone
 // previews and same-lineage timer execution. Clock, configuration, access and timer
 // state come from their authoritative owners on the command queue. These data and
 // proposals carry no command, clock-trust, persistence or publication authority.
@@ -25,6 +26,9 @@ struct ScheduleZoneRequest {
     // lower endpoint. A full preview requires the entire requested interval.
     std::int64_t from_utc_ms;
     std::int64_t through_utc_ms;
+    // A closed configuration epoch may require an archived rules revision.
+    // Absent requests the source's current facts.
+    std::optional<std::string> required_rules_revision;
 };
 
 struct ScheduleZoneFacts {
@@ -55,8 +59,8 @@ enum class ScheduleZoneUnavailable {
 // with certified complete coverage. Offsets are integral seconds east of UTC,
 // |offset| <= 24h, with at most two inverse mappings and 64 transitions per core
 // input. Incoherent tags, bounds, rows or conflicting overlapping facts are unusable.
-// Match the requested zone exactly. One immutable rules revision must bind all
-// facts used for a given zone in an operation, including all chunk boundaries.
+// Match the requested zone exactly. One immutable rules revision binds each zone
+// view across chunks. Archived views and the current view have separate bindings.
 // Unknown, insufficient, unsupported and over-budget input grant no coverage beyond
 // a separately complete, coherent prefix. Never truncate rows to claim coverage.
 class ScheduleZoneSource {
@@ -70,39 +74,151 @@ struct ScheduledPauseRule {
     std::string schedule_id;
     core::RecurringSchedule recurrence;
     std::chrono::milliseconds duration;
+    bool enabled;
+};
+
+struct ScheduledPauseConfiguration {
+    std::string configured_zone;
+    std::vector<ScheduledPauseRule> rules;
+};
+
+// Old epochs are in cutover order. Each supplies starts in (after, through];
+// absent after is the original configuration, absent through is the open epoch.
+// A closed epoch requires its certified rules revision for any lookup it needs.
+// A missing revision for such a lookup is unavailable. Retain the complete
+// history relevant to entry, including disable/delete and re-enable boundaries.
+struct ScheduledPauseEpoch {
+    ScheduledPauseConfiguration configuration;
+    std::optional<std::int64_t> after_utc_ms;
+    std::optional<std::int64_t> through_utc_ms;
+    std::optional<std::string> closed_zone_rules_revision;
 };
 
 struct ScheduledPauseKey {
     std::string timer_lineage;
     std::string schedule_id;
+    // Exact nominal local date/time and First or Second, as assigned by CORE-004.
     core::ScheduleOccurrenceId occurrence;
     bool operator==(const ScheduledPauseKey &) const = default;
+};
+
+enum class ScheduledPauseStopCause { expired, deleted, disabled };
+
+struct ScheduledPauseStop {
+    ScheduledPauseStopCause cause;
+    std::int64_t effective_utc_ms;
 };
 
 struct DeliveredScheduledPause {
     ScheduledPauseKey key;
     core::ScheduledPauseWindow window;
+    // Effective end of the contribution is separate from the immutable window.
+    // Once stopped, this delivery can never contribute again.
+    std::optional<ScheduledPauseStop> stop;
 };
 
-// Bounded work per operation. The authoritative caller supplies positive limits
-// for complete input, retained same-lineage deliveries, requested duration/lookback,
-// projection chunks, clock segments, output rows and reference bytes. Preflight
-// counts, sizes and checked time arithmetic before proportional work or allocation.
-// Each core start query spans <=366 days. Larger admitted lookbacks tile adjacent
-// (after, through] ranges exactly, with overlap in facts for padding, no duplicate
-// boundary starts and no mixing revisions. Bound the total work as well as each
-// individual call. Reject invalid input or report unavailable coverage on exhaustion.
-// Resource exhaustion cannot prove a slot undelivered or an interval unpaused.
+struct ScheduledPauseDeliveryStop {
+    ScheduledPauseKey key;
+    ScheduledPauseStop stop;
+};
 
-struct ScheduledPausePreviewBasis {
+struct ScheduledPauseLedger {
     std::string timer_lineage;
+    std::string revision;
+    // Complete same-lineage deduplication evidence, including stopped deliveries.
+    // Unknown/restored-incomplete is represented by an absent ledger.
+    std::vector<DeliveredScheduledPause> deliveries;
+};
+
+// Fixed ceilings per call, including old and proposed inputs and all source work.
+// Each core query remains within its 366d/64-transition limits. Tile longer query
+// ranges at exclusive/inclusive boundaries with complete padding. Preflight sizes,
+// counts and arithmetic before proportional work/copying, including source reads;
+// the port must bound acquisition before materializing a response. Count aggregate
+// input and output bytes (including container elements and owned references).
+// A cap cannot certify a partial tie group, a missing key or an uncovered interval.
+// Do not evict required keys/history or partially admit a tie group at a cap.
+// Publish only a separately certified prefix and hold when further work or
+// retention cannot be admitted. Wall-only hard end does not depend on this work.
+struct ScheduledPauseLimits {
+    static constexpr std::size_t max_rules = 128; // Per configuration.
+    static constexpr std::size_t max_epochs = 64;
+    static constexpr std::size_t max_deliveries = 16'384;
+    static constexpr std::size_t max_projection_queries = 4096; // Source reads and core calls.
+    static constexpr std::size_t max_clock_cuts = 4096;
+    static constexpr std::size_t max_result_rows = 16'384;   // Per result sequence.
+    static constexpr std::size_t max_reference_bytes = 4096; // Per opaque reference.
+    static constexpr std::size_t max_input_bytes = 8'388'608;
+    static constexpr std::size_t max_result_bytes = 16'777'216;
+    static constexpr std::chrono::days max_duration{366};
+    static constexpr std::chrono::days max_preview_span{366};
+    static constexpr std::chrono::days max_progression_span{366}; // Bounded start scan.
+};
+
+struct ScheduledPauseObservation {
+    std::string observation_ref;
+    std::int64_t utc_ms;
+};
+
+// Queue-owned observations belong to the supplied timer/clock lineage. In queue
+// order, each cut is a trusted wall boundary with optional independently certified
+// monotonic elapsed since the preceding cut or supplied anchor. A missing split
+// is distinct from zero elapsed. The clock owner supplies all necessary splits
+// (schedule, independent pause and command boundaries); no UTC subtraction,
+// interpolation or synthesis of a missed boundary is allowed. The target is
+// itself an admitted wall observation, even if its elapsed is unavailable.
+struct ScheduledPauseElapsedCut {
+    ScheduledPauseObservation observation;
+    std::optional<std::chrono::milliseconds> elapsed_since_previous;
+    // Non-Schedule state in force for the outgoing interval, from its owners.
+    core::PauseState independent_pause;
+};
+
+struct ScheduledPauseClockInput {
+    std::string clock_lineage;
+    ScheduledPauseObservation anchor;               // Must match the current cursor and lineage.
+    std::span<const ScheduledPauseElapsedCut> cuts; // Ordered, target last, nonempty.
+};
+
+enum class ScheduledPauseKnowledgeUnavailable { history, ledger, elapsed_split };
+using ScheduledPauseCoverageFailure =
+    std::variant<ScheduleZoneUnavailable, ScheduledPauseKnowledgeUnavailable>;
+
+struct ScheduledPauseCoverageHold {
+    ScheduledPauseCoverageFailure cause;
+    // First outgoing interval that must be held.
+    std::int64_t from_utc_ms;
+};
+
+struct ScheduledPauseCoverageNotice {
+    ScheduledPauseCoverageHold hold;
+    ScheduledPauseObservation observed_at;
+};
+
+struct ScheduledPauseCursor {
+    ScheduledPauseObservation last_observation;
+    // Last endpoint actually evaluated with certified knowledge and elapsed.
+    // This can lag wall reconciliation or a prospective new anchor. It does not
+    // certify elapsed across a held gap. Absent before any evaluation.
+    std::optional<std::int64_t> evaluated_through_utc_ms;
+    std::optional<ScheduledPauseCoverageHold> hold;
+};
+
+struct ScheduledPauseState {
+    std::string timer_lineage;
+    std::string clock_lineage;
     std::string state_revision;
     std::string configuration_revision;
-    std::string delivery_revision;
     std::string access_revision;
-    std::optional<std::string> current_zone_rules_revision;
-    std::string clock_observation;
-    std::int64_t observed_utc_ms;
+    core::TimerConfig timer_config;
+    core::TimerState timer;
+    core::PauseState pause;
+    ScheduledPauseCursor cursor;
+    // Last epoch is open/current. An absent or incomplete relevant history
+    // cannot prove an empty search where historical facts are needed.
+    std::span<const ScheduledPauseEpoch> epochs;
+    bool epoch_history_complete;
+    const ScheduledPauseLedger *ledger;
 };
 
 struct ScheduledPausePreviewRow {
@@ -110,148 +226,221 @@ struct ScheduledPausePreviewRow {
     core::ScheduledPauseOccurrence window;
 };
 
+struct ScheduledPauseCutoverEffect {
+    DeliveredScheduledPause delivery;
+    // Absent preserves the original end. A deletion/disable stops at the save
+    // cutover, illustrated by effective_utc_ms at the preview observation.
+    std::optional<ScheduledPauseStop> stop_on_save;
+};
+
+struct ScheduledPauseFactBinding {
+    // Index in the bound old epoch list. Absent denotes the proposed view.
+    std::optional<std::size_t> old_epoch_index;
+    ScheduleZoneFacts facts;
+};
+
 struct ScheduledPausePreview {
-    ScheduledPausePreviewBasis basis;
-    std::string configured_zone;
-    std::optional<std::string> rules_revision;
-    std::vector<ScheduledPauseRule> proposed_rules;
+    std::string timer_lineage;
+    std::string clock_lineage;
+    std::string state_revision;
+    std::string configuration_revision;
+    std::string delivery_revision;
+    std::string access_revision;
+    std::string actor_ref;
+    ScheduledPauseObservation as_of;
+    ScheduledPauseConfiguration proposed;
     std::int64_t requested_through_utc_ms;
     std::optional<std::int64_t> resolved_through_utc_ms;
-    std::optional<ScheduleZoneUnavailable> coverage_failure;
+    std::optional<ScheduledPauseCoverageFailure> incomplete;
+    // Exact certified facts used, bound to the old/current and proposed views.
+    std::vector<ScheduledPauseFactBinding> facts;
     std::vector<ScheduledPausePreviewRow> upcoming;
-    std::vector<DeliveredScheduledPause> active_deliveries;
+    std::vector<ScheduledPauseCutoverEffect> cutover_effects;
+    // Absent when the cutover pause union cannot be certified.
+    std::optional<core::PauseState> pause_after_cutover;
 };
 
-// Preview is a read-only proposal for exact edits, including weekdays, gap/fold
-// policies and positive elapsed duration. Capture a consistent current basis,
-// exact proposed configuration, rule facts and same-lineage delivery view. Select
-// future starts in (observed UTC, requested through], in UTC order. Break ties
-// by the proposed configuration's rule order, then core order within a rule.
-// Return actual local start/end in the proposed zone plus UTC and the
-// original nominal key. Show retained active deliveries separately by original
-// UTC bounds. A local label for one of those bounds needs its own certified facts
-// and zone attribution. Rendering an end in another zone never changes that end.
-// Full results may be empty. An incomplete result is explicit and cannot satisfy
-// the pre-save preview. Report only certified rows, with unavailable at the anchor
-// represented by coverage_failure and no resolved future portion.
-//
-// Save requires current permission and the exact proposed configuration. Re-read
-// or revalidate state, config, delivery, access, rule revisions and the trusted
-// clock on the queue, before mutation. An expired/invalid observation, crossed
-// window or coverage boundary, changed bound revision, or changed preview result
-// requires a fresh preview. A newer trusted observation may revalidate the basis
-// only if the displayed starts, active deliveries, coverage and edit consequences
-// still match for the remaining preview interval. Recheck the old state at the
-// actual cutover under existing timer command precedence. Stale/incomplete queries,
-// rejected edits and observation proposals cannot authorize writes or publication.
-//
-// CORE-004 is the resolution authority. Evaluate weekdays at the nominal local
-// slot. For a gap with no inverse, default ShiftForward uses nominal minus the
-// pre-transition offset of the LAST forward crossing containing the nominal slot.
-// Project the resulting UTC under the offset actually in force there. Do not clamp
-// to the transition, add a guessed hour or re-resolve the resulting local label.
-// Skip emits nothing. For a fold, default RunOnce selects the earlier UTC before
-// any filtering. RunTwice assigns First and Second in UTC order before filtering.
-// For each accepted start S the immutable UTC window is [S,S+D), with checked
-// addition of elapsed D. Projection of the end uses the effective offset at S+D.
-// Overlap uses set semantics for the Schedule reason, with separate delivery keys.
-//
-// Identity is (lineage, stable schedule ID, exact nominal local date/time, run).
-// Zone, offsets, UTC bounds and revisions are absent from that identity. For a slot
-// with one run, either previous run suppresses it. For two runs, suppress only the
-// matching run. Retain all delivered keys relevant to later resolution in this
-// lineage. An edit/reopen cannot reset delivery identity, mint a replacement ID
-// for the same schedule, or evict evidence needed for deduplication. Repeating a
-// delivery is idempotent. Record deliveries only when admitted by the authoritative
-// transition. A key and its original UTC bounds, the Schedule reason, clock and
-// state revisions become visible together after successful authoritative application.
-// Rejected or failed application leaves no provisional delivery visible.
-//
-// A zone edit observes old configuration through the trusted cutover C. New-zone
-// starts are eligible only strictly after C. A new projection at or before C
-// cannot create an earlier delivery. Every already-delivered still-active window
-// retains its original UTC end through edits or source failure.
-// A matched delivered key can never prolong or shorten that window. Reconcile the
-// union of retained active deliveries and newly admitted windows. At a shared
-// start/end instant apply the union once. At exact end the old window is inactive.
-//
-// Start and authorized reopen preserve existing lifecycle admission including hard
-// end, Main and grace/debt/reopen rules. For an otherwise eligible window active
-// at trusted observation T, apply the Schedule reason from T to its original end.
-// For a new discovery use the proven window from its applicable configuration and
-// record the same key and original bounds. For an already delivered active window
-// reuse the retained bounds even if the new rules would suppress its projected row.
-// Candidate starts for entry lie in (T-D,T] for each duration D. An end exactly T
-// is inactive and a start exactly T is active. Enter only the remaining interval,
-// without advancing/rebuilding prior clock state or delivering expired starts.
-// Ready/Finished do not consume countdown time or deliver ordinary scheduled starts.
-// If eligibility at T is unknown, the coverage hold applies at T.
+struct ScheduledPauseTransitions {
+    ScheduledPauseObservation observation;
+    std::vector<core::TimerTransition> transitions;
+};
 
-// Exact coverage accounting for a bounded observation. The start frontier uses
-// closed UTC facts [L,U]. For a start query (A,B], P=48h. Require L<=A-P, and
-// B<=U-P, with checked arithmetic, valid mappings and a complete range. Include
-// the necessary lookback for entry or other active-window searches. The upper
-// limit for local start/end preview of one duration D is U-max(P,D). Execution
-// may use complete starts through U-P with exact checked UTC ends; projecting a
-// local end requires its own coverage. These are upper bounds. Use the greatest
-// contiguous prefix actually certified inside the requested range and within
-// all bounds. Take the minimum over applicable inputs. Empty/disabled schedules
-// and retained UTC ends need no lookup. A failed later chunk cannot erase a
-// previously certified prefix, extend it over a hole or settle new-zone coverage.
 struct ScheduledPauseProgress {
-    // Inclusive bound on resolved starts, including a certified empty result.
-    // Absent when there is no newly certified start coverage at the observation.
+    core::TimerState timer;
+    core::PauseState pause;
+    ScheduledPauseCursor cursor;
+    // Inclusive frontier F of newly certified starts, even for an empty prefix.
     std::optional<std::int64_t> starts_resolved_through_utc_ms;
-    // End of the evaluated half-open interval. This endpoint was actually reached
-    // with certified schedule knowledge and a trusted elapsed split.
-    std::int64_t evaluated_through_utc_ms;
-    // Present from the first interval requiring schedule knowledge we lack.
-    std::optional<ScheduleZoneUnavailable> coverage_hold;
-    bool elapsed_split_unavailable;
+    // Earliest end among still-contributing known windows, even past F or the
+    // evaluated endpoint. Wall reconciliation can reach it while elapsed is held.
+    std::optional<std::int64_t> next_known_expiry_utc_ms;
+    std::optional<ScheduledPauseCoverageNotice> notice; // Present iff held.
+    std::vector<DeliveredScheduledPause> new_deliveries;
+    std::vector<ScheduledPauseDeliveryStop> stops;
+    std::vector<ScheduledPauseTransitions> timer_transitions;
 };
 
-// A contiguous start frontier F includes F. The first unresolved start is F+1ms
-// when representable. With trustworthy segmentation the outgoing interval before
-// that boundary is known, and the outgoing interval at it is held. If entry state
-// is already unknown or the trusted elapsed split cannot be established, stop at
-// the last actually certified/evaluated boundary. Do not report a projected
-// frontier as reached. Keep notification/observation time separate from the
-// evaluated boundary. Re-observation cannot double-charge the evaluated prefix
-// or turn a held interval into pending elapsed debt. Re-anchor prospective
-// advancement at a newly admitted observation after a hold, subject to the
-// authorized continuation policy.
+struct ScheduledPauseSave {
+    ScheduledPauseObservation cutover;
+    ScheduledPauseConfiguration configuration;
+    // Facts to close the formerly open epoch. The new epoch starts strictly
+    // after cutover. No certified old revision is implied if this is absent.
+    std::optional<std::string> closed_zone_rules_revision;
+    ScheduledPauseProgress progress;
+};
+
+enum class ScheduledPauseRefusal {
+    invalid_input,
+    limit_exceeded,
+    access_denied,
+    stale_observation,
+    fresh_preview_required,
+    entry_not_admitted,
+    hard_end_reached
+};
+
+// These four calls propose results on the authoritative queue. Callers supply
+// a coherent current state, session/permission decision and clock-owned facts.
+// Enforce current timer configuration edit permission (including any separately
+// required timezone authority) before protected preview or save reads. Ordinary
+// timer snapshot read permission governs notice disclosure, checked at disclosure.
+// Authority and lineage/state/configuration/delivery/clock bindings must still
+// match at apply. Commit config, clock, timer, Schedule reason and ledger changes
+// together, including any notice, and bind entry to its owning command. Only
+// successful application publishes them; a refusal or failed application supplies
+// no provisional delivery, expiry, configuration or clock state.
+struct ScheduledPauseEditAccess {
+    // The current checked actor for this edit. Denied or unknown is absent.
+    std::optional<std::string> authorized_actor_ref;
+};
+
+[[nodiscard]] std::variant<ScheduledPausePreview, ScheduledPauseRefusal>
+preview_scheduled_pause_edit(const ScheduledPauseState &, const ScheduledPauseClockInput &,
+                             const ScheduledPauseConfiguration &proposed,
+                             std::int64_t through_utc_ms, const ScheduledPauseEditAccess &,
+                             ScheduleZoneSource &);
+
+[[nodiscard]] std::variant<ScheduledPauseSave, ScheduledPauseRefusal>
+revalidate_scheduled_pause_save(const ScheduledPauseState &, const ScheduledPauseClockInput &,
+                                const ScheduledPauseConfiguration &proposed,
+                                const ScheduledPausePreview &shown,
+                                const ScheduledPauseEditAccess &, ScheduleZoneSource &);
+
+enum class ScheduledPauseEntryKind { start, reopen };
+
+struct ScheduledPauseEntry {
+    ScheduledPauseEntryKind kind;
+    // Absent unless the owning command has admitted permission and all existing
+    // lifecycle, Main, grace, debt and reopen choices. This is its Active proposal.
+    std::optional<core::TimerState> admitted_timer;
+};
+
+// Entry consumes no prior elapsed. Existing entry admission and hard end take
+// precedence. Unknown schedule eligibility holds schedule-dependent progression
+// at entry. The other independent pause reasons stay in the result.
+[[nodiscard]] std::variant<ScheduledPauseProgress, ScheduledPauseRefusal>
+enter_scheduled_pauses(const ScheduledPauseState &, const ScheduledPauseObservation &,
+                       const ScheduledPauseEntry &, ScheduleZoneSource &);
+
+[[nodiscard]] std::variant<ScheduledPauseProgress, ScheduledPauseRefusal>
+progress_scheduled_pauses(const ScheduledPauseState &, const ScheduledPauseClockInput &,
+                          ScheduleZoneSource &);
+
+// Resolution and identity
 //
-// Before each timer reduction split trustworthy monotonic elapsed at UTC schedule
-// boundaries, other pause changes, coverage limits, and command observations.
-// A pair of UTC timestamps alone never establishes elapsed or where to divide it.
-// An ambiguous/discontinuous span supplies no invented split. Keep the Schedule
-// reason for certified active windows and clear it at their known UTC ends. Keep
-// the coverage gate separate from Schedule and from Manual, stream, client and
-// RecoveryReview policy. Unknown coverage suspends schedule-dependent Main/Grace
-// progression, including active-subathon time derived from it. It cannot clear a
-// separate reason, synthesize a delivery or supply an unpaused eligibility fact.
-// Signal policies and real-elapsed clocks retain their independently trusted inputs.
-// Show an unavailable-coverage notice to authorized users while the gate applies.
-// Later complete coverage cannot retroactively charge unfounded elapsed or deliver
-// expired windows. Clearing this gate never clears an independent pause reason.
+// CORE-004 owns nominal weekdays, gap/fold resolution and delivery filtering,
+// including the last containing forward crossing for a compound gap. Project an
+// end using the effective offset at its captured UTC instant. Preserve the
+// assigned nominal key across edits. A sole resolved run is suppressed by either
+// prior run for the slot. With two resolved runs consult each key. The ledger
+// retains stopped keys and all evidence needed by later resolution. An edit or
+// reopen cannot reset identity or substitute a new ID for the same schedule.
+// An admitted start S captures [S,S+D) using checked positive elapsed D. Apply the
+// union once at each instant, including simultaneous starts and ends. Ordinary
+// edits (zone, recurrence, duration) leave captured contributions and ends intact.
 //
-// Evaluate trusted wall observations for hard end even while coverage is held.
-// At a reached enabled hard end, apply existing CORE-002 priority to the ending
-// observation. Keep prior committed countdown fields and earlier valid advances.
-// Do not deliver a schedule start at or beyond terminal finish, or postpone hard
-// end awaiting timezone data. At equal UTC, hard end wins over schedule changes
-// and expiry for that observation. A natural finish established at an earlier
-// trusted observation stays finished. A failed/untrusted UTC observation cannot
-// itself prove a deadline was reached. Start/reopen at or past an enabled hard
-// end remains blocked, independent of schedule eligibility.
+// Preview and cutover
 //
-// Capability boundary. #177 supplies bounded pure resolution and the Schedule
-// reason reducer. #720 composes proposals with authoritative same-lineage state.
-// No real timezone source is provisioned by this contract. The existing selected
-// timezone API is a candidate subject to complete-interval and compound-gap
-// applicability verification on the supported server environment. Client preview
-// rendering does not establish server timezone authority. #318 owns durable
-// delivery/checkpoint footprint and supplying restored lineage facts. #181 owns
-// pure offline reconstruction. Absence of restored facts is not an empty ledger.
+// Preview observes old configuration through proposed cutover C under the same
+// rules as save, without publishing deliveries. Show proposed starts in (C,H] in
+// UTC order (ties by rule order, then CORE-004 order), using enabled proposed
+// rules and suppressing all matching deliveries through C. Show original keys and
+// actual local start/end in the proposed zone. Show active deliveries with original
+// UTC bounds and each exact retain/delete/disable consequence, including the
+// immediate post-cutover pause union. Unknown cutover effects make the preview
+// incomplete even if its future rows are complete. A stop at C is disclosed
+// as stopping at the actual save cutover, with the preview's as-of C. A local label
+// for a retained end needs its own certified zone facts.
+// Save takes the exact preview the server issued and presented to this actor.
+// Bind it to the exact proposal, lineage, revisions, rule facts and known cutover
+// consequences. A client assertion that a preview was shown supplies no evidence.
+// Revalidate the original certified ranges and facts (including current old and
+// proposed rules revisions), then recompute at the trusted save observation.
+// A newer observation can revalidate only with unchanged bindings, displayed
+// rows, coverage of the remaining range and consequences, with no crossed
+// window or coverage boundary. The as-of time and time of the disclosed
+// stop-at-save may move. An incomplete or stale result requires a fresh preview.
+// A certified empty preview can satisfy save.
+// Observe old starts through C, then save reconciling all effects at C. Bind
+// certified old facts for the pre-cutover lookback of schedules that remain
+// enabled, including in Ready/Finished, so later entry can use that old view.
+// These facts may come from retained certified data via the same source port.
+// Deleting or disabling ends that schedule's contribution at C, including an
+// old start at C. Keep its key/window and never reinstate the contribution.
+// Append any due delivery and its stop together and reconcile the union once.
+// For disabled/deleted schedules with no active delivery, there is no stop row.
+// Other windows and independent reasons survive. An ordinary edit creates no
+// new start at C.
+//
+// Entry and resumption
+//
+// At Start/Reopen T, consider only schedules enabled at T. Use unsuppressed
+// delivered windows still active at T without reprojecting them. For undelivered
+// candidates use each applicable epoch's own D and facts: intersect (T-D,T] with
+// that epoch's start range. Old facts own starts at/before cutover, new facts
+// strictly after it. A schedule added or re-enabled starts fresh on the new side
+// of that boundary; windows from before its latest disable/delete are ineligible,
+// including undelivered candidates. Match retained keys before admitting anything;
+// process eligible candidates by UTC start and stable configuration/core order,
+// carrying forward admitted keys within the proposal. Admit only the remainder
+// from T, never an expired start. Ready/Finished do not progress ordinary starts.
+//
+// Coverage and observation
+//
+// For closed facts [L,U] and query (A,B], require L<=A-48h and B<=U-48h.
+// For local preview also require B<=U-D. Take the greatest coherent contiguous
+// prefix across required inputs within the checked work and coverage bounds.
+// Empty/disabled schedules and captured UTC ends require no timezone lookup.
+// F includes F; with a supplied split at F+1ms, outgoing elapsed may be evaluated
+// up to F+1ms exclusively. Otherwise hold from the last evaluable supplied cut;
+// the projected frontier is not an elapsed observation. A failed later chunk
+// cannot erase the certified prefix or extend it across unknown facts.
+// While held, block Main/Grace and dependent active-subathon elapsed; preserve
+// independent signal/real-elapsed policies. Reconcile known UTC expiries at
+// trusted wall observations even without an elapsed split or start coverage.
+// Clear only Schedule when the last known contributor ends; leave the gate/notice
+// in effect while knowledge is missing. The known expiry is effective at the
+// captured end, while its reconciliation is annotated by the wall observation.
+// Resume at the first newly admitted observation after the hold with complete
+// current eligibility and a trusted prospective anchor.
+// Reconcile active remaining windows there as at entry, clear the gate/notice and
+// advance only prospectively. Never charge held elapsed or replay expired starts.
+// Validate freshness and order against the clock owner and committed cursor.
+// Reject expired or stale observations; retries cannot reapply elapsed, stops
+// or deliveries.
+//
+// At a supplied trusted observation reaching an enabled hard end, CORE-002
+// applies before any elapsed reduction, schedule start, stop or expiry at that
+// observation, independently of the schedule facts or available elapsed cuts.
+// Keep previous valid reductions and any earlier natural finish.
+// Admit no start at or after an observation which finishes the timer.
+// Annotate hard or natural finish with the actual admitting observation, never an
+// interpolated instant. Failed/untrusted observations cannot prove a reached
+// deadline. Start/Reopen at or past an enabled hard end remains blocked.
+//
+// #177 supplies the pure resolver and Schedule reducer. Platforms must separately
+// verify complete configured-zone facts and applicability of compound gaps (10A).
+// #318 supplies durable delivery/checkpoint and restored lineage facts; #181 owns
+// offline reconstruction. This declaration grants no clock or write authority.
 
 } // namespace subathon::server
