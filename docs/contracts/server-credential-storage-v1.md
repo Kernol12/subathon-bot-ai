@@ -86,8 +86,9 @@ production nonce, caller-selected nonce, or fallback. Use the key material
 only for credential encryption on its installation. The independent, nonsecret
 16-byte key ID selects an exact provisioned key. It is never key material or
 permission. The first profile has one provisioned key and tries only that ID.
-AAD authenticates record placement, format and key ID. An older valid record
-replayed at its original scope under the same key can still authenticate.
+AAD authenticates record placement, format and key ID. Under owner decision
+39A, detecting rollback to an older authentic record at the same scope is
+outside this slice. Such a record can still authenticate under the same key.
 
 Preflight complete inputs and checked size arithmetic before owning copies or
 crypto. On read, query selected BLOB classes and lengths before materializing
@@ -123,7 +124,9 @@ opened descriptor before reading. Require a regular file owned by the service
 UID with mode exactly `0400` or `0600` and the expected size. Read at most
 53 bytes and require exactly 52 and EOF, with the correct magic. Trust the
 operator to publish complete files and keep opened key files immutable.
-Use identical checks for direct secret mounts. Nothing requires a writable mount.
+Owner decision 38A uses identical checks for direct secret mounts. Podman
+must present a regular file at mode `0400` owned by the service UID. Bring an
+incompatible mount layout to the owner before widening this profile.
 
 Acquire a fresh handle on startup from the configured file and close the
 descriptor after loading. No interaction, SQLite key column, generated
