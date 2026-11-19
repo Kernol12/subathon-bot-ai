@@ -193,9 +193,15 @@
     },
     {
       "id": "RULE-01",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/rule_definition_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/735#issuecomment-7024035880",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/735#issuecomment-7024214931"
+      ],
+      "scope": "RULES-001 validates and preserves typed, ordered, versioned definitions including priorities and exclusive-group references. Rule selection, exclusions and precedence remain #206."
     },
     {
       "id": "RULE-02",
@@ -205,9 +211,15 @@
     },
     {
       "id": "RULE-03",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/rule_definition_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/735#issuecomment-7024035880",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/735#issuecomment-7024214931"
+      ],
+      "scope": "RULES-001 validates and retains the configured depth and count limits, with defaults of 32 and 256. Per-root enforcement, stopping, audit and notice remain #210."
     },
     {
       "id": "MOD-01",
@@ -1002,9 +1014,20 @@
     },
     {
       "id": "CRYPTO-01",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/credential_record_tests.cpp",
+        "tests/qt/sqlite_credentials_tests.cpp",
+        "tests/qt/credential_readiness_tests.cpp",
+        "tests/qt/sqlite_credential_catalog_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/729#issuecomment-7017165084",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/729#issuecomment-7017591815",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/729#issuecomment-7021276387",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/729#issuecomment-7021496845"
+      ],
+      "scope": "Synthetic cases cover exact credential encryption and scope, bounded refusals, commit-gated plaintext delivery, explicit v16 catalog upgrade, physical BLOB constraints, and credential put, replacement and reprovisioning after writer reopen. Startup catalog selection, provider wiring, deployment verification, key rotation and backup/restore remain separate."
     },
     {
       "id": "CRYPTO-02",
