@@ -34,10 +34,17 @@ struct MilestoneAction {
     bool operator==(const MilestoneAction &) const = default;
 };
 
+struct MilestoneOccurrenceKey {
+    std::string ref;
+
+    bool operator==(const MilestoneOccurrenceKey &) const = default;
+};
+
 struct CommittedMilestoneGroup {
     core::MilestoneCompletion achievement;
     std::vector<MilestoneAction> actions;
     MilestoneTimingOverride timing;
+    std::optional<MilestoneOccurrenceKey> occurrence{};
 };
 
 struct ActiveMilestonePresentation {
@@ -83,6 +90,9 @@ class MilestoneTimeline final {
     // and does not alter achievement, score or job history.
     void accept_committed(std::vector<CommittedMilestoneGroup> groups,
                           std::chrono::milliseconds now);
+    // Install the committed pending suffix on a fresh timeline without
+    // advancing it. The first eligible owner turn starts at elapsed zero.
+    void restore_committed(std::vector<CommittedMilestoneGroup> groups);
     void advance(std::chrono::milliseconds now);
 
     // Manual pause and an optionally linked countdown pause gate new starts.

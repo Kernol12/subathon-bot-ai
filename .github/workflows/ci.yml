@@ -361,7 +361,7 @@ jobs:
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart"
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
@@ -403,6 +403,8 @@ jobs:
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-delivery-jobs$' --no-tests=error
       - name: Run reviewed milestone timeline acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^milestone-timeline$' --no-tests=error
+      - name: Run durable ordinary milestone group recovery acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^milestone-group-restart$' --no-tests=error
       - name: Run reviewed initial-capture codec acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^reference-capture-values$' --no-tests=error
       - name: Run reviewed initial-capture SQL acceptance
