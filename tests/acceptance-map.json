@@ -469,7 +469,9 @@
     {
       "id": "TIMER-07",
       "status": "planned",
-      "tests": [],
+      "tests": [
+        "tests/acceptance/recurring_schedule_tests.cpp"
+      ],
       "evidence": []
     },
     {

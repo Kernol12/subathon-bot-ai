@@ -3,7 +3,7 @@ include_guard(GLOBAL)
 
 set(subathon_acceptance_suites
     time-credit exact-numeric timer-lifecycle receipt-intake contribution-evidence
-    pause-policy application-plan sqlite-writer time-debt sqlite-work
+    pause-policy recurring-schedule application-plan sqlite-writer time-debt sqlite-work
     sqlite-migrations sqlite-retained sqlite-receipt sqlite-contribution sqlite-plan
     sqlite-bundle sqlite-original-claim sqlite-hold application-service sqlite-delivery-jobs
     translation-catalog rate-snapshot milestone-progression milestone-timeline session-resolution
