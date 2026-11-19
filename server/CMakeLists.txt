@@ -9,6 +9,11 @@ target_include_directories(subathon_contribution_evidence PUBLIC "${CMAKE_CURREN
 target_link_libraries(subathon_contribution_evidence PUBLIC subathon_contribution)
 subathon_target_options(subathon_contribution_evidence)
 
+add_library(subathon_connector_lifecycle STATIC src/connector_lifecycle.cpp)
+target_include_directories(subathon_connector_lifecycle PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_link_libraries(subathon_connector_lifecycle PUBLIC subathon_contribution)
+subathon_target_options(subathon_connector_lifecycle)
+
 if(TARGET subathon_milestone_progression)
     add_library(subathon_milestone_timeline STATIC src/milestone_timeline.cpp)
     target_include_directories(subathon_milestone_timeline PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
