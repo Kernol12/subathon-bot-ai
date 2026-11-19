@@ -223,12 +223,17 @@
     },
     {
       "id": "MOD-03",
-      "status": "planned",
+      "status": "partial",
       "tests": [
         "tests/acceptance/modifier_activation_tests.cpp",
         "tests/qt/sqlite_modifier_activations_tests.cpp"
       ],
-      "evidence": []
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7003174541",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7010490021",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/728#issuecomment-7013039316"
+      ],
+      "scope": "Pure reactivation and target projection and the v14 SQLite modifier history pass the frozen synthetic component cases. First-party intake and live historical application remain #223."
     },
     {
       "id": "MILE-01",
@@ -1155,9 +1160,13 @@
     },
     {
       "id": "MOD-04",
-      "status": "planned",
+      "status": "partial",
       "tests": ["tests/qt/sqlite_modifier_activations_tests.cpp"],
-      "evidence": []
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7010490021",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/728#issuecomment-7013039316"
+      ],
+      "scope": "Immutable definition edits, retained instance captures, monotone checkpoints and terminal expiry pass the v14 SQLite cases. Previewed active-instance edits and live clock composition remain separate."
     },
     {
       "id": "MEDIA-04",

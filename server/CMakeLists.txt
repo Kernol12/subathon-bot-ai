@@ -121,6 +121,14 @@ if(TARGET subathon_sqlite_contributions AND TARGET subathon_application_plan)
         target_link_libraries(subathon_sqlite_milestone_groups PUBLIC
             subathon_milestone_timeline subathon_sqlite_delivery_jobs subathon_delivery_catalog)
         subathon_target_options(subathon_sqlite_milestone_groups)
+
+        if(TARGET subathon_modifier_activation)
+            add_library(subathon_sqlite_modifier_activations STATIC EXCLUDE_FROM_ALL
+                src/sqlite_modifier_activations.cpp)
+            target_link_libraries(subathon_sqlite_modifier_activations PUBLIC
+                subathon_sqlite_milestone_groups subathon_modifier_activation)
+            subathon_target_options(subathon_sqlite_modifier_activations)
+        endif()
     endif()
 
     # Authoritative graph storage reuses the account prefix and pure permission validation.
