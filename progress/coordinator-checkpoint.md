@@ -199,6 +199,11 @@ current readiness.
 
 ### Parallel work and standing CI rerun rule
 
+- Owner 36A starts MODIFIER-001 #215 in the second slot on `a15fca82`.
+  Its Tier A implementation uses the frozen #214 core and #719 SQLite
+  baselines and preserves v13. #199's durable writer follows this catalog.
+  The next queue is #270, #727, then #294 when its prerequisites close.
+
 - At most two active tasks in different modules and three parked tasks. When
   three are parked, finish the active tasks, then stop. Answered parked tasks
   get the next free slot before unclaimed tasks. Start nothing that depends
