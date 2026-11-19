@@ -211,6 +211,7 @@ jobs:
               "timer-editorial": ({"acceptance", "core"}, 30),
               "rate-snapshot": ({"acceptance", "core"}, None),
               "rate-override": ({"acceptance", "core"}, 30),
+              "valuation-snapshot-codec": ({"acceptance", "core"}, 30),
               "modifier-activation": ({"acceptance", "core"}, 30),
               "refund-entitlement": ({"acceptance", "core"}, 30),
           }
@@ -251,6 +252,8 @@ jobs:
               raise SystemExit(f"No enabled cases discovered for: {empty or 'time-credit'}")
           if found["recurring-schedule"] != 25:
               raise SystemExit(f"Expected 25 recurring schedule cases, got {found['recurring-schedule']}")
+          if found["valuation-snapshot-codec"] != 25:
+              raise SystemExit(f"Expected 25 valuation snapshot codec cases, got {found['valuation-snapshot-codec']}")
           if found["rate-override"] != 24:
               raise SystemExit(f"Expected 24 rate override cases, got {found['rate-override']}")
           if found["modifier-activation"] != 48:

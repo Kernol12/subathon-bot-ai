@@ -236,7 +236,7 @@ if(SUBATHON_BUILD_VALUATION_SNAPSHOT_CODEC_TESTS)
     target_link_libraries(core_valuation_snapshot_codec_acceptance PRIVATE subathon_valuation_snapshot_codec GTest::gtest_main)
     subathon_target_options(core_valuation_snapshot_codec_acceptance)
     subathon_discover_gtests(core_valuation_snapshot_codec_acceptance
-        LABELS "valuation-snapshot-codec;acceptance;core;intentional-red" TIMEOUT 30)
+        LABELS "valuation-snapshot-codec;acceptance;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_RATE_OVERRIDE_TESTS)
