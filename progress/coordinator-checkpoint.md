@@ -194,13 +194,20 @@ current readiness.
   [admitted run](https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7010490021)
   had 19 named NI stops, three expected v14 compatibility failures and three
   passing controls. All seven required checks passed on proof head `5e100683`.
-  The suite remains intentional red. #215 owns the additive v14 implementation.
-- #199 is active on protected `a15fca82`. Its [owner rulings](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7008905863)
-  cover active mixed-refund timer holds, the explicit Finished disposition,
-  and Main-first reversal allocation after rounding cumulative entitlement.
-  The [standalone core runner](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7011317503)
-  reached the expected NI in all 15 methods. The registered run and separate
-  writer/service review remain pending.
+  This was the intentional-red baseline for #215.
+- #215 is Done at protected `3ae76b95` in
+  [#728](https://github.com/Kernol12/subathon-bot-ai/pull/728). All seven required
+  checks passed on proof head `72f9fdfe`. The 48 core and 25 SQLite behavior
+  cases passed. Catalog v14 preserves the earlier catalogs and startup selection.
+- #199 resumed under [owner decision 34B](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7014595148).
+  Contract revision 2 has two fix rounds. Later verified refunds can apply
+  score while an earlier timer request is held. Timer resolution stays ordered.
+  [#201 owns the live wiring](https://github.com/Kernol12/subathon-bot-ai/issues/201#issuecomment-7012411967).
+  The [registered core red](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7011613636)
+  remains frozen at `06dbc980` with 15 intended failures and 33 passing controls.
+  Writer contract review precedes the independent v13 writer baseline.
+- SESSION-006 #270 is active in [#729](https://github.com/Kernol12/subathon-bot-ai/pull/729).
+  #727 follows, then #294 when its prerequisites are complete.
 
 ### Parallel work and standing CI rerun rule
 

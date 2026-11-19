@@ -1,8 +1,8 @@
-# SQLite financial refund entitlements — Stage 1 draft
+# SQLite financial refund entitlements — revision 2 draft
 
 Tier A, ACCT-006 [#199](https://github.com/Kernol12/subathon-bot-ai/issues/199),
-[draft PR #726](https://github.com/Kernol12/subathon-bot-ai/pull/726). Fix rounds
-3 (owner 37A). Specification v0.45 §§3, 4, 8 and NUM-03. Draft for review.
+[draft PR #726](https://github.com/Kernol12/subathon-bot-ai/pull/726). Stage 1,
+fix rounds 0 of 2. Specification v0.45 §§3, 4, 8 and NUM-03.
 
 The registered A01–A15 core source and assertions at `06dbc980` stand as reviewed. Their
 [observed red](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7011613636)
@@ -72,7 +72,7 @@ choices or overrides. Compare canonical intent and retained facts including
 optionality. Exact authorized acceptance retry returns its immutable outcome
 even after the head changes. Conflicting key, receipt or economic identity
 reuse refuses with no financial writes or publication. Raw intake and its
-attempts are independently durable. Deferred submissions follow 34A below.
+attempts are independently durable.
 
 After identity checks, revalidate payment position, each selected basis
 position, actual plan/source and authoritative state/contribution independently.
@@ -106,10 +106,11 @@ The debt balance increases by restored debt plus new deficit debt. The grouped
 outcome distinguishes `applied`, `held` and `finished`. An applied outcome
 records any policy-limited unapplied Main. Both unapplied amounts are
 nonnegative magnitudes. The Main request is signed and nonpositive. The original
-debt restoration request is nonnegative. Under RequireReview, 31B holds both
-legs with zero actual timer deltas only if the Main request's magnitude exceeds
-live Main at the fresh observation. A restoration-only request and exact
-exhaustion of Main apply without a deficit hold. Under 32B keep both requests
+debt restoration request is nonnegative. On a started timer with no earlier
+pending request for this payment, RequireReview holds both legs with zero actual
+timer deltas when the Main request's magnitude exceeds live Main at the fresh
+observation. A restoration-only request and exact exhaustion of Main apply
+without a deficit hold. A prior request invokes 34B. Under 32B keep both requests
 unapplied with reason `finished` and represent the clock's own transitions
 separately. Preserve independent holds, completed milestones and
 performed actions. Any effect on unreleased action policy is driven by actual
@@ -133,18 +134,13 @@ boundary with additive retained records. It uses the existing state head and an
 immutable current request ordinal. It has three distinct pieces:
 
 1. **Accepted refund.** One financial journal entry and payment head update
-   linked to the real reversal operation, refund receipt and original. Recommend
-   staging a deterministic financial capture in the same unit on first
-   acceptance, binding it to admitted inputs and positions. The ordinary
-   bundle requires the actual current plan revision and exact/final request
-   equality. Use integral exact values for the finalized instruction in the
-   capture, and retain exact cumulative entitlement/residual in typed financial
-   provenance. The instruction is already finalized by the cumulative
-   calculation. Applying ordinary half-even to exact cumulative minus prior
-   rounded is unsound: C = 2.5 and prior R = 1 yield increment magnitude 1,
-   while independently rounding 1.5 yields 2. A separately committed candidate
-   capture would still need final revalidation and audited replacement; it
-   cannot be silently changed on retry.
+   linked to the real reversal operation, refund receipt and original. Stage a
+   deterministic financial capture in the same unit, bound to admitted inputs
+   and the actual current plan and positions. The capture instruction uses the
+   finalized integral request, so exact and final agree without rounding the
+   increment again. Keep the exact cumulative entitlement and residual in the
+   typed provenance. A separately committed candidate would still need final
+   revalidation and audited replacement. Never silently change it on retry.
 2. **Grouped time basis and disposition.** Reference the original time
    addition by operation and ordinal, with checked prior/new split, total
    fraction, exact entitlement and residual. Legacy basis reads reject additions
@@ -160,10 +156,11 @@ immutable current request ordinal. It has three distinct pieces:
    history. Refuse non-financial reversal links to any basis with financial
    history. The guard uses exact original operation and effect occurrence
    identity and covers the whole unit. Keep the real ordinals and effect records.
-3. **Financial timer continuation.** Add a `FinancialTimerAdjustmentDeficit`
-   cause on the original contribution's CID as `HoldSubject`. The cause retains
-   the exact signed Main and debt restoration requests, prior and next basis
-   allocations, selected time occurrence and financial refund operation. A
+3. **Financial timer continuation.** Add a `FinancialTimerAdjustment` cause on
+   the original contribution's CID as `HoldSubject`. Its typed reason is
+   `deficit` or `prior_request`. It retains the exact signed Main and debt
+   restoration requests, prior and next basis allocations, selected time
+   occurrence, payment position and financial refund operation. A
    distinct resolution outcome binds resolution intent and exact hold/version.
    Reuse current [hold](sqlite-application-holds-api-v1.md) versioning,
    active-set checks and audit shape where compatible. Existing
@@ -186,11 +183,14 @@ actual, unapplied and deficit-debt components. Preserve score, money and
 milestone policy history.
 
 Successfully applying the retained adjustment closes its exact financial timer
-hold in the same unit. A separate active application hold on the same CID
-blocks application-linked resolution. Preserve it and the financial hold.
-Milestone Review is a decision in its own store and does not block timer
-resolution. An exact retry reports the recorded resolution. A competing or stale
-resolution cannot consume it again.
+hold in the same unit. Only the typed continuation can close these holds. It
+checks the complete expected active set and closes just the oldest request for
+that payment, preserving the later financial holds. The existing all-active rule
+still governs ordinary application-linked resolutions. An independent
+nonfinancial application hold on the same CID blocks this continuation and
+both holds remain. Milestone Review lives in its own store and does not block
+timer resolution. An exact retry reports its immutable resolution. A competing
+or stale resolution cannot consume it again.
 
 ## Transaction and acknowledgement
 
@@ -215,35 +215,29 @@ attempt only when rollback or absence of the entire unit is established.
 Partial/conflicting closure or unavailable evidence keeps the outcome unresolved.
 Never blindly replay or treat a staged value as proof.
 
-## Deferred refunds, Finished continuation and catalog order
+## Ordered timer requests, Finished continuation and catalog order
 
-**34A.** An open financial timer hold or pending queue defers new verified
-refunds for that payment. The deferral binds the separate key, immutable intent,
-receipt, economic identity, subject and arrival order without financial claims
-or effects. Enforce one durable deferral per receipt across all payments and
-operation scopes. Deferral checks existing financial claims. All reversal
-claim paths check the binding, including after reopen. Only the matching
-pending head may claim the receipt once the hold is closed. Conflicts refuse.
-An exact authorized retry returns the immutable `deferred` outcome and any
-committed terminal outcome by reference. Numeric overflow retains its review disposition.
+**[34B](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7014595148).**
+Accept an otherwise eligible verified refund while a timer hold for the same
+payment is open. Claim identities and commit money, requested entitlement,
+score/count effects and applicable milestone policy once. For a started timer
+that has not Finished, retain any nonzero request behind an earlier unresolved
+request as a distinct `prior_request` hold with both legs and zero timer deltas,
+even when Main would cover it. A zero request needs no hold. For Finished, use
+32B. An exact acceptance retry returns its original outcome and hold identity.
 
-After acknowledged closure, [#201 drains automatically](https://github.com/Kernol12/subathon-bot-ai/issues/201#issuecomment-7012411967)
-in original arrival order. The exact pending head uses a stable intent bound to
-the deferral and fresh payment, basis and state positions. Revalidate authority,
-identity and evidence. Commit acceptance, financial claims and head advancement
-together. A definitive ineligibility such as verified over-original money
-commits an audited refusal and advances the head without claims, money or
-entitlement advance, or effects. Stale or unavailable inputs leave it pending.
-Reconcile uncertain results by exact intent and deferral before proceeding.
-Retain order and terminal history across reopen. A new hold defers the suffix.
-No manual resubmission is required.
+Use committed payment position to order requests, including after reopen. Only
+the oldest can resolve, with fresh authority, state and hold checks. Out-of-order
+attempts leave effects and holds intact. Closure preserves later requests for
+separate authorized resolutions. Reconcile uncertain completion before another
+application. [#201 wires live composition](https://github.com/Kernol12/subathon-bot-ai/issues/201#issuecomment-7012411967).
 
 **35A.** If an authorized continuation observes Finished for any reason, close
 the exact hold with an audited `finished` disposition and zero timer adjustment.
 Where the same observation first detects finish, record the transition with
 closure. This applies after Main, grace, confirmation, hard end or an authorized
-deadline edit. Preserve prior score, money and requested progress. This closure
-also enables the automatic drain in 34A. A retry returns the immutable closure.
+deadline edit. Preserve prior score, money, requested progress and any later
+holds. A retry returns the immutable closure.
 
 **36A.** #215 implements the reviewed v14 boundary first. Assign #199's
 additive catalog version against protected main after #215 merges. The
@@ -282,16 +276,16 @@ separate evidence from A01–A15.
 | W06 — Finished and Ready authority | Same 5-of-20 mixed refund with performed actions. In already Finished, actual timer/debt changes zero, requested Main −75000 explicitly non-applied as `finished`, score 30000000, no timer hold/debt/reopen. Repeat with paused Active at exact hard end and verify committed HardEndReached then Finished and identical refund disposition. Ready gives prerequisite refusal with raw retention only and no started reduction, money or effect. |
 | W07 — 33A restoration | Original 8 and actual time addition (Main +3, debt −3). Independent credit leaves live Main 10/debt 0. Refunds 2, 4, 2 give accepted totals 2, 6, 8 and exact cumulative time 1.5, 4.5, 6, rounded 2, 4, 6 and residuals −0.5, +0.5, 0. Cumulative splits (2,0), (3,1), (3,3) give requests (−2,0), (−1,+1), (0,+2) and live (8,0), (7,1), (7,3). New deficit debt remains zero. The third, restoration-only request applies under RequireReview. An independent second-request fixture at Main 1/debt 0 with RequireReview ends at (0,1) without a hold. Tie control (3,2) at half gives 2 and (−2,0). Full clearing control (6,4), prior (5,0), gives (−1,+4). Read linked histories, including original negative debt delta and distinct actual restoration. |
 
-W05 deferred control: retain 2 then 3 after accepting 5. Reopen and verify the
-receipt binding against a different payment. Close the 75000 hold from Main
-200000. With fresh positions and no hold, refuse promotion of 3 before 2.
-The drain accepts them in order: cumulative money 7 then 10, Main 95000 then
-50000 and score 26000000 then 20000000. Verify both retry outcomes. An
-independent queue of 12, 4, 1 from accepted 5 of 20 ends at 18, with the 4
-refused in full. An uncertain head stays pending for reconciliation.
+W05 ordered control: after holding the timer for the refund of 5, raise Main to
+200000. Accept 2 and then 3 while the first hold remains. Money reaches 7 and
+10 and score reaches 26000000 and 20000000 at acceptance. Main stays 200000.
+Reopen and refuse a fresh out-of-order continuation. Resolve the requests
+75000, 30000 and 45000 in payment order. Main reaches 125000, 95000 and 50000.
+Score and money stay fixed. Exact acceptance and resolution retries preserve
+their respective historical results.
 
 W06 continuation control: finish a timer with W05's hold active, once through
 hard end and once through ordinary Main expiry. Authorized continuation closes
 v1 with `finished` and zero timer effect, leaving score 30000000 and accepted
-money 5. Retry preserves the same closure. The deferred receipts remain
-readable in arrival order for the #201 drain.
+money 5. Retry preserves the same closure. In the ordered control, Finished
+closure leaves later requests active for their own authorized continuations.
