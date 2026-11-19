@@ -136,6 +136,47 @@ current readiness.
   `t3-d7d4147d` and `t3-ea41127e` until their ignored build artifacts are
   archived. No owner decision or test run remains pending on this handover.
 
+## Coordination after MILESTONE-009 (2026-11-19)
+
+- MILESTONE-009 #709 is Done after protected merge `9219560c` in
+  [#716](https://github.com/Kernol12/subathon-bot-ai/pull/716#issuecomment-7001909142).
+  All seven checks passed on proof head `db17f85b`. The admitted Stage 1 run
+  observed 16 named NI outcomes, one expected dispatch assertion and one passing
+  control. Stage 2 passed 18 restart invocations and 168 regressions across nine
+  admitted runners. Live host composition and v12 activation remain #294.
+- MILESTONE-005 #236 is active, Tier A Stage 1, after #234 and #709. It owns
+  deferred/skipped groups and persisted refund holds. #719 is Ready after #709
+  and owns the SQLite modifier baseline required by #215. It shares the server
+  module with #236 and stays queued. #286 also stays queued while that module
+  is active.
+- CORE-004 #177 is parked at Stage 2 with review approval and 62 admitted passing
+  invocations, pending [question 10](https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7000882210).
+  MODIFIERTEST-001 #214 is parked at Stage 1, compiled and unrun, pending
+  [question 11](https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7001019419).
+  Both have used zero fix rounds on their current reviews.
+
+### Parallel work and temporary CI rules
+
+- At most two active tasks in different modules and three parked tasks. When
+  three are parked, finish the active tasks, then stop. Answered parked tasks
+  get the next free slot before unclaimed tasks. Start nothing that depends
+  on an unanswered question or touches files of an active or parked task.
+  The coordinator owns shared CMake, CI, acceptance map and checkpoint.
+- Serialize local test execution and exact-binary admission. Builds and
+  reviews may overlap. At a provider limit, pause and retry the same provider
+  on the next active turn. If two tasks park for the same cause, stop new
+  claims and report it. The temporary APT setup retry exception below is
+  excluded from the same-cause parking rule.
+- Main CI stops new work on a build or test failure. A failure in
+  **Prepare authenticated Ubuntu package acquisition** before build or test
+  does not stop new work. The authorized [main rerun](https://github.com/Kernol12/subathon-bot-ai/pull/714#issuecomment-6993941079)
+  passed after the original APT timeout on `c8674545`.
+- Until [#715](https://github.com/Kernol12/subathon-bot-ai/issues/715) lands,
+  run up to two recorded retries for a failure in that exact setup step on a
+  PR (three attempts total). Park after the third setup failure. Record every
+  attempt on the PR. #715 is eligible after 07:00 CET on 2026-11-19, ahead
+  of #199, subject to lane order and shared-file ownership.
+
 ## Authorized path — complete
 
 1. **API-016 [#616](https://github.com/Kernol12/subathon-bot-ai/issues/616)**:
