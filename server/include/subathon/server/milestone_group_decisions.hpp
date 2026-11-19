@@ -91,19 +91,15 @@ class MilestoneGroupDecisionsNotImplemented final : public std::logic_error {
         : std::logic_error(std::string("MILESTONE-005 group decisions NI: ") + entry) {}
 };
 
-[[nodiscard]] inline MigrationManifest milestone_group_decisions_repository_manifest() {
-    throw MilestoneGroupDecisionsNotImplemented("milestone_group_decisions_repository_manifest");
-}
+[[nodiscard]] MigrationManifest milestone_group_decisions_repository_manifest();
 
 // The caller supplies the affected occurrences from its revalidated preview
 // and alert refs already classified as ordinary messages, sounds or visuals.
 // Require one explicit choice for each occurrence before planning any effects.
-[[nodiscard]] inline std::optional<PausedMilestoneActionPlan>
+[[nodiscard]] std::optional<PausedMilestoneActionPlan>
 plan_paused_milestone_actions(const PausedMilestoneAcceptance &,
                               const std::vector<MilestoneOccurrenceKey> &,
-                              const std::vector<std::string> &) {
-    throw MilestoneGroupDecisionsNotImplemented("plan_paused_milestone_actions");
-}
+                              const std::vector<std::string> &);
 
 // Provisional operations on the caller's active writer session. The caller
 // publishes only after normal committed completion. Release, delivery claims
@@ -116,45 +112,31 @@ class SqliteMilestoneGroupDecisions final {
     // Stage after the originating bundle, delivery captures and group batch,
     // on the same session. Retain the original choices and their evidence.
     void record_acceptance(const ApplicationOperationKey &,
-                           const PausedMilestoneAcceptance &) const {
-        throw MilestoneGroupDecisionsNotImplemented("record_acceptance");
-    }
+                           const PausedMilestoneAcceptance &) const;
 
     // Stage in the work that applies the refund. Use the supplied current
     // target and the exact occurrence's persisted release status. Policy
     // applies only on an unreleased occurrence's new downward crossing.
-    void observe_refund(const MilestoneRefundObservation &) const {
-        throw MilestoneGroupDecisionsNotImplemented("observe_refund");
-    }
+    void observe_refund(const MilestoneRefundObservation &) const;
 
     // Select one exact active cause on one occurrence. An authorized Continue
     // clears that cause. Skip also ends every other active cause on the same
     // occurrence, recording the terminal decision that ended each hold.
     [[nodiscard]] bool resolve(const MilestoneOccurrenceKey &, const MilestoneHoldKey &,
-                               MilestoneHoldResolution, const MilestoneDecisionEvidence &) const {
-        throw MilestoneGroupDecisionsNotImplemented("resolve");
-    }
+                               MilestoneHoldResolution, const MilestoneDecisionEvidence &) const;
 
-    [[nodiscard]] std::vector<MilestoneHoldKey> active_holds(const MilestoneOccurrenceKey &) const {
-        throw MilestoneGroupDecisionsNotImplemented("active_holds");
-    }
+    [[nodiscard]] std::vector<MilestoneHoldKey> active_holds(const MilestoneOccurrenceKey &) const;
 
     // Read the exact occurrence. Ready does not establish head order,
     // authorize release, or publish a presentation.
     [[nodiscard]] MilestonePendingDisposition
-    pending_disposition(const MilestoneOccurrenceKey &) const {
-        throw MilestoneGroupDecisionsNotImplemented("pending_disposition");
-    }
+    pending_disposition(const MilestoneOccurrenceKey &) const;
 
     [[nodiscard]] std::optional<MilestoneAcceptanceAudit>
-    acceptance_audit(const MilestoneOccurrenceKey &) const {
-        throw MilestoneGroupDecisionsNotImplemented("acceptance_audit");
-    }
+    acceptance_audit(const MilestoneOccurrenceKey &) const;
 
     [[nodiscard]] std::optional<MilestoneRefundAudit> refund_audit(const MilestoneOccurrenceKey &,
-                                                                   const std::string &) const {
-        throw MilestoneGroupDecisionsNotImplemented("refund_audit");
-    }
+                                                                   const std::string &) const;
 
   private:
     SqliteWorkSession session_;
