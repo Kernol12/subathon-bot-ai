@@ -66,7 +66,14 @@ class Database final {
   public:
     Database() : path(dir.filePath("credentials.sqlite")) {
         require(dir.isValid(), "Disposable SQLite directory exists");
-        open();
+        // The full v14 migration projects every prefix in one transaction.
+        StorageLimits migration_limits;
+        migration_limits.statements_per_batch = 16384;
+        migration_limits.statement_utf8_bytes = 4194304;
+        migration_limits.bound_value_bytes = 33554432;
+        migration_limits.result_rows = 65536;
+        migration_limits.result_value_bytes = 33554432;
+        open(migration_limits);
         auto done = std::make_shared<std::optional<MigrationResult>>();
         const auto admission = SqliteMigrationRunner::enqueue(
             *writer, {MigrationMode::advance, modifier_activations_repository_manifest(), {}, {}},
@@ -80,6 +87,7 @@ class Database final {
         require(result.reason == MigrationReason::none && result.report &&
                     result.report->version == 14,
                 "Selected v14 exists");
+        open();
 
         // Fixture-only DDL. No production catalog reservation. Deliberately
         // allow TEXT and NULL to reach selected-row corruption checks.
