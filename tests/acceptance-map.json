@@ -307,7 +307,8 @@
       "status": "partial",
       "tests": [
         "tests/acceptance/rate_snapshot_tests.cpp",
-        "tests/fixtures/rate_snapshots_vectors.hpp"
+        "tests/fixtures/rate_snapshots_vectors.hpp",
+        "tests/acceptance/rate_override_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/116"
