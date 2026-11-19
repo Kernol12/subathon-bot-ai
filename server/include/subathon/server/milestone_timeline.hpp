@@ -55,13 +55,23 @@ struct ActiveMilestonePresentation {
     bool operator==(const ActiveMilestonePresentation &) const = default;
 };
 
+enum class MilestoneHeadDisposition { ready, held, skipped };
+
 class MilestoneGroupRelease {
   public:
     virtual ~MilestoneGroupRelease() = default;
 
-    // Read the existing decision for the head immediately before starting it.
-    // An already held head neither presents nor releases and blocks later groups.
+    // Legacy decision lookup for groups without an occurrence key.
+    // A held head blocks the suffix without presenting or releasing.
     [[nodiscard]] virtual bool review_held(const core::MilestoneCompletion &achievement) const = 0;
+
+    // Consult committed state for the exact keyed head on each eligible turn.
+    // Held or unavailable stops the walk. Skipped removes just that head and
+    // continues the same turn without starting a presentation or gap.
+    [[nodiscard]] virtual std::optional<MilestoneHeadDisposition>
+    occurrence_disposition(const MilestoneOccurrenceKey &) const {
+        return std::nullopt;
+    }
 
     // Schedule the complete captured group at presentation start, on the owner.
     // Authorized release of this group is required before dispatching its jobs

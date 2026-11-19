@@ -1,15 +1,17 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include <subathon/server/sqlite_milestone_groups.hpp>
 
-#include <QMetaType>
+#include "sqlite_milestone_detail.hpp"
+
 #include <algorithm>
 #include <limits>
-#include <string_view>
 #include <subathon/server/sqlite_delivery_catalog.hpp>
 #include <tuple>
 
 namespace subathon::server {
 namespace {
+
+using namespace milestone_sql;
 
 using Kind = MilestoneActionKind;
 using Milliseconds = std::chrono::milliseconds;
@@ -19,58 +21,9 @@ using Release = MilestoneReleaseDisposition;
 constexpr int automation = 0;
 constexpr int bonus = 1;
 
-[[noreturn]] void invalid() { throw SqliteBundleInputFailure(SqliteBundleInputError::invalid_job); }
-
-[[noreturn]] void corrupt() {
-    throw SqliteBundleStorageFailure(SqliteBundleStorageReason::invalid_stored_data);
-}
-
-template <typename Work> auto guarded(const SqliteWorkSession &session, Work work) {
-    try {
-        return work();
-    } catch (...) {
-        // A caller catching an input or port exception must not be able to
-        // commit any of the provisional originating work or bonus effect.
-        const auto error = session.cleanup();
-        if (error != WorkError::none)
-            throw SqliteWorkFailure(error);
-        throw;
-    }
-}
-
-bool bounded_ref(std::string_view ref) { return !ref.empty() && ref.size() <= 4096; }
-
-QByteArray blob(std::string_view ref) {
-    if (!bounded_ref(ref))
-        invalid();
-    return QByteArray(ref.data(), qsizetype(ref.size()));
-}
-
-QString ref_column(const QString &column) {
-    return "CASE WHEN typeof(" + column + ")='blob' AND length(" + column +
-           ") BETWEEN 1 AND 4096 THEN " + column + " END";
-}
-
-QString integer_column(const QString &column) {
-    return "CASE WHEN typeof(" + column + ")='integer' THEN " + column + " END";
-}
-
 QString timing_column(const QString &column) {
     return "CASE WHEN " + column + " IS NULL OR typeof(" + column + ")='integer' THEN " + column +
            " ELSE -1 END";
-}
-
-std::string reference(const QVariant &cell) {
-    if (cell.isNull() || cell.metaType().id() != QMetaType::QByteArray)
-        corrupt();
-    return cell.toByteArray().toStdString();
-}
-
-qint64 integer(const QVariant &cell) {
-    const auto type = cell.metaType().id();
-    if (cell.isNull() || (type != QMetaType::Int && type != QMetaType::LongLong))
-        corrupt();
-    return cell.toLongLong();
 }
 
 qint64 scalar(const SqlRows &rows) {
@@ -286,6 +239,7 @@ void SqliteMilestoneGroupStore::stage(const ApplicationOperationKey &origin,
 
 std::vector<CapturedMilestoneGroup> SqliteMilestoneGroupStore::pending() const {
     return guarded(session_, [&] {
+        const auto filter = pending_filter(catalog(session_));
         // Read groups independently of action rows so empty occurrences are
         // retained and each captured group definition is materialized once.
         const auto groups = session_.execute(
@@ -294,8 +248,8 @@ std::vector<CapturedMilestoneGroup> SqliteMilestoneGroupStore::pending() const {
                  integer_column("target_micro_points") + "," +
                  integer_column("score_micro_points") + "," + ref_column("completion_context_ref") +
                  "," + timing_column("presentation_ms") + "," + timing_column("gap_ms") +
-                 " FROM main.subathon_milestone_groups "
-                 "WHERE released=0 ORDER BY queue_order",
+                 " FROM main.subathon_milestone_groups AS g WHERE " + filter +
+                 " ORDER BY g.queue_order",
              {}});
         const auto actions = session_.execute(
             {"SELECT " + integer_column("g.queue_order") + "," +
@@ -311,8 +265,8 @@ std::vector<CapturedMilestoneGroup> SqliteMilestoneGroupStore::pending() const {
                  "AND a.job_ref IS NULL END "
                  "FROM main.subathon_milestone_groups AS g JOIN main.subathon_milestone_actions AS "
                  "a "
-                 "ON a.occurrence_ref=g.occurrence_ref WHERE g.released=0 "
-                 "ORDER BY g.queue_order,a.action_ordinal",
+                 "ON a.occurrence_ref=g.occurrence_ref WHERE " +
+                 filter + " ORDER BY g.queue_order,a.action_ordinal",
              {}});
 
         std::vector<CapturedMilestoneGroup> result;
@@ -402,13 +356,16 @@ StorageError release_milestone_head(SqliteWriter &writer, MilestoneOccurrenceKey
     return writer.enqueue_work(
         [key = std::move(key)](SqliteWorkContext context) -> QVariant {
             const auto session = context.begin();
+            const auto current = catalog(session);
             const auto head =
-                session.execute({"SELECT " + ref_column("occurrence_ref") +
-                                     " FROM main.subathon_milestone_groups WHERE released=0 "
-                                     "ORDER BY queue_order LIMIT 1",
+                session.execute({"SELECT " + ref_column("g.occurrence_ref") + "," +
+                                     (current == Catalog::decisions ? held() : QString("0")) +
+                                     " FROM main.subathon_milestone_groups AS g WHERE " +
+                                     pending_filter(current) + " ORDER BY g.queue_order LIMIT 1",
                                  {}});
             auto disposition = Release::refused;
-            if (!head.empty() && reference(head.front().front()) == key.ref) {
+            if (!head.empty() && reference(head.front()[0]) == key.ref &&
+                integer(head.front()[1]) == 0) {
                 (void)session.execute({"UPDATE main.subathon_milestone_groups SET released=1 "
                                        "WHERE occurrence_ref=? AND released=0",
                                        {blob(key.ref)}});

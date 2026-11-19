@@ -64,12 +64,26 @@ struct MilestoneTimeline::State {
         }
 
         if (queue_paused || (settings.follow_countdown_pause && countdown_paused) ||
-            release_uncertain || pending.empty())
+            release_uncertain)
             return;
 
-        const auto &head = pending.front();
-        if (release.review_held(head.achievement))
+        while (!pending.empty()) {
+            const auto &head = pending.front();
+            if (!head.occurrence) {
+                if (release.review_held(head.achievement))
+                    return;
+                break;
+            }
+            const auto disposition = release.occurrence_disposition(*head.occurrence);
+            if (disposition == MilestoneHeadDisposition::ready)
+                break;
+            if (disposition != MilestoneHeadDisposition::skipped)
+                return;
+            pending.pop_front();
+        }
+        if (pending.empty())
             return;
+        const auto &head = pending.front();
 
         // Start on the actual owner turn, with a full presentation for this group.
         PresentationWindow next{head.achievement.milestone_ref, now,

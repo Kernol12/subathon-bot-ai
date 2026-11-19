@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include <subathon/server/delivery_jobs.hpp>
 
+#include "sqlite_milestone_detail.hpp"
+
 #include <QMetaType>
 #include <limits>
 #include <map>
@@ -228,23 +230,8 @@ std::optional<DeliveryJob> selected_job(const SqliteWorkSession &session,
 }
 
 bool milestone_release_allows(const SqliteWorkSession &session, const DeliveryJob &job) {
-    const auto catalog = session.execute(
-        {"SELECT version,migration_id='delivery-jobs-v1',migration_id='milestone-groups-v1' "
-         "FROM main.subathon_migration_history "
-         "WHERE EXISTS(SELECT 1 FROM main.subathon_catalog WHERE singleton=1 "
-         "AND typeof(catalog_format)='integer' AND catalog_format=1 "
-         "AND store_identity='subathon.sqlite-store') ORDER BY version DESC LIMIT 1",
-         {}});
-    if (catalog.size() != 1)
-        corrupt();
-    const auto &head = catalog.front();
-    const auto version = integer(head[0]);
-    // The earlier recorded prefixes also support the original independently
-    // staged delivery tables. None of those prefixes carries typed membership.
-    if ((version >= 1 && version < 11) || (version == 11 && integer(head[1]) == 1))
+    if (milestone_sql::catalog(session) == milestone_sql::Catalog::independent)
         return true;
-    if (version != 12 || integer(head[2]) != 1)
-        corrupt();
 
     QList<QVariant> args{blob(job.capture.action_ref), blob(job.capture.action_version_ref)};
     args.append(bindings(job.key));

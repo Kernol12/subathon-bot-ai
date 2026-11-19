@@ -110,7 +110,8 @@ if(TARGET subathon_sqlite_contributions AND TARGET subathon_application_plan)
     subathon_target_options(subathon_delivery_catalog)
 
     if(TARGET subathon_milestone_timeline)
-        add_library(subathon_sqlite_milestone_groups STATIC src/sqlite_milestone_groups.cpp)
+        add_library(subathon_sqlite_milestone_groups STATIC
+            src/sqlite_milestone_groups.cpp src/milestone_group_decisions.cpp)
         target_include_directories(subathon_sqlite_milestone_groups PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
         target_link_libraries(subathon_sqlite_milestone_groups PUBLIC
             subathon_milestone_timeline subathon_sqlite_delivery_jobs subathon_delivery_catalog)
