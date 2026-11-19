@@ -161,13 +161,22 @@ current readiness.
   approved numbered timeline correction 1, refund policy on a new downward
   crossing, and terminal Skip with each remaining hold recorded as ended by
   that Skip. Its additive catalog follows v12 and precedes #719.
-- #715 is active beside #236 for [one hosted experiment](https://github.com/Kernol12/subathon-bot-ai/pull/722#issuecomment-7003511500)
-  on its task branch. If a privileged descendant survives the timeout, report
-  the result to the owner before designing a fix. #286 has
-  [approved correction 1](https://github.com/Kernol12/subathon-bot-ai/pull/723#issuecomment-7003511878)
-  and waits Ready for the server slot.
+- #236 resumed after owner decision 23A for Stage 1 fix round 2. The
+  [first run](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7004391307)
+  had one unexpected fixture stop. In the repaired case, the literal v13
+  migration precedes creation of the synthetic bonus-effect table. The case
+  must reach the named `observe_refund` NI. If setup fails again, park and
+  report it.
+- The owner stopped #715 after its [one hosted experiment](https://github.com/Kernol12/subathon-bot-ai/issues/715#issuecomment-7004781214).
+  The root canary survived the direct `sudo` timeout. The draft #722 was
+  closed and #715 returned to Planned, the board's backlog status. It uses
+  no parking slot. The retry change was never enabled.
+- #286 has [approved correction 1](https://github.com/Kernol12/subathon-bot-ai/pull/723#issuecomment-7003511878)
+  and [19 admitted standalone NI outcomes](https://github.com/Kernol12/subathon-bot-ai/pull/723#issuecomment-7004639361).
+  Stage 2 source is authored and awaits independent review. #236 has the
+  server slot and the shared test registration paths.
 
-### Parallel work and temporary CI rules
+### Parallel work and standing CI rerun rule
 
 - At most two active tasks in different modules and three parked tasks. When
   three are parked, finish the active tasks, then stop. Answered parked tasks
@@ -177,17 +186,16 @@ current readiness.
 - Serialize local test execution and exact-binary admission. Builds and
   reviews may overlap. At a provider limit, pause and retry the same provider
   on the next active turn. If two tasks park for the same cause, stop new
-  claims and report it. The temporary APT setup retry exception below is
+  claims and report it. The APT setup retry exception below is
   excluded from the same-cause parking rule.
 - Main CI stops new work on a build or test failure. A failure in
   **Prepare authenticated Ubuntu package acquisition** before build or test
   does not stop new work. The authorized [main rerun](https://github.com/Kernol12/subathon-bot-ai/pull/714#issuecomment-6993941079)
   passed after the original APT timeout on `c8674545`.
-- Until [#715](https://github.com/Kernol12/subathon-bot-ai/issues/715) lands,
-  run up to two recorded retries for a failure in that exact setup step on a
-  PR (three attempts total). Park after the third setup failure. Record every
-  attempt on the PR. #715 is eligible after 07:00 CET on 2026-11-19, ahead
-  of #199, subject to lane order and shared-file ownership.
+- Until the owner reopens [#715](https://github.com/Kernol12/subathon-bot-ai/issues/715),
+  a failure in that exact setup step may be rerun up to twice on fresh
+  runners (three attempts total). Record each rerun on the PR. Park after
+  the third setup failure.
 
 ## Authorized path — complete
 
