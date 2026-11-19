@@ -247,9 +247,10 @@ class ChatCommandFailure final : public std::exception {
 //    A mismatch throws invalid_envelope. Check current catalog, all action slots
 //    and units before validating any request value domains. Unknown or malformed
 //    catalog or incompatible action definition yields authority_unavailable.
-//    An out-of-domain bound argument yields invalid_arguments. A static literal
-//    outside its current domain is an incompatible definition. Do these checks
-//    for all configured actions before route authorization.
+//    Validate every static literal's domain before checking any bound argument
+//    domain, across the entire action set. An out-of-domain literal yields
+//    authority_unavailable. With all literal domains valid, any out-of-domain
+//    bound argument yields invalid_arguments. Do these checks before authorization.
 // 5. A nonordinary catalog operation is a definite action denial. For each
 //    ordinary action, use the selected route. Linked account requires the exact
 //    sender's current link, never another user's policy. Apply current effective
