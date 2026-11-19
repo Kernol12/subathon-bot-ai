@@ -26,8 +26,8 @@ batch of one. Preview and lookup are read-only work. These are owned DTOs, not a
 | Preview request | Selection and one entry intent per selector. Preview derives occurrences before validating supplied choices, so an initial request with absent choices can show the prospective effects and choices required. |
 | Execute request | Stable work `ApplicationOperationKey`, selection, entry intents/options with server-bound preview identities/bases, nonempty actor, per-entry decision ref and reason. Actor is checked against authenticated provenance. |
 | Hold closure options | For linked apply or whole-input rejection, an ordered vector of exact ordinary version locators and explicit owning decisions for additional resolvable holds. The timer selector/verb supplies its own closure. No user-provided decision is proof of resolution eligibility. |
-| Row outcome | `AcceptedPending`, `Applied`, `Rejected`, `TimerResolved`, `Retained`, `Ineligible(reason)`, `Stale(reason)` or `Denied`. An unresolved selector uses disclosure-safe `Ineligible(Unavailable)`. Pending or retained carries permitted blockers/hold locators. Applied or resolved links the actual committed bundle/closure and disposition data. A denied row returns only its canonical entry ordinal and `Denied`. No verified anchor, blocker, revision, permission explanation or indication which check failed. Ineligible/stale return only authorized facts. |
-| Work result | Ordered row dispositions `Committed(outcome)`, `Existing(outcome)`, `WriteFailed`, `CommitUncertain`, `CommittedResultUnavailable` or `Unattempted`. Whole-work refusals are `InvalidSelection`, `Denied`, `IdentityConflict`, `BatchTooLarge` and `Unavailable`. Writer outcome/error stays separate and only disclosure-safe classifications enter the result. |
+| Row outcome | `AcceptedPending`, `Applied`, `Rejected`, `TimerResolved`, `Retained`, `Ineligible(reason)`, `Stale(reason)` or `Denied`. An unresolved selector uses disclosure-safe `Ineligible(SelectorUnavailable)`. Pending or retained carries permitted blockers/hold locators. Applied or resolved links the actual committed bundle/closure and disposition data. A denied row returns only its canonical entry ordinal and `Denied`. No verified anchor, blocker, revision, permission explanation or indication which check failed. Ineligible/stale return only authorized facts. |
+| Work result | Ordered row dispositions `Committed(outcome)`, `Existing(outcome)`, `WriteFailed`, `CommitUncertain`, `CommittedResultUnavailable` or `Unattempted`. An interrupted result carries the stop reason. Whole-work refusals are `InvalidSelection`, `Denied`, `IdentityConflict`, `BatchTooLarge` and `Unavailable`. Writer outcome/error stays separate and only disclosure-safe classifications enter the result. |
 
 Use committed original support ReceiptId order (unsigned ascending) for preview, execution, persisted entry ordinals
 and response. Receipt allocation is durable intake order. A confirmation ID, source time, clock time, client list
@@ -59,8 +59,8 @@ outcomes. A per-row denial does not approve other work on that subject. Reading 
 disclosure check.
 
 Resolve the live basis in the selected row's transaction. Recheck session and batch/key authority at every turn.
-Loss of that authority stops forwarding. Check same-row execution permissions first, then compare actual
-fields and provenance, including plan/head, contribution, complete mixed hold set and policy/permission revisions.
+Check same-row execution permissions before comparing plan/head, contribution, complete mixed hold set and
+policy/permission revisions. Loss of session or batch/key authority follows the stop rules below.
 Use the actual committed predecessor outcomes and current state/head to reobserve clock and compute exact cap, score
 and milestones. A matched prefix commit can account for the head change it produced. Its token is never authority
 for other changes. An unrelated review-only decision does not stale a later row. Material prefix drift is stale even
@@ -87,12 +87,13 @@ caller-supplied intent, with protected columns absent. A redacted row exposes on
 when a formerly disclosable outcome can no longer be returned. History lookup is read-only and never resumes work.
 
 The first terminal row creates the manifest and advances the cursor atomically. A failed first row leaves no key
-after known rollback. Cursor is the next ordinal, initially 1, with count+1 complete. Require an exact contiguous
-immutable terminal prefix [1, cursor), matching manifest, anchors when verified and linked effects. Append only at
-cursor. CAS its old value and check a single change in the same transaction as the terminal entry and any domain
-writes. Broken prefix/links fail closed. Each applied entry has a distinct checked immutable bundle key linked to
-work key and ordinal. Reserve IDs before staging with no alias of any previous bundle, operation, occurrence,
-decision or hold. Keep existing claim uniqueness, review/plan/state guards and terminal rejection gates across keys.
+after known rollback. Cursor is the next ordinal, initially 1, with count+1 complete. Initial and final reconciliation
+validate the exact contiguous immutable prefix [1, cursor), manifest, verified anchors and typed effect links.
+Between these reads carry the validated prefix and normally completed additions in bounded owner state. Each row
+unit checks the exact manifest, expected cursor and own entry absence. Append only at cursor, CAS it, and check one
+change in the same transaction as the terminal entry and domain writes. Any mismatch fails closed. An applied entry
+has a distinct checked immutable bundle key linked to work key and ordinal. Reserve IDs before staging and preserve
+cross-key claim uniqueness, ID non-aliasing, review/plan/state guards and terminal rejection gates.
 
 ## Decisions, blockers and lifecycle
 
@@ -241,15 +242,14 @@ at 1 MiB, with at most 4 KiB of envelope and 60 KiB per encoded entry including 
 at 16 rows). Charge owned input at ingress before copying/canonicalizing past the limit. Before any writes, bound
 the entire selection, manifest, persisted/result documents and final reply, including denied/stop/suffix cases.
 Use checked addition and bounded length/count probes, with their own charges, before materializing stored data.
-Check duplicate/conflicting anchors, identities and all row shapes in read-only preflight. Refuse invalid, oversize
-or unproven requests without starting journal or domain writes. Recheck each live shape before staging. If facts
-drift after preflight, record stale only when established within the row budget, otherwise stop with a row failure.
-
-Use one explicitly configured existing writer. Candidate profile per unit: 768 attempts, 64 KiB per SQL statement,
+Check duplicate/conflicting anchors, identities and all row shapes in read-only preflight. Unbounded, over-budget
+or unproven fanout returns BatchTooLarge before journal or domain writes. Recheck live row shape before staging.
+Refuse Unavailable before writes if the existing single writer lacks a verified explicit review profile.
+Candidate profile per unit: 768 attempts, 64 KiB per SQL statement,
 9 MiB binding bytes, 768 result rows, 16 MiB result values. Reserve 128 attempts/rows shared plus 384 for a single
 row work (128 discovery/proposal, 256 staging/validation), or 40 per ordinal for a compact 16-row reconciliation
 (128 + 16 × 40 = 768). Allow one initial read, at most one qualification read per row and one final reconciliation
-read, for at most 34 works including row writes. Bound both count dimensions independently. All ports charge before use, including authority/policy,
+read, for at most 34 works including row writes. Meter each call before executing it, including authority/policy,
 sentinels, duplicate projections, plan append, mixed hold closure, terminal partition, milestones, jobs and
 stage/readback. Per attempt/row, reserve 32 binding/104 result cells, each 8 overhead + 128 payload bytes, and
 4,096 additional payload bytes. Add at most 2 MiB in each direction per unit for repeated bounded manifest/journal
@@ -261,38 +261,39 @@ core readback = 136–138, before authority, policy, holds and journaling. Revie
 shared and authority/policy work. The current 64-attempt default cannot admit the traced apply. The explicit
 development profile fits on paper. Use actual configured-writer measurements as tests gates for per-row
 stage/readback, real authority, reconciliation and preflight, review-only/apply/mixed, supported partition/hold/
-milestone shapes, exact maxima and one-over. [Host #294 capacity handoff](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-7022815339)
+milestone shapes, exact maxima and one-over. [Host #278 capacity handoff](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-7022815339)
 requires measured compatibility too. Production settings stay unchanged.
 
 ## Owner execution, stop and reconciliation
 
-One selected contribution per real BEGIN/COMMIT unit. A checked ineligible, stale, unavailable or denied row is a
-terminal journal decision with no domain writes. Commit it and advance the cursor even if every row is refused.
-Issue only the next row from a normal committed completion. No prequeue of row writes, open transaction between
-rows, event pumping or extra writer. Keep one active review execution on the owner from preflight through completion.
-Concurrent component executions fail with a safe busy/unavailable result without staging. The shipped host keeps
-one active command across completion forwarding, so other host commands cannot enter between rows. Other work can
-run only where the owning FIFO permits it. A later row observes any such committed changes through its live guards.
-Each unit rechecks stable intent and cursor, so neither a retry nor a competing intent can skip, reorder or reapply
-a terminal row. Distinct keys have independent intake-ordered selections and share the contribution/claim guards.
+One selected contribution per real BEGIN/COMMIT unit. Each established ineligible, stale or denied row commits only a
+terminal journal entry and cursor advance. Issue at most one next row from a normal committed completion. One active
+review execution owns preflight through completion. A concurrent component request returns whole-work Unavailable
+before staging. No prequeued rows, inter-row transaction, event pumping or second writer. The host keeps its active
+command across units. Other admitted FIFO work can interleave, subject to the next row's live guards.
+Distinct keys retain independent intake order and share contribution and claim guards.
 
-Any write, unexpected stage conflict, readback, commit or abnormal completion failure stops forwarding immediately. A known
-uncommitted current row is `WriteFailed`; an unknown outcome is `CommitUncertain` with a null durable outcome;
-a confirmed commit with abnormal completion is `CommittedResultUnavailable` until reconciled. The earlier prefix
-survives. Report the current ordinal and `Unattempted` suffix without asserting absent or zero effects. A refused unit
-admission stops too, with no current transaction or host reply. Failure markers are attempt observations and never terminal
-journal entries. Arithmetical/domain ineligibility classified before effect staging is a terminal decision.
+Stop row forwarding on the first write, stage, readback, commit or completion failure. After a known rollback,
+classify the row WriteFailed and allow one bounded final read if the writer and host handle remain available. Unknown
+COMMIT yields CommitUncertain, fail-closes the writer and forbids further units. Confirmed COMMIT with abnormal
+completion yields CommittedResultUnavailable and also forbids further units. Both use a safe component stop report
+and the [shipped host no-reply latch](api-host-lifecycle-boundary-v1.md#host-reply-eligibility-after-prepared-units).
+Never claim absent or zero effects from these attempt observations or journal them as row outcomes.
 
-Build protected responses only from a reconciled committed journal, with current same-row authority and disclosure
-in a bounded final read on the owner. Validate the compact journal and its links without replaying bundle staging.
-Require normal completion of the matched read and current disclosure at owner handoff before emission. A normal
-row commit can release its actual effects once through the owning publication path. History reads never republish.
-If current authority or storage cannot be established, withhold protected results, including cached prefix rows,
-and use only a safe stop report or whole-work Unavailable. Unknown COMMIT fail-closes the writer. Do not resume on
-it, infer rollback, or retry automatically. On a recovered authorized owner, reconcile the exact key and manifest,
-cursor and any current entry together. Present and valid means committed. Absence proves no row commit only from
-a validated recovered current store with matching prefix (or no manifest for a first-row attempt). A mismatch or
-unproved recovery remains unavailable. An authorized exact retry then returns the prefix and starts at the first
-missing ordinal. The [shipped host reply gate](api-host-lifecycle-boundary-v1.md#host-reply-eligibility-after-prepared-units)
-withholds transport replies after unknown outcome or abnormal committed completion. The component stop status does
-not clear that latch. A fresh authorized request may obtain the reconciled response.
+After preflight, an unprovably bounded live row stops with RowBudgetExceeded, current row Unattempted and one
+eligible final read. Session or batch/key loss stops with Denied (definite) or Unavailable (unknown), current row
+and suffix Unattempted and no further units. A refused writer admission stops with AdmissionRefused, current row
+and suffix Unattempted, no further units and no host reply. Any stop leaves the unattempted suffix identified.
+A safe stop report contains only ordinals, dispositions and the stop reason, and labels any known prefix without
+protected outcome data. Where even that summary would disclose protected facts, return whole-work Denied or
+Unavailable, subject to the host reply gate.
+
+Use the single bounded final read to validate the journal and typed links and recheck same-row authority/disclosure.
+A known-rollback reply may then include the authorized committed prefix, WriteFailed at the failed ordinal and the
+Unattempted suffix. Require normal final-read completion and current disclosure at owner handoff. Failed or
+unavailable reconciliation uses the safe stop report or whole-work Unavailable subject to the host gate. A normally
+completed row commit publishes its eligible effects exactly once through the existing path. History never republishes.
+After recovery from uncertain COMMIT, a fresh authorized exact request reconciles the manifest, cursor and row in one
+view. A valid present row is committed. Absence proves no commit only in a validated recovered store with the matching
+prefix, or no manifest on the first row. If recovery is unproved, refuse. Otherwise return existing outcomes and start
+at the first missing ordinal. Never infer rollback, retry automatically or clear the prior host reply latch.
