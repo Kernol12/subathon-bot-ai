@@ -13,6 +13,7 @@ enum class MilestoneActionChoice { run, defer, skip };
 enum class MilestoneRefundPolicy { continue_actions, review, skip };
 enum class MilestoneHoldResolution { continue_actions, skip };
 enum class MilestoneHoldCause { deferred_acceptance, refund_review };
+enum class MilestonePendingDisposition { ready, held, skipped, absent_or_released };
 
 struct MilestoneDecisionEvidence {
     std::string actor_ref;
@@ -51,12 +52,13 @@ struct MilestoneRefundObservation {
     std::string refund_ref;
     std::int64_t score_before_micro_points;
     std::int64_t score_after_micro_points;
-    std::int64_t target_micro_points;
+    std::int64_t current_target_micro_points;
     MilestoneRefundPolicy policy{MilestoneRefundPolicy::review};
 };
 
 struct MilestoneRefundAudit {
     MilestoneRefundPolicy policy;
+    std::int64_t current_target_micro_points;
     std::uint64_t deficit_micro_points;
     std::optional<MilestoneHoldResolution> resolution;
     std::optional<MilestoneDecisionEvidence> resolution_evidence;
@@ -66,6 +68,8 @@ struct MilestoneAcceptanceAudit {
     PausedAcceptanceMode mode;
     MilestoneActionChoice choice;
     MilestoneDecisionEvidence evidence;
+    std::optional<MilestoneHoldResolution> resolution;
+    std::optional<MilestoneDecisionEvidence> resolution_evidence;
 };
 
 class MilestoneGroupDecisionsNotImplemented final : public std::logic_error {
@@ -73,6 +77,10 @@ class MilestoneGroupDecisionsNotImplemented final : public std::logic_error {
     explicit MilestoneGroupDecisionsNotImplemented(const char *entry)
         : std::logic_error(std::string("MILESTONE-005 group decisions NI: ") + entry) {}
 };
+
+[[nodiscard]] inline MigrationManifest milestone_group_decisions_repository_manifest() {
+    throw MilestoneGroupDecisionsNotImplemented("milestone_group_decisions_repository_manifest");
+}
 
 // The caller supplies the affected occurrences from its revalidated preview
 // and alert refs already classified as ordinary messages, sounds or visuals.
@@ -99,15 +107,14 @@ class SqliteMilestoneGroupDecisions final {
         throw MilestoneGroupDecisionsNotImplemented("record_acceptance");
     }
 
-    // Stage against current authoritative exact score/target and persisted
-    // action state in the work that applies the refund. The caller supplies
-    // the refund identity, rather than asking this store to calculate credit.
+    // Stage in the work that applies the refund. Use the supplied current
+    // target and the exact occurrence's persisted release status.
     void observe_refund(const MilestoneRefundObservation &) const {
         throw MilestoneGroupDecisionsNotImplemented("observe_refund");
     }
 
     // Select one exact active cause on one occurrence. An authorized Continue
-    // clears that cause. Skip records the selection and bars pending actions.
+    // clears that cause. Skip of a sole active cause bars pending actions.
     [[nodiscard]] bool resolve(const MilestoneOccurrenceKey &, const MilestoneHoldKey &,
                                MilestoneHoldResolution, const MilestoneDecisionEvidence &) const {
         throw MilestoneGroupDecisionsNotImplemented("resolve");
@@ -115,6 +122,13 @@ class SqliteMilestoneGroupDecisions final {
 
     [[nodiscard]] std::vector<MilestoneHoldKey> active_holds(const MilestoneOccurrenceKey &) const {
         throw MilestoneGroupDecisionsNotImplemented("active_holds");
+    }
+
+    // Read the exact occurrence. Ready does not establish head order,
+    // authorize release, or publish a presentation.
+    [[nodiscard]] MilestonePendingDisposition
+    pending_disposition(const MilestoneOccurrenceKey &) const {
+        throw MilestoneGroupDecisionsNotImplemented("pending_disposition");
     }
 
     [[nodiscard]] std::optional<MilestoneAcceptanceAudit>
