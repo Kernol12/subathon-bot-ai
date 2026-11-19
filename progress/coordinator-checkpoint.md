@@ -154,7 +154,8 @@ current readiness.
   [#718](https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7003577969).
   All 48 frozen cases reached intended NI with zero skips. The exact admitted
   runner and receipts were retained, and all seven checks passed on `63ec75e4`.
-  This is baseline evidence. #215 remains blocked by #719.
+  This is baseline evidence. #215 owns implementation together with #719's
+  SQLite baseline.
 - MILESTONE-005 #236 is Done after protected merge `400a5c51` in
   [#721](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7006091072).
   All seven checks passed on proof head `189ab104`. SQLite v13 preserves the
@@ -188,14 +189,18 @@ current readiness.
   24 override and 86 companion cases. Permissioned save and durable revisions
   remain [#727](https://github.com/Kernol12/subathon-bot-ai/issues/727), queued
   after #719 and dependent on #406.
-- #719 resumed in the SQLite slot after the [owner's lifetime and duration rulings](https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7008906515).
-  The contract covers caller-supplied remaining checkpoints, terminal expiry,
-  and positive configured durations. Independent contract review precedes tests.
-- #199 resumed in the core slot on protected `5cfe1959`. Its [owner rulings](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7008905863)
+- MODIFIERTEST-007 #719 is Done after protected merge `a15fca82` in
+  [#725](https://github.com/Kernol12/subathon-bot-ai/pull/725). The exact
+  [admitted run](https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7010490021)
+  had 19 named NI stops, three expected v14 compatibility failures and three
+  passing controls. All seven required checks passed on proof head `5e100683`.
+  The suite remains intentional red. #215 owns the additive v14 implementation.
+- #199 is active on protected `a15fca82`. Its [owner rulings](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7008905863)
   cover active mixed-refund timer holds, the explicit Finished disposition,
   and Main-first reversal allocation after rounding cumulative entitlement.
-  The core entitlement packet goes first. Writer and service changes wait
-  for #719 to release the SQLite slot.
+  The [standalone core runner](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7011317503)
+  reached the expected NI in all 15 methods. The registered run and separate
+  writer/service review remain pending.
 
 ### Parallel work and standing CI rerun rule
 

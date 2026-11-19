@@ -2,7 +2,7 @@
 include_guard(GLOBAL)
 
 set(subathon_acceptance_suites
-    time-credit exact-numeric timer-lifecycle receipt-intake contribution-evidence
+    time-credit exact-numeric refund-entitlement timer-lifecycle receipt-intake contribution-evidence
     pause-policy recurring-schedule application-plan modifier-activation sqlite-writer time-debt sqlite-work
     sqlite-migrations sqlite-retained sqlite-receipt sqlite-contribution sqlite-plan
     sqlite-bundle sqlite-original-claim sqlite-hold application-service sqlite-delivery-jobs
@@ -109,7 +109,7 @@ function(subathon_resolve_acceptance_suites output)
         elseif(suite STREQUAL "rate-override")
             list(APPEND selected exact-numeric rate-snapshot rate-override)
         elseif(suite STREQUAL "milestone-progression" OR suite STREQUAL "effective-permissions"
-               OR suite STREQUAL "rate-snapshot")
+               OR suite STREQUAL "rate-snapshot" OR suite STREQUAL "refund-entitlement")
             list(APPEND selected exact-numeric "${suite}")
         elseif(suite STREQUAL "timer-editorial")
             list(APPEND selected time-debt timer-lifecycle timer-editorial)

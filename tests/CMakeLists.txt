@@ -130,6 +130,15 @@ if(SUBATHON_BUILD_EXACT_NUMERIC_TESTS)
         LABELS "exact-numeric;acceptance;core")
 endif()
 
+if(SUBATHON_BUILD_REFUND_ENTITLEMENT_TESTS)
+    add_executable(core_refund_entitlement_acceptance acceptance/refund_entitlement_tests.cpp)
+    target_link_libraries(core_refund_entitlement_acceptance PRIVATE
+        subathon_refund_entitlement GTest::gtest_main)
+    subathon_target_options(core_refund_entitlement_acceptance)
+    subathon_discover_gtests(core_refund_entitlement_acceptance
+        LABELS "refund-entitlement;acceptance;core;intentional-red" TIMEOUT 30)
+endif()
+
 if(SUBATHON_BUILD_MILESTONE_PROGRESSION_TESTS)
     add_executable(core_milestone_progression_acceptance acceptance/milestone_progression_tests.cpp)
     target_link_libraries(core_milestone_progression_acceptance PRIVATE subathon_milestone_progression GTest::gtest_main)
