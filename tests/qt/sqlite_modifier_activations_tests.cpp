@@ -581,7 +581,7 @@ class SqliteModifierActivationsTests final : public QObject {
                              "event-C", core::ModifierTriggerTiming::unspecified}});
                 });
                 refuse<SqliteModifierStorageFailure>(Reason::stale_definition, [&] {
-                    (void)store.activate("D", "z-old", old_live, replace_activation);
+                    (void)store.activate("D", "z-old", old_live, {"L", "l0", rule, subsequent});
                 });
                 refuse<SqliteModifierStorageFailure>(Reason::identity_conflict, [&] {
                     (void)store.append_definition(
