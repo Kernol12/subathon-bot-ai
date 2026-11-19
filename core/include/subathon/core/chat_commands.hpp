@@ -101,7 +101,9 @@ enum class ChatManagementRoute : std::uint8_t { linked_account, delegated_catego
 struct ChatCategoryGrant {
     TwitchChatCategory category;
     // One allow for one exact catalog operation and one complete resource/quantity
-    // tuple. Configuration must have passed the owner's applicable GRANT checks.
+    // tuple. The producer checks current USE and GRANT for the original author
+    // with revalidate_permission_automation. A complete set includes only currently
+    // authorized grants. Unavailable revalidation produces unknown facts.
     DelegatedPermissionGrant grant;
 };
 
@@ -140,9 +142,6 @@ struct ChatCommandAuthority {
     std::string snapshot;
     PermissionCatalog catalog;
     PermissionOwnerFacts owner;
-    // Only explicitly chat-enabled ordinary operations can enter a proposal.
-    // These are trusted server facts, separate from the command configuration.
-    std::vector<std::string> chat_operations;
     PermissionFactsState category_grants_state = PermissionFactsState::unknown;
     std::vector<ChatCategoryGrant> category_grants;
 };
@@ -201,7 +200,6 @@ enum class ChatCommandError : std::uint8_t {
     input_limit,
     result_limit,
     clock_regressed,
-    terminal_capacity,
     user_cooldown_capacity,
     allocation_failure
 };
@@ -229,49 +227,74 @@ class ChatCommandFailure final : public std::exception {
 // at evaluation. Command, argument, slot and unit names compare exact bytes.
 //
 // Evaluation order:
-// 1. Validate the exact message key, including source and per-reference limits.
-//    Look up the complete key before considering any other input. A hit returns
-//    the original terminal decision even if aliases, arguments, sender, rights
-//    or clock inputs differ. Replay never returns a proposal or advances time.
-// 2. Preflight complete supplied inputs, validate sender ID, category tags and
-//    alias syntax, and check monotonic_ms against the last completed fresh
-//    evaluation, if any. Resolve the alias. An unknown valid alias is
-//    terminal with no command. All other terminals name the selected command.
-//    Bind every declared argument, including unused ones, at its stated type.
-//    Wrong count, invalid type, or a bound request outside the operation's declared
-//    domain is invalid_arguments. Validate all action bindings and complete
-//    request shapes before checking authority. Unknown catalog or incompatible
-//    configured action shape is authority_unavailable. An operation that exists
-//    but is outside the ordinary chat-enabled set cannot be permitted.
-// 3. Evaluate eligibility. False is ineligible, unknown eligibility_unavailable.
-//    For each action, use the selected route. Linked account requires the exact
+// 1. Validate the entire message key (invalid_identity on bad source, empty field
+//    or per-reference overflow), then look it up before considering other input.
+//    A hit projects and returns the original terminal even if aliases, arguments,
+//    sender, rights or clock inputs differ. Replay never returns a proposal or
+//    advances time.
+// 2. Preflight the complete supplied input budgets before checking syntax and
+//    tags of the envelope. Over-budget input throws input_limit. An empty sender,
+//    invalid category tag or malformed alias throws invalid_envelope. A sender
+//    exceeding the reference bound throws input_limit. Then check monotonic_ms
+//    against the last completed fresh evaluation (clock_regressed).
+// 3. Resolve the alias. An unknown valid alias is terminal with no command. All
+//    other terminals name the selected command. Bind every declared argument,
+//    including unused ones, at its stated type. Wrong count or invalid grammar
+//    is invalid_arguments. Evaluate eligibility next: false is ineligible and
+//    unknown is eligibility_unavailable, without consulting operation authority.
+// 4. For an eligible command with actions, verify the authority source. For any
+//    selected linked route also verify that an asserted link names this sender.
+//    A mismatch throws invalid_envelope. Check current catalog, all action slots
+//    and units before validating any request value domains. Unknown or malformed
+//    catalog or incompatible action definition yields authority_unavailable.
+//    An out-of-domain bound argument yields invalid_arguments. A static literal
+//    outside its current domain is an incompatible definition. Do these checks
+//    for all configured actions before route authorization.
+// 5. A nonordinary catalog operation is a definite action denial. For each
+//    ordinary action, use the selected route. Linked account requires the exact
 //    sender's current link, never another user's policy. Apply current effective
 //    USE with resource-first individual selection and role-deny precedence.
 //    Delegated category requires a present category on one current grant covering
 //    the exact operation and EVERY resource and exact requested quantity together.
 //    Each constraint uses existing set/Any and inclusive exact quantity semantics.
 //    Different rows, categories or routes cannot supply partial witnesses. Compare
-//    the requested value before caps. Both requires independent complete permits
-//    through both routes for each operation. A denied/unavailable required action
+//    the requested value before caps. In both, either route's complete permit
+//    suffices unless an applicable linked-account deny vetoes the whole command,
+//    even for an optional action. Use the linked decision's individual_deny or
+//    role_deny reason under existing USE precedence. An unmatched grant, an
+//    individual limit or a known absent link is a nonpermit without a veto.
+//    With neither route permitting, both must deny for definite action denial.
+//    Otherwise that action is unavailable. A denied/unavailable required action
 //    refuses the whole invocation. Omit optional actions lacking a complete permit.
-//    Missing/malformed relevant facts cannot permit. A source mismatch or an
-//    asserted link for a different sender is unavailable. A known absent link
-//    or known lack of a fitting grant is a denial. A fitting present category can
+//    Missing/malformed relevant facts cannot permit. A known absent link or lack
+//    of a fitting grant in a complete set is a denial. A fitting present category can
 //    witness authorization despite an unrelated unknown category. If none fits
 //    and a fitting grant's category is unknown, that route is unavailable.
-//    Inspect all required outcomes: definite denial takes precedence over
-//    unavailable, including within both. Only routes selected by the command
-//    participate. They have no effect on a response-only command.
-// 4. Before admission, check both windows against the same monotonic sample.
+//    Inspect the whole action set: a linked-account veto refuses as
+//    required_action_denied. Among required actions, definite denial takes
+//    precedence over unavailability. Only routes selected by the command
+//    participate. They have no effect on a response-only command. Effective
+//    permission helper failures map as follows after the preflight above:
+//    - input_limit, result_limit and allocation_failure throw the matching
+//      ChatCommandFailure. invalid_limits is a construction failure.
+//    - facts_unavailable, invalid_reference, invalid_catalog, invalid_facts,
+//      invalid_request, invalid_policy, contradictory_individual and invalid_number
+//      on the prevalidated call make that route unavailable. Request shape, grammar
+//      and bound argument domain defects are attributed in steps 3–4 before this call.
+// 6. Before admission, check both windows against the same monotonic sample.
 //    Global key is the resolved command within this source/revision, shared by all
 //    aliases and users. User key is that command and exact Twitch user, independent
 //    of display name or linked account. A window of d>0 blocks iff now-start<d.
 //    Equality opens it. d=0 disables it. Use checked elapsed arithmetic, no
 //    timestamp+duration overflow. Only admission starts both enabled windows.
-// 5. Publish the terminal, sample and any cooldown changes atomically before returning a
-//    fully built result. Denials, invalid arguments and cooldown refusals are
-//    terminals too. They do not start/extend a cooldown. No callbacks, other
-//    state mutation, effect enqueue or cross-thread publication inside evaluation.
+// 7. Check active user window capacity only for an otherwise admitted command
+//    that would add an unexpired entry (user_cooldown_capacity). Project the
+//    complete result (result_limit), then construct it and atomically publish the
+//    terminal, sample and any cooldown changes. Store the new terminal and evict
+//    the oldest if full as part of the same atomic publication. Allocation failure throws
+//    allocation_failure. Denials, invalid arguments and cooldown refusals are
+//    terminals too. They do not start or extend windows. No callbacks or effects
+//    run inside evaluation.
 //
 // Bounds: preflight borrowed inputs before copying/parsing and project the whole
 // owned result before materializing. Bytes sum string payloads and scalar widths
@@ -289,13 +312,15 @@ class ChatCommandFailure final : public std::exception {
 // Validate aggregate arithmetic, growth and max_size before allocation. Source
 // review must establish these bounds.
 // All limits must be positive except durations. Check capacity products, byte
-// sums and size conversions for representability at construction. Store terminal
-// records without eviction until revision end, retaining exact
-// message keys and terminal state only. Global timers are bounded by command count.
+// sums and size conversions for representability at construction. Retain only exact
+// message keys and terminal state. Oldest is first completed fresh evaluation.
+// A replay neither reorders the ledger nor extends retention. Evicted keys are
+// fresh at this synthetic boundary. #337 suppresses live redelivery separately.
+// Global timers are bounded by command count.
 // Store at most active_user_entries unexpired user windows, reclaiming expired
-// windows before an admission would exceed capacity. Reject new work on capacity
-// failure without evicting a terminal/active window. Existing keys still replay
-// at capacity. Limits, identity, clock and atomic resource failures are exceptions,
+// windows before an admission would exceed capacity. Refuse a new active window
+// if they are all running. Terminal eviction never evicts a live cooldown.
+// Retained keys replay at capacity. Limits, identity, clock and resource failures are exceptions,
 // not terminal decisions. Any such failure leaves logical state intact. Retained
 // dynamic identity bytes are bounded by terminal_entries*4*reference_bytes plus
 // active_user_entries*reference_bytes and the one bounded configuration copy.
