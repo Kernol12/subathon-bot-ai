@@ -209,13 +209,12 @@ candidate against the captured edit and ordered source input under #406, using
 only those retained facts. Check selected observations byte-for-byte with the
 basis documents, including original quote rows excluded as constraints.
 
-Read the decision, its two immutable revisions, introduced/replaced occurrence
-rows and basis observations in one coherent selected view. Check keys, bodies,
-parent and typed links before returning anything. Do not walk ancestry, scan
-unrelated history or consult the current rate head or source policy for the old
-receipt. Use bounded row/length preflight before fetching BLOB payloads. With
-#406's order, iterate distinct directed pairs over the unsigned-byte-sorted union
-of member currencies, from then to. On each side, return reduced exact
+Read the decision, both immutable revisions, each distinct occurrence keyed by
+either revision's overrides, and basis observations in one coherent view. Check
+exact keys, bodies, parent and typed links against both revisions. Never consult
+ancestry, unrelated history, the current rate head or the live source policy.
+Preflight row counts and lengths before fetching BLOBs. Enumerate distinct pairs
+over the unsigned-byte-sorted member union, from then to. Return reduced exact
 `weight(to)/weight(from)` when both endpoints share a component and absence
 otherwise. Emit only changes in exact value or availability. Equal-currency
 identity is omitted. Rebuild the list under the same proposal budget and compare
@@ -224,8 +223,9 @@ interpretation is needed.
 
 ## Write, commit and reopen
 
-The command owner starts one real writer transaction. Validate the complete
-selected current data, operation identity and candidate before staging.
+The command owner starts one real writer transaction. Check every active base
+override against its exact occurrence key and body before staging. Charge direct
+selected reads to the same cumulative writer budget on save and receipt lookup.
 Stage needed observations, the new effective revision, then its exact decision
 and introduced occurrence. Conditionally update the singleton from the
 exact preview base to the candidate. Check exactly one row changed. A late
@@ -263,14 +263,14 @@ grant confers no authority to certify a successful fetch or invoke that path.
 | Case | Inputs and expected evidence |
 | --- | --- |
 | R01 — Root and first addition | Reopen verified root E before a successful fetch. RSV1 has length 27 (4 magic + 5 ref + 2 absent tags + 4 empty vector counts). EUR/USD missing, EUR/EUR 1. Add EUR→USD pinned `1.20` with no source. New revision parent E, EUR/USD 6/5, USD/EUR 5/6, exactly two ordered availability changes, one decision and one override. Reopen exactly; no implied fetch or timestamp. |
-| R02 — Scope and denial | The EUR/USD grant covers either direction and both kinds. EUR/GBP needs its own pair scope. Deny on no complete grant, applicable deny, revoked session, unavailable graph, or unsynchronized catalog, without protected lookup or writes. Independently revoke the grant after preview and between a committed save and exact retry. |
+| R02 — Scope and denial | The EUR/USD grant covers either direction and both kinds. EUR/GBP needs its own pair scope. Deny on no complete grant, individual deny, revoked session, unavailable graph, or unsynchronized catalog, without protected lookup or writes. Independently revoke the grant after preview and between a committed save and exact retry. |
 | R03 — Named replacement and exact graph | Base has EUR/USD pin 6/5 and source rows EUR→GBP `0.90`, EUR→USD `1.20` in that policy order. Replace the named pin with USD→EUR `0.80` using the same source. EUR/USD becomes 5/4, USD/EUR 4/5, USD/GBP becomes (9/10)/(5/4)=18/25, inverse 25/18. Old USD/GBP is 3/4, inverse 4/3. The EUR/GBP pair stays 9/10 and 10/9. Preserve both full source rows and their ordinals. Exclude EUR→USD as a constraint. Reject absent, wrong or other-pair replacement refs and zero/negative rates. In a separate base with EUR/USD pinned at 5/4 and EUR/GBP pinned at 9/10, USD→GBP `0.72000000000000000001` contradicts the exact cross rate 18/25. |
 | R04 — Facts, replay and collision | K adds EUR/USD `1.20` from E to S. K2 from S explicitly replaces K's override at the same rate and advances to T with zero rate changes. An authorized K retry returns S and its two original changes, with T still active. Fresh K3 from E is stale. A changed K lexeme, actor, decision or replacement conflicts. On the current base, any new operation reusing an existing override, decision or successor ref conflicts. A changed current source-policy basis or edge trace on a fresh operation needs a new preview even when the head and rates agree. |
 | R05 — Observation fidelity | Selected F has a conflicting second row and unselected G has no accepted edge. Reopen both full facts from the decision basis, with F's source time original-only, fetch UTC0 and present-empty publication text distinct from absence. Same F identity with a changed lexeme or time presence conflicts before any durable changes. |
 | R06 — Smaller successor | Temporary USD→EUR 7/5, pinned EUR→GBP 1/2, unrelated temporary JPY→CAD 3/250. Successful supplied USD→CHF `0.70`, CHF→EUR `2.0` imply USD→EUR 7/5, so only the first override expires. Use compatible fetched edges and derive USD→GBP 7/10. Repeat with direct same-value fetched USD→EUR, unrelated-only quotes, and no accepted observation. Reopen both override counts and original provenance. |
 | R07 — Race and late failure | Two fresh commands share E. First commits, second is stale, and two identical K submissions yield one commit and one retained receipt. Force a reached late write/CAS failure after staging and verify from an independent committed view and reopen that the old head and every prior row survive and all staged rows are absent. |
 | R08 — Uncertain and post-commit error | Lose acknowledgement after physical commit and separately fail the body after confirmed commit. Both lack a normal payload. The former is unknown and fail-closed; the latter is committed with a work error. Fresh selected read proves one exact committed closure. A partial closure or wrong intent cannot prove acceptance; full absence or known rollback still requires the ordinary authorization and freshness gates. |
-| R09 — Catalog and corruption | Keep populated protected-prefix rows unchanged across additive advance and reopen. Refuse old manifest on the newer store. Missing head/decision links, a pointer to a nonterminal revision, wrong physical type, key/body mismatch, invalid ordinal, duplicate active pair, noncanonical rational, malformed known format, and unknown format must never cause fallback to E, current repair, or success. |
+| R09 — Catalog and corruption | Keep the populated prefix intact across advance and reopen. Refuse an older manifest. For K1 adding pin A and K2 adding pin B, remove A's occurrence or change its spelling from `1.20` to `1.200` without changing either embedded revision. A fresh save and an exact K2 retry both refuse retained data. Missing links, a nonterminal head, invalid type/ordinal, duplicate active pair, noncanonical rational and malformed or unsupported format also refuse without repair. |
 
 ## Bridge pressure witnesses
 
