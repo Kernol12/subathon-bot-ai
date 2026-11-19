@@ -284,8 +284,9 @@ std::optional<FinancialEffectObservation> observe(const SqliteWorkSession &s,
     for (const auto &step : clock.segments) {
         const bool hard_end =
             o.config.hard_end_utc_ms && step.utc_now_ms >= *o.config.hard_end_utc_ms;
-        // A stationary observation at zero can precede the owner's expiry step.
-        if (step.elapsed_ms == 0 && !hard_end && o.transitions.empty())
+        // A zero-elapsed observation is stationary unless hard end is due.
+        // Validate the reported transitions only after replaying the inputs.
+        if (step.elapsed_ms == 0 && !hard_end)
             continue;
         auto advance = core::advance_timer(timer, o.config, step);
         timer = advance.state;
@@ -521,10 +522,6 @@ std::optional<FinancialRefundRecord> read_refund(const SqliteWorkSession &s,
         captured.captured.valuation.state != core::PlanValuationState::not_applicable)
         corrupt();
 
-    // Intake attempts may continue to append independently. The closure binds
-    // the immutable received facts and their creating attempt.
-    refund->attempts.resize(1);
-    support->attempts.resize(1);
     std::optional<RefundTimerOutcome> timer;
     std::optional<FinancialTimerHoldReason> hold_reason;
     std::vector<MilestoneRefundObservation> milestones;
@@ -682,6 +679,8 @@ std::optional<FinancialTimerResolution> read_resolution(const SqliteWorkSession 
         !access.head_relation(before, advanced, "financial timer observation") ||
         (command.override_policy && *command.override_policy != policy) ||
         timer.disposition == TD::held ||
+        (timer.disposition == TD::applied && !command.override_policy &&
+         refund->hold->time.main_request < -advanced.timer.main_remaining_ms) ||
         !validate_timer_effect(refund->hold->time, timer, advanced.timer, policy))
         corrupt();
     auto actual_after = advanced;
@@ -1354,8 +1353,7 @@ FinancialWorkReply resolve_timer(const SqliteWorkSession &s, const FinancialTime
     after.token = generated_ref(c.operation, "financial-state");
     const auto &time = at->time;
     const bool finished = advanced.timer.lifecycle == Life::Finished;
-    if (!finished && -time.main_request > advanced.timer.main_remaining_ms &&
-        policy == Policy::RequireReview)
+    if (!finished && !c.override_policy && time.main_request < -advanced.timer.main_remaining_ms)
         return refused(D::deficit);
     const RefundTimerOutcome outcome =
         finished
