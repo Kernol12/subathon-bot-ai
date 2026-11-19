@@ -1,12 +1,12 @@
-# Contribution review and continuation writer, revision 1
+# Contribution review and continuation writer, revision 2
 
 ACCT-005 [#197](https://github.com/Kernol12/subathon-bot-ai/issues/197), Tier A, Stage 1 contract candidate.
-Specification v0.45 §§3–5, 8, 10. Bind [owner decisions
-59A–64A](https://github.com/Kernol12/subathon-bot-ai/issues/197#issuecomment-7020230829) and [coordinator
-claim](https://github.com/Kernol12/subathon-bot-ai/issues/197#issuecomment-7021460016). Design base
-`8056048c238bdbd7c208eac11117f9b73b04097f`, tree `29ef6bff2909acfd2847502070b69b140cb906d5`, protected v15 through
-#199. The coordinator assigns one additive step after #270. #197 and #230 require separate active night slots because
-they share milestone staging. Independent contract review precedes freezing examples and authoring the baseline.
+Specification v0.45 §§3–5, 8, 10. Bind [59A–62A and 64A](https://github.com/Kernol12/subathon-bot-ai/issues/197#issuecomment-7020230829)
+and [63B](https://github.com/Kernol12/subathon-bot-ai/issues/197#issuecomment-7022815950), which supersedes 63A.
+Preserve the [prior verified boundary](https://github.com/Kernol12/subathon-bot-ai/pull/742#issuecomment-7022781679)
+outside that change. The coordinator assigns one additive step after #270. #197 and #230 have separate active
+night slots because they share milestone staging. Independent contract review precedes the tests baseline.
+[Coordinator claim](https://github.com/Kernol12/subathon-bot-ai/issues/197#issuecomment-7021460016)
 
 ## Owned command and result
 
@@ -19,15 +19,15 @@ batch of one. Preview and lookup are read-only work. These are owned DTOs, not a
 
 | Value | Fields and invariants |
 | --- | --- |
-| Selection | Stable `ApplicationPrincipalBinding` and 1–2 unique contribution selectors, each CID plus original positive support ReceiptId. Resolve both against the same committed anchor. Session proof is supplied separately through the current trusted admission path. |
+| Selection | Stable `ApplicationPrincipalBinding` and 1–16 unique contribution selectors, each CID plus original positive support ReceiptId. Resolve both against the same committed anchor. Session proof is supplied separately through the current trusted admission path. |
 | Entry intent | Selector and verb `Accept`, `Reject`, `ApplyAccepted`, `ContinueTimer`, `RejectHeld` or `RetainHeld`. The latter three select an exact ordinary timer hold/version, occurrence and signed remainder. `ApplyAccepted` references the exact accepted-pending decision. |
 | Entry options | Accept/ApplyAccepted carry `PausedAcceptanceMode`, optional complete ordered `MilestoneAcceptanceChoice` vector, and optional authorized plan revision proposal bound to the expected parent. Present empty choices mean zero affected occurrences. Absence means choices have yet to be supplied. ContinueTimer carries a present ordered deficit-choice vector (see below) and the apply options for an unclaimed whole input. It carries no calculation override. ContinueTimer preview may omit the deficit vector to discover the first reached ordinal. Reject and Retain have no apply options. |
 | Preview row | Canonical selector, current review and application dimensions, authorized blocker and resolved-request details, expected basis below, and prospective actual amounts and ordered affected occurrences when available. Unknown amounts/occurrences stay absent. Preview denial uses the same redaction as execute. Return separate eligibility for the requested decision and its application. |
 | Preview request | Selection and one entry intent per selector. Preview derives occurrences before validating supplied choices, so an initial request with absent choices can show the prospective effects and choices required. |
-| Execute request | Stable work `ApplicationOperationKey`, selection, entry intents/options with preview bases, nonempty actor, per-entry decision ref and reason. Actor is checked against authenticated provenance. |
+| Execute request | Stable work `ApplicationOperationKey`, selection, entry intents/options with server-bound preview identities/bases, nonempty actor, per-entry decision ref and reason. Actor is checked against authenticated provenance. |
 | Hold closure options | For linked apply or whole-input rejection, an ordered vector of exact ordinary version locators and explicit owning decisions for additional resolvable holds. The timer selector/verb supplies its own closure. No user-provided decision is proof of resolution eligibility. |
-| Row outcome | `AcceptedPending`, `Applied`, `Rejected`, `TimerResolved`, `Retained`, `Ineligible(reason)`, `Stale(reason)` or `Denied`. Pending or retained carries permitted blockers/hold locators. Applied or resolved links the actual committed bundle/closure and disposition data. A denied row returns only its canonical entry ordinal and `Denied`. No verified anchor, blocker, revision, permission explanation or indication which check failed. Ineligible/stale return only authorized facts. |
-| Work result | Ordered complete row outcomes, `Existing` with the immutable authorized result, or a whole-work refusal (`InvalidSelection`, `Denied`, `IdentityConflict`, `BatchTooLarge`, `Unavailable`). Writer outcome/error stays separate. |
+| Row outcome | `AcceptedPending`, `Applied`, `Rejected`, `TimerResolved`, `Retained`, `Ineligible(reason)`, `Stale(reason)` or `Denied`. An unresolved selector uses disclosure-safe `Ineligible(Unavailable)`. Pending or retained carries permitted blockers/hold locators. Applied or resolved links the actual committed bundle/closure and disposition data. A denied row returns only its canonical entry ordinal and `Denied`. No verified anchor, blocker, revision, permission explanation or indication which check failed. Ineligible/stale return only authorized facts. |
+| Work result | Ordered row dispositions `Committed(outcome)`, `Existing(outcome)`, `WriteFailed`, `CommitUncertain`, `CommittedResultUnavailable` or `Unattempted`. Whole-work refusals are `InvalidSelection`, `Denied`, `IdentityConflict`, `BatchTooLarge` and `Unavailable`. Writer outcome/error stays separate and only disclosure-safe classifications enter the result. |
 
 Use committed original support ReceiptId order (unsigned ascending) for preview, execution, persisted entry ordinals
 and response. Receipt allocation is durable intake order. A confirmation ID, source time, clock time, client list
@@ -47,8 +47,7 @@ projected application and occurrence set. An initially absent choice set can be 
 occurrences. Bind a canonical Normal or Silent mode to the preview. Any mode change requires a fresh preview and
 explicit audited execute intent. Silent requires its current grant. Preview writes no review, plan, hold, clock,
 achievement, job or claim. Preview rejection shows what would be rejected, including any prospective application
-suppressed by it. Use the persisted starting token for freshness. Validate later rows against the projected preceding
-state and stage them against actual preceding in-unit tokens.
+suppressed by it. Bind the starting token and projected predecessor identities to the preview. Recompute on stage.
 
 Under the owner turn, check current session and execution authority before protected lookups and check disclosure
 before returning any selected data. Recheck effective grants for each actual subject, capability, resource and
@@ -59,27 +58,41 @@ Unavailable authority fails closed. A request with invalid session or batch auth
 outcomes. A per-row denial does not approve other work on that subject. Reading a past result has its own current
 disclosure check.
 
-Resolve the live basis inside the same transaction. A changed plan/head, any contribution cell, complete hold set,
-applicable policy/permission revision or material prefix is stale even with an unchanged state token. Check current
-permission first so revoked scope returns denial with no facts. Compare actual fields, never a digest alone. An
-earlier row changing only an unrelated decision does not stale a later row. Reobserve the authoritative clock and
-recompute arithmetic over the in-unit state. Clock passage alone can update preview estimates if still within current
-grants and the eligible branch, blockers and identified milestone choices are unchanged. A changed branch, blocker or
-choice set requires a fresh preview. Disclose actual amounts, including observed lifecycle transitions, with the
-result. Treat Ready or unknown lifecycle/policy/clock as an application prerequisite.
+Resolve the live basis in the selected row's transaction. Recheck session and batch/key authority at every turn.
+Loss of that authority stops forwarding. Check same-row execution permissions first, then compare actual
+fields and provenance, including plan/head, contribution, complete mixed hold set and policy/permission revisions.
+Use the actual committed predecessor outcomes and current state/head to reobserve clock and compute exact cap, score
+and milestones. A matched prefix commit can account for the head change it produced. Its token is never authority
+for other changes. An unrelated review-only decision does not stale a later row. Material prefix drift is stale even
+with the same token. Clock passage can update estimates within current grants if branch, blockers and choice set
+remain unchanged. Changes to those require fresh preview. Ready or unknown lifecycle/policy/clock blocks application.
 
-Bind the stable work key to the complete canonical intent, including ordered subjects, verbs, expectations, options,
-actor/decision/reason and stable principal. Exclude transient session credentials and newly observed outcomes.
-Existing authorized exact retry returns the original journal outcome before current-basis comparisons. Different
-immutable intent is a conflict. Recheck execution authority against the stored scope/quantities and disclosure for the
-complete result. Return denial or disclosure-safe refusal if that result cannot be returned. Authenticate before
-revealing key existence and require authority for that installation/key scope. After preflight, journal admitted work
-and every ordinal even if all outcomes are ineligible, stale or denied. A read-only preflight is not admission.
-Whole-work refusal writes neither journal nor domain rows. Journal only caller-supplied intent and disclosure-safe
-status for a denied row. Exact retry never upgrades the stored outcome or exposes redacted facts. Reserve a review-key
-namespace by installation, disjoint from the ordinary application, correction and financial operation namespaces. Each
-applied entry has its own distinct immutable bundle key, linked to the work key and ordinal. Reserve checked
-identifiers before staging. Never alias a previous bundle, operation, occurrence, decision or hold.
+## Canonical work and durable prefix
+
+Use an installation-scoped stable work key in a reserved review namespace disjoint from ordinary application,
+correction and financial keys. Require checked operation scope/ref and at most 256 encoded key bytes.
+The immutable manifest encodes magic `SRW1`, installation ref, operation scope/ref, principal kind/ref, actor, row
+count, then entry records in canonical ordinal order. Each entry encodes CID, ReceiptId, verb, full expected preview
+basis, tagged verb options, decision ref and reason, in that order. Use checked integer/ref codecs, u32 big-endian lengths/counts and
+explicit presence tags for all optional fields. UTF-8 text is exact, without normalization. Ordered vectors retain order and expected sets
+use their owning canonical order. Require exact EOF and reject malformed or duplicate values. Exclude session proofs and newly
+observed outcomes. Compare complete canonical bytes, including absent versus empty, before using a stored cursor.
+
+Authenticate and check current execution scope for the installation/key before revealing existence or conflict.
+Changed intent on an existing key refuses the whole request. Exact retry checks current session, batch and key
+authority. For each stored outcome, recheck current execution grants against its stored scope/actual quantities
+and current disclosure for its same-row facts before returning it. Read prefix before live preview checks on the suffix.
+Stored refusal remains terminal even if eligibility later changes. A denied row stores only an ordinal/status and
+caller-supplied intent, with protected columns absent. A redacted row exposes only ordinal and `Denied`, including
+when a formerly disclosable outcome can no longer be returned. History lookup is read-only and never resumes work.
+
+The first terminal row creates the manifest and advances the cursor atomically. A failed first row leaves no key
+after known rollback. Cursor is the next ordinal, initially 1, with count+1 complete. Require an exact contiguous
+immutable terminal prefix [1, cursor), matching manifest, anchors when verified and linked effects. Append only at
+cursor. CAS its old value and check a single change in the same transaction as the terminal entry and any domain
+writes. Broken prefix/links fail closed. Each applied entry has a distinct checked immutable bundle key linked to
+work key and ordinal. Reserve IDs before staging with no alias of any previous bundle, operation, occurrence,
+decision or hold. Keep existing claim uniqueness, review/plan/state guards and terminal rejection gates across keys.
 
 ## Decisions, blockers and lifecycle
 
@@ -186,8 +199,8 @@ fields. Absent is SQL NULL. Prior rows gain no inferred decisions.
 
 | Relation | Keys, references and writer invariants |
 | --- | --- |
-| `subathon_review_work` | PK installation-scoped work key. Immutable canonical intent and ordered row count. |
-| `subathon_review_entries` | PK work key + positive ordinal, FK work. UNIQUE work key + verified CID. Nullable FK pair CID and original ReceiptId, verify the original anchor. Persist typed outcome/decision audit, expected and actual bases where known, original and selected capture refs, hold/closure refs and optional unique linked application key FK. Index CID for pending/terminal gate and enforce at most one acceptance and at most one terminal no-claim rejection per CID. On denied/unavailable selectors store disclosure-safe status and leave verified FK pair absent. |
+| `subathon_review_work` | PK installation-scoped work key. Immutable canonical manifest and row count, checked next-ordinal cursor. |
+| `subathon_review_entries` | PK work key + positive ordinal, FK work. UNIQUE work key + verified CID. Nullable FK pair CID and original ReceiptId, verify the original anchor. Append immutable typed terminal outcome/decision audit, expected and actual bases where known, original and selected capture refs, hold/closure refs and optional unique linked application key FK. Index CID for pending/terminal gate and enforce at most one acceptance and at most one terminal no-claim rejection per CID. On denied/unavailable selectors store disclosure-safe status and leave verified FK pair absent. |
 | `subathon_review_terminal_requests` | PK application key + positive request ordinal, FK to operation/selected plan revision and its immutable request ordinal. Disposition `Finished` for time or `PostFinishPolicySuppressed` for denied non-time, deriving the exact finalized request/residual from that revision. Zero actual components and no reversal basis for these rows. |
 
 Use result format `subathon.internal.application-result.v2` only for terminal partitions. Its document is literal
@@ -216,78 +229,70 @@ accepted-pending and terminal rejection gates across restart. Gate integration o
 history prefix: v15 `financial-refunds-v1`, #270 v16 `provider-credentials-v1`, then the coordinator-assigned step.
 Verify exact successor IDs in `milestone_detail::catalog`'s milestone selector, `financial_sql::selected` and
 `ModifierRows`, preserving prior branches. Reject unknown or lookalike markers. Compare review document tags, counts,
-order, raw refs, option presence and selected links. Store no session secrets. Fixture requests set explicit
-`MigrationRequest.limits.manifest_utf8_bytes` above the counted UTF-8 of all SQL and repeated type/name/table/SQL
-projections through the selected manifest. Keep that cumulative request budget separate from the writer's SQL budgets.
+order, raw refs, option presence and selected links. Store no session secrets. Fixture requests set an explicit bounded
+`MigrationRequest.limits.manifest_utf8_bytes` above the measured cumulative UTF-8 of all SQL and repeated
+type/name/table/SQL projections of the complete selected manifest. Measure after step assignment and retain the
+exact count and explicit limit. This request budget is separate from the writer's SQL budgets.
 
-## Batch bound and completion
+## Bounds and admission
 
-Maximum two selectors. Use one work on the existing owner writer and one real BEGIN/COMMIT. Refuse oversize in full,
-including a valid selection whose checked shape exceeds the available budget. Candidate trusted writer profile for
-this entry point: at least 896 attempts, 64 KiB per statement, 8 MiB bindings, 896 SQL result rows and 16 MiB SQL
-result values. This fits inside the explicit development writer profile. A default writer does not qualify. Production
-activation requires a verified explicitly configured profile on its single owner writer. Keep the production defaults.
-Bound owned intent and response to 1 MiB each.
+Maximum 16 rows, with the same bound for preview, execute and lookup output. Owned request and response each cap
+at 1 MiB, with at most 4 KiB of envelope and 60 KiB per encoded entry including its basis or outcome (987,136 bytes
+at 16 rows). Charge owned input at ingress before copying/canonicalizing past the limit. Before any writes, bound
+the entire selection, manifest, persisted/result documents and final reply, including denied/stop/suffix cases.
+Use checked addition and bounded length/count probes, with their own charges, before materializing stored data.
+Check duplicate/conflicting anchors, identities and all row shapes in read-only preflight. Refuse invalid, oversize
+or unproven requests without starting journal or domain writes. Recheck each live shape before staging. If facts
+drift after preflight, record stale only when established within the row budget, otherwise stop with a row failure.
 
-Source trace on the committed catalog path: `OriginalApplicationService` → `Execute::run` →
-`SqliteApplicationBundleStore::read_inputs/stage/lookup` → `Access` in `sqlite_application_bundle_access.hpp`.
-Representative contribution: one linked configuration/arrival, confirmed support, revision 1, one rule, no modifiers,
-one positive time request, three effect components, no balances, jobs, transitions, reversals, hold history or active
-financial holds. Allow two new state snapshots. Review-only reads the same 35-attempt input shape with a known
-independent blocker such as pending settlement. Its local subtotal is 47 attempts (35 inputs, eight claim and hold reads, four review attempts),
-plus shared and authority/policy work. Both read a fresh claim miss (2), empty ordinary hold history (4) and empty
-financial active set (2 including its catalog selector). Review-only has no bundle stage/readback. An independently
-proposed review CAS + changes check, decision gate read, and journal entry add four attempts per row, with work-key
-lookup and work journal charged once. Existing apply charge on this shape is:
+Use one explicitly configured existing writer. Candidate profile per unit: 768 attempts, 64 KiB per SQL statement,
+9 MiB binding bytes, 768 result rows, 16 MiB result values. Reserve 128 attempts/rows shared plus 384 for a single
+row work (128 discovery/proposal, 256 staging/validation), or 40 per ordinal for a compact 16-row reconciliation
+(128 + 16 × 40 = 768). Allow one initial read, at most one qualification read per row and one final reconciliation
+read, for at most 34 works including row writes. Bound both count dimensions independently. All ports charge before use, including authority/policy,
+sentinels, duplicate projections, plan append, mixed hold closure, terminal partition, milestones, jobs and
+stage/readback. Per attempt/row, reserve 32 binding/104 result cells, each 8 overhead + 128 payload bytes, and
+4,096 additional payload bytes. Add at most 2 MiB in each direction per unit for repeated bounded manifest/journal
+document payload, with cell overhead still charged. The largest ceiling is 768 × 8,448 + 2 MiB = 8,585,216
+binding bytes and 768 × 18,240 + 2 MiB = 16,105,472 result bytes. These are finite design ceilings.
 
-| Port | SQL attempts |
-| --- | ---: |
-| Inputs | 35 = plan 15 + current 5 + contribution 10 + explicit support observation 5 |
-| Stage guards | 37 = catalog/namespace/claim lookups 5 + current 5 + contribution 10 + plan 15 + two token probes |
-| Stage writes and head confirmation | 14 = two states + operation/contribution snapshot/claim/application patch/result/audit/head CAS/changes (8) + effect and three components (4) |
-| Readback | 52 = fixed 34 (operation 1, states 12, plan 15, remaining anchors 6) + children 17 (five count guards, effect scan/count, effect/component reads, component count, jobs scan/count and two guards, transitions scan/count, reversal count) + reversal scan 1 |
+Prior trace for one ordinary apply: inputs 35 + stage guards 37 + stage writes 12–14 = 84–86 attempts, plus 52
+core readback = 136–138, before authority, policy, holds and journaling. Review-only local trace is 47 before
+shared and authority/policy work. The current 64-attempt default cannot admit the traced apply. The explicit
+development profile fits on paper. Use actual configured-writer measurements as tests gates for per-row
+stage/readback, real authority, reconciliation and preflight, review-only/apply/mixed, supported partition/hold/
+milestone shapes, exact maxima and one-over. [Host #294 capacity handoff](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-7022815339)
+requires measured compatibility too. Production settings stay unchanged.
 
-Plan 15 includes header/source+anchor 7, history summary/page/dependency 3, selected scalar/dependency 2 and three
-child queries. Contribution 10 includes the row, retained receipt (4) and anchored observation (5). The default 64
-attempts cannot fit even one apply: inputs and stage alone take 86 (84 if the advanced snapshot is reused). With
-readback they take 138 at the two-snapshot bound, before authority, policy, clock, hold reads and journal work. Valid
-core result rows are 33 for inputs, 29 for stage guards, one for changes and 47 for readback (110 total).
-The shipped adapter adds 26 retained calls: access 6, policy 7, clock 1 and actions 12 (policy 7 again plus binding 5).
-The original service also probes the missing operation once before inputs. The SQL authority's capture/permission
-closure and the new review ports require separate charges within the reserved slots.
+## Owner execution, stop and reconciliation
 
-For the candidate profile reserve 128 attempts and result rows for shared work including catalog, session, key probes
-and journal, and 384 each per row, including up to 128 for discovery/proposal and 256 for stage and validation. Meter
-32 binding cells per attempt and 104 result cells per row (the traced 34-field revision projects 102 cells). Charge
-eight bytes per cell plus up to 128 payload bytes per cell and 4,096 additional payload bytes per statement's bindings
-or per result row. At 128 + 2 × 384 = 896 units, binding charge is 896 × (32 × 136 + 4,096) = 7,569,408 bytes
-and output charge is 896 × (104 × 136 + 4,096) = 16,343,040 bytes, including guards and readback. These are design ceilings. Verify widths and fanout from
-narrow count/length probes before materializing stored data. Reserve and charge probes too, including sentinel rows
-and repeated projections.
+One selected contribution per real BEGIN/COMMIT unit. A checked ineligible, stale, unavailable or denied row is a
+terminal journal decision with no domain writes. Commit it and advance the cursor even if every row is refused.
+Issue only the next row from a normal committed completion. No prequeue of row writes, open transaction between
+rows, event pumping or extra writer. Keep one active review execution on the owner from preflight through completion.
+Concurrent component executions fail with a safe busy/unavailable result without staging. The shipped host keeps
+one active command across completion forwarding, so other host commands cannot enter between rows. Other work can
+run only where the owning FIFO permits it. A later row observes any such committed changes through its live guards.
+Each unit rechecks stable intent and cursor, so neither a retry nor a competing intent can skip, reorder or reapply
+a terminal row. Distinct keys have independent intake-ordered selections and share the contribution/claim guards.
 
-Before staging, account for spent discovery and prove the remaining bounded calls, bindings, outputs and final
-response for the full projected sequence. Include authority/denial/lookup, plan append, namespaces, hold closure,
-terminal, milestone and job guards and writes. Every dependent port must declare and enforce that bound on the same
-session, including readback. Unlimited or unproven fanout refuses as BatchTooLarge before journal or domain staging.
-Meter each call before executing it. Required verification on the real writer: review-only, representative apply, both
-in one unit, boundary/one-over dimension, and additional supported shape costs with actual policy/authority ports.
-Partition/hold/milestone paths need independent charges within this profile before admission. Source analysis
-establishes a candidate ceiling.
+Any write, unexpected stage conflict, readback, commit or abnormal completion failure stops forwarding immediately. A known
+uncommitted current row is `WriteFailed`; an unknown outcome is `CommitUncertain` with a null durable outcome;
+a confirmed commit with abnormal completion is `CommittedResultUnavailable` until reconciled. The earlier prefix
+survives. Report the current ordinal and `Unattempted` suffix without asserting absent or zero effects. A refused unit
+admission stops too, with no current transaction or host reply. Failure markers are attempt observations and never terminal
+journal entries. Arithmetical/domain ineligibility classified before effect staging is a terminal decision.
 
-Expected individual ineligibility has no domain writes and later eligible rows can proceed. Any unexpected stage
-conflict after preflight or writer/validation failure rolls back all staged rows and emits no success payload.
-Acknowledged COMMIT plus normal, typed work completion is the sole publication gate. Exact replay returns history
-without republishing. Commit uncertainty or an exception after commit emits no normal result and triggers no automatic
-retry. Reconcile via authorized exact-key reads on the recovered writer before deciding further work.
-
-## Independent examples
-
-| Case | Inputs and exact oracle |
-| --- | --- |
-| Authority and stale preview | Account A can preview C7 under grant r1. Revoking A before execution denies it, even if token and plan are unchanged. If A still has execution but loses disclosure, history is withheld. B previews the same pending row and commits first. A's different key with the old basis cannot apply again. Same authorized key+intent returns its original result. Changed mode on that key conflicts. A plan append r1→r2 or evidence-only transition invalidates an unchanged state token. |
-| Arrival and acceptance only | Receipt 8 captures a valuation-independent exact 5/2 ms, half-even request 2, residual +1/2. A later current rule yields 9 ms but the original candidate remains 2. Missing confirmation and quote allow review-only acceptance if both actually block C8. With confirmation alone still no claim. An authorized recorded quote/revision and freshly previewed ApplyAccepted may apply. If the authorized replacement request is exact 7/2, request 4 and residual −1/2. The original remains 5/2. |
-| Active deficit and continuation | With a fixed clock (no elapsed advance), observed Main 99 ms/debt 7, request −100 ms and sibling +15 score micro-points, RequireReview holds the full −100 and all actual deltas are 0. With observed Main 100, equality fits: Main→0/debt 7 and score +15 under otherwise eligible policy. From the 99 hold, fresh Main 99 with no choices makes no domain write. Explicit RetainHeld journals retention. At Main 120 whole settlement leaves 20/debt 7 and applies the sibling once. Independent Stop from 99 gives Main 0/debt 7/unapplied −1. Carry gives Main 0/debt 8/unapplied 0. Explicit RejectHeld gives no effect. Beside-complete RejectHeld/RetainHeld preserve prior +15. For requests −100 then −2 from Main 99/debt 7, first choose Carry for ordinal 1 (Main 0/debt 8), then preview ordinal 2 and explicitly choose Stop (Main 0/debt 8/unapplied −2 at ordinal 2). Supplying only the first choice changes nothing. |
-| Finished and reopen | At fixed hard-end equality while paused with debt 7, classify Finished before applying request +20 ms, +15 score and +1 count from score 90 and count 3. Live policy permits score only. Result retains terminal time +20 with Main/debt delta 0, score 105, count 3 and count suppression +1, mask [1,0,2], terminal count 2. Continuing an exact unclaimed whole-input hold at the same Finished observation uses this partition and closes its ordinary holds. Without current sibling policy, keep the hold and do not claim. After resolving the passed hard end, authorized reopen with Main 50, retained grace and debt, and Keep deferred leaves Main 50/debt 7/score 105/count 3. The original claim prevents any second +20, +15 or +1. |
-| Two namespaces | Actual set is ordinary h1:v2, h2:v1 and financial f1:v4. Omitting f1 or substituting v3 is stale, even when every ordinary locator matches. Omitting an ordinary closure or giving it a replacement refuses a linked stage. A permitted v15 linked stage with all exact members and both ordinary closures retains f1:v4. If f1 blocks #197 application, keep all holds and record only an independently authorized review decision. |
-| Silent and ordered milestones | Score 90 +35 = 125 crosses thresholds 100, 110, 120 in order. Choose Run, Defer, Skip respectively. Record all three achievements, suppress ordinary message/sound/visual jobs, keep authorized time and internal effects, and leave ordered release to the milestone queue. A missing choice or new fourth crossing invalidates the supplied set. |
-| Ordered batch and rollback | Select receipts 12 then 11 (equal arrival timestamps). With a fixed clock and Main 95/debt 0/cap 100 and request +4 each, intake order applies +4 to 99 then +1 to 100 with 3 cap-limited on receipt 12. If receipt 11 is individually blocked in the preview and recheck, receipt 12 alone goes to 99. A post-stage failure on row 12 rolls back row 11 too, leaving Main 95 and no decision, claim, group or job from the batch. Three selectors or a projected charge beyond the profile refuse whole. Two individually stale rows commit only the two journal outcomes. In a physical commit/ack loss control, reopened lookup may find both immutable results. No second credit or publication follows the original work failure. |
+Build protected responses only from a reconciled committed journal, with current same-row authority and disclosure
+in a bounded final read on the owner. Validate the compact journal and its links without replaying bundle staging.
+Require normal completion of the matched read and current disclosure at owner handoff before emission. A normal
+row commit can release its actual effects once through the owning publication path. History reads never republish.
+If current authority or storage cannot be established, withhold protected results, including cached prefix rows,
+and use only a safe stop report or whole-work Unavailable. Unknown COMMIT fail-closes the writer. Do not resume on
+it, infer rollback, or retry automatically. On a recovered authorized owner, reconcile the exact key and manifest,
+cursor and any current entry together. Present and valid means committed. Absence proves no row commit only from
+a validated recovered current store with matching prefix (or no manifest for a first-row attempt). A mismatch or
+unproved recovery remains unavailable. An authorized exact retry then returns the prefix and starts at the first
+missing ordinal. The [shipped host reply gate](api-host-lifecycle-boundary-v1.md#host-reply-eligibility-after-prepared-units)
+withholds transport replies after unknown outcome or abnormal committed completion. The component stop status does
+not clear that latch. A fresh authorized request may obtain the reconciled response.
