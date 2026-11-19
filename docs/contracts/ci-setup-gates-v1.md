@@ -22,11 +22,12 @@ acceptance. Public runner facts: Ubuntu24.04.5, image20261111.127.1, cloud AWS.
 source variant or justify normalizing a source. No unclassified retry is authorized.
 PR126 remains parked; CI-002 neither changes its approved source nor resumes product work.
 
-Preserve all eight methods and EVERY assertion in
-`tests/tooling/test_prepare_ubuntu_apt.py`, including the existing mocked process and
-file safety barriers. Preserve the CI-001 accepted/rejected source language, exact
-mirror/configuration bytes (including `Acquire::Retries "1";`), host guard, signing
-trust, pins, diagnostics, successful command set and order. In particular:
+Preserve the preparation safety assertions and mocked process and file barriers in
+`tests/tooling/test_prepare_ubuntu_apt.py`. Decision 41B preserves the runner-provided
+mirror list and updates the write inventory to one network-settings write. The list's
+Azure entry uses plain HTTP. Package trust continues to rest on the Ubuntu archive signing
+key. Source admission, network settings (including `Acquire::Retries "1";`), host guard,
+pins and diagnostics retain their established requirements.
 
 - Only `GITHUB_ACTIONS=true`, `RUNNER_ENVIRONMENT=github-hosted`, OS `ID=ubuntu`,
   `VERSION_ID=24.04` admit work. Existing distinct guard messages remain.
@@ -38,9 +39,10 @@ trust, pins, diagnostics, successful command set and order. In particular:
   are **zero subprocess calls and zero configuration writes**, including diagnostics.
 - On admitted input the seven existing best-effort diagnostics keep their commands,
   `check=False, capture_output=True, text=True, timeout=10`, labels and output behavior.
-  Two checked `sudo tee` calls retain their bytes, `text=True`, `stdout=DEVNULL`,
-  inherited stderr and 10-second deadlines. The update retains its original inherited output and one-call behavior.
-  Each setup keeps the original one-call sequence; no additional command or shell is permitted.
+  One checked `sudo tee` writes the existing network settings with `text=True`,
+  `stdout=DEVNULL`, inherited stderr and a 10-second deadline. The update retains its
+  original inherited output and one-call behavior.
+  Each setup makes one update call. No additional command or shell is permitted.
 - No retry around installs, downloads, SDK admission, schema/configure/build/tests or
   a workflow/job rerun. Existing vendor download retry flags remain unchanged and
   are outside this helper's process-call bound. No cache, selective CI, hidden retry,
@@ -202,9 +204,10 @@ Existing `Acquire::Retries "1"` remains byte-identical: its internal file/reques
 retries and mirror fallback are not a promise of one network attempt. No broader
 network-attempt guarantee is made.
 
-Requested child waits remain seven diagnostics at10s, two writes at10s and one update
-at300s:390s total, excluding launch/cleanup/Python/logging overhead, within the unchanged
-15/80-minute job limits. This is not a tight wall-clock or descendant guarantee.
+Requested child waits are seven diagnostics at 10 seconds each, one 10-second write and
+one 300-second update. The 380-second total excludes launch/cleanup/Python/logging
+overhead and fits within the established 15/80-minute job limits. This is not a tight
+wall-clock or descendant guarantee.
 The existing full source read and legacy diagnostic captures remain in memory; only
 the NEW JSON records have the4096-byte output bound. Do not claim capture-memory,
 process-tree, host-attestation or general credential-redaction guarantees. No new
@@ -374,7 +377,7 @@ Enabled: yes
 ```
 
 With guard facts and image values from §2.1, main returns0 after the original seven
-diagnostics, exact two writes and a single successful update. Runner record precedes
+diagnostics, the network-settings write and a single successful update. Runner record precedes
 commands; there is no source_refused record. Comments/CRLF remain admitted. The two
 original CI-001 stanzas remain admitted without adding required fields.
 
