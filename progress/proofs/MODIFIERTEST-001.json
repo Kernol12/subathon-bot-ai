@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "task_id": "MODIFIERTEST-001",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 214
+  },
+  "kind": "test_baseline",
+  "brief": "docs/tasks/EPIC-004/MODIFIER-001.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/issues/214",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/718",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7000427554",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7002464079",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7003174541",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7001019171",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7003091032",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7003142529"
+  ],
+  "limitations": [
+    "Parent epic: EPIC-004. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+    "Owner decisions 7B, 8A, 9A and correction 1 (11A) bound the pure core baseline. This covers initial activation, reactivation, exact factors, timing, qualifiers, and retained plan capture. #719 owns real SQLite persistence after #236. #223 owns first-party intake. Implementation is #215.",
+    "On the closing-approved exact runner, all 48 cases reached the intended ModifierActivationNotImplemented exception, exit 1, zero skips. Post-admission discovery matched all names. The 45 proposal and three selection first call sites are source observations because the thrown marker is common.",
+    "Passive ELF and ABI checks, bounded first-real loader capture, exact object reconciliation and matching postseals admitted the runner SHA-256 b6ae44ae6d9b095bfdb6cc3ab888ada794a442f98c476012a6d3ee5c79f5fd5a. The original output parser missed parameterized annotations and was corrected using retained logs without rerunning the tests.",
+    "CTest registration uses normal failure semantics and PRE_TEST discovery. The explicit intentional-red suite is outside passing CI while #215 is pending. The earlier empty parking head's Qt package setup timed out before build and test, with no rerun on that head."
+  ],
+  "verification": {},
+  "review": null,
+  "workflow": {
+    "required_stages": [
+      "tests"
+    ],
+    "stages": {
+      "tests": {
+        "authors": [
+          "codex:t3-72da8b67",
+          "codex:t3-4e238c90",
+          "codex:t3-d1fdf75d",
+          "codex:coordinator"
+        ],
+        "revision": "998dd565ab79cf52d2bfd93be424b5de42cc1032",
+        "paths": [
+          "cmake/AcceptanceSuites.cmake",
+          "core/CMakeLists.txt",
+          "core/include/subathon/core/modifier_activation.hpp",
+          "core/src/modifier_activation.cpp",
+          "tests/CMakeLists.txt",
+          "tests/acceptance-map.json",
+          "tests/acceptance/modifier_activation_tests.cpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:0979d27e-325a-4ed1-993e-4406e72a5114",
+            "revision": "8770815ccfb89c2dd218f93b36de5624ccc8c871",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7001019171",
+            "findings": [
+              "MODTEST-B1",
+              "MODTEST-N1",
+              "MODTEST-N2",
+              "MODTEST-N3",
+              "MODTEST-N4"
+            ],
+            "blocking_findings": [
+              "MODTEST-B1"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:01a1f2c4-fe24-7403-97d5-f81fac3de07d",
+            "revision": "998dd565ab79cf52d2bfd93be424b5de42cc1032",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7003091032",
+            "findings": [
+              "MODTEST-B1",
+              "MODTEST-N1",
+              "MODTEST-N2",
+              "MODTEST-N3",
+              "MODTEST-N4"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:3280deec-6a2e-403e-a396-fbaf77bc9bfa",
+            "revision": "998dd565ab79cf52d2bfd93be424b5de42cc1032",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7003142529",
+            "findings": [
+              "MODTEST-B1",
+              "MODTEST-N1",
+              "MODTEST-N2",
+              "MODTEST-N3",
+              "MODTEST-N4"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  },
+  "publication": {
+    "state": "open",
+    "pr": "https://github.com/Kernol12/subathon-bot-ai/pull/718",
+    "head": "5994a0e6f3e5abc6ad65556042a1f761a3d0d901",
+    "merge_commit": null,
+    "merged_at": null,
+    "observed_at": "2026-11-19T07:54:47Z"
+  }
+}
