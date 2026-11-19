@@ -158,6 +158,8 @@ void ConnectorLifecycleTests::browserLink_data() {
     using I = ConnectorInstallation;
     using L = ConnectorLink;
     QTest::newRow("unverified-method") << Support::unknown << I::validated << L::unknown;
+    QTest::newRow("unverified-method-missing-installation")
+        << Support::unknown << I::missing << L::unknown;
     QTest::newRow("confirmed-unsupported")
         << Support::unsupported << I::validated << L::unsupported;
     QTest::newRow("unverified-installation") << Support::supported << I::unknown << L::unknown;
@@ -254,6 +256,11 @@ void ConnectorLifecycleTests::reconnectKeepsGapSeparate() {
         const auto connected = read_connector_status(adapter, {});
         QCOMPARE(connected.health, ConnectorHealth::connected);
         QCOMPARE(connected.gap, ConnectorGap::unknown);
+
+        adapter.snapshot.gap = ConnectorGap::none;
+        const auto connectedWithoutGap = read_connector_status(adapter, {});
+        QCOMPARE(connectedWithoutGap.health, ConnectorHealth::connected);
+        QCOMPARE(connectedWithoutGap.gap, ConnectorGap::none);
 
         adapter.snapshot.connection = ConnectorConnection::disconnected;
         adapter.snapshot.gap = ConnectorGap::open;

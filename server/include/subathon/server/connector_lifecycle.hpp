@@ -71,7 +71,8 @@ enum class ConnectorInstallation { unknown, missing, validated, not_required };
 enum class ConnectorConsent { unknown, missing, granted, not_required };
 enum class ConnectorConnection { unknown, disconnected, connecting, connected };
 enum class ConnectorHealth { unknown, setup_required, disconnected, connecting, connected };
-enum class ConnectorGap { unknown, open, unrecoverable, recovered };
+// Correction 1: none records a known absence of a gap. Recovered records an observed recovery.
+enum class ConnectorGap { unknown, open, unrecoverable, recovered, none };
 enum class ConnectorLink { unknown, unsupported, needs_setup, available };
 
 struct ConnectorReport {
