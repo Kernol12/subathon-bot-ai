@@ -29,6 +29,10 @@ if(TARGET Boost::headers)
     target_link_libraries(subathon_milestone_progression PUBLIC subathon_exact_numeric)
     subathon_target_options(subathon_milestone_progression)
 
+    add_library(subathon_milestone_target_edits STATIC EXCLUDE_FROM_ALL src/milestone_target_edits.cpp)
+    target_link_libraries(subathon_milestone_target_edits PUBLIC subathon_milestone_progression)
+    subathon_target_options(subathon_milestone_target_edits)
+
     add_library(subathon_application_plan STATIC EXCLUDE_FROM_ALL src/application_plan.cpp)
     target_include_directories(subathon_application_plan PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_application_plan PUBLIC Boost::headers)

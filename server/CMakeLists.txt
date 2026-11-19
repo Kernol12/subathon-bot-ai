@@ -150,6 +150,13 @@ if(TARGET subathon_sqlite_contributions AND TARGET subathon_application_plan)
             add_library(subathon_sqlite_credential_catalog STATIC src/sqlite_credential_catalog.cpp)
             target_link_libraries(subathon_sqlite_credential_catalog PUBLIC subathon_sqlite_financial_refunds)
             subathon_target_options(subathon_sqlite_credential_catalog)
+
+            add_library(subathon_sqlite_milestone_target_edits STATIC EXCLUDE_FROM_ALL
+                src/sqlite_milestone_target_edits.cpp)
+            target_link_libraries(subathon_sqlite_milestone_target_edits
+                PUBLIC subathon_sqlite_credential_catalog subathon_milestone_target_edits
+                    subathon_sqlite_modifier_activations)
+            subathon_target_options(subathon_sqlite_milestone_target_edits)
         endif()
     endif()
 

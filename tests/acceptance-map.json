@@ -275,7 +275,11 @@
     {
       "id": "MILE-02",
       "status": "planned",
-      "tests": [],
+      "tests": [
+        "tests/acceptance/milestone_target_edit_tests.cpp",
+        "tests/qt/sqlite_milestone_target_edits_tests.cpp",
+        "tests/qt/sqlite_milestone_target_edit_catalog_tests.cpp"
+      ],
       "evidence": []
     },
     {
