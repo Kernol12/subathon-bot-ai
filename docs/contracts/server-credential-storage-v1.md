@@ -156,6 +156,14 @@ database and provisioned pair, a new process can recover the exact stored bytes.
 
 ## Failures and disclosure
 
+Check all input length ceilings before checking input shape. For `load` and
+`stage_put`, any over-limit ref or value returns `resource_limit`, even when
+another input is empty or has an unknown tag. Within the bounds, invalid
+scope or value shape returns `invalid_input`. For `provision`, a path exceeding
+4095 bytes returns `resource_limit` before any scan for invalid bytes or
+components. Within that bound, an invalid path returns `key_file_rejected`
+before filesystem access.
+
 | Outcome | Meaning |
 | --- | --- |
 | `invalid_input` | Empty ref or value, or an unknown provider or subject tag in the input. |
