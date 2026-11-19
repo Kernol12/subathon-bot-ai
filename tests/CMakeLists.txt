@@ -205,7 +205,7 @@ if(SUBATHON_BUILD_MODIFIER_ACTIVATION_TESTS)
     subathon_target_options(core_modifier_activation_acceptance)
     subathon_discover_gtests(core_modifier_activation_acceptance
         NO_PRETTY_VALUES PREFIX "modifier-activation." TIMEOUT 30
-        LABELS "modifier-activation;acceptance;core;intentional-red")
+        LABELS "modifier-activation;acceptance;core")
 endif()
 
 if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
