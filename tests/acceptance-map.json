@@ -308,12 +308,15 @@
       "status": "partial",
       "tests": [
         "tests/acceptance/rate_snapshot_tests.cpp",
-        "tests/fixtures/rate_snapshots_vectors.hpp"
+        "tests/fixtures/rate_snapshots_vectors.hpp",
+        "tests/acceptance/rate_override_tests.cpp"
       ],
       "evidence": [
-        "https://github.com/Kernol12/subathon-bot-ai/pull/116"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/116",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/724#issuecomment-7009533202",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/724#issuecomment-7009908979"
       ],
-      "scope": " RATES-001 pure rate model passes53 preserved cases (full89) locally and pinned Boost1.83 CI; supplied exact potentials/constraints produce consistent inverse/cross rates with owned lossless provenance and bounded resources. PR116 records source/resource review and final publication gates. Provider/cache/authorized override updates/reporting and exact valuation bridge remain separate; decision stays partial."
+      "scope": "RATES-001 verifies the exact snapshot model and lossless provenance. RATES-007 verifies pure override preview, inverse and cross rates, contradictory constraint refusal, stale preview and temporary expiry. Permissioned save and durable revisions remain #727. Provider/cache, reporting settings and the valuation bridge retain their separate scopes."
     },
     {
       "id": "I18N-01",

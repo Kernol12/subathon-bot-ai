@@ -209,6 +209,14 @@ if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
         LABELS "rate-snapshot;acceptance;core" TIMEOUT 30)
 endif()
 
+if(SUBATHON_BUILD_RATE_OVERRIDE_TESTS)
+    add_executable(core_rate_override_acceptance acceptance/rate_override_tests.cpp)
+    target_link_libraries(core_rate_override_acceptance PRIVATE subathon_rate_overrides GTest::gtest_main)
+    subathon_target_options(core_rate_override_acceptance)
+    subathon_discover_gtests(core_rate_override_acceptance
+        LABELS "rate-override;acceptance;core" TIMEOUT 30)
+endif()
+
 if(SUBATHON_BUILD_SQLITE_REFERENCE_CAPTURE_TESTS)
     # Link-check every new interface; no CTest registration or feature invocation.
     add_executable(reference_capture_interface_link scaffolding/reference_capture_interface.cpp)
