@@ -55,7 +55,7 @@ if(SUBATHON_BUILD_CREDENTIAL_RECORD_TESTS)
         target_link_options(server_credential_record_acceptance PRIVATE "LINKER:--wrap=${symbol}")
     endforeach()
     subathon_discover_gtests(server_credential_record_acceptance
-        LABELS "credential-record;acceptance;server;intentional-red" TIMEOUT 30)
+        LABELS "credential-record;acceptance;server" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_TIMER_EDITORIAL_TESTS)

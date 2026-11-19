@@ -104,13 +104,13 @@ if(SUBATHON_BUILD_SQLITE_CREDENTIALS_TESTS)
         NAME sqlite-credentials
         SOURCES sqlite_credentials_tests.cpp ../support/credential_native_controls.cpp
         LIBRARIES subathon_credential_storage subathon_sqlite_modifier_activations Sodium::Sodium
-        LABELS "sqlite-credentials;acceptance;qt;server;intentional-red" TIMEOUT 120)
+        LABELS "sqlite-credentials;acceptance;qt;server" TIMEOUT 120)
     # A failed cold readiness probe must never affect the main process.
     subathon_add_qt_suite(server_credential_readiness_acceptance
         NAME credential-readiness
         SOURCES credential_readiness_tests.cpp ../support/credential_native_controls.cpp
         LIBRARIES subathon_credential_storage Sodium::Sodium
-        LABELS "sqlite-credentials;acceptance;qt;server;intentional-red" TIMEOUT 30)
+        LABELS "sqlite-credentials;acceptance;qt;server" TIMEOUT 30)
     foreach(target IN ITEMS server_sqlite_credentials_acceptance server_credential_readiness_acceptance)
         foreach(symbol IN ITEMS sodium_init randombytes_buf sodium_malloc sodium_mlock sodium_free)
             target_link_options(${target} PRIVATE "LINKER:--wrap=${symbol}")

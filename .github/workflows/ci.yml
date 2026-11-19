@@ -367,7 +367,7 @@ jobs:
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;credential-record;sqlite-credentials"
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
@@ -415,6 +415,10 @@ jobs:
         run: ctest --preset sqlite-reference-capture-debug -L '^milestone-group-decisions$' --no-tests=error
       - name: Run durable modifier activation acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-modifier-activations$' --no-tests=error
+      - name: Run credential record acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^credential-record$' --no-tests=error
+      - name: Run credential storage and readiness acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-credentials$' --no-tests=error
       - name: Run reviewed connector lifecycle acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^connector-lifecycle$' --no-tests=error
       - name: Run reviewed initial-capture codec acceptance

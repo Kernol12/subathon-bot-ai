@@ -997,13 +997,17 @@
     },
     {
       "id": "CRYPTO-01",
-      "status": "planned",
+      "status": "partial",
       "tests": [
         "tests/acceptance/credential_record_tests.cpp",
         "tests/qt/sqlite_credentials_tests.cpp",
         "tests/qt/credential_readiness_tests.cpp"
       ],
-      "evidence": []
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/729#issuecomment-7017165084",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/729#issuecomment-7017591815"
+      ],
+      "scope": "Synthetic component cases cover exact credential encryption and scope, provisioned-key restart, SQLite lookup and replacement, bounded refusals and acknowledged plaintext delivery. Production catalog integration, provider wiring, deployment verification, key rotation and backup/restore remain separate."
     },
     {
       "id": "CRYPTO-02",
