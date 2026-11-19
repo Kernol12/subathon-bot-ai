@@ -233,7 +233,8 @@
       "tests": [
         "tests/acceptance/milestone_progression_tests.cpp",
         "tests/fixtures/milestone_progression_vectors.hpp",
-        "tests/qt/milestone_timeline_tests.cpp"
+        "tests/qt/milestone_timeline_tests.cpp",
+        "tests/qt/milestone_group_restart_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/milestonetest-001-test-review.md",
@@ -518,7 +519,8 @@
       "id": "MILE-08",
       "status": "partial",
       "tests": [
-        "tests/qt/milestone_timeline_tests.cpp"
+        "tests/qt/milestone_timeline_tests.cpp",
+        "tests/qt/milestone_group_restart_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/712#issuecomment-6990659915"

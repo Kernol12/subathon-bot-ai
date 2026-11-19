@@ -71,6 +71,13 @@ if(SUBATHON_BUILD_MILESTONE_TIMELINE_TESTS)
         LABELS "milestone-timeline;acceptance;qt;server")
 endif()
 
+if(SUBATHON_BUILD_MILESTONE_GROUP_RESTART_TESTS)
+    subathon_add_qt_suite(server_milestone_group_restart_acceptance
+        NAME milestone-group-restart SOURCES milestone_group_restart_tests.cpp
+        LIBRARIES subathon_sqlite_milestone_groups subathon_original_application_service
+        LABELS "milestone-group-restart;acceptance;qt;server;intentional-red")
+endif()
+
 if(SUBATHON_BUILD_SQLITE_DELIVERY_JOBS_TESTS)
     subathon_add_qt_suite(server_sqlite_delivery_jobs_acceptance
         NAME sqlite-delivery-jobs SOURCES sqlite_delivery_jobs_tests.cpp
