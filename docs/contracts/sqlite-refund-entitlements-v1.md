@@ -114,7 +114,7 @@ without a deficit hold. A prior request invokes 34B. Under 32B keep both request
 unapplied with reason `finished` and represent the clock's own transitions
 separately. Preserve independent holds, completed milestones and
 performed actions. Any effect on unreleased action policy is driven by actual
-score before/after on first application, with the stable refund ref. Continuation
+score before/after at acceptance, with the stable refund ref. Continuation
 must not submit a second score change or policy observation.
 
 ## Composition with shipped writer types
@@ -185,12 +185,13 @@ milestone policy history.
 Successfully applying the retained adjustment closes its exact financial timer
 hold in the same unit. Only the typed continuation can close these holds. It
 checks the complete expected active set and closes just the oldest request for
-that payment, preserving the later financial holds. The existing all-active rule
-still governs ordinary application-linked resolutions. An independent
-nonfinancial application hold on the same CID blocks this continuation and
-both holds remain. Milestone Review lives in its own store and does not block
-timer resolution. An exact retry reports its immutable resolution. A competing
-or stale resolution cannot consume it again.
+that payment. An independent nonfinancial application hold on the same CID
+blocks this continuation. Ordinary application-linked resolutions compare the
+complete active set and close all its nonfinancial entries while preserving
+financial holds. Ordinary resolution or replacement cannot consume a financial
+hold. Milestone Review lives in its own store and does not block continuation.
+An exact retry reports its immutable resolution. A competing or stale
+resolution cannot consume it again.
 
 ## Transaction and acknowledgement
 
@@ -218,15 +219,17 @@ Never blindly replay or treat a staged value as proof.
 ## Ordered timer requests, Finished continuation and catalog order
 
 **[34B](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7014595148).**
-Accept an otherwise eligible verified refund while a timer hold for the same
-payment is open. Claim identities and commit money, requested entitlement,
-score/count effects and applicable milestone policy once. For a started timer
-that has not Finished, retain any nonzero request behind an earlier unresolved
-request as a distinct `prior_request` hold with both legs and zero timer deltas,
-even when Main would cover it. A zero request needs no hold. For Finished, use
-32B. An exact acceptance retry returns its original outcome and hold identity.
+For new acceptance, check the complete active set for the original CID. Only
+`FinancialTimerAdjustment` holds for the verified payment pass this gate. If
+any other hold is active, return `active_hold` with raw intake preserved and
+no claim, financial advance, effect or hold write. Otherwise claim identities
+and commit money, requested entitlement, score/count and milestone policy once.
+While the timer has not Finished, an earlier unresolved request makes a request
+with either leg nonzero a distinct `prior_request` hold with zero timer deltas,
+even when Main would cover it. With both legs zero, no new hold. For Finished,
+use 32B. An exact retry returns its original outcome and hold identity.
 
-Use committed payment position to order requests, including after reopen. Only
+Use committed payment position to order requests, including after store reopen. Only
 the oldest can resolve, with fresh authority, state and hold checks. Out-of-order
 attempts leave effects and holds intact. Closure preserves later requests for
 separate authorized resolutions. Reconcile uncertain completion before another
@@ -279,10 +282,12 @@ separate evidence from A01–A15.
 W05 ordered control: after holding the timer for the refund of 5, raise Main to
 200000. Accept 2 and then 3 while the first hold remains. Money reaches 7 and
 10 and score reaches 26000000 and 20000000 at acceptance. Main stays 200000.
-Reopen and refuse a fresh out-of-order continuation. Resolve the requests
+Reopen the store and refuse a fresh out-of-order continuation. Resolve the requests
 75000, 30000 and 45000 in payment order. Main reaches 125000, 95000 and 50000.
 Score and money stay fixed. Exact acceptance and resolution retries preserve
-their respective historical results.
+their respective historical results. When an independent application hold
+blocks acceptance and continuation, resolve it and preserve the financial
+hold. Retry the authorized financial continuation against the fresh active set.
 
 W06 continuation control: finish a timer with W05's hold active, once through
 hard end and once through ordinary Main expiry. Authorized continuation closes
