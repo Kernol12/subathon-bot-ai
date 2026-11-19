@@ -11,7 +11,7 @@
 #include <vector>
 
 namespace subathon::core {
-// MODIFIER-001 draft revision 1, specification v0.45 §7 and MOD-03.
+// MODIFIER-001 draft revision 1 with correction 1, specification v0.45 §7 and MOD-03.
 enum class ModifierTargetKind { added_time, milestone_score, counter };
 struct ModifierTarget {
     ModifierTargetKind kind;
@@ -89,6 +89,8 @@ class ModifierActivationNotImplemented final : public std::logic_error {
 };
 
 // The caller supplies fresh refs and the current live revision, if any, for the same definition.
+// With no active instance, every policy creates the initial instance under the selected trigger
+// timing. The policies below apply only when reactivating an active instance.
 // Reactivation uses the incoming policy and duration. Extend adds that duration to remaining time;
 // Restart resets remaining time to that duration. Both keep the instance's captured definition.
 // Replace captures new settings on a new instance and names the instance to supersede. Ignore

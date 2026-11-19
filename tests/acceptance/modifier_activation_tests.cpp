@@ -76,6 +76,47 @@ TEST(ModifierActivation, NewInstancePinsDefinitionIdentityAndRevision) {
     EXPECT_EQ(result.for_trigger, std::nullopt);
 }
 
+TEST(ModifierActivation, FirstActivationWithRestartCreatesAnInstanceForTheTrigger) {
+    auto definition = updated_definition();
+    definition.reactivation = ModifierReactivation::restart;
+    auto request = activation();
+    request.trigger = {"event.trigger", ModifierTriggerTiming::include_trigger};
+
+    const auto result = propose_modifier_activation(definition, std::nullopt, request);
+
+    const auto expected = expected_initial(definition, request);
+    EXPECT_EQ(result.revision_to_append, expected);
+    EXPECT_EQ(result.superseded_instance_ref, std::nullopt);
+    EXPECT_EQ(result.for_trigger, expected);
+}
+
+TEST(ModifierActivation, FirstActivationWithReplaceCreatesAnInstanceForSubsequentInputs) {
+    auto definition = updated_definition();
+    definition.reactivation = ModifierReactivation::replace;
+    auto request = activation();
+    request.trigger = {"event.trigger", ModifierTriggerTiming::subsequent_only};
+
+    const auto result = propose_modifier_activation(definition, std::nullopt, request);
+
+    EXPECT_EQ(result.revision_to_append, expected_initial(definition, request));
+    EXPECT_EQ(result.superseded_instance_ref, std::nullopt);
+    EXPECT_EQ(result.for_trigger, std::nullopt);
+}
+
+TEST(ModifierActivation, FirstActivationWithIgnoreCreatesAnInstanceForTheTrigger) {
+    auto definition = updated_definition();
+    definition.reactivation = ModifierReactivation::ignore;
+    auto request = activation();
+    request.trigger = {"event.trigger", ModifierTriggerTiming::include_trigger};
+
+    const auto result = propose_modifier_activation(definition, std::nullopt, request);
+
+    const auto expected = expected_initial(definition, request);
+    EXPECT_EQ(result.revision_to_append, expected);
+    EXPECT_EQ(result.superseded_instance_ref, std::nullopt);
+    EXPECT_EQ(result.for_trigger, expected);
+}
+
 TEST(ModifierActivation, DefaultExtendAddsTenMinutesToThreeAndKeepsCapturedDefinition) {
     const std::optional active{prior_instance()};
     const auto request = activation();
@@ -88,6 +129,7 @@ TEST(ModifierActivation, DefaultExtendAddsTenMinutesToThreeAndKeepsCapturedDefin
         780000,         request.source,        std::nullopt};
     EXPECT_EQ(*result.revision_to_append, expected);
     EXPECT_EQ(result.superseded_instance_ref, std::nullopt);
+    EXPECT_EQ(result.for_trigger, std::nullopt);
     EXPECT_EQ(active, prior_instance());
 }
 
@@ -105,6 +147,7 @@ TEST(ModifierActivation, RestartUsesFullConfiguredDurationAndKeepsCapturedSettin
         600000,         request.source,        std::nullopt};
     EXPECT_EQ(*result.revision_to_append, expected);
     EXPECT_EQ(result.superseded_instance_ref, std::nullopt);
+    EXPECT_EQ(result.for_trigger, std::nullopt);
     EXPECT_EQ(active, prior_instance());
 }
 
@@ -119,6 +162,7 @@ TEST(ModifierActivation, ReplaceSupersedesTheActiveInstanceAndPinsNewSettings) {
     ASSERT_TRUE(result.revision_to_append);
     EXPECT_EQ(*result.revision_to_append, expected_initial(definition, request));
     EXPECT_EQ(result.superseded_instance_ref, "instance.old");
+    EXPECT_EQ(result.for_trigger, std::nullopt);
     EXPECT_EQ(active, prior_instance());
 }
 
@@ -186,6 +230,80 @@ TEST(ModifierActivation, IncludingAReplacementExposesOnlyTheNewRevisionToTheTrig
     EXPECT_EQ(result.superseded_instance_ref, "instance.old");
 }
 
+struct RetainedSettingsExample {
+    const char *name;
+    ModifierReactivation policy;
+    std::int64_t expected_remaining_ms;
+};
+
+class ModifierRetainedSettings : public testing::TestWithParam<RetainedSettingsExample> {};
+
+TEST_P(ModifierRetainedSettings, SubsequentOnlyKeepsThePriorRevisionForTheTrigger) {
+    const auto &example = GetParam();
+    auto definition = updated_definition();
+    definition.reactivation = example.policy;
+    auto request = activation();
+    request.trigger = {"event.trigger", ModifierTriggerTiming::subsequent_only};
+
+    const auto result = propose_modifier_activation(definition, prior_instance(), request);
+
+    const ModifierInstance expected{
+        "instance.old",        "activation.revision",         "instance.old.v1",
+        original_definition(), example.expected_remaining_ms, request.source,
+        request.trigger};
+    EXPECT_EQ(result.for_trigger, prior_instance());
+    EXPECT_EQ(result.revision_to_append, expected);
+    EXPECT_EQ(result.superseded_instance_ref, std::nullopt);
+}
+
+TEST_P(ModifierRetainedSettings, IncludeTriggerUsesTheAppendedRevision) {
+    const auto &example = GetParam();
+    auto definition = updated_definition();
+    definition.reactivation = example.policy;
+    auto request = activation();
+    request.trigger = {"event.trigger", ModifierTriggerTiming::include_trigger};
+
+    const auto result = propose_modifier_activation(definition, prior_instance(), request);
+
+    const ModifierInstance expected{
+        "instance.old",        "activation.revision",         "instance.old.v1",
+        original_definition(), example.expected_remaining_ms, request.source,
+        request.trigger};
+    EXPECT_EQ(result.for_trigger, expected);
+    EXPECT_EQ(result.revision_to_append, expected);
+    EXPECT_EQ(result.superseded_instance_ref, std::nullopt);
+}
+
+INSTANTIATE_TEST_SUITE_P(
+    Policies, ModifierRetainedSettings,
+    testing::Values(RetainedSettingsExample{"Extend", ModifierReactivation::extend, 780000},
+                    RetainedSettingsExample{"Restart", ModifierReactivation::restart, 600000}),
+    [](const auto &example_info) { return example_info.param.name; });
+
+TEST(ModifierActivation, SubsequentOnlyIgnoreKeepsThePriorRevisionForTheTrigger) {
+    auto definition = updated_definition();
+    definition.reactivation = ModifierReactivation::ignore;
+    auto request = activation();
+    request.trigger = {"event.trigger", ModifierTriggerTiming::subsequent_only};
+
+    const auto result = propose_modifier_activation(definition, prior_instance(), request);
+
+    EXPECT_EQ(result.for_trigger, prior_instance());
+    EXPECT_EQ(result.revision_to_append, std::nullopt);
+    EXPECT_EQ(result.superseded_instance_ref, std::nullopt);
+}
+
+TEST(ModifierActivation, ActiveIgnoreWithoutATriggerHasNoTriggerView) {
+    auto definition = updated_definition();
+    definition.reactivation = ModifierReactivation::ignore;
+
+    const auto result = propose_modifier_activation(definition, prior_instance(), activation());
+
+    EXPECT_EQ(result.for_trigger, std::nullopt);
+    EXPECT_EQ(result.revision_to_append, std::nullopt);
+    EXPECT_EQ(result.superseded_instance_ref, std::nullopt);
+}
+
 TEST(ModifierActivation, TriggeringContributionRequiresAnExplicitTimingChoice) {
     auto request = activation();
     request.trigger = {"event.trigger"};
@@ -244,6 +362,63 @@ INSTANTIATE_TEST_SUITE_P(Factors, ModifierInvalidFactors,
                                          InvalidFactorExample{"NaN", "NaN"},
                                          InvalidFactorExample{"PositiveInfinity", "Infinity"},
                                          InvalidFactorExample{"NegativeInfinity", "-Infinity"}),
+                         [](const auto &example_info) { return example_info.param.name; });
+
+struct ActivationBranch {
+    const char *name;
+    ModifierReactivation policy;
+    bool has_active;
+
+    std::optional<ModifierInstance> active() const {
+        return has_active ? std::optional{prior_instance()} : std::nullopt;
+    }
+};
+
+constexpr ActivationBranch fresh_extend{"FreshExtend", ModifierReactivation::extend, false};
+constexpr ActivationBranch fresh_restart{"FreshRestart", ModifierReactivation::restart, false};
+constexpr ActivationBranch fresh_replace{"FreshReplace", ModifierReactivation::replace, false};
+constexpr ActivationBranch fresh_ignore{"FreshIgnore", ModifierReactivation::ignore, false};
+constexpr ActivationBranch active_extend{"ActiveExtend", ModifierReactivation::extend, true};
+constexpr ActivationBranch active_restart{"ActiveRestart", ModifierReactivation::restart, true};
+constexpr ActivationBranch active_replace{"ActiveReplace", ModifierReactivation::replace, true};
+constexpr ActivationBranch active_ignore{"ActiveIgnore", ModifierReactivation::ignore, true};
+
+class ModifierFactorValidation : public testing::TestWithParam<ActivationBranch> {};
+
+TEST_P(ModifierFactorValidation, RejectsInvalidIncomingFactorAcrossActivationBranches) {
+    const auto &branch = GetParam();
+    auto definition = updated_definition();
+    definition.reactivation = branch.policy;
+    definition.targets.push_back(
+        {ModifierTargetKind::counter, "counter.gifts", "qualifier.gift", "-0.5"});
+
+    expect_rejected(definition, branch.active(), activation(),
+                    ModifierActivationError::invalid_factor);
+}
+
+// The original invalid-factor cases already cover active Replace, including non-finite factors.
+INSTANTIATE_TEST_SUITE_P(Branches, ModifierFactorValidation,
+                         testing::Values(fresh_extend, fresh_restart, fresh_replace, fresh_ignore,
+                                         active_extend, active_restart, active_ignore),
+                         [](const auto &example_info) { return example_info.param.name; });
+
+class ModifierTriggerValidation : public testing::TestWithParam<ActivationBranch> {};
+
+TEST_P(ModifierTriggerValidation, RequiresExplicitTimingAcrossActivationBranches) {
+    const auto &branch = GetParam();
+    auto definition = updated_definition();
+    definition.reactivation = branch.policy;
+    auto request = activation();
+    request.trigger = {"event.trigger"};
+
+    expect_rejected(definition, branch.active(), request,
+                    ModifierActivationError::missing_trigger_timing);
+}
+
+// The original missing-timing case already covers fresh Extend.
+INSTANTIATE_TEST_SUITE_P(Branches, ModifierTriggerValidation,
+                         testing::Values(fresh_restart, fresh_replace, fresh_ignore, active_extend,
+                                         active_restart, active_replace, active_ignore),
                          [](const auto &example_info) { return example_info.param.name; });
 
 TEST(ModifierActivation, ExtendAcceptsTheExactLimit) {
