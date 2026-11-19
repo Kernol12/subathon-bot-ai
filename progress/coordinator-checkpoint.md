@@ -186,8 +186,16 @@ current readiness.
   is claimed on `80a0bee1` after the board confirmed its closed prerequisites.
   Tier A Stage 1 starts with exact-rate contract examples and independent
   tests. The coordinator retains shared registration and CI ownership.
-  The compile-checked draft stays local pending owner questions 24–28 in
-  [PR #724](https://github.com/Kernol12/subathon-bot-ai/pull/724).
+  The owner [resolved questions 24–28](https://github.com/Kernol12/subathon-bot-ai/pull/724#issuecomment-7008906120).
+  #406 closes on its pure core rules. Permissioned save and durable revisions
+  are [#727](https://github.com/Kernol12/subathon-bot-ai/issues/727), queued
+  after #719 and dependent on #406.
+- #719 resumed in the SQLite slot after the [owner's lifetime and duration rulings](https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7008906515).
+  The contract covers caller-supplied remaining checkpoints, terminal expiry,
+  and positive configured durations. Independent contract review precedes tests.
+- #199 is Ready for the core slot after #406. Its [owner rulings](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7008905863)
+  cover active mixed-refund timer holds, the explicit Finished disposition,
+  and Main-first reversal allocation after rounding cumulative entitlement.
 
 ### Parallel work and standing CI rerun rule
 
