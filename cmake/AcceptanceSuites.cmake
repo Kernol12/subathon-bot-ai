@@ -7,7 +7,7 @@ set(subathon_acceptance_suites
     sqlite-migrations sqlite-retained sqlite-receipt sqlite-contribution sqlite-plan
     sqlite-bundle sqlite-original-claim sqlite-hold application-service sqlite-delivery-jobs
     translation-catalog rate-snapshot rate-override milestone-progression milestone-timeline milestone-group-restart
-    milestone-group-decisions sqlite-modifier-activations connector-lifecycle session-resolution
+    milestone-group-decisions sqlite-modifier-activations sqlite-financial-refunds connector-lifecycle session-resolution
     password-hashing effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
     bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server)
@@ -92,10 +92,10 @@ function(subathon_resolve_acceptance_suites output)
         elseif(suite STREQUAL "sqlite-delivery-jobs")
             list(APPEND selected ${sqlite_test_prefix} sqlite-delivery-jobs)
         elseif(suite STREQUAL "milestone-group-restart" OR suite STREQUAL "milestone-group-decisions"
-               OR suite STREQUAL "sqlite-modifier-activations")
+               OR suite STREQUAL "sqlite-modifier-activations" OR suite STREQUAL "sqlite-financial-refunds")
             list(APPEND selected ${sqlite_test_prefix} sqlite-delivery-jobs
                 exact-numeric milestone-progression milestone-timeline milestone-group-restart "${suite}")
-            if(suite STREQUAL "sqlite-modifier-activations")
+            if(suite STREQUAL "sqlite-modifier-activations" OR suite STREQUAL "sqlite-financial-refunds")
                 list(APPEND selected milestone-group-decisions)
             endif()
         elseif(NOT sqlite_index EQUAL -1)

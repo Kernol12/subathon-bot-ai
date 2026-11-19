@@ -100,6 +100,13 @@ if(SUBATHON_BUILD_SQLITE_MODIFIER_ACTIVATIONS_TESTS)
         LABELS "sqlite-modifier-activations;acceptance;qt;server;intentional-red" TIMEOUT 180)
 endif()
 
+if(SUBATHON_BUILD_SQLITE_FINANCIAL_REFUNDS_TESTS)
+    subathon_add_qt_suite(server_sqlite_financial_refunds_acceptance
+        NAME sqlite-financial-refunds SOURCES sqlite_financial_refunds_tests.cpp
+        LIBRARIES subathon_sqlite_financial_refunds
+        LABELS "sqlite-financial-refunds;acceptance;qt;server;intentional-red" TIMEOUT 180)
+endif()
+
 if(SUBATHON_BUILD_SQLITE_DELIVERY_JOBS_TESTS)
     subathon_add_qt_suite(server_sqlite_delivery_jobs_acceptance
         NAME sqlite-delivery-jobs SOURCES sqlite_delivery_jobs_tests.cpp

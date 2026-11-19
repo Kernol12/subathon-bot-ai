@@ -470,7 +470,8 @@
       "status": "partial",
       "tests": [
         "tests/acceptance/time_debt_tests.cpp",
-        "tests/acceptance/refund_entitlement_tests.cpp"
+        "tests/acceptance/refund_entitlement_tests.cpp",
+        "tests/qt/sqlite_financial_refunds_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-005-review.md",
