@@ -46,12 +46,19 @@ TEST(CredentialRecord, SelectedSdkAuthenticatesIndependentLiteral) {
 
 TEST(CredentialRecord, OpensIndependentLiteralIntoOwnedBytes) {
     ASSERT_TRUE(native::prepare_sdk());
-    const auto result = open_record(v::scope, v::record, v::id, v::key);
-    if (const auto *error = std::get_if<CredentialError>(&result))
-        ADD_FAILURE() << "Open literal returned category " << static_cast<int>(*error);
-    const auto *value = std::get_if<CredentialValue>(&result);
-    ASSERT_NE(value, nullptr);
-    EXPECT_TRUE(std::ranges::equal(value->bytes(), v::plaintext));
+    const native::Controls controls(native::Fault::none, v::plaintext.size());
+    {
+        const auto result = open_record(v::scope, v::record, v::id, v::key);
+        if (const auto *error = std::get_if<CredentialError>(&result))
+            ADD_FAILURE() << "Open literal returned category " << static_cast<int>(*error);
+        const auto *value = std::get_if<CredentialValue>(&result);
+        ASSERT_NE(value, nullptr);
+        EXPECT_TRUE(std::ranges::equal(value->bytes(), v::plaintext));
+    }
+    const auto observed = controls.observation();
+    EXPECT_EQ(observed.allocations, 1U);
+    EXPECT_EQ(observed.locks, 1U);
+    EXPECT_EQ(observed.releases, 1U);
 }
 
 TEST(CredentialRecord, SealsIndependentLiteralWithOneApplicationDraw) {
@@ -85,6 +92,7 @@ TEST(CredentialRecord, EncodesExactOpaqueAndLengthFramedScope) {
         const auto base = encode_scope({"A", ConnectorProvider::twitch, "C", installation, "s"});
         const auto distinct =
             encode_scope({ref, ConnectorProvider::twitch, "C", installation, "s"});
+        ASSERT_TRUE(std::holds_alternative<RecordBytes>(base));
         ASSERT_TRUE(std::holds_alternative<RecordBytes>(distinct));
         EXPECT_TRUE(std::get<RecordBytes>(base).size() == 11);
         EXPECT_TRUE(std::get<RecordBytes>(distinct) != std::get<RecordBytes>(base));

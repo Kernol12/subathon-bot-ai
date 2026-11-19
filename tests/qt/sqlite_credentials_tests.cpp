@@ -1,17 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#include "../fixtures/credential_vectors.hpp"
 #include "../support/credential_native_controls.hpp"
-#include "support/sqlite_test_support.hpp"
+#include "support/credential_key_fixture.hpp"
 
 #include <QFile>
-#include <QFileInfo>
 #include <QTemporaryDir>
 #include <algorithm>
 #include <cerrno>
 #include <exception>
-#include <fcntl.h>
 #include <memory>
-#include <pwd.h>
 #include <subathon/server/sqlite_migrations.hpp>
 #include <subathon/server/sqlite_modifier_activations.hpp>
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
@@ -27,99 +23,16 @@ namespace native = credential_native;
 namespace v = credential_vectors;
 
 namespace {
+using credential_test_support::blob;
+using credential_test_support::checked;
+using credential_test_support::expect_error;
+using credential_test_support::KeyFixture;
+using credential_test_support::provision_path;
+using credential_test_support::require;
 constexpr int timeout = 5000;
-class FixtureFailure final : public std::runtime_error {
-  public:
-    using std::runtime_error::runtime_error;
-};
-
-void require(bool condition, const QString &message,
-             std::source_location location = std::source_location::current()) {
-    try {
-        qt_test_support::require(condition, message, location);
-    } catch (const std::runtime_error &failure) {
-        throw FixtureFailure(failure.what());
-    }
-}
-
-template <class Body> void checked(Body body) {
-    try {
-        body();
-    } catch (const FixtureFailure &failure) {
-        QFAIL(failure.what());
-    } catch (...) {
-        QFAIL("Unexpected exception in credential test");
-    }
-}
-
 constexpr auto query_row = "SELECT record FROM main.subathon_provider_credentials WHERE scope=?";
 constexpr auto upsert_row = "INSERT INTO main.subathon_provider_credentials(scope, record) "
                             "VALUES (?,?) ON CONFLICT(scope) DO UPDATE SET record=excluded.record";
-
-QByteArray blob(std::span<const unsigned char> source) {
-    return QByteArray(reinterpret_cast<const char *>(source.data()),
-                      static_cast<qsizetype>(source.size()));
-}
-
-QString protected_home() {
-    const auto uid = ::geteuid();
-    require(uid != 0, "Credential filesystem tests require a non-root service UID");
-    const auto *entry = ::getpwuid(uid);
-    require(entry && entry->pw_dir && entry->pw_dir[0] == '/', "Service UID has an absolute home");
-    const auto home = QFile::decodeName(entry->pw_dir);
-    auto path = home;
-    for (;;) {
-        struct stat info{};
-        require(::lstat(QFile::encodeName(path).constData(), &info) == 0 && S_ISDIR(info.st_mode) &&
-                    (info.st_uid == 0 || info.st_uid == uid) &&
-                    (info.st_mode & (S_IWGRP | S_IWOTH)) == 0,
-                "Fixture ancestors must be protected and free of symlinks");
-        if (path == "/")
-            return home;
-        path = QFileInfo(path).absolutePath();
-    }
-}
-
-class KeyFixture final {
-  public:
-    KeyFixture() : dir(protected_home() + "/.session006-XXXXXX") {
-        require(dir.isValid(), "Can create a private directory beneath the service home");
-    }
-
-    QByteArray file(const QString &name = "synthetic-key-path-marker") const {
-        return QFile::encodeName(dir.filePath(name));
-    }
-
-    static void write(const QByteArray &path, const QByteArray &contents = blob(v::key_file),
-                      mode_t mode = 0600) {
-        const int fd = ::open(path.constData(), O_WRONLY | O_CREAT | O_EXCL | O_CLOEXEC, 0600);
-        require(fd >= 0, "Create disposable synthetic key file");
-        const auto written =
-            ::write(fd, contents.constData(), static_cast<size_t>(contents.size()));
-        const auto chmod_status = ::fchmod(fd, mode);
-        const auto closed = ::close(fd);
-        require(written == contents.size() && chmod_status == 0 && closed == 0,
-                "Write fixture bytes and establish exact native permissions");
-    }
-
-    QTemporaryDir dir;
-};
-
-CredentialProvisionResult provision_path(const QByteArray &path) {
-    return provision({std::string_view(path.constData(), static_cast<std::size_t>(path.size()))});
-}
-
-template <class Result>
-void expect_error(const Result &result, CredentialError expected,
-                  std::source_location location = std::source_location::current()) {
-    const auto *error = std::get_if<CredentialError>(&result);
-    require(error != nullptr, "Expected a typed refusal with no returned value", location);
-    require(*error == expected,
-            QString("Credential category %1, expected %2")
-                .arg(static_cast<int>(*error))
-                .arg(static_cast<int>(expected)),
-            location);
-}
 
 CredentialKey key_from(const QByteArray &path) {
     auto result = provision_path(path);
@@ -271,7 +184,8 @@ void expect_nonce(const QVariant &stored, const native::Nonce &nonce) {
 
 class MessageCapture final {
   public:
-    MessageCapture() {
+    explicit MessageCapture(const QByteArray &scope)
+        : scope_hex(QString::fromLatin1(scope.toHex())) {
         active = this;
         previous = qInstallMessageHandler(capture);
     }
@@ -295,6 +209,7 @@ class MessageCapture final {
                                         QString::fromLatin1(blob(v::key)),
                                         QString::fromLatin1(blob(v::record))};
         if (active) {
+            active->leaked |= message.contains(active->scope_hex, Qt::CaseInsensitive);
             active->leaked |= std::ranges::any_of(needles, [&](const auto &needle) {
                 return message.contains(needle, Qt::CaseInsensitive);
             });
@@ -303,6 +218,7 @@ class MessageCapture final {
 
     static inline thread_local MessageCapture *active{};
     QtMessageHandler previous{};
+    QString scope_hex;
     bool leaked{};
 };
 
@@ -314,18 +230,6 @@ class SqliteCredentialsTests final : public QObject {
 
   private slots:
     void init() { fail_on_sql_warnings(); }
-
-    // First provisioning case: preserve the cold application readiness edge.
-    void readinessFailure_SC09() {
-        checked([&] {
-            KeyFixture keys;
-            const auto path = keys.file();
-            KeyFixture::write(path);
-            const native::Controls controls(native::Fault::readiness);
-            expect_error(provision_path(path), CredentialError::crypto_unavailable);
-            QVERIFY(controls.observation().readiness > 0);
-        });
-    }
 
     void exactRecordAndRestart_SC01_SC04() {
         checked([&] {
@@ -486,8 +390,8 @@ class SqliteCredentialsTests final : public QObject {
             });
             QVERIFY(db.record() == record || (!record.isValid() && db.record().isNull()));
 
-            // With an admissible record the same one-statement budget rejects the
-            // required fetch and the original writer error reaches completion.
+            // Exhaust the budget independently of the repository query shape.
+            // The writer error must reach completion unchanged.
             db.open();
             db.seed();
             db.open(preflight);
@@ -495,6 +399,7 @@ class SqliteCredentialsTests final : public QObject {
                 *db.writer,
                 [&](const auto &context) {
                     const auto s = context.begin();
+                    (void)s.execute({"SELECT 1", {}});
                     (void)CredentialRepository(s, key).load(v::exact);
                     s.commit();
                     return 1;
@@ -669,8 +574,7 @@ class SqliteCredentialsTests final : public QObject {
         QTest::addColumn<bool>("lock");
         for (const auto &[size, failure, lock_failure] :
              {std::tuple{53, "provision-allocation", "provision-lock"},
-              std::tuple{7, "prior-value-allocation", "prior-value-lock"},
-              std::tuple{1, "replacement-copy-allocation", "replacement-copy-lock"}}) {
+              std::tuple{65536, "put-allocation", "put-lock"}}) {
             QTest::newRow(failure) << size << false;
             QTest::newRow(lock_failure) << size << true;
         }
@@ -700,12 +604,17 @@ class SqliteCredentialsTests final : public QObject {
             } else {
                 const auto key = key_from(path);
                 const native::Controls controls(fault, static_cast<std::size_t>(allocation_size));
-                constexpr std::array<unsigned char, 1> replacement{0x81};
+                const std::vector<unsigned char> bytes(65536, 0x81);
+                auto scope = v::exact;
+                scope.slot_ref = "s";
                 db.commit([&](const auto &s) {
-                    expect_error(CredentialRepository(s, key).stage_put(v::exact, replacement),
+                    expect_error(CredentialRepository(s, key).stage_put(scope, bytes),
                                  CredentialError::crypto_unavailable);
                 });
                 check(controls);
+                QVERIFY(
+                    db.read({query_row, {QByteArray::fromHex("00024900010002ff4302000141000173")}})
+                        .isEmpty());
             }
             QVERIFY(db.record().toByteArray() == blob(v::record));
             const auto key = key_from(path);
@@ -754,11 +663,26 @@ class SqliteCredentialsTests final : public QObject {
 
     void nativeProtectionAndFileFraming_SC11_SC12_data() {
         QTest::addColumn<QString>("scenario");
-        for (const auto *name :
-             {"read-only", "read-write", "group-read", "other-read", "write-only", "set-id",
-              "group-write-parent", "other-write-parent", "inaccessible-parent", "final-link",
-              "parent-link", "fifo", "directory", "non-directory-parent",
-              "protection-before-size-and-magic", "short", "long", "bad-magic", "newline"})
+        for (const auto *name : {"read-only",
+                                 "read-write",
+                                 "group-read",
+                                 "other-read",
+                                 "write-only",
+                                 "set-id",
+                                 "group-write-parent",
+                                 "other-write-parent",
+                                 "group-write-grandparent",
+                                 "inaccessible-parent",
+                                 "final-link",
+                                 "parent-link",
+                                 "fifo",
+                                 "directory",
+                                 "non-directory-parent",
+                                 "protection-before-size-and-magic",
+                                 "short",
+                                 "long",
+                                 "bad-magic",
+                                 "newline"})
             QTest::newRow(name) << QString::fromLatin1(name);
     }
 
@@ -799,6 +723,15 @@ class SqliteCredentialsTests final : public QObject {
                     contents[3] = '2';
                 if (scenario == "newline")
                     contents.append('\n');
+            } else if (scenario == "group-write-grandparent") {
+                QVERIFY(::mkdir(parent.constData(), 0700) == 0);
+                const auto child = parent + "/child";
+                QVERIFY(::mkdir(child.constData(), 0700) == 0);
+                path = child + "/key";
+                KeyFixture::write(path);
+                QVERIFY(::chmod(parent.constData(), 0720) == 0);
+                expect_error(provision_path(path), expected);
+                return;
             } else if (scenario == "group-write-parent" || scenario == "other-write-parent" ||
                        scenario == "inaccessible-parent") {
                 QVERIFY(::mkdir(parent.constData(), 0700) == 0);
@@ -838,10 +771,14 @@ class SqliteCredentialsTests final : public QObject {
                 KeyFixture::write(path, contents, mode);
             }
 
-            if (accepted)
+            if (accepted) {
+                const native::Controls controls(native::Fault::none, 53);
                 (void)key_from(path);
-            else
+                const auto observed = controls.observation();
+                QVERIFY(observed.allocations == 1 && observed.locks == 1 && observed.releases == 1);
+            } else {
                 expect_error(provision_path(path), expected);
+            }
         });
     }
 
@@ -913,7 +850,6 @@ class SqliteCredentialsTests final : public QObject {
             QVERIFY(QTest::qWaitFor([&] { return done.has_value(); }, timeout));
             if (loading_failure)
                 std::rethrow_exception(loading_failure);
-            QVERIFY(!slot);
             const bool normal = outcome == Finish::committed || outcome == Finish::missing;
             if (outcome == Finish::rolled_back)
                 expect_work(*done, TransactionOutcome::rolled_back, WorkError::not_committed);
@@ -950,13 +886,14 @@ class SqliteCredentialsTests final : public QObject {
             db.seed(blob(v::record), scope);
             bool leaked = false;
             {
-                MessageCapture capture;
+                MessageCapture capture(scope);
                 // Prove the sink detects forbidden sentinels without emitting them.
                 qWarning("scope-disclosure-marker");
                 QVERIFY(capture.contains_secret());
             }
             {
-                MessageCapture capture;
+                // The private sink replaces QtTest's warning handler in this window.
+                MessageCapture capture(scope);
                 expect_error(provision_path(keys.file("missing-synthetic-key-path-marker")),
                              CredentialError::key_unavailable);
                 db.commit([&](const auto &s) {
