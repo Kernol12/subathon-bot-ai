@@ -471,9 +471,16 @@
     },
     {
       "id": "TIMER-07",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/recurring_schedule_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7000644777",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7000676542",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7000792562"
+      ],
+      "scope": "Independent baseline review, 25 admitted intended failures and 25 admitted local passing core cases with synthetic offset facts. Configured-timezone acquisition and authoritative wiring are tracked by #720."
     },
     {
       "id": "TIMER-08",
