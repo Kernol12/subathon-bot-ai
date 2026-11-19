@@ -102,11 +102,17 @@ struct ScheduledPauseKey {
     bool operator==(const ScheduledPauseKey &) const = default;
 };
 
+struct ScheduledPauseObservation {
+    std::string observation_ref;
+    std::int64_t utc_ms;
+};
+
 enum class ScheduledPauseStopCause { expired, deleted, disabled };
 
 struct ScheduledPauseStop {
     ScheduledPauseStopCause cause;
     std::int64_t effective_utc_ms;
+    ScheduledPauseObservation reconciled_at;
 };
 
 struct DeliveredScheduledPause {
@@ -155,11 +161,6 @@ struct ScheduledPauseLimits {
     static constexpr std::chrono::days max_progression_span{366}; // Bounded start scan.
 };
 
-struct ScheduledPauseObservation {
-    std::string observation_ref;
-    std::int64_t utc_ms;
-};
-
 // Queue-owned observations belong to the supplied timer/clock lineage. In queue
 // order, each cut is a trusted wall boundary with optional independently certified
 // monotonic elapsed since the preceding cut or supplied anchor. A missing split
@@ -175,6 +176,7 @@ struct ScheduledPauseElapsedCut {
 };
 
 struct ScheduledPauseClockInput {
+    std::string source_snapshot_ref;
     std::string clock_lineage;
     ScheduledPauseObservation anchor;               // Must match the current cursor and lineage.
     std::span<const ScheduledPauseElapsedCut> cuts; // Ordered, target last, nonempty.
@@ -205,6 +207,11 @@ struct ScheduledPauseCursor {
 };
 
 struct ScheduledPauseState {
+    // Queue-owned identity of this exact basis: timer and clock lineages, state,
+    // timer/config/access revisions, cursor, ordered epoch data and complete
+    // ledger revision/contents or explicit absence. Never use caller-supplied
+    // identities as evidence or reuse the reference for different facts.
+    std::string snapshot_ref;
     std::string timer_lineage;
     std::string clock_lineage;
     std::string state_revision;
@@ -240,6 +247,8 @@ struct ScheduledPauseFactBinding {
 };
 
 struct ScheduledPausePreview {
+    std::string source_snapshot_ref;
+    std::string preview_command_ref;
     std::string timer_lineage;
     std::string clock_lineage;
     std::string state_revision;
@@ -266,6 +275,10 @@ struct ScheduledPauseTransitions {
 };
 
 struct ScheduledPauseProgress {
+    std::string source_snapshot_ref;
+    // Preview/Save/Start/Reopen proposals retain their owning command identity.
+    // Independent progression has no admitted command.
+    std::optional<std::string> admitted_command_ref;
     core::TimerState timer;
     core::PauseState pause;
     ScheduledPauseCursor cursor;
@@ -304,14 +317,30 @@ enum class ScheduledPauseRefusal {
 // Enforce current timer configuration edit permission (including any separately
 // required timezone authority) before protected preview or save reads. Ordinary
 // timer snapshot read permission governs notice disclosure, checked at disclosure.
-// Authority and lineage/state/configuration/delivery/clock bindings must still
-// match at apply. Commit config, clock, timer, Schedule reason and ledger changes
+// Verify trusted input bindings before computing. Compare command and clock
+// references against the current snapshot, and require the edit's admission
+// observation to match the target cut and the authorized proposal by value.
+// An access/proposal mismatch refuses access; a stale basis or clock refuses
+// as stale. Retain and recheck bindings plus exact proposal at apply. Commit
+// config, clock, timer, Schedule reason and ledger changes
 // together, including any notice, and bind entry to its owning command. Only
 // successful application publishes them; a refusal or failed application supplies
 // no provisional delivery, expiry, configuration or clock state.
+// A trusted owner assembles this evidence from one admitted command. The
+// reference binds its exact purpose, source snapshot and admitted observation.
+struct ScheduledPauseCommandBinding {
+    std::string command_ref;
+    std::string source_snapshot_ref;
+    ScheduledPauseObservation observation;
+};
+
 struct ScheduledPauseEditAccess {
-    // The current checked actor for this edit. Denied or unknown is absent.
+    ScheduledPauseCommandBinding admission;
+    // The queue binds the current actor and grant to the bound timer, access
+    // revision, operation (preview or save), and exact authorized proposal.
+    // Denied or unknown is absent. The proposal is borrowed for the call.
     std::optional<std::string> authorized_actor_ref;
+    const ScheduledPauseConfiguration *authorized_proposal;
 };
 
 [[nodiscard]] std::variant<ScheduledPausePreview, ScheduledPauseRefusal>
@@ -330,17 +359,21 @@ enum class ScheduledPauseEntryKind { start, reopen };
 
 struct ScheduledPauseEntry {
     ScheduledPauseEntryKind kind;
-    // Absent unless the owning command has admitted permission and all existing
-    // lifecycle, Main, grace, debt and reopen choices. This is its Active proposal.
+    ScheduledPauseCommandBinding admission;
+    // Absent unless this same admitted Start/Reopen supplied both its trusted
+    // observation and this Active proposal for the bound snapshot, with current
+    // permission and all lifecycle, Main, grace, debt and reopen choices.
     std::optional<core::TimerState> admitted_timer;
 };
 
 // Entry consumes no prior elapsed. Existing entry admission and hard end take
-// precedence. Unknown schedule eligibility holds schedule-dependent progression
-// at entry. The other independent pause reasons stay in the result.
+// precedence. Mixed, unmatched or stale admission facts refuse entry. Use the
+// bound observation, timer/clock lineage and exact state, epoch and ledger basis;
+// check the same command and observation again before applying. Unknown schedule
+// eligibility holds schedule-dependent progression at entry. Other reasons stay.
 [[nodiscard]] std::variant<ScheduledPauseProgress, ScheduledPauseRefusal>
-enter_scheduled_pauses(const ScheduledPauseState &, const ScheduledPauseObservation &,
-                       const ScheduledPauseEntry &, ScheduleZoneSource &);
+enter_scheduled_pauses(const ScheduledPauseState &, const ScheduledPauseEntry &,
+                       ScheduleZoneSource &);
 
 [[nodiscard]] std::variant<ScheduledPauseProgress, ScheduledPauseRefusal>
 progress_scheduled_pauses(const ScheduledPauseState &, const ScheduledPauseClockInput &,
@@ -372,8 +405,9 @@ progress_scheduled_pauses(const ScheduledPauseState &, const ScheduledPauseClock
 // as stopping at the actual save cutover, with the preview's as-of C. A local label
 // for a retained end needs its own certified zone facts.
 // Save takes the exact preview the server issued and presented to this actor.
-// Bind it to the exact proposal, lineage, revisions, rule facts and known cutover
-// consequences. A client assertion that a preview was shown supplies no evidence.
+// Bind it to the actor, issued preview command, exact proposal, source snapshot,
+// revisions, rule facts and cutover consequences. A client assertion supplies no
+// evidence. Save uses its own bound current admission and the same shown actor.
 // Revalidate the original certified ranges and facts (including current old and
 // proposed rules revisions), then recompute at the trusted save observation.
 // A newer observation can revalidate only with unchanged bindings, displayed
