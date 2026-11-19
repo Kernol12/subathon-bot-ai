@@ -144,16 +144,23 @@ current readiness.
   observed 16 named NI outcomes, one expected dispatch assertion and one passing
   control. Stage 2 passed 18 restart invocations and 168 regressions across nine
   admitted runners. Live host composition and v12 activation remain #294.
-- MILESTONE-005 #236 is active, Tier A Stage 1, after #234 and #709. It owns
-  deferred/skipped groups and persisted refund holds. #719 is Ready after #709
-  and owns the SQLite modifier baseline required by #215. It shares the server
-  module with #236 and stays queued. #286 also stays queued while that module
-  is active.
-- CORE-004 #177 is parked at Stage 2 with review approval and 62 admitted passing
-  invocations, pending [question 10](https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7000882210).
-  MODIFIERTEST-001 #214 is parked at Stage 1, compiled and unrun, pending
-  [question 11](https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7001019419).
-  Both have used zero fix rounds on their current reviews.
+- CORE-004 #177 is Done after protected merge `646fb857` in
+  [#717](https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7002792033).
+  All seven checks passed on `cee31651`. Independent review approved and
+  25 frozen tests plus 37 regressions passed on separately admitted binaries.
+  Owner 10A retained the forward compound-gap fallback. Configured timezone
+  integration and data applicability remain #720.
+- MODIFIERTEST-001 #214 resumed Tier A Stage 1 fix round 1 after owner 11A
+  [approved the header correction](https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7002464079).
+  The first activation creates an instance under any reactivation policy.
+  #715 is active in the CI slot, ahead of other new claims.
+- MILESTONE-005 #236 is parked before Tier A Stage 1 review, with 26 linked
+  invocations and no execution or fix rounds. Owner 12B/13A/14A/15A/16A are
+  [recorded on #721](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7002464326).
+  [Questions 17–19](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7002745553)
+  remain open, including approval of the #234 hold port correction.
+  Its additive catalog extension follows v12 and precedes #719, which remains
+  Planned until #236 closes.
 
 ### Parallel work and temporary CI rules
 
