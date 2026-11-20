@@ -363,6 +363,53 @@ TEST_F(FinishedTimer, HardEndRequiresSeparateAcceptedEditAndFreshBinding) {
               Refusal::deadline_passed);
 }
 
+TEST_F(FinishedTimer, DeadlineEditObservesOldDeadlineBeforeChangingTheSetting) {
+    ASSERT_NO_FATAL_FAILURE(
+        use_editorial(TimerDeadlineReplacement{1'000}, {active_main, 0, 100, immediate}, 900));
+    ASSERT_EQ(current.values->timer.lifecycle, Life::Active);
+    const auto replacement = project_timer_editorial_command(
+        {{"before-replacement", *current.values},
+         {"replace-deadline", "before-replacement", "actor-a", std::nullopt,
+          TimerDeadlineReplacement{2'000}},
+         {TimerEditorialAccessState::allowed, "editorial-permissions"},
+         {{100, 1'000, true}},
+         1'000});
+    const auto &edit = replacement.data();
+    ASSERT_EQ(edit.disposition, TimerEditorialDisposition::accepted);
+    ASSERT_EQ(edit.observation_transitions.size(), 1U);
+    const auto &observed = edit.observation_transitions.front();
+    ASSERT_EQ(observed.count, 2);
+    EXPECT_EQ(observed.entries[0], Transition::HardEndReached);
+    EXPECT_EQ(observed.entries[1], Transition::Finished);
+    EXPECT_EQ(edit.editorial_transitions.count, 0);
+    ASSERT_TRUE(edit.observed_before);
+    ASSERT_TRUE(edit.accepted_after);
+    EXPECT_EQ(edit.observed_before->config.hard_end_utc_ms, 1'000);
+    EXPECT_EQ(edit.observed_before->timer.lifecycle, Life::Finished);
+    EXPECT_EQ(edit.accepted_after->config.hard_end_utc_ms, 2'000);
+    EXPECT_EQ(edit.accepted_after->timer.lifecycle, Life::Finished);
+    EXPECT_EQ(edit.accepted_after->timer.main_remaining_ms, 50);
+    EXPECT_EQ(edit.accepted_after->timer.grace_remaining_ms, 120'000);
+
+    current.values = edit.accepted_after;
+    current.pause = set_pause_reason({}, PauseReason::Manual, true);
+    current.scope.revision = "selected-replacement";
+    current.observation = {"observed-at-edit", 1'000, Reached::not_reached};
+    reopen.expected = current.scope;
+    reopen.observation_ref = current.observation.ref;
+    access.bound_command = reopen;
+    const auto result = project_finished_command(current, reopen, access, preview);
+    const auto *plan = std::get_if<FinishedCommandProposal>(&result);
+    ASSERT_NE(plan, nullptr);
+    ASSERT_TRUE(plan->after.values);
+    EXPECT_EQ(plan->audit.before.timer.lifecycle, Life::Finished);
+    EXPECT_EQ(plan->after.values->timer.lifecycle, Life::Active);
+    EXPECT_EQ(plan->after.values->config.hard_end_utc_ms, 2'000);
+    ASSERT_TRUE(plan->after.pause);
+    EXPECT_EQ(plan->after.pause->reasons, PauseReasons{PauseReason::Manual});
+    EXPECT_TRUE(plan->transitions.empty());
+}
+
 TEST_F(FinishedTimer, ReachedEvidenceSurvivesUtcRegressionOrLoss) {
     // Natural Immediate finish at 950 can precede the same setting's deadline.
     current.values->config.hard_end_utc_ms = 1'000;
@@ -500,6 +547,31 @@ TEST_F(FinishedTimer, ActiveDebtCorrectionAcceptsClearEqualAndSignedMaximum) {
         EXPECT_EQ(std::get<Refusal>(project_finished_command(current, command, access)),
                   Refusal::invalid_input);
     }
+}
+
+TEST_F(FinishedTimer, DebtCorrectionChecksItsOwnAccessBeforeFactsAndRequiresStartedTimer) {
+    FinishedCommand command{current.scope, "correct-ready", current.observation.ref,
+                            DebtCorrectionIntent{5, "verified balance"}};
+    access.bound_command = command;
+    auto missing_values = current;
+    missing_values.values.reset();
+    access.state = Access::denied;
+    EXPECT_EQ(std::get<Refusal>(project_finished_command(missing_values, command, access)),
+              Refusal::access_denied);
+    access.state = Access::unknown;
+    EXPECT_EQ(std::get<Refusal>(project_finished_command(missing_values, command, access)),
+              Refusal::access_unknown);
+    access.state = Access::allowed;
+    EXPECT_EQ(std::get<Refusal>(project_finished_command(missing_values, command, access)),
+              Refusal::facts_unavailable);
+
+    current.values->timer = TimerState{};
+    current.finish_history_ref.clear();
+    current.scope.revision = "ready";
+    command.expected = current.scope;
+    access.bound_command = command;
+    EXPECT_EQ(std::get<Refusal>(project_finished_command(current, command, access)),
+              Refusal::wrong_lifecycle);
 }
 
 TEST_F(FinishedTimer, ReopenRefusesInOrderWithoutExposingAfterState) {
@@ -703,10 +775,13 @@ TEST_F(FinishedTimer, GroupProposalsFollowDurableOrderAndAuditCanonicalChoices) 
     const std::vector<ReopenChoice> canonical{{"a-second", Choice::resume},
                                               {"m-third", Choice::keep_deferred},
                                               {"b-empty", Choice::skip}};
-    std::get<ReopenIntent>(access.bound_command.intent).choices = canonical;
     access.group = {{{"a-second", Choice::resume}, Access::allowed},
                     {{"b-empty", Choice::skip}, Access::allowed}};
 
+    // Current grants are sufficient, but the bound intent must include defaulted m-third.
+    EXPECT_EQ(std::get<Refusal>(project_finished_command(current, reopen, access, preview)),
+              Refusal::stale_basis);
+    std::get<ReopenIntent>(access.bound_command.intent).choices = canonical;
     const auto result = project_finished_command(current, reopen, access, preview);
     const auto *plan = std::get_if<FinishedCommandProposal>(&result);
     ASSERT_NE(plan, nullptr);
@@ -747,13 +822,13 @@ TEST_F(FinishedTimer, GroupProposalsFollowDurableOrderAndAuditCanonicalChoices) 
               Refusal::stale_basis);
 
     // With the current valid preview, selecting a released occurrence is invalid.
-    reopen.intent = ReopenIntent{30, Grace::retain, {{"z-first", Choice::resume}}};
+    reopen.intent = ReopenIntent{30,
+                                 Grace::retain,
+                                 {{"a-second", Choice::keep_deferred},
+                                  {"m-third", Choice::keep_deferred},
+                                  {"b-empty", Choice::keep_deferred},
+                                  {"z-first", Choice::resume}}};
     access.bound_command = reopen;
-    std::get<ReopenIntent>(access.bound_command.intent).choices = {
-        {"a-second", Choice::keep_deferred},
-        {"m-third", Choice::keep_deferred},
-        {"b-empty", Choice::keep_deferred},
-        {"z-first", Choice::resume}};
     access.group = {{{"z-first", Choice::resume}, Access::allowed}};
     EXPECT_EQ(std::get<Refusal>(project_finished_command(current, reopen, access, preview)),
               Refusal::invalid_group_choice);
@@ -766,11 +841,43 @@ TEST_F(FinishedRefundHead, DuplicateChoiceAndUnavailableDecisionAreDistinct) {
     access.group = {{{"achieved-35", Choice::resume}, Access::allowed}};
     EXPECT_EQ(std::get<Refusal>(project_finished_command(current, reopen, access, preview)),
               Refusal::invalid_group_choice);
-    std::get<ReopenIntent>(reopen.intent).choices.pop_back();
+    auto &choices = std::get<ReopenIntent>(reopen.intent).choices;
+    choices.front().choice = Choice::skip;
+    access.bound_command = reopen;
+    access.group = {{{"achieved-35", Choice::skip}, Access::allowed},
+                    {{"achieved-35", Choice::resume}, Access::allowed}};
+    EXPECT_EQ(std::get<Refusal>(project_finished_command(current, reopen, access, preview)),
+              Refusal::invalid_group_choice);
+
+    choices.pop_back();
+    access.bound_command = reopen;
+    access.group.clear();
+    EXPECT_EQ(std::get<Refusal>(project_finished_command(current, reopen, access, preview)),
+              Refusal::group_held);
+
+    choices.front().choice = Choice::resume;
     access.bound_command = reopen;
     access.group.clear();
     EXPECT_EQ(std::get<Refusal>(project_finished_command(current, reopen, access, preview)),
               Refusal::group_decision_unavailable);
+}
+
+TEST_F(FinishedTimer, PreflightCountsAllChoicesAndAcceptsExactReferenceLimit) {
+    auto oversized = reopen;
+    std::get<ReopenIntent>(oversized.intent)
+        .choices.assign(4'097, {"group", Choice::keep_deferred});
+    access.state = Access::denied;
+    access.bound_command = oversized;
+    EXPECT_EQ(std::get<Refusal>(project_finished_command(current, oversized, access, preview)),
+              Refusal::input_limit);
+
+    access.state = Access::allowed;
+    access.bound_command = reopen;
+    access.permission_catalog.assign(4'096, 'c');
+    const auto result = project_finished_command(current, reopen, access, preview);
+    const auto *plan = std::get_if<FinishedCommandProposal>(&result);
+    ASSERT_NE(plan, nullptr);
+    EXPECT_EQ(plan->audit.authority.permission_catalog, access.permission_catalog);
 }
 
 TEST_F(FinishedRefundHead, PreflightCoversEchoesAndHoldKeysBeforeAccessWithoutPartialResult) {
