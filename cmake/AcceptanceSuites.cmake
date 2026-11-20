@@ -6,12 +6,12 @@ set(subathon_acceptance_suites
     pause-policy recurring-schedule application-plan modifier-activation sqlite-writer time-debt sqlite-work
     sqlite-migrations sqlite-retained sqlite-receipt sqlite-contribution sqlite-plan
     sqlite-bundle sqlite-original-claim sqlite-hold application-service sqlite-delivery-jobs
-    translation-catalog rate-snapshot rate-override rule-definition milestone-progression milestone-timeline milestone-group-restart
+    translation-catalog rate-snapshot rate-override valuation-snapshot-codec rule-definition milestone-progression milestone-timeline milestone-group-restart
     milestone-group-decisions sqlite-modifier-activations sqlite-financial-refunds sqlite-credential-catalog connector-lifecycle session-resolution
     password-hashing credential-record sqlite-credentials effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
     bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server
-    milestone-target-edit sqlite-milestone-target-edits)
+    chat-commands milestone-target-edit sqlite-milestone-target-edits)
 
 # Test guards stay private derived variables; callers select the
 # logical suites above instead of maintaining another set of cache switches.
@@ -121,11 +121,14 @@ function(subathon_resolve_acceptance_suites output)
             list(APPEND selected exact-numeric milestone-progression milestone-timeline)
         elseif(suite STREQUAL "modifier-activation")
             list(APPEND selected exact-numeric application-plan modifier-activation)
-        elseif(suite STREQUAL "rate-override" OR suite STREQUAL "rule-definition")
+        elseif(suite STREQUAL "rate-override" OR suite STREQUAL "valuation-snapshot-codec"
+               OR suite STREQUAL "rule-definition")
             list(APPEND selected exact-numeric rate-snapshot "${suite}")
         elseif(suite STREQUAL "milestone-progression" OR suite STREQUAL "effective-permissions"
                OR suite STREQUAL "rate-snapshot" OR suite STREQUAL "refund-entitlement")
             list(APPEND selected exact-numeric "${suite}")
+        elseif(suite STREQUAL "chat-commands")
+            list(APPEND selected exact-numeric effective-permissions "${suite}")
         elseif(suite STREQUAL "timer-editorial")
             list(APPEND selected time-debt timer-lifecycle timer-editorial)
         else()

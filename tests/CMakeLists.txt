@@ -115,6 +115,14 @@ if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
 
 endif()
 
+if(SUBATHON_BUILD_CHAT_COMMANDS_TESTS)
+    add_executable(core_chat_commands_acceptance acceptance/chat_commands_tests.cpp)
+    target_link_libraries(core_chat_commands_acceptance PRIVATE subathon_chat_commands GTest::gtest_main)
+    subathon_target_options(core_chat_commands_acceptance)
+    subathon_discover_gtests(core_chat_commands_acceptance
+        LABELS "chat-commands;acceptance;core" TIMEOUT 30)
+endif()
+
 if(SUBATHON_BUILD_TIME_DEBT_TESTS)
     add_executable(core_time_debt_acceptance acceptance/time_debt_tests.cpp)
     target_link_libraries(core_time_debt_acceptance PRIVATE subathon_time_debt subathon_timer_lifecycle GTest::gtest_main)
@@ -238,6 +246,14 @@ if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
     subathon_target_options(core_rate_snapshot_acceptance)
     subathon_discover_gtests(core_rate_snapshot_acceptance
         LABELS "rate-snapshot;acceptance;core" TIMEOUT 30)
+endif()
+
+if(SUBATHON_BUILD_VALUATION_SNAPSHOT_CODEC_TESTS)
+    add_executable(core_valuation_snapshot_codec_acceptance acceptance/valuation_snapshot_codec_tests.cpp)
+    target_link_libraries(core_valuation_snapshot_codec_acceptance PRIVATE subathon_valuation_snapshot_codec GTest::gtest_main)
+    subathon_target_options(core_valuation_snapshot_codec_acceptance)
+    subathon_discover_gtests(core_valuation_snapshot_codec_acceptance
+        LABELS "valuation-snapshot-codec;acceptance;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_RULE_DEFINITION_TESTS)

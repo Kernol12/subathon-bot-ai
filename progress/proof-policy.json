@@ -126,6 +126,7 @@
   "archive_commit": "da8db0dc3984f55aaff12297947a6bd8083d5315",
   "required_records": [
     "ACCESS-002",
+    "ACCESS-007",
     "ACCESS-009",
     "ACCESS-010",
     "ACCESS-011",
@@ -222,6 +223,7 @@
     "RATECONTRACT-002",
     "RATES-001",
     "RATES-007",
+    "RATES-011",
     "RATESTEST-001",
     "REVIEW-001",
     "RULES-001",
