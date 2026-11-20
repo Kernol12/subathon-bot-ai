@@ -812,6 +812,52 @@ class SqliteRateOverrideWriterTests : public QObject {
         });
     }
 
+    void reusedStandaloneObservationAllowsVerifiedAbsence_R08() {
+        check([] {
+            RateFile file;
+            const auto first = fetched_preview();
+            seed_first(file, true);
+
+            // Replacing the pin at the same rate keeps F's EUR/GBP edge and all exact rates.
+            // The basis still carries both full observations, including standalone G.
+            auto attempted = replacement_preview();
+            attempted.basis = first.basis;
+            auto &candidate = attempted.proposal.candidate;
+            candidate.sources = first.proposal.candidate.sources;
+            candidate.constraints.push_back(core::FetchedRateConstraint{"F", 1});
+            candidate.components = first.proposal.candidate.components;
+
+            const auto result = enqueue_save(*file.writer, attempted.edit, attempted,
+                                             attempted.basis, authorized(), false, true);
+            wait_for_save(result);
+            require(result->staged.has_value(), "K2 reaches the typed save result");
+            const auto *staged = std::get_if<RateReceiptSelection>(&*result->staged);
+            require(staged && result->authority_reads == 1 && result->samples == 1,
+                    "K2 stages a new authorized edit using the retained observations");
+            expect_receipt(*staged, RateReceiptOrigin::newly_staged, attempted);
+            require(result->completion->transaction == TransactionOutcome::rolled_back &&
+                        result->completion->error == WorkError::not_committed &&
+                        !result->completion->value &&
+                        !finish_rate_receipt(*staged, *result->completion),
+                    "Known rollback publishes no K2 receipt");
+
+            file.reopen();
+            // The exact five-table oracle excludes K2, T, D2 and O2, and retains both ROB1 rows.
+            expect_first_image(file, first, true);
+            const auto before = rate_image(file);
+            require(std::holds_alternative<RateAttemptAbsent>(recover(file, attempted)),
+                    "Authorized recovery verifies absence with byte-identical standalone G");
+            require(rate_image(file) == before, "Verified absence leaves the exact image intact");
+
+            auto changed = attempted;
+            changed.basis.observations.back().quotes.front().original_decimal = "2.00";
+            require(std::holds_alternative<RateStoreRefusal>(recover(file, changed)),
+                    "Changed bytes for standalone G leave the attempt unresolved");
+            require(rate_image(file) == before,
+                    "Unresolved recovery leaves the exact image intact");
+        });
+    }
+
     void acceptedObservationShapes_R06_data() {
         QTest::addColumn<int>("shape");
         QTest::newRow("derived-same-value") << 0;
