@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <limits>
+#include <set>
 #include <subathon/server/sqlite_delivery_catalog.hpp>
 #include <tuple>
 
@@ -308,6 +309,16 @@ std::optional<std::pair<QByteArray, bool>> pending_head(const SqliteWorkSession 
             corrupt();
     } else {
         check_application_identity(s, key, integer((*row)[1]));
+        if (terminal_partition::selected(s)) {
+            const auto origins = s.execute(
+                {"SELECT " + ref_column("operation_scope") + "," + ref_column("operation_ref") +
+                     " FROM main.subathon_milestone_groups WHERE occurrence_ref=?",
+                 {key}});
+            const auto *origin = unique(origins);
+            if (!origin)
+                corrupt();
+            verify_partitioned_origin(s, {reference((*origin)[0]), reference((*origin)[1])});
+        }
     }
     return std::pair{key, edit};
 }
@@ -504,6 +515,8 @@ void SqliteMilestoneGroupStore::stage(const ApplicationOperationKey &origin,
         for (const auto &capture : groups)
             validate_membership(origin, capture);
         const auto edits = catalog(session_) == Catalog::edits;
+        if (edits && terminal_partition::selected(session_))
+            verify_partitioned_origin(session_, origin);
         auto order = edits
                          ? ed::queue_tail(session_)
                          : scalar(session_.execute(
@@ -529,6 +542,8 @@ std::vector<CapturedMilestoneGroup> SqliteMilestoneGroupStore::pending() const {
     return guarded(session_, [&] {
         const auto current = catalog(session_);
         const auto filter = pending_filter(current);
+        const auto review_catalog =
+            current == Catalog::edits && terminal_partition::selected(session_);
         // Read groups independently of action rows so empty occurrences are
         // retained and each captured group definition is materialized once.
         const auto groups = session_.execute(
@@ -537,6 +552,9 @@ std::vector<CapturedMilestoneGroup> SqliteMilestoneGroupStore::pending() const {
                  integer_column("target_micro_points") + "," +
                  integer_column("score_micro_points") + "," + ref_column("completion_context_ref") +
                  "," + timing_column("presentation_ms") + "," + timing_column("gap_ms") +
+                 (review_catalog
+                      ? "," + ref_column("operation_scope") + "," + ref_column("operation_ref")
+                      : QString{}) +
                  " FROM main.subathon_milestone_groups AS g WHERE " + filter +
                  " ORDER BY g.queue_order",
              {}});
@@ -566,11 +584,18 @@ std::vector<CapturedMilestoneGroup> SqliteMilestoneGroupStore::pending() const {
                          ? ed::pending(session_)
                          : std::vector<std::pair<qint64, CapturedMilestoneGroup>>{};
         auto edit = edits.begin();
+        std::set<std::pair<std::string, std::string>> verified;
         for (const auto &row : groups) {
             const auto order = integer(row[0]);
             if (order <= previous_order)
                 corrupt();
             previous_order = order;
+            if (review_catalog) {
+                const auto [origin, inserted] =
+                    verified.emplace(reference(row[9]), reference(row[10]));
+                if (inserted)
+                    verify_partitioned_origin(session_, {origin->first, origin->second});
+            }
             if (current == Catalog::edits)
                 ed::check_application_identity(session_, blob(reference(row[1])), order);
             for (; edit != edits.end() && edit->first < order; ++edit)

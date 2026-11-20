@@ -407,10 +407,9 @@ std::optional<core::RefundAmounts> money(const core::ReceiptRecord &support,
 
 const ApplicationEffect *find_effect(const std::vector<ApplicationEffect> &effects,
                                      Number ordinal) {
-    if (ordinal < 1 || std::uintmax_t(ordinal) > effects.size())
-        return nullptr;
-    const auto &effect = effects[size_t(ordinal - 1)];
-    return effect.request_ordinal == ordinal ? &effect : nullptr;
+    const auto effect =
+        std::ranges::lower_bound(effects, ordinal, {}, &ApplicationEffect::request_ordinal);
+    return effect != effects.end() && effect->request_ordinal == ordinal ? &*effect : nullptr;
 }
 std::optional<core::RefundTimeCredit> time_credit(const ApplicationEffect *effect) {
     if (!effect || effect->arithmetic_role != AR::time_addition || effect->components.size() != 3 ||
@@ -1010,8 +1009,10 @@ std::optional<Requests> prepare_requests(const FinancialEntitlement &p,
             std::ranges::find(p.components, ordinal, &ApplicationReversalLink::request_ordinal);
         if (link == p.components.end())
             return {};
-        const auto &component =
-            source.effects[size_t(link->original.request_ordinal - 1)].components.front();
+        const auto *source_effect = find_effect(source.effects, link->original.request_ordinal);
+        if (!source_effect || source_effect->components.size() != 1)
+            return {};
+        const auto &component = source_effect->components.front();
         auto balance = std::ranges::find_if(after.balances, [&](const auto &candidate) {
             return int(candidate.kind) == int(component.kind) &&
                    candidate.target_ref == component.target_ref;

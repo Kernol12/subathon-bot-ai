@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
+#include "sqlite_terminal_partition.hpp"
 #include <algorithm>
 #include <array>
 #include <limits>
@@ -521,22 +522,46 @@ inline void validate_bundle(const PreparedApplicationBundle &b, const SqliteBund
                     b.effects[size_t(grouped->ordinal - 1)].arithmetic_role !=
                         ApplicationArithmeticRole::time_reversal))
         invalid(Input::invalid_effect);
+    const auto partitioned = b.result.format_ref == terminal_partition::result_format;
+    if (partitioned && (i.kind != ApplicationOperationKind::original ||
+                        b.advanced_before.timer.lifecycle != core::TimerLifecycle::Finished ||
+                        b.after.timer.lifecycle != core::TimerLifecycle::Finished))
+        invalid(Input::invalid_result);
+    std::int64_t previous = 0;
     for (size_t index = 0; index < b.effects.size(); ++index) {
         const auto &effect = b.effects[index];
+        if (partitioned && (effect.request_ordinal <= previous ||
+                            effect.unit == core::RequestedUnit::milliseconds))
+            invalid(Input::invalid_effect);
+        previous = effect.request_ordinal;
         const auto restoration = grouped && grouped->ordinal == effect.request_ordinal
                                      ? std::optional{grouped->restored}
                                      : std::nullopt;
-        validate_effect(effect, index + 1, b.advanced_before, l, restoration);
+        validate_effect(effect, partitioned ? size_t(effect.request_ordinal) : index + 1,
+                        b.advanced_before, l, restoration);
         if (restoration && *restoration > effect.components[1].units)
             invalid(Input::invalid_effect);
     }
     validate_deltas(b);
-    validate_jobs(b, l);
+    if (partitioned)
+        validate_jobs(b.jobs, size_t(l.plan_items_per_vector), l);
+    else
+        validate_jobs(b, l);
     for (auto transition : b.transitions)
         if (!enum_in(transition, 5))
             invalid(Input::invalid_transition);
     if (!valid_envelope(b.result, l))
         invalid(Input::invalid_result);
+    if (partitioned) {
+        try {
+            const auto mask = terminal_partition::match_result(b);
+            if (mask.tags.size() > l.plan_items_per_vector ||
+                mask.tags.size() > l.effects_per_bundle)
+                invalid(Input::collection_limit);
+        } catch (const terminal_partition::Invalid &) {
+            invalid(Input::invalid_result);
+        }
+    }
     if (!valid_envelope(b.audit.envelope, l) ||
         (b.audit.actor_ref && !bounded(*b.audit.actor_ref, l.reference_bytes)) ||
         (b.audit.decision_ref && !bounded(*b.audit.decision_ref, l.reference_bytes)) ||

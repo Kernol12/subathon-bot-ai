@@ -282,6 +282,14 @@ class SelectedMetadata : public Access {
         Budget local;
         auto &out = output ? *output : local;
         measured(out, r, {0, 1, 4, 5, 6, 7, 8, 11, 12, 13, 14}, 2);
+        if (selected_basis) {
+            const auto format = route("subathon_app_results", {"format_ref"}, w, b);
+            // SAR2 binds the complete physical effect and job vectors, even
+            // when reached through a selected reversal basis.
+            if (string(format, 0, limits_.reference_bytes, true) ==
+                terminal_partition::result_format)
+                selected_basis.reset();
+        }
         auto routes =
             route("subathon_app_operations",
                   {"plan_ref", "plan_revision", "head_token", "before_token", "after_token"}, w, b);

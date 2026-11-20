@@ -805,10 +805,12 @@ class HoldAccess : public Access {
                 app->intent.operation.operation_ref != c.command.operation.operation_ref)
                 reference_failure(incoming);
             const auto n = c.timer->request_ordinal;
-            if (n < 1 || std::uintmax_t(n) > app->effects.size())
+            const auto found =
+                std::ranges::find(app->effects, n, &ApplicationEffect::request_ordinal);
+            if (found == app->effects.end())
                 reference_failure(incoming);
-            const auto &e = app->effects[size_t(n - 1)];
-            if (e.request_ordinal != n || e.arithmetic_role != AR::time_reversal ||
+            const auto &e = *found;
+            if (e.arithmetic_role != AR::time_reversal ||
                 e.requested_units != c.timer->request_units ||
                 e.deficit_policy != std::optional{core::RefundDeficitPolicy::RequireReview} ||
                 e.deficit_disposition !=

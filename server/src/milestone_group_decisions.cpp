@@ -272,6 +272,8 @@ void SqliteMilestoneGroupDecisions::record_acceptance(
         const auto current = catalog(session_);
         if (current < Catalog::decisions)
             corrupt();
+        if (current == Catalog::edits && terminal_partition::selected(session_))
+            verify_partitioned_origin(session_, origin);
         const auto groups = session_.execute(
             {"SELECT g.occurrence_ref IS NOT NULL," + ref_column("g.occurrence_ref") +
                  ",g.released,EXISTS(SELECT 1 FROM main.subathon_milestone_refund_decisions AS d "

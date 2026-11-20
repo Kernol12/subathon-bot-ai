@@ -1291,6 +1291,12 @@ class Access {
             if (f.counts[size_t(n)] < 0)
                 fail(Reason::invalid_stored_data);
         }
+        if (metadata && v.result.format_ref == terminal_partition::result_format) {
+            v.persisted_head = state(i.expected_state_token);
+            v.advanced_before = state(before);
+            v.after = state(after);
+            metadata = false;
+        }
         auto audit_ = one("subathon_app_audit", app_audit_columns, operation_where(),
                           operation_values(k), true);
         operation_key(*audit_, k);
@@ -1323,10 +1329,63 @@ class Access {
         }
         return f;
     }
+    terminal_partition::Mask partition(const Fixed &f) {
+        const auto &record = f.record;
+        const auto &requests = f.source.selected.captured.requested_effects;
+        const auto tagged = record.result.format_ref == terminal_partition::result_format;
+        // Pre-v19 operations retain their original dense shape. On v19 no
+        // terminal table row is valid without its app result's own mask.
+        if (!terminal_partition::selected(session_)) {
+            if (tagged)
+                fail(Reason::invalid_stored_data);
+            return {};
+        }
+        terminal_partition::Mask mask;
+        if (tagged) {
+            try {
+                mask = terminal_partition::footer(record.result.document, requests.size());
+            } catch (const terminal_partition::Invalid &) {
+                fail(Reason::invalid_stored_data);
+            }
+            if (record.intent.kind != ApplicationOperationKind::original ||
+                record.advanced_before.timer.lifecycle != TimerLifecycle::Finished ||
+                record.after.timer.lifecycle != TimerLifecycle::Finished)
+                fail(Reason::invalid_stored_data);
+        }
+        if (mask.terminals > size_t(limits_.effects_per_bundle))
+            fail(Reason::result_limit);
+        auto values = operation_values(record.intent.operation);
+        values.append(qint64(mask.terminals + 1));
+        const auto rows = execute(
+            {"SELECT " +
+                 projection({"plan_ref", "plan_revision", "request_ordinal", "disposition"}) +
+                 " FROM main.subathon_review_terminal_requests WHERE " + operation_where() +
+                 " ORDER BY request_ordinal LIMIT ?",
+             std::move(values)});
+        if (size_t(rows.size()) != mask.terminals)
+            fail(Reason::invalid_stored_data);
+        qsizetype row_index = 0;
+        for (qsizetype index = 0; index < mask.tags.size(); ++index) {
+            const auto tag = mask.tags[index];
+            const auto &request = requests[size_t(index)];
+            if ((tag == 1) != (request.unit == RequestedUnit::milliseconds))
+                fail(Reason::invalid_stored_data);
+            if (!tag)
+                continue;
+            const auto &row = rows[row_index++];
+            shape(row, 4);
+            if (string(row, 0, limits_.reference_bytes, true) != record.intent.plan.plan_ref ||
+                id(row, 1, true) != record.intent.plan.revision || integer(row, 2) != index + 1 ||
+                integer(row, 3) != tag)
+                fail(Reason::invalid_stored_data);
+        }
+        return mask;
+    }
     template <class F>
     qint64 ordinal_rows(const QString &table, const QStringList &columns,
-                        const ApplicationOperationKey &k, F fn) {
+                        const ApplicationOperationKey &k, F fn, bool sparse = false) {
         qint64 previous = 0;
+        qint64 count = 0;
         for (;;) {
             auto values = operation_values(k);
             values.append(previous);
@@ -1339,9 +1398,11 @@ class Access {
                 const auto &r = rows[x];
                 shape(r, columns.size());
                 operation_key(r, k);
-                if (previous == std::numeric_limits<qint64>::max() || integer(r, 2) != previous + 1)
+                const auto ordinal = integer(r, 2);
+                if (ordinal <= previous || (!sparse && ordinal - previous != 1))
                     fail(Reason::invalid_stored_data);
-                ++previous;
+                previous = ordinal;
+                ++count;
                 fn(r);
             }
             if (rows.size() <= 64)
@@ -1349,9 +1410,9 @@ class Access {
         }
         auto actual = execute({"SELECT count(*) FROM main." + table + " WHERE " + operation_where(),
                                operation_values(k)});
-        if (actual.size() != 1 || actual.front().front().toLongLong() != previous)
+        if (actual.size() != 1 || actual.front().front().toLongLong() != count)
             fail(Reason::invalid_stored_data);
-        return previous;
+        return count;
     }
     ApplicationEffect effect(const SqlRow &r, const ApplicationPlanKey &p) {
         if (string(r, 3, limits_.reference_bytes, true) != p.plan_ref ||
@@ -1425,7 +1486,8 @@ class Access {
     void children(Fixed &f, std::optional<qint64> selected = {}) {
         auto &v = f.record;
         const auto &k = v.intent.operation;
-        const bool full = !selected;
+        const auto mask = partition(f);
+        const bool full = !selected || mask.terminals;
         const auto &reqs = f.source.selected.captured.requested_effects;
         // Verify immutable counters against the entire selected scope BEFORE
         // returned-vector allocation; a corrupt understated count is not a cap.
@@ -1449,45 +1511,50 @@ class Access {
         const QStringList meta_effects{
             "operation_scope", "operation_ref", "request_ordinal", "plan_ref", "plan_revision",
             "arithmetic_role", "unit"};
-        auto count = ordinal_rows("subathon_app_effects", meta_effects, k, [&](const SqlRow &r) {
-            const auto pos = integer(r, 2);
-            if (string(r, 3, limits_.reference_bytes, true) != v.intent.plan.plan_ref ||
-                id(r, 4, true) != v.intent.plan.revision || pos < 1 || size_t(pos) > reqs.size())
-                fail(Reason::invalid_stored_data);
-            ApplicationEffect e;
-            e.request_ordinal = pos;
-            e.arithmetic_role = static_cast<AR>(enumeration(r, 5, 2));
-            e.unit = static_cast<RequestedUnit>(enumeration(r, 6, 2));
-            if ((e.arithmetic_role == AR::direct) == (e.unit == RequestedUnit::milliseconds))
-                fail(Reason::invalid_stored_data);
-            const bool take = full || *selected == pos;
-            if (take) {
-                auto b = operation_values(k);
-                b.append(pos);
-                auto row = one("subathon_app_effects", app_effects_columns,
-                               operation_where() + " AND request_ordinal=?", std::move(b), true);
-                e = effect(*row, v.intent.plan);
-            }
-            e.components = components(k, e, v.advanced_before.token, take);
-            if (e.components.size() >
-                std::uintmax_t(std::numeric_limits<qint64>::max() - component_count))
-                fail(Reason::invalid_stored_data);
-            component_count += qint64(e.components.size());
-            if (take) {
-                const auto &q = reqs[size_t(pos - 1)];
-                if (e.unit != q.unit || e.exact_requested_units != q.exact_requested_units ||
-                    e.requested_units != q.requested_units)
+        auto count = ordinal_rows(
+            "subathon_app_effects", meta_effects, k,
+            [&](const SqlRow &r) {
+                const auto pos = integer(r, 2);
+                if (string(r, 3, limits_.reference_bytes, true) != v.intent.plan.plan_ref ||
+                    id(r, 4, true) != v.intent.plan.revision || pos < 1 ||
+                    size_t(pos) > reqs.size() || (mask.terminals && !mask.has_effect(size_t(pos))))
                     fail(Reason::invalid_stored_data);
-                for (const auto &c : e.components)
-                    if (c.target_ref && *c.target_ref != q.target_ref)
+                ApplicationEffect e;
+                e.request_ordinal = pos;
+                e.arithmetic_role = static_cast<AR>(enumeration(r, 5, 2));
+                e.unit = static_cast<RequestedUnit>(enumeration(r, 6, 2));
+                if ((e.arithmetic_role == AR::direct) == (e.unit == RequestedUnit::milliseconds))
+                    fail(Reason::invalid_stored_data);
+                const bool take = full || *selected == pos;
+                if (take) {
+                    auto b = operation_values(k);
+                    b.append(pos);
+                    auto row =
+                        one("subathon_app_effects", app_effects_columns,
+                            operation_where() + " AND request_ordinal=?", std::move(b), true);
+                    e = effect(*row, v.intent.plan);
+                }
+                e.components = components(k, e, v.advanced_before.token, take);
+                if (e.components.size() >
+                    std::uintmax_t(std::numeric_limits<qint64>::max() - component_count))
+                    fail(Reason::invalid_stored_data);
+                component_count += qint64(e.components.size());
+                if (take) {
+                    const auto &q = reqs[size_t(pos - 1)];
+                    if (e.unit != q.unit || e.exact_requested_units != q.exact_requested_units ||
+                        e.requested_units != q.requested_units)
                         fail(Reason::invalid_stored_data);
-                v.effects.push_back(std::move(e));
-            }
-        });
+                    for (const auto &c : e.components)
+                        if (c.target_ref && *c.target_ref != q.target_ref)
+                            fail(Reason::invalid_stored_data);
+                    v.effects.push_back(std::move(e));
+                }
+            },
+            mask.terminals != 0);
         auto actual_components =
             execute({"SELECT count(*) FROM main.subathon_app_components WHERE " + operation_where(),
                      operation_values(k)});
-        if (count != f.counts[0] || size_t(count) != reqs.size() ||
+        if (count != f.counts[0] || size_t(count) + mask.terminals != reqs.size() ||
             component_count != f.counts[1] || actual_components.size() != 1 ||
             actual_components.front().front().toLongLong() != component_count)
             fail(Reason::invalid_stored_data);
@@ -1500,7 +1567,7 @@ class Access {
                 j.job_ref = string(r, 3, limits_.reference_bytes, true);
                 if (!null(r, 4)) {
                     auto n = integer(r, 4);
-                    if (n < 1 || n > count)
+                    if (n < 1 || (mask.terminals ? !mask.has_effect(size_t(n)) : n > count))
                         fail(Reason::invalid_stored_data);
                     j.source_request_ordinal = n;
                 }
@@ -1728,9 +1795,27 @@ class Access {
         if (f->record.intent.kind != ApplicationOperationKind::original)
             fail(Reason::source_mismatch);
         children(*f, o.request_ordinal);
-        if (f->record.effects.size() != 1)
+        auto &record = f->record;
+        if (record.result.format_ref == terminal_partition::result_format) {
+            const PreparedApplicationBundle closure{record.intent,      record.advanced_before,
+                                                    record.after,       record.advance_explanation,
+                                                    record.effects,     record.jobs,
+                                                    record.transitions, {},
+                                                    record.result,      record.audit};
+            validate_stored_bundle(closure);
+            if (!head_relation(record.persisted_head, record.advanced_before,
+                               record.advance_explanation))
+                fail(Reason::invalid_stored_data);
+        }
+        const auto effect_at = std::ranges::find(record.effects, o.request_ordinal,
+                                                 &ApplicationEffect::request_ordinal);
+        if (effect_at == record.effects.end()) {
+            if (record.result.format_ref == terminal_partition::result_format &&
+                size_t(o.request_ordinal) <= f->source.selected.captured.requested_effects.size())
+                return {};
             fail(Reason::missing_reference);
-        auto &e = f->record.effects.front();
+        }
+        auto &e = *effect_at;
         auto selected = std::find_if(e.components.begin(), e.components.end(),
                                      [&](const auto &v) { return v.kind == o.component_kind; });
         if (selected == e.components.end())
@@ -1826,6 +1911,21 @@ class Access {
                 {bytes(original.operation.operation_scope), bytes(original.operation.operation_ref),
                  qint64(original.request_ordinal), int(original.component_kind)}));
     }
+    void validate_stored_bundle(const PreparedApplicationBundle &prepared,
+                                std::optional<bundle_detail::GroupedTimeEffect> grouped = {}) {
+        try {
+            auto stored_limits = limits_;
+            stored_limits.input_items = std::numeric_limits<qsizetype>::max() - 1;
+            stored_limits.owned_bytes = std::numeric_limits<qsizetype>::max();
+            bundle_detail::validate_bundle(prepared, stored_limits, grouped);
+        } catch (const SqliteBundleInputFailure &e) {
+            if (e.error() == SqliteBundleInputError::collection_limit ||
+                e.error() == SqliteBundleInputError::exact_component_limit ||
+                e.error() == SqliteBundleInputError::owned_byte_limit)
+                fail(Reason::result_limit);
+            fail(Reason::invalid_stored_data);
+        }
+    }
     std::optional<RecordedApplicationBundle> lookup(const ApplicationOperationKey &k) {
         auto f = fixed(k, false);
         if (!f)
@@ -1870,21 +1970,9 @@ class Access {
                                           o.previous_cumulative, o.cumulative,
                                           o.requested_increment, o.cumulative_fraction,
                                           o.exact_entitlement, o.rounding_residual, o.full_refund});
-        try {
-            auto stored_limits = limits_;
-            stored_limits.input_items = std::numeric_limits<qsizetype>::max() - 1;
-            stored_limits.owned_bytes = std::numeric_limits<qsizetype>::max();
-            bundle_detail::validate_bundle(prepared, stored_limits,
-                                           v.intent.kind == ApplicationOperationKind::reversal
-                                               ? grouped_time(k)
-                                               : std::nullopt);
-        } catch (const SqliteBundleInputFailure &e) {
-            if (e.error() == SqliteBundleInputError::collection_limit ||
-                e.error() == SqliteBundleInputError::exact_component_limit ||
-                e.error() == SqliteBundleInputError::owned_byte_limit)
-                fail(Reason::result_limit);
-            fail(Reason::invalid_stored_data);
-        }
+        validate_stored_bundle(prepared, v.intent.kind == ApplicationOperationKind::reversal
+                                             ? grouped_time(k)
+                                             : std::nullopt);
         if (!head_relation(v.persisted_head, v.advanced_before, v.advance_explanation))
             fail(Reason::invalid_stored_data);
         size_t n = 0;
@@ -2056,11 +2144,22 @@ class Access {
         if (!head_relation(*head, b.advanced_before, b.advance_explanation))
             fail(Reason::source_mismatch);
         const auto &requests = p->selected.captured.requested_effects;
-        if (requests.size() != b.effects.size())
+        terminal_partition::Mask mask;
+        if (b.result.format_ref == terminal_partition::result_format) {
+            if (!terminal_partition::selected(session_))
+                fail(Reason::source_mismatch);
+            mask = terminal_partition::match_result(b);
+            if (size_t(mask.tags.size()) != requests.size())
+                fail(Reason::source_mismatch);
+            for (qsizetype n = 0; n < mask.tags.size(); ++n)
+                if ((mask.tags[n] == 1) !=
+                    (requests[size_t(n)].unit == RequestedUnit::milliseconds))
+                    fail(Reason::source_mismatch);
+        } else if (requests.size() != b.effects.size()) {
             fail(Reason::source_mismatch);
-        for (size_t n = 0; n < requests.size(); ++n) {
-            const auto &q = requests[n];
-            const auto &e = b.effects[n];
+        }
+        for (const auto &e : b.effects) {
+            const auto &q = requests[size_t(e.request_ordinal - 1)];
             if (q.unit != e.unit || q.exact_requested_units != e.exact_requested_units ||
                 q.requested_units != e.requested_units)
                 fail(Reason::source_mismatch);
@@ -2145,6 +2244,16 @@ class Access {
                            encode_plan_revision_uint64(i.contribution_id ? i.contribution_id->value
                                                                          : i.receipt_id.value),
                            bytes(i.operation.operation_scope), bytes(i.operation.operation_ref)}));
+        for (qsizetype n = 0; n < mask.tags.size(); ++n) {
+            if (const auto tag = mask.tags[n]; tag != 0)
+                out.push_back(
+                    insertion("subathon_review_terminal_requests",
+                              {"operation_scope", "operation_ref", "plan_ref", "plan_revision",
+                               "request_ordinal", "disposition"},
+                              {bytes(i.operation.operation_scope), bytes(i.operation.operation_ref),
+                               bytes(i.plan.plan_ref), encode_plan_revision_uint64(i.plan.revision),
+                               qint64(n + 1), int(tag)}));
+        }
         qint64 component_count = 0;
         for (const auto &e : b.effects) {
             auto a = encode_plan_exact(e.exact_requested_units, limits_.component_bytes),
