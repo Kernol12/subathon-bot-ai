@@ -102,6 +102,8 @@ inline std::string selection_digest(const ApplicationPrincipalBinding &principal
     return hash(out.data);
 }
 
+struct RetainedAuthorityUnavailable {};
+
 struct Authority {
     ContributionReviewFacts &facts;
     const ApplicationPrincipalBinding &principal;
@@ -110,27 +112,34 @@ struct Authority {
     const ApplicationOperationKey *key;
     std::span<const ReviewSelector> selection;
 
+    bool retained{};
+
     AccessDecision check(const SqliteWorkSession &session, ReviewAuthorityUse use,
                          const ReviewEntryIntent *entry = nullptr,
                          const ReviewOutcomeFacts *committed = nullptr,
-                         const std::vector<ApplicationEffect> *effects = nullptr,
-                         detail::ReviewReadCost *cost = nullptr) const {
-        const auto before = cost ? detail::ContributionReviewWriterAccess::remaining(session)
-                                 : detail::ReviewReadCost{};
-        auto decision = detail::ContributionReviewAccess::call(session, [&](const auto &view) {
-            return facts.check(view,
-                               {use, principal, proof, actor, key, entry, committed, selection,
-                                effects ? std::optional{std::span(*effects)} : std::nullopt});
-        });
-        if (cost)
-            *cost += before - detail::ContributionReviewWriterAccess::remaining(session);
-        return decision;
+                         const std::vector<ApplicationEffect> *effects = nullptr) const {
+        const auto invoke = [&] {
+            return detail::ContributionReviewAccess::call(session, [&](const auto &view) {
+                return facts.check(view,
+                                   {use, principal, proof, actor, key, entry, committed, selection,
+                                    effects ? std::optional{std::span(*effects)} : std::nullopt});
+            });
+        };
+        if (!retained)
+            return invoke();
+        try {
+            const auto scope = detail::ContributionReviewWriterAccess::retained_authority(session);
+            auto decision = invoke();
+            scope.verify();
+            return decision;
+        } catch (...) {
+            throw RetainedAuthorityUnavailable{};
+        }
     }
 
-    std::optional<ReviewRefusal> scope(const SqliteWorkSession &session,
-                                       detail::ReviewReadCost *cost = nullptr) const {
+    std::optional<ReviewRefusal> scope(const SqliteWorkSession &session) const {
         for (auto use : {ReviewAuthorityUse::session, ReviewAuthorityUse::batch_key}) {
-            const auto answer = check(session, use, nullptr, nullptr, nullptr, cost);
+            const auto answer = check(session, use);
             if (std::holds_alternative<ApplicationAccessDenied>(answer))
                 return ReviewRefusal::denied;
             if (!std::holds_alternative<ApplicationAccessAllowed>(answer))
@@ -237,7 +246,6 @@ struct Row {
     std::vector<core::ContributionBlocker> blockers;
     std::vector<ApplicationHoldView> ordinary;
     ActiveHoldReadCost hold_read;
-    detail::ReviewReadCost authority_read;
     std::vector<ApplicationHoldVersionLocator> mixed;
     std::vector<ApplicationHoldResolutionEntry> closures;
     std::vector<ApplicationEffect> effects;

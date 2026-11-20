@@ -14,16 +14,15 @@ inline constexpr qsizetype row_value_allowance = 18240;
 
 // Addends come from a metered read, a bounded encoder, or a collection checked
 // before sizing. The bounded hold fanout below is at most eight closures.
-inline bool reconciliation_fits(const ReadCost &cost, const ReadCost &authority,
-                                qsizetype manifest_bytes) {
-    // Catalog marker, 19 history rows, review schema projection, header,
-    // and the first persisted state (32 balances plus scalar and count).
-    // The empty-prefix journal projection is included in cost.
-    const auto attempts = std::max(shared_reconciliation, 9 + authority.attempts);
-    const auto rows = std::max(shared_reconciliation, 69 + authority.rows);
-    return cost.attempts <= reconciliation_limit - attempts &&
-           cost.rows <= reconciliation_limit - rows &&
-           cost.document_bytes + authority.document_bytes <= document_allowance - manifest_bytes;
+inline bool reconciliation_fits(const ReadCost &cost, qsizetype manifest_bytes) {
+    // The catalog, header and first persisted state are shared. Allow lookup
+    // to make both scope checks within the same authority reservation.
+    static_assert(9 + detail::retained_authority_attempts <= shared_reconciliation);
+    static_assert(69 + detail::retained_authority_rows <= shared_reconciliation);
+    return cost.attempts <= reconciliation_limit - shared_reconciliation &&
+           cost.rows <= reconciliation_limit - shared_reconciliation &&
+           cost.document_bytes <=
+               document_allowance - manifest_bytes - detail::retained_authority_documents;
 }
 
 inline qsizetype document_excess(qsizetype bound) {

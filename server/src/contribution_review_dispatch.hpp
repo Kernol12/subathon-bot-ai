@@ -90,6 +90,9 @@ class Execute : public std::enable_shared_from_this<Execute> {
                 [self](const auto &s) {
                     try {
                         self->initial(s);
+                    } catch (const RetainedAuthorityUnavailable &) {
+                        self->refusal_ = ReviewRefusal::unavailable;
+                        throw;
                     } catch (...) {
                         if (size_failure(std::current_exception()))
                             self->refusal_ = ReviewRefusal::batch_too_large;
@@ -118,9 +121,7 @@ class Execute : public std::enable_shared_from_this<Execute> {
     int initial_cursor_{1};
     Prefix prefix_;
     std::array<ReadCost, row_limit> reservations_{};
-    std::array<ReadCost, row_limit> authority_reservations_{};
     ReadCost committed_cost_;
-    ReadCost committed_authority_;
     std::pair<qint64, qint64> checked_snapshot_;
     std::optional<ReviewRefusal> refusal_;
     std::optional<ReviewStop> stop_;
@@ -130,8 +131,9 @@ class Execute : public std::enable_shared_from_this<Execute> {
     bool disclosed_{};
     bool staging_{};
 
-    Authority authority() {
-        return {facts_, command_.principal, proof_, command_.actor, &command_.key, selection_};
+    Authority authority(bool retained = false) {
+        return {facts_,        command_.principal, proof_,  command_.actor,
+                &command_.key, selection_,         retained};
     }
 
     void release() noexcept {
@@ -183,9 +185,8 @@ class Execute : public std::enable_shared_from_this<Execute> {
     }
 
     void initial(const SqliteWorkSession &s) {
-        const auto auth = authority();
-        ReadCost scope;
-        refusal_ = auth.scope(s, &scope);
+        const auto retained = authority(true);
+        refusal_ = retained.scope(s);
         if (refusal_)
             return;
         catalog(s);
@@ -201,15 +202,14 @@ class Execute : public std::enable_shared_from_this<Execute> {
         }
         require(h.count == 0 || h.count == int(command_.entries.size()));
         initial_cursor_ = h.cursor;
-        prefix_ = read_prefix(s, command_, h, auth, initial_cursor_);
+        prefix_ = read_prefix(s, command_, h, initial_cursor_, &retained);
         if (prefix_.cursor > int(command_.entries.size()))
             return;
         bind_bases();
         try {
             committed_cost_ = prefix_.closure;
-            committed_authority_ = prefix_.authority;
             auto total = committed_cost_;
-            auto authority_cost = committed_authority_;
+            const auto auth = authority();
             const auto inputs = preview_inputs(s);
             std::optional<ApplicationStateSnapshot> projected;
             std::set<std::string> completed;
@@ -222,10 +222,8 @@ class Execute : public std::enable_shared_from_this<Execute> {
                 const auto data = proposed_outcome(command_, int(n + 1), row, {}, {}, false);
                 auto cost = reconciliation_row(s, command_, entry, row, data, plan);
                 reservations_[n] = cost;
-                authority_reservations_[n] = row.authority_read;
                 total += cost;
-                authority_cost += row.authority_read;
-                if (!reconciliation_fits(total, authority_cost + 2 * scope, manifest_.size()))
+                if (!reconciliation_fits(total, manifest_.size()))
                     throw Oversize{};
                 if (data.outcome.facts && data.outcome.facts->bundle) {
                     projected = std::move(row.after);
@@ -243,6 +241,10 @@ class Execute : public std::enable_shared_from_this<Execute> {
 
     void after_initial(const SqliteWorkResult &r, bool observed) {
         if (!normal(r, observed)) {
+            if (refusal_ == ReviewRefusal::unavailable) {
+                finish(ReviewRefusal::unavailable);
+                return;
+            }
             const bool bounded_failure =
                 observed && r.transaction == TransactionOutcome::rolled_back &&
                 (refusal_ == ReviewRefusal::batch_too_large ||
@@ -257,8 +259,8 @@ class Execute : public std::enable_shared_from_this<Execute> {
         }
     }
 
-    bool current_scope(const SqliteWorkSession &s, ReadCost *cost = nullptr) {
-        if (const auto refusal = authority().scope(s, cost)) {
+    bool current_scope(const SqliteWorkSession &s, const Authority &auth) {
+        if (const auto refusal = auth.scope(s)) {
             stop_ =
                 *refusal == ReviewRefusal::denied ? ReviewStop::denied : ReviewStop::unavailable;
             return false;
@@ -266,15 +268,11 @@ class Execute : public std::enable_shared_from_this<Execute> {
         return true;
     }
 
-    bool suffix_fits(size_t n, ReadCost candidate, ReadCost authority_cost,
-                     const ReadCost &scope) const {
+    bool suffix_fits(size_t n, ReadCost candidate) const {
         candidate += committed_cost_;
-        authority_cost += committed_authority_ + 2 * scope;
-        for (size_t later = n + 1; later < command_.entries.size(); ++later) {
+        for (size_t later = n + 1; later < command_.entries.size(); ++later)
             candidate += reservations_[later];
-            authority_cost += authority_reservations_[later];
-        }
-        return reconciliation_fits(candidate, authority_cost, manifest_.size());
+        return reconciliation_fits(candidate, manifest_.size());
     }
 
     void qualify_next() {
@@ -283,12 +281,11 @@ class Execute : public std::enable_shared_from_this<Execute> {
         if (!enqueue(
                 test_unit::qualification_read, ordinal,
                 [self, ordinal](const auto &s) {
-                    ReadCost scope;
-                    if (!self->current_scope(s, &scope))
+                    const auto auth = self->authority();
+                    if (!self->current_scope(s, auth))
                         return false;
                     const auto n = size_t(ordinal - 1);
                     const auto &i = self->command_.entries.at(n).intent;
-                    const auto auth = self->authority();
                     try {
                         if (allowed(auth.check(s, ReviewAuthorityUse::execute_row, &i)) &&
                             anchor(s, i.selector))
@@ -299,11 +296,9 @@ class Execute : public std::enable_shared_from_this<Execute> {
                             require(h.cursor == self->prefix_.cursor &&
                                     (h.count == 0 ? h.cursor == 1 : h.manifest == self->manifest_));
                             self->committed_cost_ =
-                                read_prefix(s, self->command_, h, auth, self->initial_cursor_, true)
-                                    .closure;
+                                read_prefix(s, self->command_, h, self->initial_cursor_).closure;
                             self->checked_snapshot_ = snapshot;
-                            if (!self->suffix_fits(n, self->reservations_[n],
-                                                   self->authority_reservations_[n], scope))
+                            if (!self->suffix_fits(n, self->reservations_[n]))
                                 throw Oversize{};
                         }
                     } catch (const Oversize &) {
@@ -338,8 +333,8 @@ class Execute : public std::enable_shared_from_this<Execute> {
     }
 
     bool row(const SqliteWorkSession &s, int ordinal) {
-        ReadCost scope;
-        if (!current_scope(s, &scope))
+        const auto auth = authority();
+        if (!current_scope(s, auth))
             return false;
         const auto h = header(s, command_.principal, command_.key);
         require(h.cursor == ordinal && (ordinal == 1 ? h.count == 0
@@ -352,20 +347,19 @@ class Execute : public std::enable_shared_from_this<Execute> {
                            args})
                     .empty());
         const auto n = size_t(ordinal - 1);
-        const auto auth = authority();
         const auto &entry = command_.entries[n];
         Row input;
         StoredOutcome data;
         ReadCost cost;
         try {
             if (reconciliation_snapshot(s) != checked_snapshot_)
-                committed_cost_ = read_prefix(s, command_, h, auth, initial_cursor_, true).closure;
+                committed_cost_ = read_prefix(s, command_, h, initial_cursor_).closure;
             ReadCost plan;
             input = read_row(s, auth, entry.intent, {}, {}, nullptr, &plan);
             data = proposed_outcome(command_, ordinal, input, prefix_.last_state, bases_[n],
                                     basis_selection_);
             cost = reconciliation_row(s, command_, entry, input, data, plan);
-            if (!suffix_fits(n, cost, input.authority_read, scope))
+            if (!suffix_fits(n, cost))
                 throw Oversize{};
         } catch (const Oversize &) {
             stop_ = ReviewStop::row_budget_exceeded;
@@ -387,7 +381,6 @@ class Execute : public std::enable_shared_from_this<Execute> {
             staged_head_ = input.after.token;
         staged_ = std::move(data);
         reservations_[n] = cost;
-        authority_reservations_[n] = input.authority_read;
         checked_snapshot_ = reconciliation_snapshot(s);
         return true;
     }
@@ -466,7 +459,6 @@ class Execute : public std::enable_shared_from_this<Execute> {
         staged_.reset();
         const auto index = size_t(ordinal - 1);
         committed_cost_ += reservations_[index];
-        committed_authority_ += authority_reservations_[index];
         ++prefix_.cursor;
         if (prefix_.cursor <= int(command_.entries.size()))
             qualify_next();
@@ -479,14 +471,15 @@ class Execute : public std::enable_shared_from_this<Execute> {
         if (!enqueue(
                 test_unit::final_read, 0,
                 [self](const auto &s) {
-                    if (!self->current_scope(s))
+                    const auto auth = self->authority(true);
+                    if (!self->current_scope(s, auth))
                         return false;
                     catalog(s);
                     const auto h = header(s, self->command_.principal, self->command_.key);
                     require(h.cursor == self->prefix_.cursor &&
                             (h.count == 0 ? h.cursor == 1 : h.manifest == self->manifest_));
                     auto confirmed =
-                        read_prefix(s, self->command_, h, self->authority(), self->initial_cursor_);
+                        read_prefix(s, self->command_, h, self->initial_cursor_, &auth);
                     self->prefix_ = std::move(confirmed);
                     return false;
                 },

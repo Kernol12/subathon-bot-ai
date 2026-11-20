@@ -325,13 +325,12 @@ struct Prefix {
     std::string last_state;
     int cursor{1};
     detail::ReviewReadCost closure;
-    detail::ReviewReadCost authority;
 };
 
 // Structural-only remeasurement never returns facts. Authorization is repeated
 // by the initial and final reply paths, against the exact validated effects.
 inline Prefix read_prefix(const SqliteWorkSession &s, const ReviewCommand &cmd, const Header &h,
-                          const Authority &auth, int initial_cursor, bool structural_only = false) {
+                          int initial_cursor, const Authority *auth = nullptr) {
     const auto args = key_args(cmd.principal, cmd.key);
     // The length projection prevents a malformed LOB from consuming the entire
     // work budget before its selected ordinal is checked.
@@ -418,12 +417,12 @@ inline Prefix read_prefix(const SqliteWorkSession &s, const ReviewCommand &cmd, 
                 effects = nullptr;
         }
         out.closure += before - detail::ContributionReviewWriterAccess::remaining(s);
-        if (structural_only)
+        if (!auth)
             continue;
-        if (allowed(auth.check(s, ReviewAuthorityUse::execute_row, &entry.intent, &facts, effects,
-                               &out.authority)) &&
-            allowed(auth.check(s, ReviewAuthorityUse::disclose_row, &entry.intent, &facts, effects,
-                               &out.authority)))
+        if (allowed(
+                auth->check(s, ReviewAuthorityUse::execute_row, &entry.intent, &facts, effects)) &&
+            allowed(
+                auth->check(s, ReviewAuthorityUse::disclose_row, &entry.intent, &facts, effects)))
             out.reply.rows.push_back({ordinal, disposition, std::move(outcome)});
         else
             out.reply.rows.push_back({ordinal, {}, ReviewOutcome{S::denied, {}}});

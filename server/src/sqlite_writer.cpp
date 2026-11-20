@@ -210,11 +210,18 @@ struct ReviewSqlAllowance {
     qsizetype result_documents{2 * 1024 * 1024};
 };
 
+struct RetainedAuthorityAllowance {
+    qsizetype attempts{detail::retained_authority_attempts};
+    qsizetype rows{detail::retained_authority_rows};
+    ReviewSqlAllowance sql{attempts * 32, rows * 104, 0, detail::retained_authority_documents};
+};
+
 // Rows/bytes are shared across the whole writer batch; the reader passes its own
 // row limit. A query failure or exceeded bound never publishes partial rows.
 ReadResult statement_result(Connection &connection, const SqlStatement &statement,
                             qsizetype &remaining_rows, qsizetype &remaining_bytes,
-                            ReviewSqlAllowance *review = nullptr) {
+                            ReviewSqlAllowance *review = nullptr,
+                            RetainedAuthorityAllowance *authority = nullptr) {
     QSqlQuery query(connection.database());
     if (!query.prepare(statement.sql))
         return {sql_error(query.lastError()), {}};
@@ -224,11 +231,12 @@ ReadResult statement_result(Connection &connection, const SqlStatement &statemen
         return {sql_error(query.lastError()), {}};
     SqlRows rows;
     while (query.next()) {
-        if (!consume(remaining_rows, 1))
+        if ((authority && !consume(authority->rows, 1)) || !consume(remaining_rows, 1))
             return {StorageError::result_limit, {}};
         SqlRow row;
         const int columns = query.record().count();
-        if (review && !consume(review->result_cells, columns))
+        if ((authority && !consume(authority->sql.result_cells, columns)) ||
+            (review && !consume(review->result_cells, columns)))
             return {StorageError::result_limit, {}};
         const auto before = remaining_bytes;
         for (int column = 0; column < columns; ++column) {
@@ -237,8 +245,9 @@ ReadResult statement_result(Connection &connection, const SqlStatement &statemen
                 return {StorageError::result_limit, {}};
             row.append(std::move(value));
         }
-        if (review && !consume(review->result_documents,
-                               std::max(qsizetype{}, before - remaining_bytes - 18240)))
+        const auto excess = std::max(qsizetype{}, before - remaining_bytes - 18240);
+        if ((authority && !consume(authority->sql.result_documents, excess)) ||
+            (review && !consume(review->result_documents, excess)))
             return {StorageError::result_limit, {}};
         rows.append(std::move(row));
     }
@@ -287,6 +296,11 @@ class SqliteWorkState final {
         if (!valid_)
             throw SqliteWorkFailure(WorkError::stale_session);
     }
+    void require_active() {
+        require_live();
+        if (phase_ != WorkPhase::active)
+            fail(WorkError::session_closed);
+    }
     void begin() {
         require_live();
         if (begin_attempted_)
@@ -318,10 +332,22 @@ class SqliteWorkState final {
         return {statements_left_, rows_left_, review_->result_documents};
     }
 
+    void enter_retained_authority() {
+        require_active();
+        if (!review_ || in_retained_authority_)
+            fail(WorkError::protocol_error);
+        in_retained_authority_ = true;
+    }
+    void leave_retained_authority() noexcept { in_retained_authority_ = false; }
+
     SqlRows execute(const SqlStatement &statement) {
         require_active();
         try {
-            if (!consume(statements_left_, 1) ||
+            auto *authority = in_retained_authority_ ? &retained_authority_ : nullptr;
+            if ((authority &&
+                 (!consume(authority->attempts, 1) ||
+                  !consume(authority->sql.binding_cells, statement.bindings.size()))) ||
+                !consume(statements_left_, 1) ||
                 statement.sql.toUtf8().size() >
                     (review_ ? std::min(limits_.statement_utf8_bytes, qsizetype(65536))
                              : limits_.statement_utf8_bytes) ||
@@ -336,12 +362,13 @@ class SqliteWorkState final {
                 if (!consume_value(bindings_left_, value))
                     fail(WorkError::resource_limit);
             }
-            if (review_ && !consume(review_->binding_documents,
-                                    std::max(qsizetype{}, before - bindings_left_ - 8448)))
+            const auto excess = std::max(qsizetype{}, before - bindings_left_ - 8448);
+            if ((authority && !consume(authority->sql.binding_documents, excess)) ||
+                (review_ && !consume(review_->binding_documents, excess)))
                 fail(WorkError::resource_limit);
             const auto snapshot = owned_batch({statement});
             auto result = statement_result(*connection_, snapshot.front(), rows_left_, values_left_,
-                                           review_ ? &*review_ : nullptr);
+                                           review_ ? &*review_ : nullptr, authority);
             if (result.error != StorageError::none)
                 fail(work_error(result.error));
             return std::move(result.rows);
@@ -410,6 +437,8 @@ class SqliteWorkState final {
     const StorageLimits limits_;
     qsizetype statements_left_, bindings_left_, rows_left_, values_left_;
     std::optional<ReviewSqlAllowance> review_;
+    RetainedAuthorityAllowance retained_authority_;
+    bool in_retained_authority_{};
     WorkPhase phase_{WorkPhase::not_started};
     WorkError first_error_{WorkError::none};
     bool valid_{true};
@@ -431,11 +460,6 @@ class SqliteWorkState final {
     void remember(WorkError error) noexcept {
         if (first_error_ == WorkError::none)
             first_error_ = error;
-    }
-    void require_active() {
-        require_live();
-        if (phase_ != WorkPhase::active)
-            fail(WorkError::session_closed);
     }
     [[noreturn]] void fail(WorkError error) {
         remember(error);
@@ -778,6 +802,27 @@ void detail::ContributionReviewWriterAccess::meter(const SqliteWorkSession &sess
 detail::ReviewReadCost
 detail::ContributionReviewWriterAccess::remaining(const SqliteWorkSession &session) {
     return live_work_state(session.state_)->review_remaining();
+}
+
+detail::ContributionReviewWriterAccess::RetainedAuthorityScope::RetainedAuthorityScope(
+    std::shared_ptr<SqliteWorkState> state)
+    : state_(std::move(state)) {
+    state_->enter_retained_authority();
+}
+
+detail::ContributionReviewWriterAccess::RetainedAuthorityScope::~RetainedAuthorityScope() {
+    state_->leave_retained_authority();
+}
+
+void detail::ContributionReviewWriterAccess::RetainedAuthorityScope::verify() const {
+    // A callback that caught a failed read cannot supply a decision after
+    // the writer has already rolled back the work.
+    state_->require_active();
+}
+
+detail::ContributionReviewWriterAccess::RetainedAuthorityScope
+detail::ContributionReviewWriterAccess::retained_authority(const SqliteWorkSession &session) {
+    return RetainedAuthorityScope(live_work_state(session.state_));
 }
 
 StorageError SqliteWriter::open(const QString &path, StorageLimits limits) {

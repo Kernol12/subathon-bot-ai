@@ -95,16 +95,13 @@ inline Row read_row(const SqliteWorkSession &s, const Authority &auth, const Rev
                     const PreviewInputs *preview = nullptr,
                     detail::ReviewReadCost *plan_cost = nullptr) {
     Row row;
-    auto *authority_cost = plan_cost ? &row.authority_read : nullptr;
-    const auto preliminary =
-        auth.check(s, ReviewAuthorityUse::execute_row, &i, nullptr, nullptr, authority_cost);
+    const auto preliminary = auth.check(s, ReviewAuthorityUse::execute_row, &i);
     if (!allowed(preliminary))
         return row;
     row.authorized = true;
     row.permission_revision =
         std::get<ApplicationAccessAllowed>(preliminary).permission_revision_ref;
-    row.disclose = allowed(
-        auth.check(s, ReviewAuthorityUse::disclose_row, &i, nullptr, nullptr, authority_cost));
+    row.disclose = allowed(auth.check(s, ReviewAuthorityUse::disclose_row, &i));
     if (preview && !plan_cost && !row.disclose)
         return row;
     if (!anchor(s, i.selector))
@@ -135,20 +132,19 @@ inline Row read_row(const SqliteWorkSession &s, const Authority &auth, const Rev
     }
     if (preview && plan_cost)
         return row;
-    row.authority_read = {};
     {
         const std::vector<ApplicationEffect> empty;
         const auto *proposed = row.can_apply                        ? &row.effects
                                : row.can_decide && !row.bad_choices ? &empty
                                                                     : nullptr;
         const auto execution =
-            auth.check(s, ReviewAuthorityUse::execute_row, &i, nullptr, proposed, authority_cost);
+            auth.check(s, ReviewAuthorityUse::execute_row, &i, nullptr, proposed);
         row.authorized = allowed(execution);
         if (row.authorized)
             row.permission_revision =
                 std::get<ApplicationAccessAllowed>(execution).permission_revision_ref;
         row.disclose = row.authorized && allowed(auth.check(s, ReviewAuthorityUse::disclose_row, &i,
-                                                            nullptr, proposed, authority_cost));
+                                                            nullptr, proposed));
     }
     return row;
 }

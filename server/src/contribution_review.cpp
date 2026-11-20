@@ -249,7 +249,7 @@ void ContributionReview::lookup(ApplicationOperationKey key, ApplicationPrincipa
         writer_, observe_, test_unit::initial_read, 0,
         [&facts, key = std::move(key), principal = std::move(principal), proof = std::move(proof),
          out](const auto &s) {
-            const Authority auth{facts, principal, proof, {}, &key, {}};
+            const Authority auth{facts, principal, proof, {}, &key, {}, true};
             if (const auto refusal = auth.scope(s)) {
                 *out = *refusal;
                 return false;
@@ -266,11 +266,11 @@ void ContributionReview::lookup(ApplicationOperationKey key, ApplicationPrincipa
                     int(cmd.entries.size()) == h.count);
             const auto selection =
                 selectors(cmd.entries, [](const auto &x) { return x.intent.selector; });
-            const Authority selected{facts, principal, proof, {}, &key, selection};
+            const Authority selected{facts, principal, proof, {}, &key, selection, true};
             if (const auto refusal = selected.scope(s))
                 *out = *refusal;
             else {
-                auto reply = read_prefix(s, cmd, h, selected, h.cursor).reply;
+                auto reply = read_prefix(s, cmd, h, h.cursor, &selected).reply;
                 for (int ordinal = h.cursor; ordinal <= h.count; ++ordinal)
                     reply.rows.push_back({ordinal, ReviewDisposition::unattempted, {}});
                 *out = std::move(reply);

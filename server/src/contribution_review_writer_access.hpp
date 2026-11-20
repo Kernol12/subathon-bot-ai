@@ -5,6 +5,13 @@
 
 namespace subathon::server::detail {
 
+// Part of the existing reconciliation profile, shared by every retained
+// authority callback in a single work. Result documents may use excess;
+// authority bindings must fit the existing base bytes per statement.
+inline constexpr qsizetype retained_authority_attempts = 59;
+inline constexpr qsizetype retained_authority_rows = 59;
+inline constexpr qsizetype retained_authority_documents = 256 * 1024;
+
 struct ReviewReadCost {
     qsizetype attempts{};
     qsizetype rows{};
@@ -32,6 +39,20 @@ struct ReviewReadCost {
 // Ordinary FIFO work can still interleave between the admitted review units.
 class ContributionReviewWriterAccess {
   public:
+    class RetainedAuthorityScope {
+      public:
+        ~RetainedAuthorityScope();
+        RetainedAuthorityScope(const RetainedAuthorityScope &) = delete;
+        RetainedAuthorityScope &operator=(const RetainedAuthorityScope &) = delete;
+        void verify() const;
+
+      private:
+        friend class ContributionReviewWriterAccess;
+        explicit RetainedAuthorityScope(std::shared_ptr<SqliteWorkState>);
+        std::shared_ptr<SqliteWorkState> state_;
+    };
+
+    static RetainedAuthorityScope retained_authority(const SqliteWorkSession &);
     static StorageLimits limits(const SqliteWriter &);
     static bool acquire(SqliteWriter &);
     static void release(SqliteWriter &) noexcept;
