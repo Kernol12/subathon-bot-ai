@@ -1260,6 +1260,72 @@ class SqliteMigrationTests final : public QObject {
         QCOMPARE(fixture_->snapshot(), before);
         QVERIFY(fixture_->lock_released());
     }
+
+    void defaultManifestLimitsKeepIndependentCeilings() {
+        const auto limits = MigrationRequest{}.limits;
+        QCOMPARE(limits.versions, 256);
+        QCOMPARE(limits.id_bytes, 128);
+        QCOMPARE(limits.schema_objects, 256);
+        QCOMPARE(limits.manifest_utf8_bytes, 16'777'216);
+    }
+
+    void defaultManifestUtf8Boundary_data() {
+        QTest::addColumn<bool>("one_over");
+        QTest::newRow("exact") << false;
+        QTest::newRow("one-over") << true;
+    }
+
+    void defaultManifestUtf8Boundary() {
+        QFETCH(bool, one_over);
+        SqliteWriter writer;
+        QCOMPARE(writer.open(path_), StorageError::none);
+        auto input = request(MigrationMode::inspect);
+        auto &sql = input.manifest.steps.back().sql.back();
+        sql += " /*";
+        sql += QString(8'388'042, QChar(0x00e9));
+        sql += "*/";
+        if (one_over)
+            sql += ' ';
+
+        // QString's UTF-8 encoder is independent of the runner's budget check.
+        qsizetype utf8_bytes = 0;
+        for (const auto &step : input.manifest.steps) {
+            for (const auto &statement : step.sql)
+                utf8_bytes += statement.toUtf8().size();
+            for (const auto &object : step.expected_schema) {
+                utf8_bytes += object.type.toUtf8().size() + object.name.toUtf8().size() +
+                              object.table_name.toUtf8().size();
+                if (object.sql)
+                    utf8_bytes += object.sql->toUtf8().size();
+            }
+        }
+        QCOMPARE(utf8_bytes, one_over ? 16'777'217 : 16'777'216);
+
+        if (one_over) {
+            bool called = false;
+            const auto admission = SqliteMigrationRunner::enqueue(
+                writer, std::move(input), [&](MigrationResult) { called = true; });
+            QCOMPARE(admission.error, StorageError::invalid_options);
+            QCOMPARE(admission.reason, MigrationReason::invalid_manifest);
+            bool stopped = false;
+            QCOMPARE(writer.shutdown([&] { stopped = true; }), StorageError::none);
+            QTRY_VERIFY(stopped);
+            QVERIFY(!called);
+        } else {
+            MigrationResult result;
+            RUN_MIGRATION(writer, std::move(input), result);
+            QCOMPARE(result.reason, MigrationReason::none);
+            QCOMPARE(result.work.transaction, TransactionOutcome::committed);
+            QCOMPARE(result.work.error, WorkError::none);
+            QVERIFY(result.work.value.has_value());
+            QVERIFY(result.report.has_value());
+            QCOMPARE(result.report->state, CatalogState::fresh);
+            QCOMPARE(result.report->version, 0);
+            QCOMPARE(result.report->target_version, 2);
+            QCOMPARE(result.report->applied, 0);
+        }
+        QCOMPARE(fixture_->scalar("SELECT COUNT(*) FROM main.sqlite_schema").toInt(), 0);
+    }
 };
 
 QTEST_GUILESS_MAIN(SqliteMigrationTests)
