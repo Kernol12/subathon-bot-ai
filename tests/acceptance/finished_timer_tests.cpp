@@ -778,10 +778,14 @@ TEST_F(FinishedTimer, GroupProposalsFollowDurableOrderAndAuditCanonicalChoices) 
     access.group = {{{"a-second", Choice::resume}, Access::allowed},
                     {{"b-empty", Choice::skip}, Access::allowed}};
 
-    // Current grants are sufficient, but the bound intent must include defaulted m-third.
+    // Reject both the raw echo and a durable-order echo that omits only the default.
     EXPECT_EQ(std::get<Refusal>(project_finished_command(current, reopen, access, preview)),
               Refusal::stale_basis);
-    std::get<ReopenIntent>(access.bound_command.intent).choices = canonical;
+    auto &bound_choices = std::get<ReopenIntent>(access.bound_command.intent).choices;
+    bound_choices = {{"a-second", Choice::resume}, {"b-empty", Choice::skip}};
+    EXPECT_EQ(std::get<Refusal>(project_finished_command(current, reopen, access, preview)),
+              Refusal::stale_basis);
+    bound_choices = canonical;
     const auto result = project_finished_command(current, reopen, access, preview);
     const auto *plan = std::get_if<FinishedCommandProposal>(&result);
     ASSERT_NE(plan, nullptr);
