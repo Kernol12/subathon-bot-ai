@@ -844,12 +844,13 @@ std::optional<StoredDecision> operation(const RateRows &rows, const RateOverride
 RateReceiptSelection retry(const RateRows &rows, const RateOverrideEdit &edit,
                            const RateEditPreview &preview, const StoredDecision &stored) {
     constexpr auto conflict = Refusal::identity_conflict;
-    require(intent_document(edit, preview.basis) == stored.intent_document &&
-                intent_document(preview.edit, preview.basis) == stored.intent_document,
-            conflict);
+    // A corrupt stored intent cannot establish a conflict with a new submission.
     const auto successor = read_revision(rows, stored.audit.successor);
     Closure closure(rows);
     auto verified = verify_decision(rows, closure, stored, successor);
+    require(intent_document(edit, preview.basis) == stored.intent_document &&
+                intent_document(preview.edit, preview.basis) == stored.intent_document,
+            conflict);
     require(prepare_basis(preview.basis).documents == verified.basis.documents &&
                 matches_proposal(preview.proposal, verified.proposal, successor.document, conflict),
             conflict);
