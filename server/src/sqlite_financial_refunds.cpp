@@ -2,6 +2,7 @@
 #include "sqlite_application_bundle_access.hpp"
 #include "sqlite_financial_hold_access.hpp"
 #include "sqlite_financial_values.hpp"
+#include "sqlite_milestone_edit_detail.hpp"
 #include "sqlite_receipt_read.hpp"
 
 #include <QCryptographicHash>
@@ -605,20 +606,37 @@ std::optional<FinancialRefundRecord> read_refund(const SqliteWorkSession &s,
                                          link.expected_prior_cumulative)))
             corrupt();
     }
+    const bool edits =
+        !milestones.empty() && milestone_sql::catalog(s) == milestone_sql::Catalog::edits;
+    const auto before_score = edits ? milestone_edit_sql::total_score(app->advanced_before) : 0;
+    const auto after_score = edits ? milestone_edit_sql::total_score(app->after) : 0;
+    std::set<std::string_view> seen;
     for (const auto &m : milestones) {
+        const auto edit =
+            edits ? milestone_edit_sql::occurrence(s, blob(m.occurrence.ref), true) : std::nullopt;
+        if (edits && (m.score_before_micro_points != before_score ||
+                      m.score_after_micro_points != after_score ||
+                      m.refund_ref != key.operation_ref || !seen.insert(m.occurrence.ref).second ||
+                      (edit && edit->edit.track.installation_ref != principal.installation_ref)))
+            corrupt();
+        const QString table = edit ? "main.subathon_milestone_edit_refund_decisions"
+                                   : "main.subathon_milestone_refund_decisions";
         auto saved = one(s,
                          "SELECT score_before_micro_points,score_after_micro_points,"
-                         "current_target_micro_points,policy "
-                         "FROM main.subathon_milestone_refund_decisions "
-                         "WHERE occurrence_ref=? AND refund_ref=?",
+                         "current_target_micro_points,policy FROM " +
+                             table + " WHERE occurrence_ref=? AND refund_ref=?",
                          {blob(m.occurrence.ref), blob(m.refund_ref)});
         if (!saved || integer((*saved)[0]) != m.score_before_micro_points ||
             integer((*saved)[1]) != m.score_after_micro_points ||
             integer((*saved)[2]) != m.current_target_micro_points ||
             integer((*saved)[3]) != int(m.policy))
             corrupt();
-        (void)SqliteMilestoneGroupDecisions(s).pending_disposition(m.occurrence);
-        verify_milestone_jobs(s, m.occurrence);
+        const SqliteMilestoneGroupDecisions decisions(s);
+        (void)decisions.pending_disposition(m.occurrence);
+        if (edits && !decisions.refund_audit(m.occurrence, m.refund_ref))
+            corrupt();
+        if (!edit)
+            verify_milestone_jobs(s, m.occurrence);
     }
     FinancialRefundCommand command{key,
                                    receipt,
@@ -1013,15 +1031,7 @@ std::optional<Requests> prepare_requests(const FinancialEntitlement &p,
     return out;
 }
 
-Number total_score(const ApplicationStateSnapshot &state) {
-    core::Exact total = 0;
-    for (const auto &balance : state.balances)
-        if (balance.kind == ApplicationBalanceKind::score)
-            total += balance.units;
-    if (total < std::numeric_limits<Number>::min() || total > maximum)
-        throw std::overflow_error("Aggregate score exceeds signed 64-bit range");
-    return total.convert_to<Number>();
-}
+using milestone_edit_sql::total_score;
 
 void advance_basis(const SqliteWorkSession &s, const ApplicationOriginalComponent &basis,
                    Number previous, const ApplicationOperationKey &current) {
@@ -1248,6 +1258,8 @@ FinancialWorkReply accept_refund(const SqliteWorkSession &s, const FinancialRefu
     std::vector<MilestoneRefundObservation> milestones;
     const SqliteMilestoneGroupDecisions decisions(s);
     std::set<std::string> seen;
+    const bool edits =
+        !targets.empty() && milestone_sql::catalog(s) == milestone_sql::Catalog::edits;
     for (const auto &target : targets) {
         if (!seen.insert(target.occurrence.ref).second)
             corrupt();
@@ -1255,8 +1267,14 @@ FinancialWorkReply accept_refund(const SqliteWorkSession &s, const FinancialRefu
         const auto &ref = command.operation.operation_ref;
         if (decisions.refund_audit(target.occurrence, ref))
             corrupt();
-        MilestoneRefundObservation milestone{target.occurrence, ref,           score_before,
-                                             score_after,       target.target, target.policy};
+        const auto selected_target =
+            edits ? milestone_edit_sql::current_target(s, target.occurrence,
+                                                       command.principal.installation_ref)
+                  : std::optional<qint64>(target.target);
+        if (!selected_target)
+            continue;
+        MilestoneRefundObservation milestone{
+            target.occurrence, ref, score_before, score_after, *selected_target, target.policy};
         decisions.observe_refund(milestone);
         if (decisions.refund_audit(target.occurrence, ref))
             milestones.push_back(std::move(milestone));

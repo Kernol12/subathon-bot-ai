@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include <subathon/server/delivery_jobs.hpp>
 
-#include "sqlite_milestone_detail.hpp"
+#include "sqlite_delivery_event_read.hpp"
 
 #include <QMetaType>
 #include <limits>
@@ -87,89 +87,15 @@ std::string reference(const QVariant &cell) {
     return std::string(ref);
 }
 
-struct Event {
-    State state;
-    std::int64_t revision;
-    std::optional<std::int64_t> attempt;
-    std::optional<std::string> evidence;
-};
-
-Event read_event(const SqliteWorkSession &session, const DeliveryJobKey &key,
-                 std::optional<std::int64_t> revision = {}) {
-    auto args = bindings(key);
-    QString sql = "SELECT CASE WHEN typeof(revision)='integer' THEN revision END,"
-                  "CASE WHEN typeof(state)='integer' THEN state END,"
-                  "CASE WHEN attempt IS NULL OR typeof(attempt)='integer' THEN attempt ELSE 0 END,"
-                  "CASE WHEN evidence_ref IS NULL THEN NULL "
-                  "WHEN typeof(evidence_ref)='blob' AND length(evidence_ref) BETWEEN 1 AND 4096 "
-                  "THEN evidence_ref ELSE X'' END FROM main.subathon_delivery_events INDEXED BY "
-                  "sqlite_autoindex_subathon_delivery_events_1 WHERE ";
-    sql += key_match;
-    if (revision) {
-        sql += " AND revision=?";
-        args.append(qint64(*revision));
-    } else {
-        sql += " ORDER BY revision DESC LIMIT 1";
-    }
-    const auto rows = session.execute({std::move(sql), std::move(args)});
-    if (rows.size() != 1)
-        corrupt();
-    const auto &row = rows.front();
-    const auto number = integer(row[0]);
-    const auto state = integer(row[1]);
-    if (number < 1 || state < 0 || state > int(State::outcome_unknown))
-        corrupt();
-    Event event{State(state), number, {}, {}};
-    if (!row[2].isNull())
-        event.attempt = integer(row[2]);
-    if (event.attempt && *event.attempt < 2)
-        corrupt();
-    if (!row[3].isNull())
-        event.evidence = reference(row[3]);
-    if (number == 1 && event.state != State::queued)
-        corrupt();
-    switch (event.state) {
-    case State::queued:
-        if (event.attempt || event.evidence.has_value() != (number != 1))
-            corrupt();
-        break;
-    case State::sending:
-        if (event.attempt != number || event.evidence)
-            corrupt();
-        break;
-    case State::delivered:
-    case State::failed:
-    case State::outcome_unknown:
-        if (!event.attempt || *event.attempt < 2 || *event.attempt != number - 1 || !event.evidence)
-            corrupt();
-        break;
-    }
-    return event;
-}
+using delivery_sql::Event;
 
 Event latest_event(const SqliteWorkSession &session, const DeliveryJobKey &key) {
-    auto event = read_event(session, key);
-    if (event.revision == 1)
-        return event;
-    const auto previous = read_event(session, key, event.revision - 1);
-    switch (event.state) {
-    case State::queued:
-        if (previous.state != State::failed ||
-            read_event(session, key, previous.attempt).state != State::sending)
-            corrupt();
-        break;
-    case State::sending:
-        if (previous.state != State::queued)
-            corrupt();
-        break;
-    case State::delivered:
-    case State::failed:
-    case State::outcome_unknown:
-        if (previous.state != State::sending || previous.attempt != event.attempt)
-            corrupt();
-        break;
-    }
-    return event;
+    return delivery_sql::latest_event(
+        session,
+        QString("main.subathon_delivery_events INDEXED BY "
+                "sqlite_autoindex_subathon_delivery_events_1 WHERE ") +
+            key_match,
+        bindings(key));
 }
 
 enum class Document { metadata, body };
@@ -216,8 +142,35 @@ std::optional<DeliveryJob> selected_capture(const SqliteWorkSession &session,
     return job;
 }
 
+// A v17 application membership continues to come only from v12 action
+// rows. The envelope's generic group metadata supplies no membership.
+std::optional<bool> v17_application_release(const SqliteWorkSession &session,
+                                            const DeliveryJob &job) {
+    QList<QVariant> args{blob(job.capture.action_ref), blob(job.capture.action_version_ref)};
+    args.append(bindings(job.key));
+    const auto members = session.execute(
+        {"SELECT g.released,CASE WHEN typeof(a.action_ordinal)='integer' AND a.action_ordinal>=1 "
+         "AND typeof(a.kind)='integer' AND a.kind=0 AND a.action_ref=? AND a.version_ref=? "
+         "AND (g.operation_scope,g.operation_ref)=(a.operation_scope,a.operation_ref) "
+         "AND NOT EXISTS(SELECT 1 FROM main.subathon_milestone_edit_occurrences e "
+         "WHERE e.occurrence_ref=g.occurrence_ref OR e.queue_order=g.queue_order) "
+         "THEN 1 ELSE 0 END FROM main.subathon_milestone_actions a "
+         "LEFT JOIN main.subathon_milestone_groups g ON g.occurrence_ref=a.occurrence_ref "
+         "WHERE a.operation_scope=? AND a.operation_ref=? AND a.job_ref=?",
+         args});
+    if (members.empty())
+        return {};
+    if (members.size() != 1 || integer(members.front()[1]) != 1)
+        corrupt();
+    const auto released = integer(members.front()[0]);
+    if (released != 0 && released != 1)
+        corrupt();
+    return released == 1;
+}
+
 std::optional<DeliveryJob> selected_job(const SqliteWorkSession &session,
                                         const DeliveryJobKey &key) {
+    const auto current = milestone_sql::catalog(session);
     auto job = selected_capture(session, key, Document::body);
     if (job) {
         auto event = latest_event(session, key);
@@ -225,13 +178,21 @@ std::optional<DeliveryJob> selected_job(const SqliteWorkSession &session,
         job->revision = event.revision;
         job->attempt = event.attempt;
         job->evidence_ref = std::move(event.evidence);
+        if (current == milestone_sql::Catalog::edits) {
+            const auto released = v17_application_release(session, *job);
+            if (released == false && job->revision != 1)
+                corrupt();
+        }
     }
     return job;
 }
 
 bool milestone_release_allows(const SqliteWorkSession &session, const DeliveryJob &job) {
-    if (milestone_sql::catalog(session) == milestone_sql::Catalog::independent)
+    const auto catalog = milestone_sql::catalog(session);
+    if (catalog == milestone_sql::Catalog::independent)
         return true;
+    if (catalog == milestone_sql::Catalog::edits)
+        return v17_application_release(session, job).value_or(true);
 
     QList<QVariant> args{blob(job.capture.action_ref), blob(job.capture.action_version_ref)};
     args.append(bindings(job.key));
@@ -442,6 +403,7 @@ StrandedDeliveryPage SqliteDeliveryJobStore::stranded(const std::optional<Delive
     if (after)
         validate_key(*after);
     return guarded(session_, [&] {
+        const auto current = milestone_sql::catalog(session_);
         // Page by examined capture keys, even when a page has no sending jobs.
         // The ordered PK range has no state predicate or offset.
         QString sql = "SELECT " + ref_column("operation_scope") + "," +
@@ -459,9 +421,15 @@ StrandedDeliveryPage SqliteDeliveryJobStore::stranded(const std::optional<Delive
         StrandedDeliveryPage page;
         for (const auto &row : rows) {
             DeliveryJobKey key{{reference(row[0]), reference(row[1])}, reference(row[2])};
-            if (!selected_capture(session_, key, Document::metadata))
+            const auto job = selected_capture(session_, key, Document::metadata);
+            if (!job)
                 corrupt();
             const auto event = latest_event(session_, key);
+            if (current == milestone_sql::Catalog::edits) {
+                const auto released = v17_application_release(session_, *job);
+                if (released == false && event.revision != 1)
+                    corrupt();
+            }
             if (event.state == State::sending)
                 page.attempts.push_back({key, event.revision});
             if (rows.size() == qsizetype(limit) && &row == &rows.back())
