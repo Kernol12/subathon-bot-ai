@@ -156,9 +156,10 @@ void rollback_reply(Batch &batch, const ContributionReview::Result &result, int 
             "No row admission or BEGIN beyond the stopped ordinal");
 }
 
-ApplicationHoldVersionLocator seed_financial_hold(finance::File &f,
-                                                  const std::string &ref = "mixed-refund") {
-    f.move_main("financial-fixture-elapsed", 50000);
+std::vector<FinancialTimerHold> seed_mixed_refund(finance::File &f, const std::string &ref,
+                                                  bool hold_timer) {
+    const auto main = hold_timer ? 50000 : 125000;
+    f.move_main("financial-fixture-elapsed", main);
     const auto quarter = finance::fraction(1, 4);
     const FinancialEntitlement entitlement{
         0,
@@ -195,12 +196,19 @@ ApplicationHoldVersionLocator seed_financial_hold(finance::File &f,
           finance::fraction(7, 4),
           false}}};
     finance::Effects effects;
+    if (!hold_timer)
+        effects.apply(-75000, 0, {75000});
     const auto refund = f.refund(ref, core::ReceiptMoney{"5.00", "EUR"});
     (void)f.accept(f.command(ref, refund, 0), entitlement, effects);
-    const auto financial = f.financial_active();
-    require(financial.size() == 1 && effects.adjustments == 0,
-            "Real #199 mixed refund held time and credited its score adjustment once");
-    return financial.front().locator;
+    auto financial = f.financial_active();
+    if (hold_timer) {
+        require(financial.size() == 1 && effects.adjustments == 0,
+                "Real #199 mixed refund held time and credited its score adjustment once");
+    } else {
+        require(financial.empty() && effects.adjustments == 1,
+                "Real #199 mixed refund with enough Main applies time and leaves no hold");
+    }
+    return financial;
 }
 
 void advance_review_catalog(finance::File &f) {
@@ -218,9 +226,13 @@ struct CreditedOriginal {
     ApplicationHoldDetection detection;
     Facts facts;
 
-    explicit CreditedOriginal(std::optional<std::string> financial_ref) {
-        if (financial_ref)
-            financial = seed_financial_hold(file, *financial_ref);
+    explicit CreditedOriginal(const std::string &refund_ref, bool hold_timer = true) {
+        const auto holds = seed_mixed_refund(file, refund_ref, hold_timer);
+        if (!holds.empty())
+            financial = holds.front().locator;
+        // Give the separate stores equal current observations via a genuine committed operation.
+        file.move_main("credited-preview-head", 50000);
+        file.check_head(50000, 0, 30000000, 7);
         detection = file.ordinary_detection("beside-complete", false);
         auto &cause = detection.cause;
         cause.command.operation = finance::original;
@@ -305,6 +317,20 @@ struct CreditedOriginal {
             file.rows("SELECT * FROM subathon_financial_refunds"),
             file.rows("SELECT * FROM subathon_financial_bases ORDER BY original_ordinal,kind"),
             file.rows("SELECT * FROM subathon_financial_resolutions")};
+    }
+
+    auto nonfinancial_basis_rows() {
+        return std::array{
+            file.rows("SELECT * FROM subathon_contributions"),
+            file.rows("SELECT * FROM subathon_app_claims WHERE subject_kind=0"),
+            file.rows(
+                "SELECT s.* FROM subathon_app_states s JOIN subathon_app_head h USING(token)"),
+            file.rows("SELECT b.* FROM subathon_app_balances b JOIN subathon_app_head h "
+                      "USING(token) ORDER BY b.balance_kind,b.target_ref"),
+            file.rows("SELECT * FROM subathon_plan_revisions WHERE plan_ref=?",
+                      {QByteArray::fromStdString(finance::original_plan.plan_ref)}),
+            file.rows("SELECT * FROM subathon_hold_causes"),
+            file.rows("SELECT * FROM subathon_hold_versions ORDER BY hold_ref,position")};
     }
 
     void expect_ordinary(ApplicationHoldState state, std::string_view version) {
@@ -1408,22 +1434,14 @@ class ContributionReviewTests final : public QObject {
                     f.db.rows("SELECT * FROM subathon_plan_revisions ORDER BY plan_ref,revision")};
             };
             const auto before = domain();
-            const FinancialEntitlement time_only{
-                0,
-                4,
-                fifth,
-                false,
-                GroupedRefundEntitlement{
-                    {key, 1, finance::CK::main_delta}, 1, 0, {}, {4, 0}, 4, 0, -4, 0},
-                {}};
-            const FinancialEntitlement count_only{
-                0,
-                4,
-                fifth,
-                false,
-                {},
-                {{1, {key, 3, finance::CK::whole_count}, 0, 0, 0, 0, fifth, fifth, fifth, false}}};
-            for (const auto &terminal : {time_only, count_only}) {
+            auto with_terminal_time = candidate;
+            with_terminal_time.time = GroupedRefundEntitlement{
+                {key, 1, finance::CK::main_delta}, 1, 0, {}, {4, 0}, 4, 0, -4, 0};
+            with_terminal_time.components.front().request_ordinal = 2;
+            auto with_terminal_count = candidate;
+            with_terminal_count.components.push_back(
+                {2, {key, 3, finance::CK::whole_count}, 0, 0, 0, 0, fifth, fifth, fifth, false});
+            for (const auto &terminal : {with_terminal_time, with_terminal_count}) {
                 f.db.write([&](const auto &s) {
                     const auto outcome =
                         stage_financial_refund(s, refund, terminal, authority, effects);
@@ -1490,20 +1508,22 @@ class ContributionReviewTests final : public QObject {
             execute("credited-reject", ReviewVerb::reject, S::ineligible);
             expect_all_active();
 
-            // Use genuine previews with the same intent and ordinary locator. The linked
-            // boundary case separately isolates the omitted and stale financial locators.
+            const auto expected_basis_rows = current.nonfinancial_basis_rows();
+            const auto closing = current.intent(ReviewVerb::reject_held);
             for (const auto &source : {std::optional<std::string>{},
                                        std::optional<std::string>{"prior-financial-refund"}}) {
-                CreditedOriginal prior{source};
+                CreditedOriginal prior{source.value_or("mixed-refund"), source.has_value()};
+                require(prior.nonfinancial_basis_rows() == expected_basis_rows,
+                        "Alternate refund preserves the exact current state, contribution, plan, "
+                        "claim and ordinary versions");
+                require(
+                    prior.financial.has_value() == source.has_value() && current.financial &&
+                        (!prior.financial || !finance::same(*prior.financial, *current.financial)),
+                    "Alternate genuine refund omits the financial hold or yields a different "
+                    "exact financial locator");
                 ContributionReview prior_review{*prior.file.writer, prior.facts};
                 const auto stale = CreditedOriginal::bind(
-                    prior_review, source ? "stale-financial" : "missing-financial",
-                    prior.intent(ReviewVerb::reject_held));
-                require(stale.entries.front().intent.selector ==
-                                current.intent(ReviewVerb::reject_held).selector &&
-                            (!source || (prior.financial && current.financial &&
-                                         !finance::same(*prior.financial, *current.financial))),
-                        "Alternate genuine preview omits or binds a different financial locator");
+                    prior_review, source ? "stale-financial" : "missing-financial", closing);
                 const auto result = Case::execute(review, stale);
                 expected_row(Case::reply(result), 1, D::committed, S::stale);
                 expect_all_active();
@@ -1520,7 +1540,7 @@ class ContributionReviewTests final : public QObject {
     void shippedLinkedRefundBoundaryPreservesFinancialHold() {
         check([] {
             finance::File f;
-            const auto locator = seed_financial_hold(f);
+            const auto locator = seed_mixed_refund(f, "mixed-refund", true).front().locator;
             auto first = f.ordinary_detection("ordinary-a", false);
             (void)f.detect(first);
             first.request.mutation_ref = "ordinary-a-new-version";

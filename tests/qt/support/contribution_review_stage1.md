@@ -37,14 +37,18 @@ NI, one lookup NI, five marker refusals and two passing controls, excluding
 Qt lifecycle hooks. These counts are source-derived.
 
 B1 uses a genuine #199 hold before adding an ordinary beside-complete hold.
-Its service stale probes use other genuine previews of the same intent and
-ordinary version. Those previews can also have different state tokens.
-The linked financial control isolates omitted and mismatched financial
-locators at the owning boundary. There is no unclaimed financial-hold fixture.
+Its service stale probes use genuine #199 refunds with the same final
+contribution, committed state token and timer, balances, original claim and
+plan, and ordinary hold. One refund pays the full timer debit from Main and
+leaves no financial hold. The other creates a different genuine locator.
+The shipped financial reader exposes the generated active version `v1`.
+The linked control separately submits a wrong version for the same hold
+reference at the owning boundary. There is no unclaimed financial-hold fixture.
 
 B2 retains the SAR2 and positive sparse score controls. It submits actual
-#199 candidates against each zero-credit terminal ordinal and compares the
-committed domain rows before and after each refusal. The ordinary Silent
+#199 candidates retaining the valid score link and adding one zero-credit
+terminal ordinal at a time. Each refusal checks that committed domain rows
+and effect-port counters are unchanged. The ordinary Silent
 application also checks the v1 result format and SAR1. B3 allows zero or one
 final read for first-row rollback and retains the later-prefix checks.
 
