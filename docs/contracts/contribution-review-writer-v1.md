@@ -144,8 +144,8 @@ cross-key claim uniqueness, ID non-aliasing, review/plan/state guards and termin
 
 Read the selected ordinary and financial active sets for the actual original subject. Compare the complete union in
 v15 raw hold-ref order, with exact versions and no duplicate locators. Any malformed member fails the unit. Presence
-of a financial hold is never execution authority. Ordinary linked application uses
-`stage_financial_aware_linked_resolution`, closes **all** active ordinary members with exact versions and explicit
+of a financial hold is never execution authority. **Correction 1 (80A).** No shipped producer places a financial hold on an unclaimed original. Refuse that shape without mutation if encountered. The coexistence example uses a credited original.
+Ordinary linked application uses `stage_financial_aware_linked_resolution`, closes **all** active ordinary members with exact versions and explicit
 authorized decisions, has no replacements, and preserves all financial holds. Missing/stale members or an unresolved
 ordinary blocker prevent linked application. Apply through a preserved financial hold only if the owning policy
 independently establishes it is no blocker. Review-only acceptance and unlinked authorized rejection may coexist with
