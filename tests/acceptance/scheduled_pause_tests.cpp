@@ -1489,8 +1489,11 @@ TEST(ScheduledPauseAcceptance, MissingLedgerAndBoundedSourcePreserveOnlyCertifie
     missing.ledger_known = false;
     const auto held =
         std::get<ScheduledPauseProgress>(missing.progress(zones, {cut(known_start, 300'000ms)}));
-    expect_hold(held, anchor, observation(known_start), ScheduledPauseKnowledgeUnavailable::ledger);
-    EXPECT_EQ(held.timer.main_remaining_ms, 900'000);
+    // The split certifies the unpaused prefix. Deduplication is first needed at the start.
+    expect_hold(held, known_start, observation(known_start),
+                ScheduledPauseKnowledgeUnavailable::ledger);
+    EXPECT_EQ(held.cursor.evaluated_through_utc_ms, known_start);
+    EXPECT_EQ(held.timer.main_remaining_ms, 600'000);
     EXPECT_TRUE(held.new_deliveries.empty());
     EXPECT_TRUE(held.stops.empty());
 
