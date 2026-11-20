@@ -514,14 +514,18 @@
       "id": "TIMER-07",
       "status": "partial",
       "tests": [
-        "tests/acceptance/recurring_schedule_tests.cpp"
+        "tests/acceptance/recurring_schedule_tests.cpp",
+        "tests/acceptance/scheduled_pause_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7000644777",
         "https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7000676542",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7000792562"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7000792562",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/743#issuecomment-7035163372",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/743#issuecomment-7035647689",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/743#issuecomment-7036322100"
       ],
-      "scope": "Independent baseline review, 25 admitted intended failures and 25 admitted local passing core cases with synthetic offset facts. Configured-timezone acquisition and authoritative wiring are tracked by #720."
+      "scope": "The 25 reviewed resolver cases and 35 reviewed scheduler cases have admitted intended-red and passing runs with synthetic timezone, clock and pause facts. Platform timezone acquisition remains a separate validation gate. #744 owns authoritative preview and Save."
     },
     {
       "id": "TIMER-08",
