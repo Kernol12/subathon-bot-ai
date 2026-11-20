@@ -258,13 +258,15 @@ struct ScheduledPauseCommandRecord {
     std::variant<ScheduledPauseEditAdmission, core::TimerState> admitted;
 };
 
+enum class ScheduledPauseResolveFailure { stale_observation, access_denied };
+
 // Resolve only the command currently admitted by the owner queue. The source
 // supplies the exact immutable record, after rechecking current authority and
 // the snapshot that binds lineages, revisions, cursor, epochs and ledger.
 class ScheduledPauseCommandSource {
   public:
     virtual ~ScheduledPauseCommandSource() = default;
-    virtual std::optional<ScheduledPauseCommandRecord>
+    virtual std::variant<ScheduledPauseCommandRecord, ScheduledPauseResolveFailure>
     resolve(std::string_view command_ref, std::string_view source_snapshot_ref) = 0;
 };
 
