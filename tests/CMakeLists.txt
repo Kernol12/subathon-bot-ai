@@ -115,6 +115,14 @@ if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
 
 endif()
 
+if(SUBATHON_BUILD_CHAT_COMMANDS_TESTS)
+    add_executable(core_chat_commands_acceptance acceptance/chat_commands_tests.cpp)
+    target_link_libraries(core_chat_commands_acceptance PRIVATE subathon_chat_commands GTest::gtest_main)
+    subathon_target_options(core_chat_commands_acceptance)
+    subathon_discover_gtests(core_chat_commands_acceptance
+        LABELS "chat-commands;acceptance;core;intentional-red" TIMEOUT 30)
+endif()
+
 if(SUBATHON_BUILD_TIME_DEBT_TESTS)
     add_executable(core_time_debt_acceptance acceptance/time_debt_tests.cpp)
     target_link_libraries(core_time_debt_acceptance PRIVATE subathon_time_debt subathon_timer_lifecycle GTest::gtest_main)

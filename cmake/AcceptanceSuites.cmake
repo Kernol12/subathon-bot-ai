@@ -10,7 +10,8 @@ set(subathon_acceptance_suites
     milestone-group-decisions sqlite-modifier-activations sqlite-financial-refunds sqlite-credential-catalog connector-lifecycle session-resolution
     password-hashing credential-record sqlite-credentials effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
-    bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server)
+    bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server
+    chat-commands)
 
 # Test guards stay private derived variables; callers select the
 # logical suites above instead of maintaining another set of cache switches.
@@ -122,6 +123,8 @@ function(subathon_resolve_acceptance_suites output)
         elseif(suite STREQUAL "milestone-progression" OR suite STREQUAL "effective-permissions"
                OR suite STREQUAL "rate-snapshot" OR suite STREQUAL "refund-entitlement")
             list(APPEND selected exact-numeric "${suite}")
+        elseif(suite STREQUAL "chat-commands")
+            list(APPEND selected exact-numeric effective-permissions "${suite}")
         elseif(suite STREQUAL "timer-editorial")
             list(APPEND selected time-debt timer-lifecycle timer-editorial)
         else()

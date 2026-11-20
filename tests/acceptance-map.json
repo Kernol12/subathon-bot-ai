@@ -580,6 +580,7 @@
       "id": "AUTH-06",
       "status": "partial",
       "tests": [
+        "tests/acceptance/chat_commands_tests.cpp",
         "tests/acceptance/effective_permissions_tests.cpp",
         "tests/fixtures/effective-permissions-v1.json",
         "tests/acceptance/effective_permissions_regression_tests.cpp"
@@ -597,7 +598,9 @@
     {
       "id": "AUTH-07",
       "status": "planned",
-      "tests": [],
+      "tests": [
+        "tests/acceptance/chat_commands_tests.cpp"
+      ],
       "evidence": []
     },
     {
