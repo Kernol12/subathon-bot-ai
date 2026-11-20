@@ -432,9 +432,11 @@ inline void append_journal(const SqliteWorkSession &s, const ReviewCommand &c, i
          kind ? QVariant(kind) : QVariant{}, facts ? QVariant(outcome_doc(data)) : QVariant{},
          facts && facts->bundle ? QVariant(bytes(facts->bundle->operation_scope)) : QVariant{},
          facts && facts->bundle ? QVariant(bytes(facts->bundle->operation_ref)) : QVariant{}});
-    one_change(s,
-               {"INSERT INTO main.subathon_review_entries VALUES(?,?,?,?,?,?,?,?,?,?) RETURNING 1",
-                fields});
+    one_change(s, {"INSERT INTO main.subathon_review_entries "
+                   "(installation_ref,work_scope,work_ref,ordinal,status,contribution_id,"
+                   "receipt_id,decision_kind,outcome,application_scope,application_ref) "
+                   "VALUES(?,?,?,?,?,?,?,?,?,?,?) RETURNING 1",
+                   fields});
     auto cursor_args = args;
     cursor_args.append(ordinal);
     one_change(s,
