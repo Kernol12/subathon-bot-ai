@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 
-#include "milestone_target_edit_v17_sql.hpp"
-#include "sqlite_credential_catalog_consumers.hpp"
+#include "milestone_target_edit_v18_sql.hpp"
+#include "sqlite_rate_override_catalog_fixture.hpp"
 #include <limits>
 #include <subathon/server/sqlite_milestone_target_edits.hpp>
 
@@ -14,16 +14,20 @@ using namespace std::chrono_literals;
 using Target = subathon::core::MilestoneTarget;
 using Status = subathon::core::MilestoneEditStatus;
 
-inline const QString v17_marker = "milestone-target-edits-v1";
+inline const QString v18_marker = "milestone-target-edits-v1";
 inline constexpr qsizetype v16_bytes = 1'065'558;
-inline constexpr qsizetype v16_final_projection_bytes = 96'456;
-inline constexpr qsizetype v17_statement_bytes = 19'280;
-inline constexpr qsizetype v17_new_projection_bytes = 22'552;
-// The complete v16 final projection occurs once more in v17. Statement
+inline constexpr qsizetype v17_final_projection_bytes = 100'307;
+inline constexpr qsizetype v18_statement_bytes = 19'280;
+inline constexpr qsizetype v18_new_projection_bytes = 22'552;
+inline constexpr qsizetype v18_framed_bytes = 145'040;
+inline const auto v18_digest =
+    QByteArray::fromHex("1cc2095026cf3d296c11ceb05a74b56e5228951161acc64834c9a00cc17646f4");
+// The complete v17 final projection occurs once more in v18. Statement
 // text appears both as ordered SQL and as the present SQL of new objects.
-inline constexpr qsizetype v17_bytes =
-    v16_bytes + v16_final_projection_bytes + v17_statement_bytes + v17_new_projection_bytes;
-static_assert(v17_bytes == 1'203'846);
+inline constexpr qsizetype v18_bytes = rate_fixture::v17_manifest_bytes +
+                                       v17_final_projection_bytes + v18_statement_bytes +
+                                       v18_new_projection_bytes;
+static_assert(v18_bytes == 1'311'210);
 
 inline qsizetype projection_bytes(const MigrationStep &step) {
     qsizetype bytes = 0;
@@ -54,14 +58,14 @@ inline bool canonical(const CatalogObject &a, const CatalogObject &b) {
            std::tie(b.type, b.name, b.table_name, b.sql);
 }
 
-inline MigrationManifest literal_v17() {
-    auto v16 = provider_credentials_repository_manifest();
-    require(v16.steps.size() == 16 && v16.steps.back().id == cc::marker &&
-                manifest_bytes(v16) == v16_bytes &&
-                projection_bytes(v16.steps.back()) == v16_final_projection_bytes,
+inline MigrationManifest literal_v18() {
+    auto manifest = rate_fixture::literal_v17();
+    require(manifest.steps.size() == 17 && manifest.steps.back().id == rate_fixture::rate_marker &&
+                manifest_bytes(manifest) == rate_fixture::v17_manifest_bytes &&
+                projection_bytes(manifest.steps.back()) == v17_final_projection_bytes,
             "The measured protected prefix is the fixture base");
 
-    MigrationStep step{17, v17_marker, {}, v16.steps.back().expected_schema};
+    MigrationStep step{18, v18_marker, {}, manifest.steps.back().expected_schema};
     for (const auto &table : edit_tables) {
         const QString name = QString::fromLatin1(table.name);
         const QString sql = QString::fromLatin1(table.sql);
@@ -76,18 +80,19 @@ inline MigrationManifest literal_v17() {
     step.expected_schema.append(
         {"index", edit_pending_index, "subathon_milestone_edit_occurrences", edit_pending_sql});
     std::ranges::sort(step.expected_schema, canonical);
-    require(step.sql.size() == 16 && step.expected_schema.size() == 200 &&
-                statement_bytes(step) == v17_statement_bytes &&
-                projection_bytes(step) == v16_final_projection_bytes + v17_new_projection_bytes,
-            "Independent v17 statements and complete canonical projection fit the measured frame");
-    v16.steps.append(std::move(step));
-    v16.supported_starting_versions.append(17);
-    require(manifest_bytes(v16) == v17_bytes, "All repeated UTF-8 fields count to the exact bound");
-    return v16;
+    require(step.sql.size() == 16 && step.expected_schema.size() == 214 &&
+                statement_bytes(step) == v18_statement_bytes &&
+                projection_bytes(step) == v17_final_projection_bytes + v18_new_projection_bytes,
+            "Independent v18 statements and complete canonical projection fit the measured frame");
+    manifest.steps.append(std::move(step));
+    manifest.supported_starting_versions.append(18);
+    require(manifest_bytes(manifest) == v18_bytes,
+            "All repeated UTF-8 fields count to the exact bound");
+    return manifest;
 }
 
 inline MigrationResult migrate(SqliteWriter &writer, MigrationMode mode, MigrationManifest manifest,
-                               qsizetype budget = v17_bytes) {
+                               qsizetype budget = v18_bytes) {
     MigrationLimits limits;
     limits.manifest_utf8_bytes = budget;
     return finance::completed<MigrationResult>([&](auto done) {
@@ -103,9 +108,15 @@ inline void advance_v16(SqliteWriter &writer) {
                       CatalogState::current, 16, 16, 1);
 }
 
+inline void advance_v17(SqliteWriter &writer) {
+    cc::expect_report(migrate(writer, MigrationMode::advance, rate_overrides_repository_manifest(),
+                              rate_fixture::v17_manifest_bytes),
+                      CatalogState::current, 17, 17, 1);
+}
+
 inline void advance_literal(SqliteWriter &writer) {
-    cc::expect_report(migrate(writer, MigrationMode::advance, literal_v17()), CatalogState::current,
-                      17, 17, 1);
+    cc::expect_report(migrate(writer, MigrationMode::advance, literal_v18()), CatalogState::current,
+                      18, 18, 1);
 }
 
 inline void write(const SqliteWorkSession &s, QString sql, QList<QVariant> bindings = {}) {
@@ -247,6 +258,7 @@ class File {
             write(s, "UPDATE subathon_app_states SET balance_count=balance_count+1");
         });
         advance_v16(*db.writer);
+        advance_v17(*db.writer);
         advance_literal(*db.writer);
         if (initialized)
             db.write([&](const auto &s) { seed_initial(s, seed(std::move(definition))); });

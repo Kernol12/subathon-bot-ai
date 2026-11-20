@@ -214,7 +214,7 @@ struct RefundEffects final : FinancialRefundEffectPort {
         return delegate.timer_effect(s, e, o, policy);
     }
     std::vector<FinancialMilestoneTarget> milestones(const SqliteWorkSession &) override {
-        // Deliberately give the old capture's target. The v17 writer must
+        // Deliberately give the old capture's target. The v18 writer must
         // resolve the current target 185 at its own authoritative boundary.
         return {{b, 175, MilestoneRefundPolicy::review}};
     }

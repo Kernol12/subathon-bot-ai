@@ -90,6 +90,7 @@ class SqliteMilestoneTargetEditCatalogTests final : public QObject {
         });
     }
 
+    // Keep the reviewed Qt slot names for direct selection.
     void compiledProducerAdvancesPopulatedProtectedV16() {
         check([] {
             finance::File file(finance::OriginalCredit{.milestone = true});
@@ -101,16 +102,35 @@ class SqliteMilestoneTargetEditCatalogTests final : public QObject {
                 write(s, "INSERT INTO subathon_provider_credentials(scope,record) VALUES(?,?)",
                       {QByteArray::fromHex("00ff"), QByteArray::fromHex("00811600")});
             });
+            const auto v16_history = file.rows(cc::history_sql);
+            advance_v17(*file.writer);
             const auto before = file.rows(cc::history_sql);
-            const auto literal = literal_v17();
+            const auto rate_image = [&] {
+                return std::array{file.rows(rate_fixture::revision_rows),
+                                  file.rows(rate_fixture::observation_rows),
+                                  file.rows(rate_fixture::decision_rows),
+                                  file.rows(rate_fixture::occurrence_rows),
+                                  file.rows(rate_fixture::head_rows)};
+            };
+            const auto old_rate_image = rate_image();
+            auto expected_v17_history = v16_history;
+            expected_v17_history.append(cc::history_row(rate_fixture::literal_v17().steps.back()));
+            require(before == expected_v17_history &&
+                        before.back()[2].toByteArray() == rate_fixture::v17_digest,
+                    "Rate upgrade appends exactly the protected v17 history row");
+            require(old_rate_image[0].size() == 1 &&
+                        old_rate_image[4] == SqlRows{{QByteArray("H"), QByteArray("E")}},
+                    "Protected v17 creates the exact reserved revision and head");
+            rate_fixture::expect_reserved_root(old_rate_image[0].front());
+            const auto literal = literal_v18();
 
             const auto actual = milestone_target_edits_repository_manifest();
             expect_exact(actual, literal);
             cc::expect_report(migrate(*file.writer, MigrationMode::inspect, actual),
-                              CatalogState::upgrade_required, 16, 17, 0);
+                              CatalogState::upgrade_required, 17, 18, 0);
             const auto rejected = SqliteMigrationRunner::enqueue(
                 *file.writer,
-                {MigrationMode::advance, actual, {.manifest_utf8_bytes = v17_bytes - 1}, {}},
+                {MigrationMode::advance, actual, {.manifest_utf8_bytes = v18_bytes - 1}, {}},
                 [](MigrationResult) {});
             require(rejected.error == StorageError::invalid_options &&
                         rejected.reason == MigrationReason::invalid_manifest &&
@@ -118,11 +138,17 @@ class SqliteMilestoneTargetEditCatalogTests final : public QObject {
                     "An explicit budget one byte short refuses preflight");
 
             cc::expect_report(migrate(*file.writer, MigrationMode::advance, actual),
-                              CatalogState::current, 17, 17, 1);
+                              CatalogState::current, 18, 18, 1);
             auto history = before;
             history.append(cc::history_row(literal.steps.back()));
             require(file.rows(cc::history_sql) == history,
-                    "All v16 digest bytes and exact v17 hash");
+                    "All v17 digest bytes and exact v18 hash");
+            require(history.back()[2].toByteArray() == v18_digest &&
+                        canonical_migration_payload(literal.steps.back()).size() ==
+                            v18_framed_bytes,
+                    "The independent ASCII frame has the exact v18 size and digest");
+            require(rate_image() == old_rate_image,
+                    "Additive milestone upgrade preserves the protected rate root and rows");
             cc::expect_schema(file.rows(cc::schema_sql), literal.steps.back());
             require(file.rows("SELECT scope,record,typeof(scope),typeof(record) "
                               "FROM subathon_provider_credentials") ==
@@ -142,7 +168,7 @@ class SqliteMilestoneTargetEditCatalogTests final : public QObject {
                         "Existing ordinary hold and version survive the additive migration");
                 require(SqliteApplicationHoldStore(s).record_detection(detection).disposition ==
                             SqliteHoldMutationDisposition::recorded,
-                        "Hold mutation selects the v17 financial lane");
+                        "Hold mutation selects the v18 financial lane");
             });
         });
     }
@@ -150,17 +176,17 @@ class SqliteMilestoneTargetEditCatalogTests final : public QObject {
     void freshExactV17HasEmptyLegacyAndEditLanes() {
         check([] {
             cc::milestones::File file(cc::milestones::File::Schema::empty);
-            const auto manifest = literal_v17();
+            const auto manifest = literal_v18();
             cc::expect_report(migrate(*file.writer, MigrationMode::inspect, manifest),
-                              CatalogState::fresh, 0, 17, 0);
+                              CatalogState::fresh, 0, 18, 0);
             cc::expect_report(migrate(*file.writer, MigrationMode::advance, manifest),
-                              CatalogState::current, 17, 17, 17);
+                              CatalogState::current, 18, 18, 18);
             cc::expect_schema(file.reads(cc::schema_sql), manifest.steps.back());
             (void)cc::milestones::committed(*file.writer, [](const auto &s) {
                 require(SqliteMilestoneGroupStore(s).pending().empty() &&
                             !SqliteFinancialRefundStore(s).lookup({"test", "absent"}) &&
                             !SqliteModifierActivationStore(s).instance_revision("absent"),
-                        "Exact marker allows matching empty v17 reads");
+                        "Exact marker allows matching empty v18 reads");
                 return true;
             });
         });
@@ -187,6 +213,7 @@ class SqliteMilestoneTargetEditCatalogTests final : public QObject {
             cc::populate_v15(file);
             advance_v16(*file.writer);
             file.write([&](const auto &s) { expect_all(s, file.payment); });
+            advance_v17(*file.writer);
             advance_literal(*file.writer);
 
             const auto read = [=, payment = file.payment](const SqliteWorkSession &s) {
@@ -197,7 +224,7 @@ class SqliteMilestoneTargetEditCatalogTests final : public QObject {
                 return;
             }
             if (variation == 3) {
-                // Keep the exact v17 marker while removing the required
+                // Keep the exact v18 marker while removing the required
                 // closure for the selected reader. Each table is leaf data.
                 const auto table = QStringList{"subathon_financial_resolutions",
                                                "subathon_milestone_edit_refund_decisions",
@@ -205,7 +232,7 @@ class SqliteMilestoneTargetEditCatalogTests final : public QObject {
                 file.write([&](const auto &s) { write(s, "DROP TABLE main." + table); });
                 require(
                     file.rows("SELECT version,migration_id FROM subathon_migration_history "
-                              "ORDER BY version DESC LIMIT 1") == SqlRows{{17, v17_marker}} &&
+                              "ORDER BY version DESC LIMIT 1") == SqlRows{{18, v18_marker}} &&
                         file.rows("SELECT name FROM sqlite_schema WHERE name=?", {table}).empty(),
                     "Exact marker and missing schema physically established");
                 bool started = false;
@@ -236,12 +263,12 @@ class SqliteMilestoneTargetEditCatalogTests final : public QObject {
                         "Recognized marker fails closed on missing required schema");
                 return;
             }
-            const int version = variation == 1 ? 18 : 17;
-            const QString id = variation == 1 ? v17_marker : QString("Milestone-target-edits-v1");
+            const int version = variation == 1 ? 19 : 18;
+            const QString id = variation == 1 ? v18_marker : QString("Milestone-target-edits-v1");
             file.write([&](const auto &s) {
                 write(s,
                       "UPDATE subathon_migration_history SET version=?,migration_id=? "
-                      "WHERE version=17",
+                      "WHERE version=18",
                       {version, id});
             });
             require(file.rows("SELECT version,migration_id FROM subathon_migration_history "

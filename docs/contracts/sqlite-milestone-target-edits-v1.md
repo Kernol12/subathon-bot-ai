@@ -215,7 +215,7 @@ refuses the work without a partial snapshot, decision set or dispatch fallback.
   Select eligible pending occurrences
   across both origins and reads each current target from the authoritative
   definition head on the same session. Keep each captured target intact.
-  **Correction 1 (79A).** From v17 the refund writer takes the target solely from the
+  **Correction 1 (79A).** From v18 the refund writer takes the target solely from the
   authoritative definition head, ignores the port target and never refuses on that basis.
   Use exact actual scores and a downward crossing of the current target
   (before ≥ target, after < target) while pending and unreleased. Consult and

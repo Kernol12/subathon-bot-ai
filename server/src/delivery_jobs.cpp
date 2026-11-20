@@ -142,9 +142,9 @@ std::optional<DeliveryJob> selected_capture(const SqliteWorkSession &session,
     return job;
 }
 
-// A v17 application membership continues to come only from v12 action
+// A v18 application membership continues to come only from v12 action
 // rows. The envelope's generic group metadata supplies no membership.
-std::optional<bool> v17_application_release(const SqliteWorkSession &session,
+std::optional<bool> v18_application_release(const SqliteWorkSession &session,
                                             const DeliveryJob &job) {
     QList<QVariant> args{blob(job.capture.action_ref), blob(job.capture.action_version_ref)};
     args.append(bindings(job.key));
@@ -179,7 +179,7 @@ std::optional<DeliveryJob> selected_job(const SqliteWorkSession &session,
         job->attempt = event.attempt;
         job->evidence_ref = std::move(event.evidence);
         if (current == milestone_sql::Catalog::edits) {
-            const auto released = v17_application_release(session, *job);
+            const auto released = v18_application_release(session, *job);
             if (released == false && job->revision != 1)
                 corrupt();
         }
@@ -192,7 +192,7 @@ bool milestone_release_allows(const SqliteWorkSession &session, const DeliveryJo
     if (catalog == milestone_sql::Catalog::independent)
         return true;
     if (catalog == milestone_sql::Catalog::edits)
-        return v17_application_release(session, job).value_or(true);
+        return v18_application_release(session, job).value_or(true);
 
     QList<QVariant> args{blob(job.capture.action_ref), blob(job.capture.action_version_ref)};
     args.append(bindings(job.key));
@@ -426,7 +426,7 @@ StrandedDeliveryPage SqliteDeliveryJobStore::stranded(const std::optional<Delive
                 corrupt();
             const auto event = latest_event(session_, key);
             if (current == milestone_sql::Catalog::edits) {
-                const auto released = v17_application_release(session_, *job);
+                const auto released = v18_application_release(session_, *job);
                 if (released == false && event.revision != 1)
                     corrupt();
             }

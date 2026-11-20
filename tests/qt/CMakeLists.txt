@@ -127,6 +127,20 @@ if(SUBATHON_BUILD_SQLITE_CREDENTIAL_CATALOG_TESTS)
         LABELS "sqlite-credential-catalog;acceptance;qt;server" TIMEOUT 180)
 endif()
 
+if(SUBATHON_BUILD_SQLITE_RATE_OVERRIDE_CATALOG_TESTS)
+    subathon_add_qt_suite(server_sqlite_rate_override_catalog_acceptance
+        NAME sqlite-rate-override-catalog SOURCES sqlite_rate_override_catalog_tests.cpp
+        LIBRARIES subathon_sqlite_rate_overrides subathon_sqlite_modifier_activations
+        LABELS "sqlite-rate-override-catalog;acceptance;qt;server" TIMEOUT 180)
+endif()
+
+if(SUBATHON_BUILD_SQLITE_RATE_OVERRIDE_WRITER_TESTS)
+    subathon_add_qt_suite(server_sqlite_rate_override_writer_acceptance
+        NAME sqlite-rate-override-writer SOURCES sqlite_rate_override_writer_tests.cpp
+        LIBRARIES subathon_sqlite_rate_overrides subathon_sqlite_modifier_activations
+        LABELS "sqlite-rate-override-writer;acceptance;qt;server" TIMEOUT 180)
+endif()
+
 if(SUBATHON_BUILD_SQLITE_CREDENTIALS_TESTS)
     subathon_add_qt_suite(server_sqlite_credentials_acceptance
         NAME sqlite-credentials

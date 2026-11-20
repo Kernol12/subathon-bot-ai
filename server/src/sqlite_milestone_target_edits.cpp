@@ -10,7 +10,7 @@
 #include <limits>
 #include <map>
 #include <set>
-#include <subathon/server/sqlite_credential_catalog.hpp>
+#include <subathon/server/sqlite_rate_overrides.hpp>
 #include <tuple>
 
 namespace subathon::server {
@@ -279,7 +279,7 @@ void advance_head(const SqliteWorkSession &s, const MilestoneTrackKey &track, bo
 }
 
 // Fixed-width numbers and length-prefixed bytes, with a bound checked before
-// every append. These records are private to v17 and are compared byte for byte.
+// every append. These records are private to v18 and are compared byte for byte.
 class Encoding {
   public:
     Encoding() { number(1); }
@@ -929,8 +929,8 @@ MilestoneEditResult stage(const SqliteWorkSession &s, const MilestoneEditIntent 
 } // namespace
 
 MigrationManifest milestone_target_edits_repository_manifest() {
-    auto manifest = provider_credentials_repository_manifest();
-    MigrationStep step{17, "milestone-target-edits-v1", {}, manifest.steps.back().expected_schema};
+    auto manifest = rate_overrides_repository_manifest();
+    MigrationStep step{18, "milestone-target-edits-v1", {}, manifest.steps.back().expected_schema};
     for (const auto &table : edit_tables) {
         const auto name = QString::fromLatin1(table.name);
         const auto ddl = QString::fromLatin1(table.sql);
@@ -947,7 +947,7 @@ MigrationManifest milestone_target_edits_repository_manifest() {
         return std::tie(a.type, a.name) < std::tie(b.type, b.name);
     });
     manifest.steps.append(std::move(step));
-    manifest.supported_starting_versions.append(17);
+    manifest.supported_starting_versions.append(18);
     return manifest;
 }
 

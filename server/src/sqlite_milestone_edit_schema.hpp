@@ -3,7 +3,7 @@
 
 namespace subathon::server::milestone_edit_sql {
 
-// Catalog v17 retains these statement bytes in its schema projection and digest.
+// Catalog v18 retains these statement bytes in its schema projection and digest.
 struct EditTable {
     const char *name;
     int indexes;
