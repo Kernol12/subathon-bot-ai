@@ -82,6 +82,11 @@ the contract sections and acceptance criteria that apply, checks actually run an
 findings. Link the relevant sections instead of sending the whole contract closure.
 For a re-check, send only the changed commit, the findings and their resolutions.
 
+For each SQLite catalog step, list every existing reader and its version and
+migration marker checks in the first catalog review packet. Include one upgrade
+control per reader that exercises its normal entry point after advancing from the
+protected catalog to the proposed version.
+
 Each review is one PR comment using [the review template](templates/REVIEW.md): tier,
 stage, reviewed commit, provider/model/session, verdict and findings with stable IDs,
 blockers marked. Lead with the verdict. Never delete a rejected review.
@@ -170,6 +175,8 @@ subdirectory per session.
   deletes only what no pending stage needs.
 - Delete only the task's own directory and worktrees. Never clear a shared temporary
   location or the files of another live session.
+- Apply this cleanup after every merge and include the available space on `/home`
+  in each morning coordination report.
 
 ## Continuous integration
 
