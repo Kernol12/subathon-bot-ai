@@ -49,6 +49,12 @@ void retain_reply(Rig &r, const host::PeerLease &p, std::string_view id, unsigne
                 wait_ms),
             "Completing Qt turn settles input and units");
 }
+// Input tuple, queued diagnostics and accepted units stay settled after the work ended.
+void require_settled(const host::Inspection &s, const char *where) {
+    require(s.input.capacity == 0 && s.input.copies == 0 && s.input.metadata == 0 &&
+                s.queued_diagnostics == 0 && s.accepted_units == 0,
+            where);
+}
 // Starting state after one retained 4-byte original A on a connected peer.
 void require_single_original(const Rig &r) {
     const auto s = r.instance->inspect();
@@ -66,47 +72,72 @@ void require_reply_view(const host::CommandView &v, char correlation) {
     require(std::equal(v.bytes.begin(), v.bytes.end(), done.begin(), done.end()),
             "Reply payload done");
 }
+// A test harness failure carries no ledger verdict. Test threads may still borrow
+// locals, so the process ends instead of unwinding; the external watchdog remains
+// the cleanup backstop.
+[[noreturn]] void harness_failure(const char *what, unsigned first, unsigned second) {
+    std::fprintf(stderr, "API027-HARNESS %s first=%u second=%u\n", what, first, second);
+    std::fflush(stderr);
+    std::terminate();
+}
+// Completion signals published by the two release threads.
+struct ReleaseSignals {
+    bool first = false, second = false;
+};
 // Destroys two separately owned leases on two test threads started from one gate
-// (98A). Each signal is published only after that lease's destructor returned. A
-// missing signal is a harness failure with no ledger verdict; the threads may still
-// borrow test locals, so the process ends instead of unwinding.
-void release_concurrently(std::optional<host::ResponseLease> &first,
-                          std::optional<host::ResponseLease> &second) {
-    std::atomic<unsigned> waiting{0};
-    std::atomic<bool> open{false};
+// (98A). Readiness at the gate and destructor completion are each bounded by the
+// fixture wait. Each completion signal is published only after that destructor
+// returned. Both threads are joined before the ledger is inspected.
+ReleaseSignals release_concurrently(std::optional<host::ResponseLease> &first,
+                                    std::optional<host::ResponseLease> &second) {
+    std::atomic<bool> first_ready{false}, second_ready{false}, open{false};
     std::promise<void> first_done, second_done;
     auto first_signal = first_done.get_future(), second_signal = second_done.get_future();
-    const auto release = [&](std::optional<host::ResponseLease> &owner, std::promise<void> &done) {
-        waiting.fetch_add(1);
+    const auto release = [&](std::optional<host::ResponseLease> &owner, std::atomic<bool> &ready,
+                             std::promise<void> &done) {
+        ready.store(true, std::memory_order_release);
         while (!open.load(std::memory_order_acquire))
             std::this_thread::yield();
         owner.reset();
         done.set_value();
     };
-    std::thread one(release, std::ref(first), std::ref(first_done));
-    std::thread two(release, std::ref(second), std::ref(second_done));
-    while (waiting.load() != 2)
+    std::thread one(release, std::ref(first), std::ref(first_ready), std::ref(first_done));
+    std::thread two(release, std::ref(second), std::ref(second_ready), std::ref(second_done));
+    const auto ready_by = std::chrono::steady_clock::now() + std::chrono::milliseconds(wait_ms);
+    while (!(first_ready.load(std::memory_order_acquire) &&
+             second_ready.load(std::memory_order_acquire))) {
+        if (std::chrono::steady_clock::now() >= ready_by)
+            harness_failure("missing gate readiness", first_ready.load(), second_ready.load());
         std::this_thread::yield();
-    open.store(true, std::memory_order_release);
-    const auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(wait_ms);
-    const bool one_done = first_signal.wait_until(deadline) == std::future_status::ready;
-    const bool two_done = second_signal.wait_until(deadline) == std::future_status::ready;
-    if (!one_done || !two_done) {
-        std::fprintf(stderr, "API027-HARNESS missing completion signal first=%d second=%d\n",
-                     one_done, two_done);
-        std::fflush(stderr);
-        std::terminate();
     }
+    open.store(true, std::memory_order_release);
+    const auto done_by = std::chrono::steady_clock::now() + std::chrono::milliseconds(wait_ms);
+    ReleaseSignals out;
+    out.first = first_signal.wait_until(done_by) == std::future_status::ready;
+    out.second = second_signal.wait_until(done_by) == std::future_status::ready;
+    if (!out.first || !out.second)
+        harness_failure("missing completion signal", out.first, out.second);
     one.join();
     two.join();
+    return out;
+}
+// Bounded Qt owner checkpoint: a queued marker posted on this (Qt owner) thread after
+// the release. Reaching it shows the owner loop delivered events posted before it;
+// it is delivery progress only. Release wake posting/coalescing is source evidence.
+void owner_turn() {
+    QObject context; // destroying it cancels a marker still queued after a timeout
+    bool reached = false;
+    QMetaObject::invokeMethod(&context, [&] { reached = true; }, Qt::QueuedConnection);
+    require(QTest::qWaitFor([&] { return reached; }, wait_ms), "Bounded Qt owner turn");
 }
 // Pre-assertion ledger record for a concurrent trial, taken on Qt after both joins.
-host::Inspection record_ledger(const Rig &r, const char *row, int trial) {
+host::Inspection record_ledger(const Rig &r, const char *row, int trial, ReleaseSignals done) {
     const auto s = r.instance->inspect();
     std::fprintf(stderr,
-                 "API027-LEDGER row=%s trial=%02d first_signal=1 second_signal=1 "
+                 "API027-LEDGER row=%s trial=%02d first_signal=%d second_signal=%d "
                  "response=(%llu,%llu,%llu) associations=%llu association_charge=%llu\n",
-                 row, trial, static_cast<unsigned long long>(s.response.capacity),
+                 row, trial, done.first, done.second,
+                 static_cast<unsigned long long>(s.response.capacity),
                  static_cast<unsigned long long>(s.response.copies),
                  static_cast<unsigned long long>(s.response.metadata),
                  static_cast<unsigned long long>(s.associations),
@@ -712,57 +743,65 @@ class ApiHostTests final : public QObject {
         QFETCH(int, slot_count);
         scenario([&] {
             Rig r("current", lease_profile(capacity, slot_count));
-            std::optional<host::ResponseLease> moved, again;
+            std::optional<host::ResponseLease> copy, moved, again;
             r.transport->retain_replies = true;
             r.start();
             auto p = r.peer();
             retain_reply(r, p, "A", 1);
             require_single_original(r);
-            r.transport->on_io([&] {
-                auto copy = success(r.transport->replies[0]->try_copy(), "Copy A once");
-                moved.emplace(std::move(copy));
-                copy.reset(); // moved-from object is inert
-            });
-            auto s = r.instance->inspect();
-            response_tuple(s, 8, 2, 256, "Copy reserved; move and inert reset add nothing");
-            require(s.response.peak_charge == 264, "Peak 264");
-            association_ledger(s, 1, 512, "Copy shares A association");
+            // Each serial operation is inspected on its own so that a release is
+            // attributed to the operation that made it.
+            const auto require_pair = [&](const char *where) {
+                const auto s = r.instance->inspect();
+                response_tuple(s, 8, 2, 256, where);
+                require(s.response.peak_charge == 264, "Peak 264 with original and copy");
+                association_ledger(s, 1, 512, "One shared A association");
+            };
+            const auto require_one = [&](const char *where) {
+                const auto s = r.instance->inspect();
+                response_tuple(s, 4, 1, 128, where);
+                require(s.response.peak_charge == 264, "Historical peak stays 264");
+                association_ledger(s, 1, 512, "A remains associated");
+            };
+            r.transport->on_io(
+                [&] { copy.emplace(success(r.transport->replies[0]->try_copy(), "Copy A once")); });
+            require_pair("Copy reserves (4,1,128)");
+            r.transport->on_io([&] { moved.emplace(std::move(*copy)); });
+            require_pair("Move transfers the copy's charge");
+            r.transport->on_io([&] { copy->reset(); });
+            require_pair("Reset of the moved-from object adds nothing");
             r.transport->on_io([&] {
                 failure(r.transport->replies[0]->try_copy(), host::Failure::resource_limit);
             });
-            s = r.instance->inspect();
-            response_tuple(s, 8, 2, 256, "Refused copy retains no charge");
-            require(s.response.peak_charge == 264, "Refused copy leaves peak 264");
-            r.transport->on_io([&] {
-                moved->reset();
-                moved->reset();
-            });
-            s = r.instance->inspect();
-            response_tuple(s, 4, 1, 128, "First reset releases once, second changes nothing");
-            association_ledger(s, 1, 512, "A remains associated");
+            require_pair("Refused copy retains no charge or association");
+            r.transport->on_io([&] { moved->reset(); });
+            require_one("First reset of the moved copy releases once");
+            r.transport->on_io([&] { moved->reset(); });
+            require_one("Repeated reset changes nothing");
             r.transport->on_io([&] {
                 again.emplace(
                     success(r.transport->replies[0]->try_copy(), "Copy with freed quota"));
             });
-            response_tuple(r.instance->inspect(), 8, 2, 256, "Freed quota admits a new copy");
+            require_pair("Freed quota admits a new copy");
             r.transport->on_io([&] { r.transport->replies[0].reset(); }); // destroy, no reset()
-            s = r.instance->inspect();
-            response_tuple(s, 4, 1, 128, "Destroying the original releases its reservation");
-            association_ledger(s, 1, 512, "Surviving copy keeps A association");
+            require_one("Destroying the original releases its reservation");
             r.transport->on_io([&] {
                 host::ResponseLease last = std::move(*again);
             }); // normal scope exit of the final owner
-            s = r.instance->inspect();
+            auto s = r.instance->inspect();
             response_tuple(s, 0, 0, 0, "Final owner releases response tuple");
             association_ledger(s, 0, 0, "Final release retires A association");
             require(s.response.peak_charge == 264, "Historical peak 264");
+            require_settled(s, "Release leaves input, diagnostics and units settled");
             r.transport->on_io([&] {
-                again.reset();
+                copy.reset();
                 moved.reset();
+                again.reset();
             });
             s = r.instance->inspect();
             response_tuple(s, 0, 0, 0, "Inert destruction changes no ledger");
             association_ledger(s, 0, 0, "Inert destruction retires nothing again");
+            // The peer count has no accessor (N5): its decrement here is source evidence.
             r.stop();
         });
     }
@@ -866,13 +905,15 @@ class ApiHostTests final : public QObject {
             response_tuple(s, 8, 2, 256, "Both charges remain until release");
             require(s.response.peak_charge == 264, "No new charge");
             association_ledger(s, 1, 512, "A association retained");
-            r.transport->on_io([&] {
-                copy.reset();
-                r.transport->replies[0].reset();
-            });
+            r.transport->on_io([&] { copy.reset(); });
+            s = r.instance->inspect();
+            response_tuple(s, 4, 1, 128, "Copy release leaves the original's charge");
+            association_ledger(s, 1, 512, "Original keeps A association");
+            r.transport->on_io([&] { r.transport->replies[0].reset(); });
             s = r.instance->inspect();
             response_tuple(s, 0, 0, 0, "Release clears response charges");
             association_ledger(s, 0, 0, "Release retires A association");
+            require_settled(s, "Release leaves input, diagnostics and units settled");
             r.stop();
         });
     }
@@ -898,12 +939,17 @@ class ApiHostTests final : public QObject {
             failure(r.submit(p, "C"), host::Failure::resource_limit); // peer cap 2 only
             require(r.dispatch->executions == 2, "Refused C runs no work");
             r.transport->on_io([&] { original.emplace(std::move(*r.transport->replies[0])); });
-            release_concurrently(original, copy);
-            s = record_ledger(r, "concurrent_last_two_unrelated_survivor", trial);
+            const auto done = release_concurrently(original, copy);
+            s = record_ledger(r, "concurrent_last_two_unrelated_survivor", trial, done);
             response_tuple(s, 4, 1, 128, "Only B's reservation remains");
             require(s.response.peak_charge == 396, "Peak stays 396");
             association_ledger(s, 1, 512, "A association retired exactly once");
-            retain_reply(r, p, "C", 3); // A's peer slot was recovered
+            require_settled(s, "Release leaves input, diagnostics and units settled");
+            // Admission of C is the observation that A's peer slot was recovered (N5).
+            retain_reply(r, p, "C", 3);
+            s = r.instance->inspect();
+            response_tuple(s, 8, 2, 256, "B and C reservations");
+            association_ledger(s, 2, 1024, "B and C associations");
             r.transport->on_io([&] {
                 {
                     const auto v = success(r.transport->replies[1]->take(), "Take B");
@@ -913,10 +959,19 @@ class ApiHostTests final : public QObject {
                     const auto v = success(r.transport->replies[2]->take(), "Take C");
                     require_reply_view(v, 'C');
                 }
-                r.transport->replies[1].reset();
-                r.transport->replies[2].reset();
             });
-            require(r.dispatch->executions == 3 && r.log->count(K::writer_completed) == 3,
+            r.transport->on_io([&] { r.transport->replies[1].reset(); });
+            s = r.instance->inspect();
+            response_tuple(s, 4, 1, 128, "B retired, C's reservation remains");
+            association_ledger(s, 1, 512, "C association remains");
+            r.transport->on_io([&] { r.transport->replies[2].reset(); });
+            s = r.instance->inspect();
+            response_tuple(s, 0, 0, 0, "No response charge after B and C retire");
+            require(s.response.peak_charge == 396, "Historical peak 396");
+            association_ledger(s, 0, 0, "No association after B and C retire");
+            require_settled(s, "Input, diagnostics and units settled after B and C");
+            require(r.dispatch->executions == 3 && r.log->count(K::writer_completed) == 3 &&
+                        r.log->count(K::local_handoff) == 2,
                     "Only A, B and admitted C ran a unit");
             r.stop();
         });
@@ -953,18 +1008,28 @@ class ApiHostTests final : public QObject {
                     "Network acknowledgment held, owner cleanup pending");
             response_tuple(s, 8, 2, 256, "A still charged at writer barrier");
             association_ledger(s, 1, 512, "A association at writer barrier");
-            release_concurrently(original, copy);
-            s = record_ledger(r, "concurrent_last_two_during_stop", trial);
+            const auto done = release_concurrently(original, copy);
+            s = record_ledger(r, "concurrent_last_two_during_stop", trial, done);
             response_tuple(s, 0, 0, 0, "Both A reservations released");
             association_ledger(s, 0, 0, "A association retired exactly once");
-            QCoreApplication::sendPostedEvents(); // bounded turn for the queued release wake
-            QCoreApplication::processEvents();
+            require_settled(s, "Release leaves input, diagnostics and units settled");
+            owner_turn(); // the owner loop may reconsider cleanup after the release
             s = r.instance->inspect();
-            require(s.state == host::State::stopping && !s.network_barrier && !s.owner_cleanup &&
-                        r.log->count(K::network_ack) == 0 &&
-                        r.log->count(K::dispatcher_destroyed) == 0 &&
-                        r.log->count(K::owner_cleanup) == 0 && r.log->count(K::stopped) == 0,
+            require(s.state == host::State::stopping && s.writer_barrier && !s.network_barrier &&
+                        !s.owner_cleanup && s.stop_fences == 1 && s.control_charge == 1024,
                     "Association zero alone never certifies cleanup");
+            response_tuple(s, 0, 0, 0, "No response charge while network is held");
+            association_ledger(s, 0, 0, "No association while network is held");
+            require_settled(s, "Settled while network is held");
+            require(!r.transport->joined() && r.log->count(K::callbacks_revoked) == 0 &&
+                        r.log->count(K::sockets_removed) == 0 &&
+                        r.log->count(K::framework_joined) == 0 && r.log->count(K::io_joined) == 0 &&
+                        r.log->count(K::network_ack) == 0,
+                    "Network acknowledgment still absent");
+            require(r.log->count(K::dispatcher_destroyed) == 0 &&
+                        r.log->count(K::source_destroyed) == 0 &&
+                        r.log->count(K::owner_cleanup) == 0 && r.log->count(K::stopped) == 0,
+                    "No disposal, cleanup or stopped before network acknowledgment");
             r.transport->acknowledge();
             require(QTest::qWaitFor(
                         [&] {
@@ -976,10 +1041,13 @@ class ApiHostTests final : public QObject {
             r.transport->check();
             r.check_callbacks();
             s = r.instance->inspect();
-            require(s.writer_barrier && s.network_barrier && s.control_charge == 0,
-                    "Both barriers, control charge released");
+            require(s.writer_barrier && s.network_barrier && s.control_charge == 0 &&
+                        s.stop_fences == 1 && r.transport->joined(),
+                    "Both barriers, transport joined, control charge released");
             response_tuple(s, 0, 0, 0, "No response reservation at stop");
             association_ledger(s, 0, 0, "No association at stop");
+            require_settled(s, "Settled at stop");
+            // The peer count has no accessor (N5): its decrement here is source evidence.
             require(r.log->count(K::stop_consumed) == 1 && r.log->count(K::owner_cleanup) == 1 &&
                         r.log->count(K::stopped) == 1 &&
                         r.log->count(K::dispatcher_destroyed) == 1 &&
@@ -1000,8 +1068,10 @@ class ApiHostTests final : public QObject {
                         "Disposal before owner cleanup");
             require(r.log->position(K::owner_cleanup) < r.log->position(K::stopped),
                     "Owner cleanup before stopped");
-            require(r.log->last(K::owner_cleanup).thread == std::this_thread::get_id(),
-                    "Owner cleanup on Qt");
+            for (auto k :
+                 {K::dispatcher_destroyed, K::source_destroyed, K::owner_cleanup, K::stopped})
+                require(r.log->last(k).thread == std::this_thread::get_id(),
+                        "Disposal, cleanup and stopped on Qt");
             require(r.log->count(K::local_handoff) == 0 && r.transport->handoffs == 1 &&
                         r.transport->takes == 0 && r.dispatch->executions == 1 &&
                         r.log->count(K::writer_completed) == 1,
