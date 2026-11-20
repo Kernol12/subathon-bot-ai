@@ -24,7 +24,7 @@ class SqliteRateOverrideCatalogTests : public QObject {
             auto prefix = literal;
             prefix.steps.removeLast();
             require(manifest_bytes(prefix) == v16_manifest_bytes && budget == v17_manifest_bytes &&
-                        MigrationLimits{}.manifest_utf8_bytes == 1048576,
+                        MigrationLimits{}.manifest_utf8_bytes == 16777216,
                     "Protected measured prefix and default UTF-8 cap");
             require(literal.steps.back().sql.size() == 7 &&
                         literal.steps.back().expected_schema.size() == v17_projection_objects &&
