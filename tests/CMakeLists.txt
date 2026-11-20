@@ -273,6 +273,14 @@ if(SUBATHON_BUILD_RULE_DEFINITION_TESTS)
         LABELS "rule-definition;acceptance;core" TIMEOUT 30)
 endif()
 
+if(SUBATHON_BUILD_RULE_SELECTION_TESTS)
+    add_executable(core_rule_selection_acceptance acceptance/rule_selection_tests.cpp)
+    target_link_libraries(core_rule_selection_acceptance PRIVATE subathon_rule_selection GTest::gtest_main)
+    subathon_target_options(core_rule_selection_acceptance)
+    subathon_discover_gtests(core_rule_selection_acceptance
+        LABELS "rule-selection;acceptance;core" TIMEOUT 30)
+endif()
+
 if(SUBATHON_BUILD_RATE_OVERRIDE_TESTS)
     add_executable(core_rate_override_acceptance acceptance/rate_override_tests.cpp)
     target_link_libraries(core_rate_override_acceptance PRIVATE subathon_rate_overrides GTest::gtest_main)

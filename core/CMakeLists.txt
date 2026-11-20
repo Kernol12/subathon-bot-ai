@@ -55,6 +55,10 @@ if(TARGET Boost::headers)
     target_link_libraries(subathon_rule_definition PUBLIC subathon_rate_snapshots)
     subathon_target_options(subathon_rule_definition)
 
+    add_library(subathon_rule_selection STATIC EXCLUDE_FROM_ALL src/rule_selection.cpp)
+    target_link_libraries(subathon_rule_selection PUBLIC subathon_rule_definition)
+    subathon_target_options(subathon_rule_selection)
+
     add_library(subathon_rate_overrides STATIC EXCLUDE_FROM_ALL src/rate_override.cpp)
     target_link_libraries(subathon_rate_overrides PUBLIC subathon_rate_snapshots)
     subathon_target_options(subathon_rate_overrides)
