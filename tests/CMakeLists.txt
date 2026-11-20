@@ -278,7 +278,7 @@ if(SUBATHON_BUILD_RULE_SELECTION_TESTS)
     target_link_libraries(core_rule_selection_acceptance PRIVATE subathon_rule_selection GTest::gtest_main)
     subathon_target_options(core_rule_selection_acceptance)
     subathon_discover_gtests(core_rule_selection_acceptance
-        LABELS "rule-selection;acceptance;core;intentional-red" TIMEOUT 30)
+        LABELS "rule-selection;acceptance;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_RATE_OVERRIDE_TESTS)
