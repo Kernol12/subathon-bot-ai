@@ -126,6 +126,7 @@
   "archive_commit": "da8db0dc3984f55aaff12297947a6bd8083d5315",
   "required_records": [
     "ACCESS-002",
+    "ACCESS-007",
     "ACCESS-009",
     "ACCESS-010",
     "ACCESS-011",
