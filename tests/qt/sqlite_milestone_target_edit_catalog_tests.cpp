@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "support/milestone_target_edit_fixture.hpp"
+#include "support/sqlite_rate_override_writer_fixture.hpp"
 
 namespace {
 using namespace milestone_target_edit_fixture;
@@ -170,6 +171,53 @@ class SqliteMilestoneTargetEditCatalogTests final : public QObject {
                             SqliteHoldMutationDisposition::recorded,
                         "Hold mutation selects the v18 financial lane");
             });
+        });
+    }
+
+    void exactV18PreservesTypedRateRepository() {
+        check([] {
+            rate_fixture::RateFile file;
+            const auto first = rate_fixture::fetched_preview();
+            rate_fixture::seed_first(file, true);
+            const auto candidate = rate_fixture::snapshot_bytes(first.proposal.candidate);
+            const auto expect_retained = [&](const SqliteWorkSession &s) {
+                const SqliteRateOverrideUnit unit(s);
+                const auto head = unit.head();
+                const auto *snapshot = std::get_if<subathon::core::EffectiveRateSnapshot>(&head);
+                require(snapshot && rate_fixture::snapshot_bytes(*snapshot) == candidate,
+                        "Typed rate head selects the preserved non-root revision");
+                const auto root = unit.revision("E");
+                const auto *reserved = std::get_if<subathon::core::EffectiveRateSnapshot>(&root);
+                require(reserved &&
+                            rate_fixture::snapshot_bytes(*reserved) == rate_fixture::root_bytes,
+                        "Typed revision still selects the exact reserved root");
+                rate_fixture::Authority authority;
+                const auto recovery =
+                    unit.recover(authority, rate_fixture::literal_rate_trust(), first.edit, first);
+                const auto *receipt = std::get_if<RateReceiptSelection>(&recovery);
+                require(receipt && authority.reads == 1,
+                        "Typed recovery selects the existing authorized rate decision");
+                rate_fixture::expect_receipt(*receipt, RateReceiptOrigin::retained, first);
+            };
+            file.write(expect_retained);
+            file.reopen(finance::limits());
+            cc::expect_report(migrate(*file.writer, MigrationMode::advance, literal_v18()),
+                              CatalogState::current, 18, 18, 1);
+            file.reopen();
+            file.write(expect_retained);
+
+            const auto expect_wrong_pair = [&](int version, const QString &id) {
+                file.write([&](const auto &s) {
+                    write(s,
+                          "UPDATE subathon_migration_history SET version=?,migration_id=? "
+                          "WHERE version>17",
+                          {version, id});
+                    rate_fixture::expect_refusal(SqliteRateOverrideUnit(s).head(),
+                                                 RateStoreRefusal::unavailable);
+                });
+            };
+            expect_wrong_pair(18, "Milestone-target-edits-v1");
+            expect_wrong_pair(19, v18_marker);
         });
     }
 
