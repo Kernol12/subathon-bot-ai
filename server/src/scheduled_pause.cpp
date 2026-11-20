@@ -785,7 +785,6 @@ class Progression {
     Bytes &output_;
     Bytes retention_{Limits::max_input_bytes};
     std::multimap<Instant, ActiveDelivery> active_;
-    bool finished_on_last_cut_ = false;
 };
 
 std::optional<Failure> Progression::expire() {
@@ -987,11 +986,9 @@ void Progression::run(const ScheduledPauseClockInput &clock) {
         const auto now = cut.observation.utc_ms;
         result.cursor.last_observation = cut.observation;
         set_independent(cut.independent_pause);
-        finished_on_last_cut_ = false;
         if (result.timer.lifecycle == Lifecycle::Active && reached(state_.timer_config, now)) {
             advance(0);
             cleared();
-            finished_on_last_cut_ = true;
             continue;
         }
         if (result.timer.lifecycle != Lifecycle::Active) {
@@ -1031,7 +1028,6 @@ void Progression::run(const ScheduledPauseClockInput &clock) {
             advance(cut.elapsed_since_previous->count());
             result.cursor.evaluated_through_utc_ms = now;
             if (result.timer.lifecycle == Lifecycle::Finished) {
-                finished_on_last_cut_ = true;
                 continue;
             }
         }
@@ -1071,9 +1067,7 @@ void Progression::enter(const ScheduledPauseEntry &entry) {
 
 std::optional<Failure> Progression::edit(const ScheduledPauseConfiguration &proposed,
                                          std::vector<ScheduledPauseCutoverEffect> *effects) {
-    if (finished_on_last_cut_) {
-        return {};
-    }
+    // The clock runs first. The cutover still owns stops for captured windows.
     if (result.cursor.hold) {
         return result.cursor.hold->cause;
     }
