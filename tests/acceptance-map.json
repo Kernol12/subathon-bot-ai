@@ -324,6 +324,7 @@
       "id": "FX-06",
       "status": "partial",
       "tests": [
+        "tests/qt/sqlite_rate_override_writer_tests.cpp",
         "tests/acceptance/valuation_snapshot_codec_tests.cpp",
         "tests/acceptance/rate_snapshot_tests.cpp",
         "tests/fixtures/rate_snapshots_vectors.hpp",
@@ -800,6 +801,7 @@
       "id": "DB-01",
       "status": "partial",
       "tests": [
+        "tests/qt/sqlite_rate_override_catalog_tests.cpp",
         "tests/qt/sqlite_writer_tests.cpp",
         "tests/qt/sqlite_writer_ownership_tests.cpp",
         "tests/qt/sqlite_writer_work_tests.cpp",
