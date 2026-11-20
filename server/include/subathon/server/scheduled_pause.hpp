@@ -217,6 +217,8 @@ struct ScheduledPauseProgress {
     ScheduledPauseCursor cursor;
     std::optional<std::int64_t> starts_resolved_through_utc_ms;
     std::optional<std::int64_t> next_known_expiry_utc_ms;
+    // Disclose only with ordinary timer snapshot read permission, rechecked
+    // at disclosure.
     std::optional<ScheduledPauseCoverageNotice> notice; // Present iff held.
     std::vector<DeliveredScheduledPause> new_deliveries;
     std::vector<ScheduledPauseDeliveryStop> stops;
@@ -268,6 +270,8 @@ class ScheduledPauseCommandSource {
 
 // Compute from the resolved values. Retain their binding and re-resolve the
 // same record at apply. Mismatches refuse before a proposal or publication.
+// A stale basis or clock refuses as stale_observation. An access or admitted
+// proposal mismatch refuses as access_denied. Check at computation and apply.
 [[nodiscard]] std::variant<ScheduledPausePreview, ScheduledPauseRefusal>
 preview_scheduled_pause_edit(const ScheduledPauseState &, const ScheduledPauseClockInput &,
                              std::string_view command_ref, std::int64_t through_utc_ms,
