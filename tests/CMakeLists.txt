@@ -211,6 +211,15 @@ if(SUBATHON_BUILD_RECURRING_SCHEDULE_TESTS)
         LABELS "recurring-schedule;acceptance;core")
 endif()
 
+if(SUBATHON_BUILD_SCHEDULED_PAUSE_TESTS)
+    add_executable(server_scheduled_pause_acceptance acceptance/scheduled_pause_tests.cpp)
+    target_link_libraries(server_scheduled_pause_acceptance PRIVATE
+        subathon_scheduled_pause GTest::gtest_main)
+    subathon_target_options(server_scheduled_pause_acceptance)
+    subathon_discover_gtests(server_scheduled_pause_acceptance
+        LABELS "scheduled-pause;acceptance;server" TIMEOUT 30)
+endif()
+
 if(SUBATHON_BUILD_APPLICATION_PLAN_TESTS)
     add_executable(core_application_plan_acceptance acceptance/application_plan_tests.cpp)
     target_link_libraries(core_application_plan_acceptance PRIVATE subathon_application_plan GTest::gtest_main)
