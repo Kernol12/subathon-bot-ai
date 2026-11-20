@@ -6,25 +6,6 @@
 
 namespace subathon::server {
 
-struct MilestoneTrackKey {
-    std::string installation_ref;
-    std::string track_ref;
-    bool operator==(const MilestoneTrackKey &) const = default;
-};
-
-struct MilestoneEditKey {
-    MilestoneTrackKey track;
-    std::string operation_ref;
-    bool operator==(const MilestoneEditKey &) const = default;
-};
-
-struct MilestoneEditJobKey {
-    MilestoneEditKey operation;
-    MilestoneOccurrenceKey occurrence;
-    std::int64_t action_ordinal;
-    bool operator==(const MilestoneEditJobKey &) const = default;
-};
-
 using MilestoneDeliveryKey = std::variant<DeliveryJobKey, MilestoneEditJobKey>;
 
 struct MilestoneTrackSeed {

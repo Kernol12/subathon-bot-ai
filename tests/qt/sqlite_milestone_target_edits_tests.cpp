@@ -944,6 +944,238 @@ class SqliteMilestoneTargetEditsTests final : public QObject {
                     "One durable result, revisions, choices and positions with no release replay");
         });
     }
+
+    void typedEditMembershipSurvivesConfirmationAndColdRestore() {
+        check([] {
+            File f(55, 7, targets, true, true);
+            f.authority.facts.captures[0] = capture_b(true);
+            f.db.write([&](const auto &s) {
+                write(s, "UPDATE subathon_milestone_groups SET released=0 WHERE occurrence_ref=?",
+                      {finance::bytes(finance::achievement.ref)});
+            });
+
+            auto intent = ordered();
+            intent.choices = {{b, Choice::run}, {c, Choice::run}};
+            const std::vector<MilestoneEditJobKey> jobs{{intent.key, b, 1}};
+            const auto expect_membership =
+                [&](const CommittedMilestoneGroup &group, const MilestoneOccurrenceKey &occurrence,
+                    const std::vector<MilestoneEditJobKey> &expected, const char *message) {
+                    require(group.occurrence == occurrence && group.edit_membership &&
+                                group.edit_membership->origin == intent.key &&
+                                group.edit_membership->jobs == expected,
+                            message);
+                };
+            const auto expect_result = [&](const std::optional<MilestoneEditResult> &result,
+                                           const char *message) {
+                require(result && result->achievements.size() == 2,
+                        "Acknowledged edit result carries both ordered groups");
+                expect_membership(result->achievements[0].group, b, jobs, message);
+                expect_membership(result->achievements[1].group, c, {}, message);
+            };
+
+            const auto preview = f.preview(intent);
+            const auto confirmed = f.confirm(intent, preview);
+            require(confirmed.status == Status::eligible, "Initial confirmation succeeds");
+            expect_result(confirmed.result, "Confirmation carries the exact edit origin and jobs");
+            const auto retried = f.confirm(intent, preview);
+            require(retried.status == Status::eligible, "Exact confirmation retry succeeds");
+            expect_result(retried.result, "Retry carries the same edit origin and jobs");
+
+            f.reopen();
+            std::optional<MilestoneEditResult> recovered;
+            std::vector<CapturedMilestoneGroup> pending;
+            f.db.write([&](const auto &s) {
+                recovered = read_milestone_target_edit(s, f.authority, actor, intent);
+                pending = SqliteMilestoneGroupStore(s).pending();
+            });
+            expect_result(recovered, "Recovery carries the same edit origin and jobs");
+            require(pending.size() == 4 && pending[0].group.occurrence == finance::achievement &&
+                        !pending[0].group.edit_membership && pending[0].jobs.size() == 1 &&
+                        pending[0].jobs[0].action_ordinal == 1 &&
+                        finance::same(pending[0].jobs[0].job.operation, finance::original) &&
+                        pending[0].jobs[0].job.job_ref == "original-job" &&
+                        pending[1].group.occurrence == a && !pending[1].group.edit_membership &&
+                        pending[2].jobs.empty() && pending[3].jobs.empty(),
+                    "Pending preserves the legacy job type beside both edit groups");
+            expect_membership(pending[2].group, b, jobs,
+                              "Pending restores the exact edit job keys");
+            expect_membership(pending[3].group, c, {}, "Pending restores a jobless edit's origin");
+
+            struct ReleaseObserver final : MilestoneGroupRelease {
+                std::vector<CommittedMilestoneGroup> started;
+                bool review_held(const subathon::core::MilestoneCompletion &) const override {
+                    return false;
+                }
+                std::optional<MilestoneHeadDisposition>
+                occurrence_disposition(const MilestoneOccurrenceKey &) const override {
+                    return MilestoneHeadDisposition::ready;
+                }
+                void release(CommittedMilestoneGroup group) override {
+                    started.push_back(std::move(group));
+                }
+            } release;
+            MilestoneTimeline timeline({20ms, 5ms, false}, release);
+            std::vector<CommittedMilestoneGroup> groups;
+            for (auto &entry : pending)
+                groups.push_back(std::move(entry.group));
+            timeline.restore_committed(std::move(groups));
+            require(release.started.empty(), "Cold restore publishes no release");
+            for (const auto sample : {0ms, 100ms, 200ms, 300ms})
+                timeline.advance(sample);
+            require(release.started.size() == 4 &&
+                        release.started[0].occurrence == finance::achievement &&
+                        !release.started[0].edit_membership && release.started[1].occurrence == a,
+                    "The cold timeline preserves legacy release order");
+            expect_membership(release.started[2], b, jobs, "Cold timeline carries the typed job");
+            expect_membership(release.started[3], c, {},
+                              "Cold timeline carries the jobless origin");
+        });
+    }
+
+    void populatedUpgradeRefundUsesDefinitionWithoutPrefixMembership() {
+        check([] {
+            File f(70, 7, targets, false);
+            require(f.db.rows("SELECT max(version) FROM subathon_migration_history") ==
+                            SqlRows{{18}} &&
+                        f.db.rows(definitions).empty() && read_head_members(f).empty(),
+                    "Populated upgrade leaves both new heads empty");
+            const auto original_group = f.db.rows(application_group);
+            const auto original_head = f.db.rows("SELECT token FROM subathon_app_head");
+            const auto operations = f.db.rows("SELECT count(*) FROM subathon_app_operations");
+            require(original_group.size() == 1 && original_head.size() == 1,
+                    "Upgrade retains the pending application capture and score head");
+
+            struct ApplicationRefundEffects final : FinancialRefundEffectPort {
+                finance::Effects delegate;
+
+                ApplicationRefundEffects() { delegate.apply(-25000, 0, {25000}); }
+                FinancialEffectObservation
+                observe(const SqliteWorkSession &s,
+                        const ApplicationStateSnapshot &snapshot) override {
+                    return delegate.observe(s, snapshot);
+                }
+                RefundTimerActual
+                timer_effect(const SqliteWorkSession &s, const GroupedRefundEntitlement &e,
+                             const FinancialEffectObservation &o,
+                             subathon::core::RefundDeficitPolicy policy) override {
+                    return delegate.timer_effect(s, e, o, policy);
+                }
+                std::vector<FinancialMilestoneTarget>
+                milestones(const SqliteWorkSession &) override {
+                    return {{a, 100, MilestoneRefundPolicy::review}};
+                }
+            } effects;
+
+            // EUR 1 of 12 refunds 25,000 ms and 10 score points, but no whole count.
+            const auto share = finance::fraction(1, 12);
+            const auto count = finance::fraction(175, 3);
+            const FinancialEntitlement entitlement{
+                0,
+                1,
+                share,
+                false,
+                GroupedRefundEntitlement{{finance::original, 1, finance::CK::main_delta},
+                                         1,
+                                         0,
+                                         {},
+                                         {25000, 0},
+                                         25000,
+                                         0,
+                                         -25000,
+                                         0},
+                {{2,
+                  {finance::original, 2, finance::CK::score},
+                  0,
+                  0,
+                  10,
+                  -10,
+                  share,
+                  10,
+                  0,
+                  false},
+                 {3,
+                  {finance::original, 3, finance::CK::whole_count},
+                  0,
+                  0,
+                  0,
+                  0,
+                  share,
+                  count,
+                  count,
+                  false}}};
+            const auto receipt =
+                f.db.refund("upgrade-delivery", finance::core::ReceiptMoney{"1.00", "EUR"});
+            const auto command = f.db.command("upgrade-refund", receipt, 0);
+            const auto stage = [&](const SqliteWorkSession &s) {
+                return stage_financial_refund(s, command, entitlement, f.db.authority, effects);
+            };
+
+            std::optional<FinancialWorkReply> refused;
+            const auto refusal_work = f.db.work(
+                [&](auto context) -> QVariant {
+                    const auto s = context.begin();
+                    refused = stage(s);
+                    s.commit();
+                    return 1;
+                },
+                false);
+            require(
+                refused && refused->disposition == FinancialDisposition::unavailable &&
+                    std::holds_alternative<std::monostate>(refused->record),
+                "Populated upgrade without a definition head returns a typed unavailable refund");
+            finance::normal(refusal_work);
+            require(f.db.rows("SELECT token FROM subathon_app_head") == original_head &&
+                        f.db.rows("SELECT count(*) FROM subathon_app_operations") == operations &&
+                        f.db.rows(application_group) == original_group &&
+                        f.db.rows("SELECT * FROM subathon_financial_refunds").empty() &&
+                        f.db.rows("SELECT * FROM subathon_milestone_refund_decisions").empty(),
+                    "Unavailable refund leaves no application, financial or milestone changes");
+
+            auto initial = seed({{"A", 185}, {"B", 200}, {"C", 300}, {"D", 400}});
+            initial.completion_prefix->clear();
+            f.db.write([&](const auto &s) {
+                require(initialize_milestone_track(s, initial),
+                        "Initialize a same-installation definition with an empty prefix");
+            });
+            require(read_head_members(f).empty(),
+                    "Pending legacy occurrence is outside the prefix");
+            const auto applied = f.db.run_reply(stage);
+            const auto *record = std::get_if<FinancialRefundRecord>(&applied.record);
+            require(applied.disposition == FinancialDisposition::applied && record,
+                    "Application refund applies without prefix membership");
+            const auto expect_crossing = [&](const FinancialRefundRecord &saved) {
+                require(saved.payment_position == 1 && saved.entitlement.accepted_money == 1 &&
+                            saved.milestone_observations.size() == 1,
+                        "Exactly one genuine refund and application-origin crossing");
+                const auto &crossing = saved.milestone_observations.front();
+                require(
+                    crossing.occurrence == a && crossing.refund_ref == "upgrade-refund" &&
+                        crossing.score_before_micro_points == 190 &&
+                        crossing.score_after_micro_points == 180 &&
+                        crossing.current_target_micro_points == 185 &&
+                        crossing.policy == MilestoneRefundPolicy::review,
+                    "The authoritative target 185, rather than the supplied 100, records 190/180");
+            };
+            expect_crossing(*record);
+            require(f.db.rows(application_group) == original_group && read_head_members(f).empty(),
+                    "Refund preserves the immutable capture and empty prefix");
+            f.reopen();
+            f.db.write([&](const auto &s) {
+                const auto retained = SqliteFinancialRefundStore(s).lookup(command.operation);
+                require(retained.has_value(),
+                        "Reopened financial store reads the application refund");
+                expect_crossing(*retained);
+                const auto decisions = SqliteMilestoneGroupDecisions(s);
+                const auto decision = decisions.refund_audit(a, "upgrade-refund");
+                require(decision && decision->current_target_micro_points == 185 &&
+                            decision->deficit_micro_points == 5 &&
+                            decisions.active_holds(a) ==
+                                std::vector{MilestoneHoldKey{MilestoneHoldCause::refund_review,
+                                                             "upgrade-refund"}},
+                        "Application Review retains the exact deficit and refund provenance");
+            });
+        });
+    }
 };
 
 QTEST_GUILESS_MAIN(SqliteMilestoneTargetEditsTests)

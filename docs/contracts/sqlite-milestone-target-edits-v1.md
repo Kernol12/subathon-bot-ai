@@ -206,6 +206,7 @@ refuses the work without a partial snapshot, decision set or dispatch fallback.
   Skip ends other active causes with provenance. Preserve application,
   financial, recovery and reopen holds. Cold restart restores the committed
   pending suffix in order without starting presentation, release, claim or bonus.
+  **Correction 2.** Committed edit groups carry the typed edit origin and exact typed job keys through confirmation, retry, recovery and cold restore. Legacy memberships and public entry points stay unchanged.
 - **Bonus.** Resolve the exact typed occurrence and bonus position. Check
   committed release and current authority and commit the effect and receipt
   together. A receipt prevents reapplication.
@@ -217,6 +218,7 @@ refuses the work without a partial snapshot, decision set or dispatch fallback.
   definition head on the same session. Keep each captured target intact.
   **Correction 1 (79A).** From v18 the refund writer takes the target solely from the
   authoritative definition head, ignores the port target and never refuses on that basis.
+  **Correction 3.** For application-origin refunds, select the unambiguous same-installation definition head by milestone identity without requiring prefix membership. If no usable head exists, return a typed unavailable refusal. Correction 1 still applies.
   Use exact actual scores and a downward crossing of the current target
   (before ≥ target, after < target) while pending and unreleased. Consult and
   record audit, Review/Continue/Skip and later resolution via #236 on the exact
