@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 
+#include <span>
 #include <subathon/server/application_service.hpp>
 #include <subathon/server/milestone_group_decisions.hpp>
 #include <subathon/server/sqlite_migrations.hpp>
@@ -131,6 +132,14 @@ struct ReviewAuthorityQuery {
     const ApplicationOperationKey *key;
     const ReviewEntryIntent *entry;
     const ReviewOutcomeFacts *committed;
+    // Borrowed, callback-scoped facts assembled by the owner. The selection is
+    // complete and in canonical intake order after selection validation.
+    std::span<const ReviewSelector> selection{};
+    // Recompute prospective effects in the selected row's unit. On exact retry
+    // use the validated committed bundle. Absent means quantities are unknown;
+    // a present empty span is a known effect-free row. Never use caller evidence
+    // or preview estimates to fill these fields.
+    std::optional<std::span<const ApplicationEffect>> effects{};
 };
 struct ReviewPolicyFacts {
     std::string revision;

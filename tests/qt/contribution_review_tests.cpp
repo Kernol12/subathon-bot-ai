@@ -753,7 +753,7 @@ class ContributionReviewTests final : public QObject {
                 (void)f.intake("earlier-" + std::to_string(i));
             ReviewEntryIntent row1;
             if (deny_execution) {
-                row1 = f.seed("first", Case::positive());
+                row1 = f.seed("first", Case::positive(), true, true);
             } else {
                 const auto received = f.intake("unresolved-original-anchor");
                 row1.selector = {{999}, received.id};
@@ -813,6 +813,104 @@ class ContributionReviewTests final : public QObject {
                         f.trace.ordinals(U::row, P::before_enqueue).empty(),
                     "Replayed row 3 reveals only denial and never rewrites the journal");
             f.claims(1);
+        });
+    }
+
+    void authoritySeesCanonicalSelectionAndRowEffectsOnExecuteAndRetry() {
+        check([] {
+            struct Witness final : ContributionReviewFacts {
+                Facts &fixture;
+                std::array<ReviewSelector, 2> expected;
+                bool checked_batch{};
+                std::array<bool, 2> checked_effects{};
+
+                Witness(Facts &backing, std::array<ReviewSelector, 2> selection)
+                    : fixture(backing), expected(selection) {}
+
+                AccessDecision check(const ApplicationReferenceReadView &view,
+                                     const ReviewAuthorityQuery &query) override {
+                    if (query.use == ReviewAuthorityUse::batch_key) {
+                        require(std::ranges::equal(query.selection, expected),
+                                "Batch authority sees both selectors in durable intake order");
+                        checked_batch = true;
+                    }
+                    if (query.use == ReviewAuthorityUse::execute_row && query.effects) {
+                        require(std::ranges::equal(query.selection, expected),
+                                "Effect authority sees the complete canonical batch");
+                        const auto selector = query.committed ? query.committed->verified
+                                              : query.entry   ? std::optional{query.entry->selector}
+                                                              : std::nullopt;
+                        require(selector.has_value(),
+                                "Typed effects are bound to one verified row");
+                        const auto row = std::ranges::find(expected, *selector);
+                        require(row != expected.end(), "Effect authority selects a batch member");
+                        const auto index = std::size_t(row - expected.begin());
+                        const auto effects = *query.effects;
+                        require(effects.size() == 2 && effects[0].request_ordinal == 1 &&
+                                    effects[1].request_ordinal == 2 &&
+                                    effects[0].requested_units == 4 &&
+                                    effects[1].requested_units == 7,
+                                "Authority sees both exact retained request ordinals");
+                        using Kind = ApplicationComponentKind;
+                        const auto &time = effects[0].components;
+                        const auto &score = effects[1].components;
+                        require(time.size() == 3 && time[0].kind == Kind::main_delta &&
+                                    time[0].units == (index == 0 ? 4 : 1) &&
+                                    time[1].kind == Kind::debt_delta && time[1].units == 0 &&
+                                    time[2].kind == Kind::cap_limited_time &&
+                                    time[2].units == (index == 0 ? 0 : 3) && score.size() == 1 &&
+                                    score[0].kind == Kind::score && score[0].units == 7 &&
+                                    score[0].target_ref == "score",
+                                "Typed authority uses exact cap-adjusted time and score");
+                        checked_effects[index] = true;
+                    }
+                    return fixture.check(view, query);
+                }
+
+                std::optional<ReviewPolicyFacts> policy(const ApplicationReferenceReadView &view,
+                                                        const ReviewSelector &selector) override {
+                    return fixture.policy(view, selector);
+                }
+            };
+
+            Case f;
+            const auto first = f.seed("authority-first", Case::positive());
+            const auto second = f.seed("authority-second", Case::positive());
+            const std::vector entries{second, first};
+            f.db.reopen();
+            Witness witness{f.facts, {first.selector, second.selector}};
+            ContributionReview service{
+                f.db.writer(), witness, [&](const auto &event) {
+                    if (event.unit == U::row && event.phase == P::before_commit)
+                        require(event.ordinal >= 1 && event.ordinal <= 2 &&
+                                    witness.checked_effects[std::size_t(event.ordinal - 1)],
+                                "The exact prospective effects reached authority before commit");
+                    f.trace.observe(event);
+                }};
+            const auto preview = f.preview(service, entries);
+            auto command = Case::bind("authority-inputs", entries, preview);
+            std::ranges::reverse(command.entries);
+            witness.checked_batch = false;
+            witness.checked_effects.fill(false);
+            const auto applied = Case::execute(service, command);
+            expected_row(Case::reply(applied), 1, D::committed, S::applied);
+            expected_row(Case::reply(applied), 2, D::committed, S::applied);
+            require(witness.checked_batch && witness.checked_effects == std::array{true, true},
+                    "Execute checked batch scope and each prospective effect vector");
+            f.head(100, 0, 104);
+            f.claims(2);
+
+            witness.checked_batch = false;
+            witness.checked_effects.fill(false);
+            f.trace.events.clear();
+            const auto retry = Case::execute(service, command, "refreshed");
+            expected_row(Case::reply(retry), 1, D::existing, S::applied);
+            expected_row(Case::reply(retry), 2, D::existing, S::applied);
+            require(witness.checked_batch && witness.checked_effects == std::array{true, true} &&
+                        f.trace.ordinals(U::row, P::before_enqueue).empty(),
+                    "Exact retry checked retained effects at a full cap without staging rows");
+            f.head(100, 0, 104);
+            f.claims(2);
         });
     }
 

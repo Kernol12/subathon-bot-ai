@@ -56,7 +56,7 @@ application, override, timer continuation and milestone choices require their ap
 requires neither blanket permission over every row nor joining constraints from different grants to approve one use.
 Unavailable authority fails closed. A request with invalid session or batch authority has no individual protected
 outcomes. A per-row denial does not approve other work on that subject. Reading a past result has its own current
-disclosure check.
+disclosure check. **Correction 2 (authority inputs).** The service supplies the complete canonical selection and the row's effects to the authority query. Use prospective effects for execution and validated committed effects for exact retry.
 
 Resolve the live basis in the selected row's transaction. Recheck session and batch/key authority at every turn.
 Check same-row execution permissions before comparing plan/head, contribution, complete mixed hold set and
