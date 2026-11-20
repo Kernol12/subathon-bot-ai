@@ -66,6 +66,22 @@ SqliteApplicationBundleStore::stage(const PreparedApplicationBundle &b) const {
     return a.guarded([&] { return a.stage(b); });
 }
 
+review_detail::PreviewInputs review_detail::preview_inputs(const SqliteWorkSession &session) {
+    auto read = std::make_shared<Access>(session, SqliteBundleLimits{});
+    read->immutable_reads_ = true;
+    return [read = std::move(read), current = std::optional<ApplicationStateSnapshot>{}](
+               const ApplicationPlanKey &key) mutable {
+        bundle_detail::validate_plan_key(key, read->limits_);
+        return read->guarded([&] {
+            if (!current)
+                current = read->current();
+            if (!current)
+                read->fail(Reason::missing_state);
+            return read->inputs(key, ApplicationSubjectKind::contribution, &*current);
+        });
+    };
+}
+
 review_detail::BundleHistory review_detail::bundle_history(const SqliteWorkSession &session) {
     auto read = std::make_shared<Access>(session, SqliteBundleLimits{});
     read->review_history_ = true;

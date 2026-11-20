@@ -248,11 +248,14 @@ inline bool validate_hold_links(const SqliteWorkSession &s, const ReviewCommand 
                                 const StoredOutcome &data) {
     const auto &f = *data.outcome.facts;
     const auto &intent = cmd.entries.at(size_t(ordinal - 1)).intent;
+    const SqliteApplicationHoldStore holds(s);
+    std::optional<ApplicationHoldView> created;
     if (data.created) {
         require(data.outcome.status == S::accepted_pending &&
                 data.created->hold_ref == distinct_id(cmd, ordinal, "hold") &&
                 data.created->version_ref == distinct_id(cmd, ordinal, "held"));
-        auto hold = SqliteApplicationHoldStore(s).find(data.created->hold_ref);
+        created = holds.find(data.created->hold_ref);
+        const auto &hold = created;
         require(hold && same(hold->first_version.locator, *data.created) &&
                 hold->cause.source.subject.id == ApplicationHoldSubject{f.verified->cid}.id &&
                 hold->cause.source.receipt_id == f.verified->receipt &&
@@ -270,18 +273,27 @@ inline bool validate_hold_links(const SqliteWorkSession &s, const ReviewCommand 
         require(data.created || intent.timer);
         const auto &locator = data.created ? *data.created : intent.timer->locator;
         require(same(locator, t.locator));
-        const auto hold = SqliteApplicationHoldStore(s).find(t.locator.hold_ref);
+        const auto loaded =
+            created ? std::optional<ApplicationHoldView>{} : holds.find(t.locator.hold_ref);
+        const auto &hold = created ? created : loaded;
         require(hold &&
                 hold->cause.source.subject.id == ApplicationHoldSubject{f.verified->cid}.id &&
                 hold->cause.source.receipt_id == f.verified->receipt && hold->cause.timer &&
                 hold->cause.timer->request_ordinal == t.ordinal &&
                 hold->cause.timer->unapplied_units == t.signed_request);
         whole = hold->cause.timer->composition == ApplicationHoldComposition::defer_whole_input;
-        const auto versions = s.execute(
-            {"SELECT 1 FROM main.subathon_hold_versions WHERE hold_ref=? AND version_ref=? "
-             "AND state=0",
-             {bytes(t.locator.hold_ref), bytes(t.locator.version_ref)}});
-        require(versions.size() == 1);
+        const auto is_selected_active = [&](const auto &version) {
+            return same(version.locator, t.locator) &&
+                   version.state == ApplicationHoldState::active;
+        };
+        if (!is_selected_active(hold->first_version) &&
+            !is_selected_active(hold->current_version)) {
+            const auto versions = s.execute(
+                {"SELECT 1 FROM main.subathon_hold_versions WHERE hold_ref=? AND version_ref=? "
+                 "AND state=0",
+                 {bytes(t.locator.hold_ref), bytes(t.locator.version_ref)}});
+            require(versions.size() == 1);
+        }
     }
     for (const auto &closed : data.closed) {
         const auto prior = std::ranges::find(data.active, closed.hold_ref,

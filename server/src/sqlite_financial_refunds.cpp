@@ -476,8 +476,12 @@ std::optional<FinancialRefundRecord> read_refund(const SqliteWorkSession &s,
             corrupt();
         return {};
     }
-    auto app = access.lookup(key);
-    if (!app || app->intent.kind != ApplicationOperationKind::reversal ||
+    access.immutable_reads_ = true;
+    auto application = access.fixed(key, false);
+    if (!application)
+        corrupt();
+    auto *app = &application->record;
+    if (app->intent.kind != ApplicationOperationKind::reversal ||
         app->intent.choices.format_ref != refund_format || !app->intent.contribution_id ||
         !app->intent.expected_contribution_state)
         corrupt();
@@ -498,25 +502,25 @@ std::optional<FinancialRefundRecord> read_refund(const SqliteWorkSession &s,
         app->intent.reversal_ref != generated_ref(key, "financial-refund"))
         corrupt();
 
-    const auto source = access.lookup(c.original);
-    auto original_plan = access.plan(c.original_plan);
-    auto financial_plan = access.plan(app->intent.plan);
+    auto original = access.fixed(c.original, false);
     auto refund = read_receipt(s, receipt);
     auto support = read_receipt(s, c.payment.support_receipt);
-    if (!source || source->intent.kind != ApplicationOperationKind::original ||
-        source->intent.contribution_id != c.contribution ||
-        source->intent.receipt_id != c.payment.support_receipt ||
-        !same_plan(source->intent.plan, c.original_plan) || !original_plan || !financial_plan ||
-        !refund || !support)
+    if (!original || original->record.intent.kind != ApplicationOperationKind::original ||
+        original->record.intent.contribution_id != c.contribution ||
+        original->record.intent.receipt_id != c.payment.support_receipt ||
+        !same_plan(original->record.intent.plan, c.original_plan) || !refund || !support)
         corrupt();
-    const auto &captured = financial_plan->selected;
-    const auto &original_event = original_plan->selected.captured.event;
+    access.complete_record(*original);
+    access.complete_record(*application, &*original);
+    const auto &source = original->record;
+    const auto &captured = application->source.selected;
+    const auto &original_event = original->source.selected.captured.event;
     const auto &financial_event = captured.captured.event;
     if (financial_event.event_ref != generated_ref(key, "financial-event") ||
         financial_event.parent_event_ref != original_event.event_ref ||
         financial_event.root_event_ref != original_event.root_event_ref ||
-        captured.rules != original_plan->selected.rules ||
-        captured.modifiers != original_plan->selected.modifiers ||
+        captured.rules != original->source.selected.rules ||
+        captured.modifiers != original->source.selected.modifiers ||
         original_event.facts != support->original_facts ||
         financial_event.facts != refund->original_facts ||
         captured.captured.valuation.state != core::PlanValuationState::not_applicable)
@@ -563,8 +567,7 @@ std::optional<FinancialRefundRecord> read_refund(const SqliteWorkSession &s,
     if (p.time) {
         const auto &time = *p.time;
         const auto *effect = find_effect(app->effects, time.request_ordinal);
-        const auto credit =
-            time_credit(find_effect(source->effects, time.original.request_ordinal));
+        const auto credit = time_credit(find_effect(source.effects, time.original.request_ordinal));
         if (time.expected_basis_position != previous_position ||
             (previous_time
                  ? !same(previous_time->original.operation, time.original.operation) ||
@@ -596,7 +599,7 @@ std::optional<FinancialRefundRecord> read_refund(const SqliteWorkSession &s,
     for (const auto &link : p.components) {
         if (link.expected_prior_position != previous_position)
             corrupt();
-        const auto *effect = find_effect(source->effects, link.original.request_ordinal);
+        const auto *effect = find_effect(source.effects, link.original.request_ordinal);
         if (!effect || !same(link.original.operation, c.original) ||
             effect->components.size() != 1 ||
             effect->components.front().kind != link.original.component_kind ||
@@ -649,8 +652,8 @@ std::optional<FinancialRefundRecord> read_refund(const SqliteWorkSession &s,
     return FinancialRefundRecord{std::move(command),
                                  std::move(*refund),
                                  std::move(*support),
-                                 std::move(original_plan->selected),
-                                 std::move(financial_plan->selected),
+                                 std::move(original->source.selected),
+                                 std::move(application->source.selected),
                                  position,
                                  std::move(p),
                                  std::move(*app),
@@ -777,12 +780,15 @@ std::optional<PaymentHead> payment_head(const SqliteWorkSession &s,
 
 std::vector<ApplicationHoldVersionLocator>
 combined_active(const SqliteWorkSession &s, const ApplicationHoldSubject &subject,
-                const std::vector<FinancialTimerHold> &financial) {
-    auto ordinary = SqliteApplicationHoldStore(s).active(subject);
-    if (ordinary.holds.size() + financial.size() > size_t(fs::collection_limit))
+                const std::vector<FinancialTimerHold> &financial,
+                const review_detail::LinkedReviewReads *review = nullptr) {
+    const auto loaded =
+        review ? ApplicationHoldActiveSet{} : SqliteApplicationHoldStore(s).active(subject);
+    const auto ordinary = review ? review->ordinary : std::span(loaded.holds);
+    if (ordinary.size() + financial.size() > size_t(fs::collection_limit))
         throw SqliteBundleStorageFailure(Reason::result_limit);
     std::vector<ApplicationHoldVersionLocator> result;
-    for (const auto &hold : ordinary.holds)
+    for (const auto &hold : ordinary)
         result.push_back(hold.current_version.locator);
     for (const auto &hold : financial)
         result.push_back(hold.locator);
@@ -1419,13 +1425,14 @@ FinancialWorkReply resolve_timer(const SqliteWorkSession &s, const FinancialTime
 }
 
 FinancialWorkReply ordinary_resolution(const SqliteWorkSession &s,
-                                       const ApplicationHoldResolutionBatch &batch) {
+                                       const ApplicationHoldResolutionBatch &batch,
+                                       const review_detail::LinkedReviewReads *review = nullptr) {
     require_catalog(s);
     if (!batch.application || batch.entries.empty() ||
         std::ranges::any_of(batch.entries, [](const auto &e) { return bool(e.replacement); }))
         return refused(D::refused);
     const auto financial = active_financial(s, batch.subject);
-    const auto active = combined_active(s, batch.subject, financial);
+    const auto active = combined_active(s, batch.subject, financial, review);
     if (!same(active, batch.expected_active))
         return refused(D::stale_hold);
 
@@ -1441,7 +1448,7 @@ FinancialWorkReply ordinary_resolution(const SqliteWorkSession &s,
                                entry.expected_version_ref == locator.version_ref;
                     }))
         return refused(D::refused);
-    const auto result = stage_checked_ordinary_resolution(s, ordinary);
+    const auto result = stage_checked_ordinary_resolution(s, ordinary, review);
     if (result.outcome)
         return {D::ordinary_resolved, *result.outcome};
     if (result.disposition == SqliteHoldMutationDisposition::stale_active_set ||
@@ -1553,6 +1560,13 @@ FinancialWorkReply
 stage_financial_aware_linked_resolution(const SqliteWorkSession &session,
                                         const ApplicationHoldResolutionBatch &batch) {
     return guarded(session, [&] { return ordinary_resolution(session, batch); });
+}
+
+FinancialWorkReply
+review_detail::stage_review_linked_resolution(const SqliteWorkSession &session,
+                                              const ApplicationHoldResolutionBatch &batch,
+                                              const LinkedReviewReads &review) {
+    return guarded(session, [&] { return ordinary_resolution(session, batch, &review); });
 }
 
 FinancialWorkReply

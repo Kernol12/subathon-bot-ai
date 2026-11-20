@@ -2,6 +2,7 @@
 #pragma once
 
 #include "contribution_review_journal.hpp"
+#include "sqlite_financial_hold_access.hpp"
 
 #include <QPointer>
 
@@ -90,7 +91,8 @@ inline std::string live_digest(const Row &row, const ApplicationStateSnapshot &s
 
 inline Row read_row(const SqliteWorkSession &s, const Authority &auth, const ReviewEntryIntent &i,
                     const std::optional<ApplicationStateSnapshot> &projected = {},
-                    const std::set<std::string> &completed = {}, bool preview = false) {
+                    const std::set<std::string> &completed = {},
+                    const PreviewInputs *preview = nullptr) {
     Row row;
     const auto preliminary = auth.check(s, ReviewAuthorityUse::execute_row, &i);
     if (!allowed(preliminary))
@@ -108,8 +110,9 @@ inline Row read_row(const SqliteWorkSession &s, const Authority &auth, const Rev
         return row;
     row.policy = auth.policy(s, i.selector);
     bounded_shape(s, i, row.policy);
-    auto result =
-        SqliteApplicationBundleStore(s).read_inputs(*key, ApplicationSubjectKind::contribution);
+    auto result = preview ? (*preview)(*key)
+                          : SqliteApplicationBundleStore(s).read_inputs(
+                                *key, ApplicationSubjectKind::contribution);
     require(result.inputs && result.inputs->current_contribution &&
             result.inputs->current_contribution->contribution.id == i.selector.cid &&
             result.inputs->current_contribution->contribution.original_receipt_id ==
@@ -152,9 +155,10 @@ inline std::vector<ReviewPreviewRow> project(const SqliteWorkSession &s, const A
     std::set<std::string> completed;
     std::vector<ReviewPreviewRow> result;
     const auto root = head_token(s);
+    const auto inputs = preview_inputs(s);
     for (const auto &entry : request.entries) {
         const auto n = result.size();
-        auto row = read_row(s, auth, entry, projected, completed, true);
+        auto row = read_row(s, auth, entry, projected, completed, &inputs);
         if (!row.authorized || !row.disclose) {
             result.push_back({int(n + 1), {}});
             continue;
@@ -201,7 +205,7 @@ inline void patch_review(const SqliteWorkSession &s, const Row &r, core::Contrib
 }
 
 inline void resolve(const SqliteWorkSession &s, const ReviewCommand &c, int ordinal, Row &row,
-                    StoredOutcome &audit) {
+                    StoredOutcome &audit, const RecordedApplicationBundle *application = nullptr) {
     const auto &entry = c.entries.at(size_t(ordinal - 1));
     auto &facts = *audit.outcome.facts;
     std::vector<ApplicationHoldVersionLocator> ordinary;
@@ -231,7 +235,8 @@ inline void resolve(const SqliteWorkSession &s, const ReviewCommand &c, int ordi
                                                {command_format, entry_document(entry)},
                                                link};
     if (link) {
-        const auto result = stage_financial_aware_linked_resolution(s, batch);
+        require(application);
+        const auto result = stage_review_linked_resolution(s, batch, {row.ordinary, *application});
         require(result.disposition == FinancialDisposition::ordinary_resolved);
     } else {
         const auto result = SqliteApplicationHoldStore(s).stage_resolution(batch);
@@ -290,8 +295,9 @@ inline void detect(const SqliteWorkSession &s, const ReviewCommand &c, int ordin
             ReviewTimerSelector{{h, v}, row.detected->request_ordinal, row.detected->request_units};
 }
 
-inline void stage_application(const SqliteWorkSession &s, const ReviewCommand &c, int ordinal,
-                              Row &row, StoredOutcome &data) {
+inline RecordedApplicationBundle stage_application(const SqliteWorkSession &s,
+                                                   const ReviewCommand &c, int ordinal, Row &row,
+                                                   StoredOutcome &data) {
     const auto &entry = c.entries.at(size_t(ordinal - 1));
     const auto &selected = entry.intent.selector;
     const auto key = application_key(c, ordinal);
@@ -345,10 +351,11 @@ inline void stage_application(const SqliteWorkSession &s, const ReviewCommand &c
     if (!row.groups.empty())
         SqliteMilestoneGroupDecisions(s).record_acceptance(
             key, {entry.intent.mode, {c.actor, entry.decision_ref}, *entry.intent.milestones});
-    const auto committed = store.lookup(key);
+    auto committed = store.lookup(key);
     require(committed && same(committed->intent.operation, key) &&
             committed->after.token == row.after.token &&
             committed->result.document == bundle.result.document);
+    return std::move(*committed);
 }
 
 inline StoredOutcome stage_row(const SqliteWorkSession &s, const ReviewCommand &c, int ordinal,
@@ -433,10 +440,10 @@ inline StoredOutcome stage_row(const SqliteWorkSession &s, const ReviewCommand &
             closure.proposed_version_ref = distinct_id(c, ordinal, "closed-" + std::to_string(n));
         data.closed.push_back({closure.hold_ref, closure.proposed_version_ref});
     }
-    stage_application(s, c, ordinal, row, data);
+    const auto application = stage_application(s, c, ordinal, row, data);
     if (!row.closures.empty()) {
         data.closed.clear();
-        resolve(s, c, ordinal, row, data);
+        resolve(s, c, ordinal, row, data, &application);
     }
     return data;
 }

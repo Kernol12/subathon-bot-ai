@@ -1004,14 +1004,19 @@ class HoldAccess : public Access {
         stored_shape([&] { hold_detail::shape_detection(out, holds); });
         return out;
     }
-    void application_link(const ApplicationHoldResolutionBatch &b, bool incoming) {
+    void application_link(const ApplicationHoldResolutionBatch &b, bool incoming,
+                          const review_detail::LinkedReviewReads *review = nullptr) {
         if (!b.application)
             return;
         const auto &link = *b.application;
-        auto app = Access::lookup(link.operation);
+        const auto loaded =
+            review ? std::optional<RecordedApplicationBundle>{} : Access::lookup(link.operation);
+        const auto *app = review ? &review->application : (loaded ? &*loaded : nullptr);
         if (!app)
             reference_failure(incoming, true);
-        if (app->intent.kind != ApplicationOperationKind::original ||
+        if (app->intent.operation.operation_scope != link.operation.operation_scope ||
+            app->intent.operation.operation_ref != link.operation.operation_ref ||
+            app->intent.kind != ApplicationOperationKind::original ||
             app->intent.receipt_id != link.receipt_id ||
             app->intent.plan.plan_ref != link.plan.plan_ref ||
             app->intent.plan.revision != link.plan.revision)
@@ -1020,13 +1025,28 @@ class HoldAccess : public Access {
             if (!same_subject(app->intent, b.subject))
                 reference_failure(incoming);
             for (const auto &e : b.entries) {
-                auto c = full_cause(e.hold_ref);
-                if (c.timer &&
-                    c.timer->composition == ApplicationHoldComposition::beside_complete_application)
-                    reference_failure(incoming);
+                const auto check = [&](const ApplicationHoldCause &cause) {
+                    if (cause.timer && cause.timer->composition ==
+                                           ApplicationHoldComposition::beside_complete_application)
+                        reference_failure(incoming);
+                };
+                if (review) {
+                    const auto hold = std::ranges::find_if(review->ordinary, [&](const auto &h) {
+                        const auto &loc = h.current_version.locator;
+                        return loc.hold_ref == e.hold_ref &&
+                               loc.version_ref == e.expected_version_ref;
+                    });
+                    if (hold == review->ordinary.end() || hold->cause.hold_ref != e.hold_ref ||
+                        hold->current_version.state != HS::active ||
+                        !hold_detail::same(hold->cause.source.subject, b.subject))
+                        reference_failure(incoming);
+                    check(hold->cause);
+                } else {
+                    check(full_cause(e.hold_ref));
+                }
             }
         } else {
-            if (!link.held_origin)
+            if (review || !link.held_origin)
                 reference_failure(incoming);
             const auto &o = *link.held_origin;
             auto entry = std::find_if(b.entries.begin(), b.entries.end(), [&](const auto &e) {
@@ -1219,49 +1239,29 @@ class HoldAccess : public Access {
         }
         return out;
     }
-    template <class F> qint64 subject_anchors(const ApplicationHoldSubject &s, F f) {
+    std::vector<Metadata> active_metadata(const ApplicationHoldSubject &s) {
         const QString where = "subject_kind=? AND subject_id=?";
-        Values b{tag(s), encode_plan_revision_uint64(subject_id(s))};
-        const auto total = count("subathon_hold_causes", where, b);
+        const Values args{tag(s), encode_plan_revision_uint64(subject_id(s))};
+        const auto total = count("subathon_hold_causes", where, args);
         qint64 seen = 0;
-        keyed("subathon_hold_causes",
-              {"hold_ref", "subject_kind", "subject_id", "contribution_id", "first_detection_ref",
-               "supersedes_hold_ref"},
-              where, b, "hold_ref", [&](const SqlRow &r) {
-                  const auto h = ref(r, 0);
-                  auto a = anchor(h);
-                  if (!a || !hold_detail::same(a->subject, s))
-                      fail(HR::invalid_stored_data);
-                  if (seen == std::numeric_limits<qint64>::max())
-                      fail(HR::invalid_stored_data);
-                  ++seen;
-                  f(h);
-              });
+        bool over_limit = false;
+        std::vector<Metadata> out;
+        keyed("subathon_hold_causes", {"hold_ref"}, where, args, "hold_ref", [&](const SqlRow &r) {
+            auto m = metadata(ref(r, 0));
+            if (!m || !hold_detail::same(m->anchor.subject, s) || seen == total)
+                fail(HR::invalid_stored_data);
+            ++seen;
+            if (m->current.state == HS::active) {
+                if (out.size() == size_t(holds.active_holds_per_result))
+                    over_limit = true;
+                else
+                    out.push_back(std::move(*m));
+            }
+        });
         if (seen != total)
             fail(HR::invalid_stored_data);
-        return seen;
-    }
-    std::vector<ApplicationHoldVersionLocator> active_locators(const ApplicationHoldSubject &s) {
-        size_t n = 0;
-        subject_anchors(s, [&](const std::string &h) {
-            auto m = metadata(h);
-            if (!m)
-                fail(HR::invalid_stored_data);
-            if (m->current.state == HS::active)
-                n = add(n, 1);
-        });
-        if (n > size_t(holds.active_holds_per_result))
+        if (over_limit)
             fail(HR::result_limit);
-        std::vector<ApplicationHoldVersionLocator> out;
-        out.reserve(n);
-        subject_anchors(s, [&](const std::string &h) {
-            auto r = required("subathon_hold_heads", hold_heads_columns, "hold_ref=?", {bytes(h)});
-            auto v = version(h, ref(r, 1));
-            if (v.state == HS::active)
-                out.push_back(v.locator);
-        });
-        if (out.size() != n)
-            fail(HR::invalid_stored_data);
         return out;
     }
     size_t occurrence_items(const std::string &h) {
@@ -1319,22 +1319,17 @@ class HoldAccess : public Access {
         return find(h, &*m);
     }
     ApplicationHoldActiveSet active(const ApplicationHoldSubject &s) {
-        auto locators = active_locators(s);
+        const auto active = active_metadata(s);
         ApplicationHoldActiveSet out{s, {}};
-        size_t total = locators.size();
-        for (const auto &v : locators) {
-            auto m = metadata(v.hold_ref);
-            if (!m)
-                fail(HR::invalid_stored_data);
-            total = add(total, view_items(*m));
-        }
+        size_t total = active.size();
+        for (const auto &m : active)
+            total = add(total, view_items(m));
         if (total > size_t(holds.result_items))
             fail(HR::result_limit);
-        out.holds.reserve(locators.size());
-        for (const auto &v : locators) {
-            auto h = find(v.hold_ref);
-            if (!h || h->current_version.locator.version_ref != v.version_ref ||
-                h->current_version.state != HS::active)
+        out.holds.reserve(active.size());
+        for (const auto &m : active) {
+            auto h = find(m.current.locator.hold_ref, &m);
+            if (!h)
                 fail(HR::invalid_stored_data);
             out.holds.push_back(std::move(*h));
         }
@@ -1693,8 +1688,9 @@ class HoldAccess : public Access {
                 v.append(QVariant{});
         append(out, "subathon_hold_mutations", hold_mutations_columns, std::move(v));
     }
-    ApplicationHoldMutationResult resolve(const ApplicationHoldResolutionBatch &b,
-                                          bool mixed_set_checked = false) {
+    ApplicationHoldMutationResult
+    resolve(const ApplicationHoldResolutionBatch &b, bool mixed_set_checked = false,
+            const review_detail::LinkedReviewReads *review = nullptr) {
         if (auto r = replay(b.mutation_ref, HM::resolution, b))
             return *r;
         if (!mixed_set_checked && b.application &&
@@ -1707,11 +1703,12 @@ class HoldAccess : public Access {
                       {encode_plan_revision_uint64(subject_id(b.subject))}})
                  .empty())
             return normal(HD::stale_active_set);
-        auto active = active_locators(b.subject);
+        const auto active = active_metadata(b.subject);
         if (active.size() != b.expected_active.size() ||
             !std::equal(active.begin(), active.end(), b.expected_active.begin(),
                         [](const auto &a, const auto &v) {
-                            return a.hold_ref == v.hold_ref && a.version_ref == v.version_ref;
+                            return a.current.locator.hold_ref == v.hold_ref &&
+                                   a.current.locator.version_ref == v.version_ref;
                         }))
             return normal(HD::stale_active_set);
         std::vector<std::optional<Metadata>> previous;
@@ -1719,7 +1716,10 @@ class HoldAccess : public Access {
         std::vector<HV> produced;
         produced.reserve(add(b.entries.size(), b.entries.size()));
         for (const auto &e : b.entries) {
-            auto m = metadata(e.hold_ref);
+            const auto checked = std::ranges::find_if(
+                active, [&](const auto &m) { return m.current.locator.hold_ref == e.hold_ref; });
+            const auto other = checked == active.end() ? metadata(e.hold_ref) : std::nullopt;
+            const auto *m = checked != active.end() ? &*checked : (other ? &*other : nullptr);
             if (!m)
                 return normal(HD::missing_hold);
             if (m->current.state == HS::resolved)
@@ -1733,7 +1733,7 @@ class HoldAccess : public Access {
                 reference_failure(true);
             if (m->count == std::numeric_limits<qint64>::max())
                 fail(HR::sequence_exhausted);
-            previous.push_back(m);
+            previous.push_back(*m);
             HV v{{e.hold_ref, e.proposed_version_ref},
                  m->count + 1,
                  e.expected_version_ref,
@@ -1774,15 +1774,16 @@ class HoldAccess : public Access {
                 std::any_of(b.entries.begin(), b.entries.end(),
                             [](const auto &e) { return bool(e.replacement); }) ||
                 std::any_of(active.begin(), active.end(), [&](const auto &x) {
-                    return std::none_of(b.entries.begin(), b.entries.end(),
-                                        [&](const auto &e) { return x.hold_ref == e.hold_ref; });
+                    return std::none_of(b.entries.begin(), b.entries.end(), [&](const auto &e) {
+                        return x.current.locator.hold_ref == e.hold_ref;
+                    });
                 }))
                 reference_failure(true);
         }
         for (const auto &e : b.entries)
             if (e.replacement)
                 incoming_detection_references(*e.replacement);
-        application_link(b, true);
+        application_link(b, true, review);
         auto result = normal(HD::recorded, b.mutation_ref, HM::resolution, produced);
         returned(result);
         std::vector<Prepared> out;
@@ -2110,12 +2111,13 @@ SqliteApplicationHoldStore::stage_resolution(const ApplicationHoldResolutionBatc
 }
 ApplicationHoldMutationResult
 stage_checked_ordinary_resolution(const SqliteWorkSession &session,
-                                  const ApplicationHoldResolutionBatch &batch) {
+                                  const ApplicationHoldResolutionBatch &batch,
+                                  const review_detail::LinkedReviewReads *review) {
     const SqliteHoldLimits limits;
     hold_detail::validate_resolution(batch, limits);
     HoldAccess access(session, limits);
     return access.guarded([&] {
-        auto result = access.resolve(batch, true);
+        auto result = access.resolve(batch, true, review);
         access.returned(result);
         return result;
     });

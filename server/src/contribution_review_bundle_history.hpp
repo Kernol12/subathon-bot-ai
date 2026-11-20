@@ -5,6 +5,11 @@
 
 namespace subathon::server::review_detail {
 
+// Private reader for the single immutable preview transaction. Each selector
+// still goes through the owning plan and contribution decoders.
+using PreviewInputs = std::function<ApplicationBundleInputResult(const ApplicationPlanKey &)>;
+[[nodiscard]] PreviewInputs preview_inputs(const SqliteWorkSession &);
+
 using BundleHistory =
     std::function<std::optional<RecordedApplicationBundle>(const ApplicationOperationKey &)>;
 
