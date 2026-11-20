@@ -160,6 +160,15 @@ if(TARGET subathon_sqlite_contributions AND TARGET subathon_application_plan)
     subathon_target_options(subathon_sqlite_permission_graph)
 endif()
 
+if(TARGET subathon_sqlite_credential_catalog AND TARGET subathon_sqlite_permission_graph
+        AND TARGET subathon_valuation_snapshot_codec AND TARGET subathon_rate_overrides)
+    add_library(subathon_sqlite_rate_overrides STATIC EXCLUDE_FROM_ALL src/sqlite_rate_overrides.cpp)
+    target_link_libraries(subathon_sqlite_rate_overrides PUBLIC
+        subathon_sqlite_credential_catalog subathon_sqlite_permission_graph
+        subathon_valuation_snapshot_codec subathon_rate_overrides)
+    subathon_target_options(subathon_sqlite_rate_overrides)
+endif()
+
 # Current reference authority and finite selected historical reads.
 if(TARGET subathon_sqlite_permission_graph AND TARGET subathon_session_resolution)
     add_library(subathon_sqlite_reference_authority STATIC src/sqlite_reference_authority.cpp)
