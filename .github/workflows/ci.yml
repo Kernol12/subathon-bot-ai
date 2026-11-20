@@ -209,6 +209,7 @@ jobs:
               "effective-permissions": ({"acceptance", "core"}, 10),
               "delegated-permissions": ({"acceptance", "core"}, 60),
               "milestone-progression": ({"acceptance", "core"}, 30),
+              "milestone-target-edit": ({"acceptance", "core"}, 30),
               "timer-editorial": ({"acceptance", "core"}, 30),
               "rate-snapshot": ({"acceptance", "core"}, None),
               "rate-override": ({"acceptance", "core"}, 30),
@@ -269,6 +270,8 @@ jobs:
               raise SystemExit(f"Expected 26 rule definition cases, got {found['rule-definition']}")
           if found["chat-commands"] != 41:
               raise SystemExit(f"Expected 41 chat command cases, got {found['chat-commands']}")
+          if found["milestone-target-edit"] != 6:
+              raise SystemExit(f"Expected 6 milestone target edit cases, got {found['milestone-target-edit']}")
           print(json.dumps({"time-credit": credit, **found}, indent=2))
           PYTHON
       - name: Run every pure core acceptance case and the infrastructure checks
@@ -382,7 +385,7 @@ jobs:
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits"
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
@@ -442,6 +445,10 @@ jobs:
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-rate-override-catalog$' --no-tests=error
       - name: Run rate override writer acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-rate-override-writer$' --no-tests=error
+      - name: Run milestone target edit writer acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-milestone-target-edits$' --no-tests=error
+      - name: Run milestone target edit catalog acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-milestone-target-edit-catalog$' --no-tests=error
       - name: Run reviewed connector lifecycle acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^connector-lifecycle$' --no-tests=error
       - name: Run reviewed initial-capture codec acceptance

@@ -274,9 +274,14 @@
     },
     {
       "id": "MILE-02",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/milestone_target_edit_tests.cpp",
+        "tests/qt/sqlite_milestone_target_edits_tests.cpp",
+        "tests/qt/sqlite_milestone_target_edit_catalog_tests.cpp"
+      ],
+      "evidence": ["https://github.com/Kernol12/subathon-bot-ai/pull/736"],
+      "scope": "MILESTONE-002 covers the exact target-edit planner, the v18 controlled writer and catalog, committed typed group and job restoration, and authoritative same-session refund target selection. Live application progress must maintain the active prefix under #294. Live command composition and editor surfaces remain downstream."
     },
     {
       "id": "MILE-03",

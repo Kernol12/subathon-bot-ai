@@ -38,6 +38,8 @@ still using synthetic data and supplied policy/authority facts.
 | `time-debt-debug` | `-L '^time-debt$'` | 32 debt/reversal and debt-first addition proposals |
 | `timer-editorial-debug` | `-L '^timer-editorial$'` | 27 methods/44 examples for correction, cap, deadline and first-Start proposals |
 | `milestone-progression-debug` | `-L '^milestone-progression$'` | 53 pure sequential milestone progression cases |
+| `core-acceptance-debug` | `-L '^milestone-target-edit$'` | 6 pure target-edit planner cases |
+| Required Qt CI | `-L '^sqlite-milestone-target-edits$'` and `-L '^sqlite-milestone-target-edit-catalog$'` | 17 target-edit writer and 16 v18 catalog invocations |
 | `receipt-intake-debug` | `-L '^receipt-intake$'` | 15 receipt identity/retry cases using primitive-store simulation |
 | `contribution-evidence-debug` | `-L '^contribution-evidence$'` | 21 eligibility/linkage cases using primitive-store simulation |
 | `application-plan-debug` | `-L '^application-plan$'` | 22 owned captured-plan transformations |

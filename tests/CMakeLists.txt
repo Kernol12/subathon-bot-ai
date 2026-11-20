@@ -160,6 +160,15 @@ if(SUBATHON_BUILD_REFUND_ENTITLEMENT_TESTS)
         LABELS "refund-entitlement;acceptance;core" TIMEOUT 30)
 endif()
 
+if(SUBATHON_BUILD_MILESTONE_TARGET_EDIT_TESTS)
+    add_executable(core_milestone_target_edit_acceptance acceptance/milestone_target_edit_tests.cpp)
+    target_link_libraries(core_milestone_target_edit_acceptance PRIVATE
+        subathon_milestone_target_edits GTest::gtest_main)
+    subathon_target_options(core_milestone_target_edit_acceptance)
+    subathon_discover_gtests(core_milestone_target_edit_acceptance
+        LABELS "milestone-target-edit;acceptance;core" TIMEOUT 30)
+endif()
+
 if(SUBATHON_BUILD_MILESTONE_PROGRESSION_TESTS)
     add_executable(core_milestone_progression_acceptance acceptance/milestone_progression_tests.cpp)
     target_link_libraries(core_milestone_progression_acceptance PRIVATE subathon_milestone_progression GTest::gtest_main)

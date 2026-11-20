@@ -106,6 +106,18 @@ if(SUBATHON_BUILD_SQLITE_FINANCIAL_REFUNDS_TESTS)
         LABELS "sqlite-financial-refunds;acceptance;qt;server" TIMEOUT 180)
 endif()
 
+if(SUBATHON_BUILD_SQLITE_MILESTONE_TARGET_EDITS_TESTS)
+    subathon_add_qt_suite(server_sqlite_milestone_target_edits_acceptance
+        NAME sqlite-milestone-target-edits SOURCES sqlite_milestone_target_edits_tests.cpp
+        LIBRARIES subathon_sqlite_milestone_target_edits
+        LABELS "sqlite-milestone-target-edits;acceptance;qt;server" TIMEOUT 180)
+
+    subathon_add_qt_suite(server_sqlite_milestone_target_edit_catalog_acceptance
+        NAME sqlite-milestone-target-edit-catalog SOURCES sqlite_milestone_target_edit_catalog_tests.cpp
+        LIBRARIES subathon_sqlite_milestone_target_edits
+        LABELS "sqlite-milestone-target-edit-catalog;acceptance;qt;server" TIMEOUT 180)
+endif()
+
 if(SUBATHON_BUILD_SQLITE_CREDENTIAL_CATALOG_TESTS)
     subathon_add_qt_suite(server_sqlite_credential_catalog_acceptance
         NAME sqlite-credential-catalog SOURCES sqlite_credential_catalog_tests.cpp

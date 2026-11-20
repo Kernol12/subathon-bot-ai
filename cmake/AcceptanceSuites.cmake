@@ -12,7 +12,7 @@ set(subathon_acceptance_suites
     password-hashing credential-record sqlite-credentials effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
     bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server
-    chat-commands scheduled-pause)
+    chat-commands scheduled-pause milestone-target-edit sqlite-milestone-target-edits)
 
 # Test guards stay private derived variables; callers select the
 # logical suites above instead of maintaining another set of cache switches.
@@ -115,6 +115,13 @@ function(subathon_resolve_acceptance_suites output)
                 list(APPEND selected effective-permissions sqlite-permission-graph
                     rate-snapshot rate-override valuation-snapshot-codec "${suite}")
             endif()
+        elseif(suite STREQUAL "sqlite-milestone-target-edits")
+            list(APPEND selected ${sqlite_test_prefix} sqlite-delivery-jobs
+                exact-numeric milestone-progression milestone-timeline milestone-group-restart
+                milestone-group-decisions sqlite-modifier-activations sqlite-financial-refunds
+                milestone-target-edit "${suite}")
+        elseif(suite STREQUAL "milestone-target-edit")
+            list(APPEND selected exact-numeric milestone-progression "${suite}")
         elseif(NOT sqlite_index EQUAL -1)
             math(EXPR prefix_length "${sqlite_index} + 1")
             list(SUBLIST sqlite_test_prefix 0 ${prefix_length} prefix)

@@ -487,8 +487,10 @@ class RateRows {
   public:
     explicit RateRows(const SqliteWorkSession &session) : session_(session) {
         const auto marker = session_.execute(
-            {"SELECT CASE WHEN typeof(version)='integer' AND version=17 "
-             "AND migration_id COLLATE BINARY='rate-overrides-v1' THEN 1 ELSE 0 END "
+            {"SELECT CASE WHEN typeof(version)='integer' AND "
+             "((version=17 AND migration_id COLLATE BINARY='rate-overrides-v1') OR "
+             "(version=18 AND migration_id COLLATE BINARY='milestone-target-edits-v1')) "
+             "THEN 1 ELSE 0 END "
              "FROM main.subathon_migration_history WHERE EXISTS(SELECT 1 FROM "
              "main.subathon_catalog "
              "WHERE singleton=1 AND typeof(catalog_format)='integer' AND catalog_format=1 "
