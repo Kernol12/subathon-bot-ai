@@ -244,6 +244,7 @@ class File {
                   "INSERT INTO subathon_app_balances SELECT token,2,?,? "
                   "FROM subathon_app_states",
                   {QByteArray("second"), qint64(extra)});
+            write(s, "UPDATE subathon_app_states SET balance_count=balance_count+1");
         });
         advance_v16(*db.writer);
         advance_literal(*db.writer);
@@ -254,6 +255,8 @@ class File {
     static void insert_score(const SqliteWorkSession &s, const char *ref, std::int64_t units) {
         write(s, "INSERT INTO subathon_app_balances SELECT token,2,?,? FROM subathon_app_head",
               {QByteArray(ref), qint64(units)});
+        write(s, "UPDATE subathon_app_states SET balance_count=balance_count+1 "
+                 "WHERE token=(SELECT token FROM subathon_app_head)");
     }
 
     MilestoneEditPreview preview(const MilestoneEditIntent &intent) {

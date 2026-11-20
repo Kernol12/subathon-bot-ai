@@ -502,7 +502,10 @@ class SqliteMilestoneTargetEditsTests final : public QObject {
                     "120 + MAX + MIN equals 119 after full signed summation; count 700 is ignored");
             edge.db.write([](const auto &s) {
                 write(s, "DELETE FROM subathon_app_balances "
-                         "WHERE target_ref=X'7468697264'");
+                         "WHERE token=(SELECT token FROM subathon_app_head) "
+                         "AND target_ref=X'7468697264'");
+                write(s, "UPDATE subathon_app_states SET balance_count=balance_count-1 "
+                         "WHERE token=(SELECT token FROM subathon_app_head)");
             });
             const auto overflow = edge.preview(single("overflow", {"B", 180}));
             require(overflow.plan.status != Status::eligible && !overflow.confirmation,
