@@ -74,9 +74,9 @@ correction and financial keys. Require checked operation scope/ref and at most 2
 The immutable manifest encodes magic `SRW1`, installation ref, operation scope/ref, principal kind/ref, actor, row
 count, then entry records in canonical ordinal order. Each entry encodes CID, ReceiptId, verb, full expected preview
 basis, tagged verb options, decision ref and reason, in that order. Use checked integer/ref codecs, u32 big-endian lengths/counts and
-explicit presence tags for all optional fields. UTF-8 text is exact, without normalization. Ordered vectors retain order and expected sets
-use their owning canonical order. Require exact EOF and reject malformed or duplicate values. Exclude session proofs and newly
-observed outcomes. Compare complete canonical bytes, including absent versus empty, before using a stored cursor.
+explicit presence tags for all optional fields. UTF-8 text is exact, without normalization. Ordered vectors retain order and expected sets use their owning canonical order.
+**Correction 3 (SRW1 duplicates).** Require exact EOF. Reject malformed values and duplicates in entries, selectors and set-typed fields. Encode ordered choice vectors exactly as supplied, including repeated values.
+The row check requires exactly one choice per occurrence. A duplicate is an extra choice and yields a journaled Ineligible or Stale row without domain writes. Exclude session proofs and newly observed outcomes. Compare complete canonical bytes, including absent versus empty, before using a stored cursor.
 
 Authenticate and check current execution scope for the installation/key before revealing existence or conflict.
 Changed intent on an existing key refuses the whole request. Exact retry checks current session, batch and key
