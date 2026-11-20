@@ -161,7 +161,8 @@ class SqliteRateOverrideWriterTests : public QObject {
         QTest::newRow("unavailable-graph") << 3;
         QTest::newRow("unsynchronized") << 4;
         QTest::newRow("missing-grant-owner-has-no-shortcut") << 5;
-        QTest::newRow("malformed-typed-scope") << 6;
+        QTest::newRow("reversed-typed-scope") << 6;
+        QTest::newRow("uppercase-typed-scope") << 7;
     }
     void deniedBeforeLookup_R02() {
         QFETCH(int, reason);
@@ -171,12 +172,15 @@ class SqliteRateOverrideWriterTests : public QObject {
             auto facts = authorized();
             auto &who = facts.graph.use.accounts.front();
             RateAuthorityResolution authority = facts;
-            if (reason == 0) {
-                preview.edit.override_input.to_currency = "GBP";
-                preview.proposal.candidate.overrides.front().to_currency = "GBP";
-                preview.proposal.candidate.components.front().members.back().currency = "GBP";
-                preview.proposal.affected_rates = {change("EUR", "GBP", 6, 5),
-                                                   change("GBP", "EUR", 5, 6)};
+            if (reason == 0 || reason == 7) {
+                const auto *currency = reason == 7 ? "JPY" : "GBP";
+                preview.edit.override_input.to_currency = currency;
+                preview.proposal.candidate.overrides.front().to_currency = currency;
+                preview.proposal.candidate.components.front().members.back().currency = currency;
+                preview.proposal.affected_rates = {change("EUR", currency, 6, 5),
+                                                   change(currency, "EUR", 5, 6)};
+                if (reason == 7)
+                    who.individual_entries = {grant({"00000003455552000000034A5059"})};
             } else if (reason == 1) {
                 auto role_allow = grant();
                 role_allow.origin = core::PermissionOrigin::role;
@@ -197,7 +201,7 @@ class SqliteRateOverrideWriterTests : public QObject {
             } else if (reason == 5) {
                 who.individual_entries.clear();
             } else if (reason == 6) {
-                who.individual_entries = {grant({"000000034555520000000355534A"})};
+                who.individual_entries = {grant({"0000000355534400000003455552"})};
             }
             authority = facts;
             if (reason == 2)
@@ -229,13 +233,44 @@ class SqliteRateOverrideWriterTests : public QObject {
             const auto existing_head = file.rows(head_rows);
             const auto denied = save(file, preview, authority);
             const auto *refusal = std::get_if<RateStoreRefusal>(&*denied->staged);
+            require(
+                refusal &&
+                    (*refusal == RateStoreRefusal::denied ||
+                     ((reason == 3 || reason == 4) && *refusal == RateStoreRefusal::unavailable)) &&
+                    denied->samples == 0 && file.rows(history_sql) == mark &&
+                    file.rows(head_rows) == existing_head,
+                "Live refusal precedes a failing protected operation lookup and any acceptance "
+                "sample");
+        });
+    }
+
+    void newEditMustMatchAuthenticatedSession_R02_data() {
+        QTest::addColumn<int>("mismatch");
+        QTest::newRow("different-actor") << 0;
+        QTest::newRow("absent-actor") << 1;
+        QTest::newRow("different-installation") << 2;
+    }
+    void newEditMustMatchAuthenticatedSession_R02() {
+        QFETCH(int, mismatch);
+        check([=] {
+            RateFile file;
+            auto preview = first_preview();
+            if (mismatch == 2)
+                preview.edit.installation = "other-installation";
+            else if (mismatch == 1)
+                preview.edit.override_input.actor_ref.reset();
+            else
+                preview.edit.override_input.actor_ref = "B";
+            preview.proposal.candidate.overrides.front() = preview.edit.override_input;
+
+            const auto before = rate_image(file);
+            const auto result = save(file, preview);
+            const auto *refusal = std::get_if<RateStoreRefusal>(&*result->staged);
             require(refusal &&
                         (*refusal == RateStoreRefusal::denied ||
-                         (reason == 3 && *refusal == RateStoreRefusal::unavailable)) &&
-                        denied->samples == 0 && file.rows(history_sql) == mark &&
-                        file.rows(head_rows) == existing_head,
-                    "Live refusal precedes a failing protected operation lookup and any acceptance "
-                    "sample");
+                         *refusal == RateStoreRefusal::invalid_proposal) &&
+                        result->samples == 0 && rate_image(file) == before,
+                    "Unbound actor or installation leaves no receipt, sample or stored effect");
         });
     }
 
@@ -467,8 +502,17 @@ class SqliteRateOverrideWriterTests : public QObject {
             }
             if (mutation == 0)
                 input.edit.override_input.original_decimal = "1.200";
-            if (mutation == 1)
+            auto authority = authorized();
+            if (mutation == 1) {
                 input.edit.override_input.actor_ref = "B";
+                authority.session = {"I", "B", "NB", "RB", "PB", 0, 100, true};
+                auto account_grant = grant();
+                account_grant.source = "UB";
+                account_grant.grant = "GB";
+                authority.graph.use.accounts.push_back({"B", {}, {account_grant}});
+                authority.graph.grant.accounts.push_back({"B", {}, {}});
+                authority.graph.current_accounts.push_back({{"I", "B", "b", true}, "bR"});
+            }
             if (mutation == 2 || mutation == 5)
                 input.edit.override_input.decision_ref = mutation == 2 ? "changed" : "D";
             if (mutation == 3) {
@@ -484,9 +528,10 @@ class SqliteRateOverrideWriterTests : public QObject {
             input.proposal.candidate.constraints = {
                 core::ManualRateConstraint{input.edit.override_input.override_ref}};
             const auto before = rate_image(file);
-            expect_refusal(*save(file, input)->staged, RateStoreRefusal::identity_conflict);
-            require(rate_image(file) == before,
-                    "Conflict preserves complete original and active evidence");
+            const auto conflict = save(file, input, authority);
+            expect_refusal(*conflict->staged, RateStoreRefusal::identity_conflict);
+            require(conflict->samples == 0 && rate_image(file) == before,
+                    "Conflict preserves complete original and active evidence without sampling");
         });
     }
 
@@ -1065,7 +1110,8 @@ class SqliteRateOverrideWriterTests : public QObject {
             auto &input = preview.edit.override_input;
             auto auth = authorized();
             const std::string account = std::string("A\0\xff", 3) + std::string(253, 'x');
-            const std::string installation = std::string("I\0\x80", 3) + std::string(4093, 'i');
+            const std::string installation =
+                std::string("I\0\x80", 3) + std::string(4093 + (over == 4), 'i');
             const std::string low = std::string("A\0", 2) + std::string(62, 'a');
             const std::string high = std::string("Z\xff", 2) + std::string(62, 'z');
             auth.session.account_ref = auth.graph.current_accounts.front().current.account_ref =
@@ -1091,8 +1137,6 @@ class SqliteRateOverrideWriterTests : public QObject {
             input.to_currency = high;
             input.original_decimal = "1e" + std::string(510 + (over == 1), '0');
             input.reason = std::string(4096 + (over == 2), 'r');
-            if (over == 4)
-                preview.edit.installation.push_back('i');
             auto &candidate = preview.proposal.candidate;
             candidate.overrides = {input};
             candidate.constraints = {core::ManualRateConstraint{input.override_ref}};
