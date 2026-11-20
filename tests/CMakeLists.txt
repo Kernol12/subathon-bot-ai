@@ -166,7 +166,7 @@ if(SUBATHON_BUILD_MILESTONE_TARGET_EDIT_TESTS)
         subathon_milestone_target_edits GTest::gtest_main)
     subathon_target_options(core_milestone_target_edit_acceptance)
     subathon_discover_gtests(core_milestone_target_edit_acceptance
-        LABELS "milestone-target-edit;acceptance;core;intentional-red" TIMEOUT 30)
+        LABELS "milestone-target-edit;acceptance;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_MILESTONE_PROGRESSION_TESTS)
