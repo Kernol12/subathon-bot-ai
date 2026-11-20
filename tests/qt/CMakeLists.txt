@@ -146,7 +146,7 @@ if(SUBATHON_BUILD_CONTRIBUTION_REVIEW_TESTS)
         NAME contribution-review SOURCES contribution_review_tests.cpp
         LIBRARIES subathon_contribution_review subathon_sqlite_milestone_target_edits
             subathon_sqlite_modifier_activations subathon_refund_entitlement
-        LABELS "contribution-review;acceptance;qt;server;intentional-red" TIMEOUT 180)
+        LABELS "contribution-review;acceptance;qt;server" TIMEOUT 180)
 endif()
 
 if(SUBATHON_BUILD_SQLITE_CREDENTIALS_TESTS)
