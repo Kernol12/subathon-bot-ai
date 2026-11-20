@@ -67,6 +67,7 @@ still using synthetic data and supplied policy/authority facts.
 | `rate-snapshot-debug` | `-L '^rate-snapshot$'` | 53 preserved cases for owned lossless observations, exact effective-table validation and inverse/cross queries; no provider/cache/valuation integration |
 | `core-acceptance-debug` | `-L '^valuation-snapshot-codec$'` | 25 shared RSV1 codec cases for exact bytes, canonical retained evidence, and bounded decoding and encoding. Valuation integration remains #553. |
 | `core-acceptance-debug` | `-L '^rule-definition$'` | 26 cases for owned versioned rules, typed actions and predicates, and exact captured monetary comparisons. #206, #208 and #210 cover selection, planning and generated-event enforcement. |
+| `core-acceptance-debug` | `-L '^chat-commands$'` | 41 synthetic cases for typed chat commands, complete authorization, cooldown windows and replay. #337 owns live receipt binding and durable intake deduplication. |
 | `schema-validation-debug` | `-L '^schema-validation$'` | 3 nodes: repository OpenAPI/components/examples, canonical proof/policy aggregate and real-SDK proof publication integration; actual HEAD inputs are required |
 
 Selecting `reference-rule` with `SUBATHON_ACCEPTANCE_SUITES` builds 11 pure configured-

@@ -120,7 +120,7 @@ if(SUBATHON_BUILD_CHAT_COMMANDS_TESTS)
     target_link_libraries(core_chat_commands_acceptance PRIVATE subathon_chat_commands GTest::gtest_main)
     subathon_target_options(core_chat_commands_acceptance)
     subathon_discover_gtests(core_chat_commands_acceptance
-        LABELS "chat-commands;acceptance;core;intentional-red" TIMEOUT 30)
+        LABELS "chat-commands;acceptance;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_TIME_DEBT_TESTS)
