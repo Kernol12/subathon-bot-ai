@@ -164,9 +164,14 @@
     },
     {
       "id": "TIMER-04",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/downtime_recovery_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/748#issuecomment-7043495989"
+      ],
+      "scope": "Pure CORE-006 proposals cover Freeze, Count elapsed and Recovery Review, including Main/Grace progression, scheduled pauses and hard ends. Durable checkpoints, authoritative clock evidence and modifier clocks have separate owners."
     },
     {
       "id": "TIMER-05",
@@ -541,15 +546,25 @@
     },
     {
       "id": "TIMER-08",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/downtime_recovery_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/748#issuecomment-7043495989"
+      ],
+      "scope": "Pure CORE-006 reconstruction covers qualified offline gaps, typed discontinuities, half-open captured schedule windows and phase transitions. Durable restart and live timezone acquisition remain separate."
     },
     {
       "id": "TIMER-09",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/downtime_recovery_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/748#issuecomment-7043495989"
+      ],
+      "scope": "Pure CORE-006 proposals hold countdown and dependent eligibility while Review is pending, preserve hard-end precedence, and release only RecoveryReview after authorized selection or correction. Held-input re-evaluation, modifier clocks and authoritative command commit remain separate."
     },
     {
       "id": "TIMER-10",

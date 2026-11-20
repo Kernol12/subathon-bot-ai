@@ -73,6 +73,7 @@ still using synthetic data and supplied policy/authority facts.
 | `core-acceptance-debug` | `-L '^rule-selection$'` | 10 RULES-002 cases for deterministic selection, group tie warnings, ordered exclusions, typed refusals and skip reasons. Editor display and action execution have separate owners. |
 | `core-acceptance-debug` | `-L '^chat-commands$'` | 41 synthetic cases for typed chat commands, complete authorization, cooldown windows and replay. #337 owns live receipt binding and durable intake deduplication. |
 | `core-acceptance-debug` | `-L '^scheduled-pause$'` | 35 synthetic scheduler cases covering configured-zone resolution, cutover, entry, retention, clock progression and coverage holds. Platform timezone evidence and authoritative preview and Save have separate gates. |
+| `core-acceptance-debug` | `-L '^downtime-recovery$'` | 49 synthetic cases for offline Freeze, Count elapsed, Recovery Review, deadline and schedule cuts, and authorized correction. Durable restart, live clock and scheduler facts, modifier clocks and command integration have separate owners. |
 | `schema-validation-debug` | `-L '^schema-validation$'` | 3 nodes: repository OpenAPI/components/examples, canonical proof/policy aggregate and real-SDK proof publication integration; actual HEAD inputs are required |
 
 Selecting `reference-rule` with `SUBATHON_ACCEPTANCE_SUITES` builds 11 pure configured-

@@ -75,7 +75,7 @@ if(SUBATHON_BUILD_DOWNTIME_RECOVERY_TESTS)
     subathon_target_options(core_downtime_recovery_acceptance)
     subathon_discover_gtests(core_downtime_recovery_acceptance
         PREFIX "downtime-recovery."
-        LABELS "downtime-recovery;acceptance;core;intentional-red" TIMEOUT 30)
+        LABELS "downtime-recovery;acceptance;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS)
