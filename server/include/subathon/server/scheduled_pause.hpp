@@ -244,11 +244,16 @@ project_scheduled_pause_edit(const ScheduledPauseState &, const ScheduledPauseCl
                              const ScheduledPauseConfiguration &, std::int64_t through_utc_ms,
                              ScheduleZoneSource &);
 
+// Return coverage failure when the old-side effects at cutover cannot be certified.
+// A complete cutover may carry a progress hold when post-cutover starts lack coverage.
 [[nodiscard]] std::variant<ScheduledPauseCutover, ScheduledPauseCoverageFailure,
                            ScheduledPauseRefusal>
 project_scheduled_pause_cutover(const ScheduledPauseState &, const ScheduledPauseClockInput &,
                                 const ScheduledPauseConfiguration &, ScheduleZoneSource &);
 
+// Entry requires a Ready or Finished basis and a valid Active proposal. Malformed input,
+// stale observations and a reached hard end have distinct refusals. Missing schedule
+// knowledge gives held progress. The trusted entry observation anchors later progression.
 [[nodiscard]] std::variant<ScheduledPauseProgress, ScheduledPauseRefusal>
 enter_scheduled_pauses(const ScheduledPauseState &, const ScheduledPauseEntry &,
                        ScheduleZoneSource &);
