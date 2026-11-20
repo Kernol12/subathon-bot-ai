@@ -3,6 +3,7 @@
 
 #include <array>
 #include <subathon/server/sqlite_modifier_activations.hpp>
+#include <subathon/server/sqlite_rate_overrides.hpp>
 
 namespace {
 using namespace contribution_review_fixture;
@@ -34,16 +35,16 @@ void clean_review_tables(CatalogFile &file) {
 
 template <class Read> void marker_control(Read read, bool correct) {
     CatalogFile file;
-    file.write(read); // Genuine v16 control precedes the new consumer check.
+    file.write(read); // Genuine v18 control precedes the new consumer check.
     file.advance_literal();
-    require(file.rows(history_query) == expected_history(literal_v17()),
+    require(file.rows(history_query) == expected_history(literal_v19()),
             "Literal catalog committed with exact independent history framing");
     if (correct) {
         file.write(read);
         return;
     }
     file.write([](const auto &s) {
-        (void)s.execute({"UPDATE subathon_migration_history SET migration_id=? WHERE version=17",
+        (void)s.execute({"UPDATE subathon_migration_history SET migration_id=? WHERE version=19",
                          {QString("Contribution-review-v1")}});
     });
     bool rejected = false;
@@ -140,8 +141,9 @@ void rollback_reply(Batch &batch, const ContributionReview::Result &result, int 
     expected_row(reply, ordinal, D::write_failed);
     for (int i = ordinal + 1; i <= 3; ++i)
         expected_row(reply, i, D::unattempted);
-    require(batch.trace.ordinals(U::final_read, P::began) == std::vector{0},
-            "Exactly one eligible final reconciliation read");
+    const auto final_reads = batch.trace.ordinals(U::final_read, P::began);
+    require(final_reads == std::vector{0} || (ordinal == 1 && final_reads.empty()),
+            "Known rollback permits one final read and first-row rollback may stop without one");
     const auto completions = batch.trace.completions();
     require(completions.size() == std::size_t(ordinal) &&
                 completions.back().transaction == TransactionOutcome::rolled_back,
@@ -154,6 +156,172 @@ void rollback_reply(Batch &batch, const ContributionReview::Result &result, int 
             "No row admission or BEGIN beyond the stopped ordinal");
 }
 
+ApplicationHoldVersionLocator seed_financial_hold(finance::File &f,
+                                                  const std::string &ref = "mixed-refund") {
+    f.move_main("financial-fixture-elapsed", 50000);
+    const auto quarter = finance::fraction(1, 4);
+    const FinancialEntitlement entitlement{
+        0,
+        5,
+        quarter,
+        false,
+        GroupedRefundEntitlement{{finance::original, 1, finance::CK::main_delta},
+                                 1,
+                                 0,
+                                 {},
+                                 {75000, 0},
+                                 75000,
+                                 0,
+                                 -75000,
+                                 0},
+        {{2,
+          {finance::original, 2, finance::CK::score},
+          0,
+          0,
+          10000000,
+          -10000000,
+          quarter,
+          10000000,
+          0,
+          false},
+         {3,
+          {finance::original, 3, finance::CK::whole_count},
+          0,
+          0,
+          0,
+          0,
+          quarter,
+          finance::fraction(7, 4),
+          finance::fraction(7, 4),
+          false}}};
+    finance::Effects effects;
+    const auto refund = f.refund(ref, core::ReceiptMoney{"5.00", "EUR"});
+    (void)f.accept(f.command(ref, refund, 0), entitlement, effects);
+    const auto financial = f.financial_active();
+    require(financial.size() == 1 && effects.adjustments == 0,
+            "Real #199 mixed refund held time and credited its score adjustment once");
+    return financial.front().locator;
+}
+
+void advance_review_catalog(finance::File &f) {
+    report(migrate(*f.writer,
+                   request(MigrationMode::advance, milestone_target_edits_repository_manifest())),
+           CatalogState::current, 18, 18, 3);
+    report(migrate(*f.writer, request(MigrationMode::advance, literal_v19())),
+           CatalogState::current, 19, 19, 1);
+}
+
+struct CreditedOriginal {
+    static constexpr std::int64_t deficit = -400000;
+    finance::File file{finance::OriginalCredit{.beside_complete_request = deficit}};
+    std::optional<ApplicationHoldVersionLocator> financial;
+    ApplicationHoldDetection detection;
+    Facts facts;
+
+    explicit CreditedOriginal(std::optional<std::string> financial_ref) {
+        if (financial_ref)
+            financial = seed_financial_hold(file, *financial_ref);
+        detection = file.ordinary_detection("beside-complete", false);
+        auto &cause = detection.cause;
+        cause.command.operation = finance::original;
+        cause.kind = ApplicationHoldCauseKind::timer_deficit;
+        cause.missing_policy_reason.reset();
+        cause.plan_evidence = {};
+        cause.plan_evidence.plan = finance::original_plan;
+        for (const auto &request : file.support_capture.captured.requested_effects) {
+            const auto ordinal =
+                static_cast<std::int64_t>(cause.plan_evidence.occurrences.size() + 1);
+            cause.plan_evidence.occurrences.push_back({ordinal,
+                                                       {},
+                                                       {},
+                                                       {},
+                                                       {},
+                                                       request.unit,
+                                                       request.exact_requested_units,
+                                                       request.requested_units,
+                                                       {}});
+        }
+        cause.timer = {4,
+                       finance::CK::unapplied_time,
+                       deficit,
+                       finance::Policy::RequireReview,
+                       core::TimeReversalDisposition::RequiresReview,
+                       deficit,
+                       ApplicationHoldComposition::beside_complete_application,
+                       finance::document(),
+                       ApplicationHoldAssociatedApplication{finance::original, 4}};
+        (void)file.detect(detection);
+        record_second_version();
+        advance_review_catalog(file);
+        facts.configuration_document = "configuration";
+    }
+
+    void record_second_version() {
+        detection.request.mutation_ref = "beside-complete-second-detection";
+        detection.request.expected_version_ref = "v1";
+        detection.request.proposed_version_ref = "v2";
+        file.write([&](const auto &s) {
+            require(SqliteApplicationHoldStore(s).record_detection(detection).disposition ==
+                        SqliteHoldMutationDisposition::recorded,
+                    "Owning store records the exact second active beside-complete version");
+        });
+    }
+
+    ReviewEntryIntent intent(ReviewVerb verb) const {
+        ReviewEntryIntent result;
+        result.selector = {file.cid, file.payment.support_receipt};
+        result.verb = verb;
+        if (verb == ReviewVerb::reject_held || verb == ReviewVerb::retain_held)
+            result.timer = ReviewTimerSelector{{detection.cause.hold_ref, "v2"}, 4, deficit};
+        if (verb == ReviewVerb::reject_held)
+            result.ordinary_closures = {
+                {detection.cause.hold_ref, "v2", "v3", finance::document(), {}}};
+        return result;
+    }
+
+    static ReviewCommand bind(ContributionReview &service, std::string key,
+                              ReviewEntryIntent intent) {
+        auto result = await<ContributionReview::PreviewResult>([&](auto done) {
+            service.preview({principal, {intent}}, "synthetic", std::move(done));
+        });
+        const auto *preview = std::get_if<std::vector<ReviewPreviewRow>>(&result);
+        require(preview, "Credited original returns a same-row preview for this review verb");
+        auto command = Case::bind(key, {intent}, *preview);
+        command.entries.front().decision_ref = std::move(key);
+        return command;
+    }
+
+    auto protected_rows() {
+        return std::array{
+            file.rows("SELECT * FROM subathon_contributions ORDER BY contribution_id"),
+            file.rows("SELECT * FROM subathon_app_claims ORDER BY subject_kind,subject_id"),
+            file.rows("SELECT * FROM subathon_app_head"),
+            file.rows(
+                "SELECT * FROM subathon_app_operations ORDER BY operation_scope,operation_ref"),
+            file.rows("SELECT * FROM subathon_app_effects ORDER BY "
+                      "operation_scope,operation_ref,request_ordinal"),
+            file.rows("SELECT * FROM subathon_app_components "
+                      "ORDER BY operation_scope,operation_ref,request_ordinal,component_kind"),
+            file.rows("SELECT * FROM subathon_financial_refunds"),
+            file.rows("SELECT * FROM subathon_financial_bases ORDER BY original_ordinal,kind"),
+            file.rows("SELECT * FROM subathon_financial_resolutions")};
+    }
+
+    void expect_ordinary(ApplicationHoldState state, std::string_view version) {
+        file.write([&](const auto &s) {
+            const auto ordinary = SqliteApplicationHoldStore(s).find(detection.cause.hold_ref);
+            require(ordinary && ordinary->current_version.state == state &&
+                        ordinary->current_version.locator.version_ref == version &&
+                        ordinary->cause.timer &&
+                        ordinary->cause.timer->composition ==
+                            ApplicationHoldComposition::beside_complete_application &&
+                        (state == ApplicationHoldState::active ||
+                         ordinary->current_version.parent_version_ref == "v2"),
+                    "Exact beside-complete origin and immutable ordinary version survive");
+        });
+    }
+};
+
 } // namespace
 
 class ContributionReviewTests final : public QObject {
@@ -164,18 +332,18 @@ class ContributionReviewTests final : public QObject {
 
     void catalogProducerAdvancesExactlyOneStep() {
         check([] {
-            // A genuine shipped v15 original/achievement predates both upgrades.
+            // A genuine shipped v15 original and achievement predate the upgrades.
             finance::OriginalCredit credit;
             credit.milestone = true;
             finance::File file(credit);
             report(migrate(*file.writer, request(MigrationMode::advance,
-                                                 provider_credentials_repository_manifest())),
-                   CatalogState::current, 16, 16, 1);
-            const auto literal = literal_v17();
-            const auto v16_history = file.rows(history_query);
+                                                 milestone_target_edits_repository_manifest())),
+                   CatalogState::current, 18, 18, 3);
+            const auto literal = literal_v19();
+            const auto v18_history = file.rows(history_query);
             const auto original = file.rows("SELECT * FROM subathon_app_results");
             const auto pending = file.rows("SELECT * FROM subathon_milestone_groups");
-            require(original.size() == 1 && pending.size() == 1 && v16_history.size() == 16,
+            require(original.size() == 1 && pending.size() == 1 && v18_history.size() == 18,
                     "Shipped history, bundle and milestone origin are present before new producer");
             const auto producer = contribution_review_repository_manifest(); // Stage 1 NI
             require(producer.store_identity == literal.store_identity &&
@@ -192,13 +360,13 @@ class ContributionReviewTests final : public QObject {
                         "Exact ordered migration statements and full projection for each step");
             }
             report(migrate(*file.writer, request(MigrationMode::inspect, producer)),
-                   CatalogState::upgrade_required, 16, 17, 0);
-            require(file.rows(history_query) == v16_history,
-                    "Read-only inspection preserves the whole v16 prefix");
+                   CatalogState::upgrade_required, 18, 19, 0);
+            require(file.rows(history_query) == v18_history,
+                    "Read-only inspection preserves the whole v18 prefix");
             report(migrate(*file.writer, request(MigrationMode::advance, producer)),
-                   CatalogState::current, 17, 17, 1);
+                   CatalogState::current, 19, 19, 1);
             const auto history = file.rows(history_query);
-            require(history == expected_history(literal) && history.mid(0, 16) == v16_history,
+            require(history == expected_history(literal) && history.mid(0, 18) == v18_history,
                     "Committed history matches the independently framed hashes");
             expect_schema(file.rows(schema_query), literal.steps.back());
             require(file.rows("SELECT * FROM subathon_app_results") == original &&
@@ -214,12 +382,12 @@ class ContributionReviewTests final : public QObject {
     void literalCatalogBudgetAtAndOneBelow() {
         check([] {
             CatalogFile file;
-            const auto literal = literal_v17();
+            const auto literal = literal_v19();
             const auto charge = tally(literal);
-            require(charge == v17_manifest_bytes &&
-                        literal.steps.back().expected_schema.size() == 172 &&
-                        digest(literal.steps.back()).toHex() == v17_digest_hex,
-                    "Independent static tally, projected count, and canonical v17 digest match");
+            require(charge == v19_manifest_bytes &&
+                        literal.steps.back().expected_schema.size() == 225 &&
+                        digest(literal.steps.back()).toHex() == v19_digest_hex,
+                    "Independent static tally, projected count, and canonical v19 digest match");
             const auto before = file.rows(history_query);
             auto under = request(MigrationMode::advance, literal);
             under.limits.manifest_utf8_bytes = charge - 1;
@@ -232,13 +400,13 @@ class ContributionReviewTests final : public QObject {
                     "One byte below cumulative charge is refused at migration admission");
             auto exact = request(MigrationMode::advance, literal);
             exact.limits.manifest_utf8_bytes = charge;
-            report(migrate(file.writer(), std::move(exact)), CatalogState::current, 17, 17, 1);
+            report(migrate(file.writer(), std::move(exact)), CatalogState::current, 19, 19, 1);
             clean_review_tables(file);
             expect_schema(file.rows(schema_query), literal.steps.back());
         });
     }
 
-    void exactV17FinancialMarker() {
+    void exactV19FinancialMarker() {
         check([] {
             marker_control(
                 [](const auto &s) {
@@ -250,7 +418,7 @@ class ContributionReviewTests final : public QObject {
         });
     }
 
-    void exactV17MilestoneMarker() {
+    void exactV19MilestoneMarker() {
         check([] {
             marker_control(
                 [](const auto &s) {
@@ -261,7 +429,7 @@ class ContributionReviewTests final : public QObject {
         });
     }
 
-    void exactV17ModifierMarker() {
+    void exactV19ModifierMarker() {
         check([] {
             marker_control(
                 [](const auto &s) {
@@ -272,7 +440,30 @@ class ContributionReviewTests final : public QObject {
         });
     }
 
-    void lookalikeV17MarkersStayClosed() {
+    void exactV19RateMarker() {
+        check([] {
+            CatalogFile file;
+            const auto read_head = [&] {
+                std::optional<RateRevisionResult> result;
+                file.write([&](const auto &s) { result = SqliteRateOverrideUnit(s).head(); });
+                return result.value();
+            };
+            const auto before = read_head();
+            const auto *root = std::get_if<core::EffectiveRateSnapshot>(&before);
+            require(root && root->data().snapshot_ref == "E",
+                    "Protected v18 typed rate head selects the reserved root E");
+            file.advance_literal();
+            require(file.rows(history_query) == expected_history(literal_v19()),
+                    "Literal catalog committed with exact independent history framing");
+            file.reopen();
+            const auto after = read_head();
+            const auto *upgraded = std::get_if<core::EffectiveRateSnapshot>(&after);
+            require(upgraded && upgraded->data().snapshot_ref == "E",
+                    "Exact v19 typed rate head selects the preserved reserved root E");
+        });
+    }
+
+    void lookalikeV19MarkersStayClosed() {
         check([] {
             marker_control(
                 [](const auto &s) {
@@ -286,6 +477,17 @@ class ContributionReviewTests final : public QObject {
                     (void)SqliteModifierActivationStore(s).instance_revision("absent");
                 },
                 false);
+            CatalogFile file;
+            file.advance_literal();
+            file.write([](const auto &s) {
+                (void)s.execute({"UPDATE subathon_migration_history SET migration_id=? "
+                                 "WHERE version=19",
+                                 {QString("Contribution-review-v1")}});
+                const auto result = SqliteRateOverrideUnit(s).head();
+                require(std::get_if<RateStoreRefusal>(&result) &&
+                            std::get<RateStoreRefusal>(result) == RateStoreRefusal::unavailable,
+                        "Case-changed v19 marker fails closed in the typed rate reader");
+            });
         });
     }
 
@@ -787,6 +989,61 @@ class ContributionReviewTests final : public QObject {
         });
     }
 
+    void unknownScopeStopsWithoutReadingThePrefix() {
+        check([] {
+            Batch batch;
+            auto service = batch.service();
+            const auto command = batch.command(service);
+            batch.trace.control = [&](const auto &event) {
+                if (event.unit == U::row && event.ordinal == 1 && event.phase == P::after_commit)
+                    batch.facts.session_known = false;
+            };
+            const auto result = Case::execute(service, command);
+            const auto &reply = Case::reply(result);
+            require(reply.stop == ReviewStop::unavailable && reply.rows.size() == 3 &&
+                        !reply.rows.front().outcome,
+                    "Unknown current session yields Unavailable without protected prefix data");
+            expected_row(reply, 2, D::unattempted);
+            expected_row(reply, 3, D::unattempted);
+            require(batch.trace.ordinals(U::row, P::before_enqueue) == std::vector{1} &&
+                        batch.trace.ordinals(U::row, P::began) == std::vector{1} &&
+                        batch.trace.ordinals(U::final_read, P::before_enqueue).empty() &&
+                        batch.trace.ordinals(U::final_read, P::began).empty(),
+                    "Unknown current session forbids further admissions and reconciliation");
+            batch.prefix_one();
+        });
+    }
+
+    void refusedWriterAdmissionStopsWithoutStartingTheRow() {
+        check([] {
+            Batch batch;
+            auto service = batch.service();
+            const auto command = batch.command(service);
+            auto stopped = std::make_shared<bool>(false);
+            batch.trace.control = [&](const auto &event) {
+                if (event.unit == U::row && event.ordinal == 2 && event.phase == P::before_enqueue)
+                    require(batch.db.writer().shutdown([stopped] { *stopped = true; }) ==
+                                StorageError::none,
+                            "Close real writer admission immediately before the second enqueue");
+            };
+            const auto result = Case::execute(service, command);
+            const auto &reply = Case::reply(result);
+            require(reply.stop == ReviewStop::admission_refused && reply.rows.size() == 3 &&
+                        !reply.rows.front().outcome,
+                    "Actual writer admission refusal returns the safe ordinal stop shape");
+            expected_row(reply, 2, D::unattempted);
+            expected_row(reply, 3, D::unattempted);
+            require(batch.trace.ordinals(U::row, P::before_enqueue) == std::vector{1, 2} &&
+                        batch.trace.ordinals(U::row, P::began) == std::vector{1} &&
+                        batch.trace.ordinals(U::final_read, P::before_enqueue).empty() &&
+                        batch.trace.ordinals(U::final_read, P::began).empty(),
+                    "Refused admission starts neither the refused row nor any subsequent unit");
+            require(QTest::qWaitFor([stopped] { return *stopped; }, 10000),
+                    "The real writer acknowledges shutdown");
+            batch.prefix_one();
+        });
+    }
+
     void silentKeepsEffectsAndOrderedMilestoneChoices() {
         check([] {
             Case f;
@@ -837,6 +1094,12 @@ class ContributionReviewTests final : public QObject {
             expected_row(Case::reply(accepted), 1, D::committed, S::applied);
             f.head(99, 0, 125);
             f.claims(1);
+            const auto results = f.db.rows("SELECT format_ref,document FROM subathon_app_results");
+            require(results.size() == 1 &&
+                        results.front()[0].toByteArray() ==
+                            "subathon.internal.application-result.v1" &&
+                        results.front()[1].toByteArray().startsWith("SAR1"),
+                    "An ordinary complete application retains the v1 result format and SAR1");
             require(f.db.rows("SELECT g.target_micro_points,g.score_micro_points,d.mode,d.choice "
                               "FROM subathon_milestone_groups g JOIN "
                               "subathon_milestone_acceptance_decisions d "
@@ -1132,6 +1395,45 @@ class ContributionReviewTests final : public QObject {
                 false, {}, {{1, {key, 2, finance::CK::score}, 0, 0, 3, -3, fifth, 3, 0, false}}};
             finance::Authority authority;
             finance::Effects effects;
+            const auto domain = [&] {
+                return std::array{
+                    f.db.rows("SELECT * FROM subathon_app_head"),
+                    f.db.rows("SELECT * FROM subathon_app_operations ORDER BY "
+                              "operation_scope,operation_ref"),
+                    f.db.rows("SELECT * FROM subathon_app_results ORDER BY "
+                              "operation_scope,operation_ref"),
+                    f.db.rows("SELECT * FROM subathon_financial_refunds"),
+                    f.db.rows("SELECT * FROM subathon_financial_bases"),
+                    f.db.rows("SELECT * FROM subathon_financial_payment_heads"),
+                    f.db.rows("SELECT * FROM subathon_plan_revisions ORDER BY plan_ref,revision")};
+            };
+            const auto before = domain();
+            const FinancialEntitlement time_only{
+                0,
+                4,
+                fifth,
+                false,
+                GroupedRefundEntitlement{
+                    {key, 1, finance::CK::main_delta}, 1, 0, {}, {4, 0}, 4, 0, -4, 0},
+                {}};
+            const FinancialEntitlement count_only{
+                0,
+                4,
+                fifth,
+                false,
+                {},
+                {{1, {key, 3, finance::CK::whole_count}, 0, 0, 0, 0, fifth, fifth, fifth, false}}};
+            for (const auto &terminal : {time_only, count_only}) {
+                f.db.write([&](const auto &s) {
+                    const auto outcome =
+                        stage_financial_refund(s, refund, terminal, authority, effects);
+                    require(outcome.disposition == FinancialDisposition::invalid_financial_input &&
+                                std::holds_alternative<std::monostate>(outcome.record),
+                            "#199 refuses a candidate referencing a terminal zero-credit ordinal");
+                });
+                require(domain() == before && effects.observations == 0 && effects.adjustments == 0,
+                        "Refused terminal credit writes no plan, financial record, or application");
+            }
             f.db.write([&](const auto &s) {
                 const auto outcome =
                     stage_financial_refund(s, refund, candidate, authority, effects);
@@ -1154,51 +1456,71 @@ class ContributionReviewTests final : public QObject {
         });
     }
 
+    void creditedOriginalReviewPreservesItsFinancialHold() {
+        check([] {
+            CreditedOriginal current{"mixed-refund"};
+            ContributionReview review{*current.file.writer, current.facts};
+            const auto execute = [&](std::string key, ReviewVerb verb, S status) {
+                auto command = CreditedOriginal::bind(review, std::move(key), current.intent(verb));
+                const auto result = Case::execute(review, std::move(command));
+                expected_row(Case::reply(result), 1, D::committed, status);
+            };
+            const auto domain = current.protected_rows();
+            const auto ordinary = current.file.rows("SELECT * FROM subathon_hold_versions "
+                                                    "ORDER BY hold_ref,position");
+            const auto expect_financial = [&] {
+                const auto active = current.file.financial_active();
+                require(
+                    current.financial && active.size() == 1 &&
+                        finance::same(active.front().locator, *current.financial) &&
+                        current.protected_rows() == domain,
+                    "Review preserves the exact generated financial version, claim and effects");
+                current.file.check_head(50000, 0, 30000000, 7);
+            };
+            const auto expect_all_active = [&] {
+                expect_financial();
+                current.expect_ordinary(ApplicationHoldState::active, "v2");
+                require(current.file.rows("SELECT * FROM subathon_hold_versions "
+                                          "ORDER BY hold_ref,position") == ordinary,
+                        "The ordinary hold has no new version on a review-only outcome");
+            };
+
+            execute("credited-accept", ReviewVerb::accept, S::ineligible);
+            expect_all_active();
+            execute("credited-reject", ReviewVerb::reject, S::ineligible);
+            expect_all_active();
+
+            // Use genuine previews with the same intent and ordinary locator. The linked
+            // boundary case separately isolates the omitted and stale financial locators.
+            for (const auto &source : {std::optional<std::string>{},
+                                       std::optional<std::string>{"prior-financial-refund"}}) {
+                CreditedOriginal prior{source};
+                ContributionReview prior_review{*prior.file.writer, prior.facts};
+                const auto stale = CreditedOriginal::bind(
+                    prior_review, source ? "stale-financial" : "missing-financial",
+                    prior.intent(ReviewVerb::reject_held));
+                require(stale.entries.front().intent.selector ==
+                                current.intent(ReviewVerb::reject_held).selector &&
+                            (!source || (prior.financial && current.financial &&
+                                         !finance::same(*prior.financial, *current.financial))),
+                        "Alternate genuine preview omits or binds a different financial locator");
+                const auto result = Case::execute(review, stale);
+                expected_row(Case::reply(result), 1, D::committed, S::stale);
+                expect_all_active();
+            }
+
+            execute("credited-retain", ReviewVerb::retain_held, S::retained);
+            expect_all_active();
+            execute("credited-reject-held", ReviewVerb::reject_held, S::rejected);
+            current.expect_ordinary(ApplicationHoldState::resolved, "v3");
+            expect_financial();
+        });
+    }
+
     void shippedLinkedRefundBoundaryPreservesFinancialHold() {
         check([] {
             finance::File f;
-            f.move_main("financial-fixture-elapsed", 50000);
-            const auto quarter = finance::fraction(1, 4);
-            const FinancialEntitlement entitlement{
-                0,
-                5,
-                quarter,
-                false,
-                GroupedRefundEntitlement{{finance::original, 1, finance::CK::main_delta},
-                                         1,
-                                         0,
-                                         {},
-                                         {75000, 0},
-                                         75000,
-                                         0,
-                                         -75000,
-                                         0},
-                {{2,
-                  {finance::original, 2, finance::CK::score},
-                  0,
-                  0,
-                  10000000,
-                  -10000000,
-                  quarter,
-                  10000000,
-                  0,
-                  false},
-                 {3,
-                  {finance::original, 3, finance::CK::whole_count},
-                  0,
-                  0,
-                  0,
-                  0,
-                  quarter,
-                  finance::fraction(7, 4),
-                  finance::fraction(7, 4),
-                  false}}};
-            finance::Effects effects;
-            const auto refund = f.refund("mixed-refund", core::ReceiptMoney{"5.00", "EUR"});
-            (void)f.accept(f.command("mixed-refund", refund, 0), entitlement, effects);
-            const auto financial = f.financial_active();
-            require(financial.size() == 1 && effects.adjustments == 0,
-                    "Real #199 mixed refund held time and credited its score adjustment once");
+            const auto locator = seed_financial_hold(f);
             auto first = f.ordinary_detection("ordinary-a", false);
             (void)f.detect(first);
             first.request.mutation_ref = "ordinary-a-new-version";
@@ -1214,11 +1536,10 @@ class ContributionReviewTests final : public QObject {
             const auto h2 = f.detect(f.ordinary_detection("ordinary-b", false));
             f.check_head(50000, 0, 30000000, 7);
             report(migrate(*f.writer, request(MigrationMode::advance,
-                                              provider_credentials_repository_manifest())),
-                   CatalogState::current, 16, 16, 1);
-            report(migrate(*f.writer, request(MigrationMode::advance, literal_v17())),
-                   CatalogState::current, 17, 17, 1);
-            const auto locator = financial.front().locator;
+                                              milestone_target_edits_repository_manifest())),
+                   CatalogState::current, 18, 18, 3);
+            report(migrate(*f.writer, request(MigrationMode::advance, literal_v19())),
+                   CatalogState::current, 19, 19, 1);
             std::vector active{h1, h2, locator};
             std::ranges::sort(active, {}, &ApplicationHoldVersionLocator::hold_ref);
             ApplicationHoldResolutionBatch batch{
@@ -1261,7 +1582,7 @@ class ContributionReviewTests final : public QObject {
             require(apply(wrong) == FinancialDisposition::refused,
                     "A replacement cannot be smuggled into whole-original linked closure");
             require(apply(batch) == FinancialDisposition::ordinary_resolved,
-                    "Shipped linked boundary closes all exact ordinary members at v17");
+                    "Shipped linked boundary closes all exact ordinary members at v19");
             const auto remaining = f.financial_active();
             require(remaining.size() == 1 && finance::same(remaining.front().locator, locator),
                     "Real v15 financial hold identity and version survive unchanged");

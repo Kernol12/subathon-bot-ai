@@ -1,15 +1,22 @@
 # ACCT-005 Stage 1 author packet
 
-Tier A. Frozen revision 2 at `8841829008a55cfcb3e850abd785c798cbb5cc32` and contract blob `f05a2419a23301a3a2d81cdceb4461128a986333`, integrated onto the protected v16 base at `a5854627dfdc76654169d4b56f35bb6f4bd7bece`. The example body SHA-256 is `47751fb964fdc80ce7258058bc8a4a1639ce271934c1c598b2bb0e673b96cc5b`. [Freeze](https://github.com/Kernol12/subathon-bot-ai/pull/742#issuecomment-7023283524) · [Activation](https://github.com/Kernol12/subathon-bot-ai/issues/197#issuecomment-7025688441)
+Tier A. Revision 2 with Correction 1 (80A) is frozen at
+`65a1c80494aed498df141c9844e9a95416ff5f9d`, contract blob `1d001d9b`.
+The examples body SHA-256 is
+`698d045992f54cd8dc24f0cb19e8c60ff179a2a39c4cc37f56fca3e4d92afc9a`.
+The protected prefix ends at `84dd71180cd65b26d31f4cbc493b851d356fec73`.
+[Original freeze](https://github.com/Kernol12/subathon-bot-ai/pull/742#issuecomment-7023283524) ·
+[Owner 80A and v19 assignment](https://github.com/Kernol12/subathon-bot-ai/issues/197#issuecomment-7039054377) ·
+[80A closing](https://github.com/Kernol12/subathon-bot-ai/pull/742#issuecomment-7039183961)
 
 ## Expected first stops after admission
 
 | Cases in the Qt source | First intended stop | Independent observation beyond the stop |
 | --- | --- | --- |
-| `catalogProducerAdvancesExactlyOneStep` | Explicit producer NI | Genuine v16 with a previously committed bundle and milestone, exact v17 delta, full schema and framed history, empty new relations |
+| `catalogProducerAdvancesExactlyOneStep` | Explicit producer NI | Protected v18 with a previously committed bundle and milestone, exact v19 delta, full schema and framed history, empty new relations |
 | `literalCatalogBudgetAtAndOneBelow` | Passing control | One byte below cumulative UTF-8 fails admission, exact charge advances |
-| `exactV17FinancialMarker`, `exactV17MilestoneMarker`, `exactV17ModifierMarker` | The respective shipped selector rejects the new exact marker | Each first verifies its v16 control and independently advances full literal v17 |
-| `lookalikeV17MarkersStayClosed` | Passing control | Exact v17 setup and then a case-changed history marker; typed rejection for each selector |
+| `exactV19FinancialMarker`, `exactV19MilestoneMarker`, `exactV19ModifierMarker`, `exactV19RateMarker` | The respective shipped selector rejects the new exact marker | Each first reads through its normal entry point on v18 and applies literal v19 |
+| `lookalikeV19MarkersStayClosed` | Passing control | Exact v19 setup, then a case-changed latest marker; typed refusal for all four selectors |
 | `executeIngressRefusesSeventeenWithoutPreview` | Explicit execute NI | Count precedence at ingress, before opaque basis parsing or owning writer work |
 | `lookupWithCurrentScopeDoesNotResumeOrCreate` | Explicit lookup NI | Current key denial and zero row work |
 | `rollbackPrefixAndExactRetry`, `firstRowRollbackLeavesNoBinding`, `liveCapAndUnrelatedScoreDriftStaleSuffix` | Explicit preview NI after real retained setup | A/B. Main starts at 95, then +4/+1/+0 at cap 100, so 0/3/4 ms is cap-limited. Score is 90/97/104/111. Only 111 crosses 110. A separate +6 correction leaves 103 and invalidates the two remaining projected bases. |
@@ -21,7 +28,25 @@ Tier A. Frozen revision 2 at `8841829008a55cfcb3e850abd785c798cbb5cc32` and cont
 | `silentKeepsEffectsAndOrderedMilestoneChoices` | Preview NI | 90 + 35 = 125 and crosses 100, 110, 120 exactly in that order. Internal jobs survive. Ordinary alerts do not. |
 | `wholeOriginalDeficits` | Preview NI | 59A/60A. At 99 Main, ordinal 1 combines −99 Main with −1 unapplied or +1 debt. A subsequent −2 at Main 0 is all unapplied under Stop. At Main 100 the entire −100 fits. Reject/Retain each adds no credit. |
 | `finishedPartitionAndRetainedFinancialBasis` | Preview NI | Fresh and held Finished originals. At hard end, the time and count requests have zero credit. The literal suffix `00000003 00000002 01 00 02` leaves +15 score alone at ordinal 2. EUR 4 of EUR 20 is 1/5, so the actual shipped #199 refund then removes 3 from 105. |
-| `shippedLinkedRefundBoundaryPreservesFinancialHold` | Shipped financial marker path, after actual v15 financial/ordinary hold setup and literal v16/v17 advance | An absent/stale financial locator, incomplete ordinary closure or replacement leaves the mixed set unchanged. The valid linked closure preserves the one exact generated financial version and once-only score. |
+| `creditedOriginalReviewPreservesItsFinancialHold` | Preview NI after a real credited original, #199 financial hold, ordinary beside-complete hold and literal v19 advance | 80A. With a real v2 ordinary hold, Accept and Reject are ineligible, an alternate basis is stale, RetainHeld keeps both versions, and RejectHeld closes only the ordinary version. The claim, effects and financial version remain exact. |
+| `unknownScopeStopsWithoutReadingThePrefix`, `refusedWriterAdmissionStopsWithoutStartingTheRow` | Preview NI after three-row setup | Unknown scope and actual writer admission refusal after an acknowledged prefix separately stop forwarding without another BEGIN or reconciliation. |
+| `shippedLinkedRefundBoundaryPreservesFinancialHold` | Shipped financial marker path, after actual v15 financial/ordinary hold setup and v18/v19 advance | An absent/stale financial locator, incomplete ordinary closure or replacement leaves the mixed set unchanged. The valid linked closure preserves the one exact generated financial version and once-only score. |
+
+The 40 invocations predict 30 preview NI stops, one producer NI, one execute
+NI, one lookup NI, five marker refusals and two passing controls, excluding
+Qt lifecycle hooks. These counts are source-derived.
+
+B1 uses a genuine #199 hold before adding an ordinary beside-complete hold.
+Its service stale probes use other genuine previews of the same intent and
+ordinary version. Those previews can also have different state tokens.
+The linked financial control isolates omitted and mismatched financial
+locators at the owning boundary. There is no unclaimed financial-hold fixture.
+
+B2 retains the SAR2 and positive sparse score controls. It submits actual
+#199 candidates against each zero-credit terminal ordinal and compares the
+committed domain rows before and after each refusal. The ordinary Silent
+application also checks the v1 result format and SAR1. B3 allows zero or one
+final read for first-row rollback and retains the later-prefix checks.
 
 Calls through `execute` also have their own linkable named NI marker. Cases that
 need a freshly bound server preview intentionally hit preview first. Fixture
@@ -46,22 +71,58 @@ protected cells. Existing rows acquire no inferred disposition.
 
 | Charge | Bytes |
 | --- | ---: |
-| v1–v16 cumulative SQL and repeated projection | 1,065,558 |
-| v17 ordered SQL statements | 3,677 |
-| Repeated protected objects in the v17 projection | 96,456 |
-| Eleven v17 projection rows, including all text fields and present SQL | 4,389 |
-| Full v17 projection, 172 objects | 100,845 |
-| Full selected v1–v17 cumulative charge | 1,170,080 |
-| Explicit normal v17 fixture limit | 1,170,081 |
+| v1–v18 cumulative SQL and repeated projection | 1,311,210 |
+| v19 ordered SQL statements | 3,677 |
+| Repeated protected objects in the v19 projection | 122,859 |
+| Eleven v19 projection rows, including all text fields and present SQL | 4,389 |
+| Full v19 projection, 225 objects | 127,248 |
+| Full selected v1–v19 cumulative charge | 1,442,135 |
+| Explicit normal v19 fixture limit | 1,442,136 |
 
 Ordered SQL UTF-8 sizes are 696, 1977, 84, 121, 121, and 678.
-The exact-admission control uses 1,170,080 and its one-below control uses
-1,170,079. All are explicit fixture request limits, with a fixture ceiling
-of 2 MiB. Every repeated SQL-bearing projection charges type, name, table
-and present SQL separately. Each autoindex charges type, name and table.
-The independent catalog-v1 frame uses decimal byte lengths followed by a
-colon and the literal field bytes. Its v17 SHA-256 is
-`544c88a07e8555fb2a912b6c558e01e0174d2ccb1b1d55a60e602bc455003338`.
+The exact-admission control uses 1,442,135 and its one-below control uses
+1,442,134. All are explicit fixture request limits within 2 MiB. Each
+SQL-bearing projection charges type, name, table and present SQL. Each
+autoindex charges type, name and table. The independent catalog-v1 frame
+uses decimal byte lengths followed by a colon and the literal field bytes.
+The v19 payload is 133,920 bytes with SHA-256
+`407229e831e3f1368f2b5cba415c56fe0cc1b45a30ddfb496c39ec72504e8e87`.
+
+### Existing catalog readers
+
+| Selector | Exact protected marker before upgrade | v19 compatibility control |
+| --- | --- | --- |
+| `financial_sql::selected` (`sqlite_financial_catalog.hpp`), used by refund and linked hold paths | `18/milestone-target-edits-v1`, tier 2 | `SqliteFinancialRefundStore::active` on v18 and `19/contribution-review-v1`. Preserve tier 2. |
+| `milestone_sql::catalog` (`sqlite_milestone_detail.hpp`), used by milestone groups, decisions, delivery, and target edits | `18/milestone-target-edits-v1`, tier 3 | `SqliteMilestoneGroupStore::pending` on both exact pairs. Preserve tier 3. |
+| `ModifierRows` (`sqlite_modifier_activations.cpp`) | `18/milestone-target-edits-v1` | `SqliteModifierActivationStore::instance_revision` on both exact pairs. |
+| `RateRows` (`sqlite_rate_overrides.cpp`) | `18/milestone-target-edits-v1` | `SqliteRateOverrideUnit::head` returns reserved root E before upgrade and after v19 reopen. |
+
+All four select the latest row and require an integer version and the
+catalog singleton's format and identity. Existing branches are:
+
+- Financial returns pre-financial for versions 1–14. It selects tier 1 for
+  `15/financial-refunds-v1`, `16/provider-credentials-v1`, and
+  `17/rate-overrides-v1`, and tier 2 for the exact v18 pair.
+- Milestone returns pre-group for versions 1–10 or `11/delivery-jobs-v1`.
+  It selects tier 1 for `12/milestone-groups-v1`, tier 2 for
+  `13/milestone-group-decisions-v1` and the listed v14–v17 pairs,
+  and tier 3 for the exact v18 pair.
+- Modifier accepts `14/modifier-activations-v1` and the listed exact
+  v15–v18 pairs. Rate accepts the listed exact v17 and v18 pairs.
+
+The v19 branch will require the exact byte-matched marker. Stage 1 leaves the guards at their protected pairs to expose
+the four expected compatibility failures. `lookalikeV19MarkersStayClosed`
+expects all four selectors to reject the case-changed v19 marker.
+The migration runner's full-history matching is separately covered by
+inspection, exact schema, cumulative budget and digest controls.
+
+### Nullable SQL checks
+
+The journal prefix helper normalizes only an SQL NULL receipt ID using
+`isNull()`. Schema projections use `isNull()` for absent SQL. Protected
+refusal rows use SQL NULL predicates. The new committed images compare
+selected actual rows to prior actual rows from the same reader, including
+their nullable fields. None compares a typed SQL NULL to an empty QVariant.
 
 ## Real writer budget witness design
 
@@ -133,15 +194,6 @@ the shipped defaults.
 
 ## Decisions for the coordinator
 
-- A genuine shipped #199 financial hold is born against an already credited
-  original and exposes a generated active version, rather than arbitrary
-  version labels from the examples. The real linked-closure case uses a known
-  completed original and observes the exact generated version. To exercise an
-  unclaimed whole original in the presence of a financial hold, either establish
-  a separately supported reachable provenance or use a synthetic comparison
-  control with no application authority. Prefer the shipped reachable control
-  and keep whole-input apply through a financial hold conditional on owning
-  policy.
 - The DTO uses a redacted outcome without the attempt disposition when a
   historical outcome loses disclosure. Safe interrupted summaries still have
   attempt dispositions. If the coordinator wants the redacted case represented

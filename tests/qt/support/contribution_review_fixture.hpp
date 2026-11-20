@@ -34,6 +34,7 @@ struct Facts final : ContributionReviewFacts {
     std::optional<ReviewSelector> disclosure_denied;
     bool batch_allowed{true};
     bool session_known{true};
+    QByteArray configuration_document{"synthetic review configuration"};
 
     AccessDecision check(const ApplicationReferenceReadView &view,
                          const ReviewAuthorityQuery &query) override {
@@ -54,7 +55,7 @@ struct Facts final : ContributionReviewFacts {
              selector == disclosure_denied))
             return ApplicationAccessDenied{};
         const auto authority = view.find_retained({RetainedKind::configuration, "cfg"});
-        require(authority && authority->document == "synthetic review configuration",
+        require(authority && authority->document == configuration_document,
                 "Current synthetic grant uses a real same-session retained read");
         if (query.entry && query.entry->revision &&
             !view.find_retained({RetainedKind::arrival_context, "independent-quote"}))

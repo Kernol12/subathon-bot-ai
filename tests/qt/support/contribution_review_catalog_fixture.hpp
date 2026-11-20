@@ -5,7 +5,7 @@
 
 #include <QCryptographicHash>
 #include <subathon/server/contribution_review.hpp>
-#include <subathon/server/sqlite_credential_catalog.hpp>
+#include <subathon/server/sqlite_milestone_target_edits.hpp>
 #include <tuple>
 
 namespace contribution_review_fixture {
@@ -18,7 +18,7 @@ using qt_test_support::require;
 // accept-and-apply); 2 records terminal no-claim rejection; 3 audits other verbs.
 // Status tags follow the frozen outcome order. SelectorUnavailable is tag 8
 // physically so it can share the mandatory protected-NULL checks with Denied.
-inline const QList<QString> v17_sql{
+inline const QList<QString> v19_sql{
     "CREATE TABLE subathon_review_work("
     "installation_ref BLOB NOT NULL CHECK(typeof(installation_ref)='blob' AND "
     "length(installation_ref)>0), "
@@ -82,13 +82,13 @@ inline const QList<QString> v17_sql{
     "subathon_plan_requests(plan_ref,revision,ordinal))",
 };
 
-inline const QList<CatalogObject> v17_projection{
-    {"table", "subathon_review_work", "subathon_review_work", v17_sql[0]},
-    {"table", "subathon_review_entries", "subathon_review_entries", v17_sql[1]},
-    {"index", "subathon_review_entries_cid", "subathon_review_entries", v17_sql[2]},
-    {"index", "subathon_review_entries_accept_once", "subathon_review_entries", v17_sql[3]},
-    {"index", "subathon_review_entries_reject_once", "subathon_review_entries", v17_sql[4]},
-    {"table", "subathon_review_terminal_requests", "subathon_review_terminal_requests", v17_sql[5]},
+inline const QList<CatalogObject> v19_projection{
+    {"table", "subathon_review_work", "subathon_review_work", v19_sql[0]},
+    {"table", "subathon_review_entries", "subathon_review_entries", v19_sql[1]},
+    {"index", "subathon_review_entries_cid", "subathon_review_entries", v19_sql[2]},
+    {"index", "subathon_review_entries_accept_once", "subathon_review_entries", v19_sql[3]},
+    {"index", "subathon_review_entries_reject_once", "subathon_review_entries", v19_sql[4]},
+    {"table", "subathon_review_terminal_requests", "subathon_review_terminal_requests", v19_sql[5]},
     {"index", "sqlite_autoindex_subathon_review_work_1", "subathon_review_work", std::nullopt},
     {"index", "sqlite_autoindex_subathon_review_entries_1", "subathon_review_entries",
      std::nullopt},
@@ -104,17 +104,17 @@ inline auto schema_order(const CatalogObject &a, const CatalogObject &b) {
     return std::tie(a.type, a.name) < std::tie(b.type, b.name);
 }
 
-inline MigrationManifest literal_v17() {
-    auto manifest = provider_credentials_repository_manifest();
-    require(manifest.steps.size() == 16 && manifest.steps.back().version == 16 &&
-                manifest.steps.back().id == "provider-credentials-v1",
-            "Protected v16 producer supplies the old manifest");
-    MigrationStep next{17, "contribution-review-v1", v17_sql,
+inline MigrationManifest literal_v19() {
+    auto manifest = milestone_target_edits_repository_manifest();
+    require(manifest.steps.size() == 18 && manifest.steps.back().version == 18 &&
+                manifest.steps.back().id == "milestone-target-edits-v1",
+            "Protected v18 producer supplies the old manifest");
+    MigrationStep next{19, "contribution-review-v1", v19_sql,
                        manifest.steps.back().expected_schema};
-    next.expected_schema.append(v17_projection);
+    next.expected_schema.append(v19_projection);
     std::ranges::sort(next.expected_schema, schema_order);
     manifest.steps.append(std::move(next));
-    manifest.supported_starting_versions.append(17);
+    manifest.supported_starting_versions.append(19);
     return manifest;
 }
 
@@ -187,15 +187,15 @@ inline constexpr auto history_query =
     "typeof(migration_id),typeof(content_sha256) FROM main.subathon_migration_history ORDER BY "
     "version";
 
-inline constexpr qsizetype v16_manifest_bytes = 1065558;
-inline constexpr qsizetype v17_manifest_bytes = 1170080;
-inline constexpr auto v17_digest_hex =
-    "544c88a07e8555fb2a912b6c558e01e0174d2ccb1b1d55a60e602bc455003338";
+inline constexpr qsizetype v18_manifest_bytes = 1311210;
+inline constexpr qsizetype v19_manifest_bytes = 1442135;
+inline constexpr auto v19_digest_hex =
+    "407229e831e3f1368f2b5cba415c56fe0cc1b45a30ddfb496c39ec72504e8e87";
 
 inline MigrationRequest request(MigrationMode mode, MigrationManifest manifest) {
     const auto measured = tally(manifest);
     constexpr qsizetype ceiling = 2 * 1024 * 1024;
-    const auto expected = manifest.steps.size() == 17 ? v17_manifest_bytes : v16_manifest_bytes;
+    const auto expected = manifest.steps.size() == 19 ? v19_manifest_bytes : v18_manifest_bytes;
     require(measured == expected && measured < ceiling,
             "Bound cumulative migration fixture charge matches the independent source tally");
     MigrationLimits limits;
@@ -237,16 +237,16 @@ class CatalogFile {
     explicit CatalogFile(StorageLimits limits = finance::limits()) {
         require(directory_.isValid(), "Disposable SQLite directory exists");
         open(limits);
-        auto shipped = provider_credentials_repository_manifest();
-        require(tally(shipped) == v16_manifest_bytes,
-                "Protected v16 cumulative projection stays exact");
+        auto shipped = milestone_target_edits_repository_manifest();
+        require(tally(shipped) == v18_manifest_bytes,
+                "Protected v18 cumulative projection stays exact");
         report(migrate(writer(), request(MigrationMode::advance, std::move(shipped))),
-               CatalogState::current, 16, 16, 16);
+               CatalogState::current, 18, 18, 18);
     }
 
     void advance_literal() {
-        report(migrate(writer(), request(MigrationMode::advance, literal_v17())),
-               CatalogState::current, 17, 17, 1);
+        report(migrate(writer(), request(MigrationMode::advance, literal_v19())),
+               CatalogState::current, 19, 19, 1);
     }
 
     void reopen(StorageLimits limits = profile()) {
