@@ -5,6 +5,7 @@
 #include "sqlite_milestone_detail.hpp"
 #include <QDataStream>
 #include <QIODevice>
+#include <span>
 #include <subathon/server/sqlite_milestone_target_edits.hpp>
 #include <variant>
 
@@ -41,6 +42,36 @@ inline std::size_t membership_bytes(const MilestoneEditKey &origin,
                               origin.operation_ref.size();
     return origin_bytes + jobs * (origin_bytes + occurrence.ref.size() + sizeof(std::int64_t));
 }
+
+struct GroupResultSize {
+    std::size_t groups{};
+    std::size_t actions{};
+    std::size_t bytes{};
+
+    void include(GroupResultSize next) {
+        groups += next.groups;
+        actions += next.actions;
+        bytes += next.bytes;
+        if (groups > std::size_t(collection_limit) || actions > std::size_t(collection_limit) ||
+            bytes > std::size_t(document_limit))
+            throw SqliteBundleStorageFailure(SqliteBundleStorageReason::result_limit);
+    }
+};
+
+inline GroupResultSize group_result_size(const MilestoneEditKey &origin,
+                                         const MilestoneOccurrenceKey &occurrence,
+                                         const core::MilestoneCompletion &completion,
+                                         std::span<const MilestoneAction> actions,
+                                         std::size_t jobs) {
+    auto bytes = membership_bytes(origin, occurrence, jobs) + occurrence.ref.size() +
+                 completion.milestone_ref.size() + completion.definition_revision_ref.size() +
+                 completion.completion_context_ref.size();
+    for (const auto &action : actions)
+        bytes += action.action_ref.size() + action.version_ref.size();
+    return {1, actions.size(), bytes};
+}
+
+GroupResultSize pending_result_size(const SqliteWorkSession &);
 std::int64_t total_score(const ApplicationStateSnapshot &);
 void check_application_identity(const SqliteWorkSession &, const QByteArray &, qint64 order);
 

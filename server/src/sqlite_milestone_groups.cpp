@@ -312,6 +312,36 @@ std::optional<std::pair<QByteArray, bool>> pending_head(const SqliteWorkSession 
     return std::pair{key, edit};
 }
 
+GroupResultSize pending_result_size(const SqliteWorkSession &s) {
+    // Count the same pending suffix as pending(), without decoding its retained
+    // jobs. The bounded aggregates charge the same references as group_result_size.
+    const auto cap = collection_limit + 1;
+    const auto rows = s.execute(
+        {"WITH edit_groups AS ("
+         "SELECT g.occurrence_ref,length(g.occurrence_ref) AS occurrence_bytes,"
+         "length(g.installation_ref)+length(g.track_ref)+length(g.edit_ref) AS origin_bytes,"
+         "length(g.milestone_ref)+length(g.definition_revision)+"
+         "length(g.completion_context_ref) AS completion_bytes "
+         "FROM main.subathon_milestone_edit_occurrences g WHERE g.released=0 AND NOT " +
+             QString(edit_skipped) +
+             " LIMIT ?), edit_actions AS ("
+             "SELECT length(a.action_ref)+length(a.version_ref)+"
+             "CASE WHEN a.kind=0 THEN g.origin_bytes+g.occurrence_bytes+? ELSE 0 END AS bytes "
+             "FROM edit_groups g JOIN main.subathon_milestone_edit_actions a USING(occurrence_ref) "
+             "LIMIT ?), application_groups AS (SELECT 1 "
+             "FROM main.subathon_milestone_groups g WHERE " +
+             pending_filter(Catalog::edits) +
+             " LIMIT ?) SELECT "
+             "(SELECT count(*) FROM edit_groups)+(SELECT count(*) FROM application_groups),"
+             "(SELECT count(*) FROM edit_actions),"
+             "coalesce((SELECT sum(origin_bytes+occurrence_bytes+completion_bytes) "
+             "FROM edit_groups),0)+coalesce((SELECT sum(bytes) FROM edit_actions),0)",
+         {cap, qint64(sizeof(std::int64_t)), cap, cap}});
+    const auto &row = rows.front();
+    return {std::size_t(integer(row[0])), std::size_t(integer(row[1])),
+            std::size_t(integer(row[2]))};
+}
+
 std::vector<std::pair<qint64, CapturedMilestoneGroup>> pending(const SqliteWorkSession &s) {
     const auto rows = s.execute(
         {"SELECT " + ref_column("g.occurrence_ref") +
@@ -321,23 +351,12 @@ std::vector<std::pair<qint64, CapturedMilestoneGroup>> pending(const SqliteWorkS
     if (rows.size() > collection_limit)
         throw SqliteBundleStorageFailure(SqliteBundleStorageReason::result_limit);
     std::vector<std::pair<qint64, CapturedMilestoneGroup>> out;
-    std::size_t action_count = 0;
-    std::size_t bytes = 0;
+    GroupResultSize budget;
     for (const auto &row : rows) {
-        const auto key = reference(row[0]);
-        auto selected = occurrence(s, blob(key), true).value();
+        auto selected = occurrence(s, blob(reference(row[0])), true).value();
         const auto &group = selected.group;
-        const auto &achievement = group.achievement;
-        action_count += group.actions.size();
-        bytes +=
-            membership_bytes(selected.edit, *group.occurrence, group.edit_membership->jobs.size());
-        bytes += key.size() + achievement.milestone_ref.size() +
-                 achievement.definition_revision_ref.size() +
-                 achievement.completion_context_ref.size();
-        for (const auto &action : group.actions)
-            bytes += action.action_ref.size() + action.version_ref.size();
-        if (action_count > std::size_t(collection_limit) || bytes > std::size_t(document_limit))
-            throw SqliteBundleStorageFailure(SqliteBundleStorageReason::result_limit);
+        budget.include(group_result_size(selected.edit, *group.occurrence, group.achievement,
+                                         group.actions, group.edit_membership->jobs.size()));
         out.emplace_back(selected.order, CapturedMilestoneGroup{std::move(selected.group), {}});
     }
     return out;

@@ -771,7 +771,7 @@ MilestoneEditReply reconcile(const SqliteWorkSession &s, const MilestoneEditInte
     Encoding selected_captures;
     actual_captures.number(rows.size());
     selected_captures.number(rows.size());
-    std::size_t membership_size = 0;
+    GroupResultSize result_size;
     for (const auto &row : rows) {
         const auto index = result.achievements.size();
         if (integer(row[0]) != qint64(index) + 1)
@@ -791,10 +791,8 @@ MilestoneEditReply reconcile(const SqliteWorkSession &s, const MilestoneEditInte
         if (choice == intent.choices.end() || choice->choice != selected->choice)
             corrupt();
         const auto &g = selected->group;
-        membership_size +=
-            membership_bytes(selected->edit, *g.occurrence, g.edit_membership->jobs.size());
-        if (membership_size > std::size_t(document_limit))
-            throw SqliteBundleStorageFailure(SqliteBundleStorageReason::result_limit);
+        result_size.include(group_result_size(selected->edit, *g.occurrence, g.achievement,
+                                              g.actions, g.edit_membership->jobs.size()));
         MilestoneEditCapture retained{
             g.achievement.milestone_ref, *g.occurrence, g.actions, g.timing, {}};
         for (std::size_t i = 0; i < g.actions.size(); ++i) {
@@ -877,7 +875,8 @@ MilestoneEditResult stage(const SqliteWorkSession &s, const MilestoneEditIntent 
                                p.achievements.empty() ? prior_prefix
                                                       : facts.candidate_prefix_revision,
                                {}};
-    std::size_t membership_size = 0;
+    GroupResultSize result_size;
+    GroupResultSize pending_growth;
     for (std::size_t i = 0; i < p.achievements.size(); ++i) {
         const auto &capture = p.achievements[i];
         const auto choice = std::ranges::find(intent.choices, capture.occurrence,
@@ -886,9 +885,11 @@ MilestoneEditResult stage(const SqliteWorkSession &s, const MilestoneEditIntent 
         const core::MilestoneCompletion completion{
             capture.milestone_ref, result.definition_revision,
             p.plan.newly_completed[i].target_micro_points, p.score, intent.key.operation_ref};
-        membership_size += membership_bytes(intent.key, capture.occurrence, capture.jobs.size());
-        if (membership_size > std::size_t(document_limit))
-            throw SqliteBundleStorageFailure(SqliteBundleStorageReason::result_limit);
+        const auto group_size = group_result_size(intent.key, capture.occurrence, completion,
+                                                  capture.actions, capture.jobs.size());
+        result_size.include(group_size);
+        if (choice != MilestoneActionChoice::skip)
+            pending_growth.include(group_size);
         MilestoneEditMembership membership{intent.key, {}};
         membership.jobs.reserve(capture.jobs.size());
         for (std::size_t action = 0; action < capture.actions.size(); ++action)
@@ -902,6 +903,9 @@ MilestoneEditResult stage(const SqliteWorkSession &s, const MilestoneEditIntent 
         prefix.origins.push_back(
             {1, {}, {}, {}, blob(intent.key.operation_ref), blob(capture.occurrence.ref)});
     }
+
+    if (pending_growth.groups != 0)
+        pending_result_size(s).include(pending_growth);
 
     Encoding audit;
     audit.bytes(p.confirmation->intent);
