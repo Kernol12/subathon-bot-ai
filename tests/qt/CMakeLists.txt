@@ -141,6 +141,14 @@ if(SUBATHON_BUILD_SQLITE_RATE_OVERRIDE_WRITER_TESTS)
         LABELS "sqlite-rate-override-writer;acceptance;qt;server" TIMEOUT 180)
 endif()
 
+if(SUBATHON_BUILD_CONTRIBUTION_REVIEW_TESTS)
+    subathon_add_qt_suite(server_contribution_review_acceptance
+        NAME contribution-review SOURCES contribution_review_tests.cpp
+        LIBRARIES subathon_contribution_review subathon_sqlite_milestone_target_edits
+            subathon_sqlite_modifier_activations subathon_refund_entitlement
+        LABELS "contribution-review;acceptance;qt;server" TIMEOUT 180)
+endif()
+
 if(SUBATHON_BUILD_SQLITE_CREDENTIALS_TESTS)
     subathon_add_qt_suite(server_sqlite_credentials_acceptance
         NAME sqlite-credentials

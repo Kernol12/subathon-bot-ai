@@ -391,7 +391,7 @@ jobs:
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch;contribution-review"
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
@@ -455,6 +455,29 @@ jobs:
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-milestone-target-edits$' --no-tests=error
       - name: Run milestone target edit catalog acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-milestone-target-edit-catalog$' --no-tests=error
+      - name: Run reviewed contribution review acceptance
+        run: >-
+          ctest --preset sqlite-reference-capture-debug -L '^contribution-review$'
+          --no-tests=error --verbose --test-output-size-passed 1048576
+          --output-junit "$GITHUB_WORKSPACE/build/sqlite-reference-capture-debug/contribution-review-results.xml"
+      - name: Verify every contribution review invocation and zero skips
+        run: |
+          python3 - <<'PYTHON'
+          import re
+          import xml.etree.ElementTree as ET
+          cases = ET.parse("build/sqlite-reference-capture-debug/contribution-review-results.xml").getroot().findall("testcase")
+          if len(cases) != 1 or cases[0].get("name") != "contribution-review.suite":
+              raise SystemExit("Missing unfiltered contribution-review results")
+          case = cases[0]
+          if case.find("failure") is not None or case.find("skipped") is not None:
+              raise SystemExit("Contribution review failed or skipped")
+          output = case.findtext("system-out", "")
+          totals = re.findall(r"^Totals: (\d+) passed, (\d+) failed, (\d+) skipped, (\d+) blacklisted", output, re.MULTILINE)
+          if totals != [("43", "0", "0", "0")]:
+              raise SystemExit("Contribution review must pass 41 invocations and both hooks, with zero skips")
+          if re.search(r"^(?:QWARN|QSYSTEM|QFATAL)", output, re.MULTILINE):
+              raise SystemExit("Unexpected Qt warning in contribution review acceptance")
+          PYTHON
       - name: Run reviewed connector lifecycle acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^connector-lifecycle$' --no-tests=error
       - name: Run reviewed initial-capture codec acceptance

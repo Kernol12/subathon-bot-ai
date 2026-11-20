@@ -107,7 +107,8 @@ struct SqliteWorkResult {
 
 namespace detail {
 class SqliteWorkState;
-}
+class ContributionReviewWriterAccess;
+} // namespace detail
 namespace testing {
 class SqliteWriterWorkAccess;
 }
@@ -130,6 +131,7 @@ class SqliteWorkSession final {
     explicit SqliteWorkSession(std::weak_ptr<detail::SqliteWorkState> state)
         : state_(std::move(state)) {}
     std::weak_ptr<detail::SqliteWorkState> state_;
+    friend class detail::ContributionReviewWriterAccess;
     friend class SqliteWorkContext;
     friend class SqliteWriter;
 };
@@ -169,6 +171,7 @@ class SqliteWriter final : public QObject {
     class Impl;
     std::unique_ptr<Impl> impl_;
     friend class testing::SqliteWriterWorkAccess;
+    friend class detail::ContributionReviewWriterAccess;
 };
 
 // A distinct connection opened with SQLite's real read-only flag as well as

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 // Private same-session strict decoders shared by bundle and hold persistence.
+#include "contribution_review_writer_access.hpp"
 #include "sqlite_application_bundle_values.hpp"
 #include "sqlite_financial_catalog.hpp"
 #include "sqlite_selected_record_read.hpp"
@@ -285,6 +286,15 @@ class Access {
     bool wrote_{false};
     enum class ReadPolicy { legacy, selected };
     ReadPolicy policy_;
+    bool review_history_{false};
+    // Only enabled for composed reads without writes between consumers.
+    bool immutable_reads_{false};
+    std::optional<bool> terminal_catalog_;
+    std::optional<ContributionReceipt> checked_receipt_;
+    std::optional<std::pair<std::string, std::string>> checked_arrival_;
+    std::optional<ApplicationStateSnapshot> preceding_review_state_;
+    std::optional<std::string> checked_configuration_;
+
     Access(SqliteWorkSession s, SqliteBundleLimits l, ReadPolicy policy = ReadPolicy::legacy)
         : session_(std::move(s)), limits_(l), policy_(policy) {}
     bool selected() const { return policy_ == ReadPolicy::selected; }
@@ -430,12 +440,21 @@ class Access {
                 fail(Reason::invalid_stored_data);
             return;
         }
+        const auto refs = std::tie(arrival.configuration_ref, arrival.modifier_context_ref);
+        const bool shared_references = review_history_ || immutable_reads_;
+        if (shared_references && checked_arrival_ &&
+            refs == std::tie(checked_arrival_->first, checked_arrival_->second))
+            return;
         try {
             const SqliteRetainedContextStore retained(
                 session_, {limits_.reference_bytes, limits_.value_bytes});
             if (!retained.find({RetainedKind::configuration, arrival.configuration_ref}) ||
                 !retained.find({RetainedKind::arrival_context, arrival.modifier_context_ref}))
                 fail(Reason::invalid_stored_data);
+            if (shared_references) {
+                checked_arrival_.emplace(arrival.configuration_ref, arrival.modifier_context_ref);
+                checked_configuration_ = arrival.configuration_ref;
+            }
         } catch (const RetentionFailure &e) {
             // The retained primitive already established rollback; do not replace
             // its outcome with a second control operation on the closed unit.
@@ -449,6 +468,8 @@ class Access {
         }
     }
     std::optional<ContributionReceipt> original(core::ReceiptId receipt) {
+        if (immutable_reads_ && checked_receipt_ && checked_receipt_->id == receipt)
+            return checked_receipt_;
         const auto rows = execute({"SELECT " + projection(receipt_columns) +
                                        " FROM main.subathon_receipts WHERE receipt_id=? LIMIT 2",
                                    {encode_plan_revision_uint64(receipt.value)}});
@@ -486,8 +507,11 @@ class Access {
                                      string(row, 18, limits_.reference_bytes, true),
                                      string(row, 19, limits_.reference_bytes, true)};
         resolve(arrival);
-        return ContributionReceipt{receipt, std::move(identity), std::move(facts),
+        ContributionReceipt result{receipt, std::move(identity), std::move(facts),
                                    std::move(arrival)};
+        if (immutable_reads_)
+            checked_receipt_ = result;
+        return result;
     }
     void contribution_identity(ContributionId wanted, Reason missing) {
         const auto rows =
@@ -692,8 +716,10 @@ class Access {
     }
     // Bounded keyset pages audit old structural metadata only. They do not load
     // or certify historical child strings/ordinals/rationals, nor impose read caps.
-    void audit(const std::string &ref, const Header &h) {
+    std::optional<CapturedPlanRevision> audit(const std::string &ref, const Header &h,
+                                              std::uint64_t wanted) {
         summary(ref, h);
+        std::optional<CapturedPlanRevision> result;
         std::uint64_t previous = 0;
         for (;;) {
             const auto rows = execute({"SELECT " + projection(revision_columns) +
@@ -709,12 +735,15 @@ class Access {
                     r.revision != previous + 1)
                     fail(Reason::invalid_stored_data);
                 previous = r.revision;
+                if (r.revision == wanted)
+                    result = std::move(r);
             }
             if (rows.size() <= 64)
                 break;
         }
         if (previous != h.head)
             fail(Reason::invalid_stored_data);
+        return result;
     }
     SqlRows children(const QString &table, const QStringList &columns, const std::string &ref,
                      std::uint64_t revision) {
@@ -952,6 +981,8 @@ class Access {
         return RetainedDocument{k, std::move(doc), std::move(link)};
     }
     void config(const std::string &ref) {
+        if ((review_history_ || immutable_reads_) && checked_configuration_ == ref)
+            return;
         if (selected()) {
             if (!selected_retained({RetainedKind::configuration, ref}))
                 fail(Reason::invalid_stored_data);
@@ -971,6 +1002,8 @@ class Access {
         } catch (const SqliteWorkFailure &e) {
             map_work_failure(e);
         }
+        if (review_history_ || immutable_reads_)
+            checked_configuration_ = ref;
     }
     void result_size(size_t items, size_t total_bytes) {
         if (items > size_t(limits_.result_items) || total_bytes > size_t(limits_.owned_bytes))
@@ -1025,13 +1058,15 @@ class Access {
         auto h = header(key_.plan_ref);
         if (!h)
             return std::nullopt;
-        if (selected()) {
+        std::optional<CapturedPlanRevision> r;
+        if (selected())
             selected_max(key_.plan_ref, *h);
-        } else
-            audit(key_.plan_ref, *h);
+        else
+            r = audit(key_.plan_ref, *h, key_.revision);
         if (current_only && h->head != key_.revision)
             return Plan{{}, h->head};
-        auto r = selected_scalar(key_.plan_ref, key_.revision, *h);
+        if (selected())
+            r = selected_scalar(key_.plan_ref, key_.revision, *h);
         if (!r)
             return std::nullopt;
         if (selected()) {
@@ -1168,8 +1203,22 @@ class Access {
         return SqliteBundleInitialDisposition::inserted;
     }
     ApplicationBundleInputResult inputs(const ApplicationPlanKey &key_,
-                                        ApplicationSubjectKind subject) {
+                                        ApplicationSubjectKind subject,
+                                        const ApplicationStateSnapshot *preview_head = nullptr,
+                                        detail::ReviewReadCost *review_plan_cost = nullptr) {
+        const auto remaining = [&] {
+            return detail::ContributionReviewWriterAccess::remaining(session_);
+        };
+        const auto before = review_plan_cost ? remaining() : detail::ReviewReadCost{};
+        if (review_plan_cost) {
+            // Budget the plan as an independent replay. A previous selector
+            // may be redacted, stale or skipped and provide no shared reads.
+            checked_arrival_.reset();
+            checked_receipt_.reset();
+        }
         auto p = plan(key_, true);
+        if (review_plan_cost)
+            *review_plan_cost = before - remaining();
         if (!p)
             return {};
         if (p->head != key_.revision)
@@ -1177,7 +1226,7 @@ class Access {
         const auto &e = p->selected.captured.event;
         if ((subject == ApplicationSubjectKind::contribution) != bool(e.contribution_id))
             fail(Reason::source_mismatch);
-        auto s = current();
+        auto s = preview_head ? std::optional{*preview_head} : current();
         if (!s)
             fail(Reason::missing_state);
         ApplicationBundleInputs out{subject,       key_, p->head, std::move(p->selected),
@@ -1238,8 +1287,12 @@ class Access {
         if ((i.kind == ApplicationOperationKind::reversal) != bool(i.reversal_ref) ||
             (i.reversal_ref && i.reversal_ref->empty()))
             fail(Reason::invalid_stored_data);
-        v.persisted_head = state(i.expected_state_token, metadata);
-        v.advanced_before = state(before, metadata);
+        v.persisted_head = review_history_ && preceding_review_state_ &&
+                                   preceding_review_state_->token == i.expected_state_token
+                               ? *preceding_review_state_
+                               : state(i.expected_state_token, metadata);
+        v.advanced_before =
+            before == i.expected_state_token ? v.persisted_head : state(before, metadata);
         v.after = state(after, metadata);
         auto p = plan(i.plan);
         if (!p)
@@ -1267,7 +1320,7 @@ class Access {
                      ? ContributionApplication::applied
                      : v.contribution->before.conditions.application))
                 fail(Reason::invalid_stored_data);
-            contribution_identity(*i.contribution_id, Reason::invalid_stored_data);
+            // The selected plan already verified this same contribution identity.
         }
         auto claim = one("subathon_app_claims", app_claims_columns,
                          "operation_scope=? AND operation_ref=?", operation_values(k));
@@ -1290,6 +1343,12 @@ class Access {
             f.counts[size_t(n)] = integer(*result, 4 + n);
             if (f.counts[size_t(n)] < 0)
                 fail(Reason::invalid_stored_data);
+        }
+        if (metadata && v.result.format_ref == terminal_partition::result_format) {
+            v.persisted_head = state(i.expected_state_token);
+            v.advanced_before = state(before);
+            v.after = state(after);
+            metadata = false;
         }
         auto audit_ = one("subathon_app_audit", app_audit_columns, operation_where(),
                           operation_values(k), true);
@@ -1323,10 +1382,67 @@ class Access {
         }
         return f;
     }
+    terminal_partition::Mask partition(const Fixed &f) {
+        const auto &record = f.record;
+        const auto &requests = f.source.selected.captured.requested_effects;
+        const auto tagged = record.result.format_ref == terminal_partition::result_format;
+        // Pre-v19 operations retain their original dense shape. On v19 no
+        // terminal table row is valid without its app result's own mask.
+        const bool catalog =
+            terminal_catalog_ ? *terminal_catalog_ : terminal_partition::selected(session_);
+        if (review_history_ || immutable_reads_)
+            terminal_catalog_ = catalog;
+        if (!catalog) {
+            if (tagged)
+                fail(Reason::invalid_stored_data);
+            return {};
+        }
+        terminal_partition::Mask mask;
+        if (tagged) {
+            try {
+                mask = terminal_partition::footer(record.result.document, requests.size());
+            } catch (const terminal_partition::Invalid &) {
+                fail(Reason::invalid_stored_data);
+            }
+            if (record.intent.kind != ApplicationOperationKind::original ||
+                record.advanced_before.timer.lifecycle != TimerLifecycle::Finished ||
+                record.after.timer.lifecycle != TimerLifecycle::Finished)
+                fail(Reason::invalid_stored_data);
+        }
+        if (mask.terminals > size_t(limits_.effects_per_bundle))
+            fail(Reason::result_limit);
+        auto values = operation_values(record.intent.operation);
+        values.append(qint64(mask.terminals + 1));
+        const auto rows = execute(
+            {"SELECT " +
+                 projection({"plan_ref", "plan_revision", "request_ordinal", "disposition"}) +
+                 " FROM main.subathon_review_terminal_requests WHERE " + operation_where() +
+                 " ORDER BY request_ordinal LIMIT ?",
+             std::move(values)});
+        if (size_t(rows.size()) != mask.terminals)
+            fail(Reason::invalid_stored_data);
+        qsizetype row_index = 0;
+        for (qsizetype index = 0; index < mask.tags.size(); ++index) {
+            const auto tag = mask.tags[index];
+            const auto &request = requests[size_t(index)];
+            if ((tag == 1) != (request.unit == RequestedUnit::milliseconds))
+                fail(Reason::invalid_stored_data);
+            if (!tag)
+                continue;
+            const auto &row = rows[row_index++];
+            shape(row, 4);
+            if (string(row, 0, limits_.reference_bytes, true) != record.intent.plan.plan_ref ||
+                id(row, 1, true) != record.intent.plan.revision || integer(row, 2) != index + 1 ||
+                integer(row, 3) != tag)
+                fail(Reason::invalid_stored_data);
+        }
+        return mask;
+    }
     template <class F>
     qint64 ordinal_rows(const QString &table, const QStringList &columns,
-                        const ApplicationOperationKey &k, F fn) {
+                        const ApplicationOperationKey &k, F fn, bool sparse = false) {
         qint64 previous = 0;
+        qint64 count = 0;
         for (;;) {
             auto values = operation_values(k);
             values.append(previous);
@@ -1339,19 +1455,17 @@ class Access {
                 const auto &r = rows[x];
                 shape(r, columns.size());
                 operation_key(r, k);
-                if (previous == std::numeric_limits<qint64>::max() || integer(r, 2) != previous + 1)
+                const auto ordinal = integer(r, 2);
+                if (ordinal <= previous || (!sparse && ordinal - previous != 1))
                     fail(Reason::invalid_stored_data);
-                ++previous;
+                previous = ordinal;
+                ++count;
                 fn(r);
             }
             if (rows.size() <= 64)
                 break;
         }
-        auto actual = execute({"SELECT count(*) FROM main." + table + " WHERE " + operation_where(),
-                               operation_values(k)});
-        if (actual.size() != 1 || actual.front().front().toLongLong() != previous)
-            fail(Reason::invalid_stored_data);
-        return previous;
+        return count;
     }
     ApplicationEffect effect(const SqlRow &r, const ApplicationPlanKey &p) {
         if (string(r, 3, limits_.reference_bytes, true) != p.plan_ref ||
@@ -1374,8 +1488,9 @@ class Access {
         return e;
     }
     std::vector<ApplicationComponent> components(const ApplicationOperationKey &k,
-                                                 ApplicationEffect &e, const std::string &before,
-                                                 bool full) {
+                                                 ApplicationEffect &e,
+                                                 const ApplicationStateSnapshot &before, bool full,
+                                                 bool complete_state) {
         auto values = operation_values(k);
         values.append(qint64(e.request_ordinal));
         auto cols = app_components_columns;
@@ -1399,21 +1514,26 @@ class Access {
             shape(r, cols.size());
             operation_key(r, k);
             if (integer(r, 2) != e.request_ordinal || enumeration(r, 3, 5) != expected[size_t(n)] ||
-                string(r, full ? 5 : 4, limits_.reference_bytes, true) != before)
+                string(r, full ? 5 : 4, limits_.reference_bytes, true) != before.token)
                 fail(Reason::invalid_stored_data);
             ApplicationComponent c{static_cast<CK>(expected[size_t(n)]), full ? integer(r, 4) : 0,
                                    optional_string(r, full ? 6 : 5, limits_.reference_bytes)};
             if ((int(c.kind) == 2 || int(c.kind) == 3) != bool(c.target_ref) ||
                 (c.target_ref && c.target_ref->empty()))
                 fail(Reason::invalid_stored_data);
-            if (c.target_ref) {
+            if (c.target_ref && complete_state) {
+                if (std::ranges::none_of(before.balances, [&](const auto &b) {
+                        return int(b.kind) == int(c.kind) && b.target_ref == *c.target_ref;
+                    }))
+                    fail(Reason::invalid_stored_data);
+            } else if (c.target_ref) {
                 auto target =
                     one("subathon_app_balances",
                         selected() && !full ? QStringList{"token", "balance_kind", "target_ref"}
                                             : app_balances_columns,
                         "token=? AND balance_kind=? AND target_ref=?",
-                        {bytes(before), int(c.kind), bytes(*c.target_ref)}, true);
-                if (string(*target, 0, limits_.reference_bytes, true) != before ||
+                        {bytes(before.token), int(c.kind), bytes(*c.target_ref)}, true);
+                if (string(*target, 0, limits_.reference_bytes, true) != before.token ||
                     enumeration(*target, 1, 3) != int(c.kind) ||
                     string(*target, 2, limits_.reference_bytes, true) != *c.target_ref)
                     fail(Reason::invalid_stored_data);
@@ -1425,21 +1545,27 @@ class Access {
     void children(Fixed &f, std::optional<qint64> selected = {}) {
         auto &v = f.record;
         const auto &k = v.intent.operation;
-        const bool full = !selected;
+        const auto mask = partition(f);
+        const bool full = !selected || mask.terminals;
         const auto &reqs = f.source.selected.captured.requested_effects;
         // Verify immutable counters against the entire selected scope BEFORE
         // returned-vector allocation; a corrupt understated count is not a cap.
         const std::array<QString, 5> child_tables{"subathon_app_effects", "subathon_app_components",
                                                   "subathon_app_jobs", "subathon_app_transitions",
                                                   "subathon_app_reversals"};
-        for (size_t n = 0; n < child_tables.size(); ++n) {
-            const auto actual = execute(
-                {"SELECT count(*) FROM main." + child_tables[n] + " WHERE " + operation_where(),
-                 operation_values(k)});
-            if (actual.size() != 1 || actual.front().size() != 1 ||
-                actual.front().front().toLongLong() != f.counts[n])
-                fail(Reason::invalid_stored_data);
+        QStringList counts;
+        QList<QVariant> bindings;
+        for (const auto &table : child_tables) {
+            counts.append("(SELECT count(*) FROM main." + table + " WHERE " + operation_where() +
+                          ")");
+            bindings.append(operation_values(k));
         }
+        const auto actual = execute({"SELECT " + counts.join(','), std::move(bindings)});
+        if (actual.size() != 1 || actual.front().size() != qsizetype(f.counts.size()))
+            fail(Reason::invalid_stored_data);
+        for (size_t n = 0; n < f.counts.size(); ++n)
+            if (actual.front()[qsizetype(n)].toLongLong() != f.counts[n])
+                fail(Reason::invalid_stored_data);
         if (full &&
             (f.counts[0] > limits_.effects_per_bundle || f.counts[2] > limits_.jobs_per_bundle ||
              f.counts[3] > limits_.transitions_per_bundle ||
@@ -1449,47 +1575,50 @@ class Access {
         const QStringList meta_effects{
             "operation_scope", "operation_ref", "request_ordinal", "plan_ref", "plan_revision",
             "arithmetic_role", "unit"};
-        auto count = ordinal_rows("subathon_app_effects", meta_effects, k, [&](const SqlRow &r) {
-            const auto pos = integer(r, 2);
-            if (string(r, 3, limits_.reference_bytes, true) != v.intent.plan.plan_ref ||
-                id(r, 4, true) != v.intent.plan.revision || pos < 1 || size_t(pos) > reqs.size())
-                fail(Reason::invalid_stored_data);
-            ApplicationEffect e;
-            e.request_ordinal = pos;
-            e.arithmetic_role = static_cast<AR>(enumeration(r, 5, 2));
-            e.unit = static_cast<RequestedUnit>(enumeration(r, 6, 2));
-            if ((e.arithmetic_role == AR::direct) == (e.unit == RequestedUnit::milliseconds))
-                fail(Reason::invalid_stored_data);
-            const bool take = full || *selected == pos;
-            if (take) {
-                auto b = operation_values(k);
-                b.append(pos);
-                auto row = one("subathon_app_effects", app_effects_columns,
-                               operation_where() + " AND request_ordinal=?", std::move(b), true);
-                e = effect(*row, v.intent.plan);
-            }
-            e.components = components(k, e, v.advanced_before.token, take);
-            if (e.components.size() >
-                std::uintmax_t(std::numeric_limits<qint64>::max() - component_count))
-                fail(Reason::invalid_stored_data);
-            component_count += qint64(e.components.size());
-            if (take) {
-                const auto &q = reqs[size_t(pos - 1)];
-                if (e.unit != q.unit || e.exact_requested_units != q.exact_requested_units ||
-                    e.requested_units != q.requested_units)
+        auto count = ordinal_rows(
+            "subathon_app_effects", full ? app_effects_columns : meta_effects, k,
+            [&](const SqlRow &r) {
+                const auto pos = integer(r, 2);
+                if (string(r, 3, limits_.reference_bytes, true) != v.intent.plan.plan_ref ||
+                    id(r, 4, true) != v.intent.plan.revision || pos < 1 ||
+                    size_t(pos) > reqs.size() || (mask.terminals && !mask.has_effect(size_t(pos))))
                     fail(Reason::invalid_stored_data);
-                for (const auto &c : e.components)
-                    if (c.target_ref && *c.target_ref != q.target_ref)
+                ApplicationEffect e;
+                e.request_ordinal = pos;
+                e.arithmetic_role = static_cast<AR>(enumeration(r, 5, 2));
+                e.unit = static_cast<RequestedUnit>(enumeration(r, 6, 2));
+                if ((e.arithmetic_role == AR::direct) == (e.unit == RequestedUnit::milliseconds))
+                    fail(Reason::invalid_stored_data);
+                const bool take = full || *selected == pos;
+                if (full) {
+                    e = effect(r, v.intent.plan);
+                } else if (take) {
+                    auto b = operation_values(k);
+                    b.append(pos);
+                    auto row =
+                        one("subathon_app_effects", app_effects_columns,
+                            operation_where() + " AND request_ordinal=?", std::move(b), true);
+                    e = effect(*row, v.intent.plan);
+                }
+                e.components = components(k, e, v.advanced_before, take, full);
+                if (e.components.size() >
+                    std::uintmax_t(std::numeric_limits<qint64>::max() - component_count))
+                    fail(Reason::invalid_stored_data);
+                component_count += qint64(e.components.size());
+                if (take) {
+                    const auto &q = reqs[size_t(pos - 1)];
+                    if (e.unit != q.unit || e.exact_requested_units != q.exact_requested_units ||
+                        e.requested_units != q.requested_units)
                         fail(Reason::invalid_stored_data);
-                v.effects.push_back(std::move(e));
-            }
-        });
-        auto actual_components =
-            execute({"SELECT count(*) FROM main.subathon_app_components WHERE " + operation_where(),
-                     operation_values(k)});
-        if (count != f.counts[0] || size_t(count) != reqs.size() ||
-            component_count != f.counts[1] || actual_components.size() != 1 ||
-            actual_components.front().front().toLongLong() != component_count)
+                    for (const auto &c : e.components)
+                        if (c.target_ref && *c.target_ref != q.target_ref)
+                            fail(Reason::invalid_stored_data);
+                    v.effects.push_back(std::move(e));
+                }
+            },
+            mask.terminals != 0);
+        if (count != f.counts[0] || size_t(count) + mask.terminals != reqs.size() ||
+            component_count != f.counts[1])
             fail(Reason::invalid_stored_data);
         const QStringList meta_jobs{"operation_scope", "operation_ref",          "ordinal",
                                     "job_ref",         "source_request_ordinal", "group_ref",
@@ -1500,7 +1629,7 @@ class Access {
                 j.job_ref = string(r, 3, limits_.reference_bytes, true);
                 if (!null(r, 4)) {
                     auto n = integer(r, 4);
-                    if (n < 1 || n > count)
+                    if (n < 1 || (mask.terminals ? !mask.has_effect(size_t(n)) : n > count))
                         fail(Reason::invalid_stored_data);
                     j.source_request_ordinal = n;
                 }
@@ -1521,18 +1650,17 @@ class Access {
             });
         if (jobs != f.counts[2])
             fail(Reason::invalid_stored_data);
-        auto grouped = execute(
-            {"SELECT count(*) FROM (SELECT group_ref FROM main.subathon_app_jobs WHERE " +
+        const auto grouped = execute(
+            {"SELECT count(DISTINCT job_ref), (SELECT count(*) FROM ("
+             "SELECT group_ref FROM main.subathon_app_jobs WHERE " +
                  operation_where() +
                  " AND group_ref IS NOT NULL GROUP BY group_ref HAVING min(group_ordinal)<>1 OR "
-                 "max(group_ordinal)<>count(*) OR count(DISTINCT group_ordinal)<>count(*))",
-             operation_values(k)});
-        auto unique_jobs =
-            execute({"SELECT count(DISTINCT job_ref) FROM main.subathon_app_jobs WHERE " +
-                         operation_where(),
-                     operation_values(k)});
-        if (grouped.front().front().toLongLong() != 0 ||
-            unique_jobs.front().front().toLongLong() != jobs)
+                 "max(group_ordinal)<>count(*) OR count(DISTINCT group_ordinal)<>count(*))) "
+                 "FROM main.subathon_app_jobs WHERE " +
+                 operation_where(),
+             operation_values(k) + operation_values(k)});
+        if (grouped.size() != 1 || grouped.front().size() != 2 ||
+            grouped.front()[0].toLongLong() != jobs || grouped.front()[1].toLongLong() != 0)
             fail(Reason::invalid_stored_data);
         auto transitions = ordinal_rows(
             "subathon_app_transitions", app_transitions_columns, k, [&](const SqlRow &r) {
@@ -1728,20 +1856,43 @@ class Access {
         if (f->record.intent.kind != ApplicationOperationKind::original)
             fail(Reason::source_mismatch);
         children(*f, o.request_ordinal);
-        if (f->record.effects.size() != 1)
+        auto &record = f->record;
+        if (record.result.format_ref == terminal_partition::result_format) {
+            const PreparedApplicationBundle closure{record.intent,      record.advanced_before,
+                                                    record.after,       record.advance_explanation,
+                                                    record.effects,     record.jobs,
+                                                    record.transitions, {},
+                                                    record.result,      record.audit};
+            validate_stored_bundle(closure);
+            if (!head_relation(record.persisted_head, record.advanced_before,
+                               record.advance_explanation))
+                fail(Reason::invalid_stored_data);
+        }
+        return basis_from(*f, o, account);
+    }
+    ApplicationReversalBasisResult basis_from(const Fixed &f, const ApplicationOriginalComponent &o,
+                                              bool account) {
+        const auto &record = f.record;
+        const auto effect_at = std::ranges::find(record.effects, o.request_ordinal,
+                                                 &ApplicationEffect::request_ordinal);
+        if (effect_at == record.effects.end()) {
+            if (record.result.format_ref == terminal_partition::result_format &&
+                size_t(o.request_ordinal) <= f.source.selected.captured.requested_effects.size())
+                return {};
             fail(Reason::missing_reference);
-        auto &e = f->record.effects.front();
+        }
+        const auto &e = *effect_at;
         auto selected = std::find_if(e.components.begin(), e.components.end(),
                                      [&](const auto &v) { return v.kind == o.component_kind; });
         if (selected == e.components.end())
             fail(Reason::missing_reference);
         ApplicationReversalBasis out;
         out.original = o;
-        out.subject_kind = f->record.intent.subject_kind;
-        out.plan = f->record.intent.plan;
-        out.selected_plan = std::move(f->source.selected);
-        out.application_before_token = f->record.advanced_before.token;
-        out.application_configuration_ref = f->record.advanced_before.configuration_ref;
+        out.subject_kind = f.record.intent.subject_kind;
+        out.plan = f.record.intent.plan;
+        out.selected_plan = f.source.selected;
+        out.application_before_token = f.record.advanced_before.token;
+        out.application_configuration_ref = f.record.advanced_before.configuration_ref;
         if (selected->target_ref) {
             auto row = one("subathon_app_balances", app_balances_columns,
                            "token=? AND balance_kind=? AND target_ref=?",
@@ -1754,7 +1905,7 @@ class Access {
         }
         // Validate the selected effect against its actual target; unrelated source
         // balances and sibling amounts are intentionally outside this projection.
-        auto before = f->record.advanced_before;
+        auto before = f.record.advanced_before;
         if (out.target)
             before.balances = {*out.target};
         try {
@@ -1764,11 +1915,11 @@ class Access {
                 fail(Reason::result_limit);
             fail(Reason::invalid_stored_data);
         }
-        if (f->record.intent.contribution_id) {
+        if (f.record.intent.contribution_id) {
             auto rows =
                 one("subathon_contributions", {"contribution_id", "original_receipt_id"},
                     "contribution_id=?",
-                    {encode_plan_revision_uint64(f->record.intent.contribution_id->value)}, true);
+                    {encode_plan_revision_uint64(f.record.intent.contribution_id->value)}, true);
             out.contribution_original_receipt_id = ReceiptId{id(*rows, 1, true)};
         }
         const bool credit =
@@ -1782,7 +1933,7 @@ class Access {
         if (!credit)
             return {};
         out.actual_credit_units = selected->units;
-        out.effect = std::move(e);
+        out.effect = e;
         out.progress = progress(o, out.actual_credit_units);
         if (account)
             result_bytes(add_result_items(add_result_items(plan_items(out.selected_plan),
@@ -1826,12 +1977,35 @@ class Access {
                 {bytes(original.operation.operation_scope), bytes(original.operation.operation_ref),
                  qint64(original.request_ordinal), int(original.component_kind)}));
     }
+    void validate_stored_bundle(const PreparedApplicationBundle &prepared,
+                                std::optional<bundle_detail::GroupedTimeEffect> grouped = {}) {
+        try {
+            auto stored_limits = limits_;
+            stored_limits.input_items = std::numeric_limits<qsizetype>::max() - 1;
+            stored_limits.owned_bytes = std::numeric_limits<qsizetype>::max();
+            bundle_detail::validate_bundle(prepared, stored_limits, grouped);
+        } catch (const SqliteBundleInputFailure &e) {
+            if (e.error() == SqliteBundleInputError::collection_limit ||
+                e.error() == SqliteBundleInputError::exact_component_limit ||
+                e.error() == SqliteBundleInputError::owned_byte_limit)
+                fail(Reason::result_limit);
+            fail(Reason::invalid_stored_data);
+        }
+    }
     std::optional<RecordedApplicationBundle> lookup(const ApplicationOperationKey &k) {
         auto f = fixed(k, false);
         if (!f)
             return std::nullopt;
-        children(*f);
-        auto &v = f->record;
+        complete_record(*f);
+        return std::move(f->record);
+    }
+    // Complete the owning read, optionally using a fully decoded original from
+    // this read unit. Credit eligibility and lifetime progress are still read
+    // and checked for the exact requested component.
+    void complete_record(Fixed &f, const Fixed *checked_original = nullptr) {
+        children(f);
+        auto &v = f.record;
+        const auto &k = v.intent.operation;
         // Materialize current-operation links in the declared composite key order;
         // vector count is bounded independently from each basis's lifetime history.
         auto rows = execute({"SELECT " + projection(app_reversals_columns) +
@@ -1849,7 +2023,15 @@ class Access {
         for (const auto &r : rows) {
             shape(r, app_reversals_columns.size());
             auto o = occurrence(r, k);
-            auto source_ = basis(o.original, false);
+            const bool same_original =
+                checked_original &&
+                checked_original->record.intent.kind == ApplicationOperationKind::original &&
+                checked_original->record.intent.operation.operation_scope ==
+                    o.original.operation.operation_scope &&
+                checked_original->record.intent.operation.operation_ref ==
+                    o.original.operation.operation_ref;
+            auto source_ = same_original ? basis_from(*checked_original, o.original, false)
+                                         : basis(o.original, false);
             if (!source_.basis)
                 fail(Reason::invalid_stored_data);
             reversal_algebra(o, source_.basis->actual_credit_units);
@@ -1858,7 +2040,7 @@ class Access {
                                          source_.basis->progress);
             v.reversals.push_back(std::move(o));
         }
-        if (qint64(v.reversals.size()) != f->counts[4])
+        if (qint64(v.reversals.size()) != f.counts[4])
             fail(Reason::invalid_stored_data);
         PreparedApplicationBundle prepared{v.intent,      v.advanced_before,
                                            v.after,       v.advance_explanation,
@@ -1870,21 +2052,9 @@ class Access {
                                           o.previous_cumulative, o.cumulative,
                                           o.requested_increment, o.cumulative_fraction,
                                           o.exact_entitlement, o.rounding_residual, o.full_refund});
-        try {
-            auto stored_limits = limits_;
-            stored_limits.input_items = std::numeric_limits<qsizetype>::max() - 1;
-            stored_limits.owned_bytes = std::numeric_limits<qsizetype>::max();
-            bundle_detail::validate_bundle(prepared, stored_limits,
-                                           v.intent.kind == ApplicationOperationKind::reversal
-                                               ? grouped_time(k)
-                                               : std::nullopt);
-        } catch (const SqliteBundleInputFailure &e) {
-            if (e.error() == SqliteBundleInputError::collection_limit ||
-                e.error() == SqliteBundleInputError::exact_component_limit ||
-                e.error() == SqliteBundleInputError::owned_byte_limit)
-                fail(Reason::result_limit);
-            fail(Reason::invalid_stored_data);
-        }
+        validate_stored_bundle(prepared, v.intent.kind == ApplicationOperationKind::reversal
+                                             ? grouped_time(k)
+                                             : std::nullopt);
         if (!head_relation(v.persisted_head, v.advanced_before, v.advance_explanation))
             fail(Reason::invalid_stored_data);
         size_t n = 0;
@@ -1896,7 +2066,6 @@ class Access {
         for (const auto &e : v.effects)
             n = add_result_items(n, e.components.size());
         result_bytes(n, [&](auto &count) { record_bytes(count, v); });
-        return std::move(v);
     }
     std::optional<ApplicationOriginalClaimMatch>
     original_claim(const ApplicationOriginalClaimSelector &selector) {
@@ -2056,11 +2225,22 @@ class Access {
         if (!head_relation(*head, b.advanced_before, b.advance_explanation))
             fail(Reason::source_mismatch);
         const auto &requests = p->selected.captured.requested_effects;
-        if (requests.size() != b.effects.size())
+        terminal_partition::Mask mask;
+        if (b.result.format_ref == terminal_partition::result_format) {
+            if (!terminal_partition::selected(session_))
+                fail(Reason::source_mismatch);
+            mask = terminal_partition::match_result(b);
+            if (size_t(mask.tags.size()) != requests.size())
+                fail(Reason::source_mismatch);
+            for (qsizetype n = 0; n < mask.tags.size(); ++n)
+                if ((mask.tags[n] == 1) !=
+                    (requests[size_t(n)].unit == RequestedUnit::milliseconds))
+                    fail(Reason::source_mismatch);
+        } else if (requests.size() != b.effects.size()) {
             fail(Reason::source_mismatch);
-        for (size_t n = 0; n < requests.size(); ++n) {
-            const auto &q = requests[n];
-            const auto &e = b.effects[n];
+        }
+        for (const auto &e : b.effects) {
+            const auto &q = requests[size_t(e.request_ordinal - 1)];
             if (q.unit != e.unit || q.exact_requested_units != e.exact_requested_units ||
                 q.requested_units != e.requested_units)
                 fail(Reason::source_mismatch);
@@ -2145,6 +2325,16 @@ class Access {
                            encode_plan_revision_uint64(i.contribution_id ? i.contribution_id->value
                                                                          : i.receipt_id.value),
                            bytes(i.operation.operation_scope), bytes(i.operation.operation_ref)}));
+        for (qsizetype n = 0; n < mask.tags.size(); ++n) {
+            if (const auto tag = mask.tags[n]; tag != 0)
+                out.push_back(
+                    insertion("subathon_review_terminal_requests",
+                              {"operation_scope", "operation_ref", "plan_ref", "plan_revision",
+                               "request_ordinal", "disposition"},
+                              {bytes(i.operation.operation_scope), bytes(i.operation.operation_ref),
+                               bytes(i.plan.plan_ref), encode_plan_revision_uint64(i.plan.revision),
+                               qint64(n + 1), int(tag)}));
+        }
         qint64 component_count = 0;
         for (const auto &e : b.effects) {
             auto a = encode_plan_exact(e.exact_requested_units, limits_.component_bytes),

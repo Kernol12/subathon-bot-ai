@@ -97,6 +97,8 @@ bool application_member(const SqliteWorkSession &s, const MilestoneTrackSeed::Me
                     blob(m.application.operation_ref)}});
     if (const auto *row = unique(rows)) {
         check_application_identity(s, blob(m.occurrence.ref), integer((*row)[5]));
+        if (terminal_partition::selected(s))
+            verify_partitioned_origin(s, m.application);
         return same_completion(m.completion, read_completion(*row)) &&
                m.completion.score_micro_points >= m.completion.target_micro_points;
     }

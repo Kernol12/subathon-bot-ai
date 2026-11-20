@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "application_reference_read_state.hpp"
+#include "application_result_wire.hpp"
 #include "application_service_command_internal.hpp"
 #include "application_state_codec_internal.hpp"
 #include "sqlite_application_bundle_access.hpp"
@@ -174,35 +175,8 @@ void put_policy(Bytes &w, const BoundApplicationPolicy &p) {
     w.b(p.pause_recovery_revision);
     w.b(p.explanation);
 }
-void put_component(Bytes &w, const ApplicationComponent &c) {
-    w.u8(unsigned(c.kind));
-    w.i64(c.units);
-    w.opt(c.target_ref, [&](const auto &s) { w.b(s); });
-}
-void put_effect(Bytes &w, const ApplicationEffect &e) {
-    w.i64(e.request_ordinal);
-    w.u8(unsigned(e.arithmetic_role));
-    w.u8(unsigned(e.unit));
-    w.exact(e.exact_requested_units);
-    w.i64(e.requested_units);
-    w.exact(e.rounding_residual);
-    w.opt(e.maximum_main_ms, [&](auto x) { w.i64(x); });
-    w.opt(e.deficit_policy, [&](auto x) { w.u8(unsigned(x)); });
-    w.opt(e.deficit_disposition, [&](auto x) { w.u8(unsigned(x)); });
-    w.b(e.application_explanation);
-    w.vec(e.components, [&](const auto &x) { put_component(w, x); });
-}
-void put_job(Bytes &w, const ApplicationJobIntent &j) {
-    w.b(j.job_ref);
-    w.opt(j.source_request_ordinal, [&](auto x) { w.i64(x); });
-    w.opt(j.group_ref, [&](const auto &x) { w.b(x); });
-    w.opt(j.group_ordinal, [&](auto x) { w.i64(x); });
-    w.b(j.envelope.format_ref);
-    w.b(j.envelope.document);
-}
-void put_transitions(Bytes &w, const std::vector<core::TimerTransition> &t) {
-    w.vec(t, [&](auto x) { w.u8(unsigned(x)); });
-}
+using application_result_wire::put_component;
+using application_result_wire::put_transitions;
 void put_failure(Bytes &w, const ApplicationHoldFailureEvidence &f) {
     w.u8(unsigned(f.stage));
     w.opt(f.failing_ordinal, [&](auto x) { w.i64(x); });
@@ -224,15 +198,11 @@ ApplicationEnvelope encode_result(
     const std::vector<core::TimerTransition> &transitions, const ApplicationServiceLimits &l) {
     return encoded(result_format, l, [&](Bytes &w) {
         w.raw("SAR1");
-        w.b(cmd.document);
-        w.b(head);
-        w.b(before.token);
-        w.b(after.token);
-        w.u8(c.preview_mode == ApplicationPreviewMode::revalidate_current &&
-             c.preview_state_token && *c.preview_state_token != head);
-        w.vec(effects, [&](const auto &e) { put_effect(w, e); });
-        w.vec(jobs, [&](const auto &j) { put_job(w, j); });
-        put_transitions(w, transitions);
+        application_result_wire::put_result_fields(
+            w, cmd, head, before.token, after.token,
+            c.preview_mode == ApplicationPreviewMode::revalidate_current && c.preview_state_token &&
+                *c.preview_state_token != head,
+            effects, jobs, transitions);
     });
 }
 ApplicationEnvelope encode_audit(const ApplicationEnvelope &cmd,

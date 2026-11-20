@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "contribution_review_bundle_history.hpp"
 #include "sqlite_application_bundle_access.hpp"
 namespace subathon::server {
 MigrationManifest application_bundle_repository_manifest() {
@@ -63,6 +64,46 @@ SqliteApplicationBundleStore::stage(const PreparedApplicationBundle &b) const {
     bundle_detail::validate_bundle(b, limits_);
     Access a(session_, limits_);
     return a.guarded([&] { return a.stage(b); });
+}
+
+review_detail::PreviewInputs review_detail::preview_inputs(const SqliteWorkSession &session) {
+    auto read = std::make_shared<Access>(session, SqliteBundleLimits{});
+    read->immutable_reads_ = true;
+    return [read = std::move(read), current = std::optional<ApplicationStateSnapshot>{}](
+               const ApplicationPlanKey &key, detail::ReviewReadCost *plan_cost) mutable {
+        bundle_detail::validate_plan_key(key, read->limits_);
+        return read->guarded([&] {
+            if (!current)
+                current = read->current();
+            if (!current)
+                read->fail(Reason::missing_state);
+            return read->inputs(key, ApplicationSubjectKind::contribution, &*current, plan_cost);
+        });
+    };
+}
+
+ApplicationBundleInputResult review_detail::live_review_inputs(const SqliteWorkSession &session,
+                                                               const ApplicationPlanKey &key,
+                                                               detail::ReviewReadCost &plan_cost) {
+    Access access(session, SqliteBundleLimits{});
+    bundle_detail::validate_plan_key(key, access.limits_);
+    return access.guarded([&] {
+        return access.inputs(key, ApplicationSubjectKind::contribution, nullptr, &plan_cost);
+    });
+}
+
+review_detail::BundleHistory review_detail::bundle_history(const SqliteWorkSession &session) {
+    auto read = std::make_shared<Access>(session, SqliteBundleLimits{});
+    read->review_history_ = true;
+    return [read = std::move(read)](const ApplicationOperationKey &key) {
+        bundle_detail::validate_key(key, read->limits_);
+        return read->guarded([&] {
+            auto record = read->lookup(key);
+            if (record)
+                read->preceding_review_state_ = record->after;
+            return record;
+        });
+    };
 }
 } // namespace subathon::server
 

@@ -141,7 +141,8 @@ class OriginalApplicationServiceNotImplemented final : public std::logic_error {
 
 namespace detail {
 class ApplicationReferenceReadState;
-}
+class ContributionReviewAccess;
+} // namespace detail
 struct ReferenceAuthorityRequest;
 struct ReferenceAuthorityResolution;
 struct ReferenceAuthorityLimits;
@@ -159,6 +160,7 @@ class ApplicationReferenceReadView final {
     std::weak_ptr<detail::ApplicationReferenceReadState> state_;
     RetainedLimits limits_{}; // Data survives revocation; no SQL capability is retained.
     friend class OriginalApplicationService;
+    friend class detail::ContributionReviewAccess;
 };
 
 struct ApplicationAccessAllowed {

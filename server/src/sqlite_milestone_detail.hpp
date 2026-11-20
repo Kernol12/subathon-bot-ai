@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
+#include "sqlite_terminal_partition.hpp"
 
 #include <QMetaType>
 #include <string_view>
@@ -13,6 +14,22 @@ namespace subathon::server::milestone_sql {
 
 [[noreturn]] inline void corrupt() {
     throw SqliteBundleStorageFailure(SqliteBundleStorageReason::invalid_stored_data);
+}
+
+// A terminal partition must be verified before its origin can authorize an
+// achievement or pending-action operation. Historical result formats follow
+// the existing milestone guards.
+inline void verify_partitioned_origin(const SqliteWorkSession &session,
+                                      const ApplicationOperationKey &key) {
+    const auto rows = session.execute(
+        {"SELECT typeof(format_ref)='blob' AND format_ref=? FROM main.subathon_app_results "
+         "WHERE operation_scope=? AND operation_ref=?",
+         {QByteArray(terminal_partition::result_format),
+          QByteArray::fromStdString(key.operation_scope),
+          QByteArray::fromStdString(key.operation_ref)}});
+    if (rows.size() != 1 ||
+        (rows.front().front().toBool() && !SqliteApplicationBundleStore(session).lookup(key)))
+        corrupt();
 }
 
 template <typename Work> auto guarded(const SqliteWorkSession &session, Work work) {
@@ -109,7 +126,8 @@ inline Catalog catalog(const SqliteWorkSession &session) {
          "(version=15 AND migration_id COLLATE BINARY='financial-refunds-v1') OR "
          "(version=16 AND migration_id COLLATE BINARY='provider-credentials-v1') OR "
          "(version=17 AND migration_id COLLATE BINARY='rate-overrides-v1') THEN 2 "
-         "WHEN version=18 AND migration_id COLLATE BINARY='milestone-target-edits-v1' THEN 3 END "
+         "WHEN version=18 AND migration_id COLLATE BINARY='milestone-target-edits-v1' THEN 3 "
+         "WHEN version=19 AND migration_id COLLATE BINARY='contribution-review-v1' THEN 3 END "
          "FROM main.subathon_migration_history "
          "WHERE EXISTS(SELECT 1 FROM main.subathon_catalog WHERE singleton=1 "
          "AND typeof(catalog_format)='integer' AND catalog_format=1 "

@@ -155,6 +155,7 @@ struct OriginalCredit {
     Number count{7};
     bool milestone{false};
     bool ready{false};
+    std::optional<Number> beside_complete_request{};
 };
 
 inline core::RequestedEffect request(Unit unit, Number units, std::string target) {
@@ -275,6 +276,9 @@ class File final {
             requested.push_back(request(Unit::micro_points, credit.score, "score"));
         if (credit.count != 0)
             requested.push_back(request(Unit::whole_count, credit.count, "count"));
+        if (credit.beside_complete_request)
+            requested.push_back(
+                request(Unit::milliseconds, *credit.beside_complete_request, "main"));
         support_capture = {
             1,
             {},
@@ -332,8 +336,26 @@ class File final {
             const auto &captured = support_capture.captured.requested_effects;
             for (std::size_t index = 1; index < captured.size(); ++index) {
                 const auto &effect = captured[index];
-                const auto kind = effect.unit == Unit::micro_points ? CK::score : CK::whole_count;
-                b.effects.push_back(direct(static_cast<Number>(index + 1), effect, kind));
+                const auto ordinal = static_cast<Number>(index + 1);
+                if (effect.unit == Unit::milliseconds) {
+                    b.effects.push_back({ordinal,
+                                         ApplicationArithmeticRole::time_reversal,
+                                         effect.unit,
+                                         effect.exact_requested_units,
+                                         effect.requested_units,
+                                         fraction(0),
+                                         {},
+                                         Policy::RequireReview,
+                                         core::TimeReversalDisposition::RequiresReview,
+                                         "beside-complete deficit",
+                                         {{CK::main_delta, 0, {}},
+                                          {CK::debt_delta, 0, {}},
+                                          {CK::unapplied_time, effect.requested_units, {}}}});
+                } else {
+                    const auto kind =
+                        effect.unit == Unit::micro_points ? CK::score : CK::whole_count;
+                    b.effects.push_back(direct(ordinal, effect, kind));
+                }
             }
             b.result = document();
             b.audit = audit("original");
