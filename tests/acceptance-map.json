@@ -581,6 +581,7 @@
       "id": "AUTH-06",
       "status": "partial",
       "tests": [
+        "tests/acceptance/chat_commands_tests.cpp",
         "tests/acceptance/effective_permissions_tests.cpp",
         "tests/fixtures/effective-permissions-v1.json",
         "tests/acceptance/effective_permissions_regression_tests.cpp"
@@ -591,15 +592,23 @@
         "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-red.md",
         "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/accesstest-002-red-review.md",
         "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/access-002-handoff.md",
-        "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/access-002-review.md"
+        "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/access-002-review.md",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/737#issuecomment-7026365991",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/737#issuecomment-7026634164"
       ],
-      "scope": "ACCESS-002 implements bounded pure evaluator with original30+2 independently reviewed arithmetic/allocation regressions passing, separate actual source/config review, independent selected1.83 full69 and ordinary Ubuntu unconditional32 acceptance. Historical ACCESSTEST002 reviewed/red retained unchanged. Resource-first individual precedence, whole-grant constraints, exact arithmetic, complete owned explanations and narrow protected-owner rules are component-tested. Current account/session/owner/catalog facts, actual transport/execution/disclosure/delegation/recovery/editor integration and supported-platform/live security remain separate; no full identity/security capability claimed."
+      "scope": "ACCESS-002 implements bounded pure evaluator with original30+2 independently reviewed arithmetic/allocation regressions passing, separate actual source/config review, independent selected1.83 full69 and ordinary Ubuntu unconditional32 acceptance. Historical ACCESSTEST002 reviewed/red retained unchanged. Resource-first individual precedence, whole-grant constraints, exact arithmetic, complete owned explanations and narrow protected-owner rules are component-tested. Current account/session/owner/catalog facts, actual transport/execution/disclosure/delegation/recovery/editor integration and supported-platform/live security remain separate; no full identity/security capability claimed. ACCESS-007 verifies rule-scoped authorization over supplied chat facts, complete route permits and linked-deny precedence."
     },
     {
       "id": "AUTH-07",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/chat_commands_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/737#issuecomment-7026365991",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/737#issuecomment-7026634164"
+      ],
+      "scope": "ACCESS-007 covers supplied current USE and original-author USE plus GRANT for synthetic category automation. Live intake, execution and broader delegation management remain separate."
     },
     {
       "id": "CHAT-02",
