@@ -841,22 +841,6 @@ std::optional<StoredDecision> operation(const RateRows &rows, const RateOverride
     return stored;
 }
 
-RateReceiptSelection retry(const RateRows &rows, const RateOverrideEdit &edit,
-                           const RateEditPreview &preview, const StoredDecision &stored) {
-    constexpr auto conflict = Refusal::identity_conflict;
-    // A corrupt stored intent cannot establish a conflict with a new submission.
-    const auto successor = read_revision(rows, stored.audit.successor);
-    Closure closure(rows);
-    auto verified = verify_decision(rows, closure, stored, successor);
-    require(intent_document(edit, preview.basis) == stored.intent_document &&
-                intent_document(preview.edit, preview.basis) == stored.intent_document,
-            conflict);
-    require(prepare_basis(preview.basis).documents == verified.basis.documents &&
-                matches_proposal(preview.proposal, verified.proposal, successor.document, conflict),
-            conflict);
-    return receipt(RateReceiptOrigin::retained, stored.intent.edit, std::move(verified.proposal));
-}
-
 bool identity_present(const RateRows &rows, const RateOverrideEdit &edit) {
     return rows.has("subathon_rate_revisions", "snapshot_ref", edit.successor) ||
            rows.has("subathon_rate_decisions", "decision_ref", edit.override_input.decision_ref) ||
@@ -919,6 +903,25 @@ template <class Result, class Body> Result rate_result(Refusal invalid_model, Bo
 
 template <class Body> auto retained(Body body) {
     return model_context(Refusal::invalid_retained_data, body);
+}
+
+RateReceiptSelection retry(const RateRows &rows, const RateOverrideEdit &edit,
+                           const RateEditPreview &preview, const StoredDecision &stored) {
+    constexpr auto conflict = Refusal::identity_conflict;
+    // Verify the retained closure before comparing the submitted intent and model.
+    const auto successor = read_revision(rows, stored.audit.successor);
+    Closure closure(rows);
+    auto verified = verify_decision(rows, closure, stored, successor);
+    require(intent_document(edit, preview.basis) == stored.intent_document &&
+                intent_document(preview.edit, preview.basis) == stored.intent_document,
+            conflict);
+    model_context(conflict, [&] {
+        require(
+            prepare_basis(preview.basis).documents == verified.basis.documents &&
+                matches_proposal(preview.proposal, verified.proposal, successor.document, conflict),
+            conflict);
+    });
+    return receipt(RateReceiptOrigin::retained, stored.intent.edit, std::move(verified.proposal));
 }
 } // namespace
 
@@ -1061,7 +1064,7 @@ RateRecoveryResult SqliteRateOverrideUnit::recover(RateAuthoritySource &source,
             require(edit.successor != "E" && !identity_present(rows, edit) &&
                     rows.head() != edit.successor);
             const auto prepared = prepare_basis(preview.basis);
-            const auto base = read_revision(rows, edit.base);
+            const auto base = verified_revision(rows, edit.base);
             const auto proposal = model_context(Refusal::identity_conflict, [&] {
                 return propose(base.snapshot, edit, prepared, preview.basis.edges);
             });
@@ -1076,18 +1079,9 @@ RateRecoveryResult SqliteRateOverrideUnit::recover(RateAuthoritySource &source,
             for (std::size_t i = 0; i < prepared.facts.size(); ++i) {
                 const auto &ref = prepared.facts[i].data().context.observation_ref;
                 if (const auto row = rows.observation(ref)) {
-                    // Exact evidence embedded in the immutable preview base
-                    // proves reuse. A standalone row alone could be a partial
-                    // attempted write, even when its bytes match the preview.
+                    // An exact observation may have been retained without a selected edge.
                     const auto stored = read_observation(*row, ref);
-                    require(
-                        stored.document == prepared.documents[i] &&
-                        std::ranges::any_of(base.snapshot.data().sources, [&](const auto &prior) {
-                            return prior.data().context.observation_ref == ref &&
-                                   observation_document(prior.data(),
-                                                        Refusal::invalid_retained_data) ==
-                                       stored.document;
-                        }));
+                    require(stored.document == prepared.documents[i]);
                 }
             }
             return RateAttemptAbsent{};
