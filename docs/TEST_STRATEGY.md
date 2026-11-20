@@ -31,7 +31,7 @@ still using synthetic data and supplied policy/authority facts.
 | Preset | Focused CTest selection | Current behavior/proof |
 | --- | --- | --- |
 | `acceptance-debug` | `-L '^acceptance$'` | 23 cap-limited credit cases in the owning suite: pure numeric planning, not full product proof |
-| `core-acceptance-debug` | whole preset | Every pure GoogleTest suite below in one build (through `rate-snapshot`); used by the CI `core` job |
+| `core-acceptance-debug` | whole preset | Ordinary passing pure GoogleTest suites in one build, also used by the CI `core` job |
 | `exact-numeric-debug` | `-L '^exact-numeric$'` | 33 exact decimal/half-even conversion cases |
 | `timer-lifecycle-debug` | `-L '^timer-lifecycle$'` | 39 Main/Grace transition proposals |
 | `pause-policy-debug` | `-L '^pause-policy$'` | 37 independent pause-reason/delay proposals |
@@ -56,6 +56,7 @@ still using synthetic data and supplied policy/authority facts.
 | `sqlite-original-claim-debug` | `-L '^sqlite-original-claim$'` | 18 typed original-claim query cases |
 | `sqlite-hold-debug` | `-L '^sqlite-hold$'` | 35 methods/270 scenarios for durable application-review holds |
 | `application-service-debug` | `-L '^application-service$'` | 43 methods/233 scenarios composing actual SQLite bundles/holds with supplied ports |
+| Required Qt CI | `-L '^sqlite-rate-override-catalog$'` and `-L '^sqlite-rate-override-writer$'` | 12 catalog and 82 writer invocations for v17 installation, current pair authority, exact evidence, CAS and recovery on disposable SQLite |
 | `sqlite-reference-capture-debug` | `-L '^reference-capture-values$'` / `-L '^sqlite-reference-capture$'` | 34 structural codec methods/46 invocations and 38 real-SQL methods/67 scenarios |
 | `dev-server-debug` | `-L '^dev-server$'` | Development walking skeleton: eight examples and invalid command lines over the reference intake/application path with real SQLite; not the production host |
 | `sqlite-account-sessions-debug` | `-L '^sqlite-account-sessions$'` | 44 real-SQL methods for physical current facts, full conditional writes and compiled-prefix/frame equality; host login/authority remains separate |
@@ -65,6 +66,9 @@ still using synthetic data and supplied policy/authority facts.
 | `native-websocket-profile-debug` | `-L '^native-websocket-profile$'` | 44 reviewed methods passing locally and in selected Ubuntu CI against the API-012 candidate4 SDK, with a separate unchanged native44 run against the successor: real Linux loopback framing/control/Close, listener isolation, ownership and resource/deadline observations with supplied elapsed time; actual host/TLS/clock/auth/platform gates remain separate |
 | `bounded-http-foundation-debug` | `-L '^bounded-http-foundation$'` | 34 reviewed methods passing locally against the bounded successor, with a mandatory real legacy positive, frozen 97-row wire inventory and actual read/retention/stop observations; native44 is separately gated against the same SDK. Ordinary passing CI, no Qt/SQL/host behavior claim. |
 | `rate-snapshot-debug` | `-L '^rate-snapshot$'` | 53 preserved cases for owned lossless observations, exact effective-table validation and inverse/cross queries; no provider/cache/valuation integration |
+| `core-acceptance-debug` | `-L '^valuation-snapshot-codec$'` | 25 shared RSV1 codec cases for exact bytes, canonical retained evidence, and bounded decoding and encoding. Valuation integration remains #553. |
+| `core-acceptance-debug` | `-L '^rule-definition$'` | 26 cases for owned versioned rules, typed actions and predicates, and exact captured monetary comparisons. #206, #208 and #210 cover selection, planning and generated-event enforcement. |
+| `core-acceptance-debug` | `-L '^chat-commands$'` | 41 synthetic cases for typed chat commands, complete authorization, cooldown windows and replay. #337 owns live receipt binding and durable intake deduplication. |
 | `schema-validation-debug` | `-L '^schema-validation$'` | 3 nodes: repository OpenAPI/components/examples, canonical proof/policy aggregate and real-SDK proof publication integration; actual HEAD inputs are required |
 
 Selecting `reference-rule` with `SUBATHON_ACCEPTANCE_SUITES` builds 11 pure configured-

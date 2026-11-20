@@ -15,6 +15,10 @@ if(TARGET Boost::headers)
     target_link_libraries(subathon_exact_numeric PUBLIC Boost::headers)
     subathon_target_options(subathon_exact_numeric)
 
+    add_library(subathon_chat_commands STATIC EXCLUDE_FROM_ALL src/chat_commands.cpp)
+    target_link_libraries(subathon_chat_commands PUBLIC subathon_effective_permissions subathon_exact_numeric)
+    subathon_target_options(subathon_chat_commands)
+
     add_library(subathon_refund_entitlement STATIC EXCLUDE_FROM_ALL src/refund_entitlement.cpp)
     target_link_libraries(subathon_refund_entitlement PUBLIC subathon_exact_numeric)
     subathon_target_options(subathon_refund_entitlement)
@@ -38,6 +42,14 @@ if(TARGET Boost::headers)
     target_include_directories(subathon_rate_snapshots PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_rate_snapshots PUBLIC subathon_exact_numeric)
     subathon_target_options(subathon_rate_snapshots)
+
+    add_library(subathon_valuation_snapshot_codec STATIC EXCLUDE_FROM_ALL src/valuation_snapshot_codec.cpp)
+    target_link_libraries(subathon_valuation_snapshot_codec PUBLIC subathon_rate_snapshots)
+    subathon_target_options(subathon_valuation_snapshot_codec)
+
+    add_library(subathon_rule_definition STATIC EXCLUDE_FROM_ALL src/rule_definition.cpp)
+    target_link_libraries(subathon_rule_definition PUBLIC subathon_rate_snapshots)
+    subathon_target_options(subathon_rule_definition)
 
     add_library(subathon_rate_overrides STATIC EXCLUDE_FROM_ALL src/rate_override.cpp)
     target_link_libraries(subathon_rate_overrides PUBLIC subathon_rate_snapshots)
