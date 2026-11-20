@@ -1602,4 +1602,45 @@ TEST(ScheduledPauseAcceptance, ExpiryKeepsEffectiveTimeAndFirstReconcilingObserv
     EXPECT_EQ(result.timer.main_remaining_ms, 600'000);
 }
 
+TEST(ScheduledPauseAcceptance, HardEndAtCutoverStillStopsDeletedAndDisabledWindows) {
+    SyntheticZones zones;
+    zones.views = {fixed()};
+    const auto at = jan(12h + 3min);
+    const auto due = rule("due", 12h + 3min, 10min);
+    Basis active(noon - 1, config({a, b, due}));
+    overlapping(active);
+    active.state.timer_config.hard_end_utc_ms = noon;
+    auto disabled = b;
+    disabled.enabled = false;
+    const auto proposed = config({disabled, due});
+    const auto deleted_stop = stopped(ScheduledPauseStopCause::deleted, at, observation(at));
+    const auto disabled_stop = stopped(ScheduledPauseStopCause::disabled, at, observation(at));
+
+    const auto preview = std::get<ScheduledPausePreview>(
+        active.preview(zones, proposed, {cut(at, std::nullopt, manual)}, at));
+    expect_complete(preview, at);
+    EXPECT_TRUE(preview.upcoming.empty());
+    ASSERT_EQ(preview.cutover_effects.size(), 2U);
+    expect_effect(preview, a_window, deleted_stop);
+    expect_effect(preview, b_window, disabled_stop);
+    ASSERT_TRUE(preview.pause_after_cutover);
+    EXPECT_EQ(preview.pause_after_cutover->reasons, manual.reasons);
+
+    const auto edit = std::get<ScheduledPauseCutover>(
+        active.edit(zones, proposed, {cut(at, std::nullopt, manual)}));
+    expect_finish(edit.progress, 900'000, at);
+    EXPECT_TRUE(edit.progress.new_deliveries.empty());
+    ASSERT_EQ(edit.progress.stops.size(), 2U);
+    for (const auto &[key, stop] :
+         {std::pair{a_window.key, deleted_stop}, std::pair{b_window.key, disabled_stop}}) {
+        const auto match =
+            std::ranges::find(edit.progress.stops, key, &ScheduledPauseDeliveryStop::key);
+        ASSERT_NE(match, edit.progress.stops.end());
+        expect_stop(match->stop, stop);
+    }
+    EXPECT_EQ(edit.progress.pause.reasons, manual.reasons);
+    EXPECT_FALSE(edit.progress.next_known_expiry_utc_ms);
+    expect_clear(edit.progress);
+}
+
 } // namespace
