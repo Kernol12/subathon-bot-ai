@@ -1017,7 +1017,7 @@ jobs:
               ["ctest", "--preset", "api-host-native-debug", "--show-only=json-v1"], text=True))
           inventory = Path("tests/qt/api_host_cases.cmake").read_text().splitlines()
           cases = [line.strip() for line in inventory if line.startswith("    ")]
-          if len(cases) != 87 or len(set(cases)) != 87:
+          if len(cases) != 157 or len(set(cases)) != 157:
               raise SystemExit("Complete unique host invocation inventory required")
           expected = {"api-host." + case for case in cases} | {"api-host-native.suite"}
           selected = {test["name"]: test for test in data["tests"]
