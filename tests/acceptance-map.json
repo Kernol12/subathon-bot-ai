@@ -813,7 +813,8 @@
         "tests/qt/sqlite_application_hold_tests.cpp",
         "tests/qt/application_service_tests.cpp",
         "tests/qt/reference_capture_values_qt.cpp",
-        "tests/qt/sqlite_reference_capture_tests.cpp"
+        "tests/qt/sqlite_reference_capture_tests.cpp",
+        "tests/qt/contribution_review_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/storagetest-001-review.md",
