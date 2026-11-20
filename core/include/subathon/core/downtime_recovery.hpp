@@ -4,6 +4,7 @@
 #include <subathon/core/recurring_schedule.hpp>
 #include <subathon/core/timer_editorial_commands.hpp>
 
+#include <chrono>
 #include <cstddef>
 #include <cstdint>
 #include <optional>
@@ -40,27 +41,33 @@ struct RecoveryContinuousGap {
 
 using RecoveryGapClock = std::variant<RecoveryGapUnavailable, RecoveryContinuousGap>;
 
-enum class RecoveryScheduleUnavailable { Coverage, DeliveryContext, Source };
+enum class RecoveryScheduleUnavailable { Coverage, DeliveryContext, Source, ReconstructionLimit };
 
-enum class RecoveryWindowOrigin { RetainedDelivery, OfflineOccurrence };
-
-struct RecoveryPauseWindow {
+struct RecoveryRetainedPause {
     std::string schedule_ref;
     ScheduleOccurrenceId occurrence;
     ScheduledPauseWindow window;
-    // A retained stop can shorten the effective window; original endpoints survive.
+    // A retained stop shortens the effective window, possibly to empty.
     std::optional<RecoveryUtcInstant> stopped_at;
-    RecoveryWindowOrigin origin;
+};
+
+struct RecoveryRecurringPause {
+    std::string schedule_ref;
+    RecurringSchedule recurrence;
+    std::chrono::milliseconds duration;
+    // Exact IDs already delivered for this schedule and timer lineage.
+    // May include expired occurrences outside the retained-window span.
+    std::span<const ScheduleOccurrenceId> delivered;
 };
 
 struct RecoveryScheduleCoverage {
     std::string facts_ref;
     std::string delivery_revision;
-    RecoveryUtcInstant checkpoint;
-    RecoveryUtcInstant restart;
-    // Complete retained coverage and offline starts selected under CORE-004's
-    // nominal suppression rules. Known empty coverage is an empty span here.
-    std::span<const RecoveryPauseWindow> windows;
+    // Core selects offline starts via CORE-004 using the captured active schedules
+    // and configured zone. An empty active configuration needs no zone facts.
+    std::optional<ScheduleZoneRules> zone;
+    std::span<const RecoveryRecurringPause> schedules;
+    std::span<const RecoveryRetainedPause> retained;
 };
 
 using RecoveryScheduleFacts = std::variant<RecoveryScheduleUnavailable, RecoveryScheduleCoverage>;
@@ -107,6 +114,8 @@ struct DowntimeRecoveryPreview {
     DowntimePolicy policy;
     RecoveryTimerProposal freeze;
     std::optional<RecoveryTimerProposal> count_elapsed;
+    // The policy selects this hold for Review or when CountElapsed is unavailable.
+    // Start from Freeze, including a reached hard end, and add RecoveryReview.
     std::optional<RecoveryTimerProposal> review_hold;
     RecoveryDeadlineStatus deadline_at_restart;
     std::optional<RecoveryGapUnavailable> gap_unavailable;
@@ -119,8 +128,11 @@ enum class RecoveryPreviewRefusal { InputLimit, InvalidInput, ReviewAlreadyPendi
 // Freeze preserves the durable countdown, subject to an independently observed
 // hard end. A complete schedule supplies its restart Schedule reason; otherwise
 // retain the checkpoint reason and its uncertainty. Count elapsed is published
-// only for a fully reconstructible gap. A checkpoint already in RecoveryReview
-// requires its original episode binding. Neither preview admits support.
+// only for a fully reconstructible gap. If CountElapsed has no result, select the
+// Review hold. The unavailable CountElapsed choice stays unavailable in Review.
+// An explicit Freeze choice and an authorized correction follow the normal
+// resolution rules. A checkpoint already in RecoveryReview requires its original
+// episode binding. Preview does not admit support.
 [[nodiscard]] std::variant<DowntimeRecoveryPreview, RecoveryPreviewRefusal>
 preview_downtime_recovery(const DowntimeRecoveryInput &input);
 
@@ -135,6 +147,8 @@ struct RecoveryReviewSnapshot {
     RecoveryUtcObservation observed_at;
 };
 
+enum class RecoveryWaitRefusal { InputLimit, InvalidInput, NoReviewPending };
+
 struct RecoveryReviewWait {
     RecoveryTimerProposal held;
     RecoveryDeadlineStatus deadline;
@@ -142,7 +156,7 @@ struct RecoveryReviewWait {
 
 // Independent of a resolution command. Waiting contributes zero countdown debit.
 // Observe the hard end against current config and retain all current pause fields.
-[[nodiscard]] std::variant<RecoveryReviewWait, RecoveryPreviewRefusal>
+[[nodiscard]] std::variant<RecoveryReviewWait, RecoveryWaitRefusal>
 observe_recovery_review_wait(const RecoveryReviewSnapshot &snapshot);
 
 enum class RecoveryOfflineChoice { Freeze, CountElapsed };
@@ -161,9 +175,9 @@ struct RecoveryReviewCommand {
 enum class RecoveryReviewAccessRefusal { Denied, Unknown };
 
 struct RecoveryReviewAuthorization {
-    // Echoes of the fresh owner-side decision for this exact command and observation,
-    // including choice and correction payload. These fields cannot prove a session.
-    std::string operation_ref;
+    // Trusted echo of the exact command, including choice, correction and reason.
+    // Core compares every field. The command service establishes actual authority.
+    RecoveryReviewCommand command;
     std::string revision;
     std::string observation_ref;
     std::string actor_ref;
@@ -215,8 +229,12 @@ resolve_recovery_review(const DowntimeRecoveryInput &preview_input,
                         const RecoveryReviewSnapshot &snapshot,
                         const RecoveryReviewCommand &command, const RecoveryReviewAccess &access);
 
+// The aggregate limit covers captured schedules, delivered IDs and retained rows.
+inline constexpr std::size_t recovery_max_schedule_entries = 16'384;
+inline constexpr std::size_t recovery_max_schedule_previews = 4'096;
 inline constexpr std::size_t recovery_max_schedule_windows = 16'384;
 inline constexpr std::size_t recovery_max_reference_bytes = 4'096;
+// Applies to the combined logical input of each call before allocation.
 inline constexpr std::size_t recovery_max_input_bytes = 8'388'608;
 
 } // namespace subathon::core
