@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#include <subathon/core/milestone_progression.hpp>
+#include "milestone_projection_internal.hpp"
 
 #include <array>
 #include <functional>
@@ -107,8 +107,9 @@ std::size_t decimal_digits(std::uint64_t value) {
 }
 } // namespace
 
-MilestoneProgressionResult advance_milestone_progression(const MilestoneProgressionInput &input,
-                                                         const MilestoneProgressionLimits &limits) {
+MilestoneProgressionData milestone_detail::project(const MilestoneProgressionInput &input,
+                                                   const MilestoneProgressionLimits &limits,
+                                                   bool complete_reachable) {
     validate_limit(limits.reference_bytes, maximum_limits.reference_bytes);
     validate_limit(limits.targets, maximum_limits.targets);
     validate_limit(limits.completed_prefix, maximum_limits.completed_prefix);
@@ -143,7 +144,7 @@ MilestoneProgressionResult advance_milestone_progression(const MilestoneProgress
                 Error::invalid_completed_prefix);
 
     auto completed_count = old_count;
-    while (completed_count < target_count &&
+    while (complete_reachable && completed_count < target_count &&
            input.targets[completed_count].target_micro_points <= input.score_micro_points)
         ++completed_count;
     require(completed_count <= limits.completed_prefix, Error::resource_limit);
@@ -155,7 +156,7 @@ MilestoneProgressionResult advance_milestone_progression(const MilestoneProgress
     std::uint64_t span = 0;
     std::uint64_t numerator = 0;
     std::uint64_t denominator = 1;
-    if (previous && next) {
+    if (previous && next && next->target_micro_points > input.score_micro_points) {
         span = distance(next->target_micro_points, previous->target_micro_points);
         earned = input.score_micro_points > previous->target_micro_points
                      ? distance(input.score_micro_points, previous->target_micro_points)
@@ -191,7 +192,7 @@ MilestoneProgressionResult advance_milestone_progression(const MilestoneProgress
     output_bytes.add(8); // Track deficit.
     if (next)
         output_bytes.add(8); // Remaining.
-    if (previous && next) {
+    if (previous && next && next->target_micro_points > input.score_micro_points) {
         output_bytes.add(16); // Earned/span.
         output_bytes.add(decimal_digits(numerator));
         output_bytes.add(decimal_digits(denominator));
@@ -231,10 +232,15 @@ MilestoneProgressionResult advance_milestone_progression(const MilestoneProgress
     if (next) {
         projection.next = *next;
         projection.remaining_micro_points =
-            distance(next->target_micro_points, input.score_micro_points);
+            deficit(next->target_micro_points, input.score_micro_points);
     }
-    if (previous && next)
+    if (previous && next && next->target_micro_points > input.score_micro_points)
         projection.interval = MilestoneInterval{earned, span, Exact(numerator) / denominator};
-    return MilestoneProgressionResult(std::move(data));
+    return data;
+}
+
+MilestoneProgressionResult advance_milestone_progression(const MilestoneProgressionInput &input,
+                                                         const MilestoneProgressionLimits &limits) {
+    return MilestoneProgressionResult(milestone_detail::project(input, limits, true));
 }
 } // namespace subathon::core

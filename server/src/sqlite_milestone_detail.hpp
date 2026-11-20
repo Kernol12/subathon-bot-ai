@@ -61,10 +61,42 @@ inline qint64 integer(const QVariant &cell) {
     return cell.toLongLong();
 }
 
-enum class Catalog { independent, groups, decisions };
+enum class Catalog { independent, groups, decisions, edits };
 
 // Reuse the catalog marker at the dispatch and queue boundaries. A newer or
 // mismatched marker cannot fall through to independent delivery or v12 order.
+inline void require_edit_schema(const SqliteWorkSession &session) {
+    // Resolve each required table and key even when the selected row is absent.
+    // Startup inspection owns the full SQL and index projection comparison.
+    (void)session.execute(
+        {"SELECT v.definition_revision,t.ordinal,d.definition_revision,p.prefix_length,"
+         "h.prefix_revision,m.origin,m.application_occurrence_ref,m.edit_occurrence_ref,"
+         "o.intent,o.result,g.suffix_ordinal,g.queue_order,g.released,a.action_ordinal,a.kind,"
+         "j.job_format,j.action_document,c.route_ref,c.sender_selection,c.sender_ref,"
+         "e.revision,e.state,e.attempt,e.evidence_ref,b.effect_ref,i.choice,i.actor_ref,"
+         "i.decision_ref,i.resolution,i.ended_by_skip_ref,r.refund_ref,r.score_before_micro_points,"
+         "r.score_after_micro_points,r.current_target_micro_points,r.policy,r.resolution,"
+         "r.ended_by_skip_ref "
+         "FROM main.subathon_milestone_definition_versions v "
+         "CROSS JOIN main.subathon_milestone_definition_targets t "
+         "CROSS JOIN main.subathon_milestone_definition_heads d "
+         "CROSS JOIN main.subathon_milestone_prefix_revisions p "
+         "CROSS JOIN main.subathon_milestone_prefix_heads h "
+         "CROSS JOIN main.subathon_milestone_prefix_members m "
+         "CROSS JOIN main.subathon_milestone_edit_operations o "
+         "CROSS JOIN main.subathon_milestone_edit_occurrences g "
+         "INDEXED BY subathon_milestone_edit_pending_order "
+         "CROSS JOIN main.subathon_milestone_edit_actions a "
+         "CROSS JOIN main.subathon_milestone_edit_jobs j "
+         "CROSS JOIN main.subathon_milestone_edit_captures c "
+         "CROSS JOIN main.subathon_milestone_edit_events e "
+         "CROSS JOIN main.subathon_milestone_edit_bonus_receipts b "
+         "CROSS JOIN main.subathon_milestone_edit_choices i "
+         "CROSS JOIN main.subathon_milestone_edit_refund_decisions r "
+         "WHERE g.released=0 LIMIT 0",
+         {}});
+}
+
 inline Catalog catalog(const SqliteWorkSession &session) {
     const auto rows = session.execute(
         {"SELECT CASE "
@@ -75,7 +107,8 @@ inline Catalog catalog(const SqliteWorkSession &session) {
          "WHEN (version=13 AND migration_id='milestone-group-decisions-v1') OR "
          "(version=14 AND migration_id COLLATE BINARY='modifier-activations-v1') OR "
          "(version=15 AND migration_id COLLATE BINARY='financial-refunds-v1') OR "
-         "(version=16 AND migration_id COLLATE BINARY='provider-credentials-v1') THEN 2 END "
+         "(version=16 AND migration_id COLLATE BINARY='provider-credentials-v1') THEN 2 "
+         "WHEN version=17 AND migration_id COLLATE BINARY='milestone-target-edits-v1' THEN 3 END "
          "FROM main.subathon_migration_history "
          "WHERE EXISTS(SELECT 1 FROM main.subathon_catalog WHERE singleton=1 "
          "AND typeof(catalog_format)='integer' AND catalog_format=1 "
@@ -84,7 +117,7 @@ inline Catalog catalog(const SqliteWorkSession &session) {
     if (rows.size() != 1)
         corrupt();
     const auto result = Catalog(integer(rows.front().front()));
-    if (result == Catalog::decisions) {
+    if (result >= Catalog::decisions) {
         // Resolve the v13 columns even on paths with no matching occurrence or
         // membership. A missing table/column is a writer SQL failure.
         (void)session.execute(
@@ -98,12 +131,9 @@ inline Catalog catalog(const SqliteWorkSession &session) {
              "CROSS JOIN main.subathon_milestone_refund_decisions AS r LIMIT 0",
              {}});
     }
+    if (result == Catalog::edits)
+        require_edit_schema(session);
     return result;
-}
-
-inline void require_decision_catalog(const SqliteWorkSession &session) {
-    if (catalog(session) != Catalog::decisions)
-        corrupt();
 }
 
 constexpr auto active = "resolution IS NULL AND ended_by_skip_kind IS NULL";
@@ -126,7 +156,7 @@ inline QString held() {
 }
 
 inline QString pending_filter(Catalog current) {
-    return current == Catalog::decisions ? QString("g.released=0 AND NOT ") + skipped
+    return current >= Catalog::decisions ? QString("g.released=0 AND NOT ") + skipped
                                          : QString("g.released=0");
 }
 
