@@ -192,9 +192,14 @@
     },
     {
       "id": "TIMER-06",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/finished_timer_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/753#issuecomment-7053305574"
+      ],
+      "scope": "Pure CORE-007 proposals cover finished input and authorized reopen with explicit Main and grace and a separate deadline edit. Authoritative effect application and command publication remain separate."
     },
     {
       "id": "RULE-01",
@@ -568,9 +573,14 @@
     },
     {
       "id": "TIMER-10",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/finished_timer_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/753#issuecomment-7053305574"
+      ],
+      "scope": "Pure CORE-007 proposals preserve debt and independent holds, audit a separate debt correction, and project Resume, Keep deferred and Skip. Durable audit, commit and pending-group enforcement remain separate."
     },
     {
       "id": "MILE-04",

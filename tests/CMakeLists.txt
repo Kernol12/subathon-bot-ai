@@ -75,7 +75,7 @@ if(SUBATHON_BUILD_FINISHED_TIMER_TESTS)
         GTest::gtest_main)
     subathon_target_options(core_finished_timer_acceptance)
     subathon_discover_gtests(core_finished_timer_acceptance
-        PREFIX "finished-timer." LABELS "finished-timer;intentional-red;core" TIMEOUT 30)
+        PREFIX "finished-timer." LABELS "finished-timer;acceptance;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_DOWNTIME_RECOVERY_TESTS)
