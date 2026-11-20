@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include <subathon/server/contribution_review.hpp>
 
+#include "contribution_review_dispatch.hpp"
+
 #include <subathon/server/sqlite_milestone_target_edits.hpp>
 
 #include <algorithm>
@@ -127,18 +129,159 @@ MigrationManifest contribution_review_repository_manifest() {
     return manifest;
 }
 
-void ContributionReview::preview(ReviewPreviewRequest, std::string,
-                                 std::function<void(PreviewResult)>) {
-    throw ContributionReviewNotImplemented("preview");
+void ContributionReview::preview(ReviewPreviewRequest request, std::string proof,
+                                 std::function<void(PreviewResult)> done) {
+    using namespace review_detail;
+    if (!done)
+        return;
+    if (request.entries.size() > row_limit) {
+        done(ReviewRefusal::batch_too_large);
+        return;
+    }
+    try {
+        Encode envelope(envelope_limit);
+        principal_fields(envelope, request.principal);
+        envelope.text(proof);
+        require(!request.entries.empty());
+        selection_order(request.entries, [](const auto &x) { return x.selector; });
+        for (const auto &entry : request.entries)
+            (void)digest_intent(entry, false);
+    } catch (const Oversize &) {
+        done(ReviewRefusal::batch_too_large);
+        return;
+    } catch (const Invalid &) {
+        done(ReviewRefusal::invalid_selection);
+        return;
+    }
+    const auto out = std::make_shared<PreviewResult>(ReviewRefusal::unavailable);
+    auto &facts = facts_;
+    const auto admission = submit(
+        writer_, observe_, test_unit::initial_read, 0,
+        [&facts, request = std::move(request), proof = std::move(proof), out](const auto &s) {
+            const auto selected =
+                selectors(request.entries, [](const auto &x) { return x.selector; });
+            const Authority auth{facts, request.principal, proof, {}, nullptr, selected};
+            if (const auto refusal = auth.scope(s)) {
+                *out = *refusal;
+            } else {
+                catalog(s);
+                try {
+                    *out = project(s, auth, request);
+                } catch (const Oversize &) {
+                    *out = ReviewRefusal::batch_too_large;
+                } catch (const ConflictingAnchor &) {
+                    *out = ReviewRefusal::invalid_selection;
+                }
+            }
+            return false;
+        },
+        [out, done](const auto &r, bool observed) mutable {
+            done(normal(r, observed) ? std::move(*out) : PreviewResult{ReviewRefusal::unavailable});
+        });
+    if (admission != StorageError::none)
+        done(ReviewRefusal::unavailable);
 }
 
-void ContributionReview::execute(ReviewCommand, std::string, std::function<void(Result)>) {
-    throw ContributionReviewNotImplemented("execute");
+void ContributionReview::execute(ReviewCommand command, std::string proof,
+                                 std::function<void(Result)> done) {
+    using namespace review_detail;
+    if (!done)
+        return;
+    if (command.entries.size() > row_limit) {
+        done(ReviewRefusal::batch_too_large);
+        return;
+    }
+    QByteArray document;
+    try {
+        require(!command.entries.empty());
+        selection_order(command.entries, [](const auto &x) { return x.intent.selector; });
+        Encode proof_bound(envelope_limit);
+        proof_bound.text(proof);
+        document = manifest(command);
+    } catch (const Oversize &) {
+        done(ReviewRefusal::batch_too_large);
+        return;
+    } catch (const std::invalid_argument &) {
+        done(ReviewRefusal::invalid_selection);
+        return;
+    } catch (const Invalid &) {
+        done(ReviewRefusal::invalid_selection);
+        return;
+    }
+    if (!qualified(detail::ContributionReviewWriterAccess::limits(writer_)) ||
+        !detail::ContributionReviewWriterAccess::acquire(writer_)) {
+        done(ReviewRefusal::unavailable);
+        return;
+    }
+    std::shared_ptr<Execute> execute;
+    try {
+        execute = std::make_shared<Execute>(writer_, facts_, observe_, std::move(command),
+                                            std::move(proof), std::move(document), done);
+    } catch (...) {
+        detail::ContributionReviewWriterAccess::release(writer_);
+        done(ReviewRefusal::unavailable);
+        return;
+    }
+    execute->acquired();
+    execute->start();
 }
 
-void ContributionReview::lookup(ApplicationOperationKey, ApplicationPrincipalBinding, std::string,
-                                std::function<void(Result)>) {
-    throw ContributionReviewNotImplemented("lookup");
+void ContributionReview::lookup(ApplicationOperationKey key, ApplicationPrincipalBinding principal,
+                                std::string proof, std::function<void(Result)> done) {
+    using namespace review_detail;
+    if (!done)
+        return;
+    try {
+        Encode envelope(envelope_limit);
+        principal_fields(envelope, principal);
+        identity(envelope, key);
+        envelope.text(proof);
+    } catch (const Oversize &) {
+        done(ReviewRefusal::batch_too_large);
+        return;
+    } catch (const Invalid &) {
+        done(ReviewRefusal::invalid_selection);
+        return;
+    }
+    const auto out = std::make_shared<Result>(ReviewRefusal::unavailable);
+    auto &facts = facts_;
+    const auto admission = submit(
+        writer_, observe_, test_unit::initial_read, 0,
+        [&facts, key = std::move(key), principal = std::move(principal), proof = std::move(proof),
+         out](const auto &s) {
+            const Authority auth{facts, principal, proof, {}, &key, {}};
+            if (const auto refusal = auth.scope(s)) {
+                *out = *refusal;
+                return false;
+            }
+            catalog(s);
+            const auto h = header(s, principal, key);
+            if (h.count == 0) {
+                *out = ReviewReply{};
+                return false;
+            }
+            const auto cmd = decode_manifest(h.manifest);
+            require(same(cmd.key, key) &&
+                    cmd.principal.installation_ref == principal.installation_ref &&
+                    int(cmd.entries.size()) == h.count);
+            const auto selection =
+                selectors(cmd.entries, [](const auto &x) { return x.intent.selector; });
+            const Authority selected{facts, principal, proof, {}, &key, selection};
+            if (const auto refusal = selected.scope(s))
+                *out = *refusal;
+            else {
+                auto reply = read_prefix(s, cmd, h, selected, h.cursor).reply;
+                for (int ordinal = h.cursor; ordinal <= h.count; ++ordinal)
+                    reply.rows.push_back({ordinal, ReviewDisposition::unattempted, {}});
+                *out = std::move(reply);
+            }
+            return false;
+        },
+        [out, done](const auto &r, bool observed) mutable {
+            done(normal(r, observed) ? std::move(*out) : Result{ReviewRefusal::unavailable});
+        });
+    if (admission != StorageError::none)
+        done(ReviewRefusal::unavailable);
 }
 
 } // namespace subathon::server

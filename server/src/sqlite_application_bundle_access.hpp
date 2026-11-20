@@ -285,6 +285,10 @@ class Access {
     bool wrote_{false};
     enum class ReadPolicy { legacy, selected };
     ReadPolicy policy_;
+    bool review_history_{false};
+    std::optional<ApplicationStateSnapshot> preceding_review_state_;
+    std::optional<std::string> reviewed_configuration_;
+
     Access(SqliteWorkSession s, SqliteBundleLimits l, ReadPolicy policy = ReadPolicy::legacy)
         : session_(std::move(s)), limits_(l), policy_(policy) {}
     bool selected() const { return policy_ == ReadPolicy::selected; }
@@ -952,6 +956,8 @@ class Access {
         return RetainedDocument{k, std::move(doc), std::move(link)};
     }
     void config(const std::string &ref) {
+        if (review_history_ && reviewed_configuration_ == ref)
+            return;
         if (selected()) {
             if (!selected_retained({RetainedKind::configuration, ref}))
                 fail(Reason::invalid_stored_data);
@@ -971,6 +977,8 @@ class Access {
         } catch (const SqliteWorkFailure &e) {
             map_work_failure(e);
         }
+        if (review_history_)
+            reviewed_configuration_ = ref;
     }
     void result_size(size_t items, size_t total_bytes) {
         if (items > size_t(limits_.result_items) || total_bytes > size_t(limits_.owned_bytes))
@@ -1238,8 +1246,14 @@ class Access {
         if ((i.kind == ApplicationOperationKind::reversal) != bool(i.reversal_ref) ||
             (i.reversal_ref && i.reversal_ref->empty()))
             fail(Reason::invalid_stored_data);
-        v.persisted_head = state(i.expected_state_token, metadata);
-        v.advanced_before = state(before, metadata);
+        v.persisted_head =
+            review_history_ && preceding_review_state_ &&
+                    preceding_review_state_->token == i.expected_state_token
+                ? *preceding_review_state_
+                : state(i.expected_state_token, metadata);
+        v.advanced_before = review_history_ && before == i.expected_state_token
+                                ? v.persisted_head
+                                : state(before, metadata);
         v.after = state(after, metadata);
         auto p = plan(i.plan);
         if (!p)

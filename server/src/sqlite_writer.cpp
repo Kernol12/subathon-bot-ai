@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include <subathon/server/sqlite_writer.hpp>
+
+#include "contribution_review_writer_access.hpp"
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
 
 #include <QDir>
@@ -13,6 +15,7 @@
 #include <QSqlRecord>
 #include <QThread>
 #include <QUuid>
+#include <algorithm>
 #include <deque>
 #include <limits>
 #include <mutex>
@@ -200,10 +203,18 @@ WriteBatch owned_batch(const WriteBatch &batch) {
     return owned;
 }
 
+struct ReviewSqlAllowance {
+    qsizetype binding_cells;
+    qsizetype result_cells;
+    qsizetype binding_documents{2 * 1024 * 1024};
+    qsizetype result_documents{2 * 1024 * 1024};
+};
+
 // Rows/bytes are shared across the whole writer batch; the reader passes its own
 // row limit. A query failure or exceeded bound never publishes partial rows.
 ReadResult statement_result(Connection &connection, const SqlStatement &statement,
-                            qsizetype &remaining_rows, qsizetype &remaining_bytes) {
+                            qsizetype &remaining_rows, qsizetype &remaining_bytes,
+                            ReviewSqlAllowance *review = nullptr) {
     QSqlQuery query(connection.database());
     if (!query.prepare(statement.sql))
         return {sql_error(query.lastError()), {}};
@@ -217,12 +228,18 @@ ReadResult statement_result(Connection &connection, const SqlStatement &statemen
             return {StorageError::result_limit, {}};
         SqlRow row;
         const int columns = query.record().count();
+        if (review && !consume(review->result_cells, columns))
+            return {StorageError::result_limit, {}};
+        const auto before = remaining_bytes;
         for (int column = 0; column < columns; ++column) {
             QVariant value = query.value(column);
             if (!consume_value(remaining_bytes, value))
                 return {StorageError::result_limit, {}};
             row.append(std::move(value));
         }
+        if (review && !consume(review->result_documents,
+                               std::max(qsizetype{}, before - remaining_bytes - 18240)))
+            return {StorageError::result_limit, {}};
         rows.append(std::move(row));
     }
     if (query.lastError().isValid())
@@ -286,23 +303,40 @@ class SqliteWorkState final {
         }
         phase_ = WorkPhase::active;
     }
+    void meter_review(bool row_unit) {
+        require_active();
+        const qsizetype ceiling = row_unit ? 512 : 768;
+        statements_left_ = std::min(statements_left_, ceiling);
+        rows_left_ = std::min(rows_left_, ceiling);
+        bindings_left_ = std::min(bindings_left_, ceiling * 8448 + 2 * 1024 * 1024);
+        values_left_ = std::min(values_left_, ceiling * 18240 + 2 * 1024 * 1024);
+        review_.emplace(ReviewSqlAllowance{ceiling * 32, ceiling * 104});
+    }
+
     SqlRows execute(const SqlStatement &statement) {
         require_active();
         try {
             if (!consume(statements_left_, 1) ||
-                statement.sql.toUtf8().size() > limits_.statement_utf8_bytes)
+                statement.sql.toUtf8().size() >
+                    (review_ ? std::min(limits_.statement_utf8_bytes, qsizetype(65536))
+                             : limits_.statement_utf8_bytes) ||
+                (review_ && !consume(review_->binding_cells, statement.bindings.size())))
                 fail(WorkError::resource_limit);
             if (!allowed_writer_sql(statement.sql))
                 fail(WorkError::invalid_statement);
+            const auto before = bindings_left_;
             for (const auto &value : statement.bindings) {
                 if (!supported_value(value))
                     fail(WorkError::invalid_statement);
                 if (!consume_value(bindings_left_, value))
                     fail(WorkError::resource_limit);
             }
+            if (review_ && !consume(review_->binding_documents,
+                                    std::max(qsizetype{}, before - bindings_left_ - 8448)))
+                fail(WorkError::resource_limit);
             const auto snapshot = owned_batch({statement});
-            auto result =
-                statement_result(*connection_, snapshot.front(), rows_left_, values_left_);
+            auto result = statement_result(*connection_, snapshot.front(), rows_left_, values_left_,
+                                           review_ ? &*review_ : nullptr);
             if (result.error != StorageError::none)
                 fail(work_error(result.error));
             return std::move(result.rows);
@@ -370,6 +404,7 @@ class SqliteWorkState final {
     std::function<void()> fail_close_;
     const StorageLimits limits_;
     qsizetype statements_left_, bindings_left_, rows_left_, values_left_;
+    std::optional<ReviewSqlAllowance> review_;
     WorkPhase phase_{WorkPhase::not_started};
     WorkError first_error_{WorkError::none};
     bool valid_{true};
@@ -482,6 +517,9 @@ WorkError SqliteWorkSession::cleanup() const noexcept {
 }
 
 class SqliteWriter::Impl {
+    friend class detail::ContributionReviewWriterAccess;
+    bool review_active_ = false;
+
   public:
     explicit Impl(SqliteWriter *writer) : writer_(writer), owner_(QThread::currentThread()) {}
     ~Impl() {
@@ -711,6 +749,27 @@ class SqliteWriter::Impl {
 SqliteWriter::SqliteWriter(QObject *parent)
     : QObject(parent), impl_(std::make_unique<Impl>(this)) {}
 SqliteWriter::~SqliteWriter() = default;
+
+StorageLimits detail::ContributionReviewWriterAccess::limits(const SqliteWriter &writer) {
+    return writer.impl_->on_owner() ? writer.impl_->limits_ : StorageLimits{};
+}
+
+bool detail::ContributionReviewWriterAccess::acquire(SqliteWriter &writer) {
+    auto &impl = *writer.impl_;
+    if (!impl.on_owner() || impl.review_active_)
+        return false;
+    impl.review_active_ = true;
+    return true;
+}
+
+void detail::ContributionReviewWriterAccess::release(SqliteWriter &writer) noexcept {
+    writer.impl_->review_active_ = false;
+}
+
+void detail::ContributionReviewWriterAccess::meter(const SqliteWorkSession &session,
+                                                   bool row_unit) {
+    live_work_state(session.state_)->meter_review(row_unit);
+}
 StorageError SqliteWriter::open(const QString &path, StorageLimits limits) {
     return impl_->open(path, limits);
 }

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "contribution_review_bundle_history.hpp"
 #include "sqlite_application_bundle_access.hpp"
 namespace subathon::server {
 MigrationManifest application_bundle_repository_manifest() {
@@ -63,6 +64,20 @@ SqliteApplicationBundleStore::stage(const PreparedApplicationBundle &b) const {
     bundle_detail::validate_bundle(b, limits_);
     Access a(session_, limits_);
     return a.guarded([&] { return a.stage(b); });
+}
+
+review_detail::BundleHistory review_detail::bundle_history(const SqliteWorkSession &session) {
+    auto read = std::make_shared<Access>(session, SqliteBundleLimits{});
+    read->review_history_ = true;
+    return [read = std::move(read)](const ApplicationOperationKey &key) {
+        bundle_detail::validate_key(key, read->limits_);
+        return read->guarded([&] {
+            auto record = read->lookup(key);
+            if (record)
+                read->preceding_review_state_ = record->after;
+            return record;
+        });
+    };
 }
 } // namespace subathon::server
 
