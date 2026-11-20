@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 
-#include "contribution_review_operation.hpp"
-#include "contribution_review_writer_access.hpp"
+#include "contribution_review_reconciliation_budget.hpp"
 
 namespace subathon::server::review_detail {
 
@@ -51,6 +50,24 @@ StorageError submit(SqliteWriter &writer, Observer observer, test_unit unit, int
         });
 }
 
+// Owning stores can establish rollback for a decoded size bound before the
+// writer's own meters trip. Preserve that distinction from invalid history.
+inline bool size_failure(const std::exception_ptr &failure) {
+    try {
+        std::rethrow_exception(failure);
+    } catch (const SqliteBundleStorageFailure &e) {
+        using R = SqliteBundleStorageReason;
+        return e.reason() == R::resource_limit || e.reason() == R::result_limit;
+    } catch (const SqliteHoldStorageFailure &e) {
+        using R = SqliteHoldStorageReason;
+        return e.reason() == R::resource_limit || e.reason() == R::result_limit;
+    } catch (const RetentionFailure &e) {
+        return e.error() == RetentionError::result_limit;
+    } catch (...) {
+        return false;
+    }
+}
+
 // Keep only owned canonical input and the validated prefix across owner turns.
 // A queued closure owns the attempt until that unit's completion is delivered.
 class Execute : public std::enable_shared_from_this<Execute> {
@@ -71,7 +88,13 @@ class Execute : public std::enable_shared_from_this<Execute> {
         if (!enqueue(
                 test_unit::initial_read, 0,
                 [self](const auto &s) {
-                    self->initial(s);
+                    try {
+                        self->initial(s);
+                    } catch (...) {
+                        if (size_failure(std::current_exception()))
+                            self->refusal_ = ReviewRefusal::batch_too_large;
+                        throw;
+                    }
                     return false;
                 },
                 [self](const auto &r, bool observed) { self->after_initial(r, observed); }))
@@ -94,6 +117,11 @@ class Execute : public std::enable_shared_from_this<Execute> {
     bool active_{};
     int initial_cursor_{1};
     Prefix prefix_;
+    std::array<ReadCost, row_limit> reservations_{};
+    std::array<ReadCost, row_limit> authority_reservations_{};
+    ReadCost committed_cost_;
+    ReadCost committed_authority_;
+    std::pair<qint64, qint64> checked_snapshot_;
     std::optional<ReviewRefusal> refusal_;
     std::optional<ReviewStop> stop_;
     std::optional<int> failed_;
@@ -156,7 +184,8 @@ class Execute : public std::enable_shared_from_this<Execute> {
 
     void initial(const SqliteWorkSession &s) {
         const auto auth = authority();
-        refusal_ = auth.scope(s);
+        ReadCost scope;
+        refusal_ = auth.scope(s, &scope);
         if (refusal_)
             return;
         catalog(s);
@@ -176,16 +205,35 @@ class Execute : public std::enable_shared_from_this<Execute> {
         if (prefix_.cursor > int(command_.entries.size()))
             return;
         bind_bases();
-        // Prove the shape of the entire suffix before the first row can write.
-        // Detailed current proposal and policy are re-read in each row.
         try {
+            committed_cost_ = prefix_.closure;
+            committed_authority_ = prefix_.authority;
+            auto total = committed_cost_;
+            auto authority_cost = committed_authority_;
+            const auto inputs = preview_inputs(s);
+            std::optional<ApplicationStateSnapshot> projected;
+            std::set<std::string> completed;
             for (size_t n = size_t(h.cursor - 1); n < command_.entries.size(); ++n) {
-                const auto &i = command_.entries[n].intent;
-                if (!allowed(auth.check(s, ReviewAuthorityUse::execute_row, &i)) ||
-                    !anchor(s, i.selector))
-                    continue;
-                bounded_shape(s, i, auth.policy(s, i.selector));
+                const auto &entry = command_.entries[n];
+                // Retain a cheap journal possibility even if current row
+                // authority, eligibility or the selected anchor is absent.
+                ReadCost plan;
+                auto row = read_row(s, auth, entry.intent, projected, completed, &inputs, &plan);
+                const auto data = proposed_outcome(command_, int(n + 1), row, {}, {}, false);
+                auto cost = reconciliation_row(s, command_, entry, row, data, plan);
+                reservations_[n] = cost;
+                authority_reservations_[n] = row.authority_read;
+                total += cost;
+                authority_cost += row.authority_read;
+                if (!reconciliation_fits(total, authority_cost + 2 * scope, manifest_.size()))
+                    throw Oversize{};
+                if (data.outcome.facts && data.outcome.facts->bundle) {
+                    projected = std::move(row.after);
+                    for (const auto &group : row.groups)
+                        completed.insert(group.group.achievement.milestone_ref);
+                }
             }
+            checked_snapshot_ = reconciliation_snapshot(s);
         } catch (const Oversize &) {
             refusal_ = ReviewRefusal::batch_too_large;
         } catch (const ConflictingAnchor &) {
@@ -195,9 +243,11 @@ class Execute : public std::enable_shared_from_this<Execute> {
 
     void after_initial(const SqliteWorkResult &r, bool observed) {
         if (!normal(r, observed)) {
-            finish(r.error == WorkError::resource_limit || r.error == WorkError::result_limit
-                       ? ReviewRefusal::batch_too_large
-                       : ReviewRefusal::unavailable);
+            const bool bounded_failure =
+                observed && r.transaction == TransactionOutcome::rolled_back &&
+                (refusal_ == ReviewRefusal::batch_too_large ||
+                 r.error == WorkError::resource_limit || r.error == WorkError::result_limit);
+            finish(bounded_failure ? ReviewRefusal::batch_too_large : ReviewRefusal::unavailable);
         } else if (refusal_) {
             finish(*refusal_);
         } else if (prefix_.cursor > int(command_.entries.size())) {
@@ -207,13 +257,24 @@ class Execute : public std::enable_shared_from_this<Execute> {
         }
     }
 
-    bool current_scope(const SqliteWorkSession &s) {
-        if (const auto refusal = authority().scope(s)) {
+    bool current_scope(const SqliteWorkSession &s, ReadCost *cost = nullptr) {
+        if (const auto refusal = authority().scope(s, cost)) {
             stop_ =
                 *refusal == ReviewRefusal::denied ? ReviewStop::denied : ReviewStop::unavailable;
             return false;
         }
         return true;
+    }
+
+    bool suffix_fits(size_t n, ReadCost candidate, ReadCost authority_cost,
+                     const ReadCost &scope) const {
+        candidate += committed_cost_;
+        authority_cost += committed_authority_ + 2 * scope;
+        for (size_t later = n + 1; later < command_.entries.size(); ++later) {
+            candidate += reservations_[later];
+            authority_cost += authority_reservations_[later];
+        }
+        return reconciliation_fits(candidate, authority_cost, manifest_.size());
     }
 
     void qualify_next() {
@@ -222,26 +283,47 @@ class Execute : public std::enable_shared_from_this<Execute> {
         if (!enqueue(
                 test_unit::qualification_read, ordinal,
                 [self, ordinal](const auto &s) {
-                    if (!self->current_scope(s))
+                    ReadCost scope;
+                    if (!self->current_scope(s, &scope))
                         return false;
-                    const auto &i = self->command_.entries.at(size_t(ordinal - 1)).intent;
+                    const auto n = size_t(ordinal - 1);
+                    const auto &i = self->command_.entries.at(n).intent;
                     const auto auth = self->authority();
-                    if (allowed(auth.check(s, ReviewAuthorityUse::execute_row, &i)) &&
-                        anchor(s, i.selector)) {
-                        try {
+                    try {
+                        if (allowed(auth.check(s, ReviewAuthorityUse::execute_row, &i)) &&
+                            anchor(s, i.selector))
                             bounded_shape(s, i, auth.policy(s, i.selector));
-                        } catch (const Oversize &) {
-                            self->stop_ = ReviewStop::row_budget_exceeded;
+                        const auto snapshot = reconciliation_snapshot(s);
+                        if (snapshot != self->checked_snapshot_) {
+                            const auto h = header(s, self->command_.principal, self->command_.key);
+                            require(h.cursor == self->prefix_.cursor &&
+                                    (h.count == 0 ? h.cursor == 1 : h.manifest == self->manifest_));
+                            self->committed_cost_ =
+                                read_prefix(s, self->command_, h, auth, self->initial_cursor_, true)
+                                    .closure;
+                            self->checked_snapshot_ = snapshot;
+                            if (!self->suffix_fits(n, self->reservations_[n],
+                                                   self->authority_reservations_[n], scope))
+                                throw Oversize{};
                         }
+                    } catch (const Oversize &) {
+                        self->stop_ = ReviewStop::row_budget_exceeded;
+                    } catch (...) {
+                        if (size_failure(std::current_exception()))
+                            self->stop_ = ReviewStop::row_budget_exceeded;
+                        throw;
                     }
                     return false;
                 },
                 [self, ordinal](const auto &r, bool observed) {
                     if (!normal(r, observed)) {
-                        self->stop_ = r.error == WorkError::resource_limit ||
-                                              r.error == WorkError::result_limit
-                                          ? ReviewStop::row_budget_exceeded
-                                          : ReviewStop::unavailable;
+                        const bool bounded_failure =
+                            observed && r.transaction == TransactionOutcome::rolled_back &&
+                            (self->stop_ == ReviewStop::row_budget_exceeded ||
+                             r.error == WorkError::resource_limit ||
+                             r.error == WorkError::result_limit);
+                        self->stop_ = bounded_failure ? ReviewStop::row_budget_exceeded
+                                                      : ReviewStop::unavailable;
                     }
                     if (!self->stop_)
                         self->forward(ordinal);
@@ -256,7 +338,8 @@ class Execute : public std::enable_shared_from_this<Execute> {
     }
 
     bool row(const SqliteWorkSession &s, int ordinal) {
-        if (!current_scope(s))
+        ReadCost scope;
+        if (!current_scope(s, &scope))
             return false;
         const auto h = header(s, command_.principal, command_.key);
         require(h.cursor == ordinal && (ordinal == 1 ? h.count == 0
@@ -270,16 +353,30 @@ class Execute : public std::enable_shared_from_this<Execute> {
                     .empty());
         const auto n = size_t(ordinal - 1);
         const auto auth = authority();
+        const auto &entry = command_.entries[n];
         Row input;
+        StoredOutcome data;
+        ReadCost cost;
         try {
-            input = read_row(s, auth, command_.entries[n].intent);
+            if (reconciliation_snapshot(s) != checked_snapshot_)
+                committed_cost_ = read_prefix(s, command_, h, auth, initial_cursor_, true).closure;
+            ReadCost plan;
+            input = read_row(s, auth, entry.intent, {}, {}, nullptr, &plan);
+            data = proposed_outcome(command_, ordinal, input, prefix_.last_state, bases_[n],
+                                    basis_selection_);
+            cost = reconciliation_row(s, command_, entry, input, data, plan);
+            if (!suffix_fits(n, cost, input.authority_read, scope))
+                throw Oversize{};
         } catch (const Oversize &) {
             stop_ = ReviewStop::row_budget_exceeded;
             return false;
+        } catch (...) {
+            if (size_failure(std::current_exception()))
+                stop_ = ReviewStop::row_budget_exceeded;
+            throw;
         }
         staging_ = true;
-        auto data =
-            stage_row(s, command_, ordinal, input, bases_[n], basis_selection_, prefix_.last_state);
+        stage_row(s, command_, ordinal, input, data);
         const auto status = data.outcome.status;
         const auto verb = command_.entries[n].intent.verb;
         const auto kind = decision_kind(command_.entries[n].intent, status,
@@ -289,6 +386,9 @@ class Execute : public std::enable_shared_from_this<Execute> {
         if (data.outcome.facts && data.outcome.facts->bundle)
             staged_head_ = input.after.token;
         staged_ = std::move(data);
+        reservations_[n] = cost;
+        authority_reservations_[n] = input.authority_read;
+        checked_snapshot_ = reconciliation_snapshot(s);
         return true;
     }
 
@@ -320,7 +420,8 @@ class Execute : public std::enable_shared_from_this<Execute> {
                 safe_stop();
             } else if (r.transaction == TransactionOutcome::rolled_back) {
                 if (!staging_ &&
-                    (r.error == WorkError::resource_limit || r.error == WorkError::result_limit)) {
+                    (stop_ == ReviewStop::row_budget_exceeded ||
+                     r.error == WorkError::resource_limit || r.error == WorkError::result_limit)) {
                     stop_ = ReviewStop::row_budget_exceeded;
                     failed_.reset();
                 } else {
@@ -363,6 +464,9 @@ class Execute : public std::enable_shared_from_this<Execute> {
             disclosed_ ? ReviewRowResult{ordinal, D::committed, std::move(staged_->outcome)}
                        : ReviewRowResult{ordinal, {}, ReviewOutcome{S::denied, {}}});
         staged_.reset();
+        const auto index = size_t(ordinal - 1);
+        committed_cost_ += reservations_[index];
+        committed_authority_ += authority_reservations_[index];
         ++prefix_.cursor;
         if (prefix_.cursor <= int(command_.entries.size()))
             qualify_next();

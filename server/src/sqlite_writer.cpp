@@ -313,6 +313,11 @@ class SqliteWorkState final {
         review_.emplace(ReviewSqlAllowance{ceiling * 32, ceiling * 104});
     }
 
+    detail::ReviewReadCost review_remaining() {
+        require_active();
+        return {statements_left_, rows_left_, review_->result_documents};
+    }
+
     SqlRows execute(const SqlStatement &statement) {
         require_active();
         try {
@@ -770,6 +775,11 @@ void detail::ContributionReviewWriterAccess::meter(const SqliteWorkSession &sess
                                                    bool row_unit) {
     live_work_state(session.state_)->meter_review(row_unit);
 }
+detail::ReviewReadCost
+detail::ContributionReviewWriterAccess::remaining(const SqliteWorkSession &session) {
+    return live_work_state(session.state_)->review_remaining();
+}
+
 StorageError SqliteWriter::open(const QString &path, StorageLimits limits) {
     return impl_->open(path, limits);
 }

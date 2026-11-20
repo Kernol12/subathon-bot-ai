@@ -3,6 +3,7 @@
 
 #include "contribution_review_bundle_history.hpp"
 #include "contribution_review_domain.hpp"
+#include "contribution_review_writer_access.hpp"
 
 namespace subathon::server::review_detail {
 
@@ -323,13 +324,18 @@ struct Prefix {
     ReviewReply reply;
     std::string last_state;
     int cursor{1};
+    detail::ReviewReadCost closure;
+    detail::ReviewReadCost authority;
 };
 
+// Structural-only remeasurement never returns facts. Authorization is repeated
+// by the initial and final reply paths, against the exact validated effects.
 inline Prefix read_prefix(const SqliteWorkSession &s, const ReviewCommand &cmd, const Header &h,
-                          const Authority &auth, int initial_cursor) {
+                          const Authority &auth, int initial_cursor, bool structural_only = false) {
     const auto args = key_args(cmd.principal, cmd.key);
     // The length projection prevents a malformed LOB from consuming the entire
     // work budget before its selected ordinal is checked.
+    const auto start = detail::ContributionReviewWriterAccess::remaining(s);
     const auto rows = s.execute(
         {QString("SELECT ordinal,status,contribution_id,receipt_id,decision_kind,"
                  "CASE WHEN typeof(outcome)='blob' AND length(outcome) BETWEEN 1 AND 61440 "
@@ -340,8 +346,10 @@ inline Prefix read_prefix(const SqliteWorkSession &s, const ReviewCommand &cmd, 
     require(rows.size() == h.cursor - 1);
     Prefix out;
     out.cursor = h.cursor;
+    out.closure = start - detail::ContributionReviewWriterAccess::remaining(s);
     const auto read_bundle = bundle_history(s);
     for (size_t n = 0; n < size_t(rows.size()); ++n) {
+        const auto before = detail::ContributionReviewWriterAccess::remaining(s);
         const auto &row = rows.at(qsizetype(n));
         const auto &entry = cmd.entries.at(n);
         const auto &sel = entry.intent.selector;
@@ -409,10 +417,13 @@ inline Prefix read_prefix(const SqliteWorkSession &s, const ReviewCommand &cmd, 
             if (outcome.status == S::stale || outcome.status == S::ineligible)
                 effects = nullptr;
         }
-        if (allowed(
-                auth.check(s, ReviewAuthorityUse::execute_row, &entry.intent, &facts, effects)) &&
-            allowed(
-                auth.check(s, ReviewAuthorityUse::disclose_row, &entry.intent, &facts, effects)))
+        out.closure += before - detail::ContributionReviewWriterAccess::remaining(s);
+        if (structural_only)
+            continue;
+        if (allowed(auth.check(s, ReviewAuthorityUse::execute_row, &entry.intent, &facts, effects,
+                               &out.authority)) &&
+            allowed(auth.check(s, ReviewAuthorityUse::disclose_row, &entry.intent, &facts, effects,
+                               &out.authority)))
             out.reply.rows.push_back({ordinal, disposition, std::move(outcome)});
         else
             out.reply.rows.push_back({ordinal, {}, ReviewOutcome{S::denied, {}}});

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 // Private same-session strict decoders shared by bundle and hold persistence.
+#include "contribution_review_writer_access.hpp"
 #include "sqlite_application_bundle_values.hpp"
 #include "sqlite_financial_catalog.hpp"
 #include "sqlite_selected_record_read.hpp"
@@ -1203,8 +1204,21 @@ class Access {
     }
     ApplicationBundleInputResult inputs(const ApplicationPlanKey &key_,
                                         ApplicationSubjectKind subject,
-                                        const ApplicationStateSnapshot *preview_head = nullptr) {
+                                        const ApplicationStateSnapshot *preview_head = nullptr,
+                                        detail::ReviewReadCost *review_plan_cost = nullptr) {
+        const auto remaining = [&] {
+            return detail::ContributionReviewWriterAccess::remaining(session_);
+        };
+        const auto before = review_plan_cost ? remaining() : detail::ReviewReadCost{};
+        if (review_plan_cost) {
+            // Budget the plan as an independent replay. A previous selector
+            // may be redacted, stale or skipped and provide no shared reads.
+            checked_arrival_.reset();
+            checked_receipt_.reset();
+        }
         auto p = plan(key_, true);
+        if (review_plan_cost)
+            *review_plan_cost = before - remaining();
         if (!p)
             return {};
         if (p->head != key_.revision)

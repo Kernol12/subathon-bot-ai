@@ -70,16 +70,26 @@ review_detail::PreviewInputs review_detail::preview_inputs(const SqliteWorkSessi
     auto read = std::make_shared<Access>(session, SqliteBundleLimits{});
     read->immutable_reads_ = true;
     return [read = std::move(read), current = std::optional<ApplicationStateSnapshot>{}](
-               const ApplicationPlanKey &key) mutable {
+               const ApplicationPlanKey &key, detail::ReviewReadCost *plan_cost) mutable {
         bundle_detail::validate_plan_key(key, read->limits_);
         return read->guarded([&] {
             if (!current)
                 current = read->current();
             if (!current)
                 read->fail(Reason::missing_state);
-            return read->inputs(key, ApplicationSubjectKind::contribution, &*current);
+            return read->inputs(key, ApplicationSubjectKind::contribution, &*current, plan_cost);
         });
     };
+}
+
+ApplicationBundleInputResult review_detail::live_review_inputs(const SqliteWorkSession &session,
+                                                               const ApplicationPlanKey &key,
+                                                               detail::ReviewReadCost &plan_cost) {
+    Access access(session, SqliteBundleLimits{});
+    bundle_detail::validate_plan_key(key, access.limits_);
+    return access.guarded([&] {
+        return access.inputs(key, ApplicationSubjectKind::contribution, nullptr, &plan_cost);
+    });
 }
 
 review_detail::BundleHistory review_detail::bundle_history(const SqliteWorkSession &session) {

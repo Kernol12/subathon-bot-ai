@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "contribution_review_hold_history.hpp"
 #include "sqlite_application_bundle_access.hpp"
 #include "sqlite_application_hold_values.hpp"
 #include "sqlite_financial_hold_access.hpp"
@@ -1318,8 +1319,15 @@ class HoldAccess : public Access {
             fail(HR::result_limit);
         return find(h, &*m);
     }
-    ApplicationHoldActiveSet active(const ApplicationHoldSubject &s) {
+    ApplicationHoldActiveSet active(const ApplicationHoldSubject &s,
+                                    review_detail::ActiveHoldReadCost *cost = nullptr) {
+        const auto remaining = [&] {
+            return detail::ContributionReviewWriterAccess::remaining(session_);
+        };
+        const auto before = cost ? remaining() : detail::ReviewReadCost{};
         const auto active = active_metadata(s);
+        if (cost)
+            cost->metadata = before - remaining();
         ApplicationHoldActiveSet out{s, {}};
         size_t total = active.size();
         for (const auto &m : active)
@@ -1333,6 +1341,8 @@ class HoldAccess : public Access {
                 fail(HR::invalid_stored_data);
             out.holds.push_back(std::move(*h));
         }
+        if (cost)
+            cost->full = before - remaining();
         return out;
     }
     ApplicationHoldHistoryResult history(const ApplicationHoldHistoryQuery &q) {
@@ -2079,6 +2089,19 @@ ApplicationHoldActiveSet SqliteApplicationHoldStore::active(const ApplicationHol
         return v;
     });
 }
+ApplicationHoldActiveSet review_detail::read_active_holds(const SqliteWorkSession &s,
+                                                          ApplicationHoldSubject subject,
+                                                          ActiveHoldReadCost &cost) {
+    const SqliteHoldLimits limits;
+    hold_detail::validate_active(subject, limits);
+    HoldAccess access(s, limits);
+    return access.guarded([&] {
+        auto active = access.active(subject, &cost);
+        access.returned(active);
+        return active;
+    });
+}
+
 ApplicationHoldHistoryResult
 SqliteApplicationHoldStore::history(const ApplicationHoldHistoryQuery &q) const {
     hold_detail::validate_history(q, limits_);

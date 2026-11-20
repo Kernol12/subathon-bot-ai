@@ -2,6 +2,7 @@
 #pragma once
 
 #include "contribution_review_access.hpp"
+#include "contribution_review_hold_history.hpp"
 #include "contribution_review_wire.hpp"
 #include "sqlite_application_bundle_values.hpp"
 #include "sqlite_terminal_partition.hpp"
@@ -112,17 +113,24 @@ struct Authority {
     AccessDecision check(const SqliteWorkSession &session, ReviewAuthorityUse use,
                          const ReviewEntryIntent *entry = nullptr,
                          const ReviewOutcomeFacts *committed = nullptr,
-                         const std::vector<ApplicationEffect> *effects = nullptr) const {
-        return detail::ContributionReviewAccess::call(session, [&](const auto &view) {
+                         const std::vector<ApplicationEffect> *effects = nullptr,
+                         detail::ReviewReadCost *cost = nullptr) const {
+        const auto before = cost ? detail::ContributionReviewWriterAccess::remaining(session)
+                                 : detail::ReviewReadCost{};
+        auto decision = detail::ContributionReviewAccess::call(session, [&](const auto &view) {
             return facts.check(view,
                                {use, principal, proof, actor, key, entry, committed, selection,
                                 effects ? std::optional{std::span(*effects)} : std::nullopt});
         });
+        if (cost)
+            *cost += before - detail::ContributionReviewWriterAccess::remaining(session);
+        return decision;
     }
 
-    std::optional<ReviewRefusal> scope(const SqliteWorkSession &session) const {
+    std::optional<ReviewRefusal> scope(const SqliteWorkSession &session,
+                                       detail::ReviewReadCost *cost = nullptr) const {
         for (auto use : {ReviewAuthorityUse::session, ReviewAuthorityUse::batch_key}) {
-            const auto answer = check(session, use);
+            const auto answer = check(session, use, nullptr, nullptr, nullptr, cost);
             if (std::holds_alternative<ApplicationAccessDenied>(answer))
                 return ReviewRefusal::denied;
             if (!std::holds_alternative<ApplicationAccessAllowed>(answer))
@@ -186,12 +194,15 @@ inline bool anchor(const SqliteWorkSession &s, const ReviewSelector &sel) {
 inline std::optional<ApplicationPlanKey> plan_key(const SqliteWorkSession &s,
                                                   const ReviewSelector &sel) {
     auto rows = s.execute(
-        {"SELECT CASE WHEN length(plan_ref)<=4096 THEN plan_ref END, head_revision "
+        {"SELECT CASE WHEN length(plan_ref)<=4096 THEN plan_ref END, head_revision, "
+         "typeof(plan_ref)='blob' AND length(plan_ref)>4096 "
          "FROM main.subathon_plan_headers WHERE contribution_id=? AND receipt_id=? LIMIT 2",
          {id(sel.cid.value), id(sel.receipt.value)}});
     require(rows.size() <= 1);
     if (rows.empty())
         return {};
+    if (integer(rows[0][2]))
+        throw Oversize{};
     return ApplicationPlanKey{text_cell(rows[0][0]),
                               decode_plan_revision_uint64(rows[0][1].toByteArray())};
 }
@@ -225,6 +236,8 @@ struct Row {
     std::string permission_revision;
     std::vector<core::ContributionBlocker> blockers;
     std::vector<ApplicationHoldView> ordinary;
+    ActiveHoldReadCost hold_read;
+    detail::ReviewReadCost authority_read;
     std::vector<ApplicationHoldVersionLocator> mixed;
     std::vector<ApplicationHoldResolutionEntry> closures;
     std::vector<ApplicationEffect> effects;
@@ -508,8 +521,10 @@ inline bool exact_choices(const Row &row, const ReviewEntryIntent &i) {
                               &MilestoneAcceptanceChoice::occurrence);
 }
 
-inline void collect_holds(const SqliteWorkSession &s, Row &row, const ReviewEntryIntent &i) {
-    auto ordinary = SqliteApplicationHoldStore(s).active({i.selector.cid});
+inline void collect_holds(const SqliteWorkSession &s, Row &row, const ReviewEntryIntent &i,
+                          bool meter) {
+    auto ordinary = meter ? read_active_holds(s, {i.selector.cid}, row.hold_read)
+                          : SqliteApplicationHoldStore(s).active({i.selector.cid});
     if (ordinary.holds.size() > 8)
         throw Oversize{};
     row.ordinary = std::move(ordinary.holds);

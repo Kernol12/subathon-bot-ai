@@ -92,16 +92,20 @@ inline std::string live_digest(const Row &row, const ApplicationStateSnapshot &s
 inline Row read_row(const SqliteWorkSession &s, const Authority &auth, const ReviewEntryIntent &i,
                     const std::optional<ApplicationStateSnapshot> &projected = {},
                     const std::set<std::string> &completed = {},
-                    const PreviewInputs *preview = nullptr) {
+                    const PreviewInputs *preview = nullptr,
+                    detail::ReviewReadCost *plan_cost = nullptr) {
     Row row;
-    const auto preliminary = auth.check(s, ReviewAuthorityUse::execute_row, &i);
+    auto *authority_cost = plan_cost ? &row.authority_read : nullptr;
+    const auto preliminary =
+        auth.check(s, ReviewAuthorityUse::execute_row, &i, nullptr, nullptr, authority_cost);
     if (!allowed(preliminary))
         return row;
     row.authorized = true;
     row.permission_revision =
         std::get<ApplicationAccessAllowed>(preliminary).permission_revision_ref;
-    row.disclose = allowed(auth.check(s, ReviewAuthorityUse::disclose_row, &i));
-    if (preview && !row.disclose)
+    row.disclose = allowed(
+        auth.check(s, ReviewAuthorityUse::disclose_row, &i, nullptr, nullptr, authority_cost));
+    if (preview && !plan_cost && !row.disclose)
         return row;
     if (!anchor(s, i.selector))
         return row;
@@ -110,9 +114,10 @@ inline Row read_row(const SqliteWorkSession &s, const Authority &auth, const Rev
         return row;
     row.policy = auth.policy(s, i.selector);
     bounded_shape(s, i, row.policy);
-    auto result = preview ? (*preview)(*key)
-                          : SqliteApplicationBundleStore(s).read_inputs(
-                                *key, ApplicationSubjectKind::contribution);
+    auto result = preview     ? (*preview)(*key, plan_cost)
+                  : plan_cost ? live_review_inputs(s, *key, *plan_cost)
+                              : SqliteApplicationBundleStore(s).read_inputs(
+                                    *key, ApplicationSubjectKind::contribution);
     require(result.inputs && result.inputs->current_contribution &&
             result.inputs->current_contribution->contribution.id == i.selector.cid &&
             result.inputs->current_contribution->contribution.original_receipt_id ==
@@ -120,7 +125,7 @@ inline Row read_row(const SqliteWorkSession &s, const Authority &auth, const Rev
     row.inputs = std::move(result.inputs);
     row.pending = decision(s, i.selector, row.rejected);
     row.credited = claimed(s, i.selector);
-    collect_holds(s, row, i);
+    collect_holds(s, row, i, plan_cost != nullptr);
     row.before = projected ? *projected : row.inputs->current_state;
     try {
         plan_row(row, s, i, auth.principal.installation_ref, completed);
@@ -128,19 +133,22 @@ inline Row read_row(const SqliteWorkSession &s, const Authority &auth, const Rev
         row.can_apply = false;
         row.effects.clear();
     }
+    if (preview && plan_cost)
+        return row;
+    row.authority_read = {};
     {
         const std::vector<ApplicationEffect> empty;
         const auto *proposed = row.can_apply                        ? &row.effects
                                : row.can_decide && !row.bad_choices ? &empty
                                                                     : nullptr;
         const auto execution =
-            auth.check(s, ReviewAuthorityUse::execute_row, &i, nullptr, proposed);
+            auth.check(s, ReviewAuthorityUse::execute_row, &i, nullptr, proposed, authority_cost);
         row.authorized = allowed(execution);
         if (row.authorized)
             row.permission_revision =
                 std::get<ApplicationAccessAllowed>(execution).permission_revision_ref;
         row.disclose = row.authorized && allowed(auth.check(s, ReviewAuthorityUse::disclose_row, &i,
-                                                            nullptr, proposed));
+                                                            nullptr, proposed, authority_cost));
     }
     return row;
 }
@@ -216,7 +224,7 @@ inline void resolve(const SqliteWorkSession &s, const ReviewCommand &c, int ordi
         auto &closure = closures[n];
         if (closure.proposed_version_ref.empty())
             closure.proposed_version_ref = distinct_id(c, ordinal, "closed-" + std::to_string(n));
-        audit.closed.push_back({closure.hold_ref, closure.proposed_version_ref});
+        require(same(audit.closed.at(n), {closure.hold_ref, closure.proposed_version_ref}));
     }
     std::optional<ApplicationHoldApplicationLink> link;
     if (facts.bundle)
@@ -250,8 +258,8 @@ inline void detect(const SqliteWorkSession &s, const ReviewCommand &c, int ordin
     const auto &plan = entry.intent.revision ? *entry.intent.revision : row.inputs->selected_plan;
     const auto &event = plan.captured.event;
     const auto &policy = *row.policy;
-    const auto h = distinct_id(c, ordinal, "hold");
-    const auto v = distinct_id(c, ordinal, "held");
+    const auto &h = audit.created->hold_ref;
+    const auto &v = audit.created->version_ref;
     const ApplicationEnvelope options{command_format, entry_document(entry)};
     const ApplicationHoldObservation observation{row.inputs->current_state.token,
                                                  options,
@@ -289,10 +297,25 @@ inline void detect(const SqliteWorkSession &s, const ReviewCommand &c, int ordin
         {distinct_id(c, ordinal, "hold-detection"), {}, v, observation, options}};
     const auto result = SqliteApplicationHoldStore(s).record_detection(detection);
     require(result.disposition == SqliteHoldMutationDisposition::recorded);
-    audit.created = ApplicationHoldVersionLocator{h, v};
-    if (row.detected)
-        audit.outcome.facts->timer =
-            ReviewTimerSelector{{h, v}, row.detected->request_ordinal, row.detected->request_units};
+}
+
+inline ApplicationEnvelope application_result(const Row &row, const ApplicationEnvelope &intent,
+                                              const std::string &head, const std::string &before,
+                                              const std::string &after) {
+    Encode doc(262144);
+    const auto terminal_count =
+        size_t(std::ranges::count_if(row.partition, [](char tag) { return tag != 0; }));
+    doc.raw(terminal_count ? QByteArrayView("SAR2") : QByteArrayView("SAR1"));
+    application_result_wire::put_result_fields(doc, intent, head, before, after, false, row.effects,
+                                               row.jobs, row.transitions);
+    if (terminal_count) {
+        doc.u32(size_t(row.partition.size()));
+        doc.u32(terminal_count);
+        doc.raw(row.partition);
+    }
+    return {terminal_count ? terminal_partition::result_format
+                           : "subathon.internal.application-result.v1",
+            std::move(doc.data)};
 }
 
 inline RecordedApplicationBundle stage_application(const SqliteWorkSession &s,
@@ -311,18 +334,7 @@ inline RecordedApplicationBundle stage_application(const SqliteWorkSession &s,
         row.before.token = distinct_id(c, ordinal, "observed-state");
     row.after.token = distinct_id(c, ordinal, "result-state");
     const ApplicationEnvelope intent{command_format, entry_document(entry)};
-    Encode doc(262144);
-    const auto terminal_count =
-        size_t(std::ranges::count_if(row.partition, [](char tag) { return tag != 0; }));
-    doc.raw(terminal_count ? QByteArrayView("SAR2") : QByteArrayView("SAR1"));
-    application_result_wire::put_result_fields(doc, intent, head.token, row.before.token,
-                                               row.after.token, false, row.effects, row.jobs,
-                                               row.transitions);
-    if (terminal_count) {
-        doc.u32(size_t(row.partition.size()));
-        doc.u32(terminal_count);
-        doc.raw(row.partition);
-    }
+    auto result = application_result(row, intent, head.token, row.before.token, row.after.token);
     PreparedApplicationBundle bundle{
         {key,
          ApplicationOperationKind::original,
@@ -341,9 +353,7 @@ inline RecordedApplicationBundle stage_application(const SqliteWorkSession &s,
         std::move(row.jobs),
         std::move(row.transitions),
         {},
-        {terminal_count ? terminal_partition::result_format
-                        : "subathon.internal.application-result.v1",
-         std::move(doc.data)},
+        std::move(result),
         {c.actor, entry.decision_ref, entry.reason, {command_format, outcome_doc(data)}}};
     const SqliteApplicationBundleStore store(s);
     require(store.stage(bundle).disposition == SqliteBundleStageDisposition::staged);
@@ -358,9 +368,9 @@ inline RecordedApplicationBundle stage_application(const SqliteWorkSession &s,
     return std::move(*committed);
 }
 
-inline StoredOutcome stage_row(const SqliteWorkSession &s, const ReviewCommand &c, int ordinal,
-                               Row &row, const std::optional<Basis> &basis, bool selection_matches,
-                               std::string_view previous_state) {
+inline StoredOutcome proposed_outcome(const ReviewCommand &c, int ordinal, const Row &row,
+                                      std::optional<std::string_view> live_state,
+                                      const std::optional<Basis> &basis, bool selection_matches) {
     const auto &entry = c.entries.at(size_t(ordinal - 1));
     const auto &intent = entry.intent;
     const auto verb = intent.verb;
@@ -379,8 +389,9 @@ inline StoredOutcome stage_row(const SqliteWorkSession &s, const ReviewCommand &
     data.selected_revision = input.plan.revision;
     data.live = live_digest(row, input.current_state);
     data.active = row.mixed;
-    if (!basis || !selection_matches || basis->live != data.live ||
-        input.current_state.token != (previous_state.empty() ? basis->root : previous_state)) {
+    if (live_state &&
+        (!basis || !selection_matches || basis->live != data.live ||
+         input.current_state.token != (live_state->empty() ? basis->root : *live_state))) {
         data.outcome.status = S::stale;
         return data;
     }
@@ -400,7 +411,6 @@ inline StoredOutcome stage_row(const SqliteWorkSession &s, const ReviewCommand &
           intent.revision->override_decision->reason != entry.reason)))
         return data;
 
-    using R = core::ContributionReview;
     if (verb == V::retain_held) {
         data.outcome.status = S::retained;
         data.outcome.facts->timer = intent.timer;
@@ -410,42 +420,63 @@ inline StoredOutcome stage_row(const SqliteWorkSession &s, const ReviewCommand &
     if (verb == V::reject || verb == V::reject_held) {
         data.outcome.status = S::rejected;
         data.outcome.facts->timer = intent.timer;
+    } else {
+        if (intent.revision)
+            data.selected_revision = intent.revision->revision;
+        if (apply) {
+            data.outcome.status = verb == V::continue_timer ? S::timer_resolved : S::applied;
+            data.outcome.facts->bundle = application_key(c, ordinal);
+            data.outcome.facts->timer = intent.timer;
+        } else {
+            data.outcome.status = S::accepted_pending;
+            if (row.detected || row.overflow)
+                data.created = ApplicationHoldVersionLocator{distinct_id(c, ordinal, "hold"),
+                                                             distinct_id(c, ordinal, "held")};
+            if (row.detected)
+                data.outcome.facts->timer = ReviewTimerSelector{
+                    *data.created, row.detected->request_ordinal, row.detected->request_units};
+        }
+    }
+    if (data.outcome.facts->bundle || verb == V::reject_held)
+        for (size_t n = 0; n < row.closures.size(); ++n) {
+            const auto &closure = row.closures[n];
+            data.closed.push_back(
+                {closure.hold_ref, closure.proposed_version_ref.empty()
+                                       ? distinct_id(c, ordinal, "closed-" + std::to_string(n))
+                                       : closure.proposed_version_ref});
+        }
+    return data;
+}
+
+inline void stage_row(const SqliteWorkSession &s, const ReviewCommand &c, int ordinal, Row &row,
+                      StoredOutcome &data) {
+    using R = core::ContributionReview;
+    const auto &intent = c.entries.at(size_t(ordinal - 1)).intent;
+    const auto verb = intent.verb;
+    const auto status = data.outcome.status;
+    if (status >= S::retained)
+        return;
+    if (status == S::rejected) {
         if (!row.credited)
             patch_review(s, row, R::rejected);
         if (verb == V::reject_held)
             resolve(s, c, ordinal, row, data);
-        return data;
+        return;
     }
-    if (intent.revision) {
+    if (intent.revision)
         require(SqliteApplicationPlanStore(s).append(data.plan, data.original_revision,
                                                      *intent.revision) ==
                 SqlitePlanAppendDisposition::appended);
-        data.selected_revision = intent.revision->revision;
-    }
     if (verb == V::accept)
         patch_review(s, row, R::accepted);
-    if (!apply) {
-        data.outcome.status = S::accepted_pending;
+    if (!data.outcome.facts->bundle) {
         if (row.detected || row.overflow)
             detect(s, c, ordinal, row, data);
-        return data;
-    }
-    data.outcome.status = verb == V::continue_timer ? S::timer_resolved : S::applied;
-    data.outcome.facts->bundle = application_key(c, ordinal);
-    data.outcome.facts->timer = intent.timer;
-    // Reserve produced closure identities before encoding the bundle audit.
-    for (size_t n = 0; n < row.closures.size(); ++n) {
-        auto &closure = row.closures[n];
-        if (closure.proposed_version_ref.empty())
-            closure.proposed_version_ref = distinct_id(c, ordinal, "closed-" + std::to_string(n));
-        data.closed.push_back({closure.hold_ref, closure.proposed_version_ref});
+        return;
     }
     const auto application = stage_application(s, c, ordinal, row, data);
-    if (!row.closures.empty()) {
-        data.closed.clear();
+    if (!row.closures.empty())
         resolve(s, c, ordinal, row, data, &application);
-    }
-    return data;
 }
 
 } // namespace subathon::server::review_detail
