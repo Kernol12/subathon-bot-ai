@@ -217,7 +217,7 @@ if(SUBATHON_BUILD_SCHEDULED_PAUSE_TESTS)
         subathon_scheduled_pause GTest::gtest_main)
     subathon_target_options(server_scheduled_pause_acceptance)
     subathon_discover_gtests(server_scheduled_pause_acceptance
-        LABELS "scheduled-pause;acceptance;server;intentional-red" TIMEOUT 30)
+        LABELS "scheduled-pause;acceptance;server" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_APPLICATION_PLAN_TESTS)

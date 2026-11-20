@@ -520,9 +520,11 @@
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7000644777",
         "https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7000676542",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7000792562"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7000792562",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/743#issuecomment-7035163372",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/743#issuecomment-7035647689"
       ],
-      "scope": "Independent baseline review, 25 admitted intended failures and 25 admitted local passing core cases with synthetic offset facts. #720 adds an opt-in scheduler baseline with synthetic timezone, clock, and pause facts. Authoritative preview and Save are tracked by #744."
+      "scope": "The 25 reviewed resolver cases and 34 reviewed scheduler cases have admitted intended-red and passing runs with synthetic timezone, clock and pause facts. Platform timezone acquisition remains a separate validation gate. #744 owns authoritative preview and Save."
     },
     {
       "id": "TIMER-08",
