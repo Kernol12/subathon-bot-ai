@@ -41,10 +41,12 @@ RatePreviewResult propose(RateFile &file, const RateOverrideEdit &input,
 }
 void expect_first_image(const RateFile &file, const RateEditPreview &preview,
                         bool fetched = false) {
+    const auto revisions = file.rows(revision_rows);
+    require(revisions.size() == 2, "First save keeps E and adds exactly one revision");
+    expect_reserved_root(revisions.front());
     require(
-        file.rows(revision_rows) == SqlRows{{blob("E"), QVariant(), rsv_format, root_bytes},
-                                            {blob("S"), blob("E"), rsv_format,
-                                             snapshot_bytes(preview.proposal.candidate)}} &&
+        revisions.back() == SqlRow{blob("S"), blob("E"), rsv_format,
+                                   snapshot_bytes(preview.proposal.candidate)} &&
             file.rows(head_rows) == SqlRows{{blob("H"), blob("S")}} &&
             file.rows(decision_rows) ==
                 SqlRows{{blob("D"), blob("I"), blob("K"), blob("E"), blob("S"), rin_format,
@@ -847,7 +849,9 @@ class SqliteRateOverrideWriterTests : public QObject {
                                       "r",
                                       {}});
             base.constraints.push_back(core::ManualRateConstraint{"Q"});
-            base.components.push_back({{{"CAD", "1", "1"}, {"JPY", "250", "3"}}});
+            base.components.insert(
+                base.components.begin(),
+                core::RateComponentInput{{{"CAD", "1", "1"}, {"JPY", "250", "3"}}});
             file.write(
                 [=](const auto &session) { seed_expiry_base(session, first, second, base); });
             auto observation_input = unused_g;

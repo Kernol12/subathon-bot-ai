@@ -144,6 +144,15 @@ inline QByteArray snapshot_bytes(const core::EffectiveRateSnapshotInput &input) 
 inline QByteArray snapshot_bytes(const core::EffectiveRateSnapshot &snapshot) {
     return blob(core::encode_valuation_snapshot(snapshot).document);
 }
+inline void expect_reserved_root(const SqlRow &row) {
+    require(
+        row.size() == 4 && row[0].metaType().id() == QMetaType::QByteArray &&
+            row[0].toByteArray() == blob("E") && row[1].isNull() &&
+            row[2].metaType().id() == QMetaType::QByteArray && row[2].toByteArray() == rsv_format &&
+            row[3].metaType().id() == QMetaType::QByteArray && row[3].toByteArray() == root_bytes,
+        "Committed root is the exact E/NULL/RSV1-format/RSV1-body row");
+}
+
 inline constexpr auto revision_rows = "SELECT snapshot_ref,parent_ref,format,document FROM "
                                       "subathon_rate_revisions ORDER BY snapshot_ref";
 inline constexpr auto observation_rows = "SELECT observation_ref,format,document FROM "

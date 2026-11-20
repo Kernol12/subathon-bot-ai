@@ -67,14 +67,15 @@ class SqliteRateOverrideCatalogTests : public QObject {
                         migration_content_sha256(literal.steps.back()) == v17_digest,
                     "Catalog encoder matches the independent ASCII framing oracle");
             require(snapshot_bytes(core::EffectiveRateSnapshotInput{"E", {}, {}, {}, {}, {}, {}}) ==
-                            root_bytes &&
-                        file.rows(revision_rows) ==
-                            SqlRows{{blob("E"), QVariant(), rsv_format, root_bytes}} &&
-                        file.rows(head_rows) == SqlRows{{blob("H"), blob("E")}} &&
+                        root_bytes,
+                    "The shipped RSV1 encoder agrees with the literal E document");
+            const auto revisions = file.rows(revision_rows);
+            require(revisions.size() == 1, "Only E is seeded in the revision relation");
+            expect_reserved_root(revisions.front());
+            require(file.rows(head_rows) == SqlRows{{blob("H"), blob("E")}} &&
                         file.rows(observation_rows).empty() && file.rows(decision_rows).empty() &&
                         file.rows(occurrence_rows).empty(),
-                    "E and H are committed as exact BLOBs with absent parent and no implied "
-                    "observations");
+                    "H points at E and seeds imply no observations, decisions or occurrences");
         });
     }
 
