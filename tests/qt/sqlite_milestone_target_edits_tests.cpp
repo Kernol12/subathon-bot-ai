@@ -35,13 +35,25 @@ constexpr auto initial_choices =
 const SqlRow prior_member{
     1, QByteArray("A"), QByteArray("earned"), 100, 120, 0, QByteArray("z-predecessor"), QVariant{}};
 
+SqlRows read_head_members(File &f) {
+    auto rows = f.db.rows(head_members);
+    for (auto &row : rows) {
+        // Preserve exact values and normalize only the two SQL NULL parent references.
+        for (const auto column : {6, 7}) {
+            if (row.at(column).isNull())
+                row[column] = QVariant{};
+        }
+    }
+    return rows;
+}
+
 void expect_prior(File &f) {
     require(
         f.db.rows(definitions) == SqlRows{{1, QByteArray("A"), 100},
                                           {2, QByteArray("B"), 200},
                                           {3, QByteArray("C"), 300},
                                           {4, QByteArray("D"), 400}} &&
-            f.db.rows(head_members) == SqlRows{prior_member} &&
+            read_head_members(f) == SqlRows{prior_member} &&
             f.db.rows("SELECT count(*) FROM subathon_milestone_edit_operations") == SqlRows{{0}} &&
             f.db.rows("SELECT count(*) FROM subathon_milestone_definition_versions") ==
                 SqlRows{{1}} &&
@@ -82,7 +94,7 @@ void expect_ordered_rows(File &f) {
                                                   {4, QByteArray("D"), 250}},
             "One committed patch and complete exact choice set");
     const QByteArray rev("definition-edit-ordered");
-    require(f.db.rows(head_members) ==
+    require(read_head_members(f) ==
                 SqlRows{prior_member,
                         {2, QByteArray("B"), rev, 150, 175, 1, {}, QByteArray("b-edit")},
                         {3, QByteArray("C"), rev, 175, 175, 1, {}, QByteArray("a-edit")}},
@@ -270,7 +282,7 @@ class SqliteMilestoneTargetEditsTests final : public QObject {
                 require(initialize_milestone_track(s, input),
                         "Explicitly empty prefix initializes");
             });
-            require(f.db.rows(head_members).empty() && f.db.rows(application_group).size() == 1,
+            require(read_head_members(f).empty() && f.db.rows(application_group).size() == 1,
                     "Queue history supplies no inferred completion");
         });
     }
@@ -394,7 +406,7 @@ class SqliteMilestoneTargetEditsTests final : public QObject {
                 const auto denied = f.preview(intent);
                 require(denied.plan.status == Status::denied && !denied.confirmation,
                         "Either single current grant refuses the whole mixed patch");
-                require(f.db.rows(head_members) == SqlRows{prior_member} &&
+                require(read_head_members(f) == SqlRows{prior_member} &&
                             f.db.rows(edit_orders).empty(),
                         "Denied mixed patch makes no partial correction or achievement");
             }
@@ -407,7 +419,7 @@ class SqliteMilestoneTargetEditsTests final : public QObject {
             require(confirmed.result && confirmed.result->achievements.size() == 1 &&
                         confirmed.result->achievements.front().choice == Choice::skip &&
                         confirmed.result->achievements.front().order == 8 &&
-                        f.db.rows(head_members).front() == prior_member,
+                        read_head_members(f).front() == prior_member,
                     "Skip retains exact occurrence and capture, with original A intact");
             f.db.write([&](const auto &s) {
                 const auto pending = SqliteMilestoneGroupStore(s).pending();
@@ -444,7 +456,7 @@ class SqliteMilestoneTargetEditsTests final : public QObject {
                     "Current target 150 yields deficit 20 and exact next interval 0/50");
             const auto committed = f.confirm(correction, p);
             require(committed.result && committed.result->achievements.empty() &&
-                        f.db.rows(head_members) == SqlRows{prior_member} &&
+                        read_head_members(f) == SqlRows{prior_member} &&
                         f.db.rows(application_group) == baseline_group &&
                         f.db.rows("SELECT * FROM subathon_app_states ORDER BY token") ==
                             baseline_timer &&
@@ -530,7 +542,7 @@ class SqliteMilestoneTargetEditsTests final : public QObject {
             const auto backlog = f.preview(single("backlog", {"B", 170}, {{b, Choice::run}}));
             require(backlog.plan.status == Status::old_reachable_backlog && !backlog.confirmation &&
                         f.db.rows(edit_orders).empty() && f.db.rows(initial_choices).empty() &&
-                        f.db.rows(head_members) == SqlRows{prior_member} &&
+                        read_head_members(f) == SqlRows{prior_member} &&
                         f.db.rows("SELECT count(*) FROM subathon_milestone_edit_operations") ==
                             SqlRows{{0}},
                     "Synthetic score 190 refuses old reachable B without a hold, edit or prefix "
@@ -548,7 +560,7 @@ class SqliteMilestoneTargetEditsTests final : public QObject {
                     "Previously reachable B stays suppressed with zero remaining and no fraction");
             const auto reply = f.confirm(correction, p);
             require(reply.result && reply.result->achievements.empty() &&
-                        f.db.rows(head_members) == SqlRows{prior_member},
+                        read_head_members(f) == SqlRows{prior_member},
                     "Permitted correction preserves actual completion prefix");
         });
     }
