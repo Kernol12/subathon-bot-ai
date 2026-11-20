@@ -492,36 +492,41 @@ class Execute : public std::enable_shared_from_this<Execute> {
 
     void reconcile() {
         auto self = shared_from_this();
+        auto pending =
+            std::make_shared<std::variant<ReviewRefusal, Prefix>>(ReviewRefusal::unavailable);
         if (!enqueue(
                 test_unit::final_read, 0,
-                [self](const auto &s) {
+                [self, pending](const auto &s) {
                     const auto auth = self->authority(true);
-                    if (!self->current_scope(s, auth))
+                    if (const auto refusal = auth.scope(s)) {
+                        *pending = *refusal;
                         return false;
+                    }
                     catalog(s);
                     const auto h = header(s, self->command_.principal, self->command_.key);
                     require(h.cursor == self->prefix_.cursor &&
                             (h.count == 0 ? h.cursor == 1 : h.manifest == self->manifest_));
-                    auto confirmed =
-                        read_prefix(s, self->command_, h, self->initial_cursor_, &auth);
-                    self->prefix_ = std::move(confirmed);
+                    *pending = read_prefix(s, self->command_, h, self->initial_cursor_, &auth);
                     return false;
                 },
-                [self](const auto &r, bool observed) {
+                [self, pending](const auto &r, bool observed) {
                     if (!normal(r, observed)) {
                         if (self->stop_)
                             self->safe_stop();
                         else
                             self->finish(ReviewRefusal::unavailable);
-                    } else if (self->stop_ == ReviewStop::denied ||
-                               self->stop_ == ReviewStop::unavailable) {
-                        self->safe_stop();
-                    } else if (self->stop_) {
-                        self->add_suffix(self->prefix_.reply);
-                        self->finish(std::move(self->prefix_.reply));
-                    } else {
-                        self->finish(std::move(self->prefix_.reply));
+                        return;
                     }
+                    if (const auto *refusal = std::get_if<ReviewRefusal>(pending.get())) {
+                        self->stop_ = *refusal == ReviewRefusal::denied ? ReviewStop::denied
+                                                                        : ReviewStop::unavailable;
+                        self->safe_stop();
+                        return;
+                    }
+                    self->prefix_ = std::get<Prefix>(std::move(*pending));
+                    if (self->stop_)
+                        self->add_suffix(self->prefix_.reply);
+                    self->finish(std::move(self->prefix_.reply));
                 })) {
             if (stop_)
                 safe_stop();

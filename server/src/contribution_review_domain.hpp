@@ -105,6 +105,11 @@ inline std::string selection_digest(const ApplicationPrincipalBinding &principal
 
 struct RetainedAuthorityUnavailable {};
 
+inline bool allowed(const AccessDecision &a) {
+    const auto *grant = std::get_if<ApplicationAccessAllowed>(&a);
+    return grant && !grant->permission_revision_ref.empty();
+}
+
 struct Authority {
     ContributionReviewFacts &facts;
     const ApplicationPrincipalBinding &principal;
@@ -147,7 +152,7 @@ struct Authority {
                 (void)detail::ContributionReviewWriterAccess::remaining(session);
             if (std::holds_alternative<ApplicationAccessDenied>(answer))
                 return ReviewRefusal::denied;
-            if (!std::holds_alternative<ApplicationAccessAllowed>(answer))
+            if (!allowed(answer))
                 return ReviewRefusal::unavailable;
         }
         return {};
@@ -166,11 +171,6 @@ inline std::vector<ReviewSelector> selectors(const auto &entries, auto select) {
     for (const auto &entry : entries)
         out.push_back(select(entry));
     return out;
-}
-
-inline bool allowed(const AccessDecision &a) {
-    const auto *grant = std::get_if<ApplicationAccessAllowed>(&a);
-    return grant && !grant->permission_revision_ref.empty();
 }
 
 inline std::string text_cell(const QVariant &value, qsizetype limit = 4096) {

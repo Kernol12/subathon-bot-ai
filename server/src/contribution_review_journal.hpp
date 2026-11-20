@@ -41,12 +41,14 @@ inline void catalog(const SqliteWorkSession &s) {
         }
     };
     static const Expected expected;
-    const auto history =
-        s.execute({"SELECT version, CASE WHEN length(CAST(migration_id AS BLOB))<=? "
-                   "THEN CAST(migration_id AS BLOB) END, "
-                   "CASE WHEN length(CAST(content_sha256 AS BLOB))<=32 THEN content_sha256 END "
-                   "FROM main.subathon_migration_history ORDER BY version LIMIT 20",
-                   {expected.id_bytes}});
+    const auto history = s.execute(
+        {"SELECT version, "
+         "CASE WHEN typeof(migration_id)='text' AND length(CAST(migration_id AS BLOB))<=? "
+         "THEN CAST(migration_id AS BLOB) END, "
+         "CASE WHEN typeof(content_sha256)='blob' AND length(content_sha256)=32 "
+         "THEN content_sha256 END "
+         "FROM main.subathon_migration_history ORDER BY version LIMIT 20",
+         {expected.id_bytes}});
     require(history.size() == expected.hashes.size());
     for (qsizetype n = 0; n < history.size(); ++n)
         require(integer(history[n][0]) == n + 1 &&
