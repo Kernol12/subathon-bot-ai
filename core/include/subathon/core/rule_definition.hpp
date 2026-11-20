@@ -241,7 +241,7 @@ struct RuleExplicitValuation {
 
 enum class RuleDefinitionError {
     resource_limit, invalid_generation_limits, invalid_definition, invalid_condition,
-    invalid_field, invalid_action, invalid_capture, invalid_valuation
+    invalid_field, invalid_action, invalid_capture, invalid_valuation, invalid_exclusion
 };
 class RuleDefinitionFailure final : public std::exception {
   public:
