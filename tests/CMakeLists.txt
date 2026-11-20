@@ -68,6 +68,16 @@ if(SUBATHON_BUILD_TIMER_EDITORIAL_TESTS)
         LABELS "timer-editorial;acceptance;core" TIMEOUT 30)
 endif()
 
+if(SUBATHON_BUILD_DOWNTIME_RECOVERY_TESTS)
+    add_executable(core_downtime_recovery_acceptance acceptance/downtime_recovery_tests.cpp)
+    target_link_libraries(core_downtime_recovery_acceptance PRIVATE
+        subathon_downtime_recovery GTest::gtest_main)
+    subathon_target_options(core_downtime_recovery_acceptance)
+    subathon_discover_gtests(core_downtime_recovery_acceptance
+        PREFIX "downtime-recovery."
+        LABELS "downtime-recovery;acceptance;core;intentional-red" TIMEOUT 30)
+endif()
+
 if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS)
 
     # Explicit preparation target: building never runs it; it is not a CTest test.
