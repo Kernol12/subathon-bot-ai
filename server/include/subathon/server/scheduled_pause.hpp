@@ -7,7 +7,6 @@
 #include <optional>
 #include <span>
 #include <string>
-#include <string_view>
 #include <variant>
 #include <vector>
 
@@ -158,7 +157,6 @@ struct ScheduledPauseState {
     std::string clock_lineage;
     std::string state_revision;
     std::string configuration_revision;
-    std::string access_revision;
     core::TimerConfig timer_config;
     core::TimerState timer;
     core::PauseState pause;
@@ -175,7 +173,7 @@ struct ScheduledPausePreviewRow {
 
 struct ScheduledPauseCutoverEffect {
     DeliveredScheduledPause delivery;
-    std::optional<ScheduledPauseStop> stop_on_save;
+    std::optional<ScheduledPauseStop> stop_at_cutover;
 };
 
 struct ScheduledPauseFactBinding {
@@ -185,14 +183,11 @@ struct ScheduledPauseFactBinding {
 
 struct ScheduledPausePreview {
     std::string source_snapshot_ref;
-    std::string preview_command_ref;
     std::string timer_lineage;
     std::string clock_lineage;
     std::string state_revision;
     std::string configuration_revision;
     std::string delivery_revision;
-    std::string access_revision;
-    std::string actor_ref;
     ScheduledPauseObservation as_of;
     ScheduledPauseConfiguration proposed;
     std::int64_t requested_through_utc_ms;
@@ -211,21 +206,18 @@ struct ScheduledPauseTransitions {
 
 struct ScheduledPauseProgress {
     std::string source_snapshot_ref;
-    std::optional<std::string> admitted_command_ref;
     core::TimerState timer;
     core::PauseState pause;
     ScheduledPauseCursor cursor;
     std::optional<std::int64_t> starts_resolved_through_utc_ms;
     std::optional<std::int64_t> next_known_expiry_utc_ms;
-    // Disclose only with ordinary timer snapshot read permission, rechecked
-    // at disclosure.
-    std::optional<ScheduledPauseCoverageNotice> notice; // Present iff held.
+    std::optional<ScheduledPauseCoverageNotice> notice; // Internal facts, present iff held.
     std::vector<DeliveredScheduledPause> new_deliveries;
     std::vector<ScheduledPauseDeliveryStop> stops;
     std::vector<ScheduledPauseTransitions> timer_transitions;
 };
 
-struct ScheduledPauseSave {
+struct ScheduledPauseCutover {
     ScheduledPauseObservation cutover;
     ScheduledPauseConfiguration configuration;
     std::optional<std::string> closed_zone_rules_revision;
@@ -235,58 +227,31 @@ struct ScheduledPauseSave {
 enum class ScheduledPauseRefusal {
     invalid_input,
     limit_exceeded,
-    access_denied,
     stale_observation,
-    fresh_preview_required,
-    entry_not_admitted,
     hard_end_reached
 };
 
-enum class ScheduledPauseCommandKind { preview_edit, save_edit, start, reopen };
-
-struct ScheduledPauseEditAdmission {
-    std::string actor_ref;
-    std::string grant_ref;
-    ScheduledPauseConfiguration proposed;
-};
-
-struct ScheduledPauseCommandRecord {
-    std::string command_ref;
+// The owner supplies the exact trusted observation and admitted Start/Reopen timer proposal.
+struct ScheduledPauseEntry {
     std::string source_snapshot_ref;
     ScheduledPauseObservation observation;
-    ScheduledPauseCommandKind kind;
-    std::variant<ScheduledPauseEditAdmission, core::TimerState> admitted;
+    core::TimerState admitted_timer;
 };
 
-enum class ScheduledPauseResolveFailure { stale_observation, access_denied };
-
-// Resolve only the command currently admitted by the owner queue. The source
-// supplies the exact immutable record, after rechecking current authority and
-// the snapshot that binds lineages, revisions, cursor, epochs and ledger.
-class ScheduledPauseCommandSource {
-  public:
-    virtual ~ScheduledPauseCommandSource() = default;
-    virtual std::variant<ScheduledPauseCommandRecord, ScheduledPauseResolveFailure>
-    resolve(std::string_view command_ref, std::string_view source_snapshot_ref) = 0;
-};
-
-// Compute from the resolved values. Retain their binding and re-resolve the
-// same record at apply. Mismatches refuse before a proposal or publication.
-// A stale basis or clock refuses as stale_observation. An access or admitted
-// proposal mismatch refuses as access_denied. Check at computation and apply.
+// These projections use one trusted basis. They return proposal data to the owner.
 [[nodiscard]] std::variant<ScheduledPausePreview, ScheduledPauseRefusal>
-preview_scheduled_pause_edit(const ScheduledPauseState &, const ScheduledPauseClockInput &,
-                             std::string_view command_ref, std::int64_t through_utc_ms,
-                             ScheduledPauseCommandSource &, ScheduleZoneSource &);
+project_scheduled_pause_edit(const ScheduledPauseState &, const ScheduledPauseClockInput &,
+                             const ScheduledPauseConfiguration &, std::int64_t through_utc_ms,
+                             ScheduleZoneSource &);
 
-[[nodiscard]] std::variant<ScheduledPauseSave, ScheduledPauseRefusal>
-revalidate_scheduled_pause_save(const ScheduledPauseState &, const ScheduledPauseClockInput &,
-                                std::string_view command_ref, const ScheduledPausePreview &shown,
-                                ScheduledPauseCommandSource &, ScheduleZoneSource &);
+[[nodiscard]] std::variant<ScheduledPauseCutover, ScheduledPauseCoverageFailure,
+                           ScheduledPauseRefusal>
+project_scheduled_pause_cutover(const ScheduledPauseState &, const ScheduledPauseClockInput &,
+                                const ScheduledPauseConfiguration &, ScheduleZoneSource &);
 
 [[nodiscard]] std::variant<ScheduledPauseProgress, ScheduledPauseRefusal>
-enter_scheduled_pauses(const ScheduledPauseState &, std::string_view command_ref,
-                       ScheduledPauseCommandSource &, ScheduleZoneSource &);
+enter_scheduled_pauses(const ScheduledPauseState &, const ScheduledPauseEntry &,
+                       ScheduleZoneSource &);
 
 [[nodiscard]] std::variant<ScheduledPauseProgress, ScheduledPauseRefusal>
 progress_scheduled_pauses(const ScheduledPauseState &, const ScheduledPauseClockInput &,
