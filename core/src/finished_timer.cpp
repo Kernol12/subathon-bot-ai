@@ -6,6 +6,7 @@
 #include <new>
 #include <set>
 #include <string_view>
+#include <type_traits>
 #include <utility>
 
 namespace subathon::core {
@@ -55,7 +56,11 @@ struct Size {
     }
 
     template <typename T> void count(const std::vector<T> &items, bool groups_or_choices = false) {
-        collection(items, true, groups_or_choices);
+        // Reference lists and delivery job facts contribute bytes but are
+        // outside the group, choice, hold, effect and action record allowance.
+        constexpr bool records =
+            !std::is_same_v<T, std::string> && !std::is_same_v<T, GroupJobFact>;
+        collection(items, records, groups_or_choices);
         for (const auto &item : items)
             count(item);
     }
@@ -538,7 +543,7 @@ ReopenSelection check_reopen(const FinishedSnapshot &current, const ReopenIntent
                                    return job.state == GroupJobState::queued;
                                });
         }
-        std::ranges::sort(pending, {}, &FinishedGroup::queue_order);
+        std::ranges::stable_sort(pending, {}, &FinishedGroup::queue_order);
         if (preview && !matches_preview(pending, *preview))
             throw Refusal::stale_basis;
     }
