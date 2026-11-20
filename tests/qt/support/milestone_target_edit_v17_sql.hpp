@@ -215,12 +215,12 @@ inline constexpr EditTable edit_tables[]{
     score_after_micro_points INTEGER NOT NULL CHECK(typeof(score_after_micro_points)='integer'),
     current_target_micro_points INTEGER NOT NULL CHECK(typeof(current_target_micro_points)='integer'),
     policy INTEGER NOT NULL CHECK(typeof(policy)='integer' AND policy IN (0,1,2)),
-    CHECK(score_before_micro_points>=current_target_micro_points AND score_after_micro_points<current_target_micro_points),
     resolution INTEGER CHECK(resolution IS NULL OR (typeof(resolution)='integer' AND resolution IN (0,1))),
     resolution_actor_ref BLOB CHECK(resolution_actor_ref IS NULL OR (typeof(resolution_actor_ref)='blob' AND length(resolution_actor_ref) BETWEEN 1 AND 4096)),
     resolution_ref BLOB CHECK(resolution_ref IS NULL OR (typeof(resolution_ref)='blob' AND length(resolution_ref) BETWEEN 1 AND 4096)),
     ended_by_skip_kind INTEGER CHECK(ended_by_skip_kind IS NULL OR (typeof(ended_by_skip_kind)='integer' AND ended_by_skip_kind IN (0,1,2))),
     ended_by_skip_ref BLOB CHECK(ended_by_skip_ref IS NULL OR (typeof(ended_by_skip_ref)='blob' AND length(ended_by_skip_ref) BETWEEN 1 AND 4096)),
+    CHECK(score_before_micro_points>=current_target_micro_points AND score_after_micro_points<current_target_micro_points),
     CHECK((resolution IS NULL AND resolution_actor_ref IS NULL AND resolution_ref IS NULL) OR
           (resolution IS NOT NULL AND resolution_actor_ref IS NOT NULL AND resolution_ref IS NOT NULL)),
     CHECK((ended_by_skip_kind IS NULL AND ended_by_skip_ref IS NULL) OR
