@@ -153,7 +153,8 @@ enum class FinancialDisposition {
     stale_hold,
     deficit,
     resolved,
-    ordinary_resolved
+    ordinary_resolved,
+    unavailable
 };
 
 struct FinancialWorkReply {

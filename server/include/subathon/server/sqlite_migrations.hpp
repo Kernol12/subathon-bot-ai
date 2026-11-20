@@ -9,7 +9,7 @@
 #include <subathon/server/sqlite_writer.hpp>
 
 namespace subathon::server {
-// Internal revision 1: docs/contracts/migration-catalog-v1.md. These DTOs grant
+// Internal revision 2: docs/contracts/migration-catalog-v1.md. These DTOs grant
 // no update/backup/maintenance authority. Trusted callers satisfy OPS-02 first.
 struct CatalogObject {
     QString type;
@@ -41,7 +41,8 @@ struct MigrationLimits {
     qsizetype schema_objects{256};
     // Sum UTF-8 bytes of every SQL text and every projected type/name/table/SQL
     // occurrence across all steps. No ID/identity, count, framing or NULL bytes.
-    qsizetype manifest_utf8_bytes{1048576};
+    // Default 16 MiB. Callers can supply a different bounded budget.
+    qsizetype manifest_utf8_bytes{16'777'216};
 };
 
 enum class MigrationMode { inspect, advance };

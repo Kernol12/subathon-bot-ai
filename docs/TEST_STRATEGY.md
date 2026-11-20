@@ -38,6 +38,8 @@ still using synthetic data and supplied policy/authority facts.
 | `time-debt-debug` | `-L '^time-debt$'` | 32 debt/reversal and debt-first addition proposals |
 | `timer-editorial-debug` | `-L '^timer-editorial$'` | 27 methods/44 examples for correction, cap, deadline and first-Start proposals |
 | `milestone-progression-debug` | `-L '^milestone-progression$'` | 53 pure sequential milestone progression cases |
+| `core-acceptance-debug` | `-L '^milestone-target-edit$'` | 6 pure target-edit planner cases |
+| Required Qt CI | `-L '^sqlite-milestone-target-edits$'` and `-L '^sqlite-milestone-target-edit-catalog$'` | 17 target-edit writer and 16 v18 catalog invocations |
 | `receipt-intake-debug` | `-L '^receipt-intake$'` | 15 receipt identity/retry cases using primitive-store simulation |
 | `contribution-evidence-debug` | `-L '^contribution-evidence$'` | 21 eligibility/linkage cases using primitive-store simulation |
 | `application-plan-debug` | `-L '^application-plan$'` | 22 owned captured-plan transformations |
@@ -56,6 +58,7 @@ still using synthetic data and supplied policy/authority facts.
 | `sqlite-original-claim-debug` | `-L '^sqlite-original-claim$'` | 18 typed original-claim query cases |
 | `sqlite-hold-debug` | `-L '^sqlite-hold$'` | 35 methods/270 scenarios for durable application-review holds |
 | `application-service-debug` | `-L '^application-service$'` | 43 methods/233 scenarios composing actual SQLite bundles/holds with supplied ports |
+| Required Qt CI | `-L '^sqlite-rate-override-catalog$'` and `-L '^sqlite-rate-override-writer$'` | 12 catalog and 82 writer invocations for v17 installation, current pair authority, exact evidence, CAS and recovery on disposable SQLite |
 | `sqlite-reference-capture-debug` | `-L '^reference-capture-values$'` / `-L '^sqlite-reference-capture$'` | 34 structural codec methods/46 invocations and 38 real-SQL methods/67 scenarios |
 | `dev-server-debug` | `-L '^dev-server$'` | Development walking skeleton: eight examples and invalid command lines over the reference intake/application path with real SQLite; not the production host |
 | `sqlite-account-sessions-debug` | `-L '^sqlite-account-sessions$'` | 44 real-SQL methods for physical current facts, full conditional writes and compiled-prefix/frame equality; host login/authority remains separate |
@@ -67,6 +70,8 @@ still using synthetic data and supplied policy/authority facts.
 | `rate-snapshot-debug` | `-L '^rate-snapshot$'` | 53 preserved cases for owned lossless observations, exact effective-table validation and inverse/cross queries; no provider/cache/valuation integration |
 | `core-acceptance-debug` | `-L '^valuation-snapshot-codec$'` | 25 shared RSV1 codec cases for exact bytes, canonical retained evidence, and bounded decoding and encoding. Valuation integration remains #553. |
 | `core-acceptance-debug` | `-L '^rule-definition$'` | 26 cases for owned versioned rules, typed actions and predicates, and exact captured monetary comparisons. #206, #208 and #210 cover selection, planning and generated-event enforcement. |
+| `core-acceptance-debug` | `-L '^chat-commands$'` | 41 synthetic cases for typed chat commands, complete authorization, cooldown windows and replay. #337 owns live receipt binding and durable intake deduplication. |
+| `core-acceptance-debug` | `-L '^scheduled-pause$'` | 35 synthetic scheduler cases covering configured-zone resolution, cutover, entry, retention, clock progression and coverage holds. Platform timezone evidence and authoritative preview and Save have separate gates. |
 | `schema-validation-debug` | `-L '^schema-validation$'` | 3 nodes: repository OpenAPI/components/examples, canonical proof/policy aggregate and real-SDK proof publication integration; actual HEAD inputs are required |
 
 Selecting `reference-rule` with `SUBATHON_ACCEPTANCE_SUITES` builds 11 pure configured-

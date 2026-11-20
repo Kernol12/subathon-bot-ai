@@ -115,6 +115,14 @@ if(SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS)
 
 endif()
 
+if(SUBATHON_BUILD_CHAT_COMMANDS_TESTS)
+    add_executable(core_chat_commands_acceptance acceptance/chat_commands_tests.cpp)
+    target_link_libraries(core_chat_commands_acceptance PRIVATE subathon_chat_commands GTest::gtest_main)
+    subathon_target_options(core_chat_commands_acceptance)
+    subathon_discover_gtests(core_chat_commands_acceptance
+        LABELS "chat-commands;acceptance;core" TIMEOUT 30)
+endif()
+
 if(SUBATHON_BUILD_TIME_DEBT_TESTS)
     add_executable(core_time_debt_acceptance acceptance/time_debt_tests.cpp)
     target_link_libraries(core_time_debt_acceptance PRIVATE subathon_time_debt subathon_timer_lifecycle GTest::gtest_main)
@@ -150,6 +158,15 @@ if(SUBATHON_BUILD_REFUND_ENTITLEMENT_TESTS)
     subathon_target_options(core_refund_entitlement_acceptance)
     subathon_discover_gtests(core_refund_entitlement_acceptance
         LABELS "refund-entitlement;acceptance;core" TIMEOUT 30)
+endif()
+
+if(SUBATHON_BUILD_MILESTONE_TARGET_EDIT_TESTS)
+    add_executable(core_milestone_target_edit_acceptance acceptance/milestone_target_edit_tests.cpp)
+    target_link_libraries(core_milestone_target_edit_acceptance PRIVATE
+        subathon_milestone_target_edits GTest::gtest_main)
+    subathon_target_options(core_milestone_target_edit_acceptance)
+    subathon_discover_gtests(core_milestone_target_edit_acceptance
+        LABELS "milestone-target-edit;acceptance;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_MILESTONE_PROGRESSION_TESTS)
@@ -201,6 +218,15 @@ if(SUBATHON_BUILD_RECURRING_SCHEDULE_TESTS)
     subathon_target_options(core_recurring_schedule_acceptance)
     subathon_discover_gtests(core_recurring_schedule_acceptance
         LABELS "recurring-schedule;acceptance;core")
+endif()
+
+if(SUBATHON_BUILD_SCHEDULED_PAUSE_TESTS)
+    add_executable(server_scheduled_pause_acceptance acceptance/scheduled_pause_tests.cpp)
+    target_link_libraries(server_scheduled_pause_acceptance PRIVATE
+        subathon_scheduled_pause GTest::gtest_main)
+    subathon_target_options(server_scheduled_pause_acceptance)
+    subathon_discover_gtests(server_scheduled_pause_acceptance
+        LABELS "scheduled-pause;acceptance;server" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_APPLICATION_PLAN_TESTS)

@@ -2,6 +2,7 @@
 #pragma once
 
 #include <chrono>
+#include <cstdint>
 #include <memory>
 #include <optional>
 #include <stdexcept>
@@ -40,11 +41,36 @@ struct MilestoneOccurrenceKey {
     bool operator==(const MilestoneOccurrenceKey &) const = default;
 };
 
+struct MilestoneTrackKey {
+    std::string installation_ref;
+    std::string track_ref;
+    bool operator==(const MilestoneTrackKey &) const = default;
+};
+
+struct MilestoneEditKey {
+    MilestoneTrackKey track;
+    std::string operation_ref;
+    bool operator==(const MilestoneEditKey &) const = default;
+};
+
+struct MilestoneEditJobKey {
+    MilestoneEditKey operation;
+    MilestoneOccurrenceKey occurrence;
+    std::int64_t action_ordinal;
+    bool operator==(const MilestoneEditJobKey &) const = default;
+};
+
+struct MilestoneEditMembership {
+    MilestoneEditKey origin;
+    std::vector<MilestoneEditJobKey> jobs;
+};
+
 struct CommittedMilestoneGroup {
     core::MilestoneCompletion achievement;
     std::vector<MilestoneAction> actions;
     MilestoneTimingOverride timing;
     std::optional<MilestoneOccurrenceKey> occurrence{};
+    std::optional<MilestoneEditMembership> edit_membership{};
 };
 
 struct ActiveMilestonePresentation {

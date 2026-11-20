@@ -14,6 +14,12 @@ target_include_directories(subathon_connector_lifecycle PUBLIC "${CMAKE_CURRENT_
 target_link_libraries(subathon_connector_lifecycle PUBLIC subathon_contribution)
 subathon_target_options(subathon_connector_lifecycle)
 
+add_library(subathon_scheduled_pause STATIC EXCLUDE_FROM_ALL src/scheduled_pause.cpp)
+target_include_directories(subathon_scheduled_pause PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_link_libraries(subathon_scheduled_pause PUBLIC
+    subathon_recurring_schedule subathon_timer_lifecycle)
+subathon_target_options(subathon_scheduled_pause)
+
 if(TARGET subathon_milestone_progression)
     add_library(subathon_milestone_timeline STATIC src/milestone_timeline.cpp)
     target_include_directories(subathon_milestone_timeline PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
@@ -162,6 +168,22 @@ if(TARGET subathon_sqlite_contributions AND TARGET subathon_application_plan)
     target_include_directories(subathon_sqlite_permission_graph PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_sqlite_permission_graph PUBLIC subathon_sqlite_account_sessions subathon_effective_permissions subathon_current_catalog)
     subathon_target_options(subathon_sqlite_permission_graph)
+endif()
+
+if(TARGET subathon_sqlite_credential_catalog AND TARGET subathon_sqlite_permission_graph
+        AND TARGET subathon_valuation_snapshot_codec AND TARGET subathon_rate_overrides)
+    add_library(subathon_sqlite_rate_overrides STATIC EXCLUDE_FROM_ALL src/sqlite_rate_overrides.cpp)
+    target_link_libraries(subathon_sqlite_rate_overrides PUBLIC
+        subathon_sqlite_credential_catalog subathon_sqlite_permission_graph
+        subathon_valuation_snapshot_codec subathon_rate_overrides)
+    subathon_target_options(subathon_sqlite_rate_overrides)
+
+    add_library(subathon_sqlite_milestone_target_edits STATIC EXCLUDE_FROM_ALL
+        src/sqlite_milestone_target_edits.cpp)
+    target_link_libraries(subathon_sqlite_milestone_target_edits
+        PUBLIC subathon_sqlite_rate_overrides subathon_milestone_target_edits
+            subathon_sqlite_modifier_activations)
+    subathon_target_options(subathon_sqlite_milestone_target_edits)
 endif()
 
 # Current reference authority and finite selected historical reads.

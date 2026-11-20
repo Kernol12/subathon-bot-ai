@@ -15,6 +15,10 @@ if(TARGET Boost::headers)
     target_link_libraries(subathon_exact_numeric PUBLIC Boost::headers)
     subathon_target_options(subathon_exact_numeric)
 
+    add_library(subathon_chat_commands STATIC EXCLUDE_FROM_ALL src/chat_commands.cpp)
+    target_link_libraries(subathon_chat_commands PUBLIC subathon_effective_permissions subathon_exact_numeric)
+    subathon_target_options(subathon_chat_commands)
+
     add_library(subathon_refund_entitlement STATIC EXCLUDE_FROM_ALL src/refund_entitlement.cpp)
     target_link_libraries(subathon_refund_entitlement PUBLIC subathon_exact_numeric)
     subathon_target_options(subathon_refund_entitlement)
@@ -28,6 +32,10 @@ if(TARGET Boost::headers)
     target_include_directories(subathon_milestone_progression PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_milestone_progression PUBLIC subathon_exact_numeric)
     subathon_target_options(subathon_milestone_progression)
+
+    add_library(subathon_milestone_target_edits STATIC EXCLUDE_FROM_ALL src/milestone_target_edits.cpp)
+    target_link_libraries(subathon_milestone_target_edits PUBLIC subathon_milestone_progression)
+    subathon_target_options(subathon_milestone_target_edits)
 
     add_library(subathon_application_plan STATIC EXCLUDE_FROM_ALL src/application_plan.cpp)
     target_include_directories(subathon_application_plan PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
