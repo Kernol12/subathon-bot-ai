@@ -338,3 +338,14 @@ if(SUBATHON_BUILD_REFERENCE_INTAKE_BASELINE)
         LIBRARIES subathon_reference_intake
         LABELS "reference-intake;acceptance;qt;server" TIMEOUT 180)
 endif()
+
+if(SUBATHON_BUILD_SESSION_INSTALLATION_EPOCH_TESTS)
+    subathon_add_qt_suite(server_session_installation_epoch_acceptance
+        NAME session-installation-epoch SOURCES qt/session_installation_epoch_tests.cpp
+        LIBRARIES subathon_reference_intake
+        LABELS "session-installation-epoch;acceptance;qt;server" TIMEOUT 180)
+    subathon_add_qt_suite(server_session_installation_epoch_rates_acceptance
+        NAME session-installation-epoch-rates SOURCES qt/session_installation_epoch_rates_tests.cpp
+        LIBRARIES subathon_sqlite_rate_overrides subathon_session_resolution
+        LABELS "session-installation-epoch;acceptance;qt;server" TIMEOUT 180)
+endif()

@@ -8,7 +8,7 @@ set(subathon_acceptance_suites
     sqlite-bundle sqlite-original-claim sqlite-hold application-service sqlite-delivery-jobs
     translation-catalog rate-snapshot rate-override valuation-snapshot-codec rule-definition rule-selection milestone-progression milestone-timeline milestone-group-restart
     milestone-group-decisions sqlite-modifier-activations sqlite-financial-refunds sqlite-credential-catalog sqlite-rate-override-catalog sqlite-rate-override-writer
-    connector-lifecycle session-resolution
+    connector-lifecycle session-resolution session-installation-epoch
     password-hashing credential-record sqlite-credentials effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
     bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server
@@ -81,6 +81,9 @@ function(subathon_resolve_acceptance_suites output)
         if(suite STREQUAL "api-host" OR suite STREQUAL "api-host-native")
             # Native retains the Qt host baseline's registrations.
             list(APPEND selected ${sqlite_test_prefix} native-websocket-profile api-host "${suite}")
+        elseif(suite STREQUAL "session-installation-epoch")
+            list(APPEND selected ${sqlite_test_prefix} exact-numeric effective-permissions
+                rate-snapshot rate-override valuation-snapshot-codec "${suite}")
         elseif(suite STREQUAL "reference-rule" OR suite STREQUAL "dev-server")
             list(APPEND selected ${sqlite_test_prefix} exact-numeric effective-permissions sqlite-permission-graph sqlite-reference-authority reference-rule "${suite}")
         elseif(suite STREQUAL "sqlite-reference-authority")
