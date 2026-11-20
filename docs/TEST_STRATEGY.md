@@ -56,6 +56,7 @@ still using synthetic data and supplied policy/authority facts.
 | `sqlite-original-claim-debug` | `-L '^sqlite-original-claim$'` | 18 typed original-claim query cases |
 | `sqlite-hold-debug` | `-L '^sqlite-hold$'` | 35 methods/270 scenarios for durable application-review holds |
 | `application-service-debug` | `-L '^application-service$'` | 43 methods/233 scenarios composing actual SQLite bundles/holds with supplied ports |
+| Required Qt CI | `-L '^sqlite-rate-override-catalog$'` and `-L '^sqlite-rate-override-writer$'` | 12 catalog and 82 writer invocations for v17 installation, current pair authority, exact evidence, CAS and recovery on disposable SQLite |
 | `sqlite-reference-capture-debug` | `-L '^reference-capture-values$'` / `-L '^sqlite-reference-capture$'` | 34 structural codec methods/46 invocations and 38 real-SQL methods/67 scenarios |
 | `dev-server-debug` | `-L '^dev-server$'` | Development walking skeleton: eight examples and invalid command lines over the reference intake/application path with real SQLite; not the production host |
 | `sqlite-account-sessions-debug` | `-L '^sqlite-account-sessions$'` | 44 real-SQL methods for physical current facts, full conditional writes and compiled-prefix/frame equality; host login/authority remains separate |
