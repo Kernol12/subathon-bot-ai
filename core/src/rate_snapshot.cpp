@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "rate_snapshot_storage.hpp"
+
 #include <algorithm>
 #include <numeric>
-#include <subathon/core/rate_snapshot.hpp>
 
 namespace subathon::core {
 namespace {
@@ -9,6 +10,16 @@ using boost::multiprecision::cpp_int;
 using Error = RateSnapshotError;
 constexpr std::size_t pair_bits = 8192;
 constexpr std::size_t temporary_bits = 16384;
+
+// The private profile object selects stored validation through the existing
+// friend factories. Callers using an equal-valued profile use ordinary validation.
+constexpr auto stored_profile = detail::stored_snapshot_limits;
+constexpr auto stored_identities = stored_profile.observations + stored_profile.overrides;
+constexpr std::size_t max_stored_indices = 8192;
+static_assert(stored_profile.quotes_per_observation <= max_stored_indices);
+static_assert(stored_profile.constraints + stored_identities <= max_stored_indices);
+static_assert(stored_profile.constraints + 2 * stored_identities + 2 * stored_profile.currencies <=
+              max_stored_indices);
 
 [[noreturn]] void fail(Error error) { throw RateSnapshotFailure(error); }
 
@@ -201,17 +212,31 @@ std::size_t bits(const cpp_int &value) {
     return value == 0 ? 0 : static_cast<std::size_t>(boost::multiprecision::msb(value)) + 1;
 }
 
-cpp_int positive_integer(std::string_view text, std::size_t ceiling) {
+cpp_int positive_integer(std::string_view text, const RateSnapshotLimits &limits) {
+    const auto ceiling = limits.potential_component_bits;
     if (text.empty() || text.front() < '1' || text.front() > '9' ||
         !std::all_of(text.begin(), text.end(), [](char c) { return c >= '0' && c <= '9'; }))
         fail(Error::invalid_potential);
+    const bool stored = &limits == &stored_profile;
+    static_assert(stored_profile.potential_component_bits == 4096 &&
+                  detail::stored_potential_digits == 1234);
     cpp_int result = 0;
-    for (const char digit : text) {
-        // Lexical preflight bounds construction to 1234 digits (at most 4100
-        // bits). Stop as soon as the positive prefix exceeds its selected bound.
+    for (std::size_t position = 0; position < text.size(); ++position) {
+        const auto digit = static_cast<unsigned>(text[position] - '0');
+        // Up to 1233 decimal digits fit in 4096 bits. Before the last possible
+        // digit, compare the prefix and digit against the quotient and
+        // remainder of (2^4096 - 1) / 10.
+        if (stored && position == detail::stored_potential_digits - 1) {
+            cpp_int maximum = cpp_int(1) << (ceiling - 1);
+            maximum += maximum - 1;
+            const cpp_int prefix_limit = maximum / 10;
+            const auto digit_limit = (maximum % 10).convert_to<unsigned>();
+            if (result > prefix_limit || (result == prefix_limit && digit > digit_limit))
+                fail(Error::resource_limit);
+        }
         result *= 10;
-        result += static_cast<unsigned>(digit - '0');
-        if (bits(result) > ceiling)
+        result += digit;
+        if (!stored && bits(result) > ceiling)
             fail(Error::resource_limit);
     }
     return result;
@@ -227,8 +252,8 @@ cpp_int gcd(cpp_int left, cpp_int right) {
 }
 
 Exact potential(const RatePotentialInput &value, const RateSnapshotLimits &limits) {
-    auto numerator = positive_integer(value.numerator, limits.potential_component_bits);
-    auto denominator = positive_integer(value.denominator, limits.potential_component_bits);
+    auto numerator = positive_integer(value.numerator, limits);
+    auto denominator = positive_integer(value.denominator, limits);
     if (gcd(numerator, denominator) != 1)
         fail(Error::invalid_potential);
     Exact result(numerator);
@@ -350,6 +375,24 @@ Exact ratio(const RatePotentialInput &from, const RatePotentialInput &to,
     return result;
 }
 
+// Both potentials and the supplied decimal are already reduced. Cancel
+// opposite factors of to/from before either product, then compare components.
+bool matches_stored_rate(const RatePotentialInput &from, const RatePotentialInput &to,
+                         const Exact &supplied, const RateSnapshotLimits &limits) {
+    auto n = positive_integer(to.numerator, limits);
+    auto d = positive_integer(to.denominator, limits);
+    auto inverse_n = positive_integer(from.denominator, limits);
+    auto inverse_d = positive_integer(from.numerator, limits);
+    const auto common_n = gcd(n, inverse_d);
+    const auto common_d = gcd(d, inverse_n);
+    n /= common_n;
+    inverse_d /= common_n;
+    d /= common_d;
+    inverse_n /= common_d;
+    return product(n, inverse_n, pair_bits) == boost::multiprecision::numerator(supplied) &&
+           product(d, inverse_d, pair_bits) == boost::multiprecision::denominator(supplied);
+}
+
 bool equal_rate(const Exact &left, const Exact &right) {
     const auto a = product(boost::multiprecision::numerator(left),
                            boost::multiprecision::denominator(right), temporary_bits);
@@ -358,14 +401,13 @@ bool equal_rate(const Exact &left, const Exact &right) {
     return a == b;
 }
 
-// All scratch owns only indices/references, never a speculative snapshot or
-// all-pairs matrix. The fixed maxima keep even simultaneous scratch well below
-// 65536 records: 16 sources, 1024 overrides, 4096 constraints/edges, 256 members
-// and parents, 1040 usage flags, plus at most 4096 temporary quote references.
+// Only indices and borrowed references are retained during graph validation.
+// In stored mode the sorted constraint index is released before graph work.
 struct SnapshotValidation {
     const EffectiveRateSnapshotInput &input;
     const RateSnapshotLimits &limits;
     Measure measure;
+    const bool stored;
     std::vector<const FetchedRateObservationInput *> sources;
     std::vector<const ManualRateOverrideInput *> overrides;
     std::vector<const RateConstraint *> constraints;
@@ -377,12 +419,19 @@ struct SnapshotValidation {
 
     SnapshotValidation(const EffectiveRateSnapshotInput &value, const RateSnapshotLimits &options,
                        std::optional<std::pair<std::string_view, std::string_view>> query)
-        : input(value), limits(options), measure(preflight(value, options, query)) {
+        : input(value), limits(options), measure(preflight(value, options, query)),
+          stored(&options == &stored_profile) {
         lexical(input, limits, query);
         duplicates_and_order();
         shape();
         edges();
+        if (stored)
+            std::vector<Member>().swap(members);
         project();
+        // Each raw entry needs at least four frame bytes, so the scan already
+        // bounds the single reconstruction. Check both copies before ownership.
+        if (stored && measure.items > detail::snapshot_scratch_items / 2)
+            fail(Error::resource_limit);
     }
 
     void duplicates_and_order() {
@@ -411,15 +460,26 @@ struct SnapshotValidation {
         sources.reserve(input.sources.size());
         for (const auto &source : input.sources)
             sources.push_back(&source);
-        std::sort(sources.begin(), sources.end(), [](const auto *left, const auto *right) {
+        const auto source_less = [](const auto *left, const auto *right) {
             return less_bytes(left->context.observation_ref, right->context.observation_ref);
-        });
+        };
         overrides.reserve(input.overrides.size());
         for (const auto &manual : input.overrides)
             overrides.push_back(&manual);
-        std::sort(overrides.begin(), overrides.end(), [](const auto *left, const auto *right) {
+        const auto override_less = [](const auto *left, const auto *right) {
             return less_bytes(left->override_ref, right->override_ref);
-        });
+        };
+        if (stored) {
+            if (!std::is_sorted(sources.begin(), sources.end(), source_less) ||
+                !std::is_sorted(overrides.begin(), overrides.end(), override_less) ||
+                !std::is_sorted(input.constraints.begin(), input.constraints.end(),
+                                [](const auto &a, const auto &b) { return constraint_less(&a, &b); }))
+                fail(Error::unresolved_basis);
+            std::vector<const RateConstraint *>().swap(constraints);
+        } else {
+            std::sort(sources.begin(), sources.end(), source_less);
+            std::sort(overrides.begin(), overrides.end(), override_less);
+        }
     }
 
     std::size_t member_index(std::string_view key) const {
@@ -430,7 +490,13 @@ struct SnapshotValidation {
     }
 
     void shape() {
-        members.reserve(limits.currencies);
+        std::size_t member_count = limits.currencies;
+        if (stored) {
+            member_count = 0;
+            for (const auto &component : input.components)
+                add_bounded(member_count, component.members.size(), limits.currencies);
+        }
+        members.reserve(member_count);
         std::string_view previous_anchor;
         for (std::size_t index = 0; index < input.components.size(); ++index) {
             const auto &component = input.components[index];
@@ -459,14 +525,18 @@ struct SnapshotValidation {
             std::size_t to;
             std::string_view decimal;
         };
+        // Stored peak requested slots: 4096 edges, 1040 identity pointers,
+        // 1040 usage flags, 256 member references and 256 union parents.
+        // The duplicate-check array has already been released.
         std::vector<Edge> resolved;
-        resolved.reserve(constraints.size());
+        if (!stored)
+            resolved.reserve(constraints.size());
         std::vector<bool> used_sources(sources.size());
         std::vector<bool> used_overrides(overrides.size());
         // Resolve ALL references before any edge equality check.
-        for (const auto *constraint : constraints) {
+        const auto resolve = [&](const RateConstraint &constraint) {
             std::string_view from, to, text;
-            if (const auto *fetched = std::get_if<FetchedRateConstraint>(constraint)) {
+            if (const auto *fetched = std::get_if<FetchedRateConstraint>(&constraint)) {
                 const auto found = std::find_if(sources.begin(), sources.end(), [&](const auto *s) {
                     return s->context.observation_ref == fetched->observation_ref;
                 });
@@ -480,7 +550,7 @@ struct SnapshotValidation {
                 text = quote.original_decimal;
                 used_sources[static_cast<std::size_t>(found - sources.begin())] = true;
             } else {
-                const auto &manual = std::get<ManualRateConstraint>(*constraint);
+                const auto &manual = std::get<ManualRateConstraint>(constraint);
                 const auto found =
                     std::find_if(overrides.begin(), overrides.end(), [&](const auto *m) {
                         return m->override_ref == manual.override_ref;
@@ -497,13 +567,30 @@ struct SnapshotValidation {
             if (from == to || from_index == members.size() || to_index == members.size() ||
                 members[from_index].component != members[to_index].component)
                 fail(Error::unresolved_basis);
+            if (stored && resolved.empty())
+                resolved.reserve(input.constraints.size());
             resolved.push_back({from_index, to_index, text});
+        };
+        if (stored) {
+            for (const auto &constraint : input.constraints)
+                resolve(constraint);
+        } else {
+            for (const auto *constraint : constraints)
+                resolve(*constraint);
         }
         for (const auto &edge : resolved) {
-            const auto expected = ratio(*members[edge.from].input, *members[edge.to].input, limits);
-            const auto supplied = decimal(edge.decimal, true);
-            if (!equal_rate(expected, supplied.value()))
-                fail(Error::contradictory_constraint);
+            const auto &from = *members[edge.from].input;
+            const auto &to = *members[edge.to].input;
+            if (stored) {
+                const auto supplied = decimal(edge.decimal, true);
+                if (!matches_stored_rate(from, to, supplied.value(), limits))
+                    fail(Error::contradictory_constraint);
+            } else {
+                const auto expected = ratio(from, to, limits);
+                const auto supplied = decimal(edge.decimal, true);
+                if (!equal_rate(expected, supplied.value()))
+                    fail(Error::contradictory_constraint);
+            }
         }
         if (std::find(used_overrides.begin(), used_overrides.end(), false) !=
                 used_overrides.end() ||
@@ -561,12 +648,16 @@ RateMoney make_rate_money(const ReceiptMoney &input, const RateSnapshotLimits &l
 
 FetchedRateObservation make_fetched_rate_observation(const FetchedRateObservationInput &input,
                                                      const RateSnapshotLimits &limits) {
-    validate_options(limits);
-    auto measure = preflight(input, limits);
-    lexical(input);
-    quote_duplicates(input);
-    for (const auto &quote : input.quotes)
-        measure.exact(decimal(quote.original_decimal, true).value());
+    // The private stored profile reaches this path only after the complete
+    // snapshot's lexical, duplicate, graph and projection checks.
+    if (&limits != &stored_profile) {
+        validate_options(limits);
+        auto measure = preflight(input, limits);
+        lexical(input);
+        quote_duplicates(input);
+        for (const auto &quote : input.quotes)
+            measure.exact(decimal(quote.original_decimal, true).value());
+    }
     FetchedRateObservationData output{input.context, {}};
     output.quotes.reserve(input.quotes.size());
     for (const auto &quote : input.quotes)
@@ -590,9 +681,13 @@ EffectiveRateSnapshot make_effective_rate_snapshot(const EffectiveRateSnapshotIn
                                     manual->to_currency, decimal(manual->original_decimal, true),
                                     manual->decision_ref, manual->actor_ref, manual->reason,
                                     manual->recorded_at_utc_ms});
-    output.constraints.reserve(validated.constraints.size());
-    for (const auto *constraint : validated.constraints)
-        output.constraints.push_back(*constraint);
+    if (validated.stored) {
+        output.constraints = input.constraints;
+    } else {
+        output.constraints.reserve(validated.constraints.size());
+        for (const auto *constraint : validated.constraints)
+            output.constraints.push_back(*constraint);
+    }
     output.components.reserve(input.components.size());
     for (const auto &component : input.components) {
         auto &owned = output.components.emplace_back();
@@ -601,6 +696,10 @@ EffectiveRateSnapshot make_effective_rate_snapshot(const EffectiveRateSnapshotIn
             owned.members.push_back({member.currency, potential(member, limits)});
     }
     return EffectiveRateSnapshot(std::move(output));
+}
+
+EffectiveRateSnapshot detail::make_stored_rate_snapshot(const EffectiveRateSnapshotInput &input) {
+    return make_effective_rate_snapshot(input, stored_profile);
 }
 
 RatePairResult quote_effective_rate(const EffectiveRateSnapshotInput &input,

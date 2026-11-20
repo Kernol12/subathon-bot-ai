@@ -139,11 +139,11 @@ fixture retention is not an OS-durability guarantee. No recursive logging if dea
 
 The admission record proves only that this source profile was checked. A later
 write/update failure must still fail main1. Preserve exactly the seven legacy
-diagnostics, two checked tee writes/bytes and single checked inherited-output
+diagnostics, the single checked network-settings write and single checked inherited-output
 update300s, native Acquire::Retries1, trust, pins and all timeout/error behavior.
 No source write, extra read/command/process, new retry/capture, image pin, dependency,
 resolver/proxy change or signature bypass. No new identity/cloud/Python name lookup.
-For this profile, the archive uses the configured mirror list, while the security
+For this profile, the archive uses the runner-provided mirror list, while the security
 pocket is fetched directly from the validated source URI, outside that list.
 A security-host outage therefore fails the unchanged strict update; it grants no
 retry, fallback rewrite or exception to Error-Mode any/native Retries1.
