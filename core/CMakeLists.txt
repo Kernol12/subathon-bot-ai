@@ -95,3 +95,10 @@ add_library(subathon_timer_editorial_commands STATIC EXCLUDE_FROM_ALL src/timer_
 target_include_directories(subathon_timer_editorial_commands PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_link_libraries(subathon_timer_editorial_commands PUBLIC subathon_timer_lifecycle subathon_time_debt)
 subathon_target_options(subathon_timer_editorial_commands)
+
+if(BUILD_TESTING AND SUBATHON_BUILD_DOWNTIME_RECOVERY_TESTS)
+    add_library(subathon_downtime_recovery STATIC EXCLUDE_FROM_ALL src/downtime_recovery.cpp)
+    target_link_libraries(subathon_downtime_recovery PUBLIC
+        subathon_recurring_schedule subathon_timer_editorial_commands)
+    subathon_target_options(subathon_downtime_recovery)
+endif()

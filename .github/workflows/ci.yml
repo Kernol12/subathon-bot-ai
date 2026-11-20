@@ -202,6 +202,7 @@ jobs:
               "pause-policy": ({"acceptance", "core"}, None),
               "recurring-schedule": ({"acceptance", "core"}, None),
               "scheduled-pause": ({"acceptance", "server"}, 30),
+              "downtime-recovery": ({"acceptance", "core"}, 30),
               "application-plan": ({"acceptance", "core"}, None),
               "receipt-intake": ({"acceptance"}, None),
               "contribution-evidence": ({"acceptance"}, None),
@@ -259,6 +260,8 @@ jobs:
               raise SystemExit(f"Expected 25 recurring schedule cases, got {found['recurring-schedule']}")
           if found["scheduled-pause"] != 35:
               raise SystemExit(f"Expected 35 scheduled pause cases, got {found['scheduled-pause']}")
+          if found["downtime-recovery"] != 49:
+              raise SystemExit(f"Expected 49 downtime recovery cases, got {found['downtime-recovery']}")
           if found["valuation-snapshot-codec"] != 25:
               raise SystemExit(f"Expected 25 valuation snapshot codec cases, got {found['valuation-snapshot-codec']}")
           if found["rate-override"] != 24:
@@ -388,7 +391,7 @@ jobs:
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch"
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
@@ -594,6 +597,30 @@ jobs:
                   raise SystemExit("Reference intake must pass every reviewed invocation and both hooks")
               if re.search(r"^(?:QWARN|QSYSTEM|QFATAL)", output, re.MULTILINE):
                   raise SystemExit("Unexpected Qt warning in reference intake acceptance")
+          PYTHON
+      - name: Run reviewed installation-epoch acceptance
+        run: >-
+          ctest --preset sqlite-reference-capture-debug -L '^session-installation-epoch$'
+          --no-tests=error --verbose --test-output-size-passed 1048576
+          --output-junit "$GITHUB_WORKSPACE/build/sqlite-reference-capture-debug/session-epoch-results.xml"
+      - name: Verify both installation-epoch suites and zero skips
+        run: |
+          python3 - <<'PYTHON'
+          import re
+          import xml.etree.ElementTree as ET
+          expected = {"session-installation-epoch.suite": 52, "session-installation-epoch-rates.suite": 18}
+          cases = ET.parse("build/sqlite-reference-capture-debug/session-epoch-results.xml").getroot().findall("testcase")
+          if len(cases) != 2 or {case.get("name") for case in cases} != set(expected):
+              raise SystemExit("Missing unfiltered installation-epoch results")
+          for case in cases:
+              if case.find("failure") is not None or case.find("skipped") is not None:
+                  raise SystemExit("Installation-epoch suite failed or skipped")
+              output = case.findtext("system-out", "")
+              totals = re.findall(r"^Totals:\s+(\d+) passed, (\d+) failed, (\d+) skipped, (\d+) blacklisted,", output, re.MULTILINE)
+              if totals != [(str(expected[case.get("name")]), "0", "0", "0")]:
+                  raise SystemExit("Installation epoch must pass every reviewed invocation and both hooks")
+              if re.search(r"^(?:QWARN|QSYSTEM|QFATAL)", output, re.MULTILINE):
+                  raise SystemExit("Unexpected Qt warning in installation-epoch acceptance")
           PYTHON
       - name: Configure explicit SDK and GoogleTest sources
         run: >-

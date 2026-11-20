@@ -68,6 +68,16 @@ if(SUBATHON_BUILD_TIMER_EDITORIAL_TESTS)
         LABELS "timer-editorial;acceptance;core" TIMEOUT 30)
 endif()
 
+if(SUBATHON_BUILD_DOWNTIME_RECOVERY_TESTS)
+    add_executable(core_downtime_recovery_acceptance acceptance/downtime_recovery_tests.cpp)
+    target_link_libraries(core_downtime_recovery_acceptance PRIVATE
+        subathon_downtime_recovery GTest::gtest_main)
+    subathon_target_options(core_downtime_recovery_acceptance)
+    subathon_discover_gtests(core_downtime_recovery_acceptance
+        PREFIX "downtime-recovery."
+        LABELS "downtime-recovery;acceptance;core" TIMEOUT 30)
+endif()
+
 if(SUBATHON_BUILD_PASSWORD_HASHING_TESTS)
 
     # Explicit preparation target: building never runs it; it is not a CTest test.
@@ -327,4 +337,15 @@ if(SUBATHON_BUILD_REFERENCE_INTAKE_BASELINE)
         SOURCES qt/reference_application_adapter_tests.cpp
         LIBRARIES subathon_reference_intake
         LABELS "reference-intake;acceptance;qt;server" TIMEOUT 180)
+endif()
+
+if(SUBATHON_BUILD_SESSION_INSTALLATION_EPOCH_TESTS)
+    subathon_add_qt_suite(server_session_installation_epoch_acceptance
+        NAME session-installation-epoch SOURCES qt/session_installation_epoch_tests.cpp
+        LIBRARIES subathon_reference_intake
+        LABELS "session-installation-epoch;acceptance;qt;server" TIMEOUT 180)
+    subathon_add_qt_suite(server_session_installation_epoch_rates_acceptance
+        NAME session-installation-epoch-rates SOURCES qt/session_installation_epoch_rates_tests.cpp
+        LIBRARIES subathon_sqlite_rate_overrides subathon_session_resolution
+        LABELS "session-installation-epoch;acceptance;qt;server" TIMEOUT 180)
 endif()
