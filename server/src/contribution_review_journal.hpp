@@ -18,25 +18,50 @@ inline void catalog(const SqliteWorkSession &s) {
     struct Expected {
         QList<QByteArray> hashes;
         MigrationManifest manifest = contribution_review_repository_manifest();
+        qsizetype id_bytes{};
+        qsizetype type_bytes{};
+        qsizetype name_bytes{};
+        qsizetype table_bytes{};
+        qsizetype sql_bytes{};
+
         Expected() {
-            for (const auto &step : manifest.steps)
+            for (const auto &step : manifest.steps) {
                 hashes.append(migration_content_sha256(step));
+                id_bytes = std::max(id_bytes, step.id.toUtf8().size());
+            }
+            for (const auto &object : manifest.steps.back().expected_schema) {
+                if (!object.table_name.startsWith("subathon_review_"))
+                    continue;
+                type_bytes = std::max(type_bytes, object.type.toUtf8().size());
+                name_bytes = std::max(name_bytes, object.name.toUtf8().size());
+                table_bytes = std::max(table_bytes, object.table_name.toUtf8().size());
+                if (object.sql)
+                    sql_bytes = std::max(sql_bytes, object.sql->toUtf8().size());
+            }
         }
     };
     static const Expected expected;
     const auto history =
-        s.execute({"SELECT version, CAST(migration_id AS BLOB), content_sha256 "
+        s.execute({"SELECT version, CASE WHEN length(CAST(migration_id AS BLOB))<=? "
+                   "THEN CAST(migration_id AS BLOB) END, "
+                   "CASE WHEN length(CAST(content_sha256 AS BLOB))<=32 THEN content_sha256 END "
                    "FROM main.subathon_migration_history ORDER BY version LIMIT 20",
-                   {}});
+                   {expected.id_bytes}});
     require(history.size() == expected.hashes.size());
     for (qsizetype n = 0; n < history.size(); ++n)
         require(integer(history[n][0]) == n + 1 &&
                 history[n][1].toByteArray() == expected.manifest.steps[n].id.toUtf8() &&
                 history[n][2].toByteArray() == expected.hashes[n]);
-    const auto schema =
-        s.execute({"SELECT type,name,tbl_name,sql FROM main.sqlite_schema WHERE "
-                   "substr(tbl_name,1,16)='subathon_review_' ORDER BY type,name LIMIT 12",
-                   {}});
+    // Use byte lengths, including embedded NULs. Invalid non-NULL SQL must
+    // still differ from the SQL NULL expected for an automatic index.
+    const auto schema = s.execute(
+        {"SELECT CASE WHEN length(CAST(type AS BLOB))<=? THEN type END, "
+         "CASE WHEN length(CAST(name AS BLOB))<=? THEN name END, "
+         "CASE WHEN length(CAST(tbl_name AS BLOB))<=? THEN tbl_name END, "
+         "CASE WHEN sql IS NULL OR length(CAST(sql AS BLOB))<=? THEN sql ELSE 0 END "
+         "FROM main.sqlite_schema WHERE substr(tbl_name,1,16)='subathon_review_' "
+         "ORDER BY 1,2 LIMIT 12",
+         {expected.type_bytes, expected.name_bytes, expected.table_bytes, expected.sql_bytes}});
     qsizetype n = 0;
     for (const auto &object : expected.manifest.steps.back().expected_schema) {
         if (!object.table_name.startsWith("subathon_review_"))
@@ -184,8 +209,15 @@ inline Header header(const SqliteWorkSession &s, const ApplicationPrincipalBindi
 inline std::optional<Decision> decision(const SqliteWorkSession &s, const ReviewSelector &sel,
                                         bool &rejected) {
     const auto rows =
-        s.execute({"SELECT decision_kind, status, receipt_id, CASE WHEN length(outcome)<=61440 "
-                   "THEN outcome END, ordinal, installation_ref,work_scope,work_ref "
+        s.execute({"SELECT decision_kind,status,receipt_id,"
+                   "CASE WHEN typeof(outcome)='blob' AND length(outcome) BETWEEN 1 AND 61440 "
+                   "THEN outcome END,ordinal,"
+                   "CASE WHEN typeof(installation_ref)='blob' AND length(installation_ref)<=4096 "
+                   "THEN installation_ref END,"
+                   "CASE WHEN typeof(work_scope)='blob' AND length(work_scope)<=4096 "
+                   "THEN work_scope END,"
+                   "CASE WHEN typeof(work_ref)='blob' AND length(work_ref)<=4096 "
+                   "THEN work_ref END "
                    "FROM main.subathon_review_entries WHERE contribution_id=? "
                    "AND decision_kind IN (1,2) LIMIT 3",
                    {id(sel.cid.value)}});
@@ -305,7 +337,13 @@ inline bool validate_hold_links(const SqliteWorkSession &s, const ReviewCommand 
              "m.mutation_kind,m.decision_ref,m.application_scope,m.application_ref "
              "FROM main.subathon_hold_versions v JOIN main.subathon_hold_causes c USING(hold_ref) "
              "JOIN main.subathon_hold_mutations m USING(mutation_ref) "
-             "WHERE v.hold_ref=? AND v.version_ref=? AND v.state=1 AND v.mutation_ref=?",
+             "WHERE v.hold_ref=? AND v.version_ref=? AND v.state=1 AND v.mutation_ref=? "
+             "AND typeof(v.parent_version_ref)='blob' AND length(v.parent_version_ref)<=4096 "
+             "AND typeof(m.decision_ref)='blob' AND length(m.decision_ref)<=4096 "
+             "AND (m.application_scope IS NULL OR "
+             "(typeof(m.application_scope)='blob' AND length(m.application_scope)<=4096)) "
+             "AND (m.application_ref IS NULL OR "
+             "(typeof(m.application_ref)='blob' AND length(m.application_ref)<=4096))",
              {bytes(closed.hold_ref), bytes(closed.version_ref),
               bytes(distinct_id(cmd, ordinal, "hold-resolution"))}});
         require(rows.size() == 1 && integer(rows[0][0]) == 0 &&
@@ -332,13 +370,19 @@ struct Prefix {
 inline Prefix read_prefix(const SqliteWorkSession &s, const ReviewCommand &cmd, const Header &h,
                           int initial_cursor, const Authority *auth = nullptr) {
     const auto args = key_args(cmd.principal, cmd.key);
-    // The length projection prevents a malformed LOB from consuming the entire
-    // work budget before its selected ordinal is checked.
+    // A malformed non-NULL application link projects an integer so it cannot
+    // satisfy either the absent-link or the typed reference check.
     const auto start = detail::ContributionReviewWriterAccess::remaining(s);
     const auto rows = s.execute(
         {QString("SELECT ordinal,status,contribution_id,receipt_id,decision_kind,"
                  "CASE WHEN typeof(outcome)='blob' AND length(outcome) BETWEEN 1 AND 61440 "
-                 "THEN outcome END,application_scope,application_ref,outcome IS NULL "
+                 "THEN outcome END,"
+                 "CASE WHEN application_scope IS NULL OR "
+                 "(typeof(application_scope)='blob' AND length(application_scope)<=4096) "
+                 "THEN application_scope ELSE 0 END,"
+                 "CASE WHEN application_ref IS NULL OR "
+                 "(typeof(application_ref)='blob' AND length(application_ref)<=4096) "
+                 "THEN application_ref ELSE 0 END,outcome IS NULL "
                  "FROM main.subathon_review_entries WHERE ") +
              key_where + " ORDER BY ordinal LIMIT 17",
          args});

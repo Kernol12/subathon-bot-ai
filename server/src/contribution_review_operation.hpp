@@ -9,7 +9,10 @@
 namespace subathon::server::review_detail {
 
 inline std::string head_token(const SqliteWorkSession &s) {
-    const auto rows = s.execute({"SELECT token FROM main.subathon_app_head WHERE singleton=1", {}});
+    const auto rows =
+        s.execute({"SELECT CASE WHEN typeof(token)='blob' AND length(token)<=4096 THEN token END "
+                   "FROM main.subathon_app_head WHERE singleton=1",
+                   {}});
     require(rows.size() == 1);
     return text_cell(rows[0][0]);
 }

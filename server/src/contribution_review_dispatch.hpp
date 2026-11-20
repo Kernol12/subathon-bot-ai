@@ -259,12 +259,31 @@ class Execute : public std::enable_shared_from_this<Execute> {
         }
     }
 
-    bool current_scope(const SqliteWorkSession &s, const Authority &auth) {
-        if (const auto refusal = auth.scope(s)) {
+    bool current_scope(const SqliteWorkSession &s, const Authority &auth,
+                       bool verify_live_work = false) {
+        if (const auto refusal = auth.scope(s, verify_live_work)) {
             stop_ =
                 *refusal == ReviewRefusal::denied ? ReviewStop::denied : ReviewStop::unavailable;
             return false;
         }
+        return true;
+    }
+
+    bool live_scope(const SqliteWorkSession &s, const Authority &auth) {
+        try {
+            return current_scope(s, auth, true);
+        } catch (...) {
+            stop_ = ReviewStop::unavailable;
+            throw;
+        }
+    }
+
+    bool finish_scope_stop(const SqliteWorkResult &result, bool observed) {
+        if (stop_ != ReviewStop::denied && stop_ != ReviewStop::unavailable)
+            return false;
+        if (!normal(result, observed))
+            stop_ = ReviewStop::unavailable;
+        safe_stop();
         return true;
     }
 
@@ -282,7 +301,7 @@ class Execute : public std::enable_shared_from_this<Execute> {
                 test_unit::qualification_read, ordinal,
                 [self, ordinal](const auto &s) {
                     const auto auth = self->authority();
-                    if (!self->current_scope(s, auth))
+                    if (!self->live_scope(s, auth))
                         return false;
                     const auto n = size_t(ordinal - 1);
                     const auto &i = self->command_.entries.at(n).intent;
@@ -311,6 +330,8 @@ class Execute : public std::enable_shared_from_this<Execute> {
                     return false;
                 },
                 [self, ordinal](const auto &r, bool observed) {
+                    if (self->finish_scope_stop(r, observed))
+                        return;
                     if (!normal(r, observed)) {
                         const bool bounded_failure =
                             observed && r.transaction == TransactionOutcome::rolled_back &&
@@ -334,7 +355,7 @@ class Execute : public std::enable_shared_from_this<Execute> {
 
     bool row(const SqliteWorkSession &s, int ordinal) {
         const auto auth = authority();
-        if (!current_scope(s, auth))
+        if (!live_scope(s, auth))
             return false;
         const auto h = header(s, command_.principal, command_.key);
         require(h.cursor == ordinal && (ordinal == 1 ? h.count == 0
@@ -400,6 +421,9 @@ class Execute : public std::enable_shared_from_this<Execute> {
     }
 
     void after_row(const SqliteWorkResult &r, int ordinal, bool observed) {
+        // Scope has no row effects to classify, even if rollback lost acknowledgment.
+        if (finish_scope_stop(r, observed))
+            return;
         if (r.transaction == TransactionOutcome::outcome_unknown) {
             stop_ = ReviewStop::commit_uncertain;
             failed_ = ordinal;

@@ -241,7 +241,7 @@ Maximum 16 rows, with the same bound for preview, execute and lookup output. Own
 at 1 MiB, with at most 4 KiB of envelope and 60 KiB per encoded entry including its basis or outcome (987,136 bytes
 at 16 rows). Charge owned input at ingress before copying/canonicalizing past the limit. Before any writes, bound
 the entire selection, manifest, persisted/result documents and final reply, including denied/stop/suffix cases.
-Use checked addition and bounded length/count probes, with their own charges, before materializing stored data.
+**Correction 4.** Use checked addition and charged length/count probes before materializing review-owned projections. Shared readers on main retain their reviewed fail-closed checks after fetch.
 Check duplicate/conflicting anchors, identities and all row shapes in read-only preflight. Unbounded, over-budget
 or unproven fanout returns BatchTooLarge before journal or domain writes. Recheck live row shape before staging.
 Refuse Unavailable before writes if the existing single writer lacks a verified explicit review profile.

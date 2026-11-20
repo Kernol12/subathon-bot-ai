@@ -4,6 +4,7 @@
 #include "contribution_review_access.hpp"
 #include "contribution_review_hold_history.hpp"
 #include "contribution_review_wire.hpp"
+#include "contribution_review_writer_access.hpp"
 #include "sqlite_application_bundle_values.hpp"
 #include "sqlite_terminal_partition.hpp"
 
@@ -137,9 +138,13 @@ struct Authority {
         }
     }
 
-    std::optional<ReviewRefusal> scope(const SqliteWorkSession &session) const {
+    std::optional<ReviewRefusal> scope(const SqliteWorkSession &session,
+                                       bool verify_live_work = false) const {
         for (auto use : {ReviewAuthorityUse::session, ReviewAuthorityUse::batch_key}) {
             const auto answer = check(session, use);
+            // A caught SQL failure can close the unit without escaping the callback.
+            if (verify_live_work)
+                (void)detail::ContributionReviewWriterAccess::remaining(session);
             if (std::holds_alternative<ApplicationAccessDenied>(answer))
                 return ReviewRefusal::denied;
             if (!std::holds_alternative<ApplicationAccessAllowed>(answer))
