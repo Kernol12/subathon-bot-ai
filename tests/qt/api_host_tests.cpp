@@ -86,10 +86,16 @@ struct ReleaseSignals {
 };
 // Destroys two separately owned leases on two test threads started from one gate
 // (98A). Readiness at the gate and destructor completion are each bounded by the
-// fixture wait. Each completion signal is published only after that destructor
-// returned. Both threads are joined before the ledger is inspected.
+// fixture wait, anchored before its phase: readiness before the threads start and
+// completion before the gate opens. A signal counts only when the clock, sampled
+// after the signal was observed, is still before the deadline; a ready future seen
+// at or after it is a harness failure. Each completion signal is published only
+// after that destructor returned. Both threads are joined before the ledger is
+// inspected.
 ReleaseSignals release_concurrently(std::optional<host::ResponseLease> &first,
                                     std::optional<host::ResponseLease> &second) {
+    using clock = std::chrono::steady_clock;
+    const auto bound = std::chrono::milliseconds(wait_ms);
     std::atomic<bool> first_ready{false}, second_ready{false}, open{false};
     std::promise<void> first_done, second_done;
     auto first_signal = first_done.get_future(), second_signal = second_done.get_future();
@@ -101,21 +107,25 @@ ReleaseSignals release_concurrently(std::optional<host::ResponseLease> &first,
         owner.reset();
         done.set_value();
     };
+    const auto ready_by = clock::now() + bound;
     std::thread one(release, std::ref(first), std::ref(first_ready), std::ref(first_done));
     std::thread two(release, std::ref(second), std::ref(second_ready), std::ref(second_done));
-    const auto ready_by = std::chrono::steady_clock::now() + std::chrono::milliseconds(wait_ms);
-    while (!(first_ready.load(std::memory_order_acquire) &&
-             second_ready.load(std::memory_order_acquire))) {
-        if (std::chrono::steady_clock::now() >= ready_by)
-            harness_failure("missing gate readiness", first_ready.load(), second_ready.load());
+    for (;;) {
+        const bool one_ready = first_ready.load(std::memory_order_acquire);
+        const bool two_ready = second_ready.load(std::memory_order_acquire);
+        if (clock::now() >= ready_by)
+            harness_failure("missing gate readiness", one_ready, two_ready);
+        if (one_ready && two_ready)
+            break;
         std::this_thread::yield();
     }
+    const auto done_by = clock::now() + bound;
     open.store(true, std::memory_order_release);
-    const auto done_by = std::chrono::steady_clock::now() + std::chrono::milliseconds(wait_ms);
     ReleaseSignals out;
     out.first = first_signal.wait_until(done_by) == std::future_status::ready;
     out.second = second_signal.wait_until(done_by) == std::future_status::ready;
-    if (!out.first || !out.second)
+    // wait_until reports an already-ready future as ready after the deadline.
+    if (clock::now() >= done_by || !out.first || !out.second)
         harness_failure("missing completion signal", out.first, out.second);
     one.join();
     two.join();
