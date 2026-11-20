@@ -261,7 +261,7 @@ std::optional<Refusal> validate_clock(const ScheduledPauseState &state,
     auto previous = anchor.utc_ms;
     for (const auto &cut : clock.cuts) {
         if (cut.observation.observation_ref.empty() || !valid_pause(cut.independent_pause, true) ||
-            cut.elapsed_since_previous < milliseconds::zero()) {
+            (cut.elapsed_since_previous && *cut.elapsed_since_previous < milliseconds::zero())) {
             return Refusal::invalid_input;
         }
         if (cut.observation.utc_ms <= previous ||
