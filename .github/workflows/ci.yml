@@ -255,8 +255,8 @@ jobs:
               raise SystemExit(f"No enabled cases discovered for: {empty or 'time-credit'}")
           if found["recurring-schedule"] != 25:
               raise SystemExit(f"Expected 25 recurring schedule cases, got {found['recurring-schedule']}")
-          if found["scheduled-pause"] != 34:
-              raise SystemExit(f"Expected 34 scheduled pause cases, got {found['scheduled-pause']}")
+          if found["scheduled-pause"] != 35:
+              raise SystemExit(f"Expected 35 scheduled pause cases, got {found['scheduled-pause']}")
           if found["valuation-snapshot-codec"] != 25:
               raise SystemExit(f"Expected 25 valuation snapshot codec cases, got {found['valuation-snapshot-codec']}")
           if found["rate-override"] != 24:
