@@ -6,6 +6,7 @@
 #include <QDataStream>
 #include <QIODevice>
 #include <subathon/server/sqlite_milestone_target_edits.hpp>
+#include <variant>
 
 namespace subathon::server::milestone_edit_sql {
 
@@ -28,8 +29,18 @@ std::optional<Occurrence> occurrence(const SqliteWorkSession &, const QByteArray
                                      const MilestoneEditKey *expected = nullptr);
 std::optional<std::pair<QByteArray, bool>> pending_head(const SqliteWorkSession &);
 std::vector<std::pair<qint64, CapturedMilestoneGroup>> pending(const SqliteWorkSession &);
-std::optional<qint64> current_target(const SqliteWorkSession &, const MilestoneOccurrenceKey &,
-                                     const std::string &installation);
+struct UnavailableRefundTarget {};
+using RefundTarget = std::variant<std::monostate, qint64, UnavailableRefundTarget>;
+
+RefundTarget current_target(const SqliteWorkSession &, const MilestoneOccurrenceKey &,
+                            const std::string &installation);
+
+inline std::size_t membership_bytes(const MilestoneEditKey &origin,
+                                    const MilestoneOccurrenceKey &occurrence, std::size_t jobs) {
+    const auto origin_bytes = origin.track.installation_ref.size() + origin.track.track_ref.size() +
+                              origin.operation_ref.size();
+    return origin_bytes + jobs * (origin_bytes + occurrence.ref.size() + sizeof(std::int64_t));
+}
 std::int64_t total_score(const ApplicationStateSnapshot &);
 void check_application_identity(const SqliteWorkSession &, const QByteArray &, qint64 order);
 

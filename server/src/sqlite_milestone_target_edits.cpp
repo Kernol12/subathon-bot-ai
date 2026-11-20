@@ -771,12 +771,13 @@ MilestoneEditReply reconcile(const SqliteWorkSession &s, const MilestoneEditInte
     Encoding selected_captures;
     actual_captures.number(rows.size());
     selected_captures.number(rows.size());
+    std::size_t membership_size = 0;
     for (const auto &row : rows) {
         const auto index = result.achievements.size();
         if (integer(row[0]) != qint64(index) + 1)
             corrupt();
         const auto ref = reference(row[1]);
-        const auto selected = occurrence(s, blob(ref), true);
+        auto selected = occurrence(s, blob(ref), true);
         if (!selected || selected->edit != intent.key ||
             previous->members.size() + index >= next->targets.size() ||
             selected->group.achievement.milestone_ref !=
@@ -790,6 +791,10 @@ MilestoneEditReply reconcile(const SqliteWorkSession &s, const MilestoneEditInte
         if (choice == intent.choices.end() || choice->choice != selected->choice)
             corrupt();
         const auto &g = selected->group;
+        membership_size +=
+            membership_bytes(selected->edit, *g.occurrence, g.edit_membership->jobs.size());
+        if (membership_size > std::size_t(document_limit))
+            throw SqliteBundleStorageFailure(SqliteBundleStorageReason::result_limit);
         MilestoneEditCapture retained{
             g.achievement.milestone_ref, *g.occurrence, g.actions, g.timing, {}};
         for (std::size_t i = 0; i < g.actions.size(); ++i) {
@@ -808,7 +813,8 @@ MilestoneEditReply reconcile(const SqliteWorkSession &s, const MilestoneEditInte
             if (!current || !capture_wire(selected_captures, *current))
                 return {Status::key_conflict, {}};
         }
-        result.achievements.push_back({g, selected->order, selected->choice});
+        result.achievements.push_back(
+            {std::move(selected->group), selected->order, selected->choice});
     }
     if (actual_captures.data() != stored.captures ||
         result_wire(result, previous_prefix) != stored.result.toByteArray())
@@ -871,6 +877,7 @@ MilestoneEditResult stage(const SqliteWorkSession &s, const MilestoneEditIntent 
                                p.achievements.empty() ? prior_prefix
                                                       : facts.candidate_prefix_revision,
                                {}};
+    std::size_t membership_size = 0;
     for (std::size_t i = 0; i < p.achievements.size(); ++i) {
         const auto &capture = p.achievements[i];
         const auto choice = std::ranges::find(intent.choices, capture.occurrence,
@@ -879,10 +886,18 @@ MilestoneEditResult stage(const SqliteWorkSession &s, const MilestoneEditIntent 
         const core::MilestoneCompletion completion{
             capture.milestone_ref, result.definition_revision,
             p.plan.newly_completed[i].target_micro_points, p.score, intent.key.operation_ref};
-        result.achievements.push_back(
-            {{completion, capture.actions, capture.timing, capture.occurrence},
-             ++prepared.tail,
-             choice});
+        membership_size += membership_bytes(intent.key, capture.occurrence, capture.jobs.size());
+        if (membership_size > std::size_t(document_limit))
+            throw SqliteBundleStorageFailure(SqliteBundleStorageReason::result_limit);
+        MilestoneEditMembership membership{intent.key, {}};
+        membership.jobs.reserve(capture.jobs.size());
+        for (std::size_t action = 0; action < capture.actions.size(); ++action)
+            if (capture.actions[action].kind == Kind::automation)
+                membership.jobs.push_back({intent.key, capture.occurrence, qint64(action) + 1});
+        result.achievements.push_back({{completion, capture.actions, capture.timing,
+                                        capture.occurrence, std::move(membership)},
+                                       ++prepared.tail,
+                                       choice});
         prefix.members.push_back(completion);
         prefix.origins.push_back(
             {1, {}, {}, {}, blob(intent.key.operation_ref), blob(capture.occurrence.ref)});

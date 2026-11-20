@@ -1245,6 +1245,26 @@ FinancialWorkReply accept_refund(const SqliteWorkSession &s, const FinancialRefu
     if (targets.size() > size_t(fs::collection_limit))
         return refused(D::invalid_financial_input);
 
+    // Resolve all targets before staging so an unavailable definition can be
+    // returned without retaining any part of the refund.
+    std::vector<MilestoneRefundObservation> selected_milestones;
+    std::set<std::string> seen;
+    const bool edits =
+        !targets.empty() && milestone_sql::catalog(s) == milestone_sql::Catalog::edits;
+    for (const auto &target : targets) {
+        if (!seen.insert(target.occurrence.ref).second)
+            corrupt();
+        const auto selected_target =
+            edits ? milestone_edit_sql::current_target(s, target.occurrence,
+                                                       command.principal.installation_ref)
+                  : milestone_edit_sql::RefundTarget{target.target};
+        if (std::holds_alternative<milestone_edit_sql::UnavailableRefundTarget>(selected_target))
+            return refused(D::unavailable);
+        if (const auto *value = std::get_if<qint64>(&selected_target))
+            selected_milestones.push_back({target.occurrence, command.operation.operation_ref,
+                                           score_before, score_after, *value, target.policy});
+    }
+
     const auto staged_capture =
         SqliteApplicationPlanStore(s).retain_initial(command.financial_plan.plan_ref, capture);
     if (staged_capture != SqlitePlanInitialDisposition::inserted ||
@@ -1257,26 +1277,12 @@ FinancialWorkReply accept_refund(const SqliteWorkSession &s, const FinancialRefu
         corrupt();
     std::vector<MilestoneRefundObservation> milestones;
     const SqliteMilestoneGroupDecisions decisions(s);
-    std::set<std::string> seen;
-    const bool edits =
-        !targets.empty() && milestone_sql::catalog(s) == milestone_sql::Catalog::edits;
-    for (const auto &target : targets) {
-        if (!seen.insert(target.occurrence.ref).second)
-            corrupt();
+    for (auto &milestone : selected_milestones) {
         // An unresolved review remains separate from application holds.
-        const auto &ref = command.operation.operation_ref;
-        if (decisions.refund_audit(target.occurrence, ref))
+        if (decisions.refund_audit(milestone.occurrence, milestone.refund_ref))
             corrupt();
-        const auto selected_target =
-            edits ? milestone_edit_sql::current_target(s, target.occurrence,
-                                                       command.principal.installation_ref)
-                  : std::optional<qint64>(target.target);
-        if (!selected_target)
-            continue;
-        MilestoneRefundObservation milestone{
-            target.occurrence, ref, score_before, score_after, *selected_target, target.policy};
         decisions.observe_refund(milestone);
-        if (decisions.refund_audit(target.occurrence, ref))
+        if (decisions.refund_audit(milestone.occurrence, milestone.refund_ref))
             milestones.push_back(std::move(milestone));
     }
 

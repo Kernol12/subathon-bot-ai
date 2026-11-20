@@ -258,12 +258,21 @@ std::optional<Occurrence> occurrence(const SqliteWorkSession &s, const QByteArra
                        {key, collection_limit + 1}});
         if (positions.size() > collection_limit)
             throw SqliteBundleStorageFailure(SqliteBundleStorageReason::result_limit);
+        const auto job_count = std::ranges::count_if(positions, [](const auto &position) {
+            return integer(position[1]) == int(Kind::automation);
+        });
+        if (membership_bytes(result.edit, *result.group.occurrence, std::size_t(job_count)) >
+            std::size_t(document_limit))
+            throw SqliteBundleStorageFailure(SqliteBundleStorageReason::result_limit);
+        MilestoneEditMembership membership{result.edit, {}};
+        membership.jobs.reserve(std::size_t(job_count));
         for (const auto &position : positions) {
             const auto ordinal = integer(position[0]);
             if (ordinal != qint64(result.group.actions.size()) + 1)
                 corrupt();
             const auto kind = enumeration(position[1], Kind::bonus);
-            (void)job(s, result, ordinal, false);
+            if (auto captured = job(s, result, ordinal, false))
+                membership.jobs.push_back(std::move(captured->key));
             result.group.actions.push_back({kind, reference(position[2]), reference(position[3])});
         }
         const auto extras = s.execute(
@@ -274,6 +283,7 @@ std::optional<Occurrence> occurrence(const SqliteWorkSession &s, const QByteArra
              {key}});
         if (!extras.empty())
             corrupt();
+        result.group.edit_membership = std::move(membership);
     }
     return result;
 }
@@ -319,6 +329,8 @@ std::vector<std::pair<qint64, CapturedMilestoneGroup>> pending(const SqliteWorkS
         const auto &group = selected.group;
         const auto &achievement = group.achievement;
         action_count += group.actions.size();
+        bytes +=
+            membership_bytes(selected.edit, *group.occurrence, group.edit_membership->jobs.size());
         bytes += key.size() + achievement.milestone_ref.size() +
                  achievement.definition_revision_ref.size() +
                  achievement.completion_context_ref.size();
@@ -331,46 +343,42 @@ std::vector<std::pair<qint64, CapturedMilestoneGroup>> pending(const SqliteWorkS
     return out;
 }
 
-std::optional<qint64> current_target(const SqliteWorkSession &s, const MilestoneOccurrenceKey &key,
-                                     const std::string &installation) {
+RefundTarget current_target(const SqliteWorkSession &s, const MilestoneOccurrenceKey &key,
+                            const std::string &installation) {
     using Pending = MilestonePendingDisposition;
     const auto state = SqliteMilestoneGroupDecisions(s).pending_disposition(key);
     if (state == Pending::absent_or_released || state == Pending::skipped)
         return {};
     const auto selected = occurrence(s, blob(key.ref));
-    SqlRows targets;
     if (selected) {
         if (selected->edit.track.installation_ref != installation)
             corrupt();
-        targets = s.execute(
+        const auto targets = s.execute(
             {"SELECT t.target_micro_points FROM main.subathon_milestone_definition_heads h "
              "JOIN main.subathon_milestone_definition_targets t "
              "USING(installation_ref,track_ref,definition_revision) "
              "WHERE h.installation_ref=? AND h.track_ref=? AND t.milestone_ref=? LIMIT 2",
              {blob(selected->edit.track.installation_ref), blob(selected->edit.track.track_ref),
               blob(selected->group.achievement.milestone_ref)}});
-    } else {
-        targets = s.execute(
-            {"SELECT t.target_micro_points FROM main.subathon_milestone_groups g "
-             "JOIN main.subathon_milestone_prefix_members m "
-             "ON m.origin=0 AND m.application_occurrence_ref=g.occurrence_ref "
-             "AND (m.operation_scope,m.operation_ref,m.milestone_ref,m.definition_revision,"
-             "m.target_micro_points,m.score_micro_points,m.completion_context_ref)="
-             "(g.operation_scope,g.operation_ref,g.milestone_ref,g.definition_revision_ref,"
-             "g.target_micro_points,g.score_micro_points,g.completion_context_ref) "
-             "JOIN main.subathon_milestone_prefix_heads p "
-             "USING(installation_ref,track_ref,prefix_revision) "
-             "JOIN main.subathon_milestone_definition_heads h USING(installation_ref,track_ref) "
-             "JOIN main.subathon_milestone_definition_targets t "
-             "ON (t.installation_ref,t.track_ref,t.definition_revision,t.milestone_ref)="
-             "(h.installation_ref,h.track_ref,h.definition_revision,g.milestone_ref) "
-             "WHERE g.occurrence_ref=? AND p.installation_ref=? LIMIT 2",
-             {blob(key.ref), blob(installation)}});
+        const auto *row = unique(targets);
+        if (!row)
+            corrupt();
+        return integer(row->front());
     }
-    const auto *row = unique(targets);
-    if (!row)
-        corrupt();
-    return integer(row->front());
+
+    // Application captures can predate the definition and have no prefix membership.
+    const auto targets =
+        s.execute({"SELECT t.target_micro_points FROM main.subathon_milestone_definition_heads h "
+                   "JOIN main.subathon_milestone_definition_versions v "
+                   "USING(installation_ref,track_ref,definition_revision) "
+                   "JOIN main.subathon_milestone_definition_targets t "
+                   "USING(installation_ref,track_ref,definition_revision) "
+                   "JOIN main.subathon_milestone_groups g ON g.milestone_ref=t.milestone_ref "
+                   "WHERE h.installation_ref=? AND g.occurrence_ref=? LIMIT 2",
+                   {blob(installation), blob(key.ref)}});
+    if (targets.size() != 1)
+        return UnavailableRefundTarget{};
+    return integer(targets.front().front());
 }
 
 std::int64_t total_score(const ApplicationStateSnapshot &state) {
