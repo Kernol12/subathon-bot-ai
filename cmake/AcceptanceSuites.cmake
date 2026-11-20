@@ -12,7 +12,7 @@ set(subathon_acceptance_suites
     password-hashing credential-record sqlite-credentials effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
     bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server
-    chat-commands)
+    chat-commands scheduled-pause)
 
 # Test guards stay private derived variables; callers select the
 # logical suites above instead of maintaining another set of cache switches.
@@ -133,6 +133,8 @@ function(subathon_resolve_acceptance_suites output)
             list(APPEND selected exact-numeric effective-permissions "${suite}")
         elseif(suite STREQUAL "timer-editorial")
             list(APPEND selected time-debt timer-lifecycle timer-editorial)
+        elseif(suite STREQUAL "scheduled-pause")
+            list(APPEND selected recurring-schedule timer-lifecycle scheduled-pause)
         else()
             list(APPEND selected "${suite}")
         endif()
