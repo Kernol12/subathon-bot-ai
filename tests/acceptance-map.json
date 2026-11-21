@@ -463,9 +463,12 @@
     },
     {
       "id": "OPS-03",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": ["tests/qt/release_002/release_002_tests.cpp"],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/762",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/545#issuecomment-7063739006"
+      ]
     },
     {
       "id": "MEDIA-01",
