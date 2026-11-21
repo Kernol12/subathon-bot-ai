@@ -256,8 +256,13 @@
     {
       "id": "MOD-02",
       "status": "planned",
-      "tests": [],
-      "evidence": []
+      "tests": [
+        "tests/acceptance/modifier_clock_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/758#issuecomment-7057811999"
+      ],
+      "scope": "MODIFIERTEST-002 records 28 reviewed intended stub failures across independent clock, activation and eligibility examples. #217 owns implementation."
     },
     {
       "id": "MOD-03",
@@ -590,12 +595,14 @@
       "id": "TIMER-09",
       "status": "partial",
       "tests": [
-        "tests/acceptance/downtime_recovery_tests.cpp"
+        "tests/acceptance/downtime_recovery_tests.cpp",
+        "tests/acceptance/modifier_clock_tests.cpp"
       ],
       "evidence": [
-        "https://github.com/Kernol12/subathon-bot-ai/pull/748#issuecomment-7043495989"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/748#issuecomment-7043495989",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/758#issuecomment-7057811999"
       ],
-      "scope": "Pure CORE-006 proposals hold countdown and dependent eligibility while Review is pending, preserve hard-end precedence, and release only RecoveryReview after authorized selection or correction. Held-input re-evaluation, modifier clocks and authoritative command commit remain separate."
+      "scope": "Pure CORE-006 proposals hold countdown and dependent eligibility while Review is pending, preserve hard-end precedence, and release only RecoveryReview after authorized selection or correction. Held-input re-evaluation, modifier clocks and authoritative command commit remain separate. MODIFIERTEST-002 adds observed intended-red modifier-clock recovery cases."
     },
     {
       "id": "TIMER-10",
