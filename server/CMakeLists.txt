@@ -297,6 +297,22 @@ if(TARGET subathon_current_catalog AND TARGET subathon_native_websocket_profile)
     subathon_target_options(subathon_session_clock)
 endif()
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND TARGET subathon_sqlite_permission_graph
+        AND TARGET subathon_session_resolution)
+    find_package(Threads REQUIRED)
+    add_library(subathon_diagnostics STATIC
+        src/diagnostics_authority.cpp src/diagnostics_export.cpp
+        src/diagnostics_json.cpp src/diagnostics_log.cpp)
+    target_link_libraries(subathon_diagnostics PUBLIC
+        subathon_connector_lifecycle subathon_sqlite_receipts subathon_sqlite_permission_graph
+        subathon_session_resolution PRIVATE Threads::Threads)
+    target_compile_definitions(subathon_diagnostics PRIVATE
+        SUBATHON_DIAGNOSTICS_VERSION_MAJOR=${PROJECT_VERSION_MAJOR}
+        SUBATHON_DIAGNOSTICS_VERSION_MINOR=${PROJECT_VERSION_MINOR}
+        SUBATHON_DIAGNOSTICS_VERSION_PATCH=${PROJECT_VERSION_PATCH})
+    subathon_target_options(subathon_diagnostics)
+endif()
+
 if(TARGET subathon_api_host AND TARGET subathon_bounded_http_development)
     add_library(subathon_api_host_drogon STATIC src/api_host_drogon.cpp)
     target_link_libraries(subathon_api_host_drogon PUBLIC subathon_api_host PRIVATE Drogon::Drogon subathon_bounded_http_development)

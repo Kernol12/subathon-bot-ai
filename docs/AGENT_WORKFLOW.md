@@ -27,12 +27,15 @@ observed intended red → implementation → independent code review → relevan
 - A reviewed red baseline is not an implemented feature. Implementation is done when
   the reviewed tests pass, its review approves and the PR is merged.
 
-One feature is one GitHub issue with two stages: tests, then implementation. The
-issue body is the brief: it defines scope and acceptance. A file under `docs/tasks`
-exists only for a task whose brief is too long for an issue. Issue bodies imported
-from the old tracker name a separate `…TEST-nnn` baseline task; read that as the
-tests stage of the same issue. Use one PR per stage when the stages are reviewed
-apart, otherwise one PR.
+One feature is one GitHub issue with two stages, tests and implementation. The
+issue body is the brief and defines scope and acceptance. Every new task ID gets
+a short tracked pointer file under `docs/tasks` with one line each for `Task ID`,
+`Work type` and `Issue`. Use the full GitHub issue URL for `Issue` and include
+the pointer in a complete reviewed stage for publication.
+
+An imported issue may name a separate `…TEST-nnn` baseline task. Read that as
+the tests stage of the same issue. Use one PR per stage when the stages are
+reviewed apart, otherwise one PR.
 
 ## Roles
 

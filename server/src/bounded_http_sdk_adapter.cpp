@@ -805,8 +805,9 @@ sdk::Decision Core::head(io::PeerStorage &value, sdk::Head h) noexcept {
     U64 length = 0;
     bool seen_length = false, syntax = h.syntax_bad;
     unsigned hosts = 0, correlations = 0, keys = 0, versions = 0, upgrades = 0, connections = 0;
+    unsigned connection_fields = 0;
     bool upgrade_token = false, native_host_over = false;
-    bool close = false;
+    bool close = false, empty_connection = false;
     for (auto f : h.fields) {
         auto str = [&](std::uint32_t off, std::uint32_t n) {
             return std::string_view(reinterpret_cast<const char *>(h.raw.data() + off), n);
@@ -858,6 +859,19 @@ sdk::Decision Core::head(io::PeerStorage &value, sdk::Head h) noexcept {
                 else if (!ascii_equal(item, "keep-alive"))
                     return {400, 0};
                 at = end + 1;
+            }
+            // An ordinary head applies the whole-list grammar to the comma-joined values of
+            // all occurrences, so an empty member fails wherever it sits. The loop above
+            // refuses leading and interior ones but stops before a terminal one, and it never
+            // sees an empty occurrence, which is valid only alone. Only field lines count as
+            // occurrences. The SDK also describes a line without a colon, as a name with an
+            // empty value: that is a syntax error, decided after the route limits, and its
+            // name is followed by the line end, not by a colon. Native Upgrade is unchanged.
+            if (!p.native && h.raw[f.name + f.name_size] == std::byte{':'}) {
+                ++connection_fields;
+                empty_connection = empty_connection || v.empty();
+                if ((!v.empty() && v.back() == ',') || (empty_connection && connection_fields > 1))
+                    return {400, 0};
             }
         }
         if (ascii_equal(name, "host")) {

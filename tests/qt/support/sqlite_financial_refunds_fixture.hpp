@@ -215,15 +215,32 @@ inline void normal(const SqliteWorkResult &result) {
             "Real acknowledged commit with normal work completion");
 }
 
+// Opt-in seed inputs for later-catalog composition tests. The v15 controls keep
+// the same initial state, balances, catalog and envelope.
+struct FileSeed {
+    std::optional<MigrationManifest> manifest{};
+    Number main_before{};
+    Number debt_after{};
+    Number score_before{};
+    Number count_before{};
+    std::optional<Number> other_score{};
+    std::optional<Number> maximum_main{};
+    bool omit_time{};
+    std::function<ApplicationStateSnapshot(ApplicationStateSnapshot,
+                                           std::optional<std::string>)> encode_state{};
+};
+
 class File final {
   public:
-    explicit File(OriginalCredit credit = {}) {
+    explicit File(OriginalCredit credit = {}, FileSeed seed = {}) : seed_(std::move(seed)) {
         require(dir.isValid(), "Disposable database directory");
         open();
-        auto manifest = financial_refunds_repository_manifest();
-        require(manifest.steps.size() == 15 && manifest.steps.back().version == 15 &&
-                    manifest.steps.back().id == "financial-refunds-v1",
-                "Select the additive v15 financial catalog explicitly");
+        auto manifest =
+            seed_.manifest ? *seed_.manifest : financial_refunds_repository_manifest();
+        version_ = manifest.steps.back().version;
+        require(manifest.steps.size() == version_ &&
+                    manifest.steps.at(14).id == "financial-refunds-v1",
+                "Select the financial catalog and its exact additive prefix explicitly");
         const auto migration = completed<MigrationResult>([&](auto done) {
             return SqliteMigrationRunner::enqueue(
                        *writer, {MigrationMode::advance, manifest, {}, {}}, std::move(done))
@@ -232,8 +249,8 @@ class File final {
         normal(migration.work);
         require(migration.reason == MigrationReason::none && migration.report &&
                     migration.report->state == CatalogState::current &&
-                    migration.report->version == 15 && migration.report->applied == 15,
-                "Real v15 catalog selected on a fresh database");
+                    migration.report->version == version_ && migration.report->applied == version_,
+                "Real requested catalog selected on a fresh database");
         write([](const auto &s) {
             SqliteRetainedContextStore retained(s);
             require(retained.retain({{RetainedKind::configuration, "cfg"}, "configuration", {}}) ==
@@ -247,31 +264,24 @@ class File final {
 
         const auto support = intake("support", core::ReceiptMoney{credit.amount, "EUR"}, "support");
         payment = {support.identity.origin, {"payment-v1", "p1"}, support.id};
-        auto &conditions = original_state.conditions;
-        conditions.valuation = {true, support.facts.money, "quote", false};
-        conditions.review = core::ContributionReview::not_required;
-        conditions.evidence_admission = {
-            core::EvidencePolicy::accept_provider_report, "policy", {}};
-        conditions.settlement = core::SettlementGate::clear;
-        original_state.payment_evidence = core::PaymentEvidence::confirmed;
-        const auto evidence = qt_test_support::run_work(
-            *writer,
-            [&](auto context) {
-                SqliteContributionRepository repo(context);
-                const auto linked = ContributionEvidenceService(repo).observe(
-                    {support, ContributionObservationKind::support, original_state.payment_evidence,
-                     VerifiedActivityLink{{support.identity.origin, "support-v1", "s1"}, "proof"},
-                     conditions});
-                require(linked.disposition == ContributionLinkDisposition::created &&
-                            linked.contribution_id,
-                        "Real support observation created a contribution");
-                cid = *linked.contribution_id;
-                return 1;
-            },
-            10000);
-        normal(evidence);
+        cid = link_support(support, original_state);
+        std::optional<ContributionReceipt> prior_support;
+        core::ContributionState prior_state;
+        core::ContributionId prior_cid{};
+        if (seed_.debt_after) {
+            require(!credit.ready && seed_.main_before == 0 &&
+                        seed_.debt_after <= std::numeric_limits<Number>::max() - credit.repayment,
+                    "An earlier debt-only credit and the selected debt-plus-Main award both fit");
+            prior_support = intake("prior-debt-support", core::ReceiptMoney{"1", "EUR"},
+                                   "support", "earlier-debt-payment");
+            prior_cid = link_support(*prior_support, prior_state);
+        }
+        const ApplicationPlanKey prior_plan{"earlier-debt-plan", 1};
+        const ApplicationOperationKey prior_award{"test", "earlier-debt-award"};
 
-        std::vector requested{request(Unit::milliseconds, credit.requested, "main")};
+        std::vector<core::RequestedEffect> requested;
+        if (!seed_.omit_time)
+            requested.push_back(request(Unit::milliseconds, credit.requested, "main"));
         if (credit.score != 0)
             requested.push_back(request(Unit::micro_points, credit.score, "score"));
         if (credit.count != 0)
@@ -279,37 +289,45 @@ class File final {
         if (credit.beside_complete_request)
             requested.push_back(
                 request(Unit::milliseconds, *credit.beside_complete_request, "main"));
-        support_capture = {
-            1,
-            {},
-            {event(support, cid),
-             original_state,
-             {core::PlanValuationState::resolved, core::HistoricalValuation{"quote",
-                                                                            *support.facts.money,
-                                                                            "CHF",
-                                                                            "0.972500",
-                                                                            "0.972500",
-                                                                            "rate-snapshot",
-                                                                            "historical-feed",
-                                                                            40,
-                                                                            41,
-                                                                            {}}},
-             std::move(requested)},
-            {{"historical-rule", "historical-rule-v1", true, "selected"}},
-            {},
-            {}};
+        support_capture = valued_capture(support, cid, original_state, std::move(requested));
         write([&](const auto &s) {
-            const ApplicationStateSnapshot before{
+            ApplicationStateSnapshot before{
                 "initial",
                 document(),
                 "cfg",
-                timer(credit.ready ? Life::Ready : Life::Active, 0),
-                credit.repayment,
-                {{ApplicationBalanceKind::score, "score", 0},
-                 {ApplicationBalanceKind::whole_count, "count", 0}}};
+                timer(credit.ready ? Life::Ready : Life::Active, seed_.main_before),
+                credit.repayment + seed_.debt_after,
+                {{ApplicationBalanceKind::score, "score", seed_.score_before},
+                 {ApplicationBalanceKind::whole_count, "count", seed_.count_before}}};
+            if (seed_.other_score)
+                before.balances.insert(before.balances.begin(),
+                                       {ApplicationBalanceKind::score, "other-score",
+                                        *seed_.other_score});
+            before = encoded(std::move(before), {});
             SqliteApplicationBundleStore store(s);
             require(store.retain_initial_state(before) == SqliteBundleInitialDisposition::inserted,
                     "Retain a real initial state");
+            if (prior_support) {
+                // An older payment repays only its slice of outstanding debt.
+                // The selected original then repays the final debt and adds Main.
+                const auto q = request(Unit::milliseconds, seed_.debt_after, "main");
+                retain_plan(s, prior_plan, valued_capture(*prior_support, prior_cid, prior_state, {q}));
+                PreparedApplicationBundle earlier;
+                earlier.intent = {prior_award, ApplicationOperationKind::original,
+                                  ApplicationSubjectKind::contribution, prior_support->id,
+                                  prior_cid, prior_plan, before.token, prior_state, document(), {}};
+                earlier.advanced_before = before;
+                earlier.after = before;
+                earlier.after.token = "prior-debt-awarded";
+                earlier.after.time_debt_ms = credit.repayment;
+                earlier.after = encoded(std::move(earlier.after), before.token);
+                earlier.effects = {addition(seed_.debt_after, 0, seed_.debt_after, 0)};
+                earlier.audit = audit(prior_award.operation_ref);
+                earlier.result = document();
+                require(store.stage(earlier).disposition == SqliteBundleStageDisposition::staged,
+                        "Commit real earlier debt-only credit with its own receipt and effect");
+                before = earlier.after;
+            }
             retain_plan(s, original_plan, support_capture);
             if (credit.ready)
                 return;
@@ -327,14 +345,19 @@ class File final {
             b.advanced_before = before;
             b.after = before;
             b.after.token = "awarded";
-            b.after.timer.main_remaining_ms = credit.main;
-            b.after.time_debt_ms = 0;
-            b.after.balances[0].units = credit.score;
-            b.after.balances[1].units = credit.count;
-            b.effects = {
-                addition(credit.requested, credit.main, credit.repayment, credit.cap_tail)};
+            b.after.timer.main_remaining_ms += credit.main;
+            b.after.time_debt_ms -= credit.repayment;
+            b.after.balances.at(b.after.balances.size() - 2).units += credit.score;
+            b.after.balances.back().units += credit.count;
+            b.after = encoded(std::move(b.after), before.token);
+            if (!seed_.omit_time) {
+                b.effects.push_back(addition(credit.requested, credit.main, credit.repayment,
+                                             credit.cap_tail));
+                if (seed_.maximum_main)
+                    b.effects.front().maximum_main_ms = seed_.maximum_main;
+            }
             const auto &captured = support_capture.captured.requested_effects;
-            for (std::size_t index = 1; index < captured.size(); ++index) {
+            for (std::size_t index = seed_.omit_time ? 0 : 1; index < captured.size(); ++index) {
                 const auto &effect = captured[index];
                 const auto ordinal = static_cast<Number>(index + 1);
                 if (effect.unit == Unit::milliseconds) {
@@ -385,29 +408,71 @@ class File final {
         });
         if (!credit.ready)
             original_state.conditions.application = core::ContributionApplication::applied;
+        if (prior_support) {
+            const auto ref = "restore-earlier-debt";
+            const auto payment_ref = *prior_support->facts.payment_reference;
+            const auto intake_refund = intake(ref, core::ReceiptMoney{"1", "EUR"}, "refund",
+                                              payment_ref.opaque_id);
+            prior_state.conditions.application = core::ContributionApplication::applied;
+            const auto before = head();
+            const FinancialRefundCommand command{{"test", ref},
+                                                  intake_refund.id,
+                                                  VerifiedRefundCorrelation{
+                                                      {prior_support->identity.origin, payment_ref,
+                                                       prior_support->id},
+                                                      {"refund-v1", ref}, "verified-earlier-link",
+                                                      prior_cid, prior_award, prior_plan},
+                                                  {"earlier-debt-refund-plan", 1},
+                                                  0, before.token, prior_state, principal, audit(ref)};
+            const auto debt = seed_.debt_after;
+            const FinancialEntitlement entitlement{
+                0, 1, 1, true,
+                GroupedRefundEntitlement{{prior_award, 1, CK::main_delta},
+                                         1, 0, {}, {0, debt}, fraction(debt), 0, 0, debt},
+                {}};
+            Effects legacy;
+            legacy.apply(0, debt, {0, debt});
+            const auto restored = accept(command, entitlement, legacy);
+            require(restored.timer == RefundTimerOutcome{TD::applied, {0, debt}} &&
+                        restored.application.after.time_debt_ms == debt &&
+                        restored.application.after.timer.main_remaining_ms ==
+                            before.timer.main_remaining_ms,
+                    "Earlier distinct payment restores debt through genuine grouped v1 writes");
+            // v1 kept its old envelope. An independent state-only fixture
+            // application installs a fresh coherent owner frame before live work.
+            const auto r = intake("restore-owner-envelope", {}, "synthetic-owner-command");
+            write([&](const auto &s) {
+                auto bundle = receipt_application(s, r, "restore-owner-envelope");
+                bundle.after = encoded(std::move(bundle.after), bundle.advanced_before.token);
+                retain_plan(s, bundle.intent.plan, plain_capture(r, {}, {}));
+                require(SqliteApplicationBundleStore(s).stage(bundle).disposition ==
+                            SqliteBundleStageDisposition::staged,
+                        "Coherent current SAS1 on the committed Main plus restored debt");
+            });
+        }
     }
 
-    void open() {
+    void open(StorageLimits storage_limits = limits()) {
         writer = std::make_unique<SqliteWriter>();
-        require(writer->open(path, limits()) == StorageError::none, "Actual writer opens");
+        require(writer->open(path, storage_limits) == StorageError::none, "Actual writer opens");
         observer = std::make_unique<SqliteReader>();
         require(observer->open(path) == StorageError::none, "Independent read-only observer opens");
     }
 
-    void reopen() {
+    void reopen(StorageLimits storage_limits = limits()) {
         auto closed = std::make_shared<bool>(false);
         require(writer->shutdown([closed] { *closed = true; }) == StorageError::none &&
                     QTest::qWaitFor([closed] { return *closed; }, 10000),
                 "Old writer drains and closes before reopening");
-        reopen_closed();
+        reopen_closed(storage_limits);
     }
 
-    void reopen_closed() {
+    void reopen_closed(StorageLimits storage_limits = limits()) {
         observer.reset();
         writer.reset();
-        open();
-        require(rows("SELECT max(version) FROM subathon_migration_history") == SqlRows{{15}},
-                "Reopened database keeps the v15 financial catalog");
+        open(storage_limits);
+        require(rows("SELECT max(version) FROM subathon_migration_history") == SqlRows{{version_}},
+                "Reopened database keeps the selected financial catalog");
     }
 
     template <class Body> void write(Body body) {
@@ -722,7 +787,13 @@ class File final {
     core::CapturedPlanRevision support_capture;
     Authority authority;
 
-  private:
+    ApplicationStateSnapshot encoded(ApplicationStateSnapshot state,
+                                     std::optional<std::string> basis) const {
+        if (seed_.encode_state)
+            return seed_.encode_state(std::move(state), std::move(basis));
+        return state;
+    }
+
     static ApplicationEffect manual_subtraction(Number delta) {
         return {
             1,
@@ -739,7 +810,7 @@ class File final {
     }
 
     ContributionReceipt intake(const std::string &ref, std::optional<core::ReceiptMoney> money,
-                               const std::string &kind) {
+                               const std::string &kind, const std::string &payment_ref = "p1") {
         const core::ReceiptInput input{
             {{"fixture-provider", "fixture-account"}, "delivery-v1", ref},
             {kind,
@@ -748,7 +819,7 @@ class File final {
              {},
              {},
              std::move(money),
-             core::ReceiptLinkReference{"payment-v1", "p1"},
+             core::ReceiptLinkReference{"payment-v1", payment_ref},
              {}},
             {50, "source-connection", "cfg", "ctx"}};
         std::optional<core::ReceiptId> id;
@@ -795,6 +866,54 @@ class File final {
                 "Real immutable plan capture retained");
     }
 
+    core::ContributionId link_support(const ContributionReceipt &support,
+                                      core::ContributionState &state) {
+        auto &conditions = state.conditions;
+        conditions.valuation = {true, support.facts.money, "quote", false};
+        conditions.review = core::ContributionReview::not_required;
+        conditions.evidence_admission = {
+            core::EvidencePolicy::accept_provider_report, "policy", {}};
+        conditions.settlement = core::SettlementGate::clear;
+        state.payment_evidence = core::PaymentEvidence::confirmed;
+        std::optional<core::ContributionId> linked_cid;
+        const auto evidence = qt_test_support::run_work(
+            *writer,
+            [&](auto context) {
+                SqliteContributionRepository repo(context);
+                const auto linked = ContributionEvidenceService(repo).observe(
+                    {support, ContributionObservationKind::support, state.payment_evidence,
+                     VerifiedActivityLink{{support.identity.origin, "support-v1",
+                                           support.identity.opaque_id == "support" ? "s1"
+                                                                                  : support.identity.opaque_id},
+                                          "proof"},
+                     conditions});
+                require(linked.disposition == ContributionLinkDisposition::created &&
+                            linked.contribution_id,
+                        "Real support observation created a contribution");
+                linked_cid = linked.contribution_id;
+                return 1;
+            },
+            10000);
+        normal(evidence);
+        return linked_cid.value();
+    }
+
+    static core::CapturedPlanRevision valued_capture(
+        const ContributionReceipt &support, core::ContributionId subject,
+        const core::ContributionState &state, std::vector<core::RequestedEffect> requested) {
+        return {1,
+                {},
+                {event(support, subject), state,
+                 {core::PlanValuationState::resolved,
+                  core::HistoricalValuation{"quote", *support.facts.money, "CHF", "0.972500",
+                                            "0.972500", "rate-snapshot", "historical-feed", 40, 41,
+                                            {}}},
+                 std::move(requested)},
+                {{"historical-rule", "historical-rule-v1", true, "selected"}},
+                {},
+                {}};
+    }
+
     static PreparedApplicationBundle receipt_application(const SqliteWorkSession &s,
                                                          const ContributionReceipt &r,
                                                          const std::string &ref) {
@@ -818,5 +937,10 @@ class File final {
         b.audit = audit(ref);
         return b;
     }
+
+  private:
+    FileSeed seed_;
+    qint64 version_{};
+
 };
 } // namespace financial_refund_fixture
