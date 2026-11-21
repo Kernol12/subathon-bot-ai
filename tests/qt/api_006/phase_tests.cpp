@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#include "intake_fixture.hpp"
+#include "boundary_fixture.hpp"
 
 using namespace api_006_fixture;
 
@@ -227,6 +227,65 @@ class Api006PhaseTests final : public QObject {
             storage::finance::normal(resumed.work);
             assert_original(f, pair, false);
             require(f.cursors() == cursors, "Evidence COMMIT alone does not finalize the page");
+        });
+    }
+
+    void mirrorCannotSupplyAwardSubject_data() {
+        QTest::addColumn<bool>("application");
+        QTest::newRow("capture") << false;
+        QTest::newRow("application") << true;
+    }
+
+    void mirrorCannotSupplyAwardSubject() {
+        QFETCH(bool, application);
+        check([&] {
+            Fixture f(true, false);
+            seed_mirror_policy(f);
+            auto input = storage::managed("mirror", 8000, "mirror-audit");
+            input.admission = storage::ManagedInput::Admission::audit_only;
+            const auto [receipt, committed] = storage::manage(f.store.db, input);
+            storage::finance::normal(committed);
+            require(
+                receipt.stop == storage::Stop::committed &&
+                    receipt.attempt == intake::AttemptLocator{{1}, 1},
+                "Real ACCT-001 COMMIT supplies the identified mirror's own receipt and attempt");
+            const auto managed = storage::managed_input(input);
+            require(storage::transition(f.store.db,
+                                        [&](const auto &session) {
+                                            return storage::history_result(
+                                                intake::stage_intake_disposition(
+                                                    session, managed, *receipt.attempt,
+                                                    intake::IntakeDisposition::observed_only));
+                                        }) == storage::Stop::committed,
+                    "The v20 owner commits the mirror's terminal audit disposition");
+            require(storage::matches_sql_rows(
+                        f.store.db.rows(
+                            "SELECT receipt_id,attempt_ordinal,phase,disposition,contribution_id "
+                            "FROM main.subathon_intake_entries WHERE intake_ref=X'6d6972726f72'"),
+                        SqlRows{{blob8(1), 1, 2, 3, QVariant{}}}),
+                    "Fixture retains a receipt and explicit audit classification with no "
+                    "fabricated CID");
+
+            const auto before = storage::protected_data(f.store.db);
+            const auto intake_before = storage::fenced_history(f.store.db);
+            const auto reply = f.phase("mirror", application ? P::application : P::capture);
+            Fixture::result(
+                reply, S::held,
+                "Authorized award phase must stop on the retained mirror classification");
+            require(
+                !reply.result->contribution && !reply.result->projection &&
+                    storage::protected_data(f.store.db) == before &&
+                    storage::fenced_history(f.store.db) == intake_before &&
+                    f.store.db
+                        .rows("SELECT subject_kind,receipt_id FROM main.subathon_app_operations "
+                              "WHERE receipt_id=?",
+                              {blob8(1)})
+                        .isEmpty() &&
+                    f.store.db.rows("SELECT count(*) FROM main.subathon_plan_revisions") ==
+                        SqlRows{{0}},
+                "Mirror audit supplies neither a plan nor a committed command of either subject "
+                "kind");
+            f.no_award();
         });
     }
 

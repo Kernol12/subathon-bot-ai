@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#include "intake_fixture.hpp"
+#include "boundary_fixture.hpp"
 
 using namespace api_006_fixture;
 
@@ -406,6 +406,197 @@ class Api006PolicyTests final : public QObject {
             expect(f.submit(request), S::limit_exceeded, "Seventeen items exceed the page count");
             require(f.cursors() == before && f.attempts().isEmpty(),
                     "Refused commands keep exact cursor/gap and stage no receipt");
+        });
+    }
+
+    void receiptIdentityRoleStreamOriginMatrix() {
+        check([] {
+            Fixture f(true, false);
+            seed_mirror_policy(f);
+            auto stream = source;
+            stream.scope.stream = "other";
+            auto account = source;
+            account.scope.account = "B";
+            auto provider = source;
+            provider.scope.provider = "Q";
+            for (const auto &selected : {stream, account, provider})
+                seed_additional_mirror(f, selected.scope);
+            f.inputs.current_authority = [&](intake::Action, const intake::Scope &candidate) {
+                return candidate == source.scope || candidate == stream.scope ||
+                               candidate == account.scope || candidate == provider.scope
+                           ? intake::Authorization::allowed
+                           : intake::Authorization::denied;
+            };
+
+            auto delivery = item("delivery", "15");
+            delivery.identifier = QByteArray::fromHex("410062");
+            delivery.activity.reset();
+            auto event = delivery;
+            event.key = "event";
+            event.role = "event";
+
+            f.arrival = 2000;
+            expect(f.submit(delivery), S::held, "Identified delivery mirror commits audit only");
+            expect(f.submit(event), S::held, "The same opaque bytes have a distinct event role");
+            expect(f.submit(delivery, stream), S::held,
+                   "A different stream keeps a distinct receipt");
+            expect(f.submit(delivery, account), S::held,
+                   "A different account keeps a distinct receipt");
+            expect(f.submit(delivery, provider), S::held,
+                   "A different provider keeps a distinct receipt");
+
+            const auto delivery_ns =
+                QByteArray::fromHex("00000001530000000864656c6976657279000000014e");
+            const auto event_ns = QByteArray::fromHex("0000000153000000056576656e74000000014e");
+            const auto stream_ns =
+                QByteArray::fromHex("000000056f746865720000000864656c6976657279000000014e");
+            const auto raw = QByteArray::fromHex("410062");
+            const SqlRows originals{{blob8(1), QByteArray("P"), QByteArray("A"), delivery_ns, raw,
+                                     2000, QByteArray("12.34")},
+                                    {blob8(2), QByteArray("P"), QByteArray("A"), event_ns, raw,
+                                     2000, QByteArray("12.34")},
+                                    {blob8(3), QByteArray("P"), QByteArray("A"), stream_ns, raw,
+                                     2000, QByteArray("12.34")},
+                                    {blob8(4), QByteArray("P"), QByteArray("B"), delivery_ns, raw,
+                                     2000, QByteArray("12.34")},
+                                    {blob8(5), QByteArray("Q"), QByteArray("A"), delivery_ns, raw,
+                                     2000, QByteArray("12.34")}};
+            const auto selected = [&] {
+                return f.store.db.rows(
+                    "SELECT receipt_id,provider,source_account,identifier_namespace,"
+                    "opaque_id,server_timestamp_utc_ms,money_original_decimal "
+                    "FROM main.subathon_receipts ORDER BY receipt_id");
+            };
+            require(selected() == originals,
+                    "Exact binary role, stream and origin are independent identity dimensions");
+
+            f.arrival = 3000;
+            auto capture = f.inputs.capture;
+            f.inputs.capture = [capture](const auto &input) {
+                auto captured = capture(input);
+                captured.arrival.connection_ref = "second-connection";
+                return captured;
+            };
+            auto retry = delivery;
+            retry.key = "retry";
+            expect(f.submit(retry), S::exact_replay,
+                   "New delivery appends a retry under the same receipt");
+            retry.key = "conflict";
+            retry.facts.money = core::ReceiptMoney{"12.35", "CHF"};
+            expect(f.submit(retry), S::conflict, "One immutable fact change audits as a conflict");
+            require(
+                selected() == originals &&
+                    f.store.db.rows("SELECT ordinal,disposition,server_timestamp_utc_ms,"
+                                    "connection_ref,money_original_decimal "
+                                    "FROM main.subathon_receipt_attempts WHERE receipt_id=? "
+                                    "ORDER BY ordinal",
+                                    {blob8(1)}) ==
+                        SqlRows{
+                            {1, 0, 2000, QByteArray("connection"), QByteArray("12.34")},
+                            {2, 1, 3000, QByteArray("second-connection"), QByteArray("12.34")},
+                            {3, 2, 3000, QByteArray("second-connection"), QByteArray("12.35")}} &&
+                    f.attempts().size() == 7,
+                "Retry and conflict preserve immutable facts, first arrival and orthogonal IDs");
+            require(disclosed(f).isEmpty(),
+                    "Audit-only identities never become contribution inputs");
+            f.no_award();
+        });
+    }
+
+    void protectedPageAndProofByteEdges_data() {
+        QTest::addColumn<bool>("proofEdge");
+        QTest::addColumn<int>("over");
+        QTest::newRow("page-262144") << false << 0;
+        QTest::newRow("page-262145") << false << 1;
+        QTest::newRow("proof-16384") << true << 0;
+        QTest::newRow("proof-16385") << true << 1;
+    }
+
+    void protectedPageAndProofByteEdges() {
+        QFETCH(bool, proofEdge);
+        QFETCH(int, over);
+        check([&] {
+            Fixture f(true, false);
+            storage::catchup(f.store.db);
+            // CV1: 3 magic + 3 tags + six BE32 lengths + format (6),
+            // namespace (9), lower/upper (2 each) and absent reason (0).
+            constexpr int proof_overhead = 49;
+            const auto proof = storage::coverage_document(
+                storage::SegmentCoverage::covered, "11", "14", {},
+                QByteArray((proofEdge ? 16384 + over : 16384) - proof_overhead, 'w'));
+            require(proof.size() == 16384 + (proofEdge ? over : 0),
+                    "Qualified range proof includes tags, bound endpoints and all frame lengths");
+            QList<QByteArray> items;
+            if (!proofEdge) {
+                // 5 page header + 8 * 4 item lengths + 5 continuation + 4 proof length.
+                items = QList<QByteArray>(7, storage::normalized_item(32768));
+                items.append(storage::normalized_item(16338 + over));
+            }
+            const auto page = framed_page(items, proof);
+            require(page.binding.page.size() == (proofEdge ? 16398 : 262144) + over,
+                    "Page charges items, continuation and full encoded proof together");
+            const auto before = storage::fenced_history(f.store.db);
+            const auto admission = storage::transition(f.store.db, [&](const auto &session) {
+                return storage::bind_page(session, page).stop;
+            });
+            require(admission == (over ? storage::Stop::intake_limit : storage::Stop::committed),
+                    "Protected owner admits equality and refuses a single additional byte");
+            if (over) {
+                require(
+                    storage::fenced_history(f.store.db) == before && f.attempts().isEmpty(),
+                    "Over-limit input leaves exact page, cursor, gap and attempt state unchanged");
+                return;
+            }
+            require(f.store.db.rows("SELECT page,item_count,committed_prefix FROM "
+                                    "main.subathon_intake_pages") ==
+                        SqlRows{{page.binding.page, items.size(), 0}},
+                    "Equality binds complete framed page without processing any items");
+            if (proofEdge) {
+                require(storage::transition(f.store.db,
+                                            [&](const auto &session) {
+                                                return storage::finalize_page(session,
+                                                                              page.binding);
+                                            }) == storage::Stop::committed,
+                        "Qualified empty equality page commits coverage in the owning CAS");
+                require(f.store.db.rows("SELECT proof FROM main.subathon_intake_pages") ==
+                            SqlRows{{proof}},
+                        "Finalization retains the entire equality proof including its binding");
+            }
+        });
+    }
+
+    void protectedImportIntentByteEdges_data() {
+        QTest::addColumn<int>("over");
+        QTest::newRow("intent-16384") << 0;
+        QTest::newRow("intent-16385") << 1;
+    }
+
+    void protectedImportIntentByteEdges() {
+        QFETCH(int, over);
+        check([&] {
+            Fixture f(true, false);
+            // Protected #760 literal IOP1 adds 165 bytes to CUT1. The fixed
+            // 44-byte CUT1 structure counts both tags and every length field.
+            const QByteArray transcript(16384 + over - 165 - 44, 'w');
+            const auto frame = storage::import_frame(transcript);
+            require(frame.size() == 16384 + over && 44 + transcript.size() < 16384,
+                    "Only the full immutable intent crosses the limit, with a bounded cut");
+            const auto request = storage::import_intent(transcript);
+            const auto before = storage::fenced_history(f.store.db);
+            const auto actual = storage::transition(f.store.db, [&](const auto &session) {
+                return storage::bind_history_operation(session, request);
+            });
+            require(actual == (over ? storage::Stop::intake_limit : storage::Stop::committed),
+                    "Owning operation entry admits exact IOP1 equality and refuses one byte more");
+            if (over) {
+                require(storage::fenced_history(f.store.db) == before && f.attempts().isEmpty(),
+                        "Refusal adds no operation, intake and coverable prefix");
+            } else {
+                require(f.store.db.rows("SELECT intent,next_ordinal,slots FROM "
+                                        "main.subathon_intake_operations") ==
+                            SqlRows{{frame, 1, 0}},
+                        "Exact owner retains full operation intent without consuming a slot");
+            }
         });
     }
 
