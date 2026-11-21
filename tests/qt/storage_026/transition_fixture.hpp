@@ -28,10 +28,10 @@ template <class Body> Stop transition(CatalogFile &db, Body body) {
     return *selected;
 }
 
-void intake_origin(Populated &f) {
+void intake_origin(Populated &f, const QByteArray &effect_scope = "score") {
     f.install();
     advance(f.db);
-    stage_scope(f.db);
+    stage_scope(f.db, effect_scope);
 }
 
 void catchup(CatalogFile &db, int next = 1, int slots = 0) {

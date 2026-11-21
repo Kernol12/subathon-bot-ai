@@ -190,13 +190,13 @@ core::ReceiptId legacy_receipt(CatalogFile &file, const ManagedInput &input,
     return *id;
 }
 
-void stage_scope(CatalogFile &file) {
-    file.write([](const auto &s) {
+void stage_scope(CatalogFile &file, const QByteArray &effect_scope = "score") {
+    file.write([&](const auto &s) {
         (void)s.execute({"INSERT INTO main.subathon_intake_policies VALUES(?,1,?)",
                          {QByteArray("install"), QByteArray("review-policy")}});
         (void)s.execute({"INSERT INTO main.subathon_intake_members VALUES(?,1,?,?,?,?,?, ?,1,?)",
                          {QByteArray("install"), QByteArray("P"), QByteArray("A"), QByteArray("S"),
-                          QByteArray("support"), QByteArray("score"), QByteArray("overlap"),
+                          QByteArray("support"), effect_scope, QByteArray("overlap"),
                           QByteArray("review-lane")}});
         (void)s.execute({"INSERT INTO main.subathon_intake_sources "
                          "VALUES(?,?,?,?,1,?,9,1,1,?,?,?)",
@@ -664,6 +664,8 @@ struct OldSourcePending {
         state.conditions.evidence_admission = {
             core::EvidencePolicy::accept_provider_report, "review-policy", {}};
         state.conditions.settlement = core::SettlementGate::clear;
+        auto request = finance::request(finance::Unit::milliseconds, 60000, "main");
+        request.rule_ref = "old-timer-rule";
         capture = {1,
                    {},
                    {{"old-event",
@@ -686,7 +688,7 @@ struct OldSourcePending {
                                                40,
                                                41,
                                                {}}},
-                    {finance::request(finance::Unit::milliseconds, 60000, "main")}},
+                    {request}},
                    {{"old-timer-rule", "old-rule", true, "arrival rule requests 30000 ms"}},
                    {{"old-modifier", "old-modifier-instance", "main", "time", "multiply",
                      "multiply", "2"}},
@@ -722,6 +724,16 @@ struct OldSourcePending {
             "Old intake membership binds the exact receipt attempt, original and authority");
     }
 
+    void read_member(CatalogFile &db) const {
+        require(db.rows("SELECT award_class,effect_scope,overlap_set,primary_slot,document "
+                        "FROM main.subathon_intake_members WHERE installation=? AND "
+                        "policy_revision=1 AND provider=? AND account=? AND stream=?",
+                        {QByteArray("install"), QByteArray("P"), QByteArray("A"), QByteArray("S")}) ==
+                    SqlRows{{QByteArray("support"), QByteArray("main"), QByteArray("overlap"), 1,
+                             QByteArray("review-lane")}},
+                "The retained Review lane is primary for the old capture's Main time award");
+    }
+
     void read_capture(CatalogFile &db) const {
         require(
             db.rows("SELECT provider,source_account,identifier_namespace,opaque_id,"
@@ -750,6 +762,17 @@ struct OldSourcePending {
             require(plan && !plan->revisions.empty() && plan->revisions.front() == capture &&
                         arrival && arrival->document == input.capture,
                     "Normal readers select the exact old capture and decision provenance");
+            const auto &retained = plan->revisions.front();
+            require(retained.captured.requested_effects.size() == 1 &&
+                        retained.rules.size() == 1 && retained.rules[0].selected &&
+                        retained.rules[0].version_ref == "old-rule" &&
+                        retained.rules[0].rule_ref == "old-timer-rule" &&
+                        retained.captured.requested_effects[0].rule_ref ==
+                            retained.rules[0].rule_ref &&
+                        retained.captured.requested_effects[0].target_ref == "main" &&
+                        retained.captured.requested_effects[0].unit == finance::Unit::milliseconds &&
+                        retained.captured.requested_effects[0].requested_units == 60000,
+                    "The exact old selected rule produced one captured 60 s Main request");
         });
     }
 
@@ -1904,7 +1927,7 @@ class Storage026Tests final : public QObject {
             if (existing)
                 id = legacy_receipt(f.db, input, std::abs(existing));
             advance(f.db);
-            stage_scope(f.db);
+            stage_scope(f.db, "main");
             if (existing < 0)
                 mutate(
                     f.db,
@@ -1969,7 +1992,7 @@ class Storage026Tests final : public QObject {
                         "Retry's distinct configuration and arrival are real retained parents");
             });
             advance(f.db);
-            stage_scope(f.db);
+            stage_scope(f.db, "main");
             for (const auto &[request, ordinal] :
                  {std::pair{original, 1}, std::pair{retry, 2}, std::pair{conflict, 3}}) {
                 const auto [result, work] = manage(f.db, request);
@@ -2009,7 +2032,7 @@ class Storage026Tests final : public QObject {
             Populated f;
             f.install();
             advance(f.db);
-            stage_scope(f.db);
+            stage_scope(f.db, "main");
             const auto left = managed("left", 8000, "60s/VL");
             const auto right = managed("right", 9000, "120s/VH");
             const auto before = protected_data(f.db);
@@ -2245,7 +2268,7 @@ class Storage026Tests final : public QObject {
             Populated f;
             f.install();
             advance(f.db);
-            stage_scope(f.db);
+            stage_scope(f.db, "main");
             auto input = managed("receipt-recovery", 8000, "60s/VL");
             if (lostAcknowledgment)
                 require(SqliteWriterWorkAccess::inject_next_control_ack_loss(
@@ -2318,6 +2341,8 @@ class Storage026Tests final : public QObject {
         QTest::newRow("pre-switch-bind-control") << 4;
         QTest::newRow("pre-switch-finalize-control") << 5;
         QTest::newRow("new-only-denied-continuation") << 6;
+        QTest::newRow("bind-current-generation-only-mismatch") << 7;
+        QTest::newRow("finalize-current-generation-only-mismatch") << 8;
     }
 
     void sourcePolicyFence() {
@@ -2328,7 +2353,8 @@ class Storage026Tests final : public QObject {
             const OldSourcePending pending(f);
             pending.read_capture(f.db);
             advance(f.db);
-            stage_scope(f.db);
+            stage_scope(f.db, "main");
+            pending.read_member(f.db);
             pending.link_intake(f.db);
             mutate(f.db,
                    "UPDATE main.subathon_intake_gaps SET upper_cut=X'5a' WHERE gap_ref=X'47'");
@@ -2389,6 +2415,54 @@ class Storage026Tests final : public QObject {
                                 SqlRows{{old_page.binding.qualified_proof}},
                         "The matched empty page advances its cursor and qualified frontier before "
                         "switch");
+                return;
+            }
+            if (scenario == 7 || scenario == 8) {
+                // Change only the live source generation. The request, the active
+                // operation and the qualified proof remain the exact g3 specimen.
+                auto expected = fenced_history(f.db);
+                require(expected[0].size() == 1 && expected[0][0][5].toByteArray() == "g3",
+                        "The matched source starts at the qualified generation");
+                expected[0][0][5] = QByteArray("g4");
+                const auto policy = [&] {
+                    return std::array{
+                        f.db.rows("SELECT * FROM main.subathon_intake_policies "
+                                  "ORDER BY installation,revision"),
+                        f.db.rows("SELECT * FROM main.subathon_intake_members ORDER BY "
+                                  "installation,policy_revision,provider,account,stream,"
+                                  "award_class,effect_scope")};
+                };
+                const auto retained_policy = policy();
+                const auto protected_before = protected_data(f.db);
+                mutate(f.db, "UPDATE main.subathon_intake_sources SET generation=? "
+                             "WHERE installation=X'696e7374616c6c' AND provider=X'50' "
+                             "AND account=X'41' AND stream=X'53'",
+                       {QByteArray("g4")});
+                const auto unchanged = [&] {
+                    return fenced_history(f.db) == expected && policy() == retained_policy &&
+                           protected_data(f.db) == protected_before &&
+                           f.db.rows("SELECT * FROM main.subathon_intake_basis") == old_basis;
+                };
+                require(unchanged(),
+                        "Only the current source generation differs from the matched control");
+                std::optional<PageBindResult> binding;
+                const auto result = transition(f.db, [&](const auto &s) {
+                    const auto changes = s.execute({"SELECT total_changes()", {}});
+                    Stop selected;
+                    if (scenario == 7) {
+                        binding = bind_page(s, old_page);
+                        selected = binding->stop;
+                    } else {
+                        selected = finalize_page(s, old_page.binding);
+                    }
+                    require(s.execute({"SELECT total_changes()", {}}) == changes,
+                            "No row is changed inside the refused page unit");
+                    return selected;
+                });
+                require(unchanged(),
+                        "Generation-only refusal changes no source, policy, history or intake row");
+                require(result == Stop::stale && (!binding || !binding->committed_prefix),
+                        "The current source generation alone fences the otherwise matched page");
                 return;
             }
             const bool switch_expected = scenario == 0 || scenario == 6;
@@ -2486,6 +2560,7 @@ class Storage026Tests final : public QObject {
                         "Reopen reads original baseline and adoption cuts and authority, plus the "
                         "exact two-sided handoff");
                 pending.read_capture(f.db);
+                pending.read_member(f.db);
                 const auto switched_work = fenced_history(f.db);
                 require(
                     f.db.rows("SELECT epoch,policy_revision,generation,next_ordinal,"
@@ -3015,7 +3090,7 @@ class Storage026Tests final : public QObject {
             const auto &peer = reverse ? live : history;
             const auto peer_id = reverse ? live_id : history_id;
             advance(f.db);
-            stage_scope(f.db);
+            stage_scope(f.db, "main");
             peer_anchors(f.db, first, first_id, peer, peer_id, phase != 3);
             if (phase == 1) {
                 require(SqliteWriterWorkAccess::inject_next_control_ack_loss(
@@ -3724,7 +3799,7 @@ class Storage026Tests final : public QObject {
         QFETCH(int, fault);
         check([&] {
             Populated f;
-            intake_origin(f);
+            intake_origin(f, "main");
             const StorageLimits managed_limits{64, 256, 65536, 2097152, 1536, 4194304};
             f.db.reopen(managed_limits);
             for (int i = 1; i <= 6; ++i)
@@ -4766,7 +4841,7 @@ class Storage026Tests final : public QObject {
             const auto first_id = historyFirst ? history_id : live_id;
             const auto peer_id = historyFirst ? live_id : history_id;
             advance(f.db);
-            stage_scope(f.db);
+            stage_scope(f.db, "main");
             peer_anchors(f.db, first, first_id, peer, peer_id);
             f.db.reopen();
             std::optional<core::ContributionId> cid;
