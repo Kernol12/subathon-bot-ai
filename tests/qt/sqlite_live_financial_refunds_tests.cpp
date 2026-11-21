@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "support/sqlite_live_financial_refunds_fixture.hpp"
+#include "support/sqlite_rate_override_writer_fixture.hpp"
 #include <QtEndian>
 #include <array>
 #include <subathon/core/time_credit.hpp>
@@ -91,7 +92,9 @@ struct OrderedPrefix {
 
     explicit OrderedPrefix(bool legacy) {
         f.main("main-to-two", 2);
-        constexpr std::array refs{"g", "order-2", "b", "e"};
+        // Independently framed SHA-256 prefixes for payment positions 1, 3 and 4:
+        // g = 99f3dce3, b = 2c1737a6, z = 1f55264c.
+        constexpr std::array refs{"g", "order-2", "b", "z"};
         constexpr std::array amounts{"4", "0.10", "3", "2.90"};
         constexpr std::array<Number, 4> scores_after{60, 59, 29, 0};
         constexpr std::array<Number, 4> requested{4, 0, 3, 3};
@@ -311,6 +314,56 @@ Number committed_score(File &file) {
     return result.convert_to<Number>();
 }
 
+void commit_later_rate(File &file) {
+    namespace rates = rate_fixture;
+    auto edit = rates::edit("cap-rate-edit", "E", "current-cap-rate", "cap-rate-override",
+                            "cap-rate-decision");
+    edit.installation = track.installation_ref;
+    edit.override_input.to_currency = "CHF";
+    auto facts = rates::authorized();
+    facts.session.installation_ref = edit.installation;
+    facts.graph.installation = edit.installation;
+    facts.graph.current_installation.current.installation_ref = edit.installation;
+    facts.graph.current_accounts.front().current.installation_ref = edit.installation;
+    // The unordered pair resource frames CHF then EUR as BE32 lengths and bytes.
+    facts.graph.use.accounts.front().individual_entries = {
+        rates::grant({"0000000343484600000003455552"})};
+    rates::Authority authority(facts);
+    const auto trust = rates::literal_rate_trust();
+    std::optional<RateEditPreview> preview;
+    file.write([&](const auto &s) {
+        const auto selected =
+            SqliteRateOverrideUnit(s).preview(authority, trust, edit, rates::empty_basis);
+        const auto *proposal = std::get_if<RateEditPreview>(&selected);
+        require(proposal, "Owning rate unit previews the later EUR/CHF revision");
+        preview = *proposal;
+    });
+    file.write([&](const auto &s) {
+        const auto saved = SqliteRateOverrideUnit(s).save(
+            authority, trust, edit, *preview, rates::empty_basis,
+            [] { return std::optional<Number>{91}; });
+        const auto *receipt = std::get_if<RateReceiptSelection>(&saved);
+        require(receipt && receipt->origin == RateReceiptOrigin::newly_staged &&
+                    receipt->receipt.base == "E" && receipt->receipt.successor == edit.successor,
+                "Normal writer unit stages the exact successor of the current rate head");
+        rates::expect_changes(receipt->receipt.changes,
+                              {rates::change("CHF", "EUR", 5, 6),
+                               rates::change("EUR", "CHF", 6, 5)});
+    });
+    file.write([&](const auto &s) {
+        const auto selected = SqliteRateOverrideUnit(s).head();
+        const auto *head = std::get_if<core::EffectiveRateSnapshot>(&selected);
+        require(head && head->data().snapshot_ref == edit.successor &&
+                    head->data().parent_snapshot_ref == "E" && head->data().overrides.size() == 1,
+                "A fresh owner read selects the committed later rate head");
+        const auto &rate = head->data().overrides.front();
+        require(rate.from_currency == "EUR" && rate.to_currency == "CHF" &&
+                    rate.rate.value() == fraction(6, 5) && rate.rate.original() == "1.20" &&
+                    rate.decision_ref == edit.override_input.decision_ref,
+                "The selected current EUR/CHF rate is 1.20 after the historic 0.972500");
+    });
+}
+
 std::vector<core::MilestoneTarget> committed_targets(File &file) {
     const auto rows = file.rows(
         "SELECT t.milestone_ref,t.target_micro_points FROM subathon_milestone_definition_heads h "
@@ -351,6 +404,12 @@ class SqliteLiveFinancialRefundsTests final : public QObject {
     void l1ActualCapBasisAndLiveClock() {
         check([] {
             Fixture f(capped, cap_seed());
+            const auto &historic = f.file.support_capture;
+            require(historic.captured.valuation.historical &&
+                        historic.captured.valuation.historical->snapshot_ref == "rate-snapshot" &&
+                        historic.captured.valuation.historical->effective_rate_decimal == "0.972500",
+                    "The original already captured its exact historic rate before the edit");
+            commit_later_rate(f.file);
             f.main("elapsed-before-refund", 15);
             f.input.cap = 3;
             f.input.cuts = {{2, 97, false}, {10, 98, true}, {2, 100, false}};
@@ -369,6 +428,9 @@ class SqliteLiveFinancialRefundsTests final : public QObject {
                         result.application.after.balances[0].units == 0 &&
                         result.application.after.balances[1].units == 0,
                     "Refund selects actual historic 5, retaining the 130 request and rate capture");
+            require(result.original_capture == historic &&
+                        by_ref(f.file, command.operation).original_capture == historic,
+                    "The returned and persisted original captures retain the earlier rule and rate");
             const auto frame = decode_reference_state(result.application.after);
             const auto &cuts = frame.observation.segments;
             require(cuts.size() == 3 && cuts[0].elapsed_ms == 2 && !cuts[0].paused &&
@@ -1161,6 +1223,59 @@ class SqliteLiveFinancialRefundsTests final : public QObject {
             f.input.selected_track = track;
             accepted(f.refund(cmd, p));
             journal(f.file, 1, fraction(4));
+        });
+    }
+
+    void l9MissingCompletedPrefixMember() {
+        check([] {
+            Fixture f(ordered, {}, false);
+            const auto member = stage_group(f, a, "A", 50, 100, MilestoneActionChoice::defer, false);
+            track_seed(f, {{"A", 50}}, {member});
+            const QList<QVariant> key{bytes(track.installation_ref), bytes(track.track_ref)};
+            const QString scope = " WHERE installation_ref=? AND track_ref=?";
+            const auto definition =
+                "SELECT definition_revision,milestone_ref,target_micro_points "
+                "FROM subathon_milestone_definition_heads "
+                "JOIN subathon_milestone_definition_targets "
+                "USING(installation_ref,track_ref,definition_revision)" +
+                scope;
+            const auto prefix =
+                "SELECT prefix_revision,prefix_length FROM subathon_milestone_prefix_heads "
+                "JOIN subathon_milestone_prefix_revisions "
+                "USING(installation_ref,track_ref,prefix_revision)" +
+                scope;
+            const auto members =
+                "SELECT ordinal,milestone_ref,operation_scope,operation_ref,application_occurrence_ref "
+                "FROM subathon_milestone_prefix_members" +
+                scope + " AND prefix_revision=?";
+            auto member_key = key;
+            member_key.append(bytes("initial-prefix"));
+            const SqlRows expected_definition{{bytes("initial-definition"), bytes("A"), 50}};
+            const SqlRows expected_prefix{{bytes("initial-prefix"), 1}};
+            require(f.file.rows(definition, key) == expected_definition &&
+                        f.file.rows(prefix, key) == expected_prefix &&
+                        f.file.rows(members, member_key) ==
+                            SqlRows{{1, bytes("A"), bytes(member.application.operation_scope),
+                                     bytes(member.application.operation_ref), bytes(a.ref)}},
+                    "The owning store first commits the selected definition and real membership");
+            const auto original_groups = f.file.rows(groups);
+            const auto cmd = f.command("missing-prefix-member", "4", 0);
+            const auto head = f.file.head().token;
+            f.file.write([&](const auto &s) {
+                (void)s.execute({"DELETE FROM main.subathon_milestone_prefix_members" + scope +
+                                     " AND prefix_revision=? AND ordinal=1",
+                                 member_key});
+            });
+            const auto still_missing = [&] {
+                return f.file.rows(definition, key) == expected_definition &&
+                       f.file.rows(prefix, key) == expected_prefix &&
+                       f.file.rows(members, member_key).empty() &&
+                       f.file.rows(groups) == original_groups;
+            };
+            require(still_missing(), "Only the selected completed-prefix member is unavailable");
+            refused(f.refund(cmd, order_quote(0)), D::unavailable);
+            unchanged(f.file, cmd, head);
+            require(still_missing(), "Refusal preserves the track, definition and action history");
         });
     }
 
