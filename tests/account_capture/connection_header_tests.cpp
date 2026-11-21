@@ -80,6 +80,22 @@ TEST(AccountCaptureConnectionHeader, KeepAliveThenCloseAcrossOccurrences) {
     expect_negotiation("Connection: keep-alive\r\ncOnNeCtIoN:\t close \t\r\n", fields, true);
 }
 
+// The same two-member list in one field. The grammar allows SP/HTAB on both sides of
+// a comma; only outer SP/HTAB is trimmed, so the captured value keeps the inner bytes.
+TEST(AccountCaptureConnectionHeader, KeepAliveThenCloseInOneField) {
+    constexpr std::array fields{host, content_type, length,
+                                Field{"Connection", "keep-alive \t,\t close"}};
+    expect_negotiation("Connection: keep-alive \t,\t close\r\n", fields, true);
+}
+
+// List tokens match case-insensitively and need no SP/HTAB around the comma. The
+// captured value keeps the case as sent.
+TEST(AccountCaptureConnectionHeader, MixedCaseTokensInOneField) {
+    constexpr std::array fields{host, content_type, length,
+                                Field{"Connection", "Keep-Alive,CLOSE"}};
+    expect_negotiation("Connection: Keep-Alive,CLOSE\r\n", fields, true);
+}
+
 TEST(AccountCaptureConnectionHeader, ValidListLeavesRouteBodyLimitInEffect) {
     constexpr auto head_end = "Content-Length: 4097\r\nConnection: keep-alive\r\n\r\n";
     Live f(true, {});
