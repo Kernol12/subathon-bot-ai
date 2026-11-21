@@ -246,7 +246,9 @@ TEST(FrankfurterRateService, NewEdgesKeepOriginalOrdinalsAndCarriedEdgesFollowPa
     auto input = old_input();
     input.sources[0].quotes.push_back({"EUR", "CAD", "1.50"});
     input.constraints.emplace_back(FetchedRateConstraint{"o0", 3});
-    input.components[0].members.insert(input.components[0].members.begin() + 1, {"CAD", "3", "2"});
+    // CAD is the first currency, so all potentials are expressed relative to CAD.
+    input.components[0].members = {
+        {"CAD", "1", "1"}, {"EUR", "2", "3"}, {"GBP", "8", "15"}, {"USD", "11", "15"}};
     auto basis = old_basis();
     basis.observations = input.sources;
     basis.edges.push_back({0, 3});
@@ -412,24 +414,27 @@ TEST(FrankfurterRateService, ValidSuccessWithoutUtcCanProposeButSupersededAttemp
             "new", "2026-11-19", {{"EUR", "GBP", "0.85"}, {"EUR", "USD", "1.25"}}, std::nullopt))},
         {},
         {}};
-    for (const auto *configuration : {"c1", "c0"}) {
-        auto newer = request;
-        newer.configuration_ref = configuration;
-        newer.request_ref = "q2";
-        newer.evidence_ref = "e2";
-        const auto result = propose_frankfurter_latest(fetch, newer, current, old_basis(), "S1");
+    const auto basis = old_basis();
+    auto changed_configuration = request;
+    changed_configuration.configuration_ref = "c1";
+    auto newer_attempt = request;
+    newer_attempt.request_ref = "q2";
+    newer_attempt.evidence_ref = "e2";
+    for (const auto &newer : {changed_configuration, newer_attempt}) {
+        SCOPED_TRACE(newer.configuration_ref + "/" + newer.request_ref);
+        const auto result = propose_frankfurter_latest(fetch, newer, current, basis, "S1");
         const auto *refusal = std::get_if<FrankfurterLatestRefusal>(&result);
         ASSERT_NE(refusal, nullptr);
         EXPECT_EQ(*refusal, FrankfurterLatestRefusal::superseded);
     }
 
-    const auto result = propose_frankfurter_latest(fetch, request, current, old_basis(), "S1");
+    const auto result = propose_frankfurter_latest(fetch, request, current, basis, "S1");
     const auto *proposal = std::get_if<FrankfurterLatestProposal>(&result);
     ASSERT_NE(proposal, nullptr);
     EXPECT_FALSE(proposal->selected_observation.data().context.fetched_at_utc_ms);
     expect_rate(proposal->candidate, "EUR", "GBP", Exact(17) / 20);
     expect_rate(proposal->candidate, "EUR", "USD", Exact(5) / 4);
-    // An unaccepted proposal, including uncertain completion, grants no publication.
+    // The supplied snapshot is still readable after the pure proposal call.
     EXPECT_EQ(encode_valuation_snapshot(current).document, before.document);
 }
 

@@ -32,6 +32,11 @@ FrankfurterHttpFrame frame(std::string body, int status = 200) {
             receipt_tick};
 }
 
+std::string rate_row(std::string_view quote, std::string_view date, std::string_view rate) {
+    return R"({"base":"EUR","quote":")" + std::string{quote} + R"(","date":")" + std::string{date} +
+           R"(","rate":)" + std::string{rate} + '}';
+}
+
 // A single owned, already-framed response. Admission failure releases the frame;
 // this fake never performs IO and cannot return a second response.
 class OneResponsePort final : public FrankfurterHttpPort {
@@ -252,6 +257,196 @@ TEST(FrankfurterAdapter, ReceiveBudgetsTakePrecedenceOverHttpStatus) {
         EXPECT_FALSE(failure->status);
         EXPECT_EQ(failure->wait.state, FrankfurterWaitState::unknown);
     }
+}
+
+TEST(FrankfurterAdapter, DirectNormalizationChecksReceiveBudgetsBeforeClassifying429) {
+    constexpr std::size_t body_limit = 256 * 1024;
+    constexpr std::size_t header_limit = 16 * 1024;
+    const FrankfurterHttpRequest request{
+        latest(),
+        "GET",
+        "https://api.frankfurter.dev/v2/rates?providers=ecb&base=EUR&quotes=GBP,USD",
+        {{"Accept", "application/json"}},
+        body_limit,
+        body_limit,
+        header_limit,
+        seconds{30}};
+
+    auto at_limit = frame(std::string(body_limit, 'x'), 429);
+    constexpr std::string_view retry_name = "Retry-After";
+    constexpr std::string_view retry_value = "120";
+    constexpr std::string_view padding_name = "X-Fixture";
+    // Count ": " and CRLF for each field, plus the final CRLF.
+    constexpr auto header_overhead =
+        retry_name.size() + retry_value.size() + 4 + padding_name.size() + 4 + 2;
+    at_limit.headers = {
+        {std::string{retry_name}, std::string{retry_value}},
+        {std::string{padding_name}, std::string(header_limit - header_overhead, 'x')}};
+
+    auto wire = at_limit;
+    ++wire.wire_body_bytes;
+    auto decoded = at_limit;
+    decoded.decoded_body += 'x';
+    auto header = at_limit;
+    header.headers.back().second += 'x';
+    for (const auto &[field, response] :
+         {std::pair{"wire body", &wire}, {"decoded body", &decoded}, {"header", &header}}) {
+        SCOPED_TRACE(field);
+        const auto result = normalize_frankfurter_response(request, *response);
+        const auto *failure = std::get_if<FrankfurterFailure>(&result);
+        ASSERT_NE(failure, nullptr);
+        EXPECT_EQ(failure->kind, FrankfurterFailureKind::resource_limit);
+        EXPECT_FALSE(failure->status);
+        EXPECT_EQ(failure->wait.state, FrankfurterWaitState::unknown);
+    }
+
+    const auto result = normalize_frankfurter_response(request, at_limit);
+    const auto *failure = std::get_if<FrankfurterFailure>(&result);
+    ASSERT_NE(failure, nullptr);
+    EXPECT_EQ(failure->kind, FrankfurterFailureKind::limited);
+    EXPECT_EQ(failure->status, 429);
+    EXPECT_EQ(failure->wait.state, FrankfurterWaitState::known);
+    EXPECT_EQ(failure->wait.delay_ms, 120'000);
+}
+
+TEST(FrankfurterAdapter, RowCeilingPrecedesDuplicatePairValidation) {
+    auto request = latest({"EUR"});
+    const auto identity = rate_row("EUR", "2026-11-19", "1");
+    auto rows = '[' + identity;
+    for (unsigned i = 0; i < 255; ++i) {
+        const std::string code{'X', static_cast<char>('A' + i / 26),
+                               static_cast<char>('A' + i % 26)};
+        request.quotes.push_back(code);
+        rows += ',' + rate_row(code, "2026-11-19", "1");
+    }
+
+    OneResponsePort at_limit{frame(rows + ']')};
+    const auto admitted = FrankfurterAdapter{at_limit}.fetch(request);
+    const auto *fetch = std::get_if<FrankfurterFetch>(&admitted);
+    ASSERT_NE(fetch, nullptr);
+    ASSERT_EQ(fetch->observations.size(), 1u);
+    EXPECT_EQ(fetch->observations.front().data().quotes.size(), 256u);
+
+    // A valid selector has only 256 distinct codes including EUR. Row 257 must
+    // repeat a pair. The row ceiling applies before that row's pair validation.
+    OneResponsePort over_limit{frame(rows + ',' + identity + ']')};
+    const auto rejected = FrankfurterAdapter{over_limit}.fetch(request);
+    const auto *failure = std::get_if<FrankfurterFailure>(&rejected);
+    ASSERT_NE(failure, nullptr);
+    EXPECT_EQ(failure->kind, FrankfurterFailureKind::resource_limit);
+}
+
+TEST(FrankfurterAdapter, DateGroupCeilingCountsDistinctReturnedDates) {
+    auto request = latest({});
+    std::string rows = "[";
+    for (unsigned i = 0; i < 16; ++i) {
+        const std::string code{'X', 'A', static_cast<char>('A' + i)};
+        request.quotes.push_back(code);
+        if (i != 0)
+            rows += ',';
+        const auto date = "2026-10-" + std::to_string(11 + i);
+        rows += rate_row(code, date, "1");
+    }
+    request.quotes.push_back("XAQ");
+    rows += ',';
+
+    // Keep all 17 rows and vary only the last date. October 11 already occurs.
+    OneResponsePort at_limit{frame(rows + rate_row("XAQ", "2026-10-11", "1") + ']')};
+    const auto admitted = FrankfurterAdapter{at_limit}.fetch(request);
+    const auto *fetch = std::get_if<FrankfurterFetch>(&admitted);
+    ASSERT_NE(fetch, nullptr);
+    ASSERT_EQ(fetch->observations.size(), 16u);
+    EXPECT_EQ(fetch->observations.front().data().quotes.size(), 2u);
+
+    OneResponsePort over_limit{frame(rows + rate_row("XAQ", "2026-10-10", "1") + ']')};
+    const auto rejected = FrankfurterAdapter{over_limit}.fetch(request);
+    const auto *failure = std::get_if<FrankfurterFailure>(&rejected);
+    ASSERT_NE(failure, nullptr);
+    EXPECT_EQ(failure->kind, FrankfurterFailureKind::resource_limit);
+}
+
+TEST(FrankfurterAdapter, NestingCeilingIncludesRootAndUnknownMembers) {
+    const auto body = [](std::size_t arrays) {
+        return R"([{"base":"EUR","quote":"USD","date":"2026-11-19","rate":1,"extra":)" +
+               std::string(arrays, '[') + "0" + std::string(arrays, ']') + "}]";
+    };
+    const auto request = latest({"USD"});
+    // The root array and row object occupy two of the 16 container levels.
+    OneResponsePort at_limit{frame(body(14))};
+    const auto admitted = FrankfurterAdapter{at_limit}.fetch(request);
+    const auto *fetch = std::get_if<FrankfurterFetch>(&admitted);
+    ASSERT_NE(fetch, nullptr);
+    ASSERT_EQ(fetch->observations.size(), 1u);
+    EXPECT_EQ(fetch->observations.front().data().quotes.at(0).rate.value(), Exact(1));
+
+    OneResponsePort over_limit{frame(body(15))};
+    const auto rejected = FrankfurterAdapter{over_limit}.fetch(request);
+    const auto *failure = std::get_if<FrankfurterFailure>(&rejected);
+    ASSERT_NE(failure, nullptr);
+    EXPECT_EQ(failure->kind, FrankfurterFailureKind::resource_limit);
+}
+
+TEST(FrankfurterAdapter, RateLexemeMantissaAndExponentCeilingsAreIndependent) {
+    struct Case {
+        const char *limit;
+        std::string at_limit;
+        std::string over_limit;
+    };
+    const auto request = latest({"USD"});
+    for (const auto &row :
+         {Case{"lexeme bytes", "1e" + std::string(510, '0'), "1e" + std::string(511, '0')},
+          Case{"mantissa digits", "1." + std::string(255, '0'), "1." + std::string(256, '0')},
+          Case{"exponent magnitude", "1e-256", "1e-257"}}) {
+        SCOPED_TRACE(row.limit);
+        OneResponsePort at_limit{frame('[' + rate_row("USD", "2026-11-19", row.at_limit) + ']')};
+        const auto admitted = FrankfurterAdapter{at_limit}.fetch(request);
+        const auto *fetch = std::get_if<FrankfurterFetch>(&admitted);
+        ASSERT_NE(fetch, nullptr);
+        ASSERT_EQ(fetch->observations.size(), 1u);
+        EXPECT_EQ(fetch->observations.front().data().quotes.at(0).rate.original(), row.at_limit);
+
+        OneResponsePort over_limit{
+            frame('[' + rate_row("USD", "2026-11-19", row.over_limit) + ']')};
+        const auto rejected = FrankfurterAdapter{over_limit}.fetch(request);
+        const auto *failure = std::get_if<FrankfurterFailure>(&rejected);
+        ASSERT_NE(failure, nullptr);
+        EXPECT_EQ(failure->kind, FrankfurterFailureKind::resource_limit);
+    }
+}
+
+TEST(FrankfurterAdapter, NonUnitBaseIdentityRejectsWholeResponse) {
+    const auto request = latest({"EUR", "USD"});
+    const auto prefix = '[' + rate_row("USD", "2026-11-19", "1.20") + ',';
+    OneResponsePort unit{frame(prefix + rate_row("EUR", "2026-11-19", "1.00") + ']')};
+    const auto admitted = FrankfurterAdapter{unit}.fetch(request);
+    const auto *fetch = std::get_if<FrankfurterFetch>(&admitted);
+    ASSERT_NE(fetch, nullptr);
+    ASSERT_EQ(fetch->observations.size(), 1u);
+    ASSERT_EQ(fetch->observations.front().data().quotes.size(), 2u);
+    EXPECT_EQ(fetch->observations.front().data().quotes[1].rate.value(), Exact(1));
+
+    OneResponsePort non_unit{frame(prefix + rate_row("EUR", "2026-11-19", "1.01") + ']')};
+    const auto rejected = FrankfurterAdapter{non_unit}.fetch(request);
+    const auto *failure = std::get_if<FrankfurterFailure>(&rejected);
+    ASSERT_NE(failure, nullptr);
+    EXPECT_EQ(failure->kind, FrankfurterFailureKind::invalid_row);
+}
+
+TEST(FrankfurterAdapter, StandaloneRateObjectIsAnInvalidDocument) {
+    const auto request = latest({"USD"});
+    const auto row = rate_row("USD", "2026-11-19", "1.20");
+    OneResponsePort array{frame('[' + row + ']')};
+    const auto admitted = FrankfurterAdapter{array}.fetch(request);
+    const auto *fetch = std::get_if<FrankfurterFetch>(&admitted);
+    ASSERT_NE(fetch, nullptr);
+    ASSERT_EQ(fetch->observations.size(), 1u);
+    EXPECT_EQ(fetch->observations.front().data().quotes.at(0).rate.value(), Exact(6) / 5);
+
+    OneResponsePort object{frame(row)};
+    const auto rejected = FrankfurterAdapter{object}.fetch(request);
+    const auto *failure = std::get_if<FrankfurterFailure>(&rejected);
+    ASSERT_NE(failure, nullptr);
+    EXPECT_EQ(failure->kind, FrankfurterFailureKind::invalid_document);
 }
 
 TEST(FrankfurterAdapter, ParsedObservationBatchHasItsOwnLogicalBudget) {
