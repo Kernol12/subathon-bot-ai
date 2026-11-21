@@ -319,13 +319,15 @@
       "id": "MILE-03",
       "status": "partial",
       "tests": [
-        "tests/qt/milestone_group_decisions_tests.cpp"
+        "tests/qt/milestone_group_decisions_tests.cpp",
+        "tests/qt/sqlite_live_financial_refunds_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7005001088",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7005414927"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7005414927",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/201#issuecomment-7065351555"
       ],
-      "scope": "Local SQLite v13 paused acceptance, refund policy, independent holds, terminal Skip and keyed timeline verified with synthetic inputs. Running-host composition, caller-owned application and refund transactions, and presentation and delivery integration remain #294."
+      "scope": "Local SQLite v13 paused acceptance, refund policy, independent holds, terminal Skip and keyed timeline verified with synthetic inputs. ACCT-007 adds live owner-writer refund crossings and persisted action policy with synthetic authority. Running-host composition and presentation and delivery integration remain separate."
     },
     {
       "id": "FX-01",
@@ -551,7 +553,8 @@
       "tests": [
         "tests/acceptance/time_debt_tests.cpp",
         "tests/acceptance/refund_entitlement_tests.cpp",
-        "tests/qt/sqlite_financial_refunds_tests.cpp"
+        "tests/qt/sqlite_financial_refunds_tests.cpp",
+        "tests/qt/sqlite_live_financial_refunds_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/coretest-005-review.md",
@@ -563,9 +566,10 @@
         "https://github.com/Kernol12/subathon-bot-ai/blob/evidence-archive-2026-11/docs/evidence/core-005-handoff.md",
         "https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7011613636",
         "https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7016873770",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7018150456"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7018150456",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/201#issuecomment-7065351555"
       ],
-      "scope": "The 32 reviewed signed refund-deficit and debt-first cases retain their original red and passing evidence. ACCT-006 adds 15 passing exact cumulative entitlement cases and 37 passing v15 SQLite financial-writer invocations with a modeled effect port. The distinct core red and v13 writer red remain attributed to their admitted runners. Live timer, deficit and progression composition remains with #201. Provider verification and release validation remain downstream."
+      "scope": "The 32 reviewed signed refund-deficit and debt-first cases retain their original red and passing evidence. ACCT-006 adds 15 passing exact cumulative entitlement cases and 37 passing v15 SQLite financial-writer invocations with a modeled effect port. The distinct core red and v13 writer red remain attributed to their admitted runners. ACCT-007 adds 54 passing live refund and timer resolution cases through the owner writer with synthetic authority and clock facts. Provider verification and release validation remain downstream."
     },
     {
       "id": "TIMER-07",

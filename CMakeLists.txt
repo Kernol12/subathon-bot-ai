@@ -7,7 +7,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(CTest)
 find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)
 option(SUBATHON_BUILD_ACCEPTANCE_TESTS "Build selected component acceptance suites" OFF)
-option(SUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE "Build the ACCT-007 Qt intentional-red runner explicitly" OFF)
+option(SUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE "Build the ACCT-007 Qt acceptance suite explicitly" OFF)
 option(SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE "Build the modifier-clock acceptance suite explicitly" OFF)
 # Retain the reviewed baseline selector for ordinary API-011 acceptance.
 option(SUBATHON_BUILD_REFERENCE_INTAKE_BASELINE "Build reviewed API-011 Qt acceptance" OFF)
