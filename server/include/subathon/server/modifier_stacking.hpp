@@ -107,6 +107,9 @@ using ModifierStackEvaluation = std::variant<core::ModifierStackFailure, Modifie
 
 // Proposal seam for the general evaluator. Validate exact identity, context/profile, captured
 // policy, all source factors before filtering, and original ordinals before combination.
+// A recalculation requires explicitly authorized authority and a matching binding on the supplied
+// context document. A non-authorizing decision or a missing or contradictory binding on that
+// document is invalid. A missing admitted profile is unresolved.
 // Apply the tightest supplied limits to the whole proposal, including each stored trace copy.
 // Failure carries no partial proposal. Producers own eligibility, archival reads and decoder
 // admission. The plan/application owners own publication, count finalization and actuals.

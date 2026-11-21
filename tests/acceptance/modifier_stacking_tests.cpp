@@ -788,6 +788,9 @@ TEST(CapturedModifiers, RecalculationBindsDecisionProfileAndOriginalOrdinals) {
     wrong.policy_ref = "another-policy";
     expect_refusal(evaluate(corrupted, bases), Failure::invalid);
     wrong = document;
+    wrong.recalculation.reset();
+    expect_refusal(evaluate(corrupted, bases), Failure::invalid);
+    wrong = document;
     wrong.recalculation->revision = 1;
     expect_refusal(evaluate(corrupted, bases), Failure::invalid);
     wrong = document;
@@ -803,11 +806,18 @@ TEST(CapturedModifiers, RecalculationBindsDecisionProfileAndOriginalOrdinals) {
     wrong.profile.producer_ref = "legacy-producer"; // The profile text alone cannot select v1.
     expect_refusal(evaluate(corrupted, bases), Failure::invalid);
 
-    auto denied = decision;
-    denied.authority = OverrideAuthority::denied;
+    for (const auto authority : {OverrideAuthority::denied, OverrideAuthority::unknown}) {
+        SCOPED_TRACE(static_cast<int>(authority));
+        auto non_authorizing = decision;
+        non_authorizing.authority = authority;
+        corrupted = capture;
+        corrupted.recalculation = ModifierRecalculation{"plan-A", 2, non_authorizing};
+        expect_refusal(evaluate(corrupted, bases), Failure::invalid);
+    }
+
     corrupted = capture;
-    corrupted.recalculation = ModifierRecalculation{"plan-A", 2, denied};
-    expect_refusal(evaluate(corrupted, bases), Failure::invalid);
+    corrupted.admitted_profile = nullptr;
+    expect_refusal(evaluate(corrupted, bases), Failure::unresolved);
 
     corrupted = capture;
     auto wrong_rows = rows;
