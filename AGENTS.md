@@ -48,10 +48,7 @@ Dependency readiness never authorizes a new task or resumes stopped product work
 Keep permanent rules here, task status and prerequisites on GitHub and review
 receipts in the PR.
 
-Current priority: a running vertical slice. The server must start, run one timer and
-accept one fake contribution before more storage, contract or workflow work begins.
-The checkpoint names the authorized task path. Do not start new process or tooling
-tasks until the slice runs.
+Current priority: product tasks in the owner's queue. Process or tooling work needs an owner decision per task.
 
 ## Test-first and review gates
 
