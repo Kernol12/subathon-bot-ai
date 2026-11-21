@@ -20,6 +20,13 @@ target_link_libraries(subathon_scheduled_pause PUBLIC
     subathon_recurring_schedule subathon_timer_lifecycle)
 subathon_target_options(subathon_scheduled_pause)
 
+if(TARGET subathon_modifier_stacking)
+    add_library(subathon_modifier_stacking_handoff STATIC EXCLUDE_FROM_ALL src/modifier_stacking.cpp)
+    target_include_directories(subathon_modifier_stacking_handoff PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_modifier_stacking_handoff PUBLIC subathon_modifier_stacking)
+    subathon_target_options(subathon_modifier_stacking_handoff)
+endif()
+
 if(TARGET subathon_milestone_progression)
     add_library(subathon_milestone_timeline STATIC src/milestone_timeline.cpp)
     target_include_directories(subathon_milestone_timeline PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")

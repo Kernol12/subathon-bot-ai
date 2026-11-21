@@ -14,6 +14,9 @@ set(subathon_acceptance_suites
     bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server
     chat-commands scheduled-pause milestone-target-edit sqlite-milestone-target-edits downtime-recovery finished-timer rule-actions)
 
+# These baselines require an explicit selection, including in a build using "all".
+set(subathon_opt_in_acceptance_suites modifier-stacking)
+
 # Test guards stay private derived variables; callers select the
 # logical suites above instead of maintaining another set of cache switches.
 function(_subathon_acceptance_flag suite output)
@@ -37,7 +40,7 @@ endfunction()
 function(subathon_resolve_acceptance_suites output)
     # Refuse enabled retired requests before applying any new/default selection.
     # Cache provenance cannot reliably distinguish an old default from explicit -D.
-    foreach(suite IN LISTS subathon_acceptance_suites)
+    foreach(suite IN LISTS subathon_acceptance_suites subathon_opt_in_acceptance_suites)
         _subathon_acceptance_flag("${suite}" flag)
         if(DEFINED CACHE{${flag}})
             get_property(legacy_value CACHE "${flag}" PROPERTY VALUE)
@@ -74,7 +77,8 @@ function(subathon_resolve_acceptance_suites output)
             list(APPEND selected ${subathon_acceptance_suites})
             continue()
         endif()
-        if(NOT suite IN_LIST subathon_acceptance_suites)
+        if(NOT suite IN_LIST subathon_acceptance_suites
+                AND NOT suite IN_LIST subathon_opt_in_acceptance_suites)
             message(FATAL_ERROR "Unknown acceptance suite: ${suite}")
         endif()
         list(FIND sqlite_test_prefix "${suite}" sqlite_index)

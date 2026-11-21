@@ -15,7 +15,7 @@ option(SUBATHON_BUILD_QT_PROBE "Configure Qt 6.12 Core/Test dependency discovery
 option(SUBATHON_FETCH_GOOGLETEST "Explicitly allow fetching the pinned GoogleTest source" OFF)
 include(cmake/AcceptanceSuites.cmake)
 subathon_resolve_acceptance_suites(sbt_selected_suites)
-foreach(suite IN LISTS subathon_acceptance_suites)
+foreach(suite IN LISTS subathon_acceptance_suites subathon_opt_in_acceptance_suites)
     _subathon_acceptance_flag("${suite}" flag)
     set(${flag} OFF)
 endforeach()
@@ -35,7 +35,7 @@ set(SUBATHON_GOOGLETEST_SOURCE_DIR "" CACHE PATH "Optional local GoogleTest sour
 # Product discovery also works in a build with no test packages.
 find_package(Qt6 6.12 QUIET COMPONENTS Core OPTIONAL_COMPONENTS Sql)
 if(BUILD_TESTING AND (SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS
-        OR SUBATHON_BUILD_SQLITE_PLAN_TESTS))
+        OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_MODIFIER_STACKING_TESTS))
     find_package(Boost 1.83 CONFIG REQUIRED)
 else()
     find_package(Boost 1.83 CONFIG QUIET)
