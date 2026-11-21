@@ -136,6 +136,7 @@ struct Ports {
     bool target_valid = true;
     RuleCapability readiness = RuleCapability::supported;
     std::optional<std::string> owner_snapshot;
+    std::optional<RuleChatSender> resolved_sender;
 
     RuleActionMapper mapper() {
         return [this](const RuleActionKey &key, const RuleActionPayload &payload,
@@ -145,7 +146,11 @@ struct Ports {
                 failure != mapping_failures.end()) {
                 return failure->second;
             }
-            return RuleBoundAction{mapped.at(key.action_ref), payload};
+            RuleBoundAction bound{mapped.at(key.action_ref), payload};
+            if (auto *chat = std::get_if<RuleChatAction>(&bound.payload);
+                chat && chat->sender == RuleChatSender::configured_default && resolved_sender)
+                chat->sender = *resolved_sender;
+            return bound;
         };
     }
 
@@ -777,6 +782,7 @@ TEST(RuleActions, QueueAcceptanceRetainsExactSenderAcrossSeparateDeliveryObserva
 
 TEST(RuleActions, ConfiguredDefaultBindsAConcreteSenderBeforeCurrentAuthorization) {
     Ports ports;
+    ports.resolved_sender = RuleChatSender::broadcaster;
     const auto planned = chat_plan(ports, RuleChatSender::configured_default);
     ports.current.emplace("announce", chat_facts("default-current", false));
 
@@ -789,6 +795,50 @@ TEST(RuleActions, ConfiguredDefaultBindsAConcreteSenderBeforeCurrentAuthorizatio
     expect_single_resource(ports.authority_calls[0].request, "chat.send", "sender",
                            "broadcaster-A");
     EXPECT_TRUE(ports.submissions.empty());
+}
+
+TEST(RuleActions, UnresolvedDefaultSenderStopsBeforeAuthority) {
+    Ports ports;
+    const auto planned = chat_plan(ports, RuleChatSender::configured_default);
+    ports.current.emplace("announce", chat_facts("chat-current", true));
+    ports.responses.emplace("announce", RuleOwnerAcceptance{});
+
+    const auto result = consume_rule_actions(planned, ports.checks(), ports.submit());
+    const auto &staged = std::get<RuleStagedPass>(result);
+    ASSERT_EQ(staged.rules.size(), 1U);
+    ASSERT_TRUE(staged.rules[0].stop);
+    expect_stop(*staged.rules[0].stop, 0, Refusal::invalid_binding);
+    EXPECT_TRUE(staged.rules[0].accepted.empty());
+    EXPECT_TRUE(ports.calls.empty());
+    EXPECT_TRUE(ports.submissions.empty());
+}
+
+TEST(RuleActions, ExactRequestCanUseAnAtMostOnlyCatalogSlot) {
+    Ports ports;
+    const auto configuration = validate_rule_configuration(
+        {"at-most", {}, {rule("timer", 10, {credit("credit", "1000")})}});
+    ports.mapped.emplace("credit", timer("1000"));
+    auto current = timer_facts("current");
+    constexpr auto mode = PermissionQuantityMode::at_most;
+    current.catalog.operations[0].quantity_slots[0].allowed_modes =
+        static_cast<std::uint8_t>(1U << static_cast<unsigned>(mode));
+    for (auto *policy : {&current.use, &current.grant}) {
+        auto &constraint = policy->entries.front().quantities.front();
+        constraint.mode = mode;
+        constraint.lower.reset();
+    }
+    ports.current.emplace("credit", std::move(current));
+    ports.responses.emplace("credit", RuleOwnerAcceptance{});
+    const auto planned = plan(ports, configuration, {"root", {}, "root", {}});
+
+    const auto result = consume_rule_actions(planned, ports.checks(), ports.submit());
+    const auto &staged = std::get<RuleStagedPass>(result);
+    ASSERT_EQ(staged.rules.size(), 1U);
+    ASSERT_FALSE(staged.rules[0].stop);
+    ASSERT_EQ(staged.rules[0].accepted.size(), 1U);
+    ASSERT_EQ(ports.submissions.size(), 1U);
+    expect_timer(ports.submissions[0].bound.request, "1000");
+    EXPECT_EQ(ports.submissions[0].snapshot, "current");
 }
 
 TEST(RuleActions, ExplicitValuationIsBoundToCaptureAndUnknownDoesNotRun) {
