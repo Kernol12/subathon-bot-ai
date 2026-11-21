@@ -12,7 +12,7 @@ set(subathon_acceptance_suites
     password-hashing credential-record sqlite-credentials effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
     bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server
-    chat-commands scheduled-pause milestone-target-edit sqlite-milestone-target-edits downtime-recovery
+    chat-commands scheduled-pause milestone-target-edit sqlite-milestone-target-edits downtime-recovery finished-timer
     frankfurter-rates)
 
 # Test guards stay private derived variables; callers select the
@@ -152,6 +152,8 @@ function(subathon_resolve_acceptance_suites output)
             list(APPEND selected exact-numeric "${suite}")
         elseif(suite STREQUAL "chat-commands")
             list(APPEND selected exact-numeric effective-permissions "${suite}")
+        elseif(suite STREQUAL "finished-timer")
+            list(APPEND selected exact-numeric finished-timer)
         elseif(suite STREQUAL "timer-editorial")
             list(APPEND selected time-debt timer-lifecycle timer-editorial)
         elseif(suite STREQUAL "downtime-recovery")

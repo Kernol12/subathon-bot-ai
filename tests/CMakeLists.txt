@@ -79,6 +79,16 @@ if(SUBATHON_BUILD_TIMER_EDITORIAL_TESTS)
         LABELS "timer-editorial;acceptance;core" TIMEOUT 30)
 endif()
 
+if(SUBATHON_BUILD_FINISHED_TIMER_TESTS)
+    add_executable(core_finished_timer_acceptance acceptance/finished_timer_tests.cpp)
+    target_link_libraries(core_finished_timer_acceptance PRIVATE subathon_finished_timer
+        subathon_timer_editorial_commands subathon_pause_policy subathon_milestone_progression
+        GTest::gtest_main)
+    subathon_target_options(core_finished_timer_acceptance)
+    subathon_discover_gtests(core_finished_timer_acceptance
+        PREFIX "finished-timer." LABELS "finished-timer;acceptance;core" TIMEOUT 30)
+endif()
+
 if(SUBATHON_BUILD_DOWNTIME_RECOVERY_TESTS)
     add_executable(core_downtime_recovery_acceptance acceptance/downtime_recovery_tests.cpp)
     target_link_libraries(core_downtime_recovery_acceptance PRIVATE

@@ -76,6 +76,7 @@ still using synthetic data and supplied policy/authority facts.
 | `core-acceptance-debug` | `-L '^chat-commands$'` | 41 synthetic cases for typed chat commands, complete authorization, cooldown windows and replay. #337 owns live receipt binding and durable intake deduplication. |
 | `core-acceptance-debug` | `-L '^scheduled-pause$'` | 35 synthetic scheduler cases covering configured-zone resolution, cutover, entry, retention, clock progression and coverage holds. Platform timezone evidence and authoritative preview and Save have separate gates. |
 | `core-acceptance-debug` | `-L '^downtime-recovery$'` | 49 synthetic cases for offline Freeze, Count elapsed, Recovery Review, deadline and schedule cuts, and authorized correction. Durable restart, live clock and scheduler facts, modifier clocks and command integration have separate owners. |
+| `core-acceptance-debug` | `-L '^finished-timer$'` | 22 synthetic cases for finished input, separate deadline edits, audited reopen and debt correction, and ordered pending-group choices. Authoritative commit and action delivery remain separate. |
 | `schema-validation-debug` | `-L '^schema-validation$'` | 3 nodes: repository OpenAPI/components/examples, canonical proof/policy aggregate and real-SDK proof publication integration; actual HEAD inputs are required |
 
 Selecting `reference-rule` with `SUBATHON_ACCEPTANCE_SUITES` builds 11 pure configured-
@@ -133,7 +134,11 @@ The host Qt cases are the exception to one-process-per-suite registration: the
 native profile installs once per process. Each literal `method[:row]` from
 `tests/qt/api_host_cases.cmake` runs in its own process with Qt's normal init/cleanup
 and assertions. Compare that complete inventory with admitted Qt data-tag discovery
-before running bodies. Other Qt suites retain their existing registration.
+before running bodies. API-027 adds 70 lease selectors to the 87 existing cases:
+six serial controls and 32 isolated trials in each of the two concurrent rows.
+The host baseline CI job checks registration. Local admitted runtime evidence for
+the lease selectors is recorded on the issue. Other Qt suites retain their
+existing registration.
 
 The `bounded-http-foundation-debug` test preset filters its own label; the native
 profile is a compiled dependency, with separate consumer-admission/regression gates.

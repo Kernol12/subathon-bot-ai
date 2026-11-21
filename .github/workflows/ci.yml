@@ -203,6 +203,7 @@ jobs:
               "recurring-schedule": ({"acceptance", "core"}, None),
               "scheduled-pause": ({"acceptance", "server"}, 30),
               "downtime-recovery": ({"acceptance", "core"}, 30),
+              "finished-timer": ({"acceptance", "core"}, 30),
               "application-plan": ({"acceptance", "core"}, None),
               "receipt-intake": ({"acceptance"}, None),
               "contribution-evidence": ({"acceptance"}, None),
@@ -262,6 +263,8 @@ jobs:
               raise SystemExit(f"Expected 35 scheduled pause cases, got {found['scheduled-pause']}")
           if found["downtime-recovery"] != 49:
               raise SystemExit(f"Expected 49 downtime recovery cases, got {found['downtime-recovery']}")
+          if found["finished-timer"] != 22:
+              raise SystemExit(f"Expected 22 finished timer cases, got {found['finished-timer']}")
           if found["valuation-snapshot-codec"] != 25:
               raise SystemExit(f"Expected 25 valuation snapshot codec cases, got {found['valuation-snapshot-codec']}")
           if found["rate-override"] != 24:
@@ -1017,7 +1020,7 @@ jobs:
               ["ctest", "--preset", "api-host-native-debug", "--show-only=json-v1"], text=True))
           inventory = Path("tests/qt/api_host_cases.cmake").read_text().splitlines()
           cases = [line.strip() for line in inventory if line.startswith("    ")]
-          if len(cases) != 87 or len(set(cases)) != 87:
+          if len(cases) != 157 or len(set(cases)) != 157:
               raise SystemExit("Complete unique host invocation inventory required")
           expected = {"api-host." + case for case in cases} | {"api-host-native.suite"}
           selected = {test["name"]: test for test in data["tests"]
