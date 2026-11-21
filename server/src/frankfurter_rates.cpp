@@ -144,7 +144,9 @@ std::optional<seconds> http_time(std::string_view text) {
     const auto h = unsigned_number(text.substr(0, 2), 2);
     const auto m = unsigned_number(text.substr(3, 2), 2);
     const auto s = unsigned_number(text.substr(6, 2), 2);
-    if (!h || *h > 23 || !m || *m > 59 || !s || *s > 59)
+    if (!h || *h > 23 || !m || *m > 59 || !s || *s > 60)
+        return {};
+    if (*s == 60 && (*h != 23 || *m != 59))
         return {};
     return hours{*h} + minutes{*m} + seconds{*s};
 }
@@ -233,6 +235,9 @@ FrankfurterWait date_wait(const HttpDate &hint, std::string_view text,
     const auto date = year{full_year} / hint.month / hint.day;
     if (!date.ok() || weekday{sys_days{date}}.c_encoding() != hint.weekday)
         return {Wait::unknown, {}, {}, {}, {}};
+    // POSIX milliseconds cannot distinguish the leap second from the next midnight.
+    if (hint.since_midnight == days{1})
+        return wait;
     wait.deadline_utc_ms =
         (sys_days{date} + hint.since_midnight).time_since_epoch() / milliseconds{1};
     if (receipt_utc)
