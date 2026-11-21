@@ -284,7 +284,7 @@ if(SUBATHON_BUILD_MODIFIER_STACKING_TESTS)
         subathon_modifier_stacking_handoff GTest::gtest_main)
     subathon_target_options(modifier_stacking_baseline)
     subathon_discover_gtests(modifier_stacking_baseline PREFIX "modifier-stacking." TIMEOUT 30
-        LABELS "modifier-stacking;acceptance;intentional-red")
+        LABELS "modifier-stacking;acceptance;core")
 endif()
 
 if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)

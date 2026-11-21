@@ -15,7 +15,7 @@ option(SUBATHON_BUILD_QT_PROBE "Configure Qt 6.12 Core/Test dependency discovery
 option(SUBATHON_FETCH_GOOGLETEST "Explicitly allow fetching the pinned GoogleTest source" OFF)
 include(cmake/AcceptanceSuites.cmake)
 subathon_resolve_acceptance_suites(sbt_selected_suites)
-foreach(suite IN LISTS subathon_acceptance_suites subathon_opt_in_acceptance_suites)
+foreach(suite IN LISTS subathon_acceptance_suites)
     _subathon_acceptance_flag("${suite}" flag)
     set(${flag} OFF)
 endforeach()

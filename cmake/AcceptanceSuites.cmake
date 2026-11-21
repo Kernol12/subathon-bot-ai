@@ -3,7 +3,7 @@ include_guard(GLOBAL)
 
 set(subathon_acceptance_suites
     time-credit exact-numeric refund-entitlement timer-lifecycle receipt-intake contribution-evidence
-    pause-policy recurring-schedule application-plan modifier-activation sqlite-writer time-debt sqlite-work
+    pause-policy recurring-schedule application-plan modifier-activation modifier-stacking sqlite-writer time-debt sqlite-work
     sqlite-migrations sqlite-retained sqlite-receipt sqlite-contribution sqlite-plan
     sqlite-bundle sqlite-original-claim sqlite-hold application-service sqlite-delivery-jobs
     translation-catalog rate-snapshot rate-override valuation-snapshot-codec rule-definition rule-selection milestone-progression milestone-timeline milestone-group-restart
@@ -14,9 +14,6 @@ set(subathon_acceptance_suites
     bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server
     chat-commands scheduled-pause milestone-target-edit sqlite-milestone-target-edits downtime-recovery finished-timer rule-actions
     frankfurter-rates)
-
-# These baselines require an explicit selection, including in a build using "all".
-set(subathon_opt_in_acceptance_suites modifier-stacking)
 
 # Test guards stay private derived variables; callers select the
 # logical suites above instead of maintaining another set of cache switches.
@@ -41,7 +38,7 @@ endfunction()
 function(subathon_resolve_acceptance_suites output)
     # Refuse enabled retired requests before applying any new/default selection.
     # Cache provenance cannot reliably distinguish an old default from explicit -D.
-    foreach(suite IN LISTS subathon_acceptance_suites subathon_opt_in_acceptance_suites)
+    foreach(suite IN LISTS subathon_acceptance_suites)
         _subathon_acceptance_flag("${suite}" flag)
         if(DEFINED CACHE{${flag}})
             get_property(legacy_value CACHE "${flag}" PROPERTY VALUE)
@@ -78,8 +75,7 @@ function(subathon_resolve_acceptance_suites output)
             list(APPEND selected ${subathon_acceptance_suites})
             continue()
         endif()
-        if(NOT suite IN_LIST subathon_acceptance_suites
-                AND NOT suite IN_LIST subathon_opt_in_acceptance_suites)
+        if(NOT suite IN_LIST subathon_acceptance_suites)
             message(FATAL_ERROR "Unknown acceptance suite: ${suite}")
         endif()
         list(FIND sqlite_test_prefix "${suite}" sqlite_index)
