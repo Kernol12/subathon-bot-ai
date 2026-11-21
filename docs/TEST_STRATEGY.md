@@ -124,6 +124,13 @@ from schema shape, and schema shape does not replace runtime proof invariants.
 
 ## Reviewed baselines still awaiting implementation
 
+MODIFIERTEST-002 uses the explicit `SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE=ON`
+option and the `modifier_clock_baseline` build target. After exact-runner
+admission, select `-L '^modifier-clock$'` in CTest. The 28 cases cover 21 frozen
+rows and reached their intended stubs with ordinary failure reporting. The option
+defaults off and the suite stays outside passing CI. #217 owns implementation.
+[Admitted intended red](https://github.com/Kernol12/subathon-bot-ai/pull/758#issuecomment-7057811999)
+
 `api-host-debug` and `api-host-native-debug` select authored host lifecycle baselines;
 their current review/execution status is recorded in canonical proof and GitHub. Both need the complete
 physical account/session SQLite closure and the corrected native WebSocket SDK;
