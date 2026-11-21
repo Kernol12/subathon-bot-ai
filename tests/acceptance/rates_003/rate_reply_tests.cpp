@@ -252,7 +252,12 @@ TEST(ExchangeRateApi, SetupAndOperationRefuseBeforeSelectorsOrDispatch) {
     EXPECT_EQ(current->binding, free.selection);
     auto wrong_history = history("free-malformed-history");
     wrong_history.history_date = "2023-02-29";
-    expect_blocked(f, wrong_history, clock(0), unsupported_operation);
+    const auto refused = f.adapter.start(wrong_history, clock(0));
+    const auto *reason = std::get_if<fx::Failure>(&refused);
+    ASSERT_NE(reason, nullptr);
+    EXPECT_TRUE(reason->kind == unsupported_operation || reason->kind == invalid_selectors);
+    expect_public_failure(*reason);
+    EXPECT_TRUE(f.transport.calls.empty());
 
     ASSERT_EQ(f.select(setup(fx::Profile::pro)), fx::SelectionStatus::selected);
     auto bad_date = history("pro-malformed-history");
@@ -298,27 +303,43 @@ TEST(ExchangeRateApi, LatestPreservesSelectionOrderAndTextOnlyDoesNotQualifyAnIn
     EXPECT_FALSE(data.context.publication_time.utc_ms);
 }
 
+constexpr std::size_t body_limit = 256 * 1024;
+constexpr std::size_t header_limit = 16 * 1024;
+
+std::string nested_body(std::size_t arrays) {
+    auto body = std::string(keyed_latest_body);
+    body.pop_back();
+    return body + ",\"nested\":" + std::string(arrays, '[') + "0" + std::string(arrays, ']') + "}";
+}
+
+fx::Headers sized_headers(std::size_t bytes) {
+    // The owned header block uses "X-Note: " + value + CRLF, then a final CRLF.
+    return {{"X-Note", std::string(bytes - 12, 'x')}};
+}
+
 TEST(ExchangeRateApi, CompleteFramesWithInvalidEvidenceOrExceededBoundsAreRefused) {
     struct Variant {
         std::string body;
         fx::FailureKind failure;
         std::optional<std::size_t> wire_size{};
         fx::Headers headers{};
+        std::vector<std::string> quotes{"EUR"};
     };
     const auto valid = std::string(keyed_latest_body);
     const std::array variants{
-        Variant{valid, resource_limit, 256 * 1024 + 1},
-        Variant{valid + std::string(256 * 1024 - valid.size() + 1, ' '), resource_limit},
-        Variant{valid, resource_limit, {}, {{"X-Note", std::string(16 * 1024 + 1, 'x')}}},
-        Variant{valid.substr(0, valid.size() - 1) + ",\"nested\":" + std::string(16, '[') + "0" +
-                    std::string(16, ']') + "}",
-                resource_limit},
+        Variant{valid, resource_limit, body_limit + 1},
+        Variant{valid + std::string(body_limit - valid.size() + 1, ' '), resource_limit, 1024},
+        Variant{valid, resource_limit, {}, sized_headers(header_limit + 1)},
+        Variant{nested_body(16), resource_limit},
         Variant{valid.substr(0, valid.size() - 1) + R"(,"future":1,"future":2})", invalid_document},
         Variant{valid.substr(0, valid.size() - 1) + R"(,"time_last_update_unix":9223372036854776})",
                 // One second above the greatest signed count that can be scaled to milliseconds.
                 invalid_document},
         Variant{R"({"result":"success","base_code":"USD","conversion_rates":{"EUR":0,"CHF":0.9}})",
-                invalid_document},
+                invalid_document,
+                {},
+                {},
+                {"EUR", "CHF"}},
         Variant{R"({"result":"success","base_code":"USD","conversion_rates":{"EUR":0.9,"xYz":1}})",
                 invalid_document},
         Variant{R"({"result":"success","base_code":"USD","conversion_rates":{"CHF":0.9}})",
@@ -332,9 +353,84 @@ TEST(ExchangeRateApi, CompleteFramesWithInvalidEvidenceOrExceededBoundsAreRefuse
         auto reply = frame(variant.body, clock(20), 200, variant.headers);
         if (variant.wire_size)
             reply.wire_body_bytes = *variant.wire_size;
-        expect_failure(f.exchange(latest("bounded"), clock(10), std::move(reply)), variant.failure);
+        expect_failure(f.exchange(latest("bounded", variant.quotes), clock(10), std::move(reply)),
+                       variant.failure);
         EXPECT_EQ(f.view(clock(20)).local_total, (fx::Usage{1, 0}));
     }
+}
+
+TEST(ExchangeRateApi, WireDecodedHeaderAndNestingCeilingsAreInclusive) {
+    const auto valid = std::string(keyed_latest_body);
+    auto wire = frame(valid, clock(20));
+    wire.wire_body_bytes = body_limit;
+    auto decoded = frame(valid + std::string(body_limit - valid.size(), ' '), clock(20));
+    decoded.wire_body_bytes = 1024;
+    auto headers = frame(valid, clock(20), 200, sized_headers(header_limit));
+    auto nesting = frame(nested_body(15), clock(20)); // Root object plus 15 arrays.
+
+    const std::array replies{std::move(wire), std::move(decoded), std::move(headers),
+                             std::move(nesting)};
+    for (std::size_t n = 0; n < replies.size(); ++n) {
+        SCOPED_TRACE(n);
+        Fixture f;
+        ASSERT_EQ(f.select(setup(fx::Profile::pro)), fx::SelectionStatus::selected);
+        const auto result = f.exchange(latest("at-limit"), clock(10), replies[n]);
+        const auto *rate = std::get_if<fx::Rate>(&result.outcome);
+        ASSERT_NE(rate, nullptr);
+        ASSERT_EQ(rate->observation.data().quotes.size(), 1u);
+        EXPECT_EQ(rate->observation.data().quotes.front().rate.value(), core::Exact(9) / 10);
+    }
+}
+
+TEST(ExchangeRateApi, TransportResourceRefusalRemainsTypedAndMeteredWhenSent) {
+    Fixture f;
+    ASSERT_EQ(f.select(setup(fx::Profile::pro)), fx::SelectionStatus::selected);
+    const auto result =
+        f.exchange(latest("limited-reply"), clock(10),
+                   fx::FailedTransport{fx::TransportFailure::resource_limit, clock(20)});
+    expect_failure(result, resource_limit);
+    EXPECT_EQ(result.dispatch.kind, fx::DispatchKind::sent);
+    EXPECT_EQ(f.view(clock(20)).local_total, (fx::Usage{1, 0}));
+    EXPECT_FALSE(f.view(clock(20)).sample);
+}
+
+TEST(ExchangeRateApi, GreatestScalableUnixSecondRetainsExactSourceTime) {
+    Fixture f;
+    ASSERT_EQ(f.select(setup(fx::Profile::pro)), fx::SelectionStatus::selected);
+    const auto body = std::string(keyed_latest_body.substr(0, keyed_latest_body.size() - 1)) +
+                      R"(,"time_last_update_unix":9223372036854775})";
+    const auto result = f.exchange(latest("max-source-instant"), clock(10), frame(body, clock(20)));
+    const auto *rate = std::get_if<fx::Rate>(&result.outcome);
+    ASSERT_NE(rate, nullptr);
+    EXPECT_EQ(rate->update.last.unix_seconds, 9'223'372'036'854'775LL);
+    EXPECT_EQ(rate->update.last.qualified_utc_ms, 9'223'372'036'854'775'000LL);
+    EXPECT_EQ(rate->observation.data().context.source_rate_time.utc_ms,
+              9'223'372'036'854'775'000LL);
+}
+
+TEST(ExchangeRateApi, SupersededLatestSettlesDispatchWithoutPublishingRates) {
+    Fixture f;
+    ASSERT_EQ(f.select(setup(fx::Profile::pro)), fx::SelectionStatus::selected);
+    SnapshotOwner owner;
+    const auto old = f.start(latest("superseded-latest"), clock(10), sent(10));
+    const auto current = setup(fx::Profile::pro, "B");
+    ASSERT_EQ(f.select(current), fx::SelectionStatus::selected);
+    const auto result = f.finish(old, frame(std::string(keyed_latest_body), clock(20, january)));
+    expect_failure(result, superseded);
+    EXPECT_EQ(result.admission, old.admission);
+    EXPECT_EQ(result.dispatch.kind, fx::DispatchKind::sent);
+    owner.consider(result);
+    owner.expect_cached();
+    EXPECT_EQ(f.view(clock(20)).local_total, (fx::Usage{1, 0}));
+    EXPECT_FALSE(f.view(clock(20)).sample);
+
+    const auto request = latest("current-latest");
+    const auto fresh =
+        f.exchange(request, clock(21), frame(std::string(keyed_latest_body), clock(22, january)));
+    const auto *rate = std::get_if<fx::Rate>(&fresh.outcome);
+    ASSERT_NE(rate, nullptr);
+    EXPECT_EQ(rate->use, fx::RateUse::latest_candidate);
+    EXPECT_EQ(fresh.admission, (fx::Admission{current.selection, request, false}));
 }
 
 } // namespace

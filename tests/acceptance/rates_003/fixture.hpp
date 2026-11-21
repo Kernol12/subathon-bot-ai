@@ -16,7 +16,10 @@ constexpr std::int64_t minute_ms = 60'000;
 constexpr std::int64_t day_ms = 86'400'000;
 constexpr std::int64_t january = 1'767'225'600'000;
 constexpr std::string_view open_latest = "https://open.er-api.com/v6/latest/USD";
-constexpr std::string_view keyed_root = "https://v6.exchangerate-api.com/v6/synthetic%2F%2B%3F/";
+constexpr std::string_view private_marker = "FxSecretCanary_";
+constexpr std::string_view keyed_host = "v6.exchangerate-api.com/v6/";
+constexpr std::string_view keyed_root =
+    "https://v6.exchangerate-api.com/v6/FxSecretCanary_Original%2F%2B%3F/";
 constexpr fx::RenewalDay no_hint{fx::RenewalState::absent, std::nullopt};
 constexpr fx::RenewalDay bad_hint{fx::RenewalState::invalid, std::nullopt};
 constexpr fx::RenewalDay hint17{fx::RenewalState::valid, 17};
@@ -44,7 +47,8 @@ inline fx::SelectionUpdate setup(fx::Profile profile, std::string version = "A",
         "selection-" + version,
         keyed ? std::optional{"credential-" + version} : std::nullopt};
     return {binding,
-            keyed ? std::optional{fx::Credential{binding, "synthetic/+?"}} : std::nullopt,
+            keyed ? std::optional{fx::Credential{binding, "FxSecretCanary_Original/+?"}}
+                  : std::nullopt,
             {},
             change,
             fx::ScopeContinuity::qualified};
@@ -119,6 +123,78 @@ class ScriptedTransport final : public fx::HttpPort {
     }
 };
 
+inline void expect_public_text(std::string_view value, std::string_view field) {
+    EXPECT_EQ(value.find(private_marker), std::string_view::npos) << field;
+    EXPECT_EQ(value.find(keyed_host), std::string_view::npos) << field;
+}
+inline void expect_optional_public_text(const std::optional<std::string> &value,
+                                        std::string_view field) {
+    if (value)
+        expect_public_text(*value, field);
+}
+inline void expect_public_admission(const fx::Admission &admission) {
+    const auto &selected = admission.selection;
+    const auto &request = admission.request;
+    expect_public_text(selected.scope.installation_ref, "installation_ref");
+    expect_public_text(selected.scope.scope_ref, "scope_ref");
+    expect_public_text(selected.configuration_ref, "selection configuration_ref");
+    expect_public_text(selected.selection_revision, "selection_revision");
+    expect_optional_public_text(selected.credential_revision, "credential_revision");
+    expect_public_text(request.request_ref, "admitted request_ref");
+    expect_public_text(request.evidence_ref, "evidence_ref");
+    expect_public_text(request.base, "base");
+    for (const auto &quote : request.quotes)
+        expect_public_text(quote, "requested quote");
+    expect_optional_public_text(request.history_date, "requested date");
+}
+inline void expect_public_dispatch(const fx::Dispatch &dispatch) {
+    if (dispatch.time)
+        expect_public_text(dispatch.time->elapsed.clock_epoch, "send clock epoch");
+}
+inline void expect_public_failure(const fx::Failure &failure) {
+    expect_optional_public_text(failure.safe_code, "safe_code");
+}
+inline void expect_public_completion(const fx::Completion &completed) {
+    expect_public_admission(completed.admission);
+    expect_public_dispatch(completed.dispatch);
+    if (const auto *failure = std::get_if<fx::Failure>(&completed.outcome)) {
+        expect_public_failure(*failure);
+    } else if (const auto *sample = std::get_if<fx::Quota>(&completed.outcome)) {
+        if (sample->receipt.elapsed)
+            expect_public_text(sample->receipt.elapsed->clock_epoch, "receipt clock epoch");
+    } else {
+        const auto &rate = std::get<fx::Rate>(completed.outcome);
+        const auto &data = rate.observation.data();
+        const auto &context = data.context;
+        expect_public_text(context.observation_ref, "observation_ref");
+        expect_public_text(context.provider_ref, "provider_ref");
+        expect_public_text(context.configuration_ref, "observation configuration_ref");
+        expect_public_text(context.request_ref, "observation request_ref");
+        expect_public_text(context.source_evidence_ref, "source_evidence_ref");
+        expect_optional_public_text(context.provider_snapshot_ref, "provider_snapshot_ref");
+        expect_optional_public_text(context.source_rate_time.original_text, "source rate time");
+        expect_optional_public_text(context.publication_time.original_text, "publication time");
+        for (const auto &quote : data.quotes) {
+            expect_public_text(quote.from_currency, "from_currency");
+            expect_public_text(quote.to_currency, "to_currency");
+            expect_public_text(quote.rate.original(), "original decimal");
+        }
+        for (const auto &code : rate.missing_quotes)
+            expect_public_text(code, "missing quote");
+        expect_optional_public_text(rate.update.last.utc_text, "last update");
+        expect_optional_public_text(rate.update.next.utc_text, "next update");
+        for (const auto &eol : rate.update.eol) {
+            expect_public_text(eol.member, "EOL member");
+            expect_public_text(eol.token, "EOL token");
+        }
+        expect_optional_public_text(rate.matched_history_date, "matched history date");
+        if (rate.open_disclosure) {
+            expect_public_text(rate.open_disclosure->attribution_text, "attribution text");
+            expect_public_text(rate.open_disclosure->attribution_url, "attribution URL");
+        }
+    }
+}
+
 class Fixture {
   public:
     SyntheticSelection selection;
@@ -136,12 +212,20 @@ class Fixture {
         if (const auto *failure = std::get_if<fx::Failure>(&result))
             throw std::logic_error("Expected admission for " + request.request_ref + ", got " +
                                    ::testing::PrintToString(failure->kind));
-        return std::get<fx::Started>(std::move(result));
+        auto started = std::get<fx::Started>(std::move(result));
+        expect_public_admission(started.admission);
+        expect_public_dispatch(started.dispatch);
+        return started;
+    }
+
+    fx::Completion finish(const fx::Started &started, fx::Reply reply) {
+        auto completed = adapter.finish(started, std::move(reply));
+        expect_public_completion(completed);
+        return completed;
     }
 
     fx::Completion exchange(const fx::Request &request, const fx::Clocks &at, fx::Reply reply) {
-        return adapter.finish(start(request, at, sent(at.elapsed.value().tick_ms)),
-                              std::move(reply));
+        return finish(start(request, at, sent(at.elapsed.value().tick_ms)), std::move(reply));
     }
 
     fx::QuotaView view(const fx::Clocks &at) const {
@@ -158,11 +242,12 @@ inline void expect_blocked(Fixture &f, const fx::Request &request, const fx::Clo
     const auto *failure = std::get_if<fx::Failure>(&result);
     ASSERT_NE(failure, nullptr);
     EXPECT_EQ(failure->kind, reason);
+    expect_public_failure(*failure);
 }
 
-// Pending recovery requests may coalesce or be blocked by their existing hold.
-inline void expect_pending_probe_blocks(Fixture &f, const fx::Request &request,
-                                        const fx::Clocks &at) {
+// A competing recovery request on the same selection may coalesce or be blocked.
+inline void expect_same_selection_probe_blocks(Fixture &f, const fx::Request &request,
+                                               const fx::Clocks &at) {
     const auto calls = f.transport.calls.size();
     const auto result = f.adapter.start(request, at);
     EXPECT_EQ(f.transport.calls.size(), calls);
@@ -170,12 +255,18 @@ inline void expect_pending_probe_blocks(Fixture &f, const fx::Request &request,
     ASSERT_NE(failure, nullptr);
     EXPECT_TRUE(failure->kind == fx::FailureKind::coalesced ||
                 failure->kind == fx::FailureKind::quota_hold);
+    expect_public_failure(*failure);
 }
 
 inline void expect_get(const fx::HttpRequest &request, std::string_view target,
                        const fx::SelectionBinding &selected, const fx::Request &requested,
                        bool probe = false) {
-    EXPECT_EQ(request.private_url, target);
+    // Percent-encoded and literal '+' both represent the same byte in a path segment.
+    auto literal_plus = std::string(target);
+    if (const auto pos = literal_plus.find("%2B"); pos != std::string::npos)
+        literal_plus.replace(pos, 3, "+");
+    EXPECT_TRUE(request.private_url == target || request.private_url == literal_plus);
+    expect_public_admission(request.admission);
     EXPECT_EQ(request.method, "GET");
     EXPECT_FALSE(request.follow_redirects);
     EXPECT_EQ(request.max_header_bytes, 16u * 1024);
@@ -249,6 +340,7 @@ class SnapshotOwner {
 
 inline void expect_open_disclosure(const fx::Rate &rate) {
     ASSERT_TRUE(rate.open_disclosure);
+    // Open Access Endpoint Attribution, https://www.exchangerate-api.com/docs/free
     EXPECT_EQ(rate.open_disclosure->attribution_text, "Rates By Exchange Rate API");
     EXPECT_EQ(rate.open_disclosure->attribution_url, "https://www.exchangerate-api.com");
     EXPECT_TRUE(rate.open_disclosure->redistribution_restricted);

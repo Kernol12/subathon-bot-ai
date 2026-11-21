@@ -25,8 +25,8 @@ void exercise_g4(Fixture &f) {
     const auto primary = f.start(latest("g4-auto"), latest_at, sent(report_tick + 2'000));
     expect_blocked(f, latest("g4-manual", {"EUR"}, fx::RequestOrigin::manual), latest_at,
                    coalesced);
-    const auto rates = f.adapter.finish(
-        primary, frame(std::string(keyed_latest_body), clock(report_tick + 3'000)));
+    const auto rates =
+        f.finish(primary, frame(std::string(keyed_latest_body), clock(report_tick + 3'000)));
     ASSERT_TRUE(std::holds_alternative<fx::Rate>(rates.outcome));
 
     const auto timeout =
@@ -52,10 +52,20 @@ TEST(ExchangeRateApi, G4_QuotaReportUsageAndReceiptAgeRemainSeparate) {
 }
 
 TEST(ExchangeRateApi, G8_MalformedQuotaKeepsPriorReportAndInvalidHintDoesNotDiscardCounts) {
+    struct Variant {
+        std::string_view body;
+        std::string_view invalid_hint;
+    };
     for (
-        const std::string body : {
-            R"({"result":"success","plan_quota":30000,"requests_remaining":)",
-            R"({"result":"success","plan_quota":30000,"requests_remaining":24000,"requests_remaining":25000})",
+        const auto &[body, invalid_hint] : {
+            Variant{R"({"result":"success","plan_quota":30000,"requests_remaining":)", "32"},
+            Variant{
+                R"({"result":"success","plan_quota":30000,"requests_remaining":24000,"requests_remaining":25000})",
+                "0"},
+            Variant{
+                R"({"result":"success","plan_quota":30000,"requests_remaining":24000,"refresh_day_of_month":017})",
+                R"("17")"},
+            Variant{R"({"result":"success","plan_quota":3e4,"requests_remaining":24000})", "17.0"},
         }) {
         SCOPED_TRACE(body);
         Fixture f;
@@ -63,8 +73,9 @@ TEST(ExchangeRateApi, G8_MalformedQuotaKeepsPriorReportAndInvalidHintDoesNotDisc
         ASSERT_NO_FATAL_FAILURE(exercise_g4(f));
 
         const auto failed_at = report_tick + 20 * minute_ms + 1;
-        const auto failed = f.exchange(quota("g8-bad-report"), clock(failed_at),
-                                       frame(body, clock(failed_at, january + 20 * minute_ms)));
+        const auto failed =
+            f.exchange(quota("g8-bad-report"), clock(failed_at),
+                       frame(std::string(body), clock(failed_at, january + 20 * minute_ms)));
         expect_failure(failed, invalid_document);
         EXPECT_EQ(failed.dispatch.kind, fx::DispatchKind::sent);
         expect_report(f.view(clock(failed_at)), 30'000, 25'623, hint17, 4, 3);
@@ -72,9 +83,9 @@ TEST(ExchangeRateApi, G8_MalformedQuotaKeepsPriorReportAndInvalidHintDoesNotDisc
         // The history timeout and malformed report are consecutive failures on one scope.
         const auto retry = failed_at + 5 * minute_ms;
         expect_blocked(f, quota("g8-retry-early"), clock(retry - 1), retry_wait);
-        const auto fresh =
-            f.exchange(quota("g8-fresh-report"), clock(retry),
-                       quota_reply(30'000, 24'000, clock(retry, january + 25 * minute_ms), "32"));
+        const auto fresh = f.exchange(
+            quota("g8-fresh-report"), clock(retry),
+            quota_reply(30'000, 24'000, clock(retry, january + 25 * minute_ms), invalid_hint));
         const auto *sample = std::get_if<fx::Quota>(&fresh.outcome);
         ASSERT_NE(sample, nullptr);
         expect_counts(*sample, 30'000, 24'000, bad_hint);
@@ -97,8 +108,25 @@ void initial_exhaustion(Fixture &f) {
 
 fx::SelectionUpdate entitlement_b() {
     auto b = setup(fx::Profile::pro, "B", "S", fx::AuthorizedChange::credential_entitlement);
-    b.credential->private_segment = "synthetic-B";
+    b.credential->private_segment = "FxSecretCanary_EntitlementB";
     return b;
+}
+
+TEST(ExchangeRateApi, UnknownScopeContinuityDoesNotGrantAnEntitlementProbeOrKnownUsage) {
+    Fixture f;
+    ASSERT_EQ(f.select(setup(fx::Profile::pro)), fx::SelectionStatus::selected);
+    ASSERT_NO_FATAL_FAILURE(initial_exhaustion(f));
+    auto candidate = entitlement_b();
+    candidate.continuity = fx::ScopeContinuity::unknown;
+    ASSERT_EQ(f.select(candidate), fx::SelectionStatus::selected);
+    const auto at = clock(2 * day_ms, january + 2 * day_ms);
+    expect_blocked(f, quota("unknown-continuity-probe"), at, quota_hold);
+    expect_blocked(f, latest("unknown-continuity-latest"), at, quota_hold);
+    const auto view = f.adapter.quota_view(candidate.selection.scope, at);
+    EXPECT_FALSE(view.local_total);
+    EXPECT_FALSE(view.local_since_report);
+    EXPECT_TRUE(view.quota_held);
+    EXPECT_EQ(f.transport.calls.size(), 1u);
 }
 
 TEST(ExchangeRateApi, G5_OnlyFreshPositiveCurrentProbeClearsSameScopeExhaustion) {
@@ -131,14 +159,15 @@ TEST(ExchangeRateApi, G5_OnlyFreshPositiveCurrentProbeClearsSameScopeExhaustion)
     const auto outstanding = f.start(b_request, clock(10'000), sent(10'000));
     EXPECT_EQ(outstanding.dispatch.time, sent(10'000).time);
     ASSERT_EQ(f.transport.calls.size(), 2u);
-    expect_get(f.transport.calls.back(), "https://v6.exchangerate-api.com/v6/synthetic-B/quota",
-               b.selection, b_request, true);
+    expect_get(f.transport.calls.back(),
+               "https://v6.exchangerate-api.com/v6/FxSecretCanary_EntitlementB/quota", b.selection,
+               b_request, true);
     expect_report(f.view(clock(10'000)), 30'000, 0, no_hint, 2, 1);
 
     const auto c = setup(fx::Profile::business, "C", "S", fx::AuthorizedChange::plan_entitlement);
     ASSERT_EQ(f.select(c), fx::SelectionStatus::selected);
-    expect_pending_probe_blocks(f, quota("g5-C-pending"), clock(11'000));
-    const auto stale = f.adapter.finish(outstanding, quota_reply(30'000, 99, clock(12'000)));
+    expect_blocked(f, quota("g5-C-pending"), clock(11'000), quota_hold);
+    const auto stale = f.finish(outstanding, quota_reply(30'000, 99, clock(12'000)));
     expect_failure(stale, superseded);
     EXPECT_EQ(stale.admission, outstanding.admission);
     EXPECT_EQ(stale.dispatch.kind, fx::DispatchKind::sent);
@@ -170,13 +199,16 @@ TEST(ExchangeRateApi, G6_AuthStopWinsOverTimeAndRequiresCorrectedCredential) {
     Fixture f;
     const auto old = setup(fx::Profile::pro);
     ASSERT_EQ(f.select(old), fx::SelectionStatus::selected);
-    const auto invalid =
-        f.exchange(latest("g6-invalid"), clock(10), provider_error("invalid-key", clock(20), 403));
+    const auto invalid_request = latest("g6-invalid");
+    const auto invalid = f.exchange(
+        invalid_request, clock(10),
+        frame(
+            R"({"result":"error","error-type":"invalid-key","detail":"FxSecretCanary_Original/+?"})",
+            clock(20), 403));
     const auto *failure = std::get_if<fx::Failure>(&invalid.outcome);
     ASSERT_NE(failure, nullptr);
     EXPECT_EQ(failure->kind, authentication_hold);
     EXPECT_EQ(failure->status, 403);
-    EXPECT_EQ(failure->safe_code, "invalid-key");
     EXPECT_EQ(invalid.admission.selection, old.selection);
     EXPECT_EQ(f.view(clock(20)).local_total, (fx::Usage{1, 0}));
     expect_blocked(f, latest("g6-before-retry"), clock(21), authentication_hold);
@@ -188,57 +220,126 @@ TEST(ExchangeRateApi, G6_AuthStopWinsOverTimeAndRequiresCorrectedCredential) {
     ASSERT_EQ(f.select(revision_only), fx::SelectionStatus::selected);
     expect_blocked(f, quota("g6-revision-only"), clock(21 + 60 * minute_ms), authentication_hold);
     ASSERT_EQ(f.transport.calls.size(), 1u);
+    expect_get(f.transport.calls.front(), std::string(keyed_root) + "latest/USD", old.selection,
+               invalid_request);
 
     auto corrected = setup(fx::Profile::pro, "B", "S", fx::AuthorizedChange::corrected_credential);
-    corrected.credential->private_segment = "synthetic-corrected";
+    corrected.credential->private_segment = "FxSecretCanary_Corrected";
     ASSERT_EQ(f.select(corrected), fx::SelectionStatus::selected);
     const auto request = latest("g6-corrected");
+    const auto body =
+        R"({"result":"success","base_code":"USD","conversion_rates":{"EUR":0.9000},)"
+        R"("time_last_update_unix":1767225600,"time_last_update_utc":"Thu, 01 Jan 2026 00:00:00 +0000",)"
+        R"("time_next_update_unix":1767312000,"time_next_update_utc":"Fri, 02 Jan 2026 00:00:00 +0000",)"
+        R"("ignored":"https://v6.exchangerate-api.com/v6/FxSecretCanary_Corrected/latest/USD"})";
     const auto repaired =
-        f.exchange(request, clock(22 + 60 * minute_ms),
-                   frame(std::string(keyed_latest_body), clock(23 + 60 * minute_ms)));
+        f.exchange(request, clock(22 + 60 * minute_ms), frame(body, clock(23 + 60 * minute_ms)));
     ASSERT_TRUE(std::holds_alternative<fx::Rate>(repaired.outcome));
     ASSERT_EQ(f.transport.calls.size(), 2u);
     expect_get(f.transport.calls.back(),
-               "https://v6.exchangerate-api.com/v6/synthetic-corrected/latest/USD",
+               "https://v6.exchangerate-api.com/v6/FxSecretCanary_Corrected/latest/USD",
                corrected.selection, request);
     EXPECT_EQ(f.view(clock(23 + 60 * minute_ms)).local_total, (fx::Usage{2, 0}));
+}
+
+TEST(ExchangeRateApi, StructuredProviderStopsAndHttpFailureKeepTheirDistinctDispositions) {
+    struct Variant {
+        std::string_view code;
+        int status;
+        fx::FailureKind expected;
+    };
+    for (const auto &v : {
+             Variant{"inactive-account", 403, authentication_hold},
+             Variant{"plan-upgrade-required", 403, operation_unavailable},
+             Variant{"unsupported-code", 400, request_domain},
+             Variant{"no-data-available", 200, request_domain},
+             Variant{"malformed-request", 400, request_domain},
+             Variant{"", 503, failed_sync},
+         }) {
+        SCOPED_TRACE(v.code);
+        Fixture f;
+        ASSERT_EQ(f.select(setup(fx::Profile::pro)), fx::SelectionStatus::selected);
+        SnapshotOwner owner;
+        const auto receipt = clock(20, january);
+        const auto reply = v.code.empty() ? frame(std::string(keyed_latest_body), receipt, v.status)
+                                          : provider_error(v.code, receipt, v.status);
+        const auto result = f.exchange(latest("provider-signal"), clock(10), reply);
+        expect_failure(result, v.expected);
+        owner.consider(result);
+        owner.expect_cached();
+        EXPECT_EQ(result.dispatch.kind, fx::DispatchKind::sent);
+        EXPECT_EQ(f.transport.calls.size(), 1u);
+        const auto view = f.view(receipt);
+        EXPECT_EQ(view.local_total, (fx::Usage{1, 0}));
+        EXPECT_FALSE(view.sample);
+        EXPECT_FALSE(view.quota_held);
+
+        const auto next = latest("after-provider-signal");
+        const auto retry = clock(20 + minute_ms, january + minute_ms);
+        if (v.expected == authentication_hold || v.expected == operation_unavailable) {
+            expect_blocked(f, next, retry, v.expected);
+        } else {
+            const auto fresh =
+                f.exchange(next, retry, frame(std::string(keyed_latest_body), retry));
+            ASSERT_TRUE(std::holds_alternative<fx::Rate>(fresh.outcome));
+            EXPECT_EQ(f.transport.calls.size(), 2u);
+        }
+    }
 }
 
 TEST(ExchangeRateApi, G7_OpenAndKeyedRateLimitsUseTheirOwnExactRetryBoundaries) {
     struct Variant {
         fx::Profile profile;
-        std::string header;
+        fx::Headers headers;
         std::int64_t at;
         std::optional<std::int64_t> provider_delay;
+        std::optional<std::int64_t> provider_deadline{};
     };
-    for (const Variant &v : {Variant{fx::Profile::open, "1800", 1'805'000, 1'800'000},
-                             Variant{fx::Profile::open, "tomorrow", 1'205'000, {}},
-                             Variant{fx::Profile::pro, "tomorrow", 65'000, {}},
-                             Variant{fx::Profile::pro, "90", 95'000, 90'000}}) {
+    for (const Variant &v : {
+             Variant{fx::Profile::open, {{"Retry-After", "1800"}}, 1'805'000, 1'800'000},
+             Variant{fx::Profile::open, {{"Retry-After", "tomorrow"}}, 1'205'000, {}},
+             Variant{fx::Profile::pro, {{"Retry-After", "tomorrow"}}, 65'000, {}},
+             Variant{fx::Profile::pro, {{"Retry-After", "90"}}, 95'000, 90'000},
+             Variant{fx::Profile::pro,
+                     {{"Retry-After", "Thu, 01 Jan 2026 00:02:00 GMT"}},
+                     125'000,
+                     {},
+                     january + 120'000},
+             Variant{
+                 fx::Profile::pro, {{"Retry-After", "1800"}, {"retry-after", "3600"}}, 65'000, {}},
+         }) {
         SCOPED_TRACE(v.at);
         Fixture f;
         ASSERT_EQ(f.select(setup(v.profile)), fx::SelectionStatus::selected);
-        const auto limited = f.exchange(
-            latest("g7-throttled"), clock(4'900),
-            frame("<bad provider frame>", clock(5'000, january), 429, {{"Retry-After", v.header}}));
+        const auto limited =
+            f.exchange(latest("g7-throttled"), clock(4'900),
+                       frame("<bad provider frame>", clock(5'000, january), 429, v.headers));
         const auto *failure = std::get_if<fx::Failure>(&limited.outcome);
         ASSERT_NE(failure, nullptr);
         EXPECT_EQ(failure->kind, rate_limited);
         EXPECT_EQ(failure->status, 429);
         EXPECT_EQ(failure->retry_after.delay_ms, v.provider_delay);
-        EXPECT_EQ(failure->retry_after.kind,
-                  v.provider_delay ? fx::RetryEvidence::delay : fx::RetryEvidence::invalid);
-        EXPECT_FALSE(failure->retry_after.deadline_utc_ms);
-        expect_blocked(f, latest("g7-early"), clock(v.at - 1, january + day_ms), retry_wait);
+        const auto evidence = v.provider_deadline ? fx::RetryEvidence::utc_deadline
+                              : v.provider_delay  ? fx::RetryEvidence::delay
+                                                  : fx::RetryEvidence::invalid;
+        EXPECT_EQ(failure->retry_after.kind, evidence);
+        EXPECT_EQ(failure->retry_after.deadline_utc_ms, v.provider_deadline);
+        const auto early_utc = v.provider_deadline ? *v.provider_deadline - 1 : january + day_ms;
+        expect_blocked(f, latest("g7-early"), clock(v.at - 1, early_utc), retry_wait);
+        if (v.provider_deadline) {
+            expect_blocked(f, latest("g7-utc-early-with-elapsed-ready"), clock(v.at, early_utc),
+                           retry_wait);
+        }
         expect_blocked(f, latest("g7-no-elapsed"), {january + day_ms, {}}, retry_wait);
 
         const auto request = latest("g7-manual", {"EUR"}, fx::RequestOrigin::manual);
-        const auto pending = f.start(request, clock(v.at, january - day_ms), sent(v.at));
-        expect_blocked(f, latest("g7-auto"), clock(v.at, january - day_ms), coalesced);
-        const auto success = f.adapter.finish(pending, frame(v.profile == fx::Profile::open
-                                                                 ? open_body(R"("time_eol":0)")
-                                                                 : std::string(keyed_latest_body),
-                                                             clock(v.at + 1)));
+        const auto ready = clock(v.at, v.provider_deadline.value_or(january - day_ms));
+        const auto pending = f.start(request, ready, sent(v.at));
+        expect_blocked(f, latest("g7-auto"), ready, coalesced);
+        const auto success =
+            f.finish(pending, frame(v.profile == fx::Profile::open ? open_body(R"("time_eol":0)")
+                                                                   : std::string(keyed_latest_body),
+                                    clock(v.at + 1)));
         EXPECT_TRUE(std::holds_alternative<fx::Rate>(success.outcome));
         ASSERT_EQ(f.transport.calls.size(), 2u);
         EXPECT_EQ(f.view(clock(v.at + 1)).local_total, (fx::Usage{2, 0}));
@@ -246,42 +347,54 @@ TEST(ExchangeRateApi, G7_OpenAndKeyedRateLimitsUseTheirOwnExactRetryBoundaries) 
 }
 
 TEST(ExchangeRateApi, G10_WorldwideDayEndAndRollingElapsedGateRequireSeparateClocks) {
-    Fixture f;
-    ASSERT_EQ(f.select(setup(fx::Profile::pro)), fx::SelectionStatus::selected);
-    const auto initial = clock(0, utc(2026y / November / 16, 10h));
-    const auto boundary = utc(2026y / November / 18, 12h);
-    constexpr std::int64_t first_tick = 180'000'000;
-    const auto exhausted =
-        f.exchange(quota("g10-initial"), initial, quota_reply(30'000, 0, initial, "17"));
-    ASSERT_TRUE(std::holds_alternative<fx::Quota>(exhausted.outcome));
-    expect_report(f.view(initial), 30'000, 0, hint17, 1, 0);
-    expect_blocked(f, quota("g10-before-day-end"), clock(first_tick - 1, boundary - 1), quota_hold);
+    for (const bool reset_epoch : {false, true}) {
+        SCOPED_TRACE(reset_epoch);
+        Fixture f;
+        ASSERT_EQ(f.select(setup(fx::Profile::pro)), fx::SelectionStatus::selected);
+        const auto initial = clock(0, utc(2026y / November / 16, 10h));
+        const auto boundary = utc(2026y / November / 18, 12h);
+        constexpr std::int64_t first_tick = 180'000'000;
+        const auto exhausted =
+            f.exchange(quota("g10-initial"), initial, quota_reply(30'000, 0, initial, "17"));
+        ASSERT_TRUE(std::holds_alternative<fx::Quota>(exhausted.outcome));
+        expect_report(f.view(initial), 30'000, 0, hint17, 1, 0);
+        expect_blocked(f, quota("g10-before-day-end"), clock(first_tick - 1, boundary - 1),
+                       quota_hold);
 
-    const auto first = f.start(quota("g10-first-probe", fx::RequestOrigin::manual),
-                               clock(first_tick, boundary), sent(first_tick));
-    EXPECT_TRUE(first.admission.recovery_probe);
-    expect_pending_probe_blocks(f, quota("g10-auto"), clock(first_tick, boundary));
-    const auto failed = f.adapter.finish(
-        first, provider_error("quota-reached", clock(first_tick + 250, boundary + 250), 429));
-    expect_failure(failed, quota_hold);
-    expect_report(f.view(clock(first_tick + 250)), 30'000, 0, hint17, 2, 1);
-    EXPECT_TRUE(f.view(clock(first_tick + 250)).quota_held);
+        const auto first = f.start(quota("g10-first-probe", fx::RequestOrigin::manual),
+                                   clock(first_tick, boundary), sent(first_tick));
+        EXPECT_TRUE(first.admission.recovery_probe);
+        expect_same_selection_probe_blocks(f, quota("g10-auto"), clock(first_tick, boundary));
+        const auto failed = f.finish(
+            first, provider_error("quota-reached", clock(first_tick + 250, boundary + 250), 429));
+        expect_failure(failed, quota_hold);
+        expect_report(f.view(clock(first_tick + 250)), 30'000, 0, hint17, 2, 1);
+        EXPECT_TRUE(f.view(clock(first_tick + 250)).quota_held);
 
-    expect_blocked(f, quota("g10-before-slot"), clock(first_tick + day_ms - 1, boundary + day_ms),
-                   quota_hold);
-    expect_blocked(f, latest("g10-rate-still-held"), clock(first_tick + day_ms, boundary + day_ms),
-                   quota_hold);
-    const auto eligible = clock(first_tick + day_ms, boundary + day_ms);
-    const auto recovered =
-        f.exchange(quota("g10-next-probe"), eligible, quota_reply(30'000, 100, eligible, "17"));
-    const auto *sample = std::get_if<fx::Quota>(&recovered.outcome);
-    ASSERT_NE(sample, nullptr);
-    ASSERT_GT(sample->requests_remaining, 0u);
-    EXPECT_TRUE(recovered.admission.recovery_probe);
-    EXPECT_EQ(recovered.dispatch.kind, fx::DispatchKind::sent);
-    expect_report(f.view(eligible), 30'000, 100, hint17, 3, 0);
-    EXPECT_FALSE(f.view(eligible).quota_held);
-    EXPECT_EQ(f.transport.calls.size(), 3u);
+        expect_blocked(f, quota("g10-before-slot"),
+                       clock(first_tick + day_ms - 1, boundary + day_ms), quota_hold);
+        expect_blocked(f, latest("g10-rate-still-held"),
+                       clock(first_tick + day_ms, boundary + day_ms), quota_hold);
+        const auto eligible = clock(first_tick + day_ms, boundary + day_ms);
+        if (reset_epoch) {
+            const fx::Clocks reset{eligible.utc_ms,
+                                   fx::Elapsed{"new-clock-epoch", first_tick + day_ms}};
+            expect_blocked(f, quota("g10-new-epoch"), reset, quota_hold);
+            EXPECT_TRUE(f.view(reset).quota_held);
+            EXPECT_EQ(f.transport.calls.size(), 2u);
+            continue;
+        }
+        const auto recovered =
+            f.exchange(quota("g10-next-probe"), eligible, quota_reply(30'000, 100, eligible, "17"));
+        const auto *sample = std::get_if<fx::Quota>(&recovered.outcome);
+        ASSERT_NE(sample, nullptr);
+        ASSERT_GT(sample->requests_remaining, 0u);
+        EXPECT_TRUE(recovered.admission.recovery_probe);
+        EXPECT_EQ(recovered.dispatch.kind, fx::DispatchKind::sent);
+        expect_report(f.view(eligible), 30'000, 100, hint17, 3, 0);
+        EXPECT_FALSE(f.view(eligible).quota_held);
+        EXPECT_EQ(f.transport.calls.size(), 3u);
+    }
 }
 
 TEST(ExchangeRateApi, G11_DispatchEvidenceAndReplayDriveUsageIndependentlyOfFailures) {
@@ -304,7 +417,7 @@ TEST(ExchangeRateApi, G11_DispatchEvidenceAndReplayDriveUsageIndependentlyOfFail
     const auto second =
         f.start(second_request, clock(65'000), {fx::DispatchKind::possibly_sent, upper});
     const auto timed_out =
-        f.adapter.finish(second, fx::FailedTransport{fx::TransportFailure::timeout, clock(65'030)});
+        f.finish(second, fx::FailedTransport{fx::TransportFailure::timeout, clock(65'030)});
     expect_failure(timed_out, failed_sync);
     EXPECT_EQ(timed_out.dispatch.kind, fx::DispatchKind::possibly_sent);
     EXPECT_EQ(timed_out.dispatch.time, upper);
@@ -315,7 +428,7 @@ TEST(ExchangeRateApi, G11_DispatchEvidenceAndReplayDriveUsageIndependentlyOfFail
     expect_blocked(f, latest("g11-second-retry-early"), clock(tick - 1), retry_wait);
     const auto third = f.start(third_request, clock(tick), {fx::DispatchKind::not_sent});
     const auto unsent =
-        f.adapter.finish(third, fx::FailedTransport{fx::TransportFailure::cancelled, clock(tick)});
+        f.finish(third, fx::FailedTransport{fx::TransportFailure::cancelled, clock(tick)});
     expect_failure(unsent, failed_sync);
     EXPECT_EQ(unsent.dispatch.kind, fx::DispatchKind::not_sent);
     EXPECT_FALSE(unsent.dispatch.time);
@@ -336,7 +449,7 @@ TEST(ExchangeRateApi, CompleteHttpReplyConfirmsAnIndeterminateHandoffWithoutAnot
         f.start(latest("send-then-confirm"), clock(10), {fx::DispatchKind::possibly_sent});
     EXPECT_EQ(pending.dispatch.kind, fx::DispatchKind::possibly_sent);
     EXPECT_EQ(f.view(clock(10)).local_total, (fx::Usage{1, 1}));
-    const auto result = f.adapter.finish(pending, frame(std::string(keyed_latest_body), clock(20)));
+    const auto result = f.finish(pending, frame(std::string(keyed_latest_body), clock(20)));
     EXPECT_EQ(result.dispatch.kind, fx::DispatchKind::sent);
     EXPECT_TRUE(std::holds_alternative<fx::Rate>(result.outcome));
     EXPECT_EQ(f.view(clock(20)).local_total, (fx::Usage{1, 0}));
@@ -422,7 +535,7 @@ TEST(ExchangeRateApi, G15_IndependentQuotaScopeIgnoresSupersededReplyAndPreserve
     EXPECT_FALSE(fresh_t.admission.recovery_probe);
     expect_report(f.view(t_at), 30'000, 4, no_hint, 1, 0);
 
-    const auto stale_b = f.adapter.finish(b, quota_reply(30'000, 99, clock(12'000)));
+    const auto stale_b = f.finish(b, quota_reply(30'000, 99, clock(12'000)));
     expect_failure(stale_b, superseded);
     EXPECT_EQ(stale_b.admission, b.admission);
     EXPECT_EQ(stale_b.dispatch.time, sent(10'000).time);
@@ -451,7 +564,7 @@ TEST(ExchangeRateApi, UnsentProbePreservesEligibilityAndUncertainProbeUsesSendUp
     expect_blocked(f, quota("missing-elapsed"), {january, {}}, quota_hold);
     const auto unsent = f.start(quota("pre-send"), clock(100), {fx::DispatchKind::not_sent});
     const auto cancelled =
-        f.adapter.finish(unsent, fx::FailedTransport{fx::TransportFailure::cancelled, clock(100)});
+        f.finish(unsent, fx::FailedTransport{fx::TransportFailure::cancelled, clock(100)});
     EXPECT_TRUE(cancelled.admission.recovery_probe);
     EXPECT_EQ(cancelled.dispatch.kind, fx::DispatchKind::not_sent);
     expect_failure(cancelled, failed_sync);
@@ -461,8 +574,8 @@ TEST(ExchangeRateApi, UnsentProbePreservesEligibilityAndUncertainProbeUsesSendUp
     const fx::SendTime upper{fx::SendTimeKind::upper_bound, {"fixture-epoch", 60'150}};
     const auto uncertain =
         f.start(quota("possibly-sent"), clock(60'100), {fx::DispatchKind::possibly_sent, upper});
-    const auto timeout = f.adapter.finish(
-        uncertain, fx::FailedTransport{fx::TransportFailure::timeout, clock(60'200)});
+    const auto timeout =
+        f.finish(uncertain, fx::FailedTransport{fx::TransportFailure::timeout, clock(60'200)});
     EXPECT_TRUE(timeout.admission.recovery_probe);
     EXPECT_EQ(timeout.dispatch.kind, fx::DispatchKind::possibly_sent);
     EXPECT_EQ(timeout.dispatch.time, upper);
