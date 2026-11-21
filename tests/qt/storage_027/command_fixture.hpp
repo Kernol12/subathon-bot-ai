@@ -11,9 +11,11 @@ inline void advance_fixture(CatalogFile &db) {
     MigrationLimits limits;
     limits.schema_objects = manifest.steps.back().expected_schema.size();
     db.reopen(predecessor::migration_profile());
-    report(migrate(db.writer(), {MigrationMode::advance, std::move(manifest), limits, {}}),
+    report(migrate(db.writer(), {MigrationMode::advance, manifest, limits, {}}),
            CatalogState::current, version, version, 1);
     db.reopen(profile());
+    report(migrate(db.writer(), {MigrationMode::inspect, std::move(manifest), limits, {}}),
+           CatalogState::current, version, version, 0);
 }
 
 struct Authority final : CommandAuthority {
@@ -21,7 +23,7 @@ struct Authority final : CommandAuthority {
     bool disclosure{true};
     QByteArray revision{"grant-1"};
     QByteArray configuration{"cfg"};
-    const std::vector<AuthorizedCapture> captures{
+    std::vector<AuthorizedCapture> captures{
         {{1, {MilestoneActionKind::automation, "announce", "announce-v2"}},
          QByteArray::fromHex("0082"),
          "local/new-route",

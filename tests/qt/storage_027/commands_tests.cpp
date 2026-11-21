@@ -58,11 +58,14 @@ void release_edit(Populated &f) {
 
 struct Dispatch final : MilestoneEditDispatchAuthority {
     int selected{};
+    bool allow_retry{};
     bool allows(const MilestoneEditJob &job) override {
         ++selected;
         return job.key.occurrence == edit::b && job.capture.sender_ref == "edit-sender";
     }
-    std::optional<std::string> retry_policy(const MilestoneEditJob &) override { return {}; }
+    std::optional<std::string> retry_policy(const MilestoneEditJob &) override {
+        return allow_retry ? std::optional<std::string>{"exact-retry-grant"} : std::nullopt;
+    }
 };
 struct SuccessorDispatch final : ReplacementDispatchAuthority {
     int calls{};
@@ -81,6 +84,137 @@ struct PlaybackOwner final : PlaybackAuthority {
                requested.instance.adapter == "audio-adapter" &&
                requested.instance.runtime_generation == "runtime-1" &&
                requested.instance.capability == StopCapability::supported;
+    }
+};
+
+struct BonusProducer : predecessor::Populated {
+    const MilestoneOccurrenceKey app_occurrence{"active-bonus-origin"};
+    const MilestoneOccurrenceKey occurrence;
+    const MilestoneAction action{MilestoneActionKind::bonus, "award", "award-30"};
+    ApplicationOperationKey original;
+    std::optional<MilestoneEditKey> edit_operation;
+    ContributionReceipt original_effect, replacement_effect;
+
+    explicit BonusProducer(bool use_edit) : occurrence(use_edit ? edit::b : app_occurrence) {
+        install_protected(*this);
+        install();
+        const auto entry = seed("dense-bonus-origin", Case::positive());
+        auto review = service();
+        const auto cmd = bind("dense-bonus-origin", {entry}, preview(review, {entry}));
+        const auto result = execute(review, cmd);
+        expected_row(reply(result), 1, ReviewDisposition::committed, ReviewStatus::applied);
+        original = *reply(result).rows.front().outcome->facts->bundle;
+        const core::MilestoneCompletion achieved{"target-95", "bonus-track-v1", 95, 97, "ctx"};
+        db.write([&](const auto &s) {
+            const auto actions = use_edit ? std::vector<MilestoneAction>{} : std::vector{action};
+            SqliteMilestoneGroupStore(s).stage(original,
+                                               {{{achieved, actions, {}, app_occurrence}, {}}});
+            SqliteMilestoneGroupDecisions(s).record_acceptance(
+                original, {PausedAcceptanceMode::normal,
+                           {"operator", "actual-award-decision"},
+                           {{app_occurrence, MilestoneActionChoice::run}}});
+            MilestoneTrackSeed track{
+                edit::track,
+                "cfg",
+                "bonus-definition",
+                "bonus-prefix",
+                {{"target-95", 95}},
+                std::vector<MilestoneTrackSeed::Member>{{achieved, original, app_occurrence}}};
+            if (use_edit)
+                track.targets.push_back({"B", 200});
+            require(initialize_milestone_track(s, track),
+                    "Real authority track anchors the exact credited group");
+            if (!use_edit)
+                return;
+            edit::Authority owner;
+            owner.facts.captures = {{"B", occurrence, {action}, {}, {}}};
+            const auto edit = milestone_target_edit_fixture::single(
+                "bonus-edit", {"B", 96}, {{occurrence, MilestoneActionChoice::run}});
+            const auto preview =
+                preview_milestone_target_edit(s, owner, milestone_target_edit_fixture::actor, edit);
+            milestone_target_edit_fixture::File::confirmable(preview);
+            const auto saved = confirm_milestone_target_edit(
+                s, owner, milestone_target_edit_fixture::actor, edit, *preview.confirmation);
+            require(saved.result && saved.result->achievements.size() == 1 &&
+                        saved.result->achievements[0].order == 2,
+                    "Actual target edit commits the exact immutable bonus successor lane");
+            edit_operation = edit.key;
+        });
+        const auto released = finance::completed<MilestoneReleaseCompletion>([&](auto done) {
+            return release_milestone_head(db.writer(), app_occurrence, std::move(done));
+        });
+        finance::normal(released.work);
+        require(released.disposition == MilestoneReleaseDisposition::released,
+                "Actual protected application release precedes either bonus contender");
+        if (use_edit) {
+            const auto second = finance::completed<MilestoneReleaseCompletion>([&](auto done) {
+                return release_milestone_head(db.writer(), occurrence,
+                                              std::make_shared<EditRelease>(), std::move(done));
+            });
+            finance::normal(second.work);
+            require(second.disposition == MilestoneReleaseDisposition::released,
+                    "The second protected release selects the exact edit bonus");
+        }
+        original_effect = intake("bonus-original-effect");
+        replacement_effect = intake("bonus-replacement-effect");
+    }
+
+    Occurrence target() const {
+        using Origin = decltype(Occurrence::origin);
+        return {edit::track, occurrence,
+                edit_operation ? Origin{*edit_operation} : Origin{original}};
+    }
+
+    qint64 main() {
+        return db
+            .rows("SELECT s.main_remaining_ms FROM subathon_app_head h "
+                  "JOIN subathon_app_states s ON h.token=s.token")[0][0]
+            .toLongLong();
+    }
+};
+
+struct BonusPorts final : MilestoneBonusAuthority, MilestoneBonusEffect, ReplacementBonusEffect {
+    BonusProducer &f;
+    bool cap{};
+    explicit BonusPorts(BonusProducer &fixture, bool capped) : f(fixture), cap(capped) {}
+
+    bool allows(const MilestoneBonusKey &key, const MilestoneAction &selected) override {
+        return key.occurrence == f.occurrence && key.action_ordinal == 1 && selected == f.action;
+    }
+
+    static Actual record(const SqliteWorkSession &s, const ContributionReceipt &receipt,
+                         const char *id, qint64 requested, bool capped) {
+        auto bundle = finance::File::receipt_application(s, receipt, id);
+        const auto prior = bundle.after.timer.main_remaining_ms;
+        require(bundle.after.timer.lifecycle == core::TimerLifecycle::Active &&
+                    bundle.after.time_debt_ms == 0,
+                "Bonus budget witness uses a real Active head with zero debt");
+        const auto actual = capped ? qint64(0) : requested;
+        finance::File::retain_plan(
+            s, bundle.intent.plan,
+            finance::File::plain_capture(
+                receipt, {}, {finance::request(finance::Unit::milliseconds, requested, "main")}));
+        auto effect = finance::addition(requested, actual, 0, requested - actual);
+        if (capped)
+            effect.maximum_main_ms = prior;
+        bundle.effects.push_back(std::move(effect));
+        bundle.after.timer.main_remaining_ms += actual;
+        require(SqliteApplicationBundleStore(s).stage(bundle).disposition ==
+                    SqliteBundleStageDisposition::staged,
+                "Owning bundle writes exactly the actual effect and retained provenance");
+        return {id, actual};
+    }
+
+    std::string apply(const SqliteWorkSession &s, const MilestoneBonusKey &,
+                      const MilestoneAction &) override {
+        return record(s, f.original_effect, "bonus-original", 30000, cap).effect_ref;
+    }
+
+    Actual apply(const SqliteWorkSession &s, const Occurrence &target,
+                 const SelectedVersion &version, qint64 requested_ms) override {
+        require(target.occurrence == f.occurrence && version.ordinal == 1 && requested_ms == 20000,
+                "The effect owner receives only the exact successor's retained 20 seconds");
+        return record(s, f.replacement_effect, "bonus-replacement", requested_ms, false);
     }
 };
 
@@ -279,6 +413,14 @@ class Storage027CommandsTests final : public QObject {
             require(saved == causes(f.db) && journal(f.db).size() == 4,
                     "Fresh refusal and authorized retry preserve the later independent Hold");
             same_redaction(f.db, port, key, changed, first);
+            port.disclosure = true;
+            const auto subset = resume("resume-only-H3", {c.added_causes[0]});
+            const auto last = commit(f.db, port, subset, Disposition::committed);
+            const auto closed = causes(f.db);
+            require(last.resolved_causes == c.added_causes && closed.size() == 3 &&
+                        closed.mid(0, 2) == saved.mid(0, 2) &&
+                        closed[2][2].toByteArray() == subset.operation,
+                    "Fresh authorized subset resolves only the one remaining interruption cause");
         });
     }
 
@@ -351,6 +493,201 @@ class Storage027CommandsTests final : public QObject {
         });
     }
 
+    void playbackHandoffAndOutcome_data() {
+        QTest::addColumn<bool>("lost_claim_ack");
+        QTest::newRow("acknowledged-claim") << false;
+        QTest::newRow("lost-claim-ack") << true;
+    }
+
+    void playbackHandoffAndOutcome() {
+        QFETCH(bool, lost_claim_ack);
+        check([&] {
+            Populated f({.audio_job = true});
+            release_application(f);
+            release_edit(f);
+            Dispatch dispatch;
+            f.db.write([&](const auto &s) {
+                const auto claimed = claim_milestone_edit_job(s, f.job, 1, dispatch);
+                require(claimed.disposition == DeliveryDisposition::changed && claimed.job &&
+                            claimed.job->attempt == 2,
+                        "Protected owner commits the exact audio attempt before interruption");
+            });
+            advance_fixture(f.db);
+            Authority port;
+            const PlaybackInstance live{edited(f),
+                                        1,
+                                        {},
+                                        2,
+                                        "audio-adapter",
+                                        "owned-live-activation",
+                                        "runtime-1",
+                                        StopCapability::supported};
+            port.observed_playback = {live};
+            const auto cmd = stop("stop-audio", edited(f), QueueChoice::continue_queue);
+            const auto saved = commit(f.db, port, cmd, Disposition::committed);
+            require(saved.playback_intents.size() == 1 && !saved.playback_intents[0].isEmpty(),
+                    "Normal Stop owns one exact adapter-specific intent");
+            const PlaybackHandoff handoff{{edit::track, cmd.operation, live},
+                                          saved.playback_intents[0]};
+            PlaybackOwner owner;
+            const auto claim = [&](const PlaybackHandoff &selected) {
+                return run(f.db, [&](const auto &s) {
+                    return Decision{stage_playback_handoff(s, owner, selected), {}, {}, {}, {}};
+                });
+            };
+            const auto claimed_rows = [&] {
+                return f.db.rows(
+                    "SELECT typeof(handoff) FROM main.subathon_milestone_playback_instances"
+                    " WHERE stop=? AND instance=?",
+                    {cmd.operation, handoff.intent});
+            };
+            auto stale = handoff;
+            stale.selected.instance.runtime_generation = "runtime-after-reconnect";
+            const auto rejected = claim(stale);
+            require(rejected.published && rejected.published->disposition == Disposition::refused &&
+                        claimed_rows() == SqlRows{{QString("null")}},
+                    "Current-generation mismatch never claims a retained intent");
+            if (lost_claim_ack)
+                require(SqliteWriterWorkAccess::inject_next_control_ack_loss(
+                            f.db.writer(), WorkControlFault::lose_next_commit_ack) ==
+                            StorageError::none,
+                        "Exact handoff SQL COMMIT can lose its normal acknowledgement");
+            const auto acquired = claim(handoff);
+            int adapter_calls = 0;
+            if (acquired.published && acquired.published->disposition == Disposition::committed) {
+                require(claimed_rows() == SqlRows{{QString("blob")}},
+                        "Fake adapter sees the consuming handoff claim before entry");
+                ++adapter_calls;
+            }
+            require(!acquired.missing, "STORAGE-027 NI: durable exact playback handoff");
+            if (lost_claim_ack) {
+                require(acquired.work.transaction == TransactionOutcome::outcome_unknown &&
+                            acquired.work.error == WorkError::uncertain_outcome &&
+                            !acquired.published && adapter_calls == 0,
+                        "Lost handoff acknowledgement publishes no invocation permission");
+            } else {
+                finance::normal(acquired.work);
+                require(adapter_calls == 1, "Normal claim permits precisely one fake adapter call");
+            }
+
+            f.db.reopen(profile());
+            require(claimed_rows() == SqlRows{{QString("blob")}},
+                    "Cold reopened intent retains its consuming handoff claim");
+            const auto repeat = claim(handoff);
+            require(repeat.published && (repeat.published->disposition == Disposition::replay ||
+                                         repeat.published->disposition == Disposition::refused),
+                    "A durable handoff claim never grants another adapter invocation");
+            exact_same_result(read(f.db, port, cmd), saved);
+
+            const auto signal = [&](PlaybackOutcome outcome, const QByteArray &evidence) {
+                f.db.write([&](const auto &s) {
+                    require(stage_playback_outcome(s, owner, {handoff, outcome, evidence}) ==
+                                Disposition::committed,
+                            "Exact owned outcome appends independent playback evidence");
+                });
+            };
+            const auto uncertain = QByteArray("owner-did-not-observe-adapter-ack");
+            signal(PlaybackOutcome::uncertain, uncertain);
+            const auto observed = QByteArray("authoritative-exact-activation-stopped");
+            signal(PlaybackOutcome::confirmed_stopped, observed);
+            require(f.db.rows("SELECT evidence FROM main.subathon_milestone_playback_evidence "
+                              "WHERE stop=? AND instance=? ORDER BY ordinal",
+                              {cmd.operation, handoff.intent}) == SqlRows{{uncertain}, {observed}},
+                    "Uncertain and later exact confirmed outcome retain their append order");
+            require(adapter_calls == (lost_claim_ack ? 0 : 1),
+                    "Cold selection, replay and later evidence cannot trigger new delivery");
+            exact_same_result(commit(f.db, port, cmd, Disposition::replay), saved);
+        });
+    }
+
+    void bonusSelectionRace_data() {
+        QTest::addColumn<bool>("edit_origin");
+        QTest::addColumn<int>("winner");
+        for (bool edit : {false, true})
+            for (int outcome = 0; outcome != 3; ++outcome) {
+                const auto name =
+                    QByteArray(edit ? "edit-" : "application-") +
+                    std::array{"original-before-confirm", "zero-actual-original-is-started",
+                               "replacement-after-original-rollback"}[outcome];
+                QTest::newRow(name.constData()) << edit << outcome;
+            }
+    }
+
+    void bonusSelectionRace() {
+        QFETCH(bool, edit_origin);
+        QFETCH(int, winner);
+        check([&] {
+            BonusProducer f(edit_origin);
+            const auto initial = f.main();
+            advance_fixture(f.db);
+            const auto target = f.target();
+            const Replacement patch{1, {MilestoneActionKind::bonus, "award", "award-20"}};
+            const Command cmd{edit::track, "replace-bonus", edit::actor,
+                              ReplaceIntent{target, {patch}}};
+            Authority port;
+            port.captures = {{patch, {}, {}, {}, 20000}};
+            const auto preview = bind_replace(f.db, port, cmd);
+            BonusPorts bonus(f, winner == 1);
+            const MilestoneBonusKey original{f.occurrence, 1};
+            const auto receipt = [&] {
+                return f.db.rows(edit_origin ? "SELECT action_ordinal,effect_ref FROM "
+                                               "main.subathon_milestone_edit_bonus_receipts"
+                                             : "SELECT action_ordinal,effect_ref FROM "
+                                               "main.subathon_milestone_bonus_receipts");
+            };
+            if (winner < 2) {
+                f.db.write([&](const auto &s) {
+                    SqliteMilestoneGroupStore store(s);
+                    require(
+                        store.apply_bonus(original, bonus, bonus) ==
+                                MilestoneBonusDisposition::applied &&
+                            store.apply_bonus(original, bonus, bonus) ==
+                                MilestoneBonusDisposition::already_applied,
+                        "Original bonus effect and receipt commit once in the same writer unit");
+                });
+                require(f.main() == initial + (winner == 0 ? 30000 : 0) &&
+                            receipt() == SqlRows{{1, QByteArray("bonus-original")}},
+                        "A committed exact receipt owns the actual +30 seconds or capped zero");
+                (void)commit(f.db, port, cmd, Disposition::refused, preview.get());
+                require(journal(f.db).isEmpty(),
+                        "Even a zero-effect receipt makes the unused preview stale");
+                return;
+            }
+            const auto rolled = qt_test_support::run_work(
+                f.db.writer(),
+                [&](auto context) {
+                    const auto s = context.begin();
+                    require(SqliteMilestoneGroupStore(s).apply_bonus(original, bonus, bonus) ==
+                                MilestoneBonusDisposition::applied,
+                            "Original bonus is staged before a controlled rollback");
+                    s.rollback();
+                    return 1;
+                },
+                10000);
+            require(rolled.transaction == TransactionOutcome::rolled_back &&
+                        rolled.error == WorkError::not_committed && !rolled.value &&
+                        f.main() == initial && receipt().isEmpty(),
+                    "Rolled-back original persists neither the effect nor its receipt");
+            const auto selected = commit(f.db, port, cmd, Disposition::committed, preview.get());
+            require(selected.versions.size() == 1, "Only one exact replacement is selected");
+            f.db.write([&](const auto &s) {
+                require(SqliteMilestoneGroupStore(s).apply_bonus(original, bonus, bonus) ==
+                                MilestoneBonusDisposition::refused &&
+                            apply_replacement_bonus(s, port, bonus, cmd, selected.versions[0]) ==
+                                Disposition::committed &&
+                            apply_replacement_bonus(s, port, bonus, cmd, selected.versions[0]) ==
+                                Disposition::replay,
+                        "Superseded original cannot apply; exact successor applies once");
+            });
+            require(f.main() == initial + 20000 && receipt().isEmpty() &&
+                        f.db.rows("SELECT version,effect,actual "
+                                  "FROM main.subathon_milestone_version_bonus") ==
+                            SqlRows{{selected.versions[0].version, QByteArray("bonus-replacement"),
+                                     20000}},
+                    "Durable successor provenance keys the single actual +20-second effect");
+        });
+    }
+
     void stopLargeClosure() {
         check([] {
             Populated f({.large_slots = 256});
@@ -395,6 +732,186 @@ class Storage027CommandsTests final : public QObject {
                 require(cancelled[i][0].toLongLong() == i + 1 &&
                             saved.cancellations[static_cast<std::size_t>(i)].ordinal == i + 1,
                         "Every exact position appears once in cancellation readback");
+        });
+    }
+
+    void attemptedRequeueCannotBeReplaced() {
+        check([] {
+            Populated f;
+            release_application(f);
+            release_edit(f);
+            Dispatch dispatch;
+            dispatch.allow_retry = true;
+            f.db.write([&](const auto &s) {
+                const auto claimed = claim_milestone_edit_job(s, f.job, 1, dispatch);
+                require(claimed.disposition == DeliveryDisposition::changed && claimed.job &&
+                            claimed.job->attempt == 2,
+                        "Protected edit enters exact sending attempt at revision 2");
+                const auto failed = finish_milestone_edit_job(
+                    s, f.job, 2, 2, DeliveryEvidence::known_undelivered, "confirmed-not-sent");
+                require(failed.disposition == DeliveryDisposition::changed && failed.job &&
+                            failed.job->state == DeliveryJobState::failed &&
+                            failed.job->revision == 3,
+                        "Known-undelivered evidence is durably linked to attempt 2");
+                const auto queued = retry_milestone_edit_job(s, f.job, 3, dispatch);
+                require(queued.disposition == DeliveryDisposition::changed && queued.job &&
+                            queued.job->state == DeliveryJobState::queued &&
+                            queued.job->revision == 4,
+                        "Protected retry requeues the same immutable original at revision 4");
+            });
+            const auto history = [&] {
+                return f.db.rows(
+                    "SELECT revision,state,attempt FROM main.subathon_milestone_edit_events "
+                    "WHERE occurrence_ref=? ORDER BY revision",
+                    {QByteArray("b-edit")});
+            };
+            const auto before = history();
+            require(before.size() == 4 && before[0][0] == 1 && before[1][2] == 2 &&
+                        before[2][2] == 2 && before[3][0] == 4 && before[3][2].isNull(),
+                    "The newest queue state retains all earlier exact attempt evidence");
+            advance_fixture(f.db);
+            Authority owner;
+            const auto replace_key = replace(f);
+            f.db.write([&](const auto &s) {
+                const auto selected = preview_replace(s, owner, replace_key);
+                const auto *refused = std::get_if<Disposition>(&selected);
+                require(refused && *refused == Disposition::refused,
+                        "STORAGE-027 NI: the selected requeue at revision 4 is already started");
+            });
+            const auto request = stop("stop-requeued", edited(f), QueueChoice::continue_queue);
+            const auto stopped = commit(f.db, owner, request, Disposition::committed);
+            require(stopped.cancellations.empty() && stopped.added_causes.empty(),
+                    "Stop fences requeued work without treating it as an unstarted cancellation");
+            const auto calls = dispatch.selected;
+            f.db.write([&](const auto &s) {
+                require(claim_milestone_edit_job(s, f.job, 4, dispatch).disposition ==
+                                DeliveryDisposition::refused &&
+                            dispatch.selected == calls,
+                        "Exact historical requeue cannot reach dispatch after the occurrence Stop");
+            });
+            require(
+                history() == before &&
+                    f.db.rows("SELECT released FROM main.subathon_milestone_edit_occurrences") ==
+                        SqlRows{{1}},
+                "Stop preserves every attempt and the unchanged protected release bit");
+        });
+    }
+
+    void boundedReferenceProjectionCountsFixedCells() {
+        check([] {
+            Populated f({.large_slots = 256});
+            // The projection oracle is deliberately independent of command SQL:
+            // three fixed BLOB cells, then ordinal + reference for each slot
+            // across two reads. None of these rows is synthesised.
+            // Original Review addresses its produced application as
+            // review-application / review-<64 lowercase hex digits>.
+            constexpr qsizetype fixed = (8 + 15) + (8 + 18) + (8 + 71);
+            constexpr qsizetype member = 8 + 8 + 4096;
+            constexpr qsizetype default_budget = 1048576;
+            constexpr qsizetype cap = (default_budget - fixed) / member;
+            static_assert(cap == 254 && fixed + 255 * member == 1048688);
+            const auto projection = [&](qsizetype count, qsizetype value_bytes) {
+                auto limits = StorageLimits{64, 64, 65536, 1048576, 1024, value_bytes};
+                f.db.reopen(limits);
+                return qt_test_support::run_work(
+                    f.db.writer(),
+                    [&](auto context) -> QVariant {
+                        const auto s = context.begin();
+                        const QByteArray key("sar2-occurrence");
+                        const auto whole =
+                            s.execute({"SELECT occurrence_ref,operation_scope,operation_ref "
+                                       "FROM main.subathon_milestone_groups WHERE occurrence_ref=?",
+                                       {key}});
+                        const auto app_scope =
+                            QByteArray::fromStdString(f.original.operation_scope);
+                        const auto app_ref = QByteArray::fromStdString(f.original.operation_ref);
+                        require(app_scope == "review-application" &&
+                                    app_ref.startsWith("review-") && app_ref.size() == 71 &&
+                                    whole == SqlRows{{key, app_scope, app_ref}},
+                                "Exact retained Review application and occurrence charge the fixed "
+                                "fields");
+                        const auto chunk = [&](qsizetype start, qsizetype last) {
+                            return s.execute({"SELECT action_ordinal,action_ref "
+                                              "FROM main.subathon_milestone_actions "
+                                              "WHERE occurrence_ref=? AND action_ordinal>? AND "
+                                              "action_ordinal<=? "
+                                              "ORDER BY action_ordinal",
+                                              {key, qint64(start), qint64(last)}});
+                        };
+                        const auto left = chunk(0, 128);
+                        const auto right = chunk(128, count);
+                        require(
+                            left.size() == 128 && right.size() == count - 128,
+                            "Both complete non-overlapping reads return their actual slot counts");
+                        s.commit();
+                        return qint64(left.size() + right.size());
+                    },
+                    10000);
+            };
+            const auto fit = projection(cap, default_budget);
+            finance::normal(fit);
+            require(fit.value->toLongLong() == cap,
+                    "Exact fixed and member counts admit 254 complete members at 1 MiB");
+            const auto rejected = projection(cap + 1, default_budget);
+            require(rejected.transaction == TransactionOutcome::rolled_back &&
+                        rejected.error == WorkError::result_limit && !rejected.value,
+                    "The 255th legal member exceeds the cumulative projection, not its local cap");
+            const auto exact = projection(cap + 1, fixed + (cap + 1) * member);
+            finance::normal(exact);
+            require(exact.value->toLongLong() == cap + 1,
+                    "Independently derived exact value budget admits the same complete selection");
+            const auto short_by_one = projection(cap + 1, fixed + (cap + 1) * member - 1);
+            require(short_by_one.transaction == TransactionOutcome::rolled_back &&
+                        short_by_one.error == WorkError::result_limit && !short_by_one.value,
+                    "Exact-minus-one returns no partial selected prefix");
+        });
+    }
+
+    void invalidReplacementShapeAndTypedOrigin() {
+        check([] {
+            Populated f;
+            advance_fixture(f.db);
+            Authority port;
+            const auto command = replace(f);
+            (void)bind_replace(f.db, port, command);
+            const auto evaluate = [&](Command candidate, Disposition expected) {
+                f.db.write([&](const auto &s) {
+                    const auto selected = preview_replace(s, port, candidate);
+                    const auto *reason = std::get_if<Disposition>(&selected);
+                    require(reason && *reason == expected,
+                            "Unused preview refuses the complete invalid shape or authorization");
+                });
+            };
+            auto empty = command;
+            std::get<ReplaceIntent>(empty.intent).patch.clear();
+            evaluate(empty, Disposition::refused);
+            auto duplicate = command;
+            auto &choices = std::get<ReplaceIntent>(duplicate.intent).patch;
+            choices.push_back(choices.front());
+            evaluate(duplicate, Disposition::refused);
+            auto unknown = command;
+            std::get<ReplaceIntent>(unknown.intent).patch[0].ordinal = 2;
+            evaluate(unknown, Disposition::refused);
+            auto wrong_origin = command;
+            std::get<ReplaceIntent>(wrong_origin.intent).target.origin = f.original;
+            evaluate(wrong_origin, Disposition::refused);
+            auto converted = command;
+            auto &conversion = std::get<ReplaceIntent>(converted.intent).patch[0];
+            conversion.action = {MilestoneActionKind::bonus, "award", "award-20"};
+            port.captures.push_back({conversion, {}, {}, {}, 20000});
+            evaluate(converted, Disposition::refused);
+            auto no_change = command;
+            auto &unchanged = std::get<ReplaceIntent>(no_change.intent).patch[0];
+            unchanged.action.version_ref = "announce-v1";
+            port.captures.push_back(
+                {unchanged, QByteArray::fromHex("0081"), "local/route", "edit-sender"});
+            evaluate(no_change, Disposition::refused);
+            port.command = false;
+            evaluate(command, Disposition::denied);
+            require(journal(f.db).isEmpty() &&
+                        f.db.rows("SELECT count(*) FROM main.subathon_milestone_slot_versions") ==
+                            SqlRows{{0}},
+                    "No invalid shape reserves a key or persists any successor");
         });
     }
 

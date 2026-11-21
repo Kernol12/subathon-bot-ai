@@ -31,6 +31,7 @@ struct AuthorizedCapture {
     Replacement selection;
     QByteArray payload;
     std::string route, qualified_sender;
+    std::optional<qint64> bonus_ms{};
 };
 struct ReplaceIntent {
     Occurrence target;
@@ -126,6 +127,35 @@ inline Disposition stage_late_playback(const SqliteWorkSession &, PlaybackAuthor
     return Disposition::not_implemented;
 }
 
+struct PlaybackHandoff {
+    LatePlayback selected;
+    QByteArray intent;
+};
+
+enum class PlaybackOutcome {
+    requested,
+    confirmed_stopped,
+    failed,
+    obsolete,
+    unsupported,
+    uncertain
+};
+struct PlaybackEvidence {
+    PlaybackHandoff handoff;
+    PlaybackOutcome outcome;
+    QByteArray evidence;
+};
+
+inline Disposition stage_playback_handoff(const SqliteWorkSession &, PlaybackAuthority &,
+                                          const PlaybackHandoff &) {
+    return Disposition::not_implemented;
+}
+
+inline Disposition stage_playback_outcome(const SqliteWorkSession &, PlaybackAuthority &,
+                                          const PlaybackEvidence &) {
+    return Disposition::not_implemented;
+}
+
 struct ReplacementJob {
     Occurrence target;
     SelectedVersion version;
@@ -142,6 +172,23 @@ class ReplacementDispatchAuthority {
 inline Disposition claim_replacement(const SqliteWorkSession &, const Occurrence &,
                                      const SelectedVersion &, qint64,
                                      ReplacementDispatchAuthority &) {
+    return Disposition::not_implemented;
+}
+
+class ReplacementBonusEffect {
+  public:
+    virtual ~ReplacementBonusEffect() = default;
+    struct Actual {
+        std::string effect_ref;
+        qint64 milliseconds;
+    };
+    virtual Actual apply(const SqliteWorkSession &, const Occurrence &, const SelectedVersion &,
+                         qint64 requested_ms) = 0;
+};
+
+inline Disposition apply_replacement_bonus(const SqliteWorkSession &, CommandAuthority &,
+                                           ReplacementBonusEffect &, const Command &,
+                                           const SelectedVersion &) {
     return Disposition::not_implemented;
 }
 
