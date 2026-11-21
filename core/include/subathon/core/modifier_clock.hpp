@@ -60,9 +60,10 @@ struct ModifierCutProposal {
     std::vector<ModifierCutEvent> events;
 };
 
-// Bind to consecutive observations on the same timer lineage. The timer owner
-// supplies the pre-cut state, admitted step and ordered reducer output. Advance
-// the old head before applying the optional activation at the observation.
+// Bind consecutive observations on the same timer lineage. Ordered actions at
+// one observation use a zero-elapsed cut. The timer owner supplies the pre-cut
+// state, admitted step and ordered reducer output. Advance the old head before
+// applying the optional activation at the observation.
 [[nodiscard]] ModifierCutProposal
 project_modifier_cut(const ModifierClockObservation &before, const ModifierClockObservation &now,
                      const TimerState &timer_before, const TimerClockStep &step,

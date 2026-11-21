@@ -218,6 +218,7 @@ jobs:
               "valuation-snapshot-codec": ({"acceptance", "core"}, 30),
               "modifier-activation": ({"acceptance", "core"}, 30),
               "modifier-stacking": ({"acceptance", "core"}, 30),
+              "modifier-clock": ({"acceptance", "core"}, 30),
               "refund-entitlement": ({"acceptance", "core"}, 30),
               "rule-definition": ({"acceptance", "core"}, 30),
               "rule-selection": ({"acceptance", "core"}, 30),
@@ -275,6 +276,8 @@ jobs:
               raise SystemExit(f"Expected 48 modifier activation cases, got {found['modifier-activation']}")
           if found["modifier-stacking"] != 52:
               raise SystemExit(f"Expected 52 modifier stacking cases, got {found['modifier-stacking']}")
+          if found["modifier-clock"] != 39:
+              raise SystemExit(f"Expected 39 modifier clock cases, got {found['modifier-clock']}")
           if found["refund-entitlement"] != 15:
               raise SystemExit(f"Expected 15 refund entitlement cases, got {found['refund-entitlement']}")
           if found["rule-definition"] != 26:

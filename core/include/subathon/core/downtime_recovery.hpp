@@ -100,11 +100,20 @@ struct RecoveryTransition {
     RecoveryTransitionBasis basis;
 };
 
+struct RecoveryProgressSlice {
+    RecoveryUtcInstant from;
+    std::int64_t elapsed_ms;
+};
+
 struct RecoveryTimerProposal {
     TimerState timer;
     PauseState pause;
     // At most four ordered lifecycle proposals. A trace is not a delivery or receipt.
     std::vector<RecoveryTransition> transitions;
+    // Ordered, positive countdown slices of the selected offline branch. Freeze
+    // and Review wait carry none. Each slice progresses from its UTC start to
+    // start + elapsed_ms under the qualified continuous-gap evidence.
+    std::vector<RecoveryProgressSlice> progression{};
 };
 
 enum class RecoveryDeadlineStatus { Disabled, NotReached, Reached, Unknown };
