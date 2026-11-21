@@ -48,6 +48,8 @@ struct TimerAdvance {
     TimerState state;
     // Ordered domain proposals, without invented UTC/monotonic event timestamps.
     std::vector<TimerTransition> transitions;
+    // Qualified elapsed spent progressing Main or Grace in this cut.
+    std::int64_t progressed_ms{};
 };
 
 class TimerLifecycleNotImplemented final : public std::logic_error {

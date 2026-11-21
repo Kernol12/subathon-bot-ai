@@ -1000,4 +1000,121 @@ TEST(ModifierClock, E6VisiblePresentationDoesNotControlRealExpiryOrScore) { real
 
 TEST(ModifierClock, E6HiddenPresentationDoesNotControlRealExpiryOrScore) { real_visibility(false); }
 
+TEST(ModifierClockDebitEvidence, LiveRejectsConfirmationRescueAcrossDistinctObservations) {
+    const TimerConfig config{.end_mode = TimerEndMode::Confirmation, .hard_end_utc_ms = {}};
+    const auto waiting = advance_timer(main_seed(3), config, {3, 8, false}).state;
+    const auto rescued = apply_applicable_time_credit(waiting, 4);
+    const LiveCut rescue{at("wait", 8), at("rescue", 8), waiting, {0, 8, false}, {rescued, {}}};
+    EXPECT_THROW((void)rescue.project(active_seed(8)), std::invalid_argument);
+}
+
+TEST(ModifierClockDebitEvidence, LiveRejectsMissingDebitOnChangedMain) {
+    const LiveCut observation{
+        at("before", 1000), at("now", 1005), main_seed(20), {5, 1005, false}, {main_seed(15), {}}};
+    EXPECT_THROW((void)observation.project(active_seed(10)), std::invalid_argument);
+}
+
+TEST(ModifierClockDebitEvidence, LiveRejectsPositiveDebitOnUnchangedMain) {
+    const LiveCut observation{at("before", 1000),
+                              at("now", 1005),
+                              main_seed(20),
+                              {5, 1005, false},
+                              {main_seed(20), {}, 5}};
+    EXPECT_THROW((void)observation.project(active_seed(10)), std::invalid_argument);
+}
+
+TEST(ModifierClockDebitEvidence, LiveRejectsShortDebitOnMainToOngoingGrace) {
+    const LiveCut observation{
+        at("before", 1000),
+        at("now", 1007),
+        main_seed(3),
+        {7, 1007, false},
+        {{Life::Active, Phase::Grace, 0, 6, false}, {T::MainExpired, T::GraceStarted}, 3}};
+    EXPECT_THROW((void)observation.project(active_seed(10)), std::invalid_argument);
+}
+
+TEST(ModifierClockDebitEvidence, LiveRejectsFinishDebitShorterThanMain) {
+    const LiveCut observation{at("before", 1000),
+                              at("now", 1007),
+                              main_seed(3),
+                              {7, 1007, false},
+                              {{Life::Finished, Phase::Grace, 0, 0, false},
+                               {T::MainExpired, T::GraceStarted, T::GraceExpired, T::Finished},
+                               2}};
+    EXPECT_THROW((void)observation.project(active_seed(10)), std::invalid_argument);
+}
+
+TEST(ModifierClockDebitEvidence, LiveAcceptsFreshAndSharedGraceFinishWithOvershoot) {
+    auto seed = main_seed(3);
+    seed.grace_remaining_ms = 2;
+    const TimerConfig fresh{TimerEndMode::Grace, 4, GraceReuse::Fresh, {}};
+    const TimerConfig shared{TimerEndMode::Grace, 4, GraceReuse::Shared, {}};
+    const auto before = at("before", 1000);
+    const auto now = at("now", 1010);
+    const std::vector<ModifierCutEvent> events{T::MainExpired, T::GraceStarted, T::GraceExpired,
+                                               T::Finished};
+    expect_cut(cut(before, now, seed, 10, {}, fresh).project(active_seed(12)), Mode::ActiveSubathon,
+               5, events);
+    expect_cut(cut(before, now, seed, 10, {}, shared).project(active_seed(12)),
+               Mode::ActiveSubathon, 7, events);
+}
+
+TEST(ModifierClockDebitEvidence, LiveAcceptsZeroDebitOnPausedZeroPhaseBoundary) {
+    const TimerConfig fresh_zero{TimerEndMode::Grace, 0, GraceReuse::Fresh, {}};
+    const auto observation = cut(at("before", 1000), at("now", 1005), main_seed(0), 5,
+                                 set_pause_reason({}, manual, true), fresh_zero);
+    expect_cut(observation.project(active_seed(10)), Mode::ActiveSubathon, 10,
+               {T::MainExpired, T::GraceStarted, T::GraceExpired, T::Finished});
+}
+
+TEST(ModifierClockDebitEvidence, RestartRejectsOmittedCountProgression) {
+    const auto input = offline(30, Policy::CountElapsed);
+    auto timer = preview(input);
+    ASSERT_TRUE(timer.count_elapsed);
+    expect_timer(timer.count_elapsed->timer, Life::Active, Phase::Main, 22);
+    timer.count_elapsed->progression.clear();
+
+    EXPECT_THROW((void)project_modifier_restart(input, timer, active_seed(20)),
+                 std::invalid_argument);
+}
+
+TEST(ModifierClockDebitEvidence, RestartRejectsShortCountProgressionAtDeadline) {
+    auto input = offline(10, Policy::CountElapsed, 1012);
+    input.config.end_mode = TimerEndMode::Immediate;
+    input.config.hard_end_utc_ms = 1010;
+    auto timer = preview(input);
+    ASSERT_TRUE(timer.count_elapsed);
+    expect_timer(timer.count_elapsed->timer, Life::Finished, Phase::Main, 1);
+    timer.count_elapsed->progression = {{{1000}, 8}}; // D-1 requires nine milliseconds.
+
+    EXPECT_THROW((void)project_modifier_restart(input, timer, active_seed(20)),
+                 std::invalid_argument);
+}
+
+TEST(ModifierClockDebitEvidence, ReviewRejectsCountSliceAfterModifierWouldExpire) {
+    const auto input = offline(4, Policy::Review);
+    const auto timer = preview(input);
+    ASSERT_TRUE(timer.review_hold);
+    const auto held = restart_review(input, *timer.review_hold);
+    auto decision = resolve(input, held, Choice::CountElapsed, "count-op");
+    auto *resolved = std::get_if<RecoveryReviewResolution>(&decision);
+    ASSERT_NE(resolved, nullptr);
+    expect_timer(resolved->selected_at_restart.timer, Life::Active, Phase::Grace, 0, 119'996);
+    // The first slice expires the modifier. The overlapping second slice is invalid.
+    resolved->selected_at_restart.progression = {{{1000}, 4}, {{1003}, 4}};
+    const auto head = active_seed(2);
+    EXPECT_THROW((void)project_modifier_review_resolution(input, held, decision, head, head),
+                 std::invalid_argument);
+}
+
+TEST(ModifierClockDebitEvidence, RestartAcceptsEmptyCountProgressionDuringManualPause) {
+    auto input = offline(30, Policy::CountElapsed);
+    input.pause = set_pause_reason({}, manual, true);
+    const auto timer = preview(input);
+    ASSERT_TRUE(timer.count_elapsed);
+    EXPECT_TRUE(timer.count_elapsed->progression.empty());
+    expect_recovery(project_modifier_restart(input, timer, active_seed(20)), Mode::ActiveSubathon,
+                    20);
+}
+
 } // namespace

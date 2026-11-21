@@ -489,6 +489,10 @@ void advance(RecoveryTimerProposal &proposal, const TimerConfig &config, Instant
         throw std::logic_error("Recovery lifecycle trace exceeds four entries");
     }
     proposal.timer = next.state;
+    if (next.progressed_ms > 0) {
+        // Count's positive cuts are bounded by a phase, schedule or deadline edge.
+        proposal.progression.push_back({{utc - elapsed}, next.progressed_ms});
+    }
     for (const auto transition : next.transitions) {
         proposal.transitions.push_back({transition, {utc}, basis});
     }

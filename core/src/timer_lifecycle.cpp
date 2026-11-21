@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include <subathon/core/timer_lifecycle.hpp>
 
+#include <algorithm>
 #include <limits>
 
 namespace subathon::core {
@@ -56,9 +57,11 @@ TimerAdvance advance_timer(const TimerState &state, const TimerConfig &config,
     if (next.phase == CountdownPhase::Main) {
         if (elapsed_ms < next.main_remaining_ms) {
             next.main_remaining_ms -= elapsed_ms;
+            result.progressed_ms = elapsed_ms;
             return result;
         }
         elapsed_ms -= next.main_remaining_ms;
+        result.progressed_ms = next.main_remaining_ms;
         next.main_remaining_ms = 0;
         transitions.push_back(TimerTransition::MainExpired);
         switch (config.end_mode) {
@@ -80,7 +83,8 @@ TimerAdvance advance_timer(const TimerState &state, const TimerConfig &config,
         }
     }
 
-    // Carry only Main's unconsumed overshoot; never sum Main and Grace durations.
+    // Grace consumes only Main's unspent elapsed, so total progression fits in the cut.
+    result.progressed_ms += std::min(elapsed_ms, next.grace_remaining_ms);
     if (elapsed_ms < next.grace_remaining_ms) {
         next.grace_remaining_ms -= elapsed_ms;
         return result;
