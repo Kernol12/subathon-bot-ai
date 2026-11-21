@@ -105,7 +105,7 @@ if(SUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE)
         SOURCES sqlite_live_financial_refunds_tests.cpp
         LIBRARIES subathon_sqlite_financial_refunds subathon_contribution_review
             subathon_reference_intake
-        LABELS "live-financial-refunds;acceptance;qt;server;intentional-red" TIMEOUT 240)
+        LABELS "live-financial-refunds;acceptance;qt;server" TIMEOUT 240)
 endif()
 
 if(SUBATHON_BUILD_SQLITE_FINANCIAL_REFUNDS_TESTS)
