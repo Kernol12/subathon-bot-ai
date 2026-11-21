@@ -24,6 +24,7 @@ struct Authority final : CommandAuthority {
     bool disclosure{true};
     QByteArray revision{"grant-1"};
     QByteArray configuration{"cfg"};
+    QByteArray decision{"operator-decision"};
     std::vector<AuthorizedCapture> captures{
         {{1, {MilestoneActionKind::automation, "announce", "announce-v2"}},
          QByteArray::fromHex("0082"),
@@ -35,9 +36,8 @@ struct Authority final : CommandAuthority {
         if (wanted.track != permitted || wanted.actor.actor_ref != edit::actor.actor_ref ||
             wanted.actor.session_lineage != edit::actor.session_lineage)
             return std::nullopt;
-        return Facts{command,           disclosure,          revision,
-                     configuration,     "operator-decision", captures,
-                     observed_playback, "capability-1",      presentation};
+        return Facts{command,  disclosure,        revision,       configuration, decision,
+                     captures, observed_playback, "capability-1", presentation};
     }
 };
 

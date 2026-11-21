@@ -760,7 +760,8 @@ class Storage027ReadersTests final : public QObject {
 
     void milestoneApplicationDelivery_data() {
         QTest::addColumn<QString>("entry");
-        for (const auto *name : {"lookup", "unreleased-dispatch", "released-dispatch", "stranded"})
+        for (const auto *name : {"lookup", "unreleased-dispatch", "released-dispatch", "stranded",
+                                 "stop-queued-then-dispatch", "stop-started-then-stranded"})
             QTest::newRow(name) << QString(name);
     }
 
@@ -838,10 +839,31 @@ class Storage027ReadersTests final : public QObject {
                             "Bounded stranded scan returns exactly the committed sending attempt");
                 });
             };
+            const bool stop_queued = entry == "stop-queued-then-dispatch";
+            const bool stop_started = entry == "stop-started-then-stranded";
+            if (stop_queued || stop_started)
+                f.write([&](const auto &s) {
+                    require(SqliteAccountSessionUnit(s, {}).insert_installation(
+                                {{"install", "epoch"}, "revision"}) == LifecycleWriteResult::staged,
+                            "Protected account owner creates the command installation");
+                    const core::MilestoneCompletion completion{"target-35", "milestone-v1",
+                                                               35000000, 40000000, "ctx"};
+                    require(initialize_milestone_track(
+                                s, {edit::track,
+                                    "cfg",
+                                    "milestone-v1",
+                                    "application-prefix",
+                                    {{"target-35", 35000000}},
+                                    std::vector<MilestoneTrackSeed::Member>{
+                                        {completion, finance::original, finance::achievement}}}),
+                            "Protected track owner enrolls the real grouped application job");
+                });
             lookup(DeliveryJobState::queued, 1);
+            if (stop_queued)
+                release();
             if (entry == "unreleased-dispatch" || entry == "released-dispatch")
                 dispatch(DeliveryDisposition::refused);
-            if (entry == "stranded") {
+            if (entry == "stranded" || stop_started) {
                 release();
                 dispatch(DeliveryDisposition::changed);
                 scan();
@@ -869,6 +891,53 @@ class Storage027ReadersTests final : public QObject {
             }
             if (entry == "stranded")
                 scan();
+            if (stop_queued || stop_started) {
+                phase.current = "post-successor exact Stop on the application delivery group";
+                const Occurrence target{edit::track, finance::achievement, finance::original};
+                Authority owner;
+                if (stop_started)
+                    owner.observed_playback = {{target,
+                                                1,
+                                                {},
+                                                2,
+                                                "local-fixture",
+                                                "activation-2",
+                                                "generation-1",
+                                                StopCapability::supported}};
+                const auto key_stop =
+                    stop("stop-application-delivery", target, QueueChoice::continue_queue);
+                f.write([&](const auto &s) {
+                    const auto selected = stage_command(s, owner, key_stop);
+                    require(selected.disposition == Disposition::committed,
+                            "STORAGE-027 NI: Stop commits the exact application delivery fence");
+                    if (stop_queued)
+                        require(selected.cancellations == std::vector<SelectedVersion>{{1, {}}} &&
+                                    selected.playback_intents.empty(),
+                                "Stop cancels the original queued slot before guarded dispatch");
+                    else
+                        require(selected.cancellations.empty() &&
+                                    selected.playback_intents.size() == 1,
+                                "Stop retains the started attempt and records one active intent");
+                });
+                reopen_financial(f, finance::limits());
+                if (stop_queued) {
+                    phase.current = "post-successor stopped queued application dispatch";
+                    dispatch(DeliveryDisposition::refused);
+                    lookup(DeliveryJobState::queued, 1);
+                } else {
+                    phase.current = "post-successor stopped application stranded traversal";
+                    scan();
+                    f.write([&](const auto &s) {
+                        const auto page = stranded_milestone_delivery(s, {}, 1);
+                        require(page.attempts.size() == 1 && page.attempts[0].revision == 2,
+                                "The stopped application retains its exact sending revision");
+                        const auto *attempt = std::get_if<DeliveryJobKey>(&page.attempts[0].key);
+                        require(attempt && finance::same(attempt->operation, key.operation) &&
+                                    attempt->job_ref == key.job_ref && ports->started.size() == 1,
+                                "Typed stranded traversal returns the stopped application attempt");
+                    });
+                }
+            }
         });
     }
 
@@ -1092,6 +1161,9 @@ class Storage027ReadersTests final : public QObject {
                 }
         QTest::newRow("application-replace-defer-with-real-refund-review") << false << false << 3;
         QTest::newRow("edit-replace-defer-with-real-refund-review") << true << false << 3;
+        QTest::newRow("application-one-refund-crosses-stopped-a-and-eligible-c")
+            << false << true << 4;
+        QTest::newRow("edit-one-refund-crosses-stopped-a-and-eligible-c") << true << true << 4;
     }
 
     void stoppedOccurrenceExcludesNewRefundPolicy() {
@@ -1118,7 +1190,12 @@ class Storage027ReadersTests final : public QObject {
                 CatalogState::current, 20, 20, 1);
             reopen_financial(file, finance::limits());
             const MilestoneAction action{MilestoneActionKind::bonus, "award", "v1"};
-            const MilestoneOccurrenceKey first = edit::a, second = edit::b;
+            const bool both_crossed = policy == 4;
+            const MilestoneOccurrenceKey first = edit::a, second = both_crossed ? edit::c : edit::b;
+            const std::string following_label = both_crossed ? "C" : "B";
+            const qint64 following_target = both_crossed ? 1005 : 1050;
+            const auto following_actions =
+                both_crossed ? std::vector{action} : std::vector<MilestoneAction>{};
             constexpr auto deferred_ref = "adjust-decision";
             const MilestoneEditKey edit_key{edit::track, "adjust"};
             const ApplicationOperationKey app_key{"test", "application-A"};
@@ -1136,11 +1213,12 @@ class Storage027ReadersTests final : public QObject {
                 edit::Authority owner;
                 const auto head = file.head();
                 owner.facts.lifecycle.timer = head.timer;
-                owner.facts.captures = {{"A", first, {action}, {}, {}}, {"B", second, {}, {}, {}}};
+                owner.facts.captures = {{"A", first, {action}, {}, {}},
+                                        {following_label, second, following_actions, {}, {}}};
                 const MilestoneEditIntent intent{
                     edit_key,
                     {edit::actor.actor_ref, deferred_ref},
-                    {{"A", 1000}, {"B", 1050}},
+                    {{"A", 1000}, {following_label, following_target}},
                     {{first, MilestoneActionChoice::defer}, {second, MilestoneActionChoice::run}}};
                 file.write([&](const auto &s) {
                     require(
@@ -1148,7 +1226,7 @@ class Storage027ReadersTests final : public QObject {
                                                        "cfg",
                                                        "initial",
                                                        "prefix",
-                                                       {{"A", 1200}, {"B", 1300}},
+                                                       {{"A", 1200}, {following_label, 1300}},
                                                        std::vector<MilestoneTrackSeed::Member>{}}),
                         "Shipped track owner records exact empty completion history");
                     const auto preview =
@@ -1156,20 +1234,21 @@ class Storage027ReadersTests final : public QObject {
                     edit::File::confirmable(preview);
                     const auto confirmed = confirm_milestone_target_edit(
                         s, owner, edit::actor, intent, *preview.confirmation);
-                    require(confirmed.result && confirmed.result->achievements.size() == 2 &&
-                                confirmed.result->achievements[0].order == 1 &&
-                                confirmed.result->achievements[1].order == 2,
-                            "Real edit commits exact distinct Defer A and ready following B");
+                    require(
+                        confirmed.result && confirmed.result->achievements.size() == 2 &&
+                            confirmed.result->achievements[0].order == 1 &&
+                            confirmed.result->achievements[1].order == 2,
+                        "Real edit commits exact distinct Defer A and the ready next occurrence");
                 });
             } else {
                 std::vector<MilestoneTrackSeed::Member> prefix;
-                for (const auto label : {std::string("A"), std::string("B")}) {
+                for (const auto &label : {std::string("A"), following_label}) {
                     const bool a = label == "A";
                     const auto &key = a ? first : second;
                     const auto ref = "application-" + label;
                     const auto r = file.intake(ref, {}, "synthetic-milestone-owner");
-                    const core::MilestoneCompletion achievement{label, "initial", a ? 1000 : 1050,
-                                                                1100, "ctx"};
+                    const core::MilestoneCompletion achievement{
+                        label, "initial", a ? 1000 : following_target, 1100, "ctx"};
                     prefix.push_back({achievement, {"test", ref}, key});
                     file.write([&](const auto &s) {
                         auto bundle = finance::File::receipt_application(s, r, ref);
@@ -1182,10 +1261,7 @@ class Storage027ReadersTests final : public QObject {
                                 "Actual application anchors the occurrence");
                         SqliteMilestoneGroupStore(s).stage(
                             bundle.intent.operation,
-                            {{{achievement,
-                               a ? std::vector{action} : std::vector<MilestoneAction>{},
-                               {},
-                               key},
+                            {{{achievement, a ? std::vector{action} : following_actions, {}, key},
                               {}}});
                         SqliteMilestoneGroupDecisions(s).record_acceptance(
                             bundle.intent.operation, {PausedAcceptanceMode::normal,
@@ -1195,12 +1271,13 @@ class Storage027ReadersTests final : public QObject {
                     });
                 }
                 file.write([&](const auto &s) {
-                    require(initialize_milestone_track(s, {edit::track,
-                                                           "cfg",
-                                                           "initial",
-                                                           "prefix",
-                                                           {{"A", 1000}, {"B", 1050}},
-                                                           prefix}),
+                    require(initialize_milestone_track(
+                                s, {edit::track,
+                                    "cfg",
+                                    "initial",
+                                    "prefix",
+                                    {{"A", 1000}, {following_label, following_target}},
+                                    prefix}),
                             "Exact application members become the authoritative prefix");
                 });
             }
@@ -1233,6 +1310,56 @@ class Storage027ReadersTests final : public QObject {
                 report(migrate(*file.writer, {MigrationMode::inspect, manifest, limits, {}}),
                        CatalogState::current, end, end, 0);
             };
+            if (both_crossed) {
+                require(score() == SqlRows{{1020}},
+                        "Both targets are below the exact pre-refund score");
+                advance_financial();
+                Authority owner;
+                const auto cmd = stop("stop-only-a", target, QueueChoice::continue_queue);
+                phase.current = "post-successor exact Stop on A before a simultaneous crossing";
+                file.write([&](const auto &s) {
+                    const SqliteMilestoneGroupDecisions gates(s);
+                    require(gates.pending_disposition(second) == MilestonePendingDisposition::ready,
+                            "C is an independently eligible pending occurrence before Stop");
+                    const auto selected = stage_command(s, owner, cmd);
+                    require(selected.disposition == Disposition::committed,
+                            "STORAGE-027 NI: Stop fences only A before the real shared refund");
+                    require(selected.cancellations == std::vector<SelectedVersion>{{1, {}}} &&
+                                selected.added_causes.empty(),
+                            "Stop Continue cancels only A's original bonus");
+                });
+                reopen_financial(file, finance::limits());
+                phase.current =
+                    "post-successor real single refund crosses stopped A and eligible C";
+                f.input.milestone_policy = MilestoneRefundPolicy::review;
+                const auto refund = f.command("cross-a-and-c", "25", 0);
+                const auto result = live::accepted(f.refund(refund, entitlement(0, 25, 0)));
+                require(score() == SqlRows{{995}} && result.milestone_observations.size() == 1,
+                        "One real debit crosses both thresholds and emits exactly one decision");
+                const auto &only = result.milestone_observations.front();
+                require(only.occurrence == second && only.refund_ref == "cross-a-and-c" &&
+                            only.score_before_micro_points == 1020 &&
+                            only.score_after_micro_points == 995 &&
+                            only.current_target_micro_points == 1005 &&
+                            only.policy == MilestoneRefundPolicy::review,
+                        "The refund emits C's exact crossing and Review decision");
+                file.write([&](const auto &s) {
+                    const SqliteMilestoneGroupDecisions gates(s);
+                    const auto audit = gates.refund_audit(second, "cross-a-and-c");
+                    require(audit && audit->policy == MilestoneRefundPolicy::review &&
+                                audit->current_target_micro_points == 1005 &&
+                                audit->deficit_micro_points == 10 && !audit->resolution &&
+                                gates.active_holds(second) ==
+                                    std::vector{MilestoneHoldKey{MilestoneHoldCause::refund_review,
+                                                                 "cross-a-and-c"}} &&
+                                !gates.refund_audit(first, "cross-a-and-c") &&
+                                gates.active_holds(first) ==
+                                    std::vector{MilestoneHoldKey{
+                                        MilestoneHoldCause::deferred_acceptance, deferred_ref}},
+                            "Only C persists the exact unresolved Review; A keeps its older Defer");
+                });
+                return;
+            }
             if (policy == 3) {
                 advance_financial();
                 const Replacement changed{1, {MilestoneActionKind::bonus, "award", "v2"}};

@@ -92,6 +92,8 @@ struct PresentationObservation {
     Occurrence target;
     QByteArray presentation, bound_generation, current_generation, owner_revision;
     qint64 started_ms, expiry_ms, observed_ms;
+    QByteArray current_owner_revision;
+    qint64 last_accepted_observation_ms;
 };
 
 class CommandAuthority {

@@ -30,6 +30,7 @@ struct ProducerOptions {
     int edit_slots{1};
     bool hold_edit{};
     bool middle_bonus{};
+    bool ordinary_application{};
     SetupThrough through{SetupThrough::both_origins};
 };
 
@@ -97,7 +98,7 @@ struct Populated : predecessor::Populated {
             if (options.through == SetupThrough::bundle)
                 return;
             SqliteMilestoneGroupStore(session).stage(original, {app_group});
-            if (options.through == SetupThrough::group)
+            if (options.through == SetupThrough::group || options.ordinary_application)
                 return;
             SqliteMilestoneGroupDecisions(session).record_acceptance(
                 original, {PausedAcceptanceMode::normal,

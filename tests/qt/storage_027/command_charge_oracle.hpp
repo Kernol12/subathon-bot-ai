@@ -106,7 +106,6 @@ enum class Branch {
     outcome_duplicate
 };
 
-inline constexpr qsizetype fresh_ref = 32; // Fixed-width fixture allocator output.
 inline constexpr qsizetype action_limit = 4096;
 
 struct Record {
@@ -126,6 +125,7 @@ struct Record {
     qsizetype definition{22};
     qsizetype prefix{18};
     bool edited{true};
+    qsizetype cause{};
 };
 
 inline constexpr Charge catalog() {
@@ -194,7 +194,7 @@ inline constexpr Charge target(const Record &r, bool edit, bool present) {
     constexpr auto app_sql =
         "SELECT g.released,g.queue_order,g.operation_ref,d.definition_revision,h.prefix_revision,"
         "c.choice,c.resolution FROM subathon_milestone_groups g "
-        "JOIN subathon_milestone_acceptance_decisions c USING(occurrence_ref) "
+        "LEFT JOIN subathon_milestone_acceptance_decisions c USING(occurrence_ref) "
         "JOIN subathon_milestone_prefix_members m ON m.application_occurrence_ref=g.occurrence_ref "
         "AND m.operation_scope=g.operation_scope AND m.operation_ref=g.operation_ref "
         "JOIN subathon_milestone_prefix_heads h USING(installation_ref,track_ref,prefix_revision) "
@@ -203,6 +203,8 @@ inline constexpr Charge target(const Record &r, bool edit, bool present) {
         "AND g.operation_ref=? AND g.occurrence_ref=? LIMIT 2";
     const Cells edit_key{r.install, r.track, r.origin, r.occurrence};
     const Cells app_key{r.install, r.track, r.origin_scope, r.origin, r.occurrence};
+    // An ordinary application has no paused-acceptance row. The two
+    // projected NULLs still charge the same cell overhead as enum integers.
     const Cells closure{0, 0, r.origin, r.definition, r.prefix, 0, 0};
     const auto check =
         present ? statement(edit ? edit_sql : app_sql, edit ? edit_key : app_key, {closure})
@@ -230,7 +232,20 @@ struct Slot {
     qsizetype original_action, original_version, original_payload, original_route, original_sender;
     qsizetype action, version, payload, route, sender;
     bool bonus{}, started{};
+    qsizetype job_ref{};
+    qsizetype allocated_version{};
 };
+
+inline constexpr Charge original_attempt(const Record &r, qsizetype job_ref) {
+    if (r.edited)
+        return statement("SELECT revision,state,attempt FROM subathon_milestone_edit_events "
+                         "WHERE occurrence_ref=? AND action_ordinal=? AND revision=? LIMIT 2",
+                         {r.occurrence, 0, 0}, {{0, 0, 0}});
+    return statement(
+        "SELECT revision,state,attempt FROM subathon_delivery_events "
+        "WHERE operation_scope=? AND operation_ref=? AND job_ref=? AND revision=? LIMIT 2",
+        {r.origin_scope, r.origin, job_ref, 0}, {{0, 0, 0}});
+}
 
 inline constexpr Charge original_slot(const Record &r, const Slot &m, bool edit = true) {
     const auto metadata = statement(
@@ -246,8 +261,10 @@ inline constexpr Charge original_slot(const Record &r, const Slot &m, bool edit 
                "USING(occurrence_ref,action_ordinal) WHERE a.occurrence_ref=? AND "
                "a.action_ordinal=? LIMIT 2"
              : "SELECT "
-               "a.kind,length(a.action_ref),length(a.version_ref),length(a.job_ref),NULL,NULL,NULL,"
-               "EXISTS(SELECT 1 FROM subathon_milestone_bonus_receipts b "
+               "a.kind,length(a.action_ref),length(a.version_ref),length(a.job_ref),NULL,NULL,"
+               "(SELECT max(e.revision) FROM subathon_delivery_events e WHERE "
+               "e.operation_scope=a.operation_scope AND e.operation_ref=a.operation_ref "
+               "AND e.job_ref=a.job_ref),EXISTS(SELECT 1 FROM subathon_milestone_bonus_receipts b "
                "WHERE b.occurrence_ref=a.occurrence_ref AND b.action_ordinal=a.action_ordinal) "
                "FROM subathon_milestone_actions a WHERE a.occurrence_ref=? AND a.action_ordinal=? "
                "LIMIT 2",
@@ -265,10 +282,7 @@ inline constexpr Charge original_slot(const Record &r, const Slot &m, bool edit 
     auto planned = combine(metadata, selected);
     if (!m.started)
         return planned;
-    return combine(planned, statement("SELECT revision,state,attempt FROM "
-                                      "subathon_milestone_edit_events WHERE occurrence_ref=? "
-                                      "AND action_ordinal=? AND revision=? LIMIT 2",
-                                      {r.occurrence, 0, 0}, {{0, 0, 0}}));
+    return combine(planned, original_attempt(r, m.job_ref));
 }
 
 inline constexpr Charge replacement_member(const Record &r, const Slot &m, bool write) {
@@ -293,11 +307,11 @@ inline constexpr Charge replacement_member(const Record &r, const Slot &m, bool 
         statement(
             "INSERT INTO subathon_milestone_slot_versions VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             {r.install, r.track, r.operation, 0, r.origin_scope, r.origin, r.occurrence, 0,
-             fresh_ref, 0, 0, m.action, m.version, m.payload, m.route, m.sender}));
+             m.allocated_version, 0, 0, m.action, m.version, m.payload, m.route, m.sender}));
     if (!m.bonus)
         q = combine(q,
                     statement("INSERT INTO subathon_milestone_slot_attempts VALUES(?,?,?,1,0,NULL)",
-                              {r.install, r.track, fresh_ref}));
+                              {r.install, r.track, m.allocated_version}));
     return q;
 }
 
@@ -308,19 +322,30 @@ inline constexpr Charge stop_fence(const Record &r, bool hold) {
     if (hold)
         q = combine(
             q, statement("INSERT INTO subathon_milestone_interruption_causes VALUES(?,?,?,?,NULL)",
-                         {r.install, r.track, fresh_ref, r.operation}));
+                         {r.install, r.track, r.cause, r.operation}));
     return q;
 }
 inline constexpr Charge stop_probe(const Record &r) {
     // A bounded cap+1 probe returns count only, but still incurs one returned cell.
     // Per-slot metadata and bodies are charged separately.
     return statement(
-        "SELECT count(*) FROM (SELECT action_ordinal FROM subathon_milestone_edit_actions "
-        "WHERE occurrence_ref=? ORDER BY action_ordinal LIMIT ?)",
+        r.edited
+            ? "SELECT count(*) FROM (SELECT action_ordinal FROM subathon_milestone_edit_actions "
+              "WHERE occurrence_ref=? ORDER BY action_ordinal LIMIT ?)"
+            : "SELECT count(*) FROM (SELECT action_ordinal FROM subathon_milestone_actions "
+              "WHERE occurrence_ref=? ORDER BY action_ordinal LIMIT ?)",
         {r.occurrence, 0}, {{0}});
 }
 inline constexpr Charge stop_member(const Record &r, const Slot &m) {
-    auto q = original_slot(r, m);
+    // Metadata preflights this exact payload before any packet is copied.
+    // The separately bounded pull validates the original action reference
+    // rather than treating a length alone as identifying the selected slot.
+    auto q = combine(original_slot(r, m, r.edited),
+                     statement(r.edited ? "SELECT action_ref FROM subathon_milestone_edit_actions "
+                                          "WHERE occurrence_ref=? AND action_ordinal=? LIMIT 2"
+                                        : "SELECT action_ref FROM subathon_milestone_actions "
+                                          "WHERE occurrence_ref=? AND action_ordinal=? LIMIT 2",
+                               {r.occurrence, 0}, {{m.original_action}}));
     if (!m.started)
         q = combine(
             q, statement("INSERT INTO subathon_milestone_stop_cancellations VALUES(?,?,?,?,NULL)",
@@ -354,21 +379,20 @@ inline constexpr Charge cause_member(const Record &r, const Cause &m, bool prese
 }
 
 struct Playback {
-    qsizetype stop{}, adapter{}, activation{}, generation{}, evidence{};
+    qsizetype stop{}, adapter{}, activation{}, generation{}, evidence{}, job_ref{};
+    qsizetype instance{}, handoff{}, attempt{};
 };
 
 inline constexpr Charge playback_fixed(const Record &r, const Playback &p) {
     auto q = statement(
-        "SELECT f.occurrence,f.origin_ref,f.playback_cap,j.decision FROM "
+        "SELECT f.occurrence,f.origin_kind,f.origin_scope,f.origin_ref,f.playback_cap,j.decision "
+        "FROM "
         "subathon_milestone_stop_fences f "
         "JOIN subathon_milestone_command_journal j ON j.installation=f.installation AND "
         "j.track=f.track "
         "AND j.operation=f.stop WHERE f.installation=? AND f.track=? AND f.stop=? LIMIT 2",
-        {r.install, r.track, p.stop}, {{r.occurrence, r.origin, 0, r.decision}});
-    return combine(q,
-                   statement("SELECT revision,state,attempt FROM subathon_milestone_edit_events "
-                             "WHERE occurrence_ref=? AND action_ordinal=? AND revision=? LIMIT 2",
-                             {r.occurrence, 0, 0}, {{0, 0, 0}}));
+        {r.install, r.track, p.stop}, {{r.occurrence, 0, r.origin_scope, r.origin, 0, r.decision}});
+    return combine(q, original_attempt(r, p.job_ref));
 }
 
 inline constexpr Charge playback_lookup(const Record &r, const Playback &p, bool present) {
@@ -377,7 +401,7 @@ inline constexpr Charge playback_lookup(const Record &r, const Playback &p, bool
         "WHERE installation=? AND track=? AND stop=? AND ordinal=? AND adapter=? AND activation=? "
         "AND generation=? LIMIT 2";
     const Cells bind{r.install, r.track, p.stop, 0, p.adapter, p.activation, p.generation};
-    return present ? statement(sql, bind, {{fresh_ref, 0, 0}}) : statement(sql, bind);
+    return present ? statement(sql, bind, {{p.instance, 0, 0}}) : statement(sql, bind);
 }
 inline constexpr Charge playback_count(const Record &r, const Playback &p) {
     return statement(
@@ -388,34 +412,45 @@ inline constexpr Charge playback_count(const Record &r, const Playback &p) {
 inline constexpr Charge playback_insert(const Record &r, const Playback &p) {
     return statement(
         "INSERT INTO subathon_milestone_playback_instances VALUES(?,?,?,?,?,?,?,?,?,?,?,NULL)",
-        {r.install, r.track, p.stop, fresh_ref, 0, 0, p.adapter, 8, p.activation, p.generation, 0});
+        {r.install, r.track, p.stop, p.instance, 0, 0, p.adapter, p.attempt, p.activation,
+         p.generation, 0});
 }
 inline constexpr Charge playback_owner_update(const Record &r, const Playback &p) {
     return statement(
         "UPDATE subathon_milestone_playback_instances SET handoff=? WHERE installation=? "
         "AND track=? AND stop=? AND instance=? AND handoff IS NULL RETURNING 1",
-        {fresh_ref, r.install, r.track, p.stop, fresh_ref}, {{0}});
+        {p.handoff, r.install, r.track, p.stop, p.instance}, {{0}});
 }
 inline constexpr Charge outcome_head(const Record &r, const Playback &p, bool existing) {
     constexpr auto sql =
         "SELECT ordinal,outcome,length(evidence) FROM subathon_milestone_playback_evidence "
         "WHERE installation=? AND track=? AND stop=? AND instance=? ORDER BY ordinal DESC LIMIT 1";
-    const Cells key{r.install, r.track, p.stop, fresh_ref};
+    const Cells key{r.install, r.track, p.stop, p.instance};
     return existing ? statement(sql, key, {{0, 0, 0}}) : statement(sql, key);
 }
 inline constexpr Charge outcome_write(const Record &r, const Playback &p) {
     return statement("INSERT INTO subathon_milestone_playback_evidence VALUES(?,?,?,?,?,?,?)",
-                     {r.install, r.track, p.stop, fresh_ref, 0, 0, p.evidence});
+                     {r.install, r.track, p.stop, p.instance, 0, 0, p.evidence});
 }
 
 inline constexpr Charge playback_capacity_fixed(const Record &r, const Playback &p) {
     return combine(playback_fixed(r, p), playback_count(r, p));
 }
 inline constexpr Charge playback_capacity_member(const Record &r, const Playback &p) {
-    // One distinct maximum admitted fixture observation carries a checked
-    // probe, immutable row and one 32-byte result reference.
     auto q = combine(playback_lookup(r, p, false), playback_insert(r, p));
-    q.binds = sum(q.binds, 4 + fresh_ref);
+    q.binds = sum(q.binds, 4 + p.instance);
+    return q;
+}
+
+inline constexpr Charge playback_capacity_plan(const Record &r, const Playback &p,
+                                               const std::vector<Playback> &members,
+                                               qsizetype framed_member_bytes) {
+    auto q = playback_capacity_fixed(r, p);
+    for (const auto &member : members) {
+        q = combine(q, playback_lookup(r, member, false));
+        q = combine(q, playback_insert(r, member));
+    }
+    q.binds = sum(q.binds, framed_member_bytes);
     return q;
 }
 
@@ -499,7 +534,7 @@ inline constexpr Charge plan(Branch branch, const Record &r, const std::vector<S
             add(statement(
                 "SELECT evidence FROM subathon_milestone_playback_evidence WHERE "
                 "installation=? AND track=? AND stop=? AND instance=? AND ordinal=? LIMIT 2",
-                {r.install, r.track, p.stop, fresh_ref, 0}, {{p.evidence}}));
+                {r.install, r.track, p.stop, p.instance, 0}, {{p.evidence}}));
         }
         break;
     }
@@ -520,10 +555,11 @@ static_assert([] {
     r.intent = 57;
     r.result = 35;
     const std::vector<Slot> members(2, {8, 11, 2, 11, 11, 8, 11, 2, 15, 10});
-    if (plan(Branch::stop_continue, r, members) != Charge{16, 660, 943, 6, 262})
+    if (plan(Branch::stop_continue, r, members) != Charge{18, 660, 987, 8, 294})
         return false;
     r.result = 71;
-    if (plan(Branch::stop_hold, r, members) != Charge{17, 660, 1061, 6, 262})
+    r.cause = 32; // Synthetic arithmetic anchor only.
+    if (plan(Branch::stop_hold, r, members) != Charge{19, 660, 1105, 8, 294})
         return false;
     r.intent = 111;
     r.result = 81;

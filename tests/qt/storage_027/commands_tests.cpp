@@ -31,6 +31,82 @@ void same_redaction(CatalogFile &db, Authority &port, const Command &exact, Comm
     require(prior == journal(db), "Denied calls add no operations");
 }
 
+charge_oracle::Record fixture_record(CatalogFile &db, const Command &cmd, const Authority &owner,
+                                     const Occurrence *target = nullptr) {
+    charge_oracle::Record r;
+    r.install = cmd.track.installation_ref.size();
+    r.track = cmd.track.track_ref.size();
+    r.operation = cmd.operation.size();
+    r.actor = cmd.actor.actor_ref.size();
+    r.lineage = cmd.actor.session_lineage.size();
+    r.decision = owner.decision.size();
+    if (!target)
+        return r;
+    r.occurrence = target->occurrence.ref.size();
+    if (const auto *app = std::get_if<ApplicationOperationKey>(&target->origin)) {
+        r.edited = false;
+        r.origin_scope = app->operation_scope.size();
+        r.origin = app->operation_ref.size();
+    } else {
+        r.origin = std::get<MilestoneEditKey>(target->origin).operation_ref.size();
+    }
+    const auto heads =
+        db.rows("SELECT length(d.definition_revision),length(p.prefix_revision) "
+                "FROM main.subathon_milestone_definition_heads d "
+                "JOIN main.subathon_milestone_prefix_heads p USING(installation_ref,track_ref) "
+                "WHERE d.installation_ref=? AND d.track_ref=?",
+                {QByteArray::fromStdString(cmd.track.installation_ref),
+                 QByteArray::fromStdString(cmd.track.track_ref)});
+    require(heads.size() == 1,
+            "Exact protected fixture publishes one current definition and prefix");
+    r.definition = heads.front()[0].toLongLong();
+    r.prefix = heads.front()[1].toLongLong();
+    return r;
+}
+
+// Sample only representation widths in a deliberately rolled-back turn. The
+// SQL tape and the assertions about selected durable effects remain independent.
+template <class Inspect>
+Decision inspect_command_shape(CatalogFile &db, Authority &owner, const Command &cmd,
+                               const ReplacePreview *preview, Inspect inspect) {
+    Decision sampled;
+    const auto probe = run(
+        db,
+        [&](const auto &session) {
+            sampled = stage_command(session, owner, cmd, preview);
+            if (sampled.disposition == Disposition::committed)
+                inspect(session, sampled);
+            return sampled;
+        },
+        Finish::rollback);
+    require(!probe.missing, "STORAGE-027 NI: provisional owner representation for charge");
+    require(probe.work.transaction == TransactionOutcome::rolled_back && !probe.published &&
+                sampled.disposition == Disposition::committed,
+            "Exact provisional owner output is sampled without reserving the operation");
+    return sampled;
+}
+
+qsizetype stored_origin_width(const SqlRows &rows) {
+    require(rows.size() == 1 && !rows.front()[0].isNull(),
+            "Exact provisional owner row identifies its stored origin scope");
+    return rows.front()[0].toLongLong();
+}
+
+qsizetype stop_origin_width(const SqliteWorkSession &s, const QByteArray &operation) {
+    return stored_origin_width(s.execute(
+        {"SELECT length(origin_scope) FROM main.subathon_milestone_stop_fences WHERE stop=?",
+         {operation}}));
+}
+
+void require_member_delta(const charge_oracle::Charge &one, const charge_oracle::Charge &two,
+                          const charge_oracle::Charge &member) {
+    require(two.attempts - one.attempts == member.attempts &&
+                two.peak == std::max(one.peak, member.peak) &&
+                two.binds - one.binds == member.binds && two.rows - one.rows == member.rows &&
+                two.results - one.results == member.results,
+            "The independently planned second member adds its complete additive charge");
+}
+
 void release_application(Populated &f) {
     const auto release = finance::completed<MilestoneReleaseCompletion>([&](auto done) {
         return release_milestone_head(f.db.writer(), f.app_occurrence, std::move(done));
@@ -375,6 +451,7 @@ class Storage027CommandsTests final : public QObject {
             const auto &h1 = a.added_causes[0];
             const auto &h2 = b.added_causes[0];
             const auto active = causes(f.db);
+            // The existing Defer reference is absent from the interruption locator key space.
             for (const auto &invalid : std::vector<std::vector<QByteArray>>{
                      {}, {h1, h1}, {h1, "missing-cause"}, {h1, "milestone-decision"}})
                 (void)commit(f.db, port, resume("invalid", invalid), Disposition::refused);
@@ -429,8 +506,15 @@ class Storage027CommandsTests final : public QObject {
         });
     }
 
+    void latePlaybackIsSeparateFromImmutableStop_data() {
+        QTest::addColumn<bool>("recovery");
+        QTest::newRow("matching-finish") << false;
+        QTest::newRow("cold-stranded-recovery-after-stop") << true;
+    }
+
     void latePlaybackIsSeparateFromImmutableStop() {
-        check([] {
+        QFETCH(bool, recovery);
+        check([&] {
             Populated f({.audio_job = true});
             release_application(f);
             release_edit(f);
@@ -489,6 +573,20 @@ class Storage027CommandsTests final : public QObject {
             f.db.reopen(profile());
             exact_same_result(read(f.db, port, cmd), first);
             f.db.write([&](const auto &s) {
+                const auto page = stranded_milestone_delivery(s, {}, 1);
+                require(page.attempts.size() == 1 && page.attempts[0].revision == 2 &&
+                            std::get_if<MilestoneEditJobKey>(&page.attempts[0].key) &&
+                            std::get<MilestoneEditJobKey>(page.attempts[0].key) == f.job,
+                        "Cold stranded traversal still selects the exact stopped edit attempt");
+                if (recovery) {
+                    const auto recovered = recover_milestone_edit_job(s, f.job, 2);
+                    require(
+                        recovered.disposition == DeliveryDisposition::changed && recovered.job &&
+                            recovered.job->state == DeliveryJobState::outcome_unknown &&
+                            recovered.job->revision == 3 && recovered.job->attempt == 2,
+                        "Matching recovery reaches the stopped edit attempt without a new claim");
+                    return;
+                }
                 const auto finished = finish_milestone_edit_job(
                     s, f.job, 2, 2, DeliveryEvidence::delivered, "matching-delivery-evidence");
                 require(finished.disposition == DeliveryDisposition::changed && finished.job &&
@@ -807,6 +905,8 @@ class Storage027CommandsTests final : public QObject {
         QTest::newRow("another-typed-occurrence") << 1;
         QTest::newRow("stale-generation") << 2;
         QTest::newRow("exact-expiry") << 3;
+        QTest::newRow("stale-owner-revision") << 4;
+        QTest::newRow("decreasing-observation") << 5;
     }
 
     void presentationOnlyStopStorageGate() {
@@ -818,13 +918,18 @@ class Storage027CommandsTests final : public QObject {
             Authority port;
             const auto wanted = application(f);
             PresentationObservation observed{
-                wanted, "presentation", "timeline-1", "timeline-1", "owner-1", 0, 10000, 1800};
+                wanted, "presentation", "timeline-1", "timeline-1", "owner-1",
+                0,      10000,          1800,         "owner-1",    1700};
             if (evidence == 1)
                 observed.target = edited(f);
             if (evidence == 2)
                 observed.current_generation = "timeline-2";
             if (evidence == 3)
                 observed.observed_ms = observed.expiry_ms;
+            if (evidence == 4)
+                observed.current_owner_revision = "owner-2";
+            if (evidence == 5)
+                observed.observed_ms = observed.last_accepted_observation_ms - 1;
             port.presentation = observed;
             const auto key = stop("presentation-stop", wanted, QueueChoice::continue_queue);
             if (evidence == 0) {
@@ -836,12 +941,10 @@ class Storage027CommandsTests final : public QObject {
                 const auto reply =
                     run(f.db, [&](const auto &s) { return stage_command(s, port, key); });
                 require(!reply.missing, "STORAGE-027 NI: exact presentation-only eligibility");
-                require(reply.published &&
-                            (reply.published->disposition == Disposition::refused ||
-                             reply.published->disposition == Disposition::unavailable) &&
+                require(reply.published && reply.published->disposition == Disposition::refused &&
                             journal(f.db).empty(),
-                        "Different occurrence, generation or expired window cannot establish "
-                        "eligibility");
+                        "Current authority refuses ineligible presentation evidence without "
+                        "reserving the command key");
             }
             require(
                 f.db.rows("SELECT released FROM main.subathon_milestone_groups") == SqlRows{{1}},
@@ -996,7 +1099,7 @@ class Storage027CommandsTests final : public QObject {
         QTest::newRow("resolve-defer-and-release") << 1;
         QTest::newRow("exact-claim-before-confirmation") << 2;
         QTest::newRow("stop-before-confirmation") << 3;
-        QTest::newRow("configuration-revision-round-trip") << 4;
+        QTest::newRow("later-revision-with-identical-capture") << 4;
     }
 
     void replacementRebindAfterFactsChange() {
@@ -1043,8 +1146,7 @@ class Storage027CommandsTests final : public QObject {
                 require(saved.cancellations == std::vector<SelectedVersion>{{1, {}}},
                         "Exact Stop cancelled the selected unstarted slot");
             } else if (intervention == 4) {
-                // Two new authority revisions retain byte-identical candidate
-                // definitions. Reference identity still detects the round trip.
+                // Each later revision retains byte-identical candidate captures.
                 owner.configuration = "cfg-10";
                 (void)bind_replace(f.db, owner, cmd);
                 owner.configuration = "cfg-11";
@@ -1298,8 +1400,8 @@ class Storage027CommandsTests final : public QObject {
             std::shared_ptr<const ReplacePreview> bound;
             Decision expected{Disposition::committed, {}, {}, {}, {}};
             auto kind = wire::Kind::stop;
-            meter::Record r;
-            const QByteArray fixed_ref(meter::fresh_ref, 'v');
+            const auto target = edited(f);
+            auto r = fixture_record(f.db, cmd, port, &target);
             if (selected == B::malformed) {
                 std::get<StopIntent>(cmd.intent).choice = static_cast<QueueChoice>(-1);
                 expected.disposition = Disposition::refused;
@@ -1314,14 +1416,21 @@ class Storage027CommandsTests final : public QObject {
             }
             if (selected == B::stop_continue || selected == B::stop_hold) {
                 expected.cancellations = {{1, {}}, {2, {}}};
-                if (selected == B::stop_hold)
-                    expected.added_causes = {fixed_ref};
+                const auto sample = inspect_command_shape(
+                    f.db, port, cmd, nullptr, [&](const auto &s, const auto &) {
+                        r.origin_scope = stop_origin_width(s, cmd.operation);
+                    });
+                if (selected == B::stop_hold) {
+                    require(sample.added_causes.size() == 1 && !sample.added_causes[0].isEmpty(),
+                            "Provisional Hold returns one exact opaque reference");
+                    r.cause = sample.added_causes[0].size();
+                    expected.added_causes = sample.added_causes;
+                }
             }
             if (existing) {
                 const auto prior = commit(f.db, port, cmd, Disposition::committed);
                 require(prior.cancellations == std::vector<SelectedVersion>{{1, {}}, {2, {}}} &&
-                            prior.added_causes.size() == 1 &&
-                            prior.added_causes[0].size() == meter::fresh_ref,
+                            prior.added_causes.size() == 1 && !prior.added_causes[0].isEmpty(),
                         "Prepared journal peer has the independently counted original closure");
                 r.retained_intent = wire::intent(cmd).size();
                 r.retained_result = wire::result(kind, prior).size();
@@ -1338,89 +1447,144 @@ class Storage027CommandsTests final : public QObject {
                 patch.push_back({2, patch.front().action});
                 port.captures.push_back(
                     {patch.back(), QByteArray::fromHex("0082"), "local/new-route", "new-sender"});
-                const wire::Capture before{
-                    {MilestoneActionKind::automation, "announce", "announce-v1"},
-                    QByteArray::fromHex("0081"),
-                    "local/route",
-                    "edit-sender",
-                    {}};
-                const wire::Capture after{patch[0].action,
-                                          QByteArray::fromHex("0082"),
-                                          "local/new-route",
-                                          "new-sender",
-                                          {}};
-                preview_wire =
-                    wire::PreviewWitness{"grant-1",
-                                         "cfg",
-                                         "capability-1",
-                                         "prefix-edit-earn-B",
-                                         false,
-                                         {},
-                                         {{1, {}, 1, before, after}, {2, {}, 1, before, after}}};
-                expected.versions = {{1, fixed_ref}, {2, QByteArray(meter::fresh_ref, 'w')}};
-                if (selected == B::replace_automation && !excess)
+                const auto &old = f.edit_authority.facts.captures.front();
+                preview_wire = wire::PreviewWitness{port.revision,
+                                                    port.configuration,
+                                                    "capability-1",
+                                                    "prefix-edit-earn-B",
+                                                    false,
+                                                    {},
+                                                    {}};
+                members.clear();
+                for (size_t i = 0; i < patch.size(); ++i) {
+                    const auto &job = old.jobs.at(i);
+                    const auto &capture = port.captures.at(i);
+                    const wire::Capture before{old.actions.at(i),
+                                               job.envelope.document,
+                                               job.capture.route_ref,
+                                               job.capture.sender_ref,
+                                               {}};
+                    const wire::Capture after{capture.selection.action,
+                                              capture.payload,
+                                              capture.route,
+                                              capture.qualified_sender,
+                                              {}};
+                    preview_wire->members.push_back({patch[i].ordinal, {}, 1, before, after});
+                    members.push_back(
+                        {qsizetype(before.action.action_ref.size()),
+                         qsizetype(before.action.version_ref.size()), before.automation.size(),
+                         qsizetype(before.route.size()), qsizetype(before.sender.size()),
+                         qsizetype(after.action.action_ref.size()),
+                         qsizetype(after.action.version_ref.size()), after.automation.size(),
+                         qsizetype(after.route.size()), qsizetype(after.sender.size())});
+                }
+                const auto calibration =
+                    stop("inspect-edit-origin", target, QueueChoice::continue_queue);
+                if (selected == B::replace_preview) {
+                    (void)inspect_command_shape(
+                        f.db, port, calibration, nullptr, [&](const auto &s, const auto &) {
+                            r.origin_scope = stop_origin_width(s, calibration.operation);
+                        });
+                } else {
                     bound = bind_replace(f.db, port, cmd);
+                    const auto sample = inspect_command_shape(
+                        f.db, port, cmd, bound.get(), [&](const auto &s, const auto &) {
+                            r.origin_scope = stored_origin_width(s.execute(
+                                {"SELECT DISTINCT length(origin_scope) FROM "
+                                 "main.subathon_milestone_slot_versions WHERE replacement=?",
+                                 {cmd.operation}}));
+                        });
+                    require(sample.versions.size() == members.size(),
+                            "Provisional Replace chooses a reference for every exact member");
+                    for (size_t i = 0; i < members.size(); ++i) {
+                        require(sample.versions[i].ordinal == patch[i].ordinal &&
+                                    !sample.versions[i].version.isEmpty(),
+                                "Provisional Replace exposes the exact selected ordinal");
+                        members[i].allocated_version = sample.versions[i].version.size();
+                    }
+                    expected.versions = sample.versions;
+                }
             }
             if (is_resume) {
                 kind = wire::Kind::resume;
-                const auto a =
-                    commit(f.db, port, stop("hold-a", application(f)), Disposition::committed);
-                const auto b =
-                    commit(f.db, port, stop("hold-b", edited(f)), Disposition::committed);
+                const auto a_stop = stop("hold-a", application(f));
+                const auto b_stop = stop("hold-b", edited(f));
+                const auto a = commit(f.db, port, a_stop, Disposition::committed);
+                const auto b = commit(f.db, port, b_stop, Disposition::committed);
                 require(a.added_causes.size() == 1 && b.added_causes.size() == 1 &&
-                            a.added_causes[0].size() == meter::fresh_ref &&
-                            b.added_causes[0].size() == meter::fresh_ref,
-                        "Both genuine Stop producers return bounded scoped Hold locators");
+                            !a.added_causes[0].isEmpty() && !b.added_causes[0].isEmpty() &&
+                            a.added_causes != b.added_causes,
+                        "Both real Stop producers return distinct scoped Hold locators");
                 auto second = b.added_causes[0];
                 if (selected == B::resume_ineligible) {
-                    second = QByteArray(meter::fresh_ref, char(0xff));
+                    second = "absent-interruption-ref";
+                    if (second == a.added_causes[0] || second == b.added_causes[0])
+                        second += QByteArray(1, char(0xff));
+                    require(second != a.added_causes[0] && second != b.added_causes[0],
+                            "The mixed set uses an identifier absent from both retained Holds");
                     expected.disposition = Disposition::refused;
                 } else {
                     expected.resolved_causes = {a.added_causes[0], b.added_causes[0]};
                 }
                 cmd = resume("budget", {a.added_causes[0], second});
-                cause_shapes = {{meter::fresh_ref, 6, 15}, {meter::fresh_ref, 6, 6}};
+                cause_shapes = {
+                    {a.added_causes[0].size(), a_stop.operation.size(),
+                     qsizetype(std::get<StopIntent>(a_stop.intent).target.occurrence.ref.size())},
+                    {second.size(), b_stop.operation.size(),
+                     qsizetype(std::get<StopIntent>(b_stop.intent).target.occurrence.ref.size())}};
             }
-            r.actor = 6;
-            r.lineage = 15;
-            r.decision = 17;
             r.operation = cmd.operation.size();
-            r.origin_scope = 5; // Exact edit storage scope uses the already bound track.
-            r.origin = 6;
-            r.occurrence = 6;
             if (selected != B::malformed)
                 r.intent = wire::intent(cmd, preview_wire ? &*preview_wire : nullptr).size();
             r.result = wire::result(kind, expected).size();
             const auto charge = meter::plan(selected, r, members, cause_shapes);
-            if (selected == B::stop_continue)
-                require(charge == meter::Charge{16, 660, 943, 6, 262},
-                        "Independent literal two-slot Continue tape has its fixed vector");
-            if (selected == B::stop_hold)
-                require(
-                    charge == meter::Charge{17, 660, 1061, 6, 262},
-                    "Hold adds one statement and repeated cause bytes without hiding any cells");
-            if (selected == B::resume)
-                require(charge == meter::Charge{9, 536, 745, 6, 171},
-                        "Independent two-origin Resume vector binds both scoped causes and result");
             if (selected == B::stop_continue || selected == B::resume ||
                 selected == B::replace_automation) {
-                qsizetype per_member{};
+                auto one = r;
+                auto input_one = cmd;
+                auto decision_one = expected;
+                auto one_preview = preview_wire;
+                std::vector<meter::Slot> one_slot;
+                std::vector<meter::Cause> one_cause;
+                meter::Charge member;
+                qsizetype intent_member{};
+                qsizetype result_member{};
                 if (selected == B::stop_continue) {
-                    per_member = meter::stop_member(r, members.front()).binds + 9;
+                    one_slot.push_back(members.front());
+                    decision_one.cancellations.pop_back();
+                    member = meter::stop_member(r, members.back());
+                    result_member = 8 + 1; // Ordinal and absent version tag.
                 } else if (selected == B::resume) {
-                    per_member = meter::cause_member(r, cause_shapes.front(), true, true).binds +
-                                 2 * (4 + meter::fresh_ref);
+                    one_cause.push_back(cause_shapes.front());
+                    std::get<ResumeIntent>(input_one.intent).causes.pop_back();
+                    decision_one.resolved_causes.pop_back();
+                    member = meter::cause_member(r, cause_shapes.back(), true, true);
+                    intent_member = 4 + cause_shapes.back().ref;
+                    result_member = intent_member;
                 } else {
-                    // 148 bytes of immutable bound preview, and 45 bytes of
-                    // selected version result, are rebound in the journal.
-                    per_member =
-                        meter::replacement_member(r, members.front(), true).binds + 148 + 45;
+                    one_slot.push_back(members.front());
+                    std::get<ReplaceIntent>(input_one.intent).patch.pop_back();
+                    one_preview->members.pop_back();
+                    decision_one.versions.pop_back();
+                    member = meter::replacement_member(r, members.back(), true);
+                    const auto &entry = preview_wire->members.back();
+                    const auto framed_capture = [](const wire::Capture &capture) {
+                        return 1 + 5 * 4 + capture.action.action_ref.size() +
+                               capture.action.version_ref.size() + capture.automation.size() +
+                               capture.route.size() + capture.sender.size();
+                    };
+                    intent_member =
+                        8 + 1 + 8 + framed_capture(entry.before) + framed_capture(entry.after);
+                    result_member = 8 + 1 + 4 + members.back().allocated_version;
                 }
-                require(per_member > 0 && charge.binds >= 2 * per_member &&
-                            meter::cap({.binds = charge.binds - 2 * per_member},
-                                       {.binds = per_member}, {.binds = charge.binds},
-                                       meter::action_limit) == 2,
-                        "Exact fixed and per-member bind charges derive N=2 before mutation");
+                one.intent = wire::intent(input_one, one_preview ? &*one_preview : nullptr).size();
+                one.result = wire::result(kind, decision_one).size();
+                require(r.intent - one.intent == intent_member &&
+                            r.result - one.result == result_member,
+                        "Independent frame reduction measures the removed member's journal bytes");
+                member.binds += intent_member + result_member;
+                const auto one_charge = meter::plan(selected, one, one_slot, one_cause);
+                require_member_delta(one_charge, charge, member);
             }
             auto limits = meter::limits(charge);
             if (excess) {
@@ -1437,8 +1601,7 @@ class Storage027CommandsTests final : public QObject {
                     const auto c =
                         commit(f.db, port, stop("hold-c", {edit::track, edit::c, *third}),
                                Disposition::committed);
-                    require(c.added_causes.size() == 1 &&
-                                c.added_causes[0].size() == meter::fresh_ref,
+                    require(c.added_causes.size() == 1 && !c.added_causes[0].isEmpty(),
                             "Third exact distinct Stop produces its own legal active cause");
                     std::get<ResumeIntent>(cmd.intent)
                         .causes.push_back({edit::track, c.added_causes[0]});
@@ -1538,24 +1701,30 @@ class Storage027CommandsTests final : public QObject {
                 {},
                 {{1, {}, 0, {f.action, {}, {}, {}, 30000}, {patch.action, {}, {}, {}, 20000}}}};
             const auto intent = wire::intent(cmd, &witness);
-            const Decision expected{
-                Disposition::committed, {{1, QByteArray(meter::fresh_ref, 'b')}}, {}, {}, {}};
-            meter::Record r;
-            r.edited = edit_origin;
-            r.actor = 6;
-            r.lineage = 15;
-            r.decision = 17;
-            r.operation = cmd.operation.size();
-            r.origin_scope = edit_origin ? 5 : 18;
-            r.origin = edit_origin ? 10 : 71;
-            r.occurrence = edit_origin ? 6 : 19;
-            r.definition = edit_origin ? 26 : 16;
-            r.prefix = queue.size();
+            auto r = fixture_record(f.db, cmd, authority, &target);
+            const auto expected = inspect_command_shape(
+                f.db, authority, cmd, preview.get(), [&](const auto &s, const auto &) {
+                    const auto scope = stored_origin_width(s.execute(
+                        {"SELECT length(origin_scope) FROM main.subathon_milestone_slot_versions "
+                         "WHERE replacement=? AND ordinal=1",
+                         {cmd.operation}}));
+                    if (!edit_origin)
+                        require(r.origin_scope == scope,
+                                "Application version keeps the protected operation scope");
+                    r.origin_scope = scope;
+                });
+            require(expected.versions.size() == 1 && expected.versions[0].ordinal == 1 &&
+                        !expected.versions[0].version.isEmpty(),
+                    "Provisional bonus selection has one exact typed version");
             r.intent = intent.size();
             r.result = wire::result(wire::Kind::replace, expected).size();
-            const auto shape =
-                meter::plan(meter::Branch::replace_bonus, r,
-                            {meter::Slot{5, 8, 0, 0, 0, 5, 8, 8, 0, 0, true, false}});
+            const auto shape = meter::plan(
+                meter::Branch::replace_bonus, r,
+                {meter::Slot{qsizetype(f.action.action_ref.size()),
+                             qsizetype(f.action.version_ref.size()), 0, 0, 0,
+                             qsizetype(patch.action.action_ref.size()),
+                             qsizetype(patch.action.version_ref.size()), sizeof(qint64), 0, 0, true,
+                             false, 0, expected.versions[0].version.size()}});
             const auto limits = edge < 0 ? meter::limits(shape) : meter::one_below(shape, edge);
             f.db.reopen(limits);
             const AdmissionProfile admitted{limits, {}};
@@ -1577,7 +1746,9 @@ class Storage027CommandsTests final : public QObject {
             }
             require(reply.published && reply.published->disposition == Disposition::committed &&
                         reply.published->versions.size() == 1 &&
-                        reply.published->versions[0].version.size() == meter::fresh_ref,
+                        reply.published->versions[0].ordinal == 1 &&
+                        reply.published->versions[0].version.size() ==
+                            expected.versions[0].version.size(),
                     "Complete budget retains one exact typed bonus version");
             require(
                 f.db.rows("SELECT intent,result FROM main.subathon_milestone_command_journal") ==
@@ -1647,32 +1818,94 @@ class Storage027CommandsTests final : public QObject {
             const PlaybackEvidence evidence{{{edit::track, key.operation, initial}, {}},
                                             PlaybackOutcome::requested,
                                             "exact-evidence"};
-            meter::Record r;
-            r.operation = key.operation.size();
-            r.actor = 6;
-            r.lineage = 15;
-            r.decision = 17;
-            r.origin_scope = 5;
-            r.origin = 6;
-            r.occurrence = 6;
+            const auto target = edited(f);
+            auto r = fixture_record(f.db, key, owner, &target);
             r.intent = wire::intent(key).size();
-            r.result =
-                wire::result(
-                    wire::Kind::stop,
-                    {Disposition::committed, {}, {}, {}, {}, {QByteArray(meter::fresh_ref, 'p')}})
-                    .size();
-            const meter::Playback p{key.operation.size(), initial.adapter.size(),
-                                    initial.activation.size(), initial.runtime_generation.size(),
-                                    evidence.evidence.size()};
-            const auto fixed = meter::playback_capacity_fixed(r, p);
-            const auto per = meter::playback_capacity_member(r, p);
-            auto allowance = meter::combine(fixed, meter::repeat(per, 2));
-            require(meter::cap(fixed, per, allowance, meter::action_limit) == 2,
-                    "All independent cumulative dimensions admit exactly two fixture activations");
-            const auto play_limits = meter::limits(allowance);
-
+            meter::Playback initial_shape{
+                key.operation.size(), initial.adapter.size(), initial.activation.size(),
+                initial.runtime_generation.size(), evidence.evidence.size()};
+            auto late_shape = initial_shape;
+            late_shape.activation = later.activation.size();
+            QByteArray first_ref;
+            QByteArray second_ref;
             auto selected_evidence = evidence;
             auto later_request = LatePlayback{edit::track, key.operation, later};
+            const auto playback_shape = [&](const SqliteWorkSession &s, const PlaybackInstance &i) {
+                const auto row = s.execute(
+                    {"SELECT instance,length(attempt),length(handoff) FROM "
+                     "main.subathon_milestone_playback_instances WHERE stop=? "
+                     "AND ordinal=? AND adapter=? AND activation=? AND generation=?",
+                     {key.operation, i.ordinal, i.adapter, i.activation, i.runtime_generation}});
+                require(row.size() == 1 && !row[0][0].toByteArray().isEmpty(),
+                        "Exact owner activation selects one opaque playback representation");
+                return row.front();
+            };
+            const auto sample = inspect_command_shape(
+                f.db, owner, key, nullptr, [&](const auto &s, const auto &staged) {
+                    r.origin_scope = stop_origin_width(s, key.operation);
+                    require(staged.playback_intents.size() == 1,
+                            "One exact active playback has one prospective intent");
+                    first_ref = staged.playback_intents.front();
+                    const auto first = playback_shape(s, initial);
+                    require(first[0].toByteArray() == first_ref,
+                            "Selected prospective intent identifies the same exact activation row");
+                    require(stage_late_playback(s, port, later_request) == Disposition::committed,
+                            "STORAGE-027 NI: provisional second playback representation");
+                    const auto second = playback_shape(s, later);
+                    second_ref = second[0].toByteArray();
+                    if (operation == B::handoff) {
+                        const auto handoff = PlaybackHandoff{evidence.handoff.selected, first_ref};
+                        require(stage_playback_handoff(s, port, handoff) == Disposition::committed,
+                                "STORAGE-027 NI: provisional handoff representation");
+                        const auto consumed = playback_shape(s, initial);
+                        require(!consumed[2].isNull(),
+                                "Exact provisional handoff records its owned claim");
+                        initial_shape.handoff = consumed[2].toLongLong();
+                    }
+                    initial_shape.instance = first_ref.size();
+                    initial_shape.attempt = first[1].toLongLong();
+                    late_shape.instance = second_ref.size();
+                    late_shape.attempt = second[1].toLongLong();
+                    require(first_ref != second_ref,
+                            "Both exact activation identities stay independently addressable");
+                });
+            r.result = wire::result(wire::Kind::stop, sample).size();
+            const Decision empty_result{Disposition::committed, {}, {}, {}, {}};
+            const auto base_bytes = wire::result(wire::Kind::stop, empty_result).size();
+            const auto member_bytes = [&](std::vector<QByteArray> refs) {
+                auto result = empty_result;
+                result.playback_intents = std::move(refs);
+                return wire::result(wire::Kind::stop, result).size() - base_bytes;
+            };
+            const auto fixed = meter::playback_capacity_plan(r, initial_shape, {}, 0);
+            const auto initial_member = meter::playback_capacity_member(r, initial_shape);
+            const auto late_member = meter::playback_capacity_member(r, late_shape);
+            const bool later_is_larger = late_member.binds > initial_member.binds;
+            const auto &largest_shape = later_is_larger ? late_shape : initial_shape;
+            const auto &largest_ref = later_is_larger ? second_ref : first_ref;
+            const auto per = later_is_larger ? late_member : initial_member;
+            const auto one = meter::playback_capacity_plan(r, initial_shape, {largest_shape},
+                                                           member_bytes({largest_ref}));
+            auto distinct_same_width = largest_ref;
+            distinct_same_width[0] = char(distinct_same_width[0] ^ 0x01);
+            const auto allowance =
+                meter::playback_capacity_plan(r, initial_shape, {largest_shape, largest_shape},
+                                              member_bytes({largest_ref, distinct_same_width}));
+            require_member_delta(one, allowance, per);
+            const auto mixed =
+                meter::playback_capacity_plan(r, initial_shape, {initial_shape, late_shape},
+                                              member_bytes({first_ref, second_ref}));
+            require(
+                meter::cap(fixed, per, allowance, meter::action_limit) == 2 &&
+                    std::ranges::equal(meter::dimensions(mixed), meter::dimensions(allowance),
+                                       std::less_equal<>{}),
+                "Independent fixed and exact mixed playback plans admit both genuine activations");
+            const auto play_limits = meter::limits(allowance);
+            const auto &charged_playback = operation == B::late_add ||
+                                                   operation == B::late_duplicate ||
+                                                   operation == B::late_exhausted
+                                               ? late_shape
+                                               : initial_shape;
             if (operation != B::stop_started) {
                 constexpr StorageLimits loose{64, 1024, 65536, 16777216, 8192, 16777216};
                 const AdmissionProfile bounded{loose, play_limits};
@@ -1682,7 +1915,7 @@ class Storage027CommandsTests final : public QObject {
                 require(!staged.missing && staged.published &&
                             staged.published->disposition == Disposition::committed &&
                             staged.published->playback_intents.size() == 1 &&
-                            staged.published->playback_intents[0].size() == meter::fresh_ref,
+                            staged.published->playback_intents[0].size() == initial_shape.instance,
                         "STORAGE-027 NI: exact Stop produces the bounded playback prerequisite");
                 selected_evidence.handoff.intent = staged.published->playback_intents[0];
                 require(f.db.rows("SELECT playback_cap FROM main.subathon_milestone_stop_fences "
@@ -1711,7 +1944,12 @@ class Storage027CommandsTests final : public QObject {
             }
 
             const auto charge = meter::plan(
-                operation, r, {meter::Slot{5, 8, 2, 11, 11, 0, 0, 0, 0, 0, false, true}}, {}, p);
+                operation, r,
+                {meter::Slot{
+                    qsizetype(
+                        f.edit_authority.facts.captures.front().actions.front().action_ref.size()),
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, false, true}},
+                {}, charged_playback);
             auto limits = meter::limits(charge);
             if (edge >= 0)
                 limits = meter::one_below(charge, edge);
@@ -1771,50 +2009,120 @@ class Storage027CommandsTests final : public QObject {
         });
     }
 
+    void stopLargeClosure_data() {
+        QTest::addColumn<int>("slot_count");
+        QTest::addColumn<bool>("ordinary");
+        QTest::newRow("ordinary-application-without-acceptance") << 1 << true;
+        QTest::newRow("application-wide-t4") << 256 << false;
+    }
+
     void stopLargeClosure() {
-        check([] {
-            Populated f({.large_slots = 256});
-            const auto selected =
-                f.db.rows("SELECT count(*),min(length(action_ref)),max(length(action_ref)),"
-                          "count(DISTINCT action_ref) FROM main.subathon_milestone_actions");
-            require(selected == SqlRows{{256, 4096, 4096, 256}},
-                    "Real protected owner staged 256 distinct maximum-sized slot references");
-            constexpr qsizetype per_ref = 8 + 4096;
-            static_assert(255 * per_ref == 1046520 && 256 * per_ref == 1050624);
-            static_assert(1048576 - 255 * per_ref == 2056 && 256 * per_ref - 1048576 == 2048);
+        QFETCH(int, slot_count);
+        QFETCH(bool, ordinary);
+        check([&] {
+            namespace meter = charge_oracle;
+            namespace wire = frame_oracle;
+            Populated f({.large_slots = static_cast<std::size_t>(slot_count),
+                         .ordinary_application = ordinary});
+            require(f.db.rows("SELECT count(*),min(length(action_ref)),max(length(action_ref)),"
+                              "count(DISTINCT action_ref) FROM main.subathon_milestone_actions") ==
+                        SqlRows{{slot_count, 4096, 4096, slot_count}},
+                    "Protected application has exact distinct original actions");
+            require(
+                f.db.rows("SELECT count(*) FROM main.subathon_milestone_acceptance_decisions") ==
+                    SqlRows{{ordinary ? 0 : 1}},
+                "Ordinary application legitimately has no paused-acceptance row");
+            const auto heads = f.db.rows(
+                "SELECT length(d.definition_revision),length(p.prefix_revision) "
+                "FROM main.subathon_milestone_definition_heads d "
+                "JOIN main.subathon_milestone_prefix_heads p USING(installation_ref,track_ref)");
+            require(heads.size() == 1, "Exact application track heads are present");
             advance_fixture(f.db);
             const auto key = stop("wide-stop-A", application(f), QueueChoice::continue_queue);
             Authority port;
-            auto limits = StorageLimits{64, 4096, 65536, 16777216, 8192, 1048576};
-            f.db.reopen(limits);
-            const auto attempt =
-                run(f.db, [&](const auto &session) { return stage_command(session, port, key); });
-            require(!attempt.missing, "STORAGE-027 NI: bounded Stop selection seam");
-            const bool preflight = attempt.published &&
-                                   attempt.published->disposition == Disposition::resource_limit &&
-                                   attempt.published->cancellations.empty();
-            const bool metered = attempt.work.transaction == TransactionOutcome::rolled_back &&
-                                 attempt.work.error == WorkError::result_limit &&
-                                 !attempt.published;
-            require(
-                preflight || metered,
-                "STORAGE-027 T4: complete selected closure refuses at the default value budget");
-            require(journal(f.db).isEmpty() && cancellations(f.db, key.operation).isEmpty() &&
-                        causes(f.db).isEmpty() &&
+            meter::Record record;
+            record.edited = false;
+            record.install = key.track.installation_ref.size();
+            record.track = key.track.track_ref.size();
+            record.operation = key.operation.size();
+            record.actor = key.actor.actor_ref.size();
+            record.lineage = key.actor.session_lineage.size();
+            record.decision = port.decision.size();
+            record.origin_scope = f.original.operation_scope.size();
+            record.origin = f.original.operation_ref.size();
+            record.occurrence = f.app_occurrence.ref.size();
+            record.definition = heads[0][0].toLongLong();
+            record.prefix = heads[0][1].toLongLong();
+            record.intent = wire::intent(key).size();
+            Decision expected{Disposition::committed, {}, {}, {}, {}};
+            for (int n = 1; n <= slot_count; ++n)
+                expected.cancellations.push_back({n, {}});
+            record.result = wire::result(wire::Kind::stop, expected).size();
+            const meter::Slot original{4096, 2, 0, 0, 0, 0, 0, 0, 0, 0, true, false};
+            const auto charge = meter::plan(meter::Branch::stop_continue, record,
+                                            std::vector<meter::Slot>(slot_count, original));
+            const auto invoke = [&](StorageLimits limits) {
+                f.db.reopen(limits);
+                const AdmissionProfile profile{limits, {}};
+                const auto result = run(f.db, [&](const auto &session) {
+                    return stage_command(session, port, key, nullptr, &profile);
+                });
+                require(!result.missing, "STORAGE-027 NI: exact bounded ordinary application Stop");
+                return result;
+            };
+            const auto refused = [&](const Turn &reply) {
+                const bool bounded = reply.published &&
+                                     reply.published->disposition == Disposition::resource_limit &&
+                                     reply.published->cancellations.empty();
+                const bool metered = reply.work.transaction == TransactionOutcome::rolled_back &&
+                                     reply.work.error == WorkError::result_limit &&
+                                     !reply.published;
+                require((bounded || metered) && journal(f.db).empty() &&
+                            cancellations(f.db, key.operation).empty() && causes(f.db).empty() &&
+                            f.db.rows("SELECT released FROM main.subathon_milestone_groups") ==
+                                SqlRows{{0}},
+                        "Result-byte refusal leaves no selected prefix, release, journal or "
+                        "cancellation");
+            };
+            if (slot_count == 256) {
+                constexpr qsizetype per_ref = 8 + 4096;
+                static_assert(255 * per_ref == 1046520 && 256 * per_ref == 1050624);
+                static_assert(1048576 - 255 * per_ref == 2056 && 256 * per_ref - 1048576 == 2048);
+                const auto member = meter::stop_member(record, original);
+                auto fixed_record = record;
+                fixed_record.result =
+                    wire::result(wire::Kind::stop, {Disposition::committed, {}, {}, {}, {}}).size();
+                const auto fixed = meter::plan(meter::Branch::stop_continue, fixed_record);
+                auto repeated = member;
+                repeated.binds +=
+                    9; // Each original ordinal and absent version in the bound result.
+                require(meter::combine(fixed, meter::repeat(repeated, slot_count)) == charge,
+                        "The actual application Stop envelope charges all slots and the retained "
+                        "result");
+                auto allowance = charge;
+                allowance.results = 1048576;
+                require(
+                    meter::cap(fixed, repeated, allowance, meter::action_limit) == 251 &&
+                        charge.results > allowance.results,
+                    "With every other dimension qualified the actual Stop limit is result bytes");
+                const StorageLimits default_value_budget{64, 4096, 65536, 16777216, 8192, 1048576};
+                refused(invoke(default_value_budget));
+                refused(invoke(meter::limits(allowance)));
+            }
+            const StorageLimits one_below_values{64,       4096, 65536,
+                                                 16777216, 8192, charge.results - 1};
+            refused(invoke(one_below_values));
+            const auto exact = invoke(meter::limits(charge));
+            require(exact.published && *exact.published == expected &&
+                        cancellations(f.db, key.operation).size() == slot_count &&
                         f.db.rows("SELECT released FROM main.subathon_milestone_groups") ==
                             SqlRows{{0}},
-                    "No retained prefix, cancellation, release or Hold escapes the failed unit");
-            limits.result_value_bytes = 16777216;
-            f.db.reopen(limits);
-            const auto saved = commit(f.db, port, key, Disposition::committed);
+                    "The same exact complete Stop fits at its independent charge and preserves "
+                    "release");
             const auto cancelled = cancellations(f.db, key.operation);
-            require(saved.cancellations.size() == 256 && cancelled.size() == 256 &&
-                        saved.added_causes.empty(),
-                    "The same legal full selection commits under a loose result-value budget");
             for (qsizetype i = 0; i < cancelled.size(); ++i)
-                require(cancelled[i][0].toLongLong() == i + 1 &&
-                            saved.cancellations[static_cast<std::size_t>(i)].ordinal == i + 1,
-                        "Every exact position appears once in cancellation readback");
+                require(cancelled[i][0].toLongLong() == i + 1 && cancelled[i][1].isNull(),
+                        "Every original position appears once in cancellation readback");
         });
     }
 
@@ -1871,6 +2179,9 @@ class Storage027CommandsTests final : public QObject {
                                 DeliveryDisposition::refused &&
                             dispatch.selected == calls,
                         "Exact historical requeue cannot reach dispatch after the occurrence Stop");
+                require(stranded_milestone_delivery(s, {}, 1).attempts.empty(),
+                        "Stopped revision 4 preserves history and stays outside current stranded "
+                        "selection");
             });
             require(
                 history() == before &&
