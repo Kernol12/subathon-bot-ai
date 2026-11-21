@@ -142,10 +142,17 @@ struct Fixture {
         store.install();
         storage::advance(store.db);
         store.db.reopen(work_profile);
-        storage::report(storage::migrate(store.db.writer(),
-                                         storage::request(MigrationMode::inspect,
-                                                          connector_intake_repository_manifest())),
-                        CatalogState::current, 20, 20, 0);
+        auto shipped = connector_intake_repository_manifest();
+        // Protected v20 manifestLimits:manifest-bytes supplies this exact budget.
+        constexpr qsizetype v20_manifest_bytes = 1594845;
+        require(storage::tally(shipped) == v20_manifest_bytes,
+                "Compiled v20 manifest matches the independent UTF-8 budget");
+        MigrationLimits limits;
+        limits.manifest_utf8_bytes = v20_manifest_bytes;
+        storage::report(
+            storage::migrate(store.db.writer(),
+                             {MigrationMode::inspect, std::move(shipped), limits, {}}),
+            CatalogState::current, 20, 20, 0);
         require(store.db.rows(storage::history_query) ==
                     storage::expected_history(storage::successor()),
                 "Exact installed v20 closure includes all protected v19 entries");
