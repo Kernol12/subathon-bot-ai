@@ -219,24 +219,26 @@
       "id": "RULE-02",
       "status": "partial",
       "tests": [
-        "tests/acceptance/rule_selection_tests.cpp"
+        "tests/acceptance/rule_selection_tests.cpp",
+        "tests/acceptance/rule_actions_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/747#issuecomment-7041091312"
       ],
-      "scope": "RULES-002 validates direction before enablement, applies exclusions only from selected matches and returns ordered skip reasons. Live configuration enablement and action composition stay separate."
+      "scope": "RULES-002 validates direction before enablement, applies exclusions only from selected matches and returns ordered skip reasons. Live configuration enablement and action composition stay separate. RULES-003 Stage 1 adds authored synthetic ordered action/stop cases awaiting review and intended red."
     },
     {
       "id": "RULE-03",
       "status": "partial",
       "tests": [
-        "tests/acceptance/rule_definition_tests.cpp"
+        "tests/acceptance/rule_definition_tests.cpp",
+        "tests/acceptance/rule_actions_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/735#issuecomment-7024035880",
         "https://github.com/Kernol12/subathon-bot-ai/pull/735#issuecomment-7024214931"
       ],
-      "scope": "RULES-001 validates and retains the configured depth and count limits, with defaults of 32 and 256. Per-root enforcement, stopping, audit and notice remain #210."
+      "scope": "RULES-001 validates and retains the configured depth and count limits, with defaults of 32 and 256. Per-root enforcement, stopping, audit and notice remain #210. RULES-003 Stage 1 authors tests for carried cause and observed child lineage before #210 admission."
     },
     {
       "id": "MOD-01",
@@ -645,13 +647,14 @@
       "id": "AUTH-07",
       "status": "partial",
       "tests": [
-        "tests/acceptance/chat_commands_tests.cpp"
+        "tests/acceptance/chat_commands_tests.cpp",
+        "tests/acceptance/rule_actions_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/737#issuecomment-7026365991",
         "https://github.com/Kernol12/subathon-bot-ai/pull/737#issuecomment-7026634164"
       ],
-      "scope": "ACCESS-007 covers supplied current USE and original-author USE plus GRANT for synthetic category automation. Live intake, execution and broader delegation management remain separate."
+      "scope": "ACCESS-007 covers supplied current USE and original-author USE plus GRANT for synthetic category automation. Live intake, execution and broader delegation management remain separate. RULES-003 Stage 1 authors synthetic current dual-channel, exact sender and disclosure cases awaiting review and intended red."
     },
     {
       "id": "CHAT-02",

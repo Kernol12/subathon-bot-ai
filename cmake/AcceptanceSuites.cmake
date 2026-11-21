@@ -12,7 +12,7 @@ set(subathon_acceptance_suites
     password-hashing credential-record sqlite-credentials effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
     bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server
-    chat-commands scheduled-pause milestone-target-edit sqlite-milestone-target-edits downtime-recovery finished-timer)
+    chat-commands scheduled-pause milestone-target-edit sqlite-milestone-target-edits downtime-recovery finished-timer rule-actions)
 
 # Test guards stay private derived variables; callers select the
 # logical suites above instead of maintaining another set of cache switches.
@@ -71,7 +71,10 @@ function(subathon_resolve_acceptance_suites output)
     set(selected)
     foreach(suite IN LISTS requested)
         if(suite STREQUAL "all")
-            list(APPEND selected ${subathon_acceptance_suites})
+            set(all_suites ${subathon_acceptance_suites})
+            # RULES-003 Stage 1 requires explicit selection.
+            list(REMOVE_ITEM all_suites rule-actions)
+            list(APPEND selected ${all_suites})
             continue()
         endif()
         if(NOT suite IN_LIST subathon_acceptance_suites)
