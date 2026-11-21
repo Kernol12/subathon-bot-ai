@@ -330,21 +330,36 @@
     },
     {
       "id": "FX-03",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/frankfurter_adapter_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/756#issuecomment-7055764242"
+      ],
+      "scope": "Frankfurter historical normalization records exact rates, requested and returned dates, and match facts through fake HTTP. RATES-008 owns eligibility for historical reporting."
     },
     {
       "id": "FX-04",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/frankfurter_rate_service_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/756#issuecomment-7055764242"
+      ],
+      "scope": "Frankfurter proposals verify fetch and conservative rate-date warnings independently. Publication age stays unknown when the provider supplies only a date. Published cache and display remain separate."
     },
     {
       "id": "FX-05",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/frankfurter_adapter_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/756#issuecomment-7055764242"
+      ],
+      "scope": "Frankfurter classifies provider wait evidence with fake HTTP and receipt clocks. RATES-005 owns retry scheduling, clock reconciliation, dispatch gating and request accounting."
     },
     {
       "id": "FX-06",
@@ -354,7 +369,8 @@
         "tests/acceptance/valuation_snapshot_codec_tests.cpp",
         "tests/acceptance/rate_snapshot_tests.cpp",
         "tests/fixtures/rate_snapshots_vectors.hpp",
-        "tests/acceptance/rate_override_tests.cpp"
+        "tests/acceptance/rate_override_tests.cpp",
+        "tests/acceptance/frankfurter_rate_service_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/741#issuecomment-7024103944",
@@ -363,9 +379,10 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/724#issuecomment-7009533202",
         "https://github.com/Kernol12/subathon-bot-ai/pull/724#issuecomment-7009908979",
         "https://github.com/Kernol12/subathon-bot-ai/pull/734#issuecomment-7031320738",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/734#issuecomment-7031669177"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/734#issuecomment-7031669177",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/756#issuecomment-7055764242"
       ],
-      "scope": "RATES-001 verifies the exact snapshot model and lossless provenance. RATES-007 verifies pure override preview, inverse and cross rates, contradictory constraint refusal, stale preview and temporary expiry. Permissioned save and durable revisions remain #727. Provider/cache, reporting settings and the valuation bridge retain their separate scopes. RATES-011 verifies bounded shared RSV1 preservation of the typed exact snapshot and stored order. #553 owns valuation integration. RATES-010 verifies the bounded rate override writer with synthetic authority, selected historical evidence and exact immutable retry. Provider synchronization and live composition retain separate ownership."
+      "scope": "RATES-001 verifies the exact snapshot model and lossless provenance. RATES-007 verifies pure override preview, inverse and cross rates, contradictory constraint refusal, stale preview and temporary expiry. Permissioned save and durable revisions remain #727. Provider/cache, reporting settings and the valuation bridge retain their separate scopes. RATES-011 verifies bounded shared RSV1 preservation of the typed exact snapshot and stored order. #553 owns valuation integration. RATES-010 verifies the bounded rate override writer with synthetic authority, selected historical evidence and exact immutable retry. Provider synchronization and live composition retain separate ownership. RATES-002 verifies that Frankfurter proposals preserve pinned constraints and ordered fetched evidence across later override previews."
     },
     {
       "id": "I18N-01",

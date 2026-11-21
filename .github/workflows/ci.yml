@@ -397,7 +397,7 @@ jobs:
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch;contribution-review"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch;contribution-review;frankfurter-rates"
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
@@ -483,6 +483,21 @@ jobs:
               raise SystemExit("Contribution review must pass 41 invocations and both hooks, with zero skips")
           if re.search(r"^(?:QWARN|QSYSTEM|QFATAL)", output, re.MULTILINE):
               raise SystemExit("Unexpected Qt warning in contribution review acceptance")
+          PYTHON
+      - name: Run reviewed Frankfurter adapter and proposal acceptance
+        run: |
+          ctest --preset sqlite-reference-capture-debug -L '^frankfurter-rates$' \
+            --no-tests=error --output-on-failure \
+            --output-junit "$GITHUB_WORKSPACE/build/sqlite-reference-capture-debug/frankfurter-rates-results.xml"
+          python3 - <<'PYTHON'
+          import xml.etree.ElementTree as ET
+
+          cases = ET.parse("build/sqlite-reference-capture-debug/frankfurter-rates-results.xml").getroot().findall("testcase")
+          if len(cases) != 39 or len({case.get("name") for case in cases}) != 39:
+              raise SystemExit("Expected 39 distinct Frankfurter cases")
+          if any(case.get("status") != "run" or case.find("failure") is not None
+                 or case.find("skipped") is not None for case in cases):
+              raise SystemExit("All Frankfurter cases must run and pass with zero skips")
           PYTHON
       - name: Run reviewed connector lifecycle acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^connector-lifecycle$' --no-tests=error
