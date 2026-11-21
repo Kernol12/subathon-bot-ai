@@ -405,6 +405,7 @@ jobs:
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
           -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch;contribution-review;frankfurter-rates"
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
+          -DSUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE=ON
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
           -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
@@ -464,6 +465,8 @@ jobs:
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-modifier-activations$' --no-tests=error
       - name: Run financial refund writer acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-financial-refunds$' --no-tests=error
+      - name: Run live financial refund and timer resolution acceptance
+        run: ctest --preset sqlite-reference-capture-debug -L '^live-financial-refunds$' --no-tests=error
       - name: Run credential record acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^credential-record$' --no-tests=error
       - name: Run credential storage and readiness acceptance
