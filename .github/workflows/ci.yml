@@ -411,6 +411,17 @@ jobs:
           -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
       - name: Build reviewed SQL suites
         run: cmake --build --preset sqlite-reference-capture-debug
+      - name: Build and run the reviewed diagnostics acceptance suite
+        run: |
+          cmake -S tests/qt/release_002 -B build/release-002-acceptance -G Ninja \
+            -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH="$QT_PREFIX" \
+            -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT" \
+            -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0 \
+            -Dboost_headers_DIR=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.83.0
+          cmake --build build/release-002-acceptance --target release_002_stage1 --parallel 2
+          QT_PLUGIN_PATH="$QT_PREFIX/plugins" \
+            ctest --test-dir build/release-002-acceptance -L '^release-002$' \
+            --output-on-failure --no-tests=error
       - name: Verify both initial-capture marker libraries and the link-only interface harness
         run: |
           test -f build/sqlite-reference-capture-debug/server/libsubathon_reference_capture_values.a
