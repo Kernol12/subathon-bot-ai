@@ -47,10 +47,14 @@ struct Record {
     }
 };
 static_assert(sizeof(Record) <= 512);
+// Shared by every charged lease of one handed-off reply. `owners` counts those
+// leases under Engine::mutex; the release that brings it to zero retires the
+// association exactly once, independent of when each lease's pointer drops.
 struct Response {
     std::shared_ptr<Record> record;
     U64 deadline;
     bool consumed = false;
+    U64 owners = 1;
 };
 struct Engine : std::enable_shared_from_this<Engine> {
     QObject context;
@@ -631,7 +635,7 @@ struct ResponseLease::Impl {
                 {
                     std::lock_guard lock(e->mutex);
                     Engine::release(e->snapshot.response, byte_charge);
-                    if (response.use_count() == 1)
+                    if (--response->owners == 0)
                         e->release_record_locked(response->record);
                 }
                 e->wake();
@@ -1108,6 +1112,7 @@ Result<ResponseLease> ResponseLease::try_copy() const {
             pool.copies >= e->options.limits.response_slots)
             return Failure::resource_limit;
         Engine::charge(pool, byte_charge);
+        ++r.owners;
     }
     std::unique_ptr<Impl> p;
     try {
@@ -1120,8 +1125,10 @@ Result<ResponseLease> ResponseLease::try_copy() const {
         std::copy(payload.begin(), payload.end(), p->copy.get());
     } catch (...) {
         if (!p) {
+            // The live source still owns the association, so this never retires.
             std::lock_guard lock(e->mutex);
             Engine::release(e->snapshot.response, byte_charge);
+            --r.owners;
         }
         return Failure::resource_limit;
     }

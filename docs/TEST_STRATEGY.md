@@ -32,6 +32,7 @@ still using synthetic data and supplied policy/authority facts.
 | --- | --- | --- |
 | `acceptance-debug` | `-L '^acceptance$'` | 23 cap-limited credit cases in the owning suite: pure numeric planning, not full product proof |
 | `core-acceptance-debug` | whole preset | Ordinary passing pure GoogleTest suites in one build, also used by the CI `core` job |
+| `core-acceptance-debug` | `-L '^modifier-stacking$'` | 52 exact stacking and captured-proposal cases using supplied policies and selected revisions |
 | `exact-numeric-debug` | `-L '^exact-numeric$'` | 33 exact decimal/half-even conversion cases |
 | `timer-lifecycle-debug` | `-L '^timer-lifecycle$'` | 39 Main/Grace transition proposals |
 | `pause-policy-debug` | `-L '^pause-policy$'` | 37 independent pause-reason/delay proposals |
@@ -59,6 +60,7 @@ still using synthetic data and supplied policy/authority facts.
 | `sqlite-hold-debug` | `-L '^sqlite-hold$'` | 35 methods/270 scenarios for durable application-review holds |
 | `application-service-debug` | `-L '^application-service$'` | 43 methods/233 scenarios composing actual SQLite bundles/holds with supplied ports |
 | Required Qt CI | `-L '^sqlite-rate-override-catalog$'` and `-L '^sqlite-rate-override-writer$'` | 12 catalog and 82 writer invocations for v17 installation, current pair authority, exact evidence, CAS and recovery on disposable SQLite |
+| Required Qt CI | `-L '^frankfurter-rates$'` | 39 fake-HTTP GoogleTest cases for exact quotes, historical dates, provider waits, freshness and cache proposals |
 | `sqlite-reference-capture-debug` | `-L '^reference-capture-values$'` / `-L '^sqlite-reference-capture$'` | 34 structural codec methods/46 invocations and 38 real-SQL methods/67 scenarios |
 | `dev-server-debug` | `-L '^dev-server$'` | Development walking skeleton: eight examples and invalid command lines over the reference intake/application path with real SQLite; not the production host |
 | `sqlite-account-sessions-debug` | `-L '^sqlite-account-sessions$'` | 44 real-SQL methods for physical current facts, full conditional writes and compiled-prefix/frame equality; host login/authority remains separate |
@@ -73,9 +75,11 @@ still using synthetic data and supplied policy/authority facts.
 | `core-acceptance-debug` | `-L '^valuation-snapshot-codec$'` | 25 shared RSV1 codec cases for exact bytes, canonical retained evidence, and bounded decoding and encoding. Valuation integration remains #553. |
 | `core-acceptance-debug` | `-L '^rule-definition$'` | 26 cases for owned versioned rules, typed actions and predicates, and exact captured monetary comparisons. #208 and #210 own action planning and generated-event enforcement. |
 | `core-acceptance-debug` | `-L '^rule-selection$'` | 10 RULES-002 cases for deterministic selection, group tie warnings, ordered exclusions, typed refusals and skip reasons. Editor display and action execution have separate owners. |
+| `core-acceptance-debug` | `-L '^rule-actions$'` | 31 RULES-003 cases for captured order, current exact USE and GRANT, concrete sender binding, scoped refusal and trace disclosure, and synthetic owner observations. Authoritative writer, delivery start and generated-event admission remain separate. |
 | `core-acceptance-debug` | `-L '^chat-commands$'` | 41 synthetic cases for typed chat commands, complete authorization, cooldown windows and replay. #337 owns live receipt binding and durable intake deduplication. |
 | `core-acceptance-debug` | `-L '^scheduled-pause$'` | 35 synthetic scheduler cases covering configured-zone resolution, cutover, entry, retention, clock progression and coverage holds. Platform timezone evidence and authoritative preview and Save have separate gates. |
 | `core-acceptance-debug` | `-L '^downtime-recovery$'` | 49 synthetic cases for offline Freeze, Count elapsed, Recovery Review, deadline and schedule cuts, and authorized correction. Durable restart, live clock and scheduler facts, modifier clocks and command integration have separate owners. |
+| `core-acceptance-debug` | `-L '^finished-timer$'` | 22 synthetic cases for finished input, separate deadline edits, audited reopen and debt correction, and ordered pending-group choices. Authoritative commit and action delivery remain separate. |
 | `schema-validation-debug` | `-L '^schema-validation$'` | 3 nodes: repository OpenAPI/components/examples, canonical proof/policy aggregate and real-SDK proof publication integration; actual HEAD inputs are required |
 
 Selecting `reference-rule` with `SUBATHON_ACCEPTANCE_SUITES` builds 11 pure configured-
@@ -120,6 +124,13 @@ from schema shape, and schema shape does not replace runtime proof invariants.
 
 ## Reviewed baselines still awaiting implementation
 
+MODIFIERTEST-002 uses the explicit `SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE=ON`
+option and the `modifier_clock_baseline` build target. After exact-runner
+admission, select `-L '^modifier-clock$'` in CTest. The 28 cases cover 21 frozen
+rows and reached their intended stubs with ordinary failure reporting. The option
+defaults off and the suite stays outside passing CI. #217 owns implementation.
+[Admitted intended red](https://github.com/Kernol12/subathon-bot-ai/pull/758#issuecomment-7057811999)
+
 `api-host-debug` and `api-host-native-debug` select authored host lifecycle baselines;
 their current review/execution status is recorded in canonical proof and GitHub. Both need the complete
 physical account/session SQLite closure and the corrected native WebSocket SDK;
@@ -133,7 +144,11 @@ The host Qt cases are the exception to one-process-per-suite registration: the
 native profile installs once per process. Each literal `method[:row]` from
 `tests/qt/api_host_cases.cmake` runs in its own process with Qt's normal init/cleanup
 and assertions. Compare that complete inventory with admitted Qt data-tag discovery
-before running bodies. Other Qt suites retain their existing registration.
+before running bodies. API-027 adds 70 lease selectors to the 87 existing cases:
+six serial controls and 32 isolated trials in each of the two concurrent rows.
+The host baseline CI job checks registration. Local admitted runtime evidence for
+the lease selectors is recorded on the issue. Other Qt suites retain their
+existing registration.
 
 The `bounded-http-foundation-debug` test preset filters its own label; the native
 profile is a compiled dependency, with separate consumer-admission/regression gates.
@@ -185,7 +200,8 @@ permissions and rate include numeric checks; editorial includes debt and lifecyc
 Bare acceptance ON defaults to credit. An explicit empty/unknown selection fails;
 `all` explicitly includes every native/translation suite, all required SDKs and the
 host lifecycle intentional-red baselines and the ordinary passing bounded HTTP
-foundation suite. Rate snapshots are ordinary passing
+foundation suite.
+Rate snapshots are ordinary passing
 acceptance. The corrected native WebSocket
 profile itself remains ordinary passing acceptance. Schema validation and configure-only Qt probing remain separate
 controls. The account preset includes the complete compiled SQLite migration prefix:

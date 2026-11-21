@@ -203,6 +203,7 @@ jobs:
               "recurring-schedule": ({"acceptance", "core"}, None),
               "scheduled-pause": ({"acceptance", "server"}, 30),
               "downtime-recovery": ({"acceptance", "core"}, 30),
+              "finished-timer": ({"acceptance", "core"}, 30),
               "application-plan": ({"acceptance", "core"}, None),
               "receipt-intake": ({"acceptance"}, None),
               "contribution-evidence": ({"acceptance"}, None),
@@ -216,9 +217,11 @@ jobs:
               "rate-override": ({"acceptance", "core"}, 30),
               "valuation-snapshot-codec": ({"acceptance", "core"}, 30),
               "modifier-activation": ({"acceptance", "core"}, 30),
+              "modifier-stacking": ({"acceptance", "core"}, 30),
               "refund-entitlement": ({"acceptance", "core"}, 30),
               "rule-definition": ({"acceptance", "core"}, 30),
               "rule-selection": ({"acceptance", "core"}, 30),
+              "rule-actions": ({"acceptance", "core"}, 30),
               "chat-commands": ({"acceptance", "core"}, 30),
           }
           discovery = json.loads(subprocess.check_output(
@@ -262,18 +265,24 @@ jobs:
               raise SystemExit(f"Expected 35 scheduled pause cases, got {found['scheduled-pause']}")
           if found["downtime-recovery"] != 49:
               raise SystemExit(f"Expected 49 downtime recovery cases, got {found['downtime-recovery']}")
+          if found["finished-timer"] != 22:
+              raise SystemExit(f"Expected 22 finished timer cases, got {found['finished-timer']}")
           if found["valuation-snapshot-codec"] != 25:
               raise SystemExit(f"Expected 25 valuation snapshot codec cases, got {found['valuation-snapshot-codec']}")
           if found["rate-override"] != 24:
               raise SystemExit(f"Expected 24 rate override cases, got {found['rate-override']}")
           if found["modifier-activation"] != 48:
               raise SystemExit(f"Expected 48 modifier activation cases, got {found['modifier-activation']}")
+          if found["modifier-stacking"] != 52:
+              raise SystemExit(f"Expected 52 modifier stacking cases, got {found['modifier-stacking']}")
           if found["refund-entitlement"] != 15:
               raise SystemExit(f"Expected 15 refund entitlement cases, got {found['refund-entitlement']}")
           if found["rule-definition"] != 26:
               raise SystemExit(f"Expected 26 rule definition cases, got {found['rule-definition']}")
           if found["rule-selection"] != 10:
               raise SystemExit(f"Expected 10 rule selection cases, got {found['rule-selection']}")
+          if found["rule-actions"] != 31:
+              raise SystemExit(f"Expected 31 rule action cases, got {found['rule-actions']}")
           if found["chat-commands"] != 41:
               raise SystemExit(f"Expected 41 chat command cases, got {found['chat-commands']}")
           if found["milestone-target-edit"] != 6:
@@ -391,7 +400,7 @@ jobs:
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch;contribution-review"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch;contribution-review;frankfurter-rates"
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
@@ -477,6 +486,21 @@ jobs:
               raise SystemExit("Contribution review must pass 41 invocations and both hooks, with zero skips")
           if re.search(r"^(?:QWARN|QSYSTEM|QFATAL)", output, re.MULTILINE):
               raise SystemExit("Unexpected Qt warning in contribution review acceptance")
+          PYTHON
+      - name: Run reviewed Frankfurter adapter and proposal acceptance
+        run: |
+          ctest --preset sqlite-reference-capture-debug -L '^frankfurter-rates$' \
+            --no-tests=error --output-on-failure \
+            --output-junit "$GITHUB_WORKSPACE/build/sqlite-reference-capture-debug/frankfurter-rates-results.xml"
+          python3 - <<'PYTHON'
+          import xml.etree.ElementTree as ET
+
+          cases = ET.parse("build/sqlite-reference-capture-debug/frankfurter-rates-results.xml").getroot().findall("testcase")
+          if len(cases) != 39 or len({case.get("name") for case in cases}) != 39:
+              raise SystemExit("Expected 39 distinct Frankfurter cases")
+          if any(case.get("status") != "run" or case.find("failure") is not None
+                 or case.find("skipped") is not None for case in cases):
+              raise SystemExit("All Frankfurter cases must run and pass with zero skips")
           PYTHON
       - name: Run reviewed connector lifecycle acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^connector-lifecycle$' --no-tests=error
@@ -1017,7 +1041,7 @@ jobs:
               ["ctest", "--preset", "api-host-native-debug", "--show-only=json-v1"], text=True))
           inventory = Path("tests/qt/api_host_cases.cmake").read_text().splitlines()
           cases = [line.strip() for line in inventory if line.startswith("    ")]
-          if len(cases) != 87 or len(set(cases)) != 87:
+          if len(cases) != 157 or len(set(cases)) != 157:
               raise SystemExit("Complete unique host invocation inventory required")
           expected = {"api-host." + case for case in cases} | {"api-host-native.suite"}
           selected = {test["name"]: test for test in data["tests"]

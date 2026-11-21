@@ -11,9 +11,29 @@ set_tests_properties(scaffold.python_tools PROPERTIES WORKING_DIRECTORY "${PROJE
 add_test(NAME scaffold.project_consistency
     COMMAND "${Python3_EXECUTABLE}" "${PROJECT_SOURCE_DIR}/tools/check_project.py")
 set_tests_properties(scaffold.project_consistency PROPERTIES LABELS "scaffold")
-if(SUBATHON_BUILD_CREDENTIAL_RECORD_TESTS OR SUBATHON_BUILD_SESSION_RESOLUTION_TESTS OR SUBATHON_BUILD_TIMER_EDITORIAL_TESTS OR SUBATHON_BUILD_PASSWORD_HASHING_TESTS OR SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_PAUSE_POLICY_TESTS OR SUBATHON_BUILD_RECURRING_SCHEDULE_TESTS OR SUBATHON_BUILD_TIME_CREDIT_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
+if(SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE OR SUBATHON_BUILD_MODIFIER_STACKING_TESTS OR SUBATHON_BUILD_FRANKFURTER_RATES_TESTS OR SUBATHON_BUILD_RULE_ACTIONS_TESTS OR SUBATHON_BUILD_CREDENTIAL_RECORD_TESTS OR SUBATHON_BUILD_SESSION_RESOLUTION_TESTS OR SUBATHON_BUILD_TIMER_EDITORIAL_TESTS OR SUBATHON_BUILD_PASSWORD_HASHING_TESTS OR SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_PAUSE_POLICY_TESTS OR SUBATHON_BUILD_RECURRING_SCHEDULE_TESTS OR SUBATHON_BUILD_TIME_CREDIT_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
     include("${PROJECT_SOURCE_DIR}/cmake/GoogleTestDependency.cmake")
     include(GoogleTest)
+endif()
+
+if(SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE)
+    add_executable(modifier_clock_baseline acceptance/modifier_clock_tests.cpp)
+    target_link_libraries(modifier_clock_baseline PRIVATE
+        subathon_modifier_clock_baseline subathon_finished_timer GTest::gtest_main)
+    subathon_target_options(modifier_clock_baseline)
+    subathon_discover_gtests(modifier_clock_baseline PREFIX "modifier-clock." TIMEOUT 30
+        LABELS "modifier-clock;intentional-red;core")
+endif()
+
+if(SUBATHON_BUILD_FRANKFURTER_RATES_TESTS)
+    add_executable(server_frankfurter_rates_acceptance
+        acceptance/frankfurter_adapter_tests.cpp
+        acceptance/frankfurter_rate_service_tests.cpp)
+    target_link_libraries(server_frankfurter_rates_acceptance PRIVATE
+        subathon_frankfurter_rates subathon_valuation_snapshot_codec GTest::gtest_main)
+    subathon_target_options(server_frankfurter_rates_acceptance)
+    subathon_discover_gtests(server_frankfurter_rates_acceptance
+        LABELS "frankfurter-rates;acceptance;simulation;server" TIMEOUT 10)
 endif()
 
 if(SUBATHON_BUILD_SCHEMA_VALIDATION_TESTS)
@@ -66,6 +86,16 @@ if(SUBATHON_BUILD_TIMER_EDITORIAL_TESTS)
     subathon_discover_gtests(core_timer_editorial_acceptance
         PREFIX "timer-editorial."
         LABELS "timer-editorial;acceptance;core" TIMEOUT 30)
+endif()
+
+if(SUBATHON_BUILD_FINISHED_TIMER_TESTS)
+    add_executable(core_finished_timer_acceptance acceptance/finished_timer_tests.cpp)
+    target_link_libraries(core_finished_timer_acceptance PRIVATE subathon_finished_timer
+        subathon_timer_editorial_commands subathon_pause_policy subathon_milestone_progression
+        GTest::gtest_main)
+    subathon_target_options(core_finished_timer_acceptance)
+    subathon_discover_gtests(core_finished_timer_acceptance
+        PREFIX "finished-timer." LABELS "finished-timer;acceptance;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_DOWNTIME_RECOVERY_TESTS)
@@ -257,6 +287,15 @@ if(SUBATHON_BUILD_MODIFIER_ACTIVATION_TESTS)
         LABELS "modifier-activation;acceptance;core")
 endif()
 
+if(SUBATHON_BUILD_MODIFIER_STACKING_TESTS)
+    add_executable(modifier_stacking_baseline acceptance/modifier_stacking_tests.cpp)
+    target_link_libraries(modifier_stacking_baseline PRIVATE
+        subathon_modifier_stacking_handoff GTest::gtest_main)
+    subathon_target_options(modifier_stacking_baseline)
+    subathon_discover_gtests(modifier_stacking_baseline PREFIX "modifier-stacking." TIMEOUT 30
+        LABELS "modifier-stacking;acceptance;core")
+endif()
+
 if(SUBATHON_BUILD_RATE_SNAPSHOT_TESTS)
     find_package(Boost 1.83 CONFIG REQUIRED)
 
@@ -281,6 +320,17 @@ if(SUBATHON_BUILD_RULE_DEFINITION_TESTS)
     subathon_target_options(core_rule_definition_acceptance)
     subathon_discover_gtests(core_rule_definition_acceptance
         LABELS "rule-definition;acceptance;core" TIMEOUT 30)
+endif()
+
+if(SUBATHON_BUILD_RULE_ACTIONS_TESTS)
+    if(NOT TARGET subathon_rule_actions)
+        message(FATAL_ERROR "rule-actions needs Boost headers >= 1.83")
+    endif()
+    add_executable(core_rule_actions_baseline acceptance/rule_actions_tests.cpp)
+    target_link_libraries(core_rule_actions_baseline PRIVATE subathon_rule_actions GTest::gtest_main)
+    subathon_target_options(core_rule_actions_baseline)
+    subathon_discover_gtests(core_rule_actions_baseline PREFIX "rule-actions."
+        LABELS "rule-actions;acceptance;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_RULE_SELECTION_TESTS)

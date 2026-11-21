@@ -35,6 +35,76 @@ set(subathon_api_host_cases
     response_copy_move_release_and_expiry
     retained_response_disconnect_denies_late_io_take_HL04_HL13
     response_once_only_and_correlation_HL13
+    response_lease_serial_release_move_and_quota:bytes8
+    response_lease_serial_release_move_and_quota:slots2
+    response_lease_move_assign_over_live_destination:other_response
+    response_lease_move_assign_over_live_destination:same_response
+    response_lease_shared_authority_and_original_deadline:consumed
+    response_lease_shared_authority_and_original_deadline:expired
+    response_lease_concurrent_last_two_unrelated_survivor:trial01
+    response_lease_concurrent_last_two_unrelated_survivor:trial02
+    response_lease_concurrent_last_two_unrelated_survivor:trial03
+    response_lease_concurrent_last_two_unrelated_survivor:trial04
+    response_lease_concurrent_last_two_unrelated_survivor:trial05
+    response_lease_concurrent_last_two_unrelated_survivor:trial06
+    response_lease_concurrent_last_two_unrelated_survivor:trial07
+    response_lease_concurrent_last_two_unrelated_survivor:trial08
+    response_lease_concurrent_last_two_unrelated_survivor:trial09
+    response_lease_concurrent_last_two_unrelated_survivor:trial10
+    response_lease_concurrent_last_two_unrelated_survivor:trial11
+    response_lease_concurrent_last_two_unrelated_survivor:trial12
+    response_lease_concurrent_last_two_unrelated_survivor:trial13
+    response_lease_concurrent_last_two_unrelated_survivor:trial14
+    response_lease_concurrent_last_two_unrelated_survivor:trial15
+    response_lease_concurrent_last_two_unrelated_survivor:trial16
+    response_lease_concurrent_last_two_unrelated_survivor:trial17
+    response_lease_concurrent_last_two_unrelated_survivor:trial18
+    response_lease_concurrent_last_two_unrelated_survivor:trial19
+    response_lease_concurrent_last_two_unrelated_survivor:trial20
+    response_lease_concurrent_last_two_unrelated_survivor:trial21
+    response_lease_concurrent_last_two_unrelated_survivor:trial22
+    response_lease_concurrent_last_two_unrelated_survivor:trial23
+    response_lease_concurrent_last_two_unrelated_survivor:trial24
+    response_lease_concurrent_last_two_unrelated_survivor:trial25
+    response_lease_concurrent_last_two_unrelated_survivor:trial26
+    response_lease_concurrent_last_two_unrelated_survivor:trial27
+    response_lease_concurrent_last_two_unrelated_survivor:trial28
+    response_lease_concurrent_last_two_unrelated_survivor:trial29
+    response_lease_concurrent_last_two_unrelated_survivor:trial30
+    response_lease_concurrent_last_two_unrelated_survivor:trial31
+    response_lease_concurrent_last_two_unrelated_survivor:trial32
+    response_lease_concurrent_last_two_during_stop:trial01
+    response_lease_concurrent_last_two_during_stop:trial02
+    response_lease_concurrent_last_two_during_stop:trial03
+    response_lease_concurrent_last_two_during_stop:trial04
+    response_lease_concurrent_last_two_during_stop:trial05
+    response_lease_concurrent_last_two_during_stop:trial06
+    response_lease_concurrent_last_two_during_stop:trial07
+    response_lease_concurrent_last_two_during_stop:trial08
+    response_lease_concurrent_last_two_during_stop:trial09
+    response_lease_concurrent_last_two_during_stop:trial10
+    response_lease_concurrent_last_two_during_stop:trial11
+    response_lease_concurrent_last_two_during_stop:trial12
+    response_lease_concurrent_last_two_during_stop:trial13
+    response_lease_concurrent_last_two_during_stop:trial14
+    response_lease_concurrent_last_two_during_stop:trial15
+    response_lease_concurrent_last_two_during_stop:trial16
+    response_lease_concurrent_last_two_during_stop:trial17
+    response_lease_concurrent_last_two_during_stop:trial18
+    response_lease_concurrent_last_two_during_stop:trial19
+    response_lease_concurrent_last_two_during_stop:trial20
+    response_lease_concurrent_last_two_during_stop:trial21
+    response_lease_concurrent_last_two_during_stop:trial22
+    response_lease_concurrent_last_two_during_stop:trial23
+    response_lease_concurrent_last_two_during_stop:trial24
+    response_lease_concurrent_last_two_during_stop:trial25
+    response_lease_concurrent_last_two_during_stop:trial26
+    response_lease_concurrent_last_two_during_stop:trial27
+    response_lease_concurrent_last_two_during_stop:trial28
+    response_lease_concurrent_last_two_during_stop:trial29
+    response_lease_concurrent_last_two_during_stop:trial30
+    response_lease_concurrent_last_two_during_stop:trial31
+    response_lease_concurrent_last_two_during_stop:trial32
     invalid_configuration:0
     invalid_configuration:1
     invalid_configuration:2

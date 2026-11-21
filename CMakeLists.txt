@@ -7,6 +7,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(CTest)
 find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)
 option(SUBATHON_BUILD_ACCEPTANCE_TESTS "Build selected component acceptance suites" OFF)
+option(SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE "Build the intentional-red MODIFIERTEST-002 baseline" OFF)
 # Retain the reviewed baseline selector for ordinary API-011 acceptance.
 option(SUBATHON_BUILD_REFERENCE_INTAKE_BASELINE "Build reviewed API-011 Qt acceptance" OFF)
 set(SUBATHON_ACCEPTANCE_SUITES "time-credit" CACHE STRING "Acceptance suite/profile names, or all")
@@ -35,7 +36,8 @@ set(SUBATHON_GOOGLETEST_SOURCE_DIR "" CACHE PATH "Optional local GoogleTest sour
 # Product discovery also works in a build with no test packages.
 find_package(Qt6 6.12 QUIET COMPONENTS Core OPTIONAL_COMPONENTS Sql)
 if(BUILD_TESTING AND (SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS
-        OR SUBATHON_BUILD_SQLITE_PLAN_TESTS))
+        OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_MODIFIER_STACKING_TESTS
+        OR SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE))
     find_package(Boost 1.83 CONFIG REQUIRED)
 else()
     find_package(Boost 1.83 CONFIG QUIET)

@@ -3,7 +3,7 @@ include_guard(GLOBAL)
 
 set(subathon_acceptance_suites
     time-credit exact-numeric refund-entitlement timer-lifecycle receipt-intake contribution-evidence
-    pause-policy recurring-schedule application-plan modifier-activation sqlite-writer time-debt sqlite-work
+    pause-policy recurring-schedule application-plan modifier-activation modifier-stacking sqlite-writer time-debt sqlite-work
     sqlite-migrations sqlite-retained sqlite-receipt sqlite-contribution sqlite-plan
     sqlite-bundle sqlite-original-claim sqlite-hold application-service sqlite-delivery-jobs
     translation-catalog rate-snapshot rate-override valuation-snapshot-codec rule-definition rule-selection milestone-progression milestone-timeline milestone-group-restart
@@ -12,7 +12,8 @@ set(subathon_acceptance_suites
     password-hashing credential-record sqlite-credentials effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
     bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server
-    chat-commands scheduled-pause milestone-target-edit sqlite-milestone-target-edits downtime-recovery)
+    chat-commands scheduled-pause milestone-target-edit sqlite-milestone-target-edits downtime-recovery finished-timer rule-actions
+    frankfurter-rates)
 
 # Test guards stay private derived variables; callers select the
 # logical suites above instead of maintaining another set of cache switches.
@@ -151,6 +152,8 @@ function(subathon_resolve_acceptance_suites output)
             list(APPEND selected exact-numeric "${suite}")
         elseif(suite STREQUAL "chat-commands")
             list(APPEND selected exact-numeric effective-permissions "${suite}")
+        elseif(suite STREQUAL "finished-timer")
+            list(APPEND selected exact-numeric finished-timer)
         elseif(suite STREQUAL "timer-editorial")
             list(APPEND selected time-debt timer-lifecycle timer-editorial)
         elseif(suite STREQUAL "downtime-recovery")
