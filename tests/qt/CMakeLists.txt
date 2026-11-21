@@ -99,6 +99,16 @@ if(SUBATHON_BUILD_SQLITE_MODIFIER_ACTIVATIONS_TESTS)
         LABELS "sqlite-modifier-activations;acceptance;qt;server" TIMEOUT 180)
 endif()
 
+if(SUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE)
+    # Link the Stage 1 stubs only into this explicitly selected runner.
+    subathon_add_qt_suite(sqlite_live_financial_refunds_tests
+        NAME live-financial-refunds
+        SOURCES sqlite_live_financial_refunds_tests.cpp
+            "${PROJECT_SOURCE_DIR}/server/src/financial_refund_application.cpp"
+        LIBRARIES subathon_contribution_review subathon_reference_intake
+        LABELS "live-financial-refunds;acceptance;qt;server;intentional-red" TIMEOUT 240)
+endif()
+
 if(SUBATHON_BUILD_SQLITE_FINANCIAL_REFUNDS_TESTS)
     subathon_add_qt_suite(server_sqlite_financial_refunds_acceptance
         NAME sqlite-financial-refunds SOURCES sqlite_financial_refunds_tests.cpp
