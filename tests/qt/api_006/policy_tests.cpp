@@ -34,9 +34,17 @@ void configure(Fixture &f, M mode = M::review) {
             "Adapter-supplied baseline has one committed qualified source");
 }
 
-intake::Page gap(Fixture &f, M mode) {
-    f.history.upper = "11";
+intake::Page gap(Fixture &f, M mode, bool with_prior_award = false) {
+    f.history.upper = with_prior_award ? "10" : "11";
     configure(f, mode);
+    if (with_prior_award) {
+        f.requested_ms = 5000;
+        auto already_applied = item("11", "11");
+        already_applied.activity->identity.opaque_id = "already-applied";
+        expect(f.submit(already_applied, live_source(f)), S::applied,
+               "Old authoritative scope has a committed award before the gap");
+        f.store.head(85000, 0, 90);
+    }
     expect(f.submit(intake::OpenGap{"G", 7000}, live_source(f)), S::committed,
            "Gap commits at last contiguous live point");
     f.history.upper = "14";
@@ -401,6 +409,28 @@ class Api006PolicyTests final : public QObject {
         });
     }
 
+    void operationPageCapRejectsOrdinal257() {
+        check([] {
+            Fixture f(true, false);
+            storage::catchup(f.store.db, 257, 0);
+            storage::completed_prefix(f.store.db, 256, 0);
+            const auto before = f.cursors();
+            require(before == SqlRows{{257, QByteArray("T"), QByteArray("11"), 0}} &&
+                        f.store.db.rows("SELECT count(*),max(ordinal),sum(item_count) "
+                                        "FROM main.subathon_intake_pages") ==
+                            SqlRows{{256, 256, 0}},
+                    "Exact 256-page cap has a committed empty-item prefix and active gap");
+            auto request = page();
+            request.request.ordinal = 257;
+            expect(f.submit(request), S::limit_exceeded,
+                   "Otherwise valid page 257 exceeds the operation cap before item work");
+            require(f.cursors() == before && f.attempts().isEmpty() &&
+                        f.store.db.rows("SELECT count(*) FROM main.subathon_intake_pages") ==
+                            SqlRows{{256}},
+                    "Operation cap preserves exact bound cursor and old coverage");
+        });
+    }
+
     void independentReviewAndConfirmationBlockers() {
         check([] {
             Fixture f;
@@ -455,7 +485,7 @@ class Api006PolicyTests final : public QObject {
     void handoffRetainsPendingOriginalAndFencesOldSource() {
         check([] {
             Fixture f;
-            auto request = gap(f, M::review);
+            auto request = gap(f, M::review, true);
             f.requested_ms = 60000;
             request.items = {item("H")};
             expect(f.submit(request, live_source(f)), S::committed,
@@ -486,7 +516,10 @@ class Api006PolicyTests final : public QObject {
                     "Handoff preserves unrelated rows and retained original without auto-claim");
             expect(f.submit(request, previous), S::stale,
                    "Old generation cannot commit bound history");
-            f.no_award();
+            require(f.store.db.rows("SELECT count(*) FROM main.subathon_app_claims") ==
+                        SqlRows{{1}},
+                    "No new claim follows the switch itself");
+            f.store.head(85000, 0, 90);
             auto review = f.store.service();
             ReviewEntryIntent selected;
             selected.selector = {original.projection->contribution, original.projection->original};
@@ -498,9 +531,66 @@ class Api006PolicyTests final : public QObject {
             const auto &results = f.store.reply(applied).rows;
             require(results.size() == 1 && results.front().outcome &&
                         results.front().outcome->status == ReviewStatus::applied &&
-                        f.store.db.rows("SELECT requested_units FROM main.subathon_app_effects") ==
-                            SqlRows{{60000}},
+                        f.store.db.rows("SELECT requested_units FROM main.subathon_app_effects "
+                                        "ORDER BY requested_units") == SqlRows{{5000}, {60000}},
                     "Eligible old Review uses the old 60s request under current caps");
+        });
+    }
+
+    void legacyAdoptionKeepsUnprovedHistoryAtIntake() {
+        check([] {
+            Fixture f;
+            const auto legacy = storage::managed("legacy", 2000, "legacy-valuation");
+            const auto durable = storage::legacy_receipt(f.store.db, legacy);
+            require(storage::evidence(f.store.db, legacy, durable).contribution_id ==
+                        core::ContributionId{0},
+                    "Independent legacy owner created actual retained original without API-006");
+            auto adoption = baseline(M::automatic);
+            adoption.purpose = intake::CutPurpose::legacy_adoption;
+            f.history.available = false;
+            expect(f.submit(adoption, unopened), S::unproved,
+                   "Legacy missing cursor leaves adoption pending without new-only proof");
+            const auto legacy_facts = disclosed(f);
+            require(legacy_facts.size() == 1 && f.attempts().size() == 1,
+                    "Legacy committed accounting stays visible during pending adoption");
+            f.history.available = true;
+            f.history.proof = "new-only-beyond-legacy-award-envelope";
+            expect(f.submit(adoption, unopened), S::committed, "Qualified legacy baseline commits");
+            auto post_cut = item("new", "11");
+            post_cut.activity->identity.opaque_id = "new-only";
+            const auto post = f.submit(post_cut, live_source(f));
+            require(post.status == S::applied && post.contribution &&
+                        post.contribution != core::ContributionId{0},
+                    "Only proved post-cut support follows ordinary live application");
+
+            const auto import = history_import({2026, 11, 21});
+            const auto opened = f.submit(import, live_source(f));
+            require(opened.status == S::committed && opened.resolved_utc_start,
+                    "Scoped legacy import has immutable date and upper bound");
+            auto unresolved = item("unknown-old", "8");
+            unresolved.activity.reset();
+            unresolved.facts.source_timestamp_utc_ms = *opened.resolved_utc_start;
+            auto clear = item("disjoint-old", "9");
+            clear.activity.reset();
+            clear.disjointness_proof = "proved-beyond-legacy-possible-award-overlap";
+            clear.facts.source_timestamp_utc_ms = *opened.resolved_utc_start + 1;
+            auto historic = page({unresolved, clear});
+            historic.request.source = live_source(f);
+            historic.request.operation = import.key;
+            historic.request.continuation.reset();
+            historic.request.resolved_start_ms = opened.resolved_utc_start;
+            historic.request.interval = {intake::Endpoint::inclusive, intake::Endpoint::exclusive,
+                                         "date-membership", "ordered-key"};
+            historic.request.upper.position = "10";
+            expect(f.submit(historic, live_source(f)), S::committed,
+                   "Legacy import separates qualified reviewable input from unproved historical "
+                   "overlap");
+            const auto all = disclosed(f);
+            require(all.size() == 3 && all.first() == legacy_facts.first() &&
+                        all.last()[2].toInt() == 0 &&
+                        f.store.db.rows("SELECT count(*) FROM main.subathon_app_claims") ==
+                            SqlRows{{1}},
+                    "Unproved history contributes nothing and disjoint history enters Review");
         });
     }
 
