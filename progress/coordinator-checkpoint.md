@@ -69,6 +69,31 @@ compiler and system-header pre-build hashes are outside this procedure.
   already changes the respective file. Use a separate commit and name it in
   that task's review packet.
 
+## Current continuation after ACCT-007 (2026-11-21)
+
+- #545 completed in [PR #768](https://github.com/Kernol12/subathon-bot-ai/pull/768).
+  #201 completed in [PR #773](https://github.com/Kernol12/subathon-bot-ai/pull/773)
+  at f63a418b. Their evidence worktrees and build folders are retained.
+- #760 keeps migration v20 under 117A. The separately reviewed [131A correction](https://github.com/Kernol12/subathon-bot-ai/issues/760#issuecomment-7066483187)
+  changes only four frozen expected enums. [Stage 2 credited storage and #201 regressions](https://github.com/Kernol12/subathon-bot-ai/issues/760#issuecomment-7067157033)
+  passed on exact 7dc09e93. Use the issue and Stage 2 PR for integration and merge
+  receipts. #288 follows protected #760. Migrations proceed #760 → #761 → #318.
+- #588 took #201's slot. The [verified Caddy readback](https://github.com/Kernol12/subathon-bot-ai/issues/588#issuecomment-7066452752)
+  identifies the pinned artifact. Exact isolated composition and Stage 1 follow
+  the night order. Preserve any malformed-input stop without retry.
+- #761's [advance closing counts at the cutoff](https://github.com/Kernol12/subathon-bot-ai/issues/761#issuecomment-7067055232).
+  After #760 merges, re-pin and freeze if only pins and predecessor evidence
+  change. Ask before any other change. Catalog assignment is at implementation entry.
+- [#398](https://github.com/Kernol12/subathon-bot-ai/issues/398#issuecomment-7066591056),
+  [#400](https://github.com/Kernol12/subathon-bot-ai/issues/400#issuecomment-7066934561),
+  [#543](https://github.com/Kernol12/subathon-bot-ai/issues/543#issuecomment-7066691816)
+  and [#210](https://github.com/Kernol12/subathon-bot-ai/issues/210#issuecomment-7066812204)
+  have frozen contracts. #398 has the lowest contract preparation priority.
+  #223 follows 133A with #777 gating live names. #212 can draft against frozen
+  #210 and re-pins after its merge. #320 follows 127B, remains last, and needs
+  both the 23:15 freeze and an exclusive storage slot. #162 is contract-only;
+  #221 stays Planned outside the night list. #774–#777 are Planned and unqueued.
+
 ## Handover (2026-11-21)
 
 This coordinator stopped at the end of the current review steps. No new task,
