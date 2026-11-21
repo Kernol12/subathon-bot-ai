@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 
+#include <subathon/server/contribution_evidence.hpp>
 #include <subathon/server/sqlite_migrations.hpp>
+#include <subathon/server/sqlite_retained_context.hpp>
 
 namespace subathon::server {
 
@@ -177,6 +179,71 @@ struct Rollover {
 };
 
 [[nodiscard]] HistoryStatus stage_rollover(const SqliteWorkSession &, const Rollover &);
+
+struct AttemptLocator {
+    core::ReceiptId receipt;
+    qint64 ordinal;
+    bool operator==(const AttemptLocator &) const = default;
+};
+
+enum class IntakeAdmission { creation_eligible, audit_only, confirmation_only };
+
+struct PageSlot {
+    QByteArray operation;
+    qint64 page, item;
+    bool operator==(const PageSlot &) const = default;
+};
+
+struct ManagedInput {
+    Scope scope;
+    QByteArray intake_ref, normalized, capture;
+    core::ReceiptInput receipt;
+    std::optional<VerifiedActivityLink> activity;
+    IntakeAdmission admission;
+    std::optional<PageSlot> history{};
+    std::optional<RetainedDocument> configuration{}, context{};
+};
+
+enum class ManagedStatus {
+    committed,
+    known_rollback,
+    exact_replay,
+    different_ordinal,
+    different_facts,
+    different_configuration,
+    different_context,
+    intake_limit,
+    wrong_scope,
+    wrong_document_role,
+    conflict,
+    stale
+};
+
+struct ManagedResult {
+    ManagedStatus status;
+    std::optional<AttemptLocator> attempt{};
+    std::optional<core::ReceiptAttempt> selected{};
+};
+
+// Takes ownership of the active transaction and returns committed only after
+// the receipt owner acknowledges COMMIT. Any exception carries its real writer
+// outcome. The optional callback can veto commit after the complete unit stages.
+[[nodiscard]] ManagedResult admit_managed(const SqliteWorkSession &, const ManagedInput &,
+                                          const std::function<bool()> &before_commit = {});
+[[nodiscard]] ManagedResult read_attempt(const SqliteWorkSession &, const ManagedInput &,
+                                         AttemptLocator);
+
+enum class EvidenceStatus { may_create, may_link, pending_original, inconsistent_original };
+struct EvidenceSelection {
+    EvidenceStatus status;
+    std::optional<AttemptLocator> basis{};
+    std::optional<core::ContributionId> original{};
+    std::optional<QByteArray> capture{};
+};
+
+// Selection carries durable provenance for the ACCT-002 owner. It does not
+// stage its evidence or supply current authority.
+[[nodiscard]] EvidenceSelection select_evidence(const SqliteWorkSession &, const ManagedInput &);
 
 } // namespace connector_intake
 } // namespace subathon::server

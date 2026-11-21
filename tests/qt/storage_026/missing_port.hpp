@@ -59,22 +59,65 @@ struct ManagedInput {
     enum class Admission { creation_eligible, audit_only, confirmation_only };
     Admission admission{Admission::creation_eligible};
 };
-struct AttemptLocator {
-    core::ReceiptId receipt;
-    qint64 ordinal;
-    bool operator==(const AttemptLocator &) const = default;
-};
+using AttemptLocator = connector_intake::AttemptLocator;
 struct ManagedResult {
     Stop stop;
     std::optional<AttemptLocator> attempt;
     std::optional<core::ReceiptAttempt> selected;
 };
-inline ManagedResult stage_managed(const SqliteWorkSession &, const ManagedInput &,
-                                   const std::function<bool()> & = {}) {
-    return {Stop::not_implemented, {}, {}};
+inline connector_intake::ManagedInput managed_input(const ManagedInput &input) {
+    // The history fixture binds a single 18-byte observed item. The live
+    // normalization and the capture are supplied by the synthetic connector.
+    const auto normalized = input.history
+                                ? QByteArray::fromHex("49000000086f627365727665640000000169")
+                                : QByteArray("observation");
+    return {{input.installation,
+             QByteArray::fromStdString(input.receipt.identity.origin.provider),
+             QByteArray::fromStdString(input.receipt.identity.origin.source_account), input.stream},
+            input.intake_ref, normalized, input.capture, input.receipt, input.activity,
+            static_cast<connector_intake::IntakeAdmission>(input.admission),
+            input.history ? std::optional{connector_intake::PageSlot{
+                                input.history->operation, input.history->page, input.history->item}}
+                          : std::nullopt};
 }
-inline ManagedResult read_attempt(const SqliteWorkSession &, const ManagedInput &, AttemptLocator) {
-    return {Stop::not_implemented, {}, {}};
+inline ManagedResult managed_result(const connector_intake::ManagedResult &result) {
+    using Status = connector_intake::ManagedStatus;
+    switch (result.status) {
+    case Status::committed:
+        return {Stop::committed, result.attempt, result.selected};
+    case Status::exact_replay:
+        return {Stop::exact_replay, result.attempt, result.selected};
+    case Status::known_rollback:
+        return {Stop::known_rollback, {}, {}};
+    case Status::different_ordinal:
+        return {Stop::different_ordinal, {}, {}};
+    case Status::different_facts:
+        return {Stop::different_facts, {}, {}};
+    case Status::different_configuration:
+        return {Stop::different_configuration, {}, {}};
+    case Status::different_context:
+        return {Stop::different_context, {}, {}};
+    case Status::intake_limit:
+        return {Stop::intake_limit, {}, {}};
+    case Status::wrong_scope:
+        return {Stop::wrong_scope, {}, {}};
+    case Status::wrong_document_role:
+        return {Stop::wrong_document_role, {}, {}};
+    case Status::conflict:
+        return {Stop::conflict, {}, {}};
+    case Status::stale:
+        return {Stop::stale, {}, {}};
+    }
+    throw std::logic_error("Unexpected managed intake result");
+}
+inline ManagedResult stage_managed(const SqliteWorkSession &session, const ManagedInput &input,
+                                   const std::function<bool()> &before_commit = {}) {
+    return managed_result(
+        connector_intake::admit_managed(session, managed_input(input), before_commit));
+}
+inline ManagedResult read_attempt(const SqliteWorkSession &session, const ManagedInput &input,
+                                   AttemptLocator attempt) {
+    return managed_result(connector_intake::read_attempt(session, managed_input(input), attempt));
 }
 
 struct EvidenceSelection {
@@ -83,8 +126,21 @@ struct EvidenceSelection {
     std::optional<core::ContributionId> original;
     std::optional<QByteArray> capture;
 };
-inline EvidenceSelection select_evidence(const SqliteWorkSession &, const ManagedInput &) {
-    return {Stop::not_implemented, {}, {}, {}};
+inline EvidenceSelection select_evidence(const SqliteWorkSession &session,
+                                         const ManagedInput &input) {
+    const auto selected = connector_intake::select_evidence(session, managed_input(input));
+    using Status = connector_intake::EvidenceStatus;
+    switch (selected.status) {
+    case Status::may_create:
+        return {Stop::may_create, selected.basis, selected.original, selected.capture};
+    case Status::may_link:
+        return {Stop::may_link, selected.basis, selected.original, selected.capture};
+    case Status::pending_original:
+        return {Stop::pending_original, selected.basis, selected.original, selected.capture};
+    case Status::inconsistent_original:
+        return {Stop::inconsistent_original, {}, {}, {}};
+    }
+    throw std::logic_error("Unexpected intake evidence result");
 }
 
 struct QuarantineInput {
