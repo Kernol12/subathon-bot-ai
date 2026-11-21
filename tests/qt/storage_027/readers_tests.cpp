@@ -1313,20 +1313,27 @@ class Storage027ReadersTests final : public QObject {
             if (both_crossed) {
                 require(score() == SqlRows{{1020}},
                         "Both targets are below the exact pre-refund score");
+                phase.current = "protected v20 confirms C is ready for a simultaneous crossing";
+                file.write([&](const auto &s) {
+                    const SqliteMilestoneGroupDecisions gates(s);
+                    require(gates.pending_disposition(second) == MilestonePendingDisposition::ready,
+                            "C is an independently eligible pending occurrence before Stop");
+                });
                 advance_financial();
                 Authority owner;
                 const auto cmd = stop("stop-only-a", target, QueueChoice::continue_queue);
                 phase.current = "post-successor exact Stop on A before a simultaneous crossing";
                 file.write([&](const auto &s) {
-                    const SqliteMilestoneGroupDecisions gates(s);
-                    require(gates.pending_disposition(second) == MilestonePendingDisposition::ready,
-                            "C is an independently eligible pending occurrence before Stop");
                     const auto selected = stage_command(s, owner, cmd);
                     require(selected.disposition == Disposition::committed,
                             "STORAGE-027 NI: Stop fences only A before the real shared refund");
                     require(selected.cancellations == std::vector<SelectedVersion>{{1, {}}} &&
                                 selected.added_causes.empty(),
                             "Stop Continue cancels only A's original bonus");
+                    phase.current = "post-successor confirms C stays ready after Stop";
+                    const SqliteMilestoneGroupDecisions gates(s);
+                    require(gates.pending_disposition(second) == MilestonePendingDisposition::ready,
+                            "Stop on A preserves exact readiness of the independent C occurrence");
                 });
                 reopen_financial(file, finance::limits());
                 phase.current =
