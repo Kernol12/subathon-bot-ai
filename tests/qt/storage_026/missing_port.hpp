@@ -129,8 +129,44 @@ struct SourceChange {
     QByteArray history_ref, current_authority, qualified_capability, boundary_proof;
     Purpose purpose{Purpose::handoff};
 };
-inline Stop switch_source_policy(const SqliteWorkSession &, const SourceChange &) {
-    return Stop::not_implemented;
+inline Stop history_result(connector_intake::HistoryStatus result) {
+    using Status = connector_intake::HistoryStatus;
+    switch (result) {
+    case Status::staged:
+        return Stop::committed;
+    case Status::exact_replay:
+        return Stop::exact_replay;
+    case Status::wrong_scope:
+    case Status::invalid_authority:
+        return Stop::wrong_scope;
+    case Status::intake_limit:
+        return Stop::intake_limit;
+    case Status::stale:
+        return Stop::stale;
+    case Status::conflict:
+        return Stop::conflict;
+    case Status::busy:
+        return Stop::busy;
+    case Status::incomplete_prefix:
+        return Stop::incomplete_prefix;
+    case Status::unproved_range:
+        return Stop::unproved_range;
+    }
+    throw std::logic_error("Unexpected intake history result");
+}
+inline Stop switch_source_policy(const SqliteWorkSession &session, const SourceChange &input) {
+    const connector_intake::Scope scope{input.installation, input.provider, input.account,
+                                         input.stream};
+    const QByteArray effect_scope = input.purpose == Purpose::handoff ? "main" : "score";
+    return history_result(connector_intake::stage_source_change(
+        session, {scope,
+                  {input.expected_epoch, input.expected_source_revision,
+                   input.expected_policy_revision, input.expected_generation},
+                  input.new_generation, input.new_policy,
+                  {{scope, "support", effect_scope, "overlap", true, input.new_member}},
+                  input.authorized_cut, input.history_ref, input.current_authority,
+                  input.qualified_capability, input.boundary_proof,
+                  static_cast<connector_intake::SourcePurpose>(input.purpose)}));
 }
 
 struct OperationIntent {
@@ -154,8 +190,21 @@ struct OperationIntent {
     QByteArray qualified_capability, retained_authority, current_authority;
     Purpose purpose{Purpose::import};
 };
-inline Stop bind_history_operation(const SqliteWorkSession &, const OperationIntent &) {
-    return Stop::not_implemented;
+inline Stop bind_history_operation(const SqliteWorkSession &session, const OperationIntent &input) {
+    const auto &interval = input.interval;
+    const auto &cut = input.upper_cut;
+    return history_result(connector_intake::stage_operation(
+        session, {{input.installation, input.provider, input.account, input.stream},
+                  input.operation_ref, input.epoch, input.policy_revision, input.generation,
+                  input.initial_continuation, input.local_date, input.zone_id, input.zone_basis,
+                  input.resolved_utc_start,
+                  {static_cast<connector_intake::Endpoint>(interval.start),
+                   static_cast<connector_intake::Endpoint>(interval.end),
+                   interval.membership_basis, interval.order_basis},
+                  {cut.format, cut.position_namespace, cut.position, cut.qualified_generation,
+                   cut.proof},
+                  input.qualified_capability, input.retained_authority, input.current_authority,
+                  static_cast<connector_intake::HistoryPurpose>(input.purpose)}));
 }
 
 struct PageBinding {
@@ -188,8 +237,12 @@ struct GapOpening {
     QByteArray old_generation, new_generation, frontier, upper_cut, cursor_contract, observation;
     QByteArray cut_request;
 };
-inline Stop open_gap(const SqliteWorkSession &, const GapOpening &) {
-    return Stop::not_implemented;
+inline Stop open_gap(const SqliteWorkSession &session, const GapOpening &input) {
+    return history_result(connector_intake::stage_gap(
+        session, {{input.installation, input.provider, input.account, input.stream},
+                  {input.epoch, input.source_revision, input.policy_revision, input.old_generation},
+                  input.gap_ref, input.new_generation, input.frontier, input.upper_cut,
+                  input.cursor_contract, input.observation, input.cut_request}));
 }
 
 struct PageAdmission {
