@@ -860,9 +860,9 @@ class Storage027CommandsTests final : public QObject {
         check([&] {
             Populated f;
             release_application(f);
-            advance_fixture(f.db);
             if (!stop_first)
                 release_edit(f);
+            advance_fixture(f.db);
             Authority port;
             const auto cmd = stop("stop-release-race", edited(f), QueueChoice::continue_queue);
             const auto chosen = commit(f.db, port, cmd, Disposition::committed);
