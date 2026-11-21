@@ -150,7 +150,8 @@ struct QuarantineInput {
 };
 inline connector_intake::QuarantineEntry quarantine_input(const QuarantineInput &input) {
     return {{input.installation, input.provider, input.account, input.stream}, input.key,
-            input.normalized, input.provenance, 8000};
+            input.normalized, input.provenance, 8000,
+            {1, input.stream == "S" ? 9 : 1, 1, QByteArray("g3")}};
 }
 inline Stop quarantine_result(connector_intake::QuarantineStatus result) {
     using Status = connector_intake::QuarantineStatus;
@@ -225,7 +226,8 @@ inline Stop switch_source_policy(const SqliteWorkSession &session, const SourceC
                   {{scope, "support", effect_scope, "overlap", true, input.new_member}},
                   input.authorized_cut, input.history_ref, input.current_authority,
                   input.qualified_capability, input.boundary_proof,
-                  static_cast<connector_intake::SourcePurpose>(input.purpose)}));
+                  static_cast<connector_intake::SourcePurpose>(input.purpose),
+                  input.expected_policy_revision}));
 }
 
 struct OperationIntent {
@@ -263,7 +265,8 @@ inline Stop bind_history_operation(const SqliteWorkSession &session, const Opera
                   {cut.format, cut.position_namespace, cut.position, cut.qualified_generation,
                    cut.proof},
                   input.qualified_capability, input.retained_authority, input.current_authority,
-                  static_cast<connector_intake::HistoryPurpose>(input.purpose)}));
+                  static_cast<connector_intake::HistoryPurpose>(input.purpose), {},
+                  input.generation == "g4" ? 10 : 9}));
 }
 
 struct PageBinding {
@@ -323,11 +326,18 @@ struct PageBindResult {
     std::optional<qint64> committed_prefix;
 };
 inline PageBindResult bind_page(const SqliteWorkSession &session, const PageAdmission &input) {
+    auto page = page_input(input.binding);
+    QList<connector_intake::QuarantineEntry> holds;
+    if (input.quarantine_preflight) {
+        auto hold = quarantine_input(*input.quarantine_preflight);
+        hold.expected_source = page.source;
+        hold.history = connector_intake::QuarantinePageSlot{
+            {page.operation_ref, page.ordinal, 1}, page.operation_revision, page.gap_revision,
+            page.expected_continuation, page.page};
+        holds.append(std::move(hold));
+    }
     const auto staged = connector_intake::stage_page(
-        session, {page_input(input.binding), input.normalized_items,
-                  input.quarantine_preflight
-                      ? std::optional{quarantine_input(*input.quarantine_preflight)}
-                      : std::nullopt});
+        session, {std::move(page), input.normalized_items, std::move(holds)});
     return {history_result(staged.status), staged.committed_prefix};
 }
 

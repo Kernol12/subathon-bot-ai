@@ -47,4 +47,10 @@ inline void require_changed_one(const SqliteWorkSession &session) {
 [[nodiscard]] bool qualified_page_slot(const SqliteWorkSession &, const ManagedInput &,
                                        const Fence &current);
 
+[[nodiscard]] QuarantineStatus preflight_page_quarantines(const SqliteWorkSession &,
+                                                          const PageAdmission &);
+[[nodiscard]] bool qualified_quarantine_slot(const SqliteWorkSession &, const QuarantineEntry &,
+                                             bool replay);
+void advance_page_prefix(const SqliteWorkSession &, const Scope &, const PageSlot &);
+
 } // namespace subathon::server::connector_intake::detail

@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "sqlite_connector_intake_private.hpp"
 
+#include <QHash>
+#include <QMap>
 #include <QSet>
 #include <QtEndian>
+#include <algorithm>
 #include <limits>
 
 namespace subathon::server::connector_intake {
@@ -79,8 +82,17 @@ QByteArray history_head(const Scope &scope, const SourceHead &head) {
            framed(head.fence.generation) + framed(head.frontier);
 }
 
+constexpr qsizetype policy_member_limit = 256;
+
+QByteArray member_key(const PolicyMember &member) {
+    return framed_scope(member.scope) + framed(member.award_class) + framed(member.effect_scope);
+}
+
+QByteArray overlap_key(const PolicyMember &member) {
+    return framed(member.overlap_set) + framed(member.effect_scope);
+}
+
 bool valid_members(const SourceChange &change) {
-    constexpr qsizetype policy_member_limit = 256;
     if (change.members.isEmpty() || change.members.size() > policy_member_limit)
         return false;
 
@@ -94,9 +106,8 @@ bool valid_members(const SourceChange &change) {
             !bounded(member.overlap_set, reference_limit) ||
             !bounded(member.document, document_limit))
             return false;
-        const auto lane =
-            framed_scope(member.scope) + framed(member.award_class) + framed(member.effect_scope);
-        const auto group = framed(member.overlap_set) + framed(member.effect_scope);
+        const auto lane = member_key(member);
+        const auto group = overlap_key(member);
         if (lane_keys.contains(lane) || (member.primary && primaries.contains(group)))
             return false;
         lane_keys.insert(lane);
@@ -106,6 +117,116 @@ bool valid_members(const SourceChange &change) {
         includes_source |= member.scope == change.scope;
     }
     return includes_source && groups == primaries;
+}
+
+// The limits apply to selected cells before SQLite returns the BLOB bodies.
+QString membership_columns() {
+    QStringList fields;
+    for (const auto *name : {"provider", "account", "stream", "award_class", "effect_scope",
+                             "overlap_set", "document"}) {
+        const QString column = QString("m.") + name;
+        fields.append("CASE WHEN typeof(" + column + ")='blob' AND length(" + column +
+                      ") BETWEEN 1 AND " +
+                      QString::number(column == "m.document" ? document_limit : reference_limit) +
+                      " THEN " + column + " END");
+    }
+    fields.append("m.primary_slot");
+    return fields.join(',');
+}
+
+std::optional<QList<PolicyMember>> decode_members(const QByteArray &installation,
+                                                  const SqlRows &rows) {
+    if (rows.size() > policy_member_limit)
+        return {};
+    QList<PolicyMember> result;
+    for (const auto &row : rows) {
+        if (std::any_of(row.cbegin(), row.cbegin() + 7,
+                        [](const QVariant &cell) { return cell.isNull(); }) ||
+            (!row[7].isNull() && row[7].toLongLong() != 1))
+            return {};
+        result.append(
+            {{installation, row[0].toByteArray(), row[1].toByteArray(), row[2].toByteArray()},
+             row[3].toByteArray(),
+             row[4].toByteArray(),
+             row[5].toByteArray(),
+             !row[7].isNull(),
+             row[6].toByteArray()});
+    }
+    return result;
+}
+
+std::optional<QSet<QByteArray>> affected_sources(const SqliteWorkSession &session,
+                                                 const SourceChange &change, qint64 policy_head) {
+    const auto old = decode_members(
+        change.scope.installation,
+        session.execute({"SELECT " + membership_columns() +
+                             " FROM main.subathon_intake_members m WHERE m.installation=? "
+                             "AND m.policy_revision=? LIMIT 257",
+                         {change.scope.installation, policy_head}}));
+    // Active sources can still use a revision older than the installation head.
+    const auto active = decode_members(
+        change.scope.installation,
+        session.execute({"SELECT " + membership_columns() +
+                             " FROM main.subathon_intake_sources s "
+                             "JOIN main.subathon_intake_members m ON m.installation=s.installation "
+                             "AND m.policy_revision=s.policy_revision AND m.provider=s.provider "
+                             "AND m.account=s.account AND m.stream=s.stream "
+                             "WHERE s.installation=? LIMIT 257",
+                         {change.scope.installation}}));
+    if (!old || !active)
+        return {};
+
+    QMap<QByteArray, PolicyMember> old_members, next_members;
+    QHash<QByteArray, QSet<QByteArray>> scopes_in_group, groups_in_scope;
+    const auto index = [&](const PolicyMember &member) {
+        const auto scope = framed_scope(member.scope);
+        const auto group = overlap_key(member);
+        scopes_in_group[group].insert(scope);
+        groups_in_scope[scope].insert(group);
+    };
+    for (const auto &member : *old) {
+        old_members.insert(member_key(member), member);
+        index(member);
+    }
+    for (const auto &member : change.members) {
+        next_members.insert(member_key(member), member);
+        index(member);
+    }
+    for (const auto &member : *active)
+        index(member);
+
+    QSet<QByteArray> affected;
+    QList<QByteArray> pending;
+    const auto require_scope = [&](const QByteArray &scope) {
+        if (!affected.contains(scope)) {
+            affected.insert(scope);
+            pending.append(scope);
+        }
+    };
+    require_scope(framed_scope(change.scope));
+    for (auto i = old_members.cbegin(); i != old_members.cend(); ++i) {
+        const auto next = next_members.constFind(i.key());
+        if (next == next_members.cend() || *next != *i)
+            require_scope(framed_scope(i->scope));
+    }
+    for (auto i = next_members.cbegin(); i != next_members.cend(); ++i) {
+        if (!old_members.contains(i.key()))
+            require_scope(framed_scope(i->scope));
+    }
+
+    // Moving one source changes its whole fence. Close over every overlap it
+    // connects to, including the roles still on retained older revisions.
+    QSet<QByteArray> visited_groups;
+    for (qsizetype i = 0; i < pending.size(); ++i) {
+        for (const auto &group : groups_in_scope.value(pending[i])) {
+            if (visited_groups.contains(group))
+                continue;
+            visited_groups.insert(group);
+            for (const auto &scope : scopes_in_group.value(group))
+                require_scope(scope);
+        }
+    }
+    return affected;
 }
 
 std::optional<QByteArray> operation_document(const OperationIntent &intent) {
@@ -180,91 +301,147 @@ std::optional<QByteArray> operation_document(const OperationIntent &intent) {
 HistoryStatus stage_source_change(const SqliteWorkSession &session, const SourceChange &change) {
     if (!local_scope(session, change.scope))
         return Status::wrong_scope;
-    if (!bounded(change.current_authority, document_limit) || change.boundary_proof.isEmpty())
-        return Status::invalid_authority;
-    if (!bounded(change.new_generation, reference_limit) ||
-        !bounded(change.policy, document_limit) ||
-        !bounded(change.authorized_cut, document_limit) ||
-        !bounded(change.history_ref, reference_limit) ||
-        !bounded(change.qualified_capability, reference_limit) ||
-        !bounded(change.boundary_proof, document_limit) || !valid_members(change))
+    if (!bounded(change.policy, document_limit) || !valid_members(change) ||
+        change.affected_sources.size() >= policy_member_limit)
         return Status::intake_limit;
-    if (change.purpose != SourcePurpose::baseline && change.purpose != SourcePurpose::adoption &&
-        change.purpose != SourcePurpose::handoff)
-        return Status::conflict;
 
-    const auto prior = select_source(session, change.scope);
-    if (!prior || !matches(prior->fence, change.expected))
+    const auto head =
+        session.execute({"SELECT revision FROM main.subathon_intake_policies WHERE installation=? "
+                         "ORDER BY revision DESC LIMIT 1",
+                         {change.scope.installation}});
+    if (head.size() != 1 ||
+        head.front().front().toLongLong() != change.expected_installation_policy_revision)
         return Status::stale;
-    if (!can_advance(prior->fence.epoch) || !can_advance(prior->fence.revision) ||
-        !can_advance(prior->fence.policy_revision))
+    const auto policy_head = head.front().front().toLongLong();
+    if (!can_advance(policy_head))
         return Status::intake_limit;
+    const auto next_policy = policy_head + 1;
 
-    const SourceHead next{{prior->fence.epoch + 1, prior->fence.revision + 1,
-                           prior->fence.policy_revision + 1, change.new_generation},
-                          change.authorized_cut,
-                          std::nullopt};
-    const auto document = QByteArray("SH1") + history_head(change.scope, *prior) +
-                          history_head(change.scope, next) + framed(change.qualified_capability) +
-                          framed(change.current_authority) + framed(change.boundary_proof);
-    if (document.size() > document_limit)
+    QList<SourceTransition> transitions{{change.scope, change.expected, change.new_generation,
+                                         change.authorized_cut, change.history_ref,
+                                         change.current_authority, change.qualified_capability,
+                                         change.boundary_proof, change.purpose}};
+    transitions.append(change.affected_sources);
+    QSet<QByteArray> supplied;
+    QSet<QByteArray> history_refs;
+    for (const auto &transition : transitions) {
+        if (!detail::valid_scope(transition.scope) ||
+            transition.scope.installation != change.scope.installation)
+            return Status::wrong_scope;
+        if (transition.current_authority.isEmpty() || transition.boundary_proof.isEmpty())
+            return Status::invalid_authority;
+        if (!bounded(transition.new_generation, reference_limit) ||
+            !bounded(transition.authorized_cut, document_limit) ||
+            !bounded(transition.history_ref, reference_limit) ||
+            !bounded(transition.qualified_capability, reference_limit) ||
+            !bounded(transition.current_authority, document_limit) ||
+            !bounded(transition.boundary_proof, document_limit))
+            return Status::intake_limit;
+        if (transition.purpose != SourcePurpose::baseline &&
+            transition.purpose != SourcePurpose::adoption &&
+            transition.purpose != SourcePurpose::handoff)
+            return Status::conflict;
+        const auto scope = framed_scope(transition.scope);
+        if (supplied.contains(scope) || history_refs.contains(transition.history_ref))
+            return Status::conflict;
+        supplied.insert(scope);
+        history_refs.insert(transition.history_ref);
+    }
+
+    const auto affected = affected_sources(session, change, policy_head);
+    if (!affected || affected->size() > policy_member_limit)
         return Status::intake_limit;
-    if (!session
-             .execute({"SELECT 1 FROM main.subathon_intake_operations "
-                       "WHERE installation=? AND operation_ref=?",
-                       {change.scope.installation, change.history_ref}})
-             .isEmpty() ||
-        !session
-             .execute({"SELECT 1 FROM main.subathon_intake_policies "
-                       "WHERE installation=? AND revision=?",
-                       {change.scope.installation, next.fence.policy_revision}})
-             .isEmpty())
+    if (*affected != supplied)
         return Status::conflict;
 
-    (void)session.execute({"INSERT INTO main.subathon_intake_policies "
-                           "VALUES(?,?,?)",
-                           {change.scope.installation, next.fence.policy_revision, change.policy}});
+    struct Plan {
+        SourceTransition request;
+        SourceHead old, next;
+        QByteArray document;
+    };
+    QList<Plan> plans;
+    for (const auto &transition : transitions) {
+        const auto prior = select_source(session, transition.scope);
+        if (!prior || !matches(prior->fence, transition.expected))
+            return Status::stale;
+        if (!can_advance(prior->fence.epoch) || !can_advance(prior->fence.revision))
+            return Status::intake_limit;
+        const auto active = session.execute(
+            {"SELECT epoch,generation,policy_revision FROM main.subathon_intake_operations "
+             "WHERE installation=? AND provider=? AND account=? AND stream=? "
+             "AND outcome=0 AND purpose IN (0,1) LIMIT 2",
+             scope_bindings(transition.scope)});
+        if (active.size() > 1 ||
+            (!active.isEmpty() && (active.front()[0].toLongLong() != prior->fence.epoch ||
+                                   active.front()[1].toByteArray() != prior->fence.generation ||
+                                   active.front()[2].toLongLong() != prior->fence.policy_revision)))
+            return Status::stale;
+        const SourceHead next{{prior->fence.epoch + 1, prior->fence.revision + 1, next_policy,
+                               transition.new_generation},
+                              transition.authorized_cut,
+                              std::nullopt};
+        const auto document =
+            QByteArray("SH1") + history_head(transition.scope, *prior) +
+            history_head(transition.scope, next) + framed(transition.qualified_capability) +
+            framed(transition.current_authority) + framed(transition.boundary_proof);
+        if (document.size() > document_limit)
+            return Status::intake_limit;
+        if (!session
+                 .execute({"SELECT 1 FROM main.subathon_intake_operations "
+                           "WHERE installation=? AND operation_ref=?",
+                           {transition.scope.installation, transition.history_ref}})
+                 .isEmpty())
+            return Status::conflict;
+        plans.append({transition, *prior, next, document});
+    }
+
+    (void)session.execute({"INSERT INTO main.subathon_intake_policies VALUES(?,?,?)",
+                           {change.scope.installation, next_policy, change.policy}});
     detail::require_changed_one(session);
     for (const auto &member : change.members) {
         (void)session.execute(
             {"INSERT INTO main.subathon_intake_members VALUES(?,?,?,?,?,?,?,?,?,?)",
-             {change.scope.installation, next.fence.policy_revision, member.scope.provider,
-              member.scope.account, member.scope.stream, member.award_class, member.effect_scope,
-              member.overlap_set, member.primary ? QVariant{1} : QVariant{}, member.document}});
+             {change.scope.installation, next_policy, member.scope.provider, member.scope.account,
+              member.scope.stream, member.award_class, member.effect_scope, member.overlap_set,
+              member.primary ? QVariant{1} : QVariant{}, member.document}});
         detail::require_changed_one(session);
     }
 
-    auto args = scope_bindings(change.scope);
-    args.append({prior->fence.epoch, prior->fence.generation, prior->fence.policy_revision});
-    (void)session.execute({"UPDATE main.subathon_intake_operations SET outcome=3 "
-                           "WHERE installation=? AND provider=? AND account=? AND stream=? "
-                           "AND epoch=? AND generation=? AND policy_revision=? AND outcome=0",
-                           args});
-    const auto retired = session.execute({"SELECT changes()", {}});
-    if (retired.size() != 1 || retired.front().front().toLongLong() > 1)
-        throw SqliteWorkFailure(WorkError::sql_failure);
+    for (const auto &plan : plans) {
+        const auto &request = plan.request;
+        const auto &old = plan.old.fence;
+        const auto &next = plan.next.fence;
+        auto args = scope_bindings(request.scope);
+        args.append({old.epoch, old.generation, old.policy_revision});
+        (void)session.execute({"UPDATE main.subathon_intake_operations SET outcome=3 "
+                               "WHERE installation=? AND provider=? AND account=? AND stream=? "
+                               "AND epoch=? AND generation=? AND policy_revision=? AND outcome=0",
+                               args});
+        const auto retired = session.execute({"SELECT changes()", {}});
+        if (retired.size() != 1 || retired.front().front().toLongLong() > 1)
+            throw SqliteWorkFailure(WorkError::sql_failure);
 
-    QList<QVariant> source{next.fence.epoch,           next.fence.revision,
-                           next.fence.policy_revision, next.fence.generation,
-                           change.authorized_cut,      change.qualified_capability};
-    source.append(scope_bindings(change.scope));
-    source.append({prior->fence.epoch, prior->fence.revision, prior->fence.policy_revision,
-                   prior->fence.generation});
-    (void)session.execute(
-        {"UPDATE main.subathon_intake_sources SET epoch=?,revision=?,policy_revision=?,"
-         "generation=?,baseline_state=1,cut=?,frontier=NULL,document=? "
-         "WHERE installation=? AND provider=? AND account=? AND stream=? AND epoch=? "
-         "AND revision=? AND policy_revision=? AND generation=?",
-         source});
-    detail::require_changed_one(session);
-    (void)session.execute(
-        {"INSERT INTO main.subathon_intake_operations "
-         "VALUES(?,?,?,?,?,?,?,NULL,?,?,1,?,NULL,1,0,1,?,?)",
-         {change.scope.installation, change.history_ref, change.scope.provider,
-          change.scope.account, change.scope.stream, next.fence.epoch, next.fence.policy_revision,
-          static_cast<int>(change.purpose), next.fence.generation, document, sql_blob(prior->cut),
-          change.authorized_cut}});
-    detail::require_changed_one(session);
+        QList<QVariant> source{
+            next.epoch,      next.revision,          next.policy_revision,
+            next.generation, request.authorized_cut, request.qualified_capability};
+        source.append(scope_bindings(request.scope));
+        source.append({old.epoch, old.revision, old.policy_revision, old.generation});
+        (void)session.execute(
+            {"UPDATE main.subathon_intake_sources SET epoch=?,revision=?,policy_revision=?,"
+             "generation=?,baseline_state=1,cut=?,frontier=NULL,document=? "
+             "WHERE installation=? AND provider=? AND account=? AND stream=? AND epoch=? "
+             "AND revision=? AND policy_revision=? AND generation=?",
+             source});
+        detail::require_changed_one(session);
+        (void)session.execute(
+            {"INSERT INTO main.subathon_intake_operations "
+             "VALUES(?,?,?,?,?,?,?,NULL,?,?,1,?,NULL,1,0,1,?,?)",
+             {request.scope.installation, request.history_ref, request.scope.provider,
+              request.scope.account, request.scope.stream, next.epoch, next.policy_revision,
+              static_cast<int>(request.purpose), next.generation, plan.document,
+              sql_blob(plan.old.cut), request.authorized_cut}});
+        detail::require_changed_one(session);
+    }
     return Status::staged;
 }
 
@@ -285,9 +462,8 @@ HistoryStatus stage_operation(const SqliteWorkSession &session, const OperationI
     if (!document)
         return Status::intake_limit;
     const auto source = select_source(session, intent.scope);
-    if (!source || source->fence.epoch != intent.epoch ||
-        source->fence.policy_revision != intent.policy_revision ||
-        source->fence.generation != intent.generation)
+    if (!source || source->fence != Fence{intent.epoch, intent.source_revision,
+                                          intent.policy_revision, intent.generation})
         return Status::stale;
 
     const auto existing = session.execute(
@@ -434,7 +610,7 @@ HistoryStatus stage_reconnect(const SqliteWorkSession &session, const Reconnect 
     auto next = *prior;
     ++next.fence.revision;
     next.fence.generation = request.new_generation;
-    auto document = QByteArray("SH1") + history_head(request.scope, *prior) +
+    auto document = QByteArray("RC1") + history_head(request.scope, *prior) +
                     history_head(request.scope, next) + framed(request.cursor_contract) +
                     framed(request.current_authority) + framed(request.observation);
     if (document.size() > document_limit)

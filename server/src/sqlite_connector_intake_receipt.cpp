@@ -70,7 +70,7 @@ bool same_fence(const Fence &actual, const Fence &expected) {
 
 int admission_code(IntakeAdmission admission) {
     switch (admission) {
-    case IntakeAdmission::creation_eligible:
+    case IntakeAdmission::creation_eligible_verified_support:
         return 0;
     case IntakeAdmission::audit_only:
         return 3;
@@ -276,9 +276,8 @@ void stage_entry(const SqliteWorkSession &session, const ManagedInput &input, co
          values});
     detail::require_changed_one(session);
 
-    if (!input.activity || input.admission != IntakeAdmission::creation_eligible ||
-        disposition != core::ReceiptDisposition::created ||
-        input.receipt.facts.event_type != "support")
+    if (!input.activity || input.admission != IntakeAdmission::creation_eligible_verified_support ||
+        disposition != core::ReceiptDisposition::created)
         return;
     if (original(session, input.scope, *input.activity) ||
         basis(session, input.scope, *input.activity))
@@ -396,6 +395,7 @@ ManagedResult admit_managed(const SqliteWorkSession &session, const ManagedInput
 EvidenceSelection select_evidence(const SqliteWorkSession &session, const ManagedInput &input) {
     using Evidence = EvidenceStatus;
     if (!local_scope(session, input) || !input.activity ||
+        input.admission != IntakeAdmission::creation_eligible_verified_support ||
         !bounded(input.intake_ref, reference_limit) ||
         !valid_activity(input.receipt.identity.origin, input.activity))
         return {Evidence::inconsistent_original};
@@ -439,7 +439,7 @@ EvidenceSelection select_evidence(const SqliteWorkSession &session, const Manage
         return {Evidence::may_link, bound->attempt, verified->cid, bound->capture};
     const bool its_basis = scope == input.scope && bound->intake == input.intake_ref &&
                            applied->attempt == bound->attempt &&
-                           input.admission == IntakeAdmission::creation_eligible;
+                           input.admission == IntakeAdmission::creation_eligible_verified_support;
     return {its_basis ? Evidence::may_create : Evidence::pending_original,
             bound->attempt,
             {},
@@ -529,15 +529,8 @@ HistoryStatus stage_intake_disposition(const SqliteWorkSession &session, const M
          "AND attempt_ordinal=? AND phase=? AND disposition=?",
          values});
     detail::require_changed_one(session);
-    if (advance_prefix) {
-        const auto &slot = *input.history;
-        (void)session.execute(
-            {"UPDATE main.subathon_intake_pages SET committed_prefix=committed_prefix+1 "
-             "WHERE installation=? AND operation_ref=? AND ordinal=? "
-             "AND committed_prefix=? AND outcome=0 AND item_count>=?",
-             {input.scope.installation, slot.operation, slot.page, slot.item - 1, slot.item}});
-        detail::require_changed_one(session);
-    }
+    if (advance_prefix)
+        detail::advance_page_prefix(session, input.scope, *input.history);
     return H::staged;
 }
 

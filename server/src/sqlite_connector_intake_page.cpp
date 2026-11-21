@@ -264,7 +264,7 @@ std::optional<qsizetype> witnessed_rows(const SqliteWorkSession &session, const 
         return {};
     const auto document = rows.front().front().toByteArray();
     if (document.size() < witness_history_offset + 3 || !document.startsWith(witness_role) ||
-        !QByteArrayView(document).sliced(witness_history_offset).startsWith("SH1"))
+        !QByteArrayView(document).sliced(witness_history_offset).startsWith("RC1"))
         return {};
 
     const auto old_prefix = static_cast<unsigned char>(document[3]);
@@ -424,6 +424,28 @@ std::optional<CoverageChange> qualify(const PageBinding &page) {
     return std::nullopt;
 }
 
+HistoryStatus preflight_page_capacity(const SqliteWorkSession &session,
+                                      const PageAdmission &request) {
+    switch (detail::preflight_page_quarantines(session, request)) {
+    case QuarantineStatus::staged:
+    case QuarantineStatus::exact_replay:
+        return Status::staged;
+    case QuarantineStatus::quarantine_full:
+        return Status::quarantine_full;
+    case QuarantineStatus::intake_limit:
+        return Status::intake_limit;
+    case QuarantineStatus::wrong_scope:
+        return Status::wrong_scope;
+    case QuarantineStatus::invalid_authority:
+        return Status::invalid_authority;
+    case QuarantineStatus::conflict:
+        return Status::conflict;
+    case QuarantineStatus::stale:
+        return Status::stale;
+    }
+    throw std::logic_error("Unexpected page quarantine result");
+}
+
 } // namespace
 
 BoundPage stage_page(const SqliteWorkSession &session, const PageAdmission &request) {
@@ -462,6 +484,9 @@ BoundPage stage_page(const SqliteWorkSession &session, const PageAdmission &requ
         if (!proved_prefix(session, page, *operation, retained->prefix,
                            selected_prefix(session, page), &items, true))
             return {Status::incomplete_prefix};
+        const auto capacity = preflight_page_capacity(session, request);
+        if (capacity != Status::staged)
+            return {capacity};
         return {Status::exact_replay, retained->prefix};
     }
     if (!same_blob(operation->continuation, page.expected_continuation) ||
@@ -469,28 +494,9 @@ BoundPage stage_page(const SqliteWorkSession &session, const PageAdmission &requ
         return {Status::conflict};
     if (operation->reserved > 4096 - page.items)
         return {Status::intake_limit};
-    if (request.quarantine_preflight) {
-        const auto &entry = *request.quarantine_preflight;
-        if (entry.scope != page.scope || !request.normalized_items.contains(entry.normalized))
-            return {Status::conflict};
-        const auto accepted = preflight_quarantine(session, entry);
-        switch (accepted) {
-        case QuarantineStatus::staged:
-        case QuarantineStatus::exact_replay:
-            break;
-        case QuarantineStatus::quarantine_full:
-            return {Status::quarantine_full};
-        case QuarantineStatus::intake_limit:
-            return {Status::intake_limit};
-        case QuarantineStatus::wrong_scope:
-        case QuarantineStatus::invalid_authority:
-            return {Status::wrong_scope};
-        case QuarantineStatus::conflict:
-            return {Status::conflict};
-        case QuarantineStatus::stale:
-            return {Status::stale};
-        }
-    }
+    const auto capacity = preflight_page_capacity(session, request);
+    if (capacity != Status::staged)
+        return {capacity};
     (void)session.execute({"INSERT INTO main.subathon_intake_pages VALUES(?,?,?,?,?,?,0,0,NULL,?)",
                            {page.scope.installation, page.operation_ref, page.ordinal, page.page,
                             sql_blob(page.expected_continuation), page.items, operation->purpose}});
@@ -780,6 +786,70 @@ bool detail::qualified_page_slot(const SqliteWorkSession &session, const Managed
     return items && (*items)[slot.item - 1] == QByteArrayView(input.normalized) &&
            proved_prefix(session, page, *operation, retained->prefix,
                          selected_prefix(session, page), &*items, true);
+}
+
+bool detail::qualified_quarantine_slot(const SqliteWorkSession &session,
+                                       const QuarantineEntry &entry, bool replay) {
+    const auto &history = *entry.history;
+    const auto &slot = history.slot;
+    if (!bounded(slot.operation, reference_limit) || slot.page < 1 || slot.page > 256 ||
+        slot.item < 1 || slot.item > 16 || !bounded(history.page, page_limit) ||
+        history.operation_revision <= 0)
+        return false;
+    const auto operation = select_operation(session, entry.scope, slot.operation);
+    if (!operation || operation->source_revision != entry.expected_source.revision)
+        return false;
+
+    PageBinding page{};
+    page.scope = entry.scope;
+    page.source = entry.expected_source;
+    page.operation_ref = slot.operation;
+    page.operation_revision = history.operation_revision;
+    page.gap_revision = history.gap_revision;
+    page.ordinal = slot.page;
+    page.expected_continuation = history.expected_continuation;
+    page.page = history.page;
+    page.page_reconnect = history.page_reconnect;
+    if (!same_fence(*operation, page))
+        return false;
+    const auto retained = select_page(session, page);
+    if (!retained)
+        return false;
+    page.items = retained->items;
+    if (!page_bounds(page) || !same_page(*retained, page, *operation) ||
+        retained->items < slot.item || retained->items > operation->reserved)
+        return false;
+
+    if (retained->outcome == 0) {
+        if (operation->outcome != 0 || operation->ordinal != slot.page ||
+            operation->revision != history.operation_revision ||
+            !same_blob(operation->continuation, history.expected_continuation))
+            return false;
+        if (operation->purpose == 0) {
+            const auto gap = select_gap(session, entry.scope, *operation);
+            if (!gap || gap->revision != history.gap_revision)
+                return false;
+        }
+    } else if (retained->outcome != 1 || !replay || operation->ordinal <= slot.page ||
+               operation->revision <= history.operation_revision) {
+        return false;
+    }
+    if (replay ? retained->prefix < slot.item : retained->prefix != slot.item - 1)
+        return false;
+    const auto items = normalized_items(page);
+    return items && (*items)[slot.item - 1] == QByteArrayView(entry.normalized) &&
+           proved_prefix(session, page, *operation, retained->prefix,
+                         selected_prefix(session, page), &*items, replay && retained->outcome == 0);
+}
+
+void detail::advance_page_prefix(const SqliteWorkSession &session, const Scope &scope,
+                                 const PageSlot &slot) {
+    (void)session.execute(
+        {"UPDATE main.subathon_intake_pages SET committed_prefix=committed_prefix+1 "
+         "WHERE installation=? AND operation_ref=? AND ordinal=? "
+         "AND committed_prefix=? AND outcome=0 AND item_count>=?",
+         {scope.installation, slot.operation, slot.page, slot.item - 1, slot.item}});
+    detail::require_changed_one(session);
 }
 
 } // namespace subathon::server::connector_intake

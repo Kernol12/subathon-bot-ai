@@ -16,10 +16,31 @@ struct Scope {
     bool operator==(const Scope &) const = default;
 };
 
+struct Fence {
+    qint64 epoch, revision, policy_revision;
+    QByteArray generation;
+    bool operator==(const Fence &) const = default;
+};
+
+struct PageSlot {
+    QByteArray operation;
+    qint64 page, item;
+    bool operator==(const PageSlot &) const = default;
+};
+
+struct QuarantinePageSlot {
+    PageSlot slot;
+    qint64 operation_revision, gap_revision;
+    QByteArray expected_continuation, page;
+    QByteArray page_reconnect{};
+};
+
 struct QuarantineEntry {
     Scope scope;
     QByteArray key, normalized, provenance;
     qint64 arrival_ms;
+    Fence expected_source;
+    std::optional<QuarantinePageSlot> history{};
 };
 
 enum class QuarantineStatus {
@@ -81,16 +102,20 @@ enum class HistoryStatus {
 
 enum class SourcePurpose { baseline = 2, adoption = 3, handoff = 4 };
 
-struct Fence {
-    qint64 epoch, revision, policy_revision;
-    QByteArray generation;
-};
-
 struct PolicyMember {
     Scope scope;
     QByteArray award_class, effect_scope, overlap_set;
     bool primary;
     QByteArray document;
+    bool operator==(const PolicyMember &) const = default;
+};
+
+struct SourceTransition {
+    Scope scope;
+    Fence expected;
+    QByteArray new_generation, authorized_cut, history_ref, current_authority;
+    QByteArray qualified_capability, boundary_proof;
+    SourcePurpose purpose;
 };
 
 struct SourceChange {
@@ -100,6 +125,9 @@ struct SourceChange {
     QList<PolicyMember> members;
     QByteArray authorized_cut, history_ref, current_authority, qualified_capability, boundary_proof;
     SourcePurpose purpose;
+    qint64 expected_installation_policy_revision;
+    // Include one explicit transition for every additional affected source.
+    QList<SourceTransition> affected_sources{};
 };
 
 [[nodiscard]] HistoryStatus stage_source_change(const SqliteWorkSession &, const SourceChange &);
@@ -131,6 +159,7 @@ struct OperationIntent {
     QByteArray qualified_capability, retained_authority, current_authority;
     HistoryPurpose purpose;
     std::optional<QByteArray> gap{};
+    qint64 source_revision{};
 };
 
 [[nodiscard]] HistoryStatus stage_operation(const SqliteWorkSession &, const OperationIntent &);
@@ -173,7 +202,7 @@ struct PageBinding {
 struct PageAdmission {
     PageBinding binding;
     QList<QByteArray> normalized_items;
-    std::optional<QuarantineEntry> quarantine_preflight{};
+    QList<QuarantineEntry> quarantine_preflight{};
 };
 
 struct BoundPage {
@@ -198,13 +227,8 @@ struct AttemptLocator {
     bool operator==(const AttemptLocator &) const = default;
 };
 
-enum class IntakeAdmission { creation_eligible, audit_only, confirmation_only };
-
-struct PageSlot {
-    QByteArray operation;
-    qint64 page, item;
-    bool operator==(const PageSlot &) const = default;
-};
+// Admission is already classified against the current policy and connector proof.
+enum class IntakeAdmission { creation_eligible_verified_support, audit_only, confirmation_only };
 
 struct ManagedInput {
     Scope scope;
