@@ -27,7 +27,7 @@ provider switch, new dependency, any process/tooling change; no dependency-ready
 product task; or explicit owner stop. Ask with options and a recommendation,
 while continuing independent work not blocked. Pre-build/test CI infrastructure
 allows one recorded rerun; routine in-scope choices, self-caught mistakes and
-filing planned issues are not stops. #619/#620 remain frozen.
+filing planned issues are not stops.
 
 **Standing test-binary admission (owner decisions 2026-11-18).** The existing
 procedure applies to every authorized Qt or GoogleTest binary using its own
@@ -115,6 +115,23 @@ Shared SDKs and the proof environment are under `build/deps/` and
 The owner stopped #715 after its [one hosted experiment](https://github.com/Kernol12/subathon-bot-ai/issues/715#issuecomment-7004781214).
 #715 remains Planned, uses no parking slot, and its retry change was never enabled.
 
+### Continuation after the RELEASE-002 merge
+
+- [#545](https://github.com/Kernol12/subathon-bot-ai/issues/545) completed in
+  [PR #768](https://github.com/Kernol12/subathon-bot-ai/pull/768), protected merge
+  `2629e9dedc45fa04fa60a3ce05513f70387f6f10`. The seven required checks passed,
+  and the admitted diagnostics fixture passed the producer control and 26 methods.
+  The issue is closed and the build evidence is retained.
+- [#760](https://github.com/Kernol12/subathon-bot-ai/issues/760) resumed under
+  [bounded 116A](https://github.com/Kernol12/subathon-bot-ai/issues/760#issuecomment-7064212263).
+  Diagnose R1 and R3 on the admitted `288057faa72af99e26ff810d6cd2e39fa995434e`
+  runner and record the exact causes before starting the split. Preserve the
+  [incomplete run](https://github.com/Kernol12/subathon-bot-ai/issues/760#issuecomment-7064099749).
+- [#201](https://github.com/Kernol12/subathon-bot-ai/issues/201) Stage 1 round one
+  [verification approved](https://github.com/Kernol12/subathon-bot-ai/issues/201#issuecomment-7064314623)
+  `ef5a2db3595a2baf439e8e04fe682fe7123eb747`. Fresh closing and runtime admission
+  remain pending. The worktree and branch in the handover still apply.
+
 ### Parallel work and standing CI rerun rule
 
 - At most two active tasks in different modules and three parked tasks. When
@@ -136,7 +153,7 @@ The owner stopped #715 after its [one hosted experiment](https://github.com/Kern
   runners (three attempts total). Record each rerun on the PR. Park after
   the third setup failure.
 
-## Product queue and frozen process work
+## Product queue
 
 - SESSION-013 [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662) and API-010 [#560](https://github.com/Kernol12/subathon-bot-ai/issues/560) remain unclaimed queue items.
 - SESSION-003 #264 still waits on #262, #588 and #593. Check native links for current readiness.
@@ -149,12 +166,11 @@ The owner stopped #715 after its [one hosted experiment](https://github.com/Kern
   comment. Filed as [#678–#687](https://github.com/Kernol12/subathon-bot-ai/issues/273)
   (API-017 through API-026), planned under EPIC-008; none is authorized for work.
 - API-027 [#702](https://github.com/Kernol12/subathon-bot-ai/issues/702): planned under EPIC-008, native parent link recorded. Owns API1-C-O1 simultaneous copied-response-lease destruction from [the #700 closing receipt](https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6963524189); source-only finding, no runtime reproduction claimed. Schedule like other product tasks.
-- Process/tooling #619/#620 is frozen; lifting the freeze is the owner's decision.
 
-The standing authorization permits selection of dependency-ready product work;
-existing task-specific holds and the process/tooling freeze remain. No live chat or
-payment side effects are authorized. Keep credentials and supporter data out of
-source, fixtures, reports and HTML; synthetic or redacted fixtures only.
+The standing authorization permits selection of dependency-ready product work.
+Existing task-specific holds remain. No live chat or payment side effects are
+authorized. Keep credentials and supporter data out of source, fixtures, reports
+and HTML; synthetic or redacted fixtures only.
 
 ## ADR-0012 decision for APITEST-015 (2026-11-16)
 
