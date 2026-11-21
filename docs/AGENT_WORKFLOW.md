@@ -13,13 +13,15 @@ For new behavior: contract/examples → authored tests → independent test revi
 observed intended red → implementation → independent code review → relevant checks.
 
 - Compile failures, missing dependencies and skipped tests are not red evidence.
-- Before the first tests review, the author runs the new cases once against the
-  not-implemented stubs and reports the result in the handoff. A case that calls a
-  stub must reach that call; a failure before it, in setup or fixtures, is fixed
-  before the review packet is sent. The check covers setup up to the stub only and is
-  never red evidence. It does not apply to cases that call no stub, or where
-  [the test strategy](TEST_STRATEGY.md) requires review or admission before any
-  execution; the handoff then says so.
+- Before sending the first review packet for either stage, admit each exact Qt or
+  GoogleTest candidate binary under the standing admission procedure and run its
+  suite once. In the tests stage, confirm setup and fixture reachability, including
+  reaching the intended stub where applicable. Fix setup failures before review.
+  In implementation, run the frozen tests against the candidate and fix any
+  failures before review. Record the run in the handoff. These pre-review runs
+  earn no test evidence. After review, admit each reviewed binary again before
+  the credited run. A stage that already sent its first review packet continues
+  under its existing gates.
 - Expected values come from the specification, never from the implementation.
 - Do not delete, skip or weaken reviewed assertions to make code pass. Correct a
   genuine test defect only with specification-based reasoning and a separate reviewer

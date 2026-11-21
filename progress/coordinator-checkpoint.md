@@ -29,13 +29,19 @@ while continuing independent work not blocked. Pre-build/test CI infrastructure
 allows one recorded rerun; routine in-scope choices, self-caught mistakes and
 filing planned issues are not stops.
 
-**Standing test-binary admission (owner decisions 2026-11-18).** The existing
-procedure applies to every authorized Qt or GoogleTest binary using its own
-closure. First record passive ELF/ABI and dependency hashes for the exact reviewed
-binary. Run the first real test with bounded loader and plugin logs, reconcile the
-loaded objects and their hashes before crediting the result, then check hashes
+**Standing test-binary admission.** Apply the procedure to every authorized Qt
+or GoogleTest binary using its own closure. Record passive ELF/ABI and dependency
+hashes for the exact binary. Run the first real test with bounded loader and
+plugin logs, reconcile all loaded objects and their hashes, then check hashes
 again. Any mismatch voids the run. Changes to the procedure, tooling, modes or
 native-supervisor debug variables require the owner under rule 4(e).
+
+Before the first review packet for either stage, admit each candidate binary
+and run its suite once. In the tests stage, fix setup failures before review.
+In implementation, run the frozen tests and fix any failures before review.
+These runs earn no test evidence. Admit each reviewed binary again before the
+credited run. Stages that already sent their first review packet keep their
+existing gates.
 
 Apply log size caps only to captured log files, including admission logs.
 Test processes and their children run without a process file-size limit.
@@ -302,9 +308,7 @@ work. The checkpoint's authorized path does.
   ignored directory of their worktree (`build/TASK-ID/<session>/`) with `TMPDIR` set
   there, and follow the "Temporary files" section of the workflow. Name that
   directory in every assignment and review packet.
-- Before the first tests review the author runs only the cases that call a
-  not-implemented stub and reports the fixture check in the handoff; it is never red
-  evidence. Unreviewed test source stays local.
+- Unreviewed test source stays local.
 - Tier A proof record: `progress/proofs/TASK-ID.json` (and its policy entry if the task
   is not enrolled yet), in one commit after the final closing approval, immediately
   before merge. `tools/check_publication.py` requires `origin/main` as an ancestor of
