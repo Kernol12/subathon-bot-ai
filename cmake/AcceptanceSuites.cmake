@@ -12,7 +12,7 @@ set(subathon_acceptance_suites
     password-hashing credential-record sqlite-credentials effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
     bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server
-    chat-commands scheduled-pause milestone-target-edit sqlite-milestone-target-edits downtime-recovery finished-timer
+    chat-commands scheduled-pause milestone-target-edit sqlite-milestone-target-edits downtime-recovery finished-timer rule-actions
     frankfurter-rates)
 
 # Test guards stay private derived variables; callers select the

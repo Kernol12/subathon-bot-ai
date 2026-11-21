@@ -219,24 +219,28 @@
       "id": "RULE-02",
       "status": "partial",
       "tests": [
-        "tests/acceptance/rule_selection_tests.cpp"
+        "tests/acceptance/rule_selection_tests.cpp",
+        "tests/acceptance/rule_actions_tests.cpp"
       ],
       "evidence": [
-        "https://github.com/Kernol12/subathon-bot-ai/pull/747#issuecomment-7041091312"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/747#issuecomment-7041091312",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/755#issuecomment-7055320763"
       ],
-      "scope": "RULES-002 validates direction before enablement, applies exclusions only from selected matches and returns ordered skip reasons. Live configuration enablement and action composition stay separate."
+      "scope": "RULES-002 validates direction before enablement, applies exclusions only from selected matches and returns ordered skip reasons. RULES-003 covers retained selection, ordered planning, scoped refusal and sibling continuation with synthetic owners. Live configuration enablement and execution stay separate."
     },
     {
       "id": "RULE-03",
       "status": "partial",
       "tests": [
-        "tests/acceptance/rule_definition_tests.cpp"
+        "tests/acceptance/rule_definition_tests.cpp",
+        "tests/acceptance/rule_actions_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/735#issuecomment-7024035880",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/735#issuecomment-7024214931"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/735#issuecomment-7024214931",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/755#issuecomment-7055320763"
       ],
-      "scope": "RULES-001 validates and retains the configured depth and count limits, with defaults of 32 and 256. Per-root enforcement, stopping, audit and notice remain #210."
+      "scope": "RULES-001 validates retained depth and count limits, with defaults of 32 and 256. RULES-003 covers carried cause and observed child lineage. Per-root admission, stopping, audit and notice remain #210."
     },
     {
       "id": "MOD-01",
@@ -645,13 +649,15 @@
       "id": "AUTH-07",
       "status": "partial",
       "tests": [
-        "tests/acceptance/chat_commands_tests.cpp"
+        "tests/acceptance/chat_commands_tests.cpp",
+        "tests/acceptance/rule_actions_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/737#issuecomment-7026365991",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/737#issuecomment-7026634164"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/737#issuecomment-7026634164",
+        "https://github.com/Kernol12/subathon-bot-ai/pull/755#issuecomment-7055320763"
       ],
-      "scope": "ACCESS-007 covers supplied current USE and original-author USE plus GRANT for synthetic category automation. Live intake, execution and broader delegation management remain separate."
+      "scope": "ACCESS-007 covers current USE and original-author USE plus GRANT for supplied category automation. RULES-003 covers current exact dual-channel policies, concrete sender binding and current disclosure through synthetic ports. Live intake, execution and broader delegation management remain separate."
     },
     {
       "id": "CHAT-02",
