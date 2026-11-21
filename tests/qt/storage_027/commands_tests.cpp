@@ -69,7 +69,7 @@ charge_oracle::Record fixture_record(CatalogFile &db, const Command &cmd, const 
 template <class Inspect>
 Decision inspect_command_shape(CatalogFile &db, Authority &owner, const Command &cmd,
                                const ReplacePreview *preview, Inspect inspect) {
-    Decision sampled;
+    Decision sampled{Disposition::not_implemented, {}, {}, {}, {}};
     const auto probe = run(
         db,
         [&](const auto &session) {
@@ -80,8 +80,8 @@ Decision inspect_command_shape(CatalogFile &db, Authority &owner, const Command 
         },
         Finish::rollback);
     require(!probe.missing, "STORAGE-027 NI: provisional owner representation for charge");
-    require(probe.work.transaction == TransactionOutcome::rolled_back && !probe.published &&
-                sampled.disposition == Disposition::committed,
+    require(probe.entered && probe.work.transaction == TransactionOutcome::rolled_back &&
+                !probe.published && sampled.disposition == Disposition::committed,
             "Exact provisional owner output is sampled without reserving the operation");
     return sampled;
 }
