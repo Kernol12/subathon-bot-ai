@@ -310,3 +310,9 @@ if(SUBATHON_BUILD_DEV_SERVER_TESTS)
         SUBATHON_DEV_SERVER_PATH="$<TARGET_FILE:subathon_dev_server>")
     add_dependencies(server_dev_server_acceptance subathon_dev_server)
 endif()
+
+# Local Tier A baseline. Keep its pre-implementation cases out of passing suites.
+option(SUBATHON_BUILD_STORAGE_026_STAGE1 "Build the isolated STORAGE-026 Stage 1 suites" OFF)
+if(SUBATHON_BUILD_STORAGE_026_STAGE1)
+    add_subdirectory(storage_026)
+endif()
