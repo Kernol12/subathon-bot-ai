@@ -376,11 +376,44 @@ class Api006PolicyTests final : public QObject {
                         advanced.aggregate_delta == core::ReceiptMoney{"12.34", "CHF"} &&
                         !advanced.contribution && disclosed(f).isEmpty(),
                     "Exact same-lane delta is CHF 12.34 with zero individual contributions");
+            require(f.store.db.rows("SELECT count(*) FROM main.subathon_app_operations "
+                                    "WHERE subject_kind=0") == SqlRows{{0}} &&
+                        f.store.db.rows("SELECT count(*) FROM main.subathon_app_claims "
+                                        "WHERE subject_kind=0") == SqlRows{{0}},
+                    "A separately authorized aggregate delta writes no individual operation "
+                    "or claim");
             const auto before = storage::protected_data(f.store.db);
             expect(f.submit(total, live_source(f)), S::exact_replay,
                    "Stable aggregate observation identity deduplicates the delta");
             require(storage::protected_data(f.store.db) == before,
                     "Exact aggregate replay creates no second accounting operation");
+        });
+    }
+
+    void missingAggregateGrantCannotApplyDelta() {
+        check([] {
+            Fixture f;
+            configure(f);
+            auto total = item("ungranted-total-100", "11");
+            total.activity.reset();
+            total.facts.money = core::ReceiptMoney{"100.00", "CHF"};
+            total.award_class = "aggregate";
+            total.aggregate_metric = "qualified-cumulative-support";
+            const auto first = f.submit(total, live_source(f));
+            require(first.status == S::held && !first.aggregate_delta && !first.contribution &&
+                        !first.projection && disclosed(f).isEmpty(),
+                    "The individual lane's grant does not authorize an aggregate baseline");
+            total.key = "ungranted-total-112";
+            total.identifier = total.key;
+            total.position = "12";
+            total.facts.money = core::ReceiptMoney{"112.34", "CHF"};
+            const auto second = f.submit(total, live_source(f));
+            require(second.status == S::held && !second.aggregate_delta && !second.contribution &&
+                        !second.projection && disclosed(f).isEmpty() &&
+                        f.store.db.rows("SELECT count(*) FROM main.subathon_app_operations") ==
+                            SqlRows{{0}},
+                    "An ungranted exact increase produces no aggregate or individual operation");
+            f.no_award();
         });
     }
 
@@ -650,6 +683,96 @@ class Api006PolicyTests final : public QObject {
                             SqlRows{{frame, 1, 0}},
                         "Exact owner retains full operation intent without consuming a slot");
             }
+        });
+    }
+
+    void productRefusesOversizeProtectedPageBeforeItemWork() {
+        check([] {
+            Fixture f(true, false);
+            storage::catchup(f.store.db);
+            auto request = page({}, intake::RangeProof{intake::Coverage::contiguous, "11", "14",
+                                                        "qualified-retrieval", {}});
+            QList<QByteArray> documents;
+            for (int index = 0; index < 8; ++index) {
+                const auto key = "over-byte-" + QByteArray::number(index);
+                auto input = item(key, "12." + QByteArray::number(index));
+                input.activity->identity.opaque_id = key.toStdString();
+                input.normalized = storage::normalized_item(32768);
+                documents.append(input.normalized);
+                request.items.append(std::move(input));
+            }
+            const auto proof = storage::coverage_document(storage::SegmentCoverage::covered,
+                                                          "11", "14", {}, "qualified-retrieval");
+            const auto protected_page = framed_page(documents, proof);
+            require(protected_page.binding.page.size() > 262144 &&
+                        request.items.size() == 8,
+                    "Eight individually admissible frames exhaust the protected page budget "
+                    "before counts, lengths and proof are added");
+
+            const auto cursors = f.cursors();
+            const auto history = storage::fenced_history(f.store.db);
+            const auto before = storage::protected_data(f.store.db);
+            expect(f.submit(request), S::limit_exceeded,
+                   "Typed over-byte page refuses before starting any item unit");
+            require(f.cursors() == cursors && storage::fenced_history(f.store.db) == history &&
+                        f.attempts().isEmpty() && storage::protected_data(f.store.db) == before,
+                    "Refusal preserves the cursor, gap, coverage and protected rows");
+            f.no_award();
+        });
+    }
+
+    void pageItemCountEqualityAdmitsSixteen() {
+        check([] {
+            Fixture f;
+            auto request = gap(f, M::review);
+            for (int index = 0; index < 16; ++index) {
+                const auto suffix = QByteArray::number(index).rightJustified(2, '0');
+                const auto key = "equal-item-" + suffix;
+                auto input = item(key, "12." + suffix);
+                input.activity->identity.opaque_id = key.toStdString();
+                input.normalized = "I" + storage::frame_fields({"observed", key});
+                request.items.append(std::move(input));
+            }
+            request.coverage = intake::RangeProof{
+                intake::Coverage::contiguous, "11", "13", "qualified-sixteen-ordered-items", {}};
+            expect(f.submit(request, live_source(f)), S::committed,
+                   "A qualified 16-item page commits at the exact count cap");
+            const auto cursors = f.cursors();
+            require(f.store.db.rows("SELECT ordinal,item_count,committed_prefix,outcome "
+                                    "FROM main.subathon_intake_pages") == SqlRows{{1, 16, 16, 1}} &&
+                        cursors.size() == 1 &&
+                        cursors.front().mid(0, 3) ==
+                            SqlRow{2, QByteArray("token-opaque"), QByteArray("13")} &&
+                        f.attempts().size() == 16,
+                    "All sixteen terminal items are present before coverage and ordinal advance");
+            f.no_award();
+        });
+    }
+
+    void operationPageCapAdmitsOrdinal256() {
+        check([] {
+            Fixture f(true, false);
+            storage::catchup(f.store.db, 256, 0);
+            storage::completed_prefix(f.store.db, 255, 0);
+            require(f.cursors() == SqlRows{{256, QByteArray("T"), QByteArray("11"), 0}} &&
+                        f.store.db.rows("SELECT count(*),max(ordinal),sum(item_count) "
+                                        "FROM main.subathon_intake_pages") ==
+                            SqlRows{{255, 255, 0}},
+                    "Active operation has an exact 255-page durable prefix");
+            auto request = page();
+            request.request.ordinal = 256;
+            request.next.reset();
+            expect(f.submit(request), S::committed,
+                   "Otherwise qualified final page 256 commits at the exact operation cap");
+            require(f.store.db.rows("SELECT ordinal,item_count,committed_prefix,outcome "
+                                    "FROM main.subathon_intake_pages WHERE ordinal=256") ==
+                            SqlRows{{256, 0, 0, 1}} &&
+                        f.store.db.rows("SELECT count(*) FROM main.subathon_intake_pages") ==
+                            SqlRows{{256}} &&
+                        f.store.db.rows("SELECT next_ordinal FROM main.subathon_intake_operations "
+                                        "WHERE operation_ref=X'4f'") == SqlRows{{257}} &&
+                        f.attempts().isEmpty(),
+                    "Final page counts exactly once without adding an empty receipt");
         });
     }
 

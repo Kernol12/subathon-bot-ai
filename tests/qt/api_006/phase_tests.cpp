@@ -289,6 +289,53 @@ class Api006PhaseTests final : public QObject {
         });
     }
 
+    void productMirrorCannotSupplyAwardSubject_data() {
+        QTest::addColumn<bool>("application");
+        QTest::newRow("capture") << false;
+        QTest::newRow("application") << true;
+    }
+
+    void productMirrorCannotSupplyAwardSubject() {
+        QFETCH(bool, application);
+        check([&] {
+            Fixture f(true, false);
+            seed_mirror_policy(f);
+            auto input = item("product-mirror", "12");
+            input.activity.reset();
+            const auto submitted = f.submit(input);
+            require(submitted.status == S::held && !submitted.projection &&
+                        !submitted.contribution,
+                    "Normal product intake retains the mirror as identified audit only");
+            const auto selected = f.store.db.rows(
+                "SELECT intake_ref,receipt_id,attempt_ordinal,contribution_id "
+                "FROM main.subathon_intake_entries WHERE installation=? AND provider=? "
+                "AND account=? AND stream=? AND intake_ref=?",
+                {source.scope.installation, source.scope.provider, source.scope.account,
+                 source.scope.stream, input.key});
+            require(storage::matches_sql_rows(selected,
+                                              SqlRows{{input.key, blob8(1), 1, QVariant{}}}),
+                    "The product-retained mirror selects its exact receipt and attempt, no CID");
+
+            const auto before = storage::protected_data(f.store.db);
+            const auto history = storage::fenced_history(f.store.db);
+            const auto reply = f.phase(selected.front()[0].toByteArray(),
+                                       application ? P::application : P::capture);
+            Fixture::result(reply, S::held,
+                            "Existing award phase holds the normal product-retained mirror");
+            require(!reply.result->projection && !reply.result->contribution &&
+                        storage::protected_data(f.store.db) == before &&
+                        storage::fenced_history(f.store.db) == history &&
+                        f.store.db.rows("SELECT subject_kind,receipt_id "
+                                        "FROM main.subathon_app_operations WHERE receipt_id=?",
+                                        {selected.front()[1]}).isEmpty() &&
+                        f.store.db.rows("SELECT count(*) FROM main.subathon_plan_revisions") ==
+                            SqlRows{{0}},
+                    "The product-retained audit entry creates no plan or command of either "
+                    "award subject kind");
+            f.no_award();
+        });
+    }
+
     void priorReadersRetainOriginalAcrossV20() {
         check([] {
             storage::Populated store;
