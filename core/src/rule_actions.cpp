@@ -77,10 +77,11 @@ bool same_payload(const RuleActionPayload &captured, const RuleActionPayload &ma
             if constexpr (std::is_same_v<Action, RuleDeltaAction>) {
                 return same_delta(action, *bound);
             } else if constexpr (std::is_same_v<Action, RuleChatAction>) {
-                const bool resolved_default = action.sender == RuleChatSender::configured_default &&
-                                              (bound->sender == RuleChatSender::bot ||
-                                               bound->sender == RuleChatSender::broadcaster);
-                return (action.sender == bound->sender || resolved_default) &&
+                const bool concrete = bound->sender == RuleChatSender::bot ||
+                                      bound->sender == RuleChatSender::broadcaster;
+                return concrete &&
+                       (action.sender == RuleChatSender::configured_default ||
+                        action.sender == bound->sender) &&
                        action.route_ref == bound->route_ref &&
                        action.template_version_ref == bound->template_version_ref &&
                        action.fallback_policy_version_ref == bound->fallback_policy_version_ref;
@@ -128,52 +129,6 @@ bool valid_binding(const RuleActionPayload &captured, const RuleBoundAction &bou
     } catch (const EffectivePermissionFailure &) {
         return false;
     }
-}
-
-DelegatedPermissionGrant singleton(const PermissionRequest &request) {
-    DelegatedPermissionGrant point{request.operation, {}, {}};
-    point.resources.reserve(request.resources.size());
-    point.quantities.reserve(request.quantities.size());
-    for (const auto &resource : request.resources)
-        point.resources.push_back(
-            {resource.slot, PermissionResourceMode::allowed_set, {resource.resource}});
-    for (const auto &quantity : request.quantities)
-        point.quantities.push_back({quantity.slot, quantity.unit,
-                                    PermissionQuantityMode::closed_interval, quantity.value,
-                                    quantity.value});
-    return point;
-}
-
-const PermissionOperationDefinition &validate_point(const std::string &author,
-                                                    const RuleActionAuthorityFacts &facts,
-                                                    const PermissionRequest &request) {
-    const std::vector<std::string> no_roles;
-    const permission::Policy no_policy{PermissionFactsState::complete, no_roles, {}};
-    const permission::Input input{author,      facts.snapshot, facts.catalog,
-                                  facts.owner, no_policy,      request};
-    if (permission::preflight_input(input, limits))
-        permission::fail(PermissionError::invalid_reference);
-    permission::validate_catalog_tags(facts.catalog);
-    permission::validate_owner_tags(facts.owner);
-    if (facts.catalog.state == PermissionFactsState::unknown ||
-        facts.owner.state == PermissionOwnerState::unknown)
-        permission::fail(PermissionError::facts_unavailable);
-    permission::validate_catalog_shape(facts.catalog);
-    const auto op = std::ranges::find(facts.catalog.operations, request.operation,
-                                      &PermissionOperationDefinition::operation);
-    permission::validate_request_shape(op == facts.catalog.operations.end() ? nullptr : &*op,
-                                       request);
-    for (const auto &operation : facts.catalog.operations)
-        for (const auto &quantity : operation.quantity_slots) {
-            if (quantity.minimum)
-                permission::validate_number(*quantity.minimum);
-            if (quantity.maximum)
-                permission::validate_number(*quantity.maximum);
-        }
-    // #249 capability containment intersects with the catalog domain. A concrete
-    // out-of-domain request must fail instead of being contained as an empty set.
-    permission::validate_domains(input, *op);
-    return *op;
 }
 
 bool covers_resources(const PermissionPolicyEntry &row, const PermissionRequest &request) {
@@ -240,32 +195,35 @@ ActionCheck check_action(const RuleSelectedActions &rule, const RuleActionIntent
         if (!facts || !reference(facts->snapshot))
             return stop_at(intent, Refusal::authority_unavailable);
 
-        const bool ordinary =
-            validate_point(rule.original_author, *facts, bound->request).classification ==
-            PermissionOperationClass::ordinary;
-        if (facts->use.state == PermissionFactsState::unknown &&
-            facts->grant.state == PermissionFactsState::complete)
-            unavailable_channel = Channel::use;
-        if (facts->grant.state == PermissionFactsState::unknown &&
-            facts->use.state == PermissionFactsState::complete)
-            unavailable_channel = Channel::grant;
+        if (facts->catalog.state == PermissionFactsState::complete &&
+            facts->owner.state != PermissionOwnerState::unknown) {
+            if (facts->use.state == PermissionFactsState::unknown &&
+                facts->grant.state == PermissionFactsState::complete)
+                unavailable_channel = Channel::use;
+            if (facts->grant.state == PermissionFactsState::unknown &&
+                facts->use.state == PermissionFactsState::complete)
+                unavailable_channel = Channel::grant;
+        }
 
-        const PermissionAutomationInput input{
-            rule.original_author,       std::move(facts->snapshot), std::move(facts->catalog),
-            std::move(facts->owner),    std::move(facts->use),      std::move(facts->grant),
-            {singleton(bound->request)}};
-        const auto author_decision = revalidate_permission_automation(input).actions.front();
+        const permission::Input use{
+            rule.original_author,
+            facts->snapshot,
+            facts->catalog,
+            facts->owner,
+            {facts->use.state, facts->use.assigned_roles, facts->use.entries},
+            bound->request};
+        const auto decision = permission::evaluate_automation_point(use, facts->grant, limits);
+        const auto &author_decision = decision.authority;
         if (author_decision.disposition != PermissionAutomationDisposition::authorized) {
             const bool use_denied = author_decision.use != PermissionOutcome::permit;
             RuleStopDetail detail{};
             detail.author_decision = author_decision;
             detail.channel = use_denied ? Channel::use : Channel::grant;
-            if (ordinary)
-                detail.limit =
-                    denial_limit(use_denied ? input.use : input.delegation, bound->request);
+            if (decision.operation_class == PermissionOperationClass::ordinary)
+                detail.limit = denial_limit(use_denied ? facts->use : facts->grant, bound->request);
             return stop_at(intent, Refusal::authorization_hold, std::move(detail));
         }
-        snapshot = input.snapshot;
+        snapshot = std::move(facts->snapshot);
     } catch (const EffectivePermissionFailure &failure) {
         if (failure.code() == PermissionError::invalid_request)
             return stop_at(intent, Refusal::invalid_binding);

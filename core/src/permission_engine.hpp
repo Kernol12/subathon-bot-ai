@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <limits>
 #include <span>
-#include <subathon/core/effective_permissions.hpp>
+#include <subathon/core/delegated_permissions.hpp>
 namespace subathon::core::permission_engine {
 using Error = EffectivePermissionError;
 [[noreturn]] void fail(Error);
@@ -140,6 +140,17 @@ int compare(const PermissionRational &, const PermissionRational &, bool magnitu
 int sign(const PermissionRational &);
 bool resource_contains(const PermissionResourceConstraint &, const std::string &);
 Resolution resolve(const Input &, const PermissionOperationDefinition &);
+
+struct AutomationPointDecision {
+    PermissionAutomationActionDecision authority;
+    PermissionOperationClass operation_class;
+};
+
+// An exact invocation is evaluated against the two policies without converting
+// its quantities into policy constraints.
+AutomationPointDecision evaluate_automation_point(const Input &use,
+                                                  const PermissionPolicyFacts &delegation,
+                                                  const EffectivePermissionLimits &);
 void project_result(const Input &, const Resolution &, Count &);
 EffectivePermissionDecisionData materialize(const Input &, const Resolution &);
 // Signed borrowed endpoint comparison and exact integer open-gap nonemptiness.
