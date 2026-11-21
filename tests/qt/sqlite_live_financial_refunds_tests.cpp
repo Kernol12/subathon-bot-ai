@@ -211,10 +211,80 @@ MilestoneTrackSeed::Member stage_group(Fixture &f, const MilestoneOccurrenceKey 
 void track_seed(Fixture &f, std::vector<core::MilestoneTarget> targets,
                 std::vector<MilestoneTrackSeed::Member> prefix) {
     f.file.write([&](const auto &s) {
-        require(
-            initialize_milestone_track(s, {track, "cfg", "edited-definition", "completed-prefix",
-                                           std::move(targets), std::move(prefix)}),
-            "Owning v18 store validates current definition and exact typed prefix membership");
+        require(initialize_milestone_track(s, {track, "cfg", "initial-definition", "initial-prefix",
+                                               std::move(targets), std::move(prefix)}),
+                "Owning v18 store validates the definition and exact typed prefix membership");
+    });
+}
+
+class TargetEditAuthority final : public MilestoneEditAuthority {
+  public:
+    std::optional<MilestoneEditFacts> select(const SqliteWorkSession &s,
+                                             const MilestoneEditActor &actor,
+                                             const MilestoneEditIntent &intent) override {
+        const auto head = SqliteApplicationBundleStore(s).read_state();
+        require(head && actor.actor_ref == "tester" && actor.session_lineage == "edit-session" &&
+                    intent.key.track == track,
+                "Correction authority selects the actual writer head and scoped track");
+        return MilestoneEditFacts{
+            head->configuration_ref,
+            "current-captures",
+            "target-correction-grant",
+            {"target-edit-lifecycle", head->timer, head->time_debt_ms, {}, {}, {}, true, true},
+            true,
+            true,
+            true,
+            "edited-definition",
+            "edited-prefix",
+            {}};
+    }
+};
+
+void edit_completed_target(Fixture &f, const std::string &id, Number target) {
+    const MilestoneEditActor who{"tester", "edit-session"};
+    const MilestoneEditIntent intent{
+        {track, "edit-completed-target"}, {"tester", "edit-decision"}, {{id, target}}, {}};
+    TargetEditAuthority authority;
+    std::shared_ptr<const MilestoneEditBinding> binding;
+    f.file.write([&](const auto &s) {
+        const auto preview = preview_milestone_target_edit(s, authority, who, intent);
+        require(preview.plan.status == core::MilestoneEditStatus::eligible &&
+                    preview.plan.newly_completed.empty() && preview.confirmation,
+                "Existing owner previews an actual correction of the completed target");
+        binding = preview.confirmation;
+    });
+    f.file.write([&](const auto &s) {
+        const auto edit = confirm_milestone_target_edit(s, authority, who, intent, *binding);
+        require(edit.status == core::MilestoneEditStatus::eligible && edit.result &&
+                    edit.result->definition_revision == "edited-definition" &&
+                    edit.result->achievements.empty(),
+                "Actual authorized edit commits the current target without repeating achievement");
+    });
+}
+
+class LocalDelivery final : public DeliveryDispatchAuthority, public DeliveryAdapter {
+  public:
+    bool allows(const DeliveryJob &) override { return true; }
+    void start(DeliveryJob job) override { claim = std::move(job); }
+    std::optional<DeliveryJob> claim;
+};
+
+void retain_performed_job(Fixture &f, const ApplicationOperationKey &origin) {
+    const auto adapter = std::make_shared<LocalDelivery>();
+    const DeliveryJobKey key{origin, "job"};
+    const auto dispatch = completed<DeliveryDispatchCompletion>([&](auto done) {
+        return dispatch_delivery_job(*f.file.writer, key, 1, adapter, adapter, std::move(done));
+    });
+    normal(dispatch.work);
+    require(adapter->claim && adapter->claim->attempt && dispatch.result &&
+                dispatch.result->disposition == DeliveryDisposition::changed,
+            "Actual committed delivery attempt is handed to a synthetic local adapter");
+    f.file.write([&](const auto &s) {
+        const auto finished = SqliteDeliveryJobStore(s).finish(
+            key, adapter->claim->revision, *adapter->claim->attempt, DeliveryEvidence::delivered,
+            "synthetic-local-evidence");
+        require(finished.job && finished.job->state == DeliveryJobState::delivered,
+                "Earlier performed action has independently committed delivery history");
     });
 }
 
@@ -226,7 +296,9 @@ struct Milestones {
           second(stage_group(f, b, "B", 950, 1100,
                              released ? MilestoneActionChoice::run : MilestoneActionChoice::defer,
                              released)) {
-        track_seed(f, {{"A", 600}, {"B", 1000}, {"C", 2000}}, {first, second});
+        track_seed(f, {{"A", 600}, {"B", 950}, {"C", 2000}}, {first, second});
+        edit_completed_target(f, "B", 1000);
+        retain_performed_job(f, first.application);
     }
 };
 
@@ -1024,7 +1096,8 @@ class SqliteLiveFinancialRefundsTests final : public QObject {
             Fixture witness(point, {.main_before = 15, .other_score = 0, .omit_time = true}, false);
             const auto member =
                 stage_group(witness, a, "A", 1, 1, MilestoneActionChoice::defer, false);
-            track_seed(witness, {{"A", maximum}}, {member});
+            track_seed(witness, {{"A", 1}}, {member});
+            edit_completed_target(witness, "A", maximum);
             witness.move("score-slot-to-min", witness.file.head().timer, {}, minimum);
             require(witness.file.head().balances[0].units == minimum &&
                         witness.file.head().balances[1].units == 1 &&
@@ -1032,6 +1105,7 @@ class SqliteLiveFinancialRefundsTests final : public QObject {
                     "Two distinct real committed score slots contain INT64_MIN and +1");
             const auto p = full_quote(1, 0, 0, 1, 0);
             const auto result = accepted(witness.refund(witness.command("reverse-one", "1", 0), p));
+            journal(witness.file, 1, fraction(1));
             const auto after_score = committed_score(witness.file);
             require(after_score == minimum && result.milestone_observations.empty(),
                     "Removing one from the second slot commits at the signed minimum");
