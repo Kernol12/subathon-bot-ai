@@ -64,7 +64,8 @@ std::optional<SourceHead> select_source(const SqliteWorkSession &session, const 
     const auto &r = rows.front();
     return SourceHead{{r[0].toLongLong(), r[1].toLongLong(), r[2].toLongLong(), r[3].toByteArray()},
                       optional_blob(r[4]),
-                      optional_blob(r[5])};
+                      optional_blob(r[5]),
+                      r[6].toByteArray()};
 }
 
 bool matches(const Fence &left, const Fence &right) {
