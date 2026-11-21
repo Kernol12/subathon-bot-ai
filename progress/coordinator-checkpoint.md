@@ -50,53 +50,8 @@ checks, including imports, versions, SONAMEs, selected SDK identity and exports,
 the SDK's own Session RTTI and marker, hashes and loader reconciliation. External
 compiler and system-header pre-build hashes are outside this procedure.
 
-SESSION-009 #582 is Done after [protected merge #703](https://github.com/Kernol12/subathon-bot-ai/pull/703)
-at `3f1d35b8`. MILESTONE-003 #232 is Done after
-[protected merge #705](https://github.com/Kernol12/subathon-bot-ai/pull/705)
-at `5cc1da42`. All seven checks passed on proof head `a7631860`. The final
-jobs binary passed 31 cases. The earlier admitted run passed both catalog
-controls and 343 affected regressions. The delivery catalog is available at
-v11. Host startup still selects v10.
-
-SESSION-011 #591 is Done after [protected merge #704](https://github.com/Kernol12/subathon-bot-ai/pull/704)
-at `402056e0`. Stage 1 observed 68 intended NI outcomes and 41 passing
-controls. Stage 2 passed all 109 unchanged cases and all six affected regression
-selections on the admitted successor. The earlier 104/5 run and its unknown
-disconnect wait phase stay separate. All seven checks passed on proof head
-`4fd4647c`.
-
-MILESTONETEST-004 #233 is Done after [protected merge #708](https://github.com/Kernol12/subathon-bot-ai/pull/708)
-at `7ddcfc82`. On `052b40c4` the admitted baseline reached all nine intended NI
-failures and all 86 unchanged controls passed. The single unchanged-source Qt
-retry resolved APT setup timeout. All seven checks passed on proof `52493669`.
-MILESTONE-004 #234 is Done after [protected merge #712](https://github.com/Kernol12/subathon-bot-ai/pull/712)
-at `c92e042a`. On admitted `e7321be9`, all nine frozen timeline cases and
-86 controls passed on four binaries. The new hosted timeline step and all
-seven checks passed on proof head `a15f07b2`. Under owner revision 2, pause
-gates new starts and releases while the active presentation and gap keep
-time. Jobs and bonuses require release of their group. Unreleased jobs stay
-queued across restart.
-
 ### Structure review of `199dc02` (owner decision 2026-11-18)
 
-- Correct the obsolete CMake status banner and README description of application
-  accounting and SQL durability in a separate documentation-tier PR, CI only.
-  Keep [#707](https://github.com/Kernol12/subathon-bot-ai/pull/707) out of the
-  SESSION-011 and MILESTONE-003 review packets and proofs.
-- [BUILD-001 #706](https://github.com/Kernol12/subathon-bot-ai/issues/706) is
-  Done after [protected merge #713](https://github.com/Kernol12/subathon-bot-ai/pull/713)
-  at `e295538f`. The 46 configuration comparisons preserved registrations and
-  build targets. All 505 measured cases matched the baseline after fresh
-  admission of ten binaries. The development server linked without test
-  dependencies, and scaffold linked without Qt. All seven checks passed on
-  `8ea780a3`. The existing Qt job linked the tests-disabled development server
-  with preinstalled GNU 14.2 and the existing Boost pins. #619/#620 stay frozen.
-- [BUILD-002 #710](https://github.com/Kernol12/subathon-bot-ai/issues/710) is
-  Done after [protected merge #711](https://github.com/Kernol12/subathon-bot-ai/pull/711)
-  at `06241738`. GCC 14.2 reproduced both errors in the isolated functions and
-  compiled both fixes. All 410 normal-compiler cases passed on six admitted
-  binaries after the owner-authorized harness correction. All seven checks passed
-  on `dfecefe9`. BUILD-001 includes this fix before its hosted GCC 14 build.
 - [API-008 #292](https://github.com/Kernol12/subathon-bot-ai/issues/292) remains
   planned. Its brief now calls for one contribution operation shared by the dev
   CLI and HTTP host, by default in `subathon_reference_intake`. Keep the existing
@@ -108,118 +63,59 @@ queued across restart.
   already changes the respective file. Use a separate commit and name it in
   that task's review packet.
 
-## Handover (2026-11-18)
+## Handover (2026-11-21)
 
-The standing authorization continues for the successor session. This session
-leaves the next task unclaimed. Follow the board and issue prerequisites for
-current readiness.
+This coordinator stopped at the end of the current review steps. No new task,
+stage, fix round or delegate was started for the handover. The successor
+continues under the owner's current queue and the standing limits below.
 
-- Recommend [MILESTONE-009 #709](https://github.com/Kernol12/subathon-bot-ai/issues/709)
-  next. #234 satisfies its prerequisite. It owns durable group order and
-  ordinary restart recovery without blind replay. #236 still waits on #709,
-  and #294 owns running host integration.
-- Other dependency-ready product work on the board includes #177, #197, #199,
-  #204, #214, #230, #257, #270, #286 and #406. #286 is a prerequisite for #294.
-  #619/#620 remain frozen and #292 remains planned.
-- Keep the local evidence under `build/MILESTONE-004/`,
-  `build/MILESTONETEST-004/intended-red/`, `build/BUILD-001/coordinator/` and
-  `build/BUILD-002/`. Keep the SESSION-011 runtime and regression packets under
-  `build/SESSION-011/` and the sealed successor SDK and consumers in
-  `~/.t3/worktrees/subathon-bot-ai/t3-0d9c03aa`. Shared dependencies remain in
-  `build/deps/`, and the proof validator's schema environment is
-  `build/workflow005-schema-venv/`.
-- No worktree has active edits for this handover. The clean worktrees at
-  `build/BUILD-001/coordinator/worktree` and
-  `build/MILESTONETEST-004/coordinator/registration-worktree`, and the
-  MILESTONE-004 author worktree `t3-1b6d3578`, can be removed after checking
-  ignored files. Keep the baseline and BUILD-001 author worktrees
-  `t3-d7d4147d` and `t3-ea41127e` until their ignored build artifacts are
-  archived. No owner decision or test run remains pending on this handover.
+| Issue | Stage and exact commit or producer pin | Branch | Worktree | Next step |
+| --- | --- | --- | --- | --- |
+| [#760 STORAGE-026](https://github.com/Kernol12/subathon-bot-ai/issues/760) | Stage 1 round-two verification stopped at `b4e8080a13d643115d4d6c001e97b4a8a2718006` | `author/storage-026-stage1-760-fix2` | `/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-fff400f8` | Apply [115A](https://github.com/Kernol12/subathon-bot-ai/issues/760#issuecomment-7062716319) in the next free slot, against the [two remaining findings](https://github.com/Kernol12/subathon-bot-ai/issues/760#issuecomment-7062685185). Verify the delta, then use the separate closing and binary admission gates. |
+| [#545 RELEASE-002](https://github.com/Kernol12/subathon-bot-ai/issues/545) | Stage 2 verification stopped at `e977e06bf97e3f4594d68191808931ca40f6288f` | `author/release-002-stage2-diagnostics` | `/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-c49bd267` | Read the [generated-header finding and stop receipt](https://github.com/Kernol12/subathon-bot-ai/issues/545#issuecomment-7063223279). Runtime admission, acceptance, closing review and merge remain pending. |
+| [#201 ACCT-007](https://github.com/Kernol12/subathon-bot-ai/issues/201) | Stage 1 initial review stopped at `cc9dd9704d396774146672fcb5caf7b8354efa18` | `author/acct-007-stage1-a696a2e6` | `/home/archnoob/.t3/worktrees/subathon-bot-ai/t3-f789ca27` | Fix round 1 awaits resumption. Start with the [three blockers](https://github.com/Kernol12/subathon-bot-ai/issues/201#issuecomment-7063223070), then relink, reseal and verify. |
+| [#588 SESSION-010](https://github.com/Kernol12/subathon-bot-ai/issues/588) | Ready after the prerequisite merge. Frozen contract pin `814e9ca76514fab0dd6b59eb3aeab4fb796c4921` | None | None | Resume in a normal slot after #760 and before new tasks. Use the [conditional freeze](https://github.com/Kernol12/subathon-bot-ai/issues/588#issuecomment-7050096465) and [resume receipt](https://github.com/Kernol12/subathon-bot-ai/issues/588#issuecomment-7062933062). |
+| [#288 API-006](https://github.com/Kernol12/subathon-bot-ai/issues/288) | [Contract r3 frozen](https://github.com/Kernol12/subathon-bot-ai/issues/288#issuecomment-7060454151), pin `c88adbcd3650b1136c4a363b1e30a73c025337b7` | None | None | Stage 1 follows the merge of #760. |
+| [#761 STORAGE-027](https://github.com/Kernol12/subathon-bot-ai/issues/761) | Planned Tier A prerequisite for #238. No candidate commit. | None | None | Open after #760 merges. Assign the catalog number at implementation entry. |
+| [#238 MILESTONE-006](https://github.com/Kernol12/subathon-bot-ai/issues/238) | [Contract r2 frozen](https://github.com/Kernol12/subathon-bot-ai/issues/238#issuecomment-7060752381), pin `c88adbcd3650b1136c4a363b1e30a73c025337b7` | None | None | Stage 1 follows the merge of #761. |
+| [#318 STORAGE-003](https://github.com/Kernol12/subathon-bot-ai/issues/318) | [Contract r3 frozen](https://github.com/Kernol12/subathon-bot-ai/issues/318#issuecomment-7062576817), pin `a696a2e6a7494a4f7a959672164438bbeb380b78` | None | None | Carry forward the gates in the freeze and [114A](https://github.com/Kernol12/subathon-bot-ai/issues/318#issuecomment-7062461621). Its migration opens after #761 merges. |
+| [#272 SESSION-007](https://github.com/Kernol12/subathon-bot-ai/issues/272) | Planned, conditional 237-line draft pinned to `c88adbcd3650b1136c4a363b1e30a73c025337b7` | None | None | Resume only under [113B](https://github.com/Kernol12/subathon-bot-ai/issues/272#issuecomment-7061402909) and the [#509 deployment gate](https://github.com/Kernol12/subathon-bot-ai/issues/509#issuecomment-7061016580). |
 
-## Coordination after MILESTONE-009 (2026-11-19)
+**Queue.** #760 takes the next free slot before any unstarted stage. The
+stopped #545 Stage 2 and #201 Stage 1 candidates carry forward ahead of new work.
+#588 follows #760, in the first available normal slot before new tasks. The
+migration sequence is **#760 → #761 → #318**. One migration may be open at a time.
+Assign each catalog number at implementation entry in that order.
 
-- MILESTONE-009 #709 is Done after protected merge `9219560c` in
-  [#716](https://github.com/Kernol12/subathon-bot-ai/pull/716#issuecomment-7001909142).
-  All seven checks passed on proof head `db17f85b`. The admitted Stage 1 run
-  observed 16 named NI outcomes, one expected dispatch assertion and one passing
-  control. Stage 2 passed 18 restart invocations and 168 regressions across nine
-  admitted runners. Live host composition and v12 activation remain #294.
-- CORE-004 #177 is Done after protected merge `646fb857` in
-  [#717](https://github.com/Kernol12/subathon-bot-ai/pull/717#issuecomment-7002792033).
-  All seven checks passed on `cee31651`. Independent review approved and
-  25 frozen tests plus 37 regressions passed on separately admitted binaries.
-  Owner 10A retained the forward compound-gap fallback. Configured timezone
-  integration and data applicability remain #720.
-- MODIFIERTEST-001 #214 is Done after protected merge `51d4c5d7` in
-  [#718](https://github.com/Kernol12/subathon-bot-ai/pull/718#issuecomment-7003577969).
-  All 48 frozen cases reached intended NI with zero skips. The exact admitted
-  runner and receipts were retained, and all seven checks passed on `63ec75e4`.
-  This is baseline evidence. #215 owns implementation together with #719's
-  SQLite baseline.
-- MILESTONE-005 #236 is Done after protected merge `400a5c51` in
-  [#721](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7006091072).
-  All seven checks passed on proof head `189ab104`. SQLite v13 preserves the
-  v12 prefix and adds exact paused choices, refund holds and terminal Skip.
-  All 39 decisions and 378 regressions passed across nine admitted runners.
-  Running-host composition remains #294. #719 now has its catalog prerequisite.
-  Owner 12B–16A remain
-  [recorded](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7002464326).
-  Owner [17A/18A/19A](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7003511184)
-  approved numbered timeline correction 1, refund policy on a new downward
-  crossing, and terminal Skip with each remaining hold recorded as ended by
-  that Skip. Its additive catalog follows v12 and precedes #719.
-- #236 corrected one fixture under owner decision 23A. The
-  [first run](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7004391307)
-  had one unexpected fixture stop. The [reviewed rerun](https://github.com/Kernol12/subathon-bot-ai/pull/721#issuecomment-7005001088)
-  reached the repaired case's named `observe_refund` NI and all 39 intended
-  stops, with zero setup failures or skips.
-- The owner stopped #715 after its [one hosted experiment](https://github.com/Kernol12/subathon-bot-ai/issues/715#issuecomment-7004781214).
-  The root canary survived the direct `sudo` timeout. The draft #722 was
-  closed and #715 returned to Planned, the board's backlog status. It uses
-  no parking slot. The retry change was never enabled.
-- API-005 #286 is Done after protected merge `80a0bee1` in
-  [#723](https://github.com/Kernol12/subathon-bot-ai/pull/723#issuecomment-7007029408).
-  The registered suite reached 19 intended NI outcomes and passed all 19
-  frozen synthetic cases after implementation. All seven checks passed on
-  proof head `00f73263`. AUTH-15 and INTEGRATION-01 remain partial. Actual
-  provider authorization, credentials and client onboarding remain separate.
-- RATES-007 #406 is Done after protected merge `5cfe1959` in
-  [#724](https://github.com/Kernol12/subathon-bot-ai/pull/724). All seven
-  required checks passed on proof head `9821f48e`. The admitted core run passed
-  24 override and 86 companion cases. Permissioned save and durable revisions
-  remain [#727](https://github.com/Kernol12/subathon-bot-ai/issues/727), queued
-  after #719 and dependent on #406.
-- MODIFIERTEST-007 #719 is Done after protected merge `a15fca82` in
-  [#725](https://github.com/Kernol12/subathon-bot-ai/pull/725). The exact
-  [admitted run](https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7010490021)
-  had 19 named NI stops, three expected v14 compatibility failures and three
-  passing controls. All seven required checks passed on proof head `5e100683`.
-  This was the intentional-red baseline for #215.
-- #215 is Done at protected `3ae76b95` in
-  [#728](https://github.com/Kernol12/subathon-bot-ai/pull/728). All seven required
-  checks passed on proof head `72f9fdfe`. The 48 core and 25 SQLite behavior
-  cases passed. Catalog v14 preserves the earlier catalogs and startup selection.
-- #199 resumed under [owner decision 34B](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7014595148).
-  Contract revision 2 has two fix rounds. Later verified refunds can apply
-  score while an earlier timer request is held. Timer resolution stays ordered.
-  [#201 owns the live wiring](https://github.com/Kernol12/subathon-bot-ai/issues/201#issuecomment-7012411967).
-  The [registered core red](https://github.com/Kernol12/subathon-bot-ai/pull/726#issuecomment-7011613636)
-  remains frozen at `06dbc980` with 15 intended failures and 33 passing controls.
-  The independent v13 writer red remains on `757d5529`. #199 is Done at
-  protected `e8517afd` after all seven checks passed on proof head `f91e82c0`.
-  The additive v15 catalog preserves the shipped startup selection.
-- SESSION-006 #270 is active in [#729](https://github.com/Kernol12/subathon-bot-ai/pull/729).
-  The component has independent closing approval and passing required CI.
-  Additive v16 catalog integration follows protected v15.
-- [#731](https://github.com/Kernol12/subathon-bot-ai/issues/731) takes the
-  slot freed by #199, ahead of #727, under owner decision 41B.
+**Outside the queue.** #272 stays Planned. The #752 follow-ups
+[#764](https://github.com/Kernol12/subathon-bot-ai/issues/764),
+[#765](https://github.com/Kernol12/subathon-bot-ai/issues/765) and
+[#766](https://github.com/Kernol12/subathon-bot-ai/issues/766) are filed and unqueued.
+The existing planned and frozen items below retain their issue-based gates.
+
+**Provider safeguards.** The standing provider rules below apply. #752's
+one-case owner track is complete. Claude sessions covered the test stage.
+Codex covered the authorized implementation source reviews only, in the
+temporary third slot. The owner published and merged [#763](https://github.com/Kernol12/subathon-bot-ai/pull/763);
+that slot is closed. For #588, if the author is stopped on malformed-input tests
+again, park and report the missing cases without retrying. The
+[#588 resume receipt](https://github.com/Kernol12/subathon-bot-ai/issues/588#issuecomment-7062933062)
+records that limit.
+
+**Local evidence.** The three kept worktrees own their current candidates and
+review artifacts. The ignored `build/post-night-2026-11-21/` tree retains the
+open contract packets. The #272 draft is
+`build/post-night-2026-11-21/SESSION-007/issue-draft-r2.md` with SHA-256
+`40000547d18cd1cf78cefee1e0eb314e1eb8b690238d5a2f85d3e956d4864c8b`.
+The repository bundle, dirty-worktree patches and copied handover evidence are
+under `/home/archnoob/coordinator-backups/subathon-bot-ai-2026-11-21-84f0e4z2/`.
+Shared SDKs and the proof environment are under `build/deps/` and
+`build/workflow005-schema-venv/`.
+
+The owner stopped #715 after its [one hosted experiment](https://github.com/Kernol12/subathon-bot-ai/issues/715#issuecomment-7004781214).
+#715 remains Planned, uses no parking slot, and its retry change was never enabled.
 
 ### Parallel work and standing CI rerun rule
-
-- Owner 36A starts MODIFIER-001 #215 in the second slot on `a15fca82`.
-  Its Tier A implementation uses the frozen #214 core and #719 SQLite
-  baselines and preserves v13. #199's durable writer follows this catalog.
-  The next queue is #270, #727, then #294 when its prerequisites close.
 
 - At most two active tasks in different modules and three parked tasks. When
   three are parked, finish the active tasks, then stop. Answered parked tasks
@@ -240,114 +136,10 @@ current readiness.
   runners (three attempts total). Record each rerun on the PR. Park after
   the third setup failure.
 
-## Authorized path — complete
-
-1. **API-016 [#616](https://github.com/Kernol12/subathon-bot-ai/issues/616)**:
-   Done, PR #664 / `4184c9fc`, proof `progress/proofs/API-016.json`.
-2. **APITEST-015 [#613](https://github.com/Kernol12/subathon-bot-ai/issues/613)**:
-   Done, PR #667 / `60d7730d`, proof `c8762280`. All 87 Qt selectors and 30 native
-   methods reached intended NI under their approved admissions. This baseline
-   delivered no host implementation. **APITEST-017 [#672](https://github.com/Kernol12/subathon-bot-ai/issues/672)**:
-   Done, PR #690 / `2cd29763`, proof `8429246c`. Native-only historical/current/
-   frozen gates, source reviews and latest-head CI passed. HTTP scope remains #689.
-3. **API-001 [#278](https://github.com/Kernol12/subathon-bot-ai/issues/278)**:
-   Done, PR #700 / `85b04da5`, proof `dd49a921`. Fresh implementation session on
-   `2cd29763`; no PR #121 code, approval or CI carried over. Host and transport
-   acceptance passed; all seven final proof-head checks passed before protected
-   merge. The issue is closed as completed and the board is Done.
-
-API-001 and its checkpoint #701 (`199dc020`) are merged. The owner has now
-extended authorization to SESSION-009 and continuous dependency-ready product
-selection above. No baseline assertion or release requirement is waived.
-
-## Completed SESSION-009 gates
-
-- Tests recorded 31 Host and 59 Linux intended NI outcomes and two passing
-  6000 ms controls across admitted revisions. The original “A ended” result
-  stays unclassified and uncredited. The approved second fix changed only four
-  recorder wrappers in the test. The implementation used zero fix rounds.
-- Independent Stage 2 acceptance passed all 248 cases (33 Host clock, 59 Linux
-  clock, 87 Qt Host, 30 native Host, 39 session-resolution) with zero failures
-  or skips. Both ex-HL05 and ex-HL15 owner criteria passed. The five binaries
-  had independent admissions and matching postseals. The local Linux smoke
-  permits unavailable and did not report initialization or acquisition status.
-  Supported-platform clock trust, recovery, restore and deployment remain separate.
-- Proof `7db535c9` binds both stages. All seven checks passed at that head after
-  one unchanged-source Qt/native retry for pre-build APT HTTP 429. The existing
-  native job built the two clock consumers and ran its existing gated regressions.
-  The two label removals permit ordinary local acceptance. Hosted clock execution
-  remains outside the existing job. S9-IR-01 and S9-IR-02 remain non-blocking
-  source findings. Admission, commands, raw reports and proof readbacks are
-  retained under `build/SESSION-009/` and linked from PR #703.
-
-## API-001 completed gates and limits
-
-- Reviewed source `5544c436`: initial Claude changes requested B1–B3; first-party
-  fix round 1 of 2 resolved them with whole-class N1–N5 dispositions. A distinct
-  Claude initial reviewed the approved SDK addition; combined
-  [Codex verification](https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6963388379)
-  and [fresh Claude closing](https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6963524189)
-  approved the final composition. Corrections 1–11 remain; correction 12 is only
-  the approved before-bind no-sharing sentence. No baseline assertion changed.
-- Fresh additive SDK seal `c4d6782f3601c590c7c1071f6d59c644779f479857617e43cb49b48e86bc47b4`.
-  Existing patch 0004 selects Linux bounded `reUseAddr=true`, `reUsePort=false` BEFORE
-  bind; late readback remains. Ordinary Linux/nonLinux behavior, the candidate4
-  regression lane and the existing recipe stay unchanged. Old `0b489` SDK and all
-  old producer/evidence bytes remain unchanged.
-- [Independent host acceptance](https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6963845337):
-  both fresh passive ELF/ABI/plugin and full host admissions passed. L07 all three
-  subtests asserted exact exit 1; Qt 87/87 and native 30/30 passed. Actual Qt 33
-  loader objects and native 31/33/33 maps matched; serving was checked by the
-  unchanged supervisor. No native debug variables or new capture/tooling mode.
-- [New-SDK regressions](https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6964305515):
-  freshly admitted foundation37 ×20 = 740 method runs +20 actual LegacyControls,
-  including frozen34 ×20; native44 ×20 = 880 method runs. Zero failures/errors/skips.
-  N5 had 20 equal-epoch witnesses in 20 attempts, zero misses. No product retry,
-  fixture/assertion change or new loaded/historical experiment. All postseals
-  matched; own workers reaped. Current passes do not prove the old faulty branch.
-- Single proof commit `dd49a921` preserves imported PR121 history without reusing
-  it as current evidence. Its tests projection binds six unchanged APITEST-015
-  files; current implementation review binds all 14 paths, including SDK/CI.
-  Complete publication, historical-policy, repository and real schema checks
-  passed. [Final run 44201858136](https://github.com/Kernol12/subathon-bot-ai/actions/runs/44201858136)
-  passed all seven checks on that proof head; no unresolved review threads or
-  branch-protection bypass. Protected merge `85b04da5` was read back.
-- Original L07 branch (shared/served versus listen failure/teardown) stays
-  **UNKNOWN**. Earlier 5645 APT-before-build and 8213/a2ad/5152 missing-header
-  compile/profile failures remain recorded; none was rerun away. New source
-  fixes the host SDK selection. Source-only nonblocking SDK-N1 stale step name,
-  SDK-O1 setter/readback observation and API1-C-O1 simultaneous copied-lease
-  destruction concern stay in the receipts; no runtime witness or new fix scope.
-- Evidence is bounded synthetic Linux development and required Ubuntu CI, not
-  full deployment, live providers, security/performance or release verification.
-  Raw reports, binaries, producer/admission receipts and seals remain under
-  ignored `build/API-001/`; the proof/PR own the authoritative review record.
-
-## Completed baseline evidence
-
-WORKFLOW-008 (#698), PR #699 / `b8e30e86`, resolved the provider-proof gate.
-A supported provider differing from a phase default requires an
-`owner_authorization` HTTPS URL; without it rejection remains. Actual temporary
-Codex initial receipts on #667/#690 retain their owner links and stay valid;
-completed reviews are not redone. #619/#620 remain frozen.
-
-APITEST-017 historical `0e774a51` ten NEW peer16 PRODUCT failures satisfy the
-owner-corrected attribution; original fa9 trial01 remains uncredited. Exact
-`8fbc0ee8` with its own SDK exposed both 1/9-peer suspend/admit failures. Prior
-current N1–N5 each passed 20 unloaded/20 loaded runs, and frozen34/native44 each passed 20 all passed.
-Proof `8429246c` and PR #690 retain raw limits, setup misses and the one recorded
-pre-build APT rerun. Unknown legacy exit90 remains planned, unauthorized #692;
-HTTP/f8be1aec scope stays planned, unauthorized #689. Neither blocks API-001.
-
-Board: #278, #613, #672 and #698 are Done. API-001 closure made SESSION-009 #582
-Ready because all its native blockers are closed; all other open native dependents
-retain an open blocker. **Ready does not authorize work.** Epics keep their status.
-
 ## Product queue and frozen process work
 
-- SESSION-011 #591 and MILESTONE-003 #232 are in progress. SESSION-013 [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662) and API-010 [#560](https://github.com/Kernol12/subathon-bot-ai/issues/560) remain unclaimed queue items.
-- SESSION-009 closure left #253, #262, #326 and #585 with open prerequisites.
-  SESSION-003 #264 still waits on #262, #588 and #593. SESSION-011 precedes #588.
+- SESSION-013 [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662) and API-010 [#560](https://github.com/Kernol12/subathon-bot-ai/issues/560) remain unclaimed queue items.
+- SESSION-003 #264 still waits on #262, #588 and #593. Check native links for current readiness.
 - APITEST-018 [#689](https://github.com/Kernol12/subathon-bot-ai/issues/689): large buffered HTTP input with more than eight connections and its
   bounded observation seam, moved from APITEST-017 by the owner. Planned under
   EPIC-008; not an API-001 prerequisite. Historical `f8be1aec` coverage is deferred here.
@@ -577,69 +369,6 @@ work. The checkpoint's authorized path does.
   is a fixture defect: stop/report, no fix round. All current samples passed.
 - Batch checkpoint updates into one documentation PR per stage, not per decision.
 
-## Completed API-001 owner exceptions (2026-11-17/18)
-
-These approvals covered API-001 only, not a general process or tooling change:
-
-- The owner authorized the complete API-001 sequence with the default provider
-  split, then one checkpoint PR and stop. Its six stop conditions were third fix
-  round, beyond-issue contract/frozen assertion change, specification conflict,
-  unclassified or persistent product failure after rounds, provider/tooling/new
-  process change, and explicit owner stop. Pre-result own command/path mistakes
-  were correctable; pre-build/test CI infrastructure could be recorded and rerun
-  once unchanged. These did not permit rerunning product failures away.
-- [Rebuilt Qt admission](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6960584143):
-  full passive closure/hashes and the first real HL06 with existing loader/plugin
-  logs plus reconciliation for EVERY binary with recorded results, including red,
-  acceptance, reviewer-relied runs and proof. Intermediate author runs with no
-  recorded result needed passive checks only. Any mismatch voids the run, never
-  red/pass. No new mode/harness or native supervisor debug variables were approved.
-- [Bounded L07 SDK scope](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6962700781):
-  existing0004 before-bind Linux constructor selection, manifest hash, ONE listener
-  contract sentence and host CI selection of a fresh additive successor, keeping
-  candidate4 unchanged. Existing recipe only; no old0b489 mutation, new API/wrapper/
-  seam, port probe or broader contract pass. Tier A review, fresh admissions,
-  all three L07 exact-exit-1 cases, full Qt87/native30/foundation37/native44 and standing
-  repetitions, currentCI/proof/protectedmerge all passed. This bounded tooling
-  freeze exception does not lift the freeze for another task.
-
-## What SLICE-001 delivered
-
-`subathon-dev-server` (`server/dev/`, suite `dev-server` in the `qt` job) starts the
-Qt loop, opens the single writer, advances the catalog to version 10, initializes one
-timer and applies synthetic contributions through API-011's reference path. The
-contract is on #642 (revisions 1 to 4). Owner decisions of 2026-11-15: development
-session clock, development provisioning and `--controlled-clock` live only in that
-executable; `encode_reference_execution_ref` (SRF1) is public in the server library.
-
-It is a development walking skeleton. Limits: no login or session renewal (the
-development session lasts 24 hours), no restart of a live clock anchor (an existing
-database is read-only), no HTTP, no production host. SESSION-009, API-010, setup and
-API-001 keep their ownership and release requirements.
-
-## Completed sessions and retained evidence
-
-The former API-001 sessions are finished. Six finished clean API-001 review/investigation worktrees and their
-merged-base branches were removed without force; two private investigator reports
-were hash-checked against their retained mainroot copies before removal.
-
-Retain author `t3-a365ff53` / `t3/api001-host-lifecycle`, source/proof `dd49a921`,
-and its SDK/source/evidence refs. The protected squash merge does not make those
-original commit IDs ancestors of main; do not force-delete evidence-bearing refs.
-Retain APITEST-015 `t3-0dc4e70e`, APITEST-017 `t3-aa9893a6`, historical
-`t3-415a156d`/`0e` and `t3-24f198e1`/`8f`, and other original SDK/runtime artifacts
-until a separate safe evidence handoff. Earlier clean baseline reviewers were
-already removed as recorded in their merge receipts. No retained tree is a claim
-or permission to resume work.
-
-APITEST-015 final owner corrections 1–6 and 7–11 remain binding: execute may prequeue
-units; body forward/finish refuses and ends without reply; forwarding is only from
-execute or supplied completion; payload borrows charged host storage; unit captures
-keep existing intake rules and the compile-time capture cap was dropped. Correction 11
-was THIRD/LAST. Full review/contract details stay on #613, #667 and in its proof.
-The independent default writer-budget inspections remain component evidence,
-not a default-budget advancement or separate activation proof.
-
 Coordinator owns any future shared CI/proof/checkpoint integration only within
 new owner authorization. Build/scratch remain on disk under owned ignored task
 roots; verify actual checkout/PR/session before any future authorized task.
@@ -699,7 +428,4 @@ sender checks; recheck at execution and hold after revocation. Full249 remains o
 identity251, delivery208/232 and UI424/473 retain their scope. Prefix1–10 migration
 bytes are frozen; no new migration is assigned.
 
-Completed protected merges: ACCESS-009 (#645), PR648, 1fd11c3b;
-ACCESS-010 (#646), PR650, 65936bcb; ACCESS-011 (#649), PR651, d7d64f25;
-RULES-006 (#558), PR652, 03e52e70; API-011 (#562), PR653, f7921b95. Their
-issues, PRs and proofs own the evidence. Do not reverify pre-MIGRATE-004 records.
+Do not reverify pre-MIGRATE-004 records.
