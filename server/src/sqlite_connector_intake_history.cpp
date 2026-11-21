@@ -274,7 +274,9 @@ HistoryStatus stage_operation(const SqliteWorkSession &session, const OperationI
         return Status::invalid_authority;
     if (intent.purpose != HistoryPurpose::catch_up && intent.purpose != HistoryPurpose::import)
         return Status::conflict;
-    if (intent.interval.start != Endpoint::inclusive || intent.interval.end != Endpoint::exclusive)
+    const bool importing = intent.purpose == HistoryPurpose::import;
+    if (intent.interval.start != (importing ? Endpoint::inclusive : Endpoint::exclusive) ||
+        intent.interval.end != (importing ? Endpoint::exclusive : Endpoint::inclusive))
         return Status::unproved_range;
     if (intent.purpose == HistoryPurpose::import && intent.gap)
         return Status::conflict;

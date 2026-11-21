@@ -25,7 +25,9 @@ inline bool selected(const SqliteWorkSession &session) {
          "WHEN version=16 AND migration_id COLLATE BINARY='provider-credentials-v1' THEN 1 "
          "WHEN version=17 AND migration_id COLLATE BINARY='rate-overrides-v1' THEN 1 "
          "WHEN version=18 AND migration_id COLLATE BINARY='milestone-target-edits-v1' THEN 2 "
-         "WHEN version=19 AND migration_id COLLATE BINARY='contribution-review-v1' THEN 2 END "
+         "WHEN version=19 AND migration_id COLLATE BINARY='contribution-review-v1' THEN 2 "
+         "WHEN version=20 AND typeof(migration_id)='text' "
+         "AND migration_id COLLATE BINARY='connector-intake-storage-v1' THEN 2 END "
          "FROM main.subathon_migration_history WHERE EXISTS(SELECT 1 FROM main.subathon_catalog "
          "WHERE singleton=1 AND typeof(catalog_format)='integer' AND catalog_format=1 "
          "AND store_identity='subathon.sqlite-store') ORDER BY version DESC LIMIT 1",

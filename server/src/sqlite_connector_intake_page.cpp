@@ -50,7 +50,7 @@ bool same_fence(const Operation &operation, const PageBinding &request) {
            operation.policy == request.source.policy_revision &&
            operation.source_policy == request.source.policy_revision &&
            operation.generation == request.source.generation &&
-           operation.current_generation == request.source.generation && operation.outcome == 0;
+           operation.current_generation == request.source.generation;
 }
 
 bool same_blob(const QByteArray &a, const QByteArray &b) {
@@ -201,6 +201,25 @@ bool current_scope(const SqliteWorkSession &session, const Scope &scope) {
 
 bool incrementable(qint64 value) { return value > 0 && value < std::numeric_limits<qint64>::max(); }
 
+bool matches_committed_successor(const SqliteWorkSession &session, const PageBinding &page,
+                                 const Operation &operation) {
+    if (operation.ordinal <= page.ordinal || !incrementable(page.operation_revision) ||
+        operation.revision < page.operation_revision + 1)
+        return false;
+
+    if (operation.ordinal == page.ordinal + 1)
+        return same_blob(operation.continuation, page.next_continuation);
+    // Once another page finishes, its immutable bound token is the prior
+    // page's output. The current operation token may now point farther ahead.
+    const auto successor = session.execute(
+        {"SELECT expected_continuation,purpose,outcome FROM main.subathon_intake_pages "
+         "WHERE installation=? AND operation_ref=? AND ordinal=?",
+         {page.scope.installation, page.operation_ref, page.ordinal + 1}});
+    return successor.size() == 1 && successor.front()[1].toLongLong() == operation.purpose &&
+           successor.front()[2].toLongLong() == 1 &&
+           same_blob(successor.front()[0].toByteArray(), page.next_continuation);
+}
+
 struct CoverageChange {
     int segment;
     QByteArray frontier;
@@ -276,7 +295,7 @@ BoundPage stage_page(const SqliteWorkSession &session, const PageAdmission &requ
         return {Status::conflict};
 
     const auto operation = select_operation(session, page.scope, page.operation_ref);
-    if (!operation || !same_fence(*operation, page) ||
+    if (!operation || !same_fence(*operation, page) || operation->outcome != 0 ||
         operation->source_revision != page.source.revision ||
         operation->revision != page.operation_revision || operation->ordinal != page.ordinal)
         return {Status::stale};
@@ -287,7 +306,8 @@ BoundPage stage_page(const SqliteWorkSession &session, const PageAdmission &requ
             return {Status::stale};
     }
     if (const auto retained = select_page(session, page)) {
-        if (!same_page(*retained, page, *operation) || retained->outcome != 0)
+        if (!same_page(*retained, page, *operation) || retained->outcome != 0 ||
+            !same_blob(operation->continuation, page.expected_continuation))
             return {Status::conflict};
         if (!proved_prefix(session, page, retained->prefix, &request.normalized_items))
             return {Status::incomplete_prefix};
@@ -351,14 +371,13 @@ HistoryStatus stage_page_finalization(const SqliteWorkSession &session, const Pa
         return Status::incomplete_prefix;
 
     if (retained->outcome == 1) {
-        return operation->ordinal == page.ordinal + 1 && incrementable(page.operation_revision) &&
-                       operation->revision == page.operation_revision + 1 &&
-                       same_blob(operation->continuation, page.next_continuation) &&
-                       same_blob(retained->proof, page.qualified_proof)
+        return same_blob(retained->proof, page.qualified_proof) &&
+                       matches_committed_successor(session, page, *operation)
                    ? Status::exact_replay
                    : Status::stale;
     }
-    if (retained->outcome != 0 || operation->source_revision != page.source.revision ||
+    if (retained->outcome != 0 || operation->outcome != 0 ||
+        operation->source_revision != page.source.revision ||
         operation->revision != page.operation_revision || operation->ordinal != page.ordinal)
         return Status::stale;
     if (!same_blob(operation->continuation, page.expected_continuation) ||
@@ -369,6 +388,10 @@ HistoryStatus stage_page_finalization(const SqliteWorkSession &session, const Pa
 
     const auto coverage = qualify(page);
     if (!coverage)
+        return Status::unproved_range;
+    if (!page.next_continuation.isNull() &&
+        same_blob(page.next_continuation, page.expected_continuation) && page.items == 0 &&
+        same_blob(coverage->frontier, page.frontier_before))
         return Status::unproved_range;
     const auto gap =
         operation->purpose == 0 ? select_gap(session, page.scope, *operation) : std::nullopt;
@@ -421,11 +444,12 @@ HistoryStatus stage_page_finalization(const SqliteWorkSession &session, const Pa
     (void)session.execute(
         {"UPDATE main.subathon_intake_operations SET "
          "revision=revision+1,next_ordinal=next_ordinal+1,"
-         "continuation=? WHERE installation=? AND operation_ref=? AND epoch=? AND generation=? "
+         "continuation=?,outcome=? WHERE installation=? AND operation_ref=? AND epoch=? "
+         "AND generation=? "
          "AND policy_revision=? AND revision=? AND next_ordinal=? AND outcome=0",
-         {sql_blob(page.next_continuation), page.scope.installation, page.operation_ref,
-          page.source.epoch, page.source.generation, page.source.policy_revision,
-          page.operation_revision, page.ordinal}});
+         {sql_blob(page.next_continuation), page.next_continuation.isNull() ? 1 : 0,
+          page.scope.installation, page.operation_ref, page.source.epoch, page.source.generation,
+          page.source.policy_revision, page.operation_revision, page.ordinal}});
     detail::require_changed_one(session);
     (void)session.execute(
         {"UPDATE main.subathon_intake_pages SET outcome=1,proof=? WHERE installation=? AND "
