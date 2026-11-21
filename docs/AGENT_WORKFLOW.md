@@ -68,8 +68,8 @@ The coordinator states the tier in the PR description when the task is claimed.
 
 - When the tier is unclear, use the higher one. Any reviewer may escalate a change.
 - Each stage (tests, implementation) gets its own review at the task's tier. Complete
-  the tests review before observing intended red; the author's fixture check above
-  does not replace it.
+  the tests review before observing intended red. The pre-review run above does
+  not replace that review.
 - At most two fix rounds per review. Ask the owner before a third.
 - A material change after approval needs a re-review of the changed part. In tier A
   that means Codex verification plus a new closing review, not a new initial review.

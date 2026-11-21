@@ -32,8 +32,8 @@ filing planned issues are not stops.
 **Standing test-binary admission.** Apply the procedure to every authorized Qt
 or GoogleTest binary using its own closure. Record passive ELF/ABI and dependency
 hashes for the exact binary. Run the first real test with bounded loader and
-plugin logs, reconcile all loaded objects and their hashes, then check hashes
-again. Any mismatch voids the run. Changes to the procedure, tooling, modes or
+plugin logs, reconcile all loaded objects and their hashes before crediting the
+result, then check hashes again. Any mismatch voids the run. Changes to the procedure, tooling, modes or
 native-supervisor debug variables require the owner under rule 4(e).
 
 Before the first review packet for either stage, admit each candidate binary
