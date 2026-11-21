@@ -73,7 +73,8 @@ enum class HistoryStatus {
     conflict,
     busy,
     incomplete_prefix,
-    unproved_range
+    unproved_range,
+    quarantine_full
 };
 
 enum class SourcePurpose { baseline = 2, adoption = 3, handoff = 4 };
@@ -140,6 +141,42 @@ struct GapOpening {
 };
 
 [[nodiscard]] HistoryStatus stage_gap(const SqliteWorkSession &, const GapOpening &);
+
+enum class Coverage { contiguous, unproved, lost, recovered, new_baseline };
+
+struct PageBinding {
+    Scope scope;
+    Fence source;
+    QByteArray operation_ref;
+    qint64 operation_revision, gap_revision;
+    QByteArray expected_continuation, page;
+    qint64 ordinal, items;
+    QByteArray next_continuation, frontier_before, frontier_after, qualified_proof;
+    Coverage coverage;
+    QByteArray upper_bound;
+};
+
+struct PageAdmission {
+    PageBinding binding;
+    QList<QByteArray> normalized_items;
+    std::optional<QuarantineEntry> quarantine_preflight{};
+};
+
+struct BoundPage {
+    HistoryStatus status;
+    std::optional<qint64> committed_prefix{};
+};
+
+[[nodiscard]] BoundPage stage_page(const SqliteWorkSession &, const PageAdmission &);
+[[nodiscard]] HistoryStatus stage_page_finalization(const SqliteWorkSession &, const PageBinding &);
+
+struct Rollover {
+    Scope scope;
+    QByteArray operation, replacement, continuation, frontier, immutable_intent, current_authority;
+    qint64 operation_revision, source_revision;
+};
+
+[[nodiscard]] HistoryStatus stage_rollover(const SqliteWorkSession &, const Rollover &);
 
 } // namespace connector_intake
 } // namespace subathon::server

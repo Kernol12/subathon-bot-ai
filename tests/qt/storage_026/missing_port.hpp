@@ -151,6 +151,8 @@ inline Stop history_result(connector_intake::HistoryStatus result) {
         return Stop::incomplete_prefix;
     case Status::unproved_range:
         return Stop::unproved_range;
+    case Status::quarantine_full:
+        return Stop::quarantine_full;
     }
     throw std::logic_error("Unexpected intake history result");
 }
@@ -227,8 +229,17 @@ struct PageBinding {
     qint64 policy_revision{1};
     QByteArray generation{"g3"};
 };
-inline Stop finalize_page(const SqliteWorkSession &, const PageBinding &) {
-    return Stop::not_implemented;
+inline connector_intake::PageBinding page_input(const PageBinding &input) {
+    return {{"install", "P", "A", "S"},
+            {input.epoch, input.source_revision, input.policy_revision, input.generation},
+            input.operation_ref, input.operation_revision, input.gap_revision,
+            input.expected_continuation, input.page, input.ordinal, input.items,
+            input.next_continuation, input.frontier_before, input.frontier_after,
+            input.qualified_proof, static_cast<connector_intake::Coverage>(input.coverage),
+            input.upper_bound};
+}
+inline Stop finalize_page(const SqliteWorkSession &session, const PageBinding &input) {
+    return history_result(connector_intake::stage_page_finalization(session, page_input(input)));
 }
 
 struct GapOpening {
@@ -254,16 +265,24 @@ struct PageBindResult {
     Stop stop;
     std::optional<qint64> committed_prefix;
 };
-inline PageBindResult bind_page(const SqliteWorkSession &, const PageAdmission &) {
-    return {Stop::not_implemented, {}};
+inline PageBindResult bind_page(const SqliteWorkSession &session, const PageAdmission &input) {
+    const auto staged = connector_intake::stage_page(
+        session, {page_input(input.binding), input.normalized_items,
+                  input.quarantine_preflight
+                      ? std::optional{quarantine_input(*input.quarantine_preflight)}
+                      : std::nullopt});
+    return {history_result(staged.status), staged.committed_prefix};
 }
 
 struct Rollover {
     QByteArray operation, replacement, continuation, frontier, immutable_intent, authority;
     qint64 operation_revision, source_revision;
 };
-inline Stop rollover_operation(const SqliteWorkSession &, const Rollover &) {
-    return Stop::not_implemented;
+inline Stop rollover_operation(const SqliteWorkSession &session, const Rollover &input) {
+    return history_result(connector_intake::stage_rollover(
+        session, {{"install", "P", "A", "S"}, input.operation, input.replacement,
+                  input.continuation, input.frontier, input.immutable_intent, input.authority,
+                  input.operation_revision, input.source_revision}));
 }
 
 struct SelectedKey {
