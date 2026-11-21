@@ -73,9 +73,9 @@ struct Budget {
 
 Budget advance_charge(const MigrationManifest &manifest) {
     constexpr qsizetype old_objects = 225;
-    constexpr qsizetype new_objects = 252;
+    constexpr qsizetype new_objects = 253;
     constexpr qsizetype old_projection = 127248;
-    constexpr qsizetype new_projection = old_projection + 12939;
+    constexpr qsizetype new_projection = old_projection + 13592;
     const auto &tail = manifest.steps.back();
     // Each schema row has 12 cells, four 4-byte type names, and two
     // occurrences of each present object field's UTF-8 bytes.
@@ -622,6 +622,16 @@ struct EditRelease final : MilestoneEditReleaseAuthority {
 
 #include "transition_fixture.hpp"
 
+ApplicationOperationKey seed_dense(Populated &f) {
+    const auto entry = f.seed("dense", Case::positive());
+    f.db.reopen();
+    auto review = f.service();
+    const auto command = f.bind("dense", {entry}, f.preview(review, {entry}));
+    const auto result = f.execute(review, command);
+    expected_row(f.reply(result), 1, ReviewDisposition::committed, ReviewStatus::applied);
+    return *f.reply(result).rows.front().outcome->facts->bundle;
+}
+
 class Storage026Tests final : public QObject {
     Q_OBJECT
   private slots:
@@ -664,9 +674,15 @@ class Storage026Tests final : public QObject {
             const auto history = db.rows(history_query);
             auto manifest = successor();
             require(
-                manifest.steps.back().expected_schema.size() == 252 && delta_objects.size() == 27 &&
+                manifest.steps.back().expected_schema.size() == 253 && delta_objects.size() == 28 &&
                     delta_sql.size() == 14,
-                "225 protected objects plus 27 literal delta objects, including 13 autoindexes");
+                "225 protected objects plus 28 literal delta objects, including 14 autoindexes");
+            // Text-only reconstruction from the protected v19 and proposed DDL.
+            // A moved protected tail requires a refreshed prefix, coordinate
+            // and digest under independent review before implementation entry.
+            require(digest(manifest.steps.back()).toHex() ==
+                        "eb1758529cd052df4f8ed80ab693a6219afa519ae9db5f1b00f2f6bae05bf7e1",
+                    "Full fixture step matches the independent canonical frame digest");
             advance(db);
             expect_schema(db.rows(schema_query), manifest.steps.back());
             const auto after = db.rows(history_query);
@@ -786,14 +802,14 @@ class Storage026Tests final : public QObject {
             auto request = successor_request(MigrationMode::advance);
             const auto &manifest = request.manifest;
             const auto target = manifest.steps.back().version;
-            constexpr qsizetype bytes = 1593615;
+            constexpr qsizetype bytes = 1594845;
             constexpr qsizetype longest_id = 29; // reference-initial-captures-v1
             require(tally(manifest) == bytes && manifest.steps.back().id.size() == 27,
                     "Independent delta+protected UTF-8 total and literal ID bytes");
             const std::array<qsizetype MigrationLimits::*, 4> field{
                 &MigrationLimits::versions, &MigrationLimits::id_bytes,
                 &MigrationLimits::schema_objects, &MigrationLimits::manifest_utf8_bytes};
-            const std::array<qsizetype, 4> edge{target, longest_id, 252, bytes};
+            const std::array<qsizetype, 4> edge{target, longest_id, 253, bytes};
             const auto member = field.at(dimension);
             const auto exact = edge.at(dimension);
             const auto before = f.db.rows(history_query);
@@ -827,7 +843,7 @@ class Storage026Tests final : public QObject {
             const auto manifest = successor();
             const auto target = manifest.steps.back().version;
             const auto charge = advance_charge(manifest);
-            require(charge.rows == 774 && charge.result_bytes == 902993 && charge.bind_bytes == 83,
+            require(charge.rows == 776 && charge.result_bytes == 905829 && charge.bind_bytes == 83,
                     "Three schema reads, both histories, six fixed rows, and one history insert");
             const std::array<qsizetype StorageLimits::*, 5> field{
                 &StorageLimits::statements_per_batch, &StorageLimits::statement_utf8_bytes,
@@ -1122,6 +1138,8 @@ class Storage026Tests final : public QObject {
             else if (damage == 2)
                 mutate(f.db, "DROP INDEX main.subathon_review_entries_cid");
             else
+                // Appending the overflow row also changes the latest marker. The
+                // exact latest-marker gate makes isolated history overflow unreachable.
                 mutate(f.db, "INSERT INTO main.subathon_migration_history VALUES(?,?,?)",
                        {version + 1, QString("overflow-witness"), QByteArray(32, 'z')});
             auto fresh = f.service();
@@ -1290,17 +1308,20 @@ class Storage026Tests final : public QObject {
 
     void rateNormalEntries_data() {
         QTest::addColumn<bool>("head");
-        QTest::newRow("head") << true;
-        QTest::newRow("saved-revision") << false;
+        QTest::addColumn<bool>("recover");
+        QTest::newRow("head") << true << false;
+        QTest::newRow("saved-revision") << false << false;
+        QTest::newRow("retained-selection") << false << true;
     }
 
     void rateNormalEntries() {
         QFETCH(bool, head);
+        QFETCH(bool, recover);
         check([&] {
             namespace rate = rate_fixture;
             Populated f;
             rate::Authority authority;
-            const auto preview = rate::first_preview();
+            const auto preview = recover ? rate::fetched_preview() : rate::first_preview();
             f.db.write([&](const auto &s) {
                 const auto saved = SqliteRateOverrideUnit(s).save(
                     authority, rate::literal_rate_trust(), preview.edit, preview, preview.basis,
@@ -1312,6 +1333,20 @@ class Storage026Tests final : public QObject {
             });
             const auto read = [&](const auto &s) {
                 SqliteRateOverrideUnit unit(s);
+                if (recover) {
+                    rate::Authority current;
+                    const auto recovered =
+                        unit.recover(current, rate::literal_rate_trust(), preview.edit, preview);
+                    const auto *receipt = std::get_if<RateReceiptSelection>(&recovered);
+                    require(receipt && current.reads == 1,
+                            "Current authority and the exact retained selection context return a "
+                            "receipt");
+                    rate::expect_receipt(*receipt, RateReceiptOrigin::retained, preview);
+                    const auto &change = receipt->receipt.changes.at(1);
+                    require(receipt->receipt.successor == "S" && change.from_currency == "EUR" &&
+                                change.to_currency == "USD" && change.after == rate::ratio(6, 5),
+                            "Retained decision selected profile S and its exact EUR/USD 6/5 rate");
+                }
                 const auto snapshot = head ? unit.head() : unit.revision("S");
                 const auto *selected = std::get_if<core::EffectiveRateSnapshot>(&snapshot);
                 require(
@@ -1320,16 +1355,32 @@ class Storage026Tests final : public QObject {
                             rate::snapshot_bytes(preview.proposal.candidate) &&
                         selected->data().snapshot_ref == "S" &&
                         selected->data().components.size() == 1 &&
-                        selected->data().components.front().members.size() == 2 &&
+                        selected->data().components.front().members.size() == (recover ? 3 : 2) &&
                         selected->data().components.front().members[0].currency == "EUR" &&
                         selected->data().components.front().members[0].weight == rate::ratio(1) &&
-                        selected->data().components.front().members[1].currency == "USD" &&
-                        selected->data().components.front().members[1].weight == rate::ratio(6, 5),
+                        selected->data().components.front().members.back().currency == "USD" &&
+                        selected->data().components.front().members.back().weight ==
+                            rate::ratio(6, 5),
                     "Reconstruct committed rate revision and select exact 6/5");
             };
+            const auto rate_rows = [&] {
+                return std::array{
+                    f.db.rows(
+                        "SELECT * FROM main.subathon_rate_observations ORDER BY observation_ref"),
+                    f.db.rows("SELECT * FROM main.subathon_rate_revisions ORDER BY snapshot_ref"),
+                    f.db.rows("SELECT * FROM main.subathon_rate_decisions ORDER BY decision_ref"),
+                    f.db.rows("SELECT * FROM main.subathon_rate_occurrences ORDER BY override_ref"),
+                    f.db.rows("SELECT * FROM main.subathon_rate_head")};
+            };
+            const auto before = recover ? std::optional{rate_rows()} : std::nullopt;
             f.db.write(read);
+            if (before)
+                require(rate_rows() == *before, "Recovery adds no retained observations or writes");
             advance(f.db);
             f.db.write(read);
+            if (before)
+                require(rate_rows() == *before,
+                        "Upgrade and recovery preserve all rate provenance");
         });
     }
 
@@ -1539,13 +1590,7 @@ class Storage026Tests final : public QObject {
                         "Genuine pre-v19 dense lookup remains supported");
             });
             Populated f;
-            const auto entry = f.seed("dense", Case::positive());
-            f.db.reopen();
-            auto review = f.service();
-            const auto command = f.bind("dense", {entry}, f.preview(review, {entry}));
-            const auto result = f.execute(review, command);
-            expected_row(f.reply(result), 1, ReviewDisposition::committed, ReviewStatus::applied);
-            const auto key = *f.reply(result).rows.front().outcome->facts->bundle;
+            const auto key = seed_dense(f);
             const auto read = [&](const auto &s) {
                 require(SqliteApplicationBundleStore(s).lookup(key).has_value(),
                         "Genuine dense bundle resolves under the admitted catalog");
@@ -1564,6 +1609,62 @@ class Storage026Tests final : public QObject {
                 refused = e.reason() == SqliteBundleStorageReason::invalid_stored_data;
             }
             require(refused, "Lookalike newer marker cannot use the historical dense dispatch");
+        });
+    }
+
+    void denseExtraTerminalRow_data() {
+        QTest::addColumn<bool>("upgraded");
+        QTest::newRow("genuine-v19") << false;
+        QTest::newRow("exact-successor") << true;
+    }
+
+    void denseExtraTerminalRow() {
+        QFETCH(bool, upgraded);
+        check([&] {
+            Populated f;
+            const auto key = seed_dense(f);
+            QByteArray dense_document;
+            const auto read = [&](const auto &s) {
+                const auto row = SqliteApplicationBundleStore(s).lookup(key);
+                require(
+                    row && row->result.format_ref == "subathon.internal.application-result.v1" &&
+                        QByteArrayView(row->result.document).startsWith("SAR1") &&
+                        row->effects.size() == 2 && row->effects.front().request_ordinal == 1,
+                    "The real producer committed a dense SAR1 result and both physical effects");
+                if (dense_document.isEmpty())
+                    dense_document = row->result.document;
+                require(row->result.document == dense_document,
+                        "The normal lookup reconstructs the exact pre-upgrade dense result");
+            };
+            f.db.write(read);
+            if (upgraded) {
+                advance(f.db);
+                f.db.write(read);
+            }
+            const auto before = protected_data(f.db);
+            require(before.back().isEmpty(), "Valid dense result requires zero terminal rows");
+            const QList<QVariant> keys{QByteArray::fromStdString(key.operation_scope),
+                                       QByteArray::fromStdString(key.operation_ref)};
+            mutate(f.db,
+                   "INSERT INTO main.subathon_review_terminal_requests "
+                   "SELECT operation_scope,operation_ref,plan_ref,plan_revision,1,1 "
+                   "FROM main.subathon_app_operations WHERE operation_scope=? AND operation_ref=?",
+                   keys);
+            const auto damaged = protected_data(f.db);
+            require(
+                damaged.back().size() == 1 && damaged.back().front().mid(4) == SqlRow{1, 1} &&
+                    std::equal(before.begin(), before.end() - 1, damaged.begin()) &&
+                    f.db.rows("SELECT * FROM pragma_foreign_key_check()").isEmpty(),
+                "Only one extra, FK-valid terminal row was inserted on an existing effect ordinal");
+            bool refused = false;
+            try {
+                f.db.write(read);
+            } catch (const SqliteBundleStorageFailure &e) {
+                refused = e.reason() == SqliteBundleStorageReason::invalid_stored_data;
+            }
+            require(protected_data(f.db) == damaged, "Lookup leaves the evidence unchanged");
+            require(refused,
+                    "Dense lookup must reject one extra terminal row after exact admission");
         });
     }
 
@@ -2004,8 +2105,25 @@ class Storage026Tests final : public QObject {
         check([&] {
             Populated f;
             f.install();
+            f.seed("old-pending", Case::positive());
             advance(f.db);
             stage_scope(f.db);
+            mutate(f.db,
+                   "UPDATE main.subathon_intake_gaps SET upper_cut=X'5a' WHERE gap_ref=X'47'");
+            const HistoricalHead empty{1, 6, 1, "g1", {}, {}};
+            const HistoricalHead baseline{
+                1, 7, 1, "g1", QByteArray("initial-cut"), QByteArray("A")};
+            const HistoricalHead old{1, 9, 1, "g3", QByteArray("cut"), QByteArray("F")};
+            const HistoricalHead current{2, 10, 2, "g4", QByteArray("authorized-new-cut"), {}};
+            const auto first = source_history(empty, baseline, "history-v1", "initial-authority",
+                                              "first-connect-proof");
+            const auto adoption = source_history(baseline, old, "history-v1", "adoption-authority",
+                                                 "legacy-award-envelope-proof");
+            anchor_source_history(f.db, "baseline", Purpose::baseline, empty, baseline, first);
+            anchor_source_history(f.db, "adoption", Purpose::adoption, baseline, old, adoption);
+            catchup(f.db);
+            const auto old_page = page_admission(1, {});
+            anchor_page(f.db, old_page.binding);
             const SourceChange input{"install",
                                      "P",
                                      "A",
@@ -2017,7 +2135,11 @@ class Storage026Tests final : public QObject {
                                      "g4",
                                      "P2",
                                      "new-only-member",
-                                     "authorized-new-cut"};
+                                     "authorized-new-cut",
+                                     "handoff",
+                                     "handoff-authority",
+                                     "history-v2",
+                                     "new-only-both-sides-proof"};
             auto durable = [&] {
                 return std::array{
                     f.db.rows("SELECT epoch,generation,revision,policy_revision,cut,frontier "
@@ -2026,15 +2148,27 @@ class Storage026Tests final : public QObject {
                               "ORDER BY revision"),
                     f.db.rows("SELECT policy_revision,document FROM main.subathon_intake_members "
                               "ORDER BY policy_revision"),
-                    f.db.rows("SELECT epoch,policy_revision,start_frontier,document "
+                    f.db.rows("SELECT epoch,policy_revision,start_frontier,document,upper_cut "
                               "FROM main.subathon_intake_gaps")};
             };
+            const SqlRows prior_history{
+                {QByteArray("baseline"), int(Purpose::baseline), 1, 1, QByteArray("g1"), first,
+                 QVariant{}, QVariant{}, 1, 0, int(HistoryOutcome::completed), QVariant{},
+                 QByteArray("initial-cut")},
+                {QByteArray("adoption"), int(Purpose::adoption), 1, 1, QByteArray("g3"), adoption,
+                 QVariant{}, QVariant{}, 1, 0, int(HistoryOutcome::completed),
+                 QByteArray("initial-cut"), QByteArray("cut")}};
+            const auto old_work = fenced_history(f.db);
+            const auto protected_before = protected_data(f.db);
             const auto before = durable();
             require(before[0] == SqlRows{{1, QByteArray("g3"), 9, 1, QByteArray("cut"),
                                           QByteArray("F")}} &&
                         before[1] == SqlRows{{1, QByteArray("review-policy")}} &&
                         before[2] == SqlRows{{1, QByteArray("review-lane")}} &&
-                        before[3] == SqlRows{{1, 1, QByteArray("F"), QByteArray("gap-basis")}},
+                        before[3] == SqlRows{{1, 1, QByteArray("F"), QByteArray("gap-basis"),
+                                              QByteArray("Z")}} &&
+                        selected_source_history(f.db) == prior_history &&
+                        !protected_before[2].isEmpty() && !protected_before[6].isEmpty(),
                     "The selected source, retained policy and old gap are independently bound");
             auto result = std::make_shared<std::optional<Stop>>();
             const auto work = qt_test_support::run_work(
@@ -2052,7 +2186,7 @@ class Storage026Tests final : public QObject {
             require(result->has_value(), "Source and policy seam reached after real BEGIN");
             if (**result != Stop::committed)
                 require(work.transaction == TransactionOutcome::rolled_back && !work.value &&
-                            durable() == before,
+                            durable() == before && fenced_history(f.db) == old_work,
                         "Stale or missing CAS leaves every retained head and gap unchanged");
             require(**result == (scenario == 0 ? Stop::committed : Stop::stale),
                     "A single owner unit compares both captured heads and generation");
@@ -2070,7 +2204,105 @@ class Storage026Tests final : public QObject {
                                             {2, QByteArray("new-only-member")}} &&
                         after[3] == before[3],
                     "Commit fences the source and policy together and carries old gap provenance");
+                auto expected_history = prior_history;
+                expected_history.append(
+                    SqlRow{QByteArray("handoff"), int(Purpose::handoff), 2, 2, QByteArray("g4"),
+                           source_history(old, current, "history-v2", "handoff-authority",
+                                          "new-only-both-sides-proof"),
+                           QVariant{}, QVariant{}, 1, 0, int(HistoryOutcome::completed),
+                           QByteArray("cut"), QByteArray("authorized-new-cut")});
+                f.db.reopen();
+                require(selected_source_history(f.db) == expected_history && durable() == after &&
+                            protected_data(f.db) == protected_before,
+                        "Reopen reads original baseline and adoption cuts and authority, plus the "
+                        "exact two-sided handoff");
+                const auto switched_work = fenced_history(f.db);
+                require(
+                    f.db.rows("SELECT epoch,policy_revision,generation,next_ordinal,"
+                              "continuation,slots,outcome FROM main.subathon_intake_operations "
+                              "WHERE operation_ref=X'4f'") ==
+                            SqlRows{{1, 1, QByteArray("g3"), 1, QByteArray("T"), 0,
+                                     int(HistoryOutcome::superseded)}} &&
+                        switched_work[2] == old_work[2] && switched_work[3] == old_work[3] &&
+                        switched_work[4] == old_work[4] && switched_work[5] == old_work[5],
+                    "The switch retires old history work and retains its bound page and coverage");
+                for (const auto finalize : {false, true}) {
+                    const auto stale = transition(f.db, [&](const auto &s) {
+                        return finalize ? finalize_page(s, old_page.binding)
+                                        : bind_page(s, old_page).stop;
+                    });
+                    require(
+                        fenced_history(f.db) == switched_work && durable() == after,
+                        "Old-generation work cannot change the switched heads, cursor or coverage");
+                    require(stale == Stop::stale, "A page selected before the committed switch is "
+                                                  "stale on both owner entries");
+                }
             }
+        });
+    }
+
+    void baselineAndAdoptionHistory_data() {
+        QTest::addColumn<bool>("adopt");
+        QTest::newRow("first-connect") << false;
+        QTest::newRow("legacy-adoption") << true;
+    }
+
+    void baselineAndAdoptionHistory() {
+        QFETCH(bool, adopt);
+        check([&] {
+            Populated f;
+            intake_origin(f);
+            mutate(f.db, "DELETE FROM main.subathon_intake_gaps");
+            mutate(
+                f.db,
+                "UPDATE main.subathon_intake_sources SET baseline_state=0,cut=NULL,frontier=NULL");
+            const auto purpose = adopt ? Purpose::adoption : Purpose::baseline;
+            const QByteArray proof = adopt ? "outside-old-award-envelope" : "first-connect-fence";
+            const SourceChange input{"install",
+                                     "P",
+                                     "A",
+                                     "S",
+                                     1,
+                                     "g3",
+                                     9,
+                                     1,
+                                     "g4",
+                                     "P2",
+                                     "new-only-member",
+                                     "new-cut",
+                                     "history",
+                                     "current-decision",
+                                     "history-v2",
+                                     proof,
+                                     purpose};
+            const auto before = fenced_history(f.db);
+            require(before[1].isEmpty() && before[2].isEmpty() && before[3].isEmpty(),
+                    "Pending source has no baseline evidence, historical pages or inferred gap");
+            const auto stop =
+                transition(f.db, [&](const auto &s) { return switch_source_policy(s, input); });
+            if (stop != Stop::committed)
+                require(fenced_history(f.db) == before,
+                        "A missing or refused baseline writes no history");
+            require(stop == Stop::committed,
+                    "Qualified baseline activates its head and records its authority");
+            f.db.reopen();
+            const HistoricalHead prior{1, 9, 1, "g3", {}, {}};
+            const HistoricalHead selected{2, 10, 2, "g4", QByteArray("new-cut"), {}};
+            require(
+                selected_source_history(f.db) ==
+                        SqlRows{{QByteArray("history"), int(purpose), 2, 2, QByteArray("g4"),
+                                 source_history(prior, selected, "history-v2", "current-decision",
+                                                proof),
+                                 QVariant{}, QVariant{}, 1, 0, int(HistoryOutcome::completed),
+                                 QVariant{}, QByteArray("new-cut")}} &&
+                    f.db.rows("SELECT epoch,generation,revision,policy_revision,baseline_state,cut "
+                              "FROM main.subathon_intake_sources") ==
+                        SqlRows{{2, QByteArray("g4"), 10, 2, int(BaselineState::qualified),
+                                 QByteArray("new-cut")}} &&
+                    f.db.rows("SELECT count(*) FROM main.subathon_intake_pages") == SqlRows{{0}} &&
+                    f.db.rows("SELECT count(*) FROM main.subathon_intake_gaps") == SqlRows{{0}},
+                "Baseline/adoption retains explicit absent prior cut and exact proof without "
+                "history paging");
         });
     }
 
@@ -2081,6 +2313,7 @@ class Storage026Tests final : public QObject {
         QTest::newRow("same-key-different-utc-start") << 2;
         QTest::newRow("different-active-operation") << 3;
         QTest::newRow("same-key-different-exact-source") << 4;
+        QTest::newRow("same-key-different-upper-cut") << 5;
     }
 
     void operationBinding() {
@@ -2090,15 +2323,13 @@ class Storage026Tests final : public QObject {
             f.install();
             advance(f.db);
             stage_scope(f.db);
-            const auto bound = QByteArray::fromHex(
-                "0000000a323032362d31312d3231000000035554430000000162000001a1fb671800");
-            require(bound.size() == 34, "Literal local-date, zone, basis and signed UTC frame");
+            const auto bound = import_frame();
             if (scenario != 0)
-                mutate(
-                    f.db,
-                    "INSERT INTO main.subathon_intake_operations VALUES("
-                    "X'696e7374616c6c',X'4f',X'50',X'41',X'53',1,1,NULL,1,X'6733',1,?,X'54',1,0,0)",
-                    {bound});
+                mutate(f.db,
+                       "INSERT INTO main.subathon_intake_operations VALUES("
+                       "X'696e7374616c6c',X'4f',X'50',X'41',X'53',1,1,NULL,1,X'6733',1,?,X'54',1,0,"
+                       "0,NULL,NULL)",
+                       {bound});
             if (scenario == 4) {
                 mutate(f.db, "INSERT INTO main.subathon_intake_members VALUES("
                              "X'696e7374616c6c',1,X'50',X'41',X'5300',X'737570706f7274',"
@@ -2108,20 +2339,19 @@ class Storage026Tests final : public QObject {
                              "revision,policy_revision,baseline_state,cut,frontier,document "
                              "FROM main.subathon_intake_sources");
             }
-            OperationIntent intent{"install",
-                                   "P",
-                                   "A",
-                                   scenario == 4 ? QByteArray("S\0", 2) : QByteArray("S"),
-                                   scenario == 3 ? "Q" : "O",
-                                   1,
-                                   1,
-                                   "g3",
-                                   "T",
-                                   "2026-11-21",
-                                   "UTC",
-                                   "b",
-                                   1795219200000LL + (scenario == 2 ? 1 : 0)};
-            // The resolved instant is retained as a bound value, separate from provider order.
+            auto intent = import_intent();
+            // Exercise the exact immutable comparison at the storage boundary.
+            // Recalculating the supplied zone result belongs to API-006.
+            if (scenario == 2)
+                ++intent.resolved_utc_start;
+            if (scenario == 3)
+                intent.operation_ref = "Q";
+            if (scenario == 4)
+                intent.stream = QByteArray("S\0", 2);
+            if (scenario == 5) {
+                intent.upper_cut.position = "Z2";
+                intent.upper_cut.proof = "proof-for-Z2";
+            }
             const auto before =
                 f.db.rows("SELECT operation_ref,intent,revision,next_ordinal,"
                           "continuation,slots FROM main.subathon_intake_operations");
@@ -2140,7 +2370,7 @@ class Storage026Tests final : public QObject {
                 10000);
             require(result->has_value(), "Operation binding seam reached after writer ownership");
             const auto expected = std::array{Stop::committed, Stop::exact_replay, Stop::conflict,
-                                             Stop::busy, Stop::conflict}
+                                             Stop::busy,      Stop::conflict,     Stop::conflict}
                                       .at(scenario);
             const auto after = f.db.rows("SELECT operation_ref,intent,revision,next_ordinal,"
                                          "continuation,slots FROM main.subathon_intake_operations");
@@ -2150,10 +2380,16 @@ class Storage026Tests final : public QObject {
                         "Exact selection or known refusal changes no durable history slot");
             require(
                 **result == expected,
-                "Same intent reuses binding; changed UTC conflicts; another active key is busy");
+                "Exact reuse, changed immutable intent and a competing active key are distinct");
             if (expected == Stop::committed) {
                 finance::normal(work);
-                require(after == SqlRows{{QByteArray("O"), bound, 1, 1, QByteArray("T"), 0}},
+                require(after == SqlRows{{QByteArray("O"), bound, 1, 1, QByteArray("T"), 0}} &&
+                            f.db.rows("SELECT installation,provider,account,stream,epoch,"
+                                      "policy_revision,purpose,gap_ref,generation "
+                                      "FROM main.subathon_intake_operations") ==
+                                SqlRows{{QByteArray("install"), QByteArray("P"), QByteArray("A"),
+                                         QByteArray("S"), 1, 1, int(Purpose::import), QVariant{},
+                                         QByteArray("g3")}},
                         "The empty operation starts with the independent exact intent and cursor");
             }
         });
@@ -2288,6 +2524,7 @@ class Storage026Tests final : public QObject {
         QTest::newRow("different-page-bytes") << 4;
         QTest::newRow("lost-final-page-ack") << 5;
         QTest::newRow("known-before-commit-rollback") << 6;
+        QTest::newRow("stale-generation") << 7;
     }
 
     void pageCas() {
@@ -2300,10 +2537,10 @@ class Storage026Tests final : public QObject {
             f.db.write([&](const auto &s) {
                 (void)s.execute({"INSERT INTO main.subathon_intake_operations "
                                  "VALUES(X'696e7374616c6c',X'4f',X'50',X'41',X'53',1,1,X'47',0,X'"
-                                 "6733',2,?,X'54',1,2,0)",
+                                 "6733',2,?,X'54',1,2,0,NULL,NULL)",
                                  {QByteArray("literal-catchup-intent")}});
                 (void)s.execute({"INSERT INTO main.subathon_intake_pages "
-                                 "VALUES(X'696e7374616c6c',X'4f',1,?,X'54',2,?,0,NULL)",
+                                 "VALUES(X'696e7374616c6c',X'4f',1,?,X'54',2,?,0,NULL,0)",
                                  {QByteArray("two-exact-items"), scenario == 0 ? 1 : 2}});
                 for (int ordinal = 1; ordinal <= (scenario == 0 ? 1 : 2); ++ordinal)
                     (void)s.execute(
@@ -2327,6 +2564,8 @@ class Storage026Tests final : public QObject {
                     f.db.rows("SELECT * FROM main.subathon_intake_segments")};
             };
             const auto before = durable();
+            const auto fence_before =
+                scenario == 7 ? std::optional{fenced_history(f.db)} : std::nullopt;
             require(before[0] == SqlRows{{2, 1, QByteArray("T")}} &&
                         before[1] == SqlRows{{9, QByteArray("F")}} &&
                         before[2] == SqlRows{{1, scenario == 0 ? 1 : 2, 0}} && before[3].isEmpty(),
@@ -2343,10 +2582,15 @@ class Storage026Tests final : public QObject {
                                       "E",
                                       "qualified-contiguous-proof",
                                       PageBinding::Coverage::contiguous,
-                                      {}};
+                                      {},
+                                      1,
+                                      1,
+                                      1,
+                                      scenario == 7 ? "g2" : "g3"};
             const auto expected =
-                std::array{Stop::incomplete_prefix, Stop::committed, Stop::stale,    Stop::conflict,
-                           Stop::conflict,          Stop::committed, Stop::committed}
+                std::array{Stop::incomplete_prefix, Stop::committed, Stop::stale,
+                           Stop::conflict,          Stop::conflict,  Stop::committed,
+                           Stop::committed,         Stop::stale}
                     .at(scenario);
             if (scenario == 5)
                 require(SqliteWriterWorkAccess::inject_next_control_ack_loss(
@@ -2371,6 +2615,10 @@ class Storage026Tests final : public QObject {
                 require(work.transaction == TransactionOutcome::rolled_back && !work.value &&
                             durable() == before,
                         "Known first stop preserves separately committed prefix, cursor and gap");
+            if (fence_before)
+                require(fenced_history(f.db) == *fence_before,
+                        "Stale generation leaves every source, operation, page, gap and item row "
+                        "unchanged");
             require(
                 **selected == expected,
                 "Final CAS distinguishes incomplete prefix, exact completion, stale and conflict");
@@ -2474,8 +2722,20 @@ class Storage026Tests final : public QObject {
                         f.db.rows("SELECT count(*) FROM main.subathon_intake_basis") ==
                             SqlRows{{phase == 3 ? 0 : 1}},
                     "Independently inspect actual media and exact binding before retrying");
+            const auto basis = f.db.rows("SELECT * FROM main.subathon_intake_basis");
             const auto selected = read_missing(
                 f.db, [&](const auto &s) { return select_evidence(s, phase == 4 ? first : peer); });
+            if (phase == 4) {
+                const auto other =
+                    read_missing(f.db, [&](const auto &s) { return select_evidence(s, peer); });
+                require(
+                    other.stop == Stop::inconsistent_original && !other.selected_basis &&
+                        !other.original && !other.capture && !selected.selected_basis &&
+                        !selected.original && !selected.capture,
+                    "Both the selected basis and contradictory original are held without reuse");
+                require(f.db.rows("SELECT * FROM main.subathon_intake_basis") == basis,
+                        "Neither side can replace the selected basis");
+            }
             require(protected_data(f.db) == before,
                     "Recovered evidence remains separate from the gate unit");
             const auto expected = phase == 0   ? Stop::pending_original
@@ -2581,13 +2841,14 @@ class Storage026Tests final : public QObject {
             if (earlier_loss) {
                 mutate(f.db, "INSERT INTO main.subathon_intake_operations VALUES("
                              "X'696e7374616c6c',X'6c6f7373',X'50',X'41',X'53',1,1,X'47',0,"
-                             "X'6733',3,X'6c',X'54',2,0,1)");
+                             "X'6733',3,X'6c',X'54',2,0,1,NULL,NULL)");
                 page.gap_revision = 2;
                 mutate(f.db, "UPDATE main.subathon_intake_gaps SET revision=2,status=1");
                 mutate(f.db,
                        "INSERT INTO main.subathon_intake_segments VALUES("
                        "X'696e7374616c6c',X'50',X'41',X'53',1,X'47',X'6c6f7373',2,1,1,?)",
-                       {QByteArray("prior-loss:F:E")});
+                       {coverage_document(SegmentCoverage::lost, "F", "E", "provider-retention",
+                                          "prior-loss-proof")});
             }
             anchor_page(f.db, page);
             using Coverage = PageBinding::Coverage;
@@ -2597,9 +2858,15 @@ class Storage026Tests final : public QObject {
                     .at(kind);
             if (kind == 0)
                 page.frontier_after = "F";
-            page.qualified_proof = kind == 0 || kind == 5 ? QByteArray{}
-                                                          : QByteArray("qualified:") +
-                                                                QByteArray::number(kind) + ":F:E";
+            if (kind > 0 && kind < 5) {
+                const QByteArray reason =
+                    std::array<QByteArray, 4>{"empty-proved-range", "provider-retention",
+                                              "recovered-range", "fresh-qualified-cut"}
+                        .at(kind - 1);
+                page.qualified_proof =
+                    coverage_document(kind == 2 ? SegmentCoverage::lost : SegmentCoverage::covered,
+                                      "F", "E", reason, "profile-qualified-proof");
+            }
             const auto before = intake_cursors(f.db);
             const auto selected =
                 transition(f.db, [&](const auto &s) { return finalize_page(s, page); });
@@ -2621,6 +2888,10 @@ class Storage026Tests final : public QObject {
                     (!earlier_loss || after[1].back() == before[1].back()) &&
                     after[2] == SqlRows{{1, 0, 0, 1}} && after[5] == SqlRows{{0}},
                 "The empty page changes no item disposition and consumes exactly one page ordinal");
+            require(f.db.rows("SELECT proof FROM main.subathon_intake_pages WHERE ordinal=1") ==
+                        SqlRows{{page.qualified_proof.isNull() ? QVariant{}
+                                                              : QVariant{page.qualified_proof}}},
+                    "The page retains its exact qualified proof or explicit absence");
             const auto frontier = QByteArray(kind == 1 || kind == 3 || kind == 4 ? "E" : "F");
             require(
                 after[0].size() == 1 && after[0][0][2].toByteArray() == frontier,
@@ -2630,7 +2901,8 @@ class Storage026Tests final : public QObject {
                         "Token-only exhaustion leaves the range unresolved");
             } else {
                 require(after[4].size() == (earlier_loss ? 2 : 1) &&
-                            after[4].back()[2].toInt() == (kind == 2 ? 1 : 0) &&
+                            after[4].back()[2].toInt() ==
+                                int(kind == 2 ? SegmentCoverage::lost : SegmentCoverage::covered) &&
                             after[4].back()[3].toByteArray() == page.qualified_proof &&
                             (!earlier_loss || after[4].front() == before[4].front()),
                         "Coverage appends its own proof and preserves any prior loss verbatim");
@@ -2641,9 +2913,11 @@ class Storage026Tests final : public QObject {
     void pageAdmission_data() {
         QTest::addColumn<QString>("edge");
         for (const auto *name :
-             {"new", "exact-retry", "changed-token", "changed-input", "stale", "item-at",
-              "item-over", "envelope-at", "envelope-over", "count-at", "count-over", "cursor-at",
-              "cursor-over", "ordinal-at", "ordinal-over", "slots-at", "slots-and-count-over"})
+             {"new",         "exact-retry",          "changed-token",     "changed-input",
+              "stale",       "stale-generation",     "item-at",           "item-over",
+              "envelope-at", "envelope-over",        "count-at",          "count-over",
+              "cursor-at",   "cursor-over",          "ordinal-at",        "ordinal-over",
+              "slots-at",    "slots-and-count-over", "bound-cursor-over", "resume-bound-prefix"})
             QTest::newRow(name) << QString(name);
     }
 
@@ -2655,11 +2929,14 @@ class Storage026Tests final : public QObject {
             const bool slot_edge = edge.startsWith("slots");
             const bool ordinal = edge.startsWith("ordinal");
             const bool over = edge.endsWith("-over");
+            const bool resume = edge == "resume-bound-prefix";
             const auto prior = ordinal && over ? 256 : slot_edge || ordinal ? 255 : 0;
             catchup(f.db, prior + 1, slot_edge ? 4080 : 0);
             if (prior)
                 completed_prefix(f.db, prior, slot_edge ? 16 : 0);
             QList<QByteArray> items{normalized_item(18)};
+            if (resume)
+                items.append(normalized_item(19));
             if (edge.startsWith("item"))
                 items = {normalized_item(32768 + over)};
             if (edge.startsWith("count") || slot_edge)
@@ -2673,10 +2950,26 @@ class Storage026Tests final : public QObject {
             if (edge.startsWith("envelope"))
                 require(request.binding.page.size() == 262144 + over,
                         "Page envelope edge includes every item tag and length");
-            const bool anchored = edge == "exact-retry" || edge.startsWith("changed");
+            const bool anchored = edge == "exact-retry" || resume || edge.startsWith("changed");
             if (anchored) {
-                mutate(f.db, "UPDATE main.subathon_intake_operations SET slots=1");
+                mutate(f.db, "UPDATE main.subathon_intake_operations SET slots=?", {items.size()});
                 anchor_page(f.db, request.binding);
+            }
+            if (resume) {
+                f.db.write([&](const auto &s) {
+                    (void)s.execute({"INSERT INTO main.subathon_intake_entries("
+                                     "installation,provider,account,stream,intake_ref,epoch,"
+                                     "generation,policy_revision,"
+                                     "operation_ref,page_ordinal,item_ordinal,input,provenance,"
+                                     "arrival_ms,phase,disposition)"
+                                     "VALUES(X'696e7374616c6c',X'50',X'41',X'53',X'31',1,X'6733',1,"
+                                     "X'4f',1,1,?,X'70',8000,2,1)",
+                                     {items.front()}});
+                    (void)s.execute({"UPDATE main.subathon_intake_pages SET committed_prefix=1 "
+                                     "WHERE operation_ref=X'4f' AND ordinal=1",
+                                     {}});
+                });
+                f.db.reopen();
             }
             if (edge == "changed-input")
                 request = page_admission(1, {normalized_item(19)});
@@ -2684,26 +2977,50 @@ class Storage026Tests final : public QObject {
                 request.binding.expected_continuation = "wrong";
             if (edge == "stale")
                 --request.binding.operation_revision;
+            if (edge == "stale-generation")
+                request.binding.generation = "g2";
             if (edge.startsWith("cursor")) {
                 request.binding.expected_continuation = QByteArray(4096 + over, 't');
                 mutate(f.db, "UPDATE main.subathon_intake_operations SET continuation=?",
                        {QByteArray(4096, 't')});
             }
+            if (edge == "bound-cursor-over") {
+                mutate(f.db, "UPDATE main.subathon_intake_operations SET slots=1");
+                anchor_page(f.db, request.binding);
+                request.binding.expected_continuation = QByteArray(4097, 't');
+            }
+            // Storage proves the bound prefix. API-006 selects which item to dispatch.
+            const auto fence_before = edge == "stale-generation" || resume
+                                          ? std::optional{fenced_history(f.db)}
+                                          : std::nullopt;
             const auto before = intake_cursors(f.db);
-            const auto selected =
-                transition(f.db, [&](const auto &s) { return bind_page(s, request); });
+            if (resume)
+                require(before[2] == SqlRows{{1, 2, 1, 0}} && before[5] == SqlRows{{1}},
+                        "A genuine bound page has exactly one durable effect-free item");
+            std::optional<PageBindResult> result;
+            const auto selected = transition(f.db, [&](const auto &s) {
+                result = bind_page(s, request);
+                return result->stop;
+            });
             const auto after = intake_cursors(f.db);
             if (selected != Stop::committed)
                 require(
                     after == before,
                     "Refusal or exact retry leaves the bound prefix, scope and slots unchanged");
-            const auto expected = over                    ? Stop::intake_limit
-                                  : edge == "stale"       ? Stop::stale
-                                  : edge == "exact-retry" ? Stop::exact_replay
-                                  : anchored              ? Stop::conflict
-                                                          : Stop::committed;
+            if (fence_before)
+                require(fenced_history(f.db) == *fence_before,
+                        "Stale bind or exact prefix read leaves all retained rows unchanged");
+            // Byte admission precedes exact token/page comparison, even on a bound page.
+            const auto expected = over                              ? Stop::intake_limit
+                                  : edge.startsWith("stale")        ? Stop::stale
+                                  : edge == "exact-retry" || resume ? Stop::exact_replay
+                                  : anchored                        ? Stop::conflict
+                                                                    : Stop::committed;
             require(selected == expected, "Page admission compares the exact key, cursor and bytes "
                                           "and enforces inclusive caps");
+            if (selected == Stop::exact_replay)
+                require(result->committed_prefix == (resume ? 1 : 0),
+                        "Exact retry reports the proved ordinal prefix for the orchestrator");
             if (selected == Stop::committed) {
                 require(f.db.rows(
                             "SELECT page,expected_continuation,item_count,committed_prefix,outcome "
@@ -2758,31 +3075,44 @@ class Storage026Tests final : public QObject {
 
     void intentFraming_data() {
         QTest::addColumn<bool>("over");
-        QTest::newRow("at-16384") << false;
-        QTest::newRow("over-16385") << true;
+        QTest::addColumn<bool>("bound");
+        QTest::newRow("at-16384") << false << false;
+        QTest::newRow("over-16385") << true << false;
+        QTest::newRow("bound-over-16385") << true << true;
     }
 
     void intentFraming() {
         QFETCH(bool, over);
+        QFETCH(bool, bound);
         check([&] {
             Populated f;
             intake_origin(f);
-            const QByteArray basis(16384 + over - 33, 'b');
-            const auto frame = frame_fields({"2026-11-21", "UTC", basis}) +
-                               QByteArray::fromHex("000001a1fb671800");
-            require(frame.size() == 16384 + over,
-                    "Literal field lengths plus the eight-byte UTC instant");
-            const OperationIntent request{
-                "install",      "P", "A", "S", "O", 1, 1, "g3", "T", "2026-11-21", "UTC", basis,
-                1795219200000LL};
+            // The variable field is an opaque transcript of an already qualified cut.
+            // Its fixed CUT1 fields take 38 bytes. The outer import fields, including
+            // the cut length, take 165 bytes. The cut itself fits on both edges.
+            constexpr int cut_overhead = 38;
+            constexpr int outer_overhead = 165;
+            const QByteArray proof(16384 + over - outer_overhead - cut_overhead, 'p');
+            const auto frame = import_frame(proof);
+            require(frame.size() == 16384 + over && proof.size() + cut_overhead <= 16384,
+                    "The canonical intent alone crosses its cap with a valid bounded cut");
+            const auto request = import_intent(proof);
+            if (bound)
+                mutate(f.db,
+                       "INSERT INTO main.subathon_intake_operations VALUES("
+                       "X'696e7374616c6c',X'4f',X'50',X'41',X'53',1,1,NULL,1,X'6733',1,?,X'54',1,0,"
+                       "0,NULL,NULL)",
+                       {import_frame(QByteArray(16384 - outer_overhead - cut_overhead, 'p'))});
+            const auto before = fenced_history(f.db);
             const auto selected =
                 transition(f.db, [&](const auto &s) { return bind_history_operation(s, request); });
             const auto rows =
                 f.db.rows("SELECT intent,next_ordinal,slots FROM main.subathon_intake_operations");
             if (selected != Stop::committed)
-                require(rows.isEmpty(), "No operation or item slots after admission refusal");
+                require(fenced_history(f.db) == before,
+                        "Admission refusal creates no operation or alters the existing intent");
             require(selected == (over ? Stop::intake_limit : Stop::committed),
-                    "Intent framing is charged before an operation is created");
+                    "Intent size is charged before staging or comparing preexisting intent bytes");
             if (!over)
                 require(rows == SqlRows{{frame, 1, 0}}, "Within limit retains exact framed intent");
         });
@@ -2946,7 +3276,8 @@ class Storage026Tests final : public QObject {
             auto first_page = page_admission(1, {new_entry.normalized});
             first_page.quarantine_preflight = new_entry;
             const auto bind = [&] {
-                return transition(f.db, [&](const auto &s) { return bind_page(s, first_page); });
+                return transition(f.db,
+                                  [&](const auto &s) { return bind_page(s, first_page).stop; });
             };
             const auto admit = [&] {
                 return transition(f.db,

@@ -31,6 +31,13 @@ enum class Stop {
     wrong_document_role,
     unproved_range
 };
+
+// Fixture INTEGER codes used by the literal DDL and raw witness rows.
+enum class Purpose { catch_up = 0, import = 1, baseline = 2, adoption = 3, handoff = 4 };
+enum class HistoryOutcome { active = 0, completed = 1, refused = 2, superseded = 3 };
+enum class SegmentCoverage { covered = 0, lost = 1, unknown = 2 };
+enum class BaselineState { pending = 0, qualified = 1, discontinuity = 2 };
+enum class GapStatus { open = 0, loss_recorded = 1, resolved = 2 };
 struct ManifestMissing {};
 inline std::variant<ManifestMissing, MigrationManifest> compiled_connector_manifest() {
     return ManifestMissing{};
@@ -93,6 +100,8 @@ struct SourceChange {
     QByteArray expected_generation;
     qint64 expected_source_revision, expected_policy_revision;
     QByteArray new_generation, new_policy, new_member, authorized_cut;
+    QByteArray history_ref, current_authority, qualified_capability, boundary_proof;
+    Purpose purpose{Purpose::handoff};
 };
 inline Stop switch_source_policy(const SqliteWorkSession &, const SourceChange &) {
     return Stop::not_implemented;
@@ -101,8 +110,22 @@ inline Stop switch_source_policy(const SqliteWorkSession &, const SourceChange &
 struct OperationIntent {
     QByteArray installation, provider, account, stream, operation_ref;
     qint64 epoch, policy_revision;
-    QByteArray generation, initial_continuation, local_date, zone_id, zone_basis;
+    QByteArray generation;
+    std::optional<QByteArray> initial_continuation;
+    QByteArray local_date, zone_id, zone_basis;
     qint64 resolved_utc_start;
+    enum class Endpoint : quint8 { inclusive = 1, exclusive = 2 };
+    struct Interval {
+        Endpoint start, end;
+        QByteArray membership_basis, order_basis;
+    } interval;
+    struct UpperCut {
+        QByteArray format, position_namespace;
+        std::optional<QByteArray> position;
+        QByteArray proof;
+    } upper_cut;
+    QByteArray qualified_capability, current_authority;
+    Purpose purpose{Purpose::import};
 };
 inline Stop bind_history_operation(const SqliteWorkSession &, const OperationIntent &) {
     return Stop::not_implemented;
@@ -147,8 +170,12 @@ struct PageAdmission {
     QList<QByteArray> normalized_items;
     std::optional<QuarantineInput> quarantine_preflight{};
 };
-inline Stop bind_page(const SqliteWorkSession &, const PageAdmission &) {
-    return Stop::not_implemented;
+struct PageBindResult {
+    Stop stop;
+    std::optional<qint64> committed_prefix;
+};
+inline PageBindResult bind_page(const SqliteWorkSession &, const PageAdmission &) {
+    return {Stop::not_implemented, {}};
 }
 
 struct Rollover {

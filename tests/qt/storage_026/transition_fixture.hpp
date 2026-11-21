@@ -35,10 +35,11 @@ void intake_origin(Populated &f) {
 }
 
 void catchup(CatalogFile &db, int next = 1, int slots = 0) {
-    mutate(db,
-           "INSERT INTO main.subathon_intake_operations VALUES("
-           "X'696e7374616c6c',X'4f',X'50',X'41',X'53',1,1,X'47',0,X'6733',?,?,X'54',?,?,0)",
-           {next + 1, QByteArray("catchup:F:Z"), next, slots});
+    mutate(
+        db,
+        "INSERT INTO main.subathon_intake_operations VALUES("
+        "X'696e7374616c6c',X'4f',X'50',X'41',X'53',1,1,X'47',0,X'6733',?,?,X'54',?,?,0,NULL,NULL)",
+        {next + 1, QByteArray("catchup:F:Z"), next, slots});
 }
 
 PageBinding page_binding(qint64 ordinal = 1) {
@@ -60,6 +61,106 @@ QByteArray frame_fields(const QList<QByteArray> &fields) {
         frame += field;
     }
     return frame;
+}
+
+QByteArray be64(qint64 n) {
+    const auto bits = static_cast<quint64>(n);
+    return be32(quint32(bits >> 32)) + be32(quint32(bits));
+}
+
+QByteArray present_bytes(const std::optional<QByteArray> &bytes) {
+    return bytes ? QByteArray(1, '\1') + frame_fields({*bytes}) : QByteArray(1, '\0');
+}
+
+OperationIntent import_intent(QByteArray cut_proof = "proof") {
+    return {"install",
+            "P",
+            "A",
+            "S",
+            "O",
+            1,
+            1,
+            "g3",
+            QByteArray("T"),
+            "2026-11-21",
+            "UTC",
+            "tzdb",
+            1795219200000LL,
+            {OperationIntent::Endpoint::inclusive, OperationIntent::Endpoint::exclusive,
+             "date-membership", "position-order"},
+            {"key-v1", "S/history", QByteArray("Z"), std::move(cut_proof)},
+            "history-v1",
+            "actor/decision"};
+}
+
+// Independent import specimen. All strings use BE32 byte lengths. IOP1 carries
+// import purpose, exact S, epoch and retained policy revision, inclusive/exclusive
+// tags, membership and ordering bases, capability and current decision provenance,
+// local date/zone/rules and signed BE64 UTC ms, then the tagged initial token and
+// the BE32-length-prefixed qualified CUT1 result. CUT1 carries endpoint meaning,
+// format, namespace, position presence and bytes, and the bounded qualified proof.
+// The operation row also binds the key and current generation fence separately.
+QByteArray import_frame(QByteArray proof = "proof") {
+    const auto prefix = QByteArray::fromHex(
+        "494f503101 00000007696e7374616c6c 0000000150 0000000141 0000000153 "
+        "0000000000000001 0000000000000001 0102 "
+        "0000000f646174652d6d656d62657273686970 0000000e706f736974696f6e2d6f72646572 "
+        "0000000a686973746f72792d7631 0000000e6163746f722f6465636973696f6e "
+        "0000000a323032362d31312d3231 00000003555443 00000004747a6462 000001a1fb671800 "
+        "010000000154");
+    const auto cut =
+        QByteArray::fromHex(
+            "4355543102 000000066b65792d7631 00000009532f686973746f7279 01000000015a") +
+        frame_fields({proof});
+    return prefix + frame_fields({cut});
+}
+
+struct HistoricalHead {
+    qint64 epoch, revision, policy;
+    QByteArray generation;
+    std::optional<QByteArray> cut, frontier;
+};
+
+QByteArray source_history(const HistoricalHead &prior, const HistoricalHead &selected,
+                          const QByteArray &capability, const QByteArray &authority,
+                          const QByteArray &proof) {
+    // The row has the selected epoch/policy/generation and stable scope. The
+    // fixture uses a same-scope switch, so the bound prior scope is identical.
+    // prior_cut and selected_cut carry the exact qualified cut bytes and presence
+    // separately, preserving both cut limits without shrinking either field.
+    const auto head = [](const auto &h) {
+        return frame_fields({"install", "P", "A", "S"}) + be64(h.epoch) + be64(h.revision) +
+               be64(h.policy) + frame_fields({h.generation}) + present_bytes(h.frontier);
+    };
+    return QByteArray("SH1") + head(prior) + head(selected) +
+           frame_fields({capability, authority, proof});
+}
+
+void anchor_source_history(CatalogFile &db, const QByteArray &ref, Purpose purpose,
+                           const HistoricalHead &prior, const HistoricalHead &head,
+                           const QByteArray &document) {
+    mutate(db,
+           "INSERT INTO main.subathon_intake_operations VALUES("
+           "X'696e7374616c6c',?,X'50',X'41',X'53',?,?,NULL,?,?,1,?,NULL,1,0,1,?,?)",
+           {ref, head.epoch, head.policy, int(purpose), head.generation, document,
+            prior.cut ? QVariant{*prior.cut} : QVariant{}, *head.cut});
+}
+
+SqlRows selected_source_history(CatalogFile &db) {
+    return db.rows(
+        "SELECT operation_ref,purpose,epoch,policy_revision,generation,intent,"
+        "gap_ref,continuation,next_ordinal,slots,outcome,prior_cut,selected_cut "
+        "FROM main.subathon_intake_operations WHERE purpose IN (2,3,4) ORDER BY purpose");
+}
+
+QByteArray coverage_document(SegmentCoverage meaning, const QByteArray &lower,
+                             const QByteArray &upper, const QByteArray &reason,
+                             const QByteArray &evidence) {
+    // Segment rows store the typed meaning separately. CV1 repeats it and binds
+    // bounds, their meaning (exclusive lower, inclusive upper), reason and evidence.
+    // The owning row supplies the exact scoped gap and operation locator.
+    return QByteArray("CV1") + char(meaning) + QByteArray::fromHex("0201") +
+           frame_fields({"key-v1", "S/history", lower, upper, reason, evidence});
 }
 
 // Test specimens have an explicit tag, item count and length-delimited fields.
@@ -89,10 +190,26 @@ auto intake_cursors(CatalogFile &db) {
         db.rows("SELECT count(*) FROM main.subathon_intake_entries")};
 }
 
+auto fenced_history(CatalogFile &db) {
+    return std::array{
+        db.rows("SELECT * FROM main.subathon_intake_sources ORDER BY "
+                "installation,provider,account,stream"),
+        db.rows(
+            "SELECT * FROM main.subathon_intake_operations ORDER BY installation,operation_ref"),
+        db.rows(
+            "SELECT * FROM main.subathon_intake_pages ORDER BY installation,operation_ref,ordinal"),
+        db.rows("SELECT * FROM main.subathon_intake_gaps ORDER BY "
+                "installation,provider,account,stream,epoch,gap_ref"),
+        db.rows("SELECT * FROM main.subathon_intake_segments ORDER BY "
+                "installation,provider,account,stream,epoch,gap_ref,revision,ordinal"),
+        db.rows("SELECT * FROM main.subathon_intake_entries ORDER BY "
+                "installation,provider,account,stream,intake_ref")};
+}
+
 void anchor_page(CatalogFile &db, const PageBinding &page) {
     mutate(db,
            "INSERT INTO main.subathon_intake_pages VALUES("
-           "X'696e7374616c6c',X'4f',?,?,?, ?,0,0,NULL)",
+           "X'696e7374616c6c',X'4f',?,?,?, ?,0,0,NULL,0)",
            {page.ordinal, page.page, page.expected_continuation, page.items});
 }
 
@@ -102,7 +219,7 @@ void completed_prefix(CatalogFile &db, int pages, int items) {
     db.write([&](const auto &s) {
         (void)s.execute({"WITH RECURSIVE p(n) AS (SELECT 1 UNION ALL SELECT n+1 FROM p WHERE n<?) "
                          "INSERT INTO main.subathon_intake_pages "
-                         "SELECT X'696e7374616c6c',X'4f',n,?,X'54',?,?,1,NULL FROM p",
+                         "SELECT X'696e7374616c6c',X'4f',n,?,X'54',?,?,1,NULL,0 FROM p",
                          {pages, frame, items, items}});
         if (items != 0)
             (void)s.execute(
