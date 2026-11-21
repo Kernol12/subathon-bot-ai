@@ -409,6 +409,59 @@ class Api006PolicyTests final : public QObject {
         });
     }
 
+    void revokedExecutionLeavesGapAndDoesNotAuthorizeReview() {
+        check([] {
+            Fixture f(true, false);
+            storage::catchup(f.store.db);
+            const auto pending = f.store.seed(
+                "manual-review", {storage::finance::request(core::RequestedUnit::milliseconds,
+                                                            30000, "main")});
+            const std::vector entries{pending};
+            auto review = f.store.service();
+            const auto command = f.store.bind("manual-review", entries,
+                                              f.store.preview(review, entries));
+            const auto cursors = f.cursors();
+            require(cursors == SqlRows{{1, QByteArray("T"), QByteArray("11"), 0}} &&
+                        f.store.db.rows("SELECT outcome FROM main.subathon_intake_operations "
+                                        "WHERE operation_ref=X'4f'") == SqlRows{{0}},
+                    "Authorized operator has an open gap and active catch-up before revocation");
+            const auto history = storage::fenced_history(f.store.db);
+            const auto attempts = f.attempts();
+            const auto before = storage::protected_data(f.store.db);
+            const auto initial_authority = f.inputs.current_authority;
+            require(initial_authority(intake::Action::page, source.scope) ==
+                        intake::Authorization::allowed,
+                    "Exact current scope originally has history execution authority");
+            f.inputs.current_authority = [initial_authority](auto action, const auto &scope) {
+                if (scope == source.scope &&
+                    (action == intake::Action::page || action == intake::Action::resume ||
+                     action == intake::Action::catch_up))
+                    return intake::Authorization::denied;
+                return initial_authority(action, scope);
+            };
+            auto request = page({item("revoked-recovered")},
+                                intake::RangeProof{intake::Coverage::contiguous, "11", "14",
+                                                   "qualified-retrieval", {}});
+            const auto refusal = f.submit(request);
+            expect(refusal, S::denied, "Revoked owner authority denies outstanding history work");
+            require(!refusal.attempt && !refusal.contribution && !refusal.projection &&
+                        f.inputs.current_authority(intake::Action::inspect, source.scope) ==
+                            intake::Authorization::allowed &&
+                        f.cursors() == cursors && storage::fenced_history(f.store.db) == history &&
+                        f.attempts() == attempts,
+                    "Revocation preserves the open gap and exact retained work for later recovery");
+
+            f.store.facts.batch_allowed = false;
+            const auto denied = f.store.execute(review, command);
+            require(std::get_if<ReviewRefusal>(&denied) &&
+                        std::get<ReviewRefusal>(denied) == ReviewRefusal::denied &&
+                        storage::protected_data(f.store.db) == before &&
+                        storage::fenced_history(f.store.db) == history,
+                    "Manual Review still needs its own authority and writes no award");
+            f.no_award();
+        });
+    }
+
     void receiptIdentityRoleStreamOriginMatrix() {
         check([] {
             Fixture f(true, false);
