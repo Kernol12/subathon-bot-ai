@@ -81,11 +81,14 @@ void charge(Count &c, const PermissionPolicyEntry &v) {
     charge(c, v.resources);
     charge(c, v.quantities);
 }
-void charge(Count &c, const PermissionPolicyFacts &v) {
+void charge(Count &c, const Policy &v) {
     c.add_bytes(1);
     charge(c, v.assigned_roles);
-    charge(c, v.entries);
+    c.vector_size<PermissionPolicyEntry>(v.entries.size());
+    for (const auto &row : v.entries)
+        charge(c, row);
 }
+void charge(Count &c, const PermissionPolicyFacts &v) { charge(c, policy(v)); }
 void charge(Count &c, const DelegatedPermissionGrant &v) {
     c.ref(v.operation);
     charge(c, v.resources);
@@ -1220,6 +1223,58 @@ PermissionAutomationDecision revalidate_permission_automation(const PermissionAu
                                                               const EffectivePermissionLimits &l) {
     return allocation_guard([&] { return automation_impl(in, l); });
 }
+namespace permission_engine {
+AutomationPointDecision evaluate_automation_point(const Input &use,
+                                                  const PermissionPolicyFacts &delegation,
+                                                  const EffectivePermissionLimits &limits) {
+    return allocation_guard([&] {
+        validate_limits(limits);
+        auto budget = counter(limits);
+        charge(budget, use.actor);
+        charge(budget, use.snapshot);
+        charge(budget, use.catalog);
+        charge(budget, use.owner);
+        charge(budget, use.policy);
+        charge(budget, delegation);
+        charge(budget, use.request);
+
+        const auto grant = borrowed(use.actor, use.snapshot, use.catalog, use.owner,
+                                    policy(delegation), use.request);
+        validate_catalog_tags(use.catalog);
+        validate_owner_tags(use.owner);
+        validate_common(use, budget.empty_reference);
+        const auto *op = find(use.catalog.operations, use.request.operation, opkey);
+        validate_request_shape(op, use.request);
+        policy_tags(use);
+        policy_tags(grant, true);
+
+        validate_policy(use);
+        validate_policy(grant);
+        validate_individual_scopes(use.policy);
+        validate_individual_scopes(grant.policy);
+        numeric(use);
+        numeric(grant);
+        validate_domains(use, *op);
+        validate_domains(grant, *op);
+        if (use.policy.state == PermissionFactsState::unknown ||
+            delegation.state == PermissionFactsState::unknown)
+            fail(Error::facts_unavailable);
+
+        // The same exact resource and quantity bindings are matched as a whole
+        // in each channel. The GRANT channel has no protected-owner bypass.
+        const bool nondelegable =
+            op->classification == PermissionOperationClass::protected_access_management ||
+            op->classification == PermissionOperationClass::protected_recovery;
+        const auto allowed_use = resolve(use, *op).outcome;
+        const auto allowed_grant = nondelegable ? Outcome::deny : resolve(grant, *op).outcome;
+        const auto disposition = allowed_use == Outcome::permit && allowed_grant == Outcome::permit
+                                     ? PermissionAutomationDisposition::authorized
+                                     : PermissionAutomationDisposition::hold;
+        return AutomationPointDecision{{allowed_use, allowed_grant, disposition},
+                                       op->classification};
+    });
+}
+} // namespace permission_engine
 namespace internal {
 void validate_permission_graph_catalog(const PermissionCatalog &cat) {
     validate_catalog_tags(cat);

@@ -73,6 +73,7 @@ still using synthetic data and supplied policy/authority facts.
 | `core-acceptance-debug` | `-L '^valuation-snapshot-codec$'` | 25 shared RSV1 codec cases for exact bytes, canonical retained evidence, and bounded decoding and encoding. Valuation integration remains #553. |
 | `core-acceptance-debug` | `-L '^rule-definition$'` | 26 cases for owned versioned rules, typed actions and predicates, and exact captured monetary comparisons. #208 and #210 own action planning and generated-event enforcement. |
 | `core-acceptance-debug` | `-L '^rule-selection$'` | 10 RULES-002 cases for deterministic selection, group tie warnings, ordered exclusions, typed refusals and skip reasons. Editor display and action execution have separate owners. |
+| `core-acceptance-debug` | `-L '^rule-actions$'` | 31 RULES-003 cases for captured order, current exact USE and GRANT, concrete sender binding, scoped refusal and trace disclosure, and synthetic owner observations. Authoritative writer, delivery start and generated-event admission remain separate. |
 | `core-acceptance-debug` | `-L '^chat-commands$'` | 41 synthetic cases for typed chat commands, complete authorization, cooldown windows and replay. #337 owns live receipt binding and durable intake deduplication. |
 | `core-acceptance-debug` | `-L '^scheduled-pause$'` | 35 synthetic scheduler cases covering configured-zone resolution, cutover, entry, retention, clock progression and coverage holds. Platform timezone evidence and authoritative preview and Save have separate gates. |
 | `core-acceptance-debug` | `-L '^downtime-recovery$'` | 49 synthetic cases for offline Freeze, Count elapsed, Recovery Review, deadline and schedule cuts, and authorized correction. Durable restart, live clock and scheduler facts, modifier clocks and command integration have separate owners. |
@@ -190,7 +191,8 @@ permissions and rate include numeric checks; editorial includes debt and lifecyc
 Bare acceptance ON defaults to credit. An explicit empty/unknown selection fails;
 `all` explicitly includes every native/translation suite, all required SDKs and the
 host lifecycle intentional-red baselines and the ordinary passing bounded HTTP
-foundation suite. Rate snapshots are ordinary passing
+foundation suite.
+Rate snapshots are ordinary passing
 acceptance. The corrected native WebSocket
 profile itself remains ordinary passing acceptance. Schema validation and configure-only Qt probing remain separate
 controls. The account preset includes the complete compiled SQLite migration prefix:
