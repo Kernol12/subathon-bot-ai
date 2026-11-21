@@ -88,18 +88,20 @@ OperationIntent import_intent(QByteArray cut_proof = "proof") {
             1795219200000LL,
             {OperationIntent::Endpoint::inclusive, OperationIntent::Endpoint::exclusive,
              "date-membership", "position-order"},
-            {"key-v1", "S/history", QByteArray("Z"), std::move(cut_proof)},
+            {"key-v1", "S/history", QByteArray("Z"), "g3", std::move(cut_proof)},
             "history-v1",
+            "actor/decision",
             "actor/decision"};
 }
 
 // Independent import specimen. All strings use BE32 byte lengths. IOP1 carries
 // import purpose, exact S, epoch and retained policy revision, inclusive/exclusive
-// tags, membership and ordering bases, capability and current decision provenance,
+// tags, membership and ordering bases, capability and retained decision provenance,
 // local date/zone/rules and signed BE64 UTC ms, then the tagged initial token and
 // the BE32-length-prefixed qualified CUT1 result. CUT1 carries endpoint meaning,
-// format, namespace, position presence and bytes, and the bounded qualified proof.
-// The operation row also binds the key and current generation fence separately.
+// format, namespace, position presence and bytes, the original qualifying
+// generation and bounded proof. The row's operative generation and the caller's
+// current decision can change independently of this retained evidence.
 QByteArray import_frame(QByteArray proof = "proof") {
     const auto prefix = QByteArray::fromHex(
         "494f503101 00000007696e7374616c6c 0000000150 0000000141 0000000153 "
@@ -108,10 +110,10 @@ QByteArray import_frame(QByteArray proof = "proof") {
         "0000000a686973746f72792d7631 0000000e6163746f722f6465636973696f6e "
         "0000000a323032362d31312d3231 00000003555443 00000004747a6462 000001a1fb671800 "
         "010000000154");
-    const auto cut =
-        QByteArray::fromHex(
-            "4355543102 000000066b65792d7631 00000009532f686973746f7279 01000000015a") +
-        frame_fields({proof});
+    const auto cut = QByteArray::fromHex(
+                         "4355543102 000000066b65792d7631 00000009532f686973746f7279 01000000015a "
+                         "000000026733") +
+                     frame_fields({proof});
     return prefix + frame_fields({cut});
 }
 

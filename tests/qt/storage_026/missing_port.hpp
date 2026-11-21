@@ -122,9 +122,10 @@ struct OperationIntent {
     struct UpperCut {
         QByteArray format, position_namespace;
         std::optional<QByteArray> position;
+        QByteArray qualified_generation;
         QByteArray proof;
     } upper_cut;
-    QByteArray qualified_capability, current_authority;
+    QByteArray qualified_capability, retained_authority, current_authority;
     Purpose purpose{Purpose::import};
 };
 inline Stop bind_history_operation(const SqliteWorkSession &, const OperationIntent &) {
