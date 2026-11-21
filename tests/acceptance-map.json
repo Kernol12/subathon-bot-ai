@@ -723,15 +723,30 @@
     },
     {
       "id": "INTAKE-01",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/qt/storage_026/catalog_tests.cpp",
+        "tests/qt/storage_026/transitions_tests.cpp",
+        "tests/qt/storage_026/receipts_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/issues/760",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/760#issuecomment-7067157033"
+      ],
+      "scope": "Disposable SQLite coverage for the bounded intake catalog, exact page, gap and source fences, durable receipt attempts and first basis, and pre-existing reader compatibility. API-006 orchestration, live connector authority, and unexercised multi-source, receiptless history and reconnect paths remain separate."
     },
     {
       "id": "INTAKE-02",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/qt/storage_026/transitions_tests.cpp",
+        "tests/qt/storage_026/receipts_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/issues/760",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/760#issuecomment-7067157033"
+      ],
+      "scope": "Disposable SQLite coverage for the stored baseline, adoption and history-operation boundary. Historical import orchestration, live source qualification and end-to-end Review behavior remain separate."
     },
     {
       "id": "UI-04",

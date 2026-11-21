@@ -414,7 +414,7 @@ class Storage026ReceiptTests final : public QObject {
                     "Missing or uncertain receipt reply must keep its real transaction category");
             if (lostAcknowledgment)
                 require(f.db.writer().enqueue_work([](auto) { return QVariant{}; }, [](auto) {}) ==
-                            StorageError::not_open,
+                            StorageError::shutting_down,
                         "Uncertain owner disables later admission on the same writer");
             f.db.reopen();
             require(
@@ -483,7 +483,7 @@ class Storage026ReceiptTests final : public QObject {
                 if (phase == 1)
                     require(!staged &&
                                 f.db.writer().enqueue_work([](auto) { return QVariant{}; },
-                                                           [](auto) {}) == StorageError::not_open,
+                                                           [](auto) {}) == StorageError::shutting_down,
                             "Lost acknowledgment closes admission and produces no typed reply");
             } else if (phase >= 3) {
                 const auto result =
@@ -626,7 +626,7 @@ class Storage026ReceiptTests final : public QObject {
                         "Interrupted owner reports the real transaction category with no reply");
                 if (lost_ack)
                     require(f.db.writer().enqueue_work([](auto) { return QVariant{}; },
-                                                       [](auto) {}) == StorageError::not_open,
+                                                       [](auto) {}) == StorageError::shutting_down,
                             "Unknown commit stops the suffix on the same writer");
             };
             const bool receipt_fault = fault == 2 || fault == 3;

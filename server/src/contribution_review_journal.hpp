@@ -5,6 +5,8 @@
 #include "contribution_review_domain.hpp"
 #include "contribution_review_writer_access.hpp"
 
+#include <subathon/server/sqlite_connector_intake.hpp>
+
 namespace subathon::server::review_detail {
 
 inline bool qualified(StorageLimits limits) {
@@ -14,17 +16,19 @@ inline bool qualified(StorageLimits limits) {
 }
 
 inline void catalog(const SqliteWorkSession &s) {
-    require(terminal_partition::selected(s));
+    using Catalog = terminal_partition::Catalog;
+    const auto current = terminal_partition::catalog(s);
+    require(current == Catalog::review || current == Catalog::connector_intake);
     struct Expected {
         QList<QByteArray> hashes;
-        MigrationManifest manifest = contribution_review_repository_manifest();
+        MigrationManifest manifest;
         qsizetype id_bytes{};
         qsizetype type_bytes{};
         qsizetype name_bytes{};
         qsizetype table_bytes{};
         qsizetype sql_bytes{};
 
-        Expected() {
+        explicit Expected(MigrationManifest m) : manifest(std::move(m)) {
             for (const auto &step : manifest.steps) {
                 hashes.append(migration_content_sha256(step));
                 id_bytes = std::max(id_bytes, step.id.toUtf8().size());
@@ -40,15 +44,17 @@ inline void catalog(const SqliteWorkSession &s) {
             }
         }
     };
-    static const Expected expected;
+    static const Expected review(contribution_review_repository_manifest());
+    static const Expected connector(connector_intake_repository_manifest());
+    const auto &expected = current == Catalog::review ? review : connector;
     const auto history = s.execute(
         {"SELECT version, "
          "CASE WHEN typeof(migration_id)='text' AND length(CAST(migration_id AS BLOB))<=? "
          "THEN CAST(migration_id AS BLOB) END, "
          "CASE WHEN typeof(content_sha256)='blob' AND length(content_sha256)=32 "
          "THEN content_sha256 END "
-         "FROM main.subathon_migration_history ORDER BY version LIMIT 20",
-         {expected.id_bytes}});
+         "FROM main.subathon_migration_history ORDER BY version LIMIT ?",
+         {expected.id_bytes, expected.hashes.size() + 1}});
     require(history.size() == expected.hashes.size());
     for (qsizetype n = 0; n < history.size(); ++n)
         require(integer(history[n][0]) == n + 1 &&

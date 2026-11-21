@@ -924,7 +924,7 @@ class Storage026TransitionTests final : public QObject {
                                 work.transaction == TransactionOutcome::outcome_unknown &&
                                 !work.value &&
                                 f.db.writer().enqueue_work([](auto) { return QVariant{}; },
-                                                           [](auto) {}) == StorageError::not_open,
+                                                           [](auto) {}) == StorageError::shutting_down,
                             "Uncertain final COMMIT yields no reply or suffix on old writer");
                     f.db.reopen();
                 } else {

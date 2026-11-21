@@ -209,16 +209,61 @@ class SqliteReceiptTransaction final : public ReceiptTransaction {
         owns_session_ = true;
     }
     std::optional<core::ReceiptRecord> find(const core::ReceiptIdentity &identity) override {
+        return with_attempts(find_original(identity));
+    }
+    std::optional<core::ReceiptRecord> find_original(const core::ReceiptIdentity &identity) {
         validate_identity(identity, limits_);
         check_owner(owner_);
         auto record =
             original("provider=? AND source_account=? AND identifier_namespace=? AND opaque_id=?",
                      identity_values(identity));
-        if (!record)
-            return std::nullopt;
-        if (record->identity != identity)
+        if (record && record->identity != identity)
             fail(SqliteReceiptStorageReason::invalid_stored_data);
-        return with_attempts(std::move(record));
+        return record;
+    }
+    std::optional<ReceiptObservation> read_observation(const SqliteWorkSession &session,
+                                                       core::ReceiptId receipt, qint64 ordinal) {
+        session_ = session;
+        const auto encoded = encode_receipt_uint64(receipt.value);
+        auto record = original("receipt_id=?", {encoded});
+        if (!record)
+            return {};
+        const auto rows = execute({"SELECT " + projection(attempt_columns()) +
+                                       " FROM main.subathon_receipt_attempts "
+                                       "WHERE receipt_id=? AND ordinal=? LIMIT 2",
+                                   {encoded, ordinal}});
+        if (rows.isEmpty())
+            return {};
+        if (rows.size() != 1)
+            fail(SqliteReceiptStorageReason::invalid_stored_data);
+        auto attempt = decode_attempt(receipt, ordinal, rows.front());
+        return ReceiptObservation{std::move(*record), std::move(attempt)};
+    }
+    std::optional<qint64> managed_ordinal(core::ReceiptId receipt) {
+        check_owner(owner_);
+        const auto rows = execute({"SELECT ordinal,typeof(ordinal) "
+                                   "FROM main.subathon_receipt_attempts WHERE receipt_id=? "
+                                   "ORDER BY ordinal LIMIT 1025",
+                                   {encode_receipt_uint64(receipt.value)}});
+        if (rows.isEmpty() || rows.size() >= 1024)
+            return {};
+        for (qsizetype i = 0; i < rows.size(); ++i) {
+            const auto &row = rows[i];
+            if (row.size() != 2 || row[1].toString() != "integer" || row[0].toLongLong() != i + 1)
+                return {};
+        }
+        return rows.size() + 1;
+    }
+    bool prepare_extension(const ReceiptPreparation &preparation) {
+        bool accepted = false;
+        mutate([&] { accepted = preparation(session_); });
+        return accepted;
+    }
+    bool stage_extension(const ReceiptExtension &extension, core::ReceiptId receipt, qint64 ordinal,
+                         core::ReceiptDisposition disposition) {
+        bool accepted = false;
+        mutate([&] { accepted = extension(session_, receipt, ordinal, disposition); });
+        return accepted;
     }
     std::optional<core::ReceiptRecord> read_selected(SqliteWorkSession session,
                                                      core::ReceiptId key) {
@@ -250,32 +295,35 @@ class SqliteReceiptTransaction final : public ReceiptTransaction {
         append_selected_attempts(*record, rows);
         return record;
     }
+    core::ReceiptAttempt decode_attempt(core::ReceiptId receipt, qint64 ordinal,
+                                        const SqlRow &row) {
+        shape(row, 18);
+        if (id(row, 0) != receipt.value || integer(row, 1) != ordinal)
+            fail(SqliteReceiptStorageReason::invalid_stored_data);
+        auto facts = read_facts(row, 2);
+        auto arrival = read_arrival(row, 13);
+        const auto value = integer(row, 17);
+        core::ReceiptDisposition disposition;
+        switch (value) {
+        case 0:
+            disposition = core::ReceiptDisposition::created;
+            break;
+        case 1:
+            disposition = core::ReceiptDisposition::retry;
+            break;
+        case 2:
+            disposition = core::ReceiptDisposition::conflict;
+            break;
+        default:
+            fail(SqliteReceiptStorageReason::invalid_stored_data);
+        }
+        return {std::move(arrival), std::move(facts), disposition};
+    }
     void append_selected_attempts(core::ReceiptRecord &record, const SqlRows &rows) {
         record.attempts.reserve(size_t(rows.size()));
         qint64 ordinal = 0;
-        for (const auto &row : rows) {
-            shape(row, 18);
-            if (id(row, 0) != record.id.value || integer(row, 1) != ++ordinal)
-                fail(SqliteReceiptStorageReason::invalid_stored_data);
-            auto facts = read_facts(row, 2);
-            auto arrival = read_arrival(row, 13);
-            const auto value = integer(row, 17);
-            core::ReceiptDisposition disposition;
-            switch (value) {
-            case 0:
-                disposition = core::ReceiptDisposition::created;
-                break;
-            case 1:
-                disposition = core::ReceiptDisposition::retry;
-                break;
-            case 2:
-                disposition = core::ReceiptDisposition::conflict;
-                break;
-            default:
-                fail(SqliteReceiptStorageReason::invalid_stored_data);
-            }
-            record.attempts.push_back({std::move(arrival), std::move(facts), disposition});
-        }
+        for (const auto &row : rows)
+            record.attempts.push_back(decode_attempt(record.id, ++ordinal, row));
     }
     core::ReceiptId create(const core::ReceiptIdentity &identity, const core::ReceiptFacts &facts,
                            const core::ReceiptArrival &arrival) override {
@@ -308,6 +356,10 @@ class SqliteReceiptTransaction final : public ReceiptTransaction {
         return {candidate};
     }
     void append_attempt(core::ReceiptId receipt, const core::ReceiptAttempt &attempt) override {
+        append(receipt, attempt, std::nullopt);
+    }
+    void append(core::ReceiptId receipt, const core::ReceiptAttempt &attempt,
+                std::optional<qint64> qualified_ordinal) {
         if (receipt.value == 0)
             invalid(SqliteReceiptInputError::invalid_receipt_id);
         validate_facts(attempt.observed_facts, limits_);
@@ -333,7 +385,8 @@ class SqliteReceiptTransaction final : public ReceiptTransaction {
             fail(SqliteReceiptStorageReason::missing_reference);
         if (stored->id != receipt)
             fail(SqliteReceiptStorageReason::invalid_stored_data);
-        const auto ordinal = next_ordinal(receipt.value, encoded);
+        const auto ordinal =
+            qualified_ordinal ? *qualified_ordinal : next_ordinal(receipt.value, encoded);
         resolve(attempt.arrival);
         QList<QVariant> values{encoded, ordinal};
         values.append(facts_values(attempt.observed_facts));
@@ -343,6 +396,11 @@ class SqliteReceiptTransaction final : public ReceiptTransaction {
             insertion("subathon_receipt_attempts", attempt_columns(), std::move(values));
         mutate([&] {
             (void)execute(insert);
+            if (qualified_ordinal) {
+                const auto changed = execute({"SELECT changes()", {}});
+                if (changed.size() != 1 || changed.front().front().toLongLong() != 1)
+                    fail(SqliteReceiptStorageReason::invalid_stored_data);
+            }
             std::erase(pending_, receipt.value); // Trivial erase cannot allocate.
         });
     }
@@ -679,4 +737,38 @@ std::optional<core::ReceiptRecord> read_receipt(const SqliteWorkSession &session
     SqliteReceiptTransaction reader({}, QThread::currentThread());
     return reader.read_selected(session, id);
 }
+std::optional<ReceiptObservation> read_receipt_observation(const SqliteWorkSession &session,
+                                                           core::ReceiptId receipt,
+                                                           qint64 ordinal) {
+    if (receipt.value == 0 || ordinal <= 0)
+        return {};
+    SqliteReceiptTransaction reader({}, QThread::currentThread());
+    return reader.read_observation(session, receipt, ordinal);
+}
+
+ManagedReceiptWrite write_managed_receipt(const SqliteWorkSession &session,
+                                          const core::ReceiptInput &input,
+                                          const ReceiptPreparation &preparation,
+                                          const ReceiptExtension &extension) {
+    SqliteReceiptTransaction owner({}, QThread::currentThread());
+    owner.adopt(session);
+    const auto prior = owner.find_original(input.identity);
+    const auto ordinal = prior ? owner.managed_ordinal(prior->id) : std::optional<qint64>{1};
+    if (!ordinal)
+        return {ManagedReceiptStatus::ordinal_limit};
+    if (!owner.prepare_extension(preparation))
+        return {ManagedReceiptStatus::rolled_back};
+    const auto receipt =
+        prior ? prior->id : owner.create(input.identity, input.facts, input.arrival);
+    const auto disposition = !prior ? core::ReceiptDisposition::created
+                             : prior->original_facts == input.facts
+                                 ? core::ReceiptDisposition::retry
+                                 : core::ReceiptDisposition::conflict;
+    owner.append(receipt, {input.arrival, input.facts, disposition}, ordinal);
+    if (!owner.stage_extension(extension, receipt, *ordinal, disposition))
+        return {ManagedReceiptStatus::rolled_back};
+    owner.commit();
+    return {ManagedReceiptStatus::committed, receipt, *ordinal};
+}
+
 } // namespace subathon::server
