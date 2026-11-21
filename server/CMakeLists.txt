@@ -30,6 +30,13 @@ if(TARGET subathon_rate_overrides AND TARGET Qt6::Core)
     subathon_target_options(subathon_frankfurter_rates)
 endif()
 
+if(BUILD_TESTING AND SUBATHON_BUILD_RATES_003_STAGE1)
+    add_library(subathon_exchange_rate_api STATIC EXCLUDE_FROM_ALL src/exchange_rate_api.cpp)
+    target_include_directories(subathon_exchange_rate_api PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_exchange_rate_api PUBLIC subathon_rate_snapshots)
+    subathon_target_options(subathon_exchange_rate_api)
+endif()
+
 add_library(subathon_scheduled_pause STATIC EXCLUDE_FROM_ALL src/scheduled_pause.cpp)
 target_include_directories(subathon_scheduled_pause PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_link_libraries(subathon_scheduled_pause PUBLIC
