@@ -2,6 +2,7 @@
 #include <subathon/core/modifier_clock.hpp>
 
 #include <algorithm>
+#include <initializer_list>
 #include <limits>
 #include <utility>
 
@@ -37,6 +38,104 @@ ModifierRuleCandidate candidate(ModifierRuleEvent event,
     return {event, observation, instance.instance_ref, instance.revision_ref, crossing};
 }
 
+bool same_timer(const TimerState &left, const TimerState &right) {
+    return left.lifecycle == right.lifecycle && left.phase == right.phase &&
+           left.main_remaining_ms == right.main_remaining_ms &&
+           left.grace_remaining_ms == right.grace_remaining_ms &&
+           left.awaiting_confirmation == right.awaiting_confirmation;
+}
+
+bool same_pause(const PauseState &left, const PauseState &right) {
+    return left.reasons == right.reasons &&
+           left.stream_offline_pending_ms == right.stream_offline_pending_ms &&
+           left.client_disconnect_pending_ms == right.client_disconnect_pending_ms &&
+           left.stream_unknown_pending_ms == right.stream_unknown_pending_ms &&
+           left.stream_unknown_notice == right.stream_unknown_notice;
+}
+
+bool coherent_cut(const TimerState &before, const TimerClockStep &step,
+                  const TimerAdvance &advance) {
+    using Life = TimerLifecycle;
+    using Phase = CountdownPhase;
+    using T = TimerTransition;
+
+    if (before.main_remaining_ms < 0 || before.grace_remaining_ms < 0 ||
+        (before.phase != Phase::Main &&
+         (before.phase != Phase::Grace || before.main_remaining_ms != 0)) ||
+        (before.awaiting_confirmation &&
+         (before.lifecycle != Life::Active || before.phase != Phase::Main ||
+          before.main_remaining_ms != 0))) {
+        return false;
+    }
+
+    const auto elapsed = step.paused ? Milliseconds{0} : step.elapsed_ms;
+    const auto progressed = advance.progressed_ms;
+    if (progressed < 0 || progressed > elapsed)
+        return false;
+
+    auto expected = before;
+    const auto matches = [&](std::initializer_list<T> transitions) {
+        return same_timer(expected, advance.state) &&
+               std::ranges::equal(advance.transitions, transitions);
+    };
+
+    if (before.lifecycle != Life::Active) {
+        return (before.lifecycle == Life::Ready || before.lifecycle == Life::Finished) &&
+               progressed == 0 && matches({});
+    }
+    if (!advance.transitions.empty() && advance.transitions.front() == T::HardEndReached) {
+        expected.lifecycle = Life::Finished;
+        expected.awaiting_confirmation = false;
+        return progressed == 0 && matches({T::HardEndReached, T::Finished});
+    }
+    if (before.awaiting_confirmation)
+        return progressed == 0 && matches({});
+
+    if (before.phase == Phase::Grace) {
+        const auto consumed = std::min(elapsed, before.grace_remaining_ms);
+        expected.grace_remaining_ms -= consumed;
+        if (expected.grace_remaining_ms > 0)
+            return progressed == consumed && matches({});
+        expected.lifecycle = Life::Finished;
+        return progressed == consumed && matches({T::GraceExpired, T::Finished});
+    }
+
+    const auto main = before.main_remaining_ms;
+    if (elapsed < main) {
+        expected.main_remaining_ms -= elapsed;
+        return progressed == elapsed && matches({});
+    }
+
+    expected.main_remaining_ms = 0;
+    if (advance.state.phase == Phase::Main) {
+        if (advance.state.awaiting_confirmation) {
+            expected.awaiting_confirmation = true;
+            return progressed == main && matches({T::MainExpired, T::ConfirmationRequired});
+        }
+        expected.lifecycle = Life::Finished;
+        return progressed == main && matches({T::MainExpired, T::Finished});
+    }
+
+    expected.phase = Phase::Grace;
+    if (advance.state.lifecycle == Life::Active) {
+        // Ongoing Grace consumes all overshoot. Its starting balance must fit in
+        // the timer's duration range, even when Fresh replaces the retained balance.
+        const auto remaining = advance.state.grace_remaining_ms;
+        expected.grace_remaining_ms = remaining;
+        return progressed == elapsed && remaining > 0 &&
+               remaining <= std::numeric_limits<Milliseconds>::max() - (elapsed - main) &&
+               matches({T::MainExpired, T::GraceStarted});
+    }
+
+    // When the cut also exhausts Grace, only the producer knows its starting
+    // balance. Shared and Fresh are indistinguishable here. Check the bounds
+    // and full trace without inferring a configuration from the retained balance.
+    expected.lifecycle = Life::Finished;
+    expected.grace_remaining_ms = 0;
+    return progressed >= main &&
+           matches({T::MainExpired, T::GraceStarted, T::GraceExpired, T::Finished});
+}
+
 bool same_basis(const RecoveryBasis &left, const RecoveryBasis &right) {
     return left.timer_lineage == right.timer_lineage &&
            left.checkpoint_ref == right.checkpoint_ref &&
@@ -62,29 +161,46 @@ ModifierClockObservation restart_observation(const DowntimeRecoveryInput &input)
     return {input.basis.timer_lineage, input.restart.observation_ref, input.restart.utc.value().ms};
 }
 
+void validate_count_progression(const DowntimeRecoveryInput &input,
+                                const RecoveryTimerProposal &selected) {
+    // Reuse CORE-006's reconstruction, including schedules and the D-1 rule,
+    // to verify the complete selected branch before any modifier projection.
+    const auto outcome = preview_downtime_recovery(input);
+    const auto *preview = std::get_if<DowntimeRecoveryPreview>(&outcome);
+    require(preview && preview->count_elapsed,
+            "Modifier recovery requires available Count evidence");
+    const auto &expected = *preview->count_elapsed;
+    require(
+        same_timer(selected.timer, expected.timer) && same_pause(selected.pause, expected.pause) &&
+            std::ranges::equal(selected.transitions, expected.transitions,
+                               [](const RecoveryTransition &left, const RecoveryTransition &right) {
+                                   return left.transition == right.transition &&
+                                          left.utc == right.utc && left.basis == right.basis;
+                               }) &&
+            std::ranges::equal(
+                selected.progression, expected.progression,
+                [](const RecoveryProgressSlice &left, const RecoveryProgressSlice &right) {
+                    return left.from == right.from && left.elapsed_ms == right.elapsed_ms;
+                }),
+        "Modifier recovery requires the complete selected Count evidence");
+}
+
 ModifierRecoveryProjection project_offline_progress(const DowntimeRecoveryInput &input,
                                                     const RecoveryTimerProposal &selected,
                                                     const ModifierClockValue &checkpoint) {
+    validate_count_progression(input, selected);
     ModifierRecoveryProjection result{checkpoint, {}};
-    if (!live(checkpoint) || selected.progression.empty())
+    if (!live(checkpoint))
         return result;
 
-    require(qualified_gap(input).has_value(), "Offline progression requires a qualified gap");
-    auto through = input.checkpoint.utc->ms;
-    const auto restart = input.restart.utc->ms;
     for (const auto &slice : selected.progression) {
-        const auto from = slice.from.ms;
-        require(through <= from && from <= restart && slice.elapsed_ms > 0 &&
-                    slice.elapsed_ms <= restart - from,
-                "Modifier recovery slice falls outside the qualified gap");
         const auto remaining = *result.value.remaining_ms;
         if (debit(result.value, slice.elapsed_ms)) {
             result.events.push_back(candidate(ModifierRuleEvent::Expired,
                                               restart_observation(input), checkpoint.revision,
-                                              RecoveryUtcInstant{from + remaining}));
+                                              RecoveryUtcInstant{slice.from.ms + remaining}));
             break;
         }
-        through = from + slice.elapsed_ms;
     }
     return result;
 }
@@ -103,17 +219,15 @@ ModifierCutProposal project_modifier_cut(const ModifierClockObservation &before,
                 (before.ref != now.ref || (step.elapsed_ms == 0 && before.utc_ms == now.utc_ms)),
             "Modifier cut must bind an admitted step on the same lineage");
 
-    const auto progressed = timer_advance.progressed_ms;
-    require(0 <= progressed && progressed <= step.elapsed_ms &&
-                (progressed == 0 || (timer_before.lifecycle == TimerLifecycle::Active &&
-                                     !timer_before.awaiting_confirmation && !step.paused)),
-            "Modifier cut requires valid timer progression");
+    require(coherent_cut(timer_before, step, timer_advance),
+            "Modifier cut requires coherent timer progression");
 
     ModifierCutProposal result{head, {}, {}};
     result.events.assign(timer_advance.transitions.begin(), timer_advance.transitions.end());
     if (result.head) {
-        const auto elapsed =
-            result.head->mode == ModifierClockMode::RealElapsed ? step.elapsed_ms : progressed;
+        const auto elapsed = result.head->mode == ModifierClockMode::RealElapsed
+                                 ? step.elapsed_ms
+                                 : timer_advance.progressed_ms;
         if (debit(*result.head, elapsed)) {
             result.events.emplace_back(
                 candidate(ModifierRuleEvent::Expired, now, result.head->revision));
@@ -225,13 +339,14 @@ ModifierRecoveryProjection project_modifier_review_resolution(
     require(checkpoint.mode == current.mode && checkpoint.revision == current.revision,
             "Modifier resolution requires the checkpoint and current capture of one revision");
 
-    if (current.mode == ModifierClockMode::RealElapsed || current.remaining_ms == 0)
+    if (current.mode == ModifierClockMode::RealElapsed)
         return {current, {}};
+    const auto &source = current.remaining_ms == 0 ? current : checkpoint;
     if (resolved->command.choice == RecoveryOfflineChoice::Freeze)
-        return {checkpoint, {}};
+        return {source, {}};
     // Only the selected offline branch progresses Active time. The resolved
     // timer can also include a current finish and an editorial correction.
-    return project_offline_progress(input, resolved->selected_at_restart, checkpoint);
+    return project_offline_progress(input, resolved->selected_at_restart, source);
 }
 
 ModifierScoreBasis capture_modifier_score(const ModifierScoreArrival &arrival,
