@@ -1703,13 +1703,11 @@ class HoldAccess : public Access {
             const review_detail::LinkedReviewReads *review = nullptr) {
         if (auto r = replay(b.mutation_ref, HM::resolution, b))
             return *r;
+        // The checked financial owner resolves linked batches with unproven financial closures.
         if (!mixed_set_checked && b.application &&
             std::holds_alternative<core::ContributionId>(b.subject.id) &&
             financial_sql::selected(session_) &&
-            !execute({"SELECT hold_ref FROM main.subathon_financial_refunds AS f "
-                      "WHERE subject=? AND hold_ref IS NOT NULL AND NOT EXISTS "
-                      "(SELECT 1 FROM main.subathon_financial_resolutions AS r "
-                      "WHERE r.hold_ref=f.hold_ref) LIMIT 1",
+            !execute({"SELECT f.hold_ref" + financial_sql::hold_candidates_for_subject + " LIMIT 1",
                       {encode_plan_revision_uint64(subject_id(b.subject))}})
                  .empty())
             return normal(HD::stale_active_set);

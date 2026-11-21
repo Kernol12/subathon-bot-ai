@@ -134,8 +134,7 @@ milestone_crossings(const SqliteWorkSession &session, const Observation &observa
 
         const auto projected = core::advance_milestone_progression(
             {track.track_ref, definition->revision, prefix->revision, after_score,
-             std::move(definition->targets), std::move(prefix->members)},
-            {.reference_bytes = 4096});
+             std::move(definition->targets), std::move(prefix->members)});
 
         // The reducer may propose a suffix, but only the existing committed
         // prefix can supply refund crossings. No new occurrence is staged.
@@ -155,7 +154,20 @@ milestone_crossings(const SqliteWorkSession &session, const Observation &observa
     } catch (const SqliteBundleStorageFailure &error) {
         if (error.reason() != SqliteBundleStorageReason::invalid_stored_data)
             throw;
-    } catch (const core::MilestoneProgressionFailure &) {
+    } catch (const core::MilestoneProgressionFailure &error) {
+        using Error = core::MilestoneProgressionError;
+        switch (error.code()) {
+        case Error::invalid_reference:
+        case Error::duplicate_milestone:
+        case Error::nonascending_targets:
+        case Error::invalid_completed_prefix:
+            return {};
+        case Error::resource_limit:
+            throw SqliteBundleStorageFailure(SqliteBundleStorageReason::result_limit);
+        case Error::invalid_options:
+            throw;
+        }
+        throw;
     }
     return {};
 }

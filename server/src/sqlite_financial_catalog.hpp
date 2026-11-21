@@ -5,6 +5,18 @@
 
 namespace subathon::server::financial_sql {
 
+// A legacy closure has a v1 document and carries the same envelope across resolution.
+// Any other selected hold needs the financial owner's readback before it can be excluded.
+inline const QString hold_candidates_for_subject =
+    " FROM main.subathon_financial_refunds AS f "
+    "LEFT JOIN main.subathon_financial_resolutions AS r ON r.hold_ref=f.hold_ref "
+    "WHERE f.subject=? AND f.hold_ref IS NOT NULL "
+    "AND (r.hold_ref IS NULL OR typeof(r.document)<>'blob' "
+    "OR substr(r.document,1,8)<>X'0000000000000001' OR NOT EXISTS ("
+    "SELECT 1 FROM main.subathon_app_states b CROSS JOIN main.subathon_app_states a "
+    "WHERE b.token=r.before_token AND a.token=r.after_token "
+    "AND b.format_ref=a.format_ref AND b.document=a.document))";
+
 inline bool selected(const SqliteWorkSession &session) {
     const auto rows = session.execute(
         {"SELECT CASE WHEN typeof(version)!='integer' THEN NULL WHEN version BETWEEN 1 AND 14 THEN "

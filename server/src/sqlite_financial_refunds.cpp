@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "financial_refund_live_p.hpp"
 #include "sqlite_application_bundle_access.hpp"
+#include "sqlite_financial_catalog.hpp"
 #include "sqlite_financial_hold_access.hpp"
 #include "sqlite_financial_values.hpp"
 #include "sqlite_milestone_edit_detail.hpp"
@@ -814,16 +815,8 @@ std::vector<FinancialTimerHold> active_financial(const SqliteWorkSession &s,
     if (!cid)
         return {};
     const auto rows = s.execute(
-        {"SELECT f.operation_scope,f.operation_ref,r.operation_scope,r.operation_ref "
-         "FROM main.subathon_financial_refunds AS f "
-         "LEFT JOIN main.subathon_financial_resolutions AS r ON r.hold_ref=f.hold_ref "
-         "WHERE f.subject=? AND f.hold_ref IS NOT NULL "
-         "AND (r.hold_ref IS NULL OR typeof(r.document)<>'blob' "
-         "OR substr(r.document,1,8)<>X'0000000000000001' OR NOT EXISTS ("
-         "SELECT 1 FROM main.subathon_app_states b CROSS JOIN main.subathon_app_states a "
-         "WHERE b.token=r.before_token AND a.token=r.after_token "
-         "AND b.format_ref=a.format_ref AND b.document=a.document)) "
-         "ORDER BY f.hold_ref LIMIT ?",
+        {"SELECT f.operation_scope,f.operation_ref,r.operation_scope,r.operation_ref" +
+             fs::hold_candidates_for_subject + " ORDER BY f.hold_ref LIMIT ?",
          {encode_plan_revision_uint64(cid->value), fs::collection_limit + 1}});
     if (rows.size() > fs::collection_limit)
         throw SqliteBundleStorageFailure(Reason::result_limit);
