@@ -26,7 +26,10 @@ enum class Stop {
     stale,
     conflict,
     busy,
-    incomplete_prefix
+    incomplete_prefix,
+    wrong_scope,
+    wrong_document_role,
+    unproved_range
 };
 struct ManifestMissing {};
 inline std::variant<ManifestMissing, MigrationManifest> compiled_connector_manifest() {
@@ -38,6 +41,15 @@ struct ManagedInput {
     core::ReceiptInput receipt;
     VerifiedActivityLink activity;
     QByteArray capture;
+    QByteArray installation{"install"};
+    QByteArray stream{"S"};
+    struct PageSlot {
+        QByteArray operation;
+        qint64 page, item;
+    };
+    std::optional<PageSlot> history{};
+    enum class Admission { creation_eligible, audit_only, confirmation_only };
+    Admission admission{Admission::creation_eligible};
 };
 struct AttemptLocator {
     core::ReceiptId receipt;
@@ -108,8 +120,70 @@ struct PageBinding {
     QByteArray frontier_before;
     QByteArray frontier_after;
     QByteArray qualified_proof;
+    enum class Coverage { contiguous, unproved, lost, recovered, new_baseline };
+    Coverage coverage{Coverage::contiguous};
+    QByteArray upper_bound;
+    qint64 epoch{1};
+    qint64 gap_revision{1};
+    qint64 policy_revision{1};
+    QByteArray generation{"g3"};
 };
 inline Stop finalize_page(const SqliteWorkSession &, const PageBinding &) {
+    return Stop::not_implemented;
+}
+
+struct GapOpening {
+    QByteArray installation, provider, account, stream, gap_ref;
+    qint64 epoch, source_revision, policy_revision;
+    QByteArray old_generation, new_generation, frontier, upper_cut, cursor_contract, observation;
+    QByteArray cut_request;
+};
+inline Stop open_gap(const SqliteWorkSession &, const GapOpening &) {
+    return Stop::not_implemented;
+}
+
+struct PageAdmission {
+    PageBinding binding;
+    QList<QByteArray> normalized_items;
+    std::optional<QuarantineInput> quarantine_preflight{};
+};
+inline Stop bind_page(const SqliteWorkSession &, const PageAdmission &) {
+    return Stop::not_implemented;
+}
+
+struct Rollover {
+    QByteArray operation, replacement, continuation, frontier, immutable_intent, authority;
+    qint64 operation_revision, source_revision;
+};
+inline Stop rollover_operation(const SqliteWorkSession &, const Rollover &) {
+    return Stop::not_implemented;
+}
+
+struct SelectedKey {
+    QByteArray installation, provider, account, stream;
+    QByteArray after;
+    bool include_documents{};
+    bool exact{};
+};
+struct SelectedEntry {
+    QByteArray ref;
+    std::optional<QByteArray> document;
+    bool operator==(const SelectedEntry &) const = default;
+};
+struct SelectedPage {
+    Stop stop;
+    QList<SelectedEntry> entries;
+    std::optional<QByteArray> next_after;
+};
+inline SelectedPage inspect_intake(const SqliteWorkSession &, const SelectedKey &) {
+    return {Stop::not_implemented, {}, {}};
+}
+
+struct QuarantineResolution {
+    QuarantineInput selected;
+    QByteArray current_authority;
+};
+inline Stop resolve_quarantine(const SqliteWorkSession &, const QuarantineResolution &) {
     return Stop::not_implemented;
 }
 

@@ -204,10 +204,10 @@ struct Populated {
                 "Independent committed score and count");
     }
 
-    void install() {
-        db.write([](const auto &s) {
+    void install(const std::string &installation = "install") {
+        db.write([&](const auto &s) {
             require(SqliteAccountSessionUnit(s, {}).insert_installation(
-                        {{"install", "epoch"}, "revision"}) == LifecycleWriteResult::staged,
+                        {{installation, "epoch"}, "revision"}) == LifecycleWriteResult::staged,
                     "The owning account store commits the fixture installation");
         });
     }

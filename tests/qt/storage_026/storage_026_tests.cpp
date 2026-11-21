@@ -2,12 +2,14 @@
 #include "missing_port.hpp"
 #include "populated_fixture.hpp"
 
+#include "../../../server/src/sqlite_selected_record_read.hpp"
 #include "../support/milestone_target_edit_fixture.hpp"
 #include "../support/sqlite_modifier_activations_fixture.hpp"
 #include "../support/sqlite_rate_override_writer_fixture.hpp"
 
 #include <array>
 #include <subathon/server/sqlite_reference_authority.hpp>
+#include <subathon/server/sqlite_reference_capture.hpp>
 
 namespace {
 using namespace storage_026_fixture;
@@ -141,6 +143,10 @@ std::pair<ManagedResult, SqliteWorkResult> manage(CatalogFile &file, const Manag
                     work.error == WorkError::not_committed && !work.value,
                 "Missing managed port returns only an explicit rolled-back first stop");
     return {std::move(result->value()), work};
+}
+
+ReferenceRule capture_rule() {
+    return {"R", "r", "a", "b", "T", 600000, {ApplicationPrincipalKind::automation, "I", "U"}, "K"};
 }
 
 constexpr auto receipt_namespace = "00000001530000000152000000014e";
@@ -351,7 +357,7 @@ struct Finished : Populated {
         });
     }
 
-    ApplicationOperationKey refund() {
+    ApplicationOperationKey refund(FinancialRefundEffectPort *port = nullptr) {
         FinancialRefundCommand request;
         db.write([&](const auto &s) {
             const ApplicationPlanKey plan{"terminal-plan", 1};
@@ -384,8 +390,9 @@ struct Finished : Populated {
         finance::Authority authority;
         finance::Effects effects;
         db.write([&](const auto &s) {
-            require(stage_financial_refund(s, request, candidate, authority, effects).disposition ==
-                        FinancialDisposition::applied,
+            auto &selected_port = port ? *port : static_cast<FinancialRefundEffectPort &>(effects);
+            require(stage_financial_refund(s, request, candidate, authority, selected_port)
+                            .disposition == FinancialDisposition::applied,
                     "The actual financial producer applies one fifth of +15 at ordinal 2");
         });
         head(99, 7, 102);
@@ -613,6 +620,8 @@ struct EditRelease final : MilestoneEditReleaseAuthority {
 
 } // namespace
 
+#include "transition_fixture.hpp"
+
 class Storage026Tests final : public QObject {
     Q_OBJECT
   private slots:
@@ -627,6 +636,9 @@ class Storage026Tests final : public QObject {
             require(std::holds_alternative<MigrationManifest>(manifest),
                     "Missing compiled connector-intake manifest after healthy shipped v19");
             const auto &actual = std::get<MigrationManifest>(manifest);
+            require(!actual.steps.isEmpty() &&
+                        actual.steps.back().id == QStringLiteral("connector-intake-storage-v1"),
+                    "The manifest variant returns the exact case-sensitive successor marker");
             require(actual.store_identity == fixture.store_identity &&
                         actual.catalog_format == fixture.catalog_format &&
                         actual.supported_starting_versions == fixture.supported_starting_versions &&
@@ -1806,6 +1818,8 @@ class Storage026Tests final : public QObject {
         QTest::newRow("other-observed-facts") << 2;
         QTest::newRow("other-valid-configuration") << 3;
         QTest::newRow("other-valid-context") << 4;
+        QTest::newRow("exact-reference-wrong-document-role") << 5;
+        QTest::newRow("wrong-retained-scope") << 6;
     }
 
     void selectedAttemptExactClosure() {
@@ -1818,13 +1832,24 @@ class Storage026Tests final : public QObject {
             auto selected = original;
             selected.intake_ref = "retry";
             selected.receipt.arrival = {9000, "new-connection", "cfg-new", "ctx-new"};
-            f.db.write([](const auto &s) {
+            const auto wrong_role = change == 5
+                                        ? encode_reference_execution({"ctx-new",
+                                                                      "ctx",
+                                                                      "I",
+                                                                      selected.receipt.identity,
+                                                                      {1},
+                                                                      {0},
+                                                                      {"closure-plan", 1},
+                                                                      capture_rule()})
+                                              .document
+                                        : QByteArray{};
+            f.db.write([&](const auto &s) {
                 const SqliteRetainedContextStore store(s);
                 require(store.retain(
                             {{RetainedKind::configuration, "cfg-new"}, "configuration-2", {}}) ==
                                 RetainDisposition::inserted &&
                             store.retain({{RetainedKind::arrival_context, "ctx-new"},
-                                          "context-2",
+                                          change == 5 ? wrong_role : QByteArray("context-2"),
                                           ConfigurationReference{"cfg-new"}}) ==
                                 RetainDisposition::inserted,
                         "Both potentially selected context edges refer to real retained documents");
@@ -1850,6 +1875,13 @@ class Storage026Tests final : public QObject {
                         SqlRows{{1, 8000, QByteArray("cfg"), QByteArray("ctx")},
                                 {2, 9000, QByteArray("cfg-new"), QByteArray("ctx-new")}},
                     "Both ordinals and both pairs of retained references are present");
+            if (change == 5)
+                require(
+                    f.db.rows(
+                        "SELECT document FROM main.subathon_retained_contexts WHERE reference=?",
+                        {QByteArray("ctx-new")}) == SqlRows{{wrong_role}} &&
+                        wrong_role.startsWith("SRX1"),
+                    "Receipt and attempt agree on one real retained execution-role document");
             auto bound = selected;
             if (change == 2)
                 bound.receipt.facts.money = core::ReceiptMoney{"19.00", "EUR"};
@@ -1857,14 +1889,17 @@ class Storage026Tests final : public QObject {
                 bound.receipt.arrival.configuration_ref = "cfg";
             if (change == 4)
                 bound.receipt.arrival.modifier_context_ref = "ctx";
+            if (change == 6)
+                bound.stream = QByteArray("S\0", 2);
             const auto before = protected_data(f.db);
             const auto result = read_missing(f.db, [&](const auto &s) {
                 return read_attempt(s, bound, {core::ReceiptId{1}, change == 1 ? 1 : 2});
             });
-            const auto expected =
-                std::array{Stop::exact_replay, Stop::different_ordinal, Stop::different_facts,
-                           Stop::different_configuration, Stop::different_context}
-                    .at(change);
+            const auto expected = std::array{Stop::exact_replay,      Stop::different_ordinal,
+                                             Stop::different_facts,   Stop::different_configuration,
+                                             Stop::different_context, Stop::wrong_document_role,
+                                             Stop::wrong_scope}
+                                      .at(change);
             require(result.stop == expected && protected_data(f.db) == before,
                     "A valid independent FK cannot stand in for the exact selected closure");
             if (change == 0)
@@ -2045,6 +2080,7 @@ class Storage026Tests final : public QObject {
         QTest::newRow("same-immutable-intent") << 1;
         QTest::newRow("same-key-different-utc-start") << 2;
         QTest::newRow("different-active-operation") << 3;
+        QTest::newRow("same-key-different-exact-source") << 4;
     }
 
     void operationBinding() {
@@ -2063,10 +2099,19 @@ class Storage026Tests final : public QObject {
                     "INSERT INTO main.subathon_intake_operations VALUES("
                     "X'696e7374616c6c',X'4f',X'50',X'41',X'53',1,1,NULL,1,X'6733',1,?,X'54',1,0,0)",
                     {bound});
+            if (scenario == 4) {
+                mutate(f.db, "INSERT INTO main.subathon_intake_members VALUES("
+                             "X'696e7374616c6c',1,X'50',X'41',X'5300',X'737570706f7274',"
+                             "X'73636f7265',X'6f7665726c61792d32',1,X'6c')");
+                mutate(f.db, "INSERT INTO main.subathon_intake_sources "
+                             "SELECT installation,provider,account,X'5300',epoch,generation,"
+                             "revision,policy_revision,baseline_state,cut,frontier,document "
+                             "FROM main.subathon_intake_sources");
+            }
             OperationIntent intent{"install",
                                    "P",
                                    "A",
-                                   "S",
+                                   scenario == 4 ? QByteArray("S\0", 2) : QByteArray("S"),
                                    scenario == 3 ? "Q" : "O",
                                    1,
                                    1,
@@ -2094,9 +2139,9 @@ class Storage026Tests final : public QObject {
                 },
                 10000);
             require(result->has_value(), "Operation binding seam reached after writer ownership");
-            const auto expected =
-                std::array{Stop::committed, Stop::exact_replay, Stop::conflict, Stop::busy}.at(
-                    scenario);
+            const auto expected = std::array{Stop::committed, Stop::exact_replay, Stop::conflict,
+                                             Stop::busy, Stop::conflict}
+                                      .at(scenario);
             const auto after = f.db.rows("SELECT operation_ref,intent,revision,next_ordinal,"
                                          "continuation,slots FROM main.subathon_intake_operations");
             if (**result != Stop::committed)
@@ -2122,6 +2167,7 @@ class Storage026Tests final : public QObject {
         QTest::newRow("installation-bytes-spare-count") << 3;
         QTest::newRow("installation-count-spare-bytes") << 4;
         QTest::newRow("exact-replay-at-full-stream") << 5;
+        QTest::newRow("maximum-item-too-large-with-provenance") << 6;
     }
 
     void quarantineLimits() {
@@ -2133,7 +2179,10 @@ class Storage026Tests final : public QObject {
             stage_scope(f.db);
             f.db.reopen(finance::limits());
             const auto charge = scenario == 3 || scenario < 2 ? 32768 : 1024;
-            const auto streams = scenario == 3 ? 2 : scenario == 4 ? 4 : scenario >= 2 ? 1 : 0;
+            const auto streams = scenario == 3                    ? 2
+                                 : scenario == 4                  ? 4
+                                 : scenario == 2 || scenario == 5 ? 1
+                                                                  : 0;
             const auto stream_name = [](int i) {
                 return QByteArray("stream-") + QByteArray::number(i);
             };
@@ -2141,7 +2190,7 @@ class Storage026Tests final : public QObject {
             // Test input documents use one tag and two BE32 length fields.
             // The SQL anchor stores the normalized/provenance components and
             // the full independently derived declared charge, not an unframed estimate.
-            const auto document = [&](int bytes) {
+            const auto document = [&](qsizetype bytes) {
                 return QByteArray(bytes - 9 - provenance.size(), 'n');
             };
             const auto append = [&](const auto &s, int index) {
@@ -2184,7 +2233,9 @@ class Storage026Tests final : public QObject {
                         "Beyond individual count, aggregate canonical bytes are independently "
                         "asserted");
             const auto target = scenario == 2 || scenario == 5 ? 0 : streams;
-            const auto requested_charge = scenario == 1 ? 32769 : charge;
+            const auto requested_charge = scenario == 1   ? 32769
+                                          : scenario == 6 ? 32768 + 9 + provenance.size()
+                                                          : charge;
             const QuarantineInput input{"install",
                                         "P",
                                         "A",
@@ -2215,7 +2266,8 @@ class Storage026Tests final : public QObject {
                         "Typed overflow or replay leaves exact committed count and bytes");
             const auto expected =
                 std::array{Stop::committed,       Stop::intake_limit,    Stop::quarantine_full,
-                           Stop::quarantine_full, Stop::quarantine_full, Stop::exact_replay}
+                           Stop::quarantine_full, Stop::quarantine_full, Stop::exact_replay,
+                           Stop::intake_limit}
                     .at(scenario);
             require(**selected == expected,
                     "Component cap, stream cap, installation caps and exact retry are independent");
@@ -2289,7 +2341,9 @@ class Storage026Tests final : public QObject {
                                       "U",
                                       "F",
                                       "E",
-                                      "qualified-contiguous-proof"};
+                                      "qualified-contiguous-proof",
+                                      PageBinding::Coverage::contiguous,
+                                      {}};
             const auto expected =
                 std::array{Stop::incomplete_prefix, Stop::committed, Stop::stale,    Stop::conflict,
                            Stop::conflict,          Stop::committed, Stop::committed}
@@ -2434,6 +2488,1531 @@ class Storage026Tests final : public QObject {
             if (expected == Stop::may_link)
                 require(selected.original == core::ContributionId{0},
                         "Peer links only to the one known durable CID");
+        });
+    }
+
+    void gapOpening_data() {
+        QTest::addColumn<QString>("edge");
+        for (const auto *name : {"exact", "stale-source", "cut-result-at", "cut-result-over",
+                                 "cut-request-at", "cut-request-over", "proof-at", "proof-over",
+                                 "reference-at", "reference-over", "position-at", "position-over"})
+            QTest::newRow(name) << QString(name);
+    }
+
+    void gapOpening() {
+        QFETCH(QString, edge);
+        check([&] {
+            Populated f;
+            intake_origin(f);
+            mutate(f.db, "DELETE FROM main.subathon_intake_gaps");
+            GapOpening request{"install",
+                               "P",
+                               "A",
+                               "S",
+                               "G",
+                               1,
+                               9,
+                               1,
+                               "g3",
+                               "g4",
+                               "F",
+                               "Z",
+                               "cursor-contract",
+                               "loss-observation",
+                               "bounded-cut-request"};
+            const bool over = edge.endsWith("-over");
+            const auto frame = [](int bytes) {
+                return QByteArray("Q") + frame_fields({QByteArray(bytes - 5, 'p')});
+            };
+            if (edge.startsWith("cut-result"))
+                request.upper_cut = frame(16384 + over);
+            if (edge.startsWith("cut-request"))
+                request.cut_request = frame(16384 + over);
+            if (edge.startsWith("proof"))
+                request.observation = frame(16384 + over);
+            if (edge.startsWith("reference"))
+                request.gap_ref = QByteArray(4096 + over, 'g');
+            if (edge.startsWith("position")) {
+                request.frontier = QByteArray(4096 + over, 'f');
+                mutate(f.db, "UPDATE main.subathon_intake_sources SET frontier=?",
+                       {QByteArray(4096, 'f')});
+            }
+            if (edge == "stale-source")
+                --request.source_revision;
+            const auto before = intake_cursors(f.db);
+            const auto selected =
+                transition(f.db, [&](const auto &s) { return open_gap(s, request); });
+            const auto after = intake_cursors(f.db);
+            if (selected != Stop::committed)
+                require(after == before,
+                        "An unopened gap leaves both the source head and gap history unchanged");
+            const auto expected = over                     ? Stop::intake_limit
+                                  : edge == "stale-source" ? Stop::stale
+                                                           : Stop::committed;
+            require(selected == expected,
+                    "Gap opening fences the source and charges each qualified field independently");
+            if (expected == Stop::committed)
+                require(
+                    after[0] == SqlRows{{10, QByteArray("g4"), request.frontier}} &&
+                        after[3] == SqlRows{{1, 0, request.frontier, request.upper_cut}} &&
+                        after[4].isEmpty(),
+                    "New generation retains the last proved frontier without asserting coverage");
+        });
+    }
+
+    void emptyCoverage_data() {
+        QTest::addColumn<int>("kind");
+        QTest::newRow("unproved-exhaustion") << 0;
+        QTest::newRow("proved-empty-range") << 1;
+        QTest::newRow("proved-loss") << 2;
+        QTest::newRow("append-recovery-after-loss") << 3;
+        QTest::newRow("append-fresh-baseline-after-loss") << 4;
+        QTest::newRow("unproved-frontier-advance-refused") << 5;
+    }
+
+    void emptyCoverage() {
+        QFETCH(int, kind);
+        check([&] {
+            Populated f;
+            intake_origin(f);
+            catchup(f.db);
+            auto page = page_admission(1, {}).binding;
+            const bool earlier_loss = kind == 3 || kind == 4;
+            if (earlier_loss) {
+                mutate(f.db, "INSERT INTO main.subathon_intake_operations VALUES("
+                             "X'696e7374616c6c',X'6c6f7373',X'50',X'41',X'53',1,1,X'47',0,"
+                             "X'6733',3,X'6c',X'54',2,0,1)");
+                page.gap_revision = 2;
+                mutate(f.db, "UPDATE main.subathon_intake_gaps SET revision=2,status=1");
+                mutate(f.db,
+                       "INSERT INTO main.subathon_intake_segments VALUES("
+                       "X'696e7374616c6c',X'50',X'41',X'53',1,X'47',X'6c6f7373',2,1,1,?)",
+                       {QByteArray("prior-loss:F:E")});
+            }
+            anchor_page(f.db, page);
+            using Coverage = PageBinding::Coverage;
+            page.coverage =
+                std::array{Coverage::unproved,  Coverage::contiguous,   Coverage::lost,
+                           Coverage::recovered, Coverage::new_baseline, Coverage::contiguous}
+                    .at(kind);
+            if (kind == 0)
+                page.frontier_after = "F";
+            page.qualified_proof = kind == 0 || kind == 5 ? QByteArray{}
+                                                          : QByteArray("qualified:") +
+                                                                QByteArray::number(kind) + ":F:E";
+            const auto before = intake_cursors(f.db);
+            const auto selected =
+                transition(f.db, [&](const auto &s) { return finalize_page(s, page); });
+            const auto after = intake_cursors(f.db);
+            if (selected != Stop::committed)
+                require(after == before,
+                        "A missing finalization leaves even the bound empty page intact");
+            if (kind == 5) {
+                require(
+                    selected == Stop::unproved_range && after == before,
+                    "An asserted frontier advance without qualified evidence refuses atomically");
+                return;
+            }
+            require(selected == Stop::committed,
+                    "An empty page can settle its cursor independently of coverage");
+            require(
+                after[1].size() == (earlier_loss ? 2 : 1) &&
+                    after[1].front() == SqlRow{QByteArray("O"), 3, 2, QByteArray("U"), 0, 0} &&
+                    (!earlier_loss || after[1].back() == before[1].back()) &&
+                    after[2] == SqlRows{{1, 0, 0, 1}} && after[5] == SqlRows{{0}},
+                "The empty page changes no item disposition and consumes exactly one page ordinal");
+            const auto frontier = QByteArray(kind == 1 || kind == 3 || kind == 4 ? "E" : "F");
+            require(
+                after[0].size() == 1 && after[0][0][2].toByteArray() == frontier,
+                "Only qualified coverage, recovery or a separate baseline changes the frontier");
+            if (kind == 0) {
+                require(after[3] == before[3] && after[4].isEmpty(),
+                        "Token-only exhaustion leaves the range unresolved");
+            } else {
+                require(after[4].size() == (earlier_loss ? 2 : 1) &&
+                            after[4].back()[2].toInt() == (kind == 2 ? 1 : 0) &&
+                            after[4].back()[3].toByteArray() == page.qualified_proof &&
+                            (!earlier_loss || after[4].front() == before[4].front()),
+                        "Coverage appends its own proof and preserves any prior loss verbatim");
+            }
+        });
+    }
+
+    void pageAdmission_data() {
+        QTest::addColumn<QString>("edge");
+        for (const auto *name :
+             {"new", "exact-retry", "changed-token", "changed-input", "stale", "item-at",
+              "item-over", "envelope-at", "envelope-over", "count-at", "count-over", "cursor-at",
+              "cursor-over", "ordinal-at", "ordinal-over", "slots-at", "slots-and-count-over"})
+            QTest::newRow(name) << QString(name);
+    }
+
+    void pageAdmission() {
+        QFETCH(QString, edge);
+        check([&] {
+            Populated f;
+            intake_origin(f);
+            const bool slot_edge = edge.startsWith("slots");
+            const bool ordinal = edge.startsWith("ordinal");
+            const bool over = edge.endsWith("-over");
+            const auto prior = ordinal && over ? 256 : slot_edge || ordinal ? 255 : 0;
+            catchup(f.db, prior + 1, slot_edge ? 4080 : 0);
+            if (prior)
+                completed_prefix(f.db, prior, slot_edge ? 16 : 0);
+            QList<QByteArray> items{normalized_item(18)};
+            if (edge.startsWith("item"))
+                items = {normalized_item(32768 + over)};
+            if (edge.startsWith("count") || slot_edge)
+                items = QList<QByteArray>(16 + over, normalized_item(18));
+            if (edge.startsWith("envelope")) {
+                // 1 tag + 4 count + 8 four-byte lengths; all eight items fit individually.
+                items = QList<QByteArray>(7, normalized_item(32768));
+                items.append(normalized_item(32731 + over));
+            }
+            auto request = page_admission(prior + 1, items);
+            if (edge.startsWith("envelope"))
+                require(request.binding.page.size() == 262144 + over,
+                        "Page envelope edge includes every item tag and length");
+            const bool anchored = edge == "exact-retry" || edge.startsWith("changed");
+            if (anchored) {
+                mutate(f.db, "UPDATE main.subathon_intake_operations SET slots=1");
+                anchor_page(f.db, request.binding);
+            }
+            if (edge == "changed-input")
+                request = page_admission(1, {normalized_item(19)});
+            if (edge == "changed-token")
+                request.binding.expected_continuation = "wrong";
+            if (edge == "stale")
+                --request.binding.operation_revision;
+            if (edge.startsWith("cursor")) {
+                request.binding.expected_continuation = QByteArray(4096 + over, 't');
+                mutate(f.db, "UPDATE main.subathon_intake_operations SET continuation=?",
+                       {QByteArray(4096, 't')});
+            }
+            const auto before = intake_cursors(f.db);
+            const auto selected =
+                transition(f.db, [&](const auto &s) { return bind_page(s, request); });
+            const auto after = intake_cursors(f.db);
+            if (selected != Stop::committed)
+                require(
+                    after == before,
+                    "Refusal or exact retry leaves the bound prefix, scope and slots unchanged");
+            const auto expected = over                    ? Stop::intake_limit
+                                  : edge == "stale"       ? Stop::stale
+                                  : edge == "exact-retry" ? Stop::exact_replay
+                                  : anchored              ? Stop::conflict
+                                                          : Stop::committed;
+            require(selected == expected, "Page admission compares the exact key, cursor and bytes "
+                                          "and enforces inclusive caps");
+            if (selected == Stop::committed) {
+                require(f.db.rows(
+                            "SELECT page,expected_continuation,item_count,committed_prefix,outcome "
+                            "FROM main.subathon_intake_pages WHERE ordinal=?",
+                            {prior + 1}) == SqlRows{{request.binding.page,
+                                                     request.binding.expected_continuation,
+                                                     items.size(), 0, 0}} &&
+                            after[5] == before[5] && after[0] == before[0] &&
+                            after[4] == before[4] && after[1][0][2].toInt() == prior + 1 &&
+                            after[1][0][4].toInt() == (slot_edge ? 4096 : items.size()),
+                        "Binding charges the unprocessed slots without starting any item unit");
+            }
+        });
+    }
+
+    void capRollover_data() {
+        QTest::addColumn<bool>("stale");
+        QTest::newRow("exact-cap") << false;
+        QTest::newRow("stale-operation-revision") << true;
+    }
+
+    void capRollover() {
+        QFETCH(bool, stale);
+        check([&] {
+            Populated f;
+            intake_origin(f);
+            catchup(f.db, 257, 4096);
+            completed_prefix(f.db, 256, 16);
+            const Rollover request{
+                "O", "next", "T", "F", "catchup:F:Z", "current-authority", stale ? 256 : 258, 9};
+            const auto before = intake_cursors(f.db);
+            const auto selected =
+                transition(f.db, [&](const auto &s) { return rollover_operation(s, request); });
+            const auto after = intake_cursors(f.db);
+            if (selected != Stop::committed)
+                require(after == before,
+                        "Refused rollover preserves the full operation and coverage");
+            require(selected == (stale ? Stop::stale : Stop::committed),
+                    "Only the exact authorized cap head can roll over");
+            if (!stale) {
+                require(
+                    f.db.rows("SELECT operation_ref,intent,continuation,next_ordinal,slots,epoch,"
+                              "gap_ref FROM main.subathon_intake_operations WHERE outcome=0") ==
+                            SqlRows{{QByteArray("next"), QByteArray("catchup:F:Z"), QByteArray("T"),
+                                     1, 0, 1, QByteArray("G")}} &&
+                        after[0] == before[0] && after[2] == before[2] && after[3] == before[3] &&
+                        after[4] == before[4] && after[5] == before[5],
+                    "Rollover retains exact bounds, frontier, token, gap and completed prefix");
+            }
+        });
+    }
+
+    void intentFraming_data() {
+        QTest::addColumn<bool>("over");
+        QTest::newRow("at-16384") << false;
+        QTest::newRow("over-16385") << true;
+    }
+
+    void intentFraming() {
+        QFETCH(bool, over);
+        check([&] {
+            Populated f;
+            intake_origin(f);
+            const QByteArray basis(16384 + over - 33, 'b');
+            const auto frame = frame_fields({"2026-11-21", "UTC", basis}) +
+                               QByteArray::fromHex("000001a1fb671800");
+            require(frame.size() == 16384 + over,
+                    "Literal field lengths plus the eight-byte UTC instant");
+            const OperationIntent request{
+                "install",      "P", "A", "S", "O", 1, 1, "g3", "T", "2026-11-21", "UTC", basis,
+                1795219200000LL};
+            const auto selected =
+                transition(f.db, [&](const auto &s) { return bind_history_operation(s, request); });
+            const auto rows =
+                f.db.rows("SELECT intent,next_ordinal,slots FROM main.subathon_intake_operations");
+            if (selected != Stop::committed)
+                require(rows.isEmpty(), "No operation or item slots after admission refusal");
+            require(selected == (over ? Stop::intake_limit : Stop::committed),
+                    "Intent framing is charged before an operation is created");
+            if (!over)
+                require(rows == SqlRows{{frame, 1, 0}}, "Within limit retains exact framed intent");
+        });
+    }
+
+    void selectedIntakePage_data() {
+        QTest::addColumn<QString>("edge");
+        for (const auto *name : {"entry-keyset", "byte-keyset", "omit-documents",
+                                 "indivisible-exact", "wrong-installation"})
+            QTest::newRow(name) << QString(name);
+    }
+
+    void selectedIntakePage() {
+        QFETCH(QString, edge);
+        check([&] {
+            Populated f;
+            f.install();
+            const bool exact = edge == "indivisible-exact";
+            auto input = managed("01", 8000, "large-selected-parent");
+            core::ReceiptId id{};
+            if (exact) {
+                input.receipt.arrival.configuration_ref = "big-config";
+                f.db.write([](const auto &s) {
+                    require(SqliteRetainedContextStore(s).retain(
+                                {{RetainedKind::configuration, "big-config"},
+                                 QByteArray(262144, 'c'),
+                                 {}}) == RetainDisposition::inserted,
+                            "Real retained configuration owns a 256 KiB document");
+                });
+                id = legacy_receipt(f.db, input);
+            }
+            advance(f.db);
+            stage_scope(f.db);
+            const bool wide = edge == "byte-keyset" || edge == "omit-documents";
+            const QByteArray doc(wide ? 32768 : 64, 'n');
+            if (exact) {
+                f.db.write([&](const auto &s) { entry_anchor(s, input, id, 1); });
+                require(
+                    f.db.rows("SELECT length(document) FROM main.subathon_retained_configurations "
+                              "WHERE reference=X'6269672d636f6e666967'") == SqlRows{{262144}},
+                    "The indivisible retained parent alone fills the exact readback budget");
+            } else {
+                f.db.write([&](const auto &s) {
+                    for (int i = 1; i <= 17; ++i)
+                        (void)s.execute(
+                            {"INSERT INTO main.subathon_intake_entries("
+                             "installation,provider,account,stream,intake_ref,epoch,generation,"
+                             "policy_revision,input,provenance,arrival_ms,phase,disposition) "
+                             "VALUES("
+                             "X'696e7374616c6c',X'50',X'41',X'53',?,1,X'6733',1,?,X'70',8000,2,1)",
+                             {QByteArray::number(i).rightJustified(2, '0'), doc}});
+                });
+                require(f.db.rows("SELECT count(*),min(length(input)),max(length(input)) "
+                                  "FROM main.subathon_intake_entries") ==
+                            SqlRows{{17, doc.size(), doc.size()}},
+                        "Exact ordered population is independent of the readback port");
+            }
+            SelectedKey key{edge == "wrong-installation" ? "elsewhere" : "install",
+                            "P",
+                            "A",
+                            "S",
+                            exact ? "01" : "",
+                            edge != "omit-documents",
+                            exact};
+            const auto read = [&](const SelectedKey &request) {
+                return read_missing(f.db,
+                                    [&](const auto &s) { return inspect_intake(s, request); });
+            };
+            const auto page = read(key);
+            if (exact || edge == "wrong-installation") {
+                require(page.stop == (exact ? Stop::intake_limit : Stop::wrong_scope) &&
+                            page.entries.isEmpty() && !page.next_after,
+                        "Oversized exact closure or foreign installation returns no projection");
+                return;
+            }
+            // A nonempty key + framing costs bytes beyond each payload. Eight
+            // full-size documents alone exhaust the budget. Seven fit.
+            const int count = edge == "byte-keyset" ? 7 : 16;
+            const auto first = [](int n) { return QByteArray::number(n).rightJustified(2, '0'); };
+            const auto compare = [&](const SelectedPage &p, int from, int through) {
+                QList<SelectedEntry> expected;
+                for (int i = from; i <= through; ++i)
+                    expected.append(
+                        {first(i), key.include_documents ? std::optional{doc} : std::nullopt});
+                require(p.stop == Stop::exact_replay && p.entries == expected,
+                        "Selected projection is bounded and ordered by exact BLOB keys");
+            };
+            compare(page, 1, count);
+            require(page.next_after == first(count), "Continuation is the last included exact key");
+            key.after = *page.next_after;
+            const auto later = read(key);
+            compare(later, count + 1, std::min(17, count * 2));
+            if (count == 7) {
+                require(later.next_after == "14", "Second byte-limited closure preserves its key");
+                key.after = *later.next_after;
+                const auto last = read(key);
+                compare(last, 15, 17);
+                require(!last.next_after, "Final byte-limited page is exhausted");
+            } else {
+                require(!later.next_after, "Final count-limited page is exhausted");
+            }
+        });
+    }
+
+    void resolveQuarantineScope_data() {
+        QTest::addColumn<int>("scenario");
+        QTest::newRow("authorized-release-and-identical-retry") << 0;
+        QTest::newRow("foreign-installation") << 1;
+        QTest::newRow("foreign-admission-separate-store") << 2;
+    }
+
+    void resolveQuarantineScope() {
+        QFETCH(int, scenario);
+        const bool foreign = scenario != 0;
+        check([&] {
+            Populated f;
+            intake_origin(f);
+            f.db.write([](const auto &s) {
+                (void)s.execute(
+                    {"WITH RECURSIVE e(n) AS (SELECT 1 UNION ALL SELECT n+1 FROM e WHERE n<256) "
+                     "INSERT INTO main.subathon_intake_entries("
+                     "installation,provider,account,stream,intake_ref,epoch,generation,"
+                     "policy_revision,input,provenance,arrival_ms,phase,disposition,quarantine_"
+                     "bytes) "
+                     "SELECT X'696e7374616c6c',X'50',X'41',X'53',CAST(printf('%d',n) AS BLOB),"
+                     "1,X'6733',1,?,X'70',8000,2,1,32768 FROM e",
+                     {normalized_item(32758)}});
+            });
+            const auto quota = [&] {
+                return f.db.rows("SELECT count(quarantine_bytes),sum(quarantine_bytes),count(*) "
+                                 "FROM main.subathon_intake_entries");
+            };
+            if (scenario == 2) {
+                Populated other;
+                other.install("other");
+                advance(other.db);
+                const auto foreign_state = other.db.rows(
+                    "SELECT installation_ref FROM main.subathon_account_installation");
+                require(
+                    foreign_state == SqlRows{{QByteArray("other")}} &&
+                        other.db.rows("SELECT count(*) FROM main.subathon_intake_entries") ==
+                            SqlRows{{0}},
+                    "A second disposable store owns its own installation and independent quota");
+                const QuarantineInput wrong{"install", "P", "A", "S", "17", normalized_item(32758),
+                                            "p"};
+                const auto denied =
+                    transition(other.db, [&](const auto &s) { return admit_quarantine(s, wrong); });
+                require(other.db.rows("SELECT count(*) FROM main.subathon_intake_entries") ==
+                            SqlRows{{0}},
+                        "Wrong-installation admission changes no row in the second store");
+                require(denied == Stop::wrong_scope && quota() == SqlRows{{256, 8388608, 256}},
+                        "Read the local singleton before any opaque key in either store");
+                return;
+            }
+            const auto before = quota();
+            require(before == SqlRows{{256, 8388608, 256}},
+                    "Full stream charges all unresolved entries");
+            const QuarantineInput new_entry{"install", "P", "A", "S", "new", normalized_item(32758),
+                                            "p"};
+            catchup(f.db);
+            auto first_page = page_admission(1, {new_entry.normalized});
+            first_page.quarantine_preflight = new_entry;
+            const auto bind = [&] {
+                return transition(f.db, [&](const auto &s) { return bind_page(s, first_page); });
+            };
+            const auto admit = [&] {
+                return transition(f.db,
+                                  [&](const auto &s) { return admit_quarantine(s, new_entry); });
+            };
+            if (!foreign) {
+                const auto bound_before = intake_cursors(f.db);
+                require(bind() == Stop::quarantine_full && intake_cursors(f.db) == bound_before &&
+                            quota() == before,
+                        "The otherwise valid page refuses before binding, reserving slots or "
+                        "starting item work");
+            }
+            auto selected = new_entry;
+            selected.key = "17";
+            selected.installation = foreign ? "other" : "install";
+            const auto result = transition(f.db, [&](const auto &s) {
+                return resolve_quarantine(s, {selected, "current-authority"});
+            });
+            if (result != Stop::committed)
+                require(quota() == before, "Refusal leaves the full stream intact");
+            require(result == (foreign ? Stop::wrong_scope : Stop::committed),
+                    "Resolution is qualified to the installation and exact selected hold");
+            if (!foreign) {
+                require(quota() == SqlRows{{255, 8355840, 256}},
+                        "One resolved entry remains auditable and releases one charge");
+                require(
+                    bind() == Stop::committed && quota() == SqlRows{{255, 8355840, 256}} &&
+                        f.db.rows("SELECT page,item_count,committed_prefix FROM "
+                                  "main.subathon_intake_pages") ==
+                            SqlRows{{first_page.binding.page, 1, 0}},
+                    "The identical page now binds without charging or processing its item twice");
+                require(admit() == Stop::committed && quota() == SqlRows{{256, 8388608, 257}},
+                        "The admitted hold consumes exactly the one released charge");
+            }
+        });
+    }
+
+    void managedFirstCommit_data() {
+        QTest::addColumn<bool>("historyFirst");
+        QTest::addColumn<int>("fault");
+        QTest::newRow("live-first-restart") << false << 0;
+        QTest::newRow("history-first-restart") << true << 0;
+        QTest::newRow("live-rollback-history-first") << true << 1;
+        QTest::newRow("history-rollback-live-first") << false << 1;
+        QTest::newRow("live-first-receipt-ack-loss") << false << 2;
+        QTest::newRow("history-first-receipt-ack-loss") << true << 2;
+        QTest::newRow("live-first-receipt-abnormal") << false << 3;
+        QTest::newRow("history-first-receipt-abnormal") << true << 3;
+        QTest::newRow("live-first-evidence-ack-loss") << false << 4;
+        QTest::newRow("history-first-evidence-ack-loss") << true << 4;
+        QTest::newRow("live-first-evidence-abnormal") << false << 5;
+        QTest::newRow("history-first-evidence-abnormal") << true << 5;
+    }
+
+    void managedFirstCommit() {
+        QFETCH(bool, historyFirst);
+        QFETCH(int, fault);
+        check([&] {
+            Populated f;
+            intake_origin(f);
+            const StorageLimits managed_limits{64, 256, 65536, 2097152, 1536, 4194304};
+            f.db.reopen(managed_limits);
+            for (int i = 1; i <= 6; ++i)
+                (void)f.intake("unmanaged-" + std::to_string(i));
+            auto live = managed("L", historyFirst ? 9000 : 8000, "60s/VL");
+            auto history = managed("H", historyFirst ? 8000 : 9000, "120s/VH");
+            catchup(f.db, 1, 1);
+            anchor_page(f.db, page_admission(1, {normalized_item(18)}).binding);
+            history.history = ManagedInput::PageSlot{"O", 1, 1};
+            // Use distinct real captures for the two arrivals. No intake or
+            // basis row is staged outside the managed receipt port.
+            live.receipt.arrival.modifier_context_ref = "arrival-L";
+            history.receipt.arrival.modifier_context_ref = "arrival-H";
+            f.db.write([&](const auto &s) {
+                for (const auto &input : {live, history})
+                    require(SqliteRetainedContextStore(s).retain(
+                                {{RetainedKind::arrival_context,
+                                  input.receipt.arrival.modifier_context_ref},
+                                 input.capture,
+                                 ConfigurationReference{"cfg"}}) == RetainDisposition::inserted,
+                            "Each selected arrival has its own shipped retained capture");
+            });
+            const auto &first = historyFirst ? history : live;
+            const auto &peer = historyFirst ? live : history;
+            const auto basis = [&] {
+                return f.db.rows("SELECT intake_ref,receipt_id,attempt_ordinal,capture "
+                                 "FROM main.subathon_intake_basis");
+            };
+            const auto initial = protected_data(f.db);
+            if (fault == 1) {
+                bool witnessed = false;
+                const auto [stopped, work] = manage(f.db, peer, [&] {
+                    witnessed = true;
+                    return false;
+                });
+                require(
+                    basis().isEmpty() && protected_data(f.db) == initial &&
+                        f.db.rows("SELECT count(*) FROM main.subathon_intake_entries") ==
+                            SqlRows{{0}},
+                    "Neither the basis nor the first proposed receipt/attempt survives rollback");
+                require(stopped.stop == Stop::known_rollback && witnessed &&
+                            work.transaction == TransactionOutcome::rolled_back && !work.value,
+                        "The rejected candidate reached the actual adopted pre-COMMIT callback");
+            }
+            const auto stage = [&](const ManagedInput &input, std::uint64_t id_value) {
+                const auto before = protected_data(f.db);
+                const auto prior = basis();
+                const auto [selected, work] = manage(f.db, input);
+                if (selected.stop == Stop::not_implemented)
+                    require(protected_data(f.db) == before && basis() == prior,
+                            "Typed missing behavior leaves independently inspected durable media "
+                            "unchanged");
+                require(selected.stop == Stop::committed &&
+                            selected.attempt == AttemptLocator{core::ReceiptId{id_value}, 1},
+                        "The managed receipt owner commits the exact new receipt and attempt");
+                finance::normal(work);
+            };
+            const auto arm_lost_ack = [&] {
+                require(SqliteWriterWorkAccess::inject_next_control_ack_loss(
+                            f.db.writer(), WorkControlFault::lose_next_commit_ack) ==
+                            StorageError::none,
+                        "Fault is armed on the idle writer for the exact next owning commit");
+            };
+            const auto stopped_completion = [&](const SqliteWorkResult &work, bool lost_ack) {
+                require(!work.value &&
+                            work.transaction == (lost_ack ? TransactionOutcome::outcome_unknown
+                                                          : TransactionOutcome::committed) &&
+                            work.error == (lost_ack ? WorkError::uncertain_outcome
+                                                    : WorkError::work_exception),
+                        "Interrupted owner reports the real transaction category with no reply");
+                if (lost_ack)
+                    require(f.db.writer().enqueue_work([](auto) { return QVariant{}; },
+                                                       [](auto) {}) == StorageError::not_open,
+                            "Unknown commit stops the suffix on the same writer");
+            };
+            const bool receipt_fault = fault == 2 || fault == 3;
+            if (receipt_fault) {
+                if (fault == 2)
+                    arm_lost_ack();
+                bool entered = false;
+                bool missing = false;
+                const auto work = qt_test_support::run_work(
+                    f.db.writer(),
+                    [&](auto ctx) {
+                        const auto session = ctx.begin();
+                        entered = true;
+                        const auto selected = stage_managed(session, first);
+                        if (selected.stop == Stop::not_implemented) {
+                            missing = true;
+                            session.rollback();
+                            return 1;
+                        }
+                        require(selected.stop == Stop::committed &&
+                                    selected.attempt == AttemptLocator{core::ReceiptId{7}, 1},
+                                "Acknowledged adopted receipt has the exact selected attempt");
+                        throw std::runtime_error(
+                            "Abnormal completion after adopted receipt commit");
+                    },
+                    10000);
+                require(entered, "The fault fixture enters the managed receipt seam");
+                if (missing)
+                    require(
+                        work.transaction == TransactionOutcome::rolled_back && !work.value &&
+                            basis().isEmpty() && protected_data(f.db) == initial,
+                        "Typed missing behavior performs known cleanup before the fault boundary");
+                require(!missing, "Managed receipt must reach its real commit fault boundary");
+                stopped_completion(work, fault == 2);
+            } else {
+                stage(first, 7);
+            }
+            f.db.reopen(managed_limits);
+            const auto bound = SqlRows{{first.intake_ref, blob8(7), 1, first.capture}};
+            require(basis() == bound,
+                    "First completed receipt COMMIT selects the immutable capture");
+            if (receipt_fault) {
+                const auto before = protected_data(f.db);
+                const auto settled = read_missing(
+                    f.db, [&](const auto &s) { return read_attempt(s, first, {{7}, 1}); });
+                require(settled.stop == Stop::exact_replay &&
+                            settled.attempt == AttemptLocator{core::ReceiptId{7}, 1} &&
+                            settled.selected ==
+                                core::ReceiptAttempt{first.receipt.arrival, first.receipt.facts,
+                                                     core::ReceiptDisposition::created} &&
+                            protected_data(f.db) == before,
+                        "Reopened receipt closes only the original exact attempt before peer "
+                        "admission");
+            }
+            stage(peer, 8);
+            require(f.db.rows("SELECT intake_ref,operation_ref,page_ordinal,item_ordinal "
+                              "FROM main.subathon_intake_entries ORDER BY intake_ref") ==
+                        SqlRows{{QByteArray("H"), QByteArray("O"), 1, 1},
+                                {QByteArray("L"), QVariant{}, QVariant{}, QVariant{}}},
+                    "History owns its exact bound slot; live input uses the same activity key "
+                    "without a page");
+            require(
+                basis() == bound &&
+                    f.db.rows(
+                        "SELECT receipt_id,ordinal,server_timestamp_utc_ms,modifier_context_ref "
+                        "FROM main.subathon_receipt_attempts WHERE receipt_id>=? ORDER BY "
+                        "receipt_id",
+                        {blob8(7)}) == SqlRows{{blob8(7), 1, 8000,
+                                                QByteArray::fromStdString(
+                                                    first.receipt.arrival.modifier_context_ref)},
+                                               {blob8(8), 1, 9000,
+                                                QByteArray::fromStdString(
+                                                    peer.receipt.arrival.modifier_context_ref)}} &&
+                    f.db.rows("SELECT count(*) FROM main.subathon_contributions") == SqlRows{{0}},
+                "Both receipts are auditable while evidence and awards remain absent");
+            const auto gate = [&](const ManagedInput &input) {
+                return read_missing(f.db, [&](const auto &s) { return select_evidence(s, input); });
+            };
+            const auto wait = gate(peer);
+            const auto create = gate(first);
+            require(wait.stop == Stop::pending_original && !wait.original &&
+                        create.stop == Stop::may_create &&
+                        create.selected_basis == AttemptLocator{core::ReceiptId{7}, 1} &&
+                        create.capture == first.capture,
+                    "A peer requesting evidence first cannot create or replace the first basis");
+            constexpr core::ContributionId cid{0};
+            if (fault == 4 || fault == 5) {
+                if (fault == 4)
+                    arm_lost_ack();
+                const auto [staged, work] = evidence_work(f.db, first, {7}, fault == 5);
+                stopped_completion(work, fault == 4);
+                require(fault == 4 ? !staged : staged && staged->contribution_id == cid,
+                        "No acknowledged evidence reply is published across the fault");
+                f.db.reopen(managed_limits);
+                require(
+                    f.db.rows("SELECT contribution_id,original_receipt_id "
+                              "FROM main.subathon_contributions") ==
+                            SqlRows{{blob8(0), blob8(7)}} &&
+                        basis() == bound,
+                    "Recovered evidence media contains the same sole original and immutable basis");
+                const auto replay = evidence(f.db, first, {7});
+                require(replay.disposition == ContributionLinkDisposition::duplicate &&
+                            replay.contribution_id == cid,
+                        "Owning evidence replay selects the same durable original");
+            } else {
+                const auto original = evidence(f.db, first, {7});
+                require(original.disposition == ContributionLinkDisposition::created &&
+                            original.contribution_id == cid,
+                        "Only the ACCT-002 owner produces the selected original");
+            }
+            const auto ready = gate(peer);
+            require(ready.stop == Stop::may_link && ready.original == cid,
+                    "The peer selects the sole durable original after its evidence COMMIT");
+            const auto linked = evidence(f.db, peer, {8});
+            require(linked.disposition == ContributionLinkDisposition::linked &&
+                        linked.contribution_id == cid && basis() == bound &&
+                        f.db.rows("SELECT original_receipt_id FROM main.subathon_contributions") ==
+                            SqlRows{{blob8(7)}} &&
+                        f.db.rows("SELECT count(*) FROM main.subathon_app_effects") == SqlRows{{0}},
+                    "One original remains under Review with zero awards");
+        });
+    }
+
+    void managedNoncreatingBasis_data() {
+        QTest::addColumn<int>("kind");
+        QTest::newRow("audit-only") << 0;
+        QTest::newRow("confirmation-only") << 1;
+        QTest::newRow("legacy-retry") << 2;
+        QTest::newRow("legacy-conflict") << 3;
+    }
+
+    void managedNoncreatingBasis() {
+        QFETCH(int, kind);
+        check([&] {
+            Populated f;
+            f.install();
+            auto input = managed("noncreating", 8000, "60s/VL");
+            if (kind >= 2) {
+                require(legacy_receipt(f.db, input) == core::ReceiptId{1},
+                        "Shipped legacy receipt creates a real original with no managed basis");
+                input.intake_ref = "new-observation";
+                input.receipt.arrival.server_timestamp_utc_ms = 9000;
+                if (kind == 3)
+                    input.receipt.facts.money = core::ReceiptMoney{"21.00", "EUR"};
+            } else {
+                input.admission = kind == 0 ? ManagedInput::Admission::audit_only
+                                            : ManagedInput::Admission::confirmation_only;
+                if (kind == 1)
+                    input.receipt.facts.event_type = "confirmation";
+            }
+            advance(f.db);
+            stage_scope(f.db);
+            const auto before = protected_data(f.db);
+            const auto [selected, work] = manage(f.db, input);
+            require(f.db.rows("SELECT count(*) FROM main.subathon_intake_basis") == SqlRows{{0}} &&
+                        f.db.rows("SELECT count(*) FROM main.subathon_contributions") ==
+                            SqlRows{{0}},
+                    "A noncreating observation cannot establish even an otherwise eligible K");
+            if (selected.stop == Stop::not_implemented)
+                require(protected_data(f.db) == before,
+                        "Typed missing behavior leaves existing receipt and evidence untouched");
+            require(selected.stop == Stop::committed &&
+                        selected.attempt == AttemptLocator{core::ReceiptId{1}, kind >= 2 ? 2 : 1},
+                    "Real managed observation commits its own exact attempt for audit");
+            finance::normal(work);
+            require(f.db.rows("SELECT disposition FROM main.subathon_receipt_attempts "
+                              "ORDER BY ordinal") ==
+                        (kind >= 2 ? SqlRows{{0}, {kind - 1}} : SqlRows{{0}}),
+                    "Receipt owner preserves exact independent retry and conflict dispositions");
+        });
+    }
+
+    void initialCaptureAfterUpgrade() {
+        check([] {
+            Populated f;
+            const core::ReceiptInput input{
+                {{"synthetic.reference.v1", "A"}, "N", "E"},
+                {"synthetic.reference.support.v1", 1, {}, {}, {}, {}, {}, {}},
+                {0, "Q", "C", "X"}};
+            const auto complete = ReferenceFactsState::complete;
+            const ReferenceConfiguration config{
+                "C",
+                "W",
+                input.identity.origin,
+                "N",
+                capture_rule(),
+                {},
+                {core::TimerEndMode::Grace, 120000, core::GraceReuse::Fresh, {}},
+                complete,
+                complete,
+                complete,
+                complete,
+                complete};
+            f.install("I");
+            const ReferenceInitialCapture expected{
+                {"I", input.identity}, {1}, {0}, "C", "X", "V", {"P", 1}, "Y"};
+            f.db.write([&](const auto &s) {
+                const SqliteRetainedContextStore store(s);
+                require(
+                    store.retain({{RetainedKind::configuration, "C"},
+                                  encode_reference_configuration(config).document,
+                                  {}}) == RetainDisposition::inserted &&
+                        store.retain({{RetainedKind::arrival_context, "X"},
+                                      encode_reference_arrival(
+                                          {"X", "V", 0, config, {"Q", "E", {}, QByteArray("", 0)}})
+                                          .document,
+                                      ConfigurationReference{"C"}}) == RetainDisposition::inserted,
+                    "Shipped retained owner stores typed configuration and arrival");
+            });
+            const auto receipt = qt_test_support::run_work(
+                f.db.writer(),
+                [&](auto ctx) {
+                    SqliteReceiptRepository repo(ctx);
+                    const auto result = ReceiptIntake(repo).ingest(input);
+                    require(result.receipt_id == expected.receipt_id &&
+                                result.disposition == core::ReceiptDisposition::created,
+                            "Shipped receipt owner commits the first exact synthetic receipt");
+                    return 1;
+                },
+                10000);
+            finance::normal(receipt);
+            core::ContributionState support;
+            support.payment_evidence = core::PaymentEvidence::not_applicable;
+            support.conditions.valuation = {false, {}, {}, false};
+            support.conditions.review = core::ContributionReview::not_required;
+            support.conditions.evidence_admission = {
+                core::EvidencePolicy::require_evidence_review, "C", {}};
+            support.conditions.settlement = core::SettlementGate::clear;
+            const auto evidence = qt_test_support::run_work(
+                f.db.writer(),
+                [&](auto ctx) {
+                    SqliteContributionRepository repo(ctx);
+                    const auto linked = ContributionEvidenceService(repo).observe(
+                        {{expected.receipt_id, input.identity, input.facts, input.arrival},
+                         ContributionObservationKind::support,
+                         support.payment_evidence,
+                         {},
+                         support.conditions});
+                    require(linked.disposition == ContributionLinkDisposition::created &&
+                                linked.contribution_id == expected.contribution_id,
+                            "Shipped evidence owner commits present CID zero");
+                    return 1;
+                },
+                10000);
+            finance::normal(evidence);
+            const core::CapturedPlanRevision plan{
+                1,
+                {},
+                {{"V",
+                  {},
+                  "V",
+                  expected.receipt_id,
+                  input.identity,
+                  input.facts,
+                  input.arrival,
+                  expected.contribution_id},
+                 support,
+                 {core::PlanValuationState::not_applicable, {}},
+                 {{"a", "b", "R", "T", finance::Unit::milliseconds, false,
+                   finance::fraction(600000), 600000, "reference.integer-ms.v1",
+                   "reference.original-time.v1"}}},
+                {{"R", "r", true, "reference.single-rule.match.v1"}},
+                {},
+                {}};
+            f.db.write([&](const auto &s) {
+                require(SqliteApplicationPlanStore(s).retain_initial("P", plan) ==
+                                SqlitePlanInitialDisposition::inserted &&
+                            SqliteRetainedContextStore(s).retain(
+                                {{RetainedKind::arrival_context, "Y"},
+                                 encode_reference_execution(
+                                     {"Y", "X", "I", input.identity, expected.receipt_id,
+                                      expected.contribution_id, expected.plan, capture_rule()})
+                                     .document,
+                                 ConfigurationReference{"C"}}) == RetainDisposition::inserted &&
+                            SqliteReferenceCaptureStore(s).retain_initial(expected) ==
+                                ReferenceCaptureRetainDisposition::inserted,
+                        "Normal plan, retained context and initial capture owners commit complete "
+                        "closure");
+            });
+            const auto read = [&](const auto &s) {
+                const auto found = SqliteReferenceCaptureStore(s).find(expected.key);
+                require(found && found->key.installation_ref == "I" &&
+                            found->key.source == input.identity &&
+                            found->receipt_id == core::ReceiptId{1} &&
+                            found->contribution_id == core::ContributionId{0} &&
+                            found->configuration_ref == "C" && found->arrival_context_ref == "X" &&
+                            found->event_ref == "V" && found->plan.revision == 1 &&
+                            found->plan.plan_ref == "P" && found->execution_context_ref == "Y",
+                        "Normal reader preserves complete selected initial capture");
+            };
+            f.db.write(read);
+            const auto media = f.db.rows("SELECT * FROM main.subathon_reference_initial_captures");
+            advance(f.db);
+            f.db.write(read);
+            require(media.size() == 1 &&
+                        f.db.rows("SELECT * FROM main.subathon_reference_initial_captures") ==
+                            media,
+                    "Initial capture index survives the explicit upgrade and reopen byte for byte");
+        });
+    }
+
+    void selectedSar2_data() {
+        QTest::addColumn<bool>("corrupt");
+        QTest::newRow("exact") << false;
+        QTest::newRow("missing-terminal-masked") << true;
+    }
+
+    void selectedSar2() {
+        QFETCH(bool, corrupt);
+        check([&] {
+            Finished f;
+            const auto read = [&](const auto &s) {
+                const auto selected = selected_record_read::read_application(s, f.key, {});
+                if (corrupt) {
+                    const auto *error = std::get_if<selected_record_read::Failure>(&selected);
+                    require(error && *error == selected_record_read::Failure::invalid_data,
+                            "Selected metadata refuses corrupted terminal closure");
+                } else {
+                    const auto *bundle = std::get_if<RecordedApplicationBundle>(&selected);
+                    require(bundle && bundle->effects.size() == 1 &&
+                                bundle->effects[0].request_ordinal == 2 &&
+                                bundle->effects[0].components.size() == 1 &&
+                                bundle->effects[0].components[0].units == 15 &&
+                                bundle->result.document.endsWith(
+                                    QByteArray::fromHex("0000000300000002010002")),
+                            "SelectedMetadata returns the real SAR2 active effect and exact mask");
+                }
+            };
+            if (corrupt)
+                f.stored();
+            else
+                f.db.write(read);
+            advance(f.db);
+            if (corrupt)
+                mutate(
+                    f.db,
+                    "DELETE FROM main.subathon_review_terminal_requests WHERE request_ordinal=1");
+            f.db.write(read);
+        });
+    }
+
+    void sar2LinkedHold_data() {
+        QTest::addColumn<int>("entry");
+        QTest::newRow("linked-hold-find") << 0;
+        QTest::newRow("selected-metadata-linked-hold") << 1;
+        QTest::newRow("stage-linked-resolution") << 2;
+    }
+
+    void sar2LinkedHold() {
+        QFETCH(int, entry);
+        const bool mutateAfterUpgrade = entry == 2;
+        check([&] {
+            Finished f;
+            const ApplicationHoldSubject subject{f.original.selector.cid};
+            ApplicationHoldCause cause;
+            cause.hold_ref = "linked-sar2";
+            cause.source = {subject, f.original.selector.receipt, {}, {}, {}, "cfg", "ctx"};
+            cause.command = {{"test", "hold-sar2"}, finance::document()};
+            cause.first_observation = {
+                "review-initial", finance::document(),  "policy", "permissions",
+                "tester",         "sar2-hold-decision", 50,       0};
+            cause.kind = ApplicationHoldCauseKind::unresolved_policy;
+            cause.missing_policy_reason = "independent unresolved policy";
+            cause.plan_evidence = {ApplicationHoldPlanKind::failed_capture,
+                                   {},
+                                   ApplicationHoldExtent::known_prefix,
+                                   ApplicationHoldStoppedFor::unresolved_capture_policy,
+                                   finance::document(),
+                                   {}};
+            const ApplicationHoldDetection detection{
+                cause, {"detect-sar2", {}, "v1", cause.first_observation, finance::document()}};
+            const ApplicationHoldResolutionBatch resolution{
+                "resolve-sar2",
+                subject,
+                {{"linked-sar2", "v1"}},
+                {{"linked-sar2", "v1", "v2", finance::document(), {}}},
+                "tester",
+                "sar2-resolution",
+                "clear selected SAR2 link",
+                finance::document(),
+                ApplicationHoldApplicationLink{ApplicationHoldApplicationLinkKind::whole_input,
+                                               f.key,
+                                               f.original.selector.receipt,
+                                               {"terminal-plan", 1},
+                                               {}}};
+            f.db.write([&](const auto &s) {
+                require(SqliteApplicationHoldStore(s).record_detection(detection).disposition ==
+                            SqliteHoldMutationDisposition::recorded,
+                        "Real hold owner stages the original hold");
+            });
+            const auto close = [&](const auto &s) {
+                require(
+                    SqliteApplicationHoldStore(s).stage_resolution(resolution).disposition ==
+                        SqliteHoldMutationDisposition::recorded,
+                    "Ordinary linked resolution traverses and retains the selected SAR2 bundle");
+            };
+            const auto read = [&](const auto &s) {
+                std::optional<ApplicationHoldView> found;
+                if (entry == 1) {
+                    auto selected = selected_record_read::read_hold(s, "linked-sar2", {});
+                    if (auto *view = std::get_if<ApplicationHoldView>(&selected))
+                        found = std::move(*view);
+                } else {
+                    found = SqliteApplicationHoldStore(s).find("linked-sar2");
+                }
+                require(found && found->current_version.state == ApplicationHoldState::resolved &&
+                            found->current_version.locator.version_ref == "v2" &&
+                            found->current_version.parent_version_ref == "v1" &&
+                            found->current_event,
+                        "Hold read preserves exact version and its producing resolution");
+                const auto *saved =
+                    std::get_if<ApplicationHoldRecordedResolution>(&*found->current_event);
+                require(saved && saved->request.application &&
+                            finance::same(saved->request.application->operation, f.key),
+                        "Selected hold closure preserves the actual SAR2 operation key");
+            };
+            f.stored();
+            if (!mutateAfterUpgrade) {
+                f.db.write(close);
+                f.db.write(read);
+            }
+            advance(f.db);
+            if (mutateAfterUpgrade)
+                f.db.write(close);
+            f.db.write(read);
+        });
+    }
+
+    void financialSelectedResolution_data() {
+        QTest::addColumn<QString>("entry");
+        for (const auto *name :
+             {"resolution", "grouped-bundle", "reserved-stage-key", "stale-mixed-hold-set",
+              "exact-mixed-hold-set", "exact-mixed-hold-set-v19"})
+            QTest::newRow(name) << QString(name);
+    }
+
+    void financialSelectedResolution() {
+        QFETCH(QString, entry);
+        check([&] {
+            finance::File f;
+            const auto holds = seed_mixed_refund(
+                f, "grouped", entry != "grouped-bundle" && entry != "reserved-stage-key");
+            report(migrate(
+                       *f.writer,
+                       {MigrationMode::advance, contribution_review_repository_manifest(), {}, {}}),
+                   CatalogState::current, 19, 19, 4);
+            if (entry.startsWith("stale") || entry.startsWith("exact")) {
+                require(holds.size() == 1,
+                        "Real grouped refund has its own held timer continuation");
+                const auto financial = holds.front().locator;
+                const auto ordinary = f.detect(f.ordinary_detection("ordinary-mixed", false));
+                auto active = f.continuation("selection", holds.front(), {ordinary, financial})
+                                  .expected_active;
+                if (entry.startsWith("stale"))
+                    active = {ordinary};
+                const ApplicationHoldResolutionBatch batch{
+                    "close-mixed",
+                    {f.cid},
+                    active,
+                    {{ordinary.hold_ref, ordinary.version_ref, "v2", finance::document(), {}}},
+                    "tester",
+                    "close-mixed",
+                    "clear only the selected ordinary hold",
+                    finance::document(),
+                    f.ordinary_link(false, ordinary)};
+                const auto apply = [&] {
+                    return f.run_reply([&](const auto &s) {
+                        return stage_financial_aware_linked_resolution(s, batch);
+                    });
+                };
+                const bool stale = entry.startsWith("stale");
+                if (!stale) {
+                    // Read the complete current set under v19 without consuming the closure.
+                    const auto actual = f.financial_active();
+                    require(actual.size() == 1 && finance::same(actual.front().locator, financial),
+                            "Owning v19 selector sees the actual held version before upgrade");
+                } else {
+                    require(apply().disposition == FinancialDisposition::stale_hold,
+                            "Shipped owner refuses a missing financial version");
+                }
+                if (entry != "exact-mixed-hold-set-v19")
+                    upgrade_financial(f);
+                require(apply().disposition == (stale ? FinancialDisposition::stale_hold
+                                                      : FinancialDisposition::ordinary_resolved),
+                        "Mixed stale and complete sets remain distinct at the owning entry");
+                const auto remaining = f.financial_active();
+                require(remaining.size() == 1 &&
+                            finance::same(remaining.front().locator, financial),
+                        "Financial hold and exact version remain untouched");
+                f.write([&](const auto &s) {
+                    const auto view = SqliteApplicationHoldStore(s).find(ordinary.hold_ref);
+                    require(
+                        view &&
+                            view->current_version.locator.version_ref == (stale ? "v1" : "v2") &&
+                            view->current_version.state == (stale ? ApplicationHoldState::active
+                                                                  : ApplicationHoldState::resolved),
+                        "Only the exact complete set can close the ordinary version");
+                });
+                return;
+            }
+            if (entry == "resolution") {
+                require(holds.size() == 1, "Actual refundable timer continuation is held");
+                f.move_main("fund-grouped", 100000);
+                const auto cmd =
+                    f.continuation("resolve-grouped", holds.front(), {holds.front().locator});
+                finance::Effects effects;
+                effects.apply(-75000, 0, {75000});
+                require(f.continue_reply(cmd, effects).disposition ==
+                            FinancialDisposition::resolved,
+                        "Owning timer continuation commits 75000 ms of reversal");
+                const auto read = [&](const auto &s) {
+                    const auto result =
+                        SqliteFinancialRefundStore(s).lookup_resolution(cmd.operation);
+                    require(
+                        result && result->after.timer.main_remaining_ms == 25000 &&
+                            result->closed.state == ApplicationHoldState::resolved &&
+                            finance::same(result->held.locator, holds.front().locator),
+                        "Selected resolution reconstructs its exact held origin and funded result");
+                };
+                f.write(read);
+                upgrade_financial(f);
+                f.write(read);
+                f.check_head(25000, 0, 30000000, 7);
+                return;
+            }
+            const ApplicationOperationKey op{"test", "grouped"};
+            std::optional<PreparedApplicationBundle> ordinary;
+            if (entry == "reserved-stage-key") {
+                f.write([&](const auto &s) {
+                    const auto baseline = SqliteApplicationBundleStore(s).lookup(finance::original);
+                    require(
+                        baseline && baseline->reversals.empty(),
+                        "Shipped dense SAR1 original supplies structurally valid ordinary input");
+                    ordinary.emplace(PreparedApplicationBundle{baseline->intent,
+                                                               baseline->advanced_before,
+                                                               baseline->after,
+                                                               baseline->advance_explanation,
+                                                               baseline->effects,
+                                                               baseline->jobs,
+                                                               baseline->transitions,
+                                                               {},
+                                                               baseline->result,
+                                                               baseline->audit});
+                    ordinary->intent.operation = op;
+                });
+            }
+            const auto read = [&](const auto &s) {
+                const SqliteApplicationBundleStore store(s);
+                if (ordinary) {
+                    require(store.stage(*ordinary).disposition ==
+                                SqliteBundleStageDisposition::operation_conflict,
+                            "Ordinary stage cannot take a reserved financial operation key");
+                    return;
+                }
+                const auto result = store.lookup(op);
+                require(result && result->effects.size() == 3 && result->reversals.size() == 2 &&
+                            result->after.timer.main_remaining_ms == 50000 &&
+                            result->result.document == "accepted",
+                        "Grouped reversal returns time, score and count with two non-time links");
+                const auto &time = result->effects.front();
+                require(
+                    time.request_ordinal == 1 && time.requested_units == -75000 &&
+                        time.components.size() == 3 &&
+                        time.components[0].kind == finance::CK::main_delta &&
+                        time.components[0].units == -75000 &&
+                        time.components[1].kind == finance::CK::debt_delta &&
+                        time.components[1].units == 0 &&
+                        time.components[2].kind == finance::CK::unapplied_time &&
+                        time.components[2].units == 0,
+                    "One-quarter group removes 75000 ms and adds no restoration, debt or residual");
+            };
+            f.write(read);
+            upgrade_financial(f);
+            f.write(read);
+        });
+    }
+
+    void freshSar2BundleStage_data() {
+        QTest::addColumn<bool>("upgrade");
+        QTest::newRow("v19-positive") << false;
+        QTest::newRow("successor-financial-gate-masks-stage") << true;
+    }
+
+    void freshSar2BundleStage() {
+        QFETCH(bool, upgrade);
+        check([&] {
+            Finished origin;
+            std::optional<RecordedApplicationBundle> stored;
+            origin.db.write([&](const auto &s) {
+                stored = SqliteApplicationBundleStore(s).lookup(origin.key);
+                require(stored && stored->contribution && stored->reversals.empty(),
+                        "Shipped Review commits the real Finished request partition");
+            });
+            Populated fresh(99, 7);
+            const auto selected =
+                fresh.seed("terminal",
+                           {finance::request(finance::Unit::milliseconds, 20, "main"),
+                            finance::request(finance::Unit::micro_points, 15, "score"),
+                            finance::request(finance::Unit::whole_count, 1, "count")},
+                           false, true);
+            require(selected.selector == origin.original.selector,
+                    "Fresh fixture independently allocates the same receipt and contribution keys");
+            const auto decision = qt_test_support::run_work(
+                fresh.db.writer(),
+                [&](auto ctx) {
+                    SqliteContributionRepository repo(ctx);
+                    auto unit = repo.begin();
+                    const auto current = unit->find_activity(
+                        {{"review-fixture", "account"}, "fixture-support", "terminal"});
+                    require(current && current->state.conditions.review ==
+                                           core::ContributionReview::pending,
+                            "Fresh original awaits its accepted review state");
+                    auto accepted = current->state;
+                    accepted.conditions.review = core::ContributionReview::accepted;
+                    unit->update_state(selected.selector.cid, accepted);
+                    unit->commit();
+                    return 1;
+                },
+                10000);
+            finance::normal(decision);
+            require(fresh.db.rows("SELECT count(*) FROM main.subathon_app_claims") == SqlRows{{0}},
+                    "Prepared source has no previous claim or result");
+            if (upgrade)
+                advance(fresh.db);
+            const PreparedApplicationBundle prepared{
+                stored->intent,      stored->advanced_before,
+                stored->after,       stored->advance_explanation,
+                stored->effects,     stored->jobs,
+                stored->transitions, {},
+                stored->result,      stored->audit};
+            fresh.db.write([&](const auto &s) {
+                require(
+                    SqliteApplicationBundleStore(s).stage(prepared).disposition ==
+                        SqliteBundleStageDisposition::staged,
+                    "Normal bundle stage accepts a fresh SAR2 on a qualified Finished original");
+            });
+            const auto original = fresh.db.rows("SELECT document FROM main.subathon_app_results");
+            fresh.db.write([&](const auto &s) {
+                const auto replay = SqliteApplicationBundleStore(s).stage(prepared);
+                require(replay.disposition == SqliteBundleStageDisposition::already_present &&
+                            replay.existing &&
+                            replay.existing->result.document == original.at(0).at(0).toByteArray(),
+                        "Exact replay returns the same physical committed bundle");
+            });
+            require(
+                original.size() == 1 &&
+                    fresh.db.rows("SELECT document FROM main.subathon_app_results") == original &&
+                    fresh.db.rows("SELECT count(*) FROM main.subathon_app_claims") ==
+                        SqlRows{{1}} &&
+                    fresh.db.rows(
+                        "SELECT request_ordinal,disposition "
+                        "FROM main.subathon_review_terminal_requests ORDER BY request_ordinal") ==
+                        SqlRows{{1, 1}, {3, 2}},
+                "One claim and immutable terminal dispositions survive exact replay");
+            fresh.head(99, 7, 105);
+        });
+    }
+
+    void milestoneApplicationDelivery_data() {
+        QTest::addColumn<QString>("entry");
+        for (const auto *name : {"lookup", "unreleased-dispatch", "released-dispatch", "stranded"})
+            QTest::newRow(name) << QString(name);
+    }
+
+    void milestoneApplicationDelivery() {
+        QFETCH(QString, entry);
+        check([&] {
+            finance::File f(finance::OriginalCredit{.milestone = true});
+            report(migrate(
+                       *f.writer,
+                       {MigrationMode::advance, contribution_review_repository_manifest(), {}, {}}),
+                   CatalogState::current, 19, 19, 4);
+            struct Ports final : DeliveryDispatchAuthority, DeliveryAdapter {
+                unsigned decisions{};
+                std::vector<DeliveryJob> started;
+                bool allows(const DeliveryJob &job) override {
+                    ++decisions;
+                    require(job.key.job_ref == "original-job" &&
+                                job.capture.route_ref == "local-fixture" &&
+                                job.action_document == "synthetic-action",
+                            "Exact captured job enters local authority");
+                    return true;
+                }
+                void start(DeliveryJob job) override { started.push_back(std::move(job)); }
+            };
+            const DeliveryJobKey key{finance::original, "original-job"};
+            auto ports = std::make_shared<Ports>();
+            const auto dispatch = [&](DeliveryDisposition expected) {
+                const auto result = finance::completed<DeliveryDispatchCompletion>([&](auto done) {
+                    return dispatch_delivery_job(*f.writer, key, 1, ports, ports, std::move(done));
+                });
+                finance::normal(result.work);
+                require(
+                    result.result && result.result->disposition == expected &&
+                        !result.adapter_threw,
+                    "Dispatch obeys exact occurrence release and returns an acknowledged outcome");
+                const bool started = expected == DeliveryDisposition::changed;
+                require(ports->started.size() == std::size_t(started),
+                        "Only a committed sending attempt reaches the bounded fake adapter");
+                if (started)
+                    require(ports->started[0].state == DeliveryJobState::sending &&
+                                ports->started[0].revision == 2 && ports->started[0].attempt == 2,
+                            "Adapter sees the committed immutable job at sending attempt 2");
+            };
+            const auto lookup = [&](DeliveryJobState expected, int revision) {
+                f.write([&](const auto &s) {
+                    const auto saved = SqliteDeliveryJobStore(s).lookup(key);
+                    require(saved && saved->state == expected && saved->revision == revision &&
+                                saved->action_document == "synthetic-action" &&
+                                saved->capture.sender_ref == "fixture-sender",
+                            "Exact enrolled job lookup validates its real occurrence membership");
+                });
+            };
+            const auto release = [&] {
+                const auto result = finance::completed<MilestoneReleaseCompletion>([&](auto done) {
+                    return release_milestone_head(*f.writer, finance::achievement, std::move(done));
+                });
+                finance::normal(result.work);
+                require(result.disposition == MilestoneReleaseDisposition::released,
+                        "Real application head is released through its owning writer");
+            };
+            const auto scan = [&] {
+                f.write([&](const auto &s) {
+                    const auto page = SqliteDeliveryJobStore(s).stranded({}, 1);
+                    require(page.attempts.size() == 1 &&
+                                finance::same(page.attempts[0].key.operation, key.operation) &&
+                                page.attempts[0].key.job_ref == key.job_ref &&
+                                page.attempts[0].sending_revision == 2,
+                            "Bounded stranded scan returns exactly the committed sending attempt");
+                });
+            };
+            lookup(DeliveryJobState::queued, 1);
+            if (entry == "unreleased-dispatch" || entry == "released-dispatch")
+                dispatch(DeliveryDisposition::refused);
+            if (entry == "stranded") {
+                release();
+                dispatch(DeliveryDisposition::changed);
+                scan();
+            }
+            upgrade_financial(f);
+            if (entry == "lookup")
+                lookup(DeliveryJobState::queued, 1);
+            if (entry == "unreleased-dispatch")
+                dispatch(DeliveryDisposition::refused);
+            if (entry == "released-dispatch") {
+                release();
+                dispatch(DeliveryDisposition::changed);
+                lookup(DeliveryJobState::sending, 2);
+            }
+            if (entry == "stranded")
+                scan();
+        });
+    }
+
+    void milestoneEditFollowThrough_data() {
+        QTest::addColumn<QString>("entry");
+        for (const auto *name :
+             {"edit-stranded", "edit-bonus-v19", "edit-bonus-successor", "refund-v19",
+              "refund-successor", "refund-financial-v19", "refund-financial-successor"})
+            QTest::newRow(name) << QString(name);
+    }
+
+    void milestoneEditFollowThrough() {
+        QFETCH(QString, entry);
+        check([&] {
+            namespace edit = milestone_target_edit_fixture;
+            const bool bonus = entry.startsWith("edit-bonus");
+            const bool refund = entry.startsWith("refund");
+            MilestoneOrigin f;
+            f.enroll();
+            f.record();
+            edit::Authority authority;
+            authority.facts.lifecycle.timer = finance::timer(core::TimerLifecycle::Finished, 99);
+            authority.facts.captures = {edit::capture_b(!bonus)};
+            const auto intent =
+                edit::single("earn-B", {"B", 104}, {{edit::b, MilestoneActionChoice::run}});
+            f.db.write([&](const auto &s) {
+                require(initialize_milestone_track(s, f.track()),
+                        "Real SAR2 member seeds the edit track");
+                const auto preview =
+                    preview_milestone_target_edit(s, authority, edit::actor, intent);
+                edit::File::confirmable(preview);
+                const auto saved = confirm_milestone_target_edit(s, authority, edit::actor, intent,
+                                                                 *preview.confirmation);
+                require(
+                    saved.result && saved.result->achievements.size() == 1 &&
+                        saved.result->achievements[0].order == 2,
+                    "Exact edit-owned occurrence follows the released-by-owner application lane");
+            });
+            const auto release = [&](const MilestoneOccurrenceKey &key, bool is_edit) {
+                const auto result = finance::completed<MilestoneReleaseCompletion>([&](auto done) {
+                    if (is_edit)
+                        return release_milestone_head(
+                            f.db.writer(), key, std::make_shared<EditRelease>(), std::move(done));
+                    return release_milestone_head(f.db.writer(), key, std::move(done));
+                });
+                finance::normal(result.work);
+                require(result.disposition == MilestoneReleaseDisposition::released,
+                        "Each owning release consumes exactly its pending head");
+            };
+            if (refund) {
+                const auto verify_pending = [&](const auto &s) {
+                    SqliteMilestoneGroupDecisions store(s);
+                    const auto a = store.acceptance_audit(f.application);
+                    require(a && a->choice == MilestoneActionChoice::run &&
+                                store.pending_disposition(edit::b) ==
+                                    MilestonePendingDisposition::ready,
+                            "Retained actual acceptance and edit pending state are readable");
+                };
+                f.db.write(verify_pending);
+                if (entry.endsWith("successor"))
+                    advance(f.db);
+                const bool through_financial = entry.startsWith("refund-financial");
+                const std::string ref = through_financial ? "one-fifth" : "score-refund";
+                if (through_financial) {
+                    struct RefundEffect final : FinancialRefundEffectPort {
+                        finance::Effects delegate;
+                        FinancialEffectObservation
+                        observe(const SqliteWorkSession &s,
+                                const ApplicationStateSnapshot &state) override {
+                            return delegate.observe(s, state);
+                        }
+                        RefundTimerActual
+                        timer_effect(const SqliteWorkSession &s,
+                                     const GroupedRefundEntitlement &entitlement,
+                                     const FinancialEffectObservation &observation,
+                                     core::RefundDeficitPolicy policy) override {
+                            return delegate.timer_effect(s, entitlement, observation, policy);
+                        }
+                        std::vector<FinancialMilestoneTarget>
+                        milestones(const SqliteWorkSession &) override {
+                            // The edit owns the new target 104. The old 200 cannot show a crossing.
+                            return {{edit::b, 200, MilestoneRefundPolicy::review}};
+                        }
+                    } effects;
+                    (void)f.refund(&effects);
+                }
+                f.db.write([&](const auto &s) {
+                    SqliteMilestoneGroupDecisions store(s);
+                    if (!through_financial)
+                        store.observe_refund(
+                            {edit::b, ref, 105, 102, 104, MilestoneRefundPolicy::review});
+                    const auto saved = store.refund_audit(edit::b, ref);
+                    require(saved && saved->deficit_micro_points == 2 &&
+                                saved->current_target_micro_points == 104 &&
+                                store.pending_disposition(edit::b) ==
+                                    MilestonePendingDisposition::held,
+                            "Refund reaches the edit occurrence and records exactly 104 minus 102");
+                });
+                require(f.db.rows("SELECT occurrence_ref,refund_ref "
+                                  "FROM main.subathon_milestone_edit_refund_decisions") ==
+                                SqlRows{{QByteArray("b-edit"), QByteArray::fromStdString(ref)}} &&
+                            f.db.rows(
+                                "SELECT count(*) FROM main.subathon_milestone_refund_decisions") ==
+                                SqlRows{{0}},
+                        "Only edit-origin refund history is written");
+                return;
+            }
+            if (bonus) {
+                struct Bonus final : MilestoneBonusAuthority, MilestoneBonusEffect {
+                    unsigned calls{};
+                    bool allows(const MilestoneBonusKey &key,
+                                const MilestoneAction &action) override {
+                        return key.occurrence == edit::b && key.action_ordinal == 1 &&
+                               action ==
+                                   MilestoneAction{MilestoneActionKind::bonus, "award", "award-v1"};
+                    }
+                    std::string apply(const SqliteWorkSession &, const MilestoneBonusKey &,
+                                      const MilestoneAction &) override {
+                        ++calls;
+                        return "bonus-effect-B";
+                    }
+                } ports;
+                const auto apply = [&](MilestoneBonusDisposition expected) {
+                    f.db.write([&](const auto &s) {
+                        require(SqliteMilestoneGroupStore(s).apply_bonus({edit::b, 1}, ports,
+                                                                         ports) == expected,
+                                "Exact edit bonus observes the persisted release flag");
+                    });
+                };
+                apply(MilestoneBonusDisposition::refused);
+                if (entry == "edit-bonus-successor") {
+                    advance(f.db);
+                    apply(MilestoneBonusDisposition::refused);
+                }
+                require(ports.calls == 0, "Unreleased edit never reaches the effect port");
+                release(f.application, false);
+                release(edit::b, true);
+                apply(MilestoneBonusDisposition::applied);
+                apply(MilestoneBonusDisposition::already_applied);
+                require(ports.calls == 1 &&
+                            f.db.rows("SELECT occurrence_ref,action_ordinal,effect_ref "
+                                      "FROM main.subathon_milestone_edit_bonus_receipts") ==
+                                SqlRows{{QByteArray("b-edit"), 1, QByteArray("bonus-effect-B")}},
+                        "Released bonus records the exact receipt and does not apply twice");
+                return;
+            }
+            struct EditDispatch final : MilestoneEditDispatchAuthority {
+                bool allows(const MilestoneEditJob &job) override {
+                    return job.key.occurrence == edit::b &&
+                           job.action_document == QByteArray::fromHex("0081");
+                }
+                std::optional<std::string> retry_policy(const MilestoneEditJob &) override {
+                    return {};
+                }
+            } port;
+            const MilestoneEditJobKey key{intent.key, edit::b, 1};
+            f.db.write([&](const auto &s) {
+                require(claim_milestone_edit_job(s, key, 1, port).disposition ==
+                            DeliveryDisposition::refused,
+                        "Unreleased edit cannot claim its captured job");
+            });
+            release(f.application, false);
+            release(edit::b, true);
+            f.db.write([&](const auto &s) {
+                const auto claim = claim_milestone_edit_job(s, key, 1, port);
+                require(claim.disposition == DeliveryDisposition::changed && claim.job &&
+                            claim.job->state == DeliveryJobState::sending &&
+                            claim.job->revision == 2,
+                        "Real edit owner commits the sending state");
+            });
+            const auto scan = [&](const auto &s) {
+                const auto page = stranded_milestone_delivery(s, {}, 1);
+                require(page.attempts.size() == 1 && page.attempts[0].revision == 2 &&
+                            std::get_if<MilestoneEditJobKey>(&page.attempts[0].key) &&
+                            std::get<MilestoneEditJobKey>(page.attempts[0].key) == key &&
+                            page.next_after &&
+                            std::get<MilestoneEditJobKey>(*page.next_after) == key,
+                        "Stranded selection preserves the edit-lane discriminator and last key");
+            };
+            f.db.write(scan);
+            advance(f.db);
+            f.db.write(scan);
         });
     }
 
