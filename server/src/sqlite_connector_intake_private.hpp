@@ -38,4 +38,13 @@ inline void require_changed_one(const SqliteWorkSession &session) {
         throw SqliteWorkFailure(WorkError::sql_failure);
 }
 
+// One writer unit captures the exact active page before its generation moves.
+[[nodiscard]] std::optional<QByteArray> retain_page_reconnect(const SqliteWorkSession &,
+                                                              const Reconnect &,
+                                                              const QByteArray &operation_ref,
+                                                              const QByteArray &source_history);
+
+[[nodiscard]] bool qualified_page_slot(const SqliteWorkSession &, const ManagedInput &,
+                                       const Fence &current);
+
 } // namespace subathon::server::connector_intake::detail

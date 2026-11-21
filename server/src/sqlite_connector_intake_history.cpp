@@ -427,9 +427,6 @@ HistoryStatus stage_reconnect(const SqliteWorkSession &session, const Reconnect 
             row[2].toLongLong() != prior->fence.policy_revision ||
             row[3].toByteArray() != prior->fence.generation)
             return Status::stale;
-        // An in-flight prefix needs its old generation proved before extension.
-        if (row[5].toBool())
-            return Status::busy;
         if (!can_advance(row[4].toLongLong()))
             return Status::intake_limit;
     }
@@ -437,11 +434,20 @@ HistoryStatus stage_reconnect(const SqliteWorkSession &session, const Reconnect 
     auto next = *prior;
     ++next.fence.revision;
     next.fence.generation = request.new_generation;
-    const auto document = QByteArray("SH1") + history_head(request.scope, *prior) +
-                          history_head(request.scope, next) + framed(request.cursor_contract) +
-                          framed(request.current_authority) + framed(request.observation);
+    auto document = QByteArray("SH1") + history_head(request.scope, *prior) +
+                    history_head(request.scope, next) + framed(request.cursor_contract) +
+                    framed(request.current_authority) + framed(request.observation);
     if (document.size() > document_limit)
         return Status::intake_limit;
+    if (!active.isEmpty() && active.front()[5].toBool()) {
+        const auto witness = detail::retain_page_reconnect(
+            session, request, active.front()[0].toByteArray(), document);
+        if (!witness)
+            return Status::incomplete_prefix;
+        if (witness->size() > document_limit)
+            return Status::intake_limit;
+        document = *witness;
+    }
     auto args = scope_bindings(request.scope);
     args.append({prior->fence.epoch, prior->fence.generation, prior->fence.revision,
                  prior->fence.policy_revision});

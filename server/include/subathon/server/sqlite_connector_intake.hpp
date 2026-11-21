@@ -148,6 +148,8 @@ struct Reconnect {
     Scope scope;
     Fence expected;
     QByteArray new_generation, cursor_contract, history_ref, current_authority, observation;
+    // Selects the existing witness when a retained page already crossed a generation.
+    QByteArray prior_page_reconnect{};
 };
 
 [[nodiscard]] HistoryStatus stage_reconnect(const SqliteWorkSession &, const Reconnect &);
@@ -164,6 +166,8 @@ struct PageBinding {
     QByteArray next_continuation, frontier_before, frontier_after, qualified_proof;
     Coverage coverage;
     QByteArray upper_bound;
+    // Exact source-history key for a page transferred from an earlier generation.
+    QByteArray page_reconnect{};
 };
 
 struct PageAdmission {
@@ -211,6 +215,7 @@ struct ManagedInput {
     std::optional<PageSlot> history{};
     std::optional<RetainedDocument> configuration{}, context{};
     Fence expected_source{};
+    QByteArray page_reconnect{};
 };
 
 enum class ManagedStatus {

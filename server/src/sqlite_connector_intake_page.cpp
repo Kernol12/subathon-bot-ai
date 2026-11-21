@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "sqlite_connector_intake_private.hpp"
 
+#include <QCryptographicHash>
 #include <QtEndian>
 #include <limits>
 
@@ -19,6 +20,7 @@ struct Operation {
     qint64 epoch, source_revision, policy, purpose, revision, ordinal, reserved, outcome;
     QByteArray generation, current_generation, continuation, frontier, gap;
     qint64 source_epoch, source_policy;
+    QByteArray intent;
 };
 
 std::optional<Operation> select_operation(const SqliteWorkSession &session, const Scope &scope,
@@ -28,7 +30,7 @@ std::optional<Operation> select_operation(const SqliteWorkSession &session, cons
     const auto rows = session.execute(
         {"SELECT o.epoch,s.revision,o.policy_revision,o.purpose,o.revision,o.next_ordinal,"
          "o.slots,o.outcome,o.generation,s.generation,o.continuation,s.frontier,o.gap_ref,"
-         "s.epoch,s.policy_revision FROM main.subathon_intake_operations o "
+         "s.epoch,s.policy_revision,o.intent FROM main.subathon_intake_operations o "
          "JOIN main.subathon_intake_sources s ON s.installation=o.installation "
          "AND s.provider=o.provider AND s.account=o.account AND s.stream=o.stream "
          "WHERE o.installation=? AND o.provider=? AND o.account=? AND o.stream=? "
@@ -37,11 +39,11 @@ std::optional<Operation> select_operation(const SqliteWorkSession &session, cons
     if (rows.isEmpty())
         return std::nullopt;
     const auto &r = rows.front();
-    return Operation{r[0].toLongLong(),   r[1].toLongLong(),   r[2].toLongLong(),
-                     r[3].toLongLong(),   r[4].toLongLong(),   r[5].toLongLong(),
-                     r[6].toLongLong(),   r[7].toLongLong(),   r[8].toByteArray(),
-                     r[9].toByteArray(),  r[10].toByteArray(), r[11].toByteArray(),
-                     r[12].toByteArray(), r[13].toLongLong(),  r[14].toLongLong()};
+    return Operation{
+        r[0].toLongLong(),   r[1].toLongLong(),  r[2].toLongLong(),   r[3].toLongLong(),
+        r[4].toLongLong(),   r[5].toLongLong(),  r[6].toLongLong(),   r[7].toLongLong(),
+        r[8].toByteArray(),  r[9].toByteArray(), r[10].toByteArray(), r[11].toByteArray(),
+        r[12].toByteArray(), r[13].toLongLong(), r[14].toLongLong(),  r[15].toByteArray()};
 }
 
 bool same_fence(const Operation &operation, const PageBinding &request) {
@@ -67,8 +69,9 @@ bool page_bounds(const PageBinding &page) {
            page.frontier_before.size() <= reference_limit &&
            page.frontier_after.size() <= reference_limit &&
            page.upper_bound.size() <= reference_limit &&
-           page.qualified_proof.size() <= document_limit && page.ordinal >= 1 &&
-           page.ordinal <= 256 && page.items >= 0 && page.items <= 16;
+           page.qualified_proof.size() <= document_limit &&
+           (page.page_reconnect.isNull() || bounded(page.page_reconnect, reference_limit)) &&
+           page.ordinal >= 1 && page.ordinal <= 256 && page.items >= 0 && page.items <= 16;
 }
 
 struct GapHead {
@@ -161,33 +164,177 @@ bool page_matches_items(const PageAdmission &request) {
             page.field() == QByteArrayView(request.binding.qualified_proof) && page.finished());
 }
 
-bool proved_prefix(const SqliteWorkSession &session, const PageBinding &page, qint64 prefix,
-                   const QList<QByteArray> *items = nullptr) {
+using Hash = QCryptographicHash;
+
+void add_number(Hash &hash, qint64 value) {
+    const auto encoded = qToBigEndian(static_cast<quint64>(value));
+    hash.addData(QByteArrayView(reinterpret_cast<const char *>(&encoded), sizeof(encoded)));
+}
+
+void add_blob(Hash &hash, const QByteArray &value) {
+    add_number(hash, value.isNull() ? -1 : value.size());
+    hash.addData(value);
+}
+
+QByteArray page_seal(const PageBinding &page, const Operation &operation,
+                     const QByteArray &generation) {
+    Hash hash(Hash::Sha256);
+    add_blob(hash, page.scope.installation);
+    add_blob(hash, page.scope.provider);
+    add_blob(hash, page.scope.account);
+    add_blob(hash, page.scope.stream);
+    add_blob(hash, page.operation_ref);
+    add_number(hash, page.source.epoch);
+    add_number(hash, page.source.policy_revision);
+    add_blob(hash, generation);
+    add_blob(hash, operation.gap);
+    add_blob(hash, operation.intent);
+    add_number(hash, operation.purpose);
+    add_number(hash, page.gap_revision);
+    add_number(hash, page.ordinal);
+    add_number(hash, page.items);
+    add_blob(hash, page.expected_continuation);
+    add_blob(hash, page.page);
+    return hash.result();
+}
+
+enum PrefixColumn {
+    ordinal_column,
+    phase_column,
+    disposition_column,
+    epoch_column,
+    generation_column,
+    policy_column,
+    intake_column,
+    receipt_column,
+    attempt_column,
+    arrival_column
+};
+
+SqlRows selected_prefix(const SqliteWorkSession &session, const PageBinding &page) {
     auto args = scope_bindings(page.scope);
     args.append({page.operation_ref, page.ordinal});
-    const auto rows = session.execute(
-        {"SELECT item_ordinal,phase,disposition,epoch,generation,policy_revision "
-         "FROM main.subathon_intake_entries WHERE installation=? AND provider=? AND account=? "
-         "AND stream=? AND operation_ref=? AND page_ordinal=? ORDER BY item_ordinal LIMIT 17",
+    return session.execute(
+        {"SELECT item_ordinal,phase,disposition,epoch,generation,policy_revision,intake_ref,"
+         "receipt_id,attempt_ordinal,arrival_ms FROM main.subathon_intake_entries "
+         "WHERE installation=? AND provider=? AND account=? AND stream=? AND operation_ref=? "
+         "AND page_ordinal=? ORDER BY item_ordinal LIMIT 17",
          args});
-    if (rows.size() != prefix || prefix > page.items)
+}
+
+QByteArray prefix_seal(const SqlRows &rows, qsizetype count) {
+    Hash hash(Hash::Sha256);
+    add_number(hash, count);
+    for (qsizetype i = 0; i < count; ++i) {
+        const auto &row = rows[i];
+        // Phase and quarantine disposition can advance after reconnect.
+        // Seal the unchanged identity and validate the current disposition separately.
+        add_number(hash, row[ordinal_column].toLongLong());
+        add_number(hash, row[epoch_column].toLongLong());
+        add_blob(hash, row[generation_column].toByteArray());
+        add_number(hash, row[policy_column].toLongLong());
+        add_blob(hash, row[intake_column].toByteArray());
+        add_blob(hash, row[receipt_column].toByteArray());
+        add_number(hash, row[attempt_column].toLongLong());
+        add_number(hash, row[arrival_column].toLongLong());
+    }
+    return hash.result();
+}
+
+constexpr qsizetype digest_size = 32;
+constexpr qsizetype witness_key_offset = 5 + sizeof(quint64);
+constexpr qsizetype witness_prefix_offset = witness_key_offset + digest_size;
+constexpr qsizetype witness_history_offset = witness_prefix_offset + digest_size;
+constexpr auto witness_role = "RP1";
+
+std::optional<qsizetype> witnessed_rows(const SqliteWorkSession &session, const PageBinding &page,
+                                        const Operation &operation, qint64 prefix,
+                                        const SqlRows &selected) {
+    if (page.page_reconnect.isNull())
+        return 0;
+    auto args = scope_bindings(page.scope);
+    args.append({page.page_reconnect, page.source.epoch, page.source.policy_revision,
+                 page.source.generation});
+    const auto rows = session.execute(
+        {"SELECT intent FROM main.subathon_intake_operations WHERE installation=? AND provider=? "
+         "AND account=? AND stream=? AND operation_ref=? AND epoch=? AND policy_revision=? "
+         "AND generation=? AND purpose=4 AND outcome=1",
+         args});
+    if (rows.size() != 1)
+        return {};
+    const auto document = rows.front().front().toByteArray();
+    if (document.size() < witness_history_offset + 3 || !document.startsWith(witness_role) ||
+        !QByteArrayView(document).sliced(witness_history_offset).startsWith("SH1"))
+        return {};
+
+    const auto old_prefix = static_cast<unsigned char>(document[3]);
+    const auto entries = static_cast<unsigned char>(document[4]);
+    const auto revision = qFromBigEndian<quint64>(document.constData() + 5);
+    if (old_prefix > prefix || entries > selected.size() || entries < old_prefix ||
+        entries > old_prefix + 1 || page.operation_revision <= 0 ||
+        revision != static_cast<quint64>(page.operation_revision))
+        return {};
+    if (QByteArrayView(document).sliced(witness_key_offset, digest_size) !=
+            page_seal(page, operation, page.source.generation) ||
+        QByteArrayView(document).sliced(witness_prefix_offset, digest_size) !=
+            prefix_seal(selected, entries))
+        return {};
+    return entries;
+}
+
+std::optional<QList<QByteArrayView>> normalized_items(const PageBinding &page) {
+    FrameReader encoded(page.page);
+    if (!encoded.consume('P') || encoded.integer() != page.items)
+        return {};
+    QList<QByteArrayView> items;
+    for (qint64 n = 0; n < page.items; ++n) {
+        const auto item = encoded.field();
+        if (!item || item->isEmpty() || item->size() > item_limit)
+            return {};
+        items.append(*item);
+    }
+    if (!encoded.finished()) {
+        const auto token = encoded.field();
+        const auto proof = encoded.field();
+        if (!token || token->size() > reference_limit || !proof || proof->size() > document_limit ||
+            !encoded.finished())
+            return {};
+    }
+    return items;
+}
+
+bool proved_prefix(const SqliteWorkSession &session, const PageBinding &page,
+                   const Operation &operation, qint64 prefix, const SqlRows &rows,
+                   const QList<QByteArrayView> *items, bool allow_pending) {
+    if (prefix < 0 || prefix > page.items || rows.size() < prefix || rows.size() > page.items ||
+        rows.size() > prefix + (allow_pending ? 1 : 0))
         return false;
+    const auto inherited = witnessed_rows(session, page, operation, prefix, rows);
+    if (!inherited)
+        return false;
+
+    auto args = scope_bindings(page.scope);
+    args.append({page.operation_ref, page.ordinal});
     for (qsizetype i = 0; i < rows.size(); ++i) {
         const auto &row = rows[i];
-        if (row[0].toLongLong() != i + 1 || row[1].toInt() < 2 || row[2].toInt() == 5 ||
-            row[3].toLongLong() != page.source.epoch ||
-            row[4].toByteArray() != page.source.generation ||
-            row[5].toLongLong() != page.source.policy_revision)
+        const auto phase = row[phase_column].toLongLong();
+        if (row[ordinal_column].toLongLong() != i + 1 ||
+            (i < prefix ? phase < 2 : phase != 1 || row[receipt_column].isNull()) ||
+            row[disposition_column].toLongLong() == 5 ||
+            row[epoch_column].toLongLong() != page.source.epoch ||
+            (i >= *inherited && row[generation_column].toByteArray() != page.source.generation) ||
+            row[policy_column].toLongLong() != page.source.policy_revision ||
+            !bounded(row[intake_column].toByteArray(), reference_limit))
             return false;
         if (items) {
             auto exact = args;
-            exact.append({i + 1, (*items)[i]});
+            exact.append({i + 1, (*items)[i].toByteArray()});
             if (session
-                    .execute(
-                        {"SELECT 1 FROM main.subathon_intake_entries WHERE "
-                         "installation=? AND provider=? AND account=? AND stream=? "
-                         "AND operation_ref=? AND page_ordinal=? AND item_ordinal=? AND input=?",
-                         exact})
+                    .execute({"SELECT 1 FROM main.subathon_intake_entries WHERE installation=? AND "
+                              "provider=? AND account=? AND stream=? AND operation_ref=? AND "
+                              "page_ordinal=? "
+                              "AND item_ordinal=? AND input=?",
+                              exact})
                     .isEmpty())
                 return false;
         }
@@ -309,11 +456,16 @@ BoundPage stage_page(const SqliteWorkSession &session, const PageAdmission &requ
         if (!same_page(*retained, page, *operation) || retained->outcome != 0 ||
             !same_blob(operation->continuation, page.expected_continuation))
             return {Status::conflict};
-        if (!proved_prefix(session, page, retained->prefix, &request.normalized_items))
+        QList<QByteArrayView> items;
+        for (const auto &item : request.normalized_items)
+            items.append(item);
+        if (!proved_prefix(session, page, *operation, retained->prefix,
+                           selected_prefix(session, page), &items, true))
             return {Status::incomplete_prefix};
         return {Status::exact_replay, retained->prefix};
     }
-    if (!same_blob(operation->continuation, page.expected_continuation))
+    if (!same_blob(operation->continuation, page.expected_continuation) ||
+        !page.page_reconnect.isNull())
         return {Status::conflict};
     if (operation->reserved > 4096 - page.items)
         return {Status::intake_limit};
@@ -367,7 +519,11 @@ HistoryStatus stage_page_finalization(const SqliteWorkSession &session, const Pa
     const auto retained = select_page(session, page);
     if (!retained || !same_page(*retained, page, *operation))
         return Status::conflict;
-    if (retained->prefix != page.items || !proved_prefix(session, page, retained->prefix))
+    const auto items = page.page_reconnect.isNull() ? std::optional<QList<QByteArrayView>>{}
+                                                    : normalized_items(page);
+    if (retained->prefix != page.items || (!page.page_reconnect.isNull() && !items) ||
+        !proved_prefix(session, page, *operation, retained->prefix, selected_prefix(session, page),
+                       items ? &*items : nullptr, false))
         return Status::incomplete_prefix;
 
     if (retained->outcome == 1) {
@@ -525,6 +681,105 @@ HistoryStatus stage_rollover(const SqliteWorkSession &session, const Rollover &i
          {input.replacement, input.scope.installation, input.operation, input.operation_revision}});
     detail::require_changed_one(session);
     return Status::staged;
+}
+
+std::optional<QByteArray> detail::retain_page_reconnect(const SqliteWorkSession &session,
+                                                        const Reconnect &request,
+                                                        const QByteArray &operation_ref,
+                                                        const QByteArray &source_history) {
+    const auto operation = select_operation(session, request.scope, operation_ref);
+    if (!operation || operation->outcome != 0 || operation->ordinal < 1 ||
+        operation->ordinal > 256 || !incrementable(operation->revision) ||
+        operation->source_revision != request.expected.revision)
+        return {};
+
+    PageBinding page{};
+    page.scope = request.scope;
+    page.source = request.expected;
+    page.operation_ref = operation_ref;
+    page.operation_revision = operation->revision;
+    page.ordinal = operation->ordinal;
+    page.expected_continuation = operation->continuation;
+    page.page_reconnect = request.prior_page_reconnect;
+    if (!same_fence(*operation, page))
+        return {};
+    const auto retained = select_page(session, page);
+    if (!retained || retained->outcome != 0 || retained->purpose != operation->purpose ||
+        !same_blob(retained->token, operation->continuation) ||
+        retained->items > operation->reserved)
+        return {};
+
+    page.page = retained->page;
+    page.items = retained->items;
+    if (operation->purpose == 0) {
+        const auto gap = select_gap(session, request.scope, *operation);
+        if (!gap)
+            return {};
+        page.gap_revision = gap->revision;
+    }
+    if (!page_bounds(page))
+        return {};
+    const auto items = normalized_items(page);
+    const auto rows = selected_prefix(session, page);
+    if (!items || !proved_prefix(session, page, *operation, retained->prefix, rows, &*items, true))
+        return {};
+
+    QByteArray document(witness_role);
+    document += static_cast<char>(retained->prefix);
+    document += static_cast<char>(rows.size());
+    const auto revision = qToBigEndian(static_cast<quint64>(operation->revision + 1));
+    document.append(reinterpret_cast<const char *>(&revision), sizeof(revision));
+    document += page_seal(page, *operation, request.new_generation);
+    document += prefix_seal(rows, rows.size());
+    document += source_history;
+    return document;
+}
+
+bool detail::qualified_page_slot(const SqliteWorkSession &session, const ManagedInput &input,
+                                 const Fence &current) {
+    if (!input.history)
+        return input.page_reconnect.isNull();
+    const auto &slot = *input.history;
+    if (!bounded(slot.operation, reference_limit) || slot.page < 1 || slot.page > 256 ||
+        slot.item < 1 || slot.item > 16)
+        return false;
+    const auto operation = select_operation(session, input.scope, slot.operation);
+    if (!operation || operation->outcome != 0 || operation->ordinal != slot.page ||
+        operation->source_revision != current.revision)
+        return false;
+
+    PageBinding page{};
+    page.scope = input.scope;
+    page.source = current;
+    page.operation_ref = slot.operation;
+    page.operation_revision = operation->revision;
+    page.ordinal = slot.page;
+    page.expected_continuation = operation->continuation;
+    page.page_reconnect = input.page_reconnect;
+    if (!same_fence(*operation, page))
+        return false;
+    const auto retained = select_page(session, page);
+    if (!retained || retained->outcome != 0 ||
+        !same_blob(retained->token, operation->continuation) ||
+        retained->purpose != operation->purpose || retained->prefix != slot.item - 1 ||
+        retained->items < slot.item || retained->items > operation->reserved)
+        return false;
+
+    page.page = retained->page;
+    page.items = retained->items;
+    if (operation->purpose == 0 && !page.page_reconnect.isNull()) {
+        const auto gap = select_gap(session, input.scope, *operation);
+        if (!gap)
+            return false;
+        page.gap_revision = gap->revision;
+    }
+    if (!page_bounds(page))
+        return false;
+
+    const auto items = normalized_items(page);
+    return items && (*items)[slot.item - 1] == QByteArrayView(input.normalized) &&
+           proved_prefix(session, page, *operation, retained->prefix,
+                         selected_prefix(session, page), &*items, true);
 }
 
 } // namespace subathon::server::connector_intake

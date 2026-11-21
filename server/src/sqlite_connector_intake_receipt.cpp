@@ -249,43 +249,6 @@ std::optional<Basis> basis(const SqliteWorkSession &session, const Scope &scope,
                  {{decode_receipt_uint64(r[3].toByteArray())}, r[4].toLongLong()}};
 }
 
-bool qualified_slot(const SqliteWorkSession &session, const ManagedInput &input,
-                    const Fence &fence) {
-    if (!input.history)
-        return true;
-    const auto &slot = *input.history;
-    if (!bounded(slot.operation, reference_limit) || slot.page < 1 || slot.page > 256 ||
-        slot.item < 1 || slot.item > 16)
-        return false;
-    QList<QVariant> bindings{slot.page};
-    bindings.append(scope_bindings(input.scope));
-    bindings.append({slot.operation, fence.epoch, fence.policy_revision, fence.generation,
-                     slot.page, slot.item - 1, slot.item});
-    const auto rows = session.execute(
-        {"SELECT p.page,p.item_count FROM main.subathon_intake_operations o "
-         "JOIN main.subathon_intake_pages p ON p.installation=o.installation "
-         "AND p.operation_ref=o.operation_ref AND p.ordinal=? WHERE o.installation=? "
-         "AND o.provider=? AND o.account=? AND o.stream=? AND o.operation_ref=? AND o.epoch=? "
-         "AND o.policy_revision=? AND o.generation=? AND o.next_ordinal=? AND o.outcome=0 "
-         "AND p.outcome=0 AND p.committed_prefix=? AND p.item_count>=?",
-         bindings});
-    if (rows.size() != 1)
-        return false;
-    const auto document = rows.front()[0].toByteArray();
-    QByteArrayView remaining(document);
-    if (remaining.size() < 5 || remaining.front() != 'P' ||
-        qFromBigEndian<quint32>(remaining.data() + 1) != rows.front()[1].toLongLong())
-        return false;
-    remaining = remaining.sliced(5);
-    std::optional<QByteArrayView> selected;
-    for (qint64 i = 0; i < slot.item; ++i) {
-        selected = take_field(remaining);
-        if (!selected)
-            return false;
-    }
-    return selected == QByteArrayView(input.normalized);
-}
-
 void stage_entry(const SqliteWorkSession &session, const ManagedInput &input, const Fence &fence,
                  core::ReceiptId receipt, qint64 ordinal, core::ReceiptDisposition disposition) {
     const auto encoded = encode_receipt_uint64(receipt.value);
@@ -393,7 +356,8 @@ ManagedResult admit_managed(const SqliteWorkSession &session, const ManagedInput
         session.rollback();
         return selected;
     }
-    if (!same_fence(*current, input.expected_source) || !qualified_slot(session, input, *current))
+    if (!same_fence(*current, input.expected_source) ||
+        !detail::qualified_page_slot(session, input, *current))
         return refuse(Status::stale);
 
     auto stopped = Status::known_rollback;
@@ -548,7 +512,7 @@ HistoryStatus stage_intake_disposition(const SqliteWorkSession &session, const M
     if (advance_prefix) {
         const auto current = source(session, input.scope);
         if (!current || !same_fence(*current, input.expected_source) ||
-            !qualified_slot(session, input, *current))
+            !detail::qualified_page_slot(session, input, *current))
             return H::stale;
     }
 
