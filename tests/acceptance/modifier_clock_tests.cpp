@@ -1000,6 +1000,14 @@ TEST(ModifierClock, E6VisiblePresentationDoesNotControlRealExpiryOrScore) { real
 
 TEST(ModifierClock, E6HiddenPresentationDoesNotControlRealExpiryOrScore) { real_visibility(false); }
 
+TEST(ModifierClockDebitEvidence, LiveRejectsConfirmationRescueAcrossDistinctObservations) {
+    const TimerConfig config{.end_mode = TimerEndMode::Confirmation, .hard_end_utc_ms = {}};
+    const auto waiting = advance_timer(main_seed(3), config, {3, 8, false}).state;
+    const auto rescued = apply_applicable_time_credit(waiting, 4);
+    const LiveCut rescue{at("wait", 8), at("rescue", 8), waiting, {0, 8, false}, {rescued, {}}};
+    EXPECT_THROW((void)rescue.project(active_seed(8)), std::invalid_argument);
+}
+
 TEST(ModifierClockDebitEvidence, LiveRejectsMissingDebitOnChangedMain) {
     const LiveCut observation{
         at("before", 1000), at("now", 1005), main_seed(20), {5, 1005, false}, {main_seed(15), {}}};
