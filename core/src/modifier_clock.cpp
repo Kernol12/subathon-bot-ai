@@ -53,8 +53,8 @@ bool same_pause(const PauseState &left, const PauseState &right) {
            left.stream_unknown_notice == right.stream_unknown_notice;
 }
 
-bool coherent_cut(const TimerState &before, const TimerClockStep &step,
-                  const TimerAdvance &advance) {
+bool coherent_cut(const TimerState &before, const TimerClockStep &step, const TimerAdvance &advance,
+                  bool same_observation) {
     using Life = TimerLifecycle;
     using Phase = CountdownPhase;
     using T = TimerTransition;
@@ -93,7 +93,7 @@ bool coherent_cut(const TimerState &before, const TimerClockStep &step,
             return false;
         // A separately accepted credit can rescue Main at the same observation.
         // The credit changes the timer balance without advancing either clock.
-        if (step.elapsed_ms == 0 && advance.state.main_remaining_ms > 0)
+        if (same_observation && step.elapsed_ms == 0 && advance.state.main_remaining_ms > 0)
             expected = apply_applicable_time_credit(before, advance.state.main_remaining_ms);
         return matches({});
     }
@@ -226,7 +226,7 @@ ModifierCutProposal project_modifier_cut(const ModifierClockObservation &before,
                 (before.ref != now.ref || (step.elapsed_ms == 0 && before.utc_ms == now.utc_ms)),
             "Modifier cut must bind an admitted step on the same lineage");
 
-    require(coherent_cut(timer_before, step, timer_advance),
+    require(coherent_cut(timer_before, step, timer_advance, before == now),
             "Modifier cut requires coherent timer progression");
 
     ModifierCutProposal result{head, {}, {}};
