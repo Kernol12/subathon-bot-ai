@@ -108,9 +108,16 @@ target_include_directories(subathon_timer_editorial_commands PUBLIC "${CMAKE_CUR
 target_link_libraries(subathon_timer_editorial_commands PUBLIC subathon_timer_lifecycle subathon_time_debt)
 subathon_target_options(subathon_timer_editorial_commands)
 
-if(BUILD_TESTING AND SUBATHON_BUILD_DOWNTIME_RECOVERY_TESTS)
+if(BUILD_TESTING AND (SUBATHON_BUILD_DOWNTIME_RECOVERY_TESTS OR SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE))
     add_library(subathon_downtime_recovery STATIC EXCLUDE_FROM_ALL src/downtime_recovery.cpp)
     target_link_libraries(subathon_downtime_recovery PUBLIC
         subathon_recurring_schedule subathon_timer_editorial_commands)
     subathon_target_options(subathon_downtime_recovery)
+endif()
+
+if(BUILD_TESTING AND SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE)
+    add_library(subathon_modifier_clock_baseline STATIC EXCLUDE_FROM_ALL src/modifier_clock.cpp)
+    target_link_libraries(subathon_modifier_clock_baseline PUBLIC
+        subathon_downtime_recovery subathon_modifier_activation)
+    subathon_target_options(subathon_modifier_clock_baseline)
 endif()
