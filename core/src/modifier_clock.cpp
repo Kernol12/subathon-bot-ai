@@ -88,8 +88,15 @@ bool coherent_cut(const TimerState &before, const TimerClockStep &step,
         expected.awaiting_confirmation = false;
         return progressed == 0 && matches({T::HardEndReached, T::Finished});
     }
-    if (before.awaiting_confirmation)
-        return progressed == 0 && matches({});
+    if (before.awaiting_confirmation) {
+        if (progressed != 0 || !advance.transitions.empty())
+            return false;
+        // A separately accepted credit can rescue Main at the same observation.
+        // The credit changes the timer balance without advancing either clock.
+        if (step.elapsed_ms == 0 && advance.state.main_remaining_ms > 0)
+            expected = apply_applicable_time_credit(before, advance.state.main_remaining_ms);
+        return matches({});
+    }
 
     if (before.phase == Phase::Grace) {
         const auto consumed = std::min(elapsed, before.grace_remaining_ms);
