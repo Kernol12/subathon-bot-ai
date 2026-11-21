@@ -66,9 +66,9 @@ struct RuleActionPlan {
 using RuleActionMapper = std::function<RuleActionBinding(
     const RuleActionKey &, const RuleActionPayload &, const RuleCapturedInput &)>;
 
-// Author identities are supplied in retained configuration order. Selection errors
-// propagate with no partially mapped result. Mapping resolves immutable inputs and
-// the minimum concrete binding before any current or protected query.
+// Pass one author identity per retained rule, in configuration order. Selection
+// errors propagate with no partially mapped result. Mapping resolves immutable
+// inputs and the minimum concrete binding before any current or protected query.
 [[nodiscard]] RuleActionPlan plan_rule_actions(const RuleConfiguration &, const RuleCapturedInput &,
                                                const RuleEventLineage &,
                                                std::span<const std::string> original_authors,
@@ -85,6 +85,9 @@ struct RuleActionAuthorityFacts {
 enum class RuleGate { permit, deny, unavailable };
 enum class RuleCapability { supported, unsupported, unavailable };
 
+// Check current author USE and GRANT first, then the independent execution gate,
+// target validity, and capability. The first refusal stops further checks and
+// prevents submission of this action.
 struct RuleActionChecks {
     std::function<std::optional<RuleActionAuthorityFacts>(
         std::string_view author, const RuleActionKey &, const RuleBoundAction &)>
@@ -99,6 +102,8 @@ enum class RuleAuthorityChannel { use, grant, execution };
 struct RuleStopDetail {
     std::optional<PermissionAutomationActionDecision> author_decision;
     std::optional<RuleAuthorityChannel> channel;
+    // Upper bound when the determining channel has one applicable quantity
+    // constraint for this operation's exact resource tuple.
     std::optional<PermissionRational> limit;
     std::optional<EffectivePermissionError> authority_error;
     std::optional<std::string> opaque_reason;

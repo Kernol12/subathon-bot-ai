@@ -186,11 +186,9 @@ permissions and rate include numeric checks; editorial includes debt and lifecyc
 Bare acceptance ON defaults to credit. An explicit empty/unknown selection fails;
 `all` explicitly includes every native/translation suite, all required SDKs and the
 host lifecycle intentional-red baselines and the ordinary passing bounded HTTP
-foundation suite, with the explicit-only RULES-003 Stage 1 baseline excluded.
-Select `rule-actions` explicitly for that baseline. Build `core_rule_actions_baseline`
-and inspect the generated registration files without invoking CTest or the runner
-before independent review and coordinator admission. The baseline uses ordinary
-failures under the `rule-actions;acceptance;core;intentional-red` labels.
+foundation suite. Select `rule-actions` explicitly for RULES-003 until ordinary
+Core promotion. The Stage 1 baseline uses ordinary failures under the
+`rule-actions;acceptance;core;intentional-red` labels.
 Rate snapshots are ordinary passing
 acceptance. The corrected native WebSocket
 profile itself remains ordinary passing acceptance. Schema validation and configure-only Qt probing remain separate

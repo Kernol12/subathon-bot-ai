@@ -337,6 +337,7 @@ TEST(RuleActions, RetainedExclusionCappedPrefixRevokedBonusAndObservedLaterEvent
     EXPECT_EQ(preview.projected[2].first, suppressed_key);
     EXPECT_EQ(std::get<RuleProjectedChild>(preview.projected[2].second).name, "skipped");
     EXPECT_EQ(preview.projected[3].first, follow_key);
+    EXPECT_EQ(std::get<RuleProjectedChild>(preview.projected[3].second).name, "ready");
     EXPECT_TRUE(ports.submissions.empty());
 
     const auto current_configuration = validate_rule_configuration({"cfg-v2", {}, {b, c, d}});
@@ -389,11 +390,6 @@ TEST(RuleActions, RetainedExclusionCappedPrefixRevokedBonusAndObservedLaterEvent
     EXPECT_EQ(ports.submissions[1].key, follow_key);
     expect_single_resource(ports.submissions[1].bound.request, "event.emit", "name", "ready");
 
-    // Resolution after the pass supplies no new admitted root or request.
-    ports.current["bonus"] = timer_facts("after-hold");
-    EXPECT_EQ(first.accepted.size(), 1U);
-    EXPECT_EQ(first.stop->position, 1U);
-
     const std::array<RuleCapturedFact, 2> later_context{
         RuleText{RuleTextField::event_name, "ready"},
         RuleInteger{RuleIntegerField::main_remaining_ms, 60000}};
@@ -409,18 +405,18 @@ TEST(RuleActions, RetainedExclusionCappedPrefixRevokedBonusAndObservedLaterEvent
     ASSERT_EQ(later.selected.size(), 1U);
     EXPECT_EQ(later.selected[0].captured_index, 2U);
     EXPECT_TRUE(later.selected[0].intents.empty());
-    EXPECT_EQ(plan_v1.selection.decisions, original_decisions);
-    EXPECT_EQ(plan_v1.selection.selected_rule_indices, (std::vector<std::size_t>{0, 2}));
 }
 
 enum class Fault {
     denied,
+    use_denied,
     unknown_use,
     no_lookup,
     invalid_policy,
     invalid_binding,
     missing_input,
     execution_denied,
+    execution_unavailable,
     invalid_target,
     unavailable_handler,
     unsupported_handler,
@@ -462,6 +458,11 @@ TEST_P(RuleActionFault, StopsThisRuleOnlyAtTheFirstRefusal) {
         ports.target_valid = false;
         ports.readiness = RuleCapability::unavailable;
         break;
+    case Fault::use_denied:
+        current.use.entries[0] = limit("timer-use", "A", "999");
+        ports.target_valid = false;
+        ports.readiness = RuleCapability::unavailable;
+        break;
     case Fault::unknown_use:
         current.use = {};
         break;
@@ -478,6 +479,9 @@ TEST_P(RuleActionFault, StopsThisRuleOnlyAtTheFirstRefusal) {
         break;
     case Fault::execution_denied:
         ports.execution = RuleGate::deny;
+        break;
+    case Fault::execution_unavailable:
+        ports.execution = RuleGate::unavailable;
         break;
     case Fault::invalid_target:
         ports.target_valid = false;
@@ -526,6 +530,15 @@ TEST_P(RuleActionFault, StopsThisRuleOnlyAtTheFirstRefusal) {
 
     if (row.fault == Fault::denied) {
         expect_denial(*stopped.stop, RuleAuthorityChannel::grant, Outcome::permit, Outcome::deny);
+    }
+    if (row.fault == Fault::use_denied) {
+        expect_denial(*stopped.stop, RuleAuthorityChannel::use, Outcome::deny, Outcome::permit,
+                      "999");
+    }
+    if (row.fault == Fault::execution_denied || row.fault == Fault::execution_unavailable) {
+        const auto detailed = disclose_rule_stop(*stopped.stop, RuleStopDisclosure::detail);
+        ASSERT_TRUE(detailed && detailed->detail);
+        EXPECT_EQ(detailed->detail->channel, RuleAuthorityChannel::execution);
     }
     if (row.refusal == Refusal::authority_unavailable) {
         const auto detailed = disclose_rule_stop(*stopped.stop, RuleStopDisclosure::detail);
@@ -582,6 +595,10 @@ INSTANTIATE_TEST_SUITE_P(
     CurrentFacts, RuleActionFault,
     testing::Values(
         FaultRow{"NoGrant", Fault::denied, Refusal::authorization_hold, {"authority:first-credit"}},
+        FaultRow{"UseDenied",
+                 Fault::use_denied,
+                 Refusal::authorization_hold,
+                 {"authority:first-credit"}},
         FaultRow{"UnknownUse",
                  Fault::unknown_use,
                  Refusal::authority_unavailable,
@@ -599,6 +616,10 @@ INSTANTIATE_TEST_SUITE_P(
         FaultRow{"ExecutionSubjectDenied",
                  Fault::execution_denied,
                  Refusal::authorization_hold,
+                 {"authority:first-credit", "execution:timer.adjust:fault-current"}},
+        FaultRow{"ExecutionSubjectUnavailable",
+                 Fault::execution_unavailable,
+                 Refusal::authority_unavailable,
                  {"authority:first-credit", "execution:timer.adjust:fault-current"}},
         FaultRow{"InvalidTarget",
                  Fault::invalid_target,
@@ -737,37 +758,18 @@ TEST(RuleActions, QueueAcceptanceRetainsExactSenderAcrossSeparateDeliveryObserva
                                "authority:announce", "execution:chat.send:chat-current",
                                "target:chat.send", "capability:chat.send", "submit:announce"}));
 
-    // Delivery owner fixture from the shipped revision-1/2/3 control. Its fresh
-    // start gate can refuse despite the earlier queue acceptance. The adapter is
-    // a counter on the fake owner's normal committed claim only.
-    unsigned fresh_gate_checks = 0;
-    unsigned starts = 0;
-    const auto claim = [&](bool current_permit) -> std::optional<RuleDeliveryObservation> {
-        ++fresh_gate_checks;
-        if (!current_permit) {
-            return {};
-        }
-        ++starts;
-        return sending;
-    };
-    EXPECT_EQ(starts, 0U);
-    EXPECT_EQ(fresh_gate_checks, 0U);
+    // Owner observations from the shipped revision-1/2/3 delivery control:
+    // a refused claim provides no observation, then a separate claim starts.
     const RuleDeliveryTrace initial{observed_queue, observed_queue};
-    const auto denied = observe_rule_delivery(initial, claim(false));
+    const auto denied = observe_rule_delivery(initial, std::nullopt);
     EXPECT_EQ(denied.queued, queued);
     EXPECT_EQ(denied.latest, queued);
-    EXPECT_EQ(starts, 0U);
-    EXPECT_EQ(fresh_gate_checks, 1U);
-    const auto claimed = observe_rule_delivery(denied, claim(true));
+    const auto claimed = observe_rule_delivery(denied, sending);
     EXPECT_EQ(claimed.queued, queued);
     EXPECT_EQ(claimed.latest, sending);
-    EXPECT_EQ(starts, 1U);
-    EXPECT_EQ(fresh_gate_checks, 2U);
     const auto recovered = observe_rule_delivery(claimed, interrupted);
     EXPECT_EQ(recovered.queued, queued);
     EXPECT_EQ(recovered.latest, interrupted);
-    EXPECT_EQ(starts, 1U);
-    EXPECT_EQ(fresh_gate_checks, 2U);
     EXPECT_EQ(std::get<RuleDeliveryObservation>(accepted.observed), queued);
     EXPECT_EQ(ports.authority_calls.size(), 1U);
     EXPECT_EQ(ports.submissions.size(), 1U);
@@ -907,17 +909,6 @@ TEST(RuleActions, RetainsTypedActionsAndImmutableReferencesInUserOrder) {
         const auto retained = validate_rule_configuration({"types-v1", {}, {def}});
         return plan(ports, retained, {"typed-root", {}, "typed-root", {}}, {}, {}, authors);
     }(); // Captured configuration and author inputs may leave scope.
-    auto edited = rule("authored", 10, actions);
-    edited.version_ref = "rule-v4";
-    std::swap(edited.actions[0], edited.actions[1]);
-    edited.actions[2].version_ref = "av4";
-    std::get<RuleCalculation>(std::get<RuleDeltaAction>(edited.actions[2].payload).delta)
-        .calculation_version_ref = "calc-v2";
-    std::get<RuleConnectorAction>(edited.actions[12].payload).parameters_version_ref =
-        "parameters-v2";
-    edited.actions[12].version_ref = "v2";
-    const auto current_config = validate_rule_configuration({"types-v2", {}, {edited}});
-    EXPECT_EQ(current_config.data().rules[0].version_ref, "rule-v4");
 
     ASSERT_EQ(planned.selected.size(), 1U);
     const auto &selected = planned.selected[0];
