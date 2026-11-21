@@ -15,8 +15,9 @@ void profile_input(Budget &budget, const ModifierTraceProfile &profile) {
 
 void context_input(Budget &budget, const ModifierStackCapture &capture) {
     const auto &arrival = capture.arrival.get();
-    budget.refs({capture.original_arrival_ref, arrival.connection_ref, arrival.configuration_ref,
-                 arrival.modifier_context_ref});
+    budget.refs({capture.original_arrival_ref});
+    budget.refs({arrival.connection_ref}, false);
+    budget.refs({arrival.configuration_ref, arrival.modifier_context_ref});
     budget.input.add(10); // Timestamp and the two optional bindings.
     if (capture.admitted_profile)
         profile_input(budget, *capture.admitted_profile);

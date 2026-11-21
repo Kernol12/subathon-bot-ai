@@ -69,6 +69,7 @@ ModifierReduction reduce(Budget &budget, Op op, Candidates &candidates, Factor f
             const auto &factor = factor_of(candidate);
             raw =
                 op == Op::multiply ? multiply(budget, raw, factor) : add_bonus(budget, raw, factor);
+            // Multiply and Additive include every candidate in the result.
             candidate.winner = true;
         }
     } else {
