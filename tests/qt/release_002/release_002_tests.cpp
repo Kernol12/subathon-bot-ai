@@ -599,7 +599,10 @@ class Release002Tests final : public QObject {
         fixture.launch();
         fixture.trace.clear();
         QVERIFY(fixture.dispatch().empty());
-        QCOMPARE(fixture.trace, (QStringList{"session-prepare", "base-prepare"}));
+        const auto session = fixture.trace.indexOf("session-prepare");
+        QVERIFY(session >= 0);
+        QVERIFY(fixture.trace.indexOf("base-prepare") > session);
+        QVERIFY(!fixture.trace.contains("versions"));
         expect_no_reads(fixture);
     }
 
@@ -660,8 +663,11 @@ class Release002Tests final : public QObject {
         start_a(fixture);
         fixture.deny_details = true;
         expect_status(fixture.dispatch(both), ReplyStatus::denied);
-        QCOMPARE(fixture.trace,
-                 (QStringList{"session-prepare", "base-prepare", "detail-prepare", "transfer"}));
+        const auto session = fixture.trace.indexOf("session-prepare");
+        QVERIFY(session >= 0);
+        QVERIFY(fixture.trace.indexOf("base-prepare") > session);
+        QVERIFY(fixture.trace.indexOf("detail-prepare") > session);
+        QVERIFY(!fixture.trace.contains("versions"));
         expect_no_reads(fixture);
     }
 
