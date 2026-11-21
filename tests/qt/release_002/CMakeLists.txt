@@ -16,8 +16,8 @@ add_executable(release_002_stage1 release_002_tests.cpp stage1_stub.cpp)
 set_target_properties(release_002_stage1 PROPERTIES AUTOMOC ON CXX_EXTENSIONS OFF)
 target_compile_definitions(release_002_stage1 PRIVATE QT_NO_KEYWORDS)
 target_link_libraries(release_002_stage1 PRIVATE
-    Qt6::Test subathon_connector_lifecycle subathon_sqlite_receipts
-    subathon_sqlite_permission_graph)
+    Qt6::Test
+    subathon_diagnostics)
 subathon_target_options(release_002_stage1)
 
 if(BUILD_TESTING)
