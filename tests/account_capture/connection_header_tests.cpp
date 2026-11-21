@@ -52,6 +52,13 @@ constexpr Field host{"Host", "timer.example"};
 constexpr Field content_type{"Content-Type", "application/json"};
 constexpr Field length{"Content-Length", "66"};
 
+// Same head, byte for byte, as AccountCaptureNative.AcceptedPublicNegotiateBodyIsCapturedExactly.
+// This case adds the IO-loop fence and the zero-request check after 65 body bytes.
+TEST(AccountCaptureConnectionHeader, NoConnectionHeader) {
+    constexpr std::array fields{host, content_type, length};
+    expect_negotiation("", fields);
+}
+
 TEST(AccountCaptureConnectionHeader, SoleEmptyValue) {
     constexpr std::array fields{host, content_type, length, Field{"Connection", ""}};
     expect_negotiation("Connection: \t\r\n", fields);
@@ -86,46 +93,94 @@ TEST(AccountCaptureConnectionHeader, ValidListLeavesRouteBodyLimitInEffect) {
 constexpr auto bad_request =
     "HTTP/1.1 400 Bad Request\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"sv;
 
+// A refusal reply must arrive and end within this bound, well inside the fixture's
+// 7 s deadlines.
+constexpr auto reply_bound = 2s;
+
+// Waits until the socket has bytes or end of stream to read. poll() consumes nothing,
+// so every reply byte still goes through Socket::read and its wire scanner.
+bool readable_before(const Socket &socket, std::chrono::steady_clock::time_point until) {
+    for (;;) {
+        const auto left =
+            std::chrono::ceil<std::chrono::milliseconds>(until - std::chrono::steady_clock::now());
+        if (left <= 0ms)
+            return false;
+        pollfd p{socket.get(), POLLIN, 0};
+        const auto ready = ::poll(&p, 1, static_cast<int>(left.count()));
+        if (ready >= 0)
+            return ready == 1;
+        if (errno != EINTR)
+            throw std::runtime_error("FIXTURE: reply poll");
+    }
+}
+
 // An invalid Connection list is refused on the head alone. The witness that the
 // declared body was never admitted is the fixed 400 and end of stream while the
 // client has sent zero body bytes, so no body write precedes or follows the reply.
+// The reply is read one byte per poll() readiness inside reply_bound, so a head that
+// is not answered, or is answered without closing, fails an assertion here instead of
+// running into Socket::read's deadline. Nothing here posts or waits for a wake: the
+// peer may already be closed and removed once the reply has been read.
 void expect_refusal(std::string_view connection_lines, std::string_view declared = "66") {
     Live f(true, {});
     f.connect();
     f.client.send(std::string(head_start) + "Content-Length: " + std::string(declared) + "\r\n" +
                   std::string(connection_lines) + "\r\n");
-    expect_reply(f.client, bad_request, true);
+
+    std::array<char, 128> bytes{};
+    std::size_t count = 0;
+    bool eof = false;
+    const auto until = std::chrono::steady_clock::now() + reply_bound;
+    while (!eof && count < bytes.size() && readable_before(f.client, until)) {
+        const auto n = f.client.read(std::span(bytes).subspan(count, 1));
+        eof = n == 0;
+        count += n;
+    }
+    if (count == 0 && !eof)
+        ADD_FAILURE() << "The request head alone produced no reply";
+    else {
+        EXPECT_EQ(count, bad_request.size());
+        EXPECT_TRUE(std::string_view(bytes.data(), count) == bad_request);
+        EXPECT_TRUE(eof) << "The reply was not followed by end of stream";
+    }
     EXPECT_EQ(f.r.captures.load(), 0U);
     EXPECT_EQ(f.r.requests.load(), 0U);
 }
 
+// Each refusal below repeats the Connection lines of its matched positive byte for
+// byte and adds only the list defect: one comma, or one more occurrence.
+
+// SoleKeepAliveValue with the comma in place of the trailing SP/HTAB.
 TEST(AccountCaptureConnectionHeader, TrailingCommaRefusedOnHeadAlone) {
-    expect_refusal("Connection: keep-alive,\r\n");
+    expect_refusal("Connection:\t keep-alive,\r\n");
 }
 
-// Outer SP/HTAB is trimmed first, which leaves the same empty terminal item.
+// SoleKeepAliveValue plus the comma. Outer SP/HTAB is trimmed first, which leaves the
+// same empty terminal item.
 TEST(AccountCaptureConnectionHeader, TrailingCommaBeforeWhitespaceRefusedOnHeadAlone) {
-    expect_refusal("Connection: keep-alive, \t\r\n");
+    expect_refusal("Connection:\t keep-alive, \t\r\n");
 }
 
-// Same two occurrences as KeepAliveThenCloseAcrossOccurrences plus the final comma:
-// the valid first occurrence cannot mask the empty terminal item.
+// KeepAliveThenCloseAcrossOccurrences plus a comma after close: the valid first
+// occurrence cannot mask the empty terminal item.
 TEST(AccountCaptureConnectionHeader, KeepAliveThenCloseCommaRefused) {
-    expect_refusal("Connection: keep-alive\r\ncOnNeCtIoN: close,\r\n");
+    expect_refusal("Connection: keep-alive\r\ncOnNeCtIoN:\t close, \t\r\n");
 }
 
-// A value ending in a comma before another occurrence is an empty interior item.
+// KeepAliveThenCloseAcrossOccurrences plus a comma after keep-alive: a value ending
+// in a comma before another occurrence is an empty interior item.
 TEST(AccountCaptureConnectionHeader, KeepAliveCommaThenCloseRefused) {
-    expect_refusal("Connection: keep-alive,\r\nConnection: close\r\n");
+    expect_refusal("Connection: keep-alive,\r\ncOnNeCtIoN:\t close \t\r\n");
 }
 
-// An empty occurrence is only valid alone; in a repeated list it is an empty item.
+// The lines of SoleKeepAliveValue and SoleEmptyValue, each valid alone. An empty
+// occurrence is only valid alone; in a repeated list it is an empty item.
 TEST(AccountCaptureConnectionHeader, KeepAliveThenEmptyOccurrenceRefused) {
-    expect_refusal("Connection: keep-alive\r\nConnection:\r\n");
+    expect_refusal("Connection:\t keep-alive \t\r\nConnection: \t\r\n");
 }
 
 TEST(AccountCaptureConnectionHeader, EmptyOccurrenceThenKeepAliveRefused) {
-    expect_refusal("Connection:\r\nConnection: keep-alive\r\n");
+    expect_refusal("Connection: \t\r\nConnection:\t keep-alive \t\r\n");
 }
 
 // Pairs with ValidListLeavesRouteBodyLimitInEffect: the same over-limit declaration
