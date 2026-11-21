@@ -20,16 +20,27 @@ constexpr qint64 collection_limit = 1024;
 // the existing canonical exact-component codec owns rational normalization.
 class Document {
   public:
-    Document() : stream_(&data_, QIODevice::WriteOnly) { number(1); }
-    explicit Document(const QByteArray &data) : data_(data), stream_(data_), reading_(true) {
-        if (data.size() > document_limit || number() != 1)
+    explicit Document(qint64 version = 1)
+        : stream_(&data_, QIODevice::WriteOnly), version_(version) {
+        number(version);
+    }
+    explicit Document(const QByteArray &data, bool financial_journal = false)
+        : data_(data), stream_(data_), reading_(true) {
+        if (data.size() > document_limit)
+            corrupt();
+        version_ = number();
+        if (version_ != 1 && !(financial_journal && version_ == 2))
             corrupt();
     }
+    [[nodiscard]] qint64 version() const { return version_; }
     qint64 number(qint64 value = 0) {
-        if (reading_)
+        if (reading_) {
             stream_ >> value;
-        else
+        } else {
+            if (stream_.device()->pos() > document_limit - qsizetype(sizeof(qint64)))
+                corrupt();
             stream_ << value;
+        }
         check();
         return value;
     }
@@ -148,6 +159,7 @@ class Document {
     QByteArray data_;
     QDataStream stream_;
     bool reading_{false};
+    qint64 version_{1};
 };
 
 inline QByteArray payment_key(const FinancialPaymentKey &key) {

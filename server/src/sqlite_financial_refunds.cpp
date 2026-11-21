@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "financial_refund_live_p.hpp"
 #include "sqlite_application_bundle_access.hpp"
 #include "sqlite_financial_hold_access.hpp"
 #include "sqlite_financial_values.hpp"
@@ -180,8 +181,9 @@ FinancialTimerCommand read_timer_command(const ApplicationOperationKey &key,
 QByteArray refund_facts(const FinancialEntitlement &p,
                         const std::optional<RefundTimerOutcome> &timer,
                         const std::optional<FinancialTimerHoldReason> &hold,
-                        const std::vector<MilestoneRefundObservation> &observations) {
-    fs::Document doc;
+                        const std::vector<MilestoneRefundObservation> &observations,
+                        const financial_live::Evidence *live = nullptr) {
+    fs::Document doc(live ? 2 : 1);
     doc.exact(p.previous_money);
     doc.exact(p.accepted_money);
     doc.exact(p.fraction);
@@ -201,6 +203,8 @@ QByteArray refund_facts(const FinancialEntitlement &p,
         doc.number(m.current_target_micro_points);
         doc.range(int(m.policy), 2);
     }
+    if (live)
+        financial_live::write_evidence(doc, *live);
     return doc.finish();
 }
 bool same_entitlement(const FinancialEntitlement &a, const FinancialEntitlement &b) {
@@ -313,20 +317,77 @@ void apply_timer(ApplicationStateSnapshot &state, const RefundTimerActual &actua
     state.time_debt_ms = *debt;
 }
 ApplicationStateSnapshot observed_state(const ApplicationStateSnapshot &head,
-                                        const FinancialEffectObservation &observation,
+                                        const core::TimerState &timer, bool transitioned,
                                         const ApplicationOperationKey &key) {
     auto advanced = head;
-    advanced.timer = observation.observed_timer;
-    if (!same_timer(head.timer, advanced.timer) || !observation.transitions.empty())
+    advanced.timer = timer;
+    if (!same_timer(head.timer, advanced.timer) || transitioned)
         advanced.token = generated_ref(key, "financial-observation");
     return advanced;
+}
+
+using EffectSource = std::variant<FinancialRefundEffectPort *, LiveFinancialRefundInputs *>;
+
+struct Observation {
+    ApplicationStateSnapshot advanced;
+    Policy policy;
+    std::vector<core::TimerTransition> transitions;
+    std::optional<FinancialEffectObservation> legacy;
+    std::optional<financial_live::Observation> live;
+};
+
+std::optional<Observation> select_observation(const SqliteWorkSession &session,
+                                              const ApplicationStateSnapshot &head,
+                                              const ApplicationOperationKey &key,
+                                              EffectSource source) {
+    if (const auto *inputs = std::get_if<LiveFinancialRefundInputs *>(&source)) {
+        auto live = financial_live::observe(session, head, **inputs);
+        if (!live)
+            return {};
+        auto state = observed_state(head, live->timer, !live->transitions.empty(), key);
+        if (state.token != head.token)
+            financial_live::bind_envelope(state, live->evidence);
+        return Observation{std::move(state), live->evidence.policy,
+                           std::move(live->transitions), {}, std::move(live)};
+    }
+    auto legacy = observe(session, *std::get<FinancialRefundEffectPort *>(source), head);
+    if (!legacy)
+        return {};
+    auto state = observed_state(head, legacy->observed_timer, !legacy->transitions.empty(), key);
+    return Observation{std::move(state), legacy->deficit_policy, legacy->transitions,
+                       std::move(legacy), {}};
+}
+
+RefundTimerActual propose_timer_effect(const SqliteWorkSession &session,
+                                       const GroupedRefundEntitlement &time,
+                                       const Observation &observation, Policy policy,
+                                       EffectSource source) {
+    if (observation.live)
+        return financial_live::timer_effect(time, observation.advanced.timer,
+                                            observation.advanced.time_debt_ms, policy);
+    return std::get<FinancialRefundEffectPort *>(source)->timer_effect(
+        session, time, *observation.legacy, policy);
+}
+
+void finish_live_state(ApplicationStateSnapshot &after, const RefundTimerActual &actual,
+                       Observation &observation) {
+    if (!observation.live)
+        return;
+    financial_live::append_effect_transitions(after, actual, observation.live->evidence,
+                                               observation.transitions);
+    financial_live::bind_envelope(after, observation.live->evidence);
+}
+
+const financial_live::Evidence *evidence(const Observation &observation) {
+    return observation.live ? &observation.live->evidence : nullptr;
 }
 
 FinancialEntitlement decode_facts(const QByteArray &data, const RecordedApplicationBundle &app,
                                   std::optional<RefundTimerOutcome> &timer,
                                   std::optional<FinancialTimerHoldReason> &hold,
-                                  std::vector<MilestoneRefundObservation> &milestones) {
-    fs::Document doc(data);
+                                  std::vector<MilestoneRefundObservation> &milestones,
+                                  std::optional<financial_live::Evidence> &live) {
+    fs::Document doc(data, true);
     FinancialEntitlement p{};
     p.previous_money = doc.exact();
     p.accepted_money = doc.exact();
@@ -350,6 +411,7 @@ FinancialEntitlement decode_facts(const QByteArray &data, const RecordedApplicat
                               doc.number(),
                               doc.number(),
                               MilestoneRefundPolicy(doc.range(0, 2))});
+    live = financial_live::read_evidence(doc);
     doc.finish();
     for (const auto &link : app.reversals)
         p.components.push_back({link.request_ordinal, link.original, link.basis_position - 1,
@@ -529,7 +591,8 @@ std::optional<FinancialRefundRecord> read_refund(const SqliteWorkSession &s,
     std::optional<RefundTimerOutcome> timer;
     std::optional<FinancialTimerHoldReason> hold_reason;
     std::vector<MilestoneRefundObservation> milestones;
-    auto p = decode_facts(document((*route)[8]), *app, timer, hold_reason, milestones);
+    std::optional<financial_live::Evidence> live;
+    auto p = decode_facts(document((*route)[8]), *app, timer, hold_reason, milestones, live);
     const auto amounts = money(*support, *refund, c.payment, p.previous_money);
     if (!amounts || p.accepted_money > amounts->original || !money_matches(p, *amounts) ||
         p.time.has_value() != !(*route)[5].isNull() ||
@@ -552,7 +615,7 @@ std::optional<FinancialRefundRecord> read_refund(const SqliteWorkSession &s,
                             {fs::payment_key(c.payment), qint64(previous_position)});
         if (!previous)
             corrupt();
-        fs::Document prior(document(previous->front()));
+        fs::Document prior(document(previous->front()), true);
         (void)prior.exact();
         if (prior.exact() != p.previous_money)
             corrupt();
@@ -582,6 +645,7 @@ std::optional<FinancialRefundRecord> read_refund(const SqliteWorkSession &s,
                           *amounts, *credit, {time.previous.main, time.previous.restoration})) ||
             !validate_timer_effect(time, *timer, app->advanced_before.timer,
                                    *effect->deficit_policy) ||
+            (live && live->policy != *effect->deficit_policy) ||
             effect->requested_units != time.main_request ||
             effect->components[0].units != -timer->actual.main_removed ||
             effect->components[1].units !=
@@ -595,6 +659,20 @@ std::optional<FinancialRefundRecord> read_refund(const SqliteWorkSession &s,
             hold = FinancialTimerHold{
                 {hold_ref, "v1"}, c.contribution, c.payment, position, key, time, *hold_reason};
         }
+    }
+    const auto actual = timer ? timer->actual : RefundTimerActual{};
+    if (live) {
+        if (app->after.token != generated_ref(key, "financial-state") ||
+            (app->advanced_before.token != app->persisted_head.token &&
+             app->advanced_before.token != generated_ref(key, "financial-observation")))
+            corrupt();
+        financial_live::validate(*live, app->persisted_head, app->advanced_before, app->after,
+                                 actual, app->transitions);
+    } else {
+        auto numeric_only = app->advanced_before.timer;
+        numeric_only.main_remaining_ms -= actual.main_removed;
+        if (!same_timer(numeric_only, app->after.timer))
+            corrupt();
     }
     for (const auto &link : p.components) {
         if (link.expected_prior_position != previous_position)
@@ -681,11 +759,12 @@ std::optional<FinancialTimerResolution> read_resolution(const SqliteWorkSession 
     auto refund = read_refund(s, row_key(*source));
     if (!refund || !refund->hold)
         corrupt();
-    fs::Document data(document((*route)[4]));
+    fs::Document data(document((*route)[4]), true);
     auto command = read_timer_command(key, data.bytes());
     const auto timer = data.timer();
     const auto policy = Policy(data.range(0, 2));
     auto transitions = data.transitions();
+    const auto live = financial_live::read_evidence(data);
     data.finish();
     Access access(s, {});
     auto before = access.state(reference((*route)[1]));
@@ -703,11 +782,19 @@ std::optional<FinancialTimerResolution> read_resolution(const SqliteWorkSession 
          refund->hold->time.main_request < -advanced.timer.main_remaining_ms) ||
         !validate_timer_effect(refund->hold->time, timer, advanced.timer, policy))
         corrupt();
-    auto actual_after = advanced;
-    actual_after.token = after.token;
-    apply_timer(actual_after, timer.actual);
-    if (!bundle_detail::same_state(actual_after, after))
-        corrupt();
+    if (live) {
+        if ((advanced.token != before.token &&
+             advanced.token != generated_ref(key, "financial-observation")) ||
+            command.override_policy.value_or(live->policy) != policy)
+            corrupt();
+        financial_live::validate(*live, before, advanced, after, timer.actual, transitions, false);
+    } else {
+        auto actual_after = advanced;
+        actual_after.token = after.token;
+        apply_timer(actual_after, timer.actual);
+        if (!bundle_detail::same_state(actual_after, after))
+            corrupt();
+    }
     ApplicationHoldVersion closed{{hold_ref, "v2"},
                                   2,
                                   command.origin.version_ref,
@@ -727,16 +814,32 @@ std::vector<FinancialTimerHold> active_financial(const SqliteWorkSession &s,
     if (!cid)
         return {};
     const auto rows = s.execute(
-        {"SELECT f.operation_scope,f.operation_ref FROM main.subathon_financial_refunds AS f "
-         "WHERE f.subject=? AND f.hold_ref IS NOT NULL AND NOT EXISTS "
-         "(SELECT 1 FROM main.subathon_financial_resolutions AS r WHERE r.hold_ref=f.hold_ref) "
+        {"SELECT f.operation_scope,f.operation_ref,r.operation_scope,r.operation_ref "
+         "FROM main.subathon_financial_refunds AS f "
+         "LEFT JOIN main.subathon_financial_resolutions AS r ON r.hold_ref=f.hold_ref "
+         "WHERE f.subject=? AND f.hold_ref IS NOT NULL "
+         "AND (r.hold_ref IS NULL OR typeof(r.document)<>'blob' "
+         "OR substr(r.document,1,8)<>X'0000000000000001' OR NOT EXISTS ("
+         "SELECT 1 FROM main.subathon_app_states b CROSS JOIN main.subathon_app_states a "
+         "WHERE b.token=r.before_token AND a.token=r.after_token "
+         "AND b.format_ref=a.format_ref AND b.document=a.document)) "
          "ORDER BY f.hold_ref LIMIT ?",
          {encode_plan_revision_uint64(cid->value), fs::collection_limit + 1}});
     if (rows.size() > fs::collection_limit)
         throw SqliteBundleStorageFailure(Reason::result_limit);
     std::vector<FinancialTimerHold> result;
     for (const auto &row : rows) {
-        const auto record = read_refund(s, row_key(row));
+        const auto key = row_key(row);
+        if (!row[2].isNull() || !row[3].isNull()) {
+            // The legacy writer carries the same envelope across a resolution.
+            // A rebound envelope requires validation regardless of the tag.
+            const auto closure = read_resolution(s, row_key(row, 2));
+            if (!closure || closure->held.subject != *cid ||
+                !same(closure->held.refund_operation, key))
+                corrupt();
+            continue;
+        }
+        const auto record = read_refund(s, key);
         if (!record || !record->hold || record->hold->subject != *cid)
             corrupt();
         result.push_back(*record->hold);
@@ -1059,7 +1162,7 @@ void advance_basis(const SqliteWorkSession &s, const ApplicationOriginalComponen
 
 FinancialWorkReply accept_refund(const SqliteWorkSession &s, const FinancialRefundCommand &command,
                                  const FinancialEntitlement &p, FinancialRefundAuthority &authority,
-                                 FinancialRefundEffectPort &port) {
+                                 EffectSource source_effects) {
     require_catalog(s);
     if (!valid_command(command))
         return refused(D::invalid_financial_input);
@@ -1162,11 +1265,13 @@ FinancialWorkReply accept_refund(const SqliteWorkSession &s, const FinancialRefu
     if (!authority.allows(s, FinancialAuthorityUse::disclose, command.principal, command.operation,
                           c.payment))
         return refused(D::denied_disclosure);
-    const auto observation = observe(s, port, current);
+    auto observation = select_observation(s, current, command.operation, source_effects);
     if (!observation)
-        return refused(D::prerequisite);
-    const auto policy = observation->deficit_policy;
-    const auto advanced = observed_state(current, *observation, command.operation);
+        return refused(std::holds_alternative<LiveFinancialRefundInputs *>(source_effects)
+                           ? D::unavailable
+                           : D::prerequisite);
+    const auto policy = observation->policy;
+    const auto &advanced = observation->advanced;
     auto after = advanced;
     after.token = generated_ref(command.operation, "financial-state");
     std::optional<RefundTimerOutcome> timer;
@@ -1180,9 +1285,16 @@ FinancialWorkReply accept_refund(const SqliteWorkSession &s, const FinancialRefu
         else if (-time.main_request > advanced.timer.main_remaining_ms &&
                  policy == Policy::RequireReview)
             hold = FinancialTimerHoldReason::deficit;
-        else
-            timer =
-                RefundTimerOutcome{TD::applied, port.timer_effect(s, time, *observation, policy)};
+        else {
+            try {
+                timer = RefundTimerOutcome{
+                    TD::applied, propose_timer_effect(s, time, *observation, policy, source_effects)};
+            } catch (const std::overflow_error &) {
+                if (!observation->live)
+                    throw;
+                return refused(D::refused);
+            }
+        }
         if (hold)
             timer = RefundTimerOutcome{TD::held, unapplied(time)};
         if (!validate_timer_effect(time, *timer, advanced.timer, policy))
@@ -1195,6 +1307,7 @@ FinancialWorkReply accept_refund(const SqliteWorkSession &s, const FinancialRefu
         requests = prepare_requests(p, timer, policy, *source, original, after);
         if (!requests)
             return refused(D::invalid_financial_input);
+        finish_live_state(after, timer ? timer->actual : RefundTimerActual{}, *observation);
         score_before = total_score(advanced);
         score_after = total_score(after);
     } catch (const std::overflow_error &) {
@@ -1246,9 +1359,20 @@ FinancialWorkReply accept_refund(const SqliteWorkSession &s, const FinancialRefu
     } catch (const SqliteBundleInputFailure &) {
         return refused(D::invalid_financial_input);
     }
+    if (const auto *live = evidence(*observation))
+        financial_live::validate(*live, current, advanced, after,
+                                 timer ? timer->actual : RefundTimerActual{}, bundle.transitions);
     std::vector<FinancialMilestoneTarget> targets;
-    if (score_after < score_before)
-        targets = port.milestones(s);
+    if (observation->live) {
+        auto crossings = financial_live::milestone_crossings(
+            s, *observation->live, command.principal, current.configuration_ref,
+            score_before, score_after);
+        if (!crossings)
+            return refused(D::unavailable);
+        targets = std::move(*crossings);
+    } else if (score_after < score_before) {
+        targets = std::get<FinancialRefundEffectPort *>(source_effects)->milestones(s);
+    }
     if (targets.size() > size_t(fs::collection_limit))
         return refused(D::invalid_financial_input);
 
@@ -1256,11 +1380,18 @@ FinancialWorkReply accept_refund(const SqliteWorkSession &s, const FinancialRefu
     // returned without retaining any part of the refund.
     std::vector<MilestoneRefundObservation> selected_milestones;
     std::set<std::string> seen;
-    const bool edits =
-        !targets.empty() && milestone_sql::catalog(s) == milestone_sql::Catalog::edits;
+    const bool edits = !observation->live && !targets.empty() &&
+                       milestone_sql::catalog(s) == milestone_sql::Catalog::edits;
+    const SqliteMilestoneGroupDecisions decisions(s);
     for (const auto &target : targets) {
         if (!seen.insert(target.occurrence.ref).second)
             corrupt();
+        if (observation->live) {
+            const auto pending = decisions.pending_disposition(target.occurrence);
+            if (pending == MilestonePendingDisposition::absent_or_released ||
+                pending == MilestonePendingDisposition::skipped)
+                continue;
+        }
         const auto selected_target =
             edits ? milestone_edit_sql::current_target(s, target.occurrence,
                                                        command.principal.installation_ref)
@@ -1283,7 +1414,6 @@ FinancialWorkReply accept_refund(const SqliteWorkSession &s, const FinancialRefu
     if (hold && SqliteApplicationHoldStore(s).find(hold_ref))
         corrupt();
     std::vector<MilestoneRefundObservation> milestones;
-    const SqliteMilestoneGroupDecisions decisions(s);
     for (auto &milestone : selected_milestones) {
         // An unresolved review remains separate from application holds.
         if (decisions.refund_audit(milestone.occurrence, milestone.refund_ref))
@@ -1301,7 +1431,7 @@ FinancialWorkReply accept_refund(const SqliteWorkSession &s, const FinancialRefu
           encode_plan_revision_uint64(c.contribution.value),
           grouped ? QVariant(qint64(grouped->ordinal)) : QVariant{},
           qint64(grouped ? grouped->restored : 0), hold ? QVariant(blob(hold_ref)) : QVariant{},
-          refund_facts(p, timer, hold, milestones)}});
+          refund_facts(p, timer, hold, milestones, evidence(*observation))}});
     (void)s.execute(
         {"INSERT INTO main.subathon_financial_payment_heads VALUES(?,?,?) "
          "ON CONFLICT(payment) DO UPDATE SET position=excluded.position WHERE "
@@ -1322,7 +1452,7 @@ FinancialWorkReply accept_refund(const SqliteWorkSession &s, const FinancialRefu
 
 FinancialWorkReply resolve_timer(const SqliteWorkSession &s, const FinancialTimerCommand &c,
                                  FinancialRefundAuthority &authority,
-                                 FinancialRefundEffectPort &port) {
+                                 EffectSource source_effects) {
     require_catalog(s);
     if (!valid_command(c))
         return refused(D::invalid_financial_input);
@@ -1375,36 +1505,50 @@ FinancialWorkReply resolve_timer(const SqliteWorkSession &s, const FinancialTime
         return refused(D::prerequisite);
     if (!authority.allows(s, FinancialAuthorityUse::disclose, c.principal, c.operation, c.payment))
         return refused(D::denied_disclosure);
-    const auto observation = observe(s, port, *current);
+    auto observation = select_observation(s, *current, c.operation, source_effects);
     if (!observation)
-        return refused(D::prerequisite);
-    const auto policy = c.override_policy.value_or(observation->deficit_policy);
-    const auto advanced = observed_state(*current, *observation, c.operation);
+        return refused(std::holds_alternative<LiveFinancialRefundInputs *>(source_effects)
+                           ? D::unavailable
+                           : D::prerequisite);
+    const auto policy = c.override_policy.value_or(observation->policy);
+    const auto &advanced = observation->advanced;
     auto after = advanced;
     after.token = generated_ref(c.operation, "financial-state");
     const auto &time = at->time;
     const bool finished = advanced.timer.lifecycle == Life::Finished;
     if (!finished && !c.override_policy && time.main_request < -advanced.timer.main_remaining_ms)
         return refused(D::deficit);
-    const RefundTimerOutcome outcome =
-        finished
-            ? RefundTimerOutcome{TD::finished, unapplied(time)}
-            : RefundTimerOutcome{TD::applied, port.timer_effect(s, time, *observation, policy)};
+    RefundTimerOutcome outcome{TD::finished, unapplied(time)};
+    try {
+        if (!finished)
+            outcome = {TD::applied,
+                       propose_timer_effect(s, time, *observation, policy, source_effects)};
+    } catch (const std::overflow_error &) {
+        if (!observation->live)
+            throw;
+        return refused(D::refused);
+    }
     if (!validate_timer_effect(time, outcome, advanced.timer, policy))
         return refused(D::invalid_financial_input);
     try {
         apply_timer(after, outcome.actual);
+        finish_live_state(after, outcome.actual, *observation);
     } catch (const std::overflow_error &) {
         return refused(D::refused);
     }
 
     bundle_detail::validate_state_shape(advanced, {});
     bundle_detail::validate_state_shape(after, {});
-    fs::Document doc;
+    if (const auto *live = evidence(*observation))
+        financial_live::validate(*live, *current, advanced, after, outcome.actual,
+                                 observation->transitions, false);
+    fs::Document doc(observation->live ? 2 : 1);
     doc.bytes(time_identity(c));
     doc.timer(outcome);
     doc.range(int(policy), 2);
     doc.transitions(observation->transitions);
+    if (observation->live)
+        financial_live::write_evidence(doc, observation->live->evidence);
     const auto payload = doc.finish();
     std::vector<SqlStatement> writes;
     if (advanced.token != current->token)
@@ -1546,14 +1690,30 @@ FinancialWorkReply stage_financial_refund(const SqliteWorkSession &session,
                                           FinancialRefundAuthority &authority,
                                           FinancialRefundEffectPort &effects) {
     return guarded(session,
-                   [&] { return accept_refund(session, command, candidate, authority, effects); });
+                   [&] { return accept_refund(session, command, candidate, authority, &effects); });
 }
 
 FinancialWorkReply stage_financial_timer_resolution(const SqliteWorkSession &session,
                                                     const FinancialTimerCommand &command,
                                                     FinancialRefundAuthority &authority,
                                                     FinancialRefundEffectPort &effects) {
-    return guarded(session, [&] { return resolve_timer(session, command, authority, effects); });
+    return guarded(session, [&] { return resolve_timer(session, command, authority, &effects); });
+}
+
+FinancialWorkReply stage_live_financial_refund(const SqliteWorkSession &session,
+                                              const FinancialRefundCommand &command,
+                                              const FinancialEntitlement &candidate,
+                                              FinancialRefundAuthority &authority,
+                                              LiveFinancialRefundInputs &inputs) {
+    return guarded(session,
+                   [&] { return accept_refund(session, command, candidate, authority, &inputs); });
+}
+
+FinancialWorkReply stage_live_financial_timer_resolution(const SqliteWorkSession &session,
+                                                         const FinancialTimerCommand &command,
+                                                         FinancialRefundAuthority &authority,
+                                                         LiveFinancialRefundInputs &inputs) {
+    return guarded(session, [&] { return resolve_timer(session, command, authority, &inputs); });
 }
 
 FinancialWorkReply
