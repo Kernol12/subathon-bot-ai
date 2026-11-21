@@ -14,15 +14,19 @@ target_include_directories(subathon_connector_lifecycle PUBLIC "${CMAKE_CURRENT_
 target_link_libraries(subathon_connector_lifecycle PUBLIC subathon_contribution)
 subathon_target_options(subathon_connector_lifecycle)
 
-# RATES-002 Stage 1 exposes the proposal seams only in the selected baseline.
+# The explicit acceptance suite requires dependencies that ordinary builds may omit.
 if(BUILD_TESTING AND SUBATHON_BUILD_FRANKFURTER_RATES_TESTS)
     if(NOT TARGET subathon_rate_overrides)
         message(FATAL_ERROR "Frankfurter acceptance requires Boost >= 1.83 for the Core rate model")
     endif()
     find_package(Qt6 6.12 REQUIRED COMPONENTS Core)
+endif()
+
+if(TARGET subathon_rate_overrides AND TARGET Qt6::Core)
     add_library(subathon_frankfurter_rates STATIC EXCLUDE_FROM_ALL src/frankfurter_rates.cpp)
     target_link_libraries(subathon_frankfurter_rates PUBLIC
-        subathon_connector_lifecycle subathon_rate_overrides Qt6::Core)
+        subathon_connector_lifecycle subathon_rate_overrides Qt6::Core
+        PRIVATE subathon_valuation_snapshot_codec)
     subathon_target_options(subathon_frankfurter_rates)
 endif()
 
