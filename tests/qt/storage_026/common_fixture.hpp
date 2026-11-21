@@ -20,6 +20,16 @@ inline void mutate(CatalogFile &file, const QString &sql, QList<QVariant> bindin
     file.write([&](const auto &s) { (void)s.execute({sql, bindings}); });
 }
 
+inline bool matches_sql_rows(SqlRows actual, const SqlRows &expected) {
+    // Qt SQL returns typed NULLs. Match literal absent cells without converting
+    // any initialized value, including an empty BLOB.
+    for (auto &row : actual)
+        for (auto &cell : row)
+            if (cell.isNull())
+                cell = QVariant{};
+    return actual == expected;
+}
+
 inline auto protected_data(CatalogFile &file, bool wide_attempt_history = false) {
     auto receipts = file.rows("SELECT * FROM main.subathon_receipts ORDER BY receipt_id");
     const QString ordered_attempts =

@@ -259,10 +259,11 @@ class Storage026TransitionTests final : public QObject {
             const auto old_basis = f.db.rows("SELECT * FROM main.subathon_intake_basis");
             const auto page_before = intake_cursors(f.db);
             require(page_before[0] == SqlRows{{9, QByteArray("g3"), QByteArray("F")}} &&
-                        page_before[1] ==
+                        matches_sql_rows(
+                            page_before[1],
                             SqlRows{{QByteArray("O"), 2, 1, QByteArray("T"), 0, 0},
                                     {QByteArray("adoption"), 1, 1, QVariant{}, 0, 1},
-                                    {QByteArray("baseline"), 1, 1, QVariant{}, 0, 1}} &&
+                                    {QByteArray("baseline"), 1, 1, QVariant{}, 0, 1}}) &&
                         page_before[2] == SqlRows{{1, 0, 0, 0}} && page_before[4].isEmpty(),
                     "Both page entries use the exact active g3 cursor and complete empty prefix");
             if (scenario == 4) {
@@ -389,7 +390,7 @@ class Storage026TransitionTests final : public QObject {
                         before[2] == SqlRows{{1, QByteArray("review-lane")}} &&
                         before[3] == SqlRows{{1, 1, QByteArray("F"), QByteArray("gap-basis"),
                                               QByteArray("Z")}} &&
-                        selected_source_history(f.db) == prior_history &&
+                        matches_sql_rows(selected_source_history(f.db), prior_history) &&
                         !protected_before[2].isEmpty() && !protected_before[6].isEmpty(),
                     "The selected source, retained policy and old gap are independently bound");
             auto result = std::make_shared<std::optional<Stop>>();
@@ -434,8 +435,8 @@ class Storage026TransitionTests final : public QObject {
                            QVariant{}, QVariant{}, 1, 0, int(HistoryOutcome::completed),
                            QByteArray("cut"), QByteArray("authorized-new-cut")});
                 f.db.reopen({64, 768, 65536, 8585216, 768, 16105472});
-                require(selected_source_history(f.db) == expected_history && durable() == after &&
-                            protected_data(f.db) == protected_before &&
+                require(matches_sql_rows(selected_source_history(f.db), expected_history) &&
+                            durable() == after && protected_data(f.db) == protected_before &&
                             f.db.rows("SELECT * FROM main.subathon_intake_basis") == old_basis,
                         "Reopen reads original baseline and adoption cuts and authority, plus the "
                         "exact two-sided handoff");
@@ -543,12 +544,13 @@ class Storage026TransitionTests final : public QObject {
             const HistoricalHead prior{1, 9, 1, "g3", {}, {}};
             const HistoricalHead selected{2, 10, 2, "g4", QByteArray("new-cut"), {}};
             require(
-                selected_source_history(f.db) ==
-                        SqlRows{{QByteArray("history"), int(purpose), 2, 2, QByteArray("g4"),
-                                 source_history(prior, selected, "history-v2", "current-decision",
-                                                proof),
-                                 QVariant{}, QVariant{}, 1, 0, int(HistoryOutcome::completed),
-                                 QVariant{}, QByteArray("new-cut")}} &&
+                matches_sql_rows(
+                    selected_source_history(f.db),
+                    SqlRows{{QByteArray("history"), int(purpose), 2, 2, QByteArray("g4"),
+                             source_history(prior, selected, "history-v2", "current-decision",
+                                            proof),
+                             QVariant{}, QVariant{}, 1, 0, int(HistoryOutcome::completed),
+                             QVariant{}, QByteArray("new-cut")}}) &&
                     f.db.rows("SELECT epoch,generation,revision,policy_revision,baseline_state,cut "
                               "FROM main.subathon_intake_sources") ==
                         SqlRows{{2, QByteArray("g4"), 10, 2, int(BaselineState::qualified),
@@ -670,12 +672,13 @@ class Storage026TransitionTests final : public QObject {
             if (expected == Stop::committed) {
                 finance::normal(work);
                 require(after == SqlRows{{QByteArray("O"), bound, 1, 1, QByteArray("T"), 0}} &&
-                            f.db.rows("SELECT installation,provider,account,stream,epoch,"
-                                      "policy_revision,purpose,gap_ref,generation "
-                                      "FROM main.subathon_intake_operations") ==
+                            matches_sql_rows(
+                                f.db.rows("SELECT installation,provider,account,stream,epoch,"
+                                          "policy_revision,purpose,gap_ref,generation "
+                                          "FROM main.subathon_intake_operations"),
                                 SqlRows{{QByteArray("install"), QByteArray("P"), QByteArray("A"),
                                          QByteArray("S"), 1, 1, int(Purpose::import), QVariant{},
-                                         QByteArray("g3")}},
+                                         QByteArray("g3")}}),
                         "The empty operation starts with the independent exact intent and cursor");
             }
         });
@@ -1121,9 +1124,10 @@ class Storage026TransitionTests final : public QObject {
                     (!earlier_loss || after[1].back() == before[1].back()) &&
                     after[2] == SqlRows{{1, 0, 0, 1}} && after[5] == SqlRows{{0}},
                 "The empty page changes no item disposition and consumes exactly one page ordinal");
-            require(f.db.rows("SELECT proof FROM main.subathon_intake_pages WHERE ordinal=1") ==
+            require(matches_sql_rows(
+                        f.db.rows("SELECT proof FROM main.subathon_intake_pages WHERE ordinal=1"),
                         SqlRows{{page.qualified_proof.isNull() ? QVariant{}
-                                                              : QVariant{page.qualified_proof}}},
+                                                              : QVariant{page.qualified_proof}}}),
                     "The page retains its exact qualified proof or explicit absence");
             const auto frontier = QByteArray(fresh_baseline           ? "Z"
                                              : kind == 1 || kind == 3 ? "E"

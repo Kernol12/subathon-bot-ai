@@ -682,10 +682,11 @@ class Storage026ReceiptTests final : public QObject {
                         "admission");
             }
             stage(peer, 8);
-            require(f.db.rows("SELECT intake_ref,operation_ref,page_ordinal,item_ordinal "
-                              "FROM main.subathon_intake_entries ORDER BY intake_ref") ==
+            require(matches_sql_rows(
+                        f.db.rows("SELECT intake_ref,operation_ref,page_ordinal,item_ordinal "
+                                  "FROM main.subathon_intake_entries ORDER BY intake_ref"),
                         SqlRows{{QByteArray("H"), QByteArray("O"), 1, 1},
-                                {QByteArray("L"), QVariant{}, QVariant{}, QVariant{}}},
+                                {QByteArray("L"), QVariant{}, QVariant{}, QVariant{}}}),
                     "History owns its exact bound slot; live input uses the same activity key "
                     "without a page");
             require(
