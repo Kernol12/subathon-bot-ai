@@ -244,9 +244,14 @@
     },
     {
       "id": "MOD-01",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/modifier_stacking_tests.cpp"
+      ],
+      "evidence": [
+        "https://github.com/Kernol12/subathon-bot-ai/pull/757#issuecomment-7056757686"
+      ],
+      "scope": "Exact two-level stacking, bounded traces and captured-input proposals verified with supplied policy and selected revision facts. Arrival capture remains #223. Authoritative application and publication, stored encoding and whole-count finalization remain with their owners."
     },
     {
       "id": "MOD-02",

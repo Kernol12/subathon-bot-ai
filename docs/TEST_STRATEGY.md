@@ -32,6 +32,7 @@ still using synthetic data and supplied policy/authority facts.
 | --- | --- | --- |
 | `acceptance-debug` | `-L '^acceptance$'` | 23 cap-limited credit cases in the owning suite: pure numeric planning, not full product proof |
 | `core-acceptance-debug` | whole preset | Ordinary passing pure GoogleTest suites in one build, also used by the CI `core` job |
+| `core-acceptance-debug` | `-L '^modifier-stacking$'` | 52 exact stacking and captured-proposal cases using supplied policies and selected revisions |
 | `exact-numeric-debug` | `-L '^exact-numeric$'` | 33 exact decimal/half-even conversion cases |
 | `timer-lifecycle-debug` | `-L '^timer-lifecycle$'` | 39 Main/Grace transition proposals |
 | `pause-policy-debug` | `-L '^pause-policy$'` | 37 independent pause-reason/delay proposals |
