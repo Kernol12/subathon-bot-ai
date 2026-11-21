@@ -205,6 +205,21 @@ TEST(AccountCaptureConnectionHeader, InvalidListRefusedBeforeRouteBodyLimit) {
     expect_refusal("Connection: keep-alive,\r\n", "4097");
 }
 
+// The head of ValidListLeavesRouteBodyLimitInEffect plus one line without a colon. That
+// line is a head syntax error, not a Connection occurrence, even when its text is the
+// field name. The only actual occurrence is the valid keep-alive, so the field gate does
+// not refuse, and the syntax error keeps its place after the route body limit: 413.
+TEST(AccountCaptureConnectionHeader, ColonlessConnectionLineLeavesRouteBodyLimitInEffect) {
+    constexpr auto head_end =
+        "Content-Length: 4097\r\nConnection\r\nConnection: keep-alive\r\n\r\n";
+    Live f(true, {});
+    f.connect();
+    f.client.send(std::string(head_start) + head_end);
+    expect_reply(f.client, too_large, true);
+    EXPECT_EQ(f.r.captures.load(), 0U);
+    EXPECT_EQ(f.r.requests.load(), 0U);
+}
+
 // Control outside the ordinary correction: the marked native listener keeps its
 // handshake when the Upgrade token carries a trailing comma. This is the head of
 // native_positive in native_tests.cpp plus that comma. The contract's 101 for it is
