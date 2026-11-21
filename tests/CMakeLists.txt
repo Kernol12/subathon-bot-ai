@@ -301,7 +301,7 @@ if(SUBATHON_BUILD_RULE_ACTIONS_TESTS)
     target_link_libraries(core_rule_actions_baseline PRIVATE subathon_rule_actions GTest::gtest_main)
     subathon_target_options(core_rule_actions_baseline)
     subathon_discover_gtests(core_rule_actions_baseline PREFIX "rule-actions."
-        LABELS "rule-actions;acceptance;core;intentional-red" TIMEOUT 30)
+        LABELS "rule-actions;acceptance;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_RULE_SELECTION_TESTS)
