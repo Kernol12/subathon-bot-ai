@@ -68,14 +68,18 @@ bool same_fence(const Fence &actual, const Fence &expected) {
            actual.generation == expected.generation;
 }
 
-int admission_code(IntakeAdmission admission) {
+constexpr qint64 verified_support_code = 0;
+constexpr qint64 audit_only_code = 3;
+constexpr qint64 confirmation_only_code = 4;
+
+qint64 admission_code(IntakeAdmission admission) {
     switch (admission) {
     case IntakeAdmission::creation_eligible_verified_support:
-        return 0;
+        return verified_support_code;
     case IntakeAdmission::audit_only:
-        return 3;
+        return audit_only_code;
     case IntakeAdmission::confirmation_only:
-        return 4;
+        return confirmation_only_code;
     }
     throw std::logic_error("Unexpected intake admission");
 }
@@ -100,6 +104,28 @@ struct Entry {
     qint64 phase, disposition;
 };
 
+// Phase records progression. An identified intake keeps its original
+// classification in disposition across receipt and evidence commits.
+std::optional<IntakeAdmission> retained_admission(const Entry &entry) {
+    if (!entry.attempt || entry.attempt->receipt.value == 0 || entry.attempt->ordinal <= 0 ||
+        entry.phase < 1 || entry.phase > 3 || (entry.phase < 3 && entry.contribution))
+        return {};
+    switch (entry.disposition) {
+    case verified_support_code:
+        if (entry.phase == 3 && !entry.contribution)
+            return {};
+        return IntakeAdmission::creation_eligible_verified_support;
+    case audit_only_code:
+        if (entry.phase == 3)
+            return {};
+        return IntakeAdmission::audit_only;
+    case confirmation_only_code:
+        return IntakeAdmission::confirmation_only;
+    default:
+        return {};
+    }
+}
+
 std::optional<Entry> entry(const SqliteWorkSession &session, const Scope &scope,
                            const QByteArray &key) {
     auto args = scope_bindings(scope);
@@ -108,7 +134,8 @@ std::optional<Entry> entry(const SqliteWorkSession &session, const Scope &scope,
         {"SELECT "
          "receipt_id,attempt_ordinal,configuration_ref,modifier_context_ref,input,provenance,"
          "activity_namespace,activity_id,verification_ref,arrival_ms,operation_ref,page_ordinal,"
-         "item_ordinal,contribution_id,phase,disposition "
+         "item_ordinal,contribution_id,CASE WHEN typeof(phase)='integer' THEN phase END,"
+         "CASE WHEN typeof(disposition)='integer' THEN disposition END "
          "FROM main.subathon_intake_entries WHERE installation=? "
          "AND provider=? AND account=? AND stream=? AND intake_ref=?",
          args});
@@ -139,7 +166,7 @@ std::optional<Entry> entry(const SqliteWorkSession &session, const Scope &scope,
                  history,
                  contribution,
                  r[14].toLongLong(),
-                 r[15].toLongLong()};
+                 r[15].isNull() ? -1 : r[15].toLongLong()};
 }
 
 bool activity_matches(const Entry &row, const std::optional<VerifiedActivityLink> &activity) {
@@ -303,6 +330,8 @@ ManagedResult read_attempt(const SqliteWorkSession &session, const ManagedInput 
     if (retained && retained->attempt != locator)
         return {Status::different_ordinal};
     if (retained) {
+        if (retained_admission(*retained) != input.admission)
+            return {Status::conflict};
         const auto selected = inspect(session, {input.scope, input.intake_ref, false, true});
         if (selected.status == SelectionStatus::intake_limit)
             return {Status::intake_limit};
@@ -314,11 +343,22 @@ ManagedResult read_attempt(const SqliteWorkSession &session, const ManagedInput 
         return {Status::different_ordinal};
     if (closure->original.identity != input.receipt.identity)
         return {Status::wrong_scope};
+    // A managed attempt must close through its own intake key. The legacy
+    // fixed-ordinal reader applies only when there is no durable intake binding.
+    if (!retained &&
+        !session
+             .execute({"SELECT 1 FROM main.subathon_intake_entries WHERE receipt_id=? AND "
+                       "attempt_ordinal=?",
+                       {encode_receipt_uint64(locator.receipt.value), locator.ordinal}})
+             .isEmpty())
+        return {Status::conflict};
 
     const auto &actual = closure->attempt;
     if (actual.observed_facts != input.receipt.facts)
         return {Status::different_facts};
     if (retained) {
+        if (retained->phase == 3 && actual.disposition != core::ReceiptDisposition::created)
+            return {Status::conflict};
         if (actual.arrival.configuration_ref != input.receipt.arrival.configuration_ref)
             return {Status::different_configuration};
         if (actual.arrival.modifier_context_ref != input.receipt.arrival.modifier_context_ref)
@@ -395,12 +435,13 @@ ManagedResult admit_managed(const SqliteWorkSession &session, const ManagedInput
 EvidenceSelection select_evidence(const SqliteWorkSession &session, const ManagedInput &input) {
     using Evidence = EvidenceStatus;
     if (!local_scope(session, input) || !input.activity ||
-        input.admission != IntakeAdmission::creation_eligible_verified_support ||
         !bounded(input.intake_ref, reference_limit) ||
         !valid_activity(input.receipt.identity.origin, input.activity))
         return {Evidence::inconsistent_original};
     const auto applied = entry(session, input.scope, input.intake_ref);
-    if (!applied || !applied->attempt || !activity_matches(*applied, input.activity))
+    if (!applied ||
+        retained_admission(*applied) != IntakeAdmission::creation_eligible_verified_support ||
+        !activity_matches(*applied, input.activity))
         return {Evidence::inconsistent_original};
     const auto selected = read_attempt(session, input, *applied->attempt);
     if (selected.status != Status::exact_replay ||
@@ -421,9 +462,12 @@ EvidenceSelection select_evidence(const SqliteWorkSession &session, const Manage
     auto scope = input.scope;
     scope.stream = bound->stream;
     const auto witness = entry(session, scope, bound->intake);
-    if (!witness || witness->attempt != bound->attempt || witness->capture != bound->capture ||
+    if (!witness ||
+        retained_admission(*witness) != IntakeAdmission::creation_eligible_verified_support ||
+        witness->attempt != bound->attempt || witness->capture != bound->capture ||
         witness->activity_id != blob(input.activity->identity.opaque_id) ||
         witness->linkage_namespace != blob(input.activity->identity.identifier_namespace) ||
+        !bounded(witness->verification, reference_limit) ||
         (witness->contribution && (!verified || witness->contribution != verified->cid)))
         return {Evidence::inconsistent_original};
     const auto bound_closure =
@@ -438,8 +482,7 @@ EvidenceSelection select_evidence(const SqliteWorkSession &session, const Manage
     if (verified)
         return {Evidence::may_link, bound->attempt, verified->cid, bound->capture};
     const bool its_basis = scope == input.scope && bound->intake == input.intake_ref &&
-                           applied->attempt == bound->attempt &&
-                           input.admission == IntakeAdmission::creation_eligible_verified_support;
+                           applied->attempt == bound->attempt;
     return {its_basis ? Evidence::may_create : Evidence::pending_original,
             bound->attempt,
             {},
@@ -454,8 +497,11 @@ HistoryStatus stage_intake_disposition(const SqliteWorkSession &session, const M
     if (!bounded(input.intake_ref, reference_limit))
         return H::intake_limit;
     const auto retained = entry(session, input.scope, input.intake_ref);
-    if (!retained || retained->attempt != locator || retained->phase < 1)
+    if (!retained || retained->attempt != locator)
         return H::stale;
+    const auto admission = retained_admission(*retained);
+    if (!admission || *admission != input.admission)
+        return H::conflict;
     const auto selected = read_attempt(session, input, locator);
     if (selected.status != Status::exact_replay)
         return selected.status == Status::intake_limit ? H::intake_limit : H::conflict;
@@ -464,7 +510,7 @@ HistoryStatus stage_intake_disposition(const SqliteWorkSession &session, const M
     switch (disposition) {
     case IntakeDisposition::observed_only:
         if (selected.selected->disposition == core::ReceiptDisposition::created &&
-            input.admission != IntakeAdmission::audit_only)
+            *admission != IntakeAdmission::audit_only)
             return H::conflict;
         break;
     case IntakeDisposition::waiting_original:
@@ -472,11 +518,11 @@ HistoryStatus stage_intake_disposition(const SqliteWorkSession &session, const M
             return H::conflict;
         break;
     case IntakeDisposition::evidence_committed: {
-        if (!input.activity || input.admission == IntakeAdmission::audit_only ||
+        if (!input.activity || *admission == IntakeAdmission::audit_only ||
             selected.selected->disposition != core::ReceiptDisposition::created)
             return H::conflict;
         const auto &activity = *input.activity;
-        const auto expected_kind = input.admission == IntakeAdmission::confirmation_only ? 1 : 0;
+        const auto expected_kind = *admission == IntakeAdmission::confirmation_only ? 1 : 0;
         auto args = activity_key(input.scope, activity);
         args.prepend(encode_receipt_uint64(locator.receipt.value));
         args.append({blob(activity.verification_ref), expected_kind});
