@@ -255,14 +255,15 @@
     },
     {
       "id": "MOD-02",
-      "status": "planned",
+      "status": "partial",
       "tests": [
         "tests/acceptance/modifier_clock_tests.cpp"
       ],
       "evidence": [
-        "https://github.com/Kernol12/subathon-bot-ai/pull/758#issuecomment-7057811999"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/758#issuecomment-7057811999",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/217#issuecomment-7060345626"
       ],
-      "scope": "MODIFIERTEST-002 records 28 reviewed intended stub failures across independent clock, activation and eligibility examples. #217 owns implementation."
+      "scope": "Pure MODIFIER-002 clock cuts, restart and Review projections, activation timing and score proposals pass the 28 frozen cases and 11 progression guards and controls. Arrival integration, unresolved lifetime and durable checkpoints remain with #223, #225 and #318."
     },
     {
       "id": "MOD-03",
@@ -600,9 +601,10 @@
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/748#issuecomment-7043495989",
-        "https://github.com/Kernol12/subathon-bot-ai/pull/758#issuecomment-7057811999"
+        "https://github.com/Kernol12/subathon-bot-ai/pull/758#issuecomment-7057811999",
+        "https://github.com/Kernol12/subathon-bot-ai/issues/217#issuecomment-7060345626"
       ],
-      "scope": "Pure CORE-006 proposals hold countdown and dependent eligibility while Review is pending, preserve hard-end precedence, and release only RecoveryReview after authorized selection or correction. Held-input re-evaluation, modifier clocks and authoritative command commit remain separate. MODIFIERTEST-002 adds observed intended-red modifier-clock recovery cases."
+      "scope": "Pure CORE-006 proposals hold countdown and dependent eligibility while Review is pending, preserve hard-end precedence, and release only RecoveryReview after authorized selection or correction. MODIFIER-002 projects the captured modifier clocks through those cuts. Held-input re-evaluation, authoritative commit and durable checkpoints remain separate."
     },
     {
       "id": "TIMER-10",

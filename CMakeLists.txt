@@ -7,7 +7,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(CTest)
 find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)
 option(SUBATHON_BUILD_ACCEPTANCE_TESTS "Build selected component acceptance suites" OFF)
-option(SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE "Build the intentional-red MODIFIERTEST-002 baseline" OFF)
+option(SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE "Build the modifier-clock acceptance suite explicitly" OFF)
 # Retain the reviewed baseline selector for ordinary API-011 acceptance.
 option(SUBATHON_BUILD_REFERENCE_INTAKE_BASELINE "Build reviewed API-011 Qt acceptance" OFF)
 set(SUBATHON_ACCEPTANCE_SUITES "time-credit" CACHE STRING "Acceptance suite/profile names, or all")

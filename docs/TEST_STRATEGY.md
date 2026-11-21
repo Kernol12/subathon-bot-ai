@@ -33,6 +33,7 @@ still using synthetic data and supplied policy/authority facts.
 | `acceptance-debug` | `-L '^acceptance$'` | 23 cap-limited credit cases in the owning suite: pure numeric planning, not full product proof |
 | `core-acceptance-debug` | whole preset | Ordinary passing pure GoogleTest suites in one build, also used by the CI `core` job |
 | `core-acceptance-debug` | `-L '^modifier-stacking$'` | 52 exact stacking and captured-proposal cases using supplied policies and selected revisions |
+| `core-acceptance-debug` | `-L '^modifier-clock$'` | 39 independent modifier-clock cases, including the 28 frozen MODIFIERTEST-002 cases |
 | `exact-numeric-debug` | `-L '^exact-numeric$'` | 33 exact decimal/half-even conversion cases |
 | `timer-lifecycle-debug` | `-L '^timer-lifecycle$'` | 39 Main/Grace transition proposals |
 | `pause-policy-debug` | `-L '^pause-policy$'` | 37 independent pause-reason/delay proposals |
@@ -123,13 +124,6 @@ evidence. No runtime authority, raw ingress or provider/platform support follows
 from schema shape, and schema shape does not replace runtime proof invariants.
 
 ## Reviewed baselines still awaiting implementation
-
-MODIFIERTEST-002 uses the explicit `SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE=ON`
-option and the `modifier_clock_baseline` build target. After exact-runner
-admission, select `-L '^modifier-clock$'` in CTest. The 28 cases cover 21 frozen
-rows and reached their intended stubs with ordinary failure reporting. The option
-defaults off and the suite stays outside passing CI. #217 owns implementation.
-[Admitted intended red](https://github.com/Kernol12/subathon-bot-ai/pull/758#issuecomment-7057811999)
 
 `api-host-debug` and `api-host-native-debug` select authored host lifecycle baselines;
 their current review/execution status is recorded in canonical proof and GitHub. Both need the complete
