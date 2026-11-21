@@ -2,6 +2,7 @@
 #include <subathon/server/contribution_review.hpp>
 
 #include "contribution_review_dispatch.hpp"
+#include "sqlite_connector_intake_schema.hpp"
 
 #include <subathon/server/sqlite_milestone_target_edits.hpp>
 
@@ -126,6 +127,27 @@ MigrationManifest contribution_review_repository_manifest() {
     });
     manifest.steps.append(std::move(step));
     manifest.supported_starting_versions.append(19);
+    return manifest;
+}
+
+MigrationManifest connector_intake_repository_manifest() {
+    auto manifest = contribution_review_repository_manifest();
+    MigrationStep step{20, "connector-intake-storage-v1", {}, manifest.steps.back().expected_schema};
+    for (const auto &object : connector_intake_schema::objects) {
+        const auto name = QString::fromLatin1(object.name);
+        const auto table = QString::fromLatin1(object.table);
+        const auto ddl = QString::fromLatin1(object.sql);
+        step.sql.append(ddl);
+        step.expected_schema.append({object.autoindexes ? "table" : "index", name, table, ddl});
+        for (int index = 1; index <= object.autoindexes; ++index)
+            step.expected_schema.append(
+                {"index", "sqlite_autoindex_" + table + "_" + QString::number(index), table, {}});
+    }
+    std::ranges::sort(step.expected_schema, [](const auto &a, const auto &b) {
+        return std::tie(a.type, a.name) < std::tie(b.type, b.name);
+    });
+    manifest.steps.append(std::move(step));
+    manifest.supported_starting_versions.append(20);
     return manifest;
 }
 

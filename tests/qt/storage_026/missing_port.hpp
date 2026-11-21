@@ -3,6 +3,8 @@
 
 #include "catalog_fixture.hpp"
 
+#include <subathon/server/sqlite_connector_intake.hpp>
+
 namespace storage_026_fixture {
 
 // Stage 1's linkable, test-only entry points. Future owning adapters must replace
@@ -40,7 +42,7 @@ enum class BaselineState { pending = 0, qualified = 1, discontinuity = 2 };
 enum class GapStatus { open = 0, loss_recorded = 1, resolved = 2 };
 struct ManifestMissing {};
 inline std::variant<ManifestMissing, MigrationManifest> compiled_connector_manifest() {
-    return ManifestMissing{};
+    return connector_intake_repository_manifest();
 }
 
 struct ManagedInput {
