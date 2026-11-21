@@ -82,5 +82,80 @@ TEST(AccountCaptureConnectionHeader, ValidListLeavesRouteBodyLimitInEffect) {
     EXPECT_EQ(f.r.captures.load(), 0U);
     EXPECT_EQ(f.r.requests.load(), 0U);
 }
+
+constexpr auto bad_request =
+    "HTTP/1.1 400 Bad Request\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"sv;
+
+// An invalid Connection list is refused on the head alone. The witness that the
+// declared body was never admitted is the fixed 400 and end of stream while the
+// client has sent zero body bytes, so no body write precedes or follows the reply.
+void expect_refusal(std::string_view connection_lines, std::string_view declared = "66") {
+    Live f(true, {});
+    f.connect();
+    f.client.send(std::string(head_start) + "Content-Length: " + std::string(declared) + "\r\n" +
+                  std::string(connection_lines) + "\r\n");
+    expect_reply(f.client, bad_request, true);
+    EXPECT_EQ(f.r.captures.load(), 0U);
+    EXPECT_EQ(f.r.requests.load(), 0U);
+}
+
+TEST(AccountCaptureConnectionHeader, TrailingCommaRefusedOnHeadAlone) {
+    expect_refusal("Connection: keep-alive,\r\n");
+}
+
+// Outer SP/HTAB is trimmed first, which leaves the same empty terminal item.
+TEST(AccountCaptureConnectionHeader, TrailingCommaBeforeWhitespaceRefusedOnHeadAlone) {
+    expect_refusal("Connection: keep-alive, \t\r\n");
+}
+
+// Same two occurrences as KeepAliveThenCloseAcrossOccurrences plus the final comma:
+// the valid first occurrence cannot mask the empty terminal item.
+TEST(AccountCaptureConnectionHeader, KeepAliveThenCloseCommaRefused) {
+    expect_refusal("Connection: keep-alive\r\ncOnNeCtIoN: close,\r\n");
+}
+
+// A value ending in a comma before another occurrence is an empty interior item.
+TEST(AccountCaptureConnectionHeader, KeepAliveCommaThenCloseRefused) {
+    expect_refusal("Connection: keep-alive,\r\nConnection: close\r\n");
+}
+
+// An empty occurrence is only valid alone; in a repeated list it is an empty item.
+TEST(AccountCaptureConnectionHeader, KeepAliveThenEmptyOccurrenceRefused) {
+    expect_refusal("Connection: keep-alive\r\nConnection:\r\n");
+}
+
+TEST(AccountCaptureConnectionHeader, EmptyOccurrenceThenKeepAliveRefused) {
+    expect_refusal("Connection:\r\nConnection: keep-alive\r\n");
+}
+
+// Pairs with ValidListLeavesRouteBodyLimitInEffect: the same over-limit declaration
+// answers 413 with a valid list and the field 400 with an invalid one.
+TEST(AccountCaptureConnectionHeader, InvalidListRefusedBeforeRouteBodyLimit) {
+    expect_refusal("Connection: keep-alive,\r\n", "4097");
+}
+
+// Control outside the ordinary correction: the marked native listener keeps its
+// handshake when the Upgrade token carries a trailing comma. This is the head of
+// native_positive in native_tests.cpp plus that comma. The contract's 101 for it is
+// source-derived until this case has been observed.
+TEST(AccountCaptureConnectionHeader, NativeUpgradeTrailingCommaKeepsHandshake) {
+    constexpr auto switching =
+        "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\n"
+        "Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=\r\n\r\n"sv;
+    Live f(true);
+    (void)f.native_client.connect(f.r.native_port);
+    f.native_client.send("GET /foundation/ws HTTP/1.1\r\nHost: x\r\nUpgrade: websocket\r\n"
+                         "Connection: Upgrade,\r\n"
+                         "Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r\n"
+                         "Sec-WebSocket-Version: 13\r\nCookie: CNY-s11-7q9\r\n\r\n"sv);
+    std::array<char, switching.size()> reply{};
+    ASSERT_EQ(f.native_client.read(reply), switching.size());
+    EXPECT_TRUE(std::equal(switching.begin(), switching.end(), reply.begin()));
+    f.native_client.send(std::string_view("\x82\x81\x01\x02\x03\x04\x40", 7));
+    f.r.wait([&] { return f.r.native_messages.load() == 1; });
+    EXPECT_EQ(f.r.native_opened.load(), 1U);
+    EXPECT_EQ(f.r.requests.load(), 0U);
+    EXPECT_EQ(f.r.captures.load(), 0U);
+}
 } // namespace
 } // namespace account_capture_test
