@@ -386,4 +386,89 @@ HistoryStatus stage_gap(const SqliteWorkSession &session, const GapOpening &gap)
     return Status::staged;
 }
 
+HistoryStatus stage_reconnect(const SqliteWorkSession &session, const Reconnect &request) {
+    if (!local_scope(session, request.scope))
+        return Status::wrong_scope;
+    if (request.current_authority.isEmpty() || request.observation.isEmpty())
+        return Status::invalid_authority;
+    if (!bounded(request.new_generation, reference_limit) ||
+        !bounded(request.history_ref, reference_limit) ||
+        !bounded(request.cursor_contract, document_limit) ||
+        !bounded(request.current_authority, document_limit) ||
+        !bounded(request.observation, document_limit))
+        return Status::intake_limit;
+
+    const auto prior = select_source(session, request.scope);
+    if (!prior || !matches(prior->fence, request.expected))
+        return Status::stale;
+    if (prior->cursor_contract != request.cursor_contract || !prior->cut ||
+        request.new_generation == prior->fence.generation)
+        return Status::unproved_range;
+    if (!can_advance(prior->fence.revision))
+        return Status::intake_limit;
+    if (!session
+             .execute({"SELECT 1 FROM main.subathon_intake_operations "
+                       "WHERE installation=? AND operation_ref=?",
+                       {request.scope.installation, request.history_ref}})
+             .isEmpty())
+        return Status::conflict;
+
+    const auto active = session.execute(
+        {"SELECT o.operation_ref,o.epoch,o.policy_revision,o.generation,o.revision,"
+         "EXISTS(SELECT 1 FROM main.subathon_intake_pages p WHERE p.installation=o.installation "
+         "AND p.operation_ref=o.operation_ref AND p.outcome=0) "
+         "FROM main.subathon_intake_operations o WHERE o.installation=? AND o.provider=? "
+         "AND o.account=? AND o.stream=? AND o.outcome=0 AND o.purpose IN (0,1)",
+         scope_bindings(request.scope)});
+    if (!active.isEmpty()) {
+        const auto &row = active.front();
+        if (row[1].toLongLong() != prior->fence.epoch ||
+            row[2].toLongLong() != prior->fence.policy_revision ||
+            row[3].toByteArray() != prior->fence.generation)
+            return Status::stale;
+        // An in-flight prefix needs its old generation proved before extension.
+        if (row[5].toBool())
+            return Status::busy;
+        if (!can_advance(row[4].toLongLong()))
+            return Status::intake_limit;
+    }
+
+    auto next = *prior;
+    ++next.fence.revision;
+    next.fence.generation = request.new_generation;
+    const auto document = QByteArray("SH1") + history_head(request.scope, *prior) +
+                          history_head(request.scope, next) + framed(request.cursor_contract) +
+                          framed(request.current_authority) + framed(request.observation);
+    if (document.size() > document_limit)
+        return Status::intake_limit;
+    auto args = scope_bindings(request.scope);
+    args.append({prior->fence.epoch, prior->fence.generation, prior->fence.revision,
+                 prior->fence.policy_revision});
+    args.prepend(request.new_generation);
+    (void)session.execute(
+        {"UPDATE main.subathon_intake_sources SET generation=?,revision=revision+1 "
+         "WHERE installation=? AND provider=? AND account=? AND stream=? "
+         "AND epoch=? AND generation=? AND revision=? AND policy_revision=?",
+         args});
+    detail::require_changed_one(session);
+    if (!active.isEmpty()) {
+        const auto &row = active.front();
+        (void)session.execute(
+            {"UPDATE main.subathon_intake_operations SET generation=?,revision=revision+1 "
+             "WHERE installation=? AND operation_ref=? AND generation=? "
+             "AND revision=? AND outcome=0",
+             {request.new_generation, request.scope.installation, row[0], prior->fence.generation,
+              row[4]}});
+        detail::require_changed_one(session);
+    }
+    (void)session.execute({"INSERT INTO main.subathon_intake_operations "
+                           "VALUES(?,?,?,?,?,?,?,NULL,4,?,1,?,NULL,1,0,1,?,?)",
+                           {request.scope.installation, request.history_ref, request.scope.provider,
+                            request.scope.account, request.scope.stream, prior->fence.epoch,
+                            prior->fence.policy_revision, request.new_generation, document,
+                            *prior->cut, *prior->cut}});
+    detail::require_changed_one(session);
+    return Status::staged;
+}
+
 } // namespace subathon::server::connector_intake

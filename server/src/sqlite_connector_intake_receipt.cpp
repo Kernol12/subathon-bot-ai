@@ -62,6 +62,24 @@ bool local_scope(const SqliteWorkSession &session, const ManagedInput &input) {
            scoped_receipt_namespace(input.scope, input.receipt.identity);
 }
 
+bool same_fence(const Fence &actual, const Fence &expected) {
+    return actual.epoch == expected.epoch && actual.revision == expected.revision &&
+           actual.policy_revision == expected.policy_revision &&
+           actual.generation == expected.generation;
+}
+
+int admission_code(IntakeAdmission admission) {
+    switch (admission) {
+    case IntakeAdmission::creation_eligible:
+        return 0;
+    case IntakeAdmission::audit_only:
+        return 3;
+    case IntakeAdmission::confirmation_only:
+        return 4;
+    }
+    throw std::logic_error("Unexpected intake admission");
+}
+
 std::optional<Fence> source(const SqliteWorkSession &session, const Scope &scope) {
     const auto rows = session.execute({"SELECT epoch,revision,policy_revision,generation "
                                        "FROM main.subathon_intake_sources WHERE installation=? "
@@ -79,6 +97,7 @@ struct Entry {
     qint64 arrival;
     std::optional<PageSlot> history;
     std::optional<core::ContributionId> contribution;
+    qint64 phase, disposition;
 };
 
 std::optional<Entry> entry(const SqliteWorkSession &session, const Scope &scope,
@@ -89,7 +108,8 @@ std::optional<Entry> entry(const SqliteWorkSession &session, const Scope &scope,
         {"SELECT "
          "receipt_id,attempt_ordinal,configuration_ref,modifier_context_ref,input,provenance,"
          "activity_namespace,activity_id,verification_ref,arrival_ms,operation_ref,page_ordinal,"
-         "item_ordinal,contribution_id FROM main.subathon_intake_entries WHERE installation=? "
+         "item_ordinal,contribution_id,phase,disposition "
+         "FROM main.subathon_intake_entries WHERE installation=? "
          "AND provider=? AND account=? AND stream=? AND intake_ref=?",
          args});
     if (rows.isEmpty())
@@ -117,7 +137,9 @@ std::optional<Entry> entry(const SqliteWorkSession &session, const Scope &scope,
                  r[8].toByteArray(),
                  r[9].toLongLong(),
                  history,
-                 contribution};
+                 contribution,
+                 r[14].toLongLong(),
+                 r[15].toLongLong()};
 }
 
 bool activity_matches(const Entry &row, const std::optional<VerifiedActivityLink> &activity) {
@@ -280,14 +302,14 @@ void stage_entry(const SqliteWorkSession &session, const ManagedInput &input, co
                                   : QVariant{},
                    input.activity ? QVariant{blob(input.activity->identity.opaque_id)} : QVariant{},
                    input.activity ? QVariant{blob(input.activity->verification_ref)} : QVariant{}});
-    values.append({encoded, ordinal});
+    values.append({admission_code(input.admission), encoded, ordinal});
     (void)session.execute(
         {"INSERT INTO main.subathon_intake_entries(installation,provider,account,stream,intake_ref,"
          "epoch,generation,policy_revision,operation_ref,page_ordinal,item_ordinal,input,"
          "provenance,"
          "arrival_ms,configuration_ref,modifier_context_ref,activity_namespace,activity_id,"
          "verification_ref,phase,disposition,receipt_id,attempt_ordinal) "
-         "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1,0,?,?)",
+         "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1,?,?,?)",
          values});
     detail::require_changed_one(session);
 
@@ -371,7 +393,7 @@ ManagedResult admit_managed(const SqliteWorkSession &session, const ManagedInput
         session.rollback();
         return selected;
     }
-    if (!qualified_slot(session, input, *current))
+    if (!same_fence(*current, input.expected_source) || !qualified_slot(session, input, *current))
         return refuse(Status::stale);
 
     auto stopped = Status::known_rollback;
@@ -458,6 +480,101 @@ EvidenceSelection select_evidence(const SqliteWorkSession &session, const Manage
             bound->attempt,
             {},
             bound->capture};
+}
+
+HistoryStatus stage_intake_disposition(const SqliteWorkSession &session, const ManagedInput &input,
+                                       AttemptLocator locator, IntakeDisposition disposition) {
+    using H = HistoryStatus;
+    if (!local_scope(session, input))
+        return H::wrong_scope;
+    if (!bounded(input.intake_ref, reference_limit))
+        return H::intake_limit;
+    const auto retained = entry(session, input.scope, input.intake_ref);
+    if (!retained || retained->attempt != locator || retained->phase < 1)
+        return H::stale;
+    const auto selected = read_attempt(session, input, locator);
+    if (selected.status != Status::exact_replay)
+        return selected.status == Status::intake_limit ? H::intake_limit : H::conflict;
+
+    std::optional<core::ContributionId> recorded_contribution;
+    switch (disposition) {
+    case IntakeDisposition::observed_only:
+        if (selected.selected->disposition == core::ReceiptDisposition::created &&
+            input.admission != IntakeAdmission::audit_only)
+            return H::conflict;
+        break;
+    case IntakeDisposition::waiting_original:
+        if (select_evidence(session, input).status != EvidenceStatus::pending_original)
+            return H::conflict;
+        break;
+    case IntakeDisposition::evidence_committed: {
+        if (!input.activity || input.admission == IntakeAdmission::audit_only ||
+            selected.selected->disposition != core::ReceiptDisposition::created)
+            return H::conflict;
+        const auto &activity = *input.activity;
+        const auto expected_kind = input.admission == IntakeAdmission::confirmation_only ? 1 : 0;
+        auto args = activity_key(input.scope, activity);
+        args.prepend(encode_receipt_uint64(locator.receipt.value));
+        args.append({blob(activity.verification_ref), expected_kind});
+        const auto rows = session.execute(
+            {"SELECT contribution_id FROM main.subathon_contribution_observations "
+             "WHERE receipt_id=? AND activity_provider=? AND activity_source_account=? "
+             "AND activity_namespace=? AND activity_id=? AND verification_ref=? AND kind=?",
+             args});
+        if (rows.size() != 1)
+            return H::stale;
+        if (!rows.front().front().isNull()) {
+            const auto actual = original(session, input.scope, activity);
+            const auto cid =
+                core::ContributionId{decode_receipt_uint64(rows.front().front().toByteArray())};
+            if (!actual || !actual->valid || actual->cid != cid ||
+                (expected_kind == 0 && select_evidence(session, input).original != cid))
+                return H::conflict;
+            recorded_contribution = cid;
+        } else if (expected_kind != 1) {
+            return H::conflict;
+        }
+        break;
+    }
+    }
+
+    const qint64 next_phase = disposition == IntakeDisposition::evidence_committed ? 3 : 2;
+    if (retained->phase >= next_phase) {
+        if (retained->phase == next_phase && retained->contribution == recorded_contribution)
+            return H::exact_replay;
+        return H::conflict;
+    }
+    const bool advance_prefix = input.history && retained->phase == 1;
+    if (advance_prefix) {
+        const auto current = source(session, input.scope);
+        if (!current || !same_fence(*current, input.expected_source) ||
+            !qualified_slot(session, input, *current))
+            return H::stale;
+    }
+
+    QList<QVariant> values{next_phase,
+                           recorded_contribution
+                               ? QVariant{encode_receipt_uint64(recorded_contribution->value)}
+                               : QVariant{}};
+    values.append(scope_bindings(input.scope));
+    values.append({input.intake_ref, encode_receipt_uint64(locator.receipt.value), locator.ordinal,
+                   retained->phase, retained->disposition});
+    (void)session.execute(
+        {"UPDATE main.subathon_intake_entries SET phase=?,contribution_id=? WHERE installation=? "
+         "AND provider=? AND account=? AND stream=? AND intake_ref=? AND receipt_id=? "
+         "AND attempt_ordinal=? AND phase=? AND disposition=?",
+         values});
+    detail::require_changed_one(session);
+    if (advance_prefix) {
+        const auto &slot = *input.history;
+        (void)session.execute(
+            {"UPDATE main.subathon_intake_pages SET committed_prefix=committed_prefix+1 "
+             "WHERE installation=? AND operation_ref=? AND ordinal=? "
+             "AND committed_prefix=? AND outcome=0 AND item_count>=?",
+             {input.scope.installation, slot.operation, slot.page, slot.item - 1, slot.item}});
+        detail::require_changed_one(session);
+    }
+    return H::staged;
 }
 
 } // namespace subathon::server::connector_intake

@@ -144,6 +144,14 @@ struct GapOpening {
 
 [[nodiscard]] HistoryStatus stage_gap(const SqliteWorkSession &, const GapOpening &);
 
+struct Reconnect {
+    Scope scope;
+    Fence expected;
+    QByteArray new_generation, cursor_contract, history_ref, current_authority, observation;
+};
+
+[[nodiscard]] HistoryStatus stage_reconnect(const SqliteWorkSession &, const Reconnect &);
+
 enum class Coverage { contiguous, unproved, lost, recovered, new_baseline };
 
 struct PageBinding {
@@ -202,6 +210,7 @@ struct ManagedInput {
     IntakeAdmission admission;
     std::optional<PageSlot> history{};
     std::optional<RetainedDocument> configuration{}, context{};
+    Fence expected_source{};
 };
 
 enum class ManagedStatus {
@@ -244,6 +253,14 @@ struct EvidenceSelection {
 // Selection carries durable provenance for the ACCT-002 owner. It does not
 // stage its evidence or supply current authority.
 [[nodiscard]] EvidenceSelection select_evidence(const SqliteWorkSession &, const ManagedInput &);
+
+enum class IntakeDisposition { observed_only, waiting_original, evidence_committed };
+
+// Reconciles a separately owned outcome without granting evidence, plan or
+// application authority. A staged disposition can qualify a durable page item.
+[[nodiscard]] HistoryStatus stage_intake_disposition(const SqliteWorkSession &,
+                                                     const ManagedInput &, AttemptLocator,
+                                                     IntakeDisposition);
 
 } // namespace connector_intake
 } // namespace subathon::server

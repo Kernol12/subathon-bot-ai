@@ -78,7 +78,8 @@ inline connector_intake::ManagedInput managed_input(const ManagedInput &input) {
             static_cast<connector_intake::IntakeAdmission>(input.admission),
             input.history ? std::optional{connector_intake::PageSlot{
                                 input.history->operation, input.history->page, input.history->item}}
-                          : std::nullopt};
+                          : std::nullopt,
+            {}, {}, {1, 9, 1, QByteArray("g3")}};
 }
 inline ManagedResult managed_result(const connector_intake::ManagedResult &result) {
     using Status = connector_intake::ManagedStatus;
