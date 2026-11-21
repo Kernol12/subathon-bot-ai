@@ -106,7 +106,8 @@ class LogOwner final {
     friend struct testing::LogControl;
 };
 
-// One installation's registered adapter observations, on their serialized owner.
+// One installation's registered adapter observations. All access must run
+// on the same authoritative queue as its Export.
 // Only validated health/gap cross this boundary. Export never calls adapters.
 class Connections final {
   public:
@@ -136,11 +137,13 @@ struct PublicationRead {
 };
 
 // Owned by the authoritative queue. One private reservation, no backlog.
-// The ready callback only signals that disk work finished and may run on the log
-// thread. It must post to the host, never execute authority or publication there.
+// The ready callback may run synchronously in stage() or later on the log thread.
+// It must always post to the authoritative queue for the next host turn.
 // Call handoff at the actual first transfer, in the real current writer/lifecycle
 // scope. read_current, can_transfer and transfer must complete in that same
 // uninterrupted turn. The host owns lease/budget/stop/disconnect/normal outcome.
+// can_transfer and transfer must be bounded and nonblocking. They must not call
+// LogOwner while the final publication gate is held.
 // For a protected result, can_transfer also checks the supplied expiry against
 // the guarded publication clock in its live completion scope.
 class Export final {

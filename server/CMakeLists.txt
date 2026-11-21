@@ -305,7 +305,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND TARGET subathon_sqlite_permission_grap
         src/diagnostics_json.cpp src/diagnostics_log.cpp)
     target_link_libraries(subathon_diagnostics PUBLIC
         subathon_connector_lifecycle subathon_sqlite_receipts subathon_sqlite_permission_graph
-        PRIVATE Threads::Threads subathon_session_resolution)
+        subathon_session_resolution PRIVATE Threads::Threads)
     target_compile_definitions(subathon_diagnostics PRIVATE
         SUBATHON_DIAGNOSTICS_VERSION_MAJOR=${PROJECT_VERSION_MAJOR}
         SUBATHON_DIAGNOSTICS_VERSION_MINOR=${PROJECT_VERSION_MINOR}
