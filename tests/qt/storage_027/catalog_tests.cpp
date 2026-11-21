@@ -235,6 +235,22 @@ class Storage027CatalogTests final : public QObject {
         });
     }
 
+    void referenceV10OwnExplicitLifecycle() {
+        check([] {
+            EmptyStore f;
+            const auto manifest = reference_authority_repository_manifest();
+            const auto before = f.observer.read({schema_query, {}});
+            require(before.error == StorageError::none && before.rows.isEmpty(),
+                    "Opening a physical writer does not assign any catalog");
+            report(migrate(f.writer, {MigrationMode::inspect, manifest, {}, {}}),
+                   CatalogState::fresh, 0, 10, 0);
+            report(migrate(f.writer, {MigrationMode::advance, manifest, {}, {}}),
+                   CatalogState::current, 10, 10, 10);
+            report(migrate(f.writer, {MigrationMode::inspect, manifest, {}, {}}),
+                   CatalogState::current, 10, 10, 0);
+        });
+    }
+
     void cancelAfterLiteralDdl() {
         check([] {
             Populated f;

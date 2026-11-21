@@ -37,8 +37,14 @@ struct ReplaceIntent {
     Occurrence target;
     std::vector<Replacement> patch;
 };
+struct ScopedCause {
+    MilestoneTrackKey track;
+    QByteArray ref;
+    bool operator==(const ScopedCause &) const = default;
+};
+
 struct ResumeIntent {
-    std::vector<QByteArray> causes;
+    std::vector<ScopedCause> causes;
 };
 using Intent = std::variant<StopIntent, ReplaceIntent, ResumeIntent>;
 
@@ -82,6 +88,12 @@ struct PlaybackInstance {
     StopCapability capability;
 };
 
+struct PresentationObservation {
+    Occurrence target;
+    QByteArray presentation, bound_generation, current_generation, owner_revision;
+    qint64 started_ms, expiry_ms, observed_ms;
+};
+
 class CommandAuthority {
   public:
     struct Facts {
@@ -89,24 +101,36 @@ class CommandAuthority {
         QByteArray grant_revision, configuration_revision, decision;
         std::vector<AuthorizedCapture> captures;
         std::vector<PlaybackInstance> observed_playback;
+        QByteArray capability_revision{"capability-1"};
+        std::optional<PresentationObservation> presentation{};
     };
     virtual ~CommandAuthority() = default;
     virtual std::optional<Facts> select(const SqliteWorkSession &, const Command &) = 0;
 };
 
+// Disposable admission profile for the Stage 1 seam. Playback admission is
+// charged separately and retained with Stop for later exact activations.
+struct AdmissionProfile {
+    StorageLimits work;
+    std::optional<StorageLimits> playback;
+};
+
 class ReplacePreview;
 using Preview = std::variant<Disposition, std::shared_ptr<const ReplacePreview>>;
 
-inline Preview preview_replace(const SqliteWorkSession &, CommandAuthority &, const Command &) {
+inline Preview preview_replace(const SqliteWorkSession &, CommandAuthority &, const Command &,
+                               const AdmissionProfile * = nullptr) {
     return Disposition::not_implemented;
 }
 
 inline Decision stage_command(const SqliteWorkSession &, CommandAuthority &, const Command &,
-                              const ReplacePreview * = nullptr) {
+                              const ReplacePreview * = nullptr,
+                              const AdmissionProfile * = nullptr) {
     return {Disposition::not_implemented, {}, {}, {}, {}};
 }
 
-inline Decision read_command(const SqliteWorkSession &, CommandAuthority &, const Command &) {
+inline Decision read_command(const SqliteWorkSession &, CommandAuthority &, const Command &,
+                             const AdmissionProfile * = nullptr) {
     return {Disposition::not_implemented, {}, {}, {}, {}};
 }
 
@@ -123,7 +147,7 @@ class PlaybackAuthority {
 };
 
 inline Disposition stage_late_playback(const SqliteWorkSession &, PlaybackAuthority &,
-                                       const LatePlayback &) {
+                                       const LatePlayback &, const AdmissionProfile * = nullptr) {
     return Disposition::not_implemented;
 }
 
@@ -147,12 +171,14 @@ struct PlaybackEvidence {
 };
 
 inline Disposition stage_playback_handoff(const SqliteWorkSession &, PlaybackAuthority &,
-                                          const PlaybackHandoff &) {
+                                          const PlaybackHandoff &,
+                                          const AdmissionProfile * = nullptr) {
     return Disposition::not_implemented;
 }
 
 inline Disposition stage_playback_outcome(const SqliteWorkSession &, PlaybackAuthority &,
-                                          const PlaybackEvidence &) {
+                                          const PlaybackEvidence &,
+                                          const AdmissionProfile * = nullptr) {
     return Disposition::not_implemented;
 }
 

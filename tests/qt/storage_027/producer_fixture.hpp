@@ -19,12 +19,18 @@ inline void install_protected(predecessor::Populated &f) {
            CatalogState::current, 20, 20, 0);
 }
 
+enum class SetupThrough { bundle, group, decision, both_origins };
+
 struct ProducerOptions {
     bool held{};
     bool predecessor_v20{true};
     std::size_t large_slots{};
     bool third_target{};
     bool audio_job{};
+    int edit_slots{1};
+    bool hold_edit{};
+    bool middle_bonus{};
+    SetupThrough through{SetupThrough::both_origins};
 };
 
 struct Populated : predecessor::Populated {
@@ -42,6 +48,8 @@ struct Populated : predecessor::Populated {
     MilestoneEditJobKey job{edit_intent.key, edit_occurrence, 1};
 
     explicit Populated(ProducerOptions options = {}) : predecessor::Populated(99, 7) {
+        if (options.hold_edit)
+            edit_intent.choices[0].choice = MilestoneActionChoice::defer;
         if (options.predecessor_v20)
             install_protected(*this);
         else
@@ -86,13 +94,19 @@ struct Populated : predecessor::Populated {
                 bundle && bundle->effects.size() == 1 && bundle->effects[0].request_ordinal == 2 &&
                     bundle->result.document.endsWith(QByteArray::fromHex("0000000300000002010002")),
                 "Owning read resolves the exact protected SAR2 result and physical effect");
+            if (options.through == SetupThrough::bundle)
+                return;
             SqliteMilestoneGroupStore(session).stage(original, {app_group});
+            if (options.through == SetupThrough::group)
+                return;
             SqliteMilestoneGroupDecisions(session).record_acceptance(
                 original, {PausedAcceptanceMode::normal,
                            {"operator", "milestone-decision"},
                            {{app_occurrence, options.held ? MilestoneActionChoice::defer
                                                           : MilestoneActionChoice::run}}});
         });
+        if (options.through != SetupThrough::both_origins)
+            return;
         db.write([&](const auto &session) {
             MilestoneTrackSeed track{edit::track,
                                      "cfg",
@@ -113,6 +127,19 @@ struct Populated : predecessor::Populated {
                 capture.jobs[0].capture.action_ref = "audio";
                 capture.jobs[0].capture.action_version_ref = "audio-v1";
             }
+            const auto first_action = capture.actions.front();
+            const auto first_job = capture.jobs.front();
+            for (int ordinal = 2; ordinal <= options.edit_slots; ++ordinal) {
+                if (ordinal == 2 && options.middle_bonus) {
+                    capture.actions.push_back(
+                        {MilestoneActionKind::bonus, "prior-bonus", "bonus-v1"});
+                    continue;
+                }
+                capture.actions.push_back(first_action);
+                auto copy = first_job;
+                copy.ordinal = ordinal;
+                capture.jobs.push_back(std::move(copy));
+            }
             edit_authority.facts.captures = {std::move(capture)};
             const auto preview =
                 preview_milestone_target_edit(session, edit_authority, edit::actor, edit_intent);
@@ -132,10 +159,19 @@ struct Populated : predecessor::Populated {
         });
     }
 
-    MilestoneEditKey add_third_occurrence() {
+    MilestoneEditKey add_third_occurrence(bool audio = false) {
         const auto intent =
             edit::single("earn-C", {"C", 105}, {{edit::c, MilestoneActionChoice::run}});
-        edit_authority.facts.captures = {edit::empty_c};
+        auto capture = edit::empty_c;
+        if (audio) {
+            capture = edit::capture_b(true);
+            capture.milestone_ref = "C";
+            capture.occurrence = edit::c;
+            capture.actions[0] = {MilestoneActionKind::automation, "audio", "audio-v1"};
+            capture.jobs[0].capture.action_ref = "audio";
+            capture.jobs[0].capture.action_version_ref = "audio-v1";
+        }
+        edit_authority.facts.captures = {std::move(capture)};
         db.write([&](const auto &session) {
             const auto p =
                 preview_milestone_target_edit(session, edit_authority, edit::actor, intent);

@@ -19,6 +19,7 @@ inline void advance_fixture(CatalogFile &db) {
 }
 
 struct Authority final : CommandAuthority {
+    MilestoneTrackKey permitted{edit::track};
     bool command{true};
     bool disclosure{true};
     QByteArray revision{"grant-1"};
@@ -29,12 +30,14 @@ struct Authority final : CommandAuthority {
          "local/new-route",
          "new-sender"}};
     std::vector<PlaybackInstance> observed_playback;
+    std::optional<PresentationObservation> presentation;
     std::optional<Facts> select(const SqliteWorkSession &, const Command &wanted) override {
-        if (wanted.track != edit::track || wanted.actor.actor_ref != edit::actor.actor_ref ||
+        if (wanted.track != permitted || wanted.actor.actor_ref != edit::actor.actor_ref ||
             wanted.actor.session_lineage != edit::actor.session_lineage)
             return std::nullopt;
-        return Facts{command,  disclosure,       revision, configuration, "operator-decision",
-                     captures, observed_playback};
+        return Facts{command,           disclosure,          revision,
+                     configuration,     "operator-decision", captures,
+                     observed_playback, "capability-1",      presentation};
     }
 };
 
@@ -51,7 +54,10 @@ inline Command stop(QByteArray key, Occurrence target, std::optional<QueueChoice
 }
 
 inline Command resume(QByteArray key, std::vector<QByteArray> causes) {
-    return {edit::track, std::move(key), edit::actor, ResumeIntent{std::move(causes)}};
+    ResumeIntent wanted;
+    for (auto &cause : causes)
+        wanted.causes.push_back({edit::track, std::move(cause)});
+    return {edit::track, std::move(key), edit::actor, std::move(wanted)};
 }
 
 inline Command replace(const Populated &fixture) {
