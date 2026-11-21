@@ -686,6 +686,41 @@ class Api006PolicyTests final : public QObject {
         });
     }
 
+    void productRefusesOversizeProtectedImportIntent() {
+        check([] {
+            Fixture f(true, false);
+            const auto selection = live_source(f);
+            const auto request = history_import({2026, 11, 21});
+            f.history.upper = "14";
+            constexpr qsizetype ceiling = 16384;
+            // CUT1: magic and endpoint tag, five BE32 lengths, position
+            // presence tag, then the known profile, position and generation bytes.
+            const qsizetype cut_overhead =
+                4 + 1 + 5 * 4 + 1 + QByteArrayView("key-v1").size() +
+                QByteArrayView("S/history").size() + f.history.upper.size() +
+                selection.fence.generation.size();
+            require(cut_overhead == 45, "Protected CUT1 framing has 45 bytes before proof");
+            f.history.proof = QByteArray(ceiling - cut_overhead, 'p');
+            require(cut_overhead + f.history.proof.size() == ceiling &&
+                        4 + 4 + cut_overhead + f.history.proof.size() > ceiling,
+                    "The qualified cut fits exactly, but IOP1 magic and cut length alone "
+                    "make the operation intent exceed the same cap");
+
+            const auto cursors = f.cursors();
+            const auto history = storage::fenced_history(f.store.db);
+            const auto protected_rows = storage::protected_data(f.store.db);
+            require(history[1].isEmpty() && f.attempts().isEmpty() && f.history.cuts == 0,
+                    "Initial source has no prior import, receipt attempt or cut observation");
+            expect(f.submit(request, selection), S::limit_exceeded,
+                   "A qualified import whose protected intent exceeds the cap is refused");
+            require(f.history.cuts == 1 && f.history.pages == 0 && f.cursors() == cursors &&
+                        storage::fenced_history(f.store.db) == history && f.attempts().isEmpty() &&
+                        storage::protected_data(f.store.db) == protected_rows,
+                    "Intent refusal leaves no operation, cursor progress, page or item work");
+            f.no_award();
+        });
+    }
+
     void productRefusesOversizeProtectedPageBeforeItemWork() {
         check([] {
             Fixture f(true, false);

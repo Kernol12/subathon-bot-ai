@@ -298,11 +298,34 @@ class Api006PhaseTests final : public QObject {
     void productMirrorCannotSupplyAwardSubject() {
         QFETCH(bool, application);
         check([&] {
-            Fixture f(true, false);
-            seed_mirror_policy(f);
+            Fixture f;
+            auto mirror = source.scope;
+            mirror.account = "B";
+            auto policy = baseline();
+            policy.members.append({mirror, "individual", "main", "overlap", false, "mirror"});
+            require(f.submit(policy, {source.scope, {0, 0, 0, "g3"}, source.profile}).status ==
+                        S::committed,
+                    "First connect configures the primary and mirror without a recovery gap");
+            const QVariantList scope{mirror.installation, mirror.provider, mirror.account,
+                                     mirror.stream};
+            const auto current = f.store.db.rows(
+                "SELECT epoch,revision,policy_revision,generation "
+                "FROM main.subathon_intake_sources "
+                "WHERE installation=? AND provider=? AND account=? AND stream=?", scope);
+            require(current.size() == 1 && current.front().size() == 4 &&
+                        f.store.db.rows("SELECT count(*) FROM main.subathon_intake_gaps") ==
+                            SqlRows{{0}},
+                    "Select the committed mirror source outside gap recovery");
+            const auto &fence = current.front();
+            const intake::Selection selection{
+                mirror,
+                {fence[0].toLongLong(), fence[1].toLongLong(), fence[2].toLongLong(),
+                 fence[3].toByteArray()},
+                source.profile};
             auto input = item("product-mirror", "12");
             input.activity.reset();
-            const auto submitted = f.submit(input);
+            input.disjointness_proof = "proved-partition";
+            const auto submitted = f.submit(input, selection);
             require(submitted.status == S::held && !submitted.projection &&
                         !submitted.contribution,
                     "Normal product intake retains the mirror as identified audit only");
@@ -310,8 +333,7 @@ class Api006PhaseTests final : public QObject {
                 "SELECT intake_ref,receipt_id,attempt_ordinal,contribution_id "
                 "FROM main.subathon_intake_entries WHERE installation=? AND provider=? "
                 "AND account=? AND stream=? AND intake_ref=?",
-                {source.scope.installation, source.scope.provider, source.scope.account,
-                 source.scope.stream, input.key});
+                QVariantList(scope) << input.key);
             require(storage::matches_sql_rows(selected,
                                               SqlRows{{input.key, blob8(1), 1, QVariant{}}}),
                     "The product-retained mirror selects its exact receipt and attempt, no CID");
@@ -319,7 +341,8 @@ class Api006PhaseTests final : public QObject {
             const auto before = storage::protected_data(f.store.db);
             const auto history = storage::fenced_history(f.store.db);
             const auto reply = f.phase(selected.front()[0].toByteArray(),
-                                       application ? P::application : P::capture);
+                                       application ? P::application : P::capture,
+                                       {}, {}, {}, selection);
             Fixture::result(reply, S::held,
                             "Existing award phase holds the normal product-retained mirror");
             require(!reply.result->projection && !reply.result->contribution &&
