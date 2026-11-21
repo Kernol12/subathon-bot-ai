@@ -22,7 +22,8 @@ subathon_target_options(subathon_scheduled_pause)
 
 if(TARGET subathon_modifier_stacking)
     add_library(subathon_modifier_stacking_handoff STATIC EXCLUDE_FROM_ALL src/modifier_stacking.cpp)
-    target_include_directories(subathon_modifier_stacking_handoff PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_include_directories(subathon_modifier_stacking_handoff
+        PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include" PRIVATE "${PROJECT_SOURCE_DIR}/core/src")
     target_link_libraries(subathon_modifier_stacking_handoff PUBLIC subathon_modifier_stacking)
     subathon_target_options(subathon_modifier_stacking_handoff)
 endif()

@@ -61,7 +61,8 @@ struct ModifierSelection {
     bool operator==(const ModifierSelection &) const = default;
 };
 // These adapters return already resolved, retained arrival-time selections. API-008
-// owns matching, exclusion ordering, combination and numeric evaluation.
+// owns matching, exclusion ordering and numeric evaluation. MODIFIER-003 supplies pure
+// modifier combination to the general evaluator.
 class RulePlanSource {
   public:
     virtual ~RulePlanSource() = default;
