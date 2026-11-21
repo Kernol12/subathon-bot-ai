@@ -303,12 +303,7 @@ if(SUBATHON_BUILD_DEV_SERVER_TESTS)
 endif()
 
 # Local Tier A baseline. Keep its pre-implementation cases out of passing suites.
-option(SUBATHON_BUILD_STORAGE_026_STAGE1 "Build the isolated STORAGE-026 Stage 1 runner" OFF)
+option(SUBATHON_BUILD_STORAGE_026_STAGE1 "Build the isolated STORAGE-026 Stage 1 suites" OFF)
 if(SUBATHON_BUILD_STORAGE_026_STAGE1)
-    subathon_add_qt_suite(server_storage_026_stage1
-        NAME storage-026-stage1 SOURCES storage_026/storage_026_tests.cpp
-        LIBRARIES subathon_contribution_review subathon_sqlite_milestone_target_edits
-            subathon_sqlite_modifier_activations subathon_refund_entitlement
-            subathon_sqlite_account_sessions
-        LABELS "storage-026-stage1;intentional-red;qt;server" TIMEOUT 180)
+    add_subdirectory(storage_026)
 endif()
