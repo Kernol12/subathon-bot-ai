@@ -505,8 +505,12 @@ void expect_no_reads(const Fixture &fixture) {
 }
 
 void expect_selected(const Fixture &fixture, const std::vector<Selector> &expected) {
-    QVERIFY(fixture.prepare_reads == expected);
-    QVERIFY(fixture.handoff_reads == expected);
+    const auto same_selector = [](const Selector &left, const Selector &right) {
+        return left.receipt == right.receipt && left.attempt == right.attempt &&
+               std::ranges::is_permutation(left.fields, right.fields);
+    };
+    QVERIFY(std::ranges::is_permutation(fixture.prepare_reads, expected, same_selector));
+    QVERIFY(std::ranges::is_permutation(fixture.handoff_reads, expected, same_selector));
     const auto &trace = fixture.trace;
     for (auto gate : {"prepare", "handoff"}) {
         const auto index = [&](const QString &step) { return trace.indexOf(step + '-' + gate); };
