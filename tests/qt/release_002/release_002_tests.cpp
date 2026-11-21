@@ -666,7 +666,11 @@ class Release002Tests final : public QObject {
         const auto session = fixture.trace.indexOf("session-prepare");
         QVERIFY(session >= 0);
         QVERIFY(fixture.trace.indexOf("base-prepare") > session);
-        QVERIFY(fixture.trace.indexOf("detail-prepare") > session);
+        const auto detail = fixture.trace.indexOf("detail-prepare");
+        const auto transfer = fixture.trace.indexOf("transfer");
+        QVERIFY(detail > session);
+        QVERIFY(transfer > fixture.trace.indexOf("base-prepare"));
+        QVERIFY(transfer > detail);
         QVERIFY(!fixture.trace.contains("versions"));
         expect_no_reads(fixture);
     }
