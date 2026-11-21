@@ -115,6 +115,23 @@ Shared SDKs and the proof environment are under `build/deps/` and
 The owner stopped #715 after its [one hosted experiment](https://github.com/Kernol12/subathon-bot-ai/issues/715#issuecomment-7004781214).
 #715 remains Planned, uses no parking slot, and its retry change was never enabled.
 
+### Continuation after the RELEASE-002 merge
+
+- [#545](https://github.com/Kernol12/subathon-bot-ai/issues/545) completed in
+  [PR #768](https://github.com/Kernol12/subathon-bot-ai/pull/768), protected merge
+  `2629e9dedc45fa04fa60a3ce05513f70387f6f10`. The seven required checks passed,
+  and the admitted diagnostics fixture passed the producer control and 26 methods.
+  The issue is closed and the build evidence is retained.
+- [#760](https://github.com/Kernol12/subathon-bot-ai/issues/760) resumed under
+  [bounded 116A](https://github.com/Kernol12/subathon-bot-ai/issues/760#issuecomment-7064212263).
+  Diagnose R1 and R3 on the admitted `288057faa72af99e26ff810d6cd2e39fa995434e`
+  runner and record the exact causes before starting the split. Preserve the
+  [incomplete run](https://github.com/Kernol12/subathon-bot-ai/issues/760#issuecomment-7064099749).
+- [#201](https://github.com/Kernol12/subathon-bot-ai/issues/201) Stage 1 round one
+  [verification approved](https://github.com/Kernol12/subathon-bot-ai/issues/201#issuecomment-7064314623)
+  `ef5a2db3595a2baf439e8e04fe682fe7123eb747`. Fresh closing and runtime admission
+  remain pending. The worktree and branch in the handover still apply.
+
 ### Parallel work and standing CI rerun rule
 
 - At most two active tasks in different modules and three parked tasks. When
