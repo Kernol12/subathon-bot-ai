@@ -316,3 +316,7 @@ option(SUBATHON_BUILD_STORAGE_026_STAGE1 "Build the STORAGE-026 acceptance suite
 if(SUBATHON_BUILD_STORAGE_026_STAGE1)
     add_subdirectory(storage_026)
 endif()
+
+if(SUBATHON_BUILD_STORAGE_027_STAGE1)
+    add_subdirectory(storage_027)
+endif()
