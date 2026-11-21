@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 
-// Included after the shared Stage 1 writer and scope helpers.
-namespace {
+#include "common_fixture.hpp"
+
+namespace storage_026_fixture {
 
 template <class Body> Stop transition(CatalogFile &db, Body body) {
     std::optional<Stop> selected;
@@ -28,33 +29,33 @@ template <class Body> Stop transition(CatalogFile &db, Body body) {
     return *selected;
 }
 
-void intake_origin(Populated &f, const QByteArray &effect_scope = "score") {
+inline void intake_origin(Populated &f, const QByteArray &effect_scope = "score") {
     f.install();
     advance(f.db);
     stage_scope(f.db, effect_scope);
 }
 
-void catchup(CatalogFile &db, int next = 1, int slots = 0) {
+inline void catchup(CatalogFile &db, int next = 1, int slot_count = 0) {
     mutate(
         db,
         "INSERT INTO main.subathon_intake_operations VALUES("
         "X'696e7374616c6c',X'4f',X'50',X'41',X'53',1,1,X'47',0,X'6733',?,?,X'54',?,?,0,NULL,NULL)",
-        {next + 1, QByteArray("catchup:F:Z"), next, slots});
+        {next + 1, QByteArray("catchup:F:Z"), next, slot_count});
 }
 
-PageBinding page_binding(qint64 ordinal = 1) {
+inline PageBinding page_binding(qint64 ordinal = 1) {
     return {"O", 9,   ordinal + 1, "T", {}, ordinal,
             0,   "U", "F",         "E", {}, PageBinding::Coverage::contiguous,
             "Z"};
 }
 
-QByteArray be32(quint32 n) {
+inline QByteArray be32(quint32 n) {
     const char bytes[]{static_cast<char>(n >> 24), static_cast<char>(n >> 16),
                        static_cast<char>(n >> 8), static_cast<char>(n)};
     return QByteArray(bytes, 4);
 }
 
-QByteArray frame_fields(const QList<QByteArray> &fields) {
+inline QByteArray frame_fields(const QList<QByteArray> &fields) {
     QByteArray frame;
     for (const auto &field : fields) {
         frame += be32(static_cast<quint32>(field.size()));
@@ -63,16 +64,16 @@ QByteArray frame_fields(const QList<QByteArray> &fields) {
     return frame;
 }
 
-QByteArray be64(qint64 n) {
+inline QByteArray be64(qint64 n) {
     const auto bits = static_cast<quint64>(n);
     return be32(quint32(bits >> 32)) + be32(quint32(bits));
 }
 
-QByteArray present_bytes(const std::optional<QByteArray> &bytes) {
+inline QByteArray present_bytes(const std::optional<QByteArray> &bytes) {
     return bytes ? QByteArray(1, '\1') + frame_fields({*bytes}) : QByteArray(1, '\0');
 }
 
-OperationIntent import_intent(QByteArray cut_proof = "proof") {
+inline OperationIntent import_intent(QByteArray cut_proof = "proof") {
     return {"install",
             "P",
             "A",
@@ -102,7 +103,7 @@ OperationIntent import_intent(QByteArray cut_proof = "proof") {
 // format, namespace, position presence and bytes, the original qualifying
 // generation and bounded proof. The row's operative generation and the caller's
 // current decision can change independently of this retained evidence.
-QByteArray import_frame(QByteArray proof = "proof") {
+inline QByteArray import_frame(QByteArray proof = "proof") {
     const auto prefix = QByteArray::fromHex(
         "494f503101 00000007696e7374616c6c 0000000150 0000000141 0000000153 "
         "0000000000000001 0000000000000001 0102 "
@@ -123,7 +124,7 @@ struct HistoricalHead {
     std::optional<QByteArray> cut, frontier;
 };
 
-QByteArray source_history(const HistoricalHead &prior, const HistoricalHead &selected,
+inline QByteArray source_history(const HistoricalHead &prior, const HistoricalHead &selected,
                           const QByteArray &capability, const QByteArray &authority,
                           const QByteArray &proof) {
     // The row has the selected epoch/policy/generation and stable scope. The
@@ -138,7 +139,7 @@ QByteArray source_history(const HistoricalHead &prior, const HistoricalHead &sel
            frame_fields({capability, authority, proof});
 }
 
-void anchor_source_history(CatalogFile &db, const QByteArray &ref, Purpose purpose,
+inline void anchor_source_history(CatalogFile &db, const QByteArray &ref, Purpose purpose,
                            const HistoricalHead &prior, const HistoricalHead &head,
                            const QByteArray &document) {
     mutate(db,
@@ -148,14 +149,14 @@ void anchor_source_history(CatalogFile &db, const QByteArray &ref, Purpose purpo
             prior.cut ? QVariant{*prior.cut} : QVariant{}, *head.cut});
 }
 
-SqlRows selected_source_history(CatalogFile &db) {
+inline SqlRows selected_source_history(CatalogFile &db) {
     return db.rows(
         "SELECT operation_ref,purpose,epoch,policy_revision,generation,intent,"
         "gap_ref,continuation,next_ordinal,slots,outcome,prior_cut,selected_cut "
         "FROM main.subathon_intake_operations WHERE purpose IN (2,3,4) ORDER BY purpose");
 }
 
-QByteArray coverage_document(SegmentCoverage meaning, const QByteArray &lower,
+inline QByteArray coverage_document(SegmentCoverage meaning, const QByteArray &lower,
                              const QByteArray &upper, const QByteArray &reason,
                              const QByteArray &evidence) {
     // Segment rows store the typed meaning separately. CV1 repeats it and binds
@@ -167,18 +168,18 @@ QByteArray coverage_document(SegmentCoverage meaning, const QByteArray &lower,
 
 // Test specimens have an explicit tag, item count and length-delimited fields.
 // The oracle uses the fixed overhead and compares the literal persisted bytes.
-QByteArray normalized_item(int bytes) {
+inline QByteArray normalized_item(int bytes) {
     return QByteArray("I") + frame_fields({"observed", QByteArray(bytes - 17, 'i')});
 }
 
-PageAdmission page_admission(qint64 ordinal, QList<QByteArray> items) {
+inline PageAdmission page_admission(qint64 ordinal, QList<QByteArray> items) {
     auto request = page_binding(ordinal);
     request.items = items.size();
     request.page = QByteArray("P") + be32(static_cast<quint32>(items.size())) + frame_fields(items);
     return {std::move(request), std::move(items)};
 }
 
-auto intake_cursors(CatalogFile &db) {
+inline auto intake_cursors(CatalogFile &db) {
     return std::array{
         db.rows("SELECT revision,generation,frontier FROM main.subathon_intake_sources"),
         db.rows("SELECT operation_ref,revision,next_ordinal,continuation,slots,outcome "
@@ -192,7 +193,7 @@ auto intake_cursors(CatalogFile &db) {
         db.rows("SELECT count(*) FROM main.subathon_intake_entries")};
 }
 
-auto fenced_history(CatalogFile &db) {
+inline auto fenced_history(CatalogFile &db) {
     return std::array{
         db.rows("SELECT * FROM main.subathon_intake_sources ORDER BY "
                 "installation,provider,account,stream"),
@@ -208,14 +209,14 @@ auto fenced_history(CatalogFile &db) {
                 "installation,provider,account,stream,intake_ref")};
 }
 
-void anchor_page(CatalogFile &db, const PageBinding &page) {
+inline void anchor_page(CatalogFile &db, const PageBinding &page) {
     mutate(db,
            "INSERT INTO main.subathon_intake_pages VALUES("
            "X'696e7374616c6c',X'4f',?,?,?, ?,0,0,NULL,0)",
            {page.ordinal, page.page, page.expected_continuation, page.items});
 }
 
-void completed_prefix(CatalogFile &db, int pages, int items) {
+inline void completed_prefix(CatalogFile &db, int pages, int items) {
     const auto frame =
         page_admission(1, QList<QByteArray>(items, normalized_item(18))).binding.page;
     db.write([&](const auto &s) {
@@ -243,4 +244,4 @@ void completed_prefix(CatalogFile &db, int pages, int items) {
             "Only owned new rows anchor the independently counted complete page prefix");
 }
 
-} // namespace
+} // namespace storage_026_fixture
