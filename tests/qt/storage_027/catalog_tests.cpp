@@ -10,10 +10,10 @@ using predecessor::check;
 using predecessor::mutate;
 
 constexpr auto successor_digest =
-    "9a54ba122faedc76e85d2d5f04090f84a4c9893cd45dca60887f4548767d0a2a";
+    "52b68a611a96311f137c033cf5b0a376a585e555a56b555e20de3938d4db463e";
 constexpr qsizetype successor_objects = 276;
-constexpr qsizetype successor_manifest_bytes = 1'748'012;
-constexpr qsizetype successor_projection_bytes = 147'979;
+constexpr qsizetype successor_manifest_bytes = 1'748'014;
+constexpr qsizetype successor_projection_bytes = 147'980;
 
 // v20 inspection (six attempts), nine DDL, one intermediate projection,
 // history insertion, then six final inspections. SELECT schema charges 12
@@ -21,7 +21,7 @@ constexpr qsizetype successor_projection_bytes = 147'979;
 // history row charges seven cells, three type names, a digest and two ID
 // copies. Encoding, header and integrity each return one row per inspection;
 // FK checks and writes return none. History insertion binds three cells.
-constexpr StorageLimits exact_advance{64, 23, 1237, 94, 852, 970193};
+constexpr StorageLimits exact_advance{64, 23, 1238, 94, 852, 970197};
 constexpr StorageLimits fresh_profile{64, 4096, 65536, 1048576, 8192, 16777216};
 
 MigrationRequest successor_request(MigrationMode mode) {

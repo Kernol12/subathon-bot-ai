@@ -50,7 +50,7 @@ FOREIGN KEY(installation,track,replacement) REFERENCES subathon_milestone_comman
 FOREIGN KEY(installation,track,origin_kind,origin_scope,origin_ref,occurrence,ordinal,predecessor)
 REFERENCES subathon_milestone_slot_versions(installation,track,origin_kind,origin_scope,origin_ref,occurrence,ordinal,version),
 CHECK((kind=1 AND route IS NOT NULL AND qualified_sender IS NOT NULL) OR
-(kind=2 AND route IS NULL AND qualified_sender IS NULL)))SQL",
+(kind=2 AND route IS NULL AND qualified_sender IS NULL))))SQL",
      3},
     {"subathon_milestone_slot_attempts", R"SQL(CREATE TABLE subathon_milestone_slot_attempts(
 installation BLOB NOT NULL, track BLOB NOT NULL, version BLOB NOT NULL,
