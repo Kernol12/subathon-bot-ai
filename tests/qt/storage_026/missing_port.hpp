@@ -7,9 +7,8 @@
 
 namespace storage_026_fixture {
 
-// Stage 1's linkable, test-only entry points. Future owning adapters must replace
-// these calls. The stubs own no persistence, never claim a COMMIT, and cannot
-// parse or manufacture a durable result.
+// Fixture result names used by the frozen Stage 1 assertions. The adapters
+// below use the supplied writer unit for Stage 2 storage.
 enum class Stop {
     not_implemented,
     committed,
@@ -92,8 +91,33 @@ struct QuarantineInput {
     QByteArray installation, provider, account, stream, key;
     QByteArray normalized, provenance;
 };
-inline Stop admit_quarantine(const SqliteWorkSession &, const QuarantineInput &) {
-    return Stop::not_implemented;
+inline connector_intake::QuarantineEntry quarantine_input(const QuarantineInput &input) {
+    return {{input.installation, input.provider, input.account, input.stream}, input.key,
+            input.normalized, input.provenance, 8000};
+}
+inline Stop quarantine_result(connector_intake::QuarantineStatus result) {
+    using Status = connector_intake::QuarantineStatus;
+    switch (result) {
+    case Status::staged:
+        return Stop::committed;
+    case Status::exact_replay:
+        return Stop::exact_replay;
+    case Status::wrong_scope:
+    case Status::invalid_authority:
+        return Stop::wrong_scope;
+    case Status::intake_limit:
+        return Stop::intake_limit;
+    case Status::quarantine_full:
+        return Stop::quarantine_full;
+    case Status::conflict:
+        return Stop::conflict;
+    case Status::stale:
+        return Stop::stale;
+    }
+    throw std::logic_error("Unexpected intake quarantine result");
+}
+inline Stop admit_quarantine(const SqliteWorkSession &session, const QuarantineInput &input) {
+    return quarantine_result(connector_intake::stage_quarantine(session, quarantine_input(input)));
 }
 
 struct SourceChange {
@@ -195,26 +219,40 @@ struct SelectedKey {
     bool include_documents{};
     bool exact{};
 };
-struct SelectedEntry {
-    QByteArray ref;
-    std::optional<QByteArray> document;
-    bool operator==(const SelectedEntry &) const = default;
-};
+using SelectedEntry = connector_intake::SelectedEntry;
 struct SelectedPage {
     Stop stop;
     QList<SelectedEntry> entries;
     std::optional<QByteArray> next_after;
 };
-inline SelectedPage inspect_intake(const SqliteWorkSession &, const SelectedKey &) {
-    return {Stop::not_implemented, {}, {}};
+inline SelectedPage inspect_intake(const SqliteWorkSession &session, const SelectedKey &key) {
+    using Status = connector_intake::SelectionStatus;
+    auto selected = connector_intake::inspect(
+        session, {{key.installation, key.provider, key.account, key.stream}, key.after,
+                  key.include_documents, key.exact});
+    switch (selected.status) {
+    case Status::selected:
+        return {Stop::exact_replay, std::move(selected.entries), std::move(selected.next_after)};
+    case Status::wrong_scope:
+        return {Stop::wrong_scope, {}, {}};
+    case Status::intake_limit:
+        return {Stop::intake_limit, {}, {}};
+    case Status::stale:
+        return {Stop::stale, {}, {}};
+    case Status::inconsistent:
+        return {Stop::inconsistent_original, {}, {}};
+    }
+    throw std::logic_error("Unexpected intake selection result");
 }
 
 struct QuarantineResolution {
     QuarantineInput selected;
     QByteArray current_authority;
 };
-inline Stop resolve_quarantine(const SqliteWorkSession &, const QuarantineResolution &) {
-    return Stop::not_implemented;
+inline Stop resolve_quarantine(const SqliteWorkSession &session,
+                               const QuarantineResolution &request) {
+    return quarantine_result(connector_intake::stage_quarantine_resolution(
+        session, quarantine_input(request.selected), request.current_authority));
 }
 
 } // namespace storage_026_fixture
