@@ -30,18 +30,20 @@ These are independent expectations and **predicted** first missing checkpoints. 
 
 ## Compile and passive inspection
 
-From the repository root on Linux x86-64, supply the already prepared libsodium 1.0.22 static SDK prefix and Qt 6.12 or later. The isolated CMake project builds its target without test registration. Shared build and test registration belong to the coordinator.
+From the repository root on Linux x86-64, supply the already prepared libsodium 1.0.22 static SDK prefix and Qt 6.12 or later. The opt-in CMake target registers one intentional-red Qt suite outside the default presets and CI.
 
 ```sh
 rates_sdk=/path/to/libsodium-apitest001/sdk
 rates_build=/tmp/rates-012-compile
-cmake -S tests/qt/rates_012 -B "$rates_build" -G Ninja -DSUBATHON_SODIUM_ROOT="$rates_sdk"
+cmake -S . -B "$rates_build" -G Ninja -DSUBATHON_BUILD_RATES_012_STAGE1=ON \
+    -DSUBATHON_SODIUM_ROOT="$rates_sdk"
 cmake --build "$rates_build" --target rates_012_stage1 --parallel 3
-readelf -h -l -d -V -W "$rates_build/rates_012_stage1"
-readelf --dyn-syms --wide "$rates_build/rates_012_stage1"
-readelf --syms --wide "$rates_build/rates_012_stage1"
+rates_runner="$rates_build/tests/qt/rates_012/rates_012_stage1"
+readelf -h -l -d -V -W "$rates_runner"
+readelf --dyn-syms --wide "$rates_runner"
+readelf --syms --wide "$rates_runner"
 readelf -h -d -V -W /usr/lib/qt6/plugins/sqldrivers/libqsqlite.so
-sha256sum "$rates_build/rates_012_stage1" "$rates_build/rates_012_stage1.map" \
+sha256sum "$rates_runner" "$rates_runner.map" \
     "$rates_sdk/lib/libsodium.a" "$rates_sdk/include/sodium/version.h" \
     /usr/lib/qt6/plugins/sqldrivers/libqsqlite.so
 ```
