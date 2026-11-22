@@ -1254,6 +1254,68 @@ class Storage027CommandsTests final : public QObject {
         });
     }
 
+    void releasedStopPresentationKnowledge_data() {
+        QTest::addColumn<QString>("state");
+        for (const auto *state : {"missing-current-generation", "known-expired", "denied",
+                                  "active-presentation", "independent-queued-work"})
+            QTest::newRow(state) << QString(state);
+    }
+
+    void releasedStopPresentationKnowledge() {
+        QFETCH(QString, state);
+        check([&] {
+            const bool queued = state == "independent-queued-work";
+            Populated f;
+            release_application(f);
+            if (queued)
+                release_edit(f);
+            advance_fixture(f.db);
+            Authority owner;
+            const auto target = queued ? edited(f) : application(f);
+            owner.presentation =
+                PresentationObservation{target, "presentation", "timeline", "timeline", "owner",
+                                        0,      10000,          1800,       "owner",    1700};
+            if (state == "missing-current-generation" || state == "denied" || queued)
+                owner.presentation->current_generation.clear();
+            if (state == "known-expired")
+                owner.presentation->observed_ms = owner.presentation->expiry_ms;
+            if (state == "denied")
+                owner.disclosure = false;
+
+            const auto cmd = stop("presentation-knowledge", target, QueueChoice::continue_queue);
+            const auto retained = [&] {
+                return std::array{
+                    journal(f.db),
+                    causes(f.db),
+                    cancellations(f.db, cmd.operation),
+                    f.db.rows("SELECT * FROM main.subathon_milestone_stop_fences"),
+                    f.db.rows("SELECT * FROM main.subathon_milestone_playback_instances"),
+                    f.db.rows("SELECT released FROM main.subathon_milestone_groups"),
+                    f.db.rows("SELECT released FROM main.subathon_milestone_edit_occurrences")};
+            };
+            const auto before = retained();
+            const auto result =
+                run(f.db, [&](const auto &s) { return stage_command(s, owner, cmd); });
+            const auto expected = state == "denied"                       ? Disposition::denied
+                                  : state == "known-expired"              ? Disposition::refused
+                                  : state == "missing-current-generation" ? Disposition::unavailable
+                                                                          : Disposition::committed;
+            if (expected != Disposition::committed)
+                require(retained() == before, "Presentation refusal preserves every retained row");
+            require(
+                result.published && result.published->disposition == expected,
+                "V2 released Stop distinguishes incomplete owner knowledge from expiry and denial");
+            if (expected == Disposition::committed) {
+                const auto cancelled =
+                    queued ? std::vector<SelectedVersion>{{1, {}}} : std::vector<SelectedVersion>{};
+                require(result.published->cancellations == cancelled &&
+                            result.published->playback_intents.empty() &&
+                            result.published->added_causes.empty(),
+                        "Positive presentation or independent queue admits the exact Stop");
+            }
+        });
+    }
+
     void stopVersusProtectedRelease_data() {
         QTest::addColumn<bool>("stop_first");
         QTest::newRow("stop-before-release") << true;

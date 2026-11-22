@@ -277,6 +277,101 @@ class Storage027ReadersTests final : public QObject {
         });
     }
 
+    void stoppedPartitionedOriginRemainsProved_data() {
+        QTest::addColumn<QString>("entry");
+        QTest::addColumn<int>("fault");
+        for (const auto *entry : {"fresh-stop", "pending-list", "pending-head"})
+            for (int fault = 0; fault != 3; ++fault) {
+                const auto name =
+                    QByteArray(entry) + "/" +
+                    std::array{"healthy", "missing-ordinal", "wrong-disposition"}[fault];
+                QTest::newRow(name.constData()) << QString(entry) << fault;
+            }
+    }
+
+    void stoppedPartitionedOriginRemainsProved() {
+        QFETCH(QString, entry);
+        QFETCH(int, fault);
+        reader_check([&](ReaderPhase &phase) {
+            Populated f;
+            advance_fixture(f.db);
+            phase.current = "verified initial SAR2 and later edit";
+            selected(f.db, f, pending_queue);
+            const auto command =
+                stop("prove-stop-origin", application(f), QueueChoice::continue_queue);
+            Authority owner;
+            if (entry != "fresh-stop")
+                (void)commit(f.db, owner, command, Disposition::committed);
+            if (fault == 1)
+                mutate(
+                    f.db,
+                    "DELETE FROM main.subathon_review_terminal_requests WHERE request_ordinal=1");
+            if (fault == 2)
+                mutate(f.db, "UPDATE main.subathon_review_terminal_requests SET disposition=2 "
+                             "WHERE request_ordinal=1");
+            f.db.reopen(profile());
+
+            const auto rejects_invalid_origin = [&](auto invoke) {
+                try {
+                    f.db.write(invoke);
+                } catch (const SqliteBundleStorageFailure &failure) {
+                    return failure.reason() == SqliteBundleStorageReason::invalid_stored_data;
+                }
+                return false;
+            };
+            if (fault)
+                require(rejects_invalid_origin([&](const auto &s) {
+                            (void)SqliteApplicationBundleStore(s).lookup(f.original);
+                        }),
+                        "Shared exact bundle proof rejects the one damaged terminal fact");
+
+            phase.current = "selected Stop or pending entry after exact origin witness";
+            const auto fences = [&] {
+                return f.db.rows("SELECT * FROM main.subathon_milestone_stop_fences");
+            };
+            if (entry == "fresh-stop") {
+                if (!fault) {
+                    (void)commit(f.db, owner, command, Disposition::committed);
+                    require(fences().size() == 1, "Healthy exact SAR2 admits one Stop fence");
+                    return;
+                }
+                const auto rejected = rejects_invalid_origin(
+                    [&](const auto &s) { (void)stage_command(s, owner, command); });
+                require(rejected && journal(f.db).empty() && fences().empty() &&
+                            causes(f.db).empty(),
+                        "V3 fresh Stop proves the exact SAR2 closure before writing any fence");
+            } else if (entry == "pending-list") {
+                if (fault) {
+                    require(rejects_invalid_origin([](const auto &s) {
+                                (void)SqliteMilestoneGroupStore(s).pending();
+                            }),
+                            "V3 cold pending list proves a stopped SAR2 origin before omitting it");
+                } else {
+                    f.db.write([&](const auto &s) {
+                        const auto pending = SqliteMilestoneGroupStore(s).pending();
+                        require(pending.size() == 1 &&
+                                    pending.front().group.occurrence == f.edit_occurrence,
+                                "Healthy passable stopped origin leaves the later edit pending");
+                    });
+                }
+            } else {
+                const auto authority = std::make_shared<ReleaseAuthority>();
+                const auto outcome = release(f, true, authority);
+                if (fault) {
+                    require(outcome.work.transaction == TransactionOutcome::rolled_back &&
+                                !outcome.disposition && authority->calls == 0,
+                            "V3 pending head cannot bypass an unproved stopped SAR2 origin");
+                    still_unreleased(f);
+                } else {
+                    finance::normal(outcome.work);
+                    require(outcome.disposition == MilestoneReleaseDisposition::released &&
+                                authority->calls == 1,
+                            "Healthy passable Stop admits the later edit through its owner");
+                }
+            }
+        });
+    }
+
     void partitionedOriginDistinctEntry_data() {
         QTest::addColumn<int>("entry");
         QTest::addColumn<int>("fault");
@@ -937,6 +1032,173 @@ class Storage027ReadersTests final : public QObject {
                                 "Typed stranded traversal returns the stopped application attempt");
                     });
                 }
+            }
+        });
+    }
+
+    void applicationPlaybackRetainedAllowance_data() {
+        QTest::addColumn<bool>("wide");
+        QTest::addColumn<QString>("axis");
+        QTest::newRow("exact-statements-and-rows") << false << QString("exact");
+        QTest::newRow("one-below-statements") << false << QString("attempts");
+        QTest::newRow("one-below-rows") << false << QString("rows");
+        QTest::newRow("maximum-references-exact") << true << QString("exact");
+        QTest::newRow("maximum-references-one-below-binds") << true << QString("binds");
+        QTest::newRow("maximum-job-reference-one-below-results") << true << QString("results");
+    }
+
+    void applicationPlaybackRetainedAllowance() {
+        QFETCH(bool, wide);
+        QFETCH(QString, axis);
+        reader_check([&](ReaderPhase &phase) {
+            const auto job_ref = wide ? std::string(4096, 'j') : std::string("original-job");
+            finance::File f(
+                finance::OriginalCredit{.milestone = true, .milestone_job_ref = job_ref});
+            report(
+                migrate(*f.writer,
+                        {MigrationMode::advance, connector_intake_repository_manifest(), {}, {}}),
+                CatalogState::current, 20, 20, 5);
+            reopen_financial(f, finance::limits());
+            f.write([&](const auto &s) {
+                require(SqliteAccountSessionUnit(s, {}).insert_installation(
+                            {{"install", "epoch"}, "revision"}) == LifecycleWriteResult::staged,
+                        "Protected account owner supplies the scoped command installation");
+                const core::MilestoneCompletion completed{"target-35", "milestone-v1", 35000000,
+                                                          40000000, "ctx"};
+                require(initialize_milestone_track(
+                            s, {edit::track,
+                                "cfg",
+                                "milestone-v1",
+                                "application-prefix",
+                                {{"target-35", 35000000}},
+                                std::vector<MilestoneTrackSeed::Member>{
+                                    {completed, finance::original, finance::achievement}}}),
+                        "Protected track enrolls the genuine application delivery job");
+            });
+            const auto released = finance::completed<MilestoneReleaseCompletion>([&](auto done) {
+                return release_milestone_head(*f.writer, finance::achievement, std::move(done));
+            });
+            finance::normal(released.work);
+            require(released.disposition == MilestoneReleaseDisposition::released,
+                    "Protected application occurrence is released");
+            struct Ports final : DeliveryDispatchAuthority, DeliveryAdapter {
+                std::optional<DeliveryJob> delivered;
+                bool allows(const DeliveryJob &) override { return true; }
+                void start(DeliveryJob job) override { delivered = std::move(job); }
+            };
+            auto ports = std::make_shared<Ports>();
+            const DeliveryJobKey job{finance::original, job_ref};
+            const auto dispatched = finance::completed<DeliveryDispatchCompletion>([&](auto done) {
+                return dispatch_delivery_job(*f.writer, job, 1, ports, ports, std::move(done));
+            });
+            finance::normal(dispatched.work);
+            require(
+                dispatched.result &&
+                    dispatched.result->disposition == DeliveryDisposition::changed &&
+                    ports->delivered && ports->delivered->key.job_ref == job_ref &&
+                    ports->delivered->attempt == 2,
+                "Real dispatch retains the exact width and sending attempt for the selected job");
+
+            auto manifest = fixture_manifest();
+            MigrationLimits limits;
+            limits.schema_objects = manifest.steps.back().expected_schema.size();
+            const auto version = manifest.steps.back().version;
+            reopen_financial(f, predecessor::migration_profile());
+            report(migrate(*f.writer, {MigrationMode::advance, manifest, limits, {}}),
+                   CatalogState::current, version, version, 1);
+            const auto work = finance::limits();
+            reopen_financial(f, work);
+            report(migrate(*f.writer, {MigrationMode::inspect, manifest, limits, {}}),
+                   CatalogState::current, version, version, 0);
+            const auto target = Occurrence{edit::track, finance::achievement, finance::original};
+            const auto cmd =
+                stop("application-playback-allowance", target, QueueChoice::continue_queue);
+            FixtureStorageBytes bytes{};
+            const auto width = wide ? 4096 : 8;
+            bytes.playback_attempt = QByteArray(width, 'a');
+            bytes.playback_refs[0] = {QByteArray(width, 'b'), QByteArray(width, 'c')};
+            const PlaybackInstance playback{target,
+                                            1,
+                                            {},
+                                            2,
+                                            QByteArray(width, 'd'),
+                                            bytes.playback_refs[0].activation,
+                                            QByteArray(width, 'e'),
+                                            StopCapability::supported};
+            Authority owner;
+            owner.observed_playback = {playback};
+
+            // Count the retained allowance, independently of the active writer.
+            // Fixed rows are Stop, exact action-to-job link, sending attempt, count.
+            // The new member adds an absent lookup and insert, with no result row.
+            const auto key =
+                qsizetype(cmd.track.installation_ref.size() + cmd.track.track_ref.size()) +
+                cmd.operation.size() + 3 * 8;
+            const auto origin = qsizetype(finance::original.operation_scope.size() +
+                                          finance::original.operation_ref.size());
+            const auto occurrence = qsizetype(finance::achievement.ref.size());
+            const auto job_bytes = qsizetype(job_ref.size());
+            const auto fixed_binds =
+                key + (32 + occurrence + origin) + (32 + origin + job_bytes) + (key + 8);
+            const auto fixed_values =
+                (6 * 8 + occurrence + origin + owner.decision.size()) + (8 + job_bytes) + 3 * 8 + 8;
+            const auto member_binds =
+                (key + 4 * 8 + 3 * width) + (key + 8 * 8 + 5 * width) + (4 + width);
+            constexpr qsizetype edit_attempts = 3, edit_rows = 3;
+            constexpr qsizetype app_attempts = 4, app_rows = 4;
+            static_assert(app_attempts + 2 == 6 && edit_attempts + 2 == 5 &&
+                          app_rows == edit_rows + 1);
+            StorageLimits allowance{
+                64,       app_attempts + 2,
+                65536,    wide ? fixed_binds + member_binds : work.bound_value_bytes,
+                app_rows, wide ? fixed_values : work.result_value_bytes};
+            if (axis == "attempts")
+                --allowance.statements_per_batch;
+            if (axis == "rows")
+                --allowance.result_rows;
+            if (axis == "binds")
+                --allowance.bound_value_bytes;
+            if (axis == "results")
+                --allowance.result_value_bytes;
+            const AdmissionProfile profile{work, allowance, &bytes};
+            phase.current = "V1 initial Stop under the application retained allowance";
+            std::optional<Decision> result;
+            f.write(
+                [&](const auto &s) { result = stage_command(s, owner, cmd, nullptr, &profile); });
+            const auto fence =
+                f.rows("SELECT playback_cap FROM main.subathon_milestone_stop_fences");
+            const auto media = f.rows("SELECT instance,attempt,handoff "
+                                      "FROM main.subathon_milestone_playback_instances");
+            if (axis == "exact") {
+                require(result && result->disposition == Disposition::committed &&
+                            result->playback_intents ==
+                                std::vector{bytes.playback_refs[0].instance} &&
+                            fence == SqlRows{{1}} &&
+                            media == SqlRows{{bytes.playback_refs[0].instance,
+                                              bytes.playback_attempt, QVariant{}}},
+                        "V1 the exact application allowance commits one sealed playback member");
+                struct Owner final : PlaybackAuthority {
+                    bool proves_current(const SqliteWorkSession &, const LatePlayback &) override {
+                        return true;
+                    }
+                } playback_owner;
+                f.write([&](const auto &s) {
+                    require(stage_late_playback(s, playback_owner,
+                                                {target.track, cmd.operation, playback},
+                                                &profile) == Disposition::replay,
+                            "Duplicate lookup at the retained cap preserves the widest exact "
+                            "activation");
+                });
+                require(f.rows("SELECT count(*) FROM main.subathon_milestone_playback_instances") ==
+                            SqlRows{{1}},
+                        "Replay keeps one exact instance at the retained cap");
+            } else {
+                require(
+                    result && result->disposition == Disposition::resource_limit && fence.empty() &&
+                        media.empty() &&
+                        f.rows("SELECT operation FROM main.subathon_milestone_command_journal")
+                            .empty(),
+                    "V1 insufficient retained allowance refuses the entire Stop with loose work");
             }
         });
     }
