@@ -235,6 +235,40 @@ class RateCredentialTests final : public QObject {
         });
     }
 
+    void F5_revocationDisablesUseDespiteGenerationLabel_data() {
+        QTest::addColumn<QByteArray>("label");
+        QTest::newRow("retired") << QByteArray("disabled-generation");
+        QTest::newRow("current") << QByteArray("enabled-generation");
+        QTest::newRow("empty") << QByteArray{};
+        QTest::newRow("oversized") << QByteArray(4097, 'x');
+    }
+
+    void F5_revocationDisablesUseDespiteGenerationLabel() {
+        QFETCH(QByteArray, label);
+        kf::checked([&] {
+            Fixture f;
+            f.put(change(Verb::put), v, r1);
+            const auto original = f.db.envelope();
+            f.publish(reservation());
+            f.owner.revoke(fx, "disabled-generation");
+
+            auto enabled = fresh(r1, 51);
+            enabled.selection.generation = "enabled-generation";
+            f.publish(enabled);
+            auto queued = f.permit(enabled);
+
+            f.owner.revoke(fx, label.toStdString());
+            blocked(f, queued, enabled, enabled);
+            f.refused_use(enabled, enabled, Result::not_authorized, true, true);
+            require(f.db.envelope() == original, "Revocation preserves the stored record");
+
+            auto next = fresh(r1, 52);
+            next.selection.generation = "next-enabled-generation";
+            f.publish(next);
+            (void)deliver(f, next, v);
+        });
+    }
+
     void F5_revocationRebindingAndLateSettlement() {
         kf::checked([] {
             const auto initial = reservation();
@@ -714,6 +748,27 @@ class RateCredentialTests final : public QObject {
             recovery.owner.publish_recovery_selection(reviewed.selection);
             recovery.reserve(reviewed);
             (void)deliver(recovery, reviewed, v);
+        });
+    }
+
+    void F11_ordinaryMatchingSelectionStaysHeldInRecovery() {
+        kf::checked([] {
+            Fixture source;
+            source.put(change(Verb::put), v, r1);
+
+            Fixture recovery;
+            recovery.db.inject(fx_blob, source.db.envelope());
+            recovery.owner.begin_recovery(fx, "recovery-generation");
+            auto ordinary = fresh(r1, 113);
+            ordinary.selection.generation = "ordinary-recovery-generation";
+            recovery.publish(ordinary);
+            recovery.refused_use(ordinary, ordinary, Result::held);
+
+            auto approved = fresh(r1, 114);
+            approved.selection.generation = "approved-recovery-generation";
+            recovery.owner.publish_recovery_selection(approved.selection);
+            recovery.reserve(approved);
+            (void)deliver(recovery, approved, v);
         });
     }
 
