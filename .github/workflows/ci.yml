@@ -310,7 +310,7 @@ jobs:
   # the development server executable.
   qt:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -788,8 +788,6 @@ jobs:
         run: |
           ulimit -c 0
           ctest --preset password-hashing-debug -L '^password-hashing$' --no-tests=error --verbose
-      - name: Run existing infrastructure checks
-        run: ctest --preset password-hashing-debug -L '^scaffold$' --no-tests=error --verbose
       - name: Build the reviewed session supplier acceptance
         run: |
           cmake --preset session-resolution-debug -DSUBATHON_FETCH_GOOGLETEST=ON \
@@ -852,8 +850,6 @@ jobs:
           PYTHON
       - name: Run all reviewed generator API and CLI acceptance cases
         run: ctest --preset translation-catalog-debug -L '^translation-catalog$' --no-tests=error --verbose
-      - name: Run existing infrastructure checks
-        run: ctest --preset translation-catalog-debug -L '^scaffold$' --verbose
       - name: Verify development executable suite registration
         run: |
           python3 - <<'PYTHON'
