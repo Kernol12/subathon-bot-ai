@@ -321,7 +321,7 @@ if(SUBATHON_BUILD_STORAGE_027_STAGE1)
     add_subdirectory(storage_027)
 endif()
 
-if(SUBATHON_BUILD_RATES_012_STAGE1)
+if(SUBATHON_BUILD_RATE_CREDENTIALS_TESTS)
     add_subdirectory(rates_012)
 endif()
 

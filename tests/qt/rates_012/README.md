@@ -1,8 +1,8 @@
-# RATES-012 Stage 1 fixture handoff
+# RATES-012 credential acceptance fixtures
 
 [#775's frozen contract r2](https://github.com/Kernol12/subathon-bot-ai/issues/775#issuecomment-7068200880) supplies the expectations under 129B and 135A. Its SHA-256 is `0d8d91b3b55b14c3f23f6bf404ab6f53cca3c180b438e9b70b690393f1f52fa3`. The Stage 1 base is `7399a266da7d95c040ced8a20bcdf580352c0556`, tree `7453ce76ddcead79858c8d0219f2b1d73304a02c`.
 
-The fixture declares the new private operations in `boundary.hpp`. `missing.cpp` supplies explicit missing behavior for the baseline. The work marker is the integer 1. Mutations and load results travel through distinct private state and the writer's actual completion. Catalog bootstrap uses the shipped v15 and v16 manifests in disposable storage, then reopens under the default writer limits. The runtime key fixture requires a non-root service UID and a protected home, as in #270.
+The fixture includes the implemented private credential boundary through `boundary.hpp`. The original Stage 1 baseline used an explicit missing-behavior stub. The work marker is the integer 1. Mutations and load results travel through distinct private state and the writer's actual completion. Catalog bootstrap uses the shipped v15 and v16 manifests in disposable storage, then reopens under the default writer limits. The runtime key fixture requires a non-root service UID and a protected home, as in #270.
 
 F8 uses the shipped #400 handoff and sanitizer with fixed synthetic DTOs and exercises guarded attempt completion separately. The legacy sanitizer rejects a duplicate echo as an invalid document before projection. The guarded boundary receives a modeled invalid/multiple input and must return an unknown fact for that exact attempt. F10 models #272 codec compatibility using the shipped #270 open and reseal primitives. F15 checks a guarded early refusal and the shipped #398 accounting with a synthetic cap and port.
 
@@ -21,7 +21,7 @@ Review notes and dispositions
 - N5. F12 deliberately requires a quiet fixture, including zero Qt warnings. r2 permits fixed-category diagnostics.
 - N6. The deterministic replacement-collision twin compares its ciphertext to its own seed envelope.
 
-## Selectors and expected checkpoints
+## Selectors and historical Stage 1 checkpoints
 
 These are independent expectations and **predicted** first missing checkpoints. For scenarios requiring a seed, the first mutation admission is itself a #775 behavior assertion. Each successful seed must then stage and acknowledge through the writer before subsequent witnesses are meaningful.
 
@@ -45,13 +45,13 @@ These are independent expectations and **predicted** first missing checkpoints. 
 
 ## Compile and passive inspection
 
-From the repository root on Linux x86-64, supply the already prepared libsodium 1.0.22 static SDK prefix and Qt 6.12 or later. The opt-in CMake target registers one intentional-red Qt suite outside the default presets and CI.
+From the repository root on Linux x86-64, supply the already prepared libsodium 1.0.22 static SDK prefix and Qt 6.12 or later. Select `rate-credentials` to register the ordinary Qt acceptance suite. Required Qt CI selects the same suite. The original Stage 1 flag is an alias.
 
 ```sh
 rates_sdk=/path/to/libsodium-apitest001/sdk
 rates_build=/tmp/rates-012-compile
-cmake -S . -B "$rates_build" -G Ninja -DSUBATHON_BUILD_RATES_012_STAGE1=ON \
-    -DSUBATHON_SODIUM_ROOT="$rates_sdk"
+cmake -S . -B "$rates_build" -G Ninja -DSUBATHON_BUILD_ACCEPTANCE_TESTS=ON \
+    -DSUBATHON_ACCEPTANCE_SUITES=rate-credentials -DSUBATHON_SODIUM_ROOT="$rates_sdk"
 cmake --build "$rates_build" --target rates_012_stage1 --parallel 3
 rates_runner="$rates_build/tests/qt/rates_012/rates_012_stage1"
 readelf -h -l -d -V -W "$rates_runner"
