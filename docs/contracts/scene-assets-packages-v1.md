@@ -679,7 +679,9 @@ required checks, not automated legal adjudication or a new licensing service.
 
 ## 5. Portable closure and path/archive safety
 
-A package revision selects exact scene content revision(s), typed dependencies,
+**Owner correction 159.** A package revision selects exactly one scene content
+revision in its logical `scene` entry. Export several scenes as separate packages.
+Each package pins that exact revision, its typed dependencies,
 asset/font revision mappings, payload lengths/digests, license/notices and its own
 definition/profile versions. Resolve every required transitive dependency once in
 the correct namespace and reject conflicting definitions. Include exact required
