@@ -384,7 +384,7 @@ class OwnerState {
     Result authorize(const Reservation &request, const UseGrant &grant) {
         if (oversized_reservation(request) || (grant && oversized_reservation(*grant)))
             return Result::resource_limit;
-        if (!valid_reservation(request) || (grant && !valid_reservation(*grant)))
+        if (!valid_reservation(request))
             return Result::invalid_input;
         const auto *scope = find(request.selection.scope);
         if (!grant || !scope || !scope->enabled || !scope->selection)
