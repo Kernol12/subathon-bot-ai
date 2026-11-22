@@ -7,6 +7,7 @@
 #include "../support/sqlite_rate_override_writer_fixture.hpp"
 
 #include "command_fixture.hpp"
+#include "command_charge_oracle.hpp"
 #include <subathon/server/sqlite_delivery_catalog.hpp>
 #include <subathon/server/sqlite_reference_capture.hpp>
 
@@ -1040,11 +1041,16 @@ class Storage027ReadersTests final : public QObject {
         QTest::addColumn<bool>("wide");
         QTest::addColumn<QString>("axis");
         QTest::newRow("exact-statements-and-rows") << false << QString("exact");
+        QTest::newRow("small-references-all-exact") << false << QString("small-exact");
         QTest::newRow("one-below-statements") << false << QString("attempts");
         QTest::newRow("one-below-rows") << false << QString("rows");
         QTest::newRow("maximum-references-exact") << true << QString("exact");
+        QTest::newRow("maximum-references-one-below-peak") << true << QString("peak");
         QTest::newRow("maximum-references-one-below-binds") << true << QString("binds");
         QTest::newRow("maximum-job-reference-one-below-results") << true << QString("results");
+        for (const auto *axis : {"exact", "attempts", "peak", "binds", "rows", "results"})
+            QTest::newRow((QByteArray("late-") + axis).constData())
+                << true << (QString("late-") + axis);
     }
 
     void applicationPlaybackRetainedAllowance() {
@@ -1148,18 +1154,40 @@ class Storage027ReadersTests final : public QObject {
             constexpr qsizetype app_attempts = 4, app_rows = 4;
             static_assert(app_attempts + 2 == 6 && edit_attempts + 2 == 5 &&
                           app_rows == edit_rows + 1);
-            StorageLimits allowance{
-                64,       app_attempts + 2,
-                65536,    wide ? fixed_binds + member_binds : work.bound_value_bytes,
-                app_rows, wide ? fixed_values : work.result_value_bytes};
+            // The lookup's hex BLOB literal adds two SQL bytes per attempt
+            // byte. The original-application version is SQL NULL.
+            constexpr std::string_view lookup =
+                "SELECT instance,CASE WHEN version IS NULL AND attempt=X'' "
+                "THEN capability END,length(handoff) FROM subathon_milestone_playback_instances "
+                "WHERE installation=? AND track=? AND stop=? AND ordinal=? AND adapter=? "
+                "AND activation=? AND generation=? LIMIT 2";
+            constexpr qsizetype wide_lookup_sql = lookup.size() + 2 * 4096;
+            static_assert(wide_lookup_sql == 8442);
+            const bool complete = wide || axis == "small-exact";
+            StorageLimits allowance{64,
+                                    app_attempts + 2,
+                                    wide ? wide_lookup_sql : qsizetype(301),
+                                    complete ? fixed_binds + member_binds : work.bound_value_bytes,
+                                    app_rows,
+                                    complete ? fixed_values : work.result_value_bytes};
             if (axis == "attempts")
                 --allowance.statements_per_batch;
+            if (axis == "peak")
+                --allowance.statement_utf8_bytes;
             if (axis == "rows")
                 --allowance.result_rows;
             if (axis == "binds")
                 --allowance.bound_value_bytes;
             if (axis == "results")
                 --allowance.result_value_bytes;
+            const bool late = axis.startsWith("late-");
+            if (late) {
+                // Two distinct members share the retained closure. The later
+                // work turn has its own exact cap and does not charge the
+                // original Stop result framing a second time.
+                allowance.statements_per_batch += 2;
+                allowance.bound_value_bytes += member_binds;
+            }
             const AdmissionProfile profile{work, allowance, &bytes};
             phase.current = "V1 initial Stop under the application retained allowance";
             std::optional<Decision> result;
@@ -1169,20 +1197,73 @@ class Storage027ReadersTests final : public QObject {
                 f.rows("SELECT playback_cap FROM main.subathon_milestone_stop_fences");
             const auto media = f.rows("SELECT instance,attempt,handoff IS NULL "
                                       "FROM main.subathon_milestone_playback_instances");
-            if (axis == "exact") {
+            if (axis == "exact" || axis == "small-exact" || late) {
                 require(result && result->disposition == Disposition::committed,
                         "V1 the exact application allowance commits Stop");
                 require(result->playback_intents == std::vector{bytes.playback_refs[0].instance},
                         "V1 the committed result identifies the exact playback instance");
-                require(fence == SqlRows{{1}}, "V1 Stop retains a cap of one playback member");
-                require(media == SqlRows{{bytes.playback_refs[0].instance, bytes.playback_attempt,
-                                          1}},
+                require(fence == SqlRows{{late ? 2 : 1}},
+                        "V1 Stop retains the exact playback member cap");
+                require(media ==
+                            SqlRows{{bytes.playback_refs[0].instance, bytes.playback_attempt, 1}},
                         "V1 the exact instance and attempt persist with a SQL NULL handoff");
                 struct Owner final : PlaybackAuthority {
                     bool proves_current(const SqliteWorkSession &, const LatePlayback &) override {
                         return true;
                     }
                 } playback_owner;
+                if (late) {
+                    namespace meter = charge_oracle;
+                    const auto late_charge =
+                        meter::combine(meter::catalog(), {6, wide_lookup_sql,
+                                                          fixed_binds + member_binds - (4 + width),
+                                                          app_rows, fixed_values});
+                    constexpr std::array axes{"late-attempts", "late-peak", "late-binds",
+                                              "late-rows", "late-results"};
+                    constexpr std::array fields{
+                        &StorageLimits::statements_per_batch, &StorageLimits::statement_utf8_bytes,
+                        &StorageLimits::bound_value_bytes, &StorageLimits::result_rows,
+                        &StorageLimits::result_value_bytes};
+                    auto bounded_work = meter::limits(late_charge);
+                    for (std::size_t n = 0; n < axes.size(); ++n)
+                        if (axis == axes[n])
+                            --(bounded_work.*fields[n]);
+                    reopen_financial(f, bounded_work);
+                    auto later = playback;
+                    later.activation = QByteArray(width, 'f');
+                    bytes.playback_refs[1] = {later.activation, QByteArray(width, 'g')};
+                    const AdmissionProfile late_profile{bounded_work, allowance, &bytes};
+                    bool committed = false;
+                    const auto suffix = qt_test_support::run_work(
+                        *f.writer,
+                        [&](auto context) -> QVariant {
+                            const auto s = context.begin();
+                            committed = stage_late_playback(
+                                            s, playback_owner, {target.track, cmd.operation, later},
+                                            &late_profile) == Disposition::committed;
+                            s.commit();
+                            return 1;
+                        },
+                        10000);
+                    if (axis == "late-exact") {
+                        finance::normal(suffix);
+                        require(committed, "V1 exact late application closure commits");
+                    } else {
+                        require(!committed &&
+                                    suffix.transaction == TransactionOutcome::rolled_back &&
+                                    (suffix.error == WorkError::resource_limit ||
+                                     suffix.error == WorkError::result_limit),
+                                "V1 late allowance axis refuses the independent writer turn");
+                    }
+                    require(
+                        f.rows("SELECT instance FROM main.subathon_milestone_playback_instances "
+                               "WHERE activation=?",
+                               {later.activation}) ==
+                            (axis == "late-exact" ? SqlRows{{bytes.playback_refs[1].instance}}
+                                                  : SqlRows{}),
+                        "V1 late boundary retains only a normally committed exact instance");
+                    return;
+                }
                 f.write([&](const auto &s) {
                     require(stage_late_playback(s, playback_owner,
                                                 {target.track, cmd.operation, playback},
