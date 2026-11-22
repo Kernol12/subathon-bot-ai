@@ -3,6 +3,9 @@
 
 #include "contribution_review_reconciliation_budget.hpp"
 
+#include <new>
+#include <utility>
+
 namespace subathon::server::review_detail {
 
 using test_unit = testing::ReviewUnit;
@@ -492,6 +495,12 @@ class Execute : public std::enable_shared_from_this<Execute> {
 
     void reconcile() {
         auto self = shared_from_this();
+        // The acceptance fault shares the provisional allocation's pre-enqueue boundary.
+        if (const auto *probe = observer_.target<testing::FinalReviewAllocationObserver>();
+            probe && probe->fault && std::exchange(probe->fault->armed, false)) {
+            ++probe->fault->hits;
+            throw std::bad_alloc{};
+        }
         auto pending =
             std::make_shared<std::variant<ReviewRefusal, Prefix>>(ReviewRefusal::unavailable);
         if (!enqueue(
