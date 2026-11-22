@@ -1734,8 +1734,9 @@ class Storage027CommandsTests final : public QObject {
                     "SELECT intent,result,decision FROM main.subathon_milestone_command_journal "
                     "WHERE operation=?",
                     {cmd.operation});
+                const auto original_intent = wire::intent(cmd);
                 require(retained ==
-                            SqlRows{{wire::intent(cmd), wire::result(kind, prior), port.decision}},
+                            SqlRows{{original_intent, wire::result(kind, prior), port.decision}},
                         "Committed journal matches the independently framed Stop and decision");
                 r.retained_intent = retained[0][0].toByteArray().size();
                 r.retained_result = retained[0][1].toByteArray().size();
@@ -1743,8 +1744,13 @@ class Storage027CommandsTests final : public QObject {
                 expected = prior;
                 expected.disposition =
                     selected == B::conflict ? Disposition::conflict : Disposition::replay;
-                if (selected == B::conflict)
+                if (selected == B::conflict) {
                     std::get<StopIntent>(cmd.intent).choice = QueueChoice::continue_queue;
+                    const auto changed_intent = wire::intent(cmd);
+                    require(changed_intent.size() == original_intent.size() &&
+                                changed_intent != original_intent,
+                            "The same-kind Stop has equal intent length and a different choice");
+                }
             }
             if (is_replace) {
                 kind = wire::Kind::replace;
@@ -1939,6 +1945,9 @@ class Storage027CommandsTests final : public QObject {
             }
             require(op.published && op.published->disposition == expected.disposition,
                     "Complete independently charged profile reaches its exact outcome");
+            if (selected == B::replay || selected == B::readback)
+                require(*op.published == expected,
+                        "Exact budget returns the complete immutable Stop result");
             if (selected != B::stop_hold && selected != B::stop_continue && selected != B::resume &&
                 selected != B::replace_automation) {
                 require(journal(f.db) == old_journal && causes(f.db) == old_causes,
