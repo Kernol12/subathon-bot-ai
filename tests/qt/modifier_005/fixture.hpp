@@ -131,7 +131,7 @@ inline void normal(const std::pair<SqliteWorkResult, std::exception_ptr> &out) {
 }
 
 struct Case {
-    review::CatalogFile db{review::profile()};
+    review::CatalogFile db;
 
     Case() {
         db.advance_literal();
