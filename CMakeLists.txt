@@ -8,6 +8,7 @@ include(CTest)
 find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)
 option(SUBATHON_BUILD_ACCEPTANCE_TESTS "Build selected component acceptance suites" OFF)
 option(SUBATHON_BUILD_RATES_003_STAGE1 "Build the reviewed RATES-003 acceptance suite" OFF)
+option(SUBATHON_BUILD_RATES_004_STAGE1 "Build the RATES-004 intentional-red suite" OFF)
 option(SUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE "Build the ACCT-007 Qt acceptance suite explicitly" OFF)
 option(SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE "Build the modifier-clock acceptance suite explicitly" OFF)
 # Retain the reviewed baseline selector for ordinary API-011 acceptance.
@@ -47,7 +48,7 @@ endif()
 if(BUILD_TESTING AND (SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS
         OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_MODIFIER_STACKING_TESTS
         OR SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE OR SUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE
-        OR SUBATHON_BUILD_EXCHANGE_RATE_API_TESTS))
+        OR SUBATHON_BUILD_EXCHANGE_RATE_API_TESTS OR SUBATHON_BUILD_RATES_004_STAGE1))
     find_package(Boost 1.83 CONFIG REQUIRED)
 else()
     find_package(Boost 1.83 CONFIG QUIET)
