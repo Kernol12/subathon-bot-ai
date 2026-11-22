@@ -28,6 +28,10 @@ domain revisions. Missing input cannot be filled from a different snapshot.
 | V | `3ae76b958cc9a663c69c72e45a71f7bf7a4aeca0` #728 `ModifierInstance` and `SqliteModifierInstanceRevision`, `d73e25e5a4709c79ffc9f34aacd081512cbecfc5` #759 `ModifierClockValue` and cut/recovery projectors. `e994c81bb8521b8bd81d4b8d613a0ac161b5211c` #789 freezes the reviewed `ModifierBindingProjection` seam and modeled exact-version name in Stage 1, with production names gated by [#777](https://github.com/Kernol12/subathon-bot-ai/issues/777). |
 | E | `514171962e94d56a630f8672e24c4f9ff0b2b816` RULES-001 `RuleAnnouncement` declares the exact presentation version of a typed action. Its declaration alone supplies neither a running presentation observation nor delivery evidence. `RuleCountField` distinguishes unsigned gift count and Bits. |
 
+The protected code has no owner for the authoritative current event announcement,
+its sequence, elapsed position or reconnect observation. [#792](https://github.com/Kernol12/subathon-bot-ai/issues/792)
+tracks that owning-domain gap. This contract consumes the observation once admitted.
+
 ## 2. Values, destinations and formatting
 
 A selected value is `Known(value)`, `Absent` (known inapplicable or no value),
@@ -45,7 +49,7 @@ removes the row without an indexed hole, count, identity or existence signal.
 | `timer.main`, `timer.grace` | T selected exact nonnegative signed64 milliseconds from the separate Main and Grace slots. Retained Grace during Main is a budget, presented as such if selected. It is distinct from running Grace. No substitution for absent or unavailable observations. |
 | `pause.active`, `pause.reason(reason)`, `pause.streamUnknownNotice` | T Booleans from the effective reason set and notice. Select the six `PauseReason` members by their actual enum. False membership requires complete evidence for the selected reason. A pending delay contributes no active reason. |
 | `modifier.mode`, `modifier.active`, `modifier.remaining` | V selected instance and qualified observation. Mode is `ActiveSubathon/RealElapsed`. Remaining is nonnegative signed64 ms, active is Boolean. Expiry is 0/false and a paused live instance can be positive/true. Replaced is inactive when definitively established for that instance, with no current countdown. Missing clock qualification yields unknown remaining and, for a possibly live instance, unknown active. Saved revision remaining and lifetime at read time cannot establish past or current observed remaining. |
-| `modifier.factor`, `modifier.name` | V selected captured definition revision and exact target ordinal supply a finite nonnegative dimensionless factor and original spelling. UTF-8 name requires independently supplied exact configuration, definition and revision match under 133A. A missing or mismatched name is unavailable even if the factor is known. |
+| `modifier.factor`, `modifier.name` | V selected captured definition revision and exact target ordinal supply a finite nonnegative dimensionless factor and original spelling. UTF-8 name requires independently supplied exact configuration, definition and revision match under [133A](https://github.com/Kernol12/subathon-bot-ai/issues/223#issuecomment-7067059849). A missing or mismatched name is unavailable even if the factor is known. |
 | `track.position`, `track.score` | M `empty/before_first/between_targets/all_completed` and actual signed64 micro-points. |
 | `track.previousTarget`, `track.nextTarget`, `target.current` | M exact current signed64 micro-points. Previous/next are optional projection slots. The last slot selects an already-admitted target by typed milestone identity. |
 | `achievement.target`, `achievement.score` | M exact signed64 micro-points of the selected immutable completion, qualified by its capture. They are absent if a complete authorized selection has no such capture. |
@@ -61,15 +65,17 @@ common visibility, animation and the optional common opacity attachment.
 | --- | --- |
 | Timer | One of Main, Grace, or selected modifier remaining, with duration formatting. |
 | Text | Literal, or a typed scalar from the registry with its permitted formatter. No row traversal or arbitrary template expansion. |
-| Progress bar | Exact track progress supplies fill geometry only when present. Layout chooses interval, no-origin, empty, or final completion, with optional deficit, remaining and target text slots. A suppressed interval with known previous/next can use the unavailable fill state. |
+| Progress bar | Exact track progress supplies fill geometry only when present. Layout chooses interval, no-origin, empty, or final completion, with optional deficit, remaining and target text slots. When the admitted interval fraction is unknown or undisclosed, use the unavailable fill state. |
 | Image | Intrinsic 011 asset/fit. The common opacity attachment, visibility and animation are its dynamic destinations. |
 | Shape/group | Intrinsic shape or group structure from 009. Common opacity affects the group's composed subtree as specified by 009. |
 | Recent support | Already-selected rows in supplied order. Row layout selects kind, display name, original money, gift count and Bits quantity slots. No receipt indexing, local reclassification or inferred quantity. |
 | Announcement area | Selected current announcement and authored content layout. Milestone timing follows §5, even when no local label was authored. |
 
 The common opacity attachment selects one disclosed exact progress fraction and
-uses it as the node's absolute base opacity (0 transparent, 1 opaque is allowed as
-authored opacity). On an unavailable fraction use the node's static opacity.
+uses it as the node's absolute base opacity. A present fraction is below 1, so
+the attachment itself never produces full opacity. The resulting ratio is a
+runtime value. It is never stored as a 009 FiniteDecimal. On an unavailable
+fraction use the node's static opacity, which can be 1.
 Other slots have no effect on frame geometry, style, asset identity or group
 ownership. Visibility remains a separate static or conditional choice, including
 for media presentation. There are no arbitrary paths, expressions, credentials,
@@ -92,8 +98,9 @@ strings as text, including strings that resemble markup, paths or scripts.
 
 A visibility expression is a finite tree: `all` and `any` take one or more
 conditions, `not` takes one, and a comparison takes a registered operand and
-one typed literal. Use equality or inequality for lifecycle, phase, pause
-Booleans, modifier mode/active and milestone position. Also allow ordered
+one typed literal. Use equality or inequality for lifecycle, phase, the
+confirmation flag, pause Booleans, modifier mode/active and milestone position.
+Also allow ordered
 comparisons for exact durations, factor, point values, and progress fraction.
 Ordered operators are `<`, `≤`, `>`, and `≥`, alongside equality and inequality.
 The progress literal is an exact rational in `[0,1]`; its endpoints permit
@@ -123,8 +130,8 @@ deficit is otherwise known zero). Each completed deficit uses that milestone's
 own current target. Remaining is `max(N−S,0)` when N exists. An available
 interval has origin P, span `N−P` and numerator `max(S−P,0)`, with S below N.
 Use the exact ratio, widening before subtraction, including distances through
-`2^64−1`. Respect an absent owner interval even if the configuration contains
-both targets. Before the first completion there is no P or numeric fraction.
+`2^64−1`. Keep an unknown or undisclosed fraction unavailable in the admitted
+view. Before the first completion there is no P or numeric fraction.
 At final completion there is no next or interval, even with positive deficit.
 The authored final layout can show completion without inventing numeric progress.
 
@@ -161,8 +168,7 @@ saved active animation phase. Overlay disconnect cannot gate advancement or
 release. Reconnect observes the current window at its current elapsed position,
 or no active group, without replay. A progress animation may follow the ordered
 presentation steps as visual transitions between authored visual positions.
-Conditions and numeric labels keep
-actual score/progress. Presentation provides neither another award nor an
+Conditions and numeric labels keep actual score/progress. Presentation provides neither another award nor an
 intermediate fabricated score.
 
 Use distinct observations for countdown/phase, the pause and Recovery Review
@@ -187,19 +193,25 @@ only. UTC instants, frame counts and receipt timestamps supply no elapsed proof.
 
 Built-in tracks set opacity (fade), parent-space x/y (move), local x/y scale
 (scale), or clockwise degrees (rotate), using 009 units and transform order.
-A track declares explicit endpoints, easing, positive signed64 duration in ms
-and a start observation in its presentation context. There is at most one active
-track per property in a context. Before start use the effective base property.
-During an active track its absolute value overrides the base; while that run is
-still selected its endpoint holds after duration. A server-bound track is
-evaluated only in the current server window, at its owner-supplied elapsed
-position. Other scene tracks use qualified elapsed since their scene start.
-Absent/unknown time supplies no interpolation. Countdown pause alone freezes
-neither track clock. Rendering or skipping a frame neither starts a new run nor
-changes an observation. On replacement or end of its selected context the track
-ceases to override the base. No angle wrapping or shortest-arc inference.
+Each track declares explicit endpoints, easing, nonnegative signed64 start
+offset and positive signed64 duration, both in milliseconds. The offset is
+relative to the start of its declared context. All tracks for one node/property
+use the same context. Validate the half-open intervals `[start,start+duration)`
+from authored offsets. The exclusive end must fit signed64. Overlap for the
+same node/property is invalid. Adjacent intervals are valid.
 
-At elapsed E use `t=min(E/duration,1)` for nonnegative E. For linear, ease-in,
+Use the effective base before the first track. During a track its absolute
+value overrides the base. Between tracks and after the last track, hold the
+latest endpoint while the context remains selected. A later track's start value
+takes effect at its exact start offset. Evaluate a server-bound track only in
+the current server window at its owner-supplied elapsed position. Other tracks
+use qualified elapsed since scene start. Without qualified elapsed use the
+effective base. Countdown pause alone freezes neither track clock. Rendering
+or skipping a frame changes no run or observation. Replacement or end of the
+selected context removes its override. No angle wrapping or shortest-arc
+inference.
+
+For a track that has started, let E be context elapsed minus its start offset. Use `t=min(E/duration,1)`. For linear, ease-in,
 ease-out and ease-in-out use respectively `t`, `t²`, `1−(1−t)²`, and `2t²`
 for t < 1/2 or `1−2(1−t)²` otherwise. Interpolate each component as
 `from+(to−from)*easing(t)`. Endpoints satisfy 009 domains. Reference scenes
@@ -216,19 +228,20 @@ above. “Invalid” means reject the content, distinct from valid unavailable d
 
 | Basis | Admitted example and expected result | Invalid or unavailable control |
 | --- | --- | --- |
-| T | Active/Grace, Manual present, 1251 ms remaining → paused Grace; `0:00:01.251`. Ready/Finished remain distinct from Active at 0 ms. | `phase = Ready`, `pause.reason(Grace)`, `main < -1 ms` and a UTC operand for a duration are invalid. No phase for known Finished. |
+| T | Active/Grace, Manual present, 1251 ms remaining → paused Grace; `0:00:01.251`. Ready/Finished remain distinct from Active at 0 ms. On a known Active confirmation wait, `timer.awaitingConfirmation = true` is T. | `phase = Ready`, `pause.reason(Grace)`, `main < -1 ms` and a UTC operand for a duration are invalid. No phase for known Finished. |
 | T | Offline delay set to 30,000 ms, continuous confirmed offline with no other pause → unpaused at 29,999, paused at 30,000. Unknown cancels a pending offline delay, not an active reason. | Unknown notice alone cannot prove confirmed offline. Clearing Review in {Review, Manual} leaves Manual. |
 | T/D | Signed64 max ms is valid and displays as `2562047788015:12:55.807`. At an enabled hard end's exact UTC instant, paused Active/Grace becomes Finished. | Milliseconds one beyond signed64 max are invalid. An elapsed sample of the same integer is no evidence of reaching a UTC deadline. |
 | V/T | Starting 1000 ms per mode, paused qualified cut of 999 ms → ActiveSubathon 1000 and RealElapsed 1; next paused 1 ms → 1000/0, active true/false. | Comparing mode with a phase or active with numeric 1 is invalid. Across an unqualified gap `not(active = true)` is U. |
-| V | Captured factor spelling `2.00` and matching name “Double time”, qualified remaining 180000 ms → exact 2, positive/true even while paused and hidden. Exact factors 0 and 0.5 are valid. `factor >= 2` is T. | Negative or infinite factor invalid. Wrong revision name unavailable. A saved 180000 on a replaced revision is no current remaining value. |
+| V | Captured factor spelling `2.00` and matching name “Double time”, qualified remaining 180000 ms → displays `2.00` and compares as exact 2. Remaining/active is positive/true even while paused and hidden. Exact factors 0 and 0.5 are valid. `factor >= 2` is T. | Negative or infinite factor invalid. Wrong revision name unavailable. A saved 180000 on a replaced revision is no current remaining value. |
 | M | Captured A=1000, score 1100, B=2000. Reversal of 300 → score 800, A still complete, 0%, deficit 200, remaining 1200. Edit A to 900 → capture still 1000/1100, current deficit 100, remaining 1200. | Captured target cannot replace current A. Money, formatted text or ms as a micro-point operand is invalid. |
 | M | First A=1000, score 800 → before_first, remaining 200, no origin/fraction. Last completed A=1000, score 800, no next → final layout plus optional deficit 200. | `progress = 0` before first yields U. A synthetic zero origin or forced 100% final ratio is invalid. |
 | M/D | Prior 0 and next 3 µpt with score 1 µpt → 1/3; `all(progress >= 1/3, progress < 1)` is T, displayed 33.33% at precision 2. Prior INT64_MIN, next INT64_MAX and score 0 → span 18446744073709551615 and earned 9223372036854775808 µpt. | `progress > 101/100`, score 9223372036854775808 µpt and negative unsigned deficit literals are invalid. Exact threshold equality completes next on a normal progression cut. |
 | M/D | Before first with score INT64_MIN and next INT64_MAX, remaining is 18446744073709551615 µpt. At precision 2, 125000 µpt displays 0.12 points, but is greater than 120000 µpt. | A remaining literal one beyond unsigned64 max is invalid. Display rounding cannot make the comparison equal. |
 | S/E/D | Authorized rows: anonymous Gift with count 5, Bits with quantity 0 and no money, Donation with EUR `9007199254740993.25`, and Subscription with withheld display name. Preserve row order, exact counts and donation, and anonymization. EUR `0.00` displays as known zero. | Gift count on Bits, negative counts and comparison of row details are invalid. No EUR zero for an absent, null, withheld or unknown amount. A valuation cannot replace hidden original money. |
 | D/126A | With T, F, U as leaves, `all(T,U)=U`, `all(F,U)=F`, `any(F,U)=U`, `any(T,U)=T`, `not(U)=U`. Only the fourth activates. | Empty `all/any`, two operands to `not`, and `any(T, lifecycle > Active)` are invalid. An unknown comparing unequal remains U. |
-| P/M | One input at t=0 reaches A/B/C with actual score 3500. A active at 9999, no presentation at 10000 or 10999, B starts 11000, reconnect at 11500 sees B at 500 ms. All three captures remain immediate with score 3500. | No A replay, no 1000/2000 intermediate score. At 22100 with C starting at 22000, reconnect sees C at 100 ms. |
-| P | Pause queue at 5000 of A's default window; A ends at 10000 and its gap ends at 11000. Resume at 20000 starts B at 0 unless linked countdown pause or a held head remains. Override duration 1 ms and gap 0 enables next start at the 1 ms turn. | Zero/negative duration, negative gap and regressing sample invalid. A skip consumes zero timing. A start at a late turn uses that turn, with a full duration. |
+| P/M | One input at t=0 reaches A/B/C with actual score 3500. A active at 9999, no presentation at 10000 or 10999, with an owner turn at 11000, B starts then. Reconnect at 11500 sees B at 500 ms. All three captures remain immediate with score 3500. | No A replay, no 1000/2000 intermediate score. With an owner turn starting C at 22000, reconnect at 22100 sees C at 100 ms. |
+| P | Pause queue at 5000 of A's default window; A ends at 10000 and its gap ends at 11000. A Resume owner turn at 20000 starts B at 0 unless linked countdown pause or a held head remains. Override duration 1 ms and gap 0 enables next start at the 1 ms turn. | Zero/negative duration, negative gap and regressing sample invalid. A skip consumes zero timing. A start at a late turn uses that turn, with a full duration. |
 | E/P/D | A selected current event at its presentation version with literal “Goal <3” displays that text. A selected milestone can use its own authored multiline description. | A queued rule job or no current supplied view gives no current event announcement. Mismatched label version supplies no text. Asset-as-text or markup interpretation is invalid. |
-| D/P | 1000 ms linear tracks from opacity 0→1, move (0,10)→(100,30), scale (1,1)→(2,3), rotate 350→10. At 250 ms: 0.25, (25,15), (1.25,1.5), 265°. At 1000 ms the exact endpoint holds in context. With ease-in at 500 ms the fraction is 1/4; ease-out is 3/4. | Zero duration, opacity 1.1, UTC as elapsed and two simultaneous move tracks are invalid. Skipping from 0 to 750 ms yields the 750 ms values on one frame. |
+| D/P | 1000 ms linear tracks from opacity 0→1, move (0,10)→(100,30), scale (1,1)→(2,3), rotate 350→10. At 250 ms: 0.25, (25,15), (1.25,1.5), 265°. At 1000 ms the exact endpoint holds in context. With ease-in at 500 ms the fraction is 1/4; ease-out is 3/4. | Zero duration, opacity 1.1, and UTC as elapsed are invalid. Skipping from 0 to 750 ms yields the 750 ms values on one frame. |
+| D/P | Same-node move tracks at start/duration (0,500) and (500,250) share one context. At context elapsed 500 the second start value applies. A later gap holds its endpoint. | Start 499 for the second track overlaps and is invalid. Start INT64_MAX with duration 1 is invalid. Tracks for the same property cannot use different contexts. |
 | D/T/V/M/S | Preview on synthetic observations includes Ready, Main, paused Grace, confirmation wait, Finished, known and unresolved modifiers, deficit 200, the large donation above and literal name/description with 2048 Unicode scalars each. A shape, image or group can use a selected 1/3 opacity without changing content or child order. | No preview-generated authority, rounding of ledger facts or shortening of names in the bound value. A number cannot select a new asset, and static opacity is used when the selected fraction is absent. |
