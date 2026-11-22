@@ -702,7 +702,7 @@ class RateCredentialTests final : public QObject {
             // Materialize the older authenticated row in isolated recovery state.
             Fixture recovery;
             recovery.db.inject(fx_blob, older);
-            recovery.owner.revoke(fx, "recovery-generation");
+            recovery.owner.begin_recovery(fx, "recovery-generation");
             blocked(recovery, pre_restore, old, old);
             recovery.refused_use(old, old, Result::not_authorized, true, true);
             auto wrong = fresh(r2, 111);
@@ -711,7 +711,8 @@ class RateCredentialTests final : public QObject {
             recovery.refused_use(wrong, wrong, Result::stale);
             auto reviewed = fresh(r1, 112);
             reviewed.selection.generation = "reviewed-recovery-generation";
-            recovery.publish(reviewed);
+            recovery.owner.publish_recovery_selection(reviewed.selection);
+            recovery.reserve(reviewed);
             (void)deliver(recovery, reviewed, v);
         });
     }

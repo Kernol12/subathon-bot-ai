@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 subathon_add_qt_suite(rates_012_stage1
-    NAME rates-012-stage1 SOURCES tests.cpp missing.cpp ../../support/credential_native_controls.cpp
-    LIBRARIES subathon_credential_storage subathon_sqlite_credential_catalog
+    NAME rates-012-stage1 SOURCES tests.cpp ../../support/credential_native_controls.cpp
+    LIBRARIES subathon_rate_credentials subathon_credential_storage subathon_sqlite_credential_catalog
         subathon_open_exchange_rates subathon_exchange_rate_api Sodium::Sodium
     LABELS "rates-012-stage1;intentional-red;qt;server" TIMEOUT 180)
 target_include_directories(rates_012_stage1 PRIVATE "${PROJECT_SOURCE_DIR}/server/src")

@@ -42,6 +42,7 @@ enum class CredentialError {
 
 namespace credential_detail {
 struct ValueAccess;
+struct RepositoryAccess;
 }
 
 class CredentialKey final {
@@ -56,6 +57,7 @@ class CredentialKey final {
     std::unique_ptr<Storage> storage_;
 
     friend class CredentialRepository;
+    friend struct credential_detail::RepositoryAccess;
     friend std::variant<CredentialKey, CredentialError> provision(PrivateKeyPath);
 };
 
