@@ -233,14 +233,18 @@
       "status": "partial",
       "tests": [
         "tests/acceptance/rule_definition_tests.cpp",
-        "tests/acceptance/rule_actions_tests.cpp"
+        "tests/acceptance/rule_actions_tests.cpp",
+        "tests/acceptance/rules_004/generation_tests.cpp",
+        "tests/acceptance/rules_004/milestone_tests.cpp",
+        "tests/acceptance/rules_004/profile_tests.cpp",
+        "tests/acceptance/rules_004/unit_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/735#issuecomment-7024035880",
         "https://github.com/Kernol12/subathon-bot-ai/pull/735#issuecomment-7024214931",
         "https://github.com/Kernol12/subathon-bot-ai/pull/755#issuecomment-7055320763"
       ],
-      "scope": "RULES-001 validates retained depth and count limits, with defaults of 32 and 256. RULES-003 covers carried cause and observed child lineage. Per-root admission, stopping, audit and notice remain #210."
+      "scope": "RULES-001 validates retained depth and count limits. RULES-003 covers carried cause and observed child lineage. RULES-004 covers per-root admission, cutoff, modeled audit and notice, and reconciliation. Production activation and durable recovery remain #776."
     },
     {
       "id": "MOD-01",
