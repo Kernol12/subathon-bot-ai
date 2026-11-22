@@ -75,11 +75,12 @@ struct ApplicationFixture {
                     continue;
                 const auto ordinal = static_cast<qint64>(i + 1);
                 const auto key = job(target, ordinal);
+                const auto group_ordinal = static_cast<qint64>(membership.size() + 1);
                 bundle.jobs.push_back(
                     {key.job_ref,
                      {},
                      target.occurrence.ref,
-                     ordinal,
+                     group_ordinal,
                      {delivery_job_format,
                       QByteArray::fromStdString("captured-" + action.action_ref)}});
                 captures.push_back({key.job_ref, "local/route",
