@@ -844,7 +844,7 @@ void Run::process(const OwnerTurn &turn, const EventTurn &event, TurnTrace &trac
         return;
     }
     auto &unit = std::get<chain::Unit>(begun);
-    advance_timer_to(turn, trace);
+    const std::string snapshot = state_.state_revision;
     const auto *selected = capture(event.event); // A successful begin required this exact binding.
     trace.admitted =
         *find(context->events, [&](const auto &row) { return row.binding == event.event; });
@@ -854,7 +854,7 @@ void Run::process(const OwnerTurn &turn, const EventTurn &event, TurnTrace &trac
     if (event.prepared) {
         const auto &prepared = *event.prepared;
         const auto &history = prepared.selected_history;
-        const auto validity = check_plan_preview(history, prepared.preview, state_.state_revision);
+        const auto validity = check_plan_preview(history, prepared.preview, snapshot);
         const auto *inspected = find(history.revisions, [&](const auto &row) {
             return row.revision == prepared.preview.plan_revision;
         });
@@ -889,9 +889,10 @@ void Run::process(const OwnerTurn &turn, const EventTurn &event, TurnTrace &trac
         return;
     }
 
+    // Apply the observed timer span after validating the turn's entry snapshot.
+    advance_timer_to(turn, trace);
     StagedEffects staged{state_, false, {}, {}};
     std::vector<std::string> jobs;
-    const std::string snapshot = state_.state_revision;
     ActionTrace *checking{};
     const RuleActionChecks checks{
         [&](std::string_view author, const RuleActionKey &key, const RuleBoundAction &bound) {
@@ -1004,7 +1005,9 @@ void Run::process(const OwnerTurn &turn, const EventTurn &event, TurnTrace &trac
         chain::UnitIdentity identity{turn.ref, event.event.chain, event.event.event,
                                      chain::UnitPurpose::event_pass};
         context->blocked = identity;
-        context->effects = PendingEffects{std::move(identity), std::move(staged), snapshot};
+        // Readback reconciles the private proposal against the applied clock basis.
+        context->effects =
+            PendingEffects{std::move(identity), std::move(staged), state_.state_revision};
         if (std::holds_alternative<chain::Conflict>(outcome))
             classify(Completion::conflict);
     } else if (*trace.completion == RuleCompletion::committed) {
