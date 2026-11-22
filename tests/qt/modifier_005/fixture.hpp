@@ -134,9 +134,12 @@ struct Case {
     review::CatalogFile db{review::profile()};
 
     Case() {
+        db.advance_literal();
+        db.reopen(storage_026_fixture::migration_profile());
         const auto catalog = connector_intake_repository_manifest();
         review::report(review::migrate(db.writer(), {MigrationMode::advance, catalog, {}, {}}),
-                       CatalogState::current, 20, 20, 2);
+                       CatalogState::current, 20, 20, 1);
+        db.reopen(review::profile());
         require(db.rows(storage_026_fixture::history_query) ==
                     storage_026_fixture::expected_history(storage_026_fixture::successor()),
                 "Protected v20 catalog matches the independent #760 prefix");
