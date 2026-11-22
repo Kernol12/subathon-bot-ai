@@ -3,8 +3,8 @@
 
 namespace subathon::server::open_exchange_rates {
 
-// Stage 1 baseline. Each unfinished public operation fails explicitly until Stage 2.
-void Adapter::select() { throw NotImplemented("Open Exchange Rates owner selection"); }
+// Stage 1 setup hook. Exercise selection through admission and owner-view assertions.
+void Adapter::select() {}
 
 std::variant<Started, Refusal> Adapter::start(const Request &) {
     throw NotImplemented("Open Exchange Rates request admission");

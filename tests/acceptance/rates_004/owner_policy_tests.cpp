@@ -4,6 +4,119 @@
 namespace {
 using namespace rates_004_fixture;
 
+TEST(OpenExchangeRatesOwner, QualifiedProfileStillRequiresAnExactlyMatchingCredential) {
+    Fixture f;
+    f.select();
+    auto matching = f.transport.credential;
+    ASSERT_TRUE(matching);
+    f.transport.credential.reset();
+    f.adapter.select();
+    f.blocked(latest("missing-credential"), fx::FailureKind::invalid_selection);
+    f.blocked(usage("missing-credential-usage"), fx::FailureKind::invalid_selection);
+
+    f.transport.credential = matching;
+    f.transport.credential->selection.credential_revision = "wrong-revision";
+    f.adapter.select();
+    f.blocked(latest("wrong-credential"), fx::FailureKind::invalid_selection);
+
+    f.transport.credential = matching;
+    f.adapter.select();
+    f.start(latest("matching-credential"));
+    ASSERT_EQ(f.transport.calls.size(), 1U);
+}
+
+TEST(OpenExchangeRatesOwner, MissingLedgerContinuityDoesNotInventCounts) {
+    Fixture f;
+    f.select();
+    expect_counts(f.view().total, 0, 0);
+    ASSERT_TRUE(std::holds_alternative<fx::UsageSample>(
+        f.report("quota-anchor", finite(1000, 9, clock(1000))).outcome));
+    ASSERT_TRUE(std::holds_alternative<fx::Rates>(
+        f.exchange(latest("before-continuity-loss"), frame(rate_body)).outcome));
+    expect_counts(f.view().total, 2, 1);
+    expect_counts(f.view().since_sample, 1, 1);
+
+    f.owner.setup.selection.configuration_ref = "config-with-unqualified-ledger";
+    f.owner.setup.ledger_continuity_qualified = false;
+    f.install();
+    const auto view = f.view();
+    EXPECT_EQ(view.total, fx::Counts{});
+    EXPECT_EQ(view.since_sample, fx::Counts{});
+}
+
+TEST(OpenExchangeRatesOwner, AuthorizedRequestsStillRequireValidShape) {
+    Fixture f;
+    f.select();
+    f.owner.intent.kind = fx::IntentKind::manual;
+    f.owner.intent.qualified_utc_day = "2024-03-01";
+    for (const auto &request : {latest("base-case", {"EUR"}, "usd"), latest("quote-width", {"EU"}),
+                                latest("quote-case", {"EuR"}), latest("quote-ascii", {"EU1"}),
+                                latest("duplicate", {"EUR", "EUR"}),
+                                latest("base-as-quote", {"USD"}), latest("empty", {})}) {
+        f.blocked(request, fx::FailureKind::invalid_request);
+    }
+    auto bad = usage("usage-base");
+    bad.base = "USD";
+    f.blocked(bad, fx::FailureKind::invalid_request);
+    bad = usage("usage-quotes");
+    bad.quotes = {"EUR"};
+    f.blocked(bad, fx::FailureKind::invalid_request);
+    bad = usage("usage-day");
+    bad.utc_day = "2024-02-29";
+    f.blocked(bad, fx::FailureKind::invalid_request);
+    bad = usage("usage-observation");
+    bad.observation_ref = "usage-observation-ref";
+    f.blocked(bad, fx::FailureKind::invalid_request);
+
+    auto long_ref = latest("bounded-refs");
+    long_ref.evidence_ref = std::string(257, 'r');
+    f.blocked(long_ref, fx::FailureKind::invalid_request);
+    long_ref.evidence_ref.pop_back();
+    f.start(long_ref);
+    EXPECT_EQ(f.transport.calls.size(), 1U);
+}
+
+TEST(OpenExchangeRatesOwner, AuthorizedQuoteCountAccepts255AndRefuses256) {
+    Fixture f;
+    f.select();
+    f.owner.intent.kind = fx::IntentKind::manual;
+    std::vector<std::string> quotes;
+    for (int i = 255; i >= 0; --i) {
+        quotes.push_back(currency_code(i));
+    }
+    f.blocked(latest("over-quote-bound", quotes), fx::FailureKind::invalid_request);
+    quotes.erase(quotes.begin());
+    const auto valid = f.start(latest("at-quote-bound", quotes));
+    std::ranges::reverse(quotes);
+    EXPECT_EQ(valid.admission.canonical_request.quotes, quotes);
+    EXPECT_EQ(f.transport.calls.size(), 1U);
+}
+
+TEST(OpenExchangeRatesOwner, ReferencesAreUniqueWithinScopeAndRequestRefsCanRecurAcrossScopes) {
+    Fixture f;
+    f.select();
+    f.owner.intent.kind = fx::IntentKind::manual;
+    const auto first = latest("scoped-ref");
+    ASSERT_TRUE(std::holds_alternative<fx::Rates>(f.exchange(first, frame(rate_body)).outcome));
+
+    auto duplicate_evidence = latest("duplicate-evidence", {"GBP"});
+    duplicate_evidence.evidence_ref = first.evidence_ref;
+    f.blocked(duplicate_evidence, fx::FailureKind::request_conflict);
+    auto duplicate_observation = latest("duplicate-observation", {"GBP"});
+    duplicate_observation.observation_ref = first.observation_ref;
+    f.blocked(duplicate_observation, fx::FailureKind::request_conflict);
+
+    auto same_ref = latest(first.request_ref, {"GBP"});
+    same_ref.evidence_ref = "new-scope-evidence";
+    same_ref.observation_ref = "new-scope-observation";
+    f.blocked(same_ref, fx::FailureKind::request_conflict);
+    f.owner.setup.selection.quota_scope_ref = "separate-qualified-quota";
+    f.install();
+    const auto other = f.start(same_ref);
+    EXPECT_EQ(other.admission.identity.selection.quota_scope_ref, "separate-qualified-quota");
+    EXPECT_EQ(f.transport.calls.size(), 2U);
+}
+
 TEST(OpenExchangeRatesOwner, O7QuotaHoldExemptsOnlyOrdinarilyEligibleUsage) {
     Fixture f;
     f.select(fx::Profile::developer);
@@ -87,6 +200,9 @@ TEST(OpenExchangeRatesOwner, O8CredentialHoldRequiresOwnerQualifiedCorrection) {
     f.owner.setup.selection.credential_revision = "credential-corrected";
     f.install(corrected_app_id());
     f.owner.intent.now = clock(8000);
+    f.owner.intent.kind = fx::IntentKind::manual;
+    f.blocked(usage("corrected-but-ordinary"), fx::FailureKind::credential_hold);
+    f.owner.intent.kind = fx::IntentKind::requalification;
     f.owner.intent.authorities = {
         {rejected, old_selection, fx::ProbeCause::corrected_credential, "wrong-selection"}};
     f.blocked(usage("wrong-selection"), fx::FailureKind::credential_hold);
@@ -197,6 +313,95 @@ TEST(OpenExchangeRatesOwner, AbsoluteRetryAfterRequiresQualifiedUtcAndCannotShor
     EXPECT_EQ(f.transport.calls.size(), 2U);
 }
 
+TEST(OpenExchangeRatesOwner, RetryLadderUsesOneFiveFifteenAndThenSixtyMinutes) {
+    Fixture f;
+    f.select();
+    auto started = f.start(latest("initial-attempt"));
+    f.owner.intent.kind = fx::IntentKind::manual;
+    std::int64_t receipt = 1000;
+    // A fifth failure repeats the hourly step.
+    constexpr std::int64_t delays[] = {60'000, 300'000, 900'000, 3'600'000, 3'600'000};
+    for (const auto delay : delays) {
+        SCOPED_TRACE(delay);
+        f.owner.intent.now = clock(receipt);
+        expect_refusal(f.failure(started, fx::TransportFailureKind::timeout, fx::Dispatch::sent,
+                                 clock(receipt)),
+                       fx::FailureKind::timeout);
+        f.owner.intent.now = clock(receipt + delay - 1);
+        f.blocked(latest("before-" + std::to_string(receipt)), fx::FailureKind::retry_wait);
+        f.owner.intent.now = clock(receipt + delay);
+        started = f.start(latest("at-" + std::to_string(receipt)));
+        receipt += delay + 1000;
+    }
+    EXPECT_EQ(f.transport.calls.size(), 6U);
+}
+
+TEST(OpenExchangeRatesOwner, QualifiedProviderWaitAppliesToEveryAuthorizedLane) {
+    Fixture f;
+    f.select();
+    f.owner.intent.kind = fx::IntentKind::manual;
+    f.owner.intent.qualified_utc_day = "2024-03-01";
+    f.owner.intent.now = clock(999);
+    // The owner supplies the current quota scope's wait eligibility for each route.
+    f.owner.intent.applicable_owner_waits = fx::WaitEligibility::waiting;
+    f.blocked(latest("wait-latest"), fx::FailureKind::retry_wait);
+    f.blocked(history("wait-history"), fx::FailureKind::retry_wait);
+    f.blocked(usage("wait-usage"), fx::FailureKind::retry_wait);
+    f.owner.intent.now = clock(1000);
+    f.owner.intent.applicable_owner_waits = fx::WaitEligibility::eligible;
+    f.start(latest("eligible-latest"));
+    f.start(history("eligible-history"));
+    f.start(usage("eligible-usage"));
+    EXPECT_EQ(f.transport.calls.size(), 3U);
+}
+
+TEST(OpenExchangeRatesOwner, BusinessMessageWithoutCompatibleHttpStatusHasNoHoldSemantics) {
+    struct Case {
+        std::string_view code;
+        int http;
+        std::optional<int> envelope_status;
+    };
+    const Case cases[] = {
+        {"not_allowed", 403, {}},
+        {"access_restricted", 404, {}},
+        {"invalid_app_id", 403, {}},
+        {"missing_app_id", 500, {}},
+        {"unknown-fixture-message", 403, {}},
+        {"access_restricted", 403, 429},
+    };
+    for (const auto &row : cases) {
+        SCOPED_TRACE(row.code);
+        SCOPED_TRACE(row.http);
+        Fixture f;
+        f.select();
+        const auto baseline =
+            f.exchange(latest("previous"),
+                       frame(R"({"base":"USD","rates":{"EUR":0.9},"timestamp":1767225600})"));
+        ASSERT_TRUE(std::holds_alternative<fx::Rates>(baseline.outcome));
+        auto raw = error(row.code, row.envelope_status.value_or(row.http), clock(100));
+        raw.status = row.http;
+        const auto result = f.exchange(latest("business-error"), std::move(raw));
+        expect_refusal(result, fx::FailureKind::http_failure, row.http);
+        EXPECT_EQ(result.dispatch, fx::Dispatch::sent);
+        const auto view = f.view();
+        EXPECT_TRUE(view.holds.empty());
+        ASSERT_TRUE(view.latest);
+        EXPECT_EQ(view.latest->data().context.observation_ref, "observation-previous");
+        expect_counts(view.total, 2, 2);
+    }
+}
+
+TEST(OpenExchangeRatesOwner, MissingAppId401EstablishesCredentialHold) {
+    Fixture f;
+    f.select();
+    expect_refusal(f.exchange(usage("missing-app-id"), error("missing_app_id", 401)),
+                   fx::FailureKind::credential_rejected, 401);
+    expect_hold(f.view(), fx::HoldKind::credential);
+    f.blocked(latest("held-metered"), fx::FailureKind::credential_hold);
+    f.blocked(usage("held-usage"), fx::FailureKind::credential_hold);
+    expect_counts(f.view().total, 1, 0);
+}
+
 TEST(OpenExchangeRatesOwner, O12AccessNeedsIndependentRestorationAndMatchingActiveUsage) {
     Fixture f;
     f.select();
@@ -225,6 +430,23 @@ TEST(OpenExchangeRatesOwner, O12AccessNeedsIndependentRestorationAndMatchingActi
     expect_finite(*view.last_usable_quota, 1000, 5);
     EXPECT_EQ(view.quota_age_ms, 0);
     expect_counts(view.total, 2, 1);
+}
+
+TEST(OpenExchangeRatesOwner, OwnerExhaustionEvidenceMustMatchTheSelectedQuotaScope) {
+    Fixture f;
+    f.select();
+    auto other = f.owner.setup.selection;
+    other.quota_scope_ref = "other-quota-scope";
+    f.owner.exhaustion = fx::ExhaustionEvidence{other, "other-scope-exhaustion"};
+    f.adapter.observe_exhaustion();
+    EXPECT_TRUE(f.view().holds.empty());
+
+    f.owner.exhaustion = fx::ExhaustionEvidence{f.owner.setup.selection, "selection-exhaustion"};
+    f.adapter.observe_exhaustion();
+    expect_hold(f.view(), fx::HoldKind::quota);
+    f.blocked(latest("qualified-exhaustion-holds-rate"), fx::FailureKind::quota_hold);
+    EXPECT_TRUE(f.transport.calls.empty());
+    expect_counts(f.view().total, 0, 0);
 }
 
 TEST(OpenExchangeRatesOwner, O13PreHoldReservationCannotQualifyQuotaRenewal) {
@@ -268,7 +490,7 @@ TEST(OpenExchangeRatesOwner, O13PreHoldReservationCannotQualifyQuotaRenewal) {
     f.blocked(latest("retry-still-waiting"), fx::FailureKind::retry_wait);
 }
 
-TEST(OpenExchangeRatesOwner, ProbeAuthorityMustCoverEachHoldAndCanBeUsedOnce) {
+TEST(OpenExchangeRatesOwner, ProbeAuthorityMustCoverEachApplicableHold) {
     Fixture f;
     f.select();
     const auto access = f.start(latest("access-reply"));
@@ -282,44 +504,76 @@ TEST(OpenExchangeRatesOwner, ProbeAuthorityMustCoverEachHoldAndCanBeUsedOnce) {
     const auto credential_hold = hold(before, fx::HoldKind::credential);
     f.owner.setup.selection.credential_revision = "credential-corrected";
     f.install(corrected_app_id());
-    auto wrong_hold = access_hold;
-    ++wrong_hold.generation;
     const auto current = f.owner.setup.selection;
     const fx::ProbeAuthority correction{
         credential_hold, current, fx::ProbeCause::corrected_credential, "actual-key-correction"};
     const fx::ProbeAuthority restoration{access_hold, current, fx::ProbeCause::restored_access,
                                          "actual-access-restoration"};
     f.owner.intent.kind = fx::IntentKind::requalification;
+    // Satisfy the credential hold so access is the only reason for refusal.
     f.owner.intent.authorities = {correction};
-    f.blocked(usage("missing-access-authority"));
-    f.owner.intent.authorities.push_back(
-        {wrong_hold, current, fx::ProbeCause::restored_access, "wrong-hold"});
-    f.blocked(usage("wrong-hold-authority"));
+    f.blocked(usage("missing-access-authority"), fx::FailureKind::access_hold);
     f.owner.intent.authorities = {correction, restoration};
-    f.owner.intent.route_authorized = false;
-    f.blocked(usage("not-authorized"));
-    f.owner.intent.route_authorized = true;
-    f.owner.intent.applicable_owner_waits = fx::WaitEligibility::unknown;
-    f.blocked(usage("owner-wait-unqualified"), fx::FailureKind::retry_wait);
-    f.owner.intent.applicable_owner_waits = fx::WaitEligibility::eligible;
-
-    const auto started = f.start(usage("probe"));
-    f.owner.intent.authorities = {correction};
-    f.blocked(usage("unauthorized-follower"));
-    f.owner.intent.authorities = {correction, restoration};
-    const auto follower = f.start(usage("authorized-follower"), true);
+    const auto started = f.start(usage("bundle-probe"));
+    const auto follower = f.start(usage("bundle-follower"), true);
     EXPECT_EQ(follower.admission.identity, started.admission.identity);
     EXPECT_EQ(f.transport.calls.size(), 3U);
-    // A complete usage response without a private matching echo cannot restore either hold.
     const auto unverified = f.finish(started, finite(1000, 8, clock(0)));
     expect_refusal(unverified, fx::FailureKind::credential_echo_unverified);
     const auto after = f.view();
     expect_hold(after, fx::HoldKind::provider_access);
     expect_hold(after, fx::HoldKind::credential);
     expect_counts(after.total, 3, 1);
+}
+
+TEST(OpenExchangeRatesOwner, AccessProbeRequiresExactUnspentAuthorityAndEligibleIntent) {
+    Fixture f;
+    f.select();
+    expect_refusal(f.exchange(latest("access-denied"), error("access_restricted", 403)),
+                   fx::FailureKind::provider_access_restricted, 403);
+    const auto restriction = hold(f.view(), fx::HoldKind::provider_access);
+    ASSERT_EQ(f.view().holds.size(), 1U);
+    const auto current = f.owner.setup.selection;
+    const fx::ProbeAuthority restoration{restriction, current, fx::ProbeCause::restored_access,
+                                         "access-restoration-1"};
+    f.owner.intent.kind = fx::IntentKind::requalification;
+    auto wrong = restoration;
+    ++wrong.hold.generation;
+    f.owner.intent.authorities = {wrong};
+    f.blocked(usage("wrong-hold-authority"), fx::FailureKind::access_hold);
+
+    f.owner.intent.authorities = {restoration};
+    f.owner.intent.route_authorized = false;
+    f.blocked(usage("not-authorized"), fx::FailureKind::not_authorized);
+    f.owner.intent.route_authorized = true;
+    f.owner.intent.applicable_owner_waits = fx::WaitEligibility::unknown;
+    f.blocked(usage("owner-wait-unqualified"), fx::FailureKind::retry_wait);
+    f.owner.intent.applicable_owner_waits = fx::WaitEligibility::eligible;
+
+    const auto started = f.start(usage("probe"));
+    f.owner.intent.route_authorized = false;
+    f.blocked(usage("unauthorized-follower"), fx::FailureKind::not_authorized);
+    f.owner.intent.route_authorized = true;
+    f.owner.intent.authorities.clear();
+    f.blocked(usage("unqualified-follower"), fx::FailureKind::access_hold);
+    f.owner.intent.authorities = {restoration};
+    EXPECT_EQ(f.start(usage("authorized-follower"), true).admission.identity,
+              started.admission.identity);
+    EXPECT_EQ(f.transport.calls.size(), 2U);
+    expect_refusal(f.finish(started, finite(1000, 8, clock(10))),
+                   fx::FailureKind::credential_echo_unverified);
+    ASSERT_EQ(hold(f.view(), fx::HoldKind::provider_access), restriction);
+
     f.owner.intent.now = clock(4'000'000);
-    f.blocked(usage("reuse-spent-bundle"));
-    EXPECT_EQ(f.transport.calls.size(), 3U);
+    f.blocked(usage("reuse-spent-bundle"), fx::FailureKind::access_hold);
+    EXPECT_EQ(f.transport.calls.size(), 2U);
+    auto fresh = restoration;
+    fresh.evidence_ref = "access-restoration-2";
+    f.owner.intent.authorities = {fresh};
+    ASSERT_TRUE(std::holds_alternative<fx::UsageSample>(
+        f.report("fresh-authority", finite(1000, 8, clock(4'000'000))).outcome));
+    EXPECT_TRUE(f.view().holds.empty());
+    expect_counts(f.view().total, 3, 1);
 }
 
 TEST(OpenExchangeRatesOwner, RestrictedPositiveUsageDoesNotClearQuotaHold) {

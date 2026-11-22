@@ -277,6 +277,7 @@ struct OwnerView {
     Counts since_sample;
     std::optional<std::int64_t> display_allowance;
     std::vector<HoldIdentity> holds;
+    // Latest selected provider observation in the owner view. Effective-table state is separate.
     std::optional<core::FetchedRateObservation> latest;
     std::optional<std::int64_t> next_latest_utc_ms;
 };

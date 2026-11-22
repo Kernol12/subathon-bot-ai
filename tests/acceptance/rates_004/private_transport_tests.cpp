@@ -34,6 +34,11 @@ TEST(OpenExchangeRatesPrivateTransport, HandoffRequiresExactSelectedCredentialAn
     EXPECT_TRUE(valid->authorization.second == "Token " + synthetic_app_id());
     expect_rate_route(valid->admission, "/api/usage.json");
 
+    credential.app_id.front() = 'A';
+    const auto uppercase = wire::make_handoff(admission, credential);
+    ASSERT_TRUE(uppercase);
+    EXPECT_TRUE(uppercase->authorization.second == "Token " + credential.app_id);
+
     for (const auto invalid :
          {"short", "aaaaaaaaaaaaaaaa111111111111111Z", "aaaaaaaaaaaaaaaa111111111111111 "}) {
         credential.app_id = invalid;
@@ -122,6 +127,57 @@ TEST(OpenExchangeRatesPrivateTransport, OriginalDuplicateEchoAndBodyBoundsRefuse
         const auto *failure = std::get_if<fx::TransportFailure>(&refused.payload);
         ASSERT_NE(failure, nullptr);
         EXPECT_EQ(failure->kind, fx::TransportFailureKind::resource_limit);
+    }
+}
+
+TEST(OpenExchangeRatesPrivateTransport, ExactWireAndDecodedBodyCeilingIsAccepted) {
+    constexpr std::size_t body_ceiling = 256 * 1024;
+    auto raw = finite(1000, 7, {});
+    add_echo(raw, "\"" + synthetic_app_id() + "\"");
+    raw.body.resize(body_ceiling, ' ');
+    raw.wire_bytes = raw.body.size();
+    raw.decoded_bytes = raw.body.size();
+    const auto result = wire::sanitize_reply(sent_usage(), std::move(raw));
+    EXPECT_EQ(result.dispatch, fx::Dispatch::sent);
+    const auto *sanitized = std::get_if<fx::SanitizedFrame>(&result.payload);
+    ASSERT_NE(sanitized, nullptr);
+    EXPECT_EQ(sanitized->wire_bytes, body_ceiling);
+    EXPECT_EQ(sanitized->decoded_bytes, body_ceiling);
+    ASSERT_TRUE(sanitized->echo);
+    EXPECT_EQ(sanitized->echo->match, fx::EchoMatch::match);
+}
+
+TEST(OpenExchangeRatesPrivateTransport, OversizedHeadersRefuseEvenWithAValidUsageBody) {
+    auto raw = finite(1000, 7, {});
+    add_echo(raw, "\"" + synthetic_app_id() + "\"");
+    // The value alone exceeds the ceiling, independent of wire header framing.
+    raw.headers = {{"X-Fixture", std::string(16 * 1024 + 1, 'x')}};
+    const auto refused = wire::sanitize_reply(sent_usage(), std::move(raw));
+    const auto *failure = std::get_if<fx::TransportFailure>(&refused.payload);
+    ASSERT_NE(failure, nullptr);
+    EXPECT_EQ(failure->kind, fx::TransportFailureKind::resource_limit);
+}
+
+TEST(OpenExchangeRatesPrivateTransport, JsonDepthLimitAppliesToUnprojectedMetadata) {
+    // The root and data objects occupy two levels before the first nested array.
+    for (const auto arrays : {14U, 15U}) {
+        SCOPED_TRACE(arrays);
+        const auto extra =
+            R"(,"unprojected":)" + std::string(arrays, '[') + "0" + std::string(arrays, ']');
+        auto raw =
+            usage_frame(R"("requests_quota":1000,"requests_remaining":7)", {}, {}, "active", extra);
+        add_echo(raw, "\"" + synthetic_app_id() + "\"");
+        const auto result = wire::sanitize_reply(sent_usage(), std::move(raw));
+        if (arrays == 14U) {
+            const auto *sanitized = std::get_if<fx::SanitizedFrame>(&result.payload);
+            ASSERT_NE(sanitized, nullptr);
+            ASSERT_TRUE(sanitized->echo);
+            EXPECT_EQ(sanitized->echo->match, fx::EchoMatch::match);
+        } else {
+            const auto *failure = std::get_if<fx::TransportFailure>(&result.payload);
+            ASSERT_NE(failure, nullptr);
+            EXPECT_EQ(failure->kind, fx::TransportFailureKind::resource_limit);
+        }
     }
 }
 

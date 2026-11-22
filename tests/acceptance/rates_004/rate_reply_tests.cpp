@@ -172,29 +172,88 @@ TEST(OpenExchangeRatesRates, UsageClaimsCannotGrantUnqualifiedPaidFeaturesOrProf
     expect_rate_route(paid.start(history("symbols-unproven")).admission,
                       "/api/historical/2024-02-29.json");
 
-    Fixture unknown;
-    unknown.owner.setup.profile_qualified = false;
-    unknown.select(fx::Profile::unknown);
+    for (const auto profile : {fx::Profile::unknown, fx::Profile::developer}) {
+        SCOPED_TRACE(static_cast<int>(profile));
+        Fixture unqualified;
+        unqualified.owner.setup.profile_qualified = false;
+        unqualified.select(profile);
+        ASSERT_TRUE(std::holds_alternative<fx::UsageSample>(
+            unqualified.report("metadata", usage_frame("", clock(1), R"("name":"Developer")"))
+                .outcome));
+        unqualified.owner.intent.qualified_utc_day = "2024-03-01";
+        unqualified.blocked(latest("profile-unproven"), fx::FailureKind::forbidden_feature);
+        unqualified.blocked(history("history-unproven"), fx::FailureKind::forbidden_feature);
+        expect_counts(unqualified.view().total, 1, 0);
+    }
+}
+
+TEST(OpenExchangeRatesRates, StaleSymbolsClaimCannotNarrowPaidHistoryButMatchingClaimCan) {
+    Fixture f;
+    f.select(fx::Profile::developer, true);
+    const auto old_usage = f.start(usage("old-symbols"));
+    f.owner.setup.selection.configuration_ref = "config-B";
+    f.select(fx::Profile::developer, true);
+    f.owner.intent.now = clock(100);
+    f.owner.intent.qualified_utc_day = "2024-03-01";
+    const auto symbols_false = R"("features":{"symbols":false})";
+    f.complete_usage(old_usage, usage_frame("", clock(100), symbols_false));
+
+    const auto before = f.start(history("still-filtered", "USD", {"GBP", "EUR"}));
+    expect_rate_route(before.admission, "/api/historical/2024-02-29.json?symbols=EUR,GBP");
+    ASSERT_TRUE(std::holds_alternative<fx::Rates>(f.finish(before, frame(free_history)).outcome));
+
+    f.owner.intent.now = clock(200);
     ASSERT_TRUE(std::holds_alternative<fx::UsageSample>(
-        unknown.report("metadata", usage_frame("", clock(1), R"("name":"Developer")")).outcome));
-    unknown.blocked(latest("profile-unproven"), fx::FailureKind::forbidden_feature);
-    expect_counts(unknown.view().total, 1, 0);
+        f.report("matching-symbols", usage_frame("", clock(200), symbols_false)).outcome));
+    const auto after = f.start(history("now-unfiltered", "USD", {"GBP", "EUR"}));
+    expect_rate_route(after.admission, "/api/historical/2024-02-29.json");
+    const auto done = f.finish(after, frame(free_history));
+    const auto *rates = std::get_if<fx::Rates>(&done.outcome);
+    ASSERT_NE(rates, nullptr);
+    const auto &quotes = rates->observation.data().quotes;
+    ASSERT_EQ(quotes.size(), 1U);
+    expect_quote(quotes.front(), "USD", "EUR", "0.9225", 369, 400);
+    EXPECT_EQ(rates->missing_quotes, (std::vector<std::string>{"GBP"}));
+    expect_counts(f.view().total, 4, 2);
 }
 
 TEST(OpenExchangeRatesRates, O10RateMemberLimitAppliesBeforeProjection) {
-    std::string body = R"({"base":"USD","rates":{"EUR":0.9)";
-    for (int i = 0; i < 256; ++i) {
-        const std::string code{static_cast<char>('A' + i / (26 * 26)),
-                               static_cast<char>('A' + i / 26 % 26),
-                               static_cast<char>('A' + i % 26)};
-        body += ",\"" + code + "\":1";
+    for (const int members : {256, 257}) {
+        SCOPED_TRACE(members);
+        std::string body = R"({"base":"USD","rates":{"EUR":0.9)";
+        for (int i = 0; i < members - 1; ++i) {
+            body += ",\"" + currency_code(i) + "\":1";
+        }
+        body += "}}";
+        Fixture f;
+        f.select();
+        const auto result = f.exchange(latest("rate-map-bound"), frame(body));
+        if (members == 257) {
+            expect_refusal(result, fx::FailureKind::resource_limit);
+            EXPECT_FALSE(f.view().latest);
+        } else {
+            const auto *rates = std::get_if<fx::Rates>(&result.outcome);
+            ASSERT_NE(rates, nullptr);
+            const auto &quotes = rates->observation.data().quotes;
+            ASSERT_EQ(quotes.size(), 1U);
+            expect_quote(quotes.front(), "USD", "EUR", "0.9", 9, 10);
+            EXPECT_TRUE(rates->missing_quotes.empty());
+        }
+        expect_counts(f.view().total, 1, 1);
     }
-    body += "}}";
+}
+
+TEST(OpenExchangeRatesRates, HistoryAcceptsFirstSupportedUtcDay) {
     Fixture f;
     f.select();
-    expect_refusal(f.exchange(latest("over-limit"), frame(body)), fx::FailureKind::resource_limit);
-    EXPECT_FALSE(f.view().latest);
-    expect_counts(f.view().total, 1, 1);
+    f.owner.intent.qualified_utc_day = "1999-01-02";
+    const auto started = f.start(history("first-day", "USD", {"EUR"}, "1999-01-01"));
+    expect_rate_route(started.admission, "/api/historical/1999-01-01.json");
+    const auto result =
+        f.finish(started, frame(R"({"base":"USD","rates":{"EUR":0.9},"timestamp":915148800})"));
+    const auto *rates = std::get_if<fx::Rates>(&result.outcome);
+    ASSERT_NE(rates, nullptr);
+    expect_times(rates->observation.data().context, "915148800", 915'148'800'000, {});
 }
 
 TEST(OpenExchangeRatesRates, O11SymbolsFalseOmitsFilterButKeepsCanonicalProjection) {
@@ -243,6 +302,7 @@ TEST(OpenExchangeRatesRates, ReportedCadenceAndManualUnknownSourceDoNotReplaceAu
                    frame(R"({"base":"USD","rates":{"EUR":0.8}})", clock(3000, january + 3000)));
     ASSERT_TRUE(std::holds_alternative<fx::Rates>(unknown_source.outcome));
     const auto view = f.view();
+    // This observes provider selection in the owner view, without an effective-table fixture.
     ASSERT_TRUE(view.latest);
     EXPECT_EQ(view.latest->data().context.observation_ref, "observation-anchor");
     EXPECT_EQ(view.next_latest_utc_ms, next);

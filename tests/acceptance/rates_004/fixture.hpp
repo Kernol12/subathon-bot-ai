@@ -20,6 +20,11 @@ constexpr std::string_view free_history =
 constexpr std::string_view paid_history =
     R"({"base":"EUR","rates":{"GBP":0.85},"timestamp":1709164800})";
 
+inline std::string currency_code(int index) {
+    return {static_cast<char>('A' + index / (26 * 26)), static_cast<char>('A' + index / 26 % 26),
+            static_cast<char>('A' + index % 26)};
+}
+
 inline std::string synthetic_app_id() { return std::string(16, 'a') + std::string(16, '1'); }
 inline std::string corrected_app_id() { return std::string(16, 'b') + std::string(16, '2'); }
 
@@ -169,15 +174,12 @@ class Fixture {
         return started;
     }
 
-    void blocked(const fx::Request &request,
-                 std::optional<fx::FailureKind> expected = std::nullopt) {
+    void blocked(const fx::Request &request, fx::FailureKind expected) {
         const auto calls = transport.calls.size();
         const auto result = adapter.start(request);
         const auto *refusal = std::get_if<fx::Refusal>(&result);
         ASSERT_NE(refusal, nullptr) << request.request_ref;
-        if (expected) {
-            EXPECT_EQ(refusal->kind, *expected) << request.request_ref;
-        }
+        EXPECT_EQ(refusal->kind, expected) << request.request_ref;
         EXPECT_EQ(transport.calls.size(), calls);
     }
 

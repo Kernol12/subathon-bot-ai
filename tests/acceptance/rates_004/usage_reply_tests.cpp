@@ -175,6 +175,147 @@ TEST(OpenExchangeRatesUsage, UsageOptionalFieldsKeepTheirIndependentValidity) {
     expect_counts(f.view().total, 1, 0);
 }
 
+TEST(OpenExchangeRatesUsage, InvalidQuotaIntegersKeepPriorSampleAndValidIndependentFields) {
+    const std::string_view invalid_fields[] = {
+        R"("requests_quota":1e4,"requests_remaining":0)",
+        R"("requests_quota":100,"requests_remaining":100.0)",
+        R"("requests_quota":9223372036854775808,"requests_remaining":0)",
+        R"("requests_quota":100,"requests_remaining":101)",
+    };
+    for (const auto fields : invalid_fields) {
+        SCOPED_TRACE(fields);
+        Fixture f;
+        f.select();
+        ASSERT_TRUE(std::holds_alternative<fx::UsageSample>(
+            f.report("prior", finite(1000, 9, clock(100))).outcome));
+        f.owner.intent.now = clock(200);
+        const auto result =
+            f.report("unusable-numbers",
+                     usage_frame(std::string(fields) +
+                                     R"(,"requests":7,"days_elapsed":31,"days_remaining":31)",
+                                 clock(200)));
+        const auto *sample = std::get_if<fx::UsageSample>(&result.outcome);
+        ASSERT_NE(sample, nullptr);
+        EXPECT_EQ(sample->requests, 7);
+        EXPECT_EQ(sample->days_elapsed, 31);
+        EXPECT_EQ(sample->days_remaining, 31);
+        EXPECT_TRUE(std::holds_alternative<std::monostate>(sample->monthly_quota));
+        EXPECT_NE(std::ranges::find(sample->issues, fx::UsageIssue::invalid_quota),
+                  sample->issues.end());
+        const auto view = f.view();
+        ASSERT_TRUE(view.last_usable_quota);
+        expect_finite(*view.last_usable_quota, 1000, 9);
+        ASSERT_TRUE(view.latest_usage_outcome);
+        EXPECT_TRUE(std::holds_alternative<fx::UsageSample>(*view.latest_usage_outcome));
+        EXPECT_EQ(view.quota_age_ms, 100);
+        EXPECT_TRUE(view.holds.empty());
+        expect_counts(view.total, 2, 0);
+        expect_counts(view.since_sample, 1, 0);
+    }
+}
+
+TEST(OpenExchangeRatesUsage, InvalidProviderRequestsDoesNotInvalidateFiniteQuota) {
+    Fixture f;
+    f.select();
+    const auto result = f.report(
+        "invalid-requests", usage_frame(R"("requests_quota":9223372036854775807,)"
+                                        R"("requests_remaining":5,"requests":9223372036854775808)",
+                                        clock(100)));
+    const auto *sample = std::get_if<fx::UsageSample>(&result.outcome);
+    ASSERT_NE(sample, nullptr);
+    expect_finite(*sample, 9'223'372'036'854'775'807, 5);
+    EXPECT_FALSE(sample->requests);
+    EXPECT_NE(std::ranges::find(sample->issues, fx::UsageIssue::invalid_metadata),
+              sample->issues.end());
+}
+
+TEST(OpenExchangeRatesUsage, InvalidUtf8RefusesEntireUsageAndPreservesSample) {
+    Fixture f;
+    f.select();
+    ASSERT_TRUE(std::holds_alternative<fx::UsageSample>(
+        f.report("prior", finite(1000, 9, clock(100))).outcome));
+    f.owner.intent.now = clock(200);
+    // An isolated UTF-8 continuation byte inside optional metadata is still document-invalid.
+    const std::string malformed = R"("name":"bad-)" + std::string(1, static_cast<char>(0x80)) + '"';
+    const auto result =
+        f.report("invalid-utf8", usage_frame(R"("requests_quota":1000,"requests_remaining":0)",
+                                             clock(200), malformed));
+    expect_refusal(result, fx::FailureKind::invalid_document);
+    EXPECT_EQ(result.dispatch, fx::Dispatch::sent);
+    const auto view = f.view();
+    ASSERT_TRUE(view.last_usable_quota);
+    expect_finite(*view.last_usable_quota, 1000, 9);
+    ASSERT_TRUE(view.latest_usage_outcome);
+    ASSERT_TRUE(std::holds_alternative<fx::Refusal>(*view.latest_usage_outcome));
+    EXPECT_EQ(std::get<fx::Refusal>(*view.latest_usage_outcome).kind,
+              fx::FailureKind::invalid_document);
+    EXPECT_TRUE(view.holds.empty());
+    expect_counts(view.total, 2, 0);
+}
+
+TEST(OpenExchangeRatesUsage, MatchingEchoCannotMakeARefusedUsageEnvelopeUsable) {
+    const std::string_view envelopes[] = {
+        R"({"status":403,"data":{"status":"active","usage":{"requests_quota":1000,"requests_remaining":0}}})",
+        R"({"status":200})",
+        R"({"status":200,"data":[]})",
+    };
+    for (auto envelope : envelopes) {
+        SCOPED_TRACE(envelope);
+        Fixture f;
+        f.select();
+        ASSERT_TRUE(std::holds_alternative<fx::UsageSample>(
+            f.report("prior", finite(1000, 9, clock(100))).outcome));
+        f.owner.intent.now = clock(200);
+        const auto started = f.start(usage("bad-envelope"));
+        const auto id = started.admission.identity;
+        // Supply the strongest private fact to isolate the adapter's envelope validation.
+        const auto result =
+            f.adapter.finish({id,
+                              fx::SanitizedFrame{200,
+                                                 {},
+                                                 std::string(envelope),
+                                                 envelope.size(),
+                                                 envelope.size(),
+                                                 clock(200),
+                                                 fx::EchoEvidence{id, fx::EchoMatch::match}},
+                              fx::Dispatch::sent});
+        ASSERT_TRUE(std::holds_alternative<fx::Refusal>(result.outcome));
+        EXPECT_EQ(result.identity, id);
+        EXPECT_EQ(result.dispatch, fx::Dispatch::sent);
+        const auto view = f.view();
+        ASSERT_TRUE(view.last_usable_quota);
+        expect_finite(*view.last_usable_quota, 1000, 9);
+        ASSERT_TRUE(view.latest_usage_outcome);
+        EXPECT_TRUE(std::holds_alternative<fx::Refusal>(*view.latest_usage_outcome));
+        EXPECT_TRUE(view.holds.empty());
+        expect_counts(view.total, 2, 0);
+    }
+}
+
+TEST(OpenExchangeRatesUsage, DisplayStringsPreserve128BytesAndBoundLargerValues) {
+    for (const auto size : {128U, 129U}) {
+        SCOPED_TRACE(size);
+        Fixture f;
+        f.select();
+        const std::string label(size, 'L');
+        const std::string banner(size, 'Q');
+        const auto result = f.report(
+            "display-bounds", usage_frame(R"("requests_quota":1000,"requests_remaining":9)", {},
+                                          R"("name":")" + label + R"(","quota":")" + banner + '"'));
+        const auto *sample = std::get_if<fx::UsageSample>(&result.outcome);
+        ASSERT_NE(sample, nullptr);
+        if (size == 128U) {
+            EXPECT_EQ(sample->plan_label, label);
+            EXPECT_EQ(sample->quota_banner, banner);
+        } else {
+            // The wire contract bounds display output without prescribing truncation.
+            EXPECT_LE(sample->plan_label.value_or("").size(), 128U);
+            EXPECT_LE(sample->quota_banner.value_or("").size(), 128U);
+        }
+        expect_finite(*sample, 1000, 9);
+    }
+}
+
 TEST(OpenExchangeRatesUsage, StaleSelectionReplyCannotMoveSampleOrSinceReportBoundary) {
     Fixture f;
     f.select(fx::Profile::developer);
