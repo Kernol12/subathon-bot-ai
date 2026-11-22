@@ -487,7 +487,7 @@ jobs:
         run: |
           ctest --preset sqlite-reference-capture-debug -L '^storage-027$' \
             --no-tests=error --verbose --test-output-size-passed 1048576 \
-            --output-junit build/sqlite-reference-capture-debug/storage-027-results.xml
+            --output-junit "$GITHUB_WORKSPACE/build/sqlite-reference-capture-debug/storage-027-results.xml"
           python3 - <<'PYTHON'
           import re
           import xml.etree.ElementTree as ET
