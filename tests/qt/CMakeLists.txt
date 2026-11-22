@@ -332,3 +332,7 @@ if(SUBATHON_BUILD_MODIFIER_CAPTURE_TESTS)
             subathon_modifier_capture subathon_modifier_clock
         LABELS "modifier-capture;acceptance;qt;server" TIMEOUT 180)
 endif()
+
+if(SUBATHON_BUILD_MILESTONE_006_STAGE1)
+    add_subdirectory(milestone_006)
+endif()
