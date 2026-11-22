@@ -64,39 +64,19 @@ charge_oracle::Record fixture_record(CatalogFile &db, const Command &cmd, const 
     return r;
 }
 
-// Sample only representation widths in a deliberately rolled-back turn. The
-// SQL tape and the assertions about selected durable effects remain independent.
-template <class Inspect>
-Decision inspect_command_shape(CatalogFile &db, Authority &owner, const Command &cmd,
-                               const ReplacePreview *preview, Inspect inspect) {
-    Decision sampled{Disposition::not_implemented, {}, {}, {}, {}};
-    const auto probe = run(
-        db,
-        [&](const auto &session) {
-            sampled = stage_command(session, owner, cmd, preview);
-            if (sampled.disposition == Disposition::committed)
-                inspect(session, sampled);
-            return sampled;
-        },
-        Finish::rollback);
-    require(!probe.missing, "STORAGE-027 NI: provisional owner representation for charge");
-    require(probe.entered && probe.work.transaction == TransactionOutcome::rolled_back &&
-                !probe.published && sampled.disposition == Disposition::committed,
-            "Exact provisional owner output is sampled without reserving the operation");
-    return sampled;
-}
+// Disposable exact-edge inputs. Use heterogeneous widths across record kinds,
+// distinct references of equal width within each intentionally homogeneous cap.
+const FixtureStorageBytes budget_bytes{
+    "track",
+    QByteArray::fromHex("4800ff5631"),
+    {"fixture-version-1", "fixture-version-2", "fixture-version-3"},
+    QByteArray::fromHex("410002"),
+    {{{"active-1", QByteArray::fromHex("500100ff")},
+      {"active-2", QByteArray::fromHex("500200ff")},
+      {"active-3", QByteArray::fromHex("500300ff")}}},
+    QByteArray::fromHex("430001ff")};
 
-qsizetype stored_origin_width(const SqlRows &rows) {
-    require(rows.size() == 1 && !rows.front()[0].isNull(),
-            "Exact provisional owner row identifies its stored origin scope");
-    return rows.front()[0].toLongLong();
-}
-
-qsizetype stop_origin_width(const SqliteWorkSession &s, const QByteArray &operation) {
-    return stored_origin_width(s.execute(
-        {"SELECT length(origin_scope) FROM main.subathon_milestone_stop_fences WHERE stop=?",
-         {operation}}));
-}
+constexpr StorageLimits loose_budget{64, 1024, 65536, 16777216, 8192, 16777216};
 
 void require_member_delta(const charge_oracle::Charge &one, const charge_oracle::Charge &two,
                           const charge_oracle::Charge &member) {
@@ -1532,6 +1512,8 @@ class Storage027CommandsTests final : public QObject {
             auto kind = wire::Kind::stop;
             const auto target = edited(f);
             auto r = fixture_record(f.db, cmd, port, &target);
+            r.origin_scope = budget_bytes.edit_origin_scope.size();
+            const AdmissionProfile prepare{loose_budget, {}, &budget_bytes};
             if (selected == B::malformed) {
                 std::get<StopIntent>(cmd.intent).choice = static_cast<QueueChoice>(-1);
                 expected.disposition = Disposition::refused;
@@ -1546,15 +1528,9 @@ class Storage027CommandsTests final : public QObject {
             }
             if (selected == B::stop_continue || selected == B::stop_hold) {
                 expected.cancellations = {{1, {}}, {2, {}}};
-                const auto sample = inspect_command_shape(
-                    f.db, port, cmd, nullptr, [&](const auto &s, const auto &) {
-                        r.origin_scope = stop_origin_width(s, cmd.operation);
-                    });
                 if (selected == B::stop_hold) {
-                    require(sample.added_causes.size() == 1 && !sample.added_causes[0].isEmpty(),
-                            "Provisional Hold returns one exact opaque reference");
-                    r.cause = sample.added_causes[0].size();
-                    expected.added_causes = sample.added_causes;
+                    expected.added_causes = {budget_bytes.interruption_cause};
+                    r.cause = expected.added_causes[0].size();
                 }
             }
             if (existing) {
@@ -1562,8 +1538,16 @@ class Storage027CommandsTests final : public QObject {
                 require(prior.cancellations == std::vector<SelectedVersion>{{1, {}}, {2, {}}} &&
                             prior.added_causes.size() == 1 && !prior.added_causes[0].isEmpty(),
                         "Prepared journal peer has the independently counted original closure");
-                r.retained_intent = wire::intent(cmd).size();
-                r.retained_result = wire::result(kind, prior).size();
+                const auto retained = f.db.rows(
+                    "SELECT intent,result,decision FROM main.subathon_milestone_command_journal "
+                    "WHERE operation=?",
+                    {cmd.operation});
+                require(retained ==
+                            SqlRows{{wire::intent(cmd), wire::result(kind, prior), port.decision}},
+                        "Committed journal matches the independently framed Stop and decision");
+                r.retained_intent = retained[0][0].toByteArray().size();
+                r.retained_result = retained[0][1].toByteArray().size();
+                r.decision = retained[0][2].toByteArray().size();
                 expected = prior;
                 expected.disposition =
                     selected == B::conflict ? Disposition::conflict : Disposition::replay;
@@ -1608,31 +1592,13 @@ class Storage027CommandsTests final : public QObject {
                          qsizetype(after.action.version_ref.size()), after.automation.size(),
                          qsizetype(after.route.size()), qsizetype(after.sender.size())});
                 }
-                const auto calibration =
-                    stop("inspect-edit-origin", target, QueueChoice::continue_queue);
-                if (selected == B::replace_preview) {
-                    (void)inspect_command_shape(
-                        f.db, port, calibration, nullptr, [&](const auto &s, const auto &) {
-                            r.origin_scope = stop_origin_width(s, calibration.operation);
-                        });
-                } else {
-                    bound = bind_replace(f.db, port, cmd);
-                    const auto sample = inspect_command_shape(
-                        f.db, port, cmd, bound.get(), [&](const auto &s, const auto &) {
-                            r.origin_scope = stored_origin_width(s.execute(
-                                {"SELECT DISTINCT length(origin_scope) FROM "
-                                 "main.subathon_milestone_slot_versions WHERE replacement=?",
-                                 {cmd.operation}}));
-                        });
-                    require(sample.versions.size() == members.size(),
-                            "Provisional Replace chooses a reference for every exact member");
+                if (selected == B::replace_automation) {
+                    bound = bind_replace(f.db, port, cmd, &prepare);
                     for (size_t i = 0; i < members.size(); ++i) {
-                        require(sample.versions[i].ordinal == patch[i].ordinal &&
-                                    !sample.versions[i].version.isEmpty(),
-                                "Provisional Replace exposes the exact selected ordinal");
-                        members[i].allocated_version = sample.versions[i].version.size();
+                        const auto &version = budget_bytes.replacement_versions.at(i);
+                        members[i].allocated_version = version.size();
+                        expected.versions.push_back({patch[i].ordinal, version});
                     }
-                    expected.versions = sample.versions;
                 }
             }
             if (is_resume) {
@@ -1726,7 +1692,7 @@ class Storage027CommandsTests final : public QObject {
                     patch.push_back({3, patch.front().action});
                     port.captures.push_back({patch.back(), QByteArray::fromHex("0082"),
                                              "local/new-route", "new-sender"});
-                    bound = bind_replace(f.db, port, cmd);
+                    bound = bind_replace(f.db, port, cmd, &prepare);
                 } else if (is_resume) {
                     const auto c =
                         commit(f.db, port, stop("hold-c", {edit::track, edit::c, *third}),
@@ -1746,7 +1712,10 @@ class Storage027CommandsTests final : public QObject {
                 f.db.rows("SELECT * FROM main.subathon_milestone_slot_versions");
             const auto op = [&] {
                 f.db.reopen(limits);
-                const AdmissionProfile profile{limits, {}};
+                const bool encoded_fixture =
+                    is_replace || selected == B::stop_continue || selected == B::stop_hold;
+                const AdmissionProfile profile{
+                    limits, {}, encoded_fixture ? &budget_bytes : nullptr};
                 return run(f.db, [&](const auto &s) {
                     if (selected == B::replace_preview) {
                         const auto selected_preview = preview_replace(s, port, cmd, &profile);
@@ -1783,6 +1752,23 @@ class Storage027CommandsTests final : public QObject {
                 require(journal(f.db) == old_journal && causes(f.db) == old_causes,
                         "Preview, replay, readback and refusals leave durable command state exact");
                 return;
+            }
+            if (selected != B::resume)
+                require(*op.published == expected,
+                        "Exact complete budget commits the fixture's selected result");
+            if (selected == B::replace_automation || selected == B::stop_continue ||
+                selected == B::stop_hold) {
+                const auto scopes =
+                    selected == B::replace_automation
+                        ? f.db.rows("SELECT DISTINCT origin_scope FROM "
+                                    "main.subathon_milestone_slot_versions "
+                                    "WHERE replacement=?",
+                                    {cmd.operation})
+                        : f.db.rows("SELECT origin_scope FROM main.subathon_milestone_stop_fences "
+                                    "WHERE stop=?",
+                                    {cmd.operation});
+                require(scopes == SqlRows{{budget_bytes.edit_origin_scope}},
+                        "The exact turn retains the counted fixture edit origin encoding");
             }
             const auto saved =
                 f.db.rows("SELECT intent,result FROM main.subathon_milestone_command_journal "
@@ -1876,7 +1862,8 @@ class Storage027CommandsTests final : public QObject {
             Authority authority;
             authority.captures = {{patch, {}, {}, {}, 20000}};
             authority.historical_bonuses = {{target, {1, f.action}, 30000}};
-            const auto preview = bind_replace(f.db, authority, cmd);
+            const AdmissionProfile prepare{loose_budget, {}, &budget_bytes};
+            const auto preview = bind_replace(f.db, authority, cmd, &prepare);
             const QByteArray queue = edit_origin ? "prefix-edit-bonus-edit" : "bonus-prefix";
             const wire::PreviewWitness witness{
                 "grant-1",
@@ -1894,20 +1881,13 @@ class Storage027CommandsTests final : public QObject {
                     "Exact old 30,000 and new 20,000 amounts occupy separate eight-byte capture "
                     "fields");
             auto r = fixture_record(f.db, cmd, authority, &target);
-            const auto expected = inspect_command_shape(
-                f.db, authority, cmd, preview.get(), [&](const auto &s, const auto &) {
-                    const auto scope = stored_origin_width(s.execute(
-                        {"SELECT length(origin_scope) FROM main.subathon_milestone_slot_versions "
-                         "WHERE replacement=? AND ordinal=1",
-                         {cmd.operation}}));
-                    if (!edit_origin)
-                        require(r.origin_scope == scope,
-                                "Application version keeps the protected operation scope");
-                    r.origin_scope = scope;
-                });
-            require(expected.versions.size() == 1 && expected.versions[0].ordinal == 1 &&
-                        !expected.versions[0].version.isEmpty(),
-                    "Provisional bonus selection has one exact typed version");
+            if (edit_origin)
+                r.origin_scope = budget_bytes.edit_origin_scope.size();
+            const Decision expected{Disposition::committed,
+                                    {{1, budget_bytes.replacement_versions.front()}},
+                                    {},
+                                    {},
+                                    {}};
             r.intent = intent.size();
             r.result = wire::result(wire::Kind::replace, expected).size();
             const auto shape = meter::plan(
@@ -1919,7 +1899,7 @@ class Storage027CommandsTests final : public QObject {
                              false, 0, expected.versions[0].version.size()}});
             const auto limits = edge < 0 ? meter::limits(shape) : meter::one_below(shape, edge);
             f.db.reopen(limits);
-            const AdmissionProfile admitted{limits, {}};
+            const AdmissionProfile admitted{limits, {}, &budget_bytes};
             const auto reply = run(f.db, [&](const auto &s) {
                 return stage_command(s, authority, cmd, preview.get(), &admitted);
             });
@@ -1936,12 +1916,14 @@ class Storage027CommandsTests final : public QObject {
                     "One-below bonus preflight never publishes a partial selected version");
                 return;
             }
-            require(reply.published && reply.published->disposition == Disposition::committed &&
-                        reply.published->versions.size() == 1 &&
-                        reply.published->versions[0].ordinal == 1 &&
-                        reply.published->versions[0].version.size() ==
-                            expected.versions[0].version.size(),
-                    "Complete budget retains one exact typed bonus version");
+            require(reply.published && *reply.published == expected,
+                    "Complete budget retains the exact fixture-supplied bonus version");
+            const auto scope = edit_origin ? budget_bytes.edit_origin_scope
+                                           : QByteArray::fromStdString(f.original.operation_scope);
+            require(f.db.rows("SELECT origin_scope FROM main.subathon_milestone_slot_versions "
+                              "WHERE replacement=?",
+                              {cmd.operation}) == SqlRows{{scope}},
+                    "Exact budget uses the fixture edit encoding or real application scope");
             require(
                 f.db.rows("SELECT intent,result FROM main.subathon_milestone_command_journal") ==
                         SqlRows{{intent, wire::result(wire::Kind::replace, *reply.published)}} &&
@@ -1989,11 +1971,18 @@ class Storage027CommandsTests final : public QObject {
                         "Protected replay fixture has a real exact audio attempt");
             });
             advance_fixture(f.db);
-            const PlaybackInstance initial{
-                edited(f),       1,          {},          2,
-                "audio-adapter", "active-1", "runtime-1", StopCapability::supported};
+            const PlaybackInstance initial{edited(f),
+                                           1,
+                                           {},
+                                           2,
+                                           "audio-adapter",
+                                           budget_bytes.playback_refs[0].activation,
+                                           "runtime-1",
+                                           StopCapability::supported};
             auto later = initial;
-            later.activation = "active-2";
+            later.activation = budget_bytes.playback_refs[1].activation;
+            auto excess = initial;
+            excess.activation = budget_bytes.playback_refs[2].activation;
             const auto key = stop("bound-stop", edited(f), QueueChoice::continue_queue);
             Authority owner;
             owner.observed_playback = {initial};
@@ -2007,62 +1996,36 @@ class Storage027CommandsTests final : public QObject {
                            candidate.instance.activation.startsWith("active-");
                 }
             } port;
-            const PlaybackEvidence evidence{{{edit::track, key.operation, initial}, {}},
-                                            PlaybackOutcome::requested,
-                                            "exact-evidence"};
+            const auto &first_ref = budget_bytes.playback_refs[0].instance;
+            const auto &second_ref = budget_bytes.playback_refs[1].instance;
+            const auto &third_ref = budget_bytes.playback_refs[2].instance;
+            const Decision empty_result{Disposition::committed, {}, {}, {}, {}};
+            Decision expected_stop = empty_result;
+            expected_stop.playback_intents = {first_ref};
+            PlaybackEvidence selected_evidence{{{edit::track, key.operation, initial}, first_ref},
+                                               PlaybackOutcome::requested,
+                                               "exact-evidence"};
             const auto target = edited(f);
             auto r = fixture_record(f.db, key, owner, &target);
+            r.origin_scope = budget_bytes.edit_origin_scope.size();
             r.intent = wire::intent(key).size();
-            meter::Playback initial_shape{
-                key.operation.size(), initial.adapter.size(), initial.activation.size(),
-                initial.runtime_generation.size(), evidence.evidence.size()};
-            auto late_shape = initial_shape;
-            late_shape.activation = later.activation.size();
-            QByteArray first_ref;
-            QByteArray second_ref;
-            auto selected_evidence = evidence;
-            auto later_request = LatePlayback{edit::track, key.operation, later};
-            const auto playback_shape = [&](const SqliteWorkSession &s, const PlaybackInstance &i) {
-                const auto row = s.execute(
-                    {"SELECT instance,length(attempt),length(handoff) FROM "
-                     "main.subathon_milestone_playback_instances WHERE stop=? "
-                     "AND ordinal=? AND adapter=? AND activation=? AND generation=?",
-                     {key.operation, i.ordinal, i.adapter, i.activation, i.runtime_generation}});
-                require(row.size() == 1 && !row[0][0].toByteArray().isEmpty(),
-                        "Exact owner activation selects one opaque playback representation");
-                return row.front();
+            r.result = wire::result(wire::Kind::stop, expected_stop).size();
+
+            const auto fixture_shape = [&](const PlaybackInstance &instance,
+                                           const QByteArray &ref) {
+                return meter::Playback{key.operation.size(),
+                                       instance.adapter.size(),
+                                       instance.activation.size(),
+                                       instance.runtime_generation.size(),
+                                       selected_evidence.evidence.size(),
+                                       0,
+                                       ref.size(),
+                                       budget_bytes.handoff.size(),
+                                       budget_bytes.playback_attempt.size()};
             };
-            const auto sample = inspect_command_shape(
-                f.db, owner, key, nullptr, [&](const auto &s, const auto &staged) {
-                    r.origin_scope = stop_origin_width(s, key.operation);
-                    require(staged.playback_intents.size() == 1,
-                            "One exact active playback has one prospective intent");
-                    first_ref = staged.playback_intents.front();
-                    const auto first = playback_shape(s, initial);
-                    require(first[0].toByteArray() == first_ref,
-                            "Selected prospective intent identifies the same exact activation row");
-                    require(stage_late_playback(s, port, later_request) == Disposition::committed,
-                            "STORAGE-027 NI: provisional second playback representation");
-                    const auto second = playback_shape(s, later);
-                    second_ref = second[0].toByteArray();
-                    if (operation == B::handoff) {
-                        const auto handoff = PlaybackHandoff{evidence.handoff.selected, first_ref};
-                        require(stage_playback_handoff(s, port, handoff) == Disposition::committed,
-                                "STORAGE-027 NI: provisional handoff representation");
-                        const auto consumed = playback_shape(s, initial);
-                        require(!consumed[2].isNull(),
-                                "Exact provisional handoff records its owned claim");
-                        initial_shape.handoff = consumed[2].toLongLong();
-                    }
-                    initial_shape.instance = first_ref.size();
-                    initial_shape.attempt = first[1].toLongLong();
-                    late_shape.instance = second_ref.size();
-                    late_shape.attempt = second[1].toLongLong();
-                    require(first_ref != second_ref,
-                            "Both exact activation identities stay independently addressable");
-                });
-            r.result = wire::result(wire::Kind::stop, sample).size();
-            const Decision empty_result{Disposition::committed, {}, {}, {}, {}};
+            auto initial_shape = fixture_shape(initial, first_ref);
+            auto late_shape = fixture_shape(later, second_ref);
+            const auto third_shape = fixture_shape(excess, third_ref);
             const auto base_bytes = wire::result(wire::Kind::stop, empty_result).size();
             const auto member_bytes = [&](std::vector<QByteArray> refs) {
                 auto result = empty_result;
@@ -2070,71 +2033,135 @@ class Storage027CommandsTests final : public QObject {
                 return wire::result(wire::Kind::stop, result).size() - base_bytes;
             };
             const auto fixed = meter::playback_capacity_plan(r, initial_shape, {}, 0);
-            const auto initial_member = meter::playback_capacity_member(r, initial_shape);
-            const auto late_member = meter::playback_capacity_member(r, late_shape);
-            const bool later_is_larger = late_member.binds > initial_member.binds;
-            const auto &largest_shape = later_is_larger ? late_shape : initial_shape;
-            const auto &largest_ref = later_is_larger ? second_ref : first_ref;
-            const auto per = later_is_larger ? late_member : initial_member;
-            const auto one = meter::playback_capacity_plan(r, initial_shape, {largest_shape},
-                                                           member_bytes({largest_ref}));
-            auto distinct_same_width = largest_ref;
-            distinct_same_width[0] = char(distinct_same_width[0] ^ 0x01);
+            const auto per = meter::playback_capacity_member(r, initial_shape);
+            const auto one = meter::playback_capacity_plan(r, initial_shape, {initial_shape},
+                                                           member_bytes({first_ref}));
             const auto allowance =
-                meter::playback_capacity_plan(r, initial_shape, {largest_shape, largest_shape},
-                                              member_bytes({largest_ref, distinct_same_width}));
-            require_member_delta(one, allowance, per);
-            const auto mixed =
                 meter::playback_capacity_plan(r, initial_shape, {initial_shape, late_shape},
                                               member_bytes({first_ref, second_ref}));
+            const auto three = meter::playback_capacity_plan(
+                r, initial_shape, {initial_shape, late_shape, third_shape},
+                member_bytes({first_ref, second_ref, third_ref}));
+            require(
+                meter::playback_capacity_member(r, late_shape) == per &&
+                    meter::playback_capacity_member(r, third_shape) == per,
+                "All three distinct activations have the same independently counted member charge");
+            require_member_delta(one, allowance, per);
+            require_member_delta(allowance, three, per);
             require(
                 meter::cap(fixed, per, allowance, meter::action_limit) == 2 &&
-                    std::ranges::equal(meter::dimensions(mixed), meter::dimensions(allowance),
-                                       std::less_equal<>{}),
-                "Independent fixed and exact mixed playback plans admit both genuine activations");
+                    three.binds > allowance.binds,
+                "The independent cumulative plan admits exactly two of these three activations");
             const auto play_limits = meter::limits(allowance);
-            const auto &charged_playback = operation == B::late_add ||
-                                                   operation == B::late_duplicate ||
-                                                   operation == B::late_exhausted
-                                               ? late_shape
-                                               : initial_shape;
+            const AdmissionProfile prepare{loose_budget, play_limits, &budget_bytes};
+
+            // These reads observe committed rows in this exact fixture. Future
+            // allocations are always supplied by the fixture, including below-limit attempts.
+            const auto retain_instance = [&](const PlaybackInstance &i, const QByteArray &expected,
+                                             meter::Playback &shape) {
+                const auto row = f.db.rows(
+                    "SELECT instance,attempt,handoff FROM "
+                    "main.subathon_milestone_playback_instances WHERE installation=? AND track=? "
+                    "AND stop=? AND ordinal=? AND adapter=? AND activation=? AND generation=?",
+                    {QByteArray::fromStdString(key.track.installation_ref),
+                     QByteArray::fromStdString(key.track.track_ref), key.operation, i.ordinal,
+                     i.adapter, i.activation, i.runtime_generation});
+                require(row.size() == 1 && row[0][0].toByteArray() == expected &&
+                            row[0][1].toByteArray() == budget_bytes.playback_attempt,
+                        "Committed activation retains its exact instance and attempt encoding");
+                shape.instance = row[0][0].toByteArray().size();
+                shape.attempt = row[0][1].toByteArray().size();
+                return row[0][2];
+            };
+            const auto retained_origin = [&] {
+                const auto row = f.db.rows(
+                    "SELECT origin_scope,playback_cap FROM main.subathon_milestone_stop_fences "
+                    "WHERE stop=?",
+                    {key.operation});
+                require(row == SqlRows{{budget_bytes.edit_origin_scope, 2}},
+                        "Committed Stop retains the exact projected scope and two-instance cap");
+                return row[0][0].toByteArray().size();
+            };
+            auto later_request = LatePlayback{edit::track, key.operation, later};
             if (operation != B::stop_started) {
-                constexpr StorageLimits loose{64, 1024, 65536, 16777216, 8192, 16777216};
-                const AdmissionProfile bounded{loose, play_limits};
                 const auto staged = run(f.db, [&](const auto &s) {
-                    return stage_command(s, owner, key, nullptr, &bounded);
+                    return stage_command(s, owner, key, nullptr, &prepare);
                 });
-                require(!staged.missing && staged.published &&
-                            staged.published->disposition == Disposition::committed &&
-                            staged.published->playback_intents.size() == 1 &&
-                            staged.published->playback_intents[0].size() == initial_shape.instance,
-                        "STORAGE-027 NI: exact Stop produces the bounded playback prerequisite");
+                require(!staged.missing,
+                        "STORAGE-027 NI: normally committed Stop for playback budget");
+                require(staged.published && *staged.published == expected_stop,
+                        "Normal Stop publishes the exact initial playback intent");
+                r.origin_scope = retained_origin();
                 selected_evidence.handoff.intent = staged.published->playback_intents[0];
-                require(f.db.rows("SELECT playback_cap FROM main.subathon_milestone_stop_fences "
-                                  "WHERE stop=?",
-                                  {key.operation}) == SqlRows{{2}},
-                        "Exact dynamic cap is retained with Stop for later turns");
+                const auto open =
+                    retain_instance(initial, selected_evidence.handoff.intent, initial_shape);
+                require(open.isNull(), "Initial committed intent has no consuming claim");
+
                 if (operation == B::late_duplicate || operation == B::late_exhausted) {
-                    f.db.write([&](const auto &s) {
-                        require(stage_late_playback(s, port, later_request, &bounded) ==
-                                    Disposition::committed,
-                                "At N-1, the exact new late activation fills the retained cap");
+                    const auto late = run(f.db, [&](const auto &s) {
+                        return Decision{
+                            stage_late_playback(s, port, later_request, &prepare), {}, {}, {}, {}};
                     });
+                    require(!late.missing,
+                            "STORAGE-027 NI: normally committed late playback budget prerequisite");
+                    require(late.published && late.published->disposition == Disposition::committed,
+                            "At N-1 the separate late turn fills the already committed Stop's cap");
+                    require(retain_instance(later, second_ref, late_shape).isNull(),
+                            "The newly committed late intent remains unclaimed");
                     if (operation == B::late_exhausted)
-                        later_request.instance.activation = "active-3";
+                        later_request.instance = excess;
                 }
-                if (operation == B::outcome || operation == B::outcome_duplicate)
-                    f.db.write([&](const auto &s) {
-                        require(stage_playback_handoff(s, port, selected_evidence.handoff) ==
-                                    Disposition::committed,
-                                "Outcome uses a real durable consuming handoff");
-                        if (operation == B::outcome_duplicate)
-                            require(stage_playback_outcome(s, port, selected_evidence) ==
-                                        Disposition::committed,
-                                    "Repeated evidence has one real prior append");
+
+                if (operation == B::outcome || operation == B::outcome_duplicate) {
+                    const auto acquired = run(f.db, [&](const auto &s) {
+                        return Decision{
+                            stage_playback_handoff(s, port, selected_evidence.handoff, &prepare),
+                            {},
+                            {},
+                            {},
+                            {}};
                     });
+                    require(!acquired.missing,
+                            "STORAGE-027 NI: normally committed playback claim for outcome budget");
+                    require(acquired.published &&
+                                acquired.published->disposition == Disposition::committed,
+                            "Outcome uses the claim committed in a separate normal turn");
+                    const auto claim =
+                        retain_instance(initial, selected_evidence.handoff.intent, initial_shape);
+                    require(claim.toByteArray() == budget_bytes.handoff,
+                            "The committed claim supplies its actual retained bytes");
+                    initial_shape.handoff = claim.toByteArray().size();
+                }
+
+                if (operation == B::outcome_duplicate) {
+                    const auto prior = run(f.db, [&](const auto &s) {
+                        return Decision{
+                            stage_playback_outcome(s, port, selected_evidence, &prepare),
+                            {},
+                            {},
+                            {},
+                            {}};
+                    });
+                    require(!prior.missing,
+                            "STORAGE-027 NI: normally committed prior playback outcome");
+                    require(prior.published &&
+                                prior.published->disposition == Disposition::committed,
+                            "Duplicate setup appends prior evidence after the claim committed");
+                    const auto saved =
+                        f.db.rows("SELECT evidence FROM main.subathon_milestone_playback_evidence "
+                                  "WHERE stop=? AND instance=?",
+                                  {key.operation, selected_evidence.handoff.intent});
+                    require(
+                        saved == SqlRows{{selected_evidence.evidence}},
+                        "Duplicate charges the actual evidence selected from the committed claim");
+                    initial_shape.evidence = saved[0][0].toByteArray().size();
+                }
             }
 
+            const auto &charged_playback =
+                operation == B::late_exhausted                               ? third_shape
+                : operation == B::late_add || operation == B::late_duplicate ? late_shape
+                                                                             : initial_shape;
             const auto charge = meter::plan(
                 operation, r,
                 {meter::Slot{
@@ -2156,7 +2183,7 @@ class Storage027CommandsTests final : public QObject {
             };
             const auto original = before();
             f.db.reopen(limits);
-            const AdmissionProfile selected{limits, play_limits};
+            const AdmissionProfile selected{limits, play_limits, &budget_bytes};
             port.allowed = operation != B::handoff_denied;
             const auto actual = run(f.db, [&](const auto &s) {
                 if (operation == B::stop_started)
@@ -2193,6 +2220,18 @@ class Storage027CommandsTests final : public QObject {
             if (expected != Disposition::committed)
                 require(before() == original,
                         "At the cap, duplicate and excess create no new evidence");
+            if (operation == B::stop_started) {
+                require(*actual.published == expected_stop && retained_origin() == r.origin_scope &&
+                            retain_instance(initial, first_ref, initial_shape).isNull(),
+                        "Exact initial Stop commits the counted playback reference and attempt");
+            }
+            if (operation == B::late_add)
+                require(retain_instance(later, second_ref, late_shape).isNull(),
+                        "Exact late admission commits its distinct counted unclaimed instance");
+            if (operation == B::handoff)
+                require(retain_instance(initial, first_ref, initial_shape).toByteArray() ==
+                            budget_bytes.handoff,
+                        "Exact handoff commits the counted consuming claim");
             if (operation == B::late_duplicate || operation == B::late_exhausted)
                 require(
                     f.db.rows("SELECT count(*) FROM main.subathon_milestone_playback_instances") ==

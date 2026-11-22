@@ -3,6 +3,8 @@
 
 #include <subathon/server/sqlite_milestone_target_edits.hpp>
 
+#include <array>
+
 namespace storage_027_fixture {
 using namespace subathon::server;
 
@@ -114,11 +116,26 @@ class CommandAuthority {
     historical_bonus_amount(const SqliteWorkSession &, const Occurrence &, const Replacement &) = 0;
 };
 
-// Disposable admission profile for the Stage 1 seam. Playback admission is
-// charged separately and retained with Stop for later exact activations.
+// Optional inputs at the Stage 1 fixture's allocation and encoding points.
+// Normal authority, selection, metering and persistence still apply. These
+// values impose no width or representation on production.
+struct FixtureStorageBytes {
+    QByteArray edit_origin_scope;
+    QByteArray interruption_cause;
+    std::array<QByteArray, 3> replacement_versions; // Positive fixture ordinals 1 through 3.
+    QByteArray playback_attempt;                    // Exact fixture's original committed attempt 2.
+    struct PlaybackRef {
+        QByteArray activation, instance;
+    };
+    std::array<PlaybackRef, 3> playback_refs;
+    QByteArray handoff;
+};
+
+// Playback admission is charged separately and retained with Stop for later activations.
 struct AdmissionProfile {
     StorageLimits work;
     std::optional<StorageLimits> playback;
+    const FixtureStorageBytes *fixture_bytes{};
 };
 
 class ReplacePreview;

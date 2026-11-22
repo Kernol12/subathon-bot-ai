@@ -148,11 +148,12 @@ inline Decision read(CatalogFile &db, Authority &authority, const Command &comma
     return *result.published;
 }
 
-inline std::shared_ptr<const ReplacePreview> bind_replace(CatalogFile &db, Authority &authority,
-                                                          const Command &command) {
+inline std::shared_ptr<const ReplacePreview>
+bind_replace(CatalogFile &db, Authority &authority, const Command &command,
+             const AdmissionProfile *profile = nullptr) {
     std::shared_ptr<const ReplacePreview> bound;
     db.write([&](const auto &session) {
-        const auto preview = preview_replace(session, authority, command);
+        const auto preview = preview_replace(session, authority, command, profile);
         auto result = std::get_if<std::shared_ptr<const ReplacePreview>>(&preview);
         require(result && *result, "STORAGE-027 NI: exact preview of the v20-produced queued slot");
         bound = *result;
