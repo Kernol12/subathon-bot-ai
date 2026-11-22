@@ -5,7 +5,6 @@ namespace {
 using namespace storage_003_fixture;
 using Initial = ConstraintSpecimen::Initial;
 using Mutation = ConstraintSpecimen::Mutation;
-using Disposition = detail::ClockPreOpenResult::Disposition;
 using detail::ClockPredecessor;
 
 inline constexpr auto select_slots =
@@ -25,8 +24,9 @@ inline constexpr auto read_join =
     "e.base_token,e.configuration_ref,e.document "
     "FROM subathon_clock_checkpoint s "
     "LEFT JOIN subathon_app_head h ON h.singleton=s.singleton "
+    "AND length(h.token) BETWEEN 1 AND 4096 "
     "JOIN subathon_clock_evidence e ON e.revision=s.revision AND e.ordinal=s.root_ordinal "
-    "WHERE s.singleton=1 AND length(h.token) BETWEEN 1 AND 4096 LIMIT 2";
+    "WHERE s.singleton=1 LIMIT 2";
 
 SqlRows read(SqliteReader &reader, const QString &sql) {
     const auto result = reader.read({sql, {}}, 2);
@@ -43,32 +43,19 @@ void expect_seed(const DisposableFile &file) {
     expect_rows(read(reader, select_slots), {seed_slot}, "Exact committed slot columns and bytes");
     expect_rows(read(reader, select_roots), {seed_evidence},
                 "Exact committed root and genuine NULLs");
-    const auto joined = read(reader, read_join);
-    expect_rows(joined, {seed_join}, "Independent joined head, slot and root");
-    qsizetype bytes = 0;
-    for (const auto &cell : joined[0]) {
-        bytes += 8;
-        if (!cell.isNull() && cell.metaType().id() == QMetaType::QByteArray)
-            bytes += cell.toByteArray().size();
-    }
-    require(joined.size() == 1 && joined[0].size() == joined_cells && bytes == joined_bytes,
-            "Structural join charges 1 row, 21 cells and 298 bytes");
+    expect_rows(read(reader, read_join), {seed_join}, "Independent joined head, slot and root");
 }
 
 void advance_to_22(const DisposableFile &file, const detail::ClockPreOpenWitness &expected,
                    const Charge &charge) {
     const auto manifest = compiled_successor();
-    const auto original = file.seal();
-    const auto probe = detail::probe_clock_checkpoint_predecessor(file.path());
-    require(probe.disposition == Disposition::candidate && probe.reason == MigrationReason::none &&
-                probe.witness == expected && file.seal() == original,
-            "Read-only pre-open must admit the exact stopped basis");
+    const auto witness = candidate(file, expected);
     DisposableFile backup;
     file.copy_to(backup);
     SqliteWriter owner;
     require(owner.open(file.path(), profile(charge)) == StorageError::none,
             "Normal owner opens after read-only admission and matching backup");
-    const auto result = advance(owner, request(MigrationMode::advance, manifest), *probe.witness);
+    const auto result = advance(owner, request(MigrationMode::advance, manifest), witness);
     require(result.refusal == detail::ClockAdvanceRefusal::none, "Unchanged basis admitted");
     expect_current(result.migration, 22, 22 - expected.version);
 }
@@ -133,6 +120,39 @@ class Storage003WriterTests final : public QObject {
             DisposableFile file;
             advance_blank(file);
             install_seed(file);
+            expect_seed(file);
+        });
+    }
+
+    void w1JoinedReadBudget() {
+        check([] {
+            DisposableFile file;
+            advance_blank(file);
+            install_seed(file);
+            for (const qsizetype available : {joined_bytes, joined_bytes - 1}) {
+                auto limits = setup_profile;
+                limits.result_rows = 1;
+                limits.result_value_bytes = available;
+                SqliteWriter writer;
+                require(writer.open(file.path(), limits) == StorageError::none,
+                        "Owner opens with the exact joined read limit");
+                const auto result = qt_test_support::run_work(
+                    writer,
+                    [](auto context) {
+                        const auto session = context.begin();
+                        const auto rows = session.execute({read_join, {}});
+                        expect_rows(rows, {seed_join}, "One exact 21-cell structural row");
+                        session.commit();
+                        return 1;
+                    },
+                    10000);
+                if (available == joined_bytes)
+                    expect_commit(result);
+                else
+                    require(result.transaction == TransactionOutcome::rolled_back &&
+                                result.error == WorkError::result_limit && !result.value,
+                            "One less than 298 value bytes refuses the real joined read");
+            }
             expect_seed(file);
         });
     }
@@ -252,6 +272,18 @@ class Storage003WriterTests final : public QObject {
                 SqliteWriter writer;
                 require(writer.open(file.path(), setup_profile) == StorageError::none,
                         "Real governed writer opens the disposable copy");
+                const auto trace_before_select = detail::clock_checkpoint_fixture_trace(writer);
+                expect_commit(qt_test_support::run_work(
+                    writer,
+                    [](auto context) {
+                        const auto session = context.begin();
+                        expect_rows(session.execute({empty_additions, {}}), {{integer(0)}},
+                                    "Fixed nonmutating selector observes the occupied relations");
+                        session.commit();
+                        return 1;
+                    },
+                    10000));
+                const auto trace_before_batch = detail::clock_checkpoint_fixture_trace(writer);
                 auto batch_callback = std::make_shared<bool>(false);
                 const SqlStatement occupied_head{"INSERT INTO subathon_app_head VALUES(1,X'41')",
                                                  {}};
@@ -260,6 +292,8 @@ class Storage003WriterTests final : public QObject {
                                 StorageError::invalid_batch &&
                             !*batch_callback,
                         "Governed head batch is rejected before work admission");
+                const auto trace_after_batch = detail::clock_checkpoint_fixture_trace(writer);
+                QList<std::optional<detail::ClockFixtureWriterTrace>> denial_traces;
                 const QList<SqlStatement> controls{
                     occupied_head,
                     {"REPLACE INTO subathon_app_head VALUES(1,X'41')", {}},
@@ -281,10 +315,8 @@ class Storage003WriterTests final : public QObject {
                     {"REPLACE INTO subathon_clock_evidence "
                      "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                      seed_evidence},
-                    {"CREATE INDEX subathon_test_v22_drift ON subathon_clock_evidence(kind)", {}},
-                    {"PRAGMA foreign_keys=OFF", {}},
-                    {"SELECT 42", {}}};
-                for (const auto &statement : controls) {
+                    {"CREATE INDEX subathon_test_v22_drift ON subathon_clock_evidence(kind)", {}}};
+                auto deny = [&](const SqlStatement &statement, const QString &witness) {
                     const auto result = qt_test_support::run_work(
                         writer,
                         [statement](auto context) {
@@ -296,9 +328,31 @@ class Storage003WriterTests final : public QObject {
                         10000);
                     require(result.transaction == TransactionOutcome::rolled_back &&
                                 result.error == WorkError::invalid_statement && !result.value,
-                            QString("Exact recipe denial, work reason %1 for %2")
+                            QString("%1, work reason %2 for %3")
+                                .arg(witness)
                                 .arg(static_cast<int>(result.error))
                                 .arg(statement.sql));
+                    denial_traces.append(detail::clock_checkpoint_fixture_trace(writer));
+                };
+                for (const auto &statement : controls)
+                    deny(statement, "Governed write recipe");
+                // These already refuse at the protected pin and earn no new red.
+                deny({"PRAGMA foreign_keys=OFF", {}}, "Protected writable PRAGMA regression");
+                deny({"UNRECOGNIZED STORAGE_003", {}}, "Protected unsupported verb regression");
+                require(trace_before_select && trace_before_batch && trace_after_batch,
+                        "Pending actual writer prepare/BEGIN tracing in the fixture owner variant");
+                require(trace_before_batch->prepares - trace_before_select->prepares == 1 &&
+                            trace_before_batch->begins - trace_before_select->begins == 1,
+                        "Positive SELECT reaches one prepare and one real BEGIN on this writer");
+                require(trace_after_batch->prepares == trace_before_batch->prepares &&
+                            trace_after_batch->begins == trace_before_batch->begins,
+                        "Rejected batch reaches neither prepare nor BEGIN");
+                auto prior = *trace_after_batch;
+                for (const auto &after : denial_traces) {
+                    require(after && after->prepares == prior.prepares &&
+                                after->begins - prior.begins == 1,
+                            "Denied work begins once and reaches zero prepares");
+                    prior = *after;
                 }
             }
             expect_seed(file);

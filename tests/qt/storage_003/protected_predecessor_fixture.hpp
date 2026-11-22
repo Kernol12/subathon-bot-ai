@@ -55,7 +55,42 @@ inline constexpr auto select_history =
 
 inline const SqlRows initial_head{{integer(1), blob("A")}};
 inline const SqlRows initial_configuration{{blob("K"), blob("configuration")}};
-inline constexpr auto fk_check = "SELECT * FROM pragma_foreign_key_check() LIMIT 1";
+
+inline SqlRows expected_history(qint32 count) {
+    SqlRows rows;
+    for (qint32 i = 0; i < count; ++i)
+        rows.append(SqlRow{integer(i + 1), QString::fromLatin1(step_ids[i]),
+                           blob(QByteArray::fromHex(step_digests[i]))});
+    return rows;
+}
+
+inline detail::ClockPreOpenResult probe_stopped(const DisposableFile &file, StorageLimits limits) {
+    const auto before = file.seal();
+    const auto probe = detail::probe_clock_checkpoint_predecessor(file.path(), limits);
+    require(file.seal() == before, "Read-only pre-open leaves the stopped main file unchanged");
+    return probe;
+}
+
+inline void expect_probe_ledger(const detail::ClockPreOpenResult &probe, const Charge &expected,
+                                detail::ClockProbeQuery terminal_query) {
+    require(probe.terminal_query == terminal_query && probe.attained == expected,
+            "Exact terminal probe query and independently fixed eight-field attained ledger");
+}
+
+inline detail::ClockPreOpenWitness candidate(const DisposableFile &file,
+                                             const detail::ClockPreOpenWitness &expected) {
+    using Query = detail::ClockProbeQuery;
+    using Disposition = detail::ClockPreOpenResult::Disposition;
+    const bool blank = expected.predecessor == detail::ClockPredecessor::blank;
+    const auto &charge = blank ? blank_probe : ready_probe;
+    const auto result = probe_stopped(file, profile(charge));
+    require(result.disposition == Disposition::candidate &&
+                result.reason == MigrationReason::none && result.witness == expected,
+            QString("Read-only pre-open candidate and exact basis, reason %1")
+                .arg(static_cast<int>(result.reason)));
+    expect_probe_ledger(result, charge, blank ? Query::foreign_keys : Query::legacy_guard);
+    return *result.witness;
+}
 
 inline void verify_manifest(const MigrationManifest &manifest, qint32 end) {
     require(manifest.catalog_format == 1 && manifest.store_identity == "subathon.sqlite-store" &&
@@ -236,6 +271,8 @@ class ProtectedPredecessor final {
                 expect_rows(session.execute({select_head, {}}), initial_head, "Actual A head");
                 expect_rows(session.execute({select_configuration, {}}), initial_configuration,
                             "Exact retained K");
+                expect_rows(session.execute({select_history, {}}), expected_history(21),
+                            "Exact ordered protected v21 INTEGER/TEXT/BLOB history");
                 verify_k_children(session);
                 session.commit();
                 return 1;

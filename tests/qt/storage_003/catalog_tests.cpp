@@ -6,30 +6,41 @@ using namespace storage_003_fixture;
 using Disposition = detail::ClockPreOpenResult::Disposition;
 using Predecessor = detail::ClockPredecessor;
 
-void expect_unchanged_probe(const DisposableFile &file, const QByteArray &seal) {
-    require(file.seal() == seal, "Read-only pre-open leaves the stopped main file unchanged");
+using Query = detail::ClockProbeQuery;
+
+// The probe binds no values, so there is no positive binding-byte edge.
+void probe_one_less(const DisposableFile &file, const Charge &charge,
+                    const std::array<Query, 4> &stops) {
+    for (std::size_t i = 0; i < stops.size(); ++i) {
+        auto limits = profile(charge);
+        --(limits.*metered_limits[i]);
+        const auto result = probe_stopped(file, limits);
+        require(result.disposition == Disposition::unavailable &&
+                    result.reason == MigrationReason::resource_limit && !result.witness &&
+                    result.terminal_query == stops[i] && result.attained.has_value(),
+                QString("One-less pre-open resource limit at query %1, dimension %2")
+                    .arg(static_cast<int>(stops[i]))
+                    .arg(i));
+    }
 }
 
-detail::ClockPreOpenWitness candidate(const DisposableFile &file,
-                                      const detail::ClockPreOpenWitness &expected) {
-    const auto before = file.seal();
-    const auto result = detail::probe_clock_checkpoint_predecessor(file.path());
-    expect_unchanged_probe(file, before);
-    require(result.disposition == Disposition::candidate &&
-                result.reason == MigrationReason::none && result.witness == expected,
-            QString("Read-only pre-open candidate and exact basis, reason %1")
-                .arg(static_cast<int>(result.reason)));
-    return *result.witness;
-}
+constexpr std::array guard_stops{Query::legacy_guard, Query::legacy_guard, Query::legacy_guard,
+                                 Query::legacy_guard};
+constexpr std::array blank_stops{Query::foreign_keys, Query::schema, Query::integrity,
+                                 Query::integrity};
+constexpr std::array orphan_stops{Query::foreign_keys, Query::schema, Query::foreign_keys,
+                                  Query::foreign_keys};
+constexpr std::array history_stops{Query::history, Query::schema, Query::history, Query::history};
 
-void probe_refusal(const DisposableFile &file, MigrationReason expected) {
-    const auto before = file.seal();
-    const auto result = detail::probe_clock_checkpoint_predecessor(file.path());
-    expect_unchanged_probe(file, before);
+void probe_refusal(const DisposableFile &file, MigrationReason expected, const Charge &charge,
+                   Query terminal, const std::array<Query, 4> &stops) {
+    const auto result = probe_stopped(file, profile(charge));
     require(result.disposition == Disposition::unavailable && result.reason == expected &&
                 !result.witness,
             QString("Read-only pre-open refuses at the expected inspection gate, reason %1")
                 .arg(static_cast<int>(result.reason)));
+    expect_probe_ledger(result, charge, terminal);
+    probe_one_less(file, charge, stops);
 }
 
 void inspect_old(const DisposableFile &file, bool ready) {
@@ -47,10 +58,6 @@ void inspect_old(const DisposableFile &file, bool ready) {
     ProtectedPredecessor::verify(owner, ready);
 }
 
-inline constexpr auto empty_additions =
-    "SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM main.subathon_clock_checkpoint) AND "
-    "NOT EXISTS(SELECT 1 FROM main.subathon_clock_evidence) THEN 1 ELSE 0 END";
-
 void inspect_successor(const DisposableFile &file, const MigrationManifest &manifest, bool ready) {
     {
         SqliteWriter owner;
@@ -67,6 +74,9 @@ void inspect_successor(const DisposableFile &file, const MigrationManifest &mani
             const auto session = context.begin();
             expect_rows(session.execute({empty_additions, {}}), {{integer(1)}},
                         "Both new tables are empty");
+            expect_rows(
+                session.execute({select_history, {}}), expected_history(22),
+                "Exact ordered v21 prefix and independently fixed v22 INTEGER/TEXT/BLOB row");
             const auto state = SqliteApplicationBundleStore(session).read_state();
             if (ready) {
                 require(state.has_value(), "Slotless predecessor remains readable by its owner");
@@ -142,64 +152,93 @@ class Storage003CatalogTests final : public QObject {
         });
     }
 
-    void blankBudgetOneLess_data() {
-        QTest::addColumn<int>("dimension");
-        QTest::newRow("attempts") << 0;
-        QTest::newRow("peak-sql") << 1;
-        QTest::newRow("binding-bytes") << 2;
-        QTest::newRow("rows") << 3;
-        QTest::newRow("value-bytes") << 4;
+    void healthyProbeOneLess() {
+        check([] {
+            DisposableFile blank;
+            blank.create_blank();
+            (void)candidate(blank, blank_witness);
+            probe_one_less(blank, blank_probe, blank_stops);
+            ProtectedPredecessor ready(true);
+            (void)candidate(ready.file, ready_witness);
+            probe_one_less(ready.file, ready_probe, guard_stops);
+        });
     }
 
-    void blankBudgetOneLess() {
+    void advanceBudgetOneLess_data() {
+        QTest::addColumn<bool>("ready");
+        QTest::addColumn<int>("dimension");
+        const auto dimensions = {"attempts", "peak-sql", "rows", "value-bytes", "binding-bytes"};
+        for (const bool ready : {false, true}) {
+            int i = 0;
+            for (const auto *dimension : dimensions) {
+                const auto tag = QByteArray(ready ? "ready-" : "blank-") + dimension;
+                QTest::newRow(tag.constData()) << ready << i++;
+            }
+        }
+    }
+
+    void advanceBudgetOneLess() {
+        QFETCH(bool, ready);
         QFETCH(int, dimension);
         check([=] {
-            DisposableFile file;
-            file.create_blank();
-            const auto witness = candidate(file, blank_witness);
-            DisposableFile backup;
-            file.copy_to(backup);
-            const auto manifest = compiled_successor();
-            auto limits = profile(blank_advance);
-            const std::array dimensions{
-                &StorageLimits::statements_per_batch, &StorageLimits::statement_utf8_bytes,
-                &StorageLimits::bound_value_bytes, &StorageLimits::result_rows,
-                &StorageLimits::result_value_bytes};
-            --(limits.*dimensions[dimension]);
-            {
-                SqliteWriter owner;
-                require(owner.open(file.path(), limits) == StorageError::none,
-                        "Open with just one charged dimension reduced");
-                const auto result =
-                    advance(owner, request(MigrationMode::advance, manifest), witness);
-                expect_migration_rollback(result.migration, MigrationReason::resource_limit);
+            auto run = [&](const DisposableFile &file, const detail::ClockPreOpenWitness &basis,
+                           const Charge &charge) {
+                const auto witness = candidate(file, basis);
+                DisposableFile backup;
+                file.copy_to(backup);
+                const auto manifest = compiled_successor();
+                auto limits = profile(charge);
+                --(limits.*metered_limits[dimension]);
+                {
+                    SqliteWriter owner;
+                    require(owner.open(file.path(), limits) == StorageError::none,
+                            "Open with just one charged dimension reduced");
+                    const auto result =
+                        advance(owner, request(MigrationMode::advance, manifest), witness);
+                    expect_migration_rollback(result.migration, MigrationReason::resource_limit);
+                }
+                (void)candidate(file, basis);
+            };
+            if (ready) {
+                ProtectedPredecessor predecessor(true);
+                run(predecessor.file, ready_witness, ready_advance);
+                inspect_old(predecessor.file, true);
+            } else {
+                DisposableFile file;
+                file.create_blank();
+                run(file, blank_witness, blank_advance);
             }
-            (void)candidate(file, blank_witness);
         });
     }
 
     void activePreOpenRefusal() {
         check([] {
             ProtectedPredecessor predecessor(false);
-            const auto before = predecessor.file.seal();
-            const auto result = detail::probe_clock_checkpoint_predecessor(predecessor.file.path());
-            expect_unchanged_probe(predecessor.file, before);
+            const auto result = probe_stopped(predecessor.file, profile(ready_probe));
             require(result.disposition == Disposition::active_refused &&
                         result.witness == active_witness,
                     QString("Active 114A refusal before writer open, reason %1")
                         .arg(static_cast<int>(result.reason)));
+            expect_probe_ledger(result, ready_probe, Query::legacy_guard);
+            probe_one_less(predecessor.file, ready_probe, guard_stops);
             inspect_old(predecessor.file, false);
         });
     }
 
     void inUnitRefusal_data() {
         QTest::addColumn<bool>("actual_active");
-        QTest::newRow("stale-configuration-echo") << false;
-        QTest::newRow("active-at-recheck") << true;
+        QTest::addColumn<int>("dimension");
+        QTest::newRow("stale-configuration-echo") << false << -1;
+        QTest::newRow("active-at-recheck") << true << -1;
+        QTest::newRow("guard-attempt-limit") << false << 0;
+        QTest::newRow("guard-sql-limit") << false << 1;
+        QTest::newRow("guard-row-limit") << false << 2;
+        QTest::newRow("guard-value-limit") << false << 3;
     }
 
     void inUnitRefusal() {
         QFETCH(bool, actual_active);
+        QFETCH(int, dimension);
         check([=] {
             ProtectedPredecessor probe_origin(true);
             auto witness = candidate(probe_origin.file, ready_witness);
@@ -215,16 +254,30 @@ class Storage003CatalogTests final : public QObject {
             };
             {
                 SqliteWriter owner;
-                require(owner.open(selected.file.path(), profile(ready_probe)) ==
-                            StorageError::none,
+                auto limits = profile(ready_probe);
+                if (dimension >= 0)
+                    --(limits.*metered_limits[dimension]);
+                require(owner.open(selected.file.path(), limits) == StorageError::none,
                         "Recheck on the separately isolated owner file");
                 const auto result = advance(owner, std::move(guarded), witness);
-                require(result.refusal == (actual_active
-                                               ? detail::ClockAdvanceRefusal::active
-                                               : detail::ClockAdvanceRefusal::changed_basis) &&
-                            result.migration.work.transaction == TransactionOutcome::rolled_back &&
-                            !result.migration.report && !result.migration.work.value,
-                        "Actual 114A in-unit refusal, rollback and no report");
+                require(result.terminal_preflight_query == Query::legacy_guard &&
+                            result.attained_preflight.has_value(),
+                        "Actual in-unit inspection reaches the typed guard query");
+                if (dimension >= 0) {
+                    expect_migration_rollback(result.migration, MigrationReason::resource_limit);
+                    require(result.refusal == detail::ClockAdvanceRefusal::none,
+                            "Budget stop precedes the typed guard refusal");
+                } else {
+                    require(result.refusal == (actual_active
+                                                   ? detail::ClockAdvanceRefusal::active
+                                                   : detail::ClockAdvanceRefusal::changed_basis) &&
+                                result.migration.work.transaction ==
+                                    TransactionOutcome::rolled_back &&
+                                !result.migration.report && !result.migration.work.value,
+                            "Actual 114A in-unit refusal, rollback and no report");
+                    require(result.attained_preflight == ready_probe,
+                            "Exact independent eight-field ledger through the in-unit guard");
+                }
                 require(calls->size() == 1 &&
                             calls->front().checkpoint == MigrationCheckpoint::before_begin,
                         "No DDL or history checkpoint can run before 114A");
@@ -249,7 +302,8 @@ class Storage003CatalogTests final : public QObject {
                 independent.verify_k_orphan();
             }
             require(copy.seal() == orphan, "Independent FK witness leaves orphan sealed");
-            probe_refusal(copy, MigrationReason::integrity_failed);
+            probe_refusal(copy, MigrationReason::integrity_failed, missing_k, Query::foreign_keys,
+                          orphan_stops);
             inspect_old(predecessor.file, true);
         });
     }
@@ -271,7 +325,9 @@ class Storage003CatalogTests final : public QObject {
                 preparation.drift(digest ? ConstraintSpecimen::Drift::digest21
                                          : ConstraintSpecimen::Drift::marker21);
             }
-            probe_refusal(copy, MigrationReason::catalog_mismatch);
+            probe_refusal(copy, MigrationReason::catalog_mismatch,
+                          digest ? wrong_digest_probe : wrong_marker_probe, Query::history,
+                          history_stops);
             inspect_old(predecessor.file, true);
         });
     }
@@ -320,7 +376,8 @@ class Storage003CatalogTests final : public QObject {
             inspect_successor(predecessor.file, manifest, true);
             {
                 SqliteWriter older;
-                require(older.open(predecessor.file.path(), setup_profile) == StorageError::none,
+                require(older.open(predecessor.file.path(), profile(successor_history_stop)) ==
+                            StorageError::none,
                         "Open independent v21 consumer against exact v22 file");
                 expect_migration_rollback(
                     migrate(older, request(MigrationMode::inspect,
@@ -336,12 +393,14 @@ class Storage003CatalogTests final : public QObject {
                     preparation.drift(drift);
                 }
                 SqliteWriter owner;
-                require(owner.open(copy.path(), setup_profile) == StorageError::none,
+                const bool index = drift == ConstraintSpecimen::Drift::index22;
+                require(owner.open(copy.path(), profile(index ? successor_index_stop
+                                                              : successor_history_stop)) ==
+                            StorageError::none,
                         "Reopen the independently damaged successor");
                 expect_migration_rollback(migrate(owner, request(MigrationMode::inspect, manifest)),
-                                          drift == ConstraintSpecimen::Drift::index22
-                                              ? MigrationReason::schema_mismatch
-                                              : MigrationReason::catalog_mismatch);
+                                          index ? MigrationReason::schema_mismatch
+                                                : MigrationReason::catalog_mismatch);
             }
             DisposableFile restored;
             backup.copy_to(restored);

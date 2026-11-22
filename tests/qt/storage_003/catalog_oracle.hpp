@@ -32,6 +32,32 @@ inline constexpr std::array<const char *, 22> step_digests{
     "2c8b634d2ed28a81f949e8a31e7d9de991bf513f4f5000194b1eaafb725d27bf",
 };
 
+// Exact history markers from the same independent seal.
+inline constexpr std::array<const char *, 22> step_ids{
+    "retain-config-context-v1",
+    "identified-receipts-v1",
+    "contribution-evidence-v1",
+    "captured-application-plans-v1",
+    "atomic-application-bundles-v1",
+    "durable-application-holds-v1",
+    "reference-initial-captures-v1",
+    "account-sessions-v1",
+    "permission-graph-v1",
+    "reference-authority-v1",
+    "delivery-jobs-v1",
+    "milestone-groups-v1",
+    "milestone-group-decisions-v1",
+    "modifier-activations-v1",
+    "financial-refunds-v1",
+    "provider-credentials-v1",
+    "rate-overrides-v1",
+    "milestone-target-edits-v1",
+    "contribution-review-v1",
+    "connector-intake-storage-v1",
+    "milestone-slot-interruption-storage-v1",
+    "clock-checkpoints-v1",
+};
+
 inline constexpr auto prefix21 =
     "d49bca7c166ff9ecc7649b0eafd13270bc2434d6521b89b02f77171404f634b8";
 inline constexpr auto prefix22 =

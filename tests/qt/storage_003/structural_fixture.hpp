@@ -12,16 +12,7 @@ namespace storage_003_fixture {
 using namespace subathon::server;
 using qt_test_support::require;
 
-struct Charge {
-    qsizetype attempts;
-    qsizetype peak_sql;
-    qsizetype total_sql;
-    qsizetype bindings;
-    qsizetype binding_bytes;
-    qsizetype rows;
-    qsizetype cells;
-    qsizetype result_bytes;
-};
+using Charge = detail::ClockStatementLedger;
 
 // The K-orphan returns the first violation: (27 + 8 + 40 + 8) bytes.
 // The healthy first pass returns 330,180 bytes and no FK violation row.
@@ -30,13 +21,20 @@ inline constexpr qsizetype missing_k_fk_row_bytes = 83;
 static_assert(missing_k.result_bytes == 330180 + missing_k_fk_row_bytes);
 inline constexpr Charge ready_probe{7, 1586, 2247, 0, 0, 301, 3471, 330206};
 inline constexpr Charge blank_probe{4, 187, 312, 0, 0, 2, 2, 23};
+// Both marker refusals stop after reading the entire history result. The
+// 16-byte wrong ID replaces the 38-byte ID in the TEXT and BLOB projections.
+inline constexpr Charge wrong_marker_probe{4, 187, 567, 0, 0, 299, 3467, 330126};
+inline constexpr Charge wrong_digest_probe{4, 187, 567, 0, 0, 299, 3467, 330170};
 inline constexpr Charge ready_advance{31, 2684, 9865, 3, 76, 911, 10643, 1020621};
 inline constexpr Charge blank_advance{198, 8804, 142915, 69, 1800, 3239, 38698, 4223254};
 inline constexpr Charge ready_cancel{22, 2684, 8772, 0, 0, 301, 3471, 330206};
 inline constexpr Charge old_inspect{12, 187, 1322, 0, 0, 600, 6936, 660360};
 inline constexpr Charge successor_inspect{12, 187, 1322, 0, 0, 634, 7334, 693858};
 inline constexpr Charge successor_empty_witness{13, 187, 1472, 0, 0, 635, 7335, 693866};
-inline constexpr qsizetype joined_cells = 21;
+// v22 history alone refuses old-inspector and digest drift. Index drift adds
+// one 12-cell schema row charging 352 bytes before the projection comparison.
+inline constexpr Charge successor_history_stop{4, 187, 567, 0, 0, 316, 3666, 346919};
+inline constexpr Charge successor_index_stop{4, 187, 567, 0, 0, 317, 3678, 347271};
 inline constexpr qsizetype joined_bytes = 298;
 inline constexpr qsizetype changes_result_bytes = 8;
 
@@ -46,6 +44,14 @@ inline StorageLimits profile(const Charge &c) {
 }
 
 inline constexpr StorageLimits setup_profile{64, 4096, 65536, 1048576, 8192, 16777216};
+inline constexpr auto empty_additions =
+    "SELECT CASE WHEN NOT EXISTS(SELECT 1 FROM main.subathon_clock_checkpoint) AND "
+    "NOT EXISTS(SELECT 1 FROM main.subathon_clock_evidence) THEN 1 ELSE 0 END";
+
+inline constexpr std::array metered_limits{
+    &StorageLimits::statements_per_batch, &StorageLimits::statement_utf8_bytes,
+    &StorageLimits::result_rows, &StorageLimits::result_value_bytes,
+    &StorageLimits::bound_value_bytes};
 
 // These are storage grammar bytes. The qualified 250 ms observation for W2–W4
 // belongs to the genuine application producer and is not derived from this slot.
