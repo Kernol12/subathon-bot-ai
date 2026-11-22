@@ -13,7 +13,7 @@ report the next task's blocking prerequisite.
 
 | Active task | Current step |
 | --- | --- |
-| [#761 STORAGE-027](https://github.com/Kernol12/subathon-bot-ai/issues/761) | Correction 158A Stage 1 [#803](https://github.com/Kernol12/subathon-bot-ai/pull/803) awaits current CI and protected merge. Stage 2 fix round one follows that baseline. |
+| [#761 STORAGE-027](https://github.com/Kernol12/subathon-bot-ai/issues/761) | Correction 158A Stage 1 [#803](https://github.com/Kernol12/subathon-bot-ai/pull/803) merged at `d23cff72`. Stage 2 fix round one is under coordinator verification. |
 | [#164 CONTRACT-012](https://github.com/Kernol12/subathon-bot-ai/issues/164) | Pre-schema contract stage claims the slot freed by #212. Draft and independent review cover dialect, imports, finite bounds and validation responsibilities before schema authoring. |
 
 - #760 STORAGE-026 completed in [#778](https://github.com/Kernol12/subathon-bot-ai/pull/778)
@@ -188,7 +188,7 @@ The owner stopped #715 after its [one hosted experiment](https://github.com/Kern
   `ef5a2db3595a2baf439e8e04fe682fe7123eb747`. Fresh closing and runtime admission
   remain pending. The worktree and branch in the handover still apply.
 
-### Parallel work and standing CI rerun rule
+## Parallel work and standing CI rerun rule
 
 - At most two active tasks in different modules and three parked tasks. When
   three are parked, finish the active tasks, then stop. Answered parked tasks

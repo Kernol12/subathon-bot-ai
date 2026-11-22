@@ -119,13 +119,18 @@ overlap for one node/property, and consistent context. Track override follows th
 context; absent qualification uses base and removed context removes override.
 Separate elapsed observations for countdown, pause/recovery basis, ActiveSubathon
 and RealElapsed modifiers and server presentation. No UTC/frame-count substitution.
-Use explicit synthetic preview observations and keep preview independent of live.
+The five roots encode authored records and typed references. Synthetic preview inputs
+remain with [SCENE-003 #437](https://github.com/Kernol12/subathon-bot-ai/issues/437).
+Live facts stay with their source owners. [VIEWER-002 #486](https://github.com/Kernol12/subathon-bot-ai/issues/486)
+owns supporter disclosure and [CONTRACT-007 #159](https://github.com/Kernol12/subathon-bot-ai/issues/159)
+owns synchronization. Admitted observations are separate interpretation inputs.
 
 011 definitions cover declared vs inspected vs compatible evidence tied to exact
 payload/version/profile/output. Include all ten closed media profiles (PNG, JPEG,
 WebP, static SVG, GIF, MP4, WebM, WAV, MP3, Ogg), every admitted stream/track/codec
 variant and required field in §§2.1–2.5, plus scoped scene-level media attachments
-without inferring mute/autoplay or trigger authority. SVG descriptor is separate
+as MediaAttachmentRef. [#804](https://github.com/Kernol12/subathon-bot-ai/issues/804)
+owns the deferred trigger, mute and autoplay rules. SVG descriptor is separate
 from source validation in §3 (closed XML, shapes, paths, paint, gradients,
 transforms, internal reference typing and finite expansion). Include both closed
 SFNT profiles (TTF/glyf and OTF/CFF), §4 table/name/cmap/outline/hint rules, exact
@@ -159,7 +164,7 @@ constraints of their cited sections, including each admitted enum/range.
 | 005 values | Version/kind capability identifiers 64 ASCII bytes by grammar. Signed64 20 bytes incl. sign; unsigned64 20 bytes; both exact endpoints. Correlation (if enclosing transport uses it) 256 decoded bytes; CommonFailure 1024 JSON bytes. Keep endpoint-specific operation/reference limits. |
 | 009 content revision §8 | 4096 nodes, 4096 styles, 4096 total placements, forest depth 64, 32768 reference occurrences, 256 feature IDs. New scene/node/style/revision/draft/publication ID 65536 raw bytes (131072 hex chars). Labels 65536 UTF-8 bytes, each literal 1 MiB, geometry 256 ASCII bytes, aggregate owned variable bytes 16 MiB. Fixed color channels 0..255. |
 | 010 domain fields §§2–6 | Exact Signed64 ms/score/threshold fields and Unsigned64 differences/counts; precision 0–6. Progress projected from 64-bit threshold distances needs up to 20 decimal digits per reduced component. Retain DecimalSource factor spelling under its selected source profile (CORE-001 there uses 512 bytes, 256 mantissa digits, exponent magnitude 256); original money and any pre-existing reference retain their actual owning profile. |
-| New authored 010 records, candidate | Each typed definition collection at most 4096, combined definitions 16384; 4096 condition nodes per tree, depth 64 and 65536 total condition nodes per entry; 32768 animation references/tracks across an entry. New definition/revision ID 65536 raw bytes; authored labels/markers 65536 UTF-8 bytes, each literal 1 MiB; 16 MiB aggregate owned variable bytes per bindings root. Candidate authored progress-literal components up to 256 decimal digits each, subject to Q1. |
+| New authored 010 records, candidate | Selected Scene closure: up to 32768 exact definitions per collection and 32768 across collections, tied to the 009 reference-occurrence ceiling. 4096 nodes with four distinct animation refs and one style ref each require 16384 animation definitions and charge 20480 refs. Condition cap 4096 nodes/tree, depth 64 and 65536 nodes/entry. 32768 animation refs/tracks/entry. New definition/revision ID 65536 raw bytes, authored labels/markers 65536 UTF-8 bytes, each literal 1 MiB, 16 MiB aggregate owned variable bytes per bindings root. Authored progress-literal components up to 256 decimal digits each. |
 | 011 descriptors/inventory §§1–7 | New IDs 65536 raw bytes, label/source description 65536 UTF-8 bytes, notice 1 MiB, metadata/notices 16 MiB, 4096 entries/mappings each, 32768 reference uses, SHA-256 64 lowercase ASCII hex, entry name ≤72 ASCII bytes within closed namespace, unsigned exact lengths/counts, §2.1 Q ≤32 digits/component. SVG descriptor values retain §3 exact reduced components ≤4096 bits (≤1234 decimal digits), with §3.4 intermediate components ≤8192 bits. |
 | 011 payload and decode §§2.5, 3–4, 6–7 | Initial configured encoded caps 32 MiB image/font, 128 MiB audio, 512 MiB video and 2 GiB package; raster 8192 per edge and 32000000 pixels. 4 GiB staged expanded entries; 256 MiB one decoded raster, 1 GiB concurrent decoded/intermediate inspection, 16 MiB held audio, 65536 sample frames per block, 16 Mi checked work occurrences, one expensive worker/30 s per supervised attempt. All tighter per-profile source, packet, SVG expanded/coordinate/bit and font table/outline/hint limits apply. |
 | Scene JSON input and output, candidate | Each entry root ≤128 MiB UTF-8 input and serialized output, including framing/whitespace/escapes, and ≤64 JSON levels for non-condition roots, ≤160 for roots with nested conditions. At most 2^22 JSON values/member names combined, 64 members/object, 2^20 items/array (tighter record caps apply), 64 bytes per decoded member name, 6 MiB per raw string token body, 32 bytes per JSON number token. Across one complete validation/export operation, all Scene JSON entry roots together ≤512 MiB serialized in each direction, ≤2^24 values/member names and ≤64 MiB decoded variable payload using owning byte measures. |
@@ -173,8 +178,11 @@ byte. Thus a full 16 MiB of hex-owned bytes could expand to 192 MiB using escape
 The 128 MiB wire limit makes that spelling a resource refusal while permitting
 the unescaped encoding of the same values subject to all other charges. Count
 raw bytes independently of the chosen encoding. Exact byte retention uses the
-actual incoming spelling. An owner-valid larger value requires a sufficient
-reviewed version/profile; no prefix acceptance or silent normalization.
+actual incoming spelling. The candidate operation cap is a resource boundary. A
+nine-field GIF Frame object charges 19 values/member names. At 65536 frames a
+descriptor charges at least 1,245,184. Four exceed the entry cap and fourteen exceed
+the operation cap even if all media bytes fit. Review this refusal before adopting
+the checker profile. A larger value needs a sufficient reviewed version/profile.
 
 Proposed validation order for the detached candidate (authorization governs access
 to protected inputs and results independently):
@@ -206,15 +214,15 @@ deduplication precedence or authority is selected here.
 
 ## 5. Offline checking and review questions
 
-Draft 2020-12 covers structural assertions and static composition. Its integer
-type includes numbers with zero fractional part, and patterns search unless
-constrained. Use full-value ASCII patterns for shape with escaped/trailing newline
-controls, plus a lexical check wherever the owner requires exact spelling. Scalar
-length checks need byte accounting, and `uniqueItems` cannot enforce uniqueness by
-one field. Keep SHA/content, gcd, resolved graph relationships, elapsed provenance,
-licensing and publication outside structural validation.
-[Draft 2020-12 Core](https://json-schema.org/draft/2020-12/json-schema-core),
-[Draft 2020-12 Validation](https://json-schema.org/draft/2020-12/json-schema-validation).
+Draft 2020-12 integer permits a zero fractional part. Scan unsigned small UI
+integers with grammar `0|[1-9][0-9]*`, and enforce the field range. For signed
+small fields also allow a minus before a nonzero permitted magnitude. Fractional
+or exponent spellings of RGBA fail this lexical check. Full-value ASCII patterns
+use `^(?:...)(?![\s\S])` without multiline mode and explicit `[0-9]` digits.
+Count bytes separately. Schema equality covers whole values; keyed uniqueness,
+hashes, gcd, graph checks, clock provenance, rights and publication require their
+own checks. [Core](https://json-schema.org/draft/2020-12/json-schema-core) ·
+[Validation](https://json-schema.org/draft/2020-12/json-schema-validation)
 
 Candidate reuse of admitted `jsonschema 4.26.0` Draft202012Validator and
 `referencing 0.37.0` DRAFT202012 Registry with denied retrieval, exact unchanged
@@ -227,8 +235,9 @@ resources and retrieval policy. [jsonschema 4.26.0 referencing](https://python-j
 Current checks cover one OpenAPI inventory (17 components, 23 manifest examples)
 and the separate progress editor schema. The HTTP checker enumerates only its
 existing artifacts, asserts local-fragment refs and validates in the whole API
-context. It rejects duplicate keys/NaN/Infinity in repository JSON, supplies no
-FormatChecker and promises no bounded hostile decoding. It has no Scene registry,
+context. It rejects duplicate keys and literal NaN/Infinity tokens. The loader
+does not bound finite-token conversions such as `1e400`. It supplies no
+FormatChecker or bounded hostile decoding. It has no Scene registry,
 cross-root inventory/path policy, domain checker or runtime role. Later adaptation
 needs separate review and CI for trusted artifact inventory, explicit dialect/ID
 registration, metaschema checks, complete offline reference walk and independent
@@ -236,26 +245,23 @@ positive/negative bindings for every root/branch. Include missing/forbidden targ
 unused refs and repeated runs for deterministic classification. Keep ADR-0008
 isolation and current HTTP/progress evidence. The retired generic validator stays retired.
 
-1. **Q1 — Domain profile.** Which exact source bounds apply to projected money/currency,
-   modifier factors and names, domain IDs and selected support/preview observations,
-   including per-row/output and total selection bounds? Confirm authored progress
-   literal and 010 capacity proposals against required content. No smaller universal
-   cap or invented projection supplies these answers. #777 and #792 remain owning gaps.
-2. **Q2 — Package and boundary profiles.** Which reviewed container and inventory
-   representation carries one or more selected revisions at the abstract `scene`
-   entry? Confirm admitted draft/import retention paths and ancillary field bounds,
-   including provenance/rights/fallback/locale and audio trigger semantics where
-   still unresolved. Unknown content gets no package, publication or application success.
-3. **Q3 — Execution budgets.** Which finite world-transform/viewport, surface/cache,
-   glyph/layout/text-output and work budgets do the renderer and delivery owners
-   support? Confirm proposed JSON allocation/work limits and field walks against the
-   complete schema and bounded execution plan. No platform success inferred.
+1. **Q1 — Domain profile.** CORE-001 supplies the admitted DecimalSource bound.
+   SCENE-003 and the live projection owners select their observation and text
+   bounds for money, currency, names, rows and other admitted values. #777 and
+   #792 remain producer gates. These inputs stay outside the five authored roots.
+2. **Q2 — Package profiles.** Decision 159 settles the revision cardinality of
+   the single logical `scene` entry before the package/manifest schema. A separate
+   reviewed container profile defines executable framing and staging. Retained
+   unknown originals require an explicitly admitted draft/import path under 137A.
+3. **Q3 — Execution budgets.** Review the JSON allocation and work caps, including
+   the large-GIF resource refusal, before adopting the checker profile. Renderer
+   owners qualify world-transform, surface, cache, glyph and frame-work bounds
+   before rendering; delivery owners qualify their corresponding boundaries.
 
 ## 6. Independent example pins and scope
 
-The following paired outcomes and the exact §1 blobs are inputs for later
-independently authored complete fixtures. Each mutation starts in a fresh
-disposable context. No predicted result comes from a tool.
+Independently authored fixtures use the §1 pins below. Each mutation starts in
+a fresh disposable context.
 
 | Complete logical input or pinned case family | Control and first relevant check |
 | --- | --- |
@@ -281,14 +287,11 @@ Candidate spelling of the complete empty revision (SD02, structural scope):
 }
 ```
 
-This has an empty closed forest. Replace only canvas width with JSON number 200
-for a structural type rejection, or "+200" for a primitive grammar rejection.
-Replace only roots with ["41"] for a dangling ID. Add "credential" to the root
-for a closed-member failure. These cases convey no permission or profile support.
+Replace canvas width alone with JSON number 200 for structural rejection or
+"+200" for grammar rejection. Roots ["41"] create a dangling ID. A root
+"credential" member fails object closure.
 
-CONTRACT-008 still audits complete 009/010/011/012 consistency and independent
-reference-scene coverage before HTTP006 and parent CONTRACT-003 integration.
-SCENE/RENDER, API/WS, viewer/session/access, deployment and release consumers still
-need their own baselines, reviewed tests, valid intended red, code review and CI.
-Independent native/browser conformance, font licensing/pins, 60/30 FPS, actual
-Windows/Linux/OBS/browser and deployment evidence remain separate gates.
+CONTRACT-008 audits 009/010/011/012 and reference-scene coverage before HTTP006
+and CONTRACT-003. Downstream Scene, renderer, API/WS, viewer and deployment work
+needs its own tests, review and CI. Native/browser conformance, font licensing,
+60/30 FPS and Windows/Linux/OBS/browser evidence remain release gates.
