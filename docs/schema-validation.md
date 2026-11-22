@@ -3,7 +3,9 @@
 The [current contract](contracts/schema-validation-tool-v1.md) requires real
 standards validation of the source-controlled OpenAPI document, every declared
 example, independent valid/invalid cases for all 17 current component schemas,
-and canonical proof/policy schemas. Scene/WebSocket schemas remain planned.
+and canonical proof/policy schemas. The Scene suite adds six Draft 2020-12
+resources and structural checks for 159 independent cases. WebSocket schemas
+remain planned.
 These checks establish artifact shape, references and examples. Actual test/source
 reviews and selected-host CI remain separate from runtime or release acceptance.
 
@@ -64,8 +66,8 @@ The suite preserves all 23 existing positive HTTP examples. Unknown offered vers
 capability identifiers are valid shapes; negotiation support is a later runtime decision.
 A literal matrix supplies valid/invalid examples for every actual component target.
 Inventory checks reject missing/unclassified schemas, targets and example files.
-Whole-document in-memory resolution closes current local references, including unused
-components. Proof/policy checks validate every actual canonical HEAD record with the admitted SDK;
+Whole-document in-memory resolution closes current HTTP local references and
+Scene local and registered cross-resource references, including unused definitions. Proof/policy checks validate every actual canonical HEAD record with the admitted SDK;
 missing inputs fail without fallback. Workflow review grammar is shared with tools/workflow.py. No FormatChecker is
 supplied, so format is annotation-only there; the current public API has no format.
 

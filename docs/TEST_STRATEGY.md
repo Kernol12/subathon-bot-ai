@@ -85,7 +85,7 @@ still using synthetic data and supplied policy/authority facts.
 | `core-acceptance-debug` | `-L '^scheduled-pause$'` | 35 synthetic scheduler cases covering configured-zone resolution, cutover, entry, retention, clock progression and coverage holds. Platform timezone evidence and authoritative preview and Save have separate gates. |
 | `core-acceptance-debug` | `-L '^downtime-recovery$'` | 49 synthetic cases for offline Freeze, Count elapsed, Recovery Review, deadline and schedule cuts, and authorized correction. Durable restart, live clock and scheduler facts, modifier clocks and command integration have separate owners. |
 | `core-acceptance-debug` | `-L '^finished-timer$'` | 22 synthetic cases for finished input, separate deadline edits, audited reopen and debt correction, and ordered pending-group choices. Authoritative commit and action delivery remain separate. |
-| `schema-validation-debug` | `-L '^schema-validation$'` | 3 nodes: repository OpenAPI/components/examples, canonical proof/policy aggregate and real-SDK proof publication integration; actual HEAD inputs are required |
+| `schema-validation-debug` | `-L '^schema-validation$'` | 3 nodes: repository HTTP and Scene schemas/examples, canonical proof/policy aggregate and real-SDK proof publication integration. Actual HEAD inputs required |
 
 Selecting `reference-rule` with `SUBATHON_ACCEPTANCE_SUITES` builds 11 pure configured-
 integer cases and 24 Qt current-authority consumer methods (34 invocations).
@@ -122,7 +122,8 @@ separate reviewer.
 
 The [current contract](contracts/schema-validation-tool-v1.md) requires the actual
 OpenAPI 3.1.1 document, all 17 component targets with independent valid/invalid cases,
-all 23 existing manifest-bound positive examples, and Draft 2020-12 canonical proof/policy schemas. The `schema-validation-debug` Python suite runs real selected standards validators;
+all 23 existing manifest-bound positive examples, six Draft 2020-12 Scene and
+common resources with 159 independent structural cases, and canonical proof/policy schemas. The `schema-validation-debug` Python suite runs real selected standards validators;
 its local passing checks do not replace selected-host CI or source review. The retired generic API/process harness remains historical
 evidence. No runtime authority, raw ingress or provider/platform support follows
 from schema shape, and schema shape does not replace runtime proof invariants.

@@ -1,6 +1,6 @@
-# Repository schema validation — v1, revision 2
+# Repository schema validation — v1, revision 3
 
-TESTCLEAN-001; authority: specification v0.45 §§17–18, API-01/02/03, TEST-04,
+TESTCLEAN-001 and CONTRACT-012. Authority: specification v0.45 §§17–18, API-01/02/03, TEST-04,
 [ADR-0008](../decisions/0008-schema-validation-foundation.md) and
 [ADR-0012](../decisions/0012-test-suite-simplification.md). This is the current
 project-check contract. Actual test/oracle review, execution, source review and CI
@@ -9,14 +9,14 @@ remain separate gates; a document does not establish passing implementation.
 ## Scope and superseded surface
 
 Validate source-controlled repository schemas and independently authored examples
-with the selected real standards libraries. The current public artifact is
-`schemas/http/reference-v1/api.json`: OpenAPI 3.1.1, 17 component schemas, and all
-23 positive example bindings in its manifest. Scene and WebSocket directories
-contain planned work, not schemas or supported capabilities. Also check the separate
+with the selected real standards libraries. The HTTP package keeps its OpenAPI
+3.1.1 document, 17 component schemas, and all 23 positive example bindings.
+The [Scene package](../../schemas/scene/README.md) adds five Draft 2020-12 roots
+and one common wire resource. WebSocket schemas remain planned. Also check the separate
 Draft 2020-12 editor schema `progress/state.schema.json`, with actual progress data
 and small synthetic structural examples.
 
-This revision retires the generic arbitrary-package developer API and its six old
+Revision 2 retired the generic arbitrary-package developer API and its six old
 logical/API/context/installation/process/native profiles. The old `validate_package`,
 18-outcome enum, fixed CLI/help/status/redaction protocol, hostile-file/snapshot and
 lexical/number/graph budgets, exact rational decoder, generic context/cycle/inventory
@@ -48,7 +48,7 @@ providers, clients/renderers/locales/themes and platform/release gates remain.
   New negative cases cover canonical string bounds, required/extra fields, array
   uniqueness, opaque bytes and status-specific error envelopes from the HTTP/common
   wire contracts. Expected results never come from executing the validator.
-- Close every current local-fragment reference, including unused components, using
+- Close every current HTTP local-fragment reference, including unused components, using
   the real in-memory resolver before instance checks. Instances enter through the
   whole document context, never a detached component losing its local reference root.
 - Classify every JSON file below `schemas/` as schema, declared manifest or bound
@@ -60,6 +60,15 @@ providers, clients/renderers/locales/themes and platform/release gates remain.
   It is an editor hint, not the runtime DAG/review/combined-500-note validator. No
   FormatChecker is supplied: `format` is annotation-only there; the actual public
   API currently has no format keyword. No optional format dependency is selected.
+
+Register the six exact Scene resources with explicit absolute IDs and denied
+retrieval. Check their metaschemas and resolve static local and registered
+cross-resource references, including references in unused definitions. Refuse
+nested resource IDs, anchors and dynamic references. Validate independent valid
+and invalid cases against each resource, resolving named targets in the original
+resource context. Keep Scene fixture authoring deltas and authored raw spellings
+distinct from structural expectations. Unknown registry IDs, keyed closure,
+lexical bounds, actual media evidence and publication remain owning checks.
 
 Read repository fixtures as UTF-8 JSON, rejecting duplicate decoded object keys and
 NaN/Infinity for source-file correctness. This is not the former generic exact

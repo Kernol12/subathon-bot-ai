@@ -1,0 +1,4373 @@
+{
+  "cases": [
+    {
+      "id": "wp01-signed-min",
+      "target": "common#/$defs/Signed64",
+      "source": "005 §7 WP01",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Signed64 minimum is exact.",
+      "instance": "-9223372036854775808"
+    },
+    {
+      "id": "wp01-signed-max",
+      "target": "common#/$defs/Signed64",
+      "source": "005 §7 WP01",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Signed64 maximum is exact.",
+      "instance": "9223372036854775807"
+    },
+    {
+      "id": "wp01-signed-over",
+      "target": "common#/$defs/Signed64",
+      "source": "005 §7 WP01",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "One above Signed64 maximum.",
+      "instance": "9223372036854775808"
+    },
+    {
+      "id": "wp01-signed-under",
+      "target": "common#/$defs/Signed64",
+      "source": "005 §7 WP01",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "One below Signed64 minimum.",
+      "instance": "-9223372036854775809"
+    },
+    {
+      "id": "wp02-unsigned-max",
+      "target": "common#/$defs/Unsigned64",
+      "source": "005 §7 WP02",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Unsigned64 maximum is exact.",
+      "instance": "18446744073709551615"
+    },
+    {
+      "id": "wp02-unsigned-over",
+      "target": "common#/$defs/Unsigned64",
+      "source": "005 §7 WP02",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "One above Unsigned64 maximum.",
+      "instance": "18446744073709551616"
+    },
+    {
+      "id": "wp03-negative-zero",
+      "target": "common#/$defs/Signed64",
+      "source": "005 §7 WP03",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Canonical integer zero is 0.",
+      "instance": "-0"
+    },
+    {
+      "id": "wp03-number",
+      "target": "common#/$defs/Signed64",
+      "source": "005 §7 WP03",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Exact integers use strings.",
+      "instance": 1
+    },
+    {
+      "id": "wp04-source-trailing-zeros",
+      "target": "common#/$defs/DecimalSource",
+      "source": "005 §7 WP04",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Original decimal spelling keeps trailing zeros.",
+      "instance": "1.2000"
+    },
+    {
+      "id": "wp04-source-signed-zero",
+      "target": "common#/$defs/DecimalSource",
+      "source": "005 §7 WP04",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Original decimal spelling permits signed zero and exponent.",
+      "instance": "-0.000e+03"
+    },
+    {
+      "id": "wp06-finite-negative",
+      "target": "common#/$defs/FiniteDecimal",
+      "source": "005 §7 WP06",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Canonical finite negative fraction.",
+      "instance": "-0.1"
+    },
+    {
+      "id": "wp06-finite-trailing-zeros",
+      "target": "common#/$defs/FiniteDecimal",
+      "source": "005 §7 WP06",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Canonical finite decimal removes trailing zeros.",
+      "instance": "1.20"
+    },
+    {
+      "id": "wp08-rational",
+      "target": "common#/$defs/Rational",
+      "source": "005 §7 WP08",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Reduced exact rational.",
+      "instance": {
+        "numerator": "-1",
+        "denominator": "3"
+      }
+    },
+    {
+      "id": "wp10-zero-denominator",
+      "target": "common#/$defs/Rational",
+      "source": "005 §7 WP10",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Denominator is strictly positive.",
+      "instance": {
+        "numerator": "1",
+        "denominator": "0"
+      }
+    },
+    {
+      "id": "wp13-opaque-nul-high",
+      "target": "common#/$defs/OpaqueBytes",
+      "source": "005 §7 WP13",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "NUL and non-UTF-8 bytes are preserved.",
+      "instance": "0080ff"
+    },
+    {
+      "id": "wp14-opaque-empty",
+      "target": "common#/$defs/OpaqueBytes",
+      "source": "005 §7 WP14",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Generic bytes admit the known empty value.",
+      "instance": ""
+    },
+    {
+      "id": "wp14-required-opaque-empty",
+      "target": "common#/$defs/NonemptyOpaqueBytes",
+      "source": "005 §7 WP14",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Required ID admits a NUL byte but rejects empty bytes.",
+      "instance": ""
+    },
+    {
+      "id": "wp15-opaque-uppercase",
+      "target": "common#/$defs/OpaqueBytes",
+      "source": "005 §7 WP15",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Hex digits must be lowercase.",
+      "instance": "AA"
+    },
+    {
+      "id": "wp15-opaque-odd",
+      "target": "common#/$defs/OpaqueBytes",
+      "source": "005 §7 WP15",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Exactly two hex characters encode one raw byte.",
+      "instance": "0080f"
+    },
+    {
+      "id": "wp15-opaque-trailing-newline",
+      "target": "common#/$defs/OpaqueBytes",
+      "source": "005 §7 WP15",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "The pattern covers every decoded code point.",
+      "instance": "0080ff\n"
+    },
+    {
+      "id": "wp16-inert-text",
+      "target": "common#/$defs/Text",
+      "source": "005 §7 WP16",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Unicode scalars and literal markup-looking text are retained.",
+      "instance": "é <b>&"
+    },
+    {
+      "id": "wp09-unreduced-rational",
+      "target": "common#/$defs/Rational",
+      "source": "005 §§1, 7 WP09",
+      "expect": {
+        "structural": "valid",
+        "domain": "reject"
+      },
+      "reason": "Reduced-form validation rejects 10/12.",
+      "instance": {
+        "numerator": "10",
+        "denominator": "12"
+      }
+    },
+    {
+      "id": "wp16-lone-surrogate",
+      "target": "common#/$defs/Text",
+      "source": "005 §§3, 7 WP16",
+      "expect": {
+        "structural": "valid",
+        "lexical": "reject"
+      },
+      "reason": "Raw JSON escape is syntactically representable. Unicode scalar policy rejects its decoded lone surrogate.",
+      "rawJson": "\"\\ud800\""
+    },
+    {
+      "id": "wp23-bounded-failure",
+      "target": "common#/$defs/CommonFailure",
+      "source": "005 §§6–7 WP23",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Closed nonsecret failure with explicit null correlation.",
+      "instance": {
+        "code": "invalid_primitive",
+        "correlation_id": null
+      }
+    },
+    {
+      "id": "wp23-private-failure-member",
+      "base": "wp23-bounded-failure",
+      "source": "005 §§6–7 WP23",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Failure output excludes private and raw diagnostic members.",
+      "changes": [
+        {
+          "op": "add",
+          "path": "/credential",
+          "value": "synthetic-forbidden-value"
+        }
+      ]
+    },
+    {
+      "id": "sd02-empty",
+      "target": "document",
+      "source": "009 §9 SD02 and 012 §6",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Known empty authored scene.",
+      "instance": {
+        "modelVersion": "subathon.scene-document.v1",
+        "sceneId": "53",
+        "revisionId": "7231",
+        "label": "",
+        "intendedOutputs": [
+          "native",
+          "browser"
+        ],
+        "requiredFeatures": [],
+        "canvas": {
+          "width": "200",
+          "height": "100",
+          "fit": "aspect-fit",
+          "alignX": "0.5",
+          "alignY": "0.5",
+          "clip": true
+        },
+        "roots": [],
+        "nodes": [],
+        "styles": [],
+        "externalReferences": [],
+        "mediaAttachments": []
+      }
+    },
+    {
+      "id": "sd01-shape",
+      "target": "document",
+      "source": "009 §§2–4, 9 S/SD01",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "One rectangle with an explicit owned style.",
+      "instance": {
+        "modelVersion": "subathon.scene-document.v1",
+        "sceneId": "53",
+        "revisionId": "7231",
+        "label": "",
+        "intendedOutputs": [
+          "native",
+          "browser"
+        ],
+        "requiredFeatures": [
+          "example.rectangle.v1"
+        ],
+        "canvas": {
+          "width": "200",
+          "height": "100",
+          "fit": "aspect-fit",
+          "alignX": "0.5",
+          "alignY": "0.5",
+          "clip": true
+        },
+        "roots": [
+          "41"
+        ],
+        "nodes": [
+          {
+            "family": "shape-group",
+            "nodeId": "41",
+            "label": "panel",
+            "frame": {
+              "x": "0",
+              "y": "0",
+              "width": "100",
+              "height": "40",
+              "pivotX": "0",
+              "pivotY": "0",
+              "scaleX": "1",
+              "scaleY": "1",
+              "rotation": "0"
+            },
+            "locked": false,
+            "styleId": "7061696e74",
+            "attachment": {
+              "kind": "none"
+            },
+            "visibility": {
+              "kind": "static-visible"
+            },
+            "animations": [],
+            "variant": "shape"
+          }
+        ],
+        "styles": [
+          {
+            "role": "shape",
+            "styleId": "7061696e74",
+            "opacity": "1",
+            "clipToFrame": false,
+            "primitive": "rectangle",
+            "fill": [
+              0,
+              0,
+              0,
+              255
+            ],
+            "cornerRadius": "0"
+          }
+        ],
+        "externalReferences": [],
+        "mediaAttachments": []
+      }
+    },
+    {
+      "id": "sd10-zero-canvas",
+      "base": "sd01-shape",
+      "source": "009 §9 SD10",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Canvas dimensions must be positive.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/canvas/width",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "id": "sd10-negative-width",
+      "base": "sd01-shape",
+      "source": "009 §9 SD10",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Node frame width is nonnegative.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/nodes/0/frame/width",
+          "value": "-1"
+        }
+      ]
+    },
+    {
+      "id": "sd10-opacity-over",
+      "base": "sd01-shape",
+      "source": "009 §9 SD10",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Base opacity stops at 1.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/styles/0/opacity",
+          "value": "1.1"
+        }
+      ]
+    },
+    {
+      "id": "sd11-noncanonical-geometry",
+      "base": "sd01-shape",
+      "source": "009 §9 SD11",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "A geometry decimal value rejects redundant trailing zeros.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/nodes/0/frame/x",
+          "value": "1.00"
+        }
+      ]
+    },
+    {
+      "id": "sd11-numeric-geometry",
+      "base": "sd01-shape",
+      "source": "012 §6 SD02",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Geometry retains exact decimal string type.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/canvas/width",
+          "value": 200
+        }
+      ]
+    },
+    {
+      "id": "sd25-color-channel-one-over",
+      "base": "sd01-shape",
+      "source": "009 §3 and 012 §4",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "The four byte channels end at 255.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/styles/0/fill/3",
+          "value": 256
+        }
+      ]
+    },
+    {
+      "id": "sd10-degenerate",
+      "base": "sd01-shape",
+      "source": "009 §9 SD10",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Zero-sized frame and singular scale are admitted.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/nodes/0/frame/width",
+          "value": "0"
+        },
+        {
+          "op": "replace",
+          "path": "/nodes/0/frame/scaleX",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "id": "sd06-leaf-children",
+      "base": "sd01-shape",
+      "source": "009 §9 SD06",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Only a group owns children.",
+      "changes": [
+        {
+          "op": "add",
+          "path": "/nodes/0/children",
+          "value": []
+        }
+      ]
+    },
+    {
+      "id": "sd26-credential-member",
+      "base": "sd02-empty",
+      "source": "009 §9 SD26",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "A scene closes its member list against credential fields.",
+      "changes": [
+        {
+          "op": "add",
+          "path": "/credential",
+          "value": "synthetic-forbidden-value"
+        }
+      ]
+    },
+    {
+      "id": "sd02-dangling-root",
+      "base": "sd02-empty",
+      "source": "009 §§2, 9 SD05 and 012 §6",
+      "expect": {
+        "structural": "valid",
+        "domain": "reject"
+      },
+      "reason": "The root ID has no node definition.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/roots",
+          "value": [
+            "41"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sd18-unknown-feature",
+      "base": "sd01-shape",
+      "source": "009 §9 SD18 and owner 137A",
+      "expect": {
+        "structural": "valid",
+        "publication": "reject"
+      },
+      "reason": "The token is well-formed. With support absent for browser, publication to both outputs is refused.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/requiredFeatures",
+          "value": [
+            "example.spark.v1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sd18-unknown-version",
+      "base": "sd02-empty",
+      "source": "009 §§5, 9 and 012 §2",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "An unsupported version identifies no typed document layout.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/modelVersion",
+          "value": "subathon.scene-document.v2"
+        }
+      ]
+    },
+    {
+      "id": "sd25-fractional-color-token",
+      "source": "012 §§4–5",
+      "expect": {
+        "structural": "valid",
+        "lexical": "reject"
+      },
+      "reason": "Draft 2020-12 accepts integral JSON numbers. The raw UI integer token 255.0 fails ordinary integer spelling.",
+      "target": "document#/$defs/Rgba",
+      "rawJson": "[0,0,0,255.0]"
+    },
+    {
+      "id": "sd25-geometry-length-at",
+      "target": "document#/$defs/Geometry",
+      "source": "009 §§3, 8–9 SD25; 012 §4",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Exact canonical geometry string at the 256-ASCII-byte boundary.",
+      "instance": "0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+    },
+    {
+      "id": "sd25-geometry-length-over",
+      "target": "document#/$defs/Geometry",
+      "source": "009 §§3, 8–9 SD25; 012 §4",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "A canonical geometry string one byte beyond the 256-byte limit.",
+      "instance": "0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+    },
+    {
+      "id": "sd15-all-families",
+      "target": "document",
+      "source": "009 §9 SD15/SD27 and 010 §2",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "All seven families, with both shape and group, closed typed destination records and ordered ownership.",
+      "instance": {
+        "modelVersion": "subathon.scene-document.v1",
+        "sceneId": "53",
+        "revisionId": "7232",
+        "label": "",
+        "intendedOutputs": [
+          "native",
+          "browser"
+        ],
+        "requiredFeatures": [],
+        "canvas": {
+          "width": "200",
+          "height": "100",
+          "fit": "aspect-fit",
+          "alignX": "0.5",
+          "alignY": "0.5",
+          "clip": true
+        },
+        "roots": [
+          "47",
+          "54",
+          "58",
+          "50",
+          "49",
+          "52",
+          "4e"
+        ],
+        "nodes": [
+          {
+            "family": "shape-group",
+            "nodeId": "47",
+            "label": "G",
+            "frame": {
+              "x": "0",
+              "y": "0",
+              "width": "100",
+              "height": "40",
+              "pivotX": "0",
+              "pivotY": "0",
+              "scaleX": "1",
+              "scaleY": "1",
+              "rotation": "0"
+            },
+            "locked": false,
+            "styleId": "67726f7570",
+            "attachment": {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "ElementBindings",
+              "resourceId": "617070656172616e6365",
+              "definitionId": "7231"
+            },
+            "visibility": {
+              "kind": "static-visible"
+            },
+            "animations": [],
+            "variant": "group",
+            "children": [
+              "41"
+            ]
+          },
+          {
+            "family": "shape-group",
+            "nodeId": "41",
+            "label": "panel",
+            "frame": {
+              "x": "0",
+              "y": "0",
+              "width": "100",
+              "height": "40",
+              "pivotX": "0",
+              "pivotY": "0",
+              "scaleX": "1",
+              "scaleY": "1",
+              "rotation": "0"
+            },
+            "locked": false,
+            "styleId": "7061696e74",
+            "attachment": {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "ElementBindings",
+              "resourceId": "617070656172616e6365",
+              "definitionId": "7231"
+            },
+            "visibility": {
+              "kind": "static-visible"
+            },
+            "animations": [],
+            "variant": "shape"
+          },
+          {
+            "family": "timer",
+            "nodeId": "54",
+            "label": "T",
+            "frame": {
+              "x": "0",
+              "y": "0",
+              "width": "100",
+              "height": "40",
+              "pivotX": "0",
+              "pivotY": "0",
+              "scaleX": "1",
+              "scaleY": "1",
+              "rotation": "0"
+            },
+            "locked": false,
+            "styleId": "74657874",
+            "attachment": {
+              "kind": "none"
+            },
+            "visibility": {
+              "kind": "static-visible"
+            },
+            "animations": [],
+            "binding": {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "TimerBinding",
+              "resourceId": "6d61696e",
+              "definitionId": "7231"
+            }
+          },
+          {
+            "family": "text",
+            "nodeId": "58",
+            "label": "X",
+            "frame": {
+              "x": "0",
+              "y": "0",
+              "width": "100",
+              "height": "40",
+              "pivotX": "0",
+              "pivotY": "0",
+              "scaleX": "1",
+              "scaleY": "1",
+              "rotation": "0"
+            },
+            "locked": false,
+            "styleId": "74657874",
+            "attachment": {
+              "kind": "none"
+            },
+            "visibility": {
+              "kind": "static-visible"
+            },
+            "animations": [],
+            "content": {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "TextBinding",
+              "resourceId": "686561646c696e65",
+              "definitionId": "7231"
+            }
+          },
+          {
+            "family": "progress-bar",
+            "nodeId": "50",
+            "label": "P",
+            "frame": {
+              "x": "0",
+              "y": "0",
+              "width": "100",
+              "height": "40",
+              "pivotX": "0",
+              "pivotY": "0",
+              "scaleX": "1",
+              "scaleY": "1",
+              "rotation": "0"
+            },
+            "locked": false,
+            "styleId": "626172",
+            "attachment": {
+              "kind": "none"
+            },
+            "visibility": {
+              "kind": "static-visible"
+            },
+            "animations": [],
+            "binding": {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "ProgressBinding",
+              "resourceId": "70726f6772657373",
+              "definitionId": "7231"
+            }
+          },
+          {
+            "family": "image",
+            "nodeId": "49",
+            "label": "I",
+            "frame": {
+              "x": "0",
+              "y": "0",
+              "width": "100",
+              "height": "40",
+              "pivotX": "0",
+              "pivotY": "0",
+              "scaleX": "1",
+              "scaleY": "1",
+              "rotation": "0"
+            },
+            "locked": false,
+            "styleId": "76697375616c",
+            "attachment": {
+              "kind": "none"
+            },
+            "visibility": {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "Condition",
+              "resourceId": "67617465",
+              "definitionId": "7231"
+            },
+            "animations": [
+              {
+                "version": "subathon.scene-bindings-conditions-timeline.v1",
+                "kind": "Animation",
+                "resourceId": "666164652d61",
+                "definitionId": "7231"
+              },
+              {
+                "version": "subathon.scene-bindings-conditions-timeline.v1",
+                "kind": "Animation",
+                "resourceId": "666164652d62",
+                "definitionId": "7231"
+              }
+            ],
+            "asset": {
+              "version": "subathon.scene-assets-packages.v1",
+              "kind": "VisualAsset",
+              "resourceId": "76697375616c",
+              "revisionId": "7231"
+            }
+          },
+          {
+            "family": "recent-support",
+            "nodeId": "52",
+            "label": "R",
+            "frame": {
+              "x": "0",
+              "y": "0",
+              "width": "100",
+              "height": "40",
+              "pivotX": "0",
+              "pivotY": "0",
+              "scaleX": "1",
+              "scaleY": "1",
+              "rotation": "0"
+            },
+            "locked": false,
+            "styleId": "726f7773",
+            "attachment": {
+              "kind": "none"
+            },
+            "visibility": {
+              "kind": "static-visible"
+            },
+            "animations": [],
+            "binding": {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "RecentSupportBinding",
+              "resourceId": "737570706f7274",
+              "definitionId": "7231"
+            }
+          },
+          {
+            "family": "announcement-area",
+            "nodeId": "4e",
+            "label": "N",
+            "frame": {
+              "x": "0",
+              "y": "0",
+              "width": "100",
+              "height": "40",
+              "pivotX": "0",
+              "pivotY": "0",
+              "scaleX": "1",
+              "scaleY": "1",
+              "rotation": "0"
+            },
+            "locked": false,
+            "styleId": "62616e6e6572",
+            "attachment": {
+              "kind": "none"
+            },
+            "visibility": {
+              "kind": "static-visible"
+            },
+            "animations": [],
+            "binding": {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "AnnouncementBinding",
+              "resourceId": "616e6e6f756e63656d656e7473",
+              "definitionId": "7231"
+            }
+          }
+        ],
+        "styles": [
+          {
+            "role": "group",
+            "styleId": "67726f7570",
+            "opacity": "1",
+            "clipToFrame": false
+          },
+          {
+            "role": "shape",
+            "styleId": "7061696e74",
+            "opacity": "1",
+            "clipToFrame": false,
+            "primitive": "rectangle",
+            "fill": [
+              0,
+              0,
+              0,
+              255
+            ],
+            "cornerRadius": "0"
+          },
+          {
+            "role": "text",
+            "styleId": "74657874",
+            "opacity": "1",
+            "clipToFrame": false,
+            "foreground": [
+              0,
+              0,
+              0,
+              255
+            ],
+            "size": "24",
+            "horizontalAlignment": "start",
+            "verticalAlignment": "top",
+            "wrapping": "word",
+            "overflow": "clip",
+            "font": {
+              "primary": {
+                "font": {
+                  "version": "subathon.scene-assets-packages.v1",
+                  "kind": "Font",
+                  "resourceId": "626f6479",
+                  "revisionId": "7231"
+                },
+                "face": 0,
+                "slant": "upright",
+                "weight": 400
+              },
+              "fallback": "none"
+            }
+          },
+          {
+            "role": "progress-bar",
+            "styleId": "626172",
+            "opacity": "1",
+            "clipToFrame": false,
+            "layout": {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "PresentationLayout",
+              "resourceId": "626172",
+              "definitionId": "7231"
+            }
+          },
+          {
+            "role": "visual",
+            "styleId": "76697375616c",
+            "opacity": "1",
+            "clipToFrame": false,
+            "fit": "aspect-fit",
+            "alignX": "0.5",
+            "alignY": "0.5"
+          },
+          {
+            "role": "recent-support",
+            "styleId": "726f7773",
+            "opacity": "1",
+            "clipToFrame": false,
+            "layout": {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "PresentationLayout",
+              "resourceId": "726f7773",
+              "definitionId": "7231"
+            }
+          },
+          {
+            "role": "announcement-area",
+            "styleId": "62616e6e6572",
+            "opacity": "1",
+            "clipToFrame": false,
+            "layout": {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "PresentationLayout",
+              "resourceId": "62616e6e6572",
+              "definitionId": "7231"
+            }
+          }
+        ],
+        "externalReferences": [
+          {
+            "version": "subathon.scene-bindings-conditions-timeline.v1",
+            "kind": "TimerBinding",
+            "resourceId": "6d61696e",
+            "definitionId": "7231"
+          },
+          {
+            "version": "subathon.scene-bindings-conditions-timeline.v1",
+            "kind": "TextBinding",
+            "resourceId": "686561646c696e65",
+            "definitionId": "7231"
+          },
+          {
+            "version": "subathon.scene-bindings-conditions-timeline.v1",
+            "kind": "ProgressBinding",
+            "resourceId": "70726f6772657373",
+            "definitionId": "7231"
+          },
+          {
+            "version": "subathon.scene-assets-packages.v1",
+            "kind": "VisualAsset",
+            "resourceId": "76697375616c",
+            "revisionId": "7231"
+          },
+          {
+            "version": "subathon.scene-assets-packages.v1",
+            "kind": "Font",
+            "resourceId": "626f6479",
+            "revisionId": "7231"
+          },
+          {
+            "version": "subathon.scene-bindings-conditions-timeline.v1",
+            "kind": "RecentSupportBinding",
+            "resourceId": "737570706f7274",
+            "definitionId": "7231"
+          },
+          {
+            "version": "subathon.scene-bindings-conditions-timeline.v1",
+            "kind": "AnnouncementBinding",
+            "resourceId": "616e6e6f756e63656d656e7473",
+            "definitionId": "7231"
+          },
+          {
+            "version": "subathon.scene-bindings-conditions-timeline.v1",
+            "kind": "ElementBindings",
+            "resourceId": "617070656172616e6365",
+            "definitionId": "7231"
+          },
+          {
+            "version": "subathon.scene-bindings-conditions-timeline.v1",
+            "kind": "Condition",
+            "resourceId": "67617465",
+            "definitionId": "7231"
+          },
+          {
+            "version": "subathon.scene-bindings-conditions-timeline.v1",
+            "kind": "Animation",
+            "resourceId": "666164652d61",
+            "definitionId": "7231"
+          },
+          {
+            "version": "subathon.scene-bindings-conditions-timeline.v1",
+            "kind": "Animation",
+            "resourceId": "666164652d62",
+            "definitionId": "7231"
+          },
+          {
+            "version": "subathon.scene-bindings-conditions-timeline.v1",
+            "kind": "PresentationLayout",
+            "resourceId": "626172",
+            "definitionId": "7231"
+          },
+          {
+            "version": "subathon.scene-bindings-conditions-timeline.v1",
+            "kind": "PresentationLayout",
+            "resourceId": "726f7773",
+            "definitionId": "7231"
+          },
+          {
+            "version": "subathon.scene-bindings-conditions-timeline.v1",
+            "kind": "PresentationLayout",
+            "resourceId": "62616e6e6572",
+            "definitionId": "7231"
+          }
+        ],
+        "mediaAttachments": []
+      }
+    },
+    {
+      "id": "sd17-font-in-image",
+      "base": "sd15-all-families",
+      "source": "009 §9 SD17 and 011 §8 AP02",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Font reference kind cannot satisfy the image's visual slot.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/nodes/5/asset",
+          "value": {
+            "version": "subathon.scene-assets-packages.v1",
+            "kind": "Font",
+            "resourceId": "626f6479",
+            "revisionId": "7231"
+          }
+        }
+      ]
+    },
+    {
+      "id": "sd17-unresolved-visual",
+      "base": "sd15-all-families",
+      "source": "009 §9 SD17",
+      "expect": {
+        "structural": "valid",
+        "domain": "reject"
+      },
+      "reason": "Image uses a well-formed exact reference with no matching selected definition.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/nodes/5/asset",
+          "value": {
+            "version": "subathon.scene-assets-packages.v1",
+            "kind": "VisualAsset",
+            "resourceId": "6d697373696e67",
+            "revisionId": "7231"
+          }
+        },
+        {
+          "op": "replace",
+          "path": "/externalReferences/3",
+          "value": {
+            "version": "subathon.scene-assets-packages.v1",
+            "kind": "VisualAsset",
+            "resourceId": "6d697373696e67",
+            "revisionId": "7231"
+          }
+        }
+      ]
+    },
+    {
+      "id": "sd04-second-parent",
+      "base": "sd15-all-families",
+      "source": "009 §§2, 9 SD04",
+      "expect": {
+        "structural": "valid",
+        "domain": "reject"
+      },
+      "reason": "A already occurs below G and cannot also appear at the root.",
+      "changes": [
+        {
+          "op": "add",
+          "path": "/roots/-",
+          "value": "41"
+        }
+      ]
+    },
+    {
+      "id": "sd06-group-cycle",
+      "base": "sd15-all-families",
+      "source": "009 §§2, 9 SD06",
+      "expect": {
+        "structural": "valid",
+        "domain": "reject"
+      },
+      "reason": "The group cannot own itself.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/nodes/0/children/0",
+          "value": "47"
+        }
+      ]
+    },
+    {
+      "id": "sd14-inert-markup-literal",
+      "base": "sd15-all-families",
+      "source": "009 §9 SD14 and 010 §2",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "A text node may use literal text with markup-looking characters.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/nodes/3/content",
+          "value": {
+            "kind": "literal",
+            "text": "<b>&"
+          }
+        },
+        {
+          "op": "remove",
+          "path": "/externalReferences/1"
+        }
+      ]
+    },
+    {
+      "id": "bt07-authored-bindings",
+      "target": "bindings",
+      "source": "010 §§2–3, 6–7 T/V/M/S/E/D/P, owner 126A",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Typed authored operands, layout choices, adjacent fade tracks and format definitions. Runtime rows and observations stay separate.",
+      "instance": {
+        "version": "subathon.scene-bindings-conditions-timeline.v1",
+        "definitions": [
+          {
+            "kind": "TimerBinding",
+            "resourceId": "6d61696e",
+            "definitionId": "7231",
+            "operand": {
+              "field": "timer.main"
+            },
+            "format": {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "Formatting",
+              "resourceId": "6475726174696f6e",
+              "definitionId": "7231"
+            }
+          },
+          {
+            "kind": "TextBinding",
+            "resourceId": "686561646c696e65",
+            "definitionId": "7231",
+            "operand": {
+              "field": "timer.lifecycle"
+            },
+            "format": {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "Formatting",
+              "resourceId": "6c6162656c",
+              "definitionId": "7231"
+            }
+          },
+          {
+            "kind": "ProgressBinding",
+            "resourceId": "70726f6772657373",
+            "definitionId": "7231",
+            "operand": {
+              "field": "track.progress"
+            }
+          },
+          {
+            "kind": "RecentSupportBinding",
+            "resourceId": "737570706f7274",
+            "definitionId": "7231",
+            "operand": {
+              "field": "support.rows"
+            }
+          },
+          {
+            "kind": "AnnouncementBinding",
+            "resourceId": "616e6e6f756e63656d656e7473",
+            "definitionId": "7231",
+            "operand": {
+              "field": "announcement.current"
+            }
+          },
+          {
+            "kind": "ElementBindings",
+            "resourceId": "617070656172616e6365",
+            "definitionId": "7231",
+            "opacity": {
+              "field": "track.progress"
+            }
+          },
+          {
+            "kind": "Condition",
+            "resourceId": "67617465",
+            "definitionId": "7231",
+            "expression": {
+              "kind": "any",
+              "children": [
+                {
+                  "kind": "comparison-lifecycle",
+                  "operand": {
+                    "field": "timer.lifecycle"
+                  },
+                  "operator": "eq",
+                  "literal": "Active"
+                },
+                {
+                  "kind": "not",
+                  "child": {
+                    "kind": "comparison-boolean",
+                    "operand": {
+                      "field": "modifier.active",
+                      "instanceId": "6d"
+                    },
+                    "operator": "ne",
+                    "literal": true
+                  }
+                },
+                {
+                  "kind": "comparison-progress",
+                  "operand": {
+                    "field": "track.progress"
+                  },
+                  "operator": "lt",
+                  "literal": {
+                    "numerator": "1",
+                    "denominator": "1"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "kind": "Animation",
+            "resourceId": "666164652d61",
+            "definitionId": "7231",
+            "track": {
+              "kind": "fade",
+              "startMs": "0",
+              "durationMs": "500",
+              "easing": "linear",
+              "context": {
+                "kind": "scene-start"
+              },
+              "from": "0",
+              "to": "1"
+            }
+          },
+          {
+            "kind": "Animation",
+            "resourceId": "666164652d62",
+            "definitionId": "7231",
+            "track": {
+              "kind": "fade",
+              "startMs": "500",
+              "durationMs": "250",
+              "easing": "ease-in",
+              "context": {
+                "kind": "scene-start"
+              },
+              "from": "1",
+              "to": "0.25"
+            }
+          },
+          {
+            "kind": "PresentationLayout",
+            "resourceId": "626172",
+            "definitionId": "7231",
+            "layout": {
+              "kind": "progress",
+              "interval": {
+                "slots": [
+                  {
+                    "slot": "remaining",
+                    "format": {
+                      "version": "subathon.scene-bindings-conditions-timeline.v1",
+                      "kind": "Formatting",
+                      "resourceId": "706f696e7473",
+                      "definitionId": "7231"
+                    },
+                    "box": {
+                      "x": "12",
+                      "y": "8",
+                      "width": "76",
+                      "height": "18"
+                    },
+                    "presentation": {
+                      "opacity": "1",
+                      "clipToFrame": true,
+                      "foreground": [
+                        244,
+                        240,
+                        219,
+                        255
+                      ],
+                      "size": "18",
+                      "horizontalAlignment": "start",
+                      "verticalAlignment": "center",
+                      "wrapping": "word",
+                      "overflow": "clip",
+                      "font": {
+                        "primary": {
+                          "font": {
+                            "version": "subathon.scene-assets-packages.v1",
+                            "kind": "Font",
+                            "resourceId": "626f6479",
+                            "revisionId": "7231"
+                          },
+                          "face": 0,
+                          "slant": "upright",
+                          "weight": 400
+                        },
+                        "fallback": "none"
+                      }
+                    }
+                  }
+                ]
+              },
+              "noOrigin": {
+                "slots": []
+              },
+              "empty": {
+                "slots": []
+              },
+              "final": {
+                "slots": []
+              },
+              "bar": {
+                "box": {
+                  "x": "12",
+                  "y": "32",
+                  "width": "76",
+                  "height": "6"
+                },
+                "track": [
+                  24,
+                  32,
+                  48,
+                  255
+                ],
+                "fill": [
+                  134,
+                  214,
+                  168,
+                  255
+                ],
+                "direction": "left-to-right",
+                "unavailableFill": [
+                  142,
+                  144,
+                  160,
+                  255
+                ]
+              }
+            }
+          },
+          {
+            "kind": "PresentationLayout",
+            "resourceId": "726f7773",
+            "definitionId": "7231",
+            "layout": {
+              "kind": "recent-support",
+              "subscription": [
+                {
+                  "slot": "displayName",
+                  "format": {
+                    "version": "subathon.scene-bindings-conditions-timeline.v1",
+                    "kind": "Formatting",
+                    "resourceId": "6c69746572616c",
+                    "definitionId": "7231"
+                  },
+                  "box": {
+                    "x": "0",
+                    "y": "0",
+                    "width": "88",
+                    "height": "20"
+                  },
+                  "presentation": {
+                    "opacity": "1",
+                    "clipToFrame": true,
+                    "foreground": [
+                      244,
+                      240,
+                      219,
+                      255
+                    ],
+                    "size": "18",
+                    "horizontalAlignment": "start",
+                    "verticalAlignment": "center",
+                    "wrapping": "word",
+                    "overflow": "clip",
+                    "font": {
+                      "primary": {
+                        "font": {
+                          "version": "subathon.scene-assets-packages.v1",
+                          "kind": "Font",
+                          "resourceId": "626f6479",
+                          "revisionId": "7231"
+                        },
+                        "face": 0,
+                        "slant": "upright",
+                        "weight": 400
+                      },
+                      "fallback": "none"
+                    }
+                  }
+                }
+              ],
+              "gift": [
+                {
+                  "slot": "giftCount",
+                  "format": {
+                    "version": "subathon.scene-bindings-conditions-timeline.v1",
+                    "kind": "Formatting",
+                    "resourceId": "6769667473",
+                    "definitionId": "7231"
+                  },
+                  "box": {
+                    "x": "0",
+                    "y": "0",
+                    "width": "88",
+                    "height": "20"
+                  },
+                  "presentation": {
+                    "opacity": "1",
+                    "clipToFrame": true,
+                    "foreground": [
+                      244,
+                      240,
+                      219,
+                      255
+                    ],
+                    "size": "18",
+                    "horizontalAlignment": "start",
+                    "verticalAlignment": "center",
+                    "wrapping": "word",
+                    "overflow": "clip",
+                    "font": {
+                      "primary": {
+                        "font": {
+                          "version": "subathon.scene-assets-packages.v1",
+                          "kind": "Font",
+                          "resourceId": "626f6479",
+                          "revisionId": "7231"
+                        },
+                        "face": 0,
+                        "slant": "upright",
+                        "weight": 400
+                      },
+                      "fallback": "none"
+                    }
+                  }
+                }
+              ],
+              "bits": [
+                {
+                  "slot": "bitsQuantity",
+                  "format": {
+                    "version": "subathon.scene-bindings-conditions-timeline.v1",
+                    "kind": "Formatting",
+                    "resourceId": "62697473",
+                    "definitionId": "7231"
+                  },
+                  "box": {
+                    "x": "0",
+                    "y": "0",
+                    "width": "88",
+                    "height": "20"
+                  },
+                  "presentation": {
+                    "opacity": "1",
+                    "clipToFrame": true,
+                    "foreground": [
+                      244,
+                      240,
+                      219,
+                      255
+                    ],
+                    "size": "18",
+                    "horizontalAlignment": "start",
+                    "verticalAlignment": "center",
+                    "wrapping": "word",
+                    "overflow": "clip",
+                    "font": {
+                      "primary": {
+                        "font": {
+                          "version": "subathon.scene-assets-packages.v1",
+                          "kind": "Font",
+                          "resourceId": "626f6479",
+                          "revisionId": "7231"
+                        },
+                        "face": 0,
+                        "slant": "upright",
+                        "weight": 400
+                      },
+                      "fallback": "none"
+                    }
+                  }
+                }
+              ],
+              "donation": [
+                {
+                  "slot": "originalMoney",
+                  "format": {
+                    "version": "subathon.scene-bindings-conditions-timeline.v1",
+                    "kind": "Formatting",
+                    "resourceId": "6d6f6e6579",
+                    "definitionId": "7231"
+                  },
+                  "box": {
+                    "x": "0",
+                    "y": "0",
+                    "width": "88",
+                    "height": "20"
+                  },
+                  "presentation": {
+                    "opacity": "1",
+                    "clipToFrame": true,
+                    "foreground": [
+                      244,
+                      240,
+                      219,
+                      255
+                    ],
+                    "size": "18",
+                    "horizontalAlignment": "start",
+                    "verticalAlignment": "center",
+                    "wrapping": "word",
+                    "overflow": "clip",
+                    "font": {
+                      "primary": {
+                        "font": {
+                          "version": "subathon.scene-assets-packages.v1",
+                          "kind": "Font",
+                          "resourceId": "626f6479",
+                          "revisionId": "7231"
+                        },
+                        "face": 0,
+                        "slant": "upright",
+                        "weight": 400
+                      },
+                      "fallback": "none"
+                    }
+                  }
+                }
+              ],
+              "rowPlacement": {
+                "origin": [
+                  "6",
+                  "2"
+                ],
+                "step": [
+                  "0",
+                  "22"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "PresentationLayout",
+            "resourceId": "62616e6e6572",
+            "definitionId": "7231",
+            "layout": {
+              "kind": "announcement",
+              "labels": [
+                {
+                  "kind": "event",
+                  "presentationVersionId": "6531",
+                  "text": "Goal <3",
+                  "box": {
+                    "x": "4",
+                    "y": "5",
+                    "width": "92",
+                    "height": "28"
+                  },
+                  "presentation": {
+                    "opacity": "1",
+                    "clipToFrame": true,
+                    "foreground": [
+                      228,
+                      240,
+                      255,
+                      255
+                    ],
+                    "size": "24",
+                    "horizontalAlignment": "start",
+                    "verticalAlignment": "center",
+                    "wrapping": "word",
+                    "overflow": "clip",
+                    "font": {
+                      "primary": {
+                        "font": {
+                          "version": "subathon.scene-assets-packages.v1",
+                          "kind": "Font",
+                          "resourceId": "626f6479",
+                          "revisionId": "7231"
+                        },
+                        "face": 0,
+                        "slant": "upright",
+                        "weight": 400
+                      },
+                      "fallback": "none"
+                    }
+                  }
+                },
+                {
+                  "kind": "milestone",
+                  "milestoneId": "41",
+                  "text": "First target",
+                  "box": {
+                    "x": "4",
+                    "y": "5",
+                    "width": "92",
+                    "height": "28"
+                  },
+                  "presentation": {
+                    "opacity": "1",
+                    "clipToFrame": true,
+                    "foreground": [
+                      228,
+                      240,
+                      255,
+                      255
+                    ],
+                    "size": "24",
+                    "horizontalAlignment": "start",
+                    "verticalAlignment": "center",
+                    "wrapping": "word",
+                    "overflow": "clip",
+                    "font": {
+                      "primary": {
+                        "font": {
+                          "version": "subathon.scene-assets-packages.v1",
+                          "kind": "Font",
+                          "resourceId": "626f6479",
+                          "revisionId": "7231"
+                        },
+                        "face": 0,
+                        "slant": "upright",
+                        "weight": 400
+                      },
+                      "fallback": "none"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "kind": "Formatting",
+            "resourceId": "6475726174696f6e",
+            "definitionId": "7231",
+            "format": {
+              "kind": "duration",
+              "pattern": "H:MM:SS.mmm"
+            },
+            "localeId": "en"
+          },
+          {
+            "kind": "Formatting",
+            "resourceId": "6c6162656c",
+            "definitionId": "7231",
+            "format": {
+              "kind": "catalog-label"
+            },
+            "localeId": "en"
+          },
+          {
+            "kind": "Formatting",
+            "resourceId": "706f696e7473",
+            "definitionId": "7231",
+            "format": {
+              "kind": "points",
+              "precision": 2
+            },
+            "localeId": "en"
+          },
+          {
+            "kind": "Formatting",
+            "resourceId": "6c69746572616c",
+            "definitionId": "7231",
+            "format": {
+              "kind": "literal-text"
+            },
+            "localeId": "en"
+          },
+          {
+            "kind": "Formatting",
+            "resourceId": "6769667473",
+            "definitionId": "7231",
+            "format": {
+              "kind": "gift-count"
+            },
+            "localeId": "en"
+          },
+          {
+            "kind": "Formatting",
+            "resourceId": "62697473",
+            "definitionId": "7231",
+            "format": {
+              "kind": "bits-count"
+            },
+            "localeId": "en"
+          },
+          {
+            "kind": "Formatting",
+            "resourceId": "6d6f6e6579",
+            "definitionId": "7231",
+            "format": {
+              "kind": "exact-money"
+            },
+            "localeId": "en"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bt07-wrong-operator",
+      "base": "bt07-authored-bindings",
+      "source": "010 §§3, 7 D/126A",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Ordered comparison of lifecycle fails even inside any.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/definitions/6/expression/children/0/operator",
+          "value": "gt"
+        }
+      ]
+    },
+    {
+      "id": "bt07-empty-any",
+      "base": "bt07-authored-bindings",
+      "source": "010 §§3, 7 D/126A",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Any requires one or more expressions.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/definitions/6/expression/children",
+          "value": []
+        }
+      ]
+    },
+    {
+      "id": "bt07-active-boolean-type",
+      "base": "bt07-authored-bindings",
+      "source": "010 §§2–3, 7 V/T",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Active is Boolean; implicit coercion from one is invalid.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/definitions/6/expression/children/1/child/literal",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "bt07-different-units",
+      "base": "bt07-authored-bindings",
+      "source": "010 §§2–3, 7 T/D",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Duration operand cannot select a UTC timestamp.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/definitions/0/operand/field",
+          "value": "timer.utc"
+        }
+      ]
+    },
+    {
+      "id": "bt07-display-only-operand",
+      "base": "bt07-authored-bindings",
+      "source": "010 §§2–3, 7 S/E/D",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "The comparison registry excludes selected row data.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/definitions/6/expression/children/0/operand/field",
+          "value": "support.rows"
+        }
+      ]
+    },
+    {
+      "id": "bt07-bits-gift-count",
+      "base": "bt07-authored-bindings",
+      "source": "010 §§2, 7 S/E/D",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "A Bits layout cannot select the Gift count slot.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/definitions/10/layout/bits/0/slot",
+          "value": "giftCount"
+        }
+      ]
+    },
+    {
+      "id": "bt07-private-row-data",
+      "base": "bt07-authored-bindings",
+      "source": "010 §§2, 7 S/E/D and 012 §3",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Authored layout cannot embed private row data.",
+      "changes": [
+        {
+          "op": "add",
+          "path": "/definitions/10/layout/accountId",
+          "value": "synthetic-forbidden-id"
+        }
+      ]
+    },
+    {
+      "id": "bt07-points-precision-over",
+      "base": "bt07-authored-bindings",
+      "source": "010 §2",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Authored points precision has inclusive maximum 6.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/definitions/14/format/precision",
+          "value": 7
+        }
+      ]
+    },
+    {
+      "id": "bt07-overlap",
+      "base": "bt07-authored-bindings",
+      "source": "010 §§6, 7 D/P",
+      "expect": {
+        "structural": "valid",
+        "domain": "reject"
+      },
+      "reason": "If assigned to the same node as in sd15-all-families, start 499 overlaps [0,500).",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/definitions/8/track/startMs",
+          "value": "499"
+        }
+      ]
+    },
+    {
+      "id": "bt07-exclusive-end-overflow",
+      "base": "bt07-authored-bindings",
+      "source": "010 §§6, 7 D/P",
+      "expect": {
+        "structural": "valid",
+        "domain": "reject"
+      },
+      "reason": "Start is individually valid; positive duration puts the exclusive end beyond Signed64.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/definitions/8/track/startMs",
+          "value": "9223372036854775807"
+        }
+      ]
+    },
+    {
+      "id": "bt07-zero-duration",
+      "base": "bt07-authored-bindings",
+      "source": "010 §§6, 7 D/P",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "An authored track requires positive duration.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/definitions/7/track/durationMs",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "id": "bt07-progress-over-one",
+      "base": "bt07-authored-bindings",
+      "source": "010 §§3, 7 M/D",
+      "expect": {
+        "structural": "valid",
+        "domain": "reject"
+      },
+      "reason": "101/100 exceeds the closed interval for a comparison literal.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/definitions/6/expression/children/2/literal",
+          "value": {
+            "numerator": "101",
+            "denominator": "100"
+          }
+        }
+      ]
+    },
+    {
+      "id": "bt07-signed64-duration-max",
+      "target": "bindings#/$defs/ConditionExpression",
+      "source": "010 §§2–3, 7 T/D",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Exact maximum nonnegative milliseconds in a typed comparison.",
+      "instance": {
+        "kind": "comparison-duration",
+        "operand": {
+          "field": "timer.grace"
+        },
+        "operator": "le",
+        "literal": "9223372036854775807"
+      }
+    },
+    {
+      "id": "bt07-signed64-duration-over",
+      "base": "bt07-signed64-duration-max",
+      "source": "010 §7 T/D",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "One millisecond beyond Signed64 maximum.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/literal",
+          "value": "9223372036854775808"
+        }
+      ]
+    },
+    {
+      "id": "bt07-max-point-distance",
+      "target": "bindings#/$defs/ConditionExpression",
+      "source": "010 §§2–3, 7 M/D",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Signed-extreme threshold distance fits an Unsigned64 literal.",
+      "instance": {
+        "kind": "comparison-point-distance",
+        "operand": {
+          "field": "track.remaining"
+        },
+        "operator": "eq",
+        "literal": "18446744073709551615"
+      }
+    },
+    {
+      "id": "bt07-over-point-distance",
+      "base": "bt07-max-point-distance",
+      "source": "010 §7 M/D",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Point distance beyond Unsigned64 maximum cannot be compared.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/literal",
+          "value": "18446744073709551616"
+        }
+      ]
+    },
+    {
+      "id": "bt07-source-factor",
+      "target": "bindings#/$defs/ConditionExpression",
+      "source": "005 §§2, 7 WP04–WP05 and 010 §§2–3, 7 V",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Finite nonnegative factor retains source precision.",
+      "instance": {
+        "kind": "comparison-factor",
+        "operand": {
+          "field": "modifier.factor",
+          "instanceId": "6d",
+          "targetOrdinal": "0"
+        },
+        "operator": "ge",
+        "literal": "2.00"
+      }
+    },
+    {
+      "id": "bt07-factor-exponent-over",
+      "base": "bt07-source-factor",
+      "source": "005 §7 WP05 and 010 §3",
+      "expect": {
+        "structural": "valid",
+        "profile": "reject"
+      },
+      "reason": "Complete decimal grammar can match while the CORE-001 source profile exceeds its exponent limit.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/literal",
+          "value": "0e257"
+        }
+      ]
+    },
+    {
+      "id": "bt07-negative-factor",
+      "base": "bt07-source-factor",
+      "source": "010 §§2–3, 7 V",
+      "expect": {
+        "structural": "valid",
+        "domain": "reject"
+      },
+      "reason": "Negative numeric value is outside the selected factor domain.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/literal",
+          "value": "-0.5"
+        }
+      ]
+    },
+    {
+      "id": "sd19-content",
+      "target": "revision",
+      "source": "009 §§6, 9 SD19",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Complete immutable content wraps one document.",
+      "instance": {
+        "kind": "content-revision",
+        "content": {
+          "modelVersion": "subathon.scene-document.v1",
+          "sceneId": "53",
+          "revisionId": "7231",
+          "label": "",
+          "intendedOutputs": [
+            "native",
+            "browser"
+          ],
+          "requiredFeatures": [],
+          "canvas": {
+            "width": "200",
+            "height": "100",
+            "fit": "aspect-fit",
+            "alignX": "0.5",
+            "alignY": "0.5",
+            "clip": true
+          },
+          "roots": [],
+          "nodes": [],
+          "styles": [],
+          "externalReferences": [],
+          "mediaAttachments": []
+        }
+      }
+    },
+    {
+      "id": "sd20-draft-base",
+      "target": "revision",
+      "source": "009 §§6, 9 SD20",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Draft points at its independent head and exact publication basis.",
+      "instance": {
+        "kind": "draft-head",
+        "modelVersion": "subathon.scene-document.v1",
+        "sceneId": "53",
+        "draftId": "44",
+        "headRevisionId": "7232",
+        "baseLive": {
+          "kind": "publication",
+          "publicationId": "7031"
+        }
+      }
+    },
+    {
+      "id": "sd20-publish",
+      "target": "revision",
+      "source": "009 §§6, 9 SD20",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Fresh intent identifies exact current expected publication and target revision.",
+      "instance": {
+        "kind": "publish-intent",
+        "modelVersion": "subathon.scene-document.v1",
+        "sceneId": "53",
+        "expectedLive": {
+          "kind": "publication",
+          "publicationId": "7031"
+        },
+        "targetRevisionId": "7232"
+      }
+    },
+    {
+      "id": "sd20-publication",
+      "target": "revision",
+      "source": "009 §§6, 9 SD20",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Publication identity and selected content identity occupy distinct slots.",
+      "instance": {
+        "kind": "publication",
+        "modelVersion": "subathon.scene-document.v1",
+        "sceneId": "53",
+        "publicationId": "7032",
+        "targetRevisionId": "7232"
+      }
+    },
+    {
+      "id": "sd20-no-live",
+      "target": "revision",
+      "source": "009 §6",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Explicit known-no-live state.",
+      "instance": {
+        "kind": "live-head",
+        "modelVersion": "subathon.scene-document.v1",
+        "sceneId": "53",
+        "live": {
+          "kind": "no-live"
+        }
+      }
+    },
+    {
+      "id": "sd21-edit",
+      "target": "revision",
+      "source": "009 §§6, 9 SD21",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "An edit names its draft and that draft's expected content head.",
+      "instance": {
+        "kind": "edit-intent",
+        "modelVersion": "subathon.scene-document.v1",
+        "sceneId": "53",
+        "draftId": "44",
+        "expectedDraftHeadId": "7232",
+        "targetRevisionId": "7233"
+      }
+    },
+    {
+      "id": "sd22-restore",
+      "target": "revision",
+      "source": "009 §§6, 9 SD22",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Fresh restore targets old r1 while expecting current p2.",
+      "instance": {
+        "kind": "restore-intent",
+        "modelVersion": "subathon.scene-document.v1",
+        "sceneId": "53",
+        "expectedLive": {
+          "kind": "publication",
+          "publicationId": "7032"
+        },
+        "targetRevisionId": "7231"
+      }
+    },
+    {
+      "id": "sd20-live-null",
+      "base": "sd20-no-live",
+      "source": "005 §3 and 009 §6",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Null does not encode known-no-live.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/live",
+          "value": null
+        }
+      ]
+    },
+    {
+      "id": "sd21-edit-expected-head-missing",
+      "base": "sd21-edit",
+      "source": "009 §§6, 9 SD21",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Fresh edit requires an expected draft head.",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/expectedDraftHeadId"
+        }
+      ]
+    },
+    {
+      "id": "sd22-stale-expected-publication",
+      "base": "sd22-restore",
+      "source": "009 §§6, 9 SD22",
+      "expect": {
+        "structural": "valid",
+        "publication": "reject"
+      },
+      "reason": "Against current live p2, a request expecting p1 conflicts, independent of target r1.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/expectedLive",
+          "value": {
+            "kind": "publication",
+            "publicationId": "7031"
+          }
+        }
+      ]
+    },
+    {
+      "id": "md01-png",
+      "target": "assets#/$defs/PngDescriptor",
+      "source": "011 §§2, 8.1 MD01",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Complete literal profile descriptor under the source case's stated inspection premises.",
+      "instance": {
+        "profile": "subathon.asset.png.v1",
+        "encodedBytes": "4096",
+        "details": {
+          "width": "2",
+          "height": "1",
+          "colorType": 6,
+          "depth": 8,
+          "interlace": 0,
+          "transparency": "channel",
+          "color": "untagged-srgb"
+        }
+      }
+    },
+    {
+      "id": "md02-jpeg",
+      "target": "assets#/$defs/JpegDescriptor",
+      "source": "011 §§2, 8.1 MD02",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Complete literal profile descriptor under the source case's stated inspection premises.",
+      "instance": {
+        "profile": "subathon.asset.jpeg.v1",
+        "encodedBytes": "4096",
+        "details": {
+          "width": "16",
+          "height": "16",
+          "process": "baseline",
+          "precision": 8,
+          "components": "gray",
+          "subsampling": "1x1",
+          "orientation": 1,
+          "color": "untagged-srgb"
+        }
+      }
+    },
+    {
+      "id": "md03-webp",
+      "target": "assets#/$defs/WebpDescriptor",
+      "source": "011 §§2, 8.1 MD03",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Complete literal profile descriptor under the source case's stated inspection premises.",
+      "instance": {
+        "profile": "subathon.asset.webp.v1",
+        "encodedBytes": "4096",
+        "details": {
+          "width": "2",
+          "height": "1",
+          "coding": "vp8l-lossless",
+          "alpha": true,
+          "color": "untagged-srgb"
+        }
+      }
+    },
+    {
+      "id": "md04-gif",
+      "target": "assets#/$defs/GifDescriptor",
+      "source": "011 §§2, 8.1 MD04",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Complete literal profile descriptor under the source case's stated inspection premises.",
+      "instance": {
+        "profile": "subathon.asset.gif.v1",
+        "encodedBytes": "512",
+        "details": {
+          "version": "89a",
+          "width": "1",
+          "height": "1",
+          "paletteEntries": 2,
+          "backgroundIndex": 0,
+          "loop": "forever",
+          "frames": [
+            {
+              "x": "0",
+              "y": "0",
+              "w": "1",
+              "h": "1",
+              "paletteEntries": 2,
+              "transparentIndex": "none",
+              "disposal": 1,
+              "delayCS": 2,
+              "interlace": false
+            },
+            {
+              "x": "0",
+              "y": "0",
+              "w": "1",
+              "h": "1",
+              "paletteEntries": 2,
+              "transparentIndex": 0,
+              "disposal": 2,
+              "delayCS": 2,
+              "interlace": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "md05-svg",
+      "target": "assets#/$defs/SvgDescriptor",
+      "source": "011 §§2, 8.1 MD05",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Complete literal profile descriptor under the source case's stated inspection premises.",
+      "instance": {
+        "profile": "subathon.asset.svg-static.v1",
+        "encodedBytes": "152",
+        "details": {
+          "width": {
+            "numerator": "2",
+            "denominator": "1"
+          },
+          "height": {
+            "numerator": "2",
+            "denominator": "1"
+          },
+          "viewBox": [
+            {
+              "numerator": "0",
+              "denominator": "1"
+            },
+            {
+              "numerator": "0",
+              "denominator": "1"
+            },
+            {
+              "numerator": "2",
+              "denominator": "1"
+            },
+            {
+              "numerator": "2",
+              "denominator": "1"
+            }
+          ],
+          "aspect": "none",
+          "elements": "2",
+          "attributes": "7",
+          "references": "0",
+          "expandedUses": "0",
+          "pathSegments": "4"
+        }
+      }
+    },
+    {
+      "id": "md06-mp4",
+      "target": "assets#/$defs/Mp4Descriptor",
+      "source": "011 §§2, 8.1 MD06",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Complete literal profile descriptor under the source case's stated inspection premises.",
+      "instance": {
+        "profile": "subathon.asset.mp4.v1",
+        "encodedBytes": "65536",
+        "details": {
+          "brand": "isom",
+          "compatibleBrands": [
+            "isom",
+            "avc1"
+          ],
+          "video": {
+            "codec": {
+              "kind": "AVC",
+              "prefix": "6400",
+              "level": "2a"
+            },
+            "width": 1920,
+            "height": 1080,
+            "rate": {
+              "numerator": "60",
+              "denominator": "1"
+            },
+            "frames": 60,
+            "color": "bt709-limited",
+            "alpha": false,
+            "sampleAspect": {
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "rotation": 0,
+            "refs": 4
+          },
+          "audio": {
+            "kind": "AAC",
+            "rate": 48000,
+            "layout": "stereo",
+            "samples": "47104",
+            "priming": "0",
+            "padding": "0"
+          }
+        }
+      }
+    },
+    {
+      "id": "md07-webm",
+      "target": "assets#/$defs/WebmDescriptor",
+      "source": "011 §§2, 8.1 MD07",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Complete literal profile descriptor under the source case's stated inspection premises.",
+      "instance": {
+        "profile": "subathon.asset.webm.v1",
+        "encodedBytes": "65536",
+        "details": {
+          "readVersion": 4,
+          "video": {
+            "codec": {
+              "kind": "VP9",
+              "profile": 0
+            },
+            "width": 1280,
+            "height": 720,
+            "rate": {
+              "numerator": "30",
+              "denominator": "1"
+            },
+            "frames": 30,
+            "color": "bt709-limited",
+            "alpha": false,
+            "sampleAspect": {
+              "numerator": "1",
+              "denominator": "1"
+            },
+            "rotation": 0,
+            "refs": 3
+          },
+          "audio": {
+            "kind": "Opus",
+            "rate": 48000,
+            "layout": "stereo",
+            "mapping": 0,
+            "preSkip": 312,
+            "gainQ8": 0,
+            "samples": "48000"
+          }
+        }
+      }
+    },
+    {
+      "id": "md08-wav",
+      "target": "assets#/$defs/WavDescriptor",
+      "source": "011 §§2, 8.1 MD08",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Complete literal profile descriptor under the source case's stated inspection premises.",
+      "instance": {
+        "profile": "subathon.asset.wav.v1",
+        "encodedBytes": "192044",
+        "details": {
+          "pcm": {
+            "kind": "PCM",
+            "rate": 48000,
+            "layout": "stereo",
+            "bits": 16,
+            "samples": "48000"
+          }
+        }
+      }
+    },
+    {
+      "id": "md09-mp3",
+      "target": "assets#/$defs/Mp3Descriptor",
+      "source": "011 §§2, 8.1 MD09",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Complete literal profile descriptor under the source case's stated inspection premises.",
+      "instance": {
+        "profile": "subathon.asset.mp3.v1",
+        "encodedBytes": "20000",
+        "details": {
+          "audio": {
+            "kind": "MPEG1Layer3",
+            "rate": 44100,
+            "mode": "stereo",
+            "rateMode": "cbr",
+            "kbps": [
+              128
+            ],
+            "samples": "44100",
+            "priming": "576",
+            "padding": "1404"
+          }
+        }
+      }
+    },
+    {
+      "id": "md10-ogg",
+      "target": "assets#/$defs/OggDescriptor",
+      "source": "011 §§2, 8.1 MD10",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Complete literal profile descriptor under the source case's stated inspection premises.",
+      "instance": {
+        "profile": "subathon.asset.ogg.v1",
+        "encodedBytes": "8192",
+        "details": {
+          "version": 0,
+          "serial": "7",
+          "chain": false,
+          "audio": {
+            "kind": "Vorbis",
+            "rate": 48000,
+            "layout": "stereo",
+            "smallBlock": 64,
+            "largeBlock": 256,
+            "samples": "48000"
+          }
+        }
+      }
+    },
+    {
+      "id": "md01-png-depth",
+      "base": "md01-png",
+      "source": "011 §8.1 MD01 one-field control",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "PNG type 6 admits depth 8 or 16.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/depth",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "md02-jpeg-precision",
+      "base": "md02-jpeg",
+      "source": "011 §8.1 MD02 one-field control",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Selected JPEG profile requires precision 8.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/precision",
+          "value": 12
+        }
+      ]
+    },
+    {
+      "id": "md03-webp-animated",
+      "base": "md03-webp",
+      "source": "011 §8.1 MD03 one-field control",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Static WebP profile excludes animation.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/coding",
+          "value": "vp8l-lossless-animated"
+        }
+      ]
+    },
+    {
+      "id": "md04-gif-delay",
+      "base": "md04-gif",
+      "source": "011 §8.1 MD04 one-field control",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "GIF delay starts at 2 centiseconds.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/frames/1/delayCS",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "md05-svg-zero-viewbox",
+      "base": "md05-svg",
+      "source": "011 §8.1 MD05 one-field control",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "View box width must be positive.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/viewBox/2",
+          "value": {
+            "numerator": "0",
+            "denominator": "1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "md06-mp4-level-work",
+      "base": "md06-mp4",
+      "source": "011 §8.1 MD06 one-field control",
+      "expect": {
+        "structural": "valid",
+        "profile": "reject"
+      },
+      "reason": "Level 4.1 admits 245760 macroblocks per second; 8160×60 is 489600.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/video/codec/level",
+          "value": "29"
+        }
+      ]
+    },
+    {
+      "id": "md07-webm-alpha",
+      "base": "md07-webm",
+      "source": "011 §8.1 MD07 one-field control",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Selected video profile requires known lack of alpha.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/video/alpha",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "md08-wav-pcm-bits",
+      "base": "md08-wav",
+      "source": "011 §8.1 MD08 one-field control",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Selected WAV profile admits 8 or 16 PCM bits.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/pcm/bits",
+          "value": 24
+        }
+      ]
+    },
+    {
+      "id": "md09-mp3-sample-rate",
+      "base": "md09-mp3",
+      "source": "011 §8.1 MD09 one-field control",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "22050 Hz is outside the MPEG1 Layer III set.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/audio/rate",
+          "value": 22050
+        }
+      ]
+    },
+    {
+      "id": "md10-ogg-chain",
+      "base": "md10-ogg",
+      "source": "011 §8.1 MD10 one-field control",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Selected Ogg profile is unchained.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/chain",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "md06-mp4-no-audio",
+      "base": "md06-mp4",
+      "source": "011 §8.1 MD06 alternate",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "MP4 admits known absence of audio.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/audio",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": "md07-webm-vp8",
+      "base": "md07-webm",
+      "source": "011 §8.1 MD07 alternate",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Version 0 VP8 is admitted in WebM under the same inspected conditions.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/video/codec",
+          "value": {
+            "kind": "VP8",
+            "version": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "md07-webm-vorbis",
+      "base": "md07-webm",
+      "source": "011 §8.1 MD07 alternate",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "WebM admits the Vorbis branch.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/audio",
+          "value": {
+            "kind": "Vorbis",
+            "rate": 48000,
+            "layout": "stereo",
+            "smallBlock": 64,
+            "largeBlock": 256,
+            "samples": "48000"
+          }
+        }
+      ]
+    },
+    {
+      "id": "md10-ogg-opus",
+      "base": "md10-ogg",
+      "source": "011 §8.1 MD10 alternate",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Ogg admits the Opus branch.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/audio",
+          "value": {
+            "kind": "Opus",
+            "rate": 48000,
+            "layout": "stereo",
+            "mapping": 0,
+            "preSkip": 312,
+            "gainQ8": 0,
+            "samples": "48000"
+          }
+        }
+      ]
+    },
+    {
+      "id": "md06-mp4-pcm",
+      "base": "md06-mp4",
+      "source": "011 §8.1 MD06 alternate",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "The MP4 audio branch accepts AAC or known absence.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/audio",
+          "value": {
+            "kind": "PCM",
+            "rate": 48000,
+            "layout": "stereo",
+            "bits": 16,
+            "samples": "48000"
+          }
+        }
+      ]
+    },
+    {
+      "id": "md01-raster-area-at",
+      "base": "md01-png",
+      "source": "011 §8.1 finite raster boundary",
+      "expect": {
+        "structural": "valid",
+        "profile": "accept"
+      },
+      "reason": "8192×3906 = 31997952 pixels fits the default raster profile; assume matching content.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/width",
+          "value": "8192"
+        },
+        {
+          "op": "replace",
+          "path": "/details/height",
+          "value": "3906"
+        }
+      ]
+    },
+    {
+      "id": "md01-raster-area-over",
+      "base": "md01-png",
+      "source": "011 §8.1 finite raster boundary",
+      "expect": {
+        "structural": "valid",
+        "profile": "reject"
+      },
+      "reason": "8192×3907 = 32006144 exceeds the default 32000000 pixel profile.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/width",
+          "value": "8192"
+        },
+        {
+          "op": "replace",
+          "path": "/details/height",
+          "value": "3907"
+        }
+      ]
+    },
+    {
+      "id": "md04-gif-delay-max",
+      "base": "md04-gif",
+      "source": "011 §8.1 finite GIF boundary",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "65535 is the inclusive GIF delay maximum.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/frames/0/delayCS",
+          "value": 65535
+        }
+      ]
+    },
+    {
+      "id": "md04-gif-delay-over",
+      "base": "md04-gif",
+      "source": "011 §8.1 finite GIF boundary",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "65536 is above the GIF delay maximum.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/frames/0/delayCS",
+          "value": 65536
+        }
+      ]
+    },
+    {
+      "id": "md07-webm-preskip-over",
+      "base": "md07-webm",
+      "source": "011 §8.1 Opus preSkip boundary",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "65536 is above the unsigned 16-bit preSkip maximum.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/audio/preSkip",
+          "value": 65536
+        }
+      ]
+    },
+    {
+      "id": "fd01-ttf",
+      "target": "assets#/$defs/TtfDescriptor",
+      "source": "011 §§4.1, 8.2 FD01",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Complete hypothetical inspected glyf outline and SFNT metadata.",
+      "instance": {
+        "profile": "subathon.asset.font-ttf.v1",
+        "encodedBytes": "16384",
+        "details": {
+          "scaler": "00010000",
+          "face": 0,
+          "tables": [
+            {
+              "tag": "OS/2",
+              "version": 4
+            },
+            {
+              "tag": "cmap",
+              "version": 0
+            },
+            {
+              "tag": "glyf",
+              "version": "none"
+            },
+            {
+              "tag": "head",
+              "version": "1.0"
+            },
+            {
+              "tag": "hhea",
+              "version": "1.0"
+            },
+            {
+              "tag": "hmtx",
+              "version": "none"
+            },
+            {
+              "tag": "loca",
+              "version": "none"
+            },
+            {
+              "tag": "maxp",
+              "version": "1.0"
+            },
+            {
+              "tag": "name",
+              "version": 0
+            },
+            {
+              "tag": "post",
+              "version": "3.0"
+            }
+          ],
+          "unitsPerEm": 1000,
+          "glyphs": 256,
+          "weight": 400,
+          "width": 5,
+          "slant": "upright",
+          "cmap": [
+            {
+              "platform": 3,
+              "encoding": 1,
+              "format": 4
+            }
+          ],
+          "outline": {
+            "kind": "Glyf",
+            "locaFormat": 1,
+            "maxContours": 2,
+            "maxPoints": 8,
+            "maxComponents": 0,
+            "maxDepth": 0
+          },
+          "hints": "none",
+          "layout": {
+            "gdef": "none",
+            "gsub": [],
+            "gpos": [],
+            "kern": "none"
+          },
+          "variation": "none",
+          "color": "none",
+          "embedded": "none"
+        }
+      }
+    },
+    {
+      "id": "fd02-cff",
+      "target": "assets#/$defs/CffDescriptor",
+      "source": "011 §§4.1, 8.2 FD02",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Complete hypothetical inspected CFF1 SFNT metadata.",
+      "instance": {
+        "profile": "subathon.asset.font-otf-cff.v1",
+        "encodedBytes": "16384",
+        "details": {
+          "scaler": "OTTO",
+          "face": 0,
+          "tables": [
+            {
+              "tag": "CFF ",
+              "version": "1.0"
+            },
+            {
+              "tag": "OS/2",
+              "version": 4
+            },
+            {
+              "tag": "cmap",
+              "version": 0
+            },
+            {
+              "tag": "head",
+              "version": "1.0"
+            },
+            {
+              "tag": "hhea",
+              "version": "1.0"
+            },
+            {
+              "tag": "hmtx",
+              "version": "none"
+            },
+            {
+              "tag": "maxp",
+              "version": "0.5"
+            },
+            {
+              "tag": "name",
+              "version": 0
+            },
+            {
+              "tag": "post",
+              "version": "3.0"
+            }
+          ],
+          "unitsPerEm": 1000,
+          "glyphs": 256,
+          "weight": 700,
+          "width": 5,
+          "slant": "upright",
+          "cmap": [
+            {
+              "platform": 3,
+              "encoding": 10,
+              "format": 12
+            }
+          ],
+          "outline": {
+            "kind": "CFF1",
+            "maxStack": 4,
+            "maxSubrDepth": 0,
+            "maxStems": 0,
+            "maxOps": 24
+          },
+          "hints": "none",
+          "layout": {
+            "gdef": "none",
+            "gsub": [],
+            "gpos": [],
+            "kern": "none"
+          },
+          "variation": "none",
+          "color": "none",
+          "embedded": "none"
+        }
+      }
+    },
+    {
+      "id": "fd01-face-one",
+      "base": "fd01-ttf",
+      "source": "011 §8.2 FD01",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Single-face scalable profile uses face 0.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/face",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "fd01-cmap-pair",
+      "base": "fd01-ttf",
+      "source": "011 §8.2 FD01",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Platform 3 encoding 1 requires format 4.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/cmap/0/format",
+          "value": 12
+        }
+      ]
+    },
+    {
+      "id": "fd01-upem-max",
+      "base": "fd01-ttf",
+      "source": "011 §8.2 FD01",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "16384 is the inclusive unitsPerEm maximum.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/unitsPerEm",
+          "value": 16384
+        }
+      ]
+    },
+    {
+      "id": "fd01-upem-over",
+      "base": "fd01-ttf",
+      "source": "011 §8.2 FD01",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "16385 exceeds the unitsPerEm maximum.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/unitsPerEm",
+          "value": 16385
+        }
+      ]
+    },
+    {
+      "id": "fd01-variation",
+      "base": "fd01-ttf",
+      "source": "011 §8.2 FD01",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Variable outlines require a different reviewed profile.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/variation",
+          "value": "wght"
+        }
+      ]
+    },
+    {
+      "id": "fd02-stem-count",
+      "base": "fd02-cff",
+      "source": "011 §8.2 FD02",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Declared Type2 stems contradict zero maxStems.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/hints",
+          "value": "type2-stems"
+        }
+      ]
+    },
+    {
+      "id": "fd02-depth-max",
+      "base": "fd02-cff",
+      "source": "011 §8.2 FD02",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "10 is the admitted maximum subroutine depth field.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/outline/maxSubrDepth",
+          "value": 10
+        }
+      ]
+    },
+    {
+      "id": "fd02-depth-over",
+      "base": "fd02-cff",
+      "source": "011 §8.2 FD02",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "11 exceeds the subroutine depth limit.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/outline/maxSubrDepth",
+          "value": 11
+        }
+      ]
+    },
+    {
+      "id": "fd02-tag-trailing-space",
+      "base": "fd02-cff",
+      "source": "011 §§4.1, 8.2 FD02",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "The CFF table tag is exactly four characters including its space.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/tables/0/tag",
+          "value": "CFF"
+        }
+      ]
+    },
+    {
+      "id": "fd01-hinted",
+      "base": "fd01-ttf",
+      "source": "011 §8.2 FD01 hinted variant",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Table and bounded TT program metadata correspond to the source example's hypothetical tiny program.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/details/tables",
+          "value": [
+            {
+              "tag": "OS/2",
+              "version": 4
+            },
+            {
+              "tag": "cmap",
+              "version": 0
+            },
+            {
+              "tag": "cvt ",
+              "version": "none"
+            },
+            {
+              "tag": "fpgm",
+              "version": "none"
+            },
+            {
+              "tag": "glyf",
+              "version": "none"
+            },
+            {
+              "tag": "head",
+              "version": "1.0"
+            },
+            {
+              "tag": "hhea",
+              "version": "1.0"
+            },
+            {
+              "tag": "hmtx",
+              "version": "none"
+            },
+            {
+              "tag": "loca",
+              "version": "none"
+            },
+            {
+              "tag": "maxp",
+              "version": "1.0"
+            },
+            {
+              "tag": "name",
+              "version": 0
+            },
+            {
+              "tag": "post",
+              "version": "3.0"
+            }
+          ]
+        },
+        {
+          "op": "replace",
+          "path": "/details/hints",
+          "value": {
+            "kind": "TT",
+            "programBytes": 3,
+            "cvtEntries": 1,
+            "maxStack": 1,
+            "maxStorage": 0,
+            "maxTwilight": 0,
+            "maxFunctions": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "ap01-asset-root",
+      "target": "assets",
+      "source": "011 §§1, 8 AP01/AP11",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Immutable revision declares an image and explicit unknown rights. Actual payload and compatibility checks are separate.",
+      "instance": {
+        "version": "subathon.scene-assets-packages.v1",
+        "revisions": [
+          {
+            "kind": "VisualAsset",
+            "resourceId": "76697375616c",
+            "revisionId": "7231",
+            "byteLength": "4096",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+            "declared": {
+              "profile": "subathon.asset.png.v1",
+              "encodedBytes": "4096",
+              "details": {
+                "width": "2",
+                "height": "1",
+                "colorType": 6,
+                "depth": 8,
+                "interlace": 0,
+                "transparency": "channel",
+                "color": "untagged-srgb"
+              }
+            },
+            "provenance": {
+              "kind": "uploaded",
+              "sourceUrl": "https://example.invalid/catalog",
+              "sourceVersion": "demo-1",
+              "sourceDate": "2026-01-01",
+              "sourceAuthor": "Synthetic Author",
+              "sourceDigest": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+              "sourceDescription": "Synthetic descriptor"
+            },
+            "rights": {
+              "usage": {
+                "kind": "unknown"
+              },
+              "redistribution": {
+                "kind": "unknown"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "ap01-provenance-unknown",
+      "base": "ap01-asset-root",
+      "source": "011 §1 and 012 §2",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Unknown source attribution and version stay absent without fabricating selected facts.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/revisions/0/provenance",
+          "value": {
+            "kind": "uploaded"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ap01-asset-private-provenance",
+      "base": "ap01-asset-root",
+      "source": "011 §1",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Private upload account information cannot appear in the public provenance record.",
+      "changes": [
+        {
+          "op": "add",
+          "path": "/revisions/0/provenance/accountId",
+          "value": "synthetic-forbidden-id"
+        }
+      ]
+    },
+    {
+      "id": "ap02-font-revision-media-kind",
+      "base": "ap01-asset-root",
+      "source": "011 §§1, 8 AP02",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "A visual descriptor cannot satisfy a font-revision slot.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/revisions/0/kind",
+          "value": "Font"
+        }
+      ]
+    },
+    {
+      "id": "ap04-declared-byte-length-mismatch",
+      "base": "ap01-asset-root",
+      "source": "011 §§1, 8 AP04",
+      "expect": {
+        "structural": "valid",
+        "domain": "reject"
+      },
+      "reason": "Both lengths are positive but the revision and its declared original byte length must agree.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/revisions/0/byteLength",
+          "value": "4097"
+        }
+      ]
+    },
+    {
+      "id": "ap07-manifest",
+      "target": "package",
+      "source": "011 §§5, 8 AP07 and owner 159",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Complete logical manifest pins exactly one scene revision and typed asset and notice entries. Exact source bytes are premises.",
+      "instance": {
+        "version": "subathon.scene-assets-packages.v1",
+        "profile": "subathon.scene-package-manifest.v1",
+        "packageId": "50",
+        "revisionId": "7231",
+        "scene": {
+          "entry": "scene",
+          "revision": {
+            "sceneId": "53",
+            "revisionId": "7231"
+          },
+          "byteLength": "1200",
+          "sha256": "0123456789abcdee0123456789abcdee0123456789abcdee0123456789abcdee"
+        },
+        "entries": [
+          {
+            "entry": "assets/0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+            "byteLength": "4096",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          },
+          {
+            "entry": "notices/fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210",
+            "byteLength": "128",
+            "sha256": "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210"
+          }
+        ],
+        "assetMappings": [
+          {
+            "entry": "assets/0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+            "revision": {
+              "kind": "VisualAsset",
+              "resourceId": "76697375616c",
+              "revisionId": "7231",
+              "byteLength": "4096",
+              "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+              "declared": {
+                "profile": "subathon.asset.png.v1",
+                "encodedBytes": "4096",
+                "details": {
+                  "width": "2",
+                  "height": "1",
+                  "colorType": 6,
+                  "depth": 8,
+                  "interlace": 0,
+                  "transparency": "channel",
+                  "color": "untagged-srgb"
+                }
+              },
+              "provenance": {
+                "kind": "uploaded",
+                "sourceUrl": "https://example.invalid/catalog",
+                "sourceVersion": "demo-1",
+                "sourceDate": "2026-01-01",
+                "sourceAuthor": "Synthetic Author",
+                "sourceDigest": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+                "sourceDescription": "Synthetic descriptor"
+              },
+              "rights": {
+                "usage": {
+                  "kind": "permitted",
+                  "evidenceId": "75"
+                },
+                "redistribution": {
+                  "kind": "permitted",
+                  "evidenceId": "72"
+                }
+              }
+            },
+            "noticeDigests": [
+              "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "ap07-missing-scene",
+      "base": "ap07-manifest",
+      "source": "011 §5 and owner 159",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Exactly one logical scene entry is required.",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/scene"
+        }
+      ]
+    },
+    {
+      "id": "ap07-two-scenes",
+      "base": "ap07-manifest",
+      "source": "011 §5 and owner 159",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "A list of scene revisions cannot represent the singular logical scene entry.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/scene",
+          "value": [
+            {
+              "entry": "scene",
+              "revision": {
+                "sceneId": "53",
+                "revisionId": "7231"
+              },
+              "byteLength": "1200",
+              "sha256": "0123456789abcdee0123456789abcdee0123456789abcdee0123456789abcdee"
+            },
+            {
+              "entry": "scene",
+              "revision": {
+                "sceneId": "53",
+                "revisionId": "7232"
+              },
+              "byteLength": "1200",
+              "sha256": "0123456789abcdee0123456789abcdee0123456789abcdee0123456789abcdee"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ap08-duplicate-entry",
+      "base": "ap07-manifest",
+      "source": "011 §§5, 8 AP08",
+      "expect": {
+        "structural": "valid",
+        "domain": "reject"
+      },
+      "reason": "Two manifest entries claim the same asset path.",
+      "changes": [
+        {
+          "op": "add",
+          "path": "/entries/-",
+          "value": {
+            "entry": "assets/0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+            "byteLength": "4096",
+            "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ap09-entry-path",
+      "base": "ap07-manifest",
+      "source": "011 §§5, 8 AP09",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Asset entry lies outside the closed digest path namespace.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/entries/0/entry",
+          "value": "../font.ttf"
+        }
+      ]
+    },
+    {
+      "id": "ap04-path-digest-disagreement",
+      "base": "ap07-manifest",
+      "source": "011 §§5, 8 AP04/AP07",
+      "expect": {
+        "structural": "valid",
+        "domain": "reject"
+      },
+      "reason": "Both tokens are well formed. Entry name digest and declared asset digest disagree.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/entries/0/sha256",
+          "value": "0123456789abcdee0123456789abcdee0123456789abcdee0123456789abcdee"
+        }
+      ]
+    },
+    {
+      "id": "ap06-missing-notice",
+      "base": "ap07-manifest",
+      "source": "011 §§5, 8 AP06/AP07",
+      "expect": {
+        "structural": "valid",
+        "domain": "reject"
+      },
+      "reason": "Declared applicable notice is absent from the closed inventory.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/entries",
+          "value": [
+            {
+              "entry": "assets/0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+              "byteLength": "4096",
+              "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ap07-export-rights-unknown",
+      "base": "ap07-manifest",
+      "source": "011 §§4.2, 5, 8 AP07",
+      "expect": {
+        "structural": "valid",
+        "publication": "reject"
+      },
+      "reason": "Unknown redistribution rights prevent export of a complete portable artifact.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/assetMappings/0/revision/rights/redistribution",
+          "value": {
+            "kind": "unknown"
+          }
+        }
+      ]
+    },
+    {
+      "id": "r1-progress-placed-state-and-track-only",
+      "base": "bt07-authored-bindings",
+      "source": "009 §4; 010 §2 and §7 M/D; pre-schema §3; schema fix R1",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Before-first text carries its own box and font. The track-only unavailable appearance carries no progress value.",
+      "changes": [
+        {
+          "op": "add",
+          "path": "/definitions/9/layout/noOrigin/text",
+          "value": {
+            "text": "Waiting for the first target",
+            "box": {
+              "x": "12",
+              "y": "8",
+              "width": "76",
+              "height": "18"
+            },
+            "presentation": {
+              "opacity": "1",
+              "clipToFrame": true,
+              "foreground": [
+                244,
+                240,
+                219,
+                255
+              ],
+              "size": "18",
+              "horizontalAlignment": "start",
+              "verticalAlignment": "center",
+              "wrapping": "word",
+              "overflow": "clip",
+              "font": {
+                "primary": {
+                  "font": {
+                    "version": "subathon.scene-assets-packages.v1",
+                    "kind": "Font",
+                    "resourceId": "626f6479",
+                    "revisionId": "7231"
+                  },
+                  "face": 0,
+                  "slant": "upright",
+                  "weight": 400
+                },
+                "fallback": "none"
+              }
+            }
+          }
+        },
+        {
+          "op": "replace",
+          "path": "/definitions/9/layout/bar/unavailableFill",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "id": "r1-progress-state-without-placement",
+      "base": "r1-progress-placed-state-and-track-only",
+      "source": "009 §4; 010 §2 and §7 M/D; pre-schema §3; schema fix R1",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Present state text requires its own authored box.",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/definitions/9/layout/noOrigin/text/box"
+        }
+      ]
+    },
+    {
+      "id": "r1-progress-slot-without-text-presentation",
+      "base": "bt07-authored-bindings",
+      "source": "009 §4; 010 §2 and §7 M/D; pre-schema §3; schema fix R1",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "The remaining slot must carry its own complete text presentation.",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/definitions/9/layout/interval/slots/0/presentation"
+        }
+      ]
+    },
+    {
+      "id": "r1-progress-unavailable-paint-absent",
+      "base": "bt07-authored-bindings",
+      "source": "009 §4; 010 §2 and §7 M/D; pre-schema §3; schema fix R1",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "The bar requires explicit unavailable paint or an explicit track-only choice.",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/definitions/9/layout/bar/unavailableFill"
+        }
+      ]
+    },
+    {
+      "id": "r1-progress-unavailable-paint-fraction",
+      "base": "bt07-authored-bindings",
+      "source": "009 §4; 010 §2 and §7 M/D; pre-schema §3; schema fix R1",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Unavailable paint cannot fabricate a numeric completion fraction.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/definitions/9/layout/bar/unavailableFill",
+          "value": "0.5"
+        }
+      ]
+    },
+    {
+      "id": "r1-support-row-step-absent",
+      "base": "bt07-authored-bindings",
+      "source": "009 §4; 010 §2 and §7 S/E/D; schema fix R1",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Row position requires both origin and step.",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/definitions/10/layout/rowPlacement/step"
+        }
+      ]
+    },
+    {
+      "id": "r1-support-money-slot-placement-absent",
+      "base": "bt07-authored-bindings",
+      "source": "009 §4; 010 §2 and §7 S/E/D; schema fix R1",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "An admitted donation money slot needs a row-local box.",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/definitions/10/layout/donation/0/box"
+        }
+      ]
+    },
+    {
+      "id": "r1-support-name-font-absent",
+      "base": "bt07-authored-bindings",
+      "source": "009 §4; 010 §2 and §7 S/E/D; schema fix R1",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "An admitted name slot needs exact 011 font selection.",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/definitions/10/layout/subscription/0/presentation/font"
+        }
+      ]
+    },
+    {
+      "id": "r1-announcement-placed-fallback",
+      "base": "bt07-authored-bindings",
+      "source": "009 §4; 010 §§2, 5 and 7 E/P/D; schema fix R1",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Fallback text has explicit placement and exact font. The fallback supplies no current presentation identity.",
+      "changes": [
+        {
+          "op": "add",
+          "path": "/definitions/11/layout/unavailableText",
+          "value": {
+            "text": "No current announcement",
+            "box": {
+              "x": "4",
+              "y": "5",
+              "width": "92",
+              "height": "28"
+            },
+            "presentation": {
+              "opacity": "1",
+              "clipToFrame": true,
+              "foreground": [
+                228,
+                240,
+                255,
+                255
+              ],
+              "size": "24",
+              "horizontalAlignment": "start",
+              "verticalAlignment": "center",
+              "wrapping": "word",
+              "overflow": "clip",
+              "font": {
+                "primary": {
+                  "font": {
+                    "version": "subathon.scene-assets-packages.v1",
+                    "kind": "Font",
+                    "resourceId": "626f6479",
+                    "revisionId": "7231"
+                  },
+                  "face": 0,
+                  "slant": "upright",
+                  "weight": 400
+                },
+                "fallback": "none"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "r1-announcement-event-label-box-absent",
+      "base": "bt07-authored-bindings",
+      "source": "009 §4; 010 §§2, 5 and 7 E/P/D; schema fix R1",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Event-version label requires node-local placement.",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/definitions/11/layout/labels/0/box"
+        }
+      ]
+    },
+    {
+      "id": "r1-announcement-fallback-font-kind",
+      "base": "r1-announcement-placed-fallback",
+      "source": "009 §4; 010 §§2, 5 and 7 E/P/D; schema fix R1",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "A visual asset is the wrong kind for the fallback font reference.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/definitions/11/layout/unavailableText/presentation/font/primary/font",
+          "value": {
+            "version": "subathon.scene-assets-packages.v1",
+            "kind": "VisualAsset",
+            "resourceId": "76697375616c",
+            "revisionId": "7231"
+          }
+        }
+      ]
+    },
+    {
+      "id": "r2-provenance-known-empty-author",
+      "base": "ap01-asset-root",
+      "source": "011 §§1 and 4.2; schema fix R2",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Present empty author has an exact text value. Other descriptive facts remain absent.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/revisions/0/provenance",
+          "value": {
+            "kind": "uploaded",
+            "sourceAuthor": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "r2-provenance-import-origin-only",
+      "base": "ap01-asset-root",
+      "source": "011 §§1 and 4.2; schema fix R2",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Imported origin is known while descriptive source facts remain absent.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/revisions/0/provenance",
+          "value": {
+            "kind": "imported"
+          }
+        }
+      ]
+    },
+    {
+      "id": "r2-provenance-derived-source-and-transform",
+      "base": "ap01-asset-root",
+      "source": "011 §§1 and 4.2; schema fix R2",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "A derived asset pins an exact different source revision and a performed transformation. Optional attribution is absent.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/revisions/0/provenance",
+          "value": {
+            "kind": "derived",
+            "sourceAsset": {
+              "version": "subathon.scene-assets-packages.v1",
+              "kind": "VisualAsset",
+              "resourceId": "76697375616c",
+              "revisionId": "7230"
+            },
+            "transformations": [
+              "crop to 2 × 1"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "r2-provenance-derived-source-absent",
+      "base": "r2-provenance-derived-source-and-transform",
+      "source": "011 §§1 and 4.2; schema fix R2",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "A derivative requires exact source revision evidence.",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/revisions/0/provenance/sourceAsset"
+        }
+      ]
+    },
+    {
+      "id": "r2-provenance-derived-empty-transforms",
+      "base": "r2-provenance-derived-source-and-transform",
+      "source": "011 §§1 and 4.2; schema fix R2",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "A derived record requires at least one performed transformation.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/revisions/0/provenance/transformations",
+          "value": []
+        }
+      ]
+    },
+    {
+      "id": "r3-locale-closure-level-field",
+      "base": "bt07-authored-bindings",
+      "source": "005 §5; 009 §5; 010 §2; schema fix R3",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "A closure-level locale member cannot select the presentation of immutable formatter identities.",
+      "changes": [
+        {
+          "op": "add",
+          "path": "/locale",
+          "value": "en"
+        }
+      ]
+    },
+    {
+      "id": "r3-formatter-locale-absent",
+      "base": "bt07-authored-bindings",
+      "source": "005 §5; 009 §5; 010 §2; schema fix R3",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "The immutable points formatter requires its locale ID.",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/definitions/14/localeId"
+        }
+      ]
+    },
+    {
+      "id": "r3-formatter-locale-invalid-spelling",
+      "base": "bt07-authored-bindings",
+      "source": "005 §5; 009 §5; 010 §2; schema fix R3",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "An identifier beginning with an uppercase letter fails the 005 grammar.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/definitions/14/localeId",
+          "value": "EN-us"
+        }
+      ]
+    },
+    {
+      "id": "r3-formatter-locale-unregistered",
+      "base": "bt07-authored-bindings",
+      "source": "005 §5; 009 §5; 010 §2; schema fix R3",
+      "expect": {
+        "structural": "valid",
+        "domain": "reject"
+      },
+      "reason": "The selected synthetic fixture registry contains en and de. The well-formed fixture.unknown identity is absent from that registry.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/definitions/14/localeId",
+          "value": "fixture.unknown"
+        }
+      ]
+    },
+    {
+      "id": "r3-formatter-locale-divergence",
+      "base": "bt07-authored-bindings",
+      "source": "005 §5; 009 §5; 010 §2; schema fix R3",
+      "expect": {
+        "structural": "valid",
+        "domain": "reject"
+      },
+      "reason": "The selected synthetic fixture registry contains en and de. Under the single-scene selection of sd15-all-families the points formatter differs from the other applicable formatters even though both IDs resolve.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/definitions/14/localeId",
+          "value": "de"
+        }
+      ]
+    },
+    {
+      "id": "r4-index-repeated-inline-use-once",
+      "base": "sd15-all-families",
+      "source": "009 §§5 and 8; pre-schema §4; schema fix R4",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "Both inline appearance uses share the same exact typed reference. Their index has one appearance entry. Swapping index order preserves exact distinct equality. Selected definition resolution is outside this witness.",
+      "changes": [
+        {
+          "op": "replace",
+          "path": "/externalReferences",
+          "value": [
+            {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "ElementBindings",
+              "resourceId": "617070656172616e6365",
+              "definitionId": "7231"
+            },
+            {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "TimerBinding",
+              "resourceId": "6d61696e",
+              "definitionId": "7231"
+            },
+            {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "TextBinding",
+              "resourceId": "686561646c696e65",
+              "definitionId": "7231"
+            },
+            {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "ProgressBinding",
+              "resourceId": "70726f6772657373",
+              "definitionId": "7231"
+            },
+            {
+              "version": "subathon.scene-assets-packages.v1",
+              "kind": "VisualAsset",
+              "resourceId": "76697375616c",
+              "revisionId": "7231"
+            },
+            {
+              "version": "subathon.scene-assets-packages.v1",
+              "kind": "Font",
+              "resourceId": "626f6479",
+              "revisionId": "7231"
+            },
+            {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "RecentSupportBinding",
+              "resourceId": "737570706f7274",
+              "definitionId": "7231"
+            },
+            {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "AnnouncementBinding",
+              "resourceId": "616e6e6f756e63656d656e7473",
+              "definitionId": "7231"
+            },
+            {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "Condition",
+              "resourceId": "67617465",
+              "definitionId": "7231"
+            },
+            {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "Animation",
+              "resourceId": "666164652d61",
+              "definitionId": "7231"
+            },
+            {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "Animation",
+              "resourceId": "666164652d62",
+              "definitionId": "7231"
+            },
+            {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "PresentationLayout",
+              "resourceId": "626172",
+              "definitionId": "7231"
+            },
+            {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "PresentationLayout",
+              "resourceId": "726f7773",
+              "definitionId": "7231"
+            },
+            {
+              "version": "subathon.scene-bindings-conditions-timeline.v1",
+              "kind": "PresentationLayout",
+              "resourceId": "62616e6e6572",
+              "definitionId": "7231"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "r4-index-identical-duplicate",
+      "base": "sd15-all-families",
+      "source": "009 §§5 and 8; pre-schema §4; schema fix R4",
+      "expect": {
+        "structural": "invalid"
+      },
+      "reason": "Two byte-identical appearance entries violate structural item uniqueness. Multiple inline uses need only one index entry.",
+      "changes": [
+        {
+          "op": "add",
+          "path": "/externalReferences/-",
+          "value": {
+            "version": "subathon.scene-bindings-conditions-timeline.v1",
+            "kind": "ElementBindings",
+            "resourceId": "617070656172616e6365",
+            "definitionId": "7231"
+          }
+        }
+      ]
+    },
+    {
+      "id": "r4-index-inline-reference-omitted",
+      "base": "sd15-all-families",
+      "source": "009 §§5 and 8; pre-schema §4; schema fix R4",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "The text binding remains inline while the index omits its key. The direct-key sets differ by one omission. The structural result makes no claim about the selected closure.",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/externalReferences/1"
+        }
+      ]
+    },
+    {
+      "id": "r4-index-unbound-extra",
+      "base": "sd15-all-families",
+      "source": "009 §§5 and 8; pre-schema §4; schema fix R4",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "The index adds a well-formed distinct visual revision without an inline occurrence. The direct-key sets differ by one extra. The selected closure falls outside this witness.",
+      "changes": [
+        {
+          "op": "add",
+          "path": "/externalReferences/-",
+          "value": {
+            "version": "subathon.scene-assets-packages.v1",
+            "kind": "VisualAsset",
+            "resourceId": "76697375616c",
+            "revisionId": "7232"
+          }
+        }
+      ]
+    },
+    {
+      "id": "r4-index-same-bytes-different-kind",
+      "base": "sd15-all-families",
+      "source": "009 §§5 and 8; pre-schema §4; schema fix R4; 011 §1",
+      "expect": {
+        "structural": "valid"
+      },
+      "reason": "The media attachment and image share identity bytes but have different kinds. Both keys occur inline and in the exact distinct index. Selected definitions are unresolved in this case.",
+      "changes": [
+        {
+          "op": "add",
+          "path": "/mediaAttachments/-",
+          "value": {
+            "version": "subathon.scene-assets-packages.v1",
+            "kind": "MediaAttachment",
+            "resourceId": "76697375616c",
+            "revisionId": "7231"
+          }
+        },
+        {
+          "op": "add",
+          "path": "/externalReferences/-",
+          "value": {
+            "version": "subathon.scene-assets-packages.v1",
+            "kind": "MediaAttachment",
+            "resourceId": "76697375616c",
+            "revisionId": "7231"
+          }
+        }
+      ]
+    }
+  ]
+}
