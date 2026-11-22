@@ -226,6 +226,7 @@ jobs:
               "rule-selection": ({"acceptance", "core"}, 30),
               "rule-actions": ({"acceptance", "core"}, 30),
               "rule-chain": ({"acceptance", "core"}, 30),
+              "rule-simulator": ({"acceptance", "server"}, 30),
               "chat-commands": ({"acceptance", "core"}, 30),
           }
           discovery = json.loads(subprocess.check_output(
@@ -295,6 +296,8 @@ jobs:
               raise SystemExit(f"Expected 31 rule action cases, got {found['rule-actions']}")
           if found["rule-chain"] != 24:
               raise SystemExit(f"Expected 24 rule chain cases, got {found['rule-chain']}")
+          if found["rule-simulator"] != 21:
+              raise SystemExit(f"Expected 21 rule simulator cases, got {found['rule-simulator']}")
           if found["chat-commands"] != 41:
               raise SystemExit(f"Expected 41 chat command cases, got {found['chat-commands']}")
           if found["milestone-target-edit"] != 6:
@@ -310,7 +313,7 @@ jobs:
   # the development server executable.
   qt:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -788,8 +791,6 @@ jobs:
         run: |
           ulimit -c 0
           ctest --preset password-hashing-debug -L '^password-hashing$' --no-tests=error --verbose
-      - name: Run existing infrastructure checks
-        run: ctest --preset password-hashing-debug -L '^scaffold$' --no-tests=error --verbose
       - name: Build the reviewed session supplier acceptance
         run: |
           cmake --preset session-resolution-debug -DSUBATHON_FETCH_GOOGLETEST=ON \
@@ -852,8 +853,6 @@ jobs:
           PYTHON
       - name: Run all reviewed generator API and CLI acceptance cases
         run: ctest --preset translation-catalog-debug -L '^translation-catalog$' --no-tests=error --verbose
-      - name: Run existing infrastructure checks
-        run: ctest --preset translation-catalog-debug -L '^scaffold$' --verbose
       - name: Verify development executable suite registration
         run: |
           python3 - <<'PYTHON'

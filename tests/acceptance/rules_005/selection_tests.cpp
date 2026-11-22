@@ -270,4 +270,77 @@ TEST(Rules005, S12SubscriptionClassificationCanBeUnknown) {
         EXPECT_EQ(result.final_state.timer.main_remaining_ms, classified ? 180'000 : 120'000);
     }
 }
+TEST(Rules005, PreparedPlanUsesEntryRevisionBeforeTimerCut) {
+    const auto cfg = validate_rule_configuration(
+        {"prepared-config",
+         {},
+         {named("prepared-rule", "prepared", {time("prepared-time", "1000")})}});
+    const auto r = root("timed-prepared");
+    const auto retained = retain(r.event, cfg, Kind::named_event, "named_event",
+                                 {RuleText{RuleTextField::event_name, "prepared"}});
+    const PlanCapture original{
+        retained.receipt,
+        retained.eligibility,
+        retained.valuation,
+        {{"prepared-time", "v1", "prepared-rule", "Main", RequestedUnit::milliseconds, false,
+          Exact(1000), 1000, "captured fixed request", "reverse-actual"}}};
+    PlanRules rules;
+    PlanModifiers modifiers;
+    const auto plan = capture_application_plan("P", original, rules, modifiers);
+    const auto action = key("prepared-rule", "prepared-time");
+    const UnitIdentity unit{"apply", r.event.chain, r.event.event, UnitPurpose::event_pass};
+    const RuleTimeObservation actual{1000, 1000, 0, 0, 10'500};
+    const RuleCommittedPass pass{
+        {{0, {{action, RuleEffectObservation{"prepared-time", actual}}}, {}}}};
+    const ModeledHistory history{r,
+                                 "admit-" + r.event.event,
+                                 limits.chain,
+                                 {{r.event, 0, 0}},
+                                 {{unit, pass, {}, {}, {}, {}}},
+                                 {},
+                                 {}};
+
+    for (const auto completion : {RuleCompletion::committed, RuleCompletion::outcome_unknown}) {
+        SCOPED_TRACE(static_cast<int>(completion));
+        const bool uncertain = completion == RuleCompletion::outcome_unknown;
+        auto in = inputs(10'000);
+        add_root(in, r);
+        in.captures.push_back(retained);
+        turn(in, "clock-origin", TimeCut{});
+        auto apply = event(r.event, completion);
+        apply.prepared = PreparedPlan{plan, {1, "clock-origin"}};
+        turn(in, "apply", std::move(apply), {500, 500ms});
+        if (uncertain)
+            turn(in, "readback", UnitReconciliation{r.event.chain, unit, history}, {550, 550ms});
+        turn(in, "next-cut", TimeCut{}, {600, 600ms});
+        const auto scenario = replay("current-prepared-plan", std::move(in));
+
+        const auto result = inspect_simulation(scenario, limits);
+        ASSERT_EQ(result.trace.size(), uncertain ? 4U : 3U);
+        const auto &applied = result.trace[1];
+        ASSERT_TRUE(applied.plan);
+        ASSERT_EQ(applied.plan->preview, PlanPreviewValidity::current);
+        expect_complete(result, scenario);
+        ASSERT_TRUE(applied.timer_cut);
+        EXPECT_EQ(applied.timer_cut->progressed_ms, 500);
+        ASSERT_EQ(applied.actions.size(), 1U);
+        EXPECT_TRUE(applied.actions.front().submitted);
+        if (uncertain) {
+            EXPECT_FALSE(applied.publication);
+            EXPECT_FALSE(applied.actions.front().accepted);
+            EXPECT_EQ(applied.state.timer.main_remaining_ms, 9'500);
+            EXPECT_FALSE(result.trace[2].timer_cut);
+        } else {
+            expect_actual_time(applied.actions.front(), action, actual);
+        }
+        const auto &published = result.trace[uncertain ? 2 : 1];
+        ASSERT_TRUE(published.publication);
+        EXPECT_EQ(published.publication->identity, unit);
+        EXPECT_EQ(published.state.timer.main_remaining_ms, 10'500);
+        ASSERT_TRUE(result.trace.back().timer_cut);
+        EXPECT_EQ(result.trace.back().timer_cut->progressed_ms, 100);
+        EXPECT_EQ(result.final_state.timer.main_remaining_ms, 10'400);
+    }
+}
+
 } // namespace

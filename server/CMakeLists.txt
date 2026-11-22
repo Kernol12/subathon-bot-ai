@@ -65,7 +65,7 @@ if(TARGET subathon_milestone_progression)
     subathon_target_options(subathon_milestone_timeline)
 endif()
 
-if(BUILD_TESTING AND SUBATHON_BUILD_RULES_005_STAGE1)
+if(BUILD_TESTING AND SUBATHON_BUILD_RULE_SIMULATOR_TESTS)
     add_library(subathon_rule_simulator STATIC EXCLUDE_FROM_ALL src/rule_simulator.cpp)
     target_include_directories(subathon_rule_simulator PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_rule_simulator PUBLIC
