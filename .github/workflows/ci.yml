@@ -214,6 +214,7 @@ jobs:
               "milestone-target-edit": ({"acceptance", "core"}, 30),
               "timer-editorial": ({"acceptance", "core"}, 30),
               "rate-snapshot": ({"acceptance", "core"}, None),
+              "exchange-rate-api": ({"acceptance", "simulation", "server"}, 10),
               "rate-override": ({"acceptance", "core"}, 30),
               "valuation-snapshot-codec": ({"acceptance", "core"}, 30),
               "modifier-activation": ({"acceptance", "core"}, 30),
@@ -270,6 +271,8 @@ jobs:
               raise SystemExit(f"Expected 22 finished timer cases, got {found['finished-timer']}")
           if found["valuation-snapshot-codec"] != 25:
               raise SystemExit(f"Expected 25 valuation snapshot codec cases, got {found['valuation-snapshot-codec']}")
+          if found["exchange-rate-api"] != 28:
+              raise SystemExit(f"Expected 28 ExchangeRate-API cases, got {found['exchange-rate-api']}")
           if found["rate-override"] != 24:
               raise SystemExit(f"Expected 24 rate override cases, got {found['rate-override']}")
           if found["modifier-activation"] != 48:

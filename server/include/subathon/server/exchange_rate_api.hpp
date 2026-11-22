@@ -4,6 +4,7 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 #include <optional>
 #include <string>
 #include <subathon/core/rate_snapshot.hpp>
@@ -104,6 +105,7 @@ struct SendTime {
 struct Dispatch {
     DispatchKind kind;
     std::optional<SendTime> time{};
+    bool operator==(const Dispatch &) const = default;
 };
 
 struct HttpRequest {
@@ -250,8 +252,17 @@ struct QuotaView {
 };
 
 struct Started {
-    Admission admission;
-    Dispatch dispatch;
+    Admission admission{};
+    Dispatch dispatch{DispatchKind::not_sent};
+
+    Started() = default;
+    Started(Admission admitted, Dispatch dispatch_evidence)
+        : admission(std::move(admitted)), dispatch(std::move(dispatch_evidence)) {}
+
+  private:
+    friend class Adapter;
+    // Only start() can issue the reservation that authorizes a completion.
+    std::shared_ptr<const Admission> reservation_;
 };
 using StartResult = std::variant<Started, Failure>;
 struct Completion {
@@ -264,7 +275,10 @@ struct Completion {
 // Rate results remain proposals for the separate snapshot owner.
 class Adapter {
   public:
-    Adapter(SelectionPort &selection, HttpPort &http) : selection_(selection), http_(http) {}
+    Adapter(SelectionPort &selection, HttpPort &http);
+    ~Adapter();
+    Adapter(const Adapter &) = delete;
+    Adapter &operator=(const Adapter &) = delete;
 
     [[nodiscard]] SelectionStatus select();
     [[nodiscard]] SelectionStatus edit_reference_allowance(std::optional<std::uint64_t>);
@@ -276,6 +290,8 @@ class Adapter {
   private:
     SelectionPort &selection_;
     HttpPort &http_;
+    struct State;
+    std::unique_ptr<State> state_;
 };
 
 } // namespace subathon::server::exchange_rate_api
