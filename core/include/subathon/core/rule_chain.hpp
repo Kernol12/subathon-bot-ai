@@ -97,6 +97,8 @@ struct OccurrenceDisposition {
     MilestoneOccurrence occurrence;
     std::string parent;
     CommittedOccurrence disposition;
+    // A suppressed release has no admitted event to carry its exact binding.
+    std::optional<EventBinding> suppressed_binding = {};
 };
 
 struct NamedSuppression {
@@ -166,7 +168,7 @@ class Chain {
   private:
     Chain();
     struct State;
-    std::unique_ptr<State> state_;
+    std::shared_ptr<State> state_;
     friend struct ChainOperations;
 };
 
@@ -268,10 +270,5 @@ using UnitReadback = std::variant<ModeledHistory, UnitIdentity, Unavailable>;
 [[nodiscard]] UnitResult finish_unit(Unit &&, const std::optional<RuleStagedPass> &,
                                      RuleCompletion);
 [[nodiscard]] UnitResult reconcile_unit(Chain &, const std::string &unit, const UnitReadback &);
-
-class RuleChainNotImplemented final : public std::logic_error {
-  public:
-    explicit RuleChainNotImplemented(const char *entry);
-};
 
 } // namespace subathon::core::rule_chain
