@@ -8,7 +8,7 @@ set(subathon_acceptance_suites
     sqlite-bundle sqlite-original-claim sqlite-hold application-service sqlite-delivery-jobs
     translation-catalog rate-snapshot rate-override valuation-snapshot-codec rule-definition rule-selection milestone-progression milestone-timeline milestone-group-restart
     milestone-group-decisions sqlite-modifier-activations sqlite-financial-refunds sqlite-credential-catalog sqlite-rate-override-catalog sqlite-rate-override-writer
-    contribution-review connector-lifecycle session-resolution session-installation-epoch
+    contribution-review modifier-capture connector-lifecycle session-resolution session-installation-epoch
     password-hashing credential-record sqlite-credentials effective-permissions timer-editorial sqlite-reference-capture
     sqlite-account-sessions native-websocket-profile api-host api-host-native
     bounded-http-foundation account-capture sqlite-permission-graph sqlite-reference-authority reference-rule dev-server
@@ -126,14 +126,14 @@ function(subathon_resolve_acceptance_suites output)
                 milestone-target-edit "${suite}")
         elseif(suite STREQUAL "milestone-target-edit")
             list(APPEND selected exact-numeric milestone-progression "${suite}")
-        elseif(suite STREQUAL "contribution-review")
+        elseif(suite STREQUAL "contribution-review" OR suite STREQUAL "modifier-capture")
             list(APPEND selected ${sqlite_test_prefix} sqlite-delivery-jobs
                 exact-numeric effective-permissions sqlite-permission-graph
                 rate-snapshot rate-override valuation-snapshot-codec milestone-progression
                 milestone-timeline milestone-group-restart milestone-group-decisions
                 sqlite-modifier-activations sqlite-financial-refunds sqlite-credential-catalog
                 sqlite-rate-override-catalog sqlite-rate-override-writer milestone-target-edit
-                sqlite-milestone-target-edits "${suite}")
+                sqlite-milestone-target-edits contribution-review "${suite}")
         elseif(NOT sqlite_index EQUAL -1)
             math(EXPR prefix_length "${sqlite_index} + 1")
             list(SUBLIST sqlite_test_prefix 0 ${prefix_length} prefix)

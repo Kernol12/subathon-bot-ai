@@ -409,7 +409,7 @@ jobs:
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch;contribution-review;frankfurter-rates"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch;contribution-review;modifier-capture;frankfurter-rates"
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE=ON
           -DSUBATHON_BUILD_STORAGE_026_STAGE1=ON
@@ -512,6 +512,27 @@ jobs:
               raise SystemExit("Contribution review must pass 41 invocations and both hooks, with zero skips")
           if re.search(r"^(?:QWARN|QSYSTEM|QFATAL)", output, re.MULTILINE):
               raise SystemExit("Unexpected Qt warning in contribution review acceptance")
+          PYTHON
+      - name: Run reviewed modifier capture acceptance
+        run: |
+          ctest --preset sqlite-reference-capture-debug -L '^modifier-capture$' \
+            --no-tests=error --verbose --test-output-size-passed 1048576 \
+            --output-junit "$GITHUB_WORKSPACE/build/sqlite-reference-capture-debug/modifier-capture-results.xml"
+          python3 - <<'PYTHON'
+          import re
+          import xml.etree.ElementTree as ET
+          cases = ET.parse("build/sqlite-reference-capture-debug/modifier-capture-results.xml").getroot().findall("testcase")
+          if len(cases) != 1 or cases[0].get("name") != "modifier-capture.suite":
+              raise SystemExit("Missing unfiltered modifier capture results")
+          case = cases[0]
+          if case.find("failure") is not None or case.find("skipped") is not None:
+              raise SystemExit("Modifier capture failed or skipped")
+          output = case.findtext("system-out", "")
+          totals = re.findall(r"^Totals: (\d+) passed, (\d+) failed, (\d+) skipped, (\d+) blacklisted", output, re.MULTILINE)
+          if totals != [("36", "0", "0", "0")]:
+              raise SystemExit("Modifier capture must pass 34 invocations and both hooks, with zero skips")
+          if re.search(r"^(?:QWARN|QSYSTEM|QFATAL)", output, re.MULTILINE):
+              raise SystemExit("Unexpected Qt warning in modifier capture acceptance")
           PYTHON
       - name: Run reviewed Frankfurter adapter and proposal acceptance
         run: |
