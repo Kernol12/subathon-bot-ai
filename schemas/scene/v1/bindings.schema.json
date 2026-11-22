@@ -1,0 +1,1321 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json",
+  "title": "Subathon scene binding definitions v1",
+  "type": "object",
+  "properties": {
+    "version": {"const": "subathon.scene-bindings-conditions-timeline.v1"},
+    "definitions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/Definition"},
+      "maxItems": 32768
+    }
+  },
+  "required": ["version", "definitions"],
+  "additionalProperties": false,
+  "description": "Authored definitions for one selected dependency closure. Runtime observations remain with their source owners.",
+  "$defs": {
+    "DefinitionIdentity": {
+      "allOf": [
+        {
+          "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/NonemptyOpaqueBytes"
+        },
+        {"maxLength": 131072}
+      ]
+    },
+    "DomainReference": {
+      "allOf": [
+        {
+          "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/NonemptyOpaqueBytes"
+        },
+        {"maxLength": 6291456}
+      ],
+      "description": "Existing owner bounds apply inside the outer token ceiling."
+    },
+    "TimerBindingRef": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "TimerBinding"},
+        "version": {"const": "subathon.scene-bindings-conditions-timeline.v1"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"}
+      },
+      "required": ["kind", "version", "resourceId", "definitionId"],
+      "additionalProperties": false
+    },
+    "TextBindingRef": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "TextBinding"},
+        "version": {"const": "subathon.scene-bindings-conditions-timeline.v1"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"}
+      },
+      "required": ["kind", "version", "resourceId", "definitionId"],
+      "additionalProperties": false
+    },
+    "ProgressBindingRef": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "ProgressBinding"},
+        "version": {"const": "subathon.scene-bindings-conditions-timeline.v1"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"}
+      },
+      "required": ["kind", "version", "resourceId", "definitionId"],
+      "additionalProperties": false
+    },
+    "RecentSupportBindingRef": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "RecentSupportBinding"},
+        "version": {"const": "subathon.scene-bindings-conditions-timeline.v1"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"}
+      },
+      "required": ["kind", "version", "resourceId", "definitionId"],
+      "additionalProperties": false
+    },
+    "AnnouncementBindingRef": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "AnnouncementBinding"},
+        "version": {"const": "subathon.scene-bindings-conditions-timeline.v1"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"}
+      },
+      "required": ["kind", "version", "resourceId", "definitionId"],
+      "additionalProperties": false
+    },
+    "ElementBindingsRef": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "ElementBindings"},
+        "version": {"const": "subathon.scene-bindings-conditions-timeline.v1"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"}
+      },
+      "required": ["kind", "version", "resourceId", "definitionId"],
+      "additionalProperties": false
+    },
+    "ConditionRef": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "Condition"},
+        "version": {"const": "subathon.scene-bindings-conditions-timeline.v1"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"}
+      },
+      "required": ["kind", "version", "resourceId", "definitionId"],
+      "additionalProperties": false
+    },
+    "AnimationRef": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "Animation"},
+        "version": {"const": "subathon.scene-bindings-conditions-timeline.v1"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"}
+      },
+      "required": ["kind", "version", "resourceId", "definitionId"],
+      "additionalProperties": false
+    },
+    "FormattingRef": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "Formatting"},
+        "version": {"const": "subathon.scene-bindings-conditions-timeline.v1"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"}
+      },
+      "required": ["kind", "version", "resourceId", "definitionId"],
+      "additionalProperties": false
+    },
+    "PresentationLayoutRef": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "PresentationLayout"},
+        "version": {"const": "subathon.scene-bindings-conditions-timeline.v1"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"}
+      },
+      "required": ["kind", "version", "resourceId", "definitionId"],
+      "additionalProperties": false
+    },
+    "ElapsedMilliseconds": {
+      "allOf": [
+        {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Signed64"},
+        {
+          "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+        }
+      ]
+    },
+    "PositiveMilliseconds": {
+      "allOf": [
+        {"$ref": "#/$defs/ElapsedMilliseconds"},
+        {
+          "not": {"const": "0"}
+        }
+      ]
+    },
+    "FactorLiteral": {
+      "allOf": [
+        {
+          "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/DecimalSource"
+        },
+        {"maxLength": 512}
+      ],
+      "description": "Check CORE-001 mantissa and exponent bounds, then compare the decoded exact factor to zero. Reject negative values; preserve original spelling, including admitted signed zero."
+    },
+    "ProgressLiteral": {
+      "allOf": [
+        {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Rational"},
+        {
+          "type": "object",
+          "properties": {
+            "numerator": {"type": "string", "maxLength": 256, "pattern": "^(?:0|[1-9][0-9]*)(?![\\s\\S])"},
+            "denominator": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/PositiveInteger"
+                },
+                {"maxLength": 256}
+              ]
+            }
+          },
+          "required": ["numerator", "denominator"],
+          "additionalProperties": false
+        }
+      ],
+      "description": "Reduced rational in [0,1]. Compare exactly and validate component bounds before reduction."
+    },
+    "LifecycleOperand": {
+      "type": "object",
+      "properties": {
+        "field": {"const": "timer.lifecycle"}
+      },
+      "required": ["field"],
+      "additionalProperties": false
+    },
+    "PhaseOperand": {
+      "type": "object",
+      "properties": {
+        "field": {"const": "timer.phase"}
+      },
+      "required": ["field"],
+      "additionalProperties": false
+    },
+    "BooleanOperand": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "field": {
+              "enum": ["timer.awaitingConfirmation", "pause.active", "pause.streamUnknownNotice"]
+            }
+          },
+          "required": ["field"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "field": {"const": "pause.reason"},
+            "reason": {
+              "enum": [
+                "Manual",
+                "Schedule",
+                "StreamOffline",
+                "DesignatedClientDisconnected",
+                "RecoveryReview",
+                "StreamStatusUnknown"
+              ]
+            }
+          },
+          "required": ["field", "reason"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "field": {"const": "modifier.active"},
+            "instanceId": {"$ref": "#/$defs/DomainReference"}
+          },
+          "required": ["field", "instanceId"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ModifierModeOperand": {
+      "type": "object",
+      "properties": {
+        "field": {"const": "modifier.mode"},
+        "instanceId": {"$ref": "#/$defs/DomainReference"}
+      },
+      "required": ["field", "instanceId"],
+      "additionalProperties": false
+    },
+    "PositionOperand": {
+      "type": "object",
+      "properties": {
+        "field": {"const": "track.position"}
+      },
+      "required": ["field"],
+      "additionalProperties": false
+    },
+    "DurationOperand": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "field": {
+              "enum": ["timer.main", "timer.grace"]
+            }
+          },
+          "required": ["field"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "field": {"const": "modifier.remaining"},
+            "instanceId": {"$ref": "#/$defs/DomainReference"}
+          },
+          "required": ["field", "instanceId"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "FactorOperand": {
+      "type": "object",
+      "properties": {
+        "field": {"const": "modifier.factor"},
+        "instanceId": {"$ref": "#/$defs/DomainReference"},
+        "targetOrdinal": {
+          "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+        }
+      },
+      "required": ["field", "instanceId", "targetOrdinal"],
+      "additionalProperties": false
+    },
+    "PointsOperand": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "field": {
+              "enum": ["track.score", "track.previousTarget", "track.nextTarget"]
+            }
+          },
+          "required": ["field"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "field": {"const": "target.current"},
+            "milestoneId": {"$ref": "#/$defs/DomainReference"}
+          },
+          "required": ["field", "milestoneId"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "field": {
+              "enum": ["achievement.target", "achievement.score"]
+            },
+            "milestoneId": {"$ref": "#/$defs/DomainReference"},
+            "captureId": {"$ref": "#/$defs/DomainReference"}
+          },
+          "required": ["field", "milestoneId", "captureId"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "PointDistanceOperand": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "field": {
+              "enum": ["track.deficit", "track.remaining"]
+            }
+          },
+          "required": ["field"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "field": {"const": "target.deficit"},
+            "milestoneId": {"$ref": "#/$defs/DomainReference"}
+          },
+          "required": ["field", "milestoneId"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ProgressOperand": {
+      "type": "object",
+      "properties": {
+        "field": {"const": "track.progress"}
+      },
+      "required": ["field"],
+      "additionalProperties": false
+    },
+    "TimerOperand": {"$ref": "#/$defs/DurationOperand"},
+    "TextOperand": {
+      "oneOf": [
+        {"$ref": "#/$defs/LifecycleOperand"},
+        {"$ref": "#/$defs/PhaseOperand"},
+        {"$ref": "#/$defs/BooleanOperand"},
+        {"$ref": "#/$defs/ModifierModeOperand"},
+        {"$ref": "#/$defs/PositionOperand"},
+        {"$ref": "#/$defs/DurationOperand"},
+        {"$ref": "#/$defs/FactorOperand"},
+        {"$ref": "#/$defs/PointsOperand"},
+        {"$ref": "#/$defs/PointDistanceOperand"},
+        {"$ref": "#/$defs/ProgressOperand"},
+        {
+          "type": "object",
+          "properties": {
+            "field": {"const": "modifier.name"},
+            "instanceId": {"$ref": "#/$defs/DomainReference"}
+          },
+          "required": ["field", "instanceId"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "field": {"const": "milestone.description"},
+            "milestoneId": {"$ref": "#/$defs/DomainReference"},
+            "text": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 1048576}
+              ]
+            }
+          },
+          "required": ["field", "milestoneId", "text"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ConditionExpression": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "all"},
+            "children": {
+              "type": "array",
+              "items": {"$ref": "#/$defs/ConditionExpression"},
+              "maxItems": 4095,
+              "minItems": 1
+            }
+          },
+          "required": ["kind", "children"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "any"},
+            "children": {
+              "type": "array",
+              "items": {"$ref": "#/$defs/ConditionExpression"},
+              "maxItems": 4095,
+              "minItems": 1
+            }
+          },
+          "required": ["kind", "children"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "not"},
+            "child": {"$ref": "#/$defs/ConditionExpression"}
+          },
+          "required": ["kind", "child"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "comparison-lifecycle"},
+            "operand": {"$ref": "#/$defs/LifecycleOperand"},
+            "operator": {
+              "enum": ["eq", "ne"]
+            },
+            "literal": {
+              "enum": ["Ready", "Active", "Finished"]
+            }
+          },
+          "required": ["kind", "operand", "operator", "literal"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "comparison-phase"},
+            "operand": {"$ref": "#/$defs/PhaseOperand"},
+            "operator": {
+              "enum": ["eq", "ne"]
+            },
+            "literal": {
+              "enum": ["Main", "Grace"]
+            }
+          },
+          "required": ["kind", "operand", "operator", "literal"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "comparison-boolean"},
+            "operand": {"$ref": "#/$defs/BooleanOperand"},
+            "operator": {
+              "enum": ["eq", "ne"]
+            },
+            "literal": {"type": "boolean"}
+          },
+          "required": ["kind", "operand", "operator", "literal"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "comparison-modifier-mode"},
+            "operand": {"$ref": "#/$defs/ModifierModeOperand"},
+            "operator": {
+              "enum": ["eq", "ne"]
+            },
+            "literal": {
+              "enum": ["ActiveSubathon", "RealElapsed"]
+            }
+          },
+          "required": ["kind", "operand", "operator", "literal"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "comparison-position"},
+            "operand": {"$ref": "#/$defs/PositionOperand"},
+            "operator": {
+              "enum": ["eq", "ne"]
+            },
+            "literal": {
+              "enum": ["empty", "before_first", "between_targets", "all_completed"]
+            }
+          },
+          "required": ["kind", "operand", "operator", "literal"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "comparison-duration"},
+            "operand": {"$ref": "#/$defs/DurationOperand"},
+            "operator": {
+              "enum": ["eq", "ne", "lt", "le", "gt", "ge"]
+            },
+            "literal": {"$ref": "#/$defs/ElapsedMilliseconds"}
+          },
+          "required": ["kind", "operand", "operator", "literal"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "comparison-factor"},
+            "operand": {"$ref": "#/$defs/FactorOperand"},
+            "operator": {
+              "enum": ["eq", "ne", "lt", "le", "gt", "ge"]
+            },
+            "literal": {"$ref": "#/$defs/FactorLiteral"}
+          },
+          "required": ["kind", "operand", "operator", "literal"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "comparison-points"},
+            "operand": {"$ref": "#/$defs/PointsOperand"},
+            "operator": {
+              "enum": ["eq", "ne", "lt", "le", "gt", "ge"]
+            },
+            "literal": {
+              "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Signed64"
+            }
+          },
+          "required": ["kind", "operand", "operator", "literal"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "comparison-point-distance"},
+            "operand": {"$ref": "#/$defs/PointDistanceOperand"},
+            "operator": {
+              "enum": ["eq", "ne", "lt", "le", "gt", "ge"]
+            },
+            "literal": {
+              "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+            }
+          },
+          "required": ["kind", "operand", "operator", "literal"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "comparison-progress"},
+            "operand": {"$ref": "#/$defs/ProgressOperand"},
+            "operator": {
+              "enum": ["eq", "ne", "lt", "le", "gt", "ge"]
+            },
+            "literal": {"$ref": "#/$defs/ProgressLiteral"}
+          },
+          "required": ["kind", "operand", "operator", "literal"],
+          "additionalProperties": false
+        }
+      ],
+      "description": "A complete condition has at most 4096 nodes and depth 64. Validate every branch before evaluation."
+    },
+    "TimerBindingDefinition": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "TimerBinding"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "operand": {"$ref": "#/$defs/TimerOperand"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "unavailableText": {
+          "allOf": [
+            {
+              "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+            },
+            {"maxLength": 1048576}
+          ]
+        }
+      },
+      "required": ["kind", "resourceId", "definitionId", "operand", "format"],
+      "additionalProperties": false,
+      "description": "The timer binding pins its FormattingRef. Nodes needing different time formats select separate exact timer bindings."
+    },
+    "TextBindingDefinition": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "TextBinding"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "operand": {"$ref": "#/$defs/TextOperand"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "unavailableText": {
+          "allOf": [
+            {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"},
+            {"maxLength": 1048576}
+          ]
+        }
+      },
+      "required": ["kind", "resourceId", "definitionId", "operand", "format"],
+      "additionalProperties": false
+    },
+    "ProgressBindingDefinition": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "ProgressBinding"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "operand": {
+          "type": "object",
+          "properties": {
+            "field": {"const": "track.progress"}
+          },
+          "required": ["field"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["kind", "resourceId", "definitionId", "operand"],
+      "additionalProperties": false
+    },
+    "RecentSupportBindingDefinition": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "RecentSupportBinding"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "operand": {
+          "type": "object",
+          "properties": {
+            "field": {"const": "support.rows"}
+          },
+          "required": ["field"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["kind", "resourceId", "definitionId", "operand"],
+      "additionalProperties": false
+    },
+    "AnnouncementBindingDefinition": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "AnnouncementBinding"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "operand": {
+          "type": "object",
+          "properties": {
+            "field": {"const": "announcement.current"}
+          },
+          "required": ["field"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["kind", "resourceId", "definitionId", "operand"],
+      "additionalProperties": false
+    },
+    "ElementBindingsDefinition": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "ElementBindings"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "opacity": {"$ref": "#/$defs/ProgressOperand"}
+      },
+      "required": ["kind", "resourceId", "definitionId", "opacity"],
+      "additionalProperties": false
+    },
+    "ConditionDefinition": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "Condition"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "expression": {"$ref": "#/$defs/ConditionExpression"}
+      },
+      "required": ["kind", "resourceId", "definitionId", "expression"],
+      "additionalProperties": false
+    },
+    "FormattingDefinition": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "Formatting"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "localeId": {
+          "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/ProtocolIdentifier"
+        },
+        "format": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {"const": "literal-text"}
+              },
+              "required": ["kind"],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {"const": "catalog-label"}
+              },
+              "required": ["kind"],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {"const": "exact-money"}
+              },
+              "required": ["kind"],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {"const": "gift-count"}
+              },
+              "required": ["kind"],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {"const": "bits-count"}
+              },
+              "required": ["kind"],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {"const": "duration"},
+                "pattern": {
+                  "enum": ["H:MM:SS", "H:MM:SS.mmm"]
+                }
+              },
+              "required": ["kind", "pattern"],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {"const": "points"},
+                "precision": {"type": "integer", "minimum": 0, "maximum": 6}
+              },
+              "required": ["kind", "precision"],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {"const": "percent"},
+                "precision": {"type": "integer", "minimum": 0, "maximum": 6}
+              },
+              "required": ["kind", "precision"],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {"const": "exact-factor"},
+                "multiplierMarker": {
+                  "allOf": [
+                    {
+                      "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                    },
+                    {"maxLength": 65536}
+                  ]
+                }
+              },
+              "required": ["kind"],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": ["kind", "resourceId", "definitionId", "localeId", "format"],
+      "additionalProperties": false,
+      "description": "Resolve localeId against the selected closed locale registry. All applicable formatter definitions in one scene must select the same localeId. An unknown locale fails validation. The scene locale controls presentation formatting separately from original source spelling and interface language."
+    },
+    "TrackContext": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "scene-start"}
+          },
+          "required": ["kind"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "server-presentation"}
+          },
+          "required": ["kind"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "UnitIntervalDecimal": {
+      "allOf": [
+        {
+          "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/FiniteDecimal"
+        },
+        {"type": "string", "maxLength": 256, "pattern": "^(?:0|1|0\\.[0-9]*[1-9])(?![\\s\\S])"}
+      ]
+    },
+    "Geometry": {
+      "allOf": [
+        {
+          "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/FiniteDecimal"
+        },
+        {"maxLength": 256}
+      ]
+    },
+    "GeometryPair": {
+      "type": "array",
+      "prefixItems": [{"$ref": "#/$defs/Geometry"}, {"$ref": "#/$defs/Geometry"}],
+      "minItems": 2,
+      "maxItems": 2,
+      "items": false
+    },
+    "AnimationDefinition": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "Animation"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "track": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {"const": "fade"},
+                "startMs": {"$ref": "#/$defs/ElapsedMilliseconds"},
+                "durationMs": {"$ref": "#/$defs/PositiveMilliseconds"},
+                "easing": {
+                  "enum": ["linear", "ease-in", "ease-out", "ease-in-out"]
+                },
+                "context": {"$ref": "#/$defs/TrackContext"},
+                "from": {"$ref": "#/$defs/UnitIntervalDecimal"},
+                "to": {"$ref": "#/$defs/UnitIntervalDecimal"}
+              },
+              "required": ["kind", "startMs", "durationMs", "easing", "context", "from", "to"],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {"const": "move"},
+                "startMs": {"$ref": "#/$defs/ElapsedMilliseconds"},
+                "durationMs": {"$ref": "#/$defs/PositiveMilliseconds"},
+                "easing": {
+                  "enum": ["linear", "ease-in", "ease-out", "ease-in-out"]
+                },
+                "context": {"$ref": "#/$defs/TrackContext"},
+                "from": {"$ref": "#/$defs/GeometryPair"},
+                "to": {"$ref": "#/$defs/GeometryPair"}
+              },
+              "required": ["kind", "startMs", "durationMs", "easing", "context", "from", "to"],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {"const": "scale"},
+                "startMs": {"$ref": "#/$defs/ElapsedMilliseconds"},
+                "durationMs": {"$ref": "#/$defs/PositiveMilliseconds"},
+                "easing": {
+                  "enum": ["linear", "ease-in", "ease-out", "ease-in-out"]
+                },
+                "context": {"$ref": "#/$defs/TrackContext"},
+                "from": {"$ref": "#/$defs/GeometryPair"},
+                "to": {"$ref": "#/$defs/GeometryPair"}
+              },
+              "required": ["kind", "startMs", "durationMs", "easing", "context", "from", "to"],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {"const": "rotate"},
+                "startMs": {"$ref": "#/$defs/ElapsedMilliseconds"},
+                "durationMs": {"$ref": "#/$defs/PositiveMilliseconds"},
+                "easing": {
+                  "enum": ["linear", "ease-in", "ease-out", "ease-in-out"]
+                },
+                "context": {"$ref": "#/$defs/TrackContext"},
+                "from": {"$ref": "#/$defs/Geometry"},
+                "to": {"$ref": "#/$defs/Geometry"}
+              },
+              "required": ["kind", "startMs", "durationMs", "easing", "context", "from", "to"],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": ["kind", "resourceId", "definitionId", "track"],
+      "additionalProperties": false,
+      "description": "The exclusive end fits signed64. A node's tracks for the same property share one context and do not overlap."
+    },
+    "NonnegativeGeometry": {
+      "allOf": [
+        {"$ref": "#/$defs/Geometry"},
+        {
+          "not": {"pattern": "^-"}
+        }
+      ]
+    },
+    "PositiveGeometry": {
+      "allOf": [
+        {"$ref": "#/$defs/NonnegativeGeometry"},
+        {
+          "not": {"const": "0"}
+        }
+      ]
+    },
+    "Rgba": {
+      "type": "array",
+      "prefixItems": [
+        {"type": "integer", "minimum": 0, "maximum": 255},
+        {"type": "integer", "minimum": 0, "maximum": 255},
+        {"type": "integer", "minimum": 0, "maximum": 255},
+        {"type": "integer", "minimum": 0, "maximum": 255}
+      ],
+      "minItems": 4,
+      "maxItems": 4,
+      "items": false
+    },
+    "HorizontalTextAlignment": {
+      "enum": ["start", "center", "end"]
+    },
+    "VerticalTextAlignment": {
+      "enum": ["top", "center", "bottom"]
+    },
+    "TextWrapping": {
+      "enum": ["none", "word"]
+    },
+    "TextOverflow": {
+      "enum": ["clip", "visible"]
+    },
+    "LayoutText": {
+      "allOf": [
+        {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"},
+        {"maxLength": 1048576}
+      ]
+    },
+    "LocalBox": {
+      "type": "object",
+      "properties": {
+        "x": {"$ref": "#/$defs/Geometry"},
+        "y": {"$ref": "#/$defs/Geometry"},
+        "width": {"$ref": "#/$defs/NonnegativeGeometry"},
+        "height": {"$ref": "#/$defs/NonnegativeGeometry"}
+      },
+      "required": ["x", "y", "width", "height"],
+      "additionalProperties": false,
+      "description": "A box in the declared local design-pixel coordinate space."
+    },
+    "TextPresentation": {
+      "type": "object",
+      "properties": {
+        "opacity": {"$ref": "#/$defs/UnitIntervalDecimal"},
+        "clipToFrame": {"type": "boolean"},
+        "foreground": {"$ref": "#/$defs/Rgba"},
+        "size": {"$ref": "#/$defs/PositiveGeometry"},
+        "horizontalAlignment": {"$ref": "#/$defs/HorizontalTextAlignment"},
+        "verticalAlignment": {"$ref": "#/$defs/VerticalTextAlignment"},
+        "wrapping": {"$ref": "#/$defs/TextWrapping"},
+        "overflow": {"$ref": "#/$defs/TextOverflow"},
+        "font": {"$ref": "https://schemas.subathon.invalid/scene/v1/assets.schema.json#/$defs/FontUse"}
+      },
+      "required": [
+        "opacity",
+        "clipToFrame",
+        "foreground",
+        "size",
+        "horizontalAlignment",
+        "verticalAlignment",
+        "wrapping",
+        "overflow",
+        "font"
+      ],
+      "additionalProperties": false,
+      "description": "Explicit 009 text presentation. Clip to the placed text box when clipToFrame is true."
+    },
+    "PlacedText": {
+      "type": "object",
+      "properties": {
+        "text": {"$ref": "#/$defs/LayoutText"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"}
+      },
+      "required": ["text", "box", "presentation"],
+      "additionalProperties": false
+    },
+    "ProgressBarAppearance": {
+      "type": "object",
+      "properties": {
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "track": {"$ref": "#/$defs/Rgba"},
+        "fill": {"$ref": "#/$defs/Rgba"},
+        "direction": {
+          "enum": ["left-to-right", "right-to-left", "top-to-bottom", "bottom-to-top"]
+        },
+        "unavailableFill": {
+          "oneOf": [{"const": "none"}, {"$ref": "#/$defs/Rgba"}]
+        }
+      },
+      "required": ["box", "track", "fill", "direction", "unavailableFill"],
+      "additionalProperties": false,
+      "description": "The box is node-local. An available interval uses its exact fraction in the declared direction. For unavailable interval data, use the authored box paint over the track or leave the track alone for none. This appearance supplies no fraction. No-origin, empty, and final states acquire no numeric fill."
+    },
+    "SupportRowPlacement": {
+      "type": "object",
+      "properties": {
+        "origin": {"$ref": "#/$defs/GeometryPair"},
+        "step": {"$ref": "#/$defs/GeometryPair"}
+      },
+      "required": ["origin", "step"],
+      "additionalProperties": false,
+      "description": "Row i starts at origin + i times step in node-local design pixels. i is zero-based in the authorized supplied order and counts only disclosed rows. Each slot box is relative to that row origin."
+    },
+    "DeficitTextSlot": {
+      "type": "object",
+      "properties": {
+        "slot": {"const": "deficit"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"},
+        "unavailableText": {"$ref": "#/$defs/LayoutText"}
+      },
+      "required": ["slot", "format", "box", "presentation"],
+      "additionalProperties": false
+    },
+    "RemainingTextSlot": {
+      "type": "object",
+      "properties": {
+        "slot": {"const": "remaining"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"},
+        "unavailableText": {"$ref": "#/$defs/LayoutText"}
+      },
+      "required": ["slot", "format", "box", "presentation"],
+      "additionalProperties": false
+    },
+    "TargetTextSlot": {
+      "type": "object",
+      "properties": {
+        "slot": {"const": "target"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"},
+        "unavailableText": {"$ref": "#/$defs/LayoutText"}
+      },
+      "required": ["slot", "format", "box", "presentation"],
+      "additionalProperties": false
+    },
+    "SupportKindTextSlot": {
+      "type": "object",
+      "properties": {
+        "slot": {"const": "kind"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"},
+        "unavailableText": {"$ref": "#/$defs/LayoutText"}
+      },
+      "required": ["slot", "format", "box", "presentation"],
+      "additionalProperties": false
+    },
+    "DisplayNameTextSlot": {
+      "type": "object",
+      "properties": {
+        "slot": {"const": "displayName"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"},
+        "unavailableText": {"$ref": "#/$defs/LayoutText"}
+      },
+      "required": ["slot", "format", "box", "presentation"],
+      "additionalProperties": false
+    },
+    "OriginalMoneyTextSlot": {
+      "type": "object",
+      "properties": {
+        "slot": {"const": "originalMoney"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"},
+        "unavailableText": {"$ref": "#/$defs/LayoutText"}
+      },
+      "required": ["slot", "format", "box", "presentation"],
+      "additionalProperties": false
+    },
+    "GiftCountTextSlot": {
+      "type": "object",
+      "properties": {
+        "slot": {"const": "giftCount"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"},
+        "unavailableText": {"$ref": "#/$defs/LayoutText"}
+      },
+      "required": ["slot", "format", "box", "presentation"],
+      "additionalProperties": false
+    },
+    "BitsQuantityTextSlot": {
+      "type": "object",
+      "properties": {
+        "slot": {"const": "bitsQuantity"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"},
+        "unavailableText": {"$ref": "#/$defs/LayoutText"}
+      },
+      "required": ["slot", "format", "box", "presentation"],
+      "additionalProperties": false
+    },
+    "ProgressLayoutState": {
+      "type": "object",
+      "properties": {
+        "text": {"$ref": "#/$defs/PlacedText"},
+        "slots": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {"$ref": "#/$defs/DeficitTextSlot"},
+              {"$ref": "#/$defs/RemainingTextSlot"},
+              {"$ref": "#/$defs/TargetTextSlot"}
+            ]
+          },
+          "maxItems": 3,
+          "uniqueItems": true
+        }
+      },
+      "required": ["slots"],
+      "additionalProperties": false,
+      "description": "The state text and slots use node-local boxes. Reject duplicate slot keys even if their records differ."
+    },
+    "ProgressLayout": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "progress"},
+        "interval": {"$ref": "#/$defs/ProgressLayoutState"},
+        "noOrigin": {"$ref": "#/$defs/ProgressLayoutState"},
+        "empty": {"$ref": "#/$defs/ProgressLayoutState"},
+        "final": {"$ref": "#/$defs/ProgressLayoutState"},
+        "bar": {"$ref": "#/$defs/ProgressBarAppearance"}
+      },
+      "required": ["kind", "interval", "noOrigin", "empty", "final", "bar"],
+      "additionalProperties": false,
+      "description": "Unavailable or undisclosed interval data uses the owning unavailable-fill behavior."
+    },
+    "RecentSupportLayout": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "recent-support"},
+        "subscription": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {"$ref": "#/$defs/SupportKindTextSlot"},
+              {"$ref": "#/$defs/DisplayNameTextSlot"},
+              {"$ref": "#/$defs/OriginalMoneyTextSlot"}
+            ]
+          },
+          "maxItems": 3,
+          "uniqueItems": true
+        },
+        "gift": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {"$ref": "#/$defs/SupportKindTextSlot"},
+              {"$ref": "#/$defs/DisplayNameTextSlot"},
+              {"$ref": "#/$defs/OriginalMoneyTextSlot"},
+              {"$ref": "#/$defs/GiftCountTextSlot"}
+            ]
+          },
+          "maxItems": 4,
+          "uniqueItems": true
+        },
+        "bits": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {"$ref": "#/$defs/SupportKindTextSlot"},
+              {"$ref": "#/$defs/DisplayNameTextSlot"},
+              {"$ref": "#/$defs/OriginalMoneyTextSlot"},
+              {"$ref": "#/$defs/BitsQuantityTextSlot"}
+            ]
+          },
+          "maxItems": 4,
+          "uniqueItems": true
+        },
+        "donation": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {"$ref": "#/$defs/SupportKindTextSlot"},
+              {"$ref": "#/$defs/DisplayNameTextSlot"},
+              {"$ref": "#/$defs/OriginalMoneyTextSlot"}
+            ]
+          },
+          "maxItems": 3,
+          "uniqueItems": true
+        },
+        "rowPlacement": {"$ref": "#/$defs/SupportRowPlacement"}
+      },
+      "required": ["kind", "subscription", "gift", "bits", "donation", "rowPlacement"],
+      "additionalProperties": false,
+      "description": "Within each row template, reject duplicate slot keys even if their records differ. Source-selected disclosure and order govern row placement."
+    },
+    "AnnouncementLabel": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "milestone"},
+            "milestoneId": {"$ref": "#/$defs/DomainReference"},
+            "text": {"$ref": "#/$defs/LayoutText"},
+            "box": {"$ref": "#/$defs/LocalBox"},
+            "presentation": {"$ref": "#/$defs/TextPresentation"}
+          },
+          "required": ["kind", "milestoneId", "text", "box", "presentation"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "event"},
+            "presentationVersionId": {"$ref": "#/$defs/DomainReference"},
+            "text": {"$ref": "#/$defs/LayoutText"},
+            "box": {"$ref": "#/$defs/LocalBox"},
+            "presentation": {"$ref": "#/$defs/TextPresentation"}
+          },
+          "required": ["kind", "presentationVersionId", "text", "box", "presentation"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "AnnouncementLayout": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "announcement"},
+        "labels": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/AnnouncementLabel"},
+          "maxItems": 32768,
+          "uniqueItems": true
+        },
+        "unavailableText": {"$ref": "#/$defs/PlacedText"}
+      },
+      "required": ["kind", "labels"],
+      "additionalProperties": false,
+      "description": "Label and fallback boxes are node-local. A fallback is authored inert text; it supplies neither a current announcement nor a selected milestone or event version."
+    },
+    "PresentationLayoutDefinition": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "PresentationLayout"},
+        "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "definitionId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "layout": {
+          "oneOf": [
+            {"$ref": "#/$defs/ProgressLayout"},
+            {"$ref": "#/$defs/RecentSupportLayout"},
+            {"$ref": "#/$defs/AnnouncementLayout"}
+          ]
+        }
+      },
+      "required": ["kind", "resourceId", "definitionId", "layout"],
+      "additionalProperties": false
+    },
+    "Definition": {
+      "oneOf": [
+        {"$ref": "#/$defs/TimerBindingDefinition"},
+        {"$ref": "#/$defs/TextBindingDefinition"},
+        {"$ref": "#/$defs/ProgressBindingDefinition"},
+        {"$ref": "#/$defs/RecentSupportBindingDefinition"},
+        {"$ref": "#/$defs/AnnouncementBindingDefinition"},
+        {"$ref": "#/$defs/ElementBindingsDefinition"},
+        {"$ref": "#/$defs/ConditionDefinition"},
+        {"$ref": "#/$defs/AnimationDefinition"},
+        {"$ref": "#/$defs/FormattingDefinition"},
+        {"$ref": "#/$defs/PresentationLayoutDefinition"}
+      ]
+    }
+  }
+}

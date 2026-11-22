@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.subathon.invalid/scene/v1/revision.schema.json",
+  "title": "Subathon scene revision and publication boundary v1",
+  "oneOf": [
+    {"$ref": "#/$defs/DraftHead"},
+    {"$ref": "#/$defs/Publication"},
+    {"$ref": "#/$defs/LiveHead"},
+    {"$ref": "#/$defs/EditIntent"},
+    {"$ref": "#/$defs/PublishIntent"},
+    {"$ref": "#/$defs/RestoreIntent"},
+    {"$ref": "#/$defs/ContentRevision"}
+  ],
+  "$defs": {
+    "SceneIdentity": {
+      "allOf": [
+        {
+          "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/NonemptyOpaqueBytes"
+        },
+        {"maxLength": 131072}
+      ]
+    },
+    "LiveSelection": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "no-live"}
+          },
+          "required": ["kind"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "publication"},
+            "publicationId": {"$ref": "#/$defs/SceneIdentity"}
+          },
+          "required": ["kind", "publicationId"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "DraftHead": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "draft-head"},
+        "modelVersion": {"const": "subathon.scene-document.v1"},
+        "sceneId": {"$ref": "#/$defs/SceneIdentity"},
+        "draftId": {"$ref": "#/$defs/SceneIdentity"},
+        "headRevisionId": {"$ref": "#/$defs/SceneIdentity"},
+        "baseLive": {"$ref": "#/$defs/LiveSelection"}
+      },
+      "required": ["kind", "modelVersion", "sceneId", "draftId", "headRevisionId", "baseLive"],
+      "additionalProperties": false
+    },
+    "Publication": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "publication"},
+        "modelVersion": {"const": "subathon.scene-document.v1"},
+        "sceneId": {"$ref": "#/$defs/SceneIdentity"},
+        "publicationId": {"$ref": "#/$defs/SceneIdentity"},
+        "targetRevisionId": {"$ref": "#/$defs/SceneIdentity"}
+      },
+      "required": ["kind", "modelVersion", "sceneId", "publicationId", "targetRevisionId"],
+      "additionalProperties": false
+    },
+    "LiveHead": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "live-head"},
+        "modelVersion": {"const": "subathon.scene-document.v1"},
+        "sceneId": {"$ref": "#/$defs/SceneIdentity"},
+        "live": {"$ref": "#/$defs/LiveSelection"}
+      },
+      "required": ["kind", "modelVersion", "sceneId", "live"],
+      "additionalProperties": false
+    },
+    "EditIntent": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "edit-intent"},
+        "modelVersion": {"const": "subathon.scene-document.v1"},
+        "sceneId": {"$ref": "#/$defs/SceneIdentity"},
+        "draftId": {"$ref": "#/$defs/SceneIdentity"},
+        "expectedDraftHeadId": {"$ref": "#/$defs/SceneIdentity"},
+        "targetRevisionId": {"$ref": "#/$defs/SceneIdentity"}
+      },
+      "required": ["kind", "modelVersion", "sceneId", "draftId", "expectedDraftHeadId", "targetRevisionId"],
+      "additionalProperties": false
+    },
+    "PublishIntent": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "publish-intent"},
+        "modelVersion": {"const": "subathon.scene-document.v1"},
+        "sceneId": {"$ref": "#/$defs/SceneIdentity"},
+        "expectedLive": {"$ref": "#/$defs/LiveSelection"},
+        "targetRevisionId": {"$ref": "#/$defs/SceneIdentity"}
+      },
+      "required": ["kind", "modelVersion", "sceneId", "expectedLive", "targetRevisionId"],
+      "additionalProperties": false
+    },
+    "RestoreIntent": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "restore-intent"},
+        "modelVersion": {"const": "subathon.scene-document.v1"},
+        "sceneId": {"$ref": "#/$defs/SceneIdentity"},
+        "expectedLive": {"$ref": "#/$defs/LiveSelection"},
+        "targetRevisionId": {"$ref": "#/$defs/SceneIdentity"}
+      },
+      "required": ["kind", "modelVersion", "sceneId", "expectedLive", "targetRevisionId"],
+      "additionalProperties": false
+    },
+    "ContentRevision": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "content-revision"},
+        "content": {"$ref": "https://schemas.subathon.invalid/scene/v1/document.schema.json#/$defs/SceneContent"}
+      },
+      "required": ["kind", "content"],
+      "additionalProperties": false
+    }
+  }
+}

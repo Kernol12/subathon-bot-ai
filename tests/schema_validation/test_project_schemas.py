@@ -15,6 +15,14 @@ SCHEMAS = ROOT / "schemas"
 PACKAGE = SCHEMAS / "http/reference-v1"
 API_URI = "https://schemas.subathon.invalid/reference-v1/api.json"
 DRAFT_URI = "https://json-schema.org/draft/2020-12/schema"
+SCENE_FILES = {
+    "common": "common/v1/wire-primitives.schema.json",
+    **{name: f"scene/v1/{name}.schema.json" for name in
+       ("document", "bindings", "assets", "package", "revision")},
+}
+SCENE_ID_BASE = "https://schemas.subathon.invalid/"
+SCENE_IDS = {name: SCENE_ID_BASE + relative for name, relative in SCENE_FILES.items()}
+SCENE_CASES = Path(__file__).parent / "fixtures/scene/v1/cases.json"
 
 # Only structural OpenAPI children are visited. Example values and metadata stay data;
 # real Schema Objects delegate child traversal to the selected Draft resource API.
@@ -59,6 +67,58 @@ def invalid_constant(_value):
 def read_json(path):
     return json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=unique_object,
                       parse_constant=invalid_constant)
+
+
+
+def change_scene_fixture(instance, operation):
+    """Apply the three authored fixture deltas to an isolated instance."""
+    op, pointer = operation["op"], operation["path"]
+    if op not in {"add", "remove", "replace"} or not pointer.startswith("/"):
+        raise ValueError("Unsupported Scene fixture delta")
+    tokens = [part.replace("~1", "/").replace("~0", "~") for part in pointer[1:].split("/")]
+    parent = instance
+    for token in tokens[:-1]:
+        parent = parent[int(token)] if isinstance(parent, list) else parent[token]
+    key = tokens[-1]
+    if isinstance(parent, list):
+        key = len(parent) if key == "-" and op == "add" else int(key)
+        if not 0 <= key <= len(parent) - (op != "add"):
+            raise ValueError("Scene fixture array index out of range")
+        if op == "add":
+            parent.insert(key, copy.deepcopy(operation["value"]))
+            return
+    if op == "remove":
+        del parent[key]
+    else:
+        if op == "replace" and isinstance(parent, dict) and key not in parent:
+            raise ValueError("Scene fixture replace target is absent")
+        parent[key] = copy.deepcopy(operation["value"])
+
+
+def scene_fixture_instances(data):
+    """Expand each case before validation without mutating its authored base."""
+    seen = {}
+    for case in data["cases"]:
+        name = case["id"]
+        if name in seen:
+            raise ValueError("Duplicate Scene fixture ID")
+        if "base" in case:
+            target, base = seen[case["base"]]
+            instance = copy.deepcopy(base)
+            for operation in case["changes"]:
+                change_scene_fixture(instance, operation)
+        else:
+            target = case["target"]
+            if "rawJson" in case:
+                instance = json.loads(case["rawJson"], object_pairs_hook=unique_object,
+                                      parse_constant=invalid_constant)
+            else:
+                instance = case["instance"]
+        seen[name] = (target, instance)
+        expected = case["expect"]["structural"]
+        if expected not in {"valid", "invalid"}:
+            raise ValueError("Unknown Scene structural expectation")
+        yield name, target, instance, expected
 
 
 def openapi_nodes(value, role="Document"):
@@ -134,6 +194,12 @@ class RepositorySchemas(unittest.TestCase):
             (API_URI, DRAFT202012.create_resource(cls.api)),
         ))
         cls.schemas = [value for kind, value in openapi_nodes(cls.api) if kind == "schema"]
+        cls.scene = {name: read_json(SCHEMAS / path) for name, path in SCENE_FILES.items()}
+        cls.scene_registry = Registry(retrieve=deny).with_resources(
+            (SCENE_IDS[name], DRAFT202012.create_resource(document))
+            for name, document in cls.scene.items()
+        )
+        cls.NoSuchResource = NoSuchResource
         cls.examples = []
         for binding in cls.manifest["examples"]:
             path = (PACKAGE / binding["path"]).resolve()
@@ -193,7 +259,8 @@ class RepositorySchemas(unittest.TestCase):
             if isinstance(node, dict))
         self.assertFalse(has_inline_examples,
                          "Add explicit bindings/cases for newly introduced inline examples")
-        self.assertEqual(schema_files, example_files | {
+        scene_files = {(SCHEMAS / path).resolve() for path in SCENE_FILES.values()}
+        self.assertEqual(schema_files, example_files | scene_files | {
             (PACKAGE / "api.json").resolve(), (PACKAGE / "manifest.json").resolve()})
         components = set(self.api["components"]["schemas"])
         for validity in (True, False):
@@ -223,6 +290,54 @@ class RepositorySchemas(unittest.TestCase):
                 self.assertIsInstance(reference, str)
                 self.assertTrue(reference.startswith("#"), "Review a new external-resource policy")
                 self.registry.resolver(base_uri=API_URI).lookup(reference)
+    def test_scene_metaschemas_and_all_references(self):
+        for name, document in self.scene.items():
+            with self.subTest(resource=name):
+                uri = SCENE_IDS[name]
+                self.assertEqual(document["$schema"], DRAFT_URI)
+                self.assertEqual(document["$id"], uri)
+                self.Draft.check_schema(document)
+                resolver = self.scene_registry.resolver(base_uri=uri)
+                for node in self.schema_nodes(document):
+                    if not isinstance(node, dict):
+                        continue
+                    if node is not document:
+                        self.assertNotIn("$id", node)
+                    self.assertFalse({"$anchor", "$dynamicAnchor", "$dynamicRef"} & node.keys())
+                    if "$ref" in node:
+                        reference = node["$ref"]
+                        base, marker, pointer = reference.partition("#")
+                        self.assertTrue(base or marker, reference)
+                        if marker:
+                            self.assertTrue(pointer.startswith("/$defs/"), reference)
+                        self.assertTrue(not base or base in SCENE_IDS.values(), reference)
+                        self.assertIsInstance(resolver.lookup(reference).contents, (dict, bool))
+        for missing in (SCENE_ID_BASE + "scene/v1/absent.schema.json",
+                        "https://unregistered.invalid/resource.json"):
+            with self.subTest(missing=missing), self.assertRaises(self.NoSuchResource):
+                self.scene_registry.get_or_retrieve(missing)
+
+    def test_independent_scene_cases(self):
+        coverage = {"valid": set(), "invalid": set()}
+        # Later-phase expectations stay as source oracles for their owners.
+        for name, target, instance, expected in scene_fixture_instances(read_json(SCENE_CASES)):
+            with self.subTest(case=name, expected=expected):
+                resource, fragment, pointer = target.partition("#")
+                uri = SCENE_IDS[resource]
+                if fragment:
+                    self.assertTrue(pointer.startswith("/$defs/"), target)
+                reference = uri + fragment + pointer
+                self.scene_registry.resolver().lookup(reference)
+                validator = self.Draft({"$ref": reference}, registry=self.scene_registry)
+                if expected == "valid":
+                    validator.validate(instance)
+                else:
+                    with self.assertRaises(self.ValidationError):
+                        validator.validate(instance)
+                coverage[expected].add(resource)
+        for resources in coverage.values():
+            self.assertEqual(resources, set(SCENE_FILES))
+
     def test_all_declared_positive_examples(self):
         for path, binding in self.examples:
             with self.subTest(example=path.name):
