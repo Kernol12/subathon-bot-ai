@@ -60,6 +60,12 @@ stuck. Blocked tasks name the prerequisite issue and use neither limit. At night
 the combined limit is lifted. Update the board at every start, park, block and
 merge. Process or tooling work needs an owner decision per task.
 
+Epics track child work and do not use task slots. Keep an epic Planned before
+any child starts, then In progress once a child starts or closes. Close it and
+set Done when every task in its table is linked and every child is closed. If a
+task is missing, link it and leave the epic open. Epics never enter Ready or
+the Night queue.
+
 ## Test-first and review gates
 
 For new behavior: contract/examples → authored tests → independent test review →
