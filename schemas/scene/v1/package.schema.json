@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.subathon.invalid/scene/v1/package.schema.json",
+  "title": "Subathon portable scene package manifest v1",
+  "$ref": "#/$defs/Manifest",
+  "description": "The manifest pins one separately carried scene entry. The other entry descriptors account for the remaining payloads, excluding the manifest itself.",
+  "$defs": {
+    "PackageIdentity": {
+      "allOf": [
+        {
+          "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/NonemptyOpaqueBytes"
+        },
+        {"maxLength": 131072}
+      ]
+    },
+    "SceneEntry": {
+      "type": "object",
+      "properties": {
+        "entry": {"const": "scene"},
+        "revision": {"$ref": "https://schemas.subathon.invalid/scene/v1/document.schema.json#/$defs/RevisionIdentity"},
+        "byteLength": {"$ref": "https://schemas.subathon.invalid/scene/v1/assets.schema.json#/$defs/PositiveU64"},
+        "sha256": {"$ref": "https://schemas.subathon.invalid/scene/v1/assets.schema.json#/$defs/Digest"}
+      },
+      "required": ["entry", "revision", "byteLength", "sha256"],
+      "additionalProperties": false,
+      "description": "The manifest pins exactly one SceneContent value in the logical scene entry. Validate that document separately, then compare its identity, actual size and digest."
+    },
+    "AssetEntry": {
+      "type": "object",
+      "properties": {
+        "entry": {"type": "string", "maxLength": 71, "pattern": "^(?:assets/[0-9a-f]{64})(?![\\s\\S])"},
+        "byteLength": {"$ref": "https://schemas.subathon.invalid/scene/v1/assets.schema.json#/$defs/PositiveU64"},
+        "sha256": {"$ref": "https://schemas.subathon.invalid/scene/v1/assets.schema.json#/$defs/Digest"}
+      },
+      "required": ["entry", "byteLength", "sha256"],
+      "additionalProperties": false
+    },
+    "NoticeEntry": {
+      "type": "object",
+      "properties": {
+        "entry": {"type": "string", "maxLength": 72, "pattern": "^(?:notices/[0-9a-f]{64})(?![\\s\\S])"},
+        "byteLength": {
+          "allOf": [
+            {
+              "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+            },
+            {
+              "type": "string",
+              "maxLength": 7,
+              "pattern": "^(?:0|[1-9][0-9]{0,5}|10[0-3][0-9]{4}|104[0-7][0-9]{3}|1048[0-4][0-9]{2}|10485[0-6][0-9]{1}|104857[0-5]|1048576)(?![\\s\\S])"
+            }
+          ]
+        },
+        "sha256": {"$ref": "https://schemas.subathon.invalid/scene/v1/assets.schema.json#/$defs/Digest"}
+      },
+      "required": ["entry", "byteLength", "sha256"],
+      "additionalProperties": false
+    },
+    "AssetMapping": {
+      "type": "object",
+      "properties": {
+        "entry": {"type": "string", "maxLength": 71, "pattern": "^(?:assets/[0-9a-f]{64})(?![\\s\\S])"},
+        "revision": {"$ref": "https://schemas.subathon.invalid/scene/v1/assets.schema.json#/$defs/AssetRevision"},
+        "noticeDigests": {
+          "type": "array",
+          "items": {"$ref": "https://schemas.subathon.invalid/scene/v1/assets.schema.json#/$defs/Digest"},
+          "maxItems": 4094,
+          "uniqueItems": true
+        }
+      },
+      "required": ["entry", "revision", "noticeDigests"],
+      "additionalProperties": false,
+      "description": "Resolve typed identity and revision scope. The mapped entry, revision and digest must agree, and every applicable notice must exist."
+    },
+    "Manifest": {
+      "type": "object",
+      "properties": {
+        "version": {"const": "subathon.scene-assets-packages.v1"},
+        "profile": {"const": "subathon.scene-package-manifest.v1"},
+        "packageId": {"$ref": "#/$defs/PackageIdentity"},
+        "revisionId": {"$ref": "#/$defs/PackageIdentity"},
+        "scene": {"$ref": "#/$defs/SceneEntry"},
+        "entries": {
+          "type": "array",
+          "items": {
+            "oneOf": [{"$ref": "#/$defs/AssetEntry"}, {"$ref": "#/$defs/NoticeEntry"}]
+          },
+          "maxItems": 4094
+        },
+        "assetMappings": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/AssetMapping"},
+          "maxItems": 4096
+        },
+        "bindings": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json"}
+      },
+      "required": ["version", "profile", "packageId", "revisionId", "scene", "entries", "assetMappings"],
+      "additionalProperties": false
+    }
+  }
+}

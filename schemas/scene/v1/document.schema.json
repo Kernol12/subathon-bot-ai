@@ -1,0 +1,742 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.subathon.invalid/scene/v1/document.schema.json",
+  "title": "Subathon scene content revision v1",
+  "$ref": "#/$defs/SceneContent",
+  "$defs": {
+    "SceneIdentity": {
+      "allOf": [
+        {
+          "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/NonemptyOpaqueBytes"
+        },
+        {"maxLength": 131072}
+      ]
+    },
+    "RevisionIdentity": {
+      "type": "object",
+      "properties": {
+        "sceneId": {"$ref": "#/$defs/SceneIdentity"},
+        "revisionId": {"$ref": "#/$defs/SceneIdentity"}
+      },
+      "required": ["sceneId", "revisionId"],
+      "additionalProperties": false
+    },
+    "Geometry": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/Geometry"},
+    "UnitInterval": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/UnitIntervalDecimal"},
+    "NonnegativeGeometry": {
+      "allOf": [
+        {"$ref": "#/$defs/Geometry"},
+        {
+          "not": {"pattern": "^-"}
+        }
+      ]
+    },
+    "PositiveGeometry": {
+      "allOf": [
+        {"$ref": "#/$defs/NonnegativeGeometry"},
+        {
+          "not": {"const": "0"}
+        }
+      ]
+    },
+    "Fit": {
+      "enum": ["aspect-fit", "crop", "stretch"]
+    },
+    "Canvas": {
+      "type": "object",
+      "properties": {
+        "width": {"$ref": "#/$defs/PositiveGeometry"},
+        "height": {"$ref": "#/$defs/PositiveGeometry"},
+        "fit": {"$ref": "#/$defs/Fit"},
+        "alignX": {"$ref": "#/$defs/UnitInterval"},
+        "alignY": {"$ref": "#/$defs/UnitInterval"},
+        "clip": {"type": "boolean"}
+      },
+      "required": ["width", "height", "fit", "alignX", "alignY", "clip"],
+      "additionalProperties": false
+    },
+    "Frame": {
+      "type": "object",
+      "properties": {
+        "x": {"$ref": "#/$defs/Geometry"},
+        "y": {"$ref": "#/$defs/Geometry"},
+        "width": {"$ref": "#/$defs/NonnegativeGeometry"},
+        "height": {"$ref": "#/$defs/NonnegativeGeometry"},
+        "pivotX": {"$ref": "#/$defs/Geometry"},
+        "pivotY": {"$ref": "#/$defs/Geometry"},
+        "scaleX": {"$ref": "#/$defs/Geometry"},
+        "scaleY": {"$ref": "#/$defs/Geometry"},
+        "rotation": {"$ref": "#/$defs/Geometry"}
+      },
+      "required": ["x", "y", "width", "height", "pivotX", "pivotY", "scaleX", "scaleY", "rotation"],
+      "additionalProperties": false
+    },
+    "Rgba": {
+      "type": "array",
+      "prefixItems": [
+        {"type": "integer", "minimum": 0, "maximum": 255},
+        {"type": "integer", "minimum": 0, "maximum": 255},
+        {"type": "integer", "minimum": 0, "maximum": 255},
+        {"type": "integer", "minimum": 0, "maximum": 255}
+      ],
+      "minItems": 4,
+      "maxItems": 4,
+      "items": false
+    },
+    "Stroke": {
+      "type": "object",
+      "properties": {
+        "color": {"$ref": "#/$defs/Rgba"},
+        "width": {"$ref": "#/$defs/NonnegativeGeometry"}
+      },
+      "required": ["color", "width"],
+      "additionalProperties": false
+    },
+    "Fill": {
+      "oneOf": [{"const": "none"}, {"$ref": "#/$defs/Rgba"}]
+    },
+    "BindingAttachment": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "none"}
+          },
+          "required": ["kind"],
+          "additionalProperties": false
+        },
+        {
+          "$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/ElementBindingsRef"
+        }
+      ]
+    },
+    "Visibility": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "static-visible"}
+          },
+          "required": ["kind"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "static-hidden"}
+          },
+          "required": ["kind"],
+          "additionalProperties": false
+        },
+        {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/ConditionRef"}
+      ]
+    },
+    "TextContent": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "literal"},
+            "text": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 1048576}
+              ]
+            }
+          },
+          "required": ["kind", "text"],
+          "additionalProperties": false
+        },
+        {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/TextBindingRef"}
+      ]
+    },
+    "TimerNode": {
+      "type": "object",
+      "properties": {
+        "family": {"const": "timer"},
+        "nodeId": {"$ref": "#/$defs/SceneIdentity"},
+        "label": {
+          "allOf": [
+            {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"},
+            {"maxLength": 65536}
+          ]
+        },
+        "frame": {"$ref": "#/$defs/Frame"},
+        "locked": {"type": "boolean"},
+        "styleId": {"$ref": "#/$defs/SceneIdentity"},
+        "attachment": {"$ref": "#/$defs/BindingAttachment"},
+        "visibility": {"$ref": "#/$defs/Visibility"},
+        "animations": {
+          "type": "array",
+          "items": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/AnimationRef"},
+          "maxItems": 32768
+        },
+        "binding": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/TimerBindingRef"}
+      },
+      "required": [
+        "family",
+        "nodeId",
+        "label",
+        "frame",
+        "locked",
+        "styleId",
+        "attachment",
+        "visibility",
+        "animations",
+        "binding"
+      ],
+      "additionalProperties": false
+    },
+    "TextNode": {
+      "type": "object",
+      "properties": {
+        "family": {"const": "text"},
+        "nodeId": {"$ref": "#/$defs/SceneIdentity"},
+        "label": {
+          "allOf": [
+            {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"},
+            {"maxLength": 65536}
+          ]
+        },
+        "frame": {"$ref": "#/$defs/Frame"},
+        "locked": {"type": "boolean"},
+        "styleId": {"$ref": "#/$defs/SceneIdentity"},
+        "attachment": {"$ref": "#/$defs/BindingAttachment"},
+        "visibility": {"$ref": "#/$defs/Visibility"},
+        "animations": {
+          "type": "array",
+          "items": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/AnimationRef"},
+          "maxItems": 32768
+        },
+        "content": {"$ref": "#/$defs/TextContent"}
+      },
+      "required": [
+        "family",
+        "nodeId",
+        "label",
+        "frame",
+        "locked",
+        "styleId",
+        "attachment",
+        "visibility",
+        "animations",
+        "content"
+      ],
+      "additionalProperties": false
+    },
+    "ProgressNode": {
+      "type": "object",
+      "properties": {
+        "family": {"const": "progress-bar"},
+        "nodeId": {"$ref": "#/$defs/SceneIdentity"},
+        "label": {
+          "allOf": [
+            {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"},
+            {"maxLength": 65536}
+          ]
+        },
+        "frame": {"$ref": "#/$defs/Frame"},
+        "locked": {"type": "boolean"},
+        "styleId": {"$ref": "#/$defs/SceneIdentity"},
+        "attachment": {"$ref": "#/$defs/BindingAttachment"},
+        "visibility": {"$ref": "#/$defs/Visibility"},
+        "animations": {
+          "type": "array",
+          "items": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/AnimationRef"},
+          "maxItems": 32768
+        },
+        "binding": {
+          "$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/ProgressBindingRef"
+        }
+      },
+      "required": [
+        "family",
+        "nodeId",
+        "label",
+        "frame",
+        "locked",
+        "styleId",
+        "attachment",
+        "visibility",
+        "animations",
+        "binding"
+      ],
+      "additionalProperties": false
+    },
+    "ImageNode": {
+      "type": "object",
+      "properties": {
+        "family": {"const": "image"},
+        "nodeId": {"$ref": "#/$defs/SceneIdentity"},
+        "label": {
+          "allOf": [
+            {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"},
+            {"maxLength": 65536}
+          ]
+        },
+        "frame": {"$ref": "#/$defs/Frame"},
+        "locked": {"type": "boolean"},
+        "styleId": {"$ref": "#/$defs/SceneIdentity"},
+        "attachment": {"$ref": "#/$defs/BindingAttachment"},
+        "visibility": {"$ref": "#/$defs/Visibility"},
+        "animations": {
+          "type": "array",
+          "items": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/AnimationRef"},
+          "maxItems": 32768
+        },
+        "asset": {"$ref": "https://schemas.subathon.invalid/scene/v1/assets.schema.json#/$defs/VisualAssetRef"}
+      },
+      "required": [
+        "family",
+        "nodeId",
+        "label",
+        "frame",
+        "locked",
+        "styleId",
+        "attachment",
+        "visibility",
+        "animations",
+        "asset"
+      ],
+      "additionalProperties": false
+    },
+    "ShapeNode": {
+      "type": "object",
+      "properties": {
+        "family": {"const": "shape-group"},
+        "nodeId": {"$ref": "#/$defs/SceneIdentity"},
+        "label": {
+          "allOf": [
+            {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"},
+            {"maxLength": 65536}
+          ]
+        },
+        "frame": {"$ref": "#/$defs/Frame"},
+        "locked": {"type": "boolean"},
+        "styleId": {"$ref": "#/$defs/SceneIdentity"},
+        "attachment": {"$ref": "#/$defs/BindingAttachment"},
+        "visibility": {"$ref": "#/$defs/Visibility"},
+        "animations": {
+          "type": "array",
+          "items": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/AnimationRef"},
+          "maxItems": 32768
+        },
+        "variant": {"const": "shape"}
+      },
+      "required": [
+        "family",
+        "nodeId",
+        "label",
+        "frame",
+        "locked",
+        "styleId",
+        "attachment",
+        "visibility",
+        "animations",
+        "variant"
+      ],
+      "additionalProperties": false
+    },
+    "GroupNode": {
+      "type": "object",
+      "properties": {
+        "family": {"const": "shape-group"},
+        "nodeId": {"$ref": "#/$defs/SceneIdentity"},
+        "label": {
+          "allOf": [
+            {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"},
+            {"maxLength": 65536}
+          ]
+        },
+        "frame": {"$ref": "#/$defs/Frame"},
+        "locked": {"type": "boolean"},
+        "styleId": {"$ref": "#/$defs/SceneIdentity"},
+        "attachment": {"$ref": "#/$defs/BindingAttachment"},
+        "visibility": {"$ref": "#/$defs/Visibility"},
+        "animations": {
+          "type": "array",
+          "items": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/AnimationRef"},
+          "maxItems": 32768
+        },
+        "variant": {"const": "group"},
+        "children": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/SceneIdentity"},
+          "maxItems": 4096,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "family",
+        "nodeId",
+        "label",
+        "frame",
+        "locked",
+        "styleId",
+        "attachment",
+        "visibility",
+        "animations",
+        "variant",
+        "children"
+      ],
+      "additionalProperties": false
+    },
+    "RecentSupportNode": {
+      "type": "object",
+      "properties": {
+        "family": {"const": "recent-support"},
+        "nodeId": {"$ref": "#/$defs/SceneIdentity"},
+        "label": {
+          "allOf": [
+            {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"},
+            {"maxLength": 65536}
+          ]
+        },
+        "frame": {"$ref": "#/$defs/Frame"},
+        "locked": {"type": "boolean"},
+        "styleId": {"$ref": "#/$defs/SceneIdentity"},
+        "attachment": {"$ref": "#/$defs/BindingAttachment"},
+        "visibility": {"$ref": "#/$defs/Visibility"},
+        "animations": {
+          "type": "array",
+          "items": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/AnimationRef"},
+          "maxItems": 32768
+        },
+        "binding": {
+          "$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/RecentSupportBindingRef"
+        }
+      },
+      "required": [
+        "family",
+        "nodeId",
+        "label",
+        "frame",
+        "locked",
+        "styleId",
+        "attachment",
+        "visibility",
+        "animations",
+        "binding"
+      ],
+      "additionalProperties": false
+    },
+    "AnnouncementNode": {
+      "type": "object",
+      "properties": {
+        "family": {"const": "announcement-area"},
+        "nodeId": {"$ref": "#/$defs/SceneIdentity"},
+        "label": {
+          "allOf": [
+            {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"},
+            {"maxLength": 65536}
+          ]
+        },
+        "frame": {"$ref": "#/$defs/Frame"},
+        "locked": {"type": "boolean"},
+        "styleId": {"$ref": "#/$defs/SceneIdentity"},
+        "attachment": {"$ref": "#/$defs/BindingAttachment"},
+        "visibility": {"$ref": "#/$defs/Visibility"},
+        "animations": {
+          "type": "array",
+          "items": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/AnimationRef"},
+          "maxItems": 32768
+        },
+        "binding": {
+          "$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/AnnouncementBindingRef"
+        }
+      },
+      "required": [
+        "family",
+        "nodeId",
+        "label",
+        "frame",
+        "locked",
+        "styleId",
+        "attachment",
+        "visibility",
+        "animations",
+        "binding"
+      ],
+      "additionalProperties": false
+    },
+    "Node": {
+      "oneOf": [
+        {"$ref": "#/$defs/TimerNode"},
+        {"$ref": "#/$defs/TextNode"},
+        {"$ref": "#/$defs/ProgressNode"},
+        {"$ref": "#/$defs/ImageNode"},
+        {"$ref": "#/$defs/ShapeNode"},
+        {"$ref": "#/$defs/GroupNode"},
+        {"$ref": "#/$defs/RecentSupportNode"},
+        {"$ref": "#/$defs/AnnouncementNode"}
+      ]
+    },
+    "TextStyle": {
+      "type": "object",
+      "properties": {
+        "role": {"const": "text"},
+        "styleId": {"$ref": "#/$defs/SceneIdentity"},
+        "opacity": {"$ref": "#/$defs/UnitInterval"},
+        "clipToFrame": {"type": "boolean"},
+        "foreground": {"$ref": "#/$defs/Rgba"},
+        "size": {"$ref": "#/$defs/PositiveGeometry"},
+        "horizontalAlignment": {
+          "enum": ["start", "center", "end"]
+        },
+        "verticalAlignment": {
+          "enum": ["top", "center", "bottom"]
+        },
+        "wrapping": {
+          "enum": ["none", "word"]
+        },
+        "overflow": {
+          "enum": ["clip", "visible"]
+        },
+        "font": {"$ref": "https://schemas.subathon.invalid/scene/v1/assets.schema.json#/$defs/FontUse"}
+      },
+      "required": [
+        "role",
+        "styleId",
+        "opacity",
+        "clipToFrame",
+        "foreground",
+        "size",
+        "horizontalAlignment",
+        "verticalAlignment",
+        "wrapping",
+        "overflow",
+        "font"
+      ],
+      "additionalProperties": false
+    },
+    "VisualStyle": {
+      "type": "object",
+      "properties": {
+        "role": {"const": "visual"},
+        "styleId": {"$ref": "#/$defs/SceneIdentity"},
+        "opacity": {"$ref": "#/$defs/UnitInterval"},
+        "clipToFrame": {"type": "boolean"},
+        "fit": {"$ref": "#/$defs/Fit"},
+        "alignX": {"$ref": "#/$defs/UnitInterval"},
+        "alignY": {"$ref": "#/$defs/UnitInterval"}
+      },
+      "required": ["role", "styleId", "opacity", "clipToFrame", "fit", "alignX", "alignY"],
+      "additionalProperties": false
+    },
+    "RectangleStyle": {
+      "type": "object",
+      "properties": {
+        "role": {"const": "shape"},
+        "styleId": {"$ref": "#/$defs/SceneIdentity"},
+        "opacity": {"$ref": "#/$defs/UnitInterval"},
+        "clipToFrame": {"type": "boolean"},
+        "primitive": {"const": "rectangle"},
+        "fill": {"$ref": "#/$defs/Fill"},
+        "stroke": {"$ref": "#/$defs/Stroke"},
+        "cornerRadius": {"$ref": "#/$defs/NonnegativeGeometry"}
+      },
+      "required": ["role", "styleId", "opacity", "clipToFrame", "primitive", "fill", "cornerRadius"],
+      "additionalProperties": false
+    },
+    "EllipseStyle": {
+      "type": "object",
+      "properties": {
+        "role": {"const": "shape"},
+        "styleId": {"$ref": "#/$defs/SceneIdentity"},
+        "opacity": {"$ref": "#/$defs/UnitInterval"},
+        "clipToFrame": {"type": "boolean"},
+        "primitive": {"const": "ellipse"},
+        "fill": {"$ref": "#/$defs/Fill"},
+        "stroke": {"$ref": "#/$defs/Stroke"}
+      },
+      "required": ["role", "styleId", "opacity", "clipToFrame", "primitive", "fill"],
+      "additionalProperties": false
+    },
+    "LineStyle": {
+      "type": "object",
+      "properties": {
+        "role": {"const": "shape"},
+        "styleId": {"$ref": "#/$defs/SceneIdentity"},
+        "opacity": {"$ref": "#/$defs/UnitInterval"},
+        "clipToFrame": {"type": "boolean"},
+        "primitive": {"const": "line"},
+        "from": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/GeometryPair"},
+        "to": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/GeometryPair"},
+        "stroke": {"$ref": "#/$defs/Stroke"}
+      },
+      "required": ["role", "styleId", "opacity", "clipToFrame", "primitive", "from", "to", "stroke"],
+      "additionalProperties": false
+    },
+    "GroupStyle": {
+      "type": "object",
+      "properties": {
+        "role": {"const": "group"},
+        "styleId": {"$ref": "#/$defs/SceneIdentity"},
+        "opacity": {"$ref": "#/$defs/UnitInterval"},
+        "clipToFrame": {"type": "boolean"}
+      },
+      "required": ["role", "styleId", "opacity", "clipToFrame"],
+      "additionalProperties": false
+    },
+    "ProgressStyle": {
+      "type": "object",
+      "properties": {
+        "role": {"const": "progress-bar"},
+        "styleId": {"$ref": "#/$defs/SceneIdentity"},
+        "opacity": {"$ref": "#/$defs/UnitInterval"},
+        "clipToFrame": {"type": "boolean"},
+        "layout": {
+          "$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/PresentationLayoutRef"
+        }
+      },
+      "required": ["role", "styleId", "opacity", "clipToFrame", "layout"],
+      "additionalProperties": false
+    },
+    "RecentSupportStyle": {
+      "type": "object",
+      "properties": {
+        "role": {"const": "recent-support"},
+        "styleId": {"$ref": "#/$defs/SceneIdentity"},
+        "opacity": {"$ref": "#/$defs/UnitInterval"},
+        "clipToFrame": {"type": "boolean"},
+        "layout": {
+          "$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/PresentationLayoutRef"
+        }
+      },
+      "required": ["role", "styleId", "opacity", "clipToFrame", "layout"],
+      "additionalProperties": false
+    },
+    "AnnouncementStyle": {
+      "type": "object",
+      "properties": {
+        "role": {"const": "announcement-area"},
+        "styleId": {"$ref": "#/$defs/SceneIdentity"},
+        "opacity": {"$ref": "#/$defs/UnitInterval"},
+        "clipToFrame": {"type": "boolean"},
+        "layout": {
+          "$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/PresentationLayoutRef"
+        }
+      },
+      "required": ["role", "styleId", "opacity", "clipToFrame", "layout"],
+      "additionalProperties": false
+    },
+    "Style": {
+      "oneOf": [
+        {"$ref": "#/$defs/TextStyle"},
+        {"$ref": "#/$defs/VisualStyle"},
+        {"$ref": "#/$defs/RectangleStyle"},
+        {"$ref": "#/$defs/EllipseStyle"},
+        {"$ref": "#/$defs/LineStyle"},
+        {"$ref": "#/$defs/GroupStyle"},
+        {"$ref": "#/$defs/ProgressStyle"},
+        {"$ref": "#/$defs/RecentSupportStyle"},
+        {"$ref": "#/$defs/AnnouncementStyle"}
+      ]
+    },
+    "ExternalReference": {
+      "oneOf": [
+        {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/TimerBindingRef"},
+        {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/TextBindingRef"},
+        {
+          "$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/ProgressBindingRef"
+        },
+        {
+          "$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/RecentSupportBindingRef"
+        },
+        {
+          "$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/AnnouncementBindingRef"
+        },
+        {
+          "$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/ElementBindingsRef"
+        },
+        {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/ConditionRef"},
+        {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/AnimationRef"},
+        {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/FormattingRef"},
+        {
+          "$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/PresentationLayoutRef"
+        },
+        {"$ref": "https://schemas.subathon.invalid/scene/v1/assets.schema.json#/$defs/VisualAssetRef"},
+        {"$ref": "https://schemas.subathon.invalid/scene/v1/assets.schema.json#/$defs/FontRef"},
+        {"$ref": "https://schemas.subathon.invalid/scene/v1/assets.schema.json#/$defs/MediaAttachmentRef"},
+        {"$ref": "https://schemas.subathon.invalid/scene/v1/assets.schema.json#/$defs/PackageRef"}
+      ]
+    },
+    "SceneContent": {
+      "type": "object",
+      "properties": {
+        "modelVersion": {"const": "subathon.scene-document.v1"},
+        "sceneId": {"$ref": "#/$defs/SceneIdentity"},
+        "revisionId": {"$ref": "#/$defs/SceneIdentity"},
+        "label": {
+          "allOf": [
+            {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"},
+            {"maxLength": 65536}
+          ]
+        },
+        "intendedOutputs": {
+          "type": "array",
+          "items": {
+            "enum": ["native", "browser"]
+          },
+          "maxItems": 2,
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "requiredFeatures": {
+          "type": "array",
+          "items": {
+            "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/CapabilityIdentifier"
+          },
+          "maxItems": 256,
+          "uniqueItems": true
+        },
+        "canvas": {"$ref": "#/$defs/Canvas"},
+        "roots": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/SceneIdentity"},
+          "maxItems": 4096,
+          "uniqueItems": true
+        },
+        "nodes": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/Node"},
+          "maxItems": 4096
+        },
+        "styles": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/Style"},
+          "maxItems": 4096
+        },
+        "externalReferences": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/ExternalReference"},
+          "maxItems": 32768
+        },
+        "mediaAttachments": {
+          "type": "array",
+          "items": {
+            "$ref": "https://schemas.subathon.invalid/scene/v1/assets.schema.json#/$defs/MediaAttachmentRef"
+          },
+          "maxItems": 32768
+        }
+      },
+      "required": [
+        "modelVersion",
+        "sceneId",
+        "revisionId",
+        "label",
+        "intendedOutputs",
+        "requiredFeatures",
+        "canvas",
+        "roots",
+        "nodes",
+        "styles",
+        "externalReferences",
+        "mediaAttachments"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

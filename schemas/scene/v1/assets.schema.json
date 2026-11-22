@@ -1,0 +1,2302 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.subathon.invalid/scene/v1/assets.schema.json",
+  "title": "Subathon scene asset definitions v1",
+  "type": "object",
+  "properties": {
+    "version": {"const": "subathon.scene-assets-packages.v1"},
+    "revisions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/AssetRevision"},
+      "maxItems": 32768
+    }
+  },
+  "required": ["version", "revisions"],
+  "additionalProperties": false,
+  "description": "Descriptors and evidence references for one selected scene closure. The package mapping cap is separate. Inspection and compatibility require their owning evidence.",
+  "$defs": {
+    "AssetIdentity": {
+      "allOf": [
+        {
+          "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/NonemptyOpaqueBytes"
+        },
+        {"maxLength": 131072}
+      ]
+    },
+    "DomainReference": {
+      "allOf": [
+        {
+          "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/NonemptyOpaqueBytes"
+        },
+        {"maxLength": 6291456}
+      ],
+      "description": "Existing owner bounds apply inside the outer token ceiling."
+    },
+    "PositiveU64": {
+      "allOf": [
+        {
+          "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+        },
+        {
+          "not": {"const": "0"}
+        }
+      ]
+    },
+    "Digest": {"type": "string", "maxLength": 64, "pattern": "^(?:[0-9a-f]{64})(?![\\s\\S])"},
+    "MediaRational": {
+      "allOf": [
+        {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Rational"},
+        {
+          "type": "object",
+          "properties": {
+            "numerator": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/PositiveInteger"
+                },
+                {"maxLength": 32}
+              ]
+            },
+            "denominator": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/PositiveInteger"
+                },
+                {"maxLength": 32}
+              ]
+            }
+          },
+          "required": ["numerator", "denominator"],
+          "additionalProperties": false
+        }
+      ],
+      "description": "Positive reduced rational. Check its owning field's numeric interval and gcd."
+    },
+    "SvgNumber": {
+      "allOf": [
+        {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Rational"},
+        {
+          "type": "object",
+          "properties": {
+            "numerator": {
+              "type": "string",
+              "maxLength": 1235,
+              "pattern": "^(?:0|[1-9][0-9]{0,1233}|-[1-9][0-9]{0,1233})(?![\\s\\S])"
+            },
+            "denominator": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/PositiveInteger"
+                },
+                {"maxLength": 1234}
+              ]
+            }
+          },
+          "required": ["numerator", "denominator"],
+          "additionalProperties": false
+        }
+      ],
+      "description": "Exactly reduced 011 SVG number. Check the component bit, source-value and geometry-envelope bounds."
+    },
+    "PositiveSvgNumber": {
+      "allOf": [
+        {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Rational"},
+        {
+          "type": "object",
+          "properties": {
+            "numerator": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/PositiveInteger"
+                },
+                {"maxLength": 1234}
+              ]
+            },
+            "denominator": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/PositiveInteger"
+                },
+                {"maxLength": 1234}
+              ]
+            }
+          },
+          "required": ["numerator", "denominator"],
+          "additionalProperties": false
+        }
+      ],
+      "description": "Exactly reduced positive 011 SVG number with source-value and component bit bounds."
+    },
+    "SvgDetails": {
+      "type": "object",
+      "properties": {
+        "width": {"$ref": "#/$defs/PositiveSvgNumber"},
+        "height": {"$ref": "#/$defs/PositiveSvgNumber"},
+        "viewBox": {
+          "type": "array",
+          "prefixItems": [
+            {"$ref": "#/$defs/SvgNumber"},
+            {"$ref": "#/$defs/SvgNumber"},
+            {"$ref": "#/$defs/PositiveSvgNumber"},
+            {"$ref": "#/$defs/PositiveSvgNumber"}
+          ],
+          "minItems": 4,
+          "maxItems": 4,
+          "items": false
+        },
+        "aspect": {
+          "type": "string",
+          "maxLength": 14,
+          "pattern": "^(?:none|x(?:Min|Mid|Max)Y(?:Min|Mid|Max) (?:meet|slice))(?![\\s\\S])"
+        },
+        "elements": {
+          "allOf": [
+            {
+              "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+            },
+            {
+              "type": "string",
+              "maxLength": 5,
+              "pattern": "^(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]{1}|6553[0-5]|65536)(?![\\s\\S])"
+            }
+          ]
+        },
+        "attributes": {
+          "allOf": [
+            {
+              "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+            },
+            {
+              "type": "string",
+              "maxLength": 6,
+              "pattern": "^(?:0|[1-9][0-9]{0,4}|1[0-9]{5}|2[0-5][0-9]{4}|26[0-1][0-9]{3}|2620[0-9]{2}|2621[0-3][0-9]{1}|26214[0-3]|262144)(?![\\s\\S])"
+            }
+          ]
+        },
+        "references": {
+          "allOf": [
+            {
+              "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+            },
+            {
+              "type": "string",
+              "maxLength": 6,
+              "pattern": "^(?:0|[1-9][0-9]{0,4}|1[0-9]{5}|2[0-5][0-9]{4}|26[0-1][0-9]{3}|2620[0-9]{2}|2621[0-3][0-9]{1}|26214[0-3]|262144)(?![\\s\\S])"
+            }
+          ]
+        },
+        "expandedUses": {
+          "allOf": [
+            {
+              "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+            },
+            {
+              "type": "string",
+              "maxLength": 7,
+              "pattern": "^(?:0|[1-9][0-9]{0,5}|10[0-3][0-9]{4}|104[0-7][0-9]{3}|1048[0-4][0-9]{2}|10485[0-6][0-9]{1}|104857[0-5]|1048576)(?![\\s\\S])"
+            }
+          ]
+        },
+        "pathSegments": {
+          "allOf": [
+            {
+              "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+            },
+            {
+              "type": "string",
+              "maxLength": 7,
+              "pattern": "^(?:0|[1-9][0-9]{0,5}|10[0-3][0-9]{4}|104[0-7][0-9]{3}|1048[0-4][0-9]{2}|10485[0-6][0-9]{1}|104857[0-5]|1048576)(?![\\s\\S])"
+            }
+          ]
+        }
+      },
+      "required": [
+        "width",
+        "height",
+        "viewBox",
+        "aspect",
+        "elements",
+        "attributes",
+        "references",
+        "expandedUses",
+        "pathSegments"
+      ],
+      "additionalProperties": false
+    },
+    "PngDetails": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "width": {
+              "$ref": "#/$defs/PositiveU64",
+              "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+            },
+            "height": {
+              "$ref": "#/$defs/PositiveU64",
+              "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+            },
+            "colorType": {"const": 0},
+            "depth": {
+              "enum": [1, 2, 4, 8, 16]
+            },
+            "interlace": {
+              "enum": [0, 1]
+            },
+            "transparency": {
+              "enum": ["none", "key"]
+            },
+            "color": {
+              "enum": ["srgb", "untagged-srgb"]
+            }
+          },
+          "required": ["width", "height", "colorType", "depth", "interlace", "transparency", "color"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "width": {
+              "$ref": "#/$defs/PositiveU64",
+              "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+            },
+            "height": {
+              "$ref": "#/$defs/PositiveU64",
+              "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+            },
+            "colorType": {"const": 2},
+            "depth": {
+              "enum": [8, 16]
+            },
+            "interlace": {
+              "enum": [0, 1]
+            },
+            "transparency": {
+              "enum": ["none", "key"]
+            },
+            "color": {
+              "enum": ["srgb", "untagged-srgb"]
+            }
+          },
+          "required": ["width", "height", "colorType", "depth", "interlace", "transparency", "color"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "width": {
+              "$ref": "#/$defs/PositiveU64",
+              "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+            },
+            "height": {
+              "$ref": "#/$defs/PositiveU64",
+              "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+            },
+            "colorType": {"const": 3},
+            "depth": {
+              "enum": [1, 2, 4, 8]
+            },
+            "interlace": {
+              "enum": [0, 1]
+            },
+            "transparency": {
+              "enum": ["none", "palette"]
+            },
+            "color": {
+              "enum": ["srgb", "untagged-srgb"]
+            }
+          },
+          "required": ["width", "height", "colorType", "depth", "interlace", "transparency", "color"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "width": {
+              "$ref": "#/$defs/PositiveU64",
+              "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+            },
+            "height": {
+              "$ref": "#/$defs/PositiveU64",
+              "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+            },
+            "colorType": {"const": 4},
+            "depth": {
+              "enum": [8, 16]
+            },
+            "interlace": {
+              "enum": [0, 1]
+            },
+            "transparency": {
+              "enum": ["channel"]
+            },
+            "color": {
+              "enum": ["srgb", "untagged-srgb"]
+            }
+          },
+          "required": ["width", "height", "colorType", "depth", "interlace", "transparency", "color"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "width": {
+              "$ref": "#/$defs/PositiveU64",
+              "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+            },
+            "height": {
+              "$ref": "#/$defs/PositiveU64",
+              "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+            },
+            "colorType": {"const": 6},
+            "depth": {
+              "enum": [8, 16]
+            },
+            "interlace": {
+              "enum": [0, 1]
+            },
+            "transparency": {
+              "enum": ["channel"]
+            },
+            "color": {
+              "enum": ["srgb", "untagged-srgb"]
+            }
+          },
+          "required": ["width", "height", "colorType", "depth", "interlace", "transparency", "color"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "JpegDetails": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "width": {
+              "$ref": "#/$defs/PositiveU64",
+              "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+            },
+            "height": {
+              "$ref": "#/$defs/PositiveU64",
+              "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+            },
+            "process": {
+              "enum": ["baseline", "progressive-huffman"]
+            },
+            "precision": {"const": 8},
+            "components": {"const": "gray"},
+            "subsampling": {
+              "enum": ["1x1"]
+            },
+            "orientation": {"type": "integer", "minimum": 1, "maximum": 8},
+            "color": {
+              "enum": ["srgb", "untagged-srgb"]
+            }
+          },
+          "required": ["width", "height", "process", "precision", "components", "subsampling", "orientation", "color"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "width": {
+              "$ref": "#/$defs/PositiveU64",
+              "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+            },
+            "height": {
+              "$ref": "#/$defs/PositiveU64",
+              "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+            },
+            "process": {
+              "enum": ["baseline", "progressive-huffman"]
+            },
+            "precision": {"const": 8},
+            "components": {"const": "ycbcr"},
+            "subsampling": {
+              "enum": ["444", "422", "420"]
+            },
+            "orientation": {"type": "integer", "minimum": 1, "maximum": 8},
+            "color": {
+              "enum": ["srgb", "untagged-srgb"]
+            }
+          },
+          "required": ["width", "height", "process", "precision", "components", "subsampling", "orientation", "color"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "WebpDetails": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "$ref": "#/$defs/PositiveU64",
+          "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+        },
+        "height": {
+          "$ref": "#/$defs/PositiveU64",
+          "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+        },
+        "coding": {
+          "enum": ["vp8-lossy", "vp8l-lossless"]
+        },
+        "alpha": {"type": "boolean"},
+        "color": {
+          "enum": ["srgb", "untagged-srgb"]
+        }
+      },
+      "required": ["width", "height", "coding", "alpha", "color"],
+      "additionalProperties": false
+    },
+    "GifFrame": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+        },
+        "y": {
+          "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+        },
+        "w": {"$ref": "#/$defs/PositiveU64"},
+        "h": {"$ref": "#/$defs/PositiveU64"},
+        "paletteEntries": {
+          "enum": [2, 4, 8, 16, 32, 64, 128, 256]
+        },
+        "transparentIndex": {
+          "oneOf": [
+            {"const": "none"},
+            {"type": "integer", "minimum": 0, "maximum": 255}
+          ]
+        },
+        "disposal": {
+          "enum": [0, 1, 2, 3]
+        },
+        "delayCS": {"type": "integer", "minimum": 2, "maximum": 65535},
+        "interlace": {"type": "boolean"}
+      },
+      "required": ["x", "y", "w", "h", "paletteEntries", "transparentIndex", "disposal", "delayCS", "interlace"],
+      "additionalProperties": false,
+      "description": "Compare declared offsets and extents against the canvas using exact arithmetic. Check the selected palettes and actual frame bytes."
+    },
+    "GifDetails": {
+      "type": "object",
+      "properties": {
+        "version": {"const": "89a"},
+        "width": {
+          "$ref": "#/$defs/PositiveU64",
+          "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+        },
+        "height": {
+          "$ref": "#/$defs/PositiveU64",
+          "description": "Check the configured raster edge cap (initially 8192) and the selected source profile."
+        },
+        "paletteEntries": {
+          "enum": [2, 4, 8, 16, 32, 64, 128, 256]
+        },
+        "backgroundIndex": {"type": "integer", "minimum": 0, "maximum": 255},
+        "loop": {
+          "oneOf": [
+            {"const": "once"},
+            {"const": "forever"},
+            {
+              "type": "object",
+              "properties": {
+                "kind": {"const": "repeat"},
+                "count": {
+                  "allOf": [
+                    {
+                      "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+                    },
+                    {
+                      "type": "string",
+                      "maxLength": 5,
+                      "pattern": "^(?:[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]{1}|6553[0-4]|65535)(?![\\s\\S])"
+                    }
+                  ]
+                }
+              },
+              "required": ["kind", "count"],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "frames": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/GifFrame"},
+          "maxItems": 65536,
+          "minItems": 1
+        }
+      },
+      "required": ["version", "width", "height", "paletteEntries", "backgroundIndex", "loop", "frames"],
+      "additionalProperties": false
+    },
+    "Pcm": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "PCM"},
+        "rate": {
+          "enum": [8000, 11025, 16000, 22050, 24000, 32000, 44100, 48000, 96000]
+        },
+        "layout": {
+          "enum": ["mono", "stereo"]
+        },
+        "bits": {
+          "enum": [8, 16]
+        },
+        "samples": {"$ref": "#/$defs/PositiveU64"}
+      },
+      "required": ["kind", "rate", "layout", "bits", "samples"],
+      "additionalProperties": false
+    },
+    "Aac": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "AAC"},
+        "rate": {
+          "enum": [44100, 48000]
+        },
+        "layout": {
+          "enum": ["mono", "stereo"]
+        },
+        "samples": {"$ref": "#/$defs/PositiveU64"},
+        "priming": {
+          "allOf": [
+            {
+              "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+            },
+            {
+              "type": "string",
+              "maxLength": 5,
+              "pattern": "^(?:0|[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]{1}|6553[0-4]|65535)(?![\\s\\S])"
+            }
+          ]
+        },
+        "padding": {
+          "allOf": [
+            {
+              "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+            },
+            {
+              "type": "string",
+              "maxLength": 5,
+              "pattern": "^(?:0|[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]{1}|6553[0-4]|65535)(?![\\s\\S])"
+            }
+          ]
+        }
+      },
+      "required": ["kind", "rate", "layout", "samples", "priming", "padding"],
+      "additionalProperties": false
+    },
+    "Mpeg1Layer3": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "MPEG1Layer3"},
+            "rate": {
+              "enum": [32000, 44100, 48000]
+            },
+            "mode": {
+              "enum": ["mono", "stereo", "joint-stereo"]
+            },
+            "rateMode": {"const": "cbr"},
+            "kbps": {
+              "type": "array",
+              "items": {
+                "enum": [32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320]
+              },
+              "maxItems": 1,
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "samples": {"$ref": "#/$defs/PositiveU64"},
+            "priming": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+                },
+                {
+                  "type": "string",
+                  "maxLength": 5,
+                  "pattern": "^(?:0|[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]{1}|6553[0-4]|65535)(?![\\s\\S])"
+                }
+              ]
+            },
+            "padding": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+                },
+                {
+                  "type": "string",
+                  "maxLength": 5,
+                  "pattern": "^(?:0|[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]{1}|6553[0-4]|65535)(?![\\s\\S])"
+                }
+              ]
+            }
+          },
+          "required": ["kind", "rate", "mode", "rateMode", "kbps", "samples", "priming", "padding"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "MPEG1Layer3"},
+            "rate": {
+              "enum": [32000, 44100, 48000]
+            },
+            "mode": {
+              "enum": ["mono", "stereo", "joint-stereo"]
+            },
+            "rateMode": {"const": "vbr"},
+            "kbps": {
+              "type": "array",
+              "items": {
+                "enum": [32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320]
+              },
+              "maxItems": 14,
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "samples": {"$ref": "#/$defs/PositiveU64"},
+            "priming": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+                },
+                {
+                  "type": "string",
+                  "maxLength": 5,
+                  "pattern": "^(?:0|[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]{1}|6553[0-4]|65535)(?![\\s\\S])"
+                }
+              ]
+            },
+            "padding": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+                },
+                {
+                  "type": "string",
+                  "maxLength": 5,
+                  "pattern": "^(?:0|[1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]{1}|6553[0-4]|65535)(?![\\s\\S])"
+                }
+              ]
+            }
+          },
+          "required": ["kind", "rate", "mode", "rateMode", "kbps", "samples", "priming", "padding"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Vorbis": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "Vorbis"},
+        "rate": {
+          "enum": [44100, 48000]
+        },
+        "layout": {
+          "enum": ["mono", "stereo"]
+        },
+        "smallBlock": {
+          "enum": [64, 128, 256, 512, 1024, 2048, 4096, 8192]
+        },
+        "largeBlock": {
+          "enum": [64, 128, 256, 512, 1024, 2048, 4096, 8192]
+        },
+        "samples": {"$ref": "#/$defs/PositiveU64"}
+      },
+      "required": ["kind", "rate", "layout", "smallBlock", "largeBlock", "samples"],
+      "additionalProperties": false
+    },
+    "Opus": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "Opus"},
+        "rate": {"const": 48000},
+        "layout": {
+          "enum": ["mono", "stereo"]
+        },
+        "mapping": {"const": 0},
+        "preSkip": {"type": "integer", "minimum": 0, "maximum": 65535},
+        "gainQ8": {"type": "integer", "minimum": -32768, "maximum": 32767},
+        "samples": {"$ref": "#/$defs/PositiveU64"}
+      },
+      "required": ["kind", "rate", "layout", "mapping", "preSkip", "gainQ8", "samples"],
+      "additionalProperties": false
+    },
+    "Avc": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "AVC"},
+        "prefix": {
+          "enum": ["4200", "42c0", "42e0", "4d00", "4d40", "6400"]
+        },
+        "level": {
+          "enum": ["1e", "1f", "28", "29", "2a", "32", "33", "34"]
+        }
+      },
+      "required": ["kind", "prefix", "level"],
+      "additionalProperties": false
+    },
+    "Mp4Details": {
+      "type": "object",
+      "properties": {
+        "brand": {
+          "enum": ["isom", "iso2", "mp41", "mp42", "avc1"]
+        },
+        "compatibleBrands": {
+          "type": "array",
+          "items": {
+            "enum": ["isom", "iso2", "mp41", "mp42", "avc1"]
+          },
+          "maxItems": 5,
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "video": {
+          "type": "object",
+          "properties": {
+            "codec": {"$ref": "#/$defs/Avc"},
+            "width": {"type": "integer", "minimum": 1, "maximum": 8192},
+            "height": {"type": "integer", "minimum": 1, "maximum": 8192},
+            "rate": {"$ref": "#/$defs/MediaRational"},
+            "frames": {"type": "integer", "minimum": 1, "maximum": 1048576},
+            "color": {
+              "enum": ["bt709-limited", "bt709-full"]
+            },
+            "alpha": {"const": false},
+            "sampleAspect": {
+              "type": "object",
+              "properties": {
+                "numerator": {"const": "1"},
+                "denominator": {"const": "1"}
+              },
+              "required": ["numerator", "denominator"],
+              "additionalProperties": false
+            },
+            "refs": {"type": "integer", "minimum": 0, "maximum": 16},
+            "rotation": {
+              "enum": [0, 90, 180, 270]
+            }
+          },
+          "required": [
+            "codec",
+            "width",
+            "height",
+            "rate",
+            "frames",
+            "color",
+            "alpha",
+            "sampleAspect",
+            "refs",
+            "rotation"
+          ],
+          "additionalProperties": false
+        },
+        "audio": {
+          "oneOf": [{"const": "none"}, {"$ref": "#/$defs/Aac"}]
+        }
+      },
+      "required": ["brand", "compatibleBrands", "video", "audio"],
+      "additionalProperties": false
+    },
+    "WebmDetails": {
+      "type": "object",
+      "properties": {
+        "readVersion": {
+          "enum": [2, 4]
+        },
+        "video": {
+          "type": "object",
+          "properties": {
+            "codec": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {"const": "VP8"},
+                    "version": {"const": 0}
+                  },
+                  "required": ["kind", "version"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {"const": "VP9"},
+                    "profile": {"const": 0}
+                  },
+                  "required": ["kind", "profile"],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "width": {"type": "integer", "minimum": 1, "maximum": 8192},
+            "height": {"type": "integer", "minimum": 1, "maximum": 8192},
+            "rate": {"$ref": "#/$defs/MediaRational"},
+            "frames": {"type": "integer", "minimum": 1, "maximum": 1048576},
+            "color": {
+              "enum": ["bt709-limited", "bt709-full"]
+            },
+            "alpha": {"const": false},
+            "sampleAspect": {
+              "type": "object",
+              "properties": {
+                "numerator": {"const": "1"},
+                "denominator": {"const": "1"}
+              },
+              "required": ["numerator", "denominator"],
+              "additionalProperties": false
+            },
+            "refs": {"type": "integer", "minimum": 0, "maximum": 16},
+            "rotation": {"const": 0}
+          },
+          "required": [
+            "codec",
+            "width",
+            "height",
+            "rate",
+            "frames",
+            "color",
+            "alpha",
+            "sampleAspect",
+            "refs",
+            "rotation"
+          ],
+          "additionalProperties": false
+        },
+        "audio": {
+          "oneOf": [{"const": "none"}, {"$ref": "#/$defs/Vorbis"}, {"$ref": "#/$defs/Opus"}]
+        }
+      },
+      "required": ["readVersion", "video", "audio"],
+      "additionalProperties": false
+    },
+    "WavDetails": {
+      "type": "object",
+      "properties": {
+        "pcm": {"$ref": "#/$defs/Pcm"}
+      },
+      "required": ["pcm"],
+      "additionalProperties": false
+    },
+    "Mp3Details": {
+      "type": "object",
+      "properties": {
+        "audio": {"$ref": "#/$defs/Mpeg1Layer3"}
+      },
+      "required": ["audio"],
+      "additionalProperties": false
+    },
+    "OggDetails": {
+      "type": "object",
+      "properties": {
+        "version": {"const": 0},
+        "serial": {
+          "allOf": [
+            {
+              "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Unsigned64"
+            },
+            {
+              "type": "string",
+              "maxLength": 10,
+              "pattern": "^(?:0|[1-9][0-9]{0,8}|[1-3][0-9]{9}|4[0-1][0-9]{8}|42[0-8][0-9]{7}|429[0-3][0-9]{6}|4294[0-8][0-9]{5}|42949[0-5][0-9]{4}|429496[0-6][0-9]{3}|4294967[0-1][0-9]{2}|42949672[0-8][0-9]{1}|429496729[0-4]|4294967295)(?![\\s\\S])"
+            }
+          ]
+        },
+        "chain": {"const": false},
+        "audio": {
+          "oneOf": [{"$ref": "#/$defs/Vorbis"}, {"$ref": "#/$defs/Opus"}]
+        }
+      },
+      "required": ["version", "serial", "chain", "audio"],
+      "additionalProperties": false
+    },
+    "PngDescriptor": {
+      "type": "object",
+      "properties": {
+        "profile": {"const": "subathon.asset.png.v1"},
+        "encodedBytes": {"$ref": "#/$defs/PositiveU64"},
+        "details": {"$ref": "#/$defs/PngDetails"}
+      },
+      "required": ["profile", "encodedBytes", "details"],
+      "additionalProperties": false
+    },
+    "JpegDescriptor": {
+      "type": "object",
+      "properties": {
+        "profile": {"const": "subathon.asset.jpeg.v1"},
+        "encodedBytes": {"$ref": "#/$defs/PositiveU64"},
+        "details": {"$ref": "#/$defs/JpegDetails"}
+      },
+      "required": ["profile", "encodedBytes", "details"],
+      "additionalProperties": false
+    },
+    "WebpDescriptor": {
+      "type": "object",
+      "properties": {
+        "profile": {"const": "subathon.asset.webp.v1"},
+        "encodedBytes": {"$ref": "#/$defs/PositiveU64"},
+        "details": {"$ref": "#/$defs/WebpDetails"}
+      },
+      "required": ["profile", "encodedBytes", "details"],
+      "additionalProperties": false
+    },
+    "GifDescriptor": {
+      "type": "object",
+      "properties": {
+        "profile": {"const": "subathon.asset.gif.v1"},
+        "encodedBytes": {"$ref": "#/$defs/PositiveU64"},
+        "details": {"$ref": "#/$defs/GifDetails"}
+      },
+      "required": ["profile", "encodedBytes", "details"],
+      "additionalProperties": false
+    },
+    "SvgDescriptor": {
+      "type": "object",
+      "properties": {
+        "profile": {"const": "subathon.asset.svg-static.v1"},
+        "encodedBytes": {"$ref": "#/$defs/PositiveU64"},
+        "details": {"$ref": "#/$defs/SvgDetails"}
+      },
+      "required": ["profile", "encodedBytes", "details"],
+      "additionalProperties": false
+    },
+    "Mp4Descriptor": {
+      "type": "object",
+      "properties": {
+        "profile": {"const": "subathon.asset.mp4.v1"},
+        "encodedBytes": {"$ref": "#/$defs/PositiveU64"},
+        "details": {"$ref": "#/$defs/Mp4Details"}
+      },
+      "required": ["profile", "encodedBytes", "details"],
+      "additionalProperties": false
+    },
+    "WebmDescriptor": {
+      "type": "object",
+      "properties": {
+        "profile": {"const": "subathon.asset.webm.v1"},
+        "encodedBytes": {"$ref": "#/$defs/PositiveU64"},
+        "details": {"$ref": "#/$defs/WebmDetails"}
+      },
+      "required": ["profile", "encodedBytes", "details"],
+      "additionalProperties": false
+    },
+    "WavDescriptor": {
+      "type": "object",
+      "properties": {
+        "profile": {"const": "subathon.asset.wav.v1"},
+        "encodedBytes": {"$ref": "#/$defs/PositiveU64"},
+        "details": {"$ref": "#/$defs/WavDetails"}
+      },
+      "required": ["profile", "encodedBytes", "details"],
+      "additionalProperties": false
+    },
+    "Mp3Descriptor": {
+      "type": "object",
+      "properties": {
+        "profile": {"const": "subathon.asset.mp3.v1"},
+        "encodedBytes": {"$ref": "#/$defs/PositiveU64"},
+        "details": {"$ref": "#/$defs/Mp3Details"}
+      },
+      "required": ["profile", "encodedBytes", "details"],
+      "additionalProperties": false
+    },
+    "OggDescriptor": {
+      "type": "object",
+      "properties": {
+        "profile": {"const": "subathon.asset.ogg.v1"},
+        "encodedBytes": {"$ref": "#/$defs/PositiveU64"},
+        "details": {"$ref": "#/$defs/OggDetails"}
+      },
+      "required": ["profile", "encodedBytes", "details"],
+      "additionalProperties": false
+    },
+    "VisualDescriptor": {
+      "oneOf": [
+        {"$ref": "#/$defs/PngDescriptor"},
+        {"$ref": "#/$defs/JpegDescriptor"},
+        {"$ref": "#/$defs/WebpDescriptor"},
+        {"$ref": "#/$defs/GifDescriptor"},
+        {"$ref": "#/$defs/SvgDescriptor"},
+        {"$ref": "#/$defs/Mp4Descriptor"},
+        {"$ref": "#/$defs/WebmDescriptor"}
+      ]
+    },
+    "AudioDescriptor": {
+      "oneOf": [
+        {"$ref": "#/$defs/WavDescriptor"},
+        {"$ref": "#/$defs/Mp3Descriptor"},
+        {"$ref": "#/$defs/OggDescriptor"}
+      ]
+    },
+    "MediaDescriptor": {
+      "oneOf": [{"$ref": "#/$defs/VisualDescriptor"}, {"$ref": "#/$defs/AudioDescriptor"}]
+    },
+    "TtfTables": {
+      "allOf": [
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "OS/2"},
+                  "version": {
+                    "enum": [0, 1, 2, 3, 4, 5]
+                  }
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "cmap"},
+                  "version": {"const": 0}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "head"},
+                  "version": {"const": "1.0"}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "hhea"},
+                  "version": {"const": "1.0"}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "hmtx"},
+                  "version": {"const": "none"}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "name"},
+                  "version": {
+                    "enum": [0, 1]
+                  }
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "maxp"},
+                  "version": {"const": "1.0"}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "post"},
+                  "version": {
+                    "enum": ["2.0", "3.0"]
+                  }
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "glyf"},
+                  "version": {"const": "none"}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "loca"},
+                  "version": {"const": "none"}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "cvt "},
+                  "version": {"const": "none"}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "fpgm"},
+                  "version": {"const": "none"}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "prep"},
+                  "version": {"const": "none"}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "gasp"},
+                  "version": {
+                    "enum": [0, 1]
+                  }
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "GDEF"},
+                  "version": {
+                    "enum": ["1.0", "1.2", "1.3"]
+                  }
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "GSUB"},
+                  "version": {
+                    "enum": ["1.0", "1.1"]
+                  }
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "GPOS"},
+                  "version": {
+                    "enum": ["1.0", "1.1"]
+                  }
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "kern"},
+                  "version": {"const": 0}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "maxItems": 1024,
+          "minItems": 10,
+          "uniqueItems": true
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "OS/2"}
+            },
+            "required": ["tag"]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "cmap"}
+            },
+            "required": ["tag"]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "head"}
+            },
+            "required": ["tag"]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "hhea"}
+            },
+            "required": ["tag"]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "hmtx"}
+            },
+            "required": ["tag"]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "name"}
+            },
+            "required": ["tag"]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "maxp"}
+            },
+            "required": ["tag"]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "post"}
+            },
+            "required": ["tag"]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "glyf"}
+            },
+            "required": ["tag"]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "loca"}
+            },
+            "required": ["tag"]
+          }
+        }
+      ]
+    },
+    "CffTables": {
+      "allOf": [
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "OS/2"},
+                  "version": {
+                    "enum": [0, 1, 2, 3, 4, 5]
+                  }
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "cmap"},
+                  "version": {"const": 0}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "head"},
+                  "version": {"const": "1.0"}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "hhea"},
+                  "version": {"const": "1.0"}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "hmtx"},
+                  "version": {"const": "none"}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "name"},
+                  "version": {
+                    "enum": [0, 1]
+                  }
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "maxp"},
+                  "version": {"const": "0.5"}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "post"},
+                  "version": {"const": "3.0"}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "CFF "},
+                  "version": {"const": "1.0"}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "GDEF"},
+                  "version": {
+                    "enum": ["1.0", "1.2", "1.3"]
+                  }
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "GSUB"},
+                  "version": {
+                    "enum": ["1.0", "1.1"]
+                  }
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "GPOS"},
+                  "version": {
+                    "enum": ["1.0", "1.1"]
+                  }
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "tag": {"const": "kern"},
+                  "version": {"const": 0}
+                },
+                "required": ["tag", "version"],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "maxItems": 1024,
+          "minItems": 9,
+          "uniqueItems": true
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "OS/2"}
+            },
+            "required": ["tag"]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "cmap"}
+            },
+            "required": ["tag"]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "head"}
+            },
+            "required": ["tag"]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "hhea"}
+            },
+            "required": ["tag"]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "hmtx"}
+            },
+            "required": ["tag"]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "name"}
+            },
+            "required": ["tag"]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "maxp"}
+            },
+            "required": ["tag"]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "post"}
+            },
+            "required": ["tag"]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "tag": {"const": "CFF "}
+            },
+            "required": ["tag"]
+          }
+        }
+      ]
+    },
+    "UnicodeCmap": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "platform": {"const": 0},
+            "encoding": {"const": 3},
+            "format": {"const": 4}
+          },
+          "required": ["platform", "encoding", "format"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "platform": {"const": 0},
+            "encoding": {"const": 4},
+            "format": {"const": 12}
+          },
+          "required": ["platform", "encoding", "format"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "platform": {"const": 3},
+            "encoding": {"const": 1},
+            "format": {"const": 4}
+          },
+          "required": ["platform", "encoding", "format"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "platform": {"const": 3},
+            "encoding": {"const": 10},
+            "format": {"const": 12}
+          },
+          "required": ["platform", "encoding", "format"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "GlyfOutline": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "Glyf"},
+        "locaFormat": {
+          "enum": [0, 1]
+        },
+        "maxContours": {"type": "integer", "minimum": 0, "maximum": 65535},
+        "maxPoints": {"type": "integer", "minimum": 0, "maximum": 1048576},
+        "maxComponents": {"type": "integer", "minimum": 0, "maximum": 65535},
+        "maxDepth": {"type": "integer", "minimum": 0, "maximum": 64}
+      },
+      "required": ["kind", "locaFormat", "maxContours", "maxPoints", "maxComponents", "maxDepth"],
+      "additionalProperties": false
+    },
+    "CffOutline": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "CFF1"},
+        "maxStack": {"type": "integer", "minimum": 0, "maximum": 48},
+        "maxSubrDepth": {"type": "integer", "minimum": 0, "maximum": 10},
+        "maxStems": {"type": "integer", "minimum": 0, "maximum": 96},
+        "maxOps": {"type": "integer", "minimum": 0, "maximum": 1048576}
+      },
+      "required": ["kind", "maxStack", "maxSubrDepth", "maxStems", "maxOps"],
+      "additionalProperties": false
+    },
+    "TtHints": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "TT"},
+        "programBytes": {"type": "integer", "minimum": 1, "maximum": 1048576},
+        "cvtEntries": {"type": "integer", "minimum": 0, "maximum": 65535},
+        "maxStack": {"type": "integer", "minimum": 0, "maximum": 65535},
+        "maxStorage": {"type": "integer", "minimum": 0, "maximum": 65535},
+        "maxTwilight": {"type": "integer", "minimum": 0, "maximum": 65535},
+        "maxFunctions": {"type": "integer", "minimum": 0, "maximum": 65535}
+      },
+      "required": ["kind", "programBytes", "cvtEntries", "maxStack", "maxStorage", "maxTwilight", "maxFunctions"],
+      "additionalProperties": false
+    },
+    "FontLayout": {
+      "type": "object",
+      "properties": {
+        "gdef": {
+          "enum": ["none", "1.0", "1.2", "1.3"]
+        },
+        "gsub": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 1, "maximum": 8},
+          "maxItems": 8,
+          "uniqueItems": true
+        },
+        "gpos": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 1, "maximum": 9},
+          "maxItems": 9,
+          "uniqueItems": true
+        },
+        "kern": {
+          "enum": ["none", "horizontal0"]
+        }
+      },
+      "required": ["gdef", "gsub", "gpos", "kern"],
+      "additionalProperties": false
+    },
+    "TtfDetails": {
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "scaler": {"const": "00010000"},
+            "tables": {"$ref": "#/$defs/TtfTables"},
+            "face": {"const": 0},
+            "unitsPerEm": {"type": "integer", "minimum": 16, "maximum": 16384},
+            "glyphs": {"type": "integer", "minimum": 1, "maximum": 65535},
+            "weight": {"type": "integer", "minimum": 1, "maximum": 1000},
+            "width": {"type": "integer", "minimum": 1, "maximum": 9},
+            "slant": {
+              "enum": ["upright", "italic", "oblique"]
+            },
+            "cmap": {
+              "type": "array",
+              "items": {"$ref": "#/$defs/UnicodeCmap"},
+              "maxItems": 4,
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "layout": {"$ref": "#/$defs/FontLayout"},
+            "variation": {"const": "none"},
+            "color": {"const": "none"},
+            "embedded": {"const": "none"},
+            "outline": {"$ref": "#/$defs/GlyfOutline"},
+            "hints": {
+              "oneOf": [{"const": "none"}, {"$ref": "#/$defs/TtHints"}]
+            }
+          },
+          "required": [
+            "scaler",
+            "tables",
+            "face",
+            "unitsPerEm",
+            "glyphs",
+            "weight",
+            "width",
+            "slant",
+            "cmap",
+            "layout",
+            "variation",
+            "color",
+            "embedded",
+            "outline",
+            "hints"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "if": {
+            "properties": {
+              "hints": {"const": "none"}
+            },
+            "required": ["hints"]
+          },
+          "then": {
+            "properties": {
+              "tables": {
+                "not": {
+                  "anyOf": [
+                    {
+                      "contains": {
+                        "properties": {
+                          "tag": {"const": "cvt "}
+                        },
+                        "required": ["tag"]
+                      }
+                    },
+                    {
+                      "contains": {
+                        "properties": {
+                          "tag": {"const": "fpgm"}
+                        },
+                        "required": ["tag"]
+                      }
+                    },
+                    {
+                      "contains": {
+                        "properties": {
+                          "tag": {"const": "prep"}
+                        },
+                        "required": ["tag"]
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "required": ["tables"]
+          }
+        }
+      ]
+    },
+    "CffDetails": {
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "scaler": {"const": "OTTO"},
+            "tables": {"$ref": "#/$defs/CffTables"},
+            "face": {"const": 0},
+            "unitsPerEm": {"type": "integer", "minimum": 16, "maximum": 16384},
+            "glyphs": {"type": "integer", "minimum": 1, "maximum": 65535},
+            "weight": {"type": "integer", "minimum": 1, "maximum": 1000},
+            "width": {"type": "integer", "minimum": 1, "maximum": 9},
+            "slant": {
+              "enum": ["upright", "italic", "oblique"]
+            },
+            "cmap": {
+              "type": "array",
+              "items": {"$ref": "#/$defs/UnicodeCmap"},
+              "maxItems": 4,
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "layout": {"$ref": "#/$defs/FontLayout"},
+            "variation": {"const": "none"},
+            "color": {"const": "none"},
+            "embedded": {"const": "none"},
+            "outline": {"$ref": "#/$defs/CffOutline"},
+            "hints": {
+              "enum": ["none", "type2-stems"]
+            }
+          },
+          "required": [
+            "scaler",
+            "tables",
+            "face",
+            "unitsPerEm",
+            "glyphs",
+            "weight",
+            "width",
+            "slant",
+            "cmap",
+            "layout",
+            "variation",
+            "color",
+            "embedded",
+            "outline",
+            "hints"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "if": {
+            "properties": {
+              "hints": {"const": "type2-stems"}
+            },
+            "required": ["hints"]
+          },
+          "then": {
+            "properties": {
+              "outline": {
+                "properties": {
+                  "maxStems": {"type": "integer", "minimum": 1, "maximum": 96}
+                },
+                "required": ["maxStems"]
+              }
+            },
+            "required": ["outline"]
+          },
+          "else": {
+            "properties": {
+              "outline": {
+                "properties": {
+                  "maxStems": {"const": 0}
+                },
+                "required": ["maxStems"]
+              }
+            },
+            "required": ["outline"]
+          }
+        }
+      ]
+    },
+    "TtfDescriptor": {
+      "type": "object",
+      "properties": {
+        "profile": {"const": "subathon.asset.font-ttf.v1"},
+        "encodedBytes": {"$ref": "#/$defs/PositiveU64"},
+        "details": {"$ref": "#/$defs/TtfDetails"}
+      },
+      "required": ["profile", "encodedBytes", "details"],
+      "additionalProperties": false
+    },
+    "CffDescriptor": {
+      "type": "object",
+      "properties": {
+        "profile": {"const": "subathon.asset.font-otf-cff.v1"},
+        "encodedBytes": {"$ref": "#/$defs/PositiveU64"},
+        "details": {"$ref": "#/$defs/CffDetails"}
+      },
+      "required": ["profile", "encodedBytes", "details"],
+      "additionalProperties": false
+    },
+    "FontDescriptor": {
+      "oneOf": [{"$ref": "#/$defs/TtfDescriptor"}, {"$ref": "#/$defs/CffDescriptor"}]
+    },
+    "VisualAssetRef": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "VisualAsset"},
+        "version": {"const": "subathon.scene-assets-packages.v1"},
+        "resourceId": {"$ref": "#/$defs/AssetIdentity"},
+        "revisionId": {"$ref": "#/$defs/AssetIdentity"}
+      },
+      "required": ["kind", "version", "resourceId", "revisionId"],
+      "additionalProperties": false
+    },
+    "FontRef": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "Font"},
+        "version": {"const": "subathon.scene-assets-packages.v1"},
+        "resourceId": {"$ref": "#/$defs/AssetIdentity"},
+        "revisionId": {"$ref": "#/$defs/AssetIdentity"}
+      },
+      "required": ["kind", "version", "resourceId", "revisionId"],
+      "additionalProperties": false
+    },
+    "MediaAttachmentRef": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "MediaAttachment"},
+        "version": {"const": "subathon.scene-assets-packages.v1"},
+        "resourceId": {"$ref": "#/$defs/AssetIdentity"},
+        "revisionId": {"$ref": "#/$defs/AssetIdentity"}
+      },
+      "required": ["kind", "version", "resourceId", "revisionId"],
+      "additionalProperties": false
+    },
+    "PackageRef": {
+      "type": "object",
+      "properties": {
+        "kind": {"const": "Package"},
+        "version": {"const": "subathon.scene-assets-packages.v1"},
+        "resourceId": {"$ref": "#/$defs/AssetIdentity"},
+        "revisionId": {"$ref": "#/$defs/AssetIdentity"}
+      },
+      "required": ["kind", "version", "resourceId", "revisionId"],
+      "additionalProperties": false
+    },
+    "AssetRef": {
+      "oneOf": [
+        {"$ref": "#/$defs/VisualAssetRef"},
+        {"$ref": "#/$defs/FontRef"},
+        {"$ref": "#/$defs/MediaAttachmentRef"}
+      ]
+    },
+    "FontSelection": {
+      "type": "object",
+      "properties": {
+        "font": {"$ref": "#/$defs/FontRef"},
+        "face": {"const": 0},
+        "slant": {
+          "enum": ["upright", "italic", "oblique"]
+        },
+        "weight": {"type": "integer", "minimum": 1, "maximum": 1000}
+      },
+      "required": ["font", "face", "slant", "weight"],
+      "additionalProperties": false
+    },
+    "FontUse": {
+      "type": "object",
+      "properties": {
+        "primary": {"$ref": "#/$defs/FontSelection"},
+        "fallback": {
+          "oneOf": [{"const": "none"}, {"$ref": "#/$defs/FontSelection"}]
+        }
+      },
+      "required": ["primary", "fallback"],
+      "additionalProperties": false,
+      "description": "Resolve exact payloads and check the requested face, slant and weight against inspected metadata for each configured selection."
+    },
+    "Provenance": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "bundled"},
+            "sourceUrl": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536},
+                {"minLength": 1}
+              ],
+              "description": "Inert text. UTF-8 byte limits and the owning interpretation apply."
+            },
+            "sourceVersion": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536},
+                {"minLength": 1}
+              ],
+              "description": "Inert text. UTF-8 byte limits and the owning interpretation apply."
+            },
+            "sourceDate": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536},
+                {"minLength": 1}
+              ],
+              "description": "Inert text. UTF-8 byte limits and the owning interpretation apply."
+            },
+            "sourceAuthor": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536}
+              ]
+            },
+            "sourceDigest": {"$ref": "#/$defs/Digest"},
+            "sourceDescription": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536}
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "sourceUrl",
+            "sourceVersion",
+            "sourceDate",
+            "sourceAuthor",
+            "sourceDigest",
+            "sourceDescription"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "uploaded"},
+            "sourceUrl": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536},
+                {"minLength": 1}
+              ],
+              "description": "Inert text. UTF-8 byte limits and the owning interpretation apply."
+            },
+            "sourceVersion": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536},
+                {"minLength": 1}
+              ],
+              "description": "Inert text. UTF-8 byte limits and the owning interpretation apply."
+            },
+            "sourceDate": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536},
+                {"minLength": 1}
+              ],
+              "description": "Inert text. UTF-8 byte limits and the owning interpretation apply."
+            },
+            "sourceAuthor": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536}
+              ]
+            },
+            "sourceDigest": {"$ref": "#/$defs/Digest"},
+            "sourceDescription": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536}
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "sourceUrl",
+            "sourceVersion",
+            "sourceDate",
+            "sourceAuthor",
+            "sourceDigest",
+            "sourceDescription"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "imported"},
+            "sourceUrl": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536},
+                {"minLength": 1}
+              ],
+              "description": "Inert text. UTF-8 byte limits and the owning interpretation apply."
+            },
+            "sourceVersion": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536},
+                {"minLength": 1}
+              ],
+              "description": "Inert text. UTF-8 byte limits and the owning interpretation apply."
+            },
+            "sourceDate": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536},
+                {"minLength": 1}
+              ],
+              "description": "Inert text. UTF-8 byte limits and the owning interpretation apply."
+            },
+            "sourceAuthor": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536}
+              ]
+            },
+            "sourceDigest": {"$ref": "#/$defs/Digest"},
+            "sourceDescription": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536}
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "sourceUrl",
+            "sourceVersion",
+            "sourceDate",
+            "sourceAuthor",
+            "sourceDigest",
+            "sourceDescription"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "derived"},
+            "sourceUrl": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536},
+                {"minLength": 1}
+              ],
+              "description": "Inert text. UTF-8 byte limits and the owning interpretation apply."
+            },
+            "sourceVersion": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536},
+                {"minLength": 1}
+              ],
+              "description": "Inert text. UTF-8 byte limits and the owning interpretation apply."
+            },
+            "sourceDate": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536},
+                {"minLength": 1}
+              ],
+              "description": "Inert text. UTF-8 byte limits and the owning interpretation apply."
+            },
+            "sourceAuthor": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536}
+              ]
+            },
+            "sourceDigest": {"$ref": "#/$defs/Digest"},
+            "sourceDescription": {
+              "allOf": [
+                {
+                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                },
+                {"maxLength": 65536}
+              ]
+            },
+            "sourceAsset": {"$ref": "#/$defs/AssetRef"},
+            "transformations": {
+              "type": "array",
+              "items": {
+                "allOf": [
+                  {
+                    "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+                  },
+                  {"maxLength": 65536},
+                  {"minLength": 1}
+                ],
+                "description": "Inert text. UTF-8 byte limits and the owning interpretation apply."
+              },
+              "maxItems": 32768,
+              "minItems": 1
+            }
+          },
+          "required": [
+            "kind",
+            "sourceUrl",
+            "sourceVersion",
+            "sourceDate",
+            "sourceAuthor",
+            "sourceDigest",
+            "sourceDescription",
+            "sourceAsset",
+            "transformations"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "RightsEvidence": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "unknown"}
+          },
+          "required": ["kind"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "permitted"},
+            "evidenceId": {"$ref": "#/$defs/DomainReference"}
+          },
+          "required": ["kind", "evidenceId"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "prohibited"},
+            "evidenceId": {"$ref": "#/$defs/DomainReference"}
+          },
+          "required": ["kind", "evidenceId"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Rights": {
+      "type": "object",
+      "properties": {
+        "usage": {"$ref": "#/$defs/RightsEvidence"},
+        "redistribution": {"$ref": "#/$defs/RightsEvidence"}
+      },
+      "required": ["usage", "redistribution"],
+      "additionalProperties": false
+    },
+    "CompatibilityEvidence": {
+      "type": "object",
+      "properties": {
+        "output": {
+          "enum": ["native", "browser"]
+        },
+        "evidenceId": {"$ref": "#/$defs/DomainReference"}
+      },
+      "required": ["output", "evidenceId"],
+      "additionalProperties": false
+    },
+    "AssetRevision": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "VisualAsset"},
+            "resourceId": {"$ref": "#/$defs/AssetIdentity"},
+            "revisionId": {"$ref": "#/$defs/AssetIdentity"},
+            "byteLength": {"$ref": "#/$defs/PositiveU64"},
+            "sha256": {"$ref": "#/$defs/Digest"},
+            "declared": {"$ref": "#/$defs/VisualDescriptor"},
+            "provenance": {"$ref": "#/$defs/Provenance"},
+            "rights": {"$ref": "#/$defs/Rights"},
+            "inspectionEvidenceId": {"$ref": "#/$defs/DomainReference"},
+            "compatibilityEvidence": {
+              "type": "array",
+              "items": {"$ref": "#/$defs/CompatibilityEvidence"},
+              "maxItems": 32768,
+              "uniqueItems": true
+            }
+          },
+          "required": ["kind", "resourceId", "revisionId", "byteLength", "sha256", "declared", "provenance", "rights"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "Font"},
+            "resourceId": {"$ref": "#/$defs/AssetIdentity"},
+            "revisionId": {"$ref": "#/$defs/AssetIdentity"},
+            "byteLength": {"$ref": "#/$defs/PositiveU64"},
+            "sha256": {"$ref": "#/$defs/Digest"},
+            "declared": {"$ref": "#/$defs/FontDescriptor"},
+            "provenance": {"$ref": "#/$defs/Provenance"},
+            "rights": {"$ref": "#/$defs/Rights"},
+            "inspectionEvidenceId": {"$ref": "#/$defs/DomainReference"},
+            "compatibilityEvidence": {
+              "type": "array",
+              "items": {"$ref": "#/$defs/CompatibilityEvidence"},
+              "maxItems": 32768,
+              "uniqueItems": true
+            }
+          },
+          "required": ["kind", "resourceId", "revisionId", "byteLength", "sha256", "declared", "provenance", "rights"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"const": "MediaAttachment"},
+            "resourceId": {"$ref": "#/$defs/AssetIdentity"},
+            "revisionId": {"$ref": "#/$defs/AssetIdentity"},
+            "byteLength": {"$ref": "#/$defs/PositiveU64"},
+            "sha256": {"$ref": "#/$defs/Digest"},
+            "declared": {"$ref": "#/$defs/MediaDescriptor"},
+            "provenance": {"$ref": "#/$defs/Provenance"},
+            "rights": {"$ref": "#/$defs/Rights"},
+            "inspectionEvidenceId": {"$ref": "#/$defs/DomainReference"},
+            "compatibilityEvidence": {
+              "type": "array",
+              "items": {"$ref": "#/$defs/CompatibilityEvidence"},
+              "maxItems": 32768,
+              "uniqueItems": true
+            }
+          },
+          "required": ["kind", "resourceId", "revisionId", "byteLength", "sha256", "declared", "provenance", "rights"],
+          "additionalProperties": false
+        }
+      ],
+      "description": "Declared metadata and evidence identifiers are insufficient to establish inspection, rights or compatibility. Verify descriptor length, payload length and digest equality."
+    }
+  }
+}
