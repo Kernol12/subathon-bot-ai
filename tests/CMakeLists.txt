@@ -12,6 +12,7 @@ add_test(NAME scaffold.project_consistency
     COMMAND "${Python3_EXECUTABLE}" "${PROJECT_SOURCE_DIR}/tools/check_project.py")
 set_tests_properties(scaffold.project_consistency PROPERTIES LABELS "scaffold")
 if(SUBATHON_BUILD_EXCHANGE_RATE_API_TESTS OR SUBATHON_BUILD_OPEN_EXCHANGE_RATES_TESTS
+        OR SUBATHON_BUILD_RULES_004_STAGE1
         OR SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE OR SUBATHON_BUILD_MODIFIER_CLOCK_TESTS OR SUBATHON_BUILD_MODIFIER_STACKING_TESTS OR SUBATHON_BUILD_FRANKFURTER_RATES_TESTS OR SUBATHON_BUILD_RULE_ACTIONS_TESTS OR SUBATHON_BUILD_CREDENTIAL_RECORD_TESTS OR SUBATHON_BUILD_SESSION_RESOLUTION_TESTS OR SUBATHON_BUILD_TIMER_EDITORIAL_TESTS OR SUBATHON_BUILD_PASSWORD_HASHING_TESTS OR SUBATHON_BUILD_EFFECTIVE_PERMISSIONS_TESTS OR SUBATHON_BUILD_TIME_DEBT_TESTS OR SUBATHON_BUILD_APPLICATION_PLAN_TESTS OR SUBATHON_BUILD_PAUSE_POLICY_TESTS OR SUBATHON_BUILD_RECURRING_SCHEDULE_TESTS OR SUBATHON_BUILD_TIME_CREDIT_TESTS OR SUBATHON_BUILD_EXACT_NUMERIC_TESTS OR SUBATHON_BUILD_TIMER_LIFECYCLE_TESTS OR SUBATHON_BUILD_RECEIPT_INTAKE_TESTS OR SUBATHON_BUILD_CONTRIBUTION_EVIDENCE_TESTS)
     include("${PROJECT_SOURCE_DIR}/cmake/GoogleTestDependency.cmake")
     include(GoogleTest)
@@ -356,6 +357,19 @@ if(SUBATHON_BUILD_RULE_ACTIONS_TESTS)
     subathon_target_options(core_rule_actions_baseline)
     subathon_discover_gtests(core_rule_actions_baseline PREFIX "rule-actions."
         LABELS "rule-actions;acceptance;core" TIMEOUT 30)
+endif()
+
+if(SUBATHON_BUILD_RULES_004_STAGE1)
+    add_executable(core_rules_004_stage1
+        acceptance/rules_004/generation_tests.cpp
+        acceptance/rules_004/milestone_tests.cpp
+        acceptance/rules_004/profile_tests.cpp
+        acceptance/rules_004/unit_tests.cpp)
+    target_link_libraries(core_rules_004_stage1 PRIVATE
+        subathon_rule_chain subathon_milestone_timeline GTest::gtest_main)
+    subathon_target_options(core_rules_004_stage1)
+    subathon_discover_gtests(core_rules_004_stage1
+        LABELS "rule-chain;intentional-red;core" TIMEOUT 30)
 endif()
 
 if(SUBATHON_BUILD_RULE_SELECTION_TESTS)
