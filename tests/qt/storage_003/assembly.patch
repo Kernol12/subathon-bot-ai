@@ -1,0 +1,80 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -9,6 +9,7 @@
+ option(SUBATHON_BUILD_ACCEPTANCE_TESTS "Build selected component acceptance suites" OFF)
+ option(SUBATHON_BUILD_RATES_003_STAGE1 "Build the reviewed RATES-003 acceptance suite" OFF)
+ option(SUBATHON_BUILD_RATES_004_STAGE1 "Build the reviewed RATES-004 acceptance suite" OFF)
++option(SUBATHON_BUILD_STORAGE_003_STAGE1 "Build the reviewed STORAGE-003 structural baseline" OFF)
+ option(SUBATHON_BUILD_STORAGE_027_STAGE1 "Build the STORAGE-027 reviewed acceptance suites" OFF)
+ option(SUBATHON_BUILD_RATES_012_STAGE1 "Build the reviewed RATES-012 acceptance suite" OFF)
+ option(SUBATHON_BUILD_RULES_004_STAGE1 "Build the reviewed RULES-004 acceptance suite" OFF)
+@@ -61,6 +62,7 @@
+
+ # Product discovery also works in a build with no test packages.
+ if(BUILD_TESTING AND (SUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE
++        OR SUBATHON_BUILD_STORAGE_003_STAGE1
+         OR SUBATHON_BUILD_STORAGE_027_STAGE1 OR SUBATHON_BUILD_MODIFIER_CAPTURE_TESTS
+         OR SUBATHON_BUILD_RATE_CREDENTIALS_TESTS))
+     find_package(Qt6 6.12 REQUIRED COMPONENTS Core Sql Test)
+@@ -71,6 +73,7 @@
+         OR SUBATHON_BUILD_SQLITE_PLAN_TESTS OR SUBATHON_BUILD_MODIFIER_STACKING_TESTS
+         OR SUBATHON_BUILD_MODIFIER_CLOCK_BASELINE OR SUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE
+         OR SUBATHON_BUILD_EXCHANGE_RATE_API_TESTS OR SUBATHON_BUILD_OPEN_EXCHANGE_RATES_TESTS
++        OR SUBATHON_BUILD_STORAGE_003_STAGE1
+         OR SUBATHON_BUILD_STORAGE_027_STAGE1 OR SUBATHON_BUILD_RULE_CHAIN_TESTS
+         OR SUBATHON_BUILD_RATE_CREDENTIALS_TESTS OR SUBATHON_BUILD_RULE_SIMULATOR_TESTS
+         OR SUBATHON_BUILD_MODIFIER_CAPTURE_TESTS))
+@@ -85,6 +88,7 @@
+         OR SUBATHON_BUILD_SESSION_RESOLUTION_TESTS OR SUBATHON_BUILD_SQLITE_ACCOUNT_SESSION_TESTS
+         OR SUBATHON_BUILD_CREDENTIAL_RECORD_TESTS OR SUBATHON_BUILD_SQLITE_CREDENTIALS_TESTS
+         OR SUBATHON_BUILD_SQLITE_CREDENTIAL_CATALOG_TESTS OR SUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE
++        OR SUBATHON_BUILD_STORAGE_003_STAGE1
+         OR SUBATHON_BUILD_STORAGE_027_STAGE1 OR SUBATHON_BUILD_MODIFIER_CAPTURE_TESTS
+         OR SUBATHON_BUILD_RATE_CREDENTIALS_TESTS
+         OR (sbt_bounded_http_successor AND SUBATHON_BUILD_BOUNDED_HTTP_FOUNDATION_TESTS))))
+@@ -152,6 +156,7 @@
+ endif()
+
+ if(BUILD_TESTING AND (SUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE
++        OR SUBATHON_BUILD_STORAGE_003_STAGE1
+         OR SUBATHON_BUILD_STORAGE_027_STAGE1 OR SUBATHON_BUILD_MODIFIER_CAPTURE_TESTS
+         OR SUBATHON_BUILD_RATE_CREDENTIALS_TESTS
+         OR SUBATHON_BUILD_QT_PROBE OR SUBATHON_BUILD_SQLITE_WRITER_TESTS
+diff --git a/tests/qt/CMakeLists.txt b/tests/qt/CMakeLists.txt
+--- a/tests/qt/CMakeLists.txt
++++ b/tests/qt/CMakeLists.txt
+@@ -317,6 +317,10 @@
+     add_subdirectory(storage_026)
+ endif()
+
++if(SUBATHON_BUILD_STORAGE_003_STAGE1)
++    add_subdirectory(storage_003)
++endif()
++
+ if(SUBATHON_BUILD_STORAGE_027_STAGE1)
+     add_subdirectory(storage_027)
+ endif()
+diff --git a/tests/qt/storage_003/CMakeLists.txt b/tests/qt/storage_003/CMakeLists.txt
+new file mode 100644
+--- /dev/null
++++ b/tests/qt/storage_003/CMakeLists.txt
+@@ -0,0 +1,18 @@
++# SPDX-License-Identifier: GPL-3.0-or-later
++
++# The protected base has no ordinary checkpoint owner object. Each structural
++# runner receives exactly this variant once; do not also link an ordinary copy.
++add_library(subathon_storage_003_fixture_owner OBJECT
++    "${PROJECT_SOURCE_DIR}/server/src/sqlite_clock_checkpoint.cpp")
++target_compile_definitions(subathon_storage_003_fixture_owner PRIVATE
++    SUBATHON_STORAGE_003_CONSTRAINT_TEST_ACCESS)
++target_link_libraries(subathon_storage_003_fixture_owner PRIVATE
++    subathon_sqlite_application_bundle)
++subathon_target_options(subathon_storage_003_fixture_owner)
++
++foreach(case catalog writer)
++    subathon_add_qt_suite(server_storage_003_stage1_${case}
++        NAME storage-003-${case} SOURCES ${case}_tests.cpp
++        LIBRARIES subathon_storage_003_fixture_owner subathon_contribution_review
++        LABELS "storage-003;acceptance;qt;server;intentional-red" TIMEOUT 240)
++endforeach()
