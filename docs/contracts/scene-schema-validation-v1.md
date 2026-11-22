@@ -9,7 +9,7 @@ The coordinator owns schema paths, imports, pins, CI, acceptance map and checkpo
 
 Protected commit `2ed9ef63d09a666c69d05b1df5f946ce53eaba39`, tree
 `bc4ba218c2800f80abc7f659b783968df552f98b`. The following are Git blob IDs at that
-commit. The pinned examples in §6 inherit the full definitions and premises there.
+commit except where a row identifies a correction. Apply those sources in §6.
 
 | Owner and source | Exact blob |
 | --- | --- |
@@ -18,7 +18,7 @@ commit. The pinned examples in §6 inherit the full definitions and premises the
 | #157 [Common wire primitives](wire-primitives-v1.md) | `11eeb5f422a174e042143df6b476ae1d717eeacf` |
 | #161 [Scene document](scene-document-v1.md), 009 | `9a3507331376a2beed47b93eac7079b45f0f2c94` |
 | #162 [Bindings, conditions and timeline](scene-bindings-conditions-timeline-v1.md), 010, #793 merge `aedf78817ba15434e3fb114004bf453b16636788` | `9ca333ece5c80140f0d86d960fcf5b51e50294a6` |
-| #163 [Assets, fonts and packages](scene-assets-packages-v1.md), 011 | `abce9c3b8a14d5a612aaef7a3ab372018c91c4a6` |
+| #163 [Assets, fonts and packages](scene-assets-packages-v1.md), 011 | Protected base `abce9c3b8a14d5a612aaef7a3ab372018c91c4a6`. [Owner correction 159](https://github.com/Kernol12/subathon-bot-ai/issues/164#issuecomment-7080389957) overrides §5 in corrected blob `918eff6df85cab148b03f99994a6fa262ced1d4b`. |
 | [Tool contract v1 r2](schema-validation-tool-v1.md) and [ADR-0008](../decisions/0008-schema-validation-foundation.md) | `7880dc2371876db2f2f872e5ec9d0740968784f8`, `5c2f9a8c05fb9d314a1968b1ba6ac94dbbfa1b34` |
 | [Hash lock](../../tools/schema_validation/requirements.lock), [wheel manifest](../../tools/schema_validation/wheels.json), [project checker](../../tests/schema_validation/test_project_schemas.py) | `8613fc8a595a93d62affe0c656bdefac86badadd`, `6f4ffec82e73274bebeac2ea1aa0ad31e28f4539`, `5acec491f99553ae065556b215b9104cc267bb7a` |
 
@@ -269,8 +269,8 @@ a fresh disposable context.
 | 009 §9 S/SD01 and SD02 provide nonempty and empty document controls; SD03–14 cover forest, transforms, decimal/range, opaque and Unicode edges. | With S unchanged except shape A adds children=[], shape fails closure of its structural branch. With roots=[A,A], the same defined A is placed twice. With label Text containing escaped lone surrogate, lexical scan refuses. SD07 fit gives (0,25), crop (-50,0), stretch (0,0). |
 | SD15–18, SD26–27 require all family, attachment and privacy variants; resolve SD27's attachment via 010 §2. | A and G sharing a known 1/3 opacity binding each charge one reference; G applies opacity after child composition. Unknown ratio uses each static opacity. FontRef in the image slot fails typed shape; missing correct VisualAssetRef target fails closure. Unknown required feature on browser with both outputs refuses application even if native supports it. |
 | SD19–25 exercise revision/edit/publish/restore and resource boundaries. | From p2→r2, fresh authorized restore with expected p2 and target r1 selects new p3→r1 under stated owner premises; expected p1 conflicts for fresh intent. At 65536 raw ID bytes the isolated field fits; 65537 refuses; graph root depth 64 fits and 65 refuses. |
-| 010 §7 T/V/M/S/E/D/P rows pin every selected value, clock, 126A, privacy and preview oracle. | S=1, P=0, N=3 µpt gives exact 1/3, formatted 33.33%; before first has no ratio. `any(T,U)=T` while `any(T,lifecycle > Active)` is invalid. Gift count on Bits fails typed shape. EUR `9007199254740993.25` stays exact and withheld money has no substitute. |
-| 010 §7 current presentation and animation rows. | A starts at 0, gap at 10000–10999 ms, B starts at owner turn 11000; reconnect 11500 sees B at 500 ms, no replay or fabricated score. Queued event alone has no current observation. Tracks [0,500) and [500,750) are adjacent; [499,749) overlaps. Start signed64 max + duration 1 is invalid arithmetic. |
+| 010 §7 T/V/M/S/E/D/P rows. | **012 fixtures:** `any(T,lifecycle > Active)` is invalid and Gift count on Bits fails typed shape. **Preview and projection owners:** `any(T,U)=T`; S=1, P=0, N=3 µpt yields exact 1/3 formatted 33.33%; before first has no ratio. EUR `9007199254740993.25` stays exact and withheld money has no substitute. |
+| 010 §7 current presentation and animation rows. | **012 fixtures:** tracks [0,500) and [500,750) are adjacent; [499,749) overlaps. Start signed64 max + duration 1 is invalid arithmetic. Layout slots take their declared types. **Presentation and rendering owners:** A starts at 0, gap at 10000–10999 ms, B starts at 11000; reconnect 11500 sees B at 500 ms with no replay or fabricated score. Queued event alone supplies no current observation. |
 | 011 §8 AP01–29, MD01–10 and alternate codec branches, FD01/02 and hinted FD01, S01–05 and controls. | MD01 declared width 8192×3906 fits the raster pixel bound, ×3907 exceeds it; MD04 delay 2 is 1/50 s, 1 outside profile. FD01 face 0 vs 1, S02 use of tile vs gradient, S05 n=18 (1048573) vs n=19 (2097149) distinguish field/profile/reference/work checks. Matching descriptors still require actual inspected bytes, rights and output evidence. |
 | AP07 logical manifest closure under matching entry/length/hash premises. | A second identical `assets/<digest>` fails inventory. An actual digest different from the declared digest fails integrity. A forbidden entry type/path fails before extraction. An output flush failure cannot yield a complete portable artifact. |
 
