@@ -415,19 +415,16 @@ class OwnerState {
     }
 
     ScopeState *disable(const RateCredentialScope &key, std::string generation) {
-        if (oversized_scope(key) || !valid_scope(key) || generation.size() > ref_limit ||
-            generation.empty())
+        if (oversized_scope(key) || !valid_scope(key))
             return nullptr;
         auto &scope = scopes[key];
-        if ((scope.selection && scope.selection->generation == generation) ||
-            scope.retired_generations.contains(generation))
-            return nullptr;
-        scope.retired_generations.insert(std::move(generation));
-        if (scope.selection)
-            scope.retired_generations.insert(scope.selection->generation);
         scope.invalidate_pending();
         scope.enabled = false;
         scope.recovery_approved = false;
+        if (scope.selection)
+            scope.retired_generations.insert(scope.selection->generation);
+        if (!generation.empty() && generation.size() <= ref_limit)
+            scope.retired_generations.insert(std::move(generation));
         return &scope;
     }
 

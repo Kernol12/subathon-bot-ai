@@ -21,6 +21,17 @@ Review notes and dispositions
 - N5. F12 deliberately requires a quiet fixture, including zero Qt warnings. r2 permits fixed-category diagnostics.
 - N6. The deterministic replacement-collision twin compares its ciphertext to its own seed envelope.
 
+## Stage 2 review controls
+
+F11 uses explicit trusted Recovery entry and approval in its setup. The original
+assertions carry forward. A separate Recovery control holds an ordinary selection
+that matches an authenticated restored row, then allows exact approved authority.
+
+Four revocation rows exercise retired, current, empty and oversized labels. Each
+requires the queued permit to yield zero handoffs, rejects the previously valid
+grant before lookup, and preserves the persisted row. A fresh selection then
+allows an exact handoff.
+
 ## Selectors and historical Stage 1 checkpoints
 
 These are independent expectations and **predicted** first missing checkpoints. For scenarios requiring a seed, the first mutation admission is itself a #775 behavior assertion. Each successful seed must then stage and acknowledge through the writer before subsequent witnesses are meaningful.

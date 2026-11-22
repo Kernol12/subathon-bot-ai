@@ -156,11 +156,12 @@ class CredentialOwner final {
     // Grants attached to requests are presented facts, independent of publication.
     void publish_selection(const RateCredentialSelection &);
     void publish_reservation(const Reservation &);
+    // Disable use for the scope and invalidate pending permits before recording the label.
     void revoke(const RateCredentialScope &, std::string disabled_generation);
     void expire_reservation(const Reservation &);
 
-    // Recovery starts with a disabled generation. Ordinary selection publication
-    // can qualify an exact read but only the Recovery owner can approve use.
+    // The restore owner enters Recovery explicitly. Ordinary selection publication
+    // can qualify an exact read. Use requires approval from the Recovery owner.
     void begin_recovery(const RateCredentialScope &, std::string disabled_generation);
     void publish_recovery_selection(const RateCredentialSelection &);
 
@@ -168,6 +169,7 @@ class CredentialOwner final {
                                   const Reservation &, const UseGrant &, WorkSlot &);
     Permit finish_keyed_rate_use(WorkSlot, const SqliteWorkResult &);
     Result consume_keyed_rate_use(Permit &, const UseGrant &, QualifiedTransport &, Attempt &);
+    // Each attempt is consumed by a single settlement or usage-echo completion.
     Result finish_attempt(Attempt &, const UseGrant &, era::Dispatch);
     Result finish_attempt(Attempt &, const UseGrant &, oer::Dispatch);
     std::optional<UsageFact> complete_rate_usage_echo(Attempt &, const oer::AdmissionIdentity &,

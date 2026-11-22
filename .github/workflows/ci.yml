@@ -499,8 +499,8 @@ jobs:
               raise SystemExit("Rate credential acceptance failed or skipped")
           output = case.findtext("system-out", "")
           totals = re.findall(r"^Totals: (\d+) passed, (\d+) failed, (\d+) skipped, (\d+) blacklisted", output, re.MULTILINE)
-          if totals != [("17", "0", "0", "0")]:
-              raise SystemExit("Rate credential acceptance must pass 15 cases and both hooks, with zero skips")
+          if totals != [("22", "0", "0", "0")]:
+              raise SystemExit("Rate credential acceptance must pass 20 cases and both hooks, with zero skips")
           if re.search(r"^(?:QWARN|QSYSTEM|QFATAL)", output, re.MULTILINE):
               raise SystemExit("Unexpected Qt warning in rate credential acceptance")
           PYTHON
