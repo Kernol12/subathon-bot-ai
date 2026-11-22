@@ -523,9 +523,29 @@ class _Assembly:
                 return False
             if member is not None and _identity(patch) != _identity(member):
                 return False
-            if row["mode"] == "included" and (member is None or member["path"] not in row["paths"]):
+            if row["mode"] == "included" and (member is None or not self._includes_patch(row, member, key)):
                 return False
         return True
+
+    def _includes_patch(self, row, member, patch):
+        path = member["path"]
+        build = row.get("build")
+        if build is None or row["component"] in member["components"]:
+            return path in row["paths"]
+
+        # The recipe can include patches conveyed by another component of the
+        # same build. A shared path still needs its owning included source row.
+        for owner in member["components"]:
+            component = self.components[owner]
+            if component["role"] not in _shape.CARRIED or component.get("build") != build:
+                continue
+            for source_id in component["sources"]:
+                source = self.tables["sources"][source_id]
+                if (source["component"] == owner and source["mode"] == "included"
+                        and source.get("build") == build and source["recipe"] == row["recipe"]
+                        and patch in source["patches"] and path in source["paths"]):
+                    return True
+        return False
 
     def fonts(self):
         findings = set()
