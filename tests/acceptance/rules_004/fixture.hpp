@@ -157,6 +157,8 @@ struct Owner {
     std::map<std::string, Capture> captures;
     std::string active;
     CapacityUse other{};
+    std::size_t capture_reads = 0;
+    std::size_t capacity_reads = 0;
     std::vector<std::string> calls;
     std::vector<RuleActionKey> mapped;
     std::vector<RuleActionKey> offered;
@@ -199,6 +201,7 @@ struct Owner {
 
     OwnerView view() {
         return {[this](const EventBinding &event) -> std::optional<CaptureView> {
+                    ++capture_reads;
                     const auto selected = captures.find(event.capture);
                     if (selected == captures.end())
                         return std::nullopt;
@@ -213,7 +216,10 @@ struct Owner {
                                        capture.authors,
                                        {}};
                 },
-                [this](const ChainKey &) { return other; }};
+                [this](const ChainKey &) {
+                    ++capacity_reads;
+                    return other;
+                }};
     }
 
     OpenResult open(const RootBinding &binding, const ChainProfile &runtime = profile) {

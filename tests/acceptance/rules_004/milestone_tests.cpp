@@ -3,6 +3,7 @@
 
 #include <subathon/core/milestone_progression.hpp>
 #include <subathon/server/milestone_timeline.hpp>
+#include <tuple>
 
 namespace {
 using namespace rules_004;
@@ -247,6 +248,171 @@ TEST(Rules004, G5CommittedMilestoneReleasesInterleaveInOwnerTurnOrder) {
         EXPECT_EQ(p.completed_prefix.size(), 2U);
         EXPECT_TRUE(owner.notices.empty());
     }
+}
+
+struct OccurrenceSource {
+    Owner owner;
+    const RootBinding r = root();
+    const EventBinding d = child(r.event, "D", NamedAction{key("Root", "emit-d")});
+    const AdmittedEvent admitted{d, 1, 1};
+    const MilestoneOccurrence occurrence{"P-D", "O-D", 0};
+    const EventBinding x = child(d, "X", occurrence);
+
+    OpenedChain start() {
+        owner.define("C", {4, 8},
+                     {named_rule("Root", "seed", {emit("emit-d", "d")}),
+                      named_rule("Source", "d", {delta("S", "25", RuleDeltaUnit::micro_points)})});
+        owner.active = "C";
+        owner.keep(r.event, "seed");
+        owner.keep(d, "d");
+        auto opened = std::get<OpenedChain>(owner.open(r));
+        const auto root_pass = owner.run(opened.chain, r.event, "pass-R", {{"emit-d", {d, "d"}}});
+        EXPECT_EQ(root_pass.children, (std::vector{admitted}));
+        EXPECT_FALSE(root_pass.cutoff);
+        return opened;
+    }
+
+    auto owner_calls() const {
+        return std::tuple{owner.capture_reads, owner.capacity_reads, owner.calls.size(),
+                          owner.mapped.size(), owner.offered.size(), owner.handled.size()};
+    }
+
+    void expect_effects(std::int64_t score, const std::vector<AdmittedEvent> &queued) const {
+        EXPECT_EQ(owner.time, 0);
+        EXPECT_EQ(owner.score, score);
+        EXPECT_EQ(owner.queued, queued);
+        EXPECT_TRUE(owner.audits.empty());
+        EXPECT_TRUE(owner.notices.empty());
+    }
+
+    RuleStagedPass stage(Unit &unit) {
+        const auto plan = plan_event(unit, owner.mapper());
+        EXPECT_EQ(plan.event, lineage(d));
+        return std::get<RuleStagedPass>(owner.consume(unit, d, plan));
+    }
+
+    MilestoneProgressionResult progression(const RuleStagedPass &staged) const {
+        const auto &action = staged.rules.at(0).accepted.at(0);
+        EXPECT_EQ(action.key, key("Source", "S"));
+        const auto &effect = std::get<RuleEffectObservation>(action.observed);
+        EXPECT_EQ(effect.effect_ref, "S");
+        const auto &score = std::get<RuleQuantityObservation>(effect.change);
+        EXPECT_EQ(score.unit, "micro_points");
+        EXPECT_EQ(score.actual.numerator, "25");
+        EXPECT_EQ(score.actual.denominator, "1");
+        return advance_milestone_progression(
+            {"T", "V", "J", std::stoll(score.actual.numerator), {{"M1", 10}}, {}});
+    }
+
+    void acknowledge_source(Unit &&source, const RuleStagedPass &staged) {
+        const auto pub = std::get<Publication>(
+            finish_unit(std::move(source), staged, RuleCompletion::committed));
+        EXPECT_EQ(pub.identity, event_unit("pass-D", d));
+        EXPECT_TRUE(pub.children.empty());
+        EXPECT_TRUE(pub.occurrences.empty());
+        EXPECT_TRUE(pub.named_suppressions.empty());
+        EXPECT_FALSE(pub.cutoff);
+        ASSERT_TRUE(pub.pass);
+        ASSERT_EQ(pub.pass->rules.size(), 1U);
+        const auto &rule = pub.pass->rules.front();
+        EXPECT_EQ(rule.captured_index, 1U);
+        EXPECT_FALSE(rule.stop);
+        ASSERT_EQ(rule.accepted.size(), 1U);
+        EXPECT_EQ(rule.accepted.front().key, key("Source", "S"));
+        owner.publish(pub);
+        expect_effects(25, {admitted});
+    }
+
+    void release_and_project(Chain &chain, const MilestoneProgressionResult &progression) {
+        const auto &p = progression.data();
+        EXPECT_EQ(p.score_micro_points, 25);
+        EXPECT_EQ(p.newly_completed_begin, 0U);
+        ASSERT_EQ(p.newly_completed_count, 1U);
+        ASSERT_EQ(p.completed_prefix.size(), 1U);
+        const auto &completion = p.completed_prefix.front();
+        EXPECT_EQ(completion.milestone_ref, "M1");
+        EXPECT_EQ(completion.target_micro_points, 10);
+        ModelRelease release;
+        release.dispositions = {{"O-D", MilestoneHeadDisposition::ready}};
+        MilestoneTimeline timeline({1ms, 0ms, false}, release);
+        timeline.accept_committed({{completion, {}, {}, MilestoneOccurrenceKey{"O-D"}}}, 0ms);
+        ASSERT_EQ(release.scheduled.size(), 1U);
+        release.acknowledge("O-D");
+        ASSERT_EQ(release.acknowledged, (std::vector<std::string>{"O-D"}));
+        const auto &released = release.scheduled.front();
+        EXPECT_EQ(released.achievement.milestone_ref, "M1");
+        EXPECT_EQ(released.achievement.definition_revision_ref, "V");
+        EXPECT_EQ(released.achievement.completion_context_ref, "J");
+        owner.keep(x, released.achievement.milestone_ref, RuleTriggerKind::milestone_completion);
+
+        auto unit = std::get<Unit>(begin_occurrences(chain, "D", "release-D"));
+        const AdmittedEvent expected{x, 2, 2};
+        const auto decision =
+            offer_occurrence_child(unit, occurrence, x, OccurrenceState::released);
+        ASSERT_TRUE(std::holds_alternative<Reserved>(decision));
+        EXPECT_EQ(std::get<Reserved>(decision).event, expected);
+        const auto pub =
+            std::get<Publication>(finish_unit(std::move(unit), {}, RuleCompletion::committed));
+        EXPECT_EQ(pub.identity,
+                  (UnitIdentity{"release-D", {"I", "R"}, "D", UnitPurpose::released_occurrences}));
+        EXPECT_FALSE(pub.pass);
+        EXPECT_FALSE(pub.cutoff);
+        EXPECT_TRUE(pub.named_suppressions.empty());
+        EXPECT_EQ(pub.children, (std::vector{expected}));
+        ASSERT_EQ(pub.occurrences.size(), 1U);
+        EXPECT_EQ(pub.occurrences.front().occurrence, occurrence);
+        EXPECT_EQ(pub.occurrences.front().parent, "D");
+        EXPECT_EQ(std::get<AdmittedEvent>(pub.occurrences.front().disposition), expected);
+        owner.publish(pub);
+        expect_effects(25, {admitted, expected});
+    }
+};
+
+TEST(Rules004, Correction154AOccurrenceBeginNeedsExactSourceAcknowledgement) {
+    OccurrenceSource f;
+    auto opened = f.start();
+    expect_duplicate(opened.chain, f.admitted);
+    const auto before = f.owner_calls();
+    ASSERT_EQ(std::get<BeginDisposition>(begin_occurrences(opened.chain, "D", "release-D")),
+              BeginDisposition::history_unavailable);
+    EXPECT_EQ(f.owner_calls(), before);
+    f.expect_effects(0, {f.admitted});
+
+    // R's acknowledged pass can open an occurrence unit, but cannot qualify D.
+    auto other = std::get<Unit>(begin_occurrences(opened.chain, "R", "release-R"));
+    const auto held = f.owner_calls();
+    ASSERT_EQ(std::get<BeginDisposition>(begin_occurrences(opened.chain, "D", "release-D")),
+              BeginDisposition::in_flight_hold);
+    EXPECT_EQ(f.owner_calls(), held);
+    ASSERT_TRUE(std::holds_alternative<RolledBack>(
+        finish_unit(std::move(other), {}, RuleCompletion::rolled_back)));
+    f.expect_effects(0, {f.admitted});
+
+    auto source = std::get<Unit>(begin_event(opened.chain, f.d, "pass-D"));
+    const auto staged = f.stage(source);
+    const auto progression = f.progression(staged);
+    f.acknowledge_source(std::move(source), staged);
+    f.release_and_project(opened.chain, progression);
+}
+
+TEST(Rules004, Correction155AWrongPurposeConflictsAndEventPassStillCommits) {
+    OccurrenceSource f;
+    auto opened = f.start();
+    auto source = std::get<Unit>(begin_event(opened.chain, f.d, "pass-D"));
+    const auto staged = f.stage(source);
+    const auto progression = f.progression(staged);
+    f.expect_effects(0, {f.admitted});
+
+    // The selected source has staged a completion. The group can be released
+    // only after the source commits, so this offer has no child binding yet.
+    const auto before = f.owner_calls();
+    EXPECT_TRUE(std::holds_alternative<Conflict>(
+        offer_occurrence_child(source, f.occurrence, {}, OccurrenceState::awaiting_release)));
+    EXPECT_EQ(f.owner_calls(), before);
+    f.expect_effects(0, {f.admitted});
+
+    f.acknowledge_source(std::move(source), staged);
+    f.release_and_project(opened.chain, progression);
 }
 
 } // namespace
