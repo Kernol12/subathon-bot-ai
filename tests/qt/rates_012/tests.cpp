@@ -846,7 +846,7 @@ class RateCredentialTests final : public QObject {
             require(envelope.size() == 157, "Wire-ineligible stored value has exact 157-byte SCR1");
             const auto request = reservation(r1, fx, 150);
             struct BoundedHandoff final : QualifiedTransport {
-                explicit BoundedHandoff(std::size_t target_cap) : target_cap(target_cap) {}
+                explicit BoundedHandoff(std::size_t cap) : target_cap(cap) {}
                 void accept(const Reservation &,
                             std::span<const unsigned char> secret) noexcept override {
                     ++offers;
