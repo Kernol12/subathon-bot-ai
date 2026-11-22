@@ -60,4 +60,8 @@ class GuardedBytes final {
     std::size_t size_;
     unsigned char *data_;
 };
+// The caller checks sodium readiness before allocating and filling input.
+[[nodiscard]] EncodedBytes seal_guarded_record(std::span<const unsigned char> scope,
+                                               const GuardedBytes &input, KeyIdView id,
+                                               KeyView key);
 } // namespace subathon::server::credential_detail

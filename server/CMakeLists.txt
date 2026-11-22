@@ -107,6 +107,13 @@ if(TARGET Qt6::Core AND TARGET Qt6::Sql)
         subathon_target_options(subathon_credential_storage)
     endif()
 
+    if(TARGET subathon_credential_storage AND TARGET subathon_rate_snapshots)
+        add_library(subathon_rate_credentials STATIC src/rate_credentials.cpp)
+        target_link_libraries(subathon_rate_credentials PUBLIC subathon_credential_storage
+            PRIVATE Sodium::Sodium subathon_rate_snapshots)
+        subathon_target_options(subathon_rate_credentials)
+    endif()
+
     add_library(subathon_sqlite_migrations STATIC src/sqlite_migrations.cpp)
     target_include_directories(subathon_sqlite_migrations PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_sqlite_migrations PUBLIC subathon_sqlite_writer Qt6::Core)

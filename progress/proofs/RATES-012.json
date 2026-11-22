@@ -1,0 +1,343 @@
+{
+  "version": 1,
+  "task_id": "RATES-012",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 775
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/RATES-012.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/issues/775",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/775#issuecomment-7068200880",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/775#issuecomment-7068204485",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/797",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/798",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/797#pullrequestreview-6011293647",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/797#pullrequestreview-6011294044",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/797#pullrequestreview-6011296797",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/798#pullrequestreview-6011546035",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/798#pullrequestreview-6011546531",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/798#pullrequestreview-6011546815",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/798#pullrequestreview-6011547162",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/796",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/798#pullrequestreview-6011630792",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/798#pullrequestreview-6011631210"
+  ],
+  "limitations": [
+    "Original Stage 1 closing and observed red remain at 1ca6d346. All 15 selectors reached the intended missing-admission assertions. Stage 2 replaces the missing seam and promotes registration.",
+    "F11 uses explicit trusted Recovery calls in its Stage 2 setup and retains each original assertion. A separately reviewed test-only supplement adds four label rows and an ordinary Recovery hold control. The exact 45038d74 run yielded four intended zero-handoff assertion failures, 16 passes and both Qt hooks before the fix.",
+    "The current tests packet binds the fixture and all current oracles at a3c06838. The Stage 2 verification and closing receipts also verify the relocated F11 setup and the exact supplement. The original Stage 1 review pair and supplemental verification are retained alongside that pair. The supplement proof does not recast the four failures as missing-admission Stage 1 stops.",
+    "After closing, the exact a3c06838 candidate passed 20 guarded credential invocations, 48 connector credential cases and 21 catalog cases, plus two hooks per suite. All three first-selector loads reconciled 27 sealed dependency paths including QSQLITE. Pre/post seals match. The PR records the selected hashes. Current required CI is separate.",
+    "R775-S2-N4–N7 remain documented nonblocking limitations. Real keyed composition, restore activation, #400 usage-echo composition, #272 rotation qualification and live provider verification are separate.",
+    "After #796 advanced protected main, the independent verification and closing approved b7a9dd01. The shared root and server CMake files preserve both parents' suite selection. Other patches and test oracles match the previous approval. The credited readmission at b7a9dd01 passed 20 guarded credential, 48 connector credential and 21 catalog cases plus two hooks per suite. The 27-path first loads reconciled for each runner and the pre/post seals matched. The final proof binds the integrated CMake files and retains every prior receipt."
+  ],
+  "verification": {
+    "intended_red": "observed_red",
+    "supplement_intended_red": "observed_red",
+    "guarded_credentials": "passed",
+    "connector_credentials": "passed",
+    "credential_catalog": "passed"
+  },
+  "review": null,
+  "workflow": {
+    "required_stages": [
+      "tests",
+      "implementation"
+    ],
+    "stages": {
+      "tests": {
+        "revision": "a3c06838acf72e08e7af073266eb6541712b00fa",
+        "authors": [
+          "codex:t3:849c08a7-7800-49be-83b1-f70eac72b43d",
+          "codex:t3:80d6f935-25cd-4e9b-b2b6-3c3ca5b362b4",
+          "codex:coordinator"
+        ],
+        "paths": [
+          "tests/qt/rates_012/fixture.hpp",
+          "tests/qt/rates_012/tests.cpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:f344e370-5120-41b7-ac17-9615ba05ab93",
+            "revision": "e91e69bd98fdaf4df477daedfbce0638d1eb398a",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/797#pullrequestreview-6011293647",
+            "findings": [
+              "R775-S1-B1",
+              "R775-S1-B2",
+              "R775-S1-B3",
+              "R775-S1-B4",
+              "R775-S1-N1",
+              "R775-S1-N2",
+              "R775-S1-N3",
+              "R775-S1-N4",
+              "R775-S1-N5",
+              "R775-S1-N6"
+            ],
+            "blocking_findings": [
+              "R775-S1-B1",
+              "R775-S1-B2",
+              "R775-S1-B3",
+              "R775-S1-B4"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/rates012_stage1_verify",
+            "revision": "1ca6d3468a6da1d83bbff6b4c3704db801da6977",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/797#pullrequestreview-6011294044",
+            "findings": [
+              "R775-S1-B1",
+              "R775-S1-B2",
+              "R775-S1-B3",
+              "R775-S1-B4",
+              "R775-S1-N1",
+              "R775-S1-N2",
+              "R775-S1-N3",
+              "R775-S1-N4",
+              "R775-S1-N5",
+              "R775-S1-N6"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:t3:302a98f5-e5a3-4370-b71f-4f6a5a9ac22a",
+            "revision": "1ca6d3468a6da1d83bbff6b4c3704db801da6977",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/797#pullrequestreview-6011296797",
+            "findings": [
+              "R775-S1-B1",
+              "R775-S1-B2",
+              "R775-S1-B3",
+              "R775-S1-B4",
+              "R775-S1-N1",
+              "R775-S1-N2",
+              "R775-S1-N3",
+              "R775-S1-N4",
+              "R775-S1-N5",
+              "R775-S1-N6",
+              "R775-S1-N7",
+              "R775-S1-N8",
+              "R775-S1-N9"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/rates012_revocation_test_review",
+            "revision": "45038d74d3d587c762372ae62544f6a7ba8157f5",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/798#pullrequestreview-6011546531",
+            "findings": [
+              "R775-S2-B1",
+              "R775-S2-N2"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/rates012_stage2_verify1",
+            "revision": "a3c06838acf72e08e7af073266eb6541712b00fa",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/798#pullrequestreview-6011546815",
+            "findings": [
+              "R775-S2-B1",
+              "R775-S2-N1",
+              "R775-S2-N2",
+              "R775-S2-N3",
+              "R775-S2-N4",
+              "R775-S2-N5",
+              "R775-S2-N6",
+              "R775-S2-N7",
+              "R775-S2-N8",
+              "R775-S2-N9"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:18a755f6-d140-4312-b86c-031023b1a762",
+            "revision": "a3c06838acf72e08e7af073266eb6541712b00fa",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/798#pullrequestreview-6011547162",
+            "findings": [
+              "R775-S2-B1",
+              "R775-S2-N1",
+              "R775-S2-N2",
+              "R775-S2-N3",
+              "R775-S2-N4",
+              "R775-S2-N5",
+              "R775-S2-N6",
+              "R775-S2-N7",
+              "R775-S2-N8",
+              "R775-S2-N9",
+              "R775-S2-C1"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "implementation": {
+        "revision": "b7a9dd011b1b30523fbede3dd4616e468fedef87",
+        "authors": [
+          "codex:t3:80d6f935-25cd-4e9b-b2b6-3c3ca5b362b4",
+          "codex:coordinator"
+        ],
+        "paths": [
+          ".github/workflows/ci.yml",
+          "CMakeLists.txt",
+          "cmake/AcceptanceSuites.cmake",
+          "docs/TEST_STRATEGY.md",
+          "docs/tasks/RATES-012.md",
+          "server/CMakeLists.txt",
+          "server/include/subathon/server/credential_storage.hpp",
+          "server/src/credential_internal.hpp",
+          "server/src/credential_record.cpp",
+          "server/src/credential_repository_internal.hpp",
+          "server/src/credential_storage.cpp",
+          "server/src/rate_credentials.cpp",
+          "server/src/rate_credentials.hpp",
+          "tests/acceptance-map.json",
+          "tests/qt/CMakeLists.txt",
+          "tests/qt/rates_012/CMakeLists.txt",
+          "tests/qt/rates_012/README.md",
+          "tests/qt/rates_012/boundary.hpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:3cdd2b5d-5022-48c9-a50f-da7a72ef2304",
+            "revision": "5cd70f15afc77a0d9c3c59c19b130bdc943940b9",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/798#pullrequestreview-6011546035",
+            "findings": [
+              "R775-S2-B1",
+              "R775-S2-N1",
+              "R775-S2-N2",
+              "R775-S2-N3",
+              "R775-S2-N4",
+              "R775-S2-N5",
+              "R775-S2-N6",
+              "R775-S2-N7",
+              "R775-S2-N8",
+              "R775-S2-N9"
+            ],
+            "blocking_findings": [
+              "R775-S2-B1"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/rates012_revocation_test_review",
+            "revision": "45038d74d3d587c762372ae62544f6a7ba8157f5",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/798#pullrequestreview-6011546531",
+            "findings": [
+              "R775-S2-B1",
+              "R775-S2-N2"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/rates012_stage2_verify1",
+            "revision": "a3c06838acf72e08e7af073266eb6541712b00fa",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/798#pullrequestreview-6011546815",
+            "findings": [
+              "R775-S2-B1",
+              "R775-S2-N1",
+              "R775-S2-N2",
+              "R775-S2-N3",
+              "R775-S2-N4",
+              "R775-S2-N5",
+              "R775-S2-N6",
+              "R775-S2-N7",
+              "R775-S2-N8",
+              "R775-S2-N9"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:18a755f6-d140-4312-b86c-031023b1a762",
+            "revision": "a3c06838acf72e08e7af073266eb6541712b00fa",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/798#pullrequestreview-6011547162",
+            "findings": [
+              "R775-S2-B1",
+              "R775-S2-N1",
+              "R775-S2-N2",
+              "R775-S2-N3",
+              "R775-S2-N4",
+              "R775-S2-N5",
+              "R775-S2-N6",
+              "R775-S2-N7",
+              "R775-S2-N8",
+              "R775-S2-N9",
+              "R775-S2-C1"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/rates012_stage2_integration_verify",
+            "revision": "b7a9dd011b1b30523fbede3dd4616e468fedef87",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/798#pullrequestreview-6011630792",
+            "findings": [
+              "R775-S2-INT-1",
+              "R775-S2-INT-2",
+              "R775-S2-INT-3"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:3acb68f9-57cf-4647-a4df-051b036495b8",
+            "revision": "b7a9dd011b1b30523fbede3dd4616e468fedef87",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/798#pullrequestreview-6011631210",
+            "findings": [
+              "R775-S2-INT-C1",
+              "R775-S2-INT-C2",
+              "R775-S2-INT-C3",
+              "R775-S2-INT-C4",
+              "R775-S2-INT-C5",
+              "R775-S2-INT-C6"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  }
+}
