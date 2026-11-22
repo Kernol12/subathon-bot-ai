@@ -27,7 +27,9 @@ inline bool selected(const SqliteWorkSession &session) {
          "WHEN version=18 AND migration_id COLLATE BINARY='milestone-target-edits-v1' THEN 2 "
          "WHEN version=19 AND migration_id COLLATE BINARY='contribution-review-v1' THEN 2 "
          "WHEN version=20 AND typeof(migration_id)='text' "
-         "AND migration_id COLLATE BINARY='connector-intake-storage-v1' THEN 2 END "
+         "AND migration_id COLLATE BINARY='connector-intake-storage-v1' THEN 2 "
+         "WHEN version=21 AND typeof(migration_id)='text' AND migration_id COLLATE BINARY="
+         "'milestone-slot-interruption-storage-v1' THEN 3 END "
          "FROM main.subathon_migration_history WHERE EXISTS(SELECT 1 FROM main.subathon_catalog "
          "WHERE singleton=1 AND typeof(catalog_format)='integer' AND catalog_format=1 "
          "AND store_identity='subathon.sqlite-store') ORDER BY version DESC LIMIT 1",
@@ -35,7 +37,9 @@ inline bool selected(const SqliteWorkSession &session) {
     if (rows.size() != 1 || rows.front().front().isNull())
         throw SqliteBundleStorageFailure(SqliteBundleStorageReason::invalid_stored_data);
     const auto selected = milestone_sql::integer(rows.front().front());
-    if (selected == 2) {
+    if (selected == 3)
+        (void)session.execute({milestone_interruption_schema::probe, {}});
+    if (selected >= 2) {
         milestone_sql::require_edit_schema(session);
         (void)session.execute(
             {"SELECT f.operation_scope,f.operation_ref,f.payment,f.position,f.receipt_id,"

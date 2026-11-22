@@ -5,6 +5,7 @@
 #include "contribution_review_domain.hpp"
 #include "contribution_review_writer_access.hpp"
 
+#include <subathon/server/sqlite_milestone_interruption.hpp>
 #include <subathon/server/sqlite_connector_intake.hpp>
 
 namespace subathon::server::review_detail {
@@ -18,7 +19,8 @@ inline bool qualified(StorageLimits limits) {
 inline void catalog(const SqliteWorkSession &s) {
     using Catalog = terminal_partition::Catalog;
     const auto current = terminal_partition::catalog(s);
-    require(current == Catalog::review || current == Catalog::connector_intake);
+    require(current == Catalog::review || current == Catalog::connector_intake ||
+            current == Catalog::interruption);
     struct Expected {
         QList<QByteArray> hashes;
         MigrationManifest manifest;
@@ -47,13 +49,26 @@ inline void catalog(const SqliteWorkSession &s) {
     static const Expected review(contribution_review_repository_manifest());
     static const Expected connector(connector_intake_repository_manifest());
     const auto &expected = current == Catalog::review ? review : connector;
+    // Qualify v21 in the same attempt as the v20 prefix. Returning its
+    // history row would exceed the existing qualified Review profile.
+    static const auto interruption_tail = [] {
+        const auto manifest = milestone_slot_interruption_repository_manifest();
+        const auto &tail = manifest.steps.back();
+        return QString("WHERE version<>21 AND EXISTS(SELECT 1 FROM "
+                       "main.subathon_migration_history WHERE version=21 "
+                       "AND migration_id='milestone-slot-interruption-storage-v1' COLLATE BINARY "
+                       "AND content_sha256=X'") +
+               QString::fromLatin1(migration_content_sha256(tail).toHex()) + "') ";
+    }();
     const auto history = s.execute(
         {"SELECT version, "
          "CASE WHEN typeof(migration_id)='text' AND length(CAST(migration_id AS BLOB))<=? "
          "THEN CAST(migration_id AS BLOB) END, "
          "CASE WHEN typeof(content_sha256)='blob' AND length(content_sha256)=32 "
          "THEN content_sha256 END "
-         "FROM main.subathon_migration_history ORDER BY version LIMIT ?",
+         "FROM main.subathon_migration_history " +
+             (current == Catalog::interruption ? interruption_tail : QString{}) +
+             "ORDER BY version LIMIT ?",
          {expected.id_bytes, expected.hashes.size() + 1}});
     require(history.size() == expected.hashes.size());
     for (qsizetype n = 0; n < history.size(); ++n)

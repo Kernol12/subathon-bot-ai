@@ -61,24 +61,28 @@ struct DecisionLane {
     QString choices = "main.subathon_milestone_acceptance_decisions";
     QString refunds = "main.subathon_milestone_refund_decisions";
     bool edit = false;
+    bool interruptions = false;
 };
 
 DecisionLane lane(const SqliteWorkSession &session, const QByteArray &key) {
-    const auto current = catalog(session);
+    bool interruptions = false;
+    const auto current = catalog(session, &interruptions);
     if (current < Catalog::decisions)
         corrupt();
     if (current == Catalog::edits) {
         if (ed::occurrence(session, key))
             return {"main.subathon_milestone_edit_occurrences",
                     "main.subathon_milestone_edit_choices",
-                    "main.subathon_milestone_edit_refund_decisions", true};
+                    "main.subathon_milestone_edit_refund_decisions", true, interruptions};
         const auto app = session.execute(
             {"SELECT queue_order FROM main.subathon_milestone_groups WHERE occurrence_ref=?",
              {key}});
         if (const auto *row = unique_row(app))
             ed::check_application_identity(session, key, integer(row->front()));
     }
-    return {};
+    DecisionLane result;
+    result.interruptions = interruptions;
+    return result;
 }
 
 Disposition disposition(const SqliteWorkSession &session, const QByteArray &occurrence,
@@ -337,7 +341,9 @@ void SqliteMilestoneGroupDecisions::observe_refund(const MilestoneRefundObservat
             input.score_after_micro_points >= input.current_target_micro_points)
             return;
         const auto state = disposition(session_, occurrence, selected);
-        if (state == Disposition::absent_or_released || state == Disposition::skipped)
+        if (state == Disposition::absent_or_released || state == Disposition::skipped ||
+            (selected.interruptions && fenced(session_, selected.edit, occurrence,
+                                              stopped(selected.edit))))
             return;
 
         (void)session_.execute(

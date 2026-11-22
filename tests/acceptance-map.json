@@ -647,15 +647,17 @@
     },
     {
       "id": "MILE-04",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": ["tests/qt/storage_027/commands_tests.cpp", "tests/qt/storage_027/readers_tests.cpp"],
+      "evidence": [],
+      "scope": "STORAGE-027 exercises durable version selection, preview and exact unstarted-slot replacement. Live host command composition remains #294."
     },
     {
       "id": "MILE-05",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": ["tests/qt/storage_027/commands_tests.cpp", "tests/qt/storage_027/readers_tests.cpp"],
+      "evidence": [],
+      "scope": "STORAGE-027 exercises durable Stop, Continue/Hold, Resume, cancellation and exact playback intent and evidence on disposable SQLite. Timeline and live host composition remain #238 and #294."
     },
     {
       "id": "MILE-06",
