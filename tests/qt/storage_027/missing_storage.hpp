@@ -108,6 +108,10 @@ class CommandAuthority {
     };
     virtual ~CommandAuthority() = default;
     virtual std::optional<Facts> select(const SqliteWorkSession &, const Command &) = 0;
+    // The selected original action's version_ref identifies its immutable
+    // definition. Missing history supplies no substitute amount.
+    virtual std::optional<qint64>
+    historical_bonus_amount(const SqliteWorkSession &, const Occurrence &, const Replacement &) = 0;
 };
 
 // Disposable admission profile for the Stage 1 seam. Playback admission is
@@ -125,6 +129,8 @@ inline Preview preview_replace(const SqliteWorkSession &, CommandAuthority &, co
     return Disposition::not_implemented;
 }
 
+// An unused Replace key requires a current preview. A committed key uses the
+// journal's bound preview after authority and exact typed target/patch checks.
 inline Decision stage_command(const SqliteWorkSession &, CommandAuthority &, const Command &,
                               const ReplacePreview * = nullptr,
                               const AdmissionProfile * = nullptr) {

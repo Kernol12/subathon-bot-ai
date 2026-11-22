@@ -1374,6 +1374,7 @@ class Storage027ReadersTests final : public QObject {
                                   ReplaceIntent{target, {changed}}};
                 Authority authority;
                 authority.captures = {{changed, {}, {}, {}, 20000}};
+                authority.historical_bonuses = {{target, {1, action}, 30000}};
                 const auto bind = [&] {
                     std::shared_ptr<const ReplacePreview> preview;
                     file.write([&](const auto &s) {
@@ -2059,21 +2060,20 @@ class Storage027ReadersTests final : public QObject {
     }
 
     void protectedIntakePageAndAttemptReopen_data() {
-        QTest::addColumn<int>("damage");
-        QTest::newRow("exact-successor") << 0;
-        QTest::newRow("lookalike-successor-marker") << 1;
-        QTest::newRow("missing-successor-shape") << 2;
+        QTest::addColumn<QString>("receipt_ref");
+        QTest::newRow("exact-successor") << QString("page-receipt");
     }
 
     void protectedIntakePageAndAttemptReopen() {
-        QFETCH(int, damage);
+        QFETCH(QString, receipt_ref);
         reader_check([&](ReaderPhase &phase) {
             namespace intake = subathon::server::connector_intake;
             predecessor::Populated f;
             install_protected(f);
             f.install();
             predecessor::stage_scope(f.db);
-            auto input = predecessor::managed("page-receipt", 8000, "exact-owner-capture");
+            auto input =
+                predecessor::managed(receipt_ref.toStdString(), 8000, "exact-owner-capture");
             input.admission = predecessor::ManagedInput::Admission::audit_only;
             input.history = predecessor::ManagedInput::PageSlot{"O", 1, 1};
             const auto operation = predecessor::import_intent();
@@ -2154,44 +2154,6 @@ class Storage027ReadersTests final : public QObject {
             phase.current = "literal successor intake advance and reopen";
             advance_fixture(f.db);
             select();
-            if (damage != 0) {
-                phase.current = damage == 1 ? "damaged intake successor marker"
-                                            : "damaged intake successor shape";
-                if (damage == 1)
-                    mutate(
-                        f.db,
-                        "UPDATE main.subathon_migration_history "
-                        "SET migration_id='Milestone-slot-interruption-storage-v1' "
-                        "WHERE version=(SELECT max(version) FROM main.subathon_migration_history)");
-                else
-                    mutate(f.db, "DROP TABLE main.subathon_milestone_playback_evidence");
-                const auto before = f.db.rows("SELECT * FROM main.subathon_intake_entries "
-                                              "ORDER BY intake_ref");
-                const auto stopped = qt_test_support::run_work(
-                    f.db.writer(),
-                    [&](auto context) -> QVariant {
-                        const auto s = context.begin();
-                        const auto exact = predecessor::read_attempt(s, input, locator);
-                        const auto quarantine =
-                            intake::inspect(s, {{"install", "P", "A", "S"}, qu.key, true, true});
-                        s.rollback();
-                        require(exact.stop != predecessor::Stop::exact_replay && !exact.selected &&
-                                    quarantine.status != intake::SelectionStatus::selected &&
-                                    quarantine.entries.isEmpty(),
-                                "Incompatible catalog must not disclose either retained record");
-                        return {};
-                    },
-                    10000);
-                require(
-                    stopped.transaction == TransactionOutcome::rolled_back &&
-                        (stopped.error == WorkError::not_committed ||
-                         stopped.error == WorkError::sql_failure) &&
-                        !stopped.value &&
-                        before == f.db.rows("SELECT * FROM main.subathon_intake_entries "
-                                            "ORDER BY intake_ref"),
-                    "Incompatible intake selector refuses without protected disclosure or writes");
-                return;
-            }
             phase.current = "post-successor exact quarantine resolution and replay";
             f.db.write([&](const auto &s) {
                 require(

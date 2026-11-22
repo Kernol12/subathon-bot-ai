@@ -436,6 +436,135 @@ class Storage027CommandsTests final : public QObject {
         });
     }
 
+    void replaceAcknowledgementAfterReopen() {
+        check([] {
+            Populated f;
+            advance_fixture(f.db);
+            Authority owner;
+            const auto key = replace(f);
+            const auto fresh = [&] {
+                auto unused = key;
+                unused.operation = "fresh-replace-without-preview";
+                return unused;
+            }();
+            auto bound = bind_replace(f.db, owner, key);
+            (void)commit(f.db, owner, fresh, Disposition::refused);
+            require(journal(f.db).isEmpty() &&
+                        f.db.rows("SELECT version FROM main.subathon_milestone_slot_versions")
+                            .isEmpty(),
+                    "Eligible unused Replace needs its own preview and reserves no key without it");
+
+            auto competitor = key;
+            auto &different_slot = std::get<ReplaceIntent>(competitor.intent).patch.front();
+            different_slot.action.version_ref = "announce-v3";
+            Authority competitor_owner;
+            competitor_owner.captures.front().selection = different_slot;
+            const auto unrelated_preview = bind_replace(f.db, competitor_owner, competitor);
+
+            require(SqliteWriterWorkAccess::inject_next_control_ack_loss(
+                        f.db.writer(), WorkControlFault::lose_next_commit_ack) ==
+                        StorageError::none,
+                    "The next actual Replace COMMIT loses its acknowledgement");
+            std::optional<Decision> staged;
+            const auto uncertain = run(f.db, [&](const auto &s) {
+                staged = stage_command(s, owner, key, bound.get());
+                return *staged;
+            });
+            require(!uncertain.missing, "STORAGE-027 NI: Replace acknowledgement command seam");
+            require(staged && staged->disposition == Disposition::committed &&
+                        staged->versions.size() == 1 && !staged->versions[0].version.isEmpty() &&
+                        uncertain.entered && !uncertain.published && !uncertain.work.value &&
+                        uncertain.work.transaction == TransactionOutcome::outcome_unknown &&
+                        uncertain.work.error == WorkError::uncertain_outcome,
+                    "Lost acknowledgement suppresses publication of the physically committed "
+                    "selection");
+
+            bound.reset();
+            f.db.reopen(profile());
+            Authority current;
+            current.configuration = "later-owner-configuration";
+            current.captures.clear();
+            const auto state = [&] {
+                return std::array{journal(f.db),
+                                  f.db.rows("SELECT * FROM main.subathon_milestone_slot_versions"),
+                                  f.db.rows("SELECT * FROM main.subathon_milestone_slot_attempts")};
+            };
+            const auto saved = state();
+            require(saved[0].size() == 1 && saved[1].size() == 1 && saved[2].size() == 1,
+                    "Cold reconciliation has one original journal entry, version and queued event");
+            exact_same_result(read(f.db, current, key), *staged);
+            exact_same_result(commit(f.db, current, key, Disposition::replay), *staged);
+            exact_same_result(
+                commit(f.db, current, key, Disposition::replay, unrelated_preview.get()), *staged);
+
+            auto changed_origin = key;
+            std::get<ReplaceIntent>(changed_origin.intent).target.origin = f.original;
+            auto changed_target = key;
+            std::get<ReplaceIntent>(changed_target.intent).target = application(f);
+            for (const auto &changed : {competitor, changed_origin, changed_target}) {
+                require(read(f.db, current, changed).disposition == Disposition::conflict,
+                        "An authorized changed target or patch conflicts on cold readback");
+                (void)commit(f.db, current, changed, Disposition::conflict,
+                             unrelated_preview.get());
+            }
+            same_redaction(f.db, current, key, competitor, *staged);
+            require(read(f.db, current, competitor) == read(f.db, current, fresh),
+                    "Current disclosure denial redacts changed retained and unused readback alike");
+            current.disclosure = true;
+            current.command = false;
+            require(read(f.db, current, key).disposition == Disposition::denied,
+                    "Current execution authority also precedes exact retained readback");
+            require(state() == saved,
+                    "Cold replay, conflicts and denials preserve the original journal and history");
+        });
+    }
+
+    void staleReplacementCannotAppendFirstSuccessor() {
+        check([] {
+            Populated f;
+            advance_fixture(f.db);
+            Authority winning_owner;
+            const auto winning = replace(f);
+            auto competing = winning;
+            competing.operation = "competing-first-successor";
+            auto &other_slot = std::get<ReplaceIntent>(competing.intent).patch.front();
+            other_slot.action.version_ref = "announce-v3";
+            Authority competing_owner;
+            competing_owner.captures.front().selection = other_slot;
+            const auto first_preview = bind_replace(f.db, winning_owner, winning);
+            const auto stale_preview = bind_replace(f.db, competing_owner, competing);
+            require(journal(f.db).isEmpty(),
+                    "Both independent previews begin at the same original unstarted slot");
+
+            const auto first =
+                commit(f.db, winning_owner, winning, Disposition::committed, first_preview.get());
+            require(first.versions.size() == 1 && first.versions[0].ordinal == 1 &&
+                        !first.versions[0].version.isEmpty(),
+                    "The first serialized writer selects one exact successor");
+            const auto versions = [&] {
+                return f.db.rows("SELECT version,predecessor,replacement FROM "
+                                 "main.subathon_milestone_slot_versions");
+            };
+            const auto selected = versions();
+            const auto saved_journal = journal(f.db);
+            const auto attempts = [&] {
+                return f.db.rows("SELECT version,revision,state FROM "
+                                 "main.subathon_milestone_slot_attempts");
+            };
+            require(
+                selected.size() == 1 && selected[0][0].toByteArray() == first.versions[0].version &&
+                    selected[0][1].isNull() && selected[0][2].toByteArray() == winning.operation &&
+                    saved_journal.size() == 1 &&
+                    attempts() == SqlRows{{first.versions[0].version, 1, 0}},
+                "The first successor links the original NULL predecessor and its own queued event");
+            (void)commit(f.db, competing_owner, competing, Disposition::refused,
+                         stale_preview.get());
+            require(versions() == selected && saved_journal == journal(f.db) &&
+                        attempts() == SqlRows{{first.versions[0].version, 1, 0}},
+                    "Stale append creates no second first successor, journal key or queued event");
+        });
+    }
+
     void resumeSetReplay() {
         check([] {
             Populated f({.held = true, .third_target = true});
@@ -837,6 +966,7 @@ class Storage027CommandsTests final : public QObject {
                               ReplaceIntent{target, {patch}}};
             Authority port;
             port.captures = {{patch, {}, {}, {}, 20000}};
+            port.historical_bonuses = {{target, {1, f.action}, 30000}};
             const auto preview = bind_replace(f.db, port, cmd);
             BonusPorts bonus(f, winner == 1);
             const MilestoneBonusKey original{f.occurrence, 1};
@@ -1665,6 +1795,61 @@ class Storage027CommandsTests final : public QObject {
         });
     }
 
+    void bonusPreviewRequiresHistoricalRevision_data() {
+        QTest::addColumn<bool>("edit_origin");
+        QTest::newRow("application") << false;
+        QTest::newRow("edit") << true;
+    }
+
+    void bonusPreviewRequiresHistoricalRevision() {
+        QFETCH(bool, edit_origin);
+        check([&] {
+            BonusProducer f(edit_origin);
+            advance_fixture(f.db);
+            const auto target = f.target();
+            const Replacement replacement{1, {MilestoneActionKind::bonus, "award", "award-20"}};
+            const Command key{edit::track, "historical-bonus", edit::actor,
+                              ReplaceIntent{target, {replacement}}};
+            Authority owner;
+            owner.captures = {{replacement, {}, {}, {}, 20000}};
+            auto other_revision = f.action;
+            other_revision.version_ref = "another-immutable-award-revision";
+            owner.historical_bonuses = {{target, {1, other_revision}, 45000}};
+            const auto initial = f.main();
+            const auto expect_no_write = [&] {
+                require(
+                    f.main() == initial && journal(f.db).isEmpty() &&
+                        f.db.rows("SELECT version FROM main.subathon_milestone_slot_versions")
+                            .isEmpty() &&
+                        f.db.rows("SELECT version FROM main.subathon_milestone_version_bonus")
+                            .isEmpty() &&
+                        f.db.rows(edit_origin ? "SELECT effect_ref FROM main."
+                                                "subathon_milestone_edit_bonus_receipts"
+                                              : "SELECT effect_ref FROM main."
+                                                "subathon_milestone_bonus_receipts")
+                            .isEmpty(),
+                    "The missing historical revision changes no journal, version or bonus effect");
+            };
+            f.db.write([&](const auto &s) {
+                const auto selected = preview_replace(s, owner, key);
+                const auto *disposition = std::get_if<Disposition>(&selected);
+                require(!disposition || *disposition != Disposition::not_implemented,
+                        "STORAGE-027 NI: bonus preview with unavailable historical revision");
+                require(disposition && *disposition == Disposition::refused &&
+                            owner.historical_bonus_requests > 0,
+                        "Missing exact revision refuses despite both a new amount and a nearby "
+                        "revision");
+            });
+            expect_no_write();
+            owner.historical_bonuses.push_back({target, {1, f.action}, 30000});
+            const auto prior_calls = owner.historical_bonus_requests;
+            const auto preview = bind_replace(f.db, owner, key);
+            require(owner.historical_bonus_requests > prior_calls && preview,
+                    "Restoring only the exact original revision makes the same preview eligible");
+            expect_no_write();
+        });
+    }
+
     void bonusReplacementBudgetEdges_data() {
         QTest::addColumn<bool>("edit_origin");
         QTest::addColumn<int>("edge");
@@ -1690,6 +1875,7 @@ class Storage027CommandsTests final : public QObject {
                               ReplaceIntent{target, {patch}}};
             Authority authority;
             authority.captures = {{patch, {}, {}, {}, 20000}};
+            authority.historical_bonuses = {{target, {1, f.action}, 30000}};
             const auto preview = bind_replace(f.db, authority, cmd);
             const QByteArray queue = edit_origin ? "prefix-edit-bonus-edit" : "bonus-prefix";
             const wire::PreviewWitness witness{
@@ -1701,6 +1887,12 @@ class Storage027CommandsTests final : public QObject {
                 {},
                 {{1, {}, 0, {f.action, {}, {}, {}, 30000}, {patch.action, {}, {}, {}, 20000}}}};
             const auto intent = wire::intent(cmd, &witness);
+            require(authority.historical_bonus_requests > 0 &&
+                        intent.endsWith(QByteArray::fromHex(
+                            "02 00000005 6177617264 00000008 61776172642d3330 0000000000007530 "
+                            "02 00000005 6177617264 00000008 61776172642d3230 0000000000004e20")),
+                    "Exact old 30,000 and new 20,000 amounts occupy separate eight-byte capture "
+                    "fields");
             auto r = fixture_record(f.db, cmd, authority, &target);
             const auto expected = inspect_command_shape(
                 f.db, authority, cmd, preview.get(), [&](const auto &s, const auto &) {
@@ -2380,8 +2572,7 @@ class Storage027CommandsTests final : public QObject {
                             new_dispatch.calls == 1,
                         "Exact current successor can enter sending under its own route and sender");
             });
-            exact_same_result(commit(f.db, port, key, Disposition::replay, fresh_preview.get()),
-                              first);
+            exact_same_result(commit(f.db, port, key, Disposition::replay), first);
             require(f.db.rows("SELECT revision,state FROM main.subathon_milestone_slot_attempts "
                               "ORDER BY revision") == SqlRows{{1, 0}, {2, 1}},
                     "Replay after the successor starts retains exactly two revisions");

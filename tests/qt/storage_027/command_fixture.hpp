@@ -30,6 +30,13 @@ struct Authority final : CommandAuthority {
          QByteArray::fromHex("0082"),
          "local/new-route",
          "new-sender"}};
+    struct HistoricalBonus {
+        Occurrence target;
+        Replacement original_slot;
+        qint64 amount_ms;
+    };
+    std::vector<HistoricalBonus> historical_bonuses;
+    int historical_bonus_requests{};
     std::vector<PlaybackInstance> observed_playback;
     std::optional<PresentationObservation> presentation;
     std::optional<Facts> select(const SqliteWorkSession &, const Command &wanted) override {
@@ -38,6 +45,27 @@ struct Authority final : CommandAuthority {
             return std::nullopt;
         return Facts{command,  disclosure,        revision,       configuration, decision,
                      captures, observed_playback, "capability-1", presentation};
+    }
+
+    std::optional<qint64> historical_bonus_amount(const SqliteWorkSession &,
+                                                  const Occurrence &target,
+                                                  const Replacement &original_slot) override {
+        ++historical_bonus_requests;
+        const auto found = std::ranges::find_if(historical_bonuses, [&](const auto &entry) {
+            if (target.track != entry.target.track ||
+                target.occurrence != entry.target.occurrence ||
+                original_slot != entry.original_slot)
+                return false;
+            if (const auto *app = std::get_if<ApplicationOperationKey>(&target.origin)) {
+                const auto *other = std::get_if<ApplicationOperationKey>(&entry.target.origin);
+                return other && finance::same(*app, *other);
+            }
+            const auto *edit = std::get_if<MilestoneEditKey>(&entry.target.origin);
+            return edit && *edit == std::get<MilestoneEditKey>(target.origin);
+        });
+        if (found == historical_bonuses.end())
+            return std::nullopt;
+        return found->amount_ms;
     }
 };
 
