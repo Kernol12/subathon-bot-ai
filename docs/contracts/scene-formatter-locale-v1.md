@@ -40,23 +40,27 @@ authorization, closure and compatibility checks. LOCALE-002 #501 and LOCALE-003
 English fallback. Those choices, the host locale and personal number, date
 and currency preferences have no effect on Scene selection.
 
-**Version and catalog selection proposed for review.** Resolve registry v1
-through the existing exact 010 owner identity
-`subathon.scene-bindings-conditions-timeline.v1`. Associate that exact supported
-version in the trusted version registry with the reviewed Scene entries in
-one exact source catalog revision and with resources generated from that source.
-Record the qualifying pin after review. The pin establishes which IDs,
-declarations and locale forms were reviewed together. Unrelated catalog changes
-do not change the Scene selection. A later build can demonstrate the same
-Scene coverage by checking that the mapped IDs, declarations and required forms
-match the reviewed set. Apply 012's explicit compatibility/upgrade review to
-changes in the selected Scene interpretation. Review changed Scene wording
-against previously supported selections before shipping it. This proposal adds
-no blanket wire-version rule for catalog edits. A deliberate change of a
-Scene's selected locale or formatter interpretation uses fresh immutable
-content. An app upgrade alone cannot switch an existing Scene to a different
-selection. A missing exact supported version or dependency fails compatibility.
-Existing versioned references carry the selection without a new wire field or
+**Exact version and catalog selection.** The supported 010 owner identity
+`subathon.scene-bindings-conditions-timeline.v1` selects formatter registry v1.
+The reference catalog is [localization/messages.json](../../localization/messages.json)
+with source SHA-256 `341aa5c139e2a51d25183d5747b33c87cdfcff1659225783f4392bee155a87f4`.
+This pin records the exact JSON source for both generated representations.
+
+For that selection, freeze all dispatched Scene message IDs, parameter names
+and types, plural selectors, locale/form names, and exact decoded form text.
+A later catalog build qualifies for the same selection only if its generated
+Qt and browser forms on every intended output match those pinned records,
+including the text and placeholders. Unrelated catalog entries and translator
+descriptions may change without changing the selected Scene forms. Presence of
+a form alone is insufficient.
+
+A change to a selected Scene record's text or interpretation requires a new
+reviewed catalog pin and explicit compatibility and upgrade review under 012
+before any Scene can select it. The original selection retains its exact
+resources. A deliberate locale or formatter change creates fresh immutable
+content. An app upgrade preserves each existing Scene's selection. A missing
+exact supported version or dependency fails compatibility. Existing versioned
+references carry the initial selection without an additional wire field or
 package entry.
 
 ## 2. Built-in text
@@ -151,6 +155,7 @@ arguments against the single source in §2.
 | L07 · Full unsigned range | For each matching count kind, 0, 1, 2, 9223372036854775808 and 18446744073709551615 choose `other`, `one`, `other`, `other`, `other`. The Qt witnesses are 2, 1, 2, 2, 2. Named substitution preserves every visible digit. The two count IDs remain distinct. An unavailable quantity selects no plural form. A gift-count slot cannot format Bits quantity. |
 | L08 · Restore and version support | Publish an en revision, then a newly authored de revision. With valid head, rights and exact original resources, restore the first and observe the en selection. A client missing the original Scene catalog selection fails exact support even when it has a newer one. An unrecognized registry version with locale `en` also fails exact support. |
 | L09 · Unwrapped duration | At 90061251 ms, the whole-second formatter emits `25:01:01` in either locale and the fractional formatter emits `25:01:01.251` or `25:01:01,251`. |
+| L10 · Pinned forms | A later build changes a non-Scene catalog label only and both generated outputs still match every selected Scene record. The v1 selection remains eligible. Change the de Active form under the same selection in either output. That output fails exact support even when the ID and form remain present. |
 
 ## 5. Audit boundaries
 

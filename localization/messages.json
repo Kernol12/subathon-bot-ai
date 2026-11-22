@@ -116,7 +116,7 @@
     },
     {
       "id": "scene.pause.reason.false",
-      "description": "The selected pause reason is known to be absent from the effective reason set.",
+      "description": "The selected pause reason is known to be absent from the effective reason set. Adjacent authored text names the reason.",
       "parameters": {},
       "plural": null,
       "translations": {
@@ -126,7 +126,7 @@
     },
     {
       "id": "scene.pause.reason.true",
-      "description": "The selected pause reason is known to be in the effective reason set.",
+      "description": "The selected pause reason is known to be in the effective reason set. Adjacent authored text names the reason.",
       "parameters": {},
       "plural": null,
       "translations": {
@@ -166,12 +166,12 @@
     },
     {
       "id": "scene.support.count.gift",
-      "description": "Gift count on a Gift support row. Quantity contains the complete decimal digits. The selector chooses the form and is never displayed.",
+      "description": "Count of gifted subscriptions on a Gift support row. Quantity contains the complete decimal digits. The selector chooses the form and is never displayed.",
       "parameters": {"quantity": "text", "selector": "integer"},
       "plural": "selector",
       "translations": {
-        "en": {"one": "{quantity} gift", "other": "{quantity} gifts"},
-        "de": {"one": "{quantity} Geschenk", "other": "{quantity} Geschenke"}
+        "en": {"one": "{quantity} gifted subscription", "other": "{quantity} gifted subscriptions"},
+        "de": {"one": "{quantity} Geschenkabo", "other": "{quantity} Geschenkabos"}
       }
     },
     {
@@ -196,12 +196,12 @@
     },
     {
       "id": "scene.support.kind.gift",
-      "description": "Kind label for a recent-support row with the admitted Gift classification.",
+      "description": "Kind label for a recent-support row classified as a gifted subscription or bundle of gifted subscriptions.",
       "parameters": {},
       "plural": null,
       "translations": {
-        "en": {"text": "Gift"},
-        "de": {"text": "Geschenk"}
+        "en": {"text": "Gifted subscription"},
+        "de": {"text": "Geschenkabo"}
       }
     },
     {

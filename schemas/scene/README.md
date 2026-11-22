@@ -25,10 +25,12 @@ for the corresponding domain, profile and publication checks.
   own opacity and local clipping to its text, then apply the node opacity and
   clip to the layout composite. Renderer conformance still needs independent
   examples including overlapping text, overlapping rows and node opacity.
-- R9 requires the Scene formatting registry's authority and first production
-  members. Carry this into the [CONTRACT-008 audit](https://github.com/Kernol12/subathon-bot-ai/issues/160)
-  before semantic registry validation. The fixture IDs `en` and `de` are synthetic
-  inputs and provide no production membership evidence.
+- R9's authority and initial `en` and `de` rules are specified by the
+  [Scene formatter locale contract](../../docs/contracts/scene-formatter-locale-v1.md)
+  under owner decision 160. The existing JSON translation catalog supplies
+  built-in label text. Semantic validation and exact catalog support on both
+  renderers still need their owning checks. The selected-closure fixture
+  retains its synthetic locale premises.
 - The owning validators still determine exact reference closure, bounds, media
   inspection, rights and publication eligibility. Platform and deployment
   compatibility have separate evidence gates.

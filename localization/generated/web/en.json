@@ -126,8 +126,8 @@
       },
       "plural": "selector",
       "forms": {
-        "one": "{quantity} gift",
-        "other": "{quantity} gifts"
+        "one": "{quantity} gifted subscription",
+        "other": "{quantity} gifted subscriptions"
       }
     },
     "scene.support.kind.bits": {
@@ -148,7 +148,7 @@
       "parameters": {},
       "plural": null,
       "forms": {
-        "text": "Gift"
+        "text": "Gifted subscription"
       }
     },
     "scene.support.kind.subscription": {

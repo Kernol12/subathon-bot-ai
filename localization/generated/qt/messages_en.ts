@@ -59,12 +59,12 @@
     </message>
     <message id="scene.pause.reason.false">
       <source>Not in effect</source>
-      <extracomment>The selected pause reason is known to be absent from the effective reason set.</extracomment>
+      <extracomment>The selected pause reason is known to be absent from the effective reason set. Adjacent authored text names the reason.</extracomment>
       <translation>Not in effect</translation>
     </message>
     <message id="scene.pause.reason.true">
       <source>In effect</source>
-      <extracomment>The selected pause reason is known to be in the effective reason set.</extracomment>
+      <extracomment>The selected pause reason is known to be in the effective reason set. Adjacent authored text names the reason.</extracomment>
       <translation>In effect</translation>
     </message>
     <message id="scene.pause.stream_unknown_notice.false">
@@ -86,11 +86,11 @@
       </translation>
     </message>
     <message id="scene.support.count.gift" numerus="yes">
-      <source>{quantity} gifts</source>
-      <extracomment>Gift count on a Gift support row. Quantity contains the complete decimal digits. The selector chooses the form and is never displayed.</extracomment>
+      <source>{quantity} gifted subscriptions</source>
+      <extracomment>Count of gifted subscriptions on a Gift support row. Quantity contains the complete decimal digits. The selector chooses the form and is never displayed.</extracomment>
       <translation>
-        <numerusform>{quantity} gift</numerusform>
-        <numerusform>{quantity} gifts</numerusform>
+        <numerusform>{quantity} gifted subscription</numerusform>
+        <numerusform>{quantity} gifted subscriptions</numerusform>
       </translation>
     </message>
     <message id="scene.support.kind.bits">
@@ -104,9 +104,9 @@
       <translation>Donation</translation>
     </message>
     <message id="scene.support.kind.gift">
-      <source>Gift</source>
-      <extracomment>Kind label for a recent-support row with the admitted Gift classification.</extracomment>
-      <translation>Gift</translation>
+      <source>Gifted subscription</source>
+      <extracomment>Kind label for a recent-support row classified as a gifted subscription or bundle of gifted subscriptions.</extracomment>
+      <translation>Gifted subscription</translation>
     </message>
     <message id="scene.support.kind.subscription">
       <source>Subscription</source>
