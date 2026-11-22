@@ -11,10 +11,18 @@
 #include <variant>
 #include <vector>
 
+#include <subathon/core/application_plan.hpp>
+#include <subathon/core/contribution.hpp>
 #include <subathon/core/downtime_recovery.hpp>
+#include <subathon/core/milestone_progression.hpp>
 #include <subathon/core/modifier_clock.hpp>
+#include <subathon/core/pause_policy.hpp>
+#include <subathon/core/rate_snapshot.hpp>
 #include <subathon/core/refund_entitlement.hpp>
+#include <subathon/core/rule_actions.hpp>
 #include <subathon/core/rule_chain.hpp>
+#include <subathon/core/time_debt.hpp>
+#include <subathon/core/timer_lifecycle.hpp>
 #include <subathon/server/connector_lifecycle.hpp>
 #include <subathon/server/milestone_timeline.hpp>
 #include <subathon/server/modifier_stacking.hpp>
@@ -197,6 +205,8 @@ using TurnInput =
     std::variant<EventTurn, TimeCut, PauseControl, RefundTurn, TimelineTurn, GroupReadback,
                  ConnectorReport, DeliveryTurn, UnitReconciliation, RestartTurn>;
 
+// For an EventTurn, ref is the modeled chain unit ref. The event binding
+// supplies the chain key and event anchor for the event_pass unit.
 struct OwnerTurn {
     std::string ref;
     ClockSample sample;
