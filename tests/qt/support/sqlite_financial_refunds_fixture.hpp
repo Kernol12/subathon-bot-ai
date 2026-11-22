@@ -156,6 +156,7 @@ struct OriginalCredit {
     bool milestone{false};
     bool ready{false};
     std::optional<Number> beside_complete_request{};
+    std::string milestone_job_ref{"original-job"};
 };
 
 inline core::RequestedEffect request(Unit unit, Number units, std::string target) {
@@ -383,14 +384,14 @@ class File final {
             b.result = document();
             b.audit = audit("original");
             if (credit.milestone) {
-                b.jobs.push_back({"original-job",
+                b.jobs.push_back({credit.milestone_job_ref,
                                   {},
                                   achievement.ref,
                                   1,
                                   {delivery_job_format, "synthetic-action"}});
                 const auto result = SqliteDeliveryJobStore(s).stage(
                     b,
-                    {{"original-job", "local-fixture", DeliverySenderSelection::configured_default,
+                    {{credit.milestone_job_ref, "local-fixture", DeliverySenderSelection::configured_default,
                       "fixture-sender", "achievement-action", "achievement-v1"}});
                 require(result.disposition == SqliteBundleStageDisposition::staged,
                         "Real original and job capture staged in one unit");
@@ -400,7 +401,7 @@ class File final {
                        {{MilestoneActionKind::automation, "achievement-action", "achievement-v1"}},
                        {},
                        achievement},
-                      {{1, {original, "original-job"}}}}});
+                      {{1, {original, credit.milestone_job_ref}}}}});
             } else {
                 require(store.stage(b).disposition == SqliteBundleStageDisposition::staged,
                         "Real original bundle staged");
