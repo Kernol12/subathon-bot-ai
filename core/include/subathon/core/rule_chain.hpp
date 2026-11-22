@@ -1,8 +1,18 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 
+#include <cstddef>
+#include <cstdint>
+#include <functional>
 #include <memory>
+#include <optional>
+#include <span>
+#include <stdexcept>
+#include <string>
+#include <string_view>
 #include <subathon/core/rule_actions.hpp>
+#include <variant>
+#include <vector>
 
 namespace subathon::core::rule_chain {
 
@@ -109,6 +119,8 @@ struct BlockedUnit {
     BlockReason reason;
 };
 
+// Complete projection selected by the modeled owner. Durable state and
+// authoritative recovery belong to RULES-007 (#776).
 struct ModeledHistory {
     RootBinding root;
     std::string admission;

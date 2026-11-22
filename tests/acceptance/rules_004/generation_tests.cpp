@@ -287,6 +287,29 @@ TEST(Rules004, G10RetainedHistoryRestoresExactCutoffAndFinishedClaims) {
     corrupt.publications.back().identity.unit = "pass-E1";
     EXPECT_EQ(std::get<OpenRefusal>(open_chain(f.binding, profile, corrupt, f.owner.view())),
               OpenRefusal::conflict);
+
+    corrupt = expected;
+    corrupt.events[2].depth = 1;
+    EXPECT_EQ(std::get<OpenRefusal>(open_chain(f.binding, profile, corrupt, f.owner.view())),
+              OpenRefusal::conflict);
+    corrupt = expected;
+    std::swap(corrupt.events[1], corrupt.events[2]);
+    corrupt.events[1].ordinal = 1;
+    corrupt.events[2].ordinal = 2;
+    EXPECT_EQ(std::get<OpenRefusal>(open_chain(f.binding, profile, corrupt, f.owner.view())),
+              OpenRefusal::conflict);
+    corrupt = expected;
+    corrupt.cutoff->last = expected.events[1];
+    corrupt.publications[1].cutoff = corrupt.cutoff;
+    corrupt.publications[2].named_suppressions[0].stop = *corrupt.cutoff;
+    EXPECT_EQ(std::get<OpenRefusal>(open_chain(f.binding, profile, corrupt, f.owner.view())),
+              OpenRefusal::conflict);
+    corrupt = expected;
+    corrupt.cutoff->reason = CutoffReason::depth;
+    corrupt.publications[1].cutoff = corrupt.cutoff;
+    corrupt.publications[2].named_suppressions[0].stop = *corrupt.cutoff;
+    EXPECT_EQ(std::get<OpenRefusal>(open_chain(f.binding, profile, corrupt, f.owner.view())),
+              OpenRefusal::conflict);
 }
 
 } // namespace

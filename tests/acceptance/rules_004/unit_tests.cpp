@@ -168,6 +168,43 @@ TEST(Rules004, G6UncertainCompletionWaitsForExactOwnerReadback) {
     }
 }
 
+TEST(Rules004, G6ReadbackWithoutExactUnitKeepsReservationHeld) {
+    for (const bool missing_selected_unit : {true, false}) {
+        SCOPED_TRACE(missing_selected_unit);
+        Transaction f;
+        auto opened = f.start();
+        auto unit = std::get<Unit>(begin_event(opened.chain, f.e1, f.attempt.unit));
+        const auto staged = std::get<RuleStagedPass>(f.stage(unit));
+        ASSERT_TRUE(std::holds_alternative<Unresolved>(
+            finish_unit(std::move(unit), staged, RuleCompletion::outcome_unknown)));
+        const auto before = f.owner.handled;
+
+        // The earlier root pass and E1 are known committed. This readback
+        // supplies no evidence for the selected E1 pass or its contested E2.
+        auto prefix = f.committed_readback();
+        prefix.events.pop_back();
+        prefix.publications.pop_back();
+        prefix.cutoff.reset();
+        auto wrong_rollback = f.attempt;
+        wrong_rollback.anchor = f.binding.event.event;
+        const UnitReadback evidence =
+            missing_selected_unit ? UnitReadback{prefix} : UnitReadback{wrong_rollback};
+        const auto result = reconcile_unit(opened.chain, f.attempt.unit, evidence);
+        EXPECT_FALSE(std::holds_alternative<Publication>(result));
+        EXPECT_FALSE(std::holds_alternative<RolledBack>(result));
+        EXPECT_EQ(std::get<BeginDisposition>(begin_event(opened.chain, f.e1, "held-retry")),
+                  BeginDisposition::in_flight_hold);
+        const auto contested = lookup_child(opened.chain, f.e2);
+        EXPECT_FALSE(std::holds_alternative<NotRecorded>(contested));
+        EXPECT_FALSE(std::holds_alternative<Duplicate>(contested));
+        EXPECT_EQ(f.owner.handled, before);
+
+        ASSERT_TRUE(std::holds_alternative<RolledBack>(
+            reconcile_unit(opened.chain, f.attempt.unit, f.attempt)));
+        f.retry(opened.chain);
+    }
+}
+
 TEST(Rules004, G6bNamedFaultLatchesDespiteOrdinaryCommittedReport) {
     for (const auto fault : {NamedFault::unknown, NamedFault::wrong_parent}) {
         const bool unknown = fault == NamedFault::unknown;

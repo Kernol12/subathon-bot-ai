@@ -62,7 +62,13 @@ TEST(Rules004, G5CommittedMilestoneReleasesInterleaveInOwnerTurnOrder) {
         owner.keep(d, "d");
         owner.keep(n, "n");
         auto opened = std::get<OpenedChain>(owner.open(r));
+        EXPECT_EQ(std::get<BeginDisposition>(
+                      begin_occurrences(opened.chain, "unadmitted", "release-unadmitted")),
+                  BeginDisposition::not_admitted);
         auto unit = std::get<Unit>(begin_event(opened.chain, r.event, "pass-R"));
+        EXPECT_EQ(
+            std::get<BeginDisposition>(begin_occurrences(opened.chain, "R", "release-in-flight")),
+            BeginDisposition::in_flight_hold);
         const auto plan = plan_event(unit, owner.mapper());
         const auto staged =
             std::get<RuleStagedPass>(owner.consume(unit, r.event, plan, {{"emit-d", {d, "d"}}}));

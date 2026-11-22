@@ -115,6 +115,63 @@ TEST(Rules004, G9ExternalReductionRequiresNewActivationAndRetainsAdmittedPolicy)
     }
 }
 
+TEST(Rules004, G9StoredCutoffPrecedesUnsupportedRetainedPolicy) {
+    Owner owner;
+    auto admitted_profile = profile;
+    admitted_profile.maximum = {64, 512};
+    auto reduced = admitted_profile;
+    reduced.maximum = {40, 512};
+    owner.define("C", {41, 1},
+                 {named_rule("Seed", "seed", {emit("emit-child", "child")}),
+                  named_rule("Next", "child", {emit("emit-extra", "extra")})});
+    ASSERT_EQ(owner.activate("C", admitted_profile), PolicyCheck::supported);
+    EXPECT_EQ(check_generation_policy(owner.configurations.at("C"), reduced),
+              PolicyCheck::exceeds_profile);
+    const auto r = root();
+    const auto first_action = key("Seed", "emit-child");
+    const auto next_action = key("Next", "emit-extra");
+    const auto e1 = child(r.event, "E1", NamedAction{first_action});
+    const auto e2 = child(e1, "E2", NamedAction{next_action});
+    owner.keep(r.event, "seed");
+    owner.keep(e1, "child");
+    owner.keep(e2, "extra");
+
+    const AdmittedEvent first{e1, 1, 1};
+    const Cutoff cutoff{{"I", "R"}, "CR", first, {41, 1}, CutoffReason::count};
+    {
+        auto initial = std::get<OpenedChain>(owner.open(r, admitted_profile));
+        const auto pub =
+            owner.run(initial.chain, r.event, "pass-R", {{"emit-child", {e1, "child"}}});
+        EXPECT_EQ(pub.children, (std::vector{first}));
+        ASSERT_TRUE(pub.cutoff);
+        expect_cutoff(*pub.cutoff, cutoff);
+    }
+
+    const RuleCommittedPass source{{{0, {{first_action, lineage(e1)}}, {}}}};
+    const ModeledHistory selected{
+        r,
+        "admit-R",
+        admitted_profile,
+        {{r.event, 0, 0}, first},
+        {{event_unit("pass-R", r.event), source, {first}, {}, {}, cutoff}},
+        cutoff,
+        {}};
+    auto retained = std::get<OpenedChain>(open_chain(r, reduced, selected, owner.view()));
+    EXPECT_EQ(retained.committed_children, 1U);
+    ASSERT_TRUE(retained.cutoff);
+    expect_cutoff(*retained.cutoff, cutoff);
+    const auto pub = owner.run(retained.chain, e1, "pass-E1", {{"emit-extra", {e2, "extra"}}});
+    ASSERT_EQ(pub.pass->rules.size(), 1U);
+    EXPECT_TRUE(pub.pass->rules.front().accepted.empty());
+    expect_owner_stop(pub.pass->rules.front(), 0, "generation_cutoff");
+    expect_suppression(pub, next_action, cutoff);
+    EXPECT_EQ(owner.offered, (std::vector{first_action, next_action}));
+    EXPECT_EQ(owner.handled, (std::vector{first_action}));
+    EXPECT_EQ(owner.queued, (std::vector{first}));
+    EXPECT_EQ(owner.notices, (std::vector{std::pair{ChainKey{"I", "R"}, 1U}}));
+    EXPECT_TRUE(std::holds_alternative<NotRecorded>(lookup_child(retained.chain, e2)));
+}
+
 TEST(Rules004, InvalidProfilePrecedesSelectionAndCapacityIsAnOwnerHold) {
     Owner owner;
     const auto &configuration = owner.define("C", {}, {});
@@ -187,7 +244,9 @@ TEST(Rules004, PendingCeilingCountsProvisionalSlotsWithoutGenerationCutoff) {
                           NamedConfirmation::verified);
                 return result;
             }
-            return RuleOwnerRefusal{"fixture-cannot-hold"};
+            // End this checked fixture pass after inspecting the typed decision.
+            // r3 leaves the production #208 capacity mapping open.
+            return RuleOwnerRefusal{"fixture-end-after-child-decision"};
         });
     ASSERT_TRUE(std::holds_alternative<RuleStagedPass>(pass));
     ASSERT_EQ(decisions.size(), 2U);
@@ -198,6 +257,41 @@ TEST(Rules004, PendingCeilingCountsProvisionalSlotsWithoutGenerationCutoff) {
     EXPECT_TRUE(std::holds_alternative<NotRecorded>(lookup_child(opened.chain, c1)));
     EXPECT_TRUE(std::holds_alternative<NotRecorded>(lookup_child(opened.chain, c2)));
     EXPECT_TRUE(owner.notices.empty());
+}
+
+TEST(Rules004, OwnedBytesPressureHoldsTypedGrowthOffer) {
+    Owner owner;
+    owner.define("C", {}, {named_rule("F", "seed", {emit("one", "leaf")})});
+    owner.active = "C";
+    const auto r = root();
+    const auto proposed = child(r.event, "E1", NamedAction{key("F", "one")});
+    owner.keep(r.event, "seed");
+    owner.keep(proposed, "leaf");
+    auto opened = std::get<OpenedChain>(owner.open(r));
+    auto unit = std::get<Unit>(begin_event(opened.chain, r.event, "pass-R"));
+    const auto plan = plan_event(unit, owner.mapper());
+    std::vector<ChildDecision> decisions;
+    const auto staged = consume_rule_actions(
+        plan, owner.checks(""),
+        [&](const RuleEventLineage &, const RuleActionKey &action, const RuleBoundAction &bound,
+            std::string_view) -> RuleOwnerResult {
+            // The owner ledger becomes saturated after begin. This exercises
+            // the offer's own preflight without guessing per-record byte costs.
+            owner.other.owned_bytes = profile.owned_bytes;
+            decisions.push_back(
+                offer_named_child(unit, proposed, action, std::get<RuleNamedEvent>(bound.payload)));
+            owner.other.owned_bytes = 0;
+            return RuleOwnerRefusal{"fixture-end-after-child-decision"};
+        });
+    ASSERT_EQ(decisions.size(), 1U);
+    EXPECT_TRUE(std::holds_alternative<CapacityHold>(decisions.front()));
+    EXPECT_TRUE(std::holds_alternative<RolledBack>(finish_unit(
+        std::move(unit), std::get<RuleStagedPass>(staged), RuleCompletion::rolled_back)));
+    EXPECT_TRUE(std::holds_alternative<NotRecorded>(lookup_child(opened.chain, proposed)));
+
+    const auto retry = owner.run(opened.chain, r.event, "retry-R", {{"one", {proposed, "leaf"}}});
+    EXPECT_EQ(retry.children, (std::vector{AdmittedEvent{proposed, 1, 1}}));
+    EXPECT_FALSE(retry.cutoff);
 }
 
 } // namespace
