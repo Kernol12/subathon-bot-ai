@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "command_charge_oracle.hpp"
 #include "command_fixture.hpp"
+#include "terminal_charge_oracle.hpp"
 
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
 
@@ -1254,6 +1255,68 @@ class Storage027CommandsTests final : public QObject {
         });
     }
 
+    void releasedStopPresentationKnowledge_data() {
+        QTest::addColumn<QString>("state");
+        for (const auto *state : {"missing-current-generation", "known-expired", "denied",
+                                  "active-presentation", "independent-queued-work"})
+            QTest::newRow(state) << QString(state);
+    }
+
+    void releasedStopPresentationKnowledge() {
+        QFETCH(QString, state);
+        check([&] {
+            const bool queued = state == "independent-queued-work";
+            Populated f;
+            release_application(f);
+            if (queued)
+                release_edit(f);
+            advance_fixture(f.db);
+            Authority owner;
+            const auto target = queued ? edited(f) : application(f);
+            owner.presentation =
+                PresentationObservation{target, "presentation", "timeline", "timeline", "owner",
+                                        0,      10000,          1800,       "owner",    1700};
+            if (state == "missing-current-generation" || state == "denied" || queued)
+                owner.presentation->current_generation.clear();
+            if (state == "known-expired")
+                owner.presentation->observed_ms = owner.presentation->expiry_ms;
+            if (state == "denied")
+                owner.disclosure = false;
+
+            const auto cmd = stop("presentation-knowledge", target, QueueChoice::continue_queue);
+            const auto retained = [&] {
+                return std::array{
+                    journal(f.db),
+                    causes(f.db),
+                    cancellations(f.db, cmd.operation),
+                    f.db.rows("SELECT * FROM main.subathon_milestone_stop_fences"),
+                    f.db.rows("SELECT * FROM main.subathon_milestone_playback_instances"),
+                    f.db.rows("SELECT released FROM main.subathon_milestone_groups"),
+                    f.db.rows("SELECT released FROM main.subathon_milestone_edit_occurrences")};
+            };
+            const auto before = retained();
+            const auto result =
+                run(f.db, [&](const auto &s) { return stage_command(s, owner, cmd); });
+            const auto expected = state == "denied"                       ? Disposition::denied
+                                  : state == "known-expired"              ? Disposition::refused
+                                  : state == "missing-current-generation" ? Disposition::unavailable
+                                                                          : Disposition::committed;
+            if (expected != Disposition::committed)
+                require(retained() == before, "Presentation refusal preserves every retained row");
+            require(
+                result.published && result.published->disposition == expected,
+                "V2 released Stop distinguishes incomplete owner knowledge from expiry and denial");
+            if (expected == Disposition::committed) {
+                const auto cancelled =
+                    queued ? std::vector<SelectedVersion>{{1, {}}} : std::vector<SelectedVersion>{};
+                require(result.published->cancellations == cancelled &&
+                            result.published->playback_intents.empty() &&
+                            result.published->added_causes.empty(),
+                        "Positive presentation or independent queue admits the exact Stop");
+            }
+        });
+    }
+
     void stopVersusProtectedRelease_data() {
         QTest::addColumn<bool>("stop_first");
         QTest::newRow("stop-before-release") << true;
@@ -2444,13 +2507,22 @@ class Storage027CommandsTests final : public QObject {
     void stopLargeClosure_data() {
         QTest::addColumn<int>("slot_count");
         QTest::addColumn<bool>("ordinary");
-        QTest::newRow("ordinary-application-without-acceptance") << 1 << true;
-        QTest::newRow("application-wide-t4") << 256 << false;
+        QTest::addColumn<int>("edge");
+        constexpr std::array axes{"exact",           "attempts-minus-one", "peak-minus-one",
+                                  "binds-minus-one", "rows-minus-one",     "values-minus-one"};
+        for (const bool ordinary : {true, false})
+            for (int n = 0; n < int(axes.size()); ++n) {
+                const auto name = QByteArray(ordinary ? "ordinary-application-without-acceptance"
+                                                      : "application-wide-t4") +
+                                  "/" + axes[n];
+                QTest::newRow(name.constData()) << (ordinary ? 1 : 256) << ordinary << n - 1;
+            }
     }
 
     void stopLargeClosure() {
         QFETCH(int, slot_count);
         QFETCH(bool, ordinary);
+        QFETCH(int, edge);
         check([&] {
             namespace meter = charge_oracle;
             namespace wire = frame_oracle;
@@ -2491,13 +2563,26 @@ class Storage027CommandsTests final : public QObject {
                 expected.cancellations.push_back({n, {}});
             record.result = wire::result(wire::Kind::stop, expected).size();
             const meter::Slot original{4096, 2, 0, 0, 0, 0, 0, 0, 0, 0, true, false};
-            const auto charge = meter::plan(meter::Branch::stop_continue, record,
-                                            std::vector<meter::Slot>(slot_count, original));
+            const auto proof = terminal_charge_oracle::application_stop_proof(f);
+            const auto charge =
+                meter::combine(meter::plan(meter::Branch::stop_continue, record,
+                                           std::vector<meter::Slot>(slot_count, original)),
+                               proof);
+            qInfo() << "158A application Stop (attempts, peak, binds, rows, values):"
+                    << charge.attempts << charge.peak << charge.binds << charge.rows
+                    << charge.results;
+            std::optional<SqliteBundleStorageReason> proof_refusal;
             const auto invoke = [&](StorageLimits limits) {
                 f.db.reopen(limits);
                 const AdmissionProfile profile{limits, {}};
+                proof_refusal.reset();
                 const auto result = run(f.db, [&](const auto &session) {
-                    return stage_command(session, port, key, nullptr, &profile);
+                    try {
+                        return stage_command(session, port, key, nullptr, &profile);
+                    } catch (const SqliteBundleStorageFailure &failure) {
+                        proof_refusal = failure.reason();
+                        throw;
+                    }
                 });
                 require(!result.missing, "STORAGE-027 NI: exact bounded ordinary application Stop");
                 return result;
@@ -2507,16 +2592,19 @@ class Storage027CommandsTests final : public QObject {
                                      reply.published->disposition == Disposition::resource_limit &&
                                      reply.published->cancellations.empty();
                 const bool metered = reply.work.transaction == TransactionOutcome::rolled_back &&
-                                     reply.work.error == WorkError::result_limit &&
-                                     !reply.published;
+                                     !reply.published &&
+                                     (reply.work.error == WorkError::result_limit ||
+                                      reply.work.error == WorkError::resource_limit ||
+                                      proof_refusal == SqliteBundleStorageReason::result_limit ||
+                                      proof_refusal == SqliteBundleStorageReason::resource_limit);
                 require((bounded || metered) && journal(f.db).empty() &&
                             cancellations(f.db, key.operation).empty() && causes(f.db).empty() &&
                             f.db.rows("SELECT released FROM main.subathon_milestone_groups") ==
                                 SqlRows{{0}},
-                        "Result-byte refusal leaves no selected prefix, release, journal or "
+                        "158A complete application Stop refusal leaves no release, journal or "
                         "cancellation");
             };
-            if (slot_count == 256) {
+            if (slot_count == 256 && edge == -1) {
                 constexpr qsizetype per_ref = 8 + 4096;
                 static_assert(255 * per_ref == 1046520 && 256 * per_ref == 1050624);
                 static_assert(1048576 - 255 * per_ref == 2056 && 256 * per_ref - 1048576 == 2048);
@@ -2524,7 +2612,8 @@ class Storage027CommandsTests final : public QObject {
                 auto fixed_record = record;
                 fixed_record.result =
                     wire::result(wire::Kind::stop, {Disposition::committed, {}, {}, {}, {}}).size();
-                const auto fixed = meter::plan(meter::Branch::stop_continue, fixed_record);
+                const auto fixed =
+                    meter::combine(meter::plan(meter::Branch::stop_continue, fixed_record), proof);
                 auto repeated = member;
                 repeated.binds +=
                     9; // Each original ordinal and absent version in the bound result.
@@ -2533,17 +2622,29 @@ class Storage027CommandsTests final : public QObject {
                         "result");
                 auto allowance = charge;
                 allowance.results = 1048576;
-                require(
-                    meter::cap(fixed, repeated, allowance, meter::action_limit) == 251 &&
-                        charge.results > allowance.results,
-                    "With every other dimension qualified the actual Stop limit is result bytes");
+                const auto max_slots = (allowance.results - fixed.results) / 4168;
+                require(repeated.results == 4168 && max_slots >= 0 && max_slots < 251 &&
+                            meter::cap(fixed, repeated, allowance, meter::action_limit) ==
+                                max_slots &&
+                            fixed.results + max_slots * 4168 <= allowance.results &&
+                            fixed.results + (max_slots + 1) * 4168 > allowance.results,
+                        "158A the 1 MiB cap includes the complete fixed terminal proof");
+                qInfo() << "158A T4 fixed result bytes and 1 MiB slot cap:" << fixed.results
+                        << max_slots;
                 const StorageLimits default_value_budget{64, 4096, 65536, 16777216, 8192, 1048576};
                 refused(invoke(default_value_budget));
                 refused(invoke(meter::limits(allowance)));
             }
-            const StorageLimits one_below_values{64,       4096, 65536,
-                                                 16777216, 8192, charge.results - 1};
-            refused(invoke(one_below_values));
+            if (edge >= 0) {
+                constexpr std::array axes{
+                    &StorageLimits::statements_per_batch, &StorageLimits::statement_utf8_bytes,
+                    &StorageLimits::bound_value_bytes, &StorageLimits::result_rows,
+                    &StorageLimits::result_value_bytes};
+                auto limits = meter::limits(charge);
+                --(limits.*axes.at(edge));
+                refused(invoke(limits));
+                return;
+            }
             const auto exact = invoke(meter::limits(charge));
             require(exact.published && *exact.published == expected &&
                         cancellations(f.db, key.operation).size() == slot_count &&
