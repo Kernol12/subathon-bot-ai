@@ -2,6 +2,8 @@
 #include "../storage_027/command_fixture.hpp"
 #include "../support/sqlite_live_financial_refunds_fixture.hpp"
 
+#include <optional>
+
 namespace {
 using namespace storage_027_fixture;
 namespace live = live_financial_refund_fixture;
@@ -17,6 +19,47 @@ template <class Body> void check(Body body) {
     } catch (const std::exception &error) {
         QFAIL(error.what());
     }
+}
+
+void require_defer_history(const SqliteWorkSession &session, bool edit_origin,
+                           std::optional<MilestoneDecisionEvidence> skip_resolution = std::nullopt,
+                           std::optional<MilestoneSkipProvenance> ended_by_skip = std::nullopt) {
+    const auto acceptance = SqliteMilestoneGroupDecisions(session).acceptance_audit(edit::a);
+    const auto resolution =
+        skip_resolution ? std::optional{MilestoneHoldResolution::skip} : std::nullopt;
+    if (!edit_origin) {
+        require(acceptance && acceptance->choice == MilestoneActionChoice::defer &&
+                    acceptance->evidence ==
+                        MilestoneDecisionEvidence{"operator", defer.source_ref} &&
+                    acceptance->resolution == resolution &&
+                    acceptance->resolution_evidence == skip_resolution &&
+                    acceptance->ended_by_skip == ended_by_skip,
+                "The application acceptance audit retains the exact Defer and its history");
+        return;
+    }
+
+    require(!acceptance, "An edit choice has no paused-input acceptance audit");
+    // The edit choice is written by the normal edit and resolution paths.
+    // Inspect its retained history directly because the acceptance audit is application-only.
+    const auto rows =
+        session.execute({"SELECT choice,actor_ref,decision_ref,coalesce(resolution,-1),"
+                         "coalesce(resolution_actor_ref,x''),coalesce(resolution_ref,x''),"
+                         "coalesce(ended_by_skip_kind,-1),coalesce(ended_by_skip_ref,x'') "
+                         "FROM main.subathon_milestone_edit_choices WHERE occurrence_ref=?",
+                         {QByteArray::fromStdString(edit::a.ref)}});
+    require(rows ==
+                SqlRows{{int(MilestoneActionChoice::defer),
+                         QByteArray::fromStdString(edit::actor.actor_ref),
+                         QByteArray::fromStdString(defer.source_ref),
+                         resolution ? int(*resolution) : -1,
+                         skip_resolution ? QByteArray::fromStdString(skip_resolution->actor_ref)
+                                         : QByteArray(""),
+                         skip_resolution ? QByteArray::fromStdString(skip_resolution->decision_ref)
+                                         : QByteArray(""),
+                         ended_by_skip ? int(ended_by_skip->origin) : -1,
+                         ended_by_skip ? QByteArray::fromStdString(ended_by_skip->source_ref)
+                                       : QByteArray("")}},
+            "The retained edit choice preserves the exact Defer and its history");
 }
 
 struct RefundControl {
@@ -223,13 +266,10 @@ class Milestone006StoreTests final : public QObject {
             control.reopen();
             control.file.write([&](const auto &s) {
                 const SqliteMilestoneGroupDecisions decisions(s);
-                const auto acceptance = decisions.acceptance_audit(edit::a);
                 const auto earlier = decisions.refund_audit(edit::a, review.source_ref);
                 const auto later = decisions.refund_audit(edit::a, "later-refund");
                 require(
-                    acceptance && acceptance->choice == MilestoneActionChoice::defer &&
-                        acceptance->evidence.decision_ref == defer.source_ref &&
-                        !acceptance->resolution && earlier && earlier->policy == Policy::review &&
+                    earlier && earlier->policy == Policy::review &&
                         earlier->current_target_micro_points == 1000 &&
                         earlier->deficit_micro_points == 5 && !earlier->resolution && later &&
                         later->policy == expected && later->current_target_micro_points == 1000 &&
@@ -242,18 +282,19 @@ class Milestone006StoreTests final : public QObject {
                 if (expected == Policy::skip) {
                     const MilestoneSkipProvenance provenance{MilestoneSkipOrigin::refund_policy,
                                                              "later-refund"};
-                    require(holds.empty() && acceptance->ended_by_skip == provenance &&
-                                earlier->ended_by_skip == provenance &&
+                    require_defer_history(s, edit_origin, std::nullopt, provenance);
+                    require(holds.empty() && earlier->ended_by_skip == provenance &&
                                 decisions.pending_disposition(edit::a) ==
                                     MilestonePendingDisposition::skipped,
                             "The configured refund Skip ends both earlier causes with its own "
                             "provenance");
                 } else {
+                    require_defer_history(s, edit_origin);
                     std::vector wanted{defer, review};
                     if (expected == Policy::review)
                         wanted.push_back({MilestoneHoldCause::refund_review, "later-refund"});
                     require(
-                        holds == wanted && !acceptance->ended_by_skip && !earlier->ended_by_skip &&
+                        holds == wanted && !earlier->ended_by_skip &&
                             decisions.pending_disposition(edit::a) ==
                                 MilestonePendingDisposition::held,
                         "Continue retains precisely D and R, and Review adds the new exact cause");
@@ -284,14 +325,11 @@ class Milestone006StoreTests final : public QObject {
             control.reopen();
             control.file.write([&](const auto &s) {
                 const SqliteMilestoneGroupDecisions decisions(s);
-                const auto acceptance = decisions.acceptance_audit(edit::a);
+                require_defer_history(s, edit_origin, authority);
                 const auto earlier = decisions.refund_audit(edit::a, review.source_ref);
                 const MilestoneSkipProvenance provenance{MilestoneSkipOrigin::deferred_resolution,
                                                          defer.source_ref};
-                require(acceptance && acceptance->resolution == Resolution::skip &&
-                            acceptance->resolution_evidence == authority &&
-                            !acceptance->ended_by_skip && earlier &&
-                            earlier->policy == Policy::review &&
+                require(earlier && earlier->policy == Policy::review &&
                             earlier->current_target_micro_points == 1000 &&
                             earlier->deficit_micro_points == 5 && !earlier->resolution &&
                             earlier->ended_by_skip == provenance &&
