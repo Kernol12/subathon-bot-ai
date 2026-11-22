@@ -111,6 +111,11 @@ class Database final {
         return milestone_group_restart_fixture::work(*writer, std::move(body));
     }
 
+    SqliteWorkResult work_completion(SqliteWriter::Work body) {
+        // The injected post-COMMIT callback fault is part of the completion oracle.
+        return qt_test_support::run_work(*writer, std::move(body), 10000);
+    }
+
     template <class Body> void committed(Body body) {
         auto completion = work([&](auto context) -> QVariant {
             auto session = context.begin();
@@ -212,10 +217,12 @@ class Fixture final {
 
     Staged stage(const RateCredentialChange &request, std::string_view value,
                  std::span<const Revision> draws = {}, Control control = Control::commit) {
-        expect(owner.admit_change(request, request, value.size()), Result::admitted,
-               "Admit mutation and fence its exact scope");
-        // Empty erase has no buffer. Empty put is a separate admission refusal case.
+        // The same guarded input is borrowed for admission and staging.
         auto input = value.empty() ? nullptr : guarded(value);
+        const auto observed =
+            input ? std::as_const(*input).bytes() : std::span<const unsigned char>{};
+        expect(owner.admit_change(request, request, observed), Result::admitted,
+               "Admit mutation and fence its exact scope");
         Staged staged;
         staged.completion = db.work([&](auto context) -> QVariant {
             const auto session = context.begin();
@@ -261,20 +268,27 @@ class Fixture final {
         return {read, done};
     }
 
+    void publish(const Reservation &facts) {
+        owner.publish_selection(facts.selection);
+        reserve(facts);
+    }
+
+    void reserve(const Reservation &facts) { owner.publish_reservation(facts); }
+
     struct Load {
         Result status{Result::feature_not_implemented};
         SqliteWorkResult completion;
         WorkSlot slot;
     };
 
-    Load prepare(const Reservation &request, const UseGrant &current,
+    Load prepare(const Reservation &request, const UseGrant &presented,
                  Control control = Control::commit, bool key_available = true,
                  bool expect_no_sql = false) {
         Load out;
-        out.completion = db.work([&](auto context) -> QVariant {
+        auto body = [&](auto context) -> QVariant {
             const auto session = context.begin();
             out.status = owner.prepare_keyed_rate_use(session, key_available ? &key : nullptr,
-                                                      request, current, out.slot);
+                                                      request, presented, out.slot);
             if (expect_no_sql) {
                 // A charged lookup would exhaust the default 64-statement cap.
                 for (int i = 0; i < 64; ++i)
@@ -288,13 +302,15 @@ class Fixture final {
                     throw SqliteWorkFailure(WorkError::work_exception);
             }
             return 1;
-        });
+        };
+        out.completion =
+            control == Control::post_commit_failure ? db.work_completion(body) : db.work(body);
         return out;
     }
 
-    void refused_use(const Reservation &request, const UseGrant &current, Result expected,
+    void refused_use(const Reservation &request, const UseGrant &presented, Result expected,
                      bool key_available = true, bool expect_no_sql = false) {
-        auto load = prepare(request, current, Control::commit, key_available, expect_no_sql);
+        auto load = prepare(request, presented, Control::commit, key_available, expect_no_sql);
         normal(load.completion);
         expect(load.status, expected, "Refuse keyed preparation at the selected precedence");
         require(!load.slot && !owner.finish_keyed_rate_use(std::move(load.slot), load.completion),
@@ -348,11 +364,11 @@ inline Attempt deliver(Fixture &f, const Reservation &request, std::string_view 
     return attempt;
 }
 
-inline void blocked(Fixture &f, Permit &permit, const UseGrant &current,
+inline void blocked(Fixture &f, Permit &permit, const UseGrant &presented,
                     const Reservation &reference) {
     Handoff capture(reference, v);
     Attempt attempt;
-    const auto status = f.owner.consume_keyed_rate_use(permit, current, capture, attempt);
+    const auto status = f.owner.consume_keyed_rate_use(permit, presented, capture, attempt);
     require(
         (status == Result::stale || status == Result::not_authorized || status == Result::held) &&
             !permit && !attempt && capture.count == 0,

@@ -118,7 +118,9 @@ class RateCredentialTests final : public QObject {
             independent_open(fx_blob, envelope, r1, n1, v);
             f.db.reopen();
             f.key = key_at(f.key_path);
-            (void)deliver(f, reservation(), v);
+            const auto current = reservation();
+            f.publish(current);
+            (void)deliver(f, current, v);
             expect_connector(f);
             require(
                 f.db.envelope(blob(cv::scope)) == blob(cv::record) &&
@@ -130,6 +132,15 @@ class RateCredentialTests final : public QObject {
     void F2_exactScopeIsolation() {
         kf::checked([] {
             Fixture f;
+            f.db.committed([&](const auto &session) {
+                const std::array<Revision, 1> draws{cv::nonce};
+                const native::Controls observe(native::Fault::none, 0, draws);
+                require(
+                    std::holds_alternative<CredentialStaged>(
+                        CredentialRepository(session, f.key).stage_put(cv::exact, bytes("FXR1"sv))),
+                    "Connector owner accepts four opaque bytes equal to the FX magic");
+            });
+            expect_connector(f, bytes("FXR1"sv));
             f.put(change(Verb::put), v, r1);
             const auto original = f.db.envelope();
             const std::pair<RateCredentialScope, const char *> alternatives[] = {
@@ -140,27 +151,23 @@ class RateCredentialTests final : public QObject {
             std::uint64_t order = 20;
             for (const auto &[scope, encoded] : alternatives) {
                 const auto clean = reservation(r1, scope, order++);
+                f.publish(clean);
                 f.refused_use(clean, clean, Result::missing);
                 f.db.inject(QByteArray::fromHex(encoded), original);
                 const auto foreign = reservation(r1, scope, order++);
+                f.reserve(foreign);
                 f.refused_use(foreign, foreign, Result::authentication_failed);
                 require(f.db.envelope() == original,
                         "Exact lookups preserve the original envelope");
             }
-            (void)deliver(f, reservation(r1, fx, order++), v);
-            f.db.committed([&](const auto &session) {
-                const std::array<Revision, 1> draws{cv::nonce};
-                const native::Controls observe(native::Fault::none, 0, draws);
-                require(
-                    std::holds_alternative<CredentialStaged>(
-                        CredentialRepository(session, f.key).stage_put(cv::exact, bytes("FXR1"sv))),
-                    "Connector owner accepts four opaque bytes equal to the FX magic");
-            });
-            expect_connector(f, bytes("FXR1"sv));
+            const auto primary = reservation(r1, fx, order++);
+            f.publish(primary);
+            (void)deliver(f, primary, v);
 
             Fixture isolated;
             isolated.db.inject(fx_blob, f.db.envelope(blob(cv::scope)));
             const auto request = reservation();
+            isolated.publish(request);
             isolated.refused_use(request, request, Result::authentication_failed);
         });
     }
@@ -174,9 +181,10 @@ class RateCredentialTests final : public QObject {
             f.db.inject(fx_blob, corrupted);
 
             const auto current = reservation();
+            f.publish(current);
             f.refused_use(current, {}, Result::not_authorized, true, true);
             const auto erase = change(Verb::erase, r1);
-            expect(f.owner.admit_change(erase, {}, 0), Result::not_authorized,
+            expect(f.owner.admit_change(erase, {}, {}), Result::not_authorized,
                    "The use-only principal has no separate erase grant");
             auto stale = current;
             stale.selection.generation = "old-generation";
@@ -200,14 +208,18 @@ class RateCredentialTests final : public QObject {
             require(same.draws == 0 && same.outcome.revision == r1 && f.db.envelope() == original,
                     "Unchanged preserves ciphertext and revision without nonce or revision draw");
 
+            const auto old = reservation(r1, fx, 50);
+            f.publish(old);
             f.put(replace, w, r2, second_draws);
             independent_open(fx_blob, f.db.envelope(), r2, n2, w);
-            const auto old = reservation(r1, fx, 50);
             f.refused_use(old, old, Result::stale);
-            (void)deliver(f, fresh(r2, 51), w);
+            const auto replacement = fresh(r2, 51);
+            f.publish(replacement);
+            (void)deliver(f, replacement, w);
 
             Fixture twin;
             twin.put(change(Verb::put), v, r1);
+            const auto twin_original = twin.db.envelope();
             const std::array repeated{r1, n2};
             const auto refused = twin.stage(replace, w, repeated);
             expect(refused.outcome.status, Result::crypto_unavailable,
@@ -215,9 +227,11 @@ class RateCredentialTests final : public QObject {
             normal(refused.completion);
             (void)twin.owner.finish_change(replace, refused.completion);
             require(!refused.outcome.revision && refused.draws == 1 &&
-                        twin.db.envelope() == original,
+                        twin.db.envelope() == twin_original,
                     "Repeated revision refuses before any nonce draw or record mutation");
-            (void)deliver(twin, reservation(), v);
+            const auto twin_current = reservation();
+            twin.publish(twin_current);
+            (void)deliver(twin, twin_current, v);
         });
     }
 
@@ -227,27 +241,33 @@ class RateCredentialTests final : public QObject {
             Fixture revoked;
             revoked.put(change(Verb::put), v, r1);
             const auto original = revoked.db.envelope();
+            revoked.publish(initial);
             auto queued = revoked.permit(initial);
             revoked.owner.revoke(fx, "G2");
             blocked(revoked, queued, initial, initial);
-            revoked.refused_use(initial, {}, Result::not_authorized);
+            revoked.refused_use(initial, initial, Result::not_authorized, true, true);
             require(revoked.db.envelope() == original, "Revocation can leave an intact row");
 
             Fixture outstanding;
             outstanding.put(change(Verb::put), v, r1);
+            outstanding.publish(initial);
             auto accepted = deliver(outstanding, initial, v);
             outstanding.owner.revoke(fx, "G2");
             expect(outstanding.owner.finish_attempt(
-                       accepted, {},
+                       accepted, initial,
                        {era::DispatchKind::sent,
                         era::SendTime{era::SendTimeKind::exact, {"test-clock", 7}}}),
                    Result::accounting_only,
                    "Obsolete sent attempt settles only its own accounting");
             require(!accepted, "Settlement consumes the obsolete attempt");
-            outstanding.refused_use(initial, {}, Result::not_authorized);
+            outstanding.refused_use(initial, initial, Result::not_authorized, true, true);
 
             Fixture bindings;
             bindings.put(change(Verb::put), v, r1);
+            bindings.publish(initial);
+            auto unissued = initial;
+            unissued.request = "unissued-request";
+            bindings.refused_use(unissued, unissued, Result::stale, true, true);
             using Rebind = void (*)(Reservation &);
             const Rebind rebindings[] = {
                 +[](Reservation &r) { ++r.order; },
@@ -266,6 +286,7 @@ class RateCredentialTests final : public QObject {
             std::uint64_t order = 10;
             for (const auto rebind : rebindings) {
                 const auto exact = reservation(r1, fx, order++);
+                bindings.reserve(exact);
                 auto permit = bindings.permit(exact);
                 auto different = exact;
                 rebind(different);
@@ -273,6 +294,7 @@ class RateCredentialTests final : public QObject {
                 blocked(bindings, permit, exact, exact);
             }
             const auto exact = reservation(r1, fx, order);
+            bindings.reserve(exact);
             auto permit = bindings.permit(exact);
             Handoff capture(exact, v);
             Attempt attempt;
@@ -290,11 +312,13 @@ class RateCredentialTests final : public QObject {
             connector(f);
             f.put(change(Verb::put), v, r1);
             const auto original = f.db.envelope();
-            auto pending = f.permit(reservation());
+            const auto before_revoke = reservation();
+            f.publish(before_revoke);
+            auto pending = f.permit(before_revoke);
             f.owner.revoke(fx, "G2");
-            blocked(f, pending, reservation(), reservation());
+            blocked(f, pending, before_revoke, before_revoke);
             const auto empty = change(Verb::erase);
-            expect(f.owner.admit_change(empty, empty, 0), Result::invalid_input,
+            expect(f.owner.admit_change(empty, empty, {}), Result::invalid_input,
                    "Erase with an empty expectation is invalid");
             const auto wrong = change(Verb::erase, rx);
             observe_refusal(f, wrong, f.stage(wrong, {}), Result::stale);
@@ -314,15 +338,17 @@ class RateCredentialTests final : public QObject {
             require(!read.revision && f.db.envelope().isEmpty() &&
                         f.db.envelope(blob(cv::scope)) == blob(cv::record),
                     "Exact absence has no revision and connector row is untouched");
-            f.refused_use(reservation(), {}, Result::not_authorized);
+            f.refused_use(before_revoke, before_revoke, Result::not_authorized, true, true);
             observe_refusal(f, exact, f.stage(exact, {}), Result::stale);
             f.put(change(Verb::put), v, r2, second_draws);
             independent_open(fx_blob, f.db.envelope(), r2, n2, v);
             auto old = fresh(r1, 60);
             old.selection.generation = "G3";
+            f.publish(old);
             f.refused_use(old, old, Result::stale);
             auto replaced = fresh(r2, 61);
             replaced.selection.generation = "G3";
+            f.publish(replaced);
             (void)deliver(f, replaced, v);
         });
     }
@@ -331,6 +357,8 @@ class RateCredentialTests final : public QObject {
         kf::checked([] {
             Fixture f;
             f.put(change(Verb::put), v, r1);
+            const auto old_selection = reservation(r1, fx, 70);
+            f.publish(old_selection);
             const auto replace = change(Verb::put, r1);
             f.db.lose_commit_ack();
             const auto staged = f.stage(replace, w, second_draws);
@@ -341,7 +369,6 @@ class RateCredentialTests final : public QObject {
             expect(f.owner.finish_change(replace, staged.completion), Result::held,
                    "Lost acknowledgement holds use and publishes no success");
             f.db.reopen();
-            const auto old_selection = reservation(r1, fx, 70);
             f.refused_use(old_selection, old_selection, Result::held);
             auto [read, done] = f.readback();
             expect(read.status, Result::present, "Healthy management readback sees an exact row");
@@ -350,9 +377,14 @@ class RateCredentialTests final : public QObject {
                    "Confirm exact candidate without mutation retry");
             f.refused_use(old_selection, old_selection, Result::stale);
             const auto repaired = fresh(r2, 71);
+            f.publish(repaired);
             (void)deliver(f, repaired, w);
 
-            auto failed = f.prepare(fresh(r2, 72), fresh(r2, 72), Control::post_commit_failure);
+            auto failure_request = repaired;
+            failure_request.request = "request-72";
+            failure_request.order = 72;
+            f.reserve(failure_request);
+            auto failed = f.prepare(failure_request, failure_request, Control::post_commit_failure);
             expect(failed.status, Result::prepared,
                    "Inject failure after filling the guarded slot");
             require(failed.slot && failed.completion.transaction == TransactionOutcome::committed &&
@@ -455,10 +487,12 @@ class RateCredentialTests final : public QObject {
             Fixture f;
             f.put(change(Verb::put, {}, ox), app, r1);
             require(f.db.envelope(ox_blob).size() == 124, "OER payload produces 124-byte SCR1");
+            f.owner.publish_selection(reservation(r1, ox).selection);
             order = 80;
             for (const auto &row : cases) {
                 auto use = reservation(r1, ox, order++);
                 use.route = oer::Operation::usage;
+                f.reserve(use);
                 auto attempt = deliver(f, use, app);
                 const auto identity = admission(use);
                 auto reply = identity;
@@ -489,25 +523,38 @@ class RateCredentialTests final : public QObject {
     void F9_boundsAndDefaultWriterBudget() {
         kf::checked([] {
             Fixture f;
-            const auto refuse_shape = [&](RateCredentialScope scope, std::size_t size,
-                                          Result want) {
+            const auto admit_put = [&](RateCredentialScope scope, std::size_t size, Result want,
+                                       unsigned char fill = 'A', bool authorized = true) {
                 const auto put = change(Verb::put, {}, std::move(scope));
-                expect(f.owner.admit_change(put, put, size), want,
-                       "Input ceilings precede invalid shape and writer lookup");
+                Buffer input(std::max<std::size_t>(size, 1));
+                require(input.bytes().size() == std::max<std::size_t>(size, 1),
+                        "Admission probe value uses checked guarded storage");
+                auto value = input.bytes().first(size);
+                std::ranges::fill(value, fill);
+                const ManagementGrant grant = authorized ? ManagementGrant{put} : std::nullopt;
+                expect(f.owner.admit_change(put, grant, value), want,
+                       "Admission applies size, shape and then authority before any writer unit");
             };
-            refuse_shape(fx, 0, Result::invalid_input);
-            auto no_ref = fx;
-            no_ref.account.clear();
-            refuse_shape(no_ref, 65509, Result::resource_limit);
-            auto too_long = fx;
-            too_long.slot = std::string(4097, 'S');
-            refuse_shape(too_long, 3, Result::resource_limit);
-            refuse_shape(ox, 33, Result::resource_limit);
-            refuse_shape(ox, 31, Result::invalid_input);
-            const auto app_put = change(Verb::put, {}, ox);
-            observe_refusal(f, app_put, f.stage(app_put, "0000000000000000000000000000000z"),
-                            Result::invalid_input);
-            require(f.db.envelope(ox_blob).isEmpty(), "Malformed App ID leaves no row");
+            {
+                require(native::prepare_sdk(), "SDK ready before observing refusal draws");
+                const native::Controls observe;
+                admit_put(fx, 0, Result::invalid_input);
+                auto no_ref = fx;
+                no_ref.account.clear();
+                admit_put(no_ref, 65509, Result::resource_limit);
+                auto too_long = fx;
+                too_long.slot = std::string(4097, 'S');
+                admit_put(too_long, 3, Result::resource_limit);
+                admit_put(ox, 33, Result::resource_limit);
+                admit_put(ox, 31, Result::invalid_input);
+                admit_put(ox, 32, Result::invalid_input, 'z');
+                admit_put(ox, 32, Result::invalid_input, 'z', false);
+                admit_put(ox, 32, Result::not_authorized, 'A', false);
+                require(observe.observation().nonce_draws == 0,
+                        "Shape and authority refusals draw neither revision nor nonce");
+            }
+            require(f.db.rows("SELECT scope FROM subathon_provider_credentials").empty(),
+                    "Shape and authority refusals write no credential row");
 
             f.put(change(Verb::put), "x", r1);
             require(f.db.envelope().size() == 93, "One opaque value byte gives 93-byte SCR1");
@@ -539,8 +586,6 @@ class RateCredentialTests final : public QObject {
         kf::checked([] {
             Fixture f;
             connector(f);
-            f.put(change(Verb::put), v, r1);
-            const auto original = f.db.envelope();
             const auto original_connector = f.db.envelope(blob(cv::scope));
             auto replacement_file = cv::key_file;
             replacement_file[4] ^= 1;
@@ -567,26 +612,6 @@ class RateCredentialTests final : public QObject {
                 }
                 return std::move(*payload);
             };
-            auto changed_scope = fx_blob;
-            changed_scope[3] = '\x0a';
-            Fixture unknown_family;
-            unknown_family.db.inject(changed_scope, original);
-            const auto foreign_rows =
-                unknown_family.db.rows("SELECT scope,record FROM subathon_provider_credentials");
-            require(foreign_rows.size() == 1 && foreign_rows[0][0].toByteArray() == changed_scope &&
-                        foreign_rows[0][1].toByteArray() == original,
-                    "Disposable inventory carries an actual unknown-tag row");
-            expect(validate_rate_scope(bytes(foreign_rows[0][0].toByteArray())),
-                   Result::invalid_record, "Rotation codec refuses an unknown scope family");
-            auto tag = original;
-            tag.back() ^= 1;
-            auto ciphertext = original;
-            ciphertext[48] ^= 1;
-            require(!qualify(fx_blob, tag, cv::key) && !qualify(fx_blob, ciphertext, cv::key) &&
-                        !qualify(fx_blob, original, next_key) &&
-                        !qualify(changed_scope, original, cv::key),
-                    "Tag, ciphertext, wrong material with same ID and unknown family refuse");
-
             const auto reseal = [&](const QByteArray &scope, const QByteArray &sealed,
                                     Revision nonce) {
                 auto prior = qualify(scope, sealed, cv::key);
@@ -621,19 +646,43 @@ class RateCredentialTests final : public QObject {
                                  CredentialError::key_unavailable);
                 return blob(*next);
             };
+            const auto next_connector =
+                reseal(blob(cv::scope), original_connector, cv::second_nonce);
+            f.put(change(Verb::put), v, r1);
+            const auto original = f.db.envelope();
+            auto changed_scope = fx_blob;
+            changed_scope[3] = '\x0a';
+            Fixture unknown_family;
+            unknown_family.db.inject(changed_scope, original);
+            const auto foreign_rows =
+                unknown_family.db.rows("SELECT scope,record FROM subathon_provider_credentials");
+            require(foreign_rows.size() == 1 && foreign_rows[0][0].toByteArray() == changed_scope &&
+                        foreign_rows[0][1].toByteArray() == original,
+                    "Disposable inventory carries an actual unknown-tag row");
+            expect(validate_rate_scope(bytes(foreign_rows[0][0].toByteArray())),
+                   Result::invalid_record, "Rotation codec refuses an unknown scope family");
+            auto tag = original;
+            tag.back() ^= 1;
+            auto ciphertext = original;
+            ciphertext[48] ^= 1;
+            require(!qualify(fx_blob, tag, cv::key) && !qualify(fx_blob, ciphertext, cv::key) &&
+                        !qualify(fx_blob, original, next_key) &&
+                        !qualify(changed_scope, original, cv::key),
+                    "Tag, ciphertext, wrong material with same ID and unknown family refuse");
+
             const auto inventory =
                 f.db.rows("SELECT scope,record FROM subathon_provider_credentials ORDER BY scope");
             require(inventory.size() == 2, "Inventory contains both exact encrypted families");
             const auto next_fx = reseal(fx_blob, original, n2);
-            const auto next_connector =
-                reseal(blob(cv::scope), original_connector, cv::second_nonce);
             f.db.committed([&](const auto &s) {
                 (void)s.execute({upsert_sql, {fx_blob, next_fx}});
                 (void)s.execute({upsert_sql, {blob(cv::scope), next_connector}});
             });
             f.key = std::move(protected_replacement);
             expect_connector(f);
-            (void)deliver(f, fresh(r1, 100), v);
+            const auto rotated = fresh(r1, 100);
+            f.publish(rotated);
+            (void)deliver(f, rotated, v);
         });
     }
 
@@ -643,6 +692,7 @@ class RateCredentialTests final : public QObject {
             f.put(change(Verb::put), v, r1);
             const auto older = f.db.envelope();
             const auto old = reservation();
+            f.publish(old);
             auto pre_restore = f.permit(old);
             f.put(change(Verb::put, r1), w, r2, second_draws);
             const auto newer = f.db.envelope();
@@ -654,12 +704,14 @@ class RateCredentialTests final : public QObject {
             recovery.db.inject(fx_blob, older);
             recovery.owner.revoke(fx, "recovery-generation");
             blocked(recovery, pre_restore, old, old);
-            recovery.refused_use(old, {}, Result::not_authorized);
+            recovery.refused_use(old, old, Result::not_authorized, true, true);
             auto wrong = fresh(r2, 111);
-            wrong.selection.generation = "recovery-generation";
+            wrong.selection.generation = "post-revocation-generation";
+            recovery.publish(wrong);
             recovery.refused_use(wrong, wrong, Result::stale);
             auto reviewed = fresh(r1, 112);
             reviewed.selection.generation = "reviewed-recovery-generation";
+            recovery.publish(reviewed);
             (void)deliver(recovery, reviewed, v);
         });
     }
@@ -668,7 +720,6 @@ class RateCredentialTests final : public QObject {
         kf::checked([] {
             Fixture f;
             constexpr auto canary = "synthetic-wire-canary"sv;
-            f.put(change(Verb::put), canary, r1);
             connector(f);
             // Open has no credential in its synthetic setup and no repository/SDK probe.
             SyntheticSetup setup;
@@ -690,7 +741,15 @@ class RateCredentialTests final : public QObject {
             }
 
             LogCheck logs;
+            f.db.committed([](const auto &s) {
+                (void)s.execute({"CREATE UNIQUE INDEX \"synthetic-native-canary\" ON "
+                                 "subathon_provider_credentials ((1)) "
+                                 "WHERE length(record) IN (71,95)",
+                                 {}});
+            });
+            f.put(change(Verb::put), canary, r1);
             const auto current = reservation();
+            f.publish(current);
             f.refused_use(current, current, Result::key_unavailable, false);
             unsigned char nonce = 0xa3;
             for (const auto &[magic, secret] :
@@ -708,12 +767,6 @@ class RateCredentialTests final : public QObject {
             const auto original =
                 seal_fixture(fx_blob, fill_payload(valid, r1, canary), filled(nonce));
             f.db.inject(fx_blob, original);
-            f.db.committed([](const auto &s) {
-                (void)s.execute({"CREATE UNIQUE INDEX \"synthetic-native-canary\" ON "
-                                 "subathon_provider_credentials ((1)) "
-                                 "WHERE length(record) IN (71,95)",
-                                 {}});
-            });
             const auto replace = change(Verb::put, r1);
             const auto aborted = f.stage(replace, w, second_draws);
             require(aborted.completion.transaction == TransactionOutcome::rolled_back &&
@@ -722,7 +775,9 @@ class RateCredentialTests final : public QObject {
                     "Typed SQL failure rolls back and releases no plaintext or success value");
             expect(f.owner.finish_change(replace, aborted.completion), Result::known_rollback,
                    "Acknowledged rollback reopens still-current selection");
-            (void)deliver(f, fresh(r1, 120), canary);
+            const auto resumed = reservation(r1, fx, 120);
+            f.reserve(resumed);
+            (void)deliver(f, resumed, canary);
             require(logs.clean(),
                     "Visible logs omit guarded bytes, FX framing, paths and raw errors");
         });
@@ -735,8 +790,10 @@ class RateCredentialTests final : public QObject {
                 Fixture f;
                 f.put(change(Verb::put), v, r1);
                 const auto original = f.db.envelope();
+                f.publish(old);
                 auto unused = f.permit(old);
                 const auto still_queued = reservation(r1, fx, 130);
+                f.reserve(still_queued);
                 auto untouched = f.permit(still_queued);
                 const auto replace = change(Verb::put, r1);
                 const auto staged = f.stage(replace, w, second_draws, control);
@@ -759,6 +816,7 @@ class RateCredentialTests final : public QObject {
                 // serialized credential owner while other owner work runs.
                 blocked(f, unused, old, old);
                 const auto while_fenced = reservation(r1, fx, 131);
+                f.reserve(while_fenced);
                 f.refused_use(while_fenced, while_fenced, Result::held);
                 expect(f.owner.finish_change(replace, staged.completion),
                        committed ? Result::committed_change : Result::known_rollback,
@@ -766,10 +824,15 @@ class RateCredentialTests final : public QObject {
                 blocked(f, untouched, still_queued, still_queued);
                 if (committed) {
                     const auto previous = reservation(r1, fx, 132);
+                    f.reserve(previous);
                     f.refused_use(previous, previous, Result::stale);
-                    (void)deliver(f, fresh(r2, 133), w);
+                    const auto replacement = fresh(r2, 133);
+                    f.publish(replacement);
+                    (void)deliver(f, replacement, w);
                 } else {
-                    (void)deliver(f, reservation(r1, fx, 134), v);
+                    const auto resumed = reservation(r1, fx, 134);
+                    f.reserve(resumed);
+                    (void)deliver(f, resumed, v);
                 }
             }
         });
@@ -780,6 +843,8 @@ class RateCredentialTests final : public QObject {
             enum class Witness { absent, candidate, unrelated };
             for (const auto witness : {Witness::absent, Witness::candidate, Witness::unrelated}) {
                 Fixture f;
+                const auto current = reservation(r1, fx, 140);
+                f.publish(current);
                 const auto insert = change(Verb::put);
                 const bool absent = witness == Witness::absent;
                 if (absent) {
@@ -804,7 +869,6 @@ class RateCredentialTests final : public QObject {
                     f.db.inject(fx_blob, unrelated);
                 }
                 const auto after_uncertain = f.db.envelope();
-                const auto current = reservation(r1, fx, 140);
                 f.refused_use(current, current, Result::held);
                 auto [read, done] = f.readback();
                 expect(read.status, absent ? Result::missing : Result::present,
@@ -821,12 +885,18 @@ class RateCredentialTests final : public QObject {
                 if (absent) {
                     require(after_uncertain.isEmpty(),
                             "Resolved absence cannot select a credential");
-                    f.refused_use(current, {}, Result::not_authorized);
+                    // Authorize an exact lookup of the absent row.
+                    const auto absent_probe = fresh(r1, 143);
+                    f.publish(absent_probe);
+                    f.refused_use(absent_probe, absent_probe, Result::missing);
                 } else if (witness == Witness::candidate) {
-                    f.refused_use(current, {}, Result::not_authorized);
-                    (void)deliver(f, fresh(r1, 141), v);
+                    f.refused_use(current, current, Result::stale, true, true);
+                    const auto selected = fresh(r1, 141);
+                    f.publish(selected);
+                    (void)deliver(f, selected, v);
                 } else {
                     const auto competing = fresh(rx, 142);
+                    f.publish(competing);
                     f.refused_use(competing, competing, Result::held);
                 }
             }
@@ -839,36 +909,9 @@ class RateCredentialTests final : public QObject {
                 "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
             static_assert(value.size() == 65);
             constexpr std::size_t cap = 64;
-            Fixture f;
-            const auto put = change(Verb::put);
-            f.put(put, value, r1);
-            const auto envelope = f.db.envelope();
-            require(envelope.size() == 157, "Wire-ineligible stored value has exact 157-byte SCR1");
             const auto request = reservation(r1, fx, 150);
-            struct BoundedHandoff final : QualifiedTransport {
-                explicit BoundedHandoff(std::size_t cap) : target_cap(cap) {}
-                void accept(const Reservation &,
-                            std::span<const unsigned char> secret) noexcept override {
-                    ++offers;
-                    // Each opaque byte occupies at least one encoded byte.
-                    // This witness can refuse before constructing any URL.
-                    if (secret.size() > target_cap)
-                        local = era::TransportFailure::resource_limit;
-                }
-                std::size_t target_cap;
-                int offers{};
-                std::optional<era::TransportFailure> local;
-            } transport(cap);
-            auto permit = f.permit(request);
-            Attempt accepted;
-            expect(f.owner.consume_keyed_rate_use(permit, request, transport, accepted),
-                   Result::accepted, "Qualified private transport accepts exactly one offer");
-            require(!permit && accepted && transport.offers == 1 &&
-                        transport.local == era::TransportFailure::resource_limit,
-                    "Guarded input alone exceeds the complete target cap");
-
-            // #398 receives its own fixed synthetic credential. The qualified
-            // transport port declines the complete encoded target before a GET.
+            // The synthetic HTTP port models refusal of a complete target.
+            // Only dispatch accounting and retry come from shipped #398.
             SyntheticSetup setup;
             const era::SelectionBinding binding{
                 era::Profile::pro,
@@ -890,22 +933,12 @@ class RateCredentialTests final : public QObject {
             require(started && started->dispatch.kind == era::DispatchKind::not_sent &&
                         !started->dispatch.time && http.gets == 0,
                     "Target above the qualified cap sends zero GETs and has no send time");
-            const auto outcome =
-                adapter.finish(*started, era::FailedTransport{*transport.local, tick});
+            const auto outcome = adapter.finish(
+                *started, era::FailedTransport{era::TransportFailure::resource_limit, tick});
             const auto *failure = std::get_if<era::Failure>(&outcome.outcome);
             require(failure && failure->kind == era::FailureKind::resource_limit &&
                         outcome.dispatch.kind == era::DispatchKind::not_sent && !failure->safe_code,
                     "Refusal is redacted resource_limit with independent not_sent evidence");
-            expect(f.owner.finish_attempt(accepted, request, outcome.dispatch),
-                   Result::current_reply,
-                   "Local refusal finishes exact guarded attempt without marking a send");
-            require(!accepted && f.db.envelope() == envelope,
-                    "Completion releases attempt material and leaves the exact stored record");
-            auto [read, done] = f.readback();
-            expect(read.status, Result::present,
-                   "Private readback leaves stored revision unchanged");
-            require(read.revision == r1, "No automatic replacement is attempted");
-
             const auto quota = adapter.quota_view(binding.scope, tick);
             require(quota.local_total == era::Usage{0, 0} && !quota.quota_held,
                     "Not-sent admission charges zero quota and adds no quota hold");
@@ -913,6 +946,44 @@ class RateCredentialTests final : public QObject {
             const auto *wait = std::get_if<era::Failure>(&waiting);
             require(wait && wait->kind == era::FailureKind::retry_wait && http.gets == 0,
                     "Existing local adapter backoff applies without adding a credential hold");
+
+            Fixture f;
+            const auto put = change(Verb::put);
+            f.put(put, value, r1);
+            const auto envelope = f.db.envelope();
+            require(envelope.size() == 157, "Wire-ineligible stored value has exact 157-byte SCR1");
+            struct BoundedHandoff final : QualifiedTransport {
+                explicit BoundedHandoff(std::size_t cap) : target_cap(cap) {}
+                void accept(const Reservation &,
+                            std::span<const unsigned char> secret) noexcept override {
+                    ++offers;
+                    // Each opaque byte occupies at least one encoded byte.
+                    // This witness can refuse before constructing any URL.
+                    if (secret.size() > target_cap)
+                        local = era::TransportFailure::resource_limit;
+                }
+                std::size_t target_cap;
+                int offers{};
+                std::optional<era::TransportFailure> local;
+            } transport(cap);
+            f.publish(request);
+            auto permit = f.permit(request);
+            Attempt accepted;
+            expect(f.owner.consume_keyed_rate_use(permit, request, transport, accepted),
+                   Result::accepted, "Qualified private transport accepts exactly one offer");
+            require(!permit && accepted && transport.offers == 1 &&
+                        transport.local == era::TransportFailure::resource_limit,
+                    "Guarded input alone exceeds the complete target cap");
+
+            expect(f.owner.finish_attempt(accepted, request, outcome.dispatch),
+                   Result::current_reply,
+                   "Local refusal finishes exact guarded attempt without marking a send");
+            require(!accepted && f.db.envelope() == envelope,
+                    "Completion relinquishes the owning attempt and preserves the exact record");
+            auto [read, done] = f.readback();
+            expect(read.status, Result::present,
+                   "Private readback leaves stored revision unchanged");
+            require(read.revision == r1, "No automatic replacement is attempted");
         });
     }
 };

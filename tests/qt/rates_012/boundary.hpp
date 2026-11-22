@@ -128,7 +128,8 @@ class CredentialOwner final {
     CredentialOwner();
     ~CredentialOwner();
 
-    Result admit_change(const RateCredentialChange &, const ManagementGrant &, std::size_t);
+    Result admit_change(const RateCredentialChange &, const ManagementGrant &,
+                        std::span<const unsigned char> guarded_value);
     MutationResult stage_rate_credential_put(const SqliteWorkSession &, const CredentialKey *,
                                              const RateCredentialChange &,
                                              const credential_detail::GuardedBytes &);
@@ -138,7 +139,11 @@ class CredentialOwner final {
     Readback inspect(const SqliteWorkSession &, const CredentialKey *, const RateCredentialChange &,
                      const ManagementGrant &);
     Result reconcile(const RateCredentialChange &, const Readback &, const SqliteWorkResult &);
-    void revoke(const RateCredentialScope &, std::string generation);
+    // Trusted setup and reservation owners publish on serialized owner turns.
+    // Grants attached to requests are presented facts, independent of publication.
+    void publish_selection(const RateCredentialSelection &);
+    void publish_reservation(const Reservation &);
+    void revoke(const RateCredentialScope &, std::string disabled_generation);
 
     Result prepare_keyed_rate_use(const SqliteWorkSession &, const CredentialKey *,
                                   const Reservation &, const UseGrant &, WorkSlot &);

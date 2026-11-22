@@ -19,7 +19,7 @@ CredentialOwner::CredentialOwner() = default;
 CredentialOwner::~CredentialOwner() = default;
 
 Result CredentialOwner::admit_change(const RateCredentialChange &, const ManagementGrant &,
-                                     std::size_t) {
+                                     std::span<const unsigned char>) {
     return Result::feature_not_implemented;
 }
 
@@ -50,6 +50,8 @@ Result CredentialOwner::reconcile(const RateCredentialChange &, const Readback &
     return Result::feature_not_implemented;
 }
 
+void CredentialOwner::publish_selection(const RateCredentialSelection &) {}
+void CredentialOwner::publish_reservation(const Reservation &) {}
 void CredentialOwner::revoke(const RateCredentialScope &, std::string) {}
 
 Result CredentialOwner::prepare_keyed_rate_use(const SqliteWorkSession &, const CredentialKey *,
