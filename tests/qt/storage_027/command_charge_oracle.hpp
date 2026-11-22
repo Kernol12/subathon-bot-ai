@@ -185,7 +185,9 @@ inline constexpr Charge journal_write(const Record &r) {
 inline constexpr Charge target(const Record &r, bool edit, bool present) {
     constexpr auto edit_sql =
         "SELECT g.released,g.queue_order,g.edit_ref,d.definition_revision,h.prefix_revision,"
-        "c.choice,c.resolution FROM subathon_milestone_edit_occurrences g "
+        "c.choice,c.resolution,EXISTS(SELECT 1 FROM subathon_milestone_edit_refund_decisions r "
+        "WHERE r.occurrence_ref=g.occurrence_ref AND (r.policy=2 OR r.resolution=1)) "
+        "FROM subathon_milestone_edit_occurrences g "
         "JOIN subathon_milestone_definition_heads d USING(installation_ref,track_ref) "
         "JOIN subathon_milestone_prefix_heads h USING(installation_ref,track_ref) "
         "JOIN subathon_milestone_edit_choices c USING(occurrence_ref) "
@@ -193,7 +195,9 @@ inline constexpr Charge target(const Record &r, bool edit, bool present) {
         "LIMIT 2";
     constexpr auto app_sql =
         "SELECT g.released,g.queue_order,g.operation_ref,d.definition_revision,h.prefix_revision,"
-        "c.choice,c.resolution FROM subathon_milestone_groups g "
+        "c.choice,c.resolution,EXISTS(SELECT 1 FROM subathon_milestone_refund_decisions r "
+        "WHERE r.occurrence_ref=g.occurrence_ref AND (r.policy=2 OR r.resolution=1)) "
+        "FROM subathon_milestone_groups g "
         "LEFT JOIN subathon_milestone_acceptance_decisions c USING(occurrence_ref) "
         "JOIN subathon_milestone_prefix_members m ON m.application_occurrence_ref=g.occurrence_ref "
         "AND m.operation_scope=g.operation_scope AND m.operation_ref=g.operation_ref "
@@ -205,7 +209,8 @@ inline constexpr Charge target(const Record &r, bool edit, bool present) {
     const Cells app_key{r.install, r.track, r.origin_scope, r.origin, r.occurrence};
     // An ordinary application has no paused-acceptance row. The two
     // projected NULLs still charge the same cell overhead as enum integers.
-    const Cells closure{0, 0, r.origin, r.definition, r.prefix, 0, 0};
+    // The terminal refund predicate contributes one integer even on a ready target.
+    const Cells closure{0, 0, r.origin, r.definition, r.prefix, 0, 0, 0};
     const auto check =
         present ? statement(edit ? edit_sql : app_sql, edit ? edit_key : app_key, {closure})
                 : statement(edit ? edit_sql : app_sql, edit ? edit_key : app_key);
@@ -554,12 +559,17 @@ static_assert([] {
     r.occurrence = 6;
     r.intent = 57;
     r.result = 35;
+    if (target(r, true, true) != Charge{3, 591, 155, 1, 110} ||
+        target(r, false, true) != Charge{3, 805, 168, 1, 110} ||
+        target(r, true, false) != Charge{1, 591, 56, 0, 0} ||
+        target(r, false, false) != Charge{1, 805, 69, 0, 0})
+        return false;
     const std::vector<Slot> members(2, {8, 11, 2, 11, 11, 8, 11, 2, 15, 10});
-    if (plan(Branch::stop_continue, r, members) != Charge{18, 660, 987, 8, 294})
+    if (plan(Branch::stop_continue, r, members) != Charge{18, 660, 987, 8, 302})
         return false;
     r.result = 71;
     r.cause = 32; // Synthetic arithmetic anchor only.
-    if (plan(Branch::stop_hold, r, members) != Charge{19, 660, 1105, 8, 294})
+    if (plan(Branch::stop_hold, r, members) != Charge{19, 660, 1105, 8, 302})
         return false;
     r.intent = 111;
     r.result = 81;

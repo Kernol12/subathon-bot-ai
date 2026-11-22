@@ -9,6 +9,8 @@ using namespace storage_027_fixture;
 using namespace subathon::server::testing;
 using predecessor::check;
 
+enum class RefundEligibility { ready, active_review, direct_skip, resolved_skip };
+
 void exact_same_result(Decision retained, const Decision &committed) {
     require(retained.disposition == Disposition::replay, "Exact authorized intent replays");
     retained.disposition = Disposition::committed;
@@ -810,6 +812,196 @@ class Storage027CommandsTests final : public QObject {
                         cancellations(f.db, key.operation).empty() &&
                         f.db.rows("SELECT released FROM main.subathon_milestone_groups") == before,
                     "Fresh refusal does not change terminal Skip or historical release evidence");
+        });
+    }
+
+    void freshCommandRefundEligibility_data() {
+        QTest::addColumn<bool>("edit_origin");
+        QTest::addColumn<bool>("replacement");
+        QTest::addColumn<int>("eligibility");
+        using State = RefundEligibility;
+        const std::pair<const char *, State> states[]{{"ready", State::ready},
+                                                      {"active-review", State::active_review},
+                                                      {"direct-skip", State::direct_skip},
+                                                      {"resolved-skip", State::resolved_skip}};
+        for (const bool edited : {false, true})
+            for (const bool replace : {false, true})
+                for (const auto &[tag, state] : states)
+                    QTest::newRow((QByteArray(edited ? "edit/" : "application/") +
+                                   (replace ? "replace/" : "stop/") + tag)
+                                      .constData())
+                        << edited << replace << int(state);
+    }
+
+    void freshCommandRefundEligibility() {
+        QFETCH(bool, edit_origin);
+        QFETCH(bool, replacement);
+        QFETCH(int, eligibility);
+        check([&] {
+            using State = RefundEligibility;
+            const auto state = static_cast<State>(eligibility);
+            const bool skipped = state == State::direct_skip || state == State::resolved_skip;
+            Populated f({.large_slots = edit_origin ? 0U : 1U});
+            if (edit_origin)
+                release_application(f);
+            const auto target = edit_origin ? edited(f) : application(f);
+            const auto occurrence = QByteArray::fromStdString(target.occurrence.ref);
+            const auto selected_head = [&] {
+                return f.db.rows(
+                    edit_origin
+                        ? "SELECT g.released,g.queue_order,d.definition_revision,h.prefix_revision,"
+                          "c.choice,c.resolution FROM main.subathon_milestone_edit_occurrences g "
+                          "JOIN main.subathon_milestone_edit_choices c USING(occurrence_ref) "
+                          "JOIN main.subathon_milestone_definition_heads d "
+                          "USING(installation_ref,track_ref) "
+                          "JOIN main.subathon_milestone_prefix_heads h "
+                          "USING(installation_ref,track_ref) WHERE g.occurrence_ref=?"
+                        : "SELECT g.released,g.queue_order,d.definition_revision,h.prefix_revision,"
+                          "c.choice,c.resolution FROM main.subathon_milestone_groups g "
+                          "JOIN main.subathon_milestone_acceptance_decisions c "
+                          "USING(occurrence_ref) "
+                          "JOIN main.subathon_milestone_prefix_members m "
+                          "ON m.application_occurrence_ref=g.occurrence_ref "
+                          "JOIN main.subathon_milestone_prefix_heads h "
+                          "USING(installation_ref,track_ref,prefix_revision) "
+                          "JOIN main.subathon_milestone_definition_heads d "
+                          "USING(installation_ref,track_ref) WHERE g.occurrence_ref=?",
+                    {occurrence});
+            };
+            const auto before = selected_head();
+            require(before.size() == 1 && before[0][0] == 0 &&
+                        before[0][1] == (edit_origin ? 2 : 1) &&
+                        before[0][4] == int(MilestoneActionChoice::run) && before[0][5].isNull(),
+                    "Protected typed head has an unreleased Run with no acceptance resolution");
+
+            const MilestoneHoldKey review{MilestoneHoldCause::refund_review, "exact-refund"};
+            const MilestoneDecisionEvidence evidence{"operator", "refund-review-skip"};
+            const auto policy = state == State::direct_skip ? MilestoneRefundPolicy::skip
+                                                            : MilestoneRefundPolicy::review;
+            const auto threshold = edit_origin ? 104 : 100;
+            f.db.write([&](const auto &s) {
+                const SqliteMilestoneGroupDecisions store(s);
+                require(store.pending_disposition(target.occurrence) ==
+                                MilestonePendingDisposition::ready &&
+                            store.active_holds(target.occurrence).empty(),
+                        "Shipped decision reader finds the exact ready starting occurrence");
+                if (state != State::ready)
+                    store.observe_refund(
+                        {target.occurrence, review.source_ref, 105, 99, threshold, policy});
+                if (policy == MilestoneRefundPolicy::review && state != State::ready)
+                    require(store.pending_disposition(target.occurrence) ==
+                                    MilestonePendingDisposition::held &&
+                                store.active_holds(target.occurrence) == std::vector{review},
+                            "Shipped refund producer creates the exact active Review");
+                if (state == State::resolved_skip)
+                    require(store.resolve(target.occurrence, review, MilestoneHoldResolution::skip,
+                                          evidence),
+                            "Shipped resolution producer resolves that exact Review to Skip");
+
+                const auto audit = store.refund_audit(target.occurrence, review.source_ref);
+                if (state == State::ready) {
+                    require(!audit, "Ready control has no selected refund decision");
+                } else {
+                    require(audit && audit->policy == policy &&
+                                audit->current_target_micro_points == threshold &&
+                                audit->deficit_micro_points == unsigned(threshold - 99) &&
+                                !audit->ended_by_skip,
+                            "Shipped reader selects the exact crossing and retained policy");
+                    if (state == State::resolved_skip)
+                        require(audit->resolution == MilestoneHoldResolution::skip &&
+                                    audit->resolution_evidence &&
+                                    audit->resolution_evidence->actor_ref == evidence.actor_ref &&
+                                    audit->resolution_evidence->decision_ref ==
+                                        evidence.decision_ref,
+                                "Review and its exact Skip resolution remain separately retained");
+                    else
+                        require(!audit->resolution && !audit->resolution_evidence,
+                                "Direct policy and active Review have no resolution evidence");
+                }
+                const auto expected = skipped ? MilestonePendingDisposition::skipped
+                                      : state == State::active_review
+                                          ? MilestonePendingDisposition::held
+                                          : MilestonePendingDisposition::ready;
+                const auto holds = state == State::active_review ? std::vector{review}
+                                                                 : std::vector<MilestoneHoldKey>{};
+                require(store.pending_disposition(target.occurrence) == expected &&
+                            store.active_holds(target.occurrence) == holds,
+                        "Shipped reader distinguishes eligible, active Review and terminal Skip");
+            });
+
+            const auto refund_history = [&] {
+                return f.db.rows(
+                    edit_origin ? "SELECT * FROM main.subathon_milestone_edit_refund_decisions "
+                                  "WHERE occurrence_ref=?"
+                                : "SELECT * FROM main.subathon_milestone_refund_decisions "
+                                  "WHERE occurrence_ref=?",
+                    {occurrence});
+            };
+            const auto refunds = refund_history();
+            advance_fixture(f.db);
+            require(selected_head() == before && refund_history() == refunds &&
+                        journal(f.db).empty(),
+                    "Literal advance preserves the exact target/head, refund and unused keys");
+            Authority owner;
+            if (replacement) {
+                auto cmd = replace(f);
+                cmd.operation = "refund-eligibility-replace";
+                if (!edit_origin) {
+                    const Replacement original{1, f.app_group.group.actions.front()};
+                    auto patch = original;
+                    patch.action.version_ref = "bonus-v2";
+                    cmd.intent = ReplaceIntent{target, {patch}};
+                    owner.captures = {{patch, {}, {}, {}, 20000}};
+                    owner.historical_bonuses = {{target, original, 30000}};
+                }
+                std::shared_ptr<const ReplacePreview> bound;
+                f.db.write([&](const auto &s) {
+                    const auto changes = s.execute({"SELECT total_changes()", {}});
+                    const auto result = preview_replace(s, owner, cmd);
+                    const auto *disposition = std::get_if<Disposition>(&result);
+                    require(!disposition || *disposition != Disposition::not_implemented,
+                            "STORAGE-027 NI: fresh refund-aware Replace preview eligibility");
+                    if (skipped) {
+                        require(disposition && *disposition == Disposition::refused,
+                                "Terminal refund Skip refuses a valid fresh Replace preview");
+                    } else {
+                        const auto *preview =
+                            std::get_if<std::shared_ptr<const ReplacePreview>>(&result);
+                        require(preview && *preview,
+                                "Eligible target binds the exact fresh preview");
+                        bound = *preview;
+                    }
+                    require(s.execute({"SELECT total_changes()", {}}) == changes,
+                            "Fresh Replace preview stages no writes");
+                });
+                if (bound) {
+                    const auto result =
+                        commit(f.db, owner, cmd, Disposition::committed, bound.get());
+                    require(result.versions.size() == 1 && result.versions[0].ordinal == 1 &&
+                                !result.versions[0].version.isEmpty(),
+                            "Fresh eligible Replace commits the exact first selected slot");
+                }
+            } else {
+                const auto cmd =
+                    stop("refund-eligibility-stop", target, QueueChoice::continue_queue);
+                const auto turn = run(f.db, [&](const auto &s) {
+                    const auto changes = s.execute({"SELECT total_changes()", {}});
+                    const auto decision = stage_command(s, owner, cmd);
+                    if (skipped)
+                        require(s.execute({"SELECT total_changes()", {}}) == changes,
+                                "Terminal refund Skip refusal stages no command writes");
+                    return decision;
+                });
+                require(!turn.missing, "STORAGE-027 NI: fresh refund-aware Stop eligibility");
+                const Decision expected =
+                    skipped ? Decision{Disposition::refused, {}, {}, {}, {}}
+                            : Decision{Disposition::committed, {}, {{1, {}}}, {}, {}};
+                require(turn.published && *turn.published == expected,
+                        "Fresh Stop refuses terminal Skip or cancels the exact eligible slot");
+            }
+            require(selected_head() == before && refund_history() == refunds &&
+                        journal(f.db).size() == (skipped ? 0 : 1),
+                    "Fresh command preserves target/head and refund and journals eligible commits");
         });
     }
 
