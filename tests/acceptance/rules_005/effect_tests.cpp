@@ -273,6 +273,84 @@ TEST(Rules005, S7OrderedRefusalRollbackAndReconciliation) {
     EXPECT_EQ(result.final_state.score_micro_points, 7);
 }
 
+TEST(Rules005, ElapsedTimePrecedesRuleEffects) {
+    const auto r = root("timed-effect");
+    auto in = ordered_refusal(r, RuleCompletion::committed);
+    in.turns.front().sample = {500, 500ms};
+    turn(in, "status-only",
+         ConnectorReport{{},
+                         ConnectorInstallation::validated,
+                         ConnectorConsent::granted,
+                         ConnectorConnection::connected,
+                         ConnectorGap::none},
+         {550, 550ms});
+    turn(in, "after-effect", TimeCut{}, {600, 600ms});
+    const auto scenario = replay("timer-cut-before-effect", std::move(in));
+
+    const auto result = inspect_simulation(scenario, limits);
+    expect_complete(result, scenario);
+    ASSERT_EQ(result.trace.size(), 3U);
+    const auto &effect = result.trace[0];
+    ASSERT_TRUE(effect.timer_cut);
+    EXPECT_EQ(effect.timer_cut->progressed_ms, 500);
+    ASSERT_FALSE(effect.actions.empty());
+    expect_actual_time(effect.actions.front(), key("H", "first"), {100, 100, 0, 0, 600});
+    EXPECT_EQ(effect.state.timer.main_remaining_ms, 600);
+    EXPECT_TRUE(result.trace[1].connector);
+    EXPECT_FALSE(result.trace[1].timer_cut);
+    ASSERT_TRUE(result.trace[2].timer_cut);
+    EXPECT_EQ(result.trace[2].timer_cut->progressed_ms, 100);
+    EXPECT_EQ(result.final_state.timer.main_remaining_ms, 500);
+}
+
+TEST(Rules005, PauseControlAppliesAtTheObservedSample) {
+    auto in = inputs(1000);
+    turn(in, "pause", PauseControl{PauseReason::Manual, true}, {500, 500ms});
+    turn(in, "paused-cut", TimeCut{}, {600, 600ms});
+    turn(in, "resume", PauseControl{PauseReason::Manual, false}, {700, 700ms});
+    turn(in, "running-cut", TimeCut{}, {800, 800ms});
+    const auto scenario = replay("timer-cut-before-pause", std::move(in));
+
+    const auto result = inspect_simulation(scenario, limits);
+    expect_complete(result, scenario);
+    ASSERT_EQ(result.trace.size(), 4U);
+    ASSERT_TRUE(result.trace[0].timer_cut);
+    EXPECT_EQ(result.trace[0].timer_cut->progressed_ms, 500);
+    EXPECT_EQ(result.trace[0].state.timer.main_remaining_ms, 500);
+    EXPECT_EQ(result.trace[0].state.pause.reasons, PauseReasons{PauseReason::Manual});
+    ASSERT_TRUE(result.trace[1].timer_cut);
+    EXPECT_EQ(result.trace[1].timer_cut->progressed_ms, 0);
+    EXPECT_EQ(result.trace[2].state.timer.main_remaining_ms, 500);
+    EXPECT_TRUE(result.trace[2].state.pause.reasons.empty());
+    ASSERT_TRUE(result.trace[3].timer_cut);
+    EXPECT_EQ(result.trace[3].timer_cut->progressed_ms, 100);
+    EXPECT_EQ(result.final_state.timer.main_remaining_ms, 400);
+}
+
+TEST(Rules005, HeldTimerCutKeepsElapsedForAdmittedCut) {
+    const auto r = root("held-timer");
+    auto in = ordered_refusal(r, RuleCompletion::outcome_unknown);
+    const auto history = ordered_committed(r);
+    const auto identity = history.publications.front().identity;
+    turn(in, "held-cut", TimeCut{}, {500, 500ms});
+    turn(in, "exact-readback", UnitReconciliation{r.event.chain, identity, history}, {550, 550ms});
+    turn(in, "admitted-cut", TimeCut{}, {600, 600ms});
+    const auto scenario = replay("held-timer-cut", std::move(in));
+
+    const auto result = inspect_simulation(scenario, limits);
+    expect_complete(result, scenario);
+    ASSERT_EQ(result.trace.size(), 4U);
+    EXPECT_TRUE(result.trace[1].clock_held);
+    EXPECT_FALSE(result.trace[1].timer_cut);
+    EXPECT_EQ(result.trace[1].state.timer.main_remaining_ms, 1000);
+    ASSERT_TRUE(result.trace[2].publication);
+    EXPECT_EQ(result.trace[2].publication->identity, identity);
+    EXPECT_EQ(result.trace[2].state.timer.main_remaining_ms, 1100);
+    ASSERT_TRUE(result.trace[3].timer_cut);
+    EXPECT_EQ(result.trace[3].timer_cut->progressed_ms, 600);
+    EXPECT_EQ(result.final_state.timer.main_remaining_ms, 500);
+}
+
 const RuleDeliveryObservation queued{"J", RuleDeliveryState::queued, 1, {}, {}};
 const RuleDeliveryObservation sending{"J", RuleDeliveryState::sending, 2, 2, {}};
 const RuleDeliveryObservation delivered{"J", RuleDeliveryState::delivered, 3, 2, "evidence-J"};

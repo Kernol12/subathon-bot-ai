@@ -314,6 +314,8 @@ struct TurnTrace {
     std::optional<core::PlanEvent> refund_receipt;
     std::optional<core::RefundTimeEntitlement> refund;
     std::optional<core::TimeReversalResult> reversal;
+    // Pending modeled work prevented this turn from advancing the timer or applying recovery.
+    bool clock_held{};
     std::optional<core::TimerAdvance> timer_cut;
     std::optional<ConnectorStatus> connector;
     std::optional<core::DowntimeRecoveryPreview> recovery;
