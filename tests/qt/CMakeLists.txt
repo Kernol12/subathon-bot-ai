@@ -321,6 +321,10 @@ if(SUBATHON_BUILD_STORAGE_027_STAGE1)
     add_subdirectory(storage_027)
 endif()
 
+if(SUBATHON_BUILD_RATES_012_STAGE1)
+    add_subdirectory(rates_012)
+endif()
+
 if(SUBATHON_BUILD_MODIFIER_CAPTURE_TESTS)
     subathon_add_qt_suite(server_modifier_005_stage1
         NAME modifier-capture SOURCES modifier_005/capture_tests.cpp
