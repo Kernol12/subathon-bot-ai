@@ -35,7 +35,7 @@ struct RuleSelectionDecision {
     bool operator==(const RuleSelectionDecision &) const = default;
 };
 
-struct RuleSelection {
+struct RuleSelectionResult {
     std::string configuration_ref;
     std::string event_ref;
     std::vector<RuleSelectionDecision> decisions;   // One per rule, in captured user order.
@@ -69,7 +69,7 @@ validate_rule_selection(const RuleConfiguration &configuration);
 // as validate_rule_selection. Keep the result with that configuration. Rule/action
 // versions and action order remain in the captured configuration. Selection grants
 // no execution authority and performs no actions. Refusals return no partial result.
-[[nodiscard]] RuleSelection select_rules(const RuleConfiguration &configuration,
-                                         const RuleCapturedInput &input,
-                                         std::span<const RuleExplicitValuation> valuations = {});
+[[nodiscard]] RuleSelectionResult
+select_rules(const RuleConfiguration &configuration, const RuleCapturedInput &input,
+             std::span<const RuleExplicitValuation> valuations = {});
 } // namespace subathon::core

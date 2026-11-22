@@ -147,6 +147,17 @@ EncodedBytes seal_record(std::span<const unsigned char> scope,
         return CredentialError::crypto_unavailable;
     std::ranges::copy(plaintext, input.bytes().begin());
 
+    return seal_guarded_record(scope, input, id, key);
+}
+
+EncodedBytes seal_guarded_record(std::span<const unsigned char> scope, const GuardedBytes &input,
+                                 KeyIdView id, KeyView key) {
+    const auto plaintext = input.bytes();
+    if (scope.size() > max_scope_size || plaintext.size() > max_plaintext_size)
+        return CredentialError::resource_limit;
+    if (scope.size() < min_scope_size || plaintext.empty())
+        return CredentialError::invalid_input;
+
     RecordBytes out(envelope_overhead + plaintext.size());
     auto header = std::span(out).first<header_size>();
     std::ranges::copy(magic, header.begin());
@@ -161,7 +172,7 @@ EncodedBytes seal_record(std::span<const unsigned char> scope,
     const auto aad = associated_data(header, scope);
     unsigned long long written{};
     if (crypto_aead_xchacha20poly1305_ietf_encrypt(
-            out.data() + header.size(), &written, input.bytes().data(), input.bytes().size(),
+            out.data() + header.size(), &written, plaintext.data(), plaintext.size(),
             aad.data(), aad.size(), nullptr, nonce.data(), key.data()) != 0 ||
         written != plaintext.size() + crypto_aead_xchacha20poly1305_ietf_ABYTES)
         return CredentialError::crypto_unavailable;

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include <subathon/server/credential_storage.hpp>
 
-#include "credential_internal.hpp"
+#include "credential_repository_internal.hpp"
 
 #include <QByteArray>
 #include <algorithm>
@@ -73,11 +73,12 @@ bool protected_key(const struct stat &metadata, uid_t service_uid) noexcept {
            (mode == 0400 || mode == 0600);
 }
 
+} // namespace
+
+namespace credential_detail {
 // Metadata precedes any payload projection. Both statements use the same
 // serialized writer session and the full canonical BLOB key.
-using SelectedRecord = std::variant<QByteArray, CredentialMissing, CredentialError>;
-
-bool sql_integer(const QVariant &value) {
+static bool sql_integer(const QVariant &value) {
     return value.metaType().id() == QMetaType::Int || value.metaType().id() == QMetaType::LongLong;
 }
 
@@ -128,7 +129,31 @@ QByteArray blob(std::span<const unsigned char> bytes) {
 std::span<const unsigned char> byte_view(const QByteArray &blob) {
     return {reinterpret_cast<const unsigned char *>(blob.constData()), std::size_t(blob.size())};
 }
-} // namespace
+// Guard replacement and deletion by the exact ciphertext authenticated by the caller.
+static void require_one(const SqlRows &acknowledged) {
+    if (acknowledged.size() != 1 || acknowledged.front().size() != 1 ||
+        !sql_integer(acknowledged.front().front()) ||
+        acknowledged.front().front().toLongLong() != 1)
+        throw SqliteWorkFailure(WorkError::sql_failure);
+}
+
+void store_record(const SqliteWorkSession &session, const QByteArray &scope,
+                  const QByteArray *prior, const QByteArray &record) {
+    require_one(prior ? session.execute({"UPDATE main.subathon_provider_credentials SET record=? "
+                                         "WHERE scope=? AND record=? RETURNING 1",
+                                         {record, scope, *prior}})
+                      : session.execute({"INSERT INTO main.subathon_provider_credentials(scope,record) "
+                                         "VALUES(?,?) RETURNING 1",
+                                         {scope, record}}));
+}
+
+void erase_record(const SqliteWorkSession &session, const QByteArray &scope,
+                  const QByteArray &prior) {
+    require_one(session.execute({"DELETE FROM main.subathon_provider_credentials "
+                                 "WHERE scope=? AND record=? RETURNING 1",
+                                 {scope, prior}}));
+}
+} // namespace credential_detail
 
 struct CredentialKey::Storage {
     credential_detail::GuardedBytes file{key_size + 1};
@@ -142,6 +167,25 @@ struct CredentialKey::Storage {
                      credential_detail::KeyView::extent>();
     }
 };
+
+bool RepositoryAccess::usable(const CredentialKey *key) noexcept {
+    return key && key->storage_;
+}
+
+CredentialLoadResult RepositoryAccess::open(const CredentialKey &key,
+                                            std::span<const unsigned char> scope,
+                                            const QByteArray &record) {
+    auto opened = open_record(scope, byte_view(record), key.storage_->id(), key.storage_->key());
+    if (const auto *error = std::get_if<CredentialError>(&opened))
+        return *error;
+    return std::get<CredentialValue>(std::move(opened));
+}
+
+EncodedBytes RepositoryAccess::seal_guarded(const CredentialKey &key,
+                                           std::span<const unsigned char> scope,
+                                           const GuardedBytes &input) {
+    return seal_guarded_record(scope, input, key.storage_->id(), key.storage_->key());
+}
 
 CredentialKey::CredentialKey(std::unique_ptr<Storage> storage) noexcept
     : storage_(std::move(storage)) {}
@@ -242,11 +286,7 @@ CredentialLoadResult CredentialRepository::load(const CredentialScope &scope) co
     if (std::holds_alternative<CredentialMissing>(selected))
         return CredentialMissing{};
 
-    auto opened = open_record(canonical, byte_view(std::get<QByteArray>(selected)),
-                              key_.storage_->id(), key_.storage_->key());
-    if (const auto *error = std::get_if<CredentialError>(&opened))
-        return *error;
-    return std::get<CredentialValue>(std::move(opened));
+    return RepositoryAccess::open(key_, canonical, std::get<QByteArray>(selected));
 }
 
 CredentialPutResult CredentialRepository::stage_put(const CredentialScope &scope,
@@ -276,18 +316,7 @@ CredentialPutResult CredentialRepository::stage_put(const CredentialScope &scope
         return *error;
     const auto record = blob(std::get<RecordBytes>(sealed));
 
-    // Guard the replacement by the exact ciphertext authenticated above.
-    const auto acknowledged =
-        prior ? session_.execute({"UPDATE main.subathon_provider_credentials SET record=? "
-                                  "WHERE scope=? AND record=? RETURNING 1",
-                                  {record, scope_blob, *prior}})
-              : session_.execute({"INSERT INTO main.subathon_provider_credentials(scope,record) "
-                                  "VALUES(?,?) RETURNING 1",
-                                  {scope_blob, record}});
-    if (acknowledged.size() != 1 || acknowledged.front().size() != 1 ||
-        !sql_integer(acknowledged.front().front()) ||
-        acknowledged.front().front().toLongLong() != 1)
-        throw SqliteWorkFailure(WorkError::sql_failure);
+    store_record(session_, scope_blob, prior, record);
     return CredentialStaged{};
 }
 

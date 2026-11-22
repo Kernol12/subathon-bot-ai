@@ -390,4 +390,111 @@ TEST(Rules004, G8EarlierUseDenialWinsAndOrdinaryRefusalPreservesOtherRules) {
     }
 }
 
+TEST(Rules004, Correction153BNamedCapacityHoldRollsBackEntireUnitBeforeCheckedRetry) {
+    Owner owner;
+    const auto r = root();
+    const auto seed = key("Seed", "emit-work");
+    const auto first = key("Work", "plus5");
+    const auto emit_b = key("Work", "emit-b", 1);
+    const auto emit_c = key("Work", "emit-c", 2);
+    const auto suffix = key("Work", "plus7", 3);
+    const auto work = child(r.event, "E1", NamedAction{seed});
+    const auto b = child(work, "B", NamedAction{emit_b});
+    const auto c = child(work, "C", NamedAction{emit_c});
+    const AdmittedEvent e1{work, 1, 1};
+    const AdmittedEvent e2{b, 2, 2};
+    const AdmittedEvent e3{c, 2, 3};
+    const Cutoff cutoff{{"I", "R"}, "CR", e3, {3, 3}, CutoffReason::count};
+    const std::map<std::string, Candidate> candidates{{"emit-b", {b, "b"}}, {"emit-c", {c, "c"}}};
+    owner.define("C-policy", {3, 3},
+                 {named_rule("Seed", "seed", {emit("emit-work", "work")}),
+                  named_rule("Work", "work",
+                             {delta("plus5", "5"), emit("emit-b", "b"), emit("emit-c", "c"),
+                              delta("plus7", "7")})});
+    owner.active = "C-policy";
+    owner.keep(r.event, "seed");
+    owner.keep(work, "work");
+    owner.keep(b, "b");
+    owner.keep(c, "c");
+    auto runtime = profile;
+    runtime.pending_events = 3;
+    auto opened = std::get<OpenedChain>(owner.open(r, runtime));
+    const auto root_pass =
+        owner.run(opened.chain, r.event, "pass-R", {{"emit-work", {work, "work"}}});
+    ASSERT_EQ(root_pass.children, (std::vector{e1}));
+    ASSERT_FALSE(root_pass.cutoff);
+    const auto expect_prefix = [&] {
+        EXPECT_EQ(owner.time, 0);
+        EXPECT_EQ(owner.score, 0);
+        EXPECT_EQ(owner.queued, (std::vector{e1}));
+        EXPECT_TRUE(owner.audits.empty());
+        EXPECT_TRUE(owner.notices.empty());
+        expect_duplicate(opened.chain, e1);
+        EXPECT_TRUE(std::holds_alternative<NotRecorded>(lookup_child(opened.chain, b)));
+        EXPECT_TRUE(std::holds_alternative<NotRecorded>(lookup_child(opened.chain, c)));
+    };
+    expect_prefix();
+
+    owner.calls.clear();
+    // E1 and one other pending event leave room for B's reservation only.
+    owner.other.pending_events = 1;
+    auto unit = std::get<Unit>(begin_event(opened.chain, work, "pass-E1-held"));
+    const auto plan = plan_event(unit, owner.mapper());
+    ASSERT_EQ(plan.event, lineage(work));
+    const auto staged = std::get<RuleStagedPass>(owner.consume(unit, work, plan, candidates));
+    ASSERT_EQ(staged.rules.size(), 1U);
+    const auto &rule = staged.rules.front();
+    ASSERT_EQ(rule.accepted.size(), 2U);
+    expect_time(rule.accepted[0], first, 5, 5);
+    EXPECT_EQ(rule.accepted[1].key, emit_b);
+    EXPECT_EQ(std::get<RuleEventLineage>(rule.accepted[1].observed), lineage(b));
+    expect_owner_stop(rule, 2, "generation_capacity_hold");
+    auto checks = std::vector<std::string>{"authority:plus5",       "execution:timer.adjust",
+                                           "target:timer.adjust",   "capability:timer.adjust",
+                                           "authority:emit-b",      "execution:event.emit",
+                                           "target:event.emit",     "capability:event.emit",
+                                           "offer:emit-b",          "authority:emit-c",
+                                           "execution:event.emit",  "target:event.emit",
+                                           "capability:event.emit", "offer:emit-c"};
+    EXPECT_EQ(owner.calls, checks);
+    EXPECT_EQ(owner.offered, (std::vector{seed, emit_b, emit_c}));
+    EXPECT_EQ(owner.handled, (std::vector{seed, first, emit_b}));
+
+    // The #208 callback can report a refusal, but even a commit request cannot
+    // publish that refusal or the actions accepted before it.
+    ASSERT_TRUE(std::holds_alternative<RolledBack>(
+        finish_unit(std::move(unit), staged, RuleCompletion::committed)));
+    expect_prefix();
+
+    owner.other.pending_events = 0;
+    owner.calls.clear();
+    const auto retry = owner.run(opened.chain, work, "pass-E1-retry", candidates);
+    checks.insert(checks.end(), {"authority:plus7", "execution:timer.adjust", "target:timer.adjust",
+                                 "capability:timer.adjust"});
+    EXPECT_EQ(owner.calls, checks);
+    EXPECT_EQ(owner.offered, (std::vector{seed, emit_b, emit_c, emit_b, emit_c}));
+    EXPECT_EQ(owner.handled, (std::vector{seed, first, emit_b, first, emit_b, emit_c, suffix}));
+    EXPECT_EQ(retry.children, (std::vector{e2, e3}));
+    EXPECT_TRUE(retry.named_suppressions.empty());
+    EXPECT_TRUE(retry.occurrences.empty());
+    ASSERT_TRUE(retry.cutoff);
+    expect_cutoff(*retry.cutoff, cutoff);
+    ASSERT_EQ(retry.pass->rules.size(), 1U);
+    const auto &retried = retry.pass->rules.front();
+    EXPECT_FALSE(retried.stop);
+    ASSERT_EQ(retried.accepted.size(), 4U);
+    expect_time(retried.accepted[0], first, 5, 5);
+    EXPECT_EQ(retried.accepted[1].key, emit_b);
+    EXPECT_EQ(std::get<RuleEventLineage>(retried.accepted[1].observed), lineage(b));
+    EXPECT_EQ(retried.accepted[2].key, emit_c);
+    EXPECT_EQ(std::get<RuleEventLineage>(retried.accepted[2].observed), lineage(c));
+    expect_time(retried.accepted[3], suffix, 7, 12);
+    EXPECT_EQ(owner.time, 12);
+    EXPECT_EQ(owner.score, 0);
+    EXPECT_EQ(owner.queued, (std::vector{e1, e2, e3}));
+    ASSERT_EQ(owner.audits.size(), 1U);
+    expect_cutoff(owner.audits.front(), cutoff);
+    EXPECT_EQ(owner.notices, (std::vector{std::pair{ChainKey{"I", "R"}, 3U}}));
+}
+
 } // namespace

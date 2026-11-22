@@ -65,6 +65,18 @@ if(TARGET subathon_milestone_progression)
     subathon_target_options(subathon_milestone_timeline)
 endif()
 
+if(BUILD_TESTING AND SUBATHON_BUILD_RULES_005_STAGE1)
+    add_library(subathon_rule_simulator STATIC EXCLUDE_FROM_ALL src/rule_simulator.cpp)
+    target_include_directories(subathon_rule_simulator PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_rule_simulator PUBLIC
+        subathon_rule_actions subathon_application_plan subathon_modifier_stacking_handoff
+        subathon_modifier_clock subathon_contribution subathon_refund_entitlement
+        subathon_milestone_timeline subathon_timer_lifecycle subathon_time_debt
+        subathon_pause_policy subathon_connector_lifecycle subathon_downtime_recovery
+        subathon_core subathon_rule_selection subathon_milestone_progression subathon_rule_chain)
+    subathon_target_options(subathon_rule_simulator)
+endif()
+
 if(TARGET Sodium::Sodium)
     add_library(subathon_session_resolution STATIC src/session_resolution.cpp)
     target_include_directories(subathon_session_resolution PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
@@ -93,6 +105,13 @@ if(TARGET Qt6::Core AND TARGET Qt6::Sql)
         target_link_libraries(subathon_credential_storage PUBLIC
             subathon_credential_record subathon_sqlite_writer PRIVATE Sodium::Sodium)
         subathon_target_options(subathon_credential_storage)
+    endif()
+
+    if(TARGET subathon_credential_storage AND TARGET subathon_rate_snapshots)
+        add_library(subathon_rate_credentials STATIC src/rate_credentials.cpp)
+        target_link_libraries(subathon_rate_credentials PUBLIC subathon_credential_storage
+            PRIVATE Sodium::Sodium subathon_rate_snapshots)
+        subathon_target_options(subathon_rate_credentials)
     endif()
 
     add_library(subathon_sqlite_migrations STATIC src/sqlite_migrations.cpp)

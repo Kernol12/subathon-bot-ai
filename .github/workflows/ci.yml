@@ -225,6 +225,7 @@ jobs:
               "rule-definition": ({"acceptance", "core"}, 30),
               "rule-selection": ({"acceptance", "core"}, 30),
               "rule-actions": ({"acceptance", "core"}, 30),
+              "rule-chain": ({"acceptance", "core"}, 30),
               "chat-commands": ({"acceptance", "core"}, 30),
           }
           discovery = json.loads(subprocess.check_output(
@@ -292,6 +293,8 @@ jobs:
               raise SystemExit(f"Expected 10 rule selection cases, got {found['rule-selection']}")
           if found["rule-actions"] != 31:
               raise SystemExit(f"Expected 31 rule action cases, got {found['rule-actions']}")
+          if found["rule-chain"] != 24:
+              raise SystemExit(f"Expected 24 rule chain cases, got {found['rule-chain']}")
           if found["chat-commands"] != 41:
               raise SystemExit(f"Expected 41 chat command cases, got {found['chat-commands']}")
           if found["milestone-target-edit"] != 6:
@@ -409,7 +412,7 @@ jobs:
       - name: Configure reviewed SQL suites
         run: >-
           cmake --preset sqlite-reference-capture-debug -DCMAKE_PREFIX_PATH="$QT_PREFIX"
-          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch;contribution-review;modifier-capture;frankfurter-rates"
+          -DSUBATHON_ACCEPTANCE_SUITES="sqlite-reference-capture;sqlite-account-sessions;sqlite-permission-graph;sqlite-reference-authority;reference-rule;dev-server;sqlite-delivery-jobs;milestone-timeline;milestone-group-restart;milestone-group-decisions;connector-lifecycle;sqlite-modifier-activations;sqlite-financial-refunds;credential-record;sqlite-credentials;rate-credentials;sqlite-credential-catalog;sqlite-rate-override-catalog;sqlite-rate-override-writer;sqlite-milestone-target-edits;session-installation-epoch;contribution-review;modifier-capture;frankfurter-rates"
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE=ON
           -DSUBATHON_BUILD_STORAGE_026_STAGE1=ON
@@ -480,6 +483,27 @@ jobs:
         run: ctest --preset sqlite-reference-capture-debug -L '^credential-record$' --no-tests=error
       - name: Run credential storage and readiness acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-credentials$' --no-tests=error
+      - name: Run reviewed rate credential acceptance
+        run: |
+          ctest --preset sqlite-reference-capture-debug -L '^rate-credentials$' \
+            --no-tests=error --verbose --test-output-size-passed 1048576 \
+            --output-junit "$GITHUB_WORKSPACE/build/sqlite-reference-capture-debug/rate-credentials-results.xml"
+          python3 - <<'PYTHON'
+          import re
+          import xml.etree.ElementTree as ET
+          cases = ET.parse("build/sqlite-reference-capture-debug/rate-credentials-results.xml").getroot().findall("testcase")
+          if len(cases) != 1 or cases[0].get("name") != "rate-credentials.suite":
+              raise SystemExit("Missing unfiltered rate credential acceptance results")
+          case = cases[0]
+          if case.find("failure") is not None or case.find("skipped") is not None:
+              raise SystemExit("Rate credential acceptance failed or skipped")
+          output = case.findtext("system-out", "")
+          totals = re.findall(r"^Totals: (\d+) passed, (\d+) failed, (\d+) skipped, (\d+) blacklisted", output, re.MULTILINE)
+          if totals != [("22", "0", "0", "0")]:
+              raise SystemExit("Rate credential acceptance must pass 20 cases and both hooks, with zero skips")
+          if re.search(r"^(?:QWARN|QSYSTEM|QFATAL)", output, re.MULTILINE):
+              raise SystemExit("Unexpected Qt warning in rate credential acceptance")
+          PYTHON
       - name: Run credential catalog acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^sqlite-credential-catalog$' --no-tests=error
       - name: Run rate override catalog acceptance

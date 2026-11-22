@@ -233,14 +233,18 @@
       "status": "partial",
       "tests": [
         "tests/acceptance/rule_definition_tests.cpp",
-        "tests/acceptance/rule_actions_tests.cpp"
+        "tests/acceptance/rule_actions_tests.cpp",
+        "tests/acceptance/rules_004/generation_tests.cpp",
+        "tests/acceptance/rules_004/milestone_tests.cpp",
+        "tests/acceptance/rules_004/profile_tests.cpp",
+        "tests/acceptance/rules_004/unit_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/735#issuecomment-7024035880",
         "https://github.com/Kernol12/subathon-bot-ai/pull/735#issuecomment-7024214931",
         "https://github.com/Kernol12/subathon-bot-ai/pull/755#issuecomment-7055320763"
       ],
-      "scope": "RULES-001 validates retained depth and count limits, with defaults of 32 and 256. RULES-003 covers carried cause and observed child lineage. Per-root admission, stopping, audit and notice remain #210."
+      "scope": "RULES-001 validates retained depth and count limits. RULES-003 covers carried cause and observed child lineage. RULES-004 covers per-root admission, cutoff, modeled audit and notice, and reconciliation. Production activation and durable recovery remain #776."
     },
     {
       "id": "MOD-01",
@@ -377,14 +381,15 @@
       "tests": [
         "tests/acceptance/frankfurter_adapter_tests.cpp",
         "tests/acceptance/rates_003/quota_policy_tests.cpp",
-        "tests/acceptance/rates_004/owner_policy_tests.cpp"
+        "tests/acceptance/rates_004/owner_policy_tests.cpp",
+        "tests/qt/rates_012/tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/756#issuecomment-7055764242",
         "https://github.com/Kernol12/subathon-bot-ai/issues/398",
         "https://github.com/Kernol12/subathon-bot-ai/issues/400"
       ],
-      "scope": "Frankfurter classifies provider wait evidence with fake HTTP and receipt clocks. RATES-005 owns retry scheduling, clock reconciliation, dispatch gating and request accounting. RATES-003 verifies ExchangeRate-API quota, retry and hold behavior through synthetic transport, scope and clocks. Live qualification and shared scheduling remain outside this slice. RATES-004 verifies route waits, holds and requalification over synthetic selection, clock and reply evidence."
+      "scope": "Frankfurter classifies provider wait evidence with fake HTTP and receipt clocks. RATES-005 owns retry scheduling, clock reconciliation, dispatch gating and request accounting. RATES-003 verifies ExchangeRate-API quota, retry and hold behavior through synthetic transport, scope and clocks. Live qualification and shared scheduling remain outside this slice. RATES-004 verifies route waits, holds and requalification over synthetic selection, clock and reply evidence. RATES-012 covers a guarded synthetic attempt that refuses an oversized target with zero dispatch and preserves adapter backoff."
     },
     {
       "id": "FX-06",
@@ -1155,7 +1160,8 @@
         "tests/acceptance/credential_record_tests.cpp",
         "tests/qt/sqlite_credentials_tests.cpp",
         "tests/qt/credential_readiness_tests.cpp",
-        "tests/qt/sqlite_credential_catalog_tests.cpp"
+        "tests/qt/sqlite_credential_catalog_tests.cpp",
+        "tests/qt/rates_012/tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/729#issuecomment-7017165084",
@@ -1163,7 +1169,7 @@
         "https://github.com/Kernol12/subathon-bot-ai/pull/729#issuecomment-7021276387",
         "https://github.com/Kernol12/subathon-bot-ai/pull/729#issuecomment-7021496845"
       ],
-      "scope": "Synthetic cases cover exact credential encryption and scope, bounded refusals, commit-gated plaintext delivery, explicit v16 catalog upgrade, physical BLOB constraints, and credential put, replacement and reprovisioning after writer reopen. Startup catalog selection, provider wiring, deployment verification, key rotation and backup/restore remain separate."
+      "scope": "Synthetic cases cover exact credential encryption and scope, bounded refusals, commit-gated plaintext delivery, explicit v16 catalog upgrade, physical BLOB constraints, and credential put, replacement and reprovisioning after writer reopen. Startup catalog selection, provider wiring, deployment verification, key rotation and backup/restore remain separate. RATES-012 covers typed FX scope isolation, authenticated record reuse, exact revisions and guarded handoff."
     },
     {
       "id": "CRYPTO-02",
@@ -1410,12 +1416,12 @@
     {
       "id": "AUTH-15",
       "status": "partial",
-      "tests": ["tests/qt/connector_lifecycle_tests.cpp"],
+      "tests": ["tests/qt/connector_lifecycle_tests.cpp", "tests/qt/rates_012/tests.cpp"],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/723#issuecomment-7006329998",
         "https://github.com/Kernol12/subathon-bot-ai/pull/723#issuecomment-7006425713"
       ],
-      "scope": "Synthetic connector status covers installation-owned setup, account consent, exact configured callback, supported link guidance and a projection without credential values. Actual authorization flows and credential storage remain separate."
+      "scope": "Synthetic connector status covers installation-owned setup, account consent, exact configured callback, supported link guidance and a projection without credential values. RATES-012 covers installation-owned FX credential authority, revocation and exact guarded use through synthetic ports. Live provider composition remains separate."
     },
     {
       "id": "INTEGRATION-01",
