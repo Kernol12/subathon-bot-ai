@@ -86,12 +86,13 @@ std::vector<RulePriorityTie> validate_rule_selection(const RuleConfiguration &co
     return priority_ties(configuration.data().rules, ranked.order);
 }
 
-RuleSelection select_rules(const RuleConfiguration &configuration, const RuleCapturedInput &input,
-                           std::span<const RuleExplicitValuation> valuations) {
+RuleSelectionResult select_rules(const RuleConfiguration &configuration,
+                                 const RuleCapturedInput &input,
+                                 std::span<const RuleExplicitValuation> valuations) {
     const auto ranked = rank_and_validate_edges(configuration);
     const auto &data = configuration.data();
     const auto truths = evaluate_rule_conditions(data, input, valuations);
-    RuleSelection result{
+    RuleSelectionResult result{
         .configuration_ref = data.configuration_ref,
         .event_ref = input.event_ref,
         .decisions = std::vector<RuleSelectionDecision>(data.rules.size()),

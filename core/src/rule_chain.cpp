@@ -173,7 +173,7 @@ bool charge_capture(Bytes &bytes, const CaptureView &capture) {
     return bytes.entries(capture, capture.configuration.get().data());
 }
 
-RuleSelection select_capture(const CaptureView &capture) {
+RuleSelectionResult select_capture(const CaptureView &capture) {
     return select_rules(capture.configuration, capture.input, capture.valuations);
 }
 

@@ -65,6 +65,18 @@ if(TARGET subathon_milestone_progression)
     subathon_target_options(subathon_milestone_timeline)
 endif()
 
+if(BUILD_TESTING AND SUBATHON_BUILD_RULES_005_STAGE1)
+    add_library(subathon_rule_simulator STATIC EXCLUDE_FROM_ALL src/rule_simulator.cpp)
+    target_include_directories(subathon_rule_simulator PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+    target_link_libraries(subathon_rule_simulator PUBLIC
+        subathon_rule_actions subathon_application_plan subathon_modifier_stacking_handoff
+        subathon_modifier_clock subathon_contribution subathon_refund_entitlement
+        subathon_milestone_timeline subathon_timer_lifecycle subathon_time_debt
+        subathon_pause_policy subathon_connector_lifecycle subathon_downtime_recovery
+        subathon_core subathon_rule_selection subathon_milestone_progression subathon_rule_chain)
+    subathon_target_options(subathon_rule_simulator)
+endif()
+
 if(TARGET Sodium::Sodium)
     add_library(subathon_session_resolution STATIC src/session_resolution.cpp)
     target_include_directories(subathon_session_resolution PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
