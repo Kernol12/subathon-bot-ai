@@ -611,10 +611,11 @@ struct Lane {
     std::size_t retry_step{};
     Order last_result{};
 
-    bool ready(const OwnerIntent &intent) {
-        std::erase_if(provider_waits,
-                      [&](const Wait &provider_wait) { return provider_wait.ready(intent); });
-        return provider_waits.empty() && (!wait || wait->ready(intent));
+    bool ready(const OwnerIntent &intent) const {
+        return (!wait || wait->ready(intent)) &&
+               std::ranges::all_of(provider_waits, [&](const Wait &provider_wait) {
+                   return provider_wait.ready(intent);
+               });
     }
 
     void retry(Order order, const Clocks &receipt) {
@@ -1035,6 +1036,8 @@ std::variant<Started, Refusal> Adapter::start(const Request &request) {
     }
     state_->pending.emplace(
         reservation, Pending{admission, state_->selection_epoch, intent.kind, std::move(probes)});
+    // Retire provider waits only when a new authorized reservation passes every wait.
+    lane.provider_waits.clear();
     try {
         transport_.send(admission);
     } catch (...) {
