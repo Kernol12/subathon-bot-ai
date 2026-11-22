@@ -171,7 +171,7 @@ arguments against the single source in §2.
   or unavailable paint, state text and ordered slots. Assert supplied support
   row and slot order, and local text clipping/opacity before node
   clipping/opacity. RENDER-001 #447 owns the shared oracles, #449 and #451 the
-  comparisons, and RENDER-004 #453 the execution gate. L01–L09 propose
+  comparisons, and RENDER-004 #453 the execution gate. L01–L10 propose
   additional logical oracles under those owners.
 - C008-SC-R4 remains with CONTRACT-011. Section 5 and AP06 still describe 010
   as unfinalized. Missing exact selected closure still refuses. Trusted
