@@ -419,6 +419,8 @@ Outcome normalize(const Admission &admission, const SanitizedFrame &frame) {
             failure->retry = retry;
         return outcome;
     } catch (FailureKind kind) {
+        if (frame.status != 200 && kind == invalid_document)
+            return refuse(classify_http(frame.status, {}), status, retry);
         return refuse(kind, status, retry);
     } catch (const core::RateSnapshotFailure &failure) {
         return refuse(failure.code() == core::RateSnapshotError::resource_limit ? resource_limit
@@ -535,9 +537,13 @@ Reply sanitize_reply(const Handoff &handoff, RawFrame raw) {
             static_cast<void>(ReplyJson(raw.body, sent_id, echoed_id).read());
         }
     } catch (FailureKind kind) {
-        return failure(kind == FailureKind::resource_limit
-                           ? TransportFailureKind::resource_limit
-                           : TransportFailureKind::invalid_document);
+        if (kind == FailureKind::resource_limit)
+            return failure(TransportFailureKind::resource_limit);
+        if (raw.status == 200)
+            return failure(TransportFailureKind::invalid_document);
+        // An invalid error document supplies no business code or echo. Keep only HTTP evidence.
+        raw.body.clear();
+        echo.reset();
     }
 
     // Retain only the headers consumed as time evidence, without changing duplicate semantics.
@@ -762,9 +768,9 @@ bool preferred_latest(const core::FetchedRateObservation &candidate,
 void accept_latest(ScopeState &scope, const Rates &rates, IntentKind intent) {
     const auto fetched = rates.observation.data().context.fetched_at_utc_ms;
     scope.last_latest_fetch = fetched;
-    if (!preferred_latest(rates.observation, scope.latest))
-        return;
-    scope.latest = rates.observation;
+    if (preferred_latest(rates.observation, scope.latest))
+        scope.latest = rates.observation;
+    // An accepted fetch qualifies scheduling independently of observation replacement.
     constexpr std::int64_t interval = 43'200'000; // 12 hours.
     if (!fetched)
         return;
@@ -905,6 +911,10 @@ Adapter::~Adapter() = default;
 void Adapter::select() {
     auto setup = owner_.selected_setup();
     const bool changed = !state_->setup || state_->setup->selection != setup.selection;
+    const bool same_schedule_scope =
+        state_->setup && scope_key(state_->setup->selection) == scope_key(setup.selection) &&
+        state_->setup->selection.profile == setup.selection.profile &&
+        state_->setup->selection.credential_revision == setup.selection.credential_revision;
     if (changed) {
         ++state_->selection_epoch;
         state_->current.reset();
@@ -918,7 +928,7 @@ void Adapter::select() {
     }
     auto &scope = state_->scopes[scope_key(setup.selection)];
     scope.ledger_known &= setup.ledger_continuity_qualified;
-    if (changed)
+    if (changed && !same_schedule_scope)
         scope.next_latest.reset();
     state_->setup = std::move(setup);
 }
