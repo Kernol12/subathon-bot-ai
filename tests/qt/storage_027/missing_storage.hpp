@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 
+#include <subathon/server/sqlite_milestone_interruption.hpp>
 #include <subathon/server/sqlite_milestone_target_edits.hpp>
 
 #include <array>
@@ -10,7 +11,7 @@ using namespace subathon::server;
 
 struct ManifestMissing {};
 inline std::variant<ManifestMissing, MigrationManifest> compiled_successor() {
-    return ManifestMissing{};
+    return milestone_slot_interruption_repository_manifest();
 }
 
 struct Occurrence {

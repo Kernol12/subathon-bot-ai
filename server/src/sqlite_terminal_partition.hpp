@@ -13,13 +13,15 @@ namespace subathon::server::terminal_partition {
 
 inline constexpr auto result_format = "subathon.internal.application-result.v2";
 
-enum class Catalog { legacy, review, connector_intake, invalid };
+enum class Catalog { legacy, review, connector_intake, invalid, interruption };
 
 inline Catalog catalog(const SqliteWorkSession &session) {
     const auto marker = session.execute(
         {"SELECT CASE WHEN typeof(version)<>'integer' THEN 3 "
          "WHEN version=19 AND migration_id COLLATE BINARY='contribution-review-v1' THEN 1 "
          "WHEN version=20 AND migration_id COLLATE BINARY='connector-intake-storage-v1' THEN 2 "
+         "WHEN version=21 AND migration_id COLLATE BINARY="
+         "'milestone-slot-interruption-storage-v1' THEN 4 "
          "WHEN version<19 THEN 0 ELSE 3 END "
          "FROM main.subathon_migration_history "
          "WHERE EXISTS(SELECT 1 FROM main.subathon_catalog WHERE singleton=1 "
@@ -35,7 +37,8 @@ inline bool selected(const SqliteWorkSession &session) {
     const auto current = catalog(session);
     if (current == Catalog::invalid)
         throw SqliteBundleStorageFailure(SqliteBundleStorageReason::invalid_stored_data);
-    return current == Catalog::review || current == Catalog::connector_intake;
+    return current == Catalog::review || current == Catalog::connector_intake ||
+           current == Catalog::interruption;
 }
 
 struct Invalid {};

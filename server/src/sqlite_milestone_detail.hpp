@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 #include "sqlite_terminal_partition.hpp"
+#include "sqlite_milestone_interruption_schema.hpp"
 
 #include <QMetaType>
 #include <string_view>
@@ -128,7 +129,9 @@ inline Catalog catalog(const SqliteWorkSession &session) {
          "(version=17 AND migration_id COLLATE BINARY='rate-overrides-v1') THEN 2 "
          "WHEN version=18 AND migration_id COLLATE BINARY='milestone-target-edits-v1' THEN 3 "
          "WHEN version=19 AND migration_id COLLATE BINARY='contribution-review-v1' THEN 3 "
-         "WHEN version=20 AND migration_id COLLATE BINARY='connector-intake-storage-v1' THEN 3 END "
+         "WHEN version=20 AND migration_id COLLATE BINARY='connector-intake-storage-v1' THEN 3 "
+         "WHEN version=21 AND migration_id COLLATE BINARY="
+         "'milestone-slot-interruption-storage-v1' THEN 4 END "
          "FROM main.subathon_migration_history "
          "WHERE EXISTS(SELECT 1 FROM main.subathon_catalog WHERE singleton=1 "
          "AND typeof(catalog_format)='integer' AND catalog_format=1 "
@@ -136,7 +139,10 @@ inline Catalog catalog(const SqliteWorkSession &session) {
          {}});
     if (rows.size() != 1)
         corrupt();
-    const auto result = Catalog(integer(rows.front().front()));
+    const auto code = integer(rows.front().front());
+    if (code == 4)
+        (void)session.execute({milestone_interruption_schema::probe, {}});
+    const auto result = code == 4 ? Catalog::edits : Catalog(code);
     if (result >= Catalog::decisions) {
         // Resolve the v13 columns even on paths with no matching occurrence or
         // membership. A missing table/column is a writer SQL failure.
