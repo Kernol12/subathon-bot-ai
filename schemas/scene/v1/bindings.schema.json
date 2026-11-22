@@ -5,21 +5,13 @@
   "type": "object",
   "properties": {
     "version": {"const": "subathon.scene-bindings-conditions-timeline.v1"},
-    "locale": {
-      "allOf": [
-        {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"},
-        {"maxLength": 65536},
-        {"minLength": 1}
-      ],
-      "description": "Inert text. UTF-8 byte limits and the owning interpretation apply."
-    },
     "definitions": {
       "type": "array",
       "items": {"$ref": "#/$defs/Definition"},
       "maxItems": 32768
     }
   },
-  "required": ["version", "locale", "definitions"],
+  "required": ["version", "definitions"],
   "additionalProperties": false,
   "description": "Authored definitions for one selected dependency closure. Runtime observations remain with their source owners.",
   "$defs": {
@@ -173,7 +165,7 @@
         },
         {"maxLength": 512}
       ],
-      "description": "Check CORE-001 mantissa and exponent bounds and exact nonnegative range. Preserve the original spelling, including signed zero."
+      "description": "Check CORE-001 mantissa and exponent bounds, then compare the decoded exact factor to zero. Reject negative values; preserve original spelling, including admitted signed zero."
     },
     "ProgressLiteral": {
       "allOf": [
@@ -607,13 +599,16 @@
         "format": {"$ref": "#/$defs/FormattingRef"},
         "unavailableText": {
           "allOf": [
-            {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"},
+            {
+              "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
+            },
             {"maxLength": 1048576}
           ]
         }
       },
       "required": ["kind", "resourceId", "definitionId", "operand", "format"],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "description": "The timer binding pins its FormattingRef. Nodes needing different time formats select separate exact timer bindings."
     },
     "TextBindingDefinition": {
       "type": "object",
@@ -715,6 +710,9 @@
         "kind": {"const": "Formatting"},
         "resourceId": {"$ref": "#/$defs/DefinitionIdentity"},
         "definitionId": {"$ref": "#/$defs/DefinitionIdentity"},
+        "localeId": {
+          "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/ProtocolIdentifier"
+        },
         "format": {
           "oneOf": [
             {
@@ -805,8 +803,9 @@
           ]
         }
       },
-      "required": ["kind", "resourceId", "definitionId", "format"],
-      "additionalProperties": false
+      "required": ["kind", "resourceId", "definitionId", "localeId", "format"],
+      "additionalProperties": false,
+      "description": "Resolve localeId against the selected closed locale registry. All applicable formatter definitions in one scene must select the same localeId. An unknown locale fails validation. The scene locale controls presentation formatting separately from original source spelling and interface language."
     },
     "TrackContext": {
       "oneOf": [
@@ -930,70 +929,235 @@
       "additionalProperties": false,
       "description": "The exclusive end fits signed64. A node's tracks for the same property share one context and do not overlap."
     },
+    "NonnegativeGeometry": {
+      "allOf": [
+        {"$ref": "#/$defs/Geometry"},
+        {
+          "not": {"pattern": "^-"}
+        }
+      ]
+    },
+    "PositiveGeometry": {
+      "allOf": [
+        {"$ref": "#/$defs/NonnegativeGeometry"},
+        {
+          "not": {"const": "0"}
+        }
+      ]
+    },
+    "Rgba": {
+      "type": "array",
+      "prefixItems": [
+        {"type": "integer", "minimum": 0, "maximum": 255},
+        {"type": "integer", "minimum": 0, "maximum": 255},
+        {"type": "integer", "minimum": 0, "maximum": 255},
+        {"type": "integer", "minimum": 0, "maximum": 255}
+      ],
+      "minItems": 4,
+      "maxItems": 4,
+      "items": false
+    },
+    "HorizontalTextAlignment": {
+      "enum": ["start", "center", "end"]
+    },
+    "VerticalTextAlignment": {
+      "enum": ["top", "center", "bottom"]
+    },
+    "TextWrapping": {
+      "enum": ["none", "word"]
+    },
+    "TextOverflow": {
+      "enum": ["clip", "visible"]
+    },
+    "LayoutText": {
+      "allOf": [
+        {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"},
+        {"maxLength": 1048576}
+      ]
+    },
+    "LocalBox": {
+      "type": "object",
+      "properties": {
+        "x": {"$ref": "#/$defs/Geometry"},
+        "y": {"$ref": "#/$defs/Geometry"},
+        "width": {"$ref": "#/$defs/NonnegativeGeometry"},
+        "height": {"$ref": "#/$defs/NonnegativeGeometry"}
+      },
+      "required": ["x", "y", "width", "height"],
+      "additionalProperties": false,
+      "description": "A box in the declared local design-pixel coordinate space."
+    },
+    "TextPresentation": {
+      "type": "object",
+      "properties": {
+        "opacity": {"$ref": "#/$defs/UnitIntervalDecimal"},
+        "clipToFrame": {"type": "boolean"},
+        "foreground": {"$ref": "#/$defs/Rgba"},
+        "size": {"$ref": "#/$defs/PositiveGeometry"},
+        "horizontalAlignment": {"$ref": "#/$defs/HorizontalTextAlignment"},
+        "verticalAlignment": {"$ref": "#/$defs/VerticalTextAlignment"},
+        "wrapping": {"$ref": "#/$defs/TextWrapping"},
+        "overflow": {"$ref": "#/$defs/TextOverflow"},
+        "font": {"$ref": "https://schemas.subathon.invalid/scene/v1/assets.schema.json#/$defs/FontUse"}
+      },
+      "required": [
+        "opacity",
+        "clipToFrame",
+        "foreground",
+        "size",
+        "horizontalAlignment",
+        "verticalAlignment",
+        "wrapping",
+        "overflow",
+        "font"
+      ],
+      "additionalProperties": false,
+      "description": "Explicit 009 text presentation. Clip to the placed text box when clipToFrame is true."
+    },
+    "PlacedText": {
+      "type": "object",
+      "properties": {
+        "text": {"$ref": "#/$defs/LayoutText"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"}
+      },
+      "required": ["text", "box", "presentation"],
+      "additionalProperties": false
+    },
+    "ProgressBarAppearance": {
+      "type": "object",
+      "properties": {
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "track": {"$ref": "#/$defs/Rgba"},
+        "fill": {"$ref": "#/$defs/Rgba"},
+        "direction": {
+          "enum": ["left-to-right", "right-to-left", "top-to-bottom", "bottom-to-top"]
+        },
+        "unavailableFill": {
+          "oneOf": [{"const": "none"}, {"$ref": "#/$defs/Rgba"}]
+        }
+      },
+      "required": ["box", "track", "fill", "direction", "unavailableFill"],
+      "additionalProperties": false,
+      "description": "The box is node-local. An available interval uses its exact fraction in the declared direction. For unavailable interval data, use the authored box paint over the track or leave the track alone for none. This appearance supplies no fraction. No-origin, empty, and final states acquire no numeric fill."
+    },
+    "SupportRowPlacement": {
+      "type": "object",
+      "properties": {
+        "origin": {"$ref": "#/$defs/GeometryPair"},
+        "step": {"$ref": "#/$defs/GeometryPair"}
+      },
+      "required": ["origin", "step"],
+      "additionalProperties": false,
+      "description": "Row i starts at origin + i times step in node-local design pixels. i is zero-based in the authorized supplied order and counts only disclosed rows. Each slot box is relative to that row origin."
+    },
+    "DeficitTextSlot": {
+      "type": "object",
+      "properties": {
+        "slot": {"const": "deficit"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"},
+        "unavailableText": {"$ref": "#/$defs/LayoutText"}
+      },
+      "required": ["slot", "format", "box", "presentation"],
+      "additionalProperties": false
+    },
+    "RemainingTextSlot": {
+      "type": "object",
+      "properties": {
+        "slot": {"const": "remaining"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"},
+        "unavailableText": {"$ref": "#/$defs/LayoutText"}
+      },
+      "required": ["slot", "format", "box", "presentation"],
+      "additionalProperties": false
+    },
+    "TargetTextSlot": {
+      "type": "object",
+      "properties": {
+        "slot": {"const": "target"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"},
+        "unavailableText": {"$ref": "#/$defs/LayoutText"}
+      },
+      "required": ["slot", "format", "box", "presentation"],
+      "additionalProperties": false
+    },
+    "SupportKindTextSlot": {
+      "type": "object",
+      "properties": {
+        "slot": {"const": "kind"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"},
+        "unavailableText": {"$ref": "#/$defs/LayoutText"}
+      },
+      "required": ["slot", "format", "box", "presentation"],
+      "additionalProperties": false
+    },
+    "DisplayNameTextSlot": {
+      "type": "object",
+      "properties": {
+        "slot": {"const": "displayName"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"},
+        "unavailableText": {"$ref": "#/$defs/LayoutText"}
+      },
+      "required": ["slot", "format", "box", "presentation"],
+      "additionalProperties": false
+    },
+    "OriginalMoneyTextSlot": {
+      "type": "object",
+      "properties": {
+        "slot": {"const": "originalMoney"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"},
+        "unavailableText": {"$ref": "#/$defs/LayoutText"}
+      },
+      "required": ["slot", "format", "box", "presentation"],
+      "additionalProperties": false
+    },
+    "GiftCountTextSlot": {
+      "type": "object",
+      "properties": {
+        "slot": {"const": "giftCount"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"},
+        "unavailableText": {"$ref": "#/$defs/LayoutText"}
+      },
+      "required": ["slot", "format", "box", "presentation"],
+      "additionalProperties": false
+    },
+    "BitsQuantityTextSlot": {
+      "type": "object",
+      "properties": {
+        "slot": {"const": "bitsQuantity"},
+        "format": {"$ref": "#/$defs/FormattingRef"},
+        "box": {"$ref": "#/$defs/LocalBox"},
+        "presentation": {"$ref": "#/$defs/TextPresentation"},
+        "unavailableText": {"$ref": "#/$defs/LayoutText"}
+      },
+      "required": ["slot", "format", "box", "presentation"],
+      "additionalProperties": false
+    },
     "ProgressLayoutState": {
       "type": "object",
       "properties": {
-        "text": {
-          "allOf": [
-            {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"},
-            {"maxLength": 1048576}
-          ]
-        },
+        "text": {"$ref": "#/$defs/PlacedText"},
         "slots": {
           "type": "array",
           "items": {
             "oneOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "slot": {"const": "deficit"},
-                  "format": {"$ref": "#/$defs/FormattingRef"},
-                  "unavailableText": {
-                    "allOf": [
-                      {
-                        "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                      },
-                      {"maxLength": 1048576}
-                    ]
-                  }
-                },
-                "required": ["slot", "format"],
-                "additionalProperties": false
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "slot": {"const": "remaining"},
-                  "format": {"$ref": "#/$defs/FormattingRef"},
-                  "unavailableText": {
-                    "allOf": [
-                      {
-                        "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                      },
-                      {"maxLength": 1048576}
-                    ]
-                  }
-                },
-                "required": ["slot", "format"],
-                "additionalProperties": false
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "slot": {"const": "target"},
-                  "format": {"$ref": "#/$defs/FormattingRef"},
-                  "unavailableText": {
-                    "allOf": [
-                      {
-                        "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                      },
-                      {"maxLength": 1048576}
-                    ]
-                  }
-                },
-                "required": ["slot", "format"],
-                "additionalProperties": false
-              }
+              {"$ref": "#/$defs/DeficitTextSlot"},
+              {"$ref": "#/$defs/RemainingTextSlot"},
+              {"$ref": "#/$defs/TargetTextSlot"}
             ]
           },
           "maxItems": 3,
@@ -1001,7 +1165,8 @@
         }
       },
       "required": ["slots"],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "description": "The state text and slots use node-local boxes. Reject duplicate slot keys even if their records differ."
     },
     "ProgressLayout": {
       "type": "object",
@@ -1010,9 +1175,10 @@
         "interval": {"$ref": "#/$defs/ProgressLayoutState"},
         "noOrigin": {"$ref": "#/$defs/ProgressLayoutState"},
         "empty": {"$ref": "#/$defs/ProgressLayoutState"},
-        "final": {"$ref": "#/$defs/ProgressLayoutState"}
+        "final": {"$ref": "#/$defs/ProgressLayoutState"},
+        "bar": {"$ref": "#/$defs/ProgressBarAppearance"}
       },
-      "required": ["kind", "interval", "noOrigin", "empty", "final"],
+      "required": ["kind", "interval", "noOrigin", "empty", "final", "bar"],
       "additionalProperties": false,
       "description": "Unavailable or undisclosed interval data uses the owning unavailable-fill behavior."
     },
@@ -1024,57 +1190,9 @@
           "type": "array",
           "items": {
             "oneOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "slot": {"const": "kind"},
-                  "format": {"$ref": "#/$defs/FormattingRef"},
-                  "unavailableText": {
-                    "allOf": [
-                      {
-                        "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                      },
-                      {"maxLength": 1048576}
-                    ]
-                  }
-                },
-                "required": ["slot", "format"],
-                "additionalProperties": false
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "slot": {"const": "displayName"},
-                  "format": {"$ref": "#/$defs/FormattingRef"},
-                  "unavailableText": {
-                    "allOf": [
-                      {
-                        "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                      },
-                      {"maxLength": 1048576}
-                    ]
-                  }
-                },
-                "required": ["slot", "format"],
-                "additionalProperties": false
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "slot": {"const": "originalMoney"},
-                  "format": {"$ref": "#/$defs/FormattingRef"},
-                  "unavailableText": {
-                    "allOf": [
-                      {
-                        "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                      },
-                      {"maxLength": 1048576}
-                    ]
-                  }
-                },
-                "required": ["slot", "format"],
-                "additionalProperties": false
-              }
+              {"$ref": "#/$defs/SupportKindTextSlot"},
+              {"$ref": "#/$defs/DisplayNameTextSlot"},
+              {"$ref": "#/$defs/OriginalMoneyTextSlot"}
             ]
           },
           "maxItems": 3,
@@ -1084,74 +1202,10 @@
           "type": "array",
           "items": {
             "oneOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "slot": {"const": "kind"},
-                  "format": {"$ref": "#/$defs/FormattingRef"},
-                  "unavailableText": {
-                    "allOf": [
-                      {
-                        "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                      },
-                      {"maxLength": 1048576}
-                    ]
-                  }
-                },
-                "required": ["slot", "format"],
-                "additionalProperties": false
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "slot": {"const": "displayName"},
-                  "format": {"$ref": "#/$defs/FormattingRef"},
-                  "unavailableText": {
-                    "allOf": [
-                      {
-                        "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                      },
-                      {"maxLength": 1048576}
-                    ]
-                  }
-                },
-                "required": ["slot", "format"],
-                "additionalProperties": false
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "slot": {"const": "originalMoney"},
-                  "format": {"$ref": "#/$defs/FormattingRef"},
-                  "unavailableText": {
-                    "allOf": [
-                      {
-                        "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                      },
-                      {"maxLength": 1048576}
-                    ]
-                  }
-                },
-                "required": ["slot", "format"],
-                "additionalProperties": false
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "slot": {"const": "giftCount"},
-                  "format": {"$ref": "#/$defs/FormattingRef"},
-                  "unavailableText": {
-                    "allOf": [
-                      {
-                        "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                      },
-                      {"maxLength": 1048576}
-                    ]
-                  }
-                },
-                "required": ["slot", "format"],
-                "additionalProperties": false
-              }
+              {"$ref": "#/$defs/SupportKindTextSlot"},
+              {"$ref": "#/$defs/DisplayNameTextSlot"},
+              {"$ref": "#/$defs/OriginalMoneyTextSlot"},
+              {"$ref": "#/$defs/GiftCountTextSlot"}
             ]
           },
           "maxItems": 4,
@@ -1161,74 +1215,10 @@
           "type": "array",
           "items": {
             "oneOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "slot": {"const": "kind"},
-                  "format": {"$ref": "#/$defs/FormattingRef"},
-                  "unavailableText": {
-                    "allOf": [
-                      {
-                        "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                      },
-                      {"maxLength": 1048576}
-                    ]
-                  }
-                },
-                "required": ["slot", "format"],
-                "additionalProperties": false
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "slot": {"const": "displayName"},
-                  "format": {"$ref": "#/$defs/FormattingRef"},
-                  "unavailableText": {
-                    "allOf": [
-                      {
-                        "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                      },
-                      {"maxLength": 1048576}
-                    ]
-                  }
-                },
-                "required": ["slot", "format"],
-                "additionalProperties": false
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "slot": {"const": "originalMoney"},
-                  "format": {"$ref": "#/$defs/FormattingRef"},
-                  "unavailableText": {
-                    "allOf": [
-                      {
-                        "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                      },
-                      {"maxLength": 1048576}
-                    ]
-                  }
-                },
-                "required": ["slot", "format"],
-                "additionalProperties": false
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "slot": {"const": "bitsQuantity"},
-                  "format": {"$ref": "#/$defs/FormattingRef"},
-                  "unavailableText": {
-                    "allOf": [
-                      {
-                        "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                      },
-                      {"maxLength": 1048576}
-                    ]
-                  }
-                },
-                "required": ["slot", "format"],
-                "additionalProperties": false
-              }
+              {"$ref": "#/$defs/SupportKindTextSlot"},
+              {"$ref": "#/$defs/DisplayNameTextSlot"},
+              {"$ref": "#/$defs/OriginalMoneyTextSlot"},
+              {"$ref": "#/$defs/BitsQuantityTextSlot"}
             ]
           },
           "maxItems": 4,
@@ -1238,65 +1228,19 @@
           "type": "array",
           "items": {
             "oneOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "slot": {"const": "kind"},
-                  "format": {"$ref": "#/$defs/FormattingRef"},
-                  "unavailableText": {
-                    "allOf": [
-                      {
-                        "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                      },
-                      {"maxLength": 1048576}
-                    ]
-                  }
-                },
-                "required": ["slot", "format"],
-                "additionalProperties": false
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "slot": {"const": "displayName"},
-                  "format": {"$ref": "#/$defs/FormattingRef"},
-                  "unavailableText": {
-                    "allOf": [
-                      {
-                        "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                      },
-                      {"maxLength": 1048576}
-                    ]
-                  }
-                },
-                "required": ["slot", "format"],
-                "additionalProperties": false
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "slot": {"const": "originalMoney"},
-                  "format": {"$ref": "#/$defs/FormattingRef"},
-                  "unavailableText": {
-                    "allOf": [
-                      {
-                        "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                      },
-                      {"maxLength": 1048576}
-                    ]
-                  }
-                },
-                "required": ["slot", "format"],
-                "additionalProperties": false
-              }
+              {"$ref": "#/$defs/SupportKindTextSlot"},
+              {"$ref": "#/$defs/DisplayNameTextSlot"},
+              {"$ref": "#/$defs/OriginalMoneyTextSlot"}
             ]
           },
           "maxItems": 3,
           "uniqueItems": true
-        }
+        },
+        "rowPlacement": {"$ref": "#/$defs/SupportRowPlacement"}
       },
-      "required": ["kind", "subscription", "gift", "bits", "donation"],
-      "additionalProperties": false
+      "required": ["kind", "subscription", "gift", "bits", "donation", "rowPlacement"],
+      "additionalProperties": false,
+      "description": "Within each row template, reject duplicate slot keys even if their records differ. Source-selected disclosure and order govern row placement."
     },
     "AnnouncementLabel": {
       "oneOf": [
@@ -1305,16 +1249,11 @@
           "properties": {
             "kind": {"const": "milestone"},
             "milestoneId": {"$ref": "#/$defs/DomainReference"},
-            "text": {
-              "allOf": [
-                {
-                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                },
-                {"maxLength": 1048576}
-              ]
-            }
+            "text": {"$ref": "#/$defs/LayoutText"},
+            "box": {"$ref": "#/$defs/LocalBox"},
+            "presentation": {"$ref": "#/$defs/TextPresentation"}
           },
-          "required": ["kind", "milestoneId", "text"],
+          "required": ["kind", "milestoneId", "text", "box", "presentation"],
           "additionalProperties": false
         },
         {
@@ -1322,16 +1261,11 @@
           "properties": {
             "kind": {"const": "event"},
             "presentationVersionId": {"$ref": "#/$defs/DomainReference"},
-            "text": {
-              "allOf": [
-                {
-                  "$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"
-                },
-                {"maxLength": 1048576}
-              ]
-            }
+            "text": {"$ref": "#/$defs/LayoutText"},
+            "box": {"$ref": "#/$defs/LocalBox"},
+            "presentation": {"$ref": "#/$defs/TextPresentation"}
           },
-          "required": ["kind", "presentationVersionId", "text"],
+          "required": ["kind", "presentationVersionId", "text", "box", "presentation"],
           "additionalProperties": false
         }
       ]
@@ -1346,15 +1280,11 @@
           "maxItems": 32768,
           "uniqueItems": true
         },
-        "unavailableText": {
-          "allOf": [
-            {"$ref": "https://schemas.subathon.invalid/common/v1/wire-primitives.schema.json#/$defs/Text"},
-            {"maxLength": 1048576}
-          ]
-        }
+        "unavailableText": {"$ref": "#/$defs/PlacedText"}
       },
       "required": ["kind", "labels"],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "description": "Label and fallback boxes are node-local. A fallback is authored inert text; it supplies neither a current announcement nor a selected milestone or event version."
     },
     "PresentationLayoutDefinition": {
       "type": "object",

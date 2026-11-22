@@ -24,21 +24,9 @@
     "Geometry": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/Geometry"},
     "UnitInterval": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/UnitIntervalDecimal"},
     "NonnegativeGeometry": {
-      "allOf": [
-        {"$ref": "#/$defs/Geometry"},
-        {
-          "not": {"pattern": "^-"}
-        }
-      ]
+      "$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/NonnegativeGeometry"
     },
-    "PositiveGeometry": {
-      "allOf": [
-        {"$ref": "#/$defs/NonnegativeGeometry"},
-        {
-          "not": {"const": "0"}
-        }
-      ]
-    },
+    "PositiveGeometry": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/PositiveGeometry"},
     "Fit": {
       "enum": ["aspect-fit", "crop", "stretch"]
     },
@@ -71,18 +59,7 @@
       "required": ["x", "y", "width", "height", "pivotX", "pivotY", "scaleX", "scaleY", "rotation"],
       "additionalProperties": false
     },
-    "Rgba": {
-      "type": "array",
-      "prefixItems": [
-        {"type": "integer", "minimum": 0, "maximum": 255},
-        {"type": "integer", "minimum": 0, "maximum": 255},
-        {"type": "integer", "minimum": 0, "maximum": 255},
-        {"type": "integer", "minimum": 0, "maximum": 255}
-      ],
-      "minItems": 4,
-      "maxItems": 4,
-      "items": false
-    },
+    "Rgba": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/Rgba"},
     "Stroke": {
       "type": "object",
       "properties": {
@@ -483,17 +460,13 @@
         "foreground": {"$ref": "#/$defs/Rgba"},
         "size": {"$ref": "#/$defs/PositiveGeometry"},
         "horizontalAlignment": {
-          "enum": ["start", "center", "end"]
+          "$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/HorizontalTextAlignment"
         },
         "verticalAlignment": {
-          "enum": ["top", "center", "bottom"]
+          "$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/VerticalTextAlignment"
         },
-        "wrapping": {
-          "enum": ["none", "word"]
-        },
-        "overflow": {
-          "enum": ["clip", "visible"]
-        },
+        "wrapping": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/TextWrapping"},
+        "overflow": {"$ref": "https://schemas.subathon.invalid/scene/v1/bindings.schema.json#/$defs/TextOverflow"},
         "font": {"$ref": "https://schemas.subathon.invalid/scene/v1/assets.schema.json#/$defs/FontUse"}
       },
       "required": [
@@ -712,7 +685,9 @@
         "externalReferences": {
           "type": "array",
           "items": {"$ref": "#/$defs/ExternalReference"},
-          "maxItems": 32768
+          "maxItems": 32768,
+          "uniqueItems": true,
+          "description": "Exact distinct typed index of direct external reference uses elsewhere in SceneContent, including mediaAttachments. Reject extra and missing entries. Traverse resolved definitions for transitive closure. Count every direct reference occurrence in authored fields, including repeated uses; charge the index separately to byte and item budgets."
         },
         "mediaAttachments": {
           "type": "array",

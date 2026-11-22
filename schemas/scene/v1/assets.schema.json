@@ -1302,7 +1302,8 @@
             "required": ["tag"]
           }
         }
-      ]
+      ],
+      "description": "The semantic walk requires ASCII-tag order and unique table tags, including records whose versions differ."
     },
     "CffTables": {
       "allOf": [
@@ -1515,7 +1516,8 @@
             "required": ["tag"]
           }
         }
-      ]
+      ],
+      "description": "The semantic walk requires ASCII-tag order and unique table tags, including records whose versions differ."
     },
     "UnicodeCmap": {
       "oneOf": [
@@ -1957,15 +1959,7 @@
               ]
             }
           },
-          "required": [
-            "kind",
-            "sourceUrl",
-            "sourceVersion",
-            "sourceDate",
-            "sourceAuthor",
-            "sourceDigest",
-            "sourceDescription"
-          ],
+          "required": ["kind"],
           "additionalProperties": false
         },
         {
@@ -2020,15 +2014,7 @@
               ]
             }
           },
-          "required": [
-            "kind",
-            "sourceUrl",
-            "sourceVersion",
-            "sourceDate",
-            "sourceAuthor",
-            "sourceDigest",
-            "sourceDescription"
-          ],
+          "required": ["kind"],
           "additionalProperties": false
         },
         {
@@ -2083,15 +2069,7 @@
               ]
             }
           },
-          "required": [
-            "kind",
-            "sourceUrl",
-            "sourceVersion",
-            "sourceDate",
-            "sourceAuthor",
-            "sourceDigest",
-            "sourceDescription"
-          ],
+          "required": ["kind"],
           "additionalProperties": false
         },
         {
@@ -2162,20 +2140,11 @@
               "minItems": 1
             }
           },
-          "required": [
-            "kind",
-            "sourceUrl",
-            "sourceVersion",
-            "sourceDate",
-            "sourceAuthor",
-            "sourceDigest",
-            "sourceDescription",
-            "sourceAsset",
-            "transformations"
-          ],
+          "required": ["kind", "sourceAsset", "transformations"],
           "additionalProperties": false
         }
-      ]
+      ],
+      "description": "An absent descriptive source field is unknown. An explicitly present empty text, where admitted, retains its value. Derivative provenance includes the source asset and actual transformations."
     },
     "RightsEvidence": {
       "oneOf": [
@@ -2296,7 +2265,7 @@
           "additionalProperties": false
         }
       ],
-      "description": "Declared metadata and evidence identifiers are insufficient to establish inspection, rights or compatibility. Verify descriptor length, payload length and digest equality."
+      "description": "declared is untrusted metadata. inspectionEvidenceId points to separately owned inspected observations of the exact payload and the exact revision of the scene-asset-inspection.v1 profile. Resolve and compare the declared descriptor, actual length and digest with that evidence. Compatibility and rights are separate checks."
     }
   }
 }
