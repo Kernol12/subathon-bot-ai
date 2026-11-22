@@ -5,6 +5,7 @@
 #include <subathon/server/contribution_evidence.hpp>
 #include <subathon/server/modifier_stacking.hpp>
 #include <subathon/server/sqlite_application_bundle.hpp>
+#include <subathon/server/sqlite_application_plans.hpp>
 #include <subathon/server/sqlite_modifier_activations.hpp>
 #include <subathon/server/sqlite_retained_context.hpp>
 
@@ -122,11 +123,17 @@ prepare_modifier_arrival(const ModifierArrivalInput &, const core::ModifierStack
 // The separately qualified cut belongs to the override configuration. The
 // original event and arrival in next_revision belong to the selected receipt.
 using ModifierRecalculationResult = std::optional<ModifierCaptureRefusal>;
-// Stage 1 can model one synchronous call to the owning append after context
-// staging. This borrowed dependency uses the same active session. Empty uses
-// the normal plan owner.
+// The optional callback borrows the same active session for one synchronous
+// append after context staging. It must use the owning append and leave commit
+// and rollback to the caller or this adapter. Empty invokes the plan owner
+// directly. A callback's appended result requires exact successor readback in
+// the borrowed session.
 using ModifierPlanAppend = std::function<SqlitePlanAppendDisposition(
     const SqliteWorkSession &, const ApplicationPlanKey &, const core::CapturedPlanRevision &)>;
+// Typed pre-staging refusals make no writes and leave the session active.
+// append_refused follows acknowledged rollback of the active unit and the
+// session is closed. Native work and durability failures propagate. Appended
+// stages a provisional result until the caller commits and completes normally.
 [[nodiscard]] ModifierRecalculationResult
 retain_modifier_recalculation(const SqliteWorkSession &, const ApplicationPlanKey &expected_head,
                               const core::PlanOverrideDecision &admitted_authority,

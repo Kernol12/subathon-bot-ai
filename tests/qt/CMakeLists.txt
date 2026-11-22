@@ -325,6 +325,6 @@ if(SUBATHON_BUILD_MODIFIER_005_STAGE1)
     subathon_add_qt_suite(server_modifier_005_stage1
         NAME modifier-005-stage1 SOURCES modifier_005/capture_tests.cpp
         LIBRARIES subathon_contribution_review subathon_reference_intake
-            subathon_modifier_stacking_handoff subathon_modifier_clock
+            subathon_modifier_capture subathon_modifier_clock
         LABELS "modifier-005-stage1;intentional-red;qt;server" TIMEOUT 180)
 endif()
