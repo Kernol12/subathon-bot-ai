@@ -39,6 +39,11 @@ download, install, binary execution or release packaging.
   `revision`, `files` and `dependencies` for every resolved external
   prerequisite. Place the observed output, notice files, linked archives and
   sodium source tarball at these paths relative to the sealed receipt.
+  The modeled current summary carries a typed `integration` fact.
+  `not-integrated` contradicts the observed sodium linkage, while
+  `embedded` agrees with it. Both variants use the same selected artifact,
+  build, recipe and review identities. The tracked notice text supplies
+  the historical assertion from which the stale fixture fact is derived.
 
   | Data | Path |
   | --- | --- |

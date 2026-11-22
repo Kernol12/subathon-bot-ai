@@ -426,13 +426,10 @@ def linked_password(*, current_summary=False):
                          source_paths=(), mode="companion", recipe=recipe, build=build, access=access,
                          source_inputs=(recipe,), review_prefix="fixture-D5-")
 
-    variant = "current" if current_summary else "historical"
-    summary = evidence(request, f"sodium-applicable-summary-{variant}", "reviewed-notice-summary", "component:sodium",
-                       build=build, applicable=True, artifact=request["observed"]["artifact"],
-                       assertion="statically embedded" if current_summary else "Selected; not integrated",
-                       basis=recipe if current_summary else SUMMARY)
-    review = evidence_row(request, "fixture-D5-N-sodium")
-    review["id"] = f"fixture-D5-N-sodium-{variant}"
-    decision(request, "notices", "sodium")["review"] = review["id"]
-    review["facts"]["summary"] = summary
+    integration = "embedded" if current_summary else "not-integrated"
+    summary = evidence(request, "sodium-applicable-summary", "reviewed-notice-summary",
+                       "component:sodium", build=build, applicable=True,
+                       artifact=request["observed"]["artifact"], basis=recipe,
+                       integration=integration)
+    evidence_row(request, "fixture-D5-N-sodium")["facts"]["summary"] = summary
     return request
