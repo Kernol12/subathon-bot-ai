@@ -6,6 +6,7 @@
 
 #include <array>
 #include <bitset>
+#include <charconv>
 #include <limits>
 #include <tuple>
 
@@ -198,13 +199,40 @@ struct PrivateKey {
     std::string raw;
     std::string encoded;
 
+    bool echoes_key(std::string_view value) const {
+        if (raw.empty())
+            return false;
+        if (value.find(raw) != std::string_view::npos)
+            return true;
+        if (value.find('%') == std::string_view::npos)
+            return false;
+
+        // Escapes in echoed metadata can use either case and can mix with literal bytes.
+        std::string decoded;
+        decoded.reserve(value.size());
+        for (std::size_t i = 0; i < value.size(); ++i) {
+            if (value[i] == '%' && value.size() - i >= 3) {
+                unsigned byte{};
+                const auto *first = value.data() + i + 1;
+                const auto *last = first + 2;
+                const auto result = std::from_chars(first, last, byte, 16);
+                if (result.ec == std::errc{} && result.ptr == last) {
+                    decoded.push_back(static_cast<char>(byte));
+                    i += 2;
+                    continue;
+                }
+            }
+            decoded.push_back(value[i]);
+        }
+        return decoded.find(raw) != std::string::npos ||
+               decoded.find(keyed_host) != std::string::npos;
+    }
+
     bool public_text(std::string_view value) const {
         return value.size() <= model_limits.raw_time_bytes &&
                std::ranges::all_of(value, [](unsigned char c) { return c >= 0x20 && c < 0x7f; }) &&
                value.find("://") == std::string_view::npos &&
-               value.find(keyed_host) == std::string_view::npos &&
-               (raw.empty() || (value.find(raw) == std::string_view::npos &&
-                                value.find(encoded) == std::string_view::npos));
+               value.find(keyed_host) == std::string_view::npos && !echoes_key(value);
     }
 };
 
@@ -485,6 +513,8 @@ struct ScopeState {
             quota_held = false;
             hint = {};
         } else if (quota_held) {
+            // A still-current report can refresh display evidence. Only a qualified probe clears
+            // the hold, and HintGate preserves the existing eligibility floor.
             hint.set(sample.renewal_day.day, sample.receipt.utc_ms);
         }
     }
@@ -543,8 +573,12 @@ void confirm_send(ScopeState &scope, Pending &pending, const Clocks &receipt) {
 }
 
 bool actual_entitlement(const SelectionUpdate &update, const SelectionBinding &previous) {
-    if (update.change == AuthorizedChange::plan_entitlement)
-        return update.selection.profile != previous.profile;
+    if (update.change == AuthorizedChange::plan_entitlement) {
+        // The trusted owner can report a real change within the same documented profile.
+        // A replay of the same binding cannot authorize another recovery opportunity.
+        return update.selection.selection_revision != previous.selection_revision ||
+               update.selection.configuration_ref != previous.configuration_ref;
+    }
     return update.change == AuthorizedChange::credential_entitlement &&
            update.selection.credential_revision != previous.credential_revision;
 }
@@ -601,6 +635,7 @@ SelectionStatus Adapter::select() {
         scope.known_usage = false;
     const bool entitlement =
         scope.last_selection && actual_entitlement(update, *scope.last_selection);
+    // A different profile can be selected without evidence that authorizes plan-stop recovery.
     if (entitlement)
         scope.plan_stops.clear();
     if (scope.authentication_stop && update.change == AuthorizedChange::corrected_credential &&
@@ -745,6 +780,8 @@ Completion Adapter::finish(const Started &started, Reply reply) {
         case quota_hold:
             scope.hold_quota(receipt);
             break;
+        case request_domain:
+            break; // This request's selectors cannot change the scope-wide retry ladder.
         default:
             scope.retry(receipt, *failure, admission.selection.profile);
             break;
