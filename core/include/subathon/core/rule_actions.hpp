@@ -60,7 +60,7 @@ struct RuleSelectedActions {
 };
 struct RuleActionPlan {
     RuleEventLineage event;
-    RuleSelection selection;
+    RuleSelectionResult selection;
     std::vector<RuleSelectedActions> selected;
 };
 using RuleActionMapper = std::function<RuleActionBinding(
