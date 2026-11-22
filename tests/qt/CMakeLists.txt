@@ -336,3 +336,7 @@ endif()
 if(SUBATHON_BUILD_MILESTONE_006_STAGE1)
     add_subdirectory(milestone_006)
 endif()
+
+if(SUBATHON_BUILD_MILESTONE_006_SLICE2)
+    add_subdirectory(milestone_006_slice2)
+endif()
