@@ -258,7 +258,8 @@
       "id": "MOD-02",
       "status": "partial",
       "tests": [
-        "tests/acceptance/modifier_clock_tests.cpp"
+        "tests/acceptance/modifier_clock_tests.cpp",
+        "tests/qt/modifier_005/capture_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/758#issuecomment-7057811999",
