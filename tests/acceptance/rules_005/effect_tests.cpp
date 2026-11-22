@@ -277,6 +277,7 @@ TEST(Rules005, ElapsedTimePrecedesRuleEffects) {
     const auto r = root("timed-effect");
     auto in = ordered_refusal(r, RuleCompletion::committed);
     in.turns.front().sample = {500, 500ms};
+    in.turns.insert(in.turns.begin(), OwnerTurn{"clock-origin", {}, TimeCut{}});
     turn(in, "status-only",
          ConnectorReport{{},
                          ConnectorInstallation::validated,
@@ -289,22 +290,23 @@ TEST(Rules005, ElapsedTimePrecedesRuleEffects) {
 
     const auto result = inspect_simulation(scenario, limits);
     expect_complete(result, scenario);
-    ASSERT_EQ(result.trace.size(), 3U);
-    const auto &effect = result.trace[0];
+    ASSERT_EQ(result.trace.size(), 4U);
+    const auto &effect = result.trace[1];
     ASSERT_TRUE(effect.timer_cut);
     EXPECT_EQ(effect.timer_cut->progressed_ms, 500);
     ASSERT_FALSE(effect.actions.empty());
     expect_actual_time(effect.actions.front(), key("H", "first"), {100, 100, 0, 0, 600});
     EXPECT_EQ(effect.state.timer.main_remaining_ms, 600);
-    EXPECT_TRUE(result.trace[1].connector);
-    EXPECT_FALSE(result.trace[1].timer_cut);
-    ASSERT_TRUE(result.trace[2].timer_cut);
-    EXPECT_EQ(result.trace[2].timer_cut->progressed_ms, 100);
+    EXPECT_TRUE(result.trace[2].connector);
+    EXPECT_FALSE(result.trace[2].timer_cut);
+    ASSERT_TRUE(result.trace[3].timer_cut);
+    EXPECT_EQ(result.trace[3].timer_cut->progressed_ms, 100);
     EXPECT_EQ(result.final_state.timer.main_remaining_ms, 500);
 }
 
 TEST(Rules005, PauseControlAppliesAtTheObservedSample) {
     auto in = inputs(1000);
+    turn(in, "clock-origin", TimeCut{});
     turn(in, "pause", PauseControl{PauseReason::Manual, true}, {500, 500ms});
     turn(in, "paused-cut", TimeCut{}, {600, 600ms});
     turn(in, "resume", PauseControl{PauseReason::Manual, false}, {700, 700ms});
@@ -313,17 +315,17 @@ TEST(Rules005, PauseControlAppliesAtTheObservedSample) {
 
     const auto result = inspect_simulation(scenario, limits);
     expect_complete(result, scenario);
-    ASSERT_EQ(result.trace.size(), 4U);
-    ASSERT_TRUE(result.trace[0].timer_cut);
-    EXPECT_EQ(result.trace[0].timer_cut->progressed_ms, 500);
-    EXPECT_EQ(result.trace[0].state.timer.main_remaining_ms, 500);
-    EXPECT_EQ(result.trace[0].state.pause.reasons, PauseReasons{PauseReason::Manual});
+    ASSERT_EQ(result.trace.size(), 5U);
     ASSERT_TRUE(result.trace[1].timer_cut);
-    EXPECT_EQ(result.trace[1].timer_cut->progressed_ms, 0);
-    EXPECT_EQ(result.trace[2].state.timer.main_remaining_ms, 500);
-    EXPECT_TRUE(result.trace[2].state.pause.reasons.empty());
-    ASSERT_TRUE(result.trace[3].timer_cut);
-    EXPECT_EQ(result.trace[3].timer_cut->progressed_ms, 100);
+    EXPECT_EQ(result.trace[1].timer_cut->progressed_ms, 500);
+    EXPECT_EQ(result.trace[1].state.timer.main_remaining_ms, 500);
+    EXPECT_EQ(result.trace[1].state.pause.reasons, PauseReasons{PauseReason::Manual});
+    ASSERT_TRUE(result.trace[2].timer_cut);
+    EXPECT_EQ(result.trace[2].timer_cut->progressed_ms, 0);
+    EXPECT_EQ(result.trace[3].state.timer.main_remaining_ms, 500);
+    EXPECT_TRUE(result.trace[3].state.pause.reasons.empty());
+    ASSERT_TRUE(result.trace[4].timer_cut);
+    EXPECT_EQ(result.trace[4].timer_cut->progressed_ms, 100);
     EXPECT_EQ(result.final_state.timer.main_remaining_ms, 400);
 }
 
