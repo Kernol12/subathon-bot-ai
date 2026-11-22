@@ -246,24 +246,26 @@
       "id": "MOD-01",
       "status": "partial",
       "tests": [
-        "tests/acceptance/modifier_stacking_tests.cpp"
+        "tests/acceptance/modifier_stacking_tests.cpp",
+        "tests/qt/modifier_005/capture_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/757#issuecomment-7056757686"
       ],
-      "scope": "Exact two-level stacking, bounded traces and captured-input proposals verified with supplied policy and selected revision facts. Arrival capture remains #223. Authoritative application and publication, stored encoding and whole-count finalization remain with their owners."
+      "scope": "Exact two-level stacking, bounded traces and captured-input proposals verified with supplied policy and selected revision facts. MODIFIER-005 exercises retained arrival selection, exact requested effects, and audited override through shipped Qt SQL owners. Live intake composition, publication, and whole-count finalization remain with their owners."
     },
     {
       "id": "MOD-02",
       "status": "partial",
       "tests": [
-        "tests/acceptance/modifier_clock_tests.cpp"
+        "tests/acceptance/modifier_clock_tests.cpp",
+        "tests/qt/modifier_005/capture_tests.cpp"
       ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/758#issuecomment-7057811999",
         "https://github.com/Kernol12/subathon-bot-ai/issues/217#issuecomment-7060345626"
       ],
-      "scope": "Pure MODIFIER-002 clock cuts, restart and Review projections, activation timing and score proposals pass the 28 frozen cases and 11 progression guards and controls. Arrival integration, unresolved lifetime and durable checkpoints remain with #223, #225 and #318."
+      "scope": "Pure MODIFIER-002 clock cuts, restart and Review projections, activation timing and score proposals pass the 28 frozen cases and 11 progression guards and controls. MODIFIER-005 covers selected clock facts and unresolved arrival context. Live clock integration and durable checkpoints remain with their owners."
     },
     {
       "id": "MOD-03",
@@ -1326,12 +1328,15 @@
     {
       "id": "MOD-04",
       "status": "partial",
-      "tests": ["tests/qt/sqlite_modifier_activations_tests.cpp"],
+      "tests": [
+        "tests/qt/sqlite_modifier_activations_tests.cpp",
+        "tests/qt/modifier_005/capture_tests.cpp"
+      ],
       "evidence": [
         "https://github.com/Kernol12/subathon-bot-ai/pull/725#issuecomment-7010490021",
         "https://github.com/Kernol12/subathon-bot-ai/pull/728#issuecomment-7013039316"
       ],
-      "scope": "Immutable definition edits, retained instance captures, monotone checkpoints and terminal expiry pass the v14 SQLite cases. Previewed active-instance edits and live clock composition remain separate."
+      "scope": "Immutable definition edits, retained instance captures, monotone checkpoints and terminal expiry pass the v14 SQLite cases. MODIFIER-005 covers frozen revision selection after expiry and exact modeled display projection. Previewed edits, live clock composition and persisted names remain separate."
     },
     {
       "id": "MEDIA-04",

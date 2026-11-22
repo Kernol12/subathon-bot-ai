@@ -185,6 +185,17 @@ if(TARGET subathon_sqlite_contributions AND TARGET subathon_application_plan)
                 subathon_sqlite_milestone_groups subathon_modifier_activation)
             subathon_target_options(subathon_sqlite_modifier_activations)
 
+            if(TARGET subathon_modifier_stacking_handoff)
+                add_library(subathon_modifier_capture STATIC EXCLUDE_FROM_ALL
+                    src/modifier_capture.cpp src/modifier_capture_codec.cpp)
+                target_include_directories(subathon_modifier_capture
+                    PRIVATE "${PROJECT_SOURCE_DIR}/core/src")
+                target_link_libraries(subathon_modifier_capture PUBLIC
+                    subathon_modifier_stacking_handoff subathon_sqlite_modifier_activations
+                    subathon_sqlite_application_plans)
+                subathon_target_options(subathon_modifier_capture)
+            endif()
+
             add_library(subathon_sqlite_financial_refunds STATIC
                 src/sqlite_financial_refunds.cpp
                 src/financial_refund_application.cpp)

@@ -1,0 +1,196 @@
+{
+  "version": 1,
+  "task_id": "MODIFIER-005",
+  "issue": {
+    "repository": "Kernol12/subathon-bot-ai",
+    "number": 223
+  },
+  "kind": "implementation",
+  "brief": "docs/tasks/EPIC-004/MODIFIER-005.md",
+  "evidence": [
+    "https://github.com/Kernol12/subathon-bot-ai/issues/223",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/223#issuecomment-7067243945",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/223#issuecomment-7067250762",
+    "https://github.com/Kernol12/subathon-bot-ai/issues/223#issuecomment-7067059849",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/789",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/791",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/789#pullrequestreview-6010519661",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/789#pullrequestreview-6010519813",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/789#pullrequestreview-6010519972",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/791#pullrequestreview-6010718877",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/791#pullrequestreview-6010719509",
+    "https://github.com/Kernol12/subathon-bot-ai/pull/791#pullrequestreview-6010720335"
+  ],
+  "limitations": [
+    "Parent epic: EPIC-004. Planning only; no tests, implementation, review or verification completed by this decomposition.",
+    "The historical line above describes the imported planning record. Current test and implementation evidence follows.",
+    "Stage 1 independently reviewed the frozen 34 selectors and observed 34 expected first missing-operation stops at c428cc9e. Only the unchanged test source is bound in the tests packet because Stage 2 replaces the missing-operation seam and promotes registration.",
+    "Stage 2 credited local verification at 8a018dbe passed all 34 frozen real-SQL invocations and 103 owning Qt regressions after closing. The CTest guard showed 36/0/0/0 including both hooks. All four runners reconciled 27 dependency objects including QSQLITE, and pre/post seals matched. The PR body records the selected hashes. CI requirements are separate.",
+    "Allowed replacement bases are already admitted by the caller under the existing plan owner. MODIFIER-005 grants no action, rule or target authority. Optional Stage 2 findings R3–R6 remain recorded in the review receipts.",
+    "Production intake/clock and host composition, publication, persisted and live names under #777, threshold/cap authority and financial reversal ownership remain separate."
+  ],
+  "verification": {},
+  "review": null,
+  "workflow": {
+    "required_stages": [
+      "tests",
+      "implementation"
+    ],
+    "stages": {
+      "tests": {
+        "revision": "c428cc9ec8b6f1d7013ccf13418fb9219c211c68",
+        "authors": [
+          "codex:t3:33b063c2-df14-4b9d-ac93-cab6a5cf5e2c",
+          "codex:coordinator"
+        ],
+        "paths": [
+          "tests/qt/modifier_005/capture_tests.cpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:61ef5e19-600e-47ce-bb68-e73955099f7d",
+            "revision": "42fb23c8443cea7553aff7856e74cdb351bd11eb",
+            "outcome": "changes_requested",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/789#pullrequestreview-6010519661",
+            "findings": [
+              "M5-T1",
+              "M5-T2",
+              "M5-T3",
+              "M5-T4",
+              "M5-T5",
+              "M5-T6"
+            ],
+            "blocking_findings": [
+              "M5-T1",
+              "M5-T2"
+            ]
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/modifier005_stage1_verify_r1",
+            "revision": "c428cc9ec8b6f1d7013ccf13418fb9219c211c68",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/789#pullrequestreview-6010519813",
+            "findings": [
+              "M5-T1",
+              "M5-T2",
+              "M5-T3",
+              "M5-T4",
+              "M5-T5",
+              "M5-T6"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:3785c6a7-bf7b-4941-8407-ceeecc556b32",
+            "revision": "c428cc9ec8b6f1d7013ccf13418fb9219c211c68",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/789#pullrequestreview-6010519972",
+            "findings": [
+              "M5-T1",
+              "M5-T2",
+              "M5-T3",
+              "M5-T4",
+              "M5-T5",
+              "M5-T6",
+              "M5-C1",
+              "M5-C2"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      },
+      "implementation": {
+        "revision": "8a018dbebf2023144d7295a4b3c447a7e2620f59",
+        "authors": [
+          "codex:t3:288dbd49-f3e6-4c2b-afee-fe9d31f99f4e",
+          "codex:coordinator"
+        ],
+        "paths": [
+          ".github/workflows/ci.yml",
+          "CMakeLists.txt",
+          "cmake/AcceptanceSuites.cmake",
+          "docs/TEST_STRATEGY.md",
+          "docs/tasks/MODIFIER-005.md",
+          "server/CMakeLists.txt",
+          "server/include/subathon/server/modifier_capture.hpp",
+          "server/src/modifier_capture.cpp",
+          "server/src/modifier_capture_codec.cpp",
+          "server/src/modifier_capture_codec.hpp",
+          "tests/acceptance-map.json",
+          "tests/qt/CMakeLists.txt",
+          "tests/qt/modifier_005/fixture.hpp"
+        ],
+        "reviews": [
+          {
+            "phase": "initial",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:4ad85295-4f47-429a-aac9-5650e529aa1e",
+            "revision": "ad46f766bef6af909ddd9d12a1b09f03a19c4784",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/791#pullrequestreview-6010718877",
+            "findings": [
+              "M5-C1",
+              "M5-C2",
+              "M5-S2-R1",
+              "M5-S2-R2",
+              "M5-S2-R3",
+              "M5-S2-R4",
+              "M5-S2-R5",
+              "M5-S2-R6",
+              "Q1"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "verification",
+            "provider": "codex",
+            "model": "gpt-6.2-sol",
+            "reviewer": "codex:/root/modifier005_stage2_verify",
+            "revision": "8a018dbebf2023144d7295a4b3c447a7e2620f59",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/791#pullrequestreview-6010719509",
+            "findings": [
+              "M5-S2-R1",
+              "M5-S2-R2",
+              "M5-S2-R3",
+              "M5-S2-R4",
+              "M5-S2-R5",
+              "M5-S2-R6",
+              "Q1"
+            ],
+            "blocking_findings": []
+          },
+          {
+            "phase": "closing",
+            "provider": "claude",
+            "model": "claude-opus-5-5",
+            "reviewer": "claude:a0ac7b0c-8f3c-48aa-a9e1-492e6a1744d7",
+            "revision": "8a018dbebf2023144d7295a4b3c447a7e2620f59",
+            "outcome": "approved",
+            "evidence": "https://github.com/Kernol12/subathon-bot-ai/pull/791#pullrequestreview-6010720335",
+            "findings": [
+              "M5-S2-R1",
+              "M5-S2-R2",
+              "M5-S2-R3",
+              "M5-S2-R4",
+              "M5-S2-R5",
+              "M5-S2-R6",
+              "Q1"
+            ],
+            "blocking_findings": []
+          }
+        ]
+      }
+    }
+  }
+}

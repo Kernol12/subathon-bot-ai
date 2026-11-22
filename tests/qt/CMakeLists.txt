@@ -321,10 +321,10 @@ if(SUBATHON_BUILD_STORAGE_027_STAGE1)
     add_subdirectory(storage_027)
 endif()
 
-if(SUBATHON_BUILD_MODIFIER_005_STAGE1)
+if(SUBATHON_BUILD_MODIFIER_CAPTURE_TESTS)
     subathon_add_qt_suite(server_modifier_005_stage1
-        NAME modifier-005-stage1 SOURCES modifier_005/capture_tests.cpp
+        NAME modifier-capture SOURCES modifier_005/capture_tests.cpp
         LIBRARIES subathon_contribution_review subathon_reference_intake
-            subathon_modifier_stacking_handoff subathon_modifier_clock
-        LABELS "modifier-005-stage1;intentional-red;qt;server" TIMEOUT 180)
+            subathon_modifier_capture subathon_modifier_clock
+        LABELS "modifier-capture;acceptance;qt;server" TIMEOUT 180)
 endif()

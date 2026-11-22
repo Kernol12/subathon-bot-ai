@@ -4,7 +4,7 @@
 #include "../storage_026/catalog_fixture.hpp"
 #include "../support/contribution_review_fixture.hpp"
 #include "../support/sqlite_modifier_activations_fixture.hpp"
-#include "missing_capture.hpp"
+#include <subathon/server/modifier_capture.hpp>
 #include <subathon/server/sqlite_connector_intake.hpp>
 
 namespace modifier_005_fixture {
