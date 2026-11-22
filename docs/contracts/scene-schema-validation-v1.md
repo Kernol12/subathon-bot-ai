@@ -249,10 +249,11 @@ isolation and current HTTP/progress evidence. The retired generic validator stay
    SCENE-003 and the live projection owners select their observation and text
    bounds for money, currency, names, rows and other admitted values. #777 and
    #792 remain producer gates. These inputs stay outside the five authored roots.
-2. **Q2 — Package profiles.** Decision 159 settles the revision cardinality of
-   the single logical `scene` entry before the package/manifest schema. A separate
-   reviewed container profile defines executable framing and staging. Retained
-   unknown originals require an explicitly admitted draft/import path under 137A.
+2. **Q2 — Package profiles.** Under correction 159 to [011 §5](scene-assets-packages-v1.md#5-portable-closure-and-patharchive-safety),
+   `scene` holds exactly one pinned content revision. Zero or multiple revisions
+   are invalid. Each package has its own MEDIA-04 budget. A separate reviewed
+   container profile defines framing and staging. Retained unknown originals
+   require an explicitly admitted draft/import path under 137A.
 3. **Q3 — Execution budgets.** Review the JSON allocation and work caps, including
    the large-GIF resource refusal, before adopting the checker profile. Renderer
    owners qualify world-transform, surface, cache, glyph and frame-work bounds
