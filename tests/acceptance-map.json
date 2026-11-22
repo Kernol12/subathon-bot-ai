@@ -789,9 +789,14 @@
     },
     {
       "id": "SETUP-01",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/rules_005/effect_tests.cpp",
+        "tests/acceptance/rules_005/owner_turn_tests.cpp",
+        "tests/acceptance/rules_005/selection_tests.cpp"
+      ],
+      "evidence": [],
+      "scope": "RULES-005 supplies the headless simulation boundary using private state and synthetic adapters. Guided setup and start readiness remain separate."
     },
     {
       "id": "BUILD-01",
@@ -1453,9 +1458,14 @@
     },
     {
       "id": "DEV-04",
-      "status": "planned",
-      "tests": [],
-      "evidence": []
+      "status": "partial",
+      "tests": [
+        "tests/acceptance/rules_005/effect_tests.cpp",
+        "tests/acceptance/rules_005/owner_turn_tests.cpp",
+        "tests/acceptance/rules_005/selection_tests.cpp"
+      ],
+      "evidence": [],
+      "scope": "RULES-005 runs the reviewed simulator cases with explicit clocks, synthetic ports and disposable state. Live and platform verification remain separate."
     },
     {
       "id": "TEST-04",
