@@ -531,9 +531,9 @@ Reply sanitize_reply(const Handoff &handoff, RawFrame raw) {
                 }
             }
             // Check decoded strings and member names, as well as numeric lexemes, for reflections
-            // outside the echo field. A reflected credential invalidates the sanitized frame.
+            // outside the echo field. A reflected credential invalidates the body.
             if (reflected(raw.body, echoed_id))
-                return failure(TransportFailureKind::invalid_document);
+                throw FailureKind::invalid_document;
             static_cast<void>(ReplyJson(raw.body, sent_id, echoed_id).read());
         }
     } catch (FailureKind kind) {
