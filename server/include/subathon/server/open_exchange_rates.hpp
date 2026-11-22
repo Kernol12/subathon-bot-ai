@@ -4,8 +4,8 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 #include <optional>
-#include <stdexcept>
 #include <string>
 #include <subathon/core/rate_snapshot.hpp>
 #include <utility>
@@ -72,6 +72,7 @@ struct HoldIdentity {
 };
 enum class ProbeCause {
     corrected_credential,
+    restored_credential,
     restored_access,
     restored_route,
     changed_entitlement
@@ -92,6 +93,8 @@ struct OwnerIntent {
     std::chrono::milliseconds deadline;
     std::vector<ProbeAuthority> authorities;
     WaitEligibility applicable_owner_waits;
+    // The owner may independently qualify a retry whose original clock is unavailable.
+    std::optional<std::uint64_t> qualified_local_retry_order{};
 };
 struct ExhaustionEvidence {
     Selection selection;
@@ -131,9 +134,26 @@ struct Started {
     bool follower;
 };
 enum class EchoMatch { match, mismatch, unknown };
+struct Reply;
+namespace private_transport {
+struct Handoff;
+struct RawFrame;
+[[nodiscard]] Reply sanitize_reply(const Handoff &, RawFrame);
+} // namespace private_transport
+
 struct EchoEvidence {
     AdmissionIdentity identity;
     EchoMatch match;
+
+    EchoEvidence(AdmissionIdentity claimed_identity, EchoMatch claimed_match)
+        : identity(std::move(claimed_identity)), match(claimed_match) {}
+    [[nodiscard]] bool verified_for(const AdmissionIdentity &admission) const;
+
+  private:
+    // The sealed copy records producer provenance without carrying credential bytes.
+    std::optional<std::pair<AdmissionIdentity, EchoMatch>> proof_;
+    friend Reply private_transport::sanitize_reply(const private_transport::Handoff &,
+                                                   private_transport::RawFrame);
 };
 // The original sizes describe the received frame before removing the echoed credential.
 struct SanitizedFrame {
@@ -203,7 +223,6 @@ struct RawFrame {
 };
 
 [[nodiscard]] std::optional<Handoff> make_handoff(const Admission &, const Credential &);
-[[nodiscard]] Reply sanitize_reply(const Handoff &, RawFrame);
 
 } // namespace private_transport
 
@@ -211,6 +230,7 @@ struct RawFrame {
 class PrivateTransportPort {
   public:
     virtual ~PrivateTransportPort() = default;
+    // Qualify both the exact selection binding and the shape of its private App ID.
     [[nodiscard]] virtual bool has_qualified_credential(const Selection &) const = 0;
     virtual void send(const Admission &) = 0;
 };
@@ -280,6 +300,8 @@ struct OwnerView {
     // Latest selected provider observation in the owner view. Effective-table state is separate.
     std::optional<core::FetchedRateObservation> latest;
     std::optional<std::int64_t> next_latest_utc_ms;
+    std::optional<std::int64_t> last_successful_latest_fetch_utc_ms;
+    std::optional<Completion> current_result;
 };
 
 // Models the server owner's serialized in-memory path with supplied authority and transport.
@@ -287,8 +309,8 @@ struct OwnerView {
 // or their owning services.
 class Adapter {
   public:
-    Adapter(OwnerPort &owner, PrivateTransportPort &transport)
-        : owner_(owner), transport_(transport) {}
+    Adapter(OwnerPort &owner, PrivateTransportPort &transport);
+    ~Adapter();
 
     void select();
     [[nodiscard]] std::variant<Started, Refusal> start(const Request &);
@@ -297,13 +319,10 @@ class Adapter {
     [[nodiscard]] OwnerView view(const Clocks &) const;
 
   private:
+    struct State;
     OwnerPort &owner_;
     PrivateTransportPort &transport_;
-};
-
-class NotImplemented final : public std::logic_error {
-  public:
-    explicit NotImplemented(const char *operation) : std::logic_error(operation) {}
+    std::unique_ptr<State> state_;
 };
 
 } // namespace subathon::server::open_exchange_rates
