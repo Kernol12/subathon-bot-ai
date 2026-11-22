@@ -226,11 +226,11 @@ class Milestone006RecoveryTests final : public QObject {
             start_exact_attempts(f.file, f.a, selected);
             const auto stopped =
                 f.command(owner, stop("fence-app", f.a, QueueChoice::continue_queue));
-            require(stopped.disposition == Disposition::committed &&
-                        stopped.cancellations ==
-                            std::vector<SelectedVersion>{
-                                selected.versions[2], {2, {}}, {5, {}}, {6, {}}},
-                    "Replacement r1 and A's untouched original slots alone cancel");
+            require(stopped.disposition == Disposition::committed, "Application Stop commits");
+            require(stopped.cancellations ==
+                        std::vector<SelectedVersion>{{2, {}}, selected.versions[2], {5, {}},
+                                                     {6, {}}},
+                    "Stop cancels the selected versions in action order");
             reopen_financial(f.file);
             assert_stranded_and_settle(f.file, f.a, selected);
         });
