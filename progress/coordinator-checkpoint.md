@@ -4,18 +4,20 @@ Owner: Kernol12. Issues own brief/status/prerequisites; PR comments own reviews.
 Complete specification v0.45, all seven integrations and all three FX providers
 remain release scope. This checkpoint grants no new authorization.
 
+## Current work
+
+Use the [Subathon bot ai development board](https://github.com/users/Kernol12/projects/1)
+for the queue, status and owner holds. [AGENTS.md](../AGENTS.md) defines daytime
+selection, night prep and slot limits. Issue comments retain task-specific
+decisions and review chronology. The handoff below records historical pins.
+
 ## Standing authorization — continuous coordination (2026-11-18)
 
 The owner replaced the former “merge, then STOP” instruction. Continue through
 both stages, reviews, observed intended red, implementation, checks, proof and
-protected merge without routine permission pauses. Start SESSION-009 #582 now
-on current main in a fresh session, tier A both stages. Stage1 includes both
-owner criteria against the real API-001 host: ex-HL05 revocation/thread/reentrancy
-and ex-HL15 UTCmin/UTCmax. Observed intended red precedes stage2.
-
-After every protected merge, close the issue, batch the checkpoint into the next
-task PR or one small docs PR, and claim the next dependency-ready product task
-on the board. Prefer release-unblocking work, such as SESSION-003 toward API-010.
+protected merge without routine permission pauses. After every protected merge,
+close the issue, update its board status, and select the next task under
+[AGENTS.md](../AGENTS.md).
 Apply the workflow tier; report each merge briefly and continue without awaiting
 a reply. The original [#278 handover](https://github.com/Kernol12/subathon-bot-ai/issues/278#issuecomment-6930279142)
 remains historical technical context, not a continuing stop directive.
@@ -69,7 +71,7 @@ compiler and system-header pre-build hashes are outside this procedure.
   already changes the respective file. Use a separate commit and name it in
   that task's review packet.
 
-## Current continuation after ACCT-007 (2026-11-21)
+## Historical continuation after ACCT-007 (2026-11-21)
 
 - #545 completed in [PR #768](https://github.com/Kernol12/subathon-bot-ai/pull/768).
   #201 completed in [PR #773](https://github.com/Kernol12/subathon-bot-ai/pull/773)
@@ -98,7 +100,7 @@ compiler and system-header pre-build hashes are outside this procedure.
 
 This coordinator stopped at the end of the current review steps. No new task,
 stage, fix round or delegate was started for the handover. The successor
-continues under the owner's current queue and the standing limits below.
+uses the board and current rules above.
 
 | Issue | Stage and exact commit or producer pin | Branch | Worktree | Next step |
 | --- | --- | --- | --- | --- |
@@ -111,18 +113,6 @@ continues under the owner's current queue and the standing limits below.
 | [#238 MILESTONE-006](https://github.com/Kernol12/subathon-bot-ai/issues/238) | [Contract r2 frozen](https://github.com/Kernol12/subathon-bot-ai/issues/238#issuecomment-7060752381), pin `c88adbcd3650b1136c4a363b1e30a73c025337b7` | None | None | Stage 1 follows the merge of #761. |
 | [#318 STORAGE-003](https://github.com/Kernol12/subathon-bot-ai/issues/318) | [Contract r3 frozen](https://github.com/Kernol12/subathon-bot-ai/issues/318#issuecomment-7062576817), pin `a696a2e6a7494a4f7a959672164438bbeb380b78` | None | None | Carry forward the gates in the freeze and [114A](https://github.com/Kernol12/subathon-bot-ai/issues/318#issuecomment-7062461621). Its migration opens after #761 merges. |
 | [#272 SESSION-007](https://github.com/Kernol12/subathon-bot-ai/issues/272) | Planned, conditional 237-line draft pinned to `c88adbcd3650b1136c4a363b1e30a73c025337b7` | None | None | Resume only under [113B](https://github.com/Kernol12/subathon-bot-ai/issues/272#issuecomment-7061402909) and the [#509 deployment gate](https://github.com/Kernol12/subathon-bot-ai/issues/509#issuecomment-7061016580). |
-
-**Queue.** #760 takes the next free slot before any unstarted stage. The
-stopped #545 Stage 2 and #201 Stage 1 candidates carry forward ahead of new work.
-#588 follows #760, in the first available normal slot before new tasks. The
-migration sequence is **#760 → #761 → #318**. One migration may be open at a time.
-Assign each catalog number at implementation entry in that order.
-
-**Outside the queue.** #272 stays Planned. The #752 follow-ups
-[#764](https://github.com/Kernol12/subathon-bot-ai/issues/764),
-[#765](https://github.com/Kernol12/subathon-bot-ai/issues/765) and
-[#766](https://github.com/Kernol12/subathon-bot-ai/issues/766) are filed and unqueued.
-The existing planned and frozen items below retain their issue-based gates.
 
 **Provider safeguards.** The standing provider rules below apply. #752's
 one-case owner track is complete. Claude sessions covered the test stage.
@@ -163,18 +153,14 @@ The owner stopped #715 after its [one hosted experiment](https://github.com/Kern
   `ef5a2db3595a2baf439e8e04fe682fe7123eb747`. Fresh closing and runtime admission
   remain pending. The worktree and branch in the handover still apply.
 
-### Parallel work and standing CI rerun rule
+## Parallel work and standing CI rerun rule
 
-- At most two active tasks in different modules and three parked tasks. When
-  three are parked, finish the active tasks, then stop. Answered parked tasks
-  get the next free slot before unclaimed tasks. Start nothing that depends
-  on an unanswered question or touches files of an active or parked task.
-  The coordinator owns shared CMake, CI, acceptance map and checkpoint.
+- The board carries work status and the [root instructions](../AGENTS.md) set
+  slot limits. Keep concurrent tasks out of each other's owned files. The
+  coordinator owns shared CMake, CI, acceptance map and checkpoint.
 - Serialize local test execution and exact-binary admission. Builds and
   reviews may overlap. At a provider limit, pause and retry the same provider
-  on the next active turn. If two tasks park for the same cause, stop new
-  claims and report it. The APT setup retry exception below is
-  excluded from the same-cause parking rule.
+  on the next active turn.
 - Main CI stops new work on a build or test failure. A failure in
   **Prepare authenticated Ubuntu package acquisition** before build or test
   does not stop new work. The authorized [main rerun](https://github.com/Kernol12/subathon-bot-ai/pull/714#issuecomment-6993941079)
@@ -184,24 +170,9 @@ The owner stopped #715 after its [one hosted experiment](https://github.com/Kern
   runners (three attempts total). Record each rerun on the PR. Park after
   the third setup failure.
 
-## Product queue
-
-- SESSION-013 [#662](https://github.com/Kernol12/subathon-bot-ai/issues/662) and API-010 [#560](https://github.com/Kernol12/subathon-bot-ai/issues/560) remain unclaimed queue items.
-- SESSION-003 #264 still waits on #262, #588 and #593. Check native links for current readiness.
-- APITEST-018 [#689](https://github.com/Kernol12/subathon-bot-ai/issues/689): large buffered HTTP input with more than eight connections and its
-  bounded observation seam, moved from APITEST-017 by the owner. Planned under
-  EPIC-008; not an API-001 prerequisite. Historical `f8be1aec` coverage is deferred here.
-- APITEST-019 [#692](https://github.com/Kernol12/subathon-bot-ai/issues/692): unexplained unloaded legacy-control exit90/SDK diagnostic. Planned under
-  EPIC-008, not authorized; not a prerequisite of APITEST-017 or API-001.
-- API-016 follow-ups: V2, C2, C4, C6, I14, I15, I16, I19, I20, O5; see the handover
-  comment. Filed as [#678–#687](https://github.com/Kernol12/subathon-bot-ai/issues/273)
-  (API-017 through API-026), planned under EPIC-008; none is authorized for work.
-- API-027 [#702](https://github.com/Kernol12/subathon-bot-ai/issues/702): planned under EPIC-008, native parent link recorded. Owns API1-C-O1 simultaneous copied-response-lease destruction from [the #700 closing receipt](https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6963524189); source-only finding, no runtime reproduction claimed. Schedule like other product tasks.
-
-The standing authorization permits selection of dependency-ready product work.
-Existing task-specific holds remain. No live chat or payment side effects are
-authorized. Keep credentials and supporter data out of source, fixtures, reports
-and HTML; synthetic or redacted fixtures only.
+Keep credentials and supporter data out of source, fixtures, reports and HTML.
+Use synthetic or redacted fixtures. Live chat and payment side effects need
+separate owner authorization.
 
 ## ADR-0012 decision for APITEST-015 (2026-11-16)
 
@@ -312,20 +283,6 @@ needs the owner. Other standing rules remain unchanged.
 Codex child use `gpt-6.2-sol`, including authors, investigators and verifiers.
 The provider stays Codex, so this is within the standing authorization. Existing
 running sessions, completed reviews and receipts retain their original models.
-
-## Project board maintenance (2026-11-16)
-
-The "Subathon bot ai development" board follows the issues' native "blocked by"
-links. The enabled "Item closed → Status Done" workflow sets Done on close for
-issues and pull requests. The coordinator archives board items closed as not
-planned without changing the issue, sets Status when claiming or blocking an issue,
-and moves issues to Ready when a close unblocks them.
-
-Open non-epic issues are Ready when every native blocker is closed, otherwise
-Planned; claimed issues are In progress and issues awaiting the owner are Blocked.
-The owner's API-016 follow-ups are explicitly Planned and not authorized for work.
-Epics keep their status. Board Ready shows dependency order; it does not authorize
-work. The checkpoint's authorized path does.
 
 ## Working rules from the owner (2026-11-15)
 

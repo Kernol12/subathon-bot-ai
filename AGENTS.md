@@ -44,11 +44,21 @@ GitHub issue; read `docs/TEST_STRATEGY.md` when adding or changing tests.
 Read scoped `AGENTS.md` files in every module being edited. Current owner scope,
 stop/resume directive and temporary assignments belong in
 `progress/coordinator-checkpoint.md`; the latest owner instruction takes precedence.
-Dependency readiness never authorizes a new task or resumes stopped product work.
+Use the [project board](https://github.com/users/Kernol12/projects/1) for task
+selection. During the day, take remaining Night queue tasks first, then Ready
+tasks without `owner-hold`. Prefer work that unblocks other tasks. Night
+preparation moves the selected tasks with answered questions to Night queue.
+At night, continue through that queue and park tasks that need an owner answer.
 Keep permanent rules here, task status and prerequisites on GitHub and review
 receipts in the PR.
 
-Current priority: product tasks in the owner's queue. Process or tooling work needs an owner decision per task.
+Keep at most two In progress in different modules, including work waiting for CI
+or merge, and at most one migration at a time. During the day, In progress plus
+Parked may total at most five. Park a task when it needs a numbered owner answer,
+and start another only within both limits. Wait for the owner if all five are
+stuck. Blocked tasks name the prerequisite issue and use neither limit. At night
+the combined limit is lifted. Update the board at every start, park, block and
+merge. Process or tooling work needs an owner decision per task.
 
 ## Test-first and review gates
 
