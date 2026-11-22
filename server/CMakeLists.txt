@@ -37,7 +37,7 @@ if(TARGET subathon_rate_snapshots)
     subathon_target_options(subathon_exchange_rate_api)
 endif()
 
-if(BUILD_TESTING AND SUBATHON_BUILD_RATES_004_STAGE1)
+if(TARGET subathon_rate_snapshots)
     add_library(subathon_open_exchange_rates STATIC EXCLUDE_FROM_ALL src/open_exchange_rates.cpp)
     target_include_directories(subathon_open_exchange_rates PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_link_libraries(subathon_open_exchange_rates PUBLIC subathon_rate_snapshots)
