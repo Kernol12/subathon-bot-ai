@@ -10,6 +10,8 @@ using namespace subathon::server::milestone_interruption;
 // Only owner facts cross this seam. The sample belongs to the accepting owner
 // turn, including for normal readback. The observation is evidence for a live
 // presentation when available. A queued slot can qualify Stop without one.
+// The test boundary separates adoption of an owner fact from the scheduling
+// walk. A following advance at the same sample is a distinct, eligible turn.
 enum class StopProof { normal_commit, normal_readback };
 struct CommittedStop {
     StopIntent intent;

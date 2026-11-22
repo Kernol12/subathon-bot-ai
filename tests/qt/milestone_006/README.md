@@ -11,6 +11,9 @@ The timing runner uses the protected timeline for presentation, owner turns
 and release. Its recording port supplies only independent #236 facts. The
 test-only typed update entry is the missing application checkpoint. It
 receives acknowledged Stop, unresolved Stop or acknowledged Resume facts.
+It adopts a fact without walking the queue. A separate advance can occur at the
+same sample. In Stage 2 this test adapter will forward to the server-owned
+entry, with the forwarding diff reviewed and no owner logic in test code.
 Storage witnesses use disposable writers, normal owning entries and shipped
 catalogs. Side effects such as playback handoff are outside the timing fixture.
 
@@ -25,9 +28,10 @@ catalogs. Side effects such as playback handoff are outside the timing fixture.
 | `s8ReleaseRaceTiming` | Restore a ready, unreleased exact head without presenting, or advance to a real A release. First stop at the acknowledged update. Stop-first allows B on the same-sample advance with no A release. Active release-first preserves A's one release and uses boundary 3,000. |
 | `t1KnownRollbackKeepsNaturalBoundary` | Predicted pass. No owner update from the rolled-back turn. A's original window and 11,000 boundary survive. |
 | `t1UncertaintyGatesSchedulingWithoutFreezingElapsedTime` | First stop at applying the scheduling fence at 2,000. A remains active through 9,999, time keeps running, and B is fenced at 11,000 until normally acknowledged readback. |
+| `t1UncertainStopReadbackWhileActive` | First stop at the 2,000 uncertainty fence. The integrated sequence keeps A active at 2,300 and applies readback at 2,600. B stays unreleased at 3,000 and 3,599, then starts at 3,600. This distinguishes a backdated gap and a retained uncertainty fence. |
 | `t1FirstReadbackUsesReconciliationSample` | First stop at applying the acknowledged exact readback. Separate readback entry witnesses expect 3,600 for a read at 2,600, the original 11,000 after a read in the natural gap, and immediate eligibility on the first advance after an already elapsed gap. |
 | `s6aUnstoppedCrossing_v20`, `explicitDeferredSkip_v20` | Predicted passes on both origins. The live refund owner and the v20 normal decision readers prove exact 1,020→995 and 1,010→990 crossings, 2/3/0 active causes under Continue/Review/Skip, and distinct configured versus explicit Skip provenance. Preserve protected `terminalSkipEndsAllRemainingHolds` and the existing v21 unstopped controls. |
-| `s8ReleaseRaceStore` | Predicted passes through the real application and edit release overloads and acknowledged v21 Stop. Release bits follow the winner and Stop cancels one unstarted slot in either ordering. |
+| `s8ReleaseRaceStore` | Predicted passes through the real v21 application and edit release overloads and acknowledged v21 Stop. Release bits follow the winner and Stop cancels one unstarted slot in either ordering. |
 
 A failure in setup, catalog inspection, protected release, compilation or
 linking is outside these predicted behavioral first stops. A runtime run

@@ -361,6 +361,7 @@ class Milestone006StoreTests final : public QObject {
             // The protected producer can capture one application bonus using
             // its large-slot fixture. No bonus receipt or delivery claim is made.
             Populated f({.large_slots = edit_origin ? 0U : 1U});
+            advance_fixture(f.db);
             const auto release_application = [&] {
                 const auto result = finance::completed<MilestoneReleaseCompletion>([&](auto done) {
                     return release_milestone_head(f.db.writer(), f.app_occurrence, std::move(done));
@@ -384,8 +385,7 @@ class Milestone006StoreTests final : public QObject {
             };
             if (!stop_first)
                 require(release_head() == MilestoneReleaseDisposition::released,
-                        "The winning normal release leaves the original slot unstarted");
-            advance_fixture(f.db);
+                        "The winning v21 release leaves the original slot unstarted");
             Authority owner;
             const auto target = edit_origin ? edited(f) : application(f);
             const auto command = stop("race-stop", target, QueueChoice::continue_queue);

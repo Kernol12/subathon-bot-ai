@@ -415,6 +415,35 @@ class Milestone006TimingTests final : public QObject {
         });
     }
 
+    void t1UncertainStopReadbackWhileActive() {
+        check([] {
+            TimelineFixture f;
+            f.start();
+            f.timeline.advance(1800ms);
+            apply_owner_update(f.timeline, 2000ms, UncertainStop{a, "uncertain-stop"});
+            f.timeline.advance(2300ms);
+            QCOMPARE(f.timeline.presentation(), window("A", 2300ms));
+            QCOMPARE(f.release.releases, (Releases{a.occurrence}));
+
+            apply_owner_update(f.timeline, 2600ms,
+                               CommittedStop{{a, QueueChoice::continue_queue},
+                                             "uncertain-stop",
+                                             StopProof::normal_readback,
+                                             active_a(2600ms),
+                                             {}});
+            QVERIFY(!f.timeline.presentation());
+            QCOMPARE(f.release.releases, (Releases{a.occurrence}));
+            for (const auto sample : {3000ms, 3599ms}) {
+                f.timeline.advance(sample);
+                QVERIFY(!f.timeline.presentation());
+                QCOMPARE(f.release.releases, (Releases{a.occurrence}));
+            }
+            f.timeline.advance(3600ms);
+            QCOMPARE(f.timeline.presentation(), window("B", 0ms));
+            QCOMPARE(f.release.releases, (Releases{a.occurrence, b.occurrence}));
+        });
+    }
+
     void t1FirstReadbackUsesReconciliationSample_data() {
         QTest::addColumn<int>("sample_ms");
         QTest::addColumn<int>("next_start_ms");
