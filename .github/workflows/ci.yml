@@ -296,8 +296,8 @@ jobs:
               raise SystemExit(f"Expected 31 rule action cases, got {found['rule-actions']}")
           if found["rule-chain"] != 24:
               raise SystemExit(f"Expected 24 rule chain cases, got {found['rule-chain']}")
-          if found["rule-simulator"] != 17:
-              raise SystemExit(f"Expected 17 rule simulator cases, got {found['rule-simulator']}")
+          if found["rule-simulator"] != 20:
+              raise SystemExit(f"Expected 20 rule simulator cases, got {found['rule-simulator']}")
           if found["chat-commands"] != 41:
               raise SystemExit(f"Expected 41 chat command cases, got {found['chat-commands']}")
           if found["milestone-target-edit"] != 6:

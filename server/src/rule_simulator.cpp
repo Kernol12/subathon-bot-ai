@@ -276,8 +276,6 @@ class Run final : public MilestoneGroupRelease {
             // Every port and all scratch state die with this Run.
             out_.trace.push_back(std::move(trace));
             out_.final_state = state_;
-            sample_ = turn.sample;
-            last_turn_ = &turn;
         }
         if (out_.completion == Completion::complete &&
             (release_attempt_ ||
@@ -523,7 +521,9 @@ class Run final : public MilestoneGroupRelease {
     RuleOwnerResult propose(const OwnerTurn &, const EventTurn &, const EventCapture &,
                             const RuleActionKey &, const RuleBoundAction &, ActionTrace &,
                             StagedEffects &, std::vector<std::string> &);
-    void project_cut(const OwnerTurn &, ClockSample, const TimerState &, const TimerClockStep &,
+    bool apply_timer_cut(const OwnerTurn &, const TimeCut &, TurnTrace &);
+    void advance_timer_to(const OwnerTurn &, TurnTrace &);
+    void project_cut(const OwnerTurn &, const TimerState &, const TimerClockStep &,
                      const TimerAdvance &);
     bool state_held() const {
         return std::ranges::any_of(chains_, [](const auto &context) {
@@ -552,8 +552,9 @@ class Run final : public MilestoneGroupRelease {
     std::vector<CreditedTime> credits_;
     std::vector<RuleDeliveryTrace> deliveries_;
     std::vector<CommittedMilestoneGroup> pending_groups_;
-    const OwnerTurn *last_turn_{};
-    ClockSample sample_{};
+    // Independent status and timeline observations do not consume timer elapsed.
+    const OwnerTurn *timer_turn_{};
+    ClockSample timer_sample_{};
     TimelineStep *timeline_step_{};
     std::optional<ReleaseAttempt> release_attempt_;
     std::unique_ptr<MilestoneTimeline> timeline_;
@@ -843,6 +844,7 @@ void Run::process(const OwnerTurn &turn, const EventTurn &event, TurnTrace &trac
         return;
     }
     auto &unit = std::get<chain::Unit>(begun);
+    advance_timer_to(turn, trace);
     const auto *selected = capture(event.event); // A successful begin required this exact binding.
     trace.admitted =
         *find(context->events, [&](const auto &row) { return row.binding == event.event; });
@@ -1010,21 +1012,24 @@ void Run::process(const OwnerTurn &turn, const EventTurn &event, TurnTrace &trac
     }
 }
 
-void Run::project_cut(const OwnerTurn &turn, ClockSample previous, const TimerState &before,
-                      const TimerClockStep &step, const TimerAdvance &advance) {
+void Run::project_cut(const OwnerTurn &turn, const TimerState &before, const TimerClockStep &step,
+                      const TimerAdvance &advance) {
     if (!state_.current_modifier)
         return;
-    const auto &prior_ref = last_turn_ ? last_turn_->ref : input_.initial.state_revision;
-    state_.current_modifier = project_modifier_cut({"simulated-timer", prior_ref, previous.utc_ms},
-                                                   {"simulated-timer", turn.ref, step.utc_now_ms},
-                                                   before, step, advance, state_.current_modifier)
-                                  .head;
+    const auto &prior_ref = timer_turn_ ? timer_turn_->ref : input_.initial.state_revision;
+    state_.current_modifier =
+        project_modifier_cut({"simulated-timer", prior_ref, timer_sample_.utc_ms},
+                             {"simulated-timer", turn.ref, step.utc_now_ms}, before, step, advance,
+                             state_.current_modifier)
+            .head;
 }
 
-void Run::process(const OwnerTurn &turn, const TimeCut &cut, TurnTrace &trace) {
-    if (state_held())
-        return;
-    const auto elapsed = (turn.sample.elapsed - sample_.elapsed).count();
+bool Run::apply_timer_cut(const OwnerTurn &turn, const TimeCut &cut, TurnTrace &trace) {
+    if (state_held()) {
+        trace.clock_held = true;
+        return false;
+    }
+    const auto elapsed = (turn.sample.elapsed - timer_sample_.elapsed).count();
     const auto before = state_.timer;
     auto running = state_.pause.reasons.empty() ? elapsed : 0;
     if (cut.signals) {
@@ -1063,7 +1068,7 @@ void Run::process(const OwnerTurn &turn, const TimeCut &cut, TurnTrace &trace) {
     };
     const TimerClockStep step{running == 0 ? elapsed : running, turn.sample.utc_ms, running == 0};
     trace.timer_cut = advance(before, step);
-    project_cut(turn, sample_, before, step, *trace.timer_cut);
+    project_cut(turn, before, step, *trace.timer_cut);
     if (running > 0 && running < elapsed && state_.current_modifier) {
         // The explicit cut supplies the pause boundary's elapsed distance.
         // Keep the single observed UTC throughout the split clock projection.
@@ -1080,13 +1085,37 @@ void Run::process(const OwnerTurn &turn, const TimeCut &cut, TurnTrace &trace) {
     }
     state_.timer = trace.timer_cut->state;
     state_.state_revision = turn.ref;
+    timer_sample_ = turn.sample;
+    timer_turn_ = &turn;
+    return true;
+}
+
+void Run::advance_timer_to(const OwnerTurn &turn, TurnTrace &trace) {
+    if (!timer_turn_) {
+        // Before a countdown cut is qualified, the initial state is the
+        // baseline observed at the first applying timer owner turn.
+        timer_sample_ = turn.sample;
+        timer_turn_ = &turn;
+        return;
+    }
+    if (turn.sample.elapsed > timer_sample_.elapsed)
+        apply_timer_cut(turn, TimeCut{}, trace);
+}
+
+void Run::process(const OwnerTurn &turn, const TimeCut &cut, TurnTrace &trace) {
+    if (!apply_timer_cut(turn, cut, trace))
+        return;
+    // An explicit timer cut observes the timer's pause state for the timeline.
     countdown_paused_ = !state_.pause.reasons.empty();
     timeline_->set_countdown_paused(countdown_paused_, turn.sample.elapsed);
 }
 
-void Run::process(const OwnerTurn &turn, const PauseControl &control, TurnTrace &) {
-    if (state_held())
+void Run::process(const OwnerTurn &turn, const PauseControl &control, TurnTrace &trace) {
+    if (state_held()) {
+        trace.clock_held = true;
         return;
+    }
+    advance_timer_to(turn, trace);
     state_.pause = set_pause_reason(state_.pause, control.reason, control.active);
     state_.state_revision = turn.ref;
     countdown_paused_ = !state_.pause.reasons.empty();
@@ -1153,6 +1182,7 @@ void Run::process(const OwnerTurn &turn, const RefundTurn &refund, TurnTrace &tr
         return;
     }
 
+    advance_timer_to(turn, trace);
     try {
         trace.refund = calculate_refund_time_entitlement(
             refund.amounts, {credited->actual.main_change_ms, -credited->actual.debt_change_ms},
@@ -1311,6 +1341,8 @@ void Run::process(const OwnerTurn &turn, const TimelineTurn &input, TurnTrace &t
             break;
         case TimelineOperation::countdown_pause:
         case TimelineOperation::countdown_resume:
+            // A timeline control supplies an explicit gate observation. The next
+            // explicit timer cut, pause control, or recovery can update it.
             countdown_paused_ = input.operation == TimelineOperation::countdown_pause;
             timeline_->set_countdown_paused(countdown_paused_, turn.sample.elapsed);
             break;
@@ -1444,8 +1476,10 @@ void Run::process(const OwnerTurn &turn, const UnitReconciliation &readback, Tur
 void Run::process(const OwnerTurn &turn, const RestartTurn &restart, TurnTrace &trace) {
     if (release_attempt_ || std::ranges::any_of(chains_, [](const auto &context) {
             return context.blocked.has_value();
-        }))
+        })) {
+        trace.clock_held = true;
         return;
+    }
     RecoveryScheduleFacts schedule;
     if (const auto *empty = std::get_if<EmptyRecoverySchedule>(&restart.schedule))
         schedule = RecoveryScheduleCoverage{empty->facts_ref, empty->delivery_revision, {}, {}, {}};
@@ -1474,6 +1508,8 @@ void Run::process(const OwnerTurn &turn, const RestartTurn &restart, TurnTrace &
     state_.timer = chosen.timer;
     state_.pause = chosen.pause;
     state_.state_revision = turn.ref;
+    timer_sample_ = turn.sample;
+    timer_turn_ = &turn;
     countdown_paused_ = !state_.pause.reasons.empty();
     timeline_->set_countdown_paused(countdown_paused_, turn.sample.elapsed);
     trace.recovery = std::move(preview);
