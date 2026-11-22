@@ -169,8 +169,9 @@ std::optional<bool> v18_application_release(const SqliteWorkSession &session,
 }
 
 std::optional<DeliveryJob> selected_job(const SqliteWorkSession &session,
-                                        const DeliveryJobKey &key) {
-    const auto current = milestone_sql::catalog(session);
+                                        const DeliveryJobKey &key,
+                                        bool *interruptions = nullptr) {
+    const auto current = milestone_sql::catalog(session, interruptions);
     auto job = selected_capture(session, key, Document::body);
     if (job) {
         auto event = latest_event(session, key);
@@ -187,12 +188,25 @@ std::optional<DeliveryJob> selected_job(const SqliteWorkSession &session,
     return job;
 }
 
+bool application_start_fenced(const SqliteWorkSession &s, const DeliveryJobKey &key) {
+    const auto rows = s.execute(
+        {"SELECT 1 FROM main.subathon_milestone_actions a "
+         "JOIN main.subathon_milestone_groups g ON g.occurrence_ref=a.occurrence_ref "
+         "AND (g.operation_scope,g.operation_ref)=(a.operation_scope,a.operation_ref) "
+         "WHERE a.operation_scope=? AND a.operation_ref=? AND a.job_ref=? AND " +
+             milestone_sql::original_start_fenced(false, "a.action_ordinal") + " LIMIT 1",
+         bindings(key)});
+    return !rows.empty();
+}
+
 bool milestone_release_allows(const SqliteWorkSession &session, const DeliveryJob &job) {
-    const auto catalog = milestone_sql::catalog(session);
+    bool interruptions = false;
+    const auto catalog = milestone_sql::catalog(session, &interruptions);
     if (catalog == milestone_sql::Catalog::independent)
         return true;
     if (catalog == milestone_sql::Catalog::edits)
-        return v18_application_release(session, job).value_or(true);
+        return v18_application_release(session, job).value_or(true) &&
+               (!interruptions || !application_start_fenced(session, job.key));
 
     QList<QVariant> args{blob(job.capture.action_ref), blob(job.capture.action_version_ref)};
     args.append(bindings(job.key));
@@ -239,9 +253,10 @@ DeliveryJobResult transition(const SqliteWorkSession &session, DeliveryJob job, 
 
 template <typename Change>
 DeliveryJobResult change_selected(const SqliteWorkSession &session, const DeliveryJobKey &key,
-                                  std::int64_t revision, State expected, Change change) {
+                                  std::int64_t revision, State expected, Change change,
+                                  bool *interruptions = nullptr) {
     return guarded(session, [&]() -> DeliveryJobResult {
-        auto job = selected_job(session, key);
+        auto job = selected_job(session, key, interruptions);
         if (!job)
             return {Disposition::missing, {}};
         if (job->revision != revision)
@@ -453,14 +468,17 @@ DeliveryJobResult SqliteDeliveryJobStore::retry(const DeliveryJobKey &key, std::
                                                 DeliveryRetryPolicy &policy) const {
     validate_key(key);
     validate_revision(revision);
+    bool interruptions = false;
     return change_selected(session_, key, revision, State::failed, [&](DeliveryJob job) {
+        if (interruptions && application_start_fenced(session_, job.key))
+            return DeliveryJobResult{Disposition::refused, {}};
         auto decision = policy.allows(job);
         if (!decision)
             return DeliveryJobResult{Disposition::refused, {}};
         if (!bounded_ref(*decision))
             invalid(Input::invalid_job);
         return transition(session_, std::move(job), State::queued, {}, std::move(decision));
-    });
+    }, &interruptions);
 }
 
 StorageError dispatch_delivery_job(SqliteWriter &writer, DeliveryJobKey key, std::int64_t revision,

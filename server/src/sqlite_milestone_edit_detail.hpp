@@ -28,13 +28,13 @@ qint64 queue_tail(const SqliteWorkSession &);
 std::optional<Occurrence> occurrence(const SqliteWorkSession &, const QByteArray &,
                                      bool actions = false,
                                      const MilestoneEditKey *expected = nullptr);
-std::optional<std::pair<QByteArray, bool>> pending_head(const SqliteWorkSession &);
-std::vector<std::pair<qint64, CapturedMilestoneGroup>> pending(const SqliteWorkSession &);
+std::optional<std::pair<QByteArray, bool>> pending_head(const SqliteWorkSession &, bool interruptions);
+std::vector<std::pair<qint64, CapturedMilestoneGroup>> pending(const SqliteWorkSession &, bool interruptions);
 struct UnavailableRefundTarget {};
 using RefundTarget = std::variant<std::monostate, qint64, UnavailableRefundTarget>;
 
 RefundTarget current_target(const SqliteWorkSession &, const MilestoneOccurrenceKey &,
-                            const std::string &installation);
+                            const std::string &installation, bool interruptions);
 
 inline std::size_t membership_bytes(const MilestoneEditKey &origin,
                                     const MilestoneOccurrenceKey &occurrence, std::size_t jobs) {
@@ -71,7 +71,7 @@ inline GroupResultSize group_result_size(const MilestoneEditKey &origin,
     return {1, actions.size(), bytes};
 }
 
-GroupResultSize pending_result_size(const SqliteWorkSession &);
+GroupResultSize pending_result_size(const SqliteWorkSession &, bool interruptions);
 std::int64_t total_score(const ApplicationStateSnapshot &);
 void check_application_identity(const SqliteWorkSession &, const QByteArray &, qint64 order);
 

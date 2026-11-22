@@ -289,15 +289,28 @@ std::optional<Occurrence> occurrence(const SqliteWorkSession &s, const QByteArra
     return result;
 }
 
-std::optional<std::pair<QByteArray, bool>> pending_head(const SqliteWorkSession &s) {
+QString interruption_pending(bool edit, bool enabled) {
+    if (!enabled)
+        return {};
+    const auto independent_holds =
+        edit ? QString("(EXISTS(SELECT 1 FROM main.subathon_milestone_edit_choices d "
+                       "WHERE d.occurrence_ref=g.occurrence_ref AND d.choice=1 AND ") +
+                   active +
+                   ") OR EXISTS(SELECT 1 FROM main.subathon_milestone_edit_refund_decisions d "
+                   "WHERE d.occurrence_ref=g.occurrence_ref AND d.policy=1 AND " + active + "))"
+             : held();
+    return " AND (NOT " + stopped(edit) + " OR " + independent_holds + ")";
+}
+
+std::optional<std::pair<QByteArray, bool>> pending_head(const SqliteWorkSession &s, bool interruptions) {
     const auto rows = s.execute(
         {"SELECT " + ref_column("occurrence_ref") +
              ",queue_order,edit FROM (SELECT g.occurrence_ref,g.queue_order,0 AS edit "
              "FROM main.subathon_milestone_groups g WHERE " +
-             pending_filter(Catalog::edits) +
+             pending_filter(Catalog::edits) + interruption_pending(false, interruptions) +
              " UNION ALL SELECT g.occurrence_ref,g.queue_order,1 "
              "FROM main.subathon_milestone_edit_occurrences g WHERE g.released=0 AND NOT " +
-             edit_skipped + ") ORDER BY queue_order LIMIT 1",
+             edit_skipped + interruption_pending(true, interruptions) + ") ORDER BY queue_order LIMIT 1",
          {}});
     const auto *row = unique(rows);
     if (!row)
@@ -323,7 +336,7 @@ std::optional<std::pair<QByteArray, bool>> pending_head(const SqliteWorkSession 
     return std::pair{key, edit};
 }
 
-GroupResultSize pending_result_size(const SqliteWorkSession &s) {
+GroupResultSize pending_result_size(const SqliteWorkSession &s, bool interruptions) {
     // Count the same pending suffix as pending(), without decoding its retained
     // jobs. The bounded aggregates charge the same references as group_result_size.
     const auto cap = collection_limit + 1;
@@ -334,14 +347,14 @@ GroupResultSize pending_result_size(const SqliteWorkSession &s) {
          "length(g.milestone_ref)+length(g.definition_revision)+"
          "length(g.completion_context_ref) AS completion_bytes "
          "FROM main.subathon_milestone_edit_occurrences g WHERE g.released=0 AND NOT " +
-             QString(edit_skipped) +
+             QString(edit_skipped) + interruption_pending(true, interruptions) +
              " LIMIT ?), edit_actions AS ("
              "SELECT length(a.action_ref)+length(a.version_ref)+"
              "CASE WHEN a.kind=0 THEN g.origin_bytes+g.occurrence_bytes+? ELSE 0 END AS bytes "
              "FROM edit_groups g JOIN main.subathon_milestone_edit_actions a USING(occurrence_ref) "
              "LIMIT ?), application_groups AS (SELECT 1 "
              "FROM main.subathon_milestone_groups g WHERE " +
-             pending_filter(Catalog::edits) +
+             pending_filter(Catalog::edits) + interruption_pending(false, interruptions) +
              " LIMIT ?) SELECT "
              "(SELECT count(*) FROM edit_groups)+(SELECT count(*) FROM application_groups),"
              "(SELECT count(*) FROM edit_actions),"
@@ -353,11 +366,11 @@ GroupResultSize pending_result_size(const SqliteWorkSession &s) {
             std::size_t(integer(row[2]))};
 }
 
-std::vector<std::pair<qint64, CapturedMilestoneGroup>> pending(const SqliteWorkSession &s) {
+std::vector<std::pair<qint64, CapturedMilestoneGroup>> pending(const SqliteWorkSession &s, bool interruptions) {
     const auto rows = s.execute(
         {"SELECT " + ref_column("g.occurrence_ref") +
              " FROM main.subathon_milestone_edit_occurrences g WHERE g.released=0 AND NOT " +
-             edit_skipped + " ORDER BY g.queue_order LIMIT ?",
+             edit_skipped + interruption_pending(true, interruptions) + " ORDER BY g.queue_order LIMIT ?",
          {collection_limit + 1}});
     if (rows.size() > collection_limit)
         throw SqliteBundleStorageFailure(SqliteBundleStorageReason::result_limit);
@@ -374,7 +387,7 @@ std::vector<std::pair<qint64, CapturedMilestoneGroup>> pending(const SqliteWorkS
 }
 
 RefundTarget current_target(const SqliteWorkSession &s, const MilestoneOccurrenceKey &key,
-                            const std::string &installation) {
+                            const std::string &installation, bool interruptions) {
     using Pending = MilestonePendingDisposition;
     const auto state = SqliteMilestoneGroupDecisions(s).pending_disposition(key);
     if (state == Pending::absent_or_released || state == Pending::skipped)
@@ -383,6 +396,8 @@ RefundTarget current_target(const SqliteWorkSession &s, const MilestoneOccurrenc
     if (selected) {
         if (selected->edit.track.installation_ref != installation)
             corrupt();
+        if (interruptions && fenced(s, true, blob(key.ref), stopped(true)))
+            return {};
         const auto targets = s.execute(
             {"SELECT t.target_micro_points FROM main.subathon_milestone_definition_heads h "
              "JOIN main.subathon_milestone_definition_targets t "
@@ -395,6 +410,9 @@ RefundTarget current_target(const SqliteWorkSession &s, const MilestoneOccurrenc
             corrupt();
         return integer(row->front());
     }
+
+    if (interruptions && fenced(s, false, blob(key.ref), stopped(false)))
+        return {};
 
     // Application captures can predate the definition and have no prefix membership.
     const auto targets =
@@ -540,8 +558,9 @@ void SqliteMilestoneGroupStore::stage(const ApplicationOperationKey &origin,
 
 std::vector<CapturedMilestoneGroup> SqliteMilestoneGroupStore::pending() const {
     return guarded(session_, [&] {
-        const auto current = catalog(session_);
-        const auto filter = pending_filter(current);
+        bool interruptions = false;
+        const auto current = catalog(session_, &interruptions);
+        const auto filter = pending_filter(current) + ed::interruption_pending(false, interruptions);
         const auto review_catalog =
             current == Catalog::edits && terminal_partition::selected(session_);
         // Read groups independently of action rows so empty occurrences are
@@ -581,7 +600,7 @@ std::vector<CapturedMilestoneGroup> SqliteMilestoneGroupStore::pending() const {
         auto action = actions.cbegin();
         qint64 previous_order = 0;
         auto edits = current == Catalog::edits
-                         ? ed::pending(session_)
+                         ? ed::pending(session_, interruptions)
                          : std::vector<std::pair<qint64, CapturedMilestoneGroup>>{};
         auto edit = edits.begin();
         std::set<std::pair<std::string, std::string>> verified;
@@ -641,7 +660,8 @@ SqliteMilestoneGroupStore::apply_bonus(const MilestoneBonusKey &key,
         return Bonus::refused;
     return guarded(session_, [&] {
         QList<QVariant> args{blob(key.occurrence.ref), qint64(key.action_ordinal)};
-        if (catalog(session_) == Catalog::edits) {
+        bool interruptions = false;
+        if (catalog(session_, &interruptions) == Catalog::edits) {
             if (auto edit = ed::occurrence(session_, args.front().toByteArray(), true)) {
                 if (!edit->released ||
                     std::uint64_t(key.action_ordinal) > edit->group.actions.size())
@@ -658,6 +678,10 @@ SqliteMilestoneGroupStore::apply_bonus(const MilestoneBonusKey &key,
                     (void)reference(row->front());
                     return Bonus::already_applied;
                 }
+                if (interruptions &&
+                    fenced(session_, true, args.front().toByteArray(),
+                           original_start_fenced(true, "?"), {qint64(key.action_ordinal)}))
+                    return Bonus::refused;
                 if (!authority.allows(key, action))
                     return Bonus::refused;
                 args.append(blob(effect.apply(session_, key, action)));
@@ -689,6 +713,10 @@ SqliteMilestoneGroupStore::apply_bonus(const MilestoneBonusKey &key,
             (void)reference(row[3]);
             return Bonus::already_applied;
         }
+        if (interruptions &&
+            fenced(session_, false, args.front().toByteArray(),
+                   original_start_fenced(false, "?"), {qint64(key.action_ordinal)}))
+            return Bonus::refused;
         if (!authority.allows(key, action))
             return Bonus::refused;
         args.append(blob(effect.apply(session_, key, action)));
@@ -708,13 +736,18 @@ StorageError release_milestone_head(SqliteWriter &writer, MilestoneOccurrenceKey
     return writer.enqueue_work(
         [key = std::move(key)](SqliteWorkContext context) -> QVariant {
             const auto session = context.begin();
-            const auto current = catalog(session);
+            bool interruptions = false;
+            const auto current = catalog(session, &interruptions);
             if (current == Catalog::edits) {
-                const auto head = ed::pending_head(session);
+                const auto head = ed::pending_head(session, interruptions);
                 auto status = Release::refused;
                 if (head && !head->second && head->first == blob(key.ref) &&
+                    (!interruptions ||
+                     !fenced(session, false, head->first, release_blocked(false))) &&
                     SqliteMilestoneGroupDecisions(session).pending_disposition(key) ==
                         MilestonePendingDisposition::ready) {
+                    if (interruptions)
+                        verify_release_selection(session, false, head->first);
                     (void)session.execute({"UPDATE main.subathon_milestone_groups SET released=1 "
                                            "WHERE occurrence_ref=? AND released=0",
                                            {head->first}});
