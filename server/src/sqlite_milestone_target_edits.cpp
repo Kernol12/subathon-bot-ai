@@ -701,7 +701,7 @@ void stage_occurrence(const SqliteWorkSession &s, const MilestoneEditIntent &int
 }
 
 MilestoneEditResult stage(const SqliteWorkSession &s, const MilestoneEditIntent &intent,
-                          const MilestoneEditFacts &facts, Prepared prepared) {
+                          const MilestoneEditFacts &facts, Prepared prepared, bool interruptions) {
     const auto &p = prepared.preview;
     auto &prefix = *prepared.active;
     const auto prior_prefix = prefix.revision;
@@ -739,7 +739,7 @@ MilestoneEditResult stage(const SqliteWorkSession &s, const MilestoneEditIntent 
     }
 
     if (pending_growth.groups != 0)
-        pending_result_size(s).include(pending_growth);
+        pending_result_size(s, interruptions).include(pending_growth);
 
     Encoding audit;
     audit.bytes(p.confirmation->intent);
@@ -883,7 +883,8 @@ MilestoneEditReply confirm_milestone_target_edit(const SqliteWorkSession &s,
     return guarded(s, [&]() -> MilestoneEditReply {
         if (!valid_intent(actor, intent))
             return {Status::invalid_patch, {}};
-        if (catalog(s) != Catalog::edits)
+        bool interruptions = false;
+        if (catalog(s, &interruptions) != Catalog::edits)
             return {Status::unavailable, {}};
         const auto facts = authority.select(s, actor, intent);
         if (!facts || !facts->disclosure_grant)
@@ -902,7 +903,7 @@ MilestoneEditReply confirm_milestone_target_edit(const SqliteWorkSession &s,
         if (prepared.sources != binding.sources || !prepared.preview.confirmation ||
             prepared.preview.confirmation->captures != binding.captures)
             return {Status::stale, {}};
-        return {Status::eligible, stage(s, intent, *facts, std::move(prepared))};
+        return {Status::eligible, stage(s, intent, *facts, std::move(prepared), interruptions)};
     });
 }
 
@@ -935,12 +936,16 @@ StorageError release_milestone_head(SqliteWriter &writer, MilestoneOccurrenceKey
          authority = std::move(authority)](SqliteWorkContext context) -> QVariant {
             const auto session = context.begin();
             auto status = Release::refused;
-            if (catalog(session) == Catalog::edits) {
-                const auto head = pending_head(session);
+            bool interruptions = false;
+            if (catalog(session, &interruptions) == Catalog::edits) {
+                const auto head = pending_head(session, interruptions);
                 const auto ref = blob(key.ref);
                 if (head && head->second && head->first == ref &&
+                    (!interruptions || !fenced(session, true, ref, release_blocked(true))) &&
                     SqliteMilestoneGroupDecisions(session).pending_disposition(key) ==
                         MilestonePendingDisposition::ready) {
+                    if (interruptions)
+                        verify_release_selection(session, true, ref);
                     const auto selected = occurrence(session, ref);
                     if (!selected)
                         corrupt();
@@ -976,8 +981,9 @@ void validate_job_key(const MilestoneEditJobKey &key) {
 }
 
 std::optional<MilestoneEditJob> select_job(const SqliteWorkSession &s,
-                                           const MilestoneEditJobKey &key, bool body) {
-    if (catalog(s) != Catalog::edits)
+                                           const MilestoneEditJobKey &key, bool body,
+                                           bool *interruptions = nullptr) {
+    if (catalog(s, interruptions) != Catalog::edits)
         return {};
     const auto selected = occurrence(s, blob(key.occurrence.ref), false, &key.operation);
     if (!selected)
@@ -1004,12 +1010,13 @@ MilestoneEditJobResult transition(const SqliteWorkSession &s, MilestoneEditJob j
 
 template <class Change>
 MilestoneEditJobResult change(const SqliteWorkSession &s, const MilestoneEditJobKey &key,
-                              std::int64_t revision, State expected, Change change_job) {
+                              std::int64_t revision, State expected, Change change_job,
+                              bool *interruptions = nullptr) {
     validate_job_key(key);
     if (revision < 1)
         invalid();
     return guarded(s, [&]() -> MilestoneEditJobResult {
-        auto selected = select_job(s, key, true);
+        auto selected = select_job(s, key, true, interruptions);
         if (!selected)
             return {Disposition::missing, {}};
         if (selected->revision != revision)
@@ -1032,12 +1039,17 @@ MilestoneEditJobResult claim_milestone_edit_job(const SqliteWorkSession &s,
                                                 const MilestoneEditJobKey &key,
                                                 std::int64_t revision,
                                                 MilestoneEditDispatchAuthority &authority) {
+    bool interruptions = false;
     return change(s, key, revision, State::queued, [&](MilestoneEditJob job) {
         const auto selected = occurrence(s, blob(key.occurrence.ref));
-        if (!selected || !selected->released || !authority.allows(job))
+        if (!selected || !selected->released ||
+            (interruptions && fenced(s, true, blob(key.occurrence.ref),
+                                     original_start_fenced(true, "?"),
+                                     {qint64(key.action_ordinal)})) ||
+            !authority.allows(job))
             return MilestoneEditJobResult{Disposition::refused, {}};
         return transition(s, std::move(job), State::sending);
-    });
+    }, &interruptions);
 }
 
 MilestoneEditJobResult finish_milestone_edit_job(const SqliteWorkSession &s,
@@ -1069,12 +1081,17 @@ MilestoneEditJobResult retry_milestone_edit_job(const SqliteWorkSession &s,
                                                 const MilestoneEditJobKey &key,
                                                 std::int64_t revision,
                                                 MilestoneEditDispatchAuthority &authority) {
+    bool interruptions = false;
     return change(s, key, revision, State::failed, [&](MilestoneEditJob job) {
+        if (interruptions && fenced(s, true, blob(key.occurrence.ref),
+                                   original_start_fenced(true, "?"),
+                                   {qint64(key.action_ordinal)}))
+            return MilestoneEditJobResult{Disposition::refused, {}};
         auto policy = authority.retry_policy(job);
         if (!policy)
             return MilestoneEditJobResult{Disposition::refused, {}};
         return transition(s, std::move(job), State::queued, policy);
-    });
+    }, &interruptions);
 }
 
 MilestoneStrandedPage stranded_milestone_delivery(const SqliteWorkSession &s,

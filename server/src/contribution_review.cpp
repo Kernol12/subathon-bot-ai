@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include <subathon/server/sqlite_milestone_interruption.hpp>
 #include <subathon/server/contribution_review.hpp>
 
 #include "contribution_review_dispatch.hpp"
 #include "sqlite_connector_intake_schema.hpp"
+#include "sqlite_milestone_interruption_schema.hpp"
 
 #include <subathon/server/sqlite_milestone_target_edits.hpp>
 
@@ -99,7 +101,7 @@ constexpr ReviewIndex entry_indexes[]{
      "subathon_review_entries(contribution_id) WHERE decision_kind=2"},
 };
 
-void append_table(MigrationStep &step, const ReviewTable &table) {
+template <class Table> void append_table(MigrationStep &step, const Table &table) {
     const auto name = QString::fromLatin1(table.name);
     const auto ddl = QString::fromLatin1(table.sql);
     step.sql.append(ddl);
@@ -148,6 +150,20 @@ MigrationManifest connector_intake_repository_manifest() {
     });
     manifest.steps.append(std::move(step));
     manifest.supported_starting_versions.append(20);
+    return manifest;
+}
+
+MigrationManifest milestone_slot_interruption_repository_manifest() {
+    auto manifest = connector_intake_repository_manifest();
+    MigrationStep step{21, "milestone-slot-interruption-storage-v1", {},
+                       manifest.steps.back().expected_schema};
+    for (const auto &table : milestone_interruption_schema::tables)
+        append_table(step, table);
+    std::ranges::sort(step.expected_schema, [](const auto &a, const auto &b) {
+        return std::tie(a.type, a.name) < std::tie(b.type, b.name);
+    });
+    manifest.steps.append(std::move(step));
+    manifest.supported_starting_versions.append(21);
     return manifest;
 }
 

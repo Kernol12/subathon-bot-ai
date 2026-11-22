@@ -1373,8 +1373,9 @@ FinancialWorkReply accept_refund(const SqliteWorkSession &s, const FinancialRefu
     // returned without retaining any part of the refund.
     std::vector<MilestoneRefundObservation> selected_milestones;
     std::set<std::string> seen;
+    bool interruptions = false;
     const bool edits = !observation->live && !targets.empty() &&
-                       milestone_sql::catalog(s) == milestone_sql::Catalog::edits;
+                       milestone_sql::catalog(s, &interruptions) == milestone_sql::Catalog::edits;
     const SqliteMilestoneGroupDecisions decisions(s);
     for (const auto &target : targets) {
         if (!seen.insert(target.occurrence.ref).second)
@@ -1387,7 +1388,8 @@ FinancialWorkReply accept_refund(const SqliteWorkSession &s, const FinancialRefu
         }
         const auto selected_target =
             edits ? milestone_edit_sql::current_target(s, target.occurrence,
-                                                       command.principal.installation_ref)
+                                                       command.principal.installation_ref,
+                                                       interruptions)
                   : milestone_edit_sql::RefundTarget{target.target};
         if (std::holds_alternative<milestone_edit_sql::UnavailableRefundTarget>(selected_target))
             return refused(D::unavailable);

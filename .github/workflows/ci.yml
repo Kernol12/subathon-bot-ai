@@ -419,6 +419,7 @@ jobs:
           -DSUBATHON_BUILD_REFERENCE_INTAKE_BASELINE=ON
           -DSUBATHON_BUILD_LIVE_FINANCIAL_REFUND_BASELINE=ON
           -DSUBATHON_BUILD_STORAGE_026_STAGE1=ON
+          -DSUBATHON_BUILD_STORAGE_027_STAGE1=ON
           -DSUBATHON_FETCH_GOOGLETEST=ON -DCMAKE_DISABLE_FIND_PACKAGE_GTest=ON
           -DSUBATHON_SODIUM_ROOT="$SUBATHON_SODIUM_ROOT"
           -DBoost_DIR=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.83.0
@@ -482,6 +483,35 @@ jobs:
         run: ctest --preset sqlite-reference-capture-debug -L '^live-financial-refunds$' --no-tests=error
       - name: Run durable connector intake storage acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^storage-026$' --output-on-failure --no-tests=error
+      - name: Run all reviewed milestone interruption storage suites
+        run: |
+          ctest --preset sqlite-reference-capture-debug -L '^storage-027$' \
+            --no-tests=error --verbose --test-output-size-passed 1048576 \
+            --output-junit "$GITHUB_WORKSPACE/build/sqlite-reference-capture-debug/storage-027-results.xml"
+          python3 - <<'PYTHON'
+          import re
+          import xml.etree.ElementTree as ET
+
+          expected = {
+              "storage-027-catalog.suite": "18",
+              "storage-027-commands.suite": "205",
+              "storage-027-readers.suite": "99",
+          }
+          root = ET.parse("build/sqlite-reference-capture-debug/storage-027-results.xml").getroot()
+          cases = root.findall("testcase")
+          if len(cases) != len(expected) or {case.get("name") for case in cases} != expected.keys():
+              raise SystemExit("Expected all three unfiltered STORAGE-027 suites")
+          for case in cases:
+              name = case.get("name")
+              if case.find("failure") is not None or case.find("skipped") is not None:
+                  raise SystemExit(f"{name} failed or skipped")
+              output = case.findtext("system-out", "")
+              totals = re.findall(r"^Totals: (\d+) passed, (\d+) failed, (\d+) skipped, (\d+) blacklisted", output, re.MULTILINE)
+              if totals != [(expected[name], "0", "0", "0")]:
+                  raise SystemExit(f"{name} must pass its reviewed invocations and both Qt hooks")
+              if re.search(r"^(?:QWARN|QSYSTEM|QFATAL)", output, re.MULTILINE):
+                  raise SystemExit(f"Unexpected Qt warning in {name}")
+          PYTHON
       - name: Run credential record acceptance
         run: ctest --preset sqlite-reference-capture-debug -L '^credential-record$' --no-tests=error
       - name: Run credential storage and readiness acceptance
