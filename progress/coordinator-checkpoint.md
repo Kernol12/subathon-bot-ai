@@ -4,6 +4,31 @@ Owner: Kernol12. Issues own brief/status/prerequisites; PR comments own reviews.
 Complete specification v0.45, all seven integrations and all three FX providers
 remain release scope. This checkpoint grants no new authorization.
 
+## Current queue (2026-11-22)
+
+The owner asks the coordinator to fill a free slot in the same turn with the next
+dependency-ready task in a different module. Waiting for CI or merge uses its
+slot. Keep at most two active tasks and three parked tasks. If nothing is ready,
+report the next task's blocking prerequisite.
+
+| Active task | Current step |
+| --- | --- |
+| [#761 STORAGE-027](https://github.com/Kernol12/subathon-bot-ai/issues/761) | Correction 158A Stage 1 [#803](https://github.com/Kernol12/subathon-bot-ai/pull/803) awaits current CI and protected merge. Stage 2 fix round one follows that baseline. |
+| [#164 CONTRACT-012](https://github.com/Kernol12/subathon-bot-ai/issues/164) | Pre-schema contract stage claims the slot freed by #212. Draft and independent review cover dialect, imports, finite bounds and validation responsibilities before schema authoring. |
+
+- #760 STORAGE-026 completed in [#778](https://github.com/Kernol12/subathon-bot-ai/pull/778)
+  at protected `6157096c`. Catalog v20 is protected. The migration order is
+  **#760 → #761 → #318**, with one migration open at a time and successor
+  numbers assigned at implementation entry.
+- #212 RULES-005 completed in [#799](https://github.com/Kernol12/subathon-bot-ai/pull/799)
+  at protected `2ed9ef63`. #162 CONTRACT-010 completed in
+  [#793](https://github.com/Kernol12/subathon-bot-ai/pull/793) at `aedf7881`.
+- #288 API-006 Stage 2 remains parked behind #780 and #781 under 147B/148A.
+  #588 SESSION-010 remains paused before protocol-boundary admission and Stage 1.
+  #238 and #318 follow protected #761.
+- #678 remains the documentation fallback under 138A, including coordination
+  with #588 for the sealed README.
+
 ## Standing authorization — continuous coordination (2026-11-18)
 
 The owner replaced the former “merge, then STOP” instruction. Continue through
@@ -69,7 +94,7 @@ compiler and system-header pre-build hashes are outside this procedure.
   already changes the respective file. Use a separate commit and name it in
   that task's review packet.
 
-## Current continuation after ACCT-007 (2026-11-21)
+## Historical continuation after ACCT-007 (2026-11-21)
 
 - #545 completed in [PR #768](https://github.com/Kernol12/subathon-bot-ai/pull/768).
   #201 completed in [PR #773](https://github.com/Kernol12/subathon-bot-ai/pull/773)
@@ -94,7 +119,7 @@ compiler and system-header pre-build hashes are outside this procedure.
   both the 23:15 freeze and an exclusive storage slot. #162 is contract-only;
   #221 stays Planned outside the night list. #774–#777 are Planned and unqueued.
 
-## Handover (2026-11-21)
+## Historical handover (2026-11-21)
 
 This coordinator stopped at the end of the current review steps. No new task,
 stage, fix round or delegate was started for the handover. The successor
@@ -112,7 +137,7 @@ continues under the owner's current queue and the standing limits below.
 | [#318 STORAGE-003](https://github.com/Kernol12/subathon-bot-ai/issues/318) | [Contract r3 frozen](https://github.com/Kernol12/subathon-bot-ai/issues/318#issuecomment-7062576817), pin `a696a2e6a7494a4f7a959672164438bbeb380b78` | None | None | Carry forward the gates in the freeze and [114A](https://github.com/Kernol12/subathon-bot-ai/issues/318#issuecomment-7062461621). Its migration opens after #761 merges. |
 | [#272 SESSION-007](https://github.com/Kernol12/subathon-bot-ai/issues/272) | Planned, conditional 237-line draft pinned to `c88adbcd3650b1136c4a363b1e30a73c025337b7` | None | None | Resume only under [113B](https://github.com/Kernol12/subathon-bot-ai/issues/272#issuecomment-7061402909) and the [#509 deployment gate](https://github.com/Kernol12/subathon-bot-ai/issues/509#issuecomment-7061016580). |
 
-**Queue.** #760 takes the next free slot before any unstarted stage. The
+**Queue at handover.** #760 takes the next free slot before any unstarted stage. The
 stopped #545 Stage 2 and #201 Stage 1 candidates carry forward ahead of new work.
 #588 follows #760, in the first available normal slot before new tasks. The
 migration sequence is **#760 → #761 → #318**. One migration may be open at a time.
@@ -146,7 +171,7 @@ Shared SDKs and the proof environment are under `build/deps/` and
 The owner stopped #715 after its [one hosted experiment](https://github.com/Kernol12/subathon-bot-ai/issues/715#issuecomment-7004781214).
 #715 remains Planned, uses no parking slot, and its retry change was never enabled.
 
-### Continuation after the RELEASE-002 merge
+### Historical continuation after the RELEASE-002 merge
 
 - [#545](https://github.com/Kernol12/subathon-bot-ai/issues/545) completed in
   [PR #768](https://github.com/Kernol12/subathon-bot-ai/pull/768), protected merge
@@ -195,7 +220,8 @@ The owner stopped #715 after its [one hosted experiment](https://github.com/Kern
   EPIC-008, not authorized; not a prerequisite of APITEST-017 or API-001.
 - API-016 follow-ups: V2, C2, C4, C6, I14, I15, I16, I19, I20, O5; see the handover
   comment. Filed as [#678–#687](https://github.com/Kernol12/subathon-bot-ai/issues/273)
-  (API-017 through API-026), planned under EPIC-008; none is authorized for work.
+  (API-017 through API-026) under EPIC-008. #678 is the documentation-only
+  fallback under 138A. Other items remain planned.
 - API-027 [#702](https://github.com/Kernol12/subathon-bot-ai/issues/702): planned under EPIC-008, native parent link recorded. Owns API1-C-O1 simultaneous copied-response-lease destruction from [the #700 closing receipt](https://github.com/Kernol12/subathon-bot-ai/pull/700#issuecomment-6963524189); source-only finding, no runtime reproduction claimed. Schedule like other product tasks.
 
 The standing authorization permits selection of dependency-ready product work.
