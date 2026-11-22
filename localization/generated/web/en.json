@@ -38,6 +38,203 @@
         "text": "Disconnected"
       }
     },
+    "scene.modifier.active.false": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Modifier inactive"
+      }
+    },
+    "scene.modifier.active.true": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Modifier active"
+      }
+    },
+    "scene.modifier.mode.active_subathon": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Active subathon time"
+      }
+    },
+    "scene.modifier.mode.real_elapsed": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Real elapsed time"
+      }
+    },
+    "scene.pause.active.false": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Countdown not paused"
+      }
+    },
+    "scene.pause.active.true": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Countdown paused"
+      }
+    },
+    "scene.pause.reason.false": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Not in effect"
+      }
+    },
+    "scene.pause.reason.true": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "In effect"
+      }
+    },
+    "scene.pause.stream_unknown_notice.false": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Stream status notice inactive"
+      }
+    },
+    "scene.pause.stream_unknown_notice.true": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Stream status unknown"
+      }
+    },
+    "scene.support.count.bits": {
+      "parameters": {
+        "quantity": "text",
+        "selector": "integer"
+      },
+      "plural": "selector",
+      "forms": {
+        "one": "{quantity} Bit",
+        "other": "{quantity} Bits"
+      }
+    },
+    "scene.support.count.gift": {
+      "parameters": {
+        "quantity": "text",
+        "selector": "integer"
+      },
+      "plural": "selector",
+      "forms": {
+        "one": "{quantity} gift",
+        "other": "{quantity} gifts"
+      }
+    },
+    "scene.support.kind.bits": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Bits"
+      }
+    },
+    "scene.support.kind.donation": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Donation"
+      }
+    },
+    "scene.support.kind.gift": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Gift"
+      }
+    },
+    "scene.support.kind.subscription": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Subscription"
+      }
+    },
+    "scene.timer.awaiting_confirmation.false": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Not awaiting confirmation"
+      }
+    },
+    "scene.timer.awaiting_confirmation.true": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Awaiting confirmation"
+      }
+    },
+    "scene.timer.lifecycle.active": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Active"
+      }
+    },
+    "scene.timer.lifecycle.finished": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Finished"
+      }
+    },
+    "scene.timer.lifecycle.ready": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Ready"
+      }
+    },
+    "scene.timer.phase.grace": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Grace period"
+      }
+    },
+    "scene.timer.phase.main": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Main time"
+      }
+    },
+    "scene.track.position.all_completed": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "All targets completed"
+      }
+    },
+    "scene.track.position.before_first": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Before first target"
+      }
+    },
+    "scene.track.position.between_targets": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "Between targets"
+      }
+    },
+    "scene.track.position.empty": {
+      "parameters": {},
+      "plural": null,
+      "forms": {
+        "text": "No targets"
+      }
+    },
     "timer.remaining": {
       "parameters": {
         "duration": "text"
