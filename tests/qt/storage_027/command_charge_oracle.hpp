@@ -164,15 +164,15 @@ inline constexpr Charge journal_meta(const Record &r, bool present) {
     const Cells key{r.install, r.track, r.operation};
     return present ? statement(sql, key, {{0, 0, 0, r.decision}}) : statement(sql, key);
 }
-inline constexpr Charge journal_documents(const Record &r, bool include_result) {
-    if (include_result)
-        return statement("SELECT intent,result FROM subathon_milestone_command_journal "
-                         "WHERE installation=? AND track=? AND operation=? LIMIT 2",
-                         {r.install, r.track, r.operation},
-                         {{r.retained_intent, r.retained_result}});
+inline constexpr Charge journal_intent(const Record &r) {
     return statement("SELECT intent FROM subathon_milestone_command_journal "
                      "WHERE installation=? AND track=? AND operation=? LIMIT 2",
                      {r.install, r.track, r.operation}, {{r.retained_intent}});
+}
+inline constexpr Charge journal_result(const Record &r) {
+    return statement("SELECT result FROM subathon_milestone_command_journal "
+                     "WHERE installation=? AND track=? AND operation=? LIMIT 2",
+                     {r.install, r.track, r.operation}, {{r.retained_result}});
 }
 inline constexpr Charge journal_write(const Record &r) {
     return statement(
@@ -473,7 +473,11 @@ inline constexpr Charge plan(Branch branch, const Record &r, const std::vector<S
     case Branch::replay:
     case Branch::readback:
         add(journal_meta(r, true));
-        add(journal_documents(r, branch != Branch::conflict));
+        add(journal_intent(r));
+        // After disclosure, compare the exact typed intent, using the retained
+        // bound preview for Replace. Only a match permits the result read.
+        if (branch != Branch::conflict)
+            add(journal_result(r));
         break;
     case Branch::absent:
         add(journal_meta(r, false));
@@ -570,6 +574,12 @@ static_assert([] {
     r.result = 71;
     r.cause = 32; // Synthetic arithmetic anchor only.
     if (plan(Branch::stop_hold, r, members) != Charge{19, 660, 1105, 8, 302})
+        return false;
+    r.retained_intent = r.intent;
+    r.retained_result = r.result;
+    if (plan(Branch::conflict, r) != Charge{5, 536, 167, 4, 138} ||
+        plan(Branch::replay, r) != Charge{6, 536, 209, 5, 217} ||
+        plan(Branch::readback, r) != Charge{6, 536, 209, 5, 217})
         return false;
     r.intent = 111;
     r.result = 81;
