@@ -32,7 +32,8 @@ select_modifier_capture(const SqliteWorkSession &, const ContributionReceipt &,
 inline ModifierRecalculationResult retain_modifier_recalculation(
     const SqliteWorkSession &, const ApplicationPlanKey &, const core::PlanOverrideDecision &,
     const std::optional<QualifiedModifierCut> &, std::span<const ModifierBaseEffect>,
-    const core::CapturedPlanRevision &, const core::ModifierStackLimits &) {
+    const core::CapturedPlanRevision &, const core::ModifierStackLimits &,
+    const ModifierPlanAppend &) {
     modifier_005_baseline::missing("retain_modifier_recalculation");
 }
 inline LocalModifierRecordShape inspect_modifier_record_shape(const RetainedDocument &, bool,

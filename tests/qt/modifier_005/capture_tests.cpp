@@ -114,8 +114,8 @@ core::CapturedPlanRevision delayed_review(Case &c) {
     require(frozen.active == true && frozen.remaining_ms == 180000 && frozen.factor == 2 &&
                 frozen.factor_decimal == "2.00",
             "Historical projection requires the qualified arrival view");
-    const auto terminal = project_modifier_binding("cfg-apply-A", activation::new_definition, 1,
-                                                   {activation::k1, 0}, {});
+    const auto terminal =
+        project_modifier_binding("cfg-A", activation::new_definition, 1, {activation::k1, 0}, {});
     require(terminal.active == false && terminal.remaining_ms == 0 &&
                 terminal.factor_decimal == "0.50",
             "Separate qualified terminal view supplies zero remaining and inactive");
@@ -220,12 +220,35 @@ struct OverrideCase {
                bool cancel = false) {
         auto out = run(c.db, [&](auto ctx) {
             auto s = ctx.begin();
+            SqliteApplicationPlanStore plans(s);
+            SqliteRetainedContextStore retained(s);
+            const auto key = context_key(authority.decision_ref);
+            const auto original_key = context_key(receipt.arrival.modifier_context_ref);
+            const auto before_plan = expected ? plans.find("plan-A") : std::nullopt;
+            const auto before_successor =
+                expected ? plans.find_revision("plan-A", 2) : std::nullopt;
+            const auto before_document = expected ? retained.find(key) : std::nullopt;
+            const auto before_original = expected ? retained.find(original_key) : std::nullopt;
+            if (expected) {
+                const bool stale = *expected == Failure::stale_head;
+                require(before_plan && before_original &&
+                            before_plan->revisions.size() == (stale ? 2u : 1u) &&
+                            before_plan->revisions.front() == plan.revisions.front() &&
+                            before_successor.has_value() == stale &&
+                            before_document.has_value() == (*expected == Failure::conflict),
+                        "Active refusal baseline matches the committed head and key occupancy");
+            }
             require(retain_modifier_recalculation(s, {"plan-A", 1}, authority, cut, bases, next,
                                                   limits) == expected,
                     "Exact override append or typed refusal");
-            if (expected && *expected != Failure::conflict) {
-                require(!SqliteRetainedContextStore(s).find(context_key(authority.decision_ref)),
-                        "Refused override stages no context before the freshness/authority fence");
+            if (expected) {
+                require(plans.find("plan-A") == before_plan &&
+                            plans.find_revision("plan-A", 2) == before_successor,
+                        "Refusal preserves the entire active-session history and revision lookup");
+                require(
+                    retained.find(key) == before_document &&
+                        retained.find(original_key) == before_original,
+                    "Refusal leaves exact decision and original context state in the active unit");
             }
             if (expected || cancel) {
                 if (cancel) {
@@ -388,9 +411,10 @@ class ModifierCaptureTests final : public QObject {
                     "Authorized role 1 uses the decision key and its own typed configuration");
             auto stored = x.c.read(
                 [](const auto &s) { return SqliteApplicationPlanStore(s).find("plan-A"); });
-            require(stored && stored->revisions.size() == 2 && stored->revisions[1] == next &&
-                        next.revision == 2 && next.parent_revision == 1 &&
-                        next.override_decision == authorized &&
+            require(stored && stored->revisions.size() == 2 &&
+                        stored->revisions[0] == x.plan.revisions[0] &&
+                        stored->revisions[1] == next && next.revision == 2 &&
+                        next.parent_revision == 1 && next.override_decision == authorized &&
                         next.captured.event == x.plan.revisions[0].captured.event,
                     "Real head 2 binds actor, reason, decision and original immutable event");
             const ModifierDecisionMode mode{"plan-A", 2, authorized};
@@ -478,6 +502,84 @@ class ModifierCaptureTests final : public QObject {
                 return SqliteApplicationPlanStore(s).find_revision("plan-A", 2);
             }),
                     "No revision or new context survives refusal or caller rollback");
+            x.verify_original();
+        });
+    }
+
+    void a3_appendRefusalRollsBackStagedContext() {
+        scenario([] {
+            OverrideCase x;
+            const auto next = x.candidate(authorized);
+            const auto cut = override_cut();
+            const auto key = context_key(authorized.decision_ref);
+            const auto no_visible_override = [&] {
+                require(x.c.db.rows("SELECT reference FROM main.subathon_retained_contexts "
+                                    "WHERE reference=?",
+                                    {QByteArray::fromStdString(key.reference)})
+                                .isEmpty() &&
+                            x.c.db.rows("SELECT revision FROM main.subathon_plan_revisions "
+                                        "WHERE plan_ref=? ORDER BY revision",
+                                        {QByteArray("plan-A")}) == SqlRows{{review::blob8(1)}},
+                        "Independent reader sees no override context or successor");
+            };
+            int calls = 0;
+            const ModifierPlanAppend append = [&](const SqliteWorkSession &s,
+                                                  const ApplicationPlanKey &head,
+                                                  const core::CapturedPlanRevision &revision) {
+                require(++calls == 1 && head.plan_ref == "plan-A" && head.revision == 1 &&
+                            revision == next,
+                        "Append is entered once with the exact qualified successor");
+                auto staged = SqliteRetainedContextStore(s).find(key);
+                SqliteApplicationPlanStore plans(s);
+                require(staged && staged->key == key &&
+                            staged->configuration == ConfigurationReference{"cfg-override-A"} &&
+                            staged->document.startsWith(QByteArray("MCA1\1", 5)) &&
+                            plans.find(head.plan_ref) == x.plan,
+                        "Append sees a tentative role-1 context and the exact original head");
+                no_visible_override();
+
+                // Change the copy at the append boundary. The adapter received
+                // an exact event and could legitimately preflight a changed one.
+                auto mismatched = revision;
+                mismatched.captured.event.arrival.connection_ref = "conn-append-conflict";
+                const auto result = plans.append(head.plan_ref, head.revision, mismatched);
+                require(result == SqlitePlanAppendDisposition::event_conflict &&
+                            SqliteRetainedContextStore(s).find(key) == staged &&
+                            plans.find(head.plan_ref) == x.plan,
+                        "Real plan owner returns event_conflict and leaves the staged unit active");
+                return result;
+            };
+            const auto out = run(x.c.db, [&](auto ctx) {
+                auto s = ctx.begin();
+                require(!SqliteRetainedContextStore(s).find(key) &&
+                            SqliteApplicationPlanStore(s).find("plan-A") == x.plan,
+                        "Same active unit starts with exact head 1 and a fresh decision key");
+                require(retain_modifier_recalculation(s, {"plan-A", 1}, authorized, cut, bases,
+                                                      next, limits,
+                                                      append) == Failure::append_refused &&
+                            calls == 1,
+                        "Post-staging owner refusal returns append_refused");
+                auto closed = false;
+                try {
+                    (void)s.execute({"SELECT 1", {}});
+                } catch (const SqliteWorkFailure &e) {
+                    closed = e.error() == WorkError::session_closed;
+                }
+                require(closed, "Adapter settles the session before returning refusal");
+                no_visible_override();
+            });
+            if (out.second)
+                std::rethrow_exception(out.second);
+            // The deliberate closed-session probe records session_closed. The
+            // writer independently reports an actual rollback, with no result.
+            require(out.first.transaction == TransactionOutcome::rolled_back &&
+                        out.first.error == WorkError::session_closed && !out.first.value,
+                    "Writer confirms the adapter rolled back before harness cleanup");
+            x.c.db.reopen();
+            require(!x.c.retained(key.reference) && x.c.read([](const auto &s) {
+                return SqliteApplicationPlanStore(s).find("plan-A");
+            }) == x.plan,
+                    "Reopen preserves exact original history and no decision document");
             x.verify_original();
         });
     }
@@ -855,6 +957,7 @@ class ModifierCaptureTests final : public QObject {
         QTest::newRow("trailing-byte") << 4;
         QTest::newRow("unsupported-magic") << 5;
         QTest::newRow("wrong-selected-role") << 6;
+        QTest::newRow("row-key-mismatch") << 7;
     }
 
     void a7_localRetainedShape() {
@@ -879,17 +982,51 @@ class ModifierCaptureTests final : public QObject {
                 bytes.replace(0, 4, "OLD!");
                 expected = Failure::unresolved;
             }
-            const auto raw = document("C", branch == 0 ? "other-K" : "K", bytes);
+            const auto raw =
+                document(branch == 7 ? "other-C" : "C", branch == 0 ? "other-K" : "K", bytes);
             c.db.write([&](const auto &s) {
                 require(SqliteRetainedContextStore(s).retain(raw) == RetainDisposition::inserted,
                         "Generic owner retains selected opaque local bytes without type knowledge");
             });
             c.db.reopen();
-            const auto stored = c.retained("C");
+            const auto stored = c.retained(raw.key.reference);
             require(stored == raw, "Typed decoder sees one exact bounded retained record");
             require(inspect_modifier_record_shape(*stored, branch == 6, limits) == expected,
                     "Exact typed shape refusal for selected metadata and byte mutation");
-            require(c.retained("C") == raw, "Opaque store still preserves exact selected bytes");
+            require(c.retained(raw.key.reference) == raw,
+                    "Opaque store still preserves exact selected bytes");
+        });
+    }
+
+    void a7_selectionRejectsTypedCrossLink() {
+        scenario([] {
+            Case c;
+            c.config("K");
+            c.config("other-K");
+            const auto raw = document("C", "other-K", canonical);
+            std::optional<core::ReceiptIntakeResult> result;
+            normal(run(c.db, [&](auto ctx) {
+                auto s = ctx.begin();
+                require(SqliteRetainedContextStore(s).retain(raw) == RetainDisposition::inserted,
+                        "Generic owner retains the opaque record with its alternate typed link");
+                SqliteReceiptRepository owner(adopt_active_receipt_session, s);
+                result = ReceiptIntake(owner).ingest(
+                    {unresolved_c.identity, award(), unresolved_c.arrival});
+            }));
+            require(result && result->receipt_id.value == 1 &&
+                        result->disposition == ReceiptDisposition::created,
+                    "Receipt owner accepts both existing references in the adopted unit");
+            c.db.reopen();
+            const auto r = c.receipt(unresolved_c.identity);
+            require(r && r->id == result->receipt_id &&
+                        r->original_arrival == unresolved_c.arrival &&
+                        r->original_facts == award() && c.retained("C") == raw,
+                    "Only the retained row link differs from the selected original and MCA1 body");
+            refusal(c.select({r->id, r->identity, r->original_facts, r->original_arrival},
+                             unresolved_c.event),
+                    Failure::invalid);
+            require(c.retained("C") == raw && c.receipt(unresolved_c.identity) == r,
+                    "Selection refusal preserves the exact opaque row and original receipt");
         });
     }
 

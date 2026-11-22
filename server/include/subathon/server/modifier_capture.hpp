@@ -122,11 +122,18 @@ prepare_modifier_arrival(const ModifierArrivalInput &, const core::ModifierStack
 // The separately qualified cut belongs to the override configuration. The
 // original event and arrival in next_revision belong to the selected receipt.
 using ModifierRecalculationResult = std::optional<ModifierCaptureRefusal>;
-[[nodiscard]] ModifierRecalculationResult retain_modifier_recalculation(
-    const SqliteWorkSession &, const ApplicationPlanKey &expected_head,
-    const core::PlanOverrideDecision &admitted_authority,
-    const std::optional<QualifiedModifierCut> &, std::span<const ModifierBaseEffect>,
-    const core::CapturedPlanRevision &next_revision, const core::ModifierStackLimits &);
+// Stage 1 can model one synchronous call to the owning append after context
+// staging. This borrowed dependency uses the same active session. Empty uses
+// the normal plan owner.
+using ModifierPlanAppend = std::function<SqlitePlanAppendDisposition(
+    const SqliteWorkSession &, const ApplicationPlanKey &, const core::CapturedPlanRevision &)>;
+[[nodiscard]] ModifierRecalculationResult
+retain_modifier_recalculation(const SqliteWorkSession &, const ApplicationPlanKey &expected_head,
+                              const core::PlanOverrideDecision &admitted_authority,
+                              const std::optional<QualifiedModifierCut> &,
+                              std::span<const ModifierBaseEffect>,
+                              const core::CapturedPlanRevision &next_revision,
+                              const core::ModifierStackLimits &, const ModifierPlanAppend & = {});
 
 // Structural admission of an already selected bounded local retained record.
 [[nodiscard]] LocalModifierRecordShape
