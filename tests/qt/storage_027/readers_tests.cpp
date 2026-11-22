@@ -1167,16 +1167,17 @@ class Storage027ReadersTests final : public QObject {
                 [&](const auto &s) { result = stage_command(s, owner, cmd, nullptr, &profile); });
             const auto fence =
                 f.rows("SELECT playback_cap FROM main.subathon_milestone_stop_fences");
-            const auto media = f.rows("SELECT instance,attempt,handoff "
+            const auto media = f.rows("SELECT instance,attempt,handoff IS NULL "
                                       "FROM main.subathon_milestone_playback_instances");
             if (axis == "exact") {
-                require(result && result->disposition == Disposition::committed &&
-                            result->playback_intents ==
-                                std::vector{bytes.playback_refs[0].instance} &&
-                            fence == SqlRows{{1}} &&
-                            media == SqlRows{{bytes.playback_refs[0].instance,
-                                              bytes.playback_attempt, QVariant{}}},
-                        "V1 the exact application allowance commits one sealed playback member");
+                require(result && result->disposition == Disposition::committed,
+                        "V1 the exact application allowance commits Stop");
+                require(result->playback_intents == std::vector{bytes.playback_refs[0].instance},
+                        "V1 the committed result identifies the exact playback instance");
+                require(fence == SqlRows{{1}}, "V1 Stop retains a cap of one playback member");
+                require(media == SqlRows{{bytes.playback_refs[0].instance, bytes.playback_attempt,
+                                          1}},
+                        "V1 the exact instance and attempt persist with a SQL NULL handoff");
                 struct Owner final : PlaybackAuthority {
                     bool proves_current(const SqliteWorkSession &, const LatePlayback &) override {
                         return true;
