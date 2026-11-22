@@ -115,7 +115,7 @@ class Milestone006CommandTests final : public QObject {
         check([] {
             Populated f({.edit_slots = 2, .middle_bonus = true});
             require(release(f.db, f.app_occurrence, false) == Release::released,
-                    "Exact edit head is next and remains unreleased");
+                    "Normal application release leaves the exact edit head next and unreleased");
             advance_fixture(f.db);
             Authority owner;
             const auto command = replace(f);

@@ -1,8 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #include "../storage_027/command_fixture.hpp"
 
+#include <subathon/server/milestone_playback_stop.hpp>
+#include <subathon/server/testing/sqlite_writer_work_faults.hpp>
+
 namespace {
 using namespace storage_027_fixture;
+using namespace subathon::server::testing;
 using Release = MilestoneReleaseDisposition;
 
 class OwnerEntryMissing final : public std::logic_error {
@@ -79,26 +83,63 @@ std::vector<ReplacementJob> select_effective_release(SqliteWriter &,
     throw OwnerEntryMissing("R1: select effective capture for the exact cached occurrence");
 }
 
-enum class CurrentAuthority { absent, denied };
-Disposition preview_at_owner(const Command &, CurrentAuthority) {
+struct PreviewAuthority final : CommandAuthority {
+    Authority base;
+    bool facts_available{true};
+    int selections{};
+
+    std::optional<Facts> select(const SqliteWorkSession &session, const Command &command) override {
+        ++selections;
+        return facts_available ? base.select(session, command) : std::nullopt;
+    }
+
+    std::optional<qint64> historical_bonus_amount(const SqliteWorkSession &, const Occurrence &,
+                                                  const Replacement &) override {
+        return {};
+    }
+};
+
+Preview preview_at_owner(const SqliteWorkSession &, CommandAuthority &, const Command &) {
     throw OwnerEntryMissing("R7: classify absent authoritative facts before Replace admission");
 }
 
-struct PlaybackPort final : PlaybackAuthority {
+struct PlaybackPort final : PlaybackAuthority, PlaybackStopAdapter {
+    CatalogFile &db;
     std::optional<QByteArray> current_generation{"generation-X"};
     std::vector<PlaybackHandoff> calls;
+    int current_checks{};
+    bool marker_observed_at_call{false};
+
+    explicit PlaybackPort(CatalogFile &file) : db(file) {}
 
     bool proves_current(const SqliteWorkSession &, const LatePlayback &selection) override {
+        ++current_checks;
         const auto &instance = selection.instance;
         return selection.track == edit::track && instance.target.occurrence == edit::b &&
                instance.ordinal == 1 && instance.started_attempt == 2 &&
                instance.adapter == "audio-adapter" && instance.activation == "X" &&
                current_generation && *current_generation == instance.runtime_generation;
     }
+
+    void request_stop(PlaybackHandoff handoff) override {
+        // Independent read connection. An uncommitted marker is invisible here.
+        const auto &selected = handoff.selected;
+        const auto marker = db.rows("SELECT typeof(handoff),activation,generation FROM "
+                                    "main.subathon_milestone_playback_instances "
+                                    "WHERE installation=? AND track=? AND stop=? AND instance=?",
+                                    {QByteArray::fromStdString(selected.track.installation_ref),
+                                     QByteArray::fromStdString(selected.track.track_ref),
+                                     selected.stop, handoff.intent});
+        const SqlRows expected{
+            {QString("blob"), selected.instance.activation, selected.instance.runtime_generation}};
+        marker_observed_at_call = marker == expected;
+        calls.push_back(std::move(handoff));
+    }
 };
 
 enum class PlaybackTurn { handoff, cold_restore, late_activation };
-void process_playback(SqliteWriter &, PlaybackTurn, const PlaybackHandoff &, PlaybackPort &) {
+void process_playback(SqliteWriter &, PlaybackTurn, const PlaybackHandoff &, PlaybackAuthority &,
+                      PlaybackStopAdapter &) {
     throw OwnerEntryMissing("P1/P2/P3: reconcile exact playback at the owner turn");
 }
 
@@ -109,8 +150,9 @@ struct ColdQueueState {
     std::optional<PlaybackOutcome> prior_handoff;
 };
 
-ColdQueueState restore_committed_queue(const OccurrenceSelection &, const OccurrenceSelection &,
-                                       const PlaybackHandoff &, PlaybackPort &) {
+ColdQueueState restore_committed_queue(SqliteWriter &, CommandAuthority &, const Command &,
+                                       const Command &, const PlaybackHandoff &,
+                                       PlaybackStopAdapter &) {
     throw OwnerEntryMissing("T2: restore exact selected version, Hold and marked playback");
 }
 
@@ -215,8 +257,16 @@ class Milestone006OwnerTests final : public QObject {
         });
     }
 
+    void r2AcknowledgedSuccessorDispatch_data() {
+        QTest::addColumn<int>("fault");
+        QTest::newRow("acknowledged-and-duplicate") << 0;
+        QTest::newRow("lost-commit-ack") << 1;
+        QTest::newRow("known-rollback") << 2;
+    }
+
     void r2AcknowledgedSuccessorDispatch() {
-        check([] {
+        QFETCH(int, fault);
+        check([&] {
             Populated f;
             release(f);
             advance_fixture(f.db);
@@ -238,6 +288,43 @@ class Milestone006OwnerTests final : public QObject {
                                     {}};
                 });
             };
+            if (fault != 0) {
+                if (fault == 1)
+                    require(SqliteWriterWorkAccess::inject_next_control_ack_loss(
+                                f.db.writer(), WorkControlFault::lose_next_commit_ack) ==
+                                StorageError::none,
+                            "Real successor COMMIT will lose acknowledgement");
+                std::optional<Decision> provisional;
+                const auto stopped = run(
+                    f.db,
+                    [&](const auto &s) {
+                        provisional = Decision{
+                            claim_replacement(s, edited(f), version, 1, authority), {}, {}, {}, {}};
+                        return *provisional;
+                    },
+                    fault == 1 ? Finish::commit : Finish::rollback);
+                require(provisional && provisional->disposition == Disposition::committed &&
+                            authority.owned && authority.owned->version == version &&
+                            !stopped.published && !stopped.work.value &&
+                            stopped.work.transaction == (fault == 1
+                                                             ? TransactionOutcome::outcome_unknown
+                                                             : TransactionOutcome::rolled_back) &&
+                            stopped.work.error == (fault == 1 ? WorkError::uncertain_outcome
+                                                              : WorkError::not_committed),
+                        "The exact selected claim was staged but never normally acknowledged");
+                f.db.reopen(profile());
+                f.db.write([&](const auto &s) {
+                    const auto sending = lookup_replacement_attempt(s, edited(f), version, 2);
+                    require(fault == 1 ? sending && sending->state == DeliveryJobState::sending
+                                       : !sending,
+                            "Cold readback distinguishes durable sending from known rollback");
+                });
+                DispatchSink sink;
+                // Keep the tempting provisional result and body in both lanes.
+                publish_dispatch({stopped.work, *provisional, authority.owned}, sink);
+                require(sink.empty(), "An unacknowledged claim hands off no selected job");
+                return;
+            }
             const auto acknowledged = claim(1);
             require(acknowledged.published &&
                         acknowledged.published->disposition == Disposition::committed &&
@@ -295,22 +382,50 @@ class Milestone006OwnerTests final : public QObject {
         });
     }
 
+    void r7AbsentAuthorityIsUnavailable_data() {
+        QTest::addColumn<bool>("facts_available");
+        QTest::newRow("absent-facts") << false;
+        QTest::newRow("known-denial") << true;
+    }
+
     void r7AbsentAuthorityIsUnavailable() {
-        check([] {
+        QFETCH(bool, facts_available);
+        check([&] {
             Populated f;
             advance_fixture(f.db);
-            Authority owner;
+            PreviewAuthority owner;
             const auto command = replace(f);
-            const auto positive = bind_replace(f.db, owner, command);
+            const auto positive = bind_replace(f.db, owner.base, command);
             require(bool(positive), "The exact positive authority reaches a normal preview");
-            owner.command = false;
-            (void)commit(f.db, owner, command, Disposition::denied, positive.get());
-            require(journal(f.db).empty(), "Known denial has no write");
-            require(
-                preview_at_owner(command, CurrentAuthority::absent) == Disposition::unavailable &&
-                    preview_at_owner(command, CurrentAuthority::denied) == Disposition::denied &&
-                    journal(f.db).empty(),
-                "Absent authoritative facts are unavailable, known denial is denied");
+            owner.base.command = false;
+            (void)commit(f.db, owner.base, command, Disposition::denied, positive.get());
+            const auto no_writes = [&] {
+                return journal(f.db).empty() &&
+                       f.db.rows("SELECT version FROM main.subathon_milestone_slot_versions")
+                           .empty() &&
+                       f.db.rows("SELECT version FROM main.subathon_milestone_slot_attempts")
+                           .empty();
+            };
+            require(no_writes(), "Known protected denial reaches the writer with no mutation");
+
+            owner.facts_available = facts_available;
+            f.db.write([&](const auto &session) {
+                const auto selected = owner.select(session, command);
+                require(facts_available ? selected && !selected->can_command : !selected,
+                        "Exact authority produces absent facts or known denial on this session");
+            });
+            owner.selections = 0;
+            f.db.write([&](const auto &session) {
+                const auto reply = preview_at_owner(session, owner, command);
+                const auto *denial = std::get_if<Disposition>(&reply);
+                require(denial &&
+                            *denial == (facts_available ? Disposition::denied
+                                                        : Disposition::unavailable) &&
+                            owner.selections > 0,
+                        "Owner distinguishes absence from denial using actual authority selection");
+            });
+            require(no_writes(),
+                    "Owner refusal leaves the journal, versions and attempts unchanged");
         });
     }
 
@@ -324,7 +439,7 @@ class Milestone006OwnerTests final : public QObject {
         QFETCH(bool, stale);
         check([&] {
             PlaybackFixture f;
-            PlaybackPort port;
+            PlaybackPort port(f.seed.db);
             if (stale)
                 port.current_generation = "generation-replacement";
             require(f.intents() == SqlRows{{1, QByteArray("X"), QByteArray("generation-X"),
@@ -333,33 +448,42 @@ class Milestone006OwnerTests final : public QObject {
                                             QString("null")}} &&
                         f.evidence().empty(),
                     "Stored X and unknown Y retain exact identities without any handoff");
-            process_playback(f.seed.db.writer(), PlaybackTurn::handoff, f.exact, port);
-            require(port.calls.size() == (stale ? 0U : 1U),
+            process_playback(f.seed.db.writer(), PlaybackTurn::handoff, f.exact, port, port);
+            require(port.current_checks > 0 && port.calls.size() == (stale ? 0U : 1U),
                     "Owner sends only to current X and never to the successor generation");
             if (!stale)
-                require(port.calls.front().intent == f.exact.intent &&
-                            port.calls.front().selected.instance.activation == "X" &&
-                            port.calls.front().selected.instance.runtime_generation ==
-                                "generation-X",
-                        "The dispatched handle is bound to the exact old generation");
-            else
+                require(
+                    port.marker_observed_at_call && port.calls.front().intent == f.exact.intent &&
+                        port.calls.front().selected.instance.activation == "X" &&
+                        port.calls.front().selected.instance.runtime_generation == "generation-X",
+                    "The dispatched handle is bound to the exact old generation");
+            if (stale) {
                 require(f.evidence() == SqlRows{{int(PlaybackOutcome::obsolete)}},
                         "The stale intent is retired without a call");
+            } else {
+                const auto outcomes = f.evidence();
+                require(std::ranges::find(
+                            outcomes, QList<QVariant>{int(PlaybackOutcome::confirmed_stopped)}) ==
+                            outcomes.end(),
+                        "A request alone produces no confirmed-stop evidence");
+            }
         });
     }
 
     void p2ExactLateActivationIsScheduledOnce() {
         check([] {
             PlaybackFixture f(false);
-            PlaybackPort port;
+            PlaybackPort port(f.seed.db);
             require(f.intents() ==
                         SqlRows{{2, QByteArray("Y"), QByteArray("generation-Y"), QString("null")}},
                     "Stop initially retains only the unknown disposition, no X intent");
             auto wrong = f.exact;
             wrong.selected.instance.started_attempt = 3;
-            process_playback(f.seed.db.writer(), PlaybackTurn::late_activation, f.exact, port);
-            process_playback(f.seed.db.writer(), PlaybackTurn::late_activation, f.exact, port);
-            process_playback(f.seed.db.writer(), PlaybackTurn::late_activation, wrong, port);
+            process_playback(f.seed.db.writer(), PlaybackTurn::late_activation, f.exact, port,
+                             port);
+            process_playback(f.seed.db.writer(), PlaybackTurn::late_activation, f.exact, port,
+                             port);
+            process_playback(f.seed.db.writer(), PlaybackTurn::late_activation, wrong, port, port);
             require(port.calls.empty(), "Late evidence never calls media on its registration turn");
             const auto rows = f.intents();
             require(rows.size() == 2 &&
@@ -373,9 +497,10 @@ class Milestone006OwnerTests final : public QObject {
             auto late = f.exact;
             late.intent = ids.front().front().toByteArray();
             require(!late.intent.isEmpty(), "Late handoff retains a real exact key");
-            process_playback(f.seed.db.writer(), PlaybackTurn::handoff, late, port);
-            process_playback(f.seed.db.writer(), PlaybackTurn::handoff, late, port);
-            require(port.calls.size() == 1 && port.calls.front().intent == late.intent &&
+            process_playback(f.seed.db.writer(), PlaybackTurn::handoff, late, port, port);
+            process_playback(f.seed.db.writer(), PlaybackTurn::handoff, late, port, port);
+            require(port.calls.size() == 1 && port.marker_observed_at_call &&
+                        port.calls.front().intent == late.intent &&
                         port.calls.front().selected.instance.started_attempt == 2,
                     "A separate owner turn hands off the exact late attempt once");
         });
@@ -395,7 +520,7 @@ class Milestone006OwnerTests final : public QObject {
         QFETCH(bool, known_live);
         check([&] {
             PlaybackFixture f;
-            PlaybackPort port;
+            PlaybackPort port(f.seed.db);
             if (marked) {
                 f.seed.db.write([&](const auto &s) {
                     require(stage_playback_handoff(s, port, f.exact) == Disposition::committed,
@@ -409,13 +534,21 @@ class Milestone006OwnerTests final : public QObject {
             require(original.disposition == Disposition::replay &&
                         original.playback_intents == std::vector{f.exact.intent},
                     "Authoritative cold readback selects the exact immutable Stop result");
-            process_playback(f.seed.db.writer(), PlaybackTurn::cold_restore, f.exact, port);
+            process_playback(f.seed.db.writer(), PlaybackTurn::cold_restore, f.exact, port, port);
             require(port.calls.empty(), "Cold restore alone makes no adapter call");
-            process_playback(f.seed.db.writer(), PlaybackTurn::handoff, f.exact, port);
-            process_playback(f.seed.db.writer(), PlaybackTurn::handoff, f.exact, port);
+            process_playback(f.seed.db.writer(), PlaybackTurn::handoff, f.exact, port, port);
+            process_playback(f.seed.db.writer(), PlaybackTurn::handoff, f.exact, port, port);
             require(port.calls.size() == (!marked && known_live ? 1U : 0U) &&
                         read(f.seed.db, f.owner, f.command) == original,
                     "Only an unmarked currently proven instance can hand off once on a later turn");
+            if (!marked && known_live)
+                require(
+                    port.marker_observed_at_call,
+                    "The marker is visible on an independent connection before the adapter call");
+            if (!marked && !known_live)
+                require(f.intents().front().at(3) == QString("null") && f.evidence().empty(),
+                        "Without positive proof the unmarked intent remains pending without "
+                        "outcome evidence");
             if (marked && known_live) {
                 f.seed.db.write([&](const auto &s) {
                     require(stage_playback_outcome(s, port,
@@ -432,8 +565,15 @@ class Milestone006OwnerTests final : public QObject {
             }
         });
     }
+    void t2ColdRestoreSelectionHoldAndMarkedPlayback_data() {
+        QTest::addColumn<bool>("has_marker");
+        QTest::newRow("marked") << true;
+        QTest::newRow("unmarked") << false;
+    }
+
     void t2ColdRestoreSelectionHoldAndMarkedPlayback() {
-        check([] {
+        QFETCH(bool, has_marker);
+        check([&] {
             PlaybackFixture f(true, true);
             // Keep C independent of the stopped B and leave it unreleased and
             // unstarted. Its selected replacement is proved by normal readback.
@@ -448,12 +588,13 @@ class Milestone006OwnerTests final : public QObject {
                 commit(f.seed.db, f.owner, command, Disposition::committed, preview.get());
             require(committed.versions.size() == 1, "C has one unstarted successor.");
 
-            PlaybackPort port;
-            f.seed.db.write([&](const auto &s) {
-                require(stage_playback_handoff(s, port, f.exact) == Disposition::committed,
-                        "One exact handoff marker commits before the owner loses normal "
-                        "acknowledgement");
-            });
+            PlaybackPort port(f.seed.db);
+            if (has_marker) {
+                f.seed.db.write([&](const auto &s) {
+                    require(stage_playback_handoff(s, port, f.exact) == Disposition::committed,
+                            "A real one-way marker commits before loss of adapter acknowledgement");
+                });
+            }
             f.seed.db.reopen(profile());
             const auto stop_result = read(f.seed.db, f.owner, f.command);
             const auto marked = f.intents();
@@ -462,8 +603,9 @@ class Milestone006OwnerTests final : public QObject {
             require(stop_result.disposition == Disposition::replay &&
                         stop_result.added_causes.size() == 1 &&
                         stop_result.playback_intents == std::vector{f.exact.intent} &&
-                        marked.front().at(3) == QString("blob"),
-                    "Cold history retains a real Hold and marked playback intent");
+                        marked.front().at(3) == QString(has_marker ? "blob" : "null"),
+                    "Cold history retains a real Hold and the exact marked or unmarked playback "
+                    "intent");
             std::optional<OccurrenceSelection> stopped;
             std::optional<OccurrenceSelection> future;
             f.seed.db.write([&](const auto &s) {
@@ -476,15 +618,18 @@ class Milestone006OwnerTests final : public QObject {
                         future->interruption_holds == stop_result.added_causes &&
                         port.calls.empty(),
                     "Normal v21 readback reaches the distinct stopped and selected occurrences");
-            const auto restored = restore_committed_queue(*stopped, *future, f.exact, port);
+            const auto restored = restore_committed_queue(f.seed.db.writer(), f.owner, f.command,
+                                                          stop("select-C", next), f.exact, port);
             const ScopedCause only_cause{edit::track, stop_result.added_causes.front()};
             const std::vector<ScopedCause> expected_holds{only_cause};
             require(
                 restored.holds == expected_holds && restored.selected == committed.versions &&
                     !restored.presentation &&
-                    restored.prior_handoff == PlaybackOutcome::uncertain && port.calls.empty(),
-                "Cold restore carries exact selection and Hold with uncertain handoff and no live "
-                "window");
+                    restored.prior_handoff ==
+                        (has_marker ? std::optional{PlaybackOutcome::uncertain} : std::nullopt) &&
+                    f.intents() == marked && port.calls.empty(),
+                "Cold restore selects exact Hold and version, distinguishes marker states, and "
+                "starts no window or media");
         });
     }
 };
