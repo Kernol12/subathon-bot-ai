@@ -24,13 +24,6 @@ constexpr auto lookup_instance =
     " FROM subathon_milestone_playback_instances "
     "WHERE installation=? AND track=? AND stop=? AND ordinal=? AND adapter=? AND activation=? "
     "AND generation=? LIMIT 2";
-constexpr auto edit_attempt_sql =
-    "SELECT revision,state,attempt FROM subathon_milestone_edit_events "
-    "WHERE occurrence_ref=? AND action_ordinal=? AND revision=? LIMIT 2";
-constexpr auto application_attempt_sql =
-    "SELECT revision,state,attempt FROM subathon_delivery_events "
-    "WHERE operation_scope=? AND operation_ref=? AND job_ref=? AND revision=? LIMIT 2";
-
 bool valid_playback(const PlaybackInstance &i) {
     return i.ordinal > 0 && i.started_attempt >= 2 && (i.version.isNull() || ref(i.version)) &&
            ref(i.adapter) && ref(i.activation) && ref(i.runtime_generation) &&
@@ -90,6 +83,13 @@ QString blob_literal(const QByteArray &bytes) {
     return "X'" + QString::fromLatin1(bytes.toHex()) + "'";
 }
 
+QString instance_lookup_sql(const QByteArray &version, const QByteArray &attempt) {
+    const auto selector =
+        version.isEmpty() ? QString("version IS NULL") : "version=" + blob_literal(version);
+    return "SELECT instance,CASE WHEN " + selector + " AND attempt=" + blob_literal(attempt) +
+           " THEN capability END,length(handoff)" + lookup_instance;
+}
+
 struct Instance {
     QByteArray reference;
     bool exact;
@@ -103,12 +103,7 @@ std::optional<Instance> find_instance(const SqliteWorkSession &s, const LatePlay
     args.append({i.ordinal, i.adapter, i.activation, i.runtime_generation});
     // The stored attempt/version comparison protects the exact live target.
     // The projected cell stays an integer on the eligible path.
-    const auto version =
-        i.version.isEmpty() ? QString("version IS NULL") : "version=" + blob_literal(i.version);
-    const auto rows = s.execute({"SELECT instance,CASE WHEN " + version +
-                                     " AND attempt=" + blob_literal(attempt_bytes(i, profile)) +
-                                     " THEN capability END,length(handoff)" + lookup_instance,
-                                 args});
+    const auto rows = s.execute({instance_lookup_sql(i.version, attempt_bytes(i, profile)), args});
     const auto *row = unique(rows);
     if (!row)
         return {};
@@ -154,43 +149,67 @@ std::vector<PlaybackRecord> initial_playback(const SqliteWorkSession &s, const O
 
 qint64 playback_capacity(const Origin &key, const MilestoneTrackKey &track, const QByteArray &stop,
                          const QByteArray &decision, const std::vector<PlaybackRecord> &initial,
+                         const std::vector<AttemptCharge> &attempts,
                          const AdmissionProfile *profile) {
+    if (attempts.empty())
+        return 0; // A Stop cannot start a new attempt for a later activation.
     const auto limits = profile && profile->playback ? *profile->playback : StorageLimits{};
-    // The cumulative allowance budgets one bounded Stop/attempt/count closure
-    // and lookup/insert plus the result frame for every admitted instance.
     const auto scoped =
         qsizetype(track.installation_ref.size() + track.track_ref.size()) + stop.size() + 3 * 8;
-    const auto attempt_sql = key.kind == 2 ? edit_attempt_sql : application_attempt_sql;
-    const auto peak = qsizetype(std::max(
-        {std::string_view(stop_source).size(), std::string_view(attempt_sql).size(),
-         std::string_view(count_instances).size(), std::string_view(insert_instance).size(),
-         std::string_view(lookup_instance).size() + 100}));
     const auto *encoded = fixture(profile);
-    // Both statements share the scoped bindings. Account for the fixed
-    // argument widths separately so their occurrences are easy to verify.
-    const auto fixture_member = [&](const PlaybackRecord &entry) {
-        const auto &i = entry.observation;
-        return 2 * scoped + 4 * 8 + 8 * 8 + (entry.instance.size() + 4) + entry.instance.size() +
-               i.version.size() + entry.attempt.size() +
-               2 * (i.adapter.size() + i.activation.size() + i.runtime_generation.size());
-    };
-    const auto fixed_results =
-        10 * 8 + key.occurrence.size() + key.scope.size() + key.operation.size() + decision.size();
-    const auto attempt_binds = key.kind == 2 ? 24 + key.occurrence.size()
-                                             : 32 + key.scope.size() + key.operation.size() + 4096;
-    const auto fixed_binds = 2 * scoped + 8 + attempt_binds;
-    qsizetype member_binds = 2 * scoped + 12 * 8 + 4 + 9 * 4096;
-    if (encoded && !initial.empty()) {
-        member_binds = 0;
-        for (const auto &entry : initial)
-            member_binds = std::max(member_binds, fixture_member(entry));
+    // The common Stop and count statements return seven cells together. Each
+    // selected attempt contributes its exact lane-specific read charge.
+    const auto common_values =
+        7 * 8 + key.occurrence.size() + key.scope.size() + key.operation.size() + decision.size();
+    const auto common_binds = 2 * scoped + 8;
+    const auto common_peak = qsizetype(
+        std::max({std::string_view(stop_source).size(), std::string_view(count_instances).size(),
+                  std::string_view(insert_instance).size()}));
+    qint64 cap = member_limit;
+    for (const auto &attempt : attempts) {
+        const auto version_width = attempt.version_bytes;
+        const auto attempt_width = encoded && version_width == 0
+                                       ? std::max(qsizetype{8}, encoded->playback_attempt.size())
+                                       : qsizetype{8};
+        // Hex literals grow by two characters per byte. Use the same builder
+        // as lookup, including the distinct SQL NULL selector.
+        const auto lookup_peak =
+            instance_lookup_sql(QByteArray(version_width, '\0'), QByteArray(attempt_width, '\0'))
+                .size();
+        const auto fixed_binds = common_binds + attempt.binds;
+        const auto fixed_values = common_values + attempt.values;
+        const auto fixed_statements = 2 + attempt.statements;
+        const auto fixed_rows = 2 + attempt.rows;
+        if (limits.statements_per_batch < fixed_statements || limits.result_rows < fixed_rows ||
+            limits.statement_utf8_bytes < std::max({common_peak, attempt.peak, lookup_peak}) ||
+            limits.bound_value_bytes < fixed_binds || limits.result_value_bytes < fixed_values)
+            return 0;
+
+        // Each new member binds its lookup and insert plus its framed result
+        // reference. A successful absent lookup and insert return no rows.
+        qsizetype member_binds =
+            2 * scoped + 12 * 8 + 4 + 2 * 16 + version_width + attempt_width + 6 * 4096;
+        if (encoded && !initial.empty()) {
+            member_binds = 0;
+            for (const auto &entry : initial) {
+                const auto &i = entry.observation;
+                const auto sized = [&](qsizetype activation, qsizetype instance) {
+                    return 2 * scoped + 12 * 8 + 4 + 2 * instance + i.version.size() +
+                           entry.attempt.size() +
+                           2 * (i.adapter.size() + activation + i.runtime_generation.size());
+                };
+                member_binds =
+                    std::max(member_binds, sized(i.activation.size(), entry.instance.size()));
+                for (const auto &ref : encoded->playback_refs)
+                    if (!ref.activation.isEmpty() && !ref.instance.isEmpty())
+                        member_binds = std::max(member_binds,
+                                                sized(ref.activation.size(), ref.instance.size()));
+            }
+        }
+        cap = std::min({cap, (limits.statements_per_batch - fixed_statements) / 2,
+                        (limits.bound_value_bytes - fixed_binds) / member_binds});
     }
-    if (limits.statements_per_batch < 3 || limits.result_rows < 3 ||
-        limits.statement_utf8_bytes < peak || limits.bound_value_bytes < fixed_binds ||
-        limits.result_value_bytes < fixed_results)
-        return 0;
-    return std::min({member_limit, (limits.statements_per_batch - 3) / 2,
-                     (limits.bound_value_bytes - fixed_binds) / member_binds});
+    return cap;
 }
 
 void save_playback(const SqliteWorkSession &s, const MilestoneTrackKey &track,

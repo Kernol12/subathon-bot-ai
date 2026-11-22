@@ -63,9 +63,13 @@ struct Slot {
 };
 std::optional<Slot> slot(const SqliteWorkSession &, const Occurrence &, const Origin &, qint64);
 bool started(const Slot &);
+struct AttemptCharge {
+    qsizetype statements{}, peak{}, binds{}, rows{}, values{};
+    qsizetype version_bytes{};
+};
 std::optional<qint64> attempt_state(const SqliteWorkSession &, const Occurrence &, const Origin &,
                                     qint64 ordinal, const QByteArray &version, qint64 revision,
-                                    bool playback);
+                                    bool playback, AttemptCharge *charge = nullptr);
 
 struct PlaybackRecord {
     PlaybackInstance observation;
@@ -77,7 +81,7 @@ std::vector<PlaybackRecord> initial_playback(const SqliteWorkSession &, const Oc
                                              const AdmissionProfile *);
 qint64 playback_capacity(const Origin &, const MilestoneTrackKey &, const QByteArray &stop,
                          const QByteArray &decision, const std::vector<PlaybackRecord> &,
-                         const AdmissionProfile *);
+                         const std::vector<AttemptCharge> &, const AdmissionProfile *);
 void save_playback(const SqliteWorkSession &, const MilestoneTrackKey &, const QByteArray &stop,
                    const PlaybackRecord &);
 

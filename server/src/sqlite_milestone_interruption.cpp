@@ -222,12 +222,32 @@ bool started(const Slot &slot) {
 
 std::optional<qint64> attempt_state(const SqliteWorkSession &s, const Occurrence &o,
                                     const Origin &key, qint64 ordinal, const QByteArray &version,
-                                    qint64 revision, bool playback) {
+                                    qint64 revision, bool playback, AttemptCharge *charge) {
+    const auto execute = [&](const SqlStatement &statement) {
+        auto result = s.execute(statement);
+        if (charge) {
+            ++charge->statements;
+            charge->peak = std::max(charge->peak, statement.sql.toUtf8().size());
+            const auto width = [](const QVariant &cell) {
+                return 8 + (cell.metaType().id() == QMetaType::QByteArray
+                                ? cell.toByteArray().size()
+                                : qsizetype{0});
+            };
+            for (const auto &binding : statement.bindings)
+                charge->binds += width(binding);
+            charge->rows += result.size();
+            for (const auto &row : result)
+                for (const auto &cell : row)
+                    charge->values += width(cell);
+            charge->version_bytes = version.size();
+        }
+        return result;
+    };
     SqlRows rows;
     if (!version.isEmpty()) {
         auto args = key.at(o.track);
         args.append({ordinal, version, revision});
-        rows = s.execute(
+        rows = execute(
             {"SELECT a.revision,a.state,a.revision FROM subathon_milestone_slot_attempts a "
              "JOIN subathon_milestone_slot_versions v USING(installation,track,version) "
              "WHERE v.installation=? AND v.track=? AND v.origin_kind=? AND v.origin_scope=? "
@@ -235,18 +255,18 @@ std::optional<qint64> attempt_state(const SqliteWorkSession &s, const Occurrence
              "AND a.revision=? LIMIT 2",
              args});
     } else if (key.kind == 2) {
-        rows = s.execute({"SELECT revision,state,attempt FROM subathon_milestone_edit_events "
-                          "WHERE occurrence_ref=? AND action_ordinal=? AND revision=? LIMIT 2",
-                          {key.occurrence, ordinal, revision}});
+        rows = execute({"SELECT revision,state,attempt FROM subathon_milestone_edit_events "
+                        "WHERE occurrence_ref=? AND action_ordinal=? AND revision=? LIMIT 2",
+                        {key.occurrence, ordinal, revision}});
     } else {
-        const auto jobs = s.execute({"SELECT job_ref FROM subathon_milestone_actions "
-                                     "WHERE occurrence_ref=? AND action_ordinal=? "
-                                     "AND operation_scope=? AND operation_ref=? LIMIT 2",
-                                     {key.occurrence, ordinal, key.scope, key.operation}});
+        const auto jobs = execute({"SELECT job_ref FROM subathon_milestone_actions "
+                                   "WHERE occurrence_ref=? AND action_ordinal=? "
+                                   "AND operation_scope=? AND operation_ref=? LIMIT 2",
+                                   {key.occurrence, ordinal, key.scope, key.operation}});
         const auto *job = unique(jobs);
         if (!job || (*job)[0].isNull())
             return {};
-        rows = s.execute(
+        rows = execute(
             {"SELECT revision,state,attempt FROM subathon_delivery_events "
              "WHERE operation_scope=? AND operation_ref=? AND job_ref=? AND revision=? LIMIT 2",
              {key.scope, key.operation, verified_ref((*job)[0]), revision}});
@@ -877,14 +897,22 @@ Decision resume(const SqliteWorkSession &s, CommandAuthority &owner, const Comma
     return result;
 }
 
-bool active_presentation(const CommandAuthority::Facts &facts, const Occurrence &o) {
-    if (!facts.presentation)
-        return false;
+enum class PresentationState { inactive, active, incomplete };
+
+PresentationState presentation_state(const CommandAuthority::Facts &facts, const Occurrence &o) {
+    // A known absent presentation or one for another occurrence is negative.
+    // An observation for this occurrence can lack facts needed to compare it.
+    if (!facts.presentation || !same(o, facts.presentation->target))
+        return PresentationState::inactive;
     const auto &p = *facts.presentation;
-    return same(o, p.target) && ref(p.presentation) && ref(p.bound_generation) &&
-           p.bound_generation == p.current_generation && ref(p.owner_revision) &&
-           p.owner_revision == p.current_owner_revision && p.started_ms <= p.observed_ms &&
-           p.observed_ms < p.expiry_ms && p.observed_ms >= p.last_accepted_observation_ms;
+    if (!ref(p.presentation) || !ref(p.bound_generation) || !ref(p.current_generation) ||
+        !ref(p.owner_revision) || !ref(p.current_owner_revision))
+        return PresentationState::incomplete;
+    const bool active = p.bound_generation == p.current_generation &&
+                        p.owner_revision == p.current_owner_revision &&
+                        p.started_ms <= p.observed_ms && p.observed_ms < p.expiry_ms &&
+                        p.observed_ms >= p.last_accepted_observation_ms;
+    return active ? PresentationState::active : PresentationState::inactive;
 }
 
 qint64 slot_count(const SqliteWorkSession &s, const Origin &key, qint64 cap = member_limit) {
@@ -906,6 +934,9 @@ Decision stop(const SqliteWorkSession &s, const Command &cmd, const CommandAutho
     const auto head = target(s, o, key);
     if (!head)
         return answer(Disposition::refused);
+
+    if (const auto *app = std::get_if<ApplicationOperationKey>(&o.origin))
+        milestone_sql::verify_partitioned_origin(s, *app);
 
     // This bounded count is also an excess probe. Each selected slot must fit
     // the writer's cumulative statement, byte and row meters before publication.
@@ -929,14 +960,16 @@ Decision stop(const SqliteWorkSession &s, const Command &cmd, const CommandAutho
     auto result = answer(Disposition::committed);
     bool queued = false;
     std::vector<PlaybackRecord> playback;
+    std::vector<AttemptCharge> attempts;
     for (qint64 ordinal = 1; ordinal <= size; ++ordinal) {
         const auto selected = slot(s, o, key, ordinal);
         if (!selected)
             corrupt();
         if (started(*selected) && selected->kind == MilestoneActionKind::automation) {
             const auto revision = integer(selected->revision);
+            auto &charge = attempts.emplace_back();
             const auto state =
-                attempt_state(s, o, key, ordinal, selected->version, revision, false);
+                attempt_state(s, o, key, ordinal, selected->version, revision, false, &charge);
             if (!state)
                 corrupt();
             queued |= *state == int(DeliveryJobState::queued);
@@ -959,11 +992,15 @@ Decision stop(const SqliteWorkSession &s, const Command &cmd, const CommandAutho
             queued = true;
         }
     }
-    if (head->released && !queued && playback.empty() && !active_presentation(facts, o))
-        return answer(Disposition::refused);
+    if (head->released && !queued && playback.empty()) {
+        const auto state = presentation_state(facts, o);
+        if (state != PresentationState::active)
+            return answer(state == PresentationState::incomplete ? Disposition::unavailable
+                                                                 : Disposition::refused);
+    }
 
-    const auto cap =
-        playback_capacity(key, cmd.track, cmd.operation, facts.decision, playback, profile);
+    const auto cap = playback_capacity(key, cmd.track, cmd.operation, facts.decision, playback,
+                                       attempts, profile);
     if (std::ssize(playback) > cap)
         return answer(Disposition::resource_limit);
     const auto hold = want.choice != QueueChoice::continue_queue;

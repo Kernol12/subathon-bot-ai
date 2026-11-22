@@ -302,6 +302,35 @@ QString interruption_pending(bool edit, bool enabled) {
     return " AND (NOT " + stopped(edit) + " OR " + independent_holds + ")";
 }
 
+// A passable Stop can be omitted only after checking its original terminal
+// partition. A head lookup needs only omissions ahead of its selected head.
+void verify_omitted_application_origins(const SqliteWorkSession &s,
+                                        std::optional<qint64> through = {}) {
+    QList<QVariant> args;
+    QString boundary;
+    if (through) {
+        boundary = " AND g.queue_order<=?";
+        args.append(*through);
+    }
+    args.append(collection_limit + 1);
+    const auto rows = s.execute(
+        {"SELECT " + ref_column("g.operation_scope") + "," + ref_column("g.operation_ref") +
+             "," + ref_column("g.occurrence_ref") +
+             ",g.queue_order FROM main.subathon_milestone_groups g WHERE " +
+             pending_filter(Catalog::edits) + " AND " + stopped(false) + " AND NOT " + held() +
+             boundary + " ORDER BY g.queue_order LIMIT ?",
+         args});
+    if (rows.size() > collection_limit)
+        throw SqliteBundleStorageFailure(SqliteBundleStorageReason::result_limit);
+    std::set<std::pair<std::string, std::string>> verified;
+    for (const auto &row : rows) {
+        check_application_identity(s, blob(reference(row[2])), integer(row[3]));
+        const auto [entry, inserted] = verified.emplace(reference(row[0]), reference(row[1]));
+        if (inserted)
+            verify_partitioned_origin(s, {entry->first, entry->second});
+    }
+}
+
 std::optional<std::pair<QByteArray, bool>> pending_head(const SqliteWorkSession &s, bool interruptions) {
     const auto rows = s.execute(
         {"SELECT " + ref_column("occurrence_ref") +
@@ -313,6 +342,8 @@ std::optional<std::pair<QByteArray, bool>> pending_head(const SqliteWorkSession 
              edit_skipped + interruption_pending(true, interruptions) + ") ORDER BY queue_order LIMIT 1",
          {}});
     const auto *row = unique(rows);
+    if (interruptions)
+        verify_omitted_application_origins(s, row ? std::optional{integer((*row)[1])} : std::nullopt);
     if (!row)
         return {};
     const auto key = blob(reference((*row)[0]));
@@ -560,6 +591,8 @@ std::vector<CapturedMilestoneGroup> SqliteMilestoneGroupStore::pending() const {
     return guarded(session_, [&] {
         bool interruptions = false;
         const auto current = catalog(session_, &interruptions);
+        if (interruptions)
+            ed::verify_omitted_application_origins(session_);
         const auto filter = pending_filter(current) + ed::interruption_pending(false, interruptions);
         const auto review_catalog =
             current == Catalog::edits && terminal_partition::selected(session_);
