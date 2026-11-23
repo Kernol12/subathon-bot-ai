@@ -70,7 +70,8 @@ The coordinator states the tier in the PR description when the task is claimed.
 - Each stage (tests, implementation) gets its own review at the task's tier. Complete
   the tests review before observing intended red. The pre-review run above does
   not replace that review.
-- At most two fix rounds per review. Ask the owner before a third.
+- At most two fix rounds per review. Rounds three to five need the
+  [advisor's](ADVISOR.md) approval; a sixth needs the owner.
 - A material change after approval needs a re-review of the changed part. In tier A
   that means Codex verification plus a new closing review, not a new initial review.
 - In tier A, if the initial review finds no blockers, still obtain the Codex
