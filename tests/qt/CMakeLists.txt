@@ -343,4 +343,5 @@ endif()
 
 if(SUBATHON_BUILD_MILESTONE_006_SLICE3)
     add_subdirectory(milestone_006_slice3)
+    add_subdirectory(milestone_006_slice4)
 endif()
