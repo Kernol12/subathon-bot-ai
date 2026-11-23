@@ -28,6 +28,15 @@ struct RateOverridePreview {
     std::optional<std::string> replaced_override_ref;
 };
 
+struct RateOverridePair {
+    std::string low_currency, high_currency;
+};
+struct RateOverrideRemovalProposal {
+    EffectiveRateSnapshotInput candidate;
+    std::vector<RatePairChange> affected_rates;
+    std::string removed_override_ref;
+};
+
 // A policy-supplied fetched edge refers to the original one-based quote ordinal.
 struct RateOverrideFetchedEdge {
     std::reference_wrapper<const FetchedRateObservation> observation;
@@ -57,6 +66,14 @@ preview_rate_override(const EffectiveRateSnapshot &current, const ManualRateOver
                       std::span<const RateOverrideFetchedEdge> fetched_edges,
                       std::string_view candidate_ref,
                       std::optional<std::string_view> replace_override_ref = std::nullopt);
+
+// Select the exact active occurrence on the byte-ordered pair and rebuild the
+// successor from the surviving manuals and the supplied fetched edge order.
+[[nodiscard]] RateOverrideRemovalProposal
+preview_rate_override_removal(const EffectiveRateSnapshot &current, const RateOverridePair &pair,
+                              std::string_view removed_override_ref,
+                              std::span<const RateOverrideFetchedEdge> fetched_edges,
+                              std::string_view candidate_ref);
 
 enum class RatePreviewBaseStatus { current, stale };
 

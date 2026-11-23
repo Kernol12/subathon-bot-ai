@@ -180,8 +180,15 @@ void validate_edit(const RateOverrideEdit &edit) {
             invalid_input);
 }
 
-Audit authorize(const SqliteWorkSession &session, RateAuthoritySource &source,
-                const PermissionGraphTrust &trust, const RateOverrideEdit &edit) {
+void validate_edit(const RateOverrideRemovalEdit &edit) {
+    WireWriter scan(removal_intent_bytes, invalid_input);
+    removal_edit_fields(scan, edit);
+    require(byte_less(edit.pair.low_currency, edit.pair.high_currency), invalid_input);
+}
+
+AuthorityAudit authorize(const SqliteWorkSession &session, RateAuthoritySource &source,
+                         const PermissionGraphTrust &trust, std::string_view installation,
+                         std::string_view actor, std::string_view from, std::string_view to) {
     using namespace core;
     auto resolution = source.resolve(session);
     if (const auto *error = std::get_if<SessionFailure>(&resolution)) {
@@ -197,10 +204,9 @@ Audit authorize(const SqliteWorkSession &session, RateAuthoritySource &source,
     const auto &facts = std::get<RateAuthorityFacts>(resolution);
     const auto &resolved = facts.session;
     const auto &graph = facts.graph;
-    require(resolved.installation_ref == edit.installation &&
-                edit.override_input.actor_ref == resolved.account_ref &&
-                graph.installation == edit.installation &&
-                graph.current_installation.current.installation_ref == edit.installation,
+    require(resolved.installation_ref == installation && actor == resolved.account_ref &&
+                graph.installation == installation &&
+                graph.current_installation.current.installation_ref == installation,
             Refusal::denied);
     require(graph.revision > 0 && graph.use.state == PermissionFactsState::complete &&
                 graph.grant.state == PermissionFactsState::complete,
@@ -234,7 +240,7 @@ Audit authorize(const SqliteWorkSession &session, RateAuthoritySource &source,
     std::set<std::string_view> roster;
     bool enabled = false;
     for (const auto &row : graph.current_accounts) {
-        require(row.current.installation_ref == edit.installation &&
+        require(row.current.installation_ref == installation &&
                     roster.insert(row.current.account_ref).second,
                 Refusal::unavailable);
         if (row.current.account_ref == resolved.account_ref)
@@ -256,8 +262,7 @@ Audit authorize(const SqliteWorkSession &session, RateAuthoritySource &source,
         if (std::ranges::find(account->assigned_roles, role.role) != account->assigned_roles.end())
             policy.entries.insert(policy.entries.end(), role.entries.begin(), role.entries.end());
     }
-    const auto scope =
-        pair_scope(edit.override_input.from_currency, edit.override_input.to_currency);
+    const auto scope = pair_scope(from, to);
     // The session snapshot is also captured in the immutable audit.
     const auto permit = evaluate_effective_permission({resolved.account_ref,
                                                        resolved.snapshot_ref,
@@ -275,25 +280,53 @@ Audit authorize(const SqliteWorkSession &session, RateAuthoritySource &source,
                  witness.kind == PermissionSourceKind::individual) &&
                 witness.role.has_value() == (witness.kind == PermissionSourceKind::role),
             Refusal::denied);
+    // Bound the port's borrowed session refs before copying them into the audit.
+    WireWriter scan(document_bytes, Refusal::unavailable);
+    scan.bounded(resolved.session_ref, 4096);
+    scan.bounded(resolved.record_revision_ref, 4096);
+    return {resolved.account_ref,
+            resolved.session_ref,
+            resolved.record_revision_ref,
+            resolved.snapshot_ref,
+            decision.catalog_revision,
+            graph.revision,
+            witness.source,
+            *witness.grant,
+            witness.role,
+            {}};
+}
+
+Audit authorize(const SqliteWorkSession &session, RateAuthoritySource &source,
+                const PermissionGraphTrust &trust, const RateOverrideEdit &edit) {
+    const auto &manual = edit.override_input;
     Audit audit{edit.installation,
                 edit.operation,
-                edit.override_input.decision_ref,
+                manual.decision_ref,
                 edit.base,
                 edit.successor,
-                edit.override_input.override_ref,
+                manual.override_ref,
                 edit.replacement,
-                resolved.account_ref,
-                resolved.session_ref,
-                resolved.record_revision_ref,
-                resolved.snapshot_ref,
-                decision.catalog_revision,
-                graph.revision,
-                witness.source,
-                *witness.grant,
-                witness.role,
-                {}};
+                authorize(session, source, trust, edit.installation, *manual.actor_ref,
+                          manual.from_currency, manual.to_currency)};
     WireWriter scan(document_bytes, Refusal::unavailable);
     audit_fields(scan, audit);
+    return audit;
+}
+
+RemovalAudit authorize(const SqliteWorkSession &session, RateAuthoritySource &source,
+                       const PermissionGraphTrust &trust, const RateOverrideRemovalEdit &edit) {
+    RemovalAudit audit{edit.installation,
+                       edit.operation,
+                       edit.decision,
+                       edit.base,
+                       edit.successor,
+                       edit.pair,
+                       edit.removed_override_ref,
+                       authorize(session, source, trust, edit.installation, edit.actor,
+                                 edit.pair.low_currency, edit.pair.high_currency)};
+    WireWriter scan(removal_decision_bytes, Refusal::unavailable);
+    scan.literal("RRD1");
+    removal_audit_fields(scan, audit);
     return audit;
 }
 
@@ -314,47 +347,56 @@ QByteArray observation_document(const auto &source, Refusal invalid) {
     return encode("ROB1", document_bytes, source, observation_fields, invalid);
 }
 
-PreparedBasis prepare_basis(const RateSourceBasis &basis) {
+PreparedBasis prepare_basis(const RateSourceBasis &basis, Refusal invalid = invalid_input) {
     fit(basis.observations.size() <= observation_count && basis.edges.size() <= edge_count);
-    WireWriter scan(intent_bytes, invalid_input);
+    WireWriter scan(intent_bytes, invalid);
     scan.bounded(basis.policy_ref, 256);
     std::array<std::string_view, observation_count> refs{};
     auto next = refs.begin();
     std::size_t encoded = 0;
     // Preflight the complete basis before copying any model or document.
     for (const auto &source : basis.observations) {
-        WireWriter measure(document_bytes, invalid_input);
+        WireWriter measure(document_bytes, invalid);
         measure.literal("ROB1");
         observation_fields(measure, source);
         measure.observation_budget();
         charge(encoded, measure.size(), observation_count * document_bytes);
-        require(std::find(refs.begin(), next, source.context.observation_ref) == next,
-                invalid_input);
+        require(std::find(refs.begin(), next, source.context.observation_ref) == next, invalid);
         *next++ = source.context.observation_ref;
     }
     for (const auto &edge : basis.edges)
         require(edge.observation_index < basis.observations.size() && edge.quote_ordinal > 0 &&
                     edge.quote_ordinal <= basis.observations[edge.observation_index].quotes.size(),
-                invalid_input);
+                invalid);
     PreparedBasis result;
     for (const auto &source : basis.observations) {
         result.facts.push_back(core::make_fetched_rate_observation(source, storage_limits));
-        result.documents.push_back(observation_document(source, invalid_input));
+        result.documents.push_back(observation_document(source, invalid));
     }
     return result;
 }
 
-QByteArray intent_document(const RateOverrideEdit &edit, const RateSourceBasis &basis) {
+QByteArray intent_document(const auto &edit, const RateSourceBasis &basis, std::string_view magic,
+                           std::size_t maximum, auto edit_grammar, Refusal invalid) {
     fit(basis.observations.size() <= observation_count && basis.edges.size() <= edge_count);
     // Borrow the (checked) source identities and trace directly.
-    const auto fields = [&](auto &wire, const RateOverrideEdit &value) {
-        edit_fields(wire, value);
+    const auto fields = [&](auto &wire, const auto &value) {
+        edit_grammar(wire, value);
         wire.bounded(basis.policy_ref, 256);
         wire.list(basis.observations, observation_count,
                   [&](const auto &source) { wire.bounded(source.context.observation_ref, 256); });
         wire.list(basis.edges, edge_count, [&](const auto &edge) { wire.edge(edge); });
     };
-    return encode("RIN1", intent_bytes, edit, fields, invalid_input);
+    return encode(magic, maximum, edit, fields, invalid);
+}
+
+QByteArray intent_document(const RateOverrideEdit &edit, const RateSourceBasis &basis) {
+    return intent_document(edit, basis, "RIN1", intent_bytes, edit_fields, invalid_input);
+}
+
+QByteArray intent_document(const RateOverrideRemovalEdit &edit, const RateSourceBasis &basis,
+                           Refusal invalid = invalid_input) {
+    return intent_document(edit, basis, "RRI1", removal_intent_bytes, removal_edit_fields, invalid);
 }
 
 QByteArray snapshot_document(const core::EffectiveRateSnapshot &snapshot) {
@@ -365,15 +407,39 @@ QByteArray snapshot_document(const core::EffectiveRateSnapshotInput &candidate) 
     return snapshot_document(core::make_effective_rate_snapshot(candidate, storage_limits));
 }
 
-core::RateOverridePreview propose(const core::EffectiveRateSnapshot &base,
-                                  const RateOverrideEdit &edit, const PreparedBasis &basis,
-                                  const std::vector<RateSourceEdge> &trace) {
+std::vector<core::RateOverrideFetchedEdge> indexed_edges(const PreparedBasis &basis,
+                                                         const std::vector<RateSourceEdge> &trace) {
     std::vector<core::RateOverrideFetchedEdge> edges;
     edges.reserve(trace.size());
     for (const auto &edge : trace)
         edges.push_back({basis.facts[edge.observation_index], edge.quote_ordinal});
-    return core::preview_rate_override(base, edit.override_input, edges, edit.successor,
-                                       edit.replacement);
+    return edges;
+}
+
+core::RateOverridePreview propose(const core::EffectiveRateSnapshot &base,
+                                  const RateOverrideEdit &edit, const PreparedBasis &basis,
+                                  const std::vector<RateSourceEdge> &trace) {
+    return core::preview_rate_override(base, edit.override_input, indexed_edges(basis, trace),
+                                       edit.successor, edit.replacement);
+}
+
+core::RateOverrideRemovalProposal propose(const core::EffectiveRateSnapshot &base,
+                                          const RateOverrideRemovalEdit &edit,
+                                          const PreparedBasis &basis,
+                                          const std::vector<RateSourceEdge> &trace) {
+    return core::preview_rate_override_removal(base, edit.pair, edit.removed_override_ref,
+                                               indexed_edges(basis, trace), edit.successor);
+}
+
+bool has_removal_target(const core::EffectiveRateSnapshot &base,
+                        const RateOverrideRemovalEdit &edit) {
+    return std::ranges::any_of(base.data().overrides, [&](const auto &entry) {
+        return entry.override_ref == edit.removed_override_ref &&
+               ((entry.from_currency == edit.pair.low_currency &&
+                 entry.to_currency == edit.pair.high_currency) ||
+                (entry.to_currency == edit.pair.low_currency &&
+                 entry.from_currency == edit.pair.high_currency));
+    });
 }
 
 // Borrow the two integer backends to reject an oversized supplied rational
@@ -394,7 +460,7 @@ template <class Rational> bool fitting_pair_storage(const Rational &rate) {
 
 // Candidate fields have already passed the tighter RSV1 profile. Continue the
 // pure preview's raw byte and item accounting through replacement and deltas.
-void check_preview_budget(const core::RateOverridePreview &preview, Refusal invalid) {
+void check_preview_budget(const auto &preview, Refusal invalid) {
     constexpr core::RateSnapshotLimits limits;
     const auto &candidate = preview.candidate;
     WireWriter raw(intent_bytes, invalid);
@@ -426,7 +492,10 @@ void check_preview_budget(const core::RateOverridePreview &preview, Refusal inva
             raw.bounded(member.denominator, 1234);
         }
     }
-    raw.optional_ref(preview.replaced_override_ref, 256);
+    if constexpr (requires { preview.removed_override_ref; })
+        raw.bounded(preview.removed_override_ref, 256);
+    else
+        raw.optional_ref(preview.replaced_override_ref, 256);
     charge(items, preview.affected_rates.size(), limits.items);
     auto bytes = raw.raw_size() + scalar_bytes;
     const auto exact = [&](const std::optional<core::Exact> &rate) {
@@ -467,11 +536,28 @@ bool matches_proposal(const core::RateOverridePreview &submitted,
            same_changes(submitted.affected_rates, computed.affected_rates);
 }
 
+bool matches_proposal(const core::RateOverrideRemovalProposal &submitted,
+                      const core::RateOverrideRemovalProposal &computed,
+                      const QByteArray &canonical, Refusal invalid) {
+    const auto candidate = snapshot_document(submitted.candidate);
+    check_preview_budget(submitted, invalid);
+    return candidate == canonical &&
+           submitted.removed_override_ref == computed.removed_override_ref &&
+           same_changes(submitted.affected_rates, computed.affected_rates);
+}
+
 RateReceiptSelection receipt(RateReceiptOrigin origin, const RateOverrideEdit &edit,
                              core::RateOverridePreview proposal) {
     return {origin,
             {edit.override_input.decision_ref, edit.base, edit.successor,
              edit.override_input.override_ref, edit.replacement,
+             std::move(proposal.affected_rates)}};
+}
+
+RateRemovalReceiptSelection receipt(RateReceiptOrigin origin, const RateOverrideRemovalEdit &edit,
+                                    core::RateOverrideRemovalProposal proposal) {
+    return {origin,
+            {edit.decision, edit.base, edit.successor, edit.pair, edit.removed_override_ref,
              std::move(proposal.affected_rates)}};
 }
 
@@ -481,6 +567,7 @@ struct Column {
     QString name;
     std::size_t minimum, maximum;
     bool nullable = false;
+    QString tighter_limit{};
 };
 
 class RateRows {
@@ -510,6 +597,8 @@ class RateRows {
         for (const auto &column : columns) {
             metadata.append("typeof(" + column.name + ")");
             metadata.append("length(CAST(" + column.name + " AS BLOB))");
+            if (!column.tighter_limit.isEmpty())
+                metadata.append(column.tighter_limit);
             payload.append(column.name);
         }
         const auto tail = " FROM main." + table + where + " LIMIT 2";
@@ -521,6 +610,9 @@ class RateRows {
         for (const auto &column : columns) {
             const auto &type = shape.front()[i++];
             const auto &length = shape.front()[i++];
+            auto maximum = column.maximum;
+            if (!column.tighter_limit.isEmpty())
+                maximum = static_cast<std::size_t>(shape.front()[i++].toULongLong());
             if (column.nullable && type == QString("null")) {
                 require(length.isNull());
                 continue;
@@ -528,15 +620,16 @@ class RateRows {
             require(type == QString("blob") && !length.isNull());
             const auto size = length.toLongLong();
             require(size >= static_cast<qlonglong>(column.minimum));
-            fit(size <= static_cast<qlonglong>(column.maximum));
+            fit(size <= static_cast<qlonglong>(maximum));
         }
         auto rows = session_.execute({"SELECT " + payload.join(',') + tail, keys});
         require(rows.size() == 1 && rows.front().size() == payload.size());
+        qsizetype field = 0;
         i = 0;
         for (const auto &column : columns) {
-            const auto &value = rows.front()[i];
-            const auto &length = shape.front()[2 * i + 1];
-            ++i;
+            const auto &value = rows.front()[field++];
+            const auto &length = shape.front()[i + 1];
+            i += column.tighter_limit.isEmpty() ? 2 : 3;
             if (column.nullable && length.isNull())
                 require(value.isNull());
             else
@@ -566,16 +659,26 @@ class RateRows {
                          {"body", 1, occurrence_bytes}});
     }
     std::optional<SqlRow> decision(const QString &where, const QVariantList &keys) const {
-        return selected("subathon_rate_decisions", where, keys,
-                        {{"decision_ref", 1, 256},
-                         {"installation_ref", 1, 4096},
-                         {"operation_key", 1, 256},
-                         {"base_ref", 1, 256},
-                         {"successor_ref", 1, 256},
-                         {"intent_format", 1, 128},
-                         {"intent", 4, intent_bytes},
-                         {"decision_format", 1, 128},
-                         {"decision", 4, document_bytes}});
+        const auto limit = [](const QString &column, std::string_view id, std::size_t removal,
+                              std::size_t legacy) {
+            return "CASE WHEN " + column + " = X'" + QString::fromLatin1(blob(id).toHex()) +
+                   "' THEN " + QString::number(removal) + " ELSE " + QString::number(legacy) +
+                   " END";
+        };
+        return selected(
+            "subathon_rate_decisions", where, keys,
+            {{"decision_ref", 1, 256},
+             {"installation_ref", 1, 4096},
+             {"operation_key", 1, 256},
+             {"base_ref", 1, 256},
+             {"successor_ref", 1, 256},
+             {"intent_format", 1, 128},
+             {"intent", 4, intent_bytes, false,
+              limit("intent_format", removal_intent_format, removal_intent_bytes, intent_bytes)},
+             {"decision_format", 1, 128},
+             {"decision", 4, document_bytes, false,
+              limit("decision_format", removal_decision_format, removal_decision_bytes,
+                    document_bytes)}});
     }
     bool has(const QString &table, const QString &column, std::string_view ref) const {
         const auto rows = session_.execute({"SELECT CASE WHEN typeof(" + column +
@@ -642,32 +745,71 @@ Revision read_revision(const RateRows &rows, std::string_view ref) {
     return {std::move(snapshot), std::move(document)};
 }
 
-struct StoredDecision {
-    Intent intent;
-    Audit audit;
+template <class IntentType, class AuditType> struct DecisionRecord {
+    IntentType intent;
+    AuditType audit;
     QByteArray intent_document;
 };
+using StoredDecision = DecisionRecord<Intent, Audit>;
+using StoredRemoval = DecisionRecord<RemovalIntent, RemovalAudit>;
+using StoredRateDecision = std::variant<StoredDecision, StoredRemoval>;
 
-StoredDecision read_decision(const SqlRow &row) {
-    format(row[5], intent_format);
-    format(row[7], decision_format);
+bool matches_decision_row(const SqlRow &row, const auto &audit) {
+    return view(row[0].toByteArray()) == audit.decision &&
+           view(row[1].toByteArray()) == audit.installation &&
+           view(row[2].toByteArray()) == audit.operation &&
+           view(row[3].toByteArray()) == audit.base &&
+           view(row[4].toByteArray()) == audit.successor &&
+           audit.authority.catalog == rate_catalog && audit.authority.graph_revision > 0 &&
+           audit.base != audit.successor && audit.successor != "E";
+}
+
+StoredDecision read_introduction(const SqlRow &row) {
     auto intent_document = row[6].toByteArray();
     auto intent = decode<Intent>("RIN1", intent_bytes, intent_document, intent_fields);
     auto audit = decode<Audit>("RDC1", document_bytes, row[8].toByteArray(), audit_fields);
     const auto &edit = intent.edit;
     const auto &entry = edit.override_input;
-    require(
-        view(row[0].toByteArray()) == audit.decision &&
-        view(row[1].toByteArray()) == audit.installation &&
-        view(row[2].toByteArray()) == audit.operation && view(row[3].toByteArray()) == audit.base &&
-        view(row[4].toByteArray()) == audit.successor && audit.installation == edit.installation &&
-        audit.operation == edit.operation && audit.decision == entry.decision_ref &&
-        audit.base == edit.base && audit.successor == edit.successor &&
-        audit.introduced == entry.override_ref && audit.replaced == edit.replacement &&
-        entry.actor_ref == audit.account && !entry.recorded_at_utc_ms &&
-        audit.catalog == rate_catalog && audit.graph_revision > 0 && edit.base != edit.successor &&
-        edit.successor != "E" && entry.from_currency != entry.to_currency);
+    require(matches_decision_row(row, audit) && audit.installation == edit.installation &&
+            audit.operation == edit.operation && audit.decision == entry.decision_ref &&
+            audit.base == edit.base && audit.successor == edit.successor &&
+            audit.introduced == entry.override_ref && audit.replaced == edit.replacement &&
+            entry.actor_ref == audit.authority.account && !entry.recorded_at_utc_ms &&
+            entry.from_currency != entry.to_currency);
     return {std::move(intent), std::move(audit), std::move(intent_document)};
+}
+
+StoredRemoval read_removal(const SqlRow &row) {
+    auto document = row[6].toByteArray();
+    auto intent =
+        decode<RemovalIntent>("RRI1", removal_intent_bytes, document, removal_intent_fields);
+    auto audit = decode<RemovalAudit>("RRD1", removal_decision_bytes, row[8].toByteArray(),
+                                      removal_audit_fields);
+    const auto &edit = intent.edit;
+    require(matches_decision_row(row, audit) && audit.installation == edit.installation &&
+            audit.operation == edit.operation && audit.decision == edit.decision &&
+            audit.base == edit.base && audit.successor == edit.successor &&
+            audit.pair.low_currency == edit.pair.low_currency &&
+            audit.pair.high_currency == edit.pair.high_currency &&
+            byte_less(edit.pair.low_currency, edit.pair.high_currency) &&
+            audit.removed_override_ref == edit.removed_override_ref &&
+            audit.authority.account == edit.actor);
+    return {std::move(intent), std::move(audit), std::move(document)};
+}
+
+StoredRateDecision read_decision(const SqlRow &row) {
+    const auto intent_id = row[5].toByteArray();
+    const auto decision_id = row[7].toByteArray();
+    if (view(intent_id) == intent_format && view(decision_id) == decision_format)
+        return read_introduction(row);
+    if (view(intent_id) == removal_intent_format && view(decision_id) == removal_decision_format)
+        return read_removal(row);
+    const auto known = [](std::string_view id) {
+        return id == intent_format || id == decision_format || id == removal_intent_format ||
+               id == removal_decision_format;
+    };
+    throw known(view(intent_id)) && known(view(decision_id)) ? Refusal::invalid_retained_data
+                                                             : Refusal::unsupported_retained_data;
 }
 
 struct StoredObservation {
@@ -733,18 +875,20 @@ class Closure {
                 const auto decision = rows_.decision(RateRows::key_filter("decision_ref"),
                                                      RateRows::key(manual.decision_ref));
                 require(decision.has_value());
-                const auto introducing = read_decision(*decision);
-                check_introduction(introducing);
+                const auto record = read_decision(*decision);
+                const auto *introducing = std::get_if<StoredDecision>(&record);
+                require(introducing != nullptr);
+                check_introduction(*introducing);
                 // Validate the separate relational target without opening an
                 // ancestor document or following its own decision closure.
                 require(rows_.has("subathon_rate_revisions", "snapshot_ref",
-                                  introducing.audit.successor));
+                                  introducing->audit.successor));
             }
             occurrences_.emplace(manual.override_ref, std::move(body));
         }
     }
 
-    PreparedBasis basis(const Intent &intent) {
+    PreparedBasis basis(const auto &intent) {
         PreparedBasis result;
         std::size_t bytes = 0;
         std::set<std::string_view> refs;
@@ -765,10 +909,14 @@ class Closure {
     std::map<std::string, QByteArray, std::less<>> occurrences_;
 };
 
-struct VerifiedDecision {
+template <class Proposal> struct VerifiedProposal {
     PreparedBasis basis;
-    core::RateOverridePreview proposal;
+    Proposal proposal;
+    QByteArray successor_document;
 };
+using VerifiedDecision = VerifiedProposal<core::RateOverridePreview>;
+using VerifiedRemoval = VerifiedProposal<core::RateOverrideRemovalProposal>;
+using VerifiedRateDecision = std::variant<VerifiedDecision, VerifiedRemoval>;
 
 VerifiedDecision verify_decision(const RateRows &rows, Closure &closure,
                                  const StoredDecision &decision, const Revision &successor) {
@@ -795,7 +943,37 @@ VerifiedDecision verify_decision(const RateRows &rows, Closure &closure,
     auto proposal = propose(base.snapshot, edit, basis, decision.intent.edges);
     require(snapshot_document(proposal.candidate) == successor.document &&
             proposal.replaced_override_ref == edit.replacement);
-    return {std::move(basis), std::move(proposal)};
+    return {std::move(basis), std::move(proposal), successor.document};
+}
+
+VerifiedRemoval verify_decision(const RateRows &rows, Closure &closure,
+                                const StoredRemoval &decision, const Revision &successor) {
+    const auto &edit = decision.intent.edit;
+    require(successor.snapshot.data().snapshot_ref == edit.successor &&
+            successor.snapshot.data().parent_snapshot_ref == edit.base);
+    const auto base = read_revision(rows, edit.base);
+    require(has_removal_target(base.snapshot, edit) &&
+            !rows.has("subathon_rate_occurrences", "decision_ref", edit.decision) &&
+            !rows.has("subathon_rate_occurrences", "revision_ref", edit.successor));
+    closure.occurrences(base);
+    closure.occurrences(successor);
+    auto basis = closure.basis(decision.intent);
+    closure.embedded_observations(base);
+    // Exact recomputation proves the target is absent, survivor bodies are
+    // unchanged and every selected source is the complete retained ROB1 fact.
+    auto proposal = propose(base.snapshot, edit, basis, decision.intent.edges);
+    require(snapshot_document(proposal.candidate) == successor.document);
+    return {std::move(basis), std::move(proposal), successor.document};
+}
+
+VerifiedRateDecision verify_operation(const RateRows &rows, const StoredRateDecision &stored) {
+    return std::visit(
+        [&](const auto &decision) -> VerifiedRateDecision {
+            const auto successor = read_revision(rows, decision.audit.successor);
+            Closure closure(rows);
+            return verify_decision(rows, closure, decision, successor);
+        },
+        stored);
 }
 
 Revision verified_revision(const RateRows &rows, std::string_view ref) {
@@ -805,7 +983,9 @@ Revision verified_revision(const RateRows &rows, std::string_view ref) {
     Closure closure(rows);
     auto row = rows.decision(RateRows::key_filter("successor_ref"), RateRows::key(ref));
     if (row) {
-        (void)verify_decision(rows, closure, read_decision(*row), revision);
+        std::visit(
+            [&](const auto &record) { (void)verify_decision(rows, closure, record, revision); },
+            read_decision(*row));
     } else {
         // Accepted source updates can have no edit decision.
         const auto parent = read_revision(rows, *revision.snapshot.data().parent_snapshot_ref);
@@ -833,7 +1013,7 @@ Revision active_revision(const RateRows &rows) {
     return verified_revision(rows, active);
 }
 
-std::optional<StoredDecision> operation(const RateRows &rows, const RateOverrideEdit &edit) {
+std::optional<StoredRateDecision> operation(const RateRows &rows, const auto &edit) {
     auto keys = RateRows::key(edit.installation);
     keys.append(RateRows::key(edit.operation));
     const auto row = rows.decision(RateRows::key_filter("installation_ref") + " AND " +
@@ -842,9 +1022,22 @@ std::optional<StoredDecision> operation(const RateRows &rows, const RateOverride
     if (!row)
         return std::nullopt;
     auto stored = read_decision(*row);
-    require(stored.audit.installation == edit.installation &&
-            stored.audit.operation == edit.operation);
+    std::visit(
+        [&](const auto &decision) {
+            require(decision.audit.installation == edit.installation &&
+                    decision.audit.operation == edit.operation);
+        },
+        stored);
     return stored;
+}
+
+bool successor_or_decision_present(const RateRows &rows, std::string_view successor,
+                                   std::string_view decision) {
+    return rows.has("subathon_rate_revisions", "snapshot_ref", successor) ||
+           rows.has("subathon_rate_decisions", "decision_ref", decision) ||
+           rows.has("subathon_rate_decisions", "successor_ref", successor) ||
+           rows.has("subathon_rate_occurrences", "decision_ref", decision) ||
+           rows.has("subathon_rate_occurrences", "revision_ref", successor);
 }
 
 bool identity_present(const RateRows &rows, const RateOverrideEdit &edit) {
@@ -911,23 +1104,85 @@ template <class Body> auto retained(Body body) {
     return model_context(Refusal::invalid_retained_data, body);
 }
 
+void append_write(WriteBatch &statements, const QString &sql, QVariantList bindings) {
+    statements.append({sql + " RETURNING 1", std::move(bindings)});
+}
+
+// Before save, collect inserts for new facts. During recovery, missing facts
+// are consistent with absence and existing ones must match byte for byte.
+void check_observations(const RateRows &rows, const PreparedBasis &basis, Refusal mismatch,
+                        WriteBatch *statements = nullptr) {
+    for (std::size_t i = 0; i < basis.facts.size(); ++i) {
+        const auto &ref = basis.facts[i].data().context.observation_ref;
+        if (const auto stored = rows.observation(ref)) {
+            const auto document = retained([&] { return read_observation(*stored, ref).document; });
+            require(document == basis.documents[i], mismatch);
+        } else if (statements) {
+            append_write(*statements, "INSERT INTO main.subathon_rate_observations VALUES(?,?,?)",
+                         {blob(ref), blob(observation_format), basis.documents[i]});
+        }
+    }
+}
+
+template <class Selection> struct StagedRateWrite {
+    Selection selection;
+    WriteBatch statements;
+};
+template <class Selection>
+using RateWritePlan = std::variant<StagedRateWrite<Selection>, Selection, Refusal>;
+
+template <class Result, class Selection>
+Result execute_rate_plan(const SqliteWorkSession &session, RateWritePlan<Selection> plan) {
+    if (const auto *refusal = std::get_if<Refusal>(&plan))
+        return *refusal;
+    if (auto *selected = std::get_if<Selection>(&plan))
+        return std::move(*selected);
+    auto &write = std::get<StagedRateWrite<Selection>>(plan);
+    for (const auto &statement : write.statements)
+        write_one(session, statement);
+    return std::move(write.selection);
+}
+
 RateReceiptSelection retry(const RateRows &rows, const RateOverrideEdit &edit,
-                           const RateEditPreview &preview, const StoredDecision &stored) {
+                           const RateEditPreview &preview, const StoredRateDecision &record) {
     constexpr auto conflict = Refusal::identity_conflict;
     // Verify the retained closure before comparing the submitted intent and model.
-    const auto successor = read_revision(rows, stored.audit.successor);
-    Closure closure(rows);
-    auto verified = verify_decision(rows, closure, stored, successor);
-    require(intent_document(edit, preview.basis) == stored.intent_document &&
-                intent_document(preview.edit, preview.basis) == stored.intent_document,
+    auto verified = verify_operation(rows, record);
+    const auto *stored = std::get_if<StoredDecision>(&record);
+    require(stored != nullptr, conflict);
+    auto &original = std::get<VerifiedDecision>(verified);
+    const auto &document = stored->intent_document;
+    require(intent_document(edit, preview.basis) == document &&
+                intent_document(preview.edit, preview.basis) == document,
             conflict);
     model_context(conflict, [&] {
-        require(
-            prepare_basis(preview.basis).documents == verified.basis.documents &&
-                matches_proposal(preview.proposal, verified.proposal, successor.document, conflict),
-            conflict);
+        require(prepare_basis(preview.basis).documents == original.basis.documents &&
+                    matches_proposal(preview.proposal, original.proposal,
+                                     original.successor_document, conflict),
+                conflict);
     });
-    return receipt(RateReceiptOrigin::retained, stored.intent.edit, std::move(verified.proposal));
+    return receipt(RateReceiptOrigin::retained, stored->intent.edit, std::move(original.proposal));
+}
+
+RateRemovalReceiptSelection retry(const RateRows &rows, const RateOverrideRemovalEdit &edit,
+                                  const RateRemovalPreview &preview,
+                                  const StoredRateDecision &record) {
+    constexpr auto conflict = Refusal::identity_conflict;
+    auto verified = verify_operation(rows, record);
+    const auto *stored = std::get_if<StoredRemoval>(&record);
+    require(stored != nullptr, conflict);
+    auto &original = std::get<VerifiedRemoval>(verified);
+    const auto &document = stored->intent_document;
+    require(intent_document(edit, preview.basis, conflict) == document &&
+                intent_document(preview.edit, preview.basis, conflict) == document,
+            conflict);
+    model_context(conflict, [&] {
+        require(prepare_basis(preview.basis, conflict).documents == original.basis.documents &&
+                    matches_proposal(preview.proposal, original.proposal,
+                                     original.successor_document, conflict),
+                conflict);
+    });
+    return receipt(RateReceiptOrigin::retained, stored->intent.edit, std::move(original.proposal));
 }
 } // namespace
 
@@ -973,11 +1228,7 @@ SqliteRateOverrideUnit::save(RateAuthoritySource &source, const PermissionGraphT
                              const std::function<std::optional<std::int64_t>()> &sample) const {
     // Complete all fallible typed validation before the first write. Only the
     // transaction owner observes COMMIT and may release the provisional receipt.
-    struct StagedWrite {
-        RateReceiptSelection selection;
-        WriteBatch statements;
-    };
-    using Plan = std::variant<StagedWrite, RateReceiptSelection, Refusal>;
+    using Plan = RateWritePlan<RateReceiptSelection>;
     auto plan = rate_result<Plan>(invalid_input, [&]() -> Plan {
         validate_edit(edit);
         auto audit = authorize(session_, source, trust, edit);
@@ -999,19 +1250,9 @@ SqliteRateOverrideUnit::save(RateAuthoritySource &source, const PermissionGraphT
 
         WriteBatch statements;
         const auto append = [&](const QString &sql, QVariantList bindings) {
-            statements.append({sql + " RETURNING 1", std::move(bindings)});
+            append_write(statements, sql, std::move(bindings));
         };
-        for (std::size_t i = 0; i < current.observations.size(); ++i) {
-            const auto &ref = current.observations[i].context.observation_ref;
-            if (const auto stored = rows.observation(ref)) {
-                const auto document =
-                    retained([&] { return read_observation(*stored, ref).document; });
-                require(document == prepared.documents[i], Refusal::identity_conflict);
-            } else {
-                append("INSERT INTO main.subathon_rate_observations VALUES(?,?,?)",
-                       {blob(ref), blob(observation_format), prepared.documents[i]});
-            }
-        }
+        check_observations(rows, prepared, Refusal::identity_conflict, &statements);
 
         auto proposal = propose(base, edit, prepared, current.edges);
         auto candidate = snapshot_document(proposal.candidate);
@@ -1026,7 +1267,7 @@ SqliteRateOverrideUnit::save(RateAuthoritySource &source, const PermissionGraphT
         const auto &refs = selection.receipt;
         const auto body =
             encode("", occurrence_bytes, edit.override_input, override_fields, invalid_input);
-        audit.accepted_at = sample();
+        audit.authority.accepted_at = sample();
         append("INSERT INTO main.subathon_rate_revisions VALUES(?,?,?,?)",
                {blob(refs.successor), blob(refs.base), blob(core::valuation_snapshot_format_ref),
                 std::move(candidate)});
@@ -1040,17 +1281,9 @@ SqliteRateOverrideUnit::save(RateAuthoritySource &source, const PermissionGraphT
         append("UPDATE main.subathon_rate_head SET revision_ref=? WHERE slot=X'48' "
                "AND revision_ref=?",
                {blob(refs.successor), blob(refs.base)});
-        return StagedWrite{std::move(selection), std::move(statements)};
+        return StagedRateWrite{std::move(selection), std::move(statements)};
     });
-    if (const auto *refusal = std::get_if<Refusal>(&plan))
-        return *refusal;
-    if (auto *selected = std::get_if<RateReceiptSelection>(&plan))
-        return std::move(*selected);
-
-    auto &write = std::get<StagedWrite>(plan);
-    for (const auto &statement : write.statements)
-        write_one(session_, statement);
-    return std::move(write.selection);
+    return execute_rate_plan<RateSaveResult>(session_, std::move(plan));
 }
 
 RateRecoveryResult SqliteRateOverrideUnit::recover(RateAuthoritySource &source,
@@ -1082,21 +1315,146 @@ RateRecoveryResult SqliteRateOverrideUnit::recover(RateAuthoritySource &source,
                                   }),
                     Refusal::identity_conflict);
 
-            for (std::size_t i = 0; i < prepared.facts.size(); ++i) {
-                const auto &ref = prepared.facts[i].data().context.observation_ref;
-                if (const auto row = rows.observation(ref)) {
-                    // An exact observation may have been retained without a selected edge.
-                    const auto stored = read_observation(*row, ref);
-                    require(stored.document == prepared.documents[i]);
-                }
-            }
+            check_observations(rows, prepared, Refusal::invalid_retained_data);
             return RateAttemptAbsent{};
         });
     });
 }
 
+RateRemovalPreviewResult SqliteRateOverrideUnit::preview_removal(
+    RateAuthoritySource &source, const PermissionGraphTrust &trust,
+    const RateOverrideRemovalEdit &edit, const RateSourceBasis &basis) const {
+    return rate_result<RateRemovalPreviewResult>(invalid_input, [&]() -> RateRemovalPreviewResult {
+        validate_edit(edit);
+        // The rate catalog check in RateRows is itself a protected read.
+        (void)authorize(session_, source, trust, edit);
+        const RateRows rows(session_);
+        const auto base = retained([&] { return active_revision(rows); });
+        require(base.snapshot.data().snapshot_ref == edit.base, Refusal::stale);
+        require(has_removal_target(base.snapshot, edit), invalid_input);
+        require(edit.successor != "E" &&
+                    !successor_or_decision_present(rows, edit.successor, edit.decision),
+                Refusal::identity_conflict);
+        const auto prepared = prepare_basis(basis);
+        (void)intent_document(edit, basis);
+        auto proposal = propose(base.snapshot, edit, prepared, basis.edges);
+        (void)snapshot_document(proposal.candidate);
+        return RateRemovalPreview{edit, basis, std::move(proposal)};
+    });
+}
+
+RateRemovalSaveResult SqliteRateOverrideUnit::save_removal(
+    RateAuthoritySource &source, const PermissionGraphTrust &trust,
+    const RateOverrideRemovalEdit &edit, const RateRemovalPreview &preview,
+    const RateSourceBasis &current,
+    const std::function<std::optional<std::int64_t>()> &sample) const {
+    using Plan = RateWritePlan<RateRemovalReceiptSelection>;
+    auto plan = rate_result<Plan>(invalid_input, [&]() -> Plan {
+        validate_edit(edit);
+        auto audit = authorize(session_, source, trust, edit);
+        const RateRows rows(session_);
+        if (const auto stored = operation(rows, edit))
+            return retained([&] { return retry(rows, edit, preview, *stored); });
+
+        const auto base = retained([&] { return active_revision(rows); });
+        require(base.snapshot.data().snapshot_ref == edit.base, Refusal::stale);
+        require(has_removal_target(base.snapshot, edit), invalid_input);
+        require(edit.successor != "E" &&
+                    !successor_or_decision_present(rows, edit.successor, edit.decision),
+                Refusal::identity_conflict);
+
+        constexpr auto changed = Refusal::preview_changed;
+        require(preview.edit.actor == edit.actor, changed);
+        auto intent = intent_document(edit, current);
+        require(intent == intent_document(preview.edit, preview.basis, changed), changed);
+        const auto prepared = prepare_basis(current);
+        const auto previewed =
+            model_context(changed, [&] { return prepare_basis(preview.basis, changed); });
+        require(prepared.documents == previewed.documents, changed);
+
+        WriteBatch statements;
+        check_observations(rows, prepared, Refusal::identity_conflict, &statements);
+
+        auto proposal = propose(base.snapshot, edit, prepared, current.edges);
+        auto candidate = snapshot_document(proposal.candidate);
+        require(model_context(changed,
+                              [&] {
+                                  return matches_proposal(preview.proposal, proposal, candidate,
+                                                          changed);
+                              }),
+                changed);
+
+        auto selection = receipt(RateReceiptOrigin::newly_staged, edit, std::move(proposal));
+        audit.authority.accepted_at = sample();
+        append_write(statements, "INSERT INTO main.subathon_rate_revisions VALUES(?,?,?,?)",
+                     {blob(edit.successor), blob(edit.base),
+                      blob(core::valuation_snapshot_format_ref), std::move(candidate)});
+        append_write(statements,
+                     "INSERT INTO main.subathon_rate_decisions VALUES(?,?,?,?,?,?,?,?,?)",
+                     {blob(edit.decision), blob(edit.installation), blob(edit.operation),
+                      blob(edit.base), blob(edit.successor), blob(removal_intent_format),
+                      std::move(intent), blob(removal_decision_format),
+                      encode("RRD1", removal_decision_bytes, audit, removal_audit_fields,
+                             Refusal::unavailable)});
+        append_write(statements,
+                     "UPDATE main.subathon_rate_head SET revision_ref=? WHERE slot=X'48' "
+                     "AND revision_ref=?",
+                     {blob(edit.successor), blob(edit.base)});
+        return StagedRateWrite{std::move(selection), std::move(statements)};
+    });
+    return execute_rate_plan<RateRemovalSaveResult>(session_, std::move(plan));
+}
+
+RateRemovalRecoveryResult SqliteRateOverrideUnit::recover_removal(
+    RateAuthoritySource &source, const PermissionGraphTrust &trust,
+    const RateOverrideRemovalEdit &edit, const RateRemovalPreview &preview) const {
+    return rate_result<RateRemovalRecoveryResult>(
+        invalid_input, [&]() -> RateRemovalRecoveryResult {
+            validate_edit(edit);
+            (void)authorize(session_, source, trust, edit);
+            const RateRows rows(session_);
+            return retained([&]() -> RateRemovalRecoveryResult {
+                if (const auto stored = operation(rows, edit))
+                    return retry(rows, edit, preview, *stored);
+
+                constexpr auto conflict = Refusal::identity_conflict;
+                require(intent_document(edit, preview.basis, conflict) ==
+                            intent_document(preview.edit, preview.basis, conflict),
+                        conflict);
+                require(edit.successor != "E" &&
+                        !successor_or_decision_present(rows, edit.successor, edit.decision) &&
+                        rows.head() != edit.successor);
+                const auto base = verified_revision(rows, edit.base);
+                Closure closure(rows);
+                closure.embedded_observations(base);
+                const auto prepared =
+                    model_context(conflict, [&] { return prepare_basis(preview.basis, conflict); });
+                require(model_context(conflict,
+                                      [&] {
+                                          const auto proposal = propose(
+                                              base.snapshot, edit, prepared, preview.basis.edges);
+                                          return matches_proposal(
+                                              preview.proposal, proposal,
+                                              snapshot_document(proposal.candidate), conflict);
+                                      }),
+                        conflict);
+                check_observations(rows, prepared, Refusal::invalid_retained_data);
+                return RateAttemptAbsent{};
+            });
+        });
+}
+
 std::optional<RateReceiptSelection> finish_rate_receipt(std::optional<RateReceiptSelection> result,
                                                         const SqliteWorkResult &work) {
+    if (work.transaction == TransactionOutcome::committed && work.error == WorkError::none &&
+        work.value)
+        return result;
+    return std::nullopt;
+}
+
+std::optional<RateRemovalReceiptSelection>
+finish_rate_removal_receipt(std::optional<RateRemovalReceiptSelection> result,
+                            const SqliteWorkResult &work) {
     if (work.transaction == TransactionOutcome::committed && work.error == WorkError::none &&
         work.value)
         return result;
