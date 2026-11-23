@@ -239,6 +239,36 @@ class Transcript final : public ConnectorHistoryAdapter, public ConnectorLivePro
     void clear_invocation() {
         observed_cut.reset();
         observed_live.reset();
+        observed_pre_cut_item.reset();
+    }
+
+    LiveItemEnvelope observe_pre_cut_item() {
+        ConnectorEventObservation observation{};
+        observation.facts.event_type = "individual-support";
+        observation.facts.schema_version = 1;
+        observed_pre_cut_item = LiveItemEnvelope{
+            {a, active, profile},
+            "9",
+            describe_connector_event({"P", "A"}, {7999, "g2", {}, {}}, observation),
+            "u9"};
+        return *observed_pre_cut_item;
+    }
+
+    StartupPreCutRelation qualify_live_item(const QByteArray &retained_cut,
+                                            const LiveItemEnvelope &item) const {
+        if (retained_cut != k10 || !observed_pre_cut_item)
+            return StartupPreCutRelation::Unknown;
+        const auto &witness = *observed_pre_cut_item;
+        const auto &event = item.event;
+        const auto &expected_event = witness.event;
+        if (item.selection.scope != witness.selection.scope ||
+            item.selection.fence != witness.selection.fence ||
+            item.selection.profile != witness.selection.profile || item.position != witness.position ||
+            item.normalized != witness.normalized || event.origin != expected_event.origin ||
+            event.arrival != expected_event.arrival || event.facts != expected_event.facts ||
+            event.evidence != expected_event.evidence || event.identifiers != expected_event.identifiers)
+            return StartupPreCutRelation::Unknown;
+        return StartupPreCutRelation::BeforeCut;
     }
 
     void offer_live(LiveProgressObservation fact) {
@@ -335,6 +365,7 @@ class Transcript final : public ConnectorHistoryAdapter, public ConnectorLivePro
     QList<LiveProgressObservation> retained_live;
     std::optional<CutRequest> observed_cut;
     std::optional<LiveProgressObservation> observed_live;
+    std::optional<LiveItemEnvelope> observed_pre_cut_item;
 };
 
 class Registry final : public StartupProfileRegistry {
@@ -388,6 +419,9 @@ class Registry final : public StartupProfileRegistry {
             },
             [&port](const auto &request, const auto &retained) {
                 return port.attests(request, retained);
+            },
+            [&port](const auto &retained_cut, const auto &item) {
+                return port.qualify_live_item(retained_cut, item);
             }});
     }
 

@@ -106,6 +106,8 @@ struct LiveItemEnvelope {
     QByteArray normalized;
 };
 
+enum class StartupPreCutRelation { BeforeCut, NewSide, Unknown };
+
 // Registry consumers borrow an immutable binding. Witness validators use the
 // installed instance's invocation evidence and bind the full owner request.
 struct StartupProfile {
@@ -118,6 +120,9 @@ struct StartupProfile {
     // Replay validates decoded retained evidence without any invocation handle.
     std::function<bool(const Fence &, const CutRequest &, const CutObservation &)> attest_cut;
     std::function<bool(const LiveProgressRequest &, const LiveProgressObservation &)> attest_live;
+    std::function<StartupPreCutRelation(const QByteArray &retained_cut,
+                                       const LiveItemEnvelope &observed_item)>
+        qualify_live_item{};
 };
 
 class StartupProfileRegistry {
@@ -219,6 +224,8 @@ struct StartupFaults {
     std::function<bool()> before_commit{};
     std::function<void()> after_commit{};
     std::function<void(Resume)> on_prepared{};
+    // Owner-thread observer of the sealed intent before the preparation barrier.
+    std::function<void(std::shared_ptr<const PreparedStartupIntent>)> capture_prepared_intent{};
     bool lose_commit_ack{};
 };
 

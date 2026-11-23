@@ -303,6 +303,28 @@ void verify_fault(Fixture &fixture, Request request, Fault fault, const Image &b
         };
         break;
     }
+    struct Preparation {
+        std::shared_ptr<const PreparedStartupIntent> seal;
+        QThread *thread{};
+        int captures{}, barriers{};
+        bool captured_before_barrier{};
+    };
+    const auto preparation = std::make_shared<Preparation>();
+    const bool recover_with_seal =
+        std::is_same_v<Request, CheckpointRequest> && fault == Fault::lost_ack;
+    if (recover_with_seal) {
+        hooks.capture_prepared_intent = [preparation](auto intent) noexcept {
+            ++preparation->captures;
+            preparation->thread = QThread::currentThread();
+            preparation->seal = std::move(intent);
+        };
+        hooks.on_prepared = [preparation](StartupFaults::Resume resume) {
+            ++preparation->barriers;
+            preparation->captured_before_barrier =
+                preparation->captures == 1 && preparation->seal;
+            resume();
+        };
+    }
     const auto outcome = fixture.submit(request, hooks);
     require(outcome.admission == StorageError::none && outcome.work && !outcome.work->value &&
                 !outcome.result && *marker == (fault == Fault::lost_ack ? 0 : 1),
@@ -321,6 +343,11 @@ void verify_fault(Fixture &fixture, Request request, Fault fault, const Image &b
             require(outcome.work->transaction == TransactionOutcome::outcome_unknown &&
                         outcome.work->error == WorkError::uncertain_outcome,
                     "Lost commit acknowledgement carries the real uncertain outcome");
+            if (recover_with_seal)
+                require(preparation->seal && preparation->captures == 1 &&
+                            preparation->barriers == 1 && preparation->captured_before_barrier &&
+                            preparation->thread == QCoreApplication::instance()->thread(),
+                        "The owner captures one sealed intent before the preparation barrier");
             const auto suffix_calls = std::make_shared<int>(0);
             require(fixture.store.writer().enqueue_work(
                         [](auto) -> QVariant { return {}; },
@@ -345,6 +372,14 @@ void verify_fault(Fixture &fixture, Request request, Fault fault, const Image &b
         if constexpr (std::is_same_v<Request, CheckpointRequest>)
             require(fixture.registry.first.lives == live_observations,
                     "Readback verifies retained evidence without a fresh live observation");
+        if (recover_with_seal) {
+            expect_projection(fixture.inspect({request, preparation->seal}),
+                              IntakeStatus::exact_replay, projection,
+                              "authorized readback with captured owner intent",
+                              StartupReadback::applied);
+            require(fixture.registry.first.lives == live_observations,
+                    "Sealed readback verifies the original intent without a fresh observation");
+        }
         expect_projection(fixture.submit(request), IntakeStatus::exact_replay, projection,
                           "exact retry preserves retained decisions");
         expect_unchanged(fixture, after, changes);
@@ -471,6 +506,41 @@ class Api031StartupTests final : public QObject {
             expect_projection(fixture.submit(fixture.activate_request()), IntakeStatus::committed,
                               activation(true, true), "activate full disjoint cohort");
             same_image(fixture.store.image(), activated(enrolled, true, true));
+        });
+    }
+
+    void registeredProfileQualifiesObservedItemBeforeCommittedCut() {
+        scenario([] {
+            Fixture fixture;
+            const auto started = activate_ok(fixture, register_ok(fixture, fixture.store.image()));
+            const auto committed = fixture.store.image();
+            const auto retained_cut = committed[sources].front()[9].toByteArray();
+            require(retained_cut == k10, "Qualification uses K10 from the committed source");
+            const auto changes = fixture.store.changes();
+            const auto calls = fixture.registry.calls();
+            const auto binding = fixture.registry.select(a, profile, cursor);
+            require(binding && binding->qualify_live_item,
+                    "The registered profile supplies a typed qualifier");
+            auto &port = fixture.registry.first;
+            const auto item = port.observe_pre_cut_item();
+            require(item.position == "9" && item.event.identifiers.empty() &&
+                        item.event.evidence == core::PaymentEvidence::unknown,
+                    "The observed pre-cut envelope carries no receipt identity");
+            require(binding->qualify_live_item(retained_cut, item) ==
+                        StartupPreCutRelation::BeforeCut,
+                    "The profile places the witnessed item outside the new live domain");
+            auto altered = item;
+            altered.normalized = "different";
+            require(binding->qualify_live_item(retained_cut, altered) ==
+                        StartupPreCutRelation::Unknown,
+                    "An altered envelope cannot borrow the profile witness");
+            port.clear_invocation();
+            require(binding->qualify_live_item(retained_cut, item) ==
+                        StartupPreCutRelation::Unknown,
+                    "An envelope without profile evidence has no known relation");
+            require(fixture.registry.calls() == calls,
+                    "Projection consumes no cut or checkpoint proof");
+            expect_unchanged(fixture, started, changes);
         });
     }
 
@@ -924,7 +994,7 @@ class Api031StartupTests final : public QObject {
             const auto before = activate_ok(fixture, register_ok(fixture, fixture.store.image()));
             const auto changes = fixture.store.changes();
             const auto calls = fixture.registry.calls();
-            int attempts{}, decisive_hooks{}, barriers{};
+            int attempts{}, decisive_hooks{}, barriers{}, captures{};
             fixture.authority.before_resolve = [&](const SqliteWorkSession &session,
                                                    StartupAction action) {
                 require(action == StartupAction::checkpoint_first &&
@@ -944,12 +1014,14 @@ class Api031StartupTests final : public QObject {
                 ++barriers;
                 resume();
             };
+            hooks.capture_prepared_intent = [&](auto) noexcept { ++captures; };
             const auto outcome = fixture.submit(fixture.checkpoint_request(), hooks);
             fixture.authority.before_resolve = {};
             require(outcome.admission == StorageError::none && outcome.work &&
                         outcome.work->transaction == TransactionOutcome::rolled_back &&
                         outcome.work->error == WorkError::work_exception && !outcome.work->value &&
-                        !outcome.result && attempts == 1 && decisive_hooks == 0 && barriers == 0,
+                        !outcome.result && attempts == 1 && decisive_hooks == 0 && barriers == 0 &&
+                        captures == 0,
                     "Only the failed preliminary turn completes, without a value or decisive turn");
             require(fixture.registry.calls() == calls, "Preliminary exception consumes no proof");
             // changes() itself commits a real owner turn, so a stray armed fault would fail here.
@@ -1084,17 +1156,19 @@ class Api031StartupTests final : public QObject {
 
     void selectedIntakeRowsAndPayloadUseCapPlusOne() {
         scenario([] {
-            // The 17-row case stays well below the byte bound. The byte case
-            // has just 16 rows, with independently sized input/provenance.
+            // The 17-row case stays below the byte bound. The exact-fit and
+            // overflow cases isolate the byte limit at 16 rows.
             struct BudgetCase {
                 int rows;
                 int payload_per_row;
                 int extra_byte;
+                qint64 selected_bytes;
                 bool fits;
             };
-            for (const auto [rows, payload_per_row, extra_byte, fits] :
-                 {BudgetCase{16, 32, 0, true}, BudgetCase{17, 32, 0, false},
-                  BudgetCase{16, 16'384, 1, false}}) {
+            for (const auto [rows, payload_per_row, extra_byte, selected_bytes, fits] :
+                 {BudgetCase{16, 32, 0, 512, true}, BudgetCase{17, 32, 0, 544, false},
+                  BudgetCase{16, 16'384, 0, 262'144, true},
+                  BudgetCase{16, 16'384, 1, 262'145, false}}) {
                 Fixture fixture;
                 auto before = activate_ok(fixture, register_ok(fixture, fixture.store.image()));
                 QList<QuarantineEntry> holds;
@@ -1106,7 +1180,7 @@ class Api031StartupTests final : public QObject {
                     const auto input = suffix + QByteArray(payload - 12 - suffix.size(), 'i');
                     const QuarantineEntry hold{a,        "Q" + suffix, input, "unidentified",
                                                8000 + i, active};
-                    const qint64 charge = payload + 12;
+                    const qint64 charge = payload + 9;
                     holds.append(hold);
                     witness.ordered_inputs.append(hold.normalized);
                     witness.dispositions.append(claim(hold, charge));
@@ -1114,13 +1188,19 @@ class Api031StartupTests final : public QObject {
                 }
                 stage_holds(fixture, holds);
                 same_image(fixture.store.image(), before);
+                const auto bytes = fixture.store.rows(
+                    "SELECT sum(length(input) + length(provenance)) FROM main.subathon_intake_entries"
+                    " WHERE installation=X'696e7374616c6c' AND provider=X'50' AND account=X'41'"
+                    " AND stream=X'53'");
+                require(bytes.size() == 1 && bytes.front()[0].toLongLong() == selected_bytes,
+                        "Selected rows contain the independent raw BLOB byte total");
                 fixture.registry.first.offer_live(witness);
                 const auto changes = fixture.store.changes();
                 if (fits) {
                     const auto selected = progress_from(activation(), active, witness.proof);
                     expect_projection(fixture.submit(fixture.checkpoint_request()),
                                       IntakeStatus::committed, selected,
-                                      "16 small intake rows fit");
+                                      "16 intake rows fit at the selected byte total");
                     same_image(fixture.store.image(), exact_progress_image(before, selected));
                 } else {
                     expect_refusal(fixture.submit(fixture.checkpoint_request()),
