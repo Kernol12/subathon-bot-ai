@@ -9,30 +9,6 @@
 
 namespace subathon::server::detail {
 
-// Private STORAGE-003 Stage 1 boundaries. A pre-open candidate carries no
-// maintenance authority and must be rechecked in the migration transaction.
-enum class ClockPredecessor { blank, no_head, ready, active, finished };
-
-struct ClockPreOpenWitness {
-    qint32 version;
-    ClockPredecessor predecessor;
-    QByteArray token;
-    QByteArray configuration;
-    bool operator==(const ClockPreOpenWitness &) const = default;
-};
-
-struct ClockStatementLedger {
-    qsizetype attempts;
-    qsizetype peak_sql;
-    qsizetype total_sql;
-    qsizetype bindings;
-    qsizetype binding_bytes;
-    qsizetype rows;
-    qsizetype cells;
-    qsizetype result_bytes;
-    bool operator==(const ClockStatementLedger &) const = default;
-};
-
 struct ClockPreOpenResult {
     // Active is classified but refused. Only candidate can accompany an advance.
     enum class Disposition { unavailable, active_refused, candidate };
@@ -40,7 +16,7 @@ struct ClockPreOpenResult {
     MigrationReason reason;
     std::optional<ClockPreOpenWitness> witness;
     // The query reached, including one refused by its budget before prepare.
-    // An unavailable implementation carries neither query nor measured ledger.
+    // Both observations are absent if inspection stops before its first query.
     std::optional<ClockProbeQuery> terminal_query;
     std::optional<ClockStatementLedger> attained;
 };
@@ -57,21 +33,6 @@ struct ClockFixtureWriterTrace {
 };
 [[nodiscard]] std::optional<ClockFixtureWriterTrace>
 clock_checkpoint_fixture_trace(const SqliteWriter &writer);
-
-enum class ClockAdvanceRefusal { none, active, changed_basis };
-struct ClockAdvanceResult {
-    MigrationResult migration;
-    ClockAdvanceRefusal refusal;
-    // Present only for observations from the actual initial inspection/guard.
-    std::optional<ClockProbeQuery> terminal_preflight_query;
-    std::optional<ClockStatementLedger> attained_preflight;
-};
-using ClockAdvanceCompletion = std::function<void(ClockAdvanceResult)>;
-
-[[nodiscard]] MigrationAdmission
-enqueue_clock_checkpoint_advance(SqliteWriter &writer, MigrationRequest request,
-                                 const ClockPreOpenWitness &witness,
-                                 ClockAdvanceCompletion completion);
 
 struct ClockInitialCheckpoint {
     QByteArray installation;

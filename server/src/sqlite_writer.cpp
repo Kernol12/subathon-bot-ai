@@ -3,6 +3,7 @@
 
 #include "contribution_review_writer_access.hpp"
 #include "sqlite_connection.hpp"
+#include "sqlite_migration_inspection.hpp"
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
 
 #include <QDir>
@@ -22,6 +23,7 @@
 
 namespace subathon::server {
 namespace {
+using detail::ClockStatementLedger;
 using detail::Connection;
 using detail::consume;
 using detail::consume_value;
@@ -133,13 +135,30 @@ struct RetainedAuthorityAllowance {
     ReviewSqlAllowance sql{attempts * 32, rows * 104, 0, detail::retained_authority_documents};
 };
 
+struct ClockPreflightAttempt {
+    ClockStatementLedger &ledger;
+    qsizetype sql_bytes;
+    qsizetype binding_bytes;
+};
+
 // Rows/bytes are shared across the whole writer batch; the reader passes its own
 // row limit. A query failure or exceeded bound never publishes partial rows.
 ReadResult statement_result(Connection &connection, const SqlStatement &statement,
                             qsizetype &remaining_rows, qsizetype &remaining_bytes,
                             ReviewSqlAllowance *review = nullptr,
-                            RetainedAuthorityAllowance *authority = nullptr) {
+                            RetainedAuthorityAllowance *authority = nullptr,
+                            std::optional<ClockPreflightAttempt> clock = {}) {
     QSqlQuery query(connection.database());
+    if (clock) {
+        auto &ledger = clock->ledger;
+        if (clock->sql_bytes > std::numeric_limits<qsizetype>::max() - ledger.total_sql)
+            return {StorageError::result_limit, {}};
+        ++ledger.attempts;
+        ledger.peak_sql = std::max(ledger.peak_sql, clock->sql_bytes);
+        ledger.total_sql += clock->sql_bytes;
+        ledger.bindings += statement.bindings.size();
+        ledger.binding_bytes += clock->binding_bytes;
+    }
     if (!query.prepare(statement.sql))
         return {sql_error(query.lastError()), {}};
     for (const auto &value : statement.bindings)
@@ -167,6 +186,13 @@ ReadResult statement_result(Connection &connection, const SqlStatement &statemen
             (review && !consume(review->result_documents, excess)))
             return {StorageError::result_limit, {}};
         rows.append(std::move(row));
+        if (clock) {
+            // The ordinary writer budgets bound rows and bytes. Each admitted
+            // cell costs at least eight bytes, bounding the cumulative cells too.
+            ++clock->ledger.rows;
+            clock->ledger.cells += columns;
+            clock->ledger.result_bytes += before - remaining_bytes;
+        }
     }
     if (query.lastError().isValid())
         return {sql_error(query.lastError()), {}};
@@ -257,17 +283,18 @@ class SqliteWorkState final {
     }
     void leave_retained_authority() noexcept { in_retained_authority_ = false; }
 
-    SqlRows execute(const SqlStatement &statement) {
+    SqlRows execute(const SqlStatement &statement, ClockStatementLedger *clock = nullptr) {
         require_active();
         try {
             auto *authority = in_retained_authority_ ? &retained_authority_ : nullptr;
             if ((authority &&
                  (!consume(authority->attempts, 1) ||
                   !consume(authority->sql.binding_cells, statement.bindings.size()))) ||
-                !consume(statements_left_, 1) ||
-                statement.sql.toUtf8().size() >
-                    (review_ ? std::min(limits_.statement_utf8_bytes, qsizetype(65536))
-                             : limits_.statement_utf8_bytes) ||
+                !consume(statements_left_, 1))
+                fail(WorkError::resource_limit);
+            const auto width = statement.sql.toUtf8().size();
+            if (width > (review_ ? std::min(limits_.statement_utf8_bytes, qsizetype(65536))
+                                 : limits_.statement_utf8_bytes) ||
                 (review_ && !consume(review_->binding_cells, statement.bindings.size())))
                 fail(WorkError::resource_limit);
             if (!allowed_writer_sql(statement.sql))
@@ -284,8 +311,11 @@ class SqliteWorkState final {
                 (review_ && !consume(review_->binding_documents, excess)))
                 fail(WorkError::resource_limit);
             const auto snapshot = owned_batch({statement});
+            const auto observation =
+                clock ? std::optional{ClockPreflightAttempt{*clock, width, before - bindings_left_}}
+                      : std::nullopt;
             auto result = statement_result(*connection_, snapshot.front(), rows_left_, values_left_,
-                                           review_ ? &*review_ : nullptr, authority);
+                                           review_ ? &*review_ : nullptr, authority, observation);
             if (result.error != StorageError::none)
                 fail(work_error(result.error));
             return std::move(result.rows);
@@ -454,6 +484,10 @@ SqliteWorkSession SqliteWorkContext::begin() const {
 }
 SqlRows SqliteWorkSession::execute(const SqlStatement &statement) const {
     return live_work_state(state_)->execute(statement);
+}
+SqlRows SqliteWorkSession::execute_clock_preflight(const SqlStatement &statement,
+                                                    ClockStatementLedger &ledger) const {
+    return live_work_state(state_)->execute(statement, &ledger);
 }
 void SqliteWorkSession::commit() const { live_work_state(state_)->commit(); }
 void SqliteWorkSession::rollback() const { live_work_state(state_)->rollback(); }

@@ -13,7 +13,6 @@
 namespace subathon::server::detail {
 
 namespace {
-constexpr qint32 predecessor_version = 21;
 using Disposition = ClockPreOpenResult::Disposition;
 
 struct ClockCatalogDdl {
@@ -152,29 +151,6 @@ constexpr ClockCatalogDdl clock_catalog_ddl[]{
      "END"},
 };
 
-const QString legacy_guard =
-    "WITH checked AS (SELECT CASE WHEN h.singleton IS NULL THEN CASE WHEN EXISTS(SELECT 1 FROM "
-    "main.subathon_app_states) THEN 4 ELSE 0 END WHEN typeof(h.singleton)='integer' AND "
-    "h.singleton=1 AND typeof(h.token)='blob' AND length(h.token) BETWEEN 1 AND 4096 AND "
-    "typeof(s.format_ref)='blob' AND length(s.format_ref) BETWEEN 1 AND 4096 AND "
-    "typeof(s.document)='blob' AND length(s.document)<=262144 AND "
-    "typeof(s.configuration_ref)='blob' AND length(s.configuration_ref) BETWEEN 1 AND 4096 AND "
-    "typeof(c.reference)='blob' AND typeof(c.document)='blob' AND typeof(s.lifecycle)='integer' "
-    "AND "
-    "s.lifecycle BETWEEN 0 AND 2 AND typeof(s.phase)='integer' AND s.phase IN (0,1) AND "
-    "typeof(s.main_remaining_ms)='integer' AND s.main_remaining_ms>=0 AND "
-    "typeof(s.grace_remaining_ms)='integer' AND s.grace_remaining_ms>=0 AND "
-    "typeof(s.awaiting_confirmation)='integer' AND s.awaiting_confirmation IN (0,1) AND "
-    "(s.phase<>1 "
-    "OR (s.main_remaining_ms=0 AND s.awaiting_confirmation=0)) AND (s.awaiting_confirmation=0 OR "
-    "(s.lifecycle=1 AND s.phase=0 AND s.main_remaining_ms=0)) AND typeof(s.time_debt_ms)='integer' "
-    "AND s.time_debt_ms>=0 AND typeof(s.balance_count)='integer' AND s.balance_count>=0 THEN "
-    "s.lifecycle+1 ELSE 4 END AS status,h.token,s.configuration_ref FROM (SELECT 1 AS anchor) LEFT "
-    "JOIN main.subathon_app_head h ON 1=1 LEFT JOIN main.subathon_app_states s ON s.token=h.token "
-    "LEFT JOIN main.subathon_retained_configurations c ON c.reference=s.configuration_ref) SELECT "
-    "status,CASE WHEN status BETWEEN 1 AND 3 THEN token END,CASE WHEN status BETWEEN 1 AND 3 THEN "
-    "configuration_ref END FROM checked LIMIT 2";
-
 [[noreturn]] void inspection_error(StorageError error) {
     throw MigrationFailure(error == StorageError::busy ? MigrationReason::busy
                                                        : MigrationReason::inspection_failed);
@@ -194,10 +170,13 @@ class ClockProbe final {
             if (!pragma_equals(connection_, "PRAGMA foreign_keys", 1))
                 inspection_error(StorageError::sql_failure);
             check_control("BEGIN DEFERRED");
+            const ClockInspectionQuery execute_query =
+                [this](ClockProbeQuery query, const QString &sql) { return execute(query, sql); };
             const auto version = inspect_clock_predecessor_catalog(
-                milestone_slot_interruption_repository_manifest(),
-                [this](ClockProbeQuery query, const QString &sql) { return execute(query, sql); });
-            auto witness = classify(version);
+                milestone_slot_interruption_repository_manifest(), execute_query);
+            if (version != 0 && version != clock_predecessor_version)
+                throw MigrationFailure(MigrationReason::unsupported_version);
+            auto witness = read_clock_predecessor(version, execute_query);
             check_control("ROLLBACK");
             const auto disposition = witness.predecessor == ClockPredecessor::active
                                          ? Disposition::active_refused
@@ -264,49 +243,20 @@ class ClockProbe final {
             inspection_error(sql_error(query.lastError()));
         return rows;
     }
-
-    ClockPreOpenWitness classify(qint32 version) {
-        if (version == 0)
-            return {0, ClockPredecessor::blank, {}, {}};
-        if (version != predecessor_version)
-            throw MigrationFailure(MigrationReason::unsupported_version);
-
-        const auto rows = execute(ClockProbeQuery::legacy_guard, legacy_guard);
-        if (rows.size() != 1 || rows.front().size() != 3)
-            throw MigrationFailure(MigrationReason::catalog_mismatch);
-        const auto &row = rows.front();
-        const auto type = row[0].metaType().id();
-        if (row[0].isNull() || (type != QMetaType::Int && type != QMetaType::LongLong))
-            throw MigrationFailure(MigrationReason::catalog_mismatch);
-        const auto status = row[0].toLongLong();
-        if (status == 0 && row[1].isNull() && row[2].isNull())
-            return {version, ClockPredecessor::no_head, {}, {}};
-        constexpr ClockPredecessor lifecycle[]{ClockPredecessor::ready, ClockPredecessor::active,
-                                               ClockPredecessor::finished};
-        if (status < 1 || status > 3 || row[1].metaType().id() != QMetaType::QByteArray ||
-            row[2].metaType().id() != QMetaType::QByteArray)
-            throw MigrationFailure(MigrationReason::catalog_mismatch);
-        auto token = row[1].toByteArray();
-        auto configuration = row[2].toByteArray();
-        if (token.isEmpty() || token.size() > 4096 || configuration.isEmpty() ||
-            configuration.size() > 4096)
-            throw MigrationFailure(MigrationReason::catalog_mismatch);
-        return {version, lifecycle[status - 1], std::move(token), std::move(configuration)};
-    }
 };
 } // namespace
 
 std::variant<MigrationManifest, MigrationReason> clock_checkpoint_manifest() {
     auto manifest = milestone_slot_interruption_repository_manifest();
-    if (manifest.steps.size() != predecessor_version ||
+    if (manifest.steps.size() != clock_predecessor_version ||
         manifest.steps.back().expected_schema.size() != 276 ||
-        manifest.supported_starting_versions.size() != predecessor_version + 1 ||
+        manifest.supported_starting_versions.size() != clock_predecessor_version + 1 ||
         manifest.supported_starting_versions.front() != 0 || manifest.catalog_format != 1 ||
         manifest.store_identity != "subathon.sqlite-store")
         return MigrationReason::invalid_manifest;
 
     MigrationStep step{
-        predecessor_version + 1, "clock-checkpoints-v1", {}, manifest.steps.back().expected_schema};
+        clock_predecessor_version + 1, "clock-checkpoints-v1", {}, manifest.steps.back().expected_schema};
     for (const auto &object : clock_catalog_ddl) {
         const auto sql = QString::fromUtf8(object.sql);
         step.sql.append(sql);
@@ -350,10 +300,54 @@ std::optional<ClockFixtureWriterTrace> clock_checkpoint_fixture_trace(const Sqli
 }
 #endif
 
-MigrationAdmission enqueue_clock_checkpoint_advance(SqliteWriter &, MigrationRequest,
-                                                    const ClockPreOpenWitness &,
-                                                    ClockAdvanceCompletion) {
-    return {StorageError::feature_not_implemented, MigrationReason::feature_not_implemented};
+MigrationAdmission enqueue_clock_checkpoint_advance(SqliteWriter &writer, MigrationRequest request,
+                                                    const ClockPreOpenWitness &witness,
+                                                    ClockAdvanceCompletion completion) {
+    const auto invalid = MigrationAdmission{StorageError::invalid_options,
+                                            MigrationReason::invalid_manifest};
+    if (request.mode != MigrationMode::advance)
+        return invalid;
+    const bool empty_basis = witness.token.isEmpty() && witness.configuration.isEmpty();
+    switch (witness.predecessor) {
+    case ClockPredecessor::blank:
+        if (witness.version != 0 || !empty_basis)
+            return invalid;
+        break;
+    case ClockPredecessor::no_head:
+        if (witness.version != clock_predecessor_version || !empty_basis)
+            return invalid;
+        break;
+    case ClockPredecessor::ready:
+    case ClockPredecessor::finished:
+        if (witness.version != clock_predecessor_version || witness.token.isEmpty() ||
+            witness.token.size() > 4096 || witness.configuration.isEmpty() ||
+            witness.configuration.size() > 4096)
+            return invalid;
+        break;
+    default:
+        return invalid;
+    }
+
+    auto compiled = clock_checkpoint_manifest();
+    auto *manifest = std::get_if<MigrationManifest>(&compiled);
+    const auto &supplied = request.manifest;
+    if (!manifest || supplied.catalog_format != manifest->catalog_format ||
+        supplied.store_identity != manifest->store_identity ||
+        supplied.supported_starting_versions != manifest->supported_starting_versions ||
+        !std::ranges::equal(supplied.steps, manifest->steps, [](const auto &left, const auto &right) {
+            return left.version == right.version && left.id == right.id &&
+                   left.sql == right.sql && left.expected_schema == right.expected_schema;
+        }))
+        return invalid;
+
+    // Queue the compiled values and an owned snapshot of the untrusted basis.
+    request.manifest = std::move(*manifest);
+    return ClockAdvanceExecution::enqueue(
+        writer, std::move(request),
+        {witness.version, witness.predecessor,
+         QByteArray(witness.token.constData(), witness.token.size()),
+         QByteArray(witness.configuration.constData(), witness.configuration.size())},
+        std::move(completion));
 }
 
 std::variant<SqliteBundleInitialDisposition, WorkError>
