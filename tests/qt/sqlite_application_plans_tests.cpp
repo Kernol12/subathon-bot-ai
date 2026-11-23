@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#include "support/sqlite_test_support.hpp"
+#include "support/sqlite_intake_fixture.hpp"
+#include "support/sqlite_typed_work_fixture.hpp"
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -26,145 +27,13 @@ using namespace subathon::core;
 using subathon::server::testing::SqliteWriterWorkAccess;
 using subathon::server::testing::WorkControlFault;
 namespace {
-QByteArray blob(const std::string &s) {
-    return s.empty() ? QByteArray("", 0) : QByteArray(s.data(), qsizetype(s.size()));
-}
+using namespace qt_test_support::sqlite_fixture;
 using qt_test_support::require;
 template <class Operation> void expect_input(Operation operation, SqlitePlanInputError error) {
-    try {
-        operation();
-    } catch (const SqlitePlanInputFailure &failure) {
-        require(failure.error() == error, "wrong SqlitePlanInputFailure category");
-        return;
-    }
-    throw std::runtime_error("expected SqlitePlanInputFailure missing");
+    expect_input_error<SqlitePlanInputFailure>(
+        operation, error, "wrong SqlitePlanInputFailure category",
+        "expected SqlitePlanInputFailure missing");
 }
-template <class Operation> void expect_work(Operation operation, WorkError error) {
-    try {
-        operation();
-    } catch (const SqliteWorkFailure &failure) {
-        require(failure.error() == error, "wrong SqliteWorkFailure category");
-        return;
-    }
-    throw std::runtime_error("expected SqliteWorkFailure missing");
-}
-ReceiptInput input(std::string id = "event-42") {
-    return {{{"synthetic.provider-a", "source-account-7"}, "synthetic.event.v1", std::move(id)},
-            {"synthetic.payment.received", 1, 1700000000000, "actor-3", "Synthetic Supporter",
-             ReceiptMoney{"12.3400", "EUR"}, ReceiptLinkReference{"payment.v1", "payment-9"},
-             ReceiptLinkReference{"activity.v1", "activity-2"}},
-            {1700000000100, "connection-1", "cfg1", "ctx1"}};
-}
-ReceiptAttempt attempt(const ReceiptInput &value, ReceiptDisposition disposition) {
-    return {value.arrival, value.facts, disposition};
-}
-const QStringList facts_columns = {
-    "event_type",         "schema_version",         "source_timestamp_utc_ms", "actor_id",
-    "actor_display_name", "money_original_decimal", "money_currency",          "payment_namespace",
-    "payment_opaque_id",  "activity_namespace",     "activity_opaque_id"};
-const QStringList arrival_columns = {"server_timestamp_utc_ms", "connection_ref",
-                                     "configuration_ref", "modifier_context_ref"};
-QList<QVariant> facts_values(const ReceiptFacts &v) {
-    const auto optional_blob = [](const std::optional<std::string> &s) {
-        return s ? QVariant(blob(*s)) : QVariant();
-    };
-    return {blob(v.event_type),
-            qint64(v.schema_version),
-            v.source_timestamp_utc_ms ? QVariant(qint64(*v.source_timestamp_utc_ms)) : QVariant(),
-            optional_blob(v.actor_id),
-            optional_blob(v.actor_display_name),
-            v.money ? QVariant(blob(v.money->original_decimal)) : QVariant(),
-            v.money ? QVariant(blob(v.money->currency)) : QVariant(),
-            v.payment_reference ? QVariant(blob(v.payment_reference->identifier_namespace))
-                                : QVariant(),
-            v.payment_reference ? QVariant(blob(v.payment_reference->opaque_id)) : QVariant(),
-            v.activity_reference ? QVariant(blob(v.activity_reference->identifier_namespace))
-                                 : QVariant(),
-            v.activity_reference ? QVariant(blob(v.activity_reference->opaque_id)) : QVariant()};
-}
-QList<QVariant> arrival_values(const ReceiptArrival &v) {
-    return {qint64(v.server_timestamp_utc_ms), blob(v.connection_ref), blob(v.configuration_ref),
-            blob(v.modifier_context_ref)};
-}
-QString quoted(QString name) {
-    name.replace('"', "\"\"");
-    return '"' + name + '"';
-}
-
-// Independent reference packing for disposable SQL seeds/observations only.
-// Expected new-codec vectors still come from literal JSON, never this UUT.
-QByteArray id_blob(std::uint64_t value) {
-    QByteArray out(8, '\0');
-    for (int i = 7; i >= 0; --i) {
-        out[i] = char(value & 255U);
-        value >>= 8;
-    }
-    return out;
-}
-ContributionConditions captured() {
-    return {
-        {true, ReceiptMoney{"12.3400", "EUR"}, {}, true},
-        ContributionReview::pending,
-        {EvidencePolicy::require_evidence_review, "policy1",
-         EvidenceReviewDecision{EvidenceReviewChoice::await_confirmation, "decision1", "actor1"}},
-        ContributionApplication::not_applied,
-        ContributionReversal::none,
-        SettlementGate::clear};
-}
-ContributionObservation support(std::uint64_t id = 1) {
-    auto r = input("support-" + std::to_string(id));
-    return {{{id}, r.identity, r.facts, r.arrival},
-            ContributionObservationKind::support,
-            PaymentEvidence::unknown,
-            VerifiedActivityLink{{r.identity.origin, "activity.v1", "activity-9"}, "proof1"},
-            captured()};
-}
-ContributionObservation confirmation(std::uint64_t id = 2) {
-    auto s = support(id);
-    s.receipt.identity.opaque_id = "confirmation-" + std::to_string(id);
-    s.receipt.facts.event_type = "synthetic.payment.confirmed";
-    s.receipt.arrival = {1700000001100, "connection-2", "cfg2", "ctx2"};
-    s.kind = ContributionObservationKind::confirmation;
-    s.evidence = PaymentEvidence::confirmed;
-    s.support_conditions.reset();
-    s.verified_activity->verification_ref = "proof2";
-    return s;
-}
-ContributionState initial(const ContributionObservation &s) {
-    return {s.evidence, *s.support_conditions};
-}
-QList<QVariant> conditions_values(const ContributionConditions &c) {
-    const auto &v = c.valuation;
-    const auto &a = c.evidence_admission;
-    return {int(v.monetary),
-            v.original_money ? QVariant(blob(v.original_money->original_decimal)) : QVariant(),
-            v.original_money ? QVariant(blob(v.original_money->currency)) : QVariant(),
-            v.resolution_ref ? QVariant(blob(*v.resolution_ref)) : QVariant(),
-            int(v.missing_rate),
-            int(c.review),
-            int(a.policy),
-            blob(a.policy_ref),
-            a.review_decision ? QVariant(int(a.review_decision->choice)) : QVariant(),
-            a.review_decision ? QVariant(blob(a.review_decision->decision_ref)) : QVariant(),
-            a.review_decision ? QVariant(blob(a.review_decision->actor_ref)) : QVariant(),
-            int(c.application),
-            int(c.reversal),
-            int(c.settlement)};
-}
-const QStringList condition_columns = {"monetary",        "original_decimal",   "currency",
-                                       "resolution_ref",  "missing_rate",       "review",
-                                       "evidence_policy", "policy_ref",         "decision_choice",
-                                       "decision_ref",    "decision_actor_ref", "application",
-                                       "reversal",        "settlement"};
-QList<QVariant> activity_values(const std::optional<VerifiedActivityIdentity> &key) {
-    if (!key)
-        return {QVariant(), QVariant(), QVariant(), QVariant()};
-    return {blob(key->origin.provider), blob(key->origin.source_account),
-            blob(key->identifier_namespace), blob(key->opaque_id)};
-}
-const QStringList activity_columns = {"activity_provider", "activity_source_account",
-                                      "activity_namespace", "activity_id"};
-
 // Independent exact-value construction for fixture/literal oracles, never the new codec.
 boost::multiprecision::cpp_int reference_integer(const std::string &text) {
     require(!text.empty(), "empty reference integer");
@@ -277,169 +146,9 @@ const QStringList quote_columns{"historical_resolution_ref",
                                 "fetch_timestamp_utc_ms",
                                 "manual_decision_ref"};
 
-// Negative/raw fixtures are independent SQL, never new codec/factory/repository
-// output. OFF/ignore-checks applies only to this fixture, not the product writer.
-class Fixture final {
+class Fixture final : public ContributionFixture {
   public:
-    explicit Fixture(const QString &path)
-        : name_(QUuid::createUuid().toString()), db_(QSqlDatabase::addDatabase("QSQLITE", name_)) {
-        db_.setDatabaseName(path);
-        db_.setConnectOptions("QSQLITE_BUSY_TIMEOUT=0");
-    }
-    ~Fixture() {
-        db_.close();
-        db_ = {};
-        QSqlDatabase::removeDatabase(name_);
-    }
-    bool open() { return db_.open() && exec("PRAGMA foreign_keys=OFF"); }
-    bool exec(const QString &sql, const QList<QVariant> &values = {}) {
-        QSqlQuery q(db_);
-        if (!q.prepare(sql))
-            return false;
-        for (const auto &v : values)
-            q.addBindValue(v);
-        return q.exec();
-    }
-    SqlRows rows(const QString &sql) {
-        QSqlQuery q(db_);
-        if (!q.exec(sql)) {
-            QTest::qFail(qPrintable(q.lastError().text()), __FILE__, __LINE__);
-            return {};
-        }
-        SqlRows result;
-        while (q.next()) {
-            SqlRow row;
-            for (int i = 0; i < q.record().count(); ++i)
-                row.append(q.value(i));
-            result.append(row);
-        }
-        if (q.lastError().isValid())
-            QTest::qFail("fixture fetch failed", __FILE__, __LINE__);
-        return result;
-    }
-    QVariant scalar(const QString &sql) {
-        const auto r = rows(sql);
-        if (r.size() != 1 || r[0].size() != 1) {
-            QTest::qFail("fixture scalar shape", __FILE__, __LINE__);
-            return {};
-        }
-        return r[0][0];
-    }
-    bool released() { return exec("BEGIN IMMEDIATE") && exec("ROLLBACK"); }
-    QList<SqlRows> snapshot() {
-        QList<SqlRows> result;
-        const auto schema =
-            rows("SELECT type,name,tbl_name,sql FROM main.sqlite_schema ORDER BY type,name");
-        result.append(schema);
-        for (const auto &object : schema) {
-            if (object[0].toString() != "table")
-                continue;
-            const auto table = object[1].toString();
-            QStringList projection;
-            for (const auto &column : rows("PRAGMA main.table_info(" + quoted(table) + ")")) {
-                const auto c = quoted(column[1].toString());
-                projection.append("typeof(" + c + ")");
-                projection.append("hex(CAST(" + c + " AS BLOB))");
-            }
-            result.append(rows("SELECT " + projection.join(',') + " FROM main." + quoted(table) +
-                               " ORDER BY rowid"));
-        }
-        return result;
-    }
-    bool original(const QByteArray &id, const ReceiptInput &v) {
-        QStringList columns = {"receipt_id", "provider", "source_account", "identifier_namespace",
-                               "opaque_id"};
-        columns.append(facts_columns);
-        columns.append(arrival_columns);
-        QList<QVariant> values = {
-            id, blob(v.identity.origin.provider), blob(v.identity.origin.source_account),
-            blob(v.identity.identifier_namespace), blob(v.identity.opaque_id)};
-        values.append(facts_values(v.facts));
-        values.append(arrival_values(v.arrival));
-        return insert("subathon_receipts", columns, values);
-    }
-    bool observation(const QByteArray &id, qint64 ordinal, const ReceiptAttempt &v) {
-        QStringList columns = {"receipt_id", "ordinal"};
-        columns.append(facts_columns);
-        columns.append(arrival_columns);
-        columns.append("disposition");
-        QList<QVariant> values = {id, ordinal};
-        values.append(facts_values(v.observed_facts));
-        values.append(arrival_values(v.arrival));
-        int disposition = v.disposition == ReceiptDisposition::created ? 0
-                          : v.disposition == ReceiptDisposition::retry ? 1
-                                                                       : 2;
-        values.append(disposition);
-        return insert("subathon_receipt_attempts", columns, values);
-    }
-    bool seed(const QByteArray &id, const ReceiptInput &v) {
-        return original(id, v) && observation(id, 1, attempt(v, ReceiptDisposition::created)) &&
-               exec("UPDATE main.subathon_receipt_allocator SET last_allocated=? WHERE singleton=1",
-                    {id});
-    }
-
-    // Explicit independent COMMIT establishes prior receipt existence, not same-unit visibility.
-    bool committed_receipt(const ContributionReceipt &r) {
-        const ReceiptInput v{r.identity, r.facts, r.arrival};
-        if (!exec("BEGIN IMMEDIATE"))
-            return false;
-        if (!original(id_blob(r.id.value), v) ||
-            !observation(id_blob(r.id.value), 1, attempt(v, ReceiptDisposition::created)) ||
-            !exec("UPDATE main.subathon_receipt_allocator SET last_allocated=(SELECT "
-                  "max(receipt_id) FROM main.subathon_receipts)")) {
-            (void)exec("ROLLBACK");
-            return false;
-        }
-        return exec("COMMIT");
-    }
-    bool contribution(const QByteArray &id, const ContributionObservation &s,
-                      const ContributionState &state) {
-        QStringList columns = {"contribution_id", "original_receipt_id"};
-        columns.append(activity_columns);
-        columns.append("payment_evidence");
-        columns.append(condition_columns);
-        QList<QVariant> values = {id, id_blob(s.receipt.id.value)};
-        values.append(activity_values(s.verified_activity ? std::optional<VerifiedActivityIdentity>(
-                                                                s.verified_activity->identity)
-                                                          : std::nullopt));
-        values.append(int(state.payment_evidence));
-        values.append(conditions_values(state.conditions));
-        return insert("subathon_contributions", columns, values);
-    }
-    bool evidence(const ContributionEvidenceRecord &r) {
-        const auto &o = r.observation;
-        QStringList columns = {"receipt_id", "contribution_id", "kind", "evidence"};
-        columns.append(activity_columns);
-        columns.append("verification_ref");
-        for (const auto &c : condition_columns)
-            columns.append("support_" + c);
-        QList<QVariant> values = {id_blob(o.receipt.id.value),
-                                  r.contribution_id ? QVariant(id_blob(r.contribution_id->value))
-                                                    : QVariant(),
-                                  int(o.kind), int(o.evidence)};
-        values.append(activity_values(o.verified_activity ? std::optional<VerifiedActivityIdentity>(
-                                                                o.verified_activity->identity)
-                                                          : std::nullopt));
-        values.append(o.verified_activity ? QVariant(blob(o.verified_activity->verification_ref))
-                                          : QVariant());
-        if (o.support_conditions)
-            values.append(conditions_values(*o.support_conditions));
-        else
-            for (qsizetype i = 0; i < condition_columns.size(); ++i)
-                values.append(QVariant());
-        return insert("subathon_contribution_observations", columns, values);
-    }
-    bool seeded_contribution(const QByteArray &id, const ContributionObservation &s,
-                             const ContributionState &state) {
-        return contribution(id, s, state) && evidence({s, ContributionId{decode_seed(id)}}) &&
-               exec("UPDATE main.subathon_contribution_allocator SET last_allocated=?", {id});
-    }
-    static std::uint64_t decode_seed(const QByteArray &id) {
-        std::uint64_t value = 0;
-        for (const auto c : id)
-            value = (value << 8) | static_cast<unsigned char>(c);
-        return value;
-    }
+    using ContributionFixture::ContributionFixture;
 
     bool plan_header(const std::string &ref, const PlanEvent &event, std::uint64_t head) {
         return insert(
@@ -528,83 +237,20 @@ class Fixture final {
         }
         return exec("COMMIT");
     }
-
-  private:
-    bool insert(const QString &table, const QStringList &columns, const QList<QVariant> &values) {
-        QStringList marks;
-        for (qsizetype i = 0; i < values.size(); ++i)
-            marks.append("?");
-        return exec("INSERT INTO main." + table + "(" + columns.join(',') + ") VALUES (" +
-                        marks.join(',') + ")",
-                    values);
-    }
-    QString name_;
-    QSqlDatabase db_;
 };
-MigrationStep literal_step(const QJsonObject &o) {
-    MigrationStep s;
-    s.version = o["version"].toInt();
-    s.id = o["id"].toString();
-    for (const auto &sql : o["sql"].toArray())
-        s.sql.append(sql.toString());
-    for (const auto &entry : o["expected_schema"].toArray()) {
-        const auto x = entry.toObject();
-        s.expected_schema.append(
-            {x["type"].toString(), x["name"].toString(), x["table_name"].toString(),
-             x["sql"].isNull() ? std::nullopt : std::optional<QString>(x["sql"].toString())});
-    }
-    return s;
-}
-struct Run {
-    bool admitted{false}, done{false}, stub{false};
-    std::optional<SqlitePlanInputError> invalid;
-    std::optional<SqlitePlanStorageReason> storage;
-    std::optional<WorkError> synchronous;
-    QString unexpected;
-    SqliteWorkResult result;
-    QString problem() const {
-        if (stub)
-            return "SqliteApplicationPlansNotImplemented: explicit missing application-plan "
-                   "behavior";
-        if (!unexpected.isEmpty())
-            return unexpected;
-        return QString("input=%1 storage=%2 sync=%3 outer=%4")
-            .arg(invalid ? int(*invalid) : -1)
-            .arg(storage ? int(*storage) : -1)
-            .arg(synchronous ? int(*synchronous) : -1)
-            .arg(int(result.error));
-    }
-};
-Run run(SqliteWriter &writer, std::function<QVariant(SqliteWorkContext)> body) {
-    auto state = std::make_shared<Run>();
-    state->result = qt_test_support::run_work(
-        writer,
-        [state, body = std::move(body)](auto work) {
-            try {
-                return body(work);
-            } catch (const SqliteApplicationPlansNotImplemented &) {
-                state->stub = true;
-                throw;
-            } catch (const SqlitePlanInputFailure &e) {
-                state->invalid = e.error();
-                throw;
-            } catch (const SqlitePlanStorageFailure &e) {
-                state->storage = e.reason();
-                throw;
-            } catch (const SqliteWorkFailure &e) {
-                state->synchronous = e.error();
-                throw;
-            } catch (const std::exception &e) {
-                state->unexpected = QString::fromUtf8(e.what());
-                throw;
-            }
-        },
-        5000);
-    state->admitted = true;
-    state->done = true;
-    return *state;
-}
 
+struct WorkErrors {
+    using InputError = SqlitePlanInputError;
+    using StorageReason = SqlitePlanStorageReason;
+    using NotImplemented = SqliteApplicationPlansNotImplemented;
+    using InputFailure = SqlitePlanInputFailure;
+    using StorageFailure = SqlitePlanStorageFailure;
+    static constexpr auto stub_message =
+        "SqliteApplicationPlansNotImplemented: explicit missing application-plan behavior";
+    static constexpr auto problem_format = "input=%1 storage=%2 sync=%3 outer=%4";
+};
+using Run = WorkRun<WorkErrors>;
+constexpr auto run = run_typed_work<WorkErrors>;
 } // namespace
 #define OK(r)                                                                                      \
     QVERIFY((r).admitted && (r).done);                                                             \
@@ -635,27 +281,9 @@ class SqliteApplicationPlanTests final : public QObject {
         return m;
     }
     bool install(const QString &path) {
-        SqliteWriter writer;
         StorageLimits limits;
         limits.statements_per_batch = 2048;
-        if (writer.open(path, limits) != StorageError::none)
-            return false;
-        MigrationRequest request;
-        request.mode = MigrationMode::advance;
-        request.manifest = literals();
-        struct State {
-            bool done = false;
-            MigrationResult result;
-        };
-        auto state = std::make_shared<State>();
-        const auto a = SqliteMigrationRunner::enqueue(writer, std::move(request), [state](auto r) {
-            state->result = std::move(r);
-            state->done = true;
-        });
-        return a.error == StorageError::none &&
-               QTest::qWaitFor([state] { return state->done; }, 5000) &&
-               state->result.reason == MigrationReason::none &&
-               state->result.work.transaction == TransactionOutcome::committed;
+        return install_with_owned_completion(path, limits, [this] { return literals(); });
     }
     bool seed_sources(Fixture &f) {
         if (!f.exec("INSERT INTO main.subathon_retained_configurations VALUES "
@@ -707,7 +335,7 @@ class SqliteApplicationPlanTests final : public QObject {
         });
     }
     qint64 count(const QString &table) {
-        return fixture_->scalar("SELECT count(*) FROM main." + table).toLongLong();
+        return fixture_->count(table);
     }
     Run refusal(SqliteWriter &writer, std::function<void(const SqliteApplicationPlanStore &)> body,
                 SqlitePlanStorageReason reason, bool &caught, SqlitePlanLimits limits = {},

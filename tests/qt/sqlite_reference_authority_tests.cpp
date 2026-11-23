@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#include "support/application_port_fake.hpp"
 #include "support/sqlite_reference_authority_fixture.hpp"
 #include "support/sqlite_selected_record_fixture.hpp"
 #include <limits>
@@ -127,13 +128,9 @@ void exact(const ReferenceAuthorityFacts &f) {
             "Actual execution subject has its own whole-request policy");
     permitted(f);
 }
-// This port is an assertion probe, never a fake authority source. Real callback
-// resolution MUST succeed before returning a deliberate denial to stop accounting.
-class Probe final : public ExecutionAccess,
-                    public CurrentApplicationPolicy,
-                    public SegmentedApplicationClock,
-                    public RequiredApplicationActions,
-                    public FreshApplicationReferences {
+// This probe captures the real SAME-session authority read and stops accounting
+// with a deliberate denial. Any later port call throws its own diagnostic.
+class Probe final : public qt_test_support::ApplicationPortFake {
   public:
     ReferenceAuthorityRequest query{request()};
     ApplicationReferenceReadView retained;
@@ -194,9 +191,9 @@ class Probe final : public ExecutionAccess,
     void attempt(Database &d, SqliteWriter *override_writer = nullptr) {
         error = {};
         result.reset();
-        ApplicationServicePorts ports{*this, *this, *this, *this, *this};
-        OriginalApplicationService service(override_writer ? *override_writer : d.writer, ports,
-                                           service_limits);
+        auto service_ports = ports();
+        OriginalApplicationService service(override_writer ? *override_writer : d.writer,
+                                           service_ports, service_limits);
         OriginalApplicationCommand c;
         c.operation = query.requested_operation;
         c.receipt_id = {7};
