@@ -181,10 +181,25 @@ struct LatePlayback {
 
 struct PlaybackEvidence;
 
+struct PlaybackCurrent {};
+struct PlaybackProvenObsolete {
+    QByteArray observed_generation;
+};
+struct PlaybackCurrentnessUnknown {};
+using PlaybackCurrentness =
+    std::variant<PlaybackCurrentnessUnknown, PlaybackCurrent, PlaybackProvenObsolete>;
+
 class PlaybackAuthority {
   public:
     virtual ~PlaybackAuthority() = default;
     virtual bool proves_current(const SqliteWorkSession &, const LatePlayback &) = 0;
+    // Only an affirmative observation for the exact instance can prove a new
+    // generation. Legacy ports can prove currentness or leave it unknown.
+    virtual PlaybackCurrentness currentness(const SqliteWorkSession &s, const LatePlayback &playback) {
+        if (proves_current(s, playback))
+            return PlaybackCurrent{};
+        return PlaybackCurrentnessUnknown{};
+    }
     virtual bool owns_evidence(const SqliteWorkSession &, const PlaybackEvidence &);
 };
 

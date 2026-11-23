@@ -105,20 +105,38 @@ Preview preview_at_owner(const SqliteWorkSession &, CommandAuthority &, const Co
 
 struct PlaybackPort final : PlaybackAuthority, PlaybackStopAdapter {
     CatalogFile &db;
+    const LatePlayback &bound;
     std::optional<QByteArray> current_generation{"generation-X"};
     std::vector<PlaybackHandoff> calls;
     int current_checks{};
     bool marker_observed_at_call{false};
 
-    explicit PlaybackPort(CatalogFile &file) : db(file) {}
+    PlaybackPort(CatalogFile &file, const LatePlayback &instance) : db(file), bound(instance) {}
 
-    bool proves_current(const SqliteWorkSession &, const LatePlayback &selection) override {
+    bool proves_current(const SqliteWorkSession &s, const LatePlayback &selection) override {
+        return std::holds_alternative<PlaybackCurrent>(currentness(s, selection));
+    }
+
+    PlaybackCurrentness currentness(const SqliteWorkSession &,
+                                    const LatePlayback &selection) override {
         ++current_checks;
         const auto &instance = selection.instance;
-        return selection.track == edit::track && instance.target.occurrence == edit::b &&
-               instance.ordinal == 1 && instance.started_attempt == 2 &&
-               instance.adapter == "audio-adapter" && instance.activation == "X" &&
-               current_generation && *current_generation == instance.runtime_generation;
+        const auto &expected = bound.instance;
+        const auto *origin = std::get_if<MilestoneEditKey>(&instance.target.origin);
+        if (selection.track != bound.track || selection.stop != bound.stop ||
+            instance.target.track != expected.target.track ||
+            instance.target.occurrence != expected.target.occurrence || !origin ||
+            *origin != std::get<MilestoneEditKey>(expected.target.origin) ||
+            instance.ordinal != expected.ordinal || instance.version != expected.version ||
+            instance.started_attempt != expected.started_attempt ||
+            instance.adapter != expected.adapter || instance.activation != expected.activation ||
+            instance.runtime_generation != expected.runtime_generation ||
+            instance.capability != expected.capability || !current_generation ||
+            current_generation->isEmpty())
+            return PlaybackCurrentnessUnknown{};
+        if (*current_generation == expected.runtime_generation)
+            return PlaybackCurrent{};
+        return PlaybackProvenObsolete{*current_generation};
     }
 
     void request_stop(PlaybackHandoff handoff) override {
@@ -439,7 +457,7 @@ class Milestone006OwnerTests final : public QObject {
         QFETCH(bool, stale);
         check([&] {
             PlaybackFixture f;
-            PlaybackPort port(f.seed.db);
+            PlaybackPort port(f.seed.db, f.exact.selected);
             if (stale)
                 port.current_generation = "generation-replacement";
             require(f.intents() == SqlRows{{1, QByteArray("X"), QByteArray("generation-X"),
@@ -473,7 +491,7 @@ class Milestone006OwnerTests final : public QObject {
     void p2ExactLateActivationIsScheduledOnce() {
         check([] {
             PlaybackFixture f(false);
-            PlaybackPort port(f.seed.db);
+            PlaybackPort port(f.seed.db, f.exact.selected);
             require(f.intents() ==
                         SqlRows{{2, QByteArray("Y"), QByteArray("generation-Y"), QString("null")}},
                     "Stop initially retains only the unknown disposition, no X intent");
@@ -520,7 +538,7 @@ class Milestone006OwnerTests final : public QObject {
         QFETCH(bool, known_live);
         check([&] {
             PlaybackFixture f;
-            PlaybackPort port(f.seed.db);
+            PlaybackPort port(f.seed.db, f.exact.selected);
             if (marked) {
                 f.seed.db.write([&](const auto &s) {
                     require(stage_playback_handoff(s, port, f.exact) == Disposition::committed,
@@ -588,7 +606,7 @@ class Milestone006OwnerTests final : public QObject {
                 commit(f.seed.db, f.owner, command, Disposition::committed, preview.get());
             require(committed.versions.size() == 1, "C has one unstarted successor.");
 
-            PlaybackPort port(f.seed.db);
+            PlaybackPort port(f.seed.db, f.exact.selected);
             if (has_marker) {
                 f.seed.db.write([&](const auto &s) {
                     require(stage_playback_handoff(s, port, f.exact) == Disposition::committed,

@@ -213,7 +213,8 @@ struct ScoreCrossing {
 };
 
 void capture_later_group(const SqliteWorkSession &, CurrentConfiguration &,
-                         const ContributionReceipt &, const Occurrence &, ScoreCrossing) {
+                         const ContributionReceipt &, const ApplicationPlanKey &,
+                         const Occurrence &, ScoreCrossing) {
     throw OwnerEntryMissing("R1: capture a later milestone from the published definition");
 }
 
@@ -414,8 +415,21 @@ class Milestone006DisclosureTests final : public QObject {
             const Occurrence later_group{edit::track,
                                          {"ordinary-later-occurrence"},
                                          ApplicationOperationKey{"test", "ordinary-later"}};
+            ApplicationPlanKey plan;
             d.f.file.write([&](const auto &s) {
-                capture_later_group(s, authority, receipt, later_group, {36000000, 40000000});
+                const auto &operation = std::get<ApplicationOperationKey>(later_group.origin);
+                plan = finance::File::receipt_application(s, receipt, operation.operation_ref)
+                           .intent.plan;
+                finance::File::retain_plan(s, plan, finance::File::plain_capture(receipt, {}, {}));
+            });
+            d.f.file.write([&](const auto &s) {
+                const auto admitted =
+                    SqliteApplicationBundleStore(s).read_inputs(plan, ApplicationSubjectKind::receipt);
+                require(admitted.disposition == SqliteBundleInputDisposition::ready &&
+                            admitted.inputs &&
+                            admitted.inputs->selected_plan.captured.event.receipt_id == receipt.id,
+                        "The later capture uses the admitted plan for its exact receipt");
+                capture_later_group(s, authority, receipt, plan, later_group, {36000000, 40000000});
             });
             require(authority.resolutions > 0,
                     "Capture resolves actions from the admitted current configuration");
