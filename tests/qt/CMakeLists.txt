@@ -317,6 +317,10 @@ if(SUBATHON_BUILD_STORAGE_026_STAGE1)
     add_subdirectory(storage_026)
 endif()
 
+if(SUBATHON_BUILD_STORAGE_003_STAGE1)
+    add_subdirectory(storage_003)
+endif()
+
 if(SUBATHON_BUILD_STORAGE_027_STAGE1)
     add_subdirectory(storage_027)
 endif()
