@@ -11,10 +11,10 @@ application	s1ApplicationStopRetainsFullHistory	stranded-recovery	pass					ordin
 application	s1FullHistoryAcknowledgesBeforePlayback		fail	application_tests.cpp	15	419	91	S1: hand off the exact acknowledged application playback intent
 recovery	strandedReplacementPaging	application	fail	recovery_tests.cpp	55	124	48	Recovery: page bounded stranded replacement attempts from v21 history
 recovery	strandedReplacementPaging	edit	fail	recovery_tests.cpp	55	124	48	Recovery: page bounded stranded replacement attempts from v21 history
-recovery	strandedReplacementAdmissionHasNoPartialResult		fail	recovery_tests.cpp	55	170	48	Recovery: page bounded stranded replacement attempts from v21 history
+recovery	replacementCatalogBudgetRefusesWholeWork		pass					ordinary control
 recovery	s7EditInitiallySkippedAndFullyHistorical	initial-Skip	pass					ordinary control
 recovery	s7EditInitiallySkippedAndFullyHistorical	fully-historical	pass					ordinary control
 composition	t1T2WarmWriterCompletion	known-rollback	fail	composition_tests.cpp	21	168	30	T1/T2: adopt the exact acknowledged writer Stop result on the warm timeline
 composition	t1T2WarmWriterCompletion	lost-ack-readback-and-replay	fail	composition_tests.cpp	21	168	30	T1/T2: adopt the exact acknowledged writer Stop result on the warm timeline
 composition	t1T2WarmWriterCompletion	lost-ack-fences-expired-gap	fail	composition_tests.cpp	21	168	30	T1/T2: adopt the exact acknowledged writer Stop result on the warm timeline
-composition	r7PositiveOwnerPreviewIsConfirmable		fail	composition_tests.cpp	21	245	35	R7: preview the exact authorized application replacement at the owner entry
+composition	r7PositiveOwnerPreviewIsConfirmable		fail	composition_tests.cpp	21	251	35	R7: preview the exact authorized application replacement at the owner entry

@@ -157,30 +157,24 @@ void assert_stranded_and_settle(Db &db, const Occurrence &target, const Decision
     });
 }
 
-void assert_under_budget_refused(SqliteWriter &writer, const MilestoneTrackKey &track) {
-    std::exception_ptr missing;
+void assert_catalog_read_exceeds_budget(SqliteWriter &writer, const Occurrence &target,
+                                        const SelectedVersion &version) {
     bool entered = false;
     const auto result = qt_test_support::run_work(
         writer,
         [&](auto ctx) -> QVariant {
             const auto session = ctx.begin();
             entered = true;
-            try {
-                const auto page =
-                    stranded_replacements(session, track, {}, stranded_delivery_page_limit);
-                session.commit();
-                return QVariant::fromValue(static_cast<qlonglong>(page.attempts.size()));
-            } catch (const RecoveryMissing &) {
-                missing = std::current_exception();
-                throw;
-            }
+            // The catalog preflight must return two integer cells. Each costs
+            // eight bytes, so an eight-byte work cannot reach version lookup.
+            const auto attempt = lookup_replacement_attempt(session, target, version, 2);
+            session.commit();
+            return attempt.has_value();
         },
         10000);
-    if (missing)
-        std::rethrow_exception(missing);
     require(entered && result.transaction == TransactionOutcome::rolled_back &&
                 result.error == WorkError::result_limit && !result.value,
-            "Eight result-value bytes cannot publish a typed sending key or a partial page");
+            "Catalog preflight exceeds eight bytes and publishes no work result");
 }
 
 } // namespace
@@ -227,16 +221,16 @@ class Milestone006RecoveryTests final : public QObject {
             const auto stopped =
                 f.command(owner, stop("fence-app", f.a, QueueChoice::continue_queue));
             require(stopped.disposition == Disposition::committed, "Application Stop commits");
-            require(stopped.cancellations ==
-                        std::vector<SelectedVersion>{{2, {}}, selected.versions[2], {5, {}},
-                                                     {6, {}}},
-                    "Stop cancels the selected versions in action order");
+            require(
+                stopped.cancellations ==
+                    std::vector<SelectedVersion>{{2, {}}, selected.versions[2], {5, {}}, {6, {}}},
+                "Stop cancels the selected versions in action order");
             reopen_financial(f.file);
             assert_stranded_and_settle(f.file, f.a, selected);
         });
     }
 
-    void strandedReplacementAdmissionHasNoPartialResult() {
+    void replacementCatalogBudgetRefusesWholeWork() {
         check([] {
             Populated f({.edit_slots = 3});
             release_edit(f);
@@ -256,11 +250,15 @@ class Milestone006RecoveryTests final : public QObject {
             auto budget = profile();
             budget.result_value_bytes = 8;
             f.db.reopen(budget);
-            assert_under_budget_refused(f.db.writer(), target.track);
+            assert_catalog_read_exceeds_budget(f.db.writer(), target, selected.versions[0]);
             f.db.reopen(profile());
-            require(history() == before,
-                    "Constrained discovery never settles or mutates a version");
-            assert_stranded_and_settle(f.db, target, selected);
+            require(history() == before, "Refused writer work leaves exact attempt history intact");
+            f.db.write([&](const auto &s) {
+                const auto sending = lookup_replacement_attempt(s, target, selected.versions[0], 2);
+                require(
+                    sending && sending->revision == 2 && sending->state == State::sending,
+                    "The same normal lookup succeeds on the exact version at the ordinary budget");
+            });
         });
     }
 

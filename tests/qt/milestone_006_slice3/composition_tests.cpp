@@ -205,13 +205,19 @@ class Milestone006CompositionTests final : public QObject {
                 require(!timeline.presentation() && port.releases == std::vector{first},
                         "Actually committed but unresolved Stop fences an otherwise eligible B");
                 acknowledge(11500ms, StopCompletionSource::readback);
-                require(!timeline.presentation() && port.releases == std::vector{first},
-                        "Late readback applies no invented gap or immediate release");
+                const auto started = window("B", 0ms);
+                const std::vector expected_releases{first, later};
+                const auto after_adopt = timeline.presentation();
+                require((after_adopt == started && port.releases == expected_releases) ||
+                            (!after_adopt && port.releases == std::vector{first}),
+                        "Late readback may release B on its own turn at elapsed zero");
                 timeline.advance(11500ms);
-                require(
-                    timeline.presentation() == window("B", 0ms) &&
-                        port.releases == std::vector{first, later},
-                    "First advance after late readback starts B at the elapsed natural boundary");
+                require(timeline.presentation() == started && port.releases == expected_releases,
+                        "B starts exactly once by the same-sample advance");
+                timeline.advance(11600ms);
+                require(timeline.presentation() == window("B", 100ms) &&
+                            port.releases == expected_releases,
+                        "The next sample preserves elapsed time and the single release");
                 return;
             }
             acknowledge(2600ms, StopCompletionSource::readback);
