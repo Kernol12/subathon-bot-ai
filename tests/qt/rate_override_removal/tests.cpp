@@ -115,6 +115,13 @@ RateAuthorityResolution denied_read_authority(ReadDenial reason) {
     throw std::logic_error("Unknown removal read denial fixture");
 }
 
+void delete_original_occurrence(RateFile &file) {
+    file.write([](const auto &session) {
+        (void)session.execute(
+            {"DELETE FROM subathon_rate_occurrences WHERE override_ref=X'4f'", {}});
+    });
+}
+
 class RateOverrideRemovalTests final : public QObject {
     Q_OBJECT
 
@@ -272,6 +279,27 @@ class RateOverrideRemovalTests final : public QObject {
                                    denied_read_authority(ReadDenial(reason))),
                            RateStoreRefusal::denied);
             require(rate_image(file) == before, "Denied preview leaves the committed image intact");
+        });
+    }
+
+    void authorityBeforeDamagedPreview() {
+        check([] {
+            constexpr auto start = Start::equal_rates;
+            const auto contract = example(start);
+            RateFile file;
+            auto damaged = establish(file, contract, start);
+            const auto expected = contract.expected_preview();
+            delete_original_occurrence(file);
+            damaged[3].clear();
+            require(rate_image(file) == damaged, "Only original occurrence O is removed");
+            file.reopen();
+
+            expect_refusal(preview(file, expected.edit, expected.basis, another_actor()),
+                           RateStoreRefusal::denied);
+            require(rate_image(file) == damaged, "Denied preview preserves the damaged image");
+            expect_refusal(preview(file, expected.edit, expected.basis),
+                           RateStoreRefusal::invalid_retained_data);
+            require(rate_image(file) == damaged, "Authorized preview does not repair damage");
         });
     }
 
@@ -435,6 +463,23 @@ class RateOverrideRemovalTests final : public QObject {
             } else {
                 tampered.proposal.removed_override_ref = "Q";
             }
+            expect_save_refusal(file, expected.edit, tampered, expected.basis,
+                                RateStoreRefusal::preview_changed);
+        });
+    }
+
+    void freshReviewedRateChangesOutOfOrder() {
+        check([] {
+            constexpr auto start = Start::pin_f_first;
+            const auto contract = example(start);
+            RateFile file;
+            (void)establish(file, contract, start);
+            const auto expected = contract.expected_preview();
+            auto tampered = expected;
+            // Keep every entry and its provenance, but invert the first two reviewed pairs.
+            auto &changes = tampered.proposal.affected_rates;
+            require(changes.size() == 4, "Example A has four ordered directed changes");
+            std::swap(changes[0], changes[1]);
             expect_save_refusal(file, expected.edit, tampered, expected.basis,
                                 RateStoreRefusal::preview_changed);
         });
@@ -784,10 +829,7 @@ class RateOverrideRemovalTests final : public QObject {
                         {"DELETE FROM subathon_rate_decisions WHERE decision_ref=X'4d'", {}});
                 });
             } else if (test == 2) {
-                file.write([](const auto &session) {
-                    (void)session.execute(
-                        {"DELETE FROM subathon_rate_occurrences WHERE override_ref=X'4f'", {}});
-                });
+                delete_original_occurrence(file);
             } else {
                 file.write([](const auto &session) {
                     (void)session.execute(
@@ -806,6 +848,9 @@ class RateOverrideRemovalTests final : public QObject {
                 expect_save_refusal(file, expected.edit, expected, expected.basis,
                                     RateStoreRefusal::invalid_retained_data);
             }
+            expect_refusal(recover(file, expected, another_actor()), RateStoreRefusal::denied);
+            require(rate_image(file) == corrupt,
+                    "Denied recovery preserves the damaged committed image");
             // The existing decision-less reader may accept a subset successor.
             // Recovery must still reject the partial attempt as retained damage.
             expect_refusal(recover(file, expected), RateStoreRefusal::invalid_retained_data);
