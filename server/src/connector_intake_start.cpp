@@ -178,8 +178,9 @@ auto decode_history(const StartupOperation &operation, QByteArrayView magic) {
                        after.fence.policy_revision == operation.policy_revision &&
                        after.fence.generation == operation.generation && operation.revision == 1 &&
                        operation.outcome == 1);
+        const auto decision_limit = magic == "RC1" ? document_limit : reference_limit;
         return History{std::move(before), std::move(after), reader.field(document_limit),
-                       reader.field(), reader.field(document_limit)};
+                       reader.field(decision_limit), reader.field(document_limit)};
     });
 }
 
@@ -1283,6 +1284,10 @@ Evaluation replay_activation(const EvaluationContext &context, const ActivateReq
             return StartupResult{Status::unavailable};
 
         const auto profile = select_profile(context.owner.profiles, lane, source.fence.generation);
+        if (!context.inspecting && context.prepared &&
+            context.prepared->cuts.size() == config.lanes.size() &&
+            context.prepared->cuts[i].proof->profile != profile)
+            return stale(false);
         const auto boundary = decode_cut(*record->cut);
         const auto cut_request = first_cut_request(lane);
         const CutObservation observation{cut_request, boundary->cut, boundary->endpoint};
