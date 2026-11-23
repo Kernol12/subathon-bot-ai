@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
+#include "application_port_fake.hpp"
 #include "reference_intake_fixture.hpp"
 #include <subathon/server/testing/sqlite_writer_work_faults.hpp>
 
@@ -28,13 +29,9 @@ struct Probe final : ExecutionAccess {
         throw std::logic_error("Unexpected protected hold read in isolated probe");
     }
 };
-// Forward ALL actual new ports, capture original exceptions before service/writer
-// error mapping. No fabricated port success values or fallback implementation.
-struct Ports final : ExecutionAccess,
-                     CurrentApplicationPolicy,
-                     SegmentedApplicationClock,
-                     RequiredApplicationActions,
-                     FreshApplicationReferences {
+// Forward to the concrete adapters. Witness retains exceptions before the
+// service or writer maps them, so tests can observe them after settlement.
+struct Ports final : public qt_test_support::ApplicationPortFake {
     ReferenceApplicationAdapters &actual;
     Witness witness;
     unsigned checks = 0, policies = 0, clocks = 0, actions = 0, refs = 0;
@@ -157,7 +154,7 @@ struct Rig {
           }()),
           adapters(configuration, authority, sampler, entropy,
                    ReferenceClockAnchor{committed(name), {100, 1000}}, limits),
-          ports(adapters), service_ports{ports, ports, ports, ports, ports},
+          ports(adapters), service_ports(ports.ports()),
           service(file.db.writer, service_ports, limits.service),
           intake(configuration, sampler, entropy, file.db.clock, connector(), &adapters, limits) {}
     ApplicationServiceCompletion attempt(OriginalApplicationCommand c = command(),
